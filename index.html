@@ -13,6 +13,7 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --bg:#ffffff; --surface:#f6f8f4; --raised:#ebeee7; --line:#dbe0d5;
@@ -240,6 +241,9 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
       <small id="hProject">—</small>
     </div>
   </div>
+  <button class="hbtn" id="btnAccount" title="Account">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+  </button>
   <button class="hbtn" id="btnLang" title="Lingua">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3.5 3 16.5 0 20M12 2c-3 3.5-3 16.5 0 20"/></svg>
   </button>
@@ -611,6 +615,26 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
   <p class="mini" style="margin-top:14px;text-align:center" id="verLabel">Ebanist · Domus Renov</p>
 </div>
 
+<!-- account -->
+<div class="sheet" id="shAccount">
+  <div class="sheet-grip"></div>
+  <h3 id="acctTitle">Account</h3>
+  <p class="mini" id="acctOfflineNote" style="margin-bottom:10px"></p>
+
+  <div id="acctLoggedOut">
+    <div class="f"><label id="acctEmailLbl">Email</label><input id="acctEmail" type="email" autocomplete="email"></div>
+    <div class="f"><label id="acctPasswordLbl">Password</label><input id="acctPassword" type="password" autocomplete="current-password"></div>
+    <button class="btn red" id="btnAcctLogin" style="margin-top:8px">Accedi</button>
+    <button class="btn" id="btnAcctSignup" style="margin-top:8px">Crea account</button>
+  </div>
+
+  <div id="acctLoggedIn" style="display:none">
+    <p class="mini"><span id="acctLoggedInLbl">Connesso come</span> <strong id="acctEmailShow"></strong></p>
+    <p class="mini"><span id="acctRoleLbl">Ruolo</span>: <strong id="acctRoleShow"></strong></p>
+    <button class="btn" id="btnAcctLogout" style="margin-top:8px">Esci</button>
+  </div>
+</div>
+
 <!-- language -->
 <div class="sheet" id="shIntro" style="max-height:86vh;overflow-y:auto">
   <div class="sheet-grip"></div>
@@ -726,6 +750,15 @@ printTitle:"LISTE DE DÉBIT",printProject:"Projet",printNotes:"Chant : L = côt�
 hardware:"Quincaillerie",hwCern:"Charnières",hwGuida:"Coulisses (paire)",hwMan:"Poignées",hwSup:"Taquets",hwAsta:"Supports tringle",hwPied:"Pieds réglables",hwBin:"Rail coulissant (set)",hwConn:"Vis & excentriques",fMargin:"Marge %",fIva:"TVA %",quote:"PDF devis",quoteTitle:"DEVIS",qDesc:"Description",qNet:"Montant HT",qVat:"TVA",qTotal:"TOTAL TTC",qValidity:"Offre valable 30 jours",share:"Partager",grain:"Fil du bois (sans rotation)",searchPh:"Rechercher pièce, module, matériau…",allMats:"Tous les matériaux",dupProject:"Dupliquer le projet",copySuffix:"(copie)",fDeadline:"Échéance",fPhone:"Téléphone",fNotes:"Notes",daysLeft:"jours",renameMat:"Nouveau nom du matériau :",cSubtotal:"Sous-total",fType:"Type",typeStandard:"Standard",typeCorner:"Angle",typeSliding:"Portes coulissantes",fL2:"Larg. aile B (mm)",fHang:"Tringle",hint3d:"Glissez pour pivoter · pincez pour zoomer · double-tap : réinitialiser",preset_angolare:"Meuble d'angle",preset_scorrevole:"Coulissant",preset_dressing:"Dressing",buildTitle:"Générateur de meubles",buildSub:"Configurez le caisson et générez la liste de débit",navBuild:"Créer",fHeight:"Haut. (mm)",fDepth:"Prof. (mm)",fThickness:"Épaisseur",fPlinth:"Socle (mm)",fTram:"Séparations",fShelvesSec:"Tablettes/sec.",fDrawersSec:"Tiroirs/sec.",fDoorsN:"Portes",fBack:"Fond",optYes:"Oui",optNo:"Non",generate:"Générer la liste",preset_armadio:"Armoire",preset_libreria:"Bibliothèque",preset_cassettiera:"Caisson à tiroirs",preset_base:"Meuble bas",selectProject:"Sélectionnez un projet",page:"Page",fFront:"Façade",frontFull:"Pleine",frontGlass:"Cadre + verre",fSupport:"Support",supPlinth:"Plinthe",supFeet:"Pieds",supWall:"Suspendu",fHandles:"Ouverture",hManiglia:"Poignées",hPush:"Push-open",fShelfT:"Étagères",shMobile:"Réglables",shFisso:"Fixes",preset_tv:"Meuble TV",preset_pensile:"Meuble haut",preset_colonna:"Colonne",preset_bagno:"Salle de bain",preset_vetrina:"Vitrine",roomBtn:"Dans votre pièce",roomTitle:"Dans votre pièce",roomLoad:"Photo",roomExport:"Enregistrer JPG",roomEmpty:"Chargez une photo de la pièce",roomHint:"Glissez le meuble · pincez pour redimensionner",roomRotate:"Rotation",roomOpacity:"Opacité",updBtn:"Vérifier les mises à jour",updLatest:"Vous êtes à jour ✓",updFound:"Mise à jour trouvée ! Rechargement…",updErr:"Échec — vérifiez votre connexion",hwPush:"Push-open / TIP-ON",catBtn:"Catalogue quincaillerie & matériaux",catTitle:"Catalogue",catMats:"Matériaux (€/m²)",catArt:"Réf. article",catProd:"Produit",catNote:"Vérifiez les références sur le catalogue actuel du fournisseur.",matBody:"Caisson",matFront:"Façades",matBack:"Fond",mTitle:"Fiche de montage",mPrep:"Vérifiez la liste de débit : toutes les pièces coupées et plaquées, sans éclats.",mDrill:"Perçage système 32 : percez pour {q} × {p} sur côtés, fond et dessus.",mSlides:"Montez les coulisses sur les côtés AVANT l'assemblage : {q} × {p}.",mPlates:"Fixez les embases de charnières sur les côtés : {q} × {p}.",mBox:"Assemblez le caisson : fond + dessus entre les côtés. Serrez les excentriques sans forcer.",mTram:"Insérez et fixez les séparations ({q}).",mPlinth:"Montez la plinthe en retrait de 50 mm du chant avant.",mFeet:"Vissez les pieds réglables : {q} × {p}. Mettez de niveau.",mWall:"Fixez les suspensions et vérifiez la fixation murale (chevilles adaptées au mur).",mBack:"Fixez le fond et vérifiez les diagonales (équerrage) : elles doivent être égales.",mShelvesA:"Insérez les taquets : {q} × {p}, puis posez les tablettes.",mShelvesF:"Fixez les tablettes fixes avec excentriques avant de fermer le caisson.",mDrawers:"Assemblez les tiroirs, clipsez sur les coulisses et montez les façades avec réglage.",mDoors:"Percez ø35 pour les charnières (3–6 mm du bord), montez les portes et réglez en 3D : hauteur, latéral, profondeur.",mSliding:"Montez le rail haut/bas et suspendez les portes coulissantes : {p}. Réglez les galets.",mHandles:"Tracez, percez et vissez les poignées : {q} × {p}.",mPush:"Montez les mécanismes push : {q} × {p}. Réglez la saillie.",mRail:"Fixez les supports de tringle ({q} × {p}) et coupez la tringle à la cote intérieure −2 mm.",mCheck:"Contrôle final : portes alignées, tiroirs coulissants, toutes les vis serrées.",mSafety:"Document généré automatiquement — vérifiez cotes et références avant production.",lblBtn:"Étiquettes pièces",labBtn:"Paquet atelier",lblHint:"Feuilles A4 — 24 étiquettes 70×37 mm",fHours:"Heures de main d'œuvre",fHourly:"€ / heure",qIncl:"incluse dans le prix",decorPh:"Décor (ex. Egger H1180)",importErr:"Fichier invalide",mSys32:"Rangées de perçage système 32 : première à 37 mm du chant avant, seconde à 37 mm du chant arrière, pas de 32 mm.",mHingeAt:"Position des boîtiers de charnières (porte {h} mm, depuis le bord) : {list}. Perçage ø35, profondeur 12,5 mm, distance du chant 3–6 mm.",dupMod:"Dupliquer le module",logoBtn:"Logo sur les PDF",logoRemove:"Supprimer le logo actuel ?",logoTooBig:"Image trop grande — utilisez un logo plus simple",drawBtn:"Dessin technique 2D",drawTitle:"DESSIN TECHNIQUE",drawFront:"Vue de face",drawSide:"Coupe latérale",fBoxes:"Structure des tiroirs",statsBtn:"Statistiques",statsTitle:"Statistiques",stProjects:"Projets",stPieces:"Pièces totales",stArea:"Surface totale",stQuoted:"Valeur devisée",fScasso:"Découpe (optionnel)",fScassoPos:"position depuis l'angle",fCorner:"Côté de l'aile d'angle",cornSx:"Gauche",cornDx:"Droite",undoBtn:"ANNULER",fullBkBtn:"Sauvegarde complète",restoreConfirm:"Restaurer cette sauvegarde ? Les données actuelles seront remplacées.",restored:"Sauvegarde restaurée",bkRemind:"💾 Cela fait un moment sans sauvegarde — Réglages → Sauvegarde complète",fbBtn:"Suggérer une fonction",introTitle:"Bienvenue dans Ebanist",intro1:"Générez des meubles paramétriques : type, cotes, options — débit, quincaillerie et 3D se calculent seuls.",intro2:"Documents d'atelier : optimisation, étiquettes, fiche de montage illustrée, dessin technique et devis PDF.",intro3:"Montrez le meuble dans la photo de la pièce du client et exportez le JPG sur WhatsApp.",introGo:"Commencer",typeDesk:"Bureau",typeTable:"Table",typeBed:"Lit",preset_scrivania:"Bureau",preset_tavolo:"Table",preset_letto:"Lit",roomPitch:"Inclinaison",roomRoll:"Niveau",mFlatAsm:"Assemblez au sol sur une surface souple : fixez les composants avec excentriques/vis selon le dessin technique, puis redressez le meuble à deux."}
 };
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français"};
+
+/* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
+const AUTH_I18N = {
+it:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Accedi",acctSignup:"Crea account",acctLogout:"Esci",acctLoggedInAs:"Connesso come",acctRole:"Ruolo",acctOk:"Fatto",acctCheckEmail:"Controlla la tua email per confermare l'account.",acctOffline:"Modalità offline — l'app funziona anche senza account. L'account serve solo per la sincronizzazione futura tra dispositivi."},
+ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conectare",acctSignup:"Creează cont",acctLogout:"Ieși din cont",acctLoggedInAs:"Conectat ca",acctRole:"Rol",acctOk:"Gata",acctCheckEmail:"Verifică emailul pentru a confirma contul.",acctOffline:"Mod offline — aplicația funcționează și fără cont. Contul e necesar doar pentru sincronizarea viitoare între dispozitive."},
+en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. An account is only needed for future sync between devices."},
+fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Le compte ne sert que pour la future synchronisation entre appareils."}
+};
+function ta(key){ return (AUTH_I18N[state.lang]||AUTH_I18N.it)[key]||key; }
 const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile","Base / Cielo","Anta","Schienale","Tramezzo",
 "Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
 const BORDI = ["—","1L","2L","1C","2C","1L+1C","2L+1C","1L+2C","2L+2C"];
@@ -1266,7 +1299,7 @@ $("btnLang").addEventListener("click",()=>{
   for(const code of ["it","ro","en","fr"]){
     const b=document.createElement("button");
     b.className="btn"+(code===state.lang?" red":""); b.style.marginBottom="8px"; b.textContent=LANG_NAMES[code];
-    b.addEventListener("click",()=>{state.lang=code;persist();applyLang();closeSheets();render();});
+    b.addEventListener("click",()=>{state.lang=code;persist();applyLang();renderAccount();closeSheets();render();});
     box.appendChild(b);
   }
   openSheet("shLang");
@@ -2325,8 +2358,84 @@ $("btnProjectDup").addEventListener("click",()=>{
   persist(); closeSheets(); setView("list"); toast(t("saved"));
 });
 
+/* ================= ACCOUNT (Supabase Auth — opzionale, non blocca l'app) ================= */
+const SUPABASE_URL="https://drefnfezicawljkfsqsm.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_3dDu3Pbva2V6ypxVF1yRfg_aOtyl4PM";
+const sb=(window.supabase&&SUPABASE_URL&&SUPABASE_ANON_KEY)?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+let acctSession=null, acctProfile=null;
+
+function renderAccount(){
+  if(!$("shAccount"))return;
+  $("acctTitle").textContent=ta("acctTitle");
+  $("acctOfflineNote").textContent=ta("acctOffline");
+  $("acctEmailLbl").textContent=ta("acctEmail");
+  $("acctPasswordLbl").textContent=ta("acctPassword");
+  $("btnAcctLogin").textContent=ta("acctLogin");
+  $("btnAcctSignup").textContent=ta("acctSignup");
+  $("acctLoggedInLbl").textContent=ta("acctLoggedInAs");
+  $("acctRoleLbl").textContent=ta("acctRole");
+  $("btnAcctLogout").textContent=ta("acctLogout");
+  const loggedIn=!!acctSession;
+  $("acctLoggedOut").style.display=loggedIn?"none":"block";
+  $("acctLoggedIn").style.display=loggedIn?"block":"none";
+  if(loggedIn){
+    $("acctEmailShow").textContent=(acctSession.user&&acctSession.user.email)||"";
+    $("acctRoleShow").textContent=acctProfile?acctProfile.role:"—";
+  }
+}
+
+async function loadAcctProfile(){
+  if(!sb||!acctSession){ acctProfile=null; return; }
+  try{
+    const {data}=await sb.from("profiles").select("*").eq("id",acctSession.user.id).single();
+    acctProfile=data||null;
+  }catch(e){ acctProfile=null; }
+}
+
+async function initAuth(){
+  if(!sb) return;
+  try{
+    const {data}=await sb.auth.getSession();
+    acctSession=data.session;
+    await loadAcctProfile();
+    renderAccount();
+    sb.auth.onAuthStateChange(async(_event,newSession)=>{
+      acctSession=newSession;
+      await loadAcctProfile();
+      renderAccount();
+    });
+  }catch(e){ /* offline o Supabase non raggiungibile — l'app continua a funzionare in locale */ }
+}
+
+$("btnAccount").addEventListener("click",()=>{ renderAccount(); closeSheets(); openSheet("shAccount"); });
+
+$("btnAcctLogin").addEventListener("click",async()=>{
+  if(!sb) return;
+  const email=$("acctEmail").value.trim(), password=$("acctPassword").value;
+  if(!email||!password) return;
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if(error){ toast(error.message); return; }
+  toast(ta("acctOk"));
+});
+
+$("btnAcctSignup").addEventListener("click",async()=>{
+  if(!sb) return;
+  const email=$("acctEmail").value.trim(), password=$("acctPassword").value;
+  if(!email||!password) return;
+  const {error}=await sb.auth.signUp({email,password});
+  if(error){ toast(error.message); return; }
+  toast(ta("acctCheckEmail"));
+});
+
+$("btnAcctLogout").addEventListener("click",async()=>{
+  if(!sb) return;
+  await sb.auth.signOut();
+  toast(ta("acctOk"));
+});
+
 /* ================= INIT ================= */
 state=loadState();
+initAuth();
 setTimeout(()=>{
   if(!state.seenIntro){ state.seenIntro=1; persist(); openSheet("shIntro"); }
   else if(state.projects.length&&(!state.lastBk||Date.now()-state.lastBk>7*864e5)){ toast(t("bkRemind")); }
