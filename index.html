@@ -758,6 +758,10 @@ ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conecta
 en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. An account is only needed for future sync between devices."},
 fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Le compte ne sert que pour la future synchronisation entre appareils."}
 };
+AUTH_I18N.it.syncConflict="⇄ Versione più recente ricevuta da un altro dispositivo";
+AUTH_I18N.ro.syncConflict="⇄ Versiune mai recentă primită de pe alt dispozitiv";
+AUTH_I18N.en.syncConflict="⇄ Newer version received from another device";
+AUTH_I18N.fr.syncConflict="⇄ Version plus récente reçue d'un autre appareil";
 function ta(key){ return (AUTH_I18N[state.lang]||AUTH_I18N.it)[key]||key; }
 const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile","Base / Cielo","Anta","Schienale","Tramezzo",
 "Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
@@ -878,7 +882,7 @@ function loadState(){
   try{const raw=localStorage.getItem("tagliapro");if(raw){const s=JSON.parse(raw);if(s&&s.projects){s.settings=Object.assign({},defaultState().settings,s.settings||{});return s;}}}catch(e){}
   return defaultState();
 }
-function persist(){try{localStorage.setItem("tagliapro",JSON.stringify(state));}catch(e){}}
+function persist(){try{localStorage.setItem("tagliapro",JSON.stringify(state));}catch(e){} if(typeof scheduleSync==="function") scheduleSync();}
 const t = k => (I18N[state.lang]||I18N.it)[k] || I18N.it[k] || k;
 const proj = () => state.projects.find(p=>p.id===state.activeId) || null;
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -2399,12 +2403,98 @@ async function initAuth(){
     acctSession=data.session;
     await loadAcctProfile();
     renderAccount();
+    if(acctSession) await pullAndMergeProjects();
     sb.auth.onAuthStateChange(async(_event,newSession)=>{
+      const wasLoggedIn=!!acctSession;
       acctSession=newSession;
       await loadAcctProfile();
       renderAccount();
+      if(acctSession&&!wasLoggedIn) await pullAndMergeProjects();
     });
   }catch(e){ /* offline o Supabase non raggiungibile — l'app continua a funzionare in locale */ }
+}
+
+/* ================= SYNC (Supabase — opzionale, FAZA 1.3) =================
+   localStorage resta la cache offline; Supabase è la fonte di verità quando
+   si è connessi. Regola: vince sempre l'updated_at più recente (last-write-wins),
+   con avviso visibile in caso di conflitto reale (ROADMAP 1.5). */
+const SYNC_META_KEY="tagliapro_sync_meta";
+function loadSyncMeta(){ try{return JSON.parse(localStorage.getItem(SYNC_META_KEY))||{};}catch(e){return {};} }
+function saveSyncMeta(m){ try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(m));}catch(e){} }
+let syncMeta=loadSyncMeta();
+let syncTimer=null, syncing=false;
+
+function scheduleSync(){
+  if(!sb||!acctSession) return;
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(runSync,2000);
+}
+
+async function runSync(){
+  if(!sb||!acctSession||syncing) return;
+  syncing=true;
+  try{
+    for(const p of state.projects){
+      const snap=JSON.stringify(p);
+      const meta=syncMeta[p.id]||{};
+      if(meta.lastSyncedSnapshot===snap) continue; // neschimbat local — nimic de trimis
+
+      const {data:remote}=await sb.from("projects").select("updated_at,data").eq("id",p.id).maybeSingle();
+      if(remote&&meta.lastRemoteUpdatedAt&&remote.updated_at!==meta.lastRemoteUpdatedAt&&new Date(remote.updated_at)>new Date(meta.updatedAt||0)){
+        // altcineva a salvat o versiune mai nouă între timp — o preluăm, nu suprascriem
+        applyRemoteProject(remote.data);
+        toast(ta("syncConflict"));
+        continue;
+      }
+
+      const now=new Date().toISOString();
+      const {data:saved,error}=await sb.from("projects").upsert({
+        id:p.id, name:p.name, client:p.client||null, data:p,
+        created_by:acctSession.user.id, updated_at:now
+      }).select("updated_at").single();
+      if(!error&&saved) syncMeta[p.id]={lastSyncedSnapshot:snap,updatedAt:now,lastRemoteUpdatedAt:saved.updated_at};
+    }
+    saveSyncMeta(syncMeta);
+  }catch(e){ /* offline — se reîncearcă la următoarea modificare */ }
+  syncing=false;
+}
+
+function applyRemoteProject(data){
+  if(!data||!data.id) return;
+  const idx=state.projects.findIndex(x=>x.id===data.id);
+  if(idx>=0) state.projects[idx]=data; else state.projects.push(data);
+  persist(); render();
+}
+
+async function pullAndMergeProjects(){
+  if(!sb||!acctSession) return;
+  try{
+    const {data:remoteProjects}=await sb.from("projects").select("*");
+    if(!remoteProjects) return;
+    let changed=false;
+    for(const rp of remoteProjects){
+      if(!rp.data) continue;
+      const local=state.projects.find(p=>p.id===rp.id);
+      const meta=syncMeta[rp.id];
+      const remoteNewer=!meta||new Date(rp.updated_at)>new Date(meta.lastRemoteUpdatedAt||0);
+      if(!local){
+        if(remoteNewer){
+          state.projects.push(rp.data); changed=true;
+          syncMeta[rp.id]={lastSyncedSnapshot:JSON.stringify(rp.data),updatedAt:rp.updated_at,lastRemoteUpdatedAt:rp.updated_at};
+        }
+        continue;
+      }
+      const localChangedSinceSync=!meta||JSON.stringify(local)!==meta.lastSyncedSnapshot;
+      if(remoteNewer){
+        if(localChangedSinceSync) toast(ta("syncConflict"));
+        const idx=state.projects.findIndex(p=>p.id===rp.id);
+        state.projects[idx]=rp.data; changed=true;
+        syncMeta[rp.id]={lastSyncedSnapshot:JSON.stringify(rp.data),updatedAt:rp.updated_at,lastRemoteUpdatedAt:rp.updated_at};
+      }
+    }
+    saveSyncMeta(syncMeta);
+    if(changed){ persist(); render(); }
+  }catch(e){ /* offline — se ritenterà al prossimo avvio/login */ }
 }
 
 $("btnAccount").addEventListener("click",()=>{ renderAccount(); closeSheets(); openSheet("shAccount"); });
