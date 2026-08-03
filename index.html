@@ -351,6 +351,48 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
     </button>
   </section>
 
+  <!-- ============ RELEVEU (Faza 2A) ============ -->
+  <section class="view" id="v-survey">
+    <h2 class="vtitle" id="svTitle">Rilievo</h2>
+    <p class="vsub" id="svSub">Misure reali del cantiere</p>
+
+    <div class="card" id="svPlanCard" style="padding:10px">
+      <svg id="svgPlan" style="width:100%;height:auto;display:block;max-height:42vh"></svg>
+      <div class="mini" id="svPlanInfo" style="text-align:center;margin:6px 0 2px;font-variant-numeric:tabular-nums"></div>
+    </div>
+
+    <div class="eyebrow" id="svWallsLbl">Pareti</div>
+    <p class="mini" id="svWallsHint" style="margin-bottom:6px"></p>
+    <div id="svWalls"></div>
+    <button class="btn" id="btnSvAddWall" style="margin-top:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+      <span id="svAddWallLbl">Aggiungi parete</span>
+    </button>
+
+    <div class="eyebrow" id="svHeightsLbl">Altezze</div>
+    <p class="mini" id="svHeightsHint" style="margin-bottom:6px"></p>
+    <div class="f3">
+      <div class="f"><label id="svH1Lbl">Punto 1</label><input id="svH1" type="number" inputmode="numeric"></div>
+      <div class="f"><label id="svH2Lbl">Punto 2</label><input id="svH2" type="number" inputmode="numeric"></div>
+      <div class="f"><label id="svH3Lbl">Punto 3</label><input id="svH3" type="number" inputmode="numeric"></div>
+    </div>
+    <div class="note-box card" id="svHeightSummary" style="padding:8px 10px;margin-bottom:8px"></div>
+
+    <div class="eyebrow" id="svObstLbl">Ostacoli</div>
+    <div id="svObstacles"></div>
+    <button class="btn" id="btnSvAddObst" style="margin-top:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+      <span id="svAddObstLbl">Aggiungi ostacolo</span>
+    </button>
+
+    <div class="eyebrow" id="svExportLbl">Usa nel progetto</div>
+    <button class="btn red" id="btnSvApply" style="margin-top:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+      <span id="svApplyLbl">Compila il generatore</span>
+    </button>
+    <p class="mini" id="svApplyHint" style="margin-top:6px"></p>
+  </section>
+
   <!-- ============ NESTING ============ -->
   <section class="view" id="v-nest">
     <h2 class="vtitle" data-i="nesting">Ottimizzazione</h2>
@@ -421,6 +463,10 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
   <button data-view="projects" class="on">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     <span data-i="navProjects">Progetti</span>
+  </button>
+  <button data-view="survey">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18M9 21v-6h6v6"/></svg>
+    <span id="navSurveyLbl">Rilievo</span>
   </button>
   <button data-view="list">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
@@ -758,6 +804,15 @@ ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conecta
 en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. An account is only needed for future sync between devices."},
 fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Le compte ne sert que pour la future synchronisation entre appareils."}
 };
+/* ================= RILIEVO I18N (Faza 2A — izolat de I18N principal) ================= */
+const SURVEY_I18N = {
+it:{navSurvey:"Rilievo",svTitle:"Rilievo",svSub:"Misure reali del cantiere",svWalls:"Pareti",svWallsHint:"Lunghezza di ogni parete e angolo reale al vertice — non dare per scontato il 90°.",svAddWall:"Aggiungi parete",svWall:"Parete",svLen:"Lungh. (mm)",svAngle:"Angolo (°)",svBow:"Fuori piano (mm)",svHeights:"Altezze",svHeightsHint:"Misura in 3 punti diversi — il pavimento non è mai in piano.",svPoint:"Punto",svMinH:"Altezza minima",svDelta:"Dislivello",svObst:"Ostacoli",svAddObst:"Aggiungi ostacolo",svType:"Tipo",svOnWall:"Su parete",svFromCorner:"Dall'angolo (mm)",svFromFloor:"Da terra (mm)",svW:"Largh. (mm)",svH:"Alt. (mm)",svExport:"Usa nel progetto",svApply:"Compila il generatore",svApplyHint:"Copia le misure nel generatore: larghezza dalla parete più lunga, altezza dal punto più basso (meno 20 mm di gioco). Il motore parametrico completo arriva più avanti.",svApplied:"Generatore compilato",svNeedWall:"Aggiungi almeno una parete",svNoProject:"Seleziona prima un progetto",svEmpty:"Nessuna parete. Tocca «Aggiungi parete» per iniziare.",svPerimeter:"Perimetro",svNotClosed:"contorno non chiuso",svClosed:"contorno chiuso",tPresa:"Presa",tInterr:"Interruttore",tTubo:"Tubo",tCalorifero:"Calorifero",tVano:"Vano",tTrave:"Trave",tAltro:"Altro"},
+ro:{navSurvey:"Releveu",svTitle:"Releveu",svSub:"Cote reale din șantier",svWalls:"Pereți",svWallsHint:"Lungimea fiecărui perete și unghiul real în colț — nu presupune 90°.",svAddWall:"Adaugă perete",svWall:"Perete",svLen:"Lung. (mm)",svAngle:"Unghi (°)",svBow:"Abatere plan (mm)",svHeights:"Înălțimi",svHeightsHint:"Măsoară în 3 puncte diferite — pardoseala nu e niciodată dreaptă.",svPoint:"Punct",svMinH:"Înălțime minimă",svDelta:"Denivelare",svObst:"Obstacole",svAddObst:"Adaugă obstacol",svType:"Tip",svOnWall:"Pe perete",svFromCorner:"De la colț (mm)",svFromFloor:"De la podea (mm)",svW:"Lăț. (mm)",svH:"Înălț. (mm)",svExport:"Folosește în proiect",svApply:"Completează generatorul",svApplyHint:"Copiază cotele în generator: lățimea de la peretele cel mai lung, înălțimea din punctul cel mai jos (minus 20 mm joc). Motorul parametric complet vine mai târziu.",svApplied:"Generator completat",svNeedWall:"Adaugă cel puțin un perete",svNoProject:"Selectează întâi un proiect",svEmpty:"Niciun perete. Apasă «Adaugă perete» ca să începi.",svPerimeter:"Perimetru",svNotClosed:"contur neînchis",svClosed:"contur închis",tPresa:"Priză",tInterr:"Întrerupător",tTubo:"Țeavă",tCalorifero:"Calorifer",tVano:"Gol",tTrave:"Grindă",tAltro:"Altele"},
+en:{navSurvey:"Survey",svTitle:"Site survey",svSub:"Real site measurements",svWalls:"Walls",svWallsHint:"Length of each wall and the real corner angle — don't assume 90°.",svAddWall:"Add wall",svWall:"Wall",svLen:"Length (mm)",svAngle:"Angle (°)",svBow:"Out of plane (mm)",svHeights:"Heights",svHeightsHint:"Measure at 3 different points — the floor is never level.",svPoint:"Point",svMinH:"Minimum height",svDelta:"Level difference",svObst:"Obstacles",svAddObst:"Add obstacle",svType:"Type",svOnWall:"On wall",svFromCorner:"From corner (mm)",svFromFloor:"From floor (mm)",svW:"Width (mm)",svH:"Height (mm)",svExport:"Use in project",svApply:"Fill the builder",svApplyHint:"Copies the measurements into the builder: width from the longest wall, height from the lowest point (minus 20 mm clearance). The full parametric engine comes later.",svApplied:"Builder filled",svNeedWall:"Add at least one wall",svNoProject:"Select a project first",svEmpty:"No walls yet. Tap «Add wall» to start.",svPerimeter:"Perimeter",svNotClosed:"outline not closed",svClosed:"outline closed",tPresa:"Socket",tInterr:"Switch",tTubo:"Pipe",tCalorifero:"Radiator",tVano:"Opening",tTrave:"Beam",tAltro:"Other"},
+fr:{navSurvey:"Relevé",svTitle:"Relevé",svSub:"Mesures réelles du chantier",svWalls:"Murs",svWallsHint:"Longueur de chaque mur et angle réel au coin — ne présumez pas 90°.",svAddWall:"Ajouter un mur",svWall:"Mur",svLen:"Long. (mm)",svAngle:"Angle (°)",svBow:"Hors plan (mm)",svHeights:"Hauteurs",svHeightsHint:"Mesurez en 3 points différents — le sol n'est jamais de niveau.",svPoint:"Point",svMinH:"Hauteur minimale",svDelta:"Dénivelé",svObst:"Obstacles",svAddObst:"Ajouter un obstacle",svType:"Type",svOnWall:"Sur le mur",svFromCorner:"Depuis l'angle (mm)",svFromFloor:"Depuis le sol (mm)",svW:"Larg. (mm)",svH:"Haut. (mm)",svExport:"Utiliser dans le projet",svApply:"Remplir le générateur",svApplyHint:"Copie les mesures dans le générateur : largeur du mur le plus long, hauteur du point le plus bas (moins 20 mm de jeu). Le moteur paramétrique complet viendra plus tard.",svApplied:"Générateur rempli",svNeedWall:"Ajoutez au moins un mur",svNoProject:"Sélectionnez d'abord un projet",svEmpty:"Aucun mur. Touchez « Ajouter un mur » pour commencer.",svPerimeter:"Périmètre",svNotClosed:"contour non fermé",svClosed:"contour fermé",tPresa:"Prise",tInterr:"Interrupteur",tTubo:"Tuyau",tCalorifero:"Radiateur",tVano:"Ouverture",tTrave:"Poutre",tAltro:"Autre"}
+};
+function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
+
 AUTH_I18N.it.syncConflict="⇄ Versione più recente ricevuta da un altro dispositivo";
 AUTH_I18N.ro.syncConflict="⇄ Versiune mai recentă primită de pe alt dispozitiv";
 AUTH_I18N.en.syncConflict="⇄ Newer version received from another device";
@@ -988,6 +1043,7 @@ document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()
 function applyLang(){
   document.documentElement.lang=state.lang;
   document.querySelectorAll("[data-i]").forEach(el=>{el.textContent=t(el.dataset.i);});
+  const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
 }
 
 /* ================= RENDER ================= */
@@ -995,6 +1051,7 @@ function render(){
   const p=proj();
   $("hProject").textContent = p ? p.name + (p.client? " · "+p.client : "") : t("selectProject");
   if(currentView==="projects") renderProjects();
+  if(currentView==="survey") renderSurvey();
   if(currentView==="list") renderList();
   if(currentView==="build") renderBuild();
   if(currentView==="nest") renderNest();
@@ -2360,6 +2417,217 @@ $("btnProjectDup").addEventListener("click",()=>{
   c.pieces.forEach(x=>{x.id=uid();x.done=0;});
   state.projects.unshift(c); state.activeId=c.id;
   persist(); closeSheets(); setView("list"); toast(t("saved"));
+});
+
+/* ================= RILIEVO (Faza 2A) =================
+   Introducere manuală a cotelor, offline. Conturul se reconstruiește din
+   lungimi + unghiuri reale de colț (nu se presupune 90°). */
+const OBST_TYPES=["presa","interr","tubo","calorifero","vano","trave","altro"];
+function obstLabel(k){ return ts("t"+k.charAt(0).toUpperCase()+k.slice(1)); }
+
+function survey(){
+  const p=proj(); if(!p) return null;
+  if(!p.survey) p.survey={walls:[],heights:[null,null,null],obstacles:[]};
+  if(!p.survey.heights) p.survey.heights=[null,null,null];
+  return p.survey;
+}
+
+function planPoints(walls){
+  const pts=[{x:0,y:0}]; let heading=0;
+  for(const w of walls){
+    const L=+w.len||0;
+    const last=pts[pts.length-1];
+    pts.push({x:last.x+L*Math.cos(heading), y:last.y+L*Math.sin(heading)});
+    heading += Math.PI - (+w.angle||90)*Math.PI/180;
+  }
+  return pts;
+}
+
+function renderPlan(){
+  const sv=survey(); const el=$("svgPlan"); if(!el) return;
+  const walls=sv?sv.walls:[];
+  $("svPlanCard").style.display=walls.length?"":"none";
+  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; return; }
+  const pts=planPoints(walls);
+  const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+  const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
+  // viewBox pătrat: păstrează proporțiile textului constante și când conturul e foarte alungit
+  const side=Math.max(maxX-minX,maxY-minY)*1.3+600;
+  const cx=(minX+maxX)/2, cy=(minY+maxY)/2;
+  el.setAttribute("viewBox",`${cx-side/2} ${cy-side/2} ${side} ${side}`);
+  const u=side/100;
+  let out="";
+  for(let i=0;i<walls.length;i++){
+    const a=pts[i], b=pts[i+1];
+    out+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#5f9412" stroke-width="${u*0.9}" stroke-linecap="round"/>`;
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+    out+=`<text x="${mx}" y="${my-u*2}" font-size="${u*4.4}" text-anchor="middle" fill="#4b5563">${walls[i].len||0}</text>`;
+    out+=`<text x="${mx}" y="${my+u*5.4}" font-size="${u*3.2}" text-anchor="middle" fill="#9ca3af">${ts("svWall")} ${i+1}</text>`;
+  }
+  for(let i=0;i<pts.length-1;i++){
+    const ang=+walls[i>0?i-1:walls.length-1].angle||90;
+    const off=Math.abs(ang-90)>0.5;
+    out+=`<circle cx="${pts[i].x}" cy="${pts[i].y}" r="${u*1.4}" fill="${off?"#d97706":"#5f9412"}"/>`;
+  }
+  const first=pts[0], last=pts[pts.length-1];
+  const gap=Math.hypot(last.x-first.x,last.y-first.y);
+  if(gap>50) out+=`<line x1="${last.x}" y1="${last.y}" x2="${first.x}" y2="${first.y}" stroke="#d97706" stroke-width="${u*0.6}" stroke-dasharray="${u*3} ${u*2.4}"/>`;
+  el.innerHTML=out;
+  const perim=walls.reduce((s,x)=>s+(+x.len||0),0);
+  $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")}`;
+}
+
+function renderSurveyWalls(){
+  const sv=survey(); const box=$("svWalls"); if(!box) return;
+  box.innerHTML="";
+  if(!sv||!sv.walls.length){ box.innerHTML=`<p class="mini" style="padding:10px 2px">${ts("svEmpty")}</p>`; return; }
+  sv.walls.forEach((w,i)=>{
+    const c=document.createElement("div");
+    c.className="card"; c.style.padding="10px"; c.style.marginBottom="8px";
+    c.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <b style="font-family:var(--font-disp);letter-spacing:.5px">${ts("svWall")} ${i+1}</b>
+        <button class="iconbtn danger" data-del="${w.id}" aria-label="x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+        </button>
+      </div>
+      <div class="f3">
+        <div class="f"><label>${ts("svLen")}</label><input type="number" inputmode="numeric" data-k="len" data-id="${w.id}" value="${w.len!=null?w.len:""}"></div>
+        <div class="f"><label>${ts("svAngle")}</label><input type="number" inputmode="decimal" step="0.5" data-k="angle" data-id="${w.id}" value="${w.angle!=null?w.angle:""}"></div>
+        <div class="f"><label>${ts("svBow")}</label><input type="number" inputmode="numeric" data-k="bow" data-id="${w.id}" value="${w.bow!=null?w.bow:""}"></div>
+      </div>`;
+    box.appendChild(c);
+  });
+  box.querySelectorAll("input[data-k]").forEach(inp=>{
+    inp.addEventListener("input",()=>{
+      const sv2=survey(); const w=sv2.walls.find(x=>x.id===inp.dataset.id); if(!w) return;
+      const v=parseFloat(inp.value);
+      w[inp.dataset.k]=isFinite(v)?v:null;
+      persist(); renderPlan();
+    });
+  });
+  box.querySelectorAll("button[data-del]").forEach(b=>{
+    b.addEventListener("click",()=>{
+      const sv2=survey();
+      sv2.walls=sv2.walls.filter(x=>x.id!==b.dataset.del);
+      sv2.obstacles.forEach(o=>{ if(o.wall===b.dataset.del) o.wall=null; });
+      persist(); renderSurvey();
+    });
+  });
+}
+
+function renderSurveyObstacles(){
+  const sv=survey(); const box=$("svObstacles"); if(!box) return;
+  box.innerHTML="";
+  if(!sv) return;
+  const wallOpts=sv.walls.map((w,i)=>({id:w.id,label:`${ts("svWall")} ${i+1}`}));
+  sv.obstacles.forEach(o=>{
+    const c=document.createElement("div");
+    c.className="card"; c.style.padding="10px"; c.style.marginBottom="8px";
+    c.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <select data-k="type" data-id="${o.id}" style="flex:1;margin-right:8px">
+          ${OBST_TYPES.map(tk=>`<option value="${tk}"${o.type===tk?" selected":""}>${obstLabel(tk)}</option>`).join("")}
+        </select>
+        <button class="iconbtn danger" data-del="${o.id}" aria-label="x">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+        </button>
+      </div>
+      <div class="f2">
+        <div class="f"><label>${ts("svOnWall")}</label><select data-k="wall" data-id="${o.id}">
+          <option value="">—</option>
+          ${wallOpts.map(w=>`<option value="${w.id}"${o.wall===w.id?" selected":""}>${w.label}</option>`).join("")}
+        </select></div>
+        <div class="f"><label>${ts("svFromCorner")}</label><input type="number" inputmode="numeric" data-k="fromCorner" data-id="${o.id}" value="${o.fromCorner!=null?o.fromCorner:""}"></div>
+      </div>
+      <div class="f3">
+        <div class="f"><label>${ts("svFromFloor")}</label><input type="number" inputmode="numeric" data-k="fromFloor" data-id="${o.id}" value="${o.fromFloor!=null?o.fromFloor:""}"></div>
+        <div class="f"><label>${ts("svW")}</label><input type="number" inputmode="numeric" data-k="w" data-id="${o.id}" value="${o.w!=null?o.w:""}"></div>
+        <div class="f"><label>${ts("svH")}</label><input type="number" inputmode="numeric" data-k="h" data-id="${o.id}" value="${o.h!=null?o.h:""}"></div>
+      </div>`;
+    box.appendChild(c);
+  });
+  box.querySelectorAll("[data-k]").forEach(inp=>{
+    inp.addEventListener(inp.tagName==="SELECT"?"change":"input",()=>{
+      const sv2=survey(); const o=sv2.obstacles.find(x=>x.id===inp.dataset.id); if(!o) return;
+      const k=inp.dataset.k;
+      if(k==="type"||k==="wall") o[k]=inp.value||null;
+      else { const v=parseFloat(inp.value); o[k]=isFinite(v)?v:null; }
+      persist();
+    });
+  });
+  box.querySelectorAll("button[data-del]").forEach(b=>{
+    b.addEventListener("click",()=>{
+      const sv2=survey();
+      sv2.obstacles=sv2.obstacles.filter(x=>x.id!==b.dataset.del);
+      persist(); renderSurveyObstacles();
+    });
+  });
+}
+
+function renderSurveyHeights(){
+  const sv=survey(); if(!sv) return;
+  [0,1,2].forEach(i=>{
+    const el=$("svH"+(i+1)); if(!el) return;
+    if(document.activeElement!==el) el.value=sv.heights[i]!=null?sv.heights[i]:"";
+    $("svH"+(i+1)+"Lbl").textContent=ts("svPoint")+" "+(i+1);
+  });
+  const vals=sv.heights.filter(x=>x!=null&&isFinite(x));
+  const sum=$("svHeightSummary");
+  if(!vals.length){ sum.innerHTML=`<span class="mini">—</span>`; return; }
+  const min=Math.min(...vals), max=Math.max(...vals);
+  const delta=max-min;
+  sum.innerHTML=`<span class="mini">${ts("svMinH")}: <b>${min} mm</b>${vals.length>1?` · ${ts("svDelta")}: <b class="${delta>10?"danger":""}">${delta} mm</b>`:""}</span>`;
+}
+
+function renderSurvey(){
+  const p=proj();
+  $("svTitle").textContent=ts("svTitle");
+  $("svSub").textContent=p?ts("svSub"):ts("svNoProject");
+  $("svWallsLbl").textContent=ts("svWalls");
+  $("svWallsHint").textContent=ts("svWallsHint");
+  $("svAddWallLbl").textContent=ts("svAddWall");
+  $("svHeightsLbl").textContent=ts("svHeights");
+  $("svHeightsHint").textContent=ts("svHeightsHint");
+  $("svObstLbl").textContent=ts("svObst");
+  $("svAddObstLbl").textContent=ts("svAddObst");
+  $("svExportLbl").textContent=ts("svExport");
+  $("svApplyLbl").textContent=ts("svApply");
+  $("svApplyHint").textContent=ts("svApplyHint");
+  const navLbl=$("navSurveyLbl"); if(navLbl) navLbl.textContent=ts("navSurvey");
+  if(!p) return;
+  renderSurveyWalls(); renderSurveyHeights(); renderSurveyObstacles(); renderPlan();
+}
+
+$("btnSvAddWall").addEventListener("click",()=>{
+  const sv=survey(); if(!sv){ toast(ts("svNoProject")); return; }
+  sv.walls.push({id:uid(),len:null,angle:90,bow:null});
+  persist(); renderSurvey();
+});
+
+$("btnSvAddObst").addEventListener("click",()=>{
+  const sv=survey(); if(!sv){ toast(ts("svNoProject")); return; }
+  sv.obstacles.push({id:uid(),type:"presa",wall:sv.walls.length?sv.walls[0].id:null,fromCorner:null,fromFloor:null,w:null,h:null});
+  persist(); renderSurveyObstacles();
+});
+
+[1,2,3].forEach(i=>{
+  $("svH"+i).addEventListener("input",()=>{
+    const sv=survey(); if(!sv) return;
+    const v=parseFloat($("svH"+i).value);
+    sv.heights[i-1]=isFinite(v)?v:null;
+    persist(); renderSurveyHeights();
+  });
+});
+
+$("btnSvApply").addEventListener("click",()=>{
+  const sv=survey(); if(!sv){ toast(ts("svNoProject")); return; }
+  const lens=sv.walls.map(w=>+w.len).filter(x=>isFinite(x)&&x>0);
+  if(!lens.length){ toast(ts("svNeedWall")); return; }
+  const heights=sv.heights.filter(x=>x!=null&&isFinite(x));
+  setView("build");
+  $("bL").value=Math.round(Math.max(...lens));
+  if(heights.length) $("bH").value=Math.max(100,Math.round(Math.min(...heights))-20);
+  drawPreview();
+  toast(ts("svApplied"));
 });
 
 /* ================= ACCOUNT (Supabase Auth — opzionale, non blocca l'app) ================= */
