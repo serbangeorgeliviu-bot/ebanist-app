@@ -3314,7 +3314,7 @@ function placedModule(p,name,fr,pl){
   const from=+pl.from||0, off=+pl.off||0, lift=+pl.lift||0;
   const ys=[].concat.apply([],m.boxes.map(b=>[b.y0,b.y1]));
   const yLo=Math.min.apply(null,ys)+lift, yHi=Math.max.apply(null,ys)+lift;
-  const foot=[[x0,z0],[x1,z0],[x1,z1],[x0,z1]].map(q=>toRoom(fr,from,q[0],q[1],off));
+  const foot=hull(pcAll.map(q=>toRoom(fr,from,q[0],q[1],off)));
   const fronts=m.boxes.filter(b=>b.kind==="f"&&b.sub);
   const swings=[];
   for(const b of fronts){
@@ -3340,6 +3340,20 @@ function placedModule(p,name,fr,pl){
   return {name,cfg,fr,from,off,lift,yLo,yHi,w:x1-x0,d:z1-z0,x0,x1,z0,z1,foot,swings};
 }
 /* --- test di sovrapposizione fra poligoni convessi (SAT) --- */
+/* inviluppo convesso (Andrew): la sagoma reale di un corpo trapezoidale, non il rettangolo
+   che lo contiene — altrimenti un angolo tagliato segnala urti che non ci sono. */
+function hull(pts){
+  if(pts.length<4) return pts.slice();
+  const P=pts.slice().sort((a,b)=>a.x-b.x||a.y-b.y);
+  const cr=(o,a,b)=>(a.x-o.x)*(b.y-o.y)-(a.y-o.y)*(b.x-o.x);
+  const lo=[],up=[];
+  for(const q of P){ while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],q)<=0) lo.pop(); lo.push(q); }
+  for(let i=P.length-1;i>=0;i--){ const q=P[i];
+    while(up.length>=2&&cr(up[up.length-2],up[up.length-1],q)<=0) up.pop(); up.push(q); }
+  lo.pop(); up.pop();
+  const h=lo.concat(up);
+  return h.length>=3?h:pts.slice();
+}
 function polyHit(A,B){
   for(const poly of [A,B]){
     for(let i=0;i<poly.length;i++){
@@ -4061,8 +4075,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.1.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v22";
+const APP_VER="4.1.1"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v23";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
