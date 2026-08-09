@@ -3,14 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#0E3B2A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Ebanist — Distinta di Taglio</title>
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="icon" href="icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180.png">
+<link rel="mask-icon" href="icons/ebanist-mark.svg" color="#0E3B2A">
+<meta name="apple-mobile-web-app-title" content="Ebanist">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -3140,8 +3144,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="3.5.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v15";
+const APP_VER="3.6.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v16";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
