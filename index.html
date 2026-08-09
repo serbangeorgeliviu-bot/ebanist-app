@@ -13,7 +13,7 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --bg:#ffffff; --surface:#f6f8f4; --raised:#ebeee7; --line:#dbe0d5;
@@ -826,10 +826,10 @@ const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français"};
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
 const AUTH_I18N = {
-it:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Accedi",acctSignup:"Crea account",acctLogout:"Esci",acctLoggedInAs:"Connesso come",acctRole:"Ruolo",acctOk:"Fatto",acctCheckEmail:"Controlla la tua email per confermare l'account.",acctOffline:"Modalità offline — l'app funziona anche senza account. L'account serve solo per la sincronizzazione futura tra dispositivi."},
-ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conectare",acctSignup:"Creează cont",acctLogout:"Ieși din cont",acctLoggedInAs:"Conectat ca",acctRole:"Rol",acctOk:"Gata",acctCheckEmail:"Verifică emailul pentru a confirma contul.",acctOffline:"Mod offline — aplicația funcționează și fără cont. Contul e necesar doar pentru sincronizarea viitoare între dispozitive."},
-en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. An account is only needed for future sync between devices."},
-fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Le compte ne sert que pour la future synchronisation entre appareils."}
+it:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Accedi",acctSignup:"Crea account",acctLogout:"Esci",acctLoggedInAs:"Connesso come",acctRole:"Ruolo",acctOk:"Fatto",acctCheckEmail:"Controlla la tua email per confermare l'account.",acctOffline:"Modalità offline — l'app funziona anche senza account. Con l'account i progetti si sincronizzano fra telefono e computer.",acctNoNet:"Nessuna connessione — riprova quando sei online."},
+ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conectare",acctSignup:"Creează cont",acctLogout:"Ieși din cont",acctLoggedInAs:"Conectat ca",acctRole:"Rol",acctOk:"Gata",acctCheckEmail:"Verifică emailul pentru a confirma contul.",acctOffline:"Mod offline — aplicația funcționează și fără cont. Cu cont, proiectele se sincronizează între telefon și calculator.",acctNoNet:"Fără conexiune — încearcă din nou când ai internet."},
+en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. With an account your projects sync between phone and computer.",acctNoNet:"No connection — try again when you are online."},
+fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Avec un compte, les projets se synchronisent entre téléphone et ordinateur.",acctNoNet:"Pas de connexion — réessayez une fois en ligne."}
 };
 /* ================= RILIEVO I18N (Faza 2A — izolat de I18N principal) ================= */
 const SURVEY_I18N = {
@@ -1800,8 +1800,10 @@ function buildModule(cfg){
     boxes.push({x0:0,x1:t,y0:sy,y1:sy+sh,z0:t,z1:P-t,kind:"p"});
     boxes.push({x0:L-t,x1:L,y0:sy,y1:sy+sh,z0:t,z1:P-t,kind:"p"});
     boxes.push({x0:L/2-10,x1:L/2+10,y0:sy,y1:sy+sh,z0:t,z1:P-t,kind:"p"});
-    for(let i=0;i<7;i++){ const z=t+40+i*((P-2*t-80)/6);
-      boxes.push({x0:t+5,x1:L-t-5,y0:sy+sh-20,y1:sy+sh,z0:z,z1:z+68,kind:"p"}); }
+    /* 14 doghe come in distinta; l'ultima deve CHIUDERE a 40mm dalla pediera, non sporgere */
+    const NDO=14, doW=68, doA=t+40, doB=P-t-40-doW, doStep=NDO>1?(doB-doA)/(NDO-1):0;
+    for(let i=0;i<NDO;i++){ const z=doA+i*doStep;
+      boxes.push({x0:t+5,x1:L-t-5,y0:sy+sh-20,y1:sy+sh,z0:z,z1:z+doW,kind:"p"}); }
     return {pieces,boxes};
   }
   if(cfg.type==="angolare"){
@@ -2892,7 +2894,16 @@ $("btnSvApply").addEventListener("click",()=>{
 /* ================= ACCOUNT (Supabase Auth — opzionale, non blocca l'app) ================= */
 const SUPABASE_URL="https://drefnfezicawljkfsqsm.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_3dDu3Pbva2V6ypxVF1yRfg_aOtyl4PM";
-const sb=(window.supabase&&SUPABASE_URL&&SUPABASE_ANON_KEY)?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
+let sb=null;
+/* lo script Supabase è `defer`: il client si crea quando quello è stato eseguito.
+   Offline non arriva mai — sb resta null e l'app funziona lo stesso. */
+function initSupabase(){
+  if(sb) return sb;
+  if(window.supabase&&SUPABASE_URL&&SUPABASE_ANON_KEY){
+    try{ sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); }catch(e){ sb=null; }
+  }
+  return sb;
+}
 let acctSession=null, acctProfile=null;
 
 function renderAccount(){
@@ -3027,7 +3038,7 @@ async function pullAndMergeProjects(){
 $("btnAccount").addEventListener("click",()=>{ renderAccount(); closeSheets(); openSheet("shAccount"); });
 
 $("btnAcctLogin").addEventListener("click",async()=>{
-  if(!sb) return;
+  if(!initSupabase()){ toast(ta("acctNoNet")); return; }
   const email=$("acctEmail").value.trim(), password=$("acctPassword").value;
   if(!email||!password) return;
   const {error}=await sb.auth.signInWithPassword({email,password});
@@ -3036,7 +3047,7 @@ $("btnAcctLogin").addEventListener("click",async()=>{
 });
 
 $("btnAcctSignup").addEventListener("click",async()=>{
-  if(!sb) return;
+  if(!initSupabase()){ toast(ta("acctNoNet")); return; }
   const email=$("acctEmail").value.trim(), password=$("acctPassword").value;
   if(!email||!password) return;
   const {error}=await sb.auth.signUp({email,password});
@@ -3045,14 +3056,15 @@ $("btnAcctSignup").addEventListener("click",async()=>{
 });
 
 $("btnAcctLogout").addEventListener("click",async()=>{
-  if(!sb) return;
+  if(!initSupabase()){ toast(ta("acctNoNet")); return; }
   await sb.auth.signOut();
   toast(ta("acctOk"));
 });
 
 /* ================= INIT ================= */
 state=loadState();
-initAuth();
+function bootAuth(){ initSupabase(); initAuth(); }
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",bootAuth); else bootAuth();
 setTimeout(()=>{
   if(!state.seenIntro){ state.seenIntro=1; persist(); openSheet("shIntro"); }
   else if(state.projects.length&&(!state.lastBk||Date.now()-state.lastBk>7*864e5)){ toast(t("bkRemind")); }
@@ -3063,8 +3075,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="3.3.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v13";
+const APP_VER="3.4.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v14";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
