@@ -128,6 +128,17 @@ h2.vtitle{font-family:var(--font-disp);font-size:24px;font-weight:700;text-trans
 .pc-ang{display:block;font-size:10.5px;font-weight:600;color:var(--red);letter-spacing:0;margin-top:1px}
 .pc-joint{font-size:10.5px;color:var(--ok);font-weight:600;margin-top:1px;white-space:nowrap}
 .pc-joint.vis{color:var(--danger)}
+#svSelBar{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.sel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.sel-row{display:grid;grid-template-columns:22px 1fr 38px 78px 38px;gap:6px;align-items:center;margin-bottom:6px}
+.sel-ax{font-weight:800;font-size:12px;text-align:center;border-radius:5px;color:#fff;padding:2px 0}
+.ax-X{background:#c0392b}.ax-Y{background:#2e7d32}.ax-Z{background:#1565c0}
+.sel-lbl{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-btn{border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:16px;font-weight:700;background:var(--surface)}
+.sel-btn:active{background:var(--raised)}
+.sel-in{padding:7px 8px;font-size:13.5px;text-align:right}
+.sel-steps{display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
+.chip.sm{padding:5px 10px;font-size:12px}
 .rm-row{display:grid;grid-template-columns:1fr 92px 82px;gap:8px;align-items:center;margin-bottom:8px}
 .rm-row .rm-name{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rm-row select,.rm-row input{padding:9px 10px;font-size:13.5px}
@@ -691,6 +702,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <div class="eyebrow" style="margin:0 0 4px" id="svRoomLbl">Mobili nella stanza</div>
       <p class="mini" id="svRoomHint" style="margin-bottom:8px"></p>
       <div id="svRoomList"></div>
+      <div id="svSelBar" style="display:none"></div>
     </div>
 
     <div class="eyebrow" id="svWallsLbl">Pareti</div>
@@ -1173,10 +1185,10 @@ fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"
 };
 /* ================= RILIEVO I18N (Faza 2A — izolat de I18N principal) ================= */
 const SURVEY_I18N = {
-it:{navSurvey:"Rilievo",svTitle:"Rilievo",svSub:"Misure reali del cantiere",svWalls:"Pareti",svWallsHint:"Lunghezza di ogni parete e angolo reale al vertice — non dare per scontato il 90°.",svAddWall:"Aggiungi parete",svWall:"Parete",svLen:"Lungh. (mm)",svAngle:"Angolo (°)",svBow:"Fuori piano (mm)",svHeights:"Altezze",svHeightsHint:"Misura in 3 punti diversi — il pavimento non è mai in piano.",svPoint:"Punto",svMinH:"Altezza minima",svDelta:"Dislivello",svObst:"Ostacoli",svAddObst:"Aggiungi ostacolo",svType:"Tipo",svOnWall:"Su parete",svFromCorner:"Dall'angolo (mm)",svFromFloor:"Da terra (mm)",svW:"Largh. (mm)",svH:"Alt. (mm)",svExport:"Usa nel progetto",svApply:"Compila il generatore",svApplyHint:"Copia le misure nel generatore: larghezza dalla parete più lunga, altezza dal punto più basso (meno 20 mm di gioco). Il motore parametrico completo arriva più avanti.",svApplied:"Generatore compilato",svRoom3D:"Camera in 3D",svOpenDoors:"Ante aperte",svRoomLbl:"Mobili nella stanza",svRoomHint:"Scegli la parete e la distanza dall'angolo. La pianta mostra ingombri, apertura ante e urti.",svIssues:"Problemi trovati",svNoIssues:"Nessun urto: tutto entra e tutto si apre",svIssBefore:"{a}: la distanza dall'angolo è negativa",svIssOver:"{a} sborda di {mm} mm oltre la parete",svIssHit:"{a} e {b} si sovrappongono",svIssDoor:"l'anta di {a} sbatte contro {b}",svIssDrawer:"il cassetto di {a} sbatte contro {b}",svIssDoorWall:"l'anta di {a} sbatte contro la parete {b}",svIssDrawerWall:"il cassetto di {a} sbatte contro la parete {b}",svNoPlaced:"Nessun mobile posato",svModsPlaced:"mobili posati",svCutouts:"decupaje",svObstSkip:"{n} ostacoli non risolvibili con un decupaj (calorifero, trave, vano) — verifica a mano.",svNeedWall:"Aggiungi almeno una parete",svNoProject:"Seleziona prima un progetto",svEmpty:"Nessuna parete. Tocca «Aggiungi parete» per iniziare.",svPerimeter:"Perimetro",svNotClosed:"contorno non chiuso",svClosed:"contorno chiuso",tPresa:"Presa",tInterr:"Interruttore",tTubo:"Tubo",tCalorifero:"Calorifero",tVano:"Vano",tTrave:"Trave",tAltro:"Altro"},
-ro:{navSurvey:"Releveu",svTitle:"Releveu",svSub:"Cote reale din șantier",svWalls:"Pereți",svWallsHint:"Lungimea fiecărui perete și unghiul real în colț — nu presupune 90°.",svAddWall:"Adaugă perete",svWall:"Perete",svLen:"Lung. (mm)",svAngle:"Unghi (°)",svBow:"Abatere plan (mm)",svHeights:"Înălțimi",svHeightsHint:"Măsoară în 3 puncte diferite — pardoseala nu e niciodată dreaptă.",svPoint:"Punct",svMinH:"Înălțime minimă",svDelta:"Denivelare",svObst:"Obstacole",svAddObst:"Adaugă obstacol",svType:"Tip",svOnWall:"Pe perete",svFromCorner:"De la colț (mm)",svFromFloor:"De la podea (mm)",svW:"Lăț. (mm)",svH:"Înălț. (mm)",svExport:"Folosește în proiect",svApply:"Completează generatorul",svApplyHint:"Copiază cotele în generator: lățimea de la peretele cel mai lung, înălțimea din punctul cel mai jos (minus 20 mm joc). Motorul parametric complet vine mai târziu.",svApplied:"Generator completat",svRoom3D:"Camera în 3D",svOpenDoors:"Uși deschise",svRoomLbl:"Mobilierul în cameră",svRoomHint:"Alege peretele și distanța de la colț. Planul arată gabaritul, deschiderea ușilor și coliziunile.",svIssues:"Probleme găsite",svNoIssues:"Nicio coliziune: totul încape și totul se deschide",svIssBefore:"{a}: distanța de la colț e negativă",svIssOver:"{a} depășește peretele cu {mm} mm",svIssHit:"{a} și {b} se suprapun",svIssDoor:"ușa de la {a} se lovește de {b}",svIssDrawer:"sertarul de la {a} se lovește de {b}",svIssDoorWall:"ușa de la {a} se lovește de peretele {b}",svIssDrawerWall:"sertarul de la {a} se lovește de peretele {b}",svNoPlaced:"Niciun corp așezat",svModsPlaced:"corpuri așezate",svCutouts:"decupaje",svObstSkip:"{n} obstacole nu se rezolvă cu un decupaj (calorifer, grindă, nișă) — verifică manual.",svNeedWall:"Adaugă cel puțin un perete",svNoProject:"Selectează întâi un proiect",svEmpty:"Niciun perete. Apasă «Adaugă perete» ca să începi.",svPerimeter:"Perimetru",svNotClosed:"contur neînchis",svClosed:"contur închis",tPresa:"Priză",tInterr:"Întrerupător",tTubo:"Țeavă",tCalorifero:"Calorifer",tVano:"Gol",tTrave:"Grindă",tAltro:"Altele"},
-en:{navSurvey:"Survey",svTitle:"Site survey",svSub:"Real site measurements",svWalls:"Walls",svWallsHint:"Length of each wall and the real corner angle — don't assume 90°.",svAddWall:"Add wall",svWall:"Wall",svLen:"Length (mm)",svAngle:"Angle (°)",svBow:"Out of plane (mm)",svHeights:"Heights",svHeightsHint:"Measure at 3 different points — the floor is never level.",svPoint:"Point",svMinH:"Minimum height",svDelta:"Level difference",svObst:"Obstacles",svAddObst:"Add obstacle",svType:"Type",svOnWall:"On wall",svFromCorner:"From corner (mm)",svFromFloor:"From floor (mm)",svW:"Width (mm)",svH:"Height (mm)",svExport:"Use in project",svApply:"Fill the builder",svApplyHint:"Copies the measurements into the builder: width from the longest wall, height from the lowest point (minus 20 mm clearance). The full parametric engine comes later.",svApplied:"Builder filled",svRoom3D:"Room in 3D",svOpenDoors:"Doors open",svRoomLbl:"Furniture in the room",svRoomHint:"Pick the wall and the distance from the corner. The plan shows footprints, door swing and clashes.",svIssues:"Problems found",svNoIssues:"No clashes: everything fits and everything opens",svIssBefore:"{a}: distance from the corner is negative",svIssOver:"{a} overruns the wall by {mm} mm",svIssHit:"{a} and {b} overlap",svIssDoor:"the door of {a} hits {b}",svIssDrawer:"the drawer of {a} hits {b}",svIssDoorWall:"the door of {a} hits wall {b}",svIssDrawerWall:"the drawer of {a} hits wall {b}",svNoPlaced:"No furniture placed",svModsPlaced:"units placed",svCutouts:"cutouts",svObstSkip:"{n} obstacles cannot be solved with a cutout (radiator, beam, recess) — check by hand.",svNeedWall:"Add at least one wall",svNoProject:"Select a project first",svEmpty:"No walls yet. Tap «Add wall» to start.",svPerimeter:"Perimeter",svNotClosed:"outline not closed",svClosed:"outline closed",tPresa:"Socket",tInterr:"Switch",tTubo:"Pipe",tCalorifero:"Radiator",tVano:"Opening",tTrave:"Beam",tAltro:"Other"},
-fr:{navSurvey:"Relevé",svTitle:"Relevé",svSub:"Mesures réelles du chantier",svWalls:"Murs",svWallsHint:"Longueur de chaque mur et angle réel au coin — ne présumez pas 90°.",svAddWall:"Ajouter un mur",svWall:"Mur",svLen:"Long. (mm)",svAngle:"Angle (°)",svBow:"Hors plan (mm)",svHeights:"Hauteurs",svHeightsHint:"Mesurez en 3 points différents — le sol n'est jamais de niveau.",svPoint:"Point",svMinH:"Hauteur minimale",svDelta:"Dénivelé",svObst:"Obstacles",svAddObst:"Ajouter un obstacle",svType:"Type",svOnWall:"Sur le mur",svFromCorner:"Depuis l'angle (mm)",svFromFloor:"Depuis le sol (mm)",svW:"Larg. (mm)",svH:"Haut. (mm)",svExport:"Utiliser dans le projet",svApply:"Remplir le générateur",svApplyHint:"Copie les mesures dans le générateur : largeur du mur le plus long, hauteur du point le plus bas (moins 20 mm de jeu). Le moteur paramétrique complet viendra plus tard.",svApplied:"Générateur rempli",svRoom3D:"Pièce en 3D",svOpenDoors:"Portes ouvertes",svRoomLbl:"Meubles dans la pièce",svRoomHint:"Choisissez le mur et la distance depuis l'angle. Le plan montre les encombrements, l'ouverture et les collisions.",svIssues:"Problèmes trouvés",svNoIssues:"Aucune collision : tout rentre et tout s'ouvre",svIssBefore:"{a} : la distance depuis l'angle est négative",svIssOver:"{a} dépasse le mur de {mm} mm",svIssHit:"{a} et {b} se chevauchent",svIssDoor:"la porte de {a} heurte {b}",svIssDrawer:"le tiroir de {a} heurte {b}",svIssDoorWall:"la porte de {a} heurte le mur {b}",svIssDrawerWall:"le tiroir de {a} heurte le mur {b}",svNoPlaced:"Aucun meuble posé",svModsPlaced:"meubles posés",svCutouts:"découpes",svObstSkip:"{n} obstacles ne se règlent pas par une découpe (radiateur, poutre, niche) — à vérifier.",svNeedWall:"Ajoutez au moins un mur",svNoProject:"Sélectionnez d'abord un projet",svEmpty:"Aucun mur. Touchez « Ajouter un mur » pour commencer.",svPerimeter:"Périmètre",svNotClosed:"contour non fermé",svClosed:"contour fermé",tPresa:"Prise",tInterr:"Interrupteur",tTubo:"Tuyau",tCalorifero:"Radiateur",tVano:"Ouverture",tTrave:"Poutre",tAltro:"Autre"}
+it:{navSurvey:"Rilievo",svTitle:"Rilievo",svSub:"Misure reali del cantiere",svWalls:"Pareti",svWallsHint:"Lunghezza di ogni parete e angolo reale al vertice — non dare per scontato il 90°.",svAddWall:"Aggiungi parete",svWall:"Parete",svLen:"Lungh. (mm)",svAngle:"Angolo (°)",svBow:"Fuori piano (mm)",svHeights:"Altezze",svHeightsHint:"Misura in 3 punti diversi — il pavimento non è mai in piano.",svPoint:"Punto",svMinH:"Altezza minima",svDelta:"Dislivello",svObst:"Ostacoli",svAddObst:"Aggiungi ostacolo",svType:"Tipo",svOnWall:"Su parete",svFromCorner:"Dall'angolo (mm)",svFromFloor:"Da terra (mm)",svW:"Largh. (mm)",svH:"Alt. (mm)",svExport:"Usa nel progetto",svApply:"Compila il generatore",svApplyHint:"Copia le misure nel generatore: larghezza dalla parete più lunga, altezza dal punto più basso (meno 20 mm di gioco). Il motore parametrico completo arriva più avanti.",svApplied:"Generatore compilato",svRoom3D:"Camera in 3D",svAxisX:"lungo la parete",svAxisY:"stacco dal muro",svAxisZ:"altezza da terra",svTapDrag:"Tocca un corpo nella pianta e trascinalo, oppure scrivi la quota.",svOpenDoors:"Ante aperte",svRoomLbl:"Mobili nella stanza",svRoomHint:"Scegli la parete e la distanza dall'angolo. La pianta mostra ingombri, apertura ante e urti.",svIssues:"Problemi trovati",svNoIssues:"Nessun urto: tutto entra e tutto si apre",svIssBefore:"{a}: la distanza dall'angolo è negativa",svIssOver:"{a} sborda di {mm} mm oltre la parete",svIssHit:"{a} e {b} si sovrappongono",svIssDoor:"l'anta di {a} sbatte contro {b}",svIssDrawer:"il cassetto di {a} sbatte contro {b}",svIssDoorWall:"l'anta di {a} sbatte contro la parete {b}",svIssDrawerWall:"il cassetto di {a} sbatte contro la parete {b}",svNoPlaced:"Nessun mobile posato",svModsPlaced:"mobili posati",svCutouts:"decupaje",svObstSkip:"{n} ostacoli non risolvibili con un decupaj (calorifero, trave, vano) — verifica a mano.",svNeedWall:"Aggiungi almeno una parete",svNoProject:"Seleziona prima un progetto",svEmpty:"Nessuna parete. Tocca «Aggiungi parete» per iniziare.",svPerimeter:"Perimetro",svNotClosed:"contorno non chiuso",svClosed:"contorno chiuso",tPresa:"Presa",tInterr:"Interruttore",tTubo:"Tubo",tCalorifero:"Calorifero",tVano:"Vano",tTrave:"Trave",tAltro:"Altro"},
+ro:{navSurvey:"Releveu",svTitle:"Releveu",svSub:"Cote reale din șantier",svWalls:"Pereți",svWallsHint:"Lungimea fiecărui perete și unghiul real în colț — nu presupune 90°.",svAddWall:"Adaugă perete",svWall:"Perete",svLen:"Lung. (mm)",svAngle:"Unghi (°)",svBow:"Abatere plan (mm)",svHeights:"Înălțimi",svHeightsHint:"Măsoară în 3 puncte diferite — pardoseala nu e niciodată dreaptă.",svPoint:"Punct",svMinH:"Înălțime minimă",svDelta:"Denivelare",svObst:"Obstacole",svAddObst:"Adaugă obstacol",svType:"Tip",svOnWall:"Pe perete",svFromCorner:"De la colț (mm)",svFromFloor:"De la podea (mm)",svW:"Lăț. (mm)",svH:"Înălț. (mm)",svExport:"Folosește în proiect",svApply:"Completează generatorul",svApplyHint:"Copiază cotele în generator: lățimea de la peretele cel mai lung, înălțimea din punctul cel mai jos (minus 20 mm joc). Motorul parametric complet vine mai târziu.",svApplied:"Generator completat",svRoom3D:"Camera în 3D",svAxisX:"de-a lungul peretelui",svAxisY:"depărtare de perete",svAxisZ:"înălțime de la podea",svTapDrag:"Atinge un corp în plan și trage-l, sau scrie cota exactă.",svOpenDoors:"Uși deschise",svRoomLbl:"Mobilierul în cameră",svRoomHint:"Alege peretele și distanța de la colț. Planul arată gabaritul, deschiderea ușilor și coliziunile.",svIssues:"Probleme găsite",svNoIssues:"Nicio coliziune: totul încape și totul se deschide",svIssBefore:"{a}: distanța de la colț e negativă",svIssOver:"{a} depășește peretele cu {mm} mm",svIssHit:"{a} și {b} se suprapun",svIssDoor:"ușa de la {a} se lovește de {b}",svIssDrawer:"sertarul de la {a} se lovește de {b}",svIssDoorWall:"ușa de la {a} se lovește de peretele {b}",svIssDrawerWall:"sertarul de la {a} se lovește de peretele {b}",svNoPlaced:"Niciun corp așezat",svModsPlaced:"corpuri așezate",svCutouts:"decupaje",svObstSkip:"{n} obstacole nu se rezolvă cu un decupaj (calorifer, grindă, nișă) — verifică manual.",svNeedWall:"Adaugă cel puțin un perete",svNoProject:"Selectează întâi un proiect",svEmpty:"Niciun perete. Apasă «Adaugă perete» ca să începi.",svPerimeter:"Perimetru",svNotClosed:"contur neînchis",svClosed:"contur închis",tPresa:"Priză",tInterr:"Întrerupător",tTubo:"Țeavă",tCalorifero:"Calorifer",tVano:"Gol",tTrave:"Grindă",tAltro:"Altele"},
+en:{navSurvey:"Survey",svTitle:"Site survey",svSub:"Real site measurements",svWalls:"Walls",svWallsHint:"Length of each wall and the real corner angle — don't assume 90°.",svAddWall:"Add wall",svWall:"Wall",svLen:"Length (mm)",svAngle:"Angle (°)",svBow:"Out of plane (mm)",svHeights:"Heights",svHeightsHint:"Measure at 3 different points — the floor is never level.",svPoint:"Point",svMinH:"Minimum height",svDelta:"Level difference",svObst:"Obstacles",svAddObst:"Add obstacle",svType:"Type",svOnWall:"On wall",svFromCorner:"From corner (mm)",svFromFloor:"From floor (mm)",svW:"Width (mm)",svH:"Height (mm)",svExport:"Use in project",svApply:"Fill the builder",svApplyHint:"Copies the measurements into the builder: width from the longest wall, height from the lowest point (minus 20 mm clearance). The full parametric engine comes later.",svApplied:"Builder filled",svRoom3D:"Room in 3D",svAxisX:"along the wall",svAxisY:"off the wall",svAxisZ:"height off the floor",svTapDrag:"Tap a unit in the plan and drag it, or type the exact value.",svOpenDoors:"Doors open",svRoomLbl:"Furniture in the room",svRoomHint:"Pick the wall and the distance from the corner. The plan shows footprints, door swing and clashes.",svIssues:"Problems found",svNoIssues:"No clashes: everything fits and everything opens",svIssBefore:"{a}: distance from the corner is negative",svIssOver:"{a} overruns the wall by {mm} mm",svIssHit:"{a} and {b} overlap",svIssDoor:"the door of {a} hits {b}",svIssDrawer:"the drawer of {a} hits {b}",svIssDoorWall:"the door of {a} hits wall {b}",svIssDrawerWall:"the drawer of {a} hits wall {b}",svNoPlaced:"No furniture placed",svModsPlaced:"units placed",svCutouts:"cutouts",svObstSkip:"{n} obstacles cannot be solved with a cutout (radiator, beam, recess) — check by hand.",svNeedWall:"Add at least one wall",svNoProject:"Select a project first",svEmpty:"No walls yet. Tap «Add wall» to start.",svPerimeter:"Perimeter",svNotClosed:"outline not closed",svClosed:"outline closed",tPresa:"Socket",tInterr:"Switch",tTubo:"Pipe",tCalorifero:"Radiator",tVano:"Opening",tTrave:"Beam",tAltro:"Other"},
+fr:{navSurvey:"Relevé",svTitle:"Relevé",svSub:"Mesures réelles du chantier",svWalls:"Murs",svWallsHint:"Longueur de chaque mur et angle réel au coin — ne présumez pas 90°.",svAddWall:"Ajouter un mur",svWall:"Mur",svLen:"Long. (mm)",svAngle:"Angle (°)",svBow:"Hors plan (mm)",svHeights:"Hauteurs",svHeightsHint:"Mesurez en 3 points différents — le sol n'est jamais de niveau.",svPoint:"Point",svMinH:"Hauteur minimale",svDelta:"Dénivelé",svObst:"Obstacles",svAddObst:"Ajouter un obstacle",svType:"Type",svOnWall:"Sur le mur",svFromCorner:"Depuis l'angle (mm)",svFromFloor:"Depuis le sol (mm)",svW:"Larg. (mm)",svH:"Haut. (mm)",svExport:"Utiliser dans le projet",svApply:"Remplir le générateur",svApplyHint:"Copie les mesures dans le générateur : largeur du mur le plus long, hauteur du point le plus bas (moins 20 mm de jeu). Le moteur paramétrique complet viendra plus tard.",svApplied:"Générateur rempli",svRoom3D:"Pièce en 3D",svAxisX:"le long du mur",svAxisY:"écart du mur",svAxisZ:"hauteur du sol",svTapDrag:"Touchez un meuble dans le plan et faites-le glisser, ou saisissez la cote.",svOpenDoors:"Portes ouvertes",svRoomLbl:"Meubles dans la pièce",svRoomHint:"Choisissez le mur et la distance depuis l'angle. Le plan montre les encombrements, l'ouverture et les collisions.",svIssues:"Problèmes trouvés",svNoIssues:"Aucune collision : tout rentre et tout s'ouvre",svIssBefore:"{a} : la distance depuis l'angle est négative",svIssOver:"{a} dépasse le mur de {mm} mm",svIssHit:"{a} et {b} se chevauchent",svIssDoor:"la porte de {a} heurte {b}",svIssDrawer:"le tiroir de {a} heurte {b}",svIssDoorWall:"la porte de {a} heurte le mur {b}",svIssDrawerWall:"le tiroir de {a} heurte le mur {b}",svNoPlaced:"Aucun meuble posé",svModsPlaced:"meubles posés",svCutouts:"découpes",svObstSkip:"{n} obstacles ne se règlent pas par une découpe (radiateur, poutre, niche) — à vérifier.",svNeedWall:"Ajoutez au moins un mur",svNoProject:"Sélectionnez d'abord un projet",svEmpty:"Aucun mur. Touchez « Ajouter un mur » pour commencer.",svPerimeter:"Périmètre",svNotClosed:"contour non fermé",svClosed:"contour fermé",tPresa:"Prise",tInterr:"Interrupteur",tTubo:"Tuyau",tCalorifero:"Radiateur",tVano:"Ouverture",tTrave:"Poutre",tAltro:"Autre"}
 };
 function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
 
@@ -3281,8 +3293,14 @@ function wallFrames(walls){
   });
 }
 /* locale (x lungo la larghezza, z profondità, z=0 sul muro) -> coordinate stanza */
-function toRoom(fr,from,x,z){
-  return {x:fr.a.x+fr.d.x*(from+x)+fr.n.x*z, y:fr.a.y+fr.d.y*(from+x)+fr.n.y*z};
+function toRoom(fr,from,x,z,off){
+  const zz=z+(off||0);
+  return {x:fr.a.x+fr.d.x*(from+x)+fr.n.x*zz, y:fr.a.y+fr.d.y*(from+x)+fr.n.y*zz};
+}
+/* dalla stanza al sistema della parete: quanto lungo il muro, quanto staccato */
+function fromRoom(fr,pt){
+  const vx=pt.x-fr.a.x, vy=pt.y-fr.a.y;
+  return {along:vx*fr.d.x+vy*fr.d.y, off:vx*fr.n.x+vy*fr.n.y};
 }
 /* --- geometria di un modulo posato --- */
 function placedModule(p,name,fr,pl){
@@ -3293,8 +3311,10 @@ function placedModule(p,name,fr,pl){
   const pcAll=[].concat.apply([],carc.map(planPC));
   const x0=Math.min.apply(null,pcAll.map(q=>q[0])), x1=Math.max.apply(null,pcAll.map(q=>q[0]));
   const z0=Math.min.apply(null,pcAll.map(q=>q[1])), z1=Math.max.apply(null,pcAll.map(q=>q[1]));
-  const from=+pl.from||0;
-  const foot=[[x0,z0],[x1,z0],[x1,z1],[x0,z1]].map(q=>toRoom(fr,from,q[0],q[1]));
+  const from=+pl.from||0, off=+pl.off||0, lift=+pl.lift||0;
+  const ys=[].concat.apply([],m.boxes.map(b=>[b.y0,b.y1]));
+  const yLo=Math.min.apply(null,ys)+lift, yHi=Math.max.apply(null,ys)+lift;
+  const foot=[[x0,z0],[x1,z0],[x1,z1],[x0,z1]].map(q=>toRoom(fr,from,q[0],q[1],off));
   const fronts=m.boxes.filter(b=>b.kind==="f"&&b.sub);
   const swings=[];
   for(const b of fronts){
@@ -3304,7 +3324,8 @@ function placedModule(p,name,fr,pl){
     if(b.sub==="slide") continue;                       // scorre, non urta
     if(b.sub==="drawer"){
       const d=Math.max(250,Math.min(600,(cfg.P||500)-30));
-      swings.push({kind:"drawer",poly:[[bx0,bz],[bx1,bz],[bx1,bz+d],[bx0,bz+d]].map(t=>toRoom(fr,from,t[0],t[1]))});
+      swings.push({kind:"drawer",yLo:b.y0+lift,yHi:b.y1+lift,
+        poly:[[bx0,bz],[bx1,bz],[bx1,bz+d],[bx0,bz+d]].map(t=>toRoom(fr,from,t[0],t[1],off))});
       continue;
     }
     const left = (bx0+bx1)/2 < (x0+x1)/2;               // cerniere sul lato più vicino al fianco
@@ -3312,11 +3333,11 @@ function placedModule(p,name,fr,pl){
     const arc=[[hx,bz]];
     for(let a=0;a<=90;a+=15){ const r=a*Math.PI/180;
       arc.push([hx+sgn*w*Math.cos(r), bz+w*Math.sin(r)]); }
-    swings.push({kind:"door",w:Math.round(w),
-      poly:arc.map(t=>toRoom(fr,from,t[0],t[1])),
-      leaf:[[hx,bz],[hx+sgn*w*Math.cos(Math.PI/2),bz+w]].map(t=>toRoom(fr,from,t[0],t[1]))});
+    swings.push({kind:"door",w:Math.round(w),yLo:b.y0+lift,yHi:b.y1+lift,
+      poly:arc.map(t=>toRoom(fr,from,t[0],t[1],off)),
+      leaf:[[hx,bz],[hx+sgn*w*Math.cos(Math.PI/2),bz+w]].map(t=>toRoom(fr,from,t[0],t[1],off))});
   }
-  return {name,cfg,fr,from,w:x1-x0,d:z1-z0,foot,swings};
+  return {name,cfg,fr,from,off,lift,yLo,yHi,w:x1-x0,d:z1-z0,x0,x1,z0,z1,foot,swings};
 }
 /* --- test di sovrapposizione fra poligoni convessi (SAT) --- */
 function polyHit(A,B){
@@ -3357,10 +3378,13 @@ function roomLayout(){
     if(m.from<-1) issues.push({t:"before",a:m.name});
     if(m.from+m.w>m.fr.L+1) issues.push({t:"over",a:m.name,mm:Math.round(m.from+m.w-m.fr.L)});
   });
+  /* due corpi si toccano solo se si sovrappongono ANCHE in altezza:
+     un pensile a 1400 non urta il piano di lavoro sotto. */
+  const vOver=(a,b)=>Math.min(a.yHi,b.yHi)-Math.max(a.yLo,b.yLo)>1;
   for(let i=0;i<mods.length;i++) for(let j=i+1;j<mods.length;j++)
-    if(polyHit(mods[i].foot,mods[j].foot)) issues.push({t:"hit",a:mods[i].name,b:mods[j].name});
+    if(vOver(mods[i],mods[j])&&polyHit(mods[i].foot,mods[j].foot)) issues.push({t:"hit",a:mods[i].name,b:mods[j].name});
   mods.forEach(m=>m.swings.forEach(sw=>{
-    mods.forEach(o=>{ if(o!==m && polyHit(sw.poly,o.foot)) issues.push({t:sw.kind==="door"?"door":"drawer",a:m.name,b:o.name}); });
+    mods.forEach(o=>{ if(o!==m && vOver(sw,o) && polyHit(sw.poly,o.foot)) issues.push({t:sw.kind==="door"?"door":"drawer",a:m.name,b:o.name}); });
     frames.forEach(f=>{ if(f!==m.fr && segHitPoly(f.a,f.b,sw.poly)) issues.push({t:sw.kind==="door"?"doorWall":"drawerWall",a:m.name,b:String(f.i+1)}); });
   }));
   const seen={}, uniq=issues.filter(x=>{const k=x.t+x.a+(x.b||"");if(seen[k])return false;seen[k]=1;return true;});
@@ -3372,13 +3396,10 @@ let roomOpen=0;
 function roomBoxes(){
   const RL=roomLayout(); if(!RL||!RL.mods.length) return null;
   const p=proj(), out=[];
-  const put=(fr,from,b,openDeg)=>{
-    const pc=planPC(b).map(q=>{
-      let lx=q[0], lz=q[1];
-      return toRoom(fr,from,lx,lz);
-    });
+  const put=(fr,from,off,lift,b)=>{
+    const pc=planPC(b).map(q=>toRoom(fr,from,q[0],q[1],off));
     out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
-              y0:b.y0,y1:b.y1,
+              y0:b.y0+lift,y1:b.y1+lift,
               z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
               kind:b.kind, pc:pc.map(q=>[q.x,q.y])});
   };
@@ -3394,14 +3415,14 @@ function roomBoxes(){
         const bz=Math.max(q[0][1],q[1][1],q[2][1],q[3][1]);
         const w=bx1-bx0, left=(bx0+bx1)/2<(cx0+cx1)/2, hx=left?bx0:bx1, sgn=left?1:-1, th=b.z1-b.z0;
         const rot=[[0,0],[0,w],[th,w],[th,0]].map(t=>[hx+sgn*t[0], bz+t[1]]);   // 90° deschisa
-        const pc=rot.map(t=>toRoom(m.fr,m.from,t[0],t[1]));
+        const pc=rot.map(t=>toRoom(m.fr,m.from,t[0],t[1],m.off));
         out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
-                  y0:b.y0,y1:b.y1,
+                  y0:b.y0+m.lift,y1:b.y1+m.lift,
                   z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
                   kind:"f", pc:pc.map(q=>[q.x,q.y])});
         return;
       }
-      put(m.fr,m.from,b);
+      put(m.fr,m.from,m.off,m.lift,b);
     });
   });
   // peretii, ca repere joase
@@ -3412,6 +3433,98 @@ function roomBoxes(){
               kind:"p", pc:pc.map(q=>[q.x,q.y])});
   });
   return out;
+}
+
+/* ================= SELEZIONE, TRASCINAMENTO E QUOTE (stile SketchUp) ================= */
+let selMod=null, dragState=null, moveStep=10, snapGuides=[];
+function selectMod(n){ selMod=n; renderPlan(); }
+/* aggancio: bordi degli altri corpi, estremi della parete, filo muro */
+function snapAlong(v,cands,tol){
+  let best=v, bd=tol;
+  cands.forEach(c=>{ const d=Math.abs(v-c); if(d<bd){bd=d;best=c;} });
+  return {v:best,hit:bd<tol};
+}
+function dragTargets(RL,me){
+  const along=[0], off=[0];
+  if(me&&me.fr) along.push(me.fr.L, me.fr.L-me.w);
+  RL.mods.forEach(o=>{ if(!me||o.name===me.name||o.fr.id!==me.fr.id) return;
+    along.push(o.from+o.w, o.from-(me?me.w:0), o.from);
+    off.push(o.off, o.off+o.d);
+  });
+  return {along:along.filter(v=>isFinite(v)),off:off.filter(v=>isFinite(v))};
+}
+function planPointToRoom(el,ev){
+  const m=el.getScreenCTM(); if(!m) return null;
+  const pt=el.ownerSVGElement?null:null;
+  const inv=m.inverse();
+  const p=new DOMPoint(ev.clientX,ev.clientY).matrixTransform(inv);
+  return {x:p.x,y:p.y};
+}
+function wirePlanDrag(){
+  const el=$("svgPlan"); if(!el||el.dataset.drag) return; el.dataset.drag="1";
+  el.style.touchAction="none";
+  el.addEventListener("pointerdown",e=>{
+    const RL=roomLayout(); if(!RL) return;
+    const pt=planPointToRoom(el,e); if(!pt) return;
+    const hit=RL.mods.slice().reverse().find(m=>polyHit(m.foot,[
+      {x:pt.x-1,y:pt.y-1},{x:pt.x+1,y:pt.y-1},{x:pt.x+1,y:pt.y+1},{x:pt.x-1,y:pt.y+1}]));
+    if(!hit){ if(selMod){ selMod=null; renderPlan(); } return; }
+    selMod=hit.name;
+    const L=layout()[hit.name];
+    dragState={name:hit.name,startFrom:+L.from||0,startOff:+L.off||0,origin:pt,moved:false};
+    el.setPointerCapture(e.pointerId);
+    renderPlan();
+  });
+  el.addEventListener("pointermove",e=>{
+    if(!dragState) return;
+    const pt=planPointToRoom(el,e); if(!pt) return;
+    const RL=roomLayout(); const me=RL&&RL.mods.find(m=>m.name===dragState.name); if(!me) return;
+    const o=fromRoom(me.fr,dragState.origin), n=fromRoom(me.fr,pt);
+    if(Math.hypot(pt.x-dragState.origin.x,pt.y-dragState.origin.y)>12) dragState.moved=true;
+    const tg=dragTargets(RL,me), tol=Math.max(15,me.fr.L/60);
+    const a=snapAlong(dragState.startFrom+(n.along-o.along),tg.along,tol);
+    const b=snapAlong(dragState.startOff +(n.off  -o.off  ),tg.off  ,tol);
+    const L=layout()[dragState.name];
+    L.from=Math.round(a.v); L.off=Math.max(0,Math.round(b.v));
+    snapGuides=[]; if(a.hit) snapGuides.push("along"); if(b.hit) snapGuides.push("off");
+    persist(); renderPlan();
+  });
+  const up=e=>{ if(!dragState) return; dragState=null; snapGuides=[]; renderPlan(); };
+  el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
+}
+/* pannello del corpo selezionato: tre assi, frecce e casella per la quota esatta */
+function renderSelBar(){
+  const bar=$("svSelBar"); if(!bar) return;
+  const p=proj(), L=p?layout():null;
+  if(!selMod||!L||!L[selMod]){ bar.style.display="none"; return; }
+  bar.style.display="";
+  const pl=L[selMod];
+  const RL=roomLayout(), me=RL&&RL.mods.find(m=>m.name===selMod);
+  const rows=[["X","from",ts("svAxisX")],["Y","off",ts("svAxisY")],["Z","lift",ts("svAxisZ")]];
+  bar.innerHTML=`<div class="sel-head"><b>${esc(selMod)}</b>${me?`<span class="mini">${Math.round(me.w)}×${Math.round(me.d)}×${Math.round(me.yHi-me.yLo)}</span>`:""}</div>`
+    +rows.map(r=>`<div class="sel-row" data-k="${r[1]}">
+        <span class="sel-ax ax-${r[0]}">${r[0]}</span><span class="sel-lbl">${esc(r[2])}</span>
+        <button class="sel-btn" data-d="-1">−</button>
+        <input class="sel-in" type="number" inputmode="numeric" value="${Math.round(+pl[r[1]]||0)}">
+        <button class="sel-btn" data-d="1">+</button></div>`).join("")
+    +`<div class="sel-steps">${[1,10,100].map(v=>`<button class="chip sm${v===moveStep?" on":""}" data-s="${v}">${v} mm</button>`).join("")}</div>`;
+  bar.querySelectorAll(".sel-row").forEach(row=>{
+    const k=row.dataset.k, inp=row.querySelector(".sel-in");
+    row.querySelectorAll(".sel-btn").forEach(b=>b.addEventListener("click",()=>{
+      const v=(+pl[k]||0)+(+b.dataset.d)*moveStep;
+      pl[k]=(k==="from")?Math.round(v):Math.max(0,Math.round(v));
+      persist(); renderPlan();
+    }));
+    inp.addEventListener("input",()=>{
+      const v=parseInt(inp.value,10);
+      if(!isFinite(v)) return;
+      pl[k]=(k==="from")?v:Math.max(0,v);
+      persist(); renderPlan(); 
+    });
+  });
+  bar.querySelectorAll("[data-s]").forEach(b=>b.addEventListener("click",()=>{
+    moveStep=+b.dataset.s; renderSelBar();
+  }));
 }
 
 function renderPlan(){
@@ -3456,24 +3569,44 @@ function renderPlan(){
         if(sw.leaf) out+=`<line x1="${sw.leaf[0].x}" y1="${sw.leaf[0].y}" x2="${sw.leaf[1].x}" y2="${sw.leaf[1].y}" stroke="#b08d1f" stroke-width="${u*0.6}"/>`;
       });
     });
-    RL.mods.forEach(m=>{
-      const hit=!!bad[m.name];
-      out+=`<polygon points="${P2(m.foot)}" fill="${hit?"rgba(217,70,70,.30)":"rgba(95,148,18,.22)"}" stroke="${hit?"#b3261e":"#3e6b0a"}" stroke-width="${u*0.7}"/>`;
+    /* prima quelli a terra, poi i sospesi: sopra e tratteggiati, così si distinguono */
+    RL.mods.slice().sort((a2,b2)=>(a2.lift||0)-(b2.lift||0)).forEach(m=>{
+      const hit=!!bad[m.name], sel=m.name===selMod, up=m.lift>0;
+      const dash=up?` stroke-dasharray="${u*2.2} ${u*1.6}"`:"";
+      out+=`<polygon points="${P2(m.foot)}" fill="${hit?"rgba(217,70,70,.30)":sel?"rgba(212,175,55,.30)":up?"rgba(95,148,18,.10)":"rgba(95,148,18,.22)"}" stroke="${hit?"#b3261e":sel?"#b08d1f":"#3e6b0a"}" stroke-width="${u*(sel?1.2:0.7)}"${dash}/>`;
       const c={x:0,y:0}; m.foot.forEach(q=>{c.x+=q.x/4;c.y+=q.y/4;});
       out+=`<text x="${c.x}" y="${c.y}" font-size="${u*3.4}" text-anchor="middle" dominant-baseline="middle" fill="#1d221b">${esc(m.name.slice(0,14))}</text>`;
+      if(m.lift>0) out+=`<text x="${c.x}" y="${c.y+u*4}" font-size="${u*2.8}" text-anchor="middle" fill="#7a5c00">↑${Math.round(m.lift)}</text>`;
+      if(sel){
+        /* quote vive: dall'angolo e dal muro, come la casella valori di SketchUp */
+        const p0=toRoom(m.fr,0,0,0,0), p1=toRoom(m.fr,m.from,0,0,0);
+        out+=`<line x1="${p0.x}" y1="${p0.y}" x2="${p1.x}" y2="${p1.y}" stroke="#b08d1f" stroke-width="${u*0.5}" stroke-dasharray="${u*2} ${u*1.5}"/>`;
+        const mid={x:(p0.x+p1.x)/2,y:(p0.y+p1.y)/2};
+        out+=`<text x="${mid.x}" y="${mid.y-u*1.6}" font-size="${u*3.4}" text-anchor="middle" fill="#7a5c00" font-weight="700">${Math.round(m.from)}</text>`;
+        if(m.off>0.5){
+          const q0=toRoom(m.fr,m.from+m.w/2,0,0,0), q1=toRoom(m.fr,m.from+m.w/2,0,0,m.off);
+          out+=`<line x1="${q0.x}" y1="${q0.y}" x2="${q1.x}" y2="${q1.y}" stroke="#b08d1f" stroke-width="${u*0.5}" stroke-dasharray="${u*2} ${u*1.5}"/>`;
+          out+=`<text x="${(q0.x+q1.x)/2+u*2}" y="${(q0.y+q1.y)/2}" font-size="${u*3.2}" fill="#7a5c00" font-weight="700">${Math.round(m.off)}</text>`;
+        }
+        if(snapGuides.length){
+          out+=`<polygon points="${P2(m.foot)}" fill="none" stroke="#d94b4b" stroke-width="${u*0.5}" stroke-dasharray="${u*1.6} ${u*1.2}"/>`;
+        }
+      }
     });
   }
   el.innerHTML=out;
   const perim=walls.reduce((s,x)=>s+(+x.len||0),0);
   $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")}`;
   renderRoomList(RL);
+  renderSelBar();
+  wirePlanDrag();
 }
 
 /* lista de amplasare: fiecare modul pe ce perete si la ce cota, plus problemele */
 function renderRoomList(RL){
   const box=$("svRoomList"); if(!box) return;
   if($("btnRoom3D")){ $("btnRoom3D").textContent=ts("svRoom3D"); $("btnRoomOpen").textContent=ts("svOpenDoors"); }
-  $("svRoomLbl").textContent=ts("svRoomLbl"); $("svRoomHint").textContent=ts("svRoomHint");
+  $("svRoomLbl").textContent=ts("svRoomLbl"); $("svRoomHint").textContent=ts("svRoomHint")+" "+ts("svTapDrag");
   $("btnRoom3D").textContent=ts("svRoom3D"); $("btnRoomOpen").textContent=ts("svOpenDoors");
   const p=proj(); const sv=p&&p.survey;
   const names=p&&p.configs?Object.keys(p.configs):[];
@@ -3503,6 +3636,7 @@ function renderRoomList(RL){
   box.innerHTML=h;
   box.querySelectorAll(".rm-row").forEach(function(row){
     const n=row.dataset.n, L=layout();
+    row.querySelector(".rm-name").addEventListener("click",function(){ if(L[n]) selectMod(n); });
     row.querySelector(".rm-wall").addEventListener("change",function(e){
       if(!e.target.value){ delete L[n]; } else { L[n]=L[n]||{from:0}; L[n].wall=e.target.value; }
       persist(); renderPlan();
@@ -3927,8 +4061,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.0.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v21";
+const APP_VER="4.1.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v22";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
