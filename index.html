@@ -22,7 +22,9 @@
 :root{
   --bg:#ffffff; --surface:#f6f8f4; --raised:#ebeee7; --line:#dbe0d5;
   --text:#1d221b; --muted:#5c6558; --faint:#8b9486;
-  --red:#4a820e; --grn:#8dc21f; --red-soft:rgba(141,194,31,.20); --red-line:rgba(96,148,20,.45); --danger:#c02f2f;
+  /* accento = verde banconota del marchio; oro solo per evidenziare, mai per testo su bianco */
+  --red:#0E3B2A; --grn:#0E3B2A; --red-soft:rgba(14,59,42,.09); --red-line:rgba(14,59,42,.32); --danger:#c02f2f;
+  --gold:#D4AF37; --gold-soft:#E3C877; --gold-tint:rgba(212,175,55,.16);
   --ok:#2e7d32; --warn:#f5a623;
   --radius:14px; --nav-h:64px;
   --font-body:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
@@ -107,12 +109,15 @@ header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,#fffff
 .hbtn svg{width:19px;height:19px}
 
 /* ---------- layout ---------- */
-main{padding:16px;max-width:760px;margin:0 auto}
+main{padding:16px 16px 28px;max-width:760px;margin:0 auto}
 .view{display:none;animation:fade .18s ease}
 .view.on{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-h2.vtitle{font-family:var(--font-disp);font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
-.vsub{color:var(--muted);font-size:13.5px;margin-bottom:16px}
+/* intestazione di vista compatta: la barra di navigazione dice gia dove sei,
+   quindi il titolo fa da occhiello e non mangia 150px di schermo */
+h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.1px;color:var(--muted);margin-bottom:1px}
+.vsub{color:var(--faint);font-size:12.5px;line-height:1.35;margin-bottom:12px}
 .eyebrow{font-family:var(--font-disp);font-size:12.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--red);margin:20px 0 8px}
 
 /* ---------- cards / list ---------- */
@@ -154,7 +159,13 @@ h2.vtitle{font-family:var(--font-disp);font-size:24px;font-weight:700;text-trans
 .pj-add .btn{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pj-stat b{font-family:var(--font-disp);font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
 .pj-stat span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.8px}
-.pj-active{border-color:var(--red-line);box-shadow:0 0 0 1px var(--red-line) inset}
+/* il progetto attivo deve saltare all'occhio: prima .tag-active non aveva stile
+   e la scritta usciva nuda accanto al nome */
+.pj-active{border-color:var(--red-line);box-shadow:0 0 0 1px var(--red-line) inset;
+  background:linear-gradient(180deg,var(--gold-tint),transparent 70px),var(--surface)}
+.tag-active{flex:none;align-self:flex-start;padding:3px 9px;border-radius:99px;
+  background:var(--gold);color:#2a2107;font-family:var(--font-disp);font-size:11px;
+  font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .tag-active{font-size:10.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--red);
   background:var(--red-soft);border:1px solid var(--red-line);border-radius:99px;padding:3px 9px}
 
@@ -182,7 +193,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:24px;font-weight:700;text-trans
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;
   border-radius:12px;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--raised);transition:filter .12s}
 .btn:active{filter:brightness(1.15)}
-.btn.red{background:var(--grn);border-color:var(--grn);color:#16210c}
+.btn.red{background:var(--grn);border-color:var(--grn);color:#fff}
 .btn.ghost{background:transparent}
 .btn.sm{width:auto;padding:9px 14px;font-size:13.5px;border-radius:10px}
 .btn svg{width:17px;height:17px;flex:none}
@@ -191,7 +202,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:24px;font-weight:700;text-trans
 
 /* FAB */
 .fab{position:fixed;right:16px;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom));z-index:35;
-  width:56px;height:56px;border-radius:16px;background:var(--grn);color:#16210c;display:grid;place-items:center;
+  width:56px;height:56px;border-radius:16px;background:var(--grn);color:#fff;display:grid;place-items:center;
   box-shadow:0 6px 20px rgba(141,194,31,.35);display:none}
 .fab.on{display:grid}
 .fab svg{width:24px;height:24px}
@@ -204,7 +215,10 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--nav-h) +
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   color:var(--faint);font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:var(--font-disp)}
 nav button svg{width:21px;height:21px}
+nav button{position:relative}
 nav button.on{color:var(--red)}
+nav button.on::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
 
 /* ---------- sheets & modals ---------- */
 .scrim{position:fixed;inset:0;background:rgba(20,28,14,.35);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -220,6 +234,31 @@ nav button.on{color:var(--red)}
 .f label{display:block;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* ---------- gruppi a fisarmonica del generatore ----------
+   29 campi in un unico scorrimento erano 3 schermate: ora sono 4 righe
+   che mostrano il valore corrente senza doverle aprire. <details> nativo,
+   niente JS per aprire/chiudere, funziona anche offline. */
+.grp{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:8px;overflow:hidden}
+.grp>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;
+  padding:13px 14px;font-family:var(--font-disp);font-size:15px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.9px}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary::after{content:"";flex:none;width:9px;height:9px;margin-left:auto;
+  border-right:2px solid var(--faint);border-bottom:2px solid var(--faint);
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform .18s}
+.grp[open]>summary::after{transform:rotate(-135deg) translate(-3px,-3px)}
+.grp>summary .grp-sum{font-family:var(--font-body);font-style:normal;font-size:12.5px;
+  font-weight:500;letter-spacing:0;text-transform:none;color:var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right}
+.grp[open]>summary{border-bottom:1px solid var(--line);background:var(--raised)}
+.grp[open]>summary .grp-sum{opacity:0}
+.grp-body{padding:14px 14px 2px}
+
+/* anteprima 3D appiccicata sotto l'intestazione */
+.previewbox{position:sticky;top:58px;z-index:20;
+  box-shadow:0 4px 14px -8px rgba(25,35,15,.35)}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{padding:8px 13px;border-radius:99px;border:1px solid var(--line);background:var(--bg);
   font-size:13px;font-weight:600;color:var(--muted)}
@@ -254,7 +293,7 @@ table.t tr:last-child td{border-bottom:none}
 .empty{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty svg{width:44px;height:44px;color:var(--faint);margin-bottom:10px}
 .toast{pointer-events:none;position:fixed;left:50%;bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
-  background:#1d221b;border:1px solid #2c332a;border-left:3px solid var(--grn);color:#f3f5f0;
+  background:#1d221b;border:1px solid #2c332a;border-left:3px solid var(--gold);color:#f3f5f0;
   padding:11px 18px;border-radius:10px;font-size:14px;z-index:70;opacity:0;transition:.25s;white-space:nowrap;max-width:92vw;
   overflow:hidden;text-overflow:ellipsis}
 .toast.on{opacity:1;transform:translateX(-50%)}
@@ -268,12 +307,12 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 
 /* checklist / progress / filters */
 .pc-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;color:transparent;background:var(--bg);padding:0}
-.pc-check.on{background:var(--grn);border-color:var(--grn);color:#16210c}
+.pc-check.on{background:var(--gold);border-color:var(--gold);color:#2a2107}
 .pc-check svg{width:14px;height:14px}
 .pc.isdone{opacity:.45}
 .pc.isdone .pc-dim{text-decoration:line-through}
 .prog{height:5px;background:var(--raised);border-radius:3px;margin-top:10px;overflow:hidden}
-.prog i{display:block;height:100%;background:var(--grn);border-radius:3px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:3px}
 .filterbar{display:flex;gap:8px;margin-bottom:12px}
 .filterbar input{flex:1.4;min-width:0}
 .filterbar select{flex:1;min-width:0}
@@ -572,9 +611,6 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="hbtn" id="btnAccount" title="Account">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
   </button>
-  <button class="hbtn" id="btnLang" title="Lingua">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3.5 3 16.5 0 20M12 2c-3 3.5-3 16.5 0 20"/></svg>
-  </button>
   <button class="hbtn" id="btnSettings" title="Impostazioni">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.09a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
   </button>
@@ -616,92 +652,121 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <section class="view" id="v-build">
     <h2 class="vtitle" data-i="buildTitle">Generatore mobili</h2>
     <p class="vsub" data-i="buildSub">Configura il modulo e genera la distinta</p>
-    <div class="chips" id="presetChips" style="margin-bottom:12px"></div>
-    <div class="card" style="padding:10px 10px 6px">
-      <svg id="svg3d" style="width:100%;height:auto;display:block;max-height:46vh;touch-action:none;cursor:grab"></svg>
-      <div class="mini" id="buildInfo" style="text-align:center;margin:6px 0 2px;font-variant-numeric:tabular-nums"></div>
-      <div class="chips" style="justify-content:center;margin:6px 0 2px">
+    <div class="chips" id="presetChips" style="margin-bottom:10px"></div>
+
+    <!-- anteprima appiccicata: resta visibile mentre cambi i campi sotto -->
+    <div class="card previewbox" style="padding:8px 10px 4px">
+      <svg id="svg3d" style="width:100%;height:auto;display:block;max-height:17vh;touch-action:none;cursor:grab"></svg>
+      <div class="mini" id="buildInfo" style="text-align:center;margin:4px 0 2px;font-variant-numeric:tabular-nums"></div>
+      <div class="chips" style="justify-content:center;margin:2px 0 4px">
         <button class="chip" id="btnExplode" data-i="explodeBtn">Vista esplosa</button>
+        <button class="chip" id="btnPrevBig" title="Zoom">⤢</button>
       </div>
-      <div class="mini" style="text-align:center;margin-bottom:4px" data-i="hint3d">Trascina per ruotare · pizzica per zoom</div>
     </div>
-    <div class="f"><label data-i="fModule">Rif. Modulo</label><input id="bName"></div>
-    <div class="f2">
-      <div class="f"><label data-i="fType">Tipo</label>
-        <select id="bTipo"><option value="standard" data-i="typeStandard">Standard</option><option value="angolare" data-i="typeCorner">Angolare</option><option value="scorrevole" data-i="typeSliding">Ante scorrevoli</option><option value="scrivania" data-i="typeDesk">Scrivania</option><option value="tavolo" data-i="typeTable">Tavolo</option><option value="letto" data-i="typeBed">Letto</option></select></div>
-      <div class="f" id="rowL2" style="display:none"><label data-i="fL2">Largh. ala B (mm)</label><input id="bL2" type="number" inputmode="numeric"></div>
-    </div>
-    <div class="f3">
-      <div class="f"><label data-i="fWidth">Largh. (mm)</label><input id="bL" type="number" inputmode="numeric"></div>
-      <div class="f"><label data-i="fHeight">Alt. (mm)</label><input id="bH" type="number" inputmode="numeric"></div>
-      <div class="f"><label data-i="fDepth">Prof. (mm)</label><input id="bP" type="number" inputmode="numeric"></div>
-    </div>
-    <div class="f2">
-      <div class="f"><label data-i="fAngL">Angolo sx (°)</label><input id="bAngL" type="number" inputmode="decimal" min="45" max="135" step="0.5" placeholder="90"></div>
-      <div class="f"><label data-i="fAngR">Angolo dx (°)</label><input id="bAngR" type="number" inputmode="decimal" min="45" max="135" step="0.5" placeholder="90"></div>
-    </div>
-    <p class="mini" id="angHint" style="margin:-6px 0 10px"></p>
-    <div class="f3">
-      <div class="f"><label data-i="matBody">Corpo</label><select id="bMatBody"></select></div>
-      <div class="f"><label data-i="fPlinth">Zoccolo (mm)</label><input id="bPlinth" type="number" inputmode="numeric"></div>
-      <div class="f"><label data-i="fTram">Tramezzi</label><input id="bTram" type="number" inputmode="numeric" min="0" max="4"></div>
-    </div>
-    <div class="f2">
-      <div class="f"><label data-i="matFront">Frontali</label><select id="bMatFront"></select></div>
-      <div class="f"><label data-i="matBack">Schienale</label><select id="bMatBack"></select></div>
-      <div class="f" id="fCornerWrap"><label data-i="fCorner">Angolo</label>
-        <select id="bCorner"><option value="sx" data-i="cornSx">Sinistra</option><option value="dx" data-i="cornDx">Destra</option></select></div>
-      <div class="f" id="fCornerKindWrap"><label data-i="fCornerKind">Tipo angolo</label>
-        <select id="bCornerKind"><option value="int" data-i="cornInt">Interno (angolo stanza)</option><option value="ext" data-i="cornExt">Esterno (spigolo sporgente)</option></select></div>
-    </div>
-    <div class="f3">
-      <div class="f"><label data-i="fShelvesSec">Ripiani/sez.</label><input id="bShelves" type="number" inputmode="numeric" min="0" max="10"></div>
-    </div>
-    <div class="f3">
-      <div class="f"><label data-i="fHangGap">Spazio sotto l'asta</label><input id="bHangGap" type="number" inputmode="numeric" min="0" placeholder="1000"></div>
-      <div class="f"><label data-i="fShelfEven">Ripiani equidistanti</label>
-        <select id="bShelfEven"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
-      <div class="f"><label data-i="fShelfStep">Passo (mm)</label><input id="bShelfStep" type="number" inputmode="numeric" min="60" placeholder="320"></div>
-    </div>
-    <div class="f" id="secModeWrap"><label data-i="fSections">Contenuto sezioni</label>
-      <div class="chips" id="secModeChips"></div>
-      <p class="mini" id="secModeHint" style="margin-top:4px"></p>
-      <div class="f"><label data-i="fDrawersSec">Cassetti/sez.</label><input id="bDrawers" type="number" inputmode="numeric" min="0" max="8"></div>
-      <div class="f"><label data-i="fDoorsN">Ante</label><input id="bDoors" type="number" inputmode="numeric" min="0" max="4"></div>
-    </div>
-    <div class="f2">
-      <div class="f"><label data-i="fFront">Frontale</label>
-        <select id="bFront"><option value="piena" data-i="frontFull">Pieno</option><option value="vetro" data-i="frontGlass">Telaio + vetro</option></select></div>
-      <div class="f"><label data-i="fSupport">Supporto</label>
-        <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
-    </div>
-    <div class="f2">
-      <div class="f"><label data-i="fHandles">Apertura</label>
-        <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option></select></div>
-      <div class="f"><label data-i="fShelfT">Ripiani</label>
-        <select id="bShelfT"><option value="mobile" data-i="shMobile">Regolabili</option><option value="fisso" data-i="shFisso">Fissi</option></select></div>
-    </div>
-    <div class="f"><label data-i="fBoxes">Struttura interna cassetti</label>
-      <select id="bBoxes"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
-    <div class="f2">
-      <div class="f"><label data-i="fBack">Schienale</label>
-        <select id="bBack"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
-      <div class="f"><label data-i="fHang">Asta appendiabiti</label>
-        <select id="bHang"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select></div>
-    </div>
-    <button class="btn" id="btnDraw" style="margin-top:4px">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h20v14H2zM8 21h8M12 17v4"/><path d="M6 7h6M6 10h4"/></svg>
-      <span data-i="drawBtn">Disegno tecnico 2D</span>
-    </button>
-    <button class="btn" id="btnRoom" style="margin-top:4px">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <span data-i="roomBtn">Nel tuo ambiente</span>
-    </button>
-    <button class="btn red" id="btnGenerate" style="margin-top:4px">
+
+    <details class="grp" id="grpBase" open>
+      <summary><span data-i="grpBase">Corpo e misure</span><i class="grp-sum" id="sumBase"></i></summary>
+      <div class="grp-body">
+        <div class="f"><label data-i="fModule">Rif. Modulo</label><input id="bName"></div>
+        <div class="f2">
+          <div class="f"><label data-i="fType">Tipo</label>
+            <select id="bTipo"><option value="standard" data-i="typeStandard">Standard</option><option value="angolare" data-i="typeCorner">Angolare</option><option value="scorrevole" data-i="typeSliding">Ante scorrevoli</option><option value="scrivania" data-i="typeDesk">Scrivania</option><option value="tavolo" data-i="typeTable">Tavolo</option><option value="letto" data-i="typeBed">Letto</option></select></div>
+          <div class="f" id="rowL2" style="display:none"><label data-i="fL2">Largh. ala B (mm)</label><input id="bL2" type="number" inputmode="numeric"></div>
+        </div>
+        <div class="f3">
+          <div class="f"><label data-i="fWidth">Largh. (mm)</label><input id="bL" type="number" inputmode="numeric"></div>
+          <div class="f"><label data-i="fHeight">Alt. (mm)</label><input id="bH" type="number" inputmode="numeric"></div>
+          <div class="f"><label data-i="fDepth">Prof. (mm)</label><input id="bP" type="number" inputmode="numeric"></div>
+        </div>
+        <div class="f2">
+          <div class="f"><label data-i="fAngL">Angolo sx (°)</label><input id="bAngL" type="number" inputmode="decimal" min="45" max="135" step="0.5" placeholder="90"></div>
+          <div class="f"><label data-i="fAngR">Angolo dx (°)</label><input id="bAngR" type="number" inputmode="decimal" min="45" max="135" step="0.5" placeholder="90"></div>
+        </div>
+        <p class="mini" id="angHint" style="margin:-6px 0 4px"></p>
+      </div>
+    </details>
+
+    <details class="grp" id="grpMat">
+      <summary><span data-i="grpMat">Materiali</span><i class="grp-sum" id="sumMat"></i></summary>
+      <div class="grp-body">
+        <div class="f"><label data-i="matBody">Corpo</label><select id="bMatBody"></select></div>
+        <div class="f2">
+          <div class="f"><label data-i="matFront">Frontali</label><select id="bMatFront"></select></div>
+          <div class="f"><label data-i="matBack">Schienale</label><select id="bMatBack"></select></div>
+          <div class="f" id="fCornerWrap"><label data-i="fCorner">Angolo</label>
+            <select id="bCorner"><option value="sx" data-i="cornSx">Sinistra</option><option value="dx" data-i="cornDx">Destra</option></select></div>
+          <div class="f" id="fCornerKindWrap"><label data-i="fCornerKind">Tipo angolo</label>
+            <select id="bCornerKind"><option value="int" data-i="cornInt">Interno (angolo stanza)</option><option value="ext" data-i="cornExt">Esterno (spigolo sporgente)</option></select></div>
+        </div>
+      </div>
+    </details>
+
+    <details class="grp" id="grpIn">
+      <summary><span data-i="grpIn">Interno</span><i class="grp-sum" id="sumIn"></i></summary>
+      <div class="grp-body">
+        <div class="f2">
+          <div class="f"><label data-i="fTram">Tramezzi</label><input id="bTram" type="number" inputmode="numeric" min="0" max="4"></div>
+          <div class="f"><label data-i="fShelvesSec">Ripiani/sez.</label><input id="bShelves" type="number" inputmode="numeric" min="0" max="10"></div>
+        </div>
+        <div class="f3">
+          <div class="f"><label data-i="fShelfEven">Ripiani equidistanti</label>
+            <select id="bShelfEven"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+          <div class="f"><label data-i="fShelfStep">Passo (mm)</label><input id="bShelfStep" type="number" inputmode="numeric" min="60" placeholder="320"></div>
+          <div class="f"><label data-i="fShelfT">Ripiani</label>
+            <select id="bShelfT"><option value="mobile" data-i="shMobile">Regolabili</option><option value="fisso" data-i="shFisso">Fissi</option></select></div>
+        </div>
+        <div class="f2">
+          <div class="f"><label data-i="fHang">Asta appendiabiti</label>
+            <select id="bHang"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select></div>
+          <div class="f"><label data-i="fHangGap">Spazio sotto l'asta</label><input id="bHangGap" type="number" inputmode="numeric" min="0" placeholder="1000"></div>
+        </div>
+        <div class="f" id="secModeWrap"><label data-i="fSections">Contenuto sezioni</label>
+          <div class="chips" id="secModeChips"></div>
+          <p class="mini" id="secModeHint" style="margin-top:4px"></p>
+        </div>
+        <div class="f2">
+          <div class="f"><label data-i="fDrawersSec">Cassetti/sez.</label><input id="bDrawers" type="number" inputmode="numeric" min="0" max="8"></div>
+          <div class="f"><label data-i="fBoxes">Struttura interna cassetti</label>
+            <select id="bBoxes"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+        </div>
+        <div class="f"><label data-i="fBack">Schienale</label>
+          <select id="bBack"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+      </div>
+    </details>
+
+    <details class="grp" id="grpFr">
+      <summary><span data-i="grpFr">Frontali e appoggio</span><i class="grp-sum" id="sumFr"></i></summary>
+      <div class="grp-body">
+        <div class="f2">
+          <div class="f"><label data-i="fDoorsN">Ante</label><input id="bDoors" type="number" inputmode="numeric" min="0" max="4"></div>
+          <div class="f"><label data-i="fFront">Frontale</label>
+            <select id="bFront"><option value="piena" data-i="frontFull">Pieno</option><option value="vetro" data-i="frontGlass">Telaio + vetro</option></select></div>
+        </div>
+        <div class="f3">
+          <div class="f"><label data-i="fHandles">Apertura</label>
+            <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option></select></div>
+          <div class="f"><label data-i="fSupport">Supporto</label>
+            <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
+          <div class="f"><label data-i="fPlinth">Zoccolo (mm)</label><input id="bPlinth" type="number" inputmode="numeric"></div>
+        </div>
+      </div>
+    </details>
+
+    <button class="btn red" id="btnGenerate" style="margin-top:10px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
       <span data-i="generate">Genera distinta</span>
     </button>
-  </section>
+    <div class="btnrow" style="margin-top:8px">
+      <button class="btn sm" id="btnDraw">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h20v14H2zM8 21h8M12 17v4"/><path d="M6 7h6M6 10h4"/></svg>
+        <span data-i="drawBtn">Disegno tecnico 2D</span>
+      </button>
+      <button class="btn sm" id="btnRoom">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span data-i="roomBtn">Nel tuo ambiente</span>
+      </button>
+    </div>
+</section>
 
   <!-- ============ RELEVEU (Faza 2A) ============ -->
   <section class="view" id="v-survey">
@@ -833,13 +898,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18M9 21v-6h6v6"/></svg>
     <span id="navSurveyLbl">Rilievo</span>
   </button>
-  <button data-view="list">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-    <span data-i="navList">Distinta</span>
-  </button>
   <button data-view="build">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.3 12 12l8.7-4.7M12 22V12"/></svg>
     <span data-i="navBuild">Genera</span>
+  </button>
+  <button data-view="list">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+    <span data-i="navList">Distinta</span>
   </button>
   <button data-view="nest">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h9M12 3v9M12 12v9M12 12h9"/></svg>
@@ -1036,6 +1101,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="f"><label data-i="fIntroSound">Suono</label>
       <select id="sIntroSound"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
   </div>
+  <button class="btn" id="btnLang" style="margin-top:8px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3.5 3 16.5 0 20M12 2c-3 3.5-3 16.5 0 20"/></svg>
+    <span id="langBtnLbl">Lingua</span>
+  </button>
   <button class="btn" id="btnUpdate" style="margin-top:8px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
     <span data-i="updBtn">Verifica aggiornamenti</span>
@@ -1125,7 +1194,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 "use strict";
 /* ================= I18N ================= */
 const I18N = {
-it:{projects:"Progetti",projectsSub:"Gestisci i tuoi progetti di taglio",newProject:"Nuovo progetto",editProject:"Modifica progetto",import:"Importa",
+it:{sumTram1:"tramezzo",sumShelf1:"ripiano",sumDraw1:"cassetto",sumDoors1:"anta",grpBase:"Corpo e misure",grpMat:"Materiali",grpIn:"Interno",grpFr:"Frontali e appoggio",sumTram:"tramezzi",sumShelf:"ripiani",sumDraw:"cassetti",sumHang:"asta",sumDoors:"ante",projects:"Progetti",projectsSub:"Gestisci i tuoi progetti di taglio",newProject:"Nuovo progetto",editProject:"Modifica progetto",import:"Importa",
 cutList:"Distinta di taglio",nesting:"Ottimizzazione",nestingSub:"Disposizione dei pezzi sui pannelli",summary:"Riepilogo",summarySub:"Materiali, bordatura e costi",
 materials:"Materiali",costs:"Costi stimati",export:"Esporta",exportPdf:"PDF distinta",backup:"Backup progetto (JSON)",
 navProjects:"Progetti",navList:"Distinta",navNest:"Taglio",navSummary:"Riepilogo",
@@ -1143,7 +1212,7 @@ confirmDelPiece:"Eliminare questo pezzo?",confirmDelProject:"Eliminare il proget
 importedRows:"righe importate",invalidFile:"File non valido",duplicate:"Duplica",client:"Cliente",date:"Data",
 printTitle:"DISTINTA DI TAGLIO",printProject:"Progetto",printNotes:"Bordatura: L = lato lunghezza, C = lato larghezza. Misure finite in mm.",
 hardware:"Ferramenta",hwCern:"Cerniere",hwGuida:"Guide cassetto (cp.)",hwMan:"Maniglie",hwSup:"Supporti ripiano",hwAsta:"Supporti asta",hwPied:"Piedini regolabili",hwBin:"Binario scorrevole (set)",hwConn:"Viti & eccentrici",fMargin:"Margine %",fIva:"IVA %",quote:"PDF preventivo",quoteTitle:"PREVENTIVO",qDesc:"Descrizione",qNet:"Imponibile",qVat:"IVA",qTotal:"TOTALE",qValidity:"Validità offerta: 30 giorni",share:"Condividi",grain:"Venatura (no rotazione)",searchPh:"Cerca pezzo, modulo, materiale…",allMats:"Tutti i materiali",dupProject:"Duplica progetto",copySuffix:"(copia)",fDeadline:"Scadenza",fPhone:"Telefono",fNotes:"Note",daysLeft:"giorni",renameMat:"Nuovo nome materiale:",cSubtotal:"Subtotale",fType:"Tipo",typeStandard:"Standard",typeCorner:"Angolare",typeSliding:"Ante scorrevoli",fL2:"Largh. ala B (mm)",fHang:"Asta appendiabiti",hint3d:"Trascina per ruotare · pizzica per zoom · doppio tocco: reset",preset_angolare:"Angolare",preset_scorrevole:"Scorrevole",preset_dressing:"Cabina armadio",buildTitle:"Generatore mobili",buildSub:"Configura il modulo e genera la distinta",navBuild:"Genera",fHeight:"Alt. (mm)",fDepth:"Prof. (mm)",fThickness:"Spessore",fPlinth:"Zoccolo (mm)",fTram:"Tramezzi",fShelvesSec:"Ripiani/sez.",fDrawersSec:"Cassetti/sez.",fDoorsN:"Ante",fBack:"Schienale",optYes:"Sì",optNo:"No",generate:"Genera distinta",preset_armadio:"Armadio",preset_libreria:"Libreria",preset_cassettiera:"Cassettiera",preset_base:"Mobile base",selectProject:"Seleziona un progetto",page:"Pagina",fFront:"Frontale",frontFull:"Pieno",frontGlass:"Telaio + vetro",fSupport:"Supporto",supPlinth:"Zoccolo",supFeet:"Piedini",supWall:"Sospeso",fHandles:"Apertura",hManiglia:"Maniglie",hPush:"Push-open",fShelfT:"Ripiani",shMobile:"Regolabili",shFisso:"Fissi",preset_tv:"Mobile TV",preset_pensile:"Pensile",preset_colonna:"Colonna",preset_bagno:"Bagno",preset_vetrina:"Vetrina",roomBtn:"Nel tuo ambiente",roomTitle:"Nel tuo ambiente",roomLoad:"Foto",roomExport:"Salva JPG",roomEmpty:"Carica una foto della stanza",roomHint:"Trascina il mobile · pizzica per ridimensionare",roomRotate:"Rotazione",roomOpacity:"Opacità",updBtn:"Verifica aggiornamenti",updLatest:"Sei già aggiornato ✓",updFound:"Aggiornamento trovato! Ricarico…",updErr:"Verifica non riuscita — controlla la connessione",nestSkip:"{n} pezzi non entrano nel pannello {pl}×{pw} mm e NON sono nel piano di taglio:",nestSkipAny:"{n} pezzi non entrano nel pannello della loro referenza e NON sono nel piano di taglio:",addFurniture:"Mobile",addPlainPiece:"Pezzo singolo",fAngL:"Angolo sx (°)",fAngR:"Angolo dx (°)",fAngles:"Angoli di taglio (°)",shortSide:"lato corto",angTooSteep:"Angoli troppo chiusi per questa misura",angNote:"{n} pezzi trapezoidali",splitNote:"{n} pezzi spezzati — giunzione nascosta",splitNoteVis:"{n} pezzi spezzati — giunzione A VISTA",jointHidden:"giunzione nascosta",jointVisible:"giunzione a vista",explodeBtn:"Vista esplosa",drawAng:"Pezzi ad angolo",drawExpl:"Vista esplosa",angSkipNote:"{n} sezioni troppo strette per l'angolo — tagliate dritte",angSkipTag:"angolo non applicabile",fIntro:"Intro all'avvio",fIntroSound:"Suono intro",fHangGap:"Spazio sotto l'asta",fShelfEven:"Ripiani equidistanti",fShelfStep:"Passo ripiani (mm)",fSections:"Contenuto sezioni",sec_shelf:"ripiani",sec_hang:"asta",sec_hangShelf:"asta + ripiani",sec_empty:"vuota",secHint:"Tocca una sezione per cambiarne il contenuto — mezzo armadio con l'asta e mezzo a ripiani.",shSqueezed:"Spazio sotto l'asta troppo grande — ripiani su tutta l'altezza",shNoFit:"{n} ripiani non entrano sotto l'asta",fEdgeTh:"Spessore bordo (mm)",noEdgeTag:"(senza bordo)",matAdd:"Aggiungi materiale",artCheck:"— codice da confermare",matHide:"Nascondi",matShow:"Mostra",hingeMill:"fresatura cerniere: {n} × ø35 a {list} mm dal bordo inferiore, prof. 12,5 mm, 3–6 mm dal bordo",deleteModule:"Elimina il mobile",fCornerKind:"Tipo angolo",cornInt:"Interno (angolo stanza)",cornExt:"Esterno (spigolo sporgente)",angHintTxt:"L si misura al filo posteriore. <90° angolo interno, >90° esterno.",hwPush:"Push-open / TIP-ON",catBtn:"Catalogo ferramenta & materiali",catTitle:"Catalogo",catMats:"Materiali (€/m²)",catArt:"Cod. articolo",catProd:"Prodotto",catNote:"Verifica i codici articolo sul catalogo attuale del fornitore.",matBody:"Corpo",matFront:"Frontali",matBack:"Schienale",mTitle:"Scheda montaggio",mPrep:"Verifica la distinta: tutti i pezzi tagliati e bordati, senza scheggiature.",mDrill:"Foratura sistema 32: esegui i fori per {q} × {p} su fianchi, base e cielo.",mSlides:"Monta le guide sui fianchi PRIMA dell'assemblaggio: {q} × {p}.",mPlates:"Fissa le basette delle cerniere sui fianchi: {q} × {p}.",mBox:"Assembla la carcassa: base + cielo tra i fianchi. Serra gli eccentrici senza forzare.",mTram:"Inserisci e fissa i tramezzi ({q}).",mPlinth:"Monta lo zoccolo arretrato di 50 mm dal filo anteriore.",mFeet:"Avvita i piedini regolabili: {q} × {p}. Livella con la bolla.",mWall:"Fissa le staffe di sospensione e verifica il fissaggio a muro (tasselli adeguati alla parete).",mBack:"Fissa lo schienale e controlla le diagonali (squadro): devono essere uguali.",mShelvesA:"Inserisci i supporti ripiano: {q} × {p}, poi posiziona i ripiani.",mShelvesF:"Fissa i ripiani fissi con eccentrici prima di chiudere la carcassa.",mDrawers:"Assembla i cassetti, aggancia sulle guide e monta i frontali con regolazione.",mDoors:"Fora ø35 per le cerniere (distanza 3–6 mm dal bordo), monta le ante e regola in 3D: verticale, laterale, profondità.",mSliding:"Monta il binario superiore/inferiore e appendi le ante scorrevoli: {p}. Regola le ruote.",mHandles:"Traccia, fora e avvita le maniglie: {q} × {p}.",mPush:"Monta i meccanismi push: {q} × {p}. Regola la sporgenza.",mRail:"Fissa i supporti asta ({q} × {p}) e taglia l'asta a misura interna −2 mm.",mCheck:"Controllo finale: ante allineate, cassetti scorrevoli, tutte le viti serrate.",mSafety:"Documento generato automaticamente — verificare quote e codici prima della produzione.",lblBtn:"Etichette pezzi",labBtn:"Pacchetto laboratorio",lblHint:"Fogli A4 — 24 etichette 70×37 mm",fHours:"Ore manodopera",fHourly:"€ / ora manodopera",qIncl:"inclusa nel prezzo",decorPh:"Decoro (es. Egger H1180)",importErr:"File non valido",mSys32:"Righe di foratura sistema 32: prima fila a 37 mm dal filo anteriore, seconda a 37 mm dal filo posteriore, passo 32 mm.",mHingeAt:"Posizione tazze cerniere (anta {h} mm, dal bordo): {list}. Foro ø35, profondità 12,5 mm, distanza dal bordo 3–6 mm.",dupMod:"Duplica modulo",logoBtn:"Logo sui PDF",logoRemove:"Rimuovere il logo attuale?",logoTooBig:"Immagine troppo grande — usa un logo più semplice",drawBtn:"Disegno tecnico 2D",drawTitle:"DISEGNO TECNICO",drawFront:"Vista frontale",drawSide:"Sezione laterale",fBoxes:"Struttura interna cassetti",statsBtn:"Statistiche",statsTitle:"Statistiche",stProjects:"Progetti",stPieces:"Pezzi totali",stArea:"Superficie totale",stQuoted:"Valore preventivato",fScasso:"Decupaj / Scasso (opzionale)",fScassoPos:"posizione dall'angolo",fCorner:"Lato ala angolare",cornSx:"Sinistra",cornDx:"Destra",undoBtn:"ANNULLA",fullBkBtn:"Backup completo (tutto)",restoreConfirm:"Ripristinare il backup? I dati attuali verranno sostituiti.",restored:"Backup ripristinato",bkRemind:"💾 È da un po' che non fai un backup — Impostazioni → Backup completo",fbBtn:"Suggerisci una funzione",introTitle:"Benvenuto in Ebanist",intro1:"Genera mobili parametrici: tipologia, misure e opzioni — distinta, ferramenta e 3D si calcolano da soli.",intro2:"Documenti da laboratorio: nesting, etichette, scheda di montaggio illustrata, disegno tecnico e preventivo PDF.",intro3:"Mostra il mobile nella foto della stanza del cliente ed esporta il JPG su WhatsApp.",introGo:"Inizia",typeDesk:"Scrivania",typeTable:"Tavolo",typeBed:"Letto",preset_scrivania:"Scrivania",preset_tavolo:"Tavolo",preset_letto:"Letto",roomPitch:"Inclinazione",roomRoll:"Livello",mFlatAsm:"Assembla a terra su una superficie morbida: fissa i componenti con eccentrici/viti seguendo il disegno tecnico, poi raddrizza il mobile in due persone."},
-ro:{projects:"Proiecte",projectsSub:"Gestionează proiectele tale de debitare",newProject:"Proiect nou",editProject:"Modifică proiectul",import:"Importă",
+ro:{sumTram1:"despărțitor",sumShelf1:"raft",sumDraw1:"sertar",sumDoors1:"ușă",grpBase:"Corp și cote",grpMat:"Materiale",grpIn:"Interior",grpFr:"Fronturi și sprijin",sumTram:"despărțitori",sumShelf:"rafturi",sumDraw:"sertare",sumHang:"bară",sumDoors:"uși",projects:"Proiecte",projectsSub:"Gestionează proiectele tale de debitare",newProject:"Proiect nou",editProject:"Modifică proiectul",import:"Importă",
 cutList:"Listă de debitare",nesting:"Optimizare",nestingSub:"Așezarea pieselor pe panouri",summary:"Rezumat",summarySub:"Materiale, cant și costuri",
 materials:"Materiale",costs:"Costuri estimate",export:"Exportă",exportPdf:"PDF listă",backup:"Backup proiect (JSON)",
 navProjects:"Proiecte",navList:"Listă",navNest:"Debitare",navSummary:"Rezumat",
@@ -1161,7 +1230,7 @@ confirmDelPiece:"Ștergi această piesă?",confirmDelProject:"Ștergi proiectul 
 importedRows:"rânduri importate",invalidFile:"Fișier invalid",duplicate:"Duplică",client:"Client",date:"Data",
 printTitle:"LISTĂ DE DEBITARE",printProject:"Proiect",printNotes:"Cant: L = latura lungimii, C = latura lățimii. Cote finite în mm.",
 hardware:"Feronerie",hwCern:"Balamale",hwGuida:"Glisiere sertar (per.)",hwMan:"Mânere",hwSup:"Suporți raft",hwAsta:"Suporți bară",hwPied:"Picioare reglabile",hwBin:"Șină glisantă (set)",hwConn:"Șuruburi & excentrici",fMargin:"Marjă %",fIva:"TVA %",quote:"PDF ofertă",quoteTitle:"OFERTĂ DE PREȚ",qDesc:"Descriere",qNet:"Valoare netă",qVat:"TVA",qTotal:"TOTAL",qValidity:"Valabilitate ofertă: 30 de zile",share:"Trimite",grain:"Fibră (fără rotire)",searchPh:"Caută piesă, modul, material…",allMats:"Toate materialele",dupProject:"Duplică proiectul",copySuffix:"(copie)",fDeadline:"Termen",fPhone:"Telefon",fNotes:"Notițe",daysLeft:"zile",renameMat:"Nume nou material:",cSubtotal:"Subtotal",fType:"Tip corp",typeStandard:"Standard",typeCorner:"Colțar",typeSliding:"Uși glisante",fL2:"Lățime aripă B (mm)",fHang:"Bară umerașe",hint3d:"Trage pentru rotire · ciupește pentru zoom · dublu-tap: reset",preset_angolare:"Colțar",preset_scorrevole:"Uși glisante",preset_dressing:"Dressing",buildTitle:"Generator mobilier",buildSub:"Configurează corpul și generează lista de debitare",navBuild:"Generator",fHeight:"Înălț. (mm)",fDepth:"Adânc. (mm)",fThickness:"Grosime",fPlinth:"Soclu (mm)",fTram:"Despărțitori",fShelvesSec:"Rafturi/secț.",fDrawersSec:"Sertare/secț.",fDoorsN:"Uși",fBack:"Spate (PAL)",optYes:"Da",optNo:"Nu",generate:"Generează lista",preset_armadio:"Dulap",preset_libreria:"Bibliotecă",preset_cassettiera:"Comodă sertare",preset_base:"Corp bază",selectProject:"Selectează un proiect",page:"Pagina",fFront:"Front",frontFull:"Plin",frontGlass:"Ramă + sticlă",fSupport:"Suport",supPlinth:"Plintă",supFeet:"Picioare",supWall:"Suspendat",fHandles:"Deschidere",hManiglia:"Mânere",hPush:"Push-open",fShelfT:"Polițe",shMobile:"Reglabile",shFisso:"Fixe",preset_tv:"Comodă TV",preset_pensile:"Suspendat",preset_colonna:"Coloană",preset_bagno:"Baie",preset_vetrina:"Vitrină",roomBtn:"În camera ta",roomTitle:"În camera ta",roomLoad:"Foto",roomExport:"Salvează JPG",roomEmpty:"Încarcă o poză a camerei",roomHint:"Trage mobilierul · ciupește pentru redimensionare",roomRotate:"Rotație",roomOpacity:"Opacitate",updBtn:"Verifică actualizări",updLatest:"Ești deja la zi ✓",updFound:"Actualizare găsită! Reîncarc…",updErr:"Verificare eșuată — verifică conexiunea",nestSkip:"{n} piese nu încap pe coala {pl}×{pw} mm și NU sunt în planul de debitare:",nestSkipAny:"{n} piese nu încap pe coala materialului lor și NU sunt în planul de debitare:",addFurniture:"Mobilier",addPlainPiece:"Piesă simplă",fAngL:"Unghi stg. (°)",fAngR:"Unghi dr. (°)",fAngles:"Unghiuri de tăiere (°)",shortSide:"latura scurtă",angTooSteep:"Unghiuri prea închise pentru cota asta",angNote:"{n} piese trapezoidale",splitNote:"{n} piese tăiate — îmbinare ascunsă",splitNoteVis:"{n} piese tăiate — îmbinare LA VEDERE",jointHidden:"îmbinare ascunsă",jointVisible:"îmbinare la vedere",explodeBtn:"Vedere explodată",drawAng:"Piese cu unghi",drawExpl:"Vedere explodată",angSkipNote:"{n} secțiuni prea înguste pentru unghi — tăiate drept",angSkipTag:"unghi neaplicabil",fIntro:"Intro la pornire",fIntroSound:"Sunet intro",fHangGap:"Spațiu sub bară",fShelfEven:"Rafturi echidistante",fShelfStep:"Pas rafturi (mm)",fSections:"Conținut secțiuni",sec_shelf:"rafturi",sec_hang:"bară",sec_hangShelf:"bară + rafturi",sec_empty:"goală",secHint:"Atinge o secțiune ca să-i schimbi conținutul — jumătate cu bară, jumătate cu rafturi.",shSqueezed:"Spațiul sub bară e prea mare — rafturile ocupă toată înălțimea",shNoFit:"{n} rafturi nu încap sub bară",fEdgeTh:"Grosime cant (mm)",noEdgeTag:"(fără cant)",matAdd:"Adaugă material",artCheck:"— cod de confirmat",matHide:"Ascunde",matShow:"Arată",hingeMill:"frezare balamale: {n} × ø35 la {list} mm de la marginea de jos, adânc. 12,5 mm, 3–6 mm de la cant",deleteModule:"Șterge corpul",fCornerKind:"Tip colț",cornInt:"Interior (colț de cameră)",cornExt:"Exterior (colț ieșit)",angHintTxt:"L se măsoară la peretele din spate. Sub 90° colț interior, peste 90° exterior.",hwPush:"Push-open / TIP-ON",catBtn:"Catalog feronerie & materiale",catTitle:"Catalog",catMats:"Materiale (€/m²)",catArt:"Cod articol",catProd:"Produs",catNote:"Verifică toate codurile de articol în catalogul actual al furnizorului.",matBody:"Corp",matFront:"Fronturi",matBack:"Spate",mTitle:"Fișă de montaj",mPrep:"Verifică lista de debitare: toate piesele tăiate și căntuite, fără ciobituri.",mDrill:"Găurire sistem 32: execută găurile pentru {q} × {p} pe laterale, bază și tavan.",mSlides:"Montează glisierele pe laterale ÎNAINTE de asamblare: {q} × {p}.",mPlates:"Fixează plăcuțele balamalelor pe laterale: {q} × {p}.",mBox:"Asamblează carcasa: bază + tavan între laterale. Strânge excentricii fără a forța.",mTram:"Introdu și fixează despărțitorii ({q}).",mPlinth:"Montează plinta retrasă cu 50 mm față de cantul frontal.",mFeet:"Înșurubează picioarele reglabile: {q} × {p}. Nivelează cu bolobocul.",mWall:"Fixează sistemele de suspendare și verifică prinderea în perete (dibluri potrivite peretelui).",mBack:"Fixează spatele și verifică diagonalele (echer): trebuie să fie egale.",mShelvesA:"Introdu suporții de poliță: {q} × {p}, apoi așază polițele.",mShelvesF:"Fixează polițele fixe cu excentrici înainte de închiderea carcasei.",mDrawers:"Asamblează sertarele, agață-le pe glisiere și montează fronturile cu reglaj.",mDoors:"Forează ø35 pentru balamale (3–6 mm de la margine), montează ușile și reglează 3D: vertical, lateral, adâncime.",mSliding:"Montează șina sus/jos și agață ușile glisante: {p}. Reglează rolele.",mHandles:"Trasează, găurește și înșurubează mânerele: {q} × {p}.",mPush:"Montează mecanismele push: {q} × {p}. Reglează proeminența.",mRail:"Fixează suporții de bară ({q} × {p}) și taie bara la cota interioară −2 mm.",mCheck:"Control final: uși aliniate, sertare culisante lin, toate șuruburile strânse.",mSafety:"Document generat automat — verifică toate cotele și codurile înainte de producție.",lblBtn:"Etichete piese",labBtn:"Pachet laborator",lblHint:"Coli A4 — 24 etichete 70×37 mm",fHours:"Ore manoperă",fHourly:"€ / oră manoperă",qIncl:"inclusă în preț",decorPh:"Decor (ex. Egger H1180)",importErr:"Fișier invalid",mSys32:"Rânduri de găurire sistem 32: primul rând la 37 mm de cantul frontal, al doilea la 37 mm de cel posterior, pas 32 mm.",mHingeAt:"Poziția oalelor de balama (ușă {h} mm, de la margine): {list}. Gaură ø35, adâncime 12,5 mm, distanță de la cant 3–6 mm.",dupMod:"Duplică modulul",logoBtn:"Logo pe PDF-uri",logoRemove:"Ștergi logo-ul actual?",logoTooBig:"Imagine prea mare — folosește un logo mai simplu",drawBtn:"Desen tehnic 2D",drawTitle:"DESEN TEHNIC",drawFront:"Vedere frontală",drawSide:"Secțiune laterală",fBoxes:"Structură interioară sertare",statsBtn:"Statistici",statsTitle:"Statistici",stProjects:"Proiecte",stPieces:"Piese totale",stArea:"Suprafață totală",stQuoted:"Valoare ofertată",fScasso:"Decupaj (opțional)",fScassoPos:"poziție de la colț",fCorner:"Partea aripii de colț",cornSx:"Stânga",cornDx:"Dreapta",undoBtn:"ANULEAZĂ",fullBkBtn:"Backup complet (tot)",restoreConfirm:"Restaurezi backup-ul? Datele actuale vor fi înlocuite.",restored:"Backup restaurat",bkRemind:"💾 A trecut ceva timp de la ultimul backup — Setări → Backup complet",fbBtn:"Sugerează o funcție",introTitle:"Bun venit în Ebanist",intro1:"Generează mobilier parametric: tipologie, cote și opțiuni — distinta, feroneria și 3D-ul se calculează singure.",intro2:"Documente de atelier: optimizare, etichete, fișă de montaj ilustrată, desen tehnic și ofertă PDF.",intro3:"Arată mobilierul în poza camerei clientului și exportă JPG pe WhatsApp.",introGo:"Începe",typeDesk:"Birou",typeTable:"Masă",typeBed:"Pat",preset_scrivania:"Birou",preset_tavolo:"Masă",preset_letto:"Pat",roomPitch:"Înclinare",roomRoll:"Nivel",mFlatAsm:"Asamblează la sol pe o suprafață moale: fixează componentele cu excentrici/șuruburi după desenul tehnic, apoi ridică mobilierul în două persoane."},
-en:{projects:"Projects",projectsSub:"Manage your cutting projects",newProject:"New project",editProject:"Edit project",import:"Import",
+en:{sumTram1:"divider",sumShelf1:"shelf",sumDraw1:"drawer",sumDoors1:"door",grpBase:"Body and sizes",grpMat:"Materials",grpIn:"Inside",grpFr:"Fronts and support",sumTram:"dividers",sumShelf:"shelves",sumDraw:"drawers",sumHang:"rail",sumDoors:"doors",projects:"Projects",projectsSub:"Manage your cutting projects",newProject:"New project",editProject:"Edit project",import:"Import",
 cutList:"Cutting list",nesting:"Optimization",nestingSub:"Piece layout on panels",summary:"Summary",summarySub:"Materials, edging and costs",
 materials:"Materials",costs:"Estimated costs",export:"Export",exportPdf:"PDF list",backup:"Project backup (JSON)",
 navProjects:"Projects",navList:"Cut list",navNest:"Layout",navSummary:"Summary",
@@ -1179,7 +1248,7 @@ confirmDelPiece:"Delete this piece?",confirmDelProject:"Delete the project and a
 importedRows:"rows imported",invalidFile:"Invalid file",duplicate:"Duplicate",client:"Client",date:"Date",
 printTitle:"CUTTING LIST",printProject:"Project",printNotes:"Edging: L = length side, C = width side. Finished sizes in mm.",
 hardware:"Hardware",hwCern:"Hinges",hwGuida:"Drawer slides (pair)",hwMan:"Handles",hwSup:"Shelf pins",hwAsta:"Rail supports",hwPied:"Adjustable feet",hwBin:"Sliding track (set)",hwConn:"Screws & cams",fMargin:"Margin %",fIva:"VAT %",quote:"Quote PDF",quoteTitle:"QUOTATION",qDesc:"Description",qNet:"Net amount",qVat:"VAT",qTotal:"TOTAL",qValidity:"Quote valid for 30 days",share:"Share",grain:"Grain (no rotation)",searchPh:"Search piece, module, material…",allMats:"All materials",dupProject:"Duplicate project",copySuffix:"(copy)",fDeadline:"Deadline",fPhone:"Phone",fNotes:"Notes",daysLeft:"days",renameMat:"New material name:",cSubtotal:"Subtotal",fType:"Type",typeStandard:"Standard",typeCorner:"Corner",typeSliding:"Sliding doors",fL2:"Wing B width (mm)",fHang:"Hanging rail",hint3d:"Drag to rotate · pinch to zoom · double-tap to reset",preset_angolare:"Corner unit",preset_scorrevole:"Sliding",preset_dressing:"Walk-in",buildTitle:"Furniture builder",buildSub:"Configure the unit and generate the cut list",navBuild:"Builder",fHeight:"Height (mm)",fDepth:"Depth (mm)",fThickness:"Thickness",fPlinth:"Plinth (mm)",fTram:"Dividers",fShelvesSec:"Shelves/sec.",fDrawersSec:"Drawers/sec.",fDoorsN:"Doors",fBack:"Back panel",optYes:"Yes",optNo:"No",generate:"Generate cut list",preset_armadio:"Wardrobe",preset_libreria:"Bookcase",preset_cassettiera:"Drawer unit",preset_base:"Base cabinet",selectProject:"Select a project",page:"Page",fFront:"Front",frontFull:"Solid",frontGlass:"Frame + glass",fSupport:"Support",supPlinth:"Plinth",supFeet:"Feet",supWall:"Wall-hung",fHandles:"Opening",hManiglia:"Handles",hPush:"Push-open",fShelfT:"Shelves",shMobile:"Adjustable",shFisso:"Fixed",preset_tv:"TV unit",preset_pensile:"Wall cabinet",preset_colonna:"Tall unit",preset_bagno:"Bathroom",preset_vetrina:"Display cabinet",roomBtn:"In your room",roomTitle:"In your room",roomLoad:"Photo",roomExport:"Save JPG",roomEmpty:"Load a photo of the room",roomHint:"Drag the unit · pinch to resize",roomRotate:"Rotation",roomOpacity:"Opacity",updBtn:"Check for updates",updLatest:"You're up to date ✓",updFound:"Update found! Reloading…",updErr:"Check failed — verify your connection",nestSkip:"{n} pieces do not fit the {pl}×{pw} mm panel and are NOT in the cutting plan:",nestSkipAny:"{n} pieces do not fit their material\u2019s panel and are NOT in the cutting plan:",addFurniture:"Furniture",addPlainPiece:"Single piece",fAngL:"Left angle (°)",fAngR:"Right angle (°)",fAngles:"Cut angles (°)",shortSide:"short side",angTooSteep:"Angles too steep for this size",angNote:"{n} trapezoidal pieces",splitNote:"{n} pieces split — hidden joint",splitNoteVis:"{n} pieces split — joint IN SIGHT",jointHidden:"hidden joint",jointVisible:"visible joint",explodeBtn:"Exploded view",drawAng:"Angled pieces",drawExpl:"Exploded view",angSkipNote:"{n} sections too narrow for the angle — cut square",angSkipTag:"angle not applicable",fIntro:"Intro on launch",fIntroSound:"Intro sound",fHangGap:"Space under the rail",fShelfEven:"Even shelf spacing",fShelfStep:"Shelf pitch (mm)",fSections:"Section contents",sec_shelf:"shelves",sec_hang:"rail",sec_hangShelf:"rail + shelves",sec_empty:"empty",secHint:"Tap a section to change what goes in it — half rail, half shelves.",shSqueezed:"Space under the rail too large — shelves fill the full height",shNoFit:"{n} shelves do not fit under the rail",fEdgeTh:"Edge band thickness (mm)",noEdgeTag:"(no edge band)",matAdd:"Add material",artCheck:"— article no. to confirm",matHide:"Hide",matShow:"Show",hingeMill:"hinge boring: {n} × ø35 at {list} mm from the bottom edge, depth 12.5 mm, 3–6 mm from the edge",deleteModule:"Delete unit",fCornerKind:"Corner type",cornInt:"Inside (room corner)",cornExt:"Outside (projecting corner)",angHintTxt:"L is measured at the back wall. Below 90° inside corner, above 90° outside.",hwPush:"Push-open / TIP-ON",catBtn:"Hardware & materials catalog",catTitle:"Catalog",catMats:"Materials (€/m²)",catArt:"Article no.",catProd:"Product",catNote:"Verify all article numbers against the supplier's current catalog.",matBody:"Carcass",matFront:"Fronts",matBack:"Back panel",mTitle:"Assembly sheet",mPrep:"Check the cut list: all pieces cut and edge-banded, no chipping.",mDrill:"System 32 drilling: drill for {q} × {p} on sides, bottom and top.",mSlides:"Mount the slides on the sides BEFORE assembly: {q} × {p}.",mPlates:"Fix the hinge mounting plates on the sides: {q} × {p}.",mBox:"Assemble the carcass: bottom + top between the sides. Tighten cams without forcing.",mTram:"Insert and fix the dividers ({q}).",mPlinth:"Mount the plinth set back 50 mm from the front edge.",mFeet:"Screw in the adjustable feet: {q} × {p}. Level with a spirit level.",mWall:"Fix the hanging brackets and verify wall fixing (anchors suited to the wall).",mBack:"Fix the back panel and check the diagonals (square): they must be equal.",mShelvesA:"Insert the shelf supports: {q} × {p}, then place the shelves.",mShelvesF:"Fix the fixed shelves with cams before closing the carcass.",mDrawers:"Assemble the drawers, clip onto the slides and mount the fronts with adjustment.",mDoors:"Drill ø35 for hinges (3–6 mm from edge), mount the doors and adjust in 3D: height, side, depth.",mSliding:"Mount the top/bottom track and hang the sliding doors: {p}. Adjust the rollers.",mHandles:"Mark, drill and screw the handles: {q} × {p}.",mPush:"Mount the push mechanisms: {q} × {p}. Adjust the protrusion.",mRail:"Fix the rail supports ({q} × {p}) and cut the rail to inside dimension −2 mm.",mCheck:"Final check: doors aligned, drawers gliding, all screws tightened.",mSafety:"Automatically generated document — verify all dimensions and codes before production.",lblBtn:"Piece labels",labBtn:"Workshop package",lblHint:"A4 sheets — 24 labels 70×37 mm",fHours:"Labor hours",fHourly:"€ / labor hour",qIncl:"included in price",decorPh:"Decor (e.g. Egger H1180)",importErr:"Invalid file",mSys32:"System 32 drilling rows: first row 37 mm from front edge, second 37 mm from rear edge, 32 mm pitch.",mHingeAt:"Hinge cup positions (door {h} mm, from edge): {list}. Bore ø35, depth 12.5 mm, edge distance 3–6 mm.",dupMod:"Duplicate module",logoBtn:"Logo on PDFs",logoRemove:"Remove current logo?",logoTooBig:"Image too large — use a simpler logo",drawBtn:"2D technical drawing",drawTitle:"TECHNICAL DRAWING",drawFront:"Front view",drawSide:"Side section",fBoxes:"Drawer box structure",statsBtn:"Statistics",statsTitle:"Statistics",stProjects:"Projects",stPieces:"Total pieces",stArea:"Total area",stQuoted:"Quoted value",fScasso:"Cut-out (optional)",fScassoPos:"position from corner",fCorner:"Corner wing side",cornSx:"Left",cornDx:"Right",undoBtn:"UNDO",fullBkBtn:"Full backup (everything)",restoreConfirm:"Restore this backup? Current data will be replaced.",restored:"Backup restored",bkRemind:"💾 It's been a while since your last backup — Settings → Full backup",fbBtn:"Suggest a feature",introTitle:"Welcome to Ebanist",intro1:"Generate parametric furniture: type, dimensions, options — cut list, hardware and 3D compute themselves.",intro2:"Workshop documents: nesting, labels, illustrated assembly sheet, technical drawing and quote PDF.",intro3:"Show the unit in your client's room photo and export a JPG to WhatsApp.",introGo:"Start",typeDesk:"Desk",typeTable:"Table",typeBed:"Bed",preset_scrivania:"Desk",preset_tavolo:"Table",preset_letto:"Bed",roomPitch:"Tilt",roomRoll:"Level",mFlatAsm:"Assemble on the floor on a soft surface: fix the components with cams/screws following the technical drawing, then stand the unit up with two people."},
-fr:{projects:"Projets",projectsSub:"Gérez vos projets de découpe",newProject:"Nouveau projet",editProject:"Modifier le projet",import:"Importer",
+fr:{sumTram1:"séparation",sumShelf1:"étagère",sumDraw1:"tiroir",sumDoors1:"porte",grpBase:"Caisson et cotes",grpMat:"Matériaux",grpIn:"Intérieur",grpFr:"Façades et appui",sumTram:"séparations",sumShelf:"étagères",sumDraw:"tiroirs",sumHang:"tringle",sumDoors:"portes",projects:"Projets",projectsSub:"Gérez vos projets de découpe",newProject:"Nouveau projet",editProject:"Modifier le projet",import:"Importer",
 cutList:"Liste de débit",nesting:"Optimisation",nestingSub:"Placement des pièces sur les panneaux",summary:"Résumé",summarySub:"Matériaux, chants et coûts",
 materials:"Matériaux",costs:"Coûts estimés",export:"Exporter",exportPdf:"PDF liste",backup:"Sauvegarde projet (JSON)",
 navProjects:"Projets",navList:"Débit",navNest:"Découpe",navSummary:"Résumé",
@@ -1668,11 +1737,16 @@ function panelSvg(pan,PL,PW){
     const cx=r.x+r.w/2, cy=r.y+r.h/2;
     const fs=Math.min(90, r.h*0.45, r.w/6.5);
     const label=`${r.ref.lung}×${r.ref.larg}`;
-    return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#f4f4f2" stroke="#5f9412" stroke-width="6"/>
-      ${fs>26?`<text x="${cx}" y="${cy}" font-size="${fs}" fill="#1a1e23" text-anchor="middle" dominant-baseline="middle" font-family="Barlow Condensed,Arial" font-weight="600">${label}</text>`:""}`;
+    const el=r.ref.elemento||"";
+    return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#ffffff" stroke="#0E3B2A" stroke-width="6"/>
+      ${fs>26?`<text x="${cx}" y="${cy-(el&&fs>34?fs*0.34:0)}" font-size="${fs}" fill="#14181d" text-anchor="middle" dominant-baseline="middle" font-family="Barlow Condensed,Arial" font-weight="700">${label}</text>`:""}
+      ${el&&fs>34?`<text x="${cx}" y="${cy+fs*0.62}" font-size="${fs*0.62}" fill="#5c6558" text-anchor="middle" dominant-baseline="middle" font-family="Barlow,Arial">${esc(el)}</text>`:""}`;
   }).join("");
   return `<svg viewBox="-12 -12 ${PL+24} ${PW+24}" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="${PL}" height="${PW}" fill="#2b302b" stroke="#4d564d" stroke-width="8"/>${rects}</svg>`;
+    <defs><pattern id="wst" width="46" height="46" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="46" height="46" fill="#eceee8"/><line x1="0" y1="0" x2="0" y2="46" stroke="#c9cfc2" stroke-width="14"/>
+    </pattern></defs>
+    <rect x="0" y="0" width="${PL}" height="${PW}" fill="url(#wst)" stroke="#0E3B2A" stroke-width="8"/>${rects}</svg>`;
 }
 
 function renderSummary(){
@@ -2732,6 +2806,27 @@ function drawPreview(){
   renderSecChips();
   $("angHint").innerHTML=notes.length?notes.map(esc).join(" · "):"";
   $("angHint").style.color=(skip.length||split.some(x=>x.joint==="visible"))?"var(--danger)":"var(--muted)";
+  updGrpSums();
+}
+
+/* riassunto di ogni gruppo chiuso: si legge il valore senza aprirlo */
+function updGrpSums(){
+  const c=buildCfg||cfgFromForm(), sel=id=>{const e=$(id); return e&&e.selectedIndex>=0?e.options[e.selectedIndex].text:"";};
+  const dim=c.type==="angolare"?`${c.L}+${c.L2}×${c.H}×${c.P}`:`${c.L}×${c.H}×${c.P}`;
+  const put=(id,txt)=>{const e=$(id); if(e) e.textContent=txt;};
+  put("sumBase",`${sel("bTipo")} · ${dim}`);
+  put("sumMat",[sel("bMatBody"),sel("bMatFront")].filter(Boolean)
+      .map(s=>s.length>22?s.slice(0,21)+"…":s).join(" / "));
+  const inn=[], pl=(n,k)=>`${n} ${t(n===1?k+"1":k)}`;   // 1 despartitor, 2 despartitori
+  if(c.tram>0) inn.push(pl(c.tram,"sumTram"));
+  if(c.shelves>0) inn.push(pl(c.shelves,"sumShelf"));
+  if(c.drawers>0) inn.push(pl(c.drawers,"sumDraw"));
+  if(c.hang) inn.push(t("sumHang"));
+  put("sumIn",inn.length?inn.join(" · "):"—");
+  const fr=[];
+  if(c.doors>0) fr.push(pl(c.doors,"sumDoors"));
+  fr.push(sel("bSupport"));
+  put("sumFr",fr.filter(Boolean).join(" · "));
 }
 function fillMatSelects(){
   const fill=(id,minTh)=>{ const el=$(id), cur=el.value;
@@ -2756,6 +2851,14 @@ function renderBuild(){
       explodeOn=explodeOn?0:1;
       $("btnExplode").classList.toggle("on",!!explodeOn);
       drawPreview();
+    });
+    /* l'anteprima sta appiccicata in alto ed e piccola per lasciare spazio ai campi:
+       questo la ingrandisce quando vuoi guardarla davvero */
+    $("btnPrevBig").addEventListener("click",()=>{
+      const s=$("svg3d"), big=s.style.maxHeight==="60vh";
+      s.style.maxHeight=big?"17vh":"60vh";
+      $("btnPrevBig").classList.toggle("on",!big);
+      $("btnPrevBig").textContent=big?"⤢":"⤡";
     });
     init3DControls();
     buildFormReady=true;
