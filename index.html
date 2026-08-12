@@ -1141,6 +1141,15 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="eyebrow" data-i="company">Azienda</div>
   <div class="f"><label data-i="fCompanyName">Nome</label><input id="sCoName"></div>
   <div class="f"><label data-i="fCompanyInfo">Dati (CUI, contatti)</label><input id="sCoInfo"></div>
+  <div class="eyebrow" id="aiSetLbl">Assistente AI</div>
+  <div class="f"><label id="aiKeyLbl">Chiave API</label>
+    <input id="sAiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></div>
+  <p class="mini" id="aiKeyHint" style="margin:-4px 0 8px"></p>
+  <div class="f2">
+    <div class="f"><label id="aiModelLbl">Modello</label><select id="sAiModel"></select></div>
+    <div class="f"><label id="aiProxyLbl">Endpoint</label><input id="sAiProxy" type="url" autocomplete="off" spellcheck="false" placeholder="https://…"></div>
+  </div>
+  <p class="mini" id="aiProxyHint" style="margin:-4px 0 10px"></p>
   <button class="btn red" id="btnSettingsSave" data-i="save">Salva</button>
   <button class="btn" id="btnFullBk" style="margin-top:8px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
@@ -1163,16 +1172,6 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/></svg>
     <span data-i="catBtn">Catalogo ferramenta & materiali</span>
   </button>
-  <div class="eyebrow" id="aiSetLbl" style="margin-top:16px">Assistente AI</div>
-  <div class="f"><label id="aiKeyLbl">Chiave API</label>
-    <input id="sAiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></div>
-  <p class="mini" id="aiKeyHint" style="margin:-4px 0 8px"></p>
-  <div class="f2">
-    <div class="f"><label id="aiModelLbl">Modello</label><select id="sAiModel"></select></div>
-    <div class="f"><label id="aiProxyLbl">Endpoint</label><input id="sAiProxy" type="url" autocomplete="off" spellcheck="false" placeholder="https://…"></div>
-  </div>
-  <p class="mini" id="aiProxyHint" style="margin:-4px 0 4px"></p>
-
   <div class="f2" style="margin-top:12px">
     <div class="f"><label data-i="fIntro">Intro all'avvio</label>
       <select id="sIntro"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
@@ -2182,7 +2181,9 @@ $("btnSettings").addEventListener("click",()=>{
   $("sCoName").value=S.coName;$("sCoInfo").value=S.coInfo;
   /* la chiave non sta in `state`: si legge e si riscrive a parte */
   $("aiSetLbl").textContent=tia("aiSet");
-  $("aiKeyLbl").textContent=tia("aiKeyLbl"); $("aiKeyHint").textContent=tia("aiKeyHint");
+  $("aiKeyLbl").textContent=tia("aiKeyLbl");
+  { const k=aiKey();
+    $("aiKeyHint").textContent=(k?tia("aiKeyOk").replace("{k}","…"+k.slice(-4))+" · ":"")+tia("aiKeyHint"); }
   $("aiModelLbl").textContent=tia("aiModelLbl");
   $("aiProxyLbl").textContent=tia("aiProxyLbl"); $("aiProxyHint").textContent=tia("aiProxyHint");
   $("sAiModel").innerHTML=AI_MODELS.map(([id,n])=>`<option value="${id}">${esc(n)}</option>`).join("");
@@ -2202,8 +2203,9 @@ $("btnSettingsSave").addEventListener("click",()=>{
     S[k]=parseFloat($(id).value)||0;
   S.coName=$("sCoName").value.trim()||"Domus Renov"; S.coInfo=$("sCoInfo").value.trim();
   S.aiModel=$("sAiModel").value||"claude-opus-5"; S.aiProxy=$("sAiProxy").value.trim();
-  aiSetKey($("sAiKey").value.trim());
-  persist(); closeSheets(); render(); toast(t("saved"));
+  const okKey=aiSetKey($("sAiKey").value.trim());
+  persist(); closeSheets(); render();
+  toast(okKey?t("saved"):tia("aiKeyFail"));
 });
 $("btnLang").addEventListener("click",()=>{
   const box=$("langList"); box.innerHTML="";
@@ -4852,7 +4854,7 @@ $("btnAcctLogout").addEventListener("click",async()=>{
    sui form. Ogni patch passa da validazione, clamp e conferma umana. */
 
 const AI_I18N={
-it:{aiPh:"Descrivi il mobile a voce o per iscritto…",aiPhSv:"Detta le quote del muro, prese, tubi…",
+it:{aiKeyOk:"Chiave salvata ({k})",aiKeyFail:"Chiave NON salvata — il telefono blocca la memoria locale (navigazione privata?)",aiPh:"Descrivi il mobile a voce o per iscritto…",aiPhSv:"Detta le quote del muro, prese, tubi…",
   aiSend:"Genera",aiThinking:"Sto leggendo…",aiMic:"Detta",aiCam:"Foto",aiNoKey:"Manca la chiave API — Impostazioni → Assistente AI",
   aiNoSpeech:"Dettatura non disponibile su questo browser — usa il microfono della tastiera",
   aiErr:"L'assistente non ha risposto: {e}",aiNoChange:"Niente da cambiare",aiTitle:"Proposta dell'assistente",
@@ -4862,7 +4864,7 @@ it:{aiPh:"Descrivi il mobile a voce o per iscritto…",aiPhSv:"Detta le quote de
   aiImgOnly:"Aggiungi anche una descrizione o una foto",aiCtxCfg:"Modulo corrente",aiCtxSv:"Rilievo corrente",
   aiBoundNote:"Taglio obliquo: la fabbrica taglia dritto. La distinta esporta il rettangolo di sbozzo; l'angolo resta nel 3D e nel disegno.",
   aiSecNote:"Le divisioni interne diventano tramezzi + contenuto per sezione: nessun mobile in più."},
-ro:{aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele peretelui, prize, țevi…",
+ro:{aiKeyOk:"Cheie salvată ({k})",aiKeyFail:"Cheia NU s-a salvat — telefonul blochează memoria locală (navigare privată?)",aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele peretelui, prize, țevi…",
   aiSend:"Generează",aiThinking:"Citesc…",aiMic:"Dictează",aiCam:"Poză",aiNoKey:"Lipsește cheia API — Setări → Asistent AI",
   aiNoSpeech:"Dictarea nu merge pe browserul ăsta — folosește microfonul tastaturii",
   aiErr:"Asistentul n-a răspuns: {e}",aiNoChange:"Nimic de schimbat",aiTitle:"Propunerea asistentului",
@@ -4872,7 +4874,7 @@ ro:{aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele per
   aiImgOnly:"Adaugă și o descriere sau o poză",aiCtxCfg:"Corpul curent",aiCtxSv:"Releveul curent",
   aiBoundNote:"Tăietură oblică: fabrica taie drept. Distinta exportă dreptunghiul de gabarit; unghiul rămâne în 3D și pe desen.",
   aiSecNote:"Compartimentările devin tramezzi + conținut pe secțiune: niciun corp în plus."},
-en:{aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall sizes, sockets, pipes…",
+en:{aiKeyOk:"Key saved ({k})",aiKeyFail:"Key NOT saved — this phone blocks local storage (private browsing?)",aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall sizes, sockets, pipes…",
   aiSend:"Generate",aiThinking:"Reading…",aiMic:"Dictate",aiCam:"Photo",aiNoKey:"API key missing — Settings → AI assistant",
   aiNoSpeech:"Dictation is not available in this browser — use the keyboard microphone",
   aiErr:"The assistant did not answer: {e}",aiNoChange:"Nothing to change",aiTitle:"Assistant proposal",
@@ -4882,7 +4884,7 @@ en:{aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall size
   aiImgOnly:"Add a description or a photo as well",aiCtxCfg:"Current unit",aiCtxSv:"Current survey",
   aiBoundNote:"Angled cut: the factory cuts square. The cut list exports the bounding rectangle; the angle stays in the 3D and on the drawing.",
   aiSecNote:"Internal divisions become dividers + per-section content: no extra units."},
-fr:{aiPh:"Décrivez le meuble à la voix ou par écrit…",aiPhSv:"Dictez les cotes du mur, prises, tuyaux…",
+fr:{aiKeyOk:"Clé enregistrée ({k})",aiKeyFail:"Clé NON enregistrée — ce téléphone bloque le stockage local (navigation privée ?)",aiPh:"Décrivez le meuble à la voix ou par écrit…",aiPhSv:"Dictez les cotes du mur, prises, tuyaux…",
   aiSend:"Générer",aiThinking:"Je lis…",aiMic:"Dicter",aiCam:"Photo",aiNoKey:"Clé API manquante — Réglages → Assistant IA",
   aiNoSpeech:"Dictée indisponible sur ce navigateur — utilisez le micro du clavier",
   aiErr:"L'assistant n'a pas répondu : {e}",aiNoChange:"Rien à changer",aiTitle:"Proposition de l'assistant",
@@ -4897,7 +4899,15 @@ function tia(k){ return (AI_I18N[state.lang]||AI_I18N.it)[k]||k; }
 /* la chiave sta fuori da `state`: i backup e la sincronizzazione Supabase
    portano via tutto lo state, e una chiave API non deve viaggiare con loro. */
 function aiKey(){ try{ return localStorage.getItem("ebanist_ai_key")||""; }catch(e){ return ""; } }
-function aiSetKey(v){ try{ v?localStorage.setItem("ebanist_ai_key",v):localStorage.removeItem("ebanist_ai_key"); }catch(e){} }
+/* torna true solo se la chiave e' davvero rimasta scritta: in navigazione privata
+   localStorage accetta la chiamata e non conserva niente, e il messaggio
+   "manca la chiave" arriverebbe senza spiegazione. */
+function aiSetKey(v){
+  try{
+    if(v) localStorage.setItem("ebanist_ai_key",v); else localStorage.removeItem("ebanist_ai_key");
+    return aiKey()===(v||"");
+  }catch(e){ return false; }
+}
 function aiModel(){ return (state.settings&&state.settings.aiModel)||"claude-opus-5"; }
 function aiProxy(){ return ((state.settings&&state.settings.aiProxy)||"").trim(); }
 const AI_MODELS=[["claude-opus-5","Opus 5"],["claude-sonnet-5","Sonnet 5"]];
@@ -5415,8 +5425,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.12.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v35";
+const APP_VER="4.12.1"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v36";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
