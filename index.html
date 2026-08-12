@@ -270,6 +270,10 @@ nav button.on::before{content:"";position:absolute;top:0;left:50%;transform:tran
   border-radius:10px;margin-bottom:6px;background:var(--bg)}
 .strow b{font-family:var(--font-disp);font-size:17px;letter-spacing:.3px;font-variant-numeric:tabular-nums}
 .strow span{color:var(--muted);font-size:13px;margin-right:auto}
+.tr-tag{flex:none;font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;
+  place-items:center;font-weight:700;font-size:14px}
+.tr-tag.ok{background:rgba(46,125,50,.14);color:var(--ok)}
+.tr-tag.no{background:rgba(192,47,47,.14);color:var(--danger)}
 .stock-tag{display:inline-block;padding:1px 7px;border-radius:99px;background:var(--gold-tint);
   border:1px solid var(--gold);color:#6b5410;font-size:11px;font-weight:700}
 
@@ -317,6 +321,28 @@ table.t tr:last-child td{border-bottom:none}
 .danger{color:var(--danger)}
 .mini{font-size:12px;color:var(--faint)}
 hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
+
+/* ---------- AI magic input ---------- */
+.aibar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px;margin-bottom:10px}
+.aibar textarea{min-height:62px;resize:vertical}
+.airow{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.aibtn{flex:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center}
+.aibtn svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.aibtn.rec{background:var(--danger);border-color:var(--danger)}
+.aibtn.rec svg{stroke:#fff}
+.aisend{flex:1;min-width:120px;height:46px;border-radius:12px;background:var(--red);color:#fff;
+  font-family:var(--font-disp);font-size:15px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase}
+.aisend:disabled{opacity:.55}
+.aithumb{width:46px;height:46px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.previewbox,#svPlanCard{position:relative}
+.aiveil{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;
+  flex-direction:column;gap:10px;border-radius:var(--radius);background:rgba(246,248,244,.86)}
+.aiveil.on{display:flex}
+.aispin{width:34px;height:34px;border-radius:50%;border:3px solid var(--red-line);border-top-color:var(--gold);animation:aispin .8s linear infinite}
+@keyframes aispin{to{transform:rotate(360deg)}}
+.aidiff{display:flex;gap:8px;align-items:baseline;font-size:13.5px;line-height:1.5;padding:3px 0;border-bottom:1px dashed var(--line)}
+.aidiff>b{font-family:var(--font-disp);font-size:13px;letter-spacing:.4px;color:var(--muted);flex:none;min-width:104px}
+.aiwarn{color:var(--danger);font-size:12.5px;margin-top:8px;line-height:1.45}
 .iconbtn{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted);flex:none}
 .iconbtn:active{background:var(--raised)}
 .iconbtn.danger{color:var(--danger)}
@@ -671,8 +697,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <p class="vsub" data-i="buildSub">Configura il modulo e genera la distinta</p>
     <div class="chips" id="presetChips" style="margin-bottom:10px"></div>
 
+    <!-- input intelligente: testo + voce + foto -> parametri -->
+    <div id="aiBarBuild"></div>
+
     <!-- anteprima appiccicata: resta visibile mentre cambi i campi sotto -->
     <div class="card previewbox" style="padding:8px 10px 4px">
+      <div class="aiveil" id="aiVeilBuild"><div class="aispin"></div><span class="mini" id="aiVeilTxtBuild"></span></div>
       <svg id="svg3d" style="width:100%;height:auto;display:block;max-height:17vh;touch-action:none;cursor:grab"></svg>
       <div class="mini" id="buildInfo" style="text-align:center;margin:4px 0 2px;font-variant-numeric:tabular-nums"></div>
       <div class="chips" style="justify-content:center;margin:2px 0 4px">
@@ -790,7 +820,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <h2 class="vtitle" id="svTitle">Rilievo</h2>
     <p class="vsub" id="svSub">Misure reali del cantiere</p>
 
+    <div id="aiBarSurvey"></div>
+
     <div class="card" id="svPlanCard" style="padding:10px">
+      <div class="aiveil" id="aiVeilSurvey"><div class="aispin"></div><span class="mini" id="aiVeilTxtSurvey"></span></div>
       <svg id="svgPlan" style="width:100%;height:auto;display:block;max-height:42vh"></svg>
       <div class="mini" id="svPlanInfo" style="text-align:center;margin:6px 0 2px;font-variant-numeric:tabular-nums"></div>
       <div class="chips" style="justify-content:center;margin-top:6px">
@@ -890,6 +923,16 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <button class="btn" id="btnLab">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
         <span data-i="labBtn">Al laboratorio</span>
+      </button>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="btnOrder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+        <span data-i="orderBtn">Comandă furnizor</span>
+      </button>
+      <button class="btn" id="btnTransp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span data-i="transpBtn">Trece pe ușă?</span>
       </button>
     </div>
     <div class="btnrow">
@@ -1120,6 +1163,16 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/></svg>
     <span data-i="catBtn">Catalogo ferramenta & materiali</span>
   </button>
+  <div class="eyebrow" id="aiSetLbl" style="margin-top:16px">Assistente AI</div>
+  <div class="f"><label id="aiKeyLbl">Chiave API</label>
+    <input id="sAiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></div>
+  <p class="mini" id="aiKeyHint" style="margin:-4px 0 8px"></p>
+  <div class="f2">
+    <div class="f"><label id="aiModelLbl">Modello</label><select id="sAiModel"></select></div>
+    <div class="f"><label id="aiProxyLbl">Endpoint</label><input id="sAiProxy" type="url" autocomplete="off" spellcheck="false" placeholder="https://…"></div>
+  </div>
+  <p class="mini" id="aiProxyHint" style="margin:-4px 0 4px"></p>
+
   <div class="f2" style="margin-top:12px">
     <div class="f"><label data-i="fIntro">Intro all'avvio</label>
       <select id="sIntro"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
@@ -1135,6 +1188,19 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <span data-i="updBtn">Verifica aggiornamenti</span>
   </button>
   <p class="mini" style="margin-top:14px;text-align:center" id="verLabel">Ebanist · Domus Renov</p>
+</div>
+
+<!-- proposta dell'assistente: si vede il diff PRIMA di toccare lo state -->
+<div class="sheet" id="shAI" style="max-height:86vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 id="aiSheetTitle">Assistente</h3>
+  <p class="mini" id="aiSheetNote" style="margin-bottom:10px"></p>
+  <div id="aiSheetDiff"></div>
+  <div id="aiSheetWarn"></div>
+  <div class="btnrow" style="margin-top:14px">
+    <button class="btn red" id="btnAiApply"><span>Applica</span></button>
+    <button class="btn sm" id="btnAiCancel"><span>Annulla</span></button>
+  </div>
 </div>
 
 <!-- account -->
@@ -1206,6 +1272,18 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <p class="mini" style="margin-top:10px" data-i="catNote">Verifica i codici articolo sul catalogo attuale del fornitore.</p>
 </div>
 
+<!-- passa dalla porta? -->
+<div class="sheet" id="shTransp">
+  <div class="sheet-grip"></div>
+  <h3 data-i="transpTitle">Trece pe ușă?</h3>
+  <p class="mini" data-i="transpHint">Corpul asamblat, față de golul cel mai strâmt de pe drum. Verifică doar dacă secțiunea încape — nu ține cont de cotituri de hol, de scări în spirală sau de spațiul de manevră.</p>
+  <div class="f2" style="margin-top:10px">
+    <div class="f"><label data-i="transpW">Lățime gol (mm)</label><input id="trW" type="number" inputmode="numeric"></div>
+    <div class="f"><label data-i="transpH">Înălțime gol (mm)</label><input id="trH" type="number" inputmode="numeric"></div>
+  </div>
+  <div id="transpList"></div>
+</div>
+
 <!-- magazzino ritagli -->
 <div class="sheet" id="shStock">
   <div class="sheet-grip"></div>
@@ -1237,7 +1315,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 "use strict";
 /* ================= I18N ================= */
 const I18N = {
-it:{stockBtn:"Ritagli in magazzino",stockTitle:"Ritagli in magazzino",stockHint:"I pannelli gia iniziati delle commesse precedenti. In ottimizzazione si consumano per primi, partendo dal piu piccolo su cui il pezzo entra.",stockQty:"Pz.",stockMat:"Materiale",stockAdd:"Aggiungi ritaglio",stockList:"In magazzino",stockEmpty:"Nessun ritaglio in magazzino.",stockMinLbl:"Tieni i ritagli da (mm)",stockSaved:"Magazzino aggiornato",fromStock:"da magazzino",panelsNew:"Pannelli nuovi",panelsStock:"Ritagli usati",addLeft:"Metti in magazzino {n} ritagli",cutsBtn:"Ordine dei tagli",sumTram1:"tramezzo",sumShelf1:"ripiano",sumDraw1:"cassetto",sumDoors1:"anta",grpBase:"Corpo e misure",grpMat:"Materiali",grpIn:"Interno",grpFr:"Frontali e appoggio",sumTram:"tramezzi",sumShelf:"ripiani",sumDraw:"cassetti",sumHang:"asta",sumDoors:"ante",projects:"Progetti",projectsSub:"Gestisci i tuoi progetti di taglio",newProject:"Nuovo progetto",editProject:"Modifica progetto",import:"Importa",
+it:{orderBtn:"Ordine fornitore",orderTitle:"ORDINE MATERIALI",orderPanels:"Pannelli",orderSize:"Formato",orderQty:"Qtà",orderEdge:"Bordo ABS",orderMl:"ml (+10%)",orderEdgeNote:"Metri lineari con il 10% di sfrido gia incluso.",orderCheck:"Verificare i codici sul catalogo attuale del fornitore.",transpBtn:"Passa dalla porta?",transpTitle:"Passa dalla porta?",transpHint:"Il mobile montato contro il vano piu stretto del percorso. Controlla solo se la sezione entra — non tiene conto di curve di corridoio, scale a chiocciola o spazio di manovra.",transpW:"Larghezza vano (mm)",transpH:"Altezza vano (mm)",transpNone:"Nessun mobile generato in questo progetto.",transpOk:"Tutti i mobili passano.",transpBad:"{n} mobili non passano montati — vanno assemblati sul posto.",stockBtn:"Ritagli in magazzino",stockTitle:"Ritagli in magazzino",stockHint:"I pannelli gia iniziati delle commesse precedenti. In ottimizzazione si consumano per primi, partendo dal piu piccolo su cui il pezzo entra.",stockQty:"Pz.",stockMat:"Materiale",stockAdd:"Aggiungi ritaglio",stockList:"In magazzino",stockEmpty:"Nessun ritaglio in magazzino.",stockMinLbl:"Tieni i ritagli da (mm)",stockSaved:"Magazzino aggiornato",fromStock:"da magazzino",panelsNew:"Pannelli nuovi",panelsStock:"Ritagli usati",addLeft:"Metti in magazzino {n} ritagli",cutsBtn:"Ordine dei tagli",sumTram1:"tramezzo",sumShelf1:"ripiano",sumDraw1:"cassetto",sumDoors1:"anta",grpBase:"Corpo e misure",grpMat:"Materiali",grpIn:"Interno",grpFr:"Frontali e appoggio",sumTram:"tramezzi",sumShelf:"ripiani",sumDraw:"cassetti",sumHang:"asta",sumDoors:"ante",projects:"Progetti",projectsSub:"Gestisci i tuoi progetti di taglio",newProject:"Nuovo progetto",editProject:"Modifica progetto",import:"Importa",
 cutList:"Distinta di taglio",nesting:"Ottimizzazione",nestingSub:"Disposizione dei pezzi sui pannelli",summary:"Riepilogo",summarySub:"Materiali, bordatura e costi",
 materials:"Materiali",costs:"Costi stimati",export:"Esporta",exportPdf:"PDF distinta",backup:"Backup progetto (JSON)",
 navProjects:"Progetti",navList:"Distinta",navNest:"Taglio",navSummary:"Riepilogo",
@@ -1255,7 +1333,7 @@ confirmDelPiece:"Eliminare questo pezzo?",confirmDelProject:"Eliminare il proget
 importedRows:"righe importate",invalidFile:"File non valido",duplicate:"Duplica",client:"Cliente",date:"Data",
 printTitle:"DISTINTA DI TAGLIO",printProject:"Progetto",printNotes:"Bordatura: L = lato lunghezza, C = lato larghezza. Misure finite in mm.",
 hardware:"Ferramenta",hwCern:"Cerniere",hwGuida:"Guide cassetto (cp.)",hwMan:"Maniglie",hwSup:"Supporti ripiano",hwAsta:"Supporti asta",hwPied:"Piedini regolabili",hwBin:"Binario scorrevole (set)",hwConn:"Viti & eccentrici",fMargin:"Margine %",fIva:"IVA %",quote:"PDF preventivo",quoteTitle:"PREVENTIVO",qDesc:"Descrizione",qNet:"Imponibile",qVat:"IVA",qTotal:"TOTALE",qValidity:"Validità offerta: 30 giorni",share:"Condividi",grain:"Venatura (no rotazione)",searchPh:"Cerca pezzo, modulo, materiale…",allMats:"Tutti i materiali",dupProject:"Duplica progetto",copySuffix:"(copia)",fDeadline:"Scadenza",fPhone:"Telefono",fNotes:"Note",daysLeft:"giorni",renameMat:"Nuovo nome materiale:",cSubtotal:"Subtotale",fType:"Tipo",typeStandard:"Standard",typeCorner:"Angolare",typeSliding:"Ante scorrevoli",fL2:"Largh. ala B (mm)",fHang:"Asta appendiabiti",hint3d:"Trascina per ruotare · pizzica per zoom · doppio tocco: reset",preset_angolare:"Angolare",preset_scorrevole:"Scorrevole",preset_dressing:"Cabina armadio",buildTitle:"Generatore mobili",buildSub:"Configura il modulo e genera la distinta",navBuild:"Genera",fHeight:"Alt. (mm)",fDepth:"Prof. (mm)",fThickness:"Spessore",fPlinth:"Zoccolo (mm)",fTram:"Tramezzi",fShelvesSec:"Ripiani/sez.",fDrawersSec:"Cassetti/sez.",fDoorsN:"Ante",fBack:"Schienale",optYes:"Sì",optNo:"No",generate:"Genera distinta",preset_armadio:"Armadio",preset_libreria:"Libreria",preset_cassettiera:"Cassettiera",preset_base:"Mobile base",selectProject:"Seleziona un progetto",page:"Pagina",fFront:"Frontale",frontFull:"Pieno",frontGlass:"Telaio + vetro",fSupport:"Supporto",supPlinth:"Zoccolo",supFeet:"Piedini",supWall:"Sospeso",fHandles:"Apertura",hManiglia:"Maniglie",hPush:"Push-open",fShelfT:"Ripiani",shMobile:"Regolabili",shFisso:"Fissi",preset_tv:"Mobile TV",preset_pensile:"Pensile",preset_colonna:"Colonna",preset_bagno:"Bagno",preset_vetrina:"Vetrina",roomBtn:"Nel tuo ambiente",roomTitle:"Nel tuo ambiente",roomLoad:"Foto",roomExport:"Salva JPG",roomEmpty:"Carica una foto della stanza",roomHint:"Trascina il mobile · pizzica per ridimensionare",roomRotate:"Rotazione",roomOpacity:"Opacità",updBtn:"Verifica aggiornamenti",updLatest:"Sei già aggiornato ✓",updFound:"Aggiornamento trovato! Ricarico…",updErr:"Verifica non riuscita — controlla la connessione",nestSkip:"{n} pezzi non entrano nel pannello {pl}×{pw} mm e NON sono nel piano di taglio:",nestSkipAny:"{n} pezzi non entrano nel pannello della loro referenza e NON sono nel piano di taglio:",addFurniture:"Mobile",addPlainPiece:"Pezzo singolo",fAngL:"Angolo sx (°)",fAngR:"Angolo dx (°)",fAngles:"Angoli di taglio (°)",shortSide:"lato corto",angTooSteep:"Angoli troppo chiusi per questa misura",angNote:"{n} pezzi trapezoidali",splitNote:"{n} pezzi spezzati — giunzione nascosta",splitNoteVis:"{n} pezzi spezzati — giunzione A VISTA",jointHidden:"giunzione nascosta",jointVisible:"giunzione a vista",explodeBtn:"Vista esplosa",drawAng:"Pezzi ad angolo",drawExpl:"Vista esplosa",angSkipNote:"{n} sezioni troppo strette per l'angolo — tagliate dritte",angSkipTag:"angolo non applicabile",fIntro:"Intro all'avvio",fIntroSound:"Suono intro",fHangGap:"Spazio sotto l'asta",fShelfEven:"Ripiani equidistanti",fShelfStep:"Passo ripiani (mm)",fSections:"Contenuto sezioni",sec_shelf:"ripiani",sec_hang:"asta",sec_hangShelf:"asta + ripiani",sec_empty:"vuota",secHint:"Tocca una sezione per cambiarne il contenuto — mezzo armadio con l'asta e mezzo a ripiani.",shSqueezed:"Spazio sotto l'asta troppo grande — ripiani su tutta l'altezza",shNoFit:"{n} ripiani non entrano sotto l'asta",fEdgeTh:"Spessore bordo (mm)",noEdgeTag:"(senza bordo)",matAdd:"Aggiungi materiale",artCheck:"— codice da confermare",matHide:"Nascondi",matShow:"Mostra",hingeMill:"fresatura cerniere: {n} × ø35 a {list} mm dal bordo inferiore, prof. 12,5 mm, 3–6 mm dal bordo",deleteModule:"Elimina il mobile",fCornerKind:"Tipo angolo",cornInt:"Interno (angolo stanza)",cornExt:"Esterno (spigolo sporgente)",angHintTxt:"L si misura al filo posteriore. <90° angolo interno, >90° esterno.",hwPush:"Push-open / TIP-ON",catBtn:"Catalogo ferramenta & materiali",catTitle:"Catalogo",catMats:"Materiali (€/m²)",catArt:"Cod. articolo",catProd:"Prodotto",catNote:"Verifica i codici articolo sul catalogo attuale del fornitore.",matBody:"Corpo",matFront:"Frontali",matBack:"Schienale",mTitle:"Scheda montaggio",mPrep:"Verifica la distinta: tutti i pezzi tagliati e bordati, senza scheggiature.",mDrill:"Foratura sistema 32: esegui i fori per {q} × {p} su fianchi, base e cielo.",mSlides:"Monta le guide sui fianchi PRIMA dell'assemblaggio: {q} × {p}.",mPlates:"Fissa le basette delle cerniere sui fianchi: {q} × {p}.",mBox:"Assembla la carcassa: base + cielo tra i fianchi. Serra gli eccentrici senza forzare.",mTram:"Inserisci e fissa i tramezzi ({q}).",mPlinth:"Monta lo zoccolo arretrato di 50 mm dal filo anteriore.",mFeet:"Avvita i piedini regolabili: {q} × {p}. Livella con la bolla.",mWall:"Fissa le staffe di sospensione e verifica il fissaggio a muro (tasselli adeguati alla parete).",mBack:"Fissa lo schienale e controlla le diagonali (squadro): devono essere uguali.",mShelvesA:"Inserisci i supporti ripiano: {q} × {p}, poi posiziona i ripiani.",mShelvesF:"Fissa i ripiani fissi con eccentrici prima di chiudere la carcassa.",mDrawers:"Assembla i cassetti, aggancia sulle guide e monta i frontali con regolazione.",mDoors:"Fora ø35 per le cerniere (distanza 3–6 mm dal bordo), monta le ante e regola in 3D: verticale, laterale, profondità.",mSliding:"Monta il binario superiore/inferiore e appendi le ante scorrevoli: {p}. Regola le ruote.",mHandles:"Traccia, fora e avvita le maniglie: {q} × {p}.",mPush:"Monta i meccanismi push: {q} × {p}. Regola la sporgenza.",mRail:"Fissa i supporti asta ({q} × {p}) e taglia l'asta a misura interna −2 mm.",mCheck:"Controllo finale: ante allineate, cassetti scorrevoli, tutte le viti serrate.",mSafety:"Documento generato automaticamente — verificare quote e codici prima della produzione.",lblBtn:"Etichette pezzi",labBtn:"Pacchetto laboratorio",lblHint:"Fogli A4 — 24 etichette 70×37 mm",fHours:"Ore manodopera",fHourly:"€ / ora manodopera",qIncl:"inclusa nel prezzo",decorPh:"Decoro (es. Egger H1180)",importErr:"File non valido",mSys32:"Righe di foratura sistema 32: prima fila a 37 mm dal filo anteriore, seconda a 37 mm dal filo posteriore, passo 32 mm.",mHingeAt:"Posizione tazze cerniere (anta {h} mm, dal bordo): {list}. Foro ø35, profondità 12,5 mm, distanza dal bordo 3–6 mm.",dupMod:"Duplica modulo",logoBtn:"Logo sui PDF",logoRemove:"Rimuovere il logo attuale?",logoTooBig:"Immagine troppo grande — usa un logo più semplice",drawBtn:"Disegno tecnico 2D",drawTitle:"DISEGNO TECNICO",drawFront:"Vista frontale",drawSide:"Sezione laterale",fBoxes:"Struttura interna cassetti",statsBtn:"Statistiche",statsTitle:"Statistiche",stProjects:"Progetti",stPieces:"Pezzi totali",stArea:"Superficie totale",stQuoted:"Valore preventivato",fScasso:"Decupaj / Scasso (opzionale)",fScassoPos:"posizione dall'angolo",fCorner:"Lato ala angolare",cornSx:"Sinistra",cornDx:"Destra",undoBtn:"ANNULLA",fullBkBtn:"Backup completo (tutto)",restoreConfirm:"Ripristinare il backup? I dati attuali verranno sostituiti.",restored:"Backup ripristinato",bkRemind:"💾 È da un po' che non fai un backup — Impostazioni → Backup completo",fbBtn:"Suggerisci una funzione",introTitle:"Benvenuto in Ebanist",intro1:"Genera mobili parametrici: tipologia, misure e opzioni — distinta, ferramenta e 3D si calcolano da soli.",intro2:"Documenti da laboratorio: nesting, etichette, scheda di montaggio illustrata, disegno tecnico e preventivo PDF.",intro3:"Mostra il mobile nella foto della stanza del cliente ed esporta il JPG su WhatsApp.",introGo:"Inizia",typeDesk:"Scrivania",typeTable:"Tavolo",typeBed:"Letto",preset_scrivania:"Scrivania",preset_tavolo:"Tavolo",preset_letto:"Letto",roomPitch:"Inclinazione",roomRoll:"Livello",mFlatAsm:"Assembla a terra su una superficie morbida: fissa i componenti con eccentrici/viti seguendo il disegno tecnico, poi raddrizza il mobile in due persone."},
-ro:{stockBtn:"Resturi în stoc",stockTitle:"Resturi în stoc",stockHint:"Colile începute din lucrările anterioare. La optimizare se consumă întâi ele, de la cea mai mică pe care încape piesa.",stockQty:"Buc.",stockMat:"Material",stockAdd:"Adaugă restul",stockList:"În stoc",stockEmpty:"Niciun rest în stoc.",stockMinLbl:"Păstrează resturile de la (mm)",stockSaved:"Stoc actualizat",fromStock:"din stoc",panelsNew:"Coli noi",panelsStock:"Resturi folosite",addLeft:"Pune în stoc {n} resturi",cutsBtn:"Ordinea tăierilor",sumTram1:"despărțitor",sumShelf1:"raft",sumDraw1:"sertar",sumDoors1:"ușă",grpBase:"Corp și cote",grpMat:"Materiale",grpIn:"Interior",grpFr:"Fronturi și sprijin",sumTram:"despărțitori",sumShelf:"rafturi",sumDraw:"sertare",sumHang:"bară",sumDoors:"uși",projects:"Proiecte",projectsSub:"Gestionează proiectele tale de debitare",newProject:"Proiect nou",editProject:"Modifică proiectul",import:"Importă",
+ro:{orderBtn:"Comandă furnizor",orderTitle:"COMANDĂ MATERIALE",orderPanels:"Coli",orderSize:"Format",orderQty:"Cant.",orderEdge:"Cant ABS",orderMl:"ml (+10%)",orderEdgeNote:"Metri liniari, cu 10% pierderi deja incluse.",orderCheck:"Verifică codurile în catalogul actual al furnizorului.",transpBtn:"Trece pe ușă?",transpTitle:"Trece pe ușă?",transpHint:"Corpul asamblat, față de golul cel mai strâmt de pe drum. Verifică doar dacă secțiunea încape — nu ține cont de cotituri de hol, de scări în spirală sau de spațiul de manevră.",transpW:"Lățime gol (mm)",transpH:"Înălțime gol (mm)",transpNone:"Niciun corp generat în proiectul ăsta.",transpOk:"Toate corpurile trec.",transpBad:"{n} corpuri nu trec asamblate — se montează la fața locului.",stockBtn:"Resturi în stoc",stockTitle:"Resturi în stoc",stockHint:"Colile începute din lucrările anterioare. La optimizare se consumă întâi ele, de la cea mai mică pe care încape piesa.",stockQty:"Buc.",stockMat:"Material",stockAdd:"Adaugă restul",stockList:"În stoc",stockEmpty:"Niciun rest în stoc.",stockMinLbl:"Păstrează resturile de la (mm)",stockSaved:"Stoc actualizat",fromStock:"din stoc",panelsNew:"Coli noi",panelsStock:"Resturi folosite",addLeft:"Pune în stoc {n} resturi",cutsBtn:"Ordinea tăierilor",sumTram1:"despărțitor",sumShelf1:"raft",sumDraw1:"sertar",sumDoors1:"ușă",grpBase:"Corp și cote",grpMat:"Materiale",grpIn:"Interior",grpFr:"Fronturi și sprijin",sumTram:"despărțitori",sumShelf:"rafturi",sumDraw:"sertare",sumHang:"bară",sumDoors:"uși",projects:"Proiecte",projectsSub:"Gestionează proiectele tale de debitare",newProject:"Proiect nou",editProject:"Modifică proiectul",import:"Importă",
 cutList:"Listă de debitare",nesting:"Optimizare",nestingSub:"Așezarea pieselor pe panouri",summary:"Rezumat",summarySub:"Materiale, cant și costuri",
 materials:"Materiale",costs:"Costuri estimate",export:"Exportă",exportPdf:"PDF listă",backup:"Backup proiect (JSON)",
 navProjects:"Proiecte",navList:"Listă",navNest:"Debitare",navSummary:"Rezumat",
@@ -1273,7 +1351,7 @@ confirmDelPiece:"Ștergi această piesă?",confirmDelProject:"Ștergi proiectul 
 importedRows:"rânduri importate",invalidFile:"Fișier invalid",duplicate:"Duplică",client:"Client",date:"Data",
 printTitle:"LISTĂ DE DEBITARE",printProject:"Proiect",printNotes:"Cant: L = latura lungimii, C = latura lățimii. Cote finite în mm.",
 hardware:"Feronerie",hwCern:"Balamale",hwGuida:"Glisiere sertar (per.)",hwMan:"Mânere",hwSup:"Suporți raft",hwAsta:"Suporți bară",hwPied:"Picioare reglabile",hwBin:"Șină glisantă (set)",hwConn:"Șuruburi & excentrici",fMargin:"Marjă %",fIva:"TVA %",quote:"PDF ofertă",quoteTitle:"OFERTĂ DE PREȚ",qDesc:"Descriere",qNet:"Valoare netă",qVat:"TVA",qTotal:"TOTAL",qValidity:"Valabilitate ofertă: 30 de zile",share:"Trimite",grain:"Fibră (fără rotire)",searchPh:"Caută piesă, modul, material…",allMats:"Toate materialele",dupProject:"Duplică proiectul",copySuffix:"(copie)",fDeadline:"Termen",fPhone:"Telefon",fNotes:"Notițe",daysLeft:"zile",renameMat:"Nume nou material:",cSubtotal:"Subtotal",fType:"Tip corp",typeStandard:"Standard",typeCorner:"Colțar",typeSliding:"Uși glisante",fL2:"Lățime aripă B (mm)",fHang:"Bară umerașe",hint3d:"Trage pentru rotire · ciupește pentru zoom · dublu-tap: reset",preset_angolare:"Colțar",preset_scorrevole:"Uși glisante",preset_dressing:"Dressing",buildTitle:"Generator mobilier",buildSub:"Configurează corpul și generează lista de debitare",navBuild:"Generator",fHeight:"Înălț. (mm)",fDepth:"Adânc. (mm)",fThickness:"Grosime",fPlinth:"Soclu (mm)",fTram:"Despărțitori",fShelvesSec:"Rafturi/secț.",fDrawersSec:"Sertare/secț.",fDoorsN:"Uși",fBack:"Spate (PAL)",optYes:"Da",optNo:"Nu",generate:"Generează lista",preset_armadio:"Dulap",preset_libreria:"Bibliotecă",preset_cassettiera:"Comodă sertare",preset_base:"Corp bază",selectProject:"Selectează un proiect",page:"Pagina",fFront:"Front",frontFull:"Plin",frontGlass:"Ramă + sticlă",fSupport:"Suport",supPlinth:"Plintă",supFeet:"Picioare",supWall:"Suspendat",fHandles:"Deschidere",hManiglia:"Mânere",hPush:"Push-open",fShelfT:"Polițe",shMobile:"Reglabile",shFisso:"Fixe",preset_tv:"Comodă TV",preset_pensile:"Suspendat",preset_colonna:"Coloană",preset_bagno:"Baie",preset_vetrina:"Vitrină",roomBtn:"În camera ta",roomTitle:"În camera ta",roomLoad:"Foto",roomExport:"Salvează JPG",roomEmpty:"Încarcă o poză a camerei",roomHint:"Trage mobilierul · ciupește pentru redimensionare",roomRotate:"Rotație",roomOpacity:"Opacitate",updBtn:"Verifică actualizări",updLatest:"Ești deja la zi ✓",updFound:"Actualizare găsită! Reîncarc…",updErr:"Verificare eșuată — verifică conexiunea",nestSkip:"{n} piese nu încap pe coala {pl}×{pw} mm și NU sunt în planul de debitare:",nestSkipAny:"{n} piese nu încap pe coala materialului lor și NU sunt în planul de debitare:",addFurniture:"Mobilier",addPlainPiece:"Piesă simplă",fAngL:"Unghi stg. (°)",fAngR:"Unghi dr. (°)",fAngles:"Unghiuri de tăiere (°)",shortSide:"latura scurtă",angTooSteep:"Unghiuri prea închise pentru cota asta",angNote:"{n} piese trapezoidale",splitNote:"{n} piese tăiate — îmbinare ascunsă",splitNoteVis:"{n} piese tăiate — îmbinare LA VEDERE",jointHidden:"îmbinare ascunsă",jointVisible:"îmbinare la vedere",explodeBtn:"Vedere explodată",drawAng:"Piese cu unghi",drawExpl:"Vedere explodată",angSkipNote:"{n} secțiuni prea înguste pentru unghi — tăiate drept",angSkipTag:"unghi neaplicabil",fIntro:"Intro la pornire",fIntroSound:"Sunet intro",fHangGap:"Spațiu sub bară",fShelfEven:"Rafturi echidistante",fShelfStep:"Pas rafturi (mm)",fSections:"Conținut secțiuni",sec_shelf:"rafturi",sec_hang:"bară",sec_hangShelf:"bară + rafturi",sec_empty:"goală",secHint:"Atinge o secțiune ca să-i schimbi conținutul — jumătate cu bară, jumătate cu rafturi.",shSqueezed:"Spațiul sub bară e prea mare — rafturile ocupă toată înălțimea",shNoFit:"{n} rafturi nu încap sub bară",fEdgeTh:"Grosime cant (mm)",noEdgeTag:"(fără cant)",matAdd:"Adaugă material",artCheck:"— cod de confirmat",matHide:"Ascunde",matShow:"Arată",hingeMill:"frezare balamale: {n} × ø35 la {list} mm de la marginea de jos, adânc. 12,5 mm, 3–6 mm de la cant",deleteModule:"Șterge corpul",fCornerKind:"Tip colț",cornInt:"Interior (colț de cameră)",cornExt:"Exterior (colț ieșit)",angHintTxt:"L se măsoară la peretele din spate. Sub 90° colț interior, peste 90° exterior.",hwPush:"Push-open / TIP-ON",catBtn:"Catalog feronerie & materiale",catTitle:"Catalog",catMats:"Materiale (€/m²)",catArt:"Cod articol",catProd:"Produs",catNote:"Verifică toate codurile de articol în catalogul actual al furnizorului.",matBody:"Corp",matFront:"Fronturi",matBack:"Spate",mTitle:"Fișă de montaj",mPrep:"Verifică lista de debitare: toate piesele tăiate și căntuite, fără ciobituri.",mDrill:"Găurire sistem 32: execută găurile pentru {q} × {p} pe laterale, bază și tavan.",mSlides:"Montează glisierele pe laterale ÎNAINTE de asamblare: {q} × {p}.",mPlates:"Fixează plăcuțele balamalelor pe laterale: {q} × {p}.",mBox:"Asamblează carcasa: bază + tavan între laterale. Strânge excentricii fără a forța.",mTram:"Introdu și fixează despărțitorii ({q}).",mPlinth:"Montează plinta retrasă cu 50 mm față de cantul frontal.",mFeet:"Înșurubează picioarele reglabile: {q} × {p}. Nivelează cu bolobocul.",mWall:"Fixează sistemele de suspendare și verifică prinderea în perete (dibluri potrivite peretelui).",mBack:"Fixează spatele și verifică diagonalele (echer): trebuie să fie egale.",mShelvesA:"Introdu suporții de poliță: {q} × {p}, apoi așază polițele.",mShelvesF:"Fixează polițele fixe cu excentrici înainte de închiderea carcasei.",mDrawers:"Asamblează sertarele, agață-le pe glisiere și montează fronturile cu reglaj.",mDoors:"Forează ø35 pentru balamale (3–6 mm de la margine), montează ușile și reglează 3D: vertical, lateral, adâncime.",mSliding:"Montează șina sus/jos și agață ușile glisante: {p}. Reglează rolele.",mHandles:"Trasează, găurește și înșurubează mânerele: {q} × {p}.",mPush:"Montează mecanismele push: {q} × {p}. Reglează proeminența.",mRail:"Fixează suporții de bară ({q} × {p}) și taie bara la cota interioară −2 mm.",mCheck:"Control final: uși aliniate, sertare culisante lin, toate șuruburile strânse.",mSafety:"Document generat automat — verifică toate cotele și codurile înainte de producție.",lblBtn:"Etichete piese",labBtn:"Pachet laborator",lblHint:"Coli A4 — 24 etichete 70×37 mm",fHours:"Ore manoperă",fHourly:"€ / oră manoperă",qIncl:"inclusă în preț",decorPh:"Decor (ex. Egger H1180)",importErr:"Fișier invalid",mSys32:"Rânduri de găurire sistem 32: primul rând la 37 mm de cantul frontal, al doilea la 37 mm de cel posterior, pas 32 mm.",mHingeAt:"Poziția oalelor de balama (ușă {h} mm, de la margine): {list}. Gaură ø35, adâncime 12,5 mm, distanță de la cant 3–6 mm.",dupMod:"Duplică modulul",logoBtn:"Logo pe PDF-uri",logoRemove:"Ștergi logo-ul actual?",logoTooBig:"Imagine prea mare — folosește un logo mai simplu",drawBtn:"Desen tehnic 2D",drawTitle:"DESEN TEHNIC",drawFront:"Vedere frontală",drawSide:"Secțiune laterală",fBoxes:"Structură interioară sertare",statsBtn:"Statistici",statsTitle:"Statistici",stProjects:"Proiecte",stPieces:"Piese totale",stArea:"Suprafață totală",stQuoted:"Valoare ofertată",fScasso:"Decupaj (opțional)",fScassoPos:"poziție de la colț",fCorner:"Partea aripii de colț",cornSx:"Stânga",cornDx:"Dreapta",undoBtn:"ANULEAZĂ",fullBkBtn:"Backup complet (tot)",restoreConfirm:"Restaurezi backup-ul? Datele actuale vor fi înlocuite.",restored:"Backup restaurat",bkRemind:"💾 A trecut ceva timp de la ultimul backup — Setări → Backup complet",fbBtn:"Sugerează o funcție",introTitle:"Bun venit în Ebanist",intro1:"Generează mobilier parametric: tipologie, cote și opțiuni — distinta, feroneria și 3D-ul se calculează singure.",intro2:"Documente de atelier: optimizare, etichete, fișă de montaj ilustrată, desen tehnic și ofertă PDF.",intro3:"Arată mobilierul în poza camerei clientului și exportă JPG pe WhatsApp.",introGo:"Începe",typeDesk:"Birou",typeTable:"Masă",typeBed:"Pat",preset_scrivania:"Birou",preset_tavolo:"Masă",preset_letto:"Pat",roomPitch:"Înclinare",roomRoll:"Nivel",mFlatAsm:"Asamblează la sol pe o suprafață moale: fixează componentele cu excentrici/șuruburi după desenul tehnic, apoi ridică mobilierul în două persoane."},
-en:{stockBtn:"Offcut stock",stockTitle:"Offcut stock",stockHint:"Part-used boards left from earlier jobs. Nesting uses these first, starting from the smallest one the piece fits on.",stockQty:"Qty",stockMat:"Material",stockAdd:"Add offcut",stockList:"In stock",stockEmpty:"No offcuts in stock.",stockMinLbl:"Keep offcuts from (mm)",stockSaved:"Stock updated",fromStock:"from stock",panelsNew:"New boards",panelsStock:"Offcuts used",addLeft:"Add {n} offcuts to stock",cutsBtn:"Cutting order",sumTram1:"divider",sumShelf1:"shelf",sumDraw1:"drawer",sumDoors1:"door",grpBase:"Body and sizes",grpMat:"Materials",grpIn:"Inside",grpFr:"Fronts and support",sumTram:"dividers",sumShelf:"shelves",sumDraw:"drawers",sumHang:"rail",sumDoors:"doors",projects:"Projects",projectsSub:"Manage your cutting projects",newProject:"New project",editProject:"Edit project",import:"Import",
+en:{orderBtn:"Supplier order",orderTitle:"MATERIALS ORDER",orderPanels:"Boards",orderSize:"Size",orderQty:"Qty",orderEdge:"ABS edging",orderMl:"lm (+10%)",orderEdgeNote:"Linear metres, 10% waste already included.",orderCheck:"Verify the codes against the supplier\u2019s current catalog.",transpBtn:"Fits through the door?",transpTitle:"Fits through the door?",transpHint:"The assembled unit against the tightest opening on the way in. Only checks whether the cross-section fits — it does not account for corridor turns, spiral stairs or room to manoeuvre.",transpW:"Opening width (mm)",transpH:"Opening height (mm)",transpNone:"No units generated in this project.",transpOk:"Everything fits through.",transpBad:"{n} units do not fit assembled — build them on site.",stockBtn:"Offcut stock",stockTitle:"Offcut stock",stockHint:"Part-used boards left from earlier jobs. Nesting uses these first, starting from the smallest one the piece fits on.",stockQty:"Qty",stockMat:"Material",stockAdd:"Add offcut",stockList:"In stock",stockEmpty:"No offcuts in stock.",stockMinLbl:"Keep offcuts from (mm)",stockSaved:"Stock updated",fromStock:"from stock",panelsNew:"New boards",panelsStock:"Offcuts used",addLeft:"Add {n} offcuts to stock",cutsBtn:"Cutting order",sumTram1:"divider",sumShelf1:"shelf",sumDraw1:"drawer",sumDoors1:"door",grpBase:"Body and sizes",grpMat:"Materials",grpIn:"Inside",grpFr:"Fronts and support",sumTram:"dividers",sumShelf:"shelves",sumDraw:"drawers",sumHang:"rail",sumDoors:"doors",projects:"Projects",projectsSub:"Manage your cutting projects",newProject:"New project",editProject:"Edit project",import:"Import",
 cutList:"Cutting list",nesting:"Optimization",nestingSub:"Piece layout on panels",summary:"Summary",summarySub:"Materials, edging and costs",
 materials:"Materials",costs:"Estimated costs",export:"Export",exportPdf:"PDF list",backup:"Project backup (JSON)",
 navProjects:"Projects",navList:"Cut list",navNest:"Layout",navSummary:"Summary",
@@ -1291,7 +1369,7 @@ confirmDelPiece:"Delete this piece?",confirmDelProject:"Delete the project and a
 importedRows:"rows imported",invalidFile:"Invalid file",duplicate:"Duplicate",client:"Client",date:"Date",
 printTitle:"CUTTING LIST",printProject:"Project",printNotes:"Edging: L = length side, C = width side. Finished sizes in mm.",
 hardware:"Hardware",hwCern:"Hinges",hwGuida:"Drawer slides (pair)",hwMan:"Handles",hwSup:"Shelf pins",hwAsta:"Rail supports",hwPied:"Adjustable feet",hwBin:"Sliding track (set)",hwConn:"Screws & cams",fMargin:"Margin %",fIva:"VAT %",quote:"Quote PDF",quoteTitle:"QUOTATION",qDesc:"Description",qNet:"Net amount",qVat:"VAT",qTotal:"TOTAL",qValidity:"Quote valid for 30 days",share:"Share",grain:"Grain (no rotation)",searchPh:"Search piece, module, material…",allMats:"All materials",dupProject:"Duplicate project",copySuffix:"(copy)",fDeadline:"Deadline",fPhone:"Phone",fNotes:"Notes",daysLeft:"days",renameMat:"New material name:",cSubtotal:"Subtotal",fType:"Type",typeStandard:"Standard",typeCorner:"Corner",typeSliding:"Sliding doors",fL2:"Wing B width (mm)",fHang:"Hanging rail",hint3d:"Drag to rotate · pinch to zoom · double-tap to reset",preset_angolare:"Corner unit",preset_scorrevole:"Sliding",preset_dressing:"Walk-in",buildTitle:"Furniture builder",buildSub:"Configure the unit and generate the cut list",navBuild:"Builder",fHeight:"Height (mm)",fDepth:"Depth (mm)",fThickness:"Thickness",fPlinth:"Plinth (mm)",fTram:"Dividers",fShelvesSec:"Shelves/sec.",fDrawersSec:"Drawers/sec.",fDoorsN:"Doors",fBack:"Back panel",optYes:"Yes",optNo:"No",generate:"Generate cut list",preset_armadio:"Wardrobe",preset_libreria:"Bookcase",preset_cassettiera:"Drawer unit",preset_base:"Base cabinet",selectProject:"Select a project",page:"Page",fFront:"Front",frontFull:"Solid",frontGlass:"Frame + glass",fSupport:"Support",supPlinth:"Plinth",supFeet:"Feet",supWall:"Wall-hung",fHandles:"Opening",hManiglia:"Handles",hPush:"Push-open",fShelfT:"Shelves",shMobile:"Adjustable",shFisso:"Fixed",preset_tv:"TV unit",preset_pensile:"Wall cabinet",preset_colonna:"Tall unit",preset_bagno:"Bathroom",preset_vetrina:"Display cabinet",roomBtn:"In your room",roomTitle:"In your room",roomLoad:"Photo",roomExport:"Save JPG",roomEmpty:"Load a photo of the room",roomHint:"Drag the unit · pinch to resize",roomRotate:"Rotation",roomOpacity:"Opacity",updBtn:"Check for updates",updLatest:"You're up to date ✓",updFound:"Update found! Reloading…",updErr:"Check failed — verify your connection",nestSkip:"{n} pieces do not fit the {pl}×{pw} mm panel and are NOT in the cutting plan:",nestSkipAny:"{n} pieces do not fit their material\u2019s panel and are NOT in the cutting plan:",addFurniture:"Furniture",addPlainPiece:"Single piece",fAngL:"Left angle (°)",fAngR:"Right angle (°)",fAngles:"Cut angles (°)",shortSide:"short side",angTooSteep:"Angles too steep for this size",angNote:"{n} trapezoidal pieces",splitNote:"{n} pieces split — hidden joint",splitNoteVis:"{n} pieces split — joint IN SIGHT",jointHidden:"hidden joint",jointVisible:"visible joint",explodeBtn:"Exploded view",drawAng:"Angled pieces",drawExpl:"Exploded view",angSkipNote:"{n} sections too narrow for the angle — cut square",angSkipTag:"angle not applicable",fIntro:"Intro on launch",fIntroSound:"Intro sound",fHangGap:"Space under the rail",fShelfEven:"Even shelf spacing",fShelfStep:"Shelf pitch (mm)",fSections:"Section contents",sec_shelf:"shelves",sec_hang:"rail",sec_hangShelf:"rail + shelves",sec_empty:"empty",secHint:"Tap a section to change what goes in it — half rail, half shelves.",shSqueezed:"Space under the rail too large — shelves fill the full height",shNoFit:"{n} shelves do not fit under the rail",fEdgeTh:"Edge band thickness (mm)",noEdgeTag:"(no edge band)",matAdd:"Add material",artCheck:"— article no. to confirm",matHide:"Hide",matShow:"Show",hingeMill:"hinge boring: {n} × ø35 at {list} mm from the bottom edge, depth 12.5 mm, 3–6 mm from the edge",deleteModule:"Delete unit",fCornerKind:"Corner type",cornInt:"Inside (room corner)",cornExt:"Outside (projecting corner)",angHintTxt:"L is measured at the back wall. Below 90° inside corner, above 90° outside.",hwPush:"Push-open / TIP-ON",catBtn:"Hardware & materials catalog",catTitle:"Catalog",catMats:"Materials (€/m²)",catArt:"Article no.",catProd:"Product",catNote:"Verify all article numbers against the supplier's current catalog.",matBody:"Carcass",matFront:"Fronts",matBack:"Back panel",mTitle:"Assembly sheet",mPrep:"Check the cut list: all pieces cut and edge-banded, no chipping.",mDrill:"System 32 drilling: drill for {q} × {p} on sides, bottom and top.",mSlides:"Mount the slides on the sides BEFORE assembly: {q} × {p}.",mPlates:"Fix the hinge mounting plates on the sides: {q} × {p}.",mBox:"Assemble the carcass: bottom + top between the sides. Tighten cams without forcing.",mTram:"Insert and fix the dividers ({q}).",mPlinth:"Mount the plinth set back 50 mm from the front edge.",mFeet:"Screw in the adjustable feet: {q} × {p}. Level with a spirit level.",mWall:"Fix the hanging brackets and verify wall fixing (anchors suited to the wall).",mBack:"Fix the back panel and check the diagonals (square): they must be equal.",mShelvesA:"Insert the shelf supports: {q} × {p}, then place the shelves.",mShelvesF:"Fix the fixed shelves with cams before closing the carcass.",mDrawers:"Assemble the drawers, clip onto the slides and mount the fronts with adjustment.",mDoors:"Drill ø35 for hinges (3–6 mm from edge), mount the doors and adjust in 3D: height, side, depth.",mSliding:"Mount the top/bottom track and hang the sliding doors: {p}. Adjust the rollers.",mHandles:"Mark, drill and screw the handles: {q} × {p}.",mPush:"Mount the push mechanisms: {q} × {p}. Adjust the protrusion.",mRail:"Fix the rail supports ({q} × {p}) and cut the rail to inside dimension −2 mm.",mCheck:"Final check: doors aligned, drawers gliding, all screws tightened.",mSafety:"Automatically generated document — verify all dimensions and codes before production.",lblBtn:"Piece labels",labBtn:"Workshop package",lblHint:"A4 sheets — 24 labels 70×37 mm",fHours:"Labor hours",fHourly:"€ / labor hour",qIncl:"included in price",decorPh:"Decor (e.g. Egger H1180)",importErr:"Invalid file",mSys32:"System 32 drilling rows: first row 37 mm from front edge, second 37 mm from rear edge, 32 mm pitch.",mHingeAt:"Hinge cup positions (door {h} mm, from edge): {list}. Bore ø35, depth 12.5 mm, edge distance 3–6 mm.",dupMod:"Duplicate module",logoBtn:"Logo on PDFs",logoRemove:"Remove current logo?",logoTooBig:"Image too large — use a simpler logo",drawBtn:"2D technical drawing",drawTitle:"TECHNICAL DRAWING",drawFront:"Front view",drawSide:"Side section",fBoxes:"Drawer box structure",statsBtn:"Statistics",statsTitle:"Statistics",stProjects:"Projects",stPieces:"Total pieces",stArea:"Total area",stQuoted:"Quoted value",fScasso:"Cut-out (optional)",fScassoPos:"position from corner",fCorner:"Corner wing side",cornSx:"Left",cornDx:"Right",undoBtn:"UNDO",fullBkBtn:"Full backup (everything)",restoreConfirm:"Restore this backup? Current data will be replaced.",restored:"Backup restored",bkRemind:"💾 It's been a while since your last backup — Settings → Full backup",fbBtn:"Suggest a feature",introTitle:"Welcome to Ebanist",intro1:"Generate parametric furniture: type, dimensions, options — cut list, hardware and 3D compute themselves.",intro2:"Workshop documents: nesting, labels, illustrated assembly sheet, technical drawing and quote PDF.",intro3:"Show the unit in your client's room photo and export a JPG to WhatsApp.",introGo:"Start",typeDesk:"Desk",typeTable:"Table",typeBed:"Bed",preset_scrivania:"Desk",preset_tavolo:"Table",preset_letto:"Bed",roomPitch:"Tilt",roomRoll:"Level",mFlatAsm:"Assemble on the floor on a soft surface: fix the components with cams/screws following the technical drawing, then stand the unit up with two people."},
-fr:{stockBtn:"Chutes en stock",stockTitle:"Chutes en stock",stockHint:"Les panneaux entamés des chantiers précédents. L\u2019optimisation les consomme en premier, en partant de la plus petite chute où la pièce entre.",stockQty:"Qté",stockMat:"Matériau",stockAdd:"Ajouter la chute",stockList:"En stock",stockEmpty:"Aucune chute en stock.",stockMinLbl:"Garder les chutes à partir de (mm)",stockSaved:"Stock mis à jour",fromStock:"du stock",panelsNew:"Panneaux neufs",panelsStock:"Chutes utilisées",addLeft:"Mettre {n} chutes en stock",cutsBtn:"Ordre des coupes",sumTram1:"séparation",sumShelf1:"étagère",sumDraw1:"tiroir",sumDoors1:"porte",grpBase:"Caisson et cotes",grpMat:"Matériaux",grpIn:"Intérieur",grpFr:"Façades et appui",sumTram:"séparations",sumShelf:"étagères",sumDraw:"tiroirs",sumHang:"tringle",sumDoors:"portes",projects:"Projets",projectsSub:"Gérez vos projets de découpe",newProject:"Nouveau projet",editProject:"Modifier le projet",import:"Importer",
+fr:{orderBtn:"Commande fournisseur",orderTitle:"COMMANDE MATÉRIAUX",orderPanels:"Panneaux",orderSize:"Format",orderQty:"Qté",orderEdge:"Chant ABS",orderMl:"ml (+10%)",orderEdgeNote:"Mètres linéaires, 10% de chute déjà inclus.",orderCheck:"Vérifier les codes sur le catalogue actuel du fournisseur.",transpBtn:"Passe la porte ?",transpTitle:"Passe la porte ?",transpHint:"Le meuble monté face à l\u2019ouverture la plus étroite du parcours. Vérifie seulement si la section passe — sans tenir compte des virages de couloir, escaliers en colimaçon ou espace de manœuvre.",transpW:"Largeur ouverture (mm)",transpH:"Hauteur ouverture (mm)",transpNone:"Aucun meuble généré dans ce projet.",transpOk:"Tout passe.",transpBad:"{n} meubles ne passent pas montés — à assembler sur place.",stockBtn:"Chutes en stock",stockTitle:"Chutes en stock",stockHint:"Les panneaux entamés des chantiers précédents. L\u2019optimisation les consomme en premier, en partant de la plus petite chute où la pièce entre.",stockQty:"Qté",stockMat:"Matériau",stockAdd:"Ajouter la chute",stockList:"En stock",stockEmpty:"Aucune chute en stock.",stockMinLbl:"Garder les chutes à partir de (mm)",stockSaved:"Stock mis à jour",fromStock:"du stock",panelsNew:"Panneaux neufs",panelsStock:"Chutes utilisées",addLeft:"Mettre {n} chutes en stock",cutsBtn:"Ordre des coupes",sumTram1:"séparation",sumShelf1:"étagère",sumDraw1:"tiroir",sumDoors1:"porte",grpBase:"Caisson et cotes",grpMat:"Matériaux",grpIn:"Intérieur",grpFr:"Façades et appui",sumTram:"séparations",sumShelf:"étagères",sumDraw:"tiroirs",sumHang:"tringle",sumDoors:"portes",projects:"Projets",projectsSub:"Gérez vos projets de découpe",newProject:"Nouveau projet",editProject:"Modifier le projet",import:"Importer",
 cutList:"Liste de débit",nesting:"Optimisation",nestingSub:"Placement des pièces sur les panneaux",summary:"Résumé",summarySub:"Matériaux, chants et coûts",
 materials:"Matériaux",costs:"Coûts estimés",export:"Exporter",exportPdf:"PDF liste",backup:"Sauvegarde projet (JSON)",
 navProjects:"Projets",navList:"Débit",navNest:"Découpe",navSummary:"Résumé",
@@ -1368,7 +1446,7 @@ function defaultState(){
       coName:"Domus Renov",coInfo:"CUI RO47806657",margin:30,iva:20,
       hwCern:1.4,hwGuida:6.5,hwMan:3.5,hwSup:0.08,hwAsta:1.2,hwPied:0.9,hwBin:45,hwConn:0.35,hwPush:2.5,
       hwProd:{cern:"blum_71b3550",guida:"blum_tandem",man:"gen_man",sup:"haf_sup",asta:"gen_asta",pied:"haf_axilo",bin:"haf_slido",conn:"haf_minifix",push:"blum_tipon_a"},
-      hwOvr:{}, matOvr:{}, matBody:"pal18_alb", matFront:"pal18_alb", matBack:"pfl3", stockMin:250},
+      hwOvr:{}, matOvr:{}, matBody:"pal18_alb", matFront:"pal18_alb", matBack:"pfl3", stockMin:250, doorW:800, doorH:2050},
     stock:[]};
 }
 /* ===== CATALOGO FERRAMENTA (Blum / Häfele) — prezzi e codici modificabili ===== */
@@ -1705,6 +1783,7 @@ function applyLang(){
   document.documentElement.lang=state.lang;
   document.querySelectorAll("[data-i]").forEach(el=>{el.textContent=t(el.dataset.i);});
   const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
+  if(typeof aiMount==="function") aiMount();
 }
 
 /* ================= RENDER ================= */
@@ -2101,6 +2180,13 @@ $("btnSettings").addEventListener("click",()=>{
   $("sHwCern").value=S.hwCern;$("sHwGuida").value=S.hwGuida;$("sHwMan").value=S.hwMan;$("sHwSup").value=S.hwSup;
   $("sHwAsta").value=S.hwAsta;$("sHwPied").value=S.hwPied;$("sHwBin").value=S.hwBin;$("sHwConn").value=S.hwConn;
   $("sCoName").value=S.coName;$("sCoInfo").value=S.coInfo;
+  /* la chiave non sta in `state`: si legge e si riscrive a parte */
+  $("aiSetLbl").textContent=tia("aiSet");
+  $("aiKeyLbl").textContent=tia("aiKeyLbl"); $("aiKeyHint").textContent=tia("aiKeyHint");
+  $("aiModelLbl").textContent=tia("aiModelLbl");
+  $("aiProxyLbl").textContent=tia("aiProxyLbl"); $("aiProxyHint").textContent=tia("aiProxyHint");
+  $("sAiModel").innerHTML=AI_MODELS.map(([id,n])=>`<option value="${id}">${esc(n)}</option>`).join("");
+  $("sAiModel").value=aiModel(); $("sAiProxy").value=S.aiProxy||""; $("sAiKey").value=aiKey();
   openSheet("shSettings");
 });
 $("btnSettingsSave").addEventListener("click",()=>{
@@ -2115,6 +2201,8 @@ $("btnSettingsSave").addEventListener("click",()=>{
   for(const [id,k] of [["sHwCern","hwCern"],["sHwGuida","hwGuida"],["sHwMan","hwMan"],["sHwSup","hwSup"],["sHwAsta","hwAsta"],["sHwPied","hwPied"],["sHwBin","hwBin"],["sHwConn","hwConn"]])
     S[k]=parseFloat($(id).value)||0;
   S.coName=$("sCoName").value.trim()||"Domus Renov"; S.coInfo=$("sCoInfo").value.trim();
+  S.aiModel=$("sAiModel").value||"claude-opus-5"; S.aiProxy=$("sAiProxy").value.trim();
+  aiSetKey($("sAiKey").value.trim());
   persist(); closeSheets(); render(); toast(t("saved"));
 });
 $("btnLang").addEventListener("click",()=>{
@@ -3405,6 +3493,101 @@ function stockAdd(mat,L,W,n){
   const hit=(state.stock||[]).find(x=>x.mat===mat&&x.L===L&&x.W===W);
   if(hit) hit.n+=n; else state.stock.push({id:uid(),mat,L,W,n});
 }
+/* ---------- passa dalla porta? ----------
+   Un corpo montato in laboratorio che non entra in casa e un corpo da
+   rimontare sul posto: meglio saperlo prima di incollare il bordo. */
+function fitsThrough(L,H,P,w,h){
+  return [[L,H],[L,P],[H,P]].some(([a,b])=>(a<=w&&b<=h)||(b<=w&&a<=h));
+}
+function renderTransp(){
+  const p=proj(), box=$("transpList"); box.innerHTML="";
+  const S=state.settings;
+  $("trW").value=S.doorW; $("trH").value=S.doorH;
+  const cfgs=(p&&p.configs)||{};
+  const names=Object.keys(cfgs);
+  if(!names.length){ box.innerHTML=`<p class="mini">${esc(t("transpNone"))}</p>`; return; }
+  let bad=0;
+  for(const nm of names){
+    const c=cfgs[nm];
+    // sull'angolare le due ali si trasportano separate: conta l'ala piu larga
+    const L=c.type==="angolare"?Math.max(c.L||0,c.L2||0):(c.L||0);
+    const ok=fitsThrough(L,c.H||0,c.P||0,S.doorW,S.doorH);
+    if(!ok) bad++;
+    const row=document.createElement("div"); row.className="strow";
+    row.innerHTML=`<b>${esc(nm)}</b><span>${L}×${c.H}×${c.P}</span>
+      <i class="tr-tag ${ok?"ok":"no"}">${ok?"✓":"✕"}</i>`;
+    box.appendChild(row);
+  }
+  const sum=document.createElement("p"); sum.className="mini"; sum.style.marginTop="10px";
+  sum.textContent=bad?t("transpBad").replace("{n}",bad):t("transpOk");
+  sum.style.color=bad?"var(--danger)":"var(--ok)";
+  box.appendChild(sum);
+}
+$("btnTransp").addEventListener("click",()=>{ renderTransp(); openSheet("shTransp"); });
+["trW","trH"].forEach(id=>$(id).addEventListener("change",()=>{
+  state.settings.doorW=Math.max(100,parseInt($("trW").value,10)||800);
+  state.settings.doorH=Math.max(100,parseInt($("trH").value,10)||2050);
+  persist(); renderTransp();
+}));
+
+/* ---------- ordine al fornitore ----------
+   Il piano di taglio sa gia quanti pannelli servono DAVVERO (tolti i
+   ritagli di magazzino); qui diventa una lista da mandare al fornitore. */
+function orderRows(p){
+  const S=state.settings, tot=computeTotals(p);
+  const panels=[], edges={};
+  for(const k of Object.keys(tot.mats)){
+    const m=tot.mats[k];
+    if(/^accessorio/i.test(m.label)) continue;
+    const PN=panelFor(m.label);
+    const stk=(state.stock||[]).filter(r=>r.mat===m.label)
+      .flatMap(r=>Array.from({length:Math.max(1,r.n|0)},()=>({L:r.L,W:r.W})));
+    const res=nest(m.pieces,PN.L,PN.W,S.kerf,stk);
+    const neu=res.panels.filter(x=>!x.stock).length;
+    const fromStock=res.panels.filter(x=>x.stock).length;
+    const dec=matDecorByLabel(m.label);
+    if(neu||fromStock) panels.push({label:m.label,dec,L:PN.L,W:PN.W,n:neu,stock:fromStock});
+    const ml=m.pieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg)*x.pz/1000,0);
+    if(ml>0.01) edges[m.label]=(edges[m.label]||0)+ml;
+  }
+  return {panels,edges,hw:computeHardware(p)};
+}
+$("btnOrder").addEventListener("click",()=>{
+  const p=proj(); if(!p){toast(t("selectProject"));return;}
+  const S=state.settings, o=orderRows(p);
+  let html=`<div class="pr-head">
+    <div><h1>${esc(t("orderTitle"))}</h1>
+      <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
+      <b>${esc(t("date"))}:</b> ${esc(new Date().toISOString().slice(0,10))}</div></div>
+    <div class="co">${prLogo()}<b>${esc(S.coName)}</b><br>${esc(S.coInfo)}</div></div>`;
+  html+=`<h2>${esc(t("orderPanels"))}</h2><table><tr>
+    <th>${esc(t("fMaterial"))}</th><th>${esc(t("orderSize"))}</th>
+    <th style="text-align:right">${esc(t("orderQty"))}</th><th style="text-align:right">${esc(t("panelsStock"))}</th></tr>`;
+  for(const r of o.panels)
+    html+=`<tr><td>${esc(r.label)}${r.dec?` <b>[${esc(r.dec)}]</b>`:""}</td>
+      <td>${r.L}×${r.W}</td><td class="n"><b>${r.n}</b></td><td class="n">${r.stock||"—"}</td></tr>`;
+  html+=`</table>`;
+  const ek=Object.keys(o.edges);
+  if(ek.length){
+    html+=`<h2>${esc(t("orderEdge"))}</h2><table><tr><th>${esc(t("fMaterial"))}</th>
+      <th style="text-align:right">${esc(t("orderMl"))}</th></tr>`;
+    for(const k of ek) html+=`<tr><td>${esc(k)}</td><td class="n">${fmt(o.edges[k]*1.1,1)}</td></tr>`;
+    html+=`</table><p class="pr-sum">${esc(t("orderEdgeNote"))}</p>`;
+  }
+  const hw=o.hw.filter(x=>x.qty>0);
+  if(hw.length){
+    html+=`<h2>${esc(t("hardware"))}</h2><table><tr><th>${esc(t("catProd"))}</th>
+      <th>${esc(t("catArt"))}</th><th style="text-align:right">${esc(t("orderQty"))}</th></tr>`;
+    for(const x of hw)
+      html+=`<tr><td>${esc(x.prod?x.prod.name:t("hw"+x.k.slice(2,3).toUpperCase()+x.k.slice(3)))}</td>
+        <td>${esc(x.prod&&x.prod.art?x.prod.art:"—")}</td><td class="n"><b>${x.qty}</b></td></tr>`;
+    html+=`</table>`;
+  }
+  html+=`<div class="pr-foot"><span>${esc(S.coName)}</span><span>${esc(t("orderCheck"))}</span></div>`;
+  $("printArea").innerHTML=html;
+  setTimeout(()=>window.print(),80);
+});
+
 $("btnStock").addEventListener("click",()=>{ renderStock(); openSheet("shStock"); });
 $("btnStockAdd").addEventListener("click",()=>{
   stockAdd($("stMat").value, parseInt($("stL").value,10)||0, parseInt($("stW").value,10)||0,
@@ -4663,6 +4846,560 @@ $("btnAcctLogout").addEventListener("click",async()=>{
   toast(ta("acctOk"));
 });
 
+/* ================= AI MAGIC INPUT =================
+   Traduttore: testo + voce + foto -> patch sullo state (configs / survey / layout).
+   NON tocca la geometria: scrive solo negli stessi campi che scriverebbe la mano
+   sui form. Ogni patch passa da validazione, clamp e conferma umana. */
+
+const AI_I18N={
+it:{aiPh:"Descrivi il mobile a voce o per iscritto…",aiPhSv:"Detta le quote del muro, prese, tubi…",
+  aiSend:"Genera",aiThinking:"Sto leggendo…",aiMic:"Detta",aiCam:"Foto",aiNoKey:"Manca la chiave API — Impostazioni → Assistente AI",
+  aiNoSpeech:"Dettatura non disponibile su questo browser — usa il microfono della tastiera",
+  aiErr:"L'assistente non ha risposto: {e}",aiNoChange:"Niente da cambiare",aiTitle:"Proposta dell'assistente",
+  aiApply:"Applica",aiCancel:"Annulla",aiApplied:"Applicato",aiAsk:"Domande",aiWarnHdr:"Attenzione",
+  aiSet:"Assistente AI",aiKeyLbl:"Chiave API Anthropic",aiKeyHint:"Resta solo su questo telefono: non entra nei backup né nella sincronizzazione.",
+  aiModelLbl:"Modello",aiProxyLbl:"Endpoint proprio (opzionale)",aiProxyHint:"Se compilato, la chiamata passa di qui e la chiave non serve.",
+  aiImgOnly:"Aggiungi anche una descrizione o una foto",aiCtxCfg:"Modulo corrente",aiCtxSv:"Rilievo corrente",
+  aiBoundNote:"Taglio obliquo: la fabbrica taglia dritto. La distinta esporta il rettangolo di sbozzo; l'angolo resta nel 3D e nel disegno.",
+  aiSecNote:"Le divisioni interne diventano tramezzi + contenuto per sezione: nessun mobile in più."},
+ro:{aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele peretelui, prize, țevi…",
+  aiSend:"Generează",aiThinking:"Citesc…",aiMic:"Dictează",aiCam:"Poză",aiNoKey:"Lipsește cheia API — Setări → Asistent AI",
+  aiNoSpeech:"Dictarea nu merge pe browserul ăsta — folosește microfonul tastaturii",
+  aiErr:"Asistentul n-a răspuns: {e}",aiNoChange:"Nimic de schimbat",aiTitle:"Propunerea asistentului",
+  aiApply:"Aplică",aiCancel:"Renunță",aiApplied:"Aplicat",aiAsk:"Întrebări",aiWarnHdr:"Atenție",
+  aiSet:"Asistent AI",aiKeyLbl:"Cheie API Anthropic",aiKeyHint:"Rămâne doar pe telefonul ăsta: nu intră în backup și nici în sincronizare.",
+  aiModelLbl:"Model",aiProxyLbl:"Endpoint propriu (opțional)",aiProxyHint:"Dacă îl completezi, apelul trece pe acolo și cheia nu mai e necesară.",
+  aiImgOnly:"Adaugă și o descriere sau o poză",aiCtxCfg:"Corpul curent",aiCtxSv:"Releveul curent",
+  aiBoundNote:"Tăietură oblică: fabrica taie drept. Distinta exportă dreptunghiul de gabarit; unghiul rămâne în 3D și pe desen.",
+  aiSecNote:"Compartimentările devin tramezzi + conținut pe secțiune: niciun corp în plus."},
+en:{aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall sizes, sockets, pipes…",
+  aiSend:"Generate",aiThinking:"Reading…",aiMic:"Dictate",aiCam:"Photo",aiNoKey:"API key missing — Settings → AI assistant",
+  aiNoSpeech:"Dictation is not available in this browser — use the keyboard microphone",
+  aiErr:"The assistant did not answer: {e}",aiNoChange:"Nothing to change",aiTitle:"Assistant proposal",
+  aiApply:"Apply",aiCancel:"Cancel",aiApplied:"Applied",aiAsk:"Questions",aiWarnHdr:"Careful",
+  aiSet:"AI assistant",aiKeyLbl:"Anthropic API key",aiKeyHint:"Stays on this phone only: it never enters backups or sync.",
+  aiModelLbl:"Model",aiProxyLbl:"Own endpoint (optional)",aiProxyHint:"If set, the call goes through it and no key is needed.",
+  aiImgOnly:"Add a description or a photo as well",aiCtxCfg:"Current unit",aiCtxSv:"Current survey",
+  aiBoundNote:"Angled cut: the factory cuts square. The cut list exports the bounding rectangle; the angle stays in the 3D and on the drawing.",
+  aiSecNote:"Internal divisions become dividers + per-section content: no extra units."},
+fr:{aiPh:"Décrivez le meuble à la voix ou par écrit…",aiPhSv:"Dictez les cotes du mur, prises, tuyaux…",
+  aiSend:"Générer",aiThinking:"Je lis…",aiMic:"Dicter",aiCam:"Photo",aiNoKey:"Clé API manquante — Réglages → Assistant IA",
+  aiNoSpeech:"Dictée indisponible sur ce navigateur — utilisez le micro du clavier",
+  aiErr:"L'assistant n'a pas répondu : {e}",aiNoChange:"Rien à changer",aiTitle:"Proposition de l'assistant",
+  aiApply:"Appliquer",aiCancel:"Annuler",aiApplied:"Appliqué",aiAsk:"Questions",aiWarnHdr:"Attention",
+  aiSet:"Assistant IA",aiKeyLbl:"Clé API Anthropic",aiKeyHint:"Reste sur ce téléphone : jamais dans les sauvegardes ni la synchro.",
+  aiModelLbl:"Modèle",aiProxyLbl:"Endpoint propre (optionnel)",aiProxyHint:"S'il est rempli, l'appel passe par là et la clé devient inutile.",
+  aiImgOnly:"Ajoutez aussi une description ou une photo",aiCtxCfg:"Meuble courant",aiCtxSv:"Relevé courant",
+  aiBoundNote:"Coupe oblique : l'usine coupe droit. La liste exporte le rectangle d'encombrement ; l'angle reste en 3D et sur le dessin.",
+  aiSecNote:"Les divisions internes deviennent des séparations + contenu par section : aucun meuble en plus."}};
+function tia(k){ return (AI_I18N[state.lang]||AI_I18N.it)[k]||k; }
+
+/* la chiave sta fuori da `state`: i backup e la sincronizzazione Supabase
+   portano via tutto lo state, e una chiave API non deve viaggiare con loro. */
+function aiKey(){ try{ return localStorage.getItem("ebanist_ai_key")||""; }catch(e){ return ""; } }
+function aiSetKey(v){ try{ v?localStorage.setItem("ebanist_ai_key",v):localStorage.removeItem("ebanist_ai_key"); }catch(e){} }
+function aiModel(){ return (state.settings&&state.settings.aiModel)||"claude-opus-5"; }
+function aiProxy(){ return ((state.settings&&state.settings.aiProxy)||"").trim(); }
+const AI_MODELS=[["claude-opus-5","Opus 5"],["claude-sonnet-5","Sonnet 5"]];
+const AI_ENDPOINT="https://api.anthropic.com/v1/messages";
+const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR"};
+
+/* ---------- enum del dominio: l'AI deve agganciarsi a QUESTI id ---------- */
+const AI_ENUM={
+  type:["standard","angolare","scorrevole","scrivania","tavolo","letto"],
+  front:["piena","vetro"], support:["zoccolo","piedini","sospeso"],
+  handles:["maniglia","push"], shelfType:["mobile","fisso"],
+  corner:["sx","dx"], cornerKind:["int","ext"],
+  secMode:["hangShelf","hang","shelf","empty"],
+  obst:["presa","interr","tubo","calorifero","vano","trave","altro"]};
+function aiMatIds(){ return matVisible().map(m=>m.id); }
+function aiMatLines(){ return matVisible().map(m=>{ const e=matById(m.id)||{}; return `  ${m.id} = ${e.label||""} (${e.th}mm, ${e.pw}x${e.ph})`; }).join("\n"); }
+
+/* ---------- SYSTEM PROMPT ---------- */
+function aiSystem(mode){
+  const P=[];
+  P.push(`You are the parametric translator inside Ebanist, a cabinetmaking app used in real production by a joiner in Monaco. He speaks/writes in Italian, Romanian, English or French, on a phone, on site. You convert what he says (and what a photo shows) into a strict JSON patch on the application state. You never invent numbers he did not give and never redesign what he did not ask about.`);
+  P.push(`ABSOLUTE RULES
+1. All lengths are millimetres, integers, as measured on site. Never centimetres, never inches. "un metro ottantatre" = 1830. "doi metri" = 2000.
+2. PARTIAL UPDATE. Emit ONLY the fields that must change. If he says "make it 20 mm deeper", emit just the new P. Never restate unchanged fields — every field you emit overwrites the current one.
+3. STRICT ENUM MATCHING. Materials, types and options must be one of the ids listed below, copied exactly. If nothing matches what he described, leave the field out and put a line in "questions". Never invent an id, never translate an id.
+4. If a measurement is missing, ambiguous or physically impossible, leave the field out and ask in "questions". A wrong number gets cut into a real panel and costs money; an unanswered question costs a sentence.
+5. Write "notes" in the user's own language, one short sentence describing what you changed.`);
+  P.push(`MATERIAL IDS (copy exactly, id only):\n${aiMatLines()}`);
+  if(mode==="genera"){
+    P.push(`SECTION 2 — the unit (configs)
+The unit is ONE parametric carcass. Dimensions: L = width, H = height, P = depth, all outside, in mm. For "angolare" only, L2 = width of wing B.
+
+INTERNAL DIVISIONS — hard rule. Never split the described unit into several units for its internal partitions. A "wardrobe with a 600 mm column on the left and hanging on the right" is ONE unit with tram=1 and secMode=["shelf","hang"]. Sections are created by "tram" (0..4 vertical dividers => tram+1 sections, left to right) and each section's content is one entry of "secMode":
+  hangShelf = rail + shelves, hang = rail only, shelf = shelves only, empty = empty
+secMode.length must equal tram+1. Ebanist's engine divides the inside into EQUAL sections; unequal widths are not supported yet, so if he asks for a specific section width, still emit the closest tram/secMode and add a line in "questions" saying the width ratio cannot be honoured.
+"shelves" and "drawers" are counts PER SECTION, not totals.
+
+ANGLED CUTS (customCuts) — the only geometric modifier the engine has. "angL" and "angR" are the real corner angles of the room at the left and right end of the unit, 45..135, default 90. Under 90 the unit narrows towards the front (inside corner), over 90 it widens (outside corner). L is measured at the BACK wall. The engine applies them to the trapezoidal panels (Base / Cielo, Zoccolo) and renders the oblique cut in 3D. There is no per-panel modifier: do not try to angle a single Fianco or shelf — emit angL/angR and let the engine decide which panels are trapezoidal.
+
+PRODUCTION vs SITE (bounding box): the factory only cuts at 90 degrees. Whatever angle you set, the cut list still exports the maximum bounding rectangle of each panel and the oblique line goes only to the assembly sheet as a guide. So never reduce a dimension "because of the angle" — give the real wall opening and let the engine do it.`);
+  }else{
+    P.push(`SECTION 3 — the site survey (survey)
+The room is a closed outline of walls, walked in order. Each wall has: len (mm), angle (the real corner angle in degrees at the END of that wall, 90 for a square corner, 270 for an L-shaped room re-entrant), bow (out of plane, mm, optional). Walls are addressed by "n", 1-based, in the order they appear in the app. Emitting a wall with an n greater than the current count appends a new wall.
+
+heights = three floor-to-ceiling measurements at three different points (the floor is never level). wallH = nominal wall height.
+
+OBSTACLES (sockets, switches, pipes, radiators, openings, beams). Each is placed on ONE wall, with:
+  wall = the 1-based wall number, fromCorner = mm from the START corner of that wall (his "de la stânga" / "da sinistra" when facing the wall), fromFloor = mm from the floor, w = width, h = height.
+Default sizes when he does not say: presa/interr 80x80, tubo 60x60. If he gives only one dimension, use it for both and say so in "notes".
+"The socket is at 1200 from the left and 300 from the floor" => {wall:1, type:"presa", fromCorner:1200, fromFloor:300, w:80, h:80}.
+When a photo is attached, read what it shows (number and kind of sockets, pipes, radiator, window reveal) but take every NUMBER from what he says. Never estimate a dimension off a photo; if the photo shows something he did not measure, list it in "questions".
+
+PLACEMENT (layout) — where a finished unit stands in the room. Ebanist places units against a wall: {name, wall (1-based), from = mm from the start corner of that wall along the wall, off = mm away from the wall face, lift = mm off the floor, rot = extra rotation in degrees}. "On wall 2, 500 from the corner" => {name:"<existing unit name>", wall:2, from:500}. Only use names that exist in the project; if he names a unit you do not see, ask in "questions".`);
+  }
+  P.push(`OUTPUT: call the tool "applica_patch" exactly once. No prose outside the tool call.`);
+  return P.join("\n\n");
+}
+
+/* ---------- schema dello strumento (garantisce JSON valido) ---------- */
+function aiSchema(mode){
+  const num=(min,max)=>({type:"integer",minimum:min,maximum:max});
+  const common={notes:{type:"string",description:"One short sentence, in the user's language."},
+    questions:{type:"array",items:{type:"string"},description:"Anything ambiguous, missing or impossible. Empty if all clear."}};
+  if(mode==="genera"){
+    return {type:"object",properties:Object.assign({
+      config:{type:"object",description:"ONLY the fields that must change.",properties:{
+        name:{type:"string"},
+        type:{type:"string",enum:AI_ENUM.type},
+        L:num(100,6000), L2:num(300,6000), H:num(100,3500), P:num(100,1200),
+        matBody:{type:"string",enum:aiMatIds()}, matFront:{type:"string",enum:aiMatIds()}, matBack:{type:"string",enum:aiMatIds()},
+        plinth:num(0,400), tram:num(0,4), shelves:num(0,10), drawers:num(0,8), doors:num(0,4),
+        back:num(0,1), hang:num(0,1), boxes:num(0,1), shelfEven:num(0,1), shelfStep:num(60,900), hangGap:num(0,3000),
+        front:{type:"string",enum:AI_ENUM.front}, support:{type:"string",enum:AI_ENUM.support},
+        handles:{type:"string",enum:AI_ENUM.handles}, shelfType:{type:"string",enum:AI_ENUM.shelfType},
+        corner:{type:"string",enum:AI_ENUM.corner}, cornerKind:{type:"string",enum:AI_ENUM.cornerKind},
+        angL:{type:"number",minimum:45,maximum:135,description:"Left corner angle, 90 = square."},
+        angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
+        secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:5,
+          description:"Content of each section, left to right. Length must be tram+1."}}}},common)};
+  }
+  return {type:"object",properties:Object.assign({
+    survey:{type:"object",properties:{
+      wallH:num(1000,4000),
+      heights:{type:"array",items:{type:["integer","null"]},maxItems:3},
+      walls:{type:"array",maxItems:12,items:{type:"object",properties:{
+        n:num(1,12), len:num(50,20000),
+        angle:{type:"number",minimum:20,maximum:340}, bow:num(0,300)},required:["n"]}},
+      obstacles:{type:"object",properties:{
+        add:{type:"array",items:{type:"object",properties:{
+          type:{type:"string",enum:AI_ENUM.obst}, wall:num(1,12),
+          fromCorner:num(0,20000), fromFloor:num(0,4000), w:num(10,4000), h:num(10,4000)},required:["type","wall"]}},
+        set:{type:"array",items:{type:"object",properties:{
+          n:num(1,99), type:{type:"string",enum:AI_ENUM.obst}, wall:num(1,12),
+          fromCorner:num(0,20000), fromFloor:num(0,4000), w:num(10,4000), h:num(10,4000)},required:["n"]}},
+        remove:{type:"array",items:num(1,99)}}}}},
+    layout:{type:"array",maxItems:20,items:{type:"object",properties:{
+      name:{type:"string",description:"Name of an existing unit in this project."},
+      wall:num(1,12), from:{type:"integer",minimum:-2000,maximum:20000},
+      off:num(0,3000), lift:num(0,3000), rot:{type:"number",minimum:-180,maximum:180}},required:["name"]}}},common)};
+}
+
+/* ---------- contesto: cosa c'e' adesso nello state ---------- */
+function aiContext(mode){
+  if(mode==="genera"){
+    const c=cfgFromForm(), keep={};
+    ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
+     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind",
+     "angL","angR","hangGap","shelfEven","shelfStep","secMode"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
+    return JSON.stringify(keep);
+  }
+  const sv=survey()||{walls:[],heights:[],obstacles:[]}, p=proj();
+  const out={wallH:sv.wallH||null, heights:sv.heights||[],
+    walls:(sv.walls||[]).map((w,i)=>({n:i+1,len:w.len,angle:w.angle,bow:w.bow})),
+    obstacles:(sv.obstacles||[]).map((o,i)=>({n:i+1,type:o.type,
+      wall:(sv.walls||[]).findIndex(w=>w.id===o.wall)+1||null,
+      fromCorner:o.fromCorner,fromFloor:o.fromFloor,w:o.w,h:o.h})),
+    units:p&&p.configs?Object.keys(p.configs):[],
+    layout:p&&p.layout?Object.keys(p.layout).map(n=>({name:n,
+      wall:(sv.walls||[]).findIndex(w=>w.id===p.layout[n].wall)+1||null,
+      from:p.layout[n].from,off:p.layout[n].off,lift:p.layout[n].lift,rot:p.layout[n].rot})):[]};
+  return JSON.stringify(out);
+}
+
+/* ---------- chiamata ---------- */
+async function aiCall(mode,text,imgs){
+  const blocks=[];
+  (imgs||[]).forEach(im=>blocks.push({type:"image",source:{type:"base64",media_type:im.mime,data:im.b64}}));
+  blocks.push({type:"text",text:`${mode==="genera"?"CURRENT UNIT":"CURRENT SURVEY"} (JSON):\n${aiContext(mode)}\n\nUSER (lang=${state.lang}):\n${text||"(only the photo)"}`});
+  const body={model:aiModel(),max_tokens:2000,system:aiSystem(mode),
+    tools:[{name:"applica_patch",description:"Apply a partial patch to the Ebanist state.",input_schema:aiSchema(mode)}],
+    tool_choice:{type:"tool",name:"applica_patch"},
+    messages:[{role:"user",content:blocks}]};
+  const proxy=aiProxy(), headers={"content-type":"application/json"};
+  if(!proxy){
+    if(!aiKey()) throw new Error(tia("aiNoKey"));
+    headers["x-api-key"]=aiKey();
+    headers["anthropic-version"]="2023-06-01";
+    headers["anthropic-dangerous-direct-browser-access"]="true";
+  }
+  const r=await fetch(proxy||AI_ENDPOINT,{method:"POST",headers,body:JSON.stringify(body)});
+  const j=await r.json().catch(()=>null);
+  if(!r.ok) throw new Error((j&&j.error&&j.error.message)||("HTTP "+r.status));
+  const tc=(j&&j.content||[]).find(b=>b.type==="tool_use");
+  if(!tc) throw new Error("no tool_use");
+  return tc.input||{};
+}
+
+/* ---------- validazione + clamp: niente entra nello state senza passare di qui ---------- */
+const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,4],
+  shelves:[0,10],drawers:[0,8],doors:[0,4],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
+  shelfStep:[60,900],hangGap:[0,3000]};
+function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
+function aiNormCfg(raw,warn){
+  const out={};
+  if(!raw||typeof raw!=="object") return out;
+  for(const k in AI_CFG_INT){ if(raw[k]==null) continue;
+    const v=aiInt(raw[k],AI_CFG_INT[k][0],AI_CFG_INT[k][1]); if(v!=null) out[k]=v; }
+  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind"]){
+    if(raw[k]==null) continue;
+    if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
+  for(const k of ["matBody","matFront","matBack"]){
+    if(raw[k]==null) continue;
+    if(matById(raw[k])) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
+  if(typeof raw.name==="string"&&raw.name.trim()) out.name=raw.name.trim().slice(0,60);
+  for(const k of ["angL","angR"]){ if(raw[k]==null) continue;
+    const n=parseFloat(raw[k]); if(isFinite(n)) out[k]=angClamp(n); }
+  if(Array.isArray(raw.secMode)){
+    const arr=raw.secMode.filter(x=>AI_ENUM.secMode.indexOf(x)>=0);
+    const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
+    if(arr.length){ while(arr.length<n) arr.push(arr[arr.length-1]); out.secMode=arr.slice(0,n); }
+  }
+  return out;
+}
+function aiNormSurvey(raw,warn){
+  const sv=survey(); if(!sv||!raw||typeof raw!=="object") return null;
+  const out={walls:[],obst:{add:[],set:[],remove:[]}};
+  if(raw.wallH!=null){ const v=aiInt(raw.wallH,1000,4000); if(v!=null) out.wallH=v; }
+  if(Array.isArray(raw.heights)){
+    out.heights=raw.heights.slice(0,3).map(v=>v==null?null:aiInt(v,500,5000)); }
+  (raw.walls||[]).forEach(w=>{
+    const n=aiInt(w.n,1,12); if(n==null) return;
+    const o={n};
+    if(w.len!=null) o.len=aiInt(w.len,50,20000);
+    if(w.angle!=null){ const a=parseFloat(w.angle); if(isFinite(a)) o.angle=Math.max(20,Math.min(340,a)); }
+    if(w.bow!=null) o.bow=aiInt(w.bow,0,300);
+    out.walls.push(o);
+  });
+  const ob=raw.obstacles||{};
+  /* i muri creati da QUESTA patch contano gia': l'ostacolo detto nella stessa frase
+     sta sul muro appena dettato. Il numero si risolve in id solo al momento di applicare. */
+  out.nWalls=Math.max(sv.walls.length,...out.walls.map(w=>w.n),0);
+  const wallN=n=>{ const v=aiInt(n,1,12); return (v!=null&&v<=out.nWalls)?v:null; };
+  const dflt=t=>(t==="presa"||t==="interr")?80:(t==="tubo"?60:100);
+  (ob.add||[]).forEach(o=>{
+    if(AI_ENUM.obst.indexOf(o.type)<0){ warn.push(`obstacle: "${o.type}" ?`); return; }
+    const n=wallN(o.wall); if(!n){ warn.push(`obstacle ${o.type}: ${ts("svWall")} ${o.wall} ?`); return; }
+    out.obst.add.push({id:uid(),type:o.type,wallN:n,
+      fromCorner:aiInt(o.fromCorner,0,20000),fromFloor:aiInt(o.fromFloor,0,4000),
+      w:aiInt(o.w,10,4000)!=null?aiInt(o.w,10,4000):dflt(o.type),
+      h:aiInt(o.h,10,4000)!=null?aiInt(o.h,10,4000):dflt(o.type)});
+  });
+  (ob.set||[]).forEach(o=>{
+    const cur=sv.obstacles[(aiInt(o.n,1,99)||0)-1]; if(!cur) return;
+    const patch={id:cur.id};
+    if(o.type&&AI_ENUM.obst.indexOf(o.type)>=0) patch.type=o.type;
+    if(o.wall!=null){ const n=wallN(o.wall); if(n) patch.wallN=n; }
+    ["fromCorner","fromFloor","w","h"].forEach(k=>{ if(o[k]!=null) patch[k]=aiInt(o[k],0,20000); });
+    out.obst.set.push(patch);
+  });
+  (ob.remove||[]).forEach(n=>{ const cur=sv.obstacles[(aiInt(n,1,99)||0)-1]; if(cur) out.obst.remove.push(cur.id); });
+  return out;
+}
+function aiNormLayout(raw,warn,nWalls){
+  const p=proj(), sv=survey(); if(!p||!sv||!Array.isArray(raw)) return [];
+  const max=Math.max(sv.walls.length,nWalls||0);
+  const out=[];
+  raw.forEach(o=>{
+    const nm=String(o.name||"").trim();
+    if(!p.configs||!p.configs[nm]){ warn.push(`layout: "${nm}" ?`); return; }
+    const patch={name:nm};
+    if(o.wall!=null){ const n=aiInt(o.wall,1,12);
+      if(!n||n>max){ warn.push(`layout ${nm}: ${ts("svWall")} ${o.wall} ?`); return; } patch.wallN=n; }
+    if(o.from!=null) patch.from=aiInt(o.from,-2000,20000);
+    if(o.off!=null) patch.off=aiInt(o.off,0,3000);
+    if(o.lift!=null) patch.lift=aiInt(o.lift,0,3000);
+    if(o.rot!=null){ const r=parseFloat(o.rot); if(isFinite(r)) patch.rot=Math.max(-180,Math.min(180,r)); }
+    out.push(patch);
+  });
+  return out;
+}
+
+/* ---------- diff leggibile: si vede cosa cambia PRIMA di applicare ---------- */
+function aiLbl(k){
+  const map={L:t("fWidth"),L2:t("fL2"),H:t("fHeight"),P:t("fDepth"),plinth:t("fPlinth"),tram:t("fTram"),
+    shelves:t("fShelvesSec"),drawers:t("fDrawersSec"),doors:t("fDoorsN"),back:t("fBack"),hang:t("fHang"),
+    front:t("fFront"),support:t("fSupport"),handles:t("fHandles"),shelfType:t("fShelfT"),type:t("fType"),
+    matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
+    hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
+    boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule")};
+  return map[k]||k;
+}
+function aiVal(k,v){
+  if(v==null||v==="") return "—";
+  if(/^mat/.test(k)){ const m=matById(v); return m?m.label:v; }
+  if(k==="secMode") return (v||[]).map(x=>t("sec_"+x)).join(" · ");
+  if(["back","hang","boxes","shelfEven"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
+  if(["type","front","support","handles","shelfType","corner","cornerKind"].indexOf(k)>=0){
+    const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
+      tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
+      piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",mobile:"shMobile",
+      fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt"};
+    return m[v]?t(m[v]):v;
+  }
+  return String(v);
+}
+function aiRow(label,from,to){ return `<div class="aidiff"><b>${esc(label)}</b><span>${esc(from)} → <b style="color:var(--red);min-width:0">${esc(to)}</b></span></div>`; }
+
+/* ---------- stato del modulo ---------- */
+let aiPatch=null, aiMode="genera", aiImgs=[], aiRec=null, aiBusy=false;
+
+function aiVeil(on){
+  const sfx=aiMode==="genera"?"Build":"Survey";
+  const el=$("aiVeil"+sfx), tx=$("aiVeilTxt"+sfx);
+  if(tx) tx.textContent=tia("aiThinking");
+  if(el) el.classList.toggle("on",!!on);
+}
+function aiBarHTML(mode){
+  const mic=`<svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 11a7 7 0 0 1-14 0M12 18v4M8 22h8"/></svg>`;
+  const cam=`<svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`;
+  return `<div class="aibar">
+    <textarea id="aiTxt${mode}" rows="2" placeholder="${esc(tia(mode==="genera"?"aiPh":"aiPhSv"))}"></textarea>
+    <div class="airow">
+      <button class="aibtn" id="aiMic${mode}" title="${esc(tia("aiMic"))}" aria-label="${esc(tia("aiMic"))}">${mic}</button>
+      <button class="aibtn" id="aiCam${mode}" title="${esc(tia("aiCam"))}" aria-label="${esc(tia("aiCam"))}">${cam}</button>
+      <input type="file" id="aiFile${mode}" accept="image/*" capture="environment" multiple style="display:none">
+      <button class="aisend" id="aiGo${mode}">${esc(tia("aiSend"))}</button>
+    </div>
+    <div class="airow" id="aiThumbs${mode}" style="display:none"></div>
+  </div>`;
+}
+
+/* le immagini vanno rimpicciolite: una foto da telefono e' 4 MB e il lato lungo
+   utile per il modello e' 1568 px. */
+function aiShrink(file){
+  return new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onerror=()=>rej(new Error("read"));
+    fr.onload=()=>{
+      const img=new Image();
+      img.onerror=()=>rej(new Error("img"));
+      img.onload=()=>{
+        const s=Math.min(1,1568/Math.max(img.width,img.height));
+        const cv=document.createElement("canvas");
+        cv.width=Math.round(img.width*s); cv.height=Math.round(img.height*s);
+        cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+        const url=cv.toDataURL("image/jpeg",0.82);
+        res({mime:"image/jpeg",b64:url.split(",")[1],url});
+      };
+      img.src=fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+function aiRenderThumbs(mode){
+  const box=$("aiThumbs"+mode); if(!box) return;
+  box.style.display=aiImgs.length?"flex":"none";
+  box.innerHTML=aiImgs.map((im,i)=>`<img class="aithumb" src="${im.url}" data-rm="${i}" alt="">`).join("")+
+    (aiImgs.length?`<span class="mini" style="align-self:center">${aiImgs.length}</span>`:"");
+  box.querySelectorAll("[data-rm]").forEach(el=>el.addEventListener("click",()=>{
+    aiImgs.splice(+el.dataset.rm,1); aiRenderThumbs(mode);
+  }));
+}
+
+/* ---------- dettatura ---------- */
+function aiToggleMic(mode){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const btn=$("aiMic"+mode), ta=$("aiTxt"+mode);
+  if(!SR){ toast(tia("aiNoSpeech")); ta.focus(); return; }
+  if(aiRec){ try{aiRec.stop();}catch(e){} aiRec=null; btn.classList.remove("rec"); return; }
+  const rec=new SR();
+  rec.lang=AI_SPEECH_LANG[state.lang]||"it-IT";
+  rec.continuous=true; rec.interimResults=true;
+  const base=ta.value?ta.value.replace(/\s+$/,"")+" ":"";
+  rec.onresult=e=>{
+    let fin="",int="";
+    for(let i=0;i<e.results.length;i++){
+      const r=e.results[i];
+      if(r.isFinal) fin+=r[0].transcript+" "; else int+=r[0].transcript;
+    }
+    ta.value=base+fin+int;
+  };
+  rec.onerror=()=>{ btn.classList.remove("rec"); aiRec=null; };
+  rec.onend=()=>{ btn.classList.remove("rec"); aiRec=null; };
+  try{ rec.start(); aiRec=rec; btn.classList.add("rec"); }
+  catch(e){ toast(tia("aiNoSpeech")); }
+}
+
+/* ---------- invio ---------- */
+async function aiRun(mode){
+  if(aiBusy) return;
+  const ta=$("aiTxt"+mode), txt=(ta.value||"").trim();
+  if(!txt&&!aiImgs.length){ toast(tia("aiImgOnly")); ta.focus(); return; }
+  if(!aiProxy()&&!aiKey()){ toast(tia("aiNoKey")); return; }
+  if(mode==="rilievo"&&!proj()){ toast(ts("svNoProject")); return; }
+  aiMode=mode; aiBusy=true; aiVeil(true);
+  const go=$("aiGo"+mode); go.disabled=true; const old=go.textContent; go.textContent=tia("aiThinking");
+  try{
+    const raw=await aiCall(mode,txt,aiImgs);
+    const warn=[];
+    aiPatch={mode,notes:String(raw.notes||""),questions:(raw.questions||[]).map(String),warn,
+      cfg:mode==="genera"?aiNormCfg(raw.config,warn):null,
+      sv:null,lay:[]};
+    if(mode==="rilievo"){
+      aiPatch.sv=aiNormSurvey(raw.survey,warn);
+      aiPatch.lay=aiNormLayout(raw.layout,warn,aiPatch.sv&&aiPatch.sv.nWalls);
+    }
+    aiShowSheet();
+  }catch(e){
+    toast(tia("aiErr").replace("{e}",e&&e.message?e.message:"?"));
+  }finally{
+    aiBusy=false; aiVeil(false); go.disabled=false; go.textContent=old;
+  }
+}
+
+/* ---------- foglio di conferma ---------- */
+function aiShowSheet(){
+  const P=aiPatch; if(!P) return;
+  const rows=[]; const notes=[];
+  if(P.mode==="genera"&&P.cfg){
+    const cur=cfgFromForm();
+    Object.keys(P.cfg).forEach(k=>{
+      const a=aiVal(k,cur[k]), b=aiVal(k,P.cfg[k]);
+      if(a!==b) rows.push(aiRow(aiLbl(k),a,b));
+    });
+    if(P.cfg.tram!=null||P.cfg.secMode) notes.push(tia("aiSecNote"));
+    if(isAng(P.cfg.angL)||isAng(P.cfg.angR)) notes.push(tia("aiBoundNote"));
+  }
+  if(P.mode==="rilievo"){
+    const sv=survey()||{walls:[],obstacles:[]};
+    if(P.sv){
+      if(P.sv.wallH!=null&&P.sv.wallH!==sv.wallH) rows.push(aiRow(ts("svWallH"),sv.wallH||"—",P.sv.wallH));
+      if(P.sv.heights) P.sv.heights.forEach((v,i)=>{
+        if(v!=null&&v!==(sv.heights||[])[i]) rows.push(aiRow(ts("svPoint")+" "+(i+1),(sv.heights||[])[i]||"—",v)); });
+      P.sv.walls.forEach(w=>{
+        const cur=sv.walls[w.n-1]||{};
+        const lbl=ts("svWall")+" "+w.n+(sv.walls[w.n-1]?"":" +");
+        if(w.len!=null&&w.len!==cur.len) rows.push(aiRow(lbl+" · "+ts("svLen"),cur.len||"—",w.len));
+        if(w.angle!=null&&w.angle!==cur.angle) rows.push(aiRow(lbl+" · "+ts("svAngle"),cur.angle||"—",w.angle));
+        if(w.bow!=null&&w.bow!==cur.bow) rows.push(aiRow(lbl+" · "+ts("svBow"),cur.bow||"—",w.bow));
+      });
+      P.sv.obst.add.forEach(o=>{
+        rows.push(aiRow("+ "+obstLabel(o.type),ts("svWall")+" "+o.wallN,
+          `${o.fromCorner!=null?o.fromCorner:"?"} / ${o.fromFloor!=null?o.fromFloor:"?"} · ${o.w}×${o.h}`));
+      });
+      P.sv.obst.set.forEach(o=>{
+        const i=sv.obstacles.findIndex(x=>x.id===o.id);
+        rows.push(aiRow(obstLabel((sv.obstacles[i]||{}).type||"altro")+" "+(i+1),"…",
+          Object.keys(o).filter(k=>k!=="id").map(k=>k==="wallN"?ts("svWall")+" "+o[k]:k+"="+o[k]).join(" ")||"—"));
+      });
+      P.sv.obst.remove.forEach(id=>{
+        const i=sv.obstacles.findIndex(x=>x.id===id);
+        rows.push(aiRow("− "+obstLabel((sv.obstacles[i]||{}).type||"altro"),String(i+1),"—"));
+      });
+    }
+    P.lay.forEach(l=>{
+      const bits=[]; if(l.wallN) bits.push(ts("svWall")+" "+l.wallN);
+      ["from","off","lift","rot"].forEach(k=>{ if(l[k]!=null) bits.push(k+"="+l[k]); });
+      rows.push(aiRow(l.name,"…",bits.join(" · ")||"—"));
+    });
+  }
+  P.rows=rows.length;
+  $("aiSheetTitle").textContent=tia("aiTitle");
+  $("aiSheetNote").textContent=P.notes||"";
+  $("aiSheetDiff").innerHTML=rows.length?rows.join(""):`<p class="mini">${esc(tia("aiNoChange"))}</p>`;
+  const w=[];
+  if(notes.length) w.push(notes.map(n=>`<p class="mini" style="margin-top:6px">${esc(n)}</p>`).join(""));
+  if(P.warn.length) w.push(`<p class="aiwarn"><b>${esc(tia("aiWarnHdr"))}:</b> ${esc(P.warn.join(" · "))}</p>`);
+  if(P.questions.length) w.push(`<p class="aiwarn"><b>${esc(tia("aiAsk"))}:</b> ${esc(P.questions.join(" "))}</p>`);
+  $("aiSheetWarn").innerHTML=w.join("");
+  $("btnAiApply").querySelector("span").textContent=tia("aiApply");
+  $("btnAiCancel").querySelector("span").textContent=tia("aiCancel");
+  $("btnAiApply").style.display=rows.length?"":"none";
+  openSheet("shAI");
+}
+
+function aiApply(){
+  const P=aiPatch; if(!P) return;
+  snapUndo();
+  if(P.mode==="genera"&&P.cfg){
+    /* aggiornamento parziale: solo le chiavi arrivate, il resto resta com'e' */
+    buildCfg=Object.assign({},cfgFromForm(),P.cfg);
+    if(P.cfg.matBody){ const m=matById(P.cfg.matBody); if(m) buildCfg.t=m.th; }
+    if(P.cfg.tram!=null&&buildCfg.secMode&&buildCfg.secMode.length!==P.cfg.tram+1) buildCfg.secMode=null;
+    buildSecMode=buildCfg.secMode||null;
+    buildObst=buildCfg.obstacles||[];
+    syncBuildForm(); renderSecChips(); drawPreview();
+    setView("build");
+  }
+  if(P.mode==="rilievo"){
+    const sv=survey();
+    if(sv&&P.sv){
+      if(P.sv.wallH!=null) sv.wallH=P.sv.wallH;
+      if(P.sv.heights){ sv.heights=sv.heights||[null,null,null];
+        P.sv.heights.forEach((v,i)=>{ if(v!=null) sv.heights[i]=v; }); }
+      P.sv.walls.forEach(w=>{
+        while(sv.walls.length<w.n) sv.walls.push({id:uid(),len:null,angle:90,bow:null});
+        const cur=sv.walls[w.n-1];
+        ["len","angle","bow"].forEach(k=>{ if(w[k]!=null) cur[k]=w[k]; });
+      });
+      /* i muri esistono adesso: il numero diventa id */
+      const wid=n=>{ const w=sv.walls[(n||0)-1]; return w?w.id:null; };
+      sv.obstacles=sv.obstacles||[];
+      P.sv.obst.remove.forEach(id=>{ sv.obstacles=sv.obstacles.filter(o=>o.id!==id); });
+      P.sv.obst.set.forEach(o=>{ const cur=sv.obstacles.find(x=>x.id===o.id); if(!cur) return;
+        const q=Object.assign({},o); delete q.wallN;
+        if(o.wallN!=null){ const id=wid(o.wallN); if(id) q.wall=id; }
+        Object.assign(cur,q); });
+      P.sv.obst.add.forEach(o=>{ const q=Object.assign({},o); delete q.wallN;
+        q.wall=wid(o.wallN); if(q.wall) sv.obstacles.push(q); });
+    }
+    if(P.lay.length){
+      const L=layout();
+      if(L) P.lay.forEach(l=>{
+        const q={};
+        if(l.wallN!=null){ const w=sv.walls[l.wallN-1]; if(w) q.wall=w.id; }
+        ["from","off","lift","rot"].forEach(k=>{ if(l[k]!=null) q[k]=l[k]; });
+        L[l.name]=Object.assign({wall:null,from:0},L[l.name]||{},q);
+      });
+    }
+    setView("survey"); renderSurvey();
+  }
+  persist(); closeSheets(); aiPatch=null;
+  aiImgs=[]; aiRenderThumbs("genera"); aiRenderThumbs("rilievo");
+  undoToast(tia("aiApplied"));
+}
+
+/* ---------- montaggio ---------- */
+let aiMounted=false;
+function aiMount(){
+  const mounts=[["aiBarBuild","genera"],["aiBarSurvey","rilievo"]];
+  mounts.forEach(([id,mode])=>{
+    const host=$(id); if(!host) return;
+    host.innerHTML=aiBarHTML(mode);
+    $("aiGo"+mode).addEventListener("click",()=>aiRun(mode));
+    $("aiMic"+mode).addEventListener("click",()=>{ aiMode=mode; aiToggleMic(mode); });
+    $("aiCam"+mode).addEventListener("click",()=>$("aiFile"+mode).click());
+    $("aiFile"+mode).addEventListener("change",async e=>{
+      aiMode=mode;
+      for(const f of Array.from(e.target.files||[]).slice(0,4)){
+        try{ aiImgs.push(await aiShrink(f)); }catch(err){ toast(t("importErr")); }
+      }
+      aiRenderThumbs(mode); e.target.value="";
+    });
+    $("aiTxt"+mode).addEventListener("focus",()=>{ aiMode=mode; });
+  });
+  aiRenderThumbs("genera"); aiRenderThumbs("rilievo");
+  if(aiMounted) return;              // al cambio lingua si rifanno solo le barre
+  aiMounted=true;
+  $("btnAiApply").addEventListener("click",aiApply);
+  $("btnAiCancel").addEventListener("click",()=>{ closeSheets(); aiPatch=null; });
+}
+
 /* ================= INIT ================= */
 state=loadState();
 function bootAuth(){ initSupabase(); initAuth(); initSplash(); }
@@ -4673,12 +5410,13 @@ setTimeout(()=>{
 },900);
 document.addEventListener("click",e=>{ if(e.target&&e.target.id==="btnIntroGo") closeSheets(); });
 applyLang();
+aiMount();
 setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.11.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v34";
+const APP_VER="4.12.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v35";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
