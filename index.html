@@ -5231,23 +5231,27 @@ function aiToggleMic(mode){
   rec.lang=AI_SPEECH_LANG[state.lang]||"it-IT";
   rec.continuous=true; rec.interimResults=true; rec.maxAlternatives=1;
   const base=ta.value?ta.value.replace(/\s+$/,"")+" ":"";
-  /* Android rimanda la stessa frase finale a ogni evento e la lascia dentro
-     `results`: ricostruendo da zero la parola finiva scritta dieci volte.
-     Si tiene l'indice dell'ultimo risultato gia' preso e si scarta la
-     ripetizione immediata — due frasi finali identiche di fila sono il bug,
-     non la dettatura. */
+  /* Android non manda un solo risultato provvisorio che si aggiorna: ne accoda
+     uno per ogni parola, ognuno con la frase intera fino a quel punto —
+     "un", "un metro", "un metro e ottanta". Concatenarli scriveva la frase
+     dieci volte. Il provvisorio buono e' SEMPRE l'ultimo, non la somma.
+     Le frasi finali arrivano invece in coda e restano nella lista a ogni
+     evento: si tiene l'indice di quelle gia' prese, si scarta la ripetizione
+     e, se la nuova estende la precedente, la sostituisce. */
   let done="", taken=0, lastFin="";
   rec.onresult=e=>{
     let interim="";
     for(let i=taken;i<e.results.length;i++){
       const r=e.results[i], alt=r[0];
       if(!alt) continue;
-      if(!r.isFinal){ interim+=alt.transcript; continue; }
-      taken=i+1;
+      if(!r.isFinal){ interim=alt.transcript; continue; }   /* ultimo, non somma */
+      taken=i+1; interim="";   /* i provvisori prima di una finale sono la stessa frase */
       const txt=alt.transcript.trim();
       if(!txt||txt===lastFin) continue;
+      if(done.slice(-txt.length)===txt) continue;           /* gia' in coda */
+      if(lastFin&&txt.indexOf(lastFin)===0) done=done.slice(0,done.length-lastFin.length)+txt;
+      else done+=(done?" ":"")+txt;
       lastFin=txt;
-      done+=(done?" ":"")+txt;
     }
     interim=interim.trim();
     ta.value=base+done+(interim?(done?" ":"")+interim:"");
@@ -5438,8 +5442,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.12.2"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v37";
+const APP_VER="4.12.3"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v38";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
