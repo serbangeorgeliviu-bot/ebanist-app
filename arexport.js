@@ -104,21 +104,23 @@ export const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (/Mac/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 export const isAndroid = () => /android/i.test(navigator.userAgent);
 
-/* Carica su Supabase Storage e restituisce l'indirizzo pubblico.
-   Serve un bucket PUBBLICO chiamato "ar": il visore AR del telefono e
-   un'altra app, non puo leggere un blob: locale, gli serve un https vero. */
+/* Carica sulla funzione Netlify e restituisce l'indirizzo pubblico.
+   Sta sullo stesso Netlify che pubblica il sito: nessun account, nessun
+   login. In locale la funzione non esiste, l'upload fallisce e si ripiega
+   sulla condivisione del file — e il comportamento voluto. */
 export async function uploadModel(blob, filename) {
-  let client = null;
-  try { client = (typeof sb !== "undefined" && sb) ? sb : (window.sb || null); } catch (e) { client = null; }
-  if (!client || !client.storage) throw new Error("Supabase non collegato");
-  const path = `models/${Date.now()}-${filename}`;
-  const { error } = await client.storage.from("ar").upload(path, blob, {
-    contentType: blob.type, upsert: true, cacheControl: "3600",
+  const r = await fetch("/.netlify/functions/model", {
+    method: "POST",
+    headers: {
+      "Content-Type": blob.type || "application/octet-stream",
+      "X-Filename": filename,
+    },
+    body: blob,
   });
-  if (error) throw new Error(error.message || "upload fallito");
-  const { data } = client.storage.from("ar").getPublicUrl(path);
-  if (!data || !data.publicUrl) throw new Error("indirizzo pubblico non disponibile");
-  return data.publicUrl;
+  if (!r.ok) throw new Error("upload " + r.status);
+  const j = await r.json().catch(() => null);
+  if (!j || !j.url) throw new Error("indirizzo non restituito");
+  return j.url;
 }
 
 /* Apre il visore AR di sistema. Torna false se non e stato possibile. */

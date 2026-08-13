@@ -1,3 +1,19 @@
+[build]
+  # Il sito resta statico: si pubblica la cartella cosi com'e, nessun build.
+  # Il comando vuoto e ESPLICITO: con un package.json in giro, senza questo
+  # Netlify potrebbe mettersi a cercare uno step di build che non esiste.
+  publish = "."
+  command = ""
+  functions = "netlify/functions"
+
+# Indirizzo "col nome di file" per il visore AR: Scene Viewer e Quick Look
+# si fidano molto di piu di un URL che finisce in .glb / .usdz che di una
+# query string verso una funzione.
+[[redirects]]
+  from = "/ar/*"
+  to = "/.netlify/functions/model?id=:splat"
+  status = 200
+
 [[headers]]
   for = "/.well-known/assetlinks.json"
   [headers.values]

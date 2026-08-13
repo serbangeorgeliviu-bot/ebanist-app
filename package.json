@@ -1,0 +1,9 @@
+{
+  "name": "ebanist-app",
+  "private": true,
+  "type": "module",
+  "comment": "Serve SOLO alla funzione Netlify che ospita il modello per l'AR. L'app resta HTML puro: non c'e build, non serve npm sul telefono ne sul Mac — le dipendenze le installa Netlify da sola.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
