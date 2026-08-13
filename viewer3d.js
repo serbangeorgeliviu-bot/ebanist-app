@@ -448,3 +448,9 @@ const GL3D = {
 
 window.GL3D = GL3D;
 if (typeof window.__gl3dReady === "function") window.__gl3dReady();
+
+/* Condivisi con arexport.js: la geometria dev'essere LA STESSA che si vede,
+   altrimenti il modello in AR non e il mobile che ha sullo schermo.
+   Niente di tutto questo ha bisogno del renderer, quindi l'export funziona
+   anche sui telefoni dove WebGL non parte. */
+export { THREE, MM, buildPrism, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };

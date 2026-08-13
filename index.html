@@ -710,6 +710,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <div class="mini" id="buildInfo" style="text-align:center;margin:4px 0 2px;font-variant-numeric:tabular-nums"></div>
       <div class="chips" style="justify-content:center;margin:2px 0 4px">
         <button class="chip" id="btnExplode" data-i="explodeBtn">Vista esplosa</button>
+        <button class="chip" id="btnAR" title="Realta aumentata">AR</button>
         <button class="chip" id="btnPrevBig" title="Zoom">⤢</button>
       </div>
     </div>
@@ -3773,6 +3774,42 @@ $("roomOpa").addEventListener("input",e=>{ ROOM.opa=parseInt(e.target.value,10)/
     const ns=Math.min(1400,Math.max(90,ROOM.size*(e.deltaY<0?1.08:0.92)));
     ROOM.x-=(ns-ROOM.size)/2; ROOM.y-=(ns-ROOM.size)/2; ROOM.size=ns; roomRender(); },{passive:false});
 })();
+/* ---- AR nativa: si consegna il modello al visore del telefono ----
+   Android -> Scene Viewer, iPhone -> Quick Look. Il visore e un'altra app
+   e non puo leggere un blob locale, quindi il file va caricato e gli si
+   passa un https vero. Senza rete si ripiega sulla condivisione del file:
+   su iPhone aprirlo dai File fa partire Quick Look lo stesso.
+   Il modulo si carica solo qui, alla pressione: ~100 KB di exporter che
+   non ha senso pagare a ogni avvio. */
+$("btnAR").addEventListener("click",async()=>{
+  const btn=$("btnAR");
+  if(btn.dataset.busy) return;
+  btn.dataset.busy="1"; const old=btn.textContent; btn.textContent="…";
+  try{
+    buildCfg=cfgFromForm();
+    const boxes=buildModule(buildCfg).boxes;
+    const M=await import("./arexport.js");
+    const scene=M.buildExportScene(boxes,buildCfg);
+    const ios=M.isIOS();
+    const blob=ios?await M.toUSDZ(scene):await M.toGLB(scene);
+    const p=proj();
+    const nice=(p&&p.name)||buildCfg.name||"Mobile";
+    const fname=slug(nice)+(ios?".usdz":".glb");
+    try{
+      const url=await M.uploadModel(blob,fname);
+      if(M.openAR(url,nice)) return;
+      await M.shareModel(blob,fname);            // desktop: niente visore AR
+    }catch(e){
+      console.warn("AR upload:",e);
+      toast("Niente rete per l'AR — condivido il file");
+      await M.shareModel(blob,fname);
+    }
+  }catch(e){
+    console.warn("AR:",e);
+    toast("Export 3D non riuscito");
+  }finally{ btn.dataset.busy=""; btn.textContent=old; }
+});
+
 /* Export con fotocamera dal vivo. Percorso separato da quello della foto,
    che funziona e non si tocca: li si esporta alla risoluzione dello scatto,
    qui non c'e uno scatto, c'e un fotogramma ritagliato come si vede. */
@@ -5577,8 +5614,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.14.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v42";
+const APP_VER="4.15.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v43";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
