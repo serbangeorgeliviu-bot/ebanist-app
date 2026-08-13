@@ -2872,7 +2872,12 @@ function draw3D(){
    lo script classico, quindi al primo drawPreview() GL3D non esiste ancora */
 window.__gl3dReady=function(){
   const cv=$("gl3d"), sv=$("svg3d");
-  if(!cv||!window.GL3D.init(cv)) return;      // niente WebGL: si tiene l'SVG
+  window.GL3D_WHY="modulo ok, init non chiamata";
+  if(!cv||!window.GL3D.init(cv)){             // niente WebGL: si tiene l'SVG
+    window.GL3D_WHY=(cv?(window.GL3D.err||"init fallita"):"canvas assente");
+    try{ verLabelPaint(); }catch(e){}
+    return;
+  }
   cv.style.display="block"; sv.style.display="none";
   window.GL3D_MODE="WebGL"; try{ verLabelPaint(); }catch(e){}
   window.GL3D.resize();
@@ -5472,8 +5477,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.13.1"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v40";
+const APP_VER="4.13.2"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v41";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
@@ -5486,9 +5491,24 @@ document.addEventListener("DOMContentLoaded",()=>{
    distinguere da lontano "l'aggiornamento non e arrivato" da "e arrivato
    ma il 3D e tornato su SVG": senza questo i due casi si vedono uguali. */
 window.GL3D_MODE="SVG";
+window.GL3D_WHY="modulo non caricato";
+/* Il perche del ripiego va scritto a schermo: la console di un telefono non
+   si legge da qui, e "3D SVG" da solo non dice se manca il file, se il
+   browser non fa i moduli o se WebGL non parte. */
+window.addEventListener("error",function(ev){
+  try{
+    const f=(ev&&ev.filename)||"";
+    if(/viewer3d\.js|three\.module|RoomEnvironment/.test(f)){
+      window.GL3D_WHY=String((ev&&ev.message)||"errore").slice(0,70);
+      verLabelPaint();
+    }
+  }catch(e){}
+},true);
 function verLabelPaint(){
   const vl=document.getElementById("verLabel");
-  if(vl) vl.textContent=`Ebanist v${APP_VER} · 3D ${window.GL3D_MODE} · Domus Renov`;
+  if(!vl) return;
+  const why=window.GL3D_MODE==="SVG"?` (${window.GL3D_WHY})`:"";
+  vl.textContent=`Ebanist v${APP_VER} · 3D ${window.GL3D_MODE}${why} · Domus Renov`;
 }
 async function checkForUpdate(){
   const bu=document.getElementById("btnUpdate");

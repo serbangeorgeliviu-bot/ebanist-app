@@ -410,9 +410,28 @@ function kick() {
 /* ============ 5. API PUBLIC ======================================== */
 const GL3D = {
   ok: false,
+  err: null,
   init(canvas) {
-    try { boot(canvas); this.ok = true; }
-    catch (e) { console.warn("WebGL indisponibil, rămâne SVG:", e); this.ok = false; }
+    try {
+      /* three r163+ ha TOLTO il supporto WebGL1: WebGLRenderer vuole WebGL2.
+         Su un telefono che espone solo WebGL1 il costruttore esplode, e senza
+         questo controllo il messaggio non dice il vero motivo.
+         La prova si fa su un canvas USA E GETTA: chiamando getContext sul
+         canvas vero, WebGLRenderer riceverebbe poi il contesto gia creato e
+         i suoi attributi (antialias, preserveDrawingBuffer) verrebbero
+         ignorati in silenzio. */
+      const tmp = document.createElement("canvas");
+      if (!tmp.getContext("webgl2")) {
+        const one = tmp.getContext("webgl") || tmp.getContext("experimental-webgl");
+        throw new Error(one ? "solo WebGL1, three ne vuole 2" : "WebGL assente");
+      }
+      boot(canvas);
+      this.ok = true;
+    } catch (e) {
+      this.err = String((e && e.message) || e).slice(0, 70);
+      console.warn("WebGL non disponibile, resta SVG:", e);
+      this.ok = false;
+    }
     return this.ok;
   },
   render(cfg, opts) {
