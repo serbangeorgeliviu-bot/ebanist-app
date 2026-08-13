@@ -2,10 +2,13 @@
    Scene Viewer e Quick Look sono ALTRE app: non possono leggere un blob
    dentro Ebanist, gli serve un indirizzo https vero. Questa funzione lo da.
 
-   POST /.netlify/functions/model   corpo = i byte del .glb o .usdz
+   POST /ar            corpo = i byte del .glb o .usdz
         -> { url: "https://.../ar/<id>.glb" }
-   GET  /ar/<id>.glb                (riscritto qui da netlify.toml)
-        -> i byte, col Content-Type giusto
+   GET  /ar/<id>.glb   -> i byte, col Content-Type giusto
+
+   La rotta la dichiara la funzione stessa (config.path). Con una regola di
+   riscrittura in netlify.toml il :splat NON arriva alla query string della
+   funzione: l'upload andava, ma il GET rispondeva sempre "id mancante".
 
    Niente account, niente login: gira sullo stesso Netlify che pubblica
    gia il sito, e si consegna con lo stesso git push. */
@@ -14,7 +17,9 @@ import { getStore } from "@netlify/blobs";
 
 const MAX = 8 * 1024 * 1024;          // un mobile sta in pochi kB; il resto e sospetto
 
-export default async (req) => {
+export const config = { path: ["/ar", "/ar/:id"] };
+
+export default async (req, context) => {
   const store = getStore("ar-models");
   const url = new URL(req.url);
 
@@ -32,7 +37,11 @@ export default async (req) => {
   }
 
   if (req.method === "GET") {
-    const id = (url.searchParams.get("id") || "").replace(/[^a-zA-Z0-9._-]/g, "");
+    // il parametro di rotta e la fonte buona; il resto e rete di sicurezza
+    const raw = (context && context.params && context.params.id)
+      || url.pathname.split("/").filter(Boolean).pop()
+      || url.searchParams.get("id") || "";
+    const id = raw.replace(/[^a-zA-Z0-9._-]/g, "");
     if (!id) return new Response("id mancante", { status: 400 });
     const hit = await store.getWithMetadata(id, { type: "arrayBuffer" });
     if (!hit) return new Response("non trovato", { status: 404 });

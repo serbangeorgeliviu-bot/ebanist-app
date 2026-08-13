@@ -109,7 +109,7 @@ export const isAndroid = () => /android/i.test(navigator.userAgent);
    login. In locale la funzione non esiste, l'upload fallisce e si ripiega
    sulla condivisione del file — e il comportamento voluto. */
 export async function uploadModel(blob, filename) {
-  const r = await fetch("/.netlify/functions/model", {
+  const r = await fetch("/ar", {
     method: "POST",
     headers: {
       "Content-Type": blob.type || "application/octet-stream",

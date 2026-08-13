@@ -6,13 +6,9 @@
   command = ""
   functions = "netlify/functions"
 
-# Indirizzo "col nome di file" per il visore AR: Scene Viewer e Quick Look
-# si fidano molto di piu di un URL che finisce in .glb / .usdz che di una
-# query string verso una funzione.
-[[redirects]]
-  from = "/ar/*"
-  to = "/.netlify/functions/model?id=:splat"
-  status = 200
+# La rotta /ar la dichiara la funzione stessa (config.path in model.js).
+# Una regola di riscrittura qui NON funziona: il :splat non arriva alla
+# query string della funzione, e il GET risponde sempre "id mancante".
 
 [[headers]]
   for = "/.well-known/assetlinks.json"

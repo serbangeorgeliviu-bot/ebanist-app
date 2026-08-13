@@ -1,5 +1,5 @@
 /* Ebanist service worker — offline-first app shell */
-const CACHE = "ebanist-v44";
+const CACHE = "ebanist-v45";
 const SHELL = ["./index.html","./viewer3d.js","./vendor/three.module.min.js","./vendor/RoomEnvironment.js","./arexport.js","./vendor/GLTFExporter.js","./vendor/USDZExporter.js","./vendor/TextureUtils.js","./vendor/fflate.module.js","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/favicon.ico"];
 
 self.addEventListener("install", e => {
