@@ -14,9 +14,11 @@
    matAll, planPC, VIEW, buildCfg.
    ===================================================================== */
 
-import * as THREE from "three";
-/* percorso relativo: RoomEnvironment sta piatto in vendor/, e comunque
-   importa 'three' che l'importmap risolve */
+/* Percorsi diretti, NIENTE importmap: gli importmap arrivano solo con
+   iOS 16.4 / Chrome 89. Su un telefono piu vecchio il modulo non partiva
+   affatto e il viewer tornava all'SVG in silenzio — sembrava che
+   l'aggiornamento non fosse mai arrivato. */
+import * as THREE from "./vendor/three.module.min.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 
 const MM = 0.001;                 // milimetri -> metri

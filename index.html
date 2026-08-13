@@ -2874,6 +2874,7 @@ window.__gl3dReady=function(){
   const cv=$("gl3d"), sv=$("svg3d");
   if(!cv||!window.GL3D.init(cv)) return;      // niente WebGL: si tiene l'SVG
   cv.style.display="block"; sv.style.display="none";
+  window.GL3D_MODE="WebGL"; try{ verLabelPaint(); }catch(e){}
   window.GL3D.resize();
   if(typeof buildCfg==="object"&&buildCfg) draw3D();
   init3DControls();                            // i gesti vanno sul canvas
@@ -5471,17 +5472,24 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.13.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v39";
+const APP_VER="4.13.1"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v40";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
 document.addEventListener("DOMContentLoaded",()=>{
-  const vl=document.getElementById("verLabel");
-  if(vl) vl.textContent=`Ebanist v${APP_VER} · Domus Renov`;
+  verLabelPaint();
   const bu=document.getElementById("btnUpdate");
   if(bu) bu.addEventListener("click",checkForUpdate);
 });
+/* L'etichetta versione dice anche QUALE motore 3D e attivo. Serve a
+   distinguere da lontano "l'aggiornamento non e arrivato" da "e arrivato
+   ma il 3D e tornato su SVG": senza questo i due casi si vedono uguali. */
+window.GL3D_MODE="SVG";
+function verLabelPaint(){
+  const vl=document.getElementById("verLabel");
+  if(vl) vl.textContent=`Ebanist v${APP_VER} · 3D ${window.GL3D_MODE} · Domus Renov`;
+}
 async function checkForUpdate(){
   const bu=document.getElementById("btnUpdate");
   bu.disabled=true; const old=bu.querySelector("span").textContent;
@@ -5510,11 +5518,9 @@ async function checkForUpdate(){
 </script>
 
 <!-- Viewer 3D WebGL. three.js sta in locale: l'app deve funzionare in officina
-     senza rete. Se il modulo non parte (WebGL assente, file mancante), non
-     succede niente: resta l'SVG, che e sempre presente sotto. -->
-<script type="importmap">
-{"imports":{"three":"./vendor/three.module.min.js"}}
-</script>
+     senza rete. Nessun importmap: i percorsi sono diretti, cosi parte anche
+     sui telefoni piu vecchi. Se il modulo non parte, non succede niente:
+     resta l'SVG, che e sempre presente sotto. -->
 <script type="module" src="./viewer3d.js"></script>
 </body>
 </html>
