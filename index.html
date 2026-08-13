@@ -703,6 +703,9 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <!-- anteprima appiccicata: resta visibile mentre cambi i campi sotto -->
     <div class="card previewbox" style="padding:8px 10px 4px">
       <div class="aiveil" id="aiVeilBuild"><div class="aispin"></div><span class="mini" id="aiVeilTxtBuild"></span></div>
+      <!-- due render dello stesso mobile: WebGL se c'e, SVG come rete di sicurezza.
+           L'SVG resta comunque il motore per export JPG, disegno tecnico e miniature. -->
+      <canvas id="gl3d" style="width:100%;height:17vh;display:none;touch-action:none;cursor:grab"></canvas>
       <svg id="svg3d" style="width:100%;height:auto;display:block;max-height:17vh;touch-action:none;cursor:grab"></svg>
       <div class="mini" id="buildInfo" style="text-align:center;margin:4px 0 2px;font-variant-numeric:tabular-nums"></div>
       <div class="chips" style="justify-content:center;margin:2px 0 4px">
@@ -2854,6 +2857,28 @@ function render3D(svgEl,cfg,view,opts){
   svgEl.innerHTML=defs+out;
 }
 let _raf=0;
+/* Un solo punto di decisione fra i due motori: se il modulo WebGL e partito
+   disegna lui, altrimenti l'SVG. Cosi non c'e nessun percorso in cui
+   l'anteprima resta vuota. */
+function gl3dOn(){ return !!(window.GL3D&&window.GL3D.ok); }
+/* girare la camera NON deve ricostruire la geometria: in WebGL basta
+   ridisegnare, i pannelli sono gia sulla scheda video */
+function redrawCam(){ if(gl3dOn()) window.GL3D.touch(); else redraw3D(); }
+function draw3D(){
+  if(gl3dOn()){ window.GL3D.render(buildCfg,{explode:explodeOn}); }
+  else render3D($("svg3d"),buildCfg,null,{explode:explodeOn});
+}
+/* chiamata dal modulo quando three.js e pronto: i moduli partono dopo
+   lo script classico, quindi al primo drawPreview() GL3D non esiste ancora */
+window.__gl3dReady=function(){
+  const cv=$("gl3d"), sv=$("svg3d");
+  if(!cv||!window.GL3D.init(cv)) return;      // niente WebGL: si tiene l'SVG
+  cv.style.display="block"; sv.style.display="none";
+  window.GL3D.resize();
+  if(typeof buildCfg==="object"&&buildCfg) draw3D();
+  init3DControls();                            // i gesti vanno sul canvas
+  if(window.ResizeObserver) new ResizeObserver(()=>window.GL3D.resize()).observe(cv);
+};
 /* ================= INTRO ================= */
 /* Tutto sintetizzato con WebAudio: zero file, funziona anche in officina senza rete.
    Il colpo cade a 0.62 s — la grafica è sincronizzata su quel momento. */
@@ -2950,14 +2975,16 @@ function initSplash(){
 }
 
 let explodeOn=0;
-function redraw3D(){ if(_raf)return; _raf=requestAnimationFrame(()=>{_raf=0;render3D($("svg3d"),buildCfg,null,{explode:explodeOn});}); }
+function redraw3D(){ if(_raf)return; _raf=requestAnimationFrame(()=>{_raf=0;draw3D();}); }
 function init3DControls(){
-  const el=$("svg3d"); const ptrs=new Map(); let pinchD=0,lastTap=0;
+  /* i gesti vanno sull'elemento davvero visibile: canvas se WebGL e attivo */
+  const el=gl3dOn()?$("gl3d"):$("svg3d"); if(!el||el.dataset.ctl)return; el.dataset.ctl="1";
+  const ptrs=new Map(); let pinchD=0,lastTap=0;
   el.addEventListener("pointerdown",e=>{
     el.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,[e.clientX,e.clientY]);
     if(ptrs.size===2){ const a=[...ptrs.values()]; pinchD=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]); }
     const now=Date.now();
-    if(now-lastTap<320 && ptrs.size===1){ VIEW.yaw=0.46; VIEW.pitch=0.30; VIEW.zoom=1; redraw3D(); }
+    if(now-lastTap<320 && ptrs.size===1){ VIEW.yaw=0.46; VIEW.pitch=0.30; VIEW.zoom=1; redrawCam(); }
     lastTap=now;
   });
   el.addEventListener("pointermove",e=>{
@@ -2966,17 +2993,17 @@ function init3DControls(){
     if(ptrs.size===1){
       VIEW.yaw=Math.min(1.45,Math.max(0.08,VIEW.yaw+(e.clientX-prev[0])*0.008));
       VIEW.pitch=Math.min(1.2,Math.max(0.05,VIEW.pitch+(e.clientY-prev[1])*0.006));
-      redraw3D();
+      redrawCam();
     }else if(ptrs.size===2){
       const a=[...ptrs.values()]; const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
       if(pinchD>0) VIEW.zoom=Math.min(3,Math.max(0.5,VIEW.zoom*d/pinchD));
-      pinchD=d; redraw3D();
+      pinchD=d; redrawCam();
     }
   });
   const up=e=>{ptrs.delete(e.pointerId);pinchD=0;};
   el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
   el.addEventListener("wheel",e=>{e.preventDefault();
-    VIEW.zoom=Math.min(3,Math.max(0.5,VIEW.zoom*(e.deltaY<0?1.1:0.9))); redraw3D();},{passive:false});
+    VIEW.zoom=Math.min(3,Math.max(0.5,VIEW.zoom*(e.deltaY<0?1.1:0.9))); redrawCam();},{passive:false});
 }
 
 /* --- builder UI --- */
@@ -3052,7 +3079,7 @@ function drawPreview(){
   $("rowL2").style.display=buildCfg.type==="angolare"?"":"none";
   $("fCornerWrap").style.display=buildCfg.type==="angolare"?"":"none";
   $("fCornerKindWrap").style.display=buildCfg.type==="angolare"?"":"none";
-  render3D($("svg3d"),buildCfg,null,{explode:explodeOn});
+  draw3D();
   const built=buildModule(buildCfg);
   const pieces=built.pieces;
   const panelPieces=pieces.filter(x=>!x.mat);
@@ -3129,6 +3156,8 @@ function renderBuild(){
     $("btnPrevBig").addEventListener("click",()=>{
       const s=$("svg3d"), big=s.style.maxHeight==="60vh";
       s.style.maxHeight=big?"17vh":"60vh";
+      const cv=$("gl3d"); if(cv){ cv.style.height=big?"17vh":"60vh";
+        if(gl3dOn()) window.GL3D.resize(); }
       $("btnPrevBig").classList.toggle("on",!big);
       $("btnPrevBig").textContent=big?"⤢":"⤡";
     });
@@ -5442,8 +5471,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.12.3"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v38";
+const APP_VER="4.13.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v39";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
@@ -5479,5 +5508,13 @@ async function checkForUpdate(){
   bu.disabled=false; bu.querySelector("span").textContent=old;
 }
 </script>
+
+<!-- Viewer 3D WebGL. three.js sta in locale: l'app deve funzionare in officina
+     senza rete. Se il modulo non parte (WebGL assente, file mancante), non
+     succede niente: resta l'SVG, che e sempre presente sotto. -->
+<script type="importmap">
+{"imports":{"three":"./vendor/three.module.min.js"}}
+</script>
+<script type="module" src="./viewer3d.js"></script>
 </body>
 </html>
