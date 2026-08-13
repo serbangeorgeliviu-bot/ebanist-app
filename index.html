@@ -3806,7 +3806,13 @@ $("btnAR").addEventListener("click",async()=>{
     }
   }catch(e){
     console.warn("AR:",e);
-    toast("Export 3D non riuscito");
+    /* un toast sparisce prima che si riesca a leggerlo, e la console di un
+       telefono da qui non si legge: il motivo vero va messo in una finestra
+       che resta, insieme allo stato del motore 3D — le due cose cascano
+       quasi sempre insieme, perche arexport importa da viewer3d. */
+    alert("Export 3D non riuscito\n\nMotivo: "+String((e&&(e.message||e.name))||e)
+      +"\n\nMotore 3D: "+(window.GL3D_MODE||"?")+" ("+(window.GL3D_WHY||"-")+")"
+      +"\nVersione: "+APP_VER);
   }finally{ btn.dataset.busy=""; btn.textContent=old; }
 });
 
@@ -5614,8 +5620,8 @@ setView("projects");
 persist();
 </script>
 <script>
-const APP_VER="4.16.1"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v45";
+const APP_VER="4.16.2"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v46";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

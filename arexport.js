@@ -11,7 +11,10 @@
    WebGL non parte e il viewer 3D e ricaduto su SVG.
    ===================================================================== */
 
-import { THREE, MM, buildPrism, isRectPC, pcOf, matKeyOf, boundsOf } from "./viewer3d.js";
+/* Da geo3d.js, NON da viewer3d.js: l'export non deve dipendere dal viewer.
+   Importando dal viewer, se quello non partiva moriva anche l'AR — proprio
+   l'opposto del motivo per cui l'AR e stato scelto. */
+import { THREE, MM, buildPrism, isRectPC, pcOf, matKeyOf, boundsOf } from "./geo3d.js";
 import { GLTFExporter } from "./vendor/GLTFExporter.js";
 import { USDZExporter } from "./vendor/USDZExporter.js";
 
