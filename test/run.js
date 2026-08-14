@@ -206,6 +206,48 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("cassetto interno troppo avanti → avviso cerniera", D.hingeWarn.includes("wDrawHinge"), D.hingeWarn.join(",") || "nessuno");
   ok("la cassa e fatta di pannelli veri, marcati 'dbox'", D.dboxIsBox);
 
+  head("Cassetti a vista o dietro l'anta — devono esserci tutte e due");
+  const V = await pg.evaluate(() => {
+    const out = {}, A = PRESETS.armadio;
+    const inn = buildModule(Object.assign({}, A, { drawerPos: "interno" }));
+    const vis = buildModule(Object.assign({}, A, { drawerPos: "vista", doors: 1 }));
+    const zOf = (m, sub) => { const b = m.boxes.find(x => x.sub === sub); return b ? [Math.round(b.z0), Math.round(b.z1)] : null; };
+    out.innZ = zOf(inn, "drawerIn"); out.innDoorZ = zOf(inn, "door");
+    out.visZ = zOf(vis, "drawer");   out.visDoorZ = zOf(vis, "door");
+    out.innName = inn.pieces.some(x => /^Frontale cassetto interno/.test(x.elemento));
+    out.visName = vis.pieces.some(x => /^Frontale cassetto( push)?$/.test(x.elemento));
+    /* a vista accanto alle ante: l'anta resta intera e copre solo la sua sezione */
+    const anta = vis.pieces.find(x => /^Anta/.test(x.elemento));
+    out.visAntaH = anta ? Math.max(anta.lung, anta.larg) : 0;
+    out.visAntaW = anta ? Math.min(anta.lung, anta.larg) : 0;
+    const dfr = vis.boxes.find(b => b.sub === "drawer"), dr = vis.boxes.find(b => b.sub === "door");
+    out.noOverlap = !!(dfr && dr) && (dr.x1 <= dfr.x0 + 1 || dfr.x1 <= dr.x0 + 1);
+    /* la maniglia: c'e a vista, non c'e dietro l'anta. Si guardano SOLO i
+       frontali di cassetto — le ante la maniglia ce l'hanno sempre. */
+    const hwOf = m => computeHardware({ pieces: m.pieces
+        .filter(x => /^Frontale cassetto/.test(x.elemento))
+        .map(x => Object.assign({ modulo: "m" }, x)) }, state.settings, false)
+      .filter(i => i.k === "hwMan")[0].qty;
+    out.innMan = hwOf(inn); out.visMan = hwOf(vis);
+    /* colonna di cassetti IN MEZZO alle ante: si segnala */
+    const mid = buildModule(Object.assign({}, A, { tram: 2, doors: 2, drawerPos: "vista",
+      secMode: ["hang", "drawers", "hang"] }));
+    out.midWarn = !!mid.warn.doorOverlap;
+    return out;
+  });
+  ok("dietro l'anta: il frontale sta DIETRO il filo del mobile",
+     V.innZ[1] < V.innDoorZ[0], "cassetto z" + V.innZ.join("–") + " · anta z" + V.innDoorZ.join("–"));
+  ok("e si chiama «Frontale cassetto interno» in distinta", V.innName);
+  ok("a vista: il frontale sta sul filo, come l'anta",
+     V.visZ[0] === V.visDoorZ[0] && V.visZ[1] === V.visDoorZ[1], "z" + V.visZ.join("–"));
+  ok("e torna a chiamarsi «Frontale cassetto»", V.visName);
+  ok("a vista accanto all'anta: l'anta resta alta tutto il mobile", V.visAntaH > 2000, V.visAntaH + " mm");
+  ok("e larga solo la sua sezione, non tutto il fronte", V.visAntaW < 520, V.visAntaW + " mm");
+  ok("anta e cassetti non si sovrappongono", V.noOverlap);
+  ok("dietro l'anta il cassetto non prende maniglia", V.innMan === 0, "maniglie=" + V.innMan);
+  ok("a vista si", V.visMan === 3, "maniglie=" + V.visMan);
+  ok("cassetti IN MEZZO alle ante → avviso", V.midWarn);
+
   head("Preventivo — nessun NaN sotto gli occhi del cliente");
   const q = await pg.evaluate(() => {
     const keepP = state.projects, keepA = state.activeId;

@@ -803,6 +803,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         </div>
         <div id="drawWrap" style="display:none">
           <div class="f3">
+            <div class="f"><label data-i="fDrawPos">Posizione</label>
+              <select id="bDrawPos">
+                <option value="auto" data-i="posAuto">Automatica</option>
+                <option value="vista" data-i="posVista">A vista</option>
+                <option value="interno" data-i="posInterno">Dietro l'anta</option>
+              </select></div>
             <div class="f"><label data-i="fDrawDist">Altezze frontali</label>
               <select id="bDrawDist">
                 <option value="uguali" data-i="dstEq">Uguali</option>
@@ -1462,6 +1468,8 @@ hardware:"Quincaillerie",hwCern:"Charnières",hwGuida:"Coulisses (paire)",hwMan:
    Tenute qui in blocco e non dentro le righe sopra: sono trenta chiavi nuove
    dello stesso argomento e in una riga da diecimila caratteri non si rileggono. */
 Object.assign(I18N.it,{
+  fDrawPos:"Posizione",posAuto:"Automatica",posVista:"A vista",posInterno:"Dietro l'anta",
+  wDoorOverDraw:"Le sezioni a cassetti stanno in mezzo alle ante: le ante coprirebbero anche quelle. Metti la colonna di cassetti a un'estremita.",
   fDrawSys:"Sistema cassetto",fDrawDist:"Altezze frontali",fDrawFH:"Altezza frontale (mm)",
   fDrawZone:"Zona cassetti (mm)",fDrawH:"Altezza sponda",fDrawInset:"Arretramento interno (mm)",
   dstFix:"Fisse",dstEq:"Uguali",dstKit:"Cucina (uno basso in alto)",
@@ -1479,6 +1487,8 @@ Object.assign(I18N.it,{
   mDrawBoxW:"Cassa {bw}×{bh}×{bl} mm, fondo in HDF nella cava.",
   mDrawInner:"Cassetti dietro l'anta: arretrati di {i} mm dal filo anteriore, si montano con l'anta smontata."});
 Object.assign(I18N.ro,{
+  fDrawPos:"Poziție",posAuto:"Automată",posVista:"La vedere",posInterno:"În spatele ușii",
+  wDoorOverDraw:"Secțiunile cu sertare sunt între uși: ușile le-ar acoperi. Pune coloana de sertare la un capăt.",
   fDrawSys:"Sistem sertar",fDrawDist:"Înălțimi fronturi",fDrawFH:"Înălțime front (mm)",
   fDrawZone:"Zona sertarelor (mm)",fDrawH:"Înălțime laterală",fDrawInset:"Retragere sertar interior (mm)",
   dstFix:"Fixe",dstEq:"Egale",dstKit:"Bucătărie (unul mic sus)",
@@ -1496,6 +1506,8 @@ Object.assign(I18N.ro,{
   mDrawBoxW:"Cutie {bw}×{bh}×{bl} mm, fund HDF în canal.",
   mDrawInner:"Sertare în spatele ușii: retrase {i} mm de la fața corpului, se montează cu ușa demontată."});
 Object.assign(I18N.en,{
+  fDrawPos:"Position",posAuto:"Automatic",posVista:"On the facade",posInterno:"Behind the door",
+  wDoorOverDraw:"The drawer sections sit between the doors: the doors would cover them too. Put the drawer column at one end.",
   fDrawSys:"Drawer system",fDrawDist:"Front heights",fDrawFH:"Front height (mm)",
   fDrawZone:"Drawer zone (mm)",fDrawH:"Side height",fDrawInset:"Inner drawer setback (mm)",
   dstFix:"Fixed",dstEq:"Equal",dstKit:"Kitchen (one shallow on top)",
@@ -1513,6 +1525,8 @@ Object.assign(I18N.en,{
   mDrawBoxW:"Box {bw}×{bh}×{bl} mm, HDF bottom in the groove.",
   mDrawInner:"Drawers behind the door: set back {i} mm from the front edge, fit them with the door off."});
 Object.assign(I18N.fr,{
+  fDrawPos:"Position",posAuto:"Automatique",posVista:"En façade",posInterno:"Derrière la porte",
+  wDoorOverDraw:"Les sections à tiroirs sont entre les portes : les portes les couvriraient aussi. Placez la colonne de tiroirs à une extrémité.",
   fDrawSys:"Système de tiroir",fDrawDist:"Hauteurs des façades",fDrawFH:"Hauteur façade (mm)",
   fDrawZone:"Zone tiroirs (mm)",fDrawH:"Hauteur de côté",fDrawInset:"Retrait tiroir intérieur (mm)",
   dstFix:"Fixes",dstEq:"Égales",dstKit:"Cuisine (un bas en haut)",
@@ -3114,7 +3128,17 @@ function buildCore(cfg){
   const sliding=cfg.type==="scorrevole"&&cfg.doors>0;
   const flaggedD=secIdx.filter(si=>isDrawSec(secMode(si)));
   const dSecs=(cfg.drawers>0&&!sliding)?(flaggedD.length?flaggedD:secIdx.slice()):[];
-  const dInner=flaggedD.length>0&&cfg.doors>0;
+  /* A VISTA o DIETRO L'ANTA: e una scelta, non una deduzione.
+     "auto" tiene la regola vecchia — sezione dichiarata a cassetti piu ante
+     uguale cassetti interni — cosi i progetti gia salvati non si spostano.
+     Le altre due la forzano, ed e quello che serve quando l'armadio ha la
+     colonna di cassetti a vista accanto alle ante invece che dietro. */
+  const dPos=cfg.drawerPos||"auto";
+  const dInner=dPos==="interno"?true:dPos==="vista"?false:(flaggedD.length>0&&cfg.doors>0);
+  /* i cassetti a vista in SOLO ALCUNE sezioni non stanno sotto le ante:
+     stanno accanto. Le ante allora coprono le sezioni che restano. */
+  const dBeside=!dInner&&flaggedD.length>0&&flaggedD.length<n;
+  const doorSecs=dBeside?secIdx.filter(si=>dSecs.indexOf(si)<0):secIdx.slice();
   const dPlan=dSecs.length?drawerPlan(cfg,{y0:frontY0,frontH:frontH_all,
       fill:(cfg.doors===0&&cfg.shelves===0&&!cfg.hang),secW,depth:P-intZ0,inner:dInner}):null;
   const dTop=(dPlan&&dPlan.ok)?dPlan.top:frontY0;
@@ -3174,7 +3198,7 @@ function buildCore(cfg){
       bx(sx0+15,sx0+secW-15,railY,railY+25,(P-25)/2,(P+25)/2,"p"); });
   }
   // fronts
-  let doorSkip=0, doorTight=0;
+  let doorSkip=0, doorTight=0, doorOverlap=0;
   const bow=Math.max(0,Math.min(200,+(cfg.bow||0)));   // bombatura dell'anta curva
   /* ---- CASSETTI ----
      Le sezioni che li ricevono le ha gia decise `dSecs` piu sopra: se almeno
@@ -3189,7 +3213,10 @@ function buildCore(cfg){
       const sys=dPlan.sys, N=dPlan.N;
       const inset=inner?dPlan.inset:0;
       const fW=inner?(secW-8):((frontW-4-3*(cfg.tram||0))/n);
-      drawersTop = inner ? frontY0 : dPlan.top;
+      /* `drawersTop` e la quota da cui possono partire le ante. Sale solo se i
+         cassetti stanno DAVANTI a loro: dietro l'anta, o accanto in un'altra
+         sezione, l'anta resta intera. */
+      drawersTop = (inner||dBeside) ? frontY0 : dPlan.top;
       /* --- distinta --- */
       const fname=(inner?"Frontale cassetto interno":(push?"Frontale cassetto push":"Frontale cassetto"));
       /* altezze diverse => righe diverse: un conteggio a moltiplicazione con
@@ -3253,18 +3280,28 @@ function buildCore(cfg){
       /* i cassetti INTERNI stanno dietro l'anta: non le rubano altezza. */
       const aY0 = drawersTop>frontY0 ? drawersTop+3 : frontY0+2;
       const aH = H-2-aY0;
-      /* i cassetti mangiano l'altezza dal basso: con troppi cassetti non resta
-         posto per le ante e prima sparivano in silenzio — chiedevi 2 ante e la
-         distinta ne aveva zero, senza dirlo. Ora la richiesta si segnala. */
-      if(!(aH>60&&frontW>80)) doorSkip=cfg.doors;
-      if(aH>60&&frontW>80){
-        const aW=(frontW-4-3*(cfg.doors-1))/cfg.doors;
+      /* La fascia che le ante devono coprire. Normalmente e tutto il fronte;
+         con una colonna di cassetti A VISTA accanto, le ante coprono solo le
+         sezioni che restano — altrimenti si sovrapporrebbero ai cassetti. */
+      const slotW=(frontW-4-3*(cfg.tram||0))/n;
+      const slotX=si=>frontX0+2+si*(slotW+DRAW_GAP);
+      let dX0=frontX0, dW=frontW;
+      if(dBeside&&doorSecs.length){
+        const lo=Math.min.apply(null,doorSecs), hi=Math.max.apply(null,doorSecs);
+        dX0=slotX(lo)-2; dW=slotX(hi)+slotW-dX0+2;
+        /* sezioni a cassetti IN MEZZO alle ante: la fascia le ingloberebbe.
+           Si dice invece di disegnare un'anta sopra un cassetto. */
+        if(hi-lo+1!==doorSecs.length) doorOverlap=1;
+      }
+      if(!(aH>60&&dW>80)) doorSkip=cfg.doors;
+      if(aH>60&&dW>80){
+        const aW=(dW-4-3*(cfg.doors-1))/cfg.doors;
         if(front==="vetro"&&aH>300&&aW>250){
           const fr=70; // larghezza telaio
           add(push?"Montante anta vetro push":"Montante anta vetro",aH,fr,2*cfg.doors,"2L+2C");
           add("Traversa anta vetro",aW-2*fr,fr,2*cfg.doors,"2C");
           add("Vetro anta",aH-2*fr+30,aW-2*fr+30,cfg.doors,"",MAT_VETRO);
-          for(let i=0;i<cfg.doors;i++){ const x=frontX0+2+i*(aW+3);
+          for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3);
             bx(x,x+aW,aY0,aY0+aH,P,P+t,"f",0,0,"door");
             bx(x+fr,x+aW-fr,aY0+fr,aY0+aH-fr,P+2,P+t-2,"g"); }
         }else if(front==="curvo"&&bow>0&&aW>120){
@@ -3286,7 +3323,7 @@ function buildCore(cfg){
              ed e anche quello che succede davvero: un'anta a intagli E sfaccettata. */
           const NF=14;
           for(let i=0;i<cfg.doors;i++){
-            const x0=frontX0+2+i*(aW+3), cxx=x0+aW/2;
+            const x0=dX0+2+i*(aW+3), cxx=x0+aW/2;
             const cz=P-Math.sqrt(Math.max(0,R*R-aW*aW/4));      // centro dell'arco, dietro il fronte
             const a0=Math.atan2(P-cz,x0-cxx), a1=Math.atan2(P-cz,x0+aW-cxx);
             for(let k=0;k<NF;k++){
@@ -3303,7 +3340,7 @@ function buildCore(cfg){
           }
         }else{
           add(push?"Anta push":"Anta",aH,aW,cfg.doors,"2L+2C");
-          for(let i=0;i<cfg.doors;i++){ const x=frontX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+t,"f",0,0,"door"); }
+          for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+t,"f",0,0,"door"); }
         }
       }
     }
@@ -3327,7 +3364,7 @@ function buildCore(cfg){
     if(backNut) bx(t-NUT_D,L-t+NUT_D,intY0-NUT_D,intY1+NUT_D,backZ0,backZ0+backTh,"p");
     else        bx(t,L-t,y0,H,0,backTh,"p");
   }
-  return {pieces,boxes,draw:dPlan,warn:{shMissing,shSqueeze,doorSkip,doorTight,
+  return {pieces,boxes,draw:dPlan,warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,
           drawWarn:(dPlan&&dPlan.warn&&dPlan.warn.length)?dPlan.warn:null}};
 }
 
@@ -3855,6 +3892,7 @@ function cfgFromForm(){
     handles:$("bHandles").value, shelfType:$("bShelfT").value,
     boxes:parseInt($("bBoxes").value,10), corner:$("bCorner").value, cornerKind:$("bCornerKind").value,
     drawerSys:$("bDrawSys").value||"legno", drawerDist:$("bDrawDist").value||"uguali",
+    drawerPos:$("bDrawPos").value||"auto",
     drawerFH:Math.max(60,v("bDrawFH",200)), drawerZone:v("bDrawZone",0),
     drawerH:$("bDrawH").value||null, drawerInset:v("bDrawInset",35),
     angL:fAng("bAngL"), angR:fAng("bAngR"), obstacles:buildObst,
@@ -3887,6 +3925,7 @@ function syncBuildForm(){
   $("bPlinth").value=buildCfg.plinth; $("bTram").value=buildCfg.tram;
   $("bShelves").value=buildCfg.shelves; $("bDrawers").value=buildCfg.drawers; $("bDoors").value=buildCfg.doors;
   $("bDrawDist").value=buildCfg.drawerDist||"uguali";
+  $("bDrawPos").value=buildCfg.drawerPos||"auto";
   $("bDrawFH").value=buildCfg.drawerFH||"";
   $("bDrawZone").value=buildCfg.drawerZone||"";
   $("bDrawInset").value=buildCfg.drawerInset!=null?buildCfg.drawerInset:"";
@@ -3924,7 +3963,8 @@ function renderDrawUI(sysId,hcode){
   $("rowDrawH").style.display=sys.metal?"":"none";
   $("rowDrawFH").style.display=($("bDrawDist").value==="fix")?"":"none";
   $("rowDrawZone").style.display=($("bDrawDist").value==="fix")?"none":"";
-  $("rowDrawIns").style.display=(+($("bDoors").value||0)>0)?"":"none";
+  const pos=$("bDrawPos").value||"auto";
+  $("rowDrawIns").style.display=(pos==="interno"||(pos==="auto"&&+($("bDoors").value||0)>0))?"":"none";
 }
 /* Il riassunto che serve in officina: quale guida comprare, quanto lunga,
    e quanto vengono i pezzi della cassa. Sono i numeri che altrimenti si
@@ -3943,7 +3983,7 @@ function drawInfoLine(cfg,built){
   bits.push(t("dwFronts")+": "+hs.slice().reverse().join(" / ")+" mm");
   if(p.sys.metal) bits.push(t("dwBase")+" "+p.baseW+"×"+p.baseL+" · "+t("dwBack")+" "+p.backW+"×"+p.backH);
   else if(p.boxW) bits.push(t("dwBox")+" "+p.boxW+"×"+p.sideH+"×"+p.nl);
-  if(p.inner) bits.push(t("dwInner")+" −"+p.inset+" mm");
+  bits.push(p.inner?(t("dwInner")+" −"+p.inset+" mm"):t("posVista").toLowerCase());
   if(p.sys.chk) bits.push(t("artCheck").replace(/^—\s*/,""));
   el.textContent=bits.join(" · ");
 }
@@ -3994,6 +4034,7 @@ function drawPreview(){
   if(wn.shMissing>0) notes.push("⚠︎ "+t("shNoFit").replace("{n}",wn.shMissing));
   if(wn.doorSkip>0) notes.push("⚠︎ "+t("doorNoFit").replace("{n}",wn.doorSkip));
   if(wn.doorTight) notes.push("⚠︎ "+t("doorTightW"));
+  if(wn.doorOverlap) notes.push("⚠︎ "+t("wDoorOverDraw"));
   /* le verifiche del cassetto: profondità, altezza del frontale, larghezza
      utile, braccio della cerniera. Prima non ne esisteva nessuna e un cassetto
      impossibile finiva in distinta senza dire niente. */
@@ -4044,12 +4085,12 @@ function renderBuild(){
   if(!buildFormReady){
     syncBuildForm();
     ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc",
-     "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset"]
+     "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos"]
       .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     /* il pannello cassetti si ridisegna prima dell'anteprima: cambiando sistema
        cambiano le opzioni, e un campo che non esiste piu non deve restare a
        schermo con dentro un valore che il motore non guarda. */
-    ["bDrawSys","bDrawDist","bDrawers","bDoors"].forEach(id=>
+    ["bDrawSys","bDrawDist","bDrawers","bDoors","bDrawPos"].forEach(id=>
       $(id).addEventListener("change",()=>renderDrawUI($("bDrawSys").value,$("bDrawH").value)));
     $("bDrawers").addEventListener("input",()=>renderDrawUI($("bDrawSys").value,$("bDrawH").value));
     $("bTipo").addEventListener("change",()=>{
@@ -6161,7 +6202,7 @@ const AI_ENUM={
   handles:["maniglia","push"], shelfType:["mobile","fisso"],
   corner:["sx","dx"], cornerKind:["int","ext"],
   secMode:["hangShelf","hang","shelf","empty","drawers","drawerShelf"],
-  drawerSys:DRAWSYS_IDS, drawerDist:["fix","uguali","cucina"],
+  drawerSys:DRAWSYS_IDS, drawerDist:["fix","uguali","cucina"], drawerPos:["auto","vista","interno"],
   obst:["presa","interr","tubo","calorifero","vano","trave","altro"]};
 /* i codici di altezza sponda validi: dipendono dal sistema, quindi l'unione */
 const AI_DRAWH=Object.keys(DRAWSYS).reduce((a,k)=>{
@@ -6191,7 +6232,11 @@ secMode.length must equal tram+1.
 
 DRAWERS. "drawers" is the count PER SECTION. Where they go:
 - No section is marked "drawers"/"drawerShelf" => the drawers are external fronts, at the bottom, in EVERY section. This is a chest of drawers or a kitchen base.
-- At least one section marked "drawers"/"drawerShelf" => only those sections get them. If the unit also has doors, those drawers become INTERNAL drawers behind the doors: the engine sets them back by "drawerInset" mm so the hinge arm clears them, gives them no handle, and the doors keep their full height. This is the normal wardrobe: "wardrobe with two doors and three drawers inside on the right" is ONE unit, tram=1, secMode=["hang","drawers"], drawers=3, doors=2.
+- At least one section marked "drawers"/"drawerShelf" => only those sections get them.
+"drawerPos" then decides where those fronts sit, and BOTH are normal joinery — pick from what he said, do not assume:
+  interno = behind the doors. The engine sets them back by "drawerInset" mm so the hinge arm clears them, gives them no handle, and the doors keep their full height. "wardrobe with two doors and three drawers INSIDE on the right" => tram=1, secMode=["hang","drawers"], drawers=3, doors=2, drawerPos="interno".
+  vista = on the facade, visible next to the doors. The doors then cover only the sections left over, at full height. "wardrobe with a hanging section and a visible drawer column on the right" => same fields but drawerPos="vista", doors=1. The drawer column must be at one END of the unit, not between two door sections.
+  auto (default) = interno when the unit has doors, vista otherwise. Emit it explicitly whenever he says where he wants them.
 Heights: "drawerDist" decides. fix = every front "drawerFH" tall (default 200). uguali = the "drawerZone" mm are shared out equally. cucina = one shallow front on top and the rest equal — the kitchen base. With uguali/cucina always give "drawerZone" unless the drawers take the whole front.
 System: "drawerSys" — legno (wooden box, the slide comes from the hardware catalog), legrabox, tandembox, nessuno (front only, the client supplies the boxes). Only name a Blum system if he named it. Ebanist's engine divides the inside into EQUAL sections; unequal widths are not supported yet, so if he asks for a specific section width, still emit the closest tram/secMode and add a line in "questions" saying the width ratio cannot be honoured.
 "shelves" and "drawers" are counts PER SECTION, not totals.
@@ -6237,6 +6282,7 @@ function aiSchema(mode){
         drawerSys:{type:"string",enum:AI_ENUM.drawerSys,description:"Drawer system. legno = wooden box on the slide chosen in the catalog."},
         drawerDist:{type:"string",enum:AI_ENUM.drawerDist,description:"How the drawer front heights are shared out: fix = every front drawerFH tall, uguali = equal over drawerZone, cucina = one shallow front on top."},
         drawerFH:num(60,900), drawerZone:num(0,3000), drawerInset:num(0,200),
+        drawerPos:{type:"string",enum:AI_ENUM.drawerPos,description:"Where the drawer fronts sit. vista = on the facade, visible. interno = behind the doors, set back. auto = behind the doors when a section is marked for drawers and the unit has doors, on the facade otherwise."},
         drawerH:{type:"string",enum:AI_DRAWH,description:"Metal system side height code (LEGRABOX N/M/K/C/F, TANDEMBOX N/M/K/C/D). Leave out to let the engine pick the tallest that the front covers."},
         angL:{type:"number",minimum:45,maximum:135,description:"Left corner angle, 90 = square."},
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
@@ -6271,7 +6317,7 @@ function aiContext(mode){
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
      "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode",
-     "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
+     "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
     return JSON.stringify(keep);
   }
   const sv=survey()||{walls:[],heights:[],obstacles:[]}, p=proj();
@@ -6321,7 +6367,7 @@ function aiNormCfg(raw,warn){
   if(!raw||typeof raw!=="object") return out;
   for(const k in AI_CFG_INT){ if(raw[k]==null) continue;
     const v=aiInt(raw[k],AI_CFG_INT[k][0],AI_CFG_INT[k][1]); if(v!=null) out[k]=v; }
-  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist"]){
+  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos"]){
     if(raw[k]==null) continue;
     if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
   if(raw.drawerH!=null){
