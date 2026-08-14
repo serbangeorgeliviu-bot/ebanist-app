@@ -1171,7 +1171,14 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="eyebrow" id="aiSetLbl">Assistente AI</div>
   <div class="f"><label id="aiKeyLbl">Chiave API</label>
     <input id="sAiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></div>
-  <p class="mini" id="aiKeyHint" style="margin:-4px 0 8px"></p>
+  <p class="mini" id="aiKeyHint" style="margin:-4px 0 6px"></p>
+  <!-- l'avviso non sta sotto un "mostra dettagli": chi incolla una chiave qui
+       deve sapere PRIMA che resta sul telefono e che parte dal browser. -->
+  <p class="mini" id="aiKeyWarn" style="margin:-2px 0 8px;color:var(--warn)"></p>
+  <button class="btn ghost danger" id="btnAiKeyDel" style="display:none;margin:-2px 0 10px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+    <span id="aiKeyDelLbl">Elimina la chiave</span>
+  </button>
   <div class="f2">
     <div class="f"><label id="aiModelLbl">Modello</label><select id="sAiModel"></select></div>
     <div class="f"><label id="aiProxyLbl">Endpoint</label><input id="sAiProxy" type="url" autocomplete="off" spellcheck="false" placeholder="https://…"></div>
@@ -1908,9 +1915,25 @@ function setView(v,fromBack){
 }
 document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
 
+/* Un data-i puo puntare a una QUALSIASI delle quattro tabelle. Prima passava
+   solo da t(), che guarda in I18N: le due etichette del rilievo vivono in
+   SURVEY_I18N, quindi a schermo — in tutte e quattro le lingue — compariva
+   scritto "svRoom3D" e "svOpenDoors". Si cerca in ordine, I18N per prima cosi
+   le chiavi esistenti non cambiano significato; e se una chiave non esiste da
+   nessuna parte si lascia il testo gia scritto nell'HTML, che e sempre meglio
+   del nome della chiave davanti al cliente. */
+function tAny(k){
+  for(const D of [I18N,SURVEY_I18N,AUTH_I18N,AI_I18N]){
+    const v=(D[state.lang]||{})[k]; if(v!==undefined) return v;
+    const f=(D.it||{})[k];          if(f!==undefined) return f;
+  }
+  return null;
+}
 function applyLang(){
   document.documentElement.lang=state.lang;
-  document.querySelectorAll("[data-i]").forEach(el=>{el.textContent=t(el.dataset.i);});
+  document.querySelectorAll("[data-i]").forEach(el=>{
+    const v=tAny(el.dataset.i); if(v!=null) el.textContent=v;
+  });
   const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
   if(typeof aiMount==="function") aiMount();
 }
@@ -2321,7 +2344,12 @@ $("btnSettings").addEventListener("click",()=>{
   $("aiSetLbl").textContent=tia("aiSet");
   $("aiKeyLbl").textContent=tia("aiKeyLbl");
   { const k=aiKey();
-    $("aiKeyHint").textContent=(k?tia("aiKeyOk").replace("{k}","…"+k.slice(-4))+" · ":"")+tia("aiKeyHint"); }
+    $("aiKeyHint").textContent=(k?tia("aiKeyOk").replace("{k}","…"+k.slice(-4))+" · ":"")+tia("aiKeyHint");
+    /* l'avviso si mostra solo quando la chiave parte davvero dal browser:
+       con un endpoint proprio la chiave non viene nemmeno letta. */
+    $("aiKeyWarn").textContent=aiProxy()?"":tia("aiKeyWarn");
+    $("btnAiKeyDel").style.display=k?"flex":"none";
+    $("aiKeyDelLbl").textContent=tia("aiKeyDel"); }
   $("aiModelLbl").textContent=tia("aiModelLbl");
   $("aiProxyLbl").textContent=tia("aiProxyLbl"); $("aiProxyHint").textContent=tia("aiProxyHint");
   $("sAiModel").innerHTML=AI_MODELS.map(([id,n])=>`<option value="${id}">${esc(n)}</option>`).join("");
@@ -2341,9 +2369,28 @@ $("btnSettingsSave").addEventListener("click",()=>{
     S[k]=parseFloat($(id).value)||0;
   S.coName=$("sCoName").value.trim()||"Domus Renov"; S.coInfo=$("sCoInfo").value.trim();
   S.aiModel=$("sAiModel").value||"claude-opus-5"; S.aiProxy=$("sAiProxy").value.trim();
-  const okKey=aiSetKey($("sAiKey").value.trim());
+  /* Una chiave storta si accettava in silenzio e l'errore arrivava molto dopo,
+     dal server, incomprensibile. Si controlla solo quando la chiave viene
+     usata davvero — con un endpoint proprio il token puo avere qualunque
+     forma, e non tocca a noi dire com'e fatto. */
+  const rawKey=$("sAiKey").value.trim();
+  if(rawKey && !S.aiProxy && !/^sk-ant-[A-Za-z0-9_-]{16,}$/.test(rawKey)){
+    toast(tia("aiKeyBad")); $("sAiKey").focus(); return;
+  }
+  const okKey=aiSetKey(rawKey);
   persist(); closeSheets(); render();
   toast(okKey?t("saved"):tia("aiKeyFail"));
+});
+/* Cancellazione esplicita: se il telefono cambia mano o si perde, la chiave
+   deve poter sparire in un tocco, senza svuotare un campo e ricordarsi di
+   salvare. Il campo password nasconde il valore: senza questo bottone non si
+   capisce nemmeno se una chiave c'e. */
+$("btnAiKeyDel").addEventListener("click",()=>{
+  if(!aiKey()||!confirm(tia("aiKeyDelAsk"))) return;
+  aiSetKey(""); $("sAiKey").value="";
+  $("btnAiKeyDel").style.display="none";
+  $("aiKeyHint").textContent=tia("aiKeyHint");
+  haptic(); toast(tia("aiKeyGone"));
 });
 $("btnLang").addEventListener("click",()=>{
   const box=$("langList"); box.innerHTML="";
@@ -5224,7 +5271,7 @@ $("btnAcctLogout").addEventListener("click",async()=>{
    sui form. Ogni patch passa da validazione, clamp e conferma umana. */
 
 const AI_I18N={
-it:{aiKeyOk:"Chiave salvata ({k})",aiKeyFail:"Chiave NON salvata — il telefono blocca la memoria locale (navigazione privata?)",aiPh:"Descrivi il mobile a voce o per iscritto…",aiPhSv:"Detta le quote del muro, prese, tubi…",
+it:{aiKeyWarn:"⚠ La chiave resta su questo telefono e parte direttamente dal browser verso Anthropic. Usa una chiave dedicata, che puoi revocare da sola, e cancellala se il telefono cambia mano.",aiKeyBad:"Non sembra una chiave Anthropic (inizia con sk-ant-).",aiKeyDel:"Elimina la chiave",aiKeyDelAsk:"Eliminare la chiave API da questo telefono?",aiKeyGone:"Chiave eliminata ✓",aiKeyOk:"Chiave salvata ({k})",aiKeyFail:"Chiave NON salvata — il telefono blocca la memoria locale (navigazione privata?)",aiPh:"Descrivi il mobile a voce o per iscritto…",aiPhSv:"Detta le quote del muro, prese, tubi…",
   aiSend:"Genera",aiThinking:"Sto leggendo…",aiMic:"Detta",aiCam:"Foto",aiNoKey:"Manca la chiave API — Impostazioni → Assistente AI",
   aiNoSpeech:"Dettatura non disponibile su questo browser — usa il microfono della tastiera",
   aiErr:"L'assistente non ha risposto: {e}",aiNoChange:"Niente da cambiare",aiTitle:"Proposta dell'assistente",
@@ -5234,7 +5281,7 @@ it:{aiKeyOk:"Chiave salvata ({k})",aiKeyFail:"Chiave NON salvata — il telefono
   aiImgOnly:"Aggiungi anche una descrizione o una foto",aiCtxCfg:"Modulo corrente",aiCtxSv:"Rilievo corrente",
   aiBoundNote:"Taglio obliquo: la fabbrica taglia dritto. La distinta esporta il rettangolo di sbozzo; l'angolo resta nel 3D e nel disegno.",
   aiSecNote:"Le divisioni interne diventano tramezzi + contenuto per sezione: nessun mobile in più."},
-ro:{aiKeyOk:"Cheie salvată ({k})",aiKeyFail:"Cheia NU s-a salvat — telefonul blochează memoria locală (navigare privată?)",aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele peretelui, prize, țevi…",
+ro:{aiKeyWarn:"⚠ Cheia rămâne pe telefonul ăsta și pleacă direct din browser către Anthropic. Folosește o cheie dedicată, pe care o poți revoca separat, și șterge-o dacă telefonul schimbă mâna.",aiKeyBad:"Nu pare o cheie Anthropic (începe cu sk-ant-).",aiKeyDel:"Șterge cheia",aiKeyDelAsk:"Ștergi cheia API de pe telefonul ăsta?",aiKeyGone:"Cheie ștearsă ✓",aiKeyOk:"Cheie salvată ({k})",aiKeyFail:"Cheia NU s-a salvat — telefonul blochează memoria locală (navigare privată?)",aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele peretelui, prize, țevi…",
   aiSend:"Generează",aiThinking:"Citesc…",aiMic:"Dictează",aiCam:"Poză",aiNoKey:"Lipsește cheia API — Setări → Asistent AI",
   aiNoSpeech:"Dictarea nu merge pe browserul ăsta — folosește microfonul tastaturii",
   aiErr:"Asistentul n-a răspuns: {e}",aiNoChange:"Nimic de schimbat",aiTitle:"Propunerea asistentului",
@@ -5244,7 +5291,7 @@ ro:{aiKeyOk:"Cheie salvată ({k})",aiKeyFail:"Cheia NU s-a salvat — telefonul 
   aiImgOnly:"Adaugă și o descriere sau o poză",aiCtxCfg:"Corpul curent",aiCtxSv:"Releveul curent",
   aiBoundNote:"Tăietură oblică: fabrica taie drept. Distinta exportă dreptunghiul de gabarit; unghiul rămâne în 3D și pe desen.",
   aiSecNote:"Compartimentările devin tramezzi + conținut pe secțiune: niciun corp în plus."},
-en:{aiKeyOk:"Key saved ({k})",aiKeyFail:"Key NOT saved — this phone blocks local storage (private browsing?)",aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall sizes, sockets, pipes…",
+en:{aiKeyWarn:"⚠ The key stays on this phone and goes straight from the browser to Anthropic. Use a dedicated key you can revoke on its own, and delete it if the phone changes hands.",aiKeyBad:"That does not look like an Anthropic key (starts with sk-ant-).",aiKeyDel:"Delete the key",aiKeyDelAsk:"Delete the API key from this phone?",aiKeyGone:"Key deleted ✓",aiKeyOk:"Key saved ({k})",aiKeyFail:"Key NOT saved — this phone blocks local storage (private browsing?)",aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall sizes, sockets, pipes…",
   aiSend:"Generate",aiThinking:"Reading…",aiMic:"Dictate",aiCam:"Photo",aiNoKey:"API key missing — Settings → AI assistant",
   aiNoSpeech:"Dictation is not available in this browser — use the keyboard microphone",
   aiErr:"The assistant did not answer: {e}",aiNoChange:"Nothing to change",aiTitle:"Assistant proposal",
@@ -5254,7 +5301,7 @@ en:{aiKeyOk:"Key saved ({k})",aiKeyFail:"Key NOT saved — this phone blocks loc
   aiImgOnly:"Add a description or a photo as well",aiCtxCfg:"Current unit",aiCtxSv:"Current survey",
   aiBoundNote:"Angled cut: the factory cuts square. The cut list exports the bounding rectangle; the angle stays in the 3D and on the drawing.",
   aiSecNote:"Internal divisions become dividers + per-section content: no extra units."},
-fr:{aiKeyOk:"Clé enregistrée ({k})",aiKeyFail:"Clé NON enregistrée — ce téléphone bloque le stockage local (navigation privée ?)",aiPh:"Décrivez le meuble à la voix ou par écrit…",aiPhSv:"Dictez les cotes du mur, prises, tuyaux…",
+fr:{aiKeyWarn:"⚠ La clé reste sur ce téléphone et part directement du navigateur vers Anthropic. Utilisez une clé dédiée, révocable séparément, et supprimez-la si le téléphone change de mains.",aiKeyBad:"Cela ne ressemble pas à une clé Anthropic (commence par sk-ant-).",aiKeyDel:"Supprimer la clé",aiKeyDelAsk:"Supprimer la clé API de ce téléphone ?",aiKeyGone:"Clé supprimée ✓",aiKeyOk:"Clé enregistrée ({k})",aiKeyFail:"Clé NON enregistrée — ce téléphone bloque le stockage local (navigation privée ?)",aiPh:"Décrivez le meuble à la voix ou par écrit…",aiPhSv:"Dictez les cotes du mur, prises, tuyaux…",
   aiSend:"Générer",aiThinking:"Je lis…",aiMic:"Dicter",aiCam:"Photo",aiNoKey:"Clé API manquante — Réglages → Assistant IA",
   aiNoSpeech:"Dictée indisponible sur ce navigateur — utilisez le micro du clavier",
   aiErr:"L'assistant n'a pas répondu : {e}",aiNoChange:"Rien à changer",aiTitle:"Proposition de l'assistant",
@@ -5814,8 +5861,8 @@ navInit();
 persist();
 </script>
 <script>
-const APP_VER="4.17.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v47";
+const APP_VER="4.17.1"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v48";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

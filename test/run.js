@@ -179,6 +179,83 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("la X chiude il pannello", await sheets() === 0);
   ok("history allineata alla profondita reale", h === d, "hist=" + h + " depth=" + d);
 
+  head("Chiave API — resta sul telefono, quindi va detto e va potuta togliere");
+  const key = await pg.evaluate(async () => {
+    const out = {};
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const open = async () => { document.getElementById("btnSettings").click(); await wait(120); };
+
+    // 1. una chiave storta non deve essere accettata in silenzio
+    aiSetKey(""); state.settings.aiProxy = "";
+    await open();
+    document.getElementById("sAiKey").value = "non-una-chiave";
+    document.getElementById("btnSettingsSave").click(); await wait(120);
+    out.rifiutata = aiKey() === "";
+    out.avvisato = /sk-ant-/.test(document.getElementById("toast").textContent);
+    closeSheets(); await wait(120);
+
+    // 2. una chiave plausibile passa
+    await open();
+    document.getElementById("sAiKey").value = "sk-ant-api03-" + "x".repeat(24);
+    document.getElementById("btnSettingsSave").click(); await wait(120);
+    out.accettata = aiKey().startsWith("sk-ant-");
+    closeSheets(); await wait(120);
+
+    // 3. con la chiave presente compare il bottone per cancellarla, e l'avviso c'e
+    await open();
+    out.bottoneVisibile = document.getElementById("btnAiKeyDel").style.display !== "none";
+    out.avvisoVisibile = (document.getElementById("aiKeyWarn").textContent || "").length > 20;
+
+    // 4. con un endpoint proprio la chiave non parte dal browser: niente avviso, e il token e libero
+    state.settings.aiProxy = "https://esempio.test/ai";
+    closeSheets(); await wait(120); await open();
+    out.avvisoNascosto = (document.getElementById("aiKeyWarn").textContent || "") === "";
+    document.getElementById("sAiKey").value = "token-proxy-qualsiasi";
+    document.getElementById("btnSettingsSave").click(); await wait(120);
+    out.proxyTokenLibero = aiKey() === "token-proxy-qualsiasi";
+
+    // 5. cancellazione esplicita
+    state.settings.aiProxy = ""; await open();
+    const oldConfirm = window.confirm; window.confirm = () => true;
+    document.getElementById("btnAiKeyDel").click(); await wait(120);
+    window.confirm = oldConfirm;
+    out.cancellata = aiKey() === "";
+    closeSheets(); await wait(150);
+    return out;
+  });
+  ok("una chiave malformata viene rifiutata, non salvata in silenzio", key.rifiutata);
+  ok("e spiega perche (sk-ant-)", key.avvisato);
+  ok("una chiave plausibile viene accettata", key.accettata);
+  ok("con la chiave salvata compare il bottone per cancellarla", key.bottoneVisibile);
+  ok("l'avviso 'resta sul telefono' e visibile", key.avvisoVisibile);
+  ok("con endpoint proprio l'avviso sparisce", key.avvisoNascosto);
+  ok("con endpoint proprio il token puo avere qualunque forma", key.proxyTokenLibero);
+  ok("il bottone cancella davvero la chiave", key.cancellata);
+
+  head("Traduzioni — nessuna etichetta deve mostrare il nome della chiave");
+  const i18n = await pg.evaluate(() => {
+    const dicts = { I18N, SURVEY_I18N, AUTH_I18N, AI_I18N };
+    const langs = ["it", "ro", "en", "fr"], out = { missing: [], raw: [] }, keep = state.lang;
+    // 1. ogni tabella completa in tutte e quattro le lingue
+    for (const [name, D] of Object.entries(dicts)) {
+      const all = new Set(); langs.forEach(l => Object.keys(D[l] || {}).forEach(k => all.add(k)));
+      for (const l of langs) for (const k of all) if ((D[l] || {})[k] === undefined) out.missing.push(`${name}.${l}.${k}`);
+    }
+    // 2. nessun data-i che finisce a schermo come nome di chiave, in nessuna lingua
+    for (const l of langs) {
+      state.lang = l; applyLang();
+      document.querySelectorAll("[data-i]").forEach(el => {
+        if ((el.textContent || "").trim() === el.dataset.i) out.raw.push(`${l}:${el.dataset.i}`);
+      });
+    }
+    state.lang = keep; applyLang();
+    return out;
+  });
+  ok("tutte le tabelle complete nelle 4 lingue", i18n.missing.length === 0,
+     i18n.missing.length ? i18n.missing.slice(0, 8).join(", ") : "467 chiavi");
+  ok("nessuna etichetta mostra il nome della chiave", i18n.raw.length === 0,
+     i18n.raw.length ? i18n.raw.slice(0, 8).join(", ") : undefined);
+
   head("Tutte le viste si disegnano");
   for (const v of ["projects", "survey", "build", "list", "nest", "summary"]) {
     await pg.evaluate(x => setView(x), v);
