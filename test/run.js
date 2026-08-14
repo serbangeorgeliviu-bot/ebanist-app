@@ -218,8 +218,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("cerchio Ø600: sviluppo = π·D", Math.abs(rnd.dev - rnd.devEsatto) < 0.6,
      rnd.dev + " vs " + rnd.devEsatto.toFixed(1));
   ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1164, rnd.altezzaFascia);
-  ok("piano dei tagli calcolato", !!rnd.kerf && rnd.kerf.n > 0,
-     rnd.kerf ? rnd.kerf.n + " intagli ogni " + rnd.kerf.spacing + " mm, profondi " + rnd.kerf.depth : "—");
+  ok("piano dei tagli entro 0,3 mm dall'arco (non solo il minimo teorico)",
+     !!rnd.kerf && rnd.kerf.n > 0 && rnd.kerf.flat <= 0.31,
+     rnd.kerf ? rnd.kerf.n + " intagli ogni " + rnd.kerf.spacing + " mm, scarto " + rnd.kerf.flat + " mm" : "—");
   ok("fondo, cielo e 3 ripiani, tutti Ø−2t", rnd.nPiani === 5 && rnd.diamPiano === 564,
      rnd.nPiani + " pezzi, Ø" + rnd.diamPiano);
   ok("ovale 900×450: sviluppo per integrazione", Math.abs(rnd.devOvale - rnd.devOvaleEsatto) < 0.6,
@@ -232,6 +233,76 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("REGRESSIONE: l'armadio resta a quattro spigoli, tutto istanziabile come prima",
      rnd.armRect && rnd.armIstanziabile === rnd.armBoxes,
      rnd.armIstanziabile + "/" + rnd.armBoxes + " scatole");
+
+  head("Ante bombate — in distinta va lo sviluppo, non la corda");
+  const bow = await pg.evaluate(() => {
+    const o = {};
+    const base = { ...PRESETS.base, front: "curvo", bow: 40, doors: 2, L: 1000, H: 800, P: 500 };
+    const m = buildModule(base);
+    const a = m.pieces.find(p => /Anta curva/.test(p.elemento));
+    o.trovata = !!a;
+    o.curve = a && a.curve;
+    // verifica indipendente: dalla corda e dalla freccia si ricava il raggio,
+    // e dal raggio si deve poter tornare ALLA STESSA freccia
+    const aW = (1000 - 4 - 3) / 2, f = 40;
+    const R = (aW * aW / 4 + f * f) / (2 * f);
+    o.rChk = Math.round(R);
+    o.frecciaRicostruita = +(R - Math.sqrt(R * R - aW * aW / 4)).toFixed(2);
+    o.devChk = +(R * 2 * Math.asin(aW / (2 * R))).toFixed(1);
+    // lo sviluppo dev'essere PIU LUNGO della corda, o l'anta arriva corta
+    o.devMaggiore = a && a.curve.dev > aW;
+    // bombatura 0 = anta piatta normale, nessuna regressione
+    const flat = buildModule({ ...base, bow: 0 });
+    o.piatta = flat.pieces.some(p => p.elemento === "Anta") && !flat.pieces.some(p => /curva/.test(p.elemento));
+    // il 3D riceve sfaccettature, ognuna a quattro spigoli (strada collaudata)
+    const facce = m.boxes.filter(b => b.sub === "door");
+    o.nFacce = facce.length;
+    o.facceQuad = facce.every(b => b.pc && b.pc.length === 4);
+    return o;
+  });
+  ok("l'anta bombata viene generata", bow.trovata);
+  ok("raggio ricavato da corda e freccia", bow.curve && bow.curve.radius === bow.rChk, "R=" + bow.rChk);
+  ok("dal raggio si torna alla freccia chiesta", Math.abs(bow.frecciaRicostruita - 40) < 0.05, bow.frecciaRicostruita + " mm");
+  ok("in distinta va lo sviluppo dell'arco", bow.curve && Math.abs(bow.curve.dev - bow.devChk) < 0.2,
+     bow.curve && bow.curve.dev + " mm (corda 496.5)");
+  ok("lo sviluppo e piu lungo della corda", bow.devMaggiore);
+  ok("il passo tiene la faccia entro 0,3 mm dall'arco",
+     bow.curve && bow.curve.kerf && bow.curve.kerf.flat <= 0.31,
+     bow.curve && bow.curve.kerf && bow.curve.kerf.n + " intagli, scarto " + bow.curve.kerf.flat + " mm");
+  ok("bombatura 0 = anta piatta, nessuna regressione", bow.piatta);
+  ok("il 3D riceve sfaccettature a quattro spigoli", bow.nFacce === 28 && bow.facceQuad, bow.nFacce + " facce");
+
+  head("Angoli raccordati — gli intagli vanno SOLO negli archi, e va detto dove");
+  const rc = await pg.evaluate(() => {
+    const o = {}, L = 900, P = 450, r = 80;
+    const m = buildModule({ ...PRESETS.raccordato });
+    const f = m.pieces.find(p => /Fascia raccordata/.test(p.elemento));
+    o.dev = f && f.curve.dev;
+    o.devChk = +(L + 2 * P + r * (Math.PI - 4)).toFixed(1);   // fianchi + due quarti + fronte
+    o.devDritto = L + 2 * P;                                   // se non fosse raccordato
+    o.arcAt = f && f.curve.arcAt;
+    o.arcChk = [P - r, Math.round(P - r + Math.PI * r / 2 + (L - 2 * r))];
+    o.raggio = f && f.curve.radius;
+    // il contorno in pianta: i capi degli archi devono cadere ESATTAMENTE sui lati
+    const pc = m.boxes[0].pc, near = (a, b) => Math.abs(a - b) < 0.6;
+    const has = (x, z) => pc.some(q => near(q[0], x) && near(q[1], z));
+    o.contorno = has(0, 0) && has(L, 0) && has(L, P - r) && has(L - r, P) && has(r, P) && has(0, P - r);
+    o.ingombro = Math.max(...pc.map(q => q[0])) === L && Math.max(...pc.map(q => q[1])) === P;
+    // raggio assurdo: si limita invece di produrre numeri impossibili
+    const huge = buildModule({ ...PRESETS.raccordato, rcorner: 5000 });
+    const hf = huge.pieces.find(p => /Fascia raccordata/.test(p.elemento));
+    o.limitato = hf.curve.radius <= P && hf.curve.dev > 0;
+    o.raggioLim = hf.curve.radius;
+    return o;
+  });
+  ok("sviluppo = fianchi + due quarti di giro + fronte", Math.abs(rc.dev - rc.devChk) < 0.2,
+     rc.dev + " mm (a spigolo vivo sarebbe " + rc.devDritto + ")");
+  ok("raccordare ACCORCIA lo sviluppo", rc.dev < rc.devDritto);
+  ok("dice dove cominciano i due archi", rc.arcAt && Math.abs(rc.arcAt[0] - rc.arcChk[0]) < 1 && Math.abs(rc.arcAt[1] - rc.arcChk[1]) < 1,
+     rc.arcAt && rc.arcAt.join(" / ") + " mm");
+  ok("il contorno in pianta chiude sui lati", rc.contorno);
+  ok("l'ingombro resta quello del rettangolo di sbozzo", rc.ingombro, "900×450");
+  ok("un raggio impossibile viene limitato", rc.limitato, "R" + rc.raggioLim + " su P=450");
 
   head("Tipi propri — quello che il motore sa fare dev'essere salvabile con un nome");
   const pre = await pg.evaluate(async () => {
