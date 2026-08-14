@@ -144,11 +144,109 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("'3L' limitato a 2 lati lunghi", eb.cap === 2000, eb.cap);
 
   head("Generatore — quello che non entra si dice, non sparisce");
+  /* Il mobile base non ha sezioni dichiarate a cassetti: i cassetti restano
+     frontali a vista e mangiano l'altezza alle ante. (L'armadio non serve piu
+     a questa prova: i suoi cassetti stanno DIETRO le ante e non le accorciano.) */
   const w = await pg.evaluate(() => {
-    const r = buildModule(Object.assign({}, PRESETS.armadio, { H: 800, drawers: 6, doors: 2, shelves: 0, hang: 0 }));
+    const r = buildModule(Object.assign({}, PRESETS.base, { H: 800, drawers: 6, doors: 2, shelves: 0, hang: 0 }));
     return { skip: (r.warn || {}).doorSkip || 0, ante: r.pieces.filter(x => /^Anta/.test(x.elemento)).length };
   });
   ok("ante non generate → avviso", w.skip > 0, "doorSkip=" + w.skip + ", ante in distinta=" + w.ante);
+
+  head("Cassetti — la cassa esiste, entra nelle quote e si sa quale guida comprare");
+  const D = await pg.evaluate(() => {
+    const out = {};
+    /* 1. il bug segnalato: l'armadio in vista esplosa non aveva cassetti */
+    const arm = buildModule(PRESETS.armadio);
+    out.armDraw = arm.boxes.filter(b => b.sub === "dbox").length;
+    out.armFront = arm.boxes.filter(b => b.sub === "drawer" || b.sub === "drawerIn").length;
+    out.armGrp = new Set(arm.boxes.filter(b => b.grp).map(b => b.grp)).size;
+    out.armInner = !!(arm.draw && arm.draw.inner);
+    out.armPieces = arm.pieces.filter(x => /cassetto/i.test(x.elemento)).reduce((s, x) => s + x.pz, 0);
+    /* 2. i cassetti interni non accorciano le ante */
+    const anta = arm.pieces.find(x => /^Anta/.test(x.elemento));
+    out.antaH = anta ? Math.max(anta.lung, anta.larg) : 0;
+    /* 3. sistema metallico: in distinta ci vanno fondo e retro, non i fianchi */
+    const lg = buildModule(PRESETS.basecass);
+    out.lgSys = lg.draw.sysId; out.lgCode = lg.draw.hcode; out.lgNL = lg.draw.nl;
+    out.lgFianchi = lg.pieces.filter(x => /^Fianco cassetto/.test(x.elemento)).length;
+    out.lgFondo = lg.pieces.filter(x => /^Fondo cassetto/.test(x.elemento)).length;
+    out.lgMetal = lg.boxes.filter(b => b.kind === "m").length;
+    /* «cucina»: un frontale basso in alto, gli altri uguali */
+    const hs = lg.draw.fronts.map(f => Math.round(f.h));
+    out.kitTop = hs[hs.length - 1]; out.kitRest = hs.slice(0, -1);
+    /* 4. la cassettiera non deve cambiare distinta: i cassetti riempiono l'altezza */
+    const cs = buildModule(PRESETS.cassettiera);
+    out.csFront = cs.pieces.filter(x => /^Frontale cassetto/.test(x.elemento)).map(x => ({ h: x.lung, w: x.larg, n: x.pz }));
+    /* 5. mobile troppo poco profondo per LEGRABOX: si dice, non si tace */
+    const shallow = buildModule(Object.assign({}, PRESETS.basecass, { P: 200 }));
+    out.shallowWarn = (shallow.warn.drawWarn || []).map(x => x.k);
+    /* 6. cassetto interno troppo avanti: il braccio della cerniera non passa */
+    const hinge = buildModule(Object.assign({}, PRESETS.armadio, { drawerInset: 5 }));
+    out.hingeWarn = (hinge.warn.drawWarn || []).map(x => x.k);
+    /* 7. la cassa non entra nelle catene di quote del disegno tecnico */
+    out.dboxIsBox = arm.boxes.filter(b => b.sub === "dbox" && b.kind === "p").length > 0;
+    return out;
+  });
+  ok("l'armadio ha davvero i cassetti in 3D", D.armDraw > 0, D.armDraw + " pannelli di cassa");
+  ok("e i frontali corrispondenti", D.armFront === 3, D.armFront);
+  ok("ogni cassetto e un gruppo: nell'esplosa esce intero", D.armGrp === 3, D.armGrp + " gruppi");
+  ok("nell'armadio sono cassetti INTERNI, dietro l'anta", D.armInner === true);
+  ok("i cassetti interni non accorciano le ante", D.antaH > 2000, "anta " + D.antaH + " mm");
+  ok("i pezzi del cassetto entrano in distinta", D.armPieces >= 3 * 4, D.armPieces + " pezzi");
+  ok("base a cassetti = LEGRABOX, altezza sponda scelta da sola", D.lgSys === "legrabox" && !!D.lgCode, D.lgCode + " · NL " + D.lgNL);
+  ok("su sistema metallico i fianchi NON vanno in distinta", D.lgFianchi === 0 && D.lgFondo === 1, "fianchi=" + D.lgFianchi + " fondo=" + D.lgFondo);
+  ok("i fianchi metallici ci sono pero in 3D", D.lgMetal === 8, D.lgMetal + " fianchi (4 cassetti × 2)");
+  ok("«cucina»: il frontale basso sta in alto", D.kitTop < D.kitRest[0], D.kitTop + " sopra, " + D.kitRest.join("/") + " sotto");
+  ok("gli altri frontali sono uguali fra loro", new Set(D.kitRest).size === 1, D.kitRest.join("/"));
+  ok("REGRESSIONE cassettiera: i frontali riempiono l'altezza in parti uguali",
+     D.csFront.length === 1 && D.csFront[0].n === 3 && Math.abs(D.csFront[0].h - 196) <= 1,
+     D.csFront.map(f => f.n + "×" + f.h + "×" + f.w).join(" · "));
+  ok("mobile troppo poco profondo → avviso, non silenzio", D.shallowWarn.includes("wDrawDeep"), D.shallowWarn.join(",") || "nessuno");
+  ok("cassetto interno troppo avanti → avviso cerniera", D.hingeWarn.includes("wDrawHinge"), D.hingeWarn.join(",") || "nessuno");
+  ok("la cassa e fatta di pannelli veri, marcati 'dbox'", D.dboxIsBox);
+
+  head("Cassetti a vista o dietro l'anta — devono esserci tutte e due");
+  const V = await pg.evaluate(() => {
+    const out = {}, A = PRESETS.armadio;
+    const inn = buildModule(Object.assign({}, A, { drawerPos: "interno" }));
+    const vis = buildModule(Object.assign({}, A, { drawerPos: "vista", doors: 1 }));
+    const zOf = (m, sub) => { const b = m.boxes.find(x => x.sub === sub); return b ? [Math.round(b.z0), Math.round(b.z1)] : null; };
+    out.innZ = zOf(inn, "drawerIn"); out.innDoorZ = zOf(inn, "door");
+    out.visZ = zOf(vis, "drawer");   out.visDoorZ = zOf(vis, "door");
+    out.innName = inn.pieces.some(x => /^Frontale cassetto interno/.test(x.elemento));
+    out.visName = vis.pieces.some(x => /^Frontale cassetto( push)?$/.test(x.elemento));
+    /* a vista accanto alle ante: l'anta resta intera e copre solo la sua sezione */
+    const anta = vis.pieces.find(x => /^Anta/.test(x.elemento));
+    out.visAntaH = anta ? Math.max(anta.lung, anta.larg) : 0;
+    out.visAntaW = anta ? Math.min(anta.lung, anta.larg) : 0;
+    const dfr = vis.boxes.find(b => b.sub === "drawer"), dr = vis.boxes.find(b => b.sub === "door");
+    out.noOverlap = !!(dfr && dr) && (dr.x1 <= dfr.x0 + 1 || dfr.x1 <= dr.x0 + 1);
+    /* la maniglia: c'e a vista, non c'e dietro l'anta. Si guardano SOLO i
+       frontali di cassetto — le ante la maniglia ce l'hanno sempre. */
+    const hwOf = m => computeHardware({ pieces: m.pieces
+        .filter(x => /^Frontale cassetto/.test(x.elemento))
+        .map(x => Object.assign({ modulo: "m" }, x)) }, state.settings, false)
+      .filter(i => i.k === "hwMan")[0].qty;
+    out.innMan = hwOf(inn); out.visMan = hwOf(vis);
+    /* colonna di cassetti IN MEZZO alle ante: si segnala */
+    const mid = buildModule(Object.assign({}, A, { tram: 2, doors: 2, drawerPos: "vista",
+      secMode: ["hang", "drawers", "hang"] }));
+    out.midWarn = !!mid.warn.doorOverlap;
+    return out;
+  });
+  ok("dietro l'anta: il frontale sta DIETRO il filo del mobile",
+     V.innZ[1] < V.innDoorZ[0], "cassetto z" + V.innZ.join("–") + " · anta z" + V.innDoorZ.join("–"));
+  ok("e si chiama «Frontale cassetto interno» in distinta", V.innName);
+  ok("a vista: il frontale sta sul filo, come l'anta",
+     V.visZ[0] === V.visDoorZ[0] && V.visZ[1] === V.visDoorZ[1], "z" + V.visZ.join("–"));
+  ok("e torna a chiamarsi «Frontale cassetto»", V.visName);
+  ok("a vista accanto all'anta: l'anta resta alta tutto il mobile", V.visAntaH > 2000, V.visAntaH + " mm");
+  ok("e larga solo la sua sezione, non tutto il fronte", V.visAntaW < 520, V.visAntaW + " mm");
+  ok("anta e cassetti non si sovrappongono", V.noOverlap);
+  ok("dietro l'anta il cassetto non prende maniglia", V.innMan === 0, "maniglie=" + V.innMan);
+  ok("a vista si", V.visMan === 3, "maniglie=" + V.visMan);
+  ok("cassetti IN MEZZO alle ante → avviso", V.midWarn);
 
   head("Preventivo — nessun NaN sotto gli occhi del cliente");
   const q = await pg.evaluate(() => {
@@ -411,6 +509,22 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("con endpoint proprio l'avviso sparisce", key.avvisoNascosto);
   ok("con endpoint proprio il token puo avere qualunque forma", key.proxyTokenLibero);
   ok("il bottone cancella davvero la chiave", key.cancellata);
+
+  head("Aggiornamento — le due cache devono portare lo stesso nome");
+  /* Il nome della cache sta scritto in due file. Se restano disallineati,
+     «Verifica aggiornamenti» scrive la pagina nuova in una cache che il
+     service worker cancella appena si attiva: sembra funzionare, e al
+     riavvio dopo torna la versione vecchia. Fallisce in silenzio, quindi
+     va guardato da qui. */
+  const sw = await (await fetch(URL.replace("index.html", "sw.js"))).text();
+  const swName = (sw.match(/const CACHE\s*=\s*"([^"]+)"/) || [])[1];
+  const pgName = await pg.evaluate(() => (typeof SW_CACHE === "string" ? SW_CACHE : null));
+  const pgVer = await pg.evaluate(() => APP_VER);
+  ok("sw.js e index.html puntano alla stessa cache", !!swName && swName === pgName,
+     "sw.js=" + swName + " · index.html=" + pgName);
+  ok("APP_VER e leggibile dal marcatore che usa l'updater",
+     /const APP_VER="[^"]+"; \/\* APP_VER-MARKER \*\//.test(
+       await (await fetch(URL)).text()), "v" + pgVer);
 
   head("Traduzioni — nessuna etichetta deve mostrare il nome della chiave");
   const i18n = await pg.evaluate(() => {

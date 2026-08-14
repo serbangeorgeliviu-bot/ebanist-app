@@ -91,6 +91,7 @@ export function boundsOf(boxes) {
 export function matKeyOf(b, cfg) {
   if (b.kind === "w") return "__wall";
   if (b.kind === "g") return "__glass";
+  if (b.kind === "m") return "__metal";   // fianchi del sistema cassetto: comprati, non tagliati
   if (b.hw) return "__hw";
   if (b.kind === "f") return cfg.matFront || cfg.matBody;
   if (b.sub === "back") return cfg.matBack || cfg.matBody;
@@ -107,12 +108,21 @@ export function explodeBoxes(boxes, amt) {
   if (X1 < X0) return boxes;
   const CX = (X0 + X1) / 2, CY = (Y0 + Y1) / 2, CZ = (Z0 + Z1) / 2;
   const k = Math.max(X1 - X0, Y1 - Y0, Z1 - Z0) * 0.32 * amt, sg = v => v < -0.5 ? -1 : 1;
+  /* i pezzi di uno stesso cassetto (`grp`) escono in avanti tutti insieme e si
+     aprono attorno al proprio centro: stessa regola di render3D in index.html. */
+  const gc = {};
+  for (const b of boxes) { if (!b.grp) continue;
+    const g = gc[b.grp] || (gc[b.grp] = { x: 0, y: 0, z: 0, n: 0 });
+    g.x += (b.x0 + b.x1) / 2; g.y += (b.y0 + b.y1) / 2; g.z += (b.z0 + b.z1) / 2; g.n++; }
+  for (const id in gc) { const g = gc[id]; g.x /= g.n; g.y /= g.n; g.z /= g.n; }
   return boxes.map(b => {
     const dx = b.x1 - b.x0, dy = b.y1 - b.y0, dz = b.z1 - b.z0, mn = Math.min(dx, dy, dz);
-    let ox = 0, oy = 0, oz = 0;
-    if (mn === dx) ox = sg((b.x0 + b.x1) / 2 - CX) * k;
-    else if (mn === dy) oy = sg((b.y0 + b.y1) / 2 - CY) * k;
-    else oz = sg((b.z0 + b.z1) / 2 - CZ) * k;
+    const g = b.grp && gc[b.grp], kk = g ? k * 0.45 : k;
+    const rx = g ? g.x : CX, ry = g ? g.y : CY, rz = g ? g.z : CZ;
+    let ox = 0, oy = 0, oz = g ? k * 1.35 : 0;
+    if (mn === dx) ox = sg((b.x0 + b.x1) / 2 - rx) * kk;
+    else if (mn === dy) oy = sg((b.y0 + b.y1) / 2 - ry) * kk;
+    else oz += sg((b.z0 + b.z1) / 2 - rz) * kk;
     const o = Object.assign({}, b, { x0: b.x0 + ox, x1: b.x1 + ox, y0: b.y0 + oy, y1: b.y1 + oy, z0: b.z0 + oz, z1: b.z1 + oz });
     if (b.pc) o.pc = b.pc.map(q => [q[0] + ox, q[1] + oz]);
     return o;
