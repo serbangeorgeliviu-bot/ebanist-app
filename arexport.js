@@ -36,6 +36,8 @@ function exportMaterial(key, cache) {
   } else if (key === "__glass") {
     m = new THREE.MeshStandardMaterial({ color: 0xe8f2f6, roughness: .05, metalness: 0,
       transparent: true, opacity: .5 });
+  } else if (key === "__metal") {
+    m = new THREE.MeshStandardMaterial({ color: 0x82868a, roughness: .42, metalness: .85 });
   } else {
     const info = (typeof matById === "function" && matById(key)) || { c: "#eeeee9", tx: "solid" };
     m = new THREE.MeshStandardMaterial({

@@ -144,11 +144,67 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("'3L' limitato a 2 lati lunghi", eb.cap === 2000, eb.cap);
 
   head("Generatore — quello che non entra si dice, non sparisce");
+  /* Il mobile base non ha sezioni dichiarate a cassetti: i cassetti restano
+     frontali a vista e mangiano l'altezza alle ante. (L'armadio non serve piu
+     a questa prova: i suoi cassetti stanno DIETRO le ante e non le accorciano.) */
   const w = await pg.evaluate(() => {
-    const r = buildModule(Object.assign({}, PRESETS.armadio, { H: 800, drawers: 6, doors: 2, shelves: 0, hang: 0 }));
+    const r = buildModule(Object.assign({}, PRESETS.base, { H: 800, drawers: 6, doors: 2, shelves: 0, hang: 0 }));
     return { skip: (r.warn || {}).doorSkip || 0, ante: r.pieces.filter(x => /^Anta/.test(x.elemento)).length };
   });
   ok("ante non generate → avviso", w.skip > 0, "doorSkip=" + w.skip + ", ante in distinta=" + w.ante);
+
+  head("Cassetti — la cassa esiste, entra nelle quote e si sa quale guida comprare");
+  const D = await pg.evaluate(() => {
+    const out = {};
+    /* 1. il bug segnalato: l'armadio in vista esplosa non aveva cassetti */
+    const arm = buildModule(PRESETS.armadio);
+    out.armDraw = arm.boxes.filter(b => b.sub === "dbox").length;
+    out.armFront = arm.boxes.filter(b => b.sub === "drawer" || b.sub === "drawerIn").length;
+    out.armGrp = new Set(arm.boxes.filter(b => b.grp).map(b => b.grp)).size;
+    out.armInner = !!(arm.draw && arm.draw.inner);
+    out.armPieces = arm.pieces.filter(x => /cassetto/i.test(x.elemento)).reduce((s, x) => s + x.pz, 0);
+    /* 2. i cassetti interni non accorciano le ante */
+    const anta = arm.pieces.find(x => /^Anta/.test(x.elemento));
+    out.antaH = anta ? Math.max(anta.lung, anta.larg) : 0;
+    /* 3. sistema metallico: in distinta ci vanno fondo e retro, non i fianchi */
+    const lg = buildModule(PRESETS.basecass);
+    out.lgSys = lg.draw.sysId; out.lgCode = lg.draw.hcode; out.lgNL = lg.draw.nl;
+    out.lgFianchi = lg.pieces.filter(x => /^Fianco cassetto/.test(x.elemento)).length;
+    out.lgFondo = lg.pieces.filter(x => /^Fondo cassetto/.test(x.elemento)).length;
+    out.lgMetal = lg.boxes.filter(b => b.kind === "m").length;
+    /* «cucina»: un frontale basso in alto, gli altri uguali */
+    const hs = lg.draw.fronts.map(f => Math.round(f.h));
+    out.kitTop = hs[hs.length - 1]; out.kitRest = hs.slice(0, -1);
+    /* 4. la cassettiera non deve cambiare distinta: i cassetti riempiono l'altezza */
+    const cs = buildModule(PRESETS.cassettiera);
+    out.csFront = cs.pieces.filter(x => /^Frontale cassetto/.test(x.elemento)).map(x => ({ h: x.lung, w: x.larg, n: x.pz }));
+    /* 5. mobile troppo poco profondo per LEGRABOX: si dice, non si tace */
+    const shallow = buildModule(Object.assign({}, PRESETS.basecass, { P: 200 }));
+    out.shallowWarn = (shallow.warn.drawWarn || []).map(x => x.k);
+    /* 6. cassetto interno troppo avanti: il braccio della cerniera non passa */
+    const hinge = buildModule(Object.assign({}, PRESETS.armadio, { drawerInset: 5 }));
+    out.hingeWarn = (hinge.warn.drawWarn || []).map(x => x.k);
+    /* 7. la cassa non entra nelle catene di quote del disegno tecnico */
+    out.dboxIsBox = arm.boxes.filter(b => b.sub === "dbox" && b.kind === "p").length > 0;
+    return out;
+  });
+  ok("l'armadio ha davvero i cassetti in 3D", D.armDraw > 0, D.armDraw + " pannelli di cassa");
+  ok("e i frontali corrispondenti", D.armFront === 3, D.armFront);
+  ok("ogni cassetto e un gruppo: nell'esplosa esce intero", D.armGrp === 3, D.armGrp + " gruppi");
+  ok("nell'armadio sono cassetti INTERNI, dietro l'anta", D.armInner === true);
+  ok("i cassetti interni non accorciano le ante", D.antaH > 2000, "anta " + D.antaH + " mm");
+  ok("i pezzi del cassetto entrano in distinta", D.armPieces >= 3 * 4, D.armPieces + " pezzi");
+  ok("base a cassetti = LEGRABOX, altezza sponda scelta da sola", D.lgSys === "legrabox" && !!D.lgCode, D.lgCode + " · NL " + D.lgNL);
+  ok("su sistema metallico i fianchi NON vanno in distinta", D.lgFianchi === 0 && D.lgFondo === 1, "fianchi=" + D.lgFianchi + " fondo=" + D.lgFondo);
+  ok("i fianchi metallici ci sono pero in 3D", D.lgMetal === 8, D.lgMetal + " fianchi (4 cassetti × 2)");
+  ok("«cucina»: il frontale basso sta in alto", D.kitTop < D.kitRest[0], D.kitTop + " sopra, " + D.kitRest.join("/") + " sotto");
+  ok("gli altri frontali sono uguali fra loro", new Set(D.kitRest).size === 1, D.kitRest.join("/"));
+  ok("REGRESSIONE cassettiera: i frontali riempiono l'altezza in parti uguali",
+     D.csFront.length === 1 && D.csFront[0].n === 3 && Math.abs(D.csFront[0].h - 196) <= 1,
+     D.csFront.map(f => f.n + "×" + f.h + "×" + f.w).join(" · "));
+  ok("mobile troppo poco profondo → avviso, non silenzio", D.shallowWarn.includes("wDrawDeep"), D.shallowWarn.join(",") || "nessuno");
+  ok("cassetto interno troppo avanti → avviso cerniera", D.hingeWarn.includes("wDrawHinge"), D.hingeWarn.join(",") || "nessuno");
+  ok("la cassa e fatta di pannelli veri, marcati 'dbox'", D.dboxIsBox);
 
   head("Preventivo — nessun NaN sotto gli occhi del cliente");
   const q = await pg.evaluate(() => {

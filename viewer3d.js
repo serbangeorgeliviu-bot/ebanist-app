@@ -82,6 +82,9 @@ function materialFor(key) {
       transmission: .9, thickness: .004, ior: 1.5, transparent: true, opacity: .45, side: THREE.DoubleSide });
   } else if (key === "__wall") {
     m = new THREE.MeshStandardMaterial({ color: 0xd8d2c6, roughness: .95, metalness: 0, side: THREE.DoubleSide });
+  } else if (key === "__metal") {
+    // fianchi del sistema cassetto (LEGRABOX / TANDEMBOX): acciaio verniciato, non pannello
+    m = new THREE.MeshStandardMaterial({ color: 0x82868a, roughness: .42, metalness: .85, envMapIntensity: 1.1 });
   } else {
     const info = (typeof matById === "function" && matById(key)) || { c: "#eeeee9", tx: "solid" };
     const r = Object.assign({}, TX_RULES[info.tx] || TX_RULES.solid, ID_OVR[key] || {});
