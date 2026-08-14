@@ -179,6 +179,60 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("la X chiude il pannello", await sheets() === 0);
   ok("history allineata alla profondita reale", h === d, "hist=" + h + " depth=" + d);
 
+  head("Tipi propri — quello che il motore sa fare dev'essere salvabile con un nome");
+  const pre = await pg.evaluate(async () => {
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const out = {}, oldPrompt = window.prompt, oldConfirm = window.confirm;
+    setView("build"); await wait(400);
+    state.settings.presetAdd = []; renderPresetChips();
+    out.serie = document.querySelectorAll("#presetChips .chip").length;   // 15 + "tipo nuovo"
+
+    // 1. salvare la configurazione corrente come tipo, con un ostacolo di cantiere presente
+    buildObst = [{ x: 100, y: 200, w: 80, h: 80 }];
+    buildCfg = { ...PRESETS.cassettiera, name: "Banco utensili", L: 900, H: 1400, drawers: 8, doors: 0 };
+    syncBuildForm();
+    window.prompt = () => "Banco utensili";
+    presetSaveCurrent(); await wait(150);
+    const saved = (state.settings.presetAdd || [])[0] || {};
+    out.creato = !!saved.name;
+    out.senzaOstacoli = !("obstacles" in (saved.cfg || {}));   // il cantiere non entra nel tipo
+    out.conValori = saved.cfg && saved.cfg.L === 900 && saved.cfg.drawers === 8;
+    out.chipUtente = document.querySelectorAll("#presetChips .chip-user").length;
+
+    // 2. non deve duplicare: stesso nome -> sovrascrive
+    window.confirm = () => true;
+    buildCfg = { ...buildCfg, L: 1200 }; syncBuildForm();
+    presetSaveCurrent(); await wait(150);
+    out.nonDuplica = (state.settings.presetAdd || []).length === 1;
+    out.sovrascritto = ((state.settings.presetAdd || [])[0].cfg || {}).L === 1200;
+
+    // 3. applicare il tipo riempie davvero il modulo
+    buildCfg = { ...PRESETS.armadio }; syncBuildForm(); await wait(100);
+    document.querySelector("#presetChips .chip-user").click(); await wait(200);
+    out.applicato = document.getElementById("bL").value === "1200" &&
+                    document.getElementById("bName").value === "Banco utensili";
+
+    // 4. e deve produrre una distinta vera, non solo esistere nella lista
+    const built = buildModule(cfgFromForm());
+    out.pezzi = built.pieces.length;
+
+    // 5. la X toglie solo i tipi propri; quelli di serie restano
+    document.querySelector("#presetChips .chip-user .chip-x").click(); await wait(200);
+    out.tolto = (state.settings.presetAdd || []).length === 0;
+    out.serieIntatti = document.querySelectorAll("#presetChips .chip").length === out.serie;
+
+    window.prompt = oldPrompt; window.confirm = oldConfirm;
+    buildObst = []; return out;
+  });
+  ok("i tipi di serie restano 15 + il bottone", pre.serie === 16, pre.serie);
+  ok("una configurazione si salva come tipo proprio", pre.creato && pre.chipUtente === 1);
+  ok("con i suoi valori", pre.conValori);
+  ok("gli ostacoli del cantiere NON entrano nel tipo", pre.senzaOstacoli);
+  ok("stesso nome sovrascrive invece di duplicare", pre.nonDuplica && pre.sovrascritto);
+  ok("applicare il tipo riempie il modulo", pre.applicato);
+  ok("e produce una distinta vera", pre.pezzi > 0, pre.pezzi + " pezzi");
+  ok("la X toglie il tipo proprio, quelli di serie restano", pre.tolto && pre.serieIntatti);
+
   head("Chiave API — resta sul telefono, quindi va detto e va potuta togliere");
   const key = await pg.evaluate(async () => {
     const out = {};
