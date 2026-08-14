@@ -2,8 +2,11 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#0E3B2A">
+<!-- lo zoom con due dita resta possibile: in cantiere si legge una quota da 11px
+     con i guanti e la luce di traverso, toglierlo era un dispetto -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0E3B2A" id="metaTheme">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -30,6 +33,43 @@
   --font-body:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --font-disp:'Barlow Condensed','Barlow',system-ui,sans-serif;
   --mono:'SF Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  /* superfici che prima erano scritte a mano dentro le regole */
+  --hdr:#ffffff; --hdr2:#ffffffee; --navbg:#fffffff5; --shadow:rgba(25,35,15,.05);
+  --veil:rgba(246,248,244,.86); --scrim:rgba(20,28,14,.35);
+  --warnbg:#fdeaea; --warnline:#d94b4b; --warntx:#7a1c1c;
+  /* i disegni tecnici restano SEMPRE su carta chiara, anche in tema scuro:
+     una tavola da officina si legge in nero su bianco, di giorno e di notte */
+  --paper:#fbfcf9; --paperline:#e4e8dd;
+}
+/* ---------- tema scuro ---------- */
+/* stessi ruoli, altri valori. `data-theme` vince sempre sul sistema, così la
+   scelta fatta nelle impostazioni non viene ribaltata al tramonto. */
+html[data-theme="dark"]{
+  --bg:#14171a; --surface:#1b1f22; --raised:#242a2e; --line:#333b40;
+  --text:#e8ece7; --muted:#a2ada4; --faint:#7d8880;
+  --red:#7fc39d; --grn:#166b4b; --red-soft:rgba(127,195,157,.13); --red-line:rgba(127,195,157,.34);
+  --danger:#ef6b6b; --ok:#5cc47c;
+  --gold:#D4AF37; --gold-soft:#E3C877; --gold-tint:rgba(212,175,55,.18);
+  --hdr:#181c1f; --hdr2:#181c1fee; --navbg:#161a1df5; --shadow:rgba(0,0,0,.4);
+  --veil:rgba(20,23,26,.86); --scrim:rgba(0,0,0,.55);
+  --warnbg:#3a1f1f; --warnline:#a33b3b; --warntx:#ffc9c9;
+}
+@media (prefers-color-scheme:dark){
+  html:not([data-theme="light"]){
+    --bg:#14171a; --surface:#1b1f22; --raised:#242a2e; --line:#333b40;
+    --text:#e8ece7; --muted:#a2ada4; --faint:#7d8880;
+    --red:#7fc39d; --grn:#166b4b; --red-soft:rgba(127,195,157,.13); --red-line:rgba(127,195,157,.34);
+    --danger:#ef6b6b; --ok:#5cc47c;
+    --gold:#D4AF37; --gold-soft:#E3C877; --gold-tint:rgba(212,175,55,.18);
+    --hdr:#181c1f; --hdr2:#181c1fee; --navbg:#161a1df5; --shadow:rgba(0,0,0,.4);
+    --veil:rgba(20,23,26,.86); --scrim:rgba(0,0,0,.55);
+    --warnbg:#3a1f1f; --warnline:#a33b3b; --warntx:#ffc9c9;
+  }
+}
+/* il contorno di messa a fuoco mancava del tutto: con una tastiera collegata
+   in ufficio non si capiva dove si era */
+:where(button,a,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--gold); outline-offset:2px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{font-size:16px}
@@ -42,7 +82,7 @@ input,select,textarea{background:var(--bg);border:1px solid var(--line);border-r
 input:focus,select:focus,textarea:focus{border-color:var(--red)}
 main button,main input,main select,main textarea{scroll-margin-block-end:calc(var(--nav-h) + 24px);scroll-margin-block-start:76px}
 input[type=number]{font-variant-numeric:tabular-nums}
-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7468' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888f86' stroke-width='2' fill='none'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
 ::placeholder{color:var(--faint)}
 
@@ -93,7 +133,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 @media (prefers-reduced-motion: reduce){#splash{display:none}}
 
 /* ---------- header ---------- */
-header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,#ffffff 0%,#ffffffee 100%);
+header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg,var(--hdr) 0%,var(--hdr2) 100%);
   backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
   padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
@@ -121,7 +161,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
 .eyebrow{font-family:var(--font-disp);font-size:12.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--red);margin:20px 0 8px}
 
 /* ---------- cards / list ---------- */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(25,35,15,.05)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:0 1px 2px var(--shadow)}
 .card:active{border-color:#3a424b}
 .row{display:flex;align-items:center;gap:10px}
 .grow{flex:1;min-width:0}
@@ -170,7 +210,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
   background:var(--red-soft);border:1px solid var(--red-line);border-radius:99px;padding:3px 9px}
 
 /* module group */
-.mod{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:0 1px 2px rgba(25,35,15,.05)}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:0 1px 2px var(--shadow)}
 .mod-h{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--raised)}
 .mod-h h3{font-family:var(--font-disp);font-size:17px;font-weight:600;letter-spacing:.4px;flex:1;min-width:0;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -210,7 +250,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
 
 /* ---------- bottom nav ---------- */
 nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--nav-h) + env(safe-area-inset-bottom));
-  padding-bottom:env(safe-area-inset-bottom);background:#fffffff5;backdrop-filter:blur(10px);
+  padding-bottom:env(safe-area-inset-bottom);background:var(--navbg);backdrop-filter:blur(10px);
   border-top:1px solid var(--line);display:flex}
 nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   color:var(--faint);font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:var(--font-disp)}
@@ -221,7 +261,7 @@ nav button.on::before{content:"";position:absolute;top:0;left:50%;transform:tran
   width:26px;height:3px;border-radius:0 0 3px 3px;background:var(--gold)}
 
 /* ---------- sheets & modals ---------- */
-.scrim{position:fixed;inset:0;background:rgba(20,28,14,.35);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:var(--surface);
   border-radius:20px 20px 0 0;border:1px solid var(--line);border-bottom:none;
@@ -279,8 +319,15 @@ nav button.on::before{content:"";position:absolute;top:0;left:50%;transform:tran
 
 /* anteprima 3D appiccicata sotto l'intestazione */
 .previewbox{position:sticky;top:58px;z-index:20;
-  box-shadow:0 4px 14px -8px rgba(25,35,15,.35)}
+  box-shadow:0 4px 14px -8px var(--shadow)}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
+/* le quindici tipologie piu le proprie occupavano cinque righe: prima di
+   arrivare al primo campo si scorreva mezzo schermo. Una riga sola che scorre
+   di lato, come le scelte rapide di qualsiasi app del telefono. */
+#presetChips{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  padding-bottom:2px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+#presetChips::-webkit-scrollbar{display:none}
+#presetChips .chip{flex:none;white-space:nowrap;scroll-snap-align:start}
 .chip{padding:8px 13px;border-radius:99px;border:1px solid var(--line);background:var(--bg);
   font-size:13px;font-weight:600;color:var(--muted)}
 .chip.on{background:var(--red-soft);border-color:var(--red-line);color:var(--red)}
@@ -301,22 +348,31 @@ table.t th.n{text-align:right}
 table.t tr:last-child td{border-bottom:none}
 
 /* ---------- nesting ---------- */
-.nestwarn{background:#fdeaea;border:1px solid #d94b4b;color:#7a1c1c;border-radius:var(--radius);padding:12px;margin-bottom:12px;font-size:13.5px;line-height:1.5}
+.nestwarn{background:var(--warnbg);border:1px solid var(--warnline);color:var(--warntx);border-radius:var(--radius);padding:12px;margin-bottom:12px;font-size:13.5px;line-height:1.5}
 .nestwarn ul{margin:6px 0 0 18px}
 .nestwarn li{margin-top:2px}
 .panelbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px;margin-bottom:12px}
 .panelbox h4{font-family:var(--font-disp);font-size:15px;font-weight:600;letter-spacing:.5px;margin-bottom:2px}
 .panelbox .eff{font-size:12px;color:var(--muted);margin-bottom:8px}
-.panelbox svg{width:100%;height:auto;display:block;border-radius:8px}
+.panelbox svg{width:100%;height:auto;display:block;border-radius:8px;background:var(--paper)}
 .eff b{color:var(--ok)}
+
+/* ---------- disegni: sempre su carta chiara ----------
+   Il tema scuro serve a leggere l'app di sera in furgone, non a stampare
+   una tavola bianca su nero. Pianta, camera in 3D e schema di taglio restano
+   su fondo chiaro in tutti e due i temi: sono disegni, non interfaccia.
+   L'anteprima del mobile usa lo stesso grigio del motore WebGL (0xe9e7e2),
+   così passare da un motore all'altro non cambia l'immagine. */
+#svgPlan,#svgRoom3D{background:var(--paper);border:1px solid var(--paperline);border-radius:10px}
+#svg3d,#gl3d{background:#e9e7e2;border-radius:10px}
 
 /* ---------- misc ---------- */
 .empty{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty svg{width:44px;height:44px;color:var(--faint);margin-bottom:10px}
 .toast{pointer-events:none;position:fixed;left:50%;bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
   background:#1d221b;border:1px solid #2c332a;border-left:3px solid var(--gold);color:#f3f5f0;
-  padding:11px 18px;border-radius:10px;font-size:14px;z-index:70;opacity:0;transition:.25s;white-space:nowrap;max-width:92vw;
-  overflow:hidden;text-overflow:ellipsis}
+  padding:11px 18px;border-radius:10px;font-size:14px;z-index:70;opacity:0;transition:.25s;max-width:92vw;
+  line-height:1.35;text-align:center}
 .toast.on{opacity:1;transform:translateX(-50%)}
 .danger{color:var(--danger)}
 .mini{font-size:12px;color:var(--faint)}
@@ -334,22 +390,26 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
   font-family:var(--font-disp);font-size:15px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase}
 .aisend:disabled{opacity:.55}
 .aithumb{width:46px;height:46px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
-.previewbox,#svPlanCard{position:relative}
+/* Il velo dell'assistente ha bisogno di un genitore posizionato. `sticky` lo è
+   già: rimetterci sopra `position:relative` — com'era — spegneva l'anteprima
+   appiccicata E, dato che `top:58px` restava valido, spingeva la scheda 58px
+   più in basso lasciando un buco vuoto sopra. Qui resta solo la pianta. */
+#svPlanCard{position:relative}
 .aiveil{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;
-  flex-direction:column;gap:10px;border-radius:var(--radius);background:rgba(246,248,244,.86)}
+  flex-direction:column;gap:10px;border-radius:var(--radius);background:var(--veil)}
 .aiveil.on{display:flex}
 .aispin{width:34px;height:34px;border-radius:50%;border:3px solid var(--red-line);border-top-color:var(--gold);animation:aispin .8s linear infinite}
 @keyframes aispin{to{transform:rotate(360deg)}}
 .aidiff{display:flex;gap:8px;align-items:baseline;font-size:13.5px;line-height:1.5;padding:3px 0;border-bottom:1px dashed var(--line)}
 .aidiff>b{font-family:var(--font-disp);font-size:13px;letter-spacing:.4px;color:var(--muted);flex:none;min-width:104px}
 .aiwarn{color:var(--danger);font-size:12.5px;margin-top:8px;line-height:1.45}
-.iconbtn{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted);flex:none}
+.iconbtn{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--muted);flex:none}
 .iconbtn:active{background:var(--raised)}
 .iconbtn.danger{color:var(--danger)}
 .iconbtn svg{width:18px;height:18px}
 
 /* checklist / progress / filters */
-.pc-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;color:transparent;background:var(--bg);padding:0}
+.pc-check{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;color:transparent;background:var(--bg);padding:0}
 .pc-check.on{background:var(--gold);border-color:var(--gold);color:#2a2107}
 .pc-check svg{width:14px;height:14px}
 .pc.isdone{opacity:.45}
@@ -363,6 +423,8 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 /* ---------- print (distinta PDF) ---------- */
 #printArea{display:none}
 @media print{
+  /* la stampa ignora il tema: nero su bianco, sempre */
+  html{color-scheme:light}
   body{background:#fff;color:#000;padding:0}
   body>*:not(#printArea){display:none!important}
   #printArea{display:block;font-family:'Barlow',Arial,sans-serif;color:#000}
@@ -582,14 +644,25 @@ c66 -3 133 -12 160 -22z"/>
   <div class="sp-light"></div>
 </div>
 <script>
+/* Prima di qualunque altra cosa: tema e sipario.
+   Il tema va scritto sull'elemento <html> QUI, non nello script grande in
+   fondo — altrimenti la pagina appare chiara per un decimo di secondo e poi
+   diventa scura, e in furgone di sera quel lampo acceca. */
 (function(){try{
   var st=JSON.parse(localStorage.getItem("tagliapro")||"{}"), s=(st&&st.settings)||{};
+  if(s.theme==="dark"||s.theme==="light") document.documentElement.setAttribute("data-theme",s.theme);
   var red=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(s.intro===0||red){ var e=document.getElementById("splash"); if(e) e.remove(); }
+  /* intro: 1 = sempre, 2 = una volta al giorno (predefinito), 0 = mai */
+  var mode=(s.intro==null)?2:s.intro;
+  var recent=st.introSeenAt&&(Date.now()-st.introSeenAt)<12*3600e3;
+  if(mode===0||red||(mode===2&&recent)){ var e=document.getElementById("splash"); if(e) e.remove(); }
 }catch(e){}})();
 </script>
 
 <header>
+  <button class="hbtn" id="btnBack" style="display:none" aria-label="Back" title="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
   <div class="brand">
     <div class="brand-mark" role="img" aria-label="Ebanist"><svg viewBox="155.68 -69.54 353.43 353.43" fill="currentColor" aria-hidden="true"><g transform="translate(-376,559.923803) scale(0.1,-0.1)" stroke="none">
 <path d="M6385 5585 c-320 -70 -585 -319 -681 -640 -32 -111 -44 -311 -24
@@ -831,8 +904,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <svg id="svgPlan" style="width:100%;height:auto;display:block;max-height:42vh"></svg>
       <div class="mini" id="svPlanInfo" style="text-align:center;margin:6px 0 2px;font-variant-numeric:tabular-nums"></div>
       <div class="chips" style="justify-content:center;margin-top:6px">
-        <button class="chip" id="btnRoom3D" data-i="svRoom3D">Camera in 3D</button>
-        <button class="chip" id="btnRoomOpen" data-i="svOpenDoors">Ante aperte</button>
+        <button class="chip" id="btnRoom3D">Camera in 3D</button>
+        <button class="chip" id="btnRoomOpen">Ante aperte</button>
       </div>
     </div>
 
@@ -902,6 +975,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="card" style="overflow-x:auto"><table class="t" id="matTable"></table></div>
     <div class="eyebrow" data-i="hardware">Ferramenta</div>
     <div class="card" style="overflow-x:auto"><table class="t" id="hwTable"></table></div>
+    <div class="eyebrow" id="accLbl" style="display:none" data-i="catAcc">Accessori</div>
+    <div class="card" id="accCard" style="overflow-x:auto;display:none"><table class="t" id="accTable"></table></div>
     <div class="eyebrow" data-i="costs">Costi stimati</div>
     <div class="card" style="overflow-x:auto"><table class="t" id="costTable"></table></div>
     <div class="eyebrow" data-i="export">Esporta</div>
@@ -1183,11 +1258,27 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/></svg>
     <span data-i="catBtn">Catalogo ferramenta & materiali</span>
   </button>
-  <div class="f2" style="margin-top:12px">
+  <div class="eyebrow" style="margin-top:16px" data-i="appearance">Aspetto</div>
+  <div class="f"><label data-i="fTheme">Tema</label>
+    <select id="sTheme">
+      <option value="auto" data-i="themeAuto">Come il telefono</option>
+      <option value="light" data-i="themeLight">Chiaro</option>
+      <option value="dark" data-i="themeDark">Scuro</option>
+    </select></div>
+  <div class="f2">
     <div class="f"><label data-i="fIntro">Intro all'avvio</label>
-      <select id="sIntro"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+      <select id="sIntro">
+        <option value="2" data-i="introOnce">Una volta al giorno</option>
+        <option value="1" data-i="optYes">Sì</option>
+        <option value="0" data-i="optNo">No</option></select></div>
     <div class="f"><label data-i="fIntroSound">Suono</label>
       <select id="sIntroSound"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+  </div>
+  <div class="f2">
+    <div class="f"><label data-i="fHaptics">Vibrazione</label>
+      <select id="sHaptics"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+    <div class="f"><label data-i="fConfirmDel">Chiedi prima di eliminare</label>
+      <select id="sConfirmDel"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
   </div>
   <button class="btn" id="btnLang" style="margin-top:8px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c3 3.5 3 16.5 0 20M12 2c-3 3.5-3 16.5 0 20"/></svg>
@@ -1278,6 +1369,9 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div id="catHwWrap"></div>
   <h3 style="margin-top:18px" data-i="catMats">Materiali (€/m²)</h3>
   <div id="catMatWrap"></div>
+  <h3 style="margin-top:18px" data-i="catAcc">Accessori (€/pz)</h3>
+  <p class="mini" data-i="catAccNote" style="margin:-8px 0 8px">Vetro, gambe, doghe, aste: si comprano a pezzo, non a metro quadro. Finché il prezzo è 0 non entrano nel totale.</p>
+  <div id="catAccWrap"></div>
   <button class="btn red" id="btnCatalogSave" data-i="save" style="margin-top:12px">Salva</button>
   <p class="mini" style="margin-top:10px" data-i="catNote">Verifica i codici articolo sul catalogo attuale del fornitore.</p>
 </div>
@@ -1318,7 +1412,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div id="langList"></div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="printArea"></div>
 
 <script>
@@ -1326,6 +1420,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 /* ================= I18N ================= */
 const I18N = {
 it:{orderBtn:"Ordine fornitore",orderTitle:"ORDINE MATERIALI",orderPanels:"Pannelli",orderSize:"Formato",orderQty:"Qtà",orderEdge:"Bordo ABS",orderMl:"ml (+10%)",orderEdgeNote:"Metri lineari con il 10% di sfrido gia incluso.",orderCheck:"Verificare i codici sul catalogo attuale del fornitore.",transpBtn:"Passa dalla porta?",transpTitle:"Passa dalla porta?",transpHint:"Il mobile montato contro il vano piu stretto del percorso. Controlla solo se la sezione entra — non tiene conto di curve di corridoio, scale a chiocciola o spazio di manovra.",transpW:"Larghezza vano (mm)",transpH:"Altezza vano (mm)",transpNone:"Nessun mobile generato in questo progetto.",transpOk:"Tutti i mobili passano.",transpBad:"{n} mobili non passano montati — vanno assemblati sul posto.",stockBtn:"Ritagli in magazzino",stockTitle:"Ritagli in magazzino",stockHint:"I pannelli gia iniziati delle commesse precedenti. In ottimizzazione si consumano per primi, partendo dal piu piccolo su cui il pezzo entra.",stockQty:"Pz.",stockMat:"Materiale",stockAdd:"Aggiungi ritaglio",stockList:"In magazzino",stockEmpty:"Nessun ritaglio in magazzino.",stockMinLbl:"Tieni i ritagli da (mm)",stockSaved:"Magazzino aggiornato",fromStock:"da magazzino",panelsNew:"Pannelli nuovi",panelsStock:"Ritagli usati",addLeft:"Metti in magazzino {n} ritagli",cutsBtn:"Ordine dei tagli",sumTram1:"tramezzo",sumShelf1:"ripiano",sumDraw1:"cassetto",sumDoors1:"anta",grpBase:"Corpo e misure",grpMat:"Materiali",grpIn:"Interno",grpFr:"Frontali e appoggio",sumTram:"tramezzi",sumShelf:"ripiani",sumDraw:"cassetti",sumHang:"asta",sumDoors:"ante",projects:"Progetti",projectsSub:"Gestisci i tuoi progetti di taglio",newProject:"Nuovo progetto",editProject:"Modifica progetto",import:"Importa",
+backLbl:"Indietro",appearance:"Aspetto",fTheme:"Tema",themeAuto:"Come il telefono",themeLight:"Chiaro",themeDark:"Scuro",introOnce:"Una volta al giorno",fHaptics:"Vibrazione",fConfirmDel:"Chiedi prima di eliminare",catAcc:"Accessori",catAccNote:"Vetro, gambe, doghe, aste: si comprano a pezzo, non a metro quadro. Finché il prezzo resta 0 non entrano nel totale.",cAcc:"Accessori",accSetPrice:"prezzo da inserire",quotaFull:"Memoria del telefono piena: il salvataggio NON è riuscito. Esporta subito un backup.",savePreset:"Salva come tipologia",presetAsk:"Nome della tipologia",presetSaved:"Tipologia salvata",presetDel:"Eliminare la tipologia «{n}»?",matGrain:"venatura",confirmDelMod:"Eliminare il modulo «{n}» e tutti i suoi pezzi?",areaPanels:"Area pannelli",cPanelsDet:"Pannelli (con sfrido)",
 cutList:"Distinta di taglio",nesting:"Ottimizzazione",nestingSub:"Disposizione dei pezzi sui pannelli",summary:"Riepilogo",summarySub:"Materiali, bordatura e costi",
 materials:"Materiali",costs:"Costi stimati",export:"Esporta",exportPdf:"PDF distinta",backup:"Backup progetto (JSON)",
 navProjects:"Progetti",navList:"Distinta",navNest:"Taglio",navSummary:"Riepilogo",
@@ -1344,6 +1439,7 @@ importedRows:"righe importate",invalidFile:"File non valido",duplicate:"Duplica"
 printTitle:"DISTINTA DI TAGLIO",printProject:"Progetto",printNotes:"Bordatura: L = lato lunghezza, C = lato larghezza. Misure finite in mm.",
 hardware:"Ferramenta",hwCern:"Cerniere",hwGuida:"Guide cassetto (cp.)",hwMan:"Maniglie",hwSup:"Supporti ripiano",hwAsta:"Supporti asta",hwPied:"Piedini regolabili",hwBin:"Binario scorrevole (set)",hwConn:"Viti & eccentrici",fMargin:"Margine %",fIva:"IVA %",quote:"PDF preventivo",quoteTitle:"PREVENTIVO",qDesc:"Descrizione",qNet:"Imponibile",qVat:"IVA",qTotal:"TOTALE",qValidity:"Validità offerta: 30 giorni",share:"Condividi",grain:"Venatura (no rotazione)",searchPh:"Cerca pezzo, modulo, materiale…",allMats:"Tutti i materiali",dupProject:"Duplica progetto",copySuffix:"(copia)",fDeadline:"Scadenza",fPhone:"Telefono",fNotes:"Note",daysLeft:"giorni",renameMat:"Nuovo nome materiale:",cSubtotal:"Subtotale",fType:"Tipo",typeStandard:"Standard",typeCorner:"Angolare",typeSliding:"Ante scorrevoli",fL2:"Largh. ala B (mm)",fHang:"Asta appendiabiti",hint3d:"Trascina per ruotare · pizzica per zoom · doppio tocco: reset",preset_angolare:"Angolare",preset_scorrevole:"Scorrevole",preset_dressing:"Cabina armadio",buildTitle:"Generatore mobili",buildSub:"Configura il modulo e genera la distinta",navBuild:"Genera",fHeight:"Alt. (mm)",fDepth:"Prof. (mm)",fThickness:"Spessore",fPlinth:"Zoccolo (mm)",fTram:"Tramezzi",fShelvesSec:"Ripiani/sez.",fDrawersSec:"Cassetti/sez.",fDoorsN:"Ante",fBack:"Schienale",optYes:"Sì",optNo:"No",generate:"Genera distinta",preset_armadio:"Armadio",preset_libreria:"Libreria",preset_cassettiera:"Cassettiera",preset_base:"Mobile base",selectProject:"Seleziona un progetto",page:"Pagina",fFront:"Frontale",frontFull:"Pieno",frontGlass:"Telaio + vetro",fSupport:"Supporto",supPlinth:"Zoccolo",supFeet:"Piedini",supWall:"Sospeso",fHandles:"Apertura",hManiglia:"Maniglie",hPush:"Push-open",fShelfT:"Ripiani",shMobile:"Regolabili",shFisso:"Fissi",preset_tv:"Mobile TV",preset_pensile:"Pensile",preset_colonna:"Colonna",preset_bagno:"Bagno",preset_vetrina:"Vetrina",roomBtn:"Nel tuo ambiente",roomTitle:"Nel tuo ambiente",roomLoad:"Foto",roomExport:"Salva JPG",roomEmpty:"Carica una foto della stanza",roomHint:"Trascina il mobile · pizzica per ridimensionare",roomRotate:"Rotazione",roomOpacity:"Opacità",updBtn:"Verifica aggiornamenti",updLatest:"Sei già aggiornato ✓",updFound:"Aggiornamento trovato! Ricarico…",updErr:"Verifica non riuscita — controlla la connessione",nestSkip:"{n} pezzi non entrano nel pannello {pl}×{pw} mm e NON sono nel piano di taglio:",nestSkipAny:"{n} pezzi non entrano nel pannello della loro referenza e NON sono nel piano di taglio:",addFurniture:"Mobile",addPlainPiece:"Pezzo singolo",fAngL:"Angolo sx (°)",fAngR:"Angolo dx (°)",fAngles:"Angoli di taglio (°)",shortSide:"lato corto",angTooSteep:"Angoli troppo chiusi per questa misura",angNote:"{n} pezzi trapezoidali",splitNote:"{n} pezzi spezzati — giunzione nascosta",splitNoteVis:"{n} pezzi spezzati — giunzione A VISTA",jointHidden:"giunzione nascosta",jointVisible:"giunzione a vista",explodeBtn:"Vista esplosa",drawAng:"Pezzi ad angolo",drawExpl:"Vista esplosa",angSkipNote:"{n} sezioni troppo strette per l'angolo — tagliate dritte",angSkipTag:"angolo non applicabile",fIntro:"Intro all'avvio",fIntroSound:"Suono intro",fHangGap:"Spazio sotto l'asta",fShelfEven:"Ripiani equidistanti",fShelfStep:"Passo ripiani (mm)",fSections:"Contenuto sezioni",sec_shelf:"ripiani",sec_hang:"asta",sec_hangShelf:"asta + ripiani",sec_empty:"vuota",secHint:"Tocca una sezione per cambiarne il contenuto — mezzo armadio con l'asta e mezzo a ripiani.",shSqueezed:"Spazio sotto l'asta troppo grande — ripiani su tutta l'altezza",shNoFit:"{n} ripiani non entrano sotto l'asta",fEdgeTh:"Spessore bordo (mm)",noEdgeTag:"(senza bordo)",matAdd:"Aggiungi materiale",artCheck:"— codice da confermare",matHide:"Nascondi",matShow:"Mostra",hingeMill:"fresatura cerniere: {n} × ø35 a {list} mm dal bordo inferiore, prof. 12,5 mm, 3–6 mm dal bordo",deleteModule:"Elimina il mobile",fCornerKind:"Tipo angolo",cornInt:"Interno (angolo stanza)",cornExt:"Esterno (spigolo sporgente)",angHintTxt:"L si misura al filo posteriore. <90° angolo interno, >90° esterno.",hwPush:"Push-open / TIP-ON",catBtn:"Catalogo ferramenta & materiali",catTitle:"Catalogo",catMats:"Materiali (€/m²)",catArt:"Cod. articolo",catProd:"Prodotto",catNote:"Verifica i codici articolo sul catalogo attuale del fornitore.",matBody:"Corpo",matFront:"Frontali",matBack:"Schienale",mTitle:"Scheda montaggio",mPrep:"Verifica la distinta: tutti i pezzi tagliati e bordati, senza scheggiature.",mDrill:"Foratura sistema 32: esegui i fori per {q} × {p} su fianchi, base e cielo.",mSlides:"Monta le guide sui fianchi PRIMA dell'assemblaggio: {q} × {p}.",mPlates:"Fissa le basette delle cerniere sui fianchi: {q} × {p}.",mBox:"Assembla la carcassa: base + cielo tra i fianchi. Serra gli eccentrici senza forzare.",mTram:"Inserisci e fissa i tramezzi ({q}).",mPlinth:"Monta lo zoccolo arretrato di 50 mm dal filo anteriore.",mFeet:"Avvita i piedini regolabili: {q} × {p}. Livella con la bolla.",mWall:"Fissa le staffe di sospensione e verifica il fissaggio a muro (tasselli adeguati alla parete).",mBack:"Fissa lo schienale e controlla le diagonali (squadro): devono essere uguali.",mShelvesA:"Inserisci i supporti ripiano: {q} × {p}, poi posiziona i ripiani.",mShelvesF:"Fissa i ripiani fissi con eccentrici prima di chiudere la carcassa.",mDrawers:"Assembla i cassetti, aggancia sulle guide e monta i frontali con regolazione.",mDoors:"Fora ø35 per le cerniere (distanza 3–6 mm dal bordo), monta le ante e regola in 3D: verticale, laterale, profondità.",mSliding:"Monta il binario superiore/inferiore e appendi le ante scorrevoli: {p}. Regola le ruote.",mHandles:"Traccia, fora e avvita le maniglie: {q} × {p}.",mPush:"Monta i meccanismi push: {q} × {p}. Regola la sporgenza.",mRail:"Fissa i supporti asta ({q} × {p}) e taglia l'asta a misura interna −2 mm.",mCheck:"Controllo finale: ante allineate, cassetti scorrevoli, tutte le viti serrate.",mSafety:"Documento generato automaticamente — verificare quote e codici prima della produzione.",lblBtn:"Etichette pezzi",labBtn:"Pacchetto laboratorio",lblHint:"Fogli A4 — 24 etichette 70×37 mm",fHours:"Ore manodopera",fHourly:"€ / ora manodopera",qIncl:"inclusa nel prezzo",decorPh:"Decoro (es. Egger H1180)",importErr:"File non valido",mSys32:"Righe di foratura sistema 32: prima fila a 37 mm dal filo anteriore, seconda a 37 mm dal filo posteriore, passo 32 mm.",mHingeAt:"Posizione tazze cerniere (anta {h} mm, dal bordo): {list}. Foro ø35, profondità 12,5 mm, distanza dal bordo 3–6 mm.",dupMod:"Duplica modulo",logoBtn:"Logo sui PDF",logoRemove:"Rimuovere il logo attuale?",logoTooBig:"Immagine troppo grande — usa un logo più semplice",drawBtn:"Disegno tecnico 2D",drawTitle:"DISEGNO TECNICO",drawFront:"Vista frontale",drawSide:"Sezione laterale",fBoxes:"Struttura interna cassetti",statsBtn:"Statistiche",statsTitle:"Statistiche",stProjects:"Progetti",stPieces:"Pezzi totali",stArea:"Superficie totale",stQuoted:"Valore preventivato",fScasso:"Decupaj / Scasso (opzionale)",fScassoPos:"posizione dall'angolo",fCorner:"Lato ala angolare",cornSx:"Sinistra",cornDx:"Destra",undoBtn:"ANNULLA",fullBkBtn:"Backup completo (tutto)",restoreConfirm:"Ripristinare il backup? I dati attuali verranno sostituiti.",restored:"Backup ripristinato",bkRemind:"💾 È da un po' che non fai un backup — Impostazioni → Backup completo",fbBtn:"Suggerisci una funzione",introTitle:"Benvenuto in Ebanist",intro1:"Genera mobili parametrici: tipologia, misure e opzioni — distinta, ferramenta e 3D si calcolano da soli.",intro2:"Documenti da laboratorio: nesting, etichette, scheda di montaggio illustrata, disegno tecnico e preventivo PDF.",intro3:"Mostra il mobile nella foto della stanza del cliente ed esporta il JPG su WhatsApp.",introGo:"Inizia",typeDesk:"Scrivania",typeTable:"Tavolo",typeBed:"Letto",preset_scrivania:"Scrivania",preset_tavolo:"Tavolo",preset_letto:"Letto",roomPitch:"Inclinazione",roomRoll:"Livello",mFlatAsm:"Assembla a terra su una superficie morbida: fissa i componenti con eccentrici/viti seguendo il disegno tecnico, poi raddrizza il mobile in due persone."},
 ro:{orderBtn:"Comandă furnizor",orderTitle:"COMANDĂ MATERIALE",orderPanels:"Coli",orderSize:"Format",orderQty:"Cant.",orderEdge:"Cant ABS",orderMl:"ml (+10%)",orderEdgeNote:"Metri liniari, cu 10% pierderi deja incluse.",orderCheck:"Verifică codurile în catalogul actual al furnizorului.",transpBtn:"Trece pe ușă?",transpTitle:"Trece pe ușă?",transpHint:"Corpul asamblat, față de golul cel mai strâmt de pe drum. Verifică doar dacă secțiunea încape — nu ține cont de cotituri de hol, de scări în spirală sau de spațiul de manevră.",transpW:"Lățime gol (mm)",transpH:"Înălțime gol (mm)",transpNone:"Niciun corp generat în proiectul ăsta.",transpOk:"Toate corpurile trec.",transpBad:"{n} corpuri nu trec asamblate — se montează la fața locului.",stockBtn:"Resturi în stoc",stockTitle:"Resturi în stoc",stockHint:"Colile începute din lucrările anterioare. La optimizare se consumă întâi ele, de la cea mai mică pe care încape piesa.",stockQty:"Buc.",stockMat:"Material",stockAdd:"Adaugă restul",stockList:"În stoc",stockEmpty:"Niciun rest în stoc.",stockMinLbl:"Păstrează resturile de la (mm)",stockSaved:"Stoc actualizat",fromStock:"din stoc",panelsNew:"Coli noi",panelsStock:"Resturi folosite",addLeft:"Pune în stoc {n} resturi",cutsBtn:"Ordinea tăierilor",sumTram1:"despărțitor",sumShelf1:"raft",sumDraw1:"sertar",sumDoors1:"ușă",grpBase:"Corp și cote",grpMat:"Materiale",grpIn:"Interior",grpFr:"Fronturi și sprijin",sumTram:"despărțitori",sumShelf:"rafturi",sumDraw:"sertare",sumHang:"bară",sumDoors:"uși",projects:"Proiecte",projectsSub:"Gestionează proiectele tale de debitare",newProject:"Proiect nou",editProject:"Modifică proiectul",import:"Importă",
+backLbl:"Înapoi",appearance:"Aspect",fTheme:"Temă",themeAuto:"Ca telefonul",themeLight:"Deschisă",themeDark:"Închisă",introOnce:"O dată pe zi",fHaptics:"Vibrație",fConfirmDel:"Întreabă înainte de ștergere",catAcc:"Accesorii",catAccNote:"Sticlă, picioare, șipci, bare: se cumpără la bucată, nu la metru pătrat. Cât timp prețul e 0 nu intră în total.",cAcc:"Accesorii",accSetPrice:"preț de completat",quotaFull:"Memoria telefonului e plină: salvarea NU a reușit. Exportă imediat un backup.",savePreset:"Salvează ca tipologie",presetAsk:"Numele tipologiei",presetSaved:"Tipologie salvată",presetDel:"Ștergi tipologia „{n}”?",matGrain:"fibră",confirmDelMod:"Ștergi modulul „{n}” și toate piesele lui?",areaPanels:"Arie panouri",cPanelsDet:"Panouri (cu pierderi)",
 cutList:"Listă de debitare",nesting:"Optimizare",nestingSub:"Așezarea pieselor pe panouri",summary:"Rezumat",summarySub:"Materiale, cant și costuri",
 materials:"Materiale",costs:"Costuri estimate",export:"Exportă",exportPdf:"PDF listă",backup:"Backup proiect (JSON)",
 navProjects:"Proiecte",navList:"Listă",navNest:"Debitare",navSummary:"Rezumat",
@@ -1362,6 +1458,7 @@ importedRows:"rânduri importate",invalidFile:"Fișier invalid",duplicate:"Dupli
 printTitle:"LISTĂ DE DEBITARE",printProject:"Proiect",printNotes:"Cant: L = latura lungimii, C = latura lățimii. Cote finite în mm.",
 hardware:"Feronerie",hwCern:"Balamale",hwGuida:"Glisiere sertar (per.)",hwMan:"Mânere",hwSup:"Suporți raft",hwAsta:"Suporți bară",hwPied:"Picioare reglabile",hwBin:"Șină glisantă (set)",hwConn:"Șuruburi & excentrici",fMargin:"Marjă %",fIva:"TVA %",quote:"PDF ofertă",quoteTitle:"OFERTĂ DE PREȚ",qDesc:"Descriere",qNet:"Valoare netă",qVat:"TVA",qTotal:"TOTAL",qValidity:"Valabilitate ofertă: 30 de zile",share:"Trimite",grain:"Fibră (fără rotire)",searchPh:"Caută piesă, modul, material…",allMats:"Toate materialele",dupProject:"Duplică proiectul",copySuffix:"(copie)",fDeadline:"Termen",fPhone:"Telefon",fNotes:"Notițe",daysLeft:"zile",renameMat:"Nume nou material:",cSubtotal:"Subtotal",fType:"Tip corp",typeStandard:"Standard",typeCorner:"Colțar",typeSliding:"Uși glisante",fL2:"Lățime aripă B (mm)",fHang:"Bară umerașe",hint3d:"Trage pentru rotire · ciupește pentru zoom · dublu-tap: reset",preset_angolare:"Colțar",preset_scorrevole:"Uși glisante",preset_dressing:"Dressing",buildTitle:"Generator mobilier",buildSub:"Configurează corpul și generează lista de debitare",navBuild:"Generator",fHeight:"Înălț. (mm)",fDepth:"Adânc. (mm)",fThickness:"Grosime",fPlinth:"Soclu (mm)",fTram:"Despărțitori",fShelvesSec:"Rafturi/secț.",fDrawersSec:"Sertare/secț.",fDoorsN:"Uși",fBack:"Spate (PAL)",optYes:"Da",optNo:"Nu",generate:"Generează lista",preset_armadio:"Dulap",preset_libreria:"Bibliotecă",preset_cassettiera:"Comodă sertare",preset_base:"Corp bază",selectProject:"Selectează un proiect",page:"Pagina",fFront:"Front",frontFull:"Plin",frontGlass:"Ramă + sticlă",fSupport:"Suport",supPlinth:"Plintă",supFeet:"Picioare",supWall:"Suspendat",fHandles:"Deschidere",hManiglia:"Mânere",hPush:"Push-open",fShelfT:"Polițe",shMobile:"Reglabile",shFisso:"Fixe",preset_tv:"Comodă TV",preset_pensile:"Suspendat",preset_colonna:"Coloană",preset_bagno:"Baie",preset_vetrina:"Vitrină",roomBtn:"În camera ta",roomTitle:"În camera ta",roomLoad:"Foto",roomExport:"Salvează JPG",roomEmpty:"Încarcă o poză a camerei",roomHint:"Trage mobilierul · ciupește pentru redimensionare",roomRotate:"Rotație",roomOpacity:"Opacitate",updBtn:"Verifică actualizări",updLatest:"Ești deja la zi ✓",updFound:"Actualizare găsită! Reîncarc…",updErr:"Verificare eșuată — verifică conexiunea",nestSkip:"{n} piese nu încap pe coala {pl}×{pw} mm și NU sunt în planul de debitare:",nestSkipAny:"{n} piese nu încap pe coala materialului lor și NU sunt în planul de debitare:",addFurniture:"Mobilier",addPlainPiece:"Piesă simplă",fAngL:"Unghi stg. (°)",fAngR:"Unghi dr. (°)",fAngles:"Unghiuri de tăiere (°)",shortSide:"latura scurtă",angTooSteep:"Unghiuri prea închise pentru cota asta",angNote:"{n} piese trapezoidale",splitNote:"{n} piese tăiate — îmbinare ascunsă",splitNoteVis:"{n} piese tăiate — îmbinare LA VEDERE",jointHidden:"îmbinare ascunsă",jointVisible:"îmbinare la vedere",explodeBtn:"Vedere explodată",drawAng:"Piese cu unghi",drawExpl:"Vedere explodată",angSkipNote:"{n} secțiuni prea înguste pentru unghi — tăiate drept",angSkipTag:"unghi neaplicabil",fIntro:"Intro la pornire",fIntroSound:"Sunet intro",fHangGap:"Spațiu sub bară",fShelfEven:"Rafturi echidistante",fShelfStep:"Pas rafturi (mm)",fSections:"Conținut secțiuni",sec_shelf:"rafturi",sec_hang:"bară",sec_hangShelf:"bară + rafturi",sec_empty:"goală",secHint:"Atinge o secțiune ca să-i schimbi conținutul — jumătate cu bară, jumătate cu rafturi.",shSqueezed:"Spațiul sub bară e prea mare — rafturile ocupă toată înălțimea",shNoFit:"{n} rafturi nu încap sub bară",fEdgeTh:"Grosime cant (mm)",noEdgeTag:"(fără cant)",matAdd:"Adaugă material",artCheck:"— cod de confirmat",matHide:"Ascunde",matShow:"Arată",hingeMill:"frezare balamale: {n} × ø35 la {list} mm de la marginea de jos, adânc. 12,5 mm, 3–6 mm de la cant",deleteModule:"Șterge corpul",fCornerKind:"Tip colț",cornInt:"Interior (colț de cameră)",cornExt:"Exterior (colț ieșit)",angHintTxt:"L se măsoară la peretele din spate. Sub 90° colț interior, peste 90° exterior.",hwPush:"Push-open / TIP-ON",catBtn:"Catalog feronerie & materiale",catTitle:"Catalog",catMats:"Materiale (€/m²)",catArt:"Cod articol",catProd:"Produs",catNote:"Verifică toate codurile de articol în catalogul actual al furnizorului.",matBody:"Corp",matFront:"Fronturi",matBack:"Spate",mTitle:"Fișă de montaj",mPrep:"Verifică lista de debitare: toate piesele tăiate și căntuite, fără ciobituri.",mDrill:"Găurire sistem 32: execută găurile pentru {q} × {p} pe laterale, bază și tavan.",mSlides:"Montează glisierele pe laterale ÎNAINTE de asamblare: {q} × {p}.",mPlates:"Fixează plăcuțele balamalelor pe laterale: {q} × {p}.",mBox:"Asamblează carcasa: bază + tavan între laterale. Strânge excentricii fără a forța.",mTram:"Introdu și fixează despărțitorii ({q}).",mPlinth:"Montează plinta retrasă cu 50 mm față de cantul frontal.",mFeet:"Înșurubează picioarele reglabile: {q} × {p}. Nivelează cu bolobocul.",mWall:"Fixează sistemele de suspendare și verifică prinderea în perete (dibluri potrivite peretelui).",mBack:"Fixează spatele și verifică diagonalele (echer): trebuie să fie egale.",mShelvesA:"Introdu suporții de poliță: {q} × {p}, apoi așază polițele.",mShelvesF:"Fixează polițele fixe cu excentrici înainte de închiderea carcasei.",mDrawers:"Asamblează sertarele, agață-le pe glisiere și montează fronturile cu reglaj.",mDoors:"Forează ø35 pentru balamale (3–6 mm de la margine), montează ușile și reglează 3D: vertical, lateral, adâncime.",mSliding:"Montează șina sus/jos și agață ușile glisante: {p}. Reglează rolele.",mHandles:"Trasează, găurește și înșurubează mânerele: {q} × {p}.",mPush:"Montează mecanismele push: {q} × {p}. Reglează proeminența.",mRail:"Fixează suporții de bară ({q} × {p}) și taie bara la cota interioară −2 mm.",mCheck:"Control final: uși aliniate, sertare culisante lin, toate șuruburile strânse.",mSafety:"Document generat automat — verifică toate cotele și codurile înainte de producție.",lblBtn:"Etichete piese",labBtn:"Pachet laborator",lblHint:"Coli A4 — 24 etichete 70×37 mm",fHours:"Ore manoperă",fHourly:"€ / oră manoperă",qIncl:"inclusă în preț",decorPh:"Decor (ex. Egger H1180)",importErr:"Fișier invalid",mSys32:"Rânduri de găurire sistem 32: primul rând la 37 mm de cantul frontal, al doilea la 37 mm de cel posterior, pas 32 mm.",mHingeAt:"Poziția oalelor de balama (ușă {h} mm, de la margine): {list}. Gaură ø35, adâncime 12,5 mm, distanță de la cant 3–6 mm.",dupMod:"Duplică modulul",logoBtn:"Logo pe PDF-uri",logoRemove:"Ștergi logo-ul actual?",logoTooBig:"Imagine prea mare — folosește un logo mai simplu",drawBtn:"Desen tehnic 2D",drawTitle:"DESEN TEHNIC",drawFront:"Vedere frontală",drawSide:"Secțiune laterală",fBoxes:"Structură interioară sertare",statsBtn:"Statistici",statsTitle:"Statistici",stProjects:"Proiecte",stPieces:"Piese totale",stArea:"Suprafață totală",stQuoted:"Valoare ofertată",fScasso:"Decupaj (opțional)",fScassoPos:"poziție de la colț",fCorner:"Partea aripii de colț",cornSx:"Stânga",cornDx:"Dreapta",undoBtn:"ANULEAZĂ",fullBkBtn:"Backup complet (tot)",restoreConfirm:"Restaurezi backup-ul? Datele actuale vor fi înlocuite.",restored:"Backup restaurat",bkRemind:"💾 A trecut ceva timp de la ultimul backup — Setări → Backup complet",fbBtn:"Sugerează o funcție",introTitle:"Bun venit în Ebanist",intro1:"Generează mobilier parametric: tipologie, cote și opțiuni — distinta, feroneria și 3D-ul se calculează singure.",intro2:"Documente de atelier: optimizare, etichete, fișă de montaj ilustrată, desen tehnic și ofertă PDF.",intro3:"Arată mobilierul în poza camerei clientului și exportă JPG pe WhatsApp.",introGo:"Începe",typeDesk:"Birou",typeTable:"Masă",typeBed:"Pat",preset_scrivania:"Birou",preset_tavolo:"Masă",preset_letto:"Pat",roomPitch:"Înclinare",roomRoll:"Nivel",mFlatAsm:"Asamblează la sol pe o suprafață moale: fixează componentele cu excentrici/șuruburi după desenul tehnic, apoi ridică mobilierul în două persoane."},
 en:{orderBtn:"Supplier order",orderTitle:"MATERIALS ORDER",orderPanels:"Boards",orderSize:"Size",orderQty:"Qty",orderEdge:"ABS edging",orderMl:"lm (+10%)",orderEdgeNote:"Linear metres, 10% waste already included.",orderCheck:"Verify the codes against the supplier\u2019s current catalog.",transpBtn:"Fits through the door?",transpTitle:"Fits through the door?",transpHint:"The assembled unit against the tightest opening on the way in. Only checks whether the cross-section fits — it does not account for corridor turns, spiral stairs or room to manoeuvre.",transpW:"Opening width (mm)",transpH:"Opening height (mm)",transpNone:"No units generated in this project.",transpOk:"Everything fits through.",transpBad:"{n} units do not fit assembled — build them on site.",stockBtn:"Offcut stock",stockTitle:"Offcut stock",stockHint:"Part-used boards left from earlier jobs. Nesting uses these first, starting from the smallest one the piece fits on.",stockQty:"Qty",stockMat:"Material",stockAdd:"Add offcut",stockList:"In stock",stockEmpty:"No offcuts in stock.",stockMinLbl:"Keep offcuts from (mm)",stockSaved:"Stock updated",fromStock:"from stock",panelsNew:"New boards",panelsStock:"Offcuts used",addLeft:"Add {n} offcuts to stock",cutsBtn:"Cutting order",sumTram1:"divider",sumShelf1:"shelf",sumDraw1:"drawer",sumDoors1:"door",grpBase:"Body and sizes",grpMat:"Materials",grpIn:"Inside",grpFr:"Fronts and support",sumTram:"dividers",sumShelf:"shelves",sumDraw:"drawers",sumHang:"rail",sumDoors:"doors",projects:"Projects",projectsSub:"Manage your cutting projects",newProject:"New project",editProject:"Edit project",import:"Import",
+backLbl:"Back",appearance:"Appearance",fTheme:"Theme",themeAuto:"Match the phone",themeLight:"Light",themeDark:"Dark",introOnce:"Once a day",fHaptics:"Vibration",fConfirmDel:"Ask before deleting",catAcc:"Accessories",catAccNote:"Glass, legs, slats, rails: bought by the piece, not by the square metre. While the price is 0 they stay out of the total.",cAcc:"Accessories",accSetPrice:"price to be set",quotaFull:"Phone storage is full: the save did NOT go through. Export a backup right now.",savePreset:"Save as a type",presetAsk:"Name of the type",presetSaved:"Type saved",presetDel:"Delete the type “{n}”?",matGrain:"grain",confirmDelMod:"Delete the module “{n}” and all its pieces?",areaPanels:"Panel area",cPanelsDet:"Panels (incl. waste)",
 cutList:"Cutting list",nesting:"Optimization",nestingSub:"Piece layout on panels",summary:"Summary",summarySub:"Materials, edging and costs",
 materials:"Materials",costs:"Estimated costs",export:"Export",exportPdf:"PDF list",backup:"Project backup (JSON)",
 navProjects:"Projects",navList:"Cut list",navNest:"Layout",navSummary:"Summary",
@@ -1380,6 +1477,7 @@ importedRows:"rows imported",invalidFile:"Invalid file",duplicate:"Duplicate",cl
 printTitle:"CUTTING LIST",printProject:"Project",printNotes:"Edging: L = length side, C = width side. Finished sizes in mm.",
 hardware:"Hardware",hwCern:"Hinges",hwGuida:"Drawer slides (pair)",hwMan:"Handles",hwSup:"Shelf pins",hwAsta:"Rail supports",hwPied:"Adjustable feet",hwBin:"Sliding track (set)",hwConn:"Screws & cams",fMargin:"Margin %",fIva:"VAT %",quote:"Quote PDF",quoteTitle:"QUOTATION",qDesc:"Description",qNet:"Net amount",qVat:"VAT",qTotal:"TOTAL",qValidity:"Quote valid for 30 days",share:"Share",grain:"Grain (no rotation)",searchPh:"Search piece, module, material…",allMats:"All materials",dupProject:"Duplicate project",copySuffix:"(copy)",fDeadline:"Deadline",fPhone:"Phone",fNotes:"Notes",daysLeft:"days",renameMat:"New material name:",cSubtotal:"Subtotal",fType:"Type",typeStandard:"Standard",typeCorner:"Corner",typeSliding:"Sliding doors",fL2:"Wing B width (mm)",fHang:"Hanging rail",hint3d:"Drag to rotate · pinch to zoom · double-tap to reset",preset_angolare:"Corner unit",preset_scorrevole:"Sliding",preset_dressing:"Walk-in",buildTitle:"Furniture builder",buildSub:"Configure the unit and generate the cut list",navBuild:"Builder",fHeight:"Height (mm)",fDepth:"Depth (mm)",fThickness:"Thickness",fPlinth:"Plinth (mm)",fTram:"Dividers",fShelvesSec:"Shelves/sec.",fDrawersSec:"Drawers/sec.",fDoorsN:"Doors",fBack:"Back panel",optYes:"Yes",optNo:"No",generate:"Generate cut list",preset_armadio:"Wardrobe",preset_libreria:"Bookcase",preset_cassettiera:"Drawer unit",preset_base:"Base cabinet",selectProject:"Select a project",page:"Page",fFront:"Front",frontFull:"Solid",frontGlass:"Frame + glass",fSupport:"Support",supPlinth:"Plinth",supFeet:"Feet",supWall:"Wall-hung",fHandles:"Opening",hManiglia:"Handles",hPush:"Push-open",fShelfT:"Shelves",shMobile:"Adjustable",shFisso:"Fixed",preset_tv:"TV unit",preset_pensile:"Wall cabinet",preset_colonna:"Tall unit",preset_bagno:"Bathroom",preset_vetrina:"Display cabinet",roomBtn:"In your room",roomTitle:"In your room",roomLoad:"Photo",roomExport:"Save JPG",roomEmpty:"Load a photo of the room",roomHint:"Drag the unit · pinch to resize",roomRotate:"Rotation",roomOpacity:"Opacity",updBtn:"Check for updates",updLatest:"You're up to date ✓",updFound:"Update found! Reloading…",updErr:"Check failed — verify your connection",nestSkip:"{n} pieces do not fit the {pl}×{pw} mm panel and are NOT in the cutting plan:",nestSkipAny:"{n} pieces do not fit their material\u2019s panel and are NOT in the cutting plan:",addFurniture:"Furniture",addPlainPiece:"Single piece",fAngL:"Left angle (°)",fAngR:"Right angle (°)",fAngles:"Cut angles (°)",shortSide:"short side",angTooSteep:"Angles too steep for this size",angNote:"{n} trapezoidal pieces",splitNote:"{n} pieces split — hidden joint",splitNoteVis:"{n} pieces split — joint IN SIGHT",jointHidden:"hidden joint",jointVisible:"visible joint",explodeBtn:"Exploded view",drawAng:"Angled pieces",drawExpl:"Exploded view",angSkipNote:"{n} sections too narrow for the angle — cut square",angSkipTag:"angle not applicable",fIntro:"Intro on launch",fIntroSound:"Intro sound",fHangGap:"Space under the rail",fShelfEven:"Even shelf spacing",fShelfStep:"Shelf pitch (mm)",fSections:"Section contents",sec_shelf:"shelves",sec_hang:"rail",sec_hangShelf:"rail + shelves",sec_empty:"empty",secHint:"Tap a section to change what goes in it — half rail, half shelves.",shSqueezed:"Space under the rail too large — shelves fill the full height",shNoFit:"{n} shelves do not fit under the rail",fEdgeTh:"Edge band thickness (mm)",noEdgeTag:"(no edge band)",matAdd:"Add material",artCheck:"— article no. to confirm",matHide:"Hide",matShow:"Show",hingeMill:"hinge boring: {n} × ø35 at {list} mm from the bottom edge, depth 12.5 mm, 3–6 mm from the edge",deleteModule:"Delete unit",fCornerKind:"Corner type",cornInt:"Inside (room corner)",cornExt:"Outside (projecting corner)",angHintTxt:"L is measured at the back wall. Below 90° inside corner, above 90° outside.",hwPush:"Push-open / TIP-ON",catBtn:"Hardware & materials catalog",catTitle:"Catalog",catMats:"Materials (€/m²)",catArt:"Article no.",catProd:"Product",catNote:"Verify all article numbers against the supplier's current catalog.",matBody:"Carcass",matFront:"Fronts",matBack:"Back panel",mTitle:"Assembly sheet",mPrep:"Check the cut list: all pieces cut and edge-banded, no chipping.",mDrill:"System 32 drilling: drill for {q} × {p} on sides, bottom and top.",mSlides:"Mount the slides on the sides BEFORE assembly: {q} × {p}.",mPlates:"Fix the hinge mounting plates on the sides: {q} × {p}.",mBox:"Assemble the carcass: bottom + top between the sides. Tighten cams without forcing.",mTram:"Insert and fix the dividers ({q}).",mPlinth:"Mount the plinth set back 50 mm from the front edge.",mFeet:"Screw in the adjustable feet: {q} × {p}. Level with a spirit level.",mWall:"Fix the hanging brackets and verify wall fixing (anchors suited to the wall).",mBack:"Fix the back panel and check the diagonals (square): they must be equal.",mShelvesA:"Insert the shelf supports: {q} × {p}, then place the shelves.",mShelvesF:"Fix the fixed shelves with cams before closing the carcass.",mDrawers:"Assemble the drawers, clip onto the slides and mount the fronts with adjustment.",mDoors:"Drill ø35 for hinges (3–6 mm from edge), mount the doors and adjust in 3D: height, side, depth.",mSliding:"Mount the top/bottom track and hang the sliding doors: {p}. Adjust the rollers.",mHandles:"Mark, drill and screw the handles: {q} × {p}.",mPush:"Mount the push mechanisms: {q} × {p}. Adjust the protrusion.",mRail:"Fix the rail supports ({q} × {p}) and cut the rail to inside dimension −2 mm.",mCheck:"Final check: doors aligned, drawers gliding, all screws tightened.",mSafety:"Automatically generated document — verify all dimensions and codes before production.",lblBtn:"Piece labels",labBtn:"Workshop package",lblHint:"A4 sheets — 24 labels 70×37 mm",fHours:"Labor hours",fHourly:"€ / labor hour",qIncl:"included in price",decorPh:"Decor (e.g. Egger H1180)",importErr:"Invalid file",mSys32:"System 32 drilling rows: first row 37 mm from front edge, second 37 mm from rear edge, 32 mm pitch.",mHingeAt:"Hinge cup positions (door {h} mm, from edge): {list}. Bore ø35, depth 12.5 mm, edge distance 3–6 mm.",dupMod:"Duplicate module",logoBtn:"Logo on PDFs",logoRemove:"Remove current logo?",logoTooBig:"Image too large — use a simpler logo",drawBtn:"2D technical drawing",drawTitle:"TECHNICAL DRAWING",drawFront:"Front view",drawSide:"Side section",fBoxes:"Drawer box structure",statsBtn:"Statistics",statsTitle:"Statistics",stProjects:"Projects",stPieces:"Total pieces",stArea:"Total area",stQuoted:"Quoted value",fScasso:"Cut-out (optional)",fScassoPos:"position from corner",fCorner:"Corner wing side",cornSx:"Left",cornDx:"Right",undoBtn:"UNDO",fullBkBtn:"Full backup (everything)",restoreConfirm:"Restore this backup? Current data will be replaced.",restored:"Backup restored",bkRemind:"💾 It's been a while since your last backup — Settings → Full backup",fbBtn:"Suggest a feature",introTitle:"Welcome to Ebanist",intro1:"Generate parametric furniture: type, dimensions, options — cut list, hardware and 3D compute themselves.",intro2:"Workshop documents: nesting, labels, illustrated assembly sheet, technical drawing and quote PDF.",intro3:"Show the unit in your client's room photo and export a JPG to WhatsApp.",introGo:"Start",typeDesk:"Desk",typeTable:"Table",typeBed:"Bed",preset_scrivania:"Desk",preset_tavolo:"Table",preset_letto:"Bed",roomPitch:"Tilt",roomRoll:"Level",mFlatAsm:"Assemble on the floor on a soft surface: fix the components with cams/screws following the technical drawing, then stand the unit up with two people."},
 fr:{orderBtn:"Commande fournisseur",orderTitle:"COMMANDE MATÉRIAUX",orderPanels:"Panneaux",orderSize:"Format",orderQty:"Qté",orderEdge:"Chant ABS",orderMl:"ml (+10%)",orderEdgeNote:"Mètres linéaires, 10% de chute déjà inclus.",orderCheck:"Vérifier les codes sur le catalogue actuel du fournisseur.",transpBtn:"Passe la porte ?",transpTitle:"Passe la porte ?",transpHint:"Le meuble monté face à l\u2019ouverture la plus étroite du parcours. Vérifie seulement si la section passe — sans tenir compte des virages de couloir, escaliers en colimaçon ou espace de manœuvre.",transpW:"Largeur ouverture (mm)",transpH:"Hauteur ouverture (mm)",transpNone:"Aucun meuble généré dans ce projet.",transpOk:"Tout passe.",transpBad:"{n} meubles ne passent pas montés — à assembler sur place.",stockBtn:"Chutes en stock",stockTitle:"Chutes en stock",stockHint:"Les panneaux entamés des chantiers précédents. L\u2019optimisation les consomme en premier, en partant de la plus petite chute où la pièce entre.",stockQty:"Qté",stockMat:"Matériau",stockAdd:"Ajouter la chute",stockList:"En stock",stockEmpty:"Aucune chute en stock.",stockMinLbl:"Garder les chutes à partir de (mm)",stockSaved:"Stock mis à jour",fromStock:"du stock",panelsNew:"Panneaux neufs",panelsStock:"Chutes utilisées",addLeft:"Mettre {n} chutes en stock",cutsBtn:"Ordre des coupes",sumTram1:"séparation",sumShelf1:"étagère",sumDraw1:"tiroir",sumDoors1:"porte",grpBase:"Caisson et cotes",grpMat:"Matériaux",grpIn:"Intérieur",grpFr:"Façades et appui",sumTram:"séparations",sumShelf:"étagères",sumDraw:"tiroirs",sumHang:"tringle",sumDoors:"portes",projects:"Projets",projectsSub:"Gérez vos projets de découpe",newProject:"Nouveau projet",editProject:"Modifier le projet",import:"Importer",
+backLbl:"Retour",appearance:"Apparence",fTheme:"Thème",themeAuto:"Comme le téléphone",themeLight:"Clair",themeDark:"Sombre",introOnce:"Une fois par jour",fHaptics:"Vibration",fConfirmDel:"Demander avant de supprimer",catAcc:"Accessoires",catAccNote:"Verre, pieds, lattes, tringles : ils s'achètent à la pièce, pas au mètre carré. Tant que le prix reste à 0 ils n'entrent pas dans le total.",cAcc:"Accessoires",accSetPrice:"prix à renseigner",quotaFull:"Mémoire du téléphone pleine : l'enregistrement a ÉCHOUÉ. Exportez une sauvegarde tout de suite.",savePreset:"Enregistrer comme type",presetAsk:"Nom du type",presetSaved:"Type enregistré",presetDel:"Supprimer le type « {n} » ?",matGrain:"fil du bois",confirmDelMod:"Supprimer le module « {n} » et toutes ses pièces ?",areaPanels:"Surface panneaux",cPanelsDet:"Panneaux (avec chutes)",
 cutList:"Liste de débit",nesting:"Optimisation",nestingSub:"Placement des pièces sur les panneaux",summary:"Résumé",summarySub:"Matériaux, chants et coûts",
 materials:"Matériaux",costs:"Coûts estimés",export:"Exporter",exportPdf:"PDF liste",backup:"Sauvegarde projet (JSON)",
 navProjects:"Projets",navList:"Débit",navNest:"Découpe",navSummary:"Résumé",
@@ -1456,7 +1554,8 @@ function defaultState(){
       coName:"Domus Renov",coInfo:"CUI RO47806657",margin:30,iva:20,
       hwCern:1.4,hwGuida:6.5,hwMan:3.5,hwSup:0.08,hwAsta:1.2,hwPied:0.9,hwBin:45,hwConn:0.35,hwPush:2.5,
       hwProd:{cern:"blum_71b3550",guida:"blum_tandem",man:"gen_man",sup:"haf_sup",asta:"gen_asta",pied:"haf_axilo",bin:"haf_slido",conn:"haf_minifix",push:"blum_tipon_a"},
-      hwOvr:{}, matOvr:{}, matBody:"pal18_alb", matFront:"pal18_alb", matBack:"pfl3", stockMin:250, doorW:800, doorH:2050},
+      hwOvr:{}, matOvr:{}, accPrice:{}, matBody:"pal18_alb", matFront:"pal18_alb", matBack:"pfl3", stockMin:250, doorW:800, doorH:2050,
+      theme:"auto", intro:2, introSound:1, haptics:1, confirmDel:1},
     stock:[]};
 }
 /* ===== CATALOGO FERRAMENTA (Blum / Häfele) — prezzi e codici modificabili ===== */
@@ -1543,7 +1642,13 @@ function matById(id){ const m=matAll().find(x=>x.id===id);
   if(!m) return null;
   const eff=Object.assign({},m,(state.settings.matOvr||{})[id]||{});
   eff.label=(m.l||{})[state.lang]||(m.l||{}).it||"";
+  /* Un decoro legno ha un verso. Finora il piano di taglio girava i pezzi a
+     piacere e in officina uscivano fianchi con la fibra per traverso: pezzo da
+     rifare, pannello buttato. Adesso il verso e una proprieta del materiale —
+     acceso di serie sui decori legno, disattivabile a mano dal catalogo. */
+  if(eff.grain==null) eff.grain=(eff.tx==="wood")?1:0;
   return eff; }
+function matGrainByLabel(label){ const m=matByLabel(label); return (m&&m.grain)?1:0; }
 function matRawByLabel(label){ return matAll().find(x=>x.l&&Object.values(x.l).includes(label)); }
 function matByLabel(label){ const m=matRawByLabel(label); return m?matById(m.id):null; }
 function matDecorByLabel(label){
@@ -1566,7 +1671,15 @@ function loadState(){
   try{const raw=localStorage.getItem("tagliapro");if(raw){const s=JSON.parse(raw);if(s&&s.projects){s.settings=Object.assign({},defaultState().settings,s.settings||{});if(!Array.isArray(s.stock))s.stock=[];return s;}}}catch(e){}
   return defaultState();
 }
-function persist(){try{localStorage.setItem("tagliapro",JSON.stringify(state));}catch(e){} if(typeof scheduleSync==="function") scheduleSync();}
+/* Il salvataggio poteva fallire in silenzio: memoria piena o navigazione
+   privata, e il lavoro della giornata restava solo nella RAM. Adesso si vede,
+   una volta sola per non trasformare ogni tocco in un allarme. */
+let persistFail=0;
+function persist(){
+  try{ localStorage.setItem("tagliapro",JSON.stringify(state)); persistFail=0; }
+  catch(e){ if(!persistFail){ persistFail=1; try{ toast(t("quotaFull"),6500); }catch(e2){} } }
+  if(typeof scheduleSync==="function") scheduleSync();
+}
 const t = k => (I18N[state.lang]||I18N.it)[k] || I18N.it[k] || k;
 const proj = () => state.projects.find(p=>p.id===state.activeId) || null;
 const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -1576,13 +1689,11 @@ const fmt = (n,d=2) => n.toLocaleString(state.lang==="en"?"en-GB":state.lang==="
 // "2L+2C" -> edge banding in mm for one piece
 function bandingMm(bordo,lung,larg){
   if(!bordo) return 0;
-  let mm=0;
-  const rx=/(\d+)\s*([LC])/gi; let m;
-  while((m=rx.exec(bordo))!==null){
-    const n=parseInt(m[1],10)||0;
-    mm += m[2].toUpperCase()==="L" ? n*lung : n*larg;
-  }
-  return mm;
+  /* un pezzo ha due lati lunghi e due corti: "3L" battuto a mano non deve
+     diventare tre metri di bordo. Stesso tetto che usa bandCount, cosi i
+     metri lineari e la compensazione della misura raccontano la stessa cosa. */
+  const c=bandCount(bordo);
+  return c.nL*lung + c.nC*larg;
 }
 /* un pezzo può avere più decupaje: manuale ne tiene uno, il rilievo ne porta parecchi */
 function scList(x){ const v=x&&x.scasso; if(!v) return []; return Array.isArray(v)?v:[v]; }
@@ -1597,17 +1708,30 @@ function bandCount(bordo){
 }
 function edgeTh(){ const v=(state&&state.settings)?state.settings.edgeTh:null; return (v==null||!isFinite(v))?0.8:+v; }
 function normMat(m){return String(m||"").toLowerCase().replace(/\s+/g," ").trim();}
+/* Vetro, gambe, doghe e aste NON sono pannelli: il generatore li marca
+   "Accessorio — …". Prima finivano nei metri quadri di truciolare e venivano
+   fatturati al prezzo del pannello — un vetro temperato a 42 €/m² e quattro
+   piedini contati due volte, una come ferramenta e una come superficie.
+   Da qui in poi hanno una riga tutta loro, a pezzo. */
+function isAcc(label){ return /^accessorio/i.test(String(label||"").trim()); }
+function accPriceOf(label){
+  const m=(state.settings&&state.settings.accPrice)||{};
+  const v=m[normMat(label)];
+  return isFinite(v)?+v:0;
+}
 function computeTotals(p){
-  const mats={}; let pcs=0, area=0, edge=0;
+  const mats={}; let pcs=0, area=0, edge=0, pcsPanel=0;
   for(const x of p.pieces){
     const a = x.lung*x.larg/1e6*x.pz;
     const e = bandingMm(x.bordo,x.lung,x.larg)*x.pz/1000;
-    pcs+=x.pz; area+=a; edge+=e;
+    const acc = isAcc(x.materiale);
+    pcs+=x.pz;
+    if(!acc){ pcsPanel+=x.pz; area+=a; edge+=e; }
     const k=normMat(x.materiale);
-    if(!mats[k]) mats[k]={label:x.materiale,area:0,edge:0,pcs:0,pieces:[]};
+    if(!mats[k]) mats[k]={label:x.materiale,area:0,edge:0,pcs:0,pieces:[],acc};
     mats[k].area+=a; mats[k].edge+=e; mats[k].pcs+=x.pz; mats[k].pieces.push(x);
   }
-  return {pcs,area,edge,mats};
+  return {pcs,pcsPanel,area,edge,mats};
 }
 
 /* ================= NESTING (shelf / guillotine FFDH) ================= */
@@ -1759,6 +1883,24 @@ function nest(piecesIn,PL,PW,kerf,stock){
 /* sequenza dei tagli, in profondita: stacchi una striscia e la finisci
    subito, poi passi al resto. Per livelli l'ordine sarebbe equivalente
    sulla carta, ma ti farebbe posare e riprendere lo stesso pezzo dieci volte. */
+/* Il piano di taglio prova 24 combinazioni di ordinamento e regola: su una
+   commessa da qualche centinaio di pezzi sono secondi, e finora si rifaceva
+   da capo a ogni ridisegno e una seconda volta per il PDF di ordine. Il
+   risultato dipende solo da misure, verso della fibra, formato, lama e
+   ritagli: se non cambia niente di tutto questo, si riusa. */
+const NEST_CACHE=new Map();
+function nestCached(pieces,PL,PW,kerf,stock){
+  const key=PL+"x"+PW+"k"+kerf
+    +"|"+pieces.map(x=>x.lung+"/"+x.larg+"/"+x.pz+"/"+(x.grain?1:0)+"/"+(x.elemento||"")).join(",")
+    +"|"+(stock||[]).map(r=>r.L+"/"+r.W).join(",");
+  const hit=NEST_CACHE.get(key);
+  if(hit) return hit;
+  const res=nest(pieces,PL,PW,kerf,stock);
+  if(NEST_CACHE.size>16) NEST_CACHE.clear();
+  NEST_CACHE.set(key,res);
+  return res;
+}
+
 function gCuts(root){
   const out=[];
   (function walk(n){
@@ -1773,25 +1915,141 @@ function gCuts(root){
 /* ================= UI HELPERS ================= */
 const $ = id => document.getElementById(id);
 let currentView="projects";
-function toast(msg){const el=$("toast");el.textContent=msg;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),2200);}
-function openSheet(id){$("scrim").classList.add("on");$(id).classList.add("on");}
-function closeSheets(){$("scrim").classList.remove("on");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));}
+function toast(msg,ms){const el=$("toast");el.textContent=msg;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),ms||2200);}
+/* un colpetto sotto il dito: con i guanti e il rumore della sezionatrice
+   il tocco andato a segno non si sente e non si sente nemmeno il toast */
+function buzz(ms){
+  try{ if((state.settings||{}).haptics===0) return;
+    if(navigator.vibrate) navigator.vibrate(ms||12); }catch(e){}
+}
+
+/* ================= NAVIGAZIONE E TASTO INDIETRO =================
+   Ogni livello aperto — vista, foglio, sovrapposizione — è una voce nella
+   cronologia del browser. Così il tasto fisico di Android chiude UN livello
+   per volta invece di buttare fuori dall'app con il foglio ancora aperto.
+   Dalla radice si esce, come in qualsiasi altra app: tutto è già scritto su
+   disco a ogni modifica, non c'è niente da perdere.
+   La stessa pila alimenta la freccia in alto a sinistra, che serve su iPhone
+   e su PC dove il tasto fisico non c'è. */
+const NAV={stack:[],quiet:0,pending:0};
+function navTop(){ return NAV.stack[NAV.stack.length-1]||null; }
+function navPaint(){
+  const b=$("btnBack"); if(b) b.style.display=NAV.stack.length?"grid":"none";
+}
+/* history.back() è asincrona. Diversi comandi chiudono un foglio e ne aprono
+   subito un altro nello stesso giro (Impostazioni → Catalogo): se si chiamasse
+   back() e pushState() di fila, il ritorno arriverebbe DOPO la spinta e la
+   profondità della cronologia si sfaserebbe dalla pila — dopo qualche giro il
+   tasto indietro salterebbe fuori dall'app.
+   Quindi una chiusura decisa dal codice si limita a segnare un debito: se
+   entro la fine del giro arriva un'apertura, i due si annullano e si riscrive
+   la voce in posto; altrimenti il debito si paga con un vero back(). */
+function navFlush(){
+  while(NAV.pending>0){
+    NAV.pending--; NAV.quiet++;
+    try{ history.back(); }catch(e){ NAV.quiet--; }
+  }
+}
+function navPush(kind,data){
+  NAV.stack.push(Object.assign({kind},data||{}));
+  try{
+    if(NAV.pending>0){ NAV.pending--; history.replaceState({ebn:NAV.stack.length},""); }
+    else history.pushState({ebn:NAV.stack.length},"");
+  }catch(e){}
+  navPaint();
+}
+function navDrop(kind){
+  const top=navTop();
+  if(!top||(kind&&top.kind!==kind)) return;
+  NAV.stack.pop();
+  NAV.pending++;
+  Promise.resolve().then(navFlush);
+  navPaint();
+}
+function closeSheetsQuiet(){
+  $("scrim").classList.remove("on");
+  document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));
+}
+function closeOverlayQuiet(){
+  if(typeof roomCamStop==="function") roomCamStop();
+  const rv=$("roomView"); if(rv) rv.style.display="none";
+}
+window.addEventListener("popstate",()=>{
+  if(NAV.quiet>0){ NAV.quiet--; navPaint(); return; }
+  const top=NAV.stack.pop();
+  if(!top){
+    /* voci rimaste da un ricaricamento (aggiornamento dell'app): si saltano,
+       altrimenti il tasto indietro farebbe un paio di pressioni a vuoto */
+    const st=history.state;
+    if(st&&st.ebn>0){ try{ history.back(); }catch(e){} }
+    return;                                   // radice: da qui si esce dall'app
+  }
+  if(top.kind==="sheet") closeSheetsQuiet();
+  else if(top.kind==="overlay") closeOverlayQuiet();
+  else if(top.kind==="view") applyView(top.from||"projects");
+  navPaint();
+});
+function navBack(){ try{ history.back(); }catch(e){} }
+
+function openSheet(id){
+  const already=!!document.querySelector(".sheet.on");
+  $("scrim").classList.add("on");
+  document.querySelectorAll(".sheet").forEach(s=>s.classList.toggle("on",s.id===id));
+  const top=navTop();
+  if(already&&top&&top.kind==="sheet") top.id=id;   // sostituzione: una sola voce
+  else navPush("sheet",{id});
+  const el=$(id); if(el) el.scrollTop=0;
+}
+function closeSheets(){
+  const was=!!document.querySelector(".sheet.on");
+  closeSheetsQuiet();
+  if(was) navDrop("sheet");
+}
 $("scrim").addEventListener("click",closeSheets);
 
-function setView(v){
+/* applyView cambia schermo e basta; setView ci aggiunge la voce di cronologia */
+function applyView(v){
   currentView=v;
   document.querySelectorAll(".view").forEach(el=>el.classList.remove("on"));
   $("v-"+v).classList.add("on");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.view===v));
+  document.querySelectorAll("nav button").forEach(b=>{
+    const on=b.dataset.view===v;
+    b.classList.toggle("on",on);
+    b.setAttribute("aria-current",on?"page":"false");
+  });
   $("fab").classList.toggle("on",v==="list"&&!!proj());
   render();
   window.scrollTo({top:0});
 }
-document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>setView(b.dataset.view)));
+function setView(v){
+  if(v===currentView){ applyView(v); return; }
+  /* un foglio aperto sopra la vista va chiuso prima, se no la pila si
+     incrocia e il tasto indietro riaprirebbe la vista sotto il foglio */
+  if(navTop()&&navTop().kind!=="view") navDrop();
+  navPush("view",{from:currentView});
+  applyView(v);
+}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{buzz(8);setView(b.dataset.view);}));
+$("btnBack").addEventListener("click",navBack);
+
+/* Il tema si scrive su <html>; la barra di stato del telefono lo segue via
+   meta theme-color, altrimenti in tema scuro resta una striscia verde sopra
+   uno schermo nero. "auto" segue il sistema anche a app aperta. */
+function applyTheme(){
+  const th=(state.settings&&state.settings.theme)||"auto";
+  const root=document.documentElement;
+  if(th==="auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme",th);
+  let dark=th==="dark";
+  try{ if(th==="auto") dark=matchMedia("(prefers-color-scheme:dark)").matches; }catch(e){}
+  const m=$("metaTheme"); if(m) m.setAttribute("content",dark?"#181c1f":"#0E3B2A");
+}
+try{ matchMedia("(prefers-color-scheme:dark)").addEventListener("change",()=>{
+  if(!state||!state.settings||(state.settings.theme||"auto")==="auto") applyTheme(); }); }catch(e){}
 
 function applyLang(){
   document.documentElement.lang=state.lang;
   document.querySelectorAll("[data-i]").forEach(el=>{el.textContent=t(el.dataset.i);});
+  const bb=$("btnBack"); if(bb){ bb.setAttribute("aria-label",t("backLbl")); bb.title=t("backLbl"); }
   const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
   if(typeof aiMount==="function") aiMount();
 }
@@ -1901,7 +2159,11 @@ function renderList(){
     g.innerHTML=`<div class="mod-h"><h3>${esc(mod)}</h3>${hasCfg?`<button class="iconbtn" data-cfg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.3 12 12l8.7-4.7M12 22V12"/></svg></button>`:""}<button class="iconbtn" data-dup><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button><button class="iconbtn danger" data-delmod title="${esc(t("deleteModule"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button><span class="cnt">${done}/${n} ${esc(t("pieces"))}</span></div>`;
     if(hasCfg)g.querySelector("[data-cfg]").addEventListener("click",e=>{e.stopPropagation();openBuilder(cfgKey);});
     g.querySelector("[data-delmod]").addEventListener("click",e=>{
-      e.stopPropagation(); snapUndo();
+      e.stopPropagation();
+      /* il cestino di un modulo porta via venti pezzi con un dito: con i guanti
+         si sbaglia, e la barra Annulla dura sei secondi. Si puo spegnere. */
+      if(state.settings.confirmDel!==0 && !confirm(t("confirmDelMod").replace("{n}",mod))) return;
+      snapUndo(); buzz(18);
       p.pieces=p.pieces.filter(x=>x.modulo!==mod);
       if(p.configs){ delete p.configs[mod]; delete p.configs[_base]; }
       if(p.layout){ delete p.layout[mod]; }
@@ -1926,7 +2188,7 @@ function renderList(){
         <div class="pc-info"><div class="pc-el">${esc(x.elemento)}${scList(x).length?` <span style="color:var(--red,#c33);font-size:11px">✂ ${esc(scTxt(x))}</span>`:""}</div><div class="pc-mat">${esc(shortMat)}</div>${jointTag(x)}</div>
         <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>`;
       r.querySelector("[data-chk]").addEventListener("click",e=>{
-        e.stopPropagation(); x.done=x.done?0:1; persist(); renderList();
+        e.stopPropagation(); x.done=x.done?0:1; buzz(x.done?14:8); persist(); renderList();
       });
       r.addEventListener("click",()=>openPieceEditor(x.id));
       g.appendChild(r);
@@ -1950,7 +2212,7 @@ function renderNest(){
     const PN=panelFor(m.label);
     const stk=(state.stock||[]).filter(r=>r.mat===m.label)
       .flatMap(r=>Array.from({length:Math.max(1,r.n|0)},()=>({L:r.L,W:r.W,id:r.id})));
-    const res=nest(m.pieces,PN.L,PN.W,S.kerf,stk);
+    const res=nestCached(m.pieces,PN.L,PN.W,S.kerf,stk);
     res.skipped.forEach(it=>oversize.push(`${it.ref.elemento} ${it.ref.lung}×${it.ref.larg} — ${m.label} (${PN.L}×${PN.W})`));
     panelCount+=res.panels.filter(x=>!x.stock).length;
     stockUsed+=res.panels.filter(x=>x.stock).length;
@@ -1975,7 +2237,7 @@ function renderNest(){
     <div class="kpi hl"><b>${panelCount}</b><span>${esc(t("panelsNew"))}</span></div>
     <div class="kpi"><b>${stockUsed}</b><span>${esc(t("panelsStock"))}</span></div>
     <div class="kpi"><b>${fmt(avgEff,1)}<small>%</small></b><span>${esc(t("efficiency"))}</span></div>
-    <div class="kpi"><b>${tot.pcs}</b><span>${esc(t("totalPieces"))}</span></div>
+    <div class="kpi"><b>${tot.pcsPanel}</b><span>${esc(t("totalPieces"))}</span></div>
     <div class="kpi"><b>${fmt(tot.area)}<small> m²</small></b><span>${esc(t("totalArea"))}</span></div>`;
   if(oversize.length){
     const w=document.createElement("div"); w.className="nestwarn";
@@ -1996,7 +2258,20 @@ function panelSvg(pan,PL,PW,kerf){
     const fs=Math.min(90, r.h*0.45, r.w/6.5);
     const label=`${r.ref.lung}×${r.ref.larg}`;
     const el=r.ref.elemento||"";
-    return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#ffffff" stroke="#0E3B2A" stroke-width="6"/>
+    /* pezzi con la fibra bloccata: tre righe leggere nel verso giusto. In
+       officina si posa il pannello guardando lo schema, e il verso e proprio
+       la cosa che non si vede da una misura scritta. */
+    let grain="";
+    if(r.ref.grain){
+      const alongX=Math.abs(r.w-r.ref.lung)<=Math.abs(r.h-r.ref.lung);
+      for(let i=1;i<=3;i++){
+        if(alongX){ const y=(r.y+r.h*i/4).toFixed(0);
+          grain+=`<line x1="${(r.x+14).toFixed(0)}" y1="${y}" x2="${(r.x+r.w-14).toFixed(0)}" y2="${y}" stroke="#c3cbb8" stroke-width="3"/>`; }
+        else{ const x=(r.x+r.w*i/4).toFixed(0);
+          grain+=`<line x1="${x}" y1="${(r.y+14).toFixed(0)}" x2="${x}" y2="${(r.y+r.h-14).toFixed(0)}" stroke="#c3cbb8" stroke-width="3"/>`; }
+      }
+    }
+    return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#ffffff" stroke="#0E3B2A" stroke-width="6"/>${grain}
       ${fs>26?`<text x="${cx}" y="${cy-(el&&fs>34?fs*0.34:0)}" font-size="${fs}" fill="#14181d" text-anchor="middle" dominant-baseline="middle" font-family="Barlow Condensed,Arial" font-weight="700">${label}</text>`:""}
       ${el&&fs>34?`<text x="${cx}" y="${cy+fs*0.62}" font-size="${fs*0.62}" fill="#5c6558" text-anchor="middle" dominant-baseline="middle" font-family="Barlow,Arial">${esc(el)}</text>`:""}`;
   }).join("");
@@ -2033,6 +2308,7 @@ function renderSummary(){
   let rows=`<tr><th>${esc(t("mat"))}</th><th class="n">${esc(t("qty"))}</th><th class="n">${esc(t("area"))}</th><th class="n">${esc(t("edge"))}</th></tr>`;
   for(const k of Object.keys(tot.mats)){
     const m=tot.mats[k];
+    if(m.acc) continue;                       // gli accessori hanno la loro tabella
     rows+=`<tr data-mat="${esc(k)}" style="cursor:pointer"><td>${esc(m.label)}</td><td class="n">${m.pcs}</td><td class="n">${fmt(m.area)}</td><td class="n">${fmt(m.edge,1)}</td></tr>`;
   }
   mt.innerHTML=rows;
@@ -2050,11 +2326,30 @@ function renderSummary(){
     hh+=`<tr><td><b>${esc(t("hardware"))}</b></td><td></td><td></td><td class="n"><b>€ ${fmt(C.hwTot)}</b></td></tr>`;
     hwT.innerHTML=hh;
   } else hwT.innerHTML=`<tr><td class="mini">—</td></tr>`;
+  /* accessori: quantita a pezzo e prezzo unitario, che si mette nel catalogo.
+     A prezzo 0 la riga si vede lo stesso, con il promemoria — cosi non sparisce
+     dal preventivo un vetro temperato solo perche nessuno gli ha dato un prezzo. */
+  const accRows=C.accRows.filter(r=>r.pcs>0);
+  $("accLbl").style.display=accRows.length?"":"none";
+  $("accCard").style.display=accRows.length?"":"none";
+  if(accRows.length){
+    let ah=`<tr><th>${esc(t("item"))}</th><th class="n">${esc(t("qty"))}</th><th class="n">€/pz</th><th class="n">${esc(t("amount"))}</th></tr>`;
+    for(const r of accRows) ah+=`<tr><td>${esc(r.label.replace(/^Accessorio\s*[—-]\s*/i,""))}</td><td class="n">${r.pcs}</td>`+
+      `<td class="n">${r.price>0?fmt(r.price):`<span class="mini">${esc(t("accSetPrice"))}</span>`}</td><td class="n">€ ${fmt(r.tot)}</td></tr>`;
+    ah+=`<tr><td><b>${esc(t("catAcc"))}</b></td><td></td><td></td><td class="n"><b>€ ${fmt(C.cAcc)}</b></td></tr>`;
+    $("accTable").innerHTML=ah;
+  }
+  /* Il totale pannelli si calcola per materiale, con il prezzo di ogni
+     referenza. La riga unica "m² × €/m² generale" mostrava una moltiplicazione
+     che non dava mai il numero della colonna a destra: adesso c'e una riga per
+     materiale, e i conti tornano a vista. */
   ct.innerHTML=`
     <tr><th>${esc(t("item"))}</th><th class="n">${esc(t("amount"))}</th></tr>
-    <tr><td>${esc(t("cPanels"))} — ${fmt(C.areaWaste)} m² × €${fmt(S.priceM2)}</td><td class="n">€ ${fmt(C.cPanels)}</td></tr>
+    ${C.panelRows.map(r=>`<tr><td>${esc(r.label)} — ${fmt(r.areaWaste)} m² × €${fmt(r.price)}</td><td class="n">€ ${fmt(r.tot)}</td></tr>`).join("")}
+    ${C.panelRows.length>1?`<tr><td><b>${esc(t("cPanels"))}</b> — ${fmt(C.areaWaste)} m²</td><td class="n"><b>€ ${fmt(C.cPanels)}</b></td></tr>`:""}
     <tr><td>${esc(t("cEdge"))} — ${fmt(tot.edge,1)} ml × €${fmt(S.priceMl)}</td><td class="n">€ ${fmt(C.cEdge)}</td></tr>
     <tr><td>${esc(t("hardware"))}</td><td class="n">€ ${fmt(C.hwTot)}</td></tr>
+    ${C.cAcc>0?`<tr><td>${esc(t("cAcc"))}</td><td class="n">€ ${fmt(C.cAcc)}</td></tr>`:""}
     ${C.cLabor>0?`<tr><td>${esc(t("cLabor"))}${C.hours>0?` ${fmt(C.hours,1)}h × €${fmt(C.hourly)}`:""}${S.labor>0?` + ${S.labor}%`:""}</td><td class="n">€ ${fmt(C.cLabor)}</td></tr>`:""}
     <tr><td><b>${esc(t("cTotal"))}</b></td><td class="n"><b>€ ${fmt(C.netto)}</b></td></tr>`;
 }
@@ -2141,7 +2436,8 @@ $("btnPieceSave").addEventListener("click",()=>{
 $("btnPieceDelTop").addEventListener("click",()=>$("btnPieceDelete").click());
 $("btnPieceDelete").addEventListener("click",()=>{
   const p=proj(); if(!p||!editingPieceId)return;
-  snapUndo();
+  if(state.settings.confirmDel!==0 && !confirm(t("confirmDelPiece"))) return;
+  snapUndo(); buzz(18);
   p.pieces=p.pieces.filter(q=>q.id!==editingPieceId);
   persist(); closeSheets(); render(); undoToast(t("deleted"));
 });
@@ -2186,7 +2482,9 @@ $("btnSettings").addEventListener("click",()=>{
   $("sPriceM2").value=S.priceM2;$("sPriceMl").value=S.priceMl;$("sWaste").value=S.waste;$("sLabor").value=S.labor;$("sHourly").value=S.hourly!=null?S.hourly:35;
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
-  $("sIntro").value=(S.intro===0?"0":"1"); $("sIntroSound").value=(S.introSound===0?"0":"1");
+  $("sIntro").value=String(S.intro==null?2:S.intro); $("sIntroSound").value=(S.introSound===0?"0":"1");
+  $("sTheme").value=S.theme||"auto";
+  $("sHaptics").value=(S.haptics===0?"0":"1"); $("sConfirmDel").value=(S.confirmDel===0?"0":"1");
   $("sHwCern").value=S.hwCern;$("sHwGuida").value=S.hwGuida;$("sHwMan").value=S.hwMan;$("sHwSup").value=S.hwSup;
   $("sHwAsta").value=S.hwAsta;$("sHwPied").value=S.hwPied;$("sHwBin").value=S.hwBin;$("sHwConn").value=S.hwConn;
   $("sCoName").value=S.coName;$("sCoInfo").value=S.coInfo;
@@ -2209,7 +2507,11 @@ $("btnSettingsSave").addEventListener("click",()=>{
   S.waste=parseFloat($("sWaste").value)||0; S.labor=parseFloat($("sLabor").value)||0; S.hourly=parseFloat($("sHourly").value)||35;
   S.margin=parseFloat($("sMargin").value)||0; S.iva=parseFloat($("sIva").value)||0;
   { const v=parseFloat(String($("sEdgeTh").value).replace(",",".")); S.edgeTh=isFinite(v)&&v>=0?Math.min(3,v):0.8; }
-  S.intro=parseInt($("sIntro").value,10)?1:0; S.introSound=parseInt($("sIntroSound").value,10)?1:0;
+  { const iv=parseInt($("sIntro").value,10); S.intro=(iv===0||iv===1||iv===2)?iv:2; }
+  S.introSound=parseInt($("sIntroSound").value,10)?1:0;
+  S.theme=["auto","light","dark"].indexOf($("sTheme").value)>=0?$("sTheme").value:"auto";
+  S.haptics=parseInt($("sHaptics").value,10)?1:0; S.confirmDel=parseInt($("sConfirmDel").value,10)?1:0;
+  applyTheme();
   for(const [id,k] of [["sHwCern","hwCern"],["sHwGuida","hwGuida"],["sHwMan","hwMan"],["sHwSup","hwSup"],["sHwAsta","hwAsta"],["sHwPied","hwPied"],["sHwBin","hwBin"],["sHwConn","hwConn"]])
     S[k]=parseFloat($(id).value)||0;
   S.coName=$("sCoName").value.trim()||"Domus Renov"; S.coInfo=$("sCoInfo").value.trim();
@@ -2321,7 +2623,7 @@ $("btnPdf").addEventListener("click",()=>{
       <th style="text-align:right">${esc(t("fWidth"))}</th><th style="text-align:right">${esc(t("fQty"))}</th>
       <th>${esc(t("fBanding"))}</th><th>${esc(t("fMaterial"))}</th></tr>`;
     for(const x of items)
-      html+=`<tr><td>${esc(x.elemento)}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>
+      html+=`<tr><td>${esc(x.elemento)}${x.grain?` <b style="font-size:8pt">↕</b>`:""}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>
         <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(x.materiale)}</td></tr>`;
     html+="</table>";
   }
@@ -2970,7 +3272,12 @@ function introSound(){
 function initSplash(){
   const el=document.getElementById("splash"); if(!el) return;
   const S=(state&&state.settings)||{};
-  if(S.intro===0){ el.remove(); return; }
+  /* 1 = sempre, 2 = una volta al giorno, 0 = mai. Il sipario dura tre secondi:
+     bello la prima volta, una tassa alla quindicesima apertura del cantiere. */
+  const mode=(S.intro==null)?2:S.intro;
+  const recent=state.introSeenAt&&(Date.now()-state.introSeenAt)<12*3600e3;
+  if(mode===0||(mode===2&&recent)){ el.remove(); return; }
+  state.introSeenAt=Date.now(); persist();
   /* incisione: un solo contorno, si disegna da solo */
   el.querySelectorAll(".sp-draw path").forEach(function(pt,i){
     let L=0; try{ L=pt.getTotalLength(); }catch(e){}
@@ -3088,6 +3395,14 @@ function renderSecChips(){
   }));
 }
 function ts2(k){ return t(k); }
+/* Ogni tasto premuto su "larghezza" rifaceva geometria, distinta e 3D. Su un
+   telefono di cantiere si vedeva: si accumula e si disegna una volta per
+   fotogramma. Il risultato e identico, la digitazione torna fluida. */
+let _prevRaf=0;
+function drawPreviewSoon(){
+  if(_prevRaf) return;
+  _prevRaf=requestAnimationFrame(()=>{ _prevRaf=0; drawPreview(); });
+}
 function drawPreview(){
   buildCfg=cfgFromForm();
   $("rowL2").style.display=buildCfg.type==="angolare"?"":"none";
@@ -3147,19 +3462,64 @@ function fillMatSelects(){
     if(cur) el.value=cur; };
   fill("bMatBody",12); fill("bMatFront",3); fill("bMatBack",0);
 }
+/* ---------- tipologie ----------
+   Alle quindici di serie si aggiungono le proprie: un falegname rifa lo stesso
+   corpo cinquanta volte con due misure diverse, e ricomporlo campo per campo
+   ogni volta e tempo buttato. Le tipologie salvate stanno nelle impostazioni,
+   quindi entrano nel backup e nella sincronizzazione come tutto il resto. */
+let curPreset=null;
+function renderPresetChips(){
+  const box=$("presetChips"); if(!box) return;
+  box.innerHTML="";
+  const mk=(key,label,onClick,del)=>{
+    const c=document.createElement("button");
+    c.className="chip"+(curPreset===key?" on":"");
+    c.appendChild(document.createTextNode(label));
+    if(del){
+      const x=document.createElement("i");
+      x.textContent="×"; x.setAttribute("aria-hidden","true");
+      x.style.cssText="font-style:normal;margin-left:8px;opacity:.55;font-weight:700";
+      x.addEventListener("click",ev=>{ ev.stopPropagation(); del(); });
+      c.appendChild(x);
+    }
+    c.addEventListener("click",onClick);
+    box.appendChild(c);
+  };
+  const load=(key,cfg)=>{ buildObst=[]; buildSecMode=null; curPreset=key;
+    buildCfg={...cfg}; syncBuildForm(); drawPreview(); renderPresetChips(); };
+  for(const key of Object.keys(PRESETS))
+    mk("b:"+key,t("preset_"+key),()=>load("b:"+key,{...PRESETS[key],name:t("preset_"+key)}));
+  const usr=(state.settings&&state.settings.presets)||{};
+  for(const nm of Object.keys(usr))
+    mk("u:"+nm,"★ "+nm,()=>load("u:"+nm,{...usr[nm],name:nm}),()=>{
+      if(!confirm(t("presetDel").replace("{n}",nm))) return;
+      delete state.settings.presets[nm];
+      if(curPreset==="u:"+nm) curPreset=null;
+      persist(); renderPresetChips();
+    });
+  const add=document.createElement("button");
+  add.className="chip"; add.style.borderStyle="dashed";
+  add.textContent="＋ "+t("savePreset");
+  add.addEventListener("click",savePreset);
+  box.appendChild(add);
+}
+function savePreset(){
+  const cfg=cfgFromForm();
+  const nm=(prompt(t("presetAsk"),cfg.name||"")||"").trim().slice(0,40);
+  if(!nm) return;
+  const S=state.settings; S.presets=S.presets||{};
+  const keep=Object.assign({},cfg);
+  delete keep.obstacles; delete keep.name;    // la tipologia e la forma, non il pezzo di cantiere
+  S.presets[nm]=keep; curPreset="u:"+nm;
+  persist(); renderPresetChips(); toast(t("presetSaved"));
+}
+
 function renderBuild(){
   fillMatSelects();
   if(!buildFormReady){
     syncBuildForm();
     ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep"]
-      .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
-    const chips=$("presetChips");
-    for(const key of Object.keys(PRESETS)){
-      const c=document.createElement("button"); c.className="chip"; c.dataset.k=key;
-      c.addEventListener("click",()=>{ buildObst=[]; buildSecMode=null; buildCfg={...PRESETS[key],name:t("preset_"+key)}; syncBuildForm(); drawPreview();
-        chips.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x===c)); });
-      chips.appendChild(c);
-    }
+      .forEach(id=>{ $(id).addEventListener("input",drawPreviewSoon); $(id).addEventListener("change",drawPreviewSoon); });
     $("btnExplode").addEventListener("click",()=>{
       explodeOn=explodeOn?0:1;
       $("btnExplode").classList.toggle("on",!!explodeOn);
@@ -3178,7 +3538,7 @@ function renderBuild(){
     init3DControls();
     buildFormReady=true;
   }
-  $("presetChips").querySelectorAll(".chip").forEach(c=>{ c.textContent=t("preset_"+c.dataset.k); });
+  renderPresetChips();
   drawPreview();
 }
 function openBuilder(mod){
@@ -3195,11 +3555,15 @@ $("btnGenerate").addEventListener("click",()=>{
   const defMat=mB?mB.label:(cfg.t===25?MAT25:MAT18);
   const frontMat=mF?mF.label:defMat, backMat=mK?mK.label:"PFL/HDF Alb 3mm";
   const isFront=isFrontEl;
-  const rows=pieces.map(x=>({id:uid(),gen:cfg.name,
-    modulo:x.wing?`${cfg.name} ${x.wing}`:cfg.name,
-    elemento:x.elemento,lung:x.lung,larg:x.larg,pz:x.pz,bordo:x.bordo,
-    angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
-    materiale:x.mat||(isFront(x.elemento)?frontMat:/^schienale/i.test(x.elemento)?backMat:defMat)}));
+  const rows=pieces.map(x=>{
+    const mat=x.mat||(isFront(x.elemento)?frontMat:/^schienale/i.test(x.elemento)?backMat:defMat);
+    return {id:uid(),gen:cfg.name,
+      modulo:x.wing?`${cfg.name} ${x.wing}`:cfg.name,
+      elemento:x.elemento,lung:x.lung,larg:x.larg,pz:x.pz,bordo:x.bordo,
+      angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
+      grain:matGrainByLabel(mat),
+      materiale:mat};
+  });
   p.pieces=p.pieces.filter(q=>q.gen!==cfg.name&&q.modulo!==cfg.name).concat(rows);
   p.configs=p.configs||{}; p.configs[cfg.name]=cfg;
   persist(); setView("list");
@@ -3587,7 +3951,7 @@ function orderRows(p){
     const PN=panelFor(m.label);
     const stk=(state.stock||[]).filter(r=>r.mat===m.label)
       .flatMap(r=>Array.from({length:Math.max(1,r.n|0)},()=>({L:r.L,W:r.W})));
-    const res=nest(m.pieces,PN.L,PN.W,S.kerf,stk);
+    const res=nestCached(m.pieces,PN.L,PN.W,S.kerf,stk);
     const neu=res.panels.filter(x=>!x.stock).length;
     const fromStock=res.panels.filter(x=>x.stock).length;
     const dec=matDecorByLabel(m.label);
@@ -3595,7 +3959,15 @@ function orderRows(p){
     const ml=m.pieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg)*x.pz/1000,0);
     if(ml>0.01) edges[m.label]=(edges[m.label]||0)+ml;
   }
-  return {panels,edges,hw:computeHardware(p)};
+  /* accessori: non si ordinano dal fornitore di pannelli, ma se non compaiono
+     da nessuna parte si scopre il vetro mancante il giorno del montaggio */
+  const acc=[];
+  for(const k of Object.keys(tot.mats)){
+    const m=tot.mats[k]; if(!m.acc) continue;
+    const dims=[...new Set(m.pieces.map(x=>x.lung+"×"+x.larg))].slice(0,4).join(", ");
+    acc.push({label:m.label.replace(/^Accessorio\s*[—-]\s*/i,""),pcs:m.pcs,dims});
+  }
+  return {panels,edges,acc,hw:computeHardware(p)};
 }
 $("btnOrder").addEventListener("click",()=>{
   const p=proj(); if(!p){toast(t("selectProject"));return;}
@@ -3618,6 +3990,13 @@ $("btnOrder").addEventListener("click",()=>{
       <th style="text-align:right">${esc(t("orderMl"))}</th></tr>`;
     for(const k of ek) html+=`<tr><td>${esc(k)}</td><td class="n">${fmt(o.edges[k]*1.1,1)}</td></tr>`;
     html+=`</table><p class="pr-sum">${esc(t("orderEdgeNote"))}</p>`;
+  }
+  if(o.acc.length){
+    html+=`<h2>${esc(t("catAcc"))}</h2><table><tr><th>${esc(t("item"))}</th>
+      <th>${esc(t("orderSize"))}</th><th style="text-align:right">${esc(t("orderQty"))}</th></tr>`;
+    for(const a of o.acc)
+      html+=`<tr><td>${esc(a.label)}</td><td>${esc(a.dims)}</td><td class="n"><b>${a.pcs}</b></td></tr>`;
+    html+=`</table>`;
   }
   const hw=o.hw.filter(x=>x.qty>0);
   if(hw.length){
@@ -3665,7 +4044,7 @@ $("btnLabels").addEventListener("click",()=>{
     html+=`<div class="lbl">
       <div class="l1">${esc(p.name)} · ${esc(x.modulo)}</div>
       <div class="l2">${esc(x.elemento)}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
-      <div class="dim">${x.lung} × ${x.larg}</div>
+      <div class="dim">${x.lung} × ${x.larg}${x.grain?` <span style="font-size:11pt">↕</span>`:""}</div>
       ${hingeInfo(x)?`<div class="l-hinge">⌀35: ${hingeInfo(x).pos.join(" · ")}</div>`:""}
       <div class="l3"><span>${esc(matShort)}<br>#${String(i+1).padStart(3,"0")}/${N}</span>${edgeSvg(x.bordo)}</div>
     </div>`;
@@ -3703,12 +4082,13 @@ function roomRender(){
 $("btnRoom").addEventListener("click",()=>{
   buildCfg=cfgFromForm();
   $("roomView").style.display="flex";
+  navPush("overlay",{id:"roomView"});
   const st=$("roomStage").getBoundingClientRect();
   ROOM.x=(st.width-ROOM.size)/2; ROOM.y=(st.height-ROOM.size)/2;
   roomRender();
   if(!ROOM.hasImg) $("roomFile").click();
 });
-$("roomClose").addEventListener("click",()=>{ roomCamStop(); $("roomView").style.display="none"; });
+$("roomClose").addEventListener("click",()=>{ closeOverlayQuiet(); navDrop("overlay"); });
 $("roomLoadBtn").addEventListener("click",()=>{ roomCamStop(); $("roomFile").click(); });
 
 /* ---- fotocamera dal vivo ----
@@ -4005,6 +4385,7 @@ function renderCatalog(){
                 :`<span style="flex:1;font-size:13.5px">${esc(eff.label)}</span>`}
         ${m.noEdge?`<span class="mini" style="color:#b8860b">${esc(t("noEdgeTag"))}</span>`:""}
         ${m.sup?`<span class="mini">${esc(m.sup)}</span>`:""}
+        <button class="chip sm catGrain${eff.grain?" on":""}" data-grain="${m.id}" title="${esc(t("matGrain"))}">↕</button>
         <button class="iconbtn ${hid?"":"danger"}" data-hide="${m.id}" title="${esc(t(hid?"matShow":"matHide"))}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${hid
             ?'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>'
@@ -4022,6 +4403,10 @@ function renderCatalog(){
     </div>`;
   }).join("")+`<button class="btn" id="btnMatAdd" style="margin-top:6px">＋ ${esc(t("matAdd"))}</button>`;
   const setOvr=(mid,k,v)=>{ const S=state.settings; S.matOvr=S.matOvr||{}; S.matOvr[mid]=S.matOvr[mid]||{}; S.matOvr[mid][k]=v; };
+  $("catMatWrap").querySelectorAll("[data-grain]").forEach(b2=>b2.addEventListener("click",()=>{
+    const mid=b2.dataset.grain, cur=!!(matById(mid)||{}).grain;
+    setOvr(mid,"grain",cur?0:1); persist(); renderCatalog();
+  }));
   $("catMatWrap").querySelectorAll("[data-hide]").forEach(b2=>b2.addEventListener("click",()=>{
     const mid=b2.dataset.hide, cur=!!((state.settings.matOvr||{})[mid]||{}).hidden;
     setOvr(mid,"hidden",!cur); persist(); renderCatalog(); fillMatSelects();
@@ -4047,6 +4432,30 @@ function renderCatalog(){
     state.settings.hwProd[cat]=e.target.value;
     renderCatalog();
   }));
+  renderAccCatalog();
+}
+/* ---------- accessori: prezzo a pezzo ----------
+   Il generatore li scrive sempre con il prefisso "Accessorio — ". Alla lista
+   di serie si aggiunge quello che compare davvero nei progetti aperti, cosi
+   un accessorio arrivato da un CSV importato non resta senza prezzo. */
+const ACC_BUILTIN=[MAT_ACC,MAT_PIED,MAT_VETRO,
+  "Accessorio — gamba legno massello 70×70","Accessorio — doga faggio curvata 68mm"];
+function accAll(){
+  const seen={}, out=[];
+  const add=l=>{ const k=normMat(l); if(!k||seen[k]) return; seen[k]=1; out.push(l); };
+  ACC_BUILTIN.forEach(add);
+  (state.projects||[]).forEach(pr=>(pr.pieces||[]).forEach(x=>{ if(isAcc(x.materiale)) add(x.materiale); }));
+  return out;
+}
+function renderAccCatalog(){
+  const box=$("catAccWrap"); if(!box) return;
+  box.innerHTML=accAll().map(l=>`<div class="cat-mat">
+      <div class="cat-mat-h"><span style="flex:1;font-size:13.5px">${esc(l.replace(/^Accessorio\s*[—-]\s*/i,""))}</span></div>
+      <div class="cat-mat-r">
+        <span class="mini" style="align-self:center">€/pz</span>
+        <input class="catAccPrice" data-acc="${esc(normMat(l))}" type="number" step="0.01" min="0"
+               inputmode="decimal" value="${accPriceOf(l)||""}" placeholder="0">
+      </div></div>`).join("");
 }
 $("btnCatalog").addEventListener("click",()=>{ renderCatalog(); closeSheets(); openSheet("shCatalog"); });
 $("btnCatalogSave").addEventListener("click",()=>{
@@ -4066,7 +4475,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
   document.querySelectorAll(".catMatDecor").forEach(i=>{
     S.matOvr[i.dataset.mid]=S.matOvr[i.dataset.mid]||{};S.matOvr[i.dataset.mid].decor=i.value.trim();
   });
-  persist(); closeSheets(); toast("✓");
+  S.accPrice=S.accPrice||{};
+  document.querySelectorAll(".catAccPrice").forEach(i=>{
+    const v=parseFloat(i.value); S.accPrice[i.dataset.acc]=isFinite(v)&&v>=0?v:0;
+  });
+  persist(); closeSheets(); render(); toast("✓");
 });
 
 /* ================= PRO: FERRAMENTA / PREVENTIVO / SHARE ================= */
@@ -4105,14 +4518,23 @@ function projectCosts(p){
   const S=state.settings, tot=computeTotals(p);
   const hw=computeHardware(p,S), hwTot=hw.reduce((s,i)=>s+i.tot,0);
   const areaWaste=tot.area*(1+S.waste/100);
-  let cPanels=0;
+  let cPanels=0; const panelRows=[], accRows=[];
   for(const k in tot.mats){ const m=tot.mats[k];
-    cPanels+=m.area*(1+S.waste/100)*matPriceByLabel(m.label); }
+    if(m.acc){
+      const unit=accPriceOf(m.label);
+      accRows.push({label:m.label,pcs:m.pcs,price:unit,tot:m.pcs*unit});
+      continue;
+    }
+    const price=matPriceByLabel(m.label), aw=m.area*(1+S.waste/100), c=aw*price;
+    cPanels+=c;
+    panelRows.push({label:m.label,area:m.area,areaWaste:aw,price,tot:c});
+  }
+  const cAcc=accRows.reduce((a,r)=>a+r.tot,0);
   const cEdge=tot.edge*S.priceMl;
   const hours=p.hours||0, hourly=S.hourly!=null?S.hourly:35;
-  const sub=cPanels+cEdge+hwTot, cLabor=sub*S.labor/100+hours*hourly, netto=sub+cLabor;
+  const sub=cPanels+cEdge+hwTot+cAcc, cLabor=sub*S.labor/100+hours*hourly, netto=sub+cLabor;
   const prezzo=netto*(1+(S.margin||0)/100), ivaAmt=prezzo*(S.iva||0)/100;
-  return {tot,hw,hwTot,areaWaste,cPanels,cEdge,cLabor,hours,hourly,netto,prezzo,ivaAmt};
+  return {tot,hw,hwTot,areaWaste,cPanels,panelRows,accRows,cAcc,cEdge,cLabor,hours,hourly,netto,prezzo,ivaAmt};
 }
 function buildCsv(p){
   let csv="\uFEFFRif. Modulo;Elemento;Lunghezza (mm);Larghezza (mm);Pz.;Bordatura (ABS);Materiale;Lavorazioni\r\n";
@@ -4121,6 +4543,7 @@ function buildCsv(p){
     scList(x).forEach(c=>lav.push("scasso "+c.l+"x"+c.w+" @X"+c.x+"/Y"+c.y));
     const hi=hingeInfo(x);
     if(hi) lav.push("cerniere "+hi.n+"x d35 @ "+hi.pos.join("/"));
+    if(x.grain) lav.push("venatura vincolata (lato lungo)");
     csv+=[x.modulo,x.elemento,x.lung,x.larg,x.pz,x.bordo,x.materiale,lav.join(" | ")].join(";")+"\r\n";
   }
   return csv;
@@ -4139,13 +4562,20 @@ $("btnShare").addEventListener("click",async()=>{
 $("btnQuote").addEventListener("click",()=>{
   const p=proj(); if(!p)return;
   const S=state.settings, C=projectCosts(p);
+  /* ripartizione del prezzo fra i moduli, in proporzione alla superficie di
+     PANNELLO: gli accessori non sono metri quadri e un progetto di soli
+     accessori dava una divisione per zero, cioe "€ NaN" sull'offerta al cliente. */
   const byMod=new Map();
-  for(const x of p.pieces){ const a=x.lung*x.larg*x.pz/1e6; byMod.set(x.modulo,(byMod.get(x.modulo)||0)+a); }
+  for(const x of p.pieces){ if(isAcc(x.materiale)) continue;
+    const a=x.lung*x.larg*x.pz/1e6; byMod.set(x.modulo,(byMod.get(x.modulo)||0)+a); }
+  const areaTot=[...byMod.values()].reduce((s2,v)=>s2+v,0);
+  const nMod=byMod.size||1;
   let rows="";
   for(const [mod,a] of byMod){
     const cfg=p.configs&&(p.configs[mod]||p.configs[mod.replace(/ [AB]$/,"")]);
     const desc=cfg?`${cfg.L}×${cfg.H}×${cfg.P} mm`:`${fmt(a)} m²`;
-    rows+=`<tr><td>${esc(mod)}</td><td>${esc(desc)}</td><td class="n">€ ${fmt(C.prezzo*a/C.tot.area)}</td></tr>`;
+    const share=areaTot>0?a/areaTot:1/nMod;
+    rows+=`<tr><td>${esc(mod)}</td><td>${esc(desc)}</td><td class="n">€ ${fmt(C.prezzo*share)}</td></tr>`;
   }
   $("printArea").innerHTML=`<div class="pr-head"><div><h1>${esc(t("quoteTitle"))}</h1>
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
@@ -4766,13 +5196,13 @@ $("svWallH").addEventListener("input",()=>{
   const sv2=survey(); if(!sv2) return;
   const v=parseInt($("svWallH").value,10);
   sv2.wallH=isFinite(v)&&v>0?v:null;
-  persist(); if($("shRoom3D").classList.contains("open")) drawRoom3D();
+  persist(); if($("shRoom3D").classList.contains("on")) drawRoom3D();
 });
 $("btnRoomOpen").addEventListener("click",()=>{
   roomOpen=roomOpen?0:1;
   $("btnRoomOpen").classList.toggle("on",!!roomOpen);
   renderPlan();
-  if($("shRoom3D").classList.contains("open")) drawRoom3D();
+  if($("shRoom3D").classList.contains("on")) drawRoom3D();
 });
 const ROOM_VIEW={yaw:0.62,pitch:0.62,zoom:1,free:true};
 function drawRoom3D(){
@@ -5614,14 +6044,17 @@ setTimeout(()=>{
   else if(state.projects.length&&(!state.lastBk||Date.now()-state.lastBk>7*864e5)){ toast(t("bkRemind")); }
 },900);
 document.addEventListener("click",e=>{ if(e.target&&e.target.id==="btnIntroGo") closeSheets(); });
+try{ history.replaceState({ebn:0},""); }catch(e){}
+applyTheme();
 applyLang();
 aiMount();
-setView("projects");
+applyView("projects");
+navPaint();
 persist();
 </script>
 <script>
-const APP_VER="4.16.2"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v46";
+const APP_VER="4.17.0"; /* APP_VER-MARKER */
+const SW_CACHE="ebanist-v47";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
