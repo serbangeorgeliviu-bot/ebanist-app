@@ -6749,7 +6749,11 @@ persist();
 </script>
 <script>
 const APP_VER="4.21.0"; /* APP_VER-MARKER */
-const SW_CACHE="ebanist-v51";
+/* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
+   all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
+   che il service worker cancella appena si attiva: l'aggiornamento sembra
+   riuscito e al riavvio successivo torna la versione vecchia. */
+const SW_CACHE="ebanist-v52";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

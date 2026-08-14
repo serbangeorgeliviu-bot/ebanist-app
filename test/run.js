@@ -510,6 +510,22 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("con endpoint proprio il token puo avere qualunque forma", key.proxyTokenLibero);
   ok("il bottone cancella davvero la chiave", key.cancellata);
 
+  head("Aggiornamento — le due cache devono portare lo stesso nome");
+  /* Il nome della cache sta scritto in due file. Se restano disallineati,
+     «Verifica aggiornamenti» scrive la pagina nuova in una cache che il
+     service worker cancella appena si attiva: sembra funzionare, e al
+     riavvio dopo torna la versione vecchia. Fallisce in silenzio, quindi
+     va guardato da qui. */
+  const sw = await (await fetch(URL.replace("index.html", "sw.js"))).text();
+  const swName = (sw.match(/const CACHE\s*=\s*"([^"]+)"/) || [])[1];
+  const pgName = await pg.evaluate(() => (typeof SW_CACHE === "string" ? SW_CACHE : null));
+  const pgVer = await pg.evaluate(() => APP_VER);
+  ok("sw.js e index.html puntano alla stessa cache", !!swName && swName === pgName,
+     "sw.js=" + swName + " · index.html=" + pgName);
+  ok("APP_VER e leggibile dal marcatore che usa l'updater",
+     /const APP_VER="[^"]+"; \/\* APP_VER-MARKER \*\//.test(
+       await (await fetch(URL)).text()), "v" + pgVer);
+
   head("Traduzioni — nessuna etichetta deve mostrare il nome della chiave");
   const i18n = await pg.evaluate(() => {
     const dicts = { I18N, SURVEY_I18N, AUTH_I18N, AI_I18N };
