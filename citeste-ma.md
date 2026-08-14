@@ -37,6 +37,20 @@ icon-192.png, icon-512.png, icon-maskable-512.png.
 
 ---
 
+## Teste (opțional, doar pe PC)
+
+```
+cd test && npm install && npm test
+```
+
+Pornește un server local, deschide aplicația în Chromium la dimensiune de
+telefon și verifică lucrurile care se strică în tăcere: tasta Înapoi pe
+Android, calculele de cost și bordare, și că toate vizualizările se desenează
+fără erori JS. Playwright stă în `test/package.json`, separat — cel din
+rădăcină servește funcției Netlify și nu trebuie să-l atingă.
+
+---
+
 Notă: dacă modifici aplicația și o reurci, în `sw.js` schimbă
 `tagliapro-v1` în `tagliapro-v2` ca telefoanele să primească versiunea nouă.
 
