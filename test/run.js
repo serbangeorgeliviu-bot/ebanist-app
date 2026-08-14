@@ -179,13 +179,68 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("la X chiude il pannello", await sheets() === 0);
   ok("history allineata alla profondita reale", h === d, "hist=" + h + " depth=" + d);
 
+  head("Corpi tondi e ovali — lo sviluppo dev'essere esatto, o il giunto non chiude");
+  const rnd = await pg.evaluate(() => {
+    const o = {};
+    const c = buildModule({ ...PRESETS.tondo });                       // Ø600 × H1200
+    const fascia = c.pieces.find(p => /Fascia/.test(p.elemento));
+    const piani = c.pieces.filter(p => p.shape === "tondo");
+    o.dev = fascia.lung; o.devEsatto = Math.PI * 600;
+    o.altezzaFascia = fascia.larg;                                     // H - 2t
+    o.kerf = fascia.curve && fascia.curve.kerf;
+    o.nPiani = piani.reduce((s, p) => s + p.pz, 0);                    // fondo+cielo+3 ripiani
+    o.diamPiano = piani[0] && piani[0].lung;                           // Ø - 2t
+    // il 3D deve ricevere basi poligonali, non scatole
+    o.pcTondo = c.boxes.every(b => b.pc && b.pc.length > 4);
+    o.nPc = c.boxes[0].pc.length;                                      // 48 punti, non 4
+
+    // ovale: sviluppo per integrazione, non approssimazione
+    const ov = buildModule({ ...PRESETS.ovale });                      // 900 × 450
+    o.devOvale = (ov.pieces.find(p => /Fascia/.test(p.elemento)) || {}).lung;
+    o.devOvaleEsatto = ellipsePerim(450, 225);
+
+    // corpo grande: la fascia non entra nel pannello e va spezzata
+    const big = buildModule({ ...PRESETS.tondo, L: 1400, P: 1400, H: 1800 });
+    const bf = big.pieces.find(p => /Fascia/.test(p.elemento));
+    o.segmenti = bf.pz; o.devBig = bf.curve.dev; o.angSeg = bf.curve.angle;
+
+    // bordatura di un pezzo tondo = perimetro, non 2L+2C
+    o.bandTondo = bandingMm("1L", 564, 564, null, null, "tondo");
+    o.bandRett  = bandingMm("1L", 564, 564, null, null, undefined);
+
+    // REGRESSIONE: la mobilia dritta non deve muoversi di un millimetro
+    const arm = buildModule({ ...PRESETS.armadio });
+    o.armBoxes = arm.boxes.length;
+    o.armRect = arm.boxes.every(b => !b.pc || b.pc.length === 4);
+    o.armIstanziabile = arm.boxes.filter(b => !b.pc || b.pc.length === 4).length;
+    return o;
+  });
+  ok("cerchio Ø600: sviluppo = π·D", Math.abs(rnd.dev - rnd.devEsatto) < 0.6,
+     rnd.dev + " vs " + rnd.devEsatto.toFixed(1));
+  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1164, rnd.altezzaFascia);
+  ok("piano dei tagli calcolato", !!rnd.kerf && rnd.kerf.n > 0,
+     rnd.kerf ? rnd.kerf.n + " intagli ogni " + rnd.kerf.spacing + " mm, profondi " + rnd.kerf.depth : "—");
+  ok("fondo, cielo e 3 ripiani, tutti Ø−2t", rnd.nPiani === 5 && rnd.diamPiano === 564,
+     rnd.nPiani + " pezzi, Ø" + rnd.diamPiano);
+  ok("ovale 900×450: sviluppo per integrazione", Math.abs(rnd.devOvale - rnd.devOvaleEsatto) < 0.6,
+     rnd.devOvale + " vs " + rnd.devOvaleEsatto.toFixed(1));
+  ok("Ø1400: la fascia si spezza in tratti che entrano nel pannello",
+     rnd.segmenti === 2 && Math.abs(rnd.devBig - Math.PI * 1400) < 0.6, rnd.segmenti + " tratti da " + rnd.angSeg + "°");
+  ok("il bordo di un pezzo tondo e il perimetro", Math.abs(rnd.bandTondo - Math.PI * 564) < 0.6,
+     rnd.bandTondo.toFixed(1) + " mm (come rettangolo sarebbe " + rnd.bandRett + ")");
+  ok("il 3D riceve basi poligonali, non scatole", rnd.pcTondo && rnd.nPc > 4, rnd.nPc + " spigoli in pianta");
+  ok("REGRESSIONE: l'armadio resta a quattro spigoli, tutto istanziabile come prima",
+     rnd.armRect && rnd.armIstanziabile === rnd.armBoxes,
+     rnd.armIstanziabile + "/" + rnd.armBoxes + " scatole");
+
   head("Tipi propri — quello che il motore sa fare dev'essere salvabile con un nome");
   const pre = await pg.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms));
     const out = {}, oldPrompt = window.prompt, oldConfirm = window.confirm;
     setView("build"); await wait(400);
     state.settings.presetAdd = []; renderPresetChips();
-    out.serie = document.querySelectorAll("#presetChips .chip").length;   // 15 + "tipo nuovo"
+    out.serie = document.querySelectorAll("#presetChips .chip").length;
+    out.attesi = Object.keys(PRESETS).length + 1;   // tipi di serie + "tipo nuovo"
 
     // 1. salvare la configurazione corrente come tipo, con un ostacolo di cantiere presente
     buildObst = [{ x: 100, y: 200, w: 80, h: 80 }];
@@ -224,7 +279,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     window.prompt = oldPrompt; window.confirm = oldConfirm;
     buildObst = []; return out;
   });
-  ok("i tipi di serie restano 15 + il bottone", pre.serie === 16, pre.serie);
+  ok("una chip per tipo di serie, piu il bottone", pre.serie === pre.attesi, pre.serie + "/" + pre.attesi);
   ok("una configurazione si salva come tipo proprio", pre.creato && pre.chipUtente === 1);
   ok("con i suoi valori", pre.conValori);
   ok("gli ostacoli del cantiere NON entrano nel tipo", pre.senzaOstacoli);

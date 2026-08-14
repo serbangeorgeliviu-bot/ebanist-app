@@ -215,7 +215,7 @@ function setBoxes(boxes, cfg) {
     let t = R.trapez.get(id);
     if (!t || t.sig !== sig) {
       if (t) { R.root.remove(t.mesh); t.mesh.geometry.dispose(); }
-      const cx = pc.reduce((s, p) => s + p[0], 0) / 4, cz = pc.reduce((s, p) => s + p[1], 0) / 4;
+      const cx = pc.reduce((s, p) => s + p[0], 0) / pc.length, cz = pc.reduce((s, p) => s + p[1], 0) / pc.length;
       const cy = (b.y0 + b.y1) / 2;
       const geo = buildPrism(pc.map(([x, z]) => [x - cx, z - cz]), b.y0 - cy, b.y1 - cy);
       const mesh = new THREE.Mesh(geo, materialFor(key));

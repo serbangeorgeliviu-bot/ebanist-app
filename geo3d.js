@@ -28,6 +28,10 @@ export const pcOf = (b) => (typeof planPC === "function" ? planPC(b)
    Trapezio (pareti 45-135°) -> gli serve geometria propria. */
 export function isRectPC(pc, eps = 0.5) {
   if (!pc) return true;
+  // piu di quattro spigoli = base tonda/ovale/raccordata: mai istanziabile come
+  // scatola. Senza questa riga il controllo guardava solo i primi quattro punti
+  // di un cerchio e lo scambiava per un rettangolo.
+  if (pc.length !== 4) return false;
   const [bl, br, fr, fl] = pc;
   return Math.abs(bl[0] - fl[0]) < eps && Math.abs(br[0] - fr[0]) < eps;
 }
@@ -37,13 +41,27 @@ export function isRectPC(pc, eps = 0.5) {
    senso antiorario visto da fuori. Con l'ordine diretto tutte e sei le
    facce escono al rovescio e, essendo su FrontSide, il pannello sparisce. */
 export function buildPrism(pc, y0, y1) {
+  const n = pc.length;
   const v = [];
   const bot = pc.map(([x, z]) => [x, y0, z]);
   const top = pc.map(([x, z]) => [x, y1, z]);
   const quad = (a, b, c, d) => { v.push(...a, ...c, ...b, ...a, ...d, ...c); };
-  quad(top[0], top[1], top[2], top[3]);
-  quad(bot[3], bot[2], bot[1], bot[0]);
-  for (let i = 0; i < 4; i++) quad(bot[i], bot[(i + 1) % 4], top[(i + 1) % 4], top[i]);
+  const tri = (a, b, c) => { v.push(...a, ...b, ...c); };
+  if (n === 4) {
+    // quadrilateri: percorso invariato, byte per byte. Questo modulo alimenta
+    // anche l'export AR — un cambio qui si vedrebbe su tutti i mobili gia fatti.
+    quad(top[0], top[1], top[2], top[3]);
+    quad(bot[3], bot[2], bot[1], bot[0]);
+  } else {
+    /* basi a piu lati (tondo, ovale, angolo raccordato): ventaglio dal primo
+       vertice. Vale perche queste basi sono convesse per costruzione — sono
+       ellissi campionate o archi, non profili qualunque. */
+    for (let i = 1; i < n - 1; i++) {
+      tri(top[0], top[i + 1], top[i]);        // faccia superiore
+      tri(bot[0], bot[i], bot[i + 1]);        // inferiore: verso opposto
+    }
+  }
+  for (let i = 0; i < n; i++) quad(bot[i], bot[(i + 1) % n], top[(i + 1) % n], top[i]);
   const pos = new Float32Array(v.map((n) => n * MM));
   const g = new THREE.BufferGeometry();
   g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
