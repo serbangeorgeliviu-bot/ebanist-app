@@ -51,7 +51,20 @@ rădăcină servește funcției Netlify și nu trebuie să-l atingă.
 
 ---
 
-Notă: dacă modifici aplicația și o reurci, în `sw.js` schimbă
-`tagliapro-v1` în `tagliapro-v2` ca telefoanele să primească versiunea nouă.
+## La fiecare reîncărcare a aplicației
 
-Domus Renov · Ebanist v1.0
+Dacă modifici aplicația și o reurci, **două** valori trebuie schimbate
+împreună, altfel telefoanele rămân pe versiunea veche:
+
+1. `sw.js` → `const CACHE = "ebanist-v53"` — incrementează numărul.
+2. `index.html` → `const APP_VER="4.22.0"` **și** `const SW_CACHE="ebanist-v53"`
+   (aceeași valoare ca în `sw.js`).
+
+Dacă cele două nume de cache nu coincid, „Verifică actualizări" scrie pagina
+nouă într-un cache pe care service worker-ul îl șterge imediat ce pornește:
+pare că a mers, iar la următoarea repornire revine versiunea veche. Testul de
+regresie verifică asta la fiecare rulare.
+
+---
+
+Domus Renov · Ebanist v4.22.0

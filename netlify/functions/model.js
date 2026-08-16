@@ -11,11 +11,14 @@
    funzione: l'upload andava, ma il GET rispondeva sempre "id mancante".
 
    Niente account, niente login: gira sullo stesso Netlify che pubblica
-   gia il sito, e si consegna con lo stesso git push. */
+   gia il sito, e si consegna con lo stesso git push.
+
+   Le decisioni di sicurezza — cosa si accetta, con che Content-Type si
+   restituisce, quando scade — stanno in _armodel.js: sono pure, e cosi la
+   rete di regressione puo provarle senza Netlify. */
 
 import { getStore } from "@netlify/blobs";
-
-const MAX = 8 * 1024 * 1024;          // un mobile sta in pochi kB; il resto e sospetto
+import { uploadCheck, serveHeaders, isExpired } from "./_armodel.js";
 
 export const config = { path: ["/ar", "/ar/:id"] };
 
@@ -24,15 +27,12 @@ export default async (req, context) => {
   const url = new URL(req.url);
 
   if (req.method === "POST") {
-    const type = req.headers.get("content-type") || "model/gltf-binary";
-    const name = (req.headers.get("x-filename") || "mobile.glb").replace(/[^a-zA-Z0-9._-]/g, "");
-    const ext = name.toLowerCase().endsWith(".usdz") ? "usdz" : "glb";
     const body = new Uint8Array(await req.arrayBuffer());
-    if (!body.length) return new Response("vuoto", { status: 400 });
-    if (body.length > MAX) return new Response("troppo grande", { status: 413 });
+    const chk = uploadCheck(req.headers.get("content-type"), req.headers.get("x-filename"), body);
+    if (!chk.ok) return new Response(chk.msg, { status: chk.status });
 
-    const id = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}.${ext}`;
-    await store.set(id, body, { metadata: { type } });
+    const id = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}.${chk.ext}`;
+    await store.set(id, body, { metadata: { ext: chk.ext, born: Date.now() } });
     return Response.json({ url: `${url.origin}/ar/${id}` });
   }
 
@@ -45,14 +45,15 @@ export default async (req, context) => {
     if (!id) return new Response("id mancante", { status: 400 });
     const hit = await store.getWithMetadata(id, { type: "arrayBuffer" });
     if (!hit) return new Response("non trovato", { status: 404 });
-    return new Response(hit.data, {
-      headers: {
-        "Content-Type": (hit.metadata && hit.metadata.type)
-          || (id.endsWith(".usdz") ? "model/vnd.usdz+zip" : "model/gltf-binary"),
-        "Cache-Control": "public, max-age=3600",
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
+
+    /* scaduto = non c'e piu. Si cancella alla prima richiesta che lo trova
+       vecchio: nessun job di pulizia da mantenere. */
+    if (isExpired(hit.metadata)) {
+      try { await store.delete(id); } catch (e) { /* riproveremo al prossimo GET */ }
+      return new Response("scaduto", { status: 410 });
+    }
+
+    return new Response(hit.data, { headers: serveHeaders(id, hit.metadata) });
   }
 
   return new Response("metodo non ammesso", { status: 405 });

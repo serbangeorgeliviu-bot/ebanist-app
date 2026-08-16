@@ -17,7 +17,11 @@
 <meta name="apple-mobile-web-app-title" content="Ebanist">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase in locale, come three.js. Prima veniva da cdn.jsdelivr.net con
+     tag "@2", cioe "l'ultima 2.x che c'e in quel momento", decisa da un terzo
+     a ogni caricamento — in un'origine dove stanno la chiave API e i dati dei
+     clienti. Fissato a 2.112.3, aggiornato a mano quando serve. -->
+<script defer src="./vendor/supabase.js"></script>
 <style>
 :root{
   --bg:#ffffff; --surface:#f6f8f4; --raised:#ebeee7; --line:#dbe0d5;
@@ -1208,6 +1212,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="f"><label data-i="hwBin">Binario (set)</label><input id="sHwBin" type="number" inputmode="decimal" step="1"></div>
     <div class="f"><label data-i="hwConn">Viti & ecc.</label><input id="sHwConn" type="number" inputmode="decimal" step="0.05"></div>
   </div>
+  <div class="f2">
+    <div class="f"><label data-i="hwPush">Push-open</label><input id="sHwPush" type="number" inputmode="decimal" step="0.1"></div>
+    <div class="f"></div>
+  </div>
+  <div class="mini" data-i="hwPriceNote" style="margin:-4px 0 4px"></div>
   <div class="eyebrow" data-i="company">Azienda</div>
   <div class="f"><label data-i="fCompanyName">Nome</label><input id="sCoName"></div>
   <div class="f"><label data-i="fCompanyInfo">Dati (CUI, contatti)</label><input id="sCoInfo"></div>
@@ -1543,6 +1552,25 @@ Object.assign(I18N.fr,{
   mDrawBoxM:"Fond {bw}×{bl} mm, dos {kw}×{kh} mm — les côtés viennent du système.",
   mDrawBoxW:"Caisse {bw}×{bh}×{bl} mm, fond HDF en rainure.",
   mDrawInner:"Tiroirs derrière la porte : en retrait de {i} mm du chant avant, à poser porte démontée."});
+/* ---- chiavi nuove del giro di correzioni v4.22.0 ----
+   Tenute in blocco: sono di argomenti diversi e infilarle nelle righe da
+   diecimila caratteri qui sopra le renderebbe irrintracciabili. */
+Object.assign(I18N.it,{
+  hwPriceNote:"Il prezzo e quello del prodotto scelto in Catalogo: cambiarlo qui cambia il catalogo, ed e quello che finisce nel preventivo.",
+  storageFull:"MEMORIA PIENA — il lavoro NON e stato salvato. Fai subito un backup.",
+  storageFullBtn:"Backup adesso"});
+Object.assign(I18N.ro,{
+  hwPriceNote:"Prețul e al produsului ales în Catalog: dacă îl schimbi aici schimbi catalogul, și ăsta e prețul care ajunge în deviz.",
+  storageFull:"MEMORIE PLINĂ — munca NU s-a salvat. Fă un backup acum.",
+  storageFullBtn:"Backup acum"});
+Object.assign(I18N.en,{
+  hwPriceNote:"The price is the one of the product picked in the Catalogue: changing it here changes the catalogue, and that is what the quote uses.",
+  storageFull:"STORAGE FULL — your work was NOT saved. Make a backup now.",
+  storageFullBtn:"Back up now"});
+Object.assign(I18N.fr,{
+  hwPriceNote:"Le prix est celui du produit choisi dans le Catalogue : le changer ici change le catalogue, et c'est celui qui part dans le devis.",
+  storageFull:"MÉMOIRE PLEINE — le travail n'a PAS été enregistré. Faites une sauvegarde tout de suite.",
+  storageFullBtn:"Sauvegarder"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français"};
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
@@ -1712,10 +1740,45 @@ function loadState(){
   try{const raw=localStorage.getItem("tagliapro");if(raw){const s=JSON.parse(raw);if(s&&s.projects){s.settings=Object.assign({},defaultState().settings,s.settings||{});if(!Array.isArray(s.stock))s.stock=[];return s;}}}catch(e){}
   return defaultState();
 }
-function persist(){try{localStorage.setItem("tagliapro",JSON.stringify(state));}catch(e){} if(typeof scheduleSync==="function") scheduleSync();}
+/* La scrittura durevole NON puo fallire in silenzio. In cantiere, offline,
+   localStorage e l'unico posto dove esiste il lavoro della giornata: con un
+   `catch{}` vuoto il telefono pieno rispondeva "Salvato" e la sera si perdeva
+   tutto. Adesso lo dice, e resta scritto finche non si fa il backup. */
+let storageBroken=false;
+function persist(){
+  try{
+    localStorage.setItem("tagliapro",JSON.stringify(state));
+    storageBroken=false;
+  }catch(e){
+    if(!storageBroken){ storageBroken=true; try{ storageAlarm(); }catch(e2){} }
+  }
+  if(typeof scheduleSync==="function") scheduleSync();
+}
+/* Una barra rossa che non se ne va da sola: il backup e l'unica via d'uscita,
+   quindi il bottone la propone direttamente. */
+function storageAlarm(){
+  let bar=$("storageBar");
+  if(!bar){
+    bar=document.createElement("div"); bar.id="storageBar";
+    bar.style.cssText="position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + 12px);z-index:320;"+
+      "background:#8c1d1d;color:#fff;border-radius:12px;padding:12px 14px;display:flex;align-items:center;"+
+      "gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.4);font-size:14px;line-height:1.35";
+    document.body.appendChild(bar);
+  }
+  bar.innerHTML=`<span style="flex:1">${esc(t("storageFull"))}</span>`+
+    `<button style="flex:none;background:#fff;color:#8c1d1d;border:none;border-radius:8px;`+
+    `font-weight:700;padding:8px 12px">${esc(t("storageFullBtn"))}</button>`;
+  bar.style.display="flex";
+  bar.querySelector("button").addEventListener("click",()=>{ $("btnFullBk").click(); });
+  haptic(60);
+}
 const t = k => (I18N[state.lang]||I18N.it)[k] || I18N.it[k] || k;
 const proj = () => state.projects.find(p=>p.id===state.activeId) || null;
-const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+/* L'apostrofo entra nella lista: oggi nessun attributo interpolato usa le
+   virgolette semplici, ma il giorno che ne comparisse uno — `style='...'` —
+   un nome di progetto con un apostrofo aprirebbe un buco senza che nessuno
+   colleghi le due cose. Costa un carattere. */
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = (n,d=2) => n.toLocaleString(state.lang==="en"?"en-GB":state.lang==="ro"?"ro-RO":state.lang==="fr"?"fr-FR":"it-IT",{minimumFractionDigits:d,maximumFractionDigits:d});
 
 /* ================= CALCULATIONS ================= */
@@ -2470,8 +2533,10 @@ $("btnProjectSave").addEventListener("click",()=>{
 $("btnProjectDelete").addEventListener("click",()=>{
   if(!editingProjectId||!confirm(t("confirmDelProject")))return;
   snapUndo();
-  state.projects=state.projects.filter(q=>q.id!==editingProjectId);
-  if(state.activeId===editingProjectId)state.activeId=state.projects[0]?state.projects[0].id:null;
+  const goneId=editingProjectId;
+  state.projects=state.projects.filter(q=>q.id!==goneId);
+  if(state.activeId===goneId)state.activeId=state.projects[0]?state.projects[0].id:null;
+  markDeleted(goneId);            // la cancellazione deve arrivare anche sul server
   persist(); closeSheets(); render(); undoToast(t("deleted"));
 });
 
@@ -2483,8 +2548,16 @@ $("btnSettings").addEventListener("click",()=>{
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
   $("sIntro").value=(S.intro===0?"0":"1"); $("sIntroSound").value=(S.introSound===0?"0":"1");
-  $("sHwCern").value=S.hwCern;$("sHwGuida").value=S.hwGuida;$("sHwMan").value=S.hwMan;$("sHwSup").value=S.hwSup;
-  $("sHwAsta").value=S.hwAsta;$("sHwPied").value=S.hwPied;$("sHwBin").value=S.hwBin;$("sHwConn").value=S.hwConn;
+  /* Il prezzo mostrato e QUELLO CHE FINISCE NEL PREVENTIVO: si legge dal
+     prodotto scelto in catalogo (hwItem tiene gia conto di hwOvr). Prima questi
+     campi leggevano e scrivevano S.hwCern..., che computeHardware non guarda
+     mai perche il catalogo vince sempre: si poteva mettere 99 € a una balama e
+     il preventivo restava a 3,60. */
+  for(const [cat,key] of HW_CATS){
+    const el=$("s"+key.charAt(0).toUpperCase()+key.slice(1)); if(!el) continue;
+    const it=hwItem(cat);
+    el.value=it?it.price:(S[key]!=null?S[key]:0);
+  }
   $("sCoName").value=S.coName;$("sCoInfo").value=S.coInfo;
   /* la chiave non sta in `state`: si legge e si riscrive a parte */
   $("aiSetLbl").textContent=tia("aiSet");
@@ -2511,8 +2584,16 @@ $("btnSettingsSave").addEventListener("click",()=>{
   S.margin=parseFloat($("sMargin").value)||0; S.iva=parseFloat($("sIva").value)||0;
   { const v=parseFloat(String($("sEdgeTh").value).replace(",",".")); S.edgeTh=isFinite(v)&&v>=0?Math.min(3,v):0.8; }
   S.intro=parseInt($("sIntro").value,10)?1:0; S.introSound=parseInt($("sIntroSound").value,10)?1:0;
-  for(const [id,k] of [["sHwCern","hwCern"],["sHwGuida","hwGuida"],["sHwMan","hwMan"],["sHwSup","hwSup"],["sHwAsta","hwAsta"],["sHwPied","hwPied"],["sHwBin","hwBin"],["sHwConn","hwConn"]])
-    S[k]=parseFloat($(id).value)||0;
+  /* Si scrive in hwOvr, cioe' nella stessa casella che legge il preventivo.
+     S[key] resta aggiornato solo come ripiego per un catalogo senza prodotto. */
+  S.hwOvr=S.hwOvr||{}; S.hwProd=S.hwProd||{};
+  for(const [cat,key] of HW_CATS){
+    const el=$("s"+key.charAt(0).toUpperCase()+key.slice(1)); if(!el) continue;
+    const v=parseFloat(el.value); if(!isFinite(v)||v<0) continue;
+    S[key]=v;
+    const id=S.hwProd[cat];
+    if(id){ S.hwOvr[id]=S.hwOvr[id]||{}; S.hwOvr[id].price=v; }
+  }
   S.coName=$("sCoName").value.trim()||"Domus Renov"; S.coInfo=$("sCoInfo").value.trim();
   S.aiModel=$("sAiModel").value||"claude-opus-5"; S.aiProxy=$("sAiProxy").value.trim();
   /* Una chiave storta si accettava in silenzio e l'errore arrivava molto dopo,
@@ -3361,8 +3442,12 @@ function buildCore(cfg){
       return (c.l>0&&c.w>0&&c.x>=0&&c.y>=0&&c.x+c.l<=Math.max(bw,bh)&&c.y+c.w<=Math.min(bw,bh))?c:null;
     }).filter(Boolean);
     add("Schienale",Math.max(bw,bh),Math.min(bw,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs});
-    if(backNut) bx(t-NUT_D,L-t+NUT_D,intY0-NUT_D,intY1+NUT_D,backZ0,backZ0+backTh,"p");
-    else        bx(t,L-t,y0,H,0,backTh,"p");
+    /* `sub:"back"` NON e decorativo: matKeyOf() in geo3d.js sceglie il materiale
+       dello schienale proprio da questo campo. Senza, il pannello posteriore
+       usciva col materiale della carcassa nel 3D WebGL e nel file AR mandato
+       al cliente — un fondo in rovere invece dell'HDF bianco. */
+    if(backNut) bx(t-NUT_D,L-t+NUT_D,intY0-NUT_D,intY1+NUT_D,backZ0,backZ0+backTh,"p",0,0,"back");
+    else        bx(t,L-t,y0,H,0,backTh,"p",0,0,"back");
   }
   return {pieces,boxes,draw:dPlan,warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,
           drawWarn:(dPlan&&dPlan.warn&&dPlan.warn.length)?dPlan.warn:null}};
@@ -4833,7 +4918,9 @@ $("btnAR").addEventListener("click",async()=>{
     const M=await import("./arexport.js");
     const scene=M.buildExportScene(boxes,buildCfg);
     const ios=M.isIOS();
-    const blob=ios?await M.toUSDZ(scene):await M.toGLB(scene);
+    let blob;
+    try{ blob=ios?await M.toUSDZ(scene):await M.toGLB(scene); }
+    finally{ M.disposeExportScene(scene); }
     const p=proj();
     const nice=(p&&p.name)||buildCfg.name||"Mobile";
     const fname=slug(nice)+(ios?".usdz":".glb");
@@ -4975,7 +5062,9 @@ function undoToast(msg){
   bar.innerHTML=`<span style="flex:1">${esc(msg)}</span><button style="background:none;border:none;color:#9fd45f;font-weight:700;font-size:15px;padding:4px 8px">${esc(t("undoBtn"))}</button>`;
   bar.style.display="flex";
   bar.querySelector("button").addEventListener("click",()=>{
-    if(UNDO){ const lang=state.lang; state=JSON.parse(UNDO); state.lang=lang; persist(); render(); applyLang(); }
+    if(UNDO){ const lang=state.lang; state=JSON.parse(UNDO); state.lang=lang;
+      if(typeof unmarkDeleted==="function") unmarkDeleted();   // il progetto e tornato: non cancellarlo dal server
+      persist(); render(); applyLang(); }
     bar.style.display="none"; clearTimeout(undoTimer);
   });
   clearTimeout(undoTimer); undoTimer=setTimeout(()=>{bar.style.display="none";},6000);
@@ -5149,16 +5238,21 @@ function computeHardware(p,S,byModule){
    Una percentuale di sfrido a occhio e una stima; l'ottimizzazione di taglio,
    che questa app fa gia, e il numero vero. Un armadio da 7,4 m² di pezzi non si
    paga 7,4 m²+12%: si pagano 3 pannelli interi, perche il fornitore vende
-   pannelli, non metri quadri. Sotto i due modi convivono — "pannelli" e il
-   default, "area" resta per chi compra davvero al m² tagliato dal fornitore.
+   pannelli, non metri quadri. Sotto i due modi convivono. Il DEFAULT resta
+   "area", perche i preventivi gia fatti non devono cambiare da soli; "pannelli"
+   e il modo piu vicino alla spesa reale e si sceglie dalle Impostazioni.
    Il nesting e caro (24 impacchettamenti per materiale): il risultato si tiene
    in cache finche pezzi, formato, lama e magazzino non cambiano, cosi il
    Riepilogo non lo rifà a ogni ridisegno. */
 let _puCache={k:"",v:null};
 function panelUsage(p){
   const S=state.settings;
+  /* Nella chiave entra anche il catalogo: `panelFor()` legge il formato del
+     pannello da matOvr/matAdd, quindi cambiare il formato di una referenza
+     cambia il numero di pannelli. Senza, il Riepilogo restava sul conto vecchio
+     — in silenzio — finche non si toccava un pezzo. */
   const key=JSON.stringify([p.id,p.pieces.map(x=>[x.lung,x.larg,x.pz,x.materiale,x.grain||0]),
-                            S.kerf,S.panelL,S.panelW,state.stock||[]]);
+                            S.kerf,S.panelL,S.panelW,state.stock||[],S.matOvr||{},S.matAdd||[]]);
   if(_puCache.k===key) return _puCache.v;
   const tot=computeTotals(p), out={};
   for(const k of Object.keys(tot.mats)){
@@ -5637,7 +5731,10 @@ function renderPlan(){
       const hit=!!bad[m.name], sel=m.name===selMod, up=m.lift>0;
       const dash=up?` stroke-dasharray="${u*2.2} ${u*1.6}"`:"";
       out+=`<polygon points="${P2(m.foot)}" fill="${hit?"rgba(217,70,70,.30)":sel?"rgba(212,175,55,.30)":up?"rgba(95,148,18,.10)":"rgba(95,148,18,.22)"}" stroke="${hit?"#b3261e":sel?"#b08d1f":"#3e6b0a"}" stroke-width="${u*(sel?1.2:0.7)}"${dash}/>`;
-      const c={x:0,y:0}; m.foot.forEach(q=>{c.x+=q.x/4;c.y+=q.y/4;});
+      /* baricentro sul NUMERO REALE di spigoli: il contorno di un corpo tondo
+         ne ha 48, non 4. Dividendo per 4 l'etichetta finiva a nove metri dal
+         mobile, fuori dalla pianta. */
+      const c={x:0,y:0}, nf=m.foot.length||1; m.foot.forEach(q=>{c.x+=q.x/nf;c.y+=q.y/nf;});
       out+=`<text x="${c.x}" y="${c.y}" font-size="${u*3.4}" text-anchor="middle" dominant-baseline="middle" fill="#1d221b">${esc(m.name.slice(0,14))}</text>`;
       if(m.lift>0) out+=`<text x="${c.x}" y="${c.y+u*4}" font-size="${u*2.8}" text-anchor="middle" fill="#7a5c00">↑${Math.round(m.lift)}</text>`;
       if(sel){
@@ -5995,9 +6092,31 @@ async function initAuth(){
    si è connessi. Regola: vince sempre l'updated_at più recente (last-write-wins),
    con avviso visibile in caso di conflitto reale (ROADMAP 1.5). */
 const SYNC_META_KEY="tagliapro_sync_meta";
+const SYNC_DEL_KEY="tagliapro_sync_del";
 function loadSyncMeta(){ try{return JSON.parse(localStorage.getItem(SYNC_META_KEY))||{};}catch(e){return {};} }
 function saveSyncMeta(m){ try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(m));}catch(e){} }
 let syncMeta=loadSyncMeta();
+/* Le cancellazioni sono un FATTO, non l'assenza di un fatto: senza tenerne
+   nota, un progetto cancellato sul telefono restava su Supabase per sempre e
+   tornava indietro al primo dispositivo nuovo. La coda sopravvive all'offline:
+   si svuota alla prima sincronizzazione riuscita. */
+function loadSyncDel(){ try{return JSON.parse(localStorage.getItem(SYNC_DEL_KEY))||[];}catch(e){return [];} }
+function saveSyncDel(a){ try{localStorage.setItem(SYNC_DEL_KEY,JSON.stringify(a));}catch(e){} }
+let syncDel=loadSyncDel();
+function markDeleted(id){
+  if(!id) return;
+  if(syncDel.indexOf(id)<0){ syncDel.push(id); saveSyncDel(syncDel); }
+  delete syncMeta[id]; saveSyncMeta(syncMeta);
+  if(typeof scheduleSync==="function") scheduleSync();
+}
+/* Annullando una cancellazione il progetto torna a esistere: va tolto dalla
+   coda, o la sincronizzazione lo ricancellerebbe dal server. */
+function unmarkDeleted(){
+  if(!syncDel.length) return;
+  const alive=new Set(state.projects.map(p=>p.id));
+  const left=syncDel.filter(id=>!alive.has(id));
+  if(left.length!==syncDel.length){ syncDel=left; saveSyncDel(syncDel); }
+}
 let syncTimer=null, syncing=false;
 
 function scheduleSync(){
@@ -6010,6 +6129,19 @@ async function runSync(){
   if(!sb||!acctSession||syncing) return;
   syncing=true;
   try{
+    /* prima le cancellazioni: se un progetto e stato tolto qui, va tolto anche
+       la. Quelle che falliscono restano in coda per il prossimo giro. */
+    if(syncDel.length){
+      const left=[];
+      for(const id of syncDel){
+        try{
+          const {error}=await sb.from("projects").delete().eq("id",id);
+          if(error) left.push(id);
+        }catch(e){ left.push(id); }
+      }
+      syncDel=left; saveSyncDel(syncDel);
+    }
+    await syncSettings();
     for(const p of state.projects){
       const snap=JSON.stringify(p);
       const meta=syncMeta[p.id]||{};
@@ -6035,6 +6167,56 @@ async function runSync(){
   syncing=false;
 }
 
+/* ---- l'officina viaggia con te ----
+   Fino a ieri si sincronizzavano SOLO i progetti: il catalogo coi tuoi prezzi,
+   le referenze aggiunte a mano, i tipi propri e il magazzino dei ritagli
+   restavano sul telefono. Un progetto aperto sul PC si prezzava con un altro
+   listino. Stessa regola dei progetti: vince l'updated_at piu recente.
+   Se la tabella non esiste ancora (migrazione 1.4 non lanciata) la funzione
+   esce in silenzio e l'app continua a funzionare come prima. */
+const SET_META_KEY="tagliapro_set_meta";
+function loadSetMeta(){ try{return JSON.parse(localStorage.getItem(SET_META_KEY))||{};}catch(e){return {};} }
+function saveSetMeta(m){ try{localStorage.setItem(SET_META_KEY,JSON.stringify(m));}catch(e){} }
+/* la lingua e una preferenza del dispositivo, non dell'officina: chi lavora in
+   cantiere in romeno non deve ritrovarsi l'app in italiano perche il PC in
+   ufficio e in italiano. */
+function settingsPayload(){
+  const s=Object.assign({},state.settings);
+  return {settings:s,stock:state.stock||[]};
+}
+async function syncSettings(){
+  if(!sb||!acctSession) return;
+  const payload=settingsPayload(), snap=JSON.stringify(payload);
+  const meta=loadSetMeta();
+  try{
+    const {data:remote,error}=await sb.from("user_settings")
+      .select("updated_at,data").eq("id",acctSession.user.id).maybeSingle();
+    if(error) return;                       // tabella assente: niente da fare
+    if(remote&&remote.data){
+      const remoteNewer=remote.updated_at!==meta.lastRemoteUpdatedAt&&
+        new Date(remote.updated_at)>new Date(meta.updatedAt||0);
+      if(remoteNewer){
+        const rs=JSON.stringify(remote.data);
+        if(rs!==snap){
+          if(meta.lastSyncedSnapshot&&meta.lastSyncedSnapshot!==snap) toast(ta("syncConflict"));
+          state.settings=Object.assign({},defaultState().settings,remote.data.settings||{},{lang:state.lang});
+          if(Array.isArray(remote.data.stock)) state.stock=remote.data.stock;
+        }
+        saveSetMeta({lastSyncedSnapshot:rs,updatedAt:remote.updated_at,lastRemoteUpdatedAt:remote.updated_at});
+        try{localStorage.setItem("tagliapro",JSON.stringify(state));}catch(e){}
+        render();
+        return;
+      }
+    }
+    if(meta.lastSyncedSnapshot===snap) return;    // niente di nuovo da mandare
+    const now=new Date().toISOString();
+    const {data:saved,error:e2}=await sb.from("user_settings")
+      .upsert({id:acctSession.user.id,data:payload,updated_at:now})
+      .select("updated_at").single();
+    if(!e2&&saved) saveSetMeta({lastSyncedSnapshot:snap,updatedAt:now,lastRemoteUpdatedAt:saved.updated_at});
+  }catch(e){ /* offline: si riprova al prossimo giro */ }
+}
+
 function applyRemoteProject(data){
   if(!data||!data.id) return;
   const idx=state.projects.findIndex(x=>x.id===data.id);
@@ -6045,11 +6227,15 @@ function applyRemoteProject(data){
 async function pullAndMergeProjects(){
   if(!sb||!acctSession) return;
   try{
+    await syncSettings();
     const {data:remoteProjects}=await sb.from("projects").select("*");
     if(!remoteProjects) return;
     let changed=false;
     for(const rp of remoteProjects){
       if(!rp.data) continue;
+      /* cancellato qui e non ancora sul server: non lo si ripesca, o la
+         cancellazione tornerebbe indietro a ogni avvio */
+      if(syncDel.indexOf(rp.id)>=0) continue;
       const local=state.projects.find(p=>p.id===rp.id);
       const meta=syncMeta[rp.id];
       const remoteNewer=!meta||new Date(rp.updated_at)>new Date(meta.lastRemoteUpdatedAt||0);
@@ -6196,9 +6382,13 @@ const AI_ENDPOINT="https://api.anthropic.com/v1/messages";
 const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR"};
 
 /* ---------- enum del dominio: l'AI deve agganciarsi a QUESTI id ---------- */
+/* Gli enum devono coprire TUTTO quello che offre il modulo a schermo: se un
+   tipo esiste nella tendina e non qui, dettarlo a voce non puo funzionare e la
+   validazione lo scarta senza che si capisca perche. Regola: un tipo nuovo
+   entra in AI_ENUM nello stesso commit in cui entra nell'interfaccia. */
 const AI_ENUM={
-  type:["standard","angolare","scorrevole","scrivania","tavolo","letto"],
-  front:["piena","vetro"], support:["zoccolo","piedini","sospeso"],
+  type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato"],
+  front:["piena","vetro","curvo"], support:["zoccolo","piedini","sospeso"],
   handles:["maniglia","push"], shelfType:["mobile","fisso"],
   corner:["sx","dx"], cornerKind:["int","ext"],
   secMode:["hangShelf","hang","shelf","empty","drawers","drawerShelf"],
@@ -6240,6 +6430,12 @@ DRAWERS. "drawers" is the count PER SECTION. Where they go:
 Heights: "drawerDist" decides. fix = every front "drawerFH" tall (default 200). uguali = the "drawerZone" mm are shared out equally. cucina = one shallow front on top and the rest equal — the kitchen base. With uguali/cucina always give "drawerZone" unless the drawers take the whole front.
 System: "drawerSys" — legno (wooden box, the slide comes from the hardware catalog), legrabox, tandembox, nessuno (front only, the client supplies the boxes). Only name a Blum system if he named it. Ebanist's engine divides the inside into EQUAL sections; unequal widths are not supported yet, so if he asks for a specific section width, still emit the closest tram/secMode and add a line in "questions" saying the width ratio cannot be honoured.
 "shelves" and "drawers" are counts PER SECTION, not totals.
+
+CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extra field:
+  type="tondo" — a round or oval body. L and P are the OUTSIDE axes measured with a tape; equal L and P give a cylinder, different ones an oval. Shelves sit inside. No extra field.
+  type="raccordato" — a rectangle with the two FRONT corners rounded; "rcorner" is the radius in mm (default 80). Give it only for this type.
+  front="curvo" — bowed doors; "bow" is the camber in mm at the centre of the door (typical 30-60). Give it only for this front.
+For all three the cut list still gets a straight rectangle at the DEVELOPED length, because the panel is cut flat and bent afterwards — do not shorten a dimension to "account for the curve", give the real outside sizes and let the engine compute the development and the kerf plan.
 
 ANGLED CUTS (customCuts) — the only geometric modifier the engine has. "angL" and "angR" are the real corner angles of the room at the left and right end of the unit, 45..135, default 90. Under 90 the unit narrows towards the front (inside corner), over 90 it widens (outside corner). L is measured at the BACK wall. The engine applies them to the trapezoidal panels (Base / Cielo, Zoccolo) and renders the oblique cut in 3D. There is no per-panel modifier: do not try to angle a single Fianco or shelf — emit angL/angR and let the engine decide which panels are trapezoidal.
 
@@ -6286,6 +6482,8 @@ function aiSchema(mode){
         drawerH:{type:"string",enum:AI_DRAWH,description:"Metal system side height code (LEGRABOX N/M/K/C/F, TANDEMBOX N/M/K/C/D). Leave out to let the engine pick the tallest that the front covers."},
         angL:{type:"number",minimum:45,maximum:135,description:"Left corner angle, 90 = square."},
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
+        bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
+        rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
         secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:5,
           description:"Content of each section, left to right. Length must be tram+1."}}}},common)};
   }
@@ -6360,7 +6558,8 @@ async function aiCall(mode,text,imgs){
 /* ---------- validazione + clamp: niente entra nello state senza passare di qui ---------- */
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,4],
   shelves:[0,10],drawers:[0,8],doors:[0,4],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
-  shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200]};
+  shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
+  bow:[0,200],rcorner:[10,400]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
@@ -6450,7 +6649,8 @@ function aiLbl(k){
     front:t("fFront"),support:t("fSupport"),handles:t("fHandles"),shelfType:t("fShelfT"),type:t("fType"),
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
-    boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule")};
+    boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
+    bow:t("fBow"),rcorner:t("fRcorner")};
   return map[k]||k;
 }
 function aiVal(k,v){
@@ -6462,7 +6662,8 @@ function aiVal(k,v){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
       piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",mobile:"shMobile",
-      fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt"};
+      fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt",
+      tondo:"typeRound",raccordato:"typeFillet",curvo:"frontCurved"};
     return m[v]?t(m[v]):v;
   }
   return String(v);
@@ -6748,12 +6949,12 @@ navInit();
 persist();
 </script>
 <script>
-const APP_VER="4.21.0"; /* APP_VER-MARKER */
+const APP_VER="4.22.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v52";
+const SW_CACHE="ebanist-v53";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

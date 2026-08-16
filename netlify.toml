@@ -15,3 +15,24 @@
   [headers.values]
     Content-Type = "application/json"
     Cache-Control = "public, max-age=0"
+
+# Nel localStorage di questa origine stanno la chiave API Anthropic, tutti i
+# progetti coi dati dei clienti e il token di sessione Supabase. Gli header
+# qui sotto sono l'ultima rete se qualcosa riesce comunque a iniettare codice.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    # la fotocamera serve ad «In camera tua» e il microfono alla dettatura:
+    # si concedono a questa origine e si nega tutto il resto.
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    # 'unsafe-inline' su script-src resta obbligatorio finche l'app e un unico
+    # index.html con tutto il codice dentro: toglierlo vuol dire estrarre 5.000
+    # righe in un file a parte, e non e questo il momento.
+    # connect-src resta su https: di proposito: l'utente puo configurare un
+    # ENDPOINT PROPRIO per l'assistente (Impostazioni → Assistente AI), e una
+    # lista chiusa di host lo romperebbe in silenzio. Se un giorno l'endpoint
+    # si fissa, stringere qui e la prima cosa da fare.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

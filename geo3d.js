@@ -21,8 +21,11 @@ import * as THREE from "./vendor/three.module.min.js";
 export { THREE };
 export const MM = 0.001;                 // millimetri -> metri
 
-export const pcOf = (b) => (typeof planPC === "function" ? planPC(b)
-  : (b.pc || [[b.x0, b.z0], [b.x1, b.z0], [b.x1, b.z1], [b.x0, b.z1]]));
+/* Nessun aggancio al globale: la regola e una riga e leggerla da qui evita
+   che un modulo ES dipenda da una funzione dello script classico. Il ripiego
+   era gia identico a planPC() di index.html — il rinvio non comprava niente
+   e faceva sembrare che le due definizioni potessero divergere. */
+export const pcOf = (b) => b.pc || [[b.x0, b.z0], [b.x1, b.z0], [b.x1, b.z1], [b.x0, b.z1]];
 
 /* Rettangolo -> puo andare istanziato (box unitario scalato).
    Trapezio (pareti 45-135°) -> gli serve geometria propria. */
