@@ -20,6 +20,12 @@ const MIME = { ".html":"text/html", ".js":"text/javascript", ".json":"applicatio
                ".webmanifest":"application/manifest+json", ".css":"text/css", ".svg":"image/svg+xml",
                ".png":"image/png", ".ico":"image/x-icon" };
 
+/* Gli header di sicurezza si leggono da netlify.toml e si servono anche qui:
+   la prova deve girare nelle stesse condizioni della produzione, altrimenti
+   un CSP che rompe l'app si scopre dal telefono, dopo il deploy. */
+const NETLIFY_TOML = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
+const CSP = (NETLIFY_TOML.match(/Content-Security-Policy = "([^"]+)"/) || [])[1] || "";
+
 function serve() {
   return new Promise(res => {
     const s = http.createServer((req, rq) => {
@@ -27,7 +33,10 @@ function serve() {
       const f = path.join(ROOT, rel);
       // niente traversal: si serve solo da dentro la cartella dell'app
       if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { rq.writeHead(404); return rq.end(); }
-      rq.writeHead(200, { "Content-Type": MIME[path.extname(f)] || "application/octet-stream" });
+      const h = { "Content-Type": MIME[path.extname(f)] || "application/octet-stream",
+                  "X-Content-Type-Options": "nosniff" };
+      if (CSP) h["Content-Security-Policy"] = CSP;
+      rq.writeHead(200, h);
       fs.createReadStream(f).pipe(rq);
     });
     s.listen(0, "127.0.0.1", () => res(s));
@@ -47,11 +56,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   const pg = await browser.newPage({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
 
-  const errs = [];
+  const errs = [], cspViol = [];
   pg.on("pageerror", e => errs.push("pageerror: " + e));
   pg.on("console", m => {
     const x = m.text();
-    // i CDN esterni (font, supabase) non sono raggiungibili offline: non sono errori dell'app
+    // una violazione di CSP si conta a parte: e un guasto di configurazione,
+    // non un errore di codice, e va letta come tale
+    if (/Content Security Policy|Refused to (load|execute|connect|apply)/i.test(x)) { cspViol.push(x); return; }
+    // i CDN esterni (font) non sono raggiungibili offline: non sono errori dell'app
     if (m.type() === "error" && !/ERR_CONNECTION|ERR_NAME|ERR_INTERNET|Failed to load resource/.test(x)) errs.push("console: " + x);
   });
 
@@ -550,6 +562,228 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("nessuna etichetta mostra il nome della chiave", i18n.raw.length === 0,
      i18n.raw.length ? i18n.raw.slice(0, 8).join(", ") : undefined);
 
+  /* ===================================================================
+     Regressioni dell'audit del 16.08.2026 (v4.22.0).
+     Ognuno di questi bug e stato riprodotto in browser prima di essere
+     corretto: qui restano perche non tornino.
+     =================================================================== */
+
+  head("Schienale — nel 3D e in AR deve avere il SUO materiale");
+  const back = await pg.evaluate(async () => {
+    const M = await import("./geo3d.js");
+    const cfg = { ...PRESETS.armadio, matBody: "pal18_rovere", matFront: "pal18_rovere", matBack: "pfl3", back: 1 };
+    const bx = buildModule(cfg).boxes;
+    const b = bx.filter(x => x.sub === "back");
+    return { n: b.length, key: b[0] ? M.matKeyOf(b[0], cfg) : null,
+             body: M.matKeyOf(bx.find(x => x.kind === "p" && x.sub !== "back"), cfg) };
+  });
+  ok("lo schienale e marcato come tale", back.n === 1, back.n + " pannelli");
+  ok("e riceve matBack, non il materiale della carcassa", back.key === "pfl3", back.key + " (carcassa: " + back.body + ")");
+
+  head("Pianta — l'etichetta sta SUL mobile, anche se e tondo");
+  const lab = await pg.evaluate(() => {
+    const q = state.projects[0], keep = { s: q.survey, l: q.layout, c: q.configs };
+    q.survey = { walls: [{ id: "w1", len: 4000, angle: 90, bow: null }], heights: [2500, 2500, 2500], obstacles: [] };
+    q.configs = { Tondo: { ...PRESETS.tondo, name: "Tondo" } };
+    q.layout = { Tondo: { wall: "w1", from: 500, off: 0, lift: 0, rot: 0 } };
+    const m = roomLayout().mods.find(x => x.name === "Tondo");
+    const n = m.foot.length, c = { x: 0, y: 0 };
+    m.foot.forEach(z => { c.x += z.x / n; c.y += z.y / n; });
+    const bb = { x0: Math.min(...m.foot.map(z => z.x)), x1: Math.max(...m.foot.map(z => z.x)),
+                 y0: Math.min(...m.foot.map(z => z.y)), y1: Math.max(...m.foot.map(z => z.y)) };
+    q.survey = keep.s; q.layout = keep.l; q.configs = keep.c;
+    return { n, c, bb, inside: c.x >= bb.x0 && c.x <= bb.x1 && c.y >= bb.y0 && c.y <= bb.y1 };
+  });
+  ok("il contorno di un corpo tondo ha piu di quattro spigoli", lab.n > 4, lab.n + " spigoli");
+  ok("il baricentro cade DENTRO l'ingombro", lab.inside,
+     "(" + Math.round(lab.c.x) + "," + Math.round(lab.c.y) + ") dentro " +
+     Math.round(lab.bb.x0) + "–" + Math.round(lab.bb.x1));
+
+  head("Export AR — la geometria sta attorno alla propria origine");
+  const arc2 = await pg.evaluate(async () => {
+    const M = await import("./arexport.js");
+    const cfg = { ...PRESETS.tondo };
+    const boxes = buildModule(cfg).boxes;
+    const sc = M.buildExportScene(boxes, cfg);
+    let worst = 0, meshes = 0;
+    sc.traverse(o => {
+      if (!o.isMesh || !o.geometry || !o.geometry.attributes.position) return;
+      meshes++;
+      o.geometry.computeBoundingSphere();
+      const bs = o.geometry.boundingSphere;
+      if (bs) worst = Math.max(worst, bs.center.length());
+    });
+    M.disposeExportScene(sc);
+    return { worst: +worst.toFixed(3), meshes };
+  });
+  /* col vecchio /4 il centro della sfera d'ingombro finiva a metri dall'origine */
+  ok("nessuna geometria e piu lontana di 10 cm dalla propria origine",
+     arc2.worst < 0.1, arc2.worst + " m su " + arc2.meshes + " mesh");
+
+  head("Assistente AI — deve saper fare tutto quello che offre il modulo");
+  const aiOK = await pg.evaluate(() => {
+    const ui = [...document.getElementById("bTipo").options].map(o => o.value);
+    const uf = [...document.getElementById("bFront").options].map(o => o.value);
+    const warn = [];
+    const round = aiNormCfg({ type: "tondo", rcorner: 80 }, warn);
+    const curvo = aiNormCfg({ front: "curvo", bow: 40 }, warn);
+    return { missT: ui.filter(v => AI_ENUM.type.indexOf(v) < 0),
+             missF: uf.filter(v => AI_ENUM.front.indexOf(v) < 0),
+             round, curvo, warn };
+  });
+  ok("ogni tipo della tendina esiste anche per l'AI", aiOK.missT.length === 0, aiOK.missT.join(",") || "tutti");
+  ok("ogni tipo di fronte anche", aiOK.missF.length === 0, aiOK.missF.join(",") || "tutti");
+  ok("«tondo» passa la validazione, col suo raggio", aiOK.round.type === "tondo" && aiOK.round.rcorner === 80,
+     JSON.stringify(aiOK.round));
+  ok("«bombato» passa la validazione, con la sua freccia", aiOK.curvo.front === "curvo" && aiOK.curvo.bow === 40,
+     JSON.stringify(aiOK.curvo));
+  ok("e nessuno dei due genera un avviso", aiOK.warn.length === 0, aiOK.warn.join(" · ") || "nessuno");
+
+  head("Costi — il catalogo e il formato pannello entrano nel conto SUBITO");
+  const cache = await pg.evaluate(() => {
+    const lbl = matById("pal18_alb").label;
+    const p = { id: "cache", name: "cache", pieces: [
+      { id: "a", modulo: "m", elemento: "Fianco", lung: 2000, larg: 600, pz: 4, bordo: "", materiale: lbl }] };
+    state.projects.push(p); state.activeId = "cache";
+    const before = panelUsage(p)[normMat(lbl)];
+    const S = state.settings; S.matOvr = S.matOvr || {};
+    S.matOvr["pal18_alb"] = { pw: 1000, ph: 800 };
+    const after = panelUsage(p)[normMat(lbl)];
+    delete S.matOvr["pal18_alb"];
+    state.projects.pop(); state.activeId = state.projects[0].id;
+    return { beforeL: before.PN.L, afterL: after.PN.L, beforeN: before.neu, afterN: after.neu };
+  });
+  ok("cambiare il formato in catalogo cambia il pannello usato nel conto",
+     cache.beforeL === 2800 && cache.afterL === 1000, cache.beforeL + " → " + cache.afterL);
+  ok("e cambia il numero di pannelli (i pezzi non ci stanno piu)",
+     cache.beforeN !== cache.afterN, cache.beforeN + " → " + cache.afterN);
+
+  head("Ferramenta — il prezzo scritto nelle Impostazioni finisce nel preventivo");
+  const hwp = await pg.evaluate(async () => {
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const p = { id: "hw", name: "hw", pieces: [
+      { id: "d", modulo: "M", elemento: "Anta", lung: 700, larg: 400, pz: 1, bordo: "", materiale: matById("pal18_alb").label }] };
+    state.projects.push(p); state.activeId = "hw";
+    const cern = () => computeHardware(p, state.settings, false).find(i => i.k === "hwCern");
+    const before = cern().price;
+    document.getElementById("btnSettings").click(); await wait(150);
+    const shown = document.getElementById("sHwCern").value;
+    document.getElementById("sHwCern").value = "9.5";
+    document.getElementById("btnSettingsSave").click(); await wait(200);
+    const after = cern();
+    /* e riaprendo, il campo mostra il valore nuovo, non quello vecchio */
+    document.getElementById("btnSettings").click(); await wait(150);
+    const reopened = document.getElementById("sHwCern").value;
+    const hasPush = !!document.getElementById("sHwPush");
+    closeSheets(); await wait(120);
+    state.projects.pop(); state.activeId = state.projects[0].id;
+    return { before, shown: +shown, after: after.price, tot: after.tot, reopened: +reopened, hasPush };
+  });
+  ok("il campo mostra il prezzo di catalogo, non un numero scollegato", hwp.shown === hwp.before, "€" + hwp.shown);
+  ok("cambiarlo cambia DAVVERO il preventivo", hwp.after === 9.5, "€" + hwp.before + " → €" + hwp.after);
+  ok("e il totale si ricalcola", hwp.tot === 19, "2 cerniere = €" + hwp.tot);
+  ok("riaprendo, il campo mostra il valore nuovo", hwp.reopened === 9.5, "€" + hwp.reopened);
+  ok("anche il push-open ha il suo campo", hwp.hasPush);
+
+  head("Memoria piena — non si perde il lavoro in silenzio");
+  const full = await pg.evaluate(async () => {
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const real = localStorage.setItem.bind(localStorage);
+    localStorage.setItem = () => { throw new DOMException("quota", "QuotaExceededError"); };
+    let threw = false;
+    try { persist(); } catch (e) { threw = true; }
+    localStorage.setItem = real;
+    await wait(120);
+    const bar = document.getElementById("storageBar");
+    const visible = !!bar && bar.style.display !== "none";
+    const txt = bar ? bar.textContent : "";
+    const hasBtn = !!(bar && bar.querySelector("button"));
+    if (bar) bar.remove();
+    storageBroken = false;
+    return { threw, visible, hasBtn, saysIt: /MEMOR|STORAGE|MÉMOIRE/i.test(txt) };
+  });
+  ok("persist() non lascia passare l'errore all'app", full.threw === false);
+  ok("ma lo DICE, con una barra che resta", full.visible);
+  ok("e il messaggio si capisce", full.saysIt);
+  ok("con il bottone del backup a portata di dito", full.hasBtn);
+
+  head("Sincronizzazione — la cancellazione e l'officina viaggiano");
+  const syn = await pg.evaluate(() => {
+    const out = {};
+    /* la coda di cancellazione sopravvive offline e si annulla con l'undo */
+    syncDel = []; saveSyncDel(syncDel);
+    markDeleted("progetto-sparito");
+    out.inQueue = syncDel.indexOf("progetto-sparito") >= 0;
+    out.persisted = (JSON.parse(localStorage.getItem("tagliapro_sync_del")) || []).length === 1;
+    /* se il progetto torna (undo), la cancellazione non deve partire */
+    state.projects.push({ id: "progetto-sparito", name: "tornato", pieces: [] });
+    unmarkDeleted();
+    out.afterUndo = syncDel.indexOf("progetto-sparito") < 0;
+    state.projects = state.projects.filter(p => p.id !== "progetto-sparito");
+    syncDel = []; saveSyncDel(syncDel);
+    /* le impostazioni fanno parte di quello che si sincronizza */
+    const pay = settingsPayload();
+    out.hasCatalog = !!pay.settings && "matOvr" in pay.settings && "presetAdd" in pay.settings;
+    out.hasStock = Array.isArray(pay.stock);
+    out.noKey = JSON.stringify(pay).indexOf("sk-ant-") < 0;
+    return out;
+  });
+  ok("un progetto cancellato entra in coda per il server", syn.inQueue);
+  ok("e la coda sopravvive alla chiusura dell'app", syn.persisted);
+  ok("annullando la cancellazione, la coda si svuota", syn.afterUndo);
+  ok("il catalogo e i tipi propri fanno parte della sincronizzazione", syn.hasCatalog);
+  ok("e il magazzino dei ritagli anche", syn.hasStock);
+  ok("la chiave API NON entra nel payload", syn.noKey);
+
+  head("Escape — un apostrofo in un nome non deve poter aprire niente");
+  const escq = await pg.evaluate(() => ({
+    apo: esc("L'Atelier"), quote: esc('a"b'), lt: esc("<script>")
+  }));
+  ok("l'apostrofo viene escapato", escq.apo === "L&#39;Atelier", escq.apo);
+  ok("le virgolette e i tag restano coperti", escq.quote === "a&quot;b" && escq.lt === "&lt;script&gt;");
+
+  head("Supabase — in locale, non da un CDN");
+  const vend = await pg.evaluate(() => {
+    const s = [...document.querySelectorAll("script[src]")].map(x => x.getAttribute("src"));
+    return { ext: s.filter(u => /^https?:/.test(u)), local: s.filter(u => /supabase/.test(u)) };
+  });
+  ok("nessuno script viene da un dominio esterno", vend.ext.length === 0, vend.ext.join(", ") || "nessuno");
+  ok("supabase-js e servito dalla cartella vendor", vend.local.length === 1 && /^\.\/vendor\//.test(vend.local[0]),
+     vend.local[0] || "assente");
+  ok("ed e nel guscio del service worker (serve offline)",
+     /vendor\/supabase\.js/.test(sw), "sw.js");
+
+  head("Rotta /ar — non si fa ospitare una pagina sul dominio dell'app");
+  /* Le decisioni stanno in _armodel.js apposta: sono pure e si provano qui,
+     senza Netlify. Il buco era: Content-Type preso dalla richiesta e
+     restituito identico al GET, sulla stessa origine del localStorage. */
+  {
+    const AR = await import("../netlify/functions/_armodel.js");
+    const glb = new Uint8Array([0x67, 0x6c, 0x54, 0x46, 1, 2, 3, 4]);   // "glTF"
+    const zip = new Uint8Array([0x50, 0x4b, 3, 4, 1, 2, 3, 4]);         // "PK\3\4"
+    const html = new Uint8Array([0x3c, 0x68, 0x74, 0x6d, 0x6c]);        // "<html"
+
+    ok("un .glb vero passa", AR.uploadCheck("model/gltf-binary", "a.glb", glb).ok);
+    ok("un .usdz vero passa", AR.uploadCheck("model/vnd.usdz+zip", "a.usdz", zip).ok);
+    const badType = AR.uploadCheck("text/html", "a.glb", glb);
+    ok("un upload dichiarato text/html viene rifiutato", !badType.ok && badType.status === 415, "HTTP " + badType.status);
+    const badBody = AR.uploadCheck("application/octet-stream", "a.glb", html);
+    ok("HTML travestito da .glb viene rifiutato sui byte", !badBody.ok && badBody.status === 415, badBody.msg);
+    ok("un corpo vuoto viene rifiutato", !AR.uploadCheck("model/gltf-binary", "a.glb", new Uint8Array()).ok);
+
+    const h = AR.serveHeaders("x.glb", { ext: "glb" });
+    ok("si restituisce sempre un tipo di modello", h["Content-Type"] === "model/gltf-binary", h["Content-Type"]);
+    ok("con nosniff, cosi il browser non indovina", h["X-Content-Type-Options"] === "nosniff");
+    const h2 = AR.serveHeaders("x.glb", { ext: "glb", type: "text/html" });
+    ok("un tipo iniettato nei metadati viene IGNORATO", h2["Content-Type"] === "model/gltf-binary", h2["Content-Type"]);
+    const hu = AR.serveHeaders("x.usdz", null);
+    ok("senza metadati il tipo esce dall'estensione", hu["Content-Type"] === "model/vnd.usdz+zip");
+
+    const now = Date.now();
+    ok("un modello di ieri e scaduto", AR.isExpired({ born: now - 25 * 3600e3 }, now));
+    ok("uno di un'ora fa no", !AR.isExpired({ born: now - 3600e3 }, now));
+  }
+
   head("Tutte le viste si disegnano");
   for (const v of ["projects", "survey", "build", "list", "nest", "summary"]) {
     await pg.evaluate(x => setView(x), v);
@@ -557,6 +791,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   }
   ok("nessun errore JS su nessuna vista", errs.length === 0);
   if (errs.length) console.log("    " + errs.slice(0, 6).join("\n    "));
+
+  /* Girato per tutto il test con gli header veri di netlify.toml: se una
+     violazione ci fosse, sarebbe uscita qui e non dal telefono di Liviu. */
+  ok("nessuna violazione di CSP, con gli header di produzione", cspViol.length === 0,
+     cspViol.length ? cspViol.slice(0, 3).join(" | ") : "CSP attivo per tutta la prova");
 
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);

@@ -72,7 +72,13 @@ export function buildExportScene(boxes, cfg) {
       mesh.scale.set(Math.abs(b.x1 - b.x0) * MM, Math.abs(b.y1 - b.y0) * MM, Math.abs(b.z1 - b.z0) * MM);
     } else {
       const pc = pcOf(b);
-      const cx = pc.reduce((s, p) => s + p[0], 0) / 4, cz = pc.reduce((s, p) => s + p[1], 0) / 4;
+      /* diviso per il numero REALE di spigoli, come fa viewer3d.js: una base
+         tonda ne ha 48. Col /4 la posizione finale restava giusta (i due
+         errori si annullavano) ma la geometria stava metri fuori dalla propria
+         origine, e i volumi di ingombro scritti nel GLB/USDZ — quelli che
+         Scene Viewer e Quick Look usano per inquadrare — erano sbagliati. */
+      const n = pc.length || 1;
+      const cx = pc.reduce((s, p) => s + p[0], 0) / n, cz = pc.reduce((s, p) => s + p[1], 0) / n;
       const cy = (b.y0 + b.y1) / 2;
       const geo = buildPrism(pc.map(([x, z]) => [x - cx, z - cz]), b.y0 - cy, b.y1 - cy);
       mesh = new THREE.Mesh(geo, mat);
@@ -88,7 +94,22 @@ export function buildExportScene(boxes, cfg) {
   if (B) group.position.set(-B.cx, -B.floor, -B.cz);
 
   scene.add(group);
+  /* Il box unitario e condiviso da tutti i pannelli rettangolari: si libera
+     dopo che gli exporter hanno letto la scena, non qui — ci pensa
+     `disposeExportScene`, chiamata da chi ha costruito la scena. */
+  scene.userData.unitGeometry = unit;
   return scene;
+}
+
+/* Gli exporter tengono la scena solo per la durata del parse: dopo, la
+   geometria va restituita. Senza, ogni export AR lasciava indietro un
+   BoxGeometry e i prismi delle basi tonde. */
+export function disposeExportScene(scene) {
+  if (!scene) return;
+  scene.traverse((o) => {
+    if (o.isMesh && o.geometry && o.geometry !== scene.userData.unitGeometry) o.geometry.dispose();
+  });
+  if (scene.userData.unitGeometry) scene.userData.unitGeometry.dispose();
 }
 
 export function toGLB(scene) {

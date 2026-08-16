@@ -6,51 +6,296 @@
 <title>Ebanist — Politica de confidențialitate / Privacy Policy</title>
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:720px;margin:0 auto;padding:24px 18px;color:#222;line-height:1.55;background:#fafaf8}
-  h1{font-size:1.5rem;color:#3e6b0a}
-  h2{font-size:1.1rem;margin-top:2em;border-bottom:2px solid #5f9412;padding-bottom:4px;color:#3e6b0a}
+  h1{font-size:1.5rem;color:#0E3B2A}
+  h2{font-size:1.1rem;margin-top:2em;border-bottom:2px solid #0E3B2A;padding-bottom:4px;color:#0E3B2A}
+  h3{font-size:.98rem;margin:1.4em 0 .3em;color:#0E3B2A}
   .lang{margin-top:2.5em}
   .meta{color:#777;font-size:.9rem}
+  table{border-collapse:collapse;width:100%;margin:.6em 0;font-size:.92rem}
+  th,td{border:1px solid #dbe0d5;padding:6px 9px;text-align:left;vertical-align:top}
+  th{background:#eef1ea}
+  ul{padding-left:1.2em}
+  li{margin-bottom:.35em}
+  .key{background:#fff8e1;border-left:3px solid #D4AF37;padding:8px 12px;margin:.8em 0}
 </style>
 </head>
 <body>
 <h1>Ebanist</h1>
 <p class="meta">Politica de confidențialitate / Informativa sulla privacy / Privacy Policy / Politique de confidentialité<br>
-Ultima actualizare: 15 iulie 2026 · Operator: Domus Renov (CUI RO47806657)</p>
+Ultima actualizare: 16 august 2026 · Versiunea aplicației: 4.22.0<br>
+Operator: Domus Renov SRL (CUI RO47806657, Bacău, România)</p>
 
+<!-- ============================ RO ============================ -->
 <div class="lang">
 <h2>🇷🇴 Română</h2>
-<p><b>Ebanist nu colectează, nu stochează și nu transmite niciun fel de date personale.</b></p>
-<p>Toate datele introduse în aplicație (proiecte, liste de debitare, prețuri, date de contact ale clienților tăi) sunt salvate <b>exclusiv local, pe dispozitivul tău</b>, folosind stocarea locală a browserului. Aceste date nu părăsesc niciodată telefonul tău și nu sunt accesibile dezvoltatorului sau unor terți.</p>
-<p>Aplicația nu folosește conturi de utilizator, nu conține reclame, nu integrează servicii de analiză (analytics) și nu utilizează instrumente de urmărire. Fotografiile încărcate în funcția „În camera ta" sunt procesate integral pe dispozitiv și nu sunt trimise către niciun server.</p>
-<p>Dezinstalarea aplicației sau ștergerea datelor din setările Android elimină definitiv toate datele salvate.</p>
+
+<p>Ebanist funcționează <b>offline, pe dispozitivul tău</b>. Anumite funcții — pe care le pornești tu, explicit — trimit date către servicii externe. Mai jos scrie exact care, ce trimit și de ce.</p>
+
+<h3>1. Ce rămâne pe dispozitiv</h3>
+<p>Proiectele, listele de debitare, prețurile, catalogul, releveele și setările se salvează în stocarea locală a browserului. Fără cont, aplicația funcționează integral offline și <b>nimic nu pleacă de pe dispozitiv</b>.</p>
+<p>Fotografiile din funcția <b>„În camera ta”</b> și imaginea de la cameră se procesează integral pe dispozitiv și nu se trimit nicăieri.</p>
+
+<h3>2. Ce pleacă de pe dispozitiv, și numai dacă activezi funcția</h3>
+<table>
+<tr><th>Funcția</th><th>Ce se trimite</th><th>Unde</th><th>Temei</th></tr>
+<tr>
+  <td><b>Cont și sincronizare</b><br>(opțional)</td>
+  <td>Adresa de email și parola (parola stocată doar ca hash). Conținutul integral al proiectelor: denumiri, cote, materiale, prețuri și <b>datele de contact ale clienților tăi</b> — nume, telefon, note. Catalogul tău și tipurile proprii.</td>
+  <td>Supabase (găzduire UE)</td>
+  <td>Executarea serviciului pe care l-ai cerut</td>
+</tr>
+<tr>
+  <td><b>Asistentul AI</b><br>(opțional)</td>
+  <td>Textul dictat sau scris, <b>fotografiile pe care le atașezi</b>, și configurația corpului sau a releveului curent. Nu se trimit numele clienților sau prețurile.</td>
+  <td>Anthropic (API Claude), sau endpoint-ul propriu dacă îl configurezi tu</td>
+  <td>Consimțământ — funcția pornește doar dacă introduci o cheie API</td>
+</tr>
+<tr>
+  <td><b>Vizualizare AR</b><br>(opțional)</td>
+  <td>Modelul 3D al mobilei (geometrie și culori — fără date de client). Se încarcă pe server și primește o adresă publică, nelistată, pe care o deschide vizorul AR al telefonului. <b>Se șterge automat după 24 de ore.</b></td>
+  <td>Netlify (același server care găzduiește aplicația)</td>
+  <td>Executarea serviciului pe care l-ai cerut</td>
+</tr>
+<tr>
+  <td><b>Fonturi</b></td>
+  <td>Adresa IP a dispozitivului, la încărcarea paginii</td>
+  <td>Google Fonts</td>
+  <td>Interes legitim (afișarea corectă a aplicației)</td>
+</tr>
+</table>
+
+<div class="key">
+<b>Cheia API a asistentului AI</b> rămâne exclusiv pe dispozitivul tău. Nu intră în backupuri, nu intră în sincronizare și nu ajunge niciodată la Domus Renov. O poți șterge oricând: Setări → Asistent AI → Șterge cheia.
+</div>
+
+<h3>3. Datele clienților tăi</h3>
+<p>Dacă introduci în aplicație numele, telefonul sau alte date ale clienților tăi <b>și activezi sincronizarea</b>, aceste date se stochează pe serverele Supabase. Față de clienții tăi, <b>tu</b> ești operatorul acestor date; Domus Renov și Supabase sunt persoane împuternicite. Introdu doar datele de care ai efectiv nevoie.</p>
+
+<h3>4. Ce NU face aplicația</h3>
+<ul>
+  <li>Nu conține reclame.</li>
+  <li>Nu folosește analytics, cookie-uri de urmărire sau profilare.</li>
+  <li>Nu vinde și nu partajează date cu terți în scopuri de marketing.</li>
+  <li>Nu accesează agenda, locația sau alte aplicații.</li>
+</ul>
+
+<h3>5. Cât se păstrează și cum se șterge</h3>
+<ul>
+  <li><b>Local:</b> până le ștergi tu, dezinstalezi aplicația sau ștergi datele din setările sistemului.</li>
+  <li><b>Sincronizat:</b> până ștergi proiectul din aplicație — ștergerea se propagă și pe server — sau până ceri ștergerea contului.</li>
+  <li><b>Modele AR:</b> șterse automat după 24 de ore.</li>
+  <li><b>Ștergerea contului și a tuturor datelor:</b> scrie la adresa de mai jos; se execută în cel mult 30 de zile.</li>
+</ul>
+
+<h3>6. Drepturile tale</h3>
+<p>Conform GDPR ai dreptul de acces, rectificare, ștergere, restricționare, portabilitate și opoziție. Funcția „Backup complet” din aplicație îți dă imediat toate datele într-un fișier JSON. Pentru orice altceva, scrie-ne. Ai de asemenea dreptul de a depune plângere la ANSPDCP (România) sau la autoritatea din țara ta.</p>
+
 <p>Contact: <a href="mailto:feedback@ebanist.app">feedback@ebanist.app</a></p>
 </div>
 
+<!-- ============================ IT ============================ -->
 <div class="lang">
 <h2>🇮🇹 Italiano</h2>
-<p><b>Ebanist non raccoglie, non memorizza e non trasmette alcun dato personale.</b></p>
-<p>Tutti i dati inseriti nell'app (progetti, distinte di taglio, prezzi, dati di contatto dei tuoi clienti) vengono salvati <b>esclusivamente in locale, sul tuo dispositivo</b>, tramite l'archiviazione locale del browser. Questi dati non lasciano mai il tuo telefono e non sono accessibili allo sviluppatore o a terzi.</p>
-<p>L'app non utilizza account utente, non contiene pubblicità, non integra servizi di analisi e non utilizza strumenti di tracciamento. Le foto caricate nella funzione «Nel tuo ambiente» vengono elaborate interamente sul dispositivo e non vengono inviate ad alcun server.</p>
-<p>La disinstallazione dell'app o la cancellazione dei dati dalle impostazioni Android elimina definitivamente tutti i dati salvati.</p>
+
+<p>Ebanist funziona <b>offline, sul tuo dispositivo</b>. Alcune funzioni — che attivi tu, esplicitamente — inviano dati a servizi esterni. Qui sotto c'è scritto esattamente quali, cosa inviano e perché.</p>
+
+<h3>1. Cosa resta sul dispositivo</h3>
+<p>Progetti, distinte di taglio, prezzi, catalogo, rilievi e impostazioni sono salvati nell'archiviazione locale del browser. Senza account l'app funziona interamente offline e <b>niente lascia il dispositivo</b>.</p>
+<p>Le foto della funzione <b>«Nel tuo ambiente»</b> e l'immagine della fotocamera sono elaborate interamente sul dispositivo e non vengono inviate da nessuna parte.</p>
+
+<h3>2. Cosa lascia il dispositivo, e solo se attivi la funzione</h3>
+<table>
+<tr><th>Funzione</th><th>Cosa viene inviato</th><th>Dove</th><th>Base giuridica</th></tr>
+<tr>
+  <td><b>Account e sincronizzazione</b><br>(opzionale)</td>
+  <td>Email e password (conservata solo come hash). Il contenuto completo dei progetti: nomi, quote, materiali, prezzi e <b>i dati di contatto dei tuoi clienti</b> — nome, telefono, note. Il tuo catalogo e i tipi propri.</td>
+  <td>Supabase (hosting UE)</td>
+  <td>Esecuzione del servizio richiesto</td>
+</tr>
+<tr>
+  <td><b>Assistente AI</b><br>(opzionale)</td>
+  <td>Il testo dettato o scritto, <b>le foto che alleghi</b> e la configurazione del mobile o del rilievo corrente. Non vengono inviati i nomi dei clienti né i prezzi.</td>
+  <td>Anthropic (API Claude), oppure il tuo endpoint se lo configuri</td>
+  <td>Consenso — la funzione parte solo se inserisci una chiave API</td>
+</tr>
+<tr>
+  <td><b>Visualizzazione AR</b><br>(opzionale)</td>
+  <td>Il modello 3D del mobile (geometria e colori — nessun dato di cliente). Viene caricato e riceve un indirizzo pubblico non elencato, che apre il visore AR del telefono. <b>Cancellato automaticamente dopo 24 ore.</b></td>
+  <td>Netlify (lo stesso server che ospita l'app)</td>
+  <td>Esecuzione del servizio richiesto</td>
+</tr>
+<tr>
+  <td><b>Font</b></td>
+  <td>L'indirizzo IP del dispositivo, al caricamento della pagina</td>
+  <td>Google Fonts</td>
+  <td>Legittimo interesse (resa corretta dell'app)</td>
+</tr>
+</table>
+
+<div class="key">
+<b>La chiave API dell'assistente AI</b> resta esclusivamente sul tuo dispositivo. Non entra nei backup, non entra nella sincronizzazione e non arriva mai a Domus Renov. Puoi cancellarla in qualsiasi momento: Impostazioni → Assistente AI → Elimina la chiave.
+</div>
+
+<h3>3. I dati dei tuoi clienti</h3>
+<p>Se inserisci nell'app il nome, il telefono o altri dati dei tuoi clienti <b>e attivi la sincronizzazione</b>, questi dati vengono conservati sui server Supabase. Verso i tuoi clienti il titolare del trattamento sei <b>tu</b>; Domus Renov e Supabase sono responsabili del trattamento. Inserisci solo i dati che ti servono davvero.</p>
+
+<h3>4. Cosa l'app NON fa</h3>
+<ul>
+  <li>Nessuna pubblicità.</li>
+  <li>Nessun servizio di analisi, cookie di tracciamento o profilazione.</li>
+  <li>Nessuna vendita o condivisione di dati a terzi per marketing.</li>
+  <li>Nessun accesso a rubrica, posizione o altre app.</li>
+</ul>
+
+<h3>5. Per quanto si conservano e come si cancellano</h3>
+<ul>
+  <li><b>In locale:</b> finché non li cancelli tu, disinstalli l'app o cancelli i dati dalle impostazioni di sistema.</li>
+  <li><b>Sincronizzati:</b> finché non cancelli il progetto dall'app — la cancellazione si propaga anche al server — o finché non chiedi la cancellazione dell'account.</li>
+  <li><b>Modelli AR:</b> cancellati automaticamente dopo 24 ore.</li>
+  <li><b>Cancellazione dell'account e di tutti i dati:</b> scrivi all'indirizzo qui sotto; eseguita entro 30 giorni.</li>
+</ul>
+
+<h3>6. I tuoi diritti</h3>
+<p>Ai sensi del GDPR hai diritto di accesso, rettifica, cancellazione, limitazione, portabilità e opposizione. La funzione «Backup completo» dell'app ti restituisce subito tutti i dati in un file JSON. Per il resto, scrivici. Hai inoltre diritto di presentare reclamo all'autorità di controllo del tuo Paese.</p>
+
 <p>Contatto: <a href="mailto:feedback@ebanist.app">feedback@ebanist.app</a></p>
 </div>
 
+<!-- ============================ EN ============================ -->
 <div class="lang">
 <h2>🇬🇧 English</h2>
-<p><b>Ebanist does not collect, store, or transmit any personal data.</b></p>
-<p>All data entered in the app (projects, cut lists, prices, your clients' contact details) is saved <b>exclusively locally, on your device</b>, using the browser's local storage. This data never leaves your phone and is not accessible to the developer or any third party.</p>
-<p>The app does not use user accounts, contains no advertising, integrates no analytics services, and uses no tracking tools. Photos loaded in the "In your room" feature are processed entirely on-device and are never sent to any server.</p>
-<p>Uninstalling the app or clearing its data from Android settings permanently removes all saved data.</p>
+
+<p>Ebanist runs <b>offline, on your device</b>. Some features — which you switch on yourself, explicitly — send data to external services. Below is exactly which ones, what they send, and why.</p>
+
+<h3>1. What stays on the device</h3>
+<p>Projects, cut lists, prices, catalogue, site surveys and settings are saved in the browser's local storage. Without an account the app works entirely offline and <b>nothing leaves the device</b>.</p>
+<p>Photos in the <b>“In your room”</b> feature and the camera image are processed entirely on the device and are not sent anywhere.</p>
+
+<h3>2. What leaves the device, and only if you enable the feature</h3>
+<table>
+<tr><th>Feature</th><th>What is sent</th><th>Where</th><th>Legal basis</th></tr>
+<tr>
+  <td><b>Account and sync</b><br>(optional)</td>
+  <td>Email and password (stored only as a hash). The full content of your projects: names, dimensions, materials, prices and <b>your clients' contact details</b> — name, phone, notes. Your catalogue and your own types.</td>
+  <td>Supabase (EU hosting)</td>
+  <td>Performance of the service you requested</td>
+</tr>
+<tr>
+  <td><b>AI assistant</b><br>(optional)</td>
+  <td>The text you dictate or type, <b>the photos you attach</b>, and the current unit or survey configuration. Client names and prices are not sent.</td>
+  <td>Anthropic (Claude API), or your own endpoint if you configure one</td>
+  <td>Consent — the feature only runs if you enter an API key</td>
+</tr>
+<tr>
+  <td><b>AR view</b><br>(optional)</td>
+  <td>The 3D model of the furniture (geometry and colours — no client data). It is uploaded and gets an unlisted public address, which the phone's AR viewer opens. <b>Deleted automatically after 24 hours.</b></td>
+  <td>Netlify (the same server that hosts the app)</td>
+  <td>Performance of the service you requested</td>
+</tr>
+<tr>
+  <td><b>Fonts</b></td>
+  <td>The device's IP address, when the page loads</td>
+  <td>Google Fonts</td>
+  <td>Legitimate interest (correct rendering of the app)</td>
+</tr>
+</table>
+
+<div class="key">
+<b>The AI assistant's API key</b> stays on your device only. It never enters backups, never enters sync, and never reaches Domus Renov. You can delete it at any time: Settings → AI assistant → Delete the key.
+</div>
+
+<h3>3. Your clients' data</h3>
+<p>If you enter your clients' names, phone numbers or other details into the app <b>and enable sync</b>, that data is stored on Supabase servers. Towards your clients, <b>you</b> are the data controller; Domus Renov and Supabase are processors. Only enter the data you actually need.</p>
+
+<h3>4. What the app does NOT do</h3>
+<ul>
+  <li>No advertising.</li>
+  <li>No analytics, tracking cookies or profiling.</li>
+  <li>No selling or sharing of data with third parties for marketing.</li>
+  <li>No access to your contacts, location or other apps.</li>
+</ul>
+
+<h3>5. Retention and deletion</h3>
+<ul>
+  <li><b>Local:</b> until you delete it, uninstall the app, or clear the data from system settings.</li>
+  <li><b>Synced:</b> until you delete the project in the app — the deletion propagates to the server too — or until you request account deletion.</li>
+  <li><b>AR models:</b> deleted automatically after 24 hours.</li>
+  <li><b>Account and full data deletion:</b> write to the address below; carried out within 30 days.</li>
+</ul>
+
+<h3>6. Your rights</h3>
+<p>Under the GDPR you have the right of access, rectification, erasure, restriction, portability and objection. The app's “Full backup” function hands you all your data in a JSON file immediately. For anything else, write to us. You also have the right to lodge a complaint with your national supervisory authority.</p>
+
 <p>Contact: <a href="mailto:feedback@ebanist.app">feedback@ebanist.app</a></p>
 </div>
 
+<!-- ============================ FR ============================ -->
 <div class="lang">
 <h2>🇫🇷 Français</h2>
-<p><b>Ebanist ne collecte, ne stocke et ne transmet aucune donnée personnelle.</b></p>
-<p>Toutes les données saisies dans l'application (projets, listes de découpe, prix, coordonnées de vos clients) sont enregistrées <b>exclusivement en local, sur votre appareil</b>, via le stockage local du navigateur. Ces données ne quittent jamais votre téléphone et ne sont accessibles ni au développeur ni à des tiers.</p>
-<p>L'application n'utilise pas de comptes utilisateurs, ne contient aucune publicité, n'intègre aucun service d'analyse et n'utilise aucun outil de suivi. Les photos chargées dans la fonction « Dans votre pièce » sont traitées entièrement sur l'appareil et ne sont jamais envoyées à un serveur.</p>
-<p>La désinstallation de l'application ou l'effacement de ses données depuis les réglages Android supprime définitivement toutes les données enregistrées.</p>
+
+<p>Ebanist fonctionne <b>hors ligne, sur votre appareil</b>. Certaines fonctions — que vous activez vous-même, explicitement — envoient des données à des services externes. Voici précisément lesquelles, ce qu'elles envoient et pourquoi.</p>
+
+<h3>1. Ce qui reste sur l'appareil</h3>
+<p>Projets, listes de découpe, prix, catalogue, relevés et réglages sont enregistrés dans le stockage local du navigateur. Sans compte, l'application fonctionne entièrement hors ligne et <b>rien ne quitte l'appareil</b>.</p>
+<p>Les photos de la fonction <b>« Dans votre pièce »</b> et l'image de la caméra sont traitées entièrement sur l'appareil et ne sont envoyées nulle part.</p>
+
+<h3>2. Ce qui quitte l'appareil, et uniquement si vous activez la fonction</h3>
+<table>
+<tr><th>Fonction</th><th>Ce qui est envoyé</th><th>Où</th><th>Base légale</th></tr>
+<tr>
+  <td><b>Compte et synchronisation</b><br>(optionnel)</td>
+  <td>E-mail et mot de passe (conservé uniquement sous forme de hash). Le contenu complet des projets : noms, cotes, matériaux, prix et <b>les coordonnées de vos clients</b> — nom, téléphone, notes. Votre catalogue et vos types personnels.</td>
+  <td>Supabase (hébergement UE)</td>
+  <td>Exécution du service demandé</td>
+</tr>
+<tr>
+  <td><b>Assistant IA</b><br>(optionnel)</td>
+  <td>Le texte dicté ou saisi, <b>les photos que vous joignez</b>, et la configuration du meuble ou du relevé en cours. Ni les noms de clients ni les prix ne sont envoyés.</td>
+  <td>Anthropic (API Claude), ou votre propre endpoint si vous le configurez</td>
+  <td>Consentement — la fonction ne démarre que si vous saisissez une clé API</td>
+</tr>
+<tr>
+  <td><b>Vue AR</b><br>(optionnel)</td>
+  <td>Le modèle 3D du meuble (géométrie et couleurs — aucune donnée client). Il est téléversé et reçoit une adresse publique non répertoriée, qu'ouvre le visualiseur AR du téléphone. <b>Supprimé automatiquement au bout de 24 heures.</b></td>
+  <td>Netlify (le serveur qui héberge l'application)</td>
+  <td>Exécution du service demandé</td>
+</tr>
+<tr>
+  <td><b>Polices</b></td>
+  <td>L'adresse IP de l'appareil, au chargement de la page</td>
+  <td>Google Fonts</td>
+  <td>Intérêt légitime (rendu correct de l'application)</td>
+</tr>
+</table>
+
+<div class="key">
+<b>La clé API de l'assistant IA</b> reste exclusivement sur votre appareil. Elle n'entre ni dans les sauvegardes ni dans la synchronisation, et ne parvient jamais à Domus Renov. Vous pouvez la supprimer à tout moment : Réglages → Assistant IA → Supprimer la clé.
+</div>
+
+<h3>3. Les données de vos clients</h3>
+<p>Si vous saisissez dans l'application le nom, le téléphone ou d'autres données de vos clients <b>et que vous activez la synchronisation</b>, ces données sont conservées sur les serveurs Supabase. Vis-à-vis de vos clients, <b>vous</b> êtes le responsable de traitement ; Domus Renov et Supabase sont sous-traitants. Ne saisissez que les données dont vous avez réellement besoin.</p>
+
+<h3>4. Ce que l'application NE fait PAS</h3>
+<ul>
+  <li>Aucune publicité.</li>
+  <li>Aucun service d'analyse, cookie de suivi ou profilage.</li>
+  <li>Aucune vente ni partage de données à des tiers à des fins marketing.</li>
+  <li>Aucun accès à vos contacts, à votre position ou à d'autres applications.</li>
+</ul>
+
+<h3>5. Durée de conservation et suppression</h3>
+<ul>
+  <li><b>En local :</b> jusqu'à ce que vous les supprimiez, désinstalliez l'application ou effaciez les données depuis les réglages du système.</li>
+  <li><b>Synchronisées :</b> jusqu'à ce que vous supprimiez le projet dans l'application — la suppression se propage aussi au serveur — ou que vous demandiez la suppression du compte.</li>
+  <li><b>Modèles AR :</b> supprimés automatiquement au bout de 24 heures.</li>
+  <li><b>Suppression du compte et de toutes les données :</b> écrivez à l'adresse ci-dessous ; effectuée sous 30 jours.</li>
+</ul>
+
+<h3>6. Vos droits</h3>
+<p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition. La fonction « Sauvegarde complète » de l'application vous restitue immédiatement toutes vos données dans un fichier JSON. Pour le reste, écrivez-nous. Vous avez également le droit d'introduire une réclamation auprès de la CNIL ou de l'autorité de contrôle de votre pays.</p>
+
 <p>Contact : <a href="mailto:feedback@ebanist.app">feedback@ebanist.app</a></p>
 </div>
+
 </body>
 </html>
