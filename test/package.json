@@ -3,7 +3,9 @@
   "private": true,
   "comment": "Pachet separato APPOSTA. Il package.json della radice serve alla funzione Netlify e non deve portarsi dietro Playwright: netlify.toml pubblica la cartella con command vuoto, e una dipendenza da ~300 MB in radice non ha niente a che fare col deploy. Qui dentro, senza 'type', i file restano CommonJS.",
   "scripts": {
-    "test": "node run.js"
+    "test": "node run.js",
+    "test:geom": "node --test geom.test.js",
+    "test:geom:v1": "EBANIST_ENGINE=legacy node --test geom.test.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"
