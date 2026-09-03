@@ -68,7 +68,8 @@ describe("Test 4 — coerenta picioare", () => {
   test("caz negativ: picioare + laterala la pardoseala => A7 pica", () => {
     const C = E.coreEngine();
     if (!C) { assert.fail("A7: il modulo delle asserzioni non esiste"); return; }
-    const bad = { ...C.deriveCarcass({ ...CORPO_1000, piedini: 4, h_picior: 100, h_zoccolo: 0 }), H_fianco: 2078 };
+    const par = { ...C.CARCASS_DEFAULTS, ...CORPO_1000, piedini: 4, h_picior: 100, h_zoccolo: 0 };
+    const bad = { ...C.deriveCarcass(par), H_fianco: 2078 };
     const failed = C.checkAssertions(bad).filter(a => a.id === "A7");
     assert.equal(failed.length, 1, "A7 doveva cadere e non e caduta");
   });

@@ -227,6 +227,192 @@ function deriveCarcass(params) {
   };
 }
 
+/* --- asserzioni ----------------------------------------------------------
+ * LE ASSERZIONI SONO DATI, NON CODICE. Un array di oggetti: si aggiunge una
+ * regola scrivendo una riga, non ricompilando il motore. `when` e `then` sono
+ * espressioni valutate su un ambiente CHIUSO — solo le cote derivate, niente
+ * altro — da un piccolo valutatore senza eval.
+ *
+ * Ogni riga porta il perche e da dove viene: quando una regola scatta in
+ * officina, il montatore deve leggere il motivo, non un codice di errore.
+ */
+var ASSERTIONS = [
+  { id: "A1", severity: "blocking", confidence: "alta",
+    when: 'backMode == "incassato"',
+    then: "D_bc + t_back == D",
+    why: "Falțul pentru spate trebuie să fie exact grosimea spatelui, altfel spatele iese din planul lateralei.",
+    source: "Jacquin rev.B — falț 18 mm, spate 19 mm" },
+
+  { id: "A2", severity: "blocking", confidence: "alta",
+    when: "1", then: "back_H <= H",
+    why: "Spatele e mai lung decât corpul: nu intră între laterale.",
+    source: "Jacquin rev.B" },
+
+  { id: "A3", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0",
+    then: "n_ante * anta_W + (n_ante - 1) * gap_ante + 2 * reveal == W",
+    why: "Ușile nu acoperă exact deschiderea: fie se ating între ele, fie lasă un gol pe o parte.",
+    source: "Jacquin rev.C — două uși de 495 cu rost de 4" },
+
+  { id: "A4", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0",
+    then: "anta_H + h_zoccolo + gap_inf + gap_sup == H",
+    why: "Ușa freacă zoccolo-ul sau tavanul corpului: înălțimea ei nu se închide cu jocurile declarate.",
+    source: "Jacquin rev.C — ușă 1993 pe corp 2078, zoccolo 79" },
+
+  { id: "A5", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0",
+    then: "gap_ante >= 3 && gap_sup >= 2 && gap_inf >= 2",
+    why: "Joc zero între fronturi: la prima variație de umiditate ușile se blochează una în alta.",
+    source: "Blum — joc minim de montaj" },
+
+  { id: "A6", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0", then: "overlay < t_fianco",
+    why: "Suprapunerea ușii e mai mare decât grosimea lateralei: ușa nu are pe ce să se așeze.",
+    source: "Blum CLIP top — suprapunere maximă" },
+
+  { id: "A7", severity: "blocking", confidence: "alta",
+    when: "piedini > 0", then: "H_fianco == H - h_picior",
+    why: "Picioare și laterale până la pardoseală în același timp: corpul se sprijină pe laterale, iar picioarele nu ating solul.",
+    source: "regulă de montaj" },
+
+  { id: "A8", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0",
+    then: "finite(foratura_prof) && finite(foratura_dist_cant) && finite(cerniere)",
+    why: "O cotă de găurire nu poate fi un interval („3–6 mm\"): mașina trebuie să primească un singur număr.",
+    source: "Jacquin rev.C — prof. 12,5 mm, distanță de la cant 5,0 mm" },
+
+  { id: "A9", severity: "blocking", confidence: "medie",
+    when: "1", then: "piesa_max <= max(W, H) + tol",
+    why: "O piesă are o cotă mai mare decât corpul din care provine: nu e legată de niciun gabarit.",
+    source: "auditul v4.24" },
+
+  { id: "A10", severity: "blocking", confidence: "alta",
+    when: "panelL > 0", then: "piesa_L <= panelL && piesa_W <= panelW",
+    why: "O piesă e mai mare decât placa din care se debitează: nu se poate tăia.",
+    source: "format placă din setările proiectului" },
+
+  { id: "A11", severity: "blocking", confidence: "alta",
+    when: "1", then: "aria_per_material == 1",
+    why: "Aria netă amestecă materiale diferite: metrii pătrați trebuie raportați grupat pe material.",
+    source: "auditul v4.24" }
+];
+
+/* Valutatore minimo: numeri, identificatori, confronti, && || !, + - * / e
+   due funzioni. NIENTE eval — un'espressione scritta nei dati non deve poter
+   eseguire codice, e la regola del progetto lo vieta esplicitamente. */
+function evalExpr(src, env) {
+  var i = 0, s = String(src);
+  function ws() { while (i < s.length && /\s/.test(s[i])) i++; }
+  function peek(tok) { ws(); return s.substr(i, tok.length) === tok; }
+  function eat(tok) { if (peek(tok)) { i += tok.length; return true; } return false; }
+  function primary() {
+    ws();
+    if (eat("(")) { var v = or(); ws(); if (!eat(")")) throw new Error("manca )"); return v; }
+    if (eat("!")) return !primary();
+    if (eat("-")) return -primary();
+    var m = /^\d+(\.\d+)?/.exec(s.slice(i));
+    if (m) { i += m[0].length; return parseFloat(m[0]); }
+    m = /^"([^"]*)"/.exec(s.slice(i));
+    if (m) { i += m[0].length; return m[1]; }
+    m = /^[A-Za-z_][A-Za-z0-9_]*/.exec(s.slice(i));
+    if (!m) throw new Error("token inatteso in `" + src + "` a " + i);
+    i += m[0].length;
+    var name = m[0];
+    if (peek("(")) {                       // finite(x), max(a,b), abs(x)
+      eat("("); var args = [];
+      if (!peek(")")) { do { args.push(or()); } while (eat(",")); }
+      ws(); if (!eat(")")) throw new Error("manca ) dopo " + name);
+      if (name === "finite") return args.every(function (a) {
+        return Array.isArray(a) ? a.every(function (v) { return typeof v === "number" && isFinite(v); })
+                                : typeof a === "number" && isFinite(a); });
+      if (name === "max") return Math.max.apply(Math, args);
+      if (name === "min") return Math.min.apply(Math, args);
+      if (name === "abs") return Math.abs(args[0]);
+      throw new Error("funzione sconosciuta: " + name);
+    }
+    if (!(name in env)) throw new Error("cota assente: " + name);
+    return env[name];
+  }
+  function mul() { var v = primary(); for (;;) { ws();
+    if (eat("*")) v = v * primary(); else if (eat("/")) v = v / primary(); else return v; } }
+  function add() { var v = mul(); for (;;) { ws();
+    if (eat("+")) v = v + mul(); else if (peek("-") && s.substr(i, 2) !== "->") { eat("-"); v = v - mul(); } else return v; } }
+  function cmp() { var v = add(); ws();
+    if (eat("<=")) return v <= add(); if (eat(">=")) return v >= add();
+    if (eat("==")) return eq(v, add());  if (eat("!=")) return !eq(v, add());
+    if (eat("<"))  return v < add();     if (eat(">"))  return v > add();
+    return v; }
+  function and() { var v = cmp(); while (eat("&&")) { var r = cmp(); v = v && r; } return v; }
+  function or()  { var v = and(); while (eat("||")) { var r = and(); v = v || r; } return v; }
+  /* le cote sono in mm con precisione piena: due valori che differiscono di un
+     millesimo sono la stessa cota, non due. */
+  function eq(a, b) { return (typeof a === "number" && typeof b === "number") ? Math.abs(a - b) < 0.05 : a === b; }
+  var out = or(); ws();
+  if (i < s.length) throw new Error("resto non letto in `" + src + "`: " + s.slice(i));
+  return out;
+}
+
+/* L'ambiente e CHIUSO: solo le cote derivate, le entrate, e i pochi valori che
+   riguardano i pezzi gia emessi. Un'asserzione non puo leggere altro. */
+function assertionEnv(d, ctx) {
+  var e = {}, k;
+  for (k in d.in) if (Object.prototype.hasOwnProperty.call(d.in, k)) e[k] = d.in[k];
+  var outs = ["Wi", "D_fianco", "H_fianco", "D_bc", "piano_interno", "back_W", "back_H",
+              "ripiano_W", "ripiano_D", "zoccolo_W", "zoccolo_H", "reveal",
+              "anta_W", "anta_H", "anta_y0", "anta_y1", "n_cerniere"];
+  for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
+  e.cerniere = d.cerniere || [];
+  e.tol = 1;
+  ctx = ctx || {};
+  e.panelL = ctx.panelL || 0; e.panelW = ctx.panelW || 0;
+  /* le tre cote che riguardano i pezzi emessi, non il corpo: chi non passa i
+     pezzi non fa scattare A9/A10/A11, invece di farle cadere a vuoto. */
+  e.piesa_max = ctx.piesa_max != null ? ctx.piesa_max : 0;
+  e.piesa_L = ctx.piesa_L != null ? ctx.piesa_L : 0;
+  e.piesa_W = ctx.piesa_W != null ? ctx.piesa_W : 0;
+  e.aria_per_material = ctx.aria_per_material != null ? ctx.aria_per_material : 1;
+  return e;
+}
+
+/* Torna SOLO le asserzioni cadute. Lista vuota = tutto a posto.
+   Una regola che non si riesce nemmeno a valutare e essa stessa un guasto:
+   si segnala, non si ingoia. */
+function checkAssertions(derived, ctx, rules) {
+  var list = rules || ASSERTIONS, out = [], env;
+  try { env = assertionEnv(derived, ctx); }
+  catch (e) { return [{ id: "ENV", severity: "blocking", why: "Nu se pot citi cotele pentru verificare: " + e.message }]; }
+  for (var i = 0; i < list.length; i++) {
+    var a = list[i];
+    try {
+      if (!evalExpr(a.when, env)) continue;
+      if (!evalExpr(a.then, env)) out.push(a);
+    } catch (e) {
+      out.push({ id: a.id, severity: "blocking", confidence: a.confidence, why: a.why,
+                 source: a.source, error: "regola non valutabile: " + e.message });
+    }
+  }
+  return out;
+}
+function blocking(failed) {
+  return (failed || []).filter(function (a) { return a.severity === "blocking"; });
+}
+
+/* Impronta del set di asserzioni attivo: 8 caratteri, stampata sul PDF.
+   Da li si risale a CON QUALI regole e stata calcolata quella distinta. */
+function assertionsHash(rules) {
+  var src = JSON.stringify((rules || ASSERTIONS).map(function (a) {
+    return [a.id, a.when, a.then, a.severity];
+  }));
+  var h1 = 0x811c9dc5, h2 = 0x01000193;
+  for (var i = 0; i < src.length; i++) {
+    h1 = (h1 ^ src.charCodeAt(i)) >>> 0; h1 = (h1 * 0x01000193) >>> 0;
+    h2 = (h2 + src.charCodeAt(i) * (i + 1)) >>> 0;
+  }
+  return (("0000000" + h1.toString(16)).slice(-8).slice(0, 4) +
+          ("0000000" + h2.toString(16)).slice(-8).slice(0, 4));
+}
+
 /* --- pubblicazione -------------------------------------------------------- */
 var API = {
   GEOM_VERSION: GEOM_VERSION,
@@ -234,7 +420,12 @@ var API = {
   PANEL_DEFAULTS: PANEL_DEFAULTS,
   deriveCarcass: deriveCarcass,
   positionsHinges: positionsHinges,
-  hingeCount: hingeCount
+  hingeCount: hingeCount,
+  ASSERTIONS: ASSERTIONS,
+  evalExpr: evalExpr,
+  checkAssertions: checkAssertions,
+  blocking: blocking,
+  assertionsHash: assertionsHash
 };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];

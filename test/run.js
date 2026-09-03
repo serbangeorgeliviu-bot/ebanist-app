@@ -353,8 +353,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     o.trovata = !!a;
     o.curve = a && a.curve;
     // verifica indipendente: dalla corda e dalla freccia si ricava il raggio,
-    // e dal raggio si deve poter tornare ALLA STESSA freccia
-    const aW = (1000 - 4 - 3) / 2, f = 40;
+    // e dal raggio si deve poter tornare ALLA STESSA freccia.
+    // La corda la dice il motore — prima qui c'era riscritta a mano la vecchia
+    // formula dell'anta (1000-4-3)/2, che questo rilascio ha sostituito: la
+    // prova misurava la curva ma si portava dietro la larghezza sbagliata.
+    const G = deriveCarcass(carcassParams(base, {
+      P: base.P, pl: base.plinth || 0, backTh: 3, support: base.support || "zoccolo" }));
+    const aW = G.anta_W, f = 40;
+    o.corda = aW;
     const R = (aW * aW / 4 + f * f) / (2 * f);
     o.rChk = Math.round(R);
     o.frecciaRicostruita = +(R - Math.sqrt(R * R - aW * aW / 4)).toFixed(2);
@@ -374,7 +380,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("raggio ricavato da corda e freccia", bow.curve && bow.curve.radius === bow.rChk, "R=" + bow.rChk);
   ok("dal raggio si torna alla freccia chiesta", Math.abs(bow.frecciaRicostruita - 40) < 0.05, bow.frecciaRicostruita + " mm");
   ok("in distinta va lo sviluppo dell'arco", bow.curve && Math.abs(bow.curve.dev - bow.devChk) < 0.2,
-     bow.curve && bow.curve.dev + " mm (corda 496.5)");
+     bow.curve && bow.curve.dev + " mm (corda " + bow.corda + ")");
   ok("lo sviluppo e piu lungo della corda", bow.devMaggiore);
   ok("il passo tiene la faccia entro 0,3 mm dall'arco",
      bow.curve && bow.curve.kerf && bow.curve.kerf.flat <= 0.31,
