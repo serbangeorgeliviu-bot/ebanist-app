@@ -924,6 +924,33 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
+  /* ---- Tracciabilita sui documenti ----
+     Una distinta stampata deve dire con che motore e stata calcolata. Senza,
+     se domani salta fuori un'altra cota sbagliata non si sa nemmeno da che
+     versione e uscita quel foglio. */
+  head("Ogni documento con delle cote dice da che motore viene");
+  {
+    await pg.evaluate(() => { window.print = () => {}; });
+    const tr = await pg.evaluate(() => {
+      const out = {};
+      out.hash = assertionsHash();
+      out.stabile = assertionsHash() === assertionsHash();
+      for (const [k, id] of [["distinta", "btnPdf"], ["montaggio", "btnMont"]]) {
+        document.getElementById(id).click();
+        out[k] = (document.getElementById("printArea").querySelector(".pr-trace") || {}).textContent || "";
+      }
+      return out;
+    });
+    await pg.waitForTimeout(300);
+    const re = /Ebanist v(\d+\.\d+\.\d+) · .+ v(\d) · .+ ([0-9a-f]{8})/;
+    for (const k of ["distinta", "montaggio"]) {
+      const m = re.exec(tr[k] || "");
+      ok(`la ${k} porta versione, motore e impronta delle regole`, !!m, (tr[k] || "(assente)").trim());
+    }
+    ok("l'impronta e di 8 caratteri", /^[0-9a-f]{8}$/.test(tr.hash), tr.hash);
+    ok("e non cambia fra due chiamate", tr.stabile);
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
