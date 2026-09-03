@@ -803,6 +803,76 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("nessuna violazione di CSP, con gli header di produzione", cspViol.length === 0,
      cspViol.length ? cspViol.slice(0, 3).join(" | ") : "CSP attivo per tutta la prova");
 
+  /* ---- Migrazione geomVersion ----
+     Il motore nuovo cambia le cote dei progetti gia salvati. Serve una pagina
+     sua, con in localStorage un progetto com'era PRIMA: senza `geomVersion` e
+     con le cote del motore 4.23. La regola da provare e una sola — niente si
+     riscrive senza che l'utente lo abbia visto e confermato. */
+  head("geomVersion — un progetto vecchio non si riscrive da solo");
+  {
+    const V1 = {
+      id: "p1", name: "Camera Jacquin", client: "Jacquin", date: "2026-01-10",
+      // NIENTE geomVersion: e esattamente com'era in localStorage
+      configs: { "Corp 1000": { name: "Corp 1000", type: "standard", L: 1000, H: 2078, P: 398, t: 19,
+        plinth: 79, support: "zoccolo", tram: 0, shelves: 5, drawers: 0, doors: 2, back: 1, hang: 0,
+        shelfType: "mobile", matBody: "dsp_w980_19", matFront: "dsp_w980_19", matBack: "dsp_mdf_19" } },
+      pieces: [
+        ["Fianco", 2076, 396, 2, "2L+2C"], ["Base / Cielo", 962, 378, 2, "1L"],
+        ["Zoccolo", 962, 78, 1, "1L"],     ["Ripiano mobile", 960, 358, 5, "1L"],
+        ["Anta", 1993, 495, 2, "2L+2C"],   ["Schienale", 2078, 962, 1, ""]
+      ].map((r, i) => ({ id: "x" + i, gen: "Corp 1000", modulo: "Corp 1000",
+        elemento: r[0], lung: r[1], larg: r[2], pz: r[3], bordo: r[4],
+        materiale: r[0] === "Schienale" ? "MDF grezzo 19mm" : "Egger W980 Bianco kaolin 19mm" }))
+    };
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const mErrs = [];
+    await ctx.addInitScript(p => localStorage.setItem("tagliapro",
+      JSON.stringify({ lang: "it", activeId: "p1", projects: [p], settings: {}, stock: [] })), V1);
+    const mp = await ctx.newPage();
+    mp.on("pageerror", e => mErrs.push(String(e)));
+    await mp.goto(URL);
+    await mp.waitForTimeout(3300);
+    await mp.evaluate(() => closeSheets());
+    await mp.waitForTimeout(300);
+
+    const st = await mp.evaluate(() => ({ gv: proj().geomVersion,
+      f: proj().pieces.find(x => x.elemento === "Fianco") }));
+    ok("un progetto senza il campo vale geomVersion 1", st.gv === 1, "geomVersion=" + st.gv);
+    ok("le cote restano CONGELATE come erano salvate", st.f.lung === 2076 && st.f.larg === 396,
+       st.f.lung + "×" + st.f.larg);
+
+    await mp.evaluate(() => setView("list"));
+    await mp.waitForTimeout(400);
+    ok("lo striscione lo dice", await mp.evaluate(() => !document.getElementById("geomBanner").hidden));
+
+    const d = await mp.evaluate(() => geomDiff(proj())
+      .map(r => r.elemento + ": " + r.vecchio.lung + "×" + r.vecchio.larg + " → " + r.nuovo.lung + "×" + r.nuovo.larg));
+    ok("la differenza elenca SOLO le righe cambiate", d.length === 4, d.length + " righe su 6");
+    ok("l'anta non cambia e non compare", !d.some(x => /^Anta/.test(x)));
+
+    await mp.evaluate(() => geomDiffSheet());
+    await mp.waitForTimeout(250);
+    ok("guardare la differenza non scrive niente",
+       await mp.evaluate(() => proj().pieces.find(x => x.elemento === "Fianco").lung) === 2076);
+
+    // il backup si intercetta: la prova non deve scaricare file
+    await mp.evaluate(() => { window.__dl = []; window.download = n => window.__dl.push(n); });
+    await mp.evaluate(() => geomApply());
+    await mp.waitForTimeout(600);
+    const af = await mp.evaluate(() => ({ gv: proj().geomVersion, dl: window.__dl,
+      f: proj().pieces.find(x => x.elemento === "Fianco"),
+      bc: proj().pieces.find(x => x.elemento === "Base / Cielo"),
+      saved: JSON.parse(localStorage.getItem("tagliapro")).projects[0].geomVersion }));
+    ok("il backup completo parte PRIMA della scrittura", af.dl.length === 1, af.dl[0]);
+    ok("solo dopo la conferma il fianco torna 2078×398", af.f.lung === 2078 && af.f.larg === 398,
+       af.f.lung + "×" + af.f.larg);
+    ok("e base/cielo 962×379", af.bc.lung === 962 && af.bc.larg === 379, af.bc.lung + "×" + af.bc.larg);
+    ok("geomVersion diventa 2 e resta scritto", af.gv === 2 && af.saved === 2,
+       "in memoria " + af.gv + ", su disco " + af.saved);
+    ok("nessun errore JS nella migrazione", mErrs.length === 0, mErrs[0] || "nessuno");
+    await ctx.close();
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
