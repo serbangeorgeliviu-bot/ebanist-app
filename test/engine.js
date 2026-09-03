@@ -36,6 +36,7 @@ function geometryOf(html) {
   return [
     S(/^const MATDB=\[/, /^function matPriceByLabel\(/),                 // catalogo + matById
     S(/^\/\* ================= CALCULATIONS/, /^\/\* ================= NESTING/),
+    S(/^const MAT_ACC=/, /^\/\* ================= PEZZI TRAPEZOIDALI/),   // materiali accessorio
     S(/^\/\* ================= PEZZI TRAPEZOIDALI/, /^\/\* ================= SISTEMI CASSETTO/),
     S(/^\/\* ================= SISTEMI CASSETTO/, /^function buildCore\(/),
     S(/^function buildCore\(/, /^\/\* --- dispatch: standard/),
@@ -134,9 +135,14 @@ function legacyDerive(p) {
 function coreDerive(p) {
   const C = coreEngine();
   if (!C) return null;
-  const d = C.deriveCarcass(Object.assign({}, C.CARCASS_DEFAULTS, p));
+  /* Il motore gira in un contesto suo: array e oggetti che ne escono hanno i
+     prototipi di quel contesto, e deepStrictEqual li rifiuterebbe per il
+     prototipo invece che per il contenuto. Si riportano di qua. */
+  const d = Object.assign({}, C.deriveCarcass(Object.assign({}, C.CARCASS_DEFAULTS, p)));
+  d.cerniere = Array.from(d.cerniere || []);
+  d.foratura = Object.assign({}, d.foratura);
   d._engine = "v2 (ebanist-core.js)";
-  d.pieces = piecesFrom(C, p);
+  d.pieces = piecesFrom(C, p).map(x => Object.assign({}, x));
   return d;
 }
 

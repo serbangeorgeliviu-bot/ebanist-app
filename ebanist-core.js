@@ -61,6 +61,15 @@ function num(p, k) {
   return v;
 }
 
+/* Quante cerniere porta un'anta, dalla sua altezza. Questa scala stava
+   scritta in TRE punti diversi dell'app — la distinta, il conteggio della
+   ferramenta e la scheda di montaggio — e i tre non erano d'accordo fra loro.
+   Adesso e una sola, e le tre la chiamano. */
+function hingeCount(anta_H) {
+  if (!(anta_H > 0)) return 0;
+  return anta_H < 900 ? 2 : anta_H < 1600 ? 3 : anta_H < 2000 ? 4 : 5;
+}
+
 /* Posizioni delle tazze delle cerniere, dal bordo INFERIORE dell'anta.
    La prima e l'ultima a `edge_offset` dai capi, le altre distribuite
    uniformemente in mezzo. Arrotondate al mm intero. */
@@ -103,6 +112,8 @@ function deriveCarcass(params) {
   var gap_inf = num(p, "gap_inf");
   var setback_ripiano = num(p, "setback_ripiano");
   var clearance_ripiano = num(p, "clearance_ripiano");
+  /* n_cerniere = 0 vuol dire "decidila tu dall'altezza": e l'unico valore
+     dedotto, e il numero scelto torna in uscita, cosi la scheda lo stampa. */
   var n_cerniere = Math.max(0, Math.round(num(p, "n_cerniere")));
   var piedini = Math.max(0, Math.round(num(p, "piedini")));
   var h_picior = num(p, "h_picior");
@@ -114,6 +125,13 @@ function deriveCarcass(params) {
   /* luce interna */
   var Wi = W - 2 * t_fianco;
 
+  /* piedini: o il corpo sta sui piedini, o i fianchi arrivano a pavimento.
+     Tutti e due insieme e il mobile che dondola. */
+  var H_fianco = piedini > 0 ? H - h_picior : H;
+  /* quanto il corpo e sollevato da terra, da zoccolo o da piedini: uno solo
+     dei due puo esserci, ma la cassa comincia sopra tutti e due. */
+  var h_base = h_zoccolo + (piedini > 0 ? h_picior : 0);
+
   /* profondita, secondo il modo dello schienale.
      `piano_interno` = quanto la cassa perde in profondita per via dello
      schienale; e l'unico posto dove t_back entra nella catena. */
@@ -123,14 +141,18 @@ function deriveCarcass(params) {
     D_fianco = D;
     D_bc = D - t_back;
     back_W = Wi;
-    back_H = H;
+    /* la specifica dice back_H = H. Con i piedini pero il fianco e alto
+       H - h_picior, e uno schienale alto H arriverebbe a toccare il
+       pavimento sotto la cassa. Senza piedini le due cose coincidono, ed e
+       il caso della Rev. C; con i piedini vince il fianco. */
+    back_H = H_fianco;
     piano_interno = t_back;
   } else if (backMode === "applicato") {
     /* schienale APPLICATO sopra tutto, dietro */
     D_fianco = D - t_back;
     D_bc = D - t_back;
     back_W = W;
-    back_H = H;
+    back_H = H_fianco;
     piano_interno = t_back;
   } else {
     /* IN CAVA — lo schienale sottile corre in una cava fresata e non ruba
@@ -141,7 +163,7 @@ function deriveCarcass(params) {
     D_fianco = D;
     D_bc = D;
     back_W = Wi + 2 * nut_d;
-    back_H = (H - h_zoccolo - 2 * t_fianco) + 2 * nut_d;
+    back_H = (H - h_base - 2 * t_fianco) + 2 * nut_d;
     piano_interno = nut_off + t_back;
   }
 
@@ -163,12 +185,9 @@ function deriveCarcass(params) {
     anta_H = H - h_zoccolo - gap_inf - gap_sup;
     anta_y0 = h_zoccolo + gap_inf;
     anta_y1 = anta_y0 + anta_H;
+    if (!n_cerniere) n_cerniere = hingeCount(anta_H);
     cerniere = positionsHinges(anta_H, n_cerniere, edge_offset);
   }
-
-  /* piedini: o il corpo sta sui piedini, o i fianchi arrivano a pavimento.
-     Tutti e due insieme e il mobile che dondola. */
-  var H_fianco = piedini > 0 ? H - h_picior : H;
 
   /* --- uscita: arrotondamento UNA volta sola --------------------------- */
   return {
@@ -200,6 +219,7 @@ function deriveCarcass(params) {
     anta_H: mm(anta_H),
     anta_y0: mm(anta_y0),
     anta_y1: mm(anta_y1),
+    n_cerniere: n_cerniere,
     cerniere: cerniere,
     /* cote di foratura: numeri, non intervalli. "3-6 mm" non e una quota che
        una macchina possa eseguire, ed e quello che prende A8. */
@@ -213,7 +233,8 @@ var API = {
   CARCASS_DEFAULTS: CARCASS_DEFAULTS,
   PANEL_DEFAULTS: PANEL_DEFAULTS,
   deriveCarcass: deriveCarcass,
-  positionsHinges: positionsHinges
+  positionsHinges: positionsHinges,
+  hingeCount: hingeCount
 };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];

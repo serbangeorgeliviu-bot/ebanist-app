@@ -1495,6 +1495,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <div class="toast" id="toast"></div>
 <div id="printArea"></div>
 
+<!-- Nucleo geometrico condiviso. Sta PRIMA di tutto il resto: e la sola
+     funzione che sa dire le cote derivate di un corpo, e il generatore la
+     chiama invece di ricalcolarsele. Script classico, non modulo: deve
+     partire anche sui telefoni vecchi dell'officina. -->
+<script src="./ebanist-core.js"></script>
 <script>
 "use strict";
 /* ================= I18N ================= */
@@ -3189,6 +3194,32 @@ function drawerPlan(cfg,g){
 }
 
 /* --- core geometry + cut list for one carcass --- */
+/* Dal cfg del generatore ai parametri di deriveCarcass.
+   L'adattatore legge le impostazioni; deriveCarcass no — resta pura.
+   Ordine dei valori: predefiniti di serie, poi quelli del progetto, poi
+   quelli del corpo. Nessuno di loro e nascosto dentro la funzione. */
+function carcassParams(cfg,ctx){
+  const S=(typeof state!=="undefined"&&state.settings)||{};
+  const P=ctx.P, pl=ctx.pl, backTh=ctx.backTh, support=ctx.support;
+  /* le ante scorrevoli non sono ante a battente: si sovrappongono invece di
+     accostarsi, e il loro conto sta nel ramo apposta. Qui non entrano. */
+  const sliding=cfg.type==="scorrevole"&&cfg.doors>0;
+  /* modo dello schienale: se il progetto non lo dice, lo dice la grossezza —
+     sottile va in cava, spesso va fra i fianchi. E' la regola che l'app ha
+     sempre applicato, adesso scritta invece che dedotta ogni volta. */
+  const backMode=cfg.backMode||S.backMode||(!cfg.back?"incassato":(backTh<=5?"in_cava":"incassato"));
+  return Object.assign({},CARCASS_DEFAULTS,S.geom||{},cfg.geom||{},{
+    W:cfg.L, H:cfg.H, D:P,
+    t_fianco:cfg.t,
+    t_back:backTh,
+    backMode:backMode,
+    h_zoccolo:support==="zoccolo"?pl:0,
+    n_ante:sliding?0:Math.max(0,cfg.doors||0),
+    n_cerniere:0,          // lo decide l'altezza dell'anta, sotto
+    piedini:support==="piedini"?4:0,
+    h_picior:support==="piedini"?pl:0
+  });
+}
 function buildCore(cfg){
   const L=cfg.L,H=cfg.H,P=cfg.P,t=cfg.t;
   const support=cfg.support||"zoccolo", front=cfg.front||"piena";
@@ -3198,10 +3229,15 @@ function buildCore(cfg){
      spesso va tra i fianchi. In entrambi i casi la profondità totale resta P. */
   const backMat=matById(cfg.matBack||((state.settings||{}).matBack)||"pfl3");
   const backTh=cfg.back?Math.min((backMat&&backMat.th)||3,Math.max(0,P-50)):0;
-  const backNut=backTh<=5, NUT_D=8, NUT_OFF=10;
-  const backZ0=cfg.back?(backNut?NUT_OFF:0):0;      // faccia posteriore dello schienale
-  const intZ0=cfg.back?backZ0+backTh:0;             // piano interno: davanti allo schienale
-  const carcZ0=(cfg.back&&!backNut)?backTh:0;       // base/cielo arretrano solo se lo schienale è tra i fianchi
+  /* ---- LE COTE DERIVATE VENGONO DA UN POSTO SOLO ----
+     Non si ricalcola qui niente di quello che deriveCarcass sa gia dire.
+     Ogni cota che questa funzione tornava a dedurre per conto suo era
+     un'occasione di dire 18 dove il materiale diceva 19. */
+  const G=deriveCarcass(carcassParams(cfg,{P,pl,backTh,support}));
+  const backNut=G.in.backMode==="in_cava", NUT_D=G.in.nut_d;
+  const backZ0=cfg.back?G.piano_interno-backTh:0;   // faccia posteriore dello schienale
+  const intZ0=cfg.back?G.piano_interno:0;           // piano interno: davanti allo schienale
+  const carcZ0=cfg.back?P-G.D_bc:0;                 // base/cielo arretrano solo se lo schienale è tra i fianchi
   const S0=(typeof state!=="undefined"&&state.settings)||{}, PANL=S0.panelL||2800, PANW=S0.panelW||2070;
   const pieces=[],boxes=[];
   /* ex = {angL,angR,cuts}. `cuts` presente (anche vuoto) abilita la spezzatura:
@@ -3213,12 +3249,15 @@ function buildCore(cfg){
        non si sottrae nemmeno dalla misura di taglio. */
     if(bordo&&!mat&&!takesEdge(cfg,elemento)) bordo="";
     const put=(el,lu,la,aL,aR,joint,scs,bd)=>{
-      /* la geometria dà la misura FINITA: il pannello si taglia meno lo spessore del bordo,
-         così dopo la bordatura il pezzo torna alla cota del disegno.
-         Bordo "L" corre sul lato lungo e ingrossa `larg`, "C" viceversa. */
+      /* LA DISTINTA PORTA LA COTA FINITA. Prima qui si sottraeva lo spessore
+         del bordo dalla misura di taglio: un fianco da 2078 usciva 2076,4 e
+         in distinta 2076. Era la causa di tutte le cote sbagliate della
+         Rev. C — e su un'anta i due decimi di troppo si annullavano per caso,
+         il che ha tenuto nascosto l'errore. La compensazione, se serve, e una
+         scelta di reparto e si fa al bordatore, non nel motore.
+         `edgeTh` resta: serve ai metri lineari di ABS, che sono un'altra cosa. */
       const bo=(bd===undefined?bordo:bd);
-      const bc=bandCount(bo), eth=edgeTh();
-      const o={elemento:el,lung:Math.round(lu-bc.nC*eth),larg:Math.round(la-bc.nL*eth),pz:Math.round(pz),bordo:bo,mat};
+      const o={elemento:el,lung:Math.round(lu),larg:Math.round(la),pz:Math.round(pz),bordo:bo,mat};
       /* un taglio troppo obliquo mangerebbe l'intero pezzo: non lo falsifichiamo,
          lo emettiamo dritto e lo segnaliamo — quella sezione va risolta a mano. */
       if((isAng(aL)||isAng(aR)) && shortEdge(o.lung,o.larg,aL,aR)<20){ o.angSkip=1; }
@@ -3285,17 +3324,17 @@ function buildCore(cfg){
   const frontX0=wL(P), frontW=L-P*(cotL+cotR);   // luce reale al filo anteriore
   /* struttura interna calcolata PRIMA dei pannelli grandi: le sue posizioni sono
      i punti dove una giunzione resta nascosta dietro un ripiano o un tramezzo. */
-  const n=(cfg.tram||0)+1, intW=L-2*t, secW=(intW-(cfg.tram||0)*t)/n;
+  const n=(cfg.tram||0)+1, intW=G.Wi, secW=(intW-(cfg.tram||0)*t)/n;
   const intY0=pl+t, intY1=H-t, intH=intY1-intY0;
-  const intD=P-20-intZ0; // profondità utile: dal piano interno fino a 20mm dal filo anteriore
+  const intD=G.ripiano_D; // profondità utile: dal piano interno, meno l'arretramento del ripiano
   const y0=support==="piedini"?pl:0;
   const tramRel=[]; for(let i=1;i<=(cfg.tram||0);i++) tramRel.push(i*secW+(i-1)*t+t/2); // lungo L-2t
   const shelfRel=[]; if(cfg.shelves>0) for(let i=1;i<=cfg.shelves;i++) shelfRel.push(intY0+intH*i/(cfg.shelves+1)-y0); // lungo l'altezza del fianco
   const fiancoCuts=shelfRel.concat([pl+t-y0,H-t-y0]).filter(v=>v>0);
 
-  add("Fianco",H-(support==="piedini"?pl:0),P,2,"2L+2C",null,{cuts:fiancoCuts});
+  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts});
   bx(0,t,y0,H,0,P,"p",wL(P),wL(P)); bx(L-t,L,y0,H,0,P,"p",-wR(P),-wR(P));
-  const bcSpan=P-carcZ0, bcRear=L-2*t-carcZ0*(cotL+cotR);
+  const bcSpan=G.D_bc, bcRear=G.Wi-carcZ0*(cotL+cotR);
   const bcT=trapz(bcRear,bcSpan*cotL,bcSpan*cotR);
   add("Base / Cielo",bcT.bound,bcSpan,2,"1L",null,{cuts:tramRel,angL,angR});
   const baseY=support==="piedini"?pl:pl;
@@ -3304,7 +3343,7 @@ function buildCore(cfg){
   bx(bcX0,bcX1,H-t,H,carcZ0,P,"p",bcSpan*cotL,-bcSpan*cotR);
   if(support==="zoccolo"&&pl>=30){
     const zz=P-50;
-    add("Zoccolo",L-2*t-zz*(cotL+cotR),pl,1,"1L",null,{cuts:tramRel});
+    add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel});
     bx(wL(zz)+t,L-wR(zz)-t,0,pl,zz-t,zz,"p");
   }
   if(support==="piedini"&&pl>=30){
@@ -3382,8 +3421,8 @@ function buildCore(cfg){
   const shYs=shelfSecs.length?shelfYs(secMode(shelfSecs[0])):[];
   const shMissing=cfg.shelves>0&&shelfSecs.length?cfg.shelves-shYs.length:0;
   if(shelfSecs.length){
-    const shName=shelfFix?"Ripiano fisso":"Ripiano mobile", play=shelfFix?0:2;
-    const shSpan=(P-20)-intZ0;
+    const shName=shelfFix?"Ripiano fisso":"Ripiano mobile", play=shelfFix?0:G.in.clearance_ripiano;
+    const shSpan=G.ripiano_D;
     const secOL=s=>(s===0)?shSpan*cotL:0, secOR=s=>(s===n-1)?shSpan*cotR:0;
     /* si raggruppa in una riga sola solo se TUTTE le sezioni con ripiani hanno lo stesso
        contenuto: altrimenti il conteggio a moltiplicazione sarebbe sbagliato. */
@@ -3485,9 +3524,13 @@ function buildCore(cfg){
       add("Anta scorrevole",aH,aW,nA,"2L+2C");
       for(let i=0;i<nA;i++){ const x=frontX0+i*(aW-40); const z=(i%2===0)?P+8:P+8+t+14; bx(x,x+aW,22,22+aH,z,z+t,"f",0,0,"slide"); }
     }else{
-      /* i cassetti INTERNI stanno dietro l'anta: non le rubano altezza. */
-      const aY0 = drawersTop>frontY0 ? drawersTop+3 : frontY0+2;
-      const aH = H-2-aY0;
+      /* i cassetti INTERNI stanno dietro l'anta: non le rubano altezza.
+         Senza cassetti a vista davanti, le cote di montaggio le da il motore:
+         anta_y0 = zoccolo + gioco sotto, anta_H = H meno zoccolo e i due
+         giochi. Con una colonna di cassetti a vista sotto, l'anta parte da
+         sopra i cassetti e si accorcia di conseguenza. */
+      const aY0 = drawersTop>frontY0 ? drawersTop+G.in.gap_inf : G.anta_y0;
+      const aH = drawersTop>frontY0 ? (H-G.in.gap_sup-aY0) : G.anta_H;
       /* La fascia che le ante devono coprire. Normalmente e tutto il fronte;
          con una colonna di cassetti A VISTA accanto, le ante coprono solo le
          sezioni che restano — altrimenti si sovrapporrebbero ai cassetti. */
@@ -3503,7 +3546,15 @@ function buildCore(cfg){
       }
       if(!(aH>60&&dW>80)) doorSkip=cfg.doors;
       if(aH>60&&dW>80){
-        const aW=(dW-4-3*(cfg.doors-1))/cfg.doors;
+        /* La larghezza viene dal motore quando le ante coprono tutto il
+           fronte — il caso normale. Quando ne coprono solo una fascia
+           (colonna di cassetti a vista accanto), si applica LA STESSA
+           formula alla fascia: due reveal ai lati e un rost fra le ante.
+           Prima qui c'erano 4 e 3 scritti a mano e nessun concetto di
+           sovrapposizione. */
+        const aW=(dW>=frontW-0.5&&G.anta_W!=null)
+          ? G.anta_W
+          : (dW-2*G.reveal-G.in.gap_ante*(cfg.doors-1))/cfg.doors;
         if(front==="vetro"&&aH>300&&aW>250){
           const fr=70; // larghezza telaio
           add(push?"Montante anta vetro push":"Montante anta vetro",aH,fr,2*cfg.doors,"2L+2C");
@@ -3555,8 +3606,7 @@ function buildCore(cfg){
   }
   if(cfg.back){
     // cava fresata: lo schienale entra di NUT_D per lato — tra i fianchi: pannello pieno tra i due fianchi
-    const bw=backNut?intW+2*NUT_D:intW;
-    const bh=backNut?intH+2*NUT_D:H-y0;
+    const bw=G.back_W, bh=G.back_H;
     const off=backNut?NUT_D:0;
     const bCuts=(bw>=bh)?tramRel.map(v=>v+off):shelfRel.map(v=>v+y0-(backNut?intY0-NUT_D:y0));
     const bX0=backNut?t-NUT_D:t, bY0=backNut?intY0-NUT_D:y0;
