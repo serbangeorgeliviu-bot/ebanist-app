@@ -15,6 +15,12 @@ self.addEventListener("fetch", e => {
   // la cache accetta solo GET: l'upload del modello AR e un POST e qui non entra
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
+  /* Le due domande «sono aggiornato?» — la versione dell'app (?upd=) e quella
+     del motore geometrico (?gv=) — devono arrivare al SERVER, sempre, e non
+     devono lasciare traccia: ogni controllo ha un timestamp diverso, quindi
+     ogni risposta messa in cache sarebbe una voce nuova che non serve piu a
+     nessuno. Rete diretta, niente cache, in nessuna delle due direzioni. */
+  if (url.searchParams.has("upd") || url.searchParams.has("gv")) return;
   if (e.request.mode === "navigate") {
     // app shell: cache-first, refresh in background
     e.respondWith(

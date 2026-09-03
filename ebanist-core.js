@@ -25,7 +25,11 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var GEOM_VERSION = 2;
+var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
+   legge questa riga dal file sul server. Se il numero e piu alto di quello
+   caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
+   distinta calcolata da un motore superato e esattamente il guasto che questo
+   rilascio ripara. Non cambiare la forma della riga senza cambiare il regex. */
 
 /* Predefiniti di progetto. Stanno QUI, visibili, non dentro la funzione.
    Sono i valori della Rev. C Jacquin, quelli verificati in produzione. */

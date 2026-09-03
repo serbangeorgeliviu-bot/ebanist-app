@@ -873,6 +873,57 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
+  /* ---- Motore locale superato ----
+     Dopo un deploy, il service worker puo tenere in vita la copia vecchia per
+     giorni: l'utente continua a generare distinte col motore sbagliato senza
+     accorgersene. Qui si finge che il server abbia gia la versione 3 e si
+     verifica che l'esportazione si FERMI, non che avvisi. */
+  head("Motore vecchio in cache — l'esportazione si ferma, non avvisa");
+  {
+    /* `serviceWorkers: block`: senza, il service worker prende lui la richiesta
+       e l'intercettazione della prova non la vede mai. E' anche il motivo per
+       cui sw.js adesso lascia passare le domande con ?gv= direttamente in
+       rete — la risposta deve venire dal server, non dalla cache. */
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 },
+                                           serviceWorkers: "block" });
+    const sp = await ctx.newPage();
+    // il file sul server dice 3; quello caricato in pagina dice 2
+    await sp.route(/ebanist-core\.js\?gv=/, route => route.fulfill({
+      status: 200, contentType: "text/javascript",
+      body: "var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER */"
+    }));
+    await sp.goto(URL);
+    await sp.waitForTimeout(3300);
+    await sp.evaluate(() => closeSheets());
+    await sp.waitForTimeout(300);
+
+    ok("il motore locale si dichiara alla versione 2", await sp.evaluate(() => GEOM_VERSION) === 2);
+    const remote = await sp.evaluate(() => checkGeomVersion());
+    ok("il verificatore vede la 3 sul server", remote === 3, "remote=" + remote);
+    ok("la barra rossa compare e non si chiude da sola",
+       await sp.evaluate(() => !!document.getElementById("geomStaleBar")));
+    ok("l'esportazione e BLOCCATA", await sp.evaluate(() => exportAllowed() === false));
+
+    // il PDF non deve nemmeno arrivare alla stampa
+    const printed = await sp.evaluate(() => {
+      let called = 0; const real = window.print; window.print = () => { called++; };
+      document.getElementById("btnPdf").click();
+      return new Promise(r => setTimeout(() => { window.print = real; r(called); }, 300));
+    });
+    ok("il bottone PDF non stampa niente", printed === 0, printed + " chiamate a print()");
+
+    // e quando il server torna alla pari, si sblocca
+    await sp.unroute(/ebanist-core\.js\?gv=/);
+    await sp.route(/ebanist-core\.js\?gv=/, route => route.fulfill({
+      status: 200, contentType: "text/javascript",
+      body: "var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER */"
+    }));
+    await sp.evaluate(() => checkGeomVersion());
+    ok("allineati, la barra sparisce", await sp.evaluate(() => !document.getElementById("geomStaleBar")));
+    ok("e l'esportazione riparte", await sp.evaluate(() => exportAllowed() === true));
+    await ctx.close();
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
