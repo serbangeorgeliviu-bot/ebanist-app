@@ -353,8 +353,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     o.trovata = !!a;
     o.curve = a && a.curve;
     // verifica indipendente: dalla corda e dalla freccia si ricava il raggio,
-    // e dal raggio si deve poter tornare ALLA STESSA freccia
-    const aW = (1000 - 4 - 3) / 2, f = 40;
+    // e dal raggio si deve poter tornare ALLA STESSA freccia.
+    // La corda la dice il motore — prima qui c'era riscritta a mano la vecchia
+    // formula dell'anta (1000-4-3)/2, che questo rilascio ha sostituito: la
+    // prova misurava la curva ma si portava dietro la larghezza sbagliata.
+    const G = deriveCarcass(carcassParams(base, {
+      P: base.P, pl: base.plinth || 0, backTh: 3, support: base.support || "zoccolo" }));
+    const aW = G.anta_W, f = 40;
+    o.corda = aW;
     const R = (aW * aW / 4 + f * f) / (2 * f);
     o.rChk = Math.round(R);
     o.frecciaRicostruita = +(R - Math.sqrt(R * R - aW * aW / 4)).toFixed(2);
@@ -374,7 +380,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("raggio ricavato da corda e freccia", bow.curve && bow.curve.radius === bow.rChk, "R=" + bow.rChk);
   ok("dal raggio si torna alla freccia chiesta", Math.abs(bow.frecciaRicostruita - 40) < 0.05, bow.frecciaRicostruita + " mm");
   ok("in distinta va lo sviluppo dell'arco", bow.curve && Math.abs(bow.curve.dev - bow.devChk) < 0.2,
-     bow.curve && bow.curve.dev + " mm (corda 496.5)");
+     bow.curve && bow.curve.dev + " mm (corda " + bow.corda + ")");
   ok("lo sviluppo e piu lungo della corda", bow.devMaggiore);
   ok("il passo tiene la faccia entro 0,3 mm dall'arco",
      bow.curve && bow.curve.kerf && bow.curve.kerf.flat <= 0.31,
@@ -796,6 +802,189 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      violazione ci fosse, sarebbe uscita qui e non dal telefono di Liviu. */
   ok("nessuna violazione di CSP, con gli header di produzione", cspViol.length === 0,
      cspViol.length ? cspViol.slice(0, 3).join(" | ") : "CSP attivo per tutta la prova");
+
+  /* ---- Migrazione geomVersion ----
+     Il motore nuovo cambia le cote dei progetti gia salvati. Serve una pagina
+     sua, con in localStorage un progetto com'era PRIMA: senza `geomVersion` e
+     con le cote del motore 4.23. La regola da provare e una sola — niente si
+     riscrive senza che l'utente lo abbia visto e confermato. */
+  head("geomVersion — un progetto vecchio non si riscrive da solo");
+  {
+    const V1 = {
+      id: "p1", name: "Camera Jacquin", client: "Jacquin", date: "2026-01-10",
+      // NIENTE geomVersion: e esattamente com'era in localStorage
+      configs: { "Corp 1000": { name: "Corp 1000", type: "standard", L: 1000, H: 2078, P: 398, t: 19,
+        plinth: 79, support: "zoccolo", tram: 0, shelves: 5, drawers: 0, doors: 2, back: 1, hang: 0,
+        shelfType: "mobile", matBody: "dsp_w980_19", matFront: "dsp_w980_19", matBack: "dsp_mdf_19" } },
+      pieces: [
+        ["Fianco", 2076, 396, 2, "2L+2C"], ["Base / Cielo", 962, 378, 2, "1L"],
+        ["Zoccolo", 962, 78, 1, "1L"],     ["Ripiano mobile", 960, 358, 5, "1L"],
+        ["Anta", 1993, 495, 2, "2L+2C"],   ["Schienale", 2078, 962, 1, ""]
+      ].map((r, i) => ({ id: "x" + i, gen: "Corp 1000", modulo: "Corp 1000",
+        elemento: r[0], lung: r[1], larg: r[2], pz: r[3], bordo: r[4],
+        materiale: r[0] === "Schienale" ? "MDF grezzo 19mm" : "Egger W980 Bianco kaolin 19mm" }))
+    };
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const mErrs = [];
+    await ctx.addInitScript(p => localStorage.setItem("tagliapro",
+      JSON.stringify({ lang: "it", activeId: "p1", projects: [p], settings: {}, stock: [] })), V1);
+    const mp = await ctx.newPage();
+    mp.on("pageerror", e => mErrs.push(String(e)));
+    await mp.goto(URL);
+    await mp.waitForTimeout(3300);
+    await mp.evaluate(() => closeSheets());
+    await mp.waitForTimeout(300);
+
+    const st = await mp.evaluate(() => ({ gv: proj().geomVersion,
+      f: proj().pieces.find(x => x.elemento === "Fianco") }));
+    ok("un progetto senza il campo vale geomVersion 1", st.gv === 1, "geomVersion=" + st.gv);
+    ok("le cote restano CONGELATE come erano salvate", st.f.lung === 2076 && st.f.larg === 396,
+       st.f.lung + "×" + st.f.larg);
+
+    await mp.evaluate(() => setView("list"));
+    await mp.waitForTimeout(400);
+    ok("lo striscione lo dice", await mp.evaluate(() => !document.getElementById("geomBanner").hidden));
+
+    const d = await mp.evaluate(() => geomDiff(proj())
+      .map(r => r.elemento + ": " + r.vecchio.lung + "×" + r.vecchio.larg + " → " + r.nuovo.lung + "×" + r.nuovo.larg));
+    ok("la differenza elenca SOLO le righe cambiate", d.length === 4, d.length + " righe su 6");
+    ok("l'anta non cambia e non compare", !d.some(x => /^Anta/.test(x)));
+
+    await mp.evaluate(() => geomDiffSheet());
+    await mp.waitForTimeout(250);
+    ok("guardare la differenza non scrive niente",
+       await mp.evaluate(() => proj().pieces.find(x => x.elemento === "Fianco").lung) === 2076);
+
+    // il backup si intercetta: la prova non deve scaricare file
+    await mp.evaluate(() => { window.__dl = []; window.download = n => window.__dl.push(n); });
+    await mp.evaluate(() => geomApply());
+    await mp.waitForTimeout(600);
+    const af = await mp.evaluate(() => ({ gv: proj().geomVersion, dl: window.__dl,
+      f: proj().pieces.find(x => x.elemento === "Fianco"),
+      bc: proj().pieces.find(x => x.elemento === "Base / Cielo"),
+      saved: JSON.parse(localStorage.getItem("tagliapro")).projects[0].geomVersion }));
+    ok("il backup completo parte PRIMA della scrittura", af.dl.length === 1, af.dl[0]);
+    ok("solo dopo la conferma il fianco torna 2078×398", af.f.lung === 2078 && af.f.larg === 398,
+       af.f.lung + "×" + af.f.larg);
+    ok("e base/cielo 962×379", af.bc.lung === 962 && af.bc.larg === 379, af.bc.lung + "×" + af.bc.larg);
+    ok("geomVersion diventa 2 e resta scritto", af.gv === 2 && af.saved === 2,
+       "in memoria " + af.gv + ", su disco " + af.saved);
+    ok("nessun errore JS nella migrazione", mErrs.length === 0, mErrs[0] || "nessuno");
+    await ctx.close();
+  }
+
+  /* ---- Motore locale superato ----
+     Dopo un deploy, il service worker puo tenere in vita la copia vecchia per
+     giorni: l'utente continua a generare distinte col motore sbagliato senza
+     accorgersene. Qui si finge che il server abbia gia la versione 3 e si
+     verifica che l'esportazione si FERMI, non che avvisi. */
+  head("Motore vecchio in cache — l'esportazione si ferma, non avvisa");
+  {
+    /* `serviceWorkers: block`: senza, il service worker prende lui la richiesta
+       e l'intercettazione della prova non la vede mai. E' anche il motivo per
+       cui sw.js adesso lascia passare le domande con ?gv= direttamente in
+       rete — la risposta deve venire dal server, non dalla cache. */
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 },
+                                           serviceWorkers: "block" });
+    const sp = await ctx.newPage();
+    // il file sul server dice 3; quello caricato in pagina dice 2
+    await sp.route(/ebanist-core\.js\?gv=/, route => route.fulfill({
+      status: 200, contentType: "text/javascript",
+      body: "var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER */"
+    }));
+    await sp.goto(URL);
+    await sp.waitForTimeout(3300);
+    await sp.evaluate(() => closeSheets());
+    await sp.waitForTimeout(300);
+
+    ok("il motore locale si dichiara alla versione 2", await sp.evaluate(() => GEOM_VERSION) === 2);
+    const remote = await sp.evaluate(() => checkGeomVersion());
+    ok("il verificatore vede la 3 sul server", remote === 3, "remote=" + remote);
+    ok("la barra rossa compare e non si chiude da sola",
+       await sp.evaluate(() => !!document.getElementById("geomStaleBar")));
+    ok("l'esportazione e BLOCCATA", await sp.evaluate(() => exportAllowed() === false));
+
+    // il PDF non deve nemmeno arrivare alla stampa
+    const printed = await sp.evaluate(() => {
+      let called = 0; const real = window.print; window.print = () => { called++; };
+      document.getElementById("btnPdf").click();
+      return new Promise(r => setTimeout(() => { window.print = real; r(called); }, 300));
+    });
+    ok("il bottone PDF non stampa niente", printed === 0, printed + " chiamate a print()");
+
+    // e quando il server torna alla pari, si sblocca
+    await sp.unroute(/ebanist-core\.js\?gv=/);
+    await sp.route(/ebanist-core\.js\?gv=/, route => route.fulfill({
+      status: 200, contentType: "text/javascript",
+      body: "var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER */"
+    }));
+    await sp.evaluate(() => checkGeomVersion());
+    ok("allineati, la barra sparisce", await sp.evaluate(() => !document.getElementById("geomStaleBar")));
+    ok("e l'esportazione riparte", await sp.evaluate(() => exportAllowed() === true));
+    await ctx.close();
+  }
+
+  /* ---- Tracciabilita sui documenti ----
+     Una distinta stampata deve dire con che motore e stata calcolata. Senza,
+     se domani salta fuori un'altra cota sbagliata non si sa nemmeno da che
+     versione e uscita quel foglio. */
+  head("Ogni documento con delle cote dice da che motore viene");
+  {
+    await pg.evaluate(() => { window.print = () => {}; });
+    const tr = await pg.evaluate(() => {
+      const out = {};
+      out.hash = assertionsHash();
+      out.stabile = assertionsHash() === assertionsHash();
+      for (const [k, id] of [["distinta", "btnPdf"], ["montaggio", "btnMont"]]) {
+        document.getElementById(id).click();
+        out[k] = (document.getElementById("printArea").querySelector(".pr-trace") || {}).textContent || "";
+      }
+      return out;
+    });
+    await pg.waitForTimeout(300);
+    const re = /Ebanist v(\d+\.\d+\.\d+) · .+ v(\d) · .+ ([0-9a-f]{8})/;
+    for (const k of ["distinta", "montaggio"]) {
+      const m = re.exec(tr[k] || "");
+      ok(`la ${k} porta versione, motore e impronta delle regole`, !!m, (tr[k] || "(assente)").trim());
+    }
+    ok("l'impronta e di 8 caratteri", /^[0-9a-f]{8}$/.test(tr.hash), tr.hash);
+    ok("e non cambia fra due chiamate", tr.stabile);
+  }
+
+  /* ---- Ogni tipologia di serie dev'essere anche ESPORTABILE ----
+     Un preset che l'app propone, genera, e poi si rifiuta di stampare e il
+     guasto peggiore della famiglia: si scopre col cliente davanti. E' successo
+     davvero — la sovrapposizione dell'anta era scritta come costante (16 mm) e
+     qualunque corpo in pannello da 12 o 16 restava bloccato per sempre. */
+  head("Tutte le tipologie di serie generano E si esportano");
+  {
+    const r = await pg.evaluate(() => {
+      const out = { errori: [], bloccate: [], n: 0 };
+      for (const k of Object.keys(PRESETS)) {
+        const cfg = { ...PRESETS[k] };
+        out.n++;
+        try {
+          const g = buildModule(cfg);
+          const bl = blocking(auditModule(cfg, g.pieces)).map(a => a.id);
+          if (bl.length) out.bloccate.push(k + ": " + bl.join(","));
+        } catch (e) { out.errori.push(k + ": " + (e && e.message)); }
+      }
+      /* e non solo coi materiali predefiniti: il pannello sottile e proprio
+         il caso che era bloccato */
+      for (const th of ["dsp_w980_12", "dsp_w908_16", "pal25_alb"]) {
+        const cfg = { ...PRESETS.base, matBody: th, matFront: th, t: matById(th).th };
+        try {
+          const g = buildModule(cfg);
+          const bl = blocking(auditModule(cfg, g.pieces)).map(a => a.id);
+          if (bl.length) out.bloccate.push("base/" + th + ": " + bl.join(","));
+        } catch (e) { out.errori.push("base/" + th + ": " + (e && e.message)); }
+      }
+      return out;
+    });
+    ok(`tutte e ${r.n} generano senza errori`, r.errori.length === 0, r.errori[0] || "nessun errore");
+    ok("e nessuna resta bloccata dalle regole di coerenza", r.bloccate.length === 0,
+       r.bloccate.length ? r.bloccate.join(" | ") : "tutte esportabili");
+  }
 
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
