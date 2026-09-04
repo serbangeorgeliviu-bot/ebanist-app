@@ -35,7 +35,12 @@ var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornament
    Sono i valori della Rev. C Jacquin, quelli verificati in produzione. */
 var CARCASS_DEFAULTS = {
   backMode: "incassato",   // 'incassato' | 'applicato' | 'in_cava'
-  overlay: 16,             // quanto l'anta copre il fianco
+  /* La luce che resta a vista accanto all'anta. E' QUESTA la costante di
+     mestiere, non la sovrapposizione: `overlay = t_fianco - reveal`. Scritta
+     al contrario (overlay fisso a 16) un corpo in pannello da 16 dava reveal
+     zero e uno da 12 lo dava NEGATIVO — ante piu larghe del corpo. */
+  reveal: 3,
+  overlay: null,           // null = ricavata dal fianco: t_fianco - reveal
   gap_ante: 4,             // rost fra due ante
   gap_sup: 3,              // gioco in alto
   gap_inf: 3,              // gioco in basso
@@ -110,7 +115,9 @@ function deriveCarcass(params) {
     throw new Error("deriveCarcass: `backMode` deve essere 'incassato', 'applicato' o 'in_cava', ricevuto " + JSON.stringify(backMode));
   var h_zoccolo = num(p, "h_zoccolo");
   var n_ante = Math.max(0, Math.round(num(p, "n_ante")));
-  var overlay = num(p, "overlay");
+  /* la sovrapposizione si puo dichiarare; se non lo e, la si ricava dalla
+     luce a vista, che e la cota che il falegname tiene fissa */
+  var overlay = (p.overlay == null) ? (t_fianco - num(p, "reveal")) : num(p, "overlay");
   var gap_ante = num(p, "gap_ante");
   var gap_sup = num(p, "gap_sup");
   var gap_inf = num(p, "gap_inf");
@@ -186,8 +193,12 @@ function deriveCarcass(params) {
   var anta_W = null, anta_H = null, anta_y0 = null, anta_y1 = null, cerniere = [];
   if (n_ante > 0) {
     anta_W = (W - 2 * reveal - (n_ante - 1) * gap_ante) / n_ante;
-    anta_H = H - h_zoccolo - gap_inf - gap_sup;
-    anta_y0 = h_zoccolo + gap_inf;
+    /* `h_base`, non `h_zoccolo`: la cassa comincia sopra lo zoccolo O sopra i
+       piedini, e l'anta si posa su di lei. Con h_zoccolo l'anta di un mobile
+       sui piedini partiva da terra e sporgeva di tutta l'altezza dei piedini
+       oltre il cielo — nessuna regola lo prendeva. */
+    anta_H = H - h_base - gap_inf - gap_sup;
+    anta_y0 = h_base + gap_inf;
     anta_y1 = anta_y0 + anta_H;
     if (!n_cerniere) n_cerniere = hingeCount(anta_H);
     cerniere = positionsHinges(anta_H, n_cerniere, edge_offset);
@@ -200,7 +211,7 @@ function deriveCarcass(params) {
        ristampare con che numeri e stato calcolato quel pezzo */
     in: {
       W: W, H: H, D: D, t_fianco: t_fianco, t_back: t_back, backMode: backMode,
-      h_zoccolo: h_zoccolo, n_ante: n_ante, overlay: overlay, gap_ante: gap_ante,
+      h_zoccolo: h_zoccolo, h_base: h_base, n_ante: n_ante, overlay: overlay, gap_ante: gap_ante,
       gap_sup: gap_sup, gap_inf: gap_inf, setback_ripiano: setback_ripiano,
       clearance_ripiano: clearance_ripiano, n_cerniere: n_cerniere,
       piedini: piedini, h_picior: h_picior, edge_offset: edge_offset,
@@ -254,14 +265,14 @@ var ASSERTIONS = [
 
   { id: "A3", severity: "blocking", confidence: "alta",
     when: "n_ante > 0",
-    then: "n_ante * anta_W + (n_ante - 1) * gap_ante + 2 * reveal == W",
+    then: "abs(anta_sum - W) <= tol_ante",
     why: "Ușile nu acoperă exact deschiderea: fie se ating între ele, fie lasă un gol pe o parte.",
     source: "Jacquin rev.C — două uși de 495 cu rost de 4" },
 
   { id: "A4", severity: "blocking", confidence: "alta",
     when: "n_ante > 0",
-    then: "anta_H + h_zoccolo + gap_inf + gap_sup == H",
-    why: "Ușa freacă zoccolo-ul sau tavanul corpului: înălțimea ei nu se închide cu jocurile declarate.",
+    then: "anta_H + h_base + gap_inf + gap_sup == H && anta_y0 >= h_base",
+    why: "Ușa freacă zoccolo-ul, picioarele sau tavanul corpului: înălțimea ei nu se închide cu jocurile declarate.",
     source: "Jacquin rev.C — ușă 1993 pe corp 2078, zoccolo 79" },
 
   { id: "A5", severity: "blocking", confidence: "alta",
@@ -335,7 +346,9 @@ function evalExpr(src, env) {
       if (name === "abs") return Math.abs(args[0]);
       throw new Error("funzione sconosciuta: " + name);
     }
-    if (!(name in env)) throw new Error("cota assente: " + name);
+    /* `in` avrebbe pescato anche i membri di Object.prototype: una regola che
+       nomina `constructor` avrebbe ricevuto una funzione invece dell'errore. */
+    if (!Object.prototype.hasOwnProperty.call(env, name)) throw new Error("cota assente: " + name);
     return env[name];
   }
   function mul() { var v = primary(); for (;;) { ws();
@@ -367,6 +380,15 @@ function assertionEnv(d, ctx) {
               "anta_W", "anta_H", "anta_y0", "anta_y1", "n_cerniere"];
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
   e.cerniere = d.cerniere || [];
+  e.h_base = (d.in.h_zoccolo || 0) + (d.in.piedini > 0 ? (d.in.h_picior || 0) : 0);
+  /* Le ante escono arrotondate al mm: su una larghezza che non si divide
+     esattamente, la somma non torna MAI al millesimo. Si controlla quello che
+     conta davvero — che non si tocchino e non lascino un buco — con la
+     tolleranza dell'arrotondamento, mezzo millimetro per anta. */
+  e.anta_sum = (d.anta_W != null)
+    ? d.in.n_ante * d.anta_W + (d.in.n_ante - 1) * d.in.gap_ante + 2 * (d.reveal || 0)
+    : 0;
+  e.tol_ante = (d.in.n_ante || 0) * 0.5 + 0.05;
   e.tol = 1;
   ctx = ctx || {};
   e.panelL = ctx.panelL || 0; e.panelW = ctx.panelW || 0;

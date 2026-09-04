@@ -951,6 +951,41 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("e non cambia fra due chiamate", tr.stabile);
   }
 
+  /* ---- Ogni tipologia di serie dev'essere anche ESPORTABILE ----
+     Un preset che l'app propone, genera, e poi si rifiuta di stampare e il
+     guasto peggiore della famiglia: si scopre col cliente davanti. E' successo
+     davvero — la sovrapposizione dell'anta era scritta come costante (16 mm) e
+     qualunque corpo in pannello da 12 o 16 restava bloccato per sempre. */
+  head("Tutte le tipologie di serie generano E si esportano");
+  {
+    const r = await pg.evaluate(() => {
+      const out = { errori: [], bloccate: [], n: 0 };
+      for (const k of Object.keys(PRESETS)) {
+        const cfg = { ...PRESETS[k] };
+        out.n++;
+        try {
+          const g = buildModule(cfg);
+          const bl = blocking(auditModule(cfg, g.pieces)).map(a => a.id);
+          if (bl.length) out.bloccate.push(k + ": " + bl.join(","));
+        } catch (e) { out.errori.push(k + ": " + (e && e.message)); }
+      }
+      /* e non solo coi materiali predefiniti: il pannello sottile e proprio
+         il caso che era bloccato */
+      for (const th of ["dsp_w980_12", "dsp_w908_16", "pal25_alb"]) {
+        const cfg = { ...PRESETS.base, matBody: th, matFront: th, t: matById(th).th };
+        try {
+          const g = buildModule(cfg);
+          const bl = blocking(auditModule(cfg, g.pieces)).map(a => a.id);
+          if (bl.length) out.bloccate.push("base/" + th + ": " + bl.join(","));
+        } catch (e) { out.errori.push("base/" + th + ": " + (e && e.message)); }
+      }
+      return out;
+    });
+    ok(`tutte e ${r.n} generano senza errori`, r.errori.length === 0, r.errori[0] || "nessun errore");
+    ok("e nessuna resta bloccata dalle regole di coerenza", r.bloccate.length === 0,
+       r.bloccate.length ? r.bloccate.join(" | ") : "tutte esportabili");
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

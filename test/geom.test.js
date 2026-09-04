@@ -84,6 +84,77 @@ describe("Test 5 — grosime variabila a spatelui", () => {
     });
 });
 
+/* Le prove qui sopra descrivono UNA forma di corpo: zoccolo, pannello da 19,
+   pareti in squadro, due ante, larghezza che si divide esatta. E' la Rev. C, ed
+   e giusto che sia il criterio — ma un motore provato su una forma sola e
+   provato male. Quelle che seguono sono le forme che la Rev. C non tocca, e
+   ognuna corrisponde a un guasto trovato davvero. */
+describe("Test 7 — le forme che la Rev. C non tocca", () => {
+  const C = E.coreEngine();
+  const D = p => C.deriveCarcass({ ...C.CARCASS_DEFAULTS, ...p });
+  /* Il motore gira in un contesto suo: quello che ne esce ha i prototipi di
+     quel contesto e deepStrictEqual lo rifiuterebbe per il prototipo invece
+     che per il contenuto. Si riportano di qua. */
+  const cadute = (d, ctx) => Array.from(C.checkAssertions(d, ctx)).map(a => a.id);
+  const nuda = { W: 1000, H: 2078, D: 398, t_fianco: 19, t_back: 19,
+                 backMode: "incassato", h_zoccolo: 79, n_ante: 2, n_cerniere: 0,
+                 piedini: 0, h_picior: 0 };
+
+  /* La sovrapposizione scritta come costante (16 mm) rendeva impossibile
+     qualunque corpo in pannello da 16 o da 12: la luce a vista usciva zero o
+     NEGATIVA, e A6 bloccava l'esportazione per sempre. */
+  describe("pannelli sottili: 12 e 16 mm", () => {
+    for (const t_fianco of [12, 16, 18, 19, 25])
+      test(`fianco ${t_fianco} mm → luce a vista 3 mm, nessuna regola caduta`, () => {
+        const d = D({ ...nuda, t_fianco });
+        assert.equal(d.reveal, 3, "reveal");
+        assert.ok(d.anta_W > 0 && d.anta_W < d.in.W, "anta larga quanto il corpo");
+        assert.deepEqual(cadute(d), []);
+      });
+  });
+
+  /* anta_W esce arrotondata al mm: su una larghezza che non si divide esatta
+     la somma non torna mai al millesimo, e A3 bloccava mobili normalissimi. */
+  describe("larghezze che non si dividono esatte", () => {
+    for (const [W, n] of [[1000, 3], [901, 2], [750, 2], [1200, 3], [1000, 2]])
+      test(`${W} mm in ${n} ante`, () => {
+        const d = D({ ...nuda, W, n_ante: n });
+        assert.deepEqual(cadute(d), [],
+          `anta_W=${d.anta_W}, somma=${n * d.anta_W + (n - 1) * d.in.gap_ante + 2 * d.reveal}`);
+      });
+  });
+
+  /* L'anta si posa sulla cassa. Con i piedini la cassa comincia a h_picior:
+     un'anta che partiva da terra sporgeva oltre il cielo di tutta l'altezza
+     dei piedini, e nessuna regola lo prendeva. */
+  describe("mobile sui piedini", () => {
+    const g = D({ W: 900, H: 720, D: 560, t_fianco: 18, t_back: 3, backMode: "in_cava",
+                  h_zoccolo: 0, n_ante: 2, n_cerniere: 0, piedini: 4, h_picior: 100 });
+    test("il fianco si accorcia dell'altezza dei piedini", () => eq(g.H_fianco, 620, "H_fianco"));
+    test("l'anta comincia SOPRA i piedini", () => eq(g.anta_y0, 103, "anta_y0"));
+    test("e finisce col cielo, non oltre", () => {
+      assert.equal(g.anta_y1, 717, "anta_y1");
+      assert.ok(g.anta_y1 <= g.in.H, "anta oltre il corpo");
+    });
+    test("nessuna regola caduta", () => assert.deepEqual(cadute(g), []));
+  });
+
+  /* Il fondo sottile in cava: base e cielo restano interi, e questa e la
+     configurazione predefinita dell'app — se cambiasse, cambierebbero le cote
+     di ogni progetto gia salvato. */
+  test("schienale sottile in cava: base e cielo non perdono profondita", () => {
+    const d = D({ ...nuda, t_back: 3, backMode: "in_cava" });
+    eq(d.D_bc, 398, "D_bc");
+    eq(d.ripiano_D, 398 - 13 - 20, "ripiano_D");
+  });
+
+  /* Il numero di cerniere stava scritto in tre punti che non erano d'accordo. */
+  test("una scala sola per il numero di cerniere", () => {
+    for (const [h, n] of [[600, 2], [1200, 3], [1800, 4], [1993, 4], [2200, 5]])
+      assert.equal(C.hingeCount(h), n, `anta ${h} mm`);
+  });
+});
+
 /* Criterio di accettazione del rilascio. */
 describe("Test 6 — regresie pe proiectul Jacquin (Rev. C)", () => {
   const REVC = {
