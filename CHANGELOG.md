@@ -51,8 +51,8 @@ explică unui străin, și o memorie care nu pierde munca nimănui.
 
 ### O pagină pentru cine nu ne cunoaște
 
-- `ebanist.app` e acum o pagină de prezentare; aplicația stă la
-  `ebanist.app/app/`. **Aceeași origine**: nimeni nu-și pierde proiectele la
+- `ebanist.com` e acum o pagină de prezentare; aplicația stă la
+  `ebanist.com/app/`. **Aceeași origine**: nimeni nu-și pierde proiectele la
   mutare. Adresele vechi redirecționează, iar service worker-ul vechi se
   autodezinstalează în loc să servească la nesfârșit aplicația din cache.
 - Patru limbi cu detectare automată. Fără cookie-uri, fără scripturi terțe,

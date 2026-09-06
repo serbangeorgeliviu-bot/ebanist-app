@@ -66,7 +66,7 @@ Ce înseamnă practic:
 | | Gratuit | Pro |
 |---|---|---|
 | Proiecte | 2 | nelimitat |
-| PDF | cu filigran (diagonală + subsol `ebanist.app — versiune gratuită`) | curat |
+| PDF | cu filigran (diagonală + subsol `ebanist.com — versiune gratuită`) | curat |
 | Pachet JSON pentru centrul de debitare | — | da |
 | Export JPG 3D | — | da |
 | Restul (calcule, 3D, debitare, releveu, sync, backup) | tot | tot |
@@ -110,7 +110,7 @@ altceva (citit comenzi și clienți) și nu are ce căuta într-un browser.
 
 ### Landing
 
-- Rădăcina `ebanist.app` = pagină de prezentare. Aplicația la `/app/`.
+- Rădăcina `ebanist.com` = pagină de prezentare. Aplicația la `/app/`.
 - **Aceeași origine**, deci IndexedDB și localStorage existente nu se pierd.
 - Patru limbi (RO/IT/FR/EN), detectare automată, selector cu patru butoane.
   Limba aleasă călătorește la app prin `?lang=`.
@@ -140,7 +140,55 @@ altceva (citit comenzi și clienți) și nu are ce căuta într-un browser.
 
 ## 2. CE TREBUIE SĂ FACI TU
 
-### a) Lemon Squeezy — pașii exacți
+### a) Domeniul și emailurile — se face ÎNAINTE de restul
+
+Domeniul oficial e **ebanist.com** (D-41). `ebanist.app` rămâne doar
+redirect. Tot codul e deja pe `.com` — inclusiv filigranul de pe fiecare PDF
+și `RETURN_URL`-ul din `billing.js`.
+
+**1. Netlify → domeniul principal.**
+Site settings → Domain management → *Add custom domain* → `ebanist.com`, apoi
+*Set as primary domain*. Adaugă și `www.ebanist.com` (Netlify îl
+redirecționează singur pe apex).
+
+**2. DNS la register.it** (panoul din care ai făcut captura: DOMINIO & DNS).
+Cel mai simplu e să lași register.it ca registrar și să pui doar recordurile:
+
+| Tip | Nume | Valoare |
+|---|---|---|
+| A | `@` | `75.2.60.5` (load balancerul Netlify) |
+| CNAME | `www` | `<numele-sitului>.netlify.app` |
+
+Verifică valoarea A în panoul Netlify înainte de a o scrie — Netlify o
+afișează la *Domain management*, și e singura sursă de adevăr dacă o schimbă.
+Alternativa, mai curată dacă nu ai alte servicii pe domeniu: muți nameserverele
+la Netlify DNS și nu mai atingi nimic manual.
+
+**3. `ebanist.app` ca redirect.**
+Netlify → Domain management → *Add domain alias* → `ebanist.app`, și pui DNS-ul
+lui (la Namecheap) pe aceleași valori. Netlify trimite singur 301 către
+domeniul principal — nu se poate face din `netlify.toml`, fiindcă acolo
+condițiile sunt Country/Language/Role/Cookie, nu Host.
+
+> **.app nu iartă.** E un TLD cu HSTS preload obligatoriu: browserul nici
+> măcar nu încearcă `http://`. Până când Netlify emite certificatul pentru
+> alias, `ebanist.app` **nu răspunde deloc** — nu „răspunde prost". Întâi
+> DNS-ul, apoi aștepți certificatul, abia apoi testezi.
+
+**4. Emailurile — blocant.**
+Codul folosește acum două adrese care **încă nu există**:
+
+- `info@ebanist.com` — în paginile legale și în ecranul Pro („magazinul nu e
+  încă deschis, scrie-ne").
+- `feedback@ebanist.com` — butonul „Sugerează o funcție" din Setări.
+
+Vechea `feedback@ebanist.app` era forwarding pe Namecheap. Până nu creezi
+echivalentele pe `.com`, butonul de feedback deschide un mail către o adresă
+inexistentă și cine vrea o cheie nu are unde scrie. Register.it le are
+incluse: panoul → pictograma **EMAIL** → activezi cutiile sau forwardingul.
+E primul lucru din lista lor de sugestii, și aici chiar e primul.
+
+### b) Lemon Squeezy — pașii exacți
 
 1. **Cont și magazin.** lemonsqueezy.com → cont pe persoană fizică (conform
    deciziei comerciale: separat de Domus Renov). Store name → subdomeniul
@@ -156,7 +204,7 @@ altceva (citit comenzi și clienți) și nu are ce căuta într-un browser.
    - *License length*: **expires with subscription**. Așa `expires_at` vine
      completat și grația de 14 zile are pe ce lucra.
 4. **Redirect după plată.** Product → Settings → *Redirect after purchase*:
-   `https://ebanist.app/app/?activate=1`
+   `https://ebanist.com/app/?activate=1`
 5. **Linkurile de checkout.** Fiecare variantă → *Share* → copiază linkul.
    Se termină cu `/checkout/buy/<UUID>` — acel UUID intră în
    `LS_VARIANT_MONTHLY` și `LS_VARIANT_YEARLY`.
@@ -171,7 +219,7 @@ Apoi completează `app/config/billing.js`. Până atunci aplicația știe că
 magazinul nu e deschis: nu produce linkuri rupte, spune asta și acceptă
 oricum o cheie.
 
-### b) Texte juridice
+### c) Texte juridice
 
 `termeni.html` și `rambursare.html` au fiecare un chenar galben
 **DE COMPLETAT**. Sunt schițe scrise de dezvoltator, nu documente verificate
@@ -182,10 +230,10 @@ juridic. Ce trebuie decis:
   ambele fișiere plus în subsolul landing-ului.
 - Legea aplicabilă și instanța competentă.
 - Formularea despre garanții — în UE nu se poate exclude totul.
-- Adresa `info@ebanist.app` trebuie să existe (azi în cod e activ doar
-  `feedback@ebanist.app`).
+- Adresa `info@ebanist.com` trebuie să existe (azi în cod e activ doar
+  `feedback@ebanist.com`).
 
-### c) Video landing
+### d) Video landing
 
 `index.html`, secțiunea `.demo` — un dreptunghi declarat. Înlocuiește tot
 blocul `<div class="ph">…</div>` cu:
@@ -205,7 +253,7 @@ o singură trecere.
 
 ### iPhone / Safari (cazul care contează)
 
-1. Fereastră privată nouă → `ebanist.app`. Landing în română (sau limba
+1. Fereastră privată nouă → `ebanist.com`. Landing în română (sau limba
    telefonului). Înțelegi ce face în 30 s.
 2. „Încearcă gratuit" → `/app/?lang=ro`. Apare intro-ul. „Începe".
 3. Apare ghidul „Adaugă pe ecranul principal" (doar pe iOS, o singură dată).
@@ -218,14 +266,14 @@ o singură trecere.
 8. „Deblochează Pro — 9 €/lună" → checkout Lemon Squeezy în filă nouă.
    **Test mode** (comută în dashboard) → cardul `4242 4242 4242 4242`,
    dată viitoare, CVC oricare.
-9. După plată → revii la `ebanist.app/app/?activate=1` → formularul de
+9. După plată → revii la `ebanist.com/app/?activate=1` → formularul de
    activare se deschide singur.
 10. Cheia e în emailul de confirmare. Lipește-o → „Activează" → „Pro activ ✓".
 11. Setări → Abonament: scrie „Pro activ · Se reînnoiește pe …".
 12. Sumar → „PDF listă" → **fără filigran**.
 13. Setări → Datele tale: verifică ce scrie despre memoria protejată.
 14. **Testul ștergerii:** Safari → Reglaje → Avansat → Date site web → șterge
-    datele pentru ebanist.app… **nu**, asta șterge tot, inclusiv IndexedDB.
+    datele pentru ebanist.com… **nu**, asta șterge tot, inclusiv IndexedDB.
     Testul corect e din consolă (Safari desktop conectat la telefon, sau
     Chrome Android): `localStorage.clear()` apoi reload.
     **Toate proiectele și licența trebuie să fie încă acolo.**
@@ -241,7 +289,7 @@ Același traseu. În plus:
 
 ### Ce trebuie să verifici că NU se întâmplă
 
-- Utilizator vechi, cu `ebanist.app/index.html` în favorite sau pe ecran:
+- Utilizator vechi, cu `ebanist.com/index.html` în favorite sau pe ecran:
   trebuie să ajungă la `/app/` **cu proiectele intacte**. Vezi §5.
 - Expirarea abonamentului nu șterge niciun proiect.
 - Offline (mod avion): Pro rămâne activ, PDF-urile ies fără filigran.
@@ -292,6 +340,15 @@ Soluția, în trei bucăți:
 În plus, landing-ul verifică `localStorage.tagliapro`: cine are deja
 proiecte e dus direct în aplicație, nu pus să citească o prezentare.
 
+**Atenție la ordinea celor două mutări.** Schimbarea de cale (`/` → `/app/`)
+păstrează datele fiindcă originea rămâne aceeași. Schimbarea de **domeniu**
+(`.app` → `.com`) NU le păstrează: IndexedDB și localStorage sunt legate de
+origine, iar `ebanist.app` și `ebanist.com` sunt origini diferite. Azi nu e
+o problemă — pe `.app` nu a rulat niciodată aplicația, deci nimeni nu are
+date acolo. Dacă totuși ai testat aplicația pe `.app` și vrei proiectele
+de acolo, singurul drum e „Backup complet" pe vechiul domeniu și „Importă"
+pe cel nou. Redirectul nu mută datele, doar utilizatorul.
+
 ---
 
 ## 6. Decizii luate pe drum (unde erau două variante rezonabile)
@@ -319,6 +376,12 @@ proiecte e dus direct în aplicație, nu pus să citească o prezentare.
   o limită comercială, e un document care trimite o piesă greșită în atelier.
 - **Nicio funcție Netlify pentru licențe.** Rutele sunt publice; un proxy ar
   fi adăugat un punct de cădere între un tâmplar offline și PDF-ul lui.
+- **ebanist.com canonic, .app doar redirect.** Alegerea ta. Un singur
+  domeniu în filigran, în paginile legale și în `RETURN_URL` — dacă cele
+  două ar circula amândouă, jumătate dintre PDF-uri ar trimite clientul pe
+  un domeniu care e doar un redirect, iar mâine, dacă `.app` expiră, pe
+  nicăieri. `.app` se păstrează ca alias fiindcă e ieftin și fiindcă unii
+  vor tasta așa.
 - **Landing în 4 limbi, nu 3.** Aplicația avea deja engleză; a o omite din
   landing ar fi însemnat ca un vizitator anglofon să nimerească româna.
 

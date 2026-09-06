@@ -52,7 +52,7 @@
        cruscotto: Products → Ebanist Pro → Redirect after purchase.
        Il `?activate=1` e quello che fa aprire da solo il modulo con la
        chiave, invece di scaricare l'utente sulla home senza istruzioni. */
-    RETURN_URL: "https://ebanist.app/app/?activate=1"
+    RETURN_URL: "https://ebanist.com/app/?activate=1"
   };
 
   /* Un segnaposto non compilato non deve diventare un link a un negozio

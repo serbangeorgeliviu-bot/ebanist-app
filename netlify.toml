@@ -11,6 +11,20 @@
 # query string della funzione, e il GET risponde sempre "id mancante".
 
 # ---------------------------------------------------------------------
+# DOMINIO UFFICIALE: ebanist.com (D-41). ebanist.app resta solo come
+# redirect e si configura NEL PANNELLO NETLIFY, non qui: si aggiunge come
+# "domain alias" del sito, e Netlify manda da solo un 301 al dominio
+# primario. Un [[redirects]] non puo farlo — le condizioni di Netlify sono
+# Country/Language/Role/Cookie, non l'Host.
+#
+# Nota sul .app: e un TLD con HSTS preload obbligatorio, quindi il browser
+# NON prova nemmeno http://. Il certificato per l'alias lo emette Netlify
+# da solo, ma finche non c'e, ebanist.app non risponde affatto — non
+# "risponde male": non risponde. Prima si punta il DNS, poi si aspetta il
+# certificato.
+# ---------------------------------------------------------------------
+
+# ---------------------------------------------------------------------
 # L'app si e spostata da "/" a "/app/": in radice adesso c'e la pagina di
 # presentazione. Gli indirizzi vecchi devono continuare a funzionare —
 # sono nei preferiti, nelle scorciatoie sullo schermo e nella cache dei

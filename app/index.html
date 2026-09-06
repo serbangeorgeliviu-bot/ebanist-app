@@ -1813,7 +1813,7 @@ Object.assign(I18N.it,{
   proBadKey:"Chiave non riconosciuta. Controlla di averla copiata tutta.",
   proNoNet:"Nessuna connessione: l'attivazione della prima volta ha bisogno di rete una volta sola. Riprova quando sei online.",
   proWrongProduct:"Questa chiave e di un altro prodotto.",
-  proNotConfigured:"Il negozio non e ancora aperto. Scrivi a "+"info@ebanist.app"+" e ti mandiamo una chiave.",
+  proNotConfigured:"Il negozio non e ancora aperto. Scrivi a "+"info@ebanist.com"+" e ti mandiamo una chiave.",
   proStatus:"Abbonamento",
   proStateFree:"Gratuita — {n} progetti, PDF con filigrana",
   proStatePro:"Pro attivo",
@@ -1828,7 +1828,7 @@ Object.assign(I18N.it,{
   proLimitReached:"Limite di attivazioni raggiunto: scollega la licenza da un altro dispositivo prima.",
   proRestore:"Ricontrolla l'abbonamento",
   wmDiag:"VERSIONE GRATUITA",
-  wmFoot:"ebanist.app — versione gratuita",
+  wmFoot:"ebanist.com — versione gratuita",
   stTitle:"I tuoi dati",
   stPersistedYes:"Memoria protetta ✓ — il browser non cancella i progetti per fare spazio.",
   stPersistedNo:"Memoria NON protetta — il browser puo cancellare i progetti per fare spazio. Fai un backup ogni tanto.",
@@ -1877,7 +1877,7 @@ Object.assign(I18N.ro,{
   proBadKey:"Cheie nerecunoscută. Verifică dacă ai copiat-o toată.",
   proNoNet:"Fără conexiune: prima activare are nevoie de internet o singură dată. Încearcă din nou când ai semnal.",
   proWrongProduct:"Cheia asta e de la alt produs.",
-  proNotConfigured:"Magazinul nu e încă deschis. Scrie la "+"info@ebanist.app"+" și îți trimitem o cheie.",
+  proNotConfigured:"Magazinul nu e încă deschis. Scrie la "+"info@ebanist.com"+" și îți trimitem o cheie.",
   proStatus:"Abonament",
   proStateFree:"Gratuită — {n} proiecte, PDF cu filigran",
   proStatePro:"Pro activ",
@@ -1892,7 +1892,7 @@ Object.assign(I18N.ro,{
   proLimitReached:"Ai atins limita de activări: deconectează licența de pe alt dispozitiv întâi.",
   proRestore:"Verifică din nou abonamentul",
   wmDiag:"VERSIUNE GRATUITĂ",
-  wmFoot:"ebanist.app — versiune gratuită",
+  wmFoot:"ebanist.com — versiune gratuită",
   stTitle:"Datele tale",
   stPersistedYes:"Memorie protejată ✓ — browserul nu șterge proiectele ca să facă loc.",
   stPersistedNo:"Memorie NEPROTEJATĂ — browserul poate șterge proiectele ca să facă loc. Fă un backup din când în când.",
@@ -1941,7 +1941,7 @@ Object.assign(I18N.en,{
   proBadKey:"Key not recognised. Check you copied all of it.",
   proNoNet:"No connection: the first activation needs the network once. Try again when you are online.",
   proWrongProduct:"That key belongs to a different product.",
-  proNotConfigured:"The shop is not open yet. Write to "+"info@ebanist.app"+" and we will send you a key.",
+  proNotConfigured:"The shop is not open yet. Write to "+"info@ebanist.com"+" and we will send you a key.",
   proStatus:"Subscription",
   proStateFree:"Free — {n} projects, watermarked PDFs",
   proStatePro:"Pro active",
@@ -1956,7 +1956,7 @@ Object.assign(I18N.en,{
   proLimitReached:"Activation limit reached: unlink the licence from another device first.",
   proRestore:"Check the subscription again",
   wmDiag:"FREE VERSION",
-  wmFoot:"ebanist.app — free version",
+  wmFoot:"ebanist.com — free version",
   stTitle:"Your data",
   stPersistedYes:"Storage protected ✓ — the browser will not clear your projects to free space.",
   stPersistedNo:"Storage NOT protected — the browser may clear your projects to free space. Back up now and then.",
@@ -2005,7 +2005,7 @@ Object.assign(I18N.fr,{
   proBadKey:"Clé non reconnue. Vérifiez que vous l'avez copiée en entier.",
   proNoNet:"Pas de connexion : la première activation a besoin du réseau une seule fois. Réessayez une fois en ligne.",
   proWrongProduct:"Cette clé appartient à un autre produit.",
-  proNotConfigured:"La boutique n'est pas encore ouverte. Écrivez à "+"info@ebanist.app"+" et nous vous envoyons une clé.",
+  proNotConfigured:"La boutique n'est pas encore ouverte. Écrivez à "+"info@ebanist.com"+" et nous vous envoyons une clé.",
   proStatus:"Abonnement",
   proStateFree:"Gratuite — {n} projets, PDF avec filigrane",
   proStatePro:"Pro actif",
@@ -2020,7 +2020,7 @@ Object.assign(I18N.fr,{
   proLimitReached:"Limite d'activations atteinte : détachez d'abord la licence d'un autre appareil.",
   proRestore:"Revérifier l'abonnement",
   wmDiag:"VERSION GRATUITE",
-  wmFoot:"ebanist.app — version gratuite",
+  wmFoot:"ebanist.com — version gratuite",
   stTitle:"Vos données",
   stPersistedYes:"Mémoire protégée ✓ — le navigateur n'effacera pas vos projets pour faire de la place.",
   stPersistedNo:"Mémoire NON protégée — le navigateur peut effacer vos projets pour faire de la place. Sauvegardez de temps en temps.",
@@ -2121,7 +2121,7 @@ function defaultState(){
   /* Il progetto di partenza e un ESEMPIO, e si dichiara tale: `demo:1` lo
      tiene fuori dal conto dei due progetti gratuiti (non e roba
      dell'utente) e gli fa prendere il nome nella sua lingua all'avvio.
-     Il nome del cliente vero non ci sta piu: chi arriva su ebanist.app da
+     Il nome del cliente vero non ci sta piu: chi arriva su ebanist.com da
      un link non deve trovarsi davanti la commessa di qualcun altro. */
   const p = {id:uid(),name:"Ebanist demo",client:"",date:new Date().toISOString().slice(0,10),pieces,geomVersion:1,demo:1};
   return {lang:detectLang(),activeId:p.id,projects:[p],
@@ -6549,7 +6549,11 @@ $("btnFullBk").addEventListener("click",()=>fullBackup());
 $("geomApply").addEventListener("click",geomApply);
 
 /* ================= FEEDBACK ================= */
-const FEEDBACK_EMAIL="feedback@ebanist.app"; /* adresă activă — forwarding Namecheap */
+/* DE CREAT ÎNAINTE DE DEPLOY: forwarding pe ebanist.com (register.it →
+   pictograma EMAIL din panou). Până atunci butonul „Sugerează o funcție"
+   deschide un mail către o adresă care nu există. Vechea `feedback@ebanist.app`
+   era pe Namecheap; .app rămâne doar ca redirect (D-41). */
+const FEEDBACK_EMAIL="feedback@ebanist.com";
 $("btnFeedback").addEventListener("click",()=>{
   location.href=`mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent("Ebanist v"+APP_VER+" — sugestie")}`;
 });

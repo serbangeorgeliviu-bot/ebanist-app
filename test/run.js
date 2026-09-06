@@ -1288,7 +1288,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const su = stampati.filter(k => !(w.pro[k].diag === 0 && w.pro[k].foot === 0));
     ok("i documenti che stampano sono almeno quattro", stampati.length >= 4, stampati.join(","));
     ok("da gratuito, TUTTI quelli che stampano hanno la filigrana", giu.length === 0, giu.join(",") || stampati.length + "/" + stampati.length);
-    ok("e il piede nomina il sito e la versione gratuita", /ebanist\.app/.test(w.testoFiligrana), w.testoFiligrana);
+    ok("e il piede nomina il sito e la versione gratuita", /ebanist\.com/.test(w.testoFiligrana), w.testoFiligrana);
     ok("da Pro, NESSUNO ce l'ha", su.length === 0, su.join(",") || stampati.length + "/" + stampati.length);
     ok("e gli stessi documenti stampano da Pro come da gratuito",
        stampati.every(k => w.pro[k].stampato), stampati.length + " documenti");
@@ -1350,7 +1350,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   {
     const land = await (await fetch(`${ORIGIN}/index.html`)).text();
     ok("la radice non e piu l'app", !/APP_VER-MARKER/.test(land));
-    ok("ed e la pagina di presentazione", /ebanist\.app|data-t="h1"/.test(land));
+    ok("ed e la pagina di presentazione", /data-t="h1"/.test(land));
     for (const l of ["ro", "it", "fr", "en"])
       ok(`la presentazione parla ${l}`, new RegExp('\\b' + l + ':\\{h1:').test(land));
     ok("nessuno script di terzi oltre a Lemon Squeezy", !/<script[^>]+src="https?:\/\//.test(land));
@@ -1363,6 +1363,15 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
     const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
     ok("il vecchio /index.html rimanda a /app/", /from = "\/index\.html"[\s\S]{0,80}to = "\/app\/"/.test(toml));
+    /* Il dominio ufficiale e ebanist.com (D-41); ebanist.app resta solo come
+       redirect. Un .app rimasto in un testo che il cliente legge — la
+       filigrana, i termini, il redirect del pagamento — lo manderebbe su un
+       sito che non e piu quello. */
+    for (const f of ["index.html", "termeni.html", "privacy.html", "rambursare.html", "app/config/billing.js"]) {
+      const txt = fs.readFileSync(path.join(ROOT, f), "utf8");
+      ok(`${f} non nomina piu ebanist.app`, !/ebanist\.app/.test(txt),
+         (txt.match(/[^\s"'<>]*ebanist\.app/) || [""])[0]);
+    }
     const rootSw = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
     ok("il service worker in radice si disinstalla da solo", /unregister\(\)/.test(rootSw));
     ok("e NON cancella le cache di /app/", !/caches\.delete/.test(rootSw));
