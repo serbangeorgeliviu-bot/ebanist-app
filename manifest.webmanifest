@@ -1,7 +1,7 @@
 {
   "name": "Ebanist — Distinta di Taglio",
   "short_name": "Ebanist",
-  "description": "Generator de mobilier, distinta di taglio, optimizare debitare, feronerie și oferte — Domus Renov",
+  "description": "Generator de mobilier, distinta di taglio, optimizare debitare, feronerie și oferte — ebanist.com",
   "id": "ebanist",
   "start_url": "./index.html",
   "scope": "./",
