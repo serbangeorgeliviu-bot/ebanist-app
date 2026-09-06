@@ -52,7 +52,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
 (async () => {
   const server = await serve();
-  const URL = `http://127.0.0.1:${server.address().port}/index.html`;
+  /* L'app sta in /app/ da quando la radice e diventata la pagina di
+     presentazione. Il server di prova serve tutta la cartella, cosi la
+     prova puo guardare anche il landing e i redirect. */
+  const ORIGIN = `http://127.0.0.1:${server.address().port}`;
+  const URL = `${ORIGIN}/app/index.html`;
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   const pg = await browser.newPage({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
 
@@ -273,6 +277,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("Pannelli — chiusura raggiungibile ovunque");
   const nx = await pg.evaluate(() => [document.querySelectorAll(".sheet .sheet-x").length, document.querySelectorAll(".sheet").length]);
   ok("ogni pannello ha la sua X", nx[0] === nx[1], nx[0] + "/" + nx[1]);
+  /* Stampare da gratuito apre lo schermo Pro poco dopo (una volta per
+     sessione): la prova qui sotto conta i pannelli aperti, quindi si
+     aspetta che arrivi e si fa pulizia prima di cominciare. */
+  await pg.waitForTimeout(1200);
+  await pg.evaluate(() => closeSheets()); await pg.waitForTimeout(200);
   await pg.evaluate(() => openSheet("shSettings")); await pg.waitForTimeout(350);
   await pg.evaluate(() => { const s = document.getElementById("shSettings"); s.scrollTop = s.scrollHeight; });
   await pg.waitForTimeout(350);
@@ -423,7 +432,17 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("Tipi propri — quello che il motore sa fare dev'essere salvabile con un nome");
   const pre = await pg.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms));
-    const out = {}, oldPrompt = window.prompt, oldConfirm = window.confirm;
+    const out = {};
+    /* `prompt()` e `confirm()` del browser sono spariti: adesso c'e un
+       dialogo dell'app. Si guida quello — che e anche una prova migliore,
+       perche passa dal codice vero invece che da uno stub. */
+    const answer = async (text, yes) => {
+      for (let i = 0; i < 40 && !document.querySelector("#dlgOverlay.on"); i++) await wait(25);
+      const inp = document.getElementById("dlgInput");
+      if (inp && text != null) inp.value = text;
+      document.getElementById(yes === false ? "dlgNo" : "dlgYes").click();
+      await wait(80);
+    };
     setView("build"); await wait(400);
     state.settings.presetAdd = []; renderPresetChips();
     out.serie = document.querySelectorAll("#presetChips .chip").length;
@@ -433,8 +452,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     buildObst = [{ x: 100, y: 200, w: 80, h: 80 }];
     buildCfg = { ...PRESETS.cassettiera, name: "Banco utensili", L: 900, H: 1400, drawers: 8, doors: 0 };
     syncBuildForm();
-    window.prompt = () => "Banco utensili";
-    presetSaveCurrent(); await wait(150);
+    const p1 = presetSaveCurrent();
+    await answer("Banco utensili");
+    await p1; await wait(150);
     const saved = (state.settings.presetAdd || [])[0] || {};
     out.creato = !!saved.name;
     out.senzaOstacoli = !("obstacles" in (saved.cfg || {}));   // il cantiere non entra nel tipo
@@ -442,9 +462,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     out.chipUtente = document.querySelectorAll("#presetChips .chip-user").length;
 
     // 2. non deve duplicare: stesso nome -> sovrascrive
-    window.confirm = () => true;
     buildCfg = { ...buildCfg, L: 1200 }; syncBuildForm();
-    presetSaveCurrent(); await wait(150);
+    const p2 = presetSaveCurrent();
+    await answer("Banco utensili");        // il nome
+    await answer(null);                     // «esiste gia: sovrascrivere?»
+    await p2; await wait(150);
     out.nonDuplica = (state.settings.presetAdd || []).length === 1;
     out.sovrascritto = ((state.settings.presetAdd || [])[0].cfg || {}).L === 1200;
 
@@ -459,11 +481,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     out.pezzi = built.pieces.length;
 
     // 5. la X toglie solo i tipi propri; quelli di serie restano
-    document.querySelector("#presetChips .chip-user .chip-x").click(); await wait(200);
+    document.querySelector("#presetChips .chip-user .chip-x").click();
+    await answer(null);                     // «togliere questo tipo?»
+    await wait(200);
     out.tolto = (state.settings.presetAdd || []).length === 0;
     out.serieIntatti = document.querySelectorAll("#presetChips .chip").length === out.serie;
 
-    window.prompt = oldPrompt; window.confirm = oldConfirm;
     buildObst = []; return out;
   });
   ok("una chip per tipo di serie, piu il bottone", pre.serie === pre.attesi, pre.serie + "/" + pre.attesi);
@@ -512,9 +535,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
     // 5. cancellazione esplicita
     state.settings.aiProxy = ""; await open();
-    const oldConfirm = window.confirm; window.confirm = () => true;
-    document.getElementById("btnAiKeyDel").click(); await wait(120);
-    window.confirm = oldConfirm;
+    /* La conferma non e piu quella del browser: e il dialogo dell'app. */
+    document.getElementById("btnAiKeyDel").click();
+    for (let i = 0; i < 40 && !document.querySelector("#dlgOverlay.on"); i++) await wait(25);
+    document.getElementById("dlgYes").click(); await wait(150);
     out.cancellata = aiKey() === "";
     closeSheets(); await wait(150);
     return out;
@@ -534,7 +558,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      service worker cancella appena si attiva: sembra funzionare, e al
      riavvio dopo torna la versione vecchia. Fallisce in silenzio, quindi
      va guardato da qui. */
-  const sw = await (await fetch(URL.replace("index.html", "sw.js"))).text();
+  const sw = await (await fetch(`${ORIGIN}/app/sw.js`)).text();
   const swName = (sw.match(/const CACHE\s*=\s*"([^"]+)"/) || [])[1];
   const pgName = await pg.evaluate(() => (typeof SW_CACHE === "string" ? SW_CACHE : null));
   const pgVer = await pg.evaluate(() => APP_VER);
@@ -692,23 +716,48 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("anche il push-open ha il suo campo", hwp.hasPush);
 
   head("Memoria piena — non si perde il lavoro in silenzio");
-  const full = await pg.evaluate(async () => {
+  /* La regola e cambiata con IndexedDB, ed e cambiata in meglio: la barra
+     rossa vuol dire «il lavoro di oggi non esiste da nessuna parte». Se
+     localStorage rifiuta ma IndexedDB scrive, i dati SONO salvi e l'allarme
+     sarebbe una bugia — la prima di una serie che insegna a ignorarlo.
+     Quindi due prove: una che tace, una che grida. */
+  const quiet = await pg.evaluate(async () => {
     const wait = ms => new Promise(r => setTimeout(r, ms));
     const real = localStorage.setItem.bind(localStorage);
     localStorage.setItem = () => { throw new DOMException("quota", "QuotaExceededError"); };
     let threw = false;
     try { persist(); } catch (e) { threw = true; }
     localStorage.setItem = real;
-    await wait(120);
+    await wait(900);                          // la scrittura su IndexedDB e differita
+    const bar = document.getElementById("storageBar");
+    const out = { threw, alarm: !!bar && bar.style.display !== "none", idbOk };
+    if (bar) bar.remove();
+    storageBroken = false; lsOk = true;
+    return out;
+  });
+  ok("persist() non lascia passare l'errore all'app", quiet.threw === false);
+  ok("IndexedDB ha retto", quiet.idbOk === true);
+  ok("localStorage pieno da solo NON fa allarme: i dati sono su IndexedDB", quiet.alarm === false);
+
+  const full = await pg.evaluate(async () => {
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const real = localStorage.setItem.bind(localStorage);
+    const realSet = EBStore.set;
+    localStorage.setItem = () => { throw new DOMException("quota", "QuotaExceededError"); };
+    EBStore.set = () => Promise.reject(new Error("idb-full"));
+    let threw = false;
+    try { persist(); } catch (e) { threw = true; }
+    await wait(900);
+    localStorage.setItem = real; EBStore.set = realSet;
     const bar = document.getElementById("storageBar");
     const visible = !!bar && bar.style.display !== "none";
     const txt = bar ? bar.textContent : "";
     const hasBtn = !!(bar && bar.querySelector("button"));
     if (bar) bar.remove();
-    storageBroken = false;
+    storageBroken = false; lsOk = true; idbOk = true;
     return { threw, visible, hasBtn, saysIt: /MEMOR|STORAGE|MÉMOIRE/i.test(txt) };
   });
-  ok("persist() non lascia passare l'errore all'app", full.threw === false);
+  ok("con TUTTE E DUE le memorie piene, persist() ancora non esplode", full.threw === false);
   ok("ma lo DICE, con una barra che resta", full.visible);
   ok("e il messaggio si capisce", full.saysIt);
   ok("con il bottone del backup a portata di dito", full.hasBtn);
@@ -984,6 +1033,370 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok(`tutte e ${r.n} generano senza errori`, r.errori.length === 0, r.errori[0] || "nessun errore");
     ok("e nessuna resta bloccata dalle regole di coerenza", r.bloccate.length === 0,
        r.bloccate.length ? r.bloccate.join(" | ") : "tutte esportabili");
+  }
+
+  /* =====================================================================
+     MONETIZZAZIONE — i cancelli, la filigrana e la memoria che non si perde
+     ---------------------------------------------------------------------
+     Queste prove girano su PAGINE NUOVE, ognuna col suo contesto: la
+     migrazione e il recupero dopo la cancellazione di localStorage si
+     vedono solo all'avvio, e l'avvio capita una volta sola.
+     ===================================================================== */
+  const genkey = n => require("child_process")
+    .execFileSync("python3", [path.join(ROOT, "app", "tools", "genkey.py"), String(n || 1)], { encoding: "utf8" })
+    .trim().split("\n");
+
+  /* Una pagina pulita, con lo stato che le si vuole mettere in mano PRIMA
+     che l'app parta: il seme va scritto su una pagina qualsiasi della
+     stessa origine, poi si va sull'app. */
+  async function freshApp(seed) {
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const pp = await ctx.newPage();
+    const boom = [];
+    pp.on("pageerror", e => boom.push(String(e)));
+    await pp.goto(`${ORIGIN}/app/index.html`);
+    if (seed) { await pp.evaluate(seed); }
+    await pp.goto(`${ORIGIN}/app/index.html`);
+    await pp.waitForTimeout(2200);            // l'avvio differito: IndexedDB, licenza, intro
+    return { ctx, pp, boom };
+  }
+
+  head("Migrazione — la chiave storica «tagliapro» non si perde e non si tocca");
+  {
+    const { ctx, pp, boom } = await freshApp(() => {
+      localStorage.clear();
+      localStorage.setItem("tagliapro", JSON.stringify({
+        lang: "ro", activeId: "vecchio",
+        projects: [{ id: "vecchio", name: "Comanda din 2024", client: "Un client", date: "2024-05-02",
+                     pieces: [{ id: "p1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" }] }],
+        settings: {}
+      }));
+    });
+    const r = await pp.evaluate(async () => {
+      const rec = await EBStore.get("state");
+      return {
+        inMemoria: state.projects.some(p => p.id === "vecchio"),
+        nomeTenuto: (state.projects.find(p => p.id === "vecchio") || {}).name,
+        lsIntatta: !!localStorage.getItem("tagliapro"),
+        inIdb: !!(rec && rec.state && rec.state.projects.some(p => p.id === "vecchio")),
+        geomBollato: (state.projects.find(p => p.id === "vecchio") || {}).geomVersion === 1
+      };
+    });
+    ok("il progetto vecchio si legge all'avvio", r.inMemoria, r.nomeTenuto);
+    ok("e finisce dentro IndexedDB", r.inIdb);
+    ok("la chiave storica NON viene cancellata", r.lsIntatta);
+    ok("e resta bollato col motore v1, senza ricalcoli", r.geomBollato);
+    ok("nessun errore JS durante la migrazione", boom.length === 0, boom[0] || "nessuno");
+    await ctx.close();
+  }
+
+  head("localStorage svuotato — i progetti sono ancora li (il caso iPhone)");
+  {
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const pp = await ctx.newPage();
+    await pp.goto(`${ORIGIN}/app/index.html`);
+    await pp.waitForTimeout(1600);
+    /* si crea un progetto come lo creerebbe l'utente, dal foglio */
+    await pp.evaluate(async () => {
+      closeSheets();
+      state.projects = [{ id: "mio", name: "Bucătărie Ionescu", client: "Ionescu", date: "2026-09-01",
+                          pieces: [{ id: "x1", modulo: "Base", elemento: "Fianco", lung: 720, larg: 560, pz: 2, bordo: "1L", materiale: "PAL 18 Alb" }] }];
+      state.activeId = "mio";
+      persist();
+      await new Promise(r => setTimeout(r, 1200));   // la scrittura su IndexedDB e differita di 400 ms
+    });
+    const wroteIdb = await pp.evaluate(async () => {
+      const rec = await EBStore.get("state");
+      return !!(rec && rec.state.projects.some(p => p.id === "mio"));
+    });
+    ok("il progetto e stato scritto anche su IndexedDB", wroteIdb);
+
+    /* IL COLPO: localStorage sparisce, come fa Safari dopo 7 giorni. */
+    await pp.evaluate(() => localStorage.clear());
+    ok("localStorage e vuoto davvero", await pp.evaluate(() => localStorage.getItem("tagliapro") === null));
+
+    await pp.reload();
+    await pp.waitForTimeout(2400);
+    const back = await pp.evaluate(() => ({
+      c: state.projects.length,
+      nome: (state.projects.find(p => p.id === "mio") || {}).name,
+      lsRiscritta: !!localStorage.getItem("tagliapro")
+    }));
+    ok("dopo il ricaricamento il progetto c'e ancora", back.nome === "Bucătărie Ionescu", back.nome || "PERSO");
+    ok("e non e comparso il progetto di esempio al suo posto", back.c === 1, back.c + " progetti");
+    ok("lo specchio in localStorage viene riscritto da solo", back.lsRiscritta);
+    await ctx.close();
+  }
+
+  head("La licenza sopravvive alla stessa cancellazione");
+  {
+    const key = genkey(1)[0];
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const pp = await ctx.newPage();
+    await pp.goto(`${ORIGIN}/app/index.html`);
+    await pp.waitForTimeout(1500);
+    const act = await pp.evaluate(async k => { closeSheets(); const r = await proActivate(k); return { r, pro: isPro() }; }, key);
+    ok("una chiave storica valida attiva Pro, senza rete", act.r.ok && act.pro, key);
+    await pp.evaluate(() => new Promise(r => setTimeout(r, 600)));
+    await pp.evaluate(() => localStorage.clear());
+    await pp.reload();
+    await pp.waitForTimeout(2400);
+    ok("dopo la cancellazione di localStorage si e ancora Pro", await pp.evaluate(() => isPro()));
+    ok("e lo specchio si e riscritto", await pp.evaluate(() => !!localStorage.getItem("ebanist_lic")));
+    await ctx.close();
+  }
+
+  head("Chiavi — quello che si accetta e quello che no");
+  {
+    const [k1] = genkey(1);
+    const r = await pg.evaluate(async k => {
+      const out = {}, keep = LIC;
+      licWrite(null);
+      out.vuota = (await proActivate("")).ok;
+      out.spazzatura = (await proActivate("ciao-mamma")).ok;
+      out.storpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).ok;
+      out.messaggioStorpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).msg;
+      out.buona = (await proActivate(k)).ok;
+      out.proDopo = isPro();
+      out.senzaTrattini = (await proActivate(k.replace(/-/g, "").toLowerCase())).ok;
+      licWrite(keep); return out;
+    }, k1);
+    ok("una chiave vuota non attiva niente", r.vuota === false);
+    ok("una stringa a caso nemmeno", r.spazzatura === false);
+    ok("una chiave con un carattere sbagliato viene rifiutata", r.storpiata === false);
+    ok("e lo dice con parole, non con un codice", /\w{4}/.test(r.messaggioStorpiata || ""), r.messaggioStorpiata);
+    ok("una chiave buona attiva Pro", r.buona && r.proDopo);
+    ok("e si accetta anche senza trattini e in minuscolo", r.senzaTrattini);
+  }
+
+  head("Il muro dei 2 progetti — su TUTTE le strade d'ingresso");
+  {
+    const g = await pg.evaluate(async () => {
+      const out = {}, keepP = state.projects, keepL = LIC;
+      licWrite(null);                                   // gratuito
+      const mk = (id, name) => ({ id, name, client: "", date: "2026-09-01", pieces: [] });
+
+      /* con l'esempio + un progetto proprio si passa: l'esempio non conta */
+      state.projects = [{ ...mk("demo", "Esempio"), demo: 1 }, mk("a", "A")];
+      out.esempioNonConta = ownProjects() === 1 && gateNewProject() === true;
+      closeSheets();
+
+      state.projects = [mk("a", "A"), mk("b", "B")];
+      out.conta = ownProjects() === 2;
+
+      /* 1. il bottone */
+      closeSheets(); document.getElementById("btnNewProject").click();
+      await new Promise(r => setTimeout(r, 250));
+      out.bottoneFermato = document.getElementById("shPro").classList.contains("on") &&
+                          !document.getElementById("shProject").classList.contains("on");
+      out.diceIlMotivo = /\d/.test(document.querySelector("#proBody p").textContent || "");
+
+      /* 2. il salvataggio diretto, saltando il bottone */
+      closeSheets(); editingProjectId = null;
+      document.getElementById("prName").value = "Di soppiatto";
+      document.getElementById("btnProjectSave").click();
+      await new Promise(r => setTimeout(r, 250));
+      out.salvataggioFermato = state.projects.length === 2;
+
+      /* 3. la duplicazione */
+      closeSheets(); editingProjectId = "a";
+      document.getElementById("btnProjectDup").click();
+      await new Promise(r => setTimeout(r, 250));
+      out.duplicaFermata = state.projects.length === 2;
+
+      /* 4. l'import CSV */
+      closeSheets();
+      try { importCsv("Corp;Fianco;700;500;2;2L;PAL 18 Alb\n", "furat.csv"); } catch (e) {}
+      await new Promise(r => setTimeout(r, 250));
+      out.csvFermato = state.projects.length === 2;
+
+      /* 5. l'import JSON di un singolo progetto */
+      closeSheets();
+      try { importJson(JSON.stringify({ name: "Dal file", pieces: [{ modulo: "M", elemento: "E", lung: 100, larg: 100, pz: 1, bordo: "", materiale: "PAL 18 Alb" }] })); } catch (e) {}
+      await new Promise(r => setTimeout(r, 250));
+      out.jsonFermato = state.projects.length === 2;
+
+      /* 6. cancellare un progetto RIAPRE il posto, e ricrearne uno funziona:
+            il limite conta i progetti, non le creazioni fatte nella vita */
+      closeSheets(); state.projects = [mk("a", "A")];
+      out.dopoCancellazione = gateNewProject() === true;
+
+      /* 7. da Pro il muro non c'e piu */
+      state.projects = [mk("a", "A"), mk("b", "B"), mk("c", "C")];
+      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      out.proPassa = gateNewProject() === true;
+
+      closeSheets(); state.projects = keepP; licWrite(keepL);
+      return out;
+    });
+    ok("il progetto di esempio non occupa un posto gratuito", g.esempioNonConta);
+    ok("due progetti propri riempiono la quota", g.conta);
+    ok("«Nuovo progetto» apre lo schermo Pro, non l'editor", g.bottoneFermato);
+    ok("e lo schermo dice perche (il numero del progetto)", g.diceIlMotivo);
+    ok("il salvataggio diretto non aggira il muro", g.salvataggioFermato);
+    ok("«Duplica progetto» non lo aggira", g.duplicaFermata);
+    ok("l'import CSV non lo aggira", g.csvFermato);
+    ok("l'import JSON di un progetto non lo aggira", g.jsonFermato);
+    ok("cancellare un progetto libera il posto", g.dopoCancellazione);
+    ok("da Pro il muro sparisce", g.proPassa);
+  }
+
+  head("Filigrana — c'e per tutti i gratuiti, non c'e per nessun Pro");
+  {
+    const w = await pg.evaluate(async () => {
+      const out = {}, keepL = LIC, keepP = state.projects, keepA = state.activeId;
+      const realPrint = window.print; let calls = 0; window.print = () => { calls++; };
+      state.projects = [{ id: "w", name: "Filigrana", client: "", date: "2026-09-01", pieces: [
+        { id: "q1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" }] }];
+      state.activeId = "w";
+      const marks = () => ({
+        diag: document.querySelectorAll("#printArea .wm-diag").length,
+        foot: document.querySelectorAll("#printArea .wm-foot").length
+      });
+      /* tutti e sei i documenti, non solo la distinta */
+      const bottoni = ["btnPdf", "btnQuote", "btnMont", "btnLabels", "btnOrder"];
+      /* Si guarda un documento alla volta e si conta se ha stampato: un
+         bottone che non stampa (la scheda di montaggio vuole i moduli
+         generati, e questo progetto e una lista di pezzi sciolti)
+         lascerebbe in pagina la filigrana della stampa precedente, e un
+         conto globale lo scambierebbe per un successo. */
+      const giro = async () => {
+        const res = {};
+        for (const b of bottoni) {
+          document.getElementById("printArea").innerHTML = "";
+          const prima = calls;
+          document.getElementById(b).click();
+          await new Promise(r => setTimeout(r, 300));
+          const m = marks();
+          res[b] = { stampato: calls > prima, diag: m.diag, foot: m.foot };
+        }
+        return res;
+      };
+      licWrite(null); printOut._offered = 1;          // niente proposta: qui si guarda la carta
+      out.gratis = await giro();
+      out.testoFiligrana = (document.querySelector("#printArea .wm-foot") || {}).textContent || "";
+
+      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      out.pro = await giro();
+      out.chiamate = calls;
+      window.print = realPrint;
+      licWrite(keepL); state.projects = keepP; state.activeId = keepA; closeSheets();
+      return out;
+    });
+    const stampati = Object.entries(w.gratis).filter(([, v]) => v.stampato).map(([k]) => k);
+    const giu = stampati.filter(k => !(w.gratis[k].diag === 1 && w.gratis[k].foot === 1));
+    const su = stampati.filter(k => !(w.pro[k].diag === 0 && w.pro[k].foot === 0));
+    ok("i documenti che stampano sono almeno quattro", stampati.length >= 4, stampati.join(","));
+    ok("da gratuito, TUTTI quelli che stampano hanno la filigrana", giu.length === 0, giu.join(",") || stampati.length + "/" + stampati.length);
+    ok("e il piede nomina il sito e la versione gratuita", /ebanist\.app/.test(w.testoFiligrana), w.testoFiligrana);
+    ok("da Pro, NESSUNO ce l'ha", su.length === 0, su.join(",") || stampati.length + "/" + stampati.length);
+    ok("e gli stessi documenti stampano da Pro come da gratuito",
+       stampati.every(k => w.pro[k].stampato), stampati.length + " documenti");
+  }
+
+  head("Le due funzioni riservate");
+  {
+    const f = await pg.evaluate(async () => {
+      const out = {}, keepL = LIC, keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "f", name: "Lab", client: "", date: "2026-09-01", pieces: [
+        { id: "q1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" }] }];
+      state.activeId = "f";
+      licWrite(null); closeSheets();
+
+      document.getElementById("btnLab").click(); await new Promise(r => setTimeout(r, 300));
+      out.labFermato = document.getElementById("shPro").classList.contains("on");
+      closeSheets(); await new Promise(r => setTimeout(r, 150));
+
+      document.getElementById("roomExport").click(); await new Promise(r => setTimeout(r, 300));
+      out.jpgFermato = document.getElementById("shPro").classList.contains("on");
+      closeSheets();
+
+      /* e da Pro il cancello lascia passare: il controllo dopo e quello
+         delle regole di coerenza, che e un'altra cosa e resta */
+      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      out.proPassaLab = proGate("lab") === true;
+      out.proPassaJpg = proGate("jpg") === true;
+
+      licWrite(keepL); state.projects = keepP; state.activeId = keepA; closeSheets();
+      return out;
+    });
+    ok("il pacchetto per il laboratorio e chiuso ai gratuiti", f.labFermato);
+    ok("l'export JPG del 3D pure", f.jpgFermato);
+    ok("e da Pro tutti e due passano", f.proPassaLab && f.proPassaJpg);
+  }
+
+  head("La scadenza e la tolleranza, viste dall'app");
+  {
+    const e = await pg.evaluate(() => {
+      const out = {}, keep = LIC;
+      const iso = d => new Date(Date.now() + d * 864e5).toISOString();
+      const set = o => { licWrite(Object.assign({ kind: "ls", key: "38b1460a-5104-4067-a91d-77b872934d51",
+                                                  activated: true, status: "active", instanceId: "i" }, o)); };
+      set({ expiresAt: iso(20) });  out.inCorso = isPro();
+      set({ expiresAt: iso(-3) });  out.tolleranza = isPro() && PRO_REASON === "grace";
+      set({ expiresAt: iso(-20) }); out.finita = !isPro() && PRO_REASON === "lapsed";
+      set({ expiresAt: iso(30), status: "disabled" }); out.revocata = !isPro();
+      out.progettiSalvi = state.projects.length > 0;
+      licWrite(keep); return out;
+    });
+    ok("abbonamento in corso: Pro", e.inCorso);
+    ok("scaduto da 3 giorni: ancora Pro, in tolleranza", e.tolleranza);
+    ok("scaduto da 20: si torna gratuiti", e.finita);
+    ok("chiave revocata: gratuiti subito", e.revocata);
+    ok("e in nessuno dei quattro casi si cancella un progetto", e.progettiSalvi);
+  }
+
+  head("La pagina di presentazione e il trasloco degli indirizzi");
+  {
+    const land = await (await fetch(`${ORIGIN}/index.html`)).text();
+    ok("la radice non e piu l'app", !/APP_VER-MARKER/.test(land));
+    ok("ed e la pagina di presentazione", /ebanist\.app|data-t="h1"/.test(land));
+    for (const l of ["ro", "it", "fr", "en"])
+      ok(`la presentazione parla ${l}`, new RegExp('\\b' + l + ':\\{h1:').test(land));
+    ok("nessuno script di terzi oltre a Lemon Squeezy", !/<script[^>]+src="https?:\/\//.test(land));
+    /* Non si cerca la PAROLA «cookie» — un commento che spiega perche non
+       ce ne sono la conterrebbe — ma quello che un banner e per forza:
+       document.cookie, o un elemento che si chiama consenso/banner. */
+    ok("la pagina non scrive nessun cookie", !/document\.cookie/.test(land));
+    ok("e non c'e nessun banner di consenso da chiudere",
+       !/(consent|cookie-?banner|cookie-?consent|gdpr-?banner)/i.test(land));
+
+    const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
+    ok("il vecchio /index.html rimanda a /app/", /from = "\/index\.html"[\s\S]{0,80}to = "\/app\/"/.test(toml));
+    const rootSw = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
+    ok("il service worker in radice si disinstalla da solo", /unregister\(\)/.test(rootSw));
+    ok("e NON cancella le cache di /app/", !/caches\.delete/.test(rootSw));
+
+    const legal = ["termeni.html", "privacy.html", "rambursare.html"];
+    for (const f of legal)
+      ok(`la pagina ${f} esiste`, fs.existsSync(path.join(ROOT, f)));
+    for (const f of legal) {
+      const txt = fs.readFileSync(path.join(ROOT, f), "utf8");
+      ok(`${f} nomina Lemon Squeezy come venditore`, /Lemon Squeezy/.test(txt));
+    }
+  }
+
+  head("La configurazione dell'incasso");
+  {
+    const b = await pg.evaluate(() => ({
+      configurata: BILLING.configured,
+      urlVuoto: BILLING.buyUrl("monthly", "") === "",
+      /* con dei valori finti si controlla la FORMA dell'indirizzo, che e
+         l'unica cosa che possiamo provare senza il negozio vero */
+      forma: (function () {
+        const keep = { s: BILLING.LS_STORE, m: BILLING.LS_VARIANT_MONTHLY, c: BILLING.configured };
+        BILLING.LS_STORE = "prova"; BILLING.LS_VARIANT_MONTHLY = "abcd-1234"; BILLING.configured = true;
+        const u = BILLING.buyUrl("monthly", "mario@example.com");
+        BILLING.LS_STORE = keep.s; BILLING.LS_VARIANT_MONTHLY = keep.m; BILLING.configured = keep.c;
+        return u;
+      })()
+    }));
+    ok("i segnaposto non sono ancora stati compilati", b.configurata === false);
+    ok("e con i segnaposto NON si costruisce un link rotto", b.urlVuoto);
+    ok("l'indirizzo del checkout ha la forma di Lemon Squeezy",
+       /^https:\/\/prova\.lemonsqueezy\.com\/checkout\/buy\/abcd-1234\?/.test(b.forma), b.forma);
+    ok("porta con se l'app di provenienza", /checkout%5Bcustom%5D%5Bapp%5D=ebanist|checkout\[custom\]\[app\]=ebanist/.test(b.forma));
+    ok("e l'email, quando la sappiamo", /checkout(%5B|\[)email/.test(b.forma));
   }
 
   const bad = results.filter(r => !r.cond).length;

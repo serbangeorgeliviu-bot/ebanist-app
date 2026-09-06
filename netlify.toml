@@ -10,6 +10,72 @@
 # Una regola di riscrittura qui NON funziona: il :splat non arriva alla
 # query string della funzione, e il GET risponde sempre "id mancante".
 
+# ---------------------------------------------------------------------
+# L'app si e spostata da "/" a "/app/": in radice adesso c'e la pagina di
+# presentazione. Gli indirizzi vecchi devono continuare a funzionare —
+# sono nei preferiti, nelle scorciatoie sullo schermo e nella cache dei
+# telefoni gia in giro. Stesso ORIGINE, quindi IndexedDB e localStorage
+# restano quelli: nessuno perde i progetti in questo trasloco.
+#
+# 301 e non 302: e un trasloco definitivo, e vogliamo che i browser lo
+# imparino invece di richiedere ogni volta.
+# ---------------------------------------------------------------------
+[[redirects]]
+  from = "/index.html"
+  to = "/app/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/app"
+  to = "/app/"
+  status = 301
+
+# I file dell'app chiesti al vecchio indirizzo: capita alle finestre
+# aperte da giorni e alle cache a meta. Vanno serviti, non 404.
+[[redirects]]
+  from = "/ebanist-core.js"
+  to = "/app/ebanist-core.js"
+  status = 301
+[[redirects]]
+  from = "/viewer3d.js"
+  to = "/app/viewer3d.js"
+  status = 301
+[[redirects]]
+  from = "/geo3d.js"
+  to = "/app/geo3d.js"
+  status = 301
+[[redirects]]
+  from = "/arexport.js"
+  to = "/app/arexport.js"
+  status = 301
+[[redirects]]
+  from = "/manifest.webmanifest"
+  to = "/app/manifest.webmanifest"
+  status = 301
+[[redirects]]
+  from = "/vendor/*"
+  to = "/app/vendor/:splat"
+  status = 301
+[[redirects]]
+  from = "/icons/*"
+  to = "/app/icons/:splat"
+  status = 301
+
+# Il service worker NON si redirige mai. "/sw.js" deve restare servibile
+# dalla radice: e l'unico modo di sostituire quello vecchio con quello che
+# si disinstalla da solo. Un redirect qui lo lascerebbe vivo per sempre.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/app/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/.well-known/assetlinks.json"
   [headers.values]

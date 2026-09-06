@@ -1,10 +1,20 @@
 # Ebanist — instalare pe telefon
 
-Acest pachet conține aplicația completă, gata de instalare ca PWA
-(Progressive Web App) și gata de transformat în APK pentru Google Play.
+Acest pachet conține site-ul complet: pagina de prezentare în rădăcină și
+aplicația în `app/`, gata de instalare ca PWA (Progressive Web App).
 
-Fișiere: index.html (aplicația), manifest.webmanifest, sw.js (offline),
-icon-192.png, icon-512.png, icon-maskable-512.png.
+```
+/                       pagina de prezentare (4 limbi) + termeni, confidențialitate, rambursare
+/sw.js                  service worker de demontare — îl dezinstalează pe cel vechi, de pe scope „/”
+/app/                   APLICAȚIA: index.html, manifest.webmanifest, sw.js, icons/, vendor/
+/app/config/billing.js  DE COMPLETAT: valorile Lemon Squeezy (vezi MONETIZARE.md)
+/app/tools/genkey.py    generatorul de chei permanente EBP-XXXX-XXXX-XXXX
+```
+
+**Aplicația s-a mutat de la `/` la `/app/` în v4.25.0.** Aceeași origine,
+deci nimeni nu-și pierde proiectele. `/sw.js` din rădăcină trebuie să rămână
+servit de acolo, fără redirect — e singurul mod de a-l înlocui pe cel vechi.
+Detaliile, în MONETIZARE.md §5.
 
 ---
 
@@ -40,7 +50,10 @@ icon-192.png, icon-512.png, icon-maskable-512.png.
 ## Teste (opțional, doar pe PC)
 
 ```
-cd test && npm install && npm test
+cd test && npm install
+npm test              # 232 de teste în Chromium: aplicația, monetizarea, landing-ul
+npm run test:geom     # 49 — motorul geometric, criteriul de acceptare (D-37)
+npm run test:license  # 22 — cheile permanente și decizia „sunt Pro?”
 ```
 
 Pornește un server local, deschide aplicația în Chromium la dimensiune de
@@ -56,9 +69,12 @@ rădăcină servește funcției Netlify și nu trebuie să-l atingă.
 Dacă modifici aplicația și o reurci, **două** valori trebuie schimbate
 împreună, altfel telefoanele rămân pe versiunea veche:
 
-1. `sw.js` → `const CACHE = "ebanist-v53"` — incrementează numărul.
-2. `index.html` → `const APP_VER="4.22.0"` **și** `const SW_CACHE="ebanist-v53"`
-   (aceeași valoare ca în `sw.js`).
+1. `app/sw.js` → `const CACHE = "ebanist-v56"` — incrementează numărul.
+2. `app/index.html` → `const APP_VER="4.25.0"` **și** `const SW_CACHE="ebanist-v56"`
+   (aceeași valoare ca în `app/sw.js`).
+
+Dacă adaugi un fișier nou pe care aplicația îl încarcă la pornire, pune-l și
+în lista `SHELL` din `app/sw.js` — altfel nu există offline, în atelier.
 
 Dacă cele două nume de cache nu coincid, „Verifică actualizări" scrie pagina
 nouă într-un cache pe care service worker-ul îl șterge imediat ce pornește:
@@ -67,4 +83,4 @@ regresie verifică asta la fiecare rulare.
 
 ---
 
-Domus Renov · Ebanist v4.22.0
+Domus Renov · Ebanist v4.25.0

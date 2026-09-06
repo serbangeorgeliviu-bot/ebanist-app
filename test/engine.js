@@ -16,6 +16,11 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
+/* L'app e traslocata in /app/ quando la radice e diventata la pagina di
+   presentazione. Il motore 4.23 si legge invece da un commit, dove
+   index.html stava ancora in radice: quel percorso NON si tocca, e
+   storia e deve restare com'era. */
+const APP = path.join(ROOT, "app");
 const V423 = "20357ab";   // v4.23.0 — la distinta sbagliata, quella da battere
 
 /* --- estrazione della geometria da index.html -----------------------------
@@ -63,9 +68,9 @@ let _app = null;
 function appEngine() {
   if (_app) return _app;
   const s = newSandbox();
-  const core = path.join(ROOT, "ebanist-core.js");
+  const core = path.join(APP, "ebanist-core.js");
   if (fs.existsSync(core)) vm.runInContext(fs.readFileSync(core, "utf8"), s, { filename: "ebanist-core.js" });
-  vm.runInContext(geometryOf(fs.readFileSync(path.join(ROOT, "index.html"), "utf8")), s, { filename: "index.html" });
+  vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
   return (_app = s);
 }
 function coreEngine() { const s = appEngine(); return s.deriveCarcass ? s : null; }
