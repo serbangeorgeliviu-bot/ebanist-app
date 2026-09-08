@@ -1,6 +1,6 @@
 /* Ebanist service worker — offline-first app shell */
-const CACHE = "ebanist-v56";
-const SHELL = ["./index.html","./ebanist-core.js","./ebanist-store.js","./config/billing.js","./ebanist-license.js","./viewer3d.js","./geo3d.js","./vendor/three.module.min.js","./vendor/RoomEnvironment.js","./arexport.js","./vendor/GLTFExporter.js","./vendor/USDZExporter.js","./vendor/TextureUtils.js","./vendor/fflate.module.js","./vendor/supabase.js","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/favicon.ico"];
+const CACHE = "ebanist-v57";
+const SHELL = ["./index.html","./ebanist-core.js","/order-rail/price.js","/order-rail/atelier.js","/order-rail/order.js","./ebanist-store.js","./config/billing.js","./ebanist-license.js","./viewer3d.js","./geo3d.js","./vendor/three.module.min.js","./vendor/RoomEnvironment.js","./arexport.js","./vendor/GLTFExporter.js","./vendor/USDZExporter.js","./vendor/TextureUtils.js","./vendor/fflate.module.js","./vendor/supabase.js","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/favicon.ico"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

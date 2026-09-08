@@ -491,6 +491,31 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 .filterbar input{flex:1.4;min-width:0}
 .filterbar select{flex:1;min-width:0}
 
+/* ---------- Order Rail ---------- */
+/* Bara de preț stă DEASUPRA navigării, nu peste ea: e permanentă, iar un
+   buton care acoperă meniul se apasă din greșeală cu degetul mare. */
+#orBar{position:fixed;left:10px;right:10px;bottom:calc(var(--nav-h) + 10px);z-index:60;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);padding:10px 12px;display:none}
+#orBar.on{display:block}
+#orBar .row{display:flex;align-items:center;gap:10px}
+#orBar .amt{font-family:var(--font-disp);font-size:24px;font-weight:700;line-height:1;white-space:nowrap}
+#orBar .lbl{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
+#orBar .go{flex:1;min-width:0}
+#orBar .go .btn{width:100%}
+#orBar .btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#orBar .warn{margin-top:6px;font-size:11.5px;color:var(--warn);line-height:1.35}
+#orDetail{margin-top:8px;border-top:1px solid var(--line);padding-top:8px;display:none}
+#orDetail.on{display:block}
+#orDetail table{width:100%;border-collapse:collapse;font-size:12.5px}
+#orDetail td{padding:3px 0}
+#orDetail td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#orDetail tr.sum td{border-top:1px solid var(--line);font-weight:700;padding-top:6px}
+#orDetail .mod{margin-top:8px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--faint)}
+.or-toggle{background:none;border:0;color:var(--faint);font-size:12px;padding:4px 0;cursor:pointer}
+/* Identitatea atelierului în header: logo mic, nume în locul „Ebanist". */
+.at-logo{height:26px;width:auto;max-width:96px;display:block;border-radius:4px}
+
 /* ---------- dialogo unico, schermo Pro, filigrana ---------- */
 .dlg-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.55);display:none;
   align-items:center;justify-content:center;padding:20px}
@@ -1595,6 +1620,39 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div id="langList"></div>
 </div>
 
+<!-- Order Rail: bara de preț și cele două foi. Stau în DOM tot timpul,
+     dar se arată doar în mod atelier. -->
+<div id="orBar">
+  <div class="row">
+    <div class="go">
+      <button class="btn red" id="orSendBtn"><span id="orSendLbl">—</span></button>
+    </div>
+    <div style="text-align:right">
+      <div class="lbl" id="orBarLbl">—</div>
+      <div class="amt" id="orAmt">—</div>
+    </div>
+  </div>
+  <div id="orWarn" class="warn" hidden></div>
+  <button class="or-toggle" id="orToggle">—</button>
+  <div id="orDetail"></div>
+</div>
+
+<div class="sheet" id="shOrder" style="max-height:86vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 data-i="orCustomer">Datele tale</h3>
+  <div class="f"><label data-i="orName">Nume</label><input id="orName" autocomplete="name"></div>
+  <div class="f"><label data-i="orPhone">Telefon</label><input id="orPhone" type="tel" autocomplete="tel" inputmode="tel"></div>
+  <p class="mini" id="orRecap" style="margin:-2px 0 10px"></p>
+  <button class="btn red" id="orConfirmBtn"><span data-i="orSendShort">Trimite comanda</span></button>
+  <p class="mini" id="orFormMsg" style="margin-top:10px;min-height:1.2em"></p>
+</div>
+
+<div class="sheet" id="shOrderDone" style="max-height:86vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 id="orDoneTitle">—</h3>
+  <div id="orDoneBody"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 <div id="printArea"></div>
 
@@ -1609,6 +1667,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <script src="./ebanist-store.js"></script>
 <script src="./config/billing.js"></script>
 <script src="./ebanist-license.js"></script>
+<!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
+     inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
+     sincron — de el depinde dacă prima tipărire pune filigran. -->
+<script src="/order-rail/price.js"></script>
+<script src="/order-rail/atelier.js"></script>
+<script src="/order-rail/order.js"></script>
 <script>
 "use strict";
 /* ================= I18N ================= */
@@ -2045,6 +2109,151 @@ Object.assign(I18N.fr,{
   navPro:"Pro",
   arFailTitle:"Échec de l'export 3D",arFailWhy:"Raison",
   lTerms:"Conditions",lPrivacy:"Confidentialité",lRefund:"Remboursement"});
+/* ---- Order Rail (v4.26.0) ---- */
+Object.assign(I18N.it,{
+  orAccessories:"Accessori",
+  orBar:"Preventivo",
+  orSend:"Invia l'ordine a {a}",
+  orSendShort:"Invia l'ordine",
+  orEstimate:"stima — confermata dal laboratorio",
+  orNet:"Imponibile",
+  orVat:"IVA",
+  orTotal:"TOTALE",
+  orPanels:"Pannelli",
+  orEdge:"Bordo",
+  orHoles:"Forature",
+  orCutouts:"Intagli",
+  orLabour:"Manodopera",
+  orMinOrder:"Minimo d'ordine",
+  orPerModule:"Per mobile",
+  orDetail:"Dettaglio",
+  orWarnMat:"{m}: prezzo generico — da confermare col laboratorio",
+  orNoPieces:"Genera prima un mobile",
+  orCustomer:"I tuoi dati",
+  orName:"Nome e cognome",
+  orPhone:"Telefono",
+  orNameReq:"Scrivi il tuo nome",
+  orPhoneReq:"Scrivi il tuo telefono",
+  orSending:"Invio…",
+  orSentTitle:"Ordine inviato",
+  orFailTitle:"Ordine salvato sul dispositivo",
+  orLocalOnly:"Il server non risponde. L'ordine e salvo qui e nel pacchetto scaricato: mandalo su WhatsApp e il laboratorio lo riceve lo stesso.",
+  orIdIs:"Numero ordine",
+  orShareWa:"Manda su WhatsApp",
+  orDownload:"Scarica il pacchetto",
+  orOpenOrder:"Apri l'ordine",
+  orClose:"Chiudi",
+  orDocs:"Documenti",
+  orWaText:"Ordine {id} — {c} — {n} mobili, {p} pz — {t}",
+  orPriceNote:"Prezzi del laboratorio. IVA inclusa nel totale."});
+Object.assign(I18N.ro,{
+  orAccessories:"Accesorii",
+  orBar:"Deviz",
+  orSend:"Trimite comanda la {a}",
+  orSendShort:"Trimite comanda",
+  orEstimate:"estimativ — confirmat de atelier",
+  orNet:"Fără TVA",
+  orVat:"TVA",
+  orTotal:"TOTAL",
+  orPanels:"Plăci",
+  orEdge:"Cant",
+  orHoles:"Găuriri",
+  orCutouts:"Decupaje",
+  orLabour:"Manoperă",
+  orMinOrder:"Comandă minimă",
+  orPerModule:"Pe corp",
+  orDetail:"Detaliu",
+  orWarnMat:"{m}: preț generic — de confirmat cu atelierul",
+  orNoPieces:"Generează întâi un corp",
+  orCustomer:"Datele tale",
+  orName:"Nume și prenume",
+  orPhone:"Telefon",
+  orNameReq:"Scrie-ți numele",
+  orPhoneReq:"Scrie-ți telefonul",
+  orSending:"Se trimite…",
+  orSentTitle:"Comandă trimisă",
+  orFailTitle:"Comandă salvată pe dispozitiv",
+  orLocalOnly:"Serverul nu răspunde. Comanda e salvată aici și în pachetul descărcat: trimite-o pe WhatsApp și atelierul o primește oricum.",
+  orIdIs:"Număr comandă",
+  orShareWa:"Trimite pe WhatsApp",
+  orDownload:"Descarcă pachetul",
+  orOpenOrder:"Deschide comanda",
+  orClose:"Închide",
+  orDocs:"Documente",
+  orWaText:"Comanda {id} — {c} — {n} corpuri, {p} buc — {t}",
+  orPriceNote:"Prețurile atelierului. TVA inclus în total."});
+Object.assign(I18N.en,{
+  orAccessories:"Accessories",
+  orBar:"Quote",
+  orSend:"Send the order to {a}",
+  orSendShort:"Send the order",
+  orEstimate:"estimate — confirmed by the workshop",
+  orNet:"Net",
+  orVat:"VAT",
+  orTotal:"TOTAL",
+  orPanels:"Boards",
+  orEdge:"Edging",
+  orHoles:"Drilling",
+  orCutouts:"Cutouts",
+  orLabour:"Labour",
+  orMinOrder:"Minimum order",
+  orPerModule:"Per unit",
+  orDetail:"Breakdown",
+  orWarnMat:"{m}: generic price — confirm with the workshop",
+  orNoPieces:"Generate a unit first",
+  orCustomer:"Your details",
+  orName:"Full name",
+  orPhone:"Phone",
+  orNameReq:"Enter your name",
+  orPhoneReq:"Enter your phone",
+  orSending:"Sending…",
+  orSentTitle:"Order sent",
+  orFailTitle:"Order saved on this device",
+  orLocalOnly:"The server is not answering. The order is safe here and in the downloaded package: send it on WhatsApp and the workshop gets it anyway.",
+  orIdIs:"Order number",
+  orShareWa:"Send on WhatsApp",
+  orDownload:"Download the package",
+  orOpenOrder:"Open the order",
+  orClose:"Close",
+  orDocs:"Documents",
+  orWaText:"Order {id} — {c} — {n} units, {p} pcs — {t}",
+  orPriceNote:"Workshop prices. VAT included in the total."});
+Object.assign(I18N.fr,{
+  orAccessories:"Accessoires",
+  orBar:"Devis",
+  orSend:"Envoyer la commande à {a}",
+  orSendShort:"Envoyer la commande",
+  orEstimate:"estimation — confirmée par l'atelier",
+  orNet:"Hors taxes",
+  orVat:"TVA",
+  orTotal:"TOTAL",
+  orPanels:"Panneaux",
+  orEdge:"Chant",
+  orHoles:"Perçages",
+  orCutouts:"Découpes",
+  orLabour:"Main-d'œuvre",
+  orMinOrder:"Commande minimum",
+  orPerModule:"Par meuble",
+  orDetail:"Détail",
+  orWarnMat:"{m} : prix générique — à confirmer avec l'atelier",
+  orNoPieces:"Générez d'abord un meuble",
+  orCustomer:"Vos coordonnées",
+  orName:"Nom et prénom",
+  orPhone:"Téléphone",
+  orNameReq:"Saisissez votre nom",
+  orPhoneReq:"Saisissez votre téléphone",
+  orSending:"Envoi…",
+  orSentTitle:"Commande envoyée",
+  orFailTitle:"Commande enregistrée sur l'appareil",
+  orLocalOnly:"Le serveur ne répond pas. La commande est en sécurité ici et dans le paquet téléchargé : envoyez-la sur WhatsApp et l'atelier la reçoit quand même.",
+  orIdIs:"Numéro de commande",
+  orShareWa:"Envoyer sur WhatsApp",
+  orDownload:"Télécharger le paquet",
+  orOpenOrder:"Ouvrir la commande",
+  orClose:"Fermer",
+  orDocs:"Documents",
+  orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
+  orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français"};
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
@@ -2220,6 +2429,16 @@ function matById(id){ const m=matAll().find(x=>x.id===id);
   return eff; }
 function matRawByLabel(label){ return matAll().find(x=>x.l&&Object.values(x.l).includes(label)); }
 function matByLabel(label){ const m=matRawByLabel(label); return m?matById(m.id):null; }
+/* Lista de prețuri a atelierului e cheiată pe ID de material, nu pe
+   eticheta tradusă: aceeași placă se numește altfel în fiecare limbă, iar
+   un preț legat de text s-ar pierde la prima schimbare de limbă. */
+function matIdByLabel(label){ const m=matRawByLabel(label); return m?m.id:null; }
+/* Bara de umeraș, piciorușele, geamul: sunt piese în distinta, dar nu se
+   taie din placă. Aplicația le marchează de mult cu prefixul
+   „Accessorio —" și le scoate din m² în nesting, în costuri și în stoc.
+   Prețul atelierului folosește EXACT aceeași regulă — o a doua ar
+   însemna că o comandă costă altfel decât arată devizul intern. */
+function isAccessoryMat(label){ return /^accessorio/i.test(String(label||"")); }
 function matDecorByLabel(label){
   const m=matRawByLabel(label);
   if(!m) return "";
@@ -2430,7 +2649,12 @@ function refreshPro(){
   if(was!==PRO){ try{ paintProBadge(); render(); }catch(e){} }
   else { try{ paintProBadge(); }catch(e){} }
 }
-function isPro(){ return PRO; }
+/* În mod atelier nu clientul plătește aplicația — atelierul i-o oferă.
+   Deci toate limitele cad: filigranul, zidul celor două proiecte,
+   pachetul de laborator, exportul JPG. Un singur loc pentru toate patru,
+   fiindcă toate patru întreabă `isPro()`. */
+function atelierMode(){ return !!(window.OrderRail&&OrderRail.active()); }
+function isPro(){ return PRO||atelierMode(); }
 /* I progetti che contano per il limite. Quello di esempio, creato dalla
    app al primo avvio, NON conta: e materiale nostro, e occupare con esso
    meta della quota gratuita vorrebbe dire far sbattere l'utente contro
@@ -3130,6 +3354,7 @@ function render(){
   if(currentView==="build") renderBuild();
   if(currentView==="nest") renderNest();
   if(currentView==="summary") renderSummary();
+  if(typeof orRefresh==="function") orRefresh();
 }
 
 function renderProjects(){
@@ -3732,7 +3957,7 @@ $("btnLang").addEventListener("click",()=>{
   for(const code of ["it","ro","en","fr"]){
     const b=document.createElement("button");
     b.className="btn"+(code===state.lang?" red":""); b.style.marginBottom="8px"; b.textContent=LANG_NAMES[code];
-    b.addEventListener("click",()=>{state.lang=code;persist();applyLang();renderAccount();closeSheets();render();});
+    b.addEventListener("click",()=>{state.lang=code;state.langChosen=1;persist();applyLang();renderAccount();closeSheets();render();});
     box.appendChild(b);
   }
   openSheet("shLang");
@@ -3843,7 +4068,7 @@ $("btnPdf").addEventListener("click",()=>{
       ${p.client?` — <b>${esc(t("client"))}:</b> ${esc(p.client)}`:""}<br>
       <b>${esc(t("date"))}:</b> ${esc(p.date||new Date().toISOString().slice(0,10))}</div>
       ${prTrace(p)}</div>
-    <div class="co">${prLogo()}<b>${esc(S.coName)}</b><br>${esc(S.coInfo)}</div></div>`;
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
   for(const [mod,items] of groups){
     html+=`<h2>${esc(mod)}</h2><table><tr>
       <th>${esc(t("fElement"))}</th><th style="text-align:right">${esc(t("fLength"))}</th>
@@ -3863,7 +4088,7 @@ $("btnPdf").addEventListener("click",()=>{
   html+=`<div class="pr-sum"><b>${esc(t("totalPieces"))}:</b> ${tot.pcs} ·
     <b>${esc(t("totalArea"))}:</b> ${fmt(tot.area)} m² ·
     <b>${esc(t("edgeBanding"))}:</b> ${fmt(tot.edge,1)} ml</div>
-    <div class="pr-foot"><span>${esc(t("printNotes"))}</span><span>Ebanist · ${esc(S.coName)}</span></div>`;
+    <div class="pr-foot"><span>${esc(t("printNotes"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   $("printArea").innerHTML=html;
   printOut();
 });
@@ -5461,10 +5686,11 @@ function openBuilder(mod){
   if(p&&p.configs&&p.configs[mod]){ buildCfg={...p.configs[mod],name:mod}; if(buildFormReady)syncBuildForm(); }
   setView("build");
 }
-$("btnGenerate").addEventListener("click",()=>{
-  const p=proj(); if(!p){toast(t("selectProject"));setView("projects");return;}
-  const cfg=cfgFromForm();
-  if(!cfg.name){$("bName").focus();return;}
+/* La traducerea cfg → rânduri de distinta, scoasă din handler ca să o
+   poată chema și modul atelier, care generează corpul implicit la
+   deschiderea linkului. O singură cale: dacă s-ar dubla, corpul de
+   pornire ar putea ajunge cu alt material decât cel din generator. */
+function generateInto(p,cfg){
   const {pieces}=buildModule(cfg);
   const mB=matById(cfg.matBody), mF=matById(cfg.matFront), mK=matById(cfg.matBack);
   const defMat=mB?mB.label:(cfg.t===25?MAT25:MAT18);
@@ -5477,6 +5703,13 @@ $("btnGenerate").addEventListener("click",()=>{
     materiale:x.mat||(isFront(x.elemento)?frontMat:/^schienale/i.test(x.elemento)?backMat:defMat)}));
   p.pieces=p.pieces.filter(q=>q.gen!==cfg.name&&q.modulo!==cfg.name).concat(rows);
   p.configs=p.configs||{}; p.configs[cfg.name]=cfg;
+  return {pieces,rows};
+}
+$("btnGenerate").addEventListener("click",()=>{
+  const p=proj(); if(!p){toast(t("selectProject"));setView("projects");return;}
+  const cfg=cfgFromForm();
+  if(!cfg.name){$("bName").focus();return;}
+  const {pieces,rows}=generateInto(p,cfg);
   persist(); setView("list");
   /* le regole girano a OGNI generazione, prima di qualunque esportazione */
   auditBadge();
@@ -5702,9 +5935,15 @@ function auditSheet(failed){
 
    La filigrana si mette e si TOGLIE ogni volta: chi attiva Pro e stampa
    subito dopo, senza ricaricare, deve avere il foglio pulito. */
+/* Când e pornită captura, documentele nu ies pe hârtie: se strâng.
+   Pachetul de comandă cheamă exact butoanele pe care le apasă și omul,
+   deci ce ajunge la atelier e bit cu bit ce tipărește aplicația. */
+let PRINT_CAPTURE=null;
 function printOut(){
   const pa=$("printArea");
   pa.querySelectorAll(".wm-diag,.wm-foot").forEach(n=>n.remove());
+  if(PRINT_CAPTURE){ PRINT_CAPTURE.push(pa.innerHTML); return; }
+  if(typeof orFirstPdf==="function") orFirstPdf();
   if(!isPro()){
     const d=document.createElement("div");
     d.className="wm-diag"; d.textContent=t("wmDiag");
@@ -5851,7 +6090,7 @@ $("btnDraw").addEventListener("click",()=>{
   const html=`<div class="pr-head"><div><h1>${esc(t("drawTitle"))}</h1>
     <div style="font-size:11pt;margin-top:2px"><b>${esc(buildCfg.name)}</b> — ${buildCfg.L}×${buildCfg.H}×${buildCfg.P} mm · ${esc(t("date"))}: ${fmtD}</div>
     ${prTrace(proj())}</div>
-    <div class="co">${prLogo()}<b>${esc(S.coName)}</b><br>${esc(S.coInfo)}</div></div>
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>
     <table style="width:100%;border:none"><tr>
       <td style="border:none;vertical-align:top;width:62%"><h2>${esc(t("drawFront"))}</h2>${techView(boxes,"x",buildCfg.H,buildCfg)}</td>
       <td style="border:none;vertical-align:top"><h2>${esc(t("dwSide"))}</h2>${techView(boxes,"z",buildCfg.H,buildCfg)}</td>
@@ -5860,7 +6099,7 @@ $("btnDraw").addEventListener("click",()=>{
     <h2 style="page-break-before:auto">${esc(t("drawExpl"))}</h2>
     <div style="text-align:center">${explSvg}</div>
     <p style="font-size:9pt;color:#333">${esc(t("mSafety"))}</p>
-    <div class="pr-foot"><span>${esc(t("drawTitle"))} · ${esc(buildCfg.name)}</span><span>Ebanist · ${esc(S.coName)}</span></div>`;
+    <div class="pr-foot"><span>${esc(t("drawTitle"))} · ${esc(buildCfg.name)}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   $("printArea").innerHTML=html;
   printOut();
 });
@@ -6042,7 +6281,7 @@ $("btnMont").addEventListener("click",()=>{
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
     <b>${esc(t("date"))}:</b> ${new Date().toISOString().slice(0,10)}</div>
     ${prTrace(p)}</div>
-    <div class="co">${prLogo()}<b>${esc(S.coName)}</b><br>${esc(S.coInfo)}</div></div>`;
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
   const modNames=Object.keys(mods);
   if(!modNames.length){ toast(t("selectProject")); return; }
   for(const mod of modNames){
@@ -6058,7 +6297,7 @@ $("btnMont").addEventListener("click",()=>{
     }
     html+="</ol>";
   }
-  html+=`<div class="pr-foot"><span>${esc(t("mSafety"))}</span><span>Ebanist · ${esc(S.coName)}</span></div>`;
+  html+=`<div class="pr-foot"><span>${esc(t("mSafety"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   $("printArea").innerHTML=html;
   printOut();
 });
@@ -6180,7 +6419,7 @@ $("btnOrder").addEventListener("click",()=>{
     <div><h1>${esc(t("orderTitle"))}</h1>
       <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
       <b>${esc(t("date"))}:</b> ${esc(new Date().toISOString().slice(0,10))}</div></div>
-    <div class="co">${prLogo()}<b>${esc(S.coName)}</b><br>${esc(S.coInfo)}</div></div>`;
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
   html+=`<h2>${esc(t("orderPanels"))}</h2><table><tr>
     <th>${esc(t("fMaterial"))}</th><th>${esc(t("orderSize"))}</th>
     <th style="text-align:right">${esc(t("orderQty"))}</th><th style="text-align:right">${esc(t("panelsStock"))}</th></tr>`;
@@ -6204,7 +6443,7 @@ $("btnOrder").addEventListener("click",()=>{
         <td>${esc(x.prod&&x.prod.art?x.prod.art:"—")}</td><td class="n"><b>${x.qty}</b></td></tr>`;
     html+=`</table>`;
   }
-  html+=`<div class="pr-foot"><span>${esc(S.coName)}</span><span>${esc(t("orderCheck"))}</span></div>`;
+  html+=`<div class="pr-foot"><span>${esc(prCoName())}</span><span>${esc(t("orderCheck"))}</span></div>`;
   $("printArea").innerHTML=html;
   printOut();
 });
@@ -6560,7 +6799,20 @@ $("btnFeedback").addEventListener("click",()=>{
 
 /* ================= LOGO AZIENDALE ================= */
 function prLogo(){ const S=state.settings;
+  /* În mod atelier antetul e al atelierului, nu al utilizatorului: el e
+     cel care primește comanda și el o dă mai departe clientului. */
+  if(atelierMode()&&OrderRail.cfg&&OrderRail.cfg.logo)
+    return `<img src="${esc(OrderRail.cfg.logo)}" style="height:34px;display:block;margin-left:auto;margin-bottom:4px">`;
   return S.logo?`<img src="${S.logo}" style="height:34px;display:block;margin-left:auto;margin-bottom:4px">`:""; }
+/* Numele care apare pe documente. Tot al atelierului în mod atelier. */
+function prCoName(){
+  if(atelierMode()&&OrderRail.cfg&&OrderRail.cfg.name) return OrderRail.cfg.name;
+  return state.settings.coName;
+}
+function prCoInfo(){
+  if(atelierMode()&&OrderRail.cfg) return OrderRail.cfg.phone||"";
+  return state.settings.coInfo;
+}
 $("btnLogo").addEventListener("click",()=>{
   const S=state.settings;
   if(S.logo){ confirmDlg(t("logoRemove")).then(okv=>{ if(okv){ delete S.logo; persist(); toast("✓"); } }); return; }
@@ -6816,13 +7068,13 @@ $("btnQuote").addEventListener("click",()=>{
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
     <b>${esc(t("client"))}:</b> ${esc(p.client||"—")}${p.phone?` · ${esc(p.phone)}`:""}<br>
     <b>${esc(t("date"))}:</b> ${new Date().toISOString().slice(0,10)}</div></div>
-    <div class="co">${prLogo()}<b>${esc(S.coName)}</b><br>${esc(S.coInfo)}</div></div>
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>
     <table><tr><th>${esc(t("fModule"))}</th><th>${esc(t("qDesc"))}</th><th style="text-align:right">${esc(t("amount"))}</th></tr>${rows}</table>
     <div class="pr-sum" style="text-align:right">${C.hours>0?`${esc(t("cLabor"))}: ${fmt(C.hours,1)}h × € ${fmt(C.hourly)} = € ${fmt(C.hours*C.hourly)} <span style="font-size:8pt">(${esc(t("qIncl"))})</span><br>`:""}${esc(t("qNet"))}: <b>€ ${fmt(C.prezzo)}</b><br>
     ${esc(t("qVat"))} ${S.iva||0}%: <b>€ ${fmt(C.ivaAmt)}</b><br>
     <span style="font-size:13pt">${esc(t("qTotal"))}: <b>€ ${fmt(C.prezzo+C.ivaAmt)}</b></span></div>
     ${p.notes?`<div style="margin-top:10px;font-size:9.5pt">${esc(p.notes)}</div>`:""}
-    <div class="pr-foot"><span>${esc(t("qValidity"))}</span><span>Ebanist · ${esc(S.coName)}</span></div>`;
+    <div class="pr-foot"><span>${esc(t("qValidity"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   printOut();
 });
 $("listSearch").addEventListener("input",e=>{listQ=e.target.value;renderList();});
@@ -8405,6 +8657,314 @@ function aiMount(){
   $("btnAiCancel").addEventListener("click",()=>{ closeSheets(); aiPatch=null; });
 }
 
+/* ================= ORDER RAIL — cablajul din aplicație =================
+   Modulele din /order-rail/ nu știu nimic despre `state` și nu au voie să
+   știe. Aici se leagă: de o parte funcțiile aplicației, de alta motorul
+   de preț și pachetul de comandă. */
+
+function orDeps(){
+  return {computeTotals, computeHardware, scList, normMat, bandingMm,
+          matIdByLabel, isAccessoryMat, settings: state.settings};
+}
+const OR_LINE_I18N={panel:null,edge:"orEdge",hole:"orHoles",cutout:"orCutouts",
+                    labour:"orLabour",min_order:"orMinOrder",accessory:"orAccessories"};
+function orLineLabel(l){
+  if(l.kind==="panel") return l.label;
+  const k=OR_LINE_I18N[l.kind];
+  return k?t(k):l.kind;
+}
+function orMoney(n){ return OrderRail.fmtMoney(n,state.lang); }
+
+/* Recalculează și redesenează bara. Se cheamă la fiecare `render()`:
+   prețul trebuie să se miște când se mișcă o cotă, altfel clientul nu
+   leagă cifra de ce a schimbat. */
+function orRefresh(){
+  const bar=$("orBar");
+  if(!atelierMode()||!OrderRail.ready){ bar.classList.remove("on"); return; }
+  bar.classList.add("on");
+  const p=proj();
+  $("orBarLbl").textContent=t("orBar");
+  $("orSendLbl").textContent=t("orSend").replace("{a}",OrderRail.cfg.name);
+  const empty=!p||!p.pieces.length;
+  $("orSendBtn").disabled=empty;
+  if(empty){
+    $("orAmt").textContent="—";
+    $("orWarn").hidden=false; $("orWarn").textContent=t("orNoPieces");
+    $("orDetail").innerHTML=""; return;
+  }
+  const q=OrderRail.price(p,orDeps());
+  if(!q){ bar.classList.remove("on"); return; }
+  $("orAmt").textContent=orMoney(q.total);
+
+  /* Un material care a căzut pe prețul implicit se SPUNE. Un preț tăcut
+     pe o placă pe care atelierul n-o ține e felul în care se pierde o
+     comandă — la telefon, o zi mai târziu. */
+  const mats=q.warnings.filter(w=>w.code==="material_not_priced");
+  if(mats.length){
+    $("orWarn").hidden=false;
+    $("orWarn").textContent=mats.map(w=>t("orWarnMat").replace("{m}",w.material)).join(" · ");
+  } else $("orWarn").hidden=true;
+
+  $("orToggle").textContent=($("orDetail").classList.contains("on")?"▾ ":"▸ ")+t("orDetail");
+  let h='<table>';
+  for(const l of q.lines){
+    const qty=l.unitName==="pcs"?l.qty:fmt(l.qty,l.unitName==="m2"?3:2);
+    h+=`<tr><td>${esc(orLineLabel(l))}</td><td class="n">${esc(String(qty))} ${esc(l.unitName==="pcs"?"":l.unitName)}</td><td class="n">${esc(orMoney(l.total))}</td></tr>`;
+  }
+  h+=`<tr class="sum"><td>${esc(t("orNet"))}</td><td></td><td class="n">${esc(orMoney(q.net))}</td></tr>`;
+  h+=`<tr><td>${esc(t("orVat"))} ${q.vatPct}%</td><td></td><td class="n">${esc(orMoney(q.vat))}</td></tr>`;
+  h+=`<tr class="sum"><td>${esc(t("orTotal"))}</td><td></td><td class="n">${esc(orMoney(q.total))}</td></tr></table>`;
+  if(q.modules&&Object.keys(q.modules).length>1){
+    h+=`<div class="mod">${esc(t("orPerModule"))}</div><table>`;
+    for(const name in q.modules)
+      h+=`<tr><td>${esc(name)}</td><td class="n">${esc(orMoney(q.modules[name].net))}</td></tr>`;
+    h+="</table>";
+  }
+  h+=`<p class="mini" style="margin-top:8px">${esc(t("orPriceNote"))} · ${esc(t("orEstimate"))}</p>`;
+  $("orDetail").innerHTML=h;
+}
+
+/* ---- documentele, luate de la generatoarele adevărate ----
+   Se apasă butoanele, nu se rescrie conținutul: ce ajunge la atelier e
+   bit cu bit ce tipărește aplicația. */
+function orDocs(){
+  const css=OrderPkg.printCss();
+  const want=[["btnPdf","distinta"],["btnMont","montaj"],["btnLabels","etichete"]];
+  const out={};
+  const keep=PRINT_CAPTURE;
+  for(const [btn,key] of want){
+    PRINT_CAPTURE=[];
+    try{ $(btn).click(); }catch(e){}
+    const html=PRINT_CAPTURE[0];
+    if(html) out[key]=OrderPkg.wrapDoc(key,html,css);
+  }
+  PRINT_CAPTURE=keep;
+  return out;
+}
+
+/* ---- pachetul ---- */
+async function orBuildPackage(customer){
+  const p=proj(), c=OrderRail.cfg;
+  const q=OrderRail.price(p,orDeps());
+  const lab={ebanist_lab:1,name:p.name,date:p.date,deadline:p.deadline||null,
+    pieces:p.pieces.map(x=>({modulo:x.modulo,elemento:x.elemento,lung:x.lung,larg:x.larg,pz:x.pz,
+      bordo:x.bordo,scasso:scList(x),
+      materiale:x.materiale+(matDecorByLabel(x.materiale)?" ["+matDecorByLabel(x.materiale)+"]":"")}))};
+  /* Snapshot-ul e DESENUL, nu evidența aplicației. Fără curățarea asta,
+     `lastOrder` — care ține minte comanda dinainte — intra în hash: a
+     doua trimitere ieșea cu alt hash chiar dacă nu se schimbase nicio
+     cotă, iar aplicația năștea un v2 pentru o apăsare în plus. Atelierul
+     ar fi primit versiuni fantomă ale unei comenzi neschimbate. */
+  const cleanProject=JSON.parse(JSON.stringify(p));
+  delete cleanProject.lastOrder; delete cleanProject.orSeeded; delete cleanProject.demo;
+  const snapshot={project:cleanProject,settings:{panelL:state.settings.panelL,panelW:state.settings.panelW,
+    kerf:state.settings.kerf,edgeTh:state.settings.edgeTh},
+    appVer:APP_VER,geomVersion:GEOM_VERSION};
+  const hash=await OrderPkg.sha256(OrderPkg.canonical(snapshot));
+
+  /* Versionarea. Proiectul ține minte ultima comandă trimisă din el. A
+     doua trimitere nu e o comandă nouă fără legătură: e v2, cu părinte
+     și cu diferența pe piese. În atelier, v1 poate fi deja pe masa de
+     debitat — cine primește v2 trebuie să vadă din prima ce s-a
+     schimbat, nu să compare două liste cu ochiul. */
+  const prev=p.lastOrder||null;
+  let id, version=1, parent=null, diff=null;
+  if(prev&&prev.id){
+    if(prev.hash===hash){
+      /* Nimic schimbat de la ultima trimitere: nu se creează v2 pentru
+         o apăsare în plus. Se retrimite acelaşi număr. */
+      id=prev.id; version=prev.version||1; parent=prev.parent||null;
+    }else{
+      version=(prev.version||1)+1;
+      parent=prev.id;
+      id=(prev.base||prev.id.split("-v")[0])+"-v"+version;
+      diff=OrderPkg.diffPieces(prev.pieces||[],p.pieces);
+    }
+  }else{ id=OrderPkg.newId(); }
+
+  const order={
+    id:id, version:version, parent:parent, diff:diff,
+    atelier:c.slug, atelierName:c.name,
+    customer:{name:customer.name,phone:customer.phone},
+    created_at:new Date().toISOString(),
+    status:"received",
+    lang:state.lang,
+    modules:Object.keys(q.modules||{}).length,
+    pieces:q ? p.pieces.reduce((a,x)=>a+(+x.pz||0),0) : 0,
+    price:{currency:q.currency,net:q.net,vatPct:q.vatPct,vat:q.vat,total:q.total,lines:q.lines,
+           warnings:q.warnings,modules:q.modules||{}},
+    appVer:APP_VER, geomVersion:GEOM_VERSION, hash:hash
+  };
+  return {order,lab,snapshot,docs:orDocs()};
+}
+
+function orWaText(o){
+  return t("orWaText").replace("{id}",o.id).replace("{c}",o.customer.name)
+    .replace("{n}",o.modules||1).replace("{p}",o.pieces)
+    .replace("{t}",orMoney(o.price.total))
+    + "\n" + location.origin + "/a/" + o.atelier + "/order/" + o.id;
+}
+
+/* ---- trimiterea ---- */
+$("orSendBtn").addEventListener("click",()=>{
+  const p=proj(); if(!p||!p.pieces.length){ toast(t("orNoPieces")); return; }
+  orEvent("order_started");
+  const q=OrderRail.price(p,orDeps());
+  $("orRecap").textContent=`${p.pieces.reduce((a,x)=>a+(+x.pz||0),0)} ${t("pieces")} · ${orMoney(q.total)}`;
+  $("orFormMsg").textContent="";
+  closeSheets(); openSheet("shOrder");
+  setTimeout(()=>{ try{ $("orName").focus(); }catch(e){} },250);
+});
+$("orToggle").addEventListener("click",()=>{ $("orDetail").classList.toggle("on"); orRefresh(); });
+
+$("orConfirmBtn").addEventListener("click",async()=>{
+  const name=$("orName").value.trim(), phone=$("orPhone").value.trim();
+  const msg=$("orFormMsg"); msg.style.color="var(--warn)";
+  if(!name){ msg.textContent=t("orNameReq"); $("orName").focus(); return; }
+  if(!phone){ msg.textContent=t("orPhoneReq"); $("orPhone").focus(); return; }
+  const btn=$("orConfirmBtn"); btn.disabled=true;
+  const old=btn.querySelector("span").textContent;
+  btn.querySelector("span").textContent=t("orSending");
+  msg.style.color=""; msg.textContent="";
+  let pkg=null, sent=false;
+  try{ pkg=await orBuildPackage({name,phone}); }
+  catch(e){ btn.disabled=false; btn.querySelector("span").textContent=old;
+            msg.style.color="var(--warn)"; msg.textContent=String((e&&e.message)||e); return; }
+  try{
+    const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({order:pkg.order,lab:pkg.lab,snapshot:pkg.snapshot,docs:pkg.docs})});
+    if(r.ok){ sent=true; }
+  }catch(e){}
+  /* Reușit sau nu, comanda NU se pierde: rămâne pe dispozitiv și în
+     pachetul descărcat. Zece minute de proiectare nu au voie să dispară
+     fiindcă a picat o funcție. */
+  try{ await EBStore.putBackup({id:"order-"+pkg.order.id,at:Date.now(),ver:APP_VER,
+        json:JSON.stringify({order:pkg.order,lab:pkg.lab,snapshot:pkg.snapshot})}); }catch(e){}
+  /* Se ține minte DOAR după ce pachetul a fost construit cu succes:
+     altfel o eroare pe drum ar face ca următoarea trimitere să pretindă
+     că e v2 a unei comenzi care n-a existat niciodată. */
+  const pr=proj();
+  if(pr){
+    pr.lastOrder={id:pkg.order.id, base:pkg.order.id.split("-v")[0],
+                  version:pkg.order.version, parent:pkg.order.parent,
+                  hash:pkg.order.hash, at:Date.now(),
+                  pieces:JSON.parse(JSON.stringify(pr.pieces))};
+    persist();
+  }
+  btn.disabled=false; btn.querySelector("span").textContent=old;
+  orEvent("order_sent");
+  orShowDone(pkg,sent);
+});
+
+function orShowDone(pkg,sent){
+  const o=pkg.order;
+  $("orDoneTitle").textContent=sent?t("orSentTitle"):t("orFailTitle");
+  const wa=OrderRail.waLink(orWaText(o));
+  let h="";
+  if(!sent) h+=`<p class="mini" style="color:var(--warn);line-height:1.45;margin-bottom:10px">${esc(t("orLocalOnly"))}</p>`;
+  h+=`<div class="f"><label>${esc(t("orIdIs"))}</label>`+
+     `<div style="font-family:var(--font-disp);font-size:26px;font-weight:700;letter-spacing:1px">${esc(o.id)}</div></div>`+
+     `<div class="f"><label>${esc(t("orTotal"))}</label>`+
+     `<div style="font-family:var(--font-disp);font-size:22px;font-weight:700">${esc(orMoney(o.price.total))}</div></div>`;
+  if(wa) h+=`<a class="btn red" href="${esc(wa)}" target="_blank" rel="noopener" style="margin-top:8px"><span>${esc(t("orShareWa"))}</span></a>`;
+  h+=`<button class="btn" id="orDl" style="margin-top:8px"><span>${esc(t("orDownload"))}</span></button>`;
+  if(sent) h+=`<a class="btn" href="/a/${esc(o.atelier)}/order/${esc(o.id)}" target="_blank" rel="noopener" style="margin-top:8px"><span>${esc(t("orOpenOrder"))}</span></a>`;
+  $("orDoneBody").innerHTML=h;
+  $("orDl").addEventListener("click",()=>orDownloadZip(pkg));
+  closeSheets(); openSheet("shOrderDone");
+}
+
+function orDownloadZip(pkg){
+  const files={"order.json":JSON.stringify(pkg.order,null,1),
+               "lab.json":JSON.stringify(pkg.lab,null,1),
+               "snapshot.json":JSON.stringify(pkg.snapshot,null,1)};
+  for(const k in pkg.docs) files[k+".html"]=pkg.docs[k];
+  const blob=OrderPkg.zip(files);
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="Comanda_"+pkg.order.id+".zip";
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+
+/* ---- evenimente: cinci, fără nimic care identifică persoana ---- */
+let OR_SESSION=null, OR_T0=Date.now(), OR_FIRST_PDF=false;
+function orEvent(name,extra){
+  if(!atelierMode()) return;
+  if(!OR_SESSION){ try{ OR_SESSION=Math.random().toString(36).slice(2,10); }catch(e){ OR_SESSION="x"; } }
+  const ev=Object.assign({e:name,s:OR_SESSION,a:OrderRail.slug,t:Date.now()},extra||{});
+  try{
+    const body=JSON.stringify(ev);
+    if(navigator.sendBeacon) navigator.sendBeacon("/api/stats",new Blob([body],{type:"application/json"}));
+    else fetch("/api/stats",{method:"POST",headers:{"Content-Type":"application/json"},body:body,keepalive:true}).catch(()=>{});
+  }catch(e){}
+  try{
+    const k="ebanist_ev";
+    const arr=JSON.parse(localStorage.getItem(k)||"[]");
+    arr.push(ev); localStorage.setItem(k,JSON.stringify(arr.slice(-200)));
+  }catch(e){}
+}
+/* Primul PDF: se măsoară o dată, de la deschiderea linkului. E cifra care
+   spune dacă „sub 10 minute" e adevărat sau doar scris în plan. */
+function orFirstPdf(){
+  if(OR_FIRST_PDF||!atelierMode()) return;
+  OR_FIRST_PDF=true;
+  orEvent("first_pdf_time",{ms:Date.now()-OR_T0});
+}
+
+/* ---- pornirea modului atelier ---- */
+async function orBoot(){
+  if(!OrderRail.active()) return;
+  await OrderRail.load();
+  if(!OrderRail.slug){ toast("atelier?"); return; }
+  const c=OrderRail.cfg;
+
+  /* Limba atelierului, dar numai dacă utilizatorul n-a ales una: alegerea
+     lui e a lui, pe orice link ar intra. */
+  let urlLang=null;
+  try{ urlLang=new URLSearchParams(location.search).get("lang"); }catch(e){}
+  if(!state.langChosen&&!urlLang&&c.language&&I18N[c.language]){ state.lang=c.language; }
+
+  /* Identitatea în header. Numele aplicației lasă locul numelui
+     atelierului: clientul comandă de la el, nu de la noi. */
+  const bt=document.querySelector(".brand-txt h1");
+  if(bt) bt.textContent=c.name;
+  if(c.logo){
+    const mark=document.querySelector(".brand-mark");
+    if(mark){ mark.innerHTML=`<img class="at-logo" src="${esc(c.logo)}" alt="${esc(c.name)}">`; }
+  }
+  /* Abonamentul nu-l privește pe clientul atelierului. */
+  ["btnGoPro","btnLicCheck","btnLicOff"].forEach(id=>{ const e=$(id); if(e) e.style.display="none"; });
+  const pl=$("proStateLine"); if(pl) pl.textContent=c.name;
+
+  /* Corpul implicit: la deschiderea linkului trebuie să existe deja ceva,
+     ca butonul de comandă să aibă ce număra și clientul să MODIFICE, nu
+     să înceapă de la pagina albă. */
+  orSeedBody();
+
+  applyLang(); render(); orRefresh();
+  orEvent("session_start");
+}
+
+function orSeedBody(){
+  const p=proj(); if(!p||p.orSeeded) return;
+  /* Proiectul de pornire al aplicației e un exemplu cu piese vechi. Pe
+     linkul unui atelier el nu are ce căuta: clientul trebuie să vadă UN
+     corp, pe care să-l modifice. Se înlocuiesc doar piesele exemplului
+     (`demo`) — un proiect al utilizatorului nu se atinge niciodată. */
+  if(p.pieces.length && !p.demo) return;
+  p.pieces=[]; p.configs={};
+  const cfg=Object.assign({},PRESETS.armadio,{
+    name:t("demoName"), L:800, H:2000, P:600, t:18,
+    tram:0, shelves:3, drawers:0, doors:2, hang:1, plinth:80, back:1,
+    matBody:"pal18_alb", matFront:"pal18_alb", matBack:"pfl3",
+    secMode:[], drawerZone:0
+  });
+  try{
+    generateInto(p,cfg);
+    p.orSeeded=1; p.demo=1;
+    persist();
+  }catch(e){ /* niciodată blocant: se poate comanda și de la zero */ }
+}
+
 /* ================= INIT ================= */
 state=loadState();
 /* La licenza si legge SUBITO e in modo sincrono, dallo specchio in
@@ -8432,6 +8992,15 @@ async function bootDurable(){
      riguardarlo. */
   const d=state.projects.find(q=>q.demo);
   if(d&&d.name!==t("demoName")){ d.name=t("demoName"); persist(); render(); }
+
+  /* Modul atelier pornește ÎNAINTE de intro și de invitațiile de backup:
+     el decide limba, identitatea din header și corpul implicit, iar un
+     panou deschis peste toate astea ar fi primul lucru pe care îl vede
+     un client necunoscut. */
+  if(OrderRail.active()){
+    await orBoot();
+    return;                       // în mod atelier nu se arată nici intro, nici Pro
+  }
 
   /* Ritorno dal pagamento: `?activate=1` e l'indirizzo che si configura
      in Lemon Squeezy. Chi torna qui ha appena pagato e ha la chiave
@@ -8491,12 +9060,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.25.0"; /* APP_VER-MARKER */
+const APP_VER="4.26.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v56";
+const SW_CACHE="ebanist-v57";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

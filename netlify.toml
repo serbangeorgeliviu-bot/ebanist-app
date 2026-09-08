@@ -25,6 +25,44 @@
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
+# ORDER RAIL — il link che il laboratorio da ai suoi clienti.
+#
+# /a/<slug> e un REDIRECT 302, non una riscrittura 200. Una riscrittura
+# servirebbe il contenuto di /app/index.html all'indirizzo /a/demo, ma
+# quel file carica tutto con percorsi relativi (./ebanist-core.js): da li
+# diventerebbero /a/ebanist-core.js e l'app non partirebbe affatto.
+# Il link corto resta quello che si condivide; il browser atterra su
+# /app/?atelier=<slug>. Dettagli in DECISIONS.md §2.1.
+[[redirects]]
+  from = "/a/:slug"
+  to = "/app/?atelier=:slug"
+  status = 302
+
+# Inbox e pagina d'ordine sono file PROPRI, con percorsi assoluti:
+# li la riscrittura 200 funziona, e l'indirizzo resta bello.
+[[redirects]]
+  from = "/a/:slug/inbox"
+  to = "/order-rail/inbox.html"
+  status = 200
+[[redirects]]
+  from = "/a/:slug/order/:id"
+  to = "/order-rail/order-view.html"
+  status = 200
+
+[[redirects]]
+  from = "/api/orders"
+  to = "/.netlify/functions/orders"
+  status = 200
+[[redirects]]
+  from = "/api/orders/*"
+  to = "/.netlify/functions/orders/:splat"
+  status = 200
+[[redirects]]
+  from = "/api/stats"
+  to = "/.netlify/functions/stats"
+  status = 200
+
+# ---------------------------------------------------------------------
 # L'app si e spostata da "/" a "/app/": in radice adesso c'e la pagina di
 # presentazione. Gli indirizzi vecchi devono continuare a funzionare —
 # sono nei preferiti, nelle scorciatoie sullo schermo e nella cache dei

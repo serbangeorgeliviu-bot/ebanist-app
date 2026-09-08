@@ -49,5 +49,10 @@ self.addEventListener("fetch", e => {
   const url = new URL(e.request.url);
   if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/app/")) return;
+  /* Order Rail: /a/<slug> e il link che il laboratorio da ai clienti, e
+     /api/ sono le funzioni. Mandarli a /app/ vorrebbe dire rompere il
+     link dell'ordine per tutti quelli che hanno ancora il vecchio
+     service worker vivo — cioe proprio i clienti di prima. */
+  if (url.pathname.startsWith("/a/") || url.pathname.startsWith("/api/")) return;
   e.respondWith(Response.redirect(HOME, 302));
 });
