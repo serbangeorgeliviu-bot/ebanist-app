@@ -5,6 +5,74 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.26.0 — 8 septembrie 2026
+
+**Ebanist Order Rail.** Aplicația nu mai e doar un CAD cu paywall: e linkul
+de comandă al unui atelier de debitare. Un client necunoscut deschide linkul,
+proiectează mobilierul, apasă „Trimite comanda", iar atelierul primește
+pachetul gata de tăiat și prețul.
+
+### Modul atelier
+
+- Adresa `ebanist.com/a/<atelier>` deschide aplicația în numele atelierului:
+  logo și nume în header și pe toate documentele, limba lui, moneda lui.
+- **Limitele cad.** Fără zidul celor 2 proiecte, fără buton Pro, fără
+  filigran — nu clientul plătește aplicația, atelierul i-o oferă.
+- Un atelier nou = **un fișier JSON**. `ORDER_RAIL_README.md` §1.
+
+### Preț și comandă
+
+- Prețul atelierului se vede **în timp real**, defalcat pe corp și pe linie:
+  m² per material, metri de cant, găuri, decupaje, manoperă, TVA.
+- Un material care nu e în lista atelierului cade pe prețul implicit — și
+  **se spune pe ecran**, în loc să treacă tăcut într-o sumă.
+- Accesoriile (bara de umeraș, piciorușe, geam) se numără la bucată, nu la
+  m² de placă: aplicația le scotea deja din nesting, acum le scoate și
+  prețul.
+- „Trimite comanda" cere nume și telefon — atât, fără cont — și trimite
+  pachetul: distinta, fișa de asamblare, etichetele, pachetul JSON pentru
+  debitare, snapshot-ul întreg cu amprentă SHA-256, și prețul.
+- Un link de WhatsApp către atelier, cu numărul comenzii și totalul.
+
+### Inbox și versionare
+
+- `ebanist.com/a/<atelier>/inbox`, cu PIN. Comenzile trec prin patru stări,
+  într-o singură direcție: primită → confirmată → tăiată → ridicată.
+- **Confirmarea îngheață snapshot-ul.** Refuzul e în server, nu ascuns în
+  interfață: în atelier, o comandă confirmată poate fi deja pe masa de
+  debitat.
+- O modificare de după confirmare naște **v2**, cu părinte și cu diferența
+  pe piese afișată — nu se suprascrie nimic. O retrimitere fără nicio
+  schimbare nu creează o versiune nouă.
+
+### Primul PDF în câteva secunde
+
+- Linkul de atelier pornește cu un **dulap 800×2000×600 deja generat**:
+  clientul modifică, nu începe de la pagina albă.
+- Fără intro, fără ecran Pro, fără niciun pas obligatoriu între deschiderea
+  linkului și butonul de comandă.
+
+### Măsurare, fără terți și fără cookie-uri
+
+- Cinci evenimente în total, fără IP, fără user agent, fără nume sau
+  telefon: `session_start`, `first_pdf_time`, `order_started`, `order_sent`,
+  `order_confirmed`.
+- `ebanist.com/api/stats?atelier=<slug>` dă numărul de comenzi, timpul
+  **median** până la primul PDF și rata de abandon.
+
+### Sub capotă
+
+- Fișiere noi: `order-rail/` (preț, mod atelier, pachet, inbox, pagina
+  comenzii, texte), `ateliers/*.json`, `netlify/functions/orders.js` și
+  `stats.js` pe Netlify Blobs.
+- Zero dependențe noi. ZIP-ul pachetului e scris de mână, ~80 de linii.
+- Teste: **442** în total — 237 aplicația în mod normal (neschimbate), 89
+  Order Rail, 66 motorul geometric (17 noi: regresia adâncimii cu spate
+  aplicat), 28 motorul de preț, 22 licențele.
+- `APP_VER` 4.26.0, cache-ul service worker-ului `ebanist-v57`.
+
+---
+
 ## 4.25.0 — 6 septembrie 2026
 
 Prima versiune care se poate vinde: aplicația are un preț, o pagină care o
