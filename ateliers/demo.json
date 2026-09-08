@@ -1,0 +1,43 @@
+{
+  "_comment": "PREȚURI PLACEHOLDER — de înlocuit cu lista reală a atelierului. Vezi ORDER_RAIL_README.md.",
+  "slug": "demo",
+  "name": "Atelier Demo",
+  "logo": "",
+  "language": "ro",
+  "phone": "+40 700 000 000",
+  "whatsapp": "40700000000",
+  "pin": "1234",
+  "pin_hint": "4 cifre",
+  "currency": "RON",
+  "price_list": {
+    "_placeholder": true,
+    "default_m2": 140,
+    "m2": {
+      "pal18_alb": 120,
+      "pal16_alb": 110,
+      "pal25_alb": 175,
+      "pal18_dec": 155,
+      "pal18_rovere": 155,
+      "pal18_noce": 155,
+      "pal18_antracite": 155,
+      "pal18_grigio": 150,
+      "pal18_nero": 160,
+      "mdf18": 190,
+      "mdf19_gloss": 320,
+      "placaj18": 230,
+      "pfl3": 35,
+      "pfl5": 45
+    },
+    "edge_ml": {
+      "0.4": 3.5,
+      "0.8": 4.5,
+      "2": 9.0
+    },
+    "hole": 0.9,
+    "cutout": 14.0,
+    "accessory": 45.0,
+    "labour_piece": 4.5,
+    "vat": 19,
+    "min_order": 0
+  }
+}

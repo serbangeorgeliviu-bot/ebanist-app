@@ -1,0 +1,43 @@
+{
+  "_comment": "PREZZI SEGNAPOSTO — da sostituire con il listino reale. Vedi ORDER_RAIL_README.md.",
+  "slug": "centro-legno",
+  "name": "Centro Legno",
+  "logo": "",
+  "language": "it",
+  "phone": "+39 000 000 0000",
+  "whatsapp": "390000000000",
+  "pin": "2468",
+  "pin_hint": "4 cifre",
+  "currency": "EUR",
+  "price_list": {
+    "_placeholder": true,
+    "default_m2": 28,
+    "m2": {
+      "pal18_alb": 24,
+      "pal16_alb": 22,
+      "pal25_alb": 35,
+      "pal18_dec": 31,
+      "pal18_rovere": 31,
+      "pal18_noce": 31,
+      "pal18_antracite": 31,
+      "pal18_grigio": 30,
+      "pal18_nero": 32,
+      "mdf18": 38,
+      "mdf19_gloss": 64,
+      "placaj18": 46,
+      "pfl3": 7,
+      "pfl5": 9
+    },
+    "edge_ml": {
+      "0.4": 0.7,
+      "0.8": 0.9,
+      "2": 1.8
+    },
+    "hole": 0.18,
+    "cutout": 2.8,
+    "accessory": 9.0,
+    "labour_piece": 0.9,
+    "vat": 22,
+    "min_order": 0
+  }
+}
