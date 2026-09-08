@@ -6,7 +6,9 @@
     "test": "node run.js",
     "test:geom": "node --test geom.test.js",
     "test:geom:v1": "EBANIST_ENGINE=legacy node --test geom.test.js",
-    "test:license": "node --test license.test.js"
+    "test:license": "node --test license.test.js",
+    "test:price": "node --test price.test.js",
+    "test:rail": "node rail.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"
