@@ -355,3 +355,36 @@ Ce rămâne nedovedit până la primul deploy real, și trebuie spus:
   locală doar pentru CSP; regulile de redirect sunt reimplementate, nu
   interpretate de Netlify. Un `curl` după deploy le confirmă în 30 de
   secunde — comenzile sunt scrise în README.
+
+---
+
+## 10. Un commit al lui Liviu a aterizat pe main în timpul lucrului
+
+`origin/main` a primit `054ad7d — v4.25.0 scoate datele reale de client din
+aplicatie` cât timp construiam. Era scris pe **structura veche**:
+`index.html`, `sw.js` și manifestul în rădăcină, dinainte ca aplicația să se
+mute la `/app/`.
+
+Un merge simplu ar fi înviat vechiul `index.html` peste pagina de
+prezentare. Cele două conflicte s-au rezolvat în favoarea structurii noi, iar
+**fiecare modificare a lui a fost portată de mână** în `app/index.html`:
+
+- `coName`/`coInfo` pornesc goale, nu cu firma și CUI-ul lui;
+- bug-ul din spate: un tâmplar care își golea câmpul de firmă primea înapoi
+  „Domus Renov" pe oferta LUI, fiindcă era valoare de rezervă la salvare;
+- eticheta de versiune și descrierea din manifest spun `ebanist.com`;
+- promptul AI vorbește despre utilizator, nu despre o persoană din Monaco;
+- `transpBad1`, forma de singular, în toate patru limbile;
+- comentariul de la SEED nu mai numește clientul.
+
+**Nepreluat, cu motiv:** `APP_VER` 4.25.0 și cache-ul `v56`, depășite aici de
+4.26.0 / `v57`; și numele proiectului demo, care acum se traduce în limba
+utilizatorului și e marcat `demo:1` ca să nu ocupe un loc din cota gratuită.
+
+Verificat după merge: **zero apariții** ale numelui clientului, ale CUI-ului
+sau ale numelui firmei în aplicație. Toate cele 442 de probe verzi.
+
+Lecția, pentru data viitoare: o modificare făcută pe o structură veche nu se
+fuzionează, se **portează**. Git n-avea cum să știe că `index.html` din
+rădăcină și `app/index.html` sunt același fișier mutat, fiindcă între timp în
+rădăcină apăruse alt fișier cu același nume.
