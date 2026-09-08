@@ -156,7 +156,7 @@ function render(list){
         (o.confirmed_at ? ' · '+esc(T.frozenAt)+' '+esc(when(o.confirmed_at)) : '')+
         '<br>'+esc(T.hash)+': '+esc(String(o.hash||"").slice(0,16))+'…</div>'+
       '<div class="acts">'+
-        '<a class="btn-s" style="display:inline-block;text-decoration:none" href="/a/'+esc(SLUG)+'/order/'+esc(o.id)+'">'+esc(T.open)+'</a>'+
+        '<a class="btn-s btn-sm" style="display:inline-block;text-decoration:none;line-height:1.6" href="/a/'+esc(SLUG)+'/order/'+esc(o.id)+'">'+esc(T.open)+'</a>'+
         (o.confirmed_at ? '' :
           '<button class="btn-s btn-sm" data-act="confirm" data-id="'+esc(o.id)+'">'+esc(T.confirm)+'</button>')+
         (next ? '<button class="btn-s btn-sm" data-act="status" data-next="'+esc(next)+'" data-id="'+esc(o.id)+'">'+

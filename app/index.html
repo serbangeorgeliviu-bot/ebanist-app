@@ -498,11 +498,11 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
   background:var(--surface);border:1px solid var(--line);border-radius:14px;
   box-shadow:0 10px 30px rgba(0,0,0,.28);padding:10px 12px;display:none}
 #orBar.on{display:block}
-#orBar .row{display:flex;align-items:center;gap:10px}
+#orBar .row{display:flex;align-items:baseline;gap:10px;margin-bottom:9px}
 #orBar .amt{font-family:var(--font-disp);font-size:24px;font-weight:700;line-height:1;white-space:nowrap}
 #orBar .lbl{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
-#orBar .go{flex:1;min-width:0}
 #orBar .go .btn{width:100%}
+#orBar .amt{margin-left:auto}
 #orBar .btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #orBar .warn{margin-top:6px;font-size:11.5px;color:var(--warn);line-height:1.35}
 #orDetail{margin-top:8px;border-top:1px solid var(--line);padding-top:8px;display:none}
@@ -1624,13 +1624,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
      dar se arată doar în mod atelier. -->
 <div id="orBar">
   <div class="row">
-    <div class="go">
-      <button class="btn red" id="orSendBtn"><span id="orSendLbl">—</span></button>
-    </div>
-    <div style="text-align:right">
-      <div class="lbl" id="orBarLbl">—</div>
-      <div class="amt" id="orAmt">—</div>
-    </div>
+    <div class="lbl" id="orBarLbl">—</div>
+    <div class="amt" id="orAmt">—</div>
+  </div>
+  <div class="go">
+    <button class="btn red" id="orSendBtn"><span id="orSendLbl">—</span></button>
   </div>
   <div id="orWarn" class="warn" hidden></div>
   <button class="or-toggle" id="orToggle">—</button>
@@ -3199,7 +3197,7 @@ function knownEmail(){
    se questa e la versione gratuita o quella pagata. */
 function paintProBadge(){
   const b=$("btnSettings"); if(!b) return;
-  b.classList.toggle("has-pro",isPro());
+  b.classList.toggle("has-pro",PRO&&!atelierMode());
 }
 
 /* ================= INVITO «AGGIUNGI A HOME» (iOS) =================
