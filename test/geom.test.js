@@ -206,3 +206,60 @@ describe("Test 6 — regresie pe proiectul Jacquin (Rev. C)", () => {
     assert.ok(Number.isFinite(d.foratura.prof) && Number.isFinite(d.foratura.dist_cant));
   });
 });
+
+/* =====================================================================
+   REGRESIE — spate APLICAT: adâncimea finită rămâne D, nu D + t_back
+   ---------------------------------------------------------------------
+   Bug-ul reparat: cu `backMode: "applicato"` fianco-urile păstrau
+   adâncimea nominală D, iar spatele se adăuga PESTE ele. Corpul montat
+   ieșea cu 18–19 mm mai adânc decât cel comandat. Într-o nișă măsurată la
+   milimetru, corpul nu mai intra — și se afla la montaj, nu la birou.
+
+   Regula corectă, și singura care contează: pentru client, adâncimea
+   finită a corpului montat e cea pe care a comandat-o. Spatele aplicat se
+   scade din fianco, nu se adaugă la total.
+
+   Proba se face pe o librerie, cu cele două grosimi de spate care apar în
+   practică (18 și 19), pe două adâncimi diferite. Dacă vreodată se
+   întoarce vechea formulă, cad toate patru.
+   ===================================================================== */
+describe("Regresie — spate aplicat nu adaugă adâncime", () => {
+  const BASE = {
+    W: 800, H: 2000, t_fianco: 18, backMode: "applicato",
+    h_zoccolo: 80, overlay: 16, gap_ante: 4, gap_sup: 3, gap_inf: 3,
+    setback_ripiano: 20, clearance_ripiano: 2, n_ante: 0, n_ripiani: 3,
+    /* `n_cerniere` e obligatoriu chiar și fără uși: motorul îl cere
+       explicit, ca să nu ghicească niciodată o cotă. */
+    n_cerniere: 0, edge_offset: 100, piedini: 0, h_picior: 0
+  };
+
+  for (const [D, tb] of [[600, 18], [600, 19], [350, 18], [282, 19]]) {
+    const d = E.derive({ ...BASE, D, t_back: tb });
+    const eticheta = `librerie D=${D}, spate ${tb} mm`;
+
+    test(`${eticheta}: fianco = D − t_back = ${D - tb}`, () => {
+      eq(d.D_fianco, D - tb, "D_fianco");
+    });
+    test(`${eticheta}: corpul montat măsoară exact ${D}, nu ${D + tb}`, () => {
+      /* Ăsta e testul care prinde bug-ul: fianco + spate aplicat pe
+         spatele lui = adâncimea comandată. */
+      assert.equal(d.D_fianco + tb, D, "adâncime finită");
+    });
+    test(`${eticheta}: baza și cielo urmează fianco-ul`, () => {
+      eq(d.D_bc, D - tb, "D_bc");
+    });
+    test(`${eticheta}: raftul stă în corp, nu îl depășește`, () => {
+      assert.ok(d.ripiano_D <= d.D_bc,
+        `ripiano_D ${d.ripiano_D} > D_bc ${d.D_bc}`);
+    });
+  }
+
+  /* Contra-probă: la spate ÎNCASTRAT, fianco-ul rămâne D întreg. Fără ea,
+     cineva ar putea „repara" regresia scăzând t_back peste tot și ar
+     strica modul care era corect. */
+  test("contra-probă: la spate încastrat fianco-ul rămâne D întreg", () => {
+    const d = E.derive({ ...BASE, D: 600, t_back: 18, backMode: "incassato" });
+    eq(d.D_fianco, 600, "D_fianco încastrat");
+    eq(d.D_bc, 582, "D_bc încastrat");
+  });
+});
