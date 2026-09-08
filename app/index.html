@@ -1493,7 +1493,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
     <span data-i="updBtn">Verifica aggiornamenti</span>
   </button>
-  <p class="mini" style="margin-top:14px;text-align:center" id="verLabel">Ebanist · Domus Renov</p>
+  <p class="mini" style="margin-top:14px;text-align:center" id="verLabel">Ebanist · ebanist.com</p>
 </div>
 
 <!-- proposta dell'assistente: si vede il diff PRIMA di toccare lo state -->
@@ -2111,6 +2111,7 @@ Object.assign(I18N.fr,{
   lTerms:"Conditions",lPrivacy:"Confidentialité",lRefund:"Remboursement"});
 /* ---- Order Rail (v4.26.0) ---- */
 Object.assign(I18N.it,{
+  transpBad1:"{n} mobile non passa montato — va assemblato sul posto.",
   orAccessories:"Accessori",
   orBar:"Preventivo",
   orSend:"Invia l'ordine a {a}",
@@ -2147,6 +2148,7 @@ Object.assign(I18N.it,{
   orWaText:"Ordine {id} — {c} — {n} mobili, {p} pz — {t}",
   orPriceNote:"Prezzi del laboratorio. IVA inclusa nel totale."});
 Object.assign(I18N.ro,{
+  transpBad1:"{n} corp nu trece asamblat — se montează la fața locului.",
   orAccessories:"Accesorii",
   orBar:"Deviz",
   orSend:"Trimite comanda la {a}",
@@ -2183,6 +2185,7 @@ Object.assign(I18N.ro,{
   orWaText:"Comanda {id} — {c} — {n} corpuri, {p} buc — {t}",
   orPriceNote:"Prețurile atelierului. TVA inclus în total."});
 Object.assign(I18N.en,{
+  transpBad1:"{n} unit does not fit assembled — build it on site.",
   orAccessories:"Accessories",
   orBar:"Quote",
   orSend:"Send the order to {a}",
@@ -2219,6 +2222,7 @@ Object.assign(I18N.en,{
   orWaText:"Order {id} — {c} — {n} units, {p} pcs — {t}",
   orPriceNote:"Workshop prices. VAT included in the total."});
 Object.assign(I18N.fr,{
+  transpBad1:"{n} meuble ne passe pas monté — à assembler sur place.",
   orAccessories:"Accessoires",
   orBar:"Devis",
   orSend:"Envoyer la commande à {a}",
@@ -2281,7 +2285,7 @@ const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile"
 "Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
 const BORDI = ["—","1L","2L","1C","2C","1L+1C","2L+1C","1L+2C","2L+2C"];
 
-/* ================= SEED DATA (Progetto Jacquin) ================= */
+/* ================= SEED DATA (progetto di esempio) ================= */
 const MAT18 = "Truciolare Bilaminato Bianco lucido 18mm";
 const MAT25 = "Truciolare Bilaminato Bianco 25mm";
 const SEED_PIECES = [
@@ -2335,7 +2339,7 @@ function defaultState(){
   const p = {id:uid(),name:"Ebanist demo",client:"",date:new Date().toISOString().slice(0,10),pieces,geomVersion:1,demo:1};
   return {lang:detectLang(),activeId:p.id,projects:[p],
     settings:{panelL:2800,panelW:2070,decor_directional:false,kerf:4,priceM2:42,priceMl:1.2,waste:15,labor:0,hourly:35,
-      coName:"Domus Renov",coInfo:"CUI RO47806657",margin:30,iva:20,
+      coName:"",coInfo:"",margin:30,iva:20,
       hwCern:1.4,hwGuida:6.5,hwMan:3.5,hwSup:0.08,hwAsta:1.2,hwPied:0.9,hwBin:45,hwConn:0.35,hwPush:2.5,
       hwProd:{cern:"blum_71b3550",guida:"blum_tandem",man:"gen_man",sup:"haf_sup",asta:"gen_asta",pied:"haf_axilo",bin:"haf_slido",conn:"haf_minifix",push:"blum_tipon_a"},
       hwOvr:{}, matOvr:{}, matBody:"pal18_alb", matFront:"pal18_alb", matBack:"pfl3", stockMin:250, doorW:800, doorH:2050,
@@ -3926,7 +3930,7 @@ $("btnSettingsSave").addEventListener("click",()=>{
     const id=S.hwProd[cat];
     if(id){ S.hwOvr[id]=S.hwOvr[id]||{}; S.hwOvr[id].price=v; }
   }
-  S.coName=$("sCoName").value.trim()||"Domus Renov"; S.coInfo=$("sCoInfo").value.trim();
+  S.coName=$("sCoName").value.trim(); S.coInfo=$("sCoInfo").value.trim();
   S.aiModel=$("sAiModel").value||"claude-opus-5"; S.aiProxy=$("sAiProxy").value.trim();
   /* Una chiave storta si accettava in silenzio e l'errore arrivava molto dopo,
      dal server, incomprensibile. Si controlla solo quando la chiave viene
@@ -6379,7 +6383,7 @@ function renderTransp(){
     box.appendChild(row);
   }
   const sum=document.createElement("p"); sum.className="mini"; sum.style.marginTop="10px";
-  sum.textContent=bad?t("transpBad").replace("{n}",bad):t("transpOk");
+  sum.textContent=bad?t(bad===1?"transpBad1":"transpBad").replace("{n}",bad):t("transpOk");
   sum.style.color=bad?"var(--danger)":"var(--ok)";
   box.appendChild(sum);
 }
@@ -8128,7 +8132,7 @@ function aiMatLines(){ return matVisible().map(m=>{ const e=matById(m.id)||{}; r
 /* ---------- SYSTEM PROMPT ---------- */
 function aiSystem(mode){
   const P=[];
-  P.push(`You are the parametric translator inside Ebanist, a cabinetmaking app used in real production by a joiner in Monaco. He speaks/writes in Italian, Romanian, English or French, on a phone, on site. You convert what he says (and what a photo shows) into a strict JSON patch on the application state. You never invent numbers he did not give and never redesign what he did not ask about.`);
+  P.push(`You are the parametric translator inside Ebanist, a cabinetmaking app used in real production. The user is a cabinetmaker working on site, writing from a phone in Italian, Romanian, English or French. You convert what they say (and what a photo shows) into a strict JSON patch on the application state. You never invent numbers he did not give and never redesign what he did not ask about.`);
   P.push(`ABSOLUTE RULES
 1. All lengths are millimetres, integers, as measured on site. Never centimetres, never inches. "un metro ottantatre" = 1830. "doi metri" = 2000.
 2. PARTIAL UPDATE. Emit ONLY the fields that must change. If he says "make it 20 mm deeper", emit just the new P. Never restate unchanged fields — every field you emit overwrites the current one.
@@ -9095,7 +9099,7 @@ function verLabelPaint(){
   const vl=document.getElementById("verLabel");
   if(!vl) return;
   const why=window.GL3D_MODE==="SVG"?` (${window.GL3D_WHY})`:"";
-  vl.textContent=`Ebanist v${APP_VER} · 3D ${window.GL3D_MODE}${why} · Domus Renov`;
+  vl.textContent=`Ebanist v${APP_VER} · 3D ${window.GL3D_MODE}${why} · ebanist.com`;
 }
 /* ---- Il motore locale e vecchio? ----
    Un service worker con la copia vecchia in cache significa che l'utente
