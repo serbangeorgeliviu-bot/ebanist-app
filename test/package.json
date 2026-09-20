@@ -11,8 +11,9 @@
     "test:rail": "node rail.js",
     "test:thickness": "node --test thickness.test.js",
     "test:catalog": "node --test catalog.test.js",
-    "test:all": "node --test geom.test.js thickness.test.js catalog.test.js closure.test.js price.test.js license.test.js",
-    "test:closure": "node --test closure.test.js"
+    "test:all": "node --test geom.test.js thickness.test.js catalog.test.js closure.test.js invariants.test.js price.test.js license.test.js",
+    "test:closure": "node --test closure.test.js",
+    "test:invariants": "node --test invariants.test.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

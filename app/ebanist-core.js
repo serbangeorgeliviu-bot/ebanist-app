@@ -546,9 +546,10 @@ function closureBC(pieces, which) {
 /* Quale cota del pezzo corre lungo l'asse chiesto. Lo dice `axis_mapping`,
    che il generatore ha scritto sul pezzo: NON si indovina dall'ordine. */
 function alongAxis(row, axis) {
-  if (!row || !row.axes) return null;
-  if (row.axes.lung === axis) return row.lung;
-  if (row.axes.larg === axis) return row.larg;
+  var ax = row && (row.axes || row.axis_mapping);
+  if (!ax) return null;
+  if (ax.lung === axis) return row.lung;
+  if (ax.larg === axis) return row.larg;
   return null;
 }
 
@@ -710,6 +711,259 @@ function reconstructedBBox(corpo, pieces, geometry) {
 }
 /* un angolo e "fuori squadro" solo se e dichiarato e diverso da 90 */
 function isAngle(v) { return typeof v === "number" && isFinite(v) && Math.abs(v - 90) > 0.01; }
+
+/* --- GLI INVARIANTI PER RUOLO (Fase 3) -----------------------------------
+ *
+ * La chiusura di Fase 2 controlla il GABARITO: che i pezzi, rimessi insieme,
+ * facciano il mobile ordinato. Non controlla che ogni pezzo sia quello
+ * giusto per il suo posto. Un ripiano lungo quanto la luce interna INTERA
+ * chiude il gabarito e non entra: il gioco se l'e mangiato nessuno.
+ *
+ * Qui c'e l'altra meta. Ogni regola dice tre cose: se e passata, con che
+ * numeri, e quali pezzi riguarda. Torna la lista COMPLETA, non solo le
+ * cadute: chi stampa la foglia di chiusura deve poter far vedere anche
+ * quelle che tornano.
+ *
+ * `opts`:
+ *   materials  { ruolo: {id,label,th} }  per dire QUALE materiale non torna
+ *   thicknesses [n, ...]                 le grossezze che il progetto ha
+ *   maxDim     n                         la cota oltre la quale un pezzo non
+ *                                        e un pezzo (2800 di serie)
+ * PURA: nessuno stato, nessun effetto.
+ */
+function validateInvariants(corpo, pieces, geometry, opts) {
+  var out = [], o = opts || {}, G = geometry || {}, c = corpo || {};
+  var W = +(c.W != null ? c.W : c.L), H = +c.H, D = +(c.D != null ? c.D : c.P);
+  var rows = pieces || [];
+  var maxDim = +o.maxDim > 0 ? +o.maxDim : 2800;
+
+  /* `ok` ha TRE stati: true, false, e `null` = non applicabile. Una regola
+     che non si puo applicare non e una regola passata: dirlo passata
+     vorrebbe dire contare come verificato qualcosa che nessuno ha guardato.
+     `failedInvariants` scarta solo i `false`. */
+  function rule(id, regola, ok, valori, why, piese) {
+    out.push({ id: id, regola: regola, ok: (ok === null ? null : !!ok),
+               valori: valori || {}, why: why || "", piese_implicate: piese || [] });
+  }
+  /* le cote sono intere: uguale vuol dire uguale */
+  function eq(a, b) { return a != null && b != null && Math.round(a) === Math.round(b); }
+
+  var fianco = closureRow(rows, "fianco") || closureRow(rows, "fianco_sx");
+  if (!fianco || !(W > 0 && H > 0 && D > 0)) return out;   /* non e una cassa */
+
+  var base = closureBC(rows, "base"), cielo = closureBC(rows, "cielo");
+  var back = closureRow(rows, "schienale");
+  var tip = G.tip_schienale || "incassato";
+  var spBack = back ? (back.sp != null ? +back.sp : +G.sp_schienale || 0) : 0;
+  var spF = +G.sp_fianco || 0, spB = +G.sp_base || 0, spC = +G.sp_cielo || 0;
+  var inp = G.in || {};
+  var h_base = +inp.h_base || 0;
+  var P_fianco = alongAxis(fianco, "P");
+
+  /* --- lo schienale e la profondita ------------------------------------ */
+  if (tip === "applicato")
+    rule("I1", "P_fianco == P_nom - sp_schienale",
+      eq(P_fianco, D - spBack), { P_fianco: P_fianco, P_nom: D, sp_schienale: spBack },
+      "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.",
+      fianco.nomi);
+  if (tip === "incassato") {
+    rule("I2a", "P_fianco == P_nom",
+      eq(P_fianco, D), { P_fianco: P_fianco, P_nom: D },
+      "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.",
+      fianco.nomi);
+    if (back)
+      rule("I2b", "L_schienale == L_nom - 2*sp_fianco",
+        eq(alongAxis(back, "L"), W - 2 * spF),
+        { L_schienale: alongAxis(back, "L"), L_nom: W, sp_fianco: spF },
+        "Spate încastrat: intră între laterale, deci e mai îngust cu două grosimi de laterală.",
+        back.nomi);
+  }
+
+  /* --- la pila verticale: zoccolo, base, ripiani, cielo -----------------
+     Non e una tautologia: le quote dei ripiani vengono dal generatore, e
+     la pila deve arrivare ESATTAMENTE sotto il cielo. */
+  var rip = null, i, j;
+  for (i = 0; i < rows.length; i++)
+    if (rows[i].role === "ripiano" && rows[i].ys && rows[i].ys.length) { rip = rows[i]; break; }
+  var spRip = +G.sp_ripiano || 0;
+  if (rip) {
+    var ys = rip.ys.slice().sort(function (a, b) { return a - b; });
+    var sumSp = ys.length * spRip;
+    /* Le luci fra base, ripiani e cielo, una per una.
+       NOTA sulla regola: «Σ H_interne + Σ sp_ripiani + sp_base + sp_cielo ==
+       H_nom», presa alla lettera, e una TAUTOLOGIA — le luci interne sono
+       DEFINITE come quello che resta, quindi la somma torna per qualunque
+       quota dei ripiani, anche per un ripiano piazzato dentro il cielo.
+       Quello che la regola vuole prendere davvero e una luce che sparisce:
+       un ripiano fuori dal vano, o due alla stessa quota. Si controlla la
+       somma E che ogni luce sia positiva; e la seconda che lavora. */
+    var luci = 0, y0 = h_base + spB, minLuce = Infinity, l1;
+    for (j = 0; j < ys.length; j++) {
+      l1 = (ys[j] - spRip / 2) - y0;
+      luci += l1; if (l1 < minLuce) minLuce = l1;
+      y0 = ys[j] + spRip / 2;
+    }
+    l1 = (H - spC) - y0;
+    luci += l1; if (l1 < minLuce) minLuce = l1;
+    rule("I3", "Σ H_interne + Σ sp_ripiani + h_base + sp_base + sp_cielo == H_nom, si toate luminile > 0",
+      eq(luci + sumSp + h_base + spB + spC, H) && minLuce > 0,
+      { H_interne: Math.round(luci), sp_ripiani: Math.round(sumSp), h_base: h_base,
+        sp_base: spB, sp_cielo: spC, H_nom: H, n_ripiani: ys.length,
+        lumina_minima: Math.round(minLuce),
+        total: Math.round(luci + sumSp + h_base + spB + spC) },
+      minLuce <= 0
+        ? "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă."
+        : "Pila verticală — soclu, bază, polițe, tavan — nu închide înălțimea corpului.",
+      [rip.elemento].concat(base ? base.nomi : []).concat(cielo ? cielo.nomi : []));
+  }
+
+  /* --- i frontali e la larghezza --------------------------------------- */
+  var fronts = rows.filter(function (r) { return r.role === "frontale"; });
+  /* Due costruzioni a cui questa regola NON si applica, e si dice invece di
+     farla cadere a vuoto:
+       - le ante SCORREVOLI si sovrappongono, non si accostano: la somma
+         delle larghezze e piu grande dell'apertura, ed e giusto cosi;
+       - l'anta a TELAIO E VETRO non esce come un pezzo: escono i montanti e
+         le traverse, che sono larghi 70, non quanto l'anta.
+     Allentare la regola per farle passare vorrebbe dire non controllare piu
+     nemmeno le ante normali. */
+  var scorrevole = (c.type === "scorrevole" && +c.doors > 0);
+  var telaio = (c.front === "vetro");
+  var nA = 0, sumL = 0;
+  for (i = 0; i < fronts.length; i++) {
+    /* su un'anta curva la larghezza dell'ANTA e la corda; in distinta va lo
+       sviluppo, che e piu lungo perche il pannello si piega dopo. */
+    var l = (fronts[i].curve && fronts[i].curve.corda > 0)
+      ? +fronts[i].curve.corda : alongAxis(fronts[i], "L");
+    if (l == null) continue;
+    nA += +fronts[i].pz || 0; sumL += l * (+fronts[i].pz || 0);
+  }
+  if (scorrevole || telaio) {
+    rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,
+      { motiv: scorrevole ? "ante scorrevoli" : "anta a telaio e vetro" },
+      scorrevole
+        ? "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa."
+        : "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.",
+      fronts.map(function (r) { return r.elemento; }));
+  } else if (nA > 0 && G.jocuri) {
+    var gap = +G.jocuri.joc_frontale_laterale || 0, rev = +G.jocuri.reveal || 0;
+    var tot = sumL + (nA - 1) * gap + 2 * rev;
+    /* le ante escono arrotondate al mm: su una larghezza che non si divide
+       esatta la somma non torna MAI al millesimo. Mezzo millimetro per anta
+       e l'arrotondamento, non un errore. */
+    rule("I4", "Σ L_fronturi + Σ jocuri == L_nom",
+      Math.abs(tot - W) <= nA * 0.5 + 0.05,
+      { L_fronturi: Math.round(sumL), n_fronturi: nA, joc: gap, reveal: rev,
+        total: Math.round(tot), L_nom: W },
+      "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.",
+      fronts.map(function (r) { return r.elemento; }));
+  }
+
+  /* --- i cassetti ------------------------------------------------------- */
+  var cas = closureRow(rows, "cassetto_fianco");
+  if (cas && G.P_cassetto_max != null) {
+    var Pc = alongAxis(cas, "P");
+    if (Pc != null)
+      rule("I5", "P_cassetto <= P_int - rezerva_glisiera",
+        Pc <= +G.P_cassetto_max + 0.05,
+        { P_cassetto: Pc, P_int: G.P_int, rezerva_glisiera: G.rezerva_glisiera,
+          max: G.P_cassetto_max },
+        "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.",
+        cas.nomi);
+  }
+
+  /* --- i ripiani -------------------------------------------------------- */
+  var ripAny = closureRow(rows, "ripiano");
+  if (ripAny) {
+    var Pr = alongAxis(ripAny, "P"), Lr = alongAxis(ripAny, "L");
+    if (Pr != null)
+      rule("I6", "P_ripiano <= P_fianco - retrasare_ripiano",
+        Pr <= P_fianco - (+G.retrasare_ripiano || 0) + 0.05,
+        { P_ripiano: Pr, P_fianco: P_fianco, retrasare: G.retrasare_ripiano },
+        "Polița e mai adâncă decât lasă retrasarea: ajunge la fața corpului.",
+        ripAny.nomi);
+    /* su un corpo con tramezzi il ripiano e largo una SEZIONE, non tutta la
+       luce interna: la regola si applica alla cota giusta. */
+    var attesa = (inp.n_divisorio > 0 ? +G.sectiune_W : +G.L_int) - (+(G.jocuri && G.jocuri.joc_ripiano) || 0);
+    if (Lr != null)
+      rule("I7", inp.n_divisorio > 0 ? "L_ripiano == sectiune_W - joc_ripiano"
+                                     : "L_ripiano == L_int - joc_ripiano",
+        Math.abs(Lr - attesa) <= 1,
+        { L_ripiano: Lr, asteptat: Math.round(attesa),
+          L_int: G.L_int, sectiune_W: G.sectiune_W,
+          joc_ripiano: G.jocuri && G.jocuri.joc_ripiano },
+        "Polița nu are jocul declarat: fie freacă în laterale, fie joacă în gol.",
+        ripAny.nomi);
+  }
+
+  /* --- ogni pezzo: cote possibili, e grossezza = quella del suo materiale */
+  var fuori = [], grossezze = [], estranee = [];
+  var permesse = o.thicknesses || null;
+  for (i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    if (!r.role || r.role === "accessorio") continue;
+    var L1 = +r.lung, L2 = +r.larg;
+    if (!(L1 > 0) || !(L2 > 0) || L1 > maxDim || L2 > maxDim)
+      fuori.push(r.elemento + " " + L1 + "×" + L2);
+    /* la grossezza SCRITTA sul pezzo deve essere quella del materiale del
+       suo ruolo. Se non lo e, uno dei due mente — e in segheria si taglia
+       dalla lastra sbagliata. */
+    /* un pezzo che porta un materiale SUO (il fondo del cassetto in HDF da
+       5) ha gia la grossezza di quel materiale: confrontarla con quella del
+       ruolo accuserebbe il pezzo giusto. */
+    var key = (r.spSrc === "mat") ? null : ROLE_SP_KEY[r.role];
+    if (key && r.sp != null && G[key] != null && !eq(r.sp, G[key])) {
+      var m = (o.materials || {})[ROLE_MAT_OF[r.role] || ""] || null;
+      grossezze.push({ pezzo: r.elemento, sp_pezzo: +r.sp, sp_material: +G[key],
+                       material: (m && (m.label || m.id)) || "?" });
+    }
+    /* RESIDUO SCRITTO A MANO: una grossezza che non sta fra i materiali del
+       progetto non viene da nessun materiale. Viene dal codice. */
+    if (permesse && r.sp != null && permesse.indexOf(+r.sp) < 0)
+      estranee.push(r.elemento + " " + r.sp + " mm");
+  }
+  rule("I8", "0 < cota <= " + maxDim, fuori.length === 0,
+    { fuori: fuori.length },
+    "Piese cu o cotă nulă, negativă sau mai mare decât placa: nu se pot tăia.",
+    fuori);
+  rule("I9", "sp_pezzo == sp_material(rol)", grossezze.length === 0,
+    { discrepante: grossezze },
+    grossezze.length
+      ? ("Grosimea scrisă pe piesă nu e cea a materialului rolului: " +
+         grossezze.map(function (g) {
+           return g.pezzo + " " + g.sp_pezzo + " mm ≠ " + g.material + " " + g.sp_material + " mm";
+         }).join(" · "))
+      : "Grosimea fiecărei piese e cea a materialului alocat rolului ei.",
+    grossezze.map(function (g) { return g.pezzo; }));
+  if (permesse)
+    rule("I10", "sp ∈ materialele proiectului", estranee.length === 0,
+      { estranee: estranee, permesse: permesse },
+      "O grosime care nu apare în niciun material al proiectului nu vine dintr-un material: vine din cod.",
+      estranee);
+
+  return out;
+}
+/* da che ruolo di pezzo si legge quale grossezza, e di quale materiale */
+var ROLE_SP_KEY = {
+  fianco: "sp_fianco", fianco_sx: "sp_fianco", fianco_dx: "sp_fianco",
+  base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base",
+  schienale: "sp_schienale", ripiano: "sp_ripiano", divisorio: "sp_divisorio",
+  zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale",
+  cassetto_frontale: "sp_frontale", cassetto_fianco: "sp_fianco",
+  cassetto_fondo: "sp_fianco"
+};
+var ROLE_MAT_OF = {
+  fianco: "fianco", fianco_sx: "fianco", fianco_dx: "fianco",
+  base: "base", cielo: "cielo", base_cielo: "base", schienale: "schienale",
+  ripiano: "ripiano", divisorio: "divisorio", zoccolo: "zoccolo",
+  frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale",
+  cassetto_fianco: "fianco", cassetto_fondo: "fianco"
+};
+/* solo quelle cadute: e quello che guarda il cancello */
+function failedInvariants(corpo, pieces, geometry, opts) {
+  return validateInvariants(corpo, pieces, geometry, opts)
+    .filter(function (r) { return r.ok === false; });
+}
 
 /* --- asserzioni ----------------------------------------------------------
  * LE ASSERZIONI SONO DATI, NON CODICE. Un array di oggetti: si aggiunge una
@@ -978,6 +1232,8 @@ var API = {
   computeCarcassGeometry: deriveCarcass,
   deriveCarcass: deriveCarcass,
   validateCarcassClosure: validateCarcassClosure,
+  validateInvariants: validateInvariants,
+  failedInvariants: failedInvariants,
   reconstructCarcass: reconstructCarcass,
   reconstructedBBox: reconstructedBBox,
   positionsHinges: positionsHinges,
