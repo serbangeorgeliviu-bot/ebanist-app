@@ -552,7 +552,11 @@ function alongAxis(row, axis) {
   return null;
 }
 
-function validateCarcassClosure(corpo, pieces, geometry) {
+/* Ricostruisce il corpo dai pezzi e torna TUTTE le catene, quelle che
+   tornano e quelle che no. `validateCarcassClosure` e il filtro di questa:
+   due funzioni che ricostruiscono il corpo sarebbero due verita, ed e
+   esattamente quello che questo file esiste per impedire. */
+function reconstructCarcass(corpo, pieces, geometry) {
   var out = [];
   var c = corpo || {}, G = geometry || {};
   var W = +(c.W != null ? c.W : c.L);
@@ -593,10 +597,11 @@ function validateCarcassClosure(corpo, pieces, geometry) {
 
   function add(axa, chain, nominal, calc, piese, why) {
     if (calc == null) return;
-    var delta = +(calc - nominal).toFixed(3);
-    if (delta === 0) return;
+    /* la catena si registra SEMPRE, anche quando torna: la foglia di
+       chiusura stampa il gabarito ricostruito, e non puo stamparlo solo
+       quando e sbagliato. */
     out.push({ axa: axa, chain: chain, valoare_nominala: nominal,
-               valoare_calculata: calc, delta: delta,
+               valoare_calculata: calc, delta: +(calc - nominal).toFixed(3),
                piese_implicate: piese, why: why });
   }
 
@@ -681,6 +686,27 @@ function validateCarcassClosure(corpo, pieces, geometry) {
       .filter(function (v, i, a) { return v && a.indexOf(v) === i; });
 
   return out;
+}
+
+/* Gli SCOSTAMENTI: le catene che non tornano, piu gli avvisi. E' quello che
+   guarda il cancello di esportazione. */
+function validateCarcassClosure(corpo, pieces, geometry) {
+  return reconstructCarcass(corpo, pieces, geometry).filter(function (e) {
+    return e.delta !== 0;
+  });
+}
+
+/* Il GABARITO ricostruito, un numero per asse: quello che la foglia di
+   chiusura mette accanto al nominale. Si prende la prima catena di ogni
+   asse — quella che parte dal fianco, il pezzo che piu somiglia al corpo. */
+function reconstructedBBox(corpo, pieces, geometry) {
+  var ch = reconstructCarcass(corpo, pieces, geometry), out = {}, i, e;
+  for (i = 0; i < ch.length; i++) {
+    e = ch[i];
+    if (e.valoare_calculata == null) continue;
+    if (out[e.axa] == null) out[e.axa] = e.valoare_calculata;
+  }
+  return { L: out.L, H: out.H, P: out.P };
 }
 /* un angolo e "fuori squadro" solo se e dichiarato e diverso da 90 */
 function isAngle(v) { return typeof v === "number" && isFinite(v) && Math.abs(v - 90) > 0.01; }
@@ -952,6 +978,8 @@ var API = {
   computeCarcassGeometry: deriveCarcass,
   deriveCarcass: deriveCarcass,
   validateCarcassClosure: validateCarcassClosure,
+  reconstructCarcass: reconstructCarcass,
+  reconstructedBBox: reconstructedBBox,
   positionsHinges: positionsHinges,
   hingeCount: hingeCount,
   ASSERTIONS: ASSERTIONS,
