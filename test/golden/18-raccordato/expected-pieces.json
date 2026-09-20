@@ -1,0 +1,62 @@
+{
+ "validat": true,
+ "nume": "18-raccordato",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 4,
+ "n_piese": 7,
+ "pieces": [
+  {
+   "elemento": "Fascia raccordata",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 1731,
+   "larg": 1362,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "curve": {
+    "dev": 1731.3,
+    "corda": null
+   }
+  },
+  {
+   "elemento": "Fondo / Cielo raccordato",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 862,
+   "larg": 431,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "shape": "raccordo"
+  },
+  {
+   "elemento": "Ripiano raccordato",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 862,
+   "larg": 431,
+   "pz": 3,
+   "sp": null,
+   "bordo": "1L",
+   "shape": "raccordo"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 862,
+   "larg": 1362,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "mat": "hdf3"
+  }
+ ]
+}

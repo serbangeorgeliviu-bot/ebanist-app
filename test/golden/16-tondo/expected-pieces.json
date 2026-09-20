@@ -1,0 +1,51 @@
+{
+ "validat": true,
+ "nume": "16-tondo",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 3,
+ "n_piese": 6,
+ "pieces": [
+  {
+   "elemento": "Fascia",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 1885,
+   "larg": 1162,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "curve": {
+    "dev": 1885,
+    "corda": null
+   }
+  },
+  {
+   "elemento": "Fondo / Cielo tondo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 562,
+   "larg": 562,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "shape": "tondo"
+  },
+  {
+   "elemento": "Ripiano tondo",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 562,
+   "larg": 562,
+   "pz": 3,
+   "sp": null,
+   "bordo": "1L",
+   "shape": "tondo"
+  }
+ ]
+}

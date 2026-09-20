@@ -49,6 +49,7 @@ var CARCASS_DEFAULTS = {
   edge_offset: 100,        // prima e ultima cerniera, dai capi dell'anta
   nut_d: 8,                // profondita della cava per lo schienale sottile
   nut_off: 10,             // arretramento della cava dal filo posteriore
+  setback_zoccolo: 50,     // arretramento dello zoccolo dal filo anteriore
   foratura_prof: 12.5,     // tazza cerniera: profondita
   foratura_dist_cant: 5    // tazza cerniera: distanza dal cant. UNA cota, non "3-6"
 };
@@ -56,6 +57,75 @@ var CARCASS_DEFAULTS = {
 /* Formato della lastra: serve ad A10 (un pezzo piu grande della lastra non e
    un pezzo, e un errore che si scopre in segheria). */
 var PANEL_DEFAULTS = { panelL: 2800, panelW: 2070, decor_directional: false };
+
+/* --- I RUOLI ------------------------------------------------------------
+ * Il `role` di un pezzo e l'unico modo che ha il controllo di chiusura
+ * (Fase 2) di sapere che cosa sta rimontando. Il NOME del pezzo non serve:
+ * "Ripiano mobile sez.2" e "Ripiano fisso" sono lo stesso ruolo, e il nome
+ * cambia con la lingua. Il ruolo no.
+ */
+var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo",
+             "schienale", "ripiano", "frontale", "cassetto_fianco", "cassetto_fondo",
+             "cassetto_frontale", "divisorio", "zoccolo", "traversa", "accessorio"];
+
+/* Perche esiste `fianco` accanto a `fianco_sx`/`fianco_dx`, e `base_cielo`
+   accanto a `base`/`cielo`: una RIGA di distinta non e un pezzo, e un
+   pezzo per `pz` volte. Il falegname taglia "Fianco — 2 pz", non due righe
+   da uno; spezzarle per far tornare un'enumerazione cambierebbe il foglio
+   che va in segheria. Il ruolo di riga porta il paio, e `pz` dice quanti
+   sono: chi rimonta il gabarito legge tutti e due. */
+
+/* Quale dimensione del pezzo corre lungo quale asse del corpo.
+ *   lung = la prima cota in distinta, larg = la seconda, sp = la grossezza.
+ *   "L" = larghezza del corpo, "H" = altezza, "P" = profondita.
+ * Senza questa tabella il bounding box del corpo assemblato non si puo
+ * ricomporre: 2078x398 e un fianco o un'anta a seconda di dove sta.
+ */
+var ROLE_AXES = {
+  fianco:            { lung: "H", larg: "P", sp: "L" },
+  base_cielo:        { lung: "L", larg: "P", sp: "H" },
+  fianco_sx:         { lung: "H", larg: "P", sp: "L" },
+  fianco_dx:         { lung: "H", larg: "P", sp: "L" },
+  base:              { lung: "L", larg: "P", sp: "H" },
+  cielo:             { lung: "L", larg: "P", sp: "H" },
+  schienale:         { lung: "L", larg: "H", sp: "P" },
+  ripiano:           { lung: "L", larg: "P", sp: "H" },
+  frontale:          { lung: "H", larg: "L", sp: "P" },
+  divisorio:         { lung: "H", larg: "P", sp: "L" },
+  zoccolo:           { lung: "L", larg: "H", sp: "P" },
+  traversa:          { lung: "L", larg: "H", sp: "P" },
+  cassetto_fianco:   { lung: "P", larg: "H", sp: "L" },
+  cassetto_fondo:    { lung: "L", larg: "P", sp: "H" },
+  cassetto_frontale: { lung: "H", larg: "L", sp: "P" },
+  accessorio:        null   /* un'asta o un piedino non e un pannello del corpo */
+};
+function axesFor(role) { return ROLE_AXES[role] || null; }
+
+/* --- le guide ------------------------------------------------------------
+ * `rezerva_glisiera` NON e una costante. E' quanto la guida SCELTA si mangia
+ * in fondo al vano, e cambia da modello a modello: 12 mm su TANDEM/LEGRABOX,
+ * 10 su una guida a sfere, 12,5 su una a rulli. Scritta a mano una volta
+ * sola valeva per una guida sola.
+ *
+ *   rear    = riserva in PROFONDITA, dietro la cassa del cassetto
+ *   ded_lat = quanto si stringe la cassa in LARGHEZZA, TOTALE (due lati)
+ *
+ * Gli id sono gli stessi del catalogo ferramenta dell'app (HWDB.guida): una
+ * tabella sola, due file che la leggono.
+ */
+var SLIDE_CATALOG = {
+  blum_tandem:  { brand: "Blum",   rear: 12,   ded_lat: 42 },
+  blum_movento: { brand: "Blum",   rear: 12,   ded_lat: 42 },
+  blum_230m:    { brand: "Blum",   rear: 12.5, ded_lat: 25 },
+  haf_ball:     { brand: "Hafele", rear: 10,   ded_lat: 26 },
+  haf_matrix:   { brand: "Hafele", rear: 12,   ded_lat: 75 },
+  nessuno:      { brand: "-",      rear: 0,    ded_lat: 0 }
+};
+function slideById(id) { return SLIDE_CATALOG[id] || SLIDE_CATALOG.blum_tandem; }
+
+/* backMode (come lo scrive il progetto) -> tip_schienale (come lo chiede la
+   specifica). Una parola sola per costruzione, non due. */
+var BACK_KIND = { incassato: "incassato", applicato: "applicato", in_cava: "scanalato" };
 
 /* --- utensili ------------------------------------------------------------ */
 
@@ -99,6 +169,42 @@ function positionsHinges(anta_H, n, edge_offset) {
   return out;
 }
 
+/* --- le grossezze, una per ruolo ------------------------------------------
+ * UNA grossezza per corpo era la seconda causa radice: il fianco da 19, il
+ * cielo da 25 e il fondo da 3 finivano tutti e tre nello stesso numero.
+ *
+ * Il chiamante passa `sp: { fianco, base, cielo, schienale, ripiano,
+ * frontale, zoccolo, divisorio }`. Quello che non c'e EREDITA dalla
+ * struttura — `sp.fianco`, o il vecchio `t_fianco`. Quello che non ha
+ * nemmeno quello e un errore, non un 18 silenzioso.
+ */
+var SP_ROLES = ["fianco", "base", "cielo", "schienale", "ripiano",
+                "frontale", "zoccolo", "divisorio"];
+
+function readThickness(p) {
+  var sp = p.sp || {};
+  /* la grossezza di struttura: `sp.fianco`, o il vecchio nome piatto */
+  var base = (typeof sp.fianco === "number") ? sp.fianco
+           : (typeof p.t_fianco === "number") ? p.t_fianco : null;
+  /* lo schienale ha il suo nome piatto storico, e non eredita dalla
+     struttura: un fondo in HDF da 3 non e mai spesso come un fianco. */
+  var back = (typeof sp.schienale === "number") ? sp.schienale
+           : (typeof p.t_back === "number") ? p.t_back : null;
+  var out = {}, i, r, v;
+  for (i = 0; i < SP_ROLES.length; i++) {
+    r = SP_ROLES[i];
+    v = (typeof sp[r] === "number") ? sp[r] : (r === "schienale" ? back : base);
+    if (typeof v !== "number" || !isFinite(v))
+      throw new Error("deriveCarcass: manca la grossezza del ruolo `" + r +
+        "` e non c'e una grossezza di struttura da cui ereditarla. " +
+        "Assegna un materiale: NON esiste un valore predefinito.");
+    if (r !== "schienale" && !(v > 0))
+      throw new Error("deriveCarcass: la grossezza del ruolo `" + r + "` deve essere > 0, ricevuto " + v);
+    out[r] = v;
+  }
+  return out;
+}
+
 /* --- la funzione ---------------------------------------------------------- */
 
 function deriveCarcass(params) {
@@ -106,10 +212,14 @@ function deriveCarcass(params) {
 
   /* entrate, tutte esplicite */
   var W = num(p, "W"), H = num(p, "H"), D = num(p, "D");
-  var t_fianco = num(p, "t_fianco");
+  /* le grossezze arrivano PER RUOLO. `t_fianco` e `t_back` restano i nomi
+     della struttura e dello schienale: sono quelli che scrivono le regole
+     e i progetti gia salvati. */
+  var SP = readThickness(p);
+  var t_fianco = SP.fianco;
   /* t_back NON e una costante: e la grossezza del materiale assegnato allo
      schienale. Se lo schienale e truciolare 19, t_back vale 19. */
-  var t_back = num(p, "t_back");
+  var t_back = SP.schienale;
   var backMode = p.backMode;
   if (backMode !== "incassato" && backMode !== "applicato" && backMode !== "in_cava")
     throw new Error("deriveCarcass: `backMode` deve essere 'incassato', 'applicato' o 'in_cava', ricevuto " + JSON.stringify(backMode));
@@ -130,6 +240,17 @@ function deriveCarcass(params) {
   var h_picior = num(p, "h_picior");
   var edge_offset = num(p, "edge_offset");
   var nut_d = num(p, "nut_d"), nut_off = num(p, "nut_off");
+  var setback_zoccolo = p.setback_zoccolo == null ? 50 : num(p, "setback_zoccolo");
+  /* i tramezzi entrano qui perche la larghezza di una sezione — e quindi
+     quella di un cassetto — si ricava da loro. Calcolata fuori, in quattro
+     posti diversi, era gia quattro volte l'occasione di sbagliarla. */
+  var n_divisorio = Math.max(0, Math.round(p.n_divisorio == null ? 0 : num(p, "n_divisorio")));
+  /* il modello di guida SCELTO, non una costante: `rezerva_glisiera` esce
+     da lui. `glisiera: null` vuol dire "nessun cassetto" e da riserva 0. */
+  var glisieraId = p.glisiera == null ? null : String(p.glisiera);
+  var GL = glisieraId ? slideById(glisieraId) : SLIDE_CATALOG.nessuno;
+  var cassetto_interno = !!p.cassetto_interno;
+  var inset_cassetto = p.inset_cassetto == null ? 0 : num(p, "inset_cassetto");
   var foratura_prof = num(p, "foratura_prof");
   var foratura_dist_cant = num(p, "foratura_dist_cant");
 
@@ -174,7 +295,12 @@ function deriveCarcass(params) {
     D_fianco = D;
     D_bc = D;
     back_W = Wi + 2 * nut_d;
-    back_H = (H - h_base - 2 * t_fianco) + 2 * nut_d;
+    /* lo schienale in cava corre fra base e cielo, e entra di `nut_d` per
+       lato. `2 * t_fianco` era giusto finche base, cielo e fianco avevano la
+       stessa grossezza: con un cielo da 25 su struttura da 19 lo schienale
+       usciva 6 mm troppo lungo e non entrava nella cava. Sono la base e il
+       cielo a togliergli altezza, non i fianchi. */
+    back_H = (H - h_base - SP.base - SP.cielo) + 2 * nut_d;
     piano_interno = nut_off + t_back;
   }
 
@@ -185,6 +311,10 @@ function deriveCarcass(params) {
   /* zoccolo / traversa frontale */
   var zoccolo_W = Wi;
   var zoccolo_H = h_zoccolo;
+  /* lo zoccolo sta arretrato dal filo anteriore: la sua posizione in
+     profondita e una cota derivata come le altre, non un 50 scritto dentro
+     il generatore. */
+  var zoccolo_Z = D - setback_zoccolo;
 
   /* ante. `reveal` e la parte di fianco che resta a vista accanto all'anta:
      e la differenza fra la grossezza del fianco e la sovrapposizione. Senza
@@ -204,8 +334,39 @@ function deriveCarcass(params) {
     cerniere = positionsHinges(anta_H, n_cerniere, edge_offset);
   }
 
-  /* --- uscita: arrotondamento UNA volta sola --------------------------- */
-  return {
+  /* --- le cote interne, per nome di specifica --------------------------
+     P_int / L_int / H_int sono le tre luci interne del corpo. Ogni pezzo che
+     sta DENTRO la cassa si misura su queste, e nessun generatore le
+     ricalcola piu per conto suo. */
+  var P_int = D - piano_interno;
+  var L_int = Wi;
+  var H_int = H - h_base - SP.base - SP.cielo;
+
+  /* la larghezza di una sezione fra due tramezzi: la cota da cui escono il
+     ripiano e la cassa del cassetto. */
+  var sectiune_W = (L_int - n_divisorio * SP.divisorio) / (n_divisorio + 1);
+
+  /* la riserva della guida, dal modello scelto in catalogo */
+  var rezerva_glisiera = GL.rear;
+  /* profondita massima della cassa del cassetto: la luce interna meno la
+     riserva della guida. E' la cota che controlla l'invariante di Fase 3. */
+  var P_cassetto_max = P_int - rezerva_glisiera;
+  /* il cassetto INTERNO sta dietro l'anta e arretra ancora del suo inset */
+  var P_cassetto_max_interno = P_cassetto_max - inset_cassetto;
+  /* larghezza della cassa in LEGNO: la sezione meno quanto si mangia la guida
+     sui due lati. Le casse METALLICHE (LEGRABOX, TANDEMBOX) hanno la loro
+     tabella di deduzione nel catalogo cassetti dell'app, che e un catalogo di
+     CASSE, non di guide: quella resta la sorgente per loro, e legge da qui
+     `sectiune_W`. Due tabelle diverse per due cose diverse, non due verita
+     sulla stessa cosa. */
+  var L_cassetto = sectiune_W - GL.ded_lat;
+  var L_cassetto_interno = L_cassetto - 8;   /* gioco che lascia all'anta */
+
+  /* --- uscita: arrotondamento UNA volta sola ---------------------------
+     `Object.freeze`: le cote derivate si LEGGONO. Un generatore che le
+     ritoccava per farsi tornare un conto e esattamente come nasce la
+     seconda sorgente di verita. Adesso il tentativo fallisce. */
+  return Object.freeze({
     geomVersion: GEOM_VERSION,
     /* le entrate viaggiano con le uscite: la scheda di officina deve poter
        ristampare con che numeri e stato calcolato quel pezzo */
@@ -215,8 +376,13 @@ function deriveCarcass(params) {
       gap_sup: gap_sup, gap_inf: gap_inf, setback_ripiano: setback_ripiano,
       clearance_ripiano: clearance_ripiano, n_cerniere: n_cerniere,
       piedini: piedini, h_picior: h_picior, edge_offset: edge_offset,
-      nut_d: nut_d, nut_off: nut_off,
-      foratura_prof: foratura_prof, foratura_dist_cant: foratura_dist_cant
+      nut_d: nut_d, nut_off: nut_off, setback_zoccolo: setback_zoccolo,
+      foratura_prof: foratura_prof, foratura_dist_cant: foratura_dist_cant,
+      n_divisorio: n_divisorio, glisiera: glisieraId,
+      cassetto_interno: cassetto_interno, inset_cassetto: inset_cassetto,
+      sp: { fianco: SP.fianco, base: SP.base, cielo: SP.cielo, schienale: SP.schienale,
+            ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
+            divisorio: SP.divisorio }
     },
     Wi: mm(Wi),
     D_fianco: mm(D_fianco),
@@ -229,6 +395,7 @@ function deriveCarcass(params) {
     ripiano_D: mm(ripiano_D),
     zoccolo_W: mm(zoccolo_W),
     zoccolo_H: mm(zoccolo_H),
+    zoccolo_Z: mm(zoccolo_Z),
     reveal: mm(reveal),
     anta_W: mm(anta_W),
     anta_H: mm(anta_H),
@@ -238,8 +405,564 @@ function deriveCarcass(params) {
     cerniere: cerniere,
     /* cote di foratura: numeri, non intervalli. "3-6 mm" non e una quota che
        una macchina possa eseguire, ed e quello che prende A8. */
-    foratura: { prof: foratura_prof, dist_cant: foratura_dist_cant, diam: 35 }
-  };
+    foratura: Object.freeze({ prof: foratura_prof, dist_cant: foratura_dist_cant, diam: 35 }),
+
+    /* ===== NOMI DI SPECIFICA =============================================
+       Gli stessi numeri, con i nomi che usano la specifica e i controlli.
+       Non sono un secondo calcolo: sono lo stesso, con un altro nome. Chi
+       scrive una regola nuova usa questi. */
+    P_int: mm(P_int),
+    L_int: mm(L_int),
+    H_int: mm(H_int),
+
+    sp_fianco:    SP.fianco,
+    sp_base:      SP.base,
+    sp_cielo:     SP.cielo,
+    sp_schienale: SP.schienale,
+    sp_ripiano:   SP.ripiano,
+    sp_frontale:  SP.frontale,
+    sp_zoccolo:   SP.zoccolo,
+    sp_divisorio: SP.divisorio,
+    sp: Object.freeze({
+      fianco: SP.fianco, base: SP.base, cielo: SP.cielo, schienale: SP.schienale,
+      ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
+      divisorio: SP.divisorio
+    }),
+
+    tip_schienale: BACK_KIND[backMode],
+
+    /* le profondita FINITE, quelle che vanno in distinta */
+    P_fianco_finita:  mm(D_fianco),
+    P_base_finita:    mm(D_bc),
+    P_cielo_finita:   mm(D_bc),
+    P_ripiano_finita: mm(ripiano_D),
+
+    /* gli arretramenti: quanto un pezzo sta indietro dal filo del corpo */
+    retrasare_ripiano:   mm(setback_ripiano),
+    /* lo schienale arretra solo quando corre in cava: incassato e applicato
+       stanno a filo del piano posteriore. */
+    retrasare_schienale: mm(backMode === "in_cava" ? nut_off : 0),
+
+    /* i giochi di montaggio: costanti di mestiere, indipendenti dalla
+       grossezza. Restano quelli anche quando il pannello cambia. */
+    jocuri: Object.freeze({
+      joc_frontale_laterale: mm(gap_ante),
+      joc_frontale_verticale: mm(gap_sup + gap_inf),
+      joc_frontale_sus: mm(gap_sup),
+      joc_frontale_jos: mm(gap_inf),
+      joc_ripiano: mm(clearance_ripiano),
+      reveal: mm(reveal)
+    }),
+
+    /* cassetti: la riserva viene dal MODELLO di guida, non da una costante */
+    glisiera: glisieraId,
+    glisiera_brand: GL.brand,
+    rezerva_glisiera: rezerva_glisiera,
+    P_cassetto_max: mm(P_cassetto_max),
+    P_cassetto_max_interno: mm(P_cassetto_max_interno),
+    L_cassetto: mm(L_cassetto),
+    L_cassetto_interno: mm(L_cassetto_interno),
+
+    /* la larghezza di una sezione fra i tramezzi */
+    n_divisorio: n_divisorio,
+    sectiune_W: mm(sectiune_W),
+
+    /* --- PRECISIONE PIENA, per chi deve ancora calcolarci sopra ---------
+       Le cote qui sopra sono arrotondate al mm: sono quelle che vanno in
+       distinta. Ma una sezione da 602,67 mm arrotondata a 603 e poi
+       diminuita del gioco del ripiano da 601 invece di 600 — un
+       arrotondamento in catena, che la regola del progetto vieta.
+       Chi usa una cota derivata per calcolarne un'altra legge DA QUI, e
+       arrotonda una volta sola, alla fine. */
+    exact: Object.freeze({
+      P_int: P_int, L_int: L_int, H_int: H_int,
+      sectiune_W: sectiune_W,
+      D_fianco: D_fianco, D_bc: D_bc, piano_interno: piano_interno,
+      ripiano_W: ripiano_W, ripiano_D: ripiano_D,
+      anta_W: anta_W, anta_H: anta_H, reveal: reveal,
+      P_cassetto_max: P_cassetto_max, L_cassetto: L_cassetto
+    }),
+
+    /* la tabella degli assi viaggia con le cote: chi rimonta il gabarito
+       (Fase 2) non deve andarsela a cercare altrove. */
+    ROLE_AXES: ROLE_AXES
+  });
+}
+
+/* --- LA RICOSTRUZIONE INVERSA DEL GABARITO --------------------------------
+ *
+ * Questo e il controllo che avrebbe preso il guasto della libreria SENZA che
+ * nessuno sapesse del guasto.
+ *
+ * L'idea: la distinta non e una lista di numeri, e un mobile smontato. Se si
+ * rimettono insieme i pezzi — ognuno con la SUA grossezza e con gli assi che
+ * porta scritti addosso — si deve riottenere il gabarito che il cliente ha
+ * ordinato. Se non torna, la distinta descrive un altro mobile.
+ *
+ * Tolleranza: ZERO millimetri. Non e severita per gusto. Le cote in distinta
+ * sono intere e il gabarito e intero: se la somma non torna esatta, manca
+ * qualcosa — non e rumore di arrotondamento. Il guasto della libreria era di
+ * 18 mm, ma quello successivo potrebbe essere di 1, e un millimetro di
+ * tolleranza lo lascerebbe passare.
+ *
+ * Non si misura una catena sola: se ne misurano SEI, che partono da pezzi
+ * diversi e devono arrivare allo stesso numero. Una sola catena verifica che
+ * il generatore sia d'accordo con se stesso; sei catene verificano che i
+ * pezzi stiano davvero insieme.
+ *
+ * PURA: entra un corpo, dei pezzi e le cote derivate; esce una lista di
+ * scostamenti. Nessuno stato, nessun effetto.
+ */
+
+/* I tronconi di un pezzo spezzato tornano un pezzo solo. Un fianco da 2800
+   tagliato in due da 1400 e ALTO 2800: misurare il primo troncone e
+   dichiarare il corpo alto la meta. */
+function closureRow(pieces, role) {
+  var rows = [], i, p;
+  for (i = 0; i < (pieces || []).length; i++) {
+    p = pieces[i];
+    if (!p || p.role !== role) continue;
+    rows.push(p);
+  }
+  if (!rows.length) return null;
+  var segs = rows.filter(function (r) { return r.seg && r.seg.n > 1; });
+  if (segs.length) {
+    var lung = 0;
+    for (i = 0; i < segs.length; i++) lung += +segs[i].lung || 0;
+    return { lung: lung, larg: +segs[0].larg || 0, sp: segs[0].sp,
+             pz: +segs[0].pz || 0, axes: segs[0].axis_mapping,
+             nomi: segs.map(function (r) { return r.elemento; }) };
+  }
+  return { lung: +rows[0].lung || 0, larg: +rows[0].larg || 0, sp: rows[0].sp,
+           pz: +rows[0].pz || 0, axes: rows[0].axis_mapping,
+           nomi: [rows[0].elemento] };
+}
+/* base e cielo escono in una riga sola quando sono lo stesso pezzo, e in due
+   quando le grossezze si separano: chi cerca la base le trova in tutti e due
+   i casi. */
+function closureBC(pieces, which) {
+  return closureRow(pieces, which) || closureRow(pieces, "base_cielo");
+}
+/* Quale cota del pezzo corre lungo l'asse chiesto. Lo dice `axis_mapping`,
+   che il generatore ha scritto sul pezzo: NON si indovina dall'ordine. */
+function alongAxis(row, axis) {
+  var ax = row && (row.axes || row.axis_mapping);
+  if (!ax) return null;
+  if (ax.lung === axis) return row.lung;
+  if (ax.larg === axis) return row.larg;
+  return null;
+}
+
+/* Ricostruisce il corpo dai pezzi e torna TUTTE le catene, quelle che
+   tornano e quelle che no. `validateCarcassClosure` e il filtro di questa:
+   due funzioni che ricostruiscono il corpo sarebbero due verita, ed e
+   esattamente quello che questo file esiste per impedire. */
+function reconstructCarcass(corpo, pieces, geometry) {
+  var out = [];
+  var c = corpo || {}, G = geometry || {};
+  var W = +(c.W != null ? c.W : c.L);
+  var H = +c.H;
+  var D = +(c.D != null ? c.D : c.P);
+  if (!(W > 0 && H > 0 && D > 0)) return out;   /* non e un corpo: niente da chiudere */
+
+  var fianco = closureRow(pieces, "fianco") || closureRow(pieces, "fianco_sx");
+  /* nessun fianco = non e una cassa (un tavolo, un letto). Non si inventa un
+     corpo che non c'e. */
+  if (!fianco) return out;
+
+  var base = closureBC(pieces, "base"), cielo = closureBC(pieces, "cielo");
+  var back = closureRow(pieces, "schienale");
+  var divis = closureRow(pieces, "divisorio");
+
+  var tip = G.tip_schienale || "incassato";
+  /* LA GROSSEZZA DI UN PEZZO NON SI SUPPONE MAI A ZERO. Una riga senza `sp`
+     e una riga vecchia, emessa prima che questo controllo esistesse: si usa
+     la grossezza che il motore assegna al suo ruolo — lo stesso numero con
+     cui e stata tagliata — e si SEGNALA che la distinta va rigenerata.
+     Leggere zero al posto suo dichiarerebbe rotto ogni corpo sano, e un
+     giorno dichiarerebbe sano un corpo rotto. */
+  var presunte = [];
+  function spOf(row, fallbackKey) {
+    if (row && row.sp != null && +row.sp > 0) return +row.sp;
+    if (row) presunte.push(row.nomi.join(", "));
+    return +G[fallbackKey] || 0;
+  }
+  var spBack = back ? spOf(back, "sp_schienale") : 0;
+  var spF = spOf(fianco, "sp_fianco") || +G.sp_fianco || 0;
+  var spB = base ? spOf(base, "sp_base") : (+G.sp_base || 0);
+  var spC = cielo ? spOf(cielo, "sp_cielo") : (+G.sp_cielo || 0);
+  var inp = G.in || {};
+  var h_base = +inp.h_base || 0;
+  var h_picior = (inp.piedini > 0) ? (+inp.h_picior || 0) : 0;
+  var nut_d = +inp.nut_d || 0;
+
+  function add(axa, chain, nominal, calc, piese, why) {
+    if (calc == null) return;
+    /* la catena si registra SEMPRE, anche quando torna: la foglia di
+       chiusura stampa il gabarito ricostruito, e non puo stamparlo solo
+       quando e sbagliato. */
+    out.push({ axa: axa, chain: chain, valoare_nominala: nominal,
+               valoare_calculata: calc, delta: +(calc - nominal).toFixed(3),
+               piese_implicate: piese, why: why });
+  }
+
+  /* ---- PROFONDITA -------------------------------------------------------
+     applicato  -> P = P_fianco + sp_schienale   (lo schienale sta DIETRO)
+     incassato  -> P = P_fianco                  (sta fra i fianchi)
+     scanalato  -> P = P_fianco                  (corre in una cava) */
+  var dietro = (tip === "applicato") ? spBack : 0;
+  var pF = alongAxis(fianco, "P");
+  add("P", "fianco+schienale", D, (pF == null ? null : pF + dietro),
+      fianco.nomi.concat(back && dietro ? back.nomi : []),
+      "Adâncimea recompusă din laterală (plus spatele, dacă e aplicat) nu dă adâncimea nominală a corpului.");
+
+  if (base) {
+    /* base e cielo arretrano di quanto lo schienale ruba in profondita: in
+       cava non ruba niente, negli altri due modi ruba la sua grossezza. */
+    var pB = alongAxis(base, "P");
+    add("P", "base+schienale", D,
+        (pB == null ? null : pB + (tip === "scanalato" ? 0 : spBack)),
+        base.nomi.concat(back ? back.nomi : []),
+        "Adâncimea recompusă din bază/tavan nu dă adâncimea nominală: fie baza e prea scurtă, fie spatele nu se scade coerent.");
+  }
+
+  /* ---- LARGHEZZA --------------------------------------------------------
+     Su un corpo FUORI SQUADRO la riga di base porta il rettangolo di sbozzo
+     di un trapezio, non la luce interna: la catena non chiude e non deve
+     chiudere. Si dichiara saltata invece di dare un falso allarme — o, peggio,
+     di essere allentata per tutti. */
+  var squadro = !(isAngle(inp.angL) || isAngle(inp.angR) ||
+                  isAngle(c.angL) || isAngle(c.angR));
+  if (base && squadro)
+    add("L", "base+2×fianco", W, alongAxis(base, "L") + 2 * spF,
+        base.nomi.concat(fianco.nomi),
+        "Lățimea recompusă din bază plus cele două laterale nu dă lățimea nominală.");
+
+  if (back && squadro) {
+    var bl = alongAxis(back, "L");
+    /* incassato: fra i fianchi. applicato: largo quanto il corpo.
+       scanalato: entra di `nut_d` per lato nella cava. */
+    var calcL = (bl == null) ? null
+      : (tip === "applicato") ? bl
+      : (tip === "scanalato") ? bl + 2 * spF - 2 * nut_d
+      : bl + 2 * spF;
+    add("L", "schienale(" + tip + ")", W, calcL,
+        back.nomi.concat(fianco.nomi),
+        "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.");
+  }
+
+  /* ---- ALTEZZA ----------------------------------------------------------
+     Sui piedini il fianco si ferma sopra di loro; sullo zoccolo arriva a
+     terra. In tutti e due i casi il corpo e alto H. */
+  add("H", "fianco+piedini", H, alongAxis(fianco, "H") + h_picior,
+      fianco.nomi,
+      "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.");
+
+  /* La catena che entra DENTRO il corpo: zoccolo/piedini, base, luce interna,
+     cielo. E' quella che si accorge di una base o di un cielo tagliati con la
+     grossezza sbagliata — il tramezzo e lungo esattamente la luce interna. */
+  if (divis) {
+    var hi = alongAxis(divis, "H");
+    add("H", "zoccolo+base+interno+cielo", H,
+        (hi == null ? null : h_base + spB + hi + spC),
+        divis.nomi.concat(base ? base.nomi : []).concat(cielo ? cielo.nomi : []),
+        "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.");
+  }
+
+  /* La distinta vecchia si controlla lo stesso, ma si dice che e vecchia:
+     chi la esporta deve sapere che la grossezza dei pezzi non e stata
+     verificata contro quella scritta sulla riga, perche sulla riga non
+     c'era. Avviso, non blocco: nessun progetto gia salvato e sbagliato
+     per questo. */
+  if (presunte.length)
+    out.push({ axa: "—", chain: "sp-assente", severity: "warn",
+               valoare_nominala: null, valoare_calculata: null, delta: null,
+               piese_implicate: presunte.filter(function (v, i, a) { return a.indexOf(v) === i; }),
+               why: "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta." });
+
+  /* lo stesso pezzo nominato due volte (base e cielo nella stessa riga) si
+     dice una volta sola: in officina si legge un elenco, non un'eco */
+  for (var k = 0; k < out.length; k++)
+    out[k].piese_implicate = (out[k].piese_implicate || [])
+      .filter(function (v, i, a) { return v && a.indexOf(v) === i; });
+
+  return out;
+}
+
+/* Gli SCOSTAMENTI: le catene che non tornano, piu gli avvisi. E' quello che
+   guarda il cancello di esportazione. */
+function validateCarcassClosure(corpo, pieces, geometry) {
+  return reconstructCarcass(corpo, pieces, geometry).filter(function (e) {
+    return e.delta !== 0;
+  });
+}
+
+/* Il GABARITO ricostruito, un numero per asse: quello che la foglia di
+   chiusura mette accanto al nominale. Si prende la prima catena di ogni
+   asse — quella che parte dal fianco, il pezzo che piu somiglia al corpo. */
+function reconstructedBBox(corpo, pieces, geometry) {
+  var ch = reconstructCarcass(corpo, pieces, geometry), out = {}, i, e;
+  for (i = 0; i < ch.length; i++) {
+    e = ch[i];
+    if (e.valoare_calculata == null) continue;
+    if (out[e.axa] == null) out[e.axa] = e.valoare_calculata;
+  }
+  return { L: out.L, H: out.H, P: out.P };
+}
+/* un angolo e "fuori squadro" solo se e dichiarato e diverso da 90 */
+function isAngle(v) { return typeof v === "number" && isFinite(v) && Math.abs(v - 90) > 0.01; }
+
+/* --- GLI INVARIANTI PER RUOLO (Fase 3) -----------------------------------
+ *
+ * La chiusura di Fase 2 controlla il GABARITO: che i pezzi, rimessi insieme,
+ * facciano il mobile ordinato. Non controlla che ogni pezzo sia quello
+ * giusto per il suo posto. Un ripiano lungo quanto la luce interna INTERA
+ * chiude il gabarito e non entra: il gioco se l'e mangiato nessuno.
+ *
+ * Qui c'e l'altra meta. Ogni regola dice tre cose: se e passata, con che
+ * numeri, e quali pezzi riguarda. Torna la lista COMPLETA, non solo le
+ * cadute: chi stampa la foglia di chiusura deve poter far vedere anche
+ * quelle che tornano.
+ *
+ * `opts`:
+ *   materials  { ruolo: {id,label,th} }  per dire QUALE materiale non torna
+ *   thicknesses [n, ...]                 le grossezze che il progetto ha
+ *   maxDim     n                         la cota oltre la quale un pezzo non
+ *                                        e un pezzo (2800 di serie)
+ * PURA: nessuno stato, nessun effetto.
+ */
+function validateInvariants(corpo, pieces, geometry, opts) {
+  var out = [], o = opts || {}, G = geometry || {}, c = corpo || {};
+  var W = +(c.W != null ? c.W : c.L), H = +c.H, D = +(c.D != null ? c.D : c.P);
+  var rows = pieces || [];
+  var maxDim = +o.maxDim > 0 ? +o.maxDim : 2800;
+
+  /* `ok` ha TRE stati: true, false, e `null` = non applicabile. Una regola
+     che non si puo applicare non e una regola passata: dirlo passata
+     vorrebbe dire contare come verificato qualcosa che nessuno ha guardato.
+     `failedInvariants` scarta solo i `false`. */
+  function rule(id, regola, ok, valori, why, piese) {
+    out.push({ id: id, regola: regola, ok: (ok === null ? null : !!ok),
+               valori: valori || {}, why: why || "", piese_implicate: piese || [] });
+  }
+  /* le cote sono intere: uguale vuol dire uguale */
+  function eq(a, b) { return a != null && b != null && Math.round(a) === Math.round(b); }
+
+  var fianco = closureRow(rows, "fianco") || closureRow(rows, "fianco_sx");
+  if (!fianco || !(W > 0 && H > 0 && D > 0)) return out;   /* non e una cassa */
+
+  var base = closureBC(rows, "base"), cielo = closureBC(rows, "cielo");
+  var back = closureRow(rows, "schienale");
+  var tip = G.tip_schienale || "incassato";
+  var spBack = back ? (back.sp != null ? +back.sp : +G.sp_schienale || 0) : 0;
+  var spF = +G.sp_fianco || 0, spB = +G.sp_base || 0, spC = +G.sp_cielo || 0;
+  var inp = G.in || {};
+  var h_base = +inp.h_base || 0;
+  var P_fianco = alongAxis(fianco, "P");
+
+  /* --- lo schienale e la profondita ------------------------------------ */
+  if (tip === "applicato")
+    rule("I1", "P_fianco == P_nom - sp_schienale",
+      eq(P_fianco, D - spBack), { P_fianco: P_fianco, P_nom: D, sp_schienale: spBack },
+      "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.",
+      fianco.nomi);
+  if (tip === "incassato") {
+    rule("I2a", "P_fianco == P_nom",
+      eq(P_fianco, D), { P_fianco: P_fianco, P_nom: D },
+      "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.",
+      fianco.nomi);
+    if (back)
+      rule("I2b", "L_schienale == L_nom - 2*sp_fianco",
+        eq(alongAxis(back, "L"), W - 2 * spF),
+        { L_schienale: alongAxis(back, "L"), L_nom: W, sp_fianco: spF },
+        "Spate încastrat: intră între laterale, deci e mai îngust cu două grosimi de laterală.",
+        back.nomi);
+  }
+
+  /* --- la pila verticale: zoccolo, base, ripiani, cielo -----------------
+     Non e una tautologia: le quote dei ripiani vengono dal generatore, e
+     la pila deve arrivare ESATTAMENTE sotto il cielo. */
+  var rip = null, i, j;
+  for (i = 0; i < rows.length; i++)
+    if (rows[i].role === "ripiano" && rows[i].ys && rows[i].ys.length) { rip = rows[i]; break; }
+  var spRip = +G.sp_ripiano || 0;
+  if (rip) {
+    var ys = rip.ys.slice().sort(function (a, b) { return a - b; });
+    var sumSp = ys.length * spRip;
+    /* Le luci fra base, ripiani e cielo, una per una.
+       NOTA sulla regola: «Σ H_interne + Σ sp_ripiani + sp_base + sp_cielo ==
+       H_nom», presa alla lettera, e una TAUTOLOGIA — le luci interne sono
+       DEFINITE come quello che resta, quindi la somma torna per qualunque
+       quota dei ripiani, anche per un ripiano piazzato dentro il cielo.
+       Quello che la regola vuole prendere davvero e una luce che sparisce:
+       un ripiano fuori dal vano, o due alla stessa quota. Si controlla la
+       somma E che ogni luce sia positiva; e la seconda che lavora. */
+    var luci = 0, y0 = h_base + spB, minLuce = Infinity, l1;
+    for (j = 0; j < ys.length; j++) {
+      l1 = (ys[j] - spRip / 2) - y0;
+      luci += l1; if (l1 < minLuce) minLuce = l1;
+      y0 = ys[j] + spRip / 2;
+    }
+    l1 = (H - spC) - y0;
+    luci += l1; if (l1 < minLuce) minLuce = l1;
+    rule("I3", "Σ H_interne + Σ sp_ripiani + h_base + sp_base + sp_cielo == H_nom, si toate luminile > 0",
+      eq(luci + sumSp + h_base + spB + spC, H) && minLuce > 0,
+      { H_interne: Math.round(luci), sp_ripiani: Math.round(sumSp), h_base: h_base,
+        sp_base: spB, sp_cielo: spC, H_nom: H, n_ripiani: ys.length,
+        lumina_minima: Math.round(minLuce),
+        total: Math.round(luci + sumSp + h_base + spB + spC) },
+      minLuce <= 0
+        ? "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă."
+        : "Pila verticală — soclu, bază, polițe, tavan — nu închide înălțimea corpului.",
+      [rip.elemento].concat(base ? base.nomi : []).concat(cielo ? cielo.nomi : []));
+  }
+
+  /* --- i frontali e la larghezza --------------------------------------- */
+  var fronts = rows.filter(function (r) { return r.role === "frontale"; });
+  /* Due costruzioni a cui questa regola NON si applica, e si dice invece di
+     farla cadere a vuoto:
+       - le ante SCORREVOLI si sovrappongono, non si accostano: la somma
+         delle larghezze e piu grande dell'apertura, ed e giusto cosi;
+       - l'anta a TELAIO E VETRO non esce come un pezzo: escono i montanti e
+         le traverse, che sono larghi 70, non quanto l'anta.
+     Allentare la regola per farle passare vorrebbe dire non controllare piu
+     nemmeno le ante normali. */
+  var scorrevole = (c.type === "scorrevole" && +c.doors > 0);
+  var telaio = (c.front === "vetro");
+  var nA = 0, sumL = 0;
+  for (i = 0; i < fronts.length; i++) {
+    /* su un'anta curva la larghezza dell'ANTA e la corda; in distinta va lo
+       sviluppo, che e piu lungo perche il pannello si piega dopo. */
+    var l = (fronts[i].curve && fronts[i].curve.corda > 0)
+      ? +fronts[i].curve.corda : alongAxis(fronts[i], "L");
+    if (l == null) continue;
+    nA += +fronts[i].pz || 0; sumL += l * (+fronts[i].pz || 0);
+  }
+  if (scorrevole || telaio) {
+    rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,
+      { motiv: scorrevole ? "ante scorrevoli" : "anta a telaio e vetro" },
+      scorrevole
+        ? "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa."
+        : "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.",
+      fronts.map(function (r) { return r.elemento; }));
+  } else if (nA > 0 && G.jocuri) {
+    var gap = +G.jocuri.joc_frontale_laterale || 0, rev = +G.jocuri.reveal || 0;
+    var tot = sumL + (nA - 1) * gap + 2 * rev;
+    /* le ante escono arrotondate al mm: su una larghezza che non si divide
+       esatta la somma non torna MAI al millesimo. Mezzo millimetro per anta
+       e l'arrotondamento, non un errore. */
+    rule("I4", "Σ L_fronturi + Σ jocuri == L_nom",
+      Math.abs(tot - W) <= nA * 0.5 + 0.05,
+      { L_fronturi: Math.round(sumL), n_fronturi: nA, joc: gap, reveal: rev,
+        total: Math.round(tot), L_nom: W },
+      "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.",
+      fronts.map(function (r) { return r.elemento; }));
+  }
+
+  /* --- i cassetti ------------------------------------------------------- */
+  var cas = closureRow(rows, "cassetto_fianco");
+  if (cas && G.P_cassetto_max != null) {
+    var Pc = alongAxis(cas, "P");
+    if (Pc != null)
+      rule("I5", "P_cassetto <= P_int - rezerva_glisiera",
+        Pc <= +G.P_cassetto_max + 0.05,
+        { P_cassetto: Pc, P_int: G.P_int, rezerva_glisiera: G.rezerva_glisiera,
+          max: G.P_cassetto_max },
+        "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.",
+        cas.nomi);
+  }
+
+  /* --- i ripiani -------------------------------------------------------- */
+  var ripAny = closureRow(rows, "ripiano");
+  if (ripAny) {
+    var Pr = alongAxis(ripAny, "P"), Lr = alongAxis(ripAny, "L");
+    if (Pr != null)
+      rule("I6", "P_ripiano <= P_fianco - retrasare_ripiano",
+        Pr <= P_fianco - (+G.retrasare_ripiano || 0) + 0.05,
+        { P_ripiano: Pr, P_fianco: P_fianco, retrasare: G.retrasare_ripiano },
+        "Polița e mai adâncă decât lasă retrasarea: ajunge la fața corpului.",
+        ripAny.nomi);
+    /* su un corpo con tramezzi il ripiano e largo una SEZIONE, non tutta la
+       luce interna: la regola si applica alla cota giusta. */
+    var attesa = (inp.n_divisorio > 0 ? +G.sectiune_W : +G.L_int) - (+(G.jocuri && G.jocuri.joc_ripiano) || 0);
+    if (Lr != null)
+      rule("I7", inp.n_divisorio > 0 ? "L_ripiano == sectiune_W - joc_ripiano"
+                                     : "L_ripiano == L_int - joc_ripiano",
+        Math.abs(Lr - attesa) <= 1,
+        { L_ripiano: Lr, asteptat: Math.round(attesa),
+          L_int: G.L_int, sectiune_W: G.sectiune_W,
+          joc_ripiano: G.jocuri && G.jocuri.joc_ripiano },
+        "Polița nu are jocul declarat: fie freacă în laterale, fie joacă în gol.",
+        ripAny.nomi);
+  }
+
+  /* --- ogni pezzo: cote possibili, e grossezza = quella del suo materiale */
+  var fuori = [], grossezze = [], estranee = [];
+  var permesse = o.thicknesses || null;
+  for (i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    if (!r.role || r.role === "accessorio") continue;
+    var L1 = +r.lung, L2 = +r.larg;
+    if (!(L1 > 0) || !(L2 > 0) || L1 > maxDim || L2 > maxDim)
+      fuori.push(r.elemento + " " + L1 + "×" + L2);
+    /* la grossezza SCRITTA sul pezzo deve essere quella del materiale del
+       suo ruolo. Se non lo e, uno dei due mente — e in segheria si taglia
+       dalla lastra sbagliata. */
+    /* un pezzo che porta un materiale SUO (il fondo del cassetto in HDF da
+       5) ha gia la grossezza di quel materiale: confrontarla con quella del
+       ruolo accuserebbe il pezzo giusto. */
+    var key = (r.spSrc === "mat") ? null : ROLE_SP_KEY[r.role];
+    if (key && r.sp != null && G[key] != null && !eq(r.sp, G[key])) {
+      var m = (o.materials || {})[ROLE_MAT_OF[r.role] || ""] || null;
+      grossezze.push({ pezzo: r.elemento, sp_pezzo: +r.sp, sp_material: +G[key],
+                       material: (m && (m.label || m.id)) || "?" });
+    }
+    /* RESIDUO SCRITTO A MANO: una grossezza che non sta fra i materiali del
+       progetto non viene da nessun materiale. Viene dal codice. */
+    if (permesse && r.sp != null && permesse.indexOf(+r.sp) < 0)
+      estranee.push(r.elemento + " " + r.sp + " mm");
+  }
+  rule("I8", "0 < cota <= " + maxDim, fuori.length === 0,
+    { fuori: fuori.length },
+    "Piese cu o cotă nulă, negativă sau mai mare decât placa: nu se pot tăia.",
+    fuori);
+  rule("I9", "sp_pezzo == sp_material(rol)", grossezze.length === 0,
+    { discrepante: grossezze },
+    grossezze.length
+      ? ("Grosimea scrisă pe piesă nu e cea a materialului rolului: " +
+         grossezze.map(function (g) {
+           return g.pezzo + " " + g.sp_pezzo + " mm ≠ " + g.material + " " + g.sp_material + " mm";
+         }).join(" · "))
+      : "Grosimea fiecărei piese e cea a materialului alocat rolului ei.",
+    grossezze.map(function (g) { return g.pezzo; }));
+  if (permesse)
+    rule("I10", "sp ∈ materialele proiectului", estranee.length === 0,
+      { estranee: estranee, permesse: permesse },
+      "O grosime care nu apare în niciun material al proiectului nu vine dintr-un material: vine din cod.",
+      estranee);
+
+  return out;
+}
+/* da che ruolo di pezzo si legge quale grossezza, e di quale materiale */
+var ROLE_SP_KEY = {
+  fianco: "sp_fianco", fianco_sx: "sp_fianco", fianco_dx: "sp_fianco",
+  base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base",
+  schienale: "sp_schienale", ripiano: "sp_ripiano", divisorio: "sp_divisorio",
+  zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale",
+  cassetto_frontale: "sp_frontale", cassetto_fianco: "sp_fianco",
+  cassetto_fondo: "sp_fianco"
+};
+var ROLE_MAT_OF = {
+  fianco: "fianco", fianco_sx: "fianco", fianco_dx: "fianco",
+  base: "base", cielo: "cielo", base_cielo: "base", schienale: "schienale",
+  ripiano: "ripiano", divisorio: "divisorio", zoccolo: "zoccolo",
+  frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale",
+  cassetto_fianco: "fianco", cassetto_fondo: "fianco"
+};
+/* solo quelle cadute: e quello che guarda il cancello */
+function failedInvariants(corpo, pieces, geometry, opts) {
+  return validateInvariants(corpo, pieces, geometry, opts)
+    .filter(function (r) { return r.ok === false; });
 }
 
 /* --- asserzioni ----------------------------------------------------------
@@ -310,7 +1033,48 @@ var ASSERTIONS = [
   { id: "A11", severity: "blocking", confidence: "alta",
     when: "1", then: "aria_per_material == 1",
     why: "Aria netă amestecă materiale diferite: metrii pătrați trebuie raportați grupat pe material.",
-    source: "auditul v4.24" }
+    source: "auditul v4.24" },
+
+  /* --- cote care pot deveni negative cand se schimba materialul ---------
+     Retrasarile, jocurile si rezerva de glisiera sunt constante de montaj:
+     raman aceleasi cand placa trece de la 18 la 25. Corpul insa se strange,
+     si o cota interna poate trece prin zero fara ca nimic sa o observe.
+     Astea sunt strajile. Fiecare spune ce material sa fie schimbat. */
+
+  { id: "A12", severity: "blocking", confidence: "alta",
+    when: "1", then: "L_int > 0",
+    why: "Cele două laterale sunt împreună mai groase decât lățimea corpului: nu mai rămâne lumină interioară.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A13", severity: "blocking", confidence: "alta",
+    when: "1", then: "H_int > 0",
+    why: "Baza, tavanul și zoccolo-ul ocupă toată înălțimea corpului: nu mai rămâne nimic înăuntru.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A14", severity: "blocking", confidence: "alta",
+    when: "1", then: "P_int > 0",
+    why: "Spatele ocupă toată adâncimea corpului: nu mai rămâne adâncime utilă.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A15", severity: "blocking", confidence: "alta",
+    when: "1", then: "ripiano_D > 0 && ripiano_W > 0",
+    why: "Retrasarea poliței depășește adâncimea utilă, sau jocul depășește lățimea: polița iese cu cotă negativă.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A16", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0", then: "anta_W > 0 && anta_H > 0",
+    why: "Jocurile declarate depășesc gabaritul: ușa iese cu cotă zero sau negativă.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A17", severity: "blocking", confidence: "alta",
+    when: "n_divisorio > 0", then: "sectiune_W > 0",
+    why: "Tramezzii sunt împreună mai groși decât lumina interioară: nu mai rămâne nicio secțiune.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A18", severity: "blocking", confidence: "alta",
+    when: "rezerva_glisiera > 0", then: "P_cassetto_max > 0",
+    why: "Rezerva glisierei depășește adâncimea utilă: sertarul nu are unde să intre.",
+    source: "catalog glisiere (v4.27)" }
 ];
 
 /* Valutatore minimo: numeri, identificatori, confronti, && || !, + - * / e
@@ -377,8 +1141,19 @@ function assertionEnv(d, ctx) {
   for (k in d.in) if (Object.prototype.hasOwnProperty.call(d.in, k)) e[k] = d.in[k];
   var outs = ["Wi", "D_fianco", "H_fianco", "D_bc", "piano_interno", "back_W", "back_H",
               "ripiano_W", "ripiano_D", "zoccolo_W", "zoccolo_H", "reveal",
-              "anta_W", "anta_H", "anta_y0", "anta_y1", "n_cerniere"];
+              "anta_W", "anta_H", "anta_y0", "anta_y1", "n_cerniere",
+              /* le cote con i nomi di specifica: le regole nuove usano queste */
+              "P_int", "L_int", "H_int", "sectiune_W", "rezerva_glisiera",
+              "P_cassetto_max", "L_cassetto",
+              "sp_fianco", "sp_base", "sp_cielo", "sp_schienale", "sp_ripiano",
+              "sp_frontale", "sp_zoccolo", "sp_divisorio"];
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
+  /* le cote che possono valere zero (un corpo senza ante, senza cassetti)
+     devono comunque ESISTERE nell'ambiente, o la regola cade per "cota
+     assente" invece di dire la verita. */
+  var zeros = ["rezerva_glisiera", "n_divisorio"];
+  for (var z = 0; z < zeros.length; z++)
+    if (e[zeros[z]] == null) e[zeros[z]] = (d[zeros[z]] != null ? d[zeros[z]] : (d.in[zeros[z]] || 0));
   e.cerniere = d.cerniere || [];
   e.h_base = (d.in.h_zoccolo || 0) + (d.in.piedini > 0 ? (d.in.h_picior || 0) : 0);
   /* Le ante escono arrotondate al mm: su una larghezza che non si divide
@@ -444,7 +1219,23 @@ var API = {
   GEOM_VERSION: GEOM_VERSION,
   CARCASS_DEFAULTS: CARCASS_DEFAULTS,
   PANEL_DEFAULTS: PANEL_DEFAULTS,
+  ROLES: ROLES,
+  ROLE_AXES: ROLE_AXES,
+  axesFor: axesFor,
+  SLIDE_CATALOG: SLIDE_CATALOG,
+  slideById: slideById,
+  BACK_KIND: BACK_KIND,
+  /* IL NOME CANONICO. `deriveCarcass` resta come alias perche lo chiamano
+     index.html, le prove golden e i progetti gia in giro — ma e LA STESSA
+     funzione, non una seconda. Una seconda funzione di cote derivate sarebbe
+     esattamente il guasto che questo file esiste per impedire. */
+  computeCarcassGeometry: deriveCarcass,
   deriveCarcass: deriveCarcass,
+  validateCarcassClosure: validateCarcassClosure,
+  validateInvariants: validateInvariants,
+  failedInvariants: failedInvariants,
+  reconstructCarcass: reconstructCarcass,
+  reconstructedBBox: reconstructedBBox,
   positionsHinges: positionsHinges,
   hingeCount: hingeCount,
   ASSERTIONS: ASSERTIONS,

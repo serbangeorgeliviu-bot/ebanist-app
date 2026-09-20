@@ -1,0 +1,51 @@
+{
+ "validat": true,
+ "nume": "17-ovale",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 3,
+ "n_piese": 5,
+ "pieces": [
+  {
+   "elemento": "Fascia",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 2180,
+   "larg": 762,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "curve": {
+    "dev": 2179.9,
+    "corda": null
+   }
+  },
+  {
+   "elemento": "Fondo / Cielo tondo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 862,
+   "larg": 412,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "shape": "ovale"
+  },
+  {
+   "elemento": "Ripiano tondo",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 862,
+   "larg": 412,
+   "pz": 2,
+   "sp": null,
+   "bordo": "1L",
+   "shape": "ovale"
+  }
+ ]
+}

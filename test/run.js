@@ -72,6 +72,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   });
 
   await pg.goto(URL);
+  /* Il catalogo materiali arriva da /data/*.json: finche non e caricato non
+     esiste una grossezza, e il motore si rifiuta di calcolare. Si aspetta,
+     come fa l'app. */
+  await pg.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
   await pg.waitForTimeout(3300);                 // intro animata
   await pg.evaluate(() => closeSheets());        // alla prima apertura c'e il pannello introduttivo
   await pg.waitForTimeout(400);
@@ -301,7 +305,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("Corpi tondi e ovali — lo sviluppo dev'essere esatto, o il giunto non chiude");
   const rnd = await pg.evaluate(() => {
     const o = {};
+    /* i preset non portano piu la grossezza: la da il materiale, e il
+       predefinito di progetto ora e 19. La prova misura la grossezza VERA
+       invece di darla per scontata — cosi resta giusta anche il giorno che
+       il fornitore cambia. */
     const c = buildModule({ ...PRESETS.tondo });                       // Ø600 × H1200
+    o.t = structTh({ ...PRESETS.tondo });
     const fascia = c.pieces.find(p => /Fascia/.test(p.elemento));
     const piani = c.pieces.filter(p => p.shape === "tondo");
     o.dev = fascia.lung; o.devEsatto = Math.PI * 600;
@@ -336,11 +345,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   });
   ok("cerchio Ø600: sviluppo = π·D", Math.abs(rnd.dev - rnd.devEsatto) < 0.6,
      rnd.dev + " vs " + rnd.devEsatto.toFixed(1));
-  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1164, rnd.altezzaFascia);
+  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1200 - 2 * rnd.t,
+     rnd.altezzaFascia + " con t=" + rnd.t);
   ok("piano dei tagli entro 0,3 mm dall'arco (non solo il minimo teorico)",
      !!rnd.kerf && rnd.kerf.n > 0 && rnd.kerf.flat <= 0.31,
      rnd.kerf ? rnd.kerf.n + " intagli ogni " + rnd.kerf.spacing + " mm, scarto " + rnd.kerf.flat + " mm" : "—");
-  ok("fondo, cielo e 3 ripiani, tutti Ø−2t", rnd.nPiani === 5 && rnd.diamPiano === 564,
+  ok("fondo, cielo e 3 ripiani, tutti Ø−2t", rnd.nPiani === 5 && rnd.diamPiano === 600 - 2 * rnd.t,
      rnd.nPiani + " pezzi, Ø" + rnd.diamPiano);
   ok("ovale 900×450: sviluppo per integrazione", Math.abs(rnd.devOvale - rnd.devOvaleEsatto) < 0.6,
      rnd.devOvale + " vs " + rnd.devOvaleEsatto.toFixed(1));
@@ -980,12 +990,26 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("Ogni documento con delle cote dice da che motore viene");
   {
     await pg.evaluate(() => { window.print = () => {}; });
-    const tr = await pg.evaluate(() => {
+    const tr = await pg.evaluate(async () => {
       const out = {};
       out.hash = assertionsHash();
       out.stabile = assertionsHash() === assertionsHash();
+      /* La distinta passa dalla foglia di chiusura: qui si fa quello che
+         farebbe l'utente — legge e conferma. Saltarla vorrebbe dire provare
+         una strada che nessuno percorre. */
+      const conferma = async () => {
+        const sh = document.getElementById("shClosure");
+        if (!sh || !sh.classList.contains("on")) return;
+        const ck = document.getElementById("clOk");
+        if (ck.disabled) { closeSheets(); return; }
+        ck.checked = true; ck.dispatchEvent(new Event("change"));
+        document.getElementById("btnClGo").click();
+        await new Promise(r => setTimeout(r, 220));
+      };
       for (const [k, id] of [["distinta", "btnPdf"], ["montaggio", "btnMont"]]) {
+        document.getElementById("printArea").innerHTML = "";
         document.getElementById(id).click();
+        await conferma();
         out[k] = (document.getElementById("printArea").querySelector(".pr-trace") || {}).textContent || "";
       }
       return out;
@@ -1266,6 +1290,17 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
           document.getElementById("printArea").innerHTML = "";
           const prima = calls;
           document.getElementById(b).click();
+          /* la distinta passa dalla foglia di chiusura: si conferma, come
+             farebbe l'utente */
+          const sh = document.getElementById("shClosure");
+          if (sh && sh.classList.contains("on")) {
+            const ck = document.getElementById("clOk");
+            if (ck.disabled) { closeSheets(); }
+            else {
+              ck.checked = true; ck.dispatchEvent(new Event("change"));
+              document.getElementById("btnClGo").click();
+            }
+          }
           await new Promise(r => setTimeout(r, 300));
           const m = marks();
           res[b] = { stampato: calls > prima, diag: m.diag, foot: m.foot };
@@ -1406,6 +1441,157 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
        /^https:\/\/prova\.lemonsqueezy\.com\/checkout\/buy\/abcd-1234\?/.test(b.forma), b.forma);
     ok("porta con se l'app di provenienza", /checkout%5Bcustom%5D%5Bapp%5D=ebanist|checkout\[custom\]\[app\]=ebanist/.test(b.forma));
     ok("e l'email, quando la sappiamo", /checkout(%5B|\[)email/.test(b.forma));
+  }
+
+  /* ===================================================================== */
+  head("Il cancello di esportazione — nessuna via d'uscita");
+  {
+    /* Una distinta incoerente non deve poter uscire da NESSUNA porta. Non si
+       controlla che il cancello esista: si prova ad aprirle tutte. */
+    const gctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const gp = await gctx.newPage();
+    await gp.goto(URL);
+    await gp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await gp.waitForTimeout(2400);
+    const g = await gp.evaluate(() => {
+      const o = {};
+      try { closeSheets(); } catch (e) {}
+      const p = proj();
+      generateInto(p, { ...PRESETS.armadio, name: "Prova", L: 1000, H: 2200, P: 600 });
+      persist();
+      o.pulito = assertExportable(p).ok;
+
+      /* il guasto della libreria, su questo corpo: il fianco 18 mm piu
+         profondo di quanto il gabarito permetta */
+      const f = p.pieces.find(x => x.gen === "Prova" && x.role === "fianco");
+      o.spSulPezzo = f.sp;
+      f.larg += 18; persist();
+      const v = assertExportable(p);
+      o.rotto = v.ok;
+      o.delta = (v.blocking.find(a => a.closure) || {}).closure;
+
+      /* si prova ogni porta, una per una */
+      let printed = 0, downloaded = [];
+      const realPrint = window.print, realDl = window.download;
+      window.print = () => { printed++; };
+      window.download = n => { downloaded.push(n); };
+      o.vie = {};
+      for (const id of ["btnPdf", "btnCsv", "btnLabels", "btnMont", "btnOrder", "btnQuote", "btnDraw"]) {
+        const el = document.getElementById(id);
+        if (!el) { o.vie[id] = "assente"; continue; }
+        printed = 0; downloaded = [];
+        document.getElementById("printArea").innerHTML = "";
+        try { el.click(); } catch (e) { o.vie[id] = "errore"; continue; }
+        o.vie[id] = (printed === 0 && downloaded.length === 0) ? "bloccato" : "PASSATO";
+      }
+      /* il backup del progetto NON si blocca: e la via di fuga, e nessuno
+         taglia da un backup */
+      downloaded = [];
+      try { document.getElementById("btnJson").click(); } catch (e) {}
+      o.backup = downloaded.length > 0;
+      window.print = realPrint; window.download = realDl;
+
+      /* riparato il pezzo, il cancello si riapre */
+      f.larg -= 18; persist();
+      o.riparato = assertExportable(p).ok;
+
+      /* una distinta VECCHIA, senza grossezza sulle righe: si controlla lo
+         stesso e si avvisa, non si blocca — nessun progetto gia salvato e
+         sbagliato per questo */
+      const salvate = p.pieces.filter(x => x.gen === "Prova").map(x => x.sp);
+      p.pieces.forEach(x => { if (x.gen === "Prova") delete x.sp; });
+      persist();
+      const w = assertExportable(p);
+      o.vecchiaOk = w.ok;
+      o.vecchiaAvvisa = w.warn.some(a => a.closure && a.closure.chain === "sp-assente");
+      p.pieces.filter(x => x.gen === "Prova").forEach((x, i) => { x.sp = salvate[i]; });
+      persist();
+      return o;
+    });
+    await gp.close(); await gctx.close();
+    ok("un corpo appena generato si puo esportare", g.pulito === true);
+    ok("la riga salvata porta la sua grossezza", g.spSulPezzo > 0, g.spSulPezzo + " mm");
+    ok("con un fianco 18 mm fuori, l'esportazione si chiude", g.rotto === false);
+    ok("e dice quale asse e di quanto", g.delta && g.delta.axa === "P" && g.delta.delta === 18,
+       g.delta ? g.delta.axa + " " + g.delta.delta + " mm" : "nessuno scostamento");
+    for (const id of Object.keys(g.vie))
+      ok("  " + id + " non produce niente", g.vie[id] === "bloccato", g.vie[id]);
+    ok("il backup del progetto resta permesso: e la via di fuga", g.backup === true);
+    ok("riparato il pezzo, il cancello si riapre", g.riparato === true);
+    ok("una distinta vecchia senza grossezze non si blocca", g.vecchiaOk === true);
+    ok("ma lo dice, e chiede di rigenerarla", g.vecchiaAvvisa === true);
+  }
+
+  /* ===================================================================== */
+  head("La foglia di chiusura — l'ultimo occhio umano");
+  {
+    const cctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const cp = await cctx.newPage();
+    await cp.goto(URL);
+    await cp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await cp.waitForTimeout(2400);
+    const c = await cp.evaluate(() => {
+      const o = {};
+      try { closeSheets(); } catch (e) {}
+      const p = proj();
+      generateInto(p, { ...PRESETS.armadio, name: "Armadio", L: 1000, H: 2200, P: 600 });
+      generateInto(p, { ...PRESETS.libreria, name: "Libreria" });
+      generateInto(p, { ...PRESETS.cassettiera, name: "Cassettiera" });
+      /* un solo corpo rotto, come nella commessa */
+      const f = p.pieces.find(x => x.gen === "Libreria" && x.role === "fianco");
+      f.larg += 18; persist();
+
+      let printed = 0; const realPrint = window.print; window.print = () => { printed++; };
+      document.getElementById("btnPdf").click();
+      o.aperta = document.getElementById("shClosure").classList.contains("on");
+      const righe = [...document.querySelectorAll("#clBody .cl-row")];
+      o.nRighe = righe.length;
+      o.primoERotto = righe[0] && righe[0].classList.contains("bad");
+      o.primoNome = righe[0] && /Libreria/.test(righe[0].textContent);
+      o.nRotti = righe.filter(r => r.classList.contains("bad")).length;
+      /* la riga mostra il gabarito ricostruito accanto al nominale */
+      o.mostraRicostruito = /1880×775×282[\s\S]*1880×775×300/.test(righe[0].textContent.replace(/\s+/g, " "));
+      /* e le grossezze, esplicite */
+      o.mostraGrossezze = /19 mm/.test(righe[0].textContent) && /3 mm/.test(righe[0].textContent);
+      o.avvisa = !document.getElementById("clBlocked").hidden;
+      o.spuntaSpenta = document.getElementById("clOk").disabled;
+      o.bottoneSpento = document.getElementById("btnClGo").disabled;
+      o.nienteStampa = printed === 0;
+
+      /* riparato il pezzo: la foglia si riapre pulita */
+      try { closeSheets(); } catch (e) {}
+      f.larg -= 18; persist();
+      printed = 0;
+      document.getElementById("btnPdf").click();
+      o.rottiDopo = [...document.querySelectorAll("#clBody .cl-row.bad")].length;
+      o.spuntaViva = !document.getElementById("clOk").disabled;
+      o.bottonePrimaDellaSpunta = document.getElementById("btnClGo").disabled;
+      const ck = document.getElementById("clOk");
+      ck.checked = true; ck.dispatchEvent(new Event("change"));
+      o.bottoneDopoLaSpunta = !document.getElementById("btnClGo").disabled;
+      document.getElementById("printArea").innerHTML = "";
+      document.getElementById("btnClGo").click();
+      window.print = realPrint;
+      return o;
+    });
+    await cp.waitForTimeout(500);
+    const uscito = await cp.evaluate(() => document.getElementById("printArea").innerHTML.length > 500);
+    await cp.close(); await cctx.close();
+    ok("il PDF della distinta apre la foglia, non stampa subito", c.aperta === true);
+    ok("una riga per corpo", c.nRighe === 3, c.nRighe + " righe");
+    ok("il corpo che non torna sta PRIMO", c.primoERotto === true && c.primoNome === true);
+    ok("ed e l'unico marcato", c.nRotti === 1, c.nRotti + " rotti");
+    ok("la riga mostra il gabarito ricostruito accanto al nominale", c.mostraRicostruito === true);
+    ok("e le grossezze, esplicite", c.mostraGrossezze === true);
+    ok("dice perche il bottone e spento", c.avvisa === true);
+    ok("la spunta non si puo nemmeno mettere", c.spuntaSpenta === true);
+    ok("il bottone resta spento", c.bottoneSpento === true);
+    ok("e non stampa niente", c.nienteStampa === true);
+    ok("riparato il pezzo, nessun corpo resta marcato", c.rottiDopo === 0);
+    ok("la spunta si riattiva", c.spuntaViva === true);
+    ok("ma il bottone resta spento finche non si spunta", c.bottonePrimaDellaSpunta === true);
+    ok("e si accende quando si spunta", c.bottoneDopoLaSpunta === true);
+    ok("e allora la distinta esce", uscito === true);
   }
 
   const bad = results.filter(r => !r.cond).length;

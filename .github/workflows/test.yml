@@ -1,0 +1,87 @@
+# Ebanist — le prove, a ogni push e a ogni PR.
+#
+# Perche esiste: le cote di una distinta arrivano al debitatore. Un set di
+# regressione che gira solo sul portatile di chi ha scritto il codice
+# protegge quella sessione, non `main`. Senza questo file, qualcuno puo
+# fondere una modifica che sposta una cota e nessuno se ne accorge finche
+# non torna un pezzo tagliato male.
+#
+# Due lavori, per un motivo: il primo non ha bisogno di NIENTE — `node:test`
+# sta dentro Node — e risponde in una ventina di secondi. Il secondo scarica
+# Chromium e ci mette qualche minuto. Tenerli separati vuol dire che, quando
+# si rompe qualcosa, si vede subito DOVE.
+
+name: prove
+
+on:
+  # Solo `main` sul push: su un ramo con la PR aperta ci pensa gia
+  # `pull_request`, e due corse identiche sullo stesso commit non dicono
+  # niente di piu — costano solo il doppio e raddoppiano i semafori.
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # un push nuovo sullo stesso ramo annulla la corsa vecchia: la risposta
+  # che conta e quella sull'ultimo commit
+  group: prove-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  motore:
+    name: motore geometrico e casi golden
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # `fetch-depth: 0` non e prudenza generica: il banco di prova legge
+          # il motore 4.23 con `git show 20357ab:index.html` per confrontare
+          # vecchio e nuovo. Con una copia superficiale quel commit non c'e,
+          # e `npm run test:geom:v1` muore invece di misurare.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # niente `npm install`: queste prove non hanno dipendenze. L'unica del
+      # pacchetto e Playwright, ~300 MB, e serve solo al lavoro qui sotto.
+      - name: prove unitarie (motore, grossezze, catalogo, chiusura, invarianti, prezzi, licenza)
+        working-directory: test
+        run: npm run test:all
+
+      - name: casi golden
+        working-directory: test
+        run: npm run test:golden
+
+  browser:
+    name: applicazione nel browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: dipendenze
+        working-directory: test
+        run: npm ci
+
+      - name: Chromium
+        working-directory: test
+        run: npx playwright install --with-deps chromium
+
+      # Questa suite accende l'app vera, con gli header di netlify.toml, e
+      # controlla anche cose che nessuna prova unitaria vede: che il nome
+      # della cache del service worker in index.html e quello in sw.js siano
+      # LO STESSO. Quella regola e in CLAUDE.md, e una volta l'ha gia presa.
+      - name: suite del browser
+        working-directory: test
+        run: node run.js

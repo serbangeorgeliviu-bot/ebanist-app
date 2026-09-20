@@ -1,0 +1,118 @@
+{
+ "validat": true,
+ "nume": "06-scorrevole",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": {
+  "L_int": 2362,
+  "H_int": 2362,
+  "P_int": 637,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 775,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 8,
+ "n_piese": 16,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 2400,
+   "larg": 650,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 2362,
+   "larg": 650,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Tramezzo",
+   "role": "divisorio",
+   "ax": "H/P/L",
+   "lung": 2362,
+   "larg": 617,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 772,
+   "larg": 617,
+   "pz": 3,
+   "sp": 19,
+   "bordo": "1L",
+   "ys": [
+    640
+   ]
+  },
+  {
+   "elemento": "Asta appendiabiti",
+   "role": "accessorio",
+   "ax": null,
+   "lung": 770,
+   "larg": 25,
+   "pz": 3,
+   "sp": null,
+   "bordo": "",
+   "mat": "Accessorio — asta appendiabiti ovale"
+  },
+  {
+   "elemento": "Anta scorrevole",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 2355,
+   "larg": 1220,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Schienale (1/2)",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 1586,
+   "larg": 2378,
+   "pz": 1,
+   "sp": 3,
+   "bordo": "",
+   "seg": "1/2"
+  },
+  {
+   "elemento": "Schienale (2/2)",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 792,
+   "larg": 2378,
+   "pz": 1,
+   "sp": 3,
+   "bordo": "",
+   "seg": "2/2"
+  }
+ ]
+}

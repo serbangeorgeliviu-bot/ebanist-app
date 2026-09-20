@@ -1,0 +1,118 @@
+{
+ "validat": true,
+ "nume": "12-vetrina",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": {
+  "L_int": 862,
+  "H_int": 1682,
+  "P_int": 387,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 862,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 8,
+ "n_piese": 19,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 1800,
+   "larg": 400,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 862,
+   "larg": 400,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Zoccolo",
+   "role": "zoccolo",
+   "ax": "L/H/P",
+   "lung": 862,
+   "larg": 80,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 860,
+   "larg": 367,
+   "pz": 3,
+   "sp": 19,
+   "bordo": "1L",
+   "ys": [
+    519.5,
+    940,
+    1360.5
+   ]
+  },
+  {
+   "elemento": "Montante anta vetro",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 1714,
+   "larg": 70,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Traversa anta vetro",
+   "role": "traversa",
+   "ax": "L/H/P",
+   "lung": 305,
+   "larg": 70,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "2C"
+  },
+  {
+   "elemento": "Vetro anta",
+   "role": "accessorio",
+   "ax": null,
+   "lung": 1604,
+   "larg": 335,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "mat": "Accessorio — vetro temperato 4mm"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1698,
+   "larg": 878,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

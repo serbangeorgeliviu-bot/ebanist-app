@@ -1,0 +1,86 @@
+{
+ "validat": true,
+ "nume": "03-libreria",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": {
+  "L_int": 1842,
+  "H_int": 737,
+  "P_int": 269,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 601,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 5,
+ "n_piese": 13,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 775,
+   "larg": 282,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 1842,
+   "larg": 282,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Tramezzo",
+   "role": "divisorio",
+   "ax": "H/P/L",
+   "lung": 737,
+   "larg": 249,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 599,
+   "larg": 249,
+   "pz": 6,
+   "sp": 19,
+   "bordo": "1L",
+   "ys": [
+    264.66666666666663,
+    510.3333333333333
+   ]
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 1858,
+   "larg": 753,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

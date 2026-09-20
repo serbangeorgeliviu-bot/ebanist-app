@@ -1,0 +1,158 @@
+{
+ "validat": true,
+ "nume": "27-armadio-19",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": {
+  "L_int": 962,
+  "H_int": 2082,
+  "P_int": 587,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 472,
+  "rezerva_glisiera": 12
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 12,
+ "n_piese": 51,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 2200,
+   "larg": 600,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 962,
+   "larg": 600,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Zoccolo",
+   "role": "zoccolo",
+   "ax": "L/H/P",
+   "lung": 962,
+   "larg": 80,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Tramezzo",
+   "role": "divisorio",
+   "ax": "H/P/L",
+   "lung": 2082,
+   "larg": 567,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 469,
+   "larg": 567,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "1L",
+   "ys": [
+    419.6666666666667,
+    740.3333333333334
+   ]
+  },
+  {
+   "elemento": "Asta appendiabiti",
+   "role": "accessorio",
+   "ax": null,
+   "lung": 467,
+   "larg": 25,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "mat": "Accessorio — asta appendiabiti ovale"
+  },
+  {
+   "elemento": "Frontale cassetto",
+   "role": "cassetto_frontale",
+   "ax": "H/L/P",
+   "lung": 200,
+   "larg": 497,
+   "pz": 6,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Fianco cassetto",
+   "role": "cassetto_fianco",
+   "ax": "P/H/L",
+   "lung": 550,
+   "larg": 155,
+   "pz": 12,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Fronte/Retro cassetto",
+   "role": "cassetto_fianco",
+   "ax": "L/H/P",
+   "lung": 392,
+   "larg": 155,
+   "pz": 12,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Fondo cassetto",
+   "role": "cassetto_fondo",
+   "ax": "L/P/H",
+   "lung": 392,
+   "larg": 530,
+   "pz": 6,
+   "sp": 19,
+   "bordo": "",
+   "mat": "HDF 5mm"
+  },
+  {
+   "elemento": "Anta",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 1506,
+   "larg": 495,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 2098,
+   "larg": 978,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

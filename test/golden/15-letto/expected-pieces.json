@@ -1,0 +1,66 @@
+{
+ "validat": true,
+ "nume": "15-letto",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 5,
+ "n_piese": 19,
+ "pieces": [
+  {
+   "elemento": "Testiera",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 1660,
+   "larg": 950,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Pediera",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 1660,
+   "larg": 400,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Sponda laterale",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 2022,
+   "larg": 300,
+   "pz": 2,
+   "sp": null,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Traversa centrale",
+   "role": "traversa",
+   "ax": "L/H/P",
+   "lung": 2022,
+   "larg": 120,
+   "pz": 1,
+   "sp": null,
+   "bordo": ""
+  },
+  {
+   "elemento": "Doga faggio 68mm",
+   "role": "accessorio",
+   "ax": null,
+   "lung": 1612,
+   "larg": 68,
+   "pz": 14,
+   "sp": null,
+   "bordo": "",
+   "mat": "Accessorio — doga faggio curvata 68mm"
+  }
+ ]
+}

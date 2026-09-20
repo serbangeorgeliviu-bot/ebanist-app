@@ -1,0 +1,45 @@
+{
+ "validat": true,
+ "nume": "13-scrivania",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 3,
+ "n_piese": 4,
+ "pieces": [
+  {
+   "elemento": "Piano scrivania",
+   "role": "cielo",
+   "ax": "L/P/H",
+   "lung": 1400,
+   "larg": 650,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 725,
+   "larg": 600,
+   "pz": 2,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Pannello posteriore",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 1350,
+   "larg": 338,
+   "pz": 1,
+   "sp": null,
+   "bordo": "1L"
+  }
+ ]
+}

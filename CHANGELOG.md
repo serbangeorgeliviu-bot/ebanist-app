@@ -5,6 +5,60 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.28.0 — 20 septembrie 2026
+
+**Grosimea vine din materialul pe care îl alegi.** Până acum era un singur
+număr per corp, iar `18` stătea scris în opt locuri ca plasă de siguranță —
+la selectorul de material, la spate, la desenul tehnic, în nouăsprezece
+preseturi. Dacă alegeai o placă de 19, plasa ținea calculul la 18. De aici au
+ieșit cele două distincte greșite. Acum fiecare element — laterală, bază,
+tavan, spate, poliță, front, soclu, tramezzo — are materialul lui, iar
+grosimea e cea a materialului. Un element fără material moștenește structura;
+dacă nu există nici structură, aplicația **se oprește și îți spune**, în loc
+să inventeze o grosime.
+
+Poți pune grosimi diferite pe același corp: structură 19, tavan 25, spate 3,
+poliță 16. Baza și tavanul cu grosimi diferite ies acum în două rânduri, nu
+în unul — altfel în segherie ieșeau două panouri identice, unul tăiat din
+placa greșită.
+
+**Catalogul Centro Legno, cu selector nou.** Materialele au ieșit din cod în
+fișiere pe care le poți edita. Selectorul caută simultan în nume și în cod —
+în atelier cauți „22458", în șantier „avocado" — are filtru rapid de grosime
+și arată pastila de culoare lângă fiecare referință. Un material per element,
+cu „moștenește din structură" ca implicit. Ecranul de catalog are acum câmp
+de cod articol și export/import JSON: codurile le citești de pe panoul de
+mostre o dată, și nu le mai pierzi.
+
+Culorile sunt marcate ca aproximate până le verifici pe mostră — punctul
+galben de lângă nume. Proiectul nou pornește de la **19 mm**, nu 18.
+
+**Distinta nu mai poate ieși greșită.** Înainte de orice export, aplicația
+reconstruiește mobilul din piese — fiecare cu grosimea ei — și îl compară cu
+ce ai comandat. Toleranță zero. Dacă o cotă nu se închide, exportul se
+oprește și îți spune care corp, ce axă, de câți milimetri și ce piese. Pe
+lângă asta, zece reguli verifică fiecare piesă la locul ei: poliță cu jocul
+ei, sertar care intră până la capăt, uși care acoperă exact deschiderea.
+
+Nu există buton de „continuă oricum". PDF, CSV, pachet de laborator,
+etichete, fișă de montaj, desen, comandă — toate trec prin același punct.
+Singura ieșire care nu se blochează e copia JSON a proiectului: e cu ea
+repari o stricăciune, și nimeni nu taie după un backup.
+
+**Foaia de închidere.** Înainte de distinta care pleacă la debitat vezi un
+rând per corp: gabaritul comandat lângă cel recompus din piese, cu grosimile
+scrise pe față. Corpurile care nu se închid apar primele, cu roșu. Butonul se
+aprinde după ce confirmi că ai citit.
+
+**Dacă schimbi un material după ce ai generat distinta**, aplicația știe și
+blochează exportul până regenerezi. O distinta calculată cu o placă și
+trimisă după ce ai schimbat-o e același defect, pe altă ușă.
+
+Proiectele salvate se deschid ca înainte. Cele calculate cu motorul vechi
+rămân neatinse, ca până acum — se semnalează, nu se rescriu singure.
+
+---
+
 ## 4.26.0 — 8 septembrie 2026
 
 **Ebanist Order Rail.** Aplicația nu mai e doar un CAD cu paywall: e linkul

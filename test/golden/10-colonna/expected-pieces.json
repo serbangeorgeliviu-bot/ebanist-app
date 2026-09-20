@@ -1,0 +1,98 @@
+{
+ "validat": true,
+ "nume": "10-colonna",
+ "generat": "2026-09-20",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
+ "geometrie": {
+  "L_int": 562,
+  "H_int": 1962,
+  "P_int": 547,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 562,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 6,
+ "n_piese": 12,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 2100,
+   "larg": 560,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 562,
+   "larg": 560,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Zoccolo",
+   "role": "zoccolo",
+   "ax": "L/H/P",
+   "lung": 562,
+   "larg": 100,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 560,
+   "larg": 527,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "1L",
+   "ys": [
+    511.4,
+    903.8,
+    1296.2,
+    1688.6
+   ]
+  },
+  {
+   "elemento": "Anta",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 1994,
+   "larg": 295,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1978,
+   "larg": 578,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

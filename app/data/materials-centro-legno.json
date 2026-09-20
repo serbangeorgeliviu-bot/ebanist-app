@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "fornitore": "Centro Legno",
+  "aggiornato": "2026-09-20",
+  "_nota_codici": "I codici marcati null nel pannello campioni sono ancora da leggere: NON sono stati inventati. Vanno compilati a mano da Liviu, dal pannello fisico.",
+  "_nota_colori": "colore_verificato:false su tutte le voci: i colori sono approssimazioni per la visualizzazione, non letture su campione fisico. Il selettore lo segnala.",
+  "_nota_bordo": "bordo_abs riporta lo standard del fornitore (0,8 e 2 mm). Da confermare per referenza, insieme ai codici.",
+  "materiali": [
+    { "id": "avocado_green_22458mn_19", "nome": "Avocado Green", "codice": "22458MN", "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#A8B08A", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "blue_avio_23196mn_19", "nome": "Blue Avio", "codice": "23196MN", "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#5C7A99", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "bianco_19", "nome": "Bianco", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#F5F5F2", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "antracite_storm_grey_19", "nome": "Antracite / Storm Grey", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#3C4043", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "textil_grigio_19", "nome": "Textil Grigio", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tessuto", "finitura": "texture",
+      "colore_hex": "#9A9A95", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "cemento_concrete_art_pearl_grey_4375dp_19", "nome": "Cemento / Concrete Art Pearl Grey", "codice": "4375DP", "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "cemento", "finitura": "melaminico",
+      "colore_hex": "#B6B4AE", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "nogal_victoria_19", "nome": "Nogal Victoria", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "legno", "finitura": "melaminico",
+      "colore_hex": "#6E4B33", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "bianco_2_18", "nome": "Bianco (2)", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 18, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#F5F5F2", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "bordeaux_19", "nome": "Bordeaux", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#6B2431", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "rovere_wood_lime_classic_k2414ah_19", "nome": "Rovere Wood Lime Classic", "codice": "K2414AH", "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "legno", "finitura": "texture",
+      "colore_hex": "#C4A87C", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "blanc_grace_18", "nome": "Blanc Grace", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 18, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#F2F1EC", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "tessuto_18", "nome": "Tessuto", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 18, "famiglia": "tessuto", "finitura": "texture",
+      "colore_hex": "#A8A49C", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "rovere_chiaro_19", "nome": "Rovere chiaro", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "legno", "finitura": "melaminico",
+      "colore_hex": "#CDB392", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "grigio_medio_19", "nome": "Grigio medio", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#8C8C88", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "nero_19", "nome": "Nero", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#26262A", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "bianco_lucido_19", "nome": "Bianco lucido", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 19, "famiglia": "lucido", "finitura": "lucido",
+      "colore_hex": "#FBFBF9", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true },
+
+    { "id": "bianco_3_18", "nome": "Bianco (3)", "codice": null, "fornitore": "Centro Legno",
+      "spessore": 18, "famiglia": "tinta_unita", "finitura": "melaminico",
+      "colore_hex": "#F5F5F2", "colore_verificato": false, "texture_url": null,
+      "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
+      "prezzo_mq": null, "attivo": true }
+  ]
+}
