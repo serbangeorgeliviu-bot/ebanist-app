@@ -1418,6 +1418,85 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("e l'email, quando la sappiamo", /checkout(%5B|\[)email/.test(b.forma));
   }
 
+  /* ===================================================================== */
+  head("Il cancello di esportazione — nessuna via d'uscita");
+  {
+    /* Una distinta incoerente non deve poter uscire da NESSUNA porta. Non si
+       controlla che il cancello esista: si prova ad aprirle tutte. */
+    const gctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const gp = await gctx.newPage();
+    await gp.goto(URL);
+    await gp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await gp.waitForTimeout(2400);
+    const g = await gp.evaluate(() => {
+      const o = {};
+      try { closeSheets(); } catch (e) {}
+      const p = proj();
+      generateInto(p, { ...PRESETS.armadio, name: "Prova", L: 1000, H: 2200, P: 600 });
+      persist();
+      o.pulito = assertExportable(p).ok;
+
+      /* il guasto della libreria, su questo corpo: il fianco 18 mm piu
+         profondo di quanto il gabarito permetta */
+      const f = p.pieces.find(x => x.gen === "Prova" && x.role === "fianco");
+      o.spSulPezzo = f.sp;
+      f.larg += 18; persist();
+      const v = assertExportable(p);
+      o.rotto = v.ok;
+      o.delta = (v.blocking.find(a => a.closure) || {}).closure;
+
+      /* si prova ogni porta, una per una */
+      let printed = 0, downloaded = [];
+      const realPrint = window.print, realDl = window.download;
+      window.print = () => { printed++; };
+      window.download = n => { downloaded.push(n); };
+      o.vie = {};
+      for (const id of ["btnPdf", "btnCsv", "btnLabels", "btnMont", "btnOrder", "btnQuote", "btnDraw"]) {
+        const el = document.getElementById(id);
+        if (!el) { o.vie[id] = "assente"; continue; }
+        printed = 0; downloaded = [];
+        document.getElementById("printArea").innerHTML = "";
+        try { el.click(); } catch (e) { o.vie[id] = "errore"; continue; }
+        o.vie[id] = (printed === 0 && downloaded.length === 0) ? "bloccato" : "PASSATO";
+      }
+      /* il backup del progetto NON si blocca: e la via di fuga, e nessuno
+         taglia da un backup */
+      downloaded = [];
+      try { document.getElementById("btnJson").click(); } catch (e) {}
+      o.backup = downloaded.length > 0;
+      window.print = realPrint; window.download = realDl;
+
+      /* riparato il pezzo, il cancello si riapre */
+      f.larg -= 18; persist();
+      o.riparato = assertExportable(p).ok;
+
+      /* una distinta VECCHIA, senza grossezza sulle righe: si controlla lo
+         stesso e si avvisa, non si blocca — nessun progetto gia salvato e
+         sbagliato per questo */
+      const salvate = p.pieces.filter(x => x.gen === "Prova").map(x => x.sp);
+      p.pieces.forEach(x => { if (x.gen === "Prova") delete x.sp; });
+      persist();
+      const w = assertExportable(p);
+      o.vecchiaOk = w.ok;
+      o.vecchiaAvvisa = w.warn.some(a => a.closure && a.closure.chain === "sp-assente");
+      p.pieces.filter(x => x.gen === "Prova").forEach((x, i) => { x.sp = salvate[i]; });
+      persist();
+      return o;
+    });
+    await gp.close(); await gctx.close();
+    ok("un corpo appena generato si puo esportare", g.pulito === true);
+    ok("la riga salvata porta la sua grossezza", g.spSulPezzo > 0, g.spSulPezzo + " mm");
+    ok("con un fianco 18 mm fuori, l'esportazione si chiude", g.rotto === false);
+    ok("e dice quale asse e di quanto", g.delta && g.delta.axa === "P" && g.delta.delta === 18,
+       g.delta ? g.delta.axa + " " + g.delta.delta + " mm" : "nessuno scostamento");
+    for (const id of Object.keys(g.vie))
+      ok("  " + id + " non produce niente", g.vie[id] === "bloccato", g.vie[id]);
+    ok("il backup del progetto resta permesso: e la via di fuga", g.backup === true);
+    ok("riparato il pezzo, il cancello si riapre", g.riparato === true);
+    ok("una distinta vecchia senza grossezze non si blocca", g.vecchiaOk === true);
+    ok("ma lo dice, e chiede di rigenerarla", g.vecchiaAvvisa === true);
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -200,6 +200,12 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
 .au-row:last-child{border-bottom:none}
 .au-why{font-size:13.5px;line-height:1.4}
 .au-meta{color:var(--faint);font-size:11.5px;margin-top:3px}
+.au-row.bad{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
+.au-num{display:flex;align-items:baseline;gap:7px;margin-top:5px;font-size:12.5px;
+  font-variant-numeric:tabular-nums;flex-wrap:wrap}
+.au-num>span{color:var(--muted)}
+.au-num>b{font-weight:600}
+.au-num>em{font-style:normal;font-weight:700;color:var(--danger)}
 .gvbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-radius:10px;
   padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.35;
   background:rgba(176,124,32,.12);border:1px solid rgba(176,124,32,.42)}
@@ -4211,11 +4217,18 @@ function download(name,content,mime){
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 $("btnCsv").addEventListener("click",()=>{
   const p=proj(); if(!p)return;
+  /* il CSV va al debitatore come il PDF: stesse cote, stesso cancello */
+  if(!exportAllowed()) return;
   download(`Taglio_${slug(p.name)}.csv`,buildCsv(p),"text/csv;charset=utf-8");
   toast(t("csvDone"));
 });
 $("btnJson").addEventListener("click",()=>{
   const p=proj(); if(!p)return;
+  /* QUESTA NON SI BLOCCA, ed e una scelta. Non e un documento di
+     produzione: e la copia del progetto, quella con cui si passa da un
+     telefono a un PC o si ripara un guasto. Bloccarla vorrebbe dire tenere
+     in ostaggio il lavoro di qualcuno proprio nel momento in cui qualcosa
+     non torna. Nessuno taglia da un backup. */
   download(`${slug(p.name)}.json`,JSON.stringify(p,null,2),"application/json");
   toast(t("jsonDone"));
 });
@@ -6286,10 +6299,14 @@ function generateInto(p,cfg){
   const rows=pieces.map(x=>({id:uid(),gen:cfg.name,
     modulo:x.wing?`${cfg.name} ${x.wing}`:cfg.name,
     elemento:x.elemento,lung:x.lung,larg:x.larg,pz:x.pz,bordo:x.bordo,
-    /* ruolo e assi viaggiano CON la riga salvata: il controllo di chiusura
-       gira anche su un progetto riaperto domani, non solo su quello appena
-       generato. */
+    /* ruolo, assi E GROSSEZZA viaggiano CON la riga salvata: il controllo di
+       chiusura gira sul progetto, non sull'oggetto appena uscito dal
+       generatore. Senza `sp` qui, il controllo leggeva zero come grossezza
+       della base e del cielo e dichiarava rotto ogni corpo sano — e, peggio,
+       avrebbe potuto dichiarare sano un corpo rotto.
+       `seg` dice che la riga e un troncone, e va risommata con i suoi. */
     role:x.role||null, axis_mapping:x.axis_mapping||null,
+    sp:(x.sp!=null?x.sp:null), seg:x.seg||null,
     angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
     materiale:x.mat||labelFor(x)}));
   p.pieces=p.pieces.filter(q=>q.gen!==cfg.name&&q.modulo!==cfg.name).concat(rows);
@@ -6520,7 +6537,7 @@ function auditModule(cfg,pieces){
        che qualcuno ha scritto; la chiusura controlla il mobile. E' l'unica
        che prende un guasto di cui nessuno sospetta. */
     for(const e of closureOf(cfg,pieces))
-      failed.unshift({id:"C-"+e.axa,severity:"blocking",confidence:"alta",
+      failed.unshift({id:"C-"+e.axa,severity:e.severity||"blocking",confidence:"alta",
         why:closureWhy(e),source:t("closureSrc"),closure:e});
     return failed;
   }catch(e){
@@ -6597,10 +6614,29 @@ function auditBadge(){
 /* Il messaggio all'utente e il campo `why`, non un codice: chi sta in
    officina deve leggere il motivo, non cercarlo in una tabella. */
 function auditSheet(failed){
-  const rows=failed.map(a=>`<div class="au-row">
-      <div class="au-why">${esc(a.why||a.id)}</div>
-      <div class="au-meta">${esc(a.modulo||"")}${a.source?" · "+esc(a.source):""}${a.error?" · "+esc(a.error):""}</div>
-    </div>`).join("");
+  /* I bloccanti per primi: chi apre questo foglio ha appena sbattuto contro
+     una porta chiusa e vuole sapere QUALE. Gli avvisi vengono dopo. */
+  const ord=(failed||[]).slice().sort((a,b)=>
+    (a.severity==="blocking"?0:1)-(b.severity==="blocking"?0:1));
+  const rows=ord.map(a=>{
+    const c=a.closure;
+    /* uno scostamento di chiusura ha quattro cose da dire, e vanno dette
+       separate: il corpo, la regola, di quanto, e su quali pezzi. In una
+       riga sola di testo non si leggono in officina. */
+    const meta=[a.modulo||"", a.source||"", a.error||""].filter(Boolean).join(" · ");
+    return `<div class="au-row${a.severity==="blocking"?" bad":""}">
+      <div class="au-why">${esc(c?c.why:(a.why||a.id))}</div>
+      ${c&&c.delta!=null?`<div class="au-num">
+        <span>${esc(c.axa)}</span>
+        <b>${esc(String(c.valoare_nominala))} mm</b>
+        <span>→</span>
+        <b>${esc(String(c.valoare_calculata))} mm</b>
+        <em>${c.delta>0?"+":""}${esc(String(c.delta))} mm</em></div>`:""}
+      ${c&&c.piese_implicate&&c.piese_implicate.length
+        ?`<div class="au-meta">${esc(c.piese_implicate.join(" · "))}</div>`:""}
+      <div class="au-meta">${esc(meta)}</div>
+    </div>`;
+  }).join("");
   $("auditBody").innerHTML=rows||`<div class="au-row"><div class="au-why">${esc(t("auOk"))}</div></div>`;
   openSheet("auditSheet");
 }
@@ -6619,6 +6655,12 @@ function auditSheet(failed){
    deci ce ajunge la atelier e bit cu bit ce tipărește aplicația. */
 let PRINT_CAPTURE=null;
 function printOut(){
+  /* IL CANCELLO STA QUI, non nei sei bottoni. Un controllo scritto in sei
+     posti e un controllo che il settimo documento non avra: e la ragione per
+     cui questa funzione esiste da prima, per la filigrana. Adesso regge
+     anche la coerenza delle cote. Chi aggiunge un'uscita nuova o chiama
+     questa funzione, o non stampa. */
+  if(!exportAllowed()) return;
   const pa=$("printArea");
   pa.querySelectorAll(".wm-diag,.wm-foot").forEach(n=>n.remove());
   if(PRINT_CAPTURE){ PRINT_CAPTURE.push(pa.innerHTML); return; }
@@ -6643,28 +6685,58 @@ function printOut(){
   },80);
 }
 
-/* Il cancello. Ogni esportazione ci passa: se una regola `blocking` e caduta,
-   non si esporta e si dice perche. */
-function exportAllowed(){
-  /* motore locale superato da quello sul server: non si esporta. Una distinta
-     calcolata da un motore vecchio e il guasto che questo rilascio ripara, e
-     dopo il deploy il service worker puo tenerlo in vita per giorni. */
-  if(window.__geomStale){ geomStaleBar(); toast(t("gvStale")); return false; }
-  /* MATERIALI. Una distinta calcolata con un materiale e esportata dopo
-     averlo cambiato e cote sbagliate mandate a debitare — lo stesso guasto,
-     da un'altra porta. Si ferma qui, senza scorciatoie. */
-  const drift=matDrift(proj());
-  if(drift.block.length){
-    auditSheet(drift.block.map(d=>({id:"MAT",severity:"blocking",modulo:d.modulo,
-      why:d.why||t("matStaleOne"),source:t("matStaleTitle")})));
-    toast(t("matStale").replace("{n}",drift.block.length));
-    return false;
-  }
-  const failed=auditProject(proj());
+/* ===== IL CANCELLO (Fase 4) =============================================
+   `assertExportable(project)` e l'unico posto che decide se una distinta puo
+   uscire. Non torna un booleano: torna il VERDETTO, con dentro tutto quello
+   che serve a spiegarlo — quale corpo, quale regola, di quanto, quali pezzi.
+   Chi deve solo sapere se si puo stampare guarda `.ok`.
+
+   NON ESISTE UNA VIA D'USCITA. Niente flag di forzatura, niente "continua
+   lo stesso", niente scorciatoia per l'utente esperto. Una distinta
+   incoerente e arrivata al debitatore proprio perche da qualche parte
+   c'era un avviso che si poteva ignorare. */
+function assertExportable(project){
+  const p=project||proj();
+  const out={ok:false, blocking:[], warn:[], project:p};
+  if(!p){ out.blocking.push({id:"NOPROJ",severity:"blocking",why:t("selectProject")}); return out; }
+
+  /* 1. il motore locale e piu vecchio di quello sul server. Una distinta
+        calcolata da un motore superato e il guasto che questo rilascio
+        ripara, e dopo il deploy il service worker puo tenerlo in vita per
+        giorni. */
+  if(window.__geomStale)
+    out.blocking.push({id:"GEOMVER",severity:"blocking",why:t("gvStale"),source:t("gvTitle")});
+
+  /* 2. i materiali. Una distinta calcolata con un materiale ed esportata
+        dopo averlo cambiato e lo stesso guasto, da un'altra porta. */
+  const drift=matDrift(p);
+  for(const d of drift.block)
+    out.blocking.push({id:"MAT",severity:"blocking",modulo:d.modulo,
+      why:d.why||t("matStaleOne"),source:t("matStaleTitle")});
+  for(const d of drift.warn)
+    out.warn.push({id:"MAT?",severity:"warn",modulo:d.modulo,
+      why:t("matStaleOne"),source:t("matStaleTitle")});
+
+  /* 3. corpo per corpo: la chiusura del gabarito (Fase 2) e le regole di
+        coerenza (Fase 3), che `auditProject` gia mette insieme. */
+  const failed=auditProject(p);
   const bad=(typeof blocking==="function")?blocking(failed):failed;
-  if(!bad.length) return true;
-  auditSheet(failed);
-  toast(t("auBlocked").replace("{n}",bad.length));
+  for(const a of bad) out.blocking.push(a);
+  for(const a of failed) if(bad.indexOf(a)<0) out.warn.push(a);
+
+  out.ok=out.blocking.length===0;
+  return out;
+}
+
+/* Il cancello, con la voce: lo stesso verdetto, detto all'utente. Ogni
+   esportazione passa di qui — e quelle su carta passano anche da printOut(),
+   che lo richiama: due giri sulla stessa porta, non due porte. */
+function exportAllowed(project){
+  const v=assertExportable(project);
+  if(v.ok) return true;
+  if(v.blocking.some(a=>a.id==="GEOMVER")) geomStaleBar();
+  auditSheet(v.blocking.concat(v.warn));
+  toast(t("auBlocked").replace("{n}",v.blocking.length));
   return false;
 }
 

@@ -570,10 +570,22 @@ function validateCarcassClosure(corpo, pieces, geometry) {
   var divis = closureRow(pieces, "divisorio");
 
   var tip = G.tip_schienale || "incassato";
-  var spBack = back ? (+back.sp || 0) : 0;
-  var spF = +G.sp_fianco || (+fianco.sp || 0);
-  var spB = base ? (+base.sp || 0) : (+G.sp_base || 0);
-  var spC = cielo ? (+cielo.sp || 0) : (+G.sp_cielo || 0);
+  /* LA GROSSEZZA DI UN PEZZO NON SI SUPPONE MAI A ZERO. Una riga senza `sp`
+     e una riga vecchia, emessa prima che questo controllo esistesse: si usa
+     la grossezza che il motore assegna al suo ruolo — lo stesso numero con
+     cui e stata tagliata — e si SEGNALA che la distinta va rigenerata.
+     Leggere zero al posto suo dichiarerebbe rotto ogni corpo sano, e un
+     giorno dichiarerebbe sano un corpo rotto. */
+  var presunte = [];
+  function spOf(row, fallbackKey) {
+    if (row && row.sp != null && +row.sp > 0) return +row.sp;
+    if (row) presunte.push(row.nomi.join(", "));
+    return +G[fallbackKey] || 0;
+  }
+  var spBack = back ? spOf(back, "sp_schienale") : 0;
+  var spF = spOf(fianco, "sp_fianco") || +G.sp_fianco || 0;
+  var spB = base ? spOf(base, "sp_base") : (+G.sp_base || 0);
+  var spC = cielo ? spOf(cielo, "sp_cielo") : (+G.sp_cielo || 0);
   var inp = G.in || {};
   var h_base = +inp.h_base || 0;
   var h_picior = (inp.piedini > 0) ? (+inp.h_picior || 0) : 0;
@@ -650,6 +662,23 @@ function validateCarcassClosure(corpo, pieces, geometry) {
         divis.nomi.concat(base ? base.nomi : []).concat(cielo ? cielo.nomi : []),
         "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.");
   }
+
+  /* La distinta vecchia si controlla lo stesso, ma si dice che e vecchia:
+     chi la esporta deve sapere che la grossezza dei pezzi non e stata
+     verificata contro quella scritta sulla riga, perche sulla riga non
+     c'era. Avviso, non blocco: nessun progetto gia salvato e sbagliato
+     per questo. */
+  if (presunte.length)
+    out.push({ axa: "—", chain: "sp-assente", severity: "warn",
+               valoare_nominala: null, valoare_calculata: null, delta: null,
+               piese_implicate: presunte.filter(function (v, i, a) { return a.indexOf(v) === i; }),
+               why: "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta." });
+
+  /* lo stesso pezzo nominato due volte (base e cielo nella stessa riga) si
+     dice una volta sola: in officina si legge un elenco, non un'eco */
+  for (var k = 0; k < out.length; k++)
+    out[k].piese_implicate = (out[k].piese_implicate || [])
+      .filter(function (v, i, a) { return v && a.indexOf(v) === i; });
 
   return out;
 }
