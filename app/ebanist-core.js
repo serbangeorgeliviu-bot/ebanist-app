@@ -49,6 +49,7 @@ var CARCASS_DEFAULTS = {
   edge_offset: 100,        // prima e ultima cerniera, dai capi dell'anta
   nut_d: 8,                // profondita della cava per lo schienale sottile
   nut_off: 10,             // arretramento della cava dal filo posteriore
+  setback_zoccolo: 50,     // arretramento dello zoccolo dal filo anteriore
   foratura_prof: 12.5,     // tazza cerniera: profondita
   foratura_dist_cant: 5    // tazza cerniera: distanza dal cant. UNA cota, non "3-6"
 };
@@ -56,6 +57,75 @@ var CARCASS_DEFAULTS = {
 /* Formato della lastra: serve ad A10 (un pezzo piu grande della lastra non e
    un pezzo, e un errore che si scopre in segheria). */
 var PANEL_DEFAULTS = { panelL: 2800, panelW: 2070, decor_directional: false };
+
+/* --- I RUOLI ------------------------------------------------------------
+ * Il `role` di un pezzo e l'unico modo che ha il controllo di chiusura
+ * (Fase 2) di sapere che cosa sta rimontando. Il NOME del pezzo non serve:
+ * "Ripiano mobile sez.2" e "Ripiano fisso" sono lo stesso ruolo, e il nome
+ * cambia con la lingua. Il ruolo no.
+ */
+var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo",
+             "schienale", "ripiano", "frontale", "cassetto_fianco", "cassetto_fondo",
+             "cassetto_frontale", "divisorio", "zoccolo", "traversa", "accessorio"];
+
+/* Perche esiste `fianco` accanto a `fianco_sx`/`fianco_dx`, e `base_cielo`
+   accanto a `base`/`cielo`: una RIGA di distinta non e un pezzo, e un
+   pezzo per `pz` volte. Il falegname taglia "Fianco — 2 pz", non due righe
+   da uno; spezzarle per far tornare un'enumerazione cambierebbe il foglio
+   che va in segheria. Il ruolo di riga porta il paio, e `pz` dice quanti
+   sono: chi rimonta il gabarito legge tutti e due. */
+
+/* Quale dimensione del pezzo corre lungo quale asse del corpo.
+ *   lung = la prima cota in distinta, larg = la seconda, sp = la grossezza.
+ *   "L" = larghezza del corpo, "H" = altezza, "P" = profondita.
+ * Senza questa tabella il bounding box del corpo assemblato non si puo
+ * ricomporre: 2078x398 e un fianco o un'anta a seconda di dove sta.
+ */
+var ROLE_AXES = {
+  fianco:            { lung: "H", larg: "P", sp: "L" },
+  base_cielo:        { lung: "L", larg: "P", sp: "H" },
+  fianco_sx:         { lung: "H", larg: "P", sp: "L" },
+  fianco_dx:         { lung: "H", larg: "P", sp: "L" },
+  base:              { lung: "L", larg: "P", sp: "H" },
+  cielo:             { lung: "L", larg: "P", sp: "H" },
+  schienale:         { lung: "L", larg: "H", sp: "P" },
+  ripiano:           { lung: "L", larg: "P", sp: "H" },
+  frontale:          { lung: "H", larg: "L", sp: "P" },
+  divisorio:         { lung: "H", larg: "P", sp: "L" },
+  zoccolo:           { lung: "L", larg: "H", sp: "P" },
+  traversa:          { lung: "L", larg: "H", sp: "P" },
+  cassetto_fianco:   { lung: "P", larg: "H", sp: "L" },
+  cassetto_fondo:    { lung: "L", larg: "P", sp: "H" },
+  cassetto_frontale: { lung: "H", larg: "L", sp: "P" },
+  accessorio:        null   /* un'asta o un piedino non e un pannello del corpo */
+};
+function axesFor(role) { return ROLE_AXES[role] || null; }
+
+/* --- le guide ------------------------------------------------------------
+ * `rezerva_glisiera` NON e una costante. E' quanto la guida SCELTA si mangia
+ * in fondo al vano, e cambia da modello a modello: 12 mm su TANDEM/LEGRABOX,
+ * 10 su una guida a sfere, 12,5 su una a rulli. Scritta a mano una volta
+ * sola valeva per una guida sola.
+ *
+ *   rear    = riserva in PROFONDITA, dietro la cassa del cassetto
+ *   ded_lat = quanto si stringe la cassa in LARGHEZZA, TOTALE (due lati)
+ *
+ * Gli id sono gli stessi del catalogo ferramenta dell'app (HWDB.guida): una
+ * tabella sola, due file che la leggono.
+ */
+var SLIDE_CATALOG = {
+  blum_tandem:  { brand: "Blum",   rear: 12,   ded_lat: 42 },
+  blum_movento: { brand: "Blum",   rear: 12,   ded_lat: 42 },
+  blum_230m:    { brand: "Blum",   rear: 12.5, ded_lat: 25 },
+  haf_ball:     { brand: "Hafele", rear: 10,   ded_lat: 26 },
+  haf_matrix:   { brand: "Hafele", rear: 12,   ded_lat: 75 },
+  nessuno:      { brand: "-",      rear: 0,    ded_lat: 0 }
+};
+function slideById(id) { return SLIDE_CATALOG[id] || SLIDE_CATALOG.blum_tandem; }
+
+/* backMode (come lo scrive il progetto) -> tip_schienale (come lo chiede la
+   specifica). Una parola sola per costruzione, non due. */
+var BACK_KIND = { incassato: "incassato", applicato: "applicato", in_cava: "scanalato" };
 
 /* --- utensili ------------------------------------------------------------ */
 
@@ -99,6 +169,42 @@ function positionsHinges(anta_H, n, edge_offset) {
   return out;
 }
 
+/* --- le grossezze, una per ruolo ------------------------------------------
+ * UNA grossezza per corpo era la seconda causa radice: il fianco da 19, il
+ * cielo da 25 e il fondo da 3 finivano tutti e tre nello stesso numero.
+ *
+ * Il chiamante passa `sp: { fianco, base, cielo, schienale, ripiano,
+ * frontale, zoccolo, divisorio }`. Quello che non c'e EREDITA dalla
+ * struttura — `sp.fianco`, o il vecchio `t_fianco`. Quello che non ha
+ * nemmeno quello e un errore, non un 18 silenzioso.
+ */
+var SP_ROLES = ["fianco", "base", "cielo", "schienale", "ripiano",
+                "frontale", "zoccolo", "divisorio"];
+
+function readThickness(p) {
+  var sp = p.sp || {};
+  /* la grossezza di struttura: `sp.fianco`, o il vecchio nome piatto */
+  var base = (typeof sp.fianco === "number") ? sp.fianco
+           : (typeof p.t_fianco === "number") ? p.t_fianco : null;
+  /* lo schienale ha il suo nome piatto storico, e non eredita dalla
+     struttura: un fondo in HDF da 3 non e mai spesso come un fianco. */
+  var back = (typeof sp.schienale === "number") ? sp.schienale
+           : (typeof p.t_back === "number") ? p.t_back : null;
+  var out = {}, i, r, v;
+  for (i = 0; i < SP_ROLES.length; i++) {
+    r = SP_ROLES[i];
+    v = (typeof sp[r] === "number") ? sp[r] : (r === "schienale" ? back : base);
+    if (typeof v !== "number" || !isFinite(v))
+      throw new Error("deriveCarcass: manca la grossezza del ruolo `" + r +
+        "` e non c'e una grossezza di struttura da cui ereditarla. " +
+        "Assegna un materiale: NON esiste un valore predefinito.");
+    if (r !== "schienale" && !(v > 0))
+      throw new Error("deriveCarcass: la grossezza del ruolo `" + r + "` deve essere > 0, ricevuto " + v);
+    out[r] = v;
+  }
+  return out;
+}
+
 /* --- la funzione ---------------------------------------------------------- */
 
 function deriveCarcass(params) {
@@ -106,10 +212,14 @@ function deriveCarcass(params) {
 
   /* entrate, tutte esplicite */
   var W = num(p, "W"), H = num(p, "H"), D = num(p, "D");
-  var t_fianco = num(p, "t_fianco");
+  /* le grossezze arrivano PER RUOLO. `t_fianco` e `t_back` restano i nomi
+     della struttura e dello schienale: sono quelli che scrivono le regole
+     e i progetti gia salvati. */
+  var SP = readThickness(p);
+  var t_fianco = SP.fianco;
   /* t_back NON e una costante: e la grossezza del materiale assegnato allo
      schienale. Se lo schienale e truciolare 19, t_back vale 19. */
-  var t_back = num(p, "t_back");
+  var t_back = SP.schienale;
   var backMode = p.backMode;
   if (backMode !== "incassato" && backMode !== "applicato" && backMode !== "in_cava")
     throw new Error("deriveCarcass: `backMode` deve essere 'incassato', 'applicato' o 'in_cava', ricevuto " + JSON.stringify(backMode));
@@ -130,6 +240,17 @@ function deriveCarcass(params) {
   var h_picior = num(p, "h_picior");
   var edge_offset = num(p, "edge_offset");
   var nut_d = num(p, "nut_d"), nut_off = num(p, "nut_off");
+  var setback_zoccolo = p.setback_zoccolo == null ? 50 : num(p, "setback_zoccolo");
+  /* i tramezzi entrano qui perche la larghezza di una sezione — e quindi
+     quella di un cassetto — si ricava da loro. Calcolata fuori, in quattro
+     posti diversi, era gia quattro volte l'occasione di sbagliarla. */
+  var n_divisorio = Math.max(0, Math.round(p.n_divisorio == null ? 0 : num(p, "n_divisorio")));
+  /* il modello di guida SCELTO, non una costante: `rezerva_glisiera` esce
+     da lui. `glisiera: null` vuol dire "nessun cassetto" e da riserva 0. */
+  var glisieraId = p.glisiera == null ? null : String(p.glisiera);
+  var GL = glisieraId ? slideById(glisieraId) : SLIDE_CATALOG.nessuno;
+  var cassetto_interno = !!p.cassetto_interno;
+  var inset_cassetto = p.inset_cassetto == null ? 0 : num(p, "inset_cassetto");
   var foratura_prof = num(p, "foratura_prof");
   var foratura_dist_cant = num(p, "foratura_dist_cant");
 
@@ -185,6 +306,10 @@ function deriveCarcass(params) {
   /* zoccolo / traversa frontale */
   var zoccolo_W = Wi;
   var zoccolo_H = h_zoccolo;
+  /* lo zoccolo sta arretrato dal filo anteriore: la sua posizione in
+     profondita e una cota derivata come le altre, non un 50 scritto dentro
+     il generatore. */
+  var zoccolo_Z = D - setback_zoccolo;
 
   /* ante. `reveal` e la parte di fianco che resta a vista accanto all'anta:
      e la differenza fra la grossezza del fianco e la sovrapposizione. Senza
@@ -204,8 +329,39 @@ function deriveCarcass(params) {
     cerniere = positionsHinges(anta_H, n_cerniere, edge_offset);
   }
 
-  /* --- uscita: arrotondamento UNA volta sola --------------------------- */
-  return {
+  /* --- le cote interne, per nome di specifica --------------------------
+     P_int / L_int / H_int sono le tre luci interne del corpo. Ogni pezzo che
+     sta DENTRO la cassa si misura su queste, e nessun generatore le
+     ricalcola piu per conto suo. */
+  var P_int = D - piano_interno;
+  var L_int = Wi;
+  var H_int = H - h_base - SP.base - SP.cielo;
+
+  /* la larghezza di una sezione fra due tramezzi: la cota da cui escono il
+     ripiano e la cassa del cassetto. */
+  var sectiune_W = (L_int - n_divisorio * SP.divisorio) / (n_divisorio + 1);
+
+  /* la riserva della guida, dal modello scelto in catalogo */
+  var rezerva_glisiera = GL.rear;
+  /* profondita massima della cassa del cassetto: la luce interna meno la
+     riserva della guida. E' la cota che controlla l'invariante di Fase 3. */
+  var P_cassetto_max = P_int - rezerva_glisiera;
+  /* il cassetto INTERNO sta dietro l'anta e arretra ancora del suo inset */
+  var P_cassetto_max_interno = P_cassetto_max - inset_cassetto;
+  /* larghezza della cassa in LEGNO: la sezione meno quanto si mangia la guida
+     sui due lati. Le casse METALLICHE (LEGRABOX, TANDEMBOX) hanno la loro
+     tabella di deduzione nel catalogo cassetti dell'app, che e un catalogo di
+     CASSE, non di guide: quella resta la sorgente per loro, e legge da qui
+     `sectiune_W`. Due tabelle diverse per due cose diverse, non due verita
+     sulla stessa cosa. */
+  var L_cassetto = sectiune_W - GL.ded_lat;
+  var L_cassetto_interno = L_cassetto - 8;   /* gioco che lascia all'anta */
+
+  /* --- uscita: arrotondamento UNA volta sola ---------------------------
+     `Object.freeze`: le cote derivate si LEGGONO. Un generatore che le
+     ritoccava per farsi tornare un conto e esattamente come nasce la
+     seconda sorgente di verita. Adesso il tentativo fallisce. */
+  return Object.freeze({
     geomVersion: GEOM_VERSION,
     /* le entrate viaggiano con le uscite: la scheda di officina deve poter
        ristampare con che numeri e stato calcolato quel pezzo */
@@ -215,8 +371,13 @@ function deriveCarcass(params) {
       gap_sup: gap_sup, gap_inf: gap_inf, setback_ripiano: setback_ripiano,
       clearance_ripiano: clearance_ripiano, n_cerniere: n_cerniere,
       piedini: piedini, h_picior: h_picior, edge_offset: edge_offset,
-      nut_d: nut_d, nut_off: nut_off,
-      foratura_prof: foratura_prof, foratura_dist_cant: foratura_dist_cant
+      nut_d: nut_d, nut_off: nut_off, setback_zoccolo: setback_zoccolo,
+      foratura_prof: foratura_prof, foratura_dist_cant: foratura_dist_cant,
+      n_divisorio: n_divisorio, glisiera: glisieraId,
+      cassetto_interno: cassetto_interno, inset_cassetto: inset_cassetto,
+      sp: { fianco: SP.fianco, base: SP.base, cielo: SP.cielo, schienale: SP.schienale,
+            ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
+            divisorio: SP.divisorio }
     },
     Wi: mm(Wi),
     D_fianco: mm(D_fianco),
@@ -229,6 +390,7 @@ function deriveCarcass(params) {
     ripiano_D: mm(ripiano_D),
     zoccolo_W: mm(zoccolo_W),
     zoccolo_H: mm(zoccolo_H),
+    zoccolo_Z: mm(zoccolo_Z),
     reveal: mm(reveal),
     anta_W: mm(anta_W),
     anta_H: mm(anta_H),
@@ -238,8 +400,88 @@ function deriveCarcass(params) {
     cerniere: cerniere,
     /* cote di foratura: numeri, non intervalli. "3-6 mm" non e una quota che
        una macchina possa eseguire, ed e quello che prende A8. */
-    foratura: { prof: foratura_prof, dist_cant: foratura_dist_cant, diam: 35 }
-  };
+    foratura: Object.freeze({ prof: foratura_prof, dist_cant: foratura_dist_cant, diam: 35 }),
+
+    /* ===== NOMI DI SPECIFICA =============================================
+       Gli stessi numeri, con i nomi che usano la specifica e i controlli.
+       Non sono un secondo calcolo: sono lo stesso, con un altro nome. Chi
+       scrive una regola nuova usa questi. */
+    P_int: mm(P_int),
+    L_int: mm(L_int),
+    H_int: mm(H_int),
+
+    sp_fianco:    SP.fianco,
+    sp_base:      SP.base,
+    sp_cielo:     SP.cielo,
+    sp_schienale: SP.schienale,
+    sp_ripiano:   SP.ripiano,
+    sp_frontale:  SP.frontale,
+    sp_zoccolo:   SP.zoccolo,
+    sp_divisorio: SP.divisorio,
+    sp: Object.freeze({
+      fianco: SP.fianco, base: SP.base, cielo: SP.cielo, schienale: SP.schienale,
+      ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
+      divisorio: SP.divisorio
+    }),
+
+    tip_schienale: BACK_KIND[backMode],
+
+    /* le profondita FINITE, quelle che vanno in distinta */
+    P_fianco_finita:  mm(D_fianco),
+    P_base_finita:    mm(D_bc),
+    P_cielo_finita:   mm(D_bc),
+    P_ripiano_finita: mm(ripiano_D),
+
+    /* gli arretramenti: quanto un pezzo sta indietro dal filo del corpo */
+    retrasare_ripiano:   mm(setback_ripiano),
+    /* lo schienale arretra solo quando corre in cava: incassato e applicato
+       stanno a filo del piano posteriore. */
+    retrasare_schienale: mm(backMode === "in_cava" ? nut_off : 0),
+
+    /* i giochi di montaggio: costanti di mestiere, indipendenti dalla
+       grossezza. Restano quelli anche quando il pannello cambia. */
+    jocuri: Object.freeze({
+      joc_frontale_laterale: mm(gap_ante),
+      joc_frontale_verticale: mm(gap_sup + gap_inf),
+      joc_frontale_sus: mm(gap_sup),
+      joc_frontale_jos: mm(gap_inf),
+      joc_ripiano: mm(clearance_ripiano),
+      reveal: mm(reveal)
+    }),
+
+    /* cassetti: la riserva viene dal MODELLO di guida, non da una costante */
+    glisiera: glisieraId,
+    glisiera_brand: GL.brand,
+    rezerva_glisiera: rezerva_glisiera,
+    P_cassetto_max: mm(P_cassetto_max),
+    P_cassetto_max_interno: mm(P_cassetto_max_interno),
+    L_cassetto: mm(L_cassetto),
+    L_cassetto_interno: mm(L_cassetto_interno),
+
+    /* la larghezza di una sezione fra i tramezzi */
+    n_divisorio: n_divisorio,
+    sectiune_W: mm(sectiune_W),
+
+    /* --- PRECISIONE PIENA, per chi deve ancora calcolarci sopra ---------
+       Le cote qui sopra sono arrotondate al mm: sono quelle che vanno in
+       distinta. Ma una sezione da 602,67 mm arrotondata a 603 e poi
+       diminuita del gioco del ripiano da 601 invece di 600 — un
+       arrotondamento in catena, che la regola del progetto vieta.
+       Chi usa una cota derivata per calcolarne un'altra legge DA QUI, e
+       arrotonda una volta sola, alla fine. */
+    exact: Object.freeze({
+      P_int: P_int, L_int: L_int, H_int: H_int,
+      sectiune_W: sectiune_W,
+      D_fianco: D_fianco, D_bc: D_bc, piano_interno: piano_interno,
+      ripiano_W: ripiano_W, ripiano_D: ripiano_D,
+      anta_W: anta_W, anta_H: anta_H, reveal: reveal,
+      P_cassetto_max: P_cassetto_max, L_cassetto: L_cassetto
+    }),
+
+    /* la tabella degli assi viaggia con le cote: chi rimonta il gabarito
+       (Fase 2) non deve andarsela a cercare altrove. */
+    ROLE_AXES: ROLE_AXES
+  });
 }
 
 /* --- asserzioni ----------------------------------------------------------
@@ -444,6 +686,17 @@ var API = {
   GEOM_VERSION: GEOM_VERSION,
   CARCASS_DEFAULTS: CARCASS_DEFAULTS,
   PANEL_DEFAULTS: PANEL_DEFAULTS,
+  ROLES: ROLES,
+  ROLE_AXES: ROLE_AXES,
+  axesFor: axesFor,
+  SLIDE_CATALOG: SLIDE_CATALOG,
+  slideById: slideById,
+  BACK_KIND: BACK_KIND,
+  /* IL NOME CANONICO. `deriveCarcass` resta come alias perche lo chiamano
+     index.html, le prove golden e i progetti gia in giro — ma e LA STESSA
+     funzione, non una seconda. Una seconda funzione di cote derivate sarebbe
+     esattamente il guasto che questo file esiste per impedire. */
+  computeCarcassGeometry: deriveCarcass,
   deriveCarcass: deriveCarcass,
   positionsHinges: positionsHinges,
   hingeCount: hingeCount,

@@ -4313,6 +4313,11 @@ function woodDed(){
   return /tandem|movento/.test(gid)?42:/ball/.test(gid)?26:25;
 }
 const DRAW_GAP=3;          // luce fra due frontali di cassetto
+/* Ante scorrevoli: non sono ante a battente e non passano da deriveCarcass
+   (si sovrappongono invece di accostarsi). Le due cote di montaggio che
+   servono stanno QUI, con un nome, invece di 45 e 40 dentro il generatore. */
+const SLIDE_GAP_TOP=45;    // gioco sopra l'anta scorrevole, per il binario
+const SLIDE_OVERLAP=40;    // quanto due ante scorrevoli si sovrappongono
 const DRAW_KITCHEN=140;    // il cassettino alto della base da cucina
 /* Fra il frontale del cassetto interno e l'anta chiusa deve passare il braccio
    della cerniera: lo spessore dell'anta piu la basetta. Sotto questa quota il
@@ -4440,8 +4445,27 @@ function carcassParams(cfg,ctx){
     n_ante:sliding?0:Math.max(0,cfg.doors||0),
     n_cerniere:0,          // lo decide l'altezza dell'anta, sotto
     piedini:support==="piedini"?4:0,
-    h_picior:support==="piedini"?pl:0
+    h_picior:support==="piedini"?pl:0,
+    /* i tramezzi: da loro esce la larghezza di una sezione, e quindi quella
+       del ripiano e della cassa del cassetto. Prima si ricalcolava in
+       quattro punti diversi. */
+    n_divisorio:Math.max(0,Math.round(cfg.tram||0)),
+    /* la guida SCELTA: `rezerva_glisiera` viene da lei, non da una costante.
+       Sulla cassa in legno comanda la guida del catalogo ferramenta; su una
+       cassa metallica, quella che il sistema si porta dietro. */
+    glisiera:(cfg.drawers>0)?slideIdFor(cfg):null,
+    cassetto_interno:cfg.drawerPos==="interno",
+    inset_cassetto:Math.max(0,+(cfg.drawerInset!=null?cfg.drawerInset:35))
   });
+}
+/* Quale guida monta questo corpo. UNA riga, letta sia dal motore che dal
+   piano dei cassetti: se fossero due, la riserva in profondita e la
+   deduzione in larghezza potrebbero venire da due guide diverse. */
+function slideIdFor(cfg){
+  const sys=drawSys(cfg.drawerSys||"legno");
+  if(sys.none) return "nessuno";
+  return sys.metal?(sys.guida||"blum_tandem")
+                  :(((state&&state.settings&&state.settings.hwProd)||{}).guida||"blum_tandem");
 }
 function buildCore(cfg){
   const L=cfg.L,H=cfg.H,P=cfg.P,t=cfg.t;
@@ -4468,6 +4492,13 @@ function buildCore(cfg){
   const add=(elemento,lung,larg,pz,bordo,mat,ex)=>{
     if(!(pz>0&&lung>0&&larg>0)) return;
     ex=ex||{};
+    /* IL RUOLO. Il nome del pezzo cambia con la lingua e con la sezione
+       ("Ripiano mobile sez.2"); il ruolo no. E' l'unica cosa su cui il
+       controllo di chiusura puo rimontare il corpo. Una riga senza ruolo
+       non e un pezzo che il controllo puo ignorare: e un buco, e la Fase 2
+       lo tratta come tale. */
+    const role=ex.role||null;
+    const axes=ex.axes||(role&&typeof axesFor==="function"?axesFor(role):null);
     /* prima di tutto: se il materiale non si borda, il bordo sparisce — e quindi
        non si sottrae nemmeno dalla misura di taglio. */
     if(bordo&&!mat&&!takesEdge(cfg,elemento)) bordo="";
@@ -4481,6 +4512,10 @@ function buildCore(cfg){
          `edgeTh` resta: serve ai metri lineari di ABS, che sono un'altra cosa. */
       const bo=(bd===undefined?bordo:bd);
       const o={elemento:el,lung:Math.round(lu),larg:Math.round(la),pz:Math.round(pz),bordo:bo,mat};
+      if(role) o.role=role;
+      /* `axis_mapping`: quale cota del pezzo corre lungo L, H e P del corpo.
+         Senza, 2078x398 e un fianco o un'anta a seconda di chi guarda. */
+      if(axes) o.axis_mapping={lung:axes.lung,larg:axes.larg,sp:axes.sp};
       /* un taglio troppo obliquo mangerebbe l'intero pezzo: non lo falsifichiamo,
          lo emettiamo dritto e lo segnaliamo — quella sezione va risolta a mano. */
       if((isAng(aL)||isAng(aR)) && shortEdge(o.lung,o.larg,aL,aR)<20){ o.angSkip=1; }
@@ -4547,35 +4582,40 @@ function buildCore(cfg){
   const frontX0=wL(P), frontW=L-P*(cotL+cotR);   // luce reale al filo anteriore
   /* struttura interna calcolata PRIMA dei pannelli grandi: le sue posizioni sono
      i punti dove una giunzione resta nascosta dietro un ripiano o un tramezzo. */
-  const n=(cfg.tram||0)+1, intW=G.Wi, secW=(intW-(cfg.tram||0)*t)/n;
-  const intY0=pl+t, intY1=H-t, intH=intY1-intY0;
+  /* NIENTE aritmetica sulle cote qui: n, secW e intH li dice il motore.
+     `secW=(Wi-tram*t)/n` scritto a mano era una delle undici copie. */
+  const n=G.in.n_divisorio+1, intW=G.L_int, secW=G.exact.sectiune_W;
+  /* i due piani interni: sopra la base, sotto il cielo. `pl+t` e `H-t`
+     scritti a mano erano `+ spessore` due volte, e con base e cielo di
+     grossezza diversa avrebbero sbagliato tutti e due. */
+  const intY0=G.in.h_base+G.sp_base, intY1=H-G.sp_cielo, intH=G.H_int;
   const intD=G.ripiano_D; // profondità utile: dal piano interno, meno l'arretramento del ripiano
   const y0=support==="piedini"?pl:0;
   const tramRel=[]; for(let i=1;i<=(cfg.tram||0);i++) tramRel.push(i*secW+(i-1)*t+t/2); // lungo L-2t
   const shelfRel=[]; if(cfg.shelves>0) for(let i=1;i<=cfg.shelves;i++) shelfRel.push(intY0+intH*i/(cfg.shelves+1)-y0); // lungo l'altezza del fianco
-  const fiancoCuts=shelfRel.concat([pl+t-y0,H-t-y0]).filter(v=>v>0);
+  const fiancoCuts=shelfRel.concat([intY0-y0,intY1-y0]).filter(v=>v>0);
 
-  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts});
+  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts,role:"fianco"});
   bx(0,t,y0,H,0,P,"p",wL(P),wL(P)); bx(L-t,L,y0,H,0,P,"p",-wR(P),-wR(P));
   const bcSpan=G.D_bc, bcRear=G.Wi-carcZ0*(cotL+cotR);
   const bcT=trapz(bcRear,bcSpan*cotL,bcSpan*cotR);
-  add("Base / Cielo",bcT.bound,bcSpan,2,"1L",null,{cuts:tramRel,angL,angR});
+  add("Base / Cielo",bcT.bound,bcSpan,2,"1L",null,{cuts:tramRel,angL,angR,role:"base_cielo"});
   const baseY=support==="piedini"?pl:pl;
   const bcX0=wL(carcZ0)+t, bcX1=L-wR(carcZ0)-t;
   bx(bcX0,bcX1,baseY,baseY+t,carcZ0,P,"p",bcSpan*cotL,-bcSpan*cotR);
   bx(bcX0,bcX1,H-t,H,carcZ0,P,"p",bcSpan*cotL,-bcSpan*cotR);
   if(support==="zoccolo"&&pl>=30){
-    const zz=P-50;
-    add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel});
+    const zz=G.zoccolo_Z;
+    add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel,role:"zoccolo"});
     bx(wL(zz)+t,L-wR(zz)-t,0,pl,zz-t,zz,"p");
   }
   if(support==="piedini"&&pl>=30){
-    add("Piedino regolabile",pl,50,4,"",MAT_PIED);
+    add("Piedino regolabile",pl,50,4,"",MAT_PIED,{role:"accessorio"});
     for(const [fx,fz] of [[t+20,30],[L-t-70,30],[t+20,P-80],[L-t-70,P-80]]) bx(fx,fx+50,0,pl,fz,fz+50,"p");
   }
   if(cfg.tram>0){
     // i tramezzi restano perpendicolari al fondo: solo le sezioni esterne sono trapezoidali
-    add("Tramezzo",intH,intD,cfg.tram,"1L",null,{cuts:shelfRel.map(v=>v+y0-intY0).filter(v=>v>0)});
+    add("Tramezzo",intH,intD,cfg.tram,"1L",null,{cuts:shelfRel.map(v=>v+y0-intY0).filter(v=>v>0),role:"divisorio"});
     for(let i=1;i<=cfg.tram;i++){ const x=t+i*secW+(i-1)*t; bx(x,x+t,intY0,intY1,intZ0,P-20,"p"); }
   }
   /* Ogni sezione ha il suo contenuto: mezzo armadio con l'asta e mezzo a ripiani
@@ -4655,15 +4695,15 @@ function buildCore(cfg){
       shelfSecs.forEach(si=>{
         const T=trapz(secW,secOL(si),secOR(si));
         add(shName+(n>1?` sez.${si+1}`:""),Math.floor(T.bound-play),intD,shelfYs(secMode(si)).length,"1L",null,
-            {cuts:[],angL:(si===0)?angL:null,angR:(si===n-1)?angR:null});
+            {cuts:[],angL:(si===0)?angL:null,angR:(si===n-1)?angR:null,role:"ripiano"});
       });
-    } else add(shName,Math.floor(secW-play),intD,shYs.length*n,"1L",null,{cuts:[]});
+    } else add(shName,Math.floor(secW-play),intD,shYs.length*n,"1L",null,{cuts:[],role:"ripiano"});
     shelfSecs.forEach(si=>{ const sx0=t+si*(secW+t);
       shelfYs(secMode(si)).forEach(y=>bx(sx0,sx0+secW,y-t/2,y+t/2,intZ0,P-20,"p",secOL(si),-secOR(si))); });
   }
   // asta appendiabiti (accessorio, non entra nei m² dei pannelli)
   if(hangSecs.length){
-    add("Asta appendiabiti",Math.floor(secW-4),25,hangSecs.length,"",MAT_ACC);
+    add("Asta appendiabiti",Math.floor(secW-4),25,hangSecs.length,"",MAT_ACC,{role:"accessorio"});
     hangSecs.forEach(si=>{ const sx0=t+si*(secW+t);
       bx(sx0+15,sx0+secW-15,railY,railY+25,(P-25)/2,(P+25)/2,"p"); });
   }
@@ -4693,15 +4733,15 @@ function buildCore(cfg){
          altezze disuguali sarebbe una distinta falsa. */
       const byH={}; dPlan.fronts.forEach(f=>{ byH[Math.round(f.h)]=(byH[Math.round(f.h)]||0)+1; });
       Object.keys(byH).map(Number).sort((a,b)=>a-b).forEach(h=>{
-        add(fname,h,fW,byH[h]*nd,"2L+2C"); });
+        add(fname,h,fW,byH[h]*nd,"2L+2C",null,{role:"cassetto_frontale"}); });
       if(cfg.boxes!==0&&cfg.boxes!=="0"&&!sys.none){
         if(sys.metal){
-          add("Fondo cassetto",dPlan.baseW,dPlan.baseL,N*nd,"",null);
-          add("Retro cassetto",dPlan.backW,dPlan.backH,N*nd,"1L");
+          add("Fondo cassetto",dPlan.baseW,dPlan.baseL,N*nd,"",null,{role:"cassetto_fondo"});
+          add("Retro cassetto",dPlan.backW,dPlan.backH,N*nd,"1L",null,{role:"cassetto_fianco"});
         }else{
-          add("Fianco cassetto",dPlan.nl,dPlan.sideH,2*N*nd,"1L");
-          add("Fronte/Retro cassetto",dPlan.boxIn,dPlan.sideH,2*N*nd,"1L");
-          add("Fondo cassetto",dPlan.boxIn,dPlan.nl-20,N*nd,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm");
+          add("Fianco cassetto",dPlan.nl,dPlan.sideH,2*N*nd,"1L",null,{role:"cassetto_fianco"});
+          add("Fronte/Retro cassetto",dPlan.boxIn,dPlan.sideH,2*N*nd,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}});
+          add("Fondo cassetto",dPlan.boxIn,dPlan.nl-20,N*nd,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"});
         }
       }
       /* --- geometria: la cassa esiste anche in 3D, non solo in distinta ---
@@ -4743,9 +4783,9 @@ function buildCore(cfg){
   if(cfg.doors>0){
     if(sliding){
       const nA=Math.max(2,cfg.doors);
-      const aH=H-45, aW=(frontW+(nA-1)*40)/nA; // 40mm sovrapposizione
-      add("Anta scorrevole",aH,aW,nA,"2L+2C");
-      for(let i=0;i<nA;i++){ const x=frontX0+i*(aW-40); const z=(i%2===0)?P+8:P+8+t+14; bx(x,x+aW,22,22+aH,z,z+t,"f",0,0,"slide"); }
+      const aH=H-SLIDE_GAP_TOP, aW=(frontW+(nA-1)*SLIDE_OVERLAP)/nA;
+      add("Anta scorrevole",aH,aW,nA,"2L+2C",null,{role:"frontale"});
+      for(let i=0;i<nA;i++){ const x=frontX0+i*(aW-SLIDE_OVERLAP); const z=(i%2===0)?P+8:P+8+t+14; bx(x,x+aW,22,22+aH,z,z+t,"f",0,0,"slide"); }
     }else{
       /* i cassetti INTERNI stanno dietro l'anta: non le rubano altezza.
          Senza cassetti a vista davanti, le cote di montaggio le da il motore:
@@ -4786,9 +4826,9 @@ function buildCore(cfg){
           : (dW-2*G.reveal-G.in.gap_ante*(cfg.doors-1))/cfg.doors;
         if(front==="vetro"&&aH>300&&aW>250){
           const fr=70; // larghezza telaio
-          add(push?"Montante anta vetro push":"Montante anta vetro",aH,fr,2*cfg.doors,"2L+2C");
-          add("Traversa anta vetro",aW-2*fr,fr,2*cfg.doors,"2C");
-          add("Vetro anta",aH-2*fr+30,aW-2*fr+30,cfg.doors,"",MAT_VETRO);
+          add(push?"Montante anta vetro push":"Montante anta vetro",aH,fr,2*cfg.doors,"2L+2C",null,{role:"frontale"});
+          add("Traversa anta vetro",aW-2*fr,fr,2*cfg.doors,"2C",null,{role:"traversa"});
+          add("Vetro anta",aH-2*fr+30,aW-2*fr+30,cfg.doors,"",MAT_VETRO,{role:"accessorio"});
           for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3);
             bx(x,x+aW,aY0,aY0+aH,P,P+t,"f",0,0,"door");
             bx(x+fr,x+aW-fr,aY0+fr,aY0+aH-fr,P+2,P+t-2,"g"); }
@@ -4804,7 +4844,7 @@ function buildCore(cfg){
           const kp=kerfPlan(t,devW,thDeg,{w:Math.min(3,(S0.kerf||3)),radius:R});
           if(kp&&kp.tight) doorTight=1;
           add(push?"Anta curva push":"Anta curva",aH,devW,cfg.doors,"2L+2C",null,
-              {curve:{dev:+devW.toFixed(1),radius:Math.round(R),bow:Math.round(bow),
+              {role:"frontale",curve:{dev:+devW.toFixed(1),radius:Math.round(R),bow:Math.round(bow),
                       angle:+thDeg.toFixed(1),seg:1,kerf:kp}});
           /* 3D: l'arco si posa a sfaccettature, ognuna un quadrilatero normale.
              Cosi il disegno resta sulla strada a quattro spigoli gia collaudata —
@@ -4827,7 +4867,7 @@ function buildCore(cfg){
             }
           }
         }else{
-          add(push?"Anta push":"Anta",aH,aW,cfg.doors,"2L+2C");
+          add(push?"Anta push":"Anta",aH,aW,cfg.doors,"2L+2C",null,{role:"frontale"});
           for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+t,"f",0,0,"door"); }
         }
       }
@@ -4847,7 +4887,11 @@ function buildCore(cfg){
                    :{l:Math.round(+o.h||0),w:Math.round(+o.w||0),x:Math.round(py),y:Math.round(px)};
       return (c.l>0&&c.w>0&&c.x>=0&&c.y>=0&&c.x+c.l<=Math.max(bw,bh)&&c.y+c.w<=Math.min(bw,bh))?c:null;
     }).filter(Boolean);
-    add("Schienale",Math.max(bw,bh),Math.min(bw,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs});
+    add("Schienale",Math.max(bw,bh),Math.min(bw,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs,role:"schienale",
+        /* lo schienale si emette con la cota maggiore per prima: quale dei
+           due assi sia dipende dal corpo, e il controllo di chiusura deve
+           sapere QUALE, non indovinarlo. */
+        axes:horiz?{lung:"L",larg:"H",sp:"P"}:{lung:"H",larg:"L",sp:"P"}});
     /* `sub:"back"` NON e decorativo: matKeyOf() in geo3d.js sceglie il materiale
        dello schienale proprio da questo campo. Senza, il pannello posteriore
        usciva col materiale della carcassa nel 3D WebGL e nel file AR mandato
@@ -4864,15 +4908,19 @@ function buildModule(cfg){
   if(cfg.type==="scrivania"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=cfg.t;
     const pieces=[],boxes=[];
-    const add=(el,lu,la,pz,bo,mat)=>{ if(!(pz>0&&lu>0&&la>0)) return;
+    const add=(el,lu,la,pz,bo,mat,role)=>{ if(!(pz>0&&lu>0&&la>0)) return;
       if(bo&&!mat&&!takesEdge(cfg,el)) bo="";               // materiale che non si borda
       /* cota FINITA, come nella carcassa: una distinta sola non puo portare
          due convenzioni diverse a seconda della riga */
-      pieces.push({elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat}); };
-    add("Piano scrivania",L,P,1,"2L+2C");
-    add("Fianco",H-t,P-50,2,"2L+2C");
+      const o={elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat};
+      if(role){ o.role=role;
+        const ax=typeof axesFor==="function"?axesFor(role):null;
+        if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
+      pieces.push(o); };
+    add("Piano scrivania",L,P,1,"2L+2C",null,"cielo");
+    add("Fianco",H-t,P-50,2,"2L+2C",null,"fianco");
     const mh=Math.round(H*0.45);
-    add("Pannello posteriore",L-2*t,mh,1,"1L");
+    add("Pannello posteriore",L-2*t,mh,1,"1L",null,"schienale");
     boxes.push({x0:0,x1:L,y0:H-t,y1:H,z0:0,z1:P,kind:"p"});
     boxes.push({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20,kind:"p"});
     boxes.push({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20,kind:"p"});
@@ -4882,15 +4930,19 @@ function buildModule(cfg){
   if(cfg.type==="tavolo"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=cfg.t, g=70, ins=60;
     const pieces=[],boxes=[];
-    const add=(el,lu,la,pz,bo,mat)=>{ if(!(pz>0&&lu>0&&la>0)) return;
+    const add=(el,lu,la,pz,bo,mat,role)=>{ if(!(pz>0&&lu>0&&la>0)) return;
       if(bo&&!mat&&!takesEdge(cfg,el)) bo="";               // materiale che non si borda
       /* cota FINITA, come nella carcassa: una distinta sola non puo portare
          due convenzioni diverse a seconda della riga */
-      pieces.push({elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat}); };
-    add("Piano tavolo",L,P,1,"2L+2C");
-    add("Traversa telaio",L-2*(ins+g)-20,80,2,"1L");
-    add("Traversa telaio corta",P-2*(ins+g)-20,80,2,"1L");
-    add("Gamba legno 70×70",H-t,70,4,"","Accessorio — gamba legno massello 70×70");
+      const o={elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat};
+      if(role){ o.role=role;
+        const ax=typeof axesFor==="function"?axesFor(role):null;
+        if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
+      pieces.push(o); };
+    add("Piano tavolo",L,P,1,"2L+2C",null,"cielo");
+    add("Traversa telaio",L-2*(ins+g)-20,80,2,"1L",null,"traversa");
+    add("Traversa telaio corta",P-2*(ins+g)-20,80,2,"1L",null,"traversa");
+    add("Gamba legno 70×70",H-t,70,4,"","Accessorio — gamba legno massello 70×70","accessorio");
     boxes.push({x0:0,x1:L,y0:H-t,y1:H,z0:0,z1:P,kind:"p"});
     for(const [gx,gz] of [[ins,ins],[L-ins-g,ins],[ins,P-ins-g],[L-ins-g,P-ins-g]])
       boxes.push({x0:gx,x1:gx+g,y0:0,y1:H-t,z0:gz,z1:gz+g,kind:"p"});
@@ -4901,16 +4953,20 @@ function buildModule(cfg){
   if(cfg.type==="letto"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=cfg.t, sh=300, sy=150;
     const pieces=[],boxes=[];
-    const add=(el,lu,la,pz,bo,mat)=>{ if(!(pz>0&&lu>0&&la>0)) return;
+    const add=(el,lu,la,pz,bo,mat,role)=>{ if(!(pz>0&&lu>0&&la>0)) return;
       if(bo&&!mat&&!takesEdge(cfg,el)) bo="";               // materiale che non si borda
       /* cota FINITA, come nella carcassa: una distinta sola non puo portare
          due convenzioni diverse a seconda della riga */
-      pieces.push({elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat}); };
-    add("Testiera",L,H,1,"2L+2C");
-    add("Pediera",L,400,1,"2L+2C");
-    add("Sponda laterale",P-2*t,sh,2,"1L");
-    add("Traversa centrale",P-2*t,120,1,"");
-    add("Doga faggio 68mm",L-2*t-10,68,14,"","Accessorio — doga faggio curvata 68mm");
+      const o={elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat};
+      if(role){ o.role=role;
+        const ax=typeof axesFor==="function"?axesFor(role):null;
+        if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
+      pieces.push(o); };
+    add("Testiera",L,H,1,"2L+2C",null,"frontale");
+    add("Pediera",L,400,1,"2L+2C",null,"frontale");
+    add("Sponda laterale",P-2*t,sh,2,"1L",null,"fianco");
+    add("Traversa centrale",P-2*t,120,1,"",null,"traversa");
+    add("Doga faggio 68mm",L-2*t-10,68,14,"","Accessorio — doga faggio curvata 68mm","accessorio");
     boxes.push({x0:0,x1:L,y0:0,y1:H,z0:0,z1:t,kind:"p"});
     boxes.push({x0:0,x1:L,y0:0,y1:400,z0:P-t,z1:P,kind:"p"});
     boxes.push({x0:0,x1:t,y0:sy,y1:sy+sh,z0:t,z1:P-t,kind:"p"});
@@ -4934,7 +4990,10 @@ function buildModule(cfg){
     const warn={};
     const S0=(typeof state!=="undefined"&&state.settings)||{};
     const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
-    const add=o=>{ if(o.lung>0&&o.larg>0&&o.pz>0) pieces.push(o); };
+    const add=o=>{ if(!(o.lung>0&&o.larg>0&&o.pz>0)) return;
+      if(o.role){ const ax=typeof axesFor==="function"?axesFor(o.role):null;
+        if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
+      pieces.push(o); };
 
     const oval=Math.abs(L-P)>1;
     const shape=oval?"ovale":"tondo";
@@ -4955,15 +5014,15 @@ function buildModule(cfg){
     const rMin=bSemi*bSemi/aSemi;
     const kp=kerfPlan(t,segLen,360/nSeg,{w:Math.min(3,S0.kerf||3),radius:rMin});
     if(kp&&kp.tight) warn.kerfTight=1;
-    add({elemento:nSeg>1?`Fascia (1/${nSeg})`:"Fascia",lung:Math.round(segLen),larg:Math.round(bandH),
+    add({elemento:nSeg>1?`Fascia (1/${nSeg})`:"Fascia",role:"fianco",lung:Math.round(segLen),larg:Math.round(bandH),
          pz:nSeg,bordo:"",mat:null,curve:{dev:+dev.toFixed(1),seg:nSeg,angle:+(360/nSeg).toFixed(1),kerf:kp}});
 
     /* --- piani tondi: fondo, cielo, ripiani --- */
     const shelves=Math.max(0,Math.min(10,cfg.shelves|0));
-    add({elemento:"Fondo / Cielo tondo",lung:Math.round(inL),larg:Math.round(inP),pz:2,
+    add({elemento:"Fondo / Cielo tondo",role:"base_cielo",lung:Math.round(inL),larg:Math.round(inP),pz:2,
          bordo:"",mat:null,shape});
     if(shelves>0)
-      add({elemento:"Ripiano tondo",lung:Math.round(inL),larg:Math.round(inP),pz:shelves,
+      add({elemento:"Ripiano tondo",role:"ripiano",lung:Math.round(inL),larg:Math.round(inP),pz:shelves,
            bordo:cfg.shelfEdge===0?"":"1L",mat:null,shape});
 
     /* --- 3D: la fascia e un prisma a base ellittica, i piani sono dischi --- */
@@ -4987,7 +5046,10 @@ function buildModule(cfg){
     const pieces=[],boxes=[],warn={};
     const S0=(typeof state!=="undefined"&&state.settings)||{};
     const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
-    const add=o=>{ if(o.lung>0&&o.larg>0&&o.pz>0) pieces.push(o); };
+    const add=o=>{ if(!(o.lung>0&&o.larg>0&&o.pz>0)) return;
+      if(o.role){ const ax=typeof axesFor==="function"?axesFor(o.role):null;
+        if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
+      pieces.push(o); };
     /* raggio: non piu di meta larghezza ne della profondita, o il raccordo si
        mangia il corpo e i due archi si toccano */
     const r=Math.max(10,Math.min(+(cfg.rcorner||60),L/2-1,P-1));
@@ -5000,7 +5062,7 @@ function buildModule(cfg){
     const nSeg=segMax?Math.max(1,Math.ceil(dev/segMax)):1;
     const kp=kerfPlan(t,arc,90,{w:Math.min(3,S0.kerf||3),radius:r});
     if(kp&&kp.tight) warn.kerfTight=1;
-    add({elemento:nSeg>1?`Fascia raccordata (1/${nSeg})`:"Fascia raccordata",
+    add({elemento:nSeg>1?`Fascia raccordata (1/${nSeg})`:"Fascia raccordata",role:"fianco",
          lung:Math.round(dev/nSeg),larg:Math.round(bandH),pz:nSeg,bordo:"",mat:null,
          curve:{dev:+dev.toFixed(1),seg:nSeg,angle:90,radius:Math.round(r),kerf:kp,
                 /* dove cominciano i due archi, misurati dall'inizio della fascia:
@@ -5009,14 +5071,14 @@ function buildModule(cfg){
 
     const shelves=Math.max(0,Math.min(10,cfg.shelves|0));
     const inL=L-2*t, inP=P-t;
-    add({elemento:"Fondo / Cielo raccordato",lung:Math.round(inL),larg:Math.round(inP),pz:2,
+    add({elemento:"Fondo / Cielo raccordato",role:"base_cielo",lung:Math.round(inL),larg:Math.round(inP),pz:2,
          bordo:"",mat:null,shape:"raccordo",rc:Math.round(Math.max(0,r-t))});
     if(shelves>0)
-      add({elemento:"Ripiano raccordato",lung:Math.round(inL),larg:Math.round(inP),pz:shelves,
+      add({elemento:"Ripiano raccordato",role:"ripiano",lung:Math.round(inL),larg:Math.round(inP),pz:shelves,
            bordo:cfg.shelfEdge===0?"":"1L",mat:null,shape:"raccordo",rc:Math.round(Math.max(0,r-t))});
     if(cfg.back){
       const bm=matById(cfg.matBack||S0.matBack||"pfl3");
-      add({elemento:"Schienale",lung:Math.round(inL),larg:Math.round(H-2*t),pz:1,bordo:"",
+      add({elemento:"Schienale",role:"schienale",lung:Math.round(inL),larg:Math.round(H-2*t),pz:1,bordo:"",
            mat:bm?bm.label:null});
     }
     /* 3D: pianta = rettangolo con due angoli anteriori in arco. Convessa, quindi
@@ -5701,6 +5763,10 @@ function generateInto(p,cfg){
   const rows=pieces.map(x=>({id:uid(),gen:cfg.name,
     modulo:x.wing?`${cfg.name} ${x.wing}`:cfg.name,
     elemento:x.elemento,lung:x.lung,larg:x.larg,pz:x.pz,bordo:x.bordo,
+    /* ruolo e assi viaggiano CON la riga salvata: il controllo di chiusura
+       gira anche su un progetto riaperto domani, non solo su quello appena
+       generato. */
+    role:x.role||null, axis_mapping:x.axis_mapping||null,
     angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
     materiale:x.mat||(isFront(x.elemento)?frontMat:/^schienale/i.test(x.elemento)?backMat:defMat)}));
   p.pieces=p.pieces.filter(q=>q.gen!==cfg.name&&q.modulo!==cfg.name).concat(rows);
@@ -9062,7 +9128,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.26.0"; /* APP_VER-MARKER */
+const APP_VER="4.27.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
