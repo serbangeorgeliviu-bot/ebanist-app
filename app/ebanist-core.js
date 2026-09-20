@@ -295,7 +295,12 @@ function deriveCarcass(params) {
     D_fianco = D;
     D_bc = D;
     back_W = Wi + 2 * nut_d;
-    back_H = (H - h_base - 2 * t_fianco) + 2 * nut_d;
+    /* lo schienale in cava corre fra base e cielo, e entra di `nut_d` per
+       lato. `2 * t_fianco` era giusto finche base, cielo e fianco avevano la
+       stessa grossezza: con un cielo da 25 su struttura da 19 lo schienale
+       usciva 6 mm troppo lungo e non entrava nella cava. Sono la base e il
+       cielo a togliergli altezza, non i fianchi. */
+    back_H = (H - h_base - SP.base - SP.cielo) + 2 * nut_d;
     piano_interno = nut_off + t_back;
   }
 
@@ -552,7 +557,48 @@ var ASSERTIONS = [
   { id: "A11", severity: "blocking", confidence: "alta",
     when: "1", then: "aria_per_material == 1",
     why: "Aria netă amestecă materiale diferite: metrii pătrați trebuie raportați grupat pe material.",
-    source: "auditul v4.24" }
+    source: "auditul v4.24" },
+
+  /* --- cote care pot deveni negative cand se schimba materialul ---------
+     Retrasarile, jocurile si rezerva de glisiera sunt constante de montaj:
+     raman aceleasi cand placa trece de la 18 la 25. Corpul insa se strange,
+     si o cota interna poate trece prin zero fara ca nimic sa o observe.
+     Astea sunt strajile. Fiecare spune ce material sa fie schimbat. */
+
+  { id: "A12", severity: "blocking", confidence: "alta",
+    when: "1", then: "L_int > 0",
+    why: "Cele două laterale sunt împreună mai groase decât lățimea corpului: nu mai rămâne lumină interioară.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A13", severity: "blocking", confidence: "alta",
+    when: "1", then: "H_int > 0",
+    why: "Baza, tavanul și zoccolo-ul ocupă toată înălțimea corpului: nu mai rămâne nimic înăuntru.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A14", severity: "blocking", confidence: "alta",
+    when: "1", then: "P_int > 0",
+    why: "Spatele ocupă toată adâncimea corpului: nu mai rămâne adâncime utilă.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A15", severity: "blocking", confidence: "alta",
+    when: "1", then: "ripiano_D > 0 && ripiano_W > 0",
+    why: "Retrasarea poliței depășește adâncimea utilă, sau jocul depășește lățimea: polița iese cu cotă negativă.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A16", severity: "blocking", confidence: "alta",
+    when: "n_ante > 0", then: "anta_W > 0 && anta_H > 0",
+    why: "Jocurile declarate depășesc gabaritul: ușa iese cu cotă zero sau negativă.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A17", severity: "blocking", confidence: "alta",
+    when: "n_divisorio > 0", then: "sectiune_W > 0",
+    why: "Tramezzii sunt împreună mai groși decât lumina interioară: nu mai rămâne nicio secțiune.",
+    source: "grosime derivată din material (v4.27)" },
+
+  { id: "A18", severity: "blocking", confidence: "alta",
+    when: "rezerva_glisiera > 0", then: "P_cassetto_max > 0",
+    why: "Rezerva glisierei depășește adâncimea utilă: sertarul nu are unde să intre.",
+    source: "catalog glisiere (v4.27)" }
 ];
 
 /* Valutatore minimo: numeri, identificatori, confronti, && || !, + - * / e
@@ -619,8 +665,19 @@ function assertionEnv(d, ctx) {
   for (k in d.in) if (Object.prototype.hasOwnProperty.call(d.in, k)) e[k] = d.in[k];
   var outs = ["Wi", "D_fianco", "H_fianco", "D_bc", "piano_interno", "back_W", "back_H",
               "ripiano_W", "ripiano_D", "zoccolo_W", "zoccolo_H", "reveal",
-              "anta_W", "anta_H", "anta_y0", "anta_y1", "n_cerniere"];
+              "anta_W", "anta_H", "anta_y0", "anta_y1", "n_cerniere",
+              /* le cote con i nomi di specifica: le regole nuove usano queste */
+              "P_int", "L_int", "H_int", "sectiune_W", "rezerva_glisiera",
+              "P_cassetto_max", "L_cassetto",
+              "sp_fianco", "sp_base", "sp_cielo", "sp_schienale", "sp_ripiano",
+              "sp_frontale", "sp_zoccolo", "sp_divisorio"];
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
+  /* le cote che possono valere zero (un corpo senza ante, senza cassetti)
+     devono comunque ESISTERE nell'ambiente, o la regola cade per "cota
+     assente" invece di dire la verita. */
+  var zeros = ["rezerva_glisiera", "n_divisorio"];
+  for (var z = 0; z < zeros.length; z++)
+    if (e[zeros[z]] == null) e[zeros[z]] = (d[zeros[z]] != null ? d[zeros[z]] : (d.in[zeros[z]] || 0));
   e.cerniere = d.cerniere || [];
   e.h_base = (d.in.h_zoccolo || 0) + (d.in.piedini > 0 ? (d.in.h_picior || 0) : 0);
   /* Le ante escono arrotondate al mm: su una larghezza che non si divide
