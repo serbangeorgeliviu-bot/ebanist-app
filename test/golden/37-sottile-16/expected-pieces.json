@@ -1,0 +1,85 @@
+{
+ "validat": false,
+ "nume": "37-sottile-16",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": {
+  "L_int": 768,
+  "H_int": 1568,
+  "P_int": 337,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 16,
+   "base": 16,
+   "cielo": 16,
+   "schienale": 3,
+   "ripiano": 16,
+   "frontale": 16,
+   "zoccolo": 16,
+   "divisorio": 16
+  },
+  "sectiune_W": 768,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 5,
+ "n_piese": 10,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 1600,
+   "larg": 350,
+   "pz": 2,
+   "sp": 16,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 768,
+   "larg": 350,
+   "pz": 2,
+   "sp": 16,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 766,
+   "larg": 317,
+   "pz": 3,
+   "sp": 16,
+   "bordo": "1L",
+   "ys": [
+    408,
+    800,
+    1192
+   ]
+  },
+  {
+   "elemento": "Anta",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 1594,
+   "larg": 395,
+   "pz": 2,
+   "sp": 16,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1584,
+   "larg": 784,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "validat": false,
+ "nume": "13-scrivania",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 3,
+ "n_piese": 4,
+ "pieces": [
+  {
+   "elemento": "Piano scrivania",
+   "role": "cielo",
+   "ax": "L/P/H",
+   "lung": 1400,
+   "larg": 650,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 725,
+   "larg": 600,
+   "pz": 2,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Pannello posteriore",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 1350,
+   "larg": 338,
+   "pz": 1,
+   "sp": null,
+   "bordo": "1L"
+  }
+ ]
+}

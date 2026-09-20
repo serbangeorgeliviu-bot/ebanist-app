@@ -1,0 +1,84 @@
+{
+ "validat": false,
+ "nume": "28-libreria-18",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": {
+  "L_int": 1844,
+  "H_int": 739,
+  "P_int": 269,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 18,
+   "base": 18,
+   "cielo": 18,
+   "schienale": 3,
+   "ripiano": 18,
+   "frontale": 18,
+   "zoccolo": 18,
+   "divisorio": 18
+  },
+  "sectiune_W": 603,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 5,
+ "n_piese": 13,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 775,
+   "larg": 282,
+   "pz": 2,
+   "sp": 18,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 1844,
+   "larg": 282,
+   "pz": 2,
+   "sp": 18,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Tramezzo",
+   "role": "divisorio",
+   "ax": "H/P/L",
+   "lung": 739,
+   "larg": 249,
+   "pz": 2,
+   "sp": 18,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 600,
+   "larg": 249,
+   "pz": 6,
+   "sp": 18,
+   "bordo": "1L",
+   "ys": [
+    264.33333333333337,
+    510.6666666666667
+   ]
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 1860,
+   "larg": 755,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

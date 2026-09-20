@@ -1,0 +1,54 @@
+{
+ "validat": false,
+ "nume": "14-tavolo",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 4,
+ "n_piese": 9,
+ "pieces": [
+  {
+   "elemento": "Piano tavolo",
+   "role": "cielo",
+   "ax": "L/P/H",
+   "lung": 1600,
+   "larg": 900,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Traversa telaio",
+   "role": "traversa",
+   "ax": "L/H/P",
+   "lung": 1320,
+   "larg": 80,
+   "pz": 2,
+   "sp": null,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Traversa telaio corta",
+   "role": "traversa",
+   "ax": "L/H/P",
+   "lung": 620,
+   "larg": 80,
+   "pz": 2,
+   "sp": null,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Gamba legno 70×70",
+   "role": "accessorio",
+   "ax": null,
+   "lung": 735,
+   "larg": 70,
+   "pz": 4,
+   "sp": null,
+   "bordo": "",
+   "mat": "Accessorio — gamba legno massello 70×70"
+  }
+ ]
+}

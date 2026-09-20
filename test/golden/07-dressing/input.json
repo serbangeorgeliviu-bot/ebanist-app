@@ -1,0 +1,153 @@
+{
+ "nume": "07-dressing",
+ "cfg": {
+  "L": 1800,
+  "L2": 900,
+  "H": 2200,
+  "P": 500,
+  "plinth": 80,
+  "tram": 2,
+  "shelves": 2,
+  "drawers": 2,
+  "doors": 0,
+  "back": 1,
+  "hang": 1,
+  "support": "zoccolo",
+  "front": "piena",
+  "handles": "maniglia",
+  "shelfType": "mobile",
+  "boxes": 1,
+  "corner": "sx",
+  "cornerKind": "int",
+  "drawerSys": "legno",
+  "drawerDist": "uguali",
+  "drawerPos": "auto",
+  "drawerFH": 200,
+  "drawerZone": 0,
+  "drawerInset": 35,
+  "angL": 90,
+  "angR": 90,
+  "bow": 0,
+  "rcorner": 60,
+  "hangGap": 1000,
+  "shelfEven": 1,
+  "shelfStep": 320,
+  "name": "Corp",
+  "type": "standard",
+  "matBody": "m19",
+  "matFront": "m19",
+  "matBack": "hdf3"
+ },
+ "settings": {
+  "panelL": 2800,
+  "panelW": 2070,
+  "kerf": 4,
+  "priceM2": 42,
+  "priceMl": 1.2,
+  "waste": 15,
+  "matBody": "m19",
+  "matFront": "m19",
+  "matBack": "hdf3",
+  "matOvr": {},
+  "matAdd": [
+   {
+    "id": "m16",
+    "l": {
+     "it": "m16"
+    },
+    "th": 16,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   },
+   {
+    "id": "m18",
+    "l": {
+     "it": "m18"
+    },
+    "th": 18,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   },
+   {
+    "id": "m19",
+    "l": {
+     "it": "m19"
+    },
+    "th": 19,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   },
+   {
+    "id": "m25",
+    "l": {
+     "it": "m25"
+    },
+    "th": 25,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   },
+   {
+    "id": "hdf3",
+    "l": {
+     "it": "hdf3"
+    },
+    "th": 3,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   },
+   {
+    "id": "hdf5",
+    "l": {
+     "it": "hdf5"
+    },
+    "th": 5,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   },
+   {
+    "id": "m18back",
+    "l": {
+     "it": "m18back"
+    },
+    "th": 18,
+    "price": 1,
+    "c": "#eeeeee",
+    "tx": "solid",
+    "pw": 2800,
+    "ph": 2070
+   }
+  ],
+  "hwProd": {
+   "cern": "blum_71b3550",
+   "guida": "blum_tandem",
+   "man": "gen_man",
+   "sup": "haf_sup",
+   "asta": "gen_asta",
+   "pied": "haf_axilo",
+   "bin": "haf_slido",
+   "conn": "haf_minifix",
+   "push": "blum_tipon_a"
+  },
+  "hwOvr": {},
+  "costMode": "area",
+  "decor_directional": false
+ }
+}

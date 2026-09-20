@@ -1,0 +1,122 @@
+{
+ "validat": false,
+ "nume": "08-mobile-tv",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": {
+  "L_int": 1762,
+  "H_int": 352,
+  "P_int": 387,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 872,
+  "rezerva_glisiera": 12
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 9,
+ "n_piese": 22,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 390,
+   "larg": 400,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 1762,
+   "larg": 400,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Piedino regolabile",
+   "role": "accessorio",
+   "ax": null,
+   "lung": 60,
+   "larg": 50,
+   "pz": 4,
+   "sp": null,
+   "bordo": "",
+   "mat": "Accessorio — piedino regolabile"
+  },
+  {
+   "elemento": "Tramezzo",
+   "role": "divisorio",
+   "ax": "H/P/L",
+   "lung": 352,
+   "larg": 367,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Frontale cassetto",
+   "role": "cassetto_frontale",
+   "ax": "H/L/P",
+   "lung": 386,
+   "larg": 897,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Fianco cassetto",
+   "role": "cassetto_fianco",
+   "ax": "P/H/L",
+   "lung": 350,
+   "larg": 341,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Fronte/Retro cassetto",
+   "role": "cassetto_fianco",
+   "ax": "L/H/P",
+   "lung": 792,
+   "larg": 341,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Fondo cassetto",
+   "role": "cassetto_fondo",
+   "ax": "L/P/H",
+   "lung": 792,
+   "larg": 330,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "",
+   "mat": "HDF 5mm"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "L/H/P",
+   "lung": 1778,
+   "larg": 368,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}

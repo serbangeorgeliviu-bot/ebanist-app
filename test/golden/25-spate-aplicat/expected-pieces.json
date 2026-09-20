@@ -1,0 +1,104 @@
+{
+ "validat": false,
+ "nume": "25-spate-aplicat",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": {
+  "L_int": 962,
+  "H_int": 2082,
+  "P_int": 582,
+  "tip_schienale": "applicato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 18,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 472,
+  "rezerva_glisiera": 0
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 7,
+ "n_piese": 13,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 2200,
+   "larg": 582,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 962,
+   "larg": 582,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Zoccolo",
+   "role": "zoccolo",
+   "ax": "L/H/P",
+   "lung": 962,
+   "larg": 80,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Tramezzo",
+   "role": "divisorio",
+   "ax": "H/P/L",
+   "lung": 2082,
+   "larg": 562,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Ripiano mobile",
+   "role": "ripiano",
+   "ax": "L/P/H",
+   "lung": 469,
+   "larg": 562,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "1L",
+   "ys": [
+    793,
+    1487
+   ]
+  },
+  {
+   "elemento": "Anta",
+   "role": "frontale",
+   "ax": "H/L/P",
+   "lung": 2114,
+   "larg": 495,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 2200,
+   "larg": 1000,
+   "pz": 1,
+   "sp": 18,
+   "bordo": ""
+  }
+ ]
+}

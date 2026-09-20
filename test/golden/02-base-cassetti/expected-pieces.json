@@ -1,0 +1,111 @@
+{
+ "validat": false,
+ "nume": "02-base-cassetti",
+ "generat": "2026-09-20",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": {
+  "L_int": 562,
+  "H_int": 582,
+  "P_int": 547,
+  "tip_schienale": "scanalato",
+  "sp": {
+   "fianco": 19,
+   "base": 19,
+   "cielo": 19,
+   "schienale": 3,
+   "ripiano": 19,
+   "frontale": 19,
+   "zoccolo": 19,
+   "divisorio": 19
+  },
+  "sectiune_W": 562,
+  "rezerva_glisiera": 12
+ },
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 8,
+ "n_piese": 30,
+ "pieces": [
+  {
+   "elemento": "Fianco",
+   "role": "fianco",
+   "ax": "H/P/L",
+   "lung": 720,
+   "larg": 560,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Base / Cielo",
+   "role": "base_cielo",
+   "ax": "L/P/H",
+   "lung": 562,
+   "larg": 560,
+   "pz": 2,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Zoccolo",
+   "role": "zoccolo",
+   "ax": "L/H/P",
+   "lung": 562,
+   "larg": 100,
+   "pz": 1,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Frontale cassetto",
+   "role": "cassetto_frontale",
+   "ax": "H/L/P",
+   "lung": 152,
+   "larg": 596,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "2L+2C"
+  },
+  {
+   "elemento": "Fianco cassetto",
+   "role": "cassetto_fianco",
+   "ax": "P/H/L",
+   "lung": 500,
+   "larg": 107,
+   "pz": 8,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Fronte/Retro cassetto",
+   "role": "cassetto_fianco",
+   "ax": "L/H/P",
+   "lung": 482,
+   "larg": 107,
+   "pz": 8,
+   "sp": 19,
+   "bordo": "1L"
+  },
+  {
+   "elemento": "Fondo cassetto",
+   "role": "cassetto_fondo",
+   "ax": "L/P/H",
+   "lung": 482,
+   "larg": 480,
+   "pz": 4,
+   "sp": 19,
+   "bordo": "",
+   "mat": "HDF 5mm"
+  },
+  {
+   "elemento": "Schienale",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 598,
+   "larg": 578,
+   "pz": 1,
+   "sp": 3,
+   "bordo": ""
+  }
+ ]
+}
