@@ -111,10 +111,18 @@ describe("Grossezze MISTE sullo stesso corpo", () => {
     /* con `2*t_fianco` sarebbe uscito 2098 e non sarebbe entrato nella cava */
     assert.equal(M.by("schienale").lung, 2092);
   });
+  test("base e cielo escono in DUE righe, non in una", () => {
+    /* con grossezze diverse non sono piu lo stesso pezzo: una riga sola da
+       2 pz manderebbe in segheria due pannelli uguali, uno dei due tagliato
+       dalla lastra sbagliata. */
+    assert.equal(M.by("base").sp, 19);
+    assert.equal(M.by("cielo").sp, 25);
+    assert.equal(M.by("base_cielo"), undefined);
+  });
   test("il gabarito esterno resta 1000 x 2200 x 600", () => {
     assert.equal(M.by("fianco").lung, 2200);
     assert.equal(M.by("fianco").larg, 600);
-    assert.equal(M.by("base_cielo").lung + 2 * 19, 1000);
+    assert.equal(M.by("base").lung + 2 * 19, 1000);
   });
 });
 

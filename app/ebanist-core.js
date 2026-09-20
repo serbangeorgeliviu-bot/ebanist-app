@@ -489,6 +489,173 @@ function deriveCarcass(params) {
   });
 }
 
+/* --- LA RICOSTRUZIONE INVERSA DEL GABARITO --------------------------------
+ *
+ * Questo e il controllo che avrebbe preso il guasto della libreria SENZA che
+ * nessuno sapesse del guasto.
+ *
+ * L'idea: la distinta non e una lista di numeri, e un mobile smontato. Se si
+ * rimettono insieme i pezzi — ognuno con la SUA grossezza e con gli assi che
+ * porta scritti addosso — si deve riottenere il gabarito che il cliente ha
+ * ordinato. Se non torna, la distinta descrive un altro mobile.
+ *
+ * Tolleranza: ZERO millimetri. Non e severita per gusto. Le cote in distinta
+ * sono intere e il gabarito e intero: se la somma non torna esatta, manca
+ * qualcosa — non e rumore di arrotondamento. Il guasto della libreria era di
+ * 18 mm, ma quello successivo potrebbe essere di 1, e un millimetro di
+ * tolleranza lo lascerebbe passare.
+ *
+ * Non si misura una catena sola: se ne misurano SEI, che partono da pezzi
+ * diversi e devono arrivare allo stesso numero. Una sola catena verifica che
+ * il generatore sia d'accordo con se stesso; sei catene verificano che i
+ * pezzi stiano davvero insieme.
+ *
+ * PURA: entra un corpo, dei pezzi e le cote derivate; esce una lista di
+ * scostamenti. Nessuno stato, nessun effetto.
+ */
+
+/* I tronconi di un pezzo spezzato tornano un pezzo solo. Un fianco da 2800
+   tagliato in due da 1400 e ALTO 2800: misurare il primo troncone e
+   dichiarare il corpo alto la meta. */
+function closureRow(pieces, role) {
+  var rows = [], i, p;
+  for (i = 0; i < (pieces || []).length; i++) {
+    p = pieces[i];
+    if (!p || p.role !== role) continue;
+    rows.push(p);
+  }
+  if (!rows.length) return null;
+  var segs = rows.filter(function (r) { return r.seg && r.seg.n > 1; });
+  if (segs.length) {
+    var lung = 0;
+    for (i = 0; i < segs.length; i++) lung += +segs[i].lung || 0;
+    return { lung: lung, larg: +segs[0].larg || 0, sp: segs[0].sp,
+             pz: +segs[0].pz || 0, axes: segs[0].axis_mapping,
+             nomi: segs.map(function (r) { return r.elemento; }) };
+  }
+  return { lung: +rows[0].lung || 0, larg: +rows[0].larg || 0, sp: rows[0].sp,
+           pz: +rows[0].pz || 0, axes: rows[0].axis_mapping,
+           nomi: [rows[0].elemento] };
+}
+/* base e cielo escono in una riga sola quando sono lo stesso pezzo, e in due
+   quando le grossezze si separano: chi cerca la base le trova in tutti e due
+   i casi. */
+function closureBC(pieces, which) {
+  return closureRow(pieces, which) || closureRow(pieces, "base_cielo");
+}
+/* Quale cota del pezzo corre lungo l'asse chiesto. Lo dice `axis_mapping`,
+   che il generatore ha scritto sul pezzo: NON si indovina dall'ordine. */
+function alongAxis(row, axis) {
+  if (!row || !row.axes) return null;
+  if (row.axes.lung === axis) return row.lung;
+  if (row.axes.larg === axis) return row.larg;
+  return null;
+}
+
+function validateCarcassClosure(corpo, pieces, geometry) {
+  var out = [];
+  var c = corpo || {}, G = geometry || {};
+  var W = +(c.W != null ? c.W : c.L);
+  var H = +c.H;
+  var D = +(c.D != null ? c.D : c.P);
+  if (!(W > 0 && H > 0 && D > 0)) return out;   /* non e un corpo: niente da chiudere */
+
+  var fianco = closureRow(pieces, "fianco") || closureRow(pieces, "fianco_sx");
+  /* nessun fianco = non e una cassa (un tavolo, un letto). Non si inventa un
+     corpo che non c'e. */
+  if (!fianco) return out;
+
+  var base = closureBC(pieces, "base"), cielo = closureBC(pieces, "cielo");
+  var back = closureRow(pieces, "schienale");
+  var divis = closureRow(pieces, "divisorio");
+
+  var tip = G.tip_schienale || "incassato";
+  var spBack = back ? (+back.sp || 0) : 0;
+  var spF = +G.sp_fianco || (+fianco.sp || 0);
+  var spB = base ? (+base.sp || 0) : (+G.sp_base || 0);
+  var spC = cielo ? (+cielo.sp || 0) : (+G.sp_cielo || 0);
+  var inp = G.in || {};
+  var h_base = +inp.h_base || 0;
+  var h_picior = (inp.piedini > 0) ? (+inp.h_picior || 0) : 0;
+  var nut_d = +inp.nut_d || 0;
+
+  function add(axa, chain, nominal, calc, piese, why) {
+    if (calc == null) return;
+    var delta = +(calc - nominal).toFixed(3);
+    if (delta === 0) return;
+    out.push({ axa: axa, chain: chain, valoare_nominala: nominal,
+               valoare_calculata: calc, delta: delta,
+               piese_implicate: piese, why: why });
+  }
+
+  /* ---- PROFONDITA -------------------------------------------------------
+     applicato  -> P = P_fianco + sp_schienale   (lo schienale sta DIETRO)
+     incassato  -> P = P_fianco                  (sta fra i fianchi)
+     scanalato  -> P = P_fianco                  (corre in una cava) */
+  var dietro = (tip === "applicato") ? spBack : 0;
+  var pF = alongAxis(fianco, "P");
+  add("P", "fianco+schienale", D, (pF == null ? null : pF + dietro),
+      fianco.nomi.concat(back && dietro ? back.nomi : []),
+      "Adâncimea recompusă din laterală (plus spatele, dacă e aplicat) nu dă adâncimea nominală a corpului.");
+
+  if (base) {
+    /* base e cielo arretrano di quanto lo schienale ruba in profondita: in
+       cava non ruba niente, negli altri due modi ruba la sua grossezza. */
+    var pB = alongAxis(base, "P");
+    add("P", "base+schienale", D,
+        (pB == null ? null : pB + (tip === "scanalato" ? 0 : spBack)),
+        base.nomi.concat(back ? back.nomi : []),
+        "Adâncimea recompusă din bază/tavan nu dă adâncimea nominală: fie baza e prea scurtă, fie spatele nu se scade coerent.");
+  }
+
+  /* ---- LARGHEZZA --------------------------------------------------------
+     Su un corpo FUORI SQUADRO la riga di base porta il rettangolo di sbozzo
+     di un trapezio, non la luce interna: la catena non chiude e non deve
+     chiudere. Si dichiara saltata invece di dare un falso allarme — o, peggio,
+     di essere allentata per tutti. */
+  var squadro = !(isAngle(inp.angL) || isAngle(inp.angR) ||
+                  isAngle(c.angL) || isAngle(c.angR));
+  if (base && squadro)
+    add("L", "base+2×fianco", W, alongAxis(base, "L") + 2 * spF,
+        base.nomi.concat(fianco.nomi),
+        "Lățimea recompusă din bază plus cele două laterale nu dă lățimea nominală.");
+
+  if (back && squadro) {
+    var bl = alongAxis(back, "L");
+    /* incassato: fra i fianchi. applicato: largo quanto il corpo.
+       scanalato: entra di `nut_d` per lato nella cava. */
+    var calcL = (bl == null) ? null
+      : (tip === "applicato") ? bl
+      : (tip === "scanalato") ? bl + 2 * spF - 2 * nut_d
+      : bl + 2 * spF;
+    add("L", "schienale(" + tip + ")", W, calcL,
+        back.nomi.concat(fianco.nomi),
+        "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.");
+  }
+
+  /* ---- ALTEZZA ----------------------------------------------------------
+     Sui piedini il fianco si ferma sopra di loro; sullo zoccolo arriva a
+     terra. In tutti e due i casi il corpo e alto H. */
+  add("H", "fianco+piedini", H, alongAxis(fianco, "H") + h_picior,
+      fianco.nomi,
+      "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.");
+
+  /* La catena che entra DENTRO il corpo: zoccolo/piedini, base, luce interna,
+     cielo. E' quella che si accorge di una base o di un cielo tagliati con la
+     grossezza sbagliata — il tramezzo e lungo esattamente la luce interna. */
+  if (divis) {
+    var hi = alongAxis(divis, "H");
+    add("H", "zoccolo+base+interno+cielo", H,
+        (hi == null ? null : h_base + spB + hi + spC),
+        divis.nomi.concat(base ? base.nomi : []).concat(cielo ? cielo.nomi : []),
+        "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.");
+  }
+
+  return out;
+}
+/* un angolo e "fuori squadro" solo se e dichiarato e diverso da 90 */
+function isAngle(v) { return typeof v === "number" && isFinite(v) && Math.abs(v - 90) > 0.01; }
+
 /* --- asserzioni ----------------------------------------------------------
  * LE ASSERZIONI SONO DATI, NON CODICE. Un array di oggetti: si aggiunge una
  * regola scrivendo una riga, non ricompilando il motore. `when` e `then` sono
@@ -755,6 +922,7 @@ var API = {
      esattamente il guasto che questo file esiste per impedire. */
   computeCarcassGeometry: deriveCarcass,
   deriveCarcass: deriveCarcass,
+  validateCarcassClosure: validateCarcassClosure,
   positionsHinges: positionsHinges,
   hingeCount: hingeCount,
   ASSERTIONS: ASSERTIONS,
