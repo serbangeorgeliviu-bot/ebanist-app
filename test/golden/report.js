@@ -6,16 +6,23 @@ const DIR = __dirname;
 const L = [];
 const doc = n => JSON.parse(fs.readFileSync(path.join(DIR, n, "expected-pieces.json"), "utf8"));
 
+const nVal = CASES.filter(c => doc(c.name).validat).length;
 L.push("# Casuri golden — foaie de validare\n");
-L.push("Generat cu codul curent. **Niciunul nu e golden până nu îl confirmi.**");
-L.push("Ce verifici: cotele să fie cele pe care le-ai tăia tu, cu grosimea scrisă pe rând.\n");
+if (nVal === CASES.length) {
+  L.push(`**Toate cele ${CASES.length} sunt validate** (${doc(CASES[0].name).validat_la || "—"}, ${doc(CASES[0].name).validat_de || "—"}).`);
+  L.push("De aici înainte orice abatere de la cotele de mai jos e o cădere de test, nu o schimbare tăcută.");
+  L.push("Se rescriu doar cu `node golden/gen.js --force`, și numai după o nouă verificare manuală.\n");
+} else {
+  L.push(`Generat cu codul curent. **${CASES.length - nVal} din ${CASES.length} nu sunt încă golden.**`);
+  L.push("Ce verifici: cotele să fie cele pe care le-ai tăia tu, cu grosimea scrisă pe rând.\n");
+}
 L.push("## Sinteză\n");
-L.push("| # | caz | L×H×P | grosimi | spate | rânduri | buc | închidere | invarianți |");
-L.push("|---|---|---|---|---|---|---|---|---|");
+L.push("| # | caz | L×H×P | grosimi | spate | rânduri | buc | închidere | invarianți | validat |");
+L.push("|---|---|---|---|---|---|---|---|---|---|");
 for (const cs of CASES) {
   const d = doc(cs.name), g = d.geometrie;
   const sp = g ? [...new Set(Object.values(g.sp))].sort((a, b) => a - b).join("/") : "—";
-  L.push(`| ${cs.name.slice(0, 2)} | \`${cs.name.slice(3)}\` | ${cs.cfg.L}×${cs.cfg.H}×${cs.cfg.P} | ${sp} | ${g ? g.tip_schienale : "—"} | ${d.n_randuri} | ${d.n_piese} | ${d.chiusura_ok ? "✓" : "✗"} | ${d.invarianti_ok ? "✓" : "✗"} |`);
+  L.push(`| ${cs.name.slice(0, 2)} | \`${cs.name.slice(3)}\` | ${cs.cfg.L}×${cs.cfg.H}×${cs.cfg.P} | ${sp} | ${g ? g.tip_schienale : "—"} | ${d.n_randuri} | ${d.n_piese} | ${d.chiusura_ok ? "✓" : "✗"} | ${d.invarianti_ok ? "✓" : "✗"} | ${d.validat ? "✓" : "—"} |`);
 }
 L.push("\n## Perechile 18 / 19 — gabaritul nu se mișcă, cotele interne da\n");
 for (const [a, b] of PAIRS) {

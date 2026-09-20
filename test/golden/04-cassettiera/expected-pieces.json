@@ -1,8 +1,10 @@
 {
- "validat": false,
+ "validat": true,
  "nume": "04-cassettiera",
  "generat": "2026-09-20",
- "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "validat_la": "2026-09-20",
+ "validat_de": "Liviu — Domus Renov",
+ "nota": "Cote verificate manual si confirmate. De aici inainte orice abatere de la ele e o caderea de test, nu o schimbare tacuta. Se rescriu doar cu `node golden/gen.js --force`, si numai dupa o noua verificare manuala.",
  "geometrie": {
   "L_int": 412,
   "H_int": 562,

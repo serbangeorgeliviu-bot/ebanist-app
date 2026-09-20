@@ -1,49 +1,50 @@
 # Casuri golden — foaie de validare
 
-Generat cu codul curent. **Niciunul nu e golden până nu îl confirmi.**
-Ce verifici: cotele să fie cele pe care le-ai tăia tu, cu grosimea scrisă pe rând.
+**Toate cele 37 sunt validate** (2026-09-20, Liviu — Domus Renov).
+De aici înainte orice abatere de la cotele de mai jos e o cădere de test, nu o schimbare tăcută.
+Se rescriu doar cu `node golden/gen.js --force`, și numai după o nouă verificare manuală.
 
 ## Sinteză
 
-| # | caz | L×H×P | grosimi | spate | rânduri | buc | închidere | invarianți |
-|---|---|---|---|---|---|---|---|---|
-| 01 | `armadio` | 1000×2200×600 | 3/19 | scanalato | 12 | 51 | ✓ | ✓ |
-| 02 | `base-cassetti` | 600×720×560 | 3/19 | scanalato | 8 | 30 | ✓ | ✓ |
-| 03 | `libreria` | 1880×775×282 | 3/19 | scanalato | 5 | 13 | ✓ | ✓ |
-| 04 | `cassettiera` | 450×600×500 | 3/19 | scanalato | 7 | 23 | ✓ | ✓ |
-| 05 | `mobile-base` | 800×720×560 | 3/19 | scanalato | 6 | 9 | ✓ | ✓ |
-| 06 | `scorrevole` | 2400×2400×650 | 3/19 | scanalato | 8 | 16 | ✓ | ✓ |
-| 07 | `dressing` | 1800×2200×500 | 3/19 | scanalato | 11 | 53 | ✓ | ✓ |
-| 08 | `mobile-tv` | 1800×450×400 | 3/19 | scanalato | 9 | 22 | ✓ | ✓ |
-| 09 | `pensile` | 800×720×320 | 3/19 | scanalato | 5 | 8 | ✓ | ✓ |
-| 10 | `colonna` | 600×2100×560 | 3/19 | scanalato | 6 | 12 | ✓ | ✓ |
-| 11 | `bagno` | 900×550×460 | 3/19 | scanalato | 7 | 17 | ✓ | ✓ |
-| 12 | `vetrina` | 900×1800×400 | 3/19 | scanalato | 8 | 19 | ✓ | ✓ |
-| 13 | `scrivania` | 1400×750×650 | — | — | 3 | 4 | ✓ | ✓ |
-| 14 | `tavolo` | 1600×760×900 | — | — | 4 | 9 | ✓ | ✓ |
-| 15 | `letto` | 1660×950×2060 | — | — | 5 | 19 | ✓ | ✓ |
-| 16 | `tondo` | 600×1200×600 | — | — | 3 | 6 | ✓ | ✓ |
-| 17 | `ovale` | 900×800×450 | — | — | 3 | 5 | ✓ | ✓ |
-| 18 | `raccordato` | 900×1400×450 | — | — | 4 | 7 | ✓ | ✓ |
-| 19 | `angolare-sx-int` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ |
-| 20 | `angolare-dx-int` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ |
-| 21 | `angolare-sx-ext` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ |
-| 22 | `angolare-dx-ext` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ |
-| 23 | `spate-in-cava` | 1000×2200×600 | 3/19 | scanalato | 7 | 13 | ✓ | ✓ |
-| 24 | `spate-incastrat` | 1000×2200×600 | 18/19 | incassato | 7 | 13 | ✓ | ✓ |
-| 25 | `spate-aplicat` | 1000×2200×600 | 18/19 | applicato | 7 | 13 | ✓ | ✓ |
-| 26 | `armadio-18` | 1000×2200×600 | 3/18 | scanalato | 12 | 51 | ✓ | ✓ |
-| 27 | `armadio-19` | 1000×2200×600 | 3/19 | scanalato | 12 | 51 | ✓ | ✓ |
-| 28 | `libreria-18` | 1880×775×282 | 3/18 | scanalato | 5 | 13 | ✓ | ✓ |
-| 29 | `libreria-19` | 1880×775×282 | 3/19 | scanalato | 5 | 13 | ✓ | ✓ |
-| 30 | `cassettiera-18` | 450×600×500 | 3/18 | scanalato | 7 | 23 | ✓ | ✓ |
-| 31 | `cassettiera-19` | 450×600×500 | 3/19 | scanalato | 7 | 23 | ✓ | ✓ |
-| 32 | `base-18` | 800×720×560 | 3/18 | scanalato | 6 | 9 | ✓ | ✓ |
-| 33 | `base-19` | 800×720×560 | 3/19 | scanalato | 6 | 9 | ✓ | ✓ |
-| 34 | `colonna-18` | 600×2100×560 | 3/18 | scanalato | 6 | 12 | ✓ | ✓ |
-| 35 | `colonna-19` | 600×2100×560 | 3/19 | scanalato | 6 | 12 | ✓ | ✓ |
-| 36 | `grosimi-mixte` | 1000×2200×600 | 3/16/19/25 | scanalato | 8 | 13 | ✓ | ✓ |
-| 37 | `sottile-16` | 800×1600×350 | 3/16 | scanalato | 5 | 10 | ✓ | ✓ |
+| # | caz | L×H×P | grosimi | spate | rânduri | buc | închidere | invarianți | validat |
+|---|---|---|---|---|---|---|---|---|---|
+| 01 | `armadio` | 1000×2200×600 | 3/19 | scanalato | 12 | 51 | ✓ | ✓ | ✓ |
+| 02 | `base-cassetti` | 600×720×560 | 3/19 | scanalato | 8 | 30 | ✓ | ✓ | ✓ |
+| 03 | `libreria` | 1880×775×282 | 3/19 | scanalato | 5 | 13 | ✓ | ✓ | ✓ |
+| 04 | `cassettiera` | 450×600×500 | 3/19 | scanalato | 7 | 23 | ✓ | ✓ | ✓ |
+| 05 | `mobile-base` | 800×720×560 | 3/19 | scanalato | 6 | 9 | ✓ | ✓ | ✓ |
+| 06 | `scorrevole` | 2400×2400×650 | 3/19 | scanalato | 8 | 16 | ✓ | ✓ | ✓ |
+| 07 | `dressing` | 1800×2200×500 | 3/19 | scanalato | 11 | 53 | ✓ | ✓ | ✓ |
+| 08 | `mobile-tv` | 1800×450×400 | 3/19 | scanalato | 9 | 22 | ✓ | ✓ | ✓ |
+| 09 | `pensile` | 800×720×320 | 3/19 | scanalato | 5 | 8 | ✓ | ✓ | ✓ |
+| 10 | `colonna` | 600×2100×560 | 3/19 | scanalato | 6 | 12 | ✓ | ✓ | ✓ |
+| 11 | `bagno` | 900×550×460 | 3/19 | scanalato | 7 | 17 | ✓ | ✓ | ✓ |
+| 12 | `vetrina` | 900×1800×400 | 3/19 | scanalato | 8 | 19 | ✓ | ✓ | ✓ |
+| 13 | `scrivania` | 1400×750×650 | — | — | 3 | 4 | ✓ | ✓ | ✓ |
+| 14 | `tavolo` | 1600×760×900 | — | — | 4 | 9 | ✓ | ✓ | ✓ |
+| 15 | `letto` | 1660×950×2060 | — | — | 5 | 19 | ✓ | ✓ | ✓ |
+| 16 | `tondo` | 600×1200×600 | — | — | 3 | 6 | ✓ | ✓ | ✓ |
+| 17 | `ovale` | 900×800×450 | — | — | 3 | 5 | ✓ | ✓ | ✓ |
+| 18 | `raccordato` | 900×1400×450 | — | — | 4 | 7 | ✓ | ✓ | ✓ |
+| 19 | `angolare-sx-int` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ | ✓ |
+| 20 | `angolare-dx-int` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ | ✓ |
+| 21 | `angolare-sx-ext` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ | ✓ |
+| 22 | `angolare-dx-ext` | 1000×2200×600 | 3/19 | scanalato | 14 | 22 | ✓ | ✓ | ✓ |
+| 23 | `spate-in-cava` | 1000×2200×600 | 3/19 | scanalato | 7 | 13 | ✓ | ✓ | ✓ |
+| 24 | `spate-incastrat` | 1000×2200×600 | 18/19 | incassato | 7 | 13 | ✓ | ✓ | ✓ |
+| 25 | `spate-aplicat` | 1000×2200×600 | 18/19 | applicato | 7 | 13 | ✓ | ✓ | ✓ |
+| 26 | `armadio-18` | 1000×2200×600 | 3/18 | scanalato | 12 | 51 | ✓ | ✓ | ✓ |
+| 27 | `armadio-19` | 1000×2200×600 | 3/19 | scanalato | 12 | 51 | ✓ | ✓ | ✓ |
+| 28 | `libreria-18` | 1880×775×282 | 3/18 | scanalato | 5 | 13 | ✓ | ✓ | ✓ |
+| 29 | `libreria-19` | 1880×775×282 | 3/19 | scanalato | 5 | 13 | ✓ | ✓ | ✓ |
+| 30 | `cassettiera-18` | 450×600×500 | 3/18 | scanalato | 7 | 23 | ✓ | ✓ | ✓ |
+| 31 | `cassettiera-19` | 450×600×500 | 3/19 | scanalato | 7 | 23 | ✓ | ✓ | ✓ |
+| 32 | `base-18` | 800×720×560 | 3/18 | scanalato | 6 | 9 | ✓ | ✓ | ✓ |
+| 33 | `base-19` | 800×720×560 | 3/19 | scanalato | 6 | 9 | ✓ | ✓ | ✓ |
+| 34 | `colonna-18` | 600×2100×560 | 3/18 | scanalato | 6 | 12 | ✓ | ✓ | ✓ |
+| 35 | `colonna-19` | 600×2100×560 | 3/19 | scanalato | 6 | 12 | ✓ | ✓ | ✓ |
+| 36 | `grosimi-mixte` | 1000×2200×600 | 3/16/19/25 | scanalato | 8 | 13 | ✓ | ✓ | ✓ |
+| 37 | `sottile-16` | 800×1600×350 | 3/16 | scanalato | 5 | 10 | ✓ | ✓ | ✓ |
 
 ## Perechile 18 / 19 — gabaritul nu se mișcă, cotele interne da
 
