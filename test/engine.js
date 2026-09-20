@@ -39,7 +39,7 @@ function geometryOf(html) {
   const L = html.split("\n");
   const S = (a, b) => sliceBetween(L, a, b);
   return [
-    S(/^const MATDB=\[/, /^function matPriceByLabel\(/),                 // catalogo + matById
+    S(/^const MAT_SOURCES=/, /^function matPriceByLabel\(/),           // catalogo + matById
     S(/^\/\* ================= CALCULATIONS/, /^\/\* ================= NESTING/),
     S(/^const MAT_ACC=/, /^\/\* ================= PEZZI TRAPEZOIDALI/),   // materiali accessorio
     S(/^\/\* ================= PEZZI TRAPEZOIDALI/, /^\/\* ================= SISTEMI CASSETTO/),

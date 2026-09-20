@@ -9,7 +9,9 @@
     "test:license": "node --test license.test.js",
     "test:price": "node --test price.test.js",
     "test:rail": "node rail.js",
-    "test:thickness": "node --test thickness.test.js"
+    "test:thickness": "node --test thickness.test.js",
+    "test:catalog": "node --test catalog.test.js",
+    "test:all": "node --test geom.test.js thickness.test.js catalog.test.js price.test.js license.test.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

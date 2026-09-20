@@ -72,6 +72,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   });
 
   await pg.goto(URL);
+  /* Il catalogo materiali arriva da /data/*.json: finche non e caricato non
+     esiste una grossezza, e il motore si rifiuta di calcolare. Si aspetta,
+     come fa l'app. */
+  await pg.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
   await pg.waitForTimeout(3300);                 // intro animata
   await pg.evaluate(() => closeSheets());        // alla prima apertura c'e il pannello introduttivo
   await pg.waitForTimeout(400);
@@ -301,7 +305,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("Corpi tondi e ovali — lo sviluppo dev'essere esatto, o il giunto non chiude");
   const rnd = await pg.evaluate(() => {
     const o = {};
+    /* i preset non portano piu la grossezza: la da il materiale, e il
+       predefinito di progetto ora e 19. La prova misura la grossezza VERA
+       invece di darla per scontata — cosi resta giusta anche il giorno che
+       il fornitore cambia. */
     const c = buildModule({ ...PRESETS.tondo });                       // Ø600 × H1200
+    o.t = structTh({ ...PRESETS.tondo });
     const fascia = c.pieces.find(p => /Fascia/.test(p.elemento));
     const piani = c.pieces.filter(p => p.shape === "tondo");
     o.dev = fascia.lung; o.devEsatto = Math.PI * 600;
@@ -336,11 +345,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   });
   ok("cerchio Ø600: sviluppo = π·D", Math.abs(rnd.dev - rnd.devEsatto) < 0.6,
      rnd.dev + " vs " + rnd.devEsatto.toFixed(1));
-  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1164, rnd.altezzaFascia);
+  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1200 - 2 * rnd.t,
+     rnd.altezzaFascia + " con t=" + rnd.t);
   ok("piano dei tagli entro 0,3 mm dall'arco (non solo il minimo teorico)",
      !!rnd.kerf && rnd.kerf.n > 0 && rnd.kerf.flat <= 0.31,
      rnd.kerf ? rnd.kerf.n + " intagli ogni " + rnd.kerf.spacing + " mm, scarto " + rnd.kerf.flat + " mm" : "—");
-  ok("fondo, cielo e 3 ripiani, tutti Ø−2t", rnd.nPiani === 5 && rnd.diamPiano === 564,
+  ok("fondo, cielo e 3 ripiani, tutti Ø−2t", rnd.nPiani === 5 && rnd.diamPiano === 600 - 2 * rnd.t,
      rnd.nPiani + " pezzi, Ø" + rnd.diamPiano);
   ok("ovale 900×450: sviluppo per integrazione", Math.abs(rnd.devOvale - rnd.devOvaleEsatto) < 0.6,
      rnd.devOvale + " vs " + rnd.devOvaleEsatto.toFixed(1));

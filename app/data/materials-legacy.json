@@ -1,0 +1,849 @@
+{
+ "schema": 1,
+ "fornitore": "(catalogo precedente)",
+ "aggiornato": "2026-09-20",
+ "_nota": "Referenze gia usate dai progetti salvati. NON si cancellano: un id che sparisce rende il progetto non esportabile fino al rimappamento. attivo:false = resta risolvibile ma non compare nei selettori.",
+ "_nota_attive": "Restano attive solo le basi tecniche (HDF, MDF, compensato): Centro Legno non ne ha l'equivalente e servono per schienali e fronti da verniciare.",
+ "materiali": [
+  {
+   "id": "pal18_alb",
+   "nome": "Truciolare melaminico Bianco 18mm",
+   "nome_i18n": {
+    "it": "Truciolare melaminico Bianco 18mm",
+    "ro": "PAL melaminat Alb 18mm",
+    "en": "Melamine chipboard White 18mm",
+    "fr": "Aggloméré mélaminé Blanc 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f4f4f0",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 9.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "pal18_dec",
+   "nome": "Truciolare melaminico Decoro 18mm",
+   "nome_i18n": {
+    "it": "Truciolare melaminico Decoro 18mm",
+    "ro": "PAL melaminat Decor 18mm",
+    "en": "Melamine chipboard Decor 18mm",
+    "fr": "Aggloméré mélaminé Décor 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#d8c6a4",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 13.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "wood"
+  },
+  {
+   "id": "pal18_rovere",
+   "nome": "Truciolare Rovere Sonoma 18mm",
+   "nome_i18n": {
+    "it": "Truciolare Rovere Sonoma 18mm",
+    "ro": "PAL Stejar Sonoma 18mm",
+    "en": "Chipboard Sonoma Oak 18mm",
+    "fr": "Aggloméré Chêne Sonoma 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#c9a97e",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 13.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "wood"
+  },
+  {
+   "id": "pal18_noce",
+   "nome": "Truciolare Noce 18mm",
+   "nome_i18n": {
+    "it": "Truciolare Noce 18mm",
+    "ro": "PAL Nuc 18mm",
+    "en": "Chipboard Walnut 18mm",
+    "fr": "Aggloméré Noyer 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#8a684c",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 13.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "wood"
+  },
+  {
+   "id": "pal18_antracite",
+   "nome": "Truciolare Antracite 18mm",
+   "nome_i18n": {
+    "it": "Truciolare Antracite 18mm",
+    "ro": "PAL Antracit 18mm",
+    "en": "Chipboard Anthracite 18mm",
+    "fr": "Aggloméré Anthracite 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#3c3f42",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 13.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "pal18_grigio",
+   "nome": "Truciolare Grigio chiaro 18mm",
+   "nome_i18n": {
+    "it": "Truciolare Grigio chiaro 18mm",
+    "ro": "PAL Gri deschis 18mm",
+    "en": "Chipboard Light grey 18mm",
+    "fr": "Aggloméré Gris clair 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c2c3c0",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 12.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "pal18_nero",
+   "nome": "Truciolare Nero 18mm",
+   "nome_i18n": {
+    "it": "Truciolare Nero 18mm",
+    "ro": "PAL Negru 18mm",
+    "en": "Chipboard Black 18mm",
+    "fr": "Aggloméré Noir 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#28282a",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 13.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "pal16_alb",
+   "nome": "Truciolare melaminico Bianco 16mm",
+   "nome_i18n": {
+    "it": "Truciolare melaminico Bianco 16mm",
+    "ro": "PAL melaminat Alb 16mm",
+    "en": "Melamine chipboard White 16mm",
+    "fr": "Aggloméré mélaminé Blanc 16mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 16,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f4f4f0",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 8.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "pal25_alb",
+   "nome": "Truciolare melaminico Bianco 25mm",
+   "nome_i18n": {
+    "it": "Truciolare melaminico Bianco 25mm",
+    "ro": "PAL melaminat Alb 25mm",
+    "en": "Melamine chipboard White 25mm",
+    "fr": "Aggloméré mélaminé Blanc 25mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 25,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f4f4f0",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 14.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "mdf18",
+   "nome": "MDF grezzo 18mm",
+   "nome_i18n": {
+    "it": "MDF grezzo 18mm",
+    "ro": "MDF brut 18mm",
+    "en": "Raw MDF 18mm",
+    "fr": "MDF brut 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c9b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": 12.0,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "mdf19_gloss",
+   "nome": "MDF laccato lucido 19mm",
+   "nome_i18n": {
+    "it": "MDF laccato lucido 19mm",
+    "ro": "MDF vopsit lucios 19mm",
+    "en": "High-gloss lacquered MDF 19mm",
+    "fr": "MDF laqué brillant 19mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 19,
+   "famiglia": "lucido",
+   "finitura": "lucido",
+   "colore_hex": "#fbfbf9",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 48.0,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "gloss"
+  },
+  {
+   "id": "placaj18",
+   "nome": "Compensato betulla 18mm",
+   "nome_i18n": {
+    "it": "Compensato betulla 18mm",
+    "ro": "Placaj mesteacăn 18mm",
+    "en": "Birch plywood 18mm",
+    "fr": "Contreplaqué bouleau 18mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#e0c99d",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 29.0,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "wood"
+  },
+  {
+   "id": "pfl3",
+   "nome": "Pannello HDF Bianco 3mm",
+   "nome_i18n": {
+    "it": "Pannello HDF Bianco 3mm",
+    "ro": "PFL/HDF Alb 3mm",
+    "en": "HDF panel White 3mm",
+    "fr": "Panneau HDF Blanc 3mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 3,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f2f2ee",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 3.0,
+   "attivo": true,
+   "formato": {
+    "L": 2750,
+    "l": 1300
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "pfl5",
+   "nome": "Pannello HDF 5mm",
+   "nome_i18n": {
+    "it": "Pannello HDF 5mm",
+    "ro": "PFL/HDF 5mm",
+    "en": "HDF panel 5mm",
+    "fr": "Panneau HDF 5mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 5,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c9b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 4.2,
+   "attivo": true,
+   "formato": {
+    "L": 2750,
+    "l": 1300
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_w980_19",
+   "nome": "Egger W980 Bianco kaolin 19mm",
+   "nome_i18n": {
+    "it": "Egger W980 Bianco kaolin 19mm",
+    "ro": "Egger W980 Alb kaolin 19mm",
+    "en": "Egger W980 Kaolin white 19mm",
+    "fr": "Egger W980 Blanc kaolin 19mm"
+   },
+   "codice": "W980",
+   "fornitore": "Dispano",
+   "spessore": 19,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f6f6f3",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 10.06,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_w908_19",
+   "nome": "Egger W908 Bianco creta 19mm",
+   "nome_i18n": {
+    "it": "Egger W908 Bianco creta 19mm",
+    "ro": "Egger W908 Alb cretă 19mm",
+    "en": "Egger W908 Chalk white 19mm",
+    "fr": "Egger W908 Blanc craie 19mm"
+   },
+   "codice": "W908",
+   "fornitore": "Dispano",
+   "spessore": 19,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f2f2ee",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 9.67,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_w980_12",
+   "nome": "Egger W980 Bianco kaolin 12mm",
+   "nome_i18n": {
+    "it": "Egger W980 Bianco kaolin 12mm",
+    "ro": "Egger W980 Alb kaolin 12mm",
+    "en": "Egger W980 Kaolin white 12mm",
+    "fr": "Egger W980 Blanc kaolin 12mm"
+   },
+   "codice": "W980",
+   "fornitore": "Dispano",
+   "spessore": 12,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f6f6f3",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 12.11,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_w908_16",
+   "nome": "Egger W908 Bianco creta 16mm",
+   "nome_i18n": {
+    "it": "Egger W908 Bianco creta 16mm",
+    "ro": "Egger W908 Alb cretă 16mm",
+    "en": "Egger W908 Chalk white 16mm",
+    "fr": "Egger W908 Blanc craie 16mm"
+   },
+   "codice": "W908",
+   "fornitore": "Dispano",
+   "spessore": 16,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f2f2ee",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 12.0,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_w980_8",
+   "nome": "Egger W980 Bianco kaolin 8mm",
+   "nome_i18n": {
+    "it": "Egger W980 Bianco kaolin 8mm",
+    "ro": "Egger W980 Alb kaolin 8mm",
+    "en": "Egger W980 Kaolin white 8mm",
+    "fr": "Egger W980 Blanc kaolin 8mm"
+   },
+   "codice": "W980",
+   "fornitore": "Dispano",
+   "spessore": 8,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#f6f6f3",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 11.96,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_hydro_19",
+   "nome": "Egger W980 idrofugo P3 19mm",
+   "nome_i18n": {
+    "it": "Egger W980 idrofugo P3 19mm",
+    "ro": "Egger W980 hidrofug P3 19mm",
+    "en": "Egger W980 moisture-resistant P3 19mm",
+    "fr": "Egger W980 hydrofuge P3 19mm"
+   },
+   "codice": "W980",
+   "fornitore": "Dispano",
+   "spessore": 19,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#eef2ee",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 16.7,
+   "attivo": false,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_mdf_19",
+   "nome": "MDF grezzo 19mm",
+   "nome_i18n": {
+    "it": "MDF grezzo 19mm",
+    "ro": "MDF brut 19mm",
+    "en": "Raw MDF 19mm",
+    "fr": "MDF brut 19mm"
+   },
+   "codice": null,
+   "fornitore": "Dispano",
+   "spessore": 19,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c9b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": 15.02,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_mdf_10",
+   "nome": "MDF grezzo 10mm",
+   "nome_i18n": {
+    "it": "MDF grezzo 10mm",
+    "ro": "MDF brut 10mm",
+    "en": "Raw MDF 10mm",
+    "fr": "MDF brut 10mm"
+   },
+   "codice": null,
+   "fornitore": "Dispano",
+   "spessore": 10,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c9b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": 10.8,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_mdf_6",
+   "nome": "MDF grezzo 6mm",
+   "nome_i18n": {
+    "it": "MDF grezzo 6mm",
+    "ro": "MDF brut 6mm",
+    "en": "Raw MDF 6mm",
+    "fr": "MDF brut 6mm"
+   },
+   "codice": null,
+   "fornitore": "Dispano",
+   "spessore": 6,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c9b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": 9.43,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_mdf_25",
+   "nome": "MDF grezzo 25mm",
+   "nome_i18n": {
+    "it": "MDF grezzo 25mm",
+    "ro": "MDF brut 25mm",
+    "en": "Raw MDF 25mm",
+    "fr": "MDF brut 25mm"
+   },
+   "codice": null,
+   "fornitore": "Dispano",
+   "spessore": 25,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c9b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": 27.06,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_mdf_mr12",
+   "nome": "MDF idrofugo 12mm",
+   "nome_i18n": {
+    "it": "MDF idrofugo 12mm",
+    "ro": "MDF hidrofug 12mm",
+    "en": "Moisture-resistant MDF 12mm",
+    "fr": "MDF hydrofuge 12mm"
+   },
+   "codice": null,
+   "fornitore": "Dispano",
+   "spessore": 12,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#a9b58f",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": 19.52,
+   "attivo": true,
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "dsp_isorel_3",
+   "nome": "Fibra dura Isorel 3mm",
+   "nome_i18n": {
+    "it": "Fibra dura Isorel 3mm",
+    "ro": "PFL Isorel 3mm",
+    "en": "Hardboard Isorel 3mm",
+    "fr": "Fibres dures Isorel 3mm"
+   },
+   "codice": null,
+   "fornitore": "Dispano",
+   "spessore": 3,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#c8b795",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": 3.0,
+   "attivo": true,
+   "formato": {
+    "L": 2750,
+    "l": 1300
+   },
+   "texture": "solid"
+  }
+ ]
+}
