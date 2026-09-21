@@ -5,6 +5,27 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.28.1 — 21 septembrie 2026
+
+**Panourile vechi sunt din nou în selector.** În 4.28.0 am pus catalogul
+Centro Legno în față și am marcat referințele vechi ca „inactive" — ceea ce
+le scotea din selectorul generatorului, deși rămâneau în ecranul de catalog.
+Greșeala mea: un decor pe care îl ai pe un proiect deschis nu trebuie să
+dispară dintr-o listă fiindcă aplicația a decis că e demodat.
+
+Acum se văd toate. Ce s-a schimbat e doar **ordinea**: referințele Centro
+Legno apar primele în fiecare familie, cele din catalogul de dinainte după
+ele, marcate ca atare. Ce alegi tu să ascunzi rămâne ascuns — dar numai ce
+alegi tu.
+
+**Butonul „ascunde / arată" din catalog funcționează de la prima apăsare.**
+Ecranul de catalog și selectorul se uitau la două locuri diferite ca să
+răspundă la aceeași întrebare — „se vede sau nu?" — și nu erau de acord.
+De aici venea și panoul care apărea în catalog dar nu în selector. Acum
+întrebarea are un singur răspuns, într-un singur loc.
+
+---
+
 ## 4.28.0 — 20 septembrie 2026
 
 **Grosimea vine din materialul pe care îl alegi.** Până acum era un singur
