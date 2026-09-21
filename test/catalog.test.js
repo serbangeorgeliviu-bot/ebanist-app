@@ -110,13 +110,37 @@ describe("Il caricamento nell'app", () => {
       assert.ok(m.th > 0, id + ": senza spessore");
     }
   });
-  test("le referenze vecchie NON compaiono nei selettori", async () => {
+  test("SI PUO SCEGLIERE TUTTO: niente sparisce da solo dai selettori", async () => {
     await S.MAT_READY;
     const vis = S.matVisible().map(m => m.id);
-    assert.ok(!vis.includes("pal18_alb"), "il vecchio bianco da 18 e ancora nella lista");
+    /* Un decoro del listino di prima puo stare su un progetto aperto — il
+       Rovere Sonoma della camera Petrelli. Nasconderlo di iniziativa
+       dell'app vuol dire toglierlo di mano a qualcuno mentre lo usa. */
+    assert.ok(vis.includes("pal18_rovere"), "il Rovere Sonoma e sparito dalla lista");
+    assert.ok(vis.includes("pal18_alb"), "il bianco da 18 e sparito dalla lista");
     assert.ok(vis.includes("bianco_19"), "il bianco Centro Legno da 19 manca dalla lista");
-    /* le basi tecniche restano: Centro Legno non ha un HDF da 3 per gli schienali */
     assert.ok(vis.includes("pfl3"), "senza HDF da 3 non si puo fare uno schienale");
+    assert.equal(vis.length, S.matAll().length, "qualcosa sparisce senza che nessuno l'abbia chiesto");
+  });
+  test("si nasconde solo quello che l'utente nasconde, e con UN tocco", async () => {
+    await S.MAT_READY;
+    /* il bug: il catalogo guardava solo l'override, il selettore anche
+       `attivo`. Chi premeva «nascondi» su una referenza del listino
+       precedente non vedeva succedere niente, perche il primo tocco la
+       portava dallo stato «gia nascosta» a `hidden:true`. */
+    assert.equal(S.matHidden("pal18_rovere"), false);
+    S.state.settings.matOvr = { pal18_rovere: { hidden: true } };
+    assert.equal(S.matHidden("pal18_rovere"), true);
+    assert.ok(!S.matVisible().map(m => m.id).includes("pal18_rovere"));
+    S.state.settings.matOvr = {};
+    assert.equal(S.matHidden("pal18_rovere"), false);
+  });
+  test("il listino di prima resta marcato, per ordinarlo dopo", async () => {
+    await S.MAT_READY;
+    assert.equal(S.matIsLegacy(S.matAll().find(m => m.id === "pal18_rovere")), true);
+    assert.equal(S.matIsLegacy(S.matAll().find(m => m.id === "bianco_19")), false);
+    /* le basi tecniche non sono «di prima»: Centro Legno non ha un HDF da 3 */
+    assert.equal(S.matIsLegacy(S.matAll().find(m => m.id === "pfl3")), false);
   });
   test("un id sconosciuto NON si risolve — e quello che blocca l'esportazione", async () => {
     await S.MAT_READY;
