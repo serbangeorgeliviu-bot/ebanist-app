@@ -1,31 +1,15 @@
 /* Il motore, caricato una volta sola per tutti i casi golden.
-   Si valuta il file VERO — ebanist-core.js e i blocchi di index.html — non
-   una copia: un golden che gira su una copia certifica la copia. */
+   Si valuta il file VERO — ebanist-core.js e i blocchi veri di /app/js/ —
+   non una copia: un golden che gira su una copia certifica la copia.
+   Il taglio dei blocchi e la lettura dei sorgenti stanno in un posto solo,
+   ../engine.js: erano tre copie della stessa funzione, e la prima volta che
+   l'app si e spostata sono scivolate via tutte e tre insieme. */
 const fs = require("fs");
 const vm = require("vm");
 const path = require("path");
+const { appSource, geometryOf } = require("../engine.js");
 const APP = path.resolve(__dirname, "..", "..", "app");
 
-function sliceBetween(lines, a, b) {
-  let i = -1;
-  for (let k = 0; k < lines.length; k++) if (a.test(lines[k])) { i = k; break; }
-  if (i < 0) throw new Error("blocco non trovato: " + a);
-  for (let j = i + 1; j < lines.length; j++) if (b.test(lines[j])) return lines.slice(i, j).join("\n");
-  throw new Error("fine blocco non trovata: " + b);
-}
-function geometryOf(html) {
-  const L = html.split("\n"), S = (a, b) => sliceBetween(L, a, b);
-  return [
-    S(/^const MAT_SOURCES=/, /^function matPriceByLabel\(/),
-    S(/^\/\* ================= CALCULATIONS/, /^\/\* ================= NESTING/),
-    S(/^const MAT_ACC=/, /^\/\* ================= PEZZI TRAPEZOIDALI/),
-    S(/^\/\* ================= PEZZI TRAPEZOIDALI/, /^\/\* ================= SISTEMI CASSETTO/),
-    S(/^\/\* ================= SISTEMI CASSETTO/, /^function buildCore\(/),
-    S(/^function buildCore\(/, /^\/\* --- dispatch: standard/),
-    S(/^function buildModule\(/, /^\/\* --- 3D perspective renderer/),
-    S(/^function hingeInfo\(/, /^function assemblySteps\(/)
-  ].join("\n");
-}
 let _s = null;
 function engine() {
   if (_s) return _s;
@@ -33,7 +17,7 @@ function engine() {
   s.globalThis = s; s.t = k => k; s.state = { lang: "it", settings: {} };
   vm.createContext(s);
   vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-core.js"), "utf8"), s, { filename: "ebanist-core.js" });
-  vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
+  vm.runInContext(geometryOf(appSource()), s, { filename: "app/js/*.js" });
   return (_s = s);
 }
 

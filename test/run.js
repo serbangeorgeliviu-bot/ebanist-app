@@ -574,9 +574,41 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   const pgVer = await pg.evaluate(() => APP_VER);
   ok("sw.js e index.html puntano alla stessa cache", !!swName && swName === pgName,
      "sw.js=" + swName + " · index.html=" + pgName);
-  ok("APP_VER e leggibile dal marcatore che usa l'updater",
-     /const APP_VER="[^"]+"; \/\* APP_VER-MARKER \*\//.test(
-       await (await fetch(URL)).text()), "v" + pgVer);
+  /* L'aggiornatore rilegge la versione dal DOCUMENTO scaricato, non dal
+     codice: da quando gli script stanno in file separati, dentro l'HTML non
+     c'e piu nessuna riga di JavaScript da spulciare. Il <meta> e la sola
+     fonte del numero — questa prova tiene in piedi quel contratto. */
+  const doc = await (await fetch(URL)).text();
+  const metaVer = (doc.match(/<meta\s+name="app-version"\s+content="([^"]+)"/i) || [])[1];
+  ok("APP_VER si legge dal <meta> che rilegge l'updater", metaVer === pgVer, "v" + pgVer);
+  ok("e il <meta> della cache combacia con quello letto dalla pagina",
+     (doc.match(/<meta\s+name="sw-cache"\s+content="([^"]+)"/i) || [])[1] === pgName);
+
+  /* Il guscio del service worker e l'elenco degli script di index.html
+     devono nominare gli stessi file. Se uno script nuovo non entra in
+     SHELL, l'app parte online e si apre VUOTA in officina senza rete —
+     un guasto che nessuna prova di funzione vede. */
+  {
+    const inPage = [...doc.matchAll(/<script src="\.\/(js\/[^"]+)"/g)].map(m => m[1])
+      .concat([...doc.matchAll(/<link rel="stylesheet" href="\.\/(styles\/[^"]+)"/g)].map(m => m[1]));
+    const missing = inPage.filter(f => !sw.includes('"./' + f + '"'));
+    ok("ogni file di /js/ e /styles/ sta anche nel guscio del service worker",
+       inPage.length > 20 && missing.length === 0, missing.join(", ") || inPage.length + " file");
+  }
+
+  head("Nessuno script inline — la CSP puo restare stretta");
+  /* I commenti vanno via prima di guardare: parlano di <script> e di <style>
+     per spiegare da dove viene il codice, e cercandoli alla lettera si
+     troverebbero quelli. */
+  const markup = doc.replace(/<!--[\s\S]*?-->/g, "");
+  ok("index.html non porta piu codice dentro un <script> senza src",
+     !/<script(?![^>]*\bsrc=)[^>]*>/.test(markup));
+  ok("ne un foglio di stile dentro un <style>", !/<style[^>]*>/.test(markup));
+  ok("ne attributi on* nel marcato", !/\son(click|change|input|submit|load|error|key\w+)\s*=/i.test(markup));
+  const csp = (NETLIFY_TOML.match(/Content-Security-Policy = "([^"]+)"/) || [])[1] || "";
+  const scriptSrc = (csp.match(/script-src ([^;]+)/) || [])[1] || "";
+  ok("e la CSP non concede piu 'unsafe-inline' agli script",
+     scriptSrc.trim() === "'self'", "script-src " + scriptSrc);
 
   head("Traduzioni — nessuna etichetta deve mostrare il nome della chiave");
   const i18n = await pg.evaluate(() => {
@@ -1384,10 +1416,22 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("La pagina di presentazione e il trasloco degli indirizzi");
   {
     const land = await (await fetch(`${ORIGIN}/index.html`)).text();
-    ok("la radice non e piu l'app", !/APP_VER-MARKER/.test(land));
+    ok("la radice non e piu l'app", !/<meta\s+name="app-version"/i.test(land));
     ok("ed e la pagina di presentazione", /data-t="h1"/.test(land));
+    /* Le quattro lingue stanno in site.js: anche la presentazione ha i suoi
+       script fuori dal documento, altrimenti la CSP del sito — una sola,
+       valida per `/*` — dovrebbe riaprire 'unsafe-inline' per tutti. */
+    const siteJs = await (await fetch(`${ORIGIN}/site.js`)).text();
     for (const l of ["ro", "it", "fr", "en"])
-      ok(`la presentazione parla ${l}`, new RegExp('\\b' + l + ':\\{h1:').test(land));
+      ok(`la presentazione parla ${l}`, new RegExp('\\b' + l + ':\\{h1:').test(siteJs));
+    for (const [page, script] of [["/index.html", "/site.js"],
+                                  ["/order-rail/inbox.html", "/order-rail/inbox.js"],
+                                  ["/order-rail/order-view.html", "/order-rail/order-view.js"]]) {
+      const html = (await (await fetch(ORIGIN + page)).text()).replace(/<!--[\s\S]*?-->/g, "");
+      ok(`${page} non porta piu script inline`, !/<script(?![^>]*\bsrc=)[^>]*>/.test(html));
+      ok(`  e carica ${script}`, html.includes('src="' + script + '"'));
+      ok(`  che esiste`, (await fetch(ORIGIN + script)).ok);
+    }
     ok("nessuno script di terzi oltre a Lemon Squeezy", !/<script[^>]+src="https?:\/\//.test(land));
     /* Non si cerca la PAROLA «cookie» — un commento che spiega perche non
        ce ne sono la conterrebbe — ma quello che un banner e per forza:

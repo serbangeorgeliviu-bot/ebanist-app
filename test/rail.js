@@ -24,6 +24,25 @@ function ok(name, cond, detail) {
 const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
+/* La distinta passa dalla foglia di chiusura da quando esiste il cancello
+   umano (D-45): si preme il bottone, si legge la foglia e si conferma, come
+   farebbe chi lavora. Queste prove erano scritte prima della foglia e
+   cliccavano btnPdf aspettandosi la stampa subito — restavano rosse
+   misurando un percorso che nessuno fa piu. */
+async function stampaDistinta(page) {
+  await page.evaluate(() => document.getElementById("btnPdf").click());
+  await wait(500);
+  await page.evaluate(async () => {
+    const sh = document.getElementById("shClosure");
+    if (!sh || !sh.classList.contains("on")) return;
+    const ck = document.getElementById("clOk");
+    if (ck.disabled) { closeSheets(); return; }
+    ck.checked = true; ck.dispatchEvent(new Event("change"));
+    document.getElementById("btnClGo").click();
+  });
+  await wait(700);
+}
+
 (async () => {
   const { server, port, store } = await serve();
   const O = `http://127.0.0.1:${port}`;
@@ -78,8 +97,19 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
     ok("bara de preț e pe ecran", s.bar);
     ok("butonul cheamă atelierul pe nume", /Atelier Demo/.test(s.btn), s.btn);
     ok("niciun panou nu stă în drum: fără intro, fără Pro", s.sheets.length === 0, s.sheets.join(",") || "niciunul");
-    ok("niciun avertisment de material necotat pe corpul implicit",
-      await pg.evaluate(() => document.getElementById("orWarn").hidden));
+    /* Corpul implicit folosește `bianco_19`, din catalogul Centro Legno
+       (v4.28). Listele de prețuri ale atelierelor au rămas pe id-urile
+       vechi — `pal18_alb` și restul — deci placa cade pe `default_m2` și
+       aplicația O SPUNE. Avertismentul e CORECT: aici se verifică tocmai
+       că se vede și că numește placa, nu că tace. Ziua în care atelierele
+       își pun lista reală, avertismentul dispare de la sine.
+       (Listele sunt marcate `"_placeholder": true` — de completat.) */
+    const warn = await pg.evaluate(() => ({
+      hidden: document.getElementById("orWarn").hidden,
+      txt: document.getElementById("orWarn").textContent
+    }));
+    ok("placa necotată nu trece în tăcere: avertismentul o numește",
+      !warn.hidden && /Bianco/i.test(warn.txt), warn.txt || "(niciun avertisment)");
   }
 
   head("Prețul — se mișcă odată cu cotele, și se adună");
@@ -290,7 +320,7 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
     await fp.goto(`${O}/a/centro-legno`); await wait(2600);
     await fp.evaluate(() => { window.print = () => {}; closeSheets(); setView("summary"); });
     await wait(400);
-    await fp.click("#btnPdf"); await wait(1200);
+    await stampaDistinta(fp);
     const st2 = await (await fetch(`${O}/api/stats?atelier=centro-legno`)).json();
     ok("timpul până la primul PDF se măsoară", st2.first_pdf_samples === 1, st2.first_pdf_median_s + " s");
     ok("...și e sub 10 minute, cu marjă", st2.first_pdf_median_s !== null && st2.first_pdf_median_s < 600,
@@ -316,14 +346,16 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
     ok("gating-ul freemium e la locul lui", !s.pro);
     ok("bara de comandă nu apare", !s.bar);
     ok("marca rămâne Ebanist", s.brand === "Ebanist", s.brand);
-    ok("filigranul se întoarce pentru versiunea gratuită", await np.evaluate(() => {
+    await np.evaluate(() => {
       window.print = () => {}; printOut._offered = 1;
       state.projects = [{ id: "w", name: "x", client: "", date: "2026-09-08",
         pieces: [{ id: "q", modulo: "M", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL melaminat Alb 18mm" }] }];
       state.activeId = "w";
-      document.getElementById("btnPdf").click();
-      return document.querySelectorAll("#printArea .wm-diag").length === 1;
-    }));
+      document.getElementById("printArea").innerHTML = "";
+    });
+    await stampaDistinta(np);
+    ok("filigranul se întoarce pentru versiunea gratuită",
+      await np.evaluate(() => document.querySelectorAll("#printArea .wm-diag").length === 1));
     ok("niciun slug inventat nu activează modul", await np.evaluate(async () => {
       /* Un slug care nu există trebuie să dezactiveze modul complet, nu
          să lase aplicația jumătate-atelier. */

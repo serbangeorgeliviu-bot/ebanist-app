@@ -1,7 +1,7 @@
 /* Ebanist — caricatore del motore geometrico per le prove golden.
  *
  * Due motori, la stessa interfaccia:
- *   derive(p)                       -> il motore corrente (ebanist-core.js + index.html)
+ *   derive(p)                       -> il motore corrente (ebanist-core.js + app/js/*.js)
  *   EBANIST_ENGINE=legacy derive(p) -> il motore 4.23, letto da git
  *
  * Il motore 4.23 non ha una funzione di derivazione: le cote esistono solo
@@ -33,6 +33,21 @@ function sliceBetween(lines, startRe, endRe) {
   if (a < 0) throw new Error("blocco non trovato: " + startRe);
   for (let j = a + 1; j < lines.length; j++) if (endRe.test(lines[j])) return lines.slice(a, j).join("\n");
   throw new Error("fine blocco non trovata: " + endRe);
+}
+
+/* --- da dove arriva il codice dell'app ------------------------------------
+   Il corpo dell'app non sta piu dentro index.html: sta in /app/js/, un file
+   per sezione, e index.html ne dichiara l'ORDINE. Si legge quell'elenco e si
+   rimettono insieme i file cosi come li esegue il browser. Due cose in una:
+   le prove continuano a leggere le righe vere invece di una copia, e se
+   qualcuno aggiunge un file senza dichiararlo in index.html, qui non c'e.
+   Il motore 4.23 resta com'era — un solo index.html letto da un commit —
+   e passa dalla stessa funzione di taglio. */
+function appSource() {
+  const html = fs.readFileSync(path.join(APP, "index.html"), "utf8");
+  const files = [...html.matchAll(/<script src="\.\/(js\/[^"]+\.js)"><\/script>/g)].map(m => m[1]);
+  if (files.length < 10) throw new Error("l'elenco degli script di index.html non si legge piu");
+  return files.map(f => fs.readFileSync(path.join(APP, f), "utf8")).join("\n");
 }
 
 function geometryOf(html) {
@@ -70,7 +85,7 @@ function appEngine() {
   const s = newSandbox();
   const core = path.join(APP, "ebanist-core.js");
   if (fs.existsSync(core)) vm.runInContext(fs.readFileSync(core, "utf8"), s, { filename: "ebanist-core.js" });
-  vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
+  vm.runInContext(geometryOf(appSource()), s, { filename: "app/js/*.js" });
   return (_app = s);
 }
 function coreEngine() { const s = appEngine(); return s.deriveCarcass ? s : null; }
@@ -157,7 +172,7 @@ function derive(p) {
 }
 function engineName() {
   if (process.env.EBANIST_ENGINE === "legacy") return "v1 (index.html @ " + V423 + ", motore 4.23)";
-  return coreEngine() ? "v2 (ebanist-core.js + index.html)" : "v1 (ebanist-core.js assente)";
+  return coreEngine() ? "v2 (ebanist-core.js + app/js/*.js)" : "v1 (ebanist-core.js assente)";
 }
 
-module.exports = { legacyEngine, appEngine, coreEngine, legacyDerive, coreDerive, derive, engineName, MM, cfgOf, settingsOf };
+module.exports = { appSource, geometryOf, legacyEngine, appEngine, coreEngine, legacyDerive, coreDerive, derive, engineName, MM, cfgOf, settingsOf };

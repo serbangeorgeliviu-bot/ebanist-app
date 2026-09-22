@@ -48,6 +48,15 @@ jobs:
         with:
           node-version: "22"
 
+      # Prima il controllo a freddo: due secondi, niente dipendenze, e prende
+      # i guasti che nessuna prova di funzione vede — un file di codice che
+      # non si legge, uno script dichiarato in index.html ma dimenticato nel
+      # guscio del service worker (l'app si aprirebbe VUOTA senza rete), la
+      # versione e il nome della cache scollegati.
+      - name: controllo a freddo (sintassi, guscio offline, versione)
+        working-directory: test
+        run: npm run check
+
       # niente `npm install`: queste prove non hanno dipendenze. L'unica del
       # pacchetto e Playwright, ~300 MB, e serve solo al lavoro qui sotto.
       - name: prove unitarie (motore, grossezze, catalogo, chiusura, invarianti, prezzi, licenza)
@@ -85,3 +94,11 @@ jobs:
       - name: suite del browser
         working-directory: test
         run: node run.js
+
+      # Order Rail ha il suo banco, con un server finto al posto della
+      # funzione Netlify. Non era in CI, e si era spento da solo: chiedeva
+      # all'app di stampare la distinta con una sola pressione, come prima
+      # della foglia di chiusura. Un banco che non gira non protegge niente.
+      - name: suite Order Rail
+        working-directory: test
+        run: node rail.js

@@ -1,0 +1,304 @@
+/* ===========================================================================
+   Ebanist — shell.css
+
+   L'impalcatura, quella che c'e' in ogni schermata: intro cinematografico,
+   intestazione, corpo scorrevole, schede, bottoni, navigazione in basso,
+   pannelli a scomparsa e i gruppi a fisarmonica del generatore.
+   =========================================================================== */
+
+/* ---------- intro ---------- */
+/* T=0 cucitura di luce · 0.62 colpo e incisione · 1.2 riempimento e passaggio di luce
+   1.45 wordmark · 2.05 il sipario si apre in due · 2.55 via */
+#splash{position:fixed;inset:0;z-index:200;overflow:hidden;background:transparent}
+#splash .sp-panel{position:absolute;left:0;right:0;height:50.4%;background:#0E3B2A;will-change:transform}
+#splash .sp-top{top:0;animation:spTop .64s cubic-bezier(.7,0,.2,1) 2.30s forwards}
+#splash .sp-bot{bottom:0;animation:spBot .64s cubic-bezier(.7,0,.2,1) 2.30s forwards}
+#splash .sp-stage{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:0 12vw;
+  animation:spStage .52s ease-in 2.30s forwards}
+#splash .sp-glow{position:absolute;top:50%;left:50%;width:86vw;height:86vw;max-width:460px;max-height:460px;
+  transform:translate(-50%,-50%) scale(.6);border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle,rgba(212,175,55,.34) 0%,rgba(212,175,55,0) 66%);
+  animation:spGlow 1.5s cubic-bezier(.1,.8,.3,1) .58s forwards}
+#splash .sp-seam{position:absolute;top:50%;left:50%;height:2px;width:0;transform:translate(-50%,-50%);
+  background:linear-gradient(90deg,rgba(212,175,55,0),#E3C877 50%,rgba(212,175,55,0));
+  box-shadow:0 0 14px rgba(227,200,119,.85);animation:spSeam .95s cubic-bezier(.2,.9,.2,1) forwards}
+#splash .sp-mark{position:relative;width:min(50vw,208px);color:#D4AF37}
+#splash .sp-mark svg{width:100%;height:auto;display:block}
+#splash .sp-fill{position:absolute;inset:0;opacity:0;animation:spFill .42s ease-out 1.36s forwards}
+#splash .sp-draw{opacity:0;animation:spDrawIn .01s linear .6s forwards, spDrawOut .36s ease-in 1.40s forwards}
+/* il gruppo dentro l'SVG porta stroke="none": il CSS vince sull'attributo di presentazione */
+#splash .sp-draw g,#splash .sp-draw path{fill:none;stroke:currentColor;stroke-width:46;
+  stroke-linecap:round;stroke-linejoin:round}
+#splash .sp-word{margin-top:26px;color:#E3C877;width:min(64vw,272px);height:auto;
+  opacity:0;transform:translateY(12px);animation:spWord .55s cubic-bezier(.2,.8,.3,1) 1.62s forwards}
+#splash .sp-light{position:absolute;top:-40%;left:-60%;width:60%;height:180%;pointer-events:none;
+  transform:rotate(18deg);mix-blend-mode:screen;opacity:0;
+  background:linear-gradient(90deg,rgba(255,245,214,0) 0%,rgba(255,245,214,.16) 45%,rgba(255,245,214,.30) 50%,rgba(255,245,214,.16) 55%,rgba(255,245,214,0) 100%);
+  animation:spLight .9s ease-in-out 1.32s forwards}
+@keyframes spSeam{0%{width:0;opacity:0}18%{opacity:1}
+  62%{width:64%;height:2px}72%{width:70%;height:5px;opacity:1}100%{width:74%;height:1px;opacity:0}}
+@keyframes spGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+  16%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}100%{opacity:.62;transform:translate(-50%,-50%) scale(1)}}
+@keyframes spDrawIn{to{opacity:1}}
+@keyframes spDrawOut{to{opacity:0}}
+@keyframes spFill{from{opacity:0;filter:drop-shadow(0 0 26px rgba(227,200,119,.9))}
+  to{opacity:1;filter:drop-shadow(0 0 0 rgba(227,200,119,0))}}
+@keyframes spWord{to{opacity:1;transform:translateY(0)}}
+@keyframes spLight{0%{opacity:0;transform:translateX(0) rotate(18deg)}
+  20%{opacity:1}100%{opacity:0;transform:translateX(320%) rotate(18deg)}}
+@keyframes spTop{to{transform:translateY(-101%)}}
+@keyframes spBot{to{transform:translateY(101%)}}
+@keyframes spStage{to{opacity:0;transform:scale(1.14)}}
+/* L'intro spenta non deve vedersi nemmeno per un fotogramma: boot.js
+   mette data-intro="off" prima che il parser arrivi a #splash, e chi
+   chiede meno movimento al sistema e' coperto anche senza JavaScript.
+   Toglierlo davvero dal documento tocca a initSplash(). */
+html[data-intro="off"] #splash{display:none}
+@media (prefers-reduced-motion: reduce){#splash{display:none}}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:40;background:var(--chrome);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);box-shadow:var(--sh-1);
+  padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.brand-mark{width:34px;height:34px;flex:none;background:#0E3B2A;border-radius:8px;
+  display:grid;place-items:center;color:#D4AF37;overflow:hidden}
+.brand-mark svg{width:27px;height:27px;display:block}
+.brand-txt{min-width:0}
+.brand-txt h1{font-family:var(--font-disp);font-size:19px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;line-height:1.1}
+.brand-txt small{display:block;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbtn{width:38px;height:38px;flex:none;border-radius:10px;border:1px solid var(--line);background:var(--raised);
+  transition:transform .12s,background .12s;
+  display:grid;place-items:center;color:var(--muted)}
+.hbtn:active{background:var(--line);transform:scale(.94)}
+.hbtn svg{width:19px;height:19px}
+
+/* ---------- layout ---------- */
+main{padding:16px 16px 28px;max-width:760px;margin:0 auto}
+.view{display:none}
+.view.on{display:block;animation:rise .26s cubic-bezier(.2,.8,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* intestazione di vista compatta: la barra di navigazione dice gia dove sei,
+   quindi il titolo fa da occhiello e non mangia 150px di schermo */
+h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.1px;color:var(--muted);margin-bottom:1px}
+.vsub{color:var(--faint);font-size:12.5px;line-height:1.35;margin-bottom:12px}
+.audit{border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.35;
+  border:1px solid transparent}
+.audit[data-state="green"]{background:rgba(90,140,60,.10);border-color:rgba(90,140,60,.35);color:var(--faint)}
+.audit[data-state="red"]{background:rgba(140,29,29,.12);border-color:rgba(140,29,29,.45);
+  color:var(--danger);cursor:pointer}
+.au-row{padding:10px 0;border-bottom:1px solid var(--line)}
+.au-row:last-child{border-bottom:none}
+.au-why{font-size:13.5px;line-height:1.4}
+.au-meta{color:var(--faint);font-size:11.5px;margin-top:3px}
+.au-row.bad{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
+.au-num{display:flex;align-items:baseline;gap:7px;margin-top:5px;font-size:12.5px;
+  font-variant-numeric:tabular-nums;flex-wrap:wrap}
+.au-num>span{color:var(--muted)}
+.au-num>b{font-weight:600}
+.au-num>em{font-style:normal;font-weight:700;color:var(--danger)}
+.gvbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-radius:10px;
+  padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.35;
+  background:rgba(176,124,32,.12);border:1px solid rgba(176,124,32,.42)}
+.gvbar>span{flex:1;min-width:180px}
+table.gv{width:100%;border-collapse:collapse;font-size:12.5px}
+table.gv th{text-align:left;color:var(--faint);font-weight:600;padding:6px 4px;border-bottom:1px solid var(--line)}
+table.gv td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+table.gv td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+table.gv td.gv-new{color:var(--danger);font-weight:700}
+.eyebrow{font-family:var(--font-disp);font-size:12.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--red);margin:22px 0 9px;display:flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";flex:none;width:18px;height:2px;border-radius:2px;background:var(--gold)}
+
+/* ---------- cards / list ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px;
+  box-shadow:var(--sh-1);transition:transform .13s,box-shadow .13s,border-color .13s}
+/* #3a424b era un grigio-blu fuori tavolozza, rimasto da prima del verde */
+.card:active{border-color:var(--red-line);transform:scale(.993);box-shadow:var(--sh-2)}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+
+/* project card */
+.pj-name{font-family:var(--font-disp);font-size:19px;font-weight:600;letter-spacing:.3px}
+.pj-meta{color:var(--muted);font-size:13px;margin-top:2px}
+.pj-stats{display:flex;gap:14px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.l-hinge{font-size:8px;font-weight:700;color:var(--danger);letter-spacing:-.1px;line-height:1.1;margin-top:1px}
+.pc-ang{display:block;font-size:10.5px;font-weight:600;color:var(--red);letter-spacing:0;margin-top:1px}
+/* il giunto sta su una riga sola, ma il piano degli intagli e una frase intera
+   ("sviluppo 1885 mm · 33 intagli ogni 57 mm, profondi 15,3"): con nowrap
+   finiva tagliata a meta proprio sui numeri che servono in officina. */
+.pc-joint{font-size:10.5px;color:var(--ok);font-weight:600;margin-top:1px;white-space:nowrap}
+.pc-joint.wrap{white-space:normal;line-height:1.3}
+.pc-joint.vis{color:var(--danger)}
+#svSelBar{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.sel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.sel-row{display:grid;grid-template-columns:22px 1fr 38px 78px 38px;gap:6px;align-items:center;margin-bottom:6px}
+.sel-ax{font-weight:800;font-size:12px;text-align:center;border-radius:5px;color:#fff;padding:2px 0}
+.ax-X{background:#c0392b}.ax-Y{background:#2e7d32}.ax-Z{background:#1565c0}.ax-R{background:#6b21a8}
+.sel-steps{flex-wrap:wrap}
+.sel-lbl{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-btn{border:1px solid var(--line);border-radius:8px;padding:7px 0;font-size:16px;font-weight:700;background:var(--surface)}
+.sel-btn:active{background:var(--raised)}
+.sel-in{padding:7px 8px;font-size:13.5px;text-align:right}
+.sel-steps{display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
+.chip.sm{padding:5px 10px;font-size:12px}
+.cat-mat{border:1px solid var(--line);border-radius:10px;padding:8px;margin-bottom:8px;background:var(--surface)}
+.cat-mat.off{opacity:.45}
+.cat-mat-h{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.cat-mat-r{display:grid;grid-template-columns:110px 1fr 92px;gap:6px;margin-bottom:6px}
+.cat-mat-r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.cat-mat input{padding:7px 8px;font-size:13px}
+.rm-row{display:grid;grid-template-columns:1fr 92px 82px;gap:8px;align-items:center;margin-bottom:8px}
+.rm-row .rm-name{font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rm-row select,.rm-row input{padding:9px 10px;font-size:13.5px}
+.pj-add{display:flex;gap:8px;margin-top:12px}
+.pj-add .btn{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pj-stat b{font-family:var(--font-disp);font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.05}
+.pj-stat span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:.8px}
+/* il progetto attivo deve saltare all'occhio: prima .tag-active non aveva stile
+   e la scritta usciva nuda accanto al nome */
+.pj-active{border-color:var(--red-line);box-shadow:0 0 0 1px var(--red-line) inset;
+  background:linear-gradient(180deg,var(--gold-tint),transparent 70px),var(--surface)}
+/* una sola regola: la seconda definizione rimetteva il verde e l'oro non
+   si vedeva mai. Il progetto attivo e l'unico posto dove l'oro fa da fondo. */
+.tag-active{flex:none;align-self:flex-start;padding:3px 10px;border-radius:99px;
+  background:var(--gold);color:#2a2107;font-family:var(--font-disp);font-size:11px;
+  font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+
+/* module group */
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;box-shadow:var(--sh-1)}
+.mod-h{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--raised)}
+.mod-h h3{font-family:var(--font-disp);font-size:17px;font-weight:600;letter-spacing:.4px;flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mod-h .cnt{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+
+/* piece row — styled like a workshop cut label */
+.pc{display:flex;align-items:center;gap:12px;padding:11px 14px;border-top:1px solid var(--line)}
+.pc:active{background:var(--raised)}
+.pc-dim{font-family:var(--font-disp);font-weight:700;font-size:19px;letter-spacing:.3px;
+  font-variant-numeric:tabular-nums;white-space:nowrap;flex:none;min-width:108px}
+.pc-dim i{font-style:normal;color:var(--faint);font-size:14px;font-weight:500;padding:0 2px}
+.pc-info{flex:1;min-width:0}
+.pc-el{font-size:14.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-mat{font-size:12px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-right{flex:none;text-align:right}
+.pc-pz{font-family:var(--font-disp);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
+.pc-bordo{font-size:11px;color:var(--red);font-weight:600;letter-spacing:.5px}
+
+/* ---------- buttons ---------- */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;
+  border-radius:12px;font-weight:600;font-size:15px;border:1px solid var(--line);background:var(--surface);
+  box-shadow:var(--sh-1);transition:transform .12s,box-shadow .12s,background .12s}
+.btn:active{transform:scale(.977);box-shadow:none;background:var(--raised)}
+/* l'azione principale: verde pieno e un gradino d'ombra sopra le altre */
+.btn.red{background:var(--grn);border-color:var(--grn);color:var(--on-accent);box-shadow:var(--sh-2)}
+.btn.red:active{box-shadow:var(--sh-1)}
+.btn.ghost{background:transparent;box-shadow:none}
+.btn.sm{width:auto;padding:9px 14px;font-size:13.5px;border-radius:10px}
+.btn svg{width:17px;height:17px;flex:none}
+.btnrow{display:flex;gap:10px;margin:12px 0}
+.btnrow .btn{flex:1}
+
+/* FAB */
+.fab{position:fixed;right:16px;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom));z-index:35;
+  width:56px;height:56px;border-radius:16px;background:var(--grn);color:var(--on-accent);display:grid;place-items:center;
+  box-shadow:0 0 0 1px var(--gold-tint), var(--sh-3);transition:transform .14s,box-shadow .14s;display:none}
+.fab.on{display:grid}
+.fab svg{width:24px;height:24px}
+.fab:active{transform:scale(.93);box-shadow:0 0 0 1px var(--gold), var(--sh-2)}
+
+/* ---------- bottom nav ---------- */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);background:var(--chrome);backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);display:flex}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  color:var(--faint);font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;font-family:var(--font-disp)}
+nav button svg{width:21px;height:21px}
+nav button{position:relative}
+nav button.on{color:var(--red)}
+nav button.on::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:30px;height:3px;border-radius:0 0 3px 3px;background:var(--gold);
+  animation:navTick .22s cubic-bezier(.2,.8,.3,1)}
+@keyframes navTick{from{width:0;opacity:0}to{width:30px;opacity:1}}
+nav button{transition:color .14s}
+
+/* ---------- sheets & modals ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:var(--surface);
+  border-radius:20px 20px 0 0;border:1px solid var(--line);border-bottom:none;
+  transform:translateY(105%);transition:transform .25s cubic-bezier(.3,.9,.3,1);
+  max-height:88vh;overflow-y:auto;padding:8px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:var(--sh-3)}
+.sheet.on{transform:none}
+.sheet-grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:6px auto 12px}
+.sheet h3{font-family:var(--font-disp);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px;padding-right:44px}
+/* chiusura sempre a portata di pollice, in alto a destra. La riga e alta zero e
+   sticky: il bottone galleggia sul contenuto e resta al suo posto anche nei
+   pannelli che scorrono (impostazioni, catalogo, AI), dove un semplice
+   position:absolute se ne andrebbe via col primo scorrimento. */
+.sheet-xrow{position:sticky;top:0;height:0;z-index:3;display:flex;justify-content:flex-end;pointer-events:none}
+.sheet-x{pointer-events:auto;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+  color:var(--muted);background:var(--raised);border:1px solid var(--line);transform:translateY(2px)}
+.sheet-x:active{background:var(--line)}
+.sheet-x svg{width:18px;height:18px}
+.f{margin-bottom:12px}
+.f label{display:block;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.f2>.f,.f3>.f{min-width:0}
+
+/* ---------- gruppi a fisarmonica del generatore ----------
+   29 campi in un unico scorrimento erano 3 schermate: ora sono 4 righe
+   che mostrano il valore corrente senza doverle aprire. <details> nativo,
+   niente JS per aprire/chiudere, funziona anche offline. */
+.grp{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:8px;overflow:hidden}
+.grp>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;
+  padding:13px 14px;font-family:var(--font-disp);font-size:15px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.9px}
+.grp>summary::-webkit-details-marker{display:none}
+.grp>summary::after{content:"";flex:none;width:9px;height:9px;margin-left:auto;
+  border-right:2px solid var(--faint);border-bottom:2px solid var(--faint);
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform .18s}
+.grp[open]>summary::after{transform:rotate(-135deg) translate(-3px,-3px)}
+.grp>summary .grp-sum{font-family:var(--font-body);font-style:normal;font-size:12.5px;
+  font-weight:500;letter-spacing:0;text-transform:none;color:var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right}
+.grp[open]>summary{border-bottom:1px solid var(--line);background:var(--raised)}
+.grp[open]>summary .grp-sum{opacity:0}
+.grp-body{padding:14px 14px 2px}
+
+/* ordine dei tagli sopra lo schema, a richiesta */
+.cutlay{display:none}
+#nestOut.showcuts .cutlay{display:block}
+.cutseq{display:none;flex-wrap:wrap;gap:5px;margin-top:8px}
+#nestOut.showcuts .cutseq{display:flex}
+.cut-i{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;
+  background:var(--raised);border:1px solid var(--line);font-size:12px;
+  font-variant-numeric:tabular-nums;color:var(--muted)}
+.cut-i b{color:var(--danger);font-family:var(--font-disp);font-size:12.5px}
+.cut-i .cut-g{font-style:normal;color:var(--danger);font-weight:700}
+.strow{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);
+  border-radius:10px;margin-bottom:6px;background:var(--field)}
+.strow b{font-family:var(--font-disp);font-size:17px;letter-spacing:.3px;font-variant-numeric:tabular-nums}
+.strow span{color:var(--muted);font-size:13px;margin-right:auto}
+.tr-tag{flex:none;font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;
+  place-items:center;font-weight:700;font-size:14px}
+.tr-tag.ok{background:rgba(46,125,50,.14);color:var(--ok)}
+.tr-tag.no{background:rgba(192,47,47,.14);color:var(--danger)}
+.stock-tag{display:inline-block;padding:1px 7px;border-radius:99px;background:var(--gold-tint);
+  border:1px solid var(--gold);color:var(--gold-ink);font-size:11px;font-weight:700}
+
+/* anteprima 3D appiccicata sotto l'intestazione */
+.previewbox{position:sticky;top:58px;z-index:20;box-shadow:var(--sh-2)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{padding:8px 13px;border-radius:99px;border:1px solid var(--line);background:var(--field);
+  font-size:13px;font-weight:600;color:var(--muted);transition:transform .12s,background .12s,border-color .12s}
+.chip:active{transform:scale(.95)}
+.chip.on{background:var(--red-soft);border-color:var(--red-line);color:var(--red)}
+/* i tipi propri si distinguono da quelli di serie senza doverli leggere:
+   filetto oro del marchio, e la X per toglierli sta solo su questi */
+.chip-user{border-color:var(--gold-soft);background:var(--gold-tint);padding-right:8px}
+.chip-user.on{border-color:var(--gold);color:var(--red)}

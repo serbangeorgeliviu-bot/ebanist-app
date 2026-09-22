@@ -5,11 +5,25 @@ aplicația în `app/`, gata de instalare ca PWA (Progressive Web App).
 
 ```
 /                       pagina de prezentare (4 limbi) + termeni, confidențialitate, rambursare
+/site.js                textele paginii de prezentare, în 4 limbi
 /sw.js                  service worker de demontare — îl dezinstalează pe cel vechi, de pe scope „/”
-/app/                   APLICAȚIA: index.html, manifest.webmanifest, sw.js, icons/, vendor/
+/app/index.html         APLICAȚIA: doar marcajul — nicio linie de cod, niciun stil
+/app/js/                corpul aplicației, 22 de fișiere, în ordinea din index.html
+/app/styles/            foile de stil, în ordinea cascadei: tokens → shell → views → print
+/app/data/              catalogul de materiale (date, nu cod)
+/app/ebanist-core.js    nucleul geometric — deriveCarcass(), singurul loc cu cotele derivate
 /app/config/billing.js  DE COMPLETAT: valorile Lemon Squeezy (vezi MONETIZARE.md)
 /app/tools/genkey.py    generatorul de chei permanente EBP-XXXX-XXXX-XXXX
+/order-rail/            Order Rail: prețuri, inbox-ul atelierului, pagina unei comenzi
 ```
+
+**Din v4.29.0, `app/index.html` nu mai conține cod.** Era un singur fișier de
+10.250 de rânduri, cu 8.350 de rânduri de JavaScript și 609 de CSS înăuntru.
+Acum e doar marcaj; codul stă în `app/js/`, stilurile în `app/styles/`, și
+ordinea de încărcare e scrisă negru pe alb la sfârșitul lui `index.html`.
+Fișierele rămân **scripturi clasice**, nu module: se văd între ele exact ca
+înainte, și aplicația pornește la fel și pe telefoanele vechi din atelier.
+Nu există pas de build — se publică folderul așa cum e.
 
 **Aplicația s-a mutat de la `/` la `/app/` în v4.25.0.** Aceeași origine,
 deci nimeni nu-și pierde proiectele. `/sw.js` din rădăcină trebuie să rămână
@@ -39,8 +53,12 @@ Detaliile, în MONETIZARE.md §5.
 
 ## Varianta C — imediat, fără hosting (2 minute)
 
-1. Trimite-ți fișierul **index.html** pe telefon (WhatsApp/email/drive).
-2. Deschide-l cu **Chrome** → meniul ⋮ → **„Adaugă la ecranul de pornire"**.
+1. Trimite-ți **tot folderul** (arhivat) pe telefon sau pe un stick și
+   dezarhivează-l. Un singur `index.html` nu ajunge: aplicația încarcă
+   nucleul geometric, catalogul de materiale și cele 22 de fișiere din
+   `app/js/` — trebuie să stea lângă el, cu aceeași structură de foldere.
+2. Deschide `app/index.html` cu **Chrome** → meniul ⋮ →
+   **„Adaugă la ecranul de pornire"**.
 3. Primești o scurtătură cu care intri direct în aplicație. Datele se
    salvează. (Diferența față de A: fără mod fullscreen și fără update
    automat — e varianta rapidă de lucru.)
@@ -69,12 +87,19 @@ rădăcină servește funcției Netlify și nu trebuie să-l atingă.
 Dacă modifici aplicația și o reurci, **două** valori trebuie schimbate
 împreună, altfel telefoanele rămân pe versiunea veche:
 
-1. `app/sw.js` → `const CACHE = "ebanist-v56"` — incrementează numărul.
-2. `app/index.html` → `const APP_VER="4.25.0"` **și** `const SW_CACHE="ebanist-v56"`
-   (aceeași valoare ca în `app/sw.js`).
+1. `app/sw.js` → `const CACHE = "ebanist-v61"` — incrementează numărul.
+2. `app/index.html` → `<meta name="app-version" content="4.29.0">` **și**
+   `<meta name="sw-cache" content="ebanist-v61">` (aceeași valoare ca în
+   `app/sw.js`).
 
-Dacă adaugi un fișier nou pe care aplicația îl încarcă la pornire, pune-l și
-în lista `SHELL` din `app/sw.js` — altfel nu există offline, în atelier.
+Cele două numere stau în `<meta>`, nu în cod: de acolo le citește `version.js`
+la pornire, și tot de acolo le recitește „Verifică actualizări" din documentul
+descărcat de pe server.
+
+Dacă adaugi un fișier nou pe care aplicația îl încarcă la pornire, pune-l în
+`app/index.html` **și** în lista `SHELL` din `app/sw.js` — altfel nu există
+offline, în atelier. `cd test && npm run check` compară cele două liste și
+cade dacă nu se potrivesc; durează două secunde și nu cere nicio dependență.
 
 Dacă cele două nume de cache nu coincid, „Verifică actualizări" scrie pagina
 nouă într-un cache pe care service worker-ul îl șterge imediat ce pornește:
@@ -83,4 +108,4 @@ regresie verifică asta la fiecare rulare.
 
 ---
 
-Domus Renov · Ebanist v4.25.0
+Domus Renov · Ebanist v4.29.0

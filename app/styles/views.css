@@ -1,0 +1,201 @@
+/* ===========================================================================
+   Ebanist — views.css
+
+   Le singole schermate e le finestre: foglia di chiusura, cercatore di
+   materiali, riepilogo, ottimizzazione di taglio, campo magico AI,
+   Order Rail, dialogo unico e schermo Pro.
+   =========================================================================== */
+
+/* --- foglia di chiusura: densa, tabellare, niente decoro --- */
+.cl-row{padding:9px 0 9px 10px;border-bottom:1px solid var(--line);border-left:3px solid transparent}
+.cl-row:last-of-type{border-bottom:none}
+.cl-row.bad{border-left-color:var(--danger);background:rgba(192,47,47,.05)}
+.cl-h{display:flex;align-items:baseline;gap:7px;font-size:13.5px}
+.cl-h b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-h .cl-t{color:var(--muted);font-size:11.5px}
+.cl-h .cl-n{margin-left:auto;flex:none;color:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+.cl-mark{flex:none;font-weight:700;width:14px}
+.cl-row.bad .cl-mark{color:var(--danger)}
+.cl-dim{margin-top:3px;font-size:12.5px;font-variant-numeric:tabular-nums;display:flex;gap:7px;flex-wrap:wrap;align-items:baseline}
+.cl-dim .arw{color:var(--faint)}
+.cl-dim .off{color:var(--danger);font-weight:700}
+.cl-sp,.cl-kind{margin-top:3px;font-size:11.5px;color:var(--muted);line-height:1.45}
+.cl-sp b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.cl-conf{display:flex;align-items:center;gap:9px;margin:14px 0 10px;font-size:13.5px}
+.cl-conf input{width:20px;height:20px;flex:none}
+.cl-conf input:disabled+span{opacity:.5}
+.cl-block{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;
+  padding:10px 12px;border-radius:10px;border:1px solid var(--danger);
+  background:rgba(192,47,47,.06);font-size:13px;color:var(--danger)}
+.cl-block .btn{width:auto;flex:none}
+.btn:disabled{opacity:.42;box-shadow:none;cursor:not-allowed}
+/* --- cercatore di materiali --- */
+/* `min-width:0` non e decorativo: dentro una griglia a due colonne un
+   bottone senza di lui si allarga al contenuto e spinge il vicino fuori
+   dallo schermo — il selettore dello schienale spariva a destra. */
+.matpick{display:flex;align-items:center;gap:9px;width:100%;min-width:0;padding:10px 12px;border-radius:10px;
+  border:1px solid var(--line);background:var(--field);color:var(--ink);font-size:14px;text-align:left}
+.matpick .mp-dot,.mp-row .mp-dot{flex:none;width:20px;height:20px;border-radius:6px;border:1px solid rgba(0,0,0,.22)}
+.matpick .mp-txt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.matpick .mp-th{flex:none;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.mp-fam{margin:14px 0 6px;font-family:var(--font-disp);font-size:12px;letter-spacing:.6px;
+  text-transform:uppercase;color:var(--muted)}
+.mp-row{display:flex;align-items:center;gap:10px;width:100%;padding:10px 10px;border-radius:9px;
+  border:1px solid transparent;background:none;color:var(--ink);text-align:left;font-size:14px}
+.mp-row:hover,.mp-row.on{border-color:var(--line);background:var(--field)}
+.mp-row .mp-n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mp-row .mp-c{flex:none;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mp-row .mp-th{flex:none;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+/* colore non verificato su campione fisico: un segno discreto, non un allarme */
+.mp-unv{flex:none;width:7px;height:7px;border-radius:50%;background:#b8860b;opacity:.75}
+.mp-none{padding:14px 4px;color:var(--muted);font-size:13.5px}
+.chiprow{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 2px}
+.grp.sub{margin-top:10px;border-radius:10px}
+.chip-x{display:inline-grid;place-items:center;width:18px;height:18px;margin-left:6px;
+  border-radius:50%;background:var(--ink-a);font-size:14px;line-height:1;color:var(--muted)}
+.chip-x:active{background:var(--ink-b)}
+.chip-add{border-style:dashed;color:var(--faint)}
+
+/* ---------- summary ---------- */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 15px;box-shadow:var(--sh-1)}
+/* nowrap: senza, "€ 688,21" si spezzava dopo il simbolo e il numero
+   piu importante della schermata usciva su due righe */
+.kpi b{font-family:var(--font-disp);font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;
+  line-height:1.05;letter-spacing:-.3px;display:block;white-space:nowrap}
+.kpi b small{font-size:15px;color:var(--muted);font-weight:600}
+.kpi span{display:block;color:var(--faint);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+/* il dato che conta porta il filetto oro; il verde da solo si perdeva tra gli altri */
+.kpi.hl{border-color:var(--red-line);background:linear-gradient(160deg,var(--red-soft),var(--surface) 55%);
+  box-shadow:var(--sh-2);position:relative;overflow:hidden}
+.kpi.hl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{font-family:var(--font-disp);font-size:11.5px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--faint);text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);font-weight:600}
+table.t td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.t th.n{text-align:right}
+table.t tr:last-child td{border-bottom:none}
+
+/* ---------- nesting ---------- */
+.nestwarn{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:var(--radius);padding:12px;margin-bottom:12px;font-size:13.5px;line-height:1.5}
+.nestwarn ul{margin:6px 0 0 18px}
+.nestwarn li{margin-top:2px}
+.panelbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px;margin-bottom:12px}
+.panelbox h4{font-family:var(--font-disp);font-size:15px;font-weight:600;letter-spacing:.5px;margin-bottom:2px}
+.panelbox .eff{font-size:12px;color:var(--muted);margin-bottom:8px}
+.panelbox svg{width:100%;height:auto;display:block;border-radius:8px}
+.eff b{color:var(--ok)}
+
+/* ---------- misc ---------- */
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty svg{width:44px;height:44px;color:var(--faint);margin-bottom:10px}
+.toast{pointer-events:none;position:fixed;left:50%;bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+  background:var(--raised);border:1px solid var(--line);border-left:3px solid var(--gold);color:var(--text);box-shadow:var(--sh-3);
+  padding:11px 18px;border-radius:10px;font-size:14px;z-index:70;opacity:0;transition:.25s;white-space:nowrap;max-width:92vw;
+  overflow:hidden;text-overflow:ellipsis}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.danger{color:var(--danger)}
+.mini{font-size:12px;color:var(--faint)}
+hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
+
+/* ---------- AI magic input ---------- */
+.aibar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px;margin-bottom:10px}
+.aibar textarea{min-height:62px;resize:vertical}
+.airow{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.aibtn{flex:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--field);display:grid;place-items:center}
+.aibtn svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.aibtn.rec{background:var(--danger);border-color:var(--danger)}
+.aibtn.rec svg{stroke:#fff}
+.aisend{flex:1;min-width:120px;height:46px;border-radius:12px;background:var(--red);color:#fff;
+  font-family:var(--font-disp);font-size:15px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--on-accent);box-shadow:var(--sh-2)}
+.aisend:disabled{opacity:.55;box-shadow:none}
+.aithumb{width:46px;height:46px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.previewbox,#svPlanCard{position:relative}
+.aiveil{position:absolute;inset:0;z-index:6;display:none;align-items:center;justify-content:center;
+  flex-direction:column;gap:10px;border-radius:var(--radius);background:var(--veil)}
+.aiveil.on{display:flex}
+.aispin{width:34px;height:34px;border-radius:50%;border:3px solid var(--red-line);border-top-color:var(--gold);animation:aispin .8s linear infinite}
+@keyframes aispin{to{transform:rotate(360deg)}}
+.aidiff{display:flex;gap:8px;align-items:baseline;font-size:13.5px;line-height:1.5;padding:3px 0;border-bottom:1px dashed var(--line)}
+.aidiff>b{font-family:var(--font-disp);font-size:13px;letter-spacing:.4px;color:var(--muted);flex:none;min-width:104px}
+.aiwarn{color:var(--danger);font-size:12.5px;margin-top:8px;line-height:1.45}
+.iconbtn{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted);flex:none}
+.iconbtn:active{background:var(--raised)}
+.iconbtn.danger{color:var(--danger)}
+.iconbtn svg{width:18px;height:18px}
+
+/* checklist / progress / filters */
+.pc-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;color:transparent;background:var(--field);padding:0;transition:background .16s,border-color .16s,transform .16s}
+.pc-check:active{transform:scale(.88)}
+.pc-check.on{background:var(--gold);border-color:var(--gold);color:#2a2107}
+.pc-check svg{width:14px;height:14px}
+.pc.isdone{opacity:.45}
+.pc.isdone .pc-dim{text-decoration:line-through}
+.prog{height:5px;background:var(--raised);border-radius:3px;margin-top:10px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:3px;
+  transition:width .45s cubic-bezier(.2,.8,.3,1)}
+.filterbar{display:flex;gap:8px;margin-bottom:12px}
+.filterbar input{flex:1.4;min-width:0}
+.filterbar select{flex:1;min-width:0}
+
+/* ---------- Order Rail ---------- */
+/* Bara de preț stă DEASUPRA navigării, nu peste ea: e permanentă, iar un
+   buton care acoperă meniul se apasă din greșeală cu degetul mare. */
+#orBar{position:fixed;left:10px;right:10px;bottom:calc(var(--nav-h) + 10px);z-index:60;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);padding:10px 12px;display:none}
+#orBar.on{display:block}
+#orBar .row{display:flex;align-items:baseline;gap:10px;margin-bottom:9px}
+#orBar .amt{font-family:var(--font-disp);font-size:24px;font-weight:700;line-height:1;white-space:nowrap}
+#orBar .lbl{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.6px}
+#orBar .go .btn{width:100%}
+#orBar .amt{margin-left:auto}
+#orBar .btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#orBar .warn{margin-top:6px;font-size:11.5px;color:var(--warn);line-height:1.35}
+#orDetail{margin-top:8px;border-top:1px solid var(--line);padding-top:8px;display:none}
+#orDetail.on{display:block}
+#orDetail table{width:100%;border-collapse:collapse;font-size:12.5px}
+#orDetail td{padding:3px 0}
+#orDetail td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#orDetail tr.sum td{border-top:1px solid var(--line);font-weight:700;padding-top:6px}
+#orDetail .mod{margin-top:8px;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--faint)}
+.or-toggle{background:none;border:0;color:var(--faint);font-size:12px;padding:4px 0;cursor:pointer}
+/* Identitatea atelierului în header: logo mic, nume în locul „Ebanist". */
+.at-logo{height:26px;width:auto;max-width:96px;display:block;border-radius:4px}
+
+/* ---------- dialogo unico, schermo Pro, filigrana ---------- */
+.dlg-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.55);display:none;
+  align-items:center;justify-content:center;padding:20px}
+.dlg-ov.on{display:flex}
+.dlg{background:var(--surface);color:var(--text);border-radius:16px;padding:20px;
+  width:100%;max-width:420px;max-height:82vh;overflow-y:auto;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.dlg h4{font-family:var(--font-disp);font-size:17px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;margin-bottom:10px}
+.dlg p{line-height:1.5}
+.dlg-row{display:flex;gap:8px;margin-top:18px}
+.dlg-row .btn{flex:1}
+.pro-feats{list-style:none;padding:0;margin:0}
+.pro-feats li{position:relative;padding:7px 0 7px 26px;line-height:1.4;border-bottom:1px solid var(--line)}
+.pro-feats li:last-child{border-bottom:0}
+.pro-feats li::before{content:"✓";position:absolute;left:2px;top:7px;color:var(--grn);font-weight:700}
+/* Il pallino dorato sull'ingranaggio: da lontano, con le mani sporche e
+   il telefono sul banco, e l'unico modo di sapere se questa e la versione
+   pagata senza aprire niente. */
+.hbtn.has-pro{position:relative}
+.hbtn.has-pro::after{content:"";position:absolute;top:4px;right:4px;width:7px;height:7px;
+  border-radius:50%;background:#D4AF37;box-shadow:0 0 0 2px var(--bg)}
+
+
+/* ---------- il motore locale e' vecchio ----------
+   Una barra che non se ne va da sola: l'unica via d'uscita e' ricaricare.
+   Stava scritta riga per riga dentro il JavaScript, con `style.cssText`;
+   qui e' leggibile, segue i token del tema e la si puo' ritoccare senza
+   toccare il codice. */
+#geomStaleBar{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + 12px);z-index:320;
+  background:#8c1d1d;color:#fff;border-radius:12px;padding:12px 14px;display:flex;align-items:center;
+  gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.4);font-size:14px;line-height:1.35}
+#geomStaleBar span{flex:1}
+#geomStaleBar button{flex:none;background:#fff;color:#8c1d1d;border:none;border-radius:8px;
+  font-weight:700;padding:8px 12px;cursor:pointer}

@@ -17,15 +17,19 @@ const vm = require("vm");
 const path = require("path");
 
 const APP = path.resolve(__dirname, "..", "app");
+const { appSource } = require("./engine");
 const CL = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-centro-legno.json"), "utf8"));
 const LEG = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-legacy.json"), "utf8"));
 
-/* Il banco: lo stesso index.html, con un `fetch` che legge dal disco. */
+/* Il banco: le righe vere dell'app, con un `fetch` che legge dal disco.
+   La sorgente la mette insieme engine.js leggendo l'elenco degli script da
+   index.html — una sola copia di quella logica, non due che scivolano via
+   l'una dall'altra. */
 function sandbox() {
-  const html = fs.readFileSync(path.join(APP, "index.html"), "utf8").split("\n");
+  const src = appSource().split("\n");
   const slice = (a, b) => {
-    let i = html.findIndex(l => a.test(l));
-    for (let j = i + 1; j < html.length; j++) if (b.test(html[j])) return html.slice(i, j).join("\n");
+    let i = src.findIndex(l => a.test(l));
+    for (let j = i + 1; j < src.length; j++) if (b.test(src[j])) return src.slice(i, j).join("\n");
   };
   const s = {
     console, Math, Number, String, Array, Object, JSON, isFinite, parseInt, parseFloat,

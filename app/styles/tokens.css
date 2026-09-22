@@ -1,0 +1,93 @@
+/* ===========================================================================
+   Ebanist — tokens.css
+
+   Variabili di tema: le tre superfici, i colori di marca, i raggi, le ombre.
+   Tema chiaro sopra, tema scuro sotto. Questo file si legge per primo:
+   tutto il resto ci si appoggia e non riscrive mai un colore crudo.
+   =========================================================================== */
+
+/* ---------- tokens ----------
+   Tre livelli di superficie, non due quasi uguali: il fondo pagina e tinto,
+   la scheda e bianca e galleggia. Prima --bg #ffffff e --surface #f6f8f4
+   distavano il 2%: otto rettangoli identici per schermata, nessuna gerarchia.
+   --field sta separato da --bg perche i campi devono restare bianchi dentro
+   una scheda bianca e leggibili sopra il fondo tinto. */
+:root{
+  color-scheme:light;
+  --bg:#eaeee4; --surface:#ffffff; --raised:#e2e8d8; --field:#ffffff;
+  --line:#d3dbc6; --line-soft:#e6ebdd;
+  --text:#1d221b; --muted:#5c6558; --faint:#8b9486;
+  /* accento = verde banconota del marchio; oro solo per evidenziare, mai per testo su bianco */
+  --red:#0E3B2A; --grn:#0E3B2A; --red-soft:rgba(14,59,42,.09); --red-line:rgba(14,59,42,.32); --danger:#c02f2f;
+  --on-accent:#ffffff;
+  --gold:#D4AF37; --gold-soft:#E3C877; --gold-tint:rgba(212,175,55,.16); --gold-ink:#6b5410;
+  --ok:#2e7d32; --warn:#f5a623;
+  /* le ombre erano sette ricette scritte a mano; ora sono tre gradini */
+  --sh-1:0 1px 2px rgba(25,35,15,.06);
+  --sh-2:0 2px 6px -2px rgba(25,35,15,.14), 0 1px 2px rgba(25,35,15,.06);
+  --sh-3:0 10px 28px -10px rgba(25,35,15,.34), 0 2px 6px -2px rgba(25,35,15,.12);
+  --chrome:rgba(255,255,255,.86);
+  --scrim:rgba(20,28,14,.38);
+  --veil:rgba(255,255,255,.86);
+  --ink-a:rgba(0,0,0,.09); --ink-b:rgba(0,0,0,.2);
+  --warn-bg:#fdeaea; --warn-line:#d94b4b; --warn-ink:#7a1c1c;
+  --radius:14px; --nav-h:64px;
+  --font-body:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-disp:'Barlow Condensed','Barlow',system-ui,sans-serif;
+  --mono:'SF Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+}
+
+/* ---------- tema scuro ----------
+   Il verde #0E3B2A e un accento cieco sul fondo scuro: sotto si schiarisce.
+   L'oro invece qui puo fare anche testo — su fondo scuro il contrasto c'e. */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#141812; --surface:#1c211a; --raised:#272e24; --field:#11150f;
+  --line:#333c2e; --line-soft:#252c21;
+  --text:#eef1ea; --muted:#a3ad9a; --faint:#7b8573;
+  --red:#3d9c74; --grn:#3d9c74; --red-soft:rgba(61,156,116,.14); --red-line:rgba(61,156,116,.38);
+  --on-accent:#0b1710;
+  --gold-tint:rgba(212,175,55,.15); --gold-ink:#e8d493;
+  --ok:#5cb860; --danger:#e06a6a;
+  --sh-1:0 1px 2px rgba(0,0,0,.4);
+  --sh-2:0 2px 8px -2px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
+  --sh-3:0 12px 32px -12px rgba(0,0,0,.8), 0 2px 8px -2px rgba(0,0,0,.5);
+  --chrome:rgba(28,33,26,.88);
+  --scrim:rgba(0,0,0,.62);
+  --veil:rgba(20,24,18,.88);
+  --ink-a:rgba(255,255,255,.1); --ink-b:rgba(255,255,255,.22);
+  --warn-bg:#2c1717; --warn-line:#a04040; --warn-ink:#f0b8b8;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#141812; --surface:#1c211a; --raised:#272e24; --field:#11150f;
+  --line:#333c2e; --line-soft:#252c21;
+  --text:#eef1ea; --muted:#a3ad9a; --faint:#7b8573;
+  --red:#3d9c74; --grn:#3d9c74; --red-soft:rgba(61,156,116,.14); --red-line:rgba(61,156,116,.38);
+  --on-accent:#0b1710;
+  --gold-tint:rgba(212,175,55,.15); --gold-ink:#e8d493;
+  --ok:#5cb860; --danger:#e06a6a;
+  --sh-1:0 1px 2px rgba(0,0,0,.4);
+  --sh-2:0 2px 8px -2px rgba(0,0,0,.55), 0 1px 2px rgba(0,0,0,.4);
+  --sh-3:0 12px 32px -12px rgba(0,0,0,.8), 0 2px 8px -2px rgba(0,0,0,.5);
+  --chrome:rgba(28,33,26,.88);
+  --scrim:rgba(0,0,0,.62);
+  --veil:rgba(20,24,18,.88);
+  --ink-a:rgba(255,255,255,.1); --ink-b:rgba(255,255,255,.22);
+  --warn-bg:#2c1717; --warn-line:#a04040; --warn-ink:#f0b8b8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.45;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));min-height:100vh;overscroll-behavior-y:contain}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+input,select,textarea{background:var(--field);border:1px solid var(--line);border-radius:10px;
+  padding:11px 12px;width:100%;outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-tint)}
+main button,main input,main select,main textarea{scroll-margin-block-end:calc(var(--nav-h) + 24px);scroll-margin-block-start:76px}
+input[type=number]{font-variant-numeric:tabular-nums}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7468' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+::placeholder{color:var(--faint)}
+

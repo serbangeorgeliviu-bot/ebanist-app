@@ -5,6 +5,52 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.29.0 — 22 septembrie 2026
+
+Versiune **fără nicio schimbare de funcționalitate**: aceleași ecrane,
+aceiași pași, aceleași cote. Toate cele 42 de cazuri golden ies bit cu bit
+la fel. Ce s-a schimbat e felul în care e scrisă aplicația.
+
+**Aplicația nu mai e un singur fișier.** `app/index.html` avea 10.250 de
+rânduri: 8.350 de JavaScript și 609 de CSS, toate înăuntru. Acum e doar
+marcaj. Codul stă în `app/js/`, împărțit pe 22 de fișiere după ce face
+fiecare — i18n, stare, licență, geometrie, validare, documente, rilievo,
+Order Rail — și stilurile în `app/styles/`, în ordinea cascadei. Rămân
+scripturi clasice, nu module: se văd între ele exact ca înainte, aplicația
+pornește la fel pe telefoanele vechi și **nu există pas de build**.
+
+**Politica de securitate a paginii s-a strâns.** Cu tot codul afară,
+`script-src` a rămas `'self'` și atât — fără `'unsafe-inline'`. Comentariul
+din `netlify.toml` care spunea „nu e acum momentul" avea dreptate atunci; acum
+e. Au ieșit afară și scripturile din pagina de prezentare, din inbox-ul
+atelierului și din pagina unei comenzi: politica e una singură pentru tot
+site-ul, deci trebuiau curățate toate.
+
+**Actualizarea nu mai poate lăsa cod vechi în urmă.** „Verifică actualizări"
+scria în cache doar pagina nouă și lăsa restul fișierelor pe loc — HTML de
+4.29 peste motor de 4.28. Se vedea mai puțin înainte, fiindcă doar
+`ebanist-core.js` rămânea în urmă; cu codul în 22 de fișiere ar fi devenit
+regulă. Acum, când găsește o versiune nouă, golește tot cache-ul și
+reîncarcă. Proiectele nu se ating: ele stau în altă parte.
+
+**Comanda către atelier pleca fără distinta de debitare.** Din 4.28.0, PDF-ul
+distinței trece prin foaia de închidere — un gest uman, cu bifă. Dar
+constructorul pachetului de comandă apăsa același buton din cod: se deschidea
+foaia, și pachetul pleca fără documentul după care se taie. Acum distinta e în
+pachet, iar dacă nu poate fi produsă comanda se oprește cu un mesaj, în loc să
+plece pe jumătate. Cancelul automat rămâne neatins.
+
+**Probele.** `cd test && npm run check` — două secunde, fără nicio dependență
+— citește fiecare fișier de cod, compară lista de scripturi din `index.html`
+cu guscio-ul offline din `sw.js` (un fișier uitat acolo înseamnă aplicație
+goală în atelier, fără rețea) și verifică versiunea și numele cache-ului.
+Intră în CI, împreună cu suita Order Rail, care nu rula și se stinsese singură.
+
+- `APP_VER` 4.29.0, cache-ul service worker-ului `ebanist-v61`. Amândouă se
+  citesc acum din `<meta>`, nu din cod.
+
+---
+
 ## 4.28.1 — 21 septembrie 2026
 
 **Panourile vechi sunt din nou în selector.** În 4.28.0 am pus catalogul

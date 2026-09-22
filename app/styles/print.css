@@ -1,0 +1,60 @@
+/* ===========================================================================
+   Ebanist — print.css
+
+   La stampa (distinta PDF, etichette, schede di montaggio) e i due
+   adattamenti finali: schermo largo e movimento ridotto. Ultimo anello
+   della catena — quello che deve poter vincere sugli altri.
+   =========================================================================== */
+
+/* ---------- print (distinta PDF) ---------- */
+#printArea{display:none}
+@media print{
+  :root{--bg:#fff;--surface:#fff;--raised:#f2f2f2;--field:#fff;--line:#ccc;
+    --text:#000;--muted:#333;--faint:#666;--red:#0E3B2A;--grn:#0E3B2A}
+  body{background:#fff;color:#000;padding:0}
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block;font-family:'Barlow',Arial,sans-serif;color:#000}
+  /* etichette 70×37mm, 3×8 per A4 (tipo Avery 3474) */
+  .lbl-grid{display:grid;grid-template-columns:repeat(3,70mm);grid-auto-rows:37mm;margin:0;padding:0}
+  .lbl{box-sizing:border-box;padding:2.5mm 3mm;overflow:hidden;border:0.2mm dotted #bbb;display:flex;flex-direction:column;justify-content:space-between;page-break-inside:avoid}
+  .lbl .l1{font-size:7.5pt;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lbl .l2{font-size:8.5pt;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lbl .dim{font-size:15pt;font-weight:700;font-family:'Barlow Condensed',Arial;letter-spacing:.3px}
+  .lbl .l3{display:flex;justify-content:space-between;align-items:flex-end;font-size:7pt;color:#333}
+  .lbl svg{display:block}
+  .pr-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0E3B2A;padding-bottom:10px;margin-bottom:14px}
+  .pr-head h1{font-family:'Barlow Condensed',Arial;font-size:22pt;text-transform:uppercase;letter-spacing:1px}
+  .pr-head .co{text-align:right;font-size:9.5pt;color:#333}
+  .pr-head .co b{font-size:12pt;color:#000}
+  .pr-head .pr-trace{font-size:8pt;color:#666;margin-top:6px;font-variant-numeric:tabular-nums}
+  #printArea h2{font-family:'Barlow Condensed',Arial;font-size:13pt;text-transform:uppercase;letter-spacing:.5px;
+    margin:14px 0 6px;padding:4px 8px;background:#f2f2f2;border-left:4px solid #0E3B2A}
+  #printArea table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  #printArea th{background:#1c211b;color:#fff;text-align:left;padding:5px 7px;font-size:8.5pt;text-transform:uppercase;letter-spacing:.5px}
+  #printArea td{border:1px solid #ccc;padding:5px 7px}
+  #printArea td.n{text-align:right;font-variant-numeric:tabular-nums}
+  #printArea .pr-foot{margin-top:18px;font-size:8.5pt;color:#666;border-top:1px solid #ccc;padding-top:8px;display:flex;justify-content:space-between}
+  #printArea .pr-sum{margin-top:14px;font-size:10pt}
+  tr{page-break-inside:avoid}
+  /* --- filigrana della versione gratuita ---
+     `position:fixed` in stampa vuol dire «su OGNI pagina»: e l'unico modo
+     di marcare anche la pagina 4 di una distinta lunga senza ripetere il
+     nodo a mano. `print-color-adjust` e obbligatorio, altrimenti Chrome e
+     Safari tolgono i colori di sfondo in stampa e la diagonale sparisce —
+     cioe la filigrana non c'e proprio dove serve.
+     Non copre le cote: 8% di opacita si legge attraverso. Una filigrana
+     che rende illeggibile una misura non e un limite commerciale, e un
+     documento che manda un pezzo in officina con la quota sbagliata. */
+  .wm-diag{position:fixed;top:45%;left:0;right:0;text-align:center;z-index:9;
+    font-family:'Barlow Condensed',Arial,sans-serif;font-size:58pt;font-weight:700;
+    letter-spacing:6px;color:#0E3B2A;opacity:.08;transform:rotate(-30deg);
+    pointer-events:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wm-foot{position:fixed;bottom:4mm;left:0;right:0;text-align:center;z-index:9;
+    font-size:8pt;color:#0E3B2A;opacity:.75;letter-spacing:.4px;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (min-width:640px){
+  .kpis{grid-template-columns:repeat(4,1fr)}
+  .fab{right:calc(50% - 380px + 16px)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
