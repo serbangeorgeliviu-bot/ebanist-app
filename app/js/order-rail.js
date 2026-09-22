@@ -241,10 +241,7 @@ function orDownloadZip(pkg){
                "lab.json":JSON.stringify(pkg.lab,null,1),
                "snapshot.json":JSON.stringify(pkg.snapshot,null,1)};
   for(const k in pkg.docs) files[k+".html"]=pkg.docs[k];
-  const blob=OrderPkg.zip(files);
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob); a.download="Comanda_"+pkg.order.id+".zip";
-  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  downloadBlob("Comanda_"+pkg.order.id+".zip",OrderPkg.zip(files));
 }
 
 /* ---- evenimente: cinci, fără nimic care identifică persoana ---- */

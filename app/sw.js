@@ -12,7 +12,7 @@ const CACHE = "ebanist-v61";
    elenchi e fallisce se non combaciano. */
 const SHELL = [
   "./index.html", "./styles/tokens.css", "./styles/shell.css",
-  "./styles/views.css", "./styles/print.css", "./js/boot.js",
+  "./styles/views.css", "./styles/print.css", "./js/boot.js", "./js/util.js",
   "./js/i18n.js", "./js/state.js", "./js/license.js",
   "./js/nesting.js", "./js/ui.js", "./js/render.js",
   "./js/io.js", "./js/carcass.js", "./js/cutlist.js",

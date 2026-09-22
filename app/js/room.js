@@ -72,6 +72,9 @@ $("roomRoll").addEventListener("input",e=>{ ROOM.roll=parseInt(e.target.value,10
 $("roomOpa").addEventListener("input",e=>{ ROOM.opa=parseInt(e.target.value,10)/100; roomRender(); });
 (function(){
   const el=$("svgRoom"), ptrs=new Map(); let pinchD=0,pinchS=0;
+  /* Pan e pinch mandano piu eventi di quanti fotogrammi ci siano: si
+     disegna una volta per fotogramma, con l'ultima posizione. */
+  const roomPaint=rafCoalesce(()=>roomRender());
   el.addEventListener("pointerdown",e=>{ el.setPointerCapture(e.pointerId);
     ptrs.set(e.pointerId,[e.clientX,e.clientY]);
     if(ptrs.size===2){ const a=[...ptrs.values()]; pinchD=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]); pinchS=ROOM.size; }
@@ -79,10 +82,10 @@ $("roomOpa").addEventListener("input",e=>{ ROOM.opa=parseInt(e.target.value,10)/
   el.addEventListener("pointermove",e=>{
     if(!ptrs.has(e.pointerId))return;
     const prev=ptrs.get(e.pointerId); ptrs.set(e.pointerId,[e.clientX,e.clientY]);
-    if(ptrs.size===1){ ROOM.x+=e.clientX-prev[0]; ROOM.y+=e.clientY-prev[1]; roomRender(); }
+    if(ptrs.size===1){ ROOM.x+=e.clientX-prev[0]; ROOM.y+=e.clientY-prev[1]; roomPaint(); }
     else if(ptrs.size===2){ const a=[...ptrs.values()]; const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
       if(pinchD>0){ const ns=Math.min(1400,Math.max(90,pinchS*d/pinchD));
-        ROOM.x-=(ns-ROOM.size)/2; ROOM.y-=(ns-ROOM.size)/2; ROOM.size=ns; roomRender(); } }
+        ROOM.x-=(ns-ROOM.size)/2; ROOM.y-=(ns-ROOM.size)/2; ROOM.size=ns; roomPaint(); } }
   });
   const up=e=>{ ptrs.delete(e.pointerId); pinchD=0; };
   el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);

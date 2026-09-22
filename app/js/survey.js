@@ -268,9 +268,16 @@ function wirePlanDrag(){
     const L=layout()[dragState.name];
     L.from=Math.round(a.v); L.off=Math.max(0,Math.round(b.v));
     snapGuides=[]; if(a.hit) snapGuides.push("along"); if(b.hit) snapGuides.push("off");
-    persist(); renderPlan();
+    /* Lo stato si aggiorna subito — l'evento dopo lo rilegge — ma il
+       DISEGNO va una volta per fotogramma e la SCRITTURA aspetta che il
+       dito si fermi. Prima erano tutti e due a ogni evento: con dodici
+       commesse aperte voleva dire riscrivere 130 KB in localStorage, in
+       modo sincrono, cento volte al secondo, mentre si trascina. */
+    planPersistSoon(); planPaint();
   });
-  const up=e=>{ if(!dragState) return; dragState=null; snapGuides=[]; renderPlan(); };
+  const up=e=>{ if(!dragState) return; dragState=null; snapGuides=[];
+    planPersistSoon.flush();   // chi molla il dito non aspetta il freno
+    renderPlan(); };
   el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
 }
 /* pannello del corpo selezionato: tre assi, frecce e casella per la quota esatta */
@@ -313,6 +320,11 @@ function renderSelBar(){
   }));
 }
 
+/* Un disegno per fotogramma e una scrittura quando il dito si ferma.
+   Si costruiscono qui, una volta sola: crearli dentro il gestore darebbe
+   un freno nuovo a ogni evento, cioe nessun freno. */
+const planPaint = rafCoalesce(() => renderPlan());
+const planPersistSoon = debounce(() => persist(), 250);
 function renderPlan(){
   const sv=survey(); const el=$("svgPlan"); if(!el) return;
   const walls=sv?sv.walls:[];

@@ -28,7 +28,6 @@ const SEED_PIECES = [
 ];
 
 /* ================= STATE & STORAGE ================= */
-const uid = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4);
 let state = null;
 /* La lingua del telefono, se e una di quelle che parliamo. Prima l'app
    partiva sempre in italiano: un falegname di Bacau o di Nizza apriva il
@@ -58,7 +57,7 @@ function defaultState(){
      dell'utente) e gli fa prendere il nome nella sua lingua all'avvio.
      Il nome del cliente vero non ci sta piu: chi arriva su ebanist.com da
      un link non deve trovarsi davanti la commessa di qualcun altro. */
-  const p = {id:uid(),name:"Ebanist demo",client:"",date:new Date().toISOString().slice(0,10),pieces,geomVersion:1,demo:1};
+  const p = {id:uid(),name:"Ebanist demo",client:"",date:today(),pieces,geomVersion:1,demo:1};
   return {lang:detectLang(),activeId:p.id,projects:[p],
     settings:{panelL:2800,panelW:2070,decor_directional:false,kerf:4,priceM2:42,priceMl:1.2,waste:15,labor:0,hourly:35,
       coName:"",coInfo:"",margin:30,iva:20,

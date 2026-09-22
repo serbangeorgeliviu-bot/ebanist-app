@@ -430,7 +430,7 @@ $("btnProjectSave").addEventListener("click",()=>{
   }
   else{
     if(!gateNewProject()) return;
-    const p={id:uid(),name,client,deadline,phone,notes,hours,date:new Date().toISOString().slice(0,10),pieces:[],geomVersion:GEOM_VERSION};state.projects.unshift(p);state.activeId=p.id;
+    const p={id:uid(),name,client,deadline,phone,notes,hours,date:today(),pieces:[],geomVersion:GEOM_VERSION};state.projects.unshift(p);state.activeId=p.id;
     askPersist();          // primo progetto salvato: si chiede la memoria protetta
   }
   persist(); closeSheets(); render(); toast(t("saved"));

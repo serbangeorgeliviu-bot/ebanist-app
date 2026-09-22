@@ -6,8 +6,7 @@
    chiaro/scuro, toast, il dialogo unico che sostituisce alert/confirm/prompt,
    lo schermo Pro, l'invito «aggiungi a Home» e il tasto Indietro di Android.
    =========================================================================== */
-/* ================= UI HELPERS ================= */
-const $ = id => document.getElementById(id);
+/* `$`, `esc`, `fmt`, `uid`, `today` stanno in util.js. */
 
 /* ================= TEMA =================
    "auto" segue il sistema e non scrive l'attributo, cosi la media query in CSS

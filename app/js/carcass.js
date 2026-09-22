@@ -132,9 +132,6 @@ function ellipsePC(cx,cz,rx,rz,n){
    che si mette davvero sulla macchina — e la forma viaggia a parte. */
 function isRound(x){ return !!(x&&(x.shape==="tondo"||x.shape==="ovale")); }
 /* il bordo di un pezzo tondo NON e 2L+2C: e il perimetro */
-function roundPerim(x){
-  return isRound(x)?ellipsePerim((+x.lung||0)/2,(+x.larg||0)/2):0;
-}
 
 /* ===== IL MATERIALE DECIDE LA GROSSEZZA, RUOLO PER RUOLO =================
    La seconda causa radice dei due incidenti: la grossezza era UN numero per

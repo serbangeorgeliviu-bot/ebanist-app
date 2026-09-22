@@ -108,7 +108,7 @@ $("btnDraw").addEventListener("click",()=>{
   buildCfg=cfgFromForm();
   const {boxes,pieces}=buildModule(buildCfg);
   const S=state.settings;
-  const fmtD=new Date().toISOString().slice(0,10);
+  const fmtD=today();
   const angPcs=pieces.filter(x=>isAng(x.angL)||isAng(x.angR));
   const angBlock=angPcs.length?`<h2>${esc(t("drawAng"))}</h2>
     <table style="width:100%;border:none"><tr>${angPcs.slice(0,4).map(x=>
@@ -309,7 +309,7 @@ $("btnMont").addEventListener("click",()=>{
   const {mods}=computeHardware(p,S,true);
   let html=`<div class="pr-head"><div><h1>${esc(t("mTitle"))}</h1>
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
-    <b>${esc(t("date"))}:</b> ${new Date().toISOString().slice(0,10)}</div>
+    <b>${esc(t("date"))}:</b> ${today()}</div>
     ${prTrace(p)}</div>
     <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
   const modNames=Object.keys(mods);
@@ -448,7 +448,7 @@ $("btnOrder").addEventListener("click",()=>{
   let html=`<div class="pr-head">
     <div><h1>${esc(t("orderTitle"))}</h1>
       <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
-      <b>${esc(t("date"))}:</b> ${esc(new Date().toISOString().slice(0,10))}</div></div>
+      <b>${esc(t("date"))}:</b> ${esc(today())}</div></div>
     <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
   html+=`<h2>${esc(t("orderPanels"))}</h2><table><tr>
     <th>${esc(t("fMaterial"))}</th><th>${esc(t("orderSize"))}</th>

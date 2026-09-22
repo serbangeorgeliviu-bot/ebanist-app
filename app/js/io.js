@@ -42,7 +42,7 @@ function importCsv(txt,fname){
      bottone: «Importa» era la terza porta sul retro. */
   if(!gateNewProject()) return;
   const name=fname.replace(/\.[^.]+$/,"").replace(/[_-]+/g," ").trim();
-  const p={id:uid(),name,client:"",date:new Date().toISOString().slice(0,10),pieces};
+  const p={id:uid(),name,client:"",date:today(),pieces};
   state.projects.unshift(p); state.activeId=p.id;
   persist(); setView("list"); toast(`${t("imported")}: ${pieces.length} ${t("importedRows")}`);
 }
@@ -76,13 +76,28 @@ function importJson(txt){
   } else throw 0;
 }
 
-/* ================= EXPORT ================= */
-function download(name,content,mime){
-  const blob=new Blob([content],{type:mime});
+/* ================= EXPORT =================
+   Un file esce dall'app in un modo solo. Erano tre copie della stessa
+   mezza dozzina di righe — qui, nel pacchetto d'ordine e nell'esportazione
+   del catalogo — e due delle tre si scordavano di togliere l'ancora dal
+   documento. L'URL si revoca sempre: un oggetto Blob non rilasciato tiene
+   in memoria il documento intero finche la scheda resta aperta, e in
+   officina la scheda resta aperta tutto il giorno.
+
+   `download()` resta una DICHIARAZIONE di funzione, non una costante: il
+   banco di prova la sostituisce su window per contare i file che escono,
+   e quello funziona solo con le dichiarazioni. */
+function downloadBlob(name,blob){
   const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob); a.download=name;
-  document.body.appendChild(a); a.click();
-  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},400);
+  a.href=URL.createObjectURL(blob);
+  a.download=name;
+  a.style.display="none";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },400);
+}
+function download(name,content,mime){
+  downloadBlob(name,new Blob([content],{type:mime}));
 }
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 $("btnCsv").addEventListener("click",()=>{
@@ -121,7 +136,7 @@ $("btnPdf").addEventListener("click",()=>{
     <div><h1>${esc(t("printTitle"))}</h1>
       <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}
       ${p.client?` — <b>${esc(t("client"))}:</b> ${esc(p.client)}`:""}<br>
-      <b>${esc(t("date"))}:</b> ${esc(p.date||new Date().toISOString().slice(0,10))}</div>
+      <b>${esc(t("date"))}:</b> ${esc(p.date||today())}</div>
       ${prTrace(p)}</div>
     <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
   for(const [mod,items] of groups){

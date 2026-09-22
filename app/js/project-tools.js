@@ -37,7 +37,7 @@ async function fullBackup(opt){
   const pkg={ebanist_backup:1,ver:APP_VER,date:new Date().toISOString(),
              state:{projects:state.projects,settings:state.settings}};
   const json=JSON.stringify(pkg);
-  const fname=`Ebanist_Backup_${new Date().toISOString().slice(0,10)}.json`;
+  const fname=`Ebanist_Backup_${today()}.json`;
   state.lastBk=Date.now(); persist();
   if(!silent){
     try{
@@ -181,17 +181,13 @@ $("btnCatalog").addEventListener("click",()=>{ renderCatalog(); closeSheets(); o
    rimettere in /data/ e diventare il catalogo di serie. Leggere i codici dal
    pannello campioni e un lavoro di ore: deve poter uscire dal telefono. */
 function matCatalogDoc(){
-  return {schema:1, fornitore:"Centro Legno", aggiornato:new Date().toISOString().slice(0,10),
+  return {schema:1, fornitore:"Centro Legno", aggiornato:today(),
     _nota:"Esportato da Ebanist "+APP_VER,
     materiali:matAll().map(matToCatalog)};
 }
 $("btnMatExport").addEventListener("click",()=>{
-  const blob=new Blob([JSON.stringify(matCatalogDoc(),null,1)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="materiali-"+new Date().toISOString().slice(0,10)+".json";
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  download("materiali-"+today()+".json",
+           JSON.stringify(matCatalogDoc(),null,1),"application/json");
 });
 $("btnMatImport").addEventListener("click",()=>$("matImportFile").click());
 $("matImportFile").addEventListener("change",async e=>{
@@ -382,7 +378,7 @@ $("btnQuote").addEventListener("click",()=>{
   $("printArea").innerHTML=`<div class="pr-head"><div><h1>${esc(t("quoteTitle"))}</h1>
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
     <b>${esc(t("client"))}:</b> ${esc(p.client||"—")}${p.phone?` · ${esc(p.phone)}`:""}<br>
-    <b>${esc(t("date"))}:</b> ${new Date().toISOString().slice(0,10)}</div></div>
+    <b>${esc(t("date"))}:</b> ${today()}</div></div>
     <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>
     <table><tr><th>${esc(t("fModule"))}</th><th>${esc(t("qDesc"))}</th><th style="text-align:right">${esc(t("amount"))}</th></tr>${rows}</table>
     <div class="pr-sum" style="text-align:right">${C.hours>0?`${esc(t("cLabor"))}: ${fmt(C.hours,1)}h × € ${fmt(C.hourly)} = € ${fmt(C.hours*C.hourly)} <span style="font-size:8pt">(${esc(t("qIncl"))})</span><br>`:""}${esc(t("qNet"))}: <b>€ ${fmt(C.prezzo)}</b><br>
@@ -411,7 +407,7 @@ $("btnProjectDup").addEventListener("click",()=>{
   if(!gateNewProject()) return;
   const c=JSON.parse(JSON.stringify(src));
   delete c.demo;
-  c.id=uid(); c.name=src.name+" "+t("copySuffix"); c.date=new Date().toISOString().slice(0,10);
+  c.id=uid(); c.name=src.name+" "+t("copySuffix"); c.date=today();
   c.pieces.forEach(x=>{x.id=uid();x.done=0;});
   state.projects.unshift(c); state.activeId=c.id;
   persist(); closeSheets(); setView("list"); toast(t("saved"));

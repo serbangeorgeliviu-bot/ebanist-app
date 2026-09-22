@@ -199,10 +199,5 @@ function storageAlarm(){
 }
 const t = k => (I18N[state.lang]||I18N.it)[k] || I18N.it[k] || k;
 const proj = () => state.projects.find(p=>p.id===state.activeId) || null;
-/* L'apostrofo entra nella lista: oggi nessun attributo interpolato usa le
-   virgolette semplici, ma il giorno che ne comparisse uno — `style='...'` —
-   un nome di progetto con un apostrofo aprirebbe un buco senza che nessuno
-   colleghi le due cose. Costa un carattere. */
-const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const fmt = (n,d=2) => n.toLocaleString(state.lang==="en"?"en-GB":state.lang==="ro"?"ro-RO":state.lang==="fr"?"fr-FR":"it-IT",{minimumFractionDigits:d,maximumFractionDigits:d});
+/* `esc` e `fmt` stanno in util.js: li usano tredici file su ventidue. */
 

@@ -117,17 +117,22 @@ function init3DControls(){
     if(now-lastTap<320 && ptrs.size===1){ VIEW.yaw=0.46; VIEW.pitch=0.30; VIEW.zoom=1; redrawCam(); }
     lastTap=now;
   });
+  /* L'orbita col dito: un disegno per fotogramma. I valori si aggiornano
+     a ogni evento — sono quelli che l'evento dopo legge — ma ridisegnare
+     piu volte fra due fotogrammi e lavoro buttato, e si sente proprio sui
+     telefoni lenti dove il 3D e gia in ripiego SVG. */
+  const paintCam=rafCoalesce(()=>redrawCam());
   el.addEventListener("pointermove",e=>{
     if(!ptrs.has(e.pointerId))return;
     const prev=ptrs.get(e.pointerId); ptrs.set(e.pointerId,[e.clientX,e.clientY]);
     if(ptrs.size===1){
       VIEW.yaw=Math.min(1.45,Math.max(0.08,VIEW.yaw+(e.clientX-prev[0])*0.008));
       VIEW.pitch=Math.min(1.2,Math.max(0.05,VIEW.pitch+(e.clientY-prev[1])*0.006));
-      redrawCam();
+      paintCam();
     }else if(ptrs.size===2){
       const a=[...ptrs.values()]; const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
       if(pinchD>0) VIEW.zoom=Math.min(3,Math.max(0.5,VIEW.zoom*d/pinchD));
-      pinchD=d; redrawCam();
+      pinchD=d; paintCam();
     }
   });
   const up=e=>{ptrs.delete(e.pointerId);pinchD=0;};
@@ -369,7 +374,6 @@ function fillMatSelects(){
 const FAMIGLIE=["tinta_unita","legno","tessuto","cemento","lucido"];
 /* Uno spessore si scrive «19», non «19.0»: solo il mezzo millimetro di un
    bordo ha diritto alla virgola. */
-function fmtMm(v){ const n=+v; return (n===Math.round(n))?String(n):String(+n.toFixed(1)); }
 function isTouch(){ try{ return matchMedia("(pointer:coarse)").matches; }catch(e){ return false; } }
 let MP={sel:null, minTh:0, allowInherit:false, q:"", th:null, onPick:null};
 
