@@ -329,6 +329,29 @@ e explicită în cod.
 pentru utilizatorii care mai au service worker-ul vechi viu — adică pentru
 clienții de dinainte. Exclus `/a/` și `/api/`.
 
+### 8.5 Comanda pleca fără distinta de debitare (găsit în 4.29.0, reparat)
+
+`orDocs()` obține documentele apăsând butoanele adevărate din aplicație —
+decizia din §2 („se apasă butoanele, nu se rescrie conținutul"), ca ce ajunge
+la atelier să fie bit cu bit ce tipărește aplicația. Corect, până când 4.28.0
+a pus foaia de închidere (D-45) în fața PDF-ului distinței: de atunci
+`btnPdf.click()` **deschide foaia și se oprește**, fără să tipărească nimic.
+Constructorul pachetului nu era un om care citește foaia, era cod — așa că
+pachetul pleca cu fișa de montaj și cu etichetele, dar fără documentul după
+care se taie.
+
+N-a strigat nimeni pentru că suita `rail.js` nu era în CI și crăpa înainte să
+ajungă la verificarea aia.
+
+**Reparat** marcând cele trei butoane ca deja-confirmate **doar** înăuntrul
+constructorului de pachet: foaia de închidere e un gest uman și se deschide
+când butonul e apăsat de o persoană. Cancelul automat (`exportAllowed`, D-44)
+rămâne neatins — stă în buton, imediat după, și dacă un corp nu se închide
+distinta tot nu iese. În plus, dacă distinta lipsește din pachet, comanda se
+oprește cu un mesaj citibil în loc să plece pe jumătate.
+
+`rail.js` a intrat în CI, împreună cu `npm run check`.
+
 ---
 
 ## 9. Deploy — ce s-a putut și ce nu

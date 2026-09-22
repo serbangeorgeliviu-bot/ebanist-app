@@ -388,7 +388,14 @@ $("btnQuote").addEventListener("click",()=>{
     <div class="pr-foot"><span>${esc(t("qValidity"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   printOut();
 });
-$("listSearch").addEventListener("input",e=>{listQ=e.target.value;renderList();});
+/* La ricerca ridisegna TUTTA la distinta a ogni tasto premuto, e una
+   commessa vera ha centinaia di righe. Un dito veloce, o la dettatura che
+   riversa una parola intera, mandano piu eventi di quanti fotogrammi ci
+   siano: si disegna una volta per fotogramma, con l'ultimo testo scritto.
+   Non e un ritardo — il valore e gia nel campo, e il disegno arriva al
+   fotogramma dopo invece che tre volte nello stesso. */
+const listPaint=rafCoalesce(()=>renderList());
+$("listSearch").addEventListener("input",e=>{listQ=e.target.value;listPaint();});
 $("listMat").addEventListener("change",e=>{listMatF=e.target.value;renderList();});
 $("pGrain").addEventListener("click",()=>$("pGrain").classList.toggle("on"));
 $("btnPieceDup").addEventListener("click",()=>{
