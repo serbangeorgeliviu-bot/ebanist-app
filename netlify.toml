@@ -155,8 +155,12 @@
     # style-src tiene 'unsafe-inline' perche l'app compone ancora attributi
     # style="" quando disegna (nesting, etichette, disegno tecnico): sono
     # valori calcolati, non testo dell'utente. Toglierlo e il prossimo passo.
+    # I due domini dei caratteri sono spariti da style-src e font-src: i
+    # .woff2 stanno in /app/fonts/, come three.js e supabase. Un'app che
+    # deve partire in officina senza rete non puo aspettare Google per
+    # disegnare la prima riga, e nessuno deve sapere chi la apre.
     # connect-src resta su https: di proposito: l'utente puo configurare un
     # ENDPOINT PROPRIO per l'assistente (Impostazioni → Assistente AI), e una
     # lista chiusa di host lo romperebbe in silenzio. Se un giorno l'endpoint
     # si fissa, stringere qui e la prima cosa da fare.
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

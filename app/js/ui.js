@@ -272,29 +272,76 @@ function haptic(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||12); }catc
 function mountSheetClosers(){
   document.querySelectorAll(".sheet").forEach(sh=>{
     if(sh.querySelector(".sheet-x")) return;
+
+    /* Un pannello a scomparsa E una finestra di dialogo, e va detto: senza
+       questo, un lettore di schermo lo annuncia come un pezzo qualunque
+       della pagina e chi non vede non sa di esserci entrato. Il titolo che
+       c'e gia in cima fa da nome; `tabindex=-1` serve solo a poterci
+       mettere il fuoco all'apertura, non entra nell'ordine di Tab. */
+    sh.setAttribute("role","dialog");
+    sh.setAttribute("aria-modal","true");
+    sh.tabIndex=-1;
+    const title=sh.querySelector("h3,h4");
+    if(title){
+      if(!title.id) title.id=sh.id+"Title";
+      sh.setAttribute("aria-labelledby",title.id);
+    }
+
     const row=document.createElement("div"); row.className="sheet-xrow";
     const b=document.createElement("button");
-    b.type="button"; b.className="sheet-x"; b.setAttribute("aria-label","Close");
+    /* `data-ial` invece di un'etichetta scritta a mano: era "Close", in
+       inglese, nelle quattro lingue. applyLang() la ripassa come fa con
+       tutto il resto. */
+    b.type="button"; b.className="sheet-x"; b.dataset.ial="closeAria";
+    b.setAttribute("aria-label",tAny("closeAria")||"Close");
     b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
     b.addEventListener("click",()=>{
       haptic();
       sh.classList.remove("on");
-      if(!document.querySelectorAll(".sheet.on").length) $("scrim").classList.remove("on");
+      if(!document.querySelectorAll(".sheet.on").length){ $("scrim").classList.remove("on"); sheetFocusBack(); }
       navSync();
     });
     row.appendChild(b); sh.insertBefore(row,sh.firstChild);
   });
 }
 
-function openSheet(id){$("scrim").classList.add("on");$(id).classList.add("on");navSync();}
-function closeSheets(){$("scrim").classList.remove("on");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));navSync();}
+/* Chi apre un pannello deve ritrovare il fuoco dov'era quando lo chiude.
+   Senza, da tastiera il fuoco torna in cima al documento e si ricomincia
+   a tabulare da capo — ogni volta. */
+let SHEET_OPENER=null;
+function sheetFocusBack(){
+  const el=SHEET_OPENER; SHEET_OPENER=null;
+  if(el && document.contains(el)) { try{ el.focus({preventScroll:true}); }catch(e){} }
+}
+function openSheet(id){
+  const sh=$(id); if(!sh) return;
+  if(!document.querySelectorAll(".sheet.on").length) SHEET_OPENER=document.activeElement;
+  $("scrim").classList.add("on");
+  sh.classList.add("on");
+  /* `preventScroll`: il pannello e appena arrivato dal basso e sta ancora
+     scorrendo. Senza, il browser lo porta in vista e l'animazione salta. */
+  try{ sh.focus({preventScroll:true}); }catch(e){}
+  navSync();
+}
+function closeSheets(){
+  const wasOpen=document.querySelectorAll(".sheet.on").length>0;
+  $("scrim").classList.remove("on");
+  document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));
+  if(wasOpen) sheetFocusBack();
+  navSync();
+}
 $("scrim").addEventListener("click",closeSheets);
 
 function setView(v,fromBack){
   currentView=v;
   document.querySelectorAll(".view").forEach(el=>el.classList.remove("on"));
   $("v-"+v).classList.add("on");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.view===v));
+  document.querySelectorAll("nav button").forEach(b=>{
+    const here=b.dataset.view===v;
+    b.classList.toggle("on",here);
+    /* il colore dice dove sei a chi vede; `aria-current` lo dice agli altri */
+    if(here) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");
+  });
   $("fab").classList.toggle("on",v==="list"&&!!proj());
   render();
   window.scrollTo({top:0});
@@ -324,6 +371,11 @@ function applyLang(){
   /* i segnaposto dei campi di ricerca cambiano lingua come tutto il resto */
   document.querySelectorAll("[data-ph]").forEach(el=>{
     const v=tAny(el.dataset.ph); if(v!=null) el.placeholder=v;
+  });
+  /* e le etichette che esistono solo per il lettore di schermo: non si
+     vedono, quindi nessuno si accorge se restano in un'altra lingua */
+  document.querySelectorAll("[data-ial]").forEach(el=>{
+    const v=tAny(el.dataset.ial); if(v!=null) el.setAttribute("aria-label",v);
   });
   const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
   if(typeof aiMount==="function") aiMount();

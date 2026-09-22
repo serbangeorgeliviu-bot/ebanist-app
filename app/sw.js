@@ -11,7 +11,8 @@ const CACHE = "ebanist-v61";
    un file lo mette in index.html E qui — `npm run check` confronta i due
    elenchi e fallisce se non combaciano. */
 const SHELL = [
-  "./index.html", "./styles/tokens.css", "./styles/shell.css",
+  "./index.html", "./styles/fonts.css", "./fonts/barlow-400-latin-ext.woff2", "./fonts/barlow-400-latin.woff2", "./fonts/barlow-500-latin-ext.woff2", "./fonts/barlow-500-latin.woff2", "./fonts/barlow-600-latin-ext.woff2", "./fonts/barlow-600-latin.woff2", "./fonts/barlow-condensed-500-latin-ext.woff2", "./fonts/barlow-condensed-500-latin.woff2", "./fonts/barlow-condensed-600-latin-ext.woff2", "./fonts/barlow-condensed-600-latin.woff2", "./fonts/barlow-condensed-700-latin-ext.woff2", "./fonts/barlow-condensed-700-latin.woff2",
+  "./styles/tokens.css", "./styles/shell.css",
   "./styles/views.css", "./styles/print.css", "./js/boot.js", "./js/util.js",
   "./js/i18n.js", "./js/state.js", "./js/license.js",
   "./js/nesting.js", "./js/ui.js", "./js/render.js",
@@ -62,10 +63,11 @@ self.addEventListener("fetch", e => {
     );
     return;
   }
-  // static + fonts: cache-first with runtime fill
+  /* static: cache-first con riempimento a caldo. I caratteri non sono piu
+     un caso a parte — stanno in /app/fonts/, cioe in questa origine. */
   e.respondWith(
     caches.match(e.request).then(hit => hit || fetch(e.request).then(r => {
-      if (r.ok && (url.origin === location.origin || url.hostname.includes("gstatic") || url.hostname.includes("googleapis"))) {
+      if (r.ok && url.origin === location.origin) {
         const cl = r.clone();
         caches.open(CACHE).then(c => c.put(e.request, cl));
       }

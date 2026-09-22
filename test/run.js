@@ -596,6 +596,96 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
        inPage.length > 20 && missing.length === 0, missing.join(", ") || inPage.length + " file");
   }
 
+  head("Officina senza rete — la pagina non deve chiedere niente a nessuno");
+  {
+    /* Il <link> a fonts.googleapis.com BLOCCAVA la prima pennellata: senza
+       rete il browser doveva aspettare che la richiesta fallisse prima di
+       disegnare qualunque cosa. I .woff2 stanno in /app/fonts/, come
+       three.js e supabase e per gli stessi motivi. Questa prova apre l'app
+       con OGNI indirizzo esterno tagliato e guarda due cose: che non parta
+       nessuna richiesta fuori, e che i caratteri arrivino lo stesso. */
+    const off = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    /* `URL` qui sopra e l'indirizzo dell'app, non il costruttore: in questo
+       file la costante gli fa ombra. Si confronta col prefisso, che basta. */
+    const nostro = u => u.startsWith(ORIGIN);
+    await off.route("**/*", r => nostro(r.request().url()) ? r.continue() : r.abort());
+    const op = await off.newPage();
+    const fuori = [];
+    op.on("request", r => { if (!nostro(r.url())) fuori.push(r.url()); });
+    const operr = [];
+    op.on("pageerror", e => operr.push(String(e)));
+    await op.goto(URL);
+    await op.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 }).catch(() => {});
+    await op.waitForTimeout(800);
+    const ff = await op.evaluate(async () => {
+      await document.fonts.ready;
+      return {
+        caricati: [...document.fonts].filter(f => f.status === "loaded").length,
+        titolo: getComputedStyle(document.querySelector(".brand-txt h1")).fontFamily,
+        pezzi: (proj() && proj().pieces.length) || 0
+      };
+    });
+    ok("nessuna richiesta esce dall'origine", fuori.length === 0, fuori[0] || "nessuna");
+    ok("...e i caratteri si caricano lo stesso", ff.caricati >= 4, ff.caricati + " tagli");
+    ok("...col carattere giusto in cima", /Barlow Condensed/.test(ff.titolo));
+    ok("...e l'app parte per intero", ff.pezzi > 0, ff.pezzi + " righe");
+    ok("...senza un solo errore JS", operr.length === 0, operr[0] || "nessuno");
+    await off.close();
+  }
+
+  head("Tastiera e lettore di schermo — l'ufficio non e solo il cantiere");
+  {
+    /* Tre dei modi d'uso dichiarati sono telefono, tavoletta e PC. Sul PC
+       si lavora da tastiera, e finche i pannelli chiusi restavano nella
+       pagina — spostati fuori schermo, ma dentro il documento — il tasto
+       Tab passava per centinaia di comandi invisibili prima di arrivare al
+       primo campo vero. Un lettore di schermo li leggeva tutti. */
+    await pg.evaluate(() => closeSheets()); await pg.waitForTimeout(400);
+    const a = await pg.evaluate(async () => {
+      const ctrls = [...document.querySelectorAll(
+        ".sheet:not(.on) button, .sheet:not(.on) input, .sheet:not(.on) select, .sheet:not(.on) textarea")];
+      const out = {
+        chiusi: document.querySelectorAll(".sheet:not(.on)").length,
+        comandi: ctrls.length,
+        raggiungibili: ctrls.filter(e => getComputedStyle(e).visibility !== "hidden").length
+      };
+      openSheet("shSettings");
+      await new Promise(r => setTimeout(r, 350));
+      const sh = document.getElementById("shSettings");
+      out.ruolo = sh.getAttribute("role");
+      out.modale = sh.getAttribute("aria-modal");
+      out.nome = !!sh.getAttribute("aria-labelledby") &&
+                 !!document.getElementById(sh.getAttribute("aria-labelledby"));
+      out.fuocoDentro = sh.contains(document.activeElement);
+      out.comandiVivi = [...sh.querySelectorAll("button,input,select")]
+        .every(e => getComputedStyle(e).visibility !== "hidden");
+      closeSheets();
+      await new Promise(r => setTimeout(r, 350));
+      out.corrente = document.querySelector("nav button.on").getAttribute("aria-current");
+      out.toast = document.getElementById("toast").getAttribute("role");
+      const keep = state.lang;
+      state.lang = "ro"; applyLang();
+      out.chiudiRo = document.querySelector(".sheet-x").getAttribute("aria-label");
+      state.lang = "it"; applyLang();
+      out.chiudiIt = document.querySelector(".sheet-x").getAttribute("aria-label");
+      state.lang = keep; applyLang();
+      return out;
+    });
+    ok("i pannelli chiusi non sono piu raggiungibili col tasto Tab",
+       a.comandi > 50 && a.raggiungibili === 0,
+       `${a.comandi} comandi in ${a.chiusi} pannelli chiusi · raggiungibili ${a.raggiungibili}`);
+    ok("...ma il pannello aperto lo e tutto", a.comandiVivi);
+    ok("un pannello si annuncia come finestra di dialogo",
+       a.ruolo === "dialog" && a.modale === "true", a.ruolo + "/" + a.modale);
+    ok("...e porta il proprio titolo come nome", a.nome);
+    ok("...e all'apertura prende il fuoco", a.fuocoDentro);
+    ok("la voce di navigazione attiva lo dice, non solo col colore",
+       a.corrente === "page", "aria-current=" + a.corrente);
+    ok("il toast viene annunciato a chi non lo vede", a.toast === "status");
+    ok("la X dei pannelli parla la lingua dell'app",
+       a.chiudiRo === "Închide" && a.chiudiIt === "Chiudi", a.chiudiIt + " / " + a.chiudiRo);
+  }
+
   head("Nessuno script inline — la CSP puo restare stretta");
   /* I commenti vanno via prima di guardare: parlano di <script> e di <style>
      per spiegare da dove viene il codice, e cercandoli alla lettera si

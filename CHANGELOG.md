@@ -40,6 +40,28 @@ foaia, și pachetul pleca fără documentul după care se taie. Acum distinta e 
 pachet, iar dacă nu poate fi produsă comanda se oprește cu un mesaj, în loc să
 plece pe jumătate. Cancelul automat rămâne neatins.
 
+**Tastatura și cititorul de ecran.** Panourile închise ieșeau din ecran,
+dar rămâneau în document: tasta Tab trecea prin 128 de comenzi invizibile,
+din 20 de panouri închise, înainte să ajungă la primul câmp adevărat — iar
+un cititor de ecran le citea pe toate. Acum sunt scoase din ordinea de
+tabulare. În plus: inelul de focus se vede (pe PC nu se vedea deloc), un
+panou se anunță ca fereastră de dialog și își poartă titlul, focusul intră
+în panou la deschidere și se întoarce de unde a plecat la închidere,
+butonul de navigație activ o spune nu doar prin culoare, mesajele scurte
+(toast) se anunță, iar X-ul panourilor vorbește limba aplicației — era
+„Close" în toate cele patru.
+
+**Caracterele sunt acum ale noastre.** Veneau de la `fonts.googleapis.com`
+printr-un `<link>` care BLOCHEAZĂ prima pictare: în atelier, fără rețea,
+browserul aștepta ca cererea să eșueze înainte să deseneze orice. Acum stau
+în `/app/fonts/`, exact ca three.js și supabase și din aceleași motive —
+plus unul: nu mai pleacă la nimeni adresa IP a celui care deschide
+aplicația. Tăiate la `latin` + `latin-ext`, atât cât trebuie celor patru
+limbi: 215 KB pentru 12 tăieturi, o treime mai puțin decât se descărca
+înainte. `font-src` și `style-src` nu mai numesc niciun domeniu străin.
+Verificat cu rețeaua tăiată complet: zero cereri în afară, aceleași
+caractere, aceeași pagină.
+
 **Probele.** `cd test && npm run check` — două secunde, fără nicio dependență
 — citește fiecare fișier de cod, compară lista de scripturi din `index.html`
 cu guscio-ul offline din `sw.js` (un fișier uitat acolo înseamnă aplicație

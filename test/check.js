@@ -74,6 +74,20 @@ const shellFiles = [...sw.matchAll(/"\.\/((?:js|styles)\/[^"]+)"/g)].map(m => m[
 const ghosts = shellFiles.filter(f => !fs.existsSync(path.join(APP, f)));
 ok(ghosts.length === 0, "e il guscio non nomina file che non ci sono", ghosts.join(", "));
 
+/* --- 2b. i caratteri sono in casa, e tutti presenti -------------------- */
+head("I caratteri");
+const fontsCss = fs.readFileSync(path.join(APP, "styles/fonts.css"), "utf8");
+const faces = [...fontsCss.matchAll(/url\(\.\.\/(fonts\/[^)]+)\)/g)].map(m => m[1]);
+ok(faces.length >= 12, `fonts.css dichiara ${faces.length} tagli`);
+const noFont = faces.filter(f => !fs.existsSync(path.join(APP, f)));
+ok(noFont.length === 0, "e ogni .woff2 c'e davvero", noFont.join(", "));
+const fontOutShell = faces.filter(f => !sw.includes('"./' + f + '"'));
+ok(fontOutShell.length === 0,
+   "e ognuno sta nel guscio: senza rete i caratteri non si scaricano",
+   fontOutShell.join(", "));
+ok(!/fonts\.(googleapis|gstatic)\.com/.test(fontsCss.replace(/\/\*[\s\S]*?\*\//g, "")),
+   "e nessuno arriva piu da un dominio esterno");
+
 /* --- 3. versione e cache ------------------------------------------------ */
 head("Versione e cache");
 const ver = (html.match(/<meta name="app-version" content="([^"]+)"/) || [])[1];

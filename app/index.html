@@ -15,8 +15,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180.png">
 <link rel="mask-icon" href="icons/ebanist-mark.svg" color="#0E3B2A">
 <meta name="apple-mobile-web-app-title" content="Ebanist">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- I caratteri sono in casa, come three.js e supabase e per gli stessi
+     motivi: in officina senza rete il <link> a fonts.googleapis.com
+     BLOCCAVA la prima pennellata finche la richiesta non falliva. Vedi
+     app/styles/fonts.css. -->
+<link rel="preload" href="./fonts/barlow-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./fonts/barlow-condensed-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="./styles/fonts.css">
 <!-- Supabase in locale, come three.js. Prima veniva da cdn.jsdelivr.net con
      tag "@2", cioe "l'ultima 2.x che c'e in quel momento", decisa da un terzo
      a ogni caricamento — in un'origine dove stanno la chiave API e i dati dei
@@ -1151,7 +1156,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div id="orDoneBody"></div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- Il toast e l'unica risposta dell'app a mezza dozzina di azioni.
+     `role="status"` lo fa annunciare a chi non lo vede, e "polite"
+     aspetta che il lettore finisca la frase invece di interromperlo. -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="printArea"></div>
 
 <!-- Nucleo geometrico condiviso. Sta PRIMA di tutto il resto: e la sola
