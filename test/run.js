@@ -1677,6 +1677,59 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS nel modo cliente", cerr.length === 0, cerr.join(" | ").slice(0, 200));
   }
 
+  head("Scheda di montaggio — completa, con le quote vere");
+  {
+    const mctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const mp = await mctx.newPage();
+    const merr = []; mp.on("pageerror", e => merr.push(String(e)));
+    await mp.goto(URL); await mp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await mp.waitForTimeout(3300);
+    const m = await mp.evaluate(() => {
+      closeSheets();
+      const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Armadio" });
+      generateInto(p, { ...PRESETS.bagno, name: "Bagno", support: "sospeso" });
+      const h = montDoc(p), d = document.createElement("div"); d.innerHTML = h;
+      const G = deriveCarcass(carcassParams(p.configs.Armadio, {}));
+      const diag = String(Math.round(Math.hypot(p.configs.Armadio.L, G.H_fianco)));
+      const O = generateOperations({ boxes: buildModule(p.configs.Armadio).boxes, cfg: p.configs.Armadio, G });
+      const plates = O.hw.filter(x => x.type === "cerniera" && x.plate).map(x => Math.round(x.plate[1]));
+      const sec = d.querySelectorAll("section.m-mod");
+      const t1 = sec[0].textContent, t2 = sec[1] ? sec[1].textContent : "";
+      return {
+        corpi: sec.length,
+        righePezzi: sec[0].querySelectorAll("table.m-t")[0].querySelectorAll("tr").length - 1,
+        pezziModello: O.pieces.length,
+        ferramenta: sec[0].querySelectorAll("table.m-t")[1].querySelectorAll("tr").length - 1,
+        attrezzi: sec[0].querySelectorAll(".m-tools li").length,
+        passi: sec[0].querySelectorAll(".m-steps li").length,
+        diagonale: t1.indexOf(diag) >= 0,
+        basette: plates.every(y => t1.indexOf(String(y)) >= 0),
+        collaudo: sec[0].querySelectorAll(".m-list li").length,
+        muro: /OBBLIGATORIAMENTE|OBLIGATORIU|MUST|OBLIGATOIREMENT/.test(t1),
+        pensileDopo: (() => { const li = [...sec[1].querySelectorAll(".m-steps li")].map(x => x.textContent);
+          const a = li.findIndex(x => / kg\)/.test(x)), w = li.findIndex(x => x.indexOf(t("ms11w").slice(0, 18)) >= 0);
+          return a >= 0 && w > a; })(),
+        firme: d.querySelectorAll(".m-sign div").length,
+        nessunMeno: !/undefined|NaN|\{[a-z]+\}/.test(d.textContent)
+      };
+    });
+    await mp.close(); await mctx.close();
+    ok("un capitolo per corpo", m.corpi === 2, m.corpi);
+    ok("elenco pezzi = pezzi del modello, numerati", m.righePezzi === m.pezziModello, m.righePezzi + "/" + m.pezziModello);
+    ok("ferramenta con codici", m.ferramenta >= 4, m.ferramenta);
+    ok("attrezzi", m.attrezzi >= 5, m.attrezzi);
+    ok("passi numerati", m.passi >= 15, m.passi);
+    ok("la diagonale vera, in mm", m.diagonale === true);
+    ok("le altezze delle basette sono quelle dei fori", m.basette === true);
+    ok("lista di collaudo", m.collaudo >= 5, m.collaudo);
+    ok("il corpo alto va fissato al muro", m.muro === true);
+    ok("il pensile si appende dopo averlo messo in piedi", m.pensileDopo === true);
+    ok("firme di montatore e cliente", m.firme === 3);
+    ok("niente undefined, NaN o segnaposto rimasti", m.nessunMeno === true);
+    ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

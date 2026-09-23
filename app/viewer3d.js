@@ -697,6 +697,51 @@ const GL3D = {
   theme() { if (!this.ok) return; R.dark = isDark(); R.scene.background = gradientBg(R.dark);
     R.ground.material.opacity = R.dark ? .34 : .16; R.contact.material.opacity = R.dark ? .8 : .5; applyState(); },
   spin(on) { if (!this.ok) return; R.spin = !!on; kick(); },
+  /* Una fotografia del mobile per un documento: stato dato, animazioni
+     chiuse all'istante, dimensione fissa. Torna l'immagine e, per ogni pezzo,
+     dove cade il suo centro nell'immagine (0..1) — per numerarlo.
+     Il chiamante ridisegna poi quello che c'era prima. */
+  capture(cfg, o) {
+    if (!this.ok) return null;
+    o = o || {};
+    const prev = Object.assign({}, R.st), V = (typeof VIEW === "object") ? VIEW : null;
+    const pv = V ? { yaw: V.yaw, pitch: V.pitch, zoom: V.zoom } : null;
+    const spin = R.spin; R.spin = false;
+    try {
+      this.render(cfg, { explode: o.explode || 0 });
+      Object.assign(R.st, { mode: o.mode || "real", hw: !!o.hw, holes: !!o.holes, open: !!o.open,
+        sel: null, iso: false, edges: o.edges !== false, explode: o.explode || 0 });
+      setTargets(R.boxes); applyState();
+      if (V) { V.yaw = o.yaw != null ? o.yaw : .62; V.pitch = o.pitch != null ? o.pitch : .36; V.zoom = o.zoom || 1; }
+      const w = o.w || 1200, h = o.h || 900;
+      R.renderer.setPixelRatio(1); R.renderer.setSize(w, h, false);
+      R.camera.aspect = w / h; R.camera.updateProjectionMatrix();
+      /* tutto al bersaglio, subito: una foto non aspetta l'animazione */
+      for (const P of R.pieces.values()) {
+        Object.assign(P.cur, P.tgt);
+        P.meshes.forEach(m => { if (!m.userData.prism) { m.userData.cur = Object.assign({}, m.userData.tgt); } });
+      }
+      const B = focusBounds(); Object.assign(R.cam, { cx: B.cx, cy: B.cy, cz: B.cz, rad: B.rad || B.size });
+      if (V) Object.assign(R.cam, { yaw: V.yaw, pitch: V.pitch, zoom: V.zoom });
+      step(); stepCamera();
+      R.scene.updateMatrixWorld(true);
+      R.renderer.render(R.scene, R.camera);
+      const img = R.canvas.toDataURL("image/jpeg", 0.9);
+      const labels = [];
+      const M = R.model, v = new THREE.Vector3();
+      if (M && M.ops) M.ops.pieces.forEach(pc => {
+        const P = R.pieces.get(String(pc.pk)); if (!P || !P.g.visible) return;
+        v.set((pc.min[0] + pc.max[0]) / 2 * MM, (pc.min[1] + pc.max[1]) / 2 * MM, (pc.min[2] + pc.max[2]) / 2 * MM);
+        v.applyMatrix4(P.g.matrixWorld).project(R.camera);
+        labels.push({ pk: pc.pk, n: pc.n, role: pc.role, x: (v.x + 1) / 2, y: (1 - v.y) / 2 });
+      });
+      return { img, labels, w, h };
+    } finally {
+      Object.assign(R.st, prev); R.spin = spin;
+      if (V && pv) Object.assign(V, pv);
+      resize();
+    }
+  },
   touch() { if (this.ok) { R.need = true; kick(); } },
   resize,
 };

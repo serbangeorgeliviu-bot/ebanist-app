@@ -5,6 +5,32 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.31.0 — 23 septembrie 2026
+
+**Fișa de montaj, refăcută de la zero.** Un capitol pe corp, gândit să stea
+deschis pe podea în șantier. Toate cotele vin din același model care face
+distinta și găurile: înălțimile tălpilor de balama, ale glisierelor, ale
+polițelor și ale mânerelor sunt cele ale găurilor, nu numere scrise de mână.
+
+- **Imagini:** corpul asamblat, **vederea explodată cu piesele numerotate**
+  exact ca în listă, și feroneria cu corpul în transparență.
+- **Ce e:** finisaj corp, fronturi, spate, cu grosimi, și **greutatea
+  estimată** — peste 25 kg sau peste 1,6 m, fișa cere doi oameni.
+- **Ce trebuie:** lista pieselor (nr., cote, cant, câte găuri, căsuță de
+  bifat), feroneria cu produs, cod și cantitate, **sculele** — inclusiv
+  burghiele exacte care apar pe piese.
+- **Cum se montează:** pași numerotați, cu desen, în ordinea bună: bolțuri și
+  dibluri, tălpi de balama și glisiere pe laterale înainte de închidere,
+  spatele în canal înainte de tavan, echerul cu **diagonala în milimetri**,
+  soclu / picioare / suspendare, ridicat, nivelat, fixare anti-răsturnare
+  pentru corpurile înalte, polițe cu înălțimile lor, bara tăiată la cotă,
+  sertare, uși cu reglajul (joc lateral, rost, sus, jos), mânere cu interax
+  și poziție. Spatele în două bucăți și treapta din perete au pașii lor.
+- **Control:** tabel cu cotele de proiect și coloană „Măsurat", listă de
+  recepție de bifat, semnături montator / client / dată.
+
+---
+
 ## 4.30.0 — 23 septembrie 2026
 
 **Modul Client, pentru tabletă.** Butonul *Client* din colțul de sus întoarce
