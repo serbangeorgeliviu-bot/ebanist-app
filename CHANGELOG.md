@@ -5,6 +5,28 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.33.0 — 23 septembrie 2026
+
+**Feroneria mesei și a patului e în catalog și în deviz.** Opt categorii noi
+în Catalog → Feronerie: colțar de picior (standard / greu), fixare blat
+(colțar / „opt"), feronerie de pat (standard / grea), colțar traversă
+centrală, picior central reglabil, suport doagă lateral, suport doagă dublu,
+pâslă.
+
+- **O singură numărătoare.** Devizul, Rezumatul pe corp și fișa de montaj
+  citesc cantitățile din aceeași funcție. Masa 4 picioare: 4 colțare,
+  12 fixări de blat, 4 pâsle. Patul 1600 cu 14 doage: 4 feronerii de pat,
+  2 colțare de traversă, 2 picioare centrale, 28 + 14 suporți de doage.
+- **Fișa de montaj** arată acum produsul ales din catalog și codul lui.
+- **Prețurile sunt orientative și codurile nu sunt încă ale unui furnizor**
+  (marcate „cod de confirmat" cu *). Se schimbă din Catalog, ca la orice
+  feronerie.
+
+Atenție: **devizul proiectelor existente care au o masă sau un pat crește**
+cu feroneria care până acum lipsea.
+
+---
+
 ## 4.32.0 — 23 septembrie 2026
 
 **Fișa de montaj pentru masă și pat.** Aceeași fișă ca la corpuri — imagini

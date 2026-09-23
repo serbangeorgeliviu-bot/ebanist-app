@@ -1761,7 +1761,37 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         pulito: !/undefined|NaN|\{[a-zA-Z]+\}/.test(d.textContent)
       };
     });
+    /* la ferramenta di tavolo e letto e nel catalogo e nel preventivo,
+       con le stesse quantita della scheda di montaggio */
+    const g = await fp.evaluate(() => {
+      const p = proj(), S = state.settings;
+      const res = computeHardware(p, S, true), q = {}; res.items.forEach(i => q[i.k] = i.qty);
+      const d = document.createElement("div"); d.innerHTML = montDoc(p);
+      const sec = d.querySelectorAll("section.m-mod");
+      const qtyOf = (s, k) => { const nm = t(k); for (const tr of s.querySelectorAll("table.m-t")[1].querySelectorAll("tr"))
+          { const c = tr.querySelectorAll("td"); if (c.length && c[0].textContent.trim() === nm) return +c[3].textContent.replace(/\D/g, ""); } return -1; };
+      const cats = HW_CATS.map(x => x[0]);
+      const costs = projectCosts(p);
+      return {
+        q, modT: (res.mods.Tavolo || {}).hwLeg || 0, modL: (res.mods.Letto || {}).hwBedFit || 0,
+        schedaT: ["hwLeg", "hwTopClip", "hwFelt"].every(k => qtyOf(sec[0], k) === q[k] && q[k] > 0),
+        schedaL: ["hwBedFit", "hwTravFit", "hwCenterFoot", "hwSlatHold", "hwSlatHold2"].every(k => qtyOf(sec[1], k) === q[k] && q[k] > 0),
+        catalogo: ["gamba", "fissp", "letto", "trav", "piecent", "doga", "doga2", "feltro"].every(c => cats.includes(c) && hwItem(c)),
+        prezzo: res.items.filter(i => ["hwLeg", "hwBedFit"].includes(i.k)).every(i => i.tot > 0),
+        hwTot: costs.hwTot || costs.hw || 0,
+        vuoto: (() => { const p2 = { pieces: [], configs: {} }; return computeHardware(p2, S).every(i => i.qty === 0); })()
+      };
+    });
     await fp.close(); await fctx.close();
+    ok("catalogo: le otto categorie di tavolo e letto", g.catalogo === true);
+    ok("preventivo tavolo: 4 piastre, 12 squadrette, 4 feltrini", g.q.hwLeg === 4 && g.q.hwTopClip === 12 && g.q.hwFelt === 4, JSON.stringify(g.q));
+    ok("preventivo letto: 4 ferramenta letto, 2 squadre, 2 piedi", g.q.hwBedFit === 4 && g.q.hwTravFit === 2 && g.q.hwCenterFoot === 2, JSON.stringify(g.q));
+    ok("preventivo letto: portadoghe 2 per doga + 1 doppio", g.q.hwSlatHold === 2 * g.q.hwSlatHold2 && g.q.hwSlatHold2 > 0, JSON.stringify(g.q));
+    ok("scheda tavolo = preventivo", g.schedaT === true);
+    ok("scheda letto = preventivo", g.schedaL === true);
+    ok("ferramenta per corpo (Riepilogo)", g.modT === 4 && g.modL === 4, g.modT + "/" + g.modL);
+    ok("la ferramenta ha un prezzo", g.prezzo === true && g.hwTot > 0, g.hwTot);
+    ok("senza tavolo e letto: nessuna ferramenta", g.vuoto === true);
     ok("tavolo e letto: un capitolo ciascuno", f.corpi === 2);
     ok("passi per il tavolo", f.passiT >= 8, f.passiT);
     ok("passi per il letto", f.passiL >= 9, f.passiL);
