@@ -12,11 +12,12 @@ android {
 
     defaultConfig {
         applicationId "com.domusrenov.ebanist"
-        minSdk 29
+        minSdk 24
         targetSdk 36
-        /* 1 = TWA-ul din iulie 2026 (PWABuilder). De aici în sus, WebView. */
-        versionCode 2
-        versionName "1.1.0"
+        /* 1 = TWA-ul din iulie 2026 (PWABuilder). 2 = primul WebView (Android 10+).
+           3 = Android 7+: telefoanele vechi de șantier contează. */
+        versionCode 3
+        versionName "1.1.1"
     }
 
     signingConfigs {

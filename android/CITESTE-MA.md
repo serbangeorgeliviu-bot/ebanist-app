@@ -1,6 +1,6 @@
 # Ebanist — aplicația Android (WebView)
 
-Pachet `com.domusrenov.ebanist`. Din versionCode 2 (1.1.0) înlocuiește TWA-ul
+Pachet `com.domusrenov.ebanist`, Android 7+ (minSdk 24). Din versionCode 2 (1.1.0) înlocuiește TWA-ul
 PWABuilder (versionCode 1): testarea plătită nu primește TWA, iar Google nu
 numără bine activitatea testerilor într-un TWA.
 
@@ -14,6 +14,7 @@ Ce face în plus față de un WebView gol:
 - descărcările `blob:` / `data:` → `Descărcări/Ebanist/` (MediaStore);
 - `<input type=file>` → selectorul de fișiere; camera pentru «În camera ta»;
 - Înapoi: închide foaia deschisă → istoric → la a doua apăsare iese;
+- Android 7–9: exporturile cer permisiunea de scriere la primul export;
 - ecran „Fără conexiune” cu Reîncearcă; margini pentru barele de sistem (Android 15+).
 
 ## Build

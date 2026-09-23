@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Insets;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,12 +59,13 @@ public class MainActivity extends Activity {
     static final String HOST = "whimsical-wisp-61cbbf.netlify.app";
     static final String START = "https://" + HOST + "/app/";
     static final int BRAND = 0xFF0E3B2A;
-    static final int REQ_FILE = 1, REQ_CAMERA = 2;
+    static final int REQ_FILE = 1, REQ_CAMERA = 2, REQ_STORAGE = 3;
 
     WebView web;
     View splash;
     ValueCallback<Uri[]> fileCallback;
     PermissionRequest pendingPermission;
+    Object[] pendingSave;
     long lastBack;
     boolean offline;
 
@@ -285,9 +289,44 @@ public class MainActivity extends Activity {
         }
     }
 
+    void writeFile(String fname, String mime, byte[] data) {
+        try {
+            if (Build.VERSION.SDK_INT >= 29) {
+                ContentValues cv = new ContentValues();
+                cv.put(MediaStore.Downloads.DISPLAY_NAME, fname);
+                if (mime != null && !mime.isEmpty()) cv.put(MediaStore.Downloads.MIME_TYPE, mime);
+                cv.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/Ebanist");
+                Uri u = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv);
+                if (u == null) throw new IllegalStateException();
+                try (OutputStream os = getContentResolver().openOutputStream(u)) { os.write(data); }
+            } else {
+                File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Ebanist");
+                if (!dir.isDirectory() && !dir.mkdirs()) throw new IllegalStateException();
+                File f = new File(dir, fname);
+                for (int n = 1; f.exists(); n++) {
+                    int dot = fname.lastIndexOf('.');
+                    f = new File(dir, dot > 0 ? fname.substring(0, dot) + " (" + n + ")" + fname.substring(dot) : fname + " (" + n + ")");
+                }
+                try (OutputStream os = new FileOutputStream(f)) { os.write(data); }
+                MediaScannerConnection.scanFile(this, new String[]{f.getAbsolutePath()}, null, null);
+            }
+            runOnUiThread(() -> Toast.makeText(this, getString(R.string.saved, fname), Toast.LENGTH_LONG).show());
+        } catch (Exception e) {
+            runOnUiThread(() -> Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show());
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int code, String[] perms, int[] res) {
         super.onRequestPermissionsResult(code, perms, res);
+        if (code == REQ_STORAGE && pendingSave != null) {
+            Object[] ps = pendingSave;
+            pendingSave = null;
+            if (res.length > 0 && res[0] == PackageManager.PERMISSION_GRANTED)
+                writeFile((String) ps[0], (String) ps[1], (byte[]) ps[2]);
+            else Toast.makeText(this, R.string.save_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (code != REQ_CAMERA || pendingPermission == null) return;
         PermissionRequest req = pendingPermission;
         pendingPermission = null;
@@ -326,20 +365,19 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void saveFile(String name, String mime, String b64) {
             String fname = (name == null ? "ebanist" : name).replaceAll("[\\\\/:*?\"<>|]+", "_");
-            try {
-                byte[] data = Base64.decode(b64, Base64.DEFAULT);
-                ContentValues cv = new ContentValues();
-                cv.put(MediaStore.Downloads.DISPLAY_NAME, fname);
-                if (mime != null && !mime.isEmpty()) cv.put(MediaStore.Downloads.MIME_TYPE, mime);
-                cv.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/Ebanist");
-                Uri u = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv);
-                if (u == null) throw new IllegalStateException();
-                try (OutputStream os = getContentResolver().openOutputStream(u)) { os.write(data); }
-                runOnUiThread(() -> Toast.makeText(MainActivity.this,
-                        getString(R.string.saved, fname), Toast.LENGTH_LONG).show());
-            } catch (Exception e) {
-                saveFailed();
-            }
+            byte[] data;
+            try { data = Base64.decode(b64, Base64.DEFAULT); } catch (Exception e) { saveFailed(); return; }
+            if (Build.VERSION.SDK_INT >= 29) { writeFile(fname, mime, data); return; }
+            /* Android 7–9: Descărcările publice cer permisiunea de scriere,
+               cerută abia la primul export, nu la pornire. */
+            runOnUiThread(() -> {
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    writeFile(fname, mime, data);
+                } else {
+                    pendingSave = new Object[]{fname, mime, data};
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_STORAGE);
+                }
+            });
         }
 
         @JavascriptInterface
