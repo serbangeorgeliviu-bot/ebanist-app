@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Ebanist</string>
+    <string name="saved">Saved to Downloads/Ebanist: %1$s</string>
+    <string name="save_failed">Could not save the file</string>
+    <string name="press_again">Press back again to exit</string>
+    <string name="offline_title">No connection</string>
+    <string name="offline_text">Ebanist needs the internet the first time it opens. After that, your projects work offline too.</string>
+    <string name="retry">Try again</string>
+    <string name="no_app">No app on this device can open this link</string>
+    <string name="camera_denied">Camera permission denied — you can allow it in Settings → Apps → Ebanist</string>
+</resources>

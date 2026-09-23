@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="saved">Salvato in Download/Ebanist: %1$s</string>
+    <string name="save_failed">Impossibile salvare il file</string>
+    <string name="press_again">Premi di nuovo Indietro per uscire</string>
+    <string name="offline_title">Nessuna connessione</string>
+    <string name="offline_text">Ebanist ha bisogno di internet la prima volta che si apre. Dopo, i progetti funzionano anche senza campo.</string>
+    <string name="retry">Riprova</string>
+    <string name="no_app">Nessuna app sul dispositivo può aprire questo link</string>
+    <string name="camera_denied">Accesso alla fotocamera negato — puoi consentirlo da Impostazioni → App → Ebanist</string>
+</resources>

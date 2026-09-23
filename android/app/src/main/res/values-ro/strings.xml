@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="saved">Salvat în Descărcări/Ebanist: %1$s</string>
+    <string name="save_failed">Fișierul nu a putut fi salvat</string>
+    <string name="press_again">Apasă Înapoi încă o dată pentru a ieși</string>
+    <string name="offline_title">Fără conexiune</string>
+    <string name="offline_text">Ebanist are nevoie de internet la prima deschidere. După aceea, proiectele merg și fără semnal.</string>
+    <string name="retry">Reîncearcă</string>
+    <string name="no_app">Nicio aplicație de pe telefon nu poate deschide acest link</string>
+    <string name="camera_denied">Acces la cameră refuzat — îl poți permite din Setări → Aplicații → Ebanist</string>
+</resources>
