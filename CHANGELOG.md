@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.35.3 — 23 septembrie 2026
+
+**Textele Pro din aplicația Android spun ce se cumpără: plată în avans.**
+Planurile din Google Play sunt pentru o lună sau un an, fără reînnoire
+automată. Ecranul Pro scrie acum „O lună de Pro — preț” / „Un an — preț” și
+„Plată unică… fără reînnoire automată; la final Pro se oprește, îl prelungești
+din Ebanist sau din Google Play”. În Setări: „Pro activ · abonament Google Play
+· plată în avans, fără reînnoire automată”. Comutatorul e `PLAY_PREPAID`.
+
+---
+
 ## 4.35.2 — 23 septembrie 2026
 
 **Planurile Google Play se recunosc după perioadă, nu numai după ID.** Un plan
