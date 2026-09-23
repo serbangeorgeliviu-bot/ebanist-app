@@ -5,6 +5,23 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.36.0 — 23 septembrie 2026
+
+**Gratuitul arată ce face aplicația, Pro produce.**
+
+- **Gratuit:** 1 proiect propriu (exemplul nu se socotește). Toate tipologiile,
+  3D-ul cu piese și găuri, lista de debitare și devizul pe ecran, releveul,
+  câte panouri ies la debitare.
+- **Pro:** proiecte nelimitate, distinta PDF, CSV, etichetele, fișa de
+  montaj, desenul tehnic, comanda de feronerie, oferta PDF, modul Client cu
+  semnătură, planurile de tăiere cu ordinea tăierilor și resturile în stoc,
+  fișa piesei cu găuri și CSV-ul lor, JPG, AR, „În camera ta”.
+- Nimic nu se pierde. Proiectele existente rămân deschise și editabile, iar
+  backup-ul nu e blocat niciodată. Poarta Pro apare înainte de lucru, nu după.
+- Filigranul nu se mai vede: un document de atelier iese curat, și numai din Pro.
+
+---
+
 ## 4.35.3 — 23 septembrie 2026
 
 **Textele Pro din aplicația Android spun ce se cumpără: plată în avans.**
