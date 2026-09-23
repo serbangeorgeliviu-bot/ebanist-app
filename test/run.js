@@ -1807,6 +1807,50 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   }
 
   {
+    head("Numele pieselor — traduse pe ecran și pe hârtie, italiene în date");
+    const nctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const np = await nctx.newPage();
+    const nerr = []; np.on("pageerror", e => nerr.push(String(e)));
+    await np.goto(URL); await np.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await np.waitForTimeout(3300);
+    const n = await np.evaluate(() => {
+      const o = {}, lang0 = state.lang;
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "D1" });
+      const hw0 = JSON.stringify(computeHardware(p, state.settings).map(i => i.qty));
+      state.lang = "ro"; applyLang(); setView("list");
+      const list = document.getElementById("v-list").textContent;
+      o.listaRo = /Laterală/.test(list) && /Bază \/ Tavan/.test(list) && !/\bFianco\b/.test(list);
+      o.dateIt = p.pieces.some(x => x.elemento === "Fianco") && !p.pieces.some(x => /Laterală/.test(x.elemento));
+      o.feronerie = JSON.stringify(computeHardware(p, state.settings).map(i => i.qty)) === hw0;
+      const d = document.createElement("div"); d.innerHTML = montDoc(p);
+      o.montaj = /Laterală/.test(d.textContent) && !/\bTramezzo\b/.test(d.textContent);
+      o.sez = elName("Ripiano mobile sez.2") === "Poliță mobilă secț. 2";
+      o.parti = elName("Schienale (1/2)") === "Spate (1/2)";
+      o.push = elName("Frontale cassetto push") === "Front sertar push";
+      o.manual = elName("Mensola bagno ciliegio") === "Mensola bagno ciliegio";
+      state.lang = "en"; o.en = elName("Fianco cassetto") === "Drawer side";
+      state.lang = "fr"; o.fr = elName("Zoccolo") === "Socle";
+      state.lang = "it"; o.it = elName("Fianco") === "Fianco";
+      state.lang = "ro"; o.cauta = (() => { const q = "laterală"; return p.pieces.some(x => `${x.modulo} ${x.elemento} ${elName(x.elemento)}`.toLowerCase().includes(q)); })();
+      state.lang = lang0; applyLang(); setView("projects");
+      return o;
+    });
+    await np.close(); await nctx.close();
+    ok("lista în română: Laterală, Bază / Tavan — nu Fianco", n.listaRo === true);
+    ok("în date numele rămân italiene", n.dateIt === true);
+    ok("feroneria nu se schimbă cu limba", n.feronerie === true);
+    ok("fișa de montaj în română", n.montaj === true);
+    ok("secțiunea: „sez.2” → „secț. 2”", n.sez === true);
+    ok("bucățile: „(1/2)” rămân", n.parti === true);
+    ok("„push” rămâne", n.push === true);
+    ok("un nume scris de mână nu se atinge", n.manual === true);
+    ok("engleză, franceză, italiană", n.en && n.fr && n.it);
+    ok("căutarea găsește și numele tradus", n.cauta === true);
+    ok("nessun errore JS", nerr.length === 0, nerr.join(" | ").slice(0, 200));
+  }
+
+  {
     head("Google Play Billing — pe Android se plătește numai prin Play");
     const gctx = await browser.newContext({ viewport: { width: 412, height: 800 } });
     await gctx.addInitScript(() => {

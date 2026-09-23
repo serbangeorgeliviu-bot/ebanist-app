@@ -4253,7 +4253,7 @@ function renderList(){
     return;
   }
   const q=listQ.trim().toLowerCase();
-  const match=x=>(!q||`${x.modulo} ${x.elemento} ${x.materiale}`.toLowerCase().includes(q))&&(!listMatF||x.materiale===listMatF);
+  const match=x=>(!q||`${x.modulo} ${x.elemento} ${elName(x.elemento)} ${x.materiale}`.toLowerCase().includes(q))&&(!listMatF||x.materiale===listMatF);
   const groups=new Map();
   for(const x of p.pieces){ if(!match(x))continue; if(!groups.has(x.modulo))groups.set(x.modulo,[]); groups.get(x.modulo).push(x); }
   if(!groups.size){ box.innerHTML=`<div class="empty"><p>—</p></div>`; return; }
@@ -4292,7 +4292,7 @@ function renderList(){
       r.innerHTML=`
         <button class="pc-check${x.done?" on":""}" data-chk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></button>
         <div class="pc-dim">${x.lung}<i>×</i>${x.larg}${angTag(x)}</div>
-        <div class="pc-info"><div class="pc-el">${esc(x.elemento)}${scList(x).length?` <span style="color:var(--red,#c33);font-size:11px">✂ ${esc(scTxt(x))}</span>`:""}</div><div class="pc-mat">${esc(shortMat)}</div>${jointTag(x)}${curveTag(x)}</div>
+        <div class="pc-info"><div class="pc-el">${esc(elName(x.elemento))}${scList(x).length?` <span style="color:var(--red,#c33);font-size:11px">✂ ${esc(scTxt(x))}</span>`:""}</div><div class="pc-mat">${esc(shortMat)}</div>${jointTag(x)}${curveTag(x)}</div>
         <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>${hasCfg&&x.role&&x.role!=="accessorio"?`<button class="pc-ops" data-ops title="${esc(t("listHoles"))}" aria-label="${esc(t("listHoles"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8" cy="9" r="1.6"/><circle cx="16" cy="9" r="1.6"/><circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="2.6"/></svg></button>`:""}`;
       r.querySelector("[data-chk]").addEventListener("click",e=>{
         e.stopPropagation(); x.done=x.done?0:1; persist(); renderList();
@@ -4322,7 +4322,7 @@ function renderNest(){
     const stk=(state.stock||[]).filter(r=>r.mat===m.label)
       .flatMap(r=>Array.from({length:Math.max(1,r.n|0)},()=>({L:r.L,W:r.W,id:r.id})));
     const res=nest(m.pieces,PN.L,PN.W,S.kerf,stk);
-    res.skipped.forEach(it=>oversize.push(`${it.ref.elemento} ${it.ref.lung}×${it.ref.larg} — ${m.label} (${PN.L}×${PN.W})`));
+    res.skipped.forEach(it=>oversize.push(`${elName(it.ref.elemento)} ${it.ref.lung}×${it.ref.larg} — ${m.label} (${PN.L}×${PN.W})`));
     panelCount+=res.panels.filter(x=>!x.stock).length;
     stockUsed+=res.panels.filter(x=>x.stock).length;
     for(const pan of res.panels) for(const f of pan.free)
@@ -4366,7 +4366,7 @@ function panelSvg(pan,PL,PW,kerf){
     const cx=r.x+r.w/2, cy=r.y+r.h/2;
     const fs=Math.min(90, r.h*0.45, r.w/6.5);
     const label=`${r.ref.lung}×${r.ref.larg}`;
-    const el=r.ref.elemento||"";
+    const el=elName(r.ref.elemento||"");
     return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#ffffff" stroke="#0E3B2A" stroke-width="6"/>
       ${fs>26?`<text x="${cx}" y="${cy-(el&&fs>34?fs*0.34:0)}" font-size="${fs}" fill="#14181d" text-anchor="middle" dominant-baseline="middle" font-family="Barlow Condensed,Arial" font-weight="700">${label}</text>`:""}
       ${el&&fs>34?`<text x="${cx}" y="${cy+fs*0.62}" font-size="${fs*0.62}" fill="#5c6558" text-anchor="middle" dominant-baseline="middle" font-family="Barlow,Arial">${esc(el)}</text>`:""}`;
@@ -4897,7 +4897,7 @@ $("btnPdf").addEventListener("click",()=>{
       <th style="text-align:right">${esc(t("fWidth"))}</th><th style="text-align:right">${esc(t("fQty"))}</th>
       <th>${esc(t("fBanding"))}</th><th>${esc(t("fMaterial"))}</th></tr>`;
     for(const x of items)
-      html+=`<tr><td>${esc(x.elemento)}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>
+      html+=`<tr><td>${esc(elName(x.elemento))}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>
         <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(x.materiale)}</td></tr>`;
     html+="</table>";
   }
@@ -6556,11 +6556,62 @@ function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):null;
   return {name:t("hw_"+ty),prod:it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):(ty==="tassello"?"Ø8×35":""),art:it&&it.art&&it.art!=="—"?it.art:""}; }
 /* il nome di un pezzo fisico: la riga di distinta a cui corrisponde, con il
    lato quando le righe sono a coppie (i due fianchi sono una riga da 2 pz) */
+/* ---- numele pieselor, în limba utilizatorului ----
+   `elemento` e în italiană și RĂMÂNE în italiană în date: feroneria,
+   fișa de montaj și goldenele îl citesc ("anta", "frontale cassetto"…), iar
+   CSV-ul și pachetul de laborator îl duc la mașină așa. Se traduce numai
+   ce se vede: pe ecran și pe hârtie. Un nume scris de mână, necunoscut
+   dicționarului, rămâne cum l-a scris omul. */
+const EL_I18N={
+ ro:{"Anta":"Ușă","Anta scorrevole":"Ușă glisantă","Anta curva":"Ușă curbată","Asta appendiabiti":"Bară umerașe",
+  "Base / Cielo":"Bază / Tavan","Base":"Bază","Cielo":"Tavan","Doga faggio 68mm":"Doagă fag 68 mm","Fascia":"Bandă frontală",
+  "Fascia raccordata":"Bandă racordată","Fianco":"Laterală","Fianco cassetto":"Laterală sertar","Fondo / Cielo raccordato":"Fund / Tavan racordat",
+  "Fondo / Cielo tondo":"Fund / Tavan rotund","Fondo cassetto":"Fund sertar","Frontale cassetto":"Front sertar","Frontale cassetto interno":"Front sertar interior",
+  "Fronte/Retro cassetto":"Față/Spate sertar","Gamba legno 70×70":"Picior lemn 70×70","Montante anta vetro":"Montant ușă sticlă","Pannello posteriore":"Panou spate",
+  "Pediera":"Tăblie picioare","Piano scrivania":"Blat birou","Piano tavolo":"Blat masă","Piedino regolabile":"Picior reglabil","Retro cassetto":"Spate sertar",
+  "Ripiano mobile":"Poliță mobilă","Ripiano fisso":"Poliță fixă","Ripiano regolabile":"Poliță reglabilă","Ripiano raccordato":"Poliță racordată",
+  "Ripiano tondo":"Poliță rotundă","Ripiano":"Poliță","Schienale":"Spate","Schienale sopra":"Spate sus","Schienale sotto":"Spate jos",
+  "Schienale libreria":"Spate bibliotecă","Sponda laterale":"Laterală pat","Testiera":"Tăblie cap","Tramezzo":"Despărțitor",
+  "Traversa anta vetro":"Traversă ușă sticlă","Traversa centrale":"Traversă centrală","Traversa telaio":"Traversă ramă","Traversa telaio corta":"Traversă ramă scurtă",
+  "Vetro anta":"Sticlă ușă","Zoccolo":"Soclu","Frontale scrivania":"Front birou","Frontale":"Front","Top":"Blat","Pezzo":"Piesă","_sez":"secț."},
+ en:{"Anta":"Door","Anta scorrevole":"Sliding door","Anta curva":"Curved door","Asta appendiabiti":"Hanging rail",
+  "Base / Cielo":"Bottom / Top","Base":"Bottom","Cielo":"Top","Doga faggio 68mm":"Beech slat 68 mm","Fascia":"Front band",
+  "Fascia raccordata":"Curved band","Fianco":"Side","Fianco cassetto":"Drawer side","Fondo / Cielo raccordato":"Bottom / Top, curved",
+  "Fondo / Cielo tondo":"Bottom / Top, round","Fondo cassetto":"Drawer bottom","Frontale cassetto":"Drawer front","Frontale cassetto interno":"Inner drawer front",
+  "Fronte/Retro cassetto":"Drawer front/back","Gamba legno 70×70":"Wooden leg 70×70","Montante anta vetro":"Glass door stile","Pannello posteriore":"Back panel",
+  "Pediera":"Footboard","Piano scrivania":"Desk top","Piano tavolo":"Table top","Piedino regolabile":"Adjustable foot","Retro cassetto":"Drawer back",
+  "Ripiano mobile":"Adjustable shelf","Ripiano fisso":"Fixed shelf","Ripiano regolabile":"Adjustable shelf","Ripiano raccordato":"Curved shelf",
+  "Ripiano tondo":"Round shelf","Ripiano":"Shelf","Schienale":"Back","Schienale sopra":"Back, upper","Schienale sotto":"Back, lower",
+  "Schienale libreria":"Bookcase back","Sponda laterale":"Side rail","Testiera":"Headboard","Tramezzo":"Divider",
+  "Traversa anta vetro":"Glass door rail","Traversa centrale":"Centre rail","Traversa telaio":"Frame rail","Traversa telaio corta":"Short frame rail",
+  "Vetro anta":"Door glass","Zoccolo":"Plinth","Frontale scrivania":"Desk front","Frontale":"Front","Top":"Top","Pezzo":"Part","_sez":"sec."},
+ fr:{"Anta":"Porte","Anta scorrevole":"Porte coulissante","Anta curva":"Porte cintrée","Asta appendiabiti":"Tringle",
+  "Base / Cielo":"Dessous / Dessus","Base":"Dessous","Cielo":"Dessus","Doga faggio 68mm":"Latte hêtre 68 mm","Fascia":"Bandeau",
+  "Fascia raccordata":"Bandeau cintré","Fianco":"Côté","Fianco cassetto":"Côté tiroir","Fondo / Cielo raccordato":"Dessous / Dessus cintré",
+  "Fondo / Cielo tondo":"Dessous / Dessus rond","Fondo cassetto":"Fond tiroir","Frontale cassetto":"Façade tiroir","Frontale cassetto interno":"Façade tiroir intérieur",
+  "Fronte/Retro cassetto":"Avant/Arrière tiroir","Gamba legno 70×70":"Pied bois 70×70","Montante anta vetro":"Montant porte vitrée","Pannello posteriore":"Panneau arrière",
+  "Pediera":"Pied de lit","Piano scrivania":"Plateau bureau","Piano tavolo":"Plateau table","Piedino regolabile":"Vérin réglable","Retro cassetto":"Arrière tiroir",
+  "Ripiano mobile":"Étagère mobile","Ripiano fisso":"Étagère fixe","Ripiano regolabile":"Étagère réglable","Ripiano raccordato":"Étagère cintrée",
+  "Ripiano tondo":"Étagère ronde","Ripiano":"Étagère","Schienale":"Fond","Schienale sopra":"Fond haut","Schienale sotto":"Fond bas",
+  "Schienale libreria":"Fond bibliothèque","Sponda laterale":"Longeron","Testiera":"Tête de lit","Tramezzo":"Séparation",
+  "Traversa anta vetro":"Traverse porte vitrée","Traversa centrale":"Traverse centrale","Traversa telaio":"Traverse cadre","Traversa telaio corta":"Traverse cadre courte",
+  "Vetro anta":"Verre de porte","Zoccolo":"Socle","Frontale scrivania":"Façade bureau","Frontale":"Façade","Top":"Dessus","Pezzo":"Pièce","_sez":"sect."}
+};
+function elName(s){
+  if(s==null) return s;
+  const D=EL_I18N[state&&state.lang]; if(!D) return s;
+  let m=String(s), suf="";
+  const sz=m.match(/^(.*?)\s*sez\.\s*(\d+)$/i); if(sz){ m=sz[1]; suf=" "+D._sez+" "+sz[2]+suf; }
+  const pt=m.match(/^(.*?)\s*(\(\d+\/\d+\))$/); if(pt){ m=pt[1]; suf=" "+pt[2]+suf; }
+  let push="";
+  if(D[m]===undefined&&/ push$/i.test(m)){ m=m.slice(0,-5); push=" push"; }
+  return D[m]!==undefined?D[m]+push+suf:String(s);
+}
 function partName(M,pc){
   const m=M&&M.meta[String(pc.pk)], row=m&&m.row;
   /* «Ripiano mobile sez.2» su sei ripiani uguali confonde: la sezione la
      dice il 3D, il nome resta quello del pezzo */
-  let n=row?String(row.elemento).replace(/\s*sez\.\s*\d+$/i,""):t("role_"+pc.role);
+  let n=row?elName(String(row.elemento).replace(/\s*sez\.\s*\d+$/i,"")):t("role_"+pc.role);
   if(row&&+row.pz>1&&(pc.role==="fianco"||pc.role==="frontale")&&M.ops){
     const all=M.ops.pieces.filter(q=>q.role===pc.role&&M.meta[String(q.pk)]&&M.meta[String(q.pk)].row===row);
     if(all.length>1){ const cx=(pc.min[0]+pc.max[0])/2, mid=all.reduce((s,q)=>s+(q.min[0]+q.max[0])/2,0)/all.length;
@@ -7701,7 +7752,7 @@ function geomDiffSheet(){
   }else{
     body.innerHTML=`<table class="gv"><tr><th>${esc(t("fElement"))}</th>
         <th>${esc(t("gvOld"))}</th><th>${esc(t("gvNew"))}</th></tr>`+
-      rows.map(r=>`<tr><td>${esc(r.modulo)} · ${esc(r.elemento)}</td>
+      rows.map(r=>`<tr><td>${esc(r.modulo)} · ${esc(elName(r.elemento))}</td>
         <td class="n">${r.err?"—":esc(geomFmt(r.vecchio))}</td>
         <td class="n${r.err?"":" gv-new"}">${r.err?esc(r.err):esc(geomFmt(r.nuovo))}</td></tr>`).join("")+
       `</table><p class="vsub" style="margin-top:10px">${esc(t("gvWarn"))}</p>`;
@@ -8342,7 +8393,7 @@ $("btnDraw").addEventListener("click",()=>{
   const angBlock=angPcs.length?`<h2>${esc(t("drawAng"))}</h2>
     <table style="width:100%;border:none"><tr>${angPcs.slice(0,4).map(x=>
       `<td style="border:none;vertical-align:top;text-align:center;width:25%">
-        <div style="font-size:9pt;font-weight:bold">${esc(x.elemento)}</div>${angPieceSvg(x)}</td>`).join("")}</tr></table>`:"";
+        <div style="font-size:9pt;font-weight:bold">${esc(elName(x.elemento))}</div>${angPieceSvg(x)}</td>`).join("")}</tr></table>`:"";
   const explSvg=(()=>{ const d=document.createElement("div"); const sv=document.createElementNS("http://www.w3.org/2000/svg","svg");
     d.appendChild(sv); render3D(sv,buildCfg,{yaw:0.62,pitch:0.34,zoom:1,free:true},{real:false,explode:1});
     sv.setAttribute("style","width:100%;max-width:120mm"); return d.innerHTML; })();
@@ -8797,7 +8848,7 @@ function montFlatHtml(M,items){
   /* pezzi: i pannelli numerati come nell'esploso, poi gli accessori */
   const rows=[];
   if(M.ops) M.ops.pieces.forEach(pc=>{ const r=(M.meta[pc.pk]||{}).row||{};
-    rows.push([pc.n,r.elemento||t("role_"+pc.role),fmtMM(pc.length),fmtMM(pc.width),fmtMM(pc.thickness),r.bordo||"—"]); });
+    rows.push([pc.n,r.elemento?elName(r.elemento):t("role_"+pc.role),fmtMM(pc.length),fmtMM(pc.width),fmtMM(pc.thickness),r.bordo||"—"]); });
   let n=rows.length;
   F.acc.forEach(a=>{ const d=a.d.split("×"); rows.push([++n,a.n+" ×"+a.q,d[0],d[1],d[2]||"—","—"]); });
   h+=`<h3>${esc(t("mParts"))}</h3><table class="m-t"><tr><th>#</th><th>${esc(t("fElement"))}</th><th class="n">L</th><th class="n">${esc(t("partW"))}</th><th class="n">${esc(t("partT"))}</th><th>${esc(t("partEdge"))}</th><th>✓</th></tr>`+
@@ -8860,7 +8911,7 @@ function montDoc(p){
     if(M.ops){
       html+=`<h3>${esc(t("mParts"))}</h3><table class="m-t"><tr><th>#</th><th>${esc(t("fElement"))}</th><th class="n">L</th><th class="n">${esc(t("partW"))}</th><th class="n">${esc(t("partT"))}</th><th>${esc(t("partEdge"))}</th><th class="n">${esc(t("vtHoles"))}</th><th>✓</th></tr>`+
         M.ops.pieces.map(pc=>{ const r=(M.meta[pc.pk]||{}).row||{}, nd=pc.operations.filter(o=>o.type==="drill").length;
-          const nm=String(r.elemento||t("role_"+pc.role)).replace(/\s*sez\.\s*\d+$/i,"");
+          const nm=r.elemento?elName(String(r.elemento).replace(/\s*sez\.\s*\d+$/i,"")):t("role_"+pc.role);
           return `<tr><td class="n"><b>${pc.n}</b></td><td>${esc(nm)}</td><td class="n">${fmtMM(pc.length)}</td><td class="n">${fmtMM(pc.width)}</td><td class="n">${fmtMM(pc.thickness)}</td><td>${esc(r.bordo||"—")}</td><td class="n">${nd||"—"}</td><td class="m-box"></td></tr>`; }).join("")+`</table>`;
     }
     /* ferramenta, con i codici — il montatore la conta prima di cominciare */
@@ -9080,7 +9131,7 @@ $("btnLabels").addEventListener("click",()=>{
     const matShort=((x.materiale||"").replace(/Truciolare Bilaminato/i,"PAL")+(dec?" · "+dec:"")).slice(0,38);
     html+=`<div class="lbl">
       <div class="l1">${esc(p.name)} · ${esc(x.modulo)}</div>
-      <div class="l2">${esc(x.elemento)}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
+      <div class="l2">${esc(elName(x.elemento))}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
       <div class="dim">${x.lung} × ${x.larg}</div>
       ${hingeInfo(x)?`<div class="l-hinge">⌀35: ${hingeInfo(x).pos.join(" · ")}</div>`:""}
       <div class="l3"><span>${esc(matShort)}<br>#${String(i+1).padStart(3,"0")}/${N}</span>${edgeSvg(x.bordo)}</div>
@@ -11738,12 +11789,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.34.0"; /* APP_VER-MARKER */
+const APP_VER="4.35.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v68";
+const SW_CACHE="ebanist-v69";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
