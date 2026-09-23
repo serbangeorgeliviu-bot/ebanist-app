@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.35.2 — 23 septembrie 2026
+
+**Planurile Google Play se recunosc după perioadă, nu numai după ID.** Un plan
+de bază din Play Console nu-și poate schimba tipul și nici ID-ul refolosi; unul
+refăcut (de ex. din „plată în avans” în „reînnoire automată”) primește alt ID.
+Aplicația îl găsește acum după perioada lui (lunar / anual).
+
+---
+
 ## 4.35.1 — 23 septembrie 2026
 
 **Ecranul Pro din aplicația Android reîntreabă Google Play.** Dacă la prima
