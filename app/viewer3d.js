@@ -130,6 +130,10 @@ function materialFor(key) {
     m = new THREE.MeshStandardMaterial({ color: 0xd8d2c6, roughness: .95, metalness: 0, side: THREE.DoubleSide });
   } else if (key === "__metal") {
     m = new THREE.MeshStandardMaterial({ color: 0x8a8e92, roughness: .4, metalness: .85, envMapIntensity: 1.1 });
+  } else if (key === "__beech") {
+    if (!WOOD) WOOD = makeWoodTexture(7);
+    m = new THREE.MeshPhysicalMaterial({ color: new THREE.Color("#d8b98c"), roughness: .6, clearcoat: .15, clearcoatRoughness: .5, map: WOOD });
+    triplanar(m);
   } else if (key === "__hole") {
     m = new THREE.MeshBasicMaterial({ color: 0x17130f, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
   } else if (key === "__groove") {
@@ -167,6 +171,8 @@ function keyOf(b, cfg) {
   if (b.kind === "g" || b.role === "vetro") return "__glass";
   if (b.kind === "m" || b.role === "cassetto_metallo") return "__metal";
   if (b.role === "piedino") return "__hwdark";
+  /* doghe di faggio e gambe in massello: non sono il pannello del corpo */
+  if (b.role === "doga" || b.role === "gamba") return "__beech";
   if (b.role === "asta") return "__hw";
   try {
     if (b.role && typeof PIECE_MAT_ROLE === "object" && PIECE_MAT_ROLE[b.role] && typeof roleMatId === "function") {
