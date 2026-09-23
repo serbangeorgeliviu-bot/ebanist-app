@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.33.1 — 23 septembrie 2026
+
+**Rezumatul se derulează din nou pe telefon.** În aplicația Android pagina
+Rezumat nu cobora cu degetul: tabelele de materiale, feronerie și costuri
+„prindeau” gestul (efectul de apăsare pornea la începutul scroll-ului).
+Tabelele se derulează acum doar lateral, pagina pe verticală.
+
+---
+
 ## 4.33.0 — 23 septembrie 2026
 
 **Feroneria mesei și a patului e în catalog și în deviz.** Opt categorii noi

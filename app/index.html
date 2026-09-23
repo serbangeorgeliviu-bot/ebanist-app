@@ -224,6 +224,12 @@ table.gv td.gv-new{color:var(--danger);font-weight:700}
   box-shadow:var(--sh-1);transition:transform .13s,box-shadow .13s,border-color .13s}
 /* #3a424b era un grigio-blu fuori tavolozza, rimasto da prima del verde */
 .card:active{border-color:var(--red-line);transform:scale(.993);box-shadow:var(--sh-2)}
+/* Tabelele din Rezumat: se derulează lateral, nu se apasă. Efectul de
+   apăsare (scale) pornea chiar când degetul punea începutul unui scroll, iar
+   WebView-ul Android agăța gestul de tabel: pagina nu mai cobora. Pe
+   verticală tabelul nu derulează niciodată — gestul merge la pagină. */
+.card-tbl{overflow-x:auto;overflow-y:hidden;touch-action:pan-x pan-y}
+.card-tbl:active{border-color:var(--line);transform:none;box-shadow:var(--sh-1)}
 .row{display:flex;align-items:center;gap:10px}
 .grow{flex:1;min-width:0}
 
@@ -1571,11 +1577,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <p class="vsub" data-i="summarySub">Materiali, bordatura e costi</p>
     <div class="kpis" id="sumKpis"></div>
     <div class="eyebrow" data-i="materials">Materiali</div>
-    <div class="card" style="overflow-x:auto"><table class="t" id="matTable"></table></div>
+    <div class="card card-tbl"><table class="t" id="matTable"></table></div>
     <div class="eyebrow" data-i="hardware">Ferramenta</div>
-    <div class="card" style="overflow-x:auto"><table class="t" id="hwTable"></table></div>
+    <div class="card card-tbl"><table class="t" id="hwTable"></table></div>
     <div class="eyebrow" data-i="costs">Costi stimati</div>
-    <div class="card" style="overflow-x:auto"><table class="t" id="costTable"></table></div>
+    <div class="card card-tbl"><table class="t" id="costTable"></table></div>
     <div id="offerList" hidden></div>
     <div class="eyebrow" data-i="export">Esporta</div>
     <div class="btnrow">
@@ -11644,12 +11650,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.33.0"; /* APP_VER-MARKER */
+const APP_VER="4.33.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v66";
+const SW_CACHE="ebanist-v67";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
