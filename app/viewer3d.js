@@ -586,7 +586,9 @@ function resize() {
 
 function frame() {
   R.raf = 0;
-  const a = step(), b = stepCamera();
+  /* giro lento, per il modo cliente: il mobile si presenta da solo */
+  if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035;
+  const a = step(), b = stepCamera() || !!R.spin;
   R.renderer.render(R.scene, R.camera);
   R.need = false;
   if (a || b) kick();
@@ -694,6 +696,7 @@ const GL3D = {
   snapshot() { if (!this.ok) return null; R.renderer.render(R.scene, R.camera); return R.canvas.toDataURL("image/png"); },
   theme() { if (!this.ok) return; R.dark = isDark(); R.scene.background = gradientBg(R.dark);
     R.ground.material.opacity = R.dark ? .34 : .16; R.contact.material.opacity = R.dark ? .8 : .5; applyState(); },
+  spin(on) { if (!this.ok) return; R.spin = !!on; kick(); },
   touch() { if (this.ok) { R.need = true; kick(); } },
   resize,
 };

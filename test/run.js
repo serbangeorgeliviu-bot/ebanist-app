@@ -1594,6 +1594,89 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("e allora la distinta esce", uscito === true);
   }
 
+  head("Modo cliente — il mobile, le finiture, il prezzo, la firma. Niente officina");
+  {
+    const cctx = await browser.newContext({ viewport: { width: 1366, height: 1024 }, hasTouch: true });
+    const cp = await cctx.newPage();
+    const cerr = []; cp.on("pageerror", e => cerr.push(String(e)));
+    await cp.goto(URL); await cp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await cp.waitForTimeout(3300);
+    const c = await cp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      closeSheets(); setView("build"); await w(400);
+      document.getElementById("btnGenerate").click(); await w(300);
+      const o = {};
+      const p = proj(); o.offersPrima = (p.offers || []).length;
+      clientOpen(); await w(300);
+      const el = document.getElementById("clientMode");
+      o.aperto = !el.hidden && document.body.classList.contains("client-on");
+      const txt = el.innerText;
+      /* niente di tecnico: codici fornitore, costi interni, distinta */
+      o.codici = (txt.match(/\b\d{5}MN\b|\bH\d{4}\b/g) || []).length;
+      o.interni = /€\s*\/\s*m²|manodopera|margin|sfrido|pannell[oi] intero|distinta/i.test(txt);
+      o.prezzo = !!el.querySelector(".cm-ptot") && /€/.test(el.querySelector(".cm-ptot").textContent);
+      o.swatch = el.querySelectorAll(".cm-sws[data-key=matFront] .cm-sw").length;
+      /* la variante ha la stessa grossezza: le cote non si muovono */
+      const cfg0 = cmCfg(CM.cur), th0 = matById(cfg0.matFront).th;
+      const b = [...el.querySelectorAll(".cm-sws[data-key=matFront] .cm-sw")].find(x => x.dataset.id !== cfg0.matFront);
+      b.click(); await w(200);
+      const cfg1 = cmCfg(CM.cur);
+      o.cambiata = cfg1.matFront === b.dataset.id && cfg1.matFront !== cfg0.matFront;
+      o.stessaGrossezza = matById(cfg1.matFront).th === th0;
+      /* il tasto Indietro non porta fuori */
+      o.dentroDopoIndietro = (navCloseTop(), CM.on === true);
+      /* la firma: senza tratto il bottone resta spento */
+      el.querySelector("[data-accept]").click(); await w(200);
+      document.getElementById("cmSignName").value = "Mario Rossi"; document.getElementById("cmSignOk").checked = true; cmSignCheck();
+      o.spentoSenzaFirma = document.getElementById("cmSignGo").disabled;
+      const pad = document.getElementById("cmPad"), r = pad.getBoundingClientRect();
+      const ev = (t, x, y) => pad.dispatchEvent(new PointerEvent(t, { clientX: r.left + x, clientY: r.top + y, pointerId: 1, bubbles: true }));
+      ev("pointerdown", 30, 60); for (let i = 0; i < 12; i++) ev("pointermove", 30 + i * 15, 60 + (i % 2) * 20); ev("pointerup", 210, 60);
+      o.accesoConFirma = !document.getElementById("cmSignGo").disabled;
+      const lung0 = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",");
+      document.getElementById("cmSignGo").click(); await w(200);
+      o.offerte = (p.offers || []).length - o.offersPrima;
+      const of = p.offers[p.offers.length - 1];
+      o.firmaImg = /^data:image\/png/.test(of.sig) && of.sig.length < 120000;
+      o.totale = of.total > 0;
+      o.applicata = p.configs[CM.cur].matFront === b.dataset.id;
+      o.coteFerme = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",") === lung0;
+      /* il PDF dell'offerta passa dal cancello, e porta la firma */
+      window.print = () => {};
+      document.getElementById("printArea").innerHTML = "";
+      document.getElementById("cmDonePdf").click(); await w(300);
+      const pa = document.getElementById("printArea").innerHTML;
+      o.pdfFirma = /data:image\/png/.test(pa) && /Mario Rossi/.test(pa);
+      /* uscita: un tocco non basta */
+      document.getElementById("cmDoneBack").click(); await w(100);
+      document.getElementById("cmExit").click(); await w(100);
+      o.toccoNonEsce = CM.on === true;
+      clientClose(); await w(100);
+      o.uscito = !CM.on && el.hidden && !document.body.classList.contains("client-on");
+      return o;
+    });
+    await cp.close(); await cctx.close();
+    ok("si apre a tutto schermo", c.aperto === true);
+    ok("nessun codice articolo a schermo", c.codici === 0, c.codici);
+    ok("nessun costo interno, niente distinta", c.interni === false);
+    ok("il prezzo finale c'e", c.prezzo === true);
+    ok("finiture da scegliere", c.swatch > 1, c.swatch);
+    ok("toccare una finitura la cambia", c.cambiata === true);
+    ok("stessa grossezza: le cote non si muovono", c.stessaGrossezza === true);
+    ok("il tasto Indietro non porta fuori dal modo cliente", c.dentroDopoIndietro === true);
+    ok("senza firma il bottone resta spento", c.spentoSenzaFirma === true);
+    ok("con la firma si accende", c.accesoConFirma === true);
+    ok("l'offerta firmata si salva nel progetto", c.offerte === 1);
+    ok("la firma e un'immagine piccola", c.firmaImg === true);
+    ok("con il totale", c.totale === true);
+    ok("la finitura firmata diventa quella del progetto", c.applicata === true);
+    ok("e la distinta ha le stesse cote", c.coteFerme === true);
+    ok("il PDF dell'offerta porta firma e nome", c.pdfFirma === true);
+    ok("un tocco sulla X non esce", c.toccoNonEsce === true);
+    ok("si esce e l'app torna com'era", c.uscito === true);
+    ok("nessun errore JS nel modo cliente", cerr.length === 0, cerr.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
