@@ -1,9 +1,13 @@
 /* Ebanist service worker — offline-first app shell */
-const CACHE = "ebanist-v61";
+const CACHE = "ebanist-v62";
 const SHELL = ["./index.html","./ebanist-core.js","./ebanist-ops.js","/order-rail/price.js","/order-rail/atelier.js","/order-rail/order.js","./ebanist-store.js","./config/billing.js","./ebanist-license.js","./viewer3d.js","./geo3d.js","./vendor/three.module.min.js","./vendor/RoomEnvironment.js","./arexport.js","./vendor/GLTFExporter.js","./vendor/USDZExporter.js","./vendor/TextureUtils.js","./vendor/fflate.module.js","./vendor/supabase.js","./data/materials-centro-legno.json","./data/materials-legacy.json","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/favicon.ico"];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  /* `cache:"reload"`: il guscio si scarica DAL SERVER, non dalla cache HTTP del
+     browser. Senza, un aggiornamento poteva mettere insieme l'index.html nuovo
+     e un ebanist-core.js vecchio rimasto nella cache del browser — ed e quello
+     che e successo con la 4.29.0 («reading 'back_y0'»). */
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", e => {
   e.waitUntil(

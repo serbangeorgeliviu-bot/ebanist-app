@@ -91,3 +91,19 @@ describe("Deterministico", () => {
     assert.deepEqual(JSON.stringify(build(BAGNO).pieces), JSON.stringify(build(BAGNO).pieces));
   });
 });
+
+/* 4.29.0 in produzione: un telefono con l'index.html nuovo e il motore vecchio
+   in cache. Il motore vecchio non conosce `treapta`: il generatore deve fare
+   quello che faceva prima, non morire su «reading 'back_y0'». */
+describe("Motore piu vecchio della pagina (senza `treapta`)", () => {
+  test("il generatore non si rompe e da lo schienale intero", () => {
+    const real = S.deriveCarcass;
+    S.deriveCarcass = p => { const g = Object.assign({}, real(p)); delete g.treapta; return g; };
+    try {
+      for (const mode of ["incassato", "applicato", "in_cava"]) {
+        const b = build({ ...BAGNO, backMode: mode, stepH: 0, stepP: 0, matBack: mode === "in_cava" ? "__k3" : "__k" });
+        assert.equal(row(b, /^Schienale$/).length, 1, mode);
+      }
+    } finally { S.deriveCarcass = real; }
+  });
+});

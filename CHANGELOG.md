@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.29.1 — 23 septembrie 2026
+
+**Reparat: generatorul se oprea cu „reading 'back_y0'".** După actualizarea la
+4.29.0, pe unele telefoane pagina nouă pornea cu motorul geometric vechi,
+rămas în memoria browserului. Motorul vechi nu știa de treapta din perete, iar
+generatorul se oprea pe spate. Acum generatorul merge și cu motorul vechi (fără
+treaptă, ca înainte), iar actualizările descarcă fișierele direct de pe server,
+nu din memoria browserului — pagina și motorul vin mereu din aceeași versiune.
+
+---
+
 ## 4.29.0 — 23 septembrie 2026
 
 **Spatele în două bucăți, pentru peretele cu treaptă.** În generator, la
