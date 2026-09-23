@@ -642,6 +642,219 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
   .fab{right:calc(50% - 380px + 16px)}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* =====================================================================
+   4.29 — BANCO DI LAVORO
+   Il linguaggio visivo di uno strumento professionale: meno maiuscole che
+   gridano, gerarchia data da peso e grandezza, raggi piu stretti, pannelli
+   che sul PC stanno affiancati e scorrono ognuno per conto suo. Il telefono
+   resta a una colonna con la barra in basso: e il cantiere.
+   ===================================================================== */
+[hidden]{display:none!important}   /* .gvbar{display:flex} batteva `hidden`: una barra vuota in cima alla distinta */
+:root{--side-w:232px;--radius:12px}
+h2.vtitle{font-family:var(--font-body);font-size:19px;font-weight:700;letter-spacing:-.2px;
+  text-transform:none;color:var(--text);margin-bottom:2px}
+.vsub{font-size:13px;color:var(--muted)}
+.vhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.f label{font-size:12.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);margin-bottom:5px}
+input,select,textarea{border-radius:9px;padding:10px 11px}
+.btn{border-radius:10px;font-size:14.5px}
+.btn.sm{border-radius:9px}
+.grp{border-radius:12px}
+.grp>summary{font-family:var(--font-body);font-size:14.5px;font-weight:650;text-transform:none;letter-spacing:0;padding:12px 14px}
+.grp.sub{border-radius:10px;margin-top:4px}
+.eyebrow{letter-spacing:1.1px;font-size:12px}
+nav button{font-family:var(--font-body);text-transform:none;letter-spacing:0;font-size:11px;font-weight:600}
+.mod-h h3{font-family:var(--font-body);font-size:15.5px;font-weight:700;letter-spacing:-.1px}
+.pc-dim{font-family:var(--font-body);font-size:17px;letter-spacing:-.2px}
+.pj-name{font-family:var(--font-body);font-size:17.5px;font-weight:700;letter-spacing:-.2px}
+.sheet h3{font-family:var(--font-body);font-size:18px;text-transform:none;letter-spacing:-.2px}
+
+/* ---------- tipologie: una striscia di tessere con il disegno del mobile ---------- */
+.typestrip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;margin:0 -16px 12px;
+  padding:2px 16px 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.typestrip .chip{flex:none;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:5px;
+  width:78px;min-height:84px;padding:9px 5px 7px;border-radius:11px;background:var(--surface);
+  font-size:11.5px;line-height:1.15;text-align:center;white-space:normal;color:var(--muted);position:relative}
+.typestrip .chip .ti{width:34px;height:38px;color:var(--text);opacity:.82}
+.typestrip .chip.on{background:var(--red-soft);border-color:var(--red-line);color:var(--red)}
+.typestrip .chip.on .ti{color:var(--red);opacity:1}
+.typestrip .chip-add{justify-content:center;border-style:dashed;background:transparent;font-size:12px}
+.typestrip .chip-user{background:var(--gold-tint)}
+.typestrip .chip-x{position:absolute;top:2px;right:5px}
+
+/* ---------- la vista 3D ---------- */
+.bld-view{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:var(--sh-2);margin-bottom:12px;position:sticky;top:58px;z-index:20;padding:0}
+.vp{position:relative;height:31vh;min-height:230px;background:linear-gradient(#f2f3ef,#dfe2da)}
+:root[data-theme="dark"] .vp{background:linear-gradient(#2b3129,#161915)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vp{background:linear-gradient(#2b3129,#161915)}}
+.vp canvas,.vp>svg{position:absolute;inset:0;width:100%;height:100%}
+.vt{position:absolute;display:flex;gap:6px;z-index:3}
+.vt-top{left:8px;top:8px;right:52px;flex-wrap:wrap}
+.vt-side{right:8px;top:8px;flex-direction:column}
+.vtb{height:34px;display:inline-flex;align-items:center;gap:6px;padding:0 10px;border-radius:9px;
+  background:var(--veil);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);
+  color:var(--text);font-size:12.5px;font-weight:600;box-shadow:var(--sh-1);transition:background .12s,color .12s,transform .1s}
+.vtb:active{transform:scale(.95)}
+.vtb svg{width:17px;height:17px;flex:none}
+.vtb.ic{width:34px;padding:0;justify-content:center}
+.vtb.on{background:var(--grn);border-color:var(--grn);color:var(--on-accent)}
+.vtb:disabled{opacity:.45}
+.vfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 12px;
+  border-top:1px solid var(--line-soft);font-variant-numeric:tabular-nums}
+.vfoot .mini{margin:0}
+.vhint{color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:560px){ .vt-top .vtb span{display:none} .vt-top .vtb{width:34px;padding:0;justify-content:center} .vhint{display:none} }
+.vsel{position:absolute;left:8px;right:52px;bottom:8px;z-index:3;background:var(--veil);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:12px;padding:9px 10px;box-shadow:var(--sh-2);
+  max-width:460px;animation:rise .18s ease-out}
+.vsel-t{display:flex;align-items:center;gap:9px}
+.vsel-t>div{flex:1;min-width:0}
+.vsel-t b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vsel-t small{display:block;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.vsel-x{width:28px;height:28px;border-radius:8px;font-size:18px;color:var(--muted);flex:none}
+.vsel-b{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.bld-view.full{position:fixed;inset:0;z-index:70;border-radius:0;margin:0;border:none;display:flex;flex-direction:column}
+.bld-view.full .vp{flex:1;height:auto}
+.bld-view.full .vt-top{top:calc(8px + env(safe-area-inset-top))}
+.bld-view.full .vt-side{top:calc(8px + env(safe-area-inset-top))}
+.bld-view.full .vfoot{padding-bottom:calc(7px + env(safe-area-inset-bottom))}
+body.vp-full{overflow:hidden}
+
+/* ---------- elenco dei pezzi fisici ---------- */
+.bld-side{margin-bottom:12px}
+.pcs-grp{margin-bottom:0}
+.pcs-body{padding:0}
+.seg{display:flex;gap:3px;padding:3px;margin:10px 12px 6px;background:var(--raised);border-radius:9px}
+.seg button{flex:1;height:30px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.seg button b{font-weight:600;color:var(--faint);margin-left:3px;font-variant-numeric:tabular-nums}
+.seg button.on{background:var(--surface);color:var(--text);box-shadow:var(--sh-1)}
+.seg button:disabled{opacity:.4}
+.pcs-scroll{max-height:42vh;overflow-y:auto;padding:2px 6px 8px}
+.pcs-it{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:7px 8px;border-radius:9px}
+.pcs-it:hover{background:var(--raised)}
+.pcs-it.on{background:var(--red-soft);box-shadow:inset 0 0 0 1px var(--red-line)}
+.pcs-n{flex:none;display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:7px;
+  background:var(--raised);border:1px solid var(--line);font-style:normal;font-size:11.5px;font-weight:700;
+  color:var(--muted);font-variant-numeric:tabular-nums}
+.pcs-n.big{min-width:38px;height:38px;font-size:15px;border-radius:10px;background:var(--grn);color:var(--on-accent);border:none}
+.pcs-it.on .pcs-n{background:var(--grn);color:var(--on-accent);border-color:var(--grn)}
+.pcs-t{flex:1;min-width:0}
+.pcs-t b{display:block;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcs-t small{display:block;font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+.pcs-h{flex:none;min-width:30px;text-align:center;font-size:11.5px;font-weight:700;padding:3px 6px;border-radius:99px;
+  background:rgba(46,125,50,.12);color:var(--ok);font-variant-numeric:tabular-nums}
+.pcs-h::before{content:"◉ ";font-size:9px}
+.pcs-h.z{background:transparent;color:var(--faint)}
+.pcs-h.bad{background:rgba(192,47,47,.14);color:var(--danger)}
+.hw-it{display:flex;align-items:center;gap:10px;padding:8px 8px;border-bottom:1px solid var(--line-soft)}
+.hw-q{font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+.hw-ic{flex:none;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#dfe3e6,#9aa1a7);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.hw-ic.hw-maniglia{background:linear-gradient(135deg,#6a6e72,#2d3033);border-radius:6px}
+.hw-ic.hw-tassello{background:linear-gradient(135deg,#e7c792,#b48a4f);border-radius:6px}
+.hw-ic.hw-guida{border-radius:4px;background:linear-gradient(135deg,#b3b8bd,#6c7277)}
+
+/* ---------- scheda del pezzo ---------- */
+.part-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.part-head .mini{margin-top:2px}
+.part-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.part-kpis>div{background:var(--raised);border-radius:9px;padding:7px 8px;min-width:0}
+.part-kpis b{display:block;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.part-kpis span{display:block;font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+.part-draw{background:var(--field);border:1px solid var(--line);border-radius:12px;padding:6px;margin-top:4px;
+  --part-fill:#efe7d8;--part-ink:#2b2a26}
+:root[data-theme="dark"] .part-draw{--part-fill:#3a3428;--part-ink:#e9e4d8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .part-draw{--part-fill:#3a3428;--part-ink:#e9e4d8}}
+.part-svg{width:100%;height:auto;max-height:52vh;display:block}
+.part-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin:8px 2px 10px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:0}
+.dot.ring{background:transparent;border:1.5px dashed var(--muted)}
+.warnline{color:var(--gold-ink);background:var(--gold-tint);border-radius:8px;padding:6px 9px;margin-top:8px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:8px}
+table.ops{width:100%;border-collapse:collapse;font-size:12.5px}
+table.ops th{position:sticky;top:0;background:var(--raised);text-align:left;font-weight:600;color:var(--muted);padding:7px 8px;font-size:11.5px}
+table.ops td{padding:6px 8px;border-top:1px solid var(--line-soft);white-space:nowrap}
+table.ops .n{text-align:right;font-variant-numeric:tabular-nums}
+table.ops .mono{font-family:var(--mono);color:var(--faint);font-size:11px}
+table.ops tr.bad td{background:rgba(192,47,47,.08);color:var(--danger)}
+
+/* ---------- distinta: il bottone dei fori per riga ---------- */
+.pc-ops{flex:none;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:var(--muted);
+  border:1px solid var(--line);background:var(--field)}
+.pc-ops svg{width:17px;height:17px}
+
+/* ====================== TABLET E PC ====================== */
+@media (min-width:760px){
+  main{max-width:920px}
+  .typestrip{margin:0 0 12px;padding:2px 0 8px}
+  .vp{height:38vh}
+}
+@media (min-width:1024px){
+  body{padding-bottom:0;padding-left:var(--side-w)}
+  header{margin-left:calc(-1 * var(--side-w));z-index:45;padding-left:20px;padding-right:20px}
+  nav{top:0;bottom:0;right:auto;width:var(--side-w);height:auto;flex-direction:column;justify-content:flex-start;
+    gap:2px;padding:74px 12px 16px;border-top:none;border-right:1px solid var(--line);background:var(--surface)}
+  nav button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;height:42px;padding:0 12px;
+    border-radius:9px;font-size:14px;color:var(--muted)}
+  nav button:hover{background:var(--raised);color:var(--text)}
+  nav button.on{background:var(--red-soft);color:var(--red)}
+  nav button.on::before{left:-12px;top:9px;width:3px;height:24px;border-radius:0 3px 3px 0;transform:none;animation:none}
+  nav button svg{width:19px;height:19px}
+  main{max-width:1280px;padding:22px 28px 40px}
+  .fab{bottom:24px;right:28px}
+  h2.vtitle{font-size:22px}
+  #projectList{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
+  #projectList>.card{margin:0}
+  .kpis{grid-template-columns:repeat(4,1fr)!important}
+  /* il generatore diventa un banco a pannelli: parametri a sinistra, vista
+     al centro, pezzi sotto o a destra. Ogni pannello scorre per conto suo. */
+  main:has(#v-build.on){max-width:none}
+  .bld{display:grid;grid-template-columns:minmax(340px,390px) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;
+    grid-template-areas:"form view" "form side";gap:16px;height:calc(100dvh - 150px);min-height:560px}
+  .bld-form{grid-area:form;overflow-y:auto;padding:2px 8px 24px 2px;scrollbar-width:thin}
+  .bld-view{grid-area:view;position:relative;top:auto;margin:0;display:flex;flex-direction:column;min-height:0}
+  .bld-view .vp{flex:1;height:auto;min-height:0}
+  .bld-side{grid-area:side;margin:0;min-height:0}
+  .bld-side .pcs-scroll{max-height:24vh}
+  .typestrip{flex-wrap:nowrap}
+  /* i pannelli in basso diventano finestre al centro */
+  .sheet{left:50%;right:auto;bottom:auto;top:50%;width:min(640px,92vw);border-radius:16px;border-bottom:1px solid var(--line);
+    transform:translate(-50%,-47%) scale(.98);opacity:0;visibility:hidden;max-height:88vh;padding:10px 24px 24px;
+    transition:transform .2s cubic-bezier(.3,.9,.3,1),opacity .18s,visibility 0s linear .2s}
+  .sheet.on{transform:translate(-50%,-50%);opacity:1;visibility:visible;transition:transform .2s cubic-bezier(.3,.9,.3,1),opacity .18s}
+  .sheet-wide{width:min(1020px,94vw)}
+  .sheet-grip{display:none}
+  /* la distinta al PC: righe da tabella, colonne allineate */
+  .pc{display:grid;grid-template-columns:30px 150px minmax(0,1fr) 110px 34px;gap:14px;padding:9px 16px}
+  .pc:hover{background:var(--raised)}
+  .pc-right{text-align:right}
+}
+@media (min-width:1440px){
+  .bld{grid-template-columns:minmax(350px,400px) minmax(0,1fr) 320px;grid-template-rows:minmax(0,1fr);
+    grid-template-areas:"form view side"}
+  .bld-side{display:flex;flex-direction:column}
+  .bld-side .pcs-grp{flex:1;display:flex;flex-direction:column;min-height:0}
+  .bld-side .pcs-grp[open] .pcs-body{flex:1;min-height:0;display:flex;flex-direction:column}
+  .bld-side .pcs-list{flex:1;min-height:0;display:flex;flex-direction:column}
+  .bld-side .pcs-scroll{max-height:none;flex:1}
+}
+
+.pc-headrow{display:none}
+@media (min-width:1024px){
+  .pc-headrow{display:grid;grid-template-columns:30px 150px minmax(0,1fr) 110px 34px;gap:14px;padding:7px 16px;
+    font-size:11.5px;font-weight:600;color:var(--faint);border-top:1px solid var(--line);background:var(--surface)}
+  .pc-headrow span:nth-child(4){text-align:right}
+  .view>.btnrow,.view>.pj-add,#v-summary .btnrow{justify-content:flex-start;flex-wrap:wrap}
+  .view>.btnrow .btn,.view>.pj-add .btn,#v-summary .btnrow .btn{flex:0 0 auto;width:auto;min-width:180px}
+  #v-summary .btn.ghost{width:auto}
+}
+
+@media (max-width:600px){
+  table.ops{font-size:11.5px} table.ops td,table.ops th{padding:5px 5px}
+  .part-kpis{gap:4px} .part-kpis>div{padding:6px} .part-kpis b{font-size:13.5px}
+  .vsel{right:8px}
+}
 </style>
 </head>
 <body>
@@ -947,27 +1160,53 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 
   <!-- ============ BUILDER ============ -->
   <section class="view" id="v-build">
-    <h2 class="vtitle" data-i="buildTitle">Generatore mobili</h2>
-    <p class="vsub" data-i="buildSub">Configura il modulo e genera la distinta</p>
-    <div class="chips" id="presetChips" style="margin-bottom:10px"></div>
-
-    <!-- input intelligente: testo + voce + foto -> parametri -->
-    <div id="aiBarBuild"></div>
-
-    <!-- anteprima appiccicata: resta visibile mentre cambi i campi sotto -->
-    <div class="card previewbox" style="padding:8px 10px 4px">
+    <div class="vhead">
+      <div><h2 class="vtitle" data-i="buildTitle">Generatore mobili</h2>
+      <p class="vsub" data-i="buildSub">Configura il modulo e genera la distinta</p></div>
+    </div>
+    <!-- Il banco di lavoro: vista 3D, pezzi, parametri. Sul telefono una
+         colonna; sul PC tre pannelli affiancati, con la vista che resta ferma
+         mentre si scorrono i parametri. -->
+    <div class="bld">
+    <div class="bld-view previewbox" id="bldView">
       <div class="aiveil" id="aiVeilBuild"><div class="aispin"></div><span class="mini" id="aiVeilTxtBuild"></span></div>
       <!-- due render dello stesso mobile: WebGL se c'e, SVG come rete di sicurezza.
            L'SVG resta comunque il motore per export JPG, disegno tecnico e miniature. -->
-      <canvas id="gl3d" style="width:100%;height:17vh;display:none;touch-action:none;cursor:grab"></canvas>
-      <svg id="svg3d" style="width:100%;height:auto;display:block;max-height:17vh;touch-action:none;cursor:grab"></svg>
-      <div class="mini" id="buildInfo" style="text-align:center;margin:4px 0 2px;font-variant-numeric:tabular-nums"></div>
-      <div class="chips" style="justify-content:center;margin:2px 0 4px">
-        <button class="chip" id="btnExplode" data-i="explodeBtn">Vista esplosa</button>
-        <button class="chip" id="btnAR" title="Realta aumentata">AR</button>
-        <button class="chip" id="btnPrevBig" title="Zoom">⤢</button>
+      <div class="vp" id="vp3d">
+        <canvas id="gl3d" style="display:none;touch-action:none;cursor:grab"></canvas>
+        <svg id="svg3d" style="width:100%;height:100%;display:block;touch-action:none;cursor:grab"></svg>
+        <!-- barra degli strumenti della vista: in alto le modalita, a destra le viste -->
+        <div class="vt vt-top" role="toolbar">
+          <button class="vtb" id="btnExplode" title="Vista esplosa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg><span data-i="explodeBtn">Vista esplosa</span></button>
+          <button class="vtb" id="btnOpen3d" title="Ante aperte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h9v18H4z"/><path d="M13 5l7-2v18l-7-2"/></svg><span data-i="vtOpen">Apri</span></button>
+          <button class="vtb" id="btnHw3d" title="Ferramenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span data-i="vtHw">Ferramenta</span></button>
+          <button class="vtb" id="btnHoles3d" title="Fori"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="3.4"/></svg><span data-i="vtHoles">Fori</span></button>
+        </div>
+        <div class="vt vt-side" role="toolbar">
+          <button class="vtb ic" data-view3d="iso" title="Iso"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5zM3 8v8l9 5M21 8v8l-9 5"/></svg></button>
+          <button class="vtb ic" data-view3d="front" title="Fronte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M12 3v18"/></svg></button>
+          <button class="vtb ic" data-view3d="side" title="Lato"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8v18H8z"/><path d="M8 7h8"/></svg></button>
+          <button class="vtb ic" data-view3d="top" title="Alto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="1"/></svg></button>
+          <button class="vtb ic" id="btnAR" title="Realta aumentata"><b style="font-size:11px;letter-spacing:.3px">AR</b></button>
+          <button class="vtb ic" id="btnPrevBig" title="Zoom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        </div>
+        <div class="vsel" id="vSel" hidden></div>
       </div>
+      <div class="vfoot"><span class="mini" id="buildInfo"></span><span class="mini vhint" data-i="vtHint">Trascina per ruotare · tocca un pezzo</span></div>
     </div>
+
+    <aside class="bld-side" id="bldSide">
+      <details class="grp pcs-grp" id="grpPieces">
+        <summary><span data-i="vtPieces">Pezzi</span><i class="grp-sum" id="sumPieces"></i></summary>
+        <div class="pcs-body"><div class="pcs-list" id="pcsList"></div></div>
+      </details>
+    </aside>
+
+    <div class="bld-form">
+    <div class="typestrip" id="presetChips"></div>
+
+    <!-- input intelligente: testo + voce + foto -> parametri -->
+    <div id="aiBarBuild"></div>
 
     <details class="grp" id="grpBase" open>
       <summary><span data-i="grpBase">Corpo e misure</span><i class="grp-sum" id="sumBase"></i></summary>
@@ -1083,6 +1322,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         </div>
         <div class="f"><label data-i="fBack">Schienale</label>
           <select id="bBack"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+        <!-- gradino del muro in basso: fianchi a L, schienale in due -->
+        <div class="f"><label data-i="fStep">Gradino del muro in basso</label>
+          <div class="f2" style="margin:0">
+            <div class="f" style="margin:0"><input id="bStepH" type="number" inputmode="numeric" min="0" max="2000" data-ph="fStepH" placeholder="Altezza (mm)"></div>
+            <div class="f" style="margin:0"><input id="bStepP" type="number" inputmode="numeric" min="0" max="400" data-ph="fStepP" placeholder="Sporgenza (mm)"></div>
+          </div>
+          <p class="mini" data-i="stepHint" style="margin-top:4px"></p></div>
       </div>
     </details>
 
@@ -1120,6 +1366,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <span data-i="roomBtn">Nel tuo ambiente</span>
       </button>
     </div>
+    </div><!-- /bld-form -->
+    </div><!-- /bld -->
 </section>
 
   <!-- ============ RELEVEU (Faza 2A) ============ -->
@@ -1708,6 +1956,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 </div>
 
 <!-- magazzino ritagli -->
+<div class="sheet sheet-wide" id="shPart" style="max-height:92vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <div id="partBody"></div>
+</div>
 <div class="sheet" id="shStock">
   <div class="sheet-grip"></div>
   <h3 data-i="stockTitle">Resturi în stoc</h3>
@@ -1770,6 +2022,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
      chiama invece di ricalcolarsele. Script classico, non modulo: deve
      partire anche sui telefoni vecchi dell'officina. -->
 <script src="./ebanist-core.js"></script>
+<script src="./ebanist-ops.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
      gira alla prima riga dello script che segue e deve gia trovarli. -->
@@ -2367,6 +2620,27 @@ Object.assign(I18N.fr,{
   orDocs:"Documents",
   orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
   orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
+/* ---- 4.29: gradino del muro, pezzi e fori, feramenta, banco di lavoro ---- */
+Object.assign(I18N.it,{partEdge:"Bordo"});
+Object.assign(I18N.ro,{partEdge:"Cant"});
+Object.assign(I18N.en,{partEdge:"Edge"});
+Object.assign(I18N.fr,{partEdge:"Chant"});
+Object.assign(I18N.it,{lhDim:"Misure (mm)",lhPiece:"Pezzo · materiale",lhQty:"Pz · bordo"});
+Object.assign(I18N.ro,{lhDim:"Cote (mm)",lhPiece:"Piesă · material",lhQty:"Buc · cant"});
+Object.assign(I18N.en,{lhDim:"Size (mm)",lhPiece:"Part · material",lhQty:"Qty · edge"});
+Object.assign(I18N.fr,{lhDim:"Cotes (mm)",lhPiece:"Pièce · matériau",lhQty:"Qté · chant"});
+Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Cote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le cote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
+Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
+Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
+Object.assign(I18N.fr,{vtOpen:"Ouvrir",vtHw:"Quincaillerie",vtHoles:"Perçages",vtHint:"Glisser pour tourner · touchez une pièce",vtPieces:"Pièces",vtNoPieces:"Aucune pièce : configurez le meuble.",vtNeedGL:"Pièces et perçages demandent la 3D WebGL.",vtHolesN:"perçages",vtHwN:"quincaillerie",vtIsolate:"Isoler",vtShowAll:"Tout afficher",vtSheet:"Fiche pièce",hw_cerniera:"Charnières",hw_maniglia:"Poignées",hw_guida:"Coulisses",hw_reggipiano:"Taquets",hw_minifix:"Minifix (excentriques)",hw_tassello:"Tourillons",hwVerify:"Cotes de perçage du catalogue (Blum/Häfele), pas encore vérifiées sur une pièce réelle : contrôlez avant la machine.",role_fianco:"Côté",role_divisorio:"Séparation",role_base:"Dessous",role_cielo:"Dessus",role_base_cielo:"Dessous / Dessus",role_ripiano:"Étagère",role_schienale:"Fond",role_zoccolo:"Socle",role_frontale:"Porte",role_traversa:"Traverse",role_cassetto_frontale:"Façade tiroir",role_cassetto_fianco:"Caisson tiroir",role_cassetto_fondo:"Fond tiroir",sideL:"gauche",sideR:"droit",partFace:"Face",partW:"Larg.",partT:"Ép.",partApprox:"Pièce divisée ou profilée : la ligne de débit est celle de son rôle, les cotes sont celles de la pièce entière.",partOther:"autre face",partThrough:"traversant",pfErr:"{n} contrôles de perçage échoués",pfOk:"Perçage : contrôles passés",pfWarn:"{n} perçages proches du bord",pfFlip:"perçages sur deux faces : la pièce se retourne",opOp:"Opération",opFace:"Face",opDepth:"Prof.",partNoOps:"Aucun perçage sur cette pièce.",partAxes:"Face 5 = celle avec le plus de perçages, en haut sur la machine. X le long de la longueur, Y de la largeur, origine en bas à gauche. Sur chants : u le long du chant, z depuis la face 6.",partIn3D:"Voir en 3D",partCsv:"CSV perçages",op_groove:"Rainure fond",op_cup:"Cuvette charnière Ø35",op_hdowel:"Tourillon charnière",op_plate:"Embase charnière",op_bolt:"Boulon minifix",op_shank:"Tige minifix",op_cam:"Excentrique minifix",op_dowel:"Tourillon Ø8",op_pin:"Taquet",op_pinAdj:"Taquet (réglage)",op_slide:"Coulisse tiroir",op_handle:"Poignée",partNotFound:"Pièce introuvable dans la configuration du meuble",listHoles:"Perçages"});
+Object.assign(I18N.it,{fStep:"Gradino del muro in basso",fStepH:"Altezza (mm)",fStepP:"Sporgenza (mm)",
+  stepHint:"Il muro sporge in basso? I fianchi si intagliano a L, lo schienale esce in due pezzi.",stepHit:"Un ripiano o un cassetto cade nel gradino del muro: spostalo o riduci il gradino"});
+Object.assign(I18N.ro,{fStep:"Treaptă în perete, jos",fStepH:"Înălțime (mm)",fStepP:"Ieșire (mm)",
+  stepHint:"Peretele iese jos? Lateralele se decupează în L, spatele iese din două bucăți.",stepHit:"O poliță sau un sertar cade în treapta peretelui: mută-l sau micșorează treapta"});
+Object.assign(I18N.en,{fStep:"Wall step at the bottom",fStepH:"Height (mm)",fStepP:"Depth (mm)",
+  stepHint:"Wall protrudes at the bottom? Sides get an L notch, the back comes in two pieces.",stepHit:"A shelf or drawer falls into the wall step: move it or reduce the step"});
+Object.assign(I18N.fr,{fStep:"Marche du mur en bas",fStepH:"Hauteur (mm)",fStepP:"Saillie (mm)",
+  stepHint:"Le mur dépasse en bas ? Les côtés sont entaillés en L, le fond est fait en deux pièces.",stepHit:"Une étagère ou un tiroir tombe dans la marche du mur : déplace-le ou réduis la marche"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français"};
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
@@ -3264,6 +3538,8 @@ function themeMeta(){
   if(!m)return;
   const dark=themeGet()==="dark"||(themeGet()==="auto"&&matchMedia("(prefers-color-scheme:dark)").matches);
   m.setAttribute("content",dark?"#141812":"#0E3B2A");
+  /* lo studio 3D ha il suo fondo: segue il tema come il resto dell'app */
+  try{ if(window.GL3D&&window.GL3D.ok) window.GL3D.theme(); }catch(e){}
 }
 themeMeta();
 matchMedia("(prefers-color-scheme:dark)").addEventListener("change",themeMeta);
@@ -3695,6 +3971,9 @@ function renderList(){
     const hasCfg=!!cfgKey;
     g.innerHTML=`<div class="mod-h"><h3>${esc(mod)}</h3>${hasCfg?`<button class="iconbtn" data-cfg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.3 12 12l8.7-4.7M12 22V12"/></svg></button>`:""}<button class="iconbtn" data-dup><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button><button class="iconbtn danger" data-delmod title="${esc(t("deleteModule"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button><span class="cnt">${done}/${n} ${esc(t("pieces"))}</span></div>`;
     if(hasCfg)g.querySelector("[data-cfg]").addEventListener("click",e=>{e.stopPropagation();openBuilder(cfgKey);});
+    /* sul PC la distinta si legge come una tabella: le intestazioni delle
+       colonne, una volta per corpo. Sul telefono restano nascoste. */
+    g.insertAdjacentHTML("beforeend",`<div class="pc-headrow"><span></span><span>${esc(t("lhDim"))}</span><span>${esc(t("lhPiece"))}</span><span>${esc(t("lhQty"))}</span><span>${hasCfg?esc(t("listHoles")):""}</span></div>`);
     g.querySelector("[data-delmod]").addEventListener("click",e=>{
       e.stopPropagation(); snapUndo();
       p.pieces=p.pieces.filter(x=>x.modulo!==mod);
@@ -3719,10 +3998,12 @@ function renderList(){
         <button class="pc-check${x.done?" on":""}" data-chk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></button>
         <div class="pc-dim">${x.lung}<i>×</i>${x.larg}${angTag(x)}</div>
         <div class="pc-info"><div class="pc-el">${esc(x.elemento)}${scList(x).length?` <span style="color:var(--red,#c33);font-size:11px">✂ ${esc(scTxt(x))}</span>`:""}</div><div class="pc-mat">${esc(shortMat)}</div>${jointTag(x)}${curveTag(x)}</div>
-        <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>`;
+        <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>${hasCfg&&x.role&&x.role!=="accessorio"?`<button class="pc-ops" data-ops title="${esc(t("listHoles"))}" aria-label="${esc(t("listHoles"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8" cy="9" r="1.6"/><circle cx="16" cy="9" r="1.6"/><circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="2.6"/></svg></button>`:""}`;
       r.querySelector("[data-chk]").addEventListener("click",e=>{
         e.stopPropagation(); x.done=x.done?0:1; persist(); renderList();
       });
+      const ob=r.querySelector("[data-ops]");
+      if(ob) ob.addEventListener("click",e=>{ e.stopPropagation(); openPartFromRow(cfgKey,x); });
       r.addEventListener("click",()=>openPieceEditor(x.id));
       g.appendChild(r);
     }
@@ -4824,6 +5105,8 @@ function carcassParams(cfg,ctx){
        Sulla cassa in legno comanda la guida del catalogo ferramenta; su una
        cassa metallica, quella che il sistema si porta dietro. */
     glisiera:(cfg.drawers>0)?slideIdFor(cfg):null,
+    /* il gradino del muro in basso: fianchi intagliati a L, schienale in due */
+    treapta_H:Math.max(0,+cfg.stepH||0), treapta_P:Math.max(0,+cfg.stepP||0),
     cassetto_interno:cfg.drawerPos==="interno",
     inset_cassetto:Math.max(0,+(cfg.drawerInset!=null?cfg.drawerInset:35))
   });
@@ -4965,8 +5248,15 @@ function buildCore(cfg){
   };
   /* sxL/sxR = di quanto scorrono i bordi x passando da z0 a z1: così un pannello
      trapezoidale si vede davvero in 3D e nel disegno, non solo in distinta. */
+  /* `role` sulla scatola: il visore 3D ritrova il pezzo di distinta da cui
+     viene la scatola, e l'isola o lo fora. Non entra in nessun conto. */
+  let bxRole=null, bxPk=0, bxSame=false;
   const bx=(x0,x1,y0,y1,z0,z1,kind,sxL,sxR,sub,grp)=>{
     const o={x0,x1,y0,y1,z0,z1,kind};
+    if(bxRole) o.role=bxRole;
+    /* `pk` = il pezzo FISICO. Un fianco intagliato a L sono due scatole e un
+       pezzo solo: la seconda scatola si dichiara con `bxSame`. */
+    o.pk=bxSame?bxPk:++bxPk; bxSame=false;
     if(sub) o.sub=sub;
     /* `grp` tiene insieme i pezzi di uno stesso cassetto: nella vista esplosa
        il cassetto esce dal mobile tutto intero e solo dopo si apre. */
@@ -4998,8 +5288,24 @@ function buildCore(cfg){
   const shelfRel=[]; if(cfg.shelves>0) for(let i=1;i<=cfg.shelves;i++) shelfRel.push(intY0+intH*i/(cfg.shelves+1)-y0); // lungo l'altezza del fianco
   const fiancoCuts=shelfRel.concat([intY0-y0,intY1-y0]).filter(v=>v>0);
 
-  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts,role:"fianco"});
-  bx(0,tF,y0,H,0,P,"p",wL(P),wL(P)); bx(L-tF,L,y0,H,0,P,"p",-wR(P),-wR(P));
+  /* IL GRADINO DEL MURO. Tutte le cote vengono da deriveCarcass: qui si
+     decide solo dove stanno i pezzi. L'intaglio si misura dall'angolo
+     basso-dietro del pezzo: X lungo l'altezza dal fondo, Y dal filo
+     posteriore — e cosi lo legge chi traccia col metro. */
+  const TR=G.treapta, trOn=!!(TR&&TR.activa);
+  const nF=TR&&TR.intaglio_fianco, nFH=trOn?nF.H:0, nFP=trOn?nF.P:0;
+  const notchF=(nFH>0&&nFP>0)?[{l:nFH,w:nFP,x:0,y:0,forma:"L",rif:"jos-spate"}]:null;
+  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts,role:"fianco",scassi:notchF});
+  bxRole="fianco";
+  if(notchF){
+    /* un pannello a L sono due scatole: sopra il gradino tutta la profondita,
+       sotto il gradino solo davanti. zF0 = dove comincia il fianco in z. */
+    const zF0=P-G.D_fianco, yN=y0+nFH;
+    bx(0,tF,yN,H,zF0,P,"p",wL(P),wL(P)); bxSame=true; bx(0,tF,y0,yN,zF0+nFP,P,"p",wL(P),wL(P));
+    bx(L-tF,L,yN,H,zF0,P,"p",-wR(P),-wR(P)); bxSame=true; bx(L-tF,L,y0,yN,zF0+nFP,P,"p",-wR(P),-wR(P));
+  }else{
+    bx(0,tF,y0,H,0,P,"p",wL(P),wL(P)); bx(L-tF,L,y0,H,0,P,"p",-wR(P),-wR(P));
+  }
   const bcSpan=G.D_bc, bcRear=G.Wi-carcZ0*(cotL+cotR);
   const bcT=trapz(bcRear,bcSpan*cotL,bcSpan*cotR);
   /* UNA RIGA = UN PEZZO, `pz` volte. Base e cielo stanno insieme finche sono
@@ -5007,30 +5313,45 @@ function buildCore(cfg){
      diversi in una riga sola, e in segheria ne uscirebbero due uguali — tagliati
      dalla lastra sbagliata. Quando le grossezze o i materiali si separano,
      si separano anche le righe. */
-  const bcSame=(tB===tC)&&(roleMatId(cfg,"base")===roleMatId(cfg,"cielo"));
+  /* una base accorciata dal gradino non e piu lo stesso pezzo del cielo */
+  const baseShort=trOn&&TR.base_scurtata;
+  const bcSame=!baseShort&&(tB===tC)&&(roleMatId(cfg,"base")===roleMatId(cfg,"cielo"));
+  const bZ0=baseShort?carcZ0+TR.P:carcZ0, bSpan=baseShort?TR.D_base:bcSpan;
+  const bT=baseShort?trapz(G.Wi-bZ0*(cotL+cotR),bSpan*cotL,bSpan*cotR):bcT;
   if(bcSame){
     add("Base / Cielo",bcT.bound,bcSpan,2,"1L",null,{cuts:tramRel,angL,angR,role:"base_cielo"});
   }else{
-    add("Base",bcT.bound,bcSpan,1,"1L",null,{cuts:tramRel,angL,angR,role:"base"});
+    add("Base",bT.bound,bSpan,1,"1L",null,{cuts:tramRel,angL,angR,role:"base"});
     add("Cielo",bcT.bound,bcSpan,1,"1L",null,{cuts:tramRel,angL,angR,role:"cielo"});
   }
   const baseY=support==="piedini"?pl:pl;
   const bcX0=wL(carcZ0)+tF, bcX1=L-wR(carcZ0)-tF;
-  bx(bcX0,bcX1,baseY,baseY+tB,carcZ0,P,"p",bcSpan*cotL,-bcSpan*cotR);
+  bxRole="base";
+  bx(wL(bZ0)+tF,L-wR(bZ0)-tF,baseY,baseY+tB,bZ0,P,"p",bSpan*cotL,-bSpan*cotR);
+  bxRole="cielo";
   bx(bcX0,bcX1,H-tC,H,carcZ0,P,"p",bcSpan*cotL,-bcSpan*cotR);
   if(support==="zoccolo"&&pl>=30){
     const zz=G.zoccolo_Z;
     add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel,role:"zoccolo"});
+    bxRole="zoccolo";
     bx(wL(zz)+tF,L-wR(zz)-tF,0,pl,zz-tZ,zz,"p");
   }
   if(support==="piedini"&&pl>=30){
     add("Piedino regolabile",pl,50,4,"",MAT_PIED,{role:"accessorio"});
-    for(const [fx,fz] of [[tF+20,30],[L-tF-70,30],[tF+20,P-80],[L-tF-70,P-80]]) bx(fx,fx+50,0,pl,fz,fz+50,"p");
+    /* i piedini dietro si spostano davanti al gradino: sotto il corpo c'e muro */
+    const fzR=30+(trOn?TR.P:0);
+    bxRole="piedino";
+    for(const [fx,fz] of [[tF+20,fzR],[L-tF-70,fzR],[tF+20,P-80],[L-tF-70,P-80]]) bx(fx,fx+50,0,pl,fz,fz+50,"p");
   }
   if(cfg.tram>0){
     // i tramezzi restano perpendicolari al fondo: solo le sezioni esterne sono trapezoidali
-    add("Tramezzo",intH,intD,cfg.tram,"1L",null,{cuts:shelfRel.map(v=>v+y0-intY0).filter(v=>v>0),role:"divisorio"});
-    for(let i=1;i<=cfg.tram;i++){ const x=tF+i*secW+(i-1)*tD; bx(x,x+tD,intY0,intY1,intZ0,P-20,"p"); }
+    const nD=trOn?TR.intaglio_divisorio:null;
+    const notchD=(nD&&nD.H>0&&nD.P>0)?[{l:nD.H,w:nD.P,x:0,y:0,forma:"L",rif:"jos-spate"}]:null;
+    add("Tramezzo",intH,intD,cfg.tram,"1L",null,{cuts:shelfRel.map(v=>v+y0-intY0).filter(v=>v>0),role:"divisorio",scassi:notchD});
+    bxRole="divisorio";
+    for(let i=1;i<=cfg.tram;i++){ const x=tF+i*secW+(i-1)*tD;
+      if(notchD){ bx(x,x+tD,intY0+nD.H,intY1,intZ0,P-20,"p"); bxSame=true; bx(x,x+tD,intY0,intY0+nD.H,intZ0+nD.P,P-20,"p"); }
+      else bx(x,x+tD,intY0,intY1,intZ0,P-20,"p"); }
   }
   /* Ogni sezione ha il suo contenuto: mezzo armadio con l'asta e mezzo a ripiani
      è la configurazione normale, non un caso limite. */
@@ -5114,12 +5435,14 @@ function buildCore(cfg){
              ys:shelfYs(secMode(si)).slice()});
       });
     } else add(shName,Math.floor(secW-play),intD,shYs.length*n,"1L",null,{cuts:[],role:"ripiano",ys:shYs.slice()});
+    bxRole="ripiano";
     shelfSecs.forEach(si=>{ const sx0=tF+si*(secW+tD);
       shelfYs(secMode(si)).forEach(y=>bx(sx0,sx0+secW,y-tR/2,y+tR/2,intZ0,P-20,"p",secOL(si),-secOR(si))); });
   }
   // asta appendiabiti (accessorio, non entra nei m² dei pannelli)
   if(hangSecs.length){
     add("Asta appendiabiti",Math.floor(secW-4),25,hangSecs.length,"",MAT_ACC,{role:"accessorio"});
+    bxRole="asta";
     hangSecs.forEach(si=>{ const sx0=tF+si*(secW+tD);
       bx(sx0+15,sx0+secW-15,railY,railY+25,(P-25)/2,(P+25)/2,"p"); });
   }
@@ -5170,6 +5493,7 @@ function buildCore(cfg){
         const cx=sx0+secW/2;
         /* il frontale a vista copre anche i fianchi del mobile: si posa sulla
            luce anteriore, non sulla sezione. Quello interno sta dentro il vano. */
+        bxRole="cassetto_frontale";
         if(!inner){ const fx=frontX0+2+si*(fW+DRAW_GAP);
                     bx(fx,fx+fW,f.y0,f.y0+f.h,P,P+tA,"f",0,0,"drawer",grp); }
         else        bx(cx-fW/2,cx+fW/2,f.y0,f.y0+f.h,zF-tA,zF,"f",0,0,"drawerIn",grp);
@@ -5178,17 +5502,22 @@ function buildCore(cfg){
         if(sys.metal){
           const bw=dPlan.baseW, th=sys.sideTh, sh=dPlan.sideH;
           const bx0=cx-bw/2, bx1=cx+bw/2;
+          bxRole="cassetto_metallo";
           bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo sx
           bx(bx1,bx1+th,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo dx
+          bxRole="cassetto_fondo";
           bx(bx0,bx1,yB,yB+16,z0,z1,"p",0,0,"dbox",grp);               // fondo in pannello
+          bxRole="cassetto_fianco";
           bx(cx-dPlan.backW/2,cx+dPlan.backW/2,yB+8,yB+8+dPlan.backH,z0,z0+t,"p",0,0,"dbox",grp); // retro
         }else{
           const bw=dPlan.boxW, sh=dPlan.sideH, bt=sys.bottomTh;
           const bx0=cx-bw/2, bx1=cx+bw/2;
+          bxRole="cassetto_fianco";
           bx(bx0,bx0+t,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco sx
           bx(bx1-t,bx1,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco dx
           bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);         // fronte cassa
           bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);         // retro cassa
+          bxRole="cassetto_fondo";
           bx(bx0+t,bx1-t,yB,yB+bt,z0+t,z1-t,"p",0,0,"dbox",grp);       // fondo
         }
       };
@@ -5201,6 +5530,7 @@ function buildCore(cfg){
       const nA=Math.max(2,cfg.doors);
       const aH=H-SLIDE_GAP_TOP, aW=(frontW+(nA-1)*SLIDE_OVERLAP)/nA;
       add("Anta scorrevole",aH,aW,nA,"2L+2C",null,{role:"frontale"});
+      bxRole="frontale";
       for(let i=0;i<nA;i++){ const x=frontX0+i*(aW-SLIDE_OVERLAP); const z=(i%2===0)?P+8:P+8+tA+14; bx(x,x+aW,22,22+aH,z,z+tA,"f",0,0,"slide"); }
     }else{
       /* i cassetti INTERNI stanno dietro l'anta: non le rubano altezza.
@@ -5246,8 +5576,8 @@ function buildCore(cfg){
           add("Traversa anta vetro",aW-2*fr,fr,2*cfg.doors,"2C",null,{role:"traversa"});
           add("Vetro anta",aH-2*fr+30,aW-2*fr+30,cfg.doors,"",MAT_VETRO,{role:"accessorio"});
           for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3);
-            bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door");
-            bx(x+fr,x+aW-fr,aY0+fr,aY0+aH-fr,P+2,P+tA-2,"g"); }
+            bxRole="frontale"; bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door");
+            bxRole="vetro"; bx(x+fr,x+aW-fr,aY0+fr,aY0+aH-fr,P+2,P+tA-2,"g"); }
         }else if(front==="curvo"&&bow>0&&aW>120){
           /* Anta bombata. Dalla corda aW e dalla freccia (bombatura) esce il
              raggio: R = (c²/4 + f²) / 2f — e da li l'angolo e lo sviluppo.
@@ -5280,11 +5610,12 @@ function buildCore(cfg){
               boxes.push({x0:Math.min(ix0,ix1,ox0,ox1),x1:Math.max(ix0,ix1,ox0,ox1),
                           y0:aY0,y1:aY0+aH,
                           z0:Math.min(iz0,iz1,oz0,oz1),z1:Math.max(iz0,iz1,oz0,oz1),
-                          kind:"f",sub:"door",pc:[[ix0,iz0],[ix1,iz1],[ox1,oz1],[ox0,oz0]]});
+                          kind:"f",sub:"door",role:"frontale",pc:[[ix0,iz0],[ix1,iz1],[ox1,oz1],[ox0,oz0]]});
             }
           }
         }else{
           add(push?"Anta push":"Anta",aH,aW,cfg.doors,"2L+2C",null,{role:"frontale"});
+          bxRole="frontale";
           for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door"); }
         }
       }
@@ -5292,31 +5623,57 @@ function buildCore(cfg){
   }
   if(cfg.back){
     // cava fresata: lo schienale entra di NUT_D per lato — tra i fianchi: pannello pieno tra i due fianchi
-    const bw=G.back_W, bh=G.back_H;
+    const bw=G.back_W;
     const off=backNut?NUT_D:0;
-    const bCuts=(bw>=bh)?tramRel.map(v=>v+off):shelfRel.map(v=>v+y0-(backNut?intY0-NUT_D:y0));
-    const bX0=backNut?tF-NUT_D:tF, bY0=backNut?intY0-NUT_D:y0;
-    const horiz=bw>=bh;
-    /* ostacoli misurati in cantiere -> decupaje sullo schienale, in coordinate del pezzo */
-    const scs=(cfg.obstacles||[]).map(function(o){
-      const px=(+o.x||0)-bX0, py=(+o.y||0)-bY0;
-      const c=horiz?{l:Math.round(+o.w||0),w:Math.round(+o.h||0),x:Math.round(px),y:Math.round(py)}
-                   :{l:Math.round(+o.h||0),w:Math.round(+o.w||0),x:Math.round(py),y:Math.round(px)};
-      return (c.l>0&&c.w>0&&c.x>=0&&c.y>=0&&c.x+c.l<=Math.max(bw,bh)&&c.y+c.w<=Math.min(bw,bh))?c:null;
-    }).filter(Boolean);
-    add("Schienale",Math.max(bw,bh),Math.min(bw,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs,role:"schienale",
-        /* lo schienale si emette con la cota maggiore per prima: quale dei
-           due assi sia dipende dal corpo, e il controllo di chiusura deve
-           sapere QUALE, non indovinarlo. */
-        axes:horiz?{lung:"L",larg:"H",sp:"P"}:{lung:"H",larg:"L",sp:"P"}});
-    /* `sub:"back"` NON e decorativo: matKeyOf() in geo3d.js sceglie il materiale
-       dello schienale proprio da questo campo. Senza, il pannello posteriore
-       usciva col materiale della carcassa nel 3D WebGL e nel file AR mandato
-       al cliente — un fondo in rovere invece dell'HDF bianco. */
-    if(backNut) bx(tF-NUT_D,L-tF+NUT_D,intY0-NUT_D,intY1+NUT_D,backZ0,backZ0+backTh,"p",0,0,"back");
-    else        bx(tF,L-tF,y0,H,0,backTh,"p",0,0,"back");
+    const bX0=backNut?tF-NUT_D:tF, bY0=G.treapta.back_y0;
+    /* Lo schienale intero, o le sue DUE meta quando il muro ha un gradino in
+       basso: quella sopra resta sul piano di sempre e parte dal gradino;
+       quella sotto sta avanti di quanto il gradino sporge, dal fondo dello
+       schienale fino al gradino. Le altezze le dice deriveCarcass: sommate
+       fanno lo schienale intero, al millimetro. */
+    const split=!!(TR&&TR.back_split);
+    const parts=split
+      ? [{nm:"Schienale sopra",y0:bY0+TR.back_jos_H,h:TR.back_sus_H,dz:0},
+         {nm:"Schienale sotto",y0:bY0,h:TR.back_jos_H,dz:TR.back_jos_Z,part:"jos"}]
+      : [{nm:"Schienale",y0:bY0,h:G.back_H,dz:0}];
+    const x1B=backNut?L-tF+NUT_D:L-tF;
+    for(const pt of parts){
+      const bh=pt.h, horiz=bw>=bh;
+      const bCuts=horiz?tramRel.map(v=>v+off)
+                       :shelfRel.map(v=>v+y0-pt.y0).filter(v=>!split||(v>0&&v<bh));
+      /* ostacoli misurati in cantiere -> decupaje sullo schienale, in coordinate del pezzo */
+      const scs=(cfg.obstacles||[]).map(function(o){
+        const px=(+o.x||0)-bX0, py=(+o.y||0)-pt.y0;
+        const c=horiz?{l:Math.round(+o.w||0),w:Math.round(+o.h||0),x:Math.round(px),y:Math.round(py)}
+                     :{l:Math.round(+o.h||0),w:Math.round(+o.w||0),x:Math.round(py),y:Math.round(px)};
+        return (c.l>0&&c.w>0&&c.x>=0&&c.y>=0&&c.x+c.l<=Math.max(bw,bh)&&c.y+c.w<=Math.min(bw,bh))?c:null;
+      }).filter(Boolean);
+      const n0=pieces.length;
+      add(pt.nm,Math.max(bw,bh),Math.min(bw,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs,role:"schienale",
+          /* lo schienale si emette con la cota maggiore per prima: quale dei
+             due assi sia dipende dal corpo, e il controllo di chiusura deve
+             sapere QUALE, non indovinarlo. */
+          axes:horiz?{lung:"L",larg:"H",sp:"P"}:{lung:"H",larg:"L",sp:"P"}});
+      /* la meta bassa non e un troncone della prima: la chiusura non la somma */
+      if(pt.part) for(let k=n0;k<pieces.length;k++) pieces[k].part=pt.part;
+      /* `sub:"back"` NON e decorativo: matKeyOf() in geo3d.js sceglie il materiale
+         dello schienale proprio da questo campo. Senza, il pannello posteriore
+         usciva col materiale della carcassa nel 3D WebGL e nel file AR mandato
+         al cliente — un fondo in rovere invece dell'HDF bianco. */
+      bxRole="schienale";
+      const z0=backZ0+pt.dz;
+      if(backNut) bx(tF-NUT_D,x1B,pt.y0,pt.y0+bh,z0,z0+backTh,"p",0,0,"back");
+      else        bx(tF,x1B,pt.y0,pt.y0+bh,pt.dz,pt.dz+backTh,"p",0,0,"back");
+    }
   }
-  return {pieces,boxes,draw:dPlan,warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,
+  /* il gradino non sposta ripiani e cassetti: se uno ci finisce dentro si dice */
+  let stepHit=0;
+  if(trOn){
+    const topStep=TR.H;
+    shelfSecs.forEach(si=>shelfYs(secMode(si)).forEach(y=>{ if(y-tR/2<topStep) stepHit++; }));
+    if(dPlan&&dPlan.ok&&dPlan.fronts.some(f=>f.y0<topStep)) stepHit++;
+  }
+  return {pieces,boxes,draw:dPlan,warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,stepHit,
           drawWarn:(dPlan&&dPlan.warn&&dPlan.warn.length)?dPlan.warn:null}};
 }
 
@@ -5535,7 +5892,11 @@ function buildModule(cfg){
       return {x0:Math.min.apply(null,xs),x1:Math.max.apply(null,xs),
               y0:o.y0,y1:o.y1,
               z0:Math.min.apply(null,zs),z1:Math.max.apply(null,zs),
-              kind:o.kind,pc};
+              kind:o.kind,pc,
+              /* ruolo, pezzo fisico, sottotipo e cassetto viaggiano con la
+                 rotazione: senza `sub` lo schienale dell'ala B usciva col
+                 materiale della carcassa nel 3D e nel file AR. */
+              role:o.role,pk:o.pk?o.pk+1000:undefined,sub:o.sub,grp:o.grp?"B"+o.grp:undefined,wing:"B"};
     };
     const boxes=A.boxes.concat(B.boxes.map(mapB));
     return {pieces,boxes};
@@ -5823,9 +6184,15 @@ function redraw3D(){ if(_raf)return; _raf=requestAnimationFrame(()=>{_raf=0;draw
 function init3DControls(){
   /* i gesti vanno sull'elemento davvero visibile: canvas se WebGL e attivo */
   const el=gl3dOn()?$("gl3d"):$("svg3d"); if(!el||el.dataset.ctl)return; el.dataset.ctl="1";
-  const ptrs=new Map(); let pinchD=0,lastTap=0;
+  /* In WebGL il giro e completo: si guarda anche il retro e da sotto, che e
+     dove stanno gli eccentrici della base. L'SVG resta nel suo quadrante —
+     il suo ordinamento delle facce e scritto per quello. */
+  const GL=gl3dOn();
+  const lim=GL?{y0:-1e9,y1:1e9,p0:-0.25,p1:1.52,z0:0.35,z1:8}:{y0:0.08,y1:1.45,p0:0.05,p1:1.2,z0:0.5,z1:3};
+  const ptrs=new Map(); let pinchD=0,lastTap=0,down=null;
   el.addEventListener("pointerdown",e=>{
     el.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+    down=ptrs.size===1?{x:e.clientX,y:e.clientY,t:Date.now(),moved:0}:null;
     if(ptrs.size===2){ const a=[...ptrs.values()]; pinchD=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]); }
     const now=Date.now();
     if(now-lastTap<320 && ptrs.size===1){ VIEW.yaw=0.46; VIEW.pitch=0.30; VIEW.zoom=1; redrawCam(); }
@@ -5834,20 +6201,268 @@ function init3DControls(){
   el.addEventListener("pointermove",e=>{
     if(!ptrs.has(e.pointerId))return;
     const prev=ptrs.get(e.pointerId); ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+    if(down) down.moved+=Math.abs(e.clientX-prev[0])+Math.abs(e.clientY-prev[1]);
     if(ptrs.size===1){
-      VIEW.yaw=Math.min(1.45,Math.max(0.08,VIEW.yaw+(e.clientX-prev[0])*0.008));
-      VIEW.pitch=Math.min(1.2,Math.max(0.05,VIEW.pitch+(e.clientY-prev[1])*0.006));
+      VIEW.yaw=Math.min(lim.y1,Math.max(lim.y0,VIEW.yaw+(e.clientX-prev[0])*0.008));
+      VIEW.pitch=Math.min(lim.p1,Math.max(lim.p0,VIEW.pitch+(e.clientY-prev[1])*0.006));
       redrawCam();
     }else if(ptrs.size===2){
       const a=[...ptrs.values()]; const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
-      if(pinchD>0) VIEW.zoom=Math.min(3,Math.max(0.5,VIEW.zoom*d/pinchD));
+      if(pinchD>0) VIEW.zoom=Math.min(lim.z1,Math.max(lim.z0,VIEW.zoom*d/pinchD));
       pinchD=d; redrawCam();
     }
   });
-  const up=e=>{ptrs.delete(e.pointerId);pinchD=0;};
-  el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
+  const up=e=>{
+    /* un tocco fermo e breve e una SCELTA, non un giro: seleziona il pezzo */
+    if(GL&&down&&ptrs.size===1&&down.moved<7&&Date.now()-down.t<350&&window.GL3D.pick){
+      const pk=window.GL3D.pick(e.clientX,e.clientY), cur=window.GL3D.state.sel;
+      if(pk==null){ if(cur!=null&&!window.GL3D.state.iso) window.GL3D.select(null); }
+      else window.GL3D.select(pk,window.GL3D.state.iso&&String(cur)===String(pk));
+    }
+    ptrs.delete(e.pointerId);pinchD=0;down=null;};
+  el.addEventListener("pointerup",up); el.addEventListener("pointercancel",e=>{ptrs.delete(e.pointerId);pinchD=0;down=null;});
   el.addEventListener("wheel",e=>{e.preventDefault();
-    VIEW.zoom=Math.min(3,Math.max(0.5,VIEW.zoom*(e.deltaY<0?1.1:0.9))); redrawCam();},{passive:false});
+    VIEW.zoom=Math.min(lim.z1,Math.max(lim.z0,VIEW.zoom*(e.deltaY<0?1.1:0.9))); redrawCam();},{passive:false});
+}
+
+/* ================= STUDIO 3D: pezzi, fori, ferramenta =================
+   La vista 3D del generatore e anche il banco di controllo del mobile:
+   si tocca un pezzo, lo si isola, si apre la sua scheda con i fori. Tutto
+   quello che si vede viene da UN modello — il Modello di Operazioni in
+   ebanist-ops.js — e la scheda del pezzo stampa gli stessi numeri che il
+   3D disegna. */
+const HW_CAT={cerniera:"cern",guida:"guida",maniglia:"man",reggipiano:"sup",minifix:"conn"};
+const HW_ORDER=["cerniera","maniglia","guida","reggipiano","minifix","tassello"];
+function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):null;
+  return {name:t("hw_"+ty),prod:it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):(ty==="tassello"?"Ø8×35":""),art:it&&it.art&&it.art!=="—"?it.art:""}; }
+/* il nome di un pezzo fisico: la riga di distinta a cui corrisponde, con il
+   lato quando le righe sono a coppie (i due fianchi sono una riga da 2 pz) */
+function partName(M,pc){
+  const m=M&&M.meta[String(pc.pk)], row=m&&m.row;
+  /* «Ripiano mobile sez.2» su sei ripiani uguali confonde: la sezione la
+     dice il 3D, il nome resta quello del pezzo */
+  let n=row?String(row.elemento).replace(/\s*sez\.\s*\d+$/i,""):t("role_"+pc.role);
+  if(row&&+row.pz>1&&(pc.role==="fianco"||pc.role==="frontale")&&M.ops){
+    const all=M.ops.pieces.filter(q=>q.role===pc.role&&M.meta[String(q.pk)]&&M.meta[String(q.pk)].row===row);
+    if(all.length>1){ const cx=(pc.min[0]+pc.max[0])/2, mid=all.reduce((s,q)=>s+(q.min[0]+q.max[0])/2,0)/all.length;
+      n+=" · "+(cx<mid?t("sideL"):t("sideR")); }
+  }
+  return n;
+}
+const nDrill=pc=>pc.operations.filter(o=>o.type==="drill").reduce((s,o)=>s+1,0);
+let studioTab="pcs";
+function studioSync(){
+  const M=gl3dOn()?window.GL3D.model():null, st=gl3dOn()?window.GL3D.state:{};
+  $("btnExplode").classList.toggle("on",!!explodeOn);
+  $("btnOpen3d").classList.toggle("on",!!st.open);
+  $("btnHw3d").classList.toggle("on",st.mode==="hw");
+  $("btnHoles3d").classList.toggle("on",!!st.holes);
+  ["btnOpen3d","btnHw3d","btnHoles3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
+  const box=$("pcsList"); if(!box) return;
+  if(!M||!M.ops||!M.ops.pieces.length){
+    box.innerHTML=`<p class="mini" style="padding:10px 12px">${esc(gl3dOn()?t("vtNoPieces"):t("vtNeedGL"))}</p>`;
+    $("sumPieces").textContent=""; paintSel(); return; }
+  const P=M.ops.pieces;
+  const holes=P.reduce((s,p)=>s+nDrill(p),0);
+  $("sumPieces").textContent=`${P.length} ${t("pieces")} · ${holes} ${t("vtHolesN")} · ${M.ops.hw.length} ${t("vtHwN")}`;
+  const tabs=`<div class="seg" role="tablist"><button class="${studioTab==="pcs"?"on":""}" data-tab="pcs">${esc(t("vtPieces"))} <b>${P.length}</b></button><button class="${studioTab==="hw"?"on":""}" data-tab="hw">${esc(t("vtHw"))} <b>${M.ops.hw.length}</b></button></div>`;
+  let body="";
+  if(studioTab==="pcs"){
+    body=P.map(pc=>{ const m=M.meta[String(pc.pk)]||{}, sel=String(st.sel)===String(pc.pk), nd=nDrill(pc),
+        warn=pc.preflight.some(w=>w.level==="error");
+      return `<button class="pcs-it${sel?" on":""}" data-pk="${pc.pk}"><i class="pcs-n">${m.n||""}</i>`+
+        `<span class="pcs-t"><b>${esc(partName(M,pc))}</b><small>${fmtMM(pc.length)} × ${fmtMM(pc.width)} × ${fmtMM(pc.thickness)}</small></span>`+
+        `<span class="pcs-h${nd?"":" z"}${warn?" bad":""}" title="${esc(t("vtHoles"))}">${nd}</span></button>`; }).join("");
+  }else{
+    const by={}; M.ops.hw.forEach(h=>{ (by[h.type]=by[h.type]||[]).push(h); });
+    body=HW_ORDER.filter(k=>by[k]).map(k=>{ const n=hwTypeName(k);
+      return `<div class="hw-it"><i class="hw-ic hw-${k}"></i><span class="pcs-t"><b>${esc(n.name)}</b><small>${esc(n.prod)}${n.art?" · "+esc(n.art):""}</small></span><span class="hw-q">×${by[k].length}</span></div>`; }).join("")+
+      `<p class="mini" style="padding:8px 12px 10px">${esc(t("hwVerify"))}</p>`;
+  }
+  box.innerHTML=tabs+`<div class="pcs-scroll">${body}</div>`;
+  box.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{ studioTab=b.dataset.tab;
+    if(gl3dOn()) window.GL3D.set({mode:studioTab==="hw"?"hw":"real"}); studioSync(); }));
+  box.querySelectorAll("[data-pk]").forEach(b=>b.addEventListener("click",()=>{
+    const pk=b.dataset.pk, cur=window.GL3D.state.sel;
+    window.GL3D.select(String(cur)===pk?null:pk,false); }));
+  paintSel();
+}
+function fmtMM(v){ return (Math.round(v*10)/10).toString().replace(/\.0$/,""); }
+function paintSel(){
+  const el=$("vSel"); if(!el) return;
+  const M=gl3dOn()?window.GL3D.model():null, st=gl3dOn()?window.GL3D.state:{};
+  const pc=M&&M.ops&&st.sel!=null?M.ops.pieces.find(p=>String(p.pk)===String(st.sel)):null;
+  if(!pc){ el.hidden=true; return; }
+  const m=M.meta[String(pc.pk)]||{}, row=m.row||{};
+  el.hidden=false;
+  el.innerHTML=`<div class="vsel-t"><i class="pcs-n">${m.n||""}</i><div><b>${esc(partName(M,pc))}</b>`+
+    `<small>${fmtMM(pc.length)} × ${fmtMM(pc.width)} × ${fmtMM(pc.thickness)} mm · ${nDrill(pc)} ${esc(t("vtHolesN"))}${row.bordo?" · "+esc(row.bordo):""}</small></div>`+
+    `<button class="vsel-x" data-x aria-label="×">×</button></div>`+
+    `<div class="vsel-b"><button class="chip sm${st.iso?" on":""}" data-iso>${esc(st.iso?t("vtShowAll"):t("vtIsolate"))}</button>`+
+    `<button class="chip sm" data-sheet>${esc(t("vtSheet"))}</button></div>`;
+  el.querySelector("[data-x]").addEventListener("click",()=>window.GL3D.select(null));
+  el.querySelector("[data-iso]").addEventListener("click",()=>window.GL3D.select(pc.pk,!st.iso));
+  el.querySelector("[data-sheet]").addEventListener("click",()=>openPartSheet(M,pc));
+}
+function studioInit(){
+  if(studioInit.done) return; studioInit.done=1;
+  $("btnOpen3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({open:!window.GL3D.state.open}); studioSync(); });
+  $("btnHw3d").addEventListener("click",()=>{ if(!gl3dOn())return;
+    const on=window.GL3D.state.mode!=="hw"; window.GL3D.set({mode:on?"hw":"real"}); studioTab=on?"hw":"pcs";
+    if(on) $("grpPieces").open=true; studioSync(); });
+  $("btnHoles3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({holes:!window.GL3D.state.holes}); studioSync(); });
+  document.querySelectorAll("[data-view3d]").forEach(b=>b.addEventListener("click",()=>{
+    if(gl3dOn()) window.GL3D.view(b.dataset.view3d);
+    else { const V={front:[0.08,0.05],side:[1.45,0.05],top:[0.08,1.2],iso:[0.62,0.38]}[b.dataset.view3d]||[.46,.3];
+      VIEW.yaw=V[0]; VIEW.pitch=V[1]; VIEW.zoom=1; redrawCam(); } }));
+  window.addEventListener("gl3d-model",studioSync);
+  window.addEventListener("gl3d-select",()=>{ studioSync();
+    const on=document.querySelector(".pcs-it.on"); if(on&&on.scrollIntoView) on.scrollIntoView({block:"nearest"}); });
+  /* il pannello dei pezzi aperto di default sullo schermo largo */
+  if(window.matchMedia&&matchMedia("(min-width:1100px)").matches) $("grpPieces").open=true;
+}
+
+/* ---------- la scheda del pezzo: disegno della faccia 5 + tabella ---------- */
+const DIA_COL={35:"#c0392b",15:"#b7791f",8:"#1f6fb2",5:"#2e7d32"};
+function partSVG(pc,face){
+  const L=pc.length, W=pc.width, m=Math.max(L,W)*0.09+30, rmin=Math.max(L,W)*0.0045;
+  const vb=`${-m} ${-m*0.7} ${L+m*1.35} ${W+m*1.6}`;
+  const Y=y=>W-y;               // Y del pezzo in alto
+  const other=face===5?6:5;
+  let s=`<svg class="part-svg" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" font-family="Barlow,system-ui,sans-serif">`;
+  /* il contorno: le scatole del pezzo. Un fianco a L sono due rettangoli. */
+  const rects=face===5?pc.outline:pc.outline.map(r=>({x0:L-r.x1,x1:L-r.x0,y0:r.y0,y1:r.y1}));
+  const X=x=>face===5?x:L-x;    // la faccia 6 si guarda girando il pezzo attorno a Y
+  rects.forEach(r=>{ s+=`<rect x="${r.x0}" y="${Y(r.y1)}" width="${r.x1-r.x0}" height="${r.y1-r.y0}" fill="var(--part-fill,#efe7d8)"/>`; });
+  s+=outlinePath(rects,W);
+  const ops=pc.operations;
+  ops.filter(o=>o.type==="groove").forEach(o=>{
+    const x0=Math.min(X(o.from.x),X(o.to.x)), x1=Math.max(X(o.from.x),X(o.to.x));
+    const y0=Math.min(o.from.y,o.to.y), y1=Math.max(o.from.y,o.to.y);
+    const hz=Math.abs(o.to.x-o.from.x)>=Math.abs(o.to.y-o.from.y);
+    const gx=hz?x0:x0-o.width/2, gy=hz?Y(y0)-o.width/2:Y(y1), gw=hz?x1-x0:o.width, gh=hz?o.width:y1-y0;
+    s+=`<rect x="${gx}" y="${gy}" width="${gw}" height="${gh}" fill="${o.face===face?"#8a7a60":"none"}" fill-opacity=".35" stroke="#6b5b43" stroke-width="${rmin*0.35}" stroke-dasharray="${o.face===face?"0":rmin*1.6}"/>`;
+  });
+  const drills=ops.filter(o=>o.type==="drill");
+  drills.forEach((o,i)=>{
+    const col=DIA_COL[o.dia]||"#555";
+    if(o.face===5||o.face===6){
+      const vis=o.through||o.face===face, r=Math.max(o.dia/2,rmin), cx=X(o.x), cy=Y(o.y);
+      s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${vis?col:"none"}" fill-opacity="${vis?(o.through?.25:.85):0}" stroke="${col}" stroke-width="${rmin*0.35}" ${vis?"":`stroke-dasharray="${rmin*.8}"`}/>`;
+      if(o.through) s+=`<path d="M${cx-r} ${cy}h${2*r}M${cx} ${cy-r}v${2*r}" stroke="${col}" stroke-width="${rmin*.3}"/>`;
+    }else{
+      /* foro sul bordo: una tacca che entra dal bordo, lunga quanto la profondita */
+      const d=o.depth, w=Math.max(o.dia,rmin*1.4);
+      let x,y,ww,hh;
+      if(o.face===1){ x=X(o.u)-w/2; y=Y(0)-d; ww=w; hh=d; }
+      else if(o.face===3){ x=X(o.u)-w/2; y=Y(W); ww=w; hh=d; }
+      else { const atX0=(o.face===4)===(face===5); x=atX0?0:L-d; y=Y(o.u)-w/2; ww=d; hh=w; }
+      s+=`<rect x="${x}" y="${y}" width="${ww}" height="${hh}" fill="${col}" fill-opacity=".6" stroke="${col}" stroke-width="${rmin*.3}"/>`;
+    }
+  });
+  /* quote d'ingombro */
+  const fs=Math.max(L,W)*0.028+6, tk=rmin*0.45, dy=W+m*0.55, dx=-m*0.55;
+  s+=`<g stroke="var(--part-ink,#333)" stroke-width="${tk}" fill="none"><path d="M0 ${W+m*0.2}V${dy+fs*0.4}M${L} ${W+m*0.2}V${dy+fs*0.4}M0 ${dy}H${L}"/><path d="M${-m*0.2} 0H${dx-fs*0.4}M${-m*0.2} ${W}H${dx-fs*0.4}M${dx} 0V${W}"/></g>`;
+  s+=`<text x="${L/2}" y="${dy-fs*0.35}" font-size="${fs}" text-anchor="middle" fill="var(--part-ink,#333)" font-weight="600">${fmtMM(L)}</text>`;
+  s+=`<text x="${dx-fs*0.35}" y="${W/2}" font-size="${fs}" text-anchor="middle" fill="var(--part-ink,#333)" font-weight="600" transform="rotate(-90 ${dx-fs*0.35} ${W/2})">${fmtMM(W)}</text>`;
+  /* l'origine: X e Y partono da qui */
+  const ox=face===5?0:L;
+  s+=`<g fill="#c0392b"><circle cx="${ox}" cy="${W}" r="${rmin*1.2}"/></g><text x="${ox+(face===5?1:-1)*fs*0.4}" y="${W+fs*1.1}" font-size="${fs*0.7}" fill="#c0392b" text-anchor="${face===5?"start":"end"}">0,0</text>`;
+  s+=`<text x="${-m*0.9}" y="${-m*0.3}" font-size="${fs*0.8}" fill="var(--part-ink,#333)" font-weight="700">${esc(t("partFace"))} ${face}</text>`;
+  return s+`</svg>`;
+}
+/* Il bordo dell'unione di rettangoli: si tiene ogni lato di cella che separa
+   pieno da vuoto. Esatto per contorni a L, a U, con intagli. */
+function outlinePath(rects,W){
+  const xs=[...new Set(rects.flatMap(r=>[r.x0,r.x1]))].sort((a,b)=>a-b);
+  const ys=[...new Set(rects.flatMap(r=>[r.y0,r.y1]))].sort((a,b)=>a-b);
+  const fill=(i,j)=>{ if(i<0||j<0||i>=xs.length-1||j>=ys.length-1) return false;
+    const cx=(xs[i]+xs[i+1])/2, cy=(ys[j]+ys[j+1])/2;
+    return rects.some(r=>cx>r.x0&&cx<r.x1&&cy>r.y0&&cy<r.y1); };
+  let d="";
+  for(let i=0;i<xs.length-1;i++) for(let j=0;j<ys.length-1;j++){ if(!fill(i,j)) continue;
+    if(!fill(i-1,j)) d+=`M${xs[i]} ${W-ys[j]}V${W-ys[j+1]}`;
+    if(!fill(i+1,j)) d+=`M${xs[i+1]} ${W-ys[j]}V${W-ys[j+1]}`;
+    if(!fill(i,j-1)) d+=`M${xs[i]} ${W-ys[j]}H${xs[i+1]}`;
+    if(!fill(i,j+1)) d+=`M${xs[i]} ${W-ys[j+1]}H${xs[i+1]}`; }
+  const sw=Math.max(xs[xs.length-1]-xs[0],ys[ys.length-1]-ys[0])*0.0022;
+  return `<path d="${d}" stroke="var(--part-ink,#333)" stroke-width="${sw}" fill="none" stroke-linecap="square"/>`;
+}
+let partCur=null;
+function openPartSheet(M,pc,face){
+  partCur={M,pc}; face=face||5;
+  const m=(M&&M.meta[String(pc.pk)])||{}, row=m.row||{};
+  const has6=pc.operations.some(o=>o.face===6);
+  const pf=pc.preflight||[];
+  const err=pf.filter(w=>w.level==="error"), wrn=pf.filter(w=>w.level==="warn"), inf=pf.filter(w=>w.rule==="V12");
+  const opRow=o=>{ const edge=o.face<5;
+    const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
+    const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
+    const bad=pf.some(w=>w.level==="error"&&String(w.op||"").split("/").indexOf(o.id)>=0);
+    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
+  const html=`<div class="part-head"><i class="pcs-n big">${m.n||""}</i><div><h3 style="margin:0;padding-right:44px">${esc(partName(M,pc))}</h3>`+
+    `<p class="mini">${esc(row.modulo||(M.cfg&&M.cfg.name)||"")}${row.materiale||row.mat?" · "+esc(row.materiale||row.mat):""}</p></div></div>`+
+    `<div class="part-kpis"><div><b>${fmtMM(pc.length)}</b><span>L</span></div><div><b>${fmtMM(pc.width)}</b><span>${esc(t("partW"))}</span></div><div><b>${fmtMM(pc.thickness)}</b><span>${esc(t("partT"))}</span></div>`+
+    `<div><b>${esc(row.bordo||"—")}</b><span>${esc(t("partEdge"))}</span></div><div><b>${nDrill(pc)}</b><span>${esc(t("vtHolesN"))}</span></div></div>`+
+    (m.exact===false&&m.row?`<p class="mini warnline">${esc(t("partApprox"))}</p>`:"")+
+    `<div class="seg" style="margin:10px 0 6px"><button class="${face===5?"on":""}" data-face="5">${esc(t("partFace"))} 5</button><button class="${face===6?"on":""}" data-face="6"${has6?"":" disabled"}>${esc(t("partFace"))} 6</button></div>`+
+    `<div class="part-draw">${partSVG(pc,face)}</div>`+
+    `<div class="part-legend"><span><i class="dot" style="background:#c0392b"></i>Ø35</span><span><i class="dot" style="background:#b7791f"></i>Ø15</span><span><i class="dot" style="background:#1f6fb2"></i>Ø8</span><span><i class="dot" style="background:#2e7d32"></i>Ø5</span><span><i class="dot ring"></i>${esc(t("partOther"))}</span><span>⟂ ${esc(t("partThrough"))}</span></div>`+
+    (err.length?`<div class="audit" data-state="red" style="cursor:default">${esc(t("pfErr").replace("{n}",err.length))}: ${err.map(w=>w.rule+" "+(w.op||"")).join(", ")}</div>`:
+                `<div class="audit" data-state="green">${esc(t("pfOk"))}${wrn.length?" · "+esc(t("pfWarn").replace("{n}",wrn.length)):""}${inf.length?" · "+esc(t("pfFlip")):""}</div>`)+
+    (pc.operations.length?`<div class="tbl-wrap"><table class="t ops"><thead><tr><th>#</th><th>${esc(t("opOp"))}</th><th class="n">${esc(t("opFace"))}</th><th class="n">X</th><th class="n">Y</th><th class="n">Ø</th><th class="n">${esc(t("opDepth"))}</th></tr></thead><tbody>${pc.operations.map(opRow).join("")}</tbody></table></div>`
+      :`<p class="mini">${esc(t("partNoOps"))}</p>`)+
+    `<p class="mini" style="margin-top:10px">${esc(t("partAxes"))}</p>`+
+    `<p class="mini warnline">${esc(t("hwVerify"))}</p>`+
+    `<div class="btnrow"><button class="btn sm" data-3d>${esc(t("partIn3D"))}</button><button class="btn sm" data-csv>${esc(t("partCsv"))}</button></div>`;
+  $("partBody").innerHTML=html;
+  $("partBody").querySelectorAll("[data-face]").forEach(b=>b.addEventListener("click",()=>{ if(!b.disabled) openPartSheet(M,pc,+b.dataset.face); }));
+  $("partBody").querySelector("[data-3d]").addEventListener("click",()=>{ closeSheets();
+    if(currentView!=="build") setView("build");
+    if(gl3dOn()&&window.GL3D.model()&&window.GL3D.model().meta[String(pc.pk)]) window.GL3D.select(pc.pk,true); });
+  $("partBody").querySelector("[data-csv]").addEventListener("click",()=>partCsv(M,pc));
+  if(!$("shPart").classList.contains("on")) openSheet("shPart");
+}
+function opName(o){
+  if(o.type==="groove") return t("op_groove");
+  const k={"tazza cerniera":"op_cup","tassello cerniera":"op_hdowel","basetta cerniera":"op_plate","perno minifix":"op_bolt",
+    "gambo minifix":"op_shank","eccentrico minifix":"op_cam","tassello":"op_dowel","reggipiano":"op_pin",
+    "reggipiano (regolazione)":"op_pinAdj","guida cassetto":"op_slide","maniglia":"op_handle"}[o.note.replace(/ \(passante, due lati\)$/,"")];
+  return (k?t(k):o.note)+(/passante/.test(o.note)?" · "+t("partThrough"):"");
+}
+/* CSV di foratura del pezzo: formato piatto, la priorita 1 della matrice
+   degli export (§6 della specifica). E un file per l'officina: passa dallo
+   stesso cancello di tutti gli altri — un pezzo di un corpo che non chiude
+   non va forato. */
+function partCsv(M,pc){
+  if(typeof exportAllowed==="function"&&!exportAllowed()) return;
+  const row=(M.meta[String(pc.pk)]||{}).row||{};
+  const L=["# Ebanist "+APP_VER+" — "+(row.modulo||"")+" — "+partName(M,pc),
+    "# "+fmtMM(pc.length)+" x "+fmtMM(pc.width)+" x "+fmtMM(pc.thickness)+" mm; faccia 5 in alto, origine in basso a sinistra; cote HW_DRILL non verificate",
+    "id;tipo;faccia;x;y;u;z;diametro;profondita;passante;nota"];
+  pc.operations.forEach(o=>{ if(o.type==="groove") L.push([o.id,"cava",o.face,o.from.x,o.from.y,o.to.x,o.to.y,o.width,o.depth,"",o.note].join(";"));
+    else L.push([o.id,"foro",o.face,o.x,o.y,o.u==null?"":o.u,o.z==null?"":o.z,o.dia,o.depth,o.through?1:0,o.note].join(";")); });
+  const blob=new Blob([L.join("\n")],{type:"text/csv"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=(partName(M,pc)+"-fori.csv").replace(/[^\w.\-]+/g,"_"); a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+/* dalla distinta: i pezzi fisici di una riga, calcolati dalla configurazione
+   del corpo salvata col progetto */
+function openPartFromRow(cfgKey,x){
+  const p=proj(); const cfg=p&&p.configs&&p.configs[cfgKey]; if(!cfg||typeof generateOperations!=="function") return;
+  try{
+    const built=buildModule(cfg);
+    let G=null; try{ G=deriveCarcass(carcassParams(cfg,{})); }catch(e){}
+    const ops=generateOperations({boxes:built.boxes,cfg,G});
+    const meta={}; ops.pieces.forEach((q,i)=>{ const m=matchOpsRow(q,built.pieces); meta[String(q.pk)]={n:q.n||i+1,row:m?m.row:null,exact:m?m.exact:false}; });
+    const M={cfg,rows:built.pieces,ops,meta};
+    const a=[x.lung,x.larg].sort((u,v)=>v-u);
+    const hit=ops.pieces.find(q=>{ const r=meta[String(q.pk)].row; if(!r) return false;
+      const b=[+r.lung,+r.larg].sort((u,v)=>v-u); return r.role===(x.role||r.role)&&r.elemento===x.elemento&&Math.abs(a[0]-b[0])<1.5&&Math.abs(a[1]-b[1])<1.5; });
+    if(!hit){ toast(t("partNotFound")); return; }
+    Object.values(meta).forEach(v=>{ if(v.row) v.row=Object.assign({modulo:x.modulo,materiale:x.materiale},v.row); });
+    openPartSheet(M,hit);
+  }catch(e){ console.warn(e); toast(t("partNotFound")); }
 }
 
 /* --- builder UI --- */
@@ -5878,7 +6493,9 @@ function cfgFromForm(){
     angL:fAng("bAngL"), angR:fAng("bAngR"), obstacles:buildObst,
     bow:Math.min(200,v("bBow",0)), rcorner:Math.max(10,Math.min(400,v("bRc",60))),
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
-    secMode:buildSecMode};
+    secMode:buildSecMode,
+    /* il gradino vale solo con tutte e due le cote: una sola non e un gradino */
+    stepH:Math.min(2000,v("bStepH",0)), stepP:Math.min(400,v("bStepP",0))};
 }
 function fAng(id){ const raw=$(id).value.trim(); if(!raw) return 90; const n=parseFloat(raw.replace(",",".")); return isFinite(n)?angClamp(n):90; }
 function syncBuildForm(){
@@ -5912,6 +6529,7 @@ function syncBuildForm(){
   $("bDrawInset").value=buildCfg.drawerInset!=null?buildCfg.drawerInset:"";
   renderDrawUI(buildCfg.drawerSys||"legno",buildCfg.drawerH||"");
   $("bBack").value=buildCfg.back?1:0; $("bHang").value=buildCfg.hang?1:0;
+  $("bStepH").value=buildCfg.stepH||""; $("bStepP").value=buildCfg.stepP||"";
   buildObst=buildCfg.obstacles||[];
   buildSecMode=buildCfg.secMode||null;
   $("bHangGap").value=buildCfg.hangGap!=null?buildCfg.hangGap:1000;
@@ -6027,6 +6645,7 @@ function drawPreview(){
   if(wn.doorSkip>0) notes.push("⚠︎ "+t("doorNoFit").replace("{n}",wn.doorSkip));
   if(wn.doorTight) notes.push("⚠︎ "+t("doorTightW"));
   if(wn.doorOverlap) notes.push("⚠︎ "+t("wDoorOverDraw"));
+  if(wn.stepHit) notes.push("⚠︎ "+t("stepHit"));
   /* le verifiche del cassetto: profondità, altezza del frontale, larghezza
      utile, braccio della cerniera. Prima non ne esisteva nessuna e un cassetto
      impossibile finiva in distinta senza dire niente. */
@@ -6226,7 +6845,7 @@ function renderBuild(){
   if(!buildFormReady){
     syncBuildForm();
     ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc",
-     "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos"]
+     "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos","bStepH","bStepP"]
       .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     /* il pannello cassetti si ridisegna prima dell'anteprima: cambiando sistema
        cambiano le opzioni, e un campo che non esiste piu non deve restare a
@@ -6258,15 +6877,16 @@ function renderBuild(){
       $("btnExplode").classList.toggle("on",!!explodeOn);
       drawPreview();
     });
+    studioInit();
     /* l'anteprima sta appiccicata in alto ed e piccola per lasciare spazio ai campi:
        questo la ingrandisce quando vuoi guardarla davvero */
+    /* a tutto schermo: la vista si stacca dal banco e copre l'app. Il canvas
+       resta lo stesso — un solo contesto WebGL — e si ridimensiona da solo. */
     $("btnPrevBig").addEventListener("click",()=>{
-      const s=$("svg3d"), big=s.style.maxHeight==="60vh";
-      s.style.maxHeight=big?"17vh":"60vh";
-      const cv=$("gl3d"); if(cv){ cv.style.height=big?"17vh":"60vh";
-        if(gl3dOn()) window.GL3D.resize(); }
-      $("btnPrevBig").classList.toggle("on",!big);
-      $("btnPrevBig").textContent=big?"⤢":"⤡";
+      const v=$("bldView"), on=!v.classList.contains("full");
+      v.classList.toggle("full",on); document.body.classList.toggle("vp-full",on);
+      $("btnPrevBig").classList.toggle("on",on);
+      if(gl3dOn()) setTimeout(()=>window.GL3D.resize(),30); else redraw3D();
     });
     init3DControls();
     buildFormReady=true;
@@ -6294,13 +6914,51 @@ function presetApply(p){
   buildCfg={...p.cfg,name:p.name};
   syncBuildForm(); drawPreview();
 }
+/* La tessera di una tipologia: il mobile disegnato con le sue proporzioni e
+   il suo contenuto — ante, cassetti, ripiani, tramezzi. Si riconosce a colpo
+   d'occhio, senza leggere, e cambia da sola quando si salva un tipo proprio. */
+function presetIcon(c){
+  c=c||{}; const ty=c.type||"standard";
+  const S=(d)=>`<svg class="ti" viewBox="0 0 36 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  if(ty==="tavolo") return S('<path d="M3 15h30M6 15v20M30 15v20M3 13h30v2H3z"/>');
+  if(ty==="scrivania") return S('<path d="M3 14h30M5 14v21M31 14v21M20 14v12h11"/><path d="M20 20h11"/>');
+  if(ty==="letto") return S('<path d="M4 12v23M32 22v13M4 25h28M4 30h28M8 20h9a2 2 0 0 1 2 2v3H8z"/>');
+  if(ty==="tondo") return S('<ellipse cx="18" cy="20" rx="13" ry="15"/><path d="M5.5 20h25"/>');
+  if(ty==="raccordato") return S('<path d="M6 5h24v30H14a8 8 0 0 1-8-8z"/><path d="M6 18h24"/>');
+  if(ty==="angolare") return S('<path d="M4 6h28v12H16v17H4z"/><path d="M16 6v12M10 12v17"/>');
+  /* corpo a cassa: proporzioni vere, entro 30×34 */
+  const L=+c.L||800, H=+c.H||800, k=Math.min(28/L,34/H), w=L*k, h=H*k, x0=(36-w)/2, y0=(40-h)/2+1;
+  const pl=Math.min(h*0.18,(+c.plinth||0)*k), yb=y0+h-pl;
+  let d=`<rect x="${x0}" y="${y0}" width="${w}" height="${h-pl}" rx="1"/>`;
+  if(pl>1) d+=`<path d="M${x0+1.5} ${yb}v${pl}M${x0+w-1.5} ${yb}v${pl}"/>`;
+  const nd=Math.max(0,c.drawers|0), na=Math.max(0,c.doors|0), tr=Math.max(0,c.tram|0);
+  const zoneTop=y0, zoneH=h-pl;
+  let dz=0;
+  if(nd&&na){ dz=Math.min(zoneH*0.4,nd*zoneH*0.12); }
+  else if(nd) dz=zoneH;
+  for(let i=1;i<(na?nd+1:nd);i++){ const y=yb-dz*i/(na?nd:nd); d+=`<path d="M${x0} ${y}h${w}"/>`; }
+  if(nd){ for(let i=0;i<nd;i++){ const y=yb-dz*(i+.5)/nd; d+=`<path d="M${x0+w/2-2.5} ${y}h5" stroke-width="1.8"/>`; } }
+  if(nd&&na) d+=`<path d="M${x0} ${yb-dz}h${w}"/>`;
+  if(ty==="scorrevole"&&na){ d+=`<path d="M${x0+w/2} ${zoneTop}v${zoneH-dz}" stroke-dasharray="2 1.5"/>`; }
+  else if(na){ const top=yb-dz;
+    for(let i=1;i<na;i++){ const x=x0+w*i/na; d+=`<path d="M${x} ${zoneTop}V${top}"/>`; }
+    for(let i=0;i<na;i++){ const xl=x0+w*i/na, xr=x0+w*(i+1)/na, left=na===1?false:i<na/2;
+      const hx=left?xr-2:xl+2; d+=`<path d="M${hx} ${zoneTop+(top-zoneTop)*0.42}v4" stroke-width="1.8"/>`; }
+  }else if(!nd){
+    for(let i=1;i<=tr;i++){ const x=x0+w*i/(tr+1); d+=`<path d="M${x} ${zoneTop}V${yb}"/>`; }
+    const sh=Math.min(6,Math.max(0,c.shelves|0));
+    for(let i=1;i<=sh;i++){ const y=zoneTop+zoneH*i/(sh+1); d+=`<path d="M${x0+1} ${y}h${w-2}" stroke-width="1.1" opacity=".7"/>`; }
+  }
+  if(c.front==="vetro"&&na) d+=`<rect x="${x0+3}" y="${zoneTop+3}" width="${w-6}" height="${Math.max(2,(yb-dz)-zoneTop-6)}" stroke-width="1" opacity=".6"/>`;
+  return S(d);
+}
 function renderPresetChips(){
   const chips=$("presetChips"); if(!chips) return;
   chips.innerHTML="";
   for(const p of presetAll()){
     const c=document.createElement("button");
     c.className="chip"+(p.user?" chip-user":""); c.dataset.k=p.k;
-    c.textContent=p.name;
+    c.innerHTML=presetIcon(p.cfg||p)+`<span>${esc(p.name)}</span>`;
     c.addEventListener("click",()=>{ presetApply(p);
       chips.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x===c)); });
     if(p.user){
@@ -10142,12 +10800,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.28.1"; /* APP_VER-MARKER */
+const APP_VER="4.29.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v60";
+const SW_CACHE="ebanist-v61";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
