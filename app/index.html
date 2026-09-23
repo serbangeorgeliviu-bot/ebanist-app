@@ -936,6 +936,40 @@ body.client-on{overflow:hidden}
   .cm-panel{border-left:none;border-top:1px solid var(--line)}
   .cm-price{bottom:-28px}
 }
+
+/* ---- scheda di montaggio 4.31 ---- */
+@media print{
+  #printArea .m-break{page-break-before:always}
+  #printArea h3{font-family:'Barlow Condensed',Arial;font-size:11.5pt;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 5px;color:#0E3B2A}
+  #printArea .m-safe{font-size:9pt;border:1px solid #c8a93a;background:#fbf6e3;padding:6px 9px;margin-bottom:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printArea .m-facts{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:9.5pt;margin:4px 0 8px}
+  #printArea .m-facts b{display:block;font-size:7.5pt;text-transform:uppercase;color:#666;letter-spacing:.4px}
+  #printArea .m-cover{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:4mm;margin:4px 0 6px;page-break-inside:avoid}
+  #printArea .m-fig{margin:0}
+  #printArea .m-imgw{position:relative;border:1px solid #ccc}
+  #printArea .m-imgw img{width:100%;display:block}
+  #printArea .m-lbl{position:absolute;transform:translate(-50%,-50%);min-width:4.2mm;height:4.2mm;padding:0 .8mm;border-radius:2.1mm;
+    background:#0E3B2A;color:#fff;font-style:normal;font-size:6.5pt;font-weight:700;display:grid;place-items:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printArea figcaption{font-size:8pt;color:#555;text-align:center;margin-top:1mm}
+  #printArea table.m-t{font-size:8.5pt;margin-bottom:4px}
+  #printArea table.m-t td{padding:3px 6px}
+  #printArea .m-box{width:7mm}
+  #printArea .m-fill{width:32mm}
+  #printArea .m-tools{columns:2;font-size:9pt;padding-left:16px;margin:0}
+  #printArea .m-steps{font-size:9.5pt;line-height:1.45;padding:0;margin:0;list-style:none;counter-reset:mst}
+  #printArea .m-steps li{counter-increment:mst;display:grid;grid-template-columns:8mm 1fr;gap:2mm 3mm;align-items:center;
+    page-break-inside:avoid;padding:2.2mm 0;border-bottom:.2mm solid #e2e2e2}
+  #printArea .m-steps li.hi{grid-template-columns:8mm 30mm 1fr}
+  #printArea .m-steps li::before{content:counter(mst);width:6.5mm;height:6.5mm;border-radius:50%;background:#0E3B2A;color:#fff;
+    font-weight:700;font-size:9pt;display:grid;place-items:center;align-self:start;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printArea .m-sti svg{width:auto!important;max-width:30mm;max-height:30mm;height:30mm;display:block;margin:0 auto}
+  #printArea .m-list{list-style:none;padding:0;margin:6px 0;font-size:9.5pt;columns:2}
+  #printArea .m-list li{margin-bottom:4px;display:flex;gap:6px;align-items:flex-start}
+  #printArea .m-list .m-box{display:inline-block;width:3.5mm;height:3.5mm;border:1px solid #333;flex:none;margin-top:1px}
+  #printArea .m-sign{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10mm;margin-top:16mm;page-break-inside:avoid}
+  #printArea .m-sign div{border-top:1px solid #333;padding-top:2mm;font-size:8.5pt;color:#444}
+}
 </style>
 </head>
 <body>
@@ -2748,6 +2782,11 @@ Object.assign(I18N.fr,{
   orDocs:"Documents",
   orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
   orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
+/* ---- 4.31: scheda di montaggio ---- */
+Object.assign(I18N.ro,{mSafetyTop:"Citește tot corpul înainte de a începe. Cotele sunt ale proiectului: verifică-le pe piese. Corpurile înalte se fixează ÎNTOTDEAUNA în perete.",mWeight:"Greutate estimată",mImgAsm:"Asamblat",mImgExpl:"Piesele, numerotate ca în listă",mImgHw:"Feroneria",mParts:"Lista pieselor",mTools:"Scule necesare",mStepsT:"Montaj, pas cu pas",mCheckT:"Cote de control și recepție",mScrews:"Șuruburi talpă balama",mScrewsPlate:"Euro Ø6,3×13 sau șurub PAL 4×16",mtDriver:"Mașină de înșurubat cu bit PZ2 și cuplu reglabil",mtBits:"Burghie / freze: {d} (doar dacă piesele nu vin găurite CNC)",mtGlue:"Clei PVA pentru dibluri",mtMallet:"Ciocan cu cap de cauciuc",mtMeasure:"Ruletă, echer, nivelă",mtClamps:"2 cleme / menghine",mtFeet:"Cheie pentru reglarea picioarelor",mtSaw:"Fierăstrău pentru metal (bara de umerașe)",mtWall:"Bormașină cu percuție, dibluri și șuruburi potrivite peretelui (verifică peretele: beton, cărămidă, rigips)",ms1:"Desfă pachetele pe o suprafață moale. Numără piesele ({n} buc.) după listă și bifează-le. Verifică eticheta, cantul și să nu fie ciobite.",ms2:"Găurile sunt pe fișele pieselor (Ebanist → piesă → Fișa piesei). Dacă piesele nu vin găurite CNC, găurește acum, piesă cu piesă, după fișă.",ms3:"Înșurubează în laterale cele {n} bolțuri minifix ({p}) și bate cu ciocanul de cauciuc cele {d} dibluri, cu puțin clei, în canturile bazei și tavanului.",ms4:"Montează pe laterale cele {n} tălpi de balama ({p}), pe rândul de găuri la 37 mm de cantul din față. Înălțimi de la podea: {y} mm.",ms5:"Montează glisierele sertarelor ({n} perechi, {p}) pe laterale, ÎNAINTE de a închide corpul. Înălțimi de la podea: {y} mm.",ms6:"Așază o laterală cu fața interioară în sus. Prinde baza și tavanul pe bolțuri și dibluri, pune cealaltă laterală și strânge excentricele 90–180° în sensul acelor de ceasornic, fără să forțezi.",ms7:"Spatele merge în canal: glisează-l în canalele lateralelor și bazei ÎNAINTE de a pune tavanul.",ms7s:"Spatele e din două bucăți (treapta din perete): glisează bucata de jos în canalul ei, în fața treptei, apoi pe cea de sus, ÎNAINTE de a pune tavanul.",ms8:"Montează cei {n} montanți, la {x} mm de marginea din stânga.",ms9i:"Pune spatele între laterale, la fața din spate, și prinde-l cu șuruburi 3,5×30 la fiecare 150 mm.",ms9a:"Pune spatele peste canturile din spate și prinde-l cu cuie sau șuruburi 3,5×16 la fiecare 150 mm.",ms9s:"Spatele e din două bucăți: cea de jos stă în fața treptei din perete ({h} × {p} mm).",ms10:"Pune corpul în echer ÎNAINTE de a fixa definitiv spatele: cele două diagonale ale feței trebuie să fie egale — {d} mm (corp {w} × {h} mm). Diferență maximă 2 mm.",ms11f:"Înșurubează cele {n} picioare reglabile ({p}) și pune-le toate la aceeași înălțime, {h} mm.",ms11w:"Corp suspendat: montează șina sau agățătorile de suspendare pe perete, la nivelă, cu dibluri potrivite peretelui. Agață corpul și reglează din agățători. Verifică sarcina admisă pe perete.",ms11z:"Montează soclul retras cu {s} mm de la fața corpului (înălțime {h} mm).",ms12:"Ridică corpul în poziție verticală (≈ {kg} kg).",ms12two:"Ridică corpul în DOI oameni (≈ {kg} kg): nu-l târî pe un colț, se desface îmbinarea.",ms13:"Adu-l la locul lui, lasă 5–10 mm față de perete pentru plinte și țevi, și pune-l la nivelă pe ambele direcții.",ms14:"Corp înalt: fixează-l OBLIGATORIU în perete cu colțare anti-răsturnare, sus, în două puncte.",ms14s:"Verifică pe loc treapta din perete: {h} mm înălțime, {p} mm ieșire. Decupajul lateralelor trebuie să treacă liber, fără să atingă.",ms15:"Pune cei {n} suporți de poliță și așază polițele. Înălțimi ale polițelor (fața de jos, de la podea): {y} mm.",ms15f:"Polițele fixe se prind cu excentrice de montanți/laterale, cu corpul încă întins pe spate.",ms16:"Bara de umerașe la {y} mm de la podea. Taie bara la {l} mm și prinde suporții ({p}).",ms17:"Asamblează cele {n} sertare, agață-le pe glisiere până se aude clic.",ms18:"Reglează fronturile sertarelor pe înălțime și lateral: rost {g} mm între ele, aliniate cu ușile.",ms19:"Montează cele {n} uși pe cele {h} balamale ({p}): prinde brațul pe talpă până face clic. Cupe Ø35 la {c} mm de cant, la {y} mm de marginea de jos a ușii.",ms20:"Reglează ușile în trei direcții (sus-jos, lateral, adâncime): rămâne vizibil {r} mm din laterală, rost între uși {g} mm, sus {s} mm, jos {i} mm.",ms21:"Montează cele {n} mânere ({p}), interax {ia} mm, cu șurub M4 prin găurile străpunse.",ms21v:"Pe uși: verticale, la {e} mm de marginea de deschidere, centrul la {y} mm de la podea.",ms21o:"Pe sertare: orizontale, centrate.",ms22:"Scoate folia de protecție, curăță de praf și de urme de creion, și lasă clientului cheile de reglaj și șuruburile de rezervă.",mcWhat:"Ce",mcProject:"Proiect",mcMeasured:"Măsurat",mcOuter:"Gabarit exterior L × H × A (mm)",mcInner:"Lumină interioară L × H × A (mm)",mcDiag:"Diagonalele feței",mcReveal:"Laterală vizibilă lângă ușă",mcGap:"Rost între uși / fronturi",mcTopBot:"Joc sus / jos la uși",mk1:"Toate piesele montate, niciun șurub lipsă",mk2:"Corp la nivelă și în echer (diagonale egale)",mk3:"Uși și sertare aliniate, se închid singure, nu freacă",mk4:"Fixat în perete (corp înalt / suspendat)",mk5:"Polițele stau stabil pe suporți",mk6:"Folii scoase, curățat",mk7:"Clientul a verificat și a primit instrucțiunile de reglaj",mSignFitter:"Montator (nume, semnătură)",mSignClient:"Client (nume, semnătură)"});
+Object.assign(I18N.it,{mSafetyTop:"Leggi tutto il corpo prima di cominciare. Le quote sono del progetto: verificale sui pezzi. I corpi alti si fissano SEMPRE al muro.",mWeight:"Peso stimato",mImgAsm:"Montato",mImgExpl:"I pezzi, numerati come nell'elenco",mImgHw:"La ferramenta",mParts:"Elenco pezzi",mTools:"Attrezzi",mStepsT:"Montaggio, passo per passo",mCheckT:"Quote di controllo e collaudo",mScrews:"Viti basetta cerniera",mScrewsPlate:"Euro Ø6,3×13 o vite truciolare 4×16",mtDriver:"Avvitatore con inserto PZ2 e frizione regolabile",mtBits:"Punte / frese: {d} (solo se i pezzi non arrivano forati a CNC)",mtGlue:"Colla vinilica per i tasselli",mtMallet:"Martello in gomma",mtMeasure:"Metro, squadra, livella",mtClamps:"2 morsetti",mtFeet:"Chiave per regolare i piedini",mtSaw:"Seghetto per metallo (asta appendiabiti)",mtWall:"Trapano a percussione, tasselli e viti adatti al muro (verifica il muro: cemento, mattone, cartongesso)",ms1:"Apri i colli su una superficie morbida. Conta i pezzi ({n} pz) sull'elenco e spuntali. Controlla etichetta, bordo e che non siano scheggiati.",ms2:"I fori sono sulle schede dei pezzi (Ebanist → pezzo → Scheda pezzo). Se i pezzi non arrivano forati a CNC, fora adesso, pezzo per pezzo, dalla scheda.",ms3:"Avvita nei fianchi i {n} perni minifix ({p}) e batti col martello in gomma i {d} tasselli, con un filo di colla, nei bordi di base e cielo.",ms4:"Monta sui fianchi le {n} basette delle cerniere ({p}), sulla fila di fori a 37 mm dal bordo anteriore. Altezze da terra: {y} mm.",ms5:"Monta le guide dei cassetti ({n} coppie, {p}) sui fianchi PRIMA di chiudere il corpo. Altezze da terra: {y} mm.",ms6:"Stendi un fianco con la faccia interna in su. Innesta base e cielo su perni e tasselli, metti l'altro fianco e serra gli eccentrici 90–180° in senso orario, senza forzare.",ms7:"Lo schienale va in cava: fallo scorrere nelle cave di fianchi e base PRIMA di mettere il cielo.",ms7s:"Lo schienale e in due pezzi (gradino del muro): fai scorrere il pezzo basso nella sua cava, davanti al gradino, poi quello alto, PRIMA di mettere il cielo.",ms8:"Monta i {n} tramezzi, a {x} mm dal bordo sinistro.",ms9i:"Metti lo schienale fra i fianchi, a filo dietro, e fissalo con viti 3,5×30 ogni 150 mm.",ms9a:"Metti lo schienale sopra i bordi posteriori e fissalo con chiodi o viti 3,5×16 ogni 150 mm.",ms9s:"Lo schienale e in due pezzi: quello basso sta davanti al gradino del muro ({h} × {p} mm).",ms10:"Metti il corpo in squadra PRIMA di fissare definitivamente lo schienale: le due diagonali del fronte devono essere uguali — {d} mm (corpo {w} × {h} mm). Differenza massima 2 mm.",ms11f:"Avvita i {n} piedini regolabili ({p}) e portali tutti alla stessa altezza, {h} mm.",ms11w:"Corpo sospeso: monta la barra o gli attacchi di sospensione a muro, in bolla, con tasselli adatti al muro. Appendi il corpo e regola dagli attacchi. Verifica il carico ammesso dal muro.",ms11z:"Monta lo zoccolo arretrato di {s} mm dal filo del corpo (altezza {h} mm).",ms12:"Metti in piedi il corpo (≈ {kg} kg).",ms12two:"Metti in piedi il corpo in DUE (≈ {kg} kg): non trascinarlo su uno spigolo, la giunzione si apre.",ms13:"Portalo al suo posto, lascia 5–10 mm dal muro per battiscopa e tubi, e mettilo in bolla nelle due direzioni.",ms14:"Corpo alto: fissalo OBBLIGATORIAMENTE al muro con squadrette antiribaltamento, in alto, in due punti.",ms14s:"Verifica sul posto il gradino del muro: {h} mm di altezza, {p} mm di sporgenza. L'intaglio dei fianchi deve passare libero, senza toccare.",ms15:"Metti i {n} reggipiani e appoggia i ripiani. Altezze dei ripiani (faccia sotto, da terra): {y} mm.",ms15f:"I ripiani fissi si fissano con eccentrici a tramezzi/fianchi, col corpo ancora steso sul retro.",ms16:"Asta appendiabiti a {y} mm da terra. Taglia l'asta a {l} mm e fissa i supporti ({p}).",ms17:"Assembla i {n} cassetti, agganciali sulle guide fino al clic.",ms18:"Regola i frontali dei cassetti in altezza e di lato: fuga {g} mm fra loro, allineati con le ante.",ms19:"Monta le {n} ante sulle {h} cerniere ({p}): aggancia il braccio sulla basetta fino al clic. Tazze Ø35 a {c} mm dal bordo, a {y} mm dal bordo inferiore dell'anta.",ms20:"Regola le ante in tre direzioni (alto-basso, lato, profondita): resta a vista {r} mm di fianco, fuga fra le ante {g} mm, sopra {s} mm, sotto {i} mm.",ms21:"Monta le {n} maniglie ({p}), interasse {ia} mm, con vite M4 nei fori passanti.",ms21v:"Sulle ante: verticali, a {e} mm dal bordo di apertura, centro a {y} mm da terra.",ms21o:"Sui cassetti: orizzontali, centrate.",ms22:"Togli la pellicola, pulisci da polvere e segni di matita, e lascia al cliente le chiavi di regolazione e le viti di scorta.",mcWhat:"Cosa",mcProject:"Progetto",mcMeasured:"Misurato",mcOuter:"Ingombro esterno L × H × P (mm)",mcInner:"Luce interna L × H × P (mm)",mcDiag:"Diagonali del fronte",mcReveal:"Fianco a vista accanto all'anta",mcGap:"Fuga fra ante / frontali",mcTopBot:"Gioco sopra / sotto le ante",mk1:"Tutti i pezzi montati, nessuna vite mancante",mk2:"Corpo in bolla e in squadra (diagonali uguali)",mk3:"Ante e cassetti allineati, chiudono da soli, non strisciano",mk4:"Fissato al muro (corpo alto / sospeso)",mk5:"I ripiani stanno stabili sui reggipiani",mk6:"Pellicole tolte, pulito",mk7:"Il cliente ha controllato e ha ricevuto le istruzioni di regolazione",mSignFitter:"Montatore (nome, firma)",mSignClient:"Cliente (nome, firma)"});
+Object.assign(I18N.en,{mSafetyTop:"Read the whole unit before starting. Dimensions are the project's: check them on the parts. Tall units are ALWAYS fixed to the wall.",mWeight:"Estimated weight",mImgAsm:"Assembled",mImgExpl:"The parts, numbered as in the list",mImgHw:"Hardware",mParts:"Parts list",mTools:"Tools",mStepsT:"Assembly, step by step",mCheckT:"Check dimensions and handover",mScrews:"Hinge plate screws",mScrewsPlate:"Euro Ø6.3×13 or chipboard screw 4×16",mtDriver:"Screwdriver with PZ2 bit and adjustable clutch",mtBits:"Drills / bits: {d} (only if parts are not CNC-drilled)",mtGlue:"PVA glue for dowels",mtMallet:"Rubber mallet",mtMeasure:"Tape, square, level",mtClamps:"2 clamps",mtFeet:"Key for levelling feet",mtSaw:"Hacksaw (hanging rail)",mtWall:"Hammer drill, plugs and screws suited to the wall (check it: concrete, brick, plasterboard)",ms1:"Unpack on a soft surface. Count the parts ({n} pcs) against the list and tick them. Check label, edging and chips.",ms2:"Holes are on the part sheets (Ebanist → part → Part sheet). If parts are not CNC-drilled, drill now, part by part, from the sheet.",ms3:"Screw the {n} minifix bolts ({p}) into the sides and tap the {d} dowels, with a little glue, into the bottom and top edges.",ms4:"Fit the {n} hinge plates ({p}) on the sides, on the hole row 37 mm from the front edge. Heights from the floor: {y} mm.",ms5:"Fit the drawer runners ({n} pairs, {p}) on the sides BEFORE closing the carcass. Heights from the floor: {y} mm.",ms6:"Lay one side with its inner face up. Fit bottom and top on bolts and dowels, add the other side and tighten the cams 90–180° clockwise, without forcing.",ms7:"The back runs in a groove: slide it into the side and bottom grooves BEFORE fitting the top.",ms7s:"The back is in two pieces (wall step): slide the lower one into its groove, in front of the step, then the upper one, BEFORE fitting the top.",ms8:"Fit the {n} dividers, at {x} mm from the left edge.",ms9i:"Place the back between the sides, flush at the rear, and fix it with 3.5×30 screws every 150 mm.",ms9a:"Place the back over the rear edges and fix it with nails or 3.5×16 screws every 150 mm.",ms9s:"The back is in two pieces: the lower one sits in front of the wall step ({h} × {p} mm).",ms10:"Square the carcass BEFORE fixing the back for good: both front diagonals must be equal — {d} mm (unit {w} × {h} mm). Max. 2 mm difference.",ms11f:"Screw in the {n} levelling feet ({p}) and set them all to the same height, {h} mm.",ms11w:"Wall-hung unit: fit the hanging rail or brackets on the wall, level, with plugs suited to the wall. Hang the unit and adjust from the brackets. Check the wall's load rating.",ms11z:"Fit the plinth set back {s} mm from the front (height {h} mm).",ms12:"Stand the unit up (≈ {kg} kg).",ms12two:"Stand the unit up with TWO people (≈ {kg} kg): do not drag it on a corner, the joint opens.",ms13:"Move it into place, leave 5–10 mm from the wall for skirting and pipes, and level it both ways.",ms14:"Tall unit: it MUST be fixed to the wall with anti-tip brackets, at the top, in two points.",ms14s:"Check the wall step on site: {h} mm high, {p} mm deep. The side notches must clear it without touching.",ms15:"Insert the {n} shelf supports and place the shelves. Shelf heights (underside, from the floor): {y} mm.",ms15f:"Fixed shelves are fixed with cams to dividers/sides, with the unit still lying on its back.",ms16:"Hanging rail at {y} mm from the floor. Cut the rail to {l} mm and fix the supports ({p}).",ms17:"Assemble the {n} drawers, clip them onto the runners until they click.",ms18:"Adjust the drawer fronts in height and sideways: {g} mm gap between them, aligned with the doors.",ms19:"Fit the {n} doors on the {h} hinges ({p}): clip the arm onto the plate. Ø35 cups {c} mm from the edge, at {y} mm from the door's bottom edge.",ms20:"Adjust the doors in three directions (height, side, depth): {r} mm of side stays visible, {g} mm between doors, {s} mm at the top, {i} mm at the bottom.",ms21:"Fit the {n} handles ({p}), {ia} mm centres, with M4 screws through the through-holes.",ms21v:"On doors: vertical, {e} mm from the opening edge, centre at {y} mm from the floor.",ms21o:"On drawers: horizontal, centred.",ms22:"Remove protective film, clean off dust and pencil marks, and leave the client the adjustment keys and spare screws.",mcWhat:"What",mcProject:"Project",mcMeasured:"Measured",mcOuter:"Outer size W × H × D (mm)",mcInner:"Inner clearance W × H × D (mm)",mcDiag:"Front diagonals",mcReveal:"Visible side next to the door",mcGap:"Gap between doors / fronts",mcTopBot:"Door gap top / bottom",mk1:"All parts fitted, no screw missing",mk2:"Unit level and square (equal diagonals)",mk3:"Doors and drawers aligned, self-closing, not rubbing",mk4:"Fixed to the wall (tall / wall-hung unit)",mk5:"Shelves sit steadily on their supports",mk6:"Film removed, cleaned",mk7:"Client has checked and received the adjustment instructions",mSignFitter:"Fitter (name, signature)",mSignClient:"Client (name, signature)"});
+Object.assign(I18N.fr,{mSafetyTop:"Lisez tout le caisson avant de commencer. Les cotes sont celles du projet : vérifiez-les sur les pièces. Les meubles hauts se fixent TOUJOURS au mur.",mWeight:"Poids estimé",mImgAsm:"Monté",mImgExpl:"Les pièces, numérotées comme dans la liste",mImgHw:"La quincaillerie",mParts:"Liste des pièces",mTools:"Outils",mStepsT:"Montage, pas à pas",mCheckT:"Cotes de contrôle et réception",mScrews:"Vis d'embase de charnière",mScrewsPlate:"Euro Ø6,3×13 ou vis aggloméré 4×16",mtDriver:"Visseuse avec embout PZ2 et couple réglable",mtBits:"Forets / mèches : {d} (seulement si les pièces ne sont pas percées CNC)",mtGlue:"Colle vinylique pour tourillons",mtMallet:"Maillet en caoutchouc",mtMeasure:"Mètre, équerre, niveau",mtClamps:"2 serre-joints",mtFeet:"Clé de réglage des vérins",mtSaw:"Scie à métaux (tringle)",mtWall:"Perforateur, chevilles et vis adaptées au mur (vérifiez : béton, brique, plaque de plâtre)",ms1:"Déballez sur une surface douce. Comptez les pièces ({n} pcs) sur la liste et cochez-les. Vérifiez étiquette, chant et éclats.",ms2:"Les perçages sont sur les fiches pièces (Ebanist → pièce → Fiche pièce). Si les pièces ne sont pas percées CNC, percez maintenant, pièce par pièce.",ms3:"Vissez dans les côtés les {n} boulons minifix ({p}) et enfoncez au maillet les {d} tourillons, avec un peu de colle, dans les chants du dessous et du dessus.",ms4:"Montez sur les côtés les {n} embases de charnière ({p}), sur la rangée de trous à 37 mm du chant avant. Hauteurs depuis le sol : {y} mm.",ms5:"Montez les coulisses des tiroirs ({n} paires, {p}) sur les côtés AVANT de fermer le caisson. Hauteurs depuis le sol : {y} mm.",ms6:"Couchez un côté, face intérieure vers le haut. Engagez dessous et dessus sur boulons et tourillons, posez l'autre côté et serrez les excentriques de 90–180° dans le sens horaire, sans forcer.",ms7:"Le fond est en rainure : glissez-le dans les rainures des côtés et du dessous AVANT de poser le dessus.",ms7s:"Le fond est en deux pièces (marche du mur) : glissez la pièce basse dans sa rainure, devant la marche, puis la haute, AVANT de poser le dessus.",ms8:"Montez les {n} séparations, à {x} mm du bord gauche.",ms9i:"Posez le fond entre les côtés, à fleur arrière, et fixez-le avec des vis 3,5×30 tous les 150 mm.",ms9a:"Posez le fond sur les chants arrière et fixez-le avec pointes ou vis 3,5×16 tous les 150 mm.",ms9s:"Le fond est en deux pièces : la basse est devant la marche du mur ({h} × {p} mm).",ms10:"Mettez le caisson d'équerre AVANT de fixer définitivement le fond : les deux diagonales de la façade doivent être égales — {d} mm (caisson {w} × {h} mm). Écart maximal 2 mm.",ms11f:"Vissez les {n} vérins ({p}) et réglez-les tous à la même hauteur, {h} mm.",ms11w:"Meuble suspendu : montez le rail ou les ferrures de suspension au mur, de niveau, avec des chevilles adaptées. Accrochez le meuble et réglez par les ferrures. Vérifiez la charge admissible du mur.",ms11z:"Montez le socle en retrait de {s} mm de la façade (hauteur {h} mm).",ms12:"Redressez le caisson (≈ {kg} kg).",ms12two:"Redressez le caisson à DEUX (≈ {kg} kg) : ne le traînez pas sur un angle, l'assemblage s'ouvre.",ms13:"Mettez-le en place, laissez 5–10 mm du mur pour plinthes et tuyaux, et mettez-le de niveau dans les deux sens.",ms14:"Meuble haut : fixez-le OBLIGATOIREMENT au mur avec des équerres anti-basculement, en haut, en deux points.",ms14s:"Vérifiez sur place la marche du mur : {h} mm de haut, {p} mm de saillie. L'entaille des côtés doit passer sans toucher.",ms15:"Posez les {n} taquets et les étagères. Hauteurs des étagères (face inférieure, depuis le sol) : {y} mm.",ms15f:"Les étagères fixes se fixent par excentriques aux séparations/côtés, caisson encore couché.",ms16:"Tringle à {y} mm du sol. Coupez-la à {l} mm et fixez les supports ({p}).",ms17:"Assemblez les {n} tiroirs, clipsez-les sur les coulisses.",ms18:"Réglez les façades de tiroirs en hauteur et latéralement : joint {g} mm, alignées avec les portes.",ms19:"Montez les {n} portes sur les {h} charnières ({p}) : clipsez le bras sur l'embase. Cuvettes Ø35 à {c} mm du chant, à {y} mm du bord inférieur de la porte.",ms20:"Réglez les portes dans les trois directions : {r} mm de côté visible, {g} mm entre portes, {s} mm en haut, {i} mm en bas.",ms21:"Montez les {n} poignées ({p}), entraxe {ia} mm, vis M4 dans les trous traversants.",ms21v:"Sur les portes : verticales, à {e} mm du chant d'ouverture, centre à {y} mm du sol.",ms21o:"Sur les tiroirs : horizontales, centrées.",ms22:"Retirez le film, nettoyez poussière et traits de crayon, laissez au client les clés de réglage et les vis de rechange.",mcWhat:"Quoi",mcProject:"Projet",mcMeasured:"Mesuré",mcOuter:"Encombrement L × H × P (mm)",mcInner:"Vide intérieur L × H × P (mm)",mcDiag:"Diagonales de la façade",mcReveal:"Côté visible à côté de la porte",mcGap:"Joint entre portes / façades",mcTopBot:"Jeu haut / bas des portes",mk1:"Toutes les pièces montées, aucune vis manquante",mk2:"Caisson de niveau et d'équerre (diagonales égales)",mk3:"Portes et tiroirs alignés, se ferment seuls, sans frotter",mk4:"Fixé au mur (meuble haut / suspendu)",mk5:"Étagères stables sur leurs taquets",mk6:"Films retirés, nettoyé",mk7:"Le client a contrôlé et reçu les instructions de réglage",mSignFitter:"Monteur (nom, signature)",mSignClient:"Client (nom, signature)"});
 /* ---- 4.30: modo cliente ---- */
 Object.assign(I18N.fr,{cmOther:"Autres travaux"});
 Object.assign(I18N.en,{cmOther:"Other work"});
@@ -8211,7 +8250,13 @@ $("btnStats").addEventListener("click",()=>{
 
 /* ================= SCHEDA DI MONTAGGIO ================= */
 /* --- illustratore isometrico stile IKEA per la scheda di montaggio --- */
+/* il ruolo sulla scatola (D-49) dice che pezzo e, senza indovinarlo dalla
+   forma. La regola geometrica resta per le scatole che non lo portano. */
+const TAG_BY_ROLE={fianco:"lato",base:"box",cielo:"box",divisorio:"tram",ripiano:"rip",zoccolo:"zocc",piedino:"zocc",
+  asta:"asta",schienale:"back",frontale:"anta",vetro:"anta",cassetto_frontale:"cass",cassetto_fianco:"cass",
+  cassetto_fondo:"cass",cassetto_metallo:"cass"};
 function tagBox(b,cfg){
+  if(b.role&&TAG_BY_ROLE[b.role]) return (b.role==="frontale"&&b.sub==="drawer")?"cass":TAG_BY_ROLE[b.role];
   const t=(+cfg.t>0)?+cfg.t:0, H=cfg.H, L=cfg.L;
   const pl=(cfg.support||"zoccolo")==="sospeso"?0:(cfg.plinth||0);
   const w=b.x1-b.x0, h=b.y1-b.y0;
@@ -8356,31 +8401,251 @@ function assemblySteps(modName,hw,cfg,items){
   add(t("mCheck"));
   return st;
 }
-$("btnMont").addEventListener("click",()=>{
-  const p=proj(); if(!p)return;
+/* ================= SCHEDA DI MONTAGGIO (4.31) =================
+   Un fascicolo per corpo, da tenere aperto sul pavimento del cantiere.
+   Tutto quello che c'e scritto viene dallo stesso modello che genera la
+   distinta e i fori (D-48): le quote delle cerniere, delle guide, dei
+   ripiani e delle maniglie sono quelle dei fori, non numeri scritti a mano.
+   Ordine: che cosa e (immagini, pesi, cote), che cosa serve (pezzi,
+   ferramenta, attrezzi), come si monta (passi numerati), come si
+   controlla (quote, giochi, lista di collaudo, firme). */
+const M_DENS={def:680,hdf:850,mdf:750};        // kg/m³ — stima, per sapere se si solleva in due
+function mDens(label){ const s=String(label||"").toLowerCase();
+  return /hdf|pfl|faesite/.test(s)?M_DENS.hdf:/mdf/.test(s)?M_DENS.mdf:M_DENS.def; }
+const mMM=v=>String(Math.round(v));
+const mList=a=>[...new Set(a.map(v=>Math.round(v)))].sort((x,y)=>x-y).join(" · ");
+function mModel(p,name){
+  const cfg=p.configs&&p.configs[name]; if(!cfg) return null;
+  let built,G=null,ops=null;
+  try{ built=buildModule(cfg); }catch(e){ return null; }
+  try{ G=deriveCarcass(carcassParams(cfg,{})); }catch(e){}
+  try{ if(typeof generateOperations==="function") ops=generateOperations({boxes:built.boxes,cfg,G}); }catch(e){}
+  const rows=p.pieces.filter(x=>x.gen===name||x.modulo===name||x.modulo===name+" A"||x.modulo===name+" B");
+  const meta={};
+  if(ops) ops.pieces.forEach(pc=>{ const m=matchOpsRow(pc,rows.length?rows:built.pieces); meta[pc.pk]={row:m?m.row:null}; });
+  return {cfg,built,G,ops,rows,meta};
+}
+/* le foto: GL se c'e (vera, con i numeri dei pezzi), altrimenti il disegno SVG */
+function mShots(cfg){
+  if(!gl3dOn()||!window.GL3D.capture) return null;
+  try{
+    const a=window.GL3D.capture(cfg,{w:1100,h:900,edges:true});
+    const x=window.GL3D.capture(cfg,{w:1100,h:900,explode:1,edges:true,zoom:.64});
+    const h=window.GL3D.capture(cfg,{w:1100,h:900,mode:"hw",open:true,edges:true});
+    return {a,x,h};
+  }catch(e){ console.warn(e); return null; }
+  finally{ try{ if(currentView==="build") drawPreview(); else if(buildCfg) window.GL3D.render(buildCfg,{explode:explodeOn}); }catch(e){} }
+}
+function mImg(sh,cap,labels){
+  if(!sh) return "";
+  /* numeri solo dove si leggono: dentro l'immagine, non sovrapposti. Le
+     casse dei cassetti prendono il numero del frontale, basta quello. */
+  const keep=[];
+  if(labels) for(const l of sh.labels){
+    if(l.x<.03||l.x>.97||l.y<.03||l.y>.97) continue;
+    if(/^cassetto_(fianco|fondo)$/.test(l.role||"")) continue;
+    if(keep.some(k=>Math.hypot((k.x-l.x)*1.22,k.y-l.y)<.045)) continue;
+    keep.push(l);
+  }
+  const lb=labels?keep.map(l=>`<i class="m-lbl" style="left:${(l.x*100).toFixed(2)}%;top:${(l.y*100).toFixed(2)}%">${l.n}</i>`).join(""):"";
+  return `<figure class="m-fig"><div class="m-imgw"><img src="${sh.img}" alt="">${lb}</div><figcaption>${esc(cap)}</figcaption></figure>`;
+}
+function mTools(M,hw){
+  const d=new Set(); let dowel=false;
+  if(M.ops) M.ops.pieces.forEach(pc=>pc.operations.forEach(o=>{ if(o.type==="drill") d.add(o.dia); if(/tassello/.test(o.note)) dowel=true; }));
+  const T=[t("mtDriver")];
+  if(d.size) T.push(t("mtBits").replace("{d}",[...d].sort((a,b)=>a-b).map(x=>"Ø"+x).join(" · ")));
+  if(dowel) T.push(t("mtGlue"));
+  T.push(t("mtMallet"),t("mtMeasure"),t("mtClamps"));
+  if(hw.hwPied) T.push(t("mtFeet"));
+  if(hw.hwAsta) T.push(t("mtSaw"));
+  const c=M.cfg;
+  if(c.support==="sospeso"||c.H>=1200) T.push(t("mtWall"));
+  return T;
+}
+function mSteps(M,hw,items){
+  const c=M.cfg, G=M.G, O=M.ops, st=[];
+  const add=(x,img,extra)=>st.push({x,img:img?isoStep(c,img.hi,img.show):"",extra:extra||""});
+  const CARC=["lato","box"];
+  const H=O?O.hw:[];
+  const by=k=>H.filter(h=>h.type===k);
+  const P=(k,fb)=>{ const it=hwItem(k); return it?`${it.brand&&it.brand!=="—"?it.brand+" ":""}${it.name}${it.art&&it.art!=="—"?" ("+it.art+")":""}`:t(fb); };
+  const backMode=G&&G.in?G.in.backMode:(c.back?"in_cava":null);
+  const tr=G&&G.treapta&&G.treapta.activa?G.treapta:null;
+  /* 1. controllo del materiale */
+  add(t("ms1").replace("{n}",items.reduce((s,x)=>s+(+x.pz||0),0)));
+  if(O&&O.pieces.some(pc=>pc.operations.length)) add(t("ms2"));
+  /* 2. premontaggio sui fianchi */
+  const cams=by("minifix"), dws=by("tassello");
+  if(cams.length) add(t("ms3").replace("{n}",cams.length).replace("{p}",P("conn","hwConn")).replace("{d}",dws.length),{hi:["lato"],show:[]});
+  const plates=by("cerniera").filter(h=>h.plate);
+  if(plates.length) add(t("ms4").replace("{n}",plates.length).replace("{y}",mList(plates.map(h=>h.plate[1]))).replace("{p}",P("cern","hwCern")),{hi:["lato","tram"],show:[]});
+  const sl=by("guida");
+  if(sl.length) add(t("ms5").replace("{n}",sl.length/2|0||sl.length).replace("{y}",mList(sl.map(h=>h.w[1]))).replace("{p}",P("guida","hwGuida")),{hi:["lato","tram"],show:[]});
+  /* 3. la cassa */
+  add(t("ms6"),{hi:CARC,show:[]});
+  if(backMode==="in_cava") add(t(tr&&tr.back_split?"ms7s":"ms7"),{hi:CARC,show:[]});
+  if(c.tram>0) add(t("ms8").replace("{n}",c.tram).replace("{x}",mList(M.built.boxes.filter(b=>b.role==="divisorio").map(b=>b.x0))),{hi:["tram"],show:CARC});
+  if(backMode&&backMode!=="in_cava"&&c.back) add(t(backMode==="applicato"?"ms9a":"ms9i")+(tr&&tr.back_split?" "+t("ms9s").replace("{h}",mMM(tr.H)).replace("{p}",mMM(tr.P)):""));
+  /* squadra: la diagonale vera, in mm */
+  const Hc=G?G.H_fianco:c.H, dg=Math.round(Math.hypot(c.L,Hc));
+  add(t("ms10").replace("{d}",dg).replace("{w}",c.L).replace("{h}",Hc));
+  /* 4. appoggio */
+  const sup=c.support||"zoccolo";
+  if(sup==="piedini") add(t("ms11f").replace("{n}",hw.hwPied||4).replace("{h}",c.plinth||0).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
+  /* il pensile si appende DOPO averlo messo in piedi: il passo va dopo */
+  else if((c.plinth||0)>=30) add(t("ms11z").replace("{s}",G&&G.in?G.in.setback_zoccolo:50).replace("{h}",c.plinth),{hi:["zocc"],show:[...CARC,"tram"]});
+  /* 5. in piedi, al suo posto */
+  let kg=0;
+  if(O) O.pieces.forEach(pc=>{ const r=(M.meta[pc.pk]||{}).row; kg+=pc.length*pc.width*pc.thickness/1e9*mDens(r&&(r.materiale||r.mat)); });
+  kg+=H.length*0.08;
+  add(t(kg>25||c.H>1600?"ms12two":"ms12").replace("{kg}",Math.round(kg)));
+  if(sup!=="sospeso") add(t("ms13"));
+  else add(t("ms11w").replace("{h}",mMM(c.H)));
+  if(c.H>=1200&&sup!=="sospeso") add(t("ms14"));
+  if(tr) add(t("ms14s").replace("{h}",mMM(tr.H)).replace("{p}",mMM(tr.P)));
+  /* 6. interno */
+  const pins=by("reggipiano");
+  if(pins.length){
+    const ys=M.built.boxes.filter(b=>b.role==="ripiano").map(b=>b.y0);
+    add(t("ms15").replace("{n}",pins.length).replace("{y}",mList(ys)).replace("{p}",P("sup","hwSup")),{hi:["rip"],show:[...CARC,"tram","zocc"]});
+  }
+  if(c.shelfType==="fisso"&&c.shelves>0) add(t("ms15f"),{hi:["rip"],show:[...CARC,"tram","zocc"]});
+  if(hw.hwAsta>0){ const r=M.built.boxes.filter(b=>b.role==="asta");
+    add(t("ms16").replace("{y}",mList(r.map(b=>b.y0))).replace("{l}",r.length?mMM(r[0].x1-r[0].x0-4):"—").replace("{p}",P("asta","hwAsta"))); }
+  /* 7. cassetti */
+  if(hw.hwGuida>0){
+    let dp=M.built.draw;
+    add(t("ms17").replace("{n}",Math.round(hw.hwGuida)),{hi:["cass"],show:[...CARC,"tram","zocc","rip"]});
+    if(dp&&dp.ok){
+      const nm=(dp.sys.n&&(dp.sys.n[state.lang]||dp.sys.n.it))||dp.sysId;
+      const box=dp.sys.none?"":(dp.sys.metal
+        ? t("mDrawBoxM").replace("{bw}",dp.baseW).replace("{bl}",dp.baseL).replace("{kw}",dp.backW).replace("{kh}",dp.backH)
+        : t("mDrawBoxW").replace("{bw}",dp.boxW).replace("{bh}",dp.sideH).replace("{bl}",dp.nl));
+      add(t("mDrawSys").replace("{s}",nm+(dp.hcode?" "+dp.hcode:"")).replace("{nl}",dp.nl).replace("{box}",box));
+      if(dp.inner) add(t("mDrawInner").replace("{i}",dp.inset));
+    }
+    const J=G&&G.jocuri;
+    add(t("ms18").replace("{g}",J?J.joc_frontale_laterale:4));
+  }
+  /* 8. ante */
+  const cups=by("cerniera");
+  if(cups.length){
+    const doors={}; cups.forEach(h=>{ (doors[h.piece]=doors[h.piece]||[]).push(h); });
+    const nD=Object.keys(doors).length, first=cups[0];
+    const pc=O.pieces.find(q=>q.pk===first.piece);
+    const hy=doors[first.piece].map(h=>h.w[1]-(pc?pc.min[1]:0));
+    add(t("ms19").replace("{n}",nD).replace("{h}",cups.length).replace("{y}",mList(hy)).replace("{c}",(G&&G.foratura?G.foratura.dist_cant:5)).replace("{p}",P("cern","hwCern")),
+        {hi:["anta"],show:[...CARC,"tram","zocc","rip","cass"]});
+    const J=G&&G.jocuri;
+    if(J) add(t("ms20").replace("{r}",J.reveal).replace("{g}",J.joc_frontale_laterale).replace("{s}",J.joc_frontale_sus).replace("{i}",J.joc_frontale_jos));
+  }
+  if(hw.hwBin>0) add(t("mSliding").replace("{p}",P("bin","hwBin")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
+  /* 9. maniglie o push */
+  const hd=by("maniglia");
+  if(hd.length){
+    const v=hd.filter(h=>h.vertical), o=hd.filter(h=>!h.vertical);
+    let s=t("ms21").replace("{n}",hd.length).replace("{ia}",hd[0].ia).replace("{p}",P("man","hwMan"));
+    if(v.length) s+=" "+t("ms21v").replace("{y}",mList(v.map(h=>h.w[1]))).replace("{e}",HW_DRILL.handle.from_edge);
+    if(o.length) s+=" "+t("ms21o");
+    add(s);
+  }
+  if(hw.hwPush>0) add(t("mPush").replace("{q}",hw.hwPush).replace("{p}",P("push","hwPush")));
+  add(t("ms22"));
+  return {st,kg};
+}
+function mCheckRows(M){
+  const c=M.cfg, G=M.G, J=G&&G.jocuri;
+  const r=[[t("mcOuter"),`${c.L} × ${c.H} × ${c.P}`]];
+  if(G){ r.push([t("mcInner"),`${mMM(G.L_int)} × ${mMM(G.H_int)} × ${mMM(G.P_int)}`]);
+    r.push([t("mcDiag"),`${Math.round(Math.hypot(c.L,G.H_fianco))} mm ×2`]); }
+  if(J&&c.doors>0){ r.push([t("mcReveal"),J.reveal+" mm"]); r.push([t("mcGap"),J.joc_frontale_laterale+" mm"]);
+    r.push([t("mcTopBot"),J.joc_frontale_sus+" / "+J.joc_frontale_jos+" mm"]); }
+  return r;
+}
+function montDoc(p){
   const S=state.settings;
   const {mods}=computeHardware(p,S,true);
+  const sum=(name)=>{ const o={}; for(const k of Object.keys(mods)) if(k===name||k===name+" A"||k===name+" B")
+    for(const q in mods[k]) o[q]=(o[q]||0)+mods[k][q]; return o; };
+  const cfgNames=Object.keys(p.configs||{}).filter(n=>p.pieces.some(x=>x.gen===n||x.modulo===n||x.modulo===n+" A"));
+  const CASSA=["standard","scorrevole","angolare"];
   let html=`<div class="pr-head"><div><h1>${esc(t("mTitle"))}</h1>
-    <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
+    <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}${p.client?` · ${esc(p.client)}`:""}<br>
     <b>${esc(t("date"))}:</b> ${new Date().toISOString().slice(0,10)}</div>
     ${prTrace(p)}</div>
     <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
-  const modNames=Object.keys(mods);
-  if(!modNames.length){ toast(t("selectProject")); return; }
-  for(const mod of modNames){
-    const hw=mods[mod];
-    const cfg=p.configs&&(p.configs[mod]||p.configs[mod.replace(/ [AB]$/,"")]);
-    const steps=assemblySteps(mod,hw,cfg,p.pieces.filter(x=>x.modulo===mod));
-    html+=`<h2>${esc(mod)}${cfg?` — ${cfg.L}×${cfg.H}×${cfg.P} mm`:""}</h2><ol style="font-size:10pt;line-height:1.5;padding-left:18px">`;
-    for(const s of steps){
-      const txt=typeof s==="string"?s:s.x;
-      const img=(typeof s==="object"&&s.g&&cfg)?isoStep(cfg,s.g.hi,s.g.show):"";
-      html+=img?`<li style="page-break-inside:avoid"><div style="display:flex;gap:6mm;align-items:center">${img}<span>${esc(txt)}</span></div></li>`
-               :`<li>${esc(txt)}</li>`;
+  /* indice: un corpo per riga, con quanti pezzi e quanto pesa */
+  const done=new Set(); let first=true, n=0;
+  html+=`<p class="m-safe">${esc(t("mSafetyTop"))}</p>`;
+  for(const name of cfgNames){
+    const M=mModel(p,name); if(!M) continue;
+    const cfg=M.cfg, hw=sum(name), items=M.rows;
+    [name,name+" A",name+" B"].forEach(k=>done.add(k));
+    n++;
+    html+=`<section class="m-mod${first?"":" m-break"}">`; first=false;
+    /* il materiale di un ruolo: quello scelto, o quello che eredita — mai «—» */
+    const rm=r=>{ try{ return matById(roleMatId(cfg,r)); }catch(e){ return null; } };
+    const mb=rm("fianco"), mf=rm("frontale"), mk=cfg.back?rm("schienale"):null;
+    html+=`<h2>${n}. ${esc(name)} — ${cfg.type==="angolare"?`${cfg.L}+${cfg.L2}`:cfg.L}×${cfg.H}×${cfg.P} mm</h2>`;
+    if(CASSA.indexOf(cfg.type||"standard")<0||!M.ops){
+      /* tavoli, letti, tondi: niente fori generati — i passi di sempre */
+      const steps=assemblySteps(name,hw,cfg,items);
+      html+=`<ol class="m-steps">`+steps.map(s=>{ const tx=typeof s==="string"?s:s.x;
+        const img=(typeof s==="object"&&s.g)?isoStep(cfg,s.g.hi,s.g.show):""; return `<li class="${img?"hi":""}">${img?`<div class="m-sti">${img}</div>`:""}<div class="m-stx">${esc(tx)}</div></li>`; }).join("")+`</ol></section>`;
+      continue;
     }
-    html+="</ol>";
+    const shots=mShots(cfg);
+    const {st,kg}=mSteps(M,hw,items);
+    /* testata del corpo: materiali, peso, immagini */
+    html+=`<div class="m-facts"><span><b>${esc(t("cmBody"))}</b>${esc(mb?mb.label+" "+mb.th+" mm":"—")}</span>`+
+      `<span><b>${esc(t("cmFront"))}</b>${esc(mf?mf.label+" "+mf.th+" mm":"—")}</span>`+
+      (mk?`<span><b>${esc(t("matBack"))}</b>${esc(mk.label+" "+mk.th+" mm")}</span>`:"")+
+      `<span><b>${esc(t("mWeight"))}</b>≈ ${Math.round(kg)} kg</span></div>`;
+    if(shots) html+=`<div class="m-cover">${mImg(shots.a,t("mImgAsm"))}${mImg(shots.x,t("mImgExpl"),true)}${mImg(shots.h,t("mImgHw"))}</div>`;
+    /* elenco pezzi, numerati come nell'esploso */
+    if(M.ops){
+      html+=`<h3>${esc(t("mParts"))}</h3><table class="m-t"><tr><th>#</th><th>${esc(t("fElement"))}</th><th class="n">L</th><th class="n">${esc(t("partW"))}</th><th class="n">${esc(t("partT"))}</th><th>${esc(t("partEdge"))}</th><th class="n">${esc(t("vtHoles"))}</th><th>✓</th></tr>`+
+        M.ops.pieces.map(pc=>{ const r=(M.meta[pc.pk]||{}).row||{}, nd=pc.operations.filter(o=>o.type==="drill").length;
+          const nm=String(r.elemento||t("role_"+pc.role)).replace(/\s*sez\.\s*\d+$/i,"");
+          return `<tr><td class="n"><b>${pc.n}</b></td><td>${esc(nm)}</td><td class="n">${fmtMM(pc.length)}</td><td class="n">${fmtMM(pc.width)}</td><td class="n">${fmtMM(pc.thickness)}</td><td>${esc(r.bordo||"—")}</td><td class="n">${nd||"—"}</td><td class="m-box"></td></tr>`; }).join("")+`</table>`;
+    }
+    /* ferramenta, con i codici — il montatore la conta prima di cominciare */
+    const CAT={hwCern:"cern",hwGuida:"guida",hwMan:"man",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push"};
+    const hwRows=Object.keys(CAT).filter(k=>hw[k]>0).map(k=>{ const it=hwItem(CAT[k]);
+      return `<tr><td>${esc(t(k))}</td><td>${esc(it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):"—")}</td><td>${esc(it&&it.art&&it.art!=="—"?it.art:"—")}</td><td class="n"><b>${Math.round(hw[k])}</b></td><td class="m-box"></td></tr>`; });
+    const nDw=M.ops?M.ops.hw.filter(h=>h.type==="tassello").length:0;
+    if(nDw) hwRows.push(`<tr><td>${esc(t("hw_tassello"))}</td><td>Ø8×35</td><td>—</td><td class="n"><b>${nDw}</b></td><td class="m-box"></td></tr>`);
+    const nPl=M.ops?M.ops.hw.filter(h=>h.type==="cerniera"&&h.plate).length:0;
+    if(nPl) hwRows.push(`<tr><td>${esc(t("mScrews"))}</td><td>${esc(t("mScrewsPlate"))}</td><td>—</td><td class="n"><b>${nPl*2}</b></td><td class="m-box"></td></tr>`);
+    if(hwRows.length) html+=`<h3>${esc(t("hardware"))}</h3><table class="m-t"><tr><th>${esc(t("item"))}</th><th>${esc(t("catProd"))}</th><th>${esc(t("catArt"))}</th><th class="n">${esc(t("qty"))}</th><th>✓</th></tr>${hwRows.join("")}</table>`;
+    html+=`<h3>${esc(t("mTools"))}</h3><ul class="m-tools">${mTools(M,hw).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+    /* i passi */
+    html+=`<h3>${esc(t("mStepsT"))}</h3><ol class="m-steps">`+st.map(s=>`<li class="${s.img?"hi":""}">${s.img?`<div class="m-sti">${s.img}</div>`:""}<div class="m-stx">${esc(s.x)}</div></li>`).join("")+`</ol>`;
+    /* quote di controllo e collaudo */
+    html+=`<h3>${esc(t("mCheckT"))}</h3><table class="m-t"><tr><th>${esc(t("mcWhat"))}</th><th class="n">${esc(t("mcProject"))}</th><th class="n">${esc(t("mcMeasured"))}</th></tr>`+
+      mCheckRows(M).map(r=>`<tr><td>${esc(r[0])}</td><td class="n">${esc(r[1])}</td><td class="m-fill"></td></tr>`).join("")+`</table>`;
+    html+=`<ul class="m-list">`+["mk1","mk2","mk3","mk4","mk5","mk6","mk7"].filter(k=>k!=="mk3"||cfg.doors>0||cfg.drawers>0).filter(k=>k!=="mk5"||cfg.shelves>0).filter(k=>k!=="mk4"||cfg.H>=1200||cfg.support==="sospeso").map(k=>`<li><span class="m-box"></span>${esc(t(k))}</li>`).join("")+`</ul>`;
+    html+=`</section>`;
   }
+  /* i moduli senza configurazione (pezzi a mano): i passi generici */
+  for(const mod of Object.keys(mods)){
+    if(done.has(mod)) continue;
+    n++;
+    const steps=assemblySteps(mod,mods[mod],null,p.pieces.filter(x=>x.modulo===mod));
+    html+=`<section class="m-mod${first?"":" m-break"}"><h2>${n}. ${esc(mod)}</h2><ol class="m-steps">`+
+      steps.map(s=>`<li><div class="m-stx">${esc(typeof s==="string"?s:s.x)}</div></li>`).join("")+`</ol></section>`;
+    first=false;
+  }
+  if(!n) return null;
+  html+=`<div class="m-sign"><div><span>${esc(t("mSignFitter"))}</span></div><div><span>${esc(t("mSignClient"))}</span></div><div><span>${esc(t("date"))}</span></div></div>`;
   html+=`<div class="pr-foot"><span>${esc(t("mSafety"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
+  return html;
+}
+$("btnMont").addEventListener("click",()=>{
+  const p=proj(); if(!p)return;
+  const html=montDoc(p);
+  if(!html){ toast(t("selectProject")); return; }
   $("printArea").innerHTML=html;
   printOut();
 });
@@ -11204,12 +11469,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.30.0"; /* APP_VER-MARKER */
+const APP_VER="4.31.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v63";
+const SW_CACHE="ebanist-v64";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
