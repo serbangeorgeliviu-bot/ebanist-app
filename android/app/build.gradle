@@ -1,0 +1,48 @@
+plugins { id "com.android.application" }
+
+/* Cheia de semnare NU stă în repo: keystore.properties (ignorat de git)
+   indică fișierul și parolele. Vezi android/CITESTE-MA.md. */
+def ks = new Properties()
+def ksFile = rootProject.file("keystore.properties")
+if (ksFile.exists()) ksFile.withInputStream { ks.load(it) }
+
+android {
+    namespace "com.domusrenov.ebanist"
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.domusrenov.ebanist"
+        minSdk 29
+        targetSdk 36
+        /* 1 = TWA-ul din iulie 2026 (PWABuilder). De aici în sus, WebView. */
+        versionCode 2
+        versionName "1.1.0"
+    }
+
+    signingConfigs {
+        release {
+            if (ks["storeFile"]) {
+                storeFile file(ks["storeFile"])
+                storePassword ks["storePassword"]
+                keyAlias ks["keyAlias"]
+                keyPassword ks["keyPassword"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    buildFeatures { buildConfig true }
+
+    lint { checkReleaseBuilds false }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="saved">Enregistré dans Téléchargements/Ebanist : %1$s</string>
+    <string name="save_failed">Impossible d\'enregistrer le fichier</string>
+    <string name="press_again">Appuyez encore sur Retour pour quitter</string>
+    <string name="offline_title">Pas de connexion</string>
+    <string name="offline_text">Ebanist a besoin d\'internet à la première ouverture. Ensuite, vos projets fonctionnent aussi hors ligne.</string>
+    <string name="retry">Réessayer</string>
+    <string name="no_app">Aucune application ne peut ouvrir ce lien</string>
+    <string name="camera_denied">Accès à la caméra refusé — autorisez-le dans Paramètres → Applications → Ebanist</string>
+</resources>

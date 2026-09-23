@@ -62,6 +62,13 @@
   to = "/.netlify/functions/stats"
   status = 200
 
+# Sursele aplicației Android stau în repo, nu pe site.
+[[redirects]]
+  from = "/android/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # ---------------------------------------------------------------------
 # L'app si e spostata da "/" a "/app/": in radice adesso c'e la pagina di
 # presentazione. Gli indirizzi vecchi devono continuare a funzionare —
