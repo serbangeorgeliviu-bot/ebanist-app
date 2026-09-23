@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.domusrenov.ebanist",
+    "sha256_cert_fingerprints": [
+      "30:25:FE:93:6C:A9:68:6A:45:CA:91:7E:18:0E:2A:2D:27:D5:6A:BB:1E:01:42:99:8C:D0:E2:CC:91:EA:BF:1E"
+    ]
+  }
+}]
