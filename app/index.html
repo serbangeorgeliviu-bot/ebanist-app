@@ -2790,6 +2790,11 @@ Object.assign(I18N.fr,{
   orDocs:"Documents",
   orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
   orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
+/* ---- 4.35.3: planuri Google Play cu plată în avans ---- */
+Object.assign(I18N.it,{playBuyM1:"Un mese di Pro — {p}",playTermsPre:"Pagamento unico tramite Google Play per un mese o un anno, senza rinnovo automatico. Alla scadenza il Pro si ferma; lo prolunghi da Ebanist o da Google Play → Abbonamenti.",playPrepaidNote:"prepagato, senza rinnovo automatico"});
+Object.assign(I18N.ro,{playBuyM1:"O lună de Pro — {p}",playTermsPre:"Plată unică prin Google Play pentru o lună sau un an, fără reînnoire automată. La final Pro se oprește; îl prelungești din Ebanist sau din Google Play → Abonamente.",playPrepaidNote:"plată în avans, fără reînnoire automată"});
+Object.assign(I18N.en,{playBuyM1:"One month of Pro — {p}",playTermsPre:"One-off payment via Google Play for one month or one year, no automatic renewal. When it ends, Pro stops; extend it from Ebanist or Google Play → Subscriptions.",playPrepaidNote:"prepaid, no automatic renewal"});
+Object.assign(I18N.fr,{playBuyM1:"Un mois de Pro — {p}",playTermsPre:"Paiement unique via Google Play pour un mois ou un an, sans renouvellement automatique. À l'échéance, le Pro s'arrête ; prolongez-le depuis Ebanist ou Google Play → Abonnements.",playPrepaidNote:"prépayé, sans renouvellement automatique"});
 /* ---- 4.34: abonamentul Pro prin Google Play (aplicația Android) ---- */
 Object.assign(I18N.it,{playLoading:"Carico i prezzi da Google Play…",playUnavailable:"Google Play non risponde o l'abbonamento non è ancora disponibile. Riprova più tardi.",playBuyY:"Un anno — {p}",playTerms:"Abbonamento con rinnovo automatico tramite Google Play. Lo disdici quando vuoi da Google Play → Abbonamenti; il Pro resta attivo fino alla fine del periodo pagato.",playErr:"Pagamento non riuscito. Riprova.",playPending:"Pagamento in attesa: il Pro si attiva appena Google Play lo conferma.",proKeyHintPlay:"Hai ricevuto un codice di attivazione? Incollalo qui.",proStatePlay:"Pro attivo · abbonamento Google Play",playNoRenew:"disdetto, non si rinnova",playManage:"Gestisci l'abbonamento su Google Play"});
 Object.assign(I18N.ro,{playLoading:"Se încarcă prețurile din Google Play…",playUnavailable:"Google Play nu răspunde sau abonamentul nu e încă disponibil. Încearcă mai târziu.",playBuyY:"Un an — {p}",playTerms:"Abonament cu reînnoire automată prin Google Play. Îl anulezi oricând din Google Play → Abonamente; Pro rămâne activ până la sfârșitul perioadei plătite.",playErr:"Plata nu a reușit. Încearcă din nou.",playPending:"Plată în așteptare: Pro se activează imediat ce Google Play o confirmă.",proKeyHintPlay:"Ai primit un cod de activare? Lipește-l aici.",proStatePlay:"Pro activ · abonament Google Play",playNoRenew:"anulat, nu se mai reînnoiește",playManage:"Gestionează abonamentul în Google Play"});
@@ -3475,6 +3480,11 @@ async function proDeactivate(){
    fiecare pornire și revenire se recitesc abonamentele active, iar unul
    anulat sau expirat își ia singur Pro-ul înapoi. */
 const PLAY_PRODUCT="ebanist_pro";
+/* Planurile din Play Console sunt „cu plată în avans” (fără reînnoire
+   automată): textele de pe ecranul Pro și din Setări trebuie să spună
+   exact asta — Google cere ca ce scrie în aplicație să fie ce cumpără
+   clientul. Când planurile devin cu reînnoire automată, false aici. */
+const PLAY_PREPAID=true;
 const PLAY={plans:null,err:null,busy:false,why:null};
 function playOn(){
   try{ return !!(window.EbanistAndroid&&EbanistAndroid.billingAvailable&&EbanistAndroid.billingAvailable()==="1"); }
@@ -3924,9 +3934,9 @@ function renderPro(why){
          alt nume. Întâi cel cu ID-ul așteptat, apoi oricare cu perioada lui. */
       const by=(k,per)=>PLAY.plans.find(p=>p.plan===k)||PLAY.plans.find(p=>p.period===per);
       const m=by("monthly","P1M"), y=by("yearly","P1Y"), dis=PLAY.busy?" disabled":"";
-      if(m) buy+=`<button class="btn red" data-play="${esc(m.plan)}"${dis}>${esc(t("proBuyM").replace("{p}",m.price))}</button>`;
+      if(m) buy+=`<button class="btn red" data-play="${esc(m.plan)}"${dis}>${esc(t(PLAY_PREPAID?"playBuyM1":"proBuyM").replace("{p}",m.price))}</button>`;
       if(y) buy+=`<button class="btn" data-play="${esc(y.plan)}" style="margin-top:8px"${dis}>${esc(t("playBuyY").replace("{p}",y.price))}</button>`;
-      buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t("playTerms"))}</p>`;
+      buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t(PLAY_PREPAID?"playTermsPre":"playTerms"))}</p>`;
     }
   }else if(BILLING.configured){
     buy=`<button class="btn red" id="proBuyM">${esc(t("proBuyM").replace("{p}",BILLING.PRICE_MONTHLY))}</button>`+
@@ -4651,7 +4661,7 @@ function renderProSettings(){
   }else if(LIC&&LIC.kind==="legacy"){
     pl.textContent=t("proStateLegacy");
   }else if(LIC&&LIC.kind==="play"){
-    pl.textContent=t("proStatePlay")+(LIC.autoRenewing===false?" · "+t("playNoRenew"):"");
+    pl.textContent=t("proStatePlay")+(PLAY_PREPAID?" · "+t("playPrepaidNote"):(LIC.autoRenewing===false?" · "+t("playNoRenew"):""));
   }else{
     let txt=t("proStatePro");
     if(LIC&&LIC.expiresAt){
@@ -11800,12 +11810,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.35.2"; /* APP_VER-MARKER */
+const APP_VER="4.35.3"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v71";
+const SW_CACHE="ebanist-v72";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
