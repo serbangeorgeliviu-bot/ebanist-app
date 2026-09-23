@@ -5625,7 +5625,10 @@ function buildCore(cfg){
     // cava fresata: lo schienale entra di NUT_D per lato — tra i fianchi: pannello pieno tra i due fianchi
     const bw=G.back_W;
     const off=backNut?NUT_D:0;
-    const bX0=backNut?tF-NUT_D:tF, bY0=G.treapta.back_y0;
+    /* il piede dello schienale: dal motore, se lo sa dire; altrimenti la regola
+       di sempre. Un motore in cache piu vecchio di questa pagina (telefono
+       aggiornato a meta) non conosce `treapta`: l'anteprima non deve morire. */
+    const bX0=backNut?tF-NUT_D:tF, bY0=(TR&&TR.back_y0!=null)?TR.back_y0:(backNut?intY0-NUT_D:y0);
     /* Lo schienale intero, o le sue DUE meta quando il muro ha un gradino in
        basso: quella sopra resta sul piano di sempre e parte dal gradino;
        quella sotto sta avanti di quanto il gradino sporge, dal fondo dello
@@ -10800,12 +10803,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.29.0"; /* APP_VER-MARKER */
+const APP_VER="4.29.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v61";
+const SW_CACHE="ebanist-v62";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
