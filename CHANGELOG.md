@@ -5,6 +5,22 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.35.0 — 23 septembrie 2026
+
+**Numele pieselor apar în limba ta.** În română, engleză și franceză nu mai
+scrie „Fianco”, „Tramezzo”, „Zoccolo”, ci „Laterală”, „Despărțitor”, „Soclu”
+(„Side”, „Divider”, „Plinth” / „Côté”, „Séparation”, „Socle”). Se traduc
+lista de debitare, planurile de debitare, panoul de piese din 3D, fișa piesei,
+distinta PDF, etichetele, fișa de montaj și comparația de recalculare.
+
+- În date, numele rămân în italiană: feroneria, calculele și proiectele vechi
+  nu se schimbă. CSV-ul și pachetul de laborator pleacă tot în italiană, ca
+  formatul de schimb cu atelierul.
+- Un nume scris de mână rămâne cum l-ai scris.
+- Căutarea din listă găsește piesa după ambele nume.
+
+---
+
 ## 4.34.0 — 23 septembrie 2026
 
 **Ebanist Pro se poate cumpăra din aplicația Android, prin Google Play.**
