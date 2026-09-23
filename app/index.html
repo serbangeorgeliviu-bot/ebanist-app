@@ -855,6 +855,87 @@ table.ops tr.bad td{background:rgba(192,47,47,.08);color:var(--danger)}
   .part-kpis{gap:4px} .part-kpis>div{padding:6px} .part-kpis b{font-size:13.5px}
   .vsel{right:8px}
 }
+
+/* ===================== MODO CLIENTE =====================
+   Uno showroom, non un'officina: grande, calmo, niente numeri tecnici.
+   Sul tablet in orizzontale il mobile a sinistra e le scelte a destra; in
+   verticale (e sul telefono) il mobile sopra e le scelte sotto. */
+.hbtn-client{width:auto;padding:0 12px;gap:7px;display:inline-flex;align-items:center;font-size:13px;font-weight:600;color:var(--text)}
+.hbtn-client span{display:none}
+@media (min-width:700px){ .hbtn-client span{display:inline} }
+body.client-on{overflow:hidden}
+.cm{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.cm-top{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--surface)}
+.cm-co{display:flex;align-items:center;gap:10px;font-size:15px;min-width:0}
+.cm-co img{height:30px!important;margin:0!important}
+.cm-proj{flex:1;text-align:center;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm-exit{position:relative;width:40px;height:40px;border-radius:50%;flex:none;color:var(--faint);display:grid;place-items:center;
+  -webkit-user-select:none;user-select:none;touch-action:none}
+.cm-exit svg{position:absolute;inset:0;width:40px;height:40px;transform:rotate(-90deg)}
+.cm-ring{fill:none;stroke:var(--grn);stroke-width:2.5;stroke-dasharray:101;stroke-dashoffset:101}
+.cm-exit.hold .cm-ring{transition:stroke-dashoffset .9s linear;stroke-dashoffset:0}
+.cm-body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,400px)}
+.cm-view{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column}
+.cm-stage{position:relative;flex:1;min-height:0;background:linear-gradient(#f2f3ef,#dfe2da)}
+:root[data-theme="dark"] .cm-stage{background:linear-gradient(#2b3129,#161915)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cm-stage{background:linear-gradient(#2b3129,#161915)}}
+.cm-stage canvas,.cm-stage>svg{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
+.cm-stage canvas~svg{display:none}
+.cm-tools{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:2}
+.cm-tools .vtb{height:40px;padding:0 16px;font-size:14px;border-radius:99px}
+.cm-panel{overflow-y:auto;padding:18px 20px 28px;background:var(--surface);border-left:1px solid var(--line)}
+.cm-sec{margin-bottom:20px}
+.cm-sec h4{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:9px;display:flex;gap:8px;align-items:baseline}
+.cm-sec h4 em{font-style:normal;color:var(--text);font-weight:700;font-size:15px;margin-left:auto;text-align:right}
+.cm-mods{display:flex;flex-direction:column;gap:6px}
+.cm-mod{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:12px;border:1px solid var(--line);text-align:left;background:var(--field)}
+.cm-mod .ti{width:30px;height:34px;flex:none}
+.cm-mod b{display:block;font-size:14.5px}
+.cm-mod small{color:var(--faint);font-size:12px}
+.cm-mod.on{border-color:var(--grn);box-shadow:0 0 0 1px var(--grn) inset;background:var(--red-soft)}
+.cm-fams{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.cm-fams button{padding:6px 12px;border-radius:99px;border:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--muted)}
+.cm-fams button.on{background:var(--text);color:var(--surface);border-color:var(--text)}
+.cm-sws{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:10px}
+.cm-sw{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 2px;border-radius:12px;font-size:12px;line-height:1.2;text-align:center;color:var(--muted)}
+.cm-sw i{width:58px;height:58px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 2px 6px -2px rgba(0,0,0,.25);transition:transform .15s}
+.cm-sw.on{color:var(--text);font-weight:700}
+.cm-sw.on i{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--grn);transform:scale(1.04)}
+.cm-sw span{max-width:92px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cm-price{position:sticky;bottom:-28px;margin:10px -20px -28px;padding:16px 20px 20px;background:var(--surface);
+  border-top:1px solid var(--line);box-shadow:0 -8px 18px -12px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:3px}
+.cm-plbl{font-size:13px;color:var(--muted);font-weight:600}
+.cm-ptot{font-size:34px;font-weight:800;letter-spacing:-.8px;font-variant-numeric:tabular-nums;line-height:1.1}
+.cm-pvat{font-size:12.5px;color:var(--faint)}
+.cm-pdelta{font-size:13px;font-weight:700}
+.cm-pdelta.up{color:var(--gold-ink)} .cm-pdelta.down{color:var(--ok)}
+.cm-prows{margin:8px 0 4px;border-top:1px solid var(--line-soft)}
+.cm-prows>div{display:flex;justify-content:space-between;padding:5px 0;font-size:13.5px;border-bottom:1px solid var(--line-soft)}
+.cm-accept{margin-top:10px;padding:15px;font-size:16px}
+.cm-valid{font-size:11.5px;color:var(--faint);text-align:center;margin-top:4px}
+.cm-empty{color:var(--muted);font-size:14px;padding:12px 0}
+.cm-modal{position:absolute;inset:0;z-index:5;background:var(--scrim);display:grid;place-items:center;padding:16px}
+.cm-card{width:min(560px,100%);max-height:100%;overflow-y:auto;background:var(--surface);border-radius:18px;padding:22px;box-shadow:var(--sh-3)}
+.cm-card h3{font-size:21px;font-weight:700;margin-bottom:12px}
+.cm-sum{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;border-radius:12px;background:var(--raised);margin-bottom:14px}
+.cm-sum b{font-size:22px;font-variant-numeric:tabular-nums}
+.cm-padwrap{position:relative;border:1.5px dashed var(--line);border-radius:12px;background:#fff}
+#cmPad{width:100%;height:170px;display:block;touch-action:none;cursor:crosshair}
+.cm-padwrap .chip{position:absolute;right:8px;top:8px}
+.cm-check{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:4px 0 6px}
+.cm-check input{width:22px;height:22px;flex:none;margin-top:1px}
+.cm-donecard{text-align:center}
+.cm-ok{width:64px;height:64px;border-radius:50%;background:var(--grn);color:var(--on-accent);font-size:32px;display:grid;place-items:center;margin:4px auto 10px}
+.of-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.of-row:last-child{border-bottom:none}
+.of-row>span{flex:1;min-width:0}
+.of-row small{display:block;color:var(--faint);font-size:12px}
+@media (max-width:900px), (orientation:portrait){
+  .cm-body{grid-template-columns:1fr;grid-template-rows:minmax(260px,46%) minmax(0,1fr)}
+  .cm-panel{border-left:none;border-top:1px solid var(--line)}
+  .cm-price{bottom:-28px}
+}
 </style>
 </head>
 <body>
@@ -1113,6 +1194,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <small id="hProject">—</small>
     </div>
   </div>
+  <!-- modo cliente: lo schermo si gira verso il cliente -->
+  <button class="hbtn hbtn-client" id="btnClient" title="Cliente" aria-label="Cliente">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="m10 8 4 2-4 2z" fill="currentColor"/></svg>
+    <span data-i="cmBtn">Cliente</span>
+  </button>
   <button class="hbtn" id="btnAccount" title="Account">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
   </button>
@@ -1455,6 +1541,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="card" style="overflow-x:auto"><table class="t" id="hwTable"></table></div>
     <div class="eyebrow" data-i="costs">Costi stimati</div>
     <div class="card" style="overflow-x:auto"><table class="t" id="costTable"></table></div>
+    <div id="offerList" hidden></div>
     <div class="eyebrow" data-i="export">Esporta</div>
     <div class="btnrow">
       <button class="btn red" id="btnPdf">
@@ -1585,6 +1672,47 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 </div>
 
 <!-- scrim + sheets -->
+<!-- ============ MODO CLIENTE ============ -->
+<div id="clientMode" class="cm" hidden>
+  <div class="cm-top">
+    <div class="cm-co" id="cmCo"></div>
+    <div class="cm-proj" id="cmProj"></div>
+    <button class="cm-exit" id="cmExit" aria-label="Esci"><svg viewBox="0 0 36 36"><circle class="cm-ring" cx="18" cy="18" r="16"/></svg><span>✕</span></button>
+  </div>
+  <div class="cm-body">
+    <div class="cm-view">
+      <div class="cm-stage" id="cmStage"><svg id="cmSvg"></svg></div>
+      <div class="cm-tools">
+        <button class="vtb on" id="cmSpin"><span data-i="cmSpin">Gira</span></button>
+        <button class="vtb" id="cmOpen"><span data-i="vtOpen">Apri</span></button>
+        <button class="vtb" data-cmview="front"><span data-i="cmFrontView">Fronte</span></button>
+        <button class="vtb" data-cmview="iso"><span data-i="cmIso">3/4</span></button>
+      </div>
+    </div>
+    <div class="cm-panel" id="cmPanel"></div>
+  </div>
+  <div class="cm-modal" id="cmSign" hidden>
+    <div class="cm-card">
+      <h3 data-i="cmSignTitle">Accetta l'offerta</h3>
+      <div class="cm-sum"><span data-i="cmTotal">Totale</span><b id="cmSignTotal"></b></div>
+      <div class="f"><label data-i="cmSignName">Nome e cognome</label><input id="cmSignName" autocomplete="name"></div>
+      <div class="f"><label data-i="cmSignHere">Firma qui</label>
+        <div class="cm-padwrap"><canvas id="cmPad"></canvas><button class="chip sm" id="cmPadClear" data-i="cmClear">Cancella</button></div></div>
+      <label class="cm-check"><input type="checkbox" id="cmSignOk"><span data-i="cmSignAgree">Ho visto il mobile, le finiture e il prezzo, e accetto l'offerta.</span></label>
+      <div class="btnrow"><button class="btn" id="cmSignCancel" data-i="cancel">Annulla</button><button class="btn red" id="cmSignGo" disabled data-i="cmSignBtn">Firma</button></div>
+    </div>
+  </div>
+  <div class="cm-modal" id="cmDone" hidden>
+    <div class="cm-card cm-donecard">
+      <div class="cm-ok">✓</div>
+      <h3 data-i="cmDoneTitle">Offerta firmata</h3>
+      <p id="cmDoneTxt"></p>
+      <p class="warnline" id="cmDoneWarn" hidden></p>
+      <div class="btnrow"><button class="btn" id="cmDonePdf" data-i="cmPdf">PDF dell'offerta</button><button class="btn red" id="cmDoneBack" data-i="cmBack">Fatto</button></div>
+    </div>
+  </div>
+</div>
+
 <div class="scrim" id="scrim"></div>
 
 <!-- piece editor -->
@@ -2620,6 +2748,15 @@ Object.assign(I18N.fr,{
   orDocs:"Documents",
   orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
   orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
+/* ---- 4.30: modo cliente ---- */
+Object.assign(I18N.fr,{cmOther:"Autres travaux"});
+Object.assign(I18N.en,{cmOther:"Other work"});
+Object.assign(I18N.ro,{cmOther:"Alte lucrări"});
+Object.assign(I18N.it,{cmOther:"Altre lavorazioni"});
+Object.assign(I18N.it,{cmBtn:"Cliente",cmProposal:"Proposta",cmNoMods:"Nessun mobile da mostrare: disegnalo prima nel generatore.",cmPieces:"Mobili",cmFront:"Finitura frontali",cmBody:"Finitura corpo",cmTotal:"Totale",cmVatIncl:"IVA {v}% inclusa ({n})",cmVsBase:"rispetto alla proposta",cmAccept:"Accetta e firma",cmNoPrice:"Prezzo non disponibile",cmSpin:"Gira",cmFrontView:"Fronte",cmIso:"3/4",cmSignTitle:"Accetta l'offerta",cmSignName:"Nome e cognome",cmSignHere:"Firma qui",cmClear:"Cancella",cmSignAgree:"Ho visto il mobile, le finiture e il prezzo, e accetto l'offerta.",cmSignBtn:"Firma",cmDoneTitle:"Offerta firmata",cmDoneTxt:"Grazie, {c}. Offerta accettata: {t}.",cmPdf:"PDF dell'offerta",cmBack:"Fatto",cmNotApplied:"Finiture NON riportate in distinta per: {m} — ci sono pezzi gia tagliati. Da decidere in officina.",cmNotAppliedShort:"varianti da riportare",cmOfferTitle:"OFFERTA ACCETTATA",cmFinish:"Finiture",cmSignedBy:"Firmato da {c} · {d}",cmOffers:"Offerte firmate",cmHoldExit:"Tieni premuto per uscire dal modo cliente"});
+Object.assign(I18N.ro,{cmBtn:"Client",cmProposal:"Propunere",cmNoMods:"Niciun mobilier de arătat: desenează-l întâi în generator.",cmPieces:"Mobilier",cmFront:"Finisaj fronturi",cmBody:"Finisaj corp",cmTotal:"Total",cmVatIncl:"TVA {v}% inclus ({n})",cmVsBase:"față de propunere",cmAccept:"Acceptă și semnează",cmNoPrice:"Preț indisponibil",cmSpin:"Rotește",cmFrontView:"Față",cmIso:"3/4",cmSignTitle:"Acceptă oferta",cmSignName:"Nume și prenume",cmSignHere:"Semnează aici",cmClear:"Șterge",cmSignAgree:"Am văzut mobilierul, finisajele și prețul și accept oferta.",cmSignBtn:"Semnează",cmDoneTitle:"Ofertă semnată",cmDoneTxt:"Mulțumim, {c}. Ofertă acceptată: {t}.",cmPdf:"PDF ofertă",cmBack:"Gata",cmNotApplied:"Finisajele NU au fost trecute în distinta pentru: {m} — sunt piese deja tăiate. De decis în atelier.",cmNotAppliedShort:"variante de aplicat",cmOfferTitle:"OFERTĂ ACCEPTATĂ",cmFinish:"Finisaje",cmSignedBy:"Semnat de {c} · {d}",cmOffers:"Oferte semnate",cmHoldExit:"Ține apăsat pentru a ieși din modul client"});
+Object.assign(I18N.en,{cmBtn:"Client",cmProposal:"Proposal",cmNoMods:"Nothing to show yet: design the unit in the builder first.",cmPieces:"Furniture",cmFront:"Front finish",cmBody:"Carcass finish",cmTotal:"Total",cmVatIncl:"VAT {v}% included ({n})",cmVsBase:"vs. the proposal",cmAccept:"Accept and sign",cmNoPrice:"Price not available",cmSpin:"Rotate",cmFrontView:"Front",cmIso:"3/4",cmSignTitle:"Accept the offer",cmSignName:"Full name",cmSignHere:"Sign here",cmClear:"Clear",cmSignAgree:"I have seen the furniture, the finishes and the price, and I accept the offer.",cmSignBtn:"Sign",cmDoneTitle:"Offer signed",cmDoneTxt:"Thank you, {c}. Offer accepted: {t}.",cmPdf:"Offer PDF",cmBack:"Done",cmNotApplied:"Finishes NOT carried into the cut list for: {m} — some parts are already cut. To be decided in the workshop.",cmNotAppliedShort:"variants to apply",cmOfferTitle:"ACCEPTED OFFER",cmFinish:"Finishes",cmSignedBy:"Signed by {c} · {d}",cmOffers:"Signed offers",cmHoldExit:"Press and hold to leave client mode"});
+Object.assign(I18N.fr,{cmBtn:"Client",cmProposal:"Proposition",cmNoMods:"Rien à montrer : dessinez d'abord le meuble dans le générateur.",cmPieces:"Meubles",cmFront:"Finition façades",cmBody:"Finition caisson",cmTotal:"Total",cmVatIncl:"TVA {v}% incluse ({n})",cmVsBase:"par rapport à la proposition",cmAccept:"Accepter et signer",cmNoPrice:"Prix indisponible",cmSpin:"Tourner",cmFrontView:"Face",cmIso:"3/4",cmSignTitle:"Accepter l'offre",cmSignName:"Nom et prénom",cmSignHere:"Signez ici",cmClear:"Effacer",cmSignAgree:"J'ai vu le meuble, les finitions et le prix, et j'accepte l'offre.",cmSignBtn:"Signer",cmDoneTitle:"Offre signée",cmDoneTxt:"Merci, {c}. Offre acceptée : {t}.",cmPdf:"PDF de l'offre",cmBack:"Terminé",cmNotApplied:"Finitions NON reportées dans le débit pour : {m} — des pièces sont déjà coupées. À décider à l'atelier.",cmNotAppliedShort:"variantes à reporter",cmOfferTitle:"OFFRE ACCEPTÉE",cmFinish:"Finitions",cmSignedBy:"Signé par {c} · {d}",cmOffers:"Offres signées",cmHoldExit:"Maintenez appuyé pour quitter le mode client"});
 /* ---- 4.29: gradino del muro, pezzi e fori, feramenta, banco di lavoro ---- */
 Object.assign(I18N.it,{partEdge:"Bordo"});
 Object.assign(I18N.ro,{partEdge:"Cant"});
@@ -3725,7 +3862,8 @@ function navRoomOpen(){ const r=$("roomView"); return !!r && r.style.display!=="
 function navSheets(){ return Array.from(document.querySelectorAll(".sheet.on")); }
 /* profondita logica = quanti "indietro" servono per tornare alla schermata radice */
 function navDepth(){
-  return (currentView!==NAV_HOME?1:0) + (navRoomOpen()?1:0) + navSheets().length;
+  return (currentView!==NAV_HOME?1:0) + (navRoomOpen()?1:0) + navSheets().length
+       + (typeof CM==="object"&&CM.on?1+($("cmSign").hidden?0:1)+($("cmDone").hidden?0:1):0);
 }
 /* allinea la history alla profondita reale; da chiamare dopo ogni apertura/chiusura */
 function navSync(){
@@ -3736,6 +3874,8 @@ function navSync(){
 }
 /* chiude ESATTAMENTE uno strato, dal piu alto: roomView (z200) sta sopra i pannelli (z51) */
 function navCloseTop(){
+  /* il modo cliente non si lascia col tasto Indietro: si esce tenendo premuto */
+  if(typeof CM==="object"&&CM.on) return clientBack();
   if(navRoomOpen()){ if(typeof roomCamStop==="function") roomCamStop(); $("roomView").style.display="none"; return true; }
   const sh=navSheets();
   if(sh.length){
@@ -3851,7 +3991,7 @@ function render(){
   if(currentView==="list") renderList();
   if(currentView==="build") renderBuild();
   if(currentView==="nest") renderNest();
-  if(currentView==="summary") renderSummary();
+  if(currentView==="summary"){ renderSummary(); renderOffers(); }
   if(typeof orRefresh==="function") orRefresh();
 }
 
@@ -6217,7 +6357,7 @@ function init3DControls(){
   });
   const up=e=>{
     /* un tocco fermo e breve e una SCELTA, non un giro: seleziona il pezzo */
-    if(GL&&down&&ptrs.size===1&&down.moved<7&&Date.now()-down.t<350&&window.GL3D.pick){
+    if(GL&&!document.body.classList.contains("client-on")&&down&&ptrs.size===1&&down.moved<7&&Date.now()-down.t<350&&window.GL3D.pick){
       const pk=window.GL3D.pick(e.clientX,e.clientY), cur=window.GL3D.state.sel;
       if(pk==null){ if(cur!=null&&!window.GL3D.state.iso) window.GL3D.select(null); }
       else window.GL3D.select(pk,window.GL3D.state.iso&&String(cur)===String(pk));
@@ -6466,6 +6606,266 @@ function openPartFromRow(cfgKey,x){
     Object.values(meta).forEach(v=>{ if(v.row) v.row=Object.assign({modulo:x.modulo,materiale:x.materiale},v.row); });
     openPartSheet(M,hit);
   }catch(e){ console.warn(e); toast(t("partNotFound")); }
+}
+
+/* ================= MODO CLIENTE (tablet) =================
+   Lo schermo si gira verso il cliente. Si vede il mobile, si scelgono le
+   finiture, si vede il prezzo finale, si firma. Non si vede NIENTE di
+   tecnico: niente distinta, niente codici articolo, niente costi interni,
+   niente margine — solo il prezzo che il cliente paga.
+
+   Le varianti proposte hanno la STESSA grossezza della finitura attuale: il
+   cliente sceglie un colore, non cambia le cote. Cosi la firma non puo
+   spostare un millimetro della distinta.
+
+   Si esce tenendo premuto: un tocco distratto del cliente non deve aprire
+   l'officina. Anche il tasto Indietro, qui dentro, non porta fuori. */
+const CM={on:false,p:null,mods:[],cur:null,v:{},base:null,price:null,open:false,spin:true,saved:null,sig:null,fam:{}};
+function cmCfg(name){
+  const p=CM.p, cfg=(p&&p.configs&&p.configs[name])||(CM.draft&&CM.draft.name===name?CM.draft:null);
+  if(!cfg) return null;
+  const v=CM.v[name]||{};
+  return Object.assign({},cfg,{name,matBody:v.matBody||cfg.matBody,matFront:v.matFront||cfg.matFront});
+}
+/* Le finiture possibili per un ruolo: stessa grossezza, niente accessori,
+   niente di quello che l'utente ha nascosto. La scelta attuale per prima. */
+function cmChoices(cfg,key){
+  const cur=matById(cfg[key]); if(!cur) return [];
+  const th=+cur.th;
+  const list=matVisible().filter(m=>+m.th===th&&!isAccessoryMat(m.l&&m.l.it)&&!/vetro|glass|hdf|pfl/i.test(m.id))
+    .map(m=>matById(m.id)).filter(Boolean);
+  /* ordine FERMO: la scelta non salta in testa a ogni tocco, il cliente la
+     ritrova dove l'ha toccata */
+  list.sort((a,b)=>((b.attivo!==false)-(a.attivo!==false))||String(a.label).localeCompare(String(b.label)));
+  if(!list.some(m=>m.id===cur.id)) list.unshift(cur);
+  return list;
+}
+/* Il prezzo con le varianti: si rigenera ogni corpo su una COPIA del progetto
+   e si passa dallo stesso conto del preventivo. Un solo conto dei prezzi:
+   quello che il cliente vede e quello che poi esce sul PDF. */
+function cmPriceOf(withVariants){
+  const p=CM.p, c=JSON.parse(JSON.stringify(p));
+  for(const name of CM.mods){
+    const cfg=withVariants?cmCfg(name):((p.configs&&p.configs[name])||CM.draft);
+    if(!cfg) continue;
+    try{ generateInto(c,Object.assign({},cfg,{name})); }catch(e){ return null; }
+  }
+  const C=projectCosts(c), S=state.settings;
+  const byMod=new Map();
+  for(const x of c.pieces){ const a=x.lung*x.larg*x.pz/1e6, k=x.gen||x.modulo; byMod.set(k,(byMod.get(k)||0)+a); }
+  const A=C.tot.area, n=byMod.size||1, per={};
+  for(const [k,a] of byMod) per[k]=A>0?C.prezzo*a/A:C.prezzo/n;
+  return {net:C.prezzo,vat:C.ivaAmt,total:C.prezzo+C.ivaAmt,iva:S.iva||0,per};
+}
+function clientOpen(){
+  const p=proj(); if(!p){ toast(t("selectProject")); setView("projects"); return; }
+  CM.p=p; CM.v={}; CM.fam={}; CM.open=false; CM.spin=true; CM.sig=null;
+  CM.mods=Object.keys(p.configs||{}).filter(n=>p.pieces.some(x=>x.gen===n||x.modulo===n||x.modulo===n+" A"));
+  /* un mobile solo disegnato nel generatore, non ancora in distinta: si puo
+     mostrare lo stesso — e una proposta */
+  CM.draft=null;
+  if(!CM.mods.length&&typeof buildCfg==="object"&&buildCfg&&buildCfg.L){
+    CM.draft=Object.assign({},buildCfg,{name:buildCfg.name||t("cmProposal")}); CM.mods=[CM.draft.name]; }
+  CM.cur=CM.mods[0]||null;
+  CM.base=cmPriceOf(false); CM.price=CM.base;
+  CM.on=true; document.body.classList.add("client-on"); $("clientMode").hidden=false;
+  if(gl3dOn()){
+    CM.saved=window.GL3D.state;
+    const cv=$("gl3d"); $("cmStage").appendChild(cv);
+    window.GL3D.select(null);
+    window.GL3D.set({mode:"real",hw:false,holes:false,edges:false,open:false,explode:0});
+    window.GL3D.spin(true);
+    setTimeout(()=>window.GL3D.resize(),40);
+  }
+  cmPaint(); cmDraw(); navSync(); haptic();
+}
+function clientClose(){
+  if(!CM.on) return;
+  CM.on=false; document.body.classList.remove("client-on"); $("clientMode").hidden=true;
+  $("cmSign").hidden=true; $("cmDone").hidden=true;
+  if(gl3dOn()){
+    window.GL3D.spin(false);
+    const cv=$("gl3d"); $("vp3d").insertBefore(cv,$("vp3d").firstChild);
+    window.GL3D.set(Object.assign({edges:true},CM.saved||{},{sel:null,iso:false}));
+    setTimeout(()=>{ window.GL3D.resize(); if(typeof drawPreview==="function"&&currentView==="build") drawPreview(); },40);
+  }
+  navSync(); render();
+}
+function cmDraw(){
+  const cfg=CM.cur?cmCfg(CM.cur):null; if(!cfg) return;
+  if(gl3dOn()){ window.GL3D.render(cfg,{explode:0}); window.GL3D.set({open:CM.open}); }
+  else render3D($("cmSvg"),cfg,null,{});
+}
+function cmSwatch(m,on){
+  const wood=m.tx==="wood", c=m.c||"#ddd";
+  const bg=wood?`repeating-linear-gradient(95deg,${c} 0 5px,${shade(c,.9)} 5px 7px,${c} 7px 12px)`:c;
+  return `<button class="cm-sw${on?" on":""}" data-id="${esc(m.id)}" title="${esc(m.label)}"><i style="background:${bg}"></i><span>${esc(m.label)}</span></button>`;
+}
+function cmPaint(){
+  const p=CM.p, S=state.settings;
+  $("cmCo").innerHTML=`${prLogo().replace('margin-left:auto;','')}<b>${esc(prCoName()||"Ebanist")}</b>`;
+  $("cmProj").textContent=p.name+(p.client?" · "+p.client:"");
+  const box=$("cmPanel"); let h="";
+  if(!CM.mods.length){ box.innerHTML=`<p class="cm-empty">${esc(t("cmNoMods"))}</p>`+cmPriceHtml(); return; }
+  if(CM.mods.length>1) h+=`<div class="cm-sec"><h4>${esc(t("cmPieces"))}</h4><div class="cm-mods">`+CM.mods.map(n=>{ const c=cmCfg(n);
+      return `<button class="cm-mod${n===CM.cur?" on":""}" data-mod="${esc(n)}">${presetIcon(c)}<span><b>${esc(n)}</b><small>${c?`${c.L}×${c.H}×${c.P}`:""}</small></span></button>`; }).join("")+`</div></div>`;
+  const cfg=cmCfg(CM.cur);
+  for(const [key,lbl] of [["matFront","cmFront"],["matBody","cmBody"]]){
+    const list=cmChoices(cfg,key); if(list.length<2&&key==="matBody"&&cfg.matBody===cfg.matFront) continue;
+    const fams=[...new Set(list.map(m=>m.famiglia||"tinta_unita"))];
+    const f=CM.fam[key]||"";
+    const shown=list.filter(m=>!f||(m.famiglia||"tinta_unita")===f);
+    const cur=matById(cfg[key]);
+    h+=`<div class="cm-sec"><h4>${esc(t(lbl))}<em>${esc(cur?cur.label:"")}</em></h4>`+
+      (fams.length>1?`<div class="cm-fams" data-key="${key}"><button class="${!f?"on":""}" data-fam="">${esc(t("allThick"))}</button>`+
+        fams.map(x=>`<button class="${f===x?"on":""}" data-fam="${esc(x)}">${esc(t("fam_"+x))}</button>`).join("")+`</div>`:"")+
+      `<div class="cm-sws" data-key="${key}">`+shown.map(m=>cmSwatch(m,m.id===cfg[key])).join("")+`</div></div>`;
+  }
+  box.innerHTML=h+cmPriceHtml();
+  box.querySelectorAll("[data-mod]").forEach(b=>b.addEventListener("click",()=>{ CM.cur=b.dataset.mod; cmPaint(); cmDraw(); }));
+  box.querySelectorAll(".cm-fams").forEach(g=>g.querySelectorAll("[data-fam]").forEach(b=>b.addEventListener("click",()=>{ CM.fam[g.dataset.key]=b.dataset.fam; cmPaint(); })));
+  box.querySelectorAll(".cm-sws").forEach(g=>g.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>{
+    const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v[g.dataset.key]=b.dataset.id;
+    CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); })));
+  const acc=box.querySelector("[data-accept]"); if(acc) acc.addEventListener("click",cmSignOpen);
+}
+/* le righe del prezzo: un mobile per riga, e il resto del progetto (pezzi
+   singoli, lavorazioni) in una riga sola — il totale deve tornare */
+function cmRows(P){
+  const k=1+P.iva/100, out=CM.mods.map(n=>({name:n,price:(P.per[n]||0)*k}));
+  const rest=P.total-out.reduce((s,r)=>s+r.price,0);
+  if(rest>0.5) out.push({name:t("cmOther"),price:rest});
+  return out;
+}
+function cmPriceHtml(){
+  const P=CM.price, B=CM.base;
+  if(!P) return `<div class="cm-price"><p class="cm-empty">${esc(t("cmNoPrice"))}</p></div>`;
+  const d=B?P.total-B.total:0;
+  return `<div class="cm-price"><span class="cm-plbl">${esc(t("cmTotal"))}</span>`+
+    `<b class="cm-ptot">€ ${fmt(P.total)}</b>`+
+    `<span class="cm-pvat">${esc(t("cmVatIncl").replace("{v}",P.iva).replace("{n}","€ "+fmt(P.vat)))}</span>`+
+    (Math.abs(d)>=0.5?`<span class="cm-pdelta ${d>0?"up":"down"}">${d>0?"+":"−"} € ${fmt(Math.abs(d))} ${esc(t("cmVsBase"))}</span>`:"")+
+    (cmRows(P).length>1?`<div class="cm-prows">`+cmRows(P).map(r=>`<div><span>${esc(r.name)}</span><b>€ ${fmt(r.price)}</b></div>`).join("")+`</div>`:"")+
+    `<button class="btn red cm-accept" data-accept>${esc(t("cmAccept"))}</button>`+
+    `<p class="cm-valid">${esc(t("qValidity"))}</p></div>`;
+}
+/* ---- la firma ---- */
+function cmSignOpen(){
+  $("cmSignName").value=CM.p.client||""; $("cmSignOk").checked=false; CM.sig=null;
+  $("cmSignTotal").textContent="€ "+fmt(CM.price.total);
+  $("cmSign").hidden=false; cmPadClear(); cmSignCheck(); navSync();
+}
+function cmPadClear(){ const c=$("cmPad"), r=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  c.width=Math.max(10,r.width*dpr); c.height=Math.max(10,r.height*dpr);
+  const g=c.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,r.width,r.height);
+  g.lineWidth=2.4; g.lineCap="round"; g.lineJoin="round"; g.strokeStyle="#15241c"; CM.sig=null; cmSignCheck(); }
+function cmSignCheck(){ $("cmSignGo").disabled=!(CM.sig&&$("cmSignOk").checked&&$("cmSignName").value.trim()); }
+function cmPadInit(){
+  const c=$("cmPad"); let last=null;
+  const pt=e=>{ const r=c.getBoundingClientRect(); return [e.clientX-r.left,e.clientY-r.top]; };
+  c.addEventListener("pointerdown",e=>{ c.setPointerCapture(e.pointerId); last=pt(e); e.preventDefault(); });
+  c.addEventListener("pointermove",e=>{ if(!last) return; const q=pt(e), g=c.getContext("2d");
+    g.beginPath(); g.moveTo(last[0],last[1]); g.lineTo(q[0],q[1]); g.stroke(); last=q; CM.sig=(CM.sig||0)+1; });
+  const up=()=>{ last=null; cmSignCheck(); };
+  c.addEventListener("pointerup",up); c.addEventListener("pointercancel",up);
+}
+/* La firma, in un'immagine piccola: viaggia col progetto (e con la
+   sincronizzazione), quindi niente da mezzo megabyte. */
+function cmSigData(){
+  const src=$("cmPad"), w=560, h=Math.round(w*src.height/src.width), o=document.createElement("canvas");
+  o.width=w; o.height=h; const g=o.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,w,h); g.drawImage(src,0,0,w,h);
+  return o.toDataURL("image/png");
+}
+function cmSignGo(){
+  if($("cmSignGo").disabled) return;
+  const p=CM.p, now=new Date();
+  const mods=CM.mods.map(n=>{ const c=cmCfg(n), mb=matById(c.matBody), mf=matById(c.matFront);
+    return {name:n,dims:`${c.L}×${c.H}×${c.P}`,type:c.type||"standard",body:mb?mb.label:"",front:mf?mf.label:"",
+            price:+(((CM.price.per[n]||0)*(1+CM.price.iva/100)).toFixed(2))}; });
+  const rest=cmRows(CM.price).filter(r=>!CM.mods.includes(r.name));
+  rest.forEach(r=>mods.push({name:r.name,dims:"",type:"",body:"",front:"",price:+r.price.toFixed(2),other:1}));
+  const offer={id:uid(),date:now.toISOString(),client:$("cmSignName").value.trim(),mods,
+    net:+CM.price.net.toFixed(2),vat:+CM.price.vat.toFixed(2),total:+CM.price.total.toFixed(2),iva:CM.price.iva,
+    sig:cmSigData(),appVer:APP_VER,applied:[],notApplied:[]};
+  /* Le varianti firmate diventano il progetto. Stessa grossezza, quindi
+     stesse cote: cambia l'etichetta del materiale. Ma un corpo che ha gia
+     pezzi spuntati come tagliati NON si rigenera — quei pannelli esistono
+     gia, in un altro colore. Si dice, e lo si lascia a chi sta in officina. */
+  for(const n of CM.mods){
+    const v=CM.v[n]; if(!v) continue;
+    const c=cmCfg(n), orig=(p.configs&&p.configs[n])||CM.draft;
+    if(!orig||(c.matBody===orig.matBody&&c.matFront===orig.matFront)) continue;
+    const cut=p.pieces.some(x=>(x.gen===n||x.modulo===n)&&x.done);
+    if(cut){ offer.notApplied.push(n); continue; }
+    if(!p.configs||!p.configs[n]) continue;                 // proposta non ancora in distinta
+    try{ generateInto(p,c); offer.applied.push(n); }catch(e){ offer.notApplied.push(n); }
+  }
+  if(!p.client&&offer.client) p.client=offer.client;
+  p.offers=(p.offers||[]).concat([offer]);
+  persist();
+  $("cmSign").hidden=true;
+  $("cmDoneTxt").textContent=t("cmDoneTxt").replace("{c}",offer.client).replace("{t}","€ "+fmt(offer.total));
+  $("cmDoneWarn").hidden=!offer.notApplied.length;
+  $("cmDoneWarn").textContent=t("cmNotApplied").replace("{m}",offer.notApplied.join(", "));
+  $("cmDone").hidden=false; $("cmDone").dataset.id=offer.id; navSync(); haptic(20);
+}
+/* Il PDF dell'offerta firmata: le finiture per nome, il prezzo, la firma.
+   Passa da printOut() come ogni documento (D-44). */
+function offerPrint(p,o){
+  const d=new Date(o.date);
+  const rows=o.mods.map(m=>m.other?`<tr><td><b>${esc(m.name)}</b></td><td></td><td class="n">€ ${fmt(m.price)}</td></tr>`:
+    `<tr><td><b>${esc(m.name)}</b><br><span style="font-size:8.5pt">${esc(m.dims)} mm</span></td>`+
+    `<td>${esc(t("cmFront"))}: ${esc(m.front)}<br>${esc(t("cmBody"))}: ${esc(m.body)}</td><td class="n">€ ${fmt(m.price)}</td></tr>`).join("");
+  $("printArea").innerHTML=`<div class="pr-head"><div><h1>${esc(t("cmOfferTitle"))}</h1>
+    <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
+    <b>${esc(t("client"))}:</b> ${esc(o.client||p.client||"—")}<br>
+    <b>${esc(t("date"))}:</b> ${d.toISOString().slice(0,10)}</div></div>
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>
+    <table><tr><th>${esc(t("fModule"))}</th><th>${esc(t("cmFinish"))}</th><th style="text-align:right">${esc(t("amount"))}</th></tr>${rows}</table>
+    <div class="pr-sum" style="text-align:right">${esc(t("qNet"))}: <b>€ ${fmt(o.net)}</b><br>${esc(t("qVat"))} ${o.iva}%: <b>€ ${fmt(o.vat)}</b><br>
+    <span style="font-size:13pt">${esc(t("qTotal"))}: <b>€ ${fmt(o.total)}</b></span></div>
+    <div style="margin-top:18px;display:flex;justify-content:flex-end"><div style="text-align:center;font-size:9.5pt">
+      <img src="${o.sig}" style="height:70px;display:block;margin:0 auto 2px;border-bottom:1px solid #333">
+      ${esc(t("cmSignedBy").replace("{c}",o.client).replace("{d}",d.toLocaleString()))}</div></div>
+    <div class="pr-foot"><span>${esc(t("qValidity"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
+  printOut();
+}
+function renderOffers(){
+  const box=$("offerList"); if(!box) return;
+  const p=proj(), L=(p&&p.offers)||[];
+  box.hidden=!L.length; if(!L.length){ box.innerHTML=""; return; }
+  box.innerHTML=`<div class="eyebrow">${esc(t("cmOffers"))}</div><div class="card" style="padding:4px 14px">`+
+    L.slice().reverse().map(o=>`<div class="of-row"><span><b>${esc(o.client||"—")}</b><small>${esc(new Date(o.date).toLocaleString())}${o.notApplied&&o.notApplied.length?" · ⚠︎ "+esc(t("cmNotAppliedShort")):""}</small></span><b>€ ${fmt(o.total)}</b><button class="btn sm" data-of="${esc(o.id)}">PDF</button></div>`).join("")+`</div>`;
+  box.querySelectorAll("[data-of]").forEach(b=>b.addEventListener("click",()=>{ const o=L.find(x=>x.id===b.dataset.of); if(o) offerPrint(p,o); }));
+}
+function clientInit(){
+  $("btnClient").addEventListener("click",clientOpen);
+  /* uscita: tenere premuto. Il cerchio si riempie; si lascia prima, non succede niente. */
+  const x=$("cmExit"); let tm=0;
+  const start=e=>{ e.preventDefault(); x.classList.add("hold"); tm=setTimeout(()=>{ x.classList.remove("hold"); clientClose(); },900); };
+  const stop=()=>{ clearTimeout(tm); x.classList.remove("hold"); };
+  x.addEventListener("pointerdown",start); ["pointerup","pointerleave","pointercancel"].forEach(ev=>x.addEventListener(ev,stop));
+  x.addEventListener("click",()=>toast(t("cmHoldExit")));
+  $("cmOpen").addEventListener("click",()=>{ CM.open=!CM.open; $("cmOpen").classList.toggle("on",CM.open); if(gl3dOn()) window.GL3D.set({open:CM.open}); });
+  $("cmSpin").addEventListener("click",()=>{ CM.spin=!CM.spin; $("cmSpin").classList.toggle("on",CM.spin); if(gl3dOn()) window.GL3D.spin(CM.spin); });
+  document.querySelectorAll("[data-cmview]").forEach(b=>b.addEventListener("click",()=>{ CM.spin=false; $("cmSpin").classList.remove("on");
+    if(gl3dOn()){ window.GL3D.spin(false); window.GL3D.view(b.dataset.cmview); } else cmDraw(); }));
+  /* il cliente tocca il mobile per girarlo: il giro automatico si ferma */
+  $("cmStage").addEventListener("pointerdown",()=>{ if(CM.spin&&gl3dOn()){ CM.spin=false; $("cmSpin").classList.remove("on"); window.GL3D.spin(false); } });
+  cmPadInit();
+  $("cmPadClear").addEventListener("click",cmPadClear);
+  $("cmSignOk").addEventListener("change",cmSignCheck);
+  $("cmSignName").addEventListener("input",cmSignCheck);
+  $("cmSignCancel").addEventListener("click",()=>{ $("cmSign").hidden=true; navSync(); });
+  $("cmSignGo").addEventListener("click",cmSignGo);
+  $("cmDonePdf").addEventListener("click",()=>{ const o=(CM.p.offers||[]).find(q=>q.id===$("cmDone").dataset.id); if(o) offerPrint(CM.p,o); });
+  $("cmDoneBack").addEventListener("click",()=>{ $("cmDone").hidden=true; CM.base=cmPriceOf(false); CM.v={}; CM.price=CM.base; cmPaint(); cmDraw(); navSync(); });
+}
+/* dentro il modo cliente il tasto Indietro chiude la firma, e basta */
+function clientBack(){
+  if(!$("cmSign").hidden){ $("cmSign").hidden=true; return true; }
+  if(!$("cmDone").hidden){ $("cmDone").hidden=true; return true; }
+  return true;
 }
 
 /* --- builder UI --- */
@@ -10797,18 +11197,19 @@ aiMount();
 mountSheetClosers();
 setView("projects");
 navInit();
+clientInit();
 persist();
 /* all'avvio, appena l'app e in piedi: se il motore sul server e piu avanti,
    meglio saperlo prima di generare una distinta che non si potra esportare. */
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.29.1"; /* APP_VER-MARKER */
+const APP_VER="4.30.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v62";
+const SW_CACHE="ebanist-v63";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

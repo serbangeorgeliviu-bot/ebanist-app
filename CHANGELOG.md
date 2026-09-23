@@ -5,6 +5,32 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.30.0 — 23 septembrie 2026
+
+**Modul Client, pentru tabletă.** Butonul *Client* din colțul de sus întoarce
+ecranul spre client. Dispar distinta, codurile, costurile interne, marja; rămân
+mobila în 3D, finisajele și prețul final cu TVA.
+
+- **Mobila se prezintă singură:** se rotește încet până când clientul o atinge;
+  ușile se deschid, sertarele ies, vederi din față și 3/4.
+- **Finisajele se aleg din cercuri de culoare**, pe familii — uni, lemn, lucios,
+  beton, textil. Separat pentru fronturi și pentru corp. Prețul se schimbă sub
+  ochii clientului, cu diferența față de propunerea inițială.
+- **Numai variante de aceeași grosime.** Clientul alege o culoare, nu schimbă
+  cote: nicio semnătură nu poate muta un milimetru din distinta.
+- **Semnătura:** nume, semnătură cu degetul, bifa de acceptare. Oferta semnată
+  se salvează în proiect (finisaje, preț, TVA, semnătură, data) și iese ca PDF
+  „Ofertă acceptată", cu semnătura pe ea.
+- **Finisajele semnate trec în proiect** și distinta se regenerează — aceleași
+  cote, alt material. Dacă un corp are deja piese bifate ca tăiate, nu se
+  atinge nimic: aplicația îți spune că e de decis în atelier.
+- **Clientul nu iese din greșeală:** butonul Înapoi nu scoate din modul client,
+  iar X-ul se ține apăsat o secundă.
+
+Ofertele semnate apar în *Rezumat*, cu PDF-ul lor.
+
+---
+
 ## 4.29.1 — 23 septembrie 2026
 
 **Reparat: generatorul se oprea cu „reading 'back_y0'".** După actualizarea la
