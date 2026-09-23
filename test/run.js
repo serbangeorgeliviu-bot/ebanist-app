@@ -1729,6 +1729,52 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("niente undefined, NaN o segnaposto rimasti", m.nessunMeno === true);
     ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
   }
+  {
+    /* tavolo e letto: nessun foro generato, ma le quote ci sono tutte */
+    const fctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const fp = await fctx.newPage();
+    const ferr = []; fp.on("pageerror", e => ferr.push(String(e)));
+    await fp.goto(URL); await fp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await fp.waitForTimeout(3300);
+    const f = await fp.evaluate(() => {
+      closeSheets();
+      const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.tavolo, name: "Tavolo" });
+      generateInto(p, { ...PRESETS.letto, name: "Letto" });
+      const d = document.createElement("div"); d.innerHTML = montDoc(p);
+      const sec = d.querySelectorAll("section.m-mod"), t1 = sec[0].textContent, t2 = sec[1].textContent;
+      const rows = p.pieces.filter(x => x.gen === "Tavolo");
+      const rl = rows.find(x => x.elemento === "Traversa telaio").lung, rs = rows.find(x => x.elemento === "Traversa telaio corta").lung;
+      const bx = buildModule(p.configs.Tavolo).boxes.filter(b => b.role === "traversa");
+      const lbx = buildModule(p.configs.Letto).boxes;
+      const trav = lbx.find(b => b.role === "traversa"), doga = lbx.find(b => b.role === "doga");
+      return {
+        corpi: sec.length,
+        passiT: sec[0].querySelectorAll(".m-steps li").length, passiL: sec[1].querySelectorAll(".m-steps li").length,
+        traverse3D: bx.length,
+        traverseComeDistinta: bx.filter(b => Math.round(b.x1 - b.x0) === rl).length === 2 && bx.filter(b => Math.round(b.z1 - b.z0) === rs).length === 2,
+        quoteTavolo: t1.indexOf(String(rl)) >= 0 && t1.indexOf(String(rs)) >= 0,
+        travSottoDoghe: Math.round(trav.y1) === Math.round(doga.y0) && Math.round(trav.y1 - trav.y0) === 120,
+        materasso: /1600 × 2000/.test(t2),
+        ferramentaT: sec[0].querySelectorAll("table.m-t")[1].querySelectorAll("tr").length - 1,
+        ferramentaL: sec[1].querySelectorAll("table.m-t")[1].querySelectorAll("tr").length - 1,
+        pulito: !/undefined|NaN|\{[a-zA-Z]+\}/.test(d.textContent)
+      };
+    });
+    await fp.close(); await fctx.close();
+    ok("tavolo e letto: un capitolo ciascuno", f.corpi === 2);
+    ok("passi per il tavolo", f.passiT >= 8, f.passiT);
+    ok("passi per il letto", f.passiL >= 9, f.passiL);
+    ok("il 3D del tavolo ha le quattro traverse", f.traverse3D === 4, f.traverse3D);
+    ok("lunghe come in distinta, non a luce piena", f.traverseComeDistinta === true);
+    ok("la scheda cita le traverse della distinta", f.quoteTavolo === true);
+    ok("la traversa del letto e alta 120 e sta sotto le doghe", f.travSottoDoghe === true);
+    ok("il materasso che entra", f.materasso === true);
+    ok("ferramenta del tavolo", f.ferramentaT >= 4, f.ferramentaT);
+    ok("ferramenta del letto", f.ferramentaL >= 4, f.ferramentaL);
+    ok("niente segnaposto rimasti", f.pulito === true);
+    ok("nessun errore JS", ferr.length === 0, ferr.join(" | ").slice(0, 200));
+  }
 
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);

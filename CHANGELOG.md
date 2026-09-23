@@ -5,6 +5,34 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.32.0 — 23 septembrie 2026
+
+**Fișa de montaj pentru masă și pat.** Aceeași fișă ca la corpuri — imagini
+3D cu piesele numerotate, lista pieselor, feroneria, sculele, pașii cu cote,
+tabelul de control și lista de recepție — acum și pentru masă și pat.
+
+- **Masa:** colțarele de picior cu șurub dublu M8 (la mijlocul traversei),
+  ramele cu cele 10 mm lăsate la fiecare capăt pentru colțar, echerul ramei cu
+  diagonala în mm, blatul prins cu colțare numărate pe traversă și șuruburi
+  alese după grosimea blatului, întoarsă în doi, pâslă.
+- **Patul:** se montează în cameră; feroneria de pat la înălțimea
+  lateralelor; echerul cu diagonala; traversa centrală sub doage, cu
+  picioarele ei centrale la înălțimea calculată; suporții de doage cu prima
+  doagă și pasul lor; **salteaua standard care intră** (1600 × 2000 pe patul
+  de 1660).
+
+**3D-ul mesei și al patului arată acum ce e în distinta.** Masa avea în 3D
+doar două traverse, desenate mai lungi decât în distinta; acum sunt patru, la
+cota din distinta. La pat, traversa centrală era desenată cât laterala și
+trecea prin doage; acum are 120 mm și stă sub ele. Cotele din distinta nu s-au
+schimbat.
+
+Feroneria mesei și a patului (colțare, feronerie de pat, suporți de doage,
+picioare centrale) nu e încă în catalog și nici în deviz: fișa calculează
+cantitățile și o spune.
+
+---
+
 ## 4.31.0 — 23 septembrie 2026
 
 **Fișa de montaj, refăcută de la zero.** Un capitol pe corp, gândit să stea
