@@ -1928,6 +1928,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <p class="mini" id="proStateLine" style="margin:-2px 0 8px;line-height:1.45"></p>
   <button class="btn red" id="btnGoPro" style="display:none"><span data-i="proTitle">Ebanist Pro</span></button>
   <button class="btn" id="btnLicCheck" style="display:none;margin-top:8px"><span data-i="proRestore">Ricontrolla</span></button>
+  <button class="btn" id="btnPlayManage" style="display:none;margin-top:8px"><span data-i="playManage">Gestisci abbonamento</span></button>
   <button class="btn ghost danger" id="btnLicOff" style="display:none;margin-top:8px"><span data-i="proDeactivate">Scollega</span></button>
 
   <div class="eyebrow" style="margin-top:18px" data-i="stTitle">I tuoi dati</div>
@@ -2789,6 +2790,11 @@ Object.assign(I18N.fr,{
   orDocs:"Documents",
   orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
   orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
+/* ---- 4.34: abonamentul Pro prin Google Play (aplicația Android) ---- */
+Object.assign(I18N.it,{playLoading:"Carico i prezzi da Google Play…",playUnavailable:"Google Play non risponde o l'abbonamento non è ancora disponibile. Riprova più tardi.",playBuyY:"Un anno — {p}",playTerms:"Abbonamento con rinnovo automatico tramite Google Play. Lo disdici quando vuoi da Google Play → Abbonamenti; il Pro resta attivo fino alla fine del periodo pagato.",playErr:"Pagamento non riuscito. Riprova.",playPending:"Pagamento in attesa: il Pro si attiva appena Google Play lo conferma.",proKeyHintPlay:"Hai ricevuto un codice di attivazione? Incollalo qui.",proStatePlay:"Pro attivo · abbonamento Google Play",playNoRenew:"disdetto, non si rinnova",playManage:"Gestisci l'abbonamento su Google Play"});
+Object.assign(I18N.ro,{playLoading:"Se încarcă prețurile din Google Play…",playUnavailable:"Google Play nu răspunde sau abonamentul nu e încă disponibil. Încearcă mai târziu.",playBuyY:"Un an — {p}",playTerms:"Abonament cu reînnoire automată prin Google Play. Îl anulezi oricând din Google Play → Abonamente; Pro rămâne activ până la sfârșitul perioadei plătite.",playErr:"Plata nu a reușit. Încearcă din nou.",playPending:"Plată în așteptare: Pro se activează imediat ce Google Play o confirmă.",proKeyHintPlay:"Ai primit un cod de activare? Lipește-l aici.",proStatePlay:"Pro activ · abonament Google Play",playNoRenew:"anulat, nu se mai reînnoiește",playManage:"Gestionează abonamentul în Google Play"});
+Object.assign(I18N.en,{playLoading:"Loading prices from Google Play…",playUnavailable:"Google Play is not responding or the subscription is not available yet. Try again later.",playBuyY:"One year — {p}",playTerms:"Auto-renewing subscription via Google Play. Cancel any time in Google Play → Subscriptions; Pro stays active until the end of the paid period.",playErr:"Payment failed. Please try again.",playPending:"Payment pending: Pro turns on as soon as Google Play confirms it.",proKeyHintPlay:"Got an activation code? Paste it here.",proStatePlay:"Pro active · Google Play subscription",playNoRenew:"cancelled, won't renew",playManage:"Manage subscription in Google Play"});
+Object.assign(I18N.fr,{playLoading:"Chargement des prix depuis Google Play…",playUnavailable:"Google Play ne répond pas ou l'abonnement n'est pas encore disponible. Réessayez plus tard.",playBuyY:"Un an — {p}",playTerms:"Abonnement à renouvellement automatique via Google Play. Résiliable à tout moment dans Google Play → Abonnements ; le Pro reste actif jusqu'à la fin de la période payée.",playErr:"Le paiement a échoué. Réessayez.",playPending:"Paiement en attente : le Pro s'active dès que Google Play le confirme.",proKeyHintPlay:"Vous avez reçu un code d'activation ? Collez-le ici.",proStatePlay:"Pro actif · abonnement Google Play",playNoRenew:"résilié, ne se renouvelle pas",playManage:"Gérer l'abonnement dans Google Play"});
 /* ---- 4.33: ferramenta di tavolo e letto in catalogo ---- */
 Object.assign(I18N.it,{hwLeg:"Piastre gamba tavolo",hwTopClip:"Fissaggi piano tavolo",hwBedFit:"Ferramenta letto (coppie)",hwTravFit:"Squadre traversa centrale",hwCenterFoot:"Piedi centrali letto",hwSlatHold:"Portadoghe laterali",hwSlatHold2:"Portadoghe centrali",hwFelt:"Feltrini",fConsum:"consumabili, non in preventivo"});
 Object.assign(I18N.ro,{hwLeg:"Plăci de colț picior masă",hwTopClip:"Prinderi blat masă",hwBedFit:"Feronerie de pat (perechi)",hwTravFit:"Colțare traversă centrală",hwCenterFoot:"Picioare centrale pat",hwSlatHold:"Suporți doagă laterali",hwSlatHold2:"Suporți doagă centrali",hwFelt:"Pâslă",fConsum:"consumabile, nu intră în deviz"});
@@ -3461,6 +3467,62 @@ async function proDeactivate(){
   return {ok:true};
 }
 
+/* ---- Google Play Billing (numai în aplicația Android) ----
+   Pe Android, Google cere ca abonamentul să se plătească prin Play: în
+   aplicație nu apare niciun alt negoț, niciun link spre alt checkout.
+   Aplicația nativă (android/…/PlayBilling.java) vorbește cu Play și ne
+   răspunde prin window.__ebPlay(kind, json). Play e sursa adevărului: la
+   fiecare pornire și revenire se recitesc abonamentele active, iar unul
+   anulat sau expirat își ia singur Pro-ul înapoi. */
+const PLAY_PRODUCT="ebanist_pro";
+const PLAY={plans:null,err:null,busy:false,why:null};
+function playOn(){
+  try{ return !!(window.EbanistAndroid&&EbanistAndroid.billingAvailable&&EbanistAndroid.billingAvailable()==="1"); }
+  catch(e){ return false; }
+}
+window.__ebPlay=function(kind,json){
+  let d; try{ d=JSON.parse(json); }catch(e){ return; }
+  if(kind==="products"){
+    PLAY.plans=d.ok?(d.plans||[]):[]; PLAY.err=d.ok?null:(d.code||"error");
+    if($("shPro")&&$("shPro").classList.contains("on")) renderPro(PLAY.why);
+  }else if(kind==="purchases") playApply(d);
+};
+function playApply(d){
+  const fromBuy=d.source==="buy";
+  if(fromBuy) PLAY.busy=false;
+  if(!d.ok){
+    if(fromBuy&&d.code!=="canceled") toast(t("playErr"));
+    if(fromBuy&&$("shPro").classList.contains("on")) renderPro(PLAY.why);
+    return;                                  // Play n-a răspuns: nu se schimbă nimic
+  }
+  const items=d.items||[];
+  const act=items.find(i=>i.productId===PLAY_PRODUCT&&i.state==="purchased");
+  if(act){
+    const isNew=!(LIC&&LIC.kind==="play"&&LIC.key===act.token);
+    licWrite({kind:"play",key:act.token,orderId:act.orderId||"",productId:act.productId,
+      autoRenewing:!!act.autoRenewing,activated:true,valid:true,status:"active",checkedAt:Date.now()});
+    if(fromBuy&&isNew){ askPersist(); toast(t("proActivated")); setTimeout(()=>{ closeSheets(); render(); },500); }
+  }else{
+    /* Play a răspuns și nu e niciun abonament activ: unul „play” ținut
+       minte nu mai e valabil (anulat, expirat, rambursat). O cheie EBP sau
+       Lemon Squeezy nu se atinge — nu e treaba lui Play. */
+    if(LIC&&LIC.kind==="play") licWrite(null);
+    if(fromBuy&&items.some(i=>i.state==="pending")) toast(t("playPending"));
+  }
+  try{ if($("shSettings").classList.contains("on")) renderProSettings(); }catch(e){}
+  if(fromBuy&&$("shPro").classList.contains("on")) renderPro(PLAY.why);
+}
+function playBuy(plan){
+  if(PLAY.busy) return;
+  PLAY.busy=true; renderPro(PLAY.why);
+  try{ EbanistAndroid.billingBuy(plan); }catch(e){ PLAY.busy=false; toast(t("playErr")); }
+  setTimeout(()=>{ if(PLAY.busy){ PLAY.busy=false; if($("shPro").classList.contains("on")) renderPro(PLAY.why); } },60000);
+}
+function playBoot(){
+  if(!playOn()) return;
+  try{ EbanistAndroid.billingRestore(); EbanistAndroid.billingQuery(); }catch(e){}
+}
+
 /* ---- memoria protetta ----
    Si chiede nei due momenti in cui l'utente ha appena dimostrato che
    quei dati gli interessano: quando salva il primo progetto e quando
@@ -3840,7 +3902,22 @@ function renderPro(why){
   const feats=["proF1","proF2","proF3","proF4","proF5"]
     .map(k=>`<li>${esc(t(k))}</li>`).join("");
   let buy="";
-  if(BILLING.configured){
+  const onPlay=playOn();
+  PLAY.why=why;
+  if(onPlay){
+    if(PLAY.plans===null){
+      buy=`<p class="mini">${esc(t("playLoading"))}</p>`;
+      try{ EbanistAndroid.billingQuery(); }catch(e){}
+    }else if(!PLAY.plans.length){
+      buy=`<p class="mini" style="color:var(--warn)">${esc(t("playUnavailable"))}</p>`;
+    }else{
+      const by=k=>PLAY.plans.find(p=>p.plan===k);
+      const m=by("monthly"), y=by("yearly"), dis=PLAY.busy?" disabled":"";
+      if(m) buy+=`<button class="btn red" data-play="monthly"${dis}>${esc(t("proBuyM").replace("{p}",m.price))}</button>`;
+      if(y) buy+=`<button class="btn" data-play="yearly" style="margin-top:8px"${dis}>${esc(t("playBuyY").replace("{p}",y.price))}</button>`;
+      buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t("playTerms"))}</p>`;
+    }
+  }else if(BILLING.configured){
     buy=`<button class="btn red" id="proBuyM">${esc(t("proBuyM").replace("{p}",BILLING.PRICE_MONTHLY))}</button>`+
         `<button class="btn" id="proBuyY" style="margin-top:8px">${esc(t("proBuyY").replace("{p}",BILLING.PRICE_YEARLY))}</button>`;
   }else{
@@ -3854,14 +3931,15 @@ function renderPro(why){
     `<div style="margin-top:16px">${buy}</div>`+
     `<div class="eyebrow" style="margin-top:20px">${esc(t("proHaveKey"))}</div>`+
     `<div class="f"><input id="proKey" autocomplete="off" spellcheck="false" placeholder="${esc(t("proKeyPh"))}"></div>`+
-    `<p class="mini" style="margin:-4px 0 8px">${esc(t("proKeyHint"))}</p>`+
+    `<p class="mini" style="margin:-4px 0 8px">${esc(t(onPlay?"proKeyHintPlay":"proKeyHint"))}</p>`+
     `<button class="btn" id="proGo">${esc(t("proActivate"))}</button>`+
     `<p class="mini" id="proMsg" style="margin-top:10px;min-height:1.2em"></p>`+
     `<p class="mini" style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">`+
       `<a href="/termeni.html" target="_blank" rel="noopener">${esc(t("lTerms"))}</a>`+
       `<a href="/privacy.html" target="_blank" rel="noopener">${esc(t("lPrivacy"))}</a>`+
-      `<a href="/rambursare.html" target="_blank" rel="noopener">${esc(t("lRefund"))}</a></p>`;
+      (onPlay?"":`<a href="/rambursare.html" target="_blank" rel="noopener">${esc(t("lRefund"))}</a>`)+`</p>`;
   const bm=$("proBuyM"), by=$("proBuyY");
+  $("proBody").querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>playBuy(b.dataset.play));
   if(bm) bm.onclick=()=>openCheckout("monthly");
   if(by) by.onclick=()=>openCheckout("yearly");
   $("proGo").onclick=proSubmitKey;
@@ -4561,6 +4639,8 @@ function renderProSettings(){
     if(PRO_REASON==="disabled") pl.textContent=t("proDisabledMsg");
   }else if(LIC&&LIC.kind==="legacy"){
     pl.textContent=t("proStateLegacy");
+  }else if(LIC&&LIC.kind==="play"){
+    pl.textContent=t("proStatePlay")+(LIC.autoRenewing===false?" · "+t("playNoRenew"):"");
   }else{
     let txt=t("proStatePro");
     if(LIC&&LIC.expiresAt){
@@ -4574,8 +4654,11 @@ function renderProSettings(){
     pl.textContent=txt;
   }
   $("btnGoPro").style.display=pro?"none":"flex";
-  $("btnLicCheck").style.display=(pro&&LIC&&LIC.kind==="ls")?"flex":"none";
-  $("btnLicOff").style.display=(LIC&&LIC.key)?"flex":"none";
+  const isPlay=!!(LIC&&LIC.kind==="play");
+  $("btnLicCheck").style.display=((pro&&LIC&&LIC.kind==="ls")||playOn())?"flex":"none";
+  /* un abonament Play nu se „deconectează”: se anulează din Play */
+  $("btnLicOff").style.display=(LIC&&LIC.key&&!isPlay)?"flex":"none";
+  $("btnPlayManage").style.display=isPlay?"flex":"none";
 
   /* La memoria protetta si CHIEDE, non si ottiene per diritto: Chrome la
      concede a chi torna, Safari quasi mai. Si scrive quale delle due e,
@@ -4611,9 +4694,11 @@ $("btnPersist").addEventListener("click",async()=>{
 });
 $("btnLicCheck").addEventListener("click",async()=>{
   const b=$("btnLicCheck"); b.disabled=true;
+  if(playOn()){ try{ EbanistAndroid.billingRestore(); }catch(e){} }
   await licRecheck(true);
   b.disabled=false; renderProSettings(); toast("✓");
 });
+$("btnPlayManage").addEventListener("click",()=>{ try{ EbanistAndroid.billingManage(); }catch(e){} });
 $("btnLicOff").addEventListener("click",async()=>{
   if(!await confirmDlg(t("proDeactivateAsk"))) return;
   await proDeactivate();
@@ -11555,6 +11640,9 @@ state=loadState();
    risposto, e stampare la filigrana addosso a chi ha pagato e peggio che
    non stamparla a chi non ha pagato. */
 licLoadSync();
+/* Pe Android: ce abonament Play e activ acum. Răspunsul vine asincron,
+   prin __ebPlay, și poate da sau lua Pro-ul. */
+playBoot();
 /* La lettura di IndexedDB parte adesso, non fra un secondo: e la sola
    cosa che sta fra un telefono ripulito e la giornata di lavoro di
    qualcuno. Tutto il resto dell'avvio la aspetta. */
@@ -11650,12 +11738,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.33.1"; /* APP_VER-MARKER */
+const APP_VER="4.34.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v67";
+const SW_CACHE="ebanist-v68";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

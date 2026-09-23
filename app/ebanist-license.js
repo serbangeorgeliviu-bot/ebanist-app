@@ -105,6 +105,13 @@
       return lic.valid ? { pro: true, reason: "legacy" } : { pro: false, reason: "bad" };
     }
 
+    /* Abonamentul Google Play (aplicația Android): valabilitatea o decide
+       Play la fiecare pornire — aplicația șterge licența când Play spune
+       că nu mai e activ. Aici nu se ghicește nimic din date. */
+    if (lic.kind === "play") {
+      return lic.status === "active" ? { pro: true, reason: "play" } : { pro: false, reason: "none" };
+    }
+
     /* «expired» e «disabled» sono le due sole risposte del server che
        chiudono la porta: la prima e un abbonamento finito, la seconda una
        chiave revocata (rimborso, frode). Tutto il resto — «inactive»
