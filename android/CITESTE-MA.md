@@ -30,3 +30,21 @@ gradle bundleRelease     # → app/build/outputs/bundle/release/app-release.aab
 Cheia e cea de upload din PWABuilder (SHA-256 `30:25:FE:…:BF:1E`); Google
 resemnează cu cheia Play (`63:8A:5E:…:C9:59`). Ambele sunt în
 `/.well-known/assetlinks.json` — pentru linkurile care deschid aplicația.
+
+## Abonamentul Pro (Google Play Billing) — din 1.2.0
+
+`PlayBilling.java` + puntea `EbanistAndroid.billing*`; aplicația web primește
+răspunsurile prin `window.__ebPlay(kind, json)` (vezi `playApply` în index.html).
+
+În Play Console, după ce e încărcat un .aab cu versionCode ≥ 4:
+1. Configurează profilul de plăți (Setări → Profil de plăți), dacă nu există.
+2. Generează bani cu Play → Produse → Abonamente → Creează abonament:
+   ID produs **`ebanist_pro`**, nume „Ebanist Pro”.
+3. Planuri de bază: **`monthly`** (reînnoire automată, 1 lună) și **`yearly`**
+   (reînnoire automată, 1 an). Prețurile se pun aici; aplicația le citește de la Play.
+4. Activează ambele planuri.
+5. Setări → Testarea licențelor → adaugă contul tău Gmail: plățile de test nu
+   se încasează și un abonament de test se reînnoiește la câteva minute.
+
+ID-urile sunt în cod (`PRODUCT_ID`, `data-play="monthly|yearly"`): dacă se
+schimbă în Console, se schimbă și aici.

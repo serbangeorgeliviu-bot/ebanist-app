@@ -91,6 +91,11 @@ describe("La decisione «sono Pro?»", () => {
   test("chiave storica valida = Pro, per sempre e senza rete", () => {
     assert.strictEqual(L.proFrom({ kind: "legacy", key: "EBP-…", valid: true }, NOW).pro, true);
     assert.strictEqual(L.proFrom({ kind: "legacy", key: "EBP-…", valid: false }, NOW).pro, false);
+    // Google Play: activ cât timp Play spune „active”, fără dată de expirare în client
+    assert.strictEqual(L.proFrom({ kind: "play", key: "tok", status: "active", activated: true }, NOW).pro, true);
+    assert.strictEqual(L.proFrom({ kind: "play", key: "tok", status: "active" }, NOW).reason, "play");
+    assert.strictEqual(L.proFrom({ kind: "play", key: "tok", status: "gone" }, NOW).pro, false);
+    assert.strictEqual(L.needsRecheck({ kind: "play", key: "tok", checkedAt: 0 }, NOW), false);
   });
 
   test("abbonamento in corso = Pro", () => {

@@ -15,9 +15,10 @@ android {
         minSdk 24
         targetSdk 36
         /* 1 = TWA-ul din iulie 2026 (PWABuilder). 2 = primul WebView (Android 10+).
-           3 = Android 7+: telefoanele vechi de șantier contează. */
-        versionCode 3
-        versionName "1.1.1"
+           3 = Android 7+: telefoanele vechi de șantier contează.
+           4 = abonamentul Pro prin Google Play Billing. */
+        versionCode 4
+        versionName "1.2.0"
     }
 
     signingConfigs {
@@ -46,4 +47,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+}
+
+dependencies {
+    /* Abonamentul Pro pe Android trece prin Google Play (regula Play
+       pentru bunuri digitale). Aduce cu ea AndroidX și Play Services. */
+    implementation "com.android.billingclient:billing:8.3.0"
 }

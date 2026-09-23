@@ -5,6 +5,26 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.34.0 — 23 septembrie 2026
+
+**Ebanist Pro se poate cumpăra din aplicația Android, prin Google Play.**
+Regula Google pentru bunuri digitale: în aplicația din Play abonamentul se
+plătește numai prin Play. Pe Android, ecranul Pro arată acum cele două planuri
+(lunar și anual) cu prețul luat de la Google Play, în moneda utilizatorului, și
+condițiile de reînnoire. Lemon Squeezy și pagina de rambursare nu mai apar acolo.
+
+- Plata se confirmă la Google imediat. Pro se activează singur.
+- La fiecare deschidere a aplicației se recitește abonamentul din Play. Unul
+  anulat sau expirat își ia singur Pro-ul înapoi, la sfârșitul perioadei plătite.
+- Setări → „Gestionează abonamentul în Google Play”.
+- Codurile de activare EBP merg în continuare. Play nu le atinge.
+- În browser și pe calculator nu se schimbă nimic.
+
+Cere aplicația Android 1.2.0 (versionCode 4) și abonamentul `ebanist_pro`
+creat în Play Console (planurile `monthly` și `yearly`).
+
+---
+
 ## 4.33.1 — 23 septembrie 2026
 
 **Rezumatul se derulează din nou pe telefon.** În aplicația Android pagina

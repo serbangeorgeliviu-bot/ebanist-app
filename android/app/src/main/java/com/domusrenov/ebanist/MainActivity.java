@@ -38,6 +38,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -66,6 +68,8 @@ public class MainActivity extends Activity {
     ValueCallback<Uri[]> fileCallback;
     PermissionRequest pendingPermission;
     Object[] pendingSave;
+    PlayBilling billing;
+    boolean pageReady;
     long lastBack;
     boolean offline;
 
@@ -148,6 +152,8 @@ public class MainActivity extends Activity {
         s.setTextZoom(100);
         s.setUserAgentString(s.getUserAgentString() + " EbanistAndroid/" + BuildConfig.VERSION_NAME);
 
+        billing = new PlayBilling(this, (kind, payload) -> runOnUiThread(() -> web.evaluateJavascript(
+                "window.__ebPlay&&window.__ebPlay(" + JSONObject.quote(kind) + "," + JSONObject.quote(payload.toString()) + ")", null)));
         web.addJavascriptInterface(new Bridge(), "EbanistAndroid");
         web.setWebViewClient(new Client());
         web.setWebChromeClient(new Chrome());
@@ -180,7 +186,16 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onResume() { super.onResume(); web.onResume(); }
+    protected void onResume() {
+        super.onResume();
+        web.onResume();
+        /* reînnoiri, anulări, plăți în așteptare finalizate cât aplicația
+           era închisă: Play le știe, aplicația web le află acum */
+        if (pageReady) billing.restore("resume");
+    }
+
+    @Override
+    protected void onDestroy() { billing.end(); super.onDestroy(); }
 
     @Override
     protected void onPause() { web.onPause(); super.onPause(); }
@@ -245,6 +260,7 @@ public class MainActivity extends Activity {
         public void onPageFinished(WebView v, String url) {
             if (url != null && url.startsWith("https://" + HOST)) {
                 offline = false;
+                pageReady = true;
                 v.evaluateJavascript(SHIM, null);
                 hideSplash();
             }
@@ -383,6 +399,25 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void saveFailed() {
             runOnUiThread(() -> Toast.makeText(MainActivity.this, R.string.save_failed, Toast.LENGTH_SHORT).show());
+        }
+
+        /* ---- Google Play Billing (vezi PlayBilling) ---- */
+        @JavascriptInterface
+        public String billingAvailable() { return "1"; }
+
+        @JavascriptInterface
+        public void billingQuery() { billing.queryProducts(); }
+
+        @JavascriptInterface
+        public void billingBuy(String plan) { billing.buy(plan == null ? "" : plan); }
+
+        @JavascriptInterface
+        public void billingRestore() { billing.restore("check"); }
+
+        @JavascriptInterface
+        public void billingManage() {
+            openExternal(Uri.parse("https://play.google.com/store/account/subscriptions?sku="
+                    + PlayBilling.PRODUCT_ID + "&package=" + getPackageName()));
         }
 
         @JavascriptInterface

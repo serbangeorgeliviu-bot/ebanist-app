@@ -1806,6 +1806,79 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS", ferr.length === 0, ferr.join(" | ").slice(0, 200));
   }
 
+  {
+    head("Google Play Billing — pe Android se plătește numai prin Play");
+    const gctx = await browser.newContext({ viewport: { width: 412, height: 800 } });
+    await gctx.addInitScript(() => {
+      window.__calls = [];
+      const send = (k, d) => setTimeout(() => window.__ebPlay && window.__ebPlay(k, JSON.stringify(d)), 30);
+      window.__playActive = false;
+      window.EbanistAndroid = {
+        billingAvailable: () => "1",
+        billingQuery: () => { __calls.push("query"); send("products", { ok: true, plans: [
+          { plan: "monthly", price: "9,99 €", period: "P1M" }, { plan: "yearly", price: "89,99 €", period: "P1Y" }] }); },
+        billingRestore: () => { __calls.push("restore"); send("purchases", { ok: true, source: "check",
+          items: __playActive ? [{ productId: "ebanist_pro", token: "tok-1", orderId: "GPA.1", state: "purchased", autoRenewing: true }] : [] }); },
+        billingBuy: plan => { __calls.push("buy:" + plan); __playActive = true; send("purchases", { ok: true, source: "buy",
+          items: [{ productId: "ebanist_pro", token: "tok-1", orderId: "GPA.1", state: "purchased", autoRenewing: true }] }); },
+        billingManage: () => __calls.push("manage"),
+        print() {}, saveFile() {}, saveFailed() {}, retry() {}
+      };
+    });
+    const gp = await gctx.newPage();
+    const gerr = []; gp.on("pageerror", e => gerr.push(String(e)));
+    await gp.goto(URL); await gp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await gp.waitForTimeout(3300);
+    const g = await gp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      const o = {};
+      closeSheets(); licWrite(null);
+      o.pornire = __calls.includes("restore") && __calls.includes("query");
+      o.liberInitial = !isPro();
+      openPro("pdf"); await w(200);
+      const body = document.getElementById("proBody");
+      o.pretPlay = /9,99 €/.test(body.textContent) && /89,99 €/.test(body.textContent);
+      o.faraLemon = !body.querySelector("#proBuyM") && !body.querySelector("#proBuyY") && !/lemonsqueezy/i.test(body.innerHTML);
+      o.faraRambursare = !body.querySelector('a[href="/rambursare.html"]');
+      o.conditii = body.textContent.length > 0 && !!body.querySelector("[data-play=monthly]");
+      body.querySelector("[data-play=yearly]").click(); await w(900);
+      o.cumparat = __calls.includes("buy:yearly");
+      o.pro = isPro() && LIC && LIC.kind === "play" && LIC.key === "tok-1";
+      renderProSettings();
+      o.gestionare = document.getElementById("btnPlayManage").style.display === "flex";
+      o.faraDeconectare = document.getElementById("btnLicOff").style.display === "none";
+      document.getElementById("btnPlayManage").click(); o.manage = __calls.includes("manage");
+      // anulat din Play: la următoarea verificare Pro dispare
+      window.__playActive = false; EbanistAndroid.billingRestore(); await w(200);
+      o.anulat = !isPro() && !LIC;
+      // o cheie EBP nu e atinsă de Play
+      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true });
+      EbanistAndroid.billingRestore(); await w(200);
+      o.cheiaRamane = isPro() && LIC.kind === "legacy";
+      // Play nu răspunde: nu se schimbă nimic
+      licWrite({ kind: "play", key: "tok-2", activated: true, valid: true, status: "active" });
+      __ebPlay("purchases", JSON.stringify({ ok: false, code: "unavailable", source: "check" })); await w(50);
+      o.faraRaspuns = isPro() && LIC.key === "tok-2";
+      licWrite(null); closeSheets();
+      return o;
+    });
+    await gp.close(); await gctx.close();
+    ok("la pornire: se citesc abonamentele și prețurile", g.pornire === true);
+    ok("fără abonament: versiunea gratuită", g.liberInitial === true);
+    ok("prețurile vin de la Play", g.pretPlay === true);
+    ok("pe Android nu apare Lemon Squeezy", g.faraLemon === true);
+    ok("pe Android nu apare pagina de rambursare proprie", g.faraRambursare === true);
+    ok("butoanele de abonament există", g.conditii === true);
+    ok("cumpărarea merge la Play cu planul ales", g.cumparat === true);
+    ok("după plată: Pro activ, licență „play”", g.pro === true);
+    ok("setări: „Gestionează abonamentul” deschide Play", g.gestionare === true && g.manage === true);
+    ok("un abonament Play nu se „deconectează”", g.faraDeconectare === true);
+    ok("anulat în Play → Pro dispare la verificare", g.anulat === true);
+    ok("o cheie EBP nu e atinsă de Play", g.cheiaRamane === true);
+    ok("Play nu răspunde → nu se schimbă nimic", g.faraRaspuns === true);
+    ok("nessun errore JS", gerr.length === 0, gerr.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
