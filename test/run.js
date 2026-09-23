@@ -1910,6 +1910,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.reintreaba = __calls.filter(c => c === "query").length === q0 + 1;
       await w(200);
       o.apareDupa = /9,99 €/.test(document.getElementById("proBody").textContent);
+      // plan refăcut cu alt ID: se găsește după perioadă
+      __ebPlay("products", JSON.stringify({ ok: true, plans: [{ plan: "lunar-auto", price: "8,99 €", period: "P1M" }] })); await w(50);
+      renderPro(null); const bb = document.querySelector("#proBody [data-play]");
+      o.dupaPerioada = !!bb && bb.dataset.play === "lunar-auto" && /8,99 €/.test(bb.textContent);
       __ebPlay("products", JSON.stringify({ ok: false, code: "unavailable", detail: "3 Billing unavailable" })); await w(50);
       renderPro(null); o.diag = /unavailable/.test(document.getElementById("proBody").textContent);
       licWrite(null); closeSheets();
@@ -1918,6 +1922,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await gp.close(); await gctx.close();
     ok("„niciun plan” → la redeschidere se întreabă din nou Play", g.reintreaba === true && g.apareDupa === true);
     ok("eroarea Play se vede (cod), pentru diagnostic", g.diag === true);
+    ok("un plan refăcut cu alt ID se găsește după perioadă", g.dupaPerioada === true);
     ok("la pornire: se citesc abonamentele și prețurile", g.pornire === true);
     ok("fără abonament: versiunea gratuită", g.liberInitial === true);
     ok("prețurile vin de la Play", g.pretPlay === true);
