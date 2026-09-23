@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.35.1 — 23 septembrie 2026
+
+**Ecranul Pro din aplicația Android reîntreabă Google Play.** Dacă la prima
+întrebare Play nu avea încă planurile (abonament abia creat, Play ocupat),
+ecranul rămânea pe „Google Play nu răspunde” până la repornirea aplicației.
+Acum reîntreabă la fiecare deschidere și arată codul primit de la Play.
+
+---
+
 ## 4.35.0 — 23 septembrie 2026
 
 **Numele pieselor apar în limba ta.** În română, engleză și franceză nu mai

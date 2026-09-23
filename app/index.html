@@ -3483,7 +3483,7 @@ function playOn(){
 window.__ebPlay=function(kind,json){
   let d; try{ d=JSON.parse(json); }catch(e){ return; }
   if(kind==="products"){
-    PLAY.plans=d.ok?(d.plans||[]):[]; PLAY.err=d.ok?null:(d.code||"error");
+    PLAY.plans=d.ok?(d.plans||[]):[]; PLAY.err=d.ok?null:(d.code||"error"); PLAY.detail=d.ok?"":(d.detail||"");
     if($("shPro")&&$("shPro").classList.contains("on")) renderPro(PLAY.why);
   }else if(kind==="purchases") playApply(d);
 };
@@ -3905,11 +3905,19 @@ function renderPro(why){
   const onPlay=playOn();
   PLAY.why=why;
   if(onPlay){
+    /* Un „niciun plan” nu e definitiv: abonamentul poate fi abia creat în
+       Console sau Play poate fi ocupat. Se reîntreabă la fiecare deschidere
+       a ecranului, cel mult o dată la 10 secunde. */
+    const stale=PLAY.plans!==null&&!PLAY.plans.length&&Date.now()-(PLAY.askedAt||0)>10000;
+    if(PLAY.plans===null||stale){
+      PLAY.askedAt=Date.now();
+      try{ EbanistAndroid.billingQuery(); }catch(e){}
+    }
     if(PLAY.plans===null){
       buy=`<p class="mini">${esc(t("playLoading"))}</p>`;
-      try{ EbanistAndroid.billingQuery(); }catch(e){}
     }else if(!PLAY.plans.length){
-      buy=`<p class="mini" style="color:var(--warn)">${esc(t("playUnavailable"))}</p>`;
+      buy=`<p class="mini" style="color:var(--warn)">${esc(t("playUnavailable"))}</p>`+
+          `<p class="mini" style="opacity:.6;margin-top:4px">Google Play: ${esc(PLAY.err||"0 plans")}${PLAY.detail?" · "+esc(PLAY.detail):""}</p>`;
     }else{
       const by=k=>PLAY.plans.find(p=>p.plan===k);
       const m=by("monthly"), y=by("yearly"), dis=PLAY.busy?" disabled":"";
@@ -11789,12 +11797,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.35.0"; /* APP_VER-MARKER */
+const APP_VER="4.35.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v69";
+const SW_CACHE="ebanist-v70";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
