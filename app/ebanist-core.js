@@ -304,6 +304,36 @@ function deriveCarcass(params) {
     piano_interno = nut_off + t_back;
   }
 
+  /* --- LA TREAPTA DEL MURO ---------------------------------------------
+     Un muro che in basso sporge — il gradino del tubo in un bagno, il bordo
+     di una vasca murata. Il corpo non si arretra: si intaglia. I fianchi
+     prendono un intaglio a L in basso dietro, lo schienale si fa in DUE —
+     quello sopra resta sul piano di sempre, quello sotto scende davanti al
+     gradino — e la base, se sta piu in basso del gradino, si accorcia di
+     quanto il gradino sporge. Cote misurate dal fondo del corpo (y = 0) e
+     dal muro (z = 0). Zero e zero = nessun gradino: tutto come prima. */
+  var treapta_H = p.treapta_H == null ? 0 : num(p, "treapta_H");
+  var treapta_P = p.treapta_P == null ? 0 : num(p, "treapta_P");
+  var treapta = treapta_H > 0 && treapta_P > 0;
+  /* dove comincia lo schienale intero, dal fondo: e da qui che si misura
+     quanto ne resta sotto il gradino */
+  var back_y0 = backMode === "in_cava" ? h_base + SP.base - nut_d
+              : (piedini > 0 ? h_picior : 0);
+  var back_split = treapta && t_back > 0 && treapta_H > back_y0;
+  var back_jos_H = back_split ? treapta_H - back_y0 : 0;
+  var back_sus_H = back_split ? back_H - back_jos_H : back_H;
+  /* la base sta sotto il gradino quando il suo fondo e piu basso del gradino */
+  var base_scurtata = treapta && treapta_H > h_base;
+  var D_base = base_scurtata ? D_bc - treapta_P : D_bc;
+  /* il fianco si intaglia dal suo fondo */
+  var fianco_y0 = piedini > 0 ? h_picior : 0;
+  var intaglio_fianco_H = treapta ? Math.max(0, treapta_H - fianco_y0) : 0;
+  /* profondo quanto il gradino in tutti e tre i modi: lo schienale basso
+     sta davanti al gradino e il fianco, sotto, comincia davanti a lui */
+  var intaglio_fianco_P = treapta ? treapta_P : 0;
+  /* il tramezzo poggia sulla base: si intaglia solo la parte sotto il gradino */
+  var intaglio_div_H = treapta ? Math.max(0, treapta_H - (h_base + SP.base)) : 0;
+
   /* ripiani */
   var ripiano_W = Wi - clearance_ripiano;
   var ripiano_D = (backMode === "in_cava" ? D - piano_interno : D_bc) - setback_ripiano;
@@ -380,6 +410,7 @@ function deriveCarcass(params) {
       foratura_prof: foratura_prof, foratura_dist_cant: foratura_dist_cant,
       n_divisorio: n_divisorio, glisiera: glisieraId,
       cassetto_interno: cassetto_interno, inset_cassetto: inset_cassetto,
+      treapta_H: treapta_H, treapta_P: treapta_P,
       sp: { fianco: SP.fianco, base: SP.base, cielo: SP.cielo, schienale: SP.schienale,
             ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
             divisorio: SP.divisorio }
@@ -433,7 +464,7 @@ function deriveCarcass(params) {
 
     /* le profondita FINITE, quelle che vanno in distinta */
     P_fianco_finita:  mm(D_fianco),
-    P_base_finita:    mm(D_bc),
+    P_base_finita:    mm(D_base),
     P_cielo_finita:   mm(D_bc),
     P_ripiano_finita: mm(ripiano_D),
 
@@ -483,6 +514,21 @@ function deriveCarcass(params) {
       P_cassetto_max: P_cassetto_max, L_cassetto: L_cassetto
     }),
 
+    /* il gradino del muro, gia risolto in cote di pezzo. `activa: false`
+       e il caso di sempre: nessun chiamante deve controllare altro. */
+    treapta: Object.freeze({
+      activa: treapta, H: treapta_H, P: treapta_P,
+      back_split: back_split, back_y0: mm(back_y0),
+      back_sus_H: mm(back_sus_H), back_jos_H: mm(back_jos_H),
+      /* lo schienale basso sta avanti di tanto rispetto a quello alto */
+      back_jos_Z: back_split ? treapta_P : 0,
+      base_scurtata: base_scurtata, D_base: mm(D_base),
+      /* la profondita che la base cede al gradino: entra nella catena P */
+      P_cedat_base: base_scurtata ? treapta_P : 0,
+      intaglio_fianco: Object.freeze({ H: mm(intaglio_fianco_H), P: mm(intaglio_fianco_P) }),
+      intaglio_divisorio: Object.freeze({ H: mm(intaglio_div_H), P: treapta ? treapta_P : 0 })
+    }),
+
     /* la tabella degli assi viaggia con le cote: chi rimonta il gabarito
        (Fase 2) non deve andarsela a cercare altrove. */
     ROLE_AXES: ROLE_AXES
@@ -521,7 +567,10 @@ function closureRow(pieces, role) {
   var rows = [], i, p;
   for (i = 0; i < (pieces || []).length; i++) {
     p = pieces[i];
-    if (!p || p.role !== role) continue;
+    /* `part` = la seconda meta di un pezzo diviso da un gradino (lo
+       schienale basso). Non e un troncone: e un pezzo intero, uguale in
+       larghezza al primo, e non va sommato a lui. */
+    if (!p || p.role !== role || p.part) continue;
     rows.push(p);
   }
   if (!rows.length) return null;
@@ -621,7 +670,8 @@ function reconstructCarcass(corpo, pieces, geometry) {
        cava non ruba niente, negli altri due modi ruba la sua grossezza. */
     var pB = alongAxis(base, "P");
     add("P", "base+schienale", D,
-        (pB == null ? null : pB + (tip === "scanalato" ? 0 : spBack)),
+        (pB == null ? null : pB + (tip === "scanalato" ? 0 : spBack)
+                               + (+(G.treapta && G.treapta.P_cedat_base) || 0)),
         base.nomi.concat(back ? back.nomi : []),
         "Adâncimea recompusă din bază/tavan nu dă adâncimea nominală: fie baza e prea scurtă, fie spatele nu se scade coerent.");
   }

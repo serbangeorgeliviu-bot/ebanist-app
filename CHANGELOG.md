@@ -5,6 +5,54 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.29.0 — 23 septembrie 2026
+
+**Spatele în două bucăți, pentru peretele cu treaptă.** În generator, la
+„Interior", ai acum *Treaptă în perete, jos*: înălțimea și cât iese. Cazul din
+baie — peretele iese jos cu 8 cm. Lateralele primesc decupajul în L jos-spate,
+spatele iese din două piese (sus pe planul obișnuit, jos avansat în fața
+treptei), iar baza, dacă e sub treaptă, se scurtează cu cât iese treapta. Și
+montantul se decupează. Totul intră în distinta cu cotele lui, și controlul de
+închidere trece la 0 mm. Dacă o poliță sau un sertar cade în treaptă, aplicația
+îți spune — nu le mută singură.
+
+**Fiecare piesă, cu găurile ei.** Atingi o piesă în 3D sau butonul de găuri din
+distinta și se deschide *Fișa piesei*: desenul feței 5 (și 6, dacă are) cu
+toate găurile colorate după diametru — cupe de balama Ø35, excentrice Ø15,
+dibluri Ø8, suporți și șuruburi Ø5 — canalul spatelui, cotele de gabarit, și
+tabelul cu fiecare operație: față, X, Y, diametru, adâncime. Găurile vin din
+feronerie: balamale cu talpa lor pe laterală, minifix și dibluri la bază și
+tavan, suporți de poliță, glisiere, mâneri. Pe un montant, suporții celor două
+secțiuni devin o gaură străpunsă. Fișa se exportă și ca CSV.
+
+Cotele de găurire sunt cele din catalogul Blum/Häfele, **neverificate încă pe
+o piesă reală** — fișa o spune. Înainte de mașină, se verifică o dată pe o
+piesă din atelier.
+
+**Feroneria se vede separat.** Butonul *Feronerie* face corpul transparent și
+lasă la vedere balamalele, excentricele, diblurile, glisierele și suporții; în
+panoul din dreapta ai lista pe tipuri, cu cantități și coduri.
+
+**3D mai aproape de realitate.** Lemnul are fibră (și nu „alunecă" când
+deschizi ușa), lumina e de showroom, cu umbră de contact sub mobilă. Ușile se
+deschid și sertarele ies. Poți roti complet, vedea din spate și de jos, și sări
+direct la vederile față, lateral, sus, izometric. Un buton trece vederea pe
+tot ecranul.
+
+**O aplicație de birou pe ecranul mare.** Pe PC și pe tabletă în landscape,
+navigarea stă într-o bară laterală, iar generatorul e un banc de lucru în trei
+panouri: parametrii în stânga, 3D-ul în centru, piesele în dreapta — fiecare cu
+scroll-ul lui. Distinta se citește ca un tabel, ferestrele se deschid în centru,
+nu de jos. Pe telefon rămâne o coloană, cu bara de jos.
+
+**Tipologiile au desen.** În loc de 20 de etichete care umpleau primul ecran,
+o bandă de plăci cu mobila desenată — uși, sertare, polițe, proporții.
+
+Reparat pe drum: o bară goală apărea în capul distinta; spatele aripii B a
+corpului de colț ieșea în 3D cu materialul carcasei.
+
+---
+
 ## 4.28.1 — 21 septembrie 2026
 
 **Panourile vechi sunt din nou în selector.** În 4.28.0 am pus catalogul
