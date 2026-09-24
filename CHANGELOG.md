@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Pagini legale — 24 septembrie 2026
+
+**Termenii, confidențialitatea și rambursările spun acum ce e adevărat.**
+- **Termeni:** gratuit și Pro, așa cum sunt din 4.36 (un proiect gratuit, documentele în Pro); cumpărarea prin Google Play în aplicația Android (plată în avans, fără reînnoire automată, vânzător Liviu George Serban, rambursări după politica Google Play); pe web, plata online vine mai târziu, până atunci Pro se activează cu cod.
+- **Confidențialitate:** rândul pentru Google Play Billing (ce primește aplicația: doar confirmarea achiziției, fără nume, email sau card).
+- **Rambursări:** cum se cere o rambursare pentru o cumpărare din Google Play.
+
+Bannerul „de verificat de un jurist” rămâne pe pagina de termeni.
+
+---
+
 ## 4.36.1 — 24 septembrie 2026
 
 **Audit complet: 21 de tipologii × 4 limbi × telefon/tabletă/PC.** Am trecut prin
