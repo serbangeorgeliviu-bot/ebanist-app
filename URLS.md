@@ -9,7 +9,7 @@
 >   `orders`, `stats`, `model`, `_armodel` sunt publicate. Adresa tehnică:
 >   https://ebanist-com.netlify.app
 > - Domeniu primar `ebanist.com`; aliasuri `www.ebanist.com`, `ebanist.app`,
->   `www.ebanist.app` (Netlify trimite 301 spre `ebanist.com`).
+>   `www.ebanist.app` (Netlify trimite 301 spre `ebanist.com`; verificat 24.09).
 > - DNS-ul `ebanist.com` **rămâne la register.it** (NS ns1/ns2.register.it),
 >   pentru că mutarea NS ar fi dezactivat serviciile de email register.it.
 >   Acolo s-au schimbat doar: A `@` → `75.2.60.5`, CNAME `www` →
@@ -29,7 +29,6 @@
 >
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
-> | Test 301 de la `https://ebanist.app` → `https://ebanist.com` (`/`, `/app/`, `/privacy.html`, `/termeni.html` pe ebanist.com verificate 24.09) | Liviu |
 > | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
 ---
