@@ -5,6 +5,23 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.37.0 — 24 septembrie 2026
+
+**AI Magic Input înțelege cote absolute și nu mai pierde nimic în tăcere.**
+Un prompt complet („setto care se oprește la 1539, 3 polițe în dreapta la 620, 926, 1232, adâncime 250 sub 620…") dădea 13 piese în loc de 16 și 4 uși egale: cotele n-aveau unde să aterizeze și erau aruncate fără niciun mesaj.
+- **Cote absolute în corp** (toate opționale, proiectele vechi generează identic):
+  - `partitions` — despărțitoare verticale la cota lor (`yStart`/`yEnd`, pot să se oprească la jumătate) și polițe la cota feței de jos, pe toată lățimea sau doar într-o coloană;
+  - `depthProfile` — adâncime pe zone de înălțime; se rezolvă în treapta deja verificată (laterale decupate, bază scurtată, spate din două bucăți);
+  - `fronts` — uși cu poziție și dimensiuni explicite (ex. 2 jos + 2 sus);
+  - `customCuts` — decupaje dreptunghiulare în colțul lateralelor și despărțitoarelor. Piesa rămâne în distintă la dreptunghiul complet; decupajul apare pe desen și pe etichetă.
+- **Validare înainte de generare**: o poliță care taie un despărțitor, un despărțitor care se termină în gol, două piese suprapuse, o ușă în afara gabaritului, un decupaj care nu se potrivește cu profilul — toate opresc generarea, cu motivul scris.
+- **Nicio cotă ignorată**: fiecare număr din text trebuie să ajungă într-un câmp sau într-o piesă. Dacă rămâne unul neinterpretat, „Aplică" dispare și se afișează lista.
+- **Ecran de confirmare cu tabelul pieselor**: denumire, dimensiune, bucăți, cotă, decupaje, total m² și ml de cant, plus pila verticală pe fiecare coloană („20 + 19 + 1500 + 19 + 342 + 19 + 342 + 19 = 2280").
+- Generatorul arată o bandă „Cote absolute active", cu buton de ștergere.
+- Test nou: `cd test && npm run test:layout` (corpul Jacquin 870 × 2260 × 360, 16 piese, 7,40 m²).
+
+---
+
 ## 4.36.2 — 24 septembrie 2026
 
 **Backup-ul se poate restaura din nou pe Android.**
