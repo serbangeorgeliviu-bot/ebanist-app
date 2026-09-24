@@ -30,9 +30,27 @@ repo. Partea fiscală descrie ce trebuie lămurit, dar cotele din 2026 și
 3. **Lemon Squeezy → Settings → Refund policy**: aceleași 14 zile ca pe site,
    în ziua în care deschizi plata pe web.
 
+## Decizia fiscală (24.09.2026)
+
+**Acum: persoană fizică, venituri din drepturi de proprietate intelectuală**
+(autorul software-ului), Declarația unică anual + cod special de TVA art. 317.
+Contabilul confirmă încadrarea înainte de prima încasare.
+
+**Mai târziu, dacă veniturile cresc: vânzarea trece pe Domus Renov SRL.**
+Ce presupune mutarea, ca să nu fie o surpriză:
+- Google Play: contul de dezvoltator personal nu devine firmă; se face un cont
+  de organizație (cu număr D-U-N-S pentru Domus Renov) și aplicația se
+  transferă în el. Utilizatorii și achizițiile rămân, dar numele vânzătorului
+  se schimbă în magazin.
+- Lemon Squeezy: datele de payout și fiscale ale magazinului se trec pe SRL.
+- Site: furnizor și operator în `termeni.html`, `rambursare.html`,
+  `privacy.html` și subsolul din `index.html` (4 limbi).
+- Contabil: de la ce dată veniturile sunt ale SRL-ului și cum se tratează
+  drepturile de autor asupra aplicației (cesiune către SRL).
+
 ## Ce rămâne — contabil
 
-1. **Forma de impozitare** pentru vânzări repetate ca persoană fizică. Variante:
+1. **Forma de impozitare**: decisă (vezi mai sus), de confirmat încadrarea. Variantele analizate:
    - venituri din **drepturi de proprietate intelectuală** (autorul
      software-ului): Declarația unică, fără PFA;
    - **PFA**;
