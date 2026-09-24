@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.37.3 — 24 septembrie 2026
+
+- Fonturile (Barlow, Barlow Condensed) se servesc din `/fonts/`, nu de la Google Fonts: pagina nu mai trimite IP-ul vizitatorului la Google.
+- Order Rail: inbox-ul unui atelier real se deschide doar cu PIN-ul secret (`INBOX_PIN_<SLUG>`); PIN-ul public merge numai la `demo`. Blocare 15 minute după 10 PIN-uri greșite. Pe pagina publică a comenzii, telefonul clientului e mascat.
+- Termeni, rambursare, confidențialitate: aliniate între ele și cu aplicația (vezi AUDIT-LEGAL.md).
+- `SW_CACHE`/`CACHE` → `ebanist-v79`.
+
 ## 4.37.2 — 24 septembrie 2026
 
 **AI Magic Input, după primul test real cu promptul Jacquin.**
