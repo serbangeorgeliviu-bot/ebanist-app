@@ -1,5 +1,5 @@
 /* Ebanist service worker — offline-first app shell */
-const CACHE = "ebanist-v76";
+const CACHE = "ebanist-v77";
 const SHELL = ["./index.html","./ebanist-core.js","./ebanist-ops.js","/order-rail/price.js","/order-rail/atelier.js","/order-rail/order.js","./ebanist-store.js","./config/billing.js","./ebanist-license.js","./viewer3d.js","./geo3d.js","./vendor/three.module.min.js","./vendor/RoomEnvironment.js","./arexport.js","./vendor/GLTFExporter.js","./vendor/USDZExporter.js","./vendor/TextureUtils.js","./vendor/fflate.module.js","./vendor/supabase.js","./data/materials-centro-legno.json","./data/materials-legacy.json","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/favicon.ico"];
 
 self.addEventListener("install", e => {
@@ -26,15 +26,14 @@ self.addEventListener("fetch", e => {
      nessuno. Rete diretta, niente cache, in nessuna delle due direzioni. */
   if (url.searchParams.has("upd") || url.searchParams.has("gv")) return;
   if (e.request.mode === "navigate") {
-    // app shell: cache-first, refresh in background
+    /* app shell: cache-first. index.html NON si rinfresca da solo in
+       background: finiva nella cache VECCHIA accanto a un ebanist-core.js
+       vecchio, e alla riapertura partiva una pagina nuova con un motore
+       vecchio (4.37.0: «validateLayout is not defined»). Il guscio si
+       aggiorna TUTTO INSIEME, quando si installa il service worker nuovo —
+       ed ogni rilascio ne porta uno, perche CACHE cambia nome. */
     e.respondWith(
-      caches.match("./index.html").then(hit => {
-        const net = fetch(e.request).then(r => {
-          if (r.ok) caches.open(CACHE).then(c => c.put("./index.html", r.clone()));
-          return r;
-        }).catch(() => hit);
-        return hit || net;
-      })
+      caches.match("./index.html").then(hit => hit || fetch(e.request))
     );
     return;
   }

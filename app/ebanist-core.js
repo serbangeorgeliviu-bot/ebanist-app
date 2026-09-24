@@ -25,6 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
+var CORE_REV = "4.37";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -1713,6 +1714,11 @@ function assertionsHash(rules) {
 /* --- pubblicazione -------------------------------------------------------- */
 var API = {
   GEOM_VERSION: GEOM_VERSION,
+  /* la revisione del FILE, non del motore: index.html la confronta con quella
+     che si aspetta e, se il telefono ha tenuto un nucleo vecchio in cache, se
+     lo riscarica prima di partire. Si alza quando il nucleo guadagna una
+     funzione che index.html chiama. */
+  CORE_REV: CORE_REV,
   CARCASS_DEFAULTS: CARCASS_DEFAULTS,
   PANEL_DEFAULTS: PANEL_DEFAULTS,
   ROLES: ROLES,
