@@ -29,7 +29,7 @@
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
 > | Certificatul să includă și `ebanist.app` / `www.ebanist.app` (după propagare); dacă nu apare singur: Netlify → ebanist.com → Domain management → HTTPS → Renew certificate | Liviu / sesiunea următoare |
-> | Test email: un mesaj trimis din afară spre `feedback@` și `support@` ajunge în `info@` | Liviu |
+> | Test trimitere DIN `info@` spre Gmail (primirea pe feedback@/support@ → info@ verificată 24.09) | Liviu |
 > | Testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
 > | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
