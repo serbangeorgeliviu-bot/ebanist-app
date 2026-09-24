@@ -1,7 +1,7 @@
 # Ebanist Order Rail — adrese și PIN-uri
 
-> **Stare la 24.09.2026: site-ul există, DNS-ul încă nu e mutat.**
-> Linkurile de mai jos răspund abia după pașii lui Liviu din tabelul de jos.
+> **Stare la 24.09.2026: ebanist.com e pe Netlify, cu HTTPS.**
+> Ce mai lipsește e în tabelul de jos.
 >
 > - Site Netlify **`ebanist-com`** (ID `fab6445a-6860-450a-9123-f849f6cee578`),
 >   legat de `ebanist-app` / `main`, publish `.`, fără build, funcții
@@ -10,9 +10,15 @@
 >   https://ebanist-com.netlify.app
 > - Domeniu primar `ebanist.com`; aliasuri `www.ebanist.com`, `ebanist.app`,
 >   `www.ebanist.app` (Netlify trimite 301 spre `ebanist.com`).
-> - Zona DNS `ebanist.com` e pe **Netlify DNS**, cu: MX 10 `mail.register.it`,
->   TXT `v=spf1 include:spf.webapps.net ~all`,
->   `_dmarc` TXT `v=DMARC1; p=none; rua=mailto:info@ebanist.com`.
+> - DNS-ul `ebanist.com` **rămâne la register.it** (NS ns1/ns2.register.it),
+>   pentru că mutarea NS ar fi dezactivat serviciile de email register.it.
+>   Acolo s-au schimbat doar: A `@` → `75.2.60.5`, CNAME `www` →
+>   `ebanist-com.netlify.app`. MX, SPF, recordurile de mail și PEC, neatinse.
+>   `_dmarc` NU e pus încă (se adaugă la register.it, „Modifica zona DNS”).
+> - `ebanist.app` (Namecheap): A `@` → `75.2.60.5`, CNAME `www` →
+>   `ebanist-com.netlify.app`; forwarding-ul de mail neatins.
+> - Certificat Let's Encrypt emis pe 24.09 pentru `ebanist.com` și
+>   `www.ebanist.com` (expiră 23.12, reînnoire automată).
 > - **`whimsical-wisp-61cbbf` NU s-a atins**: aplicația Android rămâne pe
 >   https://whimsical-wisp-61cbbf.netlify.app/app/ până după aprobarea de
 >   producție (~17.10). Netlify Blobs sunt per site: comenzile, cifrele și
@@ -20,10 +26,10 @@
 >
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
-> | Nameserverele `ebanist.com` → `dns1.p04.nsone.net`, `dns2.p04.nsone.net`, `dns3.p04.nsone.net`, `dns4.p04.nsone.net` | Liviu, panoul register.it |
-> | `ebanist.app`: A `@` → `75.2.60.5`, CNAME `www` → `ebanist-com.netlify.app`. **MX-ul de forwarding rămâne neatins** (adresa de feedback din Play Console e pe .app) | Liviu, Namecheap → Advanced DNS |
+> | Certificatul să includă și `ebanist.app` / `www.ebanist.app` (după propagare); dacă nu apare singur: Netlify → ebanist.com → Domain management → HTTPS → Renew certificate | Liviu / sesiunea următoare |
+> | `_dmarc` TXT `v=DMARC1; p=none; rua=mailto:info@ebanist.com` | Liviu, register.it → Modifica zona DNS |
 > | Cutiile `info@`, `feedback@`, `support@ebanist.com` | Liviu, register.it → EMAIL |
-> | Certificatul Let's Encrypt (după propagarea DNS) și testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
+> | Testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
 > | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
 ---
