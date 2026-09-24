@@ -194,8 +194,25 @@ describe("Le cote del testo: ognuna deve atterrare", () => {
     walk(cfg); k.push(19);
     b.out.pieces.forEach(x => { k.push(x.lung, x.larg); (x.yInf || []).forEach(v => k.push(v));
       (x.scasso ? [].concat(x.scasso) : []).forEach(c => k.push(c.l, c.w)); });
+    const LY = S.validateLayout(cfg, b.G);   // come aiCheck: solo se il corpo ha cote assolute
+    if (LY.active) S.layoutNumbers(LY, b.G).forEach(v => k.push(v));
     return k;
   }
+  /* come lo scrive davvero il falegname: con la distinta che si aspetta, la
+     pila di verifica e le cote derivate (facce dei ripiani, bordi delle ante,
+     rost). Sono verifiche, non entrate — e devono risultare consumate. */
+  const PROMPT_VERIFICA = PROMPT + " Mi aspetto: Fianco 2260 × 341 — 2; Setto 1500 × 341; Base 832 × 231; Cielo 832 × 341; " +
+    "Ripiano traversante 830 × 331 — 2; Ripiano dx 404 × 341 a 620; Ripiano dx 404 × 331 — 2; Schienale 870 × 600 e 870 × 1660; " +
+    "Anta 433 × 1538 — 2, Anta 433 × 717 — 2. Verifica: 20 + 19 + 1500 + 19 + 342 + 19 + 342 + 19 = 2280; " +
+    "colonna dx 581 + 287 + 287 + 288; il cielo parte da 2261; il ripiano a 1539 finisce a 1558; " +
+    "le ante alte arrivano a 2278, rost orizzontale 3, rost verticale 4; 19 + 832 + 19 = 870.";
+  test("distinta attesa, pila di verifica e cote derivate nel testo: tutte consumate", () => {
+    assert.deepEqual(J(S.unconsumedCotas(PROMPT_VERIFICA, known(JACQUIN)).map(c => c.raw)), []);
+  });
+  test("una cota attesa che il motore NON produce resta fuori (1661 al posto di 1660)", () => {
+    const t = PROMPT_VERIFICA.replace("870 × 1660;", "870 × 1661;");
+    assert.deepEqual(J(S.unconsumedCotas(t, known(JACQUIN)).map(c => c.raw)), ["1661"]);
+  });
   test("il prompt della riproduzione: zero cote non interpretate", () => {
     assert.deepEqual(J(S.unconsumedCotas(PROMPT, known(JACQUIN)).map(c => c.raw)), []);
   });

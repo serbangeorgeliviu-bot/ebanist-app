@@ -2217,7 +2217,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
    caricato non e la revisione che questa pagina si aspetta, se ne scarica
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
-if(window.CORE_REV!=="4.37") document.write('<script src="./ebanist-core.js?rev=4.37"><\/script>');
+if(window.CORE_REV!=="4.37.2") document.write('<script src="./ebanist-core.js?rev=4.37.2"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
@@ -11041,6 +11041,7 @@ it:{aiKeyWarn:"⚠ La chiave resta su questo telefono e parte direttamente dal b
   aiBoundNote:"Taglio obliquo: la fabbrica taglia dritto. La distinta esporta il rettangolo di sbozzo; l'angolo resta nel 3D e nel disegno.",
   aiLayNote:"Cote assolute: setti, ripiani e ante alle cote dette; tramezzi e ripiani uguali del modulo si azzerano.",
   aiBlkUnused:"Cote non interpretate — il modello NON viene generato. Ogni cota del testo deve finire in un campo:",
+  aiBlkUnchecked:"Cote ancora da verificare: i pezzi non si sono potuti generare (vedi errori sotto), quindi non si confrontano con la distinta attesa:",
   aiBlkErr:"La proposta non si genera:",aiBlkCount:"pezzi dichiarati dalla configurazione ≠ pezzi generati",
   aiTbl:"Pezzi che andranno in distinta",aiColPc:"Pezzo",aiColDim:"Misura",aiColPz:"Pz",aiColPos:"Quota",aiColCut:"Decupaj",
   aiTot:"{n} pezzi · {m2} m² · {ml} ml bordo",aiChV:"Verticale, colonna {c}",aiChH:"Orizzontale, {a}–{b}",
@@ -11058,6 +11059,7 @@ ro:{aiKeyWarn:"⚠ Cheia rămâne pe telefonul ăsta și pleacă direct din brow
   aiBoundNote:"Tăietură oblică: fabrica taie drept. Distinta exportă dreptunghiul de gabarit; unghiul rămâne în 3D și pe desen.",
   aiLayNote:"Cote absolute: despărțitoare, polițe și uși la cotele spuse; tramezzii și polițele egale din formular se pun pe zero.",
   aiBlkUnused:"Cote neinterpretate — modelul NU se generează. Fiecare cotă din text trebuie să ajungă într-un câmp:",
+  aiBlkUnchecked:"Cote încă neverificate: piesele nu s-au putut genera (vezi erorile de mai jos), deci nu se pot compara cu distinta așteptată:",
   aiBlkErr:"Propunerea nu se generează:",aiBlkCount:"piese declarate de configurație ≠ piese generate",
   aiTbl:"Piesele care intră în distintă",aiColPc:"Piesă",aiColDim:"Dimensiune",aiColPz:"Buc",aiColPos:"Cotă",aiColCut:"Decupaj",
   aiTot:"{n} piese · {m2} m² · {ml} ml cant",aiChV:"Vertical, coloana {c}",aiChH:"Orizontal, {a}–{b}",
@@ -11075,6 +11077,7 @@ en:{aiKeyWarn:"⚠ The key stays on this phone and goes straight from the browse
   aiBoundNote:"Angled cut: the factory cuts square. The cut list exports the bounding rectangle; the angle stays in the 3D and on the drawing.",
   aiLayNote:"Absolute positions: dividers, shelves and doors at the stated heights; the form's equal sections and shelves are set to zero.",
   aiBlkUnused:"Measurements not interpreted — the unit is NOT generated. Every measurement in the text must land in a field:",
+  aiBlkUnchecked:"Measurements not yet checked: the parts could not be generated (see the errors below), so they cannot be compared with the expected cut list:",
   aiBlkErr:"The proposal cannot be generated:",aiBlkCount:"parts declared by the configuration ≠ parts generated",
   aiTbl:"Parts going into the cut list",aiColPc:"Part",aiColDim:"Size",aiColPz:"Qty",aiColPos:"Height",aiColCut:"Notch",
   aiTot:"{n} parts · {m2} m² · {ml} m edging",aiChV:"Vertical, column {c}",aiChH:"Horizontal, {a}–{b}",
@@ -11092,6 +11095,7 @@ fr:{aiKeyWarn:"⚠ La clé reste sur ce téléphone et part directement du navig
   aiBoundNote:"Coupe oblique : l'usine coupe droit. La liste exporte le rectangle d'encombrement ; l'angle reste en 3D et sur le dessin.",
   aiLayNote:"Cotes absolues : séparations, étagères et portes aux cotes dites ; les sections et étagères égales du formulaire passent à zéro.",
   aiBlkUnused:"Cotes non interprétées — le meuble N'EST PAS généré. Chaque cote du texte doit aboutir dans un champ :",
+  aiBlkUnchecked:"Cotes pas encore vérifiées : les pièces n'ont pas pu être générées (voir les erreurs ci-dessous), on ne peut donc pas les comparer à la liste attendue :",
   aiBlkErr:"La proposition ne peut pas être générée :",aiBlkCount:"pièces déclarées par la configuration ≠ pièces générées",
   aiTbl:"Pièces qui iront dans la liste de débit",aiColPc:"Pièce",aiColDim:"Cote",aiColPz:"Qté",aiColPos:"Hauteur",aiColCut:"Entaille",
   aiTot:"{n} pièces · {m2} m² · {ml} ml de chant",aiChV:"Vertical, colonne {c}",aiChH:"Horizontal, {a}–{b}",
@@ -11179,9 +11183,11 @@ Reference, always the same: y = 0 is the FLOOR under the unit (feet or plinth in
   One entry per physical piece: "3 shelves on the right at 620, 926 and 1232" = three entries. Emitting partitions replaces the old list (partitions: [] removes it); the app sets tram / shelves / secMode / hang to zero, do not emit them alongside.
 "depthProfile" — depth by height zones, contiguous from 0 to H: "250 below 620, 360 above" => [{yFrom:0,yTo:620,depth:250},{yFrom:620,yTo:H,depth:360}]. P must equal the largest depth. The engine derives the notches of sides and dividers, the shorter base and the back in two pieces: do not add those as extra pieces. Only ONE step, at the bottom, is supported; anything else goes in "questions".
 "fronts" — doors at absolute positions, finished sizes: [{x, y, w, h, hinge:"left"|"right"}], x from the outside left, y from the floor. Use it whenever he gives door sizes or doors of different heights, and set doors = fronts.length. Without it the doors are generated from the sections as before.
-"customCuts" — rectangular corner notches on the vertical pieces: [{on:"fianchi"|"setti", corner:"back-bottom"|"front-bottom"|"back-top"|"front-top", w (along the depth), h (along the height)}]. The piece is still cut as its full rectangle (the factory cuts at 90°); the notch is a guide line on the drawing and the label. When he states a notch that also follows from depthProfile, emit it anyway: the app checks the two agree.
+"customCuts" — rectangular corner notches on the vertical pieces: [{on:"fianchi"|"setti", corner:"back-bottom"|"front-bottom"|"back-top"|"front-top", height (along the HEIGHT of the piece), depth (along the DEPTH, front-back)}]. "600 × 110 in the back-bottom corner" of a 341-deep side is height 600, depth 110: the depth can never exceed the piece depth. The piece is still cut as its full rectangle (the factory cuts at 90°); the notch is a guide line on the drawing and the label. When he states a notch that also follows from depthProfile, emit it anyway: the app checks the two agree.
 "backMode": incassato = back between the sides; applicato = back over everything, as wide as the unit, the sides lose its thickness in depth; in_cava = thin back in a groove. A back as wide as the unit (870 on an 870 unit) is applicato.
 "shelfSetback": how far the shelves stand back from the front edge, mm.
+THICKNESS IS BINDING. When he states a thickness ("truciolare 19", "PAL 18"), the material you pick MUST have exactly that thickness: every derived size moves with it, and 18 instead of 19 shifts the whole unit. If several materials of that thickness could match his words, pick the closest name and mention the others in "questions" — never fall back to one of another thickness.
+CHECK VALUES ARE NOT QUESTIONS. He often adds the cut list he expects ("Fianco 2260 × 341 — 2", "Base 832 × 231"), a vertical sum ("20 + 19 + 1500 + … = 2280"), the gaps between doors or the tops of shelves. Those are checks, not inputs: do not put them in fields and do not ask about them. The app compares them with the pieces it generates from your patch and blocks if they differ.
 EVERY NUMBER MUST LAND. The app compares every measurement in his text with your patch and with the pieces it generates from it; one number that lands nowhere blocks the whole patch. If a number has no field to go to, never drop it: say so in "questions".
 
 CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extra field:
@@ -11253,9 +11259,11 @@ function aiSchema(mode){
         fronts:{type:"array",maxItems:12,description:"Doors at absolute positions, finished sizes. x from the outside left, y from the floor.",
           items:{type:"object",properties:{x:num(0,6000),y:num(0,3500),w:num(60,3000),h:num(60,3500),
             hinge:{type:"string",enum:AI_ENUM.hinge}},required:["x","y","w","h"]}},
-        customCuts:{type:"array",maxItems:8,description:"Rectangular corner notches on the vertical pieces. w along the depth, h along the height.",
+        customCuts:{type:"array",maxItems:8,description:"Rectangular corner notches on the vertical pieces (sides, dividers).",
           items:{type:"object",properties:{on:{type:"string",enum:AI_ENUM.cutOn},corner:{type:"string",enum:AI_ENUM.cutCorner},
-            w:num(1,1200),h:num(1,3500)},required:["on","corner","w","h"]}}}}},common)};
+            height:{type:"integer",minimum:1,maximum:3500,description:"Size of the notch ALONG THE HEIGHT of the piece (vertical), mm."},
+            depth:{type:"integer",minimum:1,maximum:1200,description:"Size of the notch ALONG THE DEPTH of the piece (front-back), mm. Never larger than the piece depth."}},
+            required:["on","corner","height","depth"]}}}}},common)};
   }
   return {type:"object",properties:Object.assign({
     survey:{type:"object",properties:{
@@ -11408,7 +11416,10 @@ function aiNormAbs(raw,out,warn){
   if(Array.isArray(raw.customCuts)){
     const cc=[];
     raw.customCuts.forEach((q,i)=>{ q=q||{};
-      const w=I(q.w,1,1200), h=I(q.h,1,3500);
+      /* height = lungo l'altezza, depth = lungo la profondita. «w»/«h»
+         restano per le patch vecchie. I nomi espliciti ci sono perche il
+         modello, con «600 × 110», scambiava i due assi. */
+      const w=I(q.depth!=null?q.depth:q.w,1,1200), h=I(q.height!=null?q.height:q.h,1,3500);
       if(AI_ENUM.cutOn.indexOf(q.on)<0||AI_ENUM.cutCorner.indexOf(q.corner)<0||w==null||h==null||!isFinite(w)||!isFinite(h)){
         warn.push(`customCuts ${i+1} ?`); return; }
       cc.push({on:q.on,corner:q.corner,w,h}); });
@@ -11446,7 +11457,7 @@ function aiCheck(cur,pc,merged,text){
   try{ C.G=deriveCarcass(carcassParams(merged,{})); }catch(e){ if(merged.type==="standard"||hasLayout(merged)) C.errors.push(e.message||String(e)); }
   if(C.G&&hasLayout(merged)){
     const LY=validateLayout(merged,C.G);
-    C.errors.push.apply(C.errors,LY.errors); C.chains=LY.chains;
+    C.errors.push.apply(C.errors,LY.errors); C.chains=LY.chains; C.layout=LY;
   }
   if(!C.errors.length){ try{ C.built=buildModule(merged); }catch(e){ C.errors.push(e.message||String(e)); } }
   if(C.built&&hasLayout(merged)){
@@ -11469,6 +11480,9 @@ function aiCheck(cur,pc,merged,text){
     LAYOUT_KEYS.forEach(x=>walk(merged[x]));
     ["matBody","matFront","matBack"].forEach(r=>{ const m=matById(merged[r]); if(m) k.push(+m.th); });
     if(C.G) ["Wi","H_fianco","D_fianco","D_bc","P_int","L_int","H_int","back_W","back_H"].forEach(x=>k.push(C.G[x]));
+    /* le cote DERIVATE che il falegname scrive come verifica: facce dei
+       ripiani, bordi delle ante, rost, luci della pila */
+    if(C.layout) layoutNumbers(C.layout,C.G).forEach(v=>k.push(v));
     if(C.built) C.built.pieces.forEach(x=>{ k.push(x.lung,x.larg); (x.yInf||[]).forEach(v=>k.push(v));
       scList(x).forEach(c=>{ k.push(c.l,c.w); }); });
     C.unused=unconsumedCotas(text,k);
@@ -11708,7 +11722,9 @@ async function aiRun(mode){
 function aiCheckHTML(C){
   if(!C) return "";
   const h=[];
-  if(C.unused.length) h.push(`<div class="aiblock"><b>${esc(tia("aiBlkUnused"))}</b> ${C.unused.map(c=>`<b>${esc(c.raw)}</b>`).join(", ")}</div>`);
+  /* senza pezzi generati le cote della distinta attesa non si possono
+     confrontare: si dice, invece di accusarle tutte di essere perse */
+  if(C.unused.length) h.push(`<div class="aiblock"><b>${esc(tia(C.built?"aiBlkUnused":"aiBlkUnchecked"))}</b> ${C.unused.map(c=>`<b>${esc(c.raw)}</b>`).join(", ")}</div>`);
   if(C.errors.length) h.push(`<div class="aiblock"><b>${esc(tia("aiBlkErr"))}</b><ul>${C.errors.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>`);
   if(C.built){
     const pcs=C.built.pieces.filter(x=>!x.mat);
@@ -12301,12 +12317,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.37.1"; /* APP_VER-MARKER */
+const APP_VER="4.37.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v77";
+const SW_CACHE="ebanist-v78";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.37";
+var CORE_REV = "4.37.2";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -1288,12 +1288,13 @@ function mergeCuts(tag, derived, explicit, lung, larg, errors) {
   for (i = 0; i < explicit.length; i++) {
     c = explicit[i];
     if (!(c.w > 0 && c.h > 0) || c.w >= larg || c.h >= lung) {
-      errors.push(tag + ": decupaj " + fmt01(c.h) + "×" + fmt01(c.w) + " nu încape în piesa " + fmt01(lung) + "×" + fmt01(larg)); continue; }
+      errors.push(tag + ": decupaj înălțime " + fmt01(c.h) + " × adâncime " + fmt01(c.w) + " nu încape în piesa " +
+        fmt01(lung) + " (înălțime) × " + fmt01(larg) + " (adâncime)"); continue; }
     var d = byCorner[c.corner];
     if (d && d.derived) {
       if (!nearMm(Math.round(d.h), Math.round(c.h)) || !nearMm(Math.round(d.w), Math.round(c.w)))
         errors.push(tag + ": decupaj " + c.corner + " " + fmt01(c.h) + "×" + fmt01(c.w) +
-          " din text ≠ " + fmt01(d.h) + "×" + fmt01(d.w) + " cerut de profilul de adâncime");
+          " (înălțime × adâncime) din text ≠ " + fmt01(d.h) + "×" + fmt01(d.w) + " cerut de profilul de adâncime");
       continue;   /* uguale: e lo stesso decupaj, una volta sola */
     }
     if (d) { errors.push(tag + ": două decupaje pe colțul " + c.corner); continue; }
@@ -1386,7 +1387,7 @@ function validateLayout(cfg, G, opts) {
     });
     var tot = terms.reduce(function (s, v) { return s + v; }, 0);
     if (!nearMm(tot, H)) { ok = false; errors.push("coloana " + (ci + 1) + ": suma verticală " + fmt01(tot) + " ≠ H " + H); }
-    out.chains.V.push({ col: ci + 1, x: xm, ok: ok, total: tot, nominal: H,
+    out.chains.V.push({ col: ci + 1, x: xm, ok: ok, total: tot, nominal: H, terms: terms.slice(),
                         text: terms.map(fmt01).join(" + ") + " = " + fmt01(tot) });
   });
   var ev = [yIn0, H - sp.cielo];
@@ -1405,10 +1406,40 @@ function validateLayout(cfg, G, opts) {
     terms2.push(W - sp.fianco - x, sp.fianco);
     var tot2 = terms2.reduce(function (s, v) { return s + v; }, 0);
     if (!nearMm(tot2, W)) ok2 = false;
-    out.chains.H.push({ y0: ev[e], y1: ev[e + 1], ok: ok2, total: tot2, nominal: W,
+    out.chains.H.push({ y0: ev[e], y1: ev[e + 1], ok: ok2, total: tot2, nominal: W, terms: terms2.slice(),
                         text: terms2.map(fmt01).join(" + ") + " = " + fmt01(tot2) });
   }
   return out;
+}
+
+/* Tutte le cote DERIVATE di un corpo a cote assolute, quelle che il
+   falegname scrive nel testo come verifica: la faccia superiore di un
+   ripiano (1539 + 19 = 1558), il bordo alto di un'anta (1561 + 717 = 2278),
+   il rost fra due ante (3), le luci della pila (287, 342), la faccia sotto
+   il cielo (2261). Non sono entrate: sono conti che devono tornare, e se
+   tornano la cota e «consumata». */
+function layoutNumbers(LY, G) {
+  var k = [], i, j;
+  if (!LY || !G) return k;
+  var sp = G.sp, inp = G.in;
+  k.push(inp.h_base, inp.h_base + sp.base, inp.H - sp.cielo, G.Wi, G.H_int, G.P_int);
+  for (var r in sp) k.push(sp[r]);
+  (LY.chains.V || []).concat(LY.chains.H || []).forEach(function (c) { (c.terms || []).forEach(function (v) { k.push(v); }); k.push(c.total); });
+  var P = LY.parts;
+  if (P) {
+    P.setti.forEach(function (s) { k.push(s.x0, s.x1, s.y0, s.y1, s.H, s.D); if (s.notch) k.push(s.notch.h, s.notch.w); });
+    P.ripiani.forEach(function (q) { k.push(q.y, q.y1, q.x0, q.x1, q.W, q.D, q.x1 - q.x0); });
+  }
+  var F = LY.fronts || [];
+  for (i = 0; i < F.length; i++) {
+    k.push(F[i].x + F[i].w, F[i].y + F[i].h, inp.W - (F[i].x + F[i].w), inp.H - (F[i].y + F[i].h));
+    for (j = 0; j < F.length; j++) if (i !== j) {
+      var dx = F[j].x - (F[i].x + F[i].w), dy = F[j].y - (F[i].y + F[i].h);
+      if (dx >= 0) k.push(dx);
+      if (dy >= 0) k.push(dy);
+    }
+  }
+  return k.filter(function (v) { return typeof v === "number" && isFinite(v); });
 }
 
 /* --- LE COTE DEL TESTO: nessuna si perde in silenzio ----------------------
@@ -1751,7 +1782,8 @@ var API = {
   validateLayout: validateLayout,
   CUT_CORNERS: CUT_CORNERS,
   extractCotas: extractCotas,
-  unconsumedCotas: unconsumedCotas
+  unconsumedCotas: unconsumedCotas,
+  layoutNumbers: layoutNumbers
 };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
