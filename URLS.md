@@ -1,12 +1,35 @@
 # Ebanist Order Rail — adrese și PIN-uri
 
-> **Niciunul dintre linkurile de mai jos nu răspunde încă.** Domeniul
-> `ebanist.com` nu e legat de Netlify (DNS-ul nu e pus), iar deploy-ul nu
-> s-a putut face din sesiunea de dezvoltare — CLI-ul Netlify răspunde
-> „Not logged in", fără token în mediu. Vezi `DECISIONS.md` §1.1 și §9.
+> **Stare la 24.09.2026: ebanist.com e pe Netlify, cu HTTPS.**
+> Ce mai lipsește e în tabelul de jos.
 >
-> Devin valide în ordinea asta:
-> **1.** DNS + Netlify (`MONETIZARE.md` §2a) → **2.** `netlify deploy --prod`.
+> - Site Netlify **`ebanist-com`** (ID `fab6445a-6860-450a-9123-f849f6cee578`),
+>   legat de `ebanist-app` / `main`, publish `.`, fără build, funcții
+>   `netlify/functions`. Primul deploy: `ready` (commit `56aa6bd`), funcțiile
+>   `orders`, `stats`, `model`, `_armodel` sunt publicate. Adresa tehnică:
+>   https://ebanist-com.netlify.app
+> - Domeniu primar `ebanist.com`; aliasuri `www.ebanist.com`, `ebanist.app`,
+>   `www.ebanist.app` (Netlify trimite 301 spre `ebanist.com`; verificat 24.09).
+> - DNS-ul `ebanist.com` **rămâne la register.it** (NS ns1/ns2.register.it),
+>   pentru că mutarea NS ar fi dezactivat serviciile de email register.it.
+>   Acolo s-au schimbat doar: A `@` → `75.2.60.5`, CNAME `www` →
+>   `ebanist-com.netlify.app`. MX, SPF, recordurile de mail și PEC, neatinse.
+>   Adăugat și `_dmarc` TXT `"v=DMARC1; p=none; rua=mailto:info@ebanist.com"`.
+> - Email (register.it, pachetul inclus: 3 cutii, 2 GB): cutia `info@ebanist.com`;
+>   `feedback@` și `support@` sunt alias spre `info@`. Primire și trimitere
+>   verificate pe 24.09 (mesajul din info@ ajunge în Inbox la Gmail).
+> - `ebanist.app` (Namecheap): A `@` → `75.2.60.5`, CNAME `www` →
+>   `ebanist-com.netlify.app`; forwarding-ul de mail neatins.
+> - Certificat Let's Encrypt (24.09) pentru `ebanist.com`, `www.ebanist.com`,
+>   `ebanist.app`, `www.ebanist.app` (expiră 23.12, reînnoire automată).
+> - **`whimsical-wisp-61cbbf` NU s-a atins**: aplicația Android rămâne pe
+>   https://whimsical-wisp-61cbbf.netlify.app/app/ până după aprobarea de
+>   producție (~17.10). Netlify Blobs sunt per site: comenzile, cifrele și
+>   modelele AR de pe `ebanist.com` sunt separate de cele de pe whimsical-wisp.
+>
+> | Ce mai e de făcut | Cine / unde |
+> |---|---|
+> | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
 ---
 
