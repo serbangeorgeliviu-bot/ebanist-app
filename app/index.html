@@ -2211,6 +2211,14 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
      chiama invece di ricalcolarsele. Script classico, non modulo: deve
      partire anche sui telefoni vecchi dell'officina. -->
 <script src="./ebanist-core.js"></script>
+<script>
+/* NUCLEO VECCHIO IN CACHE. Un aggiornamento a meta (index.html nuovo,
+   ebanist-core.js vecchio nella cache del telefono) faceva partire l'app e
+   poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
+   caricato non e la revisione che questa pagina si aspetta, se ne scarica
+   uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
+if(window.CORE_REV!=="4.37") document.write('<script src="./ebanist-core.js?rev=4.37"><\/script>');
+</script>
 <script src="./ebanist-ops.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
@@ -12293,12 +12301,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.37.0"; /* APP_VER-MARKER */
+const APP_VER="4.37.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v76";
+const SW_CACHE="ebanist-v77";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

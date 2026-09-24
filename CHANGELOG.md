@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.37.1 — 24 septembrie 2026
+
+**Repară „validateLayout is not defined" după actualizarea la 4.37.0.**
+- Telefonul putea rămâne cu pagina nouă și motorul geometric vechi în cache. Asistentul cădea la primul „Genera".
+- Pagina verifică acum revizia motorului la pornire. Dacă e veche, descarcă imediat una proaspătă, înainte de orice altceva.
+- Service worker-ul nu mai actualizează `index.html` singur, în fundal. Tot pachetul aplicației se schimbă odată, la instalarea versiunii noi.
+
+---
+
 ## 4.37.0 — 24 septembrie 2026
 
 **AI Magic Input înțelege cote absolute și nu mai pierde nimic în tăcere.**
