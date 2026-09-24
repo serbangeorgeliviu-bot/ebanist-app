@@ -1,12 +1,30 @@
 # Ebanist Order Rail — adrese și PIN-uri
 
-> **Niciunul dintre linkurile de mai jos nu răspunde încă.** Domeniul
-> `ebanist.com` nu e legat de Netlify (DNS-ul nu e pus), iar deploy-ul nu
-> s-a putut face din sesiunea de dezvoltare — CLI-ul Netlify răspunde
-> „Not logged in", fără token în mediu. Vezi `DECISIONS.md` §1.1 și §9.
+> **Stare la 24.09.2026: site-ul există, DNS-ul încă nu e mutat.**
+> Linkurile de mai jos răspund abia după pașii lui Liviu din tabelul de jos.
 >
-> Devin valide în ordinea asta:
-> **1.** DNS + Netlify (`MONETIZARE.md` §2a) → **2.** `netlify deploy --prod`.
+> - Site Netlify **`ebanist-com`** (ID `fab6445a-6860-450a-9123-f849f6cee578`),
+>   legat de `ebanist-app` / `main`, publish `.`, fără build, funcții
+>   `netlify/functions`. Primul deploy: `ready` (commit `56aa6bd`), funcțiile
+>   `orders`, `stats`, `model`, `_armodel` sunt publicate. Adresa tehnică:
+>   https://ebanist-com.netlify.app
+> - Domeniu primar `ebanist.com`; aliasuri `www.ebanist.com`, `ebanist.app`,
+>   `www.ebanist.app` (Netlify trimite 301 spre `ebanist.com`).
+> - Zona DNS `ebanist.com` e pe **Netlify DNS**, cu: MX 10 `mail.register.it`,
+>   TXT `v=spf1 include:spf.webapps.net ~all`,
+>   `_dmarc` TXT `v=DMARC1; p=none; rua=mailto:info@ebanist.com`.
+> - **`whimsical-wisp-61cbbf` NU s-a atins**: aplicația Android rămâne pe
+>   https://whimsical-wisp-61cbbf.netlify.app/app/ până după aprobarea de
+>   producție (~17.10). Netlify Blobs sunt per site: comenzile, cifrele și
+>   modelele AR de pe `ebanist.com` sunt separate de cele de pe whimsical-wisp.
+>
+> | Ce mai e de făcut | Cine / unde |
+> |---|---|
+> | Nameserverele `ebanist.com` → `dns1.p04.nsone.net`, `dns2.p04.nsone.net`, `dns3.p04.nsone.net`, `dns4.p04.nsone.net` | Liviu, panoul register.it |
+> | `ebanist.app`: A `@` → `75.2.60.5`, CNAME `www` → `ebanist-com.netlify.app`. **MX-ul de forwarding rămâne neatins** (adresa de feedback din Play Console e pe .app) | Liviu, Namecheap → Advanced DNS |
+> | Cutiile `info@`, `feedback@`, `support@ebanist.com` | Liviu, register.it → EMAIL |
+> | Certificatul Let's Encrypt (după propagarea DNS) și testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
+> | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
 ---
 
