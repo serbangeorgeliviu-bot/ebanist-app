@@ -14,7 +14,9 @@
 >   pentru că mutarea NS ar fi dezactivat serviciile de email register.it.
 >   Acolo s-au schimbat doar: A `@` → `75.2.60.5`, CNAME `www` →
 >   `ebanist-com.netlify.app`. MX, SPF, recordurile de mail și PEC, neatinse.
->   `_dmarc` NU e pus încă (se adaugă la register.it, „Modifica zona DNS”).
+>   Adăugat și `_dmarc` TXT `"v=DMARC1; p=none; rua=mailto:info@ebanist.com"`.
+> - Email (register.it, pachetul inclus: 3 cutii, 2 GB): cutia `info@ebanist.com`;
+>   `feedback@` și `support@` sunt alias spre `info@`.
 > - `ebanist.app` (Namecheap): A `@` → `75.2.60.5`, CNAME `www` →
 >   `ebanist-com.netlify.app`; forwarding-ul de mail neatins.
 > - Certificat Let's Encrypt emis pe 24.09 pentru `ebanist.com` și
@@ -27,8 +29,7 @@
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
 > | Certificatul să includă și `ebanist.app` / `www.ebanist.app` (după propagare); dacă nu apare singur: Netlify → ebanist.com → Domain management → HTTPS → Renew certificate | Liviu / sesiunea următoare |
-> | `_dmarc` TXT `v=DMARC1; p=none; rua=mailto:info@ebanist.com` | Liviu, register.it → Modifica zona DNS |
-> | Cutiile `info@`, `feedback@`, `support@ebanist.com` | Liviu, register.it → EMAIL |
+> | Test email: un mesaj trimis din afară spre `feedback@` și `support@` ajunge în `info@` | Liviu |
 > | Testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
 > | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
