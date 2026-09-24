@@ -20,8 +20,8 @@
 >   verificate pe 24.09 (mesajul din info@ ajunge în Inbox la Gmail).
 > - `ebanist.app` (Namecheap): A `@` → `75.2.60.5`, CNAME `www` →
 >   `ebanist-com.netlify.app`; forwarding-ul de mail neatins.
-> - Certificat Let's Encrypt emis pe 24.09 pentru `ebanist.com` și
->   `www.ebanist.com` (expiră 23.12, reînnoire automată).
+> - Certificat Let's Encrypt (24.09) pentru `ebanist.com`, `www.ebanist.com`,
+>   `ebanist.app`, `www.ebanist.app` (expiră 23.12, reînnoire automată).
 > - **`whimsical-wisp-61cbbf` NU s-a atins**: aplicația Android rămâne pe
 >   https://whimsical-wisp-61cbbf.netlify.app/app/ până după aprobarea de
 >   producție (~17.10). Netlify Blobs sunt per site: comenzile, cifrele și
@@ -29,8 +29,7 @@
 >
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
-> | Certificatul să includă și `ebanist.app` / `www.ebanist.app` (după propagare); dacă nu apare singur: Netlify → ebanist.com → Domain management → HTTPS → Renew certificate | Liviu / sesiunea următoare |
-> | Testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
+> | Test 301 de la `https://ebanist.app` → `https://ebanist.com` (`/`, `/app/`, `/privacy.html`, `/termeni.html` pe ebanist.com verificate 24.09) | Liviu |
 > | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
 ---
