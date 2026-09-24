@@ -1822,6 +1822,35 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   }
 
   {
+    head("Toate tipologiile implicite trec de foaia de închidere (audit 4.36.1)");
+    const actx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const ap = await actx.newPage();
+    await ap.goto(URL); await ap.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await ap.waitForTimeout(3000);
+    const a = await ap.evaluate(() => {
+      const bad = [], o = {};
+      const V = [{}, { corner: "dx" }, { cornerKind: "ext" }, { L: 1400, L2: 1200 }];
+      for (const k of Object.keys(PRESETS)) for (const v of (PRESETS[k].type === "angolare" ? V : [{}])) {
+        const p = { pieces: [], configs: {} };
+        generateInto(p, { ...PRESETS[k], ...v, name: "T" });
+        const l = closureSummary(p).filter(r => !r.ok);
+        if (l.length) bad.push(k + JSON.stringify(v) + ": " + l[0].errs.map(e => e.id || e.why).join(","));
+        // nicio piesă mai mare decât placa ei
+        for (const x of p.pieces) { const pf = panelFor(x.materiale);
+          if (!/^accessorio/i.test(x.materiale || "") && pf && !((x.lung <= pf.L && x.larg <= pf.W) || (x.larg <= pf.L && x.lung <= pf.W)))
+            bad.push(k + ": " + x.elemento + " " + x.lung + "×" + x.larg + " > placa " + pf.L + "×" + pf.W); }
+      }
+      o.bad = bad;
+      const p = { pieces: [], configs: {} }; generateInto(p, { ...PRESETS.dressing, name: "D" });
+      o.spateDressing = p.pieces.filter(x => /^Schienale/.test(x.elemento)).map(x => x.lung + "×" + x.larg).join(" + ");
+      return o;
+    });
+    await ap.close(); await actx.close();
+    ok("nicio tipologie implicită blocată la export", a.bad.length === 0, a.bad.slice(0, 3).join(" | ") || "toate trec");
+    ok("spatele dressing-ului intră în placa HDF (împărțit)", /\+/.test(a.spateDressing), a.spateDressing);
+  }
+
+  {
     head("Gratuit vs Pro (D-55) — ce se vede, ce se produce");
     const zctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const zp = await zctx.newPage();

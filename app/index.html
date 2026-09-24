@@ -2790,6 +2790,11 @@ Object.assign(I18N.fr,{
   orDocs:"Documents",
   orWaText:"Commande {id} — {c} — {n} meubles, {p} pcs — {t}",
   orPriceNote:"Prix de l'atelier. TVA incluse dans le total."});
+/* ---- 4.36: panoul de piese pentru tipurile fără model de găuri ---- */
+Object.assign(I18N.it,{vtNoOpsType:"Per questo tipo di mobile i pezzi sono in distinta, ma fori e ferramenta non sono ancora nel modello 3D."});
+Object.assign(I18N.ro,{vtNoOpsType:"Pentru acest tip de mobilier piesele sunt în listă, dar găurile și feroneria nu sunt încă în modelul 3D."});
+Object.assign(I18N.en,{vtNoOpsType:"For this type of furniture the parts are in the cut list, but holes and hardware are not in the 3D model yet."});
+Object.assign(I18N.fr,{vtNoOpsType:"Pour ce type de meuble, les pièces sont dans le débit, mais les perçages et la quincaillerie ne sont pas encore dans le modèle 3D."});
 /* ---- 4.36: gratuit vs Pro (D-55) ---- */
 Object.assign(I18N.ro,{proSubProjects:"Versiunea gratuită are un proiect. Proiectul tău rămâne; pentru altele noi îți trebuie Pro.",proSubPdf:"Distinta PDF și celelalte documente de atelier sunt în Pro. Proiectul tău rămâne aici, întreg.",proStateFree:"Gratuită — {n} proiect, fără documente de atelier",proF1:"Proiecte nelimitate",proF2:"Documente de atelier: distinta PDF, CSV, etichete, fișa de montaj, desen tehnic",proF3:"Oferta PDF și modul Client pe tabletă, cu semnătură",proF4:"Planurile de debitare pe panouri și fișa fiecărei piese cu găuri",proF5:"Export JPG, AR și „În camera ta”",
  proSubDoc:"Documentele de atelier — distinta, etichetele, fișa de montaj, desenul tehnic — sunt în Pro. Proiectul tău rămâne aici, întreg.",proSubOffer:"Oferta PDF pentru client e în Pro.",proSubClient:"Modul Client — finisaje, preț și semnătură pe tabletă — e în Pro.",proSubPart:"Fișa piesei cu toate găurile și CSV-ul lor sunt în Pro. În 3D le vezi și în versiunea gratuită.",proSubNest:"Vezi câte panouri ies. Planurile de tăiere, ordinea tăierilor și resturile în stoc sunt în Pro.",proSubExport:"Exportul pentru debitare (CSV, pachet) e în Pro.",proSubRoom:"Mobila în poza camerei, AR și exportul JPG sunt în Pro.",
@@ -5569,7 +5574,14 @@ function buildCore(cfg){
       if(sc&&sc.length) o.scasso=sc.length===1?sc[0]:sc;
       if(o.lung>0&&o.larg>0) pieces.push(o);
     };
-    const segs = ex.cuts ? splitSegments(lung,larg,ex.cuts,PANL,PANW) : null;
+    /* Se spezza sulla placa DEL SUO materiale, nu pe cea de proiect: un spate
+       HDF (2750×1300) tăiat după 2800×2070 ieșea de 1778 mm lățime — o piesă
+       care nu intră în placa ei și pe care controlul A10 o blochează. Fără
+       format propriu, rămâne formatul de proiect (și goldenele nu se mișcă). */
+    const rMat=(!mat&&spRole&&MAT&&MAT.mats)?MAT.mats[spRole]:null;   // spatele vine fără `mat`: materialul e al rolului
+    const PF=!ex.cuts?null:(mat&&typeof panelFor==="function")?panelFor(mat)
+            :rMat?{L:rMat.pw||PANL,W:rMat.ph||PANW}:null;
+    const segs = ex.cuts ? splitSegments(lung,larg,ex.cuts,(PF&&PF.L)||PANL,(PF&&PF.W)||PANW) : null;
     if(!segs){ put(elemento,lung,larg,ex.angL,ex.angR); return; }
     /* sul giunto nascosto non si borda: il lato tagliato resta grezzo */
     const bc0=bandCount(bordo);
@@ -6680,7 +6692,11 @@ function studioSync(){
   ["btnOpen3d","btnHw3d","btnHoles3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
   const box=$("pcsList"); if(!box) return;
   if(!M||!M.ops||!M.ops.pieces.length){
-    box.innerHTML=`<p class="mini" style="padding:10px 12px">${esc(gl3dOn()?t("vtNoPieces"):t("vtNeedGL"))}</p>`;
+    /* piesele există, dar modelul de găuri (D-48) acoperă numai corpurile cu
+       carcasă: pentru masă, pat, birou și corpurile rotunde se spune asta,
+       nu „configurează corpul”. */
+    const noOpsType=buildCfg&&CASSA_TYPES.indexOf(buildCfg.type||"standard")<0;
+    box.innerHTML=`<p class="mini" style="padding:10px 12px">${esc(!gl3dOn()?t("vtNeedGL"):noOpsType?t("vtNoOpsType"):t("vtNoPieces"))}</p>`;
     $("sumPieces").textContent=""; paintSel(); return; }
   const P=M.ops.pieces;
   const holes=P.reduce((s,p)=>s+nDrill(p),0);
@@ -7908,8 +7924,12 @@ function perWing(cfg,pieces,run){
   if(cfg.type!=="angolare") return run(cfg,pieces||[]);
   const A={...cfg,__ala:"A"};
   const B={...cfg,L:Math.max(300,cfg.L2||900),__ala:"B"};
-  const rowsA=(pieces||[]).filter(x=>x.wing==="A"||!x.wing);
-  const rowsB=(pieces||[]).filter(x=>x.wing==="B");
+  /* rândul salvat în proiect nu mai poartă `wing`: aripa stă în numele
+     modulului („Colțar A” / „Colțar B”). Fără asta, verificarea aripii A
+     aduna ușile ambelor aripi și bloca orice colțar. */
+  const wingOf=x=>x.wing||((/ ([AB])$/.exec(x.modulo||"")||[])[1])||null;
+  const rowsA=(pieces||[]).filter(x=>wingOf(x)==="A"||!wingOf(x));
+  const rowsB=(pieces||[]).filter(x=>wingOf(x)==="B");
   return run(A,rowsA).concat(rowsB.length?run(B,rowsB):[]);
 }
 function closureOf(cfg,pieces){
@@ -8299,6 +8319,12 @@ let CL_ACTION=null;
 let CL_PASSED=null;
 function closureFirst(id){
   if(CL_PASSED===id){ CL_PASSED=null; return false; }   // gia confermata
+  /* Captura pentru comanda Order Rail (orDocs) apasă butoanele fără om la
+     ecran: foaia s-ar deschide și ar aștepta o bifă care nu vine, iar
+     distinta lipsea din pachet. Verificarea rămâne: un corp care nu se
+     închide oprește documentul; unul care se închide trece. Atelierul care
+     primește comanda e cel care o citește. */
+  if(PRINT_CAPTURE){ const p=proj(); return !p||closureSummary(p).some(r=>!r.ok); }
   closureGate(()=>{ CL_PASSED=id; const b=$(id); if(b) b.click(); });
   return true;                                           // ci si ferma qui
 }
@@ -11853,12 +11879,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.36.0"; /* APP_VER-MARKER */
+const APP_VER="4.36.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v73";
+const SW_CACHE="ebanist-v74";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

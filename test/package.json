@@ -17,7 +17,8 @@
     "test:golden": "node golden.js",
     "golden:gen": "node golden/gen.js",
     "golden:report": "node golden/report.js",
-    "test:full": "npm run test:all && npm run test:golden"
+    "test:full": "npm run test:all && npm run test:golden",
+    "audit": "DOCS=1 node audit.js"
   },
   "devDependencies": {
     "playwright": "^1.49.0"
