@@ -22,9 +22,8 @@ repo. Partea fiscală descrie ce trebuie lămurit, dar cotele din 2026 și
 
 ## Ce rămâne — Liviu
 
-1. **Adresa furnizorului**: pe site apar doar numele și emailul. Legea 365/2002
-   (comerț electronic) și GDPR art. 13 cer și o adresă. Decide ce adresă
-   afișezi public; aceeași apare și în Google Play dacă ești „trader” (DSA).
+1. **Adresa furnizorului**: afișată „comuna Racova, județul Bacău” (24.09). Pentru Legea 365/2002 („adresa geografică”) e mai sigur cu satul și numărul; decide dacă o completezi.
+   Aceeași adresă apare și în Google Play dacă ești „trader” (DSA).
 2. **`INBOX_PIN_<SLUG>`** pentru fiecare atelier real, pe ambele site-uri
    Netlify (ebanist-com și whimsical-wisp). PIN de cel puțin 6 cifre. Rețeta
    e în `URLS.md`.
