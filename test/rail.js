@@ -290,7 +290,12 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
     await fp.goto(`${O}/a/centro-legno`); await wait(2600);
     await fp.evaluate(() => { window.print = () => {}; closeSheets(); setView("summary"); });
     await wait(400);
-    await fp.click("#btnPdf"); await wait(1200);
+    await fp.click("#btnPdf"); await wait(600);
+    /* distinta trece prin foaia de închidere (D-45): clientul o citește și confirmă */
+    await fp.evaluate(() => { const sh = document.getElementById("shClosure");
+      if (sh && sh.classList.contains("on")) { const ck = document.getElementById("clOk");
+        ck.checked = true; ck.dispatchEvent(new Event("change")); document.getElementById("btnClGo").click(); } });
+    await wait(1200);
     const st2 = await (await fetch(`${O}/api/stats?atelier=centro-legno`)).json();
     ok("timpul până la primul PDF se măsoară", st2.first_pdf_samples === 1, st2.first_pdf_median_s + " s");
     ok("...și e sub 10 minute, cu marjă", st2.first_pdf_median_s !== null && st2.first_pdf_median_s < 600,
@@ -316,13 +321,15 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
     ok("gating-ul freemium e la locul lui", !s.pro);
     ok("bara de comandă nu apare", !s.bar);
     ok("marca rămâne Ebanist", s.brand === "Ebanist", s.brand);
-    ok("filigranul se întoarce pentru versiunea gratuită", await np.evaluate(() => {
+    ok("versiunea gratuită nu tipărește: ecranul Pro (D-55)", await np.evaluate(() => {
       window.print = () => {}; printOut._offered = 1;
       state.projects = [{ id: "w", name: "x", client: "", date: "2026-09-08",
         pieces: [{ id: "q", modulo: "M", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL melaminat Alb 18mm" }] }];
       state.activeId = "w";
+      document.getElementById("printArea").innerHTML = "";
       document.getElementById("btnPdf").click();
-      return document.querySelectorAll("#printArea .wm-diag").length === 1;
+      const ok = document.getElementById("shPro").classList.contains("on") && !document.getElementById("printArea").innerHTML.trim();
+      closeSheets(); return ok;
     }));
     ok("niciun slug inventat nu activează modul", await np.evaluate(async () => {
       /* Un slug care nu există trebuie să dezactiveze modul complet, nu

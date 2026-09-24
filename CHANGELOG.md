@@ -5,6 +5,51 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.36.1 — 24 septembrie 2026
+
+**Audit complet: 21 de tipologii × 4 limbi × telefon/tabletă/PC.** Am trecut prin
+toate vederile, 3D-ul, documentele, modul Client și foile, căutând erori JS,
+texte stricate („undefined”, „NaN”), traduceri lipsă și ecrane care ies din pagină.
+Au ieșit la iveală cinci erori, toate reparate:
+
+- **Uși glisante și dressing:** distinta era blocată. Spatele din HDF se
+  împărțea după placa de proiect (2800×2070), nu după placa HDF-ului
+  (2750×1300), și ieșea o piesă de 1778 mm care nu intra în placa ei. Acum se
+  împarte după formatul materialului, cu îmbinările în spatele polițelor.
+- **Colțar:** distinta era blocată. Verificarea fronturilor aduna ușile ambelor
+  aripi, fiindcă rândurile salvate nu mai știau din ce aripă vin. Acum aripa se
+  citește din numele modulului.
+- **Order Rail:** atelierul primea comanda fără distinta PDF. Captura
+  automată se oprea la foaia de închidere. Acum trece dacă toate corpurile se
+  închid și se oprește dacă unul nu se închide.
+- **Order Rail:** fiecare comandă apărea cu „preț generic”. Listele de prețuri
+  ale atelierelor demo aveau doar codurile vechi de materiale; acum le au și pe
+  cele din catalogul curent.
+- **Masă, pat, birou, corpuri rotunde:** panoul de piese spunea „Nicio piesă:
+  configurează corpul”. Acum spune că piesele sunt în listă, dar găurile nu sunt
+  încă în modelul 3D.
+
+Goldenele validate nu s-au schimbat (42/42).
+
+---
+
+## 4.36.0 — 23 septembrie 2026
+
+**Gratuitul arată ce face aplicația, Pro produce.**
+
+- **Gratuit:** 1 proiect propriu (exemplul nu se socotește). Toate tipologiile,
+  3D-ul cu piese și găuri, lista de debitare și devizul pe ecran, releveul,
+  câte panouri ies la debitare.
+- **Pro:** proiecte nelimitate, distinta PDF, CSV, etichetele, fișa de
+  montaj, desenul tehnic, comanda de feronerie, oferta PDF, modul Client cu
+  semnătură, planurile de tăiere cu ordinea tăierilor și resturile în stoc,
+  fișa piesei cu găuri și CSV-ul lor, JPG, AR, „În camera ta”.
+- Nimic nu se pierde. Proiectele existente rămân deschise și editabile, iar
+  backup-ul nu e blocat niciodată. Poarta Pro apare înainte de lucru, nu după.
+- Filigranul nu se mai vede: un document de atelier iese curat, și numai din Pro.
+
+---
+
 ## 4.35.3 — 23 septembrie 2026
 
 **Textele Pro din aplicația Android spun ce se cumpără: plată în avans.**
