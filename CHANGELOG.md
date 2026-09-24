@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.36.2 — 24 septembrie 2026
+
+**Backup-ul se poate restaura din nou pe Android.**
+- Pe Android, selectorul de fișiere lăsa să se aleagă numai CSV — backup-ul `.json` nu apărea. Acum se poate alege orice fișier.
+- **Setări → „Restaurează din fișier (backup .json)”**: buton direct pentru restaurare (înainte era doar Proiecte → Importă).
+- Cheia Anthropic nu intră în backup, intenționat: după restaurare se pune din nou în Setări → Asistent AI.
+
+---
+
 ## Pagini legale — 24 septembrie 2026
 
 **Termenii, confidențialitatea și rambursările spun acum ce e adevărat.**
