@@ -530,6 +530,19 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 .aidiff{display:flex;gap:8px;align-items:baseline;font-size:13.5px;line-height:1.5;padding:3px 0;border-bottom:1px dashed var(--line)}
 .aidiff>b{font-family:var(--font-disp);font-size:13px;letter-spacing:.4px;color:var(--muted);flex:none;min-width:104px}
 .aiwarn{color:var(--danger);font-size:12.5px;margin-top:8px;line-height:1.45}
+/* il tavolo dei pezzi prima di generare: quello che andra in debitazione */
+.aitblw{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+.aitbl{width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.35}
+.aitbl th{font-family:var(--font-disp);font-weight:600;letter-spacing:.4px;color:var(--muted);text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+.aitbl td{padding:4px 6px;border-bottom:1px dashed var(--line);vertical-align:top}
+.aitbl td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.aitot{font-size:13px;margin-top:6px;font-weight:600}
+.aichain{font-size:12px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.aichain.bad{color:var(--danger)}
+.aiblock{border:1px solid var(--danger);border-radius:10px;padding:8px 10px;margin-top:10px;color:var(--danger);font-size:12.5px;line-height:1.45}
+.aiblock ul{margin:4px 0 0 16px;padding:0}
+.laybar{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:10px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.laybar span{flex:1;min-width:180px}
 .iconbtn{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:var(--muted);flex:none}
 .iconbtn:active{background:var(--raised)}
 .iconbtn.danger{color:var(--danger)}
@@ -1334,6 +1347,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 
     <!-- input intelligente: testo + voce + foto -> parametri -->
     <div id="aiBarBuild"></div>
+    <!-- cote assolute attive: si vede che i campi sezioni/ripiani/ante sono sostituiti -->
+    <div class="laybar" id="layBar" style="display:none"><span id="layBarTxt"></span><button class="btn sm" id="btnLayClear"><span></span></button></div>
 
     <details class="grp" id="grpBase" open>
       <summary><span data-i="grpBase">Corpo e misure</span><i class="grp-sum" id="sumBase"></i></summary>
@@ -3217,7 +3232,13 @@ function lsSavedAt(){ try{ return parseInt(localStorage.getItem(LS_AT_KEY),10)||
    con quelle cote, e riscriverle in silenzio sarebbe un danno peggiore di
    quello che questo rilascio ripara. */
 function stampGeomVersion(st){
-  for(const p of (st&&st.projects)||[]) if(p.geomVersion==null) p.geomVersion=1;
+  for(const p of (st&&st.projects)||[]){
+    if(p.geomVersion==null) p.geomVersion=1;
+    /* cote assolute (4.37): migrazione NO-OP. I campi nuovi sono facoltativi,
+       un corpo che non li ha resta com'era; si tolgono solo gli array vuoti.
+       geomVersion NON sale: nessuna cota di un progetto esistente cambia. */
+    if(p.configs&&typeof migrateLayoutCfg==="function") Object.keys(p.configs).forEach(k=>migrateLayoutCfg(p.configs[k]));
+  }
   return st;
 }
 /* La scrittura durevole NON puo fallire in silenzio. In cantiere, offline,
@@ -5464,23 +5485,44 @@ function carcassParams(cfg,ctx){
     t_back:backTh,
     backMode:backMode,
     h_zoccolo:support==="zoccolo"?pl:0,
-    n_ante:sliding?0:Math.max(0,cfg.doors||0),
+    /* ante a cote assolute: le cote derivate dell'anta "tipo" non esistono,
+       ogni anta porta le sue. Le regole A3/A4 non hanno niente da misurare. */
+    n_ante:(sliding||hasFronts(cfg))?0:Math.max(0,cfg.doors||0),
     n_cerniere:0,          // lo decide l'altezza dell'anta, sotto
     piedini:support==="piedini"?4:0,
     h_picior:support==="piedini"?pl:0,
     /* i tramezzi: da loro esce la larghezza di una sezione, e quindi quella
        del ripiano e della cassa del cassetto. Prima si ricalcolava in
        quattro punti diversi. */
-    n_divisorio:Math.max(0,Math.round(cfg.tram||0)),
+    /* con le partizioni a cote assolute i tramezzi "a sezioni uguali" non
+       esistono: i setti li porta `partitions`, ognuno alla sua cota. */
+    n_divisorio:hasPartitions(cfg)?0:Math.max(0,Math.round(cfg.tram||0)),
     /* la guida SCELTA: `rezerva_glisiera` viene da lei, non da una costante.
        Sulla cassa in legno comanda la guida del catalogo ferramenta; su una
        cassa metallica, quella che il sistema si porta dietro. */
     glisiera:(cfg.drawers>0)?slideIdFor(cfg):null,
     /* il gradino del muro in basso: fianchi intagliati a L, schienale in due */
     treapta_H:Math.max(0,+cfg.stepH||0), treapta_P:Math.max(0,+cfg.stepP||0),
+    /* il profilo di profondita per zone: deriveCarcass lo risolve nel gradino */
+    depthProfile:(Array.isArray(cfg.depthProfile)&&cfg.depthProfile.length)?cfg.depthProfile:null,
     cassetto_interno:cfg.drawerPos==="interno",
     inset_cassetto:Math.max(0,+(cfg.drawerInset!=null?cfg.drawerInset:35))
   });
+}
+/* I campi a COTE ASSOLUTE del corpo. Tutti facoltativi: un progetto che non
+   li ha genera esattamente la distinta di prima (la migrazione e un no-op). */
+const LAYOUT_KEYS=["partitions","fronts","depthProfile","customCuts"];
+function hasPartitions(cfg){ return !!(cfg&&Array.isArray(cfg.partitions)&&cfg.partitions.length); }
+function hasFronts(cfg){ return !!(cfg&&Array.isArray(cfg.fronts)&&cfg.fronts.length); }
+function hasLayout(cfg){ return !!cfg&&LAYOUT_KEYS.some(k=>Array.isArray(cfg[k])&&cfg[k].length); }
+/* Migrazione dei progetti salvati: NO-OP. Non si aggiunge nessuna chiave e
+   non si ricalcola niente (D-39). Esiste per dirlo in un posto solo: un
+   corpo senza i campi nuovi resta quello che era, le goldenele lo provano.
+   Toglie solo gli array vuoti, che sono la stessa cosa dell'assenza. */
+function migrateLayoutCfg(cfg){
+  if(!cfg||typeof cfg!=="object") return cfg;
+  LAYOUT_KEYS.forEach(k=>{ if(Array.isArray(cfg[k])&&!cfg[k].length) delete cfg[k]; });
+  return cfg;
 }
 /* Quale guida monta questo corpo. UNA riga, letta sia dal motore che dal
    piano dei cassetti: se fossero due, la riserva in profondita e la
@@ -5567,6 +5609,13 @@ function buildCore(cfg){
          l'unico modo di controllare che la pila base→ripiani→cielo chiuda
          davvero l'altezza, invece di riaffermare una definizione. */
       if(ex.ys&&ex.ys.length) o.ys=ex.ys.slice();
+      /* cote assolute: la faccia inferiore di ogni ripiano, come la dice il
+         falegname («a 620»), e i due segni che la chiusura deve conoscere —
+         `partial` (non attraversa il corpo di proposito) e `flush` (va a filo
+         di proposito: il ripiano che chiude il gradino). */
+      if(ex.yInf&&ex.yInf.length) o.yInf=ex.yInf.slice();
+      if(ex.partial) o.partial=1;
+      if(ex.flush) o.flush=1;
       /* `axis_mapping`: quale cota del pezzo corre lungo L, H e P del corpo.
          Senza, 2078x398 e un fianco o un'anta a seconda di chi guarda. */
       if(axes) o.axis_mapping={lung:axes.lung,larg:axes.larg,sp:axes.sp};
@@ -5662,8 +5711,19 @@ function buildCore(cfg){
   const intY0=G.in.h_base+G.sp_base, intY1=H-G.sp_cielo, intH=G.H_int;
   const intD=G.ripiano_D; // profondità utile: dal piano interno, meno l'arretramento del ripiano
   const y0=support==="piedini"?pl:0;
-  const tramRel=[]; for(let i=1;i<=(cfg.tram||0);i++) tramRel.push(i*secW+(i-1)*tD+tD/2); // lungo L-2t
-  const shelfRel=[]; if(cfg.shelves>0) for(let i=1;i<=cfg.shelves;i++) shelfRel.push(intY0+intH*i/(cfg.shelves+1)-y0); // lungo l'altezza del fianco
+  /* ---- COTE ASSOLUTE ----
+     Setti, ripiani, ante e decupaje alle loro cote. Il controllo gira QUI,
+     prima di qualunque pezzo: una cota che non ha dove stare ferma il
+     generatore con il suo perche, invece di sparire dalla distinta. */
+  const LY=hasLayout(cfg)?validateLayout(cfg,G):null;
+  if(LY&&LY.errors.length) throw new Error("Cote absolute: "+LY.errors.join(" · "));
+  const PT=(LY&&LY.parts)||null;
+  const tramRel=[];
+  if(PT) PT.setti.forEach(s=>tramRel.push(s.x0-tF+tD/2));
+  else for(let i=1;i<=(cfg.tram||0);i++) tramRel.push(i*secW+(i-1)*tD+tD/2); // lungo L-2t
+  const shelfRel=[];
+  if(PT) PT.ripiani.filter(r=>!r.partial).forEach(r=>shelfRel.push(r.y+tR/2-y0));
+  else if(cfg.shelves>0) for(let i=1;i<=cfg.shelves;i++) shelfRel.push(intY0+intH*i/(cfg.shelves+1)-y0); // lungo l'altezza del fianco
   const fiancoCuts=shelfRel.concat([intY0-y0,intY1-y0]).filter(v=>v>0);
 
   /* IL GRADINO DEL MURO. Tutte le cote vengono da deriveCarcass: qui si
@@ -5673,7 +5733,10 @@ function buildCore(cfg){
   const TR=G.treapta, trOn=!!(TR&&TR.activa);
   const nF=TR&&TR.intaglio_fianco, nFH=trOn?nF.H:0, nFP=trOn?nF.P:0;
   const notchF=(nFH>0&&nFP>0)?[{l:nFH,w:nFP,x:0,y:0,forma:"L",rif:"jos-spate"}]:null;
-  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts,role:"fianco",scassi:notchF});
+  /* con le cote assolute i decupaje dei fianchi li risolve validateLayout:
+     quello del gradino piu quelli detti nel testo, una volta sola per angolo */
+  const scF=LY?(LY.cuts.fianchi.length?LY.cuts.fianchi:null):notchF;
+  add("Fianco",G.H_fianco,G.D_fianco,2,"2L+2C",null,{cuts:fiancoCuts,role:"fianco",scassi:scF});
   bxRole="fianco";
   if(notchF){
     /* un pannello a L sono due scatole: sopra il gradino tutta la profondita,
@@ -5721,7 +5784,7 @@ function buildCore(cfg){
     bxRole="piedino";
     for(const [fx,fz] of [[tF+20,fzR],[L-tF-70,fzR],[tF+20,P-80],[L-tF-70,P-80]]) bx(fx,fx+50,0,pl,fz,fz+50,"p");
   }
-  if(cfg.tram>0){
+  if(!PT&&cfg.tram>0){
     // i tramezzi restano perpendicolari al fondo: solo le sezioni esterne sono trapezoidali
     const nD=trOn?TR.intaglio_divisorio:null;
     const notchD=(nD&&nD.H>0&&nD.P>0)?[{l:nD.H,w:nD.P,x:0,y:0,forma:"L",rif:"jos-spate"}]:null;
@@ -5730,6 +5793,45 @@ function buildCore(cfg){
     for(let i=1;i<=cfg.tram;i++){ const x=tF+i*secW+(i-1)*tD;
       if(notchD){ bx(x,x+tD,intY0+nD.H,intY1,intZ0,P-20,"p"); bxSame=true; bx(x,x+tD,intY0,intY0+nD.H,intZ0+nD.P,P-20,"p"); }
       else bx(x,x+tD,intY0,intY1,intZ0,P-20,"p"); }
+  }
+  if(PT){
+    /* I SETTI a cote assolute: alti quanto dicono yStart/yEnd, profondi fino
+       al piano dello schienale, con l'intaglio del gradino se partono sotto.
+       Pezzi uguali (stessa cota, stesso decupaj) stanno in una riga. */
+    const sRows={};
+    PT.setti.forEach((st,k)=>{
+      const sc=LY.cuts.setti[k]||[];
+      const key=[Math.round(st.H),Math.round(st.D),JSON.stringify(sc)].join("|");
+      (sRows[key]=sRows[key]||{st,sc,n:0,part:false}).n++;
+      if(st.partial) sRows[key].part=true;
+    });
+    Object.keys(sRows).forEach(k=>{ const r=sRows[k];
+      add("Setto",r.st.H,r.st.D,r.n,"1L",null,{cuts:[],role:"divisorio",scassi:r.sc.length?r.sc:null,partial:r.part}); });
+    bxRole="divisorio";
+    PT.setti.forEach(st=>{
+      const nt=st.notch, z1=intZ0+st.D;
+      if(nt){ bx(st.x0,st.x1,st.y0+nt.h,st.y1,intZ0,z1,"p"); bxSame=true; bx(st.x0,st.x1,st.y0,st.y0+nt.h,intZ0+nt.w,z1,"p"); }
+      else bx(st.x0,st.x1,st.y0,st.y1,z1-st.D,z1,"p");
+    });
+    /* I RIPIANI a cote assolute: una riga per ogni misura diversa, con le
+       quote (faccia inferiore) scritte sopra. La larghezza si arrotonda per
+       DIFETTO, come per tutti i ripiani: un ripiano da 404,5 esce 404 ed
+       entra, uno da 405 freghe. */
+    const rName=r=>r.span==="full"?"Ripiano traversante":r.span==="left"?"Ripiano sx":r.span==="right"?"Ripiano dx":"Ripiano";
+    const rRows={}, rOrder=[];
+    PT.ripiani.forEach(r=>{
+      const w=Math.floor(r.W+1e-6), key=[rName(r),w,Math.round(r.D),r.flush?1:0].join("|");
+      if(!rRows[key]){ rRows[key]={r,w,ys:[],yInf:[],part:r.partial}; rOrder.push(key); }
+      rRows[key].ys.push(r.y+tR/2); rRows[key].yInf.push(r.y);
+    });
+    rOrder.forEach(k=>{ const g=rRows[k];
+      add(rName(g.r),g.w,g.r.D,g.ys.length,"1L",null,{cuts:[],role:"ripiano",ys:g.ys,yInf:g.yInf,
+          partial:g.part,flush:g.r.flush}); });
+    bxRole="ripiano";
+    PT.ripiani.forEach(r=>{
+      const zS=(TR&&TR.activa&&r.y1<=TR.H+0.05)?intZ0+TR.P:intZ0;
+      bx(r.x0,r.x1,r.y,r.y1,zS,zS+r.D,"p");
+    });
   }
   /* Ogni sezione ha il suo contenuto: mezzo armadio con l'asta e mezzo a ripiani
      è la configurazione normale, non un caso limite. */
@@ -5750,7 +5852,7 @@ function buildCore(cfg){
   const frontY0=pl, frontH_all=H-pl;
   const sliding=cfg.type==="scorrevole"&&cfg.doors>0;
   const flaggedD=secIdx.filter(si=>isDrawSec(secMode(si)));
-  const dSecs=(cfg.drawers>0&&!sliding)?(flaggedD.length?flaggedD:secIdx.slice()):[];
+  const dSecs=(cfg.drawers>0&&!sliding&&!PT)?(flaggedD.length?flaggedD:secIdx.slice()):[];
   /* A VISTA o DIETRO L'ANTA: e una scelta, non una deduzione.
      "auto" tiene la regola vecchia — sezione dichiarata a cassetti piu ante
      uguale cassetti interni — cosi i progetti gia salvati non si spostano.
@@ -5773,7 +5875,7 @@ function buildCore(cfg){
      e allora si taglia il numero invece di infilarli nella zona dell'asta. */
   const shCache={};
   const shelfYs=(mode,si)=>{
-    if(cfg.shelves<=0||(mode!=="shelf"&&mode!=="hangShelf"&&mode!=="drawerShelf")) return [];
+    if(PT||cfg.shelves<=0||(mode!=="shelf"&&mode!=="hangShelf"&&mode!=="drawerShelf")) return [];
     /* la sezione a cassetti ha un fondo suo: la cache si tiene per modo,
        e il modo dei cassetti ha una sola geometria possibile. */
     if(shCache[mode]) return shCache[mode];
@@ -5794,7 +5896,7 @@ function buildCore(cfg){
     return (shCache[mode]=out);
   };
   const shelfSecs=secIdx.filter(si=>shelfYs(secMode(si),si).length>0);
-  const hangSecs=secIdx.filter(si=>{const m=secMode(si); return m==="hang"||m==="hangShelf";});
+  const hangSecs=PT?[]:secIdx.filter(si=>{const m=secMode(si); return m==="hang"||m==="hangShelf";});
   const shYs=shelfSecs.length?shelfYs(secMode(shelfSecs[0])):[];
   const shMissing=cfg.shelves>0&&shelfSecs.length?cfg.shelves-shYs.length:0;
   if(shelfSecs.length){
@@ -5903,7 +6005,18 @@ function buildCore(cfg){
         dPlan.fronts.forEach((f,i)=>drawBox(sx0,si,i,f)); });
     }
   }
-  if(cfg.doors>0){
+  if(hasFronts(cfg)){
+    /* LE ANTE A COTE ASSOLUTE: ognuna dove il testo la mette, alta e larga
+       quanto dice. Niente gioco ricavato, niente rost al centro: le cote
+       sono gia quelle finite. Stesse misure = una riga. */
+    const fRows={}, fOrder=[];
+    LY.fronts.forEach(f=>{ const key=Math.round(f.h)+"x"+Math.round(f.w);
+      if(!fRows[key]){ fRows[key]={f,n:0}; fOrder.push(key); } fRows[key].n++; });
+    fOrder.forEach(k=>{ const g=fRows[k]; add(push?"Anta push":"Anta",g.f.h,g.f.w,g.n,"2L+2C",null,{role:"frontale"}); });
+    bxRole="frontale";
+    LY.fronts.forEach(f=>{ bx(f.x,f.x+f.w,f.y,f.y+f.h,P,P+tA,"f",0,0,"door");
+      if(f.hinge) boxes[boxes.length-1].hinge=f.hinge; });
+  }else if(cfg.doors>0){
     if(sliding){
       const nA=Math.max(2,cfg.doors);
       const aH=H-SLIDE_GAP_TOP, aW=(frontW+(nA-1)*SLIDE_OVERLAP)/nA;
@@ -6060,6 +6173,10 @@ function buildCore(cfg){
 
 /* --- dispatch: standard / scorrevole / angolare (due ali a L) --- */
 function buildModule(cfg){
+  /* le cote assolute le legge solo la cassa standard: su un'altra tipologia
+     sparirebbero senza dirlo, ed e proprio il guasto da non ripetere */
+  if(hasLayout(cfg)&&(cfg.type||"standard")!=="standard")
+    throw new Error("Cote absolute: sunt suportate doar pe tipologia standard, nu pe '"+cfg.type+"'");
   if(cfg.type==="scrivania"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=structTh(cfg);
     const pieces=[],boxes=[];
@@ -6647,7 +6764,7 @@ const EL_I18N={
   "Pediera":"Tăblie picioare","Piano scrivania":"Blat birou","Piano tavolo":"Blat masă","Piedino regolabile":"Picior reglabil","Retro cassetto":"Spate sertar",
   "Ripiano mobile":"Poliță mobilă","Ripiano fisso":"Poliță fixă","Ripiano regolabile":"Poliță reglabilă","Ripiano raccordato":"Poliță racordată",
   "Ripiano tondo":"Poliță rotundă","Ripiano":"Poliță","Schienale":"Spate","Schienale sopra":"Spate sus","Schienale sotto":"Spate jos",
-  "Schienale libreria":"Spate bibliotecă","Sponda laterale":"Laterală pat","Testiera":"Tăblie cap","Tramezzo":"Despărțitor",
+  "Schienale libreria":"Spate bibliotecă","Sponda laterale":"Laterală pat","Testiera":"Tăblie cap","Tramezzo":"Despărțitor","Setto":"Despărțitor vertical","Ripiano traversante":"Poliță traversantă","Ripiano sx":"Poliță stânga","Ripiano dx":"Poliță dreapta",
   "Traversa anta vetro":"Traversă ușă sticlă","Traversa centrale":"Traversă centrală","Traversa telaio":"Traversă ramă","Traversa telaio corta":"Traversă ramă scurtă",
   "Vetro anta":"Sticlă ușă","Zoccolo":"Soclu","Frontale scrivania":"Front birou","Frontale":"Front","Top":"Blat","Pezzo":"Piesă","_sez":"secț."},
  en:{"Anta":"Door","Anta scorrevole":"Sliding door","Anta curva":"Curved door","Asta appendiabiti":"Hanging rail",
@@ -6658,7 +6775,7 @@ const EL_I18N={
   "Pediera":"Footboard","Piano scrivania":"Desk top","Piano tavolo":"Table top","Piedino regolabile":"Adjustable foot","Retro cassetto":"Drawer back",
   "Ripiano mobile":"Adjustable shelf","Ripiano fisso":"Fixed shelf","Ripiano regolabile":"Adjustable shelf","Ripiano raccordato":"Curved shelf",
   "Ripiano tondo":"Round shelf","Ripiano":"Shelf","Schienale":"Back","Schienale sopra":"Back, upper","Schienale sotto":"Back, lower",
-  "Schienale libreria":"Bookcase back","Sponda laterale":"Side rail","Testiera":"Headboard","Tramezzo":"Divider",
+  "Schienale libreria":"Bookcase back","Sponda laterale":"Side rail","Testiera":"Headboard","Tramezzo":"Divider","Setto":"Vertical divider","Ripiano traversante":"Full-width shelf","Ripiano sx":"Left shelf","Ripiano dx":"Right shelf",
   "Traversa anta vetro":"Glass door rail","Traversa centrale":"Centre rail","Traversa telaio":"Frame rail","Traversa telaio corta":"Short frame rail",
   "Vetro anta":"Door glass","Zoccolo":"Plinth","Frontale scrivania":"Desk front","Frontale":"Front","Top":"Top","Pezzo":"Part","_sez":"sec."},
  fr:{"Anta":"Porte","Anta scorrevole":"Porte coulissante","Anta curva":"Porte cintrée","Asta appendiabiti":"Tringle",
@@ -6669,7 +6786,7 @@ const EL_I18N={
   "Pediera":"Pied de lit","Piano scrivania":"Plateau bureau","Piano tavolo":"Plateau table","Piedino regolabile":"Vérin réglable","Retro cassetto":"Arrière tiroir",
   "Ripiano mobile":"Étagère mobile","Ripiano fisso":"Étagère fixe","Ripiano regolabile":"Étagère réglable","Ripiano raccordato":"Étagère cintrée",
   "Ripiano tondo":"Étagère ronde","Ripiano":"Étagère","Schienale":"Fond","Schienale sopra":"Fond haut","Schienale sotto":"Fond bas",
-  "Schienale libreria":"Fond bibliothèque","Sponda laterale":"Longeron","Testiera":"Tête de lit","Tramezzo":"Séparation",
+  "Schienale libreria":"Fond bibliothèque","Sponda laterale":"Longeron","Testiera":"Tête de lit","Tramezzo":"Séparation","Setto":"Séparation verticale","Ripiano traversante":"Étagère traversante","Ripiano sx":"Étagère gauche","Ripiano dx":"Étagère droite",
   "Traversa anta vetro":"Traverse porte vitrée","Traversa centrale":"Traverse centrale","Traversa telaio":"Traverse cadre","Traversa telaio corta":"Traverse cadre courte",
   "Vetro anta":"Verre de porte","Zoccolo":"Socle","Frontale scrivania":"Façade bureau","Frontale":"Façade","Top":"Dessus","Pezzo":"Pièce","_sez":"sect."}
 };
@@ -7208,7 +7325,21 @@ function cfgFromForm(){
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
     secMode:buildSecMode,
     /* il gradino vale solo con tutte e due le cote: una sola non e un gradino */
-    stepH:Math.min(2000,v("bStepH",0)), stepP:Math.min(400,v("bStepP",0))};
+    stepH:Math.min(2000,v("bStepH",0)), stepP:Math.min(400,v("bStepP",0)),
+    /* quello che il modulo non ha campi per mostrare viaggia col corpo: le cote
+       assolute, il modo dello schienale, gli arretramenti. Senza questa riga
+       il primo tocco su un campo qualunque le cancellava in silenzio. */
+    ...cfgCarry(buildCfg)};
+}
+const CFG_CARRY=LAYOUT_KEYS.concat(["backMode","geom"]);
+function cfgCarry(src){
+  const o={}; if(!src) return o;
+  CFG_CARRY.forEach(k=>{ const v=src[k];
+    if(v==null) return;
+    if(Array.isArray(v)){ if(v.length) o[k]=JSON.parse(JSON.stringify(v)); }
+    else if(typeof v==="object") o[k]=Object.assign({},v);
+    else o[k]=v; });
+  return o;
 }
 function fAng(id){ const raw=$(id).value.trim(); if(!raw) return 90; const n=parseFloat(raw.replace(",",".")); return isFinite(n)?angClamp(n):90; }
 function syncBuildForm(){
@@ -7327,6 +7458,26 @@ function renderSecChips(){
   }));
 }
 function ts2(k){ return t(k); }
+/* la barra delle cote assolute: dice cosa e attivo e che i campi
+   tramezzi/ripiani/ante del modulo non contano finche c'e */
+function layoutSummary(c){
+  const b=[], pt=c.partitions||[];
+  const nS=pt.filter(q=>q.type==="setto").length, nR=pt.filter(q=>q.type==="ripiano").length;
+  if(nS) b.push(nS+" × "+elName("Setto"));
+  if(nR) b.push(nR+" × "+elName("Ripiano"));
+  if(hasFronts(c)) b.push(c.fronts.length+" × "+elName("Anta"));
+  if(Array.isArray(c.depthProfile)&&c.depthProfile.length) b.push("P "+c.depthProfile.map(z=>z.depth).join(" / "));
+  if(Array.isArray(c.customCuts)&&c.customCuts.length) b.push(c.customCuts.length+" × "+tia("layCut"));
+  return b;
+}
+function renderLayBar(){
+  const bar=$("layBar"); if(!bar) return;
+  const on=hasLayout(buildCfg);
+  bar.style.display=on?"":"none";
+  if(!on) return;
+  $("layBarTxt").textContent=tia("layBar").replace("{s}",layoutSummary(buildCfg).join(" · "));
+  $("btnLayClear").querySelector("span").textContent=tia("layClear");
+}
 function drawPreview(){
   buildCfg=cfgFromForm();
   $("rowL2").style.display=buildCfg.type==="angolare"?"":"none";
@@ -7373,6 +7524,7 @@ function drawPreview(){
   }
   if(!notes.length&&(isAng(buildCfg.angL)||isAng(buildCfg.angR))) notes.push(t("angHintTxt"));
   renderSecChips();
+  renderLayBar();
   drawInfoLine(buildCfg,built);
   $("angHint").innerHTML=notes.length?notes.map(esc).join(" · "):"";
   $("angHint").style.color=(skip.length||wn.doorSkip>0||wn.doorTight||(wn.drawWarn&&wn.drawWarn.length)||split.some(x=>x.joint==="visible"))?"var(--danger)":"var(--muted)";
@@ -7752,6 +7904,9 @@ function generateInto(p,cfg){
        `seg` dice che la riga e un troncone, e va risommata con i suoi. */
     role:x.role||null, axis_mapping:x.axis_mapping||null,
     sp:(x.sp!=null?x.sp:null), spSrc:x.spSrc||null, seg:x.seg||null, ys:x.ys||null,
+    /* cote assolute: la quota dei ripiani e i segni per la chiusura. Solo se
+       ci sono: le righe dei progetti di sempre restano identiche. */
+    ...(x.yInf?{yInf:x.yInf.slice()}:{}), ...(x.partial?{partial:1}:{}), ...(x.flush?{flush:1}:{}),
     angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
     curve:x.curve||null,
     materiale:x.mat||labelFor(x)}));
@@ -10876,6 +11031,13 @@ it:{aiKeyWarn:"⚠ La chiave resta su questo telefono e parte direttamente dal b
   aiModelLbl:"Modello",aiProxyLbl:"Endpoint proprio (opzionale)",aiProxyHint:"Se compilato, la chiamata passa di qui e la chiave non serve.",
   aiImgOnly:"Aggiungi anche una descrizione o una foto",aiCtxCfg:"Modulo corrente",aiCtxSv:"Rilievo corrente",
   aiBoundNote:"Taglio obliquo: la fabbrica taglia dritto. La distinta esporta il rettangolo di sbozzo; l'angolo resta nel 3D e nel disegno.",
+  aiLayNote:"Cote assolute: setti, ripiani e ante alle cote dette; tramezzi e ripiani uguali del modulo si azzerano.",
+  aiBlkUnused:"Cote non interpretate — il modello NON viene generato. Ogni cota del testo deve finire in un campo:",
+  aiBlkErr:"La proposta non si genera:",aiBlkCount:"pezzi dichiarati dalla configurazione ≠ pezzi generati",
+  aiTbl:"Pezzi che andranno in distinta",aiColPc:"Pezzo",aiColDim:"Misura",aiColPz:"Pz",aiColPos:"Quota",aiColCut:"Decupaj",
+  aiTot:"{n} pezzi · {m2} m² · {ml} ml bordo",aiChV:"Verticale, colonna {c}",aiChH:"Orizzontale, {a}–{b}",
+  layBar:"Cote assolute attive: {s}. Tramezzi, ripiani e ante del modulo non contano finché ci sono.",
+  layClear:"Togli le cote assolute",layCleared:"Cote assolute tolte",layCut:"decupaj",
   aiSecNote:"Le divisioni interne diventano tramezzi + contenuto per sezione: nessun mobile in più."},
 ro:{aiKeyWarn:"⚠ Cheia rămâne pe telefonul ăsta și pleacă direct din browser către Anthropic. Folosește o cheie dedicată, pe care o poți revoca separat, și șterge-o dacă telefonul schimbă mâna.",aiKeyBad:"Nu pare o cheie Anthropic (începe cu sk-ant-).",aiKeyDel:"Șterge cheia",aiKeyDelAsk:"Ștergi cheia API de pe telefonul ăsta?",aiKeyGone:"Cheie ștearsă ✓",aiKeyOk:"Cheie salvată ({k})",aiKeyFail:"Cheia NU s-a salvat — telefonul blochează memoria locală (navigare privată?)",aiPh:"Descrie corpul cu vocea sau în scris…",aiPhSv:"Dictează cotele peretelui, prize, țevi…",
   aiSend:"Generează",aiThinking:"Citesc…",aiMic:"Dictează",aiCam:"Poză",aiNoKey:"Lipsește cheia API — Setări → Asistent AI",
@@ -10886,6 +11048,13 @@ ro:{aiKeyWarn:"⚠ Cheia rămâne pe telefonul ăsta și pleacă direct din brow
   aiModelLbl:"Model",aiProxyLbl:"Endpoint propriu (opțional)",aiProxyHint:"Dacă îl completezi, apelul trece pe acolo și cheia nu mai e necesară.",
   aiImgOnly:"Adaugă și o descriere sau o poză",aiCtxCfg:"Corpul curent",aiCtxSv:"Releveul curent",
   aiBoundNote:"Tăietură oblică: fabrica taie drept. Distinta exportă dreptunghiul de gabarit; unghiul rămâne în 3D și pe desen.",
+  aiLayNote:"Cote absolute: despărțitoare, polițe și uși la cotele spuse; tramezzii și polițele egale din formular se pun pe zero.",
+  aiBlkUnused:"Cote neinterpretate — modelul NU se generează. Fiecare cotă din text trebuie să ajungă într-un câmp:",
+  aiBlkErr:"Propunerea nu se generează:",aiBlkCount:"piese declarate de configurație ≠ piese generate",
+  aiTbl:"Piesele care intră în distintă",aiColPc:"Piesă",aiColDim:"Dimensiune",aiColPz:"Buc",aiColPos:"Cotă",aiColCut:"Decupaj",
+  aiTot:"{n} piese · {m2} m² · {ml} ml cant",aiChV:"Vertical, coloana {c}",aiChH:"Orizontal, {a}–{b}",
+  layBar:"Cote absolute active: {s}. Despărțitoarele, polițele și ușile din formular nu contează cât timp există.",
+  layClear:"Șterge cotele absolute",layCleared:"Cote absolute șterse",layCut:"decupaj",
   aiSecNote:"Compartimentările devin tramezzi + conținut pe secțiune: niciun corp în plus."},
 en:{aiKeyWarn:"⚠ The key stays on this phone and goes straight from the browser to Anthropic. Use a dedicated key you can revoke on its own, and delete it if the phone changes hands.",aiKeyBad:"That does not look like an Anthropic key (starts with sk-ant-).",aiKeyDel:"Delete the key",aiKeyDelAsk:"Delete the API key from this phone?",aiKeyGone:"Key deleted ✓",aiKeyOk:"Key saved ({k})",aiKeyFail:"Key NOT saved — this phone blocks local storage (private browsing?)",aiPh:"Describe the unit by voice or in writing…",aiPhSv:"Dictate wall sizes, sockets, pipes…",
   aiSend:"Generate",aiThinking:"Reading…",aiMic:"Dictate",aiCam:"Photo",aiNoKey:"API key missing — Settings → AI assistant",
@@ -10896,6 +11065,13 @@ en:{aiKeyWarn:"⚠ The key stays on this phone and goes straight from the browse
   aiModelLbl:"Model",aiProxyLbl:"Own endpoint (optional)",aiProxyHint:"If set, the call goes through it and no key is needed.",
   aiImgOnly:"Add a description or a photo as well",aiCtxCfg:"Current unit",aiCtxSv:"Current survey",
   aiBoundNote:"Angled cut: the factory cuts square. The cut list exports the bounding rectangle; the angle stays in the 3D and on the drawing.",
+  aiLayNote:"Absolute positions: dividers, shelves and doors at the stated heights; the form's equal sections and shelves are set to zero.",
+  aiBlkUnused:"Measurements not interpreted — the unit is NOT generated. Every measurement in the text must land in a field:",
+  aiBlkErr:"The proposal cannot be generated:",aiBlkCount:"parts declared by the configuration ≠ parts generated",
+  aiTbl:"Parts going into the cut list",aiColPc:"Part",aiColDim:"Size",aiColPz:"Qty",aiColPos:"Height",aiColCut:"Notch",
+  aiTot:"{n} parts · {m2} m² · {ml} m edging",aiChV:"Vertical, column {c}",aiChH:"Horizontal, {a}–{b}",
+  layBar:"Absolute positions active: {s}. The form's dividers, shelves and doors do not count while they exist.",
+  layClear:"Remove absolute positions",layCleared:"Absolute positions removed",layCut:"notch",
   aiSecNote:"Internal divisions become dividers + per-section content: no extra units."},
 fr:{aiKeyWarn:"⚠ La clé reste sur ce téléphone et part directement du navigateur vers Anthropic. Utilisez une clé dédiée, révocable séparément, et supprimez-la si le téléphone change de mains.",aiKeyBad:"Cela ne ressemble pas à une clé Anthropic (commence par sk-ant-).",aiKeyDel:"Supprimer la clé",aiKeyDelAsk:"Supprimer la clé API de ce téléphone ?",aiKeyGone:"Clé supprimée ✓",aiKeyOk:"Clé enregistrée ({k})",aiKeyFail:"Clé NON enregistrée — ce téléphone bloque le stockage local (navigation privée ?)",aiPh:"Décrivez le meuble à la voix ou par écrit…",aiPhSv:"Dictez les cotes du mur, prises, tuyaux…",
   aiSend:"Générer",aiThinking:"Je lis…",aiMic:"Dicter",aiCam:"Photo",aiNoKey:"Clé API manquante — Réglages → Assistant IA",
@@ -10906,6 +11082,13 @@ fr:{aiKeyWarn:"⚠ La clé reste sur ce téléphone et part directement du navig
   aiModelLbl:"Modèle",aiProxyLbl:"Endpoint propre (optionnel)",aiProxyHint:"S'il est rempli, l'appel passe par là et la clé devient inutile.",
   aiImgOnly:"Ajoutez aussi une description ou une photo",aiCtxCfg:"Meuble courant",aiCtxSv:"Relevé courant",
   aiBoundNote:"Coupe oblique : l'usine coupe droit. La liste exporte le rectangle d'encombrement ; l'angle reste en 3D et sur le dessin.",
+  aiLayNote:"Cotes absolues : séparations, étagères et portes aux cotes dites ; les sections et étagères égales du formulaire passent à zéro.",
+  aiBlkUnused:"Cotes non interprétées — le meuble N'EST PAS généré. Chaque cote du texte doit aboutir dans un champ :",
+  aiBlkErr:"La proposition ne peut pas être générée :",aiBlkCount:"pièces déclarées par la configuration ≠ pièces générées",
+  aiTbl:"Pièces qui iront dans la liste de débit",aiColPc:"Pièce",aiColDim:"Cote",aiColPz:"Qté",aiColPos:"Hauteur",aiColCut:"Entaille",
+  aiTot:"{n} pièces · {m2} m² · {ml} ml de chant",aiChV:"Vertical, colonne {c}",aiChH:"Horizontal, {a}–{b}",
+  layBar:"Cotes absolues actives : {s}. Séparations, étagères et portes du formulaire ne comptent pas tant qu'elles existent.",
+  layClear:"Retirer les cotes absolues",layCleared:"Cotes absolues retirées",layCut:"entaille",
   aiSecNote:"Les divisions internes deviennent des séparations + contenu par section : aucun meuble en plus."}};
 function tia(k){ return (AI_I18N[state.lang]||AI_I18N.it)[k]||k; }
 
@@ -10939,7 +11122,10 @@ const AI_ENUM={
   corner:["sx","dx"], cornerKind:["int","ext"],
   secMode:["hangShelf","hang","shelf","empty","drawers","drawerShelf"],
   drawerSys:DRAWSYS_IDS, drawerDist:["fix","uguali","cucina"], drawerPos:["auto","vista","interno"],
-  obst:["presa","interr","tubo","calorifero","vano","trave","altro"]};
+  obst:["presa","interr","tubo","calorifero","vano","trave","altro"],
+  /* cote assolute */
+  backMode:["incassato","applicato","in_cava"], partType:["setto","ripiano"], span:["full","left","right"],
+  hinge:["left","right"], cutOn:["fianchi","setti"], cutCorner:["back-bottom","front-bottom","back-top","front-top"]};
 /* i codici di altezza sponda validi: dipendono dal sistema, quindi l'unione */
 const AI_DRAWH=Object.keys(DRAWSYS).reduce((a,k)=>{
   Object.keys(DRAWSYS[k].hs||{}).forEach(c=>{ if(a.indexOf(c)<0) a.push(c); }); return a; },[]);
@@ -10974,8 +11160,21 @@ DRAWERS. "drawers" is the count PER SECTION. Where they go:
   vista = on the facade, visible next to the doors. The doors then cover only the sections left over, at full height. "wardrobe with a hanging section and a visible drawer column on the right" => same fields but drawerPos="vista", doors=1. The drawer column must be at one END of the unit, not between two door sections.
   auto (default) = interno when the unit has doors, vista otherwise. Emit it explicitly whenever he says where he wants them.
 Heights: "drawerDist" decides. fix = every front "drawerFH" tall (default 200). uguali = the "drawerZone" mm are shared out equally. cucina = one shallow front on top and the rest equal — the kitchen base. With uguali/cucina always give "drawerZone" unless the drawers take the whole front.
-System: "drawerSys" — legno (wooden box, the slide comes from the hardware catalog), legrabox, tandembox, nessuno (front only, the client supplies the boxes). Only name a Blum system if he named it. Ebanist's engine divides the inside into EQUAL sections; unequal widths are not supported yet, so if he asks for a specific section width, still emit the closest tram/secMode and add a line in "questions" saying the width ratio cannot be honoured.
+System: "drawerSys" — legno (wooden box, the slide comes from the hardware catalog), legrabox, tandembox, nessuno (front only, the client supplies the boxes). Only name a Blum system if he named it. tram/secMode divide the inside into EQUAL sections. If he gives a section width or any position as a measurement, do NOT approximate it with tram: use "partitions" (below). Drawers cannot be combined with partitions yet — if he asks for both, keep partitions and ask in "questions".
 "shelves" and "drawers" are counts PER SECTION, not totals.
+
+ABSOLUTE POSITIONS — the moment he gives a height or a position as a number ("at 1539", "from 39 to 1539", "at 620, 926 and 1232", "stops at", "up to", "below", "only in the right column", "only on the left", "full width", "traversing"), use the fields below. NEVER turn an absolute measurement into a count of equal sections or a shelf count: tram / shelves / secMode divide equally and his numbers would be lost.
+Reference, always the same: y = 0 is the FLOOR under the unit (feet or plinth included), x = 0 is the OUTSIDE face of the left side. H is the overall height from the floor: a carcass of 2260 standing on 20 mm feet is H=2280, support="piedini", plinth=20, and every y he gives is measured from that same floor.
+"partitions" — the COMPLETE list of internal pieces placed by measurement:
+  {type:"setto", x:"center" or mm to its LEFT face, yStart, yEnd} — a vertical divider. yStart defaults to the top face of the base, yEnd to the underside of the top. A divider that "stops at 1539" has yEnd=1539, and something must rest on it there: a shelf with y=1539.
+  {type:"ripiano", y, span} — a shelf. y = the UNDERSIDE of the shelf. span: "full" (wall to wall, traversing — valid above the end of a divider), "left" / "right" (only in that column — needs a divider crossing that height), or [xFrom, xTo] between two faces. "depth" only if he gives the shelf depth.
+  One entry per physical piece: "3 shelves on the right at 620, 926 and 1232" = three entries. Emitting partitions replaces the old list (partitions: [] removes it); the app sets tram / shelves / secMode / hang to zero, do not emit them alongside.
+"depthProfile" — depth by height zones, contiguous from 0 to H: "250 below 620, 360 above" => [{yFrom:0,yTo:620,depth:250},{yFrom:620,yTo:H,depth:360}]. P must equal the largest depth. The engine derives the notches of sides and dividers, the shorter base and the back in two pieces: do not add those as extra pieces. Only ONE step, at the bottom, is supported; anything else goes in "questions".
+"fronts" — doors at absolute positions, finished sizes: [{x, y, w, h, hinge:"left"|"right"}], x from the outside left, y from the floor. Use it whenever he gives door sizes or doors of different heights, and set doors = fronts.length. Without it the doors are generated from the sections as before.
+"customCuts" — rectangular corner notches on the vertical pieces: [{on:"fianchi"|"setti", corner:"back-bottom"|"front-bottom"|"back-top"|"front-top", w (along the depth), h (along the height)}]. The piece is still cut as its full rectangle (the factory cuts at 90°); the notch is a guide line on the drawing and the label. When he states a notch that also follows from depthProfile, emit it anyway: the app checks the two agree.
+"backMode": incassato = back between the sides; applicato = back over everything, as wide as the unit, the sides lose its thickness in depth; in_cava = thin back in a groove. A back as wide as the unit (870 on an 870 unit) is applicato.
+"shelfSetback": how far the shelves stand back from the front edge, mm.
+EVERY NUMBER MUST LAND. The app compares every measurement in his text with your patch and with the pieces it generates from it; one number that lands nowhere blocks the whole patch. If a number has no field to go to, never drop it: say so in "questions".
 
 CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extra field:
   type="tondo" — a round or oval body. L and P are the OUTSIDE axes measured with a tape; equal L and P give a cylinder, different ones an oval. Shelves sit inside. No extra field.
@@ -10983,7 +11182,7 @@ CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extr
   front="curvo" — bowed doors; "bow" is the camber in mm at the centre of the door (typical 30-60). Give it only for this front.
 For all three the cut list still gets a straight rectangle at the DEVELOPED length, because the panel is cut flat and bent afterwards — do not shorten a dimension to "account for the curve", give the real outside sizes and let the engine compute the development and the kerf plan.
 
-ANGLED CUTS (customCuts) — the only geometric modifier the engine has. "angL" and "angR" are the real corner angles of the room at the left and right end of the unit, 45..135, default 90. Under 90 the unit narrows towards the front (inside corner), over 90 it widens (outside corner). L is measured at the BACK wall. The engine applies them to the trapezoidal panels (Base / Cielo, Zoccolo) and renders the oblique cut in 3D. There is no per-panel modifier: do not try to angle a single Fianco or shelf — emit angL/angR and let the engine decide which panels are trapezoidal.
+ANGLED ENDS (angL / angR) — the only oblique modifier the engine has (rectangular corner notches are customCuts, above). "angL" and "angR" are the real corner angles of the room at the left and right end of the unit, 45..135, default 90. Under 90 the unit narrows towards the front (inside corner), over 90 it widens (outside corner). L is measured at the BACK wall. The engine applies them to the trapezoidal panels (Base / Cielo, Zoccolo) and renders the oblique cut in 3D. Angles are never per panel: do not try to angle a single Fianco or shelf — emit angL/angR and let the engine decide which panels are trapezoidal.
 
 PRODUCTION vs SITE (bounding box): the factory only cuts at 90 degrees. Whatever angle you set, the cut list still exports the maximum bounding rectangle of each panel and the oblique line goes only to the assembly sheet as a guide. So never reduce a dimension "because of the angle" — give the real wall opening and let the engine do it.`);
   }else{
@@ -11031,7 +11230,24 @@ function aiSchema(mode){
         bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
         secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:5,
-          description:"Content of each section, left to right. Length must be tram+1."}}}},common)};
+          description:"Content of each section, left to right. Length must be tram+1."},
+        backMode:{type:"string",enum:AI_ENUM.backMode,description:"incassato = between the sides, applicato = over everything (full width), in_cava = thin back in a groove."},
+        shelfSetback:num(0,200),
+        depthProfile:{type:"array",maxItems:4,description:"Depth by height zone, contiguous from 0 (floor) to H.",
+          items:{type:"object",properties:{yFrom:num(0,3500),yTo:num(1,3500),depth:num(50,1200)},required:["yFrom","yTo","depth"]}},
+        partitions:{type:"array",maxItems:40,description:"Complete list of internal pieces at absolute positions. y from the floor, to the UNDERSIDE of a shelf.",
+          items:{type:"object",properties:{
+            type:{type:"string",enum:AI_ENUM.partType},
+            x:{anyOf:[{type:"integer",minimum:0,maximum:6000},{type:"string",enum:["center"]}],description:"setto: left face from the outside left, or \"center\"."},
+            yStart:num(0,3500), yEnd:num(0,3500), y:num(0,3500),
+            span:{anyOf:[{type:"string",enum:AI_ENUM.span},{type:"array",items:num(0,6000),minItems:2,maxItems:2}]},
+            depth:num(10,1200)},required:["type"]}},
+        fronts:{type:"array",maxItems:12,description:"Doors at absolute positions, finished sizes. x from the outside left, y from the floor.",
+          items:{type:"object",properties:{x:num(0,6000),y:num(0,3500),w:num(60,3000),h:num(60,3500),
+            hinge:{type:"string",enum:AI_ENUM.hinge}},required:["x","y","w","h"]}},
+        customCuts:{type:"array",maxItems:8,description:"Rectangular corner notches on the vertical pieces. w along the depth, h along the height.",
+          items:{type:"object",properties:{on:{type:"string",enum:AI_ENUM.cutOn},corner:{type:"string",enum:AI_ENUM.cutCorner},
+            w:num(1,1200),h:num(1,3500)},required:["on","corner","w","h"]}}}}},common)};
   }
   return {type:"object",properties:Object.assign({
     survey:{type:"object",properties:{
@@ -11061,7 +11277,9 @@ function aiContext(mode){
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
      "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode",
-     "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
+     "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
+     "backMode","partitions","fronts","depthProfile","customCuts"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
+    if(c.geom&&c.geom.setback_ripiano!=null) keep.shelfSetback=c.geom.setback_ripiano;
     return JSON.stringify(keep);
   }
   const sv=survey()||{walls:[],heights:[],obstacles:[]}, p=proj();
@@ -11128,7 +11346,127 @@ function aiNormCfg(raw,warn){
     const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
     if(arr.length){ while(arr.length<n) arr.push(arr[arr.length-1]); out.secMode=arr.slice(0,n); }
   }
+  aiNormAbs(raw,out,warn);
   return out;
+}
+/* ---------- cote assolute: stesso filtro, nessun valore inventato ----------
+   Un elemento che non passa si SCARTA con un avviso — e le sue cote restano
+   senza casa: il controllo delle cote del testo ferma poi la patch. Niente
+   si corregge per farlo entrare. */
+function aiNormAbs(raw,out,warn){
+  const I=(v,lo,hi)=>{ if(v==null||v==="") return null; const n=Math.round(parseFloat(v)); return (isFinite(n)&&n>=lo&&n<=hi)?n:NaN; };
+  if(raw.backMode!=null){ if(AI_ENUM.backMode.indexOf(raw.backMode)>=0) out.backMode=raw.backMode; else warn.push(`backMode: "${raw.backMode}" ?`); }
+  if(raw.shelfSetback!=null){ const v=I(raw.shelfSetback,0,200);
+    if(isFinite(v)) out.geom=Object.assign({},(buildCfg&&buildCfg.geom)||{},{setback_ripiano:v}); else warn.push(`shelfSetback: ${raw.shelfSetback} ?`); }
+  if(Array.isArray(raw.depthProfile)){
+    const z=[];
+    raw.depthProfile.forEach((q,i)=>{ q=q||{};
+      const a=I(q.yFrom,0,3500), b=I(q.yTo,1,3500), d=I(q.depth,50,1200);
+      if([a,b,d].some(v=>v==null||!isFinite(v))){ warn.push(`depthProfile ${i+1} ?`); return; }
+      z.push({yFrom:a,yTo:b,depth:d}); });
+    out.depthProfile=z;
+  }
+  if(Array.isArray(raw.partitions)){
+    const pt=[];
+    raw.partitions.forEach((q,i)=>{ q=q||{};
+      const bad=()=>warn.push(`partitions ${i+1} (${q.type||"?"}) ?`);
+      if(q.type==="setto"){
+        const o={type:"setto"};
+        if(q.x==null||q.x==="center") o.x="center"; else { const x=I(q.x,0,6000); if(!isFinite(x)) return bad(); o.x=x; }
+        for(const k of ["yStart","yEnd","depth"]){ if(q[k]==null) continue; const v=I(q[k],0,3500); if(!isFinite(v)) return bad(); o[k]=v; }
+        pt.push(o);
+      }else if(q.type==="ripiano"){
+        const y=I(q.y,0,3500); if(y==null||!isFinite(y)) return bad();
+        const o={type:"ripiano",y};
+        if(q.span==null||AI_ENUM.span.indexOf(q.span)>=0) o.span=q.span||"full";
+        else if(Array.isArray(q.span)&&q.span.length===2){ const a=I(q.span[0],0,6000), b=I(q.span[1],0,6000);
+          if(!isFinite(a)||!isFinite(b)||a==null||b==null) return bad(); o.span=[a,b]; }
+        else return bad();
+        if(q.depth!=null){ const d=I(q.depth,10,1200); if(!isFinite(d)) return bad(); o.depth=d; }
+        pt.push(o);
+      }else bad();
+    });
+    out.partitions=pt;
+  }
+  if(Array.isArray(raw.fronts)){
+    const fr=[];
+    raw.fronts.forEach((q,i)=>{ q=q||{};
+      const o={x:I(q.x,0,6000),y:I(q.y,0,3500),w:I(q.w,60,3000),h:I(q.h,60,3500)};
+      if(Object.keys(o).some(k=>o[k]==null||!isFinite(o[k]))){ warn.push(`fronts ${i+1} ?`); return; }
+      if(q.hinge!=null){ if(AI_ENUM.hinge.indexOf(q.hinge)<0){ warn.push(`fronts ${i+1} hinge "${q.hinge}" ?`); return; } o.hinge=q.hinge; }
+      fr.push(o); });
+    out.fronts=fr;
+  }
+  if(Array.isArray(raw.customCuts)){
+    const cc=[];
+    raw.customCuts.forEach((q,i)=>{ q=q||{};
+      const w=I(q.w,1,1200), h=I(q.h,1,3500);
+      if(AI_ENUM.cutOn.indexOf(q.on)<0||AI_ENUM.cutCorner.indexOf(q.corner)<0||w==null||h==null||!isFinite(w)||!isFinite(h)){
+        warn.push(`customCuts ${i+1} ?`); return; }
+      cc.push({on:q.on,corner:q.corner,w,h}); });
+    out.customCuts=cc;
+  }
+}
+/* LA PATCH APPLICATA AL CORPO, senza toccare lo state. E' la stessa funzione
+   che usa «Applica»: il foglio di conferma mostra esattamente il corpo che
+   verra costruito, non una sua approssimazione. */
+function aiMerge(cur,pc){
+  const m=Object.assign({},cur,pc);
+  if(pc.matBody){ const mb=matById(pc.matBody); if(mb) m.t=mb.th; }
+  if(pc.tram!=null&&m.secMode&&m.secMode.length!==pc.tram+1) m.secMode=null;
+  LAYOUT_KEYS.forEach(k=>{ if(Array.isArray(pc[k])&&!pc[k].length) delete m[k]; });
+  /* le partizioni a cote SOSTITUISCONO le sezioni uguali: lasciare tram e
+     ripiani accesi darebbe due verita sulla stessa luce */
+  /* i cassetti sono un contenuto PER SEZIONE: senza sezioni non hanno dove
+     stare. Si azzerano come il resto — e si vede nel foglio. Se la patch li
+     chiede esplicitamente insieme alle partizioni, restano, e la validazione
+     lo dice invece di sceglierne uno. */
+  if(hasPartitions(pc)){ m.tram=0; m.shelves=0; m.hang=0; m.secMode=null; if(pc.drawers==null) m.drawers=0; }
+  if(hasFronts(pc)) m.doors=pc.fronts.length;
+  if(Array.isArray(pc.depthProfile)&&pc.depthProfile.length){
+    m.P=Math.max.apply(null,pc.depthProfile.map(z=>z.depth)); m.stepH=0; m.stepP=0; }
+  return m;
+}
+/* I CONTROLLI PRIMA DI GENERARE (sezione C). Tutto quello che esce da qui
+   con `blocked` impedisce «Applica»:
+     - errori del motore e di validateLayout (cote senza posto, pezzi che
+       galleggiano o si sovrappongono, pile che non chiudono H e L);
+     - pezzi dichiarati dalla configurazione ≠ pezzi generati;
+     - cote del testo che non sono finite in nessun campo e in nessun pezzo. */
+function aiCheck(cur,pc,merged,text){
+  const C={errors:[],unused:[],chains:null,built:null,G:null,blocked:false};
+  try{ C.G=deriveCarcass(carcassParams(merged,{})); }catch(e){ if(merged.type==="standard"||hasLayout(merged)) C.errors.push(e.message||String(e)); }
+  if(C.G&&hasLayout(merged)){
+    const LY=validateLayout(merged,C.G);
+    C.errors.push.apply(C.errors,LY.errors); C.chains=LY.chains;
+  }
+  if(!C.errors.length){ try{ C.built=buildModule(merged); }catch(e){ C.errors.push(e.message||String(e)); } }
+  if(C.built&&hasLayout(merged)){
+    /* ogni partizione e ogni anta dichiarata deve uscire come pezzo */
+    const sum=r=>C.built.pieces.filter(x=>x.role===r).reduce((s,x)=>s+x.pz,0);
+    const pt=merged.partitions||[];
+    const want=[["divisorio",pt.filter(q=>q.type==="setto").length,hasPartitions(merged)],
+                ["ripiano",pt.filter(q=>q.type==="ripiano").length,hasPartitions(merged)],
+                ["frontale",(merged.fronts||[]).length,hasFronts(merged)],
+                ["schienale",merged.back?((C.G&&C.G.treapta&&C.G.treapta.back_split)?2:1):0,true]];
+    want.forEach(([r,a,on])=>{ if(!on) return; const b=sum(r); if(a!==b) C.errors.push(`${tia("aiBlkCount")} — ${r}: ${a} ≠ ${b}`); });
+  }
+  if(text){
+    const k=[];
+    const walk=v=>{ if(typeof v==="number") k.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==="object") Object.keys(v).forEach(x=>walk(v[x])); };
+    walk(pc);
+    ["L","L2","H","P","plinth","stepH","stepP","angL","angR","drawerFH","drawerZone","hangGap","shelfStep"].forEach(x=>{
+      [cur[x],merged[x]].forEach(v=>{ if(typeof v==="number") k.push(v); });
+      if(typeof pc[x]==="number"&&typeof cur[x]==="number") k.push(Math.abs(pc[x]-cur[x])); });
+    LAYOUT_KEYS.forEach(x=>walk(merged[x]));
+    ["matBody","matFront","matBack"].forEach(r=>{ const m=matById(merged[r]); if(m) k.push(+m.th); });
+    if(C.G) ["Wi","H_fianco","D_fianco","D_bc","P_int","L_int","H_int","back_W","back_H"].forEach(x=>k.push(C.G[x]));
+    if(C.built) C.built.pieces.forEach(x=>{ k.push(x.lung,x.larg); (x.yInf||[]).forEach(v=>k.push(v));
+      scList(x).forEach(c=>{ k.push(c.l,c.w); }); });
+    C.unused=unconsumedCotas(text,k);
+  }
+  C.blocked=C.errors.length>0||C.unused.length>0;
+  return C;
 }
 function aiNormSurvey(raw,warn){
   const sv=survey(); if(!sv||!raw||typeof raw!=="object") return null;
@@ -11196,13 +11534,22 @@ function aiLbl(k){
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
-    bow:t("fBow"),rcorner:t("fRcorner")};
+    bow:t("fBow"),rcorner:t("fRcorner"),
+    partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
+    customCuts:tia("layCut"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
   return map[k]||k;
 }
 function aiVal(k,v){
   if(v==null||v==="") return "—";
   if(/^mat/.test(k)){ const m=matById(v); return m?m.label:v; }
   if(k==="secMode") return (v||[]).map(x=>t("sec_"+x)).join(" · ");
+  if(k==="partitions") return (v||[]).map(q=>q.type==="setto"
+      ? `${elName("Setto")} ${q.x==null?"center":q.x} ${q.yStart!=null?q.yStart:"…"}–${q.yEnd!=null?q.yEnd:"…"}`
+      : `${elName("Ripiano")} ${q.y} ${Array.isArray(q.span)?q.span.join("–"):(q.span||"full")}${q.depth?" P"+q.depth:""}`).join(" · ")||"—";
+  if(k==="fronts") return (v||[]).map(f=>`${f.w}×${f.h} @${f.x},${f.y}${f.hinge?" "+f.hinge:""}`).join(" · ")||"—";
+  if(k==="depthProfile") return (v||[]).map(z=>`${z.yFrom}–${z.yTo}: ${z.depth}`).join(" · ")||"—";
+  if(k==="customCuts") return (v||[]).map(c=>`${c.on} ${c.corner} ${c.h}×${c.w}`).join(" · ")||"—";
+  if(k==="geom") return v&&v.setback_ripiano!=null?String(v.setback_ripiano):"—";
   if(["back","hang","boxes","shelfEven"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
   if(["type","front","support","handles","shelfType","corner","cornerKind"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
@@ -11327,7 +11674,13 @@ async function aiRun(mode){
     const warn=[];
     aiPatch={mode,notes:String(raw.notes||""),questions:(raw.questions||[]).map(String),warn,
       cfg:mode==="genera"?aiNormCfg(raw.config,warn):null,
-      sv:null,lay:[]};
+      sv:null,lay:[],text:txt};
+    if(mode==="genera"){
+      const cur=cfgFromForm();
+      aiPatch.cur=cur;
+      aiPatch.merged=aiMerge(cur,aiPatch.cfg);
+      aiPatch.check=aiCheck(cur,aiPatch.cfg,aiPatch.merged,txt);
+    }
     if(mode==="rilievo"){
       aiPatch.sv=aiNormSurvey(raw.survey,warn);
       aiPatch.lay=aiNormLayout(raw.layout,warn,aiPatch.sv&&aiPatch.sv.nWalls);
@@ -11340,17 +11693,52 @@ async function aiRun(mode){
   }
 }
 
+/* ---------- il tavolo dei pezzi (sezione D) ----------
+   Denominazione, misura, pezzi, quota, decupaje; il totale dei m² e dei
+   metri di bordo. E' la distinta che uscira, calcolata dallo stesso motore,
+   PRIMA che il corpo venga costruito. */
+function aiCheckHTML(C){
+  if(!C) return "";
+  const h=[];
+  if(C.unused.length) h.push(`<div class="aiblock"><b>${esc(tia("aiBlkUnused"))}</b> ${C.unused.map(c=>`<b>${esc(c.raw)}</b>`).join(", ")}</div>`);
+  if(C.errors.length) h.push(`<div class="aiblock"><b>${esc(tia("aiBlkErr"))}</b><ul>${C.errors.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>`);
+  if(C.built){
+    const pcs=C.built.pieces.filter(x=>!x.mat);
+    const n=pcs.reduce((s,x)=>s+x.pz,0);
+    const m2=pcs.reduce((s,x)=>s+x.lung*x.larg*x.pz/1e6,0);
+    const ml=pcs.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape)*x.pz/1000,0);
+    const cut=x=>scList(x).map(c=>`${c.l}×${c.w} ${c.rif||""}`.trim()).join(", ");
+    h.push(`<div class="aitblw"><table class="aitbl"><thead><tr><th>${esc(tia("aiColPc"))}</th><th>${esc(tia("aiColDim"))}</th>`+
+      `<th>${esc(tia("aiColPz"))}</th><th>${esc(tia("aiColPos"))}</th><th>${esc(tia("aiColCut"))}</th></tr></thead><tbody>`+
+      C.built.pieces.map(x=>`<tr><td>${esc(elName(x.elemento))}</td><td class="n">${x.lung} × ${x.larg}</td><td class="n">${x.pz}</td>`+
+        `<td class="n">${esc((x.yInf||[]).join(" · "))}</td><td>${esc(cut(x))}</td></tr>`).join("")+
+      `</tbody></table></div><p class="aitot">${esc(tia("aiTot").replace("{n}",n).replace("{m2}",fmt(m2)).replace("{ml}",fmt(ml,1)))}</p>`);
+  }
+  if(C.chains){
+    C.chains.V.forEach(c=>h.push(`<p class="aichain${c.ok?"":" bad"}">${esc(tia("aiChV").replace("{c}",c.col))}: ${esc(c.text)}</p>`));
+    C.chains.H.forEach(c=>h.push(`<p class="aichain${c.ok?"":" bad"}">${esc(tia("aiChH").replace("{a}",fmtMM(c.y0)).replace("{b}",fmtMM(c.y1)))}: ${esc(c.text)}</p>`));
+  }
+  return h.join("");
+}
+
 /* ---------- foglio di conferma ---------- */
 function aiShowSheet(){
   const P=aiPatch; if(!P) return;
   const rows=[]; const notes=[];
+  let extra="";
   if(P.mode==="genera"&&P.cfg){
-    const cur=cfgFromForm();
-    Object.keys(P.cfg).forEach(k=>{
-      const a=aiVal(k,cur[k]), b=aiVal(k,P.cfg[k]);
+    const cur=P.cur||cfgFromForm(), M=P.merged||Object.assign({},cur,P.cfg);
+    /* le chiavi della patch PIU quelle che la patch sposta di conseguenza
+       (tram a zero sotto le partizioni, P dal profilo, doors dalle ante):
+       si vede tutto quello che cambia, non solo quello che l'AI ha scritto */
+    const keys=Object.keys(P.cfg).concat(["tram","shelves","hang","secMode","drawers","doors","P","stepH","stepP"].filter(k=>!(k in P.cfg)));
+    keys.forEach(k=>{
+      const a=aiVal(k,cur[k]), b=aiVal(k,M[k]);
       if(a!==b) rows.push(aiRow(aiLbl(k),a,b));
     });
-    if(P.cfg.tram!=null||P.cfg.secMode) notes.push(tia("aiSecNote"));
+    if(hasLayout(P.cfg)) notes.push(tia("aiLayNote"));
+    else if(P.cfg.tram!=null||P.cfg.secMode) notes.push(tia("aiSecNote"));
+    extra=aiCheckHTML(P.check);
     if(isAng(P.cfg.angL)||isAng(P.cfg.angR)) notes.push(tia("aiBoundNote"));
   }
   if(P.mode==="rilievo"){
@@ -11389,7 +11777,7 @@ function aiShowSheet(){
   P.rows=rows.length;
   $("aiSheetTitle").textContent=tia("aiTitle");
   $("aiSheetNote").textContent=P.notes||"";
-  $("aiSheetDiff").innerHTML=rows.length?rows.join(""):`<p class="mini">${esc(tia("aiNoChange"))}</p>`;
+  $("aiSheetDiff").innerHTML=(rows.length?rows.join(""):`<p class="mini">${esc(tia("aiNoChange"))}</p>`)+extra;
   const w=[];
   if(notes.length) w.push(notes.map(n=>`<p class="mini" style="margin-top:6px">${esc(n)}</p>`).join(""));
   if(P.warn.length) w.push(`<p class="aiwarn"><b>${esc(tia("aiWarnHdr"))}:</b> ${esc(P.warn.join(" · "))}</p>`);
@@ -11397,18 +11785,21 @@ function aiShowSheet(){
   $("aiSheetWarn").innerHTML=w.join("");
   $("btnAiApply").querySelector("span").textContent=tia("aiApply");
   $("btnAiCancel").querySelector("span").textContent=tia("aiCancel");
-  $("btnAiApply").style.display=rows.length?"":"none";
+  /* una cota non interpretata o un errore di validazione: «Applica» non c'e.
+     Si corregge il testo e si rilancia — l'errore non arriva in debitazione. */
+  $("btnAiApply").style.display=(rows.length&&!(P.check&&P.check.blocked))?"":"none";
   openSheet("shAI");
 }
 
 function aiApply(){
   const P=aiPatch; if(!P) return;
+  /* il corpo che il foglio ha mostrato, non un ricalcolo; e se il foglio ha
+     detto «non si genera», non si genera */
+  if(P.check&&P.check.blocked) return;
   snapUndo();
   if(P.mode==="genera"&&P.cfg){
     /* aggiornamento parziale: solo le chiavi arrivate, il resto resta com'e' */
-    buildCfg=Object.assign({},cfgFromForm(),P.cfg);
-    if(P.cfg.matBody){ const m=matById(P.cfg.matBody); if(m) buildCfg.t=m.th; }
-    if(P.cfg.tram!=null&&buildCfg.secMode&&buildCfg.secMode.length!==P.cfg.tram+1) buildCfg.secMode=null;
+    buildCfg=aiMerge(cfgFromForm(),P.cfg);
     buildSecMode=buildCfg.secMode||null;
     buildObst=buildCfg.obstacles||[];
     syncBuildForm(); renderSecChips(); drawPreview();
@@ -11475,6 +11866,15 @@ function aiMount(){
   if(aiMounted) return;              // al cambio lingua si rifanno solo le barre
   aiMounted=true;
   $("btnAiApply").addEventListener("click",aiApply);
+  const lc=$("btnLayClear");
+  if(lc) lc.addEventListener("click",()=>{
+    /* buildCfg non sta nello state: «annulla» non lo riporterebbe indietro.
+       Si chiede prima, invece di promettere un annulla che non c'e. */
+    if(!confirm(tia("layClear")+"?")) return;
+    LAYOUT_KEYS.forEach(k=>{ delete buildCfg[k]; });
+    syncBuildForm(); drawPreview();
+    toast(tia("layCleared"));
+  });
   $("btnAiCancel").addEventListener("click",()=>{ closeSheets(); aiPatch=null; });
 }
 
@@ -11893,12 +12293,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.36.2"; /* APP_VER-MARKER */
+const APP_VER="4.37.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v75";
+const SW_CACHE="ebanist-v76";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

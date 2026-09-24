@@ -314,6 +314,20 @@ function deriveCarcass(params) {
      dal muro (z = 0). Zero e zero = nessun gradino: tutto come prima. */
   var treapta_H = p.treapta_H == null ? 0 : num(p, "treapta_H");
   var treapta_P = p.treapta_P == null ? 0 : num(p, "treapta_P");
+  /* IL PROFILO DI PROFONDITA e un altro modo di dire lo stesso gradino:
+     «250 sotto la cota 620, 360 sopra». Non e una seconda geometria: si
+     risolve QUI nelle stesse due cote, e tutto quello che la treapta sa gia
+     fare (intaglio a L, schienale in due, base accorciata) vale uguale.
+     Profilo e gradino dichiarati insieme e diversi = errore, non una scelta
+     silenziosa fra i due. */
+  if (p.depthProfile != null) {
+    var DP = depthProfileStep(p.depthProfile, H, D);
+    if (DP.errors.length) throw new Error("deriveCarcass: depthProfile — " + DP.errors.join(" · "));
+    if ((treapta_H > 0 || treapta_P > 0) && (treapta_H !== DP.stepH || treapta_P !== DP.stepP))
+      throw new Error("deriveCarcass: depthProfile (treaptă " + DP.stepH + "×" + DP.stepP +
+        ") contrazice stepH/stepP (" + treapta_H + "×" + treapta_P + "). Păstrează unul singur.");
+    treapta_H = DP.stepH; treapta_P = DP.stepP;
+  }
   var treapta = treapta_H > 0 && treapta_P > 0;
   /* dove comincia lo schienale intero, dal fondo: e da qui che si misura
      quanto ne resta sotto il gradino */
@@ -571,6 +585,11 @@ function closureRow(pieces, role) {
        schienale basso). Non e un troncone: e un pezzo intero, uguale in
        larghezza al primo, e non va sommato a lui. */
     if (!p || p.role !== role || p.part) continue;
+    /* `partial` = un pezzo che NON attraversa il corpo di proposito: un
+       setto che si ferma a meta altezza, un ripiano di una sola colonna.
+       La catena del gabarito misura i pezzi che vanno da parete a parete;
+       questi li controlla `validateLayout`, colonna per colonna. */
+    if (p.partial) continue;
     rows.push(p);
   }
   if (!rows.length) return null;
@@ -834,7 +853,7 @@ function validateInvariants(corpo, pieces, geometry, opts) {
      la pila deve arrivare ESATTAMENTE sotto il cielo. */
   var rip = null, i, j;
   for (i = 0; i < rows.length; i++)
-    if (rows[i].role === "ripiano" && rows[i].ys && rows[i].ys.length) { rip = rows[i]; break; }
+    if (rows[i].role === "ripiano" && rows[i].ys && rows[i].ys.length && !rows[i].partial) { rip = rows[i]; break; }
   var spRip = +G.sp_ripiano || 0;
   if (rip) {
     var ys = rip.ys.slice().sort(function (a, b) { return a - b; });
@@ -879,6 +898,10 @@ function validateInvariants(corpo, pieces, geometry, opts) {
      nemmeno le ante normali. */
   var scorrevole = (c.type === "scorrevole" && +c.doors > 0);
   var telaio = (c.front === "vetro");
+  /* ante a COTE ASSOLUTE: due in basso e due in alto non si sommano sulla
+     larghezza — la somma farebbe il doppio dell'apertura. Le controlla
+     `validateLayout` (dentro il gabarito, nessuna sovrapposizione). */
+  var esplicite = !!(c.fronts && c.fronts.length);
   var nA = 0, sumL = 0;
   for (i = 0; i < fronts.length; i++) {
     /* su un'anta curva la larghezza dell'ANTA e la corda; in distinta va lo
@@ -888,7 +911,12 @@ function validateInvariants(corpo, pieces, geometry, opts) {
     if (l == null) continue;
     nA += +fronts[i].pz || 0; sumL += l * (+fronts[i].pz || 0);
   }
-  if (scorrevole || telaio) {
+  if (esplicite) {
+    rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,
+      { motiv: "ante a cote assolute" },
+      "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.",
+      fronts.map(function (r) { return r.elemento; }));
+  } else if (scorrevole || telaio) {
     rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,
       { motiv: scorrevole ? "ante scorrevoli" : "anta a telaio e vetro" },
       scorrevole
@@ -923,7 +951,9 @@ function validateInvariants(corpo, pieces, geometry, opts) {
   }
 
   /* --- i ripiani -------------------------------------------------------- */
-  var ripAny = closureRow(rows, "ripiano");
+  /* un ripiano `flush` (quello che chiude il gradino) va a filo di
+     proposito: la retrasare non lo riguarda. */
+  var ripAny = closureRow(rows.filter(function (r) { return !r.flush; }), "ripiano");
   if (ripAny) {
     var Pr = alongAxis(ripAny, "P"), Lr = alongAxis(ripAny, "L");
     if (Pr != null)
@@ -1013,6 +1043,422 @@ var ROLE_MAT_OF = {
 function failedInvariants(corpo, pieces, geometry, opts) {
   return validateInvariants(corpo, pieces, geometry, opts)
     .filter(function (r) { return r.ok === false; });
+}
+
+/* --- COTE ASSOLUTE: profilo di profondita, partizioni, ante, decupaje ----
+ *
+ * Il guasto che questo blocco ripara: un prompt con cote assolute («setto che
+ * si ferma a 1539, tre ripiani a destra a 620, 926, 1232») non aveva un campo
+ * dove atterrare. Il corpo sapeva solo «n sezioni uguali» e «n ripiani
+ * equidistanti»: le cote venivano scartate in silenzio e usciva un altro
+ * mobile, con due pezzi in meno.
+ *
+ * Qui le cote assolute diventano pezzi, con le stesse regole del resto:
+ *   - le misure derivate escono da `deriveCarcass` (spessori, P_int,
+ *     ripiano_D, treapta) — questo blocco decide solo DOVE stanno i pezzi;
+ *   - riferimento unico: y = 0 al pavimento (il fondo del corpo, piedini
+ *     compresi), x = 0 alla faccia esterna del fianco sinistro. La y di un
+ *     ripiano e quella della sua faccia INFERIORE;
+ *   - nessuna correzione silenziosa: una cota che non torna e un errore con
+ *     il suo perche, mai un pezzo spostato per farla tornare.
+ * PURE: entrano cote, escono cote ed errori.
+ */
+var LAYOUT_EPS = 0.05;
+function nearMm(a, b) { return Math.abs(a - b) <= LAYOUT_EPS; }
+/* una cota da stampare: precisione piena dentro, 0,1 mm solo in uscita */
+function fmt01(v) { var r = Math.round(v * 10) / 10; return String(r).replace(/\.0$/, ""); }
+function finiteNum(v) { return typeof v === "number" ? isFinite(v) : (v != null && v !== "" && isFinite(+v)); }
+
+/* depthProfile: [{yFrom, yTo, depth}] -> il gradino che deriveCarcass sa
+   gia costruire. Supportati: una zona sola (nessun gradino) e DUE zone con
+   quella di sotto meno profonda — il gradino del muro in basso. Qualunque
+   altro profilo e un errore dichiarato: un fianco a tre gradini non e un
+   rettangolo con un decupaj d'angolo, e la fabbrica taglia solo a 90°. */
+function depthProfileStep(profile, H, D) {
+  var errors = [], out = { errors: errors, zones: [], D: null, stepH: 0, stepP: 0 };
+  if (!Array.isArray(profile) || !profile.length) { errors.push("profilul de adâncime e gol"); return out; }
+  var z = [], i, q;
+  for (i = 0; i < profile.length; i++) {
+    q = profile[i] || {};
+    if (!finiteNum(q.yFrom) || !finiteNum(q.yTo) || !finiteNum(q.depth)) {
+      errors.push("zona " + (i + 1) + ": yFrom, yTo și depth trebuie să fie numere"); continue; }
+    if (!(+q.yTo > +q.yFrom)) { errors.push("zona " + (i + 1) + ": yTo (" + q.yTo + ") ≤ yFrom (" + q.yFrom + ")"); continue; }
+    if (!(+q.depth > 0)) { errors.push("zona " + (i + 1) + ": adâncime " + q.depth + " ≤ 0"); continue; }
+    z.push({ yFrom: +q.yFrom, yTo: +q.yTo, depth: +q.depth });
+  }
+  if (errors.length) return out;
+  z.sort(function (a, b) { return a.yFrom - b.yFrom; });
+  if (!nearMm(z[0].yFrom, 0))
+    errors.push("prima zonă începe la " + z[0].yFrom + ", nu la 0 (pardoseala)");
+  for (i = 1; i < z.length; i++)
+    if (!nearMm(z[i].yFrom, z[i - 1].yTo))
+      errors.push("zonele " + i + " și " + (i + 1) + " nu se ating: " + z[i - 1].yTo + " ≠ " + z[i].yFrom);
+  if (H != null && !nearMm(z[z.length - 1].yTo, +H))
+    errors.push("ultima zonă se termină la " + z[z.length - 1].yTo + ", nu la H = " + H);
+  /* due zone consecutive con la stessa profondita sono una zona sola */
+  var m = [z[0]];
+  for (i = 1; i < z.length; i++) {
+    if (nearMm(z[i].depth, m[m.length - 1].depth)) m[m.length - 1] = { yFrom: m[m.length - 1].yFrom, yTo: z[i].yTo, depth: z[i].depth };
+    else m.push(z[i]);
+  }
+  out.zones = m;
+  var Dmax = 0;
+  for (i = 0; i < m.length; i++) if (m[i].depth > Dmax) Dmax = m[i].depth;
+  out.D = Dmax;
+  if (D != null && !nearMm(+D, Dmax))
+    errors.push("P = " + D + " dar adâncimea maximă din profil e " + Dmax);
+  if (m.length === 2 && m[0].depth < m[1].depth) {
+    out.stepH = m[1].yFrom; out.stepP = m[1].depth - m[0].depth;
+  } else if (m.length > 1) {
+    errors.push("profil nesuportat: e acceptată o singură treaptă, jos (zona de jos mai puțin adâncă). " +
+      "Profilul are " + m.length + " zone: " + m.map(function (r) { return r.yFrom + "–" + r.yTo + ":" + r.depth; }).join(", "));
+  }
+  return out;
+}
+
+/* Le partizioni a cote assolute.
+     { type:'setto',   x:'center'|mm, yStart, yEnd, depth? }
+     { type:'ripiano', y, span:'full'|'left'|'right'|[xFrom,xTo], depth? }
+   x di un setto = la sua faccia SINISTRA; 'center' = in mezzo al corpo.
+   Un setto che non parte dalla base o non arriva al cielo deve poggiare su un
+   ripiano (o reggerne uno): altrimenti galleggia, ed e un errore. */
+function derivePartitions(G, partitions, opts) {
+  var o = opts || {}, errors = [], setti = [], ripiani = [];
+  var inp = G.in, W = inp.W, H = inp.H, sp = G.sp, ex = G.exact;
+  var tF = sp.fianco, tD = sp.divisorio, tR = sp.ripiano;
+  var xIn0 = tF, xIn1 = W - tF;
+  var yIn0 = inp.h_base + sp.base, yIn1 = H - sp.cielo;
+  var TR = G.treapta, stepOn = !!(TR && TR.activa);
+  /* la profondita utile: dal piano interno (davanti allo schienale) al
+     filo anteriore. In cava include l'arretramento della cava. */
+  var Pint = ex.P_int, ripD = ex.ripiano_D;
+  var play = o.shelfFix ? 0 : inp.clearance_ripiano;
+  var list = Array.isArray(partitions) ? partitions : [];
+  var i, j, q, tag;
+
+  for (i = 0; i < list.length; i++) {
+    q = list[i];
+    if (!q || (q.type !== "setto" && q.type !== "ripiano"))
+      errors.push("partiția " + (i + 1) + ": tip necunoscut " + JSON.stringify(q && q.type));
+  }
+
+  for (i = 0; i < list.length; i++) {
+    q = list[i]; if (!q || q.type !== "setto") continue;
+    tag = "setto " + (i + 1);
+    var sx0 = (q.x == null || q.x === "center") ? (W - tD) / 2 : +q.x;
+    var sy0 = q.yStart == null ? yIn0 : +q.yStart, sy1 = q.yEnd == null ? yIn1 : +q.yEnd;
+    if (!isFinite(sx0) || !isFinite(sy0) || !isFinite(sy1)) { errors.push(tag + ": x / yStart / yEnd nu sunt numere"); continue; }
+    if (sx0 < xIn0 + 1 || sx0 + tD > xIn1 - 1)
+      errors.push(tag + ": x = " + fmt01(sx0) + " iese din lumina interioară (" + fmt01(xIn0) + "–" + fmt01(xIn1 - tD) + ")");
+    if (sy0 < yIn0 - LAYOUT_EPS) errors.push(tag + ": pornește la " + fmt01(sy0) + ", sub fața bazei (" + fmt01(yIn0) + ")");
+    if (sy1 > yIn1 + LAYOUT_EPS) errors.push(tag + ": se oprește la " + fmt01(sy1) + ", peste fața tavanului (" + fmt01(yIn1) + ")");
+    if (!(sy1 - sy0 > 0)) { errors.push(tag + ": yEnd ≤ yStart"); continue; }
+    var sd = q.depth != null ? +q.depth : Pint;
+    if (!(sd > 0) || sd > Pint + LAYOUT_EPS) errors.push(tag + ": adâncime " + fmt01(sd) + " (maxim " + fmt01(Pint) + ")");
+    var notch = null;
+    if (stepOn && sy0 < TR.H - LAYOUT_EPS) {
+      /* tutto sotto il gradino: il setto e semplicemente meno profondo */
+      var cut = TR.P - (Pint - sd);
+      if (sy1 <= TR.H + LAYOUT_EPS) { if (cut > 0) sd -= cut; }
+      else if (cut > 0) notch = { h: TR.H - sy0, w: cut, corner: "back-bottom", derived: true };
+    }
+    setti.push({ n: i + 1, x0: sx0, x1: sx0 + tD, y0: sy0, y1: sy1, H: sy1 - sy0, D: sd, notch: notch,
+                 partial: !(nearMm(sy0, yIn0) && nearMm(sy1, yIn1)) });
+  }
+  for (i = 0; i < setti.length; i++) for (j = i + 1; j < setti.length; j++) {
+    var a = setti[i], b = setti[j];
+    if (a.x0 < b.x1 - LAYOUT_EPS && b.x0 < a.x1 - LAYOUT_EPS && a.y0 < b.y1 - LAYOUT_EPS && b.y0 < a.y1 - LAYOUT_EPS)
+      errors.push("setto " + a.n + " și setto " + b.n + " se suprapun");
+  }
+
+  for (i = 0; i < list.length; i++) {
+    q = list[i]; if (!q || q.type !== "ripiano") continue;
+    tag = "ripiano " + (i + 1);
+    if (!finiteNum(q.y)) { errors.push(tag + ": lipsește cota y"); continue; }
+    var ya = +q.y, yb = ya + tR;
+    tag += " @" + fmt01(ya);
+    if (ya < yIn0 - LAYOUT_EPS || yb > yIn1 + LAYOUT_EPS) {
+      errors.push(tag + ": în afara golului interior (" + fmt01(yIn0) + "–" + fmt01(yIn1 - tR) + ")"); continue; }
+    /* i setti che ATTRAVERSANO la fascia del ripiano: quelli che la toccano
+       solo (finiscono esattamente sotto di lui) lo reggono, non lo tagliano */
+    var cross = setti.filter(function (s) { return s.y0 < yb - LAYOUT_EPS && s.y1 > ya + LAYOUT_EPS; })
+                     .sort(function (s1, s2) { return s1.x0 - s2.x0; });
+    var span = q.span == null ? "full" : q.span, rx0, rx1, lbl;
+    if (span === "full") {
+      if (cross.length) { errors.push(tag + ": traversant, dar setto " + cross[0].n + " (" + fmt01(cross[0].y0) + "–" + fmt01(cross[0].y1) + ") trece prin el"); continue; }
+      rx0 = xIn0; rx1 = xIn1; lbl = "full";
+    } else if (span === "left" || span === "right") {
+      if (!cross.length) { errors.push(tag + ": '" + span + "' cere un setto activ la această cotă, și nu există niciunul"); continue; }
+      if (span === "left") { rx0 = xIn0; rx1 = cross[0].x0; } else { rx0 = cross[cross.length - 1].x1; rx1 = xIn1; }
+      lbl = span;
+    } else if (Array.isArray(span) && span.length === 2 && finiteNum(span[0]) && finiteNum(span[1])) {
+      rx0 = +span[0]; rx1 = +span[1]; lbl = "x";
+      var lefts = [xIn0].concat(cross.map(function (s) { return s.x1; }));
+      var rights = [xIn1].concat(cross.map(function (s) { return s.x0; }));
+      var okL = lefts.some(function (v) { return nearMm(v, rx0); }), okR = rights.some(function (v) { return nearMm(v, rx1); });
+      var inside = cross.some(function (s) { return s.x0 > rx0 + LAYOUT_EPS && s.x1 < rx1 - LAYOUT_EPS; });
+      if (!(rx1 > rx0) || !okL || !okR || inside) {
+        errors.push(tag + ": [" + fmt01(rx0) + ", " + fmt01(rx1) + "] nu se sprijină pe o laterală sau pe un setto la ambele capete"); continue; }
+    } else { errors.push(tag + ": span necunoscut " + JSON.stringify(span)); continue; }
+
+    var rd, flush = false, avail = Pint;
+    if (stepOn && yb <= TR.H + LAYOUT_EPS) avail = Pint - TR.P;
+    if (stepOn && ya < TR.H - LAYOUT_EPS && yb > TR.H + LAYOUT_EPS) {
+      errors.push(tag + ": taie treapta de la " + fmt01(TR.H) + " (fâșia " + fmt01(ya) + "–" + fmt01(yb) + ")"); continue; }
+    if (q.depth != null) {
+      rd = +q.depth;
+      if (!(rd > 0) || rd > avail + LAYOUT_EPS) { errors.push(tag + ": adâncime " + fmt01(rd) + " (maxim " + fmt01(avail) + ")"); continue; }
+      flush = nearMm(rd, avail);
+    } else if (stepOn && nearMm(ya, TR.H)) {
+      /* IL RIPIANO SUL GRADINO lo chiude: va dal piano dello schienale alto
+         fino al filo, senza arretramento — copre la battuta dello schienale
+         basso, che altrimenti resta a vista. */
+      rd = Pint; flush = true;
+    } else {
+      rd = (stepOn && yb <= TR.H + LAYOUT_EPS) ? ripD - TR.P : ripD;
+    }
+    ripiani.push({ n: i + 1, y: ya, y1: yb, x0: rx0, x1: rx1, W: (rx1 - rx0) - play, D: rd, span: lbl, flush: flush,
+                   partial: !(nearMm(rx0, xIn0) && nearMm(rx1, xIn1)) });
+  }
+  for (i = 0; i < ripiani.length; i++) for (j = i + 1; j < ripiani.length; j++) {
+    var r1 = ripiani[i], r2 = ripiani[j];
+    if (r1.x0 < r2.x1 - LAYOUT_EPS && r2.x0 < r1.x1 - LAYOUT_EPS && r1.y < r2.y1 - LAYOUT_EPS && r2.y < r1.y1 - LAYOUT_EPS)
+      errors.push("ripiano " + r1.n + " și ripiano " + r2.n + " se suprapun (" + fmt01(r1.y) + " / " + fmt01(r2.y) + ")");
+  }
+  /* un setto che non tocca base e cielo deve poggiare su qualcosa e reggere
+     qualcosa: sotto, la faccia superiore di un ripiano; sopra, quella
+     inferiore. Un setto sospeso nel vuoto e una cota letta male. */
+  setti.forEach(function (s) {
+    function covers(r) { return r.x0 <= s.x0 + LAYOUT_EPS && r.x1 >= s.x1 - LAYOUT_EPS; }
+    if (!nearMm(s.y1, yIn1) && !ripiani.some(function (r) { return nearMm(r.y, s.y1) && covers(r); }))
+      errors.push("setto " + s.n + " se oprește la " + fmt01(s.y1) + " și nu e niciun ripiano (sau tavanul) deasupra lui");
+    if (!nearMm(s.y0, yIn0) && !ripiani.some(function (r) { return nearMm(r.y1, s.y0) && covers(r); }))
+      errors.push("setto " + s.n + " pornește de la " + fmt01(s.y0) + " și nu stă nici pe bază, nici pe un ripiano");
+  });
+  return { errors: errors, setti: setti, ripiani: ripiani,
+           box: { xIn0: xIn0, xIn1: xIn1, yIn0: yIn0, yIn1: yIn1 } };
+}
+
+/* Le ante a cote assolute: {x, y, w, h, hinge}. x dalla faccia esterna del
+   fianco sinistro, y dal pavimento. Dentro il gabarito, nessuna
+   sovrapposizione. L'anta puo arrivare fino al filo del corpo, non oltre. */
+function validateFronts(fronts, W, H) {
+  var errors = [], out = [], i, j, f;
+  if (!Array.isArray(fronts)) return { errors: errors, fronts: out };
+  for (i = 0; i < fronts.length; i++) {
+    f = fronts[i] || {};
+    var tag = "anta " + (i + 1);
+    if (!finiteNum(f.x) || !finiteNum(f.y) || !finiteNum(f.w) || !finiteNum(f.h)) { errors.push(tag + ": x, y, w, h trebuie să fie numere"); continue; }
+    var o = { n: i + 1, x: +f.x, y: +f.y, w: +f.w, h: +f.h, hinge: (f.hinge === "left" || f.hinge === "right") ? f.hinge : null };
+    if (!(o.w >= 60 && o.h >= 60)) errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " e sub 60 mm");
+    if (o.x < -LAYOUT_EPS || o.y < -LAYOUT_EPS || o.x + o.w > W + LAYOUT_EPS || o.y + o.h > H + LAYOUT_EPS)
+      errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " la (" + fmt01(o.x) + ", " + fmt01(o.y) + ") iese din gabaritul " + W + "×" + H);
+    if (f.hinge != null && !o.hinge) errors.push(tag + ": balama '" + f.hinge + "' — doar left / right");
+    out.push(o);
+  }
+  for (i = 0; i < out.length; i++) for (j = i + 1; j < out.length; j++) {
+    var a = out[i], b = out[j];
+    if (a.x < b.x + b.w - LAYOUT_EPS && b.x < a.x + a.w - LAYOUT_EPS && a.y < b.y + b.h - LAYOUT_EPS && b.y < a.y + a.h - LAYOUT_EPS)
+      errors.push("anta " + a.n + " și anta " + b.n + " se suprapun");
+  }
+  return { errors: errors, fronts: out };
+}
+
+/* I decupaje d'angolo sui pezzi verticali (fianchi, setti). Il pezzo resta in
+   distinta al suo RETTANGOLO pieno: la fabbrica taglia a 90°, il decupaj va
+   sul PDF e sull'etichetta come linea guida, nella stessa forma dell'intaglio
+   del gradino (`scasso`, x lungo la lunghezza dal basso, y lungo la larghezza
+   dal filo posteriore). w = lungo la profondita, h = lungo l'altezza. */
+var CUT_CORNERS = { "back-bottom": "jos-spate", "front-bottom": "jos-fata",
+                    "back-top": "sus-spate", "front-top": "sus-fata" };
+var CUT_TARGETS = ["fianchi", "setti"];
+function cutToScasso(c, lung, larg) {
+  var top = /top$/.test(c.corner), front = /^front/.test(c.corner);
+  return { l: Math.round(c.h), w: Math.round(c.w),
+           x: Math.round(top ? lung - c.h : 0), y: Math.round(front ? larg - c.w : 0),
+           forma: "L", rif: CUT_CORNERS[c.corner] };
+}
+/* derivati (dal gradino) + espliciti (dal testo) per UN pezzo. Lo stesso
+   angolo detto due volte con due misure diverse e un errore: vuol dire che il
+   testo e il profilo di profondita descrivono due mobili diversi. */
+function mergeCuts(tag, derived, explicit, lung, larg, errors) {
+  var byCorner = {}, out = [], i, c;
+  for (i = 0; i < derived.length; i++) byCorner[derived[i].corner] = derived[i];
+  for (i = 0; i < explicit.length; i++) {
+    c = explicit[i];
+    if (!(c.w > 0 && c.h > 0) || c.w >= larg || c.h >= lung) {
+      errors.push(tag + ": decupaj " + fmt01(c.h) + "×" + fmt01(c.w) + " nu încape în piesa " + fmt01(lung) + "×" + fmt01(larg)); continue; }
+    var d = byCorner[c.corner];
+    if (d && d.derived) {
+      if (!nearMm(Math.round(d.h), Math.round(c.h)) || !nearMm(Math.round(d.w), Math.round(c.w)))
+        errors.push(tag + ": decupaj " + c.corner + " " + fmt01(c.h) + "×" + fmt01(c.w) +
+          " din text ≠ " + fmt01(d.h) + "×" + fmt01(d.w) + " cerut de profilul de adâncime");
+      continue;   /* uguale: e lo stesso decupaj, una volta sola */
+    }
+    if (d) { errors.push(tag + ": două decupaje pe colțul " + c.corner); continue; }
+    byCorner[c.corner] = c;
+  }
+  for (var k in CUT_CORNERS) if (byCorner[k]) out.push(cutToScasso(byCorner[k], lung, larg));
+  return out;
+}
+function normCustomCuts(list, errors) {
+  var out = [];
+  (Array.isArray(list) ? list : []).forEach(function (c, i) {
+    c = c || {};
+    var tag = "decupaj " + (i + 1);
+    if (CUT_TARGETS.indexOf(c.on) < 0) { errors.push(tag + ": piesa '" + c.on + "' — doar " + CUT_TARGETS.join(" / ")); return; }
+    if (!CUT_CORNERS[c.corner]) { errors.push(tag + ": colțul '" + c.corner + "' necunoscut"); return; }
+    if (!finiteNum(c.w) || !finiteNum(c.h)) { errors.push(tag + ": w și h trebuie să fie numere"); return; }
+    out.push({ on: c.on, corner: c.corner, w: +c.w, h: +c.h });
+  });
+  return out;
+}
+
+/* IL CONTROLLO PRIMA DI GENERARE. Dice, per un corpo con cote assolute:
+     - gli errori (bloccanti): una cota che non ha dove stare, un pezzo che
+       galleggia, due pezzi che si sovrappongono;
+     - le CATENE: la pila verticale di ogni colonna e quella orizzontale di
+       ogni fascia, scritte come le scrive il falegname
+       («20 + 19 + 1500 + 19 + 342 + 19 + 342 + 19 = 2280»);
+     - le partizioni, le ante e i decupaje gia risolti in cote di pezzo.
+   `G` e l'uscita di deriveCarcass sullo stesso corpo. */
+function validateLayout(cfg, G, opts) {
+  var c = cfg || {}, o = opts || {}, errors = [], warnings = [];
+  var hasP = Array.isArray(c.partitions) && c.partitions.length > 0;
+  var hasF = Array.isArray(c.fronts) && c.fronts.length > 0;
+  var hasC = Array.isArray(c.customCuts) && c.customCuts.length > 0;
+  var hasD = Array.isArray(c.depthProfile) && c.depthProfile.length > 0;
+  var out = { errors: errors, warnings: warnings, active: hasP || hasF || hasC || hasD,
+              parts: null, fronts: [], cuts: { fianchi: [], setti: [] }, chains: { V: [], H: [] } };
+  if (!out.active) return out;
+  var type = c.type || "standard";
+  if (type !== "standard") {
+    errors.push("cotele absolute (partitions / fronts / depthProfile / customCuts) sunt suportate doar pe tipologia standard, nu pe '" + type + "'");
+    return out;
+  }
+  var inp = G.in, W = inp.W, H = inp.H, sp = G.sp;
+  if (hasP) {
+    if (+c.drawers > 0) errors.push("sertarele nu se pot combina încă cu partiții la cote absolute: scoate sertarele sau partițiile");
+    out.parts = derivePartitions(G, c.partitions, { shelfFix: c.shelfType === "fisso" });
+    errors.push.apply(errors, out.parts.errors);
+  }
+  if (hasF) {
+    if (c.front === "vetro" || c.front === "curvo")
+      errors.push("ușile cu cote absolute sunt doar panouri pline (front '" + c.front + "' nu e suportat)");
+    var VF = validateFronts(c.fronts, W, H);
+    out.fronts = VF.fronts; errors.push.apply(errors, VF.errors);
+  }
+  /* i decupaje, pezzo per pezzo: fianchi e setti */
+  var cuts = normCustomCuts(c.customCuts, errors);
+  var TR = G.treapta;
+  var fDerived = (TR && TR.activa && TR.intaglio_fianco.H > 0 && TR.intaglio_fianco.P > 0)
+    ? [{ corner: "back-bottom", h: TR.intaglio_fianco.H, w: TR.intaglio_fianco.P, derived: true }] : [];
+  out.cuts.fianchi = mergeCuts("fianchi", fDerived, cuts.filter(function (x) { return x.on === "fianchi"; }),
+                               G.H_fianco, G.D_fianco, errors);
+  var sCuts = cuts.filter(function (x) { return x.on === "setti"; });
+  var setti = out.parts ? out.parts.setti : [];
+  if (sCuts.length && !setti.length) errors.push("decupaj pe setti, dar corpul nu are niciun setto");
+  out.cuts.setti = setti.map(function (s) {
+    return mergeCuts("setto " + s.n, s.notch ? [s.notch] : [], sCuts, s.H, s.D, errors);
+  });
+
+  /* --- le catene -------------------------------------------------------- */
+  var yIn0 = inp.h_base + sp.base, rip = out.parts ? out.parts.ripiani : [];
+  var faces = [sp.fianco, W - sp.fianco];
+  setti.forEach(function (s) { faces.push(s.x0, s.x1); });
+  faces = faces.sort(function (a, b) { return a - b; });
+  var cols = [];
+  for (var i = 0; i + 1 < faces.length; i += 2) if (faces[i + 1] - faces[i] > LAYOUT_EPS) cols.push((faces[i] + faces[i + 1]) / 2);
+  cols.forEach(function (xm, ci) {
+    var slabs = [{ y0: inp.h_base, y1: yIn0, what: "base" }];
+    rip.forEach(function (r) { if (r.x0 < xm && r.x1 > xm) slabs.push({ y0: r.y, y1: r.y1, what: "ripiano " + r.n }); });
+    slabs.push({ y0: H - sp.cielo, y1: H, what: "cielo" });
+    slabs.sort(function (a, b) { return a.y0 - b.y0; });
+    var terms = [], y = 0, ok = true;
+    if (inp.h_base > 0) { terms.push(inp.h_base); y = inp.h_base; }
+    slabs.forEach(function (sl) {
+      var gap = sl.y0 - y;
+      if (gap < -LAYOUT_EPS) { ok = false; errors.push("coloana " + (ci + 1) + ": " + sl.what + " intră în piesa de dedesubt (" + fmt01(gap) + " mm)"); }
+      else if (gap > LAYOUT_EPS) terms.push(gap);
+      else if (y > 0 && sl.what !== "base") { ok = false; errors.push("coloana " + (ci + 1) + ": " + sl.what + " nu lasă nicio lumină sub el"); }
+      terms.push(sl.y1 - sl.y0); y = sl.y1;
+    });
+    var tot = terms.reduce(function (s, v) { return s + v; }, 0);
+    if (!nearMm(tot, H)) { ok = false; errors.push("coloana " + (ci + 1) + ": suma verticală " + fmt01(tot) + " ≠ H " + H); }
+    out.chains.V.push({ col: ci + 1, x: xm, ok: ok, total: tot, nominal: H,
+                        text: terms.map(fmt01).join(" + ") + " = " + fmt01(tot) });
+  });
+  var ev = [yIn0, H - sp.cielo];
+  setti.forEach(function (s) { ev.push(s.y0, s.y1); });
+  ev = ev.filter(function (v, k, a) { return a.findIndex(function (u) { return nearMm(u, v); }) === k; })
+         .sort(function (a, b) { return a - b; });
+  for (var e = 0; e + 1 < ev.length; e++) {
+    var ym = (ev[e] + ev[e + 1]) / 2;
+    var xs = setti.filter(function (s) { return s.y0 < ym && s.y1 > ym; }).sort(function (a, b) { return a.x0 - b.x0; });
+    var terms2 = [sp.fianco], x = sp.fianco, ok2 = true;
+    xs.forEach(function (s) {
+      var gap = s.x0 - x;
+      if (gap <= LAYOUT_EPS) ok2 = false;
+      terms2.push(gap, s.x1 - s.x0); x = s.x1;
+    });
+    terms2.push(W - sp.fianco - x, sp.fianco);
+    var tot2 = terms2.reduce(function (s, v) { return s + v; }, 0);
+    if (!nearMm(tot2, W)) ok2 = false;
+    out.chains.H.push({ y0: ev[e], y1: ev[e + 1], ok: ok2, total: tot2, nominal: W,
+                        text: terms2.map(fmt01).join(" + ") + " = " + fmt01(tot2) });
+  }
+  return out;
+}
+
+/* --- LE COTE DEL TESTO: nessuna si perde in silenzio ----------------------
+ * Il testo libero del falegname contiene cote. Ognuna deve finire da qualche
+ * parte: in un campo della patch, in una cota di un pezzo, in una posizione.
+ * Quella che non finisce da nessuna parte e stata ignorata — ed e
+ * esattamente il guasto che ha fatto uscire 13 pezzi invece di 16.
+ *
+ * `extractCotas` legge i numeri del testo. Non sono cote:
+ *   - i codici (H1145, ST10: un numero attaccato a una lettera davanti);
+ *   - i CONTEGGI: un numero sotto 30 seguito da una parola («2 ripiani»,
+ *     «3 decupaje») o da un moltiplicatore aperto («2 × (433×1538)»).
+ * Le unita: mm = 1, cm = 10, m = 1000. «1.539» con il punto delle migliaia
+ * e 1539; «2,26 m» e 2260.
+ */
+function extractCotas(text) {
+  /* le lettere, SENZA × e ÷ (U+00D7, U+00F7), che stanno nel mezzo di À-ÿ */
+  var LET = "A-Za-zÀ-ÖØ-öø-ÿĂÂÎȘȚăâîșț";
+  var reLet = new RegExp("[" + LET + "_]"), reUnit = new RegExp("^\\s*(mm|cm|m)(?![" + LET + "])", "i");
+  var reWord = new RegExp("^\\s*[" + LET + "]"), rePrep = /^\s*(de|da|di|dal|dalla|dallo|from|du|des)\b/i;
+  var s = String(text || ""), out = [], re = /\d+(?:[.,]\d+)?/g, m;
+  while ((m = re.exec(s)) !== null) {
+    var raw = m[0], a = m.index, b = a + raw.length;
+    var prev = a > 0 ? s[a - 1] : "";
+    if (reLet.test(prev) && !/[xX]/.test(prev)) continue;     // codice
+    if (/[xX]/.test(prev) && a > 1 && /[A-Za-z]/.test(s[a - 2])) continue;          // «ST10x», «Hx12»
+    var rest = s.slice(b), unit = 1, mu;
+    if ((mu = reUnit.exec(rest))) unit = { mm: 1, cm: 10, m: 1000 }[mu[1].toLowerCase()];
+    var v;
+    if (/^\d{1,3}\.\d{3}$/.test(raw) && unit === 1) v = +raw.replace(".", "");
+    else v = parseFloat(raw.replace(",", "."));
+    if (!isFinite(v)) continue;
+    v = v * unit;
+    if (!mu && v < 30) {
+      /* conteggio: «2 ripiani», «3 decupaje», «2 × (433×1538)», «2x(» */
+      /* «10 de la față», «20 dal filo»: dopo una preposizione e una cota */
+      if (reWord.test(rest) && !/^\s*[xX]\s*\d/.test(rest) && !rePrep.test(rest)) continue;
+      if (/^\s*[x×*]\s*\(/.test(rest)) continue;
+    }
+    out.push({ raw: raw + (mu ? mu[0] : ""), value: v, index: a });
+  }
+  return out;
+}
+/* Le cote del testo che nessun numero noto giustifica. `known` = tutti i
+   numeri che la patch e i pezzi generati contengono. */
+function unconsumedCotas(text, known) {
+  var k = (known || []).filter(function (v) { return typeof v === "number" && isFinite(v); });
+  return extractCotas(text).filter(function (c) {
+    for (var i = 0; i < k.length; i++) if (Math.abs(k[i] - c.value) <= 0.5) return false;
+    return true;
+  });
 }
 
 /* --- asserzioni ----------------------------------------------------------
@@ -1292,7 +1738,14 @@ var API = {
   evalExpr: evalExpr,
   checkAssertions: checkAssertions,
   blocking: blocking,
-  assertionsHash: assertionsHash
+  assertionsHash: assertionsHash,
+  depthProfileStep: depthProfileStep,
+  derivePartitions: derivePartitions,
+  validateFronts: validateFronts,
+  validateLayout: validateLayout,
+  CUT_CORNERS: CUT_CORNERS,
+  extractCotas: extractCotas,
+  unconsumedCotas: unconsumedCotas
 };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
