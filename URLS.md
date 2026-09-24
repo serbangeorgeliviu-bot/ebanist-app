@@ -16,7 +16,8 @@
 >   `ebanist-com.netlify.app`. MX, SPF, recordurile de mail și PEC, neatinse.
 >   Adăugat și `_dmarc` TXT `"v=DMARC1; p=none; rua=mailto:info@ebanist.com"`.
 > - Email (register.it, pachetul inclus: 3 cutii, 2 GB): cutia `info@ebanist.com`;
->   `feedback@` și `support@` sunt alias spre `info@`.
+>   `feedback@` și `support@` sunt alias spre `info@`. Primire și trimitere
+>   verificate pe 24.09 (mesajul din info@ ajunge în Inbox la Gmail).
 > - `ebanist.app` (Namecheap): A `@` → `75.2.60.5`, CNAME `www` →
 >   `ebanist-com.netlify.app`; forwarding-ul de mail neatins.
 > - Certificat Let's Encrypt emis pe 24.09 pentru `ebanist.com` și
@@ -29,7 +30,6 @@
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
 > | Certificatul să includă și `ebanist.app` / `www.ebanist.app` (după propagare); dacă nu apare singur: Netlify → ebanist.com → Domain management → HTTPS → Renew certificate | Liviu / sesiunea următoare |
-> | Test trimitere DIN `info@` spre Gmail (primirea pe feedback@/support@ → info@ verificată 24.09) | Liviu |
 > | Testul `/`, `/app/`, `/privacy.html`, `/termeni.html`, 301 de la `ebanist.app` | sesiunea următoare |
 > | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
 
