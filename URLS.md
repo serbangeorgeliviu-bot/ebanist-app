@@ -29,7 +29,7 @@
 >
 > | Ce mai e de făcut | Cine / unde |
 > |---|---|
-> | `INBOX_PIN_<SLUG>` (opțional, vezi mai jos) | Liviu, Netlify → ebanist-com → Environment variables |
+> | `INBOX_PIN_<SLUG>` pentru fiecare atelier real (**obligatoriu** din 24.09: fără ea inbox-ul e închis; doar `demo` merge cu PIN-ul public). PIN de minimum 6 cifre | Liviu, Netlify → ebanist-com și whimsical-wisp → Environment variables |
 
 ---
 
@@ -39,7 +39,7 @@
 |---|---|
 | **Link pentru clienți** | https://ebanist.com/a/centro-legno |
 | Inbox comenzi | https://ebanist.com/a/centro-legno/inbox |
-| PIN inbox | `2468` |
+| PIN inbox | se setează ca variabilă `INBOX_PIN_CENTRO_LEGNO` (fără ea, inbox-ul e închis) |
 | Cifre | https://ebanist.com/api/stats?atelier=centro-legno |
 | Configurație | `ateliers/centro-legno.json` |
 | Limbă / monedă | italiană / EUR, TVA 22% |
@@ -61,8 +61,10 @@
 
 Sunt scrise în `ateliers/<slug>.json`, care e un **fișier public** —
 oricine poate deschide `ebanist.com/ateliers/demo.json` și le citește.
-Până când pui variabilele de mediu, inbox-ul afișează el însuși, cu
-galben, că e în mod nesecurizat.
+De aceea, din 24.09, PIN-ul public e acceptat **doar** la atelierul marcat
+`"demo": true` (adică `demo`, cu date de probă). Orice alt atelier are
+inbox-ul închis până primește variabila de mai jos. După 10 PIN-uri
+greșite în 15 minute, inbox-ul se blochează 15 minute.
 
 Cum le faci reale, în trei minute per atelier: `ORDER_RAIL_README.md` §4.
 

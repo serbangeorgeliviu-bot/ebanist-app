@@ -1,6 +1,7 @@
 {
   "_comment": "PREȚURI PLACEHOLDER — de înlocuit cu lista reală a atelierului. Vezi ORDER_RAIL_README.md.",
   "slug": "demo",
+  "demo": true,
   "name": "Atelier Demo",
   "logo": "",
   "language": "ro",

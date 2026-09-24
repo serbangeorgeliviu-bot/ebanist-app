@@ -123,6 +123,8 @@ function load(){
     .then(function(res){
       b.disabled = false; b.textContent = old;
       if(res.s === 401){ $("msg").className="msg err"; $("msg").textContent = T.badPin; return; }
+      if(res.s === 429){ $("msg").className="msg err"; $("msg").textContent = T.locked; return; }
+      if(res.s === 503 && res.j && res.j.error === "inbox-not-configured"){ $("msg").className="msg err"; $("msg").textContent = T.notConfigured; return; }
       if(res.s === 503){ $("msg").className="msg err"; $("msg").textContent = T.noServer; return; }
       if(res.s !== 200){ $("msg").className="msg err"; $("msg").textContent = res.j.error||("HTTP "+res.s); return; }
       PIN = pin;
