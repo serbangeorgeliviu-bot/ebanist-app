@@ -19,10 +19,17 @@
 
    — PIN-ul din `/ateliers/<slug>.json` e PUBLIC — fișierul se poate citi
      de oricine. Deci secretul adevărat e variabila de mediu
-     `INBOX_PIN_<SLUG>`. Când lipsește, se acceptă PIN-ul public și se
-     spune în răspuns că inbox-ul e nesecurizat: așa se poate proba tot
-     fluxul azi, iar ziua în care se pun variabilele nu cere cod nou.
-     Vezi DECISIONS.md §5.3.
+     `INBOX_PIN_<SLUG>`. PIN-ul public se mai acceptă DOAR pentru un
+     atelier marcat `"demo": true`; pentru oricare altul, fără variabilă
+     inbox-ul e închis (503 inbox-not-configured). Inbox-ul conține numele
+     și telefoanele clienților: un PIN care stă într-un fișier public nu
+     le poate păzi. Vezi DECISIONS.md §5.3.
+
+   — După 10 PIN-uri greșite în 15 minute, atelierul se blochează 15
+     minute (429). Un PIN de 4 cifre se ghicește altfel în câteva ore.
+
+   — GET pe o singură comandă e public pe id, deci telefonul clientului
+     iese mascat; întreg îl vede doar cine trimite PIN-ul.
    ===================================================================== */
 
 import { getStore } from "@netlify/blobs";
@@ -73,16 +80,46 @@ function envPinHash(slug) {
   return process.env[key] || null;
 }
 
-async function checkPin(slug, given, cfg) {
+async function checkPinRaw(slug, given, cfg) {
   const hash = envPinHash(slug);
   if (hash) {
     const h = crypto.createHash("sha256").update("ebanist-inbox|" + slug + "|" + String(given || "")).digest("hex");
     return { ok: pinMatches(h, hash), insecure: false };
   }
-  /* Nicio variabilă de mediu: mod nesecurizat, declarat. */
-  const pub = cfg && cfg.pin;
+  /* Nicio variabilă de mediu: PIN-ul public merge numai la demo. */
+  if (!cfg || cfg.demo !== true) return { ok: false, closed: true };
+  const pub = cfg.pin;
   if (!pub) return { ok: false, insecure: true };
   return { ok: pinMatches(String(given || ""), String(pub)), insecure: true };
+}
+
+const LOCK_MAX = 10, LOCK_MS = 15 * 60 * 1000;
+
+/* Contorul stă în aceeași magazie, sub `_guard/`: listarea inbox-ului
+   cere prefixul `<slug>/`, deci nu-l vede niciodată. */
+async function checkPin(st, slug, given, cfg) {
+  const gk = "_guard/" + slug;
+  let g = null;
+  try { g = await st.get(gk, { type: "json" }); } catch (e) {}
+  const now = Date.now();
+  if (!g || now - g.t > LOCK_MS) g = { n: 0, t: now };
+  if (g.n >= LOCK_MAX) return { ok: false, locked: true };
+  const r = await checkPinRaw(slug, given, cfg);
+  if (r.closed) return r;
+  if (!r.ok) { g.n++; try { await st.setJSON(gk, g); } catch (e) {} }
+  else if (g.n) { try { await st.delete(gk); } catch (e) {} }
+  return r;
+}
+
+function pinFail(chk) {
+  if (chk.closed) return bad("inbox-not-configured", 503);
+  if (chk.locked) return bad("too-many-attempts", 429);
+  return bad("bad-pin", 401, { insecure: chk.insecure });
+}
+
+function maskPhone(p) {
+  const d = String(p || "");
+  return d.length <= 3 ? "•••" : d.slice(0, 3) + d.slice(3, -2).replace(/[0-9]/g, "•") + d.slice(-2);
 }
 
 export default async (req, context) => {
@@ -143,8 +180,8 @@ export default async (req, context) => {
       if (!slug || !SLUG.test(slug)) return bad("bad-slug");
       const cfg = await atelierCfg(slug, origin);
       const given = req.headers.get("x-inbox-pin") || url.searchParams.get("pin");
-      const chk = await checkPin(slug, given, cfg);
-      if (!chk.ok) return bad("bad-pin", 401, { insecure: chk.insecure });
+      const chk = await checkPin(st, slug, given, cfg);
+      if (!chk.ok) return pinFail(chk);
 
       const list = await st.list({ prefix: slug + "/" });
       const out = [];
@@ -177,6 +214,9 @@ export default async (req, context) => {
       if (!slug || !SLUG.test(slug)) return bad("bad-slug");
       const rec = await st.get(slug + "/" + id, { type: "json" });
       if (!rec) return bad("not-found", 404);
+      if (rec.order && rec.order.customer && rec.order.customer.phone) {
+        rec.order.customer = Object.assign({}, rec.order.customer, { phone: maskPhone(rec.order.customer.phone) });
+      }
       return ok(rec);
     }
 
@@ -189,8 +229,8 @@ export default async (req, context) => {
       const slug = body.atelier || url.searchParams.get("atelier");
       if (!slug || !SLUG.test(slug)) return bad("bad-slug");
       const cfg = await atelierCfg(slug, origin);
-      const chk = await checkPin(slug, req.headers.get("x-inbox-pin") || body.pin, cfg);
-      if (!chk.ok) return bad("bad-pin", 401, { insecure: chk.insecure });
+      const chk = await checkPin(st, slug, req.headers.get("x-inbox-pin") || body.pin, cfg);
+      if (!chk.ok) return pinFail(chk);
 
       const key = slug + "/" + id;
       const rec = await st.get(key, { type: "json" });

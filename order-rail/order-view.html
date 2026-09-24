@@ -83,7 +83,7 @@ function paint(rec){
     '<div style="margin-top:8px"><span class="pill '+(rec.confirmed_at?"confirmed":"")+'">'+
       esc(T.status[rec.status]||rec.status)+'</span></div>'+
     '<div class="k">'+esc(T.client)+'</div><div class="v">'+esc(o.customer.name)+
-      ' · <a href="tel:'+esc(o.customer.phone)+'">'+esc(o.customer.phone)+'</a></div>'+
+      ' · '+(/•/.test(o.customer.phone)?esc(o.customer.phone):'<a href="tel:'+esc(o.customer.phone)+'">'+esc(o.customer.phone)+'</a>')+'</div>'+
     '<div class="k">'+esc(T.total)+'</div><div class="amt">'+esc(money(p.total,p.currency))+'</div>';
 
   if(p.lines && p.lines.length){
