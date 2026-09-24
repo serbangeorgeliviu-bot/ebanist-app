@@ -1973,6 +1973,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const o = {};
       closeSheets(); licWrite(null);
       o.pornire = __calls.includes("restore") && __calls.includes("query");
+      const fi = document.getElementById("fileInput");
+      o.faraAccept = !fi.hasAttribute("accept");
+      let clic = 0; const oc = fi.click; fi.click = () => clic++;
+      document.getElementById("btnRestoreFile").click(); fi.click = oc;
+      o.restaurare = clic === 1;
       o.liberInitial = !isPro();
       openPro("pdf"); await w(200);
       const body = document.getElementById("proBody");
@@ -2033,6 +2038,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("anulat în Play → Pro dispare la verificare", g.anulat === true);
     ok("o cheie EBP nu e atinsă de Play", g.cheiaRamane === true);
     ok("Play nu răspunde → nu se schimbă nimic", g.faraRaspuns === true);
+    ok("Android: selectorul de fișiere acceptă orice (backup .json)", g.faraAccept === true);
+    ok("setări: „Restaurează din fișier” deschide selectorul", g.restaurare === true);
     ok("nessun errore JS", gerr.length === 0, gerr.join(" | ").slice(0, 200));
   }
 
