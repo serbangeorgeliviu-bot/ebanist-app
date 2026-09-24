@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.37.2 — 24 septembrie 2026
+
+**AI Magic Input, după primul test real cu promptul Jacquin.**
+- **Decupajele nu mai inversează axele**: câmpurile se cheamă acum `height` (pe înălțimea piesei) și `depth` (pe adâncime), nu `w`/`h`. Modelul citea „600 × 110" invers și ieșea un decupaj de 600 mm adâncime pe o laterală de 341.
+- **Grosimea spusă e obligatorie**: „truciolare 19" nu mai poate deveni un PAL de 18. Dacă sunt mai multe materiale de 19, modelul îl alege pe cel mai apropiat de nume și întreabă de celelalte.
+- **Distinta așteptată scrisă în prompt nu mai blochează.** Numerele de verificare sunt comparate cu piesele generate:
+  - piesele așteptate („Fianco 2260 × 341");
+  - pila de verificare („20 + 19 + … = 2280");
+  - fața de sus a unei polițe (1558), marginea de sus a unei uși (2278), rostul (3), golurile coloanei (287, 288), fața de jos a tavanului (2261).
+- **Când piesele nu se pot genera**, cotele de verificare apar ca „încă neverificate", nu ca „pierdute".
+- `CORE_REV` 4.37.2: un telefon cu motorul vechi în cache își reîncarcă motorul la pornire.
+
+---
+
 ## 4.37.1 — 24 septembrie 2026
 
 **Repară „validateLayout is not defined" după actualizarea la 4.37.0.**
