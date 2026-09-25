@@ -20,7 +20,7 @@ const LISTA = {
   m2: { pal18_alb: 120, pfl3: 35 },
   edge_ml: { "0.4": 3.5, "0.8": 4.5, "2": 9 },
   accessory: 45, hole: 0.9, cutout: 14, labour_piece: 4.5,
-  vat: 19, min_order: 0
+  vat: 21, min_order: 0
 };
 
 describe("Caz 1 — un corp simplu, totul cotat", () => {
@@ -29,7 +29,7 @@ describe("Caz 1 — un corp simplu, totul cotat", () => {
      10 m cant 0,8  ×4,5 =  45,00
      8 găuri        ×0,9 =   7,20
      6 piese        ×4,5 =  27,00
-                     net = 594,20 ; TVA 19% = 112,90 ; total = 707,10 */
+                     net = 594,20 ; TVA 21% = 124,78 ; total = 718,98 */
   const q = P.quote({
     materials: [{ id: "pal18_alb", label: "PAL alb", area: 4, edge: 10 },
                 { id: "pfl3", label: "PFL", area: 1, edge: 0 }],
@@ -37,8 +37,8 @@ describe("Caz 1 — un corp simplu, totul cotat", () => {
   }, LISTA, { currency: "RON" });
 
   test("net", () => assert.equal(q.net, 594.20));
-  test("TVA", () => assert.equal(q.vat, 112.90));
-  test("total", () => assert.equal(q.total, 707.10));
+  test("TVA", () => assert.equal(q.vat, 124.78));
+  test("total", () => assert.equal(q.total, 718.98));
   test("moneda vine din opțiuni, nu din listă", () => assert.equal(q.currency, "RON"));
   test("o linie per material, plus cant, găuri, manoperă", () => {
     assert.deepEqual(q.lines.map(l => l.kind), ["panel", "panel", "edge", "hole", "labour"]);
@@ -54,7 +54,7 @@ describe("Caz 2 — material necotat, accesorii și decupaje", () => {
      3 accesorii ×45  = 135,00
      2 decupaje  ×14  =  28,00
      4 piese     ×4,5 =  18,00
-                  net = 461,00 ; TVA 19% = 87,59 ; total = 548,59 */
+                  net = 461,00 ; TVA 21% = 96,81 ; total = 557,81 */
   const q = P.quote({
     materials: [{ id: null, label: "Furnir exotic", area: 2, edge: 0 }],
     edgeTh: 0.8, accessories: 3, holes: 0, cutouts: 2, pieces: 4
@@ -73,7 +73,7 @@ describe("Caz 2 — material necotat, accesorii și decupaje", () => {
     assert.equal(a.qty, 3); assert.equal(a.total, 135);
   });
   test("net", () => assert.equal(q.net, 461));
-  test("total", () => assert.equal(q.total, 548.59));
+  test("total", () => assert.equal(q.total, 557.81));
 });
 
 describe("Caz 3 — defalcarea pe corp și comanda minimă", () => {

@@ -53,7 +53,7 @@
 | PIN inbox | `1234` |
 | Cifre | https://ebanist.com/api/stats?atelier=demo |
 | Configurație | `ateliers/demo.json` |
-| Limbă / monedă | română / RON, TVA 19% |
+| Limbă / monedă | română / RON, TVA 21% |
 
 ---
 

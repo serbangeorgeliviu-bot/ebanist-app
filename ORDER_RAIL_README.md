@@ -71,7 +71,7 @@ Tot în același fișier, în `price_list`:
   "hole": 0.9,
   "cutout": 14.0,
   "labour_piece": 4.5,
-  "vat": 19,
+  "vat": 21,
   "min_order": 0
 }
 ```
