@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /a/
+Disallow: /order-rail/
+Disallow: /.netlify/
+
+Sitemap: https://ebanist.com/sitemap.xml
