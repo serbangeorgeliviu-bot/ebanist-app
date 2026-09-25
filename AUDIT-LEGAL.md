@@ -66,7 +66,8 @@ Ce presupune mutarea, ca să nu fie o surpriză:
    tratatul România–SUA: servicii (vânzări în aplicație) art. 7(1) 0%,
    alte drepturi de autor art. 12(2) 10%; valabil până la 31.12.2029.
    Documentul 1042-S vine electronic. Cont bancar în EUR (RO…9902),
-   prag de plată 1 EUR.
+   prag de plată 1 EUR. Grup de conturi „GEORGE-LIVIU SERBAN” (un singur
+   cont, Domus Renov), înscris la taxa de serviciu de 15% pe 25.09.2026.
 4. **Evidența**: rapoartele lunare Google Play (Earnings) și payout-urile
    Lemon Squeezy, păstrate ca documente justificative.
 
