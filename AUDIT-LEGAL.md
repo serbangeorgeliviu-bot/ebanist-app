@@ -60,8 +60,13 @@ Ce presupune mutarea, ca să nu fie o surpriză:
    prestare de servicii intra-UE (B2B). Probabil e nevoie de cod special de
    TVA, declarația **D390** și, pentru comisionul reținut de Google, **D301**.
    TVA-ul clienților finali îl colectează Google (Play) și Lemon Squeezy (web).
-3. **Formularul W-8BEN** la Lemon Squeezy și datele fiscale în Google
-   Payments. Fără ele, SUA pot reține până la 30% din sume.
+3. **Formularul W-8BEN** la Lemon Squeezy (de făcut la deschiderea plății pe
+   web). Fără el, SUA pot reține până la 30% din sume.
+   **Google Play: făcut 25.09.2026.** W-8BEN aprobat, persoană fizică,
+   tratatul România–SUA: servicii (vânzări în aplicație) art. 7(1) 0%,
+   alte drepturi de autor art. 12(2) 10%; valabil până la 31.12.2029.
+   Documentul 1042-S vine electronic. Cont bancar în EUR (RO…9902),
+   prag de plată 1 EUR.
 4. **Evidența**: rapoartele lunare Google Play (Earnings) și payout-urile
    Lemon Squeezy, păstrate ca documente justificative.
 
