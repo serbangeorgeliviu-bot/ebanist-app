@@ -3,190 +3,559 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0E3B2A">
+<meta name="theme-color" content="#0a100c">
 <title>Ebanist — de la măsurători la lista de debitare</title>
 <meta name="description" content="Aplicație de proiectare mobilier pentru tâmplari: corpuri parametrice, listă de debitare, etichete, fișă de asamblare, deviz. Gratuit: 1 proiect, cu 3D și lista de debitare pe ecran.">
+<link rel="canonical" href="https://ebanist.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ebanist.com/">
+<meta property="og:title" content="Ebanist — de la măsurători la lista de debitare">
+<meta property="og:description" content="Proiectezi corpul pe telefon, în șantier. Ebanist îți dă modelul 3D, distinta, etichetele și fișa de montaj.">
+<meta property="og:image" content="https://ebanist.com/site/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/app/icons/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/app/icons/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/app/icons/apple-touch-icon-180.png">
 <link href="/fonts/fonts.css" rel="stylesheet">
+<link rel="preload" as="image" href="/site/img/real-dressing.webp" fetchpriority="high">
 <!-- Nessun cookie, nessun tracciatore, nessun banner da chiudere.
      Se un giorno servissero i numeri delle visite, si accende UNA riga qui
      sotto: GoatCounter non usa cookie e non fa profilazione, quindi non fa
      comparire nessun banner. Resta commentata finche non serve davvero.
 <script data-goatcounter="https://ebanist.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist",
+ "applicationCategory":"DesignApplication","operatingSystem":"Web, Android",
+ "url":"https://ebanist.com/","inLanguage":["ro","it","fr","en"],
+ "description":"Aplicație de proiectare mobilier pentru tâmplari: corpuri parametrice, model 3D, listă de debitare, etichete, fișă de montaj, deviz.",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},
+ "publisher":{"@type":"Organization","name":"Ebanist","email":"info@ebanist.com"}}
+</script>
 <style>
+/* Fraunces (SIL OFL) — la voce «umana» della pagina, accanto al Barlow
+   dell'app. Anche questa ospitata qui: nessuna richiesta a Google. */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400;font-display:swap;
+  src:url(/fonts/fraunces-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400;font-display:swap;
+  src:url(/fonts/fraunces-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:400;font-display:swap;
+  src:url(/fonts/fraunces-latin-ext-400-italic.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Fraunces';font-style:italic;font-weight:400;font-display:swap;
+  src:url(/fonts/fraunces-latin-400-italic.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url(/fonts/fraunces-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url(/fonts/fraunces-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}
+
 :root{
-  --ink:#12160f; --muted:#4d5647; --faint:#7b8474;
-  --bg:#faf9f5; --card:#ffffff; --line:#e2e6dc;
-  --green:#0E3B2A; --green-soft:#16513a; --gold:#D4AF37;
-  --disp:'Barlow Condensed',Arial Narrow,sans-serif;
-  --body:'Barlow',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-}
-@media (prefers-color-scheme:dark){
-  :root{--ink:#eef0ea; --muted:#b3bcac; --faint:#8d9686;
-        --bg:#12160f; --card:#1a1f17; --line:#2c3327;}
+  --night:#0a100c; --night2:#0f1812; --night3:#16221a;
+  --cream:#f3efe6; --cream2:#e9e3d6; --paper:#f6f3ec;
+  --ink:#141a13; --muted:#5a6356; --muted-d:#a9ab9f; --line:#dcd6c8; --line-d:#243329;
+  --green:#0E3B2A; --green2:#16513a; --gold:#D4AF37; --gold2:#e6c65e; --walnut:#8d5b3c;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --disp:'Barlow Condensed','Arial Narrow',sans-serif;
+  --body:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --gut:clamp(16px,4vw,40px); --max:1240px;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.5;
-  font-size:16px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--body);background:var(--night);color:var(--cream);line-height:1.55;font-size:17px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+em,.it{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;text-transform:none}
+.kicker{font:600 13px/1 var(--disp);letter-spacing:3.2px;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:34px;height:1px;background:currentColor;opacity:.8}
+.h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5.4vw,68px);line-height:1.02;letter-spacing:-.8px;margin-top:18px;max-width:18ch}
+.h2 em{color:var(--gold2)}
+.sub{color:var(--muted-d);font-size:clamp(17px,1.6vw,20px);max-width:56ch;margin-top:18px}
+.light{background:var(--paper);color:var(--ink);color-scheme:light}
+.light .sub{color:var(--muted)}
+.light .h2 em{color:var(--walnut)}
+.light .kicker{color:var(--walnut)}
 
-/* ---------- barra ---------- */
-header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;gap:12px;height:58px}
-.brand{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-size:22px;
-  font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--green);text-decoration:none}
-@media (prefers-color-scheme:dark){.brand{color:#8fd0ae}}
-.brand img{width:26px;height:26px;display:block}
+/* ---------- bottoni ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;
+  border-radius:999px;font:600 15px/1 var(--disp);letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;
+  transition:transform .3s var(--ease),background .3s,color .3s,border-color .3s;border:1px solid transparent;cursor:pointer}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:#17130a}
+.btn-gold:hover{background:var(--gold2)}
+.btn-ghost{border-color:rgba(243,239,230,.35);color:var(--cream)}
+.btn-ghost:hover{border-color:var(--cream)}
+.btn-dark{background:var(--green);color:#fff}
+.btn-dark:hover{background:var(--green2)}
+.btn-line{border-color:var(--line);color:var(--ink);background:#fff}
+.btn svg{width:18px;height:18px}
+
+/* ---------- testata ---------- */
+header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent;padding-top:env(safe-area-inset-top)}
+header.solid{background:rgba(10,16,12,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line-d)}
+.bar{display:flex;align-items:center;gap:18px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font:700 21px/1 var(--disp);letter-spacing:2.4px;text-transform:uppercase;text-decoration:none;color:var(--cream)}
+.brand img{width:30px;height:30px;border-radius:8px}
+.nav{display:flex;gap:26px;margin-left:18px}
+.nav a{font:500 14px/1 var(--disp);letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;color:rgba(243,239,230,.72);transition:color .2s}
+.nav a:hover{color:var(--cream)}
 .bar .sp{flex:1}
-/* Il selettore di lingua e QUATTRO bottoni, non un menu a tendina: si vede
-   subito che l'app parla la tua lingua, e si cambia con un dito solo. */
 .langs{display:flex;gap:2px}
-.langs button{font:600 12px/1 var(--body);letter-spacing:.6px;text-transform:uppercase;
-  background:none;border:1px solid transparent;color:var(--faint);padding:6px 7px;
-  border-radius:7px;cursor:pointer}
-.langs button.on{color:var(--green);border-color:var(--line);background:var(--card)}
-@media (prefers-color-scheme:dark){.langs button.on{color:#8fd0ae}}
+.langs button{font:600 12px/1 var(--body);letter-spacing:.8px;text-transform:uppercase;background:none;border:1px solid transparent;
+  color:rgba(243,239,230,.55);padding:7px 7px;border-radius:8px;cursor:pointer}
+.langs button.on{color:var(--cream);border-color:rgba(243,239,230,.28)}
+.bar .btn{min-height:40px;padding:0 18px;font-size:13px}
+@media (max-width:980px){.nav{display:none}}
+@media (max-width:560px){.bar .btn{display:none}.langs button{padding:7px 5px}}
 
-/* ---------- schermata unica ---------- */
-main{padding:46px 0 20px}
-h1{font-family:var(--disp);font-size:clamp(34px,7vw,54px);line-height:1.04;font-weight:700;
-  text-transform:uppercase;letter-spacing:.5px;max-width:16ch}
-.lede{margin-top:16px;font-size:clamp(17px,2.4vw,20px);color:var(--muted);max-width:52ch}
+/* ---------- eroe ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero .bg{position:absolute;inset:0;z-index:-2}
+.hero .bg img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;transform:scale(1.14);
+  animation:kb 22s var(--ease) forwards;filter:saturate(.9) contrast(1.05)}
+@keyframes kb{to{transform:scale(1.0)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(10,16,12,.55) 0%,rgba(10,16,12,.1) 30%,rgba(10,16,12,.35) 55%,rgba(10,16,12,.94) 100%),
+             radial-gradient(120% 80% at 20% 100%,rgba(10,16,12,.8),transparent 60%)}
+/* grana di pellicola: SVG in data:, nessuna richiesta */
+.grain::after{content:"";position:absolute;inset:-50%;z-index:1;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+/* le bande nere del cinema: si aprono all'arrivo */
+.hero .lb{position:absolute;left:0;right:0;height:13vh;background:#000;z-index:3;pointer-events:none;animation:lb 1.8s .2s var(--ease) forwards}
+.hero .lb.t{top:0;transform-origin:top}.hero .lb.b{bottom:0;transform-origin:bottom}
+@keyframes lb{to{transform:scaleY(0)}}
+.hero .in{position:relative;z-index:2;padding-bottom:clamp(40px,9vh,96px);padding-top:120px;width:100%}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7.6vw,108px);line-height:.98;letter-spacing:-1.6px;max-width:13ch;margin-top:18px}
+.hero h1 em{color:var(--gold2)}
+.hero .lede{margin-top:24px;font-size:clamp(18px,1.9vw,22px);color:rgba(243,239,230,.84);max-width:46ch}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero .note{margin-top:16px;font-size:14px;color:rgba(243,239,230,.6)}
+.hero .cap{position:absolute;right:var(--gut);bottom:clamp(40px,9vh,96px);z-index:2;font:500 12px/1.5 var(--disp);letter-spacing:2px;
+  text-transform:uppercase;color:rgba(243,239,230,.55);text-align:right;max-width:26ch}
+.hero .cap b{display:block;color:var(--gold);font-weight:600}
+@media (max-width:760px){.hero .cap{display:none}}
+.rise{opacity:0;transform:translateY(26px);animation:rise 1.2s var(--ease) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.d1{animation-delay:.7s}.d2{animation-delay:.9s}.d3{animation-delay:1.1s}.d4{animation-delay:1.3s}
 
-.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  font:600 16px/1 var(--body);padding:15px 24px;border-radius:12px;border:1px solid transparent;
-  text-decoration:none;cursor:pointer;min-height:52px}
-.btn-p{background:var(--green);color:#fff}
-.btn-p:hover{background:var(--green-soft)}
-.btn-s{background:var(--card);color:var(--ink);border-color:var(--line)}
-.note{margin-top:12px;font-size:14px;color:var(--faint)}
+/* ---------- nastro ---------- */
+.tick{border-top:1px solid var(--line-d);border-bottom:1px solid var(--line-d);overflow:hidden;background:var(--night)}
+.tick .row{display:flex;gap:48px;width:max-content;padding:18px 0;animation:tick 42s linear infinite}
+.tick span{font:500 15px/1 var(--disp);letter-spacing:3px;text-transform:uppercase;color:rgba(243,239,230,.6);white-space:nowrap;display:flex;align-items:center;gap:48px}
+.tick span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.7}
+@keyframes tick{to{transform:translateX(-50%)}}
 
-/* ---------- i tre vantaggi ---------- */
-.bens{display:grid;gap:14px;margin-top:40px}
-@media (min-width:700px){.bens{grid-template-columns:repeat(3,1fr)}}
-.ben{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
-.ben h3{font-family:var(--disp);font-size:19px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.5px;margin-bottom:6px}
-.ben p{font-size:15px;color:var(--muted)}
-.ben .n{font-family:var(--disp);font-size:13px;font-weight:700;color:var(--gold);
-  letter-spacing:1.4px;display:block;margin-bottom:8px}
+/* ---------- sequenza cinematografica ---------- */
+.seq{position:relative;height:560vh;background:var(--night)}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden}
+.frame{position:absolute;inset:0;opacity:0;will-change:opacity,transform}
+.frame img{width:100%;height:100%;object-fit:cover}
+.frame.r3d{background:linear-gradient(180deg,#f3f5ed 0%,#e6e9df 55%,#d6dacf 100%)}
+.frame.r3d img{object-fit:contain;object-position:50% 60%;padding:84px 0 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+@media (max-aspect-ratio:4/5){.frame.r3d img{position:absolute;top:118px;left:0;height:calc(100% - 118px - 38%);min-height:260px;object-fit:cover;padding:0;object-position:50% 45%;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 8%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 8%,#000 88%,transparent)}}
+.frame.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,12,.35),rgba(10,16,12,.1) 40%,rgba(10,16,12,.6))}
+.seq-head{position:absolute;top:86px;left:0;right:0;z-index:3}
+.seq-head .kicker{color:var(--gold)}
+.chaps{position:absolute;left:var(--gut);bottom:clamp(28px,7vh,72px);z-index:3;width:min(460px,calc(100% - 2*var(--gut)))}
+.chap{position:absolute;left:0;bottom:0;width:100%;padding:26px 28px 28px;border-radius:22px;
+  background:rgba(10,16,12,.72);backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2);
+  border:1px solid rgba(243,239,230,.12);opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .6s var(--ease);pointer-events:none}
+.chap.on{opacity:1;transform:none}
+.chap .n{font:600 13px/1 var(--disp);letter-spacing:3px;color:var(--gold)}
+.chap h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.6vw,44px);line-height:1.02;margin-top:10px}
+.chap p{margin-top:10px;color:rgba(243,239,230,.8);font-size:16px}
+.chap .stats{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap}
+.chap .stats b{display:block;font:700 30px/1 var(--disp);color:var(--cream)}
+.chap .stats small{font:500 11px/1 var(--disp);letter-spacing:2px;text-transform:uppercase;color:var(--muted-d)}
+.chaps .spacer{visibility:hidden;position:relative}
+.prog{position:absolute;right:var(--gut);top:50%;transform:translateY(-50%);z-index:3;display:flex;flex-direction:column;gap:14px}
+.prog i{display:block;width:3px;height:34px;border-radius:3px;background:rgba(20,26,19,.25);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--gold);transform:scaleY(var(--p,0));transform-origin:top}
+@media (max-width:640px){.prog{top:112px;left:var(--gut);right:auto;transform:none;flex-direction:row}.prog i{width:28px;height:3px}.prog i::after{transform:scaleX(var(--p,0));transform-origin:left}}
 
-/* ---------- il filmato ----------
-   Segnaposto dichiarato: meglio un rettangolo che dice «qui va il video»
-   che un video finto o un'immagine di repertorio che non e l'app. */
-.demo{margin-top:36px;border:1px solid var(--line);border-radius:14px;overflow:hidden;
-  background:var(--card)}
-.demo .ph{aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:10px;background:
-    repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(14,59,42,.045) 12px,rgba(14,59,42,.045) 24px);
-  color:var(--faint);text-align:center;padding:24px}
-.demo .ph b{font-family:var(--disp);font-size:17px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
-.demo .ph span{font-size:14px;max-width:40ch}
+/* ---------- tre schermi ---------- */
+.sec{padding:clamp(90px,13vw,170px) 0}
+.devices{position:relative;margin-top:clamp(50px,7vw,90px);height:clamp(340px,52vw,640px)}
+.dev{position:absolute;border-radius:22px;background:#0b0f0c;padding:10px;box-shadow:0 40px 80px -30px rgba(20,26,19,.45),0 0 0 1px rgba(0,0,0,.08);
+  transition:transform 1.2s var(--ease);will-change:transform}
+.dev img{border-radius:13px;width:100%;height:auto}
+.dev.pc{left:0;top:0;width:66%;border-radius:16px;padding:12px 12px 12px}
+.dev.pc::after{content:"";position:absolute;left:-4%;right:-4%;bottom:-20px;height:20px;border-radius:0 0 18px 18px;background:linear-gradient(#cfcabd,#aaa596)}
+.dev.tab{right:0;top:12%;width:44%;border-radius:26px;padding:14px}
+.dev.ph{left:52%;top:30%;width:15%;min-width:120px;border-radius:30px;padding:8px}
+.dev.ph img{border-radius:23px}
+.dev-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:clamp(50px,7vw,90px)}
+.dev-legend div{border-top:1px solid var(--line);padding-top:18px}
+.dev-legend b{font:600 13px/1 var(--disp);letter-spacing:2.6px;text-transform:uppercase;color:var(--walnut)}
+.dev-legend h3{font-family:var(--serif);font-weight:400;font-size:28px;margin-top:10px;line-height:1.1}
+.dev-legend p{color:var(--muted);margin-top:8px;font-size:16px}
+@media (max-width:760px){.dev-legend{grid-template-columns:1fr}.devices{height:clamp(300px,90vw,520px)}.dev.pc{width:92%}.dev.tab{width:62%;top:34%}.dev.ph{left:auto;right:4%;top:44%;width:26%}}
+
+/* ---------- pellicola dei passi ---------- */
+.strip{display:flex;gap:clamp(18px,2.4vw,34px);overflow-x:auto;scroll-snap-type:x mandatory;padding:10px var(--gut) 30px max(var(--gut),calc((100vw - var(--max))/2 + var(--gut)));scroll-padding-left:max(var(--gut),calc((100vw - var(--max))/2 + var(--gut)));margin-top:56px;
+  scrollbar-width:thin;scrollbar-color:var(--line-d) transparent;-webkit-overflow-scrolling:touch}
+.step{flex:0 0 clamp(230px,24vw,290px);scroll-snap-align:start}
+.phone{border-radius:34px;background:#050806;padding:9px;box-shadow:0 30px 60px -28px rgba(0,0,0,.8),0 0 0 1px rgba(243,239,230,.1);transition:transform .6s var(--ease)}
+.phone img{border-radius:26px;width:100%;height:auto;aspect-ratio:390/844;object-fit:cover}
+.step:hover .phone{transform:translateY(-8px) rotate(-.6deg)}
+.step .n{font:600 13px/1 var(--disp);letter-spacing:3px;color:var(--gold);margin-top:26px}
+.step h3{font-family:var(--serif);font-weight:400;font-size:26px;margin-top:8px;line-height:1.1}
+.step p{color:var(--muted-d);font-size:15.5px;margin-top:8px}
+.strip::after{content:"";flex:0 0 1px}
+
+/* ---------- modalita cliente ---------- */
+.client{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,6vw,90px);align-items:center}
+.client .tabwrap{position:relative}
+.client .tabwrap .dev{position:relative;width:100%;left:auto;top:auto;right:auto}
+.client .glow{position:absolute;inset:10% -8% -6% -8%;background:radial-gradient(closest-side,rgba(212,175,55,.26),transparent);filter:blur(30px);z-index:-1}
+.ticks{list-style:none;margin-top:28px;display:grid;gap:14px}
+.ticks li{display:flex;gap:14px;align-items:flex-start;font-size:17px;color:rgba(243,239,230,.86)}
+.ticks li::before{content:"";flex:0 0 22px;height:22px;border-radius:50%;margin-top:2px;
+  background:var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2317130a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/14px no-repeat}
+@media (max-width:900px){.client{grid-template-columns:1fr}}
+
+/* ---------- numeri ---------- */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-d);border-bottom:1px solid var(--line-d)}
+.nums div{padding:clamp(28px,4vw,52px) clamp(10px,2vw,28px);border-left:1px solid var(--line-d)}
+.nums div:first-child{border-left:0}
+.nums b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(44px,6vw,84px);line-height:1;color:var(--cream);letter-spacing:-1px}
+.nums b sup{font-size:.4em;color:var(--gold);margin-left:4px;vertical-align:.9em}
+.nums span{display:block;margin-top:12px;font:500 13px/1.35 var(--disp);letter-spacing:2px;text-transform:uppercase;color:var(--muted-d)}
+@media (max-width:760px){.nums{grid-template-columns:1fr 1fr}.nums div:nth-child(3){border-left:0}.nums div:nth-child(n+3){border-top:1px solid var(--line-d)}}
+
+/* ---------- galleria del lavoro vero ---------- */
+.gal{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:clamp(120px,14vw,190px);gap:clamp(8px,1.2vw,16px);margin-top:clamp(44px,6vw,80px)}
+.gal figure{position:relative;overflow:hidden;border-radius:14px;background:#d8d2c4}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.gal figure:hover img{transform:scale(1.05)}
+.gal figcaption{position:absolute;left:14px;bottom:12px;right:14px;font:600 12px/1.3 var(--disp);letter-spacing:2px;text-transform:uppercase;color:#fff;
+  text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.g1{grid-column:1/8;grid-row:span 3}.g2{grid-column:8/13;grid-row:span 2}.g3{grid-column:8/13;grid-row:span 2}
+.g4{grid-column:1/5;grid-row:span 2}.g5{grid-column:5/8;grid-row:span 2}
+@media (max-width:760px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:44vw}.g1{grid-column:1/3;grid-row:span 1}.g2,.g3,.g4,.g5{grid-column:auto;grid-row:span 1}}
+.quote{margin-top:clamp(50px,7vw,90px);display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;max-width:900px}
+.quote .mark{font-family:var(--serif);font-size:110px;line-height:.7;color:var(--walnut)}
+.quote p{font-family:var(--serif);font-size:clamp(22px,2.6vw,32px);line-height:1.3}
+.quote small{display:block;margin-top:16px;font:600 13px/1 var(--disp);letter-spacing:2.4px;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- funzioni ---------- */
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-d);border:1px solid var(--line-d);border-radius:22px;overflow:hidden;margin-top:clamp(44px,6vw,80px)}
+.feat{background:var(--night);padding:clamp(24px,2.6vw,36px);transition:background .4s}
+.feat:hover{background:var(--night3)}
+.feat svg{width:30px;height:30px;color:var(--gold)}
+.feat h3{font:600 20px/1.15 var(--disp);letter-spacing:.8px;text-transform:uppercase;margin-top:22px}
+.feat p{color:var(--muted-d);font-size:15.5px;margin-top:8px}
+@media (max-width:1000px){.feats{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.feats{grid-template-columns:1fr}}
 
 /* ---------- prezzo ---------- */
-.price{margin-top:40px;background:var(--card);border:1px solid var(--line);
-  border-radius:16px;padding:24px}
-.price h2{font-family:var(--disp);font-size:24px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.6px;margin-bottom:14px}
-.tiers{display:grid;gap:16px}
-@media (min-width:640px){.tiers{grid-template-columns:1fr 1fr}}
-.tier{border:1px solid var(--line);border-radius:12px;padding:18px}
-.tier.pro{border-color:var(--gold)}
-.tier .amt{font-family:var(--disp);font-size:34px;font-weight:700;line-height:1}
-.tier .per{font-size:14px;color:var(--faint);margin-top:2px}
-.tier ul{list-style:none;margin:14px 0 0;font-size:15px}
-.tier li{position:relative;padding:4px 0 4px 20px;color:var(--muted)}
-.tier li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
-@media (prefers-color-scheme:dark){.tier li::before{color:#8fd0ae}}
-.tier .btn{width:100%;margin-top:16px}
-.yearly{margin-top:12px;font-size:14px;color:var(--muted);text-align:center}
-.yearly a{color:inherit}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:clamp(40px,5vw,64px);max-width:980px}
+.tier{background:#fff;border:1px solid var(--line);border-radius:26px;padding:clamp(26px,3vw,40px);display:flex;flex-direction:column}
+.tier.pro{background:var(--green);color:#fff;border-color:var(--green);position:relative;overflow:hidden}
+.tier.pro::before{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(closest-side,rgba(212,175,55,.35),transparent)}
+.tier .name{font:600 14px/1 var(--disp);letter-spacing:3px;text-transform:uppercase;color:var(--walnut)}
+.tier.pro .name{color:var(--gold2)}
+.tier .amt{font-family:var(--serif);font-size:clamp(46px,5vw,64px);line-height:1;margin-top:18px}
+.tier .per{color:var(--muted);font-size:15px;margin-top:8px}
+.tier.pro .per{color:rgba(255,255,255,.72)}
+.tier ul{list-style:none;margin:26px 0 30px;display:grid;gap:12px;flex:1}
+.tier li{display:flex;gap:12px;font-size:16px}
+.tier li::before{content:"";flex:0 0 18px;height:1px;background:currentColor;opacity:.4;margin-top:12px}
+.tier .btn{align-self:flex-start}
+.yearly{margin-top:20px;font-size:16px}
+.yearly a{color:var(--green);font-weight:600}
+.vat{margin-top:10px;font-size:14px;color:var(--muted);max-width:70ch}
+@media (max-width:760px){.tiers{grid-template-columns:1fr}}
 
-/* ---------- piede ---------- */
-footer{margin-top:52px;border-top:1px solid var(--line);padding:22px 0 40px;
-  font-size:14px;color:var(--faint)}
-footer nav{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:10px}
-footer a{color:var(--muted)}
-[hidden]{display:none!important}
+/* ---------- domande ---------- */
+.faq{margin-top:clamp(36px,5vw,60px);max-width:900px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:24px 0;
+  font-family:var(--serif);font-size:clamp(20px,2.2vw,26px);line-height:1.25}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:300 32px/1 var(--body);color:var(--walnut);transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 24px;color:var(--muted);max-width:70ch}
+
+/* ---------- finale ---------- */
+.final{position:relative;overflow:hidden;isolation:isolate;padding:clamp(120px,18vw,240px) 0;text-align:center}
+.final .bg{position:absolute;inset:-10% 0;z-index:-2}
+.final .bg img{width:100%;height:100%;object-fit:cover}
+.final::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--night) 0%,rgba(10,16,12,.72) 30%,rgba(10,16,12,.78) 70%,var(--night) 100%)}
+.final .h2{margin:18px auto 0;max-width:16ch}
+.final .kicker{justify-content:center}
+.final .kicker::after{content:"";width:34px;height:1px;background:currentColor;opacity:.8}
+.final .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:38px}
+
+footer{border-top:1px solid var(--line-d);padding:44px 0 calc(44px + env(safe-area-inset-bottom));color:var(--muted-d);font-size:14px}
+footer .row{display:flex;flex-wrap:wrap;gap:18px 30px;align-items:center;justify-content:space-between}
+footer nav{display:flex;flex-wrap:wrap;gap:10px 24px}
+footer a{text-decoration:none;color:rgba(243,239,230,.75)}
+footer a:hover{color:var(--cream)}
+footer .fine{margin-top:22px;color:rgba(243,239,230,.45)}
+
+/* ---------- entrate allo scroll ---------- */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d-1{transition-delay:.12s}.rv.d-2{transition-delay:.24s}.rv.d-3{transition-delay:.36s}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rise,.rv{opacity:1;transform:none}
+  .hero .lb{display:none}
+  .hero .bg img{transform:none}
+  .seq{height:auto}
+  .stage{position:relative;height:auto;display:grid;gap:0}
+  .frame{position:relative;opacity:1;height:80vh}
+  .chaps,.prog{display:none}
+}
 </style>
-<link rel="canonical" href="https://ebanist.com/">
 </head>
 <body>
 
-<header>
+<header id="top">
   <div class="wrap bar">
-    <a class="brand" href="/"><img src="/app/icons/ebanist-mark-simple.svg" alt=""> Ebanist</a>
-    <div class="sp"></div>
+    <a class="brand" href="/"><img src="/app/icons/icon-96.png" alt="" width="30" height="30"> Ebanist</a>
+    <nav class="nav">
+      <a href="#film" data-t="navFilm">Cum lucrează</a>
+      <a href="#ecrane" data-t="navScreens">Trei ecrane</a>
+      <a href="#client" data-t="navClient">Modul Client</a>
+      <a href="#pret" data-t="navPrice">Preț</a>
+    </nav>
+    <span class="sp"></span>
     <div class="langs" id="langs">
-      <button data-l="ro">RO</button><button data-l="it">IT</button>
-      <button data-l="fr">FR</button><button data-l="en">EN</button>
+      <button type="button" data-l="ro">RO</button><button type="button" data-l="it">IT</button><button type="button" data-l="fr">FR</button><button type="button" data-l="en">EN</button>
     </div>
+    <a class="btn btn-gold" href="/app/" data-t="navCta">Deschide</a>
   </div>
 </header>
 
-<main class="wrap">
-  <h1 data-t="h1"></h1>
-  <p class="lede" data-t="lede"></p>
-
-  <div class="cta">
-    <a class="btn btn-p" id="ctaFree" href="/app/" data-t="ctaFree"></a>
-    <a class="btn btn-s" id="ctaPro" href="#pret" data-t="ctaPro"></a>
+<main>
+<!-- ======================= EROE ======================= -->
+<section class="hero grain">
+  <div class="bg"><img src="/site/img/real-dressing.webp" width="1500" height="1125" alt="Dressing pe tot peretele, cu uși casetate, montat de un atelier" data-ta="altHero" fetchpriority="high"></div>
+  <span class="lb t"></span><span class="lb b"></span>
+  <div class="wrap in">
+    <p class="kicker rise d1" data-t="heroKicker">Proiectare mobilier · pentru tâmplari</p>
+    <h1 class="rise d2" data-t="h1">De la măsurători la <em>lista de debitare.</em> În aceeași zi.</h1>
+    <p class="lede rise d3" data-t="lede">Ebanist proiectează corpul, îți dă modelul 3D, lista de debitare, eticheta fiecărei piese și fișa de montaj — pe telefon, în șantier, fără internet.</p>
+    <div class="cta rise d4">
+      <a class="btn btn-gold" id="ctaFree" href="/app/" data-t="ctaFree">Încearcă gratuit</a>
+      <a class="btn btn-ghost" href="#film" data-t="ctaFilm">Vezi cum lucrează</a>
+    </div>
+    <p class="note rise d4" data-t="noAccount">Fără cont, fără instalare. Se deschide în browser și merge offline.</p>
   </div>
-  <p class="note" data-t="noAccount"></p>
+  <p class="cap rise d4"><b data-t="capT">Mobilier real</b><span data-t="capD">Un dressing montat pe Coasta de Azur</span></p>
+</section>
 
-  <section class="bens">
-    <div class="ben"><span class="n">01</span><h3 data-t="b1t"></h3><p data-t="b1d"></p></div>
-    <div class="ben"><span class="n">02</span><h3 data-t="b2t"></h3><p data-t="b2d"></p></div>
-    <div class="ben"><span class="n">03</span><h3 data-t="b3t"></h3><p data-t="b3d"></p></div>
-  </section>
+<div class="tick" aria-hidden="true"><div class="row" id="tickRow"></div></div>
 
-  <!-- Il filmato di 15 s: rettangolo dichiarato finche non e girato.
-       Come sostituirlo sta in MONETIZARE.md. -->
-  <section class="demo">
-    <div class="ph">
-      <b data-t="vidT"></b>
-      <span data-t="vidD"></span>
+<!-- ======================= SECVENȚA ======================= -->
+<section class="seq" id="film" aria-label="Ebanist, pas cu pas">
+  <div class="stage grain" id="stage">
+    <figure class="frame photo"><img src="/site/img/real-bedroom.webp" width="1500" height="1125" alt="Cameră cu dressing încastrat pe tot peretele" data-ta="altF1" loading="lazy"></figure>
+    <figure class="frame r3d"><img src="/site/img/3d-closed.webp" width="1600" height="1162" alt="Dulap cu două uși în furnir de nuc, randat 3D în Ebanist" data-ta="altF2" loading="lazy"></figure>
+    <figure class="frame r3d"><img src="/site/img/3d-open.webp" width="1600" height="1162" alt="Același dulap cu sertarele interioare deschise" data-ta="altF3" loading="lazy"></figure>
+    <figure class="frame r3d"><img src="/site/img/3d-explode.webp" width="1600" height="1162" alt="Vedere explodată: fiecare panou al dulapului separat" data-ta="altF4" loading="lazy"></figure>
+    <figure class="frame r3d"><img src="/site/img/3d-holes.webp" width="1600" height="1162" alt="Vedere transparentă cu găurile și feroneria fiecărei piese" data-ta="altF5" loading="lazy"></figure>
+
+    <div class="seq-head"><div class="wrap"><p class="kicker" data-t="seqKicker">Un dulap, de la perete la găuri</p></div></div>
+
+    <div class="chaps" id="chaps">
+      <div class="chap"><span class="n">01 — <span data-t="c1k">Camera</span></span><h3 data-t="c1t">Totul pornește de la un perete real.</h3><p data-t="c1d">Măsori peretele în trei puncte, notezi prizele și țevile. Ebanist nu presupune că unghiul e de 90°.</p></div>
+      <div class="chap"><span class="n">02 — <span data-t="c2k">Modelul</span></span><h3 data-t="c2t">Scrii cotele. Corpul apare.</h3><p data-t="c2d">Alegi una din cele 15 tipologii și dai cotele — sau le dictezi. Modelul 3D se construiește cu materialele reale, aici un front din nuc.</p></div>
+      <div class="chap"><span class="n">03 — <span data-t="c3k">Interiorul</span></span><h3 data-t="c3t">Deschizi ce vede clientul.</h3><p data-t="c3d">Sertare, rafturi, bară de haine: le deschizi în 3D și verifici că totul încape și se deschide.</p></div>
+      <div class="chap"><span class="n">04 — <span data-t="c4k">Piesele</span></span><h3 data-t="c4t">Fiecare panou, la locul lui.</h3><p data-t="c4d">Vederea explodată arată fiecare piesă din distinta, cu rolul, axele și grosimea ei. Cotele finite, la 0,1 mm.</p>
+        <div class="stats"><div><b>29</b><small data-t="stPieces">piese</small></div><div><b>10,90</b><small>m²</small></div><div><b>36,9</b><small data-t="stEdge">ml cant</small></div></div></div>
+      <div class="chap"><span class="n">05 — <span data-t="c5k">Găurile</span></span><h3 data-t="c5t">Și ce nu se vede.</h3><p data-t="c5d">Balamale, glisiere, suporți, excentrice: fiecare feronerie Blum sau Häfele e pusă pe piesa ei, cu găurile ei. Din același model ies distinta, etichetele și fișa de montaj.</p>
+        <div class="stats"><div><b>155</b><small data-t="stHoles">găuri</small></div><div><b>50</b><small data-t="stHw">feronerie</small></div></div></div>
     </div>
-  </section>
+    <div class="prog" id="prog"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</section>
 
-  <section class="price" id="pret">
-    <h2 data-t="priceT"></h2>
+<!-- ======================= TREI ECRANE ======================= -->
+<section class="sec light" id="ecrane">
+  <div class="wrap">
+    <p class="kicker rv" data-t="scrKicker">O singură aplicație</p>
+    <h2 class="h2 rv d-1" data-t="scrT">Un proiect. <em>Trei ecrane.</em></h2>
+    <p class="sub rv d-2" data-t="scrD">Același proiect, deschis unde ai nevoie de el. Interfața se schimbă după ecran; calculele rămân aceleași.</p>
+    <div class="devices" id="devices">
+      <div class="dev pc rv" data-px="-0.04"><img src="/site/img/pc-explode.webp" width="1800" height="1125" alt="Ebanist pe PC: generatorul, vederea explodată și lista pieselor" data-ta="altPc" loading="lazy"></div>
+      <div class="dev tab rv d-1" data-px="0.05"><img src="/site/img/tablet-client.webp" width="1600" height="1112" alt="Ebanist pe tabletă, în modul Client" data-ta="altTab" loading="lazy"></div>
+      <div class="dev ph rv d-2" data-px="0.12"><img src="/site/img/phone-survey.webp" width="780" height="1688" alt="Ebanist pe telefon: releveul peretelui" data-ta="altPh" loading="lazy"></div>
+    </div>
+    <div class="dev-legend">
+      <div class="rv"><b data-t="d1k">Telefon</b><h3 data-t="d1t">Șantierul</h3><p data-t="d1d">Releveu, cote dictate, poza peretelui. Merge și unde nu e semnal.</p></div>
+      <div class="rv d-1"><b data-t="d2k">Tabletă</b><h3 data-t="d2t">Clientul</h3><p data-t="d2d">Finisajul, prețul și semnătura, pe canapeaua clientului.</p></div>
+      <div class="rv d-2"><b data-t="d3k">PC</b><h3 data-t="d3t">Atelierul</h3><p data-t="d3d">Distinta, planurile de tăiere, etichetele și fișa de montaj, pe ecran mare.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PAȘII ======================= -->
+<section class="sec" id="pasi" style="padding-bottom:clamp(60px,9vw,120px)">
+  <div class="wrap">
+    <p class="kicker rv" data-t="stpKicker">Cinci ecrane, un singur fir</p>
+    <h2 class="h2 rv d-1" data-t="stpT">Din șantier <em>în atelier,</em> fără să rescrii nimic.</h2>
+  </div>
+  <div class="strip" id="strip">
+    <div class="step rv"><div class="phone"><img src="/site/img/phone-survey.webp" width="780" height="1688" alt="Ecranul Releveu" data-ta="altS1" loading="lazy"></div><p class="n">01</p><h3 data-t="s1t">Releveu</h3><p data-t="s1d">Pereții, unghiurile reale, înălțimea în trei puncte, prizele și țevile.</p></div>
+    <div class="step rv d-1"><div class="phone"><img src="/site/img/phone-build.webp" width="780" height="1688" alt="Ecranul Generator cu modelul 3D" data-ta="altS2" loading="lazy"></div><p class="n">02</p><h3 data-t="s2t">Generator</h3><p data-t="s2d">Tipologia, cotele, materialele. Modelul 3D se actualizează pe loc.</p></div>
+    <div class="step rv d-2"><div class="phone"><img src="/site/img/phone-list.webp" width="780" height="1688" alt="Ecranul Listă de debitare" data-ta="altS3" loading="lazy"></div><p class="n">03</p><h3 data-t="s3t">Lista de debitare</h3><p data-t="s3d">Fiecare piesă cu cota finită, materialul și canturile. Bifezi ce ai tăiat.</p></div>
+    <div class="step rv d-3"><div class="phone"><img src="/site/img/phone-nest.webp" width="780" height="1688" alt="Ecranul Debitare cu optimizarea pe panouri" data-ta="altS4" loading="lazy"></div><p class="n">04</p><h3 data-t="s4t">Debitare</h3><p data-t="s4d">Piesele așezate pe panouri, ordinea tăierilor și resturile puse în stoc.</p></div>
+    <div class="step rv d-3"><div class="phone"><img src="/site/img/phone-summary.webp" width="780" height="1688" alt="Ecranul Rezumat cu materialele și costul" data-ta="altS5" loading="lazy"></div><p class="n">05</p><h3 data-t="s5t">Deviz</h3><p data-t="s5d">Materiale, cant, feronerie și costul estimat, din același model.</p></div>
+  </div>
+</section>
+
+<!-- ======================= MODUL CLIENT ======================= -->
+<section class="sec" id="client" style="background:linear-gradient(180deg,var(--night),var(--night2))">
+  <div class="wrap client">
+    <div class="tabwrap rv">
+      <div class="glow"></div>
+      <div class="dev tab"><img src="/site/img/tablet-client.webp" width="1600" height="1112" alt="Modul Client: dulapul în 3D, finisajele și prețul" data-ta="altClient" loading="lazy"></div>
+    </div>
+    <div>
+      <p class="kicker rv" data-t="cliKicker">Modul Client</p>
+      <h2 class="h2 rv d-1" data-t="cliT">Clientul alege. <em>Tu nu mai refaci oferta.</em></h2>
+      <p class="sub rv d-2" data-t="cliD">Pui tableta pe masă. Clientul rotește dulapul, deschide sertarele, schimbă finisajul și vede prețul pe loc.</p>
+      <ul class="ticks rv d-3">
+        <li data-t="cli1">Finisaje doar de aceeași grosime — modelul rămâne corect.</li>
+        <li data-t="cli2">Prețul vine din deviz, nu dintr-o estimare separată.</li>
+        <li data-t="cli3">Acceptă și semnează pe ecran; oferta rămâne în proiect.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section aria-label="Ebanist în cifre" style="background:var(--night2)">
+  <div class="wrap">
+    <div class="nums">
+      <div class="rv"><b>15</b><span data-t="n1">tipologii parametrice</span></div>
+      <div class="rv d-1"><b>0,1<sup>mm</sup></b><span data-t="n2">precizia distintei</span></div>
+      <div class="rv d-2"><b>4</b><span data-t="n3">limbi: RO · IT · FR · EN</span></div>
+      <div class="rv d-3"><b>0</b><span data-t="n4">internet necesar în șantier</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LUCRĂRI REALE ======================= -->
+<section class="sec light" id="atelier">
+  <div class="wrap">
+    <p class="kicker rv" data-t="galKicker">Făcută într-un atelier</p>
+    <h2 class="h2 rv d-1" data-t="galT">Scrisă de cine <em>montează mobilier.</em></h2>
+    <p class="sub rv d-2" data-t="galD">Ebanist vine din șantierele Domus Renov de pe Coasta de Azur și Monaco: dressinguri, bucătării, mobilier de recepție. Fiecare regulă din aplicație a fost întâi o greșeală de evitat în atelier.</p>
+    <div class="gal">
+      <figure class="g1 rv"><img src="/site/img/real-dressing-open.webp" width="1500" height="1125" alt="Dressing deschis, cu rafturi și sertare interioare" data-ta="altG1" loading="lazy"><figcaption data-t="g1">Dressing · interior</figcaption></figure>
+      <figure class="g2 rv d-1"><img src="/site/img/real-kitchen.webp" width="1500" height="1125" alt="Bucătărie liniară albă cu blat negru" data-ta="altG2" loading="lazy"><figcaption data-t="g2">Bucătărie</figcaption></figure>
+      <figure class="g3 rv d-2"><img src="/site/img/real-living.webp" width="1500" height="1125" alt="Perete de living cu corpuri și nișă TV" data-ta="altG3" loading="lazy"><figcaption data-t="g3">Living · perete TV</figcaption></figure>
+      <figure class="g4 rv"><img src="/site/img/real-desk.webp" width="1500" height="2000" alt="Birou de recepție în L" data-ta="altG4" loading="lazy"><figcaption data-t="g4">Recepție</figcaption></figure>
+      <figure class="g5 rv d-1"><img src="/site/img/real-kitchen-island.webp" width="1500" height="1125" alt="Bucătărie cu insulă și blat din piatră" data-ta="altG5" loading="lazy"><figcaption data-t="g5">Bucătărie cu insulă</figcaption></figure>
+    </div>
+    <div class="quote rv">
+      <span class="mark">“</span>
+      <div><p data-t="qt">Motorul e verificat pe o comandă reală din Monaco: 68 de piese, tăiate și montate. Dacă distinta din aplicație diferă cu o zecime de milimetru, nu iese nicio versiune nouă.</p>
+      <small data-t="qa">Regula de lansare a fiecărei versiuni</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FUNCȚII ======================= -->
+<section class="sec" id="functii">
+  <div class="wrap">
+    <p class="kicker rv" data-t="ftKicker">Tot ce iese din atelier</p>
+    <h2 class="h2 rv d-1" data-t="ftT">Documentele pe care <em>le scriai de mână.</em></h2>
+    <div class="feats">
+      <div class="feat rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h8"/></svg><h3 data-t="f1t">15 tipologii</h3><p data-t="f1d">Dulap, dressing, bucătărie, colțar, uși glisante, pat, masă, birou și altele — toate parametrice.</p></div>
+      <div class="feat rv d-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="3.5"/></svg><h3 data-t="f2t">Blum &amp; Häfele</h3><p data-t="f2d">Balamale, glisiere, suporți și excentrice din catalog, cu coduri, găuri și preț în deviz.</p></div>
+      <div class="feat rv d-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg><h3 data-t="f3t">Materiale reale</h3><p data-t="f3d">Decoruri Egger și PAL-uri reale. Grosimea vine din material, niciodată dintr-un 18 scris la întâmplare.</p></div>
+      <div class="feat rv d-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><h3 data-t="f4t">Distinta la 0,1 mm</h3><p data-t="f4d">Cota finită a fiecărei piese, cu canturile ei. PDF și CSV pentru centrul de debitare.</p></div>
+      <div class="feat rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9h18" stroke-dasharray="2 2"/><path d="M7 14h6"/></svg><h3 data-t="f5t">Etichete</h3><p data-t="f5d">O etichetă pe piesă, cu cota, materialul și schema de cant. Nimic nu se mai încurcă la debitare.</p></div>
+      <div class="feat rv d-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg><h3 data-t="f6t">Fișa de montaj</h3><p data-t="f6d">Vedere explodată, piese numerotate, feroneria și sculele. Montajul fără telefoane la atelier.</p></div>
+      <div class="feat rv d-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 10h11v11M14 10V3M14 15h7"/></svg><h3 data-t="f7t">Planuri de tăiere</h3><p data-t="f7d">Optimizare pe panou, ordinea tăierilor și resturile păstrate în stoc pentru comanda următoare.</p></div>
+      <div class="feat rv d-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8V5a2 2 0 012-2h3M16 3h3a2 2 0 012 2v3M21 16v3a2 2 0 01-2 2h-3M8 21H5a2 2 0 01-2-2v-3"/><rect x="8" y="7" width="8" height="10" rx="1"/></svg><h3 data-t="f8t">În camera clientului</h3><p data-t="f8d">Mobilierul pus în poza camerei clientului sau în AR, trimis pe WhatsApp ca JPG.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PREȚ ======================= -->
+<section class="sec light" id="pret">
+  <div class="wrap">
+    <p class="kicker rv" data-t="priceKicker">Preț</p>
+    <h2 class="h2 rv d-1" data-t="priceT">Gratuit pe ecran. <em>Pro în atelier.</em></h2>
+    <p class="sub rv d-2" data-t="priceD">Proiectezi și vezi tot gratuit. Plătești abia când documentele pleacă spre atelier sau spre client.</p>
     <div class="tiers">
-      <div class="tier">
-        <div class="amt" data-t="freeAmt"></div>
-        <div class="per" data-t="freePer"></div>
+      <div class="tier rv">
+        <span class="name" data-t="freeName">Gratuit</span>
+        <div class="amt" data-t="freeAmt">0 €</div>
+        <div class="per" data-t="freePer">gratuit, fără limită de timp</div>
         <ul>
-          <li data-t="f1"></li><li data-t="f2"></li><li data-t="f3"></li>
+          <li data-t="f1">1 proiect</li><li data-t="f2">Toate tipurile de corpuri, 3D cu piese și găuri</li><li data-t="f3">Lista de debitare și devizul, pe ecran</li>
         </ul>
-        <a class="btn btn-s" href="/app/" data-t="freeBtn"></a>
+        <a class="btn btn-line" href="/app/" data-t="freeBtn">Începe gratuit</a>
       </div>
-      <div class="tier pro">
+      <div class="tier pro rv d-1">
+        <span class="name">Pro</span>
         <div class="amt" id="proAmt"></div>
-        <div class="per" data-t="proPer"></div>
+        <div class="per" data-t="proPer">pe lună, TVA inclus</div>
         <ul>
-          <li data-t="p1"></li><li data-t="p2"></li><li data-t="p3"></li><li data-t="p4"></li>
+          <li data-t="p1">Proiecte nelimitate</li><li data-t="p2">Distinta PDF și CSV, etichete, fișa de montaj</li><li data-t="p3">Modul Client și oferta PDF</li><li data-t="p4">Planuri de tăiere cu resturile în stoc</li>
         </ul>
-        <a class="btn btn-p" id="buyM" href="/app/?activate=1" data-t="proBtn"></a>
+        <a class="btn btn-gold" id="buyM" href="/app/?activate=1" data-t="proBtn">Ia Pro</a>
       </div>
     </div>
-    <p class="yearly"><a id="buyY" href="/app/?activate=1" data-t="yearly"></a></p>
-    <p class="note" data-t="vatNote"></p>
-  </section>
+    <p class="yearly rv"><a id="buyY" href="/app/?activate=1"></a></p>
+    <p class="vat" data-t="vatNote">Plata e procesată de Lemon Squeezy, care e vânzătorul înregistrat. Anulezi când vrei; proiectele rămân ale tale.</p>
+
+    <div style="margin-top:clamp(90px,11vw,140px)">
+      <p class="kicker rv" data-t="faqKicker">Întrebări</p>
+      <h2 class="h2 rv d-1" data-t="faqT">Ce întreabă <em>tâmplarii.</em></h2>
+      <div class="faq">
+        <details class="rv"><summary data-t="q1">Am nevoie de internet în șantier?</summary><p data-t="a1">Nu. După prima deschidere, Ebanist merge complet offline: releveu, proiectare, 3D și lista de debitare.</p></details>
+        <details class="rv"><summary data-t="q2">Unde sunt salvate proiectele mele?</summary><p data-t="a2">Pe telefonul sau calculatorul tău. Nu ai nevoie de cont, iar backup-ul proiectului îl faci oricând, gratuit.</p></details>
+        <details class="rv"><summary data-t="q3">Merge pe Android și pe iPhone?</summary><p data-t="a3">Da, în browserul oricărui telefon, tabletă sau PC. Aplicația Android e în testare pe Google Play.</p></details>
+        <details class="rv"><summary data-t="q4">Ce primesc gratuit și ce e Pro?</summary><p data-t="a4">Gratuit: un proiect și tot ce vezi pe ecran — proiectare, 3D cu piese și găuri, lista de debitare, devizul, releveul. Pro: tot ce iese din telefon ca document de lucru — PDF-uri, CSV, etichete, fișa de montaj, modul Client, planurile de tăiere.</p></details>
+        <details class="rv"><summary data-t="q5">Pot renunța la Pro?</summary><p data-t="a5">Oricând. Proiectele rămân ale tale și le poți deschide în continuare.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FINAL ======================= -->
+<section class="final grain">
+  <div class="bg"><img src="/site/img/real-kitchen.webp" width="1500" height="1125" alt="" loading="lazy" id="finalImg"></div>
+  <div class="wrap">
+    <p class="kicker rv" data-t="finKicker">Primul proiect e gratuit</p>
+    <h2 class="h2 rv d-1" data-t="finT">Următorul corp <em>începe pe telefon.</em></h2>
+    <div class="cta rv d-2">
+      <a class="btn btn-gold" href="/app/" data-t="finBtn">Deschide Ebanist</a>
+      <a class="btn btn-ghost" href="#pret" data-t="ctaPro">Vezi prețul</a>
+    </div>
+  </div>
+</section>
 </main>
 
-<footer class="wrap">
-  <nav>
-    <a href="/termeni.html" data-t="lTerms"></a>
-    <a href="/privacy.html" data-t="lPrivacy"></a>
-    <a href="/rambursare.html" data-t="lRefund"></a>
-    <a href="mailto:info@ebanist.com">info@ebanist.com</a>
-  </nav>
-  <p data-t="foot"></p>
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <a class="brand" href="/"><img src="/app/icons/icon-96.png" alt="" width="30" height="30"> Ebanist</a>
+      <nav>
+        <a href="/termeni.html" data-t="lTerms">Termeni</a>
+        <a href="/privacy.html" data-t="lPrivacy">Confidențialitate</a>
+        <a href="/rambursare.html" data-t="lRefund">Rambursare</a>
+        <a href="mailto:info@ebanist.com">info@ebanist.com</a>
+      </nav>
+    </div>
+    <p class="fine" data-t="foot">Ebanist — Serban George Liviu, Racova, Bacău, România.</p>
+  </div>
 </footer>
 
 <!-- La configurazione dell'incasso e la STESSA dell'app: un file solo, cosi
@@ -194,93 +563,213 @@ footer a{color:var(--muted)}
      da dimenticare. -->
 <script src="/app/config/billing.js"></script>
 <script>
-"use strict";
+/* Il romeno e scritto direttamente nell'HTML (lo leggono Google e chi non
+   ha JavaScript): T.ro si ricava dalla pagina al primo avvio. Qui ci sono
+   solo le altre tre lingue, piu le poche frasi che non stanno nell'HTML. */
 var T={
-ro:{h1:"De la măsurători, la lista de debitare. În aceeași zi.",
- lede:"Ebanist proiectează corpul, îți dă lista de debitare, eticheta fiecărei piese și fișa de asamblare — pe telefon, în șantier, fără internet.",
- ctaFree:"Încearcă gratuit", ctaOpen:"Deschide aplicația", ctaPro:"Vezi prețul",
- noAccount:"Fără cont, fără instalare. Se deschide în browser și merge offline.",
- b1t:"Listă de debitare în 2 minute",
- b1d:"Alegi tipul de corp, scrii cotele, apeși „Generează”. Piese, canturi, optimizare pe colă și cantitatea de ABS — calculate, nu estimate.",
- b2t:"Etichete cu schema de cant",
- b2d:"O foaie A4 cu eticheta fiecărei piese: cotă, material și pe ce laturi merge cantul. Se lipesc pe piese la debitare și nu se mai încurcă nimic.",
- b3t:"Fișă de asamblare pentru client",
- b3d:"Desen izometric, desen 2D cotat, feronerie Blum/Häfele cu coduri și deviz. PDF-uri de dat mai departe, cu firma ta pe ele.",
- vidT:"Aici vine filmul de 15 secunde",
- vidD:"De la cotele scrise pe telefon la PDF-ul cu lista de debitare — o singură trecere, fără tăieturi de montaj.",
- priceT:"Preț", freeAmt:"0 €", freePer:"gratuit, fără limită de timp",
- f1:"1 proiect", f2:"Toate tipurile de corpuri, 3D cu piese și găuri", f3:"Lista de debitare și devizul, pe ecran",
- freeBtn:"Începe gratuit",
- proPer:"pe lună, TVA inclus",
- p1:"Proiecte nelimitate", p2:"Distinta PDF și CSV, etichete, fișa de montaj", p3:"Modul Client și oferta PDF", p4:"Planuri de tăiere cu resturile în stoc",
- proBtn:"Ia Pro", yearly:"Sau {y} pe an — două luni cadou",
- vatNote:"Plata e procesată de Lemon Squeezy, care e vânzătorul înregistrat. Anulezi când vrei; proiectele rămân ale tale.",
- lTerms:"Termeni", lPrivacy:"Confidențialitate", lRefund:"Rambursare",
- foot:"Ebanist — Serban George Liviu, Racova, Bacău, România."},
-it:{h1:"Dalle misure alla distinta di taglio. Lo stesso giorno.",
- lede:"Ebanist disegna il mobile, ti da la distinta di taglio, l'etichetta di ogni pezzo e la scheda di montaggio — sul telefono, in cantiere, anche senza rete.",
- ctaFree:"Prova gratis", ctaOpen:"Apri l'app", ctaPro:"Vedi il prezzo",
+ro:{yearly:"Sau {y} pe an — două luni cadou", ctaOpen:"Deschide aplicația",
+ tick:["15 tipologii parametrice","Blum · Häfele","Materiale Egger","Distinta la 0,1 mm","Etichete cu cant","Fișă de montaj","Planuri de tăiere","Modul Client","Offline în șantier","RO · IT · FR · EN"]},
+it:{h1:"Dalle misure alla <em>distinta di taglio.</em> Lo stesso giorno.",
+ navFilm:"Come funziona", navScreens:"Tre schermi", navClient:"Modalità Cliente", navPrice:"Prezzo", navCta:"Apri",
+ heroKicker:"Progettazione mobili · per falegnami",
+ lede:"Ebanist disegna il mobile e ti dà il modello 3D, la distinta di taglio, l'etichetta di ogni pezzo e la scheda di montaggio — sul telefono, in cantiere, anche senza rete.",
+ ctaFree:"Prova gratis", ctaOpen:"Apri l'app", ctaFilm:"Guarda come funziona",
  noAccount:"Niente account, niente installazione. Si apre nel browser e funziona offline.",
- b1t:"Distinta di taglio in 2 minuti",
- b1d:"Scegli la tipologia, scrivi le quote, premi «Genera». Pezzi, bordi, ottimizzazione sulla lastra e metri di ABS: calcolati, non stimati.",
- b2t:"Etichette con lo schema del bordo",
- b2d:"Un A4 con l'etichetta di ogni pezzo: quota, materiale e su quali lati va il bordo. Si attaccano ai pezzi al taglio e non si sbaglia piu niente.",
- b3t:"Scheda di montaggio per il cliente",
- b3d:"Assonometria, disegno 2D quotato, ferramenta Blum/Häfele con i codici e preventivo. PDF da consegnare, con la tua azienda sopra.",
- vidT:"Qui va il filmato di 15 secondi",
- vidD:"Dalle quote scritte sul telefono al PDF della distinta — una passata sola, senza tagli di montaggio.",
- priceT:"Prezzo", freeAmt:"0 €", freePer:"gratis, senza scadenza",
+ capT:"Mobili veri", capD:"Una cabina armadio montata in Costa Azzurra",
+ seqKicker:"Un armadio, dalla parete ai fori",
+ c1k:"La stanza", c1t:"Tutto parte da una parete vera.", c1d:"Misuri la parete in tre punti, segni prese e tubi. Ebanist non dà per scontato che l'angolo sia di 90°.",
+ c2k:"Il modello", c2t:"Scrivi le quote. Il mobile appare.", c2d:"Scegli una delle 15 tipologie e dai le quote — o le detti. Il 3D si costruisce con i materiali veri, qui un frontale in noce.",
+ c3k:"L'interno", c3t:"Apri quello che vede il cliente.", c3d:"Cassetti, ripiani, asta appendiabiti: li apri in 3D e controlli che tutto entri e si apra.",
+ c4k:"I pezzi", c4t:"Ogni pannello al suo posto.", c4d:"La vista esplosa mostra ogni pezzo della distinta, con il suo ruolo, gli assi e lo spessore. Quote finite, al decimo di millimetro.",
+ stPieces:"pezzi", stEdge:"ml bordo",
+ c5k:"I fori", c5t:"E quello che non si vede.", c5d:"Cerniere, guide, reggipiani, eccentrici: ogni ferramenta Blum o Häfele sta sul suo pezzo, con i suoi fori. Dallo stesso modello escono distinta, etichette e scheda di montaggio.",
+ stHoles:"fori", stHw:"ferramenta",
+ scrKicker:"Un'unica applicazione", scrT:"Un progetto. <em>Tre schermi.</em>", scrD:"Lo stesso progetto, aperto dove ti serve. L'interfaccia cambia con lo schermo; i calcoli restano gli stessi.",
+ d1k:"Telefono", d1t:"Il cantiere", d1d:"Rilievo, quote dettate, foto della parete. Funziona anche dove non c'è campo.",
+ d2k:"Tablet", d2t:"Il cliente", d2d:"Finitura, prezzo e firma, sul divano del cliente.",
+ d3k:"PC", d3t:"Il laboratorio", d3d:"Distinta, piani di taglio, etichette e scheda di montaggio, su schermo grande.",
+ stpKicker:"Cinque schermate, un solo filo", stpT:"Dal cantiere <em>al laboratorio,</em> senza riscrivere niente.",
+ s1t:"Rilievo", s1d:"Pareti, angoli reali, altezza in tre punti, prese e tubi.",
+ s2t:"Generatore", s2d:"Tipologia, quote, materiali. Il 3D si aggiorna subito.",
+ s3t:"Distinta di taglio", s3d:"Ogni pezzo con la quota finita, il materiale e i bordi. Spunti quello che hai tagliato.",
+ s4t:"Taglio", s4d:"I pezzi disposti sui pannelli, l'ordine dei tagli e i ritagli messi in magazzino.",
+ s5t:"Preventivo", s5d:"Materiali, bordo, ferramenta e costo stimato, dallo stesso modello.",
+ cliKicker:"Modalità Cliente", cliT:"Il cliente sceglie. <em>Tu non rifai l'offerta.</em>",
+ cliD:"Appoggi il tablet sul tavolo. Il cliente gira l'armadio, apre i cassetti, cambia finitura e vede subito il prezzo.",
+ cli1:"Solo finiture dello stesso spessore — il modello resta giusto.", cli2:"Il prezzo viene dal preventivo, non da una stima a parte.", cli3:"Accetta e firma sullo schermo; l'offerta resta nel progetto.",
+ n1:"tipologie parametriche", n2:"precisione della distinta", n3:"lingue: RO · IT · FR · EN", n4:"internet in cantiere",
+ galKicker:"Nata in un laboratorio", galT:"Scritta da chi <em>monta mobili.</em>",
+ galD:"Ebanist viene dai cantieri Domus Renov in Costa Azzurra e a Monaco: cabine armadio, cucine, banconi reception. Ogni regola dell'app è stata prima un errore da evitare in laboratorio.",
+ g1:"Cabina armadio · interno", g2:"Cucina", g3:"Soggiorno · parete TV", g4:"Reception", g5:"Cucina con isola",
+ qt:"Il motore è verificato su una commessa vera di Monaco: 68 pezzi, tagliati e montati. Se la distinta dell'app differisce di un decimo di millimetro, nessuna nuova versione esce.",
+ qa:"La regola di rilascio di ogni versione",
+ ftKicker:"Tutto quello che esce dal laboratorio", ftT:"I documenti che <em>scrivevi a mano.</em>",
+ f1t:"15 tipologie", f1d:"Armadio, cabina armadio, cucina, angolo, ante scorrevoli, letto, tavolo, scrivania e altre — tutte parametriche.",
+ f2t:"Blum &amp; Häfele", f2d:"Cerniere, guide, reggipiani ed eccentrici dal catalogo, con codici, fori e prezzo nel preventivo.",
+ f3t:"Materiali veri", f3d:"Decorativi Egger e truciolari veri. Lo spessore viene dal materiale, mai da un 18 scritto a caso.",
+ f4t:"Distinta al decimo", f4d:"La quota finita di ogni pezzo, con i suoi bordi. PDF e CSV per il centro di taglio.",
+ f5t:"Etichette", f5d:"Un'etichetta per pezzo, con quota, materiale e schema del bordo. Al taglio non si confonde più niente.",
+ f6t:"Scheda di montaggio", f6d:"Vista esplosa, pezzi numerati, ferramenta e attrezzi. Il montaggio senza telefonate al laboratorio.",
+ f7t:"Piani di taglio", f7d:"Ottimizzazione sul pannello, ordine dei tagli e ritagli tenuti in magazzino per la commessa dopo.",
+ f8t:"Nella stanza del cliente", f8d:"Il mobile nella foto della stanza del cliente o in AR, mandato su WhatsApp come JPG.",
+ priceKicker:"Prezzo", priceT:"Gratis a schermo. <em>Pro in laboratorio.</em>",
+ priceD:"Progetti e vedi tutto gratis. Paghi solo quando i documenti partono verso il laboratorio o il cliente.",
+ freeName:"Gratis", freeAmt:"0 €", freePer:"gratis, senza scadenza",
  f1:"1 progetto", f2:"Tutte le tipologie, il 3D con pezzi e fori", f3:"Distinta di taglio e preventivo, a schermo",
- freeBtn:"Comincia gratis",
- proPer:"al mese, IVA inclusa",
- p1:"Progetti illimitati", p2:"Distinta PDF e CSV, etichette, scheda di montaggio", p3:"Modalita Cliente e offerta PDF", p4:"Piani di taglio con i ritagli in magazzino",
+ freeBtn:"Comincia gratis", proPer:"al mese, IVA inclusa",
+ p1:"Progetti illimitati", p2:"Distinta PDF e CSV, etichette, scheda di montaggio", p3:"Modalità Cliente e offerta PDF", p4:"Piani di taglio con i ritagli in magazzino",
  proBtn:"Passa a Pro", yearly:"Oppure {y} all'anno — due mesi in regalo",
- vatNote:"Il pagamento lo gestisce Lemon Squeezy, che e il venditore registrato. Disdici quando vuoi; i progetti restano tuoi.",
- lTerms:"Termini", lPrivacy:"Privacy", lRefund:"Rimborsi",
- foot:"Ebanist — Serban George Liviu, Racova, Bacău, Romania."},
-fr:{h1:"Des mesures à la liste de débit. Le jour même.",
- lede:"Ebanist dessine le meuble, vous donne la liste de débit, l'étiquette de chaque pièce et la fiche de montage — sur le téléphone, sur le chantier, même sans réseau.",
- ctaFree:"Essayer gratuitement", ctaOpen:"Ouvrir l'application", ctaPro:"Voir le prix",
+ vatNote:"Il pagamento lo gestisce Lemon Squeezy, che è il venditore registrato. Disdici quando vuoi; i progetti restano tuoi.",
+ faqKicker:"Domande", faqT:"Quello che chiedono <em>i falegnami.</em>",
+ q1:"Mi serve internet in cantiere?", a1:"No. Dopo la prima apertura Ebanist funziona del tutto offline: rilievo, progetto, 3D e distinta.",
+ q2:"Dove sono salvati i miei progetti?", a2:"Sul tuo telefono o computer. Non serve un account, e il backup del progetto lo fai quando vuoi, gratis.",
+ q3:"Funziona su Android e iPhone?", a3:"Sì, nel browser di qualsiasi telefono, tablet o PC. L'app Android è in test su Google Play.",
+ q4:"Cosa ho gratis e cosa è Pro?", a4:"Gratis: un progetto e tutto quello che vedi a schermo — progetto, 3D con pezzi e fori, distinta, preventivo, rilievo. Pro: tutto quello che esce dal telefono come documento di lavoro — PDF, CSV, etichette, scheda di montaggio, modalità Cliente, piani di taglio.",
+ q5:"Posso disdire Pro?", a5:"Quando vuoi. I progetti restano tuoi e li puoi continuare ad aprire.",
+ finKicker:"Il primo progetto è gratis", finT:"Il prossimo mobile <em>comincia sul telefono.</em>", finBtn:"Apri Ebanist", ctaPro:"Vedi il prezzo",
+ lTerms:"Termini", lPrivacy:"Privacy", lRefund:"Rimborsi", foot:"Ebanist — Serban George Liviu, Racova, Bacău, Romania.",
+ altHero:"Cabina armadio a tutta parete con ante a riquadri, montata da un laboratorio", altF1:"Camera con cabina armadio a incasso su tutta la parete", altF2:"Armadio a due ante in noce, reso in 3D in Ebanist", altF3:"Lo stesso armadio con i cassetti interni aperti", altF4:"Vista esplosa: ogni pannello dell'armadio separato", altF5:"Vista trasparente con i fori e la ferramenta di ogni pezzo",
+ altPc:"Ebanist su PC: generatore, vista esplosa ed elenco dei pezzi", altTab:"Ebanist su tablet, in modalità Cliente", altPh:"Ebanist sul telefono: il rilievo della parete",
+ altS1:"Schermata Rilievo", altS2:"Schermata Generatore con il modello 3D", altS3:"Schermata Distinta di taglio", altS4:"Schermata Taglio con l'ottimizzazione sui pannelli", altS5:"Schermata Riepilogo con materiali e costo",
+ altClient:"Modalità Cliente: armadio in 3D, finiture e prezzo", altG1:"Cabina armadio aperta, con ripiani e cassetti interni", altG2:"Cucina lineare bianca con piano nero", altG3:"Parete soggiorno con mobili e nicchia TV", altG4:"Bancone reception a L", altG5:"Cucina con isola e piano in pietra",
+ tick:["15 tipologie parametriche","Blum · Häfele","Materiali Egger","Distinta al decimo di mm","Etichette con bordo","Scheda di montaggio","Piani di taglio","Modalità Cliente","Offline in cantiere","RO · IT · FR · EN"]},
+fr:{h1:"Des mesures à la <em>liste de débit.</em> Le jour même.",
+ navFilm:"Comment ça marche", navScreens:"Trois écrans", navClient:"Mode Client", navPrice:"Prix", navCta:"Ouvrir",
+ heroKicker:"Conception de meubles · pour menuisiers",
+ lede:"Ebanist dessine le meuble et vous donne le modèle 3D, la liste de débit, l'étiquette de chaque pièce et la fiche de montage — sur le téléphone, sur le chantier, même sans réseau.",
+ ctaFree:"Essayer gratuitement", ctaOpen:"Ouvrir l'application", ctaFilm:"Voir comment ça marche",
  noAccount:"Pas de compte, pas d'installation. Ça s'ouvre dans le navigateur et ça marche hors ligne.",
- b1t:"Liste de débit en 2 minutes",
- b1d:"Choisissez le type de meuble, saisissez les cotes, appuyez sur « Générer ». Pièces, chants, optimisation sur panneau et mètres d'ABS : calculés, pas estimés.",
- b2t:"Étiquettes avec le schéma de chant",
- b2d:"Une A4 avec l'étiquette de chaque pièce : cote, matériau et sur quels côtés va le chant. On les colle sur les pièces à la découpe et plus rien ne se mélange.",
- b3t:"Fiche de montage pour le client",
- b3d:"Perspective, dessin 2D coté, quincaillerie Blum/Häfele avec les références et devis. Des PDF à remettre, à votre en-tête.",
- vidT:"Ici vient la vidéo de 15 secondes",
- vidD:"Des cotes saisies sur le téléphone au PDF de la liste de débit — une seule passe, sans coupe de montage.",
- priceT:"Prix", freeAmt:"0 €", freePer:"gratuit, sans limite de durée",
+ capT:"De vrais meubles", capD:"Un dressing posé sur la Côte d'Azur",
+ seqKicker:"Une armoire, du mur aux perçages",
+ c1k:"La pièce", c1t:"Tout part d'un vrai mur.", c1d:"Vous mesurez le mur en trois points, notez les prises et les tuyaux. Ebanist ne suppose pas que l'angle fait 90°.",
+ c2k:"Le modèle", c2t:"Vous saisissez les cotes. Le meuble apparaît.", c2d:"Vous choisissez l'une des 15 typologies et donnez les cotes — ou vous les dictez. La 3D se construit avec les vrais matériaux, ici une façade en noyer.",
+ c3k:"L'intérieur", c3t:"Ouvrez ce que voit le client.", c3d:"Tiroirs, étagères, penderie : vous les ouvrez en 3D et vérifiez que tout rentre et s'ouvre.",
+ c4k:"Les pièces", c4t:"Chaque panneau à sa place.", c4d:"La vue éclatée montre chaque pièce de la liste de débit, avec son rôle, ses axes et son épaisseur. Cotes finies, au dixième de millimètre.",
+ stPieces:"pièces", stEdge:"ml de chant",
+ c5k:"Les perçages", c5t:"Et ce qui ne se voit pas.", c5d:"Charnières, coulisses, taquets, excentriques : chaque quincaillerie Blum ou Häfele est sur sa pièce, avec ses perçages. Du même modèle sortent la liste de débit, les étiquettes et la fiche de montage.",
+ stHoles:"perçages", stHw:"quincaillerie",
+ scrKicker:"Une seule application", scrT:"Un projet. <em>Trois écrans.</em>", scrD:"Le même projet, ouvert là où vous en avez besoin. L'interface change avec l'écran ; les calculs restent les mêmes.",
+ d1k:"Téléphone", d1t:"Le chantier", d1d:"Relevé, cotes dictées, photo du mur. Ça marche aussi sans réseau.",
+ d2k:"Tablette", d2t:"Le client", d2d:"La finition, le prix et la signature, sur le canapé du client.",
+ d3k:"PC", d3t:"L'atelier", d3d:"Liste de débit, plans de découpe, étiquettes et fiche de montage, sur grand écran.",
+ stpKicker:"Cinq écrans, un seul fil", stpT:"Du chantier <em>à l'atelier,</em> sans rien ressaisir.",
+ s1t:"Relevé", s1d:"Les murs, les angles réels, la hauteur en trois points, les prises et les tuyaux.",
+ s2t:"Générateur", s2d:"Typologie, cotes, matériaux. La 3D se met à jour tout de suite.",
+ s3t:"Liste de débit", s3d:"Chaque pièce avec sa cote finie, son matériau et ses chants. Vous cochez ce qui est coupé.",
+ s4t:"Découpe", s4d:"Les pièces placées sur les panneaux, l'ordre des coupes et les chutes mises en stock.",
+ s5t:"Devis", s5d:"Matériaux, chant, quincaillerie et coût estimé, du même modèle.",
+ cliKicker:"Mode Client", cliT:"Le client choisit. <em>Vous ne refaites plus l'offre.</em>",
+ cliD:"Vous posez la tablette sur la table. Le client tourne l'armoire, ouvre les tiroirs, change la finition et voit le prix aussitôt.",
+ cli1:"Seulement des finitions de même épaisseur — le modèle reste juste.", cli2:"Le prix vient du devis, pas d'une estimation à part.", cli3:"Il accepte et signe à l'écran ; l'offre reste dans le projet.",
+ n1:"typologies paramétriques", n2:"précision de la liste de débit", n3:"langues : RO · IT · FR · EN", n4:"internet sur le chantier",
+ galKicker:"Née dans un atelier", galT:"Écrite par ceux qui <em>posent des meubles.</em>",
+ galD:"Ebanist vient des chantiers Domus Renov sur la Côte d'Azur et à Monaco : dressings, cuisines, banques d'accueil. Chaque règle de l'application a d'abord été une erreur à éviter à l'atelier.",
+ g1:"Dressing · intérieur", g2:"Cuisine", g3:"Séjour · mur TV", g4:"Accueil", g5:"Cuisine avec îlot",
+ qt:"Le moteur est vérifié sur une vraie commande à Monaco : 68 pièces, coupées et posées. Si la liste de débit de l'application diffère d'un dixième de millimètre, aucune nouvelle version ne sort.",
+ qa:"La règle de sortie de chaque version",
+ ftKicker:"Tout ce qui sort de l'atelier", ftT:"Les documents que <em>vous écriviez à la main.</em>",
+ f1t:"15 typologies", f1d:"Armoire, dressing, cuisine, angle, portes coulissantes, lit, table, bureau et d'autres — toutes paramétriques.",
+ f2t:"Blum &amp; Häfele", f2d:"Charnières, coulisses, taquets et excentriques du catalogue, avec références, perçages et prix au devis.",
+ f3t:"Vrais matériaux", f3d:"Décors Egger et panneaux réels. L'épaisseur vient du matériau, jamais d'un 18 écrit au hasard.",
+ f4t:"Débit au dixième", f4d:"La cote finie de chaque pièce, avec ses chants. PDF et CSV pour le centre de découpe.",
+ f5t:"Étiquettes", f5d:"Une étiquette par pièce, avec cote, matériau et schéma de chant. Plus rien ne se mélange à la découpe.",
+ f6t:"Fiche de montage", f6d:"Vue éclatée, pièces numérotées, quincaillerie et outils. Le montage sans appels à l'atelier.",
+ f7t:"Plans de découpe", f7d:"Optimisation sur panneau, ordre des coupes et chutes gardées en stock pour la commande suivante.",
+ f8t:"Dans la pièce du client", f8d:"Le meuble dans la photo de la pièce du client ou en AR, envoyé sur WhatsApp en JPG.",
+ priceKicker:"Prix", priceT:"Gratuit à l'écran. <em>Pro à l'atelier.</em>",
+ priceD:"Vous concevez et voyez tout gratuitement. Vous payez seulement quand les documents partent vers l'atelier ou le client.",
+ freeName:"Gratuit", freeAmt:"0 €", freePer:"gratuit, sans limite de durée",
  f1:"1 projet", f2:"Tous les types de meubles, la 3D avec pièces et perçages", f3:"Liste de débit et devis, à l'écran",
- freeBtn:"Commencer gratuitement",
- proPer:"par mois, TVA incluse",
+ freeBtn:"Commencer gratuitement", proPer:"par mois, TVA incluse",
  p1:"Projets illimités", p2:"Liste de débit PDF et CSV, étiquettes, fiche de montage", p3:"Mode Client et offre PDF", p4:"Plans de découpe avec les chutes en stock",
  proBtn:"Passer à Pro", yearly:"Ou {y} par an — deux mois offerts",
  vatNote:"Le paiement est traité par Lemon Squeezy, vendeur enregistré. Résiliez quand vous voulez ; vos projets restent les vôtres.",
- lTerms:"Conditions", lPrivacy:"Confidentialité", lRefund:"Remboursement",
- foot:"Ebanist — Serban George Liviu, Racova, Bacău, Roumanie."},
-en:{h1:"From the site measurements to the cutting list. Same day.",
- lede:"Ebanist designs the unit and hands you the cutting list, a label for every part and the assembly sheet — on your phone, on site, with no network.",
- ctaFree:"Try it free", ctaOpen:"Open the app", ctaPro:"See the price",
+ faqKicker:"Questions", faqT:"Ce que demandent <em>les menuisiers.</em>",
+ q1:"Faut-il internet sur le chantier ?", a1:"Non. Après la première ouverture, Ebanist marche entièrement hors ligne : relevé, conception, 3D et liste de débit.",
+ q2:"Où sont enregistrés mes projets ?", a2:"Sur votre téléphone ou votre ordinateur. Pas besoin de compte, et la sauvegarde du projet se fait quand vous voulez, gratuitement.",
+ q3:"Ça marche sur Android et iPhone ?", a3:"Oui, dans le navigateur de n'importe quel téléphone, tablette ou PC. L'application Android est en test sur Google Play.",
+ q4:"Qu'est-ce qui est gratuit, qu'est-ce qui est Pro ?", a4:"Gratuit : un projet et tout ce que vous voyez à l'écran — conception, 3D avec pièces et perçages, liste de débit, devis, relevé. Pro : tout ce qui sort du téléphone comme document de travail — PDF, CSV, étiquettes, fiche de montage, mode Client, plans de découpe.",
+ q5:"Puis-je arrêter Pro ?", a5:"Quand vous voulez. Vos projets restent les vôtres et vous pouvez toujours les ouvrir.",
+ finKicker:"Le premier projet est gratuit", finT:"Le prochain meuble <em>commence sur le téléphone.</em>", finBtn:"Ouvrir Ebanist", ctaPro:"Voir le prix",
+ lTerms:"Conditions", lPrivacy:"Confidentialité", lRefund:"Remboursement", foot:"Ebanist — Serban George Liviu, Racova, Bacău, Roumanie.",
+ altHero:"Dressing mural à portes à cadre, posé par un atelier", altF1:"Chambre avec dressing encastré sur tout le mur", altF2:"Armoire deux portes en noyer, rendue en 3D dans Ebanist", altF3:"La même armoire avec les tiroirs intérieurs ouverts", altF4:"Vue éclatée : chaque panneau de l'armoire séparé", altF5:"Vue transparente avec les perçages et la quincaillerie de chaque pièce",
+ altPc:"Ebanist sur PC : générateur, vue éclatée et liste des pièces", altTab:"Ebanist sur tablette, en mode Client", altPh:"Ebanist sur téléphone : le relevé du mur",
+ altS1:"Écran Relevé", altS2:"Écran Générateur avec le modèle 3D", altS3:"Écran Liste de débit", altS4:"Écran Découpe avec l'optimisation sur panneaux", altS5:"Écran Résumé avec matériaux et coût",
+ altClient:"Mode Client : armoire en 3D, finitions et prix", altG1:"Dressing ouvert, avec étagères et tiroirs intérieurs", altG2:"Cuisine linéaire blanche, plan de travail noir", altG3:"Mur de séjour avec meubles et niche TV", altG4:"Banque d'accueil en L", altG5:"Cuisine avec îlot et plan en pierre",
+ tick:["15 typologies paramétriques","Blum · Häfele","Matériaux Egger","Débit au dixième de mm","Étiquettes de chant","Fiche de montage","Plans de découpe","Mode Client","Hors ligne sur chantier","RO · IT · FR · EN"]},
+en:{h1:"From site measurements to the <em>cutting list.</em> Same day.",
+ navFilm:"How it works", navScreens:"Three screens", navClient:"Client mode", navPrice:"Price", navCta:"Open",
+ heroKicker:"Furniture design · for cabinetmakers",
+ lede:"Ebanist designs the unit and hands you the 3D model, the cutting list, a label for every part and the assembly sheet — on your phone, on site, with no network.",
+ ctaFree:"Try it free", ctaOpen:"Open the app", ctaFilm:"See how it works",
  noAccount:"No account, no install. It opens in the browser and works offline.",
- b1t:"Cutting list in 2 minutes",
- b1d:"Pick the type, type the sizes, hit «Generate». Parts, edging, board nesting and metres of ABS: calculated, not guessed.",
- b2t:"Labels with the edging diagram",
- b2d:"One A4 sheet with a label for every part: size, material and which edges get banded. Stick them on at the saw and nothing gets mixed up.",
- b3t:"Assembly sheet for the client",
- b3d:"Exploded view, dimensioned 2D drawing, Blum/Häfele hardware with part numbers and a quote. PDFs to hand over, with your company on them.",
- vidT:"The 15-second clip goes here",
- vidD:"From sizes typed on the phone to the cutting-list PDF — one pass, no editing tricks.",
- priceT:"Price", freeAmt:"0 €", freePer:"free, no time limit",
+ capT:"Real furniture", capD:"A walk-in wardrobe fitted on the Côte d'Azur",
+ seqKicker:"One wardrobe, from the wall to the holes",
+ c1k:"The room", c1t:"It all starts with a real wall.", c1d:"You measure the wall at three points and note sockets and pipes. Ebanist never assumes the corner is 90°.",
+ c2k:"The model", c2t:"Type the sizes. The unit appears.", c2d:"Pick one of 15 unit types and give the sizes — or dictate them. The 3D model is built from real materials, here a walnut front.",
+ c3k:"The inside", c3t:"Open what the client will see.", c3d:"Drawers, shelves, hanging rail: open them in 3D and check that everything fits and opens.",
+ c4k:"The parts", c4t:"Every panel in its place.", c4d:"The exploded view shows every part on the cutting list, with its role, axes and thickness. Finished sizes, to a tenth of a millimetre.",
+ stPieces:"parts", stEdge:"m of edging",
+ c5k:"The holes", c5t:"And what you can't see.", c5d:"Hinges, runners, shelf supports, cam fittings: every Blum or Häfele fitting sits on its part, with its holes. The cutting list, labels and assembly sheet all come from the same model.",
+ stHoles:"holes", stHw:"fittings",
+ scrKicker:"One app", scrT:"One project. <em>Three screens.</em>", scrD:"The same project, open wherever you need it. The interface adapts to the screen; the numbers stay the same.",
+ d1k:"Phone", d1t:"The site", d1d:"Survey, dictated sizes, a photo of the wall. Works where there's no signal.",
+ d2k:"Tablet", d2t:"The client", d2d:"Finish, price and signature, on the client's sofa.",
+ d3k:"PC", d3t:"The workshop", d3d:"Cutting list, cutting plans, labels and assembly sheet, on a big screen.",
+ stpKicker:"Five screens, one thread", stpT:"From the site <em>to the workshop,</em> without retyping a thing.",
+ s1t:"Survey", s1d:"Walls, real angles, height at three points, sockets and pipes.",
+ s2t:"Generator", s2d:"Unit type, sizes, materials. The 3D updates instantly.",
+ s3t:"Cutting list", s3d:"Every part with its finished size, material and edging. Tick off what you've cut.",
+ s4t:"Cutting", s4d:"Parts nested on boards, the cutting order and offcuts kept in stock.",
+ s5t:"Quote", s5d:"Materials, edging, fittings and estimated cost, from the same model.",
+ cliKicker:"Client mode", cliT:"The client chooses. <em>You stop redoing quotes.</em>",
+ cliD:"Put the tablet on the table. The client turns the wardrobe, opens the drawers, changes the finish and sees the price right away.",
+ cli1:"Only finishes of the same thickness — the model stays correct.", cli2:"The price comes from the quote, not from a separate guess.", cli3:"They accept and sign on screen; the offer stays in the project.",
+ n1:"parametric unit types", n2:"cutting-list precision", n3:"languages: RO · IT · FR · EN", n4:"internet needed on site",
+ galKicker:"Born in a workshop", galT:"Written by people who <em>fit furniture.</em>",
+ galD:"Ebanist comes from Domus Renov's sites on the Côte d'Azur and in Monaco: walk-in wardrobes, kitchens, reception desks. Every rule in the app was first a mistake to avoid in the workshop.",
+ g1:"Walk-in wardrobe · inside", g2:"Kitchen", g3:"Living room · TV wall", g4:"Reception", g5:"Kitchen with island",
+ qt:"The engine is checked against a real order from Monaco: 68 parts, cut and fitted. If the app's cutting list is off by a tenth of a millimetre, no new version ships.",
+ qa:"The release rule for every version",
+ ftKicker:"Everything that leaves the workshop", ftT:"The documents you <em>used to write by hand.</em>",
+ f1t:"15 unit types", f1d:"Wardrobe, walk-in, kitchen, corner unit, sliding doors, bed, table, desk and more — all parametric.",
+ f2t:"Blum &amp; Häfele", f2d:"Hinges, runners, shelf supports and cam fittings from the catalogue, with part numbers, holes and price in the quote.",
+ f3t:"Real materials", f3d:"Egger décors and real boards. Thickness comes from the material, never from an 18 typed in at random.",
+ f4t:"Cutting list to 0.1 mm", f4d:"The finished size of every part, with its edging. PDF and CSV for the cutting centre.",
+ f5t:"Labels", f5d:"One label per part, with size, material and edging diagram. Nothing gets mixed up at the saw.",
+ f6t:"Assembly sheet", f6d:"Exploded view, numbered parts, fittings and tools. Assembly without calls to the workshop.",
+ f7t:"Cutting plans", f7d:"Board nesting, cutting order and offcuts kept in stock for the next job.",
+ f8t:"In the client's room", f8d:"The unit placed in a photo of the client's room or in AR, sent over WhatsApp as a JPG.",
+ priceKicker:"Price", priceT:"Free on screen. <em>Pro in the workshop.</em>",
+ priceD:"Design and see everything for free. You only pay when the documents go to the workshop or to the client.",
+ freeName:"Free", freeAmt:"0 €", freePer:"free, no time limit",
  f1:"1 project", f2:"Every unit type, 3D with parts and holes", f3:"Cutting list and quote, on screen",
- freeBtn:"Start free",
- proPer:"per month, VAT included",
+ freeBtn:"Start free", proPer:"per month, VAT included",
  p1:"Unlimited projects", p2:"Cutting list PDF and CSV, labels, assembly sheet", p3:"Client mode and PDF quote", p4:"Cutting plans with offcuts kept in stock",
  proBtn:"Get Pro", yearly:"Or {y} a year — two months free",
  vatNote:"Payment is handled by Lemon Squeezy, the registered seller. Cancel any time; your projects stay yours.",
- lTerms:"Terms", lPrivacy:"Privacy", lRefund:"Refunds",
- foot:"Ebanist — Serban George Liviu, Racova, Bacău, Romania."}
+ faqKicker:"Questions", faqT:"What <em>cabinetmakers</em> ask.",
+ q1:"Do I need internet on site?", a1:"No. After the first launch Ebanist works fully offline: survey, design, 3D and cutting list.",
+ q2:"Where are my projects saved?", a2:"On your phone or computer. No account needed, and you can back up a project any time, for free.",
+ q3:"Does it work on Android and iPhone?", a3:"Yes, in the browser of any phone, tablet or PC. The Android app is in testing on Google Play.",
+ q4:"What's free and what's Pro?", a4:"Free: one project and everything you see on screen — design, 3D with parts and holes, cutting list, quote, survey. Pro: everything that leaves the phone as a working document — PDFs, CSV, labels, assembly sheet, Client mode, cutting plans.",
+ q5:"Can I cancel Pro?", a5:"Any time. Your projects stay yours and you can keep opening them.",
+ finKicker:"The first project is free", finT:"Your next unit <em>starts on your phone.</em>", finBtn:"Open Ebanist", ctaPro:"See the price",
+ lTerms:"Terms", lPrivacy:"Privacy", lRefund:"Refunds", foot:"Ebanist — Serban George Liviu, Racova, Bacău, Romania.",
+ altHero:"Full-wall walk-in wardrobe with framed doors, fitted by a workshop", altF1:"Bedroom with a built-in wardrobe along the whole wall", altF2:"Two-door wardrobe in walnut, rendered in 3D in Ebanist", altF3:"The same wardrobe with its inner drawers open", altF4:"Exploded view: every panel of the wardrobe apart", altF5:"See-through view with the holes and fittings of every part",
+ altPc:"Ebanist on a PC: generator, exploded view and parts list", altTab:"Ebanist on a tablet, in Client mode", altPh:"Ebanist on a phone: the wall survey",
+ altS1:"Survey screen", altS2:"Generator screen with the 3D model", altS3:"Cutting list screen", altS4:"Cutting screen with board nesting", altS5:"Summary screen with materials and cost",
+ altClient:"Client mode: 3D wardrobe, finishes and price", altG1:"Open walk-in wardrobe with shelves and inner drawers", altG2:"White galley kitchen with a black worktop", altG3:"Living-room wall with units and a TV niche", altG4:"L-shaped reception desk", altG5:"Kitchen with an island and stone worktop",
+ tick:["15 parametric unit types","Blum · Häfele","Egger materials","Cutting list to 0.1 mm","Edge-banding labels","Assembly sheet","Cutting plans","Client mode","Offline on site","RO · IT · FR · EN"]}
 };
+
+/* Il romeno si legge dall'HTML: una sola fonte, niente doppioni. */
+(function(){
+  var ro=T.ro, n=document.querySelectorAll("[data-t]");
+  for(var i=0;i<n.length;i++){ var k=n[i].getAttribute("data-t"); if(ro[k]==null) ro[k]=n[i].innerHTML; }
+  var a=document.querySelectorAll("[data-ta]");
+  for(var j=0;j<a.length;j++){ var ka=a[j].getAttribute("data-ta"); if(ro[ka]==null) ro[ka]=a[j].getAttribute("alt"); }
+})();
 
 /* La lingua: prima quella scelta a mano (resta nel browser), poi quella del
    telefono, poi il romeno. Nessun cookie: localStorage, e se il browser lo
@@ -305,18 +794,28 @@ var LANG=pick();
 function euros(s){ return String(s||"").replace(/\s*€$/,"") + " €"; }
 
 function paint(){
-  var d=T[LANG]||T.ro;
+  var d=T[LANG]||T.ro, ro=T.ro;
   document.documentElement.lang=LANG;
   var nodes=document.querySelectorAll("[data-t]");
   for(var i=0;i<nodes.length;i++){
-    var k=nodes[i].getAttribute("data-t");
-    if(d[k]!=null) nodes[i].textContent=d[k];
+    var k=nodes[i].getAttribute("data-t"), v=d[k]!=null?d[k]:ro[k];
+    if(v!=null) nodes[i].innerHTML=v;
   }
+  var alts=document.querySelectorAll("[data-ta]");
+  for(var a=0;a<alts.length;a++){
+    var ka=alts[a].getAttribute("data-ta"), va=d[ka]!=null?d[ka]:ro[ka];
+    if(va!=null) alts[a].setAttribute("alt",va);
+  }
+  /* il nastro: raddoppiato, cosi lo scorrimento a -50% non ha buchi */
+  var tk=(d.tick||ro.tick), html="";
+  for(var r=0;r<2;r++) for(var t=0;t<tk.length;t++) html+="<span>"+tk[t]+"</span>";
+  document.getElementById("tickRow").innerHTML=html;
+
   /* Il prezzo lo dice billing.js, non questa pagina: due listini che
      divergono sono il modo piu rapido di litigare con un cliente. */
   document.getElementById("proAmt").textContent=euros(BILLING.PRICE_MONTHLY);
   var y=document.getElementById("buyY");
-  y.textContent=(d.yearly||"").replace("{y}",euros(BILLING.PRICE_YEARLY));
+  y.textContent=(d.yearly||ro.yearly).replace("{y}",euros(BILLING.PRICE_YEARLY));
 
   var btns=document.querySelectorAll("#langs button");
   for(var j=0;j<btns.length;j++) btns[j].className=(btns[j].getAttribute("data-l")===LANG?"on":"");
@@ -326,8 +825,8 @@ function paint(){
   var q="?lang="+encodeURIComponent(LANG);
   /* Chi ha gia progetti non «prova»: apre l'app. Stesso link, altra parola. */
   var used=false; try{ used=!!localStorage.getItem("tagliapro"); }catch(e){}
-  if(used&&d.ctaOpen) document.getElementById("ctaFree").textContent=d.ctaOpen;
-  var free=document.querySelectorAll('a[href="/app/"]');
+  if(used) document.getElementById("ctaFree").textContent=d.ctaOpen||ro.ctaOpen;
+  var free=document.querySelectorAll('a[href^="/app/"]:not(#buyM):not(#buyY)');
   for(var k2=0;k2<free.length;k2++) free[k2].setAttribute("href","/app/"+q);
 
   /* I due bottoni d'acquisto: se il negozio non e ancora configurato,
@@ -348,9 +847,85 @@ document.getElementById("langs").addEventListener("click",function(e){
   var b=e.target.closest("button"); if(!b) return;
   LANG=b.getAttribute("data-l");
   try{ localStorage.setItem(LS_KEY,LANG); }catch(err){}
-  paint();
+  paint(); sizeChaps(); seqPaint();
 });
 paint();
+
+/* ---------- la regia: testata, entrate, sequenza, parallasse ---------- */
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var head=document.getElementById("top");
+var seq=document.getElementById("film"), frames=seq.querySelectorAll(".frame"),
+    chaps=seq.querySelectorAll(".chap"), bars=document.querySelectorAll("#prog i");
+var devs=document.querySelectorAll("[data-px]"), devBox=document.getElementById("devices");
+var finalImg=document.getElementById("finalImg");
+
+/* le schede della sequenza sono sovrapposte: il contenitore prende
+   l'altezza della piu alta, altrimenti il testo esce dallo schermo */
+function sizeChaps(){
+  var box=document.getElementById("chaps"), h=0;
+  for(var i=0;i<chaps.length;i++) h=Math.max(h,chaps[i].offsetHeight);
+  box.style.height=h+"px";
+}
+
+var lastIdx=-1;
+function seqPaint(){
+  if(reduce) return;
+  var r=seq.getBoundingClientRect(), vh=window.innerHeight;
+  var span=seq.offsetHeight-vh, p=Math.min(1,Math.max(0,-r.top/span));
+  var N=frames.length, x=p*N, idx=Math.min(N-1,Math.floor(x));
+  for(var i=0;i<N;i++){
+    /* dissolvenza incrociata: entra in [i-0.3, i], esce in [i+0.7, i+1] */
+    var local=x-i;
+    var fin=i===0?1:Math.min(1,Math.max(0,(local+0.3)/0.3));
+    var fout=i===N-1?1:Math.min(1,Math.max(0,1-(local-0.7)/0.3));
+    var op=fin*fout;
+    var sc=1.08-0.08*Math.min(1,Math.max(0,local));
+    frames[i].style.opacity=op;
+    frames[i].style.transform="scale("+sc.toFixed(4)+")";
+    bars[i].style.setProperty("--p",Math.min(1,Math.max(0,local)).toFixed(3));
+  }
+  if(idx!==lastIdx){
+    for(var c=0;c<chaps.length;c++) chaps[c].classList.toggle("on",c===idx);
+    lastIdx=idx;
+  }
+}
+
+function onScroll(){
+  head.classList.toggle("solid",window.scrollY>40);
+  seqPaint();
+  if(reduce) return;
+  var vh=window.innerHeight;
+  if(devBox){
+    var dr=devBox.getBoundingClientRect(), dp=(dr.top+dr.height/2-vh/2)/vh;
+    for(var i=0;i<devs.length;i++) devs[i].style.transform="translateY("+(dp*parseFloat(devs[i].getAttribute("data-px"))*vh).toFixed(1)+"px)";
+  }
+  if(finalImg){
+    var fr=finalImg.parentNode.parentNode.getBoundingClientRect();
+    if(fr.top<vh&&fr.bottom>0) finalImg.style.transform="translateY("+((fr.top/vh)*-40).toFixed(1)+"px) scale(1.06)";
+  }
+}
+var ticking=false;
+window.addEventListener("scroll",function(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ ticking=false; onScroll(); }); } },{passive:true});
+window.addEventListener("resize",function(){ sizeChaps(); onScroll(); });
+
+/* le immagini della sequenza sono lazy: si chiedono appena la pagina e
+   ferma, cosi quando si arriva al film sono gia li */
+window.addEventListener("load",function(){
+  var im=seq.querySelectorAll("img");
+  for(var i=0;i<im.length;i++) im[i].loading="eager";
+});
+
+if("IntersectionObserver" in window && !reduce){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  },{rootMargin:"0px 0px -8% 0px",threshold:.12});
+  document.querySelectorAll(".rv").forEach(function(el){ io.observe(el); });
+}else{
+  document.querySelectorAll(".rv").forEach(function(el){ el.classList.add("in"); });
+}
+sizeChaps(); onScroll();
+window.addEventListener("load",sizeChaps);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(sizeChaps);
 
 /* La presentazione si vede SEMPRE nel browser, anche da chi ha gia usato
    l'app: prima rimandavamo dentro chiunque avesse la chiave «tagliapro», e

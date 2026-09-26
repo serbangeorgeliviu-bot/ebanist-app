@@ -1401,8 +1401,15 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const land = await (await fetch(`${ORIGIN}/index.html`)).text();
     ok("la radice non e piu l'app", !/APP_VER-MARKER/.test(land));
     ok("ed e la pagina di presentazione", /data-t="h1"/.test(land));
-    for (const l of ["ro", "it", "fr", "en"])
+    /* il romeno sta scritto nell'HTML (Google lo legge senza JavaScript),
+       le altre tre lingue nel dizionario T */
+    ok("la presentazione parla ro", /<html lang="ro">/.test(land) && /data-t="h1">De la/.test(land));
+    for (const l of ["it", "fr", "en"])
       ok(`la presentazione parla ${l}`, new RegExp('\\b' + l + ':\\{h1:').test(land));
+    /* ogni immagine della pagina esiste davvero nel repo */
+    const imgs = [...land.matchAll(/(?:src|href)="\/(site\/img\/[^"]+|fonts\/[^"]+\.woff2|app\/icons\/[^"]+)"/g)].map(m => m[1]);
+    const missing = imgs.filter(f => !fs.existsSync(path.join(ROOT, f)));
+    ok("tutte le immagini della presentazione esistono", imgs.length > 10 && missing.length === 0, missing.join(", "));
     ok("nessuno script di terzi oltre a Lemon Squeezy", !/<script[^>]+src="https?:\/\//.test(land));
     /* Non si cerca la PAROLA «cookie» — un commento che spiega perche non
        ce ne sono la conterrebbe — ma quello che un banner e per forza:
