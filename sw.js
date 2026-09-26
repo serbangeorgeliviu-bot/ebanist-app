@@ -31,7 +31,11 @@ self.addEventListener("activate", e => {
        primo ricaricamento, che e comunque il caso normale. */
     try {
       const wins = await self.clients.matchAll({ type: "window" });
-      for (const w of wins) { try { await w.navigate(HOME); } catch (err) {} }
+      for (const w of wins) {
+        /* Chi era sulla radice ci resta: li adesso c'e la presentazione. */
+        const dest = new URL(w.url).pathname === "/" ? w.url : HOME;
+        try { await w.navigate(dest); } catch (err) {}
+      }
     } catch (err) {}
     /* Ultimo atto: sparire. Da qui in poi le richieste vanno al server,
        che ha i suoi redirect. */
@@ -54,5 +58,8 @@ self.addEventListener("fetch", e => {
      link dell'ordine per tutti quelli che hanno ancora il vecchio
      service worker vivo — cioe proprio i clienti di prima. */
   if (url.pathname.startsWith("/a/") || url.pathname.startsWith("/api/")) return;
+  /* La radice e la pagina di presentazione: la serve il server, non la
+     rimandiamo all'app (prima lo facevamo, e i clienti non la vedevano). */
+  if (url.pathname === "/") return;
   e.respondWith(Response.redirect(HOME, 302));
 });

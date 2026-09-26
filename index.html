@@ -198,7 +198,7 @@ footer a{color:var(--muted)}
 var T={
 ro:{h1:"De la măsurători, la lista de debitare. În aceeași zi.",
  lede:"Ebanist proiectează corpul, îți dă lista de debitare, eticheta fiecărei piese și fișa de asamblare — pe telefon, în șantier, fără internet.",
- ctaFree:"Încearcă gratuit", ctaPro:"Vezi prețul",
+ ctaFree:"Încearcă gratuit", ctaOpen:"Deschide aplicația", ctaPro:"Vezi prețul",
  noAccount:"Fără cont, fără instalare. Se deschide în browser și merge offline.",
  b1t:"Listă de debitare în 2 minute",
  b1d:"Alegi tipul de corp, scrii cotele, apeși „Generează”. Piese, canturi, optimizare pe colă și cantitatea de ABS — calculate, nu estimate.",
@@ -219,7 +219,7 @@ ro:{h1:"De la măsurători, la lista de debitare. În aceeași zi.",
  foot:"Ebanist — Serban George Liviu, Racova, Bacău, România."},
 it:{h1:"Dalle misure alla distinta di taglio. Lo stesso giorno.",
  lede:"Ebanist disegna il mobile, ti da la distinta di taglio, l'etichetta di ogni pezzo e la scheda di montaggio — sul telefono, in cantiere, anche senza rete.",
- ctaFree:"Prova gratis", ctaPro:"Vedi il prezzo",
+ ctaFree:"Prova gratis", ctaOpen:"Apri l'app", ctaPro:"Vedi il prezzo",
  noAccount:"Niente account, niente installazione. Si apre nel browser e funziona offline.",
  b1t:"Distinta di taglio in 2 minuti",
  b1d:"Scegli la tipologia, scrivi le quote, premi «Genera». Pezzi, bordi, ottimizzazione sulla lastra e metri di ABS: calcolati, non stimati.",
@@ -240,7 +240,7 @@ it:{h1:"Dalle misure alla distinta di taglio. Lo stesso giorno.",
  foot:"Ebanist — Serban George Liviu, Racova, Bacău, Romania."},
 fr:{h1:"Des mesures à la liste de débit. Le jour même.",
  lede:"Ebanist dessine le meuble, vous donne la liste de débit, l'étiquette de chaque pièce et la fiche de montage — sur le téléphone, sur le chantier, même sans réseau.",
- ctaFree:"Essayer gratuitement", ctaPro:"Voir le prix",
+ ctaFree:"Essayer gratuitement", ctaOpen:"Ouvrir l'application", ctaPro:"Voir le prix",
  noAccount:"Pas de compte, pas d'installation. Ça s'ouvre dans le navigateur et ça marche hors ligne.",
  b1t:"Liste de débit en 2 minutes",
  b1d:"Choisissez le type de meuble, saisissez les cotes, appuyez sur « Générer ». Pièces, chants, optimisation sur panneau et mètres d'ABS : calculés, pas estimés.",
@@ -261,7 +261,7 @@ fr:{h1:"Des mesures à la liste de débit. Le jour même.",
  foot:"Ebanist — Serban George Liviu, Racova, Bacău, Roumanie."},
 en:{h1:"From the site measurements to the cutting list. Same day.",
  lede:"Ebanist designs the unit and hands you the cutting list, a label for every part and the assembly sheet — on your phone, on site, with no network.",
- ctaFree:"Try it free", ctaPro:"See the price",
+ ctaFree:"Try it free", ctaOpen:"Open the app", ctaPro:"See the price",
  noAccount:"No account, no install. It opens in the browser and works offline.",
  b1t:"Cutting list in 2 minutes",
  b1d:"Pick the type, type the sizes, hit «Generate». Parts, edging, board nesting and metres of ABS: calculated, not guessed.",
@@ -324,6 +324,9 @@ function paint(){
   /* La lingua viaggia fino all'app: chi ha appena scelto «RO» qui non deve
      ritrovarsi l'app in italiano. */
   var q="?lang="+encodeURIComponent(LANG);
+  /* Chi ha gia progetti non «prova»: apre l'app. Stesso link, altra parola. */
+  var used=false; try{ used=!!localStorage.getItem("tagliapro"); }catch(e){}
+  if(used&&d.ctaOpen) document.getElementById("ctaFree").textContent=d.ctaOpen;
   var free=document.querySelectorAll('a[href="/app/"]');
   for(var k2=0;k2<free.length;k2++) free[k2].setAttribute("href","/app/"+q);
 
@@ -349,12 +352,14 @@ document.getElementById("langs").addEventListener("click",function(e){
 });
 paint();
 
-/* Chi ha gia usato l'app arriva qui solo per sbaglio (un preferito vecchio,
-   il redirect del service worker): lo si porta dentro invece di fargli
-   leggere una pagina di presentazione che non gli serve. Si guarda la
-   chiave storica: se ci sono progetti, questa persona non e un visitatore. */
+/* La presentazione si vede SEMPRE nel browser, anche da chi ha gia usato
+   l'app: prima rimandavamo dentro chiunque avesse la chiave «tagliapro», e
+   cosi il titolare e ogni cliente che aveva provato l'app una volta non
+   vedevano piu questa pagina. Si entra in automatico solo da un'icona
+   installata (display-mode standalone): li non c'e un visitatore, c'e
+   qualcuno che ha toccato l'app sullo schermo. */
 try{
-  if(localStorage.getItem("tagliapro")&&!location.search){
+  if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches&&!location.search){
     location.replace("/app/");
   }
 }catch(e){}
