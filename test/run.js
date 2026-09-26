@@ -1425,6 +1425,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const rootSw = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
     ok("il service worker in radice si disinstalla da solo", /unregister\(\)/.test(rootSw));
     ok("e NON cancella le cache di /app/", !/caches\.delete/.test(rootSw));
+    ok("e NON rimanda la radice all'app", /pathname === "\/"\) return/.test(rootSw));
+    ok("la presentazione non rimanda dentro chi ha gia progetti",
+       !/getItem\("tagliapro"\)[^\n]*\n?[^\n]*location\.replace/.test(land));
+    ok("entra da sola solo dall'icona installata", /display-mode: standalone/.test(land));
 
     const legal = ["termeni.html", "privacy.html", "rambursare.html"];
     for (const f of legal)
