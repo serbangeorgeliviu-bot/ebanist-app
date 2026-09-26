@@ -135,6 +135,13 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Le immagini della presentazione: nomi non versionati, quindi una
+# settimana e non «immutable» — se si rifà uno screenshot, arriva.
+[[headers]]
+  for = "/site/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
 [[headers]]
   for = "/fonts/*"
   [headers.values]
