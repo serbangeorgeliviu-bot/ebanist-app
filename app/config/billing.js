@@ -24,7 +24,7 @@
   var BILLING = {
     /* Linkurile de plată. Un link lipsă (null) = butonul lui nu apare. */
     LINK_MONTHLY: "https://buy.stripe.com/9B6bJ1a426IbcZM9hAeQM00",
-    LINK_YEARLY: null,
+    LINK_YEARLY: "https://buy.stripe.com/eVqfZh1xwc2v2l8fFYeQM01",
 
     /* --- prețuri afișate ---------------------------------------------- */
     /* Numai pentru textul de pe ecran. Prețul plătit e cel din Stripe
