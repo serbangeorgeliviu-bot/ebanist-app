@@ -27,13 +27,14 @@ self.addEventListener("activate", e => {
   e.waitUntil((async () => {
     await self.clients.claim();
     /* Best-effort: su Chrome le finestre aperte si spostano da sole.
-       Safari ignora navigate() — li ci pensa il redirect qui sotto al
+       Safari ignora navigate() — li ci pensa il 301 del server al
        primo ricaricamento, che e comunque il caso normale. */
     try {
       const wins = await self.clients.matchAll({ type: "window" });
       for (const w of wins) {
-        /* Chi era sulla radice ci resta: li adesso c'e la presentazione. */
-        const dest = new URL(w.url).pathname === "/" ? w.url : HOME;
+        /* Solo il vecchio /index.html va all'app; tutto il resto (la radice e
+           le pagine /ro/ /it/ /fr/ della presentazione) si ricarica dov'e. */
+        const dest = new URL(w.url).pathname === "/index.html" ? HOME : w.url;
         try { await w.navigate(dest); } catch (err) {}
       }
     } catch (err) {}
@@ -43,23 +44,8 @@ self.addEventListener("activate", e => {
   })());
 });
 
-/* Finche questo worker e vivo (cioe fra activate e la fine dell'ultima
-   finestra che lo usa) le navigazioni le manda lui a destinazione: senza
-   questo, il ricaricamento subito dopo l'attivazione passerebbe ancora
-   dalla vecchia cache. Tutto il resto non lo tocca: niente cache, niente
-   riscritture. */
-self.addEventListener("fetch", e => {
-  if (e.request.mode !== "navigate") return;
-  const url = new URL(e.request.url);
-  if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith("/app/")) return;
-  /* Order Rail: /a/<slug> e il link che il laboratorio da ai clienti, e
-     /api/ sono le funzioni. Mandarli a /app/ vorrebbe dire rompere il
-     link dell'ordine per tutti quelli che hanno ancora il vecchio
-     service worker vivo — cioe proprio i clienti di prima. */
-  if (url.pathname.startsWith("/a/") || url.pathname.startsWith("/api/")) return;
-  /* La radice e la pagina di presentazione: la serve il server, non la
-     rimandiamo all'app (prima lo facevamo, e i clienti non la vedevano). */
-  if (url.pathname === "/") return;
-  e.respondWith(Response.redirect(HOME, 302));
-});
+/* Nessun gestore «fetch»: da quando la radice e il sito di presentazione
+   (/, /ro/, /it/, /fr/, /site/…) non c'e piu niente da rimandare all'app.
+   Le vecchie scorciatoie verso /index.html le sistema il server (301 a
+   /app/), le finestre aperte le sposta l'activate qui sopra. Un worker
+   senza «fetch» non intercetta nulla: le richieste vanno dritte in rete. */
