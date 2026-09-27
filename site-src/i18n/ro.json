@@ -175,7 +175,7 @@
  "price.p4": "Planuri de tăiere cu resturile păstrate în stoc",
  "price.proBtn": "Ia Pro",
  "price.yearly": "Sau {y} pe an — două luni cadou",
- "price.vat": "Plata e procesată de Lemon Squeezy, care e vânzătorul înregistrat. Anulezi când vrei; proiectele rămân ale tale.",
+ "price.vat": "Plata e procesată de Stripe, care e vânzătorul înregistrat; TVA inclus. Anulezi când vrei; proiectele rămân ale tale.",
  "faq.kicker": "Întrebări",
  "faq.h": "Ce întreabă tâmplarii.",
  "faq.q1": "Trebuie instalat ceva?",

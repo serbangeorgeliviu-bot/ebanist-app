@@ -13,7 +13,14 @@
       l'API pubblica delle licenze, poi si ricontrollano ogni 7 giorni
       quando c'e rete.
 
-   Il formato si riconosce da solo — un UUID e un EBP- non si somigliano
+   3. ABBONAMENTI STRIPE  `sub_…`  (D-58, sul web)
+      Il pagamento passa da Stripe Managed Payments; al ritorno l'app
+      manda l'id della sessione a /api/pro (funzione Netlify, che tiene la
+      chiave segreta) e riceve l'abbonamento. L'id `sub_…` e il codice che
+      l'utente copia su un altro dispositivo. Ricontrollo ogni 7 giorni e
+      subito dopo la data di rinnovo.
+
+   Il formato si riconosce da solo — un UUID, un EBP- e un sub_ non si somigliano
    — quindi l'utente incolla e basta: non gli si chiede di sapere quale
    dei due ha in mano.
 
@@ -60,6 +67,7 @@
      l'utente li ha persi nel copia-incolla. */
   function normalize(raw) {
     var s = String(raw || "").trim();
+    if (/^sub_[A-Za-z0-9]+$/.test(s)) return s;                    // Stripe: maiuscole e minuscole contano
     if (/^[0-9a-fA-F-]{36}$/.test(s)) return s.toLowerCase();     // UUID: resta com'e
     s = s.toUpperCase().replace(/[^A-Z0-9]/g, "");
     if (s.indexOf("EBP") === 0) s = s.slice(3);
@@ -83,9 +91,15 @@
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(String(key || "").toLowerCase());
   }
 
+  /* L'id di un abbonamento Stripe. */
+  function isStripeShape(key) {
+    return /^sub_[A-Za-z0-9]{8,64}$/.test(String(key || ""));
+  }
+
   function keyKind(key) {
     var k = normalize(key);
     if (isLegacyShape(k)) return "legacy";
+    if (isStripeShape(k)) return "stripe";
     if (isLsShape(k)) return "ls";
     return "unknown";
   }
@@ -112,6 +126,13 @@
       return lic.status === "active" ? { pro: true, reason: "play" } : { pro: false, reason: "none" };
     }
 
+    /* Stripe: /api/pro riduce gli stati a tre. «inactive» qui vuol dire
+       un pagamento mai andato a buon fine (incomplete, paused): niente Pro.
+       «expired» e la scadenza passano per le regole comuni qui sotto. */
+    if (lic.kind === "stripe" && lic.status === "inactive") {
+      return { pro: false, reason: "not-activated" };
+    }
+
     /* «expired» e «disabled» sono le due sole risposte del server che
        chiudono la porta: la prima e un abbonamento finito, la seconda una
        chiave revocata (rimborso, frode). Tutto il resto — «inactive»
@@ -131,8 +152,18 @@
   }
 
   function needsRecheck(lic, now) {
-    if (!lic || lic.kind !== "ls" || !lic.key) return false;
-    return ((now || Date.now()) - (lic.checkedAt || 0)) > RECHECK_MS;
+    if (!lic || (lic.kind !== "ls" && lic.kind !== "stripe") || !lic.key) return false;
+    now = now || Date.now();
+    var since = now - (lic.checkedAt || 0);
+    if (since > RECHECK_MS) return true;
+    /* Passata la data di rinnovo, un abbonamento Stripe si ricontrolla
+       subito (al massimo una volta al giorno): il rinnovo sposta la data,
+       e senza chiedere si scivolerebbe inutilmente nella tolleranza. */
+    if (lic.kind === "stripe" && lic.expiresAt) {
+      var exp = Date.parse(lic.expiresAt);
+      if (isFinite(exp) && now > exp && since > 864e5) return true;
+    }
+    return false;
   }
 
   /* Quanti giorni restano prima che il Pro cada davvero. Serve a
@@ -188,6 +219,44 @@
     return post("/deactivate", { license_key: key, instance_id: instanceId });
   }
 
+  /* ---------- Stripe, tramite la nostra funzione /api/pro ----------
+     La chiave segreta non esce mai dal server: qui si manda solo l'id
+     della sessione di pagamento o dell'abbonamento. */
+  var PRO_API = "/api/pro";
+
+  function stripeCheck(body) {
+    var ctl = null, timer = null;
+    try { ctl = new AbortController(); } catch (e) {}
+    var opt = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
+    if (ctl) { opt.signal = ctl.signal; timer = setTimeout(function () { try { ctl.abort(); } catch (e) {} }, 15000); }
+    return fetch(PRO_API, opt).then(function (r) {
+      if (timer) clearTimeout(timer);
+      /* 4xx = Stripe ha risposto «no» (sessione non pagata, abbonamento
+         inesistente, altro prodotto): la risposta va letta. 5xx = non si
+         e potuto chiedere: per chi chiama e come essere offline. */
+      if (r.status >= 500) throw new Error("http-" + r.status);
+      return r.json().then(function (j) { return j || {}; }, function () { throw new Error("http-" + r.status); });
+    }, function (e) {
+      if (timer) clearTimeout(timer);
+      throw e;
+    });
+  }
+  function stripeFromSession(sessionId) { return stripeCheck({ session: sessionId }); }
+  function stripeValidate(subId) { return stripeCheck({ sub: subId }); }
+
+  function shapeFromStripe(j, prev) {
+    return {
+      kind: "stripe",
+      key: j.sub || (prev && prev.key) || "",
+      status: j.status || (prev && prev.status) || "",
+      expiresAt: j.periodEnd != null ? j.periodEnd : (prev ? prev.expiresAt : null),
+      plan: j.plan || (prev && prev.plan) || "",
+      email: j.email || (prev && prev.email) || "",
+      activated: true,
+      checkedAt: Date.now()
+    };
+  }
+
   /* La risposta del server, ridotta a quello che ci serve conservare.
      Vale per activate e per validate: hanno la stessa forma, cambia solo
      il nome del booleano in cima. */
@@ -221,6 +290,10 @@
     normalize: normalize,
     isLegacyShape: isLegacyShape,
     isLsShape: isLsShape,
+    isStripeShape: isStripeShape,
+    stripeFromSession: stripeFromSession,
+    stripeValidate: stripeValidate,
+    shapeFromStripe: shapeFromStripe,
     legacyValid: legacyValid,
     keyKind: keyKind,
     proFrom: proFrom,

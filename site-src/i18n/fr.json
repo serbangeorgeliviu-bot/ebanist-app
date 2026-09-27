@@ -175,7 +175,7 @@
  "price.p4": "Plans de découpe avec les chutes en stock",
  "price.proBtn": "Passer à Pro",
  "price.yearly": "Ou {y} par an — deux mois offerts",
- "price.vat": "Le paiement est traité par Lemon Squeezy, vendeur enregistré. Résiliez quand vous voulez ; vos projets restent les vôtres.",
+ "price.vat": "Le paiement est traité par Stripe, vendeur enregistré ; TVA incluse. Résiliez quand vous voulez ; vos projets restent les vôtres.",
  "faq.kicker": "Questions",
  "faq.h": "Ce que demandent les menuisiers.",
  "faq.q1": "Faut-il installer quelque chose ?",

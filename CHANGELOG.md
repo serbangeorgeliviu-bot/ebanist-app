@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.0 — 27 septembrie 2026
+
+**Pro se poate plăti pe web, prin Stripe (D-58).**
+- Butoanele Pro din browser deschid linkul de plată Stripe (Managed Payments: Stripe e *merchant of record*, facturează și colectează TVA-ul). Contul e pe Domus Renov SRL. În aplicația Android rămâne numai Google Play (D-54).
+- După plată, Stripe trimite clientul înapoi la `/app/?stripe=1&session_id=…`. Aplicația întreabă `/api/pro` (funcție Netlify nouă, cu `STRIPE_SECRET_KEY` numai pe server) și Pro pornește singur, fără cheie de copiat.
+- Codul abonamentului (`sub_…`) activează Pro pe alt dispozitiv: Setări → „Copiază codul”, apoi îl lipești în câmpul de cheie de pe celălalt dispozitiv. Reverificare o dată la 7 zile și imediat după data de reînnoire. Offline nu se schimbă nimic; Pro cade numai când Stripe spune că abonamentul s-a încheiat, cu aceleași 14 zile de grație.
+- Numai prețurile cu lookup key `ebanist_pro_monthly` / `ebanist_pro_yearly` deblochează Ebanist.
+- Termeni, rambursare, confidențialitate și landing: Stripe în loc de Lemon Squeezy, furnizor Domus Renov SRL.
+- `SW_CACHE`/`CACHE` → `ebanist-v80`.
+
 ## 4.37.3 — 24 septembrie 2026
 
 - Fonturile (Barlow, Barlow Condensed) se servesc din `/fonts/`, nu de la Google Fonts: pagina nu mai trimite IP-ul vizitatorului la Google.

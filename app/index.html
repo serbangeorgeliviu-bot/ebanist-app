@@ -1942,6 +1942,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <p class="mini" id="proStateLine" style="margin:-2px 0 8px;line-height:1.45"></p>
   <button class="btn red" id="btnGoPro" style="display:none"><span data-i="proTitle">Ebanist Pro</span></button>
   <button class="btn" id="btnLicCheck" style="display:none;margin-top:8px"><span data-i="proRestore">Ricontrolla</span></button>
+  <button class="btn" id="btnLicCode" style="display:none;margin-top:8px"><span data-i="proCodeCopy">Copia il codice</span></button>
   <button class="btn" id="btnPlayManage" style="display:none;margin-top:8px"><span data-i="playManage">Gestisci abbonamento</span></button>
   <button class="btn ghost danger" id="btnLicOff" style="display:none;margin-top:8px"><span data-i="proDeactivate">Scollega</span></button>
 
@@ -2426,8 +2427,8 @@ Object.assign(I18N.it,{
   proBuyM:"Sblocca Pro — {p}/mese",
   proBuyY:"Un anno — {p} (due mesi in regalo)",
   proHaveKey:"Ho gia una chiave",
-  proKeyPh:"EBP-… oppure la chiave dell'email",
-  proKeyHint:"La chiave sta nell'email di conferma dell'acquisto. Incollala qui.",
+  proKeyPh:"EBP-… oppure il codice sub_…",
+  proKeyHint:"Hai pagato sul web? Il Pro si attiva da solo al ritorno dal pagamento. Su un altro dispositivo incolla qui il codice sub_… (Impostazioni → Copia il codice).",
   proActivate:"Attiva",
   proActivating:"Attivazione…",
   proActivated:"Pro attivo ✓",
@@ -2490,8 +2491,8 @@ Object.assign(I18N.ro,{
   proBuyM:"Deblochează Pro — {p}/lună",
   proBuyY:"Un an — {p} (două luni cadou)",
   proHaveKey:"Am deja o cheie",
-  proKeyPh:"EBP-… sau cheia din email",
-  proKeyHint:"Cheia e în emailul de confirmare a plății. Lipește-o aici.",
+  proKeyPh:"EBP-… sau codul sub_…",
+  proKeyHint:"Ai plătit pe web? Pro se activează singur la întoarcerea de la plată. Pe alt dispozitiv lipește aici codul sub_… (Setări → Copiază codul).",
   proActivate:"Activează",
   proActivating:"Se activează…",
   proActivated:"Pro activ ✓",
@@ -2554,8 +2555,8 @@ Object.assign(I18N.en,{
   proBuyM:"Unlock Pro — {p}/month",
   proBuyY:"One year — {p} (two months free)",
   proHaveKey:"I already have a key",
-  proKeyPh:"EBP-… or the key from your email",
-  proKeyHint:"The key is in your purchase confirmation email. Paste it here.",
+  proKeyPh:"EBP-… or your sub_… code",
+  proKeyHint:"Paid on the web? Pro turns on by itself when you return from checkout. On another device, paste your sub_… code here (Settings → Copy code).",
   proActivate:"Activate",
   proActivating:"Activating…",
   proActivated:"Pro active ✓",
@@ -2618,8 +2619,8 @@ Object.assign(I18N.fr,{
   proBuyM:"Débloquer Pro — {p}/mois",
   proBuyY:"Un an — {p} (deux mois offerts)",
   proHaveKey:"J'ai déjà une clé",
-  proKeyPh:"EBP-… ou la clé reçue par email",
-  proKeyHint:"La clé est dans l'email de confirmation d'achat. Collez-la ici.",
+  proKeyPh:"EBP-… ou votre code sub_…",
+  proKeyHint:"Payé sur le web ? Le Pro s'active tout seul au retour du paiement. Sur un autre appareil, collez ici votre code sub_… (Réglages → Copier le code).",
   proActivate:"Activer",
   proActivating:"Activation…",
   proActivated:"Pro actif ✓",
@@ -2848,7 +2849,12 @@ Object.assign(I18N.fr,{playBuyM1:"Un mois de Pro — {p}",playTermsPre:"Paiement
 Object.assign(I18N.it,{playLoading:"Carico i prezzi da Google Play…",playUnavailable:"Google Play non risponde o l'abbonamento non è ancora disponibile. Riprova più tardi.",playBuyY:"Un anno — {p}",playTerms:"Abbonamento con rinnovo automatico tramite Google Play. Lo disdici quando vuoi da Google Play → Abbonamenti; il Pro resta attivo fino alla fine del periodo pagato.",playErr:"Pagamento non riuscito. Riprova.",playPending:"Pagamento in attesa: il Pro si attiva appena Google Play lo conferma.",proKeyHintPlay:"Hai ricevuto un codice di attivazione? Incollalo qui.",proStatePlay:"Pro attivo · abbonamento Google Play",playNoRenew:"disdetto, non si rinnova",playManage:"Gestisci l'abbonamento su Google Play"});
 Object.assign(I18N.ro,{playLoading:"Se încarcă prețurile din Google Play…",playUnavailable:"Google Play nu răspunde sau abonamentul nu e încă disponibil. Încearcă mai târziu.",playBuyY:"Un an — {p}",playTerms:"Abonament cu reînnoire automată prin Google Play. Îl anulezi oricând din Google Play → Abonamente; Pro rămâne activ până la sfârșitul perioadei plătite.",playErr:"Plata nu a reușit. Încearcă din nou.",playPending:"Plată în așteptare: Pro se activează imediat ce Google Play o confirmă.",proKeyHintPlay:"Ai primit un cod de activare? Lipește-l aici.",proStatePlay:"Pro activ · abonament Google Play",playNoRenew:"anulat, nu se mai reînnoiește",playManage:"Gestionează abonamentul în Google Play"});
 Object.assign(I18N.en,{playLoading:"Loading prices from Google Play…",playUnavailable:"Google Play is not responding or the subscription is not available yet. Try again later.",playBuyY:"One year — {p}",playTerms:"Auto-renewing subscription via Google Play. Cancel any time in Google Play → Subscriptions; Pro stays active until the end of the paid period.",playErr:"Payment failed. Please try again.",playPending:"Payment pending: Pro turns on as soon as Google Play confirms it.",proKeyHintPlay:"Got an activation code? Paste it here.",proStatePlay:"Pro active · Google Play subscription",playNoRenew:"cancelled, won't renew",playManage:"Manage subscription in Google Play"});
+/* D-58: Pro pe web prin Stripe — codul sub_… e cheia de pe alt dispozitiv. */
 Object.assign(I18N.fr,{playLoading:"Chargement des prix depuis Google Play…",playUnavailable:"Google Play ne répond pas ou l'abonnement n'est pas encore disponible. Réessayez plus tard.",playBuyY:"Un an — {p}",playTerms:"Abonnement à renouvellement automatique via Google Play. Résiliable à tout moment dans Google Play → Abonnements ; le Pro reste actif jusqu'à la fin de la période payée.",playErr:"Le paiement a échoué. Réessayez.",playPending:"Paiement en attente : le Pro s'active dès que Google Play le confirme.",proKeyHintPlay:"Vous avez reçu un code d'activation ? Collez-le ici.",proStatePlay:"Pro actif · abonnement Google Play",playNoRenew:"résilié, ne se renouvelle pas",playManage:"Gérer l'abonnement dans Google Play"});
+Object.assign(I18N.it,{"proCodeCopy": "Copia il codice per un altro dispositivo", "proCodeCopied": "Codice copiato: {c}. Incollalo in Ebanist sull'altro dispositivo.", "proPayChecking": "Controllo il pagamento…", "proPayFail": "Non riesco ancora a confermare il pagamento. Se hai pagato, riprova tra un minuto o scrivici a info@ebanist.com.", "proSubInactive": "Questo abbonamento non è attivo."});
+Object.assign(I18N.ro,{"proCodeCopy": "Copiază codul pentru alt dispozitiv", "proCodeCopied": "Cod copiat: {c}. Lipește-l în Ebanist pe celălalt dispozitiv.", "proPayChecking": "Verific plata…", "proPayFail": "Nu pot confirma încă plata. Dacă ai plătit, reîncearcă peste un minut sau scrie-ne la info@ebanist.com.", "proSubInactive": "Abonamentul acesta nu e activ."});
+Object.assign(I18N.en,{"proCodeCopy": "Copy the code for another device", "proCodeCopied": "Code copied: {c}. Paste it into Ebanist on the other device.", "proPayChecking": "Checking your payment…", "proPayFail": "I can't confirm the payment yet. If you paid, try again in a minute or write to info@ebanist.com.", "proSubInactive": "This subscription is not active."});
+Object.assign(I18N.fr,{"proCodeCopy": "Copier le code pour un autre appareil", "proCodeCopied": "Code copié : {c}. Collez-le dans Ebanist sur l'autre appareil.", "proPayChecking": "Vérification du paiement…", "proPayFail": "Je ne peux pas encore confirmer le paiement. Si vous avez payé, réessayez dans une minute ou écrivez à info@ebanist.com.", "proSubInactive": "Cet abonnement n'est pas actif."});
 /* ---- 4.33: ferramenta di tavolo e letto in catalogo ---- */
 Object.assign(I18N.it,{hwLeg:"Piastre gamba tavolo",hwTopClip:"Fissaggi piano tavolo",hwBedFit:"Ferramenta letto (coppie)",hwTravFit:"Squadre traversa centrale",hwCenterFoot:"Piedi centrali letto",hwSlatHold:"Portadoghe laterali",hwSlatHold2:"Portadoghe centrali",hwFelt:"Feltrini",fConsum:"consumabili, non in preventivo"});
 Object.assign(I18N.ro,{hwLeg:"Plăci de colț picior masă",hwTopClip:"Prinderi blat masă",hwBedFit:"Feronerie de pat (perechi)",hwTravFit:"Colțare traversă centrală",hwCenterFoot:"Picioare centrale pat",hwSlatHold:"Suporți doagă laterali",hwSlatHold2:"Suporți doagă centrali",hwFelt:"Pâslă",fConsum:"consumabile, nu intră în deviz"});
@@ -3437,7 +3443,8 @@ function isPro(){ return PRO||atelierMode(); }
    rinomina, lo duplica) smette di essere un esempio e conta. */
 function ownProjects(){ return state.projects.filter(p=>!p.demo).length; }
 
-/* L'identita del dispositivo, come compare nel cruscotto Lemon Squeezy.
+/* L'identita del dispositivo, come compare nel cruscotto Lemon Squeezy
+   (chiavi UUID storiche; gli abbonamenti Stripe non contano dispositivi).
    Deve essere STABILE: se cambiasse a ogni avvio, un utente solo
    brucerebbe il limite di attivazioni in una settimana. */
 function deviceName(){
@@ -3475,6 +3482,8 @@ async function proActivate(raw){
     return {ok:true};
   }
 
+  if(kind==="stripe") return proActivateStripe(()=>EBLicense.stripeValidate(key));
+
   let j;
   try{ j=await EBLicense.activate(key,deviceName()); }
   catch(e){ return {ok:false,msg:t("proNoNet")}; }
@@ -3497,11 +3506,52 @@ async function proActivate(raw){
   return {ok:true};
 }
 
+/* Stripe (D-58): la sessione di pagamento al ritorno dal checkout, oppure
+   il codice sub_… incollato su un altro dispositivo. /api/pro risponde
+   con l'abbonamento; qui si decide solo cosa dire all'utente. */
+async function proActivateStripe(ask){
+  let j;
+  try{ j=await ask(); }
+  catch(e){ return {ok:false,msg:t("proNoNet")}; }
+  if(!j||j.ok!==true){
+    const err=String((j&&j.error)||"");
+    if(err==="wrong-product") return {ok:false,msg:t("proWrongProduct")};
+    if(err==="not-paid") return {ok:false,msg:t("proPayFail")};
+    return {ok:false,msg:t("proBadKey")};
+  }
+  if(j.status!=="active") return {ok:false,msg:j.status==="expired"?t("proLapsed"):t("proSubInactive")};
+  licWrite(EBLicense.shapeFromStripe(j,null));
+  askPersist();
+  return {ok:true};
+}
+/* Ritorno da Stripe: ?stripe=1&session_id=cs_… e l'indirizzo impostato
+   nei link di pagamento. Si pulisce subito l'URL (un ricaricamento non
+   deve rifare la domanda) e si mostra l'esito nello schermo Pro. */
+async function stripeReturn(){
+  let sid="";
+  try{
+    const q=new URLSearchParams(location.search);
+    if(q.get("stripe")!=="1") return false;
+    sid=q.get("session_id")||"";
+    history.replaceState({},"",location.pathname);
+  }catch(e){ return false; }
+  if(!/^cs_(live|test)_/.test(sid)) return false;
+  toast(t("proPayChecking"));
+  let r=await proActivateStripe(()=>EBLicense.stripeFromSession(sid));
+  /* Il redirect puo arrivare un attimo prima che Stripe chiuda la
+     sessione: un secondo tentativo, poi si dice la verita. */
+  if(!r.ok){ await new Promise(res=>setTimeout(res,2500)); r=await proActivateStripe(()=>EBLicense.stripeFromSession(sid)); }
+  if(r.ok){ toast(t("proActivated")); render(); }
+  else{ openPro(null); const m=$("proMsg"); if(m){ m.style.color="var(--warn)"; m.textContent=r.msg||t("proPayFail"); } }
+  return true;
+}
+
 /* ---- ricontrollo periodico ----
    Ogni 7 giorni, e SOLO se c'e rete. Un errore di rete non toglie niente
    a nessuno: si riprova la volta dopo. Solo una risposta chiara del
    server («questa chiave e scaduta / revocata») cambia lo stato. */
 async function licRecheck(force){
+  if(LIC&&LIC.kind==="stripe") return stripeRecheck(force);
   if(!LIC||LIC.kind!=="ls"||!LIC.key) return;
   if(!force&&!EBLicense.needsRecheck(LIC)) return;
   if(navigator.onLine===false) return;
@@ -3519,6 +3569,21 @@ async function licRecheck(force){
      cancellato): il server e stato raggiunto e ha detto no. */
   if(j.valid===false&&!lk.status) next.status="disabled";
   licWrite(next);
+}
+
+/* Stesse regole della rete di Lemon Squeezy: offline o funzione muta non
+   cambiano niente; cambia solo una risposta chiara di Stripe. */
+async function stripeRecheck(force){
+  if(!LIC||!LIC.key) return;
+  if(!force&&!EBLicense.needsRecheck(LIC)) return;
+  if(navigator.onLine===false) return;
+  let j;
+  try{ j=await EBLicense.stripeValidate(LIC.key); }
+  catch(e){ return; }
+  if(!j) return;
+  if(j.ok===true){ licWrite(EBLicense.shapeFromStripe(j,LIC)); return; }
+  /* abbonamento inesistente o di un altro prodotto: la porta si chiude */
+  if(j.error==="not-found"||j.error==="wrong-product") licWrite(Object.assign({},LIC,{status:"disabled",checkedAt:Date.now()}));
 }
 
 async function proDeactivate(){
@@ -3997,8 +4062,8 @@ function renderPro(why){
       buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t(PLAY_PREPAID?"playTermsPre":"playTerms"))}</p>`;
     }
   }else if(BILLING.configured){
-    buy=`<button class="btn red" id="proBuyM">${esc(t("proBuyM").replace("{p}",BILLING.PRICE_MONTHLY))}</button>`+
-        `<button class="btn" id="proBuyY" style="margin-top:8px">${esc(t("proBuyY").replace("{p}",BILLING.PRICE_YEARLY))}</button>`;
+    if(BILLING.hasPlan("monthly")) buy+=`<button class="btn red" id="proBuyM">${esc(t("proBuyM").replace("{p}",BILLING.PRICE_MONTHLY))}</button>`;
+    if(BILLING.hasPlan("yearly")) buy+=`<button class="btn" id="proBuyY" style="margin-top:8px">${esc(t("proBuyY").replace("{p}",BILLING.PRICE_YEARLY))}</button>`;
   }else{
     /* Segnaposto non compilati: meglio dirlo che mandare l'utente su un
        negozio che non esiste. */
@@ -4745,7 +4810,8 @@ function renderProSettings(){
   }
   $("btnGoPro").style.display=pro?"none":"flex";
   const isPlay=!!(LIC&&LIC.kind==="play");
-  $("btnLicCheck").style.display=((pro&&LIC&&LIC.kind==="ls")||playOn())?"flex":"none";
+  $("btnLicCheck").style.display=((pro&&LIC&&(LIC.kind==="ls"||LIC.kind==="stripe"))||playOn())?"flex":"none";
+  $("btnLicCode").style.display=(LIC&&LIC.kind==="stripe"&&LIC.key)?"flex":"none";
   /* un abonament Play nu se „deconectează”: se anulează din Play */
   $("btnLicOff").style.display=(LIC&&LIC.key&&!isPlay)?"flex":"none";
   $("btnPlayManage").style.display=isPlay?"flex":"none";
@@ -4787,6 +4853,11 @@ $("btnLicCheck").addEventListener("click",async()=>{
   if(playOn()){ try{ EbanistAndroid.billingRestore(); }catch(e){} }
   await licRecheck(true);
   b.disabled=false; renderProSettings(); toast("✓");
+});
+$("btnLicCode").addEventListener("click",async()=>{
+  const c=(LIC&&LIC.key)||""; if(!c) return;
+  try{ await navigator.clipboard.writeText(c); }catch(e){}
+  toast(t("proCodeCopied").replace("{c}",c));
 });
 $("btnPlayManage").addEventListener("click",()=>{ try{ EbanistAndroid.billingManage(); }catch(e){} });
 $("btnLicOff").addEventListener("click",async()=>{
@@ -12176,7 +12247,7 @@ async function orBoot(){
     if(mark){ mark.innerHTML=`<img class="at-logo" src="${esc(c.logo)}" alt="${esc(c.name)}">`; }
   }
   /* Abonamentul nu-l privește pe clientul atelierului. */
-  ["btnGoPro","btnLicCheck","btnLicOff"].forEach(id=>{ const e=$(id); if(e) e.style.display="none"; });
+  ["btnGoPro","btnLicCheck","btnLicCode","btnLicOff"].forEach(id=>{ const e=$(id); if(e) e.style.display="none"; });
   const pl=$("proStateLine"); if(pl) pl.textContent=c.name;
 
   /* Corpul implicit: la deschiderea linkului trebuie să existe deja ceva,
@@ -12262,7 +12333,9 @@ async function bootDurable(){
      nell'email — il modulo si apre da solo, senza fargliela cercare. */
   let activate=false;
   try{ activate=new URLSearchParams(location.search).get("activate")==="1"; }catch(e){}
-  if(activate&&!isPro()){
+  if(await stripeReturn()){
+    /* l'esito l'ha gia mostrato stripeReturn */
+  }else if(activate&&!isPro()){
     openPro(null);
     try{ history.replaceState({},"",location.pathname); }catch(e){}
   }else if(!state.seenIntro){
@@ -12316,12 +12389,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.37.3"; /* APP_VER-MARKER */
+const APP_VER="4.38.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v79";
+const SW_CACHE="ebanist-v80";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

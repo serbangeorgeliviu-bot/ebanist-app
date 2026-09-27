@@ -188,6 +188,25 @@ inexistentă și cine vrea o cheie nu are unde scrie. Register.it le are
 incluse: panoul → pictograma **EMAIL** → activezi cutiile sau forwardingul.
 E primul lucru din lista lor de sugestii, și aici chiar e primul.
 
+### b0) Stripe Managed Payments — ce e configurat (27.09.2026, D-58)
+
+- Cont Stripe pe **Domus Renov SRL**, Managed Payments activ (Stripe e
+  *merchant of record*, 3,5% peste comisionul de card).
+- Produs **Ebanist Pro**, categoria *SaaS – business use*, două prețuri cu
+  TVA inclus: 9 €/lună (lookup key `ebanist_pro_monthly`) și 79 €/an
+  (`ebanist_pro_yearly`).
+- Linkuri de plată cu Managed Payments, redirect după plată:
+  `https://ebanist.com/app/?stripe=1&session_id={CHECKOUT_SESSION_ID}`.
+  Linkurile stau în `app/config/billing.js`.
+- **Netlify → Environment variables → `STRIPE_SECRET_KEY`**: o cheie
+  restricționată (citire pe Checkout Sessions și Subscriptions). Fără ea,
+  `/api/pro` răspunde 503 și Pro nu se activează după plată.
+- Activarea: la întoarcerea de la plată, aplicația cere `/api/pro` cu id-ul
+  sesiunii și primește abonamentul (`sub_…`). Același cod, copiat din Setări,
+  activează Pro pe alt dispozitiv.
+
+Secțiunea de mai jos (Lemon Squeezy) rămâne ca istoric.
+
 ### b) Lemon Squeezy — pașii exacți
 
 1. **Cont și magazin.** lemonsqueezy.com → **înlocuit de Stripe Managed Payments pe Domus Renov
