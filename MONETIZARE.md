@@ -225,9 +225,12 @@ oricum o cheie.
 **DE COMPLETAT**. Sunt schițe scrise de dezvoltator, nu documente verificate
 juridic. Ce trebuie decis:
 
-- **Cine facturează.** Deciziile spun *persoană fizică, separat de Domus
-  Renov*; textele scriu încă Domus Renov SRL. Trebuie ales și corectat în
-  ambele fișiere plus în subsolul landing-ului.
+- **Cine facturează — decis 27.09.2026: persoană fizică**, Serban George
+  Liviu (Racova, Bacău), separat de Domus Renov. Contul Lemon Squeezy se face
+  pe același nume. Termenii, rambursarea, confidențialitatea, subsolul
+  landing-ului și `publisher` din datele structurate spun deja asta.
+  Încadrarea fiscală a veniturilor (plăți de la Lemon Squeezy și Google Play)
+  rămâne de confirmat cu contabilul.
 - Legea aplicabilă și instanța competentă.
 - Formularea despre garanții — în UE nu se poate exclude totul.
 - Adresa `info@ebanist.com` trebuie să existe (azi în cod e activ doar

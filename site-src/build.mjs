@@ -144,7 +144,7 @@ function jsonld(L) {
       { "@type": "Offer", name: strip(t(L, "price.free")), price: "0", priceCurrency: "EUR" },
       { "@type": "Offer", name: "Pro", price: num(PRICE_M), priceCurrency: "EUR", priceSpecification: { "@type": "UnitPriceSpecification", price: num(PRICE_M), priceCurrency: "EUR", unitCode: "MON" } }
     ],
-    publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL, sameAs: [cfg.TIKTOK_URL] }
+    publisher: { "@type": "Person", name: "Serban George Liviu", email: cfg.EMAIL, sameAs: [cfg.TIKTOK_URL] }
   }).replace(/</g, "\\u003c");
 }
 function runtime(L) {
