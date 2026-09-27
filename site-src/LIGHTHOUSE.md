@@ -1,4 +1,4 @@
-# Audit Lighthouse · 27.09.2026
+# Audit Lighthouse · 27.09.2026 (paleta aplicației, intro cu ferăstrăul)
 
 Lighthouse 12, profil **mobil** (Moto G Power emulat, rețea Slow 4G simulată,
 CPU 4×). Serverul local imită Netlify: compresie brotli, `Cache-Control`,
@@ -6,10 +6,10 @@ CSP-ul din `netlify.toml`. Prima vizită, cu intro-ul pornit.
 
 | Pagina | Performanță | Accesibilitate | Best practices | SEO | LCP | FCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|---|
-| `/` (EN) | 98 | 100 | 100 | 100 | 2,2 s | 1,6 s | 0,003 | 40 ms |
-| `/ro/` | 98 | 100 | 100 | 100 | 2,1 s | 1,5 s | 0,003 | 70 ms |
-| `/it/` | 98 | 100 | 100 | 100 | 2,1 s | 1,5 s | 0,003 | 80 ms |
-| `/fr/` | 99 | 100 | 100 | 100 | 2,1 s | 1,5 s | 0,012 | 60 ms |
+| `/` (EN) | 98 | 100 | 100 | 100 | 2,1 s | — | 0,003 | 70 ms |
+| `/ro/` | 98 | 100 | 100 | 100 | 2,1 s | — | 0,003 | 70 ms |
+| `/it/` | 99 | 100 | 100 | 100 | 2,1 s | — | 0,003 | 60 ms |
+| `/fr/` | 97 | 100 | 100 | 100 | 2,2 s | — | 0,012 | 70 ms |
 | `/` desktop | 99 | 100 | 100 | 100 | 0,5 s | — | 0,03 | 0 ms |
 
 **LCP:** 2,1–2,2 s pe Slow 4G simulat (RTT 150 ms, 1,6 Mbps). Ținta de 2,0 s
@@ -33,3 +33,5 @@ prima randare.
 
 Rulare: `npx lighthouse http://localhost:8766/ro/ --form-factor=mobile`, cu un
 server care comprimă (vezi `site-src/README.md`).
+
+Pe paleta deschisă, griurile de text sunt `#4f584b` / `#5d6759` pe `#eaeee4`, pentru un contrast ≥ 4,5:1 (Accesibilitate 100).

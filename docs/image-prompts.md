@@ -4,8 +4,9 @@ Imaginile **de produs** (ecrane, PDF-uri, 3D) sunt toate reale și ies din
 aplicație (vezi `site-src/README.md`). Aici sunt doar fotografiile **de
 atmosferă**, care nu arată produsul.
 
-Până le generezi sau le fotografiezi, sloturile folosesc fotografii reale ale
-lucrărilor Domus Renov.
+Până sosesc fotografiile tale (atelier, piese, montaj), sloturile folosesc
+capturi din aplicație. **Nu se pun pe site fotografii de mobilier care nu e al
+nostru** (de exemplu mobilier IKEA dintr-o renovare).
 
 **Stil comun:** lumină laterală naturală, dintr-o fereastră la stânga; tonuri
 calde; profunzime mică de câmp; fără fețe; fără logo-uri sau mărci pe scule și
@@ -14,9 +15,9 @@ Se pun în `site/img/` și se leagă în `site-src/template.html`.
 
 | Slot | Unde | Acum | Raport |
 |---|---|---|---|
-| `who-1` | „Pentru cine”, tâmplar independent | `real-dressing-open` | 4:3 |
-| `who-2` | „Pentru cine”, atelier mic | `real-kitchen` | 4:3 |
-| `who-3` | „Pentru cine”, montator | `real-living` | 4:3 |
+| `who-1` | „Pentru cine”, tâmplar independent | captura: lista de debitare | 4:3 |
+| `who-2` | „Pentru cine”, atelier mic | foaia de etichete | 4:3 |
+| `who-3` | „Pentru cine”, montator | captura: modul Client | 4:3 |
 | `final-bg` | fundalul apelului final (opțional) | — | 16:9 |
 
 ## Prompturi
