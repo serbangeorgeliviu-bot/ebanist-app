@@ -1,0 +1,12 @@
+{
+  "_comment": "Singurul fișier de configurare al site-ului. PREȚUL NU e aici: îl dă app/config/billing.js (PRICE_MONTHLY, PRICE_YEARLY, linkurile Lemon Squeezy), același fișier pe care îl citește aplicația — un singur listă de prețuri. Vezi site-src/README.md.",
+  "SITE_URL": "https://ebanist.com",
+  "APP_URL": "/app/",
+  "LANGS": ["en", "ro", "it", "fr"],
+  "DEFAULT_LANG": "en",
+  "EMAIL": "info@ebanist.com",
+  "TIKTOK_URL": "https://www.tiktok.com/@ebanist.app",
+  "TIKTOK_HANDLE": "@ebanist.app",
+  "GOATCOUNTER": "https://ebanist.goatcounter.com/count",
+  "APP_VERSION": "v4.37"
+}

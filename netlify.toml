@@ -79,6 +79,29 @@
 # 301 e non 302: e un trasloco definitivo, e vogliamo che i browser lo
 # imparino invece di richiedere ogni volta.
 # ---------------------------------------------------------------------
+# Il sito di presentazione ha una pagina per lingua (/, /ro/, /it/, /fr/).
+# I vecchi link «/?lang=xx» (condivisi prima del 27.09.2026) vanno alla
+# pagina giusta; la scelta della lingua resta un suggerimento, mai un
+# redirect automatico.
+[[redirects]]
+  from = "/"
+  to = "/ro/"
+  status = 301
+  query = {lang = "ro"}
+  force = true
+[[redirects]]
+  from = "/"
+  to = "/it/"
+  status = 301
+  query = {lang = "it"}
+  force = true
+[[redirects]]
+  from = "/"
+  to = "/fr/"
+  status = 301
+  query = {lang = "fr"}
+  force = true
+
 [[redirects]]
   from = "/index.html"
   to = "/app/"
@@ -135,6 +158,13 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Le immagini della presentazione: nomi non versionati, quindi una
+# settimana e non «immutable» — se si rifà uno screenshot, arriva.
+[[headers]]
+  for = "/site/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
 [[headers]]
   for = "/fonts/*"
   [headers.values]
@@ -165,4 +195,4 @@
     # ENDPOINT PROPRIO per l'assistente (Impostazioni → Assistente AI), e una
     # lista chiusa di host lo romperebbe in silenzio. Se un giorno l'endpoint
     # si fissa, stringere qui e la prima cosa da fare.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://ebanist.goatcounter.com; media-src 'self' blob:; connect-src 'self' https:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

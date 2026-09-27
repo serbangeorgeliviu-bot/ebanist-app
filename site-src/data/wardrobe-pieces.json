@@ -1,0 +1,98 @@
+[
+ {
+  "el": "Fianco",
+  "l": 2200,
+  "w": 600,
+  "pz": 2,
+  "edge": "2L+2C",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Base / Cielo",
+  "l": 962,
+  "w": 600,
+  "pz": 2,
+  "edge": "1L",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Zoccolo",
+  "l": 962,
+  "w": 80,
+  "pz": 1,
+  "edge": "1L",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Tramezzo",
+  "l": 2082,
+  "w": 567,
+  "pz": 1,
+  "edge": "1L",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Ripiano mobile sez.2",
+  "l": 469,
+  "w": 567,
+  "pz": 2,
+  "edge": "1L",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Asta appendiabiti",
+  "l": 467,
+  "w": 25,
+  "pz": 1,
+  "edge": "",
+  "mat": "Accessorio — asta appendiabiti ovale"
+ },
+ {
+  "el": "Frontale cassetto interno",
+  "l": 210,
+  "w": 464,
+  "pz": 3,
+  "edge": "2L+2C",
+  "mat": "Nogal Victoria"
+ },
+ {
+  "el": "Fianco cassetto",
+  "l": 500,
+  "w": 165,
+  "pz": 6,
+  "edge": "1L",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Fronte/Retro cassetto",
+  "l": 384,
+  "w": 165,
+  "pz": 6,
+  "edge": "1L",
+  "mat": "Bianco"
+ },
+ {
+  "el": "Fondo cassetto",
+  "l": 384,
+  "w": 480,
+  "pz": 3,
+  "edge": "",
+  "mat": "HDF panel 5mm"
+ },
+ {
+  "el": "Anta",
+  "l": 2114,
+  "w": 495,
+  "pz": 2,
+  "edge": "2L+2C",
+  "mat": "Nogal Victoria"
+ },
+ {
+  "el": "Schienale",
+  "l": 2098,
+  "w": 978,
+  "pz": 1,
+  "edge": "",
+  "mat": "HDF panel White 3mm"
+ }
+]

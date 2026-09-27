@@ -18,7 +18,8 @@ const { chromium } = require("playwright");
 const ROOT = path.resolve(__dirname, "..");
 const MIME = { ".html":"text/html", ".js":"text/javascript", ".json":"application/json",
                ".webmanifest":"application/manifest+json", ".css":"text/css", ".svg":"image/svg+xml",
-               ".png":"image/png", ".ico":"image/x-icon" };
+               ".png":"image/png", ".ico":"image/x-icon", ".webp":"image/webp", ".avif":"image/avif",
+               ".jpg":"image/jpeg", ".woff2":"font/woff2", ".txt":"text/plain" };
 
 /* Gli header di sicurezza si leggono da netlify.toml e si servono anche qui:
    la prova deve girare nelle stesse condizioni della produzione, altrimenti
@@ -30,7 +31,9 @@ function serve() {
   return new Promise(res => {
     const s = http.createServer((req, rq) => {
       const rel = decodeURIComponent(req.url.split("?")[0]).replace(/^\/+/, "") || "index.html";
-      const f = path.join(ROOT, rel);
+      let f = path.join(ROOT, rel);
+      /* come Netlify: una cartella serve il suo index.html (/ro/, /it/, /fr/) */
+      if (f.startsWith(ROOT) && fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, "index.html");
       // niente traversal: si serve solo da dentro la cartella dell'app
       if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { rq.writeHead(404); return rq.end(); }
       const h = { "Content-Type": MIME[path.extname(f)] || "application/octet-stream",
@@ -1398,37 +1401,84 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   head("La pagina di presentazione e il trasloco degli indirizzi");
   {
-    const land = await (await fetch(`${ORIGIN}/index.html`)).text();
+    /* Il sito di presentazione: una pagina per lingua, generata da
+       site-src/build.mjs (template + i18n). Si controlla il file comitato. */
+    const LANGS = { en: "index.html", ro: "ro/index.html", it: "it/index.html", fr: "fr/index.html" };
+    const pages = {};
+    for (const [l, f] of Object.entries(LANGS)) pages[l] = fs.readFileSync(path.join(ROOT, f), "utf8");
+    const land = pages.en;
     ok("la radice non e piu l'app", !/APP_VER-MARKER/.test(land));
-    ok("ed e la pagina di presentazione", /data-t="h1"/.test(land));
-    for (const l of ["ro", "it", "fr", "en"])
-      ok(`la presentazione parla ${l}`, new RegExp('\\b' + l + ':\\{h1:').test(land));
-    ok("nessuno script di terzi oltre a Lemon Squeezy", !/<script[^>]+src="https?:\/\//.test(land));
+    for (const [l, html] of Object.entries(pages)) {
+      ok(`/${l === "en" ? "" : l + "/"} parla ${l}`, new RegExp(`<html lang="${l}"`).test(html));
+      ok(`/${l === "en" ? "" : l + "/"} ha hreflang per tutte e 4 + x-default`,
+         ["en", "ro", "it", "fr", "x-default"].every(h => new RegExp(`hreflang="${h}"`).test(html)));
+      ok(`/${l === "en" ? "" : l + "/"} manda all'app nella sua lingua`, new RegExp(`href="/app/\\?lang=${l}"`).test(html));
+      /* D-55: gratis = 1 progetto; il prezzo lo da billing.js, non la pagina */
+      ok(`/${l === "en" ? "" : l + "/"} non promette 2 progetti gratis`, !/\b2 (proiecte|progetti|projets|projects)\b/.test(html));
+    }
+    /* i file comitati sono quelli che il generatore produce oggi */
+    {
+      const tmp = fs.mkdtempSync(path.join(require("os").tmpdir(), "ebsite-"));
+      require("child_process").execFileSync(process.execPath, [path.join(ROOT, "site-src/build.mjs")], { env: { ...process.env, OUT_DIR: tmp }, stdio: "ignore" });
+      const stale = Object.values(LANGS).filter(f => fs.readFileSync(path.join(tmp, f), "utf8") !== fs.readFileSync(path.join(ROOT, f), "utf8"));
+      ok("le pagine comitate sono aggiornate (node site-src/build.mjs)", stale.length === 0, stale.join(", "));
+    }
+    /* ogni file citato (immagini, font, script, documenti) esiste nel repo */
+    const refs = new Set();
+    for (const html of Object.values(pages))
+      for (const m of html.matchAll(/(?:src|href|srcset|data-full)="([^"]+)"/g))
+        for (const part of m[1].split(",")) { const u = part.trim().split(/\s+/)[0].split("?")[0]; if (/^\/(site|fonts|app\/icons|app\/config)\//.test(u)) refs.add(u.slice(1)); }
+    const missing = [...refs].filter(f => !fs.existsSync(path.join(ROOT, f)));
+    ok("tutti i file citati dalla presentazione esistono", refs.size > 30 && missing.length === 0, missing.join(", "));
+    ok("nessuno script di terzi (anche GoatCounter e ospitato qui)", !/<script[^>]+src="https?:\/\//.test(land));
     /* Non si cerca la PAROLA «cookie» — un commento che spiega perche non
        ce ne sono la conterrebbe — ma quello che un banner e per forza:
        document.cookie, o un elemento che si chiama consenso/banner. */
-    ok("la pagina non scrive nessun cookie", !/document\.cookie/.test(land));
+    const mainJs = fs.readFileSync(path.join(ROOT, "site/js/main.js"), "utf8");
+    ok("la pagina non scrive nessun cookie", !/document\.cookie/.test(land + mainJs));
     ok("e non c'e nessun banner di consenso da chiudere",
        !/(consent|cookie-?banner|cookie-?consent|gdpr-?banner)/i.test(land));
+    const cfgSite = JSON.parse(fs.readFileSync(path.join(ROOT, "site-src/site.config.json"), "utf8"));
+    ok("il prezzo NON sta nella configurazione del sito (una sola fonte: billing.js)", !("PRO_PRICE" in cfgSite));
 
     const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
     ok("il vecchio /index.html rimanda a /app/", /from = "\/index\.html"[\s\S]{0,80}to = "\/app\/"/.test(toml));
+    ok("i vecchi /?lang=xx vanno alla pagina della lingua", ["ro", "it", "fr"].every(l => new RegExp(`to = "/${l}/"[\\s\\S]{0,60}query = \\{lang = "${l}"\\}`).test(toml)));
     /* Il dominio ufficiale e ebanist.com (D-41); ebanist.app resta solo come
        redirect. Un .app rimasto in un testo che il cliente legge — la
        filigrana, i termini, il redirect del pagamento — lo manderebbe su un
-       sito che non e piu quello. */
-    for (const f of ["index.html", "termeni.html", "privacy.html", "rambursare.html", "app/config/billing.js"]) {
-      const txt = fs.readFileSync(path.join(ROOT, f), "utf8");
+       sito che non e piu quello. Il nome dell'account TikTok (@ebanist.app)
+       non e un indirizzo. */
+    for (const f of [...Object.values(LANGS), "termeni.html", "privacy.html", "rambursare.html", "app/config/billing.js"]) {
+      const txt = fs.readFileSync(path.join(ROOT, f), "utf8").replace(/@ebanist\.app/g, "");
       ok(`${f} non nomina piu ebanist.app`, !/ebanist\.app/.test(txt),
          (txt.match(/[^\s"'<>]*ebanist\.app/) || [""])[0]);
     }
     const rootSw = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
     ok("il service worker in radice si disinstalla da solo", /unregister\(\)/.test(rootSw));
     ok("e NON cancella le cache di /app/", !/caches\.delete/.test(rootSw));
-    ok("e NON rimanda la radice all'app", /pathname === "\/"\) return/.test(rootSw));
-    ok("la presentazione non rimanda dentro chi ha gia progetti",
-       !/getItem\("tagliapro"\)[^\n]*\n?[^\n]*location\.replace/.test(land));
-    ok("entra da sola solo dall'icona installata", /display-mode: standalone/.test(land));
+    ok("e NON intercetta piu nessuna pagina del sito", !/addEventListener\("fetch"/.test(rootSw));
+    ok("la presentazione non rimanda dentro chi ha gia progetti", !/tagliapro/.test(mainJs));
+    ok("entra da sola solo dall'icona installata", /display-mode: standalone/.test(mainJs));
+    const appSw = fs.readFileSync(path.join(ROOT, "app/sw.js"), "utf8");
+    ok("il service worker dell'app resta in /app/ (non tocca il sito)", fs.existsSync(path.join(ROOT, "app/sw.js")) && !/\/site\//.test(appSw));
+
+    /* la presentazione nel browser: niente errori, CTA verso l'app */
+    {
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+      await ctx.addInitScript(() => { try { sessionStorage.setItem("eb_intro", "1"); } catch (e) {} });
+      const lp = await ctx.newPage(); const le = [];
+      lp.on("pageerror", e => le.push(String(e)));
+      for (const l of ["", "ro/"]) {
+        await lp.goto(`${ORIGIN}/${l}`); await lp.waitForTimeout(700);
+        const r = await lp.evaluate(() => ({ h1: document.querySelector("h1").textContent.trim(), cta: document.getElementById("ctaHero").getAttribute("href"), pro: document.getElementById("proAmt").textContent, over: document.documentElement.scrollWidth - innerWidth }));
+        ok(`/${l} si apre, titolo e CTA`, r.h1.length > 10 && /^\/app\/\?lang=/.test(r.cta), JSON.stringify(r));
+        ok(`/${l} niente scroll orizzontale a 390 px`, r.over <= 0, r.over);
+        ok(`/${l} il prezzo Pro e quello di billing.js`, r.pro.replace(/\s/g, "") === String(await lp.evaluate(() => BILLING.PRICE_MONTHLY)).replace(/\s/g, ""), r.pro);
+      }
+      ok("la presentazione non ha errori JavaScript", le.length === 0, le.join(" | "));
+      await ctx.close();
+    }
 
     const legal = ["termeni.html", "privacy.html", "rambursare.html"];
     for (const f of legal)

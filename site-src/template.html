@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<!-- GENERAT de site-src/build.mjs din site-src/template.html + site-src/i18n/{{@lang}}.json.
+     Nu edita aici: modificările se pierd la următorul build. -->
+<html lang="{{@lang}}" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14110F">
+<meta name="color-scheme" content="dark">
+<title>{{meta.title}}</title>
+<meta name="description" content="{{meta.desc}}">
+<link rel="canonical" href="{{@url}}">
+{{@hreflang}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ebanist">
+<meta property="og:locale" content="{{_locale}}">
+<meta property="og:url" content="{{@url}}">
+<meta property="og:title" content="{{meta.ogTitle}}">
+<meta property="og:description" content="{{meta.ogDesc}}">
+<meta property="og:image" content="{{@cfg.SITE_URL}}/site/og/og-{{@lang}}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/app/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/app/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/app/icons/apple-touch-icon-180.png">
+<link rel="preload" href="/fonts/site-fraunces-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>{{@css}}</style>
+<link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
+<script type="application/ld+json">{{@jsonld}}</script>
+<!-- Nessun cookie, nessun tracciatore di terzi: GoatCounter e ospitato qui
+     (/site/js/count.js) e non usa cookie, quindi nessun banner. -->
+<script data-goatcounter="{{@cfg.GOATCOUNTER}}" data-goatcounter-settings='{"allow_local":false}' async src="/site/js/count.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">{{nav.skip}}</a>
+
+<!-- ======================= INTRO ======================= -->
+<div class="intro" id="intro" hidden aria-hidden="true">
+  <canvas id="introCanvas"></canvas>
+  <div class="intro-labels" id="introLabels"></div>
+  <div class="intro-title"><span class="intro-word" id="introWord">Ebanist</span><span class="intro-tag">{{intro.tag}}</span></div>
+  <button type="button" class="intro-skip" id="introSkip">{{intro.skip}} <span aria-hidden="true">→</span></button>
+</div>
+
+<header class="top" id="top">
+  <div class="wrap bar">
+    <a class="brand" href="{{@home}}" aria-label="Ebanist">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7"/><path d="M9 9h14M9 16h10M9 23h14M9 9v14"/></svg>
+      <span>EBANIST</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#story">{{nav.how}}</a>
+      <a href="#features">{{nav.features}}</a>
+      <a href="#output">{{nav.output}}</a>
+      <a href="#pricing">{{nav.price}}</a>
+    </nav>
+    <span class="sp"></span>
+    <nav class="langs" aria-label="{{nav.langLabel}}">{{@langlinks}}</nav>
+    <a class="btn btn-laser btn-sm" href="{{@app}}" data-goatcounter-click="cta-header">{{nav.cta}}</a>
+  </div>
+</header>
+
+<main id="main">
+<!-- ======================= 1 · HERO ======================= -->
+<section class="hero" id="hero">
+  <div class="grid32" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="kicker mono">{{hero.kicker}}</p>
+      <h1 class="h-hero split">{{hero.h1}}</h1>
+      <p class="hero-sub">{{hero.sub}}</p>
+      <div class="cta-row">
+        <a class="btn btn-laser" id="ctaHero" href="{{@app}}" data-goatcounter-click="cta-hero">{{hero.cta}} <span aria-hidden="true">→</span></a>
+        <a class="btn btn-line" href="#story">{{hero.cta2}}</a>
+      </div>
+      <p class="proof mono">{{hero.proof}}</p>
+    </div>
+    <figure class="hero-stage" id="heroStage">
+      <picture class="hero-static">
+        <source type="image/avif" srcset="/site/img/hero-carcass-900.avif 900w, /site/img/hero-carcass-1400.avif 1400w" sizes="(max-width:900px) 100vw, 55vw">
+        <img src="/site/img/hero-carcass-1400.webp" srcset="/site/img/hero-carcass-900.webp 900w, /site/img/hero-carcass-1400.webp 1400w" sizes="(max-width:900px) 100vw, 55vw" width="1400" height="1400" alt="{{hero.alt}}" fetchpriority="high">
+      </picture>
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="dims" id="heroDims" aria-hidden="true"></div>
+      <figcaption class="drag mono">{{hero.drag}}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= 2 · PROBLEM ======================= -->
+<section class="prob sec" id="problem">
+  <div class="wrap">
+    <p class="kicker mono rv">{{prob.kicker}}</p>
+    <h2 class="h2 split">{{prob.h}}</h2>
+    <ol class="prob-list">
+      <li class="prob-row"><span class="mono n">01</span><p class="prob-old"><span>{{prob.1}}</span><i class="laser-cut" aria-hidden="true"></i></p><p class="prob-new">{{prob.1s}}</p></li>
+      <li class="prob-row"><span class="mono n">02</span><p class="prob-old"><span>{{prob.2}}</span><i class="laser-cut" aria-hidden="true"></i></p><p class="prob-new">{{prob.2s}}</p></li>
+      <li class="prob-row"><span class="mono n">03</span><p class="prob-old"><span>{{prob.3}}</span><i class="laser-cut" aria-hidden="true"></i></p><p class="prob-new">{{prob.3s}}</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= 3 · SCROLL STORY ======================= -->
+<section class="story" id="story" aria-labelledby="storyH">
+  <div class="wrap story-head">
+    <p class="kicker mono rv">{{story.kicker}}</p>
+    <h2 class="h2 split" id="storyH">{{story.h}}</h2>
+    <p class="mono note rv">{{story.note}}</p>
+  </div>
+  <div class="story-pin" id="storyPin">
+    <div class="story-rail" aria-hidden="true">
+      <svg class="rail-svg" viewBox="0 0 40 400" preserveAspectRatio="none"><path class="rail-base" d="M20 8V392"/><path class="rail-fill" id="railFill" d="M20 8V392" pathLength="1"/><path d="M12 8h16M12 392h16"/></svg>
+      <ol class="rail-ticks"><li>a</li><li>b</li><li>c</li><li>d</li><li>e</li></ol>
+    </div>
+    <div class="story-copy">
+      <article class="stp" data-i="0"><span class="mono k">a · {{story.a.k}}</span><h3>{{story.a.t}}</h3><p>{{story.a.d}}</p>
+        <dl class="params mono" id="params"><div><dt>L</dt><dd data-p="w">1000</dd></div><div><dt>H</dt><dd data-p="h">2200</dd></div><div><dt>P</dt><dd data-p="d">600</dd></div></dl></article>
+      <article class="stp" data-i="1"><span class="mono k">b · {{story.b.k}}</span><h3>{{story.b.t}}</h3><p>{{story.b.d}}</p></article>
+      <article class="stp" data-i="2"><span class="mono k">c · {{story.c.k}}</span><h3>{{story.c.t}}</h3><p>{{story.c.d}}</p></article>
+      <article class="stp" data-i="3"><span class="mono k">d · {{story.d.k}}</span><h3>{{story.d.t}}</h3><p>{{story.d.d}}</p></article>
+      <article class="stp" data-i="4"><span class="mono k">e · {{story.e.k}}</span><h3>{{story.e.t}}</h3><p>{{story.e.d}}</p></article>
+    </div>
+    <div class="story-view" id="storyView">
+      <canvas id="storyCanvas" aria-hidden="true"></canvas>
+      <div class="sv sv-img sv-a"><picture><source type="image/avif" srcset="/site/img/3d-closed-1200.avif"><img src="/site/img/3d-closed-1200.webp" width="1200" height="871" alt="" loading="lazy"></picture></div>
+      <div class="sv sv-img sv-b"><picture><source type="image/avif" srcset="/site/img/3d-explode-1200.avif"><img src="/site/img/3d-explode-1200.webp" width="1200" height="871" alt="" loading="lazy"></picture></div>
+      <div class="sv sv-c fitbox"><div class="sheet tbl-sheet fit">
+        <table class="cut mono">
+          <caption>{{story.lbl.proj}}</caption>
+          <thead><tr><th>#</th><th>{{story.tbl.el}}</th><th>{{story.tbl.l}}</th><th>{{story.tbl.w}}</th><th>{{story.tbl.q}}</th><th>{{story.tbl.edge}}</th><th class="mat">{{story.tbl.mat}}</th></tr></thead>
+          <tbody>{{@cutrows}}</tbody>
+        </table>
+        <p class="mono tot">{{story.tbl.total}}</p>
+      </div></div>
+      <div class="sv sv-d fitbox"><div class="sheet lbl-sheet fit" aria-hidden="true">{{@labels}}</div></div>
+      <div class="sv sv-e fitbox"><div class="sheet asm-sheet fit">{{@assembly}}</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 3b · TREI ECRANE ======================= -->
+<section class="sec devs" id="screens">
+  <div class="wrap">
+    <p class="kicker mono rv">{{dev.kicker}}</p>
+    <h2 class="h2 split">{{dev.h}}</h2>
+    <div class="dev-stage" aria-hidden="false">
+      <figure class="mock mock-pc rv"><div class="scr"><picture><source type="image/avif" srcset="/site/screens/{{@lang}}/pc-explode-1600.avif"><img src="/site/screens/{{@lang}}/pc-explode-1600.webp" width="1600" height="1000" alt="{{dev.alt3}}" loading="lazy"></picture></div></figure>
+      <figure class="mock mock-tab rv"><div class="scr"><picture><source type="image/avif" srcset="/site/screens/{{@lang}}/tablet-client-1600.avif"><img src="/site/screens/{{@lang}}/tablet-client-1600.webp" width="1600" height="1112" alt="{{dev.alt2}}" loading="lazy"></picture></div></figure>
+      <figure class="mock mock-ph rv"><div class="scr"><picture><source type="image/avif" srcset="/site/screens/{{@lang}}/phone-build-780.avif"><img src="/site/screens/{{@lang}}/phone-build-780.webp" width="780" height="1688" alt="{{dev.alt1}}" loading="lazy"></picture></div></figure>
+    </div>
+    <div class="dev-legend">
+      <div class="rv"><span class="mono k">01 · {{dev.1.k}}</span><h3>{{dev.1.t}}</h3><p>{{dev.1.d}}</p></div>
+      <div class="rv"><span class="mono k">02 · {{dev.2.k}}</span><h3>{{dev.2.t}}</h3><p>{{dev.2.d}}</p></div>
+      <div class="rv"><span class="mono k">03 · {{dev.3.k}}</span><h3>{{dev.3.t}}</h3><p>{{dev.3.d}}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4 · BENTO ======================= -->
+<section class="sec bento-sec" id="features">
+  <div class="wrap">
+    <p class="kicker mono rv">{{bento.kicker}}</p>
+    <h2 class="h2 split">{{bento.h}}</h2>
+    <div class="bento">
+      <article class="card c-types rv" tabindex="0">
+        <h3>{{bento.types.t}}</h3><p>{{bento.types.d}}</p>
+        <ol class="types mono">{{@types}}</ol>
+      </article>
+      <article class="card c-hw rv" tabindex="0">
+        <h3>{{bento.hw.t}}</h3><p>{{bento.hw.d}}</p>
+        <table class="hw mono">
+          <tr><td>Blum CLIP top BLUMOTION 110°</td><td><span class="code">71B3550</span></td><td>10</td></tr>
+          <tr><td>Blum TANDEM BLUMOTION</td><td><span class="code">560H····B</span></td><td>3</td></tr>
+          <tr><td>Häfele shelf support ø5</td><td><span class="code">282.24.720</span></td><td>8</td></tr>
+          <tr><td>Häfele AXILO 78</td><td><span class="code">637.79.xxx</span></td><td>4</td></tr>
+          <tr><td>Häfele Minifix 15</td><td><span class="code">262.26.033</span></td><td>12</td></tr>
+        </table>
+      </article>
+      <article class="card c-mat rv" tabindex="0">
+        <h3>{{bento.mat.t}}</h3><p>{{bento.mat.d}}</p>
+        <div class="swatches">{{@swatches}}</div>
+        <div class="panel3d" aria-hidden="true"><i></i></div>
+      </article>
+      <article class="card c-lbl rv" tabindex="0">
+        <div class="crop crop-lbl"><picture><source type="image/avif" srcset="/site/docs/{{@lang}}/etichete-0-720.avif"><img src="/site/docs/{{@lang}}/etichete-0-720.webp" width="720" height="1019" alt="" loading="lazy"></picture></div>
+        <h3>{{bento.lbl.t}}</h3><p>{{bento.lbl.d}}</p>
+      </article>
+      <article class="card c-draw rv" tabindex="0">
+        <div class="crop crop-draw"><picture><source type="image/avif" srcset="/site/docs/{{@lang}}/desen-0-720.avif"><img src="/site/docs/{{@lang}}/desen-0-720.webp" width="720" height="1019" alt="" loading="lazy"></picture>
+          <svg class="dimline" viewBox="0 0 200 20" aria-hidden="true"><path d="M4 10H196M4 4v12M196 4v12M4 10l6-3v6zM196 10l-6-3v6z"/><text x="100" y="7">1000</text></svg></div>
+        <h3>{{bento.draw.t}}</h3><p>{{bento.draw.d}}</p>
+      </article>
+      <article class="card c-room rv" tabindex="0">
+        <div class="room"><picture><source type="image/avif" srcset="/site/img/3d-closed-1200.avif"><img src="/site/img/3d-closed-1200.webp" width="1200" height="871" alt="" loading="lazy"></picture></div>
+        <h3>{{bento.room.t}}</h3><p>{{bento.room.d}}</p>
+      </article>
+      <article class="card c-lab rv" tabindex="0">
+        <h3>{{bento.lab.t}}</h3><p>{{bento.lab.d}}</p>
+<pre class="json mono" aria-label="JSON"><code>{"ebanist_lab": 1,
+ "pieces": [
+  {"modulo":"Armadio","elemento":"Fianco",
+   "lung":2200,"larg":600,"pz":2,
+   "bordo":"2L+2C","materiale":"Bianco"},
+  {"elemento":"Anta","lung":2114,
+   "larg":495,"pz":2,"bordo":"2L+2C",
+   "materiale":"Nogal Victoria"}, …
+ ]}</code></pre>
+      </article>
+      <article class="card c-off rv" tabindex="0">
+        <h3>{{bento.off.t}}</h3><p>{{bento.off.d}}</p>
+        <dl class="off mono"><div><dt>{{bento.off.l1}}</dt><dd>0 KB</dd></div><div><dt>{{bento.off.l2}}</dt><dd>—</dd></div><div><dt>{{bento.off.l3}}</dt><dd>.json</dd></div></dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5 · OUTPUT ======================= -->
+<section class="sec paper" id="output">
+  <div class="grid32 grid32-paper" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="kicker mono rv">{{out.kicker}}</p>
+    <h2 class="h2 split">{{out.h}}</h2>
+    <p class="sub rv">{{out.sub}}</p>
+  </div>
+  <div class="pile" id="pile">{{@sheets}}</div>
+</section>
+
+<dialog class="lightbox" id="lightbox" aria-label="{{out.kicker}}">
+  <button type="button" class="lb-close" id="lbClose" aria-label="{{out.close}}">×</button>
+  <button type="button" class="lb-nav lb-prev" id="lbPrev" aria-label="{{out.prev}}">←</button>
+  <figure><img id="lbImg" src="" alt=""><figcaption class="mono" id="lbCap"></figcaption></figure>
+  <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="{{out.next}}">→</button>
+</dialog>
+
+<!-- ======================= 6 · WHO ======================= -->
+<section class="sec who" id="who">
+  <div class="wrap">
+    <p class="kicker mono rv">{{who.kicker}}</p>
+    <h2 class="h2 split">{{who.h}}</h2>
+    <div class="who-grid">
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/real-dressing-open-900.avif"><img src="/site/img/real-dressing-open-900.webp" width="900" height="675" alt="{{who.alt1}}" loading="lazy"></picture></div><span class="mono k">01 · {{who.1.k}}</span><h3>{{who.1.t}}</h3><p>{{who.1.d}}</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/real-kitchen-900.avif"><img src="/site/img/real-kitchen-900.webp" width="900" height="675" alt="{{who.alt2}}" loading="lazy"></picture></div><span class="mono k">02 · {{who.2.k}}</span><h3>{{who.2.t}}</h3><p>{{who.2.d}}</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/real-living-900.avif"><img src="/site/img/real-living-900.webp" width="900" height="675" alt="{{who.alt3}}" loading="lazy"></picture></div><span class="mono k">03 · {{who.3.k}}</span><h3>{{who.3.t}}</h3><p>{{who.3.d}}</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 7 · PRICING ======================= -->
+<section class="sec pricing" id="pricing">
+  <div class="wrap">
+    <p class="kicker mono rv">{{price.kicker}}</p>
+    <h2 class="h2 split">{{price.h}}</h2>
+    <div class="tiers">
+      <article class="tier rv">
+        <span class="mono name">{{price.free}}</span>
+        <div class="amt">{{price.freeAmt}}</div>
+        <p class="per">{{price.freePer}}</p>
+        <ul><li>{{price.f1}}</li><li>{{price.f2}}</li><li>{{price.f3}}</li></ul>
+        <a class="btn btn-line" href="{{@app}}" data-goatcounter-click="cta-price-free">{{price.freeBtn}}</a>
+      </article>
+      <article class="tier tier-pro rv">
+        <span class="mono name">{{price.pro}}</span>
+        <div class="amt" id="proAmt">{{@priceMonthly}}</div>
+        <p class="per">{{price.proPer}}</p>
+        <ul><li>{{price.p1}}</li><li>{{price.p2}}</li><li>{{price.p3}}</li><li>{{price.p4}}</li></ul>
+        <a class="btn btn-laser" id="buyM" href="{{@app}}&amp;activate=1" data-goatcounter-click="cta-price-pro">{{price.proBtn}}</a>
+        <p class="yearly"><a id="buyY" href="{{@app}}&amp;activate=1" data-goatcounter-click="cta-price-yearly">{{@yearly}}</a></p>
+      </article>
+    </div>
+    <p class="vat">{{price.vat}}</p>
+  </div>
+</section>
+
+<!-- ======================= 8 · FAQ ======================= -->
+<section class="sec faq-sec" id="faq">
+  <div class="wrap faq-wrap">
+    <div><p class="kicker mono rv">{{faq.kicker}}</p><h2 class="h2 split">{{faq.h}}</h2></div>
+    <div class="faq">
+      <details><summary>{{faq.q1}}</summary><p>{{faq.a1}}</p></details>
+      <details><summary>{{faq.q2}}</summary><p>{{faq.a2}}</p></details>
+      <details><summary>{{faq.q3}}</summary><p>{{faq.a3}}</p></details>
+      <details><summary>{{faq.q4}}</summary><p>{{faq.a4}}</p></details>
+      <details><summary>{{faq.q5}}</summary><p>{{faq.a5}}</p></details>
+      <details><summary>{{faq.q6}}</summary><p>{{faq.a6}}</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 9 · CTA ======================= -->
+<section class="final" id="final">
+  <div class="grid32" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="kicker mono rv">{{cta.kicker}}</p>
+    <h2 class="h-final split">{{cta.h}}</h2>
+    <svg class="final-dim" viewBox="0 0 600 24" aria-hidden="true"><path d="M2 12H598M2 4v16M598 4v16M2 12l8-4v8zM598 12l-8-4v8z"/></svg>
+    <a class="btn btn-laser btn-xl" href="{{@app}}" data-goatcounter-click="cta-final">{{cta.btn}} <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div>
+      <p class="foot-by">{{foot.by}}</p>
+      <p class="mono foot-legal">{{foot.legal}}</p>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="/termeni.html">{{foot.terms}}</a>
+      <a href="/privacy.html">{{foot.privacy}}</a>
+      <a href="/rambursare.html">{{foot.refund}}</a>
+      <a href="mailto:{{@cfg.EMAIL}}">{{@cfg.EMAIL}}</a>
+      <a href="{{@cfg.TIKTOK_URL}}" rel="noopener" target="_blank">TikTok {{@cfg.TIKTOK_HANDLE}}</a>
+    </nav>
+    <nav class="langs langs-foot" aria-label="{{nav.langLabel}}">{{@langlinks}}</nav>
+  </div>
+</footer>
+
+<div class="suggest" id="suggest" hidden><span id="suggestText"></span> <a id="suggestGo" href="/"></a><button type="button" id="suggestX" aria-label="{{suggest.close}}">×</button></div>
+<div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
+
+<script src="/app/config/billing.js"></script>
+<script>window.EB={{@runtime}};</script>
+<script src="/site/js/main.js?v={{@ver}}" defer></script>
+</body>
+</html>
