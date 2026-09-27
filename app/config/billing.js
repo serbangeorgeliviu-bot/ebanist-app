@@ -1,86 +1,54 @@
 /* =====================================================================
-   Ebanist — configurazione dell'incasso (Lemon Squeezy)
+   Ebanist — configurarea încasării pe web (Stripe Managed Payments, D-58)
    ---------------------------------------------------------------------
-   QUESTO FILE VA COMPILATO A MANO da Liviu, una volta sola, coi valori
-   veri presi dal cruscotto Lemon Squeezy. Finche i segnaposto restano
-   quelli qui sotto, l'app se ne accorge (`BILLING.configured` e false):
-   il bottone «Sblocca Pro» non porta a una pagina rotta, dice che il
-   negozio non e ancora aperto e propone l'attivazione manuale.
+   Plata pe web trece prin linkurile de plată Stripe, create în
+   cruscotto cu „Enable Managed Payments” bifat: Stripe e merchant of
+   record (facturează clientul, colectează TVA-ul). Contul e pe Domus
+   Renov SRL.
 
-   I passi esatti stanno in MONETIZARE.md, sezione «Lemon Squeezy».
+   Aici stau doar cele două linkuri PUBLICE (buy.stripe.com/…). Nicio
+   cheie: cea secretă stă numai în Netlify (STRIPE_SECRET_KEY) și o
+   folosește doar funcția /api/pro, care verifică plata.
 
-   Qui NON ci sono chiavi segrete e non ce ne devono finire mai. Le tre
-   rotte di licenza (activate / validate / deactivate) sono pubbliche di
-   progetto: vogliono solo `Accept: application/json` e un corpo
-   form-urlencoded. La chiave API di Lemon Squeezy serve ad altro — a
-   leggere ordini e clienti — e non ha niente da fare in un browser.
+   Fiecare link are în cruscotto, la „After payment”, redirectul:
+     https://ebanist.com/app/?stripe=1&session_id={CHECKOUT_SESSION_ID}
+   iar prețul lui are lookup key `ebanist_pro_monthly` / `ebanist_pro_yearly`
+   — după ea recunoaște /api/pro că plata e pentru Ebanist Pro.
+
+   În aplicația Android nimic de aici nu apare: acolo plata e numai prin
+   Google Play (D-54).
    ===================================================================== */
 (function (global) {
   "use strict";
 
   var BILLING = {
-    /* --- da compilare ------------------------------------------------ */
+    /* Linkurile de plată. Un link lipsă (null) = butonul lui nu apare. */
+    LINK_MONTHLY: "https://buy.stripe.com/9B6bJ1a426IbcZM9hAeQM00",
+    LINK_YEARLY: "https://buy.stripe.com/eVqfZh1xwc2v2l8fFYeQM01",
 
-    /* Il sottodominio del negozio, quello che sta prima di
-       .lemonsqueezy.com. Cruscotto → Settings → Stores. */
-    LS_STORE: "REPLACE-ME-store",
-
-    /* Gli UUID delle due varianti del prodotto «Ebanist Pro».
-       Cruscotto → Products → Ebanist Pro → Variants → Share → il link
-       finisce con /checkout/buy/<UUID>: e quello. */
-    LS_VARIANT_MONTHLY: "REPLACE-ME-variant-uuid-monthly",
-    LS_VARIANT_YEARLY: "REPLACE-ME-variant-uuid-yearly",
-
-    /* Il variant id NUMERICO dell'abbonamento (Products → Variants, sta
-       nell'URL della variante). Non serve al checkout: serve a
-       riconoscere, in fase di attivazione, che la chiave incollata e di
-       Ebanist Pro e non di un altro prodotto dello stesso negozio.
-       Lasciato a null, il controllo non si fa. */
-    LS_VARIANT_ID: null,
-
-    /* --- prezzi mostrati --------------------------------------------- */
-    /* Solo per il testo a schermo. Il prezzo che si paga e quello del
-       checkout: questi due numeri devono COMBACIARE con Lemon Squeezy,
-       e se un giorno divergono comanda Lemon Squeezy. */
+    /* --- prețuri afișate ---------------------------------------------- */
+    /* Numai pentru textul de pe ecran. Prețul plătit e cel din Stripe
+       (cu TVA inclus): cele două trebuie să COINCIDĂ, iar dacă diferă
+       comandă Stripe. */
     PRICE_MONTHLY: "9 €",
-    PRICE_YEARLY: "79 €",
-
-    /* --- costanti del protocollo (non toccare senza motivo) ---------- */
-    LS_API: "https://api.lemonsqueezy.com/v1/licenses",
-
-    /* Dove torna il cliente dopo il pagamento. Va incollato uguale nel
-       cruscotto: Products → Ebanist Pro → Redirect after purchase.
-       Il `?activate=1` e quello che fa aprire da solo il modulo con la
-       chiave, invece di scaricare l'utente sulla home senza istruzioni. */
-    RETURN_URL: "https://ebanist.com/app/?activate=1"
+    PRICE_YEARLY: "79 €"
   };
 
-  /* Un segnaposto non compilato non deve diventare un link a un negozio
-     che non esiste: si controlla il prefisso, non la lunghezza. */
-  function isPlaceholder(v) {
-    return !v || String(v).indexOf("REPLACE-ME") === 0;
+  function isLink(v) {
+    return typeof v === "string" && /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9]+$/.test(v);
   }
-  BILLING.configured = !isPlaceholder(BILLING.LS_STORE) &&
-    !isPlaceholder(BILLING.LS_VARIANT_MONTHLY) &&
-    !isPlaceholder(BILLING.LS_VARIANT_YEARLY);
+  BILLING.hasPlan = function (plan) {
+    return isLink(plan === "yearly" ? BILLING.LINK_YEARLY : BILLING.LINK_MONTHLY);
+  };
+  BILLING.configured = BILLING.hasPlan("monthly") || BILLING.hasPlan("yearly");
 
-  /* L'indirizzo del checkout, costruito qui e in nessun altro posto.
-     `PRO_BUY_URL` di prima era una costante scritta a mano: adesso e
-     questa funzione, e chi la chiama non sa niente di Lemon Squeezy.
-
-     `checkout[custom][app]=ebanist` viaggia fino al webhook e all'ordine:
-     e cosi che, il giorno che sullo stesso negozio ci sara anche
-     Plaquist, si sapra da quale app e arrivato l'acquisto.  */
+  /* Adresa de plată, construită aici și nicăieri altundeva: cine o
+     cheamă nu știe nimic de Stripe. Emailul, când îl știm, se
+     precompletează — un câmp mai puțin de scris cu telefonul în mână. */
   BILLING.buyUrl = function (plan, email) {
-    if (!BILLING.configured) return "";
-    var v = plan === "yearly" ? BILLING.LS_VARIANT_YEARLY : BILLING.LS_VARIANT_MONTHLY;
-    var u = "https://" + BILLING.LS_STORE + ".lemonsqueezy.com/checkout/buy/" + v;
-    var q = ["checkout[custom][app]=ebanist"];
-    if (email) q.push("checkout[email]=" + encodeURIComponent(email));
-    /* Il carrello con un prodotto solo non ha bisogno di essere sfogliato:
-       si va dritti al pagamento. */
-    q.push("embed=0");
-    return u + "?" + q.join("&");
+    if (!BILLING.hasPlan(plan)) return "";
+    var u = plan === "yearly" ? BILLING.LINK_YEARLY : BILLING.LINK_MONTHLY;
+    return email ? u + "?prefilled_email=" + encodeURIComponent(email) : u;
   };
 
   global.BILLING = BILLING;

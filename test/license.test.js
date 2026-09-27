@@ -185,3 +185,44 @@ describe("La risposta del server, ridotta a quello che si conserva", () => {
     assert.strictEqual(lic.email, "x@y.z");
   });
 });
+
+describe("Abbonamenti Stripe (D-58)", () => {
+  const NOW = Date.parse("2026-09-27T12:00:00Z");
+  const st = o => Object.assign({ kind: "stripe", key: "sub_1AbCdEfGhIjKlMn", activated: true, status: "active", expiresAt: "2026-10-27T12:00:00Z", checkedAt: NOW }, o);
+
+  test("un id sub_ e 'stripe', maiuscole e minuscole comprese, spazi tolti", () => {
+    assert.strictEqual(L.keyKind("sub_1AbCdEfGhIjKlMn"), "stripe");
+    assert.strictEqual(L.keyKind("  sub_1AbCdEfGhIjKlMn \n"), "stripe");
+    assert.strictEqual(L.normalize(" sub_1AbCdEfGhIjKlMn "), "sub_1AbCdEfGhIjKlMn");
+    assert.strictEqual(L.keyKind("sub_"), "unknown");
+    assert.strictEqual(L.keyKind("cs_live_abc"), "unknown");
+  });
+  test("attivo e nel periodo: Pro", () => {
+    assert.deepStrictEqual(L.proFrom(st({}), NOW), { pro: true, reason: "ok" });
+  });
+  test("scaduto per Stripe: niente Pro", () => {
+    assert.strictEqual(L.proFrom(st({ status: "expired" }), NOW).pro, false);
+  });
+  test("pagamento mai riuscito ('inactive'): niente Pro", () => {
+    assert.strictEqual(L.proFrom(st({ status: "inactive" }), NOW).pro, false);
+  });
+  test("oltre il rinnovo senza risposta: tolleranza, poi basta", () => {
+    assert.strictEqual(L.proFrom(st({ expiresAt: "2026-09-20T12:00:00Z" }), NOW).reason, "grace");
+    assert.strictEqual(L.proFrom(st({ expiresAt: "2026-09-01T12:00:00Z" }), NOW).reason, "lapsed");
+  });
+  test("si ricontrolla ogni 7 giorni, e subito dopo il rinnovo (max una volta al giorno)", () => {
+    assert.strictEqual(L.needsRecheck(st({}), NOW), false);
+    assert.strictEqual(L.needsRecheck(st({ checkedAt: NOW - 8 * 864e5 }), NOW), true);
+    assert.strictEqual(L.needsRecheck(st({ expiresAt: "2026-09-26T12:00:00Z", checkedAt: NOW - 2 * 864e5 }), NOW), true);
+    assert.strictEqual(L.needsRecheck(st({ expiresAt: "2026-09-26T12:00:00Z", checkedAt: NOW - 3600e3 }), NOW), false);
+  });
+  test("la risposta di /api/pro diventa una licenza", () => {
+    const lic = L.shapeFromStripe({ ok: true, sub: "sub_1AbCdEfGhIjKlMn", status: "active", periodEnd: "2026-10-27T12:00:00.000Z", plan: "yearly", email: "a@b.c" }, null);
+    assert.strictEqual(lic.kind, "stripe");
+    assert.strictEqual(lic.key, "sub_1AbCdEfGhIjKlMn");
+    assert.strictEqual(lic.plan, "yearly");
+    assert.strictEqual(lic.email, "a@b.c");
+    /* una reverifica senza email non cancella quella che c'era */
+    assert.strictEqual(L.shapeFromStripe({ ok: true, sub: lic.key, status: "active", periodEnd: null }, lic).email, "a@b.c");
+  });
+});

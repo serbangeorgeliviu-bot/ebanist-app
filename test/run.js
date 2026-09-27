@@ -1485,7 +1485,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       ok(`la pagina ${f} esiste`, fs.existsSync(path.join(ROOT, f)));
     for (const f of legal) {
       const txt = fs.readFileSync(path.join(ROOT, f), "utf8");
-      ok(`${f} nomina Lemon Squeezy come venditore`, /Lemon Squeezy/.test(txt));
+      ok(`${f} nomina Stripe (Managed Payments) come venditore`, /Stripe/.test(txt) && !/Lemon Squeezy/.test(txt));
+      ok(`${f} nomina Domus Renov SRL come fornitore`, /Domus Renov SRL/.test(txt));
     }
   }
 
@@ -1493,23 +1494,68 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   {
     const b = await pg.evaluate(() => ({
       configurata: BILLING.configured,
-      urlVuoto: BILLING.buyUrl("monthly", "") === "",
-      /* con dei valori finti si controlla la FORMA dell'indirizzo, che e
-         l'unica cosa che possiamo provare senza il negozio vero */
-      forma: (function () {
-        const keep = { s: BILLING.LS_STORE, m: BILLING.LS_VARIANT_MONTHLY, c: BILLING.configured };
-        BILLING.LS_STORE = "prova"; BILLING.LS_VARIANT_MONTHLY = "abcd-1234"; BILLING.configured = true;
-        const u = BILLING.buyUrl("monthly", "mario@example.com");
-        BILLING.LS_STORE = keep.s; BILLING.LS_VARIANT_MONTHLY = keep.m; BILLING.configured = keep.c;
-        return u;
+      mensile: BILLING.buyUrl("monthly", ""),
+      conEmail: BILLING.buyUrl("monthly", "mario@example.com"),
+      /* un link mancante non diventa un bottone rotto */
+      annuale: (function () {
+        const keep = BILLING.LINK_YEARLY; BILLING.LINK_YEARLY = null;
+        const u = BILLING.buyUrl("yearly", ""); const h = BILLING.hasPlan("yearly");
+        BILLING.LINK_YEARLY = keep; return { u, h };
+      })(),
+      finto: (function () {
+        const keep = BILLING.LINK_MONTHLY; BILLING.LINK_MONTHLY = "https://example.com/buy";
+        const u = BILLING.buyUrl("monthly", ""); BILLING.LINK_MONTHLY = keep; return u;
       })()
     }));
-    ok("i segnaposto non sono ancora stati compilati", b.configurata === false);
-    ok("e con i segnaposto NON si costruisce un link rotto", b.urlVuoto);
-    ok("l'indirizzo del checkout ha la forma di Lemon Squeezy",
-       /^https:\/\/prova\.lemonsqueezy\.com\/checkout\/buy\/abcd-1234\?/.test(b.forma), b.forma);
-    ok("porta con se l'app di provenienza", /checkout%5Bcustom%5D%5Bapp%5D=ebanist|checkout\[custom\]\[app\]=ebanist/.test(b.forma));
-    ok("e l'email, quando la sappiamo", /checkout(%5B|\[)email/.test(b.forma));
+    ok("il link mensile Stripe e configurato", b.configurata === true);
+    ok("l'indirizzo e un link di pagamento Stripe", /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9]+$/.test(b.mensile), b.mensile);
+    ok("e porta l'email precompilata, quando la sappiamo", /\?prefilled_email=mario%40example\.com$/.test(b.conEmail), b.conEmail);
+    ok("un link mancante non produce un indirizzo", b.annuale.u === "" && b.annuale.h === false);
+    ok("un indirizzo che non e buy.stripe.com non passa", b.finto === "");
+  }
+
+  head("Stripe — il ritorno dal pagamento e il codice sub_");
+  {
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const sp = await ctx.newPage();
+    const se = []; sp.on("pageerror", e => se.push(String(e)));
+    const futuro = new Date(Date.now() + 30 * 864e5).toISOString();
+    /* /api/pro finta: la funzione vera parla con Stripe e ha bisogno della
+       chiave segreta, che nei test non c'e. Qui si prova l'app. */
+    const calls = [];
+    await sp.route("**/api/pro", async route => {
+      const body = JSON.parse(route.request().postData() || "{}"); calls.push(body);
+      if (body.session === "cs_test_pagata12345" || body.sub === "sub_1AbCdEfGhIjKlMn")
+        return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, sub: "sub_1AbCdEfGhIjKlMn", status: "active", periodEnd: futuro, plan: "monthly", email: "mario@example.com" }) });
+      if (body.sub === "sub_1ScadutoXyz12345")
+        return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, sub: body.sub, status: "expired", periodEnd: "2026-01-01T00:00:00.000Z", plan: "monthly" }) });
+      return route.fulfill({ status: 404, contentType: "application/json", body: JSON.stringify({ ok: false, error: "not-found" }) });
+    });
+    await sp.goto(`${ORIGIN}/app/index.html?stripe=1&session_id=cs_test_pagata12345`);
+    await sp.waitForTimeout(3500);
+    const r = await sp.evaluate(() => ({ pro: isPro(), kind: LIC && LIC.kind, key: LIC && LIC.key, email: LIC && LIC.email, url: location.search }));
+    ok("al ritorno da Stripe il Pro si attiva da solo", r.pro && r.kind === "stripe" && r.key === "sub_1AbCdEfGhIjKlMn", JSON.stringify(r));
+    ok("e l'indirizzo viene ripulito", r.url === "", r.url);
+    ok("all'API va solo l'id della sessione", calls.length >= 1 && calls[0].session === "cs_test_pagata12345" && Object.keys(calls[0]).length === 1, JSON.stringify(calls[0]));
+    const s2 = await sp.evaluate(async () => {
+      closeSheets(); openSheet("shSettings"); renderProSettings();
+      const o = { copia: getComputedStyle(document.getElementById("btnLicCode")).display !== "none",
+                  ricontrolla: getComputedStyle(document.getElementById("btnLicCheck")).display !== "none" };
+      licWrite(null);
+      o.buono = await proActivate("  sub_1AbCdEfGhIjKlMn ");
+      o.proBuono = isPro();
+      licWrite(null);
+      o.scaduto = await proActivate("sub_1ScadutoXyz12345");
+      o.inesistente = await proActivate("sub_1NonEsisteAbc123");
+      o.proDopo = isPro();
+      closeSheets(); return o;
+    });
+    ok("in Impostazioni c'e «Copia il codice» e «Ricontrolla»", s2.copia && s2.ricontrolla, JSON.stringify(s2));
+    ok("il codice sub_ incollato su un altro dispositivo attiva il Pro", s2.buono.ok && s2.proBuono);
+    ok("un abbonamento scaduto non attiva", s2.scaduto.ok === false && !!s2.scaduto.msg);
+    ok("un codice inesistente non attiva", s2.inesistente.ok === false && s2.proDopo === false);
+    ok("nessun errore JavaScript nel flusso Stripe", se.length === 0, se.join(" | "));
+    await ctx.close();
   }
 
   /* ===================================================================== */
@@ -2036,7 +2082,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       openPro("pdf"); await w(200);
       const body = document.getElementById("proBody");
       o.pretPlay = /9,99 €/.test(body.textContent) && /89,99 €/.test(body.textContent);
-      o.faraLemon = !body.querySelector("#proBuyM") && !body.querySelector("#proBuyY") && !/lemonsqueezy/i.test(body.innerHTML);
+      o.faraLemon = !body.querySelector("#proBuyM") && !body.querySelector("#proBuyY") && !/lemonsqueezy|buy\.stripe\.com/i.test(body.innerHTML);
       o.faraRambursare = !body.querySelector('a[href="/rambursare.html"]');
       o.conditii = body.textContent.length > 0 && !!body.querySelector("[data-play=monthly]");
       o.textAvans = PLAY_PREPAID ? (/fără reînnoire automată|senza rinnovo|no automatic renewal|sans renouvellement/.test(body.textContent) && !/reînnoire automată prin|rinnovo automatico tramite|Auto-renewing|renouvellement automatique via/.test(body.textContent)) : true;

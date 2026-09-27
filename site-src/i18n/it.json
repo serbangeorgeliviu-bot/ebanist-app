@@ -175,7 +175,7 @@
  "price.p4": "Piani di taglio con i ritagli in magazzino",
  "price.proBtn": "Passa a Pro",
  "price.yearly": "Oppure {y} all'anno — due mesi in regalo",
- "price.vat": "Il pagamento lo gestisce Lemon Squeezy, che è il venditore registrato. Disdici quando vuoi; i progetti restano tuoi.",
+ "price.vat": "Il pagamento lo gestisce Stripe, che è il venditore registrato; IVA inclusa. Disdici quando vuoi; i progetti restano tuoi.",
  "faq.kicker": "Domande",
  "faq.h": "Quello che chiedono i falegnami.",
  "faq.q1": "Devo installare qualcosa?",

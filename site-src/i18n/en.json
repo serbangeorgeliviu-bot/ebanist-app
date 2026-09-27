@@ -175,7 +175,7 @@
  "price.p4": "Cutting plans with offcuts kept in stock",
  "price.proBtn": "Get Pro",
  "price.yearly": "Or {y} a year — two months free",
- "price.vat": "Payment is handled by Lemon Squeezy, the registered seller. Cancel any time; your projects stay yours.",
+ "price.vat": "Payment is handled by Stripe, the registered seller; VAT included. Cancel any time; your projects stay yours.",
  "faq.kicker": "Questions",
  "faq.h": "What cabinetmakers ask.",
  "faq.q1": "Do I need to install anything?",

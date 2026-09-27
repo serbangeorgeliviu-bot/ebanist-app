@@ -188,10 +188,29 @@ inexistentă și cine vrea o cheie nu are unde scrie. Register.it le are
 incluse: panoul → pictograma **EMAIL** → activezi cutiile sau forwardingul.
 E primul lucru din lista lor de sugestii, și aici chiar e primul.
 
+### b0) Stripe Managed Payments — ce e configurat (27.09.2026, D-58)
+
+- Cont Stripe pe **Domus Renov SRL**, Managed Payments activ (Stripe e
+  *merchant of record*, 3,5% peste comisionul de card).
+- Produs **Ebanist Pro**, categoria *SaaS – business use*, două prețuri cu
+  TVA inclus: 9 €/lună (lookup key `ebanist_pro_monthly`) și 79 €/an
+  (`ebanist_pro_yearly`).
+- Linkuri de plată cu Managed Payments, redirect după plată:
+  `https://ebanist.com/app/?stripe=1&session_id={CHECKOUT_SESSION_ID}`.
+  Linkurile stau în `app/config/billing.js`.
+- **Netlify → Environment variables → `STRIPE_SECRET_KEY`**: o cheie
+  restricționată (citire pe Checkout Sessions și Subscriptions). Fără ea,
+  `/api/pro` răspunde 503 și Pro nu se activează după plată.
+- Activarea: la întoarcerea de la plată, aplicația cere `/api/pro` cu id-ul
+  sesiunii și primește abonamentul (`sub_…`). Același cod, copiat din Setări,
+  activează Pro pe alt dispozitiv.
+
+Secțiunea de mai jos (Lemon Squeezy) rămâne ca istoric.
+
 ### b) Lemon Squeezy — pașii exacți
 
-1. **Cont și magazin.** lemonsqueezy.com → cont pe persoană fizică (conform
-   deciziei comerciale: separat de Domus Renov). Store name → subdomeniul
+1. **Cont și magazin.** lemonsqueezy.com → **înlocuit de Stripe Managed Payments pe Domus Renov
+   SRL (D-58)**; pașii de mai jos rămân doar ca referință. Store name → subdomeniul
    rezultat e `LS_STORE`.
 2. **Produs.** Products → New Product → *Ebanist Pro*.
    - Pricing model: **Subscription**.
@@ -225,9 +244,12 @@ oricum o cheie.
 **DE COMPLETAT**. Sunt schițe scrise de dezvoltator, nu documente verificate
 juridic. Ce trebuie decis:
 
-- **Cine facturează.** Deciziile spun *persoană fizică, separat de Domus
-  Renov*; textele scriu încă Domus Renov SRL. Trebuie ales și corectat în
-  ambele fișiere plus în subsolul landing-ului.
+- **Cine încasează — decis 27.09.2026: Domus Renov SRL** (CUI RO47806657).
+  Stripe nu acceptă în România persoana fizică simplă, ci doar PFA/II,
+  societate sau non-profit. Plata pe web trece prin **Stripe Managed
+  Payments** (Stripe e *merchant of record*), nu prin Lemon Squeezy: la
+  înscriere, Lemon Squeezy trimite acum direct la Stripe. Google Play rămâne
+  pe persoana fizică Serban George Liviu. Vezi D-58.
 - Legea aplicabilă și instanța competentă.
 - Formularea despre garanții — în UE nu se poate exclude totul.
 - Adresa `info@ebanist.com` trebuie să existe (azi în cod e activ doar
