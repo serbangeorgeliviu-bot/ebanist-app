@@ -27,26 +27,26 @@ repo. Partea fiscală descrie ce trebuie lămurit, dar cotele din 2026 și
 2. **`INBOX_PIN_<SLUG>`** pentru fiecare atelier real, pe ambele site-uri
    Netlify (ebanist-com și whimsical-wisp). PIN de cel puțin 6 cifre. Rețeta
    e în `URLS.md`.
-3. **Lemon Squeezy → Settings → Refund policy**: aceleași 14 zile ca pe site,
-   în ziua în care deschizi plata pe web.
+3. **Stripe → politica de rambursare / Managed Payments**: aceleași 14 zile
+   ca pe site, în ziua în care deschizi plata pe web.
 
-## Decizia fiscală (24.09.2026)
+## Decizia fiscală (actualizată 27.09.2026)
 
-**Acum: persoană fizică, venituri din drepturi de proprietate intelectuală**
-(autorul software-ului), Declarația unică anual + cod special de TVA art. 317.
-Contabilul confirmă încadrarea înainte de prima încasare.
+**Web: Domus Renov SRL**, prin Stripe Managed Payments (Stripe e *merchant of
+record*: facturează clientul final și colectează TVA-ul lui). Stripe nu
+acceptă în România persoana fizică simplă. Domus Renov primește de la Stripe
+suma netă. Contabilul stabilește cum se înregistrează: prestare de servicii
+către Stripe, cu taxare inversă, sau comision.
 
-**Mai târziu, dacă veniturile cresc: vânzarea trece pe Domus Renov SRL.**
-Ce presupune mutarea, ca să nu fie o surpriză:
-- Google Play: contul de dezvoltator personal nu devine firmă; se face un cont
-  de organizație (cu număr D-U-N-S pentru Domus Renov) și aplicația se
-  transferă în el. Utilizatorii și achizițiile rămân, dar numele vânzătorului
-  se schimbă în magazin.
-- Lemon Squeezy: datele de payout și fiscale ale magazinului se trec pe SRL.
-- Site: furnizor și operator în `termeni.html`, `rambursare.html`,
-  `privacy.html` și subsolul din `index.html` (4 limbi).
-- Contabil: de la ce dată veniturile sunt ale SRL-ului și cum se tratează
-  drepturile de autor asupra aplicației (cesiune către SRL).
+**Google Play: rămâne pe persoana fizică** Serban George Liviu, cu venituri
+din drepturi de proprietate intelectuală, Declarația unică și cod special de
+TVA art. 317. Contabilul confirmă încadrarea.
+
+**De lămurit cu contabilul:** drepturile de autor asupra aplicației, adică
+dacă SRL-ul le folosește în baza unei licențe sau a unei cesiuni de la
+autor. Tot de lămurit: dacă merită mutat și Google Play pe SRL, printr-un
+cont de organizație cu D-U-N-S și transferul aplicației. Utilizatorii și
+achizițiile rămân, dar numele vânzătorului se schimbă în magazin.
 
 ## Ce rămâne — contabil
 

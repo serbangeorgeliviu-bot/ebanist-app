@@ -190,8 +190,8 @@ E primul lucru din lista lor de sugestii, și aici chiar e primul.
 
 ### b) Lemon Squeezy — pașii exacți
 
-1. **Cont și magazin.** lemonsqueezy.com → cont pe persoană fizică (conform
-   deciziei comerciale: separat de Domus Renov). Store name → subdomeniul
+1. **Cont și magazin.** lemonsqueezy.com → **înlocuit de Stripe Managed Payments pe Domus Renov
+   SRL (D-58)**; pașii de mai jos rămân doar ca referință. Store name → subdomeniul
    rezultat e `LS_STORE`.
 2. **Produs.** Products → New Product → *Ebanist Pro*.
    - Pricing model: **Subscription**.
@@ -225,12 +225,12 @@ oricum o cheie.
 **DE COMPLETAT**. Sunt schițe scrise de dezvoltator, nu documente verificate
 juridic. Ce trebuie decis:
 
-- **Cine facturează — decis 27.09.2026: persoană fizică**, Serban George
-  Liviu (Racova, Bacău), separat de Domus Renov. Contul Lemon Squeezy se face
-  pe același nume. Termenii, rambursarea, confidențialitatea, subsolul
-  landing-ului și `publisher` din datele structurate spun deja asta.
-  Încadrarea fiscală a veniturilor (plăți de la Lemon Squeezy și Google Play)
-  rămâne de confirmat cu contabilul.
+- **Cine încasează — decis 27.09.2026: Domus Renov SRL** (CUI RO47806657).
+  Stripe nu acceptă în România persoana fizică simplă, ci doar PFA/II,
+  societate sau non-profit. Plata pe web trece prin **Stripe Managed
+  Payments** (Stripe e *merchant of record*), nu prin Lemon Squeezy: la
+  înscriere, Lemon Squeezy trimite acum direct la Stripe. Google Play rămâne
+  pe persoana fizică Serban George Liviu. Vezi D-58.
 - Legea aplicabilă și instanța competentă.
 - Formularea despre garanții — în UE nu se poate exclude totul.
 - Adresa `info@ebanist.com` trebuie să existe (azi în cod e activ doar
