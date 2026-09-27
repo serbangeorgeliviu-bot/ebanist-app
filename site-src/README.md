@@ -123,7 +123,7 @@ GoatCounter, fără cookie-uri și fără banner. Scriptul e găzduit local
 (`site/js/count.js`) și trimite la `https://ebanist.goatcounter.com/count`
 (adăugat în CSP, la `img-src`). Fiecare CTA spre aplicație are
 `data-goatcounter-click` (`cta-header`, `cta-hero`, `cta-price-free`,
-`cta-price-pro`, `cta-price-yearly`, `cta-final`).
+`cta-price-pro`, `cta-price-yearly`, `cta-final`), iar linkurile TikTok au `tiktok-header`, `tiktok-hero`, `tiktok-section`.
 
 **De făcut o singură dată:** contul `ebanist` pe goatcounter.com. Până atunci,
 cererile se pierd fără efect asupra paginii.

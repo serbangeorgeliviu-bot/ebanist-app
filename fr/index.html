@@ -400,6 +400,33 @@ transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor
 .work-grid figcaption{position:absolute;left:12px;bottom:12px;font-size:12px;color:#fff;background:rgba(14,59,42,.82);padding:6px 9px;border-radius:6px}
 .w-a{grid-row:1/3}.w-c{grid-column:3;grid-row:1/3}.w-b{aspect-ratio:4/3}.w-d{aspect-ratio:4/3}
 @media (max-width:760px){.work-grid{grid-template-columns:1fr 1fr}.w-a,.w-c{grid-row:auto;grid-column:auto;aspect-ratio:4/5}.w-b,.w-d{grid-column:1/-1}}
+.tt-ico,.gp-ico{width:16px;height:16px;fill:currentColor;flex:none}
+.tt-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#111;color:#fff;transition:transform .4s var(--ease)}
+.tt-btn:hover{transform:translateY(-2px)}
+.tt-btn .tt-ico{width:18px;height:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border-radius:999px;font:500 13px/1 var(--sans);text-decoration:none;border:1px solid var(--line2);background:#fff;color:var(--txt)}
+.chip-play .gp-ico{color:var(--green)}
+.chip-tt{background:#111;color:#fff;border-color:#111}
+.chip-tt:hover{background:#000}
+.chip-dark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.chip-dark .gp-ico{color:var(--gold)}
+.final-note{margin-top:26px}
+.final-sub{margin:12px auto 0;max-width:52ch;color:rgba(255,255,255,.75);font-size:15px}
+.tt-sec{background:linear-gradient(180deg,var(--char),#dfe5d5)}
+.tt-in{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(30px,6vw,90px);align-items:center}
+.btn-tt{background:#111;color:#fff}
+.btn-tt:hover{background:#000}
+.btn-tt .tt-ico{width:18px;height:18px}
+.tt-phone{justify-self:center;width:min(300px,70vw);border-radius:40px;background:#0c0a09;padding:10px;box-shadow:0 40px 80px -40px rgba(25,35,15,.6);transition:transform .6s var(--ease);text-decoration:none}
+.tt-phone:hover{transform:translateY(-6px) rotate(-1deg)}
+.tt-phone .scr{position:relative;display:block;aspect-ratio:390/844;border-radius:31px;overflow:hidden}
+.tt-phone img{width:100%;height:100%;object-fit:cover}
+.tt-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))}
+.tt-play{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);color:#fff;font-size:24px;padding-left:4px}
+.tt-meta{color:#fff;font-size:13px;line-height:1.35}
+.tt-meta b{display:block;font-weight:600;margin-bottom:4px}
+@media (max-width:860px){.tt-in{grid-template-columns:1fr}}
 .tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1040px}
 .tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}
 .tier-pro{background:var(--green);border-color:var(--green);color:#fff}
@@ -572,6 +599,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     </nav>
     <span class="sp"></span>
     <nav class="langs" aria-label="Langue"><a href="/" hreflang="en" lang="en">EN</a><a href="/ro/" hreflang="ro" lang="ro">RO</a><a href="/it/" hreflang="it" lang="it">IT</a><a href="/fr/" hreflang="fr" lang="fr" aria-current="page">FR</a></nav>
+    <a class="tt-btn" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" aria-label="TikTok @ebanist.app" data-goatcounter-click="tiktok-header"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg></a>
     <a class="btn btn-laser btn-sm" href="/app/?lang=fr" data-goatcounter-click="cta-header">Ouvrir Ebanist</a>
   </div>
 </header>
@@ -590,6 +618,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <a class="btn btn-line" href="#story">Voir comment ça marche</a>
       </div>
       <p class="proof mono">15 typologies · Blum &amp; Häfele · décors Egger · documents PDF</p>
+      <div class="chips">
+        <span class="chip chip-play"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Bientôt sur Google Play</span>
+        <a class="chip chip-tt" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" data-goatcounter-click="tiktok-hero"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>@ebanist.app</a>
+      </div>
     </div>
     <figure class="hero-stage" id="heroStage">
       <picture class="hero-static">
@@ -780,6 +812,24 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   </div>
 </section>
 
+<!-- ======================= 6c · TIKTOK ======================= -->
+<section class="sec tt-sec" id="tiktok">
+  <div class="wrap tt-in">
+    <div>
+      <p class="kicker mono rv">Suivez-nous sur TikTok</p>
+      <h2 class="h2 split">Voyez Ebanist <em>au travail,</em> en 30 secondes.</h2>
+      <p class="sub rv">De courtes vidéos du chantier et de l'atelier : un meuble conçu sur le téléphone, la liste de débit, les étiquettes, la 3D. De nouvelles vidéos chaque semaine.</p>
+      <div class="cta-row rv">
+        <a class="btn btn-tt" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" data-goatcounter-click="tiktok-section"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>Voir sur TikTok · @ebanist.app</a>
+      </div>
+    </div>
+    <a class="tt-phone rv" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" aria-label="Voir sur TikTok" data-goatcounter-click="tiktok-phone">
+      <span class="scr"><picture><source type="image/avif" srcset="/site/screens/fr/phone-build-780.avif"><img src="/site/screens/fr/phone-build-780.webp" width="780" height="1688" alt="Ebanist sur téléphone : l'armoire 3D dans le générateur" loading="lazy"></picture>
+        <span class="tt-ov"><span class="tt-play" aria-hidden="true">▶</span><span class="tt-meta"><b>@ebanist.app</b><span>Des mesures à la liste de débit — sur le téléphone, sur le chantier.</span></span></span></span>
+    </a>
+  </div>
+</section>
+
 <!-- ======================= 7 · PRICING ======================= -->
 <section class="sec pricing" id="pricing">
   <div class="wrap">
@@ -811,7 +861,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="wrap faq-wrap">
     <div><p class="kicker mono rv">Questions</p><h2 class="h2 split">Ce que demandent les menuisiers.</h2></div>
     <div class="faq">
-      <details><summary>Faut-il installer quelque chose ?</summary><p>Non. Ebanist s'ouvre dans le navigateur. Vous pouvez l'ajouter à l'écran d'accueil pour qu'il s'ouvre comme une application, et sur Android il est aussi en test sur Google Play.</p></details>
+      <details><summary>Faut-il installer quelque chose ?</summary><p>Non. Ebanist s'ouvre dans le navigateur et vous pouvez l'ajouter à l'écran d'accueil pour qu'il s'ouvre comme une application. L'application Android arrive bientôt sur Google Play.</p></details>
       <details><summary>Ça marche sur iPhone ?</summary><p>Oui — dans Safari sur iPhone et iPad, comme sur les téléphones et tablettes Android et sur n'importe quel PC.</p></details>
       <details><summary>Où sont mes données ?</summary><p>Sur votre appareil, dans la mémoire du navigateur. Pas de compte, rien n'est envoyé. La sauvegarde complète est un fichier JSON que vous exportez quand vous voulez, gratuitement.</p></details>
       <details><summary>Ça marche hors ligne ?</summary><p>Oui. Après la première ouverture, toute l'application — relevé, conception, 3D, liste de débit — marche sans réseau.</p></details>
@@ -830,6 +880,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <h2 class="h-final split">Votre prochain meuble <em>commence sur le téléphone.</em></h2>
     <svg class="final-dim" viewBox="0 0 600 24" aria-hidden="true"><path d="M2 12H598M2 4v16M598 4v16M2 12l8-4v8zM598 12l-8-4v8z"/></svg>
     <a class="btn btn-laser btn-xl" href="/app/?lang=fr" data-goatcounter-click="cta-final">Ouvrir Ebanist <span aria-hidden="true">→</span></a>
+    <p class="final-note"><span class="chip chip-play chip-dark"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Bientôt sur Google Play</span></p>
+    <p class="final-sub">L'application Android est en dernière vérification sur Google Play. En attendant, elle marche dans n'importe quel navigateur et vous pouvez l'ajouter à l'écran d'accueil.</p>
   </div>
 </section>
 </main>
