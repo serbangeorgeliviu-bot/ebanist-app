@@ -15,9 +15,9 @@ Se pun în `site/img/` și se leagă în `site-src/template.html`.
 
 | Slot | Unde | Acum | Raport |
 |---|---|---|---|
-| `who-1` | „Pentru cine”, tâmplar independent | captura: lista de debitare | 4:3 |
-| `who-2` | „Pentru cine”, atelier mic | foaia de etichete | 4:3 |
-| `who-3` | „Pentru cine”, montator | captura: modul Client | 4:3 |
+| `who-1` | „Pentru cine”, tâmplar independent | foto proprie: nișă MDF + pin | 4:5 |
+| `who-2` | „Pentru cine”, atelier mic | foto proprie: corp nivelat cu laserul | 4:5 |
+| `who-3` | „Pentru cine”, montator | foto proprie: dulap finisat | 4:5 |
 | `final-bg` | fundalul apelului final (opțional) | — | 16:9 |
 
 ## Prompturi

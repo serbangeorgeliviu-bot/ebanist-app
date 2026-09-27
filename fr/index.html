@@ -385,14 +385,21 @@ transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor
 .lb-prev{left:16px;top:50%}.lb-next{right:16px;top:50%}
 .lb-close:hover,.lb-nav:hover{border-color:var(--gold)}
 .who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);margin-top:clamp(40px,6vw,80px)}
-.who-card .ph{aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:var(--graphite)}
-.who-card .ph{background:radial-gradient(120% 90% at 50% 30%,#ffffff,#dfe5d5);box-shadow:inset 0 0 0 1px var(--line);display:grid;place-items:center;padding:14px}
-.who-card img{width:100%;height:100%;object-fit:contain;transition:transform 1.4s var(--ease)}
+.who-card .ph{aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--graphite)}
+.who-card img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
 .who-card:hover img{transform:scale(1.03)}
 .who-card .k{display:block;margin-top:20px;font-size:12px;color:var(--gold-ink);text-transform:uppercase;letter-spacing:.08em}
 .who-card h3{font:400 clamp(1.6rem,2.4vw,2.2rem)/1.05 var(--serif);margin-top:10px;letter-spacing:-.015em}
 .who-card p{color:var(--txt2);margin-top:8px;font-size:16px}
 @media (max-width:860px){.who-grid{grid-template-columns:1fr}}
+.work{padding-top:0}
+.work-grid{display:grid;grid-template-columns:1fr 1.35fr 1fr;grid-template-rows:auto auto;gap:clamp(10px,1.4vw,18px);margin-top:clamp(36px,5vw,64px)}
+.work-grid figure{position:relative;margin:0;border-radius:14px;overflow:hidden;background:var(--graphite)}
+.work-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.work-grid figure:hover img{transform:scale(1.04)}
+.work-grid figcaption{position:absolute;left:12px;bottom:12px;font-size:12px;color:#fff;background:rgba(14,59,42,.82);padding:6px 9px;border-radius:6px}
+.w-a{grid-row:1/3}.w-c{grid-column:3;grid-row:1/3}.w-b{aspect-ratio:4/3}.w-d{aspect-ratio:4/3}
+@media (max-width:760px){.work-grid{grid-template-columns:1fr 1fr}.w-a,.w-c{grid-row:auto;grid-column:auto;aspect-ratio:4/5}.w-b,.w-d{grid-column:1/-1}}
 .tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1040px}
 .tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}
 .tier-pro{background:var(--green);border-color:var(--green);color:#fff}
@@ -751,9 +758,24 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <p class="kicker mono rv">Pour qui</p>
     <h2 class="h2 split">Née dans un atelier, <em>pour les ateliers.</em></h2>
     <div class="who-grid">
-      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/screens/fr/phone-list-780.avif"><img src="/site/screens/fr/phone-list-780.webp" width="780" height="1688" alt="La liste de débit sur le téléphone, directement depuis le modèle" loading="lazy"></picture></div><span class="mono k">01 · Menuisier indépendant</span><h3>Vos soirées retrouvées.</h3><p>Mesurez l'après-midi, envoyez la liste de débit au fournisseur de panneaux le jour même.</p></article>
-      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/docs/fr/etichete-0-720.avif"><img src="/site/docs/fr/etichete-0-720.webp" width="720" height="1019" alt="La feuille d'étiquettes avec le schéma de chant" loading="lazy"></picture></div><span class="mono k">02 · Petit atelier</span><h3>Une feuille, aucune question.</h3><p>Des étiquettes sur chaque pièce et une fiche de montage que le poseur suit sans vous appeler.</p></article>
-      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/screens/fr/tablet-client-1600.avif"><img src="/site/screens/fr/tablet-client-1600.webp" width="1600" height="1112" alt="Le mode Client sur tablette : finitions et prix" loading="lazy"></picture></div><span class="mono k">03 · Poseur · rénovation</span><h3>Le client décide sur place.</h3><p>Montrez le meuble en 3D sur la tablette, changez la finition, repartez avec la signature.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/niche-raw-900.avif"><img src="/site/img/work/niche-raw-900.webp" width="900" height="1125" alt="Niche encastrée en MDF brut avec cadre en pin, avant peinture" loading="lazy"></picture></div><span class="mono k">01 · Menuisier indépendant</span><h3>Vos soirées retrouvées.</h3><p>Mesurez l'après-midi, envoyez la liste de débit au fournisseur de panneaux le jour même.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/carcass-laser-900.avif"><img src="/site/img/work/carcass-laser-900.webp" width="900" height="1125" alt="Caisson d'armoire en pose, aligné au niveau laser" loading="lazy"></picture></div><span class="mono k">02 · Petit atelier</span><h3>Une feuille, aucune question.</h3><p>Des étiquettes sur chaque pièce et une fiche de montage que le poseur suit sans vous appeler.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/wardrobe-finished-900.avif"><img src="/site/img/work/wardrobe-finished-900.webp" width="900" height="1125" alt="Armoire encastrée finie, deux portes peintes et grille d'aération dorée" loading="lazy"></picture></div><span class="mono k">03 · Poseur · rénovation</span><h3>Le client décide sur place.</h3><p>Montrez le meuble en 3D sur la tablette, changez la finition, repartez avec la signature.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6b · DIN ATELIER ======================= -->
+<section class="sec work" id="work">
+  <div class="wrap">
+    <p class="kicker mono rv">De notre atelier</p>
+    <h2 class="h2 split">Des meubles que nous fabriquons — <em>du MDF à la dernière couche.</em></h2>
+    <p class="sub rv">Armoires et niches encastrées par Domus Renov, l'atelier derrière Ebanist. Chaque règle de l'application a d'abord été une erreur à éviter ici.</p>
+    <div class="work-grid">
+      <figure class="w-a rv"><picture><source type="image/avif" srcset="/site/img/work/door-reveals-800.avif"><img src="/site/img/work/door-reveals-800.webp" width="800" height="1000" alt="Détail de portes en MDF avec des jeux réguliers de 3 mm" loading="lazy"></picture><figcaption class="mono">Portes · jeux de 3 mm</figcaption></figure>
+      <figure class="w-b rv"><picture><source type="image/avif" srcset="/site/img/work/grille-1000.avif"><img src="/site/img/work/grille-1000.webp" width="1000" height="750" alt="Grille d'aération dorée dans la corniche de l'armoire" loading="lazy"></picture><figcaption class="mono">Grille dorée dans la corniche</figcaption></figure>
+      <figure class="w-c rv"><picture><source type="image/avif" srcset="/site/img/work/niche-lacquered-800.avif"><img src="/site/img/work/niche-lacquered-800.webp" width="800" height="1000" alt="Niche encastrée laquée à quatre étagères" loading="lazy"></picture><figcaption class="mono">Niche · laquée</figcaption></figure>
+      <figure class="w-d rv"><picture><source type="image/avif" srcset="/site/img/work/plinth-vent-1000.avif"><img src="/site/img/work/plinth-vent-1000.webp" width="1000" height="750" alt="Socle peint avec grille perforée dorée sous les portes" loading="lazy"></picture><figcaption class="mono">Socle ventilé</figcaption></figure>
     </div>
   </div>
 </section>
