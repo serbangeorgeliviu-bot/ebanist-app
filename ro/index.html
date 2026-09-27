@@ -385,14 +385,21 @@ transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor
 .lb-prev{left:16px;top:50%}.lb-next{right:16px;top:50%}
 .lb-close:hover,.lb-nav:hover{border-color:var(--gold)}
 .who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);margin-top:clamp(40px,6vw,80px)}
-.who-card .ph{aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:var(--graphite)}
-.who-card .ph{background:radial-gradient(120% 90% at 50% 30%,#ffffff,#dfe5d5);box-shadow:inset 0 0 0 1px var(--line);display:grid;place-items:center;padding:14px}
-.who-card img{width:100%;height:100%;object-fit:contain;transition:transform 1.4s var(--ease)}
+.who-card .ph{aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--graphite)}
+.who-card img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
 .who-card:hover img{transform:scale(1.03)}
 .who-card .k{display:block;margin-top:20px;font-size:12px;color:var(--gold-ink);text-transform:uppercase;letter-spacing:.08em}
 .who-card h3{font:400 clamp(1.6rem,2.4vw,2.2rem)/1.05 var(--serif);margin-top:10px;letter-spacing:-.015em}
 .who-card p{color:var(--txt2);margin-top:8px;font-size:16px}
 @media (max-width:860px){.who-grid{grid-template-columns:1fr}}
+.work{padding-top:0}
+.work-grid{display:grid;grid-template-columns:1fr 1.35fr 1fr;grid-template-rows:auto auto;gap:clamp(10px,1.4vw,18px);margin-top:clamp(36px,5vw,64px)}
+.work-grid figure{position:relative;margin:0;border-radius:14px;overflow:hidden;background:var(--graphite)}
+.work-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.work-grid figure:hover img{transform:scale(1.04)}
+.work-grid figcaption{position:absolute;left:12px;bottom:12px;font-size:12px;color:#fff;background:rgba(14,59,42,.82);padding:6px 9px;border-radius:6px}
+.w-a{grid-row:1/3}.w-c{grid-column:3;grid-row:1/3}.w-b{aspect-ratio:4/3}.w-d{aspect-ratio:4/3}
+@media (max-width:760px){.work-grid{grid-template-columns:1fr 1fr}.w-a,.w-c{grid-row:auto;grid-column:auto;aspect-ratio:4/5}.w-b,.w-d{grid-column:1/-1}}
 .tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1040px}
 .tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}
 .tier-pro{background:var(--green);border-color:var(--green);color:#fff}
@@ -751,9 +758,24 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <p class="kicker mono rv">Pentru cine</p>
     <h2 class="h2 split">Făcută într-un atelier, <em>pentru ateliere.</em></h2>
     <div class="who-grid">
-      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/screens/ro/phone-list-780.avif"><img src="/site/screens/ro/phone-list-780.webp" width="780" height="1688" alt="Lista de debitare pe telefon, direct din model" loading="lazy"></picture></div><span class="mono k">01 · Tâmplar independent</span><h3>Serile tale înapoi.</h3><p>Măsori după-amiază și trimiți lista de debitare la furnizorul de plăci în aceeași zi.</p></article>
-      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/docs/ro/etichete-0-720.avif"><img src="/site/docs/ro/etichete-0-720.webp" width="720" height="1019" alt="Foaia de etichete cu schema de cant" loading="lazy"></picture></div><span class="mono k">02 · Atelier mic</span><h3>O foaie, fără întrebări.</h3><p>Etichete pe fiecare piesă și o fișă de montaj pe care montatorul o urmează fără să te sune.</p></article>
-      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/screens/ro/tablet-client-1600.avif"><img src="/site/screens/ro/tablet-client-1600.webp" width="1600" height="1112" alt="Modul Client pe tabletă: finisaje și preț" loading="lazy"></picture></div><span class="mono k">03 · Montator · renovări</span><h3>Clientul decide pe loc.</h3><p>Arăți corpul în 3D pe tabletă, schimbi finisajul și pleci cu semnătura.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/niche-raw-900.avif"><img src="/site/img/work/niche-raw-900.webp" width="900" height="1125" alt="Nișă încastrată din MDF brut cu ramă de pin, înainte de vopsire" loading="lazy"></picture></div><span class="mono k">01 · Tâmplar independent</span><h3>Serile tale înapoi.</h3><p>Măsori după-amiază și trimiți lista de debitare la furnizorul de plăci în aceeași zi.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/carcass-laser-900.avif"><img src="/site/img/work/carcass-laser-900.webp" width="900" height="1125" alt="Corpul dulapului la montaj, aliniat cu nivela laser" loading="lazy"></picture></div><span class="mono k">02 · Atelier mic</span><h3>O foaie, fără întrebări.</h3><p>Etichete pe fiecare piesă și o fișă de montaj pe care montatorul o urmează fără să te sune.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/wardrobe-finished-900.avif"><img src="/site/img/work/wardrobe-finished-900.webp" width="900" height="1125" alt="Dulap încastrat finisat, cu două uși vopsite și grilă de aerisire aurie" loading="lazy"></picture></div><span class="mono k">03 · Montator · renovări</span><h3>Clientul decide pe loc.</h3><p>Arăți corpul în 3D pe tabletă, schimbi finisajul și pleci cu semnătura.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6b · DIN ATELIER ======================= -->
+<section class="sec work" id="work">
+  <div class="wrap">
+    <p class="kicker mono rv">Din atelierul nostru</p>
+    <h2 class="h2 split">Mobilier făcut de noi — <em>de la MDF la ultimul strat.</em></h2>
+    <p class="sub rv">Dulapuri și nișe încastrate de Domus Renov, atelierul din spatele Ebanist. Fiecare regulă din aplicație a fost întâi o greșeală de evitat aici.</p>
+    <div class="work-grid">
+      <figure class="w-a rv"><picture><source type="image/avif" srcset="/site/img/work/door-reveals-800.avif"><img src="/site/img/work/door-reveals-800.webp" width="800" height="1000" alt="Detaliu cu uși din MDF și rosturi egale de 3 mm" loading="lazy"></picture><figcaption class="mono">Uși · rosturi de 3 mm</figcaption></figure>
+      <figure class="w-b rv"><picture><source type="image/avif" srcset="/site/img/work/grille-1000.avif"><img src="/site/img/work/grille-1000.webp" width="1000" height="750" alt="Grilă de aerisire aurie montată în cornișa dulapului" loading="lazy"></picture><figcaption class="mono">Grilă aurie în cornișă</figcaption></figure>
+      <figure class="w-c rv"><picture><source type="image/avif" srcset="/site/img/work/niche-lacquered-800.avif"><img src="/site/img/work/niche-lacquered-800.webp" width="800" height="1000" alt="Nișă încastrată lăcuită, cu patru polițe" loading="lazy"></picture><figcaption class="mono">Nișă · lăcuită</figcaption></figure>
+      <figure class="w-d rv"><picture><source type="image/avif" srcset="/site/img/work/plinth-vent-1000.avif"><img src="/site/img/work/plinth-vent-1000.webp" width="1000" height="750" alt="Soclu vopsit cu grilă perforată aurie sub uși" loading="lazy"></picture><figcaption class="mono">Soclu cu aerisire</figcaption></figure>
     </div>
   </div>
 </section>

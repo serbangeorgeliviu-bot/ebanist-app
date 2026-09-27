@@ -97,9 +97,11 @@ Randările 3D din `site/img/3d-*` sunt tot capturi ale vizualizatorului din
 aplicație. `hero-carcass-*` e cadrul final al scenei Three.js a site-ului,
 folosit ca imagine de pornire și pe telefon.
 
-Pe site nu există fotografii de mobilier care nu sunt ale noastre. Secțiunea
-„Pentru cine” folosește capturi din aplicație până sosesc fotografiile lui Liviu
-(atelier, piese, montaj). Sloturile și prompturile sunt în `docs/image-prompts.md`.
+Fotografiile de mobilier (`site/img/work/`) sunt lucrări proprii (Domus Renov),
+trimise de Liviu pe 27.09.2026: nișa din MDF cu ramă de pin, corpul nivelat cu
+laserul, dulapul finisat, rosturile ușilor, grila și soclul. La conversie se
+șterg TOATE metadatele (EXIF, inclusiv GPS: pozele sunt făcute la clienți).
+Nu se pun pe site fotografii de mobilier care nu e al nostru.
 
 ## Mișcare și performanță
 
