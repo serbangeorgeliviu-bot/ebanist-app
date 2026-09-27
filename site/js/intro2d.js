@@ -1,7 +1,7 @@
 /* =====================================================================
    Ebanist — intro pe telefon (Canvas 2D, fără Three.js)
    Aceeași poveste ca pe desktop, geometrie simplificată: panoul brut,
-   laserul, piesele, apoi piesele zboară spre dulapul din hero.
+   ferăstrăul circular, piesele, apoi piesele zboară spre dulapul din hero.
    ===================================================================== */
 const BOARD = { l: 2800, w: 2070 };
 /* în ordinea numelor din i18n (intro.pieces) */
@@ -31,7 +31,8 @@ export function createIntro2D({ canvas, labelsEl, names = [], target, onTitle, o
   const tx = tr.left + tr.width * .27, ty = tr.top + tr.height * .04, tw = tr.width * .46, th = tr.height * .9;
   const img = new Image(); img.src = "/site/img/hero-carcass-900.webp";
   const labels = LAYOUT.map((_, i) => { const s = document.createElement("span"); const L = LAYOUT[i]; s.textContent = `${names[i] || "PART"} ${Math.max(L[2], L[3])}×${Math.min(L[2], L[3])}×19`; labelsEl.appendChild(s); return s; });
-  let t0 = null, raf = 0, done = false, titled = false;
+  let t0 = null, raf = 0, done = false, titled = false, last = 0;
+  const dust = [];
   function poly(p) { g.beginPath(); g.moveTo(p[0][0], p[0][1]); for (let i = 1; i < p.length; i++) g.lineTo(p[i][0], p[i][1]); g.closePath(); }
   function frame(now) {
     if (t0 === null) t0 = now;
@@ -53,13 +54,35 @@ export function createIntro2D({ canvas, labelsEl, names = [], target, onTitle, o
       if (t > .5 && cutT < 1) {
         const c = CUTS[ci], px = c[0] + (c[2] - c[0]) * cf, py = c[1] + (c[3] - c[1]) * cf;
         const p0 = iso(c[0], c[1]), p1 = iso(px, py);
-        /* strălucirea: o linie lată și transparentă sub cea subțire (fără shadowBlur, care e scump) */
-        g.strokeStyle = "rgba(255,77,26,.28)"; g.lineWidth = 8; g.beginPath(); g.moveTo(...p0); g.lineTo(...p1); g.stroke();
-        g.strokeStyle = "#ff4d1a"; g.lineWidth = 2; g.beginPath(); g.moveTo(...p0); g.lineTo(...p1); g.stroke();
-        g.fillStyle = "#fff"; g.beginPath(); g.arc(p1[0], p1[1], 2.2, 0, 7); g.fill();
+        /* tăietura în urma pânzei */
+        g.strokeStyle = "#3b332a"; g.lineWidth = 2; g.beginPath(); g.moveTo(...p0); g.lineTo(...p1); g.stroke();
+        /* rumeguș */
+        const dxs = p1[0] - p0[0], dys = p1[1] - p0[1], dl = Math.hypot(dxs, dys) || 1;
+        for (let k = 0; k < 4; k++) dust.push({ x: p1[0], y: p1[1], vx: -dxs / dl * (40 + Math.random() * 90) + (Math.random() - .5) * 60, vy: -(60 + Math.random() * 120), life: .45 + Math.random() * .3 });
+        /* pânza: Ø 300 mm, dinții se rotesc; stă puțin deasupra liniei, trece prin panou */
+        const Rp = Math.max(16, 300 * k * 1.1), cx = p1[0], cy = p1[1] - Rp * .45, rot = t * 40;
+        g.save(); g.translate(cx, cy);
+        g.fillStyle = "#b9bdc2"; g.beginPath();
+        for (let i = 0; i < 36; i++) { const a0 = rot + i / 36 * Math.PI * 2, a1 = a0 + Math.PI / 36;
+          g.lineTo(Math.cos(a0) * Rp, Math.sin(a0) * Rp); g.lineTo(Math.cos(a1) * Rp * 1.12, Math.sin(a1) * Rp * 1.12); }
+        g.closePath(); g.fill();
+        const gr = g.createRadialGradient(-Rp * .3, -Rp * .3, 1, 0, 0, Rp); gr.addColorStop(0, "#eef0f2"); gr.addColorStop(1, "#8e9398");
+        g.fillStyle = gr; g.beginPath(); g.arc(0, 0, Rp * .92, 0, 7); g.fill();
+        g.fillStyle = "#0E3B2A"; g.beginPath(); g.arc(0, 0, Rp * .24, 0, 7); g.fill();
+        g.fillStyle = "#D4AF37"; g.beginPath(); g.arc(0, 0, Rp * .07, 0, 7); g.fill();
+        g.restore();
       }
       g.globalAlpha = 1;
     }
+    /* rumegușul: cade și se stinge */
+    const dt = Math.min(.05, t - last); last = t;
+    g.fillStyle = "#e7d6b0";
+    for (let i = dust.length - 1; i >= 0; i--) {
+      const d = dust[i]; d.life -= dt; if (d.life <= 0) { dust.splice(i, 1); continue; }
+      d.vy += 380 * dt; d.x += d.vx * dt; d.y += d.vy * dt;
+      g.globalAlpha = Math.min(1, d.life * 2); g.fillRect(d.x, d.y, 2, 2);
+    }
+    g.globalAlpha = 1;
     /* 1.6 → 3.0: piesele se ridică și zboară în dulap, care apare în locul lor */
     if (t >= 1.6) {
       const fly = easeIO(seg(t, 1.8, 2.9)), fade = 1 - seg(t, 2.5, 2.95);
@@ -83,7 +106,7 @@ export function createIntro2D({ canvas, labelsEl, names = [], target, onTitle, o
     /* 2.9 → 3.8: cotele generale în jurul dulapului */
     const dT = seg(t, 2.9, 3.7);
     if (dT > 0) {
-      g.strokeStyle = "#ff4d1a"; g.lineWidth = 1.2; g.fillStyle = "#ff4d1a"; g.font = "500 11px 'JetBrains Mono', monospace";
+      g.strokeStyle = "#D4AF37"; g.lineWidth = 1.2; g.fillStyle = "#E3C877"; g.font = "500 11px 'JetBrains Mono', monospace";
       const x0 = tx - 18, y0 = ty, y1 = ty + th * dT;
       g.beginPath(); g.moveTo(x0, y0); g.lineTo(x0, y1); g.moveTo(x0 - 5, y0); g.lineTo(x0 + 5, y0); if (dT >= 1) { g.moveTo(x0 - 5, y1); g.lineTo(x0 + 5, y1); } g.stroke();
       const yb = ty + th + 18, xb1 = tx + tw * dT;

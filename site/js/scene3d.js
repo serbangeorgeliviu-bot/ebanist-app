@@ -10,7 +10,7 @@ import * as THREE from "/site/vendor/three.module.min.js";
 
 const MM = v => v / 1000;
 const W = 1000, H = 2200, D = 600, T = 19;
-const LASER = 0xff4d1a;
+const COTA = 0xc9a227;   // auriul mărcii: cotele
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const ease = t => 1 - Math.pow(1 - t, 3);                 // cubic out
 const easeIO = t => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -55,8 +55,11 @@ function mats() {
     walnut: new THREE.MeshStandardMaterial({ map: woodTexture(), roughness: .55 }),
     steel: new THREE.MeshStandardMaterial({ color: 0x9a9690, roughness: .35, metalness: .8 }),
     edge: new THREE.LineBasicMaterial({ color: 0x2a2623, transparent: true, opacity: .55 }),
-    laser: new THREE.LineBasicMaterial({ color: LASER }),
-    laserGlow: new THREE.MeshBasicMaterial({ color: LASER, transparent: true, opacity: .9 })
+    laser: new THREE.LineBasicMaterial({ color: COTA }),
+    kerf: new THREE.MeshBasicMaterial({ color: 0x3b332a }),
+    blade: new THREE.MeshStandardMaterial({ color: 0xdfe2e6, roughness: .32, metalness: .35, emissive: 0x20262c, emissiveIntensity: .25 }),
+    tooth: new THREE.MeshStandardMaterial({ color: 0x4a4d52, roughness: .4, metalness: .7 }),
+    hub: new THREE.MeshStandardMaterial({ color: 0x0E3B2A, roughness: .5, metalness: .3 })
   };
 }
 
@@ -212,8 +215,29 @@ export function createIntro({ canvas, labelsEl, names = [], onTitle, onDone }) {
   const placeGroup = new THREE.Group(); scene.add(placeGroup);
 
   /* laserul: o linie luminoasă care parcurge tăieturile */
-  const beam = new THREE.Mesh(new THREE.BoxGeometry(1, .003, .006), M.laserGlow); beam.visible = false; scene.add(beam);
-  const spark = new THREE.PointLight(LASER, 0, .8); scene.add(spark);
+  /* ferăstrăul circular: pânză Ø 300 mm, 48 de dinți, trece prin panou */
+  const R = .21, saw = new THREE.Group(), spinner = new THREE.Group();
+  const disc = new THREE.Mesh(new THREE.CylinderGeometry(R * .93, R * .93, .006, 64), M.blade); disc.rotation.x = Math.PI / 2; spinner.add(disc);
+  for (let i = 0; i < 48; i++) {
+    const a = i / 48 * Math.PI * 2, tooth = new THREE.Mesh(new THREE.BoxGeometry(.011, .016, .0045), M.tooth);
+    tooth.position.set(Math.cos(a) * R * .97, Math.sin(a) * R * .97, 0); tooth.rotation.z = a + .5; spinner.add(tooth);
+  }
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(R * .22, R * .22, .012, 32), M.hub); hub.rotation.x = Math.PI / 2; spinner.add(hub);
+  saw.add(spinner); saw.visible = false; scene.add(saw);
+  /* tăietura care rămâne în urma pânzei */
+  const beam = new THREE.Mesh(new THREE.BoxGeometry(1, .002, .005), M.kerf); beam.visible = false; scene.add(beam);
+  /* rumegușul: particule care sar în spatele pânzei și cad */
+  const NP = 220, dustPos = new Float32Array(NP * 3), dustVel = new Float32Array(NP * 3), dustLife = new Float32Array(NP);
+  const dustGeo = new THREE.BufferGeometry(); dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
+  const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({ color: 0xe7d6b0, size: .012, transparent: true, opacity: .9, depthWrite: false }));
+  scene.add(dust); let dustI = 0, lastT = 0;
+  function emitDust(x, y, z, dx, dz) {
+    for (let k = 0; k < 6; k++) {
+      const i = dustI++ % NP; dustLife[i] = .5 + Math.random() * .4;
+      dustPos.set([x, y, z], i * 3);
+      dustVel.set([-dx * (.6 + Math.random() * .9) + (Math.random() - .5) * .5, .5 + Math.random() * 1.1, -dz * (.6 + Math.random() * .9) + (Math.random() - .5) * .5], i * 3);
+    }
+  }
   const cutLines = CUTS.map(([x0, y0, x1, y1]) => {
     const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(bx(x0), MM(T) + .002, bz(y0)), new THREE.Vector3(bx(x1), MM(T) + .002, bz(y1))]);
     const l = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0x2a2623, transparent: true, opacity: 0 })); scene.add(l); return l;
@@ -247,18 +271,30 @@ export function createIntro({ canvas, labelsEl, names = [], onTitle, onDone }) {
     const a = ease(seg(t, 0, .6));
     boardMesh.material.opacity = a; boardMesh.material.transparent = a < 1;
     S.key.intensity = 2.6 * a;
-    /* 0.5 → 1.7: laserul taie, linie după linie */
+    /* 0.5 → 1.7: ferăstrăul taie, linie după linie */
+    const dt = Math.min(.05, t - lastT); lastT = t;
     const cutT = seg(t, .5, 1.7), nC = CUTS.length, ci = Math.min(nC - 1, Math.floor(cutT * nC)), cf = cutT * nC - ci;
-    beam.visible = t > .5 && t < 1.72;
-    if (beam.visible) {
+    const cutting = t > .45 && t < 1.72;
+    beam.visible = saw.visible = cutting;
+    if (cutting) {
       const [x0, y0, x1, y1] = CUTS[ci];
       const px = x0 + (x1 - x0) * cf, py = y0 + (y1 - y0) * cf;
-      const len = Math.hypot(x1 - x0, y1 - y0) * cf;
-      beam.scale.x = Math.max(.001, MM(len));
-      beam.position.set(bx((x0 + px) / 2), MM(T) + .003, bz((y0 + py) / 2));
-      beam.rotation.y = -Math.atan2(y1 - y0, x1 - x0);
-      spark.position.set(bx(px), MM(T) + .05, bz(py)); spark.intensity = 1.6 + Math.random() * .8;
-    } else spark.intensity = 0;
+      const len = Math.hypot(x1 - x0, y1 - y0), ang = -Math.atan2(y1 - y0, x1 - x0);
+      beam.scale.x = Math.max(.001, MM(len * cf));
+      beam.position.set(bx((x0 + px) / 2), MM(T) + .0012, bz((y0 + py) / 2));
+      beam.rotation.y = ang;
+      saw.position.set(bx(px), MM(T) + R * .5, bz(py)); saw.rotation.set(0, ang, 0); saw.rotateX(-.35);
+      spinner.rotation.z -= 1.4;
+      const dx = (x1 - x0) / len, dz = (y1 - y0) / len;
+      emitDust(bx(px), MM(T) + .004, bz(py), dx, dz);
+    }
+    for (let i = 0; i < NP; i++) {
+      if (dustLife[i] <= 0) { dustPos[i * 3 + 1] = -10; continue; }
+      dustLife[i] -= dt; dustVel[i * 3 + 1] -= 3.2 * dt;
+      dustPos[i * 3] += dustVel[i * 3] * dt; dustPos[i * 3 + 1] = Math.max(MM(T), dustPos[i * 3 + 1] + dustVel[i * 3 + 1] * dt); dustPos[i * 3 + 2] += dustVel[i * 3 + 2] * dt;
+    }
+    dustGeo.attributes.position.needsUpdate = true;
+    dust.material.opacity = .9 * (1 - seg(t, 1.9, 2.4));
     cutLines.forEach((l, k) => { l.material.opacity = k < ci || (k === ci && cf > .98) || cutT >= 1 ? .8 : 0; });
     /* 1.6: piesele se desprind — panoul dispare, piesele rămân */
     const lift = ease(seg(t, 1.6, 1.9));
@@ -290,7 +326,7 @@ export function createIntro({ canvas, labelsEl, names = [], onTitle, onDone }) {
       if (on) { const p = project(f.m.position, camera, canvas); labels[k].style.left = p.x + "px"; labels[k].style.top = p.y + "px"; }
     });
     /* 2.9 → 4.0: camera se retrage, cotele se desenează, titlul */
-    const pull = easeIO(seg(t, 2.6, 3.9));
+    const pull = easeIO(seg(t, 1.9, 3.6));
     camera.position.copy(camFrom).lerp(camTo, pull);
     aim.set(0, 0, 0).lerp(new THREE.Vector3(endPos.x - .55, 1.05, 0), pull);
     camera.lookAt(aim);

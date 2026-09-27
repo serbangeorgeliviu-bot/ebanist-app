@@ -24,7 +24,7 @@ site-src/
     ├── og.cjs           imaginile OG per limbă
     └── fonts.py         fonturile subsetate (un fișier pe stil)
 site/
-├── css/site.css         design tokens + toate secțiunile (inclus inline în pagină la build)
+├── css/site.css         design tokens (paleta aplicației) + toate secțiunile (inline la build)
 ├── js/main.js           scriptul inițial (~6 KB gzip): reveal, poveste, lightbox, cursor, limbă
 ├── js/scene3d.js        Three.js: intro, hero, povestea — DOAR pe desktop, încărcat lazy
 ├── js/intro2d.js        intro-ul pe telefon (Canvas 2D, fără Three.js)
@@ -97,15 +97,16 @@ Randările 3D din `site/img/3d-*` sunt tot capturi ale vizualizatorului din
 aplicație. `hero-carcass-*` e cadrul final al scenei Three.js a site-ului,
 folosit ca imagine de pornire și pe telefon.
 
-Fotografiile de mobilier (`real-*`) sunt lucrări Domus Renov, din repo-ul
-`domusrenov-site`. Sloturile pentru fotografii de atmosferă și prompturile de
-generare sunt în `docs/image-prompts.md`.
+Pe site nu există fotografii de mobilier care nu sunt ale noastre. Secțiunea
+„Pentru cine” folosește capturi din aplicație până sosesc fotografiile lui Liviu
+(atelier, piese, montaj). Sloturile și prompturile sunt în `docs/image-prompts.md`.
 
 ## Mișcare și performanță
 
 - **Intro** (max. 4 s, o dată pe sesiune, `sessionStorage.eb_intro`, butonul Skip
   e vizibil de la început, Escape îl sare). Pe desktop cu WebGL rulează Three.js:
-  panoul de 2800×2070, laserul, piesele cu etichetele lor, asamblarea și cotele.
+  panoul de 2800×2070, ferăstrăul circular cu rumeguș, piesele cu etichetele lor,
+  asamblarea și cotele.
   Pe telefon aceeași poveste, în Canvas 2D. Cu `prefers-reduced-motion` nu rulează deloc.
 - **Povestea** (a–e): pe desktop e fixată pe ecran și derulată de scroll (ScrollTrigger
   + Lenis). Pe telefon e un carusel cu snap, fără pin lung.
