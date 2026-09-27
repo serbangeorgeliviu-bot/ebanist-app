@@ -415,6 +415,35 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .w-a{grid-row:1/3}.w-c{grid-column:3;grid-row:1/3}.w-b{aspect-ratio:4/3}.w-d{aspect-ratio:4/3}
 @media (max-width:760px){.work-grid{grid-template-columns:1fr 1fr}.w-a,.w-c{grid-row:auto;grid-column:auto;aspect-ratio:4/5}.w-b,.w-d{grid-column:1/-1}}
 
+/* ---------- TikTok și Google Play ---------- */
+.tt-ico,.gp-ico{width:16px;height:16px;fill:currentColor;flex:none}
+.tt-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#111;color:#fff;transition:transform .4s var(--ease)}
+.tt-btn:hover{transform:translateY(-2px)}
+.tt-btn .tt-ico{width:18px;height:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border-radius:999px;font:500 13px/1 var(--sans);text-decoration:none;border:1px solid var(--line2);background:#fff;color:var(--txt)}
+.chip-play .gp-ico{color:var(--green)}
+.chip-tt{background:#111;color:#fff;border-color:#111}
+.chip-tt:hover{background:#000}
+.chip-dark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.chip-dark .gp-ico{color:var(--gold)}
+.final-note{margin-top:26px}
+.final-sub{margin:12px auto 0;max-width:52ch;color:rgba(255,255,255,.75);font-size:15px}
+.tt-sec{background:linear-gradient(180deg,var(--char),#dfe5d5)}
+.tt-in{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(30px,6vw,90px);align-items:center}
+.btn-tt{background:#111;color:#fff}
+.btn-tt:hover{background:#000}
+.btn-tt .tt-ico{width:18px;height:18px}
+.tt-phone{justify-self:center;width:min(300px,70vw);border-radius:40px;background:#0c0a09;padding:10px;box-shadow:0 40px 80px -40px rgba(25,35,15,.6);transition:transform .6s var(--ease);text-decoration:none}
+.tt-phone:hover{transform:translateY(-6px) rotate(-1deg)}
+.tt-phone .scr{position:relative;display:block;aspect-ratio:390/844;border-radius:31px;overflow:hidden}
+.tt-phone img{width:100%;height:100%;object-fit:cover}
+.tt-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))}
+.tt-play{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);color:#fff;font-size:24px;padding-left:4px}
+.tt-meta{color:#fff;font-size:13px;line-height:1.35}
+.tt-meta b{display:block;font-weight:600;margin-bottom:4px}
+@media (max-width:860px){.tt-in{grid-template-columns:1fr}}
+
 /* ---------- 7 · preț ---------- */
 .tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1040px}
 .tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}

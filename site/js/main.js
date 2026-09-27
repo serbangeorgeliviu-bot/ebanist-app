@@ -67,8 +67,10 @@
   var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
     es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add(e.target.classList.contains("prob-row") ? "cut" : "in"); io.unobserve(e.target); } });
   }, { rootMargin: "0px 0px -12% 0px", threshold: .15 }) : null;
-  function watch() { $$(".rv,.split,.pile,.final,.c-draw,.prob-row").forEach(function (el) { io ? io.observe(el) : el.classList.add("in", "cut"); }); }
-  if (REDUCE) $$(".rv,.split,.pile,.final,.prob-row").forEach(function (el) { el.classList.add("in", "cut"); });
+  /* „cut” numai pe .prob-row: .cut e și clasa tabelului (font-size 13px) */
+  function show(el) { el.classList.add(el.classList.contains("prob-row") ? "cut" : "in"); }
+  function watch() { $$(".rv,.split,.pile,.final,.c-draw,.prob-row").forEach(function (el) { io ? io.observe(el) : show(el); }); }
+  if (REDUCE) $$(".rv,.split,.pile,.final,.prob-row").forEach(show);
   else (doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve()).then(watch);
 
   /* ---------- cifre care numără ---------- */
