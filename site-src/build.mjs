@@ -25,6 +25,9 @@ const tpl = read("template.html");
 const pieces = JSON.parse(read("data/wardrobe-pieces.json"));
 /* CSS-ul intră în pagină: fără cerere care blochează prima randare */
 const CSS = fs.readFileSync(path.join(ROOT, "site/css/site.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s*\n\s*/g, "\n");
+/* logo-ul Ebanist: același fișier ca aplicația, o singură dată în pagină (symbol) */
+const LOGO_SVG = fs.readFileSync(path.join(ROOT, "app/icons/ebanist-mark.svg"), "utf8");
+const LOGO = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ebLogo" viewBox="${LOGO_SVG.match(/viewBox="([^"]+)"/)[1]}">${LOGO_SVG.replace(/^[\s\S]*?<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "").trim()}</symbol></svg>`;
 const mats = JSON.parse(fs.readFileSync(path.join(ROOT, "app/data/materials-centro-legno.json"), "utf8")).materiali;
 
 /* prețul are o singură sursă: billing.js, același fișier ca aplicația */
@@ -156,7 +159,7 @@ function runtime(L) {
 /* ---------- randare ---------- */
 function render(L) {
   const blocks = {
-    css: CSS, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
+    css: CSS, logo: LOGO, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
     hreflang: hreflang(), langlinks: langLinks(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), priceMonthly: esc(PRICE_M), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))

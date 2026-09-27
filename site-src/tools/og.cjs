@@ -3,6 +3,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const ROOT = path.resolve(__dirname, "../.."), BASE = process.env.BASE || "http://localhost:8765";
+const LOGO = fs.readFileSync(path.join(ROOT, "app/icons/ebanist-mark.svg"), "utf8").replace(/<svg /, '<svg class="lg" ');
 (async () => {
   const b = await chromium.launch({ executablePath: process.env.CHROME_PATH || "/opt/pw-browsers/chromium" });
   const p = await (await b.newContext({ viewport: { width: 1200, height: 630 } })).newPage();
@@ -16,9 +17,9 @@ const ROOT = path.resolve(__dirname, "../.."), BASE = process.env.BASE || "http:
       img{position:absolute;right:10px;top:-20px;width:670px;height:670px}
       .c{position:absolute;left:64px;top:64px;width:600px}
       h1{font:400 76px/.96 Fraunces,serif;letter-spacing:-2.5px;color:#1d221b;margin-top:26px}h1 em{color:#16513a}
-      .k{font:500 16px/1 "JetBrains Mono",monospace;letter-spacing:.14em;color:#6b5410;display:flex;gap:14px;align-items:center}.k::before{content:"";width:34px;height:3px;background:#D4AF37}
+      .k{font:500 20px/1 "JetBrains Mono",monospace;letter-spacing:.2em;color:#0E3B2A;display:flex;gap:14px;align-items:center}.b{display:grid;place-items:center;width:58px;height:58px;border-radius:15px;background:#0E3B2A}.b .lg{width:44px;height:44px;fill:#D4AF37}
       .u{position:absolute;left:64px;bottom:54px;font:500 18px/1 "JetBrains Mono",monospace;color:#0E3B2A;letter-spacing:.06em}
-    </style></head><body><div class="g"></div><img src="${BASE}/site/img/hero-carcass-900.webp"><div class="c"><div class="k">EBANIST</div><h1>${h1}</h1></div><div class="u">ebanist.com${L === "en" ? "" : "/" + L}</div></body></html>`);
+    </style></head><body><div class="g"></div><img src="${BASE}/site/img/hero-carcass-900.webp"><div class="c"><div class="k"><span class="b">${LOGO}</span>EBANIST</div><h1>${h1}</h1></div><div class="u">ebanist.com${L === "en" ? "" : "/" + L}</div></body></html>`);
     await p.waitForTimeout(900);
     await p.screenshot({ path: path.join(ROOT, `site/og/og-${L}.jpg`), type: "jpeg", quality: 86 });
     console.log("✓ og-" + L);

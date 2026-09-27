@@ -99,8 +99,13 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .top.solid{background:rgba(234,238,228,.86);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-color:var(--line)}
 .bar{display:flex;align-items:center;gap:16px;height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:500 15px/1 var(--mono);letter-spacing:.2em}
-.brand-mark{width:28px;height:28px;fill:none;stroke:var(--gold);stroke-width:1.8}
-.brand-mark rect{fill:var(--green);stroke:var(--green)}
+.badge{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--green);color:var(--gold);flex:none}
+.badge svg{width:76%;height:76%;fill:currentColor}
+.badge-lg{width:56px;height:56px;border-radius:14px}
+.intro-logo{width:clamp(64px,9vw,110px);height:clamp(64px,9vw,110px);fill:var(--gold);opacity:0;transform:scale(.85);transition:opacity .7s var(--ease),transform .9s var(--ease)}
+.intro-title.on .intro-logo{opacity:1;transform:none}
+.final-logo{width:84px;height:84px;fill:var(--gold);margin:0 auto 26px;display:block}
+.foot-brand{display:flex;gap:16px;align-items:center}
 .nav{display:flex;gap:28px;margin-left:28px}
 .nav a{font-size:14px;color:var(--txt2);text-decoration:none;transition:color .2s}
 .nav a:hover{color:var(--txt)}

@@ -33,20 +33,21 @@
 <script data-goatcounter="{{@cfg.GOATCOUNTER}}" data-goatcounter-settings='{"allow_local":false}' async src="/site/js/count.js"></script>
 </head>
 <body>
+{{@logo}}
 <a class="skip" href="#main">{{nav.skip}}</a>
 
 <!-- ======================= INTRO ======================= -->
 <div class="intro" id="intro" hidden aria-hidden="true">
   <canvas id="introCanvas"></canvas>
   <div class="intro-labels" id="introLabels"></div>
-  <div class="intro-title"><span class="intro-word" id="introWord">Ebanist</span><span class="intro-tag">{{intro.tag}}</span></div>
+  <div class="intro-title"><svg class="intro-logo" aria-hidden="true"><use href="#ebLogo"/></svg><span class="intro-word" id="introWord">Ebanist</span><span class="intro-tag">{{intro.tag}}</span></div>
   <button type="button" class="intro-skip" id="introSkip">{{intro.skip}} <span aria-hidden="true">→</span></button>
 </div>
 
 <header class="top" id="top">
   <div class="wrap bar">
     <a class="brand" href="{{@home}}" aria-label="Ebanist">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7"/><path d="M9 9h14M9 16h10M9 23h14M9 9v14"/></svg>
+      <span class="badge" aria-hidden="true"><svg><use href="#ebLogo"/></svg></span>
       <span>EBANIST</span>
     </a>
     <nav class="nav" aria-label="Main">
@@ -291,6 +292,7 @@
 <section class="final" id="final">
   <div class="grid32" aria-hidden="true"></div>
   <div class="wrap">
+    <svg class="final-logo rv" aria-hidden="true"><use href="#ebLogo"/></svg>
     <p class="kicker mono rv">{{cta.kicker}}</p>
     <h2 class="h-final split">{{cta.h}}</h2>
     <svg class="final-dim" viewBox="0 0 600 24" aria-hidden="true"><path d="M2 12H598M2 4v16M598 4v16M2 12l8-4v8zM598 12l-8-4v8z"/></svg>
@@ -301,9 +303,12 @@
 
 <footer class="foot">
   <div class="wrap foot-in">
-    <div>
+    <div class="foot-brand">
+      <span class="badge badge-lg" aria-hidden="true"><svg><use href="#ebLogo"/></svg></span>
+      <div>
       <p class="foot-by">{{foot.by}}</p>
       <p class="mono foot-legal">{{foot.legal}}</p>
+      </div>
     </div>
     <nav class="foot-nav" aria-label="Footer">
       <a href="/termeni.html">{{foot.terms}}</a>
