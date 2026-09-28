@@ -84,7 +84,7 @@ Bannerul „de verificat de un jurist” rămâne pe pagina de termeni.
 
 ## 4.36.1 — 24 septembrie 2026
 
-**Audit complet: 21 de tipologii × 4 limbi × telefon/tabletă/PC.** Am trecut prin
+**Audit complet: 19 tipologii × 4 limbi × telefon/tabletă/PC.** Am trecut prin
 toate vederile, 3D-ul, documentele, modul Client și foile, căutând erori JS,
 texte stricate („undefined”, „NaN”), traduceri lipsă și ecrane care ies din pagină.
 Au ieșit la iveală cinci erori, toate reparate:
