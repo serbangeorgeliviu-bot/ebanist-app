@@ -101,33 +101,12 @@
   query = {lang = "fr"}
   force = true
 
-# D-60: la radice apre la pagina nella lingua del browser (Accept-Language).
-# - 302, non 301: un 301 il browser lo impara, e chi poi sceglie l'inglese
-#   non ci tornerebbe piu.
-# - La scelta a mano vince sempre: i link di lingua (site/js/main.js) mettono
-#   il cookie nf_lang, che Netlify legge AL POSTO di Accept-Language. Con
-#   nf_lang=en nessuna regola qui sotto scatta e resta la pagina inglese.
-# - Googlebot non manda Accept-Language: vede sempre / in inglese, e le
-#   altre lingue le trova dagli hreflang. L'indicizzazione non cambia.
-# - Solo la radice. /ro/ /it/ /fr/ non rimandano mai altrove.
-[[redirects]]
-  from = "/"
-  to = "/ro/"
-  status = 302
-  force = true
-  conditions = {Language = ["ro"]}
-[[redirects]]
-  from = "/"
-  to = "/it/"
-  status = 302
-  force = true
-  conditions = {Language = ["it"]}
-[[redirects]]
-  from = "/"
-  to = "/fr/"
-  status = 302
-  force = true
-  conditions = {Language = ["fr"]}
+# D-60: la radice «/» senza ?lang= la decide la edge function
+# netlify/edge-functions/lang.js (cookie eb_lang, poi Accept-Language).
+# NON regole `Language` qui: sul deploy preview la CDN memorizzava il 302
+# per lingua del browser ignorando il cookie, e la scelta a mano non
+# vinceva sempre. Le regole ?lang=xx qui sopra restano: la funzione le
+# lascia passare.
 
 [[redirects]]
   from = "/index.html"

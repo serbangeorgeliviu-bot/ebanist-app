@@ -11,7 +11,7 @@
     "test:rail": "node rail.js",
     "test:thickness": "node --test thickness.test.js",
     "test:catalog": "node --test catalog.test.js",
-    "test:all": "node --test geom.test.js thickness.test.js catalog.test.js closure.test.js invariants.test.js treapta.test.js layout.test.js ops.test.js price.test.js license.test.js pro-fn.test.mjs",
+    "test:all": "node --test lang-edge.test.mjs geom.test.js thickness.test.js catalog.test.js closure.test.js invariants.test.js treapta.test.js layout.test.js ops.test.js price.test.js license.test.js pro-fn.test.mjs",
     "test:layout": "node --test layout.test.js",
     "test:closure": "node --test closure.test.js",
     "test:invariants": "node --test invariants.test.js",

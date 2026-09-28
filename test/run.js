@@ -1435,11 +1435,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
        ce ne sono la conterrebbe — ma quello che un banner e per forza:
        document.cookie, o un elemento che si chiama consenso/banner. */
     const mainJs = fs.readFileSync(path.join(ROOT, "site/js/main.js"), "utf8");
-    /* D-60: l'unico cookie e nf_lang, la lingua scelta a mano; lo scrive
+    /* D-60: l'unico cookie e eb_lang, la lingua scelta a mano; lo scrive
        solo pickLang(), cioe un clic su una lingua. Nessun altro. */
     const cookieWrites = (land + mainJs).match(/document\.cookie|doc\.cookie/g) || [];
-    ok("l'unico cookie e nf_lang, scritto solo da pickLang()",
-       cookieWrites.length === 1 && /function pickLang[\s\S]{0,400}doc\.cookie = "nf_lang="/.test(mainJs), cookieWrites.join(","));
+    ok("l'unico cookie e eb_lang, scritto solo da pickLang()",
+       cookieWrites.length === 1 && /function pickLang[\s\S]{0,400}doc\.cookie = "eb_lang="/.test(mainJs), cookieWrites.join(","));
     ok("e non c'e nessun banner di consenso da chiudere",
        !/(consent|cookie-?banner|cookie-?consent|gdpr-?banner)/i.test(land));
     const cfgSite = JSON.parse(fs.readFileSync(path.join(ROOT, "site-src/site.config.json"), "utf8"));
@@ -1447,14 +1447,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
     const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
     ok("il vecchio /index.html rimanda a /app/", /from = "\/index\.html"[\s\S]{0,80}to = "\/app\/"/.test(toml));
-    /* D-60: la radice segue la lingua del browser, con un 302 (mai 301) */
-    for (const l of ["ro", "it", "fr"]) {
-      const r = toml.match(new RegExp(`\\[\\[redirects\\]\\]\\s*from = "/"\\s*to = "/${l}/"\\s*status = (\\d+)\\s*force = true\\s*conditions = \\{Language = \\["${l}"\\]\\}`));
-      ok(`/ con il browser in ${l} va a /${l}/ con un 302`, !!r && r[1] === "302", r ? r[1] : "regola mancante");
-    }
-    ok("nessuna regola di lingua per l'inglese (resta /)", !/Language = \["en"\]/.test(toml));
-    ok("le regole ?lang=xx vengono prima di quelle Accept-Language",
-       toml.indexOf('query = {lang = "fr"}') < toml.indexOf('conditions = {Language = ["ro"]}'));
+    /* D-60: la radice la decide la edge function (cookie, poi browser).
+       Le regole `Language` di Netlify NO: la CDN memorizzava il 302 per
+       lingua ignorando il cookie. La logica pura: lang-edge.test.mjs. */
+    ok("nessuna regola `Language` in netlify.toml (la CDN ignora il cookie)", !/conditions = \{[^}]*Language/.test(toml));
+    const edge = fs.readFileSync(path.join(ROOT, "netlify/edge-functions/lang.js"), "utf8");
+    ok("la edge function della lingua gira solo su /", /export const config = \{ path: "\/" \}/.test(edge));
+    ok("e legge lo stesso cookie che scrive la pagina (eb_lang)", /cookies\.get\("eb_lang"\)/.test(edge));
     ok("i vecchi /?lang=xx vanno alla pagina della lingua", ["ro", "it", "fr"].every(l => new RegExp(`to = "/${l}/"[\\s\\S]{0,60}query = \\{lang = "${l}"\\}`).test(toml)));
     /* Il dominio ufficiale e ebanist.com (D-41); ebanist.app resta solo come
        redirect. Un .app rimasto in un testo che il cliente legge — la
@@ -1514,8 +1513,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       });
       ok("il selettore apre le 4 lingue, ognuna tappabile (44 px), dentro lo schermo a 360 px", menu.l === "en,ro,it,fr" && menu.dentro, JSON.stringify(menu));
       await Promise.all([lp.waitForURL(/\/it\/$/), lp.tap('.top .lang-menu a[hreflang="it"]')]);
-      const ck = (await ctx.cookies(ORIGIN)).find(c => c.name === "nf_lang");
-      ok("scegliere una lingua mette nf_lang (Netlify lo preferisce ad Accept-Language)", !!ck && ck.value === "it", ck ? ck.value : "nessun cookie");
+      const ck = (await ctx.cookies(ORIGIN)).find(c => c.name === "eb_lang");
+      ok("scegliere una lingua mette eb_lang (la edge function lo preferisce ad Accept-Language)", !!ck && ck.value === "it", ck ? ck.value : "nessun cookie");
       await lp.tap(".top .lang-pick summary"); await lp.waitForTimeout(150);
       await lp.tap("h1"); await lp.waitForTimeout(150);
       ok("un tap fuori chiude la lista", await lp.evaluate(() => !document.querySelector(".top .lang-pick").open));

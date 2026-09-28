@@ -98,14 +98,15 @@
 
   /* ---------- limba aleasă de mână (D-60) ----------
      Rădăcina „/" trimite la /ro/ /it/ /fr/ după limba browserului
-     (netlify.toml). Cine alege altă limbă primește cookie-ul nf_lang, pe
-     care Netlify îl citește ÎN LOCUL Accept-Language: alegerea lui
-     câștigă de acum încolo. E singurul cookie al site-ului, funcțional,
-     pus numai la un click pe o limbă; nu identifică pe nimeni. */
+     (netlify/edge-functions/lang.js). Cine alege o limbă primește
+     cookie-ul eb_lang, pe care funcția îl citește ÎNAINTEA limbii
+     browserului: alegerea lui câștigă de acum încolo. E singurul cookie al
+     site-ului, funcțional, pus numai la un click pe o limbă; nu identifică
+     pe nimeni. */
   function pickLang(l) {
     store("localStorage", "eb_lang_ok", "1");
     if (!l || !EB.langs || EB.langs.indexOf(l) < 0) return;
-    try { doc.cookie = "nf_lang=" + l + ";path=/;max-age=31536000;samesite=lax" + (location.protocol === "https:" ? ";secure" : ""); } catch (e) {}
+    try { doc.cookie = "eb_lang=" + l + ";path=/;max-age=31536000;samesite=lax" + (location.protocol === "https:" ? ";secure" : ""); } catch (e) {}
   }
 
   /* ---------- sugestie de limbă ---------- */
