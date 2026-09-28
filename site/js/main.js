@@ -96,7 +96,19 @@
     if (y) { y.href = B.buyUrl("yearly", ""); y.rel = "noopener"; }
   }
 
-  /* ---------- sugestie de limbă (niciodată redirect) ---------- */
+  /* ---------- limba aleasă de mână (D-60) ----------
+     Rădăcina „/" trimite la /ro/ /it/ /fr/ după limba browserului
+     (netlify.toml). Cine alege altă limbă primește cookie-ul nf_lang, pe
+     care Netlify îl citește ÎN LOCUL Accept-Language: alegerea lui
+     câștigă de acum încolo. E singurul cookie al site-ului, funcțional,
+     pus numai la un click pe o limbă; nu identifică pe nimeni. */
+  function pickLang(l) {
+    store("localStorage", "eb_lang_ok", "1");
+    if (!l || !EB.langs || EB.langs.indexOf(l) < 0) return;
+    try { doc.cookie = "nf_lang=" + l + ";path=/;max-age=31536000;samesite=lax" + (location.protocol === "https:" ? ";secure" : ""); } catch (e) {}
+  }
+
+  /* ---------- sugestie de limbă ---------- */
   (function () {
     var box = $("#suggest"); if (!box || !EB.langs) return;
     if (store("localStorage", "eb_lang_ok")) return;
@@ -109,9 +121,17 @@
     var go = $("#suggestGo"); go.textContent = s.go; go.href = EB.home[want]; go.lang = want;
     box.lang = want; box.hidden = false;
     var close = function () { box.hidden = true; store("localStorage", "eb_lang_ok", "1"); };
-    $("#suggestX").addEventListener("click", close); go.addEventListener("click", close);
+    $("#suggestX").addEventListener("click", close);
+    go.addEventListener("click", function () { box.hidden = true; pickLang(want); });
   })();
-  $$(".langs a").forEach(function (a) { a.addEventListener("click", function () { store("localStorage", "eb_lang_ok", "1"); }); });
+  $$(".langs a, .lang-menu a").forEach(function (a) { a.addEventListener("click", function () { pickLang(a.getAttribute("hreflang")); }); });
+
+  /* lista de limbi de pe telefon se închide la un tap în afara ei și la Escape */
+  (function () {
+    var d = $(".lang-pick"); if (!d) return;
+    doc.addEventListener("click", function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
+    doc.addEventListener("keydown", function (e) { if (e.key === "Escape" && d.open) { d.open = false; d.querySelector("summary").focus(); } });
+  })();
 
   /* ---------- lightbox pentru foile reale ---------- */
   (function () {

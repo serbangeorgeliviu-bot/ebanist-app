@@ -33,6 +33,15 @@ site/
 ├── img/  docs/<lang>/  screens/<lang>/  og/
 ```
 
+## Limba (D-60)
+
+`ebanist.com/` trimite la `/ro/`, `/it/` sau `/fr/` după limba browserului
+(`netlify.toml`, 302, condiția `Language`). Alegerea de mână câștigă: linkurile
+de limbă pun cookie-ul `nf_lang`, pe care Netlify îl citește în locul
+`Accept-Language`. Pe telefon (sub 560 px) limba se schimbă din butonul `RO ▾`
+din antet (`langPick()` în `build.mjs`); sub 470 px din antet pleacă cuvântul
+EBANIST, rămâne logo-ul.
+
 ## Comenzi
 
 ```bash
