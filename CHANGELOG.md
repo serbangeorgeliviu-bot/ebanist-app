@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.1 — 29 septembrie 2026
+
+- În panourile care se derulează (Setări, AI, Pro), butonul X nu mai acoperă textul de sub el: după primul scroll stă pe o bandă opacă, iar conținutul trece pe sub ea.
+- Termeni, Rambursare, Confidențialitate: vânzătorul înregistrat (*merchant of record*) e **Link, LLC** (Dublin, TVA OSS EU440000220), cum scrie pe factura Stripe, nu „Stripe”. Chitanța vine de la Link, iar pe extras plata apare ca `LINK.COM* EBANIST.COM`.
+- Setări: după ce abonamentul web s-a încheiat, „Copiază codul pentru alt dispozitiv” nu mai apare (codul nu mai activează nimic). „Deconectează” rămâne.
+- `SW_CACHE`/`CACHE` → `ebanist-v81`.
+
 ## 4.38.0 — 27 septembrie 2026
 
 **Pro se poate plăti pe web, prin Stripe (D-58).**

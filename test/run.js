@@ -1590,12 +1590,20 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.scaduto = await proActivate("sub_1ScadutoXyz12345");
       o.inesistente = await proActivate("sub_1NonEsisteAbc123");
       o.proDopo = isPro();
+      /* abbonamento finito: il codice resta sul dispositivo, ma non si offre di copiarlo */
+      licWrite({ kind: "stripe", key: "sub_1ScadutoXyz12345", status: "expired", expiresAt: "2026-01-01T00:00:00.000Z" });
+      refreshPro(); renderProSettings();
+      o.copiaFinito = getComputedStyle(document.getElementById("btnLicCode")).display !== "none";
+      o.scollegaFinito = getComputedStyle(document.getElementById("btnLicOff")).display !== "none";
+      o.proFinito = isPro();
+      licWrite(null); refreshPro();
       closeSheets(); return o;
     });
     ok("in Impostazioni c'e «Copia il codice» e «Ricontrolla»", s2.copia && s2.ricontrolla, JSON.stringify(s2));
     ok("il codice sub_ incollato su un altro dispositivo attiva il Pro", s2.buono.ok && s2.proBuono);
     ok("un abbonamento scaduto non attiva", s2.scaduto.ok === false && !!s2.scaduto.msg);
     ok("un codice inesistente non attiva", s2.inesistente.ok === false && s2.proDopo === false);
+    ok("abbonamento finito: niente «Copia il codice», «Scollega» resta", !s2.proFinito && !s2.copiaFinito && s2.scollegaFinito, JSON.stringify(s2));
     ok("nessun errore JavaScript nel flusso Stripe", se.length === 0, se.join(" | "));
     await ctx.close();
   }

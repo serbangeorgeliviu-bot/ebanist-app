@@ -247,7 +247,7 @@ juridic. Ce trebuie decis:
 - **Cine încasează — decis 27.09.2026: Domus Renov SRL** (CUI RO47806657).
   Stripe nu acceptă în România persoana fizică simplă, ci doar PFA/II,
   societate sau non-profit. Plata pe web trece prin **Stripe Managed
-  Payments** (Stripe e *merchant of record*), nu prin Lemon Squeezy: la
+  Payments** (*merchant of record*: Link, LLC, Dublin, cf. primei facturi din 29.09.2026), nu prin Lemon Squeezy: la
   înscriere, Lemon Squeezy trimite acum direct la Stripe. Google Play rămâne
   pe persoana fizică Serban George Liviu. Vezi D-58.
 - Legea aplicabilă și instanța competentă.
