@@ -32,7 +32,7 @@
 # quel file carica tutto con percorsi relativi (./ebanist-core.js): da li
 # diventerebbero /a/ebanist-core.js e l'app non partirebbe affatto.
 # Il link corto resta quello che si condivide; il browser atterra su
-# /app/?atelier=<slug>. Dettagli in DECISIONS.md §2.1.
+# /app/?atelier=<slug>. Dettagli in ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md §2.1.
 [[redirects]]
   from = "/a/:slug"
   to = "/app/?atelier=:slug"
