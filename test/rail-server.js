@@ -30,7 +30,7 @@ function makeStore() { return { orders: new Map(), events: [] }; }
 /* Aceleași reguli ca în netlify/functions/orders.js. E o a doua
  * implementare — și se știe: nu poate proba funcția adevărată, probează
  * CONTRACTUL (rutele, codurile, înghețarea, PIN-ul). Diferența e scrisă
- * în DECISIONS.md ca să nu se creadă altceva.
+ * în ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md ca să nu se creadă altceva.
  */
 function api(store, req, body, url, cfgOf) {
   const p = url.pathname.replace(/^\/api\/orders/, "").replace(/^\/+|\/+$/g, "");

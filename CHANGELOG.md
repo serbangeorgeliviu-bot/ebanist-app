@@ -450,7 +450,7 @@ pachetul gata de tăiat și prețul.
   logo și nume în header și pe toate documentele, limba lui, moneda lui.
 - **Limitele cad.** Fără zidul celor 2 proiecte, fără buton Pro, fără
   filigran — nu clientul plătește aplicația, atelierul i-o oferă.
-- Un atelier nou = **un fișier JSON**. `ORDER_RAIL_README.md` §1.
+- Un atelier nou = **un fișier JSON**. `ebanist-hq/01-arhitectura/Order-Rail-Manual-v1.md` §1.
 
 ### Preț și comandă
 

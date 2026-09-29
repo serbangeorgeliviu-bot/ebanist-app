@@ -7,14 +7,14 @@ aplicația în `app/`, gata de instalare ca PWA (Progressive Web App).
 /                       pagina de prezentare (4 limbi) + termeni, confidențialitate, rambursare
 /sw.js                  service worker de demontare — îl dezinstalează pe cel vechi, de pe scope „/”
 /app/                   APLICAȚIA: index.html, manifest.webmanifest, sw.js, icons/, vendor/
-/app/config/billing.js  DE COMPLETAT: valorile Lemon Squeezy (vezi MONETIZARE.md)
+/app/config/billing.js  DE COMPLETAT: valorile Lemon Squeezy (vezi ebanist-hq/00-business/Monetizare-v1.md)
 /app/tools/genkey.py    generatorul de chei permanente EBP-XXXX-XXXX-XXXX
 ```
 
 **Aplicația s-a mutat de la `/` la `/app/` în v4.25.0.** Aceeași origine,
 deci nimeni nu-și pierde proiectele. `/sw.js` din rădăcină trebuie să rămână
 servit de acolo, fără redirect — e singurul mod de a-l înlocui pe cel vechi.
-Detaliile, în MONETIZARE.md §5.
+Detaliile, în ebanist-hq/00-business/Monetizare-v1.md §5.
 
 ---
 

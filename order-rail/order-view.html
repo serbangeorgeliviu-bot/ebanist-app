@@ -127,7 +127,7 @@ function paint(rec){
 
   /* Documentele. Se deschid gata de tipărit — „Salvează ca PDF" e în
      dialogul de tipărire al telefonului. De ce nu sunt fișiere .pdf:
-     DECISIONS.md §3. */
+     ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md §3. */
   h += '<div class="card"><div class="k" style="margin-top:0">'+esc(T.docs)+'</div><div class="dl">';
   for(var k in (rec.docs||{})){
     h += '<button class="p" data-doc="'+esc(k)+'">'+esc(T[DOC_LABEL[k]]||k)+'</button>';
