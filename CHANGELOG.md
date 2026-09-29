@@ -5,6 +5,11 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.1 — 29 septembrie 2026
+
+- În panourile care se derulează (Setări, AI, Pro), butonul X nu mai acoperă textul de sub el: după primul scroll stă pe o bandă opacă, iar conținutul trece pe sub ea.
+- `SW_CACHE`/`CACHE` → `ebanist-v81`.
+
 ## 4.38.0 — 27 septembrie 2026
 
 **Pro se poate plăti pe web, prin Stripe (D-58).**

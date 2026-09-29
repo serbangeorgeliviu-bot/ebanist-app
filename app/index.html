@@ -351,7 +351,13 @@ nav button{transition:color .14s}
    pannelli che scorrono (impostazioni, catalogo, AI), dove un semplice
    position:absolute se ne andrebbe via col primo scorrimento. */
 .sheet-xrow{position:sticky;top:0;height:0;z-index:3;display:flex;justify-content:flex-end;pointer-events:none}
-.sheet-x{pointer-events:auto;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+/* derulat, X-ul acoperea textul de sub el (cheia AI, setari): acum sta pe o
+   banda opaca cat latimea panoului, iar continutul trece pe sub ea. Banda apare
+   numai dupa primul scroll, ca sus sa nu acopere maneta si titlul. */
+.sheet-xrow::before{content:"";position:absolute;top:-8px;left:-16px;right:-16px;height:52px;
+  background:var(--surface);border-bottom:1px solid var(--line);opacity:0;transition:opacity .15s}
+.sheet.scrolled .sheet-xrow::before{opacity:1}
+.sheet-x{position:relative;pointer-events:auto;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
   color:var(--muted);background:var(--raised);border:1px solid var(--line);transform:translateY(2px)}
 .sheet-x:active{background:var(--line)}
 .sheet-x svg{width:18px;height:18px}
@@ -4235,6 +4241,7 @@ function mountSheetClosers(){
       navSync();
     });
     row.appendChild(b); sh.insertBefore(row,sh.firstChild);
+    sh.addEventListener("scroll",()=>sh.classList.toggle("scrolled",sh.scrollTop>4),{passive:true});
   });
 }
 
@@ -12389,12 +12396,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.38.0"; /* APP_VER-MARKER */
+const APP_VER="4.38.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v80";
+const SW_CACHE="ebanist-v81";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
