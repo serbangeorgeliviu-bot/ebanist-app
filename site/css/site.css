@@ -115,7 +115,26 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .langs a[aria-current]{color:var(--txt);box-shadow:inset 0 -2px 0 var(--gold)}
 .langs a:hover{color:var(--txt)}
 @media (max-width:1000px){.nav{display:none}}
-@media (max-width:560px){.top .langs{display:none}.top .btn{min-height:36px;padding:0 14px;font-size:13px}}
+/* selectorul de limbă pe telefon (D-60): butonul cu limba curentă, lista sub el */
+.lang-pick{display:none;position:relative;flex:none}
+/* Sub 470 px antetul nu încape cu logo + cuvânt + limbă + TikTok + buton:
+   rămâne logo-ul (linkul are aria-label „Ebanist"), cuvântul pleacă.
+   Nimic din antet nu se mai strânge sub mărimea lui (flex:none). */
+.top .bar>.brand,.top .tt-btn,.top .btn{flex:none}
+@media (max-width:470px){.top .brand>span:last-child{display:none}}
+.lang-pick summary{list-style:none;display:flex;align-items:center;gap:4px;min-height:36px;padding:0 10px;border:1px solid var(--line2);border-radius:999px;font:500 12px/1 var(--mono);color:var(--txt);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lang-pick summary::-webkit-details-marker{display:none}
+.lang-pick summary svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .2s}
+.lang-pick[open] summary svg{transform:rotate(180deg)}
+.lang-pick summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.lang-menu{position:absolute;left:0;top:calc(100% + 8px);min-width:176px;padding:6px;background:var(--paper);border:1px solid var(--line2);border-radius:12px;box-shadow:0 12px 32px rgba(14,59,42,.16);display:grid;gap:2px}
+.lang-menu a{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:8px;color:var(--txt);text-decoration:none;font-size:15px}
+.lang-menu a span{text-transform:capitalize}
+.lang-menu a b{font-weight:500;font-size:12px;color:var(--txt3);width:20px}
+.lang-menu a[aria-current]{background:var(--paper2);box-shadow:inset 3px 0 0 var(--gold)}
+.lang-menu a:active{background:var(--paper2)}
+@media (max-width:560px){.top .langs{display:none}.lang-pick{display:block}.top .btn{min-height:36px;padding:0 14px;font-size:13px}}
+@media (max-width:359px){.top .bar{gap:8px}.lang-pick summary{padding:0 8px}.top .btn{padding:0 12px}}
 
 /* ---------- intro ---------- */
 .intro{position:fixed;inset:0;z-index:150;background:radial-gradient(120% 90% at 50% 40%,#16513a,#0b2e21);display:grid;place-items:center;overflow:hidden}

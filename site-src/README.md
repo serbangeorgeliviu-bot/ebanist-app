@@ -33,6 +33,18 @@ site/
 ├── img/  docs/<lang>/  screens/<lang>/  og/
 ```
 
+## Limba (D-60)
+
+`ebanist.com/` trimite la `/ro/`, `/it/` sau `/fr/` după limba browserului,
+cu un 302 dat de Edge Function-ul `netlify/edge-functions/lang.js` (numai pe
+`/`, la fiecare cerere, înainte de cache). Alegerea de mână câștigă: linkurile
+de limbă pun cookie-ul `eb_lang`, pe care funcția îl citește înaintea
+`Accept-Language`. **Nu** regulile `Language` din `netlify.toml`: pe preview,
+CDN-ul memora redirectul după limbă și ignora cookie-ul. Logica e pură și are
+teste: `cd test && node --test lang-edge.test.mjs`. Pe telefon (sub 560 px) limba se schimbă din butonul `RO ▾`
+din antet (`langPick()` în `build.mjs`); sub 470 px din antet pleacă cuvântul
+EBANIST, rămâne logo-ul.
+
 ## Comenzi
 
 ```bash

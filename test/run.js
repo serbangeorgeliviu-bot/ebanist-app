@@ -1435,7 +1435,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
        ce ne sono la conterrebbe — ma quello che un banner e per forza:
        document.cookie, o un elemento che si chiama consenso/banner. */
     const mainJs = fs.readFileSync(path.join(ROOT, "site/js/main.js"), "utf8");
-    ok("la pagina non scrive nessun cookie", !/document\.cookie/.test(land + mainJs));
+    /* D-60: l'unico cookie e eb_lang, la lingua scelta a mano; lo scrive
+       solo pickLang(), cioe un clic su una lingua. Nessun altro. */
+    const cookieWrites = (land + mainJs).match(/document\.cookie|doc\.cookie/g) || [];
+    ok("l'unico cookie e eb_lang, scritto solo da pickLang()",
+       cookieWrites.length === 1 && /function pickLang[\s\S]{0,400}doc\.cookie = "eb_lang="/.test(mainJs), cookieWrites.join(","));
     ok("e non c'e nessun banner di consenso da chiudere",
        !/(consent|cookie-?banner|cookie-?consent|gdpr-?banner)/i.test(land));
     const cfgSite = JSON.parse(fs.readFileSync(path.join(ROOT, "site-src/site.config.json"), "utf8"));
@@ -1443,6 +1447,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
     const toml = fs.readFileSync(path.join(ROOT, "netlify.toml"), "utf8");
     ok("il vecchio /index.html rimanda a /app/", /from = "\/index\.html"[\s\S]{0,80}to = "\/app\/"/.test(toml));
+    /* D-60: la radice la decide la edge function (cookie, poi browser).
+       Le regole `Language` di Netlify NO: la CDN memorizzava il 302 per
+       lingua ignorando il cookie. La logica pura: lang-edge.test.mjs. */
+    ok("nessuna regola `Language` in netlify.toml (la CDN ignora il cookie)", !/conditions = \{[^}]*Language/.test(toml));
+    const edge = fs.readFileSync(path.join(ROOT, "netlify/edge-functions/lang.js"), "utf8");
+    ok("la edge function della lingua gira solo su /", /export const config = \{ path: "\/" \}/.test(edge));
+    ok("e legge lo stesso cookie che scrive la pagina (eb_lang)", /cookies\.get\("eb_lang"\)/.test(edge));
     ok("i vecchi /?lang=xx vanno alla pagina della lingua", ["ro", "it", "fr"].every(l => new RegExp(`to = "/${l}/"[\\s\\S]{0,60}query = \\{lang = "${l}"\\}`).test(toml)));
     /* Il dominio ufficiale e ebanist.com (D-41); ebanist.app resta solo come
        redirect. Un .app rimasto in un testo che il cliente legge — la
@@ -1476,6 +1487,37 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         ok(`/${l} niente scroll orizzontale a 390 px`, r.over <= 0, r.over);
         ok(`/${l} il prezzo Pro e quello di billing.js`, r.pro.replace(/\s/g, "") === String(await lp.evaluate(() => BILLING.PRICE_MONTHLY)).replace(/\s/g, ""), r.pro);
       }
+      /* D-60: sul telefono la lingua si cambia dall'antet, non solo dal
+         fondo; e a 360 px (il telefono piu stretto comune) niente nell'antet
+         si schiaccia: il bottone TikTok era finito a 0 px. */
+      for (const [w, l] of [[390, ""], [390, "ro/"], [360, ""], [360, "ro/"], [360, "it/"], [360, "fr/"]]) {
+        await lp.setViewportSize({ width: w, height: 844 });
+        await lp.goto(`${ORIGIN}/${l}`); await lp.waitForTimeout(500);
+        const h = await lp.evaluate(() => {
+          const d = document.querySelector(".top .lang-pick"), s = d && d.querySelector("summary");
+          const r = s ? s.getBoundingClientRect() : null;
+          const bar = [...document.querySelectorAll(".top .bar > *")].filter(e => getComputedStyle(e).display !== "none");
+          const tt = document.querySelector(".top .tt-btn").getBoundingClientRect();
+          return { vis: !!r && r.width >= 40 && r.height >= 36, txt: s ? s.textContent.trim() : "", tt: Math.round(tt.width),
+                   fuori: bar.filter(e => e.getBoundingClientRect().right > innerWidth + 0.5).map(e => e.className) };
+        });
+        ok(`/${l} a ${w} px il selettore di lingua e nell'antet`, h.vis && h.txt === (l ? l.slice(0, 2).toUpperCase() : "EN"), JSON.stringify(h));
+        ok(`/${l} a ${w} px niente esce dall'antet e TikTok resta intero`, h.fuori.length === 0 && h.tt >= 40, JSON.stringify(h));
+      }
+      /* ultima pagina del giro: /fr/ a 360 px */
+      await lp.tap(".top .lang-pick summary"); await lp.waitForTimeout(200);
+      const menu = await lp.evaluate(() => {
+        const m = document.querySelector(".top .lang-menu").getBoundingClientRect();
+        return { l: [...document.querySelectorAll(".top .lang-menu a")].filter(a => a.getBoundingClientRect().height >= 44).map(a => a.getAttribute("hreflang")).join(),
+                 dentro: m.left >= 0 && m.right <= innerWidth };
+      });
+      ok("il selettore apre le 4 lingue, ognuna tappabile (44 px), dentro lo schermo a 360 px", menu.l === "en,ro,it,fr" && menu.dentro, JSON.stringify(menu));
+      await Promise.all([lp.waitForURL(/\/it\/$/), lp.tap('.top .lang-menu a[hreflang="it"]')]);
+      const ck = (await ctx.cookies(ORIGIN)).find(c => c.name === "eb_lang");
+      ok("scegliere una lingua mette eb_lang (la edge function lo preferisce ad Accept-Language)", !!ck && ck.value === "it", ck ? ck.value : "nessun cookie");
+      await lp.tap(".top .lang-pick summary"); await lp.waitForTimeout(150);
+      await lp.tap("h1"); await lp.waitForTimeout(150);
+      ok("un tap fuori chiude la lista", await lp.evaluate(() => !document.querySelector(".top .lang-pick").open));
       ok("la presentazione non ha errori JavaScript", le.length === 0, le.join(" | "));
       await ctx.close();
     }

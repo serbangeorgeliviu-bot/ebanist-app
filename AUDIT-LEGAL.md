@@ -77,3 +77,9 @@ achizițiile rămân, dar numele vânzătorului se schimbă în magazin.
   ca marcă verbală aici; un logo cu nume sau o marcă UE are mai multe șanse.
 - Blocul „DE COMPLETAT…” din `termeni.html` și `rambursare.html` e ascuns ca
   comentariu HTML: citește-l înainte de discuția cu contabilul.
+- Cookie-ul `eb_lang` (D-60, 28.09.2026): singurul cookie al site-ului de
+  prezentare, pus numai la alegerea explicită a unei limbi, fără identificator,
+  expiră după un an. E un cookie funcțional cerut de utilizator (ePrivacy
+  art. 5(3), „strict necesar”), deci fără banner de consimțământ; e descris în
+  privacy în toate cele 4 limbi. Dacă se adaugă vreodată un al doilea cookie,
+  analiza se reface.

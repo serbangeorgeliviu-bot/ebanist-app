@@ -81,8 +81,7 @@
 # ---------------------------------------------------------------------
 # Il sito di presentazione ha una pagina per lingua (/, /ro/, /it/, /fr/).
 # I vecchi link «/?lang=xx» (condivisi prima del 27.09.2026) vanno alla
-# pagina giusta; la scelta della lingua resta un suggerimento, mai un
-# redirect automatico.
+# pagina giusta.
 [[redirects]]
   from = "/"
   to = "/ro/"
@@ -101,6 +100,13 @@
   status = 301
   query = {lang = "fr"}
   force = true
+
+# D-60: la radice «/» senza ?lang= la decide la edge function
+# netlify/edge-functions/lang.js (cookie eb_lang, poi Accept-Language).
+# NON regole `Language` qui: sul deploy preview la CDN memorizzava il 302
+# per lingua del browser ignorando il cookie, e la scelta a mano non
+# vinceva sempre. Le regole ?lang=xx qui sopra restano: la funzione le
+# lascia passare.
 
 [[redirects]]
   from = "/index.html"

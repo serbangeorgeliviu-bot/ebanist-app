@@ -131,6 +131,12 @@ function sheets(L) {
 function langLinks(L) {
   return cfg.LANGS.map(l => `<a href="${home(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}>${l.toUpperCase()}</a>`).join("");
 }
+/* Pe telefon cele 4 coduri nu încap în antet: un singur buton cu limba
+   curentă, care deschide lista cu numele întregi (D-60). */
+function langPick(L) {
+  const items = cfg.LANGS.map(l => `<a href="${home(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}><b class="mono">${l.toUpperCase()}</b><span>${esc(I18N[l]._name)}</span></a>`).join("");
+  return `<details class="lang-pick"><summary aria-label="${esc(t(L, "nav.langLabel"))}: ${esc(I18N[L]._name)}"><span class="mono">${L.toUpperCase()}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></summary><nav class="lang-menu" aria-label="${esc(t(L, "nav.langLabel"))}">${items}</nav></details>`;
+}
 function hreflang() {
   return cfg.LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${pageUrl(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${pageUrl(cfg.DEFAULT_LANG)}">`;
 }
@@ -160,7 +166,7 @@ function runtime(L) {
 function render(L) {
   const blocks = {
     css: CSS, logo: LOGO, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
-    hreflang: hreflang(), langlinks: langLinks(L), jsonld: jsonld(L), runtime: runtime(L),
+    hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), priceMonthly: esc(PRICE_M), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
