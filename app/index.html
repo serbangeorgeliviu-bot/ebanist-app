@@ -4818,7 +4818,8 @@ function renderProSettings(){
   $("btnGoPro").style.display=pro?"none":"flex";
   const isPlay=!!(LIC&&LIC.kind==="play");
   $("btnLicCheck").style.display=((pro&&LIC&&(LIC.kind==="ls"||LIC.kind==="stripe"))||playOn())?"flex":"none";
-  $("btnLicCode").style.display=(LIC&&LIC.kind==="stripe"&&LIC.key)?"flex":"none";
+  /* il codice di un abbonamento finito, incollato altrove, dà solo "scaduto" */
+  $("btnLicCode").style.display=(pro&&LIC&&LIC.kind==="stripe"&&LIC.key)?"flex":"none";
   /* un abonament Play nu se „deconectează”: se anulează din Play */
   $("btnLicOff").style.display=(LIC&&LIC.key&&!isPlay)?"flex":"none";
   $("btnPlayManage").style.display=isPlay?"flex":"none";
