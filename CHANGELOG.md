@@ -5,6 +5,11 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.3 — 30 septembrie 2026
+
+- Cheile istorice `EBP-…`: o cheie **nouă** se activează numai dacă serverul o găsește în lista cheilor emise (`EBP_KEYS` în Netlify), deci trebuie internet o dată. Formula de control stă în codul public, așa că oricine își putea face o cheie validă. Cheile deja activate pe un dispozitiv nu se schimbă și merg în continuare offline.
+- `SW_CACHE`/`CACHE` → `ebanist-v83`.
+
 ## 4.38.2 — 30 septembrie 2026
 
 - Site-ul nu mai servește fișierele repo-ului: notele interne (monetizare, adrese și PIN-uri Order Rail, decizii, mesajul Centro Legno) au ieșit din repo-ul public (stau în ebanist-hq), iar sursele funcțiilor, testele, uneltele, `site-src/`, `docs/` și celelalte fișiere de lucru răspund 404.

@@ -1166,30 +1166,47 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
+  /* /api/pro vera (netlify/functions/pro.js), chiamata dentro la route:
+     le chiavi EBP nuove passano solo se sono in EBP_KEYS. */
+  const proFn = (await import(require("url").pathToFileURL(path.join(ROOT, "netlify", "functions", "pro.js")).href)).default;
+  const realApiPro = async route => {
+    const q = route.request();
+    const r = await proFn(new Request("https://ebanist.com/api/pro", { method: "POST", body: q.postData() || "" }));
+    await route.fulfill({ status: r.status, contentType: "application/json", body: await r.text() });
+  };
+
   head("La licenza sopravvive alla stessa cancellazione");
   {
     const key = genkey(1)[0];
+    process.env.EBP_KEYS = key;
     const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    await ctx.route("**/api/pro", realApiPro);
     const pp = await ctx.newPage();
     await pp.goto(`${ORIGIN}/app/index.html`);
     await pp.waitForTimeout(1500);
     const act = await pp.evaluate(async k => { closeSheets(); const r = await proActivate(k); return { r, pro: isPro() }; }, key);
-    ok("una chiave storica valida attiva Pro, senza rete", act.r.ok && act.pro, key);
+    ok("una chiave storica emessa attiva Pro (/api/pro la trova in EBP_KEYS)", act.r.ok && act.pro, key);
     await pp.evaluate(() => new Promise(r => setTimeout(r, 600)));
     await pp.evaluate(() => localStorage.clear());
     await pp.reload();
     await pp.waitForTimeout(2400);
-    ok("dopo la cancellazione di localStorage si e ancora Pro", await pp.evaluate(() => isPro()));
+    await ctx.unroute("**/api/pro");
+    await ctx.route("**/api/pro", route => route.abort());      // da qui: niente rete
+    ok("dopo la cancellazione di localStorage si e ancora Pro, anche offline", await pp.evaluate(() => isPro()));
     ok("e lo specchio si e riscritto", await pp.evaluate(() => !!localStorage.getItem("ebanist_lic")));
     await ctx.close();
   }
 
   head("Chiavi — quello che si accetta e quello che no");
   {
-    const [k1] = genkey(1);
-    const r = await pg.evaluate(async k => {
+    const [k1, falsa] = genkey(2);
+    process.env.EBP_KEYS = "ebp-zzzz-zzzz-zzzz, " + k1.toLowerCase();   // emessa: k1; `falsa` ha il checksum giusto ma nessuno l'ha data
+    await pg.route("**/api/pro", realApiPro);
+    const r = await pg.evaluate(async ([k, falsa]) => {
       const out = {}, keep = LIC;
       licWrite(null);
+      out.falsa = (await proActivate(falsa)).ok;
+      out.proFalsa = isPro();
       out.vuota = (await proActivate("")).ok;
       out.spazzatura = (await proActivate("ciao-mamma")).ok;
       out.storpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).ok;
@@ -1198,7 +1215,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       out.proDopo = isPro();
       out.senzaTrattini = (await proActivate(k.replace(/-/g, "").toLowerCase())).ok;
       licWrite(keep); return out;
-    }, k1);
+    }, [k1, falsa]);
+    await pg.unroute("**/api/pro");
+    await pg.route("**/api/pro", route => route.abort());
+    const off = await pg.evaluate(async k => { const keep = LIC; licWrite(null); const x = await proActivate(k); const pro = isPro(); licWrite(keep); return { x, pro }; }, k1);
+    await pg.unroute("**/api/pro");
+    delete process.env.EBP_KEYS;
+    ok("una chiave col checksum giusto ma non emessa (non in EBP_KEYS) viene rifiutata", r.falsa === false && r.proFalsa === false);
+    ok("senza rete una chiave nuova non si attiva, e lo dice", off.x.ok === false && off.pro === false && /\w{4}/.test(off.x.msg || ""), off.x.msg);
     ok("una chiave vuota non attiva niente", r.vuota === false);
     ok("una stringa a caso nemmeno", r.spazzatura === false);
     ok("una chiave con un carattere sbagliato viene rifiutata", r.storpiata === false);

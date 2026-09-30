@@ -5,8 +5,11 @@
 
    1. CHIAVI STORICHE  `EBP-XXXX-XXXX-XXXX`
       Emesse a mano, verificate offline con un checksum FNV-1a. Chi le ha
-      le tiene: non scadono, non chiedono rete, non passano da Lemon
-      Squeezy. Il generatore sta in tools/genkey.py.
+      le tiene: non scadono, non passano da Lemon Squeezy. Il generatore
+      sta in tools/genkey.py. Il checksum e pubblico (sta qui sotto), quindi
+      dalla 4.38.3 una chiave NUOVA si attiva solo se /api/pro la trova in
+      EBP_KEYS (Netlify): serve rete una volta. Una gia attivata resta
+      valida offline, per sempre.
 
    2. CHIAVI LEMON SQUEEZY  (un UUID)
       Emesse dal negozio a ogni abbonamento. Si attivano una volta contro
@@ -242,6 +245,7 @@
     });
   }
   function stripeFromSession(sessionId) { return stripeCheck({ session: sessionId }); }
+  function ebpCheck(key) { return stripeCheck({ ebp: key }); }
   function stripeValidate(subId) { return stripeCheck({ sub: subId }); }
 
   function shapeFromStripe(j, prev) {
@@ -293,6 +297,7 @@
     isStripeShape: isStripeShape,
     stripeFromSession: stripeFromSession,
     stripeValidate: stripeValidate,
+    ebpCheck: ebpCheck,
     shapeFromStripe: shapeFromStripe,
     legacyValid: legacyValid,
     keyKind: keyKind,

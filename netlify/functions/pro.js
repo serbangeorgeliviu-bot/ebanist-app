@@ -3,6 +3,7 @@
    ---------------------------------------------------------------------
      POST /api/pro  { session: "cs_…" }   după plată: sesiunea de checkout
      POST /api/pro  { sub: "sub_…" }      reverificare / alt dispozitiv
+     POST /api/pro  { ebp: "EBP-…" }      cheie istorică, la activare
 
    Răspuns: { ok:true, sub, status, periodEnd, plan, email? }
             { ok:false, error }   cu 4xx când Stripe a răspuns „nu”,
@@ -17,6 +18,12 @@
    Codul de activare al clientului e ID-ul abonamentului (`sub_…`): nu se
    ghicește (24 de caractere aleatoare) și nu dă acces la nimic altceva
    decât la răspunsul „e activ / nu e activ” de aici.
+
+   Cheile istorice EBP-XXXX-XXXX-XXXX: checksum-ul lor stă în JS-ul public,
+   deci oricine poate face una care trece de el. O cheie NOUĂ se activează
+   numai dacă e în lista EBP_KEYS din Netlify (cheile emise, separate prin
+   virgulă sau spațiu). Fără variabilă nu se activează niciuna. Cheile deja
+   activate pe un dispozitiv nu trec pe aici și rămân valabile.
    ===================================================================== */
 
 const JSON_HEADERS = {
@@ -32,6 +39,20 @@ const PLANS = { ebanist_pro_monthly: "monthly", ebanist_pro_yearly: "yearly" };
 
 const SESSION = /^cs_(live|test)_[A-Za-z0-9]{10,200}$/;
 const SUB = /^sub_[A-Za-z0-9]{8,64}$/;
+const EBP = /^EBP-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4}$/;
+
+/* Aceeași normalizare ca în app/ebanist-license.js: majuscule, trattini
+   la locul lor, fie că cheia vine din aplicație, fie din lista din Netlify. */
+function ebpNorm(raw) {
+  let s = String(raw || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  if (s.indexOf("EBP") === 0) s = s.slice(3);
+  if (s.length !== 12) return "";
+  return "EBP-" + s.slice(0, 4) + "-" + s.slice(4, 8) + "-" + s.slice(8, 12);
+}
+function ebpIssued(key) {
+  const list = String(process.env.EBP_KEYS || "").split(/[\s,;]+/).map(ebpNorm).filter(Boolean);
+  return list.includes(key);
+}
 
 async function stripe(path, key) {
   const ctl = new AbortController();
@@ -93,11 +114,19 @@ function shape(sub, email) {
 
 export default async (req) => {
   if (req.method !== "POST") return reply({ ok: false, error: "method" }, 405);
-  const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) return reply({ ok: false, error: "not-configured" }, 503);
 
   let body;
   try { body = await req.json(); } catch (e) { return reply({ ok: false, error: "bad-json" }, 400); }
+
+  /* Cheia istorică nu are nevoie de Stripe. */
+  if (body && body.ebp != null) {
+    const k = ebpNorm(body.ebp);
+    if (!EBP.test(k)) return reply({ ok: false, error: "bad-ebp" }, 400);
+    return ebpIssued(k) ? reply({ ok: true, ebp: k }) : reply({ ok: false, error: "unknown-key" }, 403);
+  }
+
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) return reply({ ok: false, error: "not-configured" }, 503);
   const session = String((body && body.session) || "");
   const subId = String((body && body.sub) || "");
 

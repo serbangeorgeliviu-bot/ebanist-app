@@ -11,6 +11,10 @@ mestiere, ai collaudatori, ai clienti di Domus Renov, e a chiunque paghi
 per contanti o per bonifico. Sono offline, non scadono e non passano da
 nessun negozio. Non sostituiscono l'abbonamento: lo affiancano.
 
+DALLA 4.38.3 una chiave nuova si attiva solo se e nella variabile
+EBP_KEYS su Netlify (chiavi separate da virgola): il checksum e pubblico,
+quindi da solo non prova niente. Generata una chiave, aggiungila li.
+
 Il checksum deve dare lo STESSO risultato di legacyCheck() in
 app/ebanist-license.js. Se un giorno si tocca uno dei due, si tocca
 l'altro nello stesso commit, e si rilancia `npm run test:license`.

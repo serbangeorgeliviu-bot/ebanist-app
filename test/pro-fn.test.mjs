@@ -74,4 +74,23 @@ describe("/api/pro", () => {
     assert.strictEqual((await call({ sub: "sub_1AbCdEfGhIjKlMn" })).status, 504);
     assert.strictEqual((await handler(new Request("https://ebanist.com/api/pro"))).status, 405);
   });
+  test("chiave EBP emessa (in EBP_KEYS, anche minuscola e senza trattini) → ok, senza Stripe", async () => {
+    stripeReplies({});
+    delete process.env.STRIPE_SECRET_KEY;
+    process.env.EBP_KEYS = "EBP-AAAA-BBBB-CCCC, ebpddddeeeeffff";
+    for (const k of ["EBP-AAAA-BBBB-CCCC", "ebp-dddd-eeee-ffff", "aaaabbbbcccc"]) {
+      const r = await call({ ebp: k });
+      assert.strictEqual(r.status, 200, k);
+      assert.strictEqual((await r.json()).ok, true, k);
+    }
+    assert.strictEqual(seen.length, 0);
+  });
+  test("chiave EBP non emessa → 403; senza EBP_KEYS nessuna passa; forma sbagliata → 400", async () => {
+    process.env.EBP_KEYS = "EBP-AAAA-BBBB-CCCC";
+    assert.strictEqual((await call({ ebp: "EBP-AAAA-BBBB-CCCD" })).status, 403);
+    delete process.env.EBP_KEYS;
+    assert.strictEqual((await call({ ebp: "EBP-AAAA-BBBB-CCCC" })).status, 403);
+    assert.strictEqual((await call({ ebp: "EBP-0000-1111-IIII" })).status, 400);
+    assert.strictEqual((await call({ ebp: "" })).status, 400);
+  });
 });
