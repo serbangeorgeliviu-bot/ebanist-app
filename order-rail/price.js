@@ -8,7 +8,7 @@
    Se rulează și în browser (window.EBPrice) și în node (require), ca să
    poată fi probat fără browser.
 
-   Ce se numără și de ce, pe scurt (lung în DECISIONS.md §4):
+   Ce se numără și de ce, pe scurt (lung în ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md §4):
 
      plăci      aria NETĂ a pieselor, per material, × preț/m²
      cant       metri liniari, la grosimea de cant din setări, × preț/ml

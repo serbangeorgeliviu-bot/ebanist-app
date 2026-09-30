@@ -3,7 +3,7 @@
    ---------------------------------------------------------------------
    Ce face: transformă aplicația din CAD cu paywall în linkul de comandă
    al unui atelier de debitare. Se activează cu `?atelier=<slug>`
-   (adresa scurtă `/a/<slug>` redirecționează acolo — vezi DECISIONS.md
+   (adresa scurtă `/a/<slug>` redirecționează acolo — vezi ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md
    §2.1) și schimbă trei lucruri:
 
      1. identitatea — logo și nume în header și pe toate documentele;

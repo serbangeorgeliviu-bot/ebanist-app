@@ -7,7 +7,7 @@
      snapshot.json   proiectul întreg, ca să se poată redeschide identic
      order.json      client, deviz, hash, versiune de aplicație
      *.html          documentele gata de tipărit (distinta, montaj,
-                     etichete) — vezi DECISIONS.md §3 pentru de ce nu
+                     etichete) — vezi ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md §3 pentru de ce nu
                      sunt fișiere .pdf
 
    Documentele NU se regenerează aici. Se cheamă exact aceleași funcții

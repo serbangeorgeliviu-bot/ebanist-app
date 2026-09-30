@@ -5,6 +5,11 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.2 — 30 septembrie 2026
+
+- Site-ul nu mai servește fișierele repo-ului: notele interne (monetizare, adrese și PIN-uri Order Rail, decizii, mesajul Centro Legno) au ieșit din repo-ul public (stau în ebanist-hq), iar sursele funcțiilor, testele, uneltele, `site-src/`, `docs/` și celelalte fișiere de lucru răspund 404.
+- `SW_CACHE`/`CACHE` → `ebanist-v82`.
+
 ## 4.38.1 — 29 septembrie 2026
 
 - În panourile care se derulează (Setări, AI, Pro), butonul X nu mai acoperă textul de sub el: după primul scroll stă pe o bandă opacă, iar conținutul trece pe sub ea.

@@ -23,7 +23,7 @@
      atelier marcat `"demo": true`; pentru oricare altul, fără variabilă
      inbox-ul e închis (503 inbox-not-configured). Inbox-ul conține numele
      și telefoanele clienților: un PIN care stă într-un fișier public nu
-     le poate păzi. Vezi DECISIONS.md §5.3.
+     le poate păzi. Vezi ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md §5.3.
 
    — După 10 PIN-uri greșite în 15 minute, atelierul se blochează 15
      minute (429). Un PIN de 4 cifre se ghicește altfel în câteva ore.

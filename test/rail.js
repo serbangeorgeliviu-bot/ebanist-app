@@ -9,7 +9,7 @@
  * Rutele se probează pe serverul din `rail-server.js`, care imită
  * `netlify.toml`. Verificarea cu `curl` pe domeniul public din cerință nu
  * se poate face din sesiunea asta (fără CLI Netlify și fără token — vezi
- * DECISIONS.md §1.1), deci aceleași verificări se fac aici, ca să nu
+ * ebanist-hq/02-decizii/Order-Rail-Decizii-v1.md §1.1), deci aceleași verificări se fac aici, ca să nu
  * rămână nedovedite.
  */
 const { serve } = require("./rail-server.js");
