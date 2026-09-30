@@ -3217,6 +3217,24 @@ function matIdByLabel(label){ const m=matRawByLabel(label); return m?m.id:null; 
    Prețul atelierului folosește EXACT aceeași regulă — o a doua ar
    însemna că o comandă costă altfel decât arată devizul intern. */
 function isAccessoryMat(label){ return /^accessorio/i.test(String(label||"")); }
+/* IL NOME DEL MATERIALE NELLA LINGUA DI CHI GUARDA. La riga di distinta
+   conserva l'etichetta con cui e nata («Bianco», «Accessorio — asta…»): e la
+   sua chiave, e non si riscrive (D-39, D-42). A schermo e sui documenti si
+   mostra invece il nome della referenza nella lingua attuale. Gli accessori
+   non stanno nel catalogo: i loro nomi sono qui, uno per costante. */
+const ACC_I18N={
+  "Accessorio — asta appendiabiti ovale":{ro:"Accesoriu — bară umerașe ovală",en:"Accessory — oval hanging rail",fr:"Accessoire — tringle ovale"},
+  "Accessorio — piedino regolabile":{ro:"Accesoriu — picior reglabil",en:"Accessory — adjustable foot",fr:"Accessoire — vérin réglable"},
+  "Accessorio — vetro temperato 4mm":{ro:"Accesoriu — sticlă securizată 4 mm",en:"Accessory — tempered glass 4 mm",fr:"Accessoire — verre trempé 4 mm"},
+  "Accessorio — gamba legno massello 70×70":{ro:"Accesoriu — picior lemn masiv 70×70",en:"Accessory — solid wood leg 70×70",fr:"Accessoire — pied bois massif 70×70"},
+  "Accessorio — doga faggio curvata 68mm":{ro:"Accesoriu — șipcă fag curbată 68 mm",en:"Accessory — curved beech slat 68 mm",fr:"Accessoire — latte hêtre cintrée 68 mm"}
+};
+function matLabelUI(label){
+  const L=(typeof state!=="undefined"&&state&&state.lang)||"it";
+  const a=ACC_I18N[label]; if(a) return a[L]||label;
+  const m=matRawByLabel(label);
+  return (m&&m.l&&m.l[L])||label;
+}
 function matDecorByLabel(label){
   const m=matRawByLabel(label);
   if(!m) return "";
@@ -3758,6 +3776,17 @@ function bandCount(bordo){
 }
 function edgeTh(){ const v=(state&&state.settings)?state.settings.edgeTh:null; return (v==null||!isFinite(v))?0.8:+v; }
 function normMat(m){return String(m||"").toLowerCase().replace(/\s+/g," ").trim();}
+/* UN SOLO CONTO DEI PEZZI. Un accessorio (asta, piedino, vetro, gamba) sta
+   nella distinta perche va ordinato, ma non si taglia dal pannello: non e un
+   «pezzo». Prima il generatore contava 26 (tolti anche i fondi in HDF), la
+   distinta 30 (asta compresa) e la vista dei pezzi 29 — tre numeri per lo
+   stesso armadio. Adesso ogni schermata che dice «pezzi» legge `panelPcs`. */
+function isAccPiece(x){ return !!x&&(x.role==="accessorio"||isAccessoryMat(x.materiale||x.mat)); }
+function panelTotals(rows){
+  let pcs=0, area=0;
+  for(const x of rows) if(!isAccPiece(x)){ pcs+=+x.pz||0; area+=x.lung*x.larg/1e6*(+x.pz||0); }
+  return {pcs,area};
+}
 function computeTotals(p){
   const mats={}; let pcs=0, area=0, edge=0;
   for(const x of p.pieces){
@@ -3768,7 +3797,10 @@ function computeTotals(p){
     if(!mats[k]) mats[k]={label:x.materiale,area:0,edge:0,pcs:0,pieces:[]};
     mats[k].area+=a; mats[k].edge+=e; mats[k].pcs+=x.pz; mats[k].pieces.push(x);
   }
-  return {pcs,area,edge,mats};
+  /* `pcs`/`area` restano quelli di sempre (costi, Order Rail); a schermo si
+     mostrano `panelPcs`/`panelArea` */
+  const pt=panelTotals(p.pieces);
+  return {pcs,area,edge,mats,panelPcs:pt.pcs,panelArea:pt.area};
 }
 
 /* ================= NESTING (shelf / guillotine FFDH) ================= */
@@ -4310,8 +4342,8 @@ function renderProjects(){
   for(const p of state.projects){
     const tot=computeTotals(p);
     const mods=new Set(p.pieces.map(x=>x.modulo)).size;
-    const donePz=p.pieces.reduce((s,x)=>s+(x.done?x.pz:0),0);
-    const pct=tot.pcs?Math.round(donePz/tot.pcs*100):0;
+    const donePz=p.pieces.reduce((s,x)=>s+(x.done&&!isAccPiece(x)?x.pz:0),0);
+    const pct=tot.panelPcs?Math.round(donePz/tot.panelPcs*100):0;
     let dl="";
     if(p.deadline){
       const days=Math.ceil((new Date(p.deadline)-Date.now())/864e5);
@@ -4330,12 +4362,12 @@ function renderProjects(){
         <button class="iconbtn" data-edit><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button>
       </div>
       <div class="pj-stats">
-        <div class="pj-stat"><b>${tot.pcs}</b><span>${esc(t("pieces"))}</span></div>
+        <div class="pj-stat"><b>${tot.panelPcs}</b><span>${esc(t("pieces"))}</span></div>
         <div class="pj-stat"><b>${mods}</b><span>${esc(t("modules"))}</span></div>
-        <div class="pj-stat"><b>${fmt(tot.area)}</b><span>m²</span></div>
+        <div class="pj-stat"><b>${fmt(tot.panelArea)}</b><span>m²</span></div>
         <div class="pj-stat"><b>${fmt(tot.edge,1)}</b><span>ml</span></div>
       </div>
-      ${tot.pcs?`<div class="prog"><i style="width:${pct}%"></i></div><div class="mini" style="margin-top:4px">${donePz}/${tot.pcs} · ${pct}%</div>`:""}
+      ${tot.panelPcs?`<div class="prog"><i style="width:${pct}%"></i></div><div class="mini" style="margin-top:4px">${donePz}/${tot.panelPcs} · ${pct}%</div>`:""}
       <div class="pj-add">
         <button class="btn sm red" data-addmod>＋ ${esc(t("addFurniture"))}</button>
         <button class="btn sm ghost" data-addpiece>＋ ${esc(t("addPlainPiece"))}</button>
@@ -4393,12 +4425,12 @@ function renderList(){
   try{ geomBanner(); auditBadge(); }catch(e){}
   if(!p){box.innerHTML=`<div class="empty"><p>${esc(t("selectProject"))}</p></div>`;$("listSub").textContent="";return;}
   const tot=computeTotals(p);
-  $("listSub").textContent=`${p.name} — ${tot.pcs} ${t("pieces")} · ${fmt(tot.area)} m²`;
+  $("listSub").textContent=`${p.name} — ${tot.panelPcs} ${t("pieces")} · ${fmt(tot.panelArea)} m²`;
   $("listSearch").placeholder=t("searchPh");
   const sel=$("listMat");
   const mats=[...new Set(p.pieces.map(x=>x.materiale))];
   if(listMatF&&!mats.includes(listMatF)) listMatF="";
-  sel.innerHTML=`<option value="">${esc(t("allMats"))}</option>`+mats.map(m=>`<option value="${esc(m)}"${m===listMatF?" selected":""}>${esc(m)}</option>`).join("");
+  sel.innerHTML=`<option value="">${esc(t("allMats"))}</option>`+mats.map(m=>`<option value="${esc(m)}"${m===listMatF?" selected":""}>${esc(matLabelUI(m))}</option>`).join("");
   if(!p.pieces.length){
     box.innerHTML=`<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><p>${esc(t("noPieces"))}</p></div>`;
     return;
@@ -4409,8 +4441,8 @@ function renderList(){
   for(const x of p.pieces){ if(!match(x))continue; if(!groups.has(x.modulo))groups.set(x.modulo,[]); groups.get(x.modulo).push(x); }
   if(!groups.size){ box.innerHTML=`<div class="empty"><p>—</p></div>`; return; }
   for(const [mod,items] of groups){
-    const n=items.reduce((s,x)=>s+x.pz,0);
-    const done=items.reduce((s,x)=>s+(x.done?x.pz:0),0);
+    const n=panelTotals(items).pcs;
+    const done=items.reduce((s,x)=>s+(x.done&&!isAccPiece(x)?x.pz:0),0);
     const g=document.createElement("div"); g.className="mod";
     const _base=mod.replace(/ [AB]$/,"");
     const cfgKey=p.configs?(p.configs[mod]?mod:(p.configs[_base]?_base:null)):null;
@@ -4439,7 +4471,7 @@ function renderList(){
     });
     for(const x of items){
       const r=document.createElement("div"); r.className="pc"+(x.done?" isdone":"");
-      const shortMat=x.materiale.replace(/Truciolare Bilaminato/i,"Bilam.");
+      const shortMat=matLabelUI(x.materiale).replace(/Truciolare Bilaminato/i,"Bilam.");
       r.innerHTML=`
         <button class="pc-check${x.done?" on":""}" data-chk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></button>
         <div class="pc-dim">${x.lung}<i>×</i>${x.larg}${angTag(x)}</div>
@@ -4481,7 +4513,7 @@ function renderNest(){
     res.panels.forEach((pan,i)=>{
       effSum+=pan.eff; effN++;
       const div=document.createElement("div"); div.className="panelbox";
-      div.innerHTML=`<h4>${esc(m.label)}</h4>
+      div.innerHTML=`<h4>${esc(matLabelUI(m.label))}</h4>
         <div class="eff">${esc(t("panel"))} ${i+1}/${res.panels.length} · ${pan.L}×${pan.W} mm${pan.stock?` <span class="stock-tag">${esc(t("fromStock"))}</span>`:""} · <b>${fmt(pan.eff,1)}%</b> ${esc(t("efficiency"))}</div>`;
       div.insertAdjacentHTML("beforeend",panelSvg(pan,pan.L,pan.W,S.kerf));
       if(pan.cuts&&pan.cuts.length){
@@ -4497,8 +4529,8 @@ function renderNest(){
     <div class="kpi hl"><b>${panelCount}</b><span>${esc(t("panelsNew"))}</span></div>
     <div class="kpi"><b>${stockUsed}</b><span>${esc(t("panelsStock"))}</span></div>
     <div class="kpi"><b>${fmt(avgEff,1)}<small>%</small></b><span>${esc(t("efficiency"))}</span></div>
-    <div class="kpi"><b>${tot.pcs}</b><span>${esc(t("totalPieces"))}</span></div>
-    <div class="kpi"><b>${fmt(tot.area)}<small> m²</small></b><span>${esc(t("totalArea"))}</span></div>`;
+    <div class="kpi"><b>${tot.panelPcs}</b><span>${esc(t("totalPieces"))}</span></div>
+    <div class="kpi"><b>${fmt(tot.panelArea)}<small> m²</small></b><span>${esc(t("totalArea"))}</span></div>`;
   if(oversize.length){
     const w=document.createElement("div"); w.className="nestwarn";
     w.innerHTML=`<b>⚠ ${esc(t("nestSkipAny").replace("{n}",oversize.length))}</b>
@@ -4559,14 +4591,14 @@ function renderSummary(){
   if(!p){kp.innerHTML=`<div class="empty" style="grid-column:1/-1"><p>${esc(t("selectProject"))}</p></div>`;return;}
   const S=state.settings, C=projectCosts(p), tot=C.tot;
   kp.innerHTML=`
-    <div class="kpi"><b>${tot.pcs}</b><span>${esc(t("totalPieces"))}</span></div>
-    <div class="kpi"><b>${fmt(tot.area)}<small> m²</small></b><span>${esc(t("totalArea"))}</span></div>
+    <div class="kpi"><b>${tot.panelPcs}</b><span>${esc(t("totalPieces"))}</span></div>
+    <div class="kpi"><b>${fmt(tot.panelArea)}<small> m²</small></b><span>${esc(t("totalArea"))}</span></div>
     <div class="kpi"><b>${fmt(tot.edge,1)}<small> ml</small></b><span>${esc(t("edgeBanding"))}</span></div>
     <div class="kpi hl"><b>€ ${fmt(C.netto)}</b><span>${esc(t("estCost"))}</span></div>`;
   let rows=`<tr><th>${esc(t("mat"))}</th><th class="n">${esc(t("qty"))}</th><th class="n">${esc(t("area"))}</th><th class="n">${esc(t("edge"))}</th></tr>`;
   for(const k of Object.keys(tot.mats)){
     const m=tot.mats[k];
-    rows+=`<tr data-mat="${esc(k)}" style="cursor:pointer"><td>${esc(m.label)}</td><td class="n">${m.pcs}</td><td class="n">${fmt(m.area)}</td><td class="n">${fmt(m.edge,1)}</td></tr>`;
+    rows+=`<tr data-mat="${esc(k)}" style="cursor:pointer"><td>${esc(matLabelUI(m.label))}</td><td class="n">${m.pcs}</td><td class="n">${fmt(m.area)}</td><td class="n">${fmt(m.edge,1)}</td></tr>`;
   }
   mt.innerHTML=rows;
   mt.querySelectorAll("tr[data-mat]").forEach(row=>row.addEventListener("click",async()=>{
@@ -5074,7 +5106,7 @@ $("btnPdf").addEventListener("click",()=>{
       <th>${esc(t("fBanding"))}</th><th>${esc(t("fMaterial"))}</th></tr>`;
     for(const x of items)
       html+=`<tr><td>${esc(elName(x.elemento))}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>
-        <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(x.materiale)}</td></tr>`;
+        <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(matLabelUI(x.materiale))}</td></tr>`;
     html+="</table>";
   }
   const hwP=computeHardware(p,S).filter(i2=>i2.qty>0);
@@ -5083,8 +5115,8 @@ $("btnPdf").addEventListener("click",()=>{
     for(const i2 of hwP) html+=`<tr><td>${esc(t(i2.k))}</td><td>${i2.prod?esc(i2.prod.brand+" "+i2.prod.name):"—"}</td><td>${i2.prod?esc(i2.prod.art):"—"}</td><td class="n">${i2.qty}</td></tr>`;
     html+="</table>";
   }
-  html+=`<div class="pr-sum"><b>${esc(t("totalPieces"))}:</b> ${tot.pcs} ·
-    <b>${esc(t("totalArea"))}:</b> ${fmt(tot.area)} m² ·
+  html+=`<div class="pr-sum"><b>${esc(t("totalPieces"))}:</b> ${tot.panelPcs} ·
+    <b>${esc(t("totalArea"))}:</b> ${fmt(tot.panelArea)} m² ·
     <b>${esc(t("edgeBanding"))}:</b> ${fmt(tot.edge,1)} ml</div>
     <div class="pr-foot"><span>${esc(t("printNotes"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   $("printArea").innerHTML=html;
@@ -5916,7 +5948,9 @@ function buildCore(cfg){
     bxRole="ripiano";
     PT.ripiani.forEach(r=>{
       const zS=(TR&&TR.activa&&r.y1<=TR.H+0.05)?intZ0+TR.P:intZ0;
-      bx(r.x0,r.x1,r.y,r.y1,zS,zS+r.D,"p");
+      /* la larghezza della distinta (per difetto), centrata nel vano */
+      const g=(r.W-Math.floor(r.W+1e-6))/2;
+      bx(r.x0+g,r.x1-g,r.y,r.y1,zS,zS+r.D,"p");
     });
   }
   /* Ogni sezione ha il suo contenuto: mezzo armadio con l'asta e mezzo a ripiani
@@ -6002,8 +6036,13 @@ function buildCore(cfg){
       });
     } else add(shName,Math.floor(secW-play),intD,shYs.length*n,"1L",null,{cuts:[],role:"ripiano",ys:shYs.slice()});
     bxRole="ripiano";
-    shelfSecs.forEach(si=>{ const sx0=tF+si*(secW+tD);
-      shelfYs(secMode(si)).forEach(y=>bx(sx0,sx0+secW,y-tR/2,y+tR/2,intZ0,P-20,"p",secOL(si),-secOR(si))); });
+    /* IL 3D DISEGNA IL RIPIANO DELLA DISTINTA (D-52): largo quanto la riga
+       sopra — la sezione meno il gioco, arrotondata per difetto — e centrato
+       nel vano, col gioco diviso fra i due lati. Prima si disegnava a filo
+       dei fianchi, e il Modello di Operazioni e la fisa de montaj leggevano
+       471,5 dove la distinta e le etichette dicono 469. */
+    shelfSecs.forEach(si=>{ const sx0=tF+si*(secW+tD), g=(secW-Math.floor(secW-play))/2;
+      shelfYs(secMode(si)).forEach(y=>bx(sx0+g,sx0+secW-g,y-tR/2,y+tR/2,intZ0,P-20,"p",secOL(si),-secOR(si))); });
   }
   // asta appendiabiti (accessorio, non entra nei m² dei pannelli)
   if(hangSecs.length){
@@ -6072,7 +6111,8 @@ function buildCore(cfg){
           bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo sx
           bx(bx1,bx1+th,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo dx
           bxRole="cassetto_fondo";
-          bx(bx0,bx1,yB,yB+16,z0,z1,"p",0,0,"dbox",grp);               // fondo in pannello
+          /* fondo: profondo quanto la riga di distinta (baseL), dal retro */
+          bx(bx0,bx1,yB,yB+16,z0,z0+dPlan.baseL,"p",0,0,"dbox",grp);   // fondo in pannello
           bxRole="cassetto_fianco";
           bx(cx-dPlan.backW/2,cx+dPlan.backW/2,yB+8,yB+8+dPlan.backH,z0,z0+t,"p",0,0,"dbox",grp); // retro
         }else{
@@ -6084,7 +6124,11 @@ function buildCore(cfg){
           bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);         // fronte cassa
           bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);         // retro cassa
           bxRole="cassetto_fondo";
-          bx(bx0+t,bx1-t,yB,yB+bt,z0+t,z1-t,"p",0,0,"dbox",grp);       // fondo
+          /* il fondo entra nelle cave di fronte e retro: lungo quanto la riga
+             di distinta (NL-20), centrato fra i due. Disegnato fra le facce
+             interne (NL-2t) il 3D diceva 462 dove la distinta dice 480. */
+          const fL=NL-20, zc=(z0+z1)/2;
+          bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp); // fondo
         }
       };
       dSecs.forEach(si=>{ const sx0=tF+si*(secW+tD);
@@ -7577,9 +7621,10 @@ function drawPreview(){
   try{ built=buildModule(buildCfg); }
   catch(e){ toast(e&&e.message||String(e)); return; }
   const pieces=built.pieces;
-  const panelPieces=pieces.filter(x=>!x.mat);
-  const pcs=panelPieces.reduce((s,x)=>s+x.pz,0);
-  const m2=panelPieces.reduce((s,x)=>s+x.lung*x.larg*x.pz/1e6,0);
+  /* lo stesso conto della distinta e della vista dei pezzi: i fondi in HDF
+     sono pezzi (hanno un materiale proprio, ma si tagliano), l'asta no */
+  const panelPieces=pieces.filter(x=>!isAccPiece(x));
+  const {pcs,area:m2}=panelTotals(pieces);
   const ml=panelPieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape)*x.pz/1000,0);
   const dim=buildCfg.type==="angolare"?`${buildCfg.L}+${buildCfg.L2}×${buildCfg.H}×${buildCfg.P}`:`${buildCfg.L}×${buildCfg.H}×${buildCfg.P}`;
   $("buildInfo").textContent=`${dim} mm · ${pcs} ${t("pieces")} · ${fmt(m2)} m² · ${fmt(ml,1)} ml`;
@@ -8757,10 +8802,10 @@ $("btnStats").addEventListener("click",()=>{
   let pcs=0,area=0,edge=0,val=0;
   const rows=state.projects.map(p=>{
     const tt=computeTotals(p), C=projectCosts(p);
-    pcs+=tt.pcs; area+=tt.area; edge+=tt.edge; val+=C.prezzo+C.ivaAmt;
+    pcs+=tt.panelPcs; area+=tt.panelArea; edge+=tt.edge; val+=C.prezzo+C.ivaAmt;
     return `<div style="display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)">
       <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.name)}</span>
-      <span class="mini">${tt.pcs} pz · ${fmt(tt.area)} m²</span>
+      <span class="mini">${tt.panelPcs} pz · ${fmt(tt.panelArea)} m²</span>
       <b>€ ${fmt(C.prezzo+C.ivaAmt,0)}</b></div>`;
   }).join("");
   $("statsBody").innerHTML=`
@@ -8948,7 +8993,7 @@ function mModel(p,name){
   try{ if(typeof generateOperations==="function") ops=generateOperations({boxes:built.boxes,cfg,G}); }catch(e){}
   const rows=p.pieces.filter(x=>x.gen===name||x.modulo===name||x.modulo===name+" A"||x.modulo===name+" B");
   const meta={};
-  if(ops) ops.pieces.forEach(pc=>{ const m=matchOpsRow(pc,rows.length?rows:built.pieces); meta[pc.pk]={row:m?m.row:null}; });
+  if(ops) ops.pieces.forEach(pc=>{ const m=matchOpsRow(pc,rows.length?rows:built.pieces); meta[pc.pk]={row:m?m.row:null,exact:!!(m&&m.exact)}; });
   return {cfg,built,G,ops,rows,meta};
 }
 /* le foto: GL se c'e (vera, con i numeri dei pezzi), altrimenti il disegno SVG */
@@ -9248,9 +9293,15 @@ function montDoc(p){
     /* elenco pezzi, numerati come nell'esploso */
     if(M.ops){
       html+=`<h3>${esc(t("mParts"))}</h3><table class="m-t"><tr><th>#</th><th>${esc(t("fElement"))}</th><th class="n">L</th><th class="n">${esc(t("partW"))}</th><th class="n">${esc(t("partT"))}</th><th>${esc(t("partEdge"))}</th><th class="n">${esc(t("vtHoles"))}</th><th>✓</th></tr>`+
-        M.ops.pieces.map(pc=>{ const r=(M.meta[pc.pk]||{}).row||{}, nd=pc.operations.filter(o=>o.type==="drill").length;
+        M.ops.pieces.map(pc=>{ const mt=M.meta[pc.pk]||{}, r=mt.row||{}, nd=pc.operations.filter(o=>o.type==="drill").length;
+          /* LA COTA E QUELLA DELLA DISTINTA: il montatore confronta la fisa con
+             l'etichetta attaccata al pezzo, e i due fogli devono dire lo stesso
+             numero. Il 3D tiene i decimi (463,5), la distinta esce al millimetro
+             (464): si stampa la riga, quando il pezzo e proprio lei. Un troncone
+             o un pezzo sagomato resta con le cote del pezzo intero. */
+          const [cL,cW]=(mt.exact&&!r.seg&&+r.lung>0&&+r.larg>0)?[+r.lung,+r.larg].sort((a,b)=>b-a):[pc.length,pc.width];
           const nm=r.elemento?elName(String(r.elemento).replace(/\s*sez\.\s*\d+$/i,"")):t("role_"+pc.role);
-          return `<tr><td class="n"><b>${pc.n}</b></td><td>${esc(nm)}</td><td class="n">${fmtMM(pc.length)}</td><td class="n">${fmtMM(pc.width)}</td><td class="n">${fmtMM(pc.thickness)}</td><td>${esc(r.bordo||"—")}</td><td class="n">${nd||"—"}</td><td class="m-box"></td></tr>`; }).join("")+`</table>`;
+          return `<tr><td class="n"><b>${pc.n}</b></td><td>${esc(nm)}</td><td class="n">${fmtMM(cL)}</td><td class="n">${fmtMM(cW)}</td><td class="n">${fmtMM(pc.thickness)}</td><td>${esc(r.bordo||"—")}</td><td class="n">${nd||"—"}</td><td class="m-box"></td></tr>`; }).join("")+`</table>`;
     }
     /* ferramenta, con i codici — il montatore la conta prima di cominciare */
     const CAT=HW_CAT_OF;
@@ -9416,14 +9467,14 @@ $("btnOrder").addEventListener("click",()=>{
     <th>${esc(t("fMaterial"))}</th><th>${esc(t("orderSize"))}</th>
     <th style="text-align:right">${esc(t("orderQty"))}</th><th style="text-align:right">${esc(t("panelsStock"))}</th></tr>`;
   for(const r of o.panels)
-    html+=`<tr><td>${esc(r.label)}${r.dec?` <b>[${esc(r.dec)}]</b>`:""}</td>
+    html+=`<tr><td>${esc(matLabelUI(r.label))}${r.dec?` <b>[${esc(r.dec)}]</b>`:""}</td>
       <td>${r.L}×${r.W}</td><td class="n"><b>${r.n}</b></td><td class="n">${r.stock||"—"}</td></tr>`;
   html+=`</table>`;
   const ek=Object.keys(o.edges);
   if(ek.length){
     html+=`<h2>${esc(t("orderEdge"))}</h2><table><tr><th>${esc(t("fMaterial"))}</th>
       <th style="text-align:right">${esc(t("orderMl"))}</th></tr>`;
-    for(const k of ek) html+=`<tr><td>${esc(k)}</td><td class="n">${fmt(o.edges[k]*1.1,1)}</td></tr>`;
+    for(const k of ek) html+=`<tr><td>${esc(matLabelUI(k))}</td><td class="n">${fmt(o.edges[k]*1.1,1)}</td></tr>`;
     html+=`</table><p class="pr-sum">${esc(t("orderEdgeNote"))}</p>`;
   }
   const hw=o.hw.filter(x=>x.qty>0);
@@ -9469,7 +9520,7 @@ $("btnLabels").addEventListener("click",()=>{
   let html=`<div class="lbl-grid">`;
   rows.forEach((x,i)=>{
     const dec=matDecorByLabel(x.materiale);
-    const matShort=((x.materiale||"").replace(/Truciolare Bilaminato/i,"PAL")+(dec?" · "+dec:"")).slice(0,38);
+    const matShort=(matLabelUI(x.materiale||"").replace(/Truciolare Bilaminato/i,"PAL")+(dec?" · "+dec:"")).slice(0,38);
     html+=`<div class="lbl">
       <div class="l1">${esc(p.name)} · ${esc(x.modulo)}</div>
       <div class="l2">${esc(elName(x.elemento))}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
@@ -12397,12 +12448,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.38.1"; /* APP_VER-MARKER */
+const APP_VER="4.38.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v81";
+const SW_CACHE="ebanist-v82";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

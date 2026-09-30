@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.2 — 30 septembrie 2026
+
+Corecturi găsite în testarea închisă, la capturile pentru Google Play. Nicio cotă din distinta nu se schimbă: golden-urile validate (42/42) rămân identice.
+
+- **Fișa de montaj și distinta spun aceleași cote.** 3D-ul (și din el Modelul de Operații și fișa de montaj) desena raftul mobil la toată lățimea secțiunii (471,5), fără jocul pe care distinta îl scade (469), și fundul de sertar între fața și spatele cutiei (462), nu în canal cum e tăiat (480; la sertarele metalice 500 în loc de 490). Acum 3D-ul desenează piesa din distintă (D-52). Fișa de montaj tipărește cota rândului de distintă, deci aceeași cu eticheta (un front de 463,5 în 3D e 464 pe ambele).
+- **Un singur număr de piese.** Același dulap arăta 26 de piese sub 3D, 29 în „Piese” și 30 în distintă. Acum toate ecranele (generator, distinta, proiecte, optimizare, sumar, PDF, statistici) numără piesele tăiate din placă: fundurile HDF intră, accesoriile (bara de umerașe, picioarele, sticla) nu. Costurile și Order Rail nu se schimbă.
+- **Materialele în limba interfeței.** Catalogul Centro Legno are nume traduse pentru culorile simple (Bianco → White / Alb / Blanc, Nero, Grigio medio, Rovere chiaro, Tessuto…); numele de decor ale furnizorului rămân. Accesoriile („Accessorio — asta appendiabiti ovale”) apar în limba aleasă. Rândurile deja salvate își păstrează eticheta (D-39, D-42) și se traduc doar la afișare.
+- Test nou `test/model-distinta.test.js`: pentru fiecare tipologie, fiecare piesă din 3D trebuie să aibă rândul ei de distintă la aceleași cote (0,5 mm). Înainte, potrivirea accepta 2,5 mm și de aceea n-a văzut raftul.
+- `SW_CACHE`/`CACHE` → `ebanist-v82`.
+
 ## 4.38.1 — 29 septembrie 2026
 
 - În panourile care se derulează (Setări, AI, Pro), butonul X nu mai acoperă textul de sub el: după primul scroll stă pe o bandă opacă, iar conținutul trece pe sub ea.
