@@ -2226,6 +2226,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 if(window.CORE_REV!=="4.37.2") document.write('<script src="./ebanist-core.js?rev=4.37.2"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
+<script src="./ebanist-au-i18n.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
      gira alla prima riga dello script che segue e deve gia trovarli. -->
@@ -2906,6 +2907,10 @@ Object.assign(I18N.en,{fStep:"Wall step at the bottom",fStepH:"Height (mm)",fSte
   stepHint:"Wall protrudes at the bottom? Sides get an L notch, the back comes in two pieces.",stepHit:"A shelf or drawer falls into the wall step: move it or reduce the step"});
 Object.assign(I18N.fr,{fStep:"Marche du mur en bas",fStepH:"Hauteur (mm)",fStepP:"Saillie (mm)",
   stepHint:"Le mur dépasse en bas ? Les côtés sont entaillés en L, le fond est fait en deux pièces.",stepHit:"Une étagère ou un tiroir tombe dans la marche du mur : déplace-le ou réduis la marche"});
+Object.assign(I18N.it,{auDelta:"{n} mm richiesti, {c} mm dai pezzi ({d} mm)"});
+Object.assign(I18N.ro,{auDelta:"{n} mm cerut, {c} mm din piese ({d} mm)"});
+Object.assign(I18N.en,{auDelta:"{n} mm ordered, {c} mm from the parts ({d} mm)"});
+Object.assign(I18N.fr,{auDelta:"{n} mm demandés, {c} mm d'après les pièces ({d} mm)"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français"};
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
@@ -4636,7 +4641,7 @@ function renderSummary(){
 let editingPieceId=null;
 function fillDatalists(){
   const p=proj();
-  $("dlElementi").innerHTML=ELEMENTI.map(e=>`<option value="${esc(e)}">`).join("");
+  $("dlElementi").innerHTML=ELEMENTI.map(e=>`<option value="${esc(elName(e))}">`).join("");
   const mods=p?[...new Set(p.pieces.map(x=>x.modulo))]:[];
   $("dlModuli").innerHTML=mods.map(m=>`<option value="${esc(m)}">`).join("");
   /* Il materiale predefinito del pezzo aggiunto a mano e quello di
@@ -4657,6 +4662,16 @@ function buildBordoChips(sel){
     box.appendChild(c);
   }
 }
+/* Il campo «Elemento» mostra il nome nella lingua dell'interfaccia, ma la
+   distinta salva il nome interno («Fianco»): e da quello che elName,
+   le etichette e i ruoli lo riconoscono. Nome non toccato → resta
+   l'originale; nome di catalogo tradotto → il suo nome interno; testo
+   libero → com'e scritto. */
+function elCanon(v,orig){
+  if(orig!=null&&v===elName(orig)) return orig;
+  const e=ELEMENTI.find(x=>elName(x)===v);
+  return e||v;
+}
 function openPieceEditor(id){
   const p=proj(); if(!p)return;
   editingPieceId=id||null;
@@ -4664,7 +4679,7 @@ function openPieceEditor(id){
   const x=id?p.pieces.find(q=>q.id===id):null;
   $("shPieceTitle").textContent=t(x?"editPiece":"addPiece");
   $("pModulo").value=x?x.modulo:(p.pieces.length?p.pieces[p.pieces.length-1].modulo:"");
-  $("pElemento").value=x?x.elemento:"";
+  $("pElemento").value=x?elName(x.elemento):"";
   $("pLung").value=x?x.lung:""; $("pLarg").value=x?x.larg:""; $("pPz").value=x?x.pz:1;
   $("pBordo").value=x?x.bordo:""; buildBordoChips(x?x.bordo:"");
   $("pMateriale").value=x?x.materiale:(p.pieces.length?p.pieces[p.pieces.length-1].materiale:defaultMatLabel());
@@ -4700,7 +4715,8 @@ $("btnPieceCancel").addEventListener("click",closeSheets);
 $("btnPieceSave").addEventListener("click",()=>{
   const p=proj(); if(!p)return;
   const lung=parseInt($("pLung").value,10), larg=parseInt($("pLarg").value,10), pz=parseInt($("pPz").value,10)||1;
-  const modulo=$("pModulo").value.trim(), elemento=$("pElemento").value.trim();
+  const modulo=$("pModulo").value.trim(), elemento=elCanon($("pElemento").value.trim(),
+    editingPieceId?(p.pieces.find(q=>q.id===editingPieceId)||{}).elemento:null);
   if(!modulo||!elemento||!(lung>0)||!(larg>0)){toast(t("invalidFile").replace(t("invalidFile"),"⚠︎"));$("pLung").focus();return;}
   const data={modulo,elemento,lung,larg,pz,bordo:$("pBordo").value.trim(),materiale:$("pMateriale").value.trim()||defaultMatLabel(),grain:$("pGrain").classList.contains("on")?1:0};
   const aL=fAng("pAngL"), aR=fAng("pAngR");
@@ -8060,7 +8076,7 @@ $("btnGenerate").addEventListener("click",()=>{
   auditBadge();
   const bad=blocking(auditModule(cfg,pieces));
   if(bad.length){ auditSheet(bad.map(a=>({...a,modulo:cfg.name}))); return; }
-  toast(`${cfg.name}: ${rows.reduce((s,x)=>s+x.pz,0)} ${t("pieces")}`);
+  toast(`${cfg.name}: ${panelTotals(rows).pcs} ${t("pieces")}`);
 });
 
 /* La riga di tracciabilita, stampata su ogni documento che porta delle cote.
@@ -8247,12 +8263,16 @@ function closureOf(cfg,pieces){
 }
 /* Dallo scostamento al messaggio che legge chi sta in officina: il perche,
    il numero che doveva uscire, quello che e uscito, e i pezzi in mezzo. */
+/* Il perche lo scrive il nucleo, in romeno: qui si legge nella lingua
+   dell'interfaccia (ebanist-au-i18n.js). Un testo che la tabella non ha
+   passa com'e. */
+function auT(s){ return (typeof auTx==="function")?auTx(s,state&&state.lang):s; }
 function closureWhy(e){
-  if(e.delta==null) return e.why;
+  if(e.delta==null) return auT(e.why);
   const seg=e.piese_implicate&&e.piese_implicate.length
-    ? " · "+e.piese_implicate.slice(0,4).join(", ") : "";
-  return `${e.why} ${e.axa}: ${e.valoare_nominala} mm cerut, `+
-         `${e.valoare_calculata} mm din piese (${e.delta>0?"+":""}${e.delta} mm)${seg}`;
+    ? " · "+e.piese_implicate.slice(0,4).map(elName).join(", ") : "";
+  return `${auT(e.why)} ${e.axa}: `+t("auDelta").replace("{n}",e.valoare_nominala)
+    .replace("{c}",e.valoare_calculata).replace("{d}",(e.delta>0?"+":"")+e.delta)+seg;
 }
 
 /* ===== GLI INVARIANTI (Fase 3) ==========================================
@@ -8299,7 +8319,10 @@ function auditModule(cfg,pieces){
     const MAT=carcassMaterials(cfg);
     const backTh=cfg.back?Math.min(MAT.sp.schienale,Math.max(0,P-50)):0;
     const G=deriveCarcass(carcassParams(cfg,{P,pl,backTh,support,sp:MAT.sp}));
-    const failed=checkAssertions(G,auditCtx(cfg,pieces));
+    /* copie, non le righe di ASSERTIONS: il testo tradotto non deve
+       finire nella tabella delle regole */
+    const failed=checkAssertions(G,auditCtx(cfg,pieces))
+      .map(a=>({...a,why:auT(a.why),source:auT(a.source)}));
     /* LA CHIUSURA PRIMA DI TUTTO IL RESTO. Le asserzioni controllano regole
        che qualcuno ha scritto; la chiusura controlla il mobile. E' l'unica
        che prende un guasto di cui nessuno sospetta. */
@@ -8313,7 +8336,7 @@ function auditModule(cfg,pieces){
     for(const r of invariantsOf(cfg,pieces,G,MAT)){
       if(r.ok!==false) continue;
       failed.unshift({id:r.id,severity:"blocking",confidence:"alta",
-        why:r.why,source:t("invSrc")+" · "+r.regola,invariant:r,
+        why:auT(r.why),source:t("invSrc")+" · "+r.regola,invariant:r,
         modulo:undefined});
     }
     return failed;
@@ -8402,7 +8425,7 @@ function auditSheet(failed){
        riga sola di testo non si leggono in officina. */
     const meta=[a.modulo||"", a.source||"", a.error||""].filter(Boolean).join(" · ");
     return `<div class="au-row${a.severity==="blocking"?" bad":""}">
-      <div class="au-why">${esc(c?c.why:(a.why||a.id))}</div>
+      <div class="au-why">${esc(c?auT(c.why):(a.why||a.id))}</div>
       ${c&&c.delta!=null?`<div class="au-num">
         <span>${esc(c.axa)}</span>
         <b>${esc(String(c.valoare_nominala))} mm</b>
@@ -8410,7 +8433,7 @@ function auditSheet(failed){
         <b>${esc(String(c.valoare_calculata))} mm</b>
         <em>${c.delta>0?"+":""}${esc(String(c.delta))} mm</em></div>`:""}
       ${c&&c.piese_implicate&&c.piese_implicate.length
-        ?`<div class="au-meta">${esc(c.piese_implicate.join(" · "))}</div>`:""}
+        ?`<div class="au-meta">${esc(c.piese_implicate.map(elName).join(" · "))}</div>`:""}
       <div class="au-meta">${esc(meta)}</div>
     </div>`;
   }).join("");
@@ -8527,7 +8550,7 @@ function closureSummary(p){
     const r={nume:name, tip:cfg.type||"standard",
              nom:{L:cfg.L,H:cfg.H,P:cfg.P},
              calc:{}, sp:null, mats:null, back:"", front:"",
-             nPz:rows.reduce((a,x)=>a+(+x.pz||0),0),
+             nPz:panelTotals(rows).pcs, /* D-61: le stesse piese della distinta */
              nRow:rows.length, errs:[], ok:false};
     try{
       const G=deriveCarcass(carcassParams(cfg,{}));
@@ -8599,7 +8622,7 @@ function closureRender(){
         <span class="arw">→</span><span>${calcTxt}</span></div>
       ${r.sp?`<div class="cl-sp">${closureSpText(r)}</div>`:""}
       <div class="cl-kind">${esc(t("matBack"))}: ${esc(tOr("back_"+r.back,r.back))} · ${esc(t("fFront"))}: ${esc(tOr("front_"+r.front,r.front))}</div>
-      ${bad?`<div class="cl-kind" style="color:var(--danger)">${esc(r.errs.map(e=>e.why||e.id).join(" · ").slice(0,220))}</div>`:""}
+      ${bad?r.errs.map(e=>`<div class="cl-kind" style="color:var(--danger)">${esc(e.why||e.id)}</div>`).join(""):""}
     </div>`;
   }).join("")||`<div class="cl-row"><div class="cl-h"><b>${esc(t("transpNone"))}</b></div></div>`;
   return list;
@@ -9044,7 +9067,7 @@ function mSteps(M,hw,items){
   const backMode=G&&G.in?G.in.backMode:(c.back?"in_cava":null);
   const tr=G&&G.treapta&&G.treapta.activa?G.treapta:null;
   /* 1. controllo del materiale */
-  add(t("ms1").replace("{n}",items.reduce((s,x)=>s+(+x.pz||0),0)));
+  add(t("ms1").replace("{n}",panelTotals(items).pcs)); /* D-61: piese tăiate din placă */
   if(O&&O.pieces.some(pc=>pc.operations.length)) add(t("ms2"));
   /* 2. premontaggio sui fianchi */
   const cams=by("minifix"), dws=by("tassello");
@@ -12448,12 +12471,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.38.2"; /* APP_VER-MARKER */
+const APP_VER="4.38.3"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v82";
+const SW_CACHE="ebanist-v83";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
