@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.38.3 — 2 octombrie 2026
+
+Corecturi găsite la înregistrarea clipurilor pentru YouTube, pe aplicația reală. Nicio cotă din distinta nu se schimbă: golden-urile validate (42/42) rămân identice, motorul (`ebanist-core.js`) nu e atins.
+
+- **Verificările de coerență vorbesc limba interfeței.** Motivele din foaia de închidere și din foaia de verificare („Adâncimea recompusă din laterală…”, „Polița e mai adâncă…”) erau scrise în română și apăreau așa și în engleză, italiană și franceză. Acum se traduc la afișare (fișier nou `app/ebanist-au-i18n.js`, indexat după textul exact din motor), la fel rândul cu cotele („600 mm ordered, 560 mm from the parts (−40 mm)”) și numele pieselor implicate. Testul nou `test/au-i18n.test.js` pică dacă o regulă nouă din motor nu are traducere în it, en, fr.
+- **Foaia de închidere nu mai taie mesajul la jumătatea unui cuvânt** („… · Fian”): fiecare motiv pe rândul lui, întreg.
+- **„Modifică piesa” arată numele piesei în limba interfeței** („Side”, „Côté”, „Laterală”), nu numele intern italian („Fianco”). La salvare, distinta păstrează numele intern, deci etichetele și rolurile rămân aceleași; și lista de sugestii e tradusă.
+- **Același număr de piese peste tot (D-61), și în locurile rămase:** mesajul de după „Generează”, foaia de închidere și fișa de montaj („Numără piesele”) spuneau 30 pentru un dulap de 29 de piese, pentru că adunau și bara de umerașe.
+- `SW_CACHE`/`CACHE` → `ebanist-v83`.
+
 ## 4.38.2 — 30 septembrie 2026
 
 Corecturi găsite în testarea închisă, la capturile pentru Google Play. Nicio cotă din distinta nu se schimbă: golden-urile validate (42/42) rămân identice.
