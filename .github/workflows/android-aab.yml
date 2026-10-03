@@ -1,8 +1,11 @@
-# Ebanist — construiește .aab-ul semnat pentru Google Play.
+# Ebanist — construiește .aab-ul semnat pentru Google Play și APK-ul
+# semnat cu aceeași cheie, de instalat direct pe telefon.
 #
 # Se pornește de mână: GitHub → Actions → „android-aab” → Run workflow.
-# La final, .aab-ul e în secțiunea „Artifacts” a rulării, gata de încărcat
-# în Play Console → Testare închisă → Creează o lansare nouă.
+# La final, în secțiunea „Artifacts” a rulării:
+#   ebanist-aab  → Play Console → Testare închisă → Creează o lansare nouă;
+#   ebanist-apk  → se descarcă pe telefon și se instalează peste APK-ul
+#                  vechi, dacă acela e semnat cu aceeași cheie de upload.
 #
 # Cheia de upload NU stă în repo. Vine din patru secrete ale repo-ului
 # (Settings → Secrets and variables → Actions):
@@ -56,20 +59,27 @@ jobs:
             echo "keyPassword=$KEY_PASS"
           } > android/keystore.properties
 
-      - name: bundleRelease
+      - name: bundleRelease + assembleRelease
         working-directory: android
-        run: gradle --no-daemon bundleRelease
+        run: gradle --no-daemon bundleRelease assembleRelease
 
       - name: Verifică semnătura
         run: |
           AAB=android/app/build/outputs/bundle/release/app-release.aab
           jarsigner -verify "$AAB" | tail -1
           keytool -printcert -jarfile "$AAB" | grep -m1 "SHA256:"
+          ls -l android/app/build/outputs/apk/release/
 
       - uses: actions/upload-artifact@v4
         with:
           name: ebanist-aab
           path: android/app/build/outputs/bundle/release/app-release.aab
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ebanist-apk
+          path: android/app/build/outputs/apk/release/*.apk
           retention-days: 14
 
       - name: Șterge cheia
