@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.1 — 3 octombrie 2026
+
+Corectură de text pe site, secțiunea Preț: nota de sub tabel spunea doar „Anulezi când vrei”, deși Founders e plată unică. Acum spune că abonamentul se anulează oricând, iar Founders se plătește o singură dată (RO, EN, IT, FR).
+
+- `SW_CACHE`/`CACHE` → `ebanist-v86`.
+
 ## 4.40.0 — 3 octombrie 2026
 
 **Ce primești cu Pro, scris rând cu rând, în aplicație și pe site.**
