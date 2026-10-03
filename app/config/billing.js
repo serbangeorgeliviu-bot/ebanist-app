@@ -25,21 +25,29 @@
     /* Linkurile de plată. Un link lipsă (null) = butonul lui nu apare. */
     LINK_MONTHLY: "https://buy.stripe.com/9B6bJ1a426IbcZM9hAeQM00",
     LINK_YEARLY: "https://buy.stripe.com/eVqfZh1xwc2v2l8fFYeQM01",
+    /* Founders: plată unică, Pro pe viață, limitat la 100 în Stripe
+       („Limit the number of payments”). Lookup key `ebanist_pro_founders`.
+       null = butonul dispare (oferta închisă). */
+    LINK_FOUNDERS: "https://buy.stripe.com/4gM3cva42feHaREfFYeQM02",
 
     /* --- prețuri afișate ---------------------------------------------- */
     /* Numai pentru textul de pe ecran. Prețul plătit e cel din Stripe
        (cu TVA inclus): cele două trebuie să COINCIDĂ, iar dacă diferă
        comandă Stripe. */
     PRICE_MONTHLY: "9 €",
-    PRICE_YEARLY: "79 €"
+    PRICE_YEARLY: "79 €",
+    PRICE_FOUNDERS: "149 €"
   };
 
   function isLink(v) {
     return typeof v === "string" && /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9]+$/.test(v);
   }
-  BILLING.hasPlan = function (plan) {
-    return isLink(plan === "yearly" ? BILLING.LINK_YEARLY : BILLING.LINK_MONTHLY);
-  };
+  function linkOf(plan) {
+    return plan === "yearly" ? BILLING.LINK_YEARLY
+         : plan === "founders" ? BILLING.LINK_FOUNDERS
+         : BILLING.LINK_MONTHLY;
+  }
+  BILLING.hasPlan = function (plan) { return isLink(linkOf(plan)); };
   BILLING.configured = BILLING.hasPlan("monthly") || BILLING.hasPlan("yearly");
 
   /* Adresa de plată, construită aici și nicăieri altundeva: cine o
@@ -47,7 +55,7 @@
      precompletează — un câmp mai puțin de scris cu telefonul în mână. */
   BILLING.buyUrl = function (plan, email) {
     if (!BILLING.hasPlan(plan)) return "";
-    var u = plan === "yearly" ? BILLING.LINK_YEARLY : BILLING.LINK_MONTHLY;
+    var u = linkOf(plan);
     return email ? u + "?prefilled_email=" + encodeURIComponent(email) : u;
   };
 

@@ -4,6 +4,11 @@
      POST /api/pro  { session: "cs_…" }   după plată: sesiunea de checkout
      POST /api/pro  { sub: "sub_…" }      reverificare / alt dispozitiv
 
+   Founders (plată unică, Pro pe viață): sesiunea de checkout e și codul
+   de activare (`cs_live_…`), pentru că nu există abonament. Reverificarea
+   trimite din nou { session }: dacă plata a fost rambursată integral,
+   răspunsul devine status "expired".
+
    Răspuns: { ok:true, sub, status, periodEnd, plan, email? }
             { ok:false, error }   cu 4xx când Stripe a răspuns „nu”,
                                   cu 5xx când nu s-a putut întreba.
@@ -29,6 +34,8 @@ const reply = (b, s = 200) => new Response(JSON.stringify(b), { status: s, heade
    Stripe pot apărea mâine și alte produse (Plaquist, Voltist). Cheia de
    căutare (lookup key) e pusă pe preț în cruscotto. */
 const PLANS = { ebanist_pro_monthly: "monthly", ebanist_pro_yearly: "yearly" };
+/* Prețurile de plată unică care dau Pro pe viață. */
+const LIFETIME = { ebanist_pro_founders: "founders" };
 
 const SESSION = /^cs_(live|test)_[A-Za-z0-9]{10,200}$/;
 const SUB = /^sub_[A-Za-z0-9]{8,64}$/;
@@ -91,6 +98,41 @@ function shape(sub, email) {
   return out;
 }
 
+/* Plata unică: planul se citește din rândurile sesiunii (line_items),
+   rambursarea din plata atașată. Dacă cheia restricționată nu are drept
+   de citire pe Payment Intents, rambursarea nu se verifică — nu e un
+   motiv să refuzi un client care a plătit. */
+function lifetimePlan(session) {
+  const rows = (session.line_items && session.line_items.data) || [];
+  for (const r of rows) {
+    const lk = r.price && r.price.lookup_key;
+    if (lk && LIFETIME[lk]) return LIFETIME[lk];
+  }
+  return null;
+}
+
+async function refunded(session, key) {
+  const pi = session.payment_intent;
+  const id = typeof pi === "string" ? pi : pi && pi.id;
+  if (!id) return false;
+  const r = await stripe("payment_intents/" + encodeURIComponent(id) + "?expand[]=latest_charge", key);
+  if (r.status !== 200 || !r.body) return false;
+  const ch = r.body.latest_charge;
+  return !!(ch && typeof ch === "object" && ch.refunded === true);
+}
+
+async function oneTime(session, key) {
+  if (session.status !== "complete" || session.payment_status !== "paid")
+    return reply({ ok: false, error: "not-paid" }, 402);
+  const plan = lifetimePlan(session);
+  if (!plan) return reply({ ok: false, error: "wrong-product" }, 403);
+  const gone = await refunded(session, key);
+  const out = { ok: true, sub: session.id, status: gone ? "expired" : "active", periodEnd: null, plan };
+  const email = session.customer_details && session.customer_details.email;
+  if (email) out.email = email;
+  return reply(out);
+}
+
 export default async (req) => {
   if (req.method !== "POST") return reply({ ok: false, error: "method" }, 405);
   const key = process.env.STRIPE_SECRET_KEY;
@@ -105,9 +147,10 @@ export default async (req) => {
     let sub, email = "";
     if (session) {
       if (!SESSION.test(session)) return reply({ ok: false, error: "bad-session" }, 400);
-      const s = await stripe("checkout/sessions/" + encodeURIComponent(session) + "?expand[]=subscription", key);
+      const s = await stripe("checkout/sessions/" + encodeURIComponent(session) + "?expand[]=subscription&expand[]=line_items", key);
       if (s.status === 404) return reply({ ok: false, error: "not-found" }, 404);
       if (s.status !== 200 || !s.body) return reply({ ok: false, error: "stripe-" + s.status }, 502);
+      if (s.body.mode === "payment") return await oneTime(s.body, key);
       if (s.body.status !== "complete") return reply({ ok: false, error: "not-paid" }, 402);
       sub = s.body.subscription;
       if (!sub || typeof sub !== "object") return reply({ ok: false, error: "no-subscription" }, 400);

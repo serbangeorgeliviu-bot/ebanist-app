@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.39.0 — 3 octombrie 2026
+
+**Founders: Pro pe viață, 149 €, plată unică, limitat la 100.** A treia opțiune din ecranul Pro, sub lunar și anual.
+
+- `app/config/billing.js`: `LINK_FOUNDERS` (`buy.stripe.com/4gM3…02`) și `PRICE_FOUNDERS`. Pus pe `null`, butonul dispare (ofertă închisă).
+- `/api/pro`: o sesiune de checkout în modul `payment` se verifică după rândurile ei (`line_items`), lookup key `ebanist_pro_founders`. Răspunde fără dată de expirare, plan `founders`. Dacă plata a fost rambursată integral, statusul devine `expired` (cere drept de citire pe Payment Intents; fără el, rambursarea nu se verifică și clientul rămâne Pro).
+- Codul de activare pe alt dispozitiv e id-ul sesiunii (`cs_live_…`), recunoscut în câmpul de cheie la fel ca `sub_…`. Reverificarea la 7 zile trimite sesiunea.
+- Teste noi în `test/pro-fn.test.mjs` (5): plătit, rambursat, cheie fără permisiune, neplătit, alt produs.
+- `SW_CACHE`/`CACHE` → `ebanist-v84`.
+
 ## 4.38.3 — 2 octombrie 2026
 
 Corecturi găsite la înregistrarea clipurilor pentru YouTube, pe aplicația reală. Nicio cotă din distinta nu se schimbă: golden-urile validate (42/42) rămân identice, motorul (`ebanist-core.js`) nu e atins.

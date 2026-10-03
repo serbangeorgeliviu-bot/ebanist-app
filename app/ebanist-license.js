@@ -68,6 +68,7 @@
   function normalize(raw) {
     var s = String(raw || "").trim();
     if (/^sub_[A-Za-z0-9]+$/.test(s)) return s;                    // Stripe: maiuscole e minuscole contano
+    if (/^cs_(live|test)_[A-Za-z0-9]+$/.test(s)) return s;         // Founders: la sessione di pagamento
     if (/^[0-9a-fA-F-]{36}$/.test(s)) return s.toLowerCase();     // UUID: resta com'e
     s = s.toUpperCase().replace(/[^A-Z0-9]/g, "");
     if (s.indexOf("EBP") === 0) s = s.slice(3);
@@ -91,9 +92,11 @@
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(String(key || "").toLowerCase());
   }
 
-  /* L'id di un abbonamento Stripe. */
+  /* L'id di un abbonamento Stripe, oppure (Founders, pagamento unico)
+     l'id della sessione di checkout. */
   function isStripeShape(key) {
-    return /^sub_[A-Za-z0-9]{8,64}$/.test(String(key || ""));
+    var k = String(key || "");
+    return /^sub_[A-Za-z0-9]{8,64}$/.test(k) || /^cs_(live|test)_[A-Za-z0-9]{10,200}$/.test(k);
   }
 
   function keyKind(key) {
@@ -242,7 +245,9 @@
     });
   }
   function stripeFromSession(sessionId) { return stripeCheck({ session: sessionId }); }
-  function stripeValidate(subId) { return stripeCheck({ sub: subId }); }
+  function stripeValidate(code) {
+    return /^cs_/.test(String(code || "")) ? stripeCheck({ session: code }) : stripeCheck({ sub: code });
+  }
 
   function shapeFromStripe(j, prev) {
     return {

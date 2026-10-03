@@ -74,4 +74,31 @@ describe("/api/pro", () => {
     assert.strictEqual((await call({ sub: "sub_1AbCdEfGhIjKlMn" })).status, 504);
     assert.strictEqual((await handler(new Request("https://ebanist.com/api/pro"))).status, 405);
   });
+
+  /* Founders (4.39.0): plata unica, Pro pe viata. Codul e sesiunea. */
+  const PAID = (o = {}) => Object.assign({ id: "cs_live_abcdefghij12", mode: "payment", status: "complete", payment_status: "paid",
+    payment_intent: "pi_123", customer_details: { email: "f@b.c" },
+    line_items: { data: [{ price: { lookup_key: "ebanist_pro_founders" } }] } }, o);
+  test("founders pagato → attivo, senza scadenza, piano founders", async () => {
+    stripeReplies({ "checkout/sessions/": [200, PAID()], "payment_intents/": [200, { latest_charge: { refunded: false } }] });
+    const j = await (await call({ session: "cs_live_abcdefghij12" })).json();
+    assert.deepStrictEqual(j, { ok: true, sub: "cs_live_abcdefghij12", status: "active", periodEnd: null, plan: "founders", email: "f@b.c" });
+    assert.ok(seen[0].url.includes("expand[]=line_items"));
+  });
+  test("founders rimborsato → expired", async () => {
+    stripeReplies({ "checkout/sessions/": [200, PAID()], "payment_intents/": [200, { latest_charge: { refunded: true } }] });
+    assert.strictEqual((await (await call({ session: "cs_live_abcdefghij12" })).json()).status, "expired");
+  });
+  test("founders: chiave senza permesso sui payment intents → resta attivo", async () => {
+    stripeReplies({ "checkout/sessions/": [200, PAID()], "payment_intents/": [403, { error: {} }] });
+    assert.strictEqual((await (await call({ session: "cs_live_abcdefghij12" })).json()).status, "active");
+  });
+  test("founders non pagato → 402", async () => {
+    stripeReplies({ "checkout/sessions/": [200, PAID({ payment_status: "unpaid" })] });
+    assert.strictEqual((await call({ session: "cs_live_abcdefghij12" })).status, 402);
+  });
+  test("pagamento unico di un altro prodotto → 403", async () => {
+    stripeReplies({ "checkout/sessions/": [200, PAID({ line_items: { data: [{ price: { lookup_key: "plaquist_x" } }] } })] });
+    assert.strictEqual((await call({ session: "cs_live_abcdefghij12" })).status, 403);
+  });
 });
