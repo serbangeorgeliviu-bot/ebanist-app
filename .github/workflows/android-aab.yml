@@ -51,6 +51,10 @@ jobs:
             echo "::error::Lipsesc secretele ANDROID_KEYSTORE_B64 / ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_ALIAS / ANDROID_KEY_PASSWORD."
             exit 1
           fi
+          # Spațiile și rândurile noi de la capete (lipite din greșeală
+          # odată cu valoarea, mai ales de pe telefon) nu fac parte din secret.
+          trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
+          KS_PASS=$(trim "$KS_PASS"); KEY_ALIAS=$(trim "$KEY_ALIAS"); KEY_PASS=$(trim "$KEY_PASS")
           echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
           {
             echo "storeFile=$RUNNER_TEMP/upload.keystore"
@@ -68,6 +72,10 @@ jobs:
           # Pe telefon au rămas mai multe signing.keystore din încercările
           # PWABuilder; doar aceasta e acceptată de Play.
           ASTEPTAT="30:25:FE:93:6C:A9:68:6A:45:CA:91:7E:18:0E:2A:2D:27:D5:6A:BB:1E:01:42:99:8C:D0:E2:CC:91:EA:BF:1E"
+          # Ca la pasul de mai sus: spațiile și rândurile noi de la capete (lipite din greșeală
+          # odată cu valoarea, mai ales de pe telefon) nu fac parte din secret.
+          trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
+          KS_PASS=$(trim "$KS_PASS"); KEY_ALIAS=$(trim "$KEY_ALIAS"); KEY_PASS=$(trim "$KEY_PASS")
           # signing.keystore de la PWABuilder are 2756 de octeți; altă mărime
           # înseamnă că textul base64 s-a copiat incomplet.
           echo "Mărimea cheii decodate: $(stat -c %s "$RUNNER_TEMP/upload.keystore") octeți"
