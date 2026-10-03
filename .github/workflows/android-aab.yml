@@ -47,35 +47,55 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
-          if [ -z "$KS_B64" ] || [ -z "$KS_PASS" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASS" ]; then
-            echo "::error::Lipsesc secretele ANDROID_KEYSTORE_B64 / ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_ALIAS / ANDROID_KEY_PASSWORD."
+          # ANDROID_KEYSTORE_B64 poate fi:
+          #  - signing.keystore în base64 (parolele vin din celelalte trei secrete), sau
+          #  - un tar cu signing.keystore + signing-key-info.txt de la PWABuilder,
+          #    în base64; atunci parolele și aliasul se citesc din fișier, iar
+          #    celelalte trei secrete nu mai sunt necesare. Făcut în Termux cu:
+          #      tar c signing.keystore signing-key-info.txt | base64 -w0
+          if [ -z "$KS_B64" ]; then
+            echo "::error::Lipsește secretul ANDROID_KEYSTORE_B64."
             exit 1
           fi
-          # Spațiile și rândurile noi de la capete (lipite din greșeală
-          # odată cu valoarea, mai ales de pe telefon) nu fac parte din secret.
           trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
+          D="$RUNNER_TEMP/cheie"; mkdir -p "$D"
+          printf '%s' "$KS_B64" | tr -d ' \r\n' | base64 -d > "$D/blob"
+          if tar tf "$D/blob" >/dev/null 2>&1; then
+            tar xf "$D/blob" -C "$D"
+            KS_FILE=$(find "$D" -name signing.keystore | head -1)
+            INFO=$(find "$D" -name 'signing-key-info*.txt' | head -1)
+            [ -n "$KS_FILE" ] && [ -n "$INFO" ] || { echo "::error::Arhiva nu conține signing.keystore și signing-key-info.txt."; exit 1; }
+            camp() { grep -i "^$1:" "$INFO" | head -1 | sed 's/^[^:]*:[[:space:]]*//'; }
+            KS_PASS=$(camp 'Key store password'); KEY_ALIAS=$(camp 'Key alias'); KEY_PASS=$(camp 'Key password')
+            echo "Cheia și parolele vin din signing-key-info.txt."
+          else
+            KS_FILE="$D/blob"
+          fi
           KS_PASS=$(trim "$KS_PASS"); KEY_ALIAS=$(trim "$KEY_ALIAS"); KEY_PASS=$(trim "$KEY_PASS")
-          echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+          # Citite din fișier, nu din secrete: GitHub nu le ascunde singur în jurnal.
+          echo "::add-mask::$KS_PASS"; echo "::add-mask::$KEY_PASS"
+          if [ -z "$KS_PASS" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASS" ]; then
+            echo "::error::Lipsesc parola, aliasul sau parola cheii (secretele ANDROID_* sau signing-key-info.txt)."
+            exit 1
+          fi
+          cp "$KS_FILE" "$RUNNER_TEMP/upload.keystore"
           {
             echo "storeFile=$RUNNER_TEMP/upload.keystore"
             echo "storePassword=$KS_PASS"
             echo "keyAlias=$KEY_ALIAS"
             echo "keyPassword=$KEY_PASS"
           } > android/keystore.properties
+          rm -rf "$D"
 
       - name: Cheia e cea înregistrată la Play?
-        env:
-          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
           # Amprenta cheii de upload, aceeași ca în /.well-known/assetlinks.json.
           # Pe telefon au rămas mai multe signing.keystore din încercările
           # PWABuilder; doar aceasta e acceptată de Play.
           ASTEPTAT="30:25:FE:93:6C:A9:68:6A:45:CA:91:7E:18:0E:2A:2D:27:D5:6A:BB:1E:01:42:99:8C:D0:E2:CC:91:EA:BF:1E"
-          # Ca la pasul de mai sus: spațiile și rândurile noi de la capete (lipite din greșeală
-          # odată cu valoarea, mai ales de pe telefon) nu fac parte din secret.
-          trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
-          KS_PASS=$(trim "$KS_PASS"); KEY_ALIAS=$(trim "$KEY_ALIAS"); KEY_PASS=$(trim "$KEY_PASS")
+          # Parola și aliasul, așa cum le-a pregătit pasul de mai sus.
+          KS_PASS=$(grep '^storePassword=' android/keystore.properties | cut -d= -f2-)
+          KEY_ALIAS=$(grep '^keyAlias=' android/keystore.properties | cut -d= -f2-)
           # signing.keystore de la PWABuilder are 2756 de octeți; altă mărime
           # înseamnă că textul base64 s-a copiat incomplet.
           echo "Mărimea cheii decodate: $(stat -c %s "$RUNNER_TEMP/upload.keystore") octeți"
