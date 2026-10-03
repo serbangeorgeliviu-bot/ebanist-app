@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.0 — 3 octombrie 2026
+
+**Ce primești cu Pro, scris rând cu rând, în aplicație și pe site.**
+
+- Ecranul Pro din aplicație: lista de 5 avantaje (veche, mai spunea „2 proiecte” și „pachet JSON”) e înlocuită de un tabel Gratuit / Pro cu 12 rânduri, aliniat cu ce blochează efectiv `proGate` (D-55: 1 proiect gratuit, toate documentele Pro). Sub tabel, cele trei moduri de plată (lunar, anual, Founders) și fraza „toate trei deblochează aceleași funcții”. Pe Android (Google Play) apare doar tabelul.
+- Site, secțiunea Preț: al treilea nivel, Founders (149 €, din `billing.js`, butonul duce la linkul Stripe; dacă `LINK_FOUNDERS` e `null`, nivelul dispare), apoi același tabel de comparație. Founders e adăugat și în JSON-LD.
+- Texte în ro, it, en, fr (`cmp_*` în aplicație, `cmp.*` și `price.fd*` în `site-src/i18n`).
+- `SW_CACHE`/`CACHE` → `ebanist-v85`.
+
 ## 4.39.0 — 3 octombrie 2026
 
 **Founders: Pro pe viață, 149 €, plată unică, limitat la 100.** A treia opțiune din ecranul Pro, sub lunar și anual.

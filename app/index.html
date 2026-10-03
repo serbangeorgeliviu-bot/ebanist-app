@@ -607,6 +607,17 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 .pro-feats li{position:relative;padding:7px 0 7px 26px;line-height:1.4;border-bottom:1px solid var(--line)}
 .pro-feats li:last-child{border-bottom:0}
 .pro-feats li::before{content:"✓";position:absolute;left:2px;top:7px;color:var(--grn);font-weight:700}
+.pro-cmp{width:100%;border-collapse:collapse;font-size:14px;line-height:1.35}
+.pro-cmp th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.7;font-weight:600;padding:0 0 8px;text-align:center}
+.pro-cmp th:first-child{text-align:left}
+.pro-cmp td{padding:8px 0;border-top:1px solid var(--line);vertical-align:top}
+.pro-cmp td.c{text-align:center;width:58px;font-weight:700}
+.pro-cmp td.y{color:var(--grn)}
+.pro-cmp td.n{opacity:.35}
+.pro-cmp tr.pf td{font-weight:600}
+.pro-plans{margin:16px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:12px}
+.pro-plans b{display:block;margin-bottom:6px}
+.pro-plans p{margin:4px 0;font-size:14px;line-height:1.4}
 /* Il pallino dorato sull'ingranaggio: da lontano, con le mani sporche e
    il telefono sul banco, e l'unico modo di sapere se questa e la versione
    pagata senza aprire niente. */
@@ -2434,6 +2445,7 @@ Object.assign(I18N.it,{
   proBuyM:"Sblocca Pro — {p}/mese",
   proBuyY:"Un anno — {p} (due mesi in regalo)",
   proBuyF:"Founders — {p} una volta, Pro per sempre (solo 100 posti)",
+  cmp_head:"Cosa ottieni",cmp_free:"Gratis",cmp_pro:"Pro",cmp_v1free:"1",cmp_v1pro:"Illimitati",cmp_r1:"Progetti",cmp_r2:"Tutte le tipologie di mobile, 3D con pezzi e fori",cmp_r3:"Rilievo di cantiere, pianta con collisioni",cmp_r4:"Distinta, piano di taglio e preventivo, a schermo",cmp_r5:"Distinta PDF e CSV per il taglio",cmp_r6:"Etichette pezzi (A4, 24 per foglio, con schema bordi)",cmp_r7:"Scheda di montaggio illustrata e disegno tecnico 2D",cmp_r8:"Lista d'ordine: pannelli, bordo, ferramenta",cmp_r9:"Pacchetto per il centro di taglio",cmp_r10:"Preventivo PDF per il cliente e modalità Cliente",cmp_r11:"«Nella tua stanza», AR ed export JPG",cmp_r12:"Il logo della tua azienda sui documenti",cmp_plans:"Tre modi di pagare, lo stesso Pro",cmp_pm:"Mensile — {p}/mese. Disdici quando vuoi.",cmp_py:"Annuale — {p}/anno. Costa come 10 mesi: due mesi in regalo.",cmp_pf:"Founders — {p} una volta sola. Pro per sempre, compreso tutto ciò che arriverà nel Pro. Solo 100 posti.",cmp_note:"I tre piani sbloccano esattamente le stesse funzioni.",
   proHaveKey:"Ho gia una chiave",
   proKeyPh:"EBP-… oppure il codice sub_…",
   proKeyHint:"Hai pagato sul web? Il Pro si attiva da solo al ritorno dal pagamento. Su un altro dispositivo incolla qui il codice sub_… (Impostazioni → Copia il codice).",
@@ -2499,6 +2511,7 @@ Object.assign(I18N.ro,{
   proBuyM:"Deblochează Pro — {p}/lună",
   proBuyY:"Un an — {p} (două luni cadou)",
   proBuyF:"Founders — {p} o singură dată, Pro pe viață (doar 100 de locuri)",
+  cmp_head:"Ce primești",cmp_free:"Gratuit",cmp_pro:"Pro",cmp_v1free:"1",cmp_v1pro:"Nelimitate",cmp_r1:"Proiecte",cmp_r2:"Toate tipologiile de mobilier, 3D cu piese și găuri",cmp_r3:"Releveu de șantier, plan cu coliziuni",cmp_r4:"Distinta, planul de tăiere și devizul, pe ecran",cmp_r5:"Distinta PDF și CSV pentru debitare",cmp_r6:"Etichete pe piese (A4, 24 pe foaie, cu schema cantului)",cmp_r7:"Fișa de montaj ilustrată și desenul tehnic 2D",cmp_r8:"Lista de comandă: plăci, cant, feronerie",cmp_r9:"Pachetul pentru centrul de debitare",cmp_r10:"Devizul PDF pentru client și modul Client",cmp_r11:"„În camera ta”, AR și export JPG",cmp_r12:"Logo-ul firmei tale pe documente",cmp_plans:"Trei moduri de plată, același Pro",cmp_pm:"Lunar — {p}/lună. Anulezi oricând.",cmp_py:"Anual — {p}/an. Cât 10 luni: două luni gratuite.",cmp_pf:"Founders — {p} o singură dată. Pro pe viață, cu tot ce se adaugă în Pro de acum înainte. Doar 100 de locuri.",cmp_note:"Toate cele trei planuri deblochează exact aceleași funcții.",
   proHaveKey:"Am deja o cheie",
   proKeyPh:"EBP-… sau codul sub_…",
   proKeyHint:"Ai plătit pe web? Pro se activează singur la întoarcerea de la plată. Pe alt dispozitiv lipește aici codul sub_… (Setări → Copiază codul).",
@@ -2564,6 +2577,7 @@ Object.assign(I18N.en,{
   proBuyM:"Unlock Pro — {p}/month",
   proBuyY:"One year — {p} (two months free)",
   proBuyF:"Founders — {p} once, Pro for life (100 seats only)",
+  cmp_head:"What you get",cmp_free:"Free",cmp_pro:"Pro",cmp_v1free:"1",cmp_v1pro:"Unlimited",cmp_r1:"Projects",cmp_r2:"Every furniture type, 3D with parts and holes",cmp_r3:"Site survey, room plan with clash check",cmp_r4:"Cut list, cutting plan and quote, on screen",cmp_r5:"Cut list PDF and CSV for the cutting centre",cmp_r6:"Part labels (A4, 24 per sheet, with edge-band diagram)",cmp_r7:"Illustrated assembly sheet and 2D technical drawing",cmp_r8:"Order list: boards, edge band, hardware",cmp_r9:"Cutting-centre package",cmp_r10:"Client quote PDF and Client mode",cmp_r11:"“In your room”, AR and JPG export",cmp_r12:"Your company logo on documents",cmp_plans:"Three ways to pay, the same Pro",cmp_pm:"Monthly — {p}/month. Cancel any time.",cmp_py:"Yearly — {p}/year. Priced as 10 months: two months free.",cmp_pf:"Founders — {p} once. Pro for life, including everything added to Pro from now on. 100 seats only.",cmp_note:"All three plans unlock exactly the same features.",
   proHaveKey:"I already have a key",
   proKeyPh:"EBP-… or your sub_… code",
   proKeyHint:"Paid on the web? Pro turns on by itself when you return from checkout. On another device, paste your sub_… code here (Settings → Copy code).",
@@ -2629,6 +2643,7 @@ Object.assign(I18N.fr,{
   proBuyM:"Débloquer Pro — {p}/mois",
   proBuyY:"Un an — {p} (deux mois offerts)",
   proBuyF:"Founders — {p} une fois, Pro à vie (100 places seulement)",
+  cmp_head:"Ce que vous obtenez",cmp_free:"Gratuit",cmp_pro:"Pro",cmp_v1free:"1",cmp_v1pro:"Illimités",cmp_r1:"Projets",cmp_r2:"Tous les types de meubles, 3D avec pièces et perçages",cmp_r3:"Relevé de chantier, plan avec détection des collisions",cmp_r4:"Liste de débit, plan de découpe et devis, à l'écran",cmp_r5:"Liste de débit PDF et CSV pour la découpe",cmp_r6:"Étiquettes pièces (A4, 24 par feuille, avec schéma des chants)",cmp_r7:"Fiche de montage illustrée et dessin technique 2D",cmp_r8:"Liste de commande : panneaux, chant, quincaillerie",cmp_r9:"Paquet pour le centre de découpe",cmp_r10:"Devis PDF client et mode Client",cmp_r11:"« Dans votre pièce », AR et export JPG",cmp_r12:"Le logo de votre entreprise sur les documents",cmp_plans:"Trois façons de payer, le même Pro",cmp_pm:"Mensuel — {p}/mois. Résiliable à tout moment.",cmp_py:"Annuel — {p}/an. Au prix de 10 mois : deux mois offerts.",cmp_pf:"Founders — {p} une seule fois. Pro à vie, y compris tout ce qui sera ajouté au Pro. 100 places seulement.",cmp_note:"Les trois formules débloquent exactement les mêmes fonctions.",
   proHaveKey:"J'ai déjà une clé",
   proKeyPh:"EBP-… ou votre code sub_…",
   proKeyHint:"Payé sur le web ? Le Pro s'active tout seul au retour du paiement. Sur un autre appareil, collez ici votre code sub_… (Réglages → Copier le code).",
@@ -4079,8 +4094,12 @@ function renderPro(why){
        questo schermo si vede solo quando il limite e pieno, e «sarebbe il
        primo» sarebbe una frase senza senso davanti a un muro. */
     .replace("{n}",FREE_PROJECTS).replace("{m}",Math.max(FREE_PROJECTS+1,ownProjects()+1));
-  const feats=["proF1","proF2","proF3","proF4","proF5"]
-    .map(k=>`<li>${esc(t(k))}</li>`).join("");
+  /* Gratuit vs Pro, rând cu rând (4.40.0). "Y" = inclus, "-" = nu,
+     altfel cheia textului din celulă. Trebuie să spună ce face proGate. */
+  const cell=v=>v==="Y"?`<td class="c y">✓</td>`:v==="-"?`<td class="c n">—</td>`:`<td class="c">${esc(t(v))}</td>`;
+  const feats=`<table class="pro-cmp"><thead><tr><th>${esc(t("cmp_head"))}</th><th>${esc(t("cmp_free"))}</th><th>${esc(t("cmp_pro"))}</th></tr></thead><tbody>`+
+    [["cmp_r1","v1free","v1pro"],["cmp_r2","Y","Y"],["cmp_r3","Y","Y"],["cmp_r4","Y","Y"],["cmp_r5","-","Y"],["cmp_r6","-","Y"],["cmp_r7","-","Y"],["cmp_r8","-","Y"],["cmp_r9","-","Y"],["cmp_r10","-","Y"],["cmp_r11","-","Y"],["cmp_r12","-","Y"]].map(([k,f,q],i)=>`<tr${i===0?' class="pf"':""}><td>${esc(t(k))}</td>${cell(f==="Y"||f==="-"?f:"cmp_"+f)}${cell(q==="Y"||q==="-"?q:"cmp_"+q)}</tr>`).join("")+
+    `</tbody></table>`;
   let buy="";
   const onPlay=playOn();
   PLAY.why=why;
@@ -4109,6 +4128,11 @@ function renderPro(why){
       buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t(PLAY_PREPAID?"playTermsPre":"playTerms"))}</p>`;
     }
   }else if(BILLING.configured){
+    buy+=`<div class="pro-plans"><b>${esc(t("cmp_plans"))}</b>`+
+      (BILLING.hasPlan("monthly")?`<p>${esc(t("cmp_pm").replace("{p}",BILLING.PRICE_MONTHLY))}</p>`:"")+
+      (BILLING.hasPlan("yearly")?`<p>${esc(t("cmp_py").replace("{p}",BILLING.PRICE_YEARLY))}</p>`:"")+
+      (BILLING.hasPlan("founders")?`<p>${esc(t("cmp_pf").replace("{p}",BILLING.PRICE_FOUNDERS))}</p>`:"")+
+      `<p style="opacity:.7">${esc(t("cmp_note"))}</p></div>`;
     if(BILLING.hasPlan("monthly")) buy+=`<button class="btn red" id="proBuyM">${esc(t("proBuyM").replace("{p}",BILLING.PRICE_MONTHLY))}</button>`;
     if(BILLING.hasPlan("yearly")) buy+=`<button class="btn" id="proBuyY" style="margin-top:8px">${esc(t("proBuyY").replace("{p}",BILLING.PRICE_YEARLY))}</button>`;
     if(BILLING.hasPlan("founders")) buy+=`<button class="btn" id="proBuyF" style="margin-top:8px">${esc(t("proBuyF").replace("{p}",BILLING.PRICE_FOUNDERS))}</button>`;
@@ -4119,7 +4143,7 @@ function renderPro(why){
   }
   $("proBody").innerHTML=
     `<p style="margin-bottom:12px;line-height:1.45">${esc(sub)}</p>`+
-    `<ul class="pro-feats">${feats}</ul>`+
+    feats+
     `<div style="margin-top:16px">${buy}</div>`+
     `<div class="eyebrow" style="margin-top:20px">${esc(t("proHaveKey"))}</div>`+
     `<div class="f"><input id="proKey" autocomplete="off" spellcheck="false" placeholder="${esc(t("proKeyPh"))}"></div>`+
@@ -12477,12 +12501,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.39.0"; /* APP_VER-MARKER */
+const APP_VER="4.40.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v84";
+const SW_CACHE="ebanist-v85";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

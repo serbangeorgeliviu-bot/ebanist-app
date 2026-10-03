@@ -34,6 +34,15 @@ const mats = JSON.parse(fs.readFileSync(path.join(ROOT, "app/data/materials-cent
 const billing = fs.readFileSync(path.join(ROOT, "app/config/billing.js"), "utf8");
 const PRICE_M = (billing.match(/PRICE_MONTHLY:\s*"([^"]+)"/) || [])[1] || "9 €";
 const PRICE_Y = (billing.match(/PRICE_YEARLY:\s*"([^"]+)"/) || [])[1] || "79 €";
+const PRICE_F = (billing.match(/PRICE_FOUNDERS:\s*"([^"]+)"/) || [])[1] || "149 €";
+/* Gratuit vs Pro (4.40.0). Aceleași rânduri ca ecranul Pro din aplicație:
+   "Y" inclus, "-" nu, altfel cheia textului din celulă. */
+const CMP = [["r1","v1free","v1pro"],["r2","Y","Y"],["r3","Y","Y"],["r4","Y","Y"],["r5","-","Y"],["r6","-","Y"],
+  ["r7","-","Y"],["r8","-","Y"],["r9","-","Y"],["r10","-","Y"],["r11","-","Y"],["r12","-","Y"]];
+function cmpRows(L) {
+  const cell = v => v === "Y" ? '<td class="y" aria-label="✓">✓</td>' : v === "-" ? '<td class="n" aria-label="—">—</td>' : `<td class="v">${t(L, "cmp." + v)}</td>`;
+  return CMP.map(([k, f, p]) => `<tr><th scope="row">${t(L, "cmp." + k)}</th>${cell(f)}${cell(p)}</tr>`).join("");
+}
 const appHtml = fs.readFileSync(path.join(ROOT, "app/index.html"), "utf8");
 const APP_VER = (appHtml.match(/const APP_VER="([^"]+)"/) || [])[1] || "0";
 
@@ -148,7 +157,8 @@ function jsonld(L) {
     description: strip(t(L, "meta.desc")),
     offers: [
       { "@type": "Offer", name: strip(t(L, "price.free")), price: "0", priceCurrency: "EUR" },
-      { "@type": "Offer", name: "Pro", price: num(PRICE_M), priceCurrency: "EUR", priceSpecification: { "@type": "UnitPriceSpecification", price: num(PRICE_M), priceCurrency: "EUR", unitCode: "MON" } }
+      { "@type": "Offer", name: "Pro", price: num(PRICE_M), priceCurrency: "EUR", priceSpecification: { "@type": "UnitPriceSpecification", price: num(PRICE_M), priceCurrency: "EUR", unitCode: "MON" } },
+      { "@type": "Offer", name: "Founders", price: num(PRICE_F), priceCurrency: "EUR" }
     ],
     publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL, sameAs: [cfg.TIKTOK_URL] }
   }).replace(/</g, "\\u003c");
@@ -168,7 +178,7 @@ function render(L) {
     css: CSS, logo: LOGO, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
-    sheets: sheets(L), priceMonthly: esc(PRICE_M), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
+    sheets: sheets(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
   return tpl.replace(/\{\{([@a-zA-Z0-9_.]+)\}\}/g, (m, key, off, src) => {
     let v;

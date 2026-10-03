@@ -307,6 +307,20 @@
         <a class="btn btn-laser" id="buyM" href="{{@app}}&amp;activate=1" data-goatcounter-click="cta-price-pro">{{price.proBtn}}</a>
         <p class="yearly"><a id="buyY" href="{{@app}}&amp;activate=1" data-goatcounter-click="cta-price-yearly">{{@yearly}}</a></p>
       </article>
+      <article class="tier tier-fd rv">
+        <span class="mono name">Founders</span>
+        <div class="amt">{{@priceFounders}}</div>
+        <p class="per">{{price.fdPer}}</p>
+        <ul><li>{{price.fd1}}</li><li>{{price.fd2}}</li><li>{{price.fd3}}</li><li>{{price.fd4}}</li></ul>
+        <a class="btn btn-laser" id="buyF" href="{{@app}}&amp;activate=1" data-goatcounter-click="cta-price-founders">{{price.fdBtn}}</a>
+      </article>
+    </div>
+    <p class="plans-note">{{cmp.note}}</p>
+    <div class="cmp-wrap rv">
+      <table class="cmp">
+        <thead><tr><th>{{cmp.head}}</th><th>{{cmp.free}}</th><th>{{cmp.pro}}</th></tr></thead>
+        <tbody>{{@cmp}}</tbody>
+      </table>
     </div>
     <p class="vat">{{price.vat}}</p>
   </div>

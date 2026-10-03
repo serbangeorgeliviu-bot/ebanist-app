@@ -94,6 +94,8 @@
     var m = $("#buyM"), y = $("#buyY");
     if (m) { m.href = B.buyUrl("monthly", ""); m.rel = "noopener"; }
     if (y) { y.href = B.buyUrl("yearly", ""); y.rel = "noopener"; }
+    var f = $("#buyF");
+    if (f) { if (B.hasPlan && B.hasPlan("founders")) { f.href = B.buyUrl("founders", ""); f.rel = "noopener"; } else { f.closest(".tier").remove(); } }
   }
 
   /* ---------- limba aleasă de mână (D-60) ----------

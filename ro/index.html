@@ -442,7 +442,7 @@ transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor
 .tt-meta{color:#fff;font-size:13px;line-height:1.35}
 .tt-meta b{display:block;font-weight:600;margin-bottom:4px}
 @media (max-width:860px){.tt-in{grid-template-columns:1fr}}
-.tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1040px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1180px}
 .tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}
 .tier-pro{background:var(--green);border-color:var(--green);color:#fff}
 .tier-pro .per{color:rgba(255,255,255,.7)!important}
@@ -462,7 +462,22 @@ transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor
 .yearly{margin-top:14px;font-size:14px}
 .yearly a{color:var(--green)}
 .vat{margin-top:22px;color:var(--txt3);font-size:14px;max-width:70ch}
-@media (max-width:760px){.tiers{grid-template-columns:1fr}}
+.tier-fd{border-color:var(--gold);background:linear-gradient(180deg,#fffaf0,var(--char2))}
+.tier-fd .name{color:var(--gold-ink)}
+.tier-fd .btn-laser{background:var(--gold);color:#1d221b}
+.tier-fd .btn-laser:hover{background:var(--gold-soft)}
+.plans-note{margin-top:18px;color:var(--txt2);font-size:15px}
+.cmp-wrap{margin-top:clamp(28px,4vw,48px);max-width:1180px;overflow-x:auto;border:1px solid var(--line2);border-radius:20px;background:var(--char2)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;line-height:1.4}
+.cmp th,.cmp td{padding:14px clamp(14px,2vw,24px);border-top:1px solid var(--line2);text-align:left}
+.cmp thead th{border-top:0;font:600 12px/1 var(--sans);text-transform:uppercase;letter-spacing:.12em;color:var(--gold-ink)}
+.cmp thead th+th,.cmp td{text-align:center;width:22%}
+.cmp tbody th{font-weight:400;color:var(--txt2)}
+.cmp td.y{color:var(--green);font-weight:700}
+.cmp td.n{color:var(--txt3)}
+.cmp td.v{font-weight:600}
+@media (max-width:1000px){.tiers{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.tiers{grid-template-columns:1fr}.cmp{font-size:14px}}
 .faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,6vw,100px);align-items:start}
 .faq{border-top:1px solid var(--line)}
 .faq details{border-bottom:1px solid var(--line)}
@@ -518,7 +533,7 @@ html.xh input,html.xh textarea{cursor:text}
 }
 </style>
 <link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/ro/","inLanguage":"ro","description":"Aplicație de proiectare mobilier pentru tâmplari. Proiectezi corpul pe telefon și primești lista de debitare, etichetele pieselor, fișa de montaj și desenul tehnic. Rulează în browser, merge offline. Gratuit pentru 1 proiect.","offers":[{"@type":"Offer","name":"Gratuit","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/ro/","inLanguage":"ro","description":"Aplicație de proiectare mobilier pentru tâmplari. Proiectezi corpul pe telefon și primești lista de debitare, etichetele pieselor, fișa de montaj și desenul tehnic. Rulează în browser, merge offline. Gratuit pentru 1 proiect.","offers":[{"@type":"Offer","name":"Gratuit","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app"]}}</script>
 <!-- Nessun cookie, nessun tracciatore di terzi: GoatCounter e ospitato qui
      (/site/js/count.js) e non usa cookie, quindi nessun banner. -->
 <script data-goatcounter="https://ebanist.goatcounter.com/count" data-goatcounter-settings='{"allow_local":false}' async src="/site/js/count.js"></script>
@@ -867,6 +882,20 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <a class="btn btn-laser" id="buyM" href="/app/?lang=ro&amp;activate=1" data-goatcounter-click="cta-price-pro">Ia Pro</a>
         <p class="yearly"><a id="buyY" href="/app/?lang=ro&amp;activate=1" data-goatcounter-click="cta-price-yearly">Sau 79 € pe an — două luni cadou</a></p>
       </article>
+      <article class="tier tier-fd rv">
+        <span class="mono name">Founders</span>
+        <div class="amt">149 €</div>
+        <p class="per">o singură dată · Pro pe viață</p>
+        <ul><li>Tot ce include Pro</li><li>Plus tot ce se adaugă în Pro de acum înainte</li><li>Fără reînnoire, fără abonament</li><li>Doar 100 de locuri</li></ul>
+        <a class="btn btn-laser" id="buyF" href="/app/?lang=ro&amp;activate=1" data-goatcounter-click="cta-price-founders">Devino Founder</a>
+      </article>
+    </div>
+    <p class="plans-note">Toate cele trei planuri deblochează exact aceleași funcții.</p>
+    <div class="cmp-wrap rv">
+      <table class="cmp">
+        <thead><tr><th>Ce primești</th><th>Gratuit</th><th>Pro</th></tr></thead>
+        <tbody><tr><th scope="row">Proiecte</th><td class="v">1</td><td class="v">Nelimitate</td></tr><tr><th scope="row">Toate tipologiile de mobilier, 3D cu piese și găuri</th><td class="y" aria-label="✓">✓</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Releveu de șantier, plan cu coliziuni</th><td class="y" aria-label="✓">✓</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Distinta, planul de tăiere și devizul, pe ecran</th><td class="y" aria-label="✓">✓</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Distinta PDF și CSV pentru debitare</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Etichete pe piese (A4, 24 pe foaie, cu schema cantului)</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Fișa de montaj ilustrată și desenul tehnic 2D</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Lista de comandă: plăci, cant, feronerie</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Pachetul pentru centrul de debitare</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Devizul PDF pentru client și modul Client</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">„În camera ta”, AR și export JPG</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Logo-ul firmei tale pe documente</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr></tbody>
+      </table>
     </div>
     <p class="vat">Plata e procesată de Stripe, care e vânzătorul înregistrat; TVA inclus. Anulezi când vrei; proiectele rămân ale tale.</p>
   </div>
@@ -926,7 +955,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
 
 <script src="/app/config/billing.js"></script>
-<script>window.EB={"lang":"ro","langs":["en","ro","it","fr"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"}},"yearly":"Sau {y} pe an — două luni cadou","pieces":["LATERALĂ ST","LATERALĂ DR","DESPĂRȚITOR","POLIȚĂ","POLIȚĂ","SOCLU","LAT. SERTAR","LAT. SERTAR","LAT. SERTAR"],"app":"/app/?lang=ro","ver":"4.39.0"};</script>
-<script src="/site/js/main.js?v=4.39.0" defer></script>
+<script>window.EB={"lang":"ro","langs":["en","ro","it","fr"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"}},"yearly":"Sau {y} pe an — două luni cadou","pieces":["LATERALĂ ST","LATERALĂ DR","DESPĂRȚITOR","POLIȚĂ","POLIȚĂ","SOCLU","LAT. SERTAR","LAT. SERTAR","LAT. SERTAR"],"app":"/app/?lang=ro","ver":"4.40.0"};</script>
+<script src="/site/js/main.js?v=4.40.0" defer></script>
 </body>
 </html>

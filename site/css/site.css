@@ -464,7 +464,7 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 @media (max-width:860px){.tt-in{grid-template-columns:1fr}}
 
 /* ---------- 7 · preț ---------- */
-.tiers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1040px}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1180px}
 .tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}
 .tier-pro{background:var(--green);border-color:var(--green);color:#fff}
 .tier-pro .per{color:rgba(255,255,255,.7)!important}
@@ -484,7 +484,22 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .yearly{margin-top:14px;font-size:14px}
 .yearly a{color:var(--green)}
 .vat{margin-top:22px;color:var(--txt3);font-size:14px;max-width:70ch}
-@media (max-width:760px){.tiers{grid-template-columns:1fr}}
+.tier-fd{border-color:var(--gold);background:linear-gradient(180deg,#fffaf0,var(--char2))}
+.tier-fd .name{color:var(--gold-ink)}
+.tier-fd .btn-laser{background:var(--gold);color:#1d221b}
+.tier-fd .btn-laser:hover{background:var(--gold-soft)}
+.plans-note{margin-top:18px;color:var(--txt2);font-size:15px}
+.cmp-wrap{margin-top:clamp(28px,4vw,48px);max-width:1180px;overflow-x:auto;border:1px solid var(--line2);border-radius:20px;background:var(--char2)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;line-height:1.4}
+.cmp th,.cmp td{padding:14px clamp(14px,2vw,24px);border-top:1px solid var(--line2);text-align:left}
+.cmp thead th{border-top:0;font:600 12px/1 var(--sans);text-transform:uppercase;letter-spacing:.12em;color:var(--gold-ink)}
+.cmp thead th+th,.cmp td{text-align:center;width:22%}
+.cmp tbody th{font-weight:400;color:var(--txt2)}
+.cmp td.y{color:var(--green);font-weight:700}
+.cmp td.n{color:var(--txt3)}
+.cmp td.v{font-weight:600}
+@media (max-width:1000px){.tiers{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.tiers{grid-template-columns:1fr}.cmp{font-size:14px}}
 
 /* ---------- 8 · faq ---------- */
 .faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,6vw,100px);align-items:start}
