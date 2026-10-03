@@ -197,6 +197,13 @@ describe("Abbonamenti Stripe (D-58)", () => {
     assert.strictEqual(L.keyKind("sub_"), "unknown");
     assert.strictEqual(L.keyKind("cs_live_abc"), "unknown");
   });
+  test("codice Pro gratuito comp_ (D-63): verificato come gli altri da /api/pro", () => {
+    assert.strictEqual(L.keyKind(" comp_A1b2C3d4E5f6G7h8J9k0L1m2 "), "stripe");
+    assert.strictEqual(L.normalize(" comp_A1b2C3d4E5f6G7h8J9k0L1m2\n"), "comp_A1b2C3d4E5f6G7h8J9k0L1m2");
+    assert.strictEqual(L.keyKind("comp_corto"), "unknown");
+    const lic = L.shapeFromStripe({ ok: true, sub: "comp_A1b2C3d4E5f6G7h8J9k0L1m2", status: "active", periodEnd: null, plan: "comp" }, null);
+    assert.deepStrictEqual(L.proFrom(lic, Date.parse("2030-01-01T00:00:00Z")), { pro: true, reason: "ok" });
+  });
   test("attivo e nel periodo: Pro", () => {
     assert.deepStrictEqual(L.proFrom(st({}), NOW), { pro: true, reason: "ok" });
   });

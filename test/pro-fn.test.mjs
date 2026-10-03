@@ -101,4 +101,28 @@ describe("/api/pro", () => {
     stripeReplies({ "checkout/sessions/": [200, PAID({ line_items: { data: [{ price: { lookup_key: "plaquist_x" } }] } })] });
     assert.strictEqual((await call({ session: "cs_live_abcdefghij12" })).status, 403);
   });
+
+  /* Pro gratuito (D-63): codici in PRO_COMP_CODES, nessuna chiamata a Stripe. */
+  const COMP = "comp_" + "A1b2C3d4E5f6G7h8J9k0L1m2";
+  test("codice comp in elenco → attivo, senza scadenza, piano comp, anche senza chiave Stripe", async () => {
+    delete process.env.STRIPE_SECRET_KEY; stripeReplies({});
+    process.env.PRO_COMP_CODES = "comp_altroCodiceAltroCodice12, " + COMP + "\n";
+    const r = await call({ sub: COMP });
+    assert.deepStrictEqual(await r.json(), { ok: true, sub: COMP, status: "active", periodEnd: null, plan: "comp" });
+    assert.strictEqual(seen.length, 0);
+  });
+  test("codice comp tolto dall'elenco (o elenco vuoto) → 404, la licenza si chiude", async () => {
+    stripeReplies({});
+    process.env.PRO_COMP_CODES = "comp_altroCodiceAltroCodice12";
+    assert.strictEqual((await call({ sub: COMP })).status, 404);
+    delete process.env.PRO_COMP_CODES;
+    assert.strictEqual((await call({ sub: COMP })).status, 404);
+    assert.strictEqual(seen.length, 0);
+  });
+  test("codice comp troppo corto o con caratteri strani → 400", async () => {
+    stripeReplies({});
+    process.env.PRO_COMP_CODES = "comp_short";
+    for (const c of ["comp_short", "comp_../../" + "x".repeat(24)])
+      assert.strictEqual((await call({ sub: c })).status, 400, c);
+  });
 });

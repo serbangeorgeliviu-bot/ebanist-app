@@ -11,6 +11,15 @@ Dictarea în aplicația Android: dacă puntea are `EbanistAndroid.speech`, micro
 
 - `SW_CACHE`/`CACHE` → `ebanist-v87`.
 
+## 4.40.3 — 3 octombrie 2026
+
+**Pro gratuit, pe viață, pentru autor și testeri (D-63).** Un cod `comp_…` (24–64 de caractere aleatoare) se pune în ecranul Pro la „Am deja o cheie”, ca un `sub_…`.
+
+- `/api/pro`: `{ sub: "comp_…" }` se caută în variabila Netlify `PRO_COMP_CODES` (separate prin virgulă, spațiu sau rând nou), fără Stripe. Răspunde `plan:"comp"`, `periodEnd:null`. Un cod scos din listă dă 404, iar aplicația închide Pro la reverificarea de 7 zile.
+- `ebanist-license.js`: `comp_…` e recunoscut și verificat pe același drum ca abonamentele Stripe.
+- Teste noi: 3 în `pro-fn.test.mjs`, 1 în `license.test.js`.
+- `SW_CACHE`/`CACHE` → `ebanist-v88`.
+
 ## Android 1.2.1 (versionCode 5) — 3 octombrie 2026
 
 **Butonul AR nu mergea în aplicația Android din 1.1.0** (WebView-ul propriu care a înlocuit TWA-ul): apăsat, arăta „Nicio aplicație de pe telefon nu poate deschide acest link”. Scene Viewer se deschide printr-un link `intent://`, pe care Chrome îl înțelege singur, iar WebView-ul nu. `MainActivity.openExternal` îl trimitea ca `ACTION_VIEW` pe schema `intent`, pe care nu o deschide nicio aplicație.

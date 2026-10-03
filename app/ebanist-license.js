@@ -69,6 +69,7 @@
     var s = String(raw || "").trim();
     if (/^sub_[A-Za-z0-9]+$/.test(s)) return s;                    // Stripe: maiuscole e minuscole contano
     if (/^cs_(live|test)_[A-Za-z0-9]+$/.test(s)) return s;         // Founders: la sessione di pagamento
+    if (/^comp_[A-Za-z0-9]+$/.test(s)) return s;                   // Pro gratuito (D-63): maiuscole e minuscole contano
     if (/^[0-9a-fA-F-]{36}$/.test(s)) return s.toLowerCase();     // UUID: resta com'e
     s = s.toUpperCase().replace(/[^A-Z0-9]/g, "");
     if (s.indexOf("EBP") === 0) s = s.slice(3);
@@ -92,11 +93,13 @@
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(String(key || "").toLowerCase());
   }
 
-  /* L'id di un abbonamento Stripe, oppure (Founders, pagamento unico)
-     l'id della sessione di checkout. */
+  /* I codici che verifica /api/pro: l'id di un abbonamento Stripe, la
+     sessione di checkout (Founders, pagamento unico) oppure un codice Pro
+     gratuito (D-63), che il server cerca in PRO_COMP_CODES. */
   function isStripeShape(key) {
     var k = String(key || "");
-    return /^sub_[A-Za-z0-9]{8,64}$/.test(k) || /^cs_(live|test)_[A-Za-z0-9]{10,200}$/.test(k);
+    return /^sub_[A-Za-z0-9]{8,64}$/.test(k) || /^cs_(live|test)_[A-Za-z0-9]{10,200}$/.test(k) ||
+      /^comp_[A-Za-z0-9]{24,64}$/.test(k);
   }
 
   function keyKind(key) {

@@ -3,6 +3,7 @@
    ---------------------------------------------------------------------
      POST /api/pro  { session: "cs_…" }   după plată: sesiunea de checkout
      POST /api/pro  { sub: "sub_…" }      reverificare / alt dispozitiv
+     POST /api/pro  { sub: "comp_…" }     Pro gratuit (D-63), fără Stripe
 
    Founders (plată unică, Pro pe viață): sesiunea de checkout e și codul
    de activare (`cs_live_…`), pentru că nu există abonament. Reverificarea
@@ -24,10 +25,13 @@
    decât la răspunsul „e activ / nu e activ” de aici.
    ===================================================================== */
 
+import { createHash, timingSafeEqual } from "node:crypto";
+
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store"
 };
+
 const reply = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: JSON_HEADERS });
 
 /* Numai prețurile lui Ebanist Pro deblochează Ebanist: pe același cont
@@ -39,6 +43,22 @@ const LIFETIME = { ebanist_pro_founders: "founders" };
 
 const SESSION = /^cs_(live|test)_[A-Za-z0-9]{10,200}$/;
 const SUB = /^sub_[A-Za-z0-9]{8,64}$/;
+const COMP = /^comp_[A-Za-z0-9]{24,64}$/;
+
+/* Pro gratuit, pe viață (D-63): pentru autor și testeri. Codurile stau
+   numai în Netlify, în PRO_COMP_CODES (separate prin virgulă, spațiu sau
+   rând nou); un cod scos din listă se închide la următoarea reverificare
+   a aplicației. Comparația merge pe amprente de lungime fixă, ca timpul
+   de răspuns să nu spună cât dintr-un cod e corect. */
+function compKnown(code) {
+  const h = s => createHash("sha256").update(s).digest();
+  const want = h(code);
+  let hit = false;
+  for (const c of String(process.env.PRO_COMP_CODES || "").split(/[\s,;]+/)) {
+    if (c && timingSafeEqual(h(c), want)) hit = true;
+  }
+  return hit;
+}
 
 async function stripe(path, key) {
   const ctl = new AbortController();
@@ -135,13 +155,21 @@ async function oneTime(session, key) {
 
 export default async (req) => {
   if (req.method !== "POST") return reply({ ok: false, error: "method" }, 405);
-  const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) return reply({ ok: false, error: "not-configured" }, 503);
 
   let body;
   try { body = await req.json(); } catch (e) { return reply({ ok: false, error: "bad-json" }, 400); }
   const session = String((body && body.session) || "");
   const subId = String((body && body.sub) || "");
+
+  /* Codul gratuit nu trece prin Stripe: răspunde chiar și fără cheie. */
+  if (COMP.test(subId)) {
+    return compKnown(subId)
+      ? reply({ ok: true, sub: subId, status: "active", periodEnd: null, plan: "comp" })
+      : reply({ ok: false, error: "not-found" }, 404);
+  }
+
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) return reply({ ok: false, error: "not-configured" }, 503);
 
   try {
     let sub, email = "";
