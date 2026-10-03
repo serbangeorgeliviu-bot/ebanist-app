@@ -59,6 +59,22 @@ jobs:
             echo "keyPassword=$KEY_PASS"
           } > android/keystore.properties
 
+      - name: Cheia e cea înregistrată la Play?
+        env:
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          # Amprenta cheii de upload, aceeași ca în /.well-known/assetlinks.json.
+          # Pe telefon au rămas mai multe signing.keystore din încercările
+          # PWABuilder; doar aceasta e acceptată de Play.
+          ASTEPTAT="30:25:FE:93:6C:A9:68:6A:45:CA:91:7E:18:0E:2A:2D:27:D5:6A:BB:1E:01:42:99:8C:D0:E2:CC:91:EA:BF:1E"
+          GASIT=$(keytool -list -v -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$KS_PASS" -alias "$KEY_ALIAS" | grep -m1 "SHA256:" | awk '{print $2}')
+          echo "Amprenta cheii: $GASIT"
+          if [ "$GASIT" != "$ASTEPTAT" ]; then
+            echo "::error::Cheia din ANDROID_KEYSTORE_B64 nu e cheia de upload a aplicației (aștept $ASTEPTAT). Alt signing.keystore."
+            exit 1
+          fi
+
       - name: bundleRelease + assembleRelease
         working-directory: android
         run: gradle --no-daemon bundleRelease assembleRelease
