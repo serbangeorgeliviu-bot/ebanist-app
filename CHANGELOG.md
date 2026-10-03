@@ -11,6 +11,10 @@ Dictarea în aplicația Android: dacă puntea are `EbanistAndroid.speech`, micro
 
 - `SW_CACHE`/`CACHE` → `ebanist-v87`.
 
+## 4.40.3 — 3 octombrie 2026 (completare)
+
+- `netlify/edge-functions/pro-proxy.js`: pe orice adresă în afară de ebanist.com, `/api/pro` e trimis la `https://ebanist.com/api/pro`. Aplicația Android încarcă `whimsical-wisp-61cbbf.netlify.app`, un proiect Netlify separat, fără `STRIPE_SECRET_KEY` și `PRO_COMP_CODES`. Acum `sub_…` și `comp_…` se verifică și acolo, cu cheile dintr-un singur loc. Se scoate odată cu ROADMAP L.10. Test nou: `test/pro-proxy-edge.test.mjs`.
+
 ## 4.40.3 — 3 octombrie 2026
 
 **Pro gratuit, pe viață, pentru autor și testeri (D-63).** Un cod `comp_…` (24–64 de caractere aleatoare) se pune în ecranul Pro la „Am deja o cheie”, ca un `sub_…`.
