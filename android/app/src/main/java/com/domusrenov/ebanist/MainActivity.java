@@ -18,6 +18,7 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.text.Html;
 import android.util.Base64;
 import android.view.View;
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
     static final String HOST = "whimsical-wisp-61cbbf.netlify.app";
     static final String START = "https://" + HOST + "/app/";
     static final int BRAND = 0xFF0E3B2A;
-    static final int REQ_FILE = 1, REQ_CAMERA = 2, REQ_STORAGE = 3;
+    static final int REQ_FILE = 1, REQ_CAMERA = 2, REQ_STORAGE = 3, REQ_SPEECH = 4;
 
     WebView web;
     View splash;
@@ -397,11 +398,39 @@ public class MainActivity extends Activity {
             fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(result, data));
             fileCallback = null;
         }
+        if (code == REQ_SPEECH) {
+            List<String> r = (result == RESULT_OK && data != null)
+                    ? data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) : null;
+            sendSpeech(r != null && !r.isEmpty() ? r.get(0) : "");
+        }
+    }
+
+    /* Dictarea: WebView-ul nu are Web Speech API (Chrome o avea în TWA).
+       Recunoașterea vocală a sistemului nu cere permisiunea de microfon:
+       o cere aplicația Google care o face. "" = anulat, null = indisponibil. */
+    void startSpeech(String lang) {
+        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+                .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                .putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        if (lang != null && !lang.isEmpty()) i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
+        try {
+            startActivityForResult(i, REQ_SPEECH);
+        } catch (ActivityNotFoundException e) {
+            sendSpeech(null);
+        }
+    }
+
+    void sendSpeech(String text) {
+        web.evaluateJavascript("window.__ebSpeech&&window.__ebSpeech("
+                + (text == null ? "null" : JSONObject.quote(text)) + ")", null);
     }
 
     /* Punte JS → Android. Se încarcă numai pagini de pe HOST (restul pleacă
        în browser), deci nicio pagină străină nu ajunge la ea. */
     class Bridge {
+        @JavascriptInterface
+        public void speech(String lang) { runOnUiThread(() -> startSpeech(lang)); }
+
         @JavascriptInterface
         public void print(String title) {
             runOnUiThread(() -> {

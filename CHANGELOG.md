@@ -5,12 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.2 — 3 octombrie 2026
+
+Dictarea în aplicația Android: dacă puntea are `EbanistAndroid.speech`, microfonul folosește recunoașterea vocală a sistemului (Android 1.2.1). Cu un `.aab` mai vechi și în browser, totul rămâne ca înainte.
+
+- `SW_CACHE`/`CACHE` → `ebanist-v87`.
+
 ## Android 1.2.1 (versionCode 5) — 3 octombrie 2026
 
 **Butonul AR nu mergea în aplicația Android din 1.1.0** (WebView-ul propriu care a înlocuit TWA-ul): apăsat, arăta „Nicio aplicație de pe telefon nu poate deschide acest link”. Scene Viewer se deschide printr-un link `intent://`, pe care Chrome îl înțelege singur, iar WebView-ul nu. `MainActivity.openExternal` îl trimitea ca `ACTION_VIEW` pe schema `intent`, pe care nu o deschide nicio aplicație.
 
 - `openIntentUri`: `Intent.parseUri(…, URI_INTENT_SCHEME)`, numai activități `BROWSABLE`, fără componentă sau selector impuse de pagină. Dacă ARCore lipsește, se deschide pagina lui din Play (ca în Chrome), apoi `browser_fallback_url`.
-- Aplicația web nu se schimbă. Cere `.aab` nou.
+- **Dictarea** (microfonul din „Descrie mobila”) nu mergea nici ea: WebView-ul nu are Web Speech API. Puntea nouă `EbanistAndroid.speech(lang)` deschide recunoașterea vocală a sistemului (`RecognizerIntent`, fără permisiune de microfon în aplicație); textul vine înapoi prin `window.__ebSpeech`. Partea web e în 4.40.2.
+- Cere `.aab` nou.
 
 ## 4.40.1 — 3 octombrie 2026
 
