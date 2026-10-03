@@ -68,7 +68,17 @@ jobs:
           # Pe telefon au rămas mai multe signing.keystore din încercările
           # PWABuilder; doar aceasta e acceptată de Play.
           ASTEPTAT="30:25:FE:93:6C:A9:68:6A:45:CA:91:7E:18:0E:2A:2D:27:D5:6A:BB:1E:01:42:99:8C:D0:E2:CC:91:EA:BF:1E"
-          GASIT=$(keytool -list -v -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$KS_PASS" -alias "$KEY_ALIAS" | grep -m1 "SHA256:" | awk '{print $2}')
+          # signing.keystore de la PWABuilder are 2756 de octeți; altă mărime
+          # înseamnă că textul base64 s-a copiat incomplet.
+          echo "Mărimea cheii decodate: $(stat -c %s "$RUNNER_TEMP/upload.keystore") octeți"
+          OUT=$(keytool -list -v -keystore "$RUNNER_TEMP/upload.keystore" -storepass "$KS_PASS" -alias "$KEY_ALIAS" 2>&1 || true)
+          GASIT=$(echo "$OUT" | grep -m1 "SHA256:" | awk '{print $2}')
+          if [ -z "$GASIT" ]; then
+            # Mesajul keytool (parolă greșită, alias inexistent, format invalid) — fără secrete.
+            echo "$OUT" | grep -iE "error|exception|alias|password|format" | head -3
+            echo "::error::Cheia nu s-a putut deschide: vezi mesajul keytool de mai sus."
+            exit 1
+          fi
           echo "Amprenta cheii: $GASIT"
           if [ "$GASIT" != "$ASTEPTAT" ]; then
             echo "::error::Cheia din ANDROID_KEYSTORE_B64 nu e cheia de upload a aplicației (aștept $ASTEPTAT). Alt signing.keystore."
