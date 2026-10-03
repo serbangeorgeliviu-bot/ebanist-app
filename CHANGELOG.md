@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Android 1.2.1 (versionCode 5) — 3 octombrie 2026
+
+**Butonul AR nu mergea în aplicația Android din 1.1.0** (WebView-ul propriu care a înlocuit TWA-ul): apăsat, arăta „Nicio aplicație de pe telefon nu poate deschide acest link”. Scene Viewer se deschide printr-un link `intent://`, pe care Chrome îl înțelege singur, iar WebView-ul nu. `MainActivity.openExternal` îl trimitea ca `ACTION_VIEW` pe schema `intent`, pe care nu o deschide nicio aplicație.
+
+- `openIntentUri`: `Intent.parseUri(…, URI_INTENT_SCHEME)`, numai activități `BROWSABLE`, fără componentă sau selector impuse de pagină. Dacă ARCore lipsește, se deschide pagina lui din Play (ca în Chrome), apoi `browser_fallback_url`.
+- Aplicația web nu se schimbă. Cere `.aab` nou.
+
 ## 4.40.1 — 3 octombrie 2026
 
 Corectură de text pe site, secțiunea Preț: nota de sub tabel spunea doar „Anulezi când vrei”, deși Founders e plată unică. Acum spune că abonamentul se anulează oricând, iar Founders se plătește o singură dată (RO, EN, IT, FR).

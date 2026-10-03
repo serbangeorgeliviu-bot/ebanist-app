@@ -43,6 +43,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -223,11 +224,45 @@ public class MainActivity extends Activity {
     }
 
     void openExternal(Uri u) {
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, u).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } catch (ActivityNotFoundException e) {
+        if ("intent".equals(u.getScheme())) { openIntentUri(u.toString()); return; }
+        if (!tryStart(new Intent(Intent.ACTION_VIEW, u)))
             Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
+    }
+
+    boolean tryStart(Intent i) {
+        try {
+            startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            return true;
+        } catch (ActivityNotFoundException e) {
+            return false;
         }
+    }
+
+    /* Linkurile intent:// (butonul AR → Scene Viewer din ARCore). Chrome
+       le înțelege singur, WebView-ul nu: ca ACTION_VIEW pe schema
+       „intent” nu le deschide nicio aplicație. Se citesc ca în Chrome:
+       numai activități BROWSABLE, fără componentă sau selector impuse de
+       pagină. Dacă pachetul lipsește (ARCore neinstalat), pagina lui din
+       Play, ca în Chrome; apoi browser_fallback_url. */
+    void openIntentUri(String s) {
+        Intent i;
+        try {
+            i = Intent.parseUri(s, Intent.URI_INTENT_SCHEME);
+        } catch (URISyntaxException e) {
+            Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        i.addCategory(Intent.CATEGORY_BROWSABLE);
+        i.setComponent(null);
+        i.setSelector(null);
+        if (tryStart(i)) return;
+        String pkg = i.getPackage();
+        if (pkg != null && tryStart(new Intent(Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=" + Uri.encode(pkg))))) return;
+        String fb = i.getStringExtra("browser_fallback_url");
+        if (fb != null && fb.startsWith("https://")
+                && tryStart(new Intent(Intent.ACTION_VIEW, Uri.parse(fb)))) return;
+        Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
     }
 
     void showOffline() {
