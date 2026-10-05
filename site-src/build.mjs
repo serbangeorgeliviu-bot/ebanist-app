@@ -149,6 +149,18 @@ function langPick(L) {
 function hreflang() {
   return cfg.LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${pageUrl(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${pageUrl(cfg.DEFAULT_LANG)}">`;
 }
+/* rețelele sociale: TikTok + SOCIAL din config; url null = nu apare nicăieri */
+const SOCIAL_ICO = {
+  tiktok: '<path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/>',
+  youtube: '<path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15V9l5.7 3z"/>',
+  facebook: '<path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4a21 21 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"/>',
+  instagram: '<path fill-rule="evenodd" d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.3-3.3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/>'
+};
+const SOCIAL = [{ id: "tiktok", name: `TikTok ${cfg.TIKTOK_HANDLE}`, url: cfg.TIKTOK_URL }, ...(cfg.SOCIAL || [])].filter(s => s.url);
+for (const s of SOCIAL) if (!SOCIAL_ICO[s.id]) throw new Error(`SOCIAL: fără iconiță pentru «${s.id}»`);
+function social() {
+  return SOCIAL.map(s => `<a class="soc-btn" href="${esc(s.url)}" rel="noopener" target="_blank" aria-label="${esc(s.name)}" title="${esc(s.name)}" data-goatcounter-click="${s.id}-footer"><svg viewBox="0 0 24 24" aria-hidden="true">${SOCIAL_ICO[s.id]}</svg></a>`).join("");
+}
 function jsonld(L) {
   const num = s => String(s).replace(/[^\d.,]/g, "").replace(",", ".");
   return JSON.stringify({
@@ -160,7 +172,7 @@ function jsonld(L) {
       { "@type": "Offer", name: "Pro", price: num(PRICE_M), priceCurrency: "EUR", priceSpecification: { "@type": "UnitPriceSpecification", price: num(PRICE_M), priceCurrency: "EUR", unitCode: "MON" } },
       { "@type": "Offer", name: "Founders", price: num(PRICE_F), priceCurrency: "EUR" }
     ],
-    publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL, sameAs: [cfg.TIKTOK_URL] }
+    publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL, sameAs: SOCIAL.map(s => s.url) }
   }).replace(/</g, "\\u003c");
 }
 function runtime(L) {
@@ -176,7 +188,7 @@ function runtime(L) {
 function render(L) {
   const blocks = {
     css: CSS, logo: LOGO, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
-    hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
+    hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L), social: social(),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };

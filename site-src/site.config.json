@@ -7,6 +7,11 @@
   "EMAIL": "info@ebanist.com",
   "TIKTOK_URL": "https://www.tiktok.com/@ebanist.app",
   "TIKTOK_HANDLE": "@ebanist.app",
+  "SOCIAL": [
+    { "id": "youtube", "name": "YouTube", "url": null },
+    { "id": "facebook", "name": "Facebook", "url": null },
+    { "id": "instagram", "name": "Instagram", "url": null }
+  ],
   "GOATCOUNTER": "https://ebanist.goatcounter.com/count",
   "APP_VERSION": "v4.37"
 }

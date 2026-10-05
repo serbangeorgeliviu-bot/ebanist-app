@@ -534,6 +534,10 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .foot-nav{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px}
 .foot-nav a{color:var(--txt2);text-decoration:none}
 .foot-nav a:hover{color:var(--txt)}
+.foot-social{display:flex;flex-wrap:wrap;gap:10px}
+.soc-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;transition:transform .4s var(--ease)}
+.soc-btn:hover{transform:translateY(-2px)}
+.soc-btn svg{width:18px;height:18px;fill:currentColor}
 @media (max-width:860px){.foot-in{grid-template-columns:1fr}}
 
 /* ---------- sugestie de limbă ---------- */
