@@ -322,5 +322,7 @@
  "case.teaser.h": "Un meuble de salle de bain construit autour du collecteur d'eau.",
  "case.teaser.d": "16 pièces, une découpe 600 × 110, zéro ajustement sur chantier. Photos du chantier, écrans de l'appli — même projet.",
  "case.teaser.btn": "Lire le cas",
- "case.alt": "Meuble de salle de bain en chêne terminé, quatre portes, sous un plafond en pente"
+ "case.alt": "Meuble de salle de bain en chêne terminé, quatre portes, sous un plafond en pente",
+ "case.c.illus": "illustration : l'étiquette réelle de la pièce, posée en numérique sur la photo du panneau",
+ "case.c.illusH": "À quoi ça ressemble sur les panneaux"
 }

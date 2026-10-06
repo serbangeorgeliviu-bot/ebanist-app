@@ -129,7 +129,7 @@ python3 site-src/tools/case2img.py
 node site-src/build.mjs
 ```
 
-Numai poze adevărate: montajele făcute pentru TikTok nu intră aici.
+Pozele din șantier rămân cum sunt. Montajele (eticheta reală pusă digital pe poză, `bagno-lbl-*`) apar numai marcate „ilustrație”, pe imagine și în legendă (D-65).
 
 ## Mișcare și performanță
 

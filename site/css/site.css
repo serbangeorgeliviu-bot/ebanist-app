@@ -621,3 +621,7 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
   .case-grid.phones{grid-template-columns:repeat(3,minmax(200px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
   .case-grid.phones .case-fig{scroll-snap-align:start}
 }
+.case-h3{font:400 clamp(1.3rem,2vw,1.7rem)/1.2 var(--serif);margin-top:clamp(32px,4vw,52px)}
+.case-illus a{position:relative}
+.illus-tag{position:absolute;left:10px;top:10px;background:rgba(14,59,42,.88);color:var(--gold-soft);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:6px}
+.case-grid.g-illus{margin-top:16px}
