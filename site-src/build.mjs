@@ -192,6 +192,11 @@ function caseScreen(L, name, key) {
   const b = `/site/screens/${L}/case-bagno-${name}-780`;
   return `<figure class="case-fig case-scr"><div class="scr"><picture><source type="image/avif" srcset="${b}.avif"><img src="${b}.webp" width="780" height="1688" alt="${esc(strip(t(L, key)))}" loading="lazy"></picture></div><figcaption class="mono">${t(L, key)}</figcaption></figure>`;
 }
+/* montajele foto (eticheta reală pusă digital pe poza panoului): marcate ca ilustrație, D-65 */
+function caseLabelPhoto(L, name) {
+  const b = `/site/img/case/bagno-lbl-${name}-${L}`, cap = `${esc(t(L, "case.p." + name))} · ${t(L, "case.c.illus")}`;
+  return `<figure class="case-fig case-illus"><a href="${b}-1050.webp" target="_blank" rel="noopener"><picture><source type="image/avif" srcset="${b}-900.avif"><img src="${b}-900.webp" width="900" height="1200" alt="${esc(strip(cap))}" loading="lazy"></picture><span class="illus-tag mono">${esc(t(L, "case.c.illus").split(/[:：]/)[0])}</span></a><figcaption class="mono">${cap}</figcaption></figure>`;
+}
 const CASE_ROWS = [["side", 2260, 341, 2, "✂ 600×110"], ["bottom", 832, 231, 1], ["top", 832, 341, 1], ["div", 1500, 341, 1, "✂ 581×110"],
   ["shelfF", 830, 321, 2], ["shelfR", 404, 341, 1], ["shelfR", 404, 321, 2], ["door", 1538, 433, 2, "⌀35 · 100 · 769 · 1438"],
   ["door", 717, 433, 2, "⌀35 · 100 · 617"], ["backU", 1660, 870, 1], ["backL", 870, 600, 1]];
@@ -219,6 +224,7 @@ function render(L, tplSrc = tpl, isCase = false) {
   return tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
     if (key.startsWith("@ph:")) { const [, n, k, h] = key.split(":"); v = casePhoto(L, n, k, h === "hero"); }
+    else if (key.startsWith("@lbl:")) v = caseLabelPhoto(L, key.split(":")[1]);
     else if (key.startsWith("@scr:")) { const [, n, k] = key.split(":"); v = caseScreen(L, n, k); }
     else if (key.startsWith("@cfg.")) v = cfg[key.slice(5)];
     else if (key.startsWith("@")) v = blocks[key.slice(1)];

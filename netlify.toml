@@ -5,6 +5,9 @@
   publish = "."
   command = ""
   functions = "netlify/functions"
+  # Proiectul Android (whimsical-wisp) sare peste commit-urile numai de site;
+  # ebanist.com publică mereu. Vezi netlify/ignore-build.sh.
+  ignore = "bash netlify/ignore-build.sh"
 
 # La rotta /ar la dichiara la funzione stessa (config.path in model.js).
 # Una regola di riscrittura qui NON funziona: il :splat non arriva alla
