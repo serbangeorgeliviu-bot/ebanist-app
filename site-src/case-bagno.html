@@ -75,9 +75,8 @@
 
     <section class="wrap case-sec">
       <div class="case-txt"><p class="kicker mono">{{case.s3.k}}</p><h2 class="case-h2">{{case.s3.h}}</h2><p>{{case.s3.d}}</p></div>
-      <div class="case-grid g-lbl">
+      <div class="case-grid g1 g-lbl-sheet">
         <figure class="case-fig lbl-fig"><picture><source type="image/avif" srcset="/site/img/case/labels-{{@lang}}-1200.avif"><img src="/site/img/case/labels-{{@lang}}-1200.webp" width="1200" height="422" alt="{{case.c.labels}}" loading="lazy"></picture><figcaption class="mono">{{case.c.labels}}</figcaption></figure>
-        {{@ph:marked:case.c.marked}}
       </div>
       <h3 class="case-h3">{{case.c.illusH}}</h3>
       <div class="case-grid g3 g-illus">{{@lbl:top}}{{@lbl:bottom}}{{@lbl:shelfF}}</div>
