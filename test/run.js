@@ -1453,6 +1453,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     /* D-60: la radice la decide la edge function (cookie, poi browser).
        Le regole `Language` di Netlify NO: la CDN memorizzava il 302 per
        lingua ignorando il cookie. La logica pura: lang-edge.test.mjs. */
+    /* crediti Netlify (06.10.2026): il progetto Android salta i commit di solo sito,
+       ebanist.com pubblica sempre; nel dubbio si pubblica */
+    {
+      const ign = (env) => require("child_process").spawnSync("bash", [path.join(ROOT, "netlify/ignore-build.sh")], { cwd: ROOT, env: { ...process.env, ...env } }).status;
+      ok("netlify.toml usa netlify/ignore-build.sh", /ignore = "bash netlify\/ignore-build\.sh"/.test(toml));
+      ok("ebanist.com pubblica sempre (ignore → 1)", ign({ SITE_NAME: "ebanist-com", CACHED_COMMIT_REF: "HEAD~1", COMMIT_REF: "HEAD" }) === 1);
+      ok("progetto Android senza commit precedente → pubblica", ign({ SITE_NAME: "whimsical-wisp-61cbbf", CACHED_COMMIT_REF: "", COMMIT_REF: "HEAD" }) === 1);
+    }
     ok("nessuna regola `Language` in netlify.toml (la CDN ignora il cookie)", !/conditions = \{[^}]*Language/.test(toml));
     const edge = fs.readFileSync(path.join(ROOT, "netlify/edge-functions/lang.js"), "utf8");
     ok("la edge function della lingua gira solo su /", /export const config = \{ path: "\/" \}/.test(edge));
