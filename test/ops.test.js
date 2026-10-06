@@ -89,3 +89,45 @@ describe("Push-open: niente fori di maniglia", () => {
   const { o } = gen(CASE["sospeso push"]);
   test("nessuna maniglia", () => assert.equal(o.hw.filter(h => h.type === "maniglia").length, 0));
 });
+
+/* Il lato cerniera scritto nelle ante a quota (`fronts[].hinge`) e quello che
+   va in macchina: tazza sul bordo giusto dell'anta, basetta sul pezzo da
+   quella parte, e il 3D apre di li. Prima andava perso in physicalPieces e
+   restava la regola fissa (anta sola a sinistra, coppie sx/dx). */
+describe("Ante a quota: il lato cerniera scelto", () => {
+  const BASE = { ...ARM, L: 900, H: 720, P: 560, plinth: 100, tram: 0, shelves: 1, doors: 2 };
+  const side = o => o.hw.filter(h => h.type === "cerniera");
+  const byDoor = o => { const m = {}; side(o).forEach(h => { (m[h.piece] = m[h.piece] || new Set()).add(h.hingeLeft); }); return m; };
+  const doorX = (b, pk) => Math.min(...b.boxes.filter(x => String(x.pk) === String(pk)).map(x => x.x0));
+
+  test("anta singola con cerniere a destra", () => {
+    const { o } = gen({ ...BASE, L: 450, doors: 1, fronts: [{ x: 0, y: 100, w: 450, h: 620, hinge: "right" }] });
+    const hs = side(o);
+    assert.ok(hs.length >= 2);
+    assert.ok(hs.every(h => h.hingeLeft === false));
+    const d = o.pieces.find(p => p.role === "frontale");
+    const cup = d.operations.find(x => x.note === "tazza cerniera");
+    assert.ok(Math.abs(cup.x - (d.length - 22.5)) < 1e-6 || Math.abs(cup.y - (d.width - 22.5)) < 1e-6, "tazza sul bordo destro");
+  });
+  test("coppia invertita: sinistra apre a destra, destra apre a sinistra", () => {
+    const { b, o } = gen({ ...BASE, fronts: [
+      { x: 0, y: 100, w: 448, h: 620, hinge: "right" }, { x: 452, y: 100, w: 448, h: 620, hinge: "left" }] });
+    const m = byDoor(o), pks = Object.keys(m).sort((a, c) => doorX(b, a) - doorX(b, c));
+    assert.equal(pks.length, 2);
+    assert.deepEqual([...m[pks[0]]], [false]);
+    assert.deepEqual([...m[pks[1]]], [true]);
+  });
+  test("senza hinge resta la regola di prima", () => {
+    const { b, o } = gen({ ...BASE, fronts: [
+      { x: 0, y: 100, w: 448, h: 620 }, { x: 452, y: 100, w: 448, h: 620 }] });
+    const m = byDoor(o), pks = Object.keys(m).sort((a, c) => doorX(b, a) - doorX(b, c));
+    assert.deepEqual([...m[pks[0]]], [true]);
+    assert.deepEqual([...m[pks[1]]], [false]);
+  });
+  test("invertita con setto al centro: la basetta va sul setto", () => {
+    const { o } = gen({ ...BASE, partitions: [{ type: "setto", x: "center" }], fronts: [
+      { x: 0, y: 100, w: 448, h: 620, hinge: "right" }, { x: 452, y: 100, w: 448, h: 620, hinge: "left" }] });
+    assert.equal(o.hw.filter(h => h.type === "cerniera" && !h.against).length, 0);
+    assert.equal(o.warnings.filter(w => w.k === "opsNoHingePanel").length, 0);
+  });
+});

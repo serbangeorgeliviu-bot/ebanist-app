@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.4 — 6 octombrie 2026
+
+**Partea balamalei scrisă la ușile cu cote se respectă acum în găurire și în 3D.** Cu asistentul AI, o ușă cu `hinge:"right"` era acceptată și afișată în patch, dar `physicalPieces()` pierdea câmpul: cupa, diblurile, talpa pe laterală și mânerul ieșeau după regula fixă (o ușă singură pe stânga, perechile stânga/dreapta), iar în 3D ușa se deschidea tot pe partea aceea. Corectură care ajunge la mașină, semnalată de un client Pro.
+
+- `ebanist-ops.js`: piesa fizică poartă `hinge` de pe cutie; `hingeLeft` vine din `hinge` când există, altfel regula de până acum. Ușile fără cote nu se schimbă.
+- O pereche inversată (balamalele la mijloc) are nevoie de un despărțitor acolo; fără el rămâne avertismentul `opsNoHingePanel`, ca înainte.
+- Teste noi: 4 în `ops.test.js` (ușă singură pe dreapta, pereche inversată, fără `hinge` = ca înainte, talpa pe despărțitor).
+- `SW_CACHE`/`CACHE` → `ebanist-v89`.
+
 ## 4.40.2 — 3 octombrie 2026
 
 Dictarea în aplicația Android: dacă puntea are `EbanistAndroid.speech`, microfonul folosește recunoașterea vocală a sistemului (Android 1.2.1). Cu un `.aab` mai vechi și în browser, totul rămâne ca înainte.
