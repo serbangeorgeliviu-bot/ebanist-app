@@ -115,6 +115,22 @@ laserul, dulapul finisat, rosturile ușilor, grila și soclul. La conversie se
 șterg TOATE metadatele (EXIF, inclusiv GPS: pozele sunt făcute la clienți).
 Nu se pun pe site fotografii de mobilier care nu e al nostru.
 
+## Lucrări reale (pagini de caz, D-65)
+
+`site-src/case-bagno.html` → `/case/bagno/`, `/ro/case/bagno/`, `/it/case/bagno/`, `/fr/case/bagno/`.
+Textele sunt cheile `case.*` din `i18n/<lang>.json`, iar distinta e în `CASE_ROWS` din `build.mjs`.
+Pozele din șantier sunt în `site/img/case/bagno-*` (900 AVIF+WebP, 1600 WebP pentru clic), fără EXIF.
+Capturile se refac din backup-ul aplicației, care **nu se comite**:
+
+```bash
+python3 -m http.server 8765 &
+PW=<cale>/playwright node site-src/tools/case-capture.cjs Ebanist_Backup.json 0   # proiectul se anonimizează în copie
+python3 site-src/tools/case2img.py
+node site-src/build.mjs
+```
+
+Numai poze adevărate: montajele făcute pentru TikTok nu intră aici.
+
 ## Mișcare și performanță
 
 - **Intro** (max. 4 s, o dată pe sesiune, `sessionStorage.eb_intro`, butonul Skip

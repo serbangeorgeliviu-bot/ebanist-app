@@ -22,6 +22,7 @@ const ROOT = path.resolve(SRC, "..");
 const read = f => fs.readFileSync(path.join(SRC, f), "utf8");
 const cfg = JSON.parse(read("site.config.json"));
 const tpl = read("template.html");
+const tplCase = read("case-bagno.html");
 const pieces = JSON.parse(read("data/wardrobe-pieces.json"));
 /* CSS-ul intră în pagină: fără cerere care blochează prima randare */
 const CSS = fs.readFileSync(path.join(ROOT, "site/css/site.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s*\n\s*/g, "\n");
@@ -54,6 +55,10 @@ const esc = s => String(s).replace(/&(?!amp;|lt;|gt;|quot;|nbsp;|#)/g, "&amp;").
 const strip = s => String(s).replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
 const pageUrl = l => cfg.SITE_URL + (l === cfg.DEFAULT_LANG ? "/" : `/${l}/`);
 const home = l => (l === cfg.DEFAULT_LANG ? "/" : `/${l}/`);
+/* pagina de caz (lucrare reală): aceeași adresă sub fiecare limbă */
+const CASE = "case/bagno/";
+const caseHome = l => home(l) + CASE;
+const caseUrl = l => cfg.SITE_URL + caseHome(l);
 
 function t(L, key) {
   const v = key in I18N[L] ? I18N[L][key] : EN[key];
@@ -137,17 +142,17 @@ function sheets(L) {
   return DOCS.map(([f, k], i) => `<button type="button" class="sheet-doc" data-i="${i}" data-full="/site/docs/${L}/${f}-1500.webp" data-cap="${esc(strip(t(L, k)))}" aria-label="${esc(strip(t(L, k)))}"><picture><source type="image/avif" srcset="/site/docs/${L}/${f}-720.avif"><img src="/site/docs/${L}/${f}-720.webp" width="720" height="1019" alt="${esc(strip(t(L, k)))}" loading="lazy"></picture><span class="mono tag">${String(i + 1).padStart(2, "0")} · ${esc(strip(t(L, k)))}</span></button>`).join("");
 }
 
-function langLinks(L) {
-  return cfg.LANGS.map(l => `<a href="${home(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}>${l.toUpperCase()}</a>`).join("");
+function langLinks(L, href = home) {
+  return cfg.LANGS.map(l => `<a href="${href(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}>${l.toUpperCase()}</a>`).join("");
 }
 /* Pe telefon cele 4 coduri nu încap în antet: un singur buton cu limba
    curentă, care deschide lista cu numele întregi (D-60). */
-function langPick(L) {
-  const items = cfg.LANGS.map(l => `<a href="${home(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}><b class="mono">${l.toUpperCase()}</b><span>${esc(I18N[l]._name)}</span></a>`).join("");
+function langPick(L, href = home) {
+  const items = cfg.LANGS.map(l => `<a href="${href(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}><b class="mono">${l.toUpperCase()}</b><span>${esc(I18N[l]._name)}</span></a>`).join("");
   return `<details class="lang-pick"><summary aria-label="${esc(t(L, "nav.langLabel"))}: ${esc(I18N[L]._name)}"><span class="mono">${L.toUpperCase()}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></summary><nav class="lang-menu" aria-label="${esc(t(L, "nav.langLabel"))}">${items}</nav></details>`;
 }
-function hreflang() {
-  return cfg.LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${pageUrl(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${pageUrl(cfg.DEFAULT_LANG)}">`;
+function hreflang(url = pageUrl) {
+  return cfg.LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${url(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${url(cfg.DEFAULT_LANG)}">`;
 }
 function jsonld(L) {
   const num = s => String(s).replace(/[^\d.,]/g, "").replace(",", ".");
@@ -172,17 +177,50 @@ function runtime(L) {
   }).replace(/</g, "\\u003c");
 }
 
+/* ---------- pagina de caz: dulapul de baie (D-65) ----------
+   Pozele sunt din șantier (site/img/case/, fără EXIF), capturile și
+   etichetele ies din aplicație pe proiectul real (tools/case-capture.cjs).
+   Distinta de mai jos e cea din aplicație, rând cu rând. */
+const CASE_PH = { "side-step": 675 };   // restul: portret 900 × 1200
+function casePhoto(L, name, key, hero) {
+  const b = `/site/img/case/bagno-${name}`, h = CASE_PH[name] || 1200, alt = esc(strip(t(L, key)));
+  const img = `<picture><source type="image/avif" srcset="${b}-900.avif"><img src="${b}-900.webp" width="900" height="${h}" alt="${alt}"${hero ? ' fetchpriority="high"' : ' loading="lazy"'}></picture>`;
+  return hero ? `<figure class="case-fig case-hero-ph">${img}</figure>`
+    : `<figure class="case-fig"><a href="${b}-1600.webp" target="_blank" rel="noopener">${img}</a><figcaption class="mono">${t(L, key)}</figcaption></figure>`;
+}
+function caseScreen(L, name, key) {
+  const b = `/site/screens/${L}/case-bagno-${name}-780`;
+  return `<figure class="case-fig case-scr"><div class="scr"><picture><source type="image/avif" srcset="${b}.avif"><img src="${b}.webp" width="780" height="1688" alt="${esc(strip(t(L, key)))}" loading="lazy"></picture></div><figcaption class="mono">${t(L, key)}</figcaption></figure>`;
+}
+const CASE_ROWS = [["side", 2260, 341, 2, "✂ 600×110"], ["bottom", 832, 231, 1], ["top", 832, 341, 1], ["div", 1500, 341, 1, "✂ 581×110"],
+  ["shelfF", 830, 321, 2], ["shelfR", 404, 341, 1], ["shelfR", 404, 321, 2], ["door", 1538, 433, 2, "⌀35 · 100 · 769 · 1438"],
+  ["door", 717, 433, 2, "⌀35 · 100 · 617"], ["backU", 1660, 870, 1], ["backL", 870, 600, 1]];
+function caseRows(L) {
+  return CASE_ROWS.map(([k, l, w, q, n], i) => `<tr><td>${String(i + 1).padStart(2, "0")}</td><td>${esc(t(L, "case.p." + k))}</td><td>${l}</td><td>${w}</td><td>${q}</td><td class="mono">${n || "—"}</td></tr>`).join("");
+}
+function caseJsonld(L) {
+  return JSON.stringify({
+    "@context": "https://schema.org", "@type": "Article", headline: strip(t(L, "case.meta.title")), description: strip(t(L, "case.meta.desc")),
+    inLanguage: L, url: caseUrl(L), image: `${cfg.SITE_URL}/site/og/case-bagno.jpg`, datePublished: "2026-10-06",
+    author: { "@type": "Organization", name: "Domus Renov SRL" }, publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL },
+    about: { "@type": "SoftwareApplication", name: "Ebanist", url: pageUrl(L) }
+  }).replace(/</g, "\\u003c");
+}
+
 /* ---------- randare ---------- */
-function render(L) {
+function render(L, tplSrc = tpl, isCase = false) {
   const blocks = {
     css: CSS, logo: LOGO, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
-    sheets: sheets(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
+    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
-  return tpl.replace(/\{\{([@a-zA-Z0-9_.]+)\}\}/g, (m, key, off, src) => {
+  if (isCase) Object.assign(blocks, { url: caseUrl(L), hreflang: hreflang(caseUrl), langlinks: langLinks(L, caseHome), langpick: langPick(L, caseHome), jsonld: caseJsonld(L) });
+  return tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
-    if (key.startsWith("@cfg.")) v = cfg[key.slice(5)];
+    if (key.startsWith("@ph:")) { const [, n, k, h] = key.split(":"); v = casePhoto(L, n, k, h === "hero"); }
+    else if (key.startsWith("@scr:")) { const [, n, k] = key.split(":"); v = caseScreen(L, n, k); }
+    else if (key.startsWith("@cfg.")) v = cfg[key.slice(5)];
     else if (key.startsWith("@")) v = blocks[key.slice(1)];
     else v = t(L, key);
     if (v === undefined) throw new Error(`template: «${key}» nedefinit`);
@@ -201,12 +239,18 @@ for (const L of cfg.LANGS) {
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, render(L));
   console.log("✓", path.relative(OUT, out));
+  const outCase = path.join(OUT, caseHome(L).slice(1), "index.html");
+  fs.mkdirSync(path.dirname(outCase), { recursive: true });
+  fs.writeFileSync(outCase, render(L, tplCase, true));
+  console.log("✓", path.relative(OUT, outCase));
 }
 
 /* sitemap: paginile de prezentare cu alternativele lor + paginile legale */
 const today = new Date().toISOString().slice(0, 10);
 const alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${pageUrl(l)}"/>`).join("\n");
 const urls = cfg.LANGS.map(l => `  <url><loc>${pageUrl(l)}</loc><lastmod>${today}</lastmod><priority>${l === cfg.DEFAULT_LANG ? "1.0" : "0.9"}</priority>\n${alts}\n  </url>`);
+const caseAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${caseUrl(l)}"/>`).join("\n");
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${caseUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${caseAlts}\n  </url>`);
 for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
   urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`);
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);

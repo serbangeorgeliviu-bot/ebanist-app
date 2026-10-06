@@ -531,6 +531,61 @@ html.xh input,html.xh textarea{cursor:text}
 .js .sheet-doc{opacity:1}
 .xhair{display:none}
 }
+.case-teaser{padding-top:0}
+.ct-in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
+.ct-ph{display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--graphite)}
+.ct-ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.ct-ph:hover img{transform:scale(1.03)}
+.ct-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+.ct-strip picture{aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--graphite)}
+.ct-strip img{width:100%;height:100%;object-fit:cover;object-position:top}
+.case-teaser .cta-row{margin-top:28px}
+@media (max-width:860px){.ct-in{grid-template-columns:1fr}.ct-ph{aspect-ratio:4/5}}
+.case-page .top{background:rgba(234,238,228,.92);border-color:var(--line)}
+.case{padding-top:68px}
+.case-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,72px);align-items:end;padding-top:clamp(40px,7vw,96px);padding-bottom:clamp(40px,6vw,80px)}
+.case-h1{font:400 clamp(2.4rem,5.4vw,4.8rem)/1 var(--serif);letter-spacing:-.03em;margin-top:18px}
+.case-h1 em,.case-h2 em{color:var(--gold-ink)}
+.case-facts{display:grid;grid-template-columns:repeat(4,auto);gap:clamp(14px,2.4vw,36px);margin-top:36px;justify-content:start}
+.case-facts dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3)}
+.case-facts dd{font:400 clamp(1.5rem,2.6vw,2.4rem)/1.1 var(--serif);margin-top:6px;color:var(--green);white-space:nowrap}
+.case-hero-ph{border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--graphite)}
+.case-hero-ph img{width:100%;height:100%;object-fit:cover}
+.case-sec{padding-top:clamp(56px,8vw,112px);border-top:1px solid var(--line)}
+.case-txt{max-width:68ch}
+.case-txt p:not(.kicker){color:var(--txt2);font-size:clamp(17px,1.4vw,19px);margin-top:16px}
+.case-h2{font:400 clamp(1.9rem,3.6vw,3.2rem)/1.04 var(--serif);letter-spacing:-.02em;margin-top:14px}
+.case-grid{display:grid;gap:clamp(10px,1.4vw,18px);margin-top:clamp(28px,4vw,48px)}
+.case-grid.g1{grid-template-columns:1fr;margin-top:clamp(10px,1.4vw,18px)}
+.case-grid.g2{grid-template-columns:repeat(2,1fr)}
+.case-grid.g3,.case-grid.g4{grid-template-columns:repeat(3,1fr)}
+.case-grid.g-lbl{grid-template-columns:minmax(0,2fr) minmax(0,1fr);align-items:start}
+.case-fig a{display:block;border-radius:12px;overflow:hidden;background:var(--graphite)}
+.case-fig img{width:100%;height:auto}
+.case-fig figcaption{font-size:12px;color:var(--txt3);margin-top:10px;line-height:1.45}
+.case-scr .scr{border-radius:22px;overflow:hidden;border:6px solid #1d221b;background:#1d221b;box-shadow:0 18px 40px rgba(14,59,42,.18)}
+.case-grid.phones{max-width:1000px}
+.lbl-fig picture{display:block;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(14,59,42,.12);border:1px solid var(--line)}
+.case-table-wrap{overflow-x:auto;margin-top:clamp(24px,3vw,40px);border:1px solid var(--line2);border-radius:12px;background:var(--paper)}
+.case-table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+.case-table th{background:var(--green);color:#fff;text-align:left;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:12px 14px}
+.case-table td{padding:11px 14px;border-top:1px solid var(--line)}
+.case-table td:nth-child(n+3):nth-child(-n+5){font-variant-numeric:tabular-nums}
+.case-table td.mono{font-size:13px;color:var(--gold-ink)}
+.case-note{margin-top:clamp(24px,3vw,40px);padding:22px 24px;border-left:3px solid var(--gold);background:var(--paper);border-radius:0 12px 12px 0;max-width:68ch}
+.case-note h3{font:400 1.4rem/1.2 var(--serif)}
+.case-note p{color:var(--txt2);margin-top:8px}
+.case-final{margin-top:clamp(72px,10vw,140px);padding:clamp(80px,12vw,160px) 0}
+.case-final-h{color:#fff;max-width:18ch;margin:0 auto 34px}
+.case-final .final-sub a{color:var(--gold-soft)}
+@media (max-width:860px){
+.case-hero{grid-template-columns:1fr}
+.case-facts{grid-template-columns:repeat(2,auto)}
+.case-grid.g2,.case-grid.g-lbl{grid-template-columns:1fr}
+.case-grid.g3,.case-grid.g4{grid-template-columns:repeat(2,1fr)}
+.case-grid.phones{grid-template-columns:repeat(3,minmax(200px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+.case-grid.phones .case-fig{scroll-snap-align:start}
+}
 </style>
 <link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/","inLanguage":"en","description":"Furniture design app for cabinetmakers. Design a unit on your phone and get the cut list, part labels, assembly sheet and technical drawing. Runs in the browser, works offline. Free for 1 project.","offers":[{"@type":"Offer","name":"Free","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app"]}}</script>
@@ -824,6 +879,20 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/niche-raw-900.avif"><img src="/site/img/work/niche-raw-900.webp" width="900" height="1125" alt="Built-in niche in raw MDF with a pine frame, before painting" loading="lazy"></picture></div><span class="mono k">01 · Independent cabinetmaker</span><h3>Your evenings back.</h3><p>Measure in the afternoon, send the cut list to the panel supplier the same day.</p></article>
       <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/carcass-laser-900.avif"><img src="/site/img/work/carcass-laser-900.webp" width="900" height="1125" alt="Wardrobe carcass being installed, aligned with a laser level" loading="lazy"></picture></div><span class="mono k">02 · Small workshop</span><h3>One sheet, no questions.</h3><p>Labels on every part and an assembly sheet the fitter can follow without calling you.</p></article>
       <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/wardrobe-finished-900.avif"><img src="/site/img/work/wardrobe-finished-900.webp" width="900" height="1125" alt="Finished built-in wardrobe with two painted doors and a brass air grille" loading="lazy"></picture></div><span class="mono k">03 · Fitter · renovator</span><h3>The client decides on the spot.</h3><p>Show the unit in 3D on a tablet, change the finish, get the signature before you leave.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6a · LUCRARE REALĂ (pagina de caz) ======================= -->
+<section class="sec case-teaser" id="case">
+  <div class="wrap ct-in">
+    <a class="ct-ph rv" href="/case/bagno/" data-goatcounter-click="case-bagno-teaser" tabindex="-1" aria-hidden="true"><picture><source type="image/avif" srcset="/site/img/case/bagno-finished-900.avif"><img src="/site/img/case/bagno-finished-900.webp" width="900" height="1200" alt="" loading="lazy"></picture></a>
+    <div class="ct-txt">
+      <p class="kicker mono rv">Real job</p>
+      <h2 class="h2 split">A bathroom cabinet built around the water manifold.</h2>
+      <p class="sub rv">16 parts, a 600 × 110 cut-out, zero adjustments on site. Photos from site, screens from the app — same project.</p>
+      <div class="ct-strip rv" aria-hidden="true"><picture><source type="image/avif" srcset="/site/img/case/bagno-manifold-900.avif"><img src="/site/img/case/bagno-manifold-900.webp" width="900" height="1200" alt="" loading="lazy"></picture><picture><source type="image/avif" srcset="/site/screens/en/case-bagno-part-780.avif"><img src="/site/screens/en/case-bagno-part-780.webp" width="780" height="1688" alt="" loading="lazy"></picture><picture><source type="image/avif" srcset="/site/img/case/bagno-side-step-900.avif"><img src="/site/img/case/bagno-side-step-900.webp" width="900" height="675" alt="" loading="lazy"></picture></div>
+      <div class="cta-row rv"><a class="btn btn-laser" href="/case/bagno/" data-goatcounter-click="case-bagno-teaser-btn">Read the case <span aria-hidden="true">→</span></a></div>
     </div>
   </div>
 </section>
