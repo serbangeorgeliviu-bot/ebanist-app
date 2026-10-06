@@ -3039,7 +3039,7 @@ const HWDB={
  man:[
   {id:"gen_man",brand:"—",n:{it:"Maniglia generica",ro:"Mâner generic",en:"Generic handle",fr:"Poignée générique"},art:"—",price:3.5},
   {id:"haf_bar128",brand:"Häfele",n:{it:"Maniglia a barra inox 128mm",ro:"Mâner bară inox 128mm",en:"Stainless bar handle 128mm",fr:"Poignée barre inox 128mm"},art:"106.61.xxx",price:4.8,chk:1},
-  {id:"haf_profil",brand:"Häfele",n:{it:"Profilo presa Gola/L",ro:"Profil prindere Gola/L",en:"Gola/L grip profile",fr:"Profil de prise Gola/L"},art:"126.36.xxx",price:6.0,chk:1},
+  {id:"haf_profil",brand:"Häfele",n:{it:"Profilo presa Gola/L",ro:"Profil prindere Gola/L",en:"Gola/L grip profile",fr:"Profil de prise Gola/L"},art:"126.36.xxx",price:6.0,chk:1,profile:1},
   {id:"gen_pomo",brand:"—",n:{it:"Pomello",ro:"Buton",en:"Knob",fr:"Bouton"},art:"—",price:2.2}],
  sup:[
   {id:"haf_sup",brand:"Häfele",n:{it:"Supporto ripiano ø5 con sicura, 15,6 kg",ro:"Suport poliță ø5 cu siguranță, 15,6 kg",en:"Shelf support ø5 with safety pin, 15.6 kg",fr:"Taquet ø5 avec sécurité, 15,6 kg"},art:"282.24.720",price:0.12},
@@ -3089,6 +3089,10 @@ function hwItem(cat){ const S=state.settings, id=(S.hwProd||{})[cat]||((HWDB[cat
   const eff=Object.assign({},it,(S.hwOvr||{})[it.id]||{});
   eff.name=(it.n||{})[state.lang]||(it.n||{}).it||"";
   return eff; }
+/* Il «maniglia» scelto in catalogo e un profilo (gola)? Allora sul frontale
+   non c'e niente da forare: ebanist-ops lo chiede qui. Il profilo resta nel
+   preventivo; la gola vera (frontali accorciati, profilo a metro) e U.7. */
+function handleIsProfile(){ try{ const it=hwItem("man"); return !!(it&&it.profile); }catch(e){ return false; } }
 /* ===== CATALOGO MATERIALI ================================================
  * Il catalogo NON sta piu nel codice. Sta in due file JSON, in /data/, e si
  * carica all'avvio:
@@ -12545,12 +12549,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.40.6"; /* APP_VER-MARKER */
+const APP_VER="4.40.7"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v91";
+const SW_CACHE="ebanist-v92";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

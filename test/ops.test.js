@@ -15,9 +15,14 @@ const E = require("./engine.js");
 const S = E.appEngine(), MM = E.MM;
 vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-ops.js"), "utf8"), S, { filename: "ebanist-ops.js" });
 
-function gen(cfg) {
+function gen(cfg) { return genWith(cfg, {}); }
+function genWith(cfg, hwProd) {
+  /* il motore di test non carica il catalogo (HWDB sta fuori dalla geometria):
+     la domanda «la maniglia scelta e un profilo?» la simula, e il test sotto
+     controlla che nel catalogo vero il profilo gola sia marcato cosi */
+  S.handleIsProfile = () => !!(hwProd && /^haf_profil$/.test(hwProd.man || ""));
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
-    matOvr: {}, matAdd: [MM("__b", 18), MM("__k", 3), MM("__k8", 8)], hwProd: { guida: "blum_tandem" } };
+    matOvr: {}, matAdd: [MM("__b", 18), MM("__k", 3), MM("__k8", 8)], hwProd: Object.assign({ guida: "blum_tandem" }, hwProd) };
   const full = Object.assign({ name: "M", matBody: "__b", matFront: "__b", matBack: "__k" }, cfg);
   const b = S.buildModule(full);
   const G = S.deriveCarcass(S.carcassParams(full, {}));
@@ -130,4 +135,27 @@ describe("Ante a quota: il lato cerniera scelto", () => {
     assert.equal(o.hw.filter(h => h.type === "cerniera" && !h.against).length, 0);
     assert.equal(o.warnings.filter(w => w.k === "opsNoHingePanel").length, 0);
   });
+});
+
+/* Un profilo gola scelto in catalogo come «maniglia» non fora il frontale:
+   prima i frontali uscivano con i due fori da 128 mm di una maniglia vera. */
+describe("Profilo gola in catalogo: niente fori di maniglia", () => {
+  const CFG = { ...ARM, L: 900, H: 720, P: 560, plinth: 100, tram: 0, shelves: 1, doors: 2 };
+  const handles = o => o.hw.filter(h => h.type === "maniglia").length;
+  test("con la maniglia di catalogo i fori ci sono", () => assert.ok(handles(gen(CFG).o) > 0));
+  test("con il profilo gola no, e le cerniere restano", () => {
+    const { o } = genWith(CFG, { man: "haf_profil" });
+    assert.equal(handles(o), 0);
+    assert.ok(o.hw.filter(h => h.type === "cerniera").length > 0);
+  });
+  test("cassettiera con profilo gola: nessun foro di maniglia sui frontali", () => {
+    const { o } = genWith({ ...CFG, doors: 0, shelves: 0, drawers: 3 }, { man: "haf_profil" });
+    assert.equal(handles(o), 0);
+  });
+});
+
+test("nel catalogo il profilo gola e marcato profile:1, e handleIsProfile lo legge", () => {
+  const html = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+  assert.match(html, /\{id:"haf_profil",[^\n]*profile:1\}/);
+  assert.match(html, /function handleIsProfile\(\)\{[^\n]*hwItem\("man"\)[^\n]*it\.profile/);
 });

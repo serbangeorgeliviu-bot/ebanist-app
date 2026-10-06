@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.7 — 6 octombrie 2026
+
+**Un profil gola ales în catalog nu mai găurește frontul.** În Setări → Catalog → Mânere se poate alege „Profilo presa Gola/L” (Häfele), dar aplicația îl trata ca pe un mâner obișnuit. Fiecare ușă și fiecare front de sertar ieșea cu cele două găuri de 128 mm, iar fișa de montaj scria interaxul. La un front fără mâner, găurile acelea strică panoul. Defectul l-am găsit analizând cererea unui client Pro pentru gola.
+
+- `handleIsProfile()` (index.html) citește articolul ales la „man”. Articolele cu `profile:1` din catalog (acum `haf_profil`) nu dau găuri de mâner în `ebanist-ops.js`, la fel ca push-ul. Balamalele rămân.
+- Profilul rămâne în deviz, cu bucata pe front, ca înainte. Gola adevărată (fronturi scurtate, profil la metru în L/C, decupare în laterale) e ROADMAP U.7.
+- Teste noi: 4 în `ops.test.js`. Verificat în Chromium pe aplicația reală: uși 2 → 0 mânere, sertare 3 → 0, balamalele neschimbate.
+- `SW_CACHE`/`CACHE` → `ebanist-v92`.
+
 ## 4.40.6 — 6 octombrie 2026
 
 Două corecturi în camera 3D, raportate de același client Pro după ce a verificat 4.40.5.
