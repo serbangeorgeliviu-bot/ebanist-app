@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.8 — 6 octombrie 2026
+
+**Dulapul cu uși glisante se deschide.** „Apri” rămânea fără efect la uși glisante, în vizualizarea 3D a configuratorului, în previzualizare și în Modul Client. Rotația pornea numai de la ușile cu balamale (`sub:"door"`, cu pivot), iar ușile glisante (`sub:"slide"`) nu au balamale. Raportat de un client Pro.
+
+- `viewer3d.js`, `slideOpenX()`: fiecare ușă de pe șina din față alunecă peste ușa cea mai apropiată de pe șina din spate și descoperă compartimentul de sub ea.
+- Verificat în Chromium cu WebGL: dulap glisant 2400, cu 2 uși; deschis, ușa din dreapta stă peste cea din stânga.
+- `SW_CACHE`/`CACHE` → `ebanist-v93`.
+
 ## 4.40.7 — 6 octombrie 2026
 
 **Un profil gola ales în catalog nu mai găurește frontul.** În Setări → Catalog → Mânere se poate alege „Profilo presa Gola/L” (Häfele), dar aplicația îl trata ca pe un mâner obișnuit. Fiecare ușă și fiecare front de sertar ieșea cu cele două găuri de 128 mm, iar fișa de montaj scria interaxul. La un front fără mâner, găurile acelea strică panoul. Defectul l-am găsit analizând cererea unui client Pro pentru gola.

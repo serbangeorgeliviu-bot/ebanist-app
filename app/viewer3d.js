@@ -475,6 +475,30 @@ function applyState() {
   R.need = true; kick();
 }
 
+/* Ante scorrevoli aperte: non hanno cerniere, quindi niente perno — prima
+   «Apri» le lasciava ferme. Ogni anta del binario davanti scorre fino a
+   coprire l'anta del binario dietro piu vicina: si apre il vano che copriva.
+   Restituisce lo spostamento in x (mm) per pk. */
+function slideOpenX(boxes) {
+  const by = new Map();
+  boxes.forEach(b => { if (b.sub !== "slide" || b.pk == null) return;
+    const k = String(b.pk), d = by.get(k);
+    if (!d) by.set(k, { pk: k, x0: b.x0, x1: b.x1, z: b.z1 });
+    else { d.x0 = Math.min(d.x0, b.x0); d.x1 = Math.max(d.x1, b.x1); d.z = Math.max(d.z, b.z1); } });
+  const ds = [...by.values()], out = {};
+  if (ds.length < 2) return out;
+  const zMax = Math.max(...ds.map(d => d.z));
+  const front = ds.filter(d => d.z > zMax - 1), back = ds.filter(d => d.z <= zMax - 1);
+  if (!back.length) return out;
+  front.forEach(f => {
+    const cf = (f.x0 + f.x1) / 2;
+    let best = null;
+    back.forEach(k => { const c = (k.x0 + k.x1) / 2; if (!best || Math.abs(c - cf) < Math.abs((best.x0 + best.x1) / 2 - cf)) best = k; });
+    out[f.pk] = best.x0 - f.x0;
+  });
+  return out;
+}
+
 /* bersagli di esplosione e apertura, per pezzo */
 function setTargets(boxesOrig) {
   const ex = explodeBoxes(boxesOrig, R.st.explode || 0);
@@ -483,10 +507,11 @@ function setTargets(boxesOrig) {
   /* profondità di ogni cassetto: sertarul iese cât jumătate din el */
   const grpD = {};
   boxesOrig.forEach(b => { if (b.grp && b.sub === "dbox") grpD[b.grp] = Math.max(grpD[b.grp] || 0, b.z1 - b.z0); });
+  const slideX = slideOpenX(boxesOrig);
   for (const P of R.pieces.values()) {
     const i = first.get(P.pk); if (i == null) continue;
     const a = boxesOrig[i], b = ex[i];
-    P.tgt.ex = (b.x0 - a.x0) * MM; P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
+    P.tgt.ex = ((b.x0 - a.x0) + (R.st.open ? (slideX[P.pk] || 0) : 0)) * MM; P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
     const open = R.st.open ? 1 : 0;
     P.tgt.ang = (open && P.pivot && P.sub === "door") ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
