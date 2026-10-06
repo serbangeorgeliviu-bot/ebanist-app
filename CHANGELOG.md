@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.6 — 6 octombrie 2026
+
+Două corecturi în camera 3D, raportate de același client Pro după ce a verificat 4.40.5.
+
+- **Fronturile de sertar aveau culoarea structurii.** Rolul `cassetto_frontale` nu are cheie de material proprie, așa că prelua materialul structurii, nu pe cel al frontului. Acum orice front, ușă sau sertar, are materialul frontului.
+- **Sertarele nu se deschideau.** „Ante aperte” rotea numai ușile. Acum sertarele ies cu frontul și cutia lor, cu 55% din adâncimea cutiei, ca în vizualizatorul 3D al corpului.
+- Verificat în Chromium (Playwright): o comodă cu sertare (structură antracit, fronturi verzi) și un corp cu uși pe același perete; fronturile sunt verzi, iar deschise ies cu 270 mm.
+- `SW_CACHE`/`CACHE` → `ebanist-v91`.
+
 ## 4.40.5 — 6 octombrie 2026
 
 Două corecturi în Releveu → camera, semnalate de un client Pro.
