@@ -1,4 +1,4 @@
-/* Capturi reale pentru pagina de caz „Dulap de baie, Monaco”.
+/* Capturi reale pentru pagina de caz „Dulap baie, Roquebrune-Cap-Martin”.
    node site-src/tools/case-capture.cjs <Ebanist_Backup.json> [index-proiect]
    Backup-ul NU se comite (are datele clientului). Proiectul se anonimizează
    în copie: numele devine cel de mai jos, clientul/telefonul/notițele se golesc.
@@ -8,7 +8,7 @@ const { chromium } = require(process.env.PW || "playwright");
 const fs = require("fs"), path = require("path");
 const ROOT = path.resolve(__dirname, "../..");
 const [, , bk, idx = "0"] = process.argv;
-const NAME = { en: "Bathroom cabinet · Monaco", ro: "Dulap baie · Monaco", it: "Armadio bagno · Monaco", fr: "Armoire salle de bain · Monaco" };
+const NAME = { en: "Bathroom cabinet · Roquebrune-Cap-Martin", ro: "Dulap baie · Roquebrune-Cap-Martin", it: "Armadio bagno · Roquebrune-Cap-Martin", fr: "Armoire salle de bain · Roquebrune-Cap-Martin" };
 (async () => {
   const src = JSON.parse(fs.readFileSync(bk, "utf8"));
   const b = await chromium.launch();
