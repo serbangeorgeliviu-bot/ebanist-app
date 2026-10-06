@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.40.5 — 6 octombrie 2026
+
+Două corecturi în Releveu → camera, semnalate de un client Pro.
+
+- **Camera în 3D era toată albă.** Toate corpurile se desenau cu materialul implicit din Setări (`bianco_19`), oricare ar fi fost materialul ales pe corp. Acum fiecare piesă are culoarea materialului rolului ei din corpul ei (`roleMatId`), cu uși și structură separat. Fără venaturi în cameră: modelul acela există doar pentru un singur material.
+- **Cota de poziție (X/Y/Z/R în bara corpului selectat, și cota din lista de amplasare) nu se putea scrie.** La fiecare cifră `renderPlan()` reconstruia câmpul: focusul se pierdea după prima cifră, tastatura se închidea, iar „900” devenea „9”. Acum câmpul în care se scrie nu se reconstruiește, iar restul se reîmprospătează când focusul iese din el.
+- În cameră, ușile deschise se deschid pe partea `hinge` când e scrisă pe ușă (ca în 4.40.4); altfel, ca înainte.
+- Verificat în Chromium (Playwright): pe codul vechi „900” devenea 9 și camera ieșea albă; pe cel nou, 900 și culorile corpurilor.
+- `SW_CACHE`/`CACHE` → `ebanist-v90`.
+
 ## 4.40.4 — 6 octombrie 2026
 
 **Partea balamalei scrisă la ușile cu cote se respectă acum în găurire și în 3D.** Cu asistentul AI, o ușă cu `hinge:"right"` era acceptată și afișată în patch, dar `physicalPieces()` pierdea câmpul: cupa, diblurile, talpa pe laterală și mânerul ieșeau după regula fixă (o ușă singură pe stânga, perechile stânga/dreapta), iar în 3D ușa se deschidea tot pe partea aceea. Corectură care ajunge la mașină, semnalată de un client Pro.
