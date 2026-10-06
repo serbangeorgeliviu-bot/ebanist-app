@@ -10456,9 +10456,20 @@ function roomBoxes(){
     const carc=mm.boxes.filter(b=>b.kind==="p");
     const pcAll=[].concat.apply([],carc.map(planPC));
     const cx0=Math.min.apply(null,pcAll.map(q=>q[0])), cx1=Math.max.apply(null,pcAll.map(q=>q[0]));
-    const matOf=b=>{ try{ return roleMatId(m.cfg,b.role||(b.kind==="f"?"frontale":"fianco"))||roleMatId(m.cfg,"fianco"); }catch(e){ return null; } };
+    /* ogni frontale (anta o frontale di cassetto) ha il materiale delle ANTE:
+       `cassetto_frontale` non ha una chiave sua e prima cadeva sulla struttura */
+    const matOf=b=>{ try{ return roleMatId(m.cfg,b.kind==="f"?"frontale":(b.role||"fianco"))||roleMatId(m.cfg,"fianco"); }catch(e){ return null; } };
+    /* con «Ante aperte» i cassetti escono, come nel visore 3D: tutto il gruppo
+       (frontale + cassa) avanza del 55% della sua profondita, verso il fronte (+z) */
+    const grpD={};
+    mm.boxes.forEach(b=>{ if(!b.grp) return; const g=grpD[b.grp]||(grpD[b.grp]={z0:1e9,z1:-1e9});
+      g.z0=Math.min(g.z0,b.z0); g.z1=Math.max(g.z1,b.z1); });
     mm.boxes.forEach(b0=>{
-      const b=(b0.kind==="p"||b0.kind==="f")?Object.assign({},b0,{mat:matOf(b0)}):b0;
+      let b=(b0.kind==="p"||b0.kind==="f")?Object.assign({},b0,{mat:matOf(b0)}):b0;
+      if(roomOpen && b.grp && grpD[b.grp]){
+        const sl=(grpD[b.grp].z1-grpD[b.grp].z0)*0.55;
+        b=Object.assign({},b,{z0:b.z0+sl,z1:b.z1+sl},b.pc?{pc:b.pc.map(q=>[q[0],q[1]+sl])}:{});
+      }
       if(roomOpen && b.kind==="f" && b.sub==="door"){
         const q=planPC(b);
         const bx0=Math.min(q[0][0],q[1][0],q[2][0],q[3][0]), bx1=Math.max(q[0][0],q[1][0],q[2][0],q[3][0]);
@@ -12534,12 +12545,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.40.5"; /* APP_VER-MARKER */
+const APP_VER="4.40.6"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v90";
+const SW_CACHE="ebanist-v91";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
