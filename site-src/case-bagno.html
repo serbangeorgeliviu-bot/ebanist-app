@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- GENERAT de site-src/build.mjs din site-src/case-bagno.html + site-src/i18n/{{@lang}}.json.
+     Nu edita aici: modificările se pierd la următorul build. -->
+<html lang="{{@lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaeee4">
+<meta name="color-scheme" content="light">
+<title>{{case.meta.title}}</title>
+<meta name="description" content="{{case.meta.desc}}">
+<link rel="canonical" href="{{@url}}">
+{{@hreflang}}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ebanist">
+<meta property="og:locale" content="{{_locale}}">
+<meta property="og:url" content="{{@url}}">
+<meta property="og:title" content="{{case.meta.title}}">
+<meta property="og:description" content="{{case.meta.desc}}">
+<meta property="og:image" content="{{@cfg.SITE_URL}}/site/og/case-bagno.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/app/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/app/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/app/icons/apple-touch-icon-180.png">
+<link rel="preload" href="/fonts/site-fraunces-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>{{@css}}</style>
+<script type="application/ld+json">{{@jsonld}}</script>
+<script data-goatcounter="{{@cfg.GOATCOUNTER}}" data-goatcounter-settings='{"allow_local":false}' async src="/site/js/count.js"></script>
+</head>
+<body class="case-page">
+{{@logo}}
+<a class="skip" href="#main">{{nav.skip}}</a>
+
+<header class="top solid">
+  <div class="wrap bar">
+    <a class="brand" href="{{@home}}" aria-label="{{case.back}}">
+      <span class="badge" aria-hidden="true"><svg><use href="#ebLogo"/></svg></span>
+      <span>EBANIST</span>
+    </a>
+    <span class="sp"></span>
+    <nav class="langs" aria-label="{{nav.langLabel}}">{{@langlinks}}</nav>
+    {{@langpick}}
+    <a class="btn btn-laser btn-sm" href="{{@app}}" data-goatcounter-click="case-bagno-header">{{nav.cta}}</a>
+  </div>
+</header>
+
+<main id="main" class="case">
+  <article>
+    <header class="wrap case-hero">
+      <div class="case-hero-txt">
+        <p class="kicker mono">{{case.kicker}}</p>
+        <h1 class="case-h1">{{case.h}}</h1>
+        <p class="sub">{{case.lead}}</p>
+        <dl class="case-facts">
+          <div><dt class="mono">{{case.f1}}</dt><dd>870 × 2280 × 360</dd></div>
+          <div><dt class="mono">{{case.f2}}</dt><dd>16</dd></div>
+          <div><dt class="mono">{{case.f3}}</dt><dd>168</dd></div>
+          <div><dt class="mono">{{case.f4}}</dt><dd>0</dd></div>
+        </dl>
+      </div>
+      {{@ph:finished:case.alt:hero}}
+    </header>
+
+    <section class="wrap case-sec">
+      <div class="case-txt"><p class="kicker mono">{{case.s1.k}}</p><h2 class="case-h2">{{case.s1.h}}</h2><p>{{case.s1.d}}</p></div>
+      <div class="case-grid g2">{{@ph:manifold:case.c.manifold}}{{@ph:carcass:case.c.carcass}}</div>
+    </section>
+
+    <section class="wrap case-sec">
+      <div class="case-txt"><p class="kicker mono">{{case.s2.k}}</p><h2 class="case-h2">{{case.s2.h}}</h2><p>{{case.s2.d}}</p></div>
+      <div class="case-grid g3 phones">{{@scr:build:case.c.build}}{{@scr:list:case.c.list}}{{@scr:part:case.c.part}}</div>
+    </section>
+
+    <section class="wrap case-sec">
+      <div class="case-txt"><p class="kicker mono">{{case.s3.k}}</p><h2 class="case-h2">{{case.s3.h}}</h2><p>{{case.s3.d}}</p></div>
+      <div class="case-grid g-lbl">
+        <figure class="case-fig lbl-fig"><picture><source type="image/avif" srcset="/site/img/case/labels-{{@lang}}-1200.avif"><img src="/site/img/case/labels-{{@lang}}-1200.webp" width="1200" height="422" alt="{{case.c.labels}}" loading="lazy"></picture><figcaption class="mono">{{case.c.labels}}</figcaption></figure>
+        {{@ph:marked:case.c.marked}}
+      </div>
+    </section>
+
+    <section class="wrap case-sec">
+      <div class="case-txt"><p class="kicker mono">{{case.s4.k}}</p><h2 class="case-h2">{{case.s4.h}}</h2><p>{{case.s4.d}}</p></div>
+      <div class="case-grid g4">{{@ph:cutting:case.c.cutting}}{{@ph:minifix:case.c.minifix}}{{@ph:assembled:case.c.assembled}}</div>
+      <div class="case-grid g1">{{@ph:side-step:case.c.step}}</div>
+    </section>
+
+    <section class="wrap case-sec">
+      <div class="case-txt"><p class="kicker mono">{{case.s5.k}}</p><h2 class="case-h2">{{case.s5.h}}</h2><p>{{case.s5.d}}</p></div>
+      <div class="case-grid g4">{{@ph:open:case.c.open}}{{@ph:hatch:case.c.hatch}}{{@ph:shelves:case.c.shelves}}</div>
+    </section>
+
+    <section class="wrap case-sec">
+      <div class="case-txt"><p class="kicker mono">{{case.t.k}}</p><h2 class="case-h2">{{case.t.h}}</h2></div>
+      <div class="case-table-wrap">
+        <table class="case-table">
+          <thead><tr><th scope="col">#</th><th scope="col">{{case.t.part}}</th><th scope="col">{{case.t.l}}</th><th scope="col">{{case.t.w}}</th><th scope="col">{{case.t.q}}</th><th scope="col">{{case.t.n}}</th></tr></thead>
+          <tbody>{{@caserows}}</tbody>
+        </table>
+      </div>
+      <aside class="case-note"><h3>{{case.n.h}}</h3><p>{{case.n.d}}</p></aside>
+    </section>
+  </article>
+
+  <section class="final case-final">
+    <div class="grid32" aria-hidden="true"></div>
+    <div class="wrap">
+      <svg class="final-logo" aria-hidden="true"><use href="#ebLogo"/></svg>
+      <h2 class="case-h2 case-final-h">{{case.cta.h}}</h2>
+      <a class="btn btn-laser btn-xl" href="{{@app}}" data-goatcounter-click="case-bagno-cta">{{case.cta.btn}} <span aria-hidden="true">→</span></a>
+      <p class="final-sub"><a href="{{@home}}">{{case.back}}</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <span class="badge badge-lg" aria-hidden="true"><svg><use href="#ebLogo"/></svg></span>
+      <div>
+      <p class="foot-by">{{foot.by}}</p>
+      <p class="mono foot-legal">{{foot.legal}}</p>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="/termeni.html">{{foot.terms}}</a>
+      <a href="/privacy.html">{{foot.privacy}}</a>
+      <a href="/rambursare.html">{{foot.refund}}</a>
+      <a href="mailto:{{@cfg.EMAIL}}">{{@cfg.EMAIL}}</a>
+      <a href="{{@cfg.TIKTOK_URL}}" rel="noopener" target="_blank">TikTok {{@cfg.TIKTOK_HANDLE}}</a>
+    </nav>
+    <nav class="langs langs-foot" aria-label="{{nav.langLabel}}">{{@langlinks}}</nav>
+  </div>
+</footer>
+</body>
+</html>

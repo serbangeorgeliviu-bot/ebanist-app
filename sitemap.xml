@@ -24,6 +24,30 @@
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/"/>
   </url>
+  <url><loc>https://ebanist.com/case/bagno/</loc><lastmod>2026-10-06</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/case/bagno/"/>
+  </url>
+  <url><loc>https://ebanist.com/ro/case/bagno/</loc><lastmod>2026-10-06</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/case/bagno/"/>
+  </url>
+  <url><loc>https://ebanist.com/it/case/bagno/</loc><lastmod>2026-10-06</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/case/bagno/"/>
+  </url>
+  <url><loc>https://ebanist.com/fr/case/bagno/</loc><lastmod>2026-10-06</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/case/bagno/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/case/bagno/"/>
+  </url>
   <url><loc>https://ebanist.com/app/</loc><lastmod>2026-10-06</lastmod><priority>0.8</priority></url>
   <url><loc>https://ebanist.com/privacy.html</loc><lastmod>2026-10-06</lastmod><priority>0.3</priority></url>
   <url><loc>https://ebanist.com/termeni.html</loc><lastmod>2026-10-06</lastmod><priority>0.3</priority></url>

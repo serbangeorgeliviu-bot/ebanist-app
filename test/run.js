@@ -1420,11 +1420,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     {
       const tmp = fs.mkdtempSync(path.join(require("os").tmpdir(), "ebsite-"));
       require("child_process").execFileSync(process.execPath, [path.join(ROOT, "site-src/build.mjs")], { env: { ...process.env, OUT_DIR: tmp }, stdio: "ignore" });
-      const stale = Object.values(LANGS).filter(f => fs.readFileSync(path.join(tmp, f), "utf8") !== fs.readFileSync(path.join(ROOT, f), "utf8"));
+      /* e la pagina di caso reale (dulapul de baie), una per lingua */
+      const CASES = ["case/bagno/index.html", "ro/case/bagno/index.html", "it/case/bagno/index.html", "fr/case/bagno/index.html"];
+      const stale = [...Object.values(LANGS), ...CASES].filter(f => fs.readFileSync(path.join(tmp, f), "utf8") !== fs.readFileSync(path.join(ROOT, f), "utf8"));
       ok("le pagine comitate sono aggiornate (node site-src/build.mjs)", stale.length === 0, stale.join(", "));
     }
     /* ogni file citato (immagini, font, script, documenti) esiste nel repo */
     const refs = new Set();
+    for (const f of ["case/bagno/index.html", "ro/case/bagno/index.html", "it/case/bagno/index.html", "fr/case/bagno/index.html"]) pages["case:" + f] = fs.readFileSync(path.join(ROOT, f), "utf8");
     for (const html of Object.values(pages))
       for (const m of html.matchAll(/(?:src|href|srcset|data-full)="([^"]+)"/g))
         for (const part of m[1].split(",")) { const u = part.trim().split(/\s+/)[0].split("?")[0]; if (/^\/(site|fonts|app\/icons|app\/config)\//.test(u)) refs.add(u.slice(1)); }
