@@ -9,6 +9,8 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 Două corecturi în Releveu → camera, semnalate de un client Pro.
 
+În producție pe 06.10 (ebanist.com și aplicația Android). Utilizatorii o primesc la a doua deschidere a aplicației, sau imediat din Setări → „Verifică actualizări”. Versiunea se citește în josul Setărilor: `Ebanist v4.40.5`.
+
 - **Camera în 3D era toată albă.** Toate corpurile se desenau cu materialul implicit din Setări (`bianco_19`), oricare ar fi fost materialul ales pe corp. Acum fiecare piesă are culoarea materialului rolului ei din corpul ei (`roleMatId`), cu uși și structură separat. Fără venaturi în cameră: modelul acela există doar pentru un singur material.
 - **Cota de poziție (X/Y/Z/R în bara corpului selectat, și cota din lista de amplasare) nu se putea scrie.** La fiecare cifră `renderPlan()` reconstruia câmpul: focusul se pierdea după prima cifră, tastatura se închidea, iar „900” devenea „9”. Acum câmpul în care se scrie nu se reconstruiește, iar restul se reîmprospătează când focusul iese din el.
 - În cameră, ușile deschise se deschid pe partea `hinge` când e scrisă pe ușă (ca în 4.40.4); altfel, ca înainte.
@@ -18,6 +20,8 @@ Două corecturi în Releveu → camera, semnalate de un client Pro.
 ## 4.40.4 — 6 octombrie 2026
 
 **Partea balamalei scrisă la ușile cu cote se respectă acum în găurire și în 3D.** Cu asistentul AI, o ușă cu `hinge:"right"` era acceptată și afișată în patch, dar `physicalPieces()` pierdea câmpul: cupa, diblurile, talpa pe laterală și mânerul ieșeau după regula fixă (o ușă singură pe stânga, perechile stânga/dreapta), iar în 3D ușa se deschidea tot pe partea aceea. Corectură care ajunge la mașină, semnalată de un client Pro.
+
+În producție pe 06.10.
 
 - `ebanist-ops.js`: piesa fizică poartă `hinge` de pe cutie; `hingeLeft` vine din `hinge` când există, altfel regula de până acum. Ușile fără cote nu se schimbă.
 - O pereche inversată (balamalele la mijloc) are nevoie de un despărțitor acolo; fără el rămâne avertismentul `opsNoHingePanel`, ca înainte.
