@@ -75,7 +75,7 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, curved: false }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, curved: false }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
   }
@@ -266,7 +266,8 @@ function generate(input) {
   });
 
   /* --- 4. ante: cerniere (tazza + tasselli sull'anta, basetta sul fianco) e
-         maniglie. Il lato cerniera: prima meta a sinistra, seconda a destra. */
+         maniglie. Il lato cerniera e quello scritto sull'anta (`fronts[].hinge`);
+         se non c'e, prima meta a sinistra, seconda a destra. */
   var doors = pcs.filter(function (p) { return p.role === "frontale" && p.sub === "door" && p.tAx === 2; });
   var rows = {};
   doors.forEach(function (d) { var k = Math.round(d.min[1]) + "|" + Math.round(d.max[1]); (rows[k] = rows[k] || []).push(d); });
@@ -274,7 +275,7 @@ function generate(input) {
     var ds = rows[k].slice().sort(function (a, b) { return a.min[0] - b.min[0]; }), n = ds.length;
     ds.forEach(function (D, i) {
       if (D.curved) { out.warnings.push({ piece: D.pk, k: "opsCurved" }); return; }
-      var hingeLeft = n === 1 ? true : i < n / 2;
+      var hingeLeft = D.hinge === "left" ? true : D.hinge === "right" ? false : (n === 1 ? true : i < n / 2);
       var hEdge = hingeLeft ? D.min[0] : D.max[0], inw = hingeLeft ? 1 : -1;
       var h = D.ext[1], nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
       var eo = (G && G.in && G.in.edge_offset) || 100;

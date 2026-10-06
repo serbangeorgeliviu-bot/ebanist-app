@@ -6602,8 +6602,8 @@ const VIEW={yaw:0.46,pitch:0.30,zoom:1};
 function render3D(svgEl,cfg,view,opts){
   const V=view||VIEW, real=!!(opts&&opts.real);
   const mB=matById(cfg.matBody)||{c:"#eeeee9",tx:"solid"}, mF=matById(cfg.matFront)||mB;
-  const bc=mB.c||"#eeeee9", fc=mF.c||bc;
-  const woodB=mB.tx==="wood", woodF=mF.tx==="wood";
+  const bc0=mB.c||"#eeeee9", fc0=mF.c||bc0;
+  const woodB0=mB.tx==="wood", woodF0=mF.tx==="wood";
   let boxes = (opts&&opts.boxes) ? opts.boxes.slice() : buildModule(cfg).boxes;
   let bX0=1e9,bX1=-1e9,bY0=1e9,bY1=-1e9,bZ0=1e9,bZ1=-1e9;
   const PC=planPC;
@@ -6664,6 +6664,13 @@ function render3D(svgEl,cfg,view,opts){
   const face=(pts,fill,extra)=>{ pts.forEach(reg);
     out+=`<polygon points="${pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')}" fill="${fill}" ${extra||'stroke="#8b8b88" stroke-width="1.4" stroke-linejoin="round"'}/>`; };
   for(const b of bs){
+    /* nella camera ogni pezzo porta il materiale del SUO corpo (b.mat): prima
+       si colorava tutto col predefinito di progetto, e la stanza usciva bianca
+       qualunque materiale avesse scelto. Colore pieno: le venature (#wgB…)
+       esistono solo per il materiale unico. */
+    const bm=b.mat?matById(b.mat):null;
+    const bc=bm?(bm.c||bc0):bc0, fc=bm?(bm.c||fc0):fc0;
+    const woodB=bm?false:woodB0, woodF=bm?false:woodF0;
     /* prisma a base poligonale: cilindri, ovali e angoli raccordati passano di
        qui. Il resto del motore lavora su quattro spigoli in pianta e non si
        tocca — questa e una strada in piu, non una modifica di quella vecchia.
@@ -6740,7 +6747,7 @@ function render3D(svgEl,cfg,view,opts){
   w/=V.zoom; hh/=V.zoom;
   svgEl.setAttribute("viewBox",`${(ccx-w/2).toFixed(0)} ${(ccy-hh/2).toFixed(0)} ${w.toFixed(0)} ${hh.toFixed(0)}`);
   const wg=(id,base)=>`<pattern id="${id}" width="16" height="240" patternUnits="userSpaceOnUse"><rect width="16" height="240" fill="${base}"/><path d="M4 0v240M11 0v240" stroke="${shade(base,0.88)}" stroke-width="1.2" fill="none"/><path d="M7 0v240" stroke="${shade(base,0.94)}" stroke-width="2.4" fill="none"/></pattern>`;
-  const defs=(real&&(woodB||woodF))?`<defs>${woodB?wg("wgB",bc)+wg("wgBl",shade(bc,1.06))+wg("wgBd",shade(bc,0.78)):""}${woodF?wg("wgF",fc):""}</defs>`:"";
+  const defs=(real&&(woodB0||woodF0))?`<defs>${woodB0?wg("wgB",bc0)+wg("wgBl",shade(bc0,1.06))+wg("wgBd",shade(bc0,0.78)):""}${woodF0?wg("wgF",fc0):""}</defs>`:"";
   svgEl.innerHTML=defs+out;
 }
 let _raf=0;
@@ -10442,25 +10449,27 @@ function roomBoxes(){
     out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
               y0:b.y0+lift,y1:b.y1+lift,
               z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
-              kind:b.kind, pc:pc.map(q=>[q.x,q.y])});
+              kind:b.kind, mat:b.mat, pc:pc.map(q=>[q.x,q.y])});
   };
   RL.mods.forEach(m=>{
     let mm; try{ mm=buildModule(m.cfg); }catch(e){ return; }
     const carc=mm.boxes.filter(b=>b.kind==="p");
     const pcAll=[].concat.apply([],carc.map(planPC));
     const cx0=Math.min.apply(null,pcAll.map(q=>q[0])), cx1=Math.max.apply(null,pcAll.map(q=>q[0]));
-    mm.boxes.forEach(b=>{
+    const matOf=b=>{ try{ return roleMatId(m.cfg,b.role||(b.kind==="f"?"frontale":"fianco"))||roleMatId(m.cfg,"fianco"); }catch(e){ return null; } };
+    mm.boxes.forEach(b0=>{
+      const b=(b0.kind==="p"||b0.kind==="f")?Object.assign({},b0,{mat:matOf(b0)}):b0;
       if(roomOpen && b.kind==="f" && b.sub==="door"){
         const q=planPC(b);
         const bx0=Math.min(q[0][0],q[1][0],q[2][0],q[3][0]), bx1=Math.max(q[0][0],q[1][0],q[2][0],q[3][0]);
         const bz=Math.max(q[0][1],q[1][1],q[2][1],q[3][1]);
-        const w=bx1-bx0, left=(bx0+bx1)/2<(cx0+cx1)/2, hx=left?bx0:bx1, sgn=left?1:-1, th=b.z1-b.z0;
+        const w=bx1-bx0, left=b.hinge?b.hinge==="left":(bx0+bx1)/2<(cx0+cx1)/2, hx=left?bx0:bx1, sgn=left?1:-1, th=b.z1-b.z0;
         const rotp=[[0,0],[0,w],[th,w],[th,0]].map(t=>[hx+sgn*t[0], bz+t[1]]);   // 90° deschisa
         const pc=rotp.map(t=>toRoom(m.fr,m.from,t[0],t[1],m.off,m.rot,m.piv));
         out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
                   y0:b.y0+m.lift,y1:b.y1+m.lift,
                   z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
-                  kind:"f", pc:pc.map(q=>[q.x,q.y])});
+                  kind:"f", mat:b.mat, pc:pc.map(q=>[q.x,q.y])});
         return;
       }
       put(m.fr,m.from,m.off,m.lift,m.rot,m.piv,b);
@@ -10536,8 +10545,18 @@ function wirePlanDrag(){
   el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up);
 }
 /* pannello del corpo selezionato: tre assi, frecce e casella per la quota esatta */
+/* Un campo in cui si sta scrivendo non si ricostruisce: renderPlan() gira a
+   ogni cifra, e rifacendo l'innerHTML il campo perdeva il fuoco dopo la prima
+   — sul telefono si chiudeva la tastiera e non si poteva scrivere 900. Il
+   contenitore si rifa quando il fuoco esce (focusout). */
+function editingIn(box){ const ae=document.activeElement; return !!(box&&ae&&ae.tagName==="INPUT"&&box.contains(ae)); }
+function wireRefreshOnLeave(box){
+  if(!box||box.dataset.leaveWired) return; box.dataset.leaveWired="1";
+  box.addEventListener("focusout",()=>setTimeout(()=>{ if(!editingIn(box)) renderPlan(); },0));
+}
 function renderSelBar(){
   const bar=$("svSelBar"); if(!bar) return;
+  wireRefreshOnLeave(bar); if(editingIn(bar)) return;
   const p=proj(), L=p?layout():null;
   if(!selMod||!L||!L[selMod]){ bar.style.display="none"; return; }
   bar.style.display="";
@@ -10656,6 +10675,7 @@ function renderPlan(){
 /* lista de amplasare: fiecare modul pe ce perete si la ce cota, plus problemele */
 function renderRoomList(RL){
   const box=$("svRoomList"); if(!box) return;
+  wireRefreshOnLeave(box); if(editingIn(box)) return;
   if($("btnRoom3D")){ $("btnRoom3D").textContent=ts("svRoom3D"); $("btnRoomOpen").textContent=ts("svOpenDoors"); }
   $("svRoomLbl").textContent=ts("svRoomLbl"); $("svRoomHint").textContent=ts("svRoomHint")+" "+ts("svTapDrag");
   $("btnRoom3D").textContent=ts("svRoom3D"); $("btnRoomOpen").textContent=ts("svOpenDoors");
@@ -12514,12 +12534,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.40.3"; /* APP_VER-MARKER */
+const APP_VER="4.40.5"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v88";
+const SW_CACHE="ebanist-v90";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
