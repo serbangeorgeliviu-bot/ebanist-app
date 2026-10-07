@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.44.0 — 7 octombrie 2026
+
+**Adâncimea sertarului, aleasă pe fiecare secțiune** (U.13, a doua parte).
+
+- Formular: în „Cassetti per sezione”, lângă înălțimi, fiecare secțiune are un câmp „NL” (lungimea nominală a glisierei, adică adâncimea sertarului). Gol = cea mai lungă care încape, ca înainte. Se salvează ca `cfg.secDrawerNL`.
+- Motor: `drawerPlan(g.nl)` alege cea mai lungă lungime din listă care nu depășește valoarea cerută. Dacă valoarea nu e în listă sau nu încape, apare avertismentul `wDrawNL` („NL 420 … uso NL 400”). Cutia, fundul, 3D-ul și găurirea glisierei urmează NL-ul ales.
+- Asistentul AI știe de `secDrawerNL`.
+- Un proiect fără `secDrawerNL` dă aceeași distintă (testat).
+- Teste: `test/drawerh.test.js` +5. `test:full` 446/446 + golden 42/42, e2e 427/427. Verificat în Chromium: NL 420 → 400 cu avertisment, secțiunea 2 rămâne pe automat (550).
+- `SW_CACHE`/`CACHE` → `ebanist-v99`.
+
 ## 4.43.0 — 7 octombrie 2026
 
 **Înălțimea fiecărui sertar, scrisă de mână** (ROADMAP U.13). Cerut de testerul IT: un mobilier înalt de 80 cm, cu două sertare de mărimi diferite în aceeași secțiune.

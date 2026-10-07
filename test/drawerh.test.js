@@ -94,3 +94,34 @@ describe("Il numero viene dalle altezze", () => {
     assert.ok(arr(B.b.warn.drawWarn).some(w => w.k === "wDrawOver"));
   });
 });
+
+describe("Adancimea del cassetto (secDrawerNL)", () => {
+  const side = (B, si) => arr(B.b.draws).find(x => arr(x.secs).includes(si)).plan;
+  test("NL 400 nella sezione 1, la 2 resta automatica", () => {
+    const B = build({ ...BASE, secDrawerNL: [400, null] });
+    assert.equal(side(B, 0).nl, 400);
+    assert.equal(side(B, 1).nl, build(BASE).b.draw.nl);
+    assert.ok(B.pieces.some(p => p.elemento === "Fianco cassetto" && p.lung === 400));
+    assert.deepEqual(B.close(), []);
+    assert.deepEqual(B.ko(), []);
+  });
+  test("una lunghezza fuori listino: la piu lunga sotto, con l'avviso", () => {
+    const B = build({ ...BASE, secDrawerNL: [420, null] });
+    assert.equal(side(B, 0).nl, 400);
+    assert.ok(arr(B.b.warn.drawWarn).some(w => w.k === "wDrawNL" && w.got === 400));
+  });
+  test("piu di quanto entra: resta la massima, con l'avviso", () => {
+    const B = build({ ...BASE, secDrawerNL: [900, null] });
+    assert.equal(side(B, 0).nl, build(BASE).b.draw.nl);
+    assert.ok(arr(B.b.warn.drawWarn).some(w => w.k === "wDrawNL"));
+  });
+  test("il 3D disegna la cassa corta", () => {
+    const B = build({ ...BASE, secDrawerNL: [350, null] });
+    const z = B.b.boxes.filter(x => /^d0_/.test(x.grp || "") && x.sub === "dbox");
+    const len = Math.max(...z.map(x => x.z1)) - Math.min(...z.map(x => x.z0));
+    assert.equal(Math.round(len), 350);
+  });
+  test("un progetto senza secDrawerNL non cambia", () => {
+    assert.equal(JSON.stringify(build({ ...BASE, secDrawerNL: [null, null] }).pieces), JSON.stringify(build(BASE).pieces));
+  });
+});
