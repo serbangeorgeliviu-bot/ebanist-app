@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.44.1 — 7 octombrie 2026
+
+**Lateralele LEGRABOX intră în catalog și în deviz.** Până acum, un sertar LEGRABOX intra în deviz numai cu glisiera MOVENTO. Lateralele metalice se cumpără separat și lipseau din preț.
+
+- Catalog: categorie nouă, „Sponde cassetto metalliche (cp.)” (`HWDB.zarga`). Primul articol: Blum LEGRABOX pure, laterale stânga/dreapta, per. Codul real se formează din 770, înălțime (N/M/K/C/F), NL și 2S, de exemplu 770M5002S. Prețul de pornire e 31 € pe pereche, după SFS (CHF 28,85 net, M NL 300). Articolul e marcat `chk:1`: prețul se corectează în Catalog după furnizorul tău.
+- Deviz: `DRAWSYS.legrabox.lat` leagă sistemul de lateralele lui. Se numără o pereche pe sertar (și pe tava extractibilă LEGRABOX), numai la corpurile LEGRABOX. Fișa de montaj are rândul ei la corpul respectiv.
+- TANDEMBOX nu are încă lateralele în catalog: n-am găsit un preț european de referință. Matrix Box e set complet.
+- `test:full` 446/446 + golden 42/42, e2e 427/427. Verificat în Chromium: trei corpuri (lemn / Matrix / Legrabox) → TANDEM 51 + Matrix 66 + MOVENTO 75 + laterale LEGRABOX 93 €.
+- `SW_CACHE`/`CACHE` → `ebanist-v100`.
+
 ## 4.44.0 — 7 octombrie 2026
 
 **Adâncimea sertarului, aleasă pe fiecare secțiune** (U.13, a doua parte).
