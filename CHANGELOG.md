@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.42.1 — 7 octombrie 2026
+
+**Glisierele din catalog, vizibile în Genera, și Häfele Matrix Box P ca sistem de sertar.** Bug raportat de testerul IT pe video: Setări → Catalog are 5 glisiere, dar „Sistema cassetto” arăta doar Legno / Legrabox / Tandembox / Solo frontale.
+
+- Glisiera aleasă în catalog se aplica deja sertarului de lemn, dar formularul nu o arăta. Acum opțiunea o scrie: „Cassetto in legno · MOVENTO BLUMOTION”.
+- **Matrix Box P e sistem nou de sertar**, cu formulele din catalogul Häfele DGH-M 2021 (MB 9.8–9.9). Fund de 16 mm = (NL − 3) × (LW − 62). Spatele are lățimea LW − 62 și înălțimea 53 / 69 / 92 mm pe laterale de 60 / 92 / 115. Adâncimea minimă a corpului e NL + 3, iar NL merge de la 270 la 650. Rămâne `chk:1` (de confirmat pe o piesă reală).
+- **Lățimea cutiei de lemn vine dintr-un singur loc.** `woodDed()` citește `slideById()` din `ebanist-core.js`, aceeași tabelă pe care o folosește verificarea de închidere. Cu „Matrix Box” aleasă ca glisieră, cutia ieșea cu 50 mm mai lată decât aștepta verificarea (25 față de 75; acum 62, din catalogul Häfele). Celelalte glisiere nu se schimbă (42 / 42 / 25 / 26).
+- `ebanist-core.js`: `haf_matrix` → `rear 3`, `ded_lat 62`; `CORE_REV` 4.42.1.
+- Teste noi: `test/matrix.test.js` (7). `npm run test:full`: 431/431 + golden 42/42. Verificat în Chromium: lista de sisteme și cotele Matrix în distintă.
+- Rămâne de făcut: devizul pune la glisiere prețul articolului ales în catalog și pentru sistemele metalice (Legrabox, Tandembox, Matrix). Prețul pe sistem sau pe corp ține de U.2.
+- `SW_CACHE`/`CACHE` → `ebanist-v96`.
+
 ## 4.42.0 — 7 octombrie 2026
 
 **Raft extractibil** (ROADMAP U.12). Cerut de același tester: în tronsonul pentru aparatură (lampă UV, freză), raftul trebuie să iasă pe glisiere.

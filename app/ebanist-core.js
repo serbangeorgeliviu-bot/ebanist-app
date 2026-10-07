@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.37.2";
+var CORE_REV = "4.42.1";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -119,7 +119,9 @@ var SLIDE_CATALOG = {
   blum_movento: { brand: "Blum",   rear: 12,   ded_lat: 42 },
   blum_230m:    { brand: "Blum",   rear: 12.5, ded_lat: 25 },
   haf_ball:     { brand: "Hafele", rear: 10,   ded_lat: 26 },
-  haf_matrix:   { brand: "Hafele", rear: 12,   ded_lat: 75 },
+  /* Matrix Box P: catalogo Häfele DGH-M 2021, MB 9.8–9.9 — profondita minima
+     del vano NL + 3, fondo largo luce interna − 62 (31 mm per lato) */
+  haf_matrix:   { brand: "Hafele", rear: 3,    ded_lat: 62 },
   nessuno:      { brand: "-",      rear: 0,    ded_lat: 0 }
 };
 function slideById(id) { return SLIDE_CATALOG[id] || SLIDE_CATALOG.blum_tandem; }

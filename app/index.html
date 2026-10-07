@@ -2242,7 +2242,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
    caricato non e la revisione che questa pagina si aspetta, se ne scarica
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
-if(window.CORE_REV!=="4.37.2") document.write('<script src="./ebanist-core.js?rev=4.37.2"><\/script>');
+if(window.CORE_REV!=="4.42.1") document.write('<script src="./ebanist-core.js?rev=4.42.1"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-au-i18n.js"></script>
@@ -5500,11 +5500,22 @@ const DRAWSYS={
     baseW:-75, baseL:-24, backW:-87, backOff:26, sideTh:16,
     nl:[270,300,350,400,450,500,550,600],
     rear:12, lift:13, headroom:24, chk:1},
+  /* Häfele Matrix Box P, dal catalogo Häfele DGH-M 2021 (MB 9.8–9.9):
+     fondo da 16 = (NL − 3) × (luce interna − 62), retro largo uguale e alto
+     53 / 69 / 92 mm sulle sponde da 60 / 92 / 115; profondita minima del
+     vano NL + 3. Le sponde da 60 esistono solo da 400 a 550 di NL. */
+  matrix:{id:"matrix",metal:1,brand:"Häfele",guida:"haf_matrix",
+    n:{it:"Häfele Matrix Box P",ro:"Häfele Matrix Box P",en:"Häfele Matrix Box P",fr:"Häfele Matrix Box P"},
+    hs:{"60":60,"92":92,"115":115},
+    backHs:{"60":53,"92":69,"115":92},
+    baseW:-62, baseL:-3, backW:-62, sideTh:15,
+    nl:[270,300,350,400,450,500,550,600,650],
+    rear:3, lift:13, headroom:24, chk:1},
   nessuno:{id:"nessuno",metal:0,none:1,
     n:{it:"Solo frontale",ro:"Doar frontul",en:"Front only",fr:"Façade seule"},
     nl:[], rear:0, lift:0, minFront:60}
 };
-const DRAWSYS_IDS=["legno","legrabox","tandembox","nessuno"];
+const DRAWSYS_IDS=["legno","legrabox","tandembox","matrix","nessuno"];
 /* il vassoio estraibile in legno: frontale virtuale da 115 => sponde da 70 mm */
 const PULL_FH=115;
 function drawSys(id){ return DRAWSYS[id]||DRAWSYS.legno; }
@@ -5512,6 +5523,10 @@ function drawSys(id){ return DRAWSYS[id]||DRAWSYS.legno; }
    sotto-montata Blum 21 mm per lato, a sfere 13, a rulli 12,5. */
 function woodDed(){
   const gid=((state.settings||{}).hwProd||{}).guida||"blum_tandem";
+  /* una tabella sola: quella di ebanist-core.js, la stessa che usa il
+     controllo di chiusura. Prima qui c'era una copia, e sulla Matrix Box la
+     cassa usciva 50 mm piu larga di quanto il controllo si aspettava. */
+  if(typeof slideById==="function") return slideById(gid).ded_lat;
   return /tandem|movento/.test(gid)?42:/ball/.test(gid)?26:25;
 }
 const DRAW_GAP=3;          // luce fra due frontali di cassetto
@@ -5610,7 +5625,7 @@ function drawerPlan(cfg,g){
     if(want&&sys.hs[want]>out.minH-sys.headroom) warn.push({k:"wDrawFront",h:want,need:Math.ceil(sys.hs[want]+sys.headroom)});
     if(!out.hcode){ warn.push({k:"wDrawFront",h:codes[0],need:Math.ceil(sys.hs[codes[0]]+sys.headroom)}); out.ok=0; return out; }
     out.sideH=sys.hs[out.hcode];
-    out.backH=Math.round(sys.hs[out.hcode]-sys.backOff);
+    out.backH=sys.backHs?sys.backHs[out.hcode]:Math.round(sys.hs[out.hcode]-sys.backOff);
   }else if(!sys.none){
     out.sideH=Math.max(70,Math.round(out.minH-45));
     out.boxL=out.nl;
@@ -7690,7 +7705,11 @@ function renderDrawUI(sysId,hcode){
   const cur=sysId||sel.value||"legno";
   sel.innerHTML=DRAWSYS_IDS.map(id=>{
     const s=DRAWSYS[id], nm=(s.n&&(s.n[state.lang]||s.n.it))||id;
-    return `<option value="${id}"${id===cur?" selected":""}>${esc(nm)}${s.chk?" ·":""}</option>`;
+    /* la cassa in legno corre sulla guida scelta in Catalogo: si scrive
+       qui, altrimenti sembra che il catalogo non arrivi al generatore */
+    const gd=(id==="legno"&&typeof hwItem==="function")?hwItem("guida"):null;
+    const lbl=nm+(gd&&gd.name?" · "+gd.name.replace(/\s*\((cp|per|pair|paire|set|kit)\.?\)\s*$/i,""):"");
+    return `<option value="${id}"${id===cur?" selected":""}>${esc(lbl)}${s.chk?" ·":""}</option>`;
   }).join("");
   const sys=drawSys(cur);
   const hSel=$("bDrawH");
@@ -12757,12 +12776,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.42.0"; /* APP_VER-MARKER */
+const APP_VER="4.42.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v95";
+const SW_CACHE="ebanist-v96";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
