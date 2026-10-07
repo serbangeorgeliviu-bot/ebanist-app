@@ -8,6 +8,12 @@
 # care schimbă numai site-ul de prezentare, documentele sau testele. ebanist.com
 # publică mereu. La orice dubiu (fără commit anterior, git eșuează) se publică.
 [ "${SITE_NAME:-}" = "whimsical-wisp-61cbbf" ] || exit 1
+# Aplicația Android ținută pe loc: cât există `netlify/android-hold`, proiectul
+# Android nu publică NIMIC, iar o funcție nouă ajunge numai pe ebanist.com.
+# Se ridică ștergând fișierul; commit-ul acela atinge `netlify/`, deci publică.
+if [ -f netlify/android-hold ]; then
+  echo "ignore-build: android-hold → sare peste ${SITE_NAME}"; exit 0
+fi
 [ -n "${CACHED_COMMIT_REF:-}" ] && [ -n "${COMMIT_REF:-}" ] || exit 1
 changed=$(git diff --name-only "$CACHED_COMMIT_REF" "$COMMIT_REF" 2>/dev/null) || exit 1
 [ -n "$changed" ] || exit 1

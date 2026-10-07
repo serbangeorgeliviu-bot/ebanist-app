@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.41.0 — 7 octombrie 2026
+
+**Număr de sertare diferit pe fiecare secțiune** (ROADMAP U.11). Un tester din Italia face un mobilier pentru un salon de estetică, cu patru tronsoane: câte 4 sertare în primele două, 3 în al treilea, 1 sertar cu raft deasupra în al patrulea. „Cassetti/sez.” era un singur număr pentru toate secțiunile, așa că devizul se făcea din corpuri separate, cu laterale duble în loc de despărțitori.
+
+- Formular: sub „Cassetti/sez.” apare „Cassetti per sezione”, cu un câmp pentru fiecare secțiune care primește sertare. Câmp gol = valoarea comună, 0 = secțiunea rămâne fără sertare. Se salvează ca `cfg.secDrawers`.
+- Motor (`buildCore`): un `drawerPlan` pentru fiecare număr de sertare, iar secțiunile cu același număr îl împart. Rândurile identice din distintă se adună. Raftul de deasupra unei secțiuni „cassetti + ripiani” pornește de deasupra sertarelor ei. Rezultatul are în plus `draws` (un plan pe grup); `draw` rămâne primul plan.
+- Feroneria se numără din fronturi, deci glisierele urmează singure. Linia de informație și fișa de montaj scriu câte o linie pentru fiecare plan („Sez. 1, 2 (4×): …”).
+- Asistentul AI știe de `secDrawers`.
+- Un proiect fără `secDrawers` generează aceeași distintă, rând cu rând (D-39); testul o verifică.
+- Teste noi: `test/secdrawers.test.js` (14). `npm run test:full`: 413/413 + golden 42/42. Verificat în Chromium pe aplicația reală: 4 / 4 / 3 / 0 în formular, în 3D și în distintă.
+- **Numai pe ebanist.com.** `netlify/android-hold` oprește deploy-urile proiectului Android (whimsical-wisp), care rămâne pe 4.40.8 până după aprobarea Google Play.
+- `SW_CACHE`/`CACHE` → `ebanist-v94`.
+
 ## 4.40.8 — 6 octombrie 2026
 
 **Dulapul cu uși glisante se deschide.** „Apri” rămânea fără efect la uși glisante, în vizualizarea 3D a configuratorului, în previzualizare și în Modul Client. Rotația pornea numai de la ușile cu balamale (`sub:"door"`, cu pivot), iar ușile glisante (`sub:"slide"`) nu au balamale. Raportat de un client Pro.

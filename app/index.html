@@ -1449,6 +1449,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fDrawSys">Sistema cassetto</label>
             <select id="bDrawSys"></select></div>
         </div>
+        <div class="f" id="secDrawWrap" style="display:none"><label data-i="fSecDrawers">Cassetti per sezione</label>
+          <div class="chips" id="secDrawBox"></div>
+          <p class="mini" id="secDrawHint" style="margin-top:4px"></p>
+        </div>
         <div id="drawWrap" style="display:none">
           <div class="f3">
             <div class="f"><label data-i="fDrawPos">Posizione</label>
@@ -2338,7 +2342,7 @@ Object.assign(I18N.it,{
   dstFix:"Fisse",dstEq:"Uguali",dstKit:"Cucina (uno basso in alto)",
   dwAuto:"Automatica",dwSide:"sponda",dwFronts:"frontali",dwBase:"fondo",dwBack:"retro",
   dwBox:"cassa",dwInner:"interno, arretrato",
-  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",
+  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
   wDrawRoom:"I cassetti non ci stanno in altezza: riduci il numero o alza la zona.",
   wDrawOver:"La colonna di cassetti sborda di {mm} mm oltre il fronte.",
   wDrawDeep:"Mobile troppo poco profondo per questo sistema: restano {mm} mm utili, la guida piu corta ne vuole {min}.",
@@ -2357,7 +2361,7 @@ Object.assign(I18N.ro,{
   dstFix:"Fixe",dstEq:"Egale",dstKit:"Bucătărie (unul mic sus)",
   dwAuto:"Automată",dwSide:"laterală",dwFronts:"fronturi",dwBase:"fund",dwBack:"spate",
   dwBox:"cutie",dwInner:"interior, retras",
-  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",
+  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
   wDrawRoom:"Sertarele nu încap pe înălțime: scade numărul sau mărește zona.",
   wDrawOver:"Coloana de sertare depășește frontul cu {mm} mm.",
   wDrawDeep:"Corpul e prea puțin adânc pentru sistemul ăsta: rămân {mm} mm utili, cea mai scurtă glisieră cere {min}.",
@@ -2376,7 +2380,7 @@ Object.assign(I18N.en,{
   dstFix:"Fixed",dstEq:"Equal",dstKit:"Kitchen (one shallow on top)",
   dwAuto:"Automatic",dwSide:"side",dwFronts:"fronts",dwBase:"base",dwBack:"back",
   dwBox:"box",dwInner:"inner, set back",
-  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",
+  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
   wDrawRoom:"The drawers do not fit in height: lower the count or raise the zone.",
   wDrawOver:"The drawer stack overruns the front by {mm} mm.",
   wDrawDeep:"Cabinet too shallow for this system: {mm} mm usable, the shortest runner needs {min}.",
@@ -2395,7 +2399,7 @@ Object.assign(I18N.fr,{
   dstFix:"Fixes",dstEq:"Égales",dstKit:"Cuisine (un bas en haut)",
   dwAuto:"Automatique",dwSide:"côté",dwFronts:"façades",dwBase:"fond",dwBack:"dos",
   dwBox:"caisse",dwInner:"intérieur, en retrait",
-  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",
+  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
   wDrawRoom:"Les tiroirs ne tiennent pas en hauteur : réduisez le nombre ou augmentez la zone.",
   wDrawOver:"La colonne de tiroirs dépasse la façade de {mm} mm.",
   wDrawDeep:"Meuble trop peu profond pour ce système : {mm} mm utiles, la coulisse la plus courte en demande {min}.",
@@ -5204,6 +5208,7 @@ const PRESETS = {
 let buildCfg = {...PRESETS.armadio};
 let buildObst=[];   // ostacoli portati dal rilievo nel generatore
 let buildSecMode=null;  // contenuto scelto per ogni sezione
+let buildSecDrawers=null;  // cassetti per sezione (U.11): null = tutte come «Cassetti/sez.»
 let buildFormReady=false;
 const MAT_ACC="Accessorio — asta appendiabiti ovale";
 const MAT_PIED="Accessorio — piedino regolabile";
@@ -6022,7 +6027,15 @@ function buildCore(cfg){
   const frontY0=pl, frontH_all=H-pl;
   const sliding=cfg.type==="scorrevole"&&cfg.doors>0;
   const flaggedD=secIdx.filter(si=>isDrawSec(secMode(si)));
-  const dSecs=(cfg.drawers>0&&!sliding&&!PT)?(flaggedD.length?flaggedD:secIdx.slice()):[];
+  /* QUANTI CASSETTI IN OGNI SEZIONE (U.11). `secDrawers[si]` vuoto = vale
+     «Cassetti/sez.», 0 = la sezione resta senza. Un progetto che non lo ha
+     genera esattamente la distinta di prima: un solo piano per tutte. */
+  const secDN=si=>{
+    const v=Array.isArray(cfg.secDrawers)?cfg.secDrawers[si]:null;
+    const x=(v==null||v==="")?+(cfg.drawers||0):+v;
+    return isFinite(x)?Math.max(0,Math.min(8,Math.round(x))):0;
+  };
+  const dSecs=(cfg.drawers>0&&!sliding&&!PT)?(flaggedD.length?flaggedD:secIdx.slice()).filter(si=>secDN(si)>0):[];
   /* A VISTA o DIETRO L'ANTA: e una scelta, non una deduzione.
      "auto" tiene la regola vecchia — sezione dichiarata a cassetti piu ante
      uguale cassetti interni — cosi i progetti gia salvati non si spostano.
@@ -6034,10 +6047,19 @@ function buildCore(cfg){
      stanno accanto. Le ante allora coprono le sezioni che restano. */
   const dBeside=!dInner&&flaggedD.length>0&&flaggedD.length<n;
   const doorSecs=dBeside?secIdx.filter(si=>dSecs.indexOf(si)<0):secIdx.slice();
-  const dPlan=dSecs.length?drawerPlan(cfg,{y0:frontY0,frontH:frontH_all,
+  /* un piano per ogni numero di cassetti, le sezioni uguali lo condividono.
+     `dGroups` nell'ordine della prima sezione che lo usa: con un solo numero
+     c'e un solo gruppo, e tutto quello che segue fa i conti di sempre. */
+  const dGroups=[];
+  dSecs.forEach(si=>{ const N=secDN(si);
+    let g=dGroups.find(x=>x.N===N);
+    if(!g){ g={N,secs:[],plan:drawerPlan(Object.assign({},cfg,{drawers:N}),{y0:frontY0,frontH:frontH_all,
       fill:(cfg.doors===0&&cfg.shelves===0&&!cfg.hang),secW,depth:P-intZ0,inner:dInner,
-      tFront:tA,tBox:tF}):null;
-  const dTop=(dPlan&&dPlan.ok)?dPlan.top:frontY0;
+      tFront:tA,tBox:tF})}; dGroups.push(g); }
+    g.secs.push(si); });
+  const planOf=si=>{ const g=dGroups.find(x=>x.secs.indexOf(si)>=0); return g?g.plan:null; };
+  const dPlan=dGroups.length?dGroups[0].plan:null;
+  const dTopOf=si=>{ const p=planOf(si); return (p&&p.ok)?p.top:frontY0; };
 
   let shSqueeze=0;
   const shBot=intY0;
@@ -6046,12 +6068,14 @@ function buildCore(cfg){
   const shCache={};
   const shelfYs=(mode,si)=>{
     if(PT||cfg.shelves<=0||(mode!=="shelf"&&mode!=="hangShelf"&&mode!=="drawerShelf")) return [];
-    /* la sezione a cassetti ha un fondo suo: la cache si tiene per modo,
-       e il modo dei cassetti ha una sola geometria possibile. */
-    if(shCache[mode]) return shCache[mode];
+    /* la sezione a cassetti ha un fondo suo: la cache si tiene per modo e,
+       per i cassetti, per il loro piano — tre cassetti finiscono piu in basso
+       di quattro. */
+    const ck=mode==="drawerShelf"?mode+":"+dTopOf(si):mode;
+    if(shCache[ck]) return shCache[ck];
     let top=intY1, bot=shBot;
     if(mode==="hangShelf"){ top=railY-hangGap; if(top<intY0+120){ top=intY1; shSqueeze=1; } }
-    if(mode==="drawerShelf"){ bot=Math.max(shBot,dTop+DRAW_GAP); if(top-bot<120) return (shCache[mode]=[]); }
+    if(mode==="drawerShelf"){ bot=Math.max(shBot,dTopOf(si)+DRAW_GAP); if(top-bot<120) return (shCache[ck]=[]); }
     const even=cfg.shelfEven===0?false:true;
     const step=Math.max(60,+(cfg.shelfStep||320));
     const lim=top-tR/2-2, out=[];
@@ -6063,11 +6087,11 @@ function buildCore(cfg){
       if(y-prev<tR+MINCLR) break;
       out.push(y);
     }
-    return (shCache[mode]=out);
+    return (shCache[ck]=out);
   };
   const shelfSecs=secIdx.filter(si=>shelfYs(secMode(si),si).length>0);
   const hangSecs=PT?[]:secIdx.filter(si=>{const m=secMode(si); return m==="hang"||m==="hangShelf";});
-  const shYs=shelfSecs.length?shelfYs(secMode(shelfSecs[0])):[];
+  const shYs=shelfSecs.length?shelfYs(secMode(shelfSecs[0]),shelfSecs[0]):[];
   const shMissing=cfg.shelves>0&&shelfSecs.length?cfg.shelves-shYs.length:0;
   if(shelfSecs.length){
     const shName=shelfFix?"Ripiano fisso":"Ripiano mobile", play=shelfFix?0:G.in.clearance_ripiano;
@@ -6075,14 +6099,14 @@ function buildCore(cfg){
     const secOL=s=>(s===0)?shSpan*cotL:0, secOR=s=>(s===n-1)?shSpan*cotR:0;
     /* si raggruppa in una riga sola solo se TUTTE le sezioni con ripiani hanno lo stesso
        contenuto: altrimenti il conteggio a moltiplicazione sarebbe sbagliato. */
-    const modes={}; shelfSecs.forEach(si=>{modes[secMode(si)]=1;});
+    const modes={}; shelfSecs.forEach(si=>{modes[secMode(si)+"|"+shelfYs(secMode(si),si).join()]=1;});
     const perSec=isAng(angL)||isAng(angR)||shelfSecs.length<n||Object.keys(modes).length>1;
     if(perSec){
       shelfSecs.forEach(si=>{
         const T=trapz(secW,secOL(si),secOR(si));
-        add(shName+(n>1?` sez.${si+1}`:""),Math.floor(T.bound-play),intD,shelfYs(secMode(si)).length,"1L",null,
+        add(shName+(n>1?` sez.${si+1}`:""),Math.floor(T.bound-play),intD,shelfYs(secMode(si),si).length,"1L",null,
             {cuts:[],angL:(si===0)?angL:null,angR:(si===n-1)?angR:null,role:"ripiano",
-             ys:shelfYs(secMode(si)).slice()});
+             ys:shelfYs(secMode(si),si).slice()});
       });
     } else add(shName,Math.floor(secW-play),intD,shYs.length*n,"1L",null,{cuts:[],role:"ripiano",ys:shYs.slice()});
     bxRole="ripiano";
@@ -6092,7 +6116,7 @@ function buildCore(cfg){
        dei fianchi, e il Modello di Operazioni e la fisa de montaj leggevano
        471,5 dove la distinta e le etichette dicono 469. */
     shelfSecs.forEach(si=>{ const sx0=tF+si*(secW+tD), g=(secW-Math.floor(secW-play))/2;
-      shelfYs(secMode(si)).forEach(y=>bx(sx0+g,sx0+secW-g,y-tR/2,y+tR/2,intZ0,P-20,"p",secOL(si),-secOR(si))); });
+      shelfYs(secMode(si),si).forEach(y=>bx(sx0+g,sx0+secW-g,y-tR/2,y+tR/2,intZ0,P-20,"p",secOL(si),-secOR(si))); });
   }
   // asta appendiabiti (accessorio, non entra nei m² dei pannelli)
   if(hangSecs.length){
@@ -6112,36 +6136,46 @@ function buildCore(cfg){
   let drawersTop=frontY0;
   {
     const inner=dInner;
-    const nd=dSecs.length;
-    if(dPlan&&dPlan.ok&&nd){
-      const sys=dPlan.sys, N=dPlan.N;
-      const inset=inner?dPlan.inset:0;
+    /* solo i gruppi il cui piano sta in piedi: un numero che non entra nella
+       sezione lascia il suo avviso e la sezione vuota, non ferma le altre. */
+    const okG=dGroups.filter(g=>g.plan&&g.plan.ok);
+    if(okG.length){
+      const sys=okG[0].plan.sys;
+      const inset=inner?okG[0].plan.inset:0;
       const fW=inner?(secW-8):((frontW-4-3*(cfg.tram||0))/n);
       /* `drawersTop` e la quota da cui possono partire le ante. Sale solo se i
          cassetti stanno DAVANTI a loro: dietro l'anta, o accanto in un'altra
-         sezione, l'anta resta intera. */
-      drawersTop = (inner||dBeside) ? frontY0 : dPlan.top;
+         sezione, l'anta resta intera. Con piani diversi comanda il piu alto. */
+      drawersTop = (inner||dBeside) ? frontY0 : Math.max.apply(null,okG.map(g=>g.plan.top));
       /* --- distinta --- */
       const fname=(inner?"Frontale cassetto interno":(push?"Frontale cassetto push":"Frontale cassetto"));
       /* altezze diverse => righe diverse: un conteggio a moltiplicazione con
-         altezze disuguali sarebbe una distinta falsa. */
-      const byH={}; dPlan.fronts.forEach(f=>{ byH[Math.round(f.h)]=(byH[Math.round(f.h)]||0)+1; });
+         altezze disuguali sarebbe una distinta falsa. Le altezze uguali di due
+         gruppi diversi stanno nella stessa riga. */
+      const byH={}; okG.forEach(g=>g.plan.fronts.forEach(f=>{ const k=Math.round(f.h); byH[k]=(byH[k]||0)+g.secs.length; }));
       Object.keys(byH).map(Number).sort((a,b)=>a-b).forEach(h=>{
-        add(fname,h,fW,byH[h]*nd,"2L+2C",null,{role:"cassetto_frontale"}); });
+        add(fname,h,fW,byH[h],"2L+2C",null,{role:"cassetto_frontale"}); });
       if(cfg.boxes!==0&&cfg.boxes!=="0"&&!sys.none){
-        if(sys.metal){
-          add("Fondo cassetto",dPlan.baseW,dPlan.baseL,N*nd,"",null,{role:"cassetto_fondo"});
-          add("Retro cassetto",dPlan.backW,dPlan.backH,N*nd,"1L",null,{role:"cassetto_fianco"});
-        }else{
-          add("Fianco cassetto",dPlan.nl,dPlan.sideH,2*N*nd,"1L",null,{role:"cassetto_fianco"});
-          add("Fronte/Retro cassetto",dPlan.boxIn,dPlan.sideH,2*N*nd,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}});
-          add("Fondo cassetto",dPlan.boxIn,dPlan.nl-20,N*nd,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"});
-        }
+        /* ogni tipo di pezzo della cassa, gruppo per gruppo; le righe con le
+           stesse cote si sommano invece di ripetersi */
+        const rowsOf=sys.metal
+          ?[p=>["Fondo cassetto",p.baseW,p.baseL,1,"",null,{role:"cassetto_fondo"}],
+            p=>["Retro cassetto",p.backW,p.backH,1,"1L",null,{role:"cassetto_fianco"}]]
+          :[p=>["Fianco cassetto",p.nl,p.sideH,2,"1L",null,{role:"cassetto_fianco"}],
+            p=>["Fronte/Retro cassetto",p.boxIn,p.sideH,2,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}],
+            p=>["Fondo cassetto",p.boxIn,p.nl-20,1,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"}]];
+        rowsOf.forEach(mk=>{
+          const acc=[];
+          okG.forEach(g=>{ const r=mk(g.plan), q=r[3]*g.plan.N*g.secs.length;
+            const same=acc.find(x=>x[1]===r[1]&&x[2]===r[2]);
+            if(same) same[3]+=q; else { r[3]=q; acc.push(r); } });
+          acc.forEach(r=>add.apply(null,r));
+        });
       }
       /* --- geometria: la cassa esiste anche in 3D, non solo in distinta ---
          Prima qui si disegnava solo il frontale: il cassetto in vista esplosa
          non c'era proprio, e un armadio "montato" mostrava scaffali vuoti. */
-      const drawBox=(sx0,si,i,f)=>{
+      const drawBox=(sx0,si,i,f,dPlan)=>{
         const grp=`d${si}_${i}`;
         const zF=P-inset;                       // filo anteriore del cassetto
         const yB=f.y0+sys.lift;                 // il fondo della cassa
@@ -6181,8 +6215,8 @@ function buildCore(cfg){
           bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp); // fondo
         }
       };
-      dSecs.forEach(si=>{ const sx0=tF+si*(secW+tD);
-        dPlan.fronts.forEach((f,i)=>drawBox(sx0,si,i,f)); });
+      okG.forEach(g=>g.secs.forEach(si=>{ const sx0=tF+si*(secW+tD);
+        g.plan.fronts.forEach((f,i)=>drawBox(sx0,si,i,f,g.plan)); }));
     }
   }
   if(hasFronts(cfg)){
@@ -6344,11 +6378,16 @@ function buildCore(cfg){
   let stepHit=0;
   if(trOn){
     const topStep=TR.H;
-    shelfSecs.forEach(si=>shelfYs(secMode(si)).forEach(y=>{ if(y-tR/2<topStep) stepHit++; }));
-    if(dPlan&&dPlan.ok&&dPlan.fronts.some(f=>f.y0<topStep)) stepHit++;
+    shelfSecs.forEach(si=>shelfYs(secMode(si),si).forEach(y=>{ if(y-tR/2<topStep) stepHit++; }));
+    if(dGroups.some(g=>g.plan&&g.plan.ok&&g.plan.fronts.some(f=>f.y0<topStep))) stepHit++;
   }
-  return {pieces,boxes,draw:dPlan,warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,stepHit,
-          drawWarn:(dPlan&&dPlan.warn&&dPlan.warn.length)?dPlan.warn:null}};
+  /* gli avvisi di tutti i piani, ognuno una volta sola */
+  const dW=[], dWk={};
+  dGroups.forEach(g=>(g.plan&&g.plan.warn||[]).forEach(w=>{ const k=JSON.stringify(w); if(!dWk[k]){ dWk[k]=1; dW.push(w); } }));
+  return {pieces,boxes,draw:dPlan,
+          draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan})),
+          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,stepHit,
+          drawWarn:dW.length?dW:null}};
 }
 
 /* --- dispatch: standard / scorrevole / angolare (due ali a L) --- */
@@ -7510,7 +7549,7 @@ function cfgFromForm(){
     angL:fAng("bAngL"), angR:fAng("bAngR"), obstacles:buildObst,
     bow:Math.min(200,v("bBow",0)), rcorner:Math.max(10,Math.min(400,v("bRc",60))),
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
-    secMode:buildSecMode,
+    secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers),
     /* il gradino vale solo con tutte e due le cote: una sola non e un gradino */
     stepH:Math.min(2000,v("bStepH",0)), stepP:Math.min(400,v("bStepP",0)),
     /* quello che il modulo non ha campi per mostrare viaggia col corpo: le cote
@@ -7562,7 +7601,7 @@ function syncBuildForm(){
   $("bBack").value=buildCfg.back?1:0; $("bHang").value=buildCfg.hang?1:0;
   $("bStepH").value=buildCfg.stepH||""; $("bStepP").value=buildCfg.stepP||"";
   buildObst=buildCfg.obstacles||[];
-  buildSecMode=buildCfg.secMode||null;
+  buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null;
   $("bHangGap").value=buildCfg.hangGap!=null?buildCfg.hangGap:1000;
   $("bShelfEven").value=buildCfg.shelfEven===0?"0":"1";
   $("bShelfStep").value=buildCfg.shelfStep||320;
@@ -7608,8 +7647,32 @@ function renderDrawUI(sysId,hcode){
 function drawInfoLine(cfg,built){
   const el=$("drawInfo"); if(!el) return;
   if(!(cfg.drawers>0)||!built){ el.textContent=""; return; }
-  const p=built.draw;
-  if(!p||!p.ok){ el.textContent=""; return; }
+  const gs=drawGroupsOf(built);
+  if(!gs.length){ el.textContent=""; return; }
+  el.textContent=gs.map(g=>(gs.length>1?drawSecTag(g)+": ":"")+drawInfoBits(g.plan).join(" · ")).join("  |  ");
+}
+/* i piani di sertare che stanno in piedi, uno per numero di cassetti (U.11).
+   Un modulo costruito prima di U.11 ha solo `draw`: un gruppo solo. */
+function drawGroupsOf(built){
+  if(!built) return [];
+  const gs=Array.isArray(built.draws)?built.draws:(built.draw?[{N:built.draw.N,secs:[],plan:built.draw}]:[]);
+  return gs.filter(g=>g.plan&&g.plan.ok);
+}
+/* le righe della fisa de montaj per la cassa: una per piano, con le sezioni
+   davanti quando i piani sono piu di uno */
+function drawSysLines(gs){
+  const out=[];
+  gs.forEach(g=>{ const dp=g.plan, pre=gs.length>1?drawSecTag(g)+": ":"";
+    const nm=(dp.sys.n&&(dp.sys.n[state.lang]||dp.sys.n.it))||dp.sysId;
+    const box=dp.sys.none?"":(dp.sys.metal
+      ? t("mDrawBoxM").replace("{bw}",dp.baseW).replace("{bl}",dp.baseL).replace("{kw}",dp.backW).replace("{kh}",dp.backH)
+      : t("mDrawBoxW").replace("{bw}",dp.boxW).replace("{bh}",dp.sideH).replace("{bl}",dp.nl));
+    out.push(pre+t("mDrawSys").replace("{s}",nm+(dp.hcode?" "+dp.hcode:"")).replace("{nl}",dp.nl).replace("{box}",box)); });
+  if(gs.length&&gs[0].plan.inner) out.push(t("mDrawInner").replace("{i}",gs[0].plan.inset));
+  return out;
+}
+function drawSecTag(g){ return t("secShort")+" "+g.secs.map(i=>i+1).join(", ")+" ("+g.N+"×)"; }
+function drawInfoBits(p){
   const bits=[];
   const nm=(p.sys.n&&(p.sys.n[state.lang]||p.sys.n.it))||p.sysId;
   bits.push(nm);
@@ -7621,7 +7684,7 @@ function drawInfoLine(cfg,built){
   else if(p.boxW) bits.push(t("dwBox")+" "+p.boxW+"×"+p.sideH+"×"+p.nl);
   bits.push(p.inner?(t("dwInner")+" −"+p.inset+" mm"):t("posVista").toLowerCase());
   if(p.sys.chk) bits.push(t("artCheck").replace(/^—\s*/,""));
-  el.textContent=bits.join(" · ");
+  return bits;
 }
 /* ordine utile: dal default si arriva subito a "solo asta" e poi a "solo ripiani" */
 const SEC_CYCLE=["hangShelf","hang","shelf","drawerShelf","drawers","empty"];
@@ -7641,6 +7704,43 @@ function renderSecChips(){
     const eff=arr[i]||((buildCfg.hang)?(buildCfg.shelves>0?"hangShelf":"hang"):(buildCfg.shelves>0?"shelf":"empty"));
     arr[i]=SEC_CYCLE[(SEC_CYCLE.indexOf(eff)+1)%SEC_CYCLE.length];
     buildSecMode=arr; buildCfg.secMode=arr;
+    drawPreview();
+  }));
+  renderSecDrawers();
+}
+/* U.11 — un numero di cassetti per ogni sezione che li riceve. Vuoto = come
+   «Cassetti/sez.», 0 = la sezione resta senza. Le sezioni che li ricevono
+   sono quelle del motore: le dichiarate a cassetti, o tutte se nessuna lo e. */
+function cleanSecDrawers(a){
+  if(!Array.isArray(a)) return null;
+  const o=a.map(v=>(v==null||v==="")?null:Math.max(0,Math.min(8,Math.round(+v)||0)));
+  return o.some(v=>v!=null)?o:null;
+}
+function renderSecDrawers(){
+  const wrap=$("secDrawWrap"), box=$("secDrawBox"); if(!wrap||!box) return;
+  const n=(buildCfg.tram||0)+1, def=+($("bDrawers").value||0);
+  const modes=(buildCfg.secMode||[]).slice(0,n);
+  const flagged=[]; for(let i=0;i<n;i++) if(modes[i]==="drawers"||modes[i]==="drawerShelf") flagged.push(i);
+  const secs=flagged.length?flagged:Array.from({length:n},(_,i)=>i);
+  const show=def>0&&n>1&&!hasPartitions(buildCfg)&&!(buildCfg.type==="scorrevole"&&+(buildCfg.doors||0)>0);
+  wrap.style.display=show?"":"none";
+  if(!show){ box.innerHTML=""; return; }
+  const cur=buildSecDrawers||[];
+  /* drawPreview ridisegna tutto a ogni tasto: se i campi sono gli stessi non
+     si ricostruiscono, altrimenti chi scrive perde il cursore */
+  const sig=state.lang+"|"+secs.join()+"|"+def+"|"+secs.map(i=>cur[i]!=null?cur[i]:"").join();
+  if(box.dataset.sig===sig) return;
+  box.dataset.sig=sig;
+  $("secDrawHint").textContent=t("secDrawHint");
+  box.innerHTML=secs.map(i=>`<label class="mini" style="display:inline-flex;align-items:center;gap:4px;margin-right:10px">${esc(t("secShort"))} ${i+1}
+    <input type="number" inputmode="numeric" min="0" max="8" data-sdr="${i}" placeholder="${def}" value="${cur[i]!=null?cur[i]:""}" style="width:56px"></label>`).join("");
+  box.querySelectorAll("[data-sdr]").forEach(inp=>inp.addEventListener("input",()=>{
+    const i=+inp.dataset.sdr, arr=(buildSecDrawers||[]).slice();
+    while(arr.length<n) arr.push(null);
+    arr[i]=inp.value.trim()===""?null:inp.value;
+    buildSecDrawers=cleanSecDrawers(arr); buildCfg.secDrawers=buildSecDrawers;
+    const c2=buildSecDrawers||[];
+    box.dataset.sig=state.lang+"|"+secs.join()+"|"+def+"|"+secs.map(j=>c2[j]!=null?c2[j]:"").join();
     drawPreview();
   }));
 }
@@ -7915,7 +8015,7 @@ function renderBuild(){
       $(id).addEventListener("change",()=>{ paintMatPicks(); renderMatRoles(); }));
     ["bDrawSys","bDrawDist","bDrawers","bDoors","bDrawPos"].forEach(id=>
       $(id).addEventListener("change",()=>renderDrawUI($("bDrawSys").value,$("bDrawH").value)));
-    $("bDrawers").addEventListener("input",()=>renderDrawUI($("bDrawSys").value,$("bDrawH").value));
+    $("bDrawers").addEventListener("input",()=>{ renderDrawUI($("bDrawSys").value,$("bDrawH").value); renderSecDrawers(); });
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
@@ -7963,7 +8063,7 @@ function presetAll(){
   return out;
 }
 function presetApply(p){
-  buildObst=[]; buildSecMode=p.cfg.secMode||null;
+  buildObst=[]; buildSecMode=p.cfg.secMode||null; buildSecDrawers=p.cfg.secDrawers||null;
   buildCfg={...p.cfg,name:p.name};
   syncBuildForm(); drawPreview();
 }
@@ -9010,15 +9110,8 @@ function assemblySteps(modName,hw,cfg,items){
     /* le quote della cassa in officina: senza queste il montatore le va a
        cercare in distinta riga per riga, e la lunghezza nominale della guida
        non e scritta da nessuna parte. */
-    let dp=null; try{ dp=buildModule(cfg).draw; }catch(e){}
-    if(dp&&dp.ok){
-      const nm=(dp.sys.n&&(dp.sys.n[state.lang]||dp.sys.n.it))||dp.sysId;
-      const box=dp.sys.none?"":(dp.sys.metal
-        ? t("mDrawBoxM").replace("{bw}",dp.baseW).replace("{bl}",dp.baseL).replace("{kw}",dp.backW).replace("{kh}",dp.backH)
-        : t("mDrawBoxW").replace("{bw}",dp.boxW).replace("{bh}",dp.sideH).replace("{bl}",dp.nl));
-      add(t("mDrawSys").replace("{s}",nm+(dp.hcode?" "+dp.hcode:"")).replace("{nl}",dp.nl).replace("{box}",box));
-      if(dp.inner) add(t("mDrawInner").replace("{i}",dp.inset));
-    }
+    let gs=[]; try{ gs=drawGroupsOf(buildModule(cfg)); }catch(e){}
+    drawSysLines(gs).forEach(x=>add(x));
   }
   if(hw.hwCern>0){ add(t("mDoors").replace("{q}",hw.hwCern),{hi:["anta"],show:[...CARC,"tram","zocc","rip","cass"]});
     const doorPieces=(items||[]).filter(x=>/^anta(?! scorrevole)/i.test(x.elemento)||/^montante anta/i.test(x.elemento));
@@ -9150,16 +9243,8 @@ function mSteps(M,hw,items){
     add(t("ms16").replace("{y}",mList(r.map(b=>b.y0))).replace("{l}",r.length?mMM(r[0].x1-r[0].x0-4):"—").replace("{p}",P("asta","hwAsta"))); }
   /* 7. cassetti */
   if(hw.hwGuida>0){
-    let dp=M.built.draw;
     add(t("ms17").replace("{n}",Math.round(hw.hwGuida)),{hi:["cass"],show:[...CARC,"tram","zocc","rip"]});
-    if(dp&&dp.ok){
-      const nm=(dp.sys.n&&(dp.sys.n[state.lang]||dp.sys.n.it))||dp.sysId;
-      const box=dp.sys.none?"":(dp.sys.metal
-        ? t("mDrawBoxM").replace("{bw}",dp.baseW).replace("{bl}",dp.baseL).replace("{kw}",dp.backW).replace("{kh}",dp.backH)
-        : t("mDrawBoxW").replace("{bw}",dp.boxW).replace("{bh}",dp.sideH).replace("{bl}",dp.nl));
-      add(t("mDrawSys").replace("{s}",nm+(dp.hcode?" "+dp.hcode:"")).replace("{nl}",dp.nl).replace("{box}",box));
-      if(dp.inner) add(t("mDrawInner").replace("{i}",dp.inset));
-    }
+    drawSysLines(drawGroupsOf(M.built)).forEach(x=>add(x));
     const J=G&&G.jocuri;
     add(t("ms18").replace("{g}",J?J.joc_frontale_laterale:4));
   }
@@ -11384,6 +11469,7 @@ secMode.length must equal tram+1.
 DRAWERS. "drawers" is the count PER SECTION. Where they go:
 - No section is marked "drawers"/"drawerShelf" => the drawers are external fronts, at the bottom, in EVERY section. This is a chest of drawers or a kitchen base.
 - At least one section marked "drawers"/"drawerShelf" => only those sections get them.
+- Different counts in different sections ("4 drawers in the first two, 3 in the third") => "secDrawers": one entry per section, left to right, length tram+1. null = that section uses "drawers", 0 = no drawers there. "drawers" stays the most common count. "base, 3 sections: 4 drawers, 4 drawers, 3 drawers" => tram=2, drawers=4, secDrawers=[null,null,3].
 "drawerPos" then decides where those fronts sit, and BOTH are normal joinery — pick from what he said, do not assume:
   interno = behind the doors. The engine sets them back by "drawerInset" mm so the hinge arm clears them, gives them no handle, and the doors keep their full height. "wardrobe with two doors and three drawers INSIDE on the right" => tram=1, secMode=["hang","drawers"], drawers=3, doors=2, drawerPos="interno".
   vista = on the facade, visible next to the doors. The doors then cover only the sections left over, at full height. "wardrobe with a hanging section and a visible drawer column on the right" => same fields but drawerPos="vista", doors=1. The drawer column must be at one END of the unit, not between two door sections.
@@ -11462,6 +11548,8 @@ function aiSchema(mode){
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
         secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:5,
           description:"Content of each section, left to right. Length must be tram+1."},
+        secDrawers:{type:"array",items:{type:["integer","null"],minimum:0,maximum:8},maxItems:5,
+          description:"Drawer count per section, left to right, only when the sections differ. null = use \"drawers\", 0 = none. Length must be tram+1."},
         backMode:{type:"string",enum:AI_ENUM.backMode,description:"incassato = between the sides, applicato = over everything (full width), in_cava = thin back in a groove."},
         shelfSetback:num(0,200),
         depthProfile:{type:"array",maxItems:4,description:"Depth by height zone, contiguous from 0 (floor) to H.",
@@ -11509,7 +11597,7 @@ function aiContext(mode){
     const c=cfgFromForm(), keep={};
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
      "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind",
-     "angL","angR","hangGap","shelfEven","shelfStep","secMode",
+     "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
      "backMode","partitions","fronts","depthProfile","customCuts"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
     if(c.geom&&c.geom.setback_ripiano!=null) keep.shelfSetback=c.geom.setback_ripiano;
@@ -11578,6 +11666,15 @@ function aiNormCfg(raw,warn){
     const arr=raw.secMode.filter(x=>AI_ENUM.secMode.indexOf(x)>=0);
     const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
     if(arr.length){ while(arr.length<n) arr.push(arr[arr.length-1]); out.secMode=arr.slice(0,n); }
+  }
+  if(Array.isArray(raw.secDrawers)){
+    const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
+    const arr=cleanSecDrawers(raw.secDrawers.slice(0,n));
+    out.secDrawers=arr;
+    /* «drawers» a 0 spegne tutti i cassetti: se il testo da solo i numeri per
+       sezione, il valore comune diventa il piu alto di loro */
+    const base=out.drawers!=null?out.drawers:(+buildCfg.drawers||0);
+    if(arr&&!(base>0)){ const mx=Math.max.apply(null,arr.map(v=>v||0)); if(mx>0) out.drawers=mx; }
   }
   aiNormAbs(raw,out,warn);
   return out;
@@ -12054,7 +12151,7 @@ function aiApply(){
   if(P.mode==="genera"&&P.cfg){
     /* aggiornamento parziale: solo le chiavi arrivate, il resto resta com'e' */
     buildCfg=aiMerge(cfgFromForm(),P.cfg);
-    buildSecMode=buildCfg.secMode||null;
+    buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null;
     buildObst=buildCfg.obstacles||[];
     syncBuildForm(); renderSecChips(); drawPreview();
     setView("build");
@@ -12549,12 +12646,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.40.8"; /* APP_VER-MARKER */
+const APP_VER="4.41.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v93";
+const SW_CACHE="ebanist-v94";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
