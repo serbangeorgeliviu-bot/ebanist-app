@@ -125,3 +125,26 @@ describe("Adancimea del cassetto (secDrawerNL)", () => {
     assert.equal(JSON.stringify(build({ ...BASE, secDrawerNL: [null, null] }).pieces), JSON.stringify(build(BASE).pieces));
   });
 });
+
+describe("Meno altezze che cassetti: quelle scritte stanno in alto (video del tester)", () => {
+  /* base 800, quattro cassetti, scrive solo «200» */
+  const B = build({ ...BASE, tram: 0, L: 600, drawers: 4, secDrawerH: [[200]] });
+  const p = B.b.draw;
+  test("restano 4 cassetti", () => assert.equal(p.N, 4));
+  test("in alto il 200, sotto tre uguali che riempiono il resto", () => {
+    const h = arr(p.fronts).map(f => f.h);           // dal basso
+    assert.equal(h[3], 200);
+    assert.ok(Math.abs(h[0] - h[1]) < 0.01 && Math.abs(h[1] - h[2]) < 0.01, JSON.stringify(h));
+    const full = build({ ...BASE, tram: 0, L: 600, drawers: 4 }).b.draw;
+    const span = f => f.fronts[f.fronts.length - 1].y0 + f.fronts[f.fronts.length - 1].h - f.fronts[0].y0;
+    assert.ok(Math.abs(span(p) - span(full)) < 0.01, "la colonna non occupa la stessa zona");
+  });
+  test("chiusura e invarianti", () => {
+    assert.deepEqual(B.close(), []);
+    assert.deepEqual(B.ko(), []);
+  });
+  test("«Fisse»: i cassetti che mancano prendono l'altezza fissa", () => {
+    const F = build({ ...BASE, tram: 0, L: 600, drawers: 3, drawerDist: "fix", drawerFH: 180, secDrawerH: [[120]] });
+    assert.deepEqual(arr(F.b.draw.fronts).map(f => f.h), [180, 180, 120]);
+  });
+});

@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.44.2 — 7 octombrie 2026
+
+**Mai puține înălțimi decât sertare: cele scrise sunt sus, restul umple spațiul.** Feedback de la testerul IT, pe video. Într-o secțiune cu 4 sertare a scris „200” și i-a rămas un singur sertar. A găsit singur ocolișul „200+200+200+200”, dar „un tâmplar obișnuit n-ar ghici”.
+
+- Numărul de sertare rămâne cel din câmp (sau „Cassetti/sez.”). Înălțimile scrise sunt ale sertarelor de sus, de sus în jos. Sertarele rămase se pun dedesubt și își împart spațiul rămas din zonă, cu „Uguali”, sau iau înălțimea fixă, cu „Fisse”. Dacă sunt mai multe înălțimi decât sertare, crește numărul. Câmpul de număr nu se mai dezactivează.
+- „200” pe 4 sertare, zonă 640 → 200 / 142 / 142 / 142, fiecare cutie urmând frontul ei.
+- Textul de ajutor și asistentul AI spun regula nouă.
+- Teste: `drawerh.test.js` +4. `test:full` 450/450 + golden 42/42, e2e 427/427. Verificat în Chromium pe cazul din video.
+- `SW_CACHE`/`CACHE` → `ebanist-v101`.
+
 ## 4.44.1 — 7 octombrie 2026
 
 **Lateralele LEGRABOX intră în catalog și în deviz.** Până acum, un sertar LEGRABOX intra în deviz numai cu glisiera MOVENTO. Lateralele metalice se cumpără separat și lipseau din preț.
