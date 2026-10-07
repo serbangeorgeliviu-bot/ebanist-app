@@ -1459,7 +1459,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const ign = (env) => require("child_process").spawnSync("bash", [path.join(ROOT, "netlify/ignore-build.sh")], { cwd: ROOT, env: { ...process.env, ...env } }).status;
       ok("netlify.toml usa netlify/ignore-build.sh", /ignore = "bash netlify\/ignore-build\.sh"/.test(toml));
       ok("ebanist.com pubblica sempre (ignore → 1)", ign({ SITE_NAME: "ebanist-com", CACHED_COMMIT_REF: "HEAD~1", COMMIT_REF: "HEAD" }) === 1);
-      ok("progetto Android senza commit precedente → pubblica", ign({ SITE_NAME: "whimsical-wisp-61cbbf", CACHED_COMMIT_REF: "", COMMIT_REF: "HEAD" }) === 1);
+      /* `netlify/android-hold` (D-67): finche c'e, il progetto Android non pubblica niente */
+      if (fs.existsSync(path.join(ROOT, "netlify/android-hold")))
+        ok("android-hold → il progetto Android salta ogni deploy", ign({ SITE_NAME: "whimsical-wisp-61cbbf", CACHED_COMMIT_REF: "", COMMIT_REF: "HEAD" }) === 0);
+      else
+        ok("progetto Android senza commit precedente → pubblica", ign({ SITE_NAME: "whimsical-wisp-61cbbf", CACHED_COMMIT_REF: "", COMMIT_REF: "HEAD" }) === 1);
     }
     ok("nessuna regola `Language` in netlify.toml (la CDN ignora il cookie)", !/conditions = \{[^}]*Language/.test(toml));
     const edge = fs.readFileSync(path.join(ROOT, "netlify/edge-functions/lang.js"), "utf8");
@@ -1941,7 +1945,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
        con le stesse quantita della scheda di montaggio */
     const g = await fp.evaluate(() => {
       const p = proj(), S = state.settings;
-      const res = computeHardware(p, S, true), q = {}; res.items.forEach(i => q[i.k] = i.qty);
+      const res = computeHardware(p, S, true), q = {}; res.items.forEach(i => q[i.k] = (q[i.k] || 0) + i.qty);
       const d = document.createElement("div"); d.innerHTML = montDoc(p);
       const sec = d.querySelectorAll("section.m-mod");
       const qtyOf = (s, k) => { const nm = t(k); for (const tr of s.querySelectorAll("table.m-t")[1].querySelectorAll("tr"))

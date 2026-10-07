@@ -3100,6 +3100,21 @@ function hwItem(cat){ const S=state.settings, id=(S.hwProd||{})[cat]||((HWDB[cat
 /* Il «maniglia» scelto in catalogo e un profilo (gola)? Allora sul frontale
    non c'e niente da forare: ebanist-ops lo chiede qui. Il profilo resta nel
    preventivo; la gola vera (frontali accorciati, profilo a metro) e U.7. */
+/* un articolo preciso del catalogo, con i prezzi corretti dall'utente */
+function hwItemById(cat,id){
+  const it=(HWDB[cat]||[]).find(x=>x.id===id)||null;
+  if(!it) return hwItem(cat);
+  const eff=Object.assign({},it,((state.settings||{}).hwOvr||{})[it.id]||{});
+  eff.name=(it.n||{})[state.lang]||(it.n||{}).it||"";
+  return eff; }
+/* LA GUIDA DI UN CORPO. Sulla cassa in legno e quella scelta in Catalogo; un
+   sistema metallico si porta la sua (LEGRABOX su MOVENTO, TANDEMBOX su
+   TANDEM, Matrix Box col suo set). Prima il preventivo prezzava tutto con
+   la guida del catalogo, anche i cassetti metallici. */
+function guidaIdFor(cfg){
+  const sys=drawSys((cfg&&cfg.drawerSys)||"legno");
+  return (sys.metal&&sys.guida)?sys.guida:(((state.settings||{}).hwProd||{}).guida||((HWDB.guida||[])[0]||{}).id);
+}
 function handleIsProfile(){ try{ const it=hwItem("man"); return !!(it&&it.profile); }catch(e){ return false; } }
 /* ===== CATALOGO MATERIALI ================================================
  * Il catalogo NON sta piu nel codice. Sta in due file JSON, in /data/, e si
@@ -9200,7 +9215,7 @@ function hingePositions(doorH,n){
   return positionsHinges(doorH,n,hingeEdgeOffset());
 }
 function assemblySteps(modName,hw,cfg,items){
-  const P=(k,fallback)=>{ const it=hwItem(k); return it?`${it.brand} ${it.name} (${it.art})`:t(fallback); };
+  const P=(k,fallback)=>{ const it=k==="guida"?hwItemById("guida",guidaIdFor(cfg)):hwItem(k); return it?`${it.brand} ${it.name} (${it.art})`:t(fallback); };
   const st=[];
   const add=(txt,g)=>st.push({x:txt,g});
   const CARC=["lato","box"];
@@ -9318,7 +9333,7 @@ function mSteps(M,hw,items){
   const CARC=["lato","box"];
   const H=O?O.hw:[];
   const by=k=>H.filter(h=>h.type===k);
-  const P=(k,fb)=>{ const it=hwItem(k); return it?`${it.brand&&it.brand!=="—"?it.brand+" ":""}${it.name}${it.art&&it.art!=="—"?" ("+it.art+")":""}`:t(fb); };
+  const P=(k,fb)=>{ const it=k==="guida"?hwItemById("guida",guidaIdFor(M&&M.cfg)):hwItem(k); return it?`${it.brand&&it.brand!=="—"?it.brand+" ":""}${it.name}${it.art&&it.art!=="—"?" ("+it.art+")":""}`:t(fb); };
   const backMode=G&&G.in?G.in.backMode:(c.back?"in_cava":null);
   const tr=G&&G.treapta&&G.treapta.activa?G.treapta:null;
   /* 1. controllo del materiale */
@@ -9576,7 +9591,7 @@ function montDoc(p){
     }
     /* ferramenta, con i codici — il montatore la conta prima di cominciare */
     const CAT=HW_CAT_OF;
-    const hwRows=Object.keys(CAT).filter(k=>hw[k]>0).map(k=>{ const it=hwItem(CAT[k]);
+    const hwRows=Object.keys(CAT).filter(k=>hw[k]>0).map(k=>{ const it=k==="hwGuida"?hwItemById("guida",guidaIdFor(cfg)):hwItem(CAT[k]);
       return `<tr><td>${esc(t(k))}</td><td>${esc(it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):"—")}</td><td>${esc(it&&it.art&&it.art!=="—"?it.art:"—")}</td><td class="n"><b>${Math.round(hw[k])}</b></td><td class="m-box"></td></tr>`; });
     const nDw=M.ops?M.ops.hw.filter(h=>h.type==="tassello").length:0;
     if(nDw) hwRows.push(`<tr><td>${esc(t("hw_tassello"))}</td><td>Ø8×35</td><td>—</td><td class="n"><b>${nDw}</b></td><td class="m-box"></td></tr>`);
@@ -10300,6 +10315,11 @@ function computeHardware(p,S,byModule){
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   const bump=(mod,k,n)=>{ q[k]+=n; if(byModule){ (mods[mod]=mods[mod]||mk())[k]+=n; } };
+  /* le guide si contano per articolo: ogni corpo usa quella del suo sistema */
+  const gBy={}, modsG={};
+  const cfgOf=x=>{ const C=p.configs||{}, m=x.modulo||""; return C[x.gen]||C[m]||C[m.replace(/ [AB]$/,"")]||null; };
+  const bumpG=(x,mod,n)=>{ bump(mod,"hwGuida",n); const id=guidaIdFor(cfgOf(x));
+    gBy[id]=(gBy[id]||0)+n; if(byModule){ const o=(modsG[mod]=modsG[mod]||{}); o[id]=(o[id]||0)+n; } };
   for(const x of p.pieces){
     const el=(x.elemento||"").toLowerCase(), mod=x.modulo||"—";
     const push=el.includes("push");
@@ -10311,11 +10331,11 @@ function computeHardware(p,S,byModule){
       bump(mod,"hwCern",nA*hingeCount(hgt));
       bump(mod,push?"hwPush":"hwMan",nA); }
     else if(el.startsWith("piedino")){ bump(mod,"hwPied",x.pz); }
-    else if(el.startsWith("frontale cassetto")){ bump(mod,"hwGuida",x.pz);
+    else if(el.startsWith("frontale cassetto")){ bumpG(x,mod,x.pz);
       /* il cassetto interno sta dietro l'anta: si tira per il frontale,
          una maniglia li dentro urterebbe l'anta chiusa. */
       if(!el.includes("interno")) bump(mod,push?"hwPush":"hwMan",x.pz); }
-    else if(el.startsWith("fondo ripiano estraibile")){ bump(mod,"hwGuida",x.pz); }  // una coppia di guide per vassoio (U.12)
+    else if(el.startsWith("fondo ripiano estraibile")){ bumpG(x,mod,x.pz); }  // una coppia di guide per vassoio (U.12)
     else if(el.includes("ripiano mobile")||el.includes("ripiano regolabile")){ bump(mod,"hwSup",4*x.pz); }
     else if(el.includes("asta appendiabiti")){ bump(mod,"hwAsta",2*x.pz); }
     else if(el.startsWith("zoccolo")){ piedMods.add(mod); }
@@ -10333,10 +10353,18 @@ function computeHardware(p,S,byModule){
   for(const m of binMods) bump(m,"hwBin",1);
   for(const m of piedMods) bump(m,"hwPied",4);
   const CAT=HW_CAT_OF;
-  const items=KEYS.map(k=>{ const prod=hwItem(CAT[k]);
+  const items=[];
+  KEYS.forEach(k=>{
+    /* guide di articoli diversi: una riga per articolo, ognuna col suo prezzo */
+    if(k==="hwGuida"&&Object.keys(gBy).length){
+      Object.keys(gBy).forEach(id=>{ const prod=hwItemById("guida",id), price=prod?prod.price:(S[k]||0);
+        items.push({k,qty:gBy[id],price,tot:gBy[id]*price,prod}); });
+      return;
+    }
+    const prod=hwItem(CAT[k]);
     const price=prod?prod.price:(S[k]||0);
-    return {k,qty:q[k],price,tot:q[k]*price,prod}; });
-  return byModule?{items,mods}:items;
+    items.push({k,qty:q[k],price,tot:q[k]*price,prod}); });
+  return byModule?{items,mods,modsG}:items;
 }
 /* ---------- quanti pannelli si comprano davvero ----------
    Una percentuale di sfrido a occhio e una stima; l'ottimizzazione di taglio,
@@ -12776,12 +12804,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.42.1"; /* APP_VER-MARKER */
+const APP_VER="4.42.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v96";
+const SW_CACHE="ebanist-v97";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

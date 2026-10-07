@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.42.2 — 7 octombrie 2026
+
+**Glisierele în deviz, la prețul sistemului fiecărui corp.** Până acum devizul punea la toate glisierele articolul ales în Catalog, inclusiv la sertarele metalice.
+
+- `guidaIdFor(cfg)`: cutia de lemn folosește glisiera din Catalog; un sistem metalic își aduce articolul lui (LEGRABOX → MOVENTO, TANDEMBOX → TANDEM, Matrix Box → set Matrix Box P).
+- `computeHardware()` numără glisierele pe articol: un rând pentru fiecare articol, cu prețul lui (inclusiv prețul corectat de utilizator în Catalog). Fișa de montaj, tabelul de feronerie al fiecărui corp și pașii de montaj scriu articolul corpului respectiv.
+- Un proiect numai cu sertare de lemn are același deviz ca înainte. Proiectele cu LEGRABOX sau TANDEMBOX își schimbă prețul la glisiere: se trece de la articolul din catalog la cel al sistemului.
+- Rămâne: lateralele metalice LEGRABOX/TANDEMBOX nu sunt în catalog și nu intră în deviz. Matrix Box e set complet.
+- `run.js`: suma pe categorie adună rândurile; testul `ignore-build` știe de `android-hold` (D-67). Testul căzuse din 4.41.0. E2E 427/427, `test:full` 431/431 + golden 42/42. Verificat în Chromium cu trei corpuri (lemn / Matrix / Legrabox): trei rânduri, 51 + 66 + 75 €.
+- `SW_CACHE`/`CACHE` → `ebanist-v97`.
+
 ## 4.42.1 — 7 octombrie 2026
 
 **Glisierele din catalog, vizibile în Genera, și Häfele Matrix Box P ca sistem de sertar.** Bug raportat de testerul IT pe video: Setări → Catalog are 5 glisiere, dar „Sistema cassetto” arăta doar Legno / Legrabox / Tandembox / Solo frontale.
