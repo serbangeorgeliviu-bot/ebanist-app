@@ -19,7 +19,8 @@ import { getStore } from "@netlify/blobs";
 
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
-  "Cache-Control": "no-store"
+  "Cache-Control": "no-store",
+  "X-Robots-Tag": "noindex"
 };
 const ok = (b, s = 200) => new Response(JSON.stringify(b), { status: s, headers: JSON_HEADERS });
 const bad = (m, s = 400) => ok({ error: m }, s);

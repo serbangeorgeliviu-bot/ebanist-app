@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /a/
-Disallow: /order-rail/
+# /api/, /a/ și /order-rail/ NU se blochează aici: au X-Robots-Tag noindex
+# (netlify.toml + funcțiile). Un URL blocat aici Google nu-l citește, deci
+# nu vede noindex-ul și îl indexează oricum.
 Disallow: /.netlify/
 
 Sitemap: https://ebanist.com/sitemap.xml

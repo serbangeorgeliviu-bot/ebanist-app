@@ -37,7 +37,8 @@ import crypto from "node:crypto";
 
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
-  "Cache-Control": "no-store"
+  "Cache-Control": "no-store",
+  "X-Robots-Tag": "noindex"
 };
 
 const ok = (body, status = 200) =>

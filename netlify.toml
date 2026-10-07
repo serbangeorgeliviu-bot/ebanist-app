@@ -14,18 +14,39 @@
 # query string della funzione, e il GET risponde sempre "id mancante".
 
 # ---------------------------------------------------------------------
-# DOMINIO UFFICIALE: ebanist.com (D-41). ebanist.app resta solo come
-# redirect e si configura NEL PANNELLO NETLIFY, non qui: si aggiunge come
-# "domain alias" del sito, e Netlify manda da solo un 301 al dominio
-# primario. Un [[redirects]] non puo farlo — le condizioni di Netlify sono
-# Country/Language/Role/Cookie, non l'Host.
+# DOMINIO UFFICIALE: ebanist.com (D-41). ebanist.app e www.ebanist.app
+# sono "domain alias" del sito nel pannello Netlify, ma un alias NON fa
+# redirect da solo: serve la stessa pagina con 200 (verificato 07.10.2026,
+# Search Console vedeva due siti identici). Il 301 lo fanno le regole qui
+# sotto: Netlify accetta l'host intero nel `from` (domain-level redirect).
+# Devono stare PRIMA di tutte le altre, perche vince la prima che combacia.
+# whimsical-wisp (Android) pubblica lo stesso repo ma ha un altro host:
+# queste regole non lo toccano.
 #
 # Nota sul .app: e un TLD con HSTS preload obbligatorio, quindi il browser
 # NON prova nemmeno http://. Il certificato per l'alias lo emette Netlify
-# da solo, ma finche non c'e, ebanist.app non risponde affatto — non
-# "risponde male": non risponde. Prima si punta il DNS, poi si aspetta il
-# certificato.
+# da solo, ma finche non c'e, ebanist.app non risponde affatto.
 # ---------------------------------------------------------------------
+[[redirects]]
+  from = "https://ebanist.app/*"
+  to = "https://ebanist.com/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "http://ebanist.app/*"
+  to = "https://ebanist.com/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://www.ebanist.app/*"
+  to = "https://ebanist.com/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "http://www.ebanist.app/*"
+  to = "https://ebanist.com/:splat"
+  status = 301
+  force = true
 
 # ---------------------------------------------------------------------
 # ORDER RAIL — il link che il laboratorio da ai suoi clienti.
@@ -166,6 +187,31 @@
   for = "/app/sw.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# Indicizzare (Search Console, 07.10.2026):
+# - /app/ si apre anche come /app/?atelier=demo, ?lang=… ecc.: il canonical
+#   in header le riunisce in una sola pagina senza toccare l'app.
+# - Order Rail e /a/* non vanno nei risultati. NON si bloccano in robots.txt:
+#   un URL bloccato Google non lo legge, quindi non vede il noindex e lo
+#   indicizza lo stesso ("Indicizzata, anche se bloccata da robots.txt").
+#   Le API mettono X-Robots-Tag da sole (gli header di qui non arrivano
+#   alle risposte delle funzioni).
+[[headers]]
+  for = "/app/"
+  [headers.values]
+    Link = "<https://ebanist.com/app/>; rel=\"canonical\""
+[[headers]]
+  for = "/app/index.html"
+  [headers.values]
+    Link = "<https://ebanist.com/app/>; rel=\"canonical\""
+[[headers]]
+  for = "/order-rail/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+[[headers]]
+  for = "/a/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
 
 # Le immagini della presentazione: nomi non versionati, quindi una
 # settimana e non «immutable» — se si rifà uno screenshot, arriva.

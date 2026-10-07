@@ -56,6 +56,7 @@ export function serveHeaders(id, metadata) {
     "Content-Security-Policy": "default-src 'none'; sandbox",
     "Cache-Control": "public, max-age=3600",
     "Access-Control-Allow-Origin": "*",
+    "X-Robots-Tag": "noindex",
   };
 }
 
