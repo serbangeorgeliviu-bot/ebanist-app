@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.43.0 — 7 octombrie 2026
+
+**Înălțimea fiecărui sertar, scrisă de mână** (ROADMAP U.13). Cerut de testerul IT: un mobilier înalt de 80 cm, cu două sertare de mărimi diferite în aceeași secțiune.
+
+- Formular: în „Cassetti per sezione”, fiecare secțiune are un câmp de înălțimi, de sus în jos, de exemplu „200 / 450”. Câmpul apare și la un corp cu o singură secțiune. Când e completat, numărul de sertare al secțiunii vine din el, iar câmpul de număr se dezactivează. Se salvează ca `cfg.secDrawerH` (listă pe secțiune, de sus în jos).
+- Motor: `drawerPlan` primește înălțimile (`g.hs`) și nu le mai împarte din zonă. Dacă nu încap în front, apare avertismentul `wDrawOver`. **Fiecare cutie urmează frontul ei**: la lemn, front − 45; la metal, înălțimea cea mai mare din listă care încape. Asta se aplică numai înălțimilor scrise de mână; „Uguali”, „Fisse” și „cucina” rămân ca înainte.
+- Distinta: un rând pe sertar, apoi se adună rândurile cu aceleași cote. Când fronturile sunt egale, iese rândul unic de înainte. Linia de informație și fișa de montaj scriu cutia fiecărui sertar („cassa 530×155/405×550”). Asistentul AI știe de `secDrawerH`.
+- Un proiect fără `secDrawerH` dă aceeași distintă (testat).
+- Teste noi: `test/drawerh.test.js` (10). `test:full` 441/441 + golden 42/42, e2e 427/427. Verificat în Chromium: 1200 × 800, secțiunea 1 cu „200 / 450”, secțiunea 2 cu sertare egale (317 / 317).
+- `SW_CACHE`/`CACHE` → `ebanist-v98`.
+
 ## 4.42.2 — 7 octombrie 2026
 
 **Glisierele în deviz, la prețul sistemului fiecărui corp.** Până acum devizul punea la toate glisierele articolul ales în Catalog, inclusiv la sertarele metalice.
