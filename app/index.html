@@ -1444,6 +1444,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="chips" id="secModeChips"></div>
           <p class="mini" id="secModeHint" style="margin-top:4px"></p>
         </div>
+        <div class="f" id="secPullWrap" style="display:none"><label data-i="fSecPull">Ripiani estraibili</label>
+          <div class="chips" id="secPullBox"></div>
+          <p class="mini" id="secPullHint" style="margin-top:4px"></p>
+        </div>
         <div class="f2">
           <div class="f"><label data-i="fDrawersSec">Cassetti/sez.</label><input id="bDrawers" type="number" inputmode="numeric" min="0" max="8"></div>
           <div class="f"><label data-i="fDrawSys">Sistema cassetto</label>
@@ -2342,7 +2346,7 @@ Object.assign(I18N.it,{
   dstFix:"Fisse",dstEq:"Uguali",dstKit:"Cucina (uno basso in alto)",
   dwAuto:"Automatica",dwSide:"sponda",dwFronts:"frontali",dwBase:"fondo",dwBack:"retro",
   dwBox:"cassa",dwInner:"interno, arretrato",
-  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
+  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
   wDrawRoom:"I cassetti non ci stanno in altezza: riduci il numero o alza la zona.",
   wDrawOver:"La colonna di cassetti sborda di {mm} mm oltre il fronte.",
   wDrawDeep:"Mobile troppo poco profondo per questo sistema: restano {mm} mm utili, la guida piu corta ne vuole {min}.",
@@ -2361,7 +2365,7 @@ Object.assign(I18N.ro,{
   dstFix:"Fixe",dstEq:"Egale",dstKit:"Bucătărie (unul mic sus)",
   dwAuto:"Automată",dwSide:"laterală",dwFronts:"fronturi",dwBase:"fund",dwBack:"spate",
   dwBox:"cutie",dwInner:"interior, retras",
-  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
+  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
   wDrawRoom:"Sertarele nu încap pe înălțime: scade numărul sau mărește zona.",
   wDrawOver:"Coloana de sertare depășește frontul cu {mm} mm.",
   wDrawDeep:"Corpul e prea puțin adânc pentru sistemul ăsta: rămân {mm} mm utili, cea mai scurtă glisieră cere {min}.",
@@ -2380,7 +2384,7 @@ Object.assign(I18N.en,{
   dstFix:"Fixed",dstEq:"Equal",dstKit:"Kitchen (one shallow on top)",
   dwAuto:"Automatic",dwSide:"side",dwFronts:"fronts",dwBase:"base",dwBack:"back",
   dwBox:"box",dwInner:"inner, set back",
-  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
+  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
   wDrawRoom:"The drawers do not fit in height: lower the count or raise the zone.",
   wDrawOver:"The drawer stack overruns the front by {mm} mm.",
   wDrawDeep:"Cabinet too shallow for this system: {mm} mm usable, the shortest runner needs {min}.",
@@ -2399,7 +2403,7 @@ Object.assign(I18N.fr,{
   dstFix:"Fixes",dstEq:"Égales",dstKit:"Cuisine (un bas en haut)",
   dwAuto:"Automatique",dwSide:"côté",dwFronts:"façades",dwBase:"fond",dwBack:"dos",
   dwBox:"caisse",dwInner:"intérieur, en retrait",
-  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
+  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
   wDrawRoom:"Les tiroirs ne tiennent pas en hauteur : réduisez le nombre ou augmentez la zone.",
   wDrawOver:"La colonne de tiroirs dépasse la façade de {mm} mm.",
   wDrawDeep:"Meuble trop peu profond pour ce système : {mm} mm utiles, la coulisse la plus courte en demande {min}.",
@@ -2958,7 +2962,7 @@ AUTH_I18N.en.syncConflict="⇄ Newer version received from another device";
 AUTH_I18N.fr.syncConflict="⇄ Version plus récente reçue d'un autre appareil";
 function ta(key){ return (AUTH_I18N[state.lang]||AUTH_I18N.it)[key]||key; }
 const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile","Base / Cielo","Anta","Schienale","Tramezzo",
-"Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
+"Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Fianco ripiano estraibile","Fronte/Retro ripiano estraibile","Fondo ripiano estraibile","Retro ripiano estraibile","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
 const BORDI = ["—","1L","2L","1C","2C","1L+1C","2L+1C","1L+2C","2L+2C"];
 
 /* ================= SEED DATA (progetto di esempio) ================= */
@@ -5208,6 +5212,7 @@ const PRESETS = {
 let buildCfg = {...PRESETS.armadio};
 let buildObst=[];   // ostacoli portati dal rilievo nel generatore
 let buildSecMode=null;  // contenuto scelto per ogni sezione
+let buildSecPull=null;  // ripiani estraibili per sezione (U.12)
 let buildSecDrawers=null;  // cassetti per sezione (U.11): null = tutte come «Cassetti/sez.»
 let buildFormReady=false;
 const MAT_ACC="Accessorio — asta appendiabiti ovale";
@@ -5500,6 +5505,8 @@ const DRAWSYS={
     nl:[], rear:0, lift:0, minFront:60}
 };
 const DRAWSYS_IDS=["legno","legrabox","tandembox","nessuno"];
+/* il vassoio estraibile in legno: frontale virtuale da 115 => sponde da 70 mm */
+const PULL_FH=115;
 function drawSys(id){ return DRAWSYS[id]||DRAWSYS.legno; }
 /* la cassa in legno si stringe di quanto vuole la guida scelta in catalogo:
    sotto-montata Blum 21 mm per lato, a sfere 13, a rulli 12,5. */
@@ -6089,7 +6096,12 @@ function buildCore(cfg){
     }
     return (shCache[ck]=out);
   };
-  const shelfSecs=secIdx.filter(si=>shelfYs(secMode(si),si).length>0);
+  const shelfSecsAll=secIdx.filter(si=>shelfYs(secMode(si),si).length>0);
+  /* RIPIANI ESTRAIBILI (U.12): nella sezione segnata i ripiani escono su
+     guide. Le loro quote sono quelle dei ripiani — stesso conto, stesso
+     posto — ma non sono ripiani: si tolgono di qui e si fanno piu sotto. */
+  const isPull=si=>!PT&&Array.isArray(cfg.secPull)&&!!cfg.secPull[si];
+  const shelfSecs=shelfSecsAll.filter(si=>!isPull(si));
   const hangSecs=PT?[]:secIdx.filter(si=>{const m=secMode(si); return m==="hang"||m==="hangShelf";});
   const shYs=shelfSecs.length?shelfYs(secMode(shelfSecs[0]),shelfSecs[0]):[];
   const shMissing=cfg.shelves>0&&shelfSecs.length?cfg.shelves-shYs.length:0;
@@ -6217,6 +6229,59 @@ function buildCore(cfg){
       };
       okG.forEach(g=>g.secs.forEach(si=>{ const sx0=tF+si*(secW+tD);
         g.plan.fronts.forEach((f,i)=>drawBox(sx0,si,i,f,g.plan)); }));
+    }
+  }
+  /* ---- RIPIANI ESTRAIBILI (U.12) ----
+     Un vassoio basso su guide: la cassa di un cassetto senza frontale, con il
+     sistema scelto per i cassetti (sul metallico l'altezza di listino piu
+     bassa). Sta alla quota del ripiano che sostituisce. Dietro le ante
+     arretra come il cassetto interno, cosi il braccio della cerniera passa. */
+  const pullSecs=shelfSecsAll.filter(isPull);
+  let pullPlan=null, pullN=0;
+  if(pullSecs.length){
+    const sid=drawSys(cfg.drawerSys||"legno").none?"legno":(cfg.drawerSys||"legno");
+    const sysP=drawSys(sid);
+    const c0=sysP.metal?Object.keys(sysP.hs)[0]:null;
+    const fixH=sysP.metal?Math.ceil(sysP.hs[c0]+sysP.headroom+1):PULL_FH;
+    const pInner=cfg.doors>0&&!sliding;
+    pullPlan=drawerPlan(Object.assign({},cfg,{drawers:1,drawerSys:sid,drawerDist:"fix",drawerFH:fixH,drawerZone:0,drawerH:c0}),
+      {y0:0,frontH:1e6,fill:false,secW,depth:P-intZ0,inner:pInner,tFront:tA,tBox:tF});
+    if(pullPlan.ok){
+      const pp=pullPlan, sys=pp.sys, inset=pInner?pp.inset:0;
+      const trays=[]; pullSecs.forEach(si=>shelfYs(secMode(si),si).forEach((y,k)=>trays.push({si,k,y})));
+      pullN=trays.length;
+      if(sys.metal){
+        add("Fondo ripiano estraibile",pp.baseW,pp.baseL,pullN,"",null,{role:"cassetto_fondo"});
+        add("Retro ripiano estraibile",pp.backW,pp.backH,pullN,"1L",null,{role:"cassetto_fianco"});
+      }else{
+        add("Fianco ripiano estraibile",pp.nl,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco"});
+        add("Fronte/Retro ripiano estraibile",pp.boxIn,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}});
+        add("Fondo ripiano estraibile",pp.boxIn,pp.nl-20,pullN,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"});
+      }
+      trays.forEach(({si,k,y})=>{
+        const grp=`p${si}_${k}`, sx0=tF+si*(secW+tD), cx=sx0+secW/2;
+        const zF=P-inset, NL=pp.nl, z1=zF-tA-2, z0=z1-NL, yB=y-tR/2;
+        if(sys.metal){
+          const bw=pp.baseW, th=sys.sideTh, sh=pp.sideH, bx0=cx-bw/2, bx1=cx+bw/2;
+          bxRole="cassetto_metallo";
+          bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);
+          bx(bx1,bx1+th,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);
+          bxRole="cassetto_fondo";
+          bx(bx0,bx1,yB,yB+16,z0,z0+pp.baseL,"p",0,0,"dbox",grp);
+          bxRole="cassetto_fianco";
+          bx(cx-pp.backW/2,cx+pp.backW/2,yB+8,yB+8+pp.backH,z0,z0+t,"p",0,0,"dbox",grp);
+        }else{
+          const bw=pp.boxW, sh=pp.sideH, bt=sys.bottomTh, bx0=cx-bw/2, bx1=cx+bw/2;
+          bxRole="cassetto_fianco";
+          bx(bx0,bx0+t,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);
+          bx(bx1-t,bx1,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);
+          bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);
+          bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);
+          bxRole="cassetto_fondo";
+          const fL=NL-20, zc=(z0+z1)/2;
+          bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp);
+        }
+      });
     }
   }
   if(hasFronts(cfg)){
@@ -6378,14 +6443,15 @@ function buildCore(cfg){
   let stepHit=0;
   if(trOn){
     const topStep=TR.H;
-    shelfSecs.forEach(si=>shelfYs(secMode(si),si).forEach(y=>{ if(y-tR/2<topStep) stepHit++; }));
+    shelfSecsAll.forEach(si=>shelfYs(secMode(si),si).forEach(y=>{ if(y-tR/2<topStep) stepHit++; }));
     if(dGroups.some(g=>g.plan&&g.plan.ok&&g.plan.fronts.some(f=>f.y0<topStep))) stepHit++;
   }
   /* gli avvisi di tutti i piani, ognuno una volta sola */
   const dW=[], dWk={};
-  dGroups.forEach(g=>(g.plan&&g.plan.warn||[]).forEach(w=>{ const k=JSON.stringify(w); if(!dWk[k]){ dWk[k]=1; dW.push(w); } }));
+  dGroups.map(g=>g.plan).concat(pullPlan?[pullPlan]:[]).forEach(pl=>(pl&&pl.warn||[]).forEach(w=>{ const k=JSON.stringify(w); if(!dWk[k]){ dWk[k]=1; dW.push(w); } }));
   return {pieces,boxes,draw:dPlan,
           draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan})),
+          pull:(pullPlan&&pullPlan.ok)?{plan:pullPlan,secs:pullSecs.slice(),n:pullN}:null,
           warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,stepHit,
           drawWarn:dW.length?dW:null}};
 }
@@ -6986,7 +7052,7 @@ const EL_I18N={
   "Base / Cielo":"Bază / Tavan","Base":"Bază","Cielo":"Tavan","Doga faggio 68mm":"Doagă fag 68 mm","Fascia":"Bandă frontală",
   "Fascia raccordata":"Bandă racordată","Fianco":"Laterală","Fianco cassetto":"Laterală sertar","Fondo / Cielo raccordato":"Fund / Tavan racordat",
   "Fondo / Cielo tondo":"Fund / Tavan rotund","Fondo cassetto":"Fund sertar","Frontale cassetto":"Front sertar","Frontale cassetto interno":"Front sertar interior",
-  "Fronte/Retro cassetto":"Față/Spate sertar","Gamba legno 70×70":"Picior lemn 70×70","Montante anta vetro":"Montant ușă sticlă","Pannello posteriore":"Panou spate",
+  "Fronte/Retro cassetto":"Față/Spate sertar","Fianco ripiano estraibile":"Laterală raft extractibil","Fronte/Retro ripiano estraibile":"Față/Spate raft extractibil","Fondo ripiano estraibile":"Fund raft extractibil","Retro ripiano estraibile":"Spate raft extractibil","Gamba legno 70×70":"Picior lemn 70×70","Montante anta vetro":"Montant ușă sticlă","Pannello posteriore":"Panou spate",
   "Pediera":"Tăblie picioare","Piano scrivania":"Blat birou","Piano tavolo":"Blat masă","Piedino regolabile":"Picior reglabil","Retro cassetto":"Spate sertar",
   "Ripiano mobile":"Poliță mobilă","Ripiano fisso":"Poliță fixă","Ripiano regolabile":"Poliță reglabilă","Ripiano raccordato":"Poliță racordată",
   "Ripiano tondo":"Poliță rotundă","Ripiano":"Poliță","Schienale":"Spate","Schienale sopra":"Spate sus","Schienale sotto":"Spate jos",
@@ -6997,7 +7063,7 @@ const EL_I18N={
   "Base / Cielo":"Bottom / Top","Base":"Bottom","Cielo":"Top","Doga faggio 68mm":"Beech slat 68 mm","Fascia":"Front band",
   "Fascia raccordata":"Curved band","Fianco":"Side","Fianco cassetto":"Drawer side","Fondo / Cielo raccordato":"Bottom / Top, curved",
   "Fondo / Cielo tondo":"Bottom / Top, round","Fondo cassetto":"Drawer bottom","Frontale cassetto":"Drawer front","Frontale cassetto interno":"Inner drawer front",
-  "Fronte/Retro cassetto":"Drawer front/back","Gamba legno 70×70":"Wooden leg 70×70","Montante anta vetro":"Glass door stile","Pannello posteriore":"Back panel",
+  "Fronte/Retro cassetto":"Drawer front/back","Fianco ripiano estraibile":"Pull-out shelf side","Fronte/Retro ripiano estraibile":"Pull-out shelf front/back","Fondo ripiano estraibile":"Pull-out shelf bottom","Retro ripiano estraibile":"Pull-out shelf back","Gamba legno 70×70":"Wooden leg 70×70","Montante anta vetro":"Glass door stile","Pannello posteriore":"Back panel",
   "Pediera":"Footboard","Piano scrivania":"Desk top","Piano tavolo":"Table top","Piedino regolabile":"Adjustable foot","Retro cassetto":"Drawer back",
   "Ripiano mobile":"Adjustable shelf","Ripiano fisso":"Fixed shelf","Ripiano regolabile":"Adjustable shelf","Ripiano raccordato":"Curved shelf",
   "Ripiano tondo":"Round shelf","Ripiano":"Shelf","Schienale":"Back","Schienale sopra":"Back, upper","Schienale sotto":"Back, lower",
@@ -7008,7 +7074,7 @@ const EL_I18N={
   "Base / Cielo":"Dessous / Dessus","Base":"Dessous","Cielo":"Dessus","Doga faggio 68mm":"Latte hêtre 68 mm","Fascia":"Bandeau",
   "Fascia raccordata":"Bandeau cintré","Fianco":"Côté","Fianco cassetto":"Côté tiroir","Fondo / Cielo raccordato":"Dessous / Dessus cintré",
   "Fondo / Cielo tondo":"Dessous / Dessus rond","Fondo cassetto":"Fond tiroir","Frontale cassetto":"Façade tiroir","Frontale cassetto interno":"Façade tiroir intérieur",
-  "Fronte/Retro cassetto":"Avant/Arrière tiroir","Gamba legno 70×70":"Pied bois 70×70","Montante anta vetro":"Montant porte vitrée","Pannello posteriore":"Panneau arrière",
+  "Fronte/Retro cassetto":"Avant/Arrière tiroir","Fianco ripiano estraibile":"Côté tablette coulissante","Fronte/Retro ripiano estraibile":"Avant/Arrière tablette coulissante","Fondo ripiano estraibile":"Fond tablette coulissante","Retro ripiano estraibile":"Arrière tablette coulissante","Gamba legno 70×70":"Pied bois 70×70","Montante anta vetro":"Montant porte vitrée","Pannello posteriore":"Panneau arrière",
   "Pediera":"Pied de lit","Piano scrivania":"Plateau bureau","Piano tavolo":"Plateau table","Piedino regolabile":"Vérin réglable","Retro cassetto":"Arrière tiroir",
   "Ripiano mobile":"Étagère mobile","Ripiano fisso":"Étagère fixe","Ripiano regolabile":"Étagère réglable","Ripiano raccordato":"Étagère cintrée",
   "Ripiano tondo":"Étagère ronde","Ripiano":"Étagère","Schienale":"Fond","Schienale sopra":"Fond haut","Schienale sotto":"Fond bas",
@@ -7549,7 +7615,7 @@ function cfgFromForm(){
     angL:fAng("bAngL"), angR:fAng("bAngR"), obstacles:buildObst,
     bow:Math.min(200,v("bBow",0)), rcorner:Math.max(10,Math.min(400,v("bRc",60))),
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
-    secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers),
+    secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secPull:cleanSecPull(buildSecPull),
     /* il gradino vale solo con tutte e due le cote: una sola non e un gradino */
     stepH:Math.min(2000,v("bStepH",0)), stepP:Math.min(400,v("bStepP",0)),
     /* quello che il modulo non ha campi per mostrare viaggia col corpo: le cote
@@ -7601,7 +7667,7 @@ function syncBuildForm(){
   $("bBack").value=buildCfg.back?1:0; $("bHang").value=buildCfg.hang?1:0;
   $("bStepH").value=buildCfg.stepH||""; $("bStepP").value=buildCfg.stepP||"";
   buildObst=buildCfg.obstacles||[];
-  buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null;
+  buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null; buildSecPull=buildCfg.secPull||null;
   $("bHangGap").value=buildCfg.hangGap!=null?buildCfg.hangGap:1000;
   $("bShelfEven").value=buildCfg.shelfEven===0?"0":"1";
   $("bShelfStep").value=buildCfg.shelfStep||320;
@@ -7646,10 +7712,17 @@ function renderDrawUI(sysId,hcode){
    scoprono solo aprendo la distinta. */
 function drawInfoLine(cfg,built){
   const el=$("drawInfo"); if(!el) return;
-  if(!(cfg.drawers>0)||!built){ el.textContent=""; return; }
-  const gs=drawGroupsOf(built);
-  if(!gs.length){ el.textContent=""; return; }
-  el.textContent=gs.map(g=>(gs.length>1?drawSecTag(g)+": ":"")+drawInfoBits(g.plan).join(" · ")).join("  |  ");
+  if(!built){ el.textContent=""; return; }
+  const gs=cfg.drawers>0?drawGroupsOf(built):[];
+  const parts=gs.map(g=>(gs.length>1?drawSecTag(g)+": ":"")+drawInfoBits(g.plan).join(" · "));
+  if(built.pull) parts.push(pullTag(built.pull)+": "+drawInfoBits(built.pull.plan,true).join(" · "));
+  el.textContent=parts.join("  |  ");
+}
+function pullTag(pu){ return t("fSecPull")+" "+t("secShort").toLowerCase()+" "+pu.secs.map(i=>i+1).join(", ")+" ("+pu.n+"×)"; }
+/* la riga della fisa de montaj per i vassoi estraibili (U.12) */
+function pullSysLines(built){
+  const pu=built&&built.pull; if(!pu) return [];
+  return drawSysLines([{N:pu.n,secs:pu.secs,plan:pu.plan}]).map((x,i)=>i===0?pullTag(pu)+": "+x:x);
 }
 /* i piani di sertare che stanno in piedi, uno per numero di cassetti (U.11).
    Un modulo costruito prima di U.11 ha solo `draw`: un gruppo solo. */
@@ -7672,14 +7745,14 @@ function drawSysLines(gs){
   return out;
 }
 function drawSecTag(g){ return t("secShort")+" "+g.secs.map(i=>i+1).join(", ")+" ("+g.N+"×)"; }
-function drawInfoBits(p){
+function drawInfoBits(p,noFronts){
   const bits=[];
   const nm=(p.sys.n&&(p.sys.n[state.lang]||p.sys.n.it))||p.sysId;
   bits.push(nm);
   if(p.nl) bits.push("NL "+p.nl);
   if(p.hcode) bits.push(t("dwSide")+" "+p.hcode+" ("+p.sideH+" mm)");
   const hs=p.fronts.map(f=>Math.round(f.h));
-  bits.push(t("dwFronts")+": "+hs.slice().reverse().join(" / ")+" mm");
+  if(!noFronts) bits.push(t("dwFronts")+": "+hs.slice().reverse().join(" / ")+" mm");
   if(p.sys.metal) bits.push(t("dwBase")+" "+p.baseW+"×"+p.baseL+" · "+t("dwBack")+" "+p.backW+"×"+p.backH);
   else if(p.boxW) bits.push(t("dwBox")+" "+p.boxW+"×"+p.sideH+"×"+p.nl);
   bits.push(p.inner?(t("dwInner")+" −"+p.inset+" mm"):t("posVista").toLowerCase());
@@ -7707,6 +7780,34 @@ function renderSecChips(){
     drawPreview();
   }));
   renderSecDrawers();
+  renderSecPull();
+}
+/* U.12 — i ripiani di una sezione escono su guide. Si accende solo dove
+   ci sono ripiani: una sezione ad asta o a cassetti non ha niente da tirare. */
+function cleanSecPull(a){
+  if(!Array.isArray(a)) return null;
+  const o=a.map(v=>v?1:0);
+  return o.some(v=>v)?o:null;
+}
+function renderSecPull(){
+  const wrap=$("secPullWrap"), box=$("secPullBox"); if(!wrap||!box) return;
+  const n=(buildCfg.tram||0)+1, sh=+($("bShelves").value||0), hang=$("bHang").value==="1";
+  const modes=(buildCfg.secMode||[]).slice(0,n);
+  const eff=i=>modes[i]||(hang?(sh>0?"hangShelf":"hang"):(sh>0?"shelf":"empty"));
+  const secs=[]; for(let i=0;i<n;i++){ const m=eff(i); if(m==="shelf"||m==="hangShelf"||m==="drawerShelf") secs.push(i); }
+  const show=sh>0&&secs.length>0&&!hasPartitions(buildCfg)&&!["scrivania","tavolo","letto","tondo","raccordato"].includes(buildCfg.type);
+  wrap.style.display=show?"":"none";
+  if(!show){ box.innerHTML=""; return; }
+  const cur=buildSecPull||[];
+  $("secPullHint").textContent=t("secPullHint");
+  box.innerHTML=secs.map(i=>`<button class="chip sm${cur[i]?" on":""}" data-spl="${i}">${esc(t("secShort"))} ${i+1}${cur[i]?" ✓":""}</button>`).join("");
+  box.querySelectorAll("[data-spl]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.spl, arr=(buildSecPull||[]).slice();
+    while(arr.length<n) arr.push(0);
+    arr[i]=arr[i]?0:1;
+    buildSecPull=cleanSecPull(arr); buildCfg.secPull=buildSecPull;
+    drawPreview();
+  }));
 }
 /* U.11 — un numero di cassetti per ogni sezione che li riceve. Vuoto = come
    «Cassetti/sez.», 0 = la sezione resta senza. Le sezioni che li ricevono
@@ -8063,7 +8164,7 @@ function presetAll(){
   return out;
 }
 function presetApply(p){
-  buildObst=[]; buildSecMode=p.cfg.secMode||null; buildSecDrawers=p.cfg.secDrawers||null;
+  buildObst=[]; buildSecMode=p.cfg.secMode||null; buildSecDrawers=p.cfg.secDrawers||null; buildSecPull=p.cfg.secPull||null;
   buildCfg={...p.cfg,name:p.name};
   syncBuildForm(); drawPreview();
 }
@@ -9112,6 +9213,7 @@ function assemblySteps(modName,hw,cfg,items){
        non e scritta da nessuna parte. */
     let gs=[]; try{ gs=drawGroupsOf(buildModule(cfg)); }catch(e){}
     drawSysLines(gs).forEach(x=>add(x));
+    try{ pullSysLines(buildModule(cfg)).forEach(x=>add(x)); }catch(e){}
   }
   if(hw.hwCern>0){ add(t("mDoors").replace("{q}",hw.hwCern),{hi:["anta"],show:[...CARC,"tram","zocc","rip","cass"]});
     const doorPieces=(items||[]).filter(x=>/^anta(?! scorrevole)/i.test(x.elemento)||/^montante anta/i.test(x.elemento));
@@ -9245,6 +9347,7 @@ function mSteps(M,hw,items){
   if(hw.hwGuida>0){
     add(t("ms17").replace("{n}",Math.round(hw.hwGuida)),{hi:["cass"],show:[...CARC,"tram","zocc","rip"]});
     drawSysLines(drawGroupsOf(M.built)).forEach(x=>add(x));
+    pullSysLines(M.built).forEach(x=>add(x));
     const J=G&&G.jocuri;
     add(t("ms18").replace("{g}",J?J.joc_frontale_laterale:4));
   }
@@ -10193,6 +10296,7 @@ function computeHardware(p,S,byModule){
       /* il cassetto interno sta dietro l'anta: si tira per il frontale,
          una maniglia li dentro urterebbe l'anta chiusa. */
       if(!el.includes("interno")) bump(mod,push?"hwPush":"hwMan",x.pz); }
+    else if(el.startsWith("fondo ripiano estraibile")){ bump(mod,"hwGuida",x.pz); }  // una coppia di guide per vassoio (U.12)
     else if(el.includes("ripiano mobile")||el.includes("ripiano regolabile")){ bump(mod,"hwSup",4*x.pz); }
     else if(el.includes("asta appendiabiti")){ bump(mod,"hwAsta",2*x.pz); }
     else if(el.startsWith("zoccolo")){ piedMods.add(mod); }
@@ -11470,6 +11574,7 @@ DRAWERS. "drawers" is the count PER SECTION. Where they go:
 - No section is marked "drawers"/"drawerShelf" => the drawers are external fronts, at the bottom, in EVERY section. This is a chest of drawers or a kitchen base.
 - At least one section marked "drawers"/"drawerShelf" => only those sections get them.
 - Different counts in different sections ("4 drawers in the first two, 3 in the third") => "secDrawers": one entry per section, left to right, length tram+1. null = that section uses "drawers", 0 = no drawers there. "drawers" stays the most common count. "base, 3 sections: 4 drawers, 4 drawers, 3 drawers" => tram=2, drawers=4, secDrawers=[null,null,3].
+PULL-OUT SHELVES ("ripiano estraibile", "raft extractibil", "pull-out shelf", "tablette coulissante"): "secPull" — one entry per section, 1 = the shelves of that section slide out on runners (a low-sided tray), 0 = normal shelves. The section must have shelves (shelf / hangShelf / drawerShelf, shelves>0). "last section: one drawer with a pull-out shelf above" => secMode[last]="drawerShelf", secDrawers[last]=1, shelves=1, secPull[last]=1.
 "drawerPos" then decides where those fronts sit, and BOTH are normal joinery — pick from what he said, do not assume:
   interno = behind the doors. The engine sets them back by "drawerInset" mm so the hinge arm clears them, gives them no handle, and the doors keep their full height. "wardrobe with two doors and three drawers INSIDE on the right" => tram=1, secMode=["hang","drawers"], drawers=3, doors=2, drawerPos="interno".
   vista = on the facade, visible next to the doors. The doors then cover only the sections left over, at full height. "wardrobe with a hanging section and a visible drawer column on the right" => same fields but drawerPos="vista", doors=1. The drawer column must be at one END of the unit, not between two door sections.
@@ -11548,6 +11653,8 @@ function aiSchema(mode){
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
         secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:5,
           description:"Content of each section, left to right. Length must be tram+1."},
+        secPull:{type:"array",items:{type:"integer",minimum:0,maximum:1},maxItems:5,
+          description:"1 = the shelves of that section are pull-out trays on runners. Length must be tram+1."},
         secDrawers:{type:"array",items:{type:["integer","null"],minimum:0,maximum:8},maxItems:5,
           description:"Drawer count per section, left to right, only when the sections differ. null = use \"drawers\", 0 = none. Length must be tram+1."},
         backMode:{type:"string",enum:AI_ENUM.backMode,description:"incassato = between the sides, applicato = over everything (full width), in_cava = thin back in a groove."},
@@ -11597,7 +11704,7 @@ function aiContext(mode){
     const c=cfgFromForm(), keep={};
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
      "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind",
-     "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers",
+     "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers","secPull",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
      "backMode","partitions","fronts","depthProfile","customCuts"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
     if(c.geom&&c.geom.setback_ripiano!=null) keep.shelfSetback=c.geom.setback_ripiano;
@@ -11666,6 +11773,10 @@ function aiNormCfg(raw,warn){
     const arr=raw.secMode.filter(x=>AI_ENUM.secMode.indexOf(x)>=0);
     const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
     if(arr.length){ while(arr.length<n) arr.push(arr[arr.length-1]); out.secMode=arr.slice(0,n); }
+  }
+  if(Array.isArray(raw.secPull)){
+    const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
+    out.secPull=cleanSecPull(raw.secPull.slice(0,n));
   }
   if(Array.isArray(raw.secDrawers)){
     const n=(out.tram!=null?out.tram:(buildCfg.tram||0))+1;
@@ -12151,7 +12262,7 @@ function aiApply(){
   if(P.mode==="genera"&&P.cfg){
     /* aggiornamento parziale: solo le chiavi arrivate, il resto resta com'e' */
     buildCfg=aiMerge(cfgFromForm(),P.cfg);
-    buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null;
+    buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null; buildSecPull=buildCfg.secPull||null;
     buildObst=buildCfg.obstacles||[];
     syncBuildForm(); renderSecChips(); drawPreview();
     setView("build");
@@ -12646,12 +12757,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.41.0"; /* APP_VER-MARKER */
+const APP_VER="4.42.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v94";
+const SW_CACHE="ebanist-v95";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

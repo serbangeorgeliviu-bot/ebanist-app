@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.42.0 — 7 octombrie 2026
+
+**Raft extractibil** (ROADMAP U.12). Cerut de același tester: în tronsonul pentru aparatură (lampă UV, freză), raftul trebuie să iasă pe glisiere.
+
+- Formular: sub „Contenuto sezioni” apare „Ripiani estraibili”, cu câte un buton pentru fiecare secțiune cu rafturi. În secțiunea marcată, rafturile devin tăvi pe glisiere, la aceleași cote. Se salvează ca `cfg.secPull`.
+- Tava e cutia unui sertar fără front, făcută cu sistemul ales pentru sertare. La lemn are laterale de 70 mm (`PULL_FH`) și fund HDF. La metal ia înălțimea cea mai mică din listă. La „Solo frontale” se face din lemn. În spatele ușilor se retrage ca sertarul interior, ca să treacă brațul balamalei.
+- Distinta are rânduri proprii („Fianco / Fronte-Retro / Fondo ripiano estraibile”), cu rolurile cutiei de sertar, deci închiderea (D-43) și invariantele le verifică. Devizul numără câte o pereche de glisiere pe tavă. Găurirea glisierelor iese din `ebanist-ops.js`, iar „Apri” deschide tava în 3D.
+- Linia de informație și fișa de montaj au un rând pentru tăvi. Asistentul AI știe de `secPull`.
+- Un proiect fără `secPull` dă aceeași distintă (testat).
+- Teste noi: `test/pullout.test.js` (11). `npm run test:full`: 424/424 + golden 42/42. Verificat în Chromium: 4 / 4 / 3 sertare, plus 1 sertar cu tava deasupra; 13 perechi de glisiere în deviz.
+- Numai pe ebanist.com (`netlify/android-hold` rămâne).
+- `SW_CACHE`/`CACHE` → `ebanist-v95`.
+
 ## 4.41.0 — 7 octombrie 2026
 
 **Număr de sertare diferit pe fiecare secțiune** (ROADMAP U.11). Un tester din Italia face un mobilier pentru un salon de estetică, cu patru tronsoane: câte 4 sertare în primele două, 3 în al treilea, 1 sertar cu raft deasupra în al patrulea. „Cassetti/sez.” era un singur număr pentru toate secțiunile, așa că devizul se făcea din corpuri separate, cu laterale duble în loc de despărțitori.

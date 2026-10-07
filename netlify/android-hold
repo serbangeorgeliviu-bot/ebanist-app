@@ -1,6 +1,6 @@
 Aplicația Android (whimsical-wisp-61cbbf) e ținută pe 4.40.8.
 
-De ce: 4.41.0 (sertare diferite pe secțiune, ROADMAP U.11) merge întâi numai
+De ce: 4.41.0 (sertare pe secțiune, U.11) și 4.42.0 (raft extractibil, U.12) merg întâi numai
 pe ebanist.com; în aplicația Android vine după aprobarea Google Play.
 Cât timp fișierul ăsta există, netlify/ignore-build.sh sare peste fiecare
 deploy al proiectului Android, inclusiv peste corecturi.
