@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.44.3 — 8 octombrie 2026
+
+**„Aggiungi pezzo”: câmpul Materiale arată toată lista.** Feedback pe video, pe PC: cu „Pannello HDF 5mm” deja în câmp, săgeata deschidea o listă cu o singură voce și nu se putea alege alt material.
+
+- La click în câmp, textul trece în placeholder și lista se deschide întreagă; ieși fără să alegi → revine valoarea de dinainte. La fel la „Rif. Modulo” și „Elemento”.
+- Lista de materiale conține, după cele din proiect, tot catalogul vizibil (listinoul activ primul), nu doar materialele deja folosite.
+
 ## 4.44.2 — 7 octombrie 2026
 
 **Mai puține înălțimi decât sertare: cele scrise sunt sus, restul umple spațiul.** Feedback de la testerul IT, pe video. Într-o secțiune cu 4 sertare a scris „200” și i-a rămas un singur sertar. A găsit singur ocolișul „200+200+200+200”, dar „un tâmplar obișnuit n-ar ghici”.
