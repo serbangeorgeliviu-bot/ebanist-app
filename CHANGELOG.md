@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.45.0 — 9 octombrie 2026
+
+**Cota de tăiere minus cantul, ca opțiune (D-69). Numai pe web, aplicația Android rămâne pe 4.40.8.** Cerut pentru meseriașii care taie la cota fără cant, ca în aplicațiile de debitare (CutList Optimizer, SketchCut).
+
+- Setări → Panou standard: **„Cota de tăiere minus cantul”**, Da/Nu, implicit Nu. Grosimea cantului e cea din Prețuri („Grosime cant”).
+- Activată: cota de tăiere = cota finită minus grosimea cantului pe fiecare latură cu cant. „L” scade din lățime, „C” din lungime. Rotunjirea la 0,1 mm se face o singură dată. 700×300 cu 2L+2C și cant de 2 mm → 696×296.
+- **Distinta rămâne pe cota finită.** Cota de tăiere se **adaugă** lângă ea: în listă (✂ sub cote), în PDF (coloana „✂ Tăiere” și nota din subsol) și în CSV (trei coloane la final, deci importul nu se schimbă). Planul de tăiere așază piesele la cota de tăiere și o scrie pe piesă.
+- Piesele cu unghiuri sau curbe și accesoriile rămân pe cota finită.
+- Motorul nu se schimbă: aceeași distintă, cu opțiunea activată sau nu (test).
+- Limita v1: o singură grosime de cant pe proiect. Combinația 2 mm pe fronturi și 0,4 mm în interior nu se poate încă.
+- Teste: `edgecomp.test.js` (6). `test:full` 456/456 + golden 42/42, e2e 427/427. Verificat în Chromium: setări, listă, PDF, CSV și planul de tăiere.
+- `SW_CACHE`/`CACHE` → `ebanist-v103`.
+
 ## 4.44.3 — 8 octombrie 2026
 
 **„Aggiungi pezzo”: câmpul Materiale arată toată lista.** Feedback pe video, pe PC: cu „Pannello HDF 5mm” deja în câmp, săgeata deschidea o listă cu o singură voce și nu se putea alege alt material.

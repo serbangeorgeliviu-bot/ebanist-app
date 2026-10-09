@@ -1896,6 +1896,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
        controllo del formato cambia risposta. -->
   <div class="f"><label data-i="fDecorDir">Decoro direzionale</label>
     <select id="sDecorDir"><option value="1" data-i="optYes">Sì</option><option value="0" data-i="optNo">No</option></select></div>
+  <!-- Scalare il bordo e una scelta di reparto (D-69): la distinta resta
+       sulla cota finita, la cota di taglio si AGGIUNGE in uscita. -->
+  <div class="f"><label data-i="fEdgeComp">Cota di taglio meno il bordo</label>
+    <select id="sEdgeComp"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select>
+    <div class="mini" style="margin-top:4px" data-i="edgeCompHint"></div></div>
   <div class="eyebrow" data-i="prices">Prezzi</div>
   <div class="f"><label data-i="costModeLbl">Costo pannelli</label>
     <select id="sCostMode">
@@ -2896,6 +2901,18 @@ Object.assign(I18N.en,{hwZarga:"Metal drawer sides (pair)",hwLeg:"Table leg plat
 Object.assign(I18N.fr,{hwZarga:"Côtés de tiroir métalliques (paire)",hwLeg:"Plaques de pied de table",hwTopClip:"Fixations de plateau",hwBedFit:"Ferrures de lit (paires)",hwTravFit:"Équerres de traverse centrale",hwCenterFoot:"Pieds centraux de lit",hwSlatHold:"Embouts de lattes latéraux",hwSlatHold2:"Embouts de lattes centraux",hwFelt:"Patins feutre",fConsum:"consommables, hors devis"});
 /* ---- 4.32: montaggio tavolo e letto ---- */
 Object.assign(I18N.ro,{hfLegPlate:"Colțar de picior (placă de colț)",hfLegPlateS:"oțel, cu fante pentru traverse",hfHanger:"Șurub dublu cu piuliță fluture",hfTopClip:"Colțar de prindere a blatului",hfTopClipS:"colțar 30×30 + șuruburi {s} în blat",hfScrew:"Șuruburi pentru lemn",hfFelt:"Pâslă sub picioare",fT1:"Verifică piesele: blat {L}×{P}×{t} mm, 2 traverse lungi {rl} mm și 2 scurte {rs} mm (înălțime {rh} mm), {n} picioare {g}×{g}×{h} mm.",fT2:"Întinde o pătură și așază blatul cu fața în jos. De aici se lucrează pe dosul lui.",fT3:"În fiecare picior, pe diagonala colțului interior, înșurubează șurubul dublu M8 la {y} mm de capătul de sus (mijlocul traversei). Găurește întâi Ø6.",fT4:"Asamblează ramele: traverse lungi {rl} mm și scurte {rs} mm prinse de picioare cu colțarele. Rămân {c} mm liberi la fiecare capăt al traversei lungi și {cs} mm la cea scurtă — e spațiul colțarului, nu o greșeală.",fT5:"Pune rama în echer: diagonalele între colțurile exterioare ale picioarelor trebuie să fie egale — {d} mm (ramă {a} × {b} mm). Strânge piulițele numai după.",fT6:"Așază rama cu picioarele în sus pe dosul blatului, la {i} mm de margine pe toate laturile.",fT7:"Prinde blatul de traverse cu {n} colțare ({a} pe fiecare traversă lungă, {b} pe fiecare scurtă), cu șuruburi {s}. Blatul are {t} mm: șurubul nu trebuie să iasă pe față.",fT8:"Întoarce masa în DOI oameni (≈ {kg} kg), prinzând de blat, nu de picioare.",fT9:"Lipește pâsla sub picioare. Verifică să nu se clatine; dacă se clatină, verifică echerul ramei înainte de a pune pene.",fcLegs:"Picior față de marginea blatului",fcFrameDiag:"Diagonalele ramei",fcHeight:"Înălțime totală",fcInner:"Lumină interioară (saltea)",fcMattress:"Saltea standard care intră",fcSlatTop:"Fața de sus a doagelor, de la podea",fk1:"Masa nu se clatină",fk2:"Blatul e prins pe toate traversele",fk3:"Nicio șurub nu iese prin blat",fk4:"Patul nu scârțâie la apăsare pe colțuri",fk5:"Toate doagele stau în suporți, cu partea curbată în sus",fk6:"Picioarele centrale ating podeaua",fAccLeg:"Picior masiv",fAccSlat:"Doagă fag curbată",hfBedFit:"Feronerie de pat (cârlig, pereche)",hfBedFitS:"tăblie ↔ laterală, cu cârlig",hfTravFit:"Colțar traversă centrală",hfTravFitS:"oțel, cu șuruburi 4×30",hfCenterFeet:"Picior central reglabil",hfCenterFeetS:"reglabil, înălțime {h} mm",hfSlatHold:"Suport doagă lateral",hfSlatHoldS:"plastic, pentru doagă 68 mm",hfSlatHoldC:"Suport doagă dublu (central)",hfSlatHoldCS:"plastic, pe traversa centrală",fB1:"Verifică piesele: tăblie cap {L}×{H} mm, tăblie picioare {L}×400 mm, 2 laterale {P}×{sh} mm, traversa centrală, {n} doage de fag {sl} mm.",fB2:"Patul se montează ÎN CAMERĂ: montat are {L} × {H} mm și nu trece pe ușă. Lasă 60 cm liberi în jur pentru lucru.",fB3:"Prinde pe fața interioară a tăbliilor partea cu fantă a feroneriei de pat, cu mijlocul la {y} mm de la podea (laterala stă între {a} și {b} mm). Pe capetele lateralelor, partea cu cârlig.",fB4:"Agață lateralele în tăblia de la cap, apoi tăblia de la picioare. Lucrați în doi: o laterală scăpată rupe cârligul.",fB5:"Pune patul în echer: diagonalele ramei trebuie să fie egale — {d} mm (ramă {a} × {b} mm).",fB6:"Montează traversa centrală la mijloc ({x} mm de la margine), cu fața de sus la {y} mm de la podea — sub doage. Pune dedesubt {f} picioare centrale reglabile, la {h} mm, și reglează-le să atingă podeaua.",fB7:"Prinde suporții de doage pe fața interioară a lateralelor, cu fața doagei la {y} mm. {n} doage: prima la {f} mm de tăblia de la cap, apoi din {s} în {s} mm (rost {g} mm).",fB8:"Așază cele {n} doage în suporți, cu partea curbată ÎN SUS.",fB9:"Salteaua: lumina interioară e {i} × {j} mm — intră o saltea de {a} × {b} mm.",fB10:"Apasă pe fiecare colț: nu trebuie să scârțâie sau să se miște. Dacă scârțâie, strânge feroneria de pat.",fImgStruct:"Structura",fToolWrench:"Cheie fixă 13 (piulițe M8)",fToolDrill:"Mașină de găurit cu burghie Ø3 / Ø6"});
+Object.assign(I18N.it,{fEdgeComp:"Cota di taglio meno il bordo",
+  edgeCompHint:"Aggiunge la cota di taglio (finita meno lo spessore del bordo, sui lati bordati) a distinta, CSV e piano di taglio. La cota finita resta. Spessore: quello del bordo in Prezzi.",
+  cutDim:"Taglio",printNotesComp:"✂ = cota di taglio: finita meno {t} mm di bordo per lato bordato."});
+Object.assign(I18N.ro,{fEdgeComp:"Cota de tăiere minus cantul",
+  edgeCompHint:"Adaugă cota de tăiere (finită minus grosimea cantului, pe laturile cu cant) în distintă, CSV și planul de tăiere. Cota finită rămâne. Grosimea: cea a cantului din Prețuri.",
+  cutDim:"Tăiere",printNotesComp:"✂ = cota de tăiere: finită minus {t} mm de cant pe fiecare latură cu cant."});
+Object.assign(I18N.en,{fEdgeComp:"Cut size minus edge band",
+  edgeCompHint:"Adds the cut size (finished minus the edge band thickness, on banded sides) to the cut list, CSV and cutting plan. The finished size stays. Thickness: the edge band one in Prices.",
+  cutDim:"Cut",printNotesComp:"✂ = cut size: finished minus {t} mm of edge band per banded side."});
+Object.assign(I18N.fr,{fEdgeComp:"Cote de coupe moins le chant",
+  edgeCompHint:"Ajoute la cote de coupe (finie moins l’épaisseur du chant, sur les côtés plaqués) à la liste de débit, au CSV et au plan de coupe. La cote finie reste. Épaisseur : celle du chant dans Prix.",
+  cutDim:"Coupe",printNotesComp:"✂ = cote de coupe : finie moins {t} mm de chant par côté plaqué."});
 Object.assign(I18N.it,{hfLegPlate:"Piastra d'angolo per gamba",hfLegPlateS:"acciaio, con asole per le traverse",hfHanger:"Vite doppia con dado ad alette",hfTopClip:"Squadretta di fissaggio piano",hfTopClipS:"squadretta 30×30 + viti {s} nel piano",hfScrew:"Viti per legno",hfFelt:"Feltrini sotto le gambe",fT1:"Controlla i pezzi: piano {L}×{P}×{t} mm, 2 traverse lunghe {rl} mm e 2 corte {rs} mm (altezza {rh} mm), {n} gambe {g}×{g}×{h} mm.",fT2:"Stendi una coperta e appoggia il piano a faccia in giu. Da qui si lavora sul rovescio.",fT3:"In ogni gamba, sulla diagonale dell'angolo interno, avvita la vite doppia M8 a {y} mm dalla testa (meta traversa). Prefora Ø6.",fT4:"Monta il telaio: traverse lunghe {rl} mm e corte {rs} mm fissate alle gambe con le piastre d'angolo. Restano {c} mm liberi a ogni capo della traversa lunga e {cs} mm della corta — e lo spazio della piastra, non un errore.",fT5:"Metti il telaio in squadra: le diagonali fra gli spigoli esterni delle gambe devono essere uguali — {d} mm (telaio {a} × {b} mm). Stringi i dadi solo dopo.",fT6:"Appoggia il telaio a gambe in su sul rovescio del piano, a {i} mm dal bordo su tutti i lati.",fT7:"Fissa il piano alle traverse con {n} squadrette ({a} per traversa lunga, {b} per corta), viti {s}. Il piano e {t} mm: la vite non deve uscire sopra.",fT8:"Gira il tavolo in DUE (≈ {kg} kg), prendendolo dal piano, non dalle gambe.",fT9:"Incolla i feltrini. Verifica che non balli; se balla, ricontrolla la squadra del telaio prima di mettere spessori.",fcLegs:"Gamba dal bordo del piano",fcFrameDiag:"Diagonali del telaio",fcHeight:"Altezza totale",fcInner:"Luce interna (materasso)",fcMattress:"Materasso standard che entra",fcSlatTop:"Faccia sopra delle doghe, da terra",fk1:"Il tavolo non balla",fk2:"Il piano e fissato su tutte le traverse",fk3:"Nessuna vite esce dal piano",fk4:"Il letto non cigola premendo sugli angoli",fk5:"Tutte le doghe sono nei supporti, con la curvatura in su",fk6:"I piedi centrali toccano il pavimento",fAccLeg:"Gamba in massello",fAccSlat:"Doga di faggio curvata",hfBedFit:"Ferramenta letto (gancio, coppia)",hfBedFitS:"testata ↔ sponda, a gancio",hfTravFit:"Squadra per traversa centrale",hfTravFitS:"acciaio, viti 4×30",hfCenterFeet:"Piede centrale regolabile",hfCenterFeetS:"regolabile, altezza {h} mm",hfSlatHold:"Portadoga laterale",hfSlatHoldS:"plastica, per doga 68 mm",hfSlatHoldC:"Portadoga doppio (centrale)",hfSlatHoldCS:"plastica, sulla traversa centrale",fB1:"Controlla i pezzi: testiera {L}×{H} mm, pediera {L}×400 mm, 2 sponde {P}×{sh} mm, traversa centrale, {n} doghe di faggio {sl} mm.",fB2:"Il letto si monta IN CAMERA: montato e {L} × {H} mm e non passa dalla porta. Lascia 60 cm liberi attorno per lavorare.",fB3:"Fissa sulla faccia interna di testiera e pediera la parte con asola della ferramenta letto, col centro a {y} mm da terra (la sponda sta fra {a} e {b} mm). Sui capi delle sponde, la parte a gancio.",fB4:"Aggancia le sponde alla testiera, poi alla pediera. In due: una sponda che cade rompe il gancio.",fB5:"Metti il letto in squadra: le diagonali del telaio devono essere uguali — {d} mm (telaio {a} × {b} mm).",fB6:"Monta la traversa centrale nel mezzo ({x} mm dal bordo), con la faccia sopra a {y} mm da terra — sotto le doghe. Metti sotto {f} piedi centrali regolabili, a {h} mm, e regolali fino al pavimento.",fB7:"Fissa i portadoghe sulla faccia interna delle sponde, con la faccia della doga a {y} mm. {n} doghe: la prima a {f} mm dalla testiera, poi ogni {s} mm (fuga {g} mm).",fB8:"Appoggia le {n} doghe nei supporti, con la curvatura IN SU.",fB9:"Il materasso: la luce interna e {i} × {j} mm — entra un materasso {a} × {b} mm.",fB10:"Premi su ogni angolo: non deve cigolare ne muoversi. Se cigola, stringi la ferramenta letto.",fImgStruct:"La struttura",fToolWrench:"Chiave fissa 13 (dadi M8)",fToolDrill:"Trapano con punte Ø3 / Ø6"});
 Object.assign(I18N.en,{hfLegPlate:"Leg corner plate",hfLegPlateS:"steel, slotted for the rails",hfHanger:"Hanger bolt with wing nut",hfTopClip:"Top fixing bracket",hfTopClipS:"30×30 bracket + {s} screws into the top",hfScrew:"Wood screws",hfFelt:"Felt pads under the legs",fT1:"Check the parts: top {L}×{P}×{t} mm, 2 long rails {rl} mm and 2 short {rs} mm ({rh} mm high), {n} legs {g}×{g}×{h} mm.",fT2:"Spread a blanket and lay the top face down. From here you work on its underside.",fT3:"In each leg, on the diagonal of the inner corner, screw the M8 hanger bolt at {y} mm from the top end (rail centre). Pre-drill Ø6.",fT4:"Build the frame: long rails {rl} mm and short {rs} mm fixed to the legs with the corner plates. {c} mm stay free at each end of the long rail and {cs} mm of the short one — that is the plate's room, not a mistake.",fT5:"Square the frame: the diagonals between the outer leg corners must be equal — {d} mm (frame {a} × {b} mm). Tighten the nuts only then.",fT6:"Place the frame legs-up on the underside of the top, {i} mm from the edge on all sides.",fT7:"Fix the top to the rails with {n} brackets ({a} per long rail, {b} per short), {s} screws. The top is {t} mm: the screw must not come through.",fT8:"Turn the table over with TWO people (≈ {kg} kg), holding the top, not the legs.",fT9:"Stick the felt pads. Check it does not rock; if it does, re-check the frame's square before shimming.",fcLegs:"Leg from the edge of the top",fcFrameDiag:"Frame diagonals",fcHeight:"Overall height",fcInner:"Inner clearance (mattress)",fcMattress:"Standard mattress that fits",fcSlatTop:"Top face of the slats, from the floor",fk1:"The table does not rock",fk2:"The top is fixed on every rail",fk3:"No screw comes through the top",fk4:"The bed does not creak when pressing the corners",fk5:"All slats sit in their holders, curved side up",fk6:"The centre feet touch the floor",fAccLeg:"Solid wood leg",fAccSlat:"Curved beech slat",hfBedFit:"Bed rail fitting (hook, pair)",hfBedFitS:"headboard ↔ side rail, hook type",hfTravFit:"Centre rail bracket",hfTravFitS:"steel, 4×30 screws",hfCenterFeet:"Adjustable centre foot",hfCenterFeetS:"adjustable, {h} mm high",hfSlatHold:"Side slat holder",hfSlatHoldS:"plastic, for 68 mm slat",hfSlatHoldC:"Double slat holder (centre)",hfSlatHoldCS:"plastic, on the centre rail",fB1:"Check the parts: headboard {L}×{H} mm, footboard {L}×400 mm, 2 side rails {P}×{sh} mm, centre rail, {n} beech slats {sl} mm.",fB2:"The bed is assembled IN THE ROOM: assembled it is {L} × {H} mm and does not pass the door. Leave 60 cm free around it.",fB3:"Fix the slotted half of the bed fittings on the inner face of headboard and footboard, centred at {y} mm from the floor (the rail sits between {a} and {b} mm). The hook half goes on the rail ends.",fB4:"Hook the side rails into the headboard, then the footboard. Two people: a dropped rail breaks the hook.",fB5:"Square the bed: the frame diagonals must be equal — {d} mm (frame {a} × {b} mm).",fB6:"Fit the centre rail in the middle ({x} mm from the edge), its top face at {y} mm from the floor — under the slats. Put {f} adjustable centre feet under it, at {h} mm, and adjust them down to the floor.",fB7:"Fix the slat holders on the inner face of the side rails, slat face at {y} mm. {n} slats: the first at {f} mm from the headboard, then every {s} mm ({g} mm gap).",fB8:"Lay the {n} slats in their holders, curved side UP.",fB9:"Mattress: the inner clearance is {i} × {j} mm — a {a} × {b} mm mattress fits.",fB10:"Press on every corner: it must not creak or move. If it creaks, tighten the bed fittings.",fImgStruct:"The structure",fToolWrench:"13 mm spanner (M8 nuts)",fToolDrill:"Drill with Ø3 / Ø6 bits"});
 Object.assign(I18N.fr,{hfLegPlate:"Plaque d'angle de pied",hfLegPlateS:"acier, avec lumières pour les traverses",hfHanger:"Vis double avec écrou papillon",hfTopClip:"Équerre de fixation du plateau",hfTopClipS:"équerre 30×30 + vis {s} dans le plateau",hfScrew:"Vis à bois",hfFelt:"Patins feutre sous les pieds",fT1:"Contrôlez les pièces : plateau {L}×{P}×{t} mm, 2 traverses longues {rl} mm et 2 courtes {rs} mm (hauteur {rh} mm), {n} pieds {g}×{g}×{h} mm.",fT2:"Étendez une couverture et posez le plateau face en dessous. On travaille ensuite sur son envers.",fT3:"Dans chaque pied, sur la diagonale de l'angle intérieur, vissez la vis double M8 à {y} mm du haut (milieu de la traverse). Pré-percez Ø6.",fT4:"Montez le cadre : traverses longues {rl} mm et courtes {rs} mm fixées aux pieds par les plaques d'angle. Il reste {c} mm libres à chaque bout de la traverse longue et {cs} mm de la courte — c'est la place de la plaque, pas une erreur.",fT5:"Mettez le cadre d'équerre : les diagonales entre les angles extérieurs des pieds doivent être égales — {d} mm (cadre {a} × {b} mm). Serrez les écrous seulement après.",fT6:"Posez le cadre, pieds en l'air, sur l'envers du plateau, à {i} mm du bord de tous les côtés.",fT7:"Fixez le plateau aux traverses avec {n} équerres ({a} par traverse longue, {b} par courte), vis {s}. Le plateau fait {t} mm : la vis ne doit pas ressortir.",fT8:"Retournez la table à DEUX (≈ {kg} kg), en la tenant par le plateau, pas par les pieds.",fT9:"Collez les patins. Vérifiez qu'elle ne boite pas ; sinon, recontrôlez l'équerrage du cadre avant de caler.",fcLegs:"Pied depuis le bord du plateau",fcFrameDiag:"Diagonales du cadre",fcHeight:"Hauteur totale",fcInner:"Vide intérieur (matelas)",fcMattress:"Matelas standard qui entre",fcSlatTop:"Face supérieure des lattes, depuis le sol",fk1:"La table ne boite pas",fk2:"Le plateau est fixé sur toutes les traverses",fk3:"Aucune vis ne ressort du plateau",fk4:"Le lit ne grince pas en appuyant sur les angles",fk5:"Toutes les lattes sont dans leurs embouts, courbure vers le haut",fk6:"Les pieds centraux touchent le sol",fAccLeg:"Pied en massif",fAccSlat:"Latte de hêtre cintrée",hfBedFit:"Ferrure de lit (crochet, paire)",hfBedFitS:"tête ↔ longeron, à crochet",hfTravFit:"Équerre de traverse centrale",hfTravFitS:"acier, vis 4×30",hfCenterFeet:"Pied central réglable",hfCenterFeetS:"réglable, hauteur {h} mm",hfSlatHold:"Embout de latte latéral",hfSlatHoldS:"plastique, pour latte 68 mm",hfSlatHoldC:"Embout double (central)",hfSlatHoldCS:"plastique, sur la traverse centrale",fB1:"Contrôlez les pièces : tête de lit {L}×{H} mm, pied de lit {L}×400 mm, 2 longerons {P}×{sh} mm, traverse centrale, {n} lattes de hêtre {sl} mm.",fB2:"Le lit se monte DANS LA CHAMBRE : monté il fait {L} × {H} mm et ne passe pas la porte. Laissez 60 cm libres autour.",fB3:"Fixez sur la face intérieure de la tête et du pied la partie à lumière de la ferrure, centrée à {y} mm du sol (le longeron est entre {a} et {b} mm). Sur les bouts des longerons, la partie à crochet.",fB4:"Accrochez les longerons à la tête, puis au pied. À deux : un longeron qui tombe casse le crochet.",fB5:"Mettez le lit d'équerre : les diagonales du cadre doivent être égales — {d} mm (cadre {a} × {b} mm).",fB6:"Montez la traverse centrale au milieu ({x} mm du bord), face supérieure à {y} mm du sol — sous les lattes. Posez dessous {f} pieds centraux réglables, à {h} mm, réglés jusqu'au sol.",fB7:"Fixez les embouts de lattes sur la face intérieure des longerons, face des lattes à {y} mm. {n} lattes : la première à {f} mm de la tête, puis tous les {s} mm (jour {g} mm).",fB8:"Posez les {n} lattes dans les embouts, courbure VERS LE HAUT.",fB9:"Matelas : le vide intérieur est {i} × {j} mm — un matelas {a} × {b} mm entre.",fB10:"Appuyez sur chaque angle : il ne doit ni grincer ni bouger. S'il grince, resserrez les ferrures.",fImgStruct:"La structure",fToolWrench:"Clé plate 13 (écrous M8)",fToolDrill:"Perceuse avec forets Ø3 / Ø6"});
@@ -3833,6 +3850,21 @@ function bandCount(bordo){
   return {nL:Math.min(nL,2),nC:Math.min(nC,2)};
 }
 function edgeTh(){ const v=(state&&state.settings)?state.settings.edgeTh:null; return (v==null||!isFinite(v))?0.8:+v; }
+/* LA COTA DI TAGLIO (D-69). La distinta porta la cota FINITA e il motore non
+   la tocca mai: sottrarre il bordo nel motore e stato l'errore della Rev. C.
+   Qui, SOLO IN USCITA e solo se il reparto lo chiede, si calcola accanto la
+   cota da tagliare: finita meno lo spessore del bordo per ogni lato bordato.
+   "L" = bordo sul lato lungo -> toglie dalla larghezza; "C" -> dalla lunghezza.
+   I pezzi sagomati (angoli, curve) restano sulla cota finita: il bordo su un
+   lato inclinato non si scala con una sottrazione. */
+function edgeComp(){ return !!(state&&state.settings&&state.settings.edgeComp); }
+function cutLW(x){
+  const L=+x.lung, W=+x.larg;
+  if(!edgeComp()||!x.bordo||x.angL||x.angR||x.shape||isAccPiece(x)) return {L,W,d:false};
+  const b=bandCount(x.bordo), th=edgeTh();
+  const cl=Math.round((L-b.nC*th)*10)/10, cw=Math.round((W-b.nL*th)*10)/10;
+  return {L:cl,W:cw,d:(cl!==L||cw!==W)};
+}
 function normMat(m){return String(m||"").toLowerCase().replace(/\s+/g," ").trim();}
 /* UN SOLO CONTO DEI PEZZI. Un accessorio (asta, piedino, vetro, gamba) sta
    nella distinta perche va ordinato, ma non si taglia dal pannello: non e un
@@ -3980,7 +4012,7 @@ const G_ORDERS=[
 
 function nest(piecesIn,PL,PW,kerf,stock){
   const items=[];
-  for(const x of piecesIn) for(let i=0;i<x.pz;i++) items.push({w:x.lung,h:x.larg,ref:x,norot:!!x.grain});
+  for(const x of piecesIn){ const c=cutLW(x); for(let i=0;i<x.pz;i++) items.push({w:c.L,h:c.W,ref:x,norot:!!x.grain}); }
   const fitsAny=(w,h)=>(w<=PL&&h<=PW)||(h<=PL&&w<=PW);
   const todo=[],skipped=[];
   for(const it of items){
@@ -4543,7 +4575,7 @@ function renderList(){
       const shortMat=matLabelUI(x.materiale).replace(/Truciolare Bilaminato/i,"Bilam.");
       r.innerHTML=`
         <button class="pc-check${x.done?" on":""}" data-chk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></button>
-        <div class="pc-dim">${x.lung}<i>×</i>${x.larg}${angTag(x)}</div>
+        <div class="pc-dim">${x.lung}<i>×</i>${x.larg}${angTag(x)}${(cd=>cd.d?`<div style="font-size:11px;font-weight:600;color:var(--red,#c33);letter-spacing:0">✂ ${fmtMm(cd.L)}×${fmtMm(cd.W)}</div>`:"")(cutLW(x))}</div>
         <div class="pc-info"><div class="pc-el">${esc(elName(x.elemento))}${scList(x).length?` <span style="color:var(--red,#c33);font-size:11px">✂ ${esc(scTxt(x))}</span>`:""}</div><div class="pc-mat">${esc(shortMat)}</div>${jointTag(x)}${curveTag(x)}</div>
         <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>${hasCfg&&x.role&&x.role!=="accessorio"?`<button class="pc-ops" data-ops title="${esc(t("listHoles"))}" aria-label="${esc(t("listHoles"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8" cy="9" r="1.6"/><circle cx="16" cy="9" r="1.6"/><circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="2.6"/></svg></button>`:""}`;
       r.querySelector("[data-chk]").addEventListener("click",e=>{
@@ -4628,7 +4660,7 @@ function panelSvg(pan,PL,PW,kerf){
   const rects=pan.rects.map(r=>{
     const cx=r.x+r.w/2, cy=r.y+r.h/2;
     const fs=Math.min(90, r.h*0.45, r.w/6.5);
-    const label=`${r.ref.lung}×${r.ref.larg}`;
+    const cd=cutLW(r.ref), label=`${fmtMm(cd.L)}×${fmtMm(cd.W)}`;
     const el=elName(r.ref.elemento||"");
     return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#ffffff" stroke="#0E3B2A" stroke-width="6"/>
       ${fs>26?`<text x="${cx}" y="${cy-(el&&fs>34?fs*0.34:0)}" font-size="${fs}" fill="#14181d" text-anchor="middle" dominant-baseline="middle" font-family="Barlow Condensed,Arial" font-weight="700">${label}</text>`:""}
@@ -4884,6 +4916,7 @@ $("btnSettings").addEventListener("click",()=>{
   const S=state.settings;
   $("sPanelL").value=S.panelL;$("sPanelW").value=S.panelW;$("sKerf").value=S.kerf;
   $("sDecorDir").value=S.decor_directional?"1":"0";
+  $("sEdgeComp").value=S.edgeComp?"1":"0";
   $("sCostMode").value=S.costMode||"panels";$("sPriceM2").value=S.priceM2;$("sPriceMl").value=S.priceMl;$("sWaste").value=S.waste;$("sLabor").value=S.labor;$("sHourly").value=S.hourly!=null?S.hourly:35;
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
@@ -5023,6 +5056,7 @@ $("btnSettingsSave").addEventListener("click",()=>{
   const S=state.settings;
   S.panelL=parseInt($("sPanelL").value,10)||2800; S.panelW=parseInt($("sPanelW").value,10)||2070;
   S.decor_directional=$("sDecorDir").value==="1";
+  S.edgeComp=$("sEdgeComp").value==="1";
   S.kerf=parseInt($("sKerf").value,10)||4;
   S.priceM2=parseFloat($("sPriceM2").value)||0; S.priceMl=parseFloat($("sPriceMl").value)||0;
   S.costMode=$("sCostMode").value; S.waste=parseFloat($("sWaste").value)||0; S.labor=parseFloat($("sLabor").value)||0; S.hourly=parseFloat($("sHourly").value)||35;
@@ -5191,7 +5225,7 @@ $("btnPdf").addEventListener("click",()=>{
      cancello automatico scatta dopo, ed e comunque dentro printOut(). */
   if(closureFirst("btnPdf")) return;
   if(!exportAllowed()) return;
-  const S=state.settings, tot=computeTotals(p);
+  const S=state.settings, tot=computeTotals(p), comp=edgeComp();
   const groups=new Map();
   for(const x of p.pieces){if(!groups.has(x.modulo))groups.set(x.modulo,[]);groups.get(x.modulo).push(x);}
   let html=`<div class="pr-head">
@@ -5204,10 +5238,10 @@ $("btnPdf").addEventListener("click",()=>{
   for(const [mod,items] of groups){
     html+=`<h2>${esc(mod)}</h2><table><tr>
       <th>${esc(t("fElement"))}</th><th style="text-align:right">${esc(t("fLength"))}</th>
-      <th style="text-align:right">${esc(t("fWidth"))}</th><th style="text-align:right">${esc(t("fQty"))}</th>
+      <th style="text-align:right">${esc(t("fWidth"))}</th>${comp?`<th style="text-align:right">✂ ${esc(t("cutDim"))}</th>`:""}<th style="text-align:right">${esc(t("fQty"))}</th>
       <th>${esc(t("fBanding"))}</th><th>${esc(t("fMaterial"))}</th></tr>`;
     for(const x of items)
-      html+=`<tr><td>${esc(elName(x.elemento))}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>
+      html+=`<tr><td>${esc(elName(x.elemento))}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>${comp?(cd=>`<td class="n">${cd.d?`<b>${fmtMm(cd.L)} × ${fmtMm(cd.W)}</b>`:"="}</td>`)(cutLW(x)):""}
         <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(matLabelUI(x.materiale))}</td></tr>`;
     html+="</table>";
   }
@@ -5220,7 +5254,7 @@ $("btnPdf").addEventListener("click",()=>{
   html+=`<div class="pr-sum"><b>${esc(t("totalPieces"))}:</b> ${tot.panelPcs} ·
     <b>${esc(t("totalArea"))}:</b> ${fmt(tot.panelArea)} m² ·
     <b>${esc(t("edgeBanding"))}:</b> ${fmt(tot.edge,1)} ml</div>
-    <div class="pr-foot"><span>${esc(t("printNotes"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
+    <div class="pr-foot"><span>${esc(t("printNotes"))}${comp?"<br>"+esc(t("printNotesComp").replace("{t}",fmtMm(edgeTh()))):""}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   $("printArea").innerHTML=html;
   printOut();
 });
@@ -10522,7 +10556,8 @@ function panelUsage(p){
      cambia il numero di pannelli. Senza, il Riepilogo restava sul conto vecchio
      — in silenzio — finche non si toccava un pezzo. */
   const key=JSON.stringify([p.id,p.pieces.map(x=>[x.lung,x.larg,x.pz,x.materiale,x.grain||0]),
-                            S.kerf,S.panelL,S.panelW,state.stock||[],S.matOvr||{},S.matAdd||[]]);
+                            S.kerf,S.panelL,S.panelW,state.stock||[],S.matOvr||{},S.matAdd||[],
+                            edgeComp()?[edgeTh(),p.pieces.map(x=>x.bordo||"")]:0]);
   if(_puCache.k===key) return _puCache.v;
   const tot=computeTotals(p), out={};
   for(const k of Object.keys(tot.mats)){
@@ -10576,13 +10611,18 @@ function projectCosts(p){
           rows,byPanel,panelsNew,panelsStock,oversize,cWhole};
 }
 function buildCsv(p){
-  let csv="\uFEFFRif. Modulo;Elemento;Lunghezza (mm);Larghezza (mm);Pz.;Bordatura (ABS);Materiale;Lavorazioni\r\n";
+  /* le colonne di taglio vanno IN CODA: l'import legge le colonne 0-6 */
+  const comp=edgeComp();
+  let csv="\uFEFFRif. Modulo;Elemento;Lunghezza (mm);Larghezza (mm);Pz.;Bordatura (ABS);Materiale;Lavorazioni"+
+    (comp?";Lunghezza taglio (mm);Larghezza taglio (mm);Spessore bordo (mm)":"")+"\r\n";
   for(const x of p.pieces){
     const lav=[];
     scList(x).forEach(c=>lav.push("scasso "+c.l+"x"+c.w+" @X"+c.x+"/Y"+c.y));
     const hi=hingeInfo(x);
     if(hi) lav.push("cerniere "+hi.n+"x d35 @ "+hi.pos.join("/"));
-    csv+=[x.modulo,x.elemento,x.lung,x.larg,x.pz,x.bordo,x.materiale,lav.join(" | ")].join(";")+"\r\n";
+    const row=[x.modulo,x.elemento,x.lung,x.larg,x.pz,x.bordo,x.materiale,lav.join(" | ")];
+    if(comp){ const cd=cutLW(x); row.push(cd.L,cd.W,cd.d?edgeTh():0); }
+    csv+=row.join(";")+"\r\n";
   }
   return csv;
 }
@@ -12959,12 +12999,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.44.3"; /* APP_VER-MARKER */
+const APP_VER="4.45.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v102";
+const SW_CACHE="ebanist-v103";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
