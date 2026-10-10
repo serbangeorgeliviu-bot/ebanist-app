@@ -442,6 +442,8 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border-radius:999px;font:500 13px/1 var(--sans);text-decoration:none;border:1px solid var(--line2);background:#fff;color:var(--txt)}
 .chip-play .gp-ico{color:var(--green)}
+a.chip-play:hover{border-color:var(--green)}
+a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .chip-tt{background:#111;color:#fff;border-color:#111}
 .chip-tt:hover{background:#000}
 .chip-dark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}

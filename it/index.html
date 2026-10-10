@@ -422,6 +422,8 @@ transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border-radius:999px;font:500 13px/1 var(--sans);text-decoration:none;border:1px solid var(--line2);background:#fff;color:var(--txt)}
 .chip-play .gp-ico{color:var(--green)}
+a.chip-play:hover{border-color:var(--green)}
+a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .chip-tt{background:#111;color:#fff;border-color:#111}
 .chip-tt:hover{background:#000}
 .chip-dark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
@@ -592,7 +594,7 @@ html.xh input,html.xh textarea{cursor:text}
 .case-grid.g-illus{margin-top:16px}
 </style>
 <link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/it/","inLanguage":"it","description":"App di progettazione mobili per falegnami. Progetti il mobile sul telefono e ottieni distinta di taglio, etichette dei pezzi, scheda di montaggio e disegno tecnico. Funziona nel browser, anche offline. Gratis per 1 progetto.","offers":[{"@type":"Offer","name":"Gratis","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/it/","inLanguage":"it","installUrl":"https://play.google.com/store/apps/details?id=com.domusrenov.ebanist","description":"App di progettazione mobili per falegnami. Progetti il mobile sul telefono e ottieni distinta di taglio, etichette dei pezzi, scheda di montaggio e disegno tecnico. Funziona nel browser, anche offline. Gratis per 1 progetto.","offers":[{"@type":"Offer","name":"Gratis","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app","https://play.google.com/store/apps/details?id=com.domusrenov.ebanist"]}}</script>
 <!-- Nessun cookie, nessun tracciatore di terzi: GoatCounter e ospitato qui
      (/site/js/count.js) e non usa cookie, quindi nessun banner. -->
 <script data-goatcounter="https://ebanist.goatcounter.com/count" data-goatcounter-settings='{"allow_local":false}' async src="/site/js/count.js"></script>
@@ -700,7 +702,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="grid32" aria-hidden="true"></div>
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <p class="kicker mono">PWA per falegnami · v4.37</p>
+      <p class="kicker mono">Novità: ora su Google Play · PWA per falegnami</p>
       <h1 class="h-hero split">Dalle misure alla <em>distinta di taglio</em> in 10&nbsp;minuti.</h1>
       <p class="hero-sub">Un'app di progettazione mobili per falegnami. Funziona nel browser — niente da installare — e anche offline, in cantiere.</p>
       <div class="cta-row">
@@ -709,7 +711,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
       <p class="proof mono">15 tipologie · Blum &amp; Häfele · decorativi Egger · documenti PDF</p>
       <div class="chips">
-        <span class="chip chip-play"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Presto su Google Play</span>
+        <a class="chip chip-play" href="https://play.google.com/store/apps/details?id=com.domusrenov.ebanist&hl=it" rel="noopener" target="_blank" data-goatcounter-click="play-hero"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Disponibile su Google Play</a>
         <a class="chip chip-tt" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" data-goatcounter-click="tiktok-hero"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>@ebanist.app</a>
       </div>
     </div>
@@ -979,7 +981,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="wrap faq-wrap">
     <div><p class="kicker mono rv">Domande</p><h2 class="h2 split">Quello che chiedono i falegnami.</h2></div>
     <div class="faq">
-      <details><summary>Devo installare qualcosa?</summary><p>No. Ebanist si apre nel browser e puoi aggiungerlo alla schermata home così si apre come un'app. L'app Android arriverà presto su Google Play.</p></details>
+      <details><summary>Devo installare qualcosa?</summary><p>Non è obbligatorio. Ebanist si apre nel browser e puoi aggiungerlo alla schermata home. Su Android lo trovi anche su Google Play: «Ebanist: Furniture Design CAD».</p></details>
       <details><summary>Funziona su iPhone?</summary><p>Sì — in Safari su iPhone e iPad, oltre che su telefoni e tablet Android e su qualsiasi PC.</p></details>
       <details><summary>Dove sono i miei dati?</summary><p>Sul tuo dispositivo, nella memoria del browser. Non c'è account e non viene inviato niente. Il backup completo è un file JSON che esporti quando vuoi, gratis.</p></details>
       <details><summary>Funziona offline?</summary><p>Sì. Dopo la prima apertura tutta l'app — rilievo, progetto, 3D, distinta — funziona senza rete.</p></details>
@@ -998,8 +1000,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <h2 class="h-final split">Il prossimo mobile <em>comincia sul telefono.</em></h2>
     <svg class="final-dim" viewBox="0 0 600 24" aria-hidden="true"><path d="M2 12H598M2 4v16M598 4v16M2 12l8-4v8zM598 12l-8-4v8z"/></svg>
     <a class="btn btn-laser btn-xl" href="/app/?lang=it" data-goatcounter-click="cta-final">Apri Ebanist <span aria-hidden="true">→</span></a>
-    <p class="final-note"><span class="chip chip-play chip-dark"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Presto su Google Play</span></p>
-    <p class="final-sub">L'app Android è nella revisione finale di Google Play. Nel frattempo funziona in qualsiasi browser e puoi aggiungerla alla schermata home.</p>
+    <p class="final-note"><a class="chip chip-play chip-dark" href="https://play.google.com/store/apps/details?id=com.domusrenov.ebanist&hl=it" rel="noopener" target="_blank" data-goatcounter-click="play-final"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Disponibile su Google Play</a></p>
+    <p class="final-sub">L'app Android è pubblicata su Google Play. Sul computer Ebanist funziona in qualsiasi browser, con gli stessi progetti.</p>
   </div>
 </section>
 </main>

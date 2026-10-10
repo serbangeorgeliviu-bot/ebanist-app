@@ -5,6 +5,7 @@
   "LANGS": ["en", "ro", "it", "fr"],
   "DEFAULT_LANG": "en",
   "EMAIL": "info@ebanist.com",
+  "PLAY_URL": "https://play.google.com/store/apps/details?id=com.domusrenov.ebanist",
   "TIKTOK_URL": "https://www.tiktok.com/@ebanist.app",
   "TIKTOK_HANDLE": "@ebanist.app",
   "GOATCOUNTER": "https://ebanist.goatcounter.com/count",

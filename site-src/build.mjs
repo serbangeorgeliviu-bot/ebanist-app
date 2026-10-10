@@ -158,14 +158,14 @@ function jsonld(L) {
   const num = s => String(s).replace(/[^\d.,]/g, "").replace(",", ".");
   return JSON.stringify({
     "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Ebanist",
-    applicationCategory: "DesignApplication", operatingSystem: "Web, Android", url: pageUrl(L), inLanguage: L,
+    applicationCategory: "DesignApplication", operatingSystem: "Web, Android", url: pageUrl(L), inLanguage: L, installUrl: cfg.PLAY_URL,
     description: strip(t(L, "meta.desc")),
     offers: [
       { "@type": "Offer", name: strip(t(L, "price.free")), price: "0", priceCurrency: "EUR" },
       { "@type": "Offer", name: "Pro", price: num(PRICE_M), priceCurrency: "EUR", priceSpecification: { "@type": "UnitPriceSpecification", price: num(PRICE_M), priceCurrency: "EUR", unitCode: "MON" } },
       { "@type": "Offer", name: "Founders", price: num(PRICE_F), priceCurrency: "EUR" }
     ],
-    publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL, sameAs: [cfg.TIKTOK_URL] }
+    publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL, sameAs: [cfg.TIKTOK_URL, cfg.PLAY_URL] }
   }).replace(/</g, "\\u003c");
 }
 function runtime(L) {
@@ -215,7 +215,7 @@ function caseJsonld(L) {
 /* ---------- randare ---------- */
 function render(L, tplSrc = tpl, isCase = false) {
   const blocks = {
-    css: CSS, logo: LOGO, lang: L, url: pageUrl(L), home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
+    css: CSS, logo: LOGO, lang: L, url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
