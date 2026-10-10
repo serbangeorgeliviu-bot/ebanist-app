@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Android pe versiunea web curentă — 10 octombrie 2026
+
+**Ebanist e în producție pe Google Play** (1.2.1, versionCode 5, publicată 10.10). `netlify/android-hold` șters (1c4391c, D-67): proiectul Android (whimsical-wisp) publică din nou, deploy-ul din 10.10 06:22 UTC servește 4.45.1. Intră în aplicație: sertare pe secțiune (4.41.0, U.11), raftul extractibil (4.42.x, U.12), înălțimea și adâncimea sertarelor pe secțiune (4.43.0–4.44.x, U.13), cota de tăiere minus cantul (4.45.0, D-69), materialul fără preț în deviz (4.45.1). Fără `.aab` nou: aplicația încarcă web-ul. Plata pe Android rămâne numai Google Play (D-54) — `billing.js`, `ebanist-license.js` neschimbate din 4.40.8. `test:full` 460/460 + golden 42/42.
+
 ## 4.45.1 — 10 octombrie 2026
 
 **Un material fără preț nu mai costă 0 € în deviz.** Cele 17 materiale Centro Legno au `prezzo_mq: null`, iar aplicația îl transforma în 0 €/m². Corpul și fronturile implicite ale unui proiect nou sunt „Bianco”, deci devizul pe setările implicite ieșea fără panouri: la dulapul de test 1160×2500×600, 47,95 € în loc de 517,03 € la panouri.
