@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.45.1 — 10 octombrie 2026
+
+**Un material fără preț nu mai costă 0 € în deviz.** Cele 17 materiale Centro Legno au `prezzo_mq: null`, iar aplicația îl transforma în 0 €/m². Corpul și fronturile implicite ale unui proiect nou sunt „Bianco”, deci devizul pe setările implicite ieșea fără panouri: la dulapul de test 1160×2500×600, 47,95 € în loc de 517,03 € la panouri.
+
+- Materialul fără preț în Catalog primește **prețul general pe m²** din Setări → Prețuri și apare în Riepilogo cu „⚠ prezzo da impostare”.
+- **PDF preventivo** cere confirmare înainte de tipărire, cu numele materialelor fără preț și prețul folosit.
+- Un preț scris de utilizator în Catalog (chiar și 0) are prioritate, ca înainte.
+- Prețurile reale ale celor 17 materiale nu sunt încă în catalog. Se completează din lista Centro Legno, fără valori inventate.
+- Teste: `price-missing.test.js` (4). `test:full` 460/460 + golden 42/42, e2e 427/427. Verificat în Chromium: Riepilogo și confirmarea pentru oferta PDF.
+- `APP_VER` 4.45.1, `SW_CACHE`/`CACHE` → `ebanist-v104`. Android rămâne pe 4.40.8.
+
 ## 4.45.0 — 9 octombrie 2026
 
 **Cota de tăiere minus cantul, ca opțiune (D-69). Numai pe web, aplicația Android rămâne pe 4.40.8.** Cerut pentru meseriașii care taie la cota fără cant, ca în aplicațiile de debitare (CutList Optimizer, SketchCut).

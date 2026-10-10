@@ -2438,6 +2438,15 @@ Object.assign(I18N.fr,{
   hwPriceNote:"Le prix est celui du produit choisi dans le Catalogue : le changer ici change le catalogue, et c'est celui qui part dans le devis.",
   storageFull:"MÉMOIRE PLEINE — le travail n'a PAS été enregistré. Faites une sauvegarde tout de suite.",
   storageFullBtn:"Sauvegarder"});
+/* ---- materiale senza prezzo nel preventivo (4.45.1) ---- */
+Object.assign(I18N.it,{priceMissing:"prezzo da impostare",
+  priceMissingQ:"Senza prezzo in Catalogo: {m}. Il preventivo usa il prezzo generale di {p} €/m². Continuare?"});
+Object.assign(I18N.ro,{priceMissing:"preț de setat",
+  priceMissingQ:"Fără preț în Catalog: {m}. Devizul folosește prețul general de {p} €/m². Continui?"});
+Object.assign(I18N.en,{priceMissing:"price not set",
+  priceMissingQ:"No price in the Catalogue: {m}. The quote uses the general price of {p} €/m². Continue?"});
+Object.assign(I18N.fr,{priceMissing:"prix à définir",
+  priceMissingQ:"Sans prix dans le Catalogue : {m}. Le devis utilise le prix général de {p} €/m². Continuer ?"});
 /* ---- chiavi della monetizzazione (v4.25.0) ----
    Tutto quello che si vede quando si tocca il limite, si paga, si attiva
    una chiave o si guarda dove stanno i propri dati. Stesso blocco per
@@ -3180,9 +3189,11 @@ function matFromCatalog(m){
   const bordo=m.bordo_abs||null;
   return {
     id:m.id, l:l, th:+m.spessore,
-    /* prezzo non ancora rilevato = 0: il preventivo usa allora il prezzo
-       generale del progetto, e non finge un costo che nessuno ha letto. */
-    price:(m.prezzo_mq==null?0:+m.prezzo_mq),
+    /* prezzo non ancora rilevato: `price` resta 0 per il campo del catalogo,
+       ma `priced:false` dice al preventivo di usare il prezzo generale e di
+       segnalarlo. Prima lo 0 arrivava dritto nel preventivo: il Bianco di
+       default costava 0 €/m². */
+    price:(m.prezzo_mq==null?0:+m.prezzo_mq), priced:m.prezzo_mq!=null,
     c:m.colore_hex||"#e8e8e4",
     tx:m.texture||TEX_BY_FAM[m.famiglia]||"solid",
     pw:f?f.L:null, ph:f?f.l:null,
@@ -3316,11 +3327,19 @@ function matDecorByLabel(label){
   const o=(state.settings.matOvr||{})[m.id];
   return o&&o.decor?o.decor:"";
 }
-function matPriceByLabel(label){
-  const m=matRawByLabel(label);
-  if(m){ const o=(state.settings.matOvr||{})[m.id]; return o&&o.price!=null?o.price:m.price; }
-  return state.settings.priceM2;
+/* Il prezzo al m² di un materiale e se e stato davvero impostato. Senza
+   prezzo (catalogo `prezzo_mq:null` e nessun prezzo scritto dall'utente) vale
+   il prezzo generale delle impostazioni, con `missing:true`: il preventivo lo
+   scrive accanto alla riga invece di contare il pannello 0 €. */
+function matPriceInfo(label){
+  const S=state.settings, m=matRawByLabel(label);
+  if(!m) return {price:S.priceM2, missing:false};
+  const o=(S.matOvr||{})[m.id];
+  if(o&&o.price!=null) return {price:o.price, missing:false};
+  if(m.priced===false) return {price:S.priceM2, missing:true};
+  return {price:m.price, missing:false};
 }
+function matPriceByLabel(label){ return matPriceInfo(label).price; }
 /* formato del pannello: quello della referenza, altrimenti quello generale delle impostazioni */
 function panelFor(label){
   const m=matByLabel(label), S=state.settings;
@@ -4718,9 +4737,10 @@ function renderSummary(){
   } else hwT.innerHTML=`<tr><td class="mini">—</td></tr>`;
   /* una riga per materiale, con la quantita e il prezzo di QUEL materiale:
      ogni riga si moltiplica da sola e la somma torna al totale. */
+  const miss=r=>r.missing?` <span class="mini" style="color:var(--red)">⚠ ${esc(t("priceMissing"))}</span>`:"";
   const cRows=C.rows.map(r=>r.mode==="pan"
-    ? `<tr><td>${esc(r.label)} — ${r.qty} × ${esc(r.size)} mm${r.stock?` <span class="mini">(+${r.stock} ${esc(t("fromStock"))})</span>`:""}</td><td class="n">€ ${fmt(r.tot)}</td></tr>`
-    : `<tr><td>${esc(r.label)} — ${fmt(r.qty)} m² × €${fmt(r.unit)}</td><td class="n">€ ${fmt(r.tot)}</td></tr>`).join("");
+    ? `<tr><td>${esc(r.label)} — ${r.qty} × ${esc(r.size)} mm${r.stock?` <span class="mini">(+${r.stock} ${esc(t("fromStock"))})</span>`:""}${miss(r)}</td><td class="n">€ ${fmt(r.tot)}</td></tr>`
+    : `<tr><td>${esc(r.label)} — ${fmt(r.qty)} m² × €${fmt(r.unit)}${miss(r)}</td><td class="n">€ ${fmt(r.tot)}</td></tr>`).join("");
   ct.innerHTML=`
     <tr><th>${esc(t("item"))}</th><th class="n">${esc(t("amount"))}</th></tr>
     <tr><td colspan="2" style="padding-top:8px"><b>${esc(t("cPanels"))}</b> <span class="mini">· ${esc(t(C.byPanel?"costModePan":"costModeArea"))}</span></td></tr>
@@ -10582,25 +10602,26 @@ function projectCosts(p){
      tabella dei costi si legge e TORNA — prima mostrava "m² totali × prezzo
      generico" mentre il totale era calcolato coi prezzi di ogni materiale,
      e le due cose non si moltiplicavano fra loro. */
-  const rows=[]; let cPanels=0, panelsNew=0, panelsStock=0, oversize=0, cWhole=0;
+  const rows=[], missing=[]; let cPanels=0, panelsNew=0, panelsStock=0, oversize=0, cWhole=0;
   /* il conto a pannelli interi si calcola SEMPRE, anche quando non e il modo
      scelto: e l'esborso reale dal fornitore e va mostrato accanto alla stima,
      perche i due numeri rispondono a due domande diverse — "quanto materiale
      entra nel mobile" e "quanto ne devo comprare oggi". */
   const PU=panelUsage(p);
   for(const k in tot.mats){
-    const m=tot.mats[k], price=matPriceByLabel(m.label), u=PU&&PU[k];
+    const m=tot.mats[k], pi=matPriceInfo(m.label), price=pi.price, u=PU&&PU[k];
+    if(pi.missing) missing.push(m.label);
     if(u&&!u.acc){ cWhole+=u.neu*(u.PN.L*u.PN.W/1e6)*price;
                    if(!byPanel){ panelsNew+=u.neu; panelsStock+=u.stock; oversize+=u.skipped||0; } }
     if(byPanel&&u&&!u.acc){
       const pa=u.PN.L*u.PN.W/1e6, unit=pa*price, c=u.neu*unit;
       cPanels+=c; panelsNew+=u.neu; panelsStock+=u.stock; oversize+=u.skipped||0;
       rows.push({label:m.label,mode:"pan",qty:u.neu,size:`${u.PN.L}×${u.PN.W}`,
-                 unit,tot:c,stock:u.stock,area:m.area});
+                 unit,tot:c,stock:u.stock,area:m.area,missing:pi.missing});
     }else{
       const a=m.area*(1+S.waste/100), c=a*price;
       cPanels+=c;
-      rows.push({label:m.label,mode:"m2",qty:a,unit:price,tot:c,area:m.area});
+      rows.push({label:m.label,mode:"m2",qty:a,unit:price,tot:c,area:m.area,missing:pi.missing});
     }
   }
   const cEdge=tot.edge*S.priceMl;
@@ -10608,7 +10629,7 @@ function projectCosts(p){
   const sub=cPanels+cEdge+hwTot, cLabor=sub*S.labor/100+hours*hourly, netto=sub+cLabor;
   const prezzo=netto*(1+(S.margin||0)/100), ivaAmt=prezzo*(S.iva||0)/100;
   return {tot,hw,hwTot,areaWaste,cPanels,cEdge,cLabor,hours,hourly,netto,prezzo,ivaAmt,
-          rows,byPanel,panelsNew,panelsStock,oversize,cWhole};
+          rows,byPanel,panelsNew,panelsStock,oversize,cWhole,missing};
 }
 function buildCsv(p){
   /* le colonne di taglio vanno IN CODA: l'import legge le colonne 0-6 */
@@ -10638,10 +10659,13 @@ $("btnShare").addEventListener("click",async()=>{
   }catch(e){}
   download(fname,csv,"text/csv;charset=utf-8"); toast(t("csvDone"));
 });
-$("btnQuote").addEventListener("click",()=>{
+$("btnQuote").addEventListener("click",async()=>{
   const p=proj(); if(!p)return;
   if(!proGate("offer")) return;
   const S=state.settings, C=projectCosts(p);
+  /* un preventivo per il cliente con un prezzo che nessuno ha impostato:
+     si chiede, una volta, con il nome dei materiali e il prezzo usato */
+  if(C.missing.length&&!await confirmDlg(t("priceMissingQ").replace("{m}",C.missing.map(matLabelUI).join(", ")).replace("{p}",fmt(S.priceM2)))) return;
   const byMod=new Map();
   for(const x of p.pieces){ const a=x.lung*x.larg*x.pz/1e6; byMod.set(x.modulo,(byMod.get(x.modulo)||0)+a); }
   let rows="";
@@ -12999,12 +13023,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.45.0"; /* APP_VER-MARKER */
+const APP_VER="4.45.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v103";
+const SW_CACHE="ebanist-v104";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
