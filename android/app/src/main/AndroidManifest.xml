@@ -27,11 +27,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- linkurile aplicației (/app/, /a/<atelier>) se deschid aici -->
+            <!-- linkurile aplicației (/app/, /a/<atelier>) se deschid aici.
+                 ebanist.com din versionCode 6 (L.10); adresa veche rămâne pentru
+                 linkurile trimise din versiunile vechi și se deschide pe ebanist.com.
+                 Ambele servesc același /.well-known/assetlinks.json. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="ebanist.com" android:pathPrefix="/app" />
+                <data android:scheme="https" android:host="ebanist.com" android:pathPrefix="/a/" />
                 <data android:scheme="https" android:host="whimsical-wisp-61cbbf.netlify.app" android:pathPrefix="/app" />
                 <data android:scheme="https" android:host="whimsical-wisp-61cbbf.netlify.app" android:pathPrefix="/a/" />
             </intent-filter>

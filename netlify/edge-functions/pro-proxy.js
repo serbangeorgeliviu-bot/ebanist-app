@@ -11,7 +11,8 @@
    întoarce neschimbat. Cheile stau astfel într-un singur loc. Pe
    ebanist.com funcția nu face nimic, deci nu există buclă.
 
-   Se scoate după ROADMAP L.10, când aplicația Android trece pe ebanist.com.
+   Din versionCode 6 (ROADMAP L.10) aplicația încarcă direct ebanist.com.
+   Funcția rămâne cât mai există telefoane pe versionCode ≤ 5.
    ===================================================================== */
 
 export const CANON = "ebanist.com";

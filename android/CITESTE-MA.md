@@ -4,7 +4,20 @@ Pachet `com.domusrenov.ebanist`, Android 7+ (minSdk 24). Din versionCode 2 (1.1.
 PWABuilder (versionCode 1): testarea plătită nu primește TWA, iar Google nu
 numără bine activitatea testerilor într-un TWA.
 
-Aplicația încarcă `https://whimsical-wisp-61cbbf.netlify.app/app/`. Codul
+Aplicația încarcă `https://ebanist.com/app/` din versionCode 6 (1.3.0, ROADMAP L.10).
+Până la versionCode 5 încărca `https://whimsical-wisp-61cbbf.netlify.app/app/`, care rămâne
+publicat pentru telefoanele neactualizate.
+
+**Mutarea datelor (o singură dată, la prima pornire după actualizare).** Pentru WebView,
+cele două adrese sunt origini diferite: localStorage și IndexedDB (`ebanist`) nu trec singure.
+`MainActivity.boot()` deschide `/android-migrate.html` pe adresa veche (citește tot, trimite
+pe bucăți prin `EbanistAndroid.migrate*`, Android scrie `files/origin-backup.json`), apoi pe
+ebanist.com (scrie numai cheile care lipsesc, nimic suprascris, nimic șters). Reușita se
+ține în SharedPreferences (`originMoved`); la eșec se reîncearcă la pornire, de cel mult 3 ori.
+O instalare nouă (`firstInstallTime == lastUpdateTime`) sare peste. Testul:
+`cd test && node --test android-migrate.test.js`.
+
+Codul
 aplicației rămâne pe site — o versiune web nouă ajunge pe telefon fără `.aab` nou.
 Un `.aab` nou trebuie doar când se schimbă ceva de aici (iconiță, permisiuni,
 adresă, cerințe Google) — și atunci `versionCode` crește.

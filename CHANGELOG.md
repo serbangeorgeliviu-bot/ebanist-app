@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Android 1.3.0 (versionCode 6) — 11 octombrie 2026 · `.aab` de construit și urcat
+
+**Aplicația Android trece pe `ebanist.com` (ROADMAP L.10, D-71).** Până acum încărca `whimsical-wisp-61cbbf.netlify.app`, deci a doua adresă trebuia ținută cu tot cu variabilele ei din Netlify.
+
+- `MainActivity.HOST` = `ebanist.com`. Linkurile `/app` și `/a/<atelier>` deschid aplicația pe ambele adrese (`assetlinks.json` e servit pe amândouă, verificat live). Un link spre adresa veche se deschide pe ebanist.com.
+- **Proiectele nu se pierd la actualizare.** Pentru WebView, cele două adrese sunt origini diferite: localStorage (`tagliapro`, cheia AI, sesiunea Supabase) și IndexedDB `ebanist` (starea, licența, `device`, backup-urile automate) ar fi rămas pe cea veche, iar aplicația ar fi pornit goală. La prima pornire după actualizare, `/android-migrate.html` le citește pe adresa veche și le scrie pe ebanist.com, **numai cheile care lipsesc**. Nimic nu se suprascrie și nimic nu se șterge. Copia rămâne pe adresa veche și în `files/origin-backup.json`.
+- Mutarea are trei încercări la pornire, iar o pornire fără semnal nu se numără. O pagină care nu răspunde e oprită după 45 s. O instalare nouă sare peste mutare.
+- `whimsical-wisp` **rămâne publicat**: îl încarcă telefoanele neactualizate și servește pagina de mutare. Tot de aceea rămâne `pro-proxy.js`.
+- Founders pe Play (L.11) nu intră (D-70).
+- Teste: `android-migrate.test.js` (3, Chromium: două origini simulate, emoji pe granița bucăților, chei existente păstrate, nicio bază goală creată). `test:full` 460/460 + golden 42/42, e2e 427/427. `gradle assembleDebug` trece.
+
 ## Android pe versiunea web curentă — 10 octombrie 2026
 
 **Ebanist e în producție pe Google Play** (1.2.1, versionCode 5, publicată 10.10). `netlify/android-hold` șters (1c4391c, D-67): proiectul Android (whimsical-wisp) publică din nou, deploy-ul din 10.10 06:22 UTC servește 4.45.1. Intră în aplicație: sertare pe secțiune (4.41.0, U.11), raftul extractibil (4.42.x, U.12), înălțimea și adâncimea sertarelor pe secțiune (4.43.0–4.44.x, U.13), cota de tăiere minus cantul (4.45.0, D-69), materialul fără preț în deviz (4.45.1). Fără `.aab` nou: aplicația încarcă web-ul. Plata pe Android rămâne numai Google Play (D-54) — `billing.js`, `ebanist-license.js` neschimbate din 4.40.8. `test:full` 460/460 + golden 42/42.

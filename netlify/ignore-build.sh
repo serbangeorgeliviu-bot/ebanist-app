@@ -3,7 +3,9 @@
 #
 # Același repo publică pe două proiecte: ebanist-com (ebanist.com) și
 # whimsical-wisp-61cbbf, adresa pe care o încarcă aplicația Android până la
-# ROADMAP L.10. Fiecare deploy consumă credite Netlify (06.10.2026: echipa
+# versionCode 5. Din versionCode 6 (L.10) aplicația e pe ebanist.com, dar
+# whimsical-wisp rămâne publicat: îl încarcă telefoanele neactualizate și
+# servește android-migrate.html, de unde se mută datele la actualizare. Fiecare deploy consumă credite Netlify (06.10.2026: echipa
 # oprită la limita planului gratuit). Proiectul Android sare peste commit-urile
 # care schimbă numai site-ul de prezentare, documentele sau testele. ebanist.com
 # publică mereu. La orice dubiu (fără commit anterior, git eșuează) se publică.

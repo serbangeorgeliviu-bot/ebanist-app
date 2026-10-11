@@ -1,0 +1,178 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ebanist</title>
+<style>
+html,body{margin:0;height:100%;background:#0E3B2A;color:#F3EFE6;font-family:sans-serif}
+body{display:flex;align-items:center;justify-content:center;text-align:center}
+p{max-width:300px;padding:24px;font-size:15px;line-height:1.5;opacity:.85}
+</style></head><body><p id="m"></p>
+<script>
+/* =====================================================================
+   Ebanist Android — mutarea datelor pe ebanist.com (ROADMAP L.10, D-71)
+   ---------------------------------------------------------------------
+   Aplicația Android a încărcat până la versionCode 5 adresa
+   whimsical-wisp-61cbbf.netlify.app. Din versionCode 6 încarcă ebanist.com.
+   Pentru WebView sunt două origini diferite: proiectele, licența, cheia AI,
+   sesiunea Supabase și backup-urile automate (localStorage + IndexedDB
+   „ebanist”) rămân pe cea veche. Fără mutare, la prima pornire după
+   actualizare aplicația ar apărea goală.
+
+   MainActivity deschide pagina asta de două ori, o singură dată în viața
+   instalării:
+     1. pe adresa veche  → citește tot și trimite la Android pe bucăți;
+        Android scrie fișierul în memoria aplicației (rămâne ca backup);
+     2. pe ebanist.com   → citește fișierul înapoi și scrie numai cheile
+        care LIPSESC. Nimic nu se suprascrie, nimic nu se șterge: datele de
+        pe adresa veche rămân neatinse.
+   Fără EbanistAndroid (browser obișnuit) pagina nu face nimic.
+   ===================================================================== */
+(function(){
+  "use strict";
+  var A = window.EbanistAndroid;
+  var NEW_HOST = "ebanist.com";
+  var CHUNK = 256 * 1024;
+  var L = (navigator.language || "en").slice(0, 2);
+  var T = {
+    ro: "Mutăm proiectele în noua versiune…",
+    it: "Spostiamo i progetti nella nuova versione…",
+    fr: "Nous déplaçons vos projets dans la nouvelle version…",
+    en: "Moving your projects to the new version…"
+  };
+  document.getElementById("m").textContent = T[L] || T.en;
+  if (!A || typeof A.migrateFinish !== "function") return;
+
+  function done(status) { try { A.migrateFinish(String(status)); } catch (e) {} }
+
+  /* Deschide baza „ebanist” NUMAI dacă există. Un open() pe o bază
+     inexistentă ar crea-o goală, fără depozite; aici upgrade-ul se anulează,
+     deci nu rămâne nimic în urmă. */
+  function openExisting() {
+    return new Promise(function (res) {
+      var idb; try { idb = window.indexedDB; } catch (e) { idb = null; }
+      if (!idb) { res(null); return; }
+      var rq, created = false;
+      try { rq = idb.open("ebanist"); } catch (e) { res(null); return; }
+      rq.onupgradeneeded = function () { created = true; try { rq.transaction.abort(); } catch (e) {} };
+      rq.onsuccess = function () {
+        var db = rq.result;
+        if (created) { try { db.close(); } catch (e) {} res(null); return; }
+        res(db);
+      };
+      rq.onerror = function (e) { if (e && e.preventDefault) e.preventDefault(); res(null); };
+      rq.onblocked = function () { res(null); };
+    });
+  }
+
+  /* Aceeași structură ca ebanist-store.js (DB_VER 1: kv + backups). */
+  function openForWrite() {
+    return new Promise(function (res, rej) {
+      var rq = window.indexedDB.open("ebanist", 1);
+      rq.onupgradeneeded = function () {
+        var db = rq.result;
+        if (!db.objectStoreNames.contains("kv")) db.createObjectStore("kv");
+        if (!db.objectStoreNames.contains("backups")) db.createObjectStore("backups", { keyPath: "id" });
+      };
+      rq.onsuccess = function () { res(rq.result); };
+      rq.onerror = function () { rej(rq.error || new Error("idb-open")); };
+    });
+  }
+
+  function readAll(db) {
+    return new Promise(function (res, rej) {
+      var out = { kv: [], bk: [] };
+      var names = ["kv", "backups"].filter(function (n) { return db.objectStoreNames.contains(n); });
+      if (!names.length) { res(out); return; }
+      var t = db.transaction(names, "readonly");
+      if (names.indexOf("kv") >= 0) {
+        t.objectStore("kv").openCursor().onsuccess = function (e) {
+          var c = e.target.result; if (!c) return;
+          out.kv.push([c.key, c.value]); c.continue();
+        };
+      }
+      if (names.indexOf("backups") >= 0) {
+        t.objectStore("backups").openCursor().onsuccess = function (e) {
+          var c = e.target.result; if (!c) return;
+          out.bk.push(c.value); c.continue();
+        };
+      }
+      t.oncomplete = function () { res(out); };
+      t.onerror = t.onabort = function () { rej(t.error || new Error("idb-read")); };
+    });
+  }
+
+  /* add(), nu put(): o cheie deja prezentă pe ebanist.com rămâne a ei. */
+  function writeMissing(db, kv, bk) {
+    return new Promise(function (res, rej) {
+      var n = 0;
+      var t = db.transaction(["kv", "backups"], "readwrite");
+      var skv = t.objectStore("kv"), sbk = t.objectStore("backups");
+      function add(store, val, key) {
+        var rq = key === undefined ? store.add(val) : store.add(val, key);
+        rq.onsuccess = function () { n++; };
+        rq.onerror = function (e) { e.preventDefault(); e.stopPropagation(); };
+      }
+      kv.forEach(function (p) { add(skv, p[1], p[0]); });
+      bk.forEach(function (r) { if (r && r.id != null) add(sbk, r); });
+      t.oncomplete = function () { res(n); };
+      t.onerror = function (e) { if (e && e.preventDefault) e.preventDefault(); };
+      t.onabort = function () { rej(t.error || new Error("idb-write")); };
+    });
+  }
+
+  function exportOld() {
+    var ls = {};
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i); ls[k] = localStorage.getItem(k);
+      }
+    } catch (e) {}
+    return openExisting().then(function (db) {
+      if (!db) return { kv: [], bk: [] };
+      return readAll(db).then(function (r) { try { db.close(); } catch (e) {} return r; });
+    }).then(function (idb) {
+      var json = JSON.stringify({ v: 1, from: location.hostname, at: Date.now(), ls: ls, kv: idb.kv, bk: idb.bk });
+      A.migrateBegin();
+      /* bucăți de CHUNK, fără să taie o pereche surrogate (emoji) */
+      for (var p = 0; p < json.length; ) {
+        var q = Math.min(json.length, p + CHUNK), c = json.charCodeAt(q - 1);
+        if (q < json.length && q - p > 1 && c >= 0xD800 && c <= 0xDBFF) q--;
+        A.migratePut(json.slice(p, q)); p = q;
+      }
+      A.migrateExported(Object.keys(ls).length + idb.kv.length + idb.bk.length);
+    });
+  }
+
+  function importNew() {
+    var size = Number(A.migrateSize()) || 0, json = "";
+    while (json.length < size) {
+      var c = A.migrateGet(json.length);
+      if (!c) break;
+      json += c;
+    }
+    if (json.length !== size) return Promise.reject(new Error("read"));
+    var d = json ? JSON.parse(json) : null;
+    if (!d || d.v !== 1) return Promise.resolve("ok:0");
+    var wrote = 0;
+    Object.keys(d.ls || {}).forEach(function (k) {
+      try { if (localStorage.getItem(k) === null) { localStorage.setItem(k, d.ls[k]); wrote++; } } catch (e) {}
+    });
+    if (!(d.kv && d.kv.length) && !(d.bk && d.bk.length)) return Promise.resolve("ok:" + wrote);
+    return openForWrite().then(function (db) {
+      return writeMissing(db, d.kv || [], d.bk || []).then(function (m) {
+        try { db.close(); } catch (e) {}
+        return "ok:" + (wrote + m);
+      });
+    });
+  }
+
+  var job = location.hostname === NEW_HOST ? importNew() : exportOld();
+  Promise.resolve(job).then(function (r) {
+    if (location.hostname === NEW_HOST) done(r || "ok");
+  }, function (e) {
+    done("error:" + (e && e.message || e));
+  });
+})();
+</script>
+</body></html>

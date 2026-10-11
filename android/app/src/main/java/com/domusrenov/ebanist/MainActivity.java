@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Insets;
 import android.media.MediaScannerConnection;
@@ -42,9 +44,12 @@ import android.window.OnBackInvokedDispatcher;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +65,16 @@ import java.util.List;
  */
 public class MainActivity extends Activity {
 
-    static final String HOST = "whimsical-wisp-61cbbf.netlify.app";
+    static final String HOST = "ebanist.com";
     static final String START = "https://" + HOST + "/app/";
+    /* Adresa încărcată până la versionCode 5 (ROADMAP L.10, D-71). Linkurile
+       vechi spre ea se deschid pe HOST; datele de pe ea se mută o singură
+       dată, la prima pornire după actualizare (vezi boot()). */
+    static final String OLD_HOST = "whimsical-wisp-61cbbf.netlify.app";
+    static final String MIGRATE = "/android-migrate.html";
+    static final int MIGRATE_TRIES = 3;
+    static final int MIGRATE_CHUNK = 256 * 1024;
+    static final long MIGRATE_TIMEOUT = 45000;
     static final int BRAND = 0xFF0E3B2A;
     static final int REQ_FILE = 1, REQ_CAMERA = 2, REQ_STORAGE = 3, REQ_SPEECH = 4;
 
@@ -74,6 +87,12 @@ public class MainActivity extends Activity {
     boolean pageReady;
     long lastBack;
     boolean offline;
+    SharedPreferences prefs;
+    volatile boolean migrating;
+    volatile String afterMigrate;
+    int migrateRun;
+    StringBuilder migrateBuf;
+    String migrateData;
 
     /* Rulează după fiecare pagină încărcată. Pune în legătură trei lucruri
        pe care un WebView nu le face singur: window.print(), descărcările din
@@ -105,6 +124,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
+        prefs = getSharedPreferences("ebanist", MODE_PRIVATE);
 
         FrameLayout root = new FrameLayout(this);
         root.setBackgroundColor(BRAND);
@@ -172,19 +192,78 @@ public class MainActivity extends Activity {
 
         /* Proiectele stau în localStorage-ul site-ului, nu în starea
            ferestrei: la repornire se încarcă mereu aplicația curată. */
-        web.loadUrl(startUrl(getIntent()));
+        boot(startUrl(getIntent()));
+    }
+
+    /* Mutarea pe ebanist.com (L.10). Pentru WebView, adresa veche și cea nouă
+       sunt origini diferite: localStorage și IndexedDB („ebanist”: proiectele,
+       licența, backup-urile) rămân pe cea veche. O singură dată pe instalare,
+       android-migrate.html le citește acolo, le trece prin fișierul
+       origin-backup.json din memoria aplicației și scrie pe ebanist.com numai
+       cheile care lipsesc. Adresa veche nu se golește: rămâne copia de
+       siguranță, alături de fișier. O instalare nouă n-are ce muta. */
+    void boot(String url) {
+        if (prefs.getBoolean("originMoved", false) || freshInstall()) {
+            prefs.edit().putBoolean("originMoved", true).apply();
+            web.loadUrl(url);
+            return;
+        }
+        int tries = prefs.getInt("originTries", 0);
+        if (tries >= MIGRATE_TRIES) { web.loadUrl(url); return; }
+        prefs.edit().putInt("originTries", tries + 1).apply();
+        afterMigrate = url;
+        migrating = true;
+        /* o pagină care nu mai răspunde nu ține aplicația pe loc */
+        int run = ++migrateRun;
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (migrating && run == migrateRun) migrateEnd("error:timeout");
+        }, MIGRATE_TIMEOUT);
+        web.loadUrl("https://" + OLD_HOST + MIGRATE);
+    }
+
+    boolean freshInstall() {
+        try {
+            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pi.firstInstallTime == pi.lastUpdateTime;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    void migrateEnd(String status) {
+        if (!migrating) return;
+        migrating = false;
+        migrateBuf = null;
+        migrateData = null;
+        if (status != null && status.startsWith("ok")) prefs.edit().putBoolean("originMoved", true).apply();
+        String url = afterMigrate != null ? afterMigrate : START;
+        runOnUiThread(() -> web.loadUrl(url));
+    }
+
+    File migrateFile() { return new File(getFilesDir(), "origin-backup.json"); }
+
+    static boolean isHost(Uri u, String host) {
+        return u != null && "https".equals(u.getScheme()) && host.equals(u.getHost());
+    }
+
+    /* un link spre adresa veche → aceeași cale pe HOST */
+    static String onHost(Uri u) {
+        return u.buildUpon().authority(HOST).build().toString();
     }
 
     String startUrl(Intent i) {
         Uri u = i != null ? i.getData() : null;
-        if (u != null && "https".equals(u.getScheme()) && HOST.equals(u.getHost())) return u.toString();
+        if (isHost(u, HOST)) return u.toString();
+        if (isHost(u, OLD_HOST)) return onHost(u);
         return START;
     }
 
     @Override
     protected void onNewIntent(Intent i) {
         super.onNewIntent(i);
-        if (i.getData() != null) web.loadUrl(startUrl(i));
+        if (i.getData() == null) return;
+        if (migrating) { afterMigrate = startUrl(i); return; }
+        web.loadUrl(startUrl(i));
     }
 
     @Override
@@ -287,14 +366,16 @@ public class MainActivity extends Activity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest req) {
             Uri u = req.getUrl();
-            if ("https".equals(u.getScheme()) && HOST.equals(u.getHost())) return false;
+            if (isHost(u, HOST)) return false;
+            if (isHost(u, OLD_HOST)) { v.loadUrl(onHost(u)); return true; }
             openExternal(u);
             return true;
         }
 
         @Override
         public void onPageFinished(WebView v, String url) {
-            if (url != null && url.startsWith("https://" + HOST)) {
+            Uri u = url != null ? Uri.parse(url) : null;
+            if (isHost(u, HOST) && !MIGRATE.equals(u.getPath())) {
                 offline = false;
                 pageReady = true;
                 v.evaluateJavascript(SHIM, null);
@@ -304,7 +385,15 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceivedError(WebView v, WebResourceRequest req, WebResourceError err) {
-            if (req.isForMainFrame()) showOffline();
+            if (!req.isForMainFrame()) return;
+            /* Fără semnal în timpul mutării: datele rămân pe adresa veche,
+               iar „Reîncearcă” o pornește din nou (boot). */
+            if (migrating) {
+                migrating = false; migrateBuf = null; migrateData = null;
+                /* lipsa semnalului nu se numără între cele MIGRATE_TRIES */
+                prefs.edit().putInt("originTries", Math.max(0, prefs.getInt("originTries", 1) - 1)).apply();
+            }
+            showOffline();
         }
     }
 
@@ -426,7 +515,8 @@ public class MainActivity extends Activity {
     }
 
     /* Punte JS → Android. Se încarcă numai pagini de pe HOST (restul pleacă
-       în browser), deci nicio pagină străină nu ajunge la ea. */
+       în browser), deci nicio pagină străină nu ajunge la ea. Excepția e
+       android-migrate.html pe OLD_HOST, tot a noastră, o singură dată. */
     class Bridge {
         @JavascriptInterface
         public void speech(String lang) { runOnUiThread(() -> startSpeech(lang)); }
@@ -486,7 +576,58 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface
         public void retry() {
-            runOnUiThread(() -> { offline = false; web.clearHistory(); web.loadUrl(START); });
+            runOnUiThread(() -> { offline = false; web.clearHistory(); boot(START); });
         }
+
+        /* ---- mutarea datelor pe HOST (android-migrate.html, vezi boot) ----
+           Toate tac în afara mutării: nicio pagină nu le poate porni singură. */
+        @JavascriptInterface
+        public void migrateBegin() { if (migrating) migrateBuf = new StringBuilder(); }
+
+        @JavascriptInterface
+        public void migratePut(String part) {
+            if (migrating && migrateBuf != null && part != null) migrateBuf.append(part);
+        }
+
+        @JavascriptInterface
+        public void migrateExported(int items) {
+            if (!migrating || migrateBuf == null) return;
+            try (OutputStream os = new FileOutputStream(migrateFile())) {
+                os.write(migrateBuf.toString().getBytes(StandardCharsets.UTF_8));
+            } catch (Exception e) {
+                migrateEnd("error:write");
+                return;
+            }
+            migrateBuf = null;
+            runOnUiThread(() -> web.loadUrl("https://" + HOST + MIGRATE));
+        }
+
+        @JavascriptInterface
+        public String migrateSize() {
+            if (!migrating) return "0";
+            File f = migrateFile();
+            byte[] b = new byte[(int) f.length()];
+            try (InputStream is = new FileInputStream(f)) {
+                int off = 0, n;
+                while (off < b.length && (n = is.read(b, off, b.length - off)) > 0) off += n;
+            } catch (Exception e) {
+                return "0";
+            }
+            migrateData = new String(b, StandardCharsets.UTF_8);
+            return String.valueOf(migrateData.length());
+        }
+
+        /* bucata care începe la `from`; nu taie o pereche surrogate (emoji) */
+        @JavascriptInterface
+        public String migrateGet(int from) {
+            String d = migrateData;
+            if (!migrating || d == null || from < 0 || from >= d.length()) return "";
+            int to = Math.min(d.length(), from + MIGRATE_CHUNK);
+            if (to < d.length() && to - from > 1 && Character.isHighSurrogate(d.charAt(to - 1))) to--;
+            return d.substring(from, to);
+        }
+
+        @JavascriptInterface
+        public void migrateFinish(String status) { migrateEnd(status); }
     }
 }

@@ -231,6 +231,13 @@
     Content-Type = "application/json"
     Cache-Control = "public, max-age=0"
 
+# Aplicația Android (versionCode 6, L.10) o deschide o singură dată, pe
+# adresa veche și pe ebanist.com, ca să mute datele. Mereu versiunea curentă.
+[[headers]]
+  for = "/android-migrate.html"
+  [headers.values]
+    Cache-Control = "no-store"
+
 # Nel localStorage di questa origine stanno la chiave API Anthropic, tutti i
 # progetti coi dati dei clienti e il token di sessione Supabase. Gli header
 # qui sotto sono l'ultima rete se qualcosa riesce comunque a iniettare codice.
