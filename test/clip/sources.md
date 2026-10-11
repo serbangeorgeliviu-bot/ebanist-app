@@ -16,3 +16,10 @@ Clip AI (veo-3.1-fast, 720p, 8 s, 9:16; marchează „AI-generated"): https://vi
 Prompt: vertical 9:16 smartphone video, handheld with slight natural shake, real Italian cabinetmaker's workshop lit by daylight from a window, natural colors, subtle film grain, no text, no music. A man of about 38 with short dark hair, light stubble, navy sweatshirt dusted with sawdust and a pencil behind his ear stands facing the camera, chest-up, as if someone off-camera is talking to him. First polite attention, then his eyes slowly go blank, one eyebrow lifts, a long slow blink, a quiet exhale through the nose, a tiny tired half-smile. Very slow push-in. He never speaks. Ambient workshop sound only.
 Montaj: `python3 skit.py skit/ep1.json <clip.mp4> <out.mp4>` (video; sunetul: ambianța clipului + pop la baloane + thud la «200 €»).
 Cost: ~240 credite vidIQ per clip de 8 s.
+
+## Skit „Cliente" — același personaj în episoade (ep. 2+)
+
+Veo generează o persoană nouă la fiecare clip, deci pentru același personaj: **imagine de start** (`startFrameB64`) = un cadru frontal din ep. 1 (216×384 JPEG, ~7 KB; ex.: `ffmpeg -ss 3.2 -i A.mp4 -frames:v 1 -vf scale=216:384 -q:v 9 st.jpg`), iar promptul descrie doar acțiunea („Same man, same workshop, same framing as the first frame…"). Verificat: ep. 2 are aceeași față, aceeași bluză, același atelier.
+- Ep. 2 (clip 8 s): https://videogen.vidiq.com/cc981166-09f6-459a-939c-c3ef947c6276/db8d6a3e-6d8f-4990-a86c-fd0983e974af_379849c0-0b2b-4b56-bcf2-7f18cdd25e66_9105cfc5-4e5d-46be-bd96-87461aa553c4.mp4
+- Prompt ep. 2: Same man, same workshop, same framing as the first frame, vertical 9:16 handheld smartphone look, natural daylight from the window, subtle film grain, no text, no music. He keeps staring at the camera, deadpan. Then he slowly takes the pencil from behind his ear, looks at it, looks back at the camera and lets out a long weary sigh while shaking his head very slightly. Very slow push-in. He never speaks. Ambient workshop sound only.
+- Montaj video+sunet: `bash skit.sh skit/ep2.json <clip.mp4> <out.mp4> [thud_ms]`
