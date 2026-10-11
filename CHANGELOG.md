@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.51.0 — 11 octombrie 2026
+
+**Până la 8 uși și 8 despărțitori în formular (ROADMAP U.5).** Cerut de G. Roscigno: un dulap de 3 m are 6 uși. Formularul tăia la 4 (`Math.min(4,…)`); prin asistentul AI nu exista limită.
+
+- `Ante` și `Tramezzi` merg acum până la **8** (9 secțiuni). Limita e o constantă, `MAX_DOORS` / `MAX_TRAM`, folosită de formular, de cfg, de butoanele pentru partea balamalelor (U.1) și de asistentul AI (câmpurile de secțiune au acum până la 9 intrări).
+- **Balamale implicite pe perechi, peste 4 uși:** prima stânga, a doua dreapta, a treia stânga… Cu secțiunile aliniate pe perechi (6 uși, 2 despărțitori), fiecare placă de balama are un panou alături, fără avertismentul `opsNoHingePanel`. **Până la 4 uși regula veche rămâne** (proiectele salvate nu se schimbă, D-39). O ușă aleasă cu mâna (U.1) rămâne cum ai ales-o.
+- Planul camerei desenează deschiderea ușii din partea scrisă a balamalei, nu din poziția ei față de corp (valabil și pentru U.1).
+- **Uși foarte înguste:** sub 150 mm se generează, dar apare un avertisment („reduce numărul de uși sau lărgește corpul”).
+- Verificat: 3D, feronerie (cerniere pe toate ușile), fișa de montaj, închiderea la 0 mm și invarianții la 5, 6 și 8 uși.
+- Teste: `doors8.test.js` (11) și 8 verificări în e2e. `test:full` 572/572 + golden 42/42, e2e 495/495.
+- `APP_VER` 4.51.0, `SW_CACHE`/`CACHE` → `ebanist-v110`. Android: fără `.aab`.
+
 ## 4.50.0 — 11 octombrie 2026
 
 **Gola: profil de aluminiu în loc de mâner (ROADMAP U.7, D-75).** Cerut de G. Roscigno. Până acum un profil gola ales din catalog doar scotea găurile de mâner, dar frontalele rămâneau pe înălțimea întreagă și profilul se număra cu bucata.

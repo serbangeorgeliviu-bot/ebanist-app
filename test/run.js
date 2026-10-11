@@ -2456,6 +2456,38 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  /* U.5 — pana la 8 usi si 8 despartitori in formular */
+  {
+    head("Mai mult de 4 usi — formular, 3D, fisa de montaj, modul client (U.5)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; document.getElementById("grpIn").open = true;
+      buildCfg = { ...PRESETS.armadio, name: "Sei", L: 2400, H: 2400, doors: 2, tram: 1, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    await pg.fill("#bDoors", "6"); await pg.dispatchEvent("#bDoors", "change");
+    await pg.fill("#bTram", "2"); await pg.dispatchEvent("#bTram", "change"); await pg.waitForTimeout(300);
+    const r6 = await pg.evaluate(() => { const c = cfgFromForm(); const m = buildModule(c);
+      return { doors: c.doors, tram: c.tram, pcs: m.pieces.filter(p => p.role === "frontale").reduce((s2, p) => s2 + p.pz, 0),
+               chips: document.querySelectorAll("#doorHingeBox .chip").length, warn: m.warn.doorNarrow }; });
+    ok("U.5: 6 usi si 2 despartitori nu mai sunt taiate la 4", r6.doors === 6 && r6.tram === 2 && r6.pcs === 6);
+    ok("U.5: sase butoane pentru partea balamalelor", r6.chips === 6);
+    await pg.fill("#bDoors", "12"); await pg.dispatchEvent("#bDoors", "change"); await pg.waitForTimeout(150);
+    ok("U.5: peste 8 se opreste la 8", await pg.evaluate(() => cfgFromForm().doors === 8));
+    await pg.fill("#bDoors", "6"); await pg.dispatchEvent("#bDoors", "change"); await pg.waitForTimeout(150);
+    const all = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      generateInto(p, { ...cfgFromForm(), name: "Sei" });
+      const o = {};
+      try { const h = computeHardware(p, state.settings, true); o.cern = h.mods["Sei"] && h.mods["Sei"].hwCern; } catch (e) { o.cern = String(e); }
+      try { o.mont = montDoc(p).length > 200; } catch (e) { o.mont = String(e); }
+      try { o.hit = buildModule(p.configs["Sei"]).boxes.filter(b => b.sub === "door" && b.hinge).length; } catch (e) { o.hit = String(e); }
+      try { o.cl = typeof clientOpen === "function"; } catch (e) { o.cl = false; }
+      return o; });
+    ok("U.5: feroneria numara cerniere pentru toate cele 6 usi", typeof all.cern === "number" && all.cern >= 12, JSON.stringify(all).slice(0, 160));
+    ok("U.5: fisa de montaj se genereaza", all.mont === true);
+    ok("U.5: balamalele implicite pe perechi ajung in 3D (6 usi cu partea scrisa)", all.hit === 6);
+    ok("U.5: pe 900 mm cu 8 usi apare avertismentul de usi inguste", await pg.evaluate(() => { const c = { ...cfgFromForm(), L: 900, tram: 0, doors: 8 }; const m = buildModule(c); return m.warn.doorNarrow > 0 && m.warn.doorNarrow < 150; }));
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Sei"); delete p.configs["Sei"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.5: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
