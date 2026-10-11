@@ -171,7 +171,7 @@ describe("Validazione — nessuna cota si perde, nessuna si aggiusta in silenzio
     assert.ok(has(errsOf(withP(c => { c.depthProfile[1].yTo = 2260; })), /nu la H = 2280/));
   });
   test("cassetti insieme alle partizioni -> errore dichiarato, non cassetti persi", () => {
-    assert.ok(has(errsOf(withP(c => { c.drawers = 3; })), /sertarele nu se pot combina/));
+    assert.ok(has(errsOf(withP(c => { c.drawers = 3; })), /Cassetti\/sez\.» nu se combină cu partiții/));
   });
   test("cote assolute su una tipologia diversa da standard -> errore", () => {
     assert.ok(has(errsOf(withP(c => { c.type = "tondo"; })), /doar pe tipologia standard/));

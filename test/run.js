@@ -2352,6 +2352,58 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.8: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.4 — cote la cota scrise cu mana, cu sertare pe coloane (D-74) */
+  {
+    head("Cote la cota: editor manual, sertare pe coloana (U.4)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpAbs").open = true;
+      buildCfg = { ...PRESETS.armadio, name: "Arm", L: 1800, H: 2700 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    const info = () => pg.evaluate(() => ({ rows: document.querySelectorAll(".abs-row").length, chk: document.getElementById("absCheck").innerText,
+      c: (() => { const c = cfgFromForm(); return { p: c.partitions, f: c.fronts, d: c.drawerBlocks, tram: c.tram, drawers: c.drawers }; })() }));
+    let x = await info();
+    ok("U.4: editorul e gol la un corp normal", x.rows === 0 && x.c.p === undefined);
+    await pg.click('[data-addk="setto"]'); await pg.waitForTimeout(200);
+    x = await info();
+    ok("U.4: primul setto opreste sectiunile egale (tram, sertare/sectiune → 0)", x.rows === 1 && x.c.tram === 0 && x.c.drawers === 0);
+    ok("U.4: controlul zice «cotele se inchid», cu coloanele", /close|chiu|ferm|chiudono/i.test(x.chk) && /2700/.test(x.chk));
+    await pg.click('[data-addk="ripiano"]'); await pg.waitForTimeout(200);
+    x = await info();
+    ok("U.4: ripiano nou pe «left» cand exista un setto (fara eroare)", x.rows === 2 && x.c.p[1].span === "left" && !/⚠/.test(x.chk));
+    /* se scrie in campuri, ca un om: doua rafturi stanga, un bloc de sertare intre ele */
+    await pg.evaluate(() => { const a = buildCfg.partitions.map(q => ({ ...q })); a[1].y = 900; a.push({ type: "ripiano", y: 1800, span: "left" }); buildCfg.partitions = a; drawPreview(); renderAbs(); });
+    await pg.click('[data-addk="cass"]'); await pg.waitForTimeout(200);
+    const inp = '.abs-row [data-k="drawerBlocks"][data-f=';
+    for (const [f, v] of [["yEnd", "1450"], ["yStart", "919"], ["n", "3"]]) {
+      await pg.fill(inp + `"${f}"]`, v); await pg.dispatchEvent(inp + `"${f}"]`, "change"); await pg.waitForTimeout(150); }
+    x = await info();
+    ok("U.4: sertare pe coloana 1, 919–1450, n=3, salvate in cfg", x.c.d && x.c.d[0].yStart === 919 && x.c.d[0].yEnd === 1450 && x.c.d[0].n === 3);
+    ok("U.4: controlul nu da erori", !/⚠/.test(x.chk));
+    const gen = await pg.evaluate(() => { const m = buildModule(cfgFromForm());
+      return { fr: m.pieces.filter(p => p.role === "cassetto_frontale").reduce((s, p) => s + p.pz, 0), n: m.pieces.length }; });
+    ok("U.4: distinta are cele 3 frontale de sertar", gen.fr === 3);
+    /* o cota care nu are loc se vede sub lista, nu la «Genereaza» */
+    await pg.fill(inp + '"yStart"]', "850"); await pg.dispatchEvent(inp + '"yStart"]', "change"); await pg.waitForTimeout(300);
+    x = await info();
+    ok("U.4: un raft prin zona sertarelor → eroare vizibila in editor", /⚠/.test(x.chk) && /ripiano|shelf|raft|étagère/i.test(x.chk));
+    await pg.fill(inp + '"yStart"]', "919"); await pg.dispatchEvent(inp + '"yStart"]', "change"); await pg.waitForTimeout(200);
+    /* proiectul se salveaza si se redeschide cu cotele */
+    const re = await pg.evaluate(() => { const p = proj(); p.configs = p.configs || {};
+      const r = generateInto(p, cfgFromForm()); const cfg = p.configs["Arm"];
+      buildCfg = { ...cfg }; syncBuildForm(); renderSecChips();
+      return { saved: !!(cfg.drawerBlocks && cfg.partitions), rows: document.querySelectorAll(".abs-row").length, fr: r.pieces.filter(q => q.role === "cassetto_frontale").length }; });
+    ok("U.4: generat in proiect, redeschis in editor cu aceleasi randuri", re.saved && re.rows === 4);
+    /* hardware si fisa de montaj citesc blocurile */
+    const hw = await pg.evaluate(() => { const p = proj(); let o = {};
+      try { const h = computeHardware(p, state.settings, true); o.hw = (h.mods && h.mods["Arm"]) || null; o.tot = h.q || h.totals || null; } catch (e) { o.err = String(e); }
+      try { o.mont = typeof montDoc(p) === "string"; } catch (e) { o.merr = String(e); }
+      try { const m = buildModule(p.configs["Arm"]); o.info = drawGroupsOf(m).length; } catch (e) { o.ierr = String(e); }
+      return o; });
+    ok("U.4: feroneria numara glisierele sertarelor din bloc", hw.hw && hw.hw.hwGuida > 0, JSON.stringify(hw).slice(0, 160));
+    ok("U.4: fisa de montaj si planul cassetelor fara erori", hw.mont === true && hw.info === 1);
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Arm"); delete p.configs["Arm"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.4: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

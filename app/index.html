@@ -1528,6 +1528,16 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
 
+    <details class="grp" id="grpAbs">
+      <summary><span data-i="grpAbs">Cote la cotă</span><i class="grp-sum" id="sumAbs"></i></summary>
+      <div class="grp-body" id="absBody">
+        <p class="mini" data-i="absHint" style="margin:0 0 8px"></p>
+        <div id="absLists"></div>
+        <div class="chips" id="absAdd" style="margin-top:6px"></div>
+        <div id="absCheck" style="margin-top:8px"></div>
+      </div>
+    </details>
+
     <button class="btn red" id="btnGenerate" style="margin-top:10px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
       <span data-i="generate">Genera distinta</span>
@@ -2264,7 +2274,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
    caricato non e la revisione che questa pagina si aspetta, se ne scarica
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
-if(window.CORE_REV!=="4.48.0") document.write('<script src="./ebanist-core.js?rev=4.48.0"><\/script>');
+if(window.CORE_REV!=="4.49.0") document.write('<script src="./ebanist-core.js?rev=4.49.0"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-worktop.js"></script>
@@ -2369,7 +2379,7 @@ Object.assign(I18N.it,{
   dstFix:"Fisse",dstEq:"Uguali",dstKit:"Cucina (uno basso in alto)",
   dwAuto:"Automatica",dwSide:"sponda",dwFronts:"frontali",dwBase:"fondo",dwBack:"retro",
   dwBox:"cassa",dwInner:"interno, arretrato",
-  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secDrawHPh:"altezze, es. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondità del cassetto (lunghezza della guida), vuoto = la più lunga che entra.",secDrawHHint:"Altezze dei frontali dall'alto (mm), anche una sola: «200» su 4 cassetti = 200 in alto e gli altri tre uguali sotto.",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",fDoorHinge:"Lato cerniere",doorHingeHint:"Tocca un'anta: auto (regola di sempre), cerniere a sinistra o a destra. Due ante con le cerniere al centro chiedono un divisorio.",doorShort:"Anta",hingeAuto:"auto",hingeL:"sinistra",hingeR:"destra",doorHingeWarn:"Cerniere al centro senza divisorio: la basetta non ha un fianco su cui stare.",fTop:"Chiusura in alto",topPlin:"Cielo pieno",topRails:"Due traverse",topNone:"Nessuna",fTopRail:"Larghezza traversa (mm)",topHint:"Sotto un lavello o una piastra: due traverse (davanti e dietro, stesso materiale e grossezza del cielo) o nessun cielo. Le traverse non seguono un muro in angolo.",wTopAngled:"Il muro è in angolo: il cielo resta intero, le traverse non si possono fare.",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
+  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secDrawHPh:"altezze, es. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondità del cassetto (lunghezza della guida), vuoto = la più lunga che entra.",secDrawHHint:"Altezze dei frontali dall'alto (mm), anche una sola: «200» su 4 cassetti = 200 in alto e gli altri tre uguali sotto.",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",fDoorHinge:"Lato cerniere",doorHingeHint:"Tocca un'anta: auto (regola di sempre), cerniere a sinistra o a destra. Due ante con le cerniere al centro chiedono un divisorio.",doorShort:"Anta",hingeAuto:"auto",hingeL:"sinistra",hingeR:"destra",doorHingeWarn:"Cerniere al centro senza divisorio: la basetta non ha un fianco su cui stare.",fTop:"Chiusura in alto",topPlin:"Cielo pieno",topRails:"Due traverse",topNone:"Nessuna",fTopRail:"Larghezza traversa (mm)",topHint:"Sotto un lavello o una piastra: due traverse (davanti e dietro, stesso materiale e grossezza del cielo) o nessun cielo. Le traverse non seguono un muro in angolo.",wTopAngled:"Il muro è in angolo: il cielo resta intero, le traverse non si possono fare.",drawBlock:"Cassetti blocco","grpAbs":"Quote assolute","absHint":"Setti, ripiani, ante, cassetti e tagli alle loro quote, scritte a mano. y dal pavimento, x dal filo esterno sinistro. Finché c'è una quota, il corpo non si divide più in sezioni uguali.","absX":"x (mm o «center»)","absYs":"y inizio","absYe":"y fine","absDepth":"Profondità","absY":"y (faccia inferiore)","absSpan":"Estensione","absFull":"traversante","absLeft":"sinistra","absRight":"destra","absW":"Largh.","absH":"Alt.","absHinge":"Cerniere","absCol":"Colonna","absN":"N°","absHeights":"Altezze alto→basso (es. 200/300)","absInner":"dietro le ante","absOn":"Su","absSides":"fianchi","absDividers":"setti","absCorner":"Angolo","absC_back-bottom":"dietro-basso","absC_front-bottom":"davanti-basso","absC_back-top":"dietro-alto","absC_front-top":"davanti-alto","absCutH":"Altezza (lungo H)","absCutD":"Profondità (lungo P)","absCut":"Taglio","absOk":"Le quote chiudono","absColV":"Colonna",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
   wDrawRoom:"I cassetti non ci stanno in altezza: riduci il numero o alza la zona.",
   wDrawOver:"La colonna di cassetti sborda di {mm} mm oltre il fronte.",
   wDrawNL:"Profondità cassetto: NL {want} non c'è o non entra — uso NL {got}.",wDrawDeep:"Mobile troppo poco profondo per questo sistema: restano {mm} mm utili, la guida piu corta ne vuole {min}.",
@@ -2388,7 +2398,7 @@ Object.assign(I18N.ro,{
   dstFix:"Fixe",dstEq:"Egale",dstKit:"Bucătărie (unul mic sus)",
   dwAuto:"Automată",dwSide:"laterală",dwFronts:"fronturi",dwBase:"fund",dwBack:"spate",
   dwBox:"cutie",dwInner:"interior, retras",
-  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secDrawHPh:"înălțimi, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = adâncimea sertarului (lungimea glisierei), gol = cea mai lungă care încape.",secDrawHHint:"Înălțimile fronturilor de sus (mm), chiar și una singură: «200» la 4 sertare = 200 sus și celelalte trei egale dedesubt.",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",fDoorHinge:"Partea balamalelor",doorHingeHint:"Atinge o ușă: automat (regula de până acum), balamale pe stânga sau pe dreapta. Două uși cu balamalele la mijloc cer un despărțitor.",doorShort:"Ușa",hingeAuto:"auto",hingeL:"stânga",hingeR:"dreapta",doorHingeWarn:"Balamale la mijloc fără despărțitor: placa de balama nu are pe ce să se fixeze.",fTop:"Închidere sus",topPlin:"Tavan plin",topRails:"Două traverse",topNone:"Fără",fTopRail:"Lățime traversă (mm)",topHint:"Sub chiuvetă sau sub plită: două traverse (față și spate, același material și aceeași grosime ca tavanul) sau fără tavan. Traversele nu urmează un perete în unghi.",wTopAngled:"Peretele e în unghi: tavanul rămâne întreg, traversele nu se pot face.",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
+  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secDrawHPh:"înălțimi, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = adâncimea sertarului (lungimea glisierei), gol = cea mai lungă care încape.",secDrawHHint:"Înălțimile fronturilor de sus (mm), chiar și una singură: «200» la 4 sertare = 200 sus și celelalte trei egale dedesubt.",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",fDoorHinge:"Partea balamalelor",doorHingeHint:"Atinge o ușă: automat (regula de până acum), balamale pe stânga sau pe dreapta. Două uși cu balamalele la mijloc cer un despărțitor.",doorShort:"Ușa",hingeAuto:"auto",hingeL:"stânga",hingeR:"dreapta",doorHingeWarn:"Balamale la mijloc fără despărțitor: placa de balama nu are pe ce să se fixeze.",fTop:"Închidere sus",topPlin:"Tavan plin",topRails:"Două traverse",topNone:"Fără",fTopRail:"Lățime traversă (mm)",topHint:"Sub chiuvetă sau sub plită: două traverse (față și spate, același material și aceeași grosime ca tavanul) sau fără tavan. Traversele nu urmează un perete în unghi.",wTopAngled:"Peretele e în unghi: tavanul rămâne întreg, traversele nu se pot face.",drawBlock:"Sertare bloc","grpAbs":"Cote la cotă","absHint":"Despărțitori, rafturi, uși, sertare și decupaje la cotele lor, scrise de mână. y de la pardoseală, x de la fața exterioară stângă. Cât există o cotă, corpul nu se mai împarte în secțiuni egale.","absX":"x (mm sau «center»)","absYs":"y început","absYe":"y sfârșit","absDepth":"Adâncime","absY":"y (fața de jos)","absSpan":"Întindere","absFull":"traversant","absLeft":"stânga","absRight":"dreapta","absW":"Lăț.","absH":"Înălț.","absHinge":"Balamale","absCol":"Coloana","absN":"Nr.","absHeights":"Înălțimi sus→jos (ex. 200/300)","absInner":"în spatele ușilor","absOn":"Pe","absSides":"laterale","absDividers":"setti","absCorner":"Colț","absC_back-bottom":"spate-jos","absC_front-bottom":"față-jos","absC_back-top":"spate-sus","absC_front-top":"față-sus","absCutH":"Înălțime (pe H)","absCutD":"Adâncime (pe P)","absCut":"Decupaj","absOk":"Cotele se închid","absColV":"Coloana",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
   wDrawRoom:"Sertarele nu încap pe înălțime: scade numărul sau mărește zona.",
   wDrawOver:"Coloana de sertare depășește frontul cu {mm} mm.",
   wDrawNL:"Adâncime sertar: NL {want} nu există sau nu încape — folosesc NL {got}.",wDrawDeep:"Corpul e prea puțin adânc pentru sistemul ăsta: rămân {mm} mm utili, cea mai scurtă glisieră cere {min}.",
@@ -2407,7 +2417,7 @@ Object.assign(I18N.en,{
   dstFix:"Fixed",dstEq:"Equal",dstKit:"Kitchen (one shallow on top)",
   dwAuto:"Automatic",dwSide:"side",dwFronts:"fronts",dwBase:"base",dwBack:"back",
   dwBox:"box",dwInner:"inner, set back",
-  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secDrawHPh:"heights, e.g. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = drawer depth (runner length), empty = the longest that fits.",secDrawHHint:"Front heights from the top (mm), even just one: «200» on 4 drawers = 200 on top and the other three equal below.",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",fDoorHinge:"Hinge side",doorHingeHint:"Tap a door: auto (the usual rule), hinges on the left or on the right. Two doors hinged at the centre need a divider.",doorShort:"Door",hingeAuto:"auto",hingeL:"left",hingeR:"right",doorHingeWarn:"Hinges meeting at the centre with no divider: the mounting plate has no panel to sit on.",fTop:"Top closure",topPlin:"Full top",topRails:"Two rails",topNone:"None",fTopRail:"Rail width (mm)",topHint:"Under a sink or a hob: two rails (front and back, same material and thickness as the top) or no top. Rails do not follow an angled wall.",wTopAngled:"The wall is angled: the top stays whole, rails are not possible.",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
+  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secDrawHPh:"heights, e.g. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = drawer depth (runner length), empty = the longest that fits.",secDrawHHint:"Front heights from the top (mm), even just one: «200» on 4 drawers = 200 on top and the other three equal below.",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",fDoorHinge:"Hinge side",doorHingeHint:"Tap a door: auto (the usual rule), hinges on the left or on the right. Two doors hinged at the centre need a divider.",doorShort:"Door",hingeAuto:"auto",hingeL:"left",hingeR:"right",doorHingeWarn:"Hinges meeting at the centre with no divider: the mounting plate has no panel to sit on.",fTop:"Top closure",topPlin:"Full top",topRails:"Two rails",topNone:"None",fTopRail:"Rail width (mm)",topHint:"Under a sink or a hob: two rails (front and back, same material and thickness as the top) or no top. Rails do not follow an angled wall.",wTopAngled:"The wall is angled: the top stays whole, rails are not possible.",drawBlock:"Drawers block","grpAbs":"Absolute dimensions","absHint":"Dividers, shelves, doors, drawers and cut-outs at their own dimensions, typed by hand. y from the floor, x from the outer left face. As long as one exists, the unit is no longer split into equal sections.","absX":"x (mm or «center»)","absYs":"y start","absYe":"y end","absDepth":"Depth","absY":"y (underside)","absSpan":"Span","absFull":"full","absLeft":"left","absRight":"right","absW":"Width","absH":"Height","absHinge":"Hinges","absCol":"Column","absN":"No.","absHeights":"Heights top→bottom (e.g. 200/300)","absInner":"behind the doors","absOn":"On","absSides":"sides","absDividers":"dividers","absCorner":"Corner","absC_back-bottom":"back-bottom","absC_front-bottom":"front-bottom","absC_back-top":"back-top","absC_front-top":"front-top","absCutH":"Height (along H)","absCutD":"Depth (along P)","absCut":"Cut-out","absOk":"The dimensions close","absColV":"Column",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
   wDrawRoom:"The drawers do not fit in height: lower the count or raise the zone.",
   wDrawOver:"The drawer stack overruns the front by {mm} mm.",
   wDrawNL:"Drawer depth: NL {want} does not exist or does not fit — using NL {got}.",wDrawDeep:"Cabinet too shallow for this system: {mm} mm usable, the shortest runner needs {min}.",
@@ -2426,7 +2436,7 @@ Object.assign(I18N.fr,{
   dstFix:"Fixes",dstEq:"Égales",dstKit:"Cuisine (un bas en haut)",
   dwAuto:"Automatique",dwSide:"côté",dwFronts:"façades",dwBase:"fond",dwBack:"dos",
   dwBox:"caisse",dwInner:"intérieur, en retrait",
-  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secDrawHPh:"hauteurs, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondeur du tiroir (longueur de coulisse), vide = la plus longue qui entre.",secDrawHHint:"Hauteurs des façades depuis le haut (mm), même une seule : «200» sur 4 tiroirs = 200 en haut et les trois autres égaux dessous.",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",fDoorHinge:"Côté charnières",doorHingeHint:"Touchez une porte : auto (la règle habituelle), charnières à gauche ou à droite. Deux portes charnières au centre demandent une séparation.",doorShort:"Porte",hingeAuto:"auto",hingeL:"gauche",hingeR:"droite",doorHingeWarn:"Charnières au centre sans séparation : l'embase n'a pas de panneau où se fixer.",fTop:"Fermeture en haut",topPlin:"Dessus plein",topRails:"Deux traverses",topNone:"Aucune",fTopRail:"Largeur traverse (mm)",topHint:"Sous un évier ou une plaque : deux traverses (devant et derrière, même matériau et même épaisseur que le dessus) ou pas de dessus. Les traverses ne suivent pas un mur en angle.",wTopAngled:"Le mur est en angle : le dessus reste entier, les traverses sont impossibles.",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
+  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secDrawHPh:"hauteurs, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondeur du tiroir (longueur de coulisse), vide = la plus longue qui entre.",secDrawHHint:"Hauteurs des façades depuis le haut (mm), même une seule : «200» sur 4 tiroirs = 200 en haut et les trois autres égaux dessous.",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",fDoorHinge:"Côté charnières",doorHingeHint:"Touchez une porte : auto (la règle habituelle), charnières à gauche ou à droite. Deux portes charnières au centre demandent une séparation.",doorShort:"Porte",hingeAuto:"auto",hingeL:"gauche",hingeR:"droite",doorHingeWarn:"Charnières au centre sans séparation : l'embase n'a pas de panneau où se fixer.",fTop:"Fermeture en haut",topPlin:"Dessus plein",topRails:"Deux traverses",topNone:"Aucune",fTopRail:"Largeur traverse (mm)",topHint:"Sous un évier ou une plaque : deux traverses (devant et derrière, même matériau et même épaisseur que le dessus) ou pas de dessus. Les traverses ne suivent pas un mur en angle.",wTopAngled:"Le mur est en angle : le dessus reste entier, les traverses sont impossibles.",drawBlock:"Tiroirs bloc","grpAbs":"Cotes absolues","absHint":"Séparations, étagères, portes, tiroirs et découpes à leurs cotes, saisies à la main. y depuis le sol, x depuis la face extérieure gauche. Tant qu'une cote existe, le caisson n'est plus divisé en sections égales.","absX":"x (mm ou «center»)","absYs":"y début","absYe":"y fin","absDepth":"Profondeur","absY":"y (face inférieure)","absSpan":"Étendue","absFull":"traversante","absLeft":"gauche","absRight":"droite","absW":"Larg.","absH":"Haut.","absHinge":"Charnières","absCol":"Colonne","absN":"N°","absHeights":"Hauteurs haut→bas (ex. 200/300)","absInner":"derrière les portes","absOn":"Sur","absSides":"côtés","absDividers":"séparations","absCorner":"Angle","absC_back-bottom":"arrière-bas","absC_front-bottom":"avant-bas","absC_back-top":"arrière-haut","absC_front-top":"avant-haut","absCutH":"Hauteur (sur H)","absCutD":"Profondeur (sur P)","absCut":"Découpe","absOk":"Les cotes se ferment","absColV":"Colonne",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
   wDrawRoom:"Les tiroirs ne tiennent pas en hauteur : réduisez le nombre ou augmentez la zone.",
   wDrawOver:"La colonne de tiroirs dépasse la façade de {mm} mm.",
   wDrawNL:"Profondeur du tiroir : NL {want} n'existe pas ou n'entre pas — NL {got} utilisée.",wDrawDeep:"Meuble trop peu profond pour ce système : {mm} mm utiles, la coulisse la plus courte en demande {min}.",
@@ -5855,7 +5865,7 @@ function carcassParams(cfg,ctx){
     /* la guida SCELTA: `rezerva_glisiera` viene da lei, non da una costante.
        Sulla cassa in legno comanda la guida del catalogo ferramenta; su una
        cassa metallica, quella che il sistema si porta dietro. */
-    glisiera:(cfg.drawers>0)?slideIdFor(cfg):null,
+    glisiera:(cfg.drawers>0||hasDrawerBlocks(cfg))?slideIdFor(cfg):null,
     /* il gradino del muro in basso: fianchi intagliati a L, schienale in due */
     treapta_H:Math.max(0,+cfg.stepH||0), treapta_P:Math.max(0,+cfg.stepP||0),
     /* il profilo di profondita per zone: deriveCarcass lo risolve nel gradino */
@@ -5877,8 +5887,9 @@ function topModeOf(cfg){
   if(m==="traverse") return (isAng(cfg.angL)||isAng(cfg.angR))?"plin":"traverse";
   return "plin";
 }
-const LAYOUT_KEYS=["partitions","fronts","depthProfile","customCuts"];
+const LAYOUT_KEYS=["partitions","fronts","depthProfile","customCuts","drawerBlocks"];
 function hasPartitions(cfg){ return !!(cfg&&Array.isArray(cfg.partitions)&&cfg.partitions.length); }
+function hasDrawerBlocks(cfg){ return !!(cfg&&Array.isArray(cfg.drawerBlocks)&&cfg.drawerBlocks.length); }
 function hasFronts(cfg){ return !!(cfg&&Array.isArray(cfg.fronts)&&cfg.fronts.length); }
 function hasLayout(cfg){ return !!cfg&&LAYOUT_KEYS.some(k=>Array.isArray(cfg[k])&&cfg[k].length); }
 /* Migrazione dei progetti salvati: NO-OP. Non si aggiunge nessuna chiave e
@@ -5901,6 +5912,16 @@ function slideIdFor(cfg){
 }
 /* il lato scelto per l'anta i (da sinistra), o null = regola di sempre */
 function dHinge(cfg,i){ const a=cfg&&cfg.doorHinge; const h=Array.isArray(a)?a[i]:null; return (h==="left"||h==="right")?h:null; }
+/* le righe di distinta di una cassa di cassetto, per sistema: le usano le
+   sezioni e i blocchi a cote assolute (U.4) — un posto solo */
+function drawRowMakers(sys){
+  return sys.metal
+    ?[(p,f)=>["Fondo cassetto",p.baseW,p.baseL,1,"",null,{role:"cassetto_fondo"}],
+      (p,f)=>["Retro cassetto",p.backW,f.backH||p.backH,1,"1L",null,{role:"cassetto_fianco"}]]
+    :[(p,f)=>["Fianco cassetto",p.nl,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco"}],
+      (p,f)=>["Fronte/Retro cassetto",p.boxIn,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}],
+      (p,f)=>["Fondo cassetto",p.boxIn,p.nl-20,1,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"}]];
+}
 function buildCore(cfg){
   const L=cfg.L,H=cfg.H,P=cfg.P;
   const support=cfg.support||"zoccolo", front=cfg.front||"piena";
@@ -6254,7 +6275,7 @@ function buildCore(cfg){
     const c=isFinite(x)?Math.max(0,Math.min(8,Math.round(x))):0;
     return own?Math.max(c,own.length):c;
   };
-  const dSecs=(cfg.drawers>0&&!sliding&&!PT)?(flaggedD.length?flaggedD:secIdx.slice()).filter(si=>secDN(si)>0):[];
+  const dSecs=(cfg.drawers>0&&!sliding&&!PT&&!hasDrawerBlocks(cfg))?(flaggedD.length?flaggedD:secIdx.slice()).filter(si=>secDN(si)>0):[];
   /* A VISTA o DIETRO L'ANTA: e una scelta, non una deduzione.
      "auto" tiene la regola vecchia — sezione dichiarata a cassetti piu ante
      uguale cassetti interni — cosi i progetti gia salvati non si spostano.
@@ -6357,6 +6378,48 @@ function buildCore(cfg){
      una sezione dichiara un contenuto con cassetti, comandano quelle.
      Altrimenti vale la vecchia regola — `drawers` e un conteggio PER SEZIONE
      e va in tutte. Cosi i progetti gia salvati generano la stessa distinta. */
+  /* UNA CASSA DI CASSETTO + IL SUO FRONTALE, in coordinate esplicite. La usano
+     le sezioni (`drawBox`) e i blocchi a cote assolute (U.4): un posto solo
+     dove sta scritto com'e fatto un cassetto, anche in 3D. `cx` = centro della
+     cassa; `fxA..fxB` = il frontale. */
+  const drawBoxAt=o=>{
+    const {grp,cx,fxA,fxB,inner,inset,f,plan:dPlan}=o, sys=dPlan.sys;
+    const zF=P-inset;                       // filo anteriore del cassetto
+    const yB=f.y0+sys.lift;                 // il fondo della cassa
+    /* il frontale a vista copre anche i fianchi del mobile: si posa sulla
+       luce anteriore, non sulla sezione. Quello interno sta dentro il vano. */
+    bxRole="cassetto_frontale";
+    if(!inner) bx(fxA,fxB,f.y0,f.y0+f.h,P,P+tA,"f",0,0,"drawer",grp);
+    else       bx(fxA,fxB,f.y0,f.y0+f.h,zF-tA,zF,"f",0,0,"drawerIn",grp);
+      if(cfg.boxes===0||cfg.boxes==="0"||sys.none) return;
+      const NL=dPlan.nl, z1=zF-tA-2, z0=z1-NL;
+      if(sys.metal){
+        const bw=dPlan.baseW, th=sys.sideTh, sh=f.sideH||dPlan.sideH;
+        const bx0=cx-bw/2, bx1=cx+bw/2;
+        bxRole="cassetto_metallo";
+        bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo sx
+        bx(bx1,bx1+th,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo dx
+        bxRole="cassetto_fondo";
+        /* fondo: profondo quanto la riga di distinta (baseL), dal retro */
+        bx(bx0,bx1,yB,yB+16,z0,z0+dPlan.baseL,"p",0,0,"dbox",grp);   // fondo in pannello
+        bxRole="cassetto_fianco";
+        bx(cx-dPlan.backW/2,cx+dPlan.backW/2,yB+8,yB+8+(f.backH||dPlan.backH),z0,z0+t,"p",0,0,"dbox",grp); // retro
+      }else{
+        const bw=dPlan.boxW, sh=f.sideH||dPlan.sideH, bt=sys.bottomTh;
+        const bx0=cx-bw/2, bx1=cx+bw/2;
+        bxRole="cassetto_fianco";
+        bx(bx0,bx0+t,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco sx
+        bx(bx1-t,bx1,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco dx
+        bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);         // fronte cassa
+        bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);         // retro cassa
+        bxRole="cassetto_fondo";
+        /* il fondo entra nelle cave di fronte e retro: lungo quanto la riga
+           di distinta (NL-20), centrato fra i due. Disegnato fra le facce
+           interne (NL-2t) il 3D diceva 462 dove la distinta dice 480. */
+        const fL=NL-20, zc=(z0+z1)/2;
+        bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp); // fondo
+      }
+  };
   let drawersTop=frontY0;
   {
     const inner=dInner;
@@ -6385,12 +6448,7 @@ function buildCore(cfg){
         /* una riga per cassetto, poi si sommano quelle con le stesse cote: con
            frontali uguali torna la riga unica di sempre, con le altezze di U.13
            ogni cassa ha la sua */
-        const rowsOf=sys.metal
-          ?[(p,f)=>["Fondo cassetto",p.baseW,p.baseL,1,"",null,{role:"cassetto_fondo"}],
-            (p,f)=>["Retro cassetto",p.backW,f.backH||p.backH,1,"1L",null,{role:"cassetto_fianco"}]]
-          :[(p,f)=>["Fianco cassetto",p.nl,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco"}],
-            (p,f)=>["Fronte/Retro cassetto",p.boxIn,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}],
-            (p,f)=>["Fondo cassetto",p.boxIn,p.nl-20,1,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"}]];
+        const rowsOf=drawRowMakers(sys);
         rowsOf.forEach(mk=>{
           const acc=[];
           okG.forEach(g=>g.plan.fronts.forEach(f=>{ const r=mk(g.plan,f), q=r[3]*g.secs.length;
@@ -6403,48 +6461,48 @@ function buildCore(cfg){
          Prima qui si disegnava solo il frontale: il cassetto in vista esplosa
          non c'era proprio, e un armadio "montato" mostrava scaffali vuoti. */
       const drawBox=(sx0,si,i,f,dPlan)=>{
-        const grp=`d${si}_${i}`;
-        const zF=P-inset;                       // filo anteriore del cassetto
-        const yB=f.y0+sys.lift;                 // il fondo della cassa
-        const cx=sx0+secW/2;
-        /* il frontale a vista copre anche i fianchi del mobile: si posa sulla
-           luce anteriore, non sulla sezione. Quello interno sta dentro il vano. */
-        bxRole="cassetto_frontale";
-        if(!inner){ const fx=frontX0+2+si*(fW+DRAW_GAP);
-                    bx(fx,fx+fW,f.y0,f.y0+f.h,P,P+tA,"f",0,0,"drawer",grp); }
-        else        bx(cx-fW/2,cx+fW/2,f.y0,f.y0+f.h,zF-tA,zF,"f",0,0,"drawerIn",grp);
-        if(cfg.boxes===0||cfg.boxes==="0"||sys.none) return;
-        const NL=dPlan.nl, z1=zF-tA-2, z0=z1-NL;
-        if(sys.metal){
-          const bw=dPlan.baseW, th=sys.sideTh, sh=f.sideH||dPlan.sideH;
-          const bx0=cx-bw/2, bx1=cx+bw/2;
-          bxRole="cassetto_metallo";
-          bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo sx
-          bx(bx1,bx1+th,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo dx
-          bxRole="cassetto_fondo";
-          /* fondo: profondo quanto la riga di distinta (baseL), dal retro */
-          bx(bx0,bx1,yB,yB+16,z0,z0+dPlan.baseL,"p",0,0,"dbox",grp);   // fondo in pannello
-          bxRole="cassetto_fianco";
-          bx(cx-dPlan.backW/2,cx+dPlan.backW/2,yB+8,yB+8+(f.backH||dPlan.backH),z0,z0+t,"p",0,0,"dbox",grp); // retro
-        }else{
-          const bw=dPlan.boxW, sh=f.sideH||dPlan.sideH, bt=sys.bottomTh;
-          const bx0=cx-bw/2, bx1=cx+bw/2;
-          bxRole="cassetto_fianco";
-          bx(bx0,bx0+t,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco sx
-          bx(bx1-t,bx1,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco dx
-          bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);         // fronte cassa
-          bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);         // retro cassa
-          bxRole="cassetto_fondo";
-          /* il fondo entra nelle cave di fronte e retro: lungo quanto la riga
-             di distinta (NL-20), centrato fra i due. Disegnato fra le facce
-             interne (NL-2t) il 3D diceva 462 dove la distinta dice 480. */
-          const fL=NL-20, zc=(z0+z1)/2;
-          bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp); // fondo
-        }
+        const cx=sx0+secW/2, fx=frontX0+2+si*(fW+DRAW_GAP);
+        drawBoxAt({grp:`d${si}_${i}`,cx,fxA:inner?cx-fW/2:fx,fxB:inner?cx+fW/2:fx+fW,inner,inset,f,plan:dPlan});
       };
       okG.forEach(g=>g.secs.forEach(si=>{ const sx0=tF+si*(secW+tD);
         g.plan.fronts.forEach((f,i)=>drawBox(sx0,si,i,f,g.plan)); }));
     }
+  }
+  /* ---- BLOCCHI DI CASSETTI A COTE ASSOLUTE (U.4) ----
+     Una colonna di cassetti fra due quote, DENTRO una colonna del corpo
+     delimitata da setti (o da un fianco). La luce, le altezze e la profondita
+     escono dallo stesso `drawerPlan` delle sezioni; qui si decide solo dove
+     stanno i pezzi. Un blocco che non sta in piedi ferma il generatore con il
+     suo perche: una cota assoluta non sparisce in silenzio. */
+  const dBlockPlans=[];
+  if(LY&&LY.drawers&&LY.drawers.length){
+    const gapF=G.reveal;
+    const acc={};
+    const addRow=(name,lung,larg,pz,bordo,mat,ex)=>{ const k=[name,Math.round(lung),Math.round(larg),mat||"",bordo].join("|");
+      if(acc[k]) acc[k].pz+=pz; else acc[k]={a:[name,lung,larg,pz,bordo,mat,ex],pz}; };
+    const frontRects=[];
+    LY.drawers.forEach((b,bi)=>{
+      const plan=drawerPlan(Object.assign({},cfg,{drawers:b.N,drawerZone:0,drawerDist:cfg.drawerDist||"uguali",drawerPos:b.inner?"interno":"vista"}),
+        {y0:b.yStart,frontH:b.yEnd-b.yStart,fill:true,secW:b.w,depth:P-intZ0,inner:b.inner,tFront:tA,tBox:tF,hsTop:b.hs,nl:b.nl});
+      dBlockPlans.push(plan);
+      if(!plan.ok) throw new Error("Cote absolute: sertare "+b.n+": "+((plan.warn||[]).map(w=>(typeof globalThis.t==="function"?globalThis.t(w.k):w.k)).join(" · ")||"nu încap"));
+      const cx=(b.x0+b.x1)/2, inset=b.inner?plan.inset:0;
+      /* il frontale a vista: dal fianco (con la luce a vista) o dalla meta del
+         setto, con il rost fra due frontali; quello interno sta nel vano */
+      const fxA=b.inner?cx-(b.w-8)/2:(b.outerL?gapF:b.x0-tD/2+DRAW_GAP/2);
+      const fxB=b.inner?cx+(b.w-8)/2:(b.outerR?L-gapF:b.x1+tD/2-DRAW_GAP/2);
+      plan.fronts.forEach(f=>{ if(!b.inner) frontRects.push({n:b.n,x0:fxA,x1:fxB,y0:f.y0,y1:f.y0+f.h}); });
+      const fname=b.inner?"Frontale cassetto interno":(push?"Frontale cassetto push":"Frontale cassetto");
+      plan.fronts.forEach(f=>addRow(fname,f.h,fxB-fxA,1,"2L+2C",null,{role:"cassetto_frontale"}));
+      if(cfg.boxes!==0&&cfg.boxes!=="0"&&!plan.sys.none)
+        drawRowMakers(plan.sys).forEach(mk=>plan.fronts.forEach(f=>{ const r=mk(plan,f); addRow(r[0],r[1],r[2],r[3],r[4],r[5],r[6]); }));
+      plan.fronts.forEach((f,i)=>drawBoxAt({grp:`b${bi}_${i}`,cx,fxA,fxB,inner:b.inner,inset,f,plan}));
+    });
+    /* un frontale a vista non puo coprire un'anta (e viceversa) */
+    (LY.fronts||[]).forEach(a=>frontRects.forEach(r=>{
+      if(a.x<r.x1-0.05&&r.x0<a.x+a.w-0.05&&a.y<r.y1-0.05&&r.y0<a.y+a.h-0.05)
+        throw new Error("Cote absolute: anta "+a.n+" se suprapune cu sertarele "+r.n); }));
+    Object.keys(acc).forEach(k=>{ const r=acc[k].a; r[3]=acc[k].pz; add.apply(null,r); });
   }
   /* ---- RIPIANI ESTRAIBILI (U.12) ----
      Un vassoio basso su guide: la cassa di un cassetto senza frontale, con il
@@ -6665,9 +6723,10 @@ function buildCore(cfg){
   }
   /* gli avvisi di tutti i piani, ognuno una volta sola */
   const dW=[], dWk={};
-  dGroups.map(g=>g.plan).concat(pullPlan?[pullPlan]:[]).forEach(pl=>(pl&&pl.warn||[]).forEach(w=>{ const k=JSON.stringify(w); if(!dWk[k]){ dWk[k]=1; dW.push(w); } }));
+  dGroups.map(g=>g.plan).concat(dBlockPlans).concat(pullPlan?[pullPlan]:[]).forEach(pl=>(pl&&pl.warn||[]).forEach(w=>{ const k=JSON.stringify(w); if(!dWk[k]){ dWk[k]=1; dW.push(w); } }));
   return {pieces,boxes,draw:dPlan,
-          draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan})),
+          draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan}))
+            .concat(dBlockPlans.map((pl,i)=>({N:pl.N,secs:[],block:LY.drawers[i].n,plan:pl}))),
           pull:(pullPlan&&pullPlan.ok)?{plan:pullPlan,secs:pullSecs.slice(),n:pullN}:null,
           warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,stepHit,
           topAng:cfg.top==="traverse"&&topMode!=="traverse",
@@ -7974,7 +8033,7 @@ function renderDrawUI(sysId,hcode){
 function drawInfoLine(cfg,built){
   const el=$("drawInfo"); if(!el) return;
   if(!built){ el.textContent=""; return; }
-  const gs=cfg.drawers>0?drawGroupsOf(built):[];
+  const gs=(cfg.drawers>0||hasDrawerBlocks(cfg))?drawGroupsOf(built):[];
   const parts=gs.map(g=>(gs.length>1?drawSecTag(g)+": ":"")+drawInfoBits(g.plan).join(" · "));
   if(built.pull) parts.push(pullTag(built.pull)+": "+drawInfoBits(built.pull.plan,true).join(" · "));
   el.textContent=parts.join("  |  ");
@@ -8010,7 +8069,7 @@ function boxHs(p){
   const own=(p.fronts||[]).filter(f=>f.sideH).map(f=>f.sideH);
   return own.length&&new Set(own).size>1?own.slice().reverse().join("/"):p.sideH;
 }
-function drawSecTag(g){ return t("secShort")+" "+g.secs.map(i=>i+1).join(", ")+" ("+g.N+"×)"; }
+function drawSecTag(g){ if(g.block) return t("drawBlock")+" "+g.block+" ("+g.N+"×)"; return t("secShort")+" "+g.secs.map(i=>i+1).join(", ")+" ("+g.N+"×)"; }
 function drawInfoBits(p,noFronts){
   const bits=[];
   const nm=(p.sys.n&&(p.sys.n[state.lang]||p.sys.n.it))||p.sysId;
@@ -8050,6 +8109,7 @@ function renderSecChips(){
   renderSecPull();
   renderDoorHinge();
   renderTop();
+  renderAbs();
 }
 /* U.12 — i ripiani di una sezione escono su guide. Si accende solo dove
    ci sono ripiani: una sezione ad asta o a cassetti non ha niente da tirare. */
@@ -8095,6 +8155,108 @@ function renderTop(){
   row.style.display=noTop?"none":""; $("topHint").style.display=noTop?"none":"";
   $("rowTopRail").style.display=(!noTop&&$("bTop").value==="traverse")?"":"none";
 }
+
+/* ================= COTE LA COTA, EDITOR MANUAL (U.4) =================
+   Setti, ripiani, usi, sertare si decupaje la cote absolute, scrise cu mana,
+   fara asistentul AI. Se salveaza in aceleasi chei ca patch-ul AI
+   (`partitions`, `fronts`, `drawerBlocks`, `customCuts`) si trec prin acelasi
+   `validateLayout`: o cota care nu are loc se vede aici, sub lista, nu la
+   «Genereaza». Cat timp exista cel putin o cota, formularul nu mai imparte
+   corpul in sectiuni egale (la fel ca la patch-ul AI). */
+const ABS_KINDS=["partitions","fronts","drawerBlocks","customCuts"];
+function absList(k){ return Array.isArray(buildCfg[k])?buildCfg[k]:[]; }
+function absStore(k,arr){
+  const clean=arr.filter(Boolean);
+  if(clean.length){ buildCfg=aiMerge(cfgFromForm(),{[k]:clean}); }
+  else { buildCfg=cfgFromForm(); delete buildCfg[k]; migrateLayoutCfg(buildCfg); }
+  syncBuildForm(); renderSecChips(); drawPreview();
+}
+/* un campo cambiato NON ridisegna la lista: col `change` che parte al blur il
+   fuoco e gia sul campo successivo, e ridisegnarla lo butterebbe via. Solo
+   le aggiunte e le cancellazioni (`absStore`) la rifanno. */
+let absBusy=false;
+function absEdit(k,i,f,v){
+  const a=absList(k).map(x=>({...x})); if(!a[i]) return;
+  if(v===null) delete a[i][f]; else a[i][f]=v;
+  buildCfg[k]=a;
+  absBusy=true; try{ drawPreview(); }finally{ absBusy=false; }
+  renderAbsCheck();
+}
+function absNum(v){ const n=parseFloat(v); return isFinite(n)?n:null; }
+function absRow(k,i,o){
+  const f=(name,label,val,w)=>`<label class="mini" style="min-width:${w||64}px;flex:1">${esc(label)}<input data-k="${k}" data-i="${i}" data-f="${name}" type="text" inputmode="decimal" value="${val==null?"":esc(String(val))}" style="width:100%"></label>`;
+  const sel=(name,label,val,opts)=>`<label class="mini" style="min-width:84px;flex:1">${esc(label)}<select data-k="${k}" data-i="${i}" data-f="${name}" style="width:100%">${opts.map(([v,l])=>`<option value="${v}"${String(val)===String(v)?" selected":""}>${esc(l)}</option>`).join("")}</select></label>`;
+  let h="";
+  if(k==="partitions"){
+    if(o.type==="setto") h=f("x",ts2("absX"),o.x==null?"center":o.x)+f("yStart",ts2("absYs"),o.yStart)+f("yEnd",ts2("absYe"),o.yEnd)+f("depth",ts2("absDepth"),o.depth);
+    else h=f("y",ts2("absY"),o.y)+sel("span",ts2("absSpan"),Array.isArray(o.span)?o.span.join("–"):(o.span||"full"),[["full",ts2("absFull")],["left",ts2("absLeft")],["right",ts2("absRight")]].concat(Array.isArray(o.span)?[[o.span.join("–"),o.span.join("–")]]:[]))+f("depth",ts2("absDepth"),o.depth);
+  }else if(k==="fronts"){
+    h=f("x","x",o.x)+f("y","y",o.y)+f("w",ts2("absW"),o.w)+f("h",ts2("absH"),o.h)
+      +sel("hinge",ts2("absHinge"),o.hinge||"",[["",t("hingeAuto")],["left",t("hingeL")],["right",t("hingeR")]]);
+  }else if(k==="drawerBlocks"){
+    h=f("col",ts2("absCol"),o.col,48)+f("yStart",ts2("absYs"),o.yStart)+f("yEnd",ts2("absYe"),o.yEnd)
+      +f("n",ts2("absN"),o.n,44)+f("heights",ts2("absHeights"),(o.heights||[]).join("/"),90)+f("nl","NL",o.nl,48)
+      +`<label class="mini" style="min-width:60px"><input data-k="${k}" data-i="${i}" data-f="inner" type="checkbox"${o.inner?" checked":""}> ${esc(ts2("absInner"))}</label>`;
+  }else if(k==="customCuts"){
+    h=sel("on",ts2("absOn"),o.on,[["fianchi",ts2("absSides")],["setti",ts2("absDividers")]])
+      +sel("corner",ts2("absCorner"),o.corner,["back-bottom","front-bottom","back-top","front-top"].map(c=>[c,ts2("absC_"+c)]))
+      +f("h",ts2("absCutH"),o.h)+f("w",ts2("absCutD"),o.w);
+  }
+  const title=k==="partitions"?(o.type==="setto"?elName("Setto"):elName("Ripiano")):k==="fronts"?elName("Anta"):k==="drawerBlocks"?ts2("drawBlock"):ts2("absCut");
+  return `<div class="abs-row" style="border-top:1px solid var(--line,#e5e2d8);padding:6px 0"><div style="display:flex;align-items:center"><b class="mini" style="flex:1">${esc(title)} ${i+1}</b><button class="iconbtn" data-k="${k}" data-del="${i}" aria-label="x">✕</button></div><div style="display:flex;flex-wrap:wrap;gap:6px">${h}</div></div>`;
+}
+function absCheck(){
+  try{
+    const c=cfgFromForm(); if(!hasLayout(c)) return {errors:[],chains:null};
+    const G=deriveCarcass(carcassParams(c,{})), LY=validateLayout(c,G);
+    if(!LY.errors.length){ try{ buildModule(c); }catch(e){ LY.errors.push(e.message||String(e)); } }
+    return {errors:LY.errors,chains:LY.chains};
+  }catch(e){ return {errors:[e.message||String(e)],chains:null}; }
+}
+function renderAbsCheck(){
+  const el=$("absCheck"); if(!el) return;
+  const n=ABS_KINDS.reduce((s2,k)=>s2+absList(k).length,0);
+  const chk=absCheck();
+  el.innerHTML=(chk.errors.length?chk.errors.map(e=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(e)}</div>`).join(""):(n?`<div class="mini">✓ ${esc(ts2("absOk"))}</div>`:""))
+    +(chk.chains&&!chk.errors.length?`<div class="mini" style="margin-top:4px;opacity:.8">${(chk.chains.V||[]).map(c=>esc(ts2("absColV"))+" "+c.col+": "+esc(c.text)).join("<br>")}</div>`:"");
+}
+function renderAbs(){
+  const box=$("absLists"); if(!box) return;
+  const standard=($("bTipo").value||"standard")==="standard";
+  const n=ABS_KINDS.reduce((s2,k)=>s2+absList(k).length,0);
+  $("sumAbs").textContent=n?String(n):"";
+  $("grpAbs").style.display=standard?"":"none";
+  if(!standard) return;
+  /* mentre si scrive in un campo, la lista non si ridisegna (si perderebbe il
+     fuoco): si aggiorna solo il controllo */
+  if(absBusy||editingIn($("absBody"))){ renderAbsCheck(); return; }
+  box.innerHTML=ABS_KINDS.map(k=>absList(k).map((o,i)=>absRow(k,i,o)).join("")).join("");
+  const add=(label,fn)=>`<button class="chip sm" data-addk="${fn}">+ ${esc(label)}</button>`;
+  $("absAdd").innerHTML=add(elName("Setto"),"setto")+add(elName("Ripiano"),"ripiano")+add(elName("Anta"),"anta")+add(ts2("drawBlock"),"cass")+add(ts2("absCut"),"cut");
+  renderAbsCheck();
+  box.querySelectorAll("[data-f]").forEach(inp=>inp.addEventListener("change",()=>{
+    const k=inp.dataset.k, i=+inp.dataset.i, f=inp.dataset.f;
+    let v;
+    if(inp.type==="checkbox") v=inp.checked?true:null;
+    else if(inp.tagName==="SELECT"){ v=inp.value; if(f==="hinge"&&v==="") v=null; if(f==="span"&&/–/.test(v)) v=v.split("–").map(Number); }
+    else if(f==="heights"){ const hs=inp.value.split(/[\/,; ]+/).map(Number).filter(x=>x>0); v=hs.length?hs:null; }
+    else if(f==="x"&&k==="partitions"){ v=(inp.value.trim()===""||/^c/i.test(inp.value.trim()))?"center":absNum(inp.value); }
+    else v=absNum(inp.value);
+    absEdit(k,i,f,v); }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{
+    const k=b.dataset.k, a=absList(k).slice(); a.splice(+b.dataset.del,1); absStore(k,a); }));
+  $("absAdd").querySelectorAll("[data-addk]").forEach(b=>b.addEventListener("click",()=>{
+    const w=cfgFromForm(), W=w.L, H=w.H, t0=(()=>{ try{ return deriveCarcass(carcassParams(w,{})); }catch(e){ return null; } })();
+    const yIn0=t0?t0.in.h_base+t0.sp_base:100, yIn1=t0?H-t0.sp_top:H-20;
+    const kk=b.dataset.addk;
+    if(kk==="setto") absStore("partitions",absList("partitions").concat({type:"setto",x:"center"}));
+    else if(kk==="ripiano") absStore("partitions",absList("partitions").concat({type:"ripiano",y:Math.round((yIn0+yIn1)/2),span:absList("partitions").some(q=>q.type==="setto")?"left":"full"}));
+    else if(kk==="anta") absStore("fronts",absList("fronts").concat({x:0,y:Math.round(yIn0),w:Math.round(W/2-2),h:Math.round(yIn1-yIn0)}));
+    else if(kk==="cass") absStore("drawerBlocks",absList("drawerBlocks").concat({col:1,yStart:Math.round(yIn0),yEnd:Math.round(yIn0+Math.min(600,(yIn1-yIn0)/2)),n:3}));
+    else absStore("customCuts",absList("customCuts").concat({on:"fianchi",corner:"back-bottom",h:300,w:100}));
+  }));
+}
+
 function renderDoorHinge(){
   const wrap=$("doorHingeWrap"), box=$("doorHingeBox"); if(!wrap||!box) return;
   const nd=Math.min(4,+($("bDoors").value||0));
@@ -8467,6 +8629,7 @@ function renderBuild(){
     $("bDrawers").addEventListener("input",()=>{ renderDrawUI($("bDrawSys").value,$("bDrawH").value); renderSecDrawers(); });
     ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     ["bTop","bTipo"].forEach(id=>$(id).addEventListener("change",renderTop)); renderTop();
+    $("bTipo").addEventListener("change",renderAbs);
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
@@ -12153,6 +12316,7 @@ Reference, always the same: y = 0 is the FLOOR under the unit (feet or plinth in
   One entry per physical piece: "3 shelves on the right at 620, 926 and 1232" = three entries. Emitting partitions replaces the old list (partitions: [] removes it); the app sets tram / shelves / secMode / hang to zero, do not emit them alongside.
 "depthProfile" — depth by height zones, contiguous from 0 to H: "250 below 620, 360 above" => [{yFrom:0,yTo:620,depth:250},{yFrom:620,yTo:H,depth:360}]. P must equal the largest depth. The engine derives the notches of sides and dividers, the shorter base and the back in two pieces: do not add those as extra pieces. Only ONE step, at the bottom, is supported; anything else goes in "questions".
 "fronts" — doors at absolute positions, finished sizes: [{x, y, w, h, hinge:"left"|"right"}], x from the outside left, y from the floor. Use it whenever he gives door sizes or doors of different heights, and set doors = fronts.length. Without it the doors are generated from the sections as before.
+"drawerBlocks" — a stack of drawers inside ONE column of a unit that has partitions (or just the two sides), between two heights: [{col, yStart, yEnd, n | heights, nl, inner}]. "col" counts from the left among the dividers (setti) that cut that height: 1 = left of the first divider. yStart/yEnd = the zone the drawer fronts fill, from the floor (it must sit between two shelves, or the base and a shelf, never across one). "n" = number of drawers (1–8) sharing the zone equally; "heights" = front heights written one by one TOP to BOTTOM (then n is optional); "nl" = runner length; "inner": true = behind the doors. Use it when he mixes zones in one unit ("2700 high: 900 doors, 450 drawers, 450 shelves, 900 doors"): doors via "fronts", shelves via "partitions", drawers via "drawerBlocks". Do NOT use "drawers" together with partitions or drawerBlocks.
 "customCuts" — rectangular corner notches on the vertical pieces: [{on:"fianchi"|"setti", corner:"back-bottom"|"front-bottom"|"back-top"|"front-top", height (along the HEIGHT of the piece), depth (along the DEPTH, front-back)}]. "600 × 110 in the back-bottom corner" of a 341-deep side is height 600, depth 110: the depth can never exceed the piece depth. The piece is still cut as its full rectangle (the factory cuts at 90°); the notch is a guide line on the drawing and the label. When he states a notch that also follows from depthProfile, emit it anyway: the app checks the two agree.
 "backMode": incassato = back between the sides; applicato = back over everything, as wide as the unit, the sides lose its thickness in depth; in_cava = thin back in a groove. A back as wide as the unit (870 on an 870 unit) is applicato.
 "shelfSetback": how far the shelves stand back from the front edge, mm.
@@ -12241,6 +12405,11 @@ function aiSchema(mode){
         fronts:{type:"array",maxItems:12,description:"Doors at absolute positions, finished sizes. x from the outside left, y from the floor.",
           items:{type:"object",properties:{x:num(0,6000),y:num(0,3500),w:num(60,3000),h:num(60,3500),
             hinge:{type:"string",enum:AI_ENUM.hinge}},required:["x","y","w","h"]}},
+        drawerBlocks:{type:"array",maxItems:8,description:"Drawer stacks inside a column, between two heights (absolute coordinates).",
+          items:{type:"object",properties:{col:{type:"integer",minimum:1,maximum:6,description:"Column, counted from the left among the dividers that cut that height."},
+            yStart:{type:"integer",minimum:0,maximum:3500},yEnd:{type:"integer",minimum:0,maximum:3500},
+            n:{type:"integer",minimum:1,maximum:8},heights:{type:"array",maxItems:8,items:{type:"integer",minimum:20,maximum:2000},description:"Front heights, TOP to BOTTOM."},
+            nl:{type:"integer",minimum:150,maximum:1200},inner:{type:"boolean"}},required:["col","yStart","yEnd"]}},
         customCuts:{type:"array",maxItems:8,description:"Rectangular corner notches on the vertical pieces (sides, dividers).",
           items:{type:"object",properties:{on:{type:"string",enum:AI_ENUM.cutOn},corner:{type:"string",enum:AI_ENUM.cutCorner},
             height:{type:"integer",minimum:1,maximum:3500,description:"Size of the notch ALONG THE HEIGHT of the piece (vertical), mm."},
@@ -12276,7 +12445,7 @@ function aiContext(mode){
      "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers","secDrawerH","secDrawerNL","secPull",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
-     "backMode","partitions","fronts","depthProfile","customCuts"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
+     "backMode","partitions","fronts","depthProfile","customCuts","drawerBlocks"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
     if(c.geom&&c.geom.setback_ripiano!=null) keep.shelfSetback=c.geom.setback_ripiano;
     return JSON.stringify(keep);
   }
@@ -12419,6 +12588,22 @@ function aiNormAbs(raw,out,warn){
       fr.push(o); });
     out.fronts=fr;
   }
+  if(Array.isArray(raw.drawerBlocks)){
+    const db=[];
+    raw.drawerBlocks.forEach((q,i)=>{ q=q||{};
+      const o={col:I(q.col,1,6),yStart:I(q.yStart,0,3500),yEnd:I(q.yEnd,0,3500)};
+      if(Object.keys(o).some(k=>o[k]==null||!isFinite(o[k]))){ warn.push(`drawerBlocks ${i+1} ?`); return; }
+      if(q.n!=null){ const n=I(q.n,1,8); if(n==null||!isFinite(n)){ warn.push(`drawerBlocks ${i+1} n ?`); return; } o.n=n; }
+      if(Array.isArray(q.heights)&&q.heights.length){
+        const hs=q.heights.slice(0,8).map(h=>I(h,20,2000));
+        if(hs.some(h=>h==null||!isFinite(h))){ warn.push(`drawerBlocks ${i+1} heights ?`); return; }
+        o.heights=hs; }
+      if(o.n==null&&!o.heights){ warn.push(`drawerBlocks ${i+1}: n / heights ?`); return; }
+      if(q.nl!=null){ const v=I(q.nl,150,1200); if(v!=null&&isFinite(v)) o.nl=v; }
+      if(q.inner!=null) o.inner=!!q.inner;
+      db.push(o); });
+    out.drawerBlocks=db;
+  }
   if(Array.isArray(raw.customCuts)){
     const cc=[];
     raw.customCuts.forEach((q,i)=>{ q=q||{};
@@ -12447,6 +12632,8 @@ function aiMerge(cur,pc){
      chiede esplicitamente insieme alle partizioni, restano, e la validazione
      lo dice invece di sceglierne uno. */
   if(hasPartitions(pc)){ m.tram=0; m.shelves=0; m.hang=0; m.secMode=null; if(pc.drawers==null) m.drawers=0; }
+  /* i sertare a blocchi sostituiscono «Cassetti/sez.»: due verita sullo stesso cassetto no */
+  if(hasDrawerBlocks(pc)&&pc.drawers==null){ m.drawers=0; m.secMode=null; }
   if(hasFronts(pc)) m.doors=pc.fronts.length;
   if(Array.isArray(pc.depthProfile)&&pc.depthProfile.length){
     m.P=Math.max.apply(null,pc.depthProfile.map(z=>z.depth)); m.stepH=0; m.stepP=0; }
@@ -12473,6 +12660,7 @@ function aiCheck(cur,pc,merged,text){
     const want=[["divisorio",pt.filter(q=>q.type==="setto").length,hasPartitions(merged)],
                 ["ripiano",pt.filter(q=>q.type==="ripiano").length,hasPartitions(merged)],
                 ["frontale",(merged.fronts||[]).length,hasFronts(merged)],
+                ["cassetto_frontale",(merged.drawerBlocks||[]).reduce((s2,q)=>s2+(q.n!=null?q.n:(q.heights||[]).length),0),hasDrawerBlocks(merged)],
                 ["schienale",merged.back?((C.G&&C.G.treapta&&C.G.treapta.back_split)?2:1):0,true]];
     want.forEach(([r,a,on])=>{ if(!on) return; const b=sum(r); if(a!==b) C.errors.push(`${tia("aiBlkCount")} — ${r}: ${a} ≠ ${b}`); });
   }
@@ -12564,7 +12752,7 @@ function aiLbl(k){
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
     bow:t("fBow"),rcorner:t("fRcorner"),
     partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
-    customCuts:tia("layCut"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
+    customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
   return map[k]||k;
 }
 function aiVal(k,v){
@@ -12574,6 +12762,7 @@ function aiVal(k,v){
   if(k==="partitions") return (v||[]).map(q=>q.type==="setto"
       ? `${elName("Setto")} ${q.x==null?"center":q.x} ${q.yStart!=null?q.yStart:"…"}–${q.yEnd!=null?q.yEnd:"…"}`
       : `${elName("Ripiano")} ${q.y} ${Array.isArray(q.span)?q.span.join("–"):(q.span||"full")}${q.depth?" P"+q.depth:""}`).join(" · ")||"—";
+  if(k==="drawerBlocks") return (v||[]).map(q=>`c${q.col} ${q.yStart}–${q.yEnd} ×${q.n!=null?q.n:(q.heights||[]).join("/")}${q.inner?" ⊂":""}`).join(" · ")||"—";
   if(k==="fronts") return (v||[]).map(f=>`${f.w}×${f.h} @${f.x},${f.y}${f.hinge?" "+f.hinge:""}`).join(" · ")||"—";
   if(k==="depthProfile") return (v||[]).map(z=>`${z.yFrom}–${z.yTo}: ${z.depth}`).join(" · ")||"—";
   if(k==="customCuts") return (v||[]).map(c=>`${c.on} ${c.corner} ${c.h}×${c.w}`).join(" · ")||"—";
@@ -13338,12 +13527,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.48.0"; /* APP_VER-MARKER */
+const APP_VER="4.49.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v107";
+const SW_CACHE="ebanist-v108";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

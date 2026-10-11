@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.48.0";
+var CORE_REV = "4.49.0";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -1367,6 +1367,70 @@ function normCustomCuts(list, errors) {
   return out;
 }
 
+/* I BLOCCHI DI CASSETTI a cote assolute (U.4). Un blocco = una colonna di
+   cassetti IN una colonna del corpo, fra due setti (o fra un setto e un
+   fianco), alta fra due quote: `{ col, yStart, yEnd, n | heights, nl, inner }`.
+   `col` si conta da sinistra fra i setti che tagliano la zona (un setto
+   parziale conta solo dove c'e). Il blocco non e un pannello: non cambia la
+   chiusura del gabarito; deve pero stare in una luce reale — fra la base, un
+   ripiano e il cielo — senza che un ripiano o un setto gli passi dentro.
+   Ritorna `{ errors, blocks }`, con ogni blocco gia in cote finite. */
+function deriveDrawerBlocks(G, blocks, parts) {
+  var errors = [], out = [];
+  if (!Array.isArray(blocks) || !blocks.length) return { errors: errors, blocks: out };
+  var inp = G.in, W = inp.W, H = inp.H, sp = G.sp, tF = sp.fianco;
+  var yIn0 = inp.h_base + sp.base, yIn1 = H - topSp(G);
+  var setti = parts ? parts.setti : [], rip = parts ? parts.ripiani : [];
+  var TR = G.treapta, stepOn = !!(TR && TR.activa);
+  blocks.forEach(function (q, i) {
+    q = q || {};
+    var tag = "sertare " + (i + 1);
+    var col = Math.round(+q.col);
+    var ys = +q.yStart, ye = +q.yEnd;
+    var hs = Array.isArray(q.heights) && q.heights.length ? q.heights.map(Number) : null;
+    var N = q.n != null ? Math.round(+q.n) : (hs ? hs.length : NaN);
+    if (!(col >= 1)) { errors.push(tag + ": coloana (col) trebuie să fie ≥ 1"); return; }
+    if (!finiteNum(ys) || !finiteNum(ye)) { errors.push(tag + ": yStart și yEnd trebuie să fie numere"); return; }
+    if (!(N >= 1 && N <= 8)) { errors.push(tag + ": numărul de sertare trebuie să fie între 1 și 8"); return; }
+    if (hs && hs.some(function (h) { return !(h >= 20); })) { errors.push(tag + ": fiecare înălțime de front trebuie să fie ≥ 20 mm"); return; }
+    if (hs && hs.length > N) { errors.push(tag + ": " + hs.length + " înălțimi pentru " + N + " sertare"); return; }
+    if (ye - ys < 40) { errors.push(tag + ": zona " + fmt01(ys) + "–" + fmt01(ye) + " e sub 40 mm"); return; }
+    if (ys < yIn0 - LAYOUT_EPS || ye > yIn1 + LAYOUT_EPS) {
+      errors.push(tag + ": zona " + fmt01(ys) + "–" + fmt01(ye) + " iese din lumina interioară (" + fmt01(yIn0) + "–" + fmt01(yIn1) + ")");
+      return;
+    }
+    if (stepOn && ys < TR.H - LAYOUT_EPS) { errors.push(tag + ": sertarele sub treapta din perete nu sunt suportate încă"); return; }
+    /* coloana: fetele setturilor care taie zona */
+    var ym = (ys + ye) / 2;
+    var cut = setti.filter(function (st) { return st.y0 < ym && st.y1 > ym; }).sort(function (a, b) { return a.x0 - b.x0; });
+    var faces = [tF]; cut.forEach(function (st) { faces.push(st.x0, st.x1); }); faces.push(W - tF);
+    var ncol = cut.length + 1;
+    if (col > ncol) { errors.push(tag + ": coloana " + col + ", dar la această înălțime sunt doar " + ncol); return; }
+    var x0 = faces[2 * (col - 1)], x1 = faces[2 * (col - 1) + 1];
+    /* un setto care incepe sau se opreste IN zona taie blocul */
+    setti.forEach(function (st) {
+      var touches = st.x1 > x0 - LAYOUT_EPS && st.x0 < x1 + LAYOUT_EPS;
+      var starts = st.y0 > ys + LAYOUT_EPS && st.y0 < ye - LAYOUT_EPS, ends = st.y1 > ys + LAYOUT_EPS && st.y1 < ye - LAYOUT_EPS;
+      if (touches && (starts || ends)) errors.push(tag + ": setto " + st.n + " se oprește în zona sertarelor");
+    });
+    /* un ripiano care trece prin zona */
+    rip.forEach(function (r) {
+      if (r.x0 < x1 - LAYOUT_EPS && r.x1 > x0 + LAYOUT_EPS && r.y < ye - LAYOUT_EPS && r.y1 > ys + LAYOUT_EPS)
+        errors.push(tag + ": ripiano " + r.n + " (" + fmt01(r.y) + "–" + fmt01(r.y1) + ") trece prin zona sertarelor " + fmt01(ys) + "–" + fmt01(ye));
+    });
+    out.push({ n: i + 1, col: col, x0: x0, x1: x1, w: x1 - x0, yStart: ys, yEnd: ye, N: N,
+               hs: hs, nl: q.nl != null ? Math.round(+q.nl) : 0, inner: !!q.inner,
+               outerL: nearMm(x0, tF), outerR: nearMm(x1, W - tF) });
+  });
+  /* due blocchi nella stessa luce non si sovrappongono */
+  for (var a = 0; a < out.length; a++) for (var b = a + 1; b < out.length; b++) {
+    var A = out[a], B = out[b];
+    if (A.x0 < B.x1 - LAYOUT_EPS && B.x0 < A.x1 - LAYOUT_EPS && A.yStart < B.yEnd - LAYOUT_EPS && B.yStart < A.yEnd - LAYOUT_EPS)
+      errors.push("sertarele " + A.n + " și sertarele " + B.n + " se suprapun");
+  }
+  return { errors: errors, blocks: out };
+}
+
 /* IL CONTROLLO PRIMA DI GENERARE. Dice, per un corpo con cote assolute:
      - gli errori (bloccanti): una cota che non ha dove stare, un pezzo che
        galleggia, due pezzi che si sovrappongono;
@@ -1381,8 +1445,9 @@ function validateLayout(cfg, G, opts) {
   var hasF = Array.isArray(c.fronts) && c.fronts.length > 0;
   var hasC = Array.isArray(c.customCuts) && c.customCuts.length > 0;
   var hasD = Array.isArray(c.depthProfile) && c.depthProfile.length > 0;
-  var out = { errors: errors, warnings: warnings, active: hasP || hasF || hasC || hasD,
-              parts: null, fronts: [], cuts: { fianchi: [], setti: [] }, chains: { V: [], H: [] } };
+  var hasB = Array.isArray(c.drawerBlocks) && c.drawerBlocks.length > 0;
+  var out = { errors: errors, warnings: warnings, active: hasP || hasF || hasC || hasD || hasB,
+              parts: null, fronts: [], drawers: [], cuts: { fianchi: [], setti: [] }, chains: { V: [], H: [] } };
   if (!out.active) return out;
   var type = c.type || "standard";
   if (type !== "standard") {
@@ -1391,9 +1456,14 @@ function validateLayout(cfg, G, opts) {
   }
   var inp = G.in, W = inp.W, H = inp.H, sp = G.sp;
   if (hasP) {
-    if (+c.drawers > 0) errors.push("sertarele nu se pot combina încă cu partiții la cote absolute: scoate sertarele sau partițiile");
+    if (+c.drawers > 0) errors.push("«Cassetti/sez.» nu se combină cu partiții la cote absolute: pune sertarele în `drawerBlocks`, pe coloană, la cotă");
     out.parts = derivePartitions(G, c.partitions, { shelfFix: c.shelfType === "fisso" });
     errors.push.apply(errors, out.parts.errors);
+  }
+  if (hasB) {
+    if (+c.drawers > 0 && !hasP) errors.push("«Cassetti/sez.» nu se combină cu `drawerBlocks`: scoate unul dintre ele");
+    var DB = deriveDrawerBlocks(G, c.drawerBlocks, out.parts);
+    out.drawers = DB.blocks; errors.push.apply(errors, DB.errors);
   }
   if (hasF) {
     if (c.front === "vetro" || c.front === "curvo")
@@ -1479,6 +1549,8 @@ function layoutNumbers(LY, G) {
   k.push(inp.h_base, inp.h_base + sp.base, inp.H - topSp(G), G.Wi, G.H_int, G.P_int);
   for (var r in sp) k.push(sp[r]);
   (LY.chains.V || []).concat(LY.chains.H || []).forEach(function (c) { (c.terms || []).forEach(function (v) { k.push(v); }); k.push(c.total); });
+  (LY.drawers || []).forEach(function (d) { k.push(d.yStart, d.yEnd, d.x0, d.x1, d.w, d.yEnd - d.yStart);
+    (d.hs || []).forEach(function (h) { k.push(h); }); if (d.nl) k.push(d.nl); });
   var P = LY.parts;
   if (P) {
     P.setti.forEach(function (s) { k.push(s.x0, s.x1, s.y0, s.y1, s.H, s.D); if (s.notch) k.push(s.notch.h, s.notch.w); });
@@ -1820,6 +1892,7 @@ var API = {
      esattamente il guasto che questo file esiste per impedire. */
   computeCarcassGeometry: deriveCarcass,
   deriveCarcass: deriveCarcass,
+  deriveDrawerBlocks: deriveDrawerBlocks,
   validateCarcassClosure: validateCarcassClosure,
   validateInvariants: validateInvariants,
   failedInvariants: failedInvariants,

@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.49.0 — 11 octombrie 2026
+
+**Sertare pe o coloană la cotă și editor manual de cote (ROADMAP U.4).** Cerut de G. Roscigno: un dulap de 2700 cu 900 uși / 450 sertare / 450 rafturi / 900 uși, dintr-un singur corp, nu din mai multe. (U.11, numărul de sertare pe secțiune, era deja livrat în 4.41.0.)
+
+- **`drawerBlocks`:** o coloană de sertare ÎN coloana a `col`-a a corpului, între două cote: `{col, yStart, yEnd, n | heights, nl, inner}`. Coloana se numără de la stânga printre setti-urile care taie acea înălțime. Până acum sertarele nu se combinau cu partițiile la cote absolute (eroare declarată).
+- Înălțimile, adâncimea și lățimea ies din **același `drawerPlan`** ca la secțiuni; cutia sertarului și frontalul folosesc aceeași funcție (`drawBoxAt`), deci 3D, distinctă, glisiere în deviz și fișă de montaj le citesc fără cod paralel. Frontalul la vedere pleacă de la fianc (cu luciul vizibil) sau de la mijlocul setto-ului, cu rostul de 3 mm.
+- **Ce nu are loc oprește generarea cu motivul:** un raft care trece prin zonă, un setto care se oprește în ea, zona în afara luminii interioare, coloană inexistentă la acea înălțime, ușă peste sertare, două blocuri suprapuse, număr sau înălțimi greșite. Sertarele nu schimbă închiderea gabaritului (D-43), care rămâne la 0 mm.
+- **Editor manual: Constructor → „Cote la cotă”.** Setti, rafturi, uși (cu partea balamalelor), sertare pe blocuri și decupaje, scrise de mână, fără asistentul AI. Aceleași chei ca patch-ul AI, același `validateLayout`: o cotă care nu are loc apare sub listă, cu coloanele scrise ca la tâmplar (`80 + 19 + 2582 + 19 = 2700`), nu la „Generează”. Primul element oprește secțiunile egale (tram, sertare/secțiune → 0). Un raft nou stă pe „stânga” când există un setto.
+- **Asistentul AI** scrie și el `drawerBlocks` („2700: uși jos, sertare la mijloc, rafturi, uși sus”).
+- Proiectele vechi: aceeași distinctă (golden 42/42). Mesajul „sertarele nu se combină cu partiții” trimite acum la `drawerBlocks`.
+- Teste: `drawerblocks.test.js` (23) și 12 verificări în e2e (formular, editor, distinctă, feronerie, fișă de montaj). `test:full` 546/546 + golden 42/42, e2e 475/475.
+- `APP_VER` 4.49.0, `SW_CACHE`/`CACHE` → `ebanist-v108`, `CORE_REV` 4.49.0. Android: fără `.aab`.
+
 ## 4.48.0 — 11 octombrie 2026
 
 **Blatul peste compoziție, cu îmbinare dreaptă la colț și decupaje (ROADMAP U.8, D-73).** Cerut de G. Roscigno, care până acum punea o piesă liberă cât bucătăria ca să-i iasă devizul.
