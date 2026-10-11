@@ -9,3 +9,10 @@ Cadre AI (veo-3.1-fast, 1080p, 9:16, 4 s; marchează „AI-generated" la publica
 - S4 final (se inversează în make-clip.sh): https://videogen.vidiq.com/cc981166-09f6-459a-939c-c3ef947c6276/c5e40313-32a7-47c9-9156-c22507d4205a_ced7b283-3e54-44e0-b522-4541a2c0921a_e72df8fd-b760-4849-8fb7-fce40f9660c3.mp4
 - Muzică (WAV, momentul drop-ului neverificat): https://ai-music-tracks.s3.us-east-1.amazonaws.com/cc981166-09f6-459a-939c-c3ef947c6276/2eecbaf1-bcef-4a30-af32-d7ac6166ae36.wav
 - Vocea: linkurile MP3 sunt semnate și expiră în 12 h → se regenerează din `voice-script.txt`.
+
+## Skit „Cliente" (ep. 1)
+
+Clip AI (veo-3.1-fast, 720p, 8 s, 9:16; marchează „AI-generated"): https://videogen.vidiq.com/cc981166-09f6-459a-939c-c3ef947c6276/9bfc6dff-81aa-4e70-b5c0-56b52839b1c3_2a80f9f1-8816-43e8-8470-686fc25d05c7_de5841c0-7ee5-4ec0-bc31-c1a19251f006.mp4
+Prompt: vertical 9:16 smartphone video, handheld with slight natural shake, real Italian cabinetmaker's workshop lit by daylight from a window, natural colors, subtle film grain, no text, no music. A man of about 38 with short dark hair, light stubble, navy sweatshirt dusted with sawdust and a pencil behind his ear stands facing the camera, chest-up, as if someone off-camera is talking to him. First polite attention, then his eyes slowly go blank, one eyebrow lifts, a long slow blink, a quiet exhale through the nose, a tiny tired half-smile. Very slow push-in. He never speaks. Ambient workshop sound only.
+Montaj: `python3 skit.py skit/ep1.json <clip.mp4> <out.mp4>` (video; sunetul: ambianța clipului + pop la baloane + thud la «200 €»).
+Cost: ~240 credite vidIQ per clip de 8 s.
