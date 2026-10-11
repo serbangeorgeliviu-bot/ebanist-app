@@ -1508,6 +1508,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f" id="rowRc" style="display:none"><label data-i="fRcorner">Raggio angolo (mm)</label><input id="bRc" type="number" inputmode="numeric" min="10" max="400" placeholder="80"></div>
           <div class="f" id="rowBow" style="display:none"><label data-i="fBow">Bombatura (mm)</label><input id="bBow" type="number" inputmode="numeric" min="0" max="200" placeholder="40"></div>
         </div>
+        <div class="f" id="doorHingeWrap" style="display:none"><label data-i="fDoorHinge">Lato cerniere</label>
+          <div class="chips" id="doorHingeBox"></div>
+          <p class="mini" id="doorHingeHint" style="margin-top:4px"></p>
+        </div>
         <div class="f3">
           <div class="f"><label data-i="fHandles">Apertura</label>
             <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option></select></div>
@@ -2351,7 +2355,7 @@ Object.assign(I18N.it,{
   dstFix:"Fisse",dstEq:"Uguali",dstKit:"Cucina (uno basso in alto)",
   dwAuto:"Automatica",dwSide:"sponda",dwFronts:"frontali",dwBase:"fondo",dwBack:"retro",
   dwBox:"cassa",dwInner:"interno, arretrato",
-  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secDrawHPh:"altezze, es. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondità del cassetto (lunghezza della guida), vuoto = la più lunga che entra.",secDrawHHint:"Altezze dei frontali dall'alto (mm), anche una sola: «200» su 4 cassetti = 200 in alto e gli altri tre uguali sotto.",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
+  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secDrawHPh:"altezze, es. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondità del cassetto (lunghezza della guida), vuoto = la più lunga che entra.",secDrawHHint:"Altezze dei frontali dall'alto (mm), anche una sola: «200» su 4 cassetti = 200 in alto e gli altri tre uguali sotto.",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",fDoorHinge:"Lato cerniere",doorHingeHint:"Tocca un'anta: auto (regola di sempre), cerniere a sinistra o a destra. Due ante con le cerniere al centro chiedono un divisorio.",doorShort:"Anta",hingeAuto:"auto",hingeL:"sinistra",hingeR:"destra",doorHingeWarn:"Cerniere al centro senza divisorio: la basetta non ha un fianco su cui stare.",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
   wDrawRoom:"I cassetti non ci stanno in altezza: riduci il numero o alza la zona.",
   wDrawOver:"La colonna di cassetti sborda di {mm} mm oltre il fronte.",
   wDrawNL:"Profondità cassetto: NL {want} non c'è o non entra — uso NL {got}.",wDrawDeep:"Mobile troppo poco profondo per questo sistema: restano {mm} mm utili, la guida piu corta ne vuole {min}.",
@@ -2370,7 +2374,7 @@ Object.assign(I18N.ro,{
   dstFix:"Fixe",dstEq:"Egale",dstKit:"Bucătărie (unul mic sus)",
   dwAuto:"Automată",dwSide:"laterală",dwFronts:"fronturi",dwBase:"fund",dwBack:"spate",
   dwBox:"cutie",dwInner:"interior, retras",
-  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secDrawHPh:"înălțimi, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = adâncimea sertarului (lungimea glisierei), gol = cea mai lungă care încape.",secDrawHHint:"Înălțimile fronturilor de sus (mm), chiar și una singură: «200» la 4 sertare = 200 sus și celelalte trei egale dedesubt.",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
+  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secDrawHPh:"înălțimi, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = adâncimea sertarului (lungimea glisierei), gol = cea mai lungă care încape.",secDrawHHint:"Înălțimile fronturilor de sus (mm), chiar și una singură: «200» la 4 sertare = 200 sus și celelalte trei egale dedesubt.",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",fDoorHinge:"Partea balamalelor",doorHingeHint:"Atinge o ușă: automat (regula de până acum), balamale pe stânga sau pe dreapta. Două uși cu balamalele la mijloc cer un despărțitor.",doorShort:"Ușa",hingeAuto:"auto",hingeL:"stânga",hingeR:"dreapta",doorHingeWarn:"Balamale la mijloc fără despărțitor: placa de balama nu are pe ce să se fixeze.",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
   wDrawRoom:"Sertarele nu încap pe înălțime: scade numărul sau mărește zona.",
   wDrawOver:"Coloana de sertare depășește frontul cu {mm} mm.",
   wDrawNL:"Adâncime sertar: NL {want} nu există sau nu încape — folosesc NL {got}.",wDrawDeep:"Corpul e prea puțin adânc pentru sistemul ăsta: rămân {mm} mm utili, cea mai scurtă glisieră cere {min}.",
@@ -2389,7 +2393,7 @@ Object.assign(I18N.en,{
   dstFix:"Fixed",dstEq:"Equal",dstKit:"Kitchen (one shallow on top)",
   dwAuto:"Automatic",dwSide:"side",dwFronts:"fronts",dwBase:"base",dwBack:"back",
   dwBox:"box",dwInner:"inner, set back",
-  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secDrawHPh:"heights, e.g. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = drawer depth (runner length), empty = the longest that fits.",secDrawHHint:"Front heights from the top (mm), even just one: «200» on 4 drawers = 200 on top and the other three equal below.",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
+  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secDrawHPh:"heights, e.g. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = drawer depth (runner length), empty = the longest that fits.",secDrawHHint:"Front heights from the top (mm), even just one: «200» on 4 drawers = 200 on top and the other three equal below.",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",fDoorHinge:"Hinge side",doorHingeHint:"Tap a door: auto (the usual rule), hinges on the left or on the right. Two doors hinged at the centre need a divider.",doorShort:"Door",hingeAuto:"auto",hingeL:"left",hingeR:"right",doorHingeWarn:"Hinges meeting at the centre with no divider: the mounting plate has no panel to sit on.",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
   wDrawRoom:"The drawers do not fit in height: lower the count or raise the zone.",
   wDrawOver:"The drawer stack overruns the front by {mm} mm.",
   wDrawNL:"Drawer depth: NL {want} does not exist or does not fit — using NL {got}.",wDrawDeep:"Cabinet too shallow for this system: {mm} mm usable, the shortest runner needs {min}.",
@@ -2408,7 +2412,7 @@ Object.assign(I18N.fr,{
   dstFix:"Fixes",dstEq:"Égales",dstKit:"Cuisine (un bas en haut)",
   dwAuto:"Automatique",dwSide:"côté",dwFronts:"façades",dwBase:"fond",dwBack:"dos",
   dwBox:"caisse",dwInner:"intérieur, en retrait",
-  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secDrawHPh:"hauteurs, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondeur du tiroir (longueur de coulisse), vide = la plus longue qui entre.",secDrawHHint:"Hauteurs des façades depuis le haut (mm), même une seule : «200» sur 4 tiroirs = 200 en haut et les trois autres égaux dessous.",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
+  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secDrawHPh:"hauteurs, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondeur du tiroir (longueur de coulisse), vide = la plus longue qui entre.",secDrawHHint:"Hauteurs des façades depuis le haut (mm), même une seule : «200» sur 4 tiroirs = 200 en haut et les trois autres égaux dessous.",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",fDoorHinge:"Côté charnières",doorHingeHint:"Touchez une porte : auto (la règle habituelle), charnières à gauche ou à droite. Deux portes charnières au centre demandent une séparation.",doorShort:"Porte",hingeAuto:"auto",hingeL:"gauche",hingeR:"droite",doorHingeWarn:"Charnières au centre sans séparation : l'embase n'a pas de panneau où se fixer.",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
   wDrawRoom:"Les tiroirs ne tiennent pas en hauteur : réduisez le nombre ou augmentez la zone.",
   wDrawOver:"La colonne de tiroirs dépasse la façade de {mm} mm.",
   wDrawNL:"Profondeur du tiroir : NL {want} n'existe pas ou n'entre pas — NL {got} utilisée.",wDrawDeep:"Meuble trop peu profond pour ce système : {mm} mm utiles, la coulisse la plus courte en demande {min}.",
@@ -5311,6 +5315,7 @@ let buildCfg = {...PRESETS.armadio};
 let buildObst=[];   // ostacoli portati dal rilievo nel generatore
 let buildSecMode=null;  // contenuto scelto per ogni sezione
 let buildSecPull=null;  // ripiani estraibili per sezione (U.12)
+let buildDoorHinge=null; // lato cerniere per ogni anta, da sinistra (U.1)
 let buildSecDrawers=null;
 let buildSecDrawerH=null;
 let buildSecDrawerNL=null;  // profondita (NL) per sezione (U.13)  // altezze dei frontali per sezione (U.13), dall'alto  // cassetti per sezione (U.11): null = tutte come «Cassetti/sez.»
@@ -5869,6 +5874,8 @@ function slideIdFor(cfg){
   return sys.metal?(sys.guida||"blum_tandem")
                   :(((state&&state.settings&&state.settings.hwProd)||{}).guida||"blum_tandem");
 }
+/* il lato scelto per l'anta i (da sinistra), o null = regola di sempre */
+function dHinge(cfg,i){ const a=cfg&&cfg.doorHinge; const h=Array.isArray(a)?a[i]:null; return (h==="left"||h==="right")?h:null; }
 function buildCore(cfg){
   const L=cfg.L,H=cfg.H,P=cfg.P;
   const support=cfg.support||"zoccolo", front=cfg.front||"piena";
@@ -6519,6 +6526,7 @@ function buildCore(cfg){
           add("Vetro anta",aH-2*fr+30,aW-2*fr+30,cfg.doors,"",MAT_VETRO,{role:"accessorio"});
           for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3);
             bxRole="frontale"; bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door");
+            if(dHinge(cfg,i)) boxes[boxes.length-1].hinge=dHinge(cfg,i);
             bxRole="vetro"; bx(x+fr,x+aW-fr,aY0+fr,aY0+aH-fr,P+2,P+tA-2,"g"); }
         }else if(front==="curvo"&&bow>0&&aW>120){
           /* Anta bombata. Dalla corda aW e dalla freccia (bombatura) esce il
@@ -6558,7 +6566,8 @@ function buildCore(cfg){
         }else{
           add(push?"Anta push":"Anta",aH,aW,cfg.doors,"2L+2C",null,{role:"frontale"});
           bxRole="frontale";
-          for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door"); }
+          for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door");
+            if(dHinge(cfg,i)) boxes[boxes.length-1].hinge=dHinge(cfg,i); }
         }
       }
     }
@@ -7788,6 +7797,7 @@ function cfgFromForm(){
     bow:Math.min(200,v("bBow",0)), rcorner:Math.max(10,Math.min(400,v("bRc",60))),
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
     secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secDrawerH:cleanSecDrawerH(buildSecDrawerH), secDrawerNL:cleanSecNL(buildSecDrawerNL), secPull:cleanSecPull(buildSecPull),
+    doorHinge:cleanDoorHinge(buildDoorHinge,Math.min(4,v("bDoors",0))),
     /* il gradino vale solo con tutte e due le cote: una sola non e un gradino */
     stepH:Math.min(2000,v("bStepH",0)), stepP:Math.min(400,v("bStepP",0)),
     /* quello che il modulo non ha campi per mostrare viaggia col corpo: le cote
@@ -7839,7 +7849,7 @@ function syncBuildForm(){
   $("bBack").value=buildCfg.back?1:0; $("bHang").value=buildCfg.hang?1:0;
   $("bStepH").value=buildCfg.stepH||""; $("bStepP").value=buildCfg.stepP||"";
   buildObst=buildCfg.obstacles||[];
-  buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null; buildSecDrawerH=buildCfg.secDrawerH||null; buildSecDrawerNL=buildCfg.secDrawerNL||null; buildSecPull=buildCfg.secPull||null;
+  buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null; buildSecDrawerH=buildCfg.secDrawerH||null; buildSecDrawerNL=buildCfg.secDrawerNL||null; buildSecPull=buildCfg.secPull||null; buildDoorHinge=buildCfg.doorHinge||null;
   $("bHangGap").value=buildCfg.hangGap!=null?buildCfg.hangGap:1000;
   $("bShelfEven").value=buildCfg.shelfEven===0?"0":"1";
   $("bShelfStep").value=buildCfg.shelfStep||320;
@@ -7963,6 +7973,7 @@ function renderSecChips(){
   }));
   renderSecDrawers();
   renderSecPull();
+  renderDoorHinge();
 }
 /* U.12 — i ripiani di una sezione escono su guide. Si accende solo dove
    ci sono ripiani: una sezione ad asta o a cassetti non ha niente da tirare. */
@@ -7989,6 +8000,41 @@ function renderSecPull(){
     arr[i]=arr[i]?0:1;
     buildSecPull=cleanSecPull(arr); buildCfg.secPull=buildSecPull;
     drawPreview();
+  }));
+}
+/* U.1 — il lato cerniere di ogni anta, da sinistra. Vuoto = la regola di
+   sempre (una sola anta a sinistra; le coppie sinistra/destra), cosi i
+   progetti vecchi non cambiano (D-39). Si scrive solo dove l'utente ha
+   scelto: una coppia rovesciata (cerniere al centro) chiede un divisorio. */
+function cleanDoorHinge(a,n){
+  if(!Array.isArray(a)) return null;
+  const o=a.slice(0,Math.max(0,n|0)).map(v=>(v==="left"||v==="right")?v:null);
+  return o.some(v=>v)?o:null;
+}
+function renderDoorHinge(){
+  const wrap=$("doorHingeWrap"), box=$("doorHingeBox"); if(!wrap||!box) return;
+  const nd=Math.min(4,+($("bDoors").value||0));
+  const show=nd>0&&buildCfg.type!=="scorrevole"&&!hasFronts(buildCfg)&&$("bFront").value!=="curvo"
+    &&!["scrivania","tavolo","letto","tondo","raccordato"].includes(buildCfg.type);
+  wrap.style.display=show?"":"none";
+  if(!show){ box.innerHTML=""; return; }
+  const cur=buildDoorHinge||[];
+  /* cerniere una verso l'altra, al centro, senza divisorio: la basetta non ha
+     dove stare (opsNoHingePanel). Con le sezioni (tram>0) un divisorio c'e. */
+  const eff=Array.from({length:nd},(_,i)=>cur[i]||(nd===1||i<nd/2?"left":"right"));
+  const clash=!(buildCfg.tram>0)&&eff.some((h,i)=>h==="right"&&eff[i+1]==="left");
+  $("doorHingeHint").textContent=t("doorHingeHint");
+  if(clash) $("doorHingeHint").textContent+=" ⚠ "+t("doorHingeWarn");
+  box.innerHTML=Array.from({length:nd},(_,i)=>{
+    const h=cur[i], lab=h==="left"?"◀ "+t("hingeL"):h==="right"?t("hingeR")+" ▶":t("hingeAuto");
+    return `<button class="chip sm${h?" on":""}" data-dh="${i}">${esc(t("doorShort"))} ${i+1}: ${esc(lab)}</button>`;
+  }).join("");
+  box.querySelectorAll("[data-dh]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.dh, arr=(buildDoorHinge||[]).slice();
+    while(arr.length<nd) arr.push(null);
+    arr[i]=arr[i]==null?"left":arr[i]==="left"?"right":null;
+    buildDoorHinge=cleanDoorHinge(arr,nd); buildCfg.doorHinge=buildDoorHinge;
+    renderDoorHinge(); drawPreview();
   }));
 }
 /* U.11 — un numero di cassetti per ogni sezione che li riceve. Vuoto = come
@@ -8334,6 +8380,7 @@ function renderBuild(){
     ["bDrawSys","bDrawDist","bDrawers","bDoors","bDrawPos"].forEach(id=>
       $(id).addEventListener("change",()=>renderDrawUI($("bDrawSys").value,$("bDrawH").value)));
     $("bDrawers").addEventListener("input",()=>{ renderDrawUI($("bDrawSys").value,$("bDrawH").value); renderSecDrawers(); });
+    ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
@@ -8381,7 +8428,7 @@ function presetAll(){
   return out;
 }
 function presetApply(p){
-  buildObst=[]; buildSecMode=p.cfg.secMode||null; buildSecDrawers=p.cfg.secDrawers||null; buildSecDrawerH=p.cfg.secDrawerH||null; buildSecDrawerNL=p.cfg.secDrawerNL||null; buildSecPull=p.cfg.secPull||null;
+  buildObst=[]; buildSecMode=p.cfg.secMode||null; buildSecDrawers=p.cfg.secDrawers||null; buildSecDrawerH=p.cfg.secDrawerH||null; buildSecDrawerNL=p.cfg.secDrawerNL||null; buildSecPull=p.cfg.secPull||null; buildDoorHinge=p.cfg.doorHinge||null;
   buildCfg={...p.cfg,name:p.name};
   syncBuildForm(); drawPreview();
 }
@@ -12528,7 +12575,7 @@ function aiApply(){
   if(P.mode==="genera"&&P.cfg){
     /* aggiornamento parziale: solo le chiavi arrivate, il resto resta com'e' */
     buildCfg=aiMerge(cfgFromForm(),P.cfg);
-    buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null; buildSecDrawerH=buildCfg.secDrawerH||null; buildSecDrawerNL=buildCfg.secDrawerNL||null; buildSecPull=buildCfg.secPull||null;
+    buildSecMode=buildCfg.secMode||null; buildSecDrawers=buildCfg.secDrawers||null; buildSecDrawerH=buildCfg.secDrawerH||null; buildSecDrawerNL=buildCfg.secDrawerNL||null; buildSecPull=buildCfg.secPull||null; buildDoorHinge=buildCfg.doorHinge||null;
     buildObst=buildCfg.obstacles||[];
     syncBuildForm(); renderSecChips(); drawPreview();
     setView("build");
@@ -13023,12 +13070,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.45.1"; /* APP_VER-MARKER */
+const APP_VER="4.46.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v104";
+const SW_CACHE="ebanist-v105";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

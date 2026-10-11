@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.46.0 — 11 octombrie 2026
+
+**Partea balamalelor, aleasă pe fiecare ușă din formular (ROADMAP U.1).** Cerut de G. Roscigno. Până acum partea o hotăra o regulă fixă (o ușă singură pe stânga, perechile stânga/dreapta); alegerea exista numai prin asistentul AI (`fronts[].hinge`).
+
+- Constructor → *Frontali e appoggio* → **Lato cerniere**: câte un buton pe ușă, de la stânga. Un tap = stânga, două = dreapta, trei = înapoi la „auto”. Ușile din sticlă o au și ele. Nu apare la uși glisante, uși curbe, mese, paturi, rotunde.
+- Alegerea ajunge în găurire (cupa de ⌀35 pe marginea aleasă, placa pe flancul de lângă ea), la mâner și în 3D, care deschide ușa de acolo. Se salvează în proiect (`cfg.doorHinge`).
+- **Proiectele vechi nu se schimbă (D-39):** fără alegere, regula de până acum. Distinta e aceeași, rând cu rând, cu sau fără alegere.
+- **Cerniere una spre alta, la mijloc, fără despărțitor:** placa n-are pe ce să se fixeze. Formularul avertizează (⚠ sub butoane), iar găurirea nu mai pune placa pe flancul de la capătul corpului. Înainte, o pereche inversată fără despărțitor (și la `fronts`) găurea placa pe flancul opus, la 450 mm de ușă, fără nicio avertizare. Acum ușa rămâne fără placă și ops scoate avertismentul `opsNoHingePanel`. Cu despărțitor la mijloc, placa e pe despărțitor, ca până acum.
+- Traduceri RO / IT / EN / FR.
+- Teste: `doorhinge.test.js` (11) și 11 verificări în e2e. `test:full` 471/471 + golden 42/42, e2e 438/438. Verificat în Chromium pe formularul real.
+- `APP_VER` 4.46.0, `SW_CACHE`/`CACHE` → `ebanist-v105`. Aplicația Android o primește fără `.aab` (încarcă web-ul).
+
 ## Android 1.3.0 (versionCode 6) — 11 octombrie 2026 · `.aab` de construit și urcat
 
 **Aplicația Android trece pe `ebanist.com` (ROADMAP L.10, D-71).** Până acum încărca `whimsical-wisp-61cbbf.netlify.app`, deci a doua adresă trebuia ținută cu tot cu variabilele ei din Netlify.

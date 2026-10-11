@@ -2208,6 +2208,39 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS", gerr.length === 0, gerr.join(" | ").slice(0, 200));
   }
 
+  /* U.1 — partea balamalelor aleasă pe fiecare ușă, din formular */
+  {
+    head("Lato cerniere per anta — dal modulo, salvato nel progetto (U.1)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; });
+    await pg.waitForTimeout(300);
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; buildDoorHinge = null; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(250);
+    const chips = () => pg.evaluate(() => [...document.querySelectorAll("#doorHingeBox .chip")].map(c => c.textContent));
+    const hs = () => pg.evaluate(() => buildModule(cfgFromForm()).boxes.filter(x => x.sub === "door").map(x => x.hinge || null));
+    const wrapShown = () => pg.evaluate(() => document.getElementById("doorHingeWrap").style.display !== "none");
+    ok("U.1: due ante → due pulsanti, tutti «auto»", (await chips()).length === 2 && (await wrapShown()));
+    ok("U.1: senza scelta nessuna cerniera scritta (progetti vecchi invariati)", JSON.stringify(await hs()) === "[null,null]");
+    await pg.click('[data-dh="0"]'); await pg.click('[data-dh="0"]');
+    ok("U.1: due tocchi → «destra», e finisce sulla cassa dell'anta", JSON.stringify(await hs()) === '["right",null]');
+    ok("U.1: il valore sta nel cfg del progetto", JSON.stringify(await pg.evaluate(() => cfgFromForm().doorHinge)) === '["right",null]');
+    await pg.click('[data-dh="1"]');
+    ok("U.1: cerniere una verso l'altra senza divisorio → avviso", await pg.evaluate(() => /⚠/.test(document.getElementById("doorHingeHint").textContent)));
+    await pg.click('[data-dh="1"]'); await pg.click('[data-dh="1"]');
+    ok("U.1: terzo tocco → torna «auto»", JSON.stringify(await hs()) === '["right",null]');
+    await pg.fill("#bDoors", "1"); await pg.waitForTimeout(150);
+    ok("U.1: meno ante → meno pulsanti, la scelta resta alla prima", (await chips()).length === 1 && JSON.stringify(await hs()) === '["right"]');
+    await pg.fill("#bDoors", "0"); await pg.waitForTimeout(150);
+    ok("U.1: senza ante il campo sparisce", !(await wrapShown()));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.scorrevole }; syncBuildForm(); renderSecChips(); });
+    await pg.waitForTimeout(150);
+    ok("U.1: porte scorrevoli → nessun lato cerniere", !(await wrapShown()));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base, doorHinge: ["right", "left"] }; syncBuildForm(); renderSecChips(); });
+    await pg.waitForTimeout(150);
+    ok("U.1: un progetto salvato con doorHinge lo riapre così", JSON.stringify(await chips()) === JSON.stringify(["Door 1: right ▶", "Door 2: ◀ left"]) || (await chips()).length === 2);
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; buildDoorHinge = null; syncBuildForm(); renderSecChips(); });
+    ok("U.1: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -148,7 +148,10 @@ function panelBeside(pcs, x, dir, y, z, tol) {
     if (p.tAx !== 0 || (p.role !== "fianco" && p.role !== "divisorio")) continue;
     var face = dir < 0 ? p.max[0] : p.min[0];
     var d = dir < 0 ? x - face : face - x;
-    if (d < -tol || d > bd) continue;
+    /* un pannello a oltre `tol` dal bordo non e quello contro cui lavora la
+       cerniera: la basetta andrebbe forata su un fianco lontano. Meglio
+       nessun pannello (avviso opsNoHingePanel) che un foro sul pezzo sbagliato. */
+    if (d < -tol || d > tol || d > bd) continue;
     if (!inside(p, [(p.min[0] + p.max[0]) / 2, y, z], 0.5)) continue;
     best = p; bd = d;
   }
