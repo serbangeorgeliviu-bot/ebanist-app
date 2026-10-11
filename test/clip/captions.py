@@ -1,20 +1,21 @@
-"""Subtitrări ASS (pop-up, cuvinte-cheie colorate). python3 captions.py <out.ass>
-Timpii = timeline-ul vocii din make-clip.sh (VO_START)."""
+"""Subtitrări ASS (pop-up, cuvinte-cheie colorate). python3 captions.py <out.ass> <timeline.json>"""
 import sys
 Y, W, R = r"{\c&H00D6FF&}", r"{\c&HFFFFFF&}", r"{\c&H303BFF&}"   # galben, alb, roșu (BGR)
-cues = [  # start, end, text, y
- (0.00, 1.95, f"PERDERE {Y}TEMPO{W}\\NA CALCOLARE LE\\NMISURE A MANO?", 1450),
- (2.03, 3.20, f"{Y}EBANIST{W}: SCEGLI\\NIL MOBILE,", 1450),
- (3.20, 4.39, "METTI LE MISURE,", 1450),
- (4.39, 5.70, "IN POCHI SECONDI", 1450),
- (5.70, 7.55, "HAI IL 3D E LA\\NLISTA DI TAGLIO", 1450),
- (7.59, 9.00, "NIENTE ERRORI,\\NMENO SCARTI,", 1450),
- (9.00, 10.30, f"PIÙ {R}SOLDI{W} IN TASCA", 1450),
- (10.32, 12.68, f"SALVALO: SI CHIAMA\\N{Y}EBANIST{W}", 330),
- (12.68, 15.12, f"TU QUANTO {Y}TEMPO{W}\\NPERDI PER UNA\\NLISTA DI TAGLIO?", 330),
- (15.12, 16.77, "SCRIVILO QUI SOTTO", 330),
- (16.77, 18.05, "OPPURE VUOI\\NCONTINUARE A…", 1450),
+texts = [  # (text, y) — în ordinea cue-urilor din timeline.py
+ (f"PERDERE {Y}TEMPO{W}\\NA CALCOLARE LE\\NMISURE A MANO?", 1450),
+ (f"{Y}EBANIST{W}: SCEGLI\\NIL MOBILE,", 1450),
+ ("METTI LE MISURE,", 1450),
+ ("IN POCHI SECONDI", 1450),
+ ("HAI IL 3D E LA\\NLISTA DI TAGLIO", 1450),
+ ("NIENTE ERRORI,\\NMENO SCARTI,", 1450),
+ (f"PIÙ {R}SOLDI{W} IN TASCA", 1450),
+ (f"SALVALO: SI CHIAMA\\N{Y}EBANIST{W}", 330),
+ (f"TU QUANTO {Y}TEMPO{W}\\NPERDI PER UNA\\NLISTA DI TAGLIO?", 330),
+ ("SCRIVILO QUI SOTTO", 330),
+ ("OPPURE VUOI\\NCONTINUARE A…", 1450),
 ]
+import json
+cues = [(a, b, *texts[i]) for a, b, i in json.load(open(sys.argv[2]))["cues"]]
 t = lambda s: f"{int(s//3600)}:{int(s%3600//60):02d}:{s%60:05.2f}"
 hdr = """[Script Info]
 ScriptType: v4.00+

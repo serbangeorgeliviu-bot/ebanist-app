@@ -1,4 +1,4 @@
-# Câte o linie = un fișier voce (g1..g6), voce Chris iP95p4xoKVk53GoZ742B (vidiq_voiceover_generate).
+# Câte o linie = un fișier voce (g1..g6), voce Brian nPczCjzI2devNBz1zQrb (ales după eșantioane; Chris era prea accentuat). Montaj cu VO_TEMPO=1.1 (vidiq_voiceover_generate).
 # Generate pe bucăți ca să nu rămână pauze între cadre.
 Perdere ore a calcolare le misure a mano?
 Ebanist: scegli il mobile, metti le misure,
