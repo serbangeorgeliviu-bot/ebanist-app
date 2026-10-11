@@ -24,6 +24,8 @@ it: {
     "La profondità ricomposta da base/cielo non dà quella nominale: o la base è troppo corta, o lo schienale non viene sottratto in modo coerente.",
   "Lățimea recompusă din bază plus cele două laterale nu dă lățimea nominală.":
     "La larghezza ricomposta dalla base più i due fianchi non dà la larghezza nominale.",
+  "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.":
+    "La larghezza ricomposta dalle traverse del cielo più i due fianchi non dà la larghezza nominale.",
   "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.":
     "La larghezza ricomposta dallo schienale non dà quella nominale: lo schienale non entra giusto fra i fianchi.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.":
@@ -124,6 +126,8 @@ en: {
     "The depth rebuilt from the bottom/top does not give the nominal depth: either the bottom is too short or the back is not deducted consistently.",
   "Lățimea recompusă din bază plus cele două laterale nu dă lățimea nominală.":
     "The width rebuilt from the bottom plus the two sides does not give the nominal width.",
+  "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.":
+    "The width rebuilt from the top rails plus the two sides does not give the nominal width.",
   "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.":
     "The width rebuilt from the back does not give the nominal width: the back does not fit between the sides.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.":
@@ -221,6 +225,8 @@ fr: {
     "La profondeur recomposée à partir du dessous/dessus ne donne pas la profondeur nominale : soit le dessous est trop court, soit le fond n'est pas déduit de façon cohérente.",
   "Lățimea recompusă din bază plus cele două laterale nu dă lățimea nominală.":
     "La largeur recomposée à partir du dessous et des deux côtés ne donne pas la largeur nominale.",
+  "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.":
+    "La largeur recomposée à partir des traverses du dessus et des deux côtés ne donne pas la largeur nominale.",
   "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.":
     "La largeur recomposée à partir du fond ne donne pas la largeur nominale : le fond ne s'ajuste pas entre les côtés.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.":

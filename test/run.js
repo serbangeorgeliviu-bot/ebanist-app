@@ -2241,6 +2241,56 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.1: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.3 — corp fără tavan: tavan plin / două traverse / fără (D-72) */
+  {
+    head("Chiusura in alto — cielo pieno, due traverse, nessuna (U.3)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; });
+    await pg.waitForTimeout(300);
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base, name: "Sub chiuveta", L: 800 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(250);
+    const st = () => pg.evaluate(() => ({
+      rail: document.getElementById("rowTopRail").style.display !== "none",
+      top: cfgFromForm().top, w: cfgFromForm().topRailW,
+      pcs: buildModule(cfgFromForm()).pieces.filter(p => /Cielo|Traversa|^Base/.test(p.elemento)).map(p => p.elemento + " " + p.lung + "x" + p.larg + " x" + p.pz) }));
+    let x = await st();
+    ok("U.3: implicit «cielo pieno», un singur pannello Base / Cielo", x.top === null && JSON.stringify(x.pcs) === '["Base / Cielo 762x560 x2"]');
+    await pg.selectOption("#bTop", "traverse"); await pg.waitForTimeout(250);
+    x = await st();
+    ok("U.3: «due traverse» → Base + Traversa cielo ×2 (100 mm)", x.top === "traverse" && x.rail && JSON.stringify(x.pcs) === '["Base 762x560 x1","Traversa cielo 762x100 x2"]');
+    await pg.fill("#bTopRail", "80"); await pg.waitForTimeout(250);
+    x = await st();
+    ok("U.3: larghezza traversa 80 → pezzo 80 mm, salvata nel cfg", x.w === 80 && /762x80 x2/.test(x.pcs[1]));
+    await pg.selectOption("#bTop", "none"); await pg.waitForTimeout(250);
+    x = await st();
+    ok("U.3: «nessuna» → soltanto la base, campo larghezza nascosto", x.top === "none" && !x.rail && JSON.stringify(x.pcs) === '["Base 762x560 x1"]');
+    ok("U.3: chiusura e invarianti restano a posto senza cielo", await pg.evaluate(() => {
+      const c = cfgFromForm(), m = buildModule(c), G = deriveCarcass(carcassParams(c, {}));
+      return validateCarcassClosure(c, m.pieces, G).length === 0; }));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.scrivania }; syncBuildForm(); renderSecChips(); });
+    await pg.waitForTimeout(150);
+    ok("U.3: scrivania → la riga sparisce", await pg.evaluate(() => document.getElementById("rowTop").style.display === "none"));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base, top: "traverse", topRailW: 90 }; syncBuildForm(); renderSecChips(); });
+    await pg.waitForTimeout(150);
+    ok("U.3: un progetto salvato con top lo riapre così", await pg.evaluate(() => document.getElementById("bTop").value === "traverse" && document.getElementById("bTopRail").value === "90"));
+    /* la scheda di montaggio: i passi non nominano un cielo che non c'e */
+    const mont = await pg.evaluate(() => {
+      const o = {};
+      for (const t of ["plin", "traverse", "none"]) {
+        const p = proj(); p.pieces = []; p.configs = {};
+        generateInto(p, { ...PRESETS.base, name: "Sub", top: t === "plin" ? null : t, tram: 1 });
+        const d = document.createElement("div"); d.innerHTML = montDoc(p);
+        o[t] = d.textContent;
+      }
+      o.ms = { plin: t("ms6"), traverse: t("ms6t"), none: t("ms6n") };
+      return o;
+    });
+    ok("U.3: scheda con cielo pieno — passo «base e cielo»", mont.plin.includes(mont.ms.plin));
+    ok("U.3: scheda con traverse — passo con le due traverse", mont.traverse.includes(mont.ms.traverse) && !mont.traverse.includes(mont.ms.plin));
+    ok("U.3: scheda senza cielo — passo «aperto in alto», senza il cielo", mont.none.includes(mont.ms.none) && !mont.none.includes(mont.ms.plin));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.3: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -5,6 +5,23 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.47.0 — 11 octombrie 2026
+
+**Corp fără tavan: plin, două traverse sau nimic (ROADMAP U.3, D-72).** Cerut de G. Roscigno pentru corpurile de sub chiuvetă și de sub plită, care n-au tavan.
+
+- Constructor → *Frontali e appoggio* → **Chiusura in alto**: *Cielo pieno* (implicit, ca până acum), *Due traverse* sau *Nessuna*. Cu traverse apare lățimea unei traverse (implicit 100 mm, între 30 și 400). Nu apare la birou, masă, pat, rotund, racordat.
+- **Două traverse:** o linie în distinctă, „Traversa cielo”, 2 buc., față și spate, lungimea între laterale, același material și **aceeași grosime ca tavanul** (rolul „cielo”, D-41). Baza iese separat. Înălțimea interioară rămâne aceeași.
+- **Fără tavan:** nicio piesă sus, laterale libere. Înălțimea interioară crește cu grosimea tavanului (582 → 601 mm pe corpul de test), iar spatele în canal intră numai jos și urcă până la marginea laterale.
+- Tot motorul vine dintr-un loc: `deriveCarcass()` primește `top` și `top_rail_W`; închiderea (D-43), invarianții și cotele absolute citesc grosimea de sus din `topSp()`. Închiderea are un lanț nou pentru traverse (lungime + 2 laterale = lățimea corpului) și cade dacă o traversă e tăiată prea scurtă.
+- **Găurire:** traversele se prind de ambele laterale cu minifix, iar tramezul urcă și se prinde de **amândouă** traversele. Fără tavan, semnul de „sub tavan” nu mai cade fals pe marginea laturii.
+- **Fișa de montaj** are pașii ei pentru traverse („bază și cele două traverse”) și pentru corpul deschis sus; nu mai pomenește un tavan care nu există.
+- **Asistentul AI** înțelege „fără tavan”, „cu două traverse” (`top`, `topRailW`).
+- **Perete în unghi:** traversele nu se pot face (două traverse drepte nu urmează un perete oblic): tavanul rămâne întreg și apare un avertisment. „Fără tavan” merge și acolo.
+- O traversă sub 30 mm sau două traverse care umplu adâncimea opresc generarea cu motivul, nu o ascund.
+- **Proiectele vechi nu se schimbă (D-39):** fără `top`, aceeași distinctă. Golden 42/42 neatinse.
+- Teste: `top.test.js` (23) și 12 verificări în e2e (formular, distinctă, fișa de montaj). `test:full` 494/494 + golden 42/42, e2e 449/449.
+- `APP_VER` 4.47.0, `SW_CACHE`/`CACHE` → `ebanist-v106`, `CORE_REV` 4.47.0. Aplicația Android o primește fără `.aab`.
+
 ## 4.46.0 — 11 octombrie 2026
 
 **Partea balamalelor, aleasă pe fiecare ușă din formular (ROADMAP U.1).** Cerut de G. Roscigno. Până acum partea o hotăra o regulă fixă (o ușă singură pe stânga, perechile stânga/dreapta); alegerea exista numai prin asistentul AI (`fronts[].hinge`).

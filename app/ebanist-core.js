@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.42.1";
+var CORE_REV = "4.47.0";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -52,8 +52,24 @@ var CARCASS_DEFAULTS = {
   nut_off: 10,             // arretramento della cava dal filo posteriore
   setback_zoccolo: 50,     // arretramento dello zoccolo dal filo anteriore
   foratura_prof: 12.5,     // tazza cerniera: profondita
-  foratura_dist_cant: 5    // tazza cerniera: distanza dal cant. UNA cota, non "3-6"
+  foratura_dist_cant: 5,   // tazza cerniera: distanza dal cant. UNA cota, non "3-6"
+  top: "plin",             // tavanul: 'plin' | 'traverse' (fata + spate) | 'none'
+  top_rail_W: 100          // latimea unei traverse de tavan (D-72), mm
 };
+/* Cum se inchide sus un corp (D-72). `plin` = un pannello (il cielo di
+   sempre); `traverse` = due traverse, davanti e dietro, dello stesso
+   materiale e della stessa grossezza del cielo (sotto un lavello, sotto una
+   piastra); `none` = nessun cielo, i fianchi finiscono liberi. */
+var TOP_MODES = ["plin", "traverse", "none"];
+/* La grossezza di quello che chiude il corpo in alto: 0 senza cielo. UN
+   posto solo: la usano la luce interna, lo schienale in cava, la chiusura e
+   le cote assolute. Un G senza `top` (distinta vecchia) e un cielo pieno. */
+function topSp(G) {
+  var inp = G && G.in || {};
+  var sp = (G && G.sp) || (inp.sp) || {};
+  if (G && G.sp_top != null) return +G.sp_top;
+  return inp.top === "none" ? 0 : (+sp.cielo || +(G && G.sp_cielo) || 0);
+}
 
 /* Formato della lastra: serve ad A10 (un pezzo piu grande della lastra non e
    un pezzo, e un errore che si scopre in segheria). */
@@ -65,7 +81,7 @@ var PANEL_DEFAULTS = { panelL: 2800, panelW: 2070, decor_directional: false };
  * "Ripiano mobile sez.2" e "Ripiano fisso" sono lo stesso ruolo, e il nome
  * cambia con la lingua. Il ruolo no.
  */
-var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo",
+var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo", "traversa_cielo",
              "schienale", "ripiano", "frontale", "cassetto_fianco", "cassetto_fondo",
              "cassetto_frontale", "divisorio", "zoccolo", "traversa", "accessorio"];
 
@@ -89,6 +105,7 @@ var ROLE_AXES = {
   fianco_dx:         { lung: "H", larg: "P", sp: "L" },
   base:              { lung: "L", larg: "P", sp: "H" },
   cielo:             { lung: "L", larg: "P", sp: "H" },
+  traversa_cielo:    { lung: "L", larg: "P", sp: "H" },
   schienale:         { lung: "L", larg: "H", sp: "P" },
   ripiano:           { lung: "L", larg: "P", sp: "H" },
   frontale:          { lung: "H", larg: "L", sp: "P" },
@@ -256,6 +273,12 @@ function deriveCarcass(params) {
   var inset_cassetto = p.inset_cassetto == null ? 0 : num(p, "inset_cassetto");
   var foratura_prof = num(p, "foratura_prof");
   var foratura_dist_cant = num(p, "foratura_dist_cant");
+  /* il tavan (D-72): senza `top` e il cielo pieno di sempre */
+  var top = p.top == null ? "plin" : String(p.top);
+  if (TOP_MODES.indexOf(top) < 0)
+    throw new Error("deriveCarcass: `top` trebuie să fie 'plin', 'traverse' sau 'none', primit " + JSON.stringify(p.top));
+  var top_rail_W = top === "traverse" ? num(p, "top_rail_W") : 0;
+  var sp_top = top === "none" ? 0 : SP.cielo;
 
   /* luce interna */
   var Wi = W - 2 * t_fianco;
@@ -303,7 +326,7 @@ function deriveCarcass(params) {
        stessa grossezza: con un cielo da 25 su struttura da 19 lo schienale
        usciva 6 mm troppo lungo e non entrava nella cava. Sono la base e il
        cielo a togliergli altezza, non i fianchi. */
-    back_H = (H - h_base - SP.base - SP.cielo) + 2 * nut_d;
+    back_H = (H - h_base - SP.base - sp_top) + (top === "none" ? 1 : 2) * nut_d;
     piano_interno = nut_off + t_back;
   }
 
@@ -387,7 +410,16 @@ function deriveCarcass(params) {
      ricalcola piu per conto suo. */
   var P_int = D - piano_interno;
   var L_int = Wi;
-  var H_int = H - h_base - SP.base - SP.cielo;
+  var H_int = H - h_base - SP.base - sp_top;
+  /* due traverse non pot ocupa toata adancimea: ramane o deschidere, sau nu
+     mai sunt traverse. 30 mm e il minimo che tiene un minifix. */
+  if (top === "traverse") {
+    if (!(top_rail_W >= 30))
+      throw new Error("deriveCarcass: traversa de tavan trebuie să aibă cel puțin 30 mm, primit " + top_rail_W);
+    if (!(2 * top_rail_W + 30 <= D_bc))
+      throw new Error("deriveCarcass: două traverse de " + top_rail_W + " mm nu încap în adâncimea " + mm(D_bc) +
+        " (rămâne sub 30 mm între ele)");
+  }
 
   /* la larghezza di una sezione fra due tramezzi: la cota da cui escono il
      ripiano e la cassa del cassetto. */
@@ -428,6 +460,7 @@ function deriveCarcass(params) {
       n_divisorio: n_divisorio, glisiera: glisieraId,
       cassetto_interno: cassetto_interno, inset_cassetto: inset_cassetto,
       treapta_H: treapta_H, treapta_P: treapta_P,
+      top: top, top_rail_W: top_rail_W,
       sp: { fianco: SP.fianco, base: SP.base, cielo: SP.cielo, schienale: SP.schienale,
             ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
             divisorio: SP.divisorio }
@@ -466,6 +499,10 @@ function deriveCarcass(params) {
     sp_fianco:    SP.fianco,
     sp_base:      SP.base,
     sp_cielo:     SP.cielo,
+    /* ce inchide corpul sus: grosimea cerului, sau 0 fara tavan (D-72) */
+    sp_top:       sp_top,
+    top:          top,
+    rail_W:       top === "traverse" ? mm(top_rail_W) : null,
     sp_schienale: SP.schienale,
     sp_ripiano:   SP.ripiano,
     sp_frontale:  SP.frontale,
@@ -612,7 +649,10 @@ function closureRow(pieces, role) {
    quando le grossezze si separano: chi cerca la base le trova in tutti e due
    i casi. */
 function closureBC(pieces, which) {
-  return closureRow(pieces, which) || closureRow(pieces, "base_cielo");
+  var r = closureRow(pieces, which) || closureRow(pieces, "base_cielo");
+  /* tavanul din doua traverse (D-72): o singura linie, `pz` 2, aceeasi grosime */
+  if (!r && which === "cielo") r = closureRow(pieces, "traversa_cielo");
+  return r;
 }
 /* Quale cota del pezzo corre lungo l'asse chiesto. Lo dice `axis_mapping`,
    che il generatore ha scritto sul pezzo: NON si indovina dall'ordine. */
@@ -661,7 +701,8 @@ function reconstructCarcass(corpo, pieces, geometry) {
   var spBack = back ? spOf(back, "sp_schienale") : 0;
   var spF = spOf(fianco, "sp_fianco") || +G.sp_fianco || 0;
   var spB = base ? spOf(base, "sp_base") : (+G.sp_base || 0);
-  var spC = cielo ? spOf(cielo, "sp_cielo") : (+G.sp_cielo || 0);
+  var spC = cielo ? spOf(cielo, "sp_cielo") : topSp(G);
+  var topMode = (G.in && G.in.top) || G.top || "plin";
   var inp = G.in || {};
   var h_base = +inp.h_base || 0;
   var h_picior = (inp.piedini > 0) ? (+inp.h_picior || 0) : 0;
@@ -709,6 +750,13 @@ function reconstructCarcass(corpo, pieces, geometry) {
     add("L", "base+2×fianco", W, alongAxis(base, "L") + 2 * spF,
         base.nomi.concat(fianco.nomi),
         "Lățimea recompusă din bază plus cele două laterale nu dă lățimea nominală.");
+
+  /* traversele de tavan se intind de la o laterala la cealalta: lungimea lor
+     plus doua laterale da latimea corpului (D-72) */
+  if (topMode === "traverse" && cielo && squadro)
+    add("L", "traversa-tavan+2×fianco", W, alongAxis(cielo, "L") + 2 * spF,
+        cielo.nomi.concat(fianco.nomi),
+        "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.");
 
   if (back && squadro) {
     var bl = alongAxis(back, "L");
@@ -827,7 +875,7 @@ function validateInvariants(corpo, pieces, geometry, opts) {
   var back = closureRow(rows, "schienale");
   var tip = G.tip_schienale || "incassato";
   var spBack = back ? (back.sp != null ? +back.sp : +G.sp_schienale || 0) : 0;
-  var spF = +G.sp_fianco || 0, spB = +G.sp_base || 0, spC = +G.sp_cielo || 0;
+  var spF = +G.sp_fianco || 0, spB = +G.sp_base || 0, spC = topSp(G);
   var inp = G.in || {};
   var h_base = +inp.h_base || 0;
   var P_fianco = alongAxis(fianco, "P");
@@ -1029,7 +1077,7 @@ function validateInvariants(corpo, pieces, geometry, opts) {
 /* da che ruolo di pezzo si legge quale grossezza, e di quale materiale */
 var ROLE_SP_KEY = {
   fianco: "sp_fianco", fianco_sx: "sp_fianco", fianco_dx: "sp_fianco",
-  base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base",
+  base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base", traversa_cielo: "sp_cielo",
   schienale: "sp_schienale", ripiano: "sp_ripiano", divisorio: "sp_divisorio",
   zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale",
   cassetto_frontale: "sp_frontale", cassetto_fianco: "sp_fianco",
@@ -1037,7 +1085,7 @@ var ROLE_SP_KEY = {
 };
 var ROLE_MAT_OF = {
   fianco: "fianco", fianco_sx: "fianco", fianco_dx: "fianco",
-  base: "base", cielo: "cielo", base_cielo: "base", schienale: "schienale",
+  base: "base", cielo: "cielo", base_cielo: "base", traversa_cielo: "cielo", schienale: "schienale",
   ripiano: "ripiano", divisorio: "divisorio", zoccolo: "zoccolo",
   frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale",
   cassetto_fianco: "fianco", cassetto_fondo: "fianco"
@@ -1130,7 +1178,7 @@ function derivePartitions(G, partitions, opts) {
   var inp = G.in, W = inp.W, H = inp.H, sp = G.sp, ex = G.exact;
   var tF = sp.fianco, tD = sp.divisorio, tR = sp.ripiano;
   var xIn0 = tF, xIn1 = W - tF;
-  var yIn0 = inp.h_base + sp.base, yIn1 = H - sp.cielo;
+  var yIn0 = inp.h_base + sp.base, yIn1 = H - topSp(G);
   var TR = G.treapta, stepOn = !!(TR && TR.activa);
   /* la profondita utile: dal piano interno (davanti allo schienale) al
      filo anteriore. In cava include l'arretramento della cava. */
@@ -1376,7 +1424,7 @@ function validateLayout(cfg, G, opts) {
   cols.forEach(function (xm, ci) {
     var slabs = [{ y0: inp.h_base, y1: yIn0, what: "base" }];
     rip.forEach(function (r) { if (r.x0 < xm && r.x1 > xm) slabs.push({ y0: r.y, y1: r.y1, what: "ripiano " + r.n }); });
-    slabs.push({ y0: H - sp.cielo, y1: H, what: "cielo" });
+    if (topSp(G) > 0) slabs.push({ y0: H - topSp(G), y1: H, what: "cielo" });
     slabs.sort(function (a, b) { return a.y0 - b.y0; });
     var terms = [], y = 0, ok = true;
     if (inp.h_base > 0) { terms.push(inp.h_base); y = inp.h_base; }
@@ -1387,12 +1435,15 @@ function validateLayout(cfg, G, opts) {
       else if (y > 0 && sl.what !== "base") { ok = false; errors.push("coloana " + (ci + 1) + ": " + sl.what + " nu lasă nicio lumină sub el"); }
       terms.push(sl.y1 - sl.y0); y = sl.y1;
     });
+    /* fara tavan (D-72) stiva se opreste la ultimul pannello: ce ramane pana
+       la marginea de sus e luce libera, nu o piesa care lipseste */
+    if (H - y > LAYOUT_EPS) { terms.push(H - y); y = H; }
     var tot = terms.reduce(function (s, v) { return s + v; }, 0);
     if (!nearMm(tot, H)) { ok = false; errors.push("coloana " + (ci + 1) + ": suma verticală " + fmt01(tot) + " ≠ H " + H); }
     out.chains.V.push({ col: ci + 1, x: xm, ok: ok, total: tot, nominal: H, terms: terms.slice(),
                         text: terms.map(fmt01).join(" + ") + " = " + fmt01(tot) });
   });
-  var ev = [yIn0, H - sp.cielo];
+  var ev = [yIn0, H - topSp(G)];
   setti.forEach(function (s) { ev.push(s.y0, s.y1); });
   ev = ev.filter(function (v, k, a) { return a.findIndex(function (u) { return nearMm(u, v); }) === k; })
          .sort(function (a, b) { return a - b; });
@@ -1424,7 +1475,7 @@ function layoutNumbers(LY, G) {
   var k = [], i, j;
   if (!LY || !G) return k;
   var sp = G.sp, inp = G.in;
-  k.push(inp.h_base, inp.h_base + sp.base, inp.H - sp.cielo, G.Wi, G.H_int, G.P_int);
+  k.push(inp.h_base, inp.h_base + sp.base, inp.H - topSp(G), G.Wi, G.H_int, G.P_int);
   for (var r in sp) k.push(sp[r]);
   (LY.chains.V || []).concat(LY.chains.H || []).forEach(function (c) { (c.terms || []).forEach(function (v) { k.push(v); }); k.push(c.total); });
   var P = LY.parts;
@@ -1757,6 +1808,8 @@ var API = {
   ROLES: ROLES,
   ROLE_AXES: ROLE_AXES,
   axesFor: axesFor,
+  topSp: topSp,
+  TOP_MODES: TOP_MODES,
   SLIDE_CATALOG: SLIDE_CATALOG,
   slideById: slideById,
   BACK_KIND: BACK_KIND,

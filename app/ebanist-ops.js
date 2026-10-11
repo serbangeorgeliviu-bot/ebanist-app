@@ -49,7 +49,7 @@ var HW_DRILL = {
   handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 }
 };
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "ripiano", "schienale", "zoccolo", "traversa",
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "ripiano", "schienale", "zoccolo", "traversa",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
@@ -58,7 +58,7 @@ var AX = ["x", "y", "z"];
 /* I PEZZI FISICI: le scatole con lo stesso `pk` sono un pezzo solo (un fianco
    intagliato a L sono due scatole). Si tengono solo i pannelli: il vetro, le
    parti metalliche del cassetto e la ferramenta non si forano qui. */
-var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, schienale: 1, ripiano: 1,
+var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo: 1, schienale: 1, ripiano: 1,
   frontale: 1, divisorio: 1, zoccolo: 1, traversa: 1, cassetto_frontale: 1,
   cassetto_fianco: 1, cassetto_fondo: 1 };
 
@@ -222,7 +222,7 @@ function generate(input) {
   /* --- 1. giunzioni della cassa: base/cielo/ripiani fissi fra i verticali -- */
   var horiz = pcs.filter(function (p) {
     return p.tAx === 1 && !p.curved && (p.role === "base" || p.role === "cielo" || p.role === "base_cielo" ||
-           (p.role === "ripiano" && cfg.shelfType === "fisso"));
+           p.role === "traversa_cielo" || (p.role === "ripiano" && cfg.shelfType === "fisso"));
   });
   horiz.forEach(function (E) {
     var yMid = (E.min[1] + E.max[1]) / 2;
@@ -243,7 +243,7 @@ function generate(input) {
       var fb = boxAt(F, [(F.min[0] + F.max[0]) / 2, yMid, (E.min[2] + E.max[2]) / 2]) || F;
       var lo = Math.max(E.min[2], fb.z0 != null ? fb.z0 : F.min[2]), hi = Math.min(E.max[2], fb.z1 != null ? fb.z1 : F.max[2]);
       /* la tazza sulla faccia nascosta: la base da sotto, il cielo da sopra */
-      var camSide = (E.role === "cielo") ? 1 : -1;
+      var camSide = (E.role === "cielo" || E.role === "traversa_cielo") ? 1 : -1;
       joint(E, F, 0, end, 2, lo, hi, 1, camSide, out);
     });
   });
@@ -268,6 +268,21 @@ function generate(input) {
       var eb = boxAt(E, [xMid, edgeY - end * 1, (E.min[2] + E.max[2]) / 2]) || E;
       var lo = Math.max(F.min[2], eb.z0 != null ? eb.z0 : E.min[2]), hi = Math.min(F.max[2], eb.z1 != null ? eb.z1 : E.max[2]);
       joint(E, F, 1, end, 2, lo, hi, 0, 1, out);
+    });
+  });
+
+  /* --- 2b. tavanul din doua traverse (D-72): tramezzul urca pana la ele si se
+         prinde de amandoua, fata si spate. Cu cielo plin il gaseste bucla de sus. */
+  byRole("divisorio").forEach(function (E) {
+    if (E.tAx !== 0) return;
+    var xMid = (E.min[0] + E.max[0]) / 2;
+    pcs.forEach(function (q) {
+      if (q.role !== "traversa_cielo" || q.tAx !== 1) return;
+      if (Math.abs(q.min[1] - E.max[1]) > 0.6) return;
+      if (xMid < q.min[0] - 0.5 || xMid > q.max[0] + 0.5) return;
+      var lo = Math.max(q.min[2], E.min[2]), hi = Math.min(q.max[2], E.max[2]);
+      if (hi - lo < 20) return;
+      joint(E, q, 1, 1, 2, lo, hi, 0, 1, out);
     });
   });
 
