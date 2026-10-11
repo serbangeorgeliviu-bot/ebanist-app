@@ -2488,6 +2488,33 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.5: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.6 — profil anti-curbare pe usile inalte */
+  {
+    head("Profil anti-curbare — optiune, profil in deviz, canal in usa (U.6)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.armadio, name: "Aw1", L: 1000, H: 2300, doors: 2, tram: 0, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.6: implicit «Nessuno» — fara profil", await pg.evaluate(() => $("bAW").value === "" && !buildModule(cfgFromForm()).pieces.some(p => /anticurvatura/.test(p.elemento))));
+    await pg.selectOption("#bAW", "auto"); await pg.waitForTimeout(200);
+    ok("U.6: «Auto» ajunge in cfg si da un profil pe usa (2 usi inalte)", await pg.evaluate(() => { const c = cfgFromForm(); const r = buildModule(c).pieces.find(p => /^Profilo anticurvatura/.test(p.elemento)); return c.antiWarp === "auto" && r && r.pz === 2; }));
+    ok("U.6: indiciul arata pragul de inaltime", await pg.evaluate(() => $("awHint").textContent.includes(String(ANTIWARP.minH))));
+    const hw = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Aw1" });
+      const it = computeHardware(p, state.settings).find(i => i.k === "hwAW"); const o = { q: it && it.qty, price: it && it.price };
+      try { const ops = generateOperations({ boxes: buildModule(p.configs["Aw1"]).boxes, cfg: p.configs["Aw1"], G: deriveCarcass(carcassParams(p.configs["Aw1"], {})) });
+        o.grooves = ops.pieces.filter(q => q.role === "frontale").reduce((s2, q) => s2 + q.operations.filter(x => x.type === "groove").length, 0); } catch (e) { o.err = String(e); }
+      try { o.mont = montDoc(p).length > 200; setView("summary"); o.sum = true; } catch (e) { o.err = String(e); }
+      return o; });
+    ok("U.6: deviz — 2 profile cu pret", hw.q === 2 && hw.price > 0, JSON.stringify(hw));
+    ok("U.6: cate un canal in fiecare usa; fisa de montaj si rezumatul fara erori", hw.grooves === 2 && hw.mont === true && hw.sum === true && !hw.err, JSON.stringify(hw));
+    await pg.evaluate(() => { setView("build"); const c = { ...cfgFromForm(), H: 900 }; });
+    ok("U.6: sub prag, «Auto» nu pune nimic; «Toate» pune", await pg.evaluate(() => {
+      const low = { ...cfgFromForm(), H: 900, antiWarp: "auto" }, all = { ...low, antiWarp: "all" };
+      const n = c => buildModule(c).pieces.filter(p => /anticurvatura/.test(p.elemento)).length;
+      return n(low) === 0 && n(all) === 1; }));
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Aw1"); delete p.configs["Aw1"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.6: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

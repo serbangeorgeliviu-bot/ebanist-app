@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.52.0 — 11 octombrie 2026
+
+**Profil anti-curbare pe uși înalte (ROADMAP U.6).** Cerut de G. Roscigno: ușile înalte se curbează și se montează raddrizzanti tip Würth.
+
+- Constructor → **Profil anti-curbare**: *Niciunul* (implicit), *Auto* (uși de la 1800 mm în sus) sau *Pe toate ușile*. Proiectele existente nu se schimbă.
+- Profilul iese ca **accesoriu** în distinctă (câte unul pe ușă) și în deviz, în categoria nouă *Profil anti-curbare* din catalogul de feronerie (Würth / generic; prețuri de verificat).
+- În **găurire**, ușa primește un canal pe fața interioară, pe înălțime, lângă marginea liberă (opusă balamalelor). Cotele canalului sunt date nevalidate (`verificat:false`) până la un profil real.
+- Teste: `antiwarp.test.js` (11) și verificări în e2e. `test:all` 583/583.
+- `APP_VER` 4.52.0, `SW_CACHE`/`CACHE` → `ebanist-v111`. Android: fără `.aab`.
+
 ## 4.51.0 — 11 octombrie 2026
 
 **Până la 8 uși și 8 despărțitori în formular (ROADMAP U.5).** Cerut de G. Roscigno: un dulap de 3 m are 6 uși. Formularul tăia la 4 (`Math.min(4,…)`); prin asistentul AI nu exista limită.

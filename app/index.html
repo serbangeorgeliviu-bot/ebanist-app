@@ -1512,6 +1512,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="chips" id="doorHingeBox"></div>
           <p class="mini" id="doorHingeHint" style="margin-top:4px"></p>
         </div>
+        <div class="f" id="rowAW"><label data-i="fAW">Profilo anticurvatura</label>
+          <select id="bAW"><option value="" data-i="awNone">Nessuno</option><option value="auto" data-i="awAuto">Auto (ante alte)</option><option value="all" data-i="awAll">Su tutte le ante</option></select>
+          <p class="mini" id="awHint" style="margin-top:4px"></p>
+        </div>
         <div class="f3">
           <div class="f"><label data-i="fHandles">Apertura</label>
             <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option></select></div>
@@ -2384,7 +2388,7 @@ Object.assign(I18N.it,{
   dstFix:"Fisse",dstEq:"Uguali",dstKit:"Cucina (uno basso in alto)",
   dwAuto:"Automatica",dwSide:"sponda",dwFronts:"frontali",dwBase:"fondo",dwBack:"retro",
   dwBox:"cassa",dwInner:"interno, arretrato",
-  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secDrawHPh:"altezze, es. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondità del cassetto (lunghezza della guida), vuoto = la più lunga che entra.",secDrawHHint:"Altezze dei frontali dall'alto (mm), anche una sola: «200» su 4 cassetti = 200 in alto e gli altri tre uguali sotto.",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",fDoorHinge:"Lato cerniere",doorHingeHint:"Tocca un'anta: auto (regola di sempre), cerniere a sinistra o a destra. Due ante con le cerniere al centro chiedono un divisorio.",doorShort:"Anta",hingeAuto:"auto",hingeL:"sinistra",hingeR:"destra",doorHingeWarn:"Cerniere al centro senza divisorio: la basetta non ha un fianco su cui stare.",fTop:"Chiusura in alto",topPlin:"Cielo pieno",topRails:"Due traverse",topNone:"Nessuna",fTopRail:"Larghezza traversa (mm)",topHint:"Sotto un lavello o una piastra: due traverse (davanti e dietro, stesso materiale e grossezza del cielo) o nessun cielo. Le traverse non seguono un muro in angolo.",wTopAngled:"Il muro è in angolo: il cielo resta intero, le traverse non si possono fare.",wDoorNarrow:"Ante molto strette ({w} mm, sotto {m}): meno cerniere sicure e meno robuste. Riduci il numero di ante o allarga il corpo.",drawBlock:"Cassetti blocco","hGola":"Gola (profilo)","fGolaH":"Gola in alto (mm)","fGolaC":"Fuga gola C (mm)","golaHint":"Profilo di alluminio al posto della maniglia: L in alto, C fra due cassetti. I frontali si accorciano di tanto; le misure sono quelle del profilo che compri. Non vanno in macchina finché non le verifichi.","hwGolaL":"Profilo gola L (m)","hwGolaC":"Profilo gola C (m)","grpAbs":"Quote assolute","absHint":"Setti, ripiani, ante, cassetti e tagli alle loro quote, scritte a mano. y dal pavimento, x dal filo esterno sinistro. Finché c'è una quota, il corpo non si divide più in sezioni uguali.","absX":"x (mm o «center»)","absYs":"y inizio","absYe":"y fine","absDepth":"Profondità","absY":"y (faccia inferiore)","absSpan":"Estensione","absFull":"traversante","absLeft":"sinistra","absRight":"destra","absW":"Largh.","absH":"Alt.","absHinge":"Cerniere","absCol":"Colonna","absN":"N°","absHeights":"Altezze alto→basso (es. 200/300)","absInner":"dietro le ante","absOn":"Su","absSides":"fianchi","absDividers":"setti","absCorner":"Angolo","absC_back-bottom":"dietro-basso","absC_front-bottom":"davanti-basso","absC_back-top":"dietro-alto","absC_front-top":"davanti-alto","absCutH":"Altezza (lungo H)","absCutD":"Profondità (lungo P)","absCut":"Taglio","absOk":"Le quote chiudono","absColV":"Colonna",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
+  sec_drawers:"cassetti",sec_drawerShelf:"cassetti + ripiani",fSecDrawers:"Cassetti per sezione",secDrawHPh:"altezze, es. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondità del cassetto (lunghezza della guida), vuoto = la più lunga che entra.",secDrawHHint:"Altezze dei frontali dall'alto (mm), anche una sola: «200» su 4 cassetti = 200 in alto e gli altri tre uguali sotto.",fSecPull:"Ripiani estraibili",secPullHint:"Tocca una sezione: i suoi ripiani escono su guide (vassoio con sponde basse), alla stessa quota.",fDoorHinge:"Lato cerniere",doorHingeHint:"Tocca un'anta: auto (regola di sempre), cerniere a sinistra o a destra. Due ante con le cerniere al centro chiedono un divisorio.",doorShort:"Anta",hingeAuto:"auto",hingeL:"sinistra",hingeR:"destra",doorHingeWarn:"Cerniere al centro senza divisorio: la basetta non ha un fianco su cui stare.",fTop:"Chiusura in alto",topPlin:"Cielo pieno",topRails:"Due traverse",topNone:"Nessuna",fTopRail:"Larghezza traversa (mm)",topHint:"Sotto un lavello o una piastra: due traverse (davanti e dietro, stesso materiale e grossezza del cielo) o nessun cielo. Le traverse non seguono un muro in angolo.",wTopAngled:"Il muro è in angolo: il cielo resta intero, le traverse non si possono fare.",wDoorNarrow:"Ante molto strette ({w} mm, sotto {m}): meno cerniere sicure e meno robuste. Riduci il numero di ante o allarga il corpo.",drawBlock:"Cassetti blocco","hGola":"Gola (profilo)","fGolaH":"Gola in alto (mm)","fGolaC":"Fuga gola C (mm)","golaHint":"Profilo di alluminio al posto della maniglia: L in alto, C fra due cassetti. I frontali si accorciano di tanto; le misure sono quelle del profilo che compri. Non vanno in macchina finché non le verifichi.","hwGolaL":"Profilo gola L (m)","hwGolaC":"Profilo gola C (m)","fAW":"Profilo anticurvatura","awNone":"Nessuno","awAuto":"Auto (ante alte)","awAll":"Su tutte le ante","awHint":"Profilo che raddrizza l'anta alta: canale nel retro e profilo di alluminio. In Auto, dalle ante alte {h} mm in su. Le misure del canale non vanno in macchina finché non le verifichi.","hwAW":"Profilo anticurvatura (pz)","grpAbs":"Quote assolute","absHint":"Setti, ripiani, ante, cassetti e tagli alle loro quote, scritte a mano. y dal pavimento, x dal filo esterno sinistro. Finché c'è una quota, il corpo non si divide più in sezioni uguali.","absX":"x (mm o «center»)","absYs":"y inizio","absYe":"y fine","absDepth":"Profondità","absY":"y (faccia inferiore)","absSpan":"Estensione","absFull":"traversante","absLeft":"sinistra","absRight":"destra","absW":"Largh.","absH":"Alt.","absHinge":"Cerniere","absCol":"Colonna","absN":"N°","absHeights":"Altezze alto→basso (es. 200/300)","absInner":"dietro le ante","absOn":"Su","absSides":"fianchi","absDividers":"setti","absCorner":"Angolo","absC_back-bottom":"dietro-basso","absC_front-bottom":"davanti-basso","absC_back-top":"dietro-alto","absC_front-top":"davanti-alto","absCutH":"Altezza (lungo H)","absCutD":"Profondità (lungo P)","absCut":"Taglio","absOk":"Le quote chiudono","absColV":"Colonna",secShort:"Sez.",secDrawHint:"Vuoto = come «Cassetti/sez.». 0 = la sezione resta senza cassetti.",
   wDrawRoom:"I cassetti non ci stanno in altezza: riduci il numero o alza la zona.",
   wDrawOver:"La colonna di cassetti sborda di {mm} mm oltre il fronte.",
   wDrawNL:"Profondità cassetto: NL {want} non c'è o non entra — uso NL {got}.",wDrawDeep:"Mobile troppo poco profondo per questo sistema: restano {mm} mm utili, la guida piu corta ne vuole {min}.",
@@ -2403,7 +2407,7 @@ Object.assign(I18N.ro,{
   dstFix:"Fixe",dstEq:"Egale",dstKit:"Bucătărie (unul mic sus)",
   dwAuto:"Automată",dwSide:"laterală",dwFronts:"fronturi",dwBase:"fund",dwBack:"spate",
   dwBox:"cutie",dwInner:"interior, retras",
-  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secDrawHPh:"înălțimi, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = adâncimea sertarului (lungimea glisierei), gol = cea mai lungă care încape.",secDrawHHint:"Înălțimile fronturilor de sus (mm), chiar și una singură: «200» la 4 sertare = 200 sus și celelalte trei egale dedesubt.",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",fDoorHinge:"Partea balamalelor",doorHingeHint:"Atinge o ușă: automat (regula de până acum), balamale pe stânga sau pe dreapta. Două uși cu balamalele la mijloc cer un despărțitor.",doorShort:"Ușa",hingeAuto:"auto",hingeL:"stânga",hingeR:"dreapta",doorHingeWarn:"Balamale la mijloc fără despărțitor: placa de balama nu are pe ce să se fixeze.",fTop:"Închidere sus",topPlin:"Tavan plin",topRails:"Două traverse",topNone:"Fără",fTopRail:"Lățime traversă (mm)",topHint:"Sub chiuvetă sau sub plită: două traverse (față și spate, același material și aceeași grosime ca tavanul) sau fără tavan. Traversele nu urmează un perete în unghi.",wTopAngled:"Peretele e în unghi: tavanul rămâne întreg, traversele nu se pot face.",wDoorNarrow:"Uși foarte înguste ({w} mm, sub {m}): balamale mai greu de montat și mai puțin rezistente. Scade numărul de uși sau lărgește corpul.",drawBlock:"Sertare bloc","hGola":"Gola (profil)","fGolaH":"Gola sus (mm)","fGolaC":"Rost gola C (mm)","golaHint":"Profil de aluminiu în loc de mâner: L sus, C între două sertare. Frontalele se scurtează cu atât; cotele sunt ale profilului pe care îl cumperi. Nu merg în mașină până nu le verifici.","hwGolaL":"Profil gola L (m)","hwGolaC":"Profil gola C (m)","grpAbs":"Cote la cotă","absHint":"Despărțitori, rafturi, uși, sertare și decupaje la cotele lor, scrise de mână. y de la pardoseală, x de la fața exterioară stângă. Cât există o cotă, corpul nu se mai împarte în secțiuni egale.","absX":"x (mm sau «center»)","absYs":"y început","absYe":"y sfârșit","absDepth":"Adâncime","absY":"y (fața de jos)","absSpan":"Întindere","absFull":"traversant","absLeft":"stânga","absRight":"dreapta","absW":"Lăț.","absH":"Înălț.","absHinge":"Balamale","absCol":"Coloana","absN":"Nr.","absHeights":"Înălțimi sus→jos (ex. 200/300)","absInner":"în spatele ușilor","absOn":"Pe","absSides":"laterale","absDividers":"setti","absCorner":"Colț","absC_back-bottom":"spate-jos","absC_front-bottom":"față-jos","absC_back-top":"spate-sus","absC_front-top":"față-sus","absCutH":"Înălțime (pe H)","absCutD":"Adâncime (pe P)","absCut":"Decupaj","absOk":"Cotele se închid","absColV":"Coloana",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
+  sec_drawers:"sertare",sec_drawerShelf:"sertare + rafturi",fSecDrawers:"Sertare pe secțiune",secDrawHPh:"înălțimi, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = adâncimea sertarului (lungimea glisierei), gol = cea mai lungă care încape.",secDrawHHint:"Înălțimile fronturilor de sus (mm), chiar și una singură: «200» la 4 sertare = 200 sus și celelalte trei egale dedesubt.",fSecPull:"Rafturi extractibile",secPullHint:"Atinge o secțiune: rafturile ei ies pe glisiere (tavă cu margini joase), la aceeași cotă.",fDoorHinge:"Partea balamalelor",doorHingeHint:"Atinge o ușă: automat (regula de până acum), balamale pe stânga sau pe dreapta. Două uși cu balamalele la mijloc cer un despărțitor.",doorShort:"Ușa",hingeAuto:"auto",hingeL:"stânga",hingeR:"dreapta",doorHingeWarn:"Balamale la mijloc fără despărțitor: placa de balama nu are pe ce să se fixeze.",fTop:"Închidere sus",topPlin:"Tavan plin",topRails:"Două traverse",topNone:"Fără",fTopRail:"Lățime traversă (mm)",topHint:"Sub chiuvetă sau sub plită: două traverse (față și spate, același material și aceeași grosime ca tavanul) sau fără tavan. Traversele nu urmează un perete în unghi.",wTopAngled:"Peretele e în unghi: tavanul rămâne întreg, traversele nu se pot face.",wDoorNarrow:"Uși foarte înguste ({w} mm, sub {m}): balamale mai greu de montat și mai puțin rezistente. Scade numărul de uși sau lărgește corpul.",drawBlock:"Sertare bloc","hGola":"Gola (profil)","fGolaH":"Gola sus (mm)","fGolaC":"Rost gola C (mm)","golaHint":"Profil de aluminiu în loc de mâner: L sus, C între două sertare. Frontalele se scurtează cu atât; cotele sunt ale profilului pe care îl cumperi. Nu merg în mașină până nu le verifici.","hwGolaL":"Profil gola L (m)","hwGolaC":"Profil gola C (m)","fAW":"Profil anti-curbare","awNone":"Fără","awAuto":"Auto (uși înalte)","awAll":"Pe toate ușile","awHint":"Profil care îndreaptă ușa înaltă: canal în spate și profil de aluminiu. La Auto, de la uși de {h} mm în sus. Cotele canalului nu merg în mașină până nu le verifici.","hwAW":"Profil anti-curbare (buc.)","grpAbs":"Cote la cotă","absHint":"Despărțitori, rafturi, uși, sertare și decupaje la cotele lor, scrise de mână. y de la pardoseală, x de la fața exterioară stângă. Cât există o cotă, corpul nu se mai împarte în secțiuni egale.","absX":"x (mm sau «center»)","absYs":"y început","absYe":"y sfârșit","absDepth":"Adâncime","absY":"y (fața de jos)","absSpan":"Întindere","absFull":"traversant","absLeft":"stânga","absRight":"dreapta","absW":"Lăț.","absH":"Înălț.","absHinge":"Balamale","absCol":"Coloana","absN":"Nr.","absHeights":"Înălțimi sus→jos (ex. 200/300)","absInner":"în spatele ușilor","absOn":"Pe","absSides":"laterale","absDividers":"setti","absCorner":"Colț","absC_back-bottom":"spate-jos","absC_front-bottom":"față-jos","absC_back-top":"spate-sus","absC_front-top":"față-sus","absCutH":"Înălțime (pe H)","absCutD":"Adâncime (pe P)","absCut":"Decupaj","absOk":"Cotele se închid","absColV":"Coloana",secShort:"Secț.",secDrawHint:"Gol = ca la «Sertare/secț.». 0 = secțiunea rămâne fără sertare.",
   wDrawRoom:"Sertarele nu încap pe înălțime: scade numărul sau mărește zona.",
   wDrawOver:"Coloana de sertare depășește frontul cu {mm} mm.",
   wDrawNL:"Adâncime sertar: NL {want} nu există sau nu încape — folosesc NL {got}.",wDrawDeep:"Corpul e prea puțin adânc pentru sistemul ăsta: rămân {mm} mm utili, cea mai scurtă glisieră cere {min}.",
@@ -2422,7 +2426,7 @@ Object.assign(I18N.en,{
   dstFix:"Fixed",dstEq:"Equal",dstKit:"Kitchen (one shallow on top)",
   dwAuto:"Automatic",dwSide:"side",dwFronts:"fronts",dwBase:"base",dwBack:"back",
   dwBox:"box",dwInner:"inner, set back",
-  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secDrawHPh:"heights, e.g. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = drawer depth (runner length), empty = the longest that fits.",secDrawHHint:"Front heights from the top (mm), even just one: «200» on 4 drawers = 200 on top and the other three equal below.",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",fDoorHinge:"Hinge side",doorHingeHint:"Tap a door: auto (the usual rule), hinges on the left or on the right. Two doors hinged at the centre need a divider.",doorShort:"Door",hingeAuto:"auto",hingeL:"left",hingeR:"right",doorHingeWarn:"Hinges meeting at the centre with no divider: the mounting plate has no panel to sit on.",fTop:"Top closure",topPlin:"Full top",topRails:"Two rails",topNone:"None",fTopRail:"Rail width (mm)",topHint:"Under a sink or a hob: two rails (front and back, same material and thickness as the top) or no top. Rails do not follow an angled wall.",wTopAngled:"The wall is angled: the top stays whole, rails are not possible.",wDoorNarrow:"Very narrow doors ({w} mm, under {m}): hinges are harder to fit and less sturdy. Reduce the number of doors or widen the unit.",drawBlock:"Drawers block","hGola":"Handle-less (profile)","fGolaH":"Top profile (mm)","fGolaC":"C-profile gap (mm)","golaHint":"Aluminium profile instead of a handle: L on top, C between two drawers. The fronts get shorter by that much; the sizes are those of the profile you buy. They do not go to the machine until you verify them.","hwGolaL":"L handle-less profile (m)","hwGolaC":"C handle-less profile (m)","grpAbs":"Absolute dimensions","absHint":"Dividers, shelves, doors, drawers and cut-outs at their own dimensions, typed by hand. y from the floor, x from the outer left face. As long as one exists, the unit is no longer split into equal sections.","absX":"x (mm or «center»)","absYs":"y start","absYe":"y end","absDepth":"Depth","absY":"y (underside)","absSpan":"Span","absFull":"full","absLeft":"left","absRight":"right","absW":"Width","absH":"Height","absHinge":"Hinges","absCol":"Column","absN":"No.","absHeights":"Heights top→bottom (e.g. 200/300)","absInner":"behind the doors","absOn":"On","absSides":"sides","absDividers":"dividers","absCorner":"Corner","absC_back-bottom":"back-bottom","absC_front-bottom":"front-bottom","absC_back-top":"back-top","absC_front-top":"front-top","absCutH":"Height (along H)","absCutD":"Depth (along P)","absCut":"Cut-out","absOk":"The dimensions close","absColV":"Column",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
+  sec_drawers:"drawers",sec_drawerShelf:"drawers + shelves",fSecDrawers:"Drawers per section",secDrawHPh:"heights, e.g. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = drawer depth (runner length), empty = the longest that fits.",secDrawHHint:"Front heights from the top (mm), even just one: «200» on 4 drawers = 200 on top and the other three equal below.",fSecPull:"Pull-out shelves",secPullHint:"Tap a section: its shelves slide out on runners (low-sided tray), at the same height.",fDoorHinge:"Hinge side",doorHingeHint:"Tap a door: auto (the usual rule), hinges on the left or on the right. Two doors hinged at the centre need a divider.",doorShort:"Door",hingeAuto:"auto",hingeL:"left",hingeR:"right",doorHingeWarn:"Hinges meeting at the centre with no divider: the mounting plate has no panel to sit on.",fTop:"Top closure",topPlin:"Full top",topRails:"Two rails",topNone:"None",fTopRail:"Rail width (mm)",topHint:"Under a sink or a hob: two rails (front and back, same material and thickness as the top) or no top. Rails do not follow an angled wall.",wTopAngled:"The wall is angled: the top stays whole, rails are not possible.",wDoorNarrow:"Very narrow doors ({w} mm, under {m}): hinges are harder to fit and less sturdy. Reduce the number of doors or widen the unit.",drawBlock:"Drawers block","hGola":"Handle-less (profile)","fGolaH":"Top profile (mm)","fGolaC":"C-profile gap (mm)","golaHint":"Aluminium profile instead of a handle: L on top, C between two drawers. The fronts get shorter by that much; the sizes are those of the profile you buy. They do not go to the machine until you verify them.","hwGolaL":"L handle-less profile (m)","hwGolaC":"C handle-less profile (m)","fAW":"Anti-warp profile","awNone":"None","awAuto":"Auto (tall doors)","awAll":"On all doors","awHint":"Profile that keeps a tall door straight: a channel in the back and an aluminium profile. On Auto, from doors {h} mm tall and up. The channel sizes do not go to the machine until you verify them.","hwAW":"Anti-warp profile (pcs)","grpAbs":"Absolute dimensions","absHint":"Dividers, shelves, doors, drawers and cut-outs at their own dimensions, typed by hand. y from the floor, x from the outer left face. As long as one exists, the unit is no longer split into equal sections.","absX":"x (mm or «center»)","absYs":"y start","absYe":"y end","absDepth":"Depth","absY":"y (underside)","absSpan":"Span","absFull":"full","absLeft":"left","absRight":"right","absW":"Width","absH":"Height","absHinge":"Hinges","absCol":"Column","absN":"No.","absHeights":"Heights top→bottom (e.g. 200/300)","absInner":"behind the doors","absOn":"On","absSides":"sides","absDividers":"dividers","absCorner":"Corner","absC_back-bottom":"back-bottom","absC_front-bottom":"front-bottom","absC_back-top":"back-top","absC_front-top":"front-top","absCutH":"Height (along H)","absCutD":"Depth (along P)","absCut":"Cut-out","absOk":"The dimensions close","absColV":"Column",secShort:"Sec.",secDrawHint:"Empty = same as «Drawers/sec.». 0 = the section gets no drawers.",
   wDrawRoom:"The drawers do not fit in height: lower the count or raise the zone.",
   wDrawOver:"The drawer stack overruns the front by {mm} mm.",
   wDrawNL:"Drawer depth: NL {want} does not exist or does not fit — using NL {got}.",wDrawDeep:"Cabinet too shallow for this system: {mm} mm usable, the shortest runner needs {min}.",
@@ -2441,7 +2445,7 @@ Object.assign(I18N.fr,{
   dstFix:"Fixes",dstEq:"Égales",dstKit:"Cuisine (un bas en haut)",
   dwAuto:"Automatique",dwSide:"côté",dwFronts:"façades",dwBase:"fond",dwBack:"dos",
   dwBox:"caisse",dwInner:"intérieur, en retrait",
-  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secDrawHPh:"hauteurs, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondeur du tiroir (longueur de coulisse), vide = la plus longue qui entre.",secDrawHHint:"Hauteurs des façades depuis le haut (mm), même une seule : «200» sur 4 tiroirs = 200 en haut et les trois autres égaux dessous.",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",fDoorHinge:"Côté charnières",doorHingeHint:"Touchez une porte : auto (la règle habituelle), charnières à gauche ou à droite. Deux portes charnières au centre demandent une séparation.",doorShort:"Porte",hingeAuto:"auto",hingeL:"gauche",hingeR:"droite",doorHingeWarn:"Charnières au centre sans séparation : l'embase n'a pas de panneau où se fixer.",fTop:"Fermeture en haut",topPlin:"Dessus plein",topRails:"Deux traverses",topNone:"Aucune",fTopRail:"Largeur traverse (mm)",topHint:"Sous un évier ou une plaque : deux traverses (devant et derrière, même matériau et même épaisseur que le dessus) ou pas de dessus. Les traverses ne suivent pas un mur en angle.",wTopAngled:"Le mur est en angle : le dessus reste entier, les traverses sont impossibles.",wDoorNarrow:"Portes très étroites ({w} mm, moins de {m}) : charnières plus difficiles à poser et moins solides. Réduisez le nombre de portes ou élargissez le caisson.",drawBlock:"Tiroirs bloc","hGola":"Sans poignée (gorge)","fGolaH":"Gorge en haut (mm)","fGolaC":"Joint gorge C (mm)","golaHint":"Profilé aluminium à la place de la poignée : L en haut, C entre deux tiroirs. Les façades raccourcissent d'autant ; les cotes sont celles du profilé acheté. Elles ne vont pas en machine tant que vous ne les avez pas vérifiées.","hwGolaL":"Profilé gorge L (m)","hwGolaC":"Profilé gorge C (m)","grpAbs":"Cotes absolues","absHint":"Séparations, étagères, portes, tiroirs et découpes à leurs cotes, saisies à la main. y depuis le sol, x depuis la face extérieure gauche. Tant qu'une cote existe, le caisson n'est plus divisé en sections égales.","absX":"x (mm ou «center»)","absYs":"y début","absYe":"y fin","absDepth":"Profondeur","absY":"y (face inférieure)","absSpan":"Étendue","absFull":"traversante","absLeft":"gauche","absRight":"droite","absW":"Larg.","absH":"Haut.","absHinge":"Charnières","absCol":"Colonne","absN":"N°","absHeights":"Hauteurs haut→bas (ex. 200/300)","absInner":"derrière les portes","absOn":"Sur","absSides":"côtés","absDividers":"séparations","absCorner":"Angle","absC_back-bottom":"arrière-bas","absC_front-bottom":"avant-bas","absC_back-top":"arrière-haut","absC_front-top":"avant-haut","absCutH":"Hauteur (sur H)","absCutD":"Profondeur (sur P)","absCut":"Découpe","absOk":"Les cotes se ferment","absColV":"Colonne",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
+  sec_drawers:"tiroirs",sec_drawerShelf:"tiroirs + étagères",fSecDrawers:"Tiroirs par section",secDrawHPh:"hauteurs, ex. 200 / 400",secDrawNLPh:"NL",secDrawNLHint:"NL = profondeur du tiroir (longueur de coulisse), vide = la plus longue qui entre.",secDrawHHint:"Hauteurs des façades depuis le haut (mm), même une seule : «200» sur 4 tiroirs = 200 en haut et les trois autres égaux dessous.",fSecPull:"Tablettes coulissantes",secPullHint:"Touchez une section : ses tablettes sortent sur coulisses (plateau à rebords bas), à la même hauteur.",fDoorHinge:"Côté charnières",doorHingeHint:"Touchez une porte : auto (la règle habituelle), charnières à gauche ou à droite. Deux portes charnières au centre demandent une séparation.",doorShort:"Porte",hingeAuto:"auto",hingeL:"gauche",hingeR:"droite",doorHingeWarn:"Charnières au centre sans séparation : l'embase n'a pas de panneau où se fixer.",fTop:"Fermeture en haut",topPlin:"Dessus plein",topRails:"Deux traverses",topNone:"Aucune",fTopRail:"Largeur traverse (mm)",topHint:"Sous un évier ou une plaque : deux traverses (devant et derrière, même matériau et même épaisseur que le dessus) ou pas de dessus. Les traverses ne suivent pas un mur en angle.",wTopAngled:"Le mur est en angle : le dessus reste entier, les traverses sont impossibles.",wDoorNarrow:"Portes très étroites ({w} mm, moins de {m}) : charnières plus difficiles à poser et moins solides. Réduisez le nombre de portes ou élargissez le caisson.",drawBlock:"Tiroirs bloc","hGola":"Sans poignée (gorge)","fGolaH":"Gorge en haut (mm)","fGolaC":"Joint gorge C (mm)","golaHint":"Profilé aluminium à la place de la poignée : L en haut, C entre deux tiroirs. Les façades raccourcissent d'autant ; les cotes sont celles du profilé acheté. Elles ne vont pas en machine tant que vous ne les avez pas vérifiées.","hwGolaL":"Profilé gorge L (m)","hwGolaC":"Profilé gorge C (m)","fAW":"Profilé anti-voilage","awNone":"Aucun","awAuto":"Auto (portes hautes)","awAll":"Sur toutes les portes","awHint":"Profilé qui redresse la porte haute : une rainure au dos et un profilé en aluminium. En Auto, à partir de {h} mm de haut. Les cotes de la rainure ne vont pas en machine tant que vous ne les avez pas vérifiées.","hwAW":"Profilé anti-voilage (pcs)","grpAbs":"Cotes absolues","absHint":"Séparations, étagères, portes, tiroirs et découpes à leurs cotes, saisies à la main. y depuis le sol, x depuis la face extérieure gauche. Tant qu'une cote existe, le caisson n'est plus divisé en sections égales.","absX":"x (mm ou «center»)","absYs":"y début","absYe":"y fin","absDepth":"Profondeur","absY":"y (face inférieure)","absSpan":"Étendue","absFull":"traversante","absLeft":"gauche","absRight":"droite","absW":"Larg.","absH":"Haut.","absHinge":"Charnières","absCol":"Colonne","absN":"N°","absHeights":"Hauteurs haut→bas (ex. 200/300)","absInner":"derrière les portes","absOn":"Sur","absSides":"côtés","absDividers":"séparations","absCorner":"Angle","absC_back-bottom":"arrière-bas","absC_front-bottom":"avant-bas","absC_back-top":"arrière-haut","absC_front-top":"avant-haut","absCutH":"Hauteur (sur H)","absCutD":"Profondeur (sur P)","absCut":"Découpe","absOk":"Les cotes se ferment","absColV":"Colonne",secShort:"Sect.",secDrawHint:"Vide = comme «Tiroirs/sec.». 0 = la section reste sans tiroirs.",
   wDrawRoom:"Les tiroirs ne tiennent pas en hauteur : réduisez le nombre ou augmentez la zone.",
   wDrawOver:"La colonne de tiroirs dépasse la façade de {mm} mm.",
   wDrawNL:"Profondeur du tiroir : NL {want} n'existe pas ou n'entre pas — NL {got} utilisée.",wDrawDeep:"Meuble trop peu profond pour ce système : {mm} mm utiles, la coulisse la plus courte en demande {min}.",
@@ -3135,6 +3139,9 @@ const HWDB={
   {id:"gen_gola_l",brand:"—",n:{it:"Profilo gola L in alluminio (al metro)",ro:"Profil gola L din aluminiu (la metru)",en:"Aluminium L handle-less profile (per metre)",fr:"Profilé gorge L en aluminium (au mètre)"},art:"\u2014",price:9.5,chk:1}],
  golac:[
   {id:"gen_gola_c",brand:"—",n:{it:"Profilo gola C in alluminio (al metro)",ro:"Profil gola C din aluminiu (la metru)",en:"Aluminium C handle-less profile (per metre)",fr:"Profilé gorge C en aluminium (au mètre)"},art:"\u2014",price:12,chk:1}],
+ aw:[
+  {id:"wur_raddr",brand:"Würth",n:{it:"Meccanismo di regolazione per anta (raddrizzante)",ro:"Mecanism de reglare pentru ușă (anti-curbare)",en:"Door straightening mechanism (anti-warp)",fr:"Mécanisme de réglage de porte (anti-voilage)"},art:"\u2014",price:6.5,chk:1},
+  {id:"gen_aw",brand:"—",n:{it:"Profilo raddrizzante in alluminio per anta",ro:"Profil anti-curbare din aluminiu pentru ușă",en:"Aluminium door anti-warp profile",fr:"Profilé anti-voilage en aluminium pour porte"},art:"\u2014",price:4.2,chk:1}],
  push:[
   {id:"blum_tipon_a",brand:"Blum",n:{it:"TIP-ON anta, versione lunga + placchetta",ro:"TIP-ON ușă, versiune lungă + plăcuță",en:"TIP-ON for doors, long version + plate",fr:"TIP-ON porte, version longue + plaque"},art:"956A1004 + adapter",price:4.5},
   {id:"blum_tipon_t",brand:"Blum",n:{it:"TIP-ON BLUMOTION per TANDEM (set)",ro:"TIP-ON BLUMOTION pt. TANDEM (set)",en:"TIP-ON BLUMOTION for TANDEM (set)",fr:"TIP-ON BLUMOTION pour TANDEM (kit)"},art:"T60L7540",price:14},
@@ -5355,6 +5362,7 @@ let buildSecDrawerNL=null;  // profondita (NL) per sezione (U.13)  // altezze de
 let buildFormReady=false;
 const MAT_ACC="Accessorio — asta appendiabiti ovale";
 const MAT_GOLA_L="Accessorio — profilo gola L alluminio", MAT_GOLA_C="Accessorio — profilo gola C alluminio";
+const MAT_AW="Accessorio — profilo anticurvatura";
 const MAT_PIED="Accessorio — piedino regolabile";
 const MAT_VETRO="Accessorio — vetro temperato 4mm";
 
@@ -5929,6 +5937,14 @@ function slideIdFor(cfg){
   return sys.metal?(sys.guida||"blum_tandem")
                   :(((state&&state.settings&&state.settings.hwProd)||{}).guida||"blum_tandem");
 }
+/* U.6 — profilul anti-curbare (raddrizzante) pe usile inalte. Cotele sunt DATE
+   nevalidate (verificat:false) pana la un profil real: latimea/adancimea canalului,
+   distanta de la marginea libera, retragerea de capete. Pragul de inaltime pentru
+   modul «auto» e tot data. `antiWarp` in cfg: null (fara), "auto" (usile de la
+   pragul de inaltime in sus), "all" (toate usile cu panou plin). */
+const ANTIWARP={verificat:false,minH:1800,groove_w:10,groove_d:9,from_free_edge:45,end_margin:30,len_margin:40,sect:20};
+function awMode(cfg){ const m=cfg&&cfg.antiWarp; return m==="auto"||m==="all"?m:null; }
+function awOn(cfg,h){ const m=awMode(cfg); return m==="all"||(m==="auto"&&h>=ANTIWARP.minH); }
 /* il lato scelto per l'anta i (da sinistra), o null = regola di sempre */
 function dHinge(cfg,i){ const a=cfg&&cfg.doorHinge; const h=Array.isArray(a)?a[i]:null;
   if(h==="left"||h==="right") return h;
@@ -6596,8 +6612,11 @@ function buildCore(cfg){
     LY.fronts.forEach(f=>{ const key=Math.round(f.h)+"x"+Math.round(f.w);
       if(!fRows[key]){ fRows[key]={f,n:0}; fOrder.push(key); } fRows[key].n++; });
     fOrder.forEach(k=>{ const g=fRows[k]; add("Anta"+hsfx,g.f.h,g.f.w,g.n,"2L+2C",null,{role:"frontale"}); });
+    const awRows={}; LY.fronts.forEach(f=>{ if(awOn(cfg,f.h)){ const k=Math.round(f.h); awRows[k]=(awRows[k]||0)+1; } });
+    Object.keys(awRows).map(Number).sort((a,b)=>a-b).forEach(k=>add("Profilo anticurvatura",k-ANTIWARP.len_margin,ANTIWARP.sect,awRows[k],"",MAT_AW,{role:"accessorio"}));
     bxRole="frontale";
     LY.fronts.forEach(f=>{ bx(f.x,f.x+f.w,f.y,f.y+f.h,P,P+tA,"f",0,0,"door");
+      if(awOn(cfg,f.h)) boxes[boxes.length-1].aw=true;
       if(f.hinge) boxes[boxes.length-1].hinge=f.hinge; });
   }else if(cfg.doors>0){
     if(sliding){
@@ -6692,9 +6711,11 @@ function buildCore(cfg){
           }
         }else{
           add("Anta"+hsfx,aH,aW,cfg.doors,"2L+2C",null,{role:"frontale"});
+          if(awOn(cfg,aH)) add("Profilo anticurvatura",aH-ANTIWARP.len_margin,ANTIWARP.sect,cfg.doors,"",MAT_AW,{role:"accessorio"});
           bxRole="frontale";
           for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"door");
-            if(dHinge(cfg,i)) boxes[boxes.length-1].hinge=dHinge(cfg,i); }
+            if(dHinge(cfg,i)) boxes[boxes.length-1].hinge=dHinge(cfg,i);
+            if(awOn(cfg,aH)) boxes[boxes.length-1].aw=true; }
         }
       }
     }
@@ -7424,7 +7445,7 @@ function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):null;
    dicționarului, rămâne cum l-a scris omul. */
 const EL_I18N={
  ro:{"Anta":"Ușă","Anta scorrevole":"Ușă glisantă","Anta curva":"Ușă curbată","Asta appendiabiti":"Bară umerașe",
-  "Base / Cielo":"Bază / Tavan","Base":"Bază","Cielo":"Tavan","Traversa cielo":"Traversă tavan","Profilo gola L":"Profil gola L","Profilo gola C":"Profil gola C","Doga faggio 68mm":"Doagă fag 68 mm","Fascia":"Bandă frontală",
+  "Base / Cielo":"Bază / Tavan","Base":"Bază","Cielo":"Tavan","Traversa cielo":"Traversă tavan","Profilo anticurvatura":"Profil anti-curbare","Profilo gola L":"Profil gola L","Profilo gola C":"Profil gola C","Doga faggio 68mm":"Doagă fag 68 mm","Fascia":"Bandă frontală",
   "Fascia raccordata":"Bandă racordată","Fianco":"Laterală","Fianco cassetto":"Laterală sertar","Fondo / Cielo raccordato":"Fund / Tavan racordat",
   "Fondo / Cielo tondo":"Fund / Tavan rotund","Fondo cassetto":"Fund sertar","Frontale cassetto":"Front sertar","Frontale cassetto interno":"Front sertar interior",
   "Fronte/Retro cassetto":"Față/Spate sertar","Fianco ripiano estraibile":"Laterală raft extractibil","Fronte/Retro ripiano estraibile":"Față/Spate raft extractibil","Fondo ripiano estraibile":"Fund raft extractibil","Retro ripiano estraibile":"Spate raft extractibil","Gamba legno 70×70":"Picior lemn 70×70","Montante anta vetro":"Montant ușă sticlă","Pannello posteriore":"Panou spate",
@@ -7435,7 +7456,7 @@ const EL_I18N={
   "Traversa anta vetro":"Traversă ușă sticlă","Traversa centrale":"Traversă centrală","Traversa telaio":"Traversă ramă","Traversa telaio corta":"Traversă ramă scurtă",
   "Vetro anta":"Sticlă ușă","Zoccolo":"Soclu","Frontale scrivania":"Front birou","Frontale":"Front","Top":"Blat","Pezzo":"Piesă","_sez":"secț."},
  en:{"Anta":"Door","Anta scorrevole":"Sliding door","Anta curva":"Curved door","Asta appendiabiti":"Hanging rail",
-  "Base / Cielo":"Bottom / Top","Base":"Bottom","Cielo":"Top","Traversa cielo":"Top rail","Profilo gola L":"Handle-less profile L","Profilo gola C":"Handle-less profile C","Doga faggio 68mm":"Beech slat 68 mm","Fascia":"Front band",
+  "Base / Cielo":"Bottom / Top","Base":"Bottom","Cielo":"Top","Traversa cielo":"Top rail","Profilo anticurvatura":"Anti-warp profile","Profilo gola L":"Handle-less profile L","Profilo gola C":"Handle-less profile C","Doga faggio 68mm":"Beech slat 68 mm","Fascia":"Front band",
   "Fascia raccordata":"Curved band","Fianco":"Side","Fianco cassetto":"Drawer side","Fondo / Cielo raccordato":"Bottom / Top, curved",
   "Fondo / Cielo tondo":"Bottom / Top, round","Fondo cassetto":"Drawer bottom","Frontale cassetto":"Drawer front","Frontale cassetto interno":"Inner drawer front",
   "Fronte/Retro cassetto":"Drawer front/back","Fianco ripiano estraibile":"Pull-out shelf side","Fronte/Retro ripiano estraibile":"Pull-out shelf front/back","Fondo ripiano estraibile":"Pull-out shelf bottom","Retro ripiano estraibile":"Pull-out shelf back","Gamba legno 70×70":"Wooden leg 70×70","Montante anta vetro":"Glass door stile","Pannello posteriore":"Back panel",
@@ -7446,7 +7467,7 @@ const EL_I18N={
   "Traversa anta vetro":"Glass door rail","Traversa centrale":"Centre rail","Traversa telaio":"Frame rail","Traversa telaio corta":"Short frame rail",
   "Vetro anta":"Door glass","Zoccolo":"Plinth","Frontale scrivania":"Desk front","Frontale":"Front","Top":"Top","Pezzo":"Part","_sez":"sec."},
  fr:{"Anta":"Porte","Anta scorrevole":"Porte coulissante","Anta curva":"Porte cintrée","Asta appendiabiti":"Tringle",
-  "Base / Cielo":"Dessous / Dessus","Base":"Dessous","Cielo":"Dessus","Traversa cielo":"Traverse du dessus","Profilo gola L":"Profilé gorge L","Profilo gola C":"Profilé gorge C","Doga faggio 68mm":"Latte hêtre 68 mm","Fascia":"Bandeau",
+  "Base / Cielo":"Dessous / Dessus","Base":"Dessous","Cielo":"Dessus","Traversa cielo":"Traverse du dessus","Profilo anticurvatura":"Profilé anti-voilage","Profilo gola L":"Profilé gorge L","Profilo gola C":"Profilé gorge C","Doga faggio 68mm":"Latte hêtre 68 mm","Fascia":"Bandeau",
   "Fascia raccordata":"Bandeau cintré","Fianco":"Côté","Fianco cassetto":"Côté tiroir","Fondo / Cielo raccordato":"Dessous / Dessus cintré",
   "Fondo / Cielo tondo":"Dessous / Dessus rond","Fondo cassetto":"Fond tiroir","Frontale cassetto":"Façade tiroir","Frontale cassetto interno":"Façade tiroir intérieur",
   "Fronte/Retro cassetto":"Avant/Arrière tiroir","Fianco ripiano estraibile":"Côté tablette coulissante","Fronte/Retro ripiano estraibile":"Avant/Arrière tablette coulissante","Fondo ripiano estraibile":"Fond tablette coulissante","Retro ripiano estraibile":"Arrière tablette coulissante","Gamba legno 70×70":"Pied bois 70×70","Montante anta vetro":"Montant porte vitrée","Pannello posteriore":"Panneau arrière",
@@ -7996,6 +8017,7 @@ function cfgFromForm(){
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
     secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secDrawerH:cleanSecDrawerH(buildSecDrawerH), secDrawerNL:cleanSecNL(buildSecDrawerNL), secPull:cleanSecPull(buildSecPull),
     doorHinge:cleanDoorHinge(buildDoorHinge,Math.min(MAX_DOORS,v("bDoors",0))),
+    antiWarp:["auto","all"].includes($("bAW").value)?$("bAW").value:null,
     top:["traverse","none"].includes($("bTop").value)?$("bTop").value:null,
     topRailW:$("bTop").value==="traverse"&&v("bTopRail",0)>0?Math.max(30,Math.min(400,v("bTopRail",0))):null,
     /* il gradino vale solo con tutte e due le cote: una sola non e un gradino */
@@ -8040,6 +8062,7 @@ function syncBuildForm(){
   $("bMatBack").value=buildCfg.matBack||S.matBack||"pfl3";
   $("bPlinth").value=buildCfg.plinth; $("bTram").value=buildCfg.tram;
   $("bShelves").value=buildCfg.shelves; $("bDrawers").value=buildCfg.drawers; $("bDoors").value=buildCfg.doors;
+  $("bAW").value=awMode(buildCfg)||""; renderAW();
   $("bTop").value=buildCfg.top==="traverse"||buildCfg.top==="none"?buildCfg.top:"plin"; $("bTopRail").value=buildCfg.topRailW||"";
   $("bDrawDist").value=buildCfg.drawerDist||"uguali";
   $("bDrawPos").value=buildCfg.drawerPos||"auto";
@@ -8221,6 +8244,11 @@ function cleanDoorHinge(a,n){
 function renderGola(){
   const on=$("bHandles").value==="gola";
   $("rowGola").style.display=on?"":"none"; $("golaHint").style.display=on?"":"none";
+}
+/* U.6 — indiciul profilului anti-curbare: pragul de inaltime vine din date */
+function renderAW(){
+  const h=$("awHint"); if(!h) return;
+  h.textContent=t("awHint").replace("{h}",ANTIWARP.minH);
 }
 function renderTop(){
   const row=$("rowTop"); if(!row) return;
@@ -8704,6 +8732,7 @@ function renderBuild(){
     ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     ["bTop","bTipo"].forEach(id=>$(id).addEventListener("change",renderTop)); renderTop();
     $("bHandles").addEventListener("change",renderGola);
+    $("bAW").addEventListener("change",renderAW);
     $("bTipo").addEventListener("change",renderAbs);
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
@@ -10725,7 +10754,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["gola","hwGolaL"],["golac","hwGolaC"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
+  ["aw","hwAW"],["gola","hwGolaL"],["golac","hwGolaC"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
 function renderCatalog(){
   const S=state.settings;
   $("catHwWrap").innerHTML=HW_CATS.map(([cat,key])=>{
@@ -10865,10 +10894,10 @@ $("btnCatalogSave").addEventListener("click",()=>{
 
 /* ================= PRO: FERRAMENTA / PREVENTIVO / SHARE ================= */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwGolaL:"gola",hwGolaC:"golac",hwLeg:"gamba",hwTopClip:"fissp",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
+  hwAW:"aw",hwGolaL:"gola",hwGolaC:"golac",hwLeg:"gamba",hwTopClip:"fissp",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
 function computeHardware(p,S,byModule){
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTopClip","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC"];
+    "hwLeg","hwTopClip","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwAW"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   const bump=(mod,k,n)=>{ q[k]+=n; if(byModule){ (mods[mod]=mods[mod]||mk())[k]+=n; } };
@@ -10886,7 +10915,8 @@ function computeHardware(p,S,byModule){
     const push=el.includes("push"), gola=el.includes("gola");
     /* la gola e un profil, nu un maner: nici maner, nici push */
     const grip=(m2,n2)=>{ if(!gola) bump(m2,push?"hwPush":"hwMan",n2); };
-    if(el.startsWith("profilo gola l")){ bump(mod,"hwGolaL",Math.round(x.lung*x.pz/10)/100); }
+    if(el.startsWith("profilo anticurvatura")){ bump(mod,"hwAW",x.pz); }
+    else if(el.startsWith("profilo gola l")){ bump(mod,"hwGolaL",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola c")){ bump(mod,"hwGolaC",Math.round(x.lung*x.pz/10)/100); }
     else if(el.includes("anta scorrevole")){ binMods.add(mod); }
     else if(el.startsWith("anta")){ const hgt=Math.max(x.lung,x.larg);
@@ -13611,12 +13641,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.51.0"; /* APP_VER-MARKER */
+const APP_VER="4.52.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v110";
+const SW_CACHE="ebanist-v111";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

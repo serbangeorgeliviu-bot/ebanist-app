@@ -46,7 +46,11 @@ var HW_DRILL = {
   dowel: { dia: 8, len: 35, face_depth: 12, offset: 32 },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0 },
-  handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 }
+  handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 },
+  /* canalul profilului anti-curbare (U.6, D-76): pe fata dinapoi a usii, pe toata
+     inaltimea, paralel cu marginea libera. Date de profil generic, de verificat
+     pe un profil real inainte sa mearga in masina. */
+  antiwarp: { groove_w: 10, groove_d: 9, from_free_edge: 45, end_margin: 30 }
 };
 
 var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa",
@@ -75,7 +79,7 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, curved: false }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, curved: false }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
   }
@@ -321,6 +325,14 @@ function generate(input) {
         }
         out.hw.push(inst);
       });
+      if (D.aw) {
+        var A = H.antiwarp, fx0 = hingeLeft ? D.max[0] - A.from_free_edge : D.min[0] + A.from_free_edge;
+        if (D.ext[1] > 2 * A.end_margin + 50 && D.T > A.groove_d + 3) {
+          D.grooves.push({ lo: [fx0 - A.groove_w / 2, D.min[1] + A.end_margin, D.min[2]],
+                           hi: [fx0 + A.groove_w / 2, D.max[1] - A.end_margin, D.min[2] + A.groove_d],
+                           note: "canal profil anti-curbare" });
+        } else out.warnings.push({ piece: D.pk, k: "opsAwThin" });
+      }
       if (hingeSel === "maniglia") {
         var ia = H.handle.interaxis, ox = hingeLeft ? D.max[0] - H.handle.from_edge : D.min[0] + H.handle.from_edge;
         var yc = D.max[1] < 1100 ? D.max[1] - H.handle.from_top - ia / 2
