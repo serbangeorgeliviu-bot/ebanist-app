@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.53.0 — 11 octombrie 2026
+
+**Catalog propriu de feronerie și alegere pe corp (ROADMAP U.2).** Cerut de G. Roscigno.
+
+- **Setări → Catalog:** la fiecare categorie, „＋ Adaugă articol” (marcă, nume, cod, preț). Articolele proprii stau în setări (`hwAdd`), ca datele materialelor, și apar în aceleași liste ca cele Blum/Häfele; se pot șterge.
+- **Constructor → Feronerie corp:** pentru fiecare categorie (balamale, mânere, push, glisiere, suporți, picioare, îmbinări, anti-curbare) poți alege alt articol decât cel din catalog, numai pentru corpul respectiv.
+- **Un singur calcul:** devizul are câte un rând pe articol, cu prețul lui; lista de feronerie din fișa de montaj și textele de montaj folosesc articolul corpului. Fără alegere, nimic nu se schimbă.
+- Găurirea rămâne pe `HW_DRILL` (cotele per articol vin cu 2B.4).
+- Teste: `test:all` 583/583, golden 42/42, e2e 509/509.
+- `APP_VER` 4.53.0, `SW_CACHE`/`CACHE` → `ebanist-v112`. Android: fără `.aab`.
+
 ## 4.52.0 — 11 octombrie 2026
 
 **Profil anti-curbare pe uși înalte (ROADMAP U.6).** Cerut de G. Roscigno: ușile înalte se curbează și se montează raddrizzanti tip Würth.

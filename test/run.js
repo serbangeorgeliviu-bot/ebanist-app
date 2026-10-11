@@ -2515,6 +2515,40 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.6: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.2 — catalog propriu si feronerie aleasa pe corp */
+  {
+    head("Catalog propriu + feronerie aleasa pe corp (U.2)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); state.settings.hwAdd = []; state.settings.hwProd = state.settings.hwProd || {}; });
+    await pg.evaluate(() => { renderCatalog(); openSheet("shCatalog"); });
+    await pg.evaluate(() => document.querySelector('.catOwnAdd[data-cat="cern"]').click()); await pg.waitForTimeout(150);
+    await pg.evaluate(() => { const set = (q, v) => { const e = document.querySelector(q); e.value = v; e.dispatchEvent(new Event("input", { bubbles: true })); };
+      set(".catOwnName", "Balama X"); set(".catOwnBrand", "Mea"); set('.catPrice[data-cat="cern"]', "3.2"); });
+    const own = await pg.evaluate(() => ({ n: state.settings.hwAdd.length, it: hwItem("cern"), sel: state.settings.hwProd.cern }));
+    ok("U.2: articol propriu adaugat si ales in catalog, cu nume si pret", own.n === 1 && own.it.custom && own.it.name === "Balama X" && own.it.brand === "Mea" && own.it.price === 3.2, JSON.stringify(own).slice(0, 200));
+    await pg.evaluate(() => { closeSheets(); state.settings.hwProd.cern = "blum_71b3550"; document.getElementById("grpHw").open = true;
+      buildCfg = { ...PRESETS.base, name: "Hw1", L: 800, doors: 2, drawers: 0 }; syncBuildForm(); renderSecChips(); });
+    await pg.waitForTimeout(250);
+    ok("U.2: grupul «Feronerie corp» are un selector pe categorie, cu articolul propriu in lista", await pg.evaluate(() => document.querySelectorAll("#hwSelBox select").length >= 8 && [...document.querySelectorAll('#hwSelBox select[data-cat="cern"] option')].some(o => o.textContent.includes("Balama X"))));
+    const r = await pg.evaluate(() => { const id = state.settings.hwAdd[0].id; document.querySelector('#hwSelBox select[data-cat="cern"]').value = id;
+      const c = cfgFromForm(); const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      generateInto(p, { ...c, name: "Hw1" });
+      generateInto(p, { ...c, hwSel: null, name: "Hw2" });
+      const items = computeHardware(p, state.settings).filter(i => i.k === "hwCern");
+      const o = { sel: c.hwSel, rows: items.map(i => [i.qty, i.prod && i.prod.name, i.price]) };
+      try { o.mont = montDoc(p).length > 200; } catch (e) { o.mont = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.sum = String(e); }
+      p.pieces = p.pieces.filter(q => q.gen !== "Hw1" && q.gen !== "Hw2"); delete p.configs["Hw1"]; delete p.configs["Hw2"]; persist();
+      return o; });
+    ok("U.2: alegerea ajunge in cfg", r.sel && r.sel.cern && r.sel.cern.startsWith("u"), JSON.stringify(r).slice(0, 200));
+    ok("U.2: devizul are doua randuri de balamale — propriul pe Hw1, cel din catalog pe Hw2, fiecare cu pretul lui", r.rows.length === 2 && r.rows.some(x => x[1] === "Balama X" && x[2] === 3.2) && r.rows.some(x => x[1] !== "Balama X"), JSON.stringify(r.rows));
+    ok("U.2: fisa de montaj si rezumatul fara erori", r.mont === true && r.sum === true, JSON.stringify(r).slice(0, 200));
+    await pg.evaluate(() => { state.settings.hwProd.cern = state.settings.hwAdd[0].id; renderCatalog(); });
+    await pg.evaluate(() => { document.querySelector(".catOwnDel").click(); });
+    ok("U.2: articolul propriu se poate sterge; catalogul revine la cel de serie", await pg.evaluate(() => state.settings.hwAdd.length === 0 && !hwItem("cern").custom));
+    await pg.evaluate(() => { setView("build"); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.2: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
