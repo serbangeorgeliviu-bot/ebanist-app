@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.50.0";
+var CORE_REV = "4.54.0";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -186,6 +186,15 @@ function positionsHinges(anta_H, n, edge_offset) {
   if (!n || !(anta_H > 0)) return [];
   if (n === 1) return [Math.round(anta_H / 2)];
   var span = anta_H - 2 * edge_offset;
+  /* Fra due tazze (Ø35) ci vuole spazio: sotto MIN_SEP fra prima e ultima le
+     tazze si sovrappongono (anta di 209 con arretramento 100 = 9 mm fra le due).
+     Si avvicinano ai capi (non meno di 40 mm); se nemmeno cosi stanno, una sola. */
+  var MIN_SEP = 80, MIN_OFF = 40;
+  if (span > 0 && span < MIN_SEP) {
+    edge_offset = Math.max(MIN_OFF, (anta_H - MIN_SEP) / 2);
+    span = anta_H - 2 * edge_offset;
+    if (span < MIN_SEP) return [Math.round(anta_H / 2)];
+  }
   /* Anta troppo corta per l'arretramento chiesto: si stringe invece di
      produrre cote negative o cerniere fuori dall'anta. */
   if (span <= 0) {
@@ -1013,6 +1022,10 @@ function validateInvariants(corpo, pieces, geometry, opts) {
 
   /* --- i cassetti ------------------------------------------------------- */
   var cas = closureRow(rows, "cassetto_fianco");
+  /* il sistema metallico non ha fianchi in pannello: l'unica riga «cassetto_fianco» e il
+     retro, largo quanto la cassa (684 su un cassetto largo 747). Leggerla come profondita
+     dava un falso I5 su ogni cassetto largo; la profondita sta nel fondo. */
+  if (cas && cas.axis_mapping && cas.axis_mapping.lung && cas.axis_mapping.lung !== "P") cas = closureRow(rows, "cassetto_fondo");
   if (cas && G.P_cassetto_max != null) {
     var Pc = alongAxis(cas, "P");
     if (Pc != null)

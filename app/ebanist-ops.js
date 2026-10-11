@@ -166,7 +166,9 @@ function panelBeside(pcs, x, dir, y, z, tol) {
    `end_dist` dai capi, una in mezzo oltre `mid_over`. */
 function jointPositions(a, b) {
   var M = HW_DRILL.minifix, out = [], span = b - a;
-  if (span < 2 * M.end_dist) return [(a + b) / 2];
+  /* sub 2×end_dist + 30 cele doua pozitii ar cadea una peste alta (sau la mai putin
+     de un diametru de excentric): o singura fixare, la mijloc (de ex. traversa de 100 mm) */
+  if (span < 2 * M.end_dist + 30) return [(a + b) / 2];
   out.push(b - M.end_dist); if (span > M.mid_over) out.push((a + b) / 2); out.push(a + M.end_dist);
   return out;
 }

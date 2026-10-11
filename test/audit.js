@@ -54,7 +54,7 @@ const LANGS = (process.env.LANGS || "it,ro,en,fr").split(",");
               $("printArea").innerHTML = ""; closeSheets();
               if (btn === "btnDraw") setView("build"); else setView("list");
               const el = $(btn); if (!el) { issues.push("lipsă buton " + btn); continue; }
-              el.click(); await w(200); await confirmClosure(); await w(100);
+              el.click(); await w(200); { const ov = document.getElementById('dlgOverlay'); if (ov && ov.classList.contains('on')) { document.getElementById('dlgYes').click(); await w(200); } } await confirmClosure(); await w(100);
               const pa = $("printArea");
               if (!pa.innerHTML.trim()) { issues.push(k + "/" + btn + ": document gol"); continue; }
               const t = pa.innerText; const m = t.match(BAD);

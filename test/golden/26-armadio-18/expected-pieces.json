@@ -78,8 +78,8 @@
    "sp": 18,
    "bordo": "1L",
    "ys": [
-    419.3333333333333,
-    740.6666666666666
+    814.6666666666666,
+    938.3333333333334
    ]
   },
   {
@@ -154,5 +154,6 @@
    "sp": 3,
    "bordo": ""
   }
- ]
+ ],
+ "nota_revizuire": "2026-10-11 (audit 4.54.0): cotele `ys` ale rafturilor corectate — rafturile traversau sertarele (coliziune verificata in 3D). De confirmat de Liviu la prima verificare manuala."
 }

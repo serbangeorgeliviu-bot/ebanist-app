@@ -5,6 +5,25 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.54.0 — 12 octombrie 2026
+
+**Audit: erori de calcul și de randare, comenzi mai clare.** Găsite cu un fuzz nou (`test/fuzz.js`: configurații aleatoare pe toate tipologiile, cu verificarea închiderii, a invarianților, a găuririi și a coliziunilor 3D între piese) și cu o trecere vizuală pe telefon.
+
+Corectate:
+- **Spate în două bucăți (plăci late, ≥ ~2150 mm cu despărțitori):** suma bucăților dădea +1 mm (două jumătăți de 1099,5 → 1100 + 1100). Acum fiecare lungime e diferența dintre două cote rotunjite; închiderea e la 0 mm. Era cazul în ~1 din 3 combinații lată + despărțitori.
+- **Sertarele interioare (în spatele ușilor) intrau până la 17 mm în baza corpului** (frontalul pornea de la marginea corpului, nu de la fața bazei). Acum stau pe baza. Cotele pieselor nu se schimbă, doar poziția pe înălțime.
+- **Rafturi + sertare fără secțiuni marcate** (regula veche: „Sertare/secț.” pune sertare în toate secțiunile): rafturile treceau prin sertare. Acum pornesc deasupra sertarelor. Se schimbă cotele `ys` ale rafturilor la presetul Dulap (și la Cabina/Dressing); golden-urile 01, 07, 26, 27 actualizate (vezi mai jos).
+- **Uși scurte (sub ~280 mm):** cele două cupe de balama cădeau la 9 mm una de alta (arretramento 100 pe o ușă de 209). Acum ≥ 80 mm între ele (nu mai aproape de 40 mm de capete); ușile normale rămân identice.
+- **Traverse de 100 mm (U.3):** două excentrice Minifix puse în același loc la fiecare capăt. Acum o singură fixare la mijloc când nu încap două la distanță.
+- **Invariantul I5 pe sertare metalice late** (LEGRABOX/TANDEMBOX/Matrix): citea spatele sertarului ca adâncime și dădea alarmă falsă pe orice sertar mai lat de ~535 mm.
+- **Tooltip și nume accesibil** ale butoanelor din antet (Cont, Setări, Client) în limba aplicației (erau doar în italiană).
+- **Comenzi:** butonul „Generează lista” rămâne lipit deasupra barei de jos pe telefon și tabletă (stătea la capătul formularului); butonul AI se numește „Generează cu AI”, ca să nu semene cu cel principal.
+
+Rămas deschis (nu e schimbat, are nevoie de o cifră verificată): la sistemele metalice (TANDEMBOX, LEGRABOX, Matrix) fundul cutiei coboară cu 4 mm sub fața bazei (`lift` 13 mm, marcat „de verificat”): fie frontalul pornește mai sus, fie `lift` e mai mare.
+
+Teste: `auditfixes.test.js` (10), `test:all` 593/593, golden 42/42 (01, 07, 26, 27: doar `ys` ale rafturilor).
+`APP_VER` 4.54.0, `CORE_REV` 4.54.0, `SW_CACHE`/`CACHE` → `ebanist-v113`.
+
 ## 4.53.0 — 11 octombrie 2026
 
 **Catalog propriu de feronerie și alegere pe corp (ROADMAP U.2).** Cerut de G. Roscigno.
