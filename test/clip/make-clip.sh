@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Montează clipul promo 1 (18 s, 1080x1920) din cadre AI + înregistrarea ecranului + voce + muzică.
-#   WORK=<dir> bash make-clip.sh
+#   LANG_CLIP=it|en|fr|ro WORK=<dir> bash make-clip.sh   (textele: texts.py; vocea: gen-voice.py)
 # În $WORK trebuie să existe: S1.mp4 S2.mp4 S3.mp4 S4.mp4 (cadrele AI), g1.mp3..g6.mp3 (vocea, din
 # voice-script.txt), music.wav, și <WORK>/screen/ — ieșirea lui `node ../clip-screen.js <WORK>/screen`.
 # VO_TEMPO accelerează vocea (implicit 1.0; Giuseppe nu are nevoie). Cere: ffmpeg (cu libass), python3 + Pillow, fontul Inter. Vezi sources.md.
@@ -31,9 +31,11 @@ END=$(TL "j['end']")
 # 4) video: (sursă, început în sursă, durată) pe segmentele timeline-ului
 mk(){ ffmpeg -loglevel error -y -ss "$2" -t "$3" -i "$1" -vf "$F" $E "$4"; }
 SRC=(S1.mp4 screen.mp4 screen.mp4 S2.mp4 screen.mp4 screen.mp4 S3.mp4 s4rev.mp4 endcard.mp4 S1.mp4)
-SS=(0 0.3 1.8 1.0 5.0 7.9 0.5 0 0 2.0)
+SD=$(ffprobe -v error -show_entries format=duration -of csv=p=0 screen.mp4)   # înregistrările diferă puțin ca durată
+sf(){ python3 -c "print(round($1*$SD,3))"; }
+SS=(0 $(sf 0.032) $(sf 0.194) 1.0 $(sf 0.54) $(sf 0.852) 0.5 0 0 2.0)
 for i in 0 1 2 3 4 5 6 7 8 9; do
-  mk ${SRC[$i]} ${SS[$i]} $(TL "round(j['seg'][$i][1]-j['seg'][$i][0],3)") v$((i+1)).mp4
+  mk ${SRC[$i]} ${SS[$i]} $(TL "j['segf'][$i]") v$((i+1)).mp4
 done
 for i in 1 2 3 4 5 6 7 8 9 10; do echo "file 'v$i.mp4'"; done > vlist.txt
 ffmpeg -loglevel error -y -f concat -safe 0 -i vlist.txt -c copy vid_nocap.mp4
@@ -62,5 +64,5 @@ ffmpeg -loglevel error -y -i t1.wav -i t2.wav -i t3.wav -i t4.wav -i t5.wav -i t
 # 6) subtitrări + export
 python3 "$HERE/captions.py" cap.ass timeline.json
 ffmpeg -loglevel error -y -i vid_nocap.mp4 -i mix.wav -vf "ass=cap.ass:fontsdir=/usr/share/fonts/opentype/inter" \
-  -c:v libx264 -pix_fmt yuv420p -crf 18 -preset medium -c:a aac -b:a 192k -t $END -movflags +faststart clip1.mp4
-echo "gata: $W/clip1.mp4"
+  -c:v libx264 -pix_fmt yuv420p -crf 18 -preset medium -c:a aac -b:a 192k -t $END -movflags +faststart clip1-${LANG_CLIP:-it}.mp4
+echo "gata: $W/clip1-${LANG_CLIP:-it}.mp4"

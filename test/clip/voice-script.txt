@@ -1,5 +1,4 @@
-# Câte o linie = un fișier voce (g1..g6). Voce: it-IT-GiuseppeMultilingualNeural (italiană nativă, Microsoft Neural, rate +5%) — vezi gen-voice.py.
-# Generate pe bucăți ca să nu rămână pauze între cadre. Vocile ElevenLabs din vidIQ (Chris, Brian) au accent străin: respinse.
+# Textele vocii sunt acum în texts.py (it/en/fr/ro). Acest fișier rămâne doar ca notă: it = it-IT-GiuseppeMultilingualNeural, en = en-US-AndrewNeural, fr = fr-FR-HenriNeural, ro = ro-RO-EmilNeural (Microsoft Neural via edge-tts; ElevenLabs/vidIQ aveau accent străin).
 Perdere ore a calcolare le misure a mano?
 Ebanist: scegli il mobile, metti le misure,
 e in pochi secondi hai il 3D e la lista di taglio.

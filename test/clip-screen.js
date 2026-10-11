@@ -9,13 +9,13 @@ const srv=http.createServer((q,r)=>{const rel=decodeURIComponent(q.url.split("?"
  r.writeHead(200,{"Content-Type":MIME[path.extname(f)]||"application/octet-stream"});fs.createReadStream(f).pipe(r);});
 (async()=>{
  await new Promise(r=>srv.listen(0,"127.0.0.1",r));
- const URL=`http://127.0.0.1:${srv.address().port}/app/index.html?lang=it`;
+ const URL=`http://127.0.0.1:${srv.address().port}/app/index.html?lang=${process.env.LANG_CLIP||"it"}`;
  const br=await chromium.launch({executablePath:process.env.CHROME_PATH||"/opt/pw-browsers/chromium-1194/chrome-linux/chrome",args:["--use-gl=swiftshader","--enable-webgl","--ignore-gpu-blocklist"]});
  const ctx=await br.newContext({viewport:{width:540,height:960},deviceScaleFactor:2,isMobile:true,hasTouch:true});
  const pg=await ctx.newPage(); fs.mkdirSync(OUT+"/f",{recursive:true}); const frames=[]; let cap=false; const t0=Date.now();
  const loop=(async()=>{let i=0;while(true){ if(cap===null)break; if(cap){const t=Date.now()-t0;const f=OUT+"/f/"+String(i++).padStart(5,"0")+".jpg";await pg.screenshot({path:f,type:"jpeg",quality:92});frames.push([f,t]);} else await new Promise(r=>setTimeout(r,50)); }})(); const errs=[]; pg.on("pageerror",e=>errs.push(String(e)));
  await pg.goto(URL); await pg.waitForFunction(()=>window.MAT_LOADED===true,null,{timeout:15000});
- await pg.waitForTimeout(3300); await pg.evaluate(()=>closeSheets()); await pg.evaluate(()=>setView("projects")); await pg.waitForTimeout(600); await pg.tap("#btnNewProject"); await pg.waitForTimeout(600); await pg.fill("#prName","Cucina Rossi"); await pg.tap("#btnProjectSave"); await pg.waitForTimeout(1200); await pg.evaluate(()=>setView("build")); await pg.waitForTimeout(1500); cap=true;
+ await pg.waitForTimeout(3300); await pg.evaluate(()=>closeSheets()); await pg.evaluate(()=>setView("projects")); await pg.waitForTimeout(600); await pg.tap("#btnNewProject"); await pg.waitForTimeout(600); await pg.fill("#prName",process.env.PROJECT||"Cucina Rossi"); await pg.tap("#btnProjectSave"); await pg.waitForTimeout(1200); await pg.evaluate(()=>setView("build")); await pg.waitForTimeout(1500); cap=true;
  console.log("chips:",await pg.$$eval("#presetChips .chip",e=>e.map(x=>x.dataset.k+":"+x.textContent.trim())));
  // 1 tipologia
  await pg.tap("#presetChips .chip[data-k=basecass]").catch(async()=>{await pg.tap("text=Base a cassetti")}); await pg.waitForTimeout(1500);
