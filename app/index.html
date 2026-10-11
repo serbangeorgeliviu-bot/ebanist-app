@@ -1570,6 +1570,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <div id="svSelBar" style="display:none"></div>
     </div>
 
+    <div class="card" id="svWtCard" style="padding:12px;display:none;margin-bottom:14px">
+      <div class="eyebrow" style="margin:0 0 4px" id="svWtLbl">Blat</div>
+      <p class="mini" id="svWtHint" style="margin-bottom:8px"></p>
+      <div id="svWtList"></div>
+      <button class="btn sm" id="btnWtAdd" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span id="btnWtAddLbl">Aggiungi blat</span></button>
+    </div>
+
     <div class="eyebrow" id="svWallsLbl">Pareti</div>
     <p class="mini" id="svWallsHint" style="margin-bottom:6px"></p>
     <div id="svWalls"></div>
@@ -2257,9 +2264,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
    caricato non e la revisione che questa pagina si aspetta, se ne scarica
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
-if(window.CORE_REV!=="4.47.0") document.write('<script src="./ebanist-core.js?rev=4.47.0"><\/script>');
+if(window.CORE_REV!=="4.48.0") document.write('<script src="./ebanist-core.js?rev=4.48.0"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
+<script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-au-i18n.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
@@ -2958,10 +2966,10 @@ Object.assign(I18N.it,{lhDim:"Misure (mm)",lhPiece:"Pezzo · materiale",lhQty:"P
 Object.assign(I18N.ro,{lhDim:"Cote (mm)",lhPiece:"Piesă · material",lhQty:"Buc · cant"});
 Object.assign(I18N.en,{lhDim:"Size (mm)",lhPiece:"Part · material",lhQty:"Qty · edge"});
 Object.assign(I18N.fr,{lhDim:"Cotes (mm)",lhPiece:"Pièce · matériau",lhQty:"Qté · chant"});
-Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Cote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le cote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
-Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
-Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
-Object.assign(I18N.fr,{vtOpen:"Ouvrir",vtHw:"Quincaillerie",vtHoles:"Perçages",vtHint:"Glisser pour tourner · touchez une pièce",vtPieces:"Pièces",vtNoPieces:"Aucune pièce : configurez le meuble.",vtNeedGL:"Pièces et perçages demandent la 3D WebGL.",vtHolesN:"perçages",vtHwN:"quincaillerie",vtIsolate:"Isoler",vtShowAll:"Tout afficher",vtSheet:"Fiche pièce",hw_cerniera:"Charnières",hw_maniglia:"Poignées",hw_guida:"Coulisses",hw_reggipiano:"Taquets",hw_minifix:"Minifix (excentriques)",hw_tassello:"Tourillons",hwVerify:"Cotes de perçage du catalogue (Blum/Häfele), pas encore vérifiées sur une pièce réelle : contrôlez avant la machine.",role_fianco:"Côté",role_divisorio:"Séparation",role_base:"Dessous",role_cielo:"Dessus",role_base_cielo:"Dessous / Dessus",role_ripiano:"Étagère",role_schienale:"Fond",role_zoccolo:"Socle",role_frontale:"Porte",role_traversa:"Traverse",role_cassetto_frontale:"Façade tiroir",role_cassetto_fianco:"Caisson tiroir",role_cassetto_fondo:"Fond tiroir",sideL:"gauche",sideR:"droit",partFace:"Face",partW:"Larg.",partT:"Ép.",partApprox:"Pièce divisée ou profilée : la ligne de débit est celle de son rôle, les cotes sont celles de la pièce entière.",partOther:"autre face",partThrough:"traversant",pfErr:"{n} contrôles de perçage échoués",pfOk:"Perçage : contrôles passés",pfWarn:"{n} perçages proches du bord",pfFlip:"perçages sur deux faces : la pièce se retourne",opOp:"Opération",opFace:"Face",opDepth:"Prof.",partNoOps:"Aucun perçage sur cette pièce.",partAxes:"Face 5 = celle avec le plus de perçages, en haut sur la machine. X le long de la longueur, Y de la largeur, origine en bas à gauche. Sur chants : u le long du chant, z depuis la face 6.",partIn3D:"Voir en 3D",partCsv:"CSV perçages",op_groove:"Rainure fond",op_cup:"Cuvette charnière Ø35",op_hdowel:"Tourillon charnière",op_plate:"Embase charnière",op_bolt:"Boulon minifix",op_shank:"Tige minifix",op_cam:"Excentrique minifix",op_dowel:"Tourillon Ø8",op_pin:"Taquet",op_pinAdj:"Taquet (réglage)",op_slide:"Coulisse tiroir",op_handle:"Poignée",partNotFound:"Pièce introuvable dans la configuration du meuble",listHoles:"Perçages"});
+Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Cote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le cote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_wtBolt:"Buco per bullone blat",op_cutSink:"Taglio lavello",op_cutHob:"Taglio piano cottura",op_cutOther:"Taglio piano",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
+Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_wtBolt:"Locaș șurub blat",op_cutSink:"Decupaj chiuvetă",op_cutHob:"Decupaj plită",op_cutOther:"Decupaj blat",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
+Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_wtBolt:"Worktop bolt pocket",op_cutSink:"Sink cut-out",op_cutHob:"Hob cut-out",op_cutOther:"Worktop cut-out",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
+Object.assign(I18N.fr,{vtOpen:"Ouvrir",vtHw:"Quincaillerie",vtHoles:"Perçages",vtHint:"Glisser pour tourner · touchez une pièce",vtPieces:"Pièces",vtNoPieces:"Aucune pièce : configurez le meuble.",vtNeedGL:"Pièces et perçages demandent la 3D WebGL.",vtHolesN:"perçages",vtHwN:"quincaillerie",vtIsolate:"Isoler",vtShowAll:"Tout afficher",vtSheet:"Fiche pièce",hw_cerniera:"Charnières",hw_maniglia:"Poignées",hw_guida:"Coulisses",hw_reggipiano:"Taquets",hw_minifix:"Minifix (excentriques)",hw_tassello:"Tourillons",hwVerify:"Cotes de perçage du catalogue (Blum/Häfele), pas encore vérifiées sur une pièce réelle : contrôlez avant la machine.",role_fianco:"Côté",role_divisorio:"Séparation",role_base:"Dessous",role_cielo:"Dessus",role_base_cielo:"Dessous / Dessus",role_ripiano:"Étagère",role_schienale:"Fond",role_zoccolo:"Socle",role_frontale:"Porte",role_traversa:"Traverse",role_cassetto_frontale:"Façade tiroir",role_cassetto_fianco:"Caisson tiroir",role_cassetto_fondo:"Fond tiroir",sideL:"gauche",sideR:"droit",partFace:"Face",partW:"Larg.",partT:"Ép.",partApprox:"Pièce divisée ou profilée : la ligne de débit est celle de son rôle, les cotes sont celles de la pièce entière.",partOther:"autre face",partThrough:"traversant",pfErr:"{n} contrôles de perçage échoués",pfOk:"Perçage : contrôles passés",pfWarn:"{n} perçages proches du bord",pfFlip:"perçages sur deux faces : la pièce se retourne",opOp:"Opération",opFace:"Face",opDepth:"Prof.",partNoOps:"Aucun perçage sur cette pièce.",partAxes:"Face 5 = celle avec le plus de perçages, en haut sur la machine. X le long de la longueur, Y de la largeur, origine en bas à gauche. Sur chants : u le long du chant, z depuis la face 6.",partIn3D:"Voir en 3D",partCsv:"CSV perçages",op_groove:"Rainure fond",op_cup:"Cuvette charnière Ø35",op_hdowel:"Tourillon charnière",op_plate:"Embase charnière",op_bolt:"Boulon minifix",op_shank:"Tige minifix",op_cam:"Excentrique minifix",op_dowel:"Tourillon Ø8",op_pin:"Taquet",op_pinAdj:"Taquet (réglage)",op_slide:"Coulisse tiroir",op_wtBolt:"Logement boulon plan",op_cutSink:"Découpe évier",op_cutHob:"Découpe plaque",op_cutOther:"Découpe plan",op_handle:"Poignée",partNotFound:"Pièce introuvable dans la configuration du meuble",listHoles:"Perçages"});
 Object.assign(I18N.it,{fStep:"Gradino del muro in basso",fStepH:"Altezza (mm)",fStepP:"Sporgenza (mm)",
   stepHint:"Il muro sporge in basso? I fianchi si intagliano a L, lo schienale esce in due pezzi.",stepHit:"Un ripiano o un cassetto cade nel gradino del muro: spostalo o riduci il gradino"});
 Object.assign(I18N.ro,{fStep:"Treaptă în perete, jos",fStepH:"Înălțime (mm)",fStepP:"Ieșire (mm)",
@@ -2985,10 +2993,10 @@ fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"
 };
 /* ================= RILIEVO I18N (Faza 2A — izolat de I18N principal) ================= */
 const SURVEY_I18N = {
-it:{navSurvey:"Rilievo",svTitle:"Rilievo",svSub:"Misure reali del cantiere",svWalls:"Pareti",svWallsHint:"Lunghezza di ogni parete e angolo reale al vertice — non dare per scontato il 90°.",svAddWall:"Aggiungi parete",svWall:"Parete",svLen:"Lungh. (mm)",svAngle:"Angolo (°)",svBow:"Fuori piano (mm)",svHeights:"Altezze",svHeightsHint:"Misura in 3 punti diversi — il pavimento non è mai in piano.",svPoint:"Punto",svMinH:"Altezza minima",svDelta:"Dislivello",svObst:"Ostacoli",svAddObst:"Aggiungi ostacolo",svType:"Tipo",svOnWall:"Su parete",svFromCorner:"Dall'angolo (mm)",svFromFloor:"Da terra (mm)",svW:"Largh. (mm)",svH:"Alt. (mm)",svExport:"Usa nel progetto",svApply:"Compila il generatore",svApplyHint:"Copia le misure nel generatore: larghezza dalla parete più lunga, altezza dal punto più basso (meno 20 mm di gioco). Il motore parametrico completo arriva più avanti.",svApplied:"Generatore compilato",svRoom3D:"Camera in 3D",svWallH:"Altezza pareti (mm)",svFlipHint:"Inverte lo spigolo (90↔270) — serve per stanze a L",svAxisX:"lungo la parete",svAxisY:"stacco dal muro",svAxisZ:"altezza da terra",svAxisR:"rotazione (°)",svTapDrag:"Tocca un corpo nella pianta e trascinalo, oppure scrivi la quota.",svOpenDoors:"Ante aperte",svRoomLbl:"Mobili nella stanza",svRoomHint:"Scegli la parete e la distanza dall'angolo. La pianta mostra ingombri, apertura ante e urti.",svIssues:"Problemi trovati",svNoIssues:"Nessun urto: tutto entra e tutto si apre",svIssBefore:"{a}: la distanza dall'angolo è negativa",svIssOver:"{a} sborda di {mm} mm oltre la parete",svIssHit:"{a} e {b} si sovrappongono",svIssDoor:"l'anta di {a} sbatte contro {b}",svIssDrawer:"il cassetto di {a} sbatte contro {b}",svIssDoorWall:"l'anta di {a} sbatte contro la parete {b}",svIssDrawerWall:"il cassetto di {a} sbatte contro la parete {b}",svNoPlaced:"Nessun mobile posato",svModsPlaced:"mobili posati",svCutouts:"decupaje",svObstSkip:"{n} ostacoli non risolvibili con un decupaj (calorifero, trave, vano) — verifica a mano.",svNeedWall:"Aggiungi almeno una parete",svNoProject:"Seleziona prima un progetto",svEmpty:"Nessuna parete. Tocca «Aggiungi parete» per iniziare.",svPerimeter:"Perimetro",svNotClosed:"contorno non chiuso",svClosed:"contorno chiuso",tPresa:"Presa",tInterr:"Interruttore",tTubo:"Tubo",tCalorifero:"Calorifero",tVano:"Vano",tTrave:"Trave",tAltro:"Altro"},
-ro:{navSurvey:"Releveu",svTitle:"Releveu",svSub:"Cote reale din șantier",svWalls:"Pereți",svWallsHint:"Lungimea fiecărui perete și unghiul real în colț — nu presupune 90°.",svAddWall:"Adaugă perete",svWall:"Perete",svLen:"Lung. (mm)",svAngle:"Unghi (°)",svBow:"Abatere plan (mm)",svHeights:"Înălțimi",svHeightsHint:"Măsoară în 3 puncte diferite — pardoseala nu e niciodată dreaptă.",svPoint:"Punct",svMinH:"Înălțime minimă",svDelta:"Denivelare",svObst:"Obstacole",svAddObst:"Adaugă obstacol",svType:"Tip",svOnWall:"Pe perete",svFromCorner:"De la colț (mm)",svFromFloor:"De la podea (mm)",svW:"Lăț. (mm)",svH:"Înălț. (mm)",svExport:"Folosește în proiect",svApply:"Completează generatorul",svApplyHint:"Copiază cotele în generator: lățimea de la peretele cel mai lung, înălțimea din punctul cel mai jos (minus 20 mm joc). Motorul parametric complet vine mai târziu.",svApplied:"Generator completat",svRoom3D:"Camera în 3D",svWallH:"Înălțime pereți (mm)",svFlipHint:"Inversează colțul (90↔270) — pentru camere în L",svAxisX:"de-a lungul peretelui",svAxisY:"depărtare de perete",svAxisZ:"înălțime de la podea",svAxisR:"rotație (°)",svTapDrag:"Atinge un corp în plan și trage-l, sau scrie cota exactă.",svOpenDoors:"Uși deschise",svRoomLbl:"Mobilierul în cameră",svRoomHint:"Alege peretele și distanța de la colț. Planul arată gabaritul, deschiderea ușilor și coliziunile.",svIssues:"Probleme găsite",svNoIssues:"Nicio coliziune: totul încape și totul se deschide",svIssBefore:"{a}: distanța de la colț e negativă",svIssOver:"{a} depășește peretele cu {mm} mm",svIssHit:"{a} și {b} se suprapun",svIssDoor:"ușa de la {a} se lovește de {b}",svIssDrawer:"sertarul de la {a} se lovește de {b}",svIssDoorWall:"ușa de la {a} se lovește de peretele {b}",svIssDrawerWall:"sertarul de la {a} se lovește de peretele {b}",svNoPlaced:"Niciun corp așezat",svModsPlaced:"corpuri așezate",svCutouts:"decupaje",svObstSkip:"{n} obstacole nu se rezolvă cu un decupaj (calorifer, grindă, nișă) — verifică manual.",svNeedWall:"Adaugă cel puțin un perete",svNoProject:"Selectează întâi un proiect",svEmpty:"Niciun perete. Apasă «Adaugă perete» ca să începi.",svPerimeter:"Perimetru",svNotClosed:"contur neînchis",svClosed:"contur închis",tPresa:"Priză",tInterr:"Întrerupător",tTubo:"Țeavă",tCalorifero:"Calorifer",tVano:"Gol",tTrave:"Grindă",tAltro:"Altele"},
-en:{navSurvey:"Survey",svTitle:"Site survey",svSub:"Real site measurements",svWalls:"Walls",svWallsHint:"Length of each wall and the real corner angle — don't assume 90°.",svAddWall:"Add wall",svWall:"Wall",svLen:"Length (mm)",svAngle:"Angle (°)",svBow:"Out of plane (mm)",svHeights:"Heights",svHeightsHint:"Measure at 3 different points — the floor is never level.",svPoint:"Point",svMinH:"Minimum height",svDelta:"Level difference",svObst:"Obstacles",svAddObst:"Add obstacle",svType:"Type",svOnWall:"On wall",svFromCorner:"From corner (mm)",svFromFloor:"From floor (mm)",svW:"Width (mm)",svH:"Height (mm)",svExport:"Use in project",svApply:"Fill the builder",svApplyHint:"Copies the measurements into the builder: width from the longest wall, height from the lowest point (minus 20 mm clearance). The full parametric engine comes later.",svApplied:"Builder filled",svRoom3D:"Room in 3D",svWallH:"Wall height (mm)",svFlipHint:"Flip the corner (90↔270) — for L-shaped rooms",svAxisX:"along the wall",svAxisY:"off the wall",svAxisZ:"height off the floor",svAxisR:"rotation (°)",svTapDrag:"Tap a unit in the plan and drag it, or type the exact value.",svOpenDoors:"Doors open",svRoomLbl:"Furniture in the room",svRoomHint:"Pick the wall and the distance from the corner. The plan shows footprints, door swing and clashes.",svIssues:"Problems found",svNoIssues:"No clashes: everything fits and everything opens",svIssBefore:"{a}: distance from the corner is negative",svIssOver:"{a} overruns the wall by {mm} mm",svIssHit:"{a} and {b} overlap",svIssDoor:"the door of {a} hits {b}",svIssDrawer:"the drawer of {a} hits {b}",svIssDoorWall:"the door of {a} hits wall {b}",svIssDrawerWall:"the drawer of {a} hits wall {b}",svNoPlaced:"No furniture placed",svModsPlaced:"units placed",svCutouts:"cutouts",svObstSkip:"{n} obstacles cannot be solved with a cutout (radiator, beam, recess) — check by hand.",svNeedWall:"Add at least one wall",svNoProject:"Select a project first",svEmpty:"No walls yet. Tap «Add wall» to start.",svPerimeter:"Perimeter",svNotClosed:"outline not closed",svClosed:"outline closed",tPresa:"Socket",tInterr:"Switch",tTubo:"Pipe",tCalorifero:"Radiator",tVano:"Opening",tTrave:"Beam",tAltro:"Other"},
-fr:{navSurvey:"Relevé",svTitle:"Relevé",svSub:"Mesures réelles du chantier",svWalls:"Murs",svWallsHint:"Longueur de chaque mur et angle réel au coin — ne présumez pas 90°.",svAddWall:"Ajouter un mur",svWall:"Mur",svLen:"Long. (mm)",svAngle:"Angle (°)",svBow:"Hors plan (mm)",svHeights:"Hauteurs",svHeightsHint:"Mesurez en 3 points différents — le sol n'est jamais de niveau.",svPoint:"Point",svMinH:"Hauteur minimale",svDelta:"Dénivelé",svObst:"Obstacles",svAddObst:"Ajouter un obstacle",svType:"Type",svOnWall:"Sur le mur",svFromCorner:"Depuis l'angle (mm)",svFromFloor:"Depuis le sol (mm)",svW:"Larg. (mm)",svH:"Haut. (mm)",svExport:"Utiliser dans le projet",svApply:"Remplir le générateur",svApplyHint:"Copie les mesures dans le générateur : largeur du mur le plus long, hauteur du point le plus bas (moins 20 mm de jeu). Le moteur paramétrique complet viendra plus tard.",svApplied:"Générateur rempli",svRoom3D:"Pièce en 3D",svWallH:"Hauteur des murs (mm)",svFlipHint:"Inverse l'angle (90↔270) — pour pièces en L",svAxisX:"le long du mur",svAxisY:"écart du mur",svAxisZ:"hauteur du sol",svAxisR:"rotation (°)",svTapDrag:"Touchez un meuble dans le plan et faites-le glisser, ou saisissez la cote.",svOpenDoors:"Portes ouvertes",svRoomLbl:"Meubles dans la pièce",svRoomHint:"Choisissez le mur et la distance depuis l'angle. Le plan montre les encombrements, l'ouverture et les collisions.",svIssues:"Problèmes trouvés",svNoIssues:"Aucune collision : tout rentre et tout s'ouvre",svIssBefore:"{a} : la distance depuis l'angle est négative",svIssOver:"{a} dépasse le mur de {mm} mm",svIssHit:"{a} et {b} se chevauchent",svIssDoor:"la porte de {a} heurte {b}",svIssDrawer:"le tiroir de {a} heurte {b}",svIssDoorWall:"la porte de {a} heurte le mur {b}",svIssDrawerWall:"le tiroir de {a} heurte le mur {b}",svNoPlaced:"Aucun meuble posé",svModsPlaced:"meubles posés",svCutouts:"découpes",svObstSkip:"{n} obstacles ne se règlent pas par une découpe (radiateur, poutre, niche) — à vérifier.",svNeedWall:"Ajoutez au moins un mur",svNoProject:"Sélectionnez d'abord un projet",svEmpty:"Aucun mur. Touchez « Ajouter un mur » pour commencer.",svPerimeter:"Périmètre",svNotClosed:"contour non fermé",svClosed:"contour fermé",tPresa:"Prise",tInterr:"Interrupteur",tTubo:"Tuyau",tCalorifero:"Radiateur",tVano:"Ouverture",tTrave:"Poutre",tAltro:"Autre"}
+it:{navSurvey:"Rilievo",svTitle:"Rilievo",svSub:"Misure reali del cantiere",svWalls:"Pareti",svWallsHint:"Lunghezza di ogni parete e angolo reale al vertice — non dare per scontato il 90°.",svAddWall:"Aggiungi parete",svWall:"Parete",svLen:"Lungh. (mm)",svAngle:"Angolo (°)",svBow:"Fuori piano (mm)",svHeights:"Altezze",svHeightsHint:"Misura in 3 punti diversi — il pavimento non è mai in piano.",svPoint:"Punto",svMinH:"Altezza minima",svDelta:"Dislivello",svObst:"Ostacoli",svAddObst:"Aggiungi ostacolo",svType:"Tipo",svOnWall:"Su parete",svFromCorner:"Dall'angolo (mm)",svFromFloor:"Da terra (mm)",svW:"Largh. (mm)",svH:"Alt. (mm)",svExport:"Usa nel progetto",svApply:"Compila il generatore",svApplyHint:"Copia le misure nel generatore: larghezza dalla parete più lunga, altezza dal punto più basso (meno 20 mm di gioco). Il motore parametrico completo arriva più avanti.",svApplied:"Generatore compilato",svRoom3D:"Camera in 3D",wtTitle:"Blat",wtHint:"Il blat sopra i corpi posati: la lunghezza viene dai corpi sulla parete, la profondità dal frontale più sporgente, lo spessore dal materiale. All'angolo, giunto dritto testa a testa con le sedi dei bulloni fatte alla fresa. Non si ricalcola da solo.",wtAdd:"Aggiungi blat",wtNew:"da calcolare",wtStale:"non corrisponde più ai corpi: ricalcola",wtOk:"aggiornato",wtMods:"Corpi sotto il blat",wtMat:"Materiale",wtPick:"Scegli il materiale",wtOvF:"Sporgenza davanti (mm)",wtOvS:"Sporgenza ai capi liberi (mm)",wtCorner:"Angoli",wtJoint:"Angolo {a}/{b}",wtPasses:"passa la parete {n}",wtCutouts:"Tagli (lavello, piano cottura)",wtK_sink:"Lavello",wtK_hob:"Piano cottura",wtK_other:"Altro",wtX:"X (centro sulla parete)",wtY:"Dal fronte",wtW:"Largh.",wtD:"Prof.",wtR:"Raggio",wtEdge:"bordo",wtPockets:"sedi bulloni",wtCutsN:"tagli",wtBoltNote:"Sedi dei bulloni: Ø35 sotto, misure ancora da verificare sulla dima e sul bullone usati — non vanno in macchina finché non sono verificate.",wtCalc:"Calcola blat",wtRecalc:"Ricalcola blat",wtApplied:"Blat calcolato: {n} pezzi",wtManaged:"Il blat si modifica da qui, non dal costruttore.",wtSlabBig:"{n}: {l}×{p} supera la lastra del materiale ({L}×{W}). Imposta il formato nel catalogo.",wtNeedRoom:"Posa prima il rilievo con le pareti e i corpi.",wtNoMods:"Scegli almeno un corpo.",wtModMissing:"Il corpo {name} non c'è più.",wtModRotated:"Il corpo {name} è ruotato: il blat va solo su corpi dritti.",wtNoWall:"Nessun corpo del blat è su una parete.",wtWallsNotAdjacent:"Le pareti dei corpi scelti non sono consecutive.",wtTooManyWalls:"Troppe pareti per un solo blat.",wtOverhangNeg:"Le sporgenze non possono essere negative.",wtCornerAngle:"L'angolo fra le pareti {wall} e la successiva è {angle}°: il giunto dritto vale solo a 90°.",wtTooShort:"Il blat della parete {wall} è lungo solo {len} mm.",wtCutSize:"Il taglio {n} deve avere larghezza e profondità.",wtCutX:"Il taglio {n} non ha la posizione X.",wtCutRadius:"Il taglio {n}: il raggio {r} è troppo grande per le sue misure.",wtCutOutside:"Il taglio {n} esce dal pezzo {seg} o è a meno di 30 mm da un bordo.",wtCutOverlap:"I tagli {a} e {b} sono troppo vicini o si sovrappongono.",wtNoMat:"Scegli il materiale del blat: lo spessore viene da lì.",wtModOutside:"Un corpo della parete {wall} esce dal blat.",wtGapCorner:"Il blat non ha corpo sotto per {mm} mm vicino all'angolo (parete {wall}).",wtGapStart:"Il blat della parete {wall} parte {mm} mm oltre il primo corpo.",wtHeights:"Corpi ad altezze diverse ({mm} mm): il blat poggia sul più alto.",wtCutPocket:"Il taglio {n} cade sopra una sede di bullone nel pezzo {seg}.",svWallH:"Altezza pareti (mm)",svFlipHint:"Inverte lo spigolo (90↔270) — serve per stanze a L",svAxisX:"lungo la parete",svAxisY:"stacco dal muro",svAxisZ:"altezza da terra",svAxisR:"rotazione (°)",svTapDrag:"Tocca un corpo nella pianta e trascinalo, oppure scrivi la quota.",svOpenDoors:"Ante aperte",svRoomLbl:"Mobili nella stanza",svRoomHint:"Scegli la parete e la distanza dall'angolo. La pianta mostra ingombri, apertura ante e urti.",svIssues:"Problemi trovati",svNoIssues:"Nessun urto: tutto entra e tutto si apre",svIssBefore:"{a}: la distanza dall'angolo è negativa",svIssOver:"{a} sborda di {mm} mm oltre la parete",svIssHit:"{a} e {b} si sovrappongono",svIssDoor:"l'anta di {a} sbatte contro {b}",svIssDrawer:"il cassetto di {a} sbatte contro {b}",svIssDoorWall:"l'anta di {a} sbatte contro la parete {b}",svIssDrawerWall:"il cassetto di {a} sbatte contro la parete {b}",svNoPlaced:"Nessun mobile posato",svModsPlaced:"mobili posati",svCutouts:"decupaje",svObstSkip:"{n} ostacoli non risolvibili con un decupaj (calorifero, trave, vano) — verifica a mano.",svNeedWall:"Aggiungi almeno una parete",svNoProject:"Seleziona prima un progetto",svEmpty:"Nessuna parete. Tocca «Aggiungi parete» per iniziare.",svPerimeter:"Perimetro",svNotClosed:"contorno non chiuso",svClosed:"contorno chiuso",tPresa:"Presa",tInterr:"Interruttore",tTubo:"Tubo",tCalorifero:"Calorifero",tVano:"Vano",tTrave:"Trave",tAltro:"Altro"},
+ro:{navSurvey:"Releveu",svTitle:"Releveu",svSub:"Cote reale din șantier",svWalls:"Pereți",svWallsHint:"Lungimea fiecărui perete și unghiul real în colț — nu presupune 90°.",svAddWall:"Adaugă perete",svWall:"Perete",svLen:"Lung. (mm)",svAngle:"Unghi (°)",svBow:"Abatere plan (mm)",svHeights:"Înălțimi",svHeightsHint:"Măsoară în 3 puncte diferite — pardoseala nu e niciodată dreaptă.",svPoint:"Punct",svMinH:"Înălțime minimă",svDelta:"Denivelare",svObst:"Obstacole",svAddObst:"Adaugă obstacol",svType:"Tip",svOnWall:"Pe perete",svFromCorner:"De la colț (mm)",svFromFloor:"De la podea (mm)",svW:"Lăț. (mm)",svH:"Înălț. (mm)",svExport:"Folosește în proiect",svApply:"Completează generatorul",svApplyHint:"Copiază cotele în generator: lățimea de la peretele cel mai lung, înălțimea din punctul cel mai jos (minus 20 mm joc). Motorul parametric complet vine mai târziu.",svApplied:"Generator completat",svRoom3D:"Camera în 3D",wtTitle:"Blat",wtHint:"Blatul peste corpurile așezate: lungimea vine din corpurile de pe perete, adâncimea din cel mai ieșit front, grosimea din material. La colț, îmbinare dreaptă cap la cap, cu locașurile pentru șuruburi făcute la freză. Nu se recalculează singur.",wtAdd:"Adaugă blat",wtNew:"de calculat",wtStale:"nu mai corespunde corpurilor: recalculează",wtOk:"la zi",wtMods:"Corpuri sub blat",wtMat:"Material",wtPick:"Alege materialul",wtOvF:"Depășire în față (mm)",wtOvS:"Depășire la capetele libere (mm)",wtCorner:"Colțuri",wtJoint:"Colț {a}/{b}",wtPasses:"trece peretele {n}",wtCutouts:"Decupaje (chiuvetă, plită)",wtK_sink:"Chiuvetă",wtK_hob:"Plită",wtK_other:"Altul",wtX:"X (centrul pe perete)",wtY:"De la față",wtW:"Lăț.",wtD:"Adânc.",wtR:"Rază",wtEdge:"cant",wtPockets:"locașuri șuruburi",wtCutsN:"decupaje",wtBoltNote:"Locașurile pentru șuruburi: Ø35 pe dedesubt, cote încă neverificate pe dima și pe șurubul folosit — nu merg în mașină până nu sunt verificate.",wtCalc:"Calculează blatul",wtRecalc:"Recalculează blatul",wtApplied:"Blat calculat: {n} piese",wtManaged:"Blatul se modifică de aici, nu din constructor.",wtSlabBig:"{n}: {l}×{p} depășește placa materialului ({L}×{W}). Setează formatul în catalog.",wtNeedRoom:"Mai întâi releveul, cu pereții și corpurile.",wtNoMods:"Alege cel puțin un corp.",wtModMissing:"Corpul {name} nu mai există.",wtModRotated:"Corpul {name} e rotit: blatul merge numai pe corpuri drepte.",wtNoWall:"Niciun corp al blatului nu e pe un perete.",wtWallsNotAdjacent:"Pereții corpurilor alese nu sunt consecutivi.",wtTooManyWalls:"Prea mulți pereți pentru un singur blat.",wtOverhangNeg:"Depășirile nu pot fi negative.",wtCornerAngle:"Unghiul dintre peretele {wall} și următorul e {angle}°: îmbinarea dreaptă merge numai la 90°.",wtTooShort:"Blatul de pe peretele {wall} are doar {len} mm.",wtCutSize:"Decupajul {n} are nevoie de lățime și adâncime.",wtCutX:"Decupajul {n} nu are poziția X.",wtCutRadius:"Decupajul {n}: raza {r} e prea mare pentru dimensiunile lui.",wtCutOutside:"Decupajul {n} iese din piesa {seg} sau e la mai puțin de 30 mm de o muchie.",wtCutOverlap:"Decupajele {a} și {b} sunt prea aproape sau se suprapun.",wtNoMat:"Alege materialul blatului: grosimea vine de acolo.",wtModOutside:"Un corp de pe peretele {wall} iese din blat.",wtGapCorner:"Blatul n-are corp dedesubt pe {mm} mm lângă colț (peretele {wall}).",wtGapStart:"Blatul de pe peretele {wall} începe cu {mm} mm după primul corp.",wtHeights:"Corpuri la înălțimi diferite ({mm} mm): blatul stă pe cel mai înalt.",wtCutPocket:"Decupajul {n} cade peste un locaș de șurub în piesa {seg}.",svWallH:"Înălțime pereți (mm)",svFlipHint:"Inversează colțul (90↔270) — pentru camere în L",svAxisX:"de-a lungul peretelui",svAxisY:"depărtare de perete",svAxisZ:"înălțime de la podea",svAxisR:"rotație (°)",svTapDrag:"Atinge un corp în plan și trage-l, sau scrie cota exactă.",svOpenDoors:"Uși deschise",svRoomLbl:"Mobilierul în cameră",svRoomHint:"Alege peretele și distanța de la colț. Planul arată gabaritul, deschiderea ușilor și coliziunile.",svIssues:"Probleme găsite",svNoIssues:"Nicio coliziune: totul încape și totul se deschide",svIssBefore:"{a}: distanța de la colț e negativă",svIssOver:"{a} depășește peretele cu {mm} mm",svIssHit:"{a} și {b} se suprapun",svIssDoor:"ușa de la {a} se lovește de {b}",svIssDrawer:"sertarul de la {a} se lovește de {b}",svIssDoorWall:"ușa de la {a} se lovește de peretele {b}",svIssDrawerWall:"sertarul de la {a} se lovește de peretele {b}",svNoPlaced:"Niciun corp așezat",svModsPlaced:"corpuri așezate",svCutouts:"decupaje",svObstSkip:"{n} obstacole nu se rezolvă cu un decupaj (calorifer, grindă, nișă) — verifică manual.",svNeedWall:"Adaugă cel puțin un perete",svNoProject:"Selectează întâi un proiect",svEmpty:"Niciun perete. Apasă «Adaugă perete» ca să începi.",svPerimeter:"Perimetru",svNotClosed:"contur neînchis",svClosed:"contur închis",tPresa:"Priză",tInterr:"Întrerupător",tTubo:"Țeavă",tCalorifero:"Calorifer",tVano:"Gol",tTrave:"Grindă",tAltro:"Altele"},
+en:{navSurvey:"Survey",svTitle:"Site survey",svSub:"Real site measurements",svWalls:"Walls",svWallsHint:"Length of each wall and the real corner angle — don't assume 90°.",svAddWall:"Add wall",svWall:"Wall",svLen:"Length (mm)",svAngle:"Angle (°)",svBow:"Out of plane (mm)",svHeights:"Heights",svHeightsHint:"Measure at 3 different points — the floor is never level.",svPoint:"Point",svMinH:"Minimum height",svDelta:"Level difference",svObst:"Obstacles",svAddObst:"Add obstacle",svType:"Type",svOnWall:"On wall",svFromCorner:"From corner (mm)",svFromFloor:"From floor (mm)",svW:"Width (mm)",svH:"Height (mm)",svExport:"Use in project",svApply:"Fill the builder",svApplyHint:"Copies the measurements into the builder: width from the longest wall, height from the lowest point (minus 20 mm clearance). The full parametric engine comes later.",svApplied:"Builder filled",svRoom3D:"Room in 3D",wtTitle:"Worktop",wtHint:"The worktop over the placed units: length comes from the units on the wall, depth from the most protruding front, thickness from the material. At a corner, a straight butt joint with the bolt pockets routed on the underside. It never recalculates by itself.",wtAdd:"Add worktop",wtNew:"to calculate",wtStale:"no longer matches the units: recalculate",wtOk:"up to date",wtMods:"Units under the worktop",wtMat:"Material",wtPick:"Choose the material",wtOvF:"Front overhang (mm)",wtOvS:"Overhang at free ends (mm)",wtCorner:"Corners",wtJoint:"Corner {a}/{b}",wtPasses:"wall {n} runs through",wtCutouts:"Cut-outs (sink, hob)",wtK_sink:"Sink",wtK_hob:"Hob",wtK_other:"Other",wtX:"X (centre on the wall)",wtY:"From the front",wtW:"Width",wtD:"Depth",wtR:"Radius",wtEdge:"edge",wtPockets:"bolt pockets",wtCutsN:"cut-outs",wtBoltNote:"Bolt pockets: Ø35 underneath, sizes still to be verified on the jig and bolt in use — they do not go to the machine until verified.",wtCalc:"Calculate worktop",wtRecalc:"Recalculate worktop",wtApplied:"Worktop calculated: {n} pieces",wtManaged:"The worktop is edited here, not in the builder.",wtSlabBig:"{n}: {l}×{p} is larger than the material's slab ({L}×{W}). Set the format in the catalog.",wtNeedRoom:"Set up the survey with walls and units first.",wtNoMods:"Choose at least one unit.",wtModMissing:"The unit {name} no longer exists.",wtModRotated:"The unit {name} is rotated: worktops only go on straight units.",wtNoWall:"None of the worktop's units is on a wall.",wtWallsNotAdjacent:"The walls of the chosen units are not consecutive.",wtTooManyWalls:"Too many walls for one worktop.",wtOverhangNeg:"Overhangs cannot be negative.",wtCornerAngle:"The angle between wall {wall} and the next is {angle}°: a straight joint only works at 90°.",wtTooShort:"The worktop on wall {wall} is only {len} mm long.",wtCutSize:"Cut-out {n} needs a width and a depth.",wtCutX:"Cut-out {n} has no X position.",wtCutRadius:"Cut-out {n}: the radius {r} is too big for its size.",wtCutOutside:"Cut-out {n} leaves piece {seg} or is closer than 30 mm to an edge.",wtCutOverlap:"Cut-outs {a} and {b} are too close or overlap.",wtNoMat:"Choose the worktop material: the thickness comes from it.",wtModOutside:"A unit on wall {wall} sticks out of the worktop.",wtGapCorner:"No unit under the worktop for {mm} mm near the corner (wall {wall}).",wtGapStart:"The worktop on wall {wall} starts {mm} mm past the first unit.",wtHeights:"Units at different heights ({mm} mm): the worktop sits on the tallest.",wtCutPocket:"Cut-out {n} falls on a bolt pocket in piece {seg}.",svWallH:"Wall height (mm)",svFlipHint:"Flip the corner (90↔270) — for L-shaped rooms",svAxisX:"along the wall",svAxisY:"off the wall",svAxisZ:"height off the floor",svAxisR:"rotation (°)",svTapDrag:"Tap a unit in the plan and drag it, or type the exact value.",svOpenDoors:"Doors open",svRoomLbl:"Furniture in the room",svRoomHint:"Pick the wall and the distance from the corner. The plan shows footprints, door swing and clashes.",svIssues:"Problems found",svNoIssues:"No clashes: everything fits and everything opens",svIssBefore:"{a}: distance from the corner is negative",svIssOver:"{a} overruns the wall by {mm} mm",svIssHit:"{a} and {b} overlap",svIssDoor:"the door of {a} hits {b}",svIssDrawer:"the drawer of {a} hits {b}",svIssDoorWall:"the door of {a} hits wall {b}",svIssDrawerWall:"the drawer of {a} hits wall {b}",svNoPlaced:"No furniture placed",svModsPlaced:"units placed",svCutouts:"cutouts",svObstSkip:"{n} obstacles cannot be solved with a cutout (radiator, beam, recess) — check by hand.",svNeedWall:"Add at least one wall",svNoProject:"Select a project first",svEmpty:"No walls yet. Tap «Add wall» to start.",svPerimeter:"Perimeter",svNotClosed:"outline not closed",svClosed:"outline closed",tPresa:"Socket",tInterr:"Switch",tTubo:"Pipe",tCalorifero:"Radiator",tVano:"Opening",tTrave:"Beam",tAltro:"Other"},
+fr:{navSurvey:"Relevé",svTitle:"Relevé",svSub:"Mesures réelles du chantier",svWalls:"Murs",svWallsHint:"Longueur de chaque mur et angle réel au coin — ne présumez pas 90°.",svAddWall:"Ajouter un mur",svWall:"Mur",svLen:"Long. (mm)",svAngle:"Angle (°)",svBow:"Hors plan (mm)",svHeights:"Hauteurs",svHeightsHint:"Mesurez en 3 points différents — le sol n'est jamais de niveau.",svPoint:"Point",svMinH:"Hauteur minimale",svDelta:"Dénivelé",svObst:"Obstacles",svAddObst:"Ajouter un obstacle",svType:"Type",svOnWall:"Sur le mur",svFromCorner:"Depuis l'angle (mm)",svFromFloor:"Depuis le sol (mm)",svW:"Larg. (mm)",svH:"Haut. (mm)",svExport:"Utiliser dans le projet",svApply:"Remplir le générateur",svApplyHint:"Copie les mesures dans le générateur : largeur du mur le plus long, hauteur du point le plus bas (moins 20 mm de jeu). Le moteur paramétrique complet viendra plus tard.",svApplied:"Générateur rempli",svRoom3D:"Pièce en 3D",wtTitle:"Plan de travail",wtHint:"Le plan de travail sur les caissons posés : la longueur vient des caissons sur le mur, la profondeur de la façade la plus saillante, l'épaisseur du matériau. À l'angle, joint droit bout à bout avec les logements de boulons fraisés dessous. Il ne se recalcule jamais seul.",wtAdd:"Ajouter un plan",wtNew:"à calculer",wtStale:"ne correspond plus aux caissons : recalculez",wtOk:"à jour",wtMods:"Caissons sous le plan",wtMat:"Matériau",wtPick:"Choisir le matériau",wtOvF:"Débord devant (mm)",wtOvS:"Débord aux bouts libres (mm)",wtCorner:"Angles",wtJoint:"Angle {a}/{b}",wtPasses:"le mur {n} passe",wtCutouts:"Découpes (évier, plaque)",wtK_sink:"Évier",wtK_hob:"Plaque",wtK_other:"Autre",wtX:"X (centre sur le mur)",wtY:"Depuis l'avant",wtW:"Larg.",wtD:"Prof.",wtR:"Rayon",wtEdge:"chant",wtPockets:"logements boulons",wtCutsN:"découpes",wtBoltNote:"Logements de boulons : Ø35 dessous, cotes encore à vérifier sur le gabarit et le boulon utilisés — elles ne vont pas en machine tant qu'elles ne sont pas vérifiées.",wtCalc:"Calculer le plan",wtRecalc:"Recalculer le plan",wtApplied:"Plan calculé : {n} pièces",wtManaged:"Le plan se modifie ici, pas dans le constructeur.",wtSlabBig:"{n} : {l}×{p} dépasse le panneau du matériau ({L}×{W}). Réglez le format dans le catalogue.",wtNeedRoom:"Faites d'abord le relevé avec les murs et les caissons.",wtNoMods:"Choisissez au moins un caisson.",wtModMissing:"Le caisson {name} n'existe plus.",wtModRotated:"Le caisson {name} est tourné : le plan ne va que sur des caissons droits.",wtNoWall:"Aucun caisson du plan n'est sur un mur.",wtWallsNotAdjacent:"Les murs des caissons choisis ne se suivent pas.",wtTooManyWalls:"Trop de murs pour un seul plan.",wtOverhangNeg:"Les débords ne peuvent pas être négatifs.",wtCornerAngle:"L'angle entre le mur {wall} et le suivant est de {angle}° : le joint droit ne vaut qu'à 90°.",wtTooShort:"Le plan du mur {wall} ne fait que {len} mm.",wtCutSize:"La découpe {n} a besoin d'une largeur et d'une profondeur.",wtCutX:"La découpe {n} n'a pas de position X.",wtCutRadius:"Découpe {n} : le rayon {r} est trop grand pour ses dimensions.",wtCutOutside:"La découpe {n} sort de la pièce {seg} ou est à moins de 30 mm d'un bord.",wtCutOverlap:"Les découpes {a} et {b} sont trop proches ou se chevauchent.",wtNoMat:"Choisissez le matériau du plan : l'épaisseur en vient.",wtModOutside:"Un caisson du mur {wall} dépasse du plan.",wtGapCorner:"Pas de caisson sous le plan sur {mm} mm près de l'angle (mur {wall}).",wtGapStart:"Le plan du mur {wall} commence {mm} mm après le premier caisson.",wtHeights:"Caissons à des hauteurs différentes ({mm} mm) : le plan repose sur le plus haut.",wtCutPocket:"La découpe {n} tombe sur un logement de boulon dans la pièce {seg}.",svWallH:"Hauteur des murs (mm)",svFlipHint:"Inverse l'angle (90↔270) — pour pièces en L",svAxisX:"le long du mur",svAxisY:"écart du mur",svAxisZ:"hauteur du sol",svAxisR:"rotation (°)",svTapDrag:"Touchez un meuble dans le plan et faites-le glisser, ou saisissez la cote.",svOpenDoors:"Portes ouvertes",svRoomLbl:"Meubles dans la pièce",svRoomHint:"Choisissez le mur et la distance depuis l'angle. Le plan montre les encombrements, l'ouverture et les collisions.",svIssues:"Problèmes trouvés",svNoIssues:"Aucune collision : tout rentre et tout s'ouvre",svIssBefore:"{a} : la distance depuis l'angle est négative",svIssOver:"{a} dépasse le mur de {mm} mm",svIssHit:"{a} et {b} se chevauchent",svIssDoor:"la porte de {a} heurte {b}",svIssDrawer:"le tiroir de {a} heurte {b}",svIssDoorWall:"la porte de {a} heurte le mur {b}",svIssDrawerWall:"le tiroir de {a} heurte le mur {b}",svNoPlaced:"Aucun meuble posé",svModsPlaced:"meubles posés",svCutouts:"découpes",svObstSkip:"{n} obstacles ne se règlent pas par une découpe (radiateur, poutre, niche) — à vérifier.",svNeedWall:"Ajoutez au moins un mur",svNoProject:"Sélectionnez d'abord un projet",svEmpty:"Aucun mur. Touchez « Ajouter un mur » pour commencer.",svPerimeter:"Périmètre",svNotClosed:"contour non fermé",svClosed:"contour fermé",tPresa:"Prise",tInterr:"Interrupteur",tTubo:"Tuyau",tCalorifero:"Radiateur",tVano:"Ouverture",tTrave:"Poutre",tAltro:"Autre"}
 };
 function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
 
@@ -5525,7 +5533,7 @@ function isFrontEl(el){ return /^(anta|frontale|montante anta|traversa anta)/i.t
    frontali: e la stessa regola che applica il falegname. */
 const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
-  base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo",
+  base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
   schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio",
   zoccolo:"zoccolo", traversa:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
@@ -6672,6 +6680,39 @@ function buildModule(cfg){
      sparirebbero senza dirlo, ed e proprio il guasto da non ripetere */
   if(hasLayout(cfg)&&(cfg.type||"standard")!=="standard")
     throw new Error("Cote absolute: sunt suportate doar pe tipologia standard, nu pe '"+cfg.type+"'");
+  /* IL BLAT (U.8, D-73): o piesa pe perete, generata din Releveu (`wtApply`).
+     Lungimea, adancimea, cantul, decupajele si locasurile pentru suruburile de
+     imbinare vin gata calculate in cfg; aici se emit doar piesa si cutiile 3D.
+     Grosimea vine din materialul ales (D-41): fara el, nu se genereaza. */
+  if(cfg.type==="blat"){
+    const L=+cfg.L,P=+cfg.P, mB=matById(cfg.matBody);
+    if(!mB||!(+mB.th>0)) throw new Error("Blat: alege materialul blatului — grosimea vine din material (D-41)");
+    if(!(L>0&&P>0)) throw new Error("Blat: lungimea si adancimea trebuie sa fie pozitive");
+    const th=+mB.th;
+    const cuts=(cfg.cutouts||[]).filter(c=>c&&c.w>0&&c.d>0);
+    /* `scasso`: x de la capatul din stanga, y de la muchia dinspre perete (ca la
+       decupajele de colt); `forma:"R"` = dreptunghi interior cu colturi rotunjite */
+    const sc=cuts.map(c=>({l:Math.round(c.w),w:Math.round(c.d),x:Math.round(c.x),
+      y:Math.round(c.yBack!=null?c.yBack:(P-c.y-c.d)),forma:"R",r:+c.r||0,tip:c.kind||"other",rif:"sus"}));
+    const o={elemento:"Blat",lung:Math.round(L),larg:Math.round(P),pz:1,
+      bordo:(cfg.bordo&&takesEdge(cfg,"Blat","blat"))?cfg.bordo:"",
+      mat:mB.label,role:"blat",axis_mapping:{lung:"L",larg:"P",sp:"H"},sp:th};
+    if(sc.length) o.scasso=sc.length===1?sc[0]:sc;
+    const boxes=[];
+    /* 3D: placa minus decupajele, pe o grila taiata de dreptunghiurile lor; toate
+       cutiile sunt ACEEASI piesa fizica (pk 1) */
+    const xs=[0,L], zs=[0,P];
+    cuts.forEach(c=>{ xs.push(c.x,c.x+c.w); zs.push(c.yBack,c.yBack+c.d); });
+    const uq=a=>[...new Set(a.map(v=>Math.round(v*10)/10))].filter(v=>v>=0).sort((a,b)=>a-b);
+    const X=uq(xs), Z=uq(zs.map(v=>v));
+    const inCut=(xm,zm)=>cuts.some(c=>xm>c.x&&xm<c.x+c.w&&zm>c.yBack&&zm<c.yBack+c.d);
+    for(let i=0;i+1<X.length;i++) for(let j=0;j+1<Z.length;j++){
+      if(X[i+1]-X[i]<0.05||Z[j+1]-Z[j]<0.05) continue;
+      if(inCut((X[i]+X[i+1])/2,(Z[j]+Z[j+1])/2)) continue;
+      boxes.push({x0:X[i],x1:X[i+1],y0:0,y1:th,z0:Z[j],z1:Z[j+1],kind:"p",role:"blat",pk:1});
+    }
+    return {pieces:[o],boxes};
+  }
   if(cfg.type==="scrivania"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=structTh(cfg);
     const pieces=[],boxes=[];
@@ -7469,7 +7510,7 @@ function openPartSheet(M,pc,face){
     const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
     const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
     const bad=pf.some(w=>w.level==="error"&&String(w.op||"").split("/").indexOf(o.id)>=0);
-    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
+    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
   const html=`<div class="part-head"><i class="pcs-n big">${m.n||""}</i><div><h3 style="margin:0;padding-right:44px">${esc(partName(M,pc))}</h3>`+
     `<p class="mini">${esc(row.modulo||(M.cfg&&M.cfg.name)||"")}${row.materiale||row.mat?" · "+esc(row.materiale||row.mat):""}</p></div></div>`+
     `<div class="part-kpis"><div><b>${fmtMM(pc.length)}</b><span>L</span></div><div><b>${fmtMM(pc.width)}</b><span>${esc(t("partW"))}</span></div><div><b>${fmtMM(pc.thickness)}</b><span>${esc(t("partT"))}</span></div>`+
@@ -7497,7 +7538,8 @@ function opName(o){
   if(o.type==="groove") return t("op_groove");
   const k={"tazza cerniera":"op_cup","tassello cerniera":"op_hdowel","basetta cerniera":"op_plate","perno minifix":"op_bolt",
     "gambo minifix":"op_shank","eccentrico minifix":"op_cam","tassello":"op_dowel","reggipiano":"op_pin",
-    "reggipiano (regolazione)":"op_pinAdj","guida cassetto":"op_slide","maniglia":"op_handle"}[o.note.replace(/ \(passante, due lati\)$/,"")];
+    "reggipiano (regolazione)":"op_pinAdj","guida cassetto":"op_slide","maniglia":"op_handle",
+    "buzunar bulon blat":"op_wtBolt","decupaj chiuvetă":"op_cutSink","decupaj plită":"op_cutHob","decupaj blat":"op_cutOther"}[o.note.replace(/ \(passante, due lati\)$/,"")];
   return (k?t(k):o.note)+(/passante/.test(o.note)?" · "+t("partThrough"):"");
 }
 /* CSV di foratura del pezzo: formato piatto, la priorita 1 della matrice
@@ -7511,6 +7553,7 @@ function partCsv(M,pc){
     "# "+fmtMM(pc.length)+" x "+fmtMM(pc.width)+" x "+fmtMM(pc.thickness)+" mm; faccia 5 in alto, origine in basso a sinistra; cote HW_DRILL non verificate",
     "id;tipo;faccia;x;y;u;z;diametro;profondita;passante;nota"];
   pc.operations.forEach(o=>{ if(o.type==="groove") L.push([o.id,"cava",o.face,o.from.x,o.from.y,o.to.x,o.to.y,o.width,o.depth,"",o.note].join(";"));
+    else if(o.type==="mill") L.push([o.id,"freza",o.face,o.x,o.y,"","",o.w+"x"+o.d+" R"+o.r,o.depth,o.through?1:0,o.note].join(";"));
     else L.push([o.id,"foro",o.face,o.x,o.y,o.u==null?"":o.u,o.z==null?"":o.z,o.dia,o.depth,o.through?1:0,o.note].join(";")); });
   const blob=new Blob([L.join("\n")],{type:"text/csv"}), a=document.createElement("a");
   a.href=URL.createObjectURL(blob); a.download=(partName(M,pc)+"-fori.csv").replace(/[^\w.\-]+/g,"_"); a.click();
@@ -8561,6 +8604,8 @@ async function presetSaveCurrent(){
 }
 function openBuilder(mod){
   const p=proj();
+  /* un blat se calculeaza din Releveu (U.8): in constructor ar deveni un corp */
+  if(p&&p.configs&&p.configs[mod]&&p.configs[mod].type==="blat"){ setView("survey"); toast(ts("wtManaged")); return; }
   if(p&&p.configs&&p.configs[mod]){ buildCfg={...p.configs[mod],name:mod}; if(buildFormReady)syncBuildForm(); }
   setView("build");
 }
@@ -11142,7 +11187,7 @@ function renderPlan(){
   const sv=survey(); const el=$("svgPlan"); if(!el) return;
   const walls=sv?sv.walls:[];
   $("svPlanCard").style.display=walls.length?"":"none";
-  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; return; }
+  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; return; }
   const pts=planPoints(walls);
   const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
   const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
@@ -11212,9 +11257,184 @@ function renderPlan(){
   const perim=walls.reduce((s,x)=>s+(+x.len||0),0);
   $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")}`;
   renderRoomList(RL);
+  renderWorktops(RL);
   renderSelBar();
   wirePlanDrag();
 }
+
+
+/* ================= BLATUL PESTE COMPOZITIE (U.8, D-73) =================
+   Un blat e un obiect al camerei: lungimea vine din corpurile asezate pe
+   perete, adancimea din cel mai iesit front, grosimea din materialul ales.
+   Fiecare perete are piesa lui (`type:"blat"`, un modul ca oricare altul:
+   intra in plan, in camera 3D, in distinta si in deviz). La colt, imbinare
+   dreapta cap la cap, cu locasurile la freza pe dedesubt; decupajele pentru
+   chiuveta si plita sunt operatii pe piesa. Nimic nu se recalculeaza singur:
+   daca corpurile se muta, blatul spune ca nu mai corespunde si asteapta
+   «Calculeaza». */
+const WT_KINDS=["sink","hob","other"];
+function wtIsBlat(p,name){ const c=p&&p.configs&&p.configs[name]; return !!(c&&c.type==="blat"); }
+/* corpurile care pot purta un blat: asezate pe perete, jos, neinvartite */
+function wtEligible(p,RL){
+  return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&m.lift<400);
+}
+/* adancimea reala a unui corp: cel mai iesit panou SAU front, de la perete */
+function wtFront(m){
+  let z=0; try{ buildModule(m.cfg).boxes.forEach(b=>{ if(b.kind==="p"||b.kind==="f") z=Math.max(z,b.z1); }); }catch(e){}
+  return z+(+m.off||0);
+}
+function wtInput(p,RL,wt){
+  const sv=p.survey;
+  const walls=RL.frames.map((f,i)=>({id:f.id,i,L:f.L,angle:+(sv.walls[i]&&sv.walls[i].angle)||90}));
+  const el=wtEligible(p,RL), byName={}; el.forEach(m=>byName[m.name]=m);
+  const mods=[];
+  (wt.mods||[]).forEach(n=>{ const m=RL.mods.find(x=>x.name===n); if(!m) return;
+    mods.push({name:n,wall:m.fr.id,x0:m.from+m.x0,x1:m.from+m.x1,front:wtFront(m),yTop:m.yHi,rot:m.rot}); });
+  return {walls,mods,spec:{name:wt.name,mods:wt.mods||[],ovF:wt.ovF,ovS:wt.ovS,through:wt.through||[],cutouts:wt.cutouts||[]}};
+}
+function wtCompute(p,wt){
+  const RL=roomLayout();
+  if(!RL) return {errors:[{k:"wtNeedRoom"}],warnings:[],segments:[],joints:[]};
+  if(typeof deriveWorktop!=="function") return {errors:[{k:"wtNeedRoom"}],warnings:[],segments:[],joints:[]};
+  const I=wtInput(p,RL,wt), r=deriveWorktop(I.spec,I.walls,I.mods);
+  r.RL=RL; r.mods=I.mods;
+  const m=wt.mat?matById(wt.mat):null;
+  if(!m||!(+m.th>0)) r.errors.push({k:"wtNoMat"});
+  r.mat=m;
+  return r;
+}
+function wtSegName(wt,r,sg){ return r.segments.length===1?wt.name:wt.name+" "+sg.letter; }
+/* impronta a ce a fost calculat: corpuri (cote), parametri, decupaje, material */
+function wtSig(wt,r){
+  return JSON.stringify([r.mods,wt.ovF,wt.ovS,wt.through,wt.cutouts,wt.mat]);
+}
+function wtMsg(e){
+  let s=ts(e.k); for(const k in e) if(k!=="k") s=s.replace("{"+k+"}",e[k]); return s;
+}
+function wtRemoveModules(p,names){
+  (names||[]).forEach(n=>{
+    p.pieces=p.pieces.filter(x=>x.modulo!==n&&x.gen!==n);
+    if(p.configs) delete p.configs[n];
+    if(p.layout) delete p.layout[n];
+  });
+}
+function wtApply(p,wt){
+  const r=wtCompute(p,wt);
+  if(r.errors.length){ wt.err=r.errors.map(wtMsg); persist(); return false; }
+  snapUndo();
+  const names=[];
+  /* piesele vechi pleaca INAINTE: generateInto inlocuieste doar dupa nume */
+  wtRemoveModules(p,wt.names||[]);
+  r.segments.forEach(sg=>{
+    const name=wtSegName(wt,r,sg); names.push(name);
+    const cfg={name,type:"blat",L:sg.L,P:sg.P,matBody:wt.mat,matFront:wt.mat,matBack:wt.mat,
+      bordo:sg.bordo,cutouts:sg.cutouts,pockets:sg.pockets,wt:wt.id};
+    generateInto(p,cfg);
+    layout()[name]={wall:sg.wall,from:sg.from,off:0,lift:sg.y,rot:0};
+  });
+  wt.names=names; wt.sig=wtSig(wt,r); wt.err=null;
+  persist(); return true;
+}
+function wtAdd(){
+  const p=proj(); if(!p){ toast(ts("svNoProject")); return; }
+  const RL=roomLayout(); if(!RL){ toast(ts("wtNeedRoom")); return; }
+  p.worktops=p.worktops||[];
+  let n=p.worktops.length+1; while(p.worktops.some(w=>w.name==="Blat "+n)) n++;
+  const el=wtEligible(p,RL);
+  p.worktops.push({id:"wt"+Date.now().toString(36),name:"Blat "+n,mods:el.map(m=>m.name),mat:null,
+    ovF:(typeof WORKTOP_DEFAULTS!=="undefined"?WORKTOP_DEFAULTS.ov_front:20),ovS:0,through:[],cutouts:[],names:[],sig:null});
+  persist(); renderPlan();
+}
+function wtPickMat(wt){
+  /* un singur <select> ascuns, refolosit: cercetatorul de materiale citeste din el */
+  let sel=$("wtMatSel");
+  if(!sel){ sel=document.createElement("select"); sel.id="wtMatSel"; sel.hidden=true; document.body.appendChild(sel); }
+  sel.innerHTML=matVisible().map(m=>`<option value="${m.id}">${esc(matById(m.id).label)}</option>`).join("");
+  if(wt.mat) sel.value=wt.mat;
+  matPickOpen("wtMatSel",{minTh:12,title:ts("wtMat"),onPick:id=>{ wt.mat=id; persist(); renderPlan(); }});
+}
+function wtSlabNote(p,wt,r){
+  const out=[]; const lab=r.mat?r.mat.label:null; if(!lab) return out;
+  const pf=panelFor(lab);
+  r.segments.forEach(sg=>{
+    const a=Math.max(sg.L,sg.P), b=Math.min(sg.L,sg.P);
+    if(a>Math.max(pf.L,pf.W)+0.5||b>Math.min(pf.L,pf.W)+0.5)
+      out.push(ts("wtSlabBig").replace("{n}",wtSegName(wt,r,sg)).replace("{l}",sg.L).replace("{p}",sg.P).replace("{L}",pf.L).replace("{W}",pf.W));
+  });
+  return out;
+}
+function renderWorktops(RL){
+  const card=$("svWtCard"); if(!card) return;
+  const p=proj(); if(!p||!RL){ card.style.display="none"; return; }
+  card.style.display="";
+  const box=$("svWtList");
+  wireRefreshOnLeave(box); if(editingIn(box)) return;
+  $("svWtLbl").textContent=ts("wtTitle"); $("svWtHint").textContent=ts("wtHint"); $("btnWtAddLbl").textContent=ts("wtAdd");
+  const el=wtEligible(p,RL), list=p.worktops||[];
+  box.innerHTML=list.map((wt,wi)=>{
+    const r=wtCompute(p,wt);
+    const missing=(wt.names||[]).some(n=>!(p.configs&&p.configs[n]));
+    const applied=!!(wt.names&&wt.names.length)&&!missing;
+    const stale=applied&&!r.errors.length&&wtSig(wt,r)!==wt.sig;
+    const state=!applied?ts("wtNew"):stale?ts("wtStale"):ts("wtOk");
+    const joints=r.segments.length>1?r.joints.map((j,k)=>{
+      const first=(wt.through||[])[k]!=="second", a=j.corner.split("/");
+      return `<button class="chip sm on" data-wi="${wi}" data-jt="${k}">${esc(ts("wtJoint").replace("{a}",a[0]).replace("{b}",a[1]))}: ${esc(ts("wtPasses").replace("{n}",first?a[0]:a[1]))}</button>`; }).join(""):"";
+    const cuts=(wt.cutouts||[]).map((c,ci)=>`<div class="wt-cut" data-wi="${wi}" data-ci="${ci}" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0">
+      <select data-f="kind">${WT_KINDS.map(k=>`<option value="${k}"${c.kind===k?" selected":""}>${esc(ts("wtK_"+k))}</option>`).join("")}</select>
+      <select data-f="seg">${r.segments.map(sg=>`<option value="${sg.n}"${(+c.seg||0)===sg.n?" selected":""}>${esc(wtSegName(wt,r,sg))}</option>`).join("")||`<option value="0">—</option>`}</select>
+      ${[["x","wtX"],["y","wtY"],["w","wtW"],["d","wtD"],["r","wtR"]].map(([f,l])=>`<label class="mini">${esc(ts(l))}<input data-f="${f}" type="number" inputmode="numeric" value="${c[f]==null?"":c[f]}"></label>`).join("")}
+      <button class="iconbtn" data-del="1" aria-label="x">✕</button></div>`).join("");
+    const segs=r.segments.map(sg=>`<div class="mini">${esc(wtSegName(wt,r,sg))} · ${esc(ts("svWall"))} ${sg.wallIndex+1} · <b>${sg.L}×${sg.P}</b> · ${esc(ts("wtEdge"))} ${esc(sg.bordo)} · ${sg.pockets.length} ${esc(ts("wtPockets"))}${sg.cutouts.length?" · "+sg.cutouts.length+" "+esc(ts("wtCutsN")):""}</div>`).join("");
+    const msgs=r.errors.map(e=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(wtMsg(e))}</div>`).concat(
+      r.warnings.map(e=>`<div class="mini warnline">⚠ ${esc(wtMsg(e))}</div>`),
+      wtSlabNote(p,wt,r).map(x=>`<div class="mini warnline">⚠ ${esc(x)}</div>`),
+      (wt.err||[]).map(x=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(x)}</div>`)).join("");
+    return `<div class="wt" data-wi="${wi}" style="border-top:1px solid var(--line,#e5e2d8);padding:10px 0">
+      <div style="display:flex;align-items:center;gap:8px"><b style="flex:1">${esc(wt.name)}</b><span class="mini">${esc(state)}</span>
+        <button class="iconbtn" data-wdel="${wi}" aria-label="x">✕</button></div>
+      <div class="mini" style="margin:6px 0 2px">${esc(ts("wtMods"))}</div>
+      <div class="chips">${el.map(m=>`<button class="chip sm${(wt.mods||[]).includes(m.name)?" on":""}" data-wi="${wi}" data-wm="${esc(m.name)}">${esc(m.name)}</button>`).join("")||`<span class="mini">${esc(ts("svNoPlaced"))}</span>`}</div>
+      <div class="f2" style="margin-top:8px">
+        <div class="f"><label>${esc(ts("wtMat"))}</label><button type="button" class="matpick" data-wi="${wi}" data-wpick="1">${wt.mat&&matById(wt.mat)?esc(matById(wt.mat).label):esc(ts("wtPick"))}</button></div>
+        <div class="f"><label>${esc(ts("wtOvF"))}</label><input data-wi="${wi}" data-wf="ovF" type="number" inputmode="numeric" value="${wt.ovF==null?"":wt.ovF}"></div>
+      </div>
+      <div class="f"><label>${esc(ts("wtOvS"))}</label><input data-wi="${wi}" data-wf="ovS" type="number" inputmode="numeric" value="${wt.ovS==null?"":wt.ovS}"></div>
+      ${joints?`<div class="mini" style="margin:6px 0 2px">${esc(ts("wtCorner"))}</div><div class="chips">${joints}</div>`:""}
+      <div class="mini" style="margin:8px 0 2px">${esc(ts("wtCutouts"))}</div>
+      ${cuts}
+      <div class="chips" style="margin-top:4px">${WT_KINDS.map(k=>`<button class="chip sm" data-wi="${wi}" data-wadd="${k}">+ ${esc(ts("wtK_"+k))}</button>`).join("")}</div>
+      <div style="margin-top:8px">${segs}${msgs}</div>
+      <div class="mini" style="margin-top:4px">${esc(ts("wtBoltNote"))}</div>
+      <button class="btn sm" data-wcalc="${wi}" style="margin-top:6px">${esc(applied?ts("wtRecalc"):ts("wtCalc"))}</button></div>`;
+  }).join("");
+  const W=i=>(p.worktops||[])[i];
+  const touch=()=>{ persist(); renderPlan(); };
+  box.querySelectorAll("[data-wm]").forEach(b=>b.addEventListener("click",()=>{
+    const wt=W(+b.dataset.wi), n=b.dataset.wm; wt.mods=(wt.mods||[]).includes(n)?wt.mods.filter(x=>x!==n):(wt.mods||[]).concat(n); touch(); }));
+  box.querySelectorAll("[data-jt]").forEach(b=>b.addEventListener("click",()=>{
+    const wt=W(+b.dataset.wi), k=+b.dataset.jt; wt.through=(wt.through||[]).slice(); while(wt.through.length<=k) wt.through.push("first");
+    wt.through[k]=wt.through[k]==="second"?"first":"second"; touch(); }));
+  box.querySelectorAll("[data-wf]").forEach(inp=>inp.addEventListener("change",()=>{
+    const wt=W(+inp.dataset.wi), v=parseFloat(inp.value); wt[inp.dataset.wf]=isFinite(v)?v:null; touch(); }));
+  box.querySelectorAll("[data-wpick]").forEach(b=>b.addEventListener("click",()=>wtPickMat(W(+b.dataset.wi))));
+  box.querySelectorAll("[data-wadd]").forEach(b=>b.addEventListener("click",()=>{
+    const wt=W(+b.dataset.wi), k=b.dataset.wadd, d=(typeof WORKTOP_DEFAULTS!=="undefined")?WORKTOP_DEFAULTS.cutout[k]:{w:300,d:200,r:5,y:60};
+    const r=wtCompute(p,wt), sg=r.segments[0];
+    wt.cutouts=(wt.cutouts||[]).concat({kind:k,seg:0,x:sg?Math.round((sg.from+sg.to)/2):0,y:d.y,w:d.w,d:d.d,r:d.r}); touch(); }));
+  box.querySelectorAll(".wt-cut").forEach(row=>{
+    const wt=W(+row.dataset.wi), c=wt.cutouts[+row.dataset.ci];
+    row.querySelectorAll("[data-f]").forEach(f=>f.addEventListener("change",()=>{
+      const k=f.dataset.f; c[k]=(k==="kind")?f.value:(k==="seg"?(parseInt(f.value,10)||0):(parseFloat(f.value)));
+      if(typeof c[k]==="number"&&!isFinite(c[k])) c[k]=null; touch(); }));
+    row.querySelector("[data-del]").addEventListener("click",()=>{ wt.cutouts.splice(+row.dataset.ci,1); touch(); });
+  });
+  box.querySelectorAll("[data-wcalc]").forEach(b=>b.addEventListener("click",()=>{
+    const wt=W(+b.dataset.wcalc); const ok=wtApply(p,wt); renderPlan(); if(ok){ toast(ts("wtApplied").replace("{n}",wt.names.length)); auditBadge(); } }));
+  box.querySelectorAll("[data-wdel]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.wdel, wt=W(i); snapUndo(); wtRemoveModules(p,wt.names||[]); p.worktops.splice(i,1); persist(); renderPlan(); }));
+}
+$("btnWtAdd").addEventListener("click",wtAdd);
 
 /* lista de amplasare: fiecare modul pe ce perete si la ce cota, plus problemele */
 function renderRoomList(RL){
@@ -13118,12 +13338,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.47.0"; /* APP_VER-MARKER */
+const APP_VER="4.48.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v106";
+const SW_CACHE="ebanist-v107";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

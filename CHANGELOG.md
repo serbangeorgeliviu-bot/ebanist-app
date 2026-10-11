@@ -5,6 +5,24 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.48.0 — 11 octombrie 2026
+
+**Blatul peste compoziție, cu îmbinare dreaptă la colț și decupaje (ROADMAP U.8, D-73).** Cerut de G. Roscigno, care până acum punea o piesă liberă cât bucătăria ca să-i iasă devizul.
+
+- **Releveu → cardul „Blat”** (apare când există pereți și corpuri așezate). „Adaugă blat” ia corpurile așezate jos pe pereți; poți scoate sau adăuga corpuri. Alegi materialul blatului (grosimea vine din el, D-41) și depășirea în față (20 mm) și la capetele libere.
+- Fiecare perete are **piesa lui** (`type:"blat"`, un modul ca oricare): lungimea din corpurile de pe perete, adâncimea din cel mai ieșit front plus depășirea, stă pe cel mai înalt corp. Intră în plan, în camera 3D, în distinctă și în deviz, la prețul materialului.
+- **Colț: îmbinare dreaptă, cap la cap.** O piesă trece până în colț, cealaltă se oprește în muchia ei din față; alegi tu care trece, per colț. Cantul se pune în față și la capetele libere, nu pe îmbinare. Merge cu până la 8 pereți consecutivi (L, U) și numai la colț de 90°.
+- **Locașurile la freză** pentru șuruburile de îmbinare, **pe dedesubt, în ambele piese**, pe aceeași linie. Sunt găuri Ø35 în fișa piesei și în CSV. **Cotele lor sunt nevalidate** (`verificat:false`, ca `HW_DRILL`): se verifică pe dima și pe șurubul folosit înainte să meargă în mașină.
+- **Decupaje** (chiuvetă 780×480, plită 560×490, altul), cu rază la colțuri, la cotă: centrul pe perete, distanța din față, lățime, adâncime, rază. Sunt operații „freză” prin placă în fișa piesei (cu CSV) și apar în distinctă ca decupaje cu rază. În 3D, placa e găurită. Stau în margini (30 mm) și nu se suprapun.
+- **Nu se recalculează singur.** Dacă mut un corp, cardul spune „nu mai corespunde corpurilor: recalculează”, iar piesele rămân cum erau până apeși „Calculează”.
+- Avertismente: corpuri la înălțimi diferite, corp care iese din blat, colț fără corp dedesubt, decupaj peste un locaș, piesă mai mare decât placa materialului (formatul se setează în catalog).
+- Un blat nu se deschide în constructor, ci doar din Releveu.
+- Rol nou `blat` în motor și în ops, `ebanist-worktop.js` (funcție pură, testabilă), `CORE_REV` 4.48.0.
+- **Rămâne:** îmbinare la 45° și blat pe pereți în unghi; blat peste pereți neconsecutivi; locașurile oblonge ale dimei (acum rotunde); blat din mai multe plăci pe un perete lung (acum o singură piesă, cu avertisment dacă depășește placa).
+- Teste: `worktop.test.js` (29) și 14 verificări în e2e. `test:full` 523/523 + golden 42/42, e2e 463/463.
+- Testul de migrare din e2e era un race (prima pagină își scria starea în IndexedDB înainte de al doilea `goto`; pica la ~jumătate din rulări pe mașini încărcate, și pe codul de dinainte). Seed-ul se scrie acum înainte de pornirea aplicației.
+- `APP_VER` 4.48.0, `SW_CACHE`/`CACHE` → `ebanist-v107`. Android: fără `.aab`.
+
 ## 4.47.0 — 11 octombrie 2026
 
 **Corp fără tavan: plin, două traverse sau nimic (ROADMAP U.3, D-72).** Cerut de G. Roscigno pentru corpurile de sub chiuvetă și de sub plită, care n-au tavan.

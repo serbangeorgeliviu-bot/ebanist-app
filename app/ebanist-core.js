@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.47.0";
+var CORE_REV = "4.48.0";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -83,7 +83,7 @@ var PANEL_DEFAULTS = { panelL: 2800, panelW: 2070, decor_directional: false };
  */
 var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo", "traversa_cielo",
              "schienale", "ripiano", "frontale", "cassetto_fianco", "cassetto_fondo",
-             "cassetto_frontale", "divisorio", "zoccolo", "traversa", "accessorio"];
+             "cassetto_frontale", "divisorio", "zoccolo", "traversa", "blat", "accessorio"];
 
 /* Perche esiste `fianco` accanto a `fianco_sx`/`fianco_dx`, e `base_cielo`
    accanto a `base`/`cielo`: una RIGA di distinta non e un pezzo, e un
@@ -106,6 +106,7 @@ var ROLE_AXES = {
   base:              { lung: "L", larg: "P", sp: "H" },
   cielo:             { lung: "L", larg: "P", sp: "H" },
   traversa_cielo:    { lung: "L", larg: "P", sp: "H" },
+  blat:              { lung: "L", larg: "P", sp: "H" },
   schienale:         { lung: "L", larg: "H", sp: "P" },
   ripiano:           { lung: "L", larg: "P", sp: "H" },
   frontale:          { lung: "H", larg: "L", sp: "P" },
@@ -1079,7 +1080,7 @@ var ROLE_SP_KEY = {
   fianco: "sp_fianco", fianco_sx: "sp_fianco", fianco_dx: "sp_fianco",
   base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base", traversa_cielo: "sp_cielo",
   schienale: "sp_schienale", ripiano: "sp_ripiano", divisorio: "sp_divisorio",
-  zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale",
+  zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale", blat: "sp_fianco",
   cassetto_frontale: "sp_frontale", cassetto_fianco: "sp_fianco",
   cassetto_fondo: "sp_fianco"
 };
@@ -1087,7 +1088,7 @@ var ROLE_MAT_OF = {
   fianco: "fianco", fianco_sx: "fianco", fianco_dx: "fianco",
   base: "base", cielo: "cielo", base_cielo: "base", traversa_cielo: "cielo", schienale: "schienale",
   ripiano: "ripiano", divisorio: "divisorio", zoccolo: "zoccolo",
-  frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale",
+  frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale", blat: "fianco",
   cassetto_fianco: "fianco", cassetto_fondo: "fianco"
 };
 /* solo quelle cadute: e quello che guarda il cancello */

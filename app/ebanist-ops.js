@@ -49,7 +49,7 @@ var HW_DRILL = {
   handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 }
 };
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "ripiano", "schienale", "zoccolo", "traversa",
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
@@ -58,7 +58,7 @@ var AX = ["x", "y", "z"];
 /* I PEZZI FISICI: le scatole con lo stesso `pk` sono un pezzo solo (un fianco
    intagliato a L sono due scatole). Si tengono solo i pannelli: il vetro, le
    parti metalliche del cassetto e la ferramenta non si forano qui. */
-var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo: 1, schienale: 1, ripiano: 1,
+var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo: 1, blat: 1, schienale: 1, ripiano: 1,
   frontale: 1, divisorio: 1, zoccolo: 1, traversa: 1, cassetto_frontale: 1,
   cassetto_fianco: 1, cassetto_fondo: 1 };
 
@@ -90,7 +90,7 @@ function physicalPieces(boxes) {
     /* l'asse della grossezza e il piu corto: e cosi per ogni pannello */
     var t = 0; for (var a2 = 1; a2 < 3; a2++) if (p.ext[a2] < p.ext[t]) t = a2;
     p.tAx = t; p.T = p.ext[t];
-    p.holes = []; p.grooves = [];
+    p.holes = []; p.grooves = []; p.mills = [];
     return p;
   });
 }
@@ -412,6 +412,24 @@ function generate(input) {
     });
   });
 
+  /* --- 6b. blatul (U.8, D-73): decupajele la freza, trecute prin placa, si
+         locasurile rotunde pentru suruburile de imbinare, pe dedesubt. Pozitiile
+         vin calculate in cfg (`cutouts`, `pockets`), in cotele locale ale piesei:
+         x de la capatul din stanga, y de la muchia din fata. Cotele locasurilor
+         sunt date nevalidate (WORKTOP_DEFAULTS.bolt, verificat:false). */
+  byRole("blat").forEach(function (q) {
+    if (q.tAx !== 1) return;
+    var zFront = q.max[2];
+    (cfg.pockets || []).forEach(function (k) {
+      hole(q, 1, -1, [q.min[0] + k.x, q.min[1], zFront - k.y], k.dia, Math.max(1, q.T - (k.rest || 0)), null, "buzunar bulon blat");
+    });
+    (cfg.cutouts || []).forEach(function (c) {
+      q.mills.push({ ax: 1, side: 1, c: [q.min[0] + c.x + c.w / 2, q.max[1], zFront - c.y - c.d / 2],
+                     du: c.w, dv: c.d, r: c.r || 0, through: true, depth: q.T,
+                     note: c.kind === "hob" ? "decupaj plită" : c.kind === "sink" ? "decupaj chiuvetă" : "decupaj blat" });
+    });
+  });
+
   /* --- 7. nel sistema del pezzo, con le regole di pre-flight -------------- */
   /* l'ordine del foglio: prima la cassa, poi l'interno, poi i frontali —
      lo stesso ordine in cui si monta. Il numero del pezzo e la sua
@@ -486,6 +504,15 @@ function localize(p) {
     var a0 = g.lo.slice(), a1 = g.hi.slice(); a0[across] = mid; a1[across] = mid;
     push({ type: "groove", face: face, from: { x: R1(X(a0)), y: R1(Y(a0)) }, to: { x: R1(X(a1)), y: R1(Y(a1)) },
            width: R1(g.hi[across] - g.lo[across]), depth: R1(dep), note: g.note, _lo: g.lo, _hi: g.hi });
+  });
+
+  /* i decupaje la freza: dreptunghi cu colturi rotunjite, centrat in `c`;
+     `du` merge pe axa 0 a modulului, `dv` pe axa 2 */
+  (p.mills || []).forEach(function (m) {
+    var wX = aL === 0 ? m.du : m.dv, dY = aL === 0 ? m.dv : m.du;
+    push({ type: "mill", shape: "rect", face: m.through ? 5 : (m.side === s5 ? 5 : 6),
+           x: R1(X(m.c)), y: R1(Y(m.c)), w: R1(wX), d: R1(dY), r: R1(m.r), depth: R1(m.depth),
+           through: !!m.through, note: m.note });
   });
 
   /* il contorno: le scatole del pezzo nel sistema della faccia 5 */

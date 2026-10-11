@@ -1092,8 +1092,15 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const pp = await ctx.newPage();
     const boom = [];
     pp.on("pageerror", e => boom.push(String(e)));
-    await pp.goto(`${ORIGIN}/app/index.html`);
-    if (seed) { await pp.evaluate(seed); }
+    /* Il seme si scrive PRIMA che parta il codice dell'app, con uno script di
+       avvio, una volta sola per contesto. Prima si caricava l'app, si
+       scriveva il seme e si ricaricava: nel frattempo la prima pagina poteva
+       gia aver scritto il suo stato di default in IndexedDB (debounce di
+       400 ms), e alla seconda partenza vinceva lui — a seconda della
+       velocita della macchina, il progetto del seme spariva. */
+    if (seed) await ctx.addInitScript(src => {
+      if (sessionStorage.getItem("__seeded")) return; sessionStorage.setItem("__seeded", "1");
+      (0, eval)("(" + src + ")")(); }, seed.toString());
     await pp.goto(`${ORIGIN}/app/index.html`);
     await pp.waitForTimeout(2200);            // l'avvio differito: IndexedDB, licenza, intro
     return { ctx, pp, boom };
@@ -2289,6 +2296,60 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.3: scheda senza cielo — passo «aperto in alto», senza il cielo", mont.none.includes(mont.ms.none) && !mont.none.includes(mont.ms.plin));
     await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
     ok("U.3: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
+  /* U.8 — blatul peste compozitie, din Releveu (D-73) */
+  {
+    head("Blat din Releveu — corpuri, colt drept, decupaje, distinta (U.8)");
+    const SETUP = () => {
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; p.worktops = [];
+      p.survey = { walls: [{ id: "w1", len: 3000, angle: 90, bow: null }, { id: "w2", len: 2400, angle: 90, bow: null },
+                           { id: "w3", len: 3000, angle: 90, bow: null }, { id: "w4", len: 2400, angle: 90, bow: null }], heights: [2500, 2500, 2500], obstacles: [] };
+      state.settings.matAdd = (state.settings.matAdd || []).filter(m => m.id !== "wt38").concat([{ id: "wt38", l: { it: "Blat 38 test", ro: "Blat 38 test", en: "Worktop 38 test", fr: "Plan 38 test" }, th: 38, price: 90, c: "#999999", tx: "solid", pw: 4100, ph: 650 }]);
+      for (const [n, w, from] of [["Base1", "w1", 0], ["Base2", "w1", 800], ["Base3", "w1", 1600], ["Cass1", "w2", 600], ["Cass2", "w2", 1400]]) {
+        generateInto(p, { ...PRESETS.base, name: n, L: 800 }); layout()[n] = { wall: w, from, off: 0, lift: 0, rot: 0 };
+      }
+      persist(); closeSheets(); setView("survey"); renderPlan();
+    };
+    await pg.evaluate(SETUP); await pg.waitForTimeout(300);
+    ok("U.8: cardul Blat compare cu un rilievo posato", await pg.evaluate(() => document.getElementById("svWtCard").style.display !== "none"));
+    await pg.click("#btnWtAdd"); await pg.waitForTimeout(250);
+    let w = await pg.evaluate(() => { const wt = proj().worktops[0]; return { n: proj().worktops.length, mods: wt.mods.length }; });
+    ok("U.8: «Aggiungi blat» prende i corpi posati in basso (5)", w.n === 1 && w.mods === 5);
+    await pg.click("[data-wcalc]"); await pg.waitForTimeout(250);
+    ok("U.8: fara materiale → eroare, nicio piesa", await pg.evaluate(() => proj().pieces.filter(x => x.role === "blat").length === 0 && /material|Material/.test(document.getElementById("svWtList").innerText)));
+    await pg.evaluate(() => { const wt = proj().worktops[0]; wt.mat = "wt38"; wt.cutouts = [{ kind: "sink", seg: 0, x: 1200, y: 60, w: 780, d: 480, r: 10 }]; persist(); renderPlan(); });
+    await pg.click("[data-wcalc]"); await pg.waitForTimeout(350);
+    const d = await pg.evaluate(() => { const p = proj(); return {
+      rows: p.pieces.filter(x => x.role === "blat").map(x => [x.modulo, x.lung, x.larg, x.sp, x.bordo, x.materiale]),
+      lay: p.layout["Blat 1 A"], names: p.worktops[0].names }; });
+    ok("U.8: doua piese, câte una pe perete, grosimea din material (38)", d.rows.length === 2 && d.rows.every(r => r[3] === 38) && d.names.length === 2);
+    ok("U.8: perete 1 trece pana in colt (3000), perete 2 se opreste in muchia ei", d.rows[0][1] === 3000 && d.rows[1][1] === 2200 - d.rows[0][2]);
+    ok("U.8: se asaza pe corpuri (lift = cota de sus)", d.lay && d.lay.lift === 720 && d.lay.wall === "w1");
+    ok("U.8: apare in distinta cu materialul ales", d.rows.every(r => /Worktop 38 test|Blat 38 test|Plan 38 test/.test(r[5])));
+    ok("U.8: cardul zice «la zi»", await pg.evaluate(() => /up to date|la zi|aggiornato|à jour/.test(document.getElementById("svWtList").innerText)));
+    /* se muta un corp: blatul nu se recalculeaza singur, spune ca nu mai corespunde */
+    await pg.evaluate(() => { layout()["Base2"].from = 900; persist(); renderPlan(); });
+    ok("U.8: un corp mutat → «nu mai corespunde», piesele raman cum erau", await pg.evaluate(() => /no longer matches|non corrisponde|nu mai corespunde|ne correspond/.test(document.getElementById("svWtList").innerText) && proj().pieces.filter(x => x.role === "blat").length === 2));
+    ok("U.8: modulele blat nu se deschid in constructor", await pg.evaluate(() => { openBuilder("Blat 1 A"); return currentView === "survey"; }));
+    /* restul aplicatiei citeste blatul fara sa cada */
+    const smoke = await pg.evaluate(async () => {
+      const o = {}; const p = proj();
+      try { setView("list"); o.list = true; } catch (e) { o.list = String(e); }
+      try { setView("summary"); o.summary = true; } catch (e) { o.summary = String(e); }
+      try { setView("nest"); o.nest = true; } catch (e) { o.nest = String(e); }
+      try { auditBadge(); o.audit = true; } catch (e) { o.audit = String(e); }
+      try { o.hw = !!computeHardware(p, state.settings, true); } catch (e) { o.hw = String(e); }
+      try { o.mont = typeof montDoc(p) === "string"; } catch (e) { o.mont = String(e); }
+      try { const x = p.pieces.find(q => q.role === "blat"); openPartFromRow(x.gen, x); o.part = document.getElementById("partBody").innerText; closeSheets(); } catch (e) { o.part = String(e); }
+      try { setView("survey"); o.room = !!roomBoxes(); } catch (e) { o.room = String(e); }
+      return o; });
+    ok("U.8: lista, rezumat, nesting, audit, feronerie, fisa de montaj, 3D: fara erori",
+       smoke.list === true && smoke.summary === true && smoke.nest === true && smoke.audit === true && smoke.hw === true && smoke.mont === true && smoke.room === true, JSON.stringify(smoke).slice(0, 200));
+    ok("U.8: fisa piesei arata decupajul si locasurile", /780×480/.test(smoke.part) && /R10/.test(smoke.part));
+    await pg.evaluate(() => { const i = 0; const p = proj(); const wt = p.worktops[i]; snapUndo(); wtRemoveModules(p, wt.names); p.worktops.splice(i, 1); persist(); renderPlan(); });
+    ok("U.8: stergerea blatului scoate piesele si modulele", await pg.evaluate(() => { const p = proj(); return p.pieces.filter(x => x.role === "blat").length === 0 && !Object.keys(p.configs).some(n => /^Blat/.test(n)); }));
+    ok("U.8: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
   const bad = results.filter(r => !r.cond).length;
