@@ -6344,7 +6344,7 @@ function buildCore(cfg){
            ogni cassa ha la sua */
         const rowsOf=sys.metal
           ?[(p,f)=>["Fondo cassetto",p.baseW,p.baseL,1,"",null,{role:"cassetto_fondo"}],
-            (p,f)=>["Retro cassetto",p.backW,f.backH||p.backH,1,"1L",null,{role:"cassetto_fianco"}]]
+            (p,f)=>["Retro cassetto",p.backW,f.backH||p.backH,1,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}]]
           :[(p,f)=>["Fianco cassetto",p.nl,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco"}],
             (p,f)=>["Fronte/Retro cassetto",p.boxIn,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}],
             (p,f)=>["Fondo cassetto",p.boxIn,p.nl-20,1,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"}]];
@@ -6424,7 +6424,7 @@ function buildCore(cfg){
       pullN=trays.length;
       if(sys.metal){
         add("Fondo ripiano estraibile",pp.baseW,pp.baseL,pullN,"",null,{role:"cassetto_fondo"});
-        add("Retro ripiano estraibile",pp.backW,pp.backH,pullN,"1L",null,{role:"cassetto_fianco"});
+        add("Retro ripiano estraibile",pp.backW,pp.backH,pullN,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}});
       }else{
         add("Fianco ripiano estraibile",pp.nl,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco"});
         add("Fronte/Retro ripiano estraibile",pp.boxIn,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}});
