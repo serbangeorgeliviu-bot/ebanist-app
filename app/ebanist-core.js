@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.49.0";
+var CORE_REV = "4.50.0";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -54,7 +54,15 @@ var CARCASS_DEFAULTS = {
   foratura_prof: 12.5,     // tazza cerniera: profondita
   foratura_dist_cant: 5,   // tazza cerniera: distanza dal cant. UNA cota, non "3-6"
   top: "plin",             // tavanul: 'plin' | 'traverse' (fata + spate) | 'none'
-  top_rail_W: 100          // latimea unei traverse de tavan (D-72), mm
+  top_rail_W: 100,         // latimea unei traverse de tavan (D-72), mm
+  /* GOLA (U.7, D-75): profil din aluminiu in loc de maner. Cotele sunt ale
+     profilului ales, NU de catalog verificat: se iau de pe profilul cumparat si
+     se scriu in formular. `gola_h` = cat acopera profilul L in sus (inlocuieste
+     jocul de sus al frontalelor); `gola_c` = rostul dintre doua frontale unde
+     sta profilul C; `gola_depth` = cat intra profilul C in lateral (decupare). */
+  gola_h: 40,
+  gola_c: 60,
+  gola_depth: 20
 };
 /* Cum se inchide sus un corp (D-72). `plin` = un pannello (il cielo di
    sempre); `traverse` = due traverse, davanti e dietro, dello stesso
@@ -279,6 +287,16 @@ function deriveCarcass(params) {
   if (TOP_MODES.indexOf(top) < 0)
     throw new Error("deriveCarcass: `top` trebuie să fie 'plin', 'traverse' sau 'none', primit " + JSON.stringify(p.top));
   var top_rail_W = top === "traverse" ? num(p, "top_rail_W") : 0;
+  /* gola (D-75): profilul L de sus ia locul jocului de sus al frontalelor, deci
+     `gap_sup` devine inaltimea lui; tot ce citeste `gap_sup` (usi, asertiuni,
+     fisa de montaj) ramane coerent fara sa stie de gola */
+  var gola = !!p.gola;
+  var gola_h = gola ? num(p, "gola_h") : 0, gola_c = gola ? num(p, "gola_c") : 0, gola_depth = gola ? num(p, "gola_depth") : 0;
+  if (gola && !(gola_h >= 5 && gola_h <= 200))
+    throw new Error("deriveCarcass: înălțimea golului de sus trebuie să fie între 5 și 200 mm, primit " + gola_h);
+  if (gola && !(gola_c >= 5 && gola_c <= 200))
+    throw new Error("deriveCarcass: rostul golului C trebuie să fie între 5 și 200 mm, primit " + gola_c);
+  if (gola) gap_sup = gola_h;
   var sp_top = top === "none" ? 0 : SP.cielo;
 
   /* luce interna */
@@ -459,6 +477,7 @@ function deriveCarcass(params) {
       nut_d: nut_d, nut_off: nut_off, setback_zoccolo: setback_zoccolo,
       foratura_prof: foratura_prof, foratura_dist_cant: foratura_dist_cant,
       n_divisorio: n_divisorio, glisiera: glisieraId,
+      gola: gola, gola_h: gola_h, gola_c: gola_c, gola_depth: gola_depth,
       cassetto_interno: cassetto_interno, inset_cassetto: inset_cassetto,
       treapta_H: treapta_H, treapta_P: treapta_P,
       top: top, top_rail_W: top_rail_W,
@@ -514,6 +533,9 @@ function deriveCarcass(params) {
       ripiano: SP.ripiano, frontale: SP.frontale, zoccolo: SP.zoccolo,
       divisorio: SP.divisorio
     }),
+
+    /* gola: null fara profil; altfel cotele lui (D-75) */
+    gola: gola ? Object.freeze({ h: mm(gola_h), c: mm(gola_c), depth: mm(gola_depth) }) : null,
 
     tip_schienale: BACK_KIND[backMode],
 

@@ -5,6 +5,21 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.50.0 — 11 octombrie 2026
+
+**Gola: profil de aluminiu în loc de mâner (ROADMAP U.7, D-75).** Cerut de G. Roscigno. Până acum un profil gola ales din catalog doar scotea găurile de mâner, dar frontalele rămâneau pe înălțimea întreagă și profilul se număra cu bucata.
+
+- Constructor → *Apertura* → **Gola (profil)**, cu două cote ale profilului: **gola sus** (implicit 40 mm) și **rostul C** (implicit 60 mm). Sunt cotele profilului pe care îl cumperi, nu valori de catalog verificat: se scriu în formular.
+- **Frontalele se scurtează.** Sus, profilul L ia locul jocului (`gap_sup` devine înălțimea lui, în `deriveCarcass`, deci ușile, regulile de date și fișa de montaj rămân coerente). Între două sertare suprapuse rămâne rostul C, exact. Peste un rând de sertare, ușa începe la rostul C.
+- **Profilele sunt rânduri de accesorii** în distinctă („Profilo gola L”: lățimea corpului, unul; „Profilo gola C”: lățimea frontalului, câte unul în fiecare rost), nu panouri: nu intră în gabarit și nu se taie din placă. În **deviz la metru** (0,8 m, 1,59 m…), cu preț pe metru, două categorii noi în catalogul de feronerie (preț de pornire de verificat). Fișa de montaj le tipărește în metri.
+- **Decupare în laterale** la fiecare profil C: 60 înălțime × 20 adâncime pe muchia din față, în `scasso`, după primul grup de sertare. Corpul rămâne închis la 0 mm (D-43).
+- Fără mâner și fără push: niciun mâner în deviz, nicio gaură de mâner, ușile și frontalele poartă „gola” în nume. Se vede și în 3D (profilele sunt desenate).
+- Asistentul AI: `handles:"gola"`, `golaH`, `golaC`.
+- **Rămâne:** gola ca rol propriu din PAL (acum numai aluminiu); decuparea în despărțitorii dintre secțiuni; profil în blocurile `drawerBlocks` numără C-urile, dar nu desenează decuparea.
+- Teste: `gola.test.js` (15) și 8 verificări în e2e. `test:full` 561/561 + golden 42/42, e2e 487/487.
+- **Traduceri:** 4 teste noi în e2e verifică că `I18N` (958 chei), `SURVEY_I18N` (117), `AI_I18N` (52) și `EL_I18N` (61) au aceleași chei în RO/IT/EN/FR. O funcție nouă fără textul ei într-o limbă pică testul, nu apare la utilizator.
+- `APP_VER` 4.50.0, `SW_CACHE`/`CACHE` → `ebanist-v109`, `CORE_REV` 4.50.0. Android: fără `.aab`.
+
 ## 4.49.0 — 11 octombrie 2026
 
 **Sertare pe o coloană la cotă și editor manual de cote (ROADMAP U.4).** Cerut de G. Roscigno: un dulap de 2700 cu 900 uși / 450 sertare / 450 rafturi / 900 uși, dintr-un singur corp, nu din mai multe. (U.11, numărul de sertare pe secțiune, era deja livrat în 4.41.0.)

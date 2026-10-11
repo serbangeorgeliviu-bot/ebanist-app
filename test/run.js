@@ -2404,6 +2404,58 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.4: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.7 — gola: profil in loc de maner (D-75) */
+  {
+    head("Gola — profil in loc de maner: frontale, profile, deviz la metru (U.7)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.basecass, name: "Gola1", L: 800, drawers: 3, handles: "maniglia" }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    const vis = () => pg.evaluate(() => document.getElementById("rowGola").style.display !== "none");
+    ok("U.7: campurile golei sunt ascunse la «Maniglie»", !(await vis()));
+    await pg.selectOption("#bHandles", "gola"); await pg.waitForTimeout(250);
+    ok("U.7: «Gola» arata cotele profilului", await vis());
+    const q = await pg.evaluate(() => { const c = cfgFromForm(); const m = buildModule(c);
+      return { h: c.handles, names: m.pieces.map(p => p.elemento), L: m.pieces.filter(p => /^Profilo gola L/.test(p.elemento)).length,
+               C: m.pieces.filter(p => /^Profilo gola C/.test(p.elemento)).reduce((s2, p) => s2 + p.pz, 0) }; });
+    ok("U.7: frontale «gola», un profil L si doua C (3 sertare)", q.h === "gola" && q.names.includes("Frontale cassetto gola") && q.L === 1 && q.C === 2);
+    await pg.fill("#bGolaH", "30"); await pg.dispatchEvent("#bGolaH", "change"); await pg.waitForTimeout(200);
+    ok("U.7: golaH din formular ajunge in cfg si in profil", await pg.evaluate(() => { const c = cfgFromForm(); return c.golaH === 30 && buildModule(c).pieces.find(p => /^Profilo gola L/.test(p.elemento)).larg === 30; }));
+    const hw = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; generateInto(p, { ...cfgFromForm(), name: "Gola1" });
+      const items = computeHardware(p, state.settings); const L = items.find(i => i.k === "hwGolaL"), C = items.find(i => i.k === "hwGolaC"), M = items.find(i => i.k === "hwMan"), P = items.find(i => i.k === "hwPush");
+      const ct = projectCosts(p);
+      return { L: L && L.qty, C: C && C.qty, man: M && M.qty, push: P && P.qty, price: L && L.price, tot: ct.hwTot > 0 }; });
+    ok("U.7: deviz — profil L 0,8 m, profil C 1,59 m (2 × 796 mm), fara manere", hw.L === 0.8 && hw.C === 1.59 && !hw.man && !hw.push, JSON.stringify(hw));
+    ok("U.7: profilele au pret pe metru in deviz", hw.price > 0 && hw.tot);
+    const sm = await pg.evaluate(() => { const p = proj(); const o = {};
+      try { o.mont = typeof montDoc(p) === "string"; } catch (e) { o.mont = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.sum = String(e); }
+      try { o.part = !!generateOperations({ boxes: buildModule(p.configs["Gola1"]).boxes, cfg: p.configs["Gola1"], G: deriveCarcass(carcassParams(p.configs["Gola1"], {})) }); } catch (e) { o.part = String(e); }
+      return o; });
+    ok("U.7: fisa de montaj, rezumat si gaurire fara erori", sm.mont === true && sm.sum === true && sm.part === true, JSON.stringify(sm));
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Gola1"); delete p.configs["Gola1"]; persist(); setView("build"); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.7: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
+  /* Traduceri: fiecare dictionar are aceleasi chei in toate limbile. O functie
+     noua fara textul ei intr-o limba apare aici, nu la utilizator. */
+  {
+    head("Traduceri — aceleasi chei in fiecare limba");
+    const par = await pg.evaluate(() => {
+      const o = {};
+      for (const n of ["I18N", "SURVEY_I18N", "AI_I18N", "EL_I18N"]) {
+        const d = (() => { try { return eval(n); } catch (e) { return null; } })();
+        if (!d) { o[n] = null; continue; }
+        const langs = Object.keys(d), ref = new Set(Object.keys(d[langs.includes("it") ? "it" : "ro"]));
+        o[n] = Object.fromEntries(langs.map(l => [l, { missing: [...ref].filter(k => !(k in d[l])), extra: Object.keys(d[l]).filter(k => !ref.has(k)) }]));
+      }
+      return o; });
+    for (const n of Object.keys(par)) {
+      const d = par[n]; if (!d) { ok("Traduceri: " + n + " exista", false); continue; }
+      const bad2 = Object.entries(d).filter(([l, v]) => v.missing.length || v.extra.length).map(([l, v]) => l + ": lipsesc " + v.missing.slice(0, 5).join(",") + " / in plus " + v.extra.slice(0, 5).join(","));
+      ok("Traduceri: " + n + " — aceleasi chei in toate limbile", bad2.length === 0, bad2.join(" | ").slice(0, 240));
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

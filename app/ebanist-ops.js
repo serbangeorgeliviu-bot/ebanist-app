@@ -216,7 +216,7 @@ function generate(input) {
   var H = HW_DRILL;
   /* push = niente maniglia; un profilo gola scelto in catalogo, nemmeno: in
      tutti e due i casi il frontale non ha fori di maniglia */
-  var hingeSel = cfg.handles === "push" ? "push"
+  var hingeSel = (cfg.handles === "push" || cfg.handles === "gola") ? "push"
     : (root.handleIsProfile && root.handleIsProfile()) ? "profilo" : "maniglia";
 
   /* --- 1. giunzioni della cassa: base/cielo/ripiani fissi fra i verticali -- */
