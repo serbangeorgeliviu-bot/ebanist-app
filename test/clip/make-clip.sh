@@ -3,7 +3,7 @@
 #   WORK=<dir> bash make-clip.sh
 # În $WORK trebuie să existe: S1.mp4 S2.mp4 S3.mp4 S4.mp4 (cadrele AI), g1.mp3..g6.mp3 (vocea, din
 # voice-script.txt), music.wav, și <WORK>/screen/ — ieșirea lui `node ../clip-screen.js <WORK>/screen`.
-# VO_TEMPO=1.1 accelerează vocea (implicit 1.0). Cere: ffmpeg (cu libass), python3 + Pillow, fontul Inter. Vezi sources.md.
+# VO_TEMPO accelerează vocea (implicit 1.0; Giuseppe nu are nevoie). Cere: ffmpeg (cu libass), python3 + Pillow, fontul Inter. Vezi sources.md.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"; W="${WORK:?setează WORK=<dir>}"; cd "$W"
 ICON="${ICON:-$HERE/../../app/icons/icon-192.png}"
