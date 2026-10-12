@@ -15,6 +15,7 @@ WrapStyle: 0
 Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
 Style: C,Inter ExtraBold,58,&H00202020,&H00202020,&H00FFFFFF,&H00FFFFFF,0,0,0,0,100,100,0,0,3,26,0,7,90,150,0,1
 Style: M,Inter ExtraBold,58,&H00202020,&H00202020,&H0000D6FF,&H0000D6FF,0,0,0,0,100,100,0,0,3,26,0,3,150,90,0,1
+Style: N,Inter ExtraBold,66,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,7,3,2,60,60,0,1
 Style: T,Inter ExtraBold,56,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,5,2,1,60,0,70,1
 [Events]
 Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
@@ -22,9 +23,9 @@ Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 pop = r"\fscx80\fscy80\t(0,120,\fscx104\fscy104)\t(120,200,\fscx100\fscy100)"
 ev = ""
 for b in spec["bubbles"]:
-    st = "C" if b["who"] == "c" else "M"
-    y = 210 if st == "C" else 1640
-    ev += f"Dialogue: 0,{t(b['t0'])},{t(b['t1'])},{st},,0,0,0,,{{\\pos({90 if st=='C' else 990},{y}){pop}}}{b['text']}\n"
+    st = {"c": "C", "m": "M", "n": "N"}[b["who"]]
+    x, y = {"C": (90, 210), "M": (990, 1640), "N": (540, 1560)}[st]
+    ev += f"Dialogue: 0,{t(b['t0'])},{t(b['t1'])},{st},,0,0,0,,{{\\pos({x},{y}){pop}}}{b['text']}\n"
 if spec.get("tag"):
     ev += f"Dialogue: 0,{t(total-1.4)},{t(total)},T,,0,0,0,,{{\\fad(250,0)}}{spec['tag']}\n"
 ass = os.path.join(tempfile.mkdtemp(), "skit.ass"); open(ass, "w").write(hdr + ev)
