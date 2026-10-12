@@ -26,14 +26,28 @@ for b in spec["bubbles"]:
     st = {"c": "C", "m": "M", "n": "N"}[b["who"]]
     x, y = {"C": (90, 210), "M": (990, 1640), "N": (540, 1560)}[st]
     ev += f"Dialogue: 0,{t(b['t0'])},{t(b['t1'])},{st},,0,0,0,,{{\\pos({x},{y}){pop}}}{b['text']}\n"
-if spec.get("tag"):
+if spec.get("tag") and not spec.get("end"):
     ev += f"Dialogue: 0,{t(total-1.4)},{t(total)},T,,0,0,0,,{{\\fad(250,0)}}{spec['tag']}\n"
 ass = os.path.join(tempfile.mkdtemp(), "skit.ass"); open(ass, "w").write(hdr + ev)
 hold = spec.get("hold", 2.0)
-fc = (f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1,split[a][b];"
+ins = spec.get("inserts", []); end = spec.get("end")
+inputs = ["-i", clip]
+for k in ins: inputs += ["-ss", str(k.get("ss", 0)), "-t", str(k["t1"] - k["t0"]), "-i", k["src"]]
+if end: inputs += ["-loop", "1", "-t", str(end["secs"]), "-i", end["img"]]
+F = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1"
+fc = (f"[0:v]{F},split[a][b];"
       f"[b]trim=start={dur-0.04:.3f},setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration={hold},"
       f"zoompan=z='min(zoom+0.0009,1.10)':d=1:s=1080x1920:fps=30[tail];"
-      f"[a][tail]concat=n=2:v=1:a=0[v];[v]ass={ass}:fontsdir=/usr/share/fonts/opentype/inter[o]")
-subprocess.check_call(["ffmpeg","-loglevel","error","-y","-i",clip,"-filter_complex",fc,"-map","[o]","-t",f"{total:.2f}",
+      f"[a][tail]concat=n=2:v=1:a=0[v0];")
+cur = "v0"
+for i, k in enumerate(ins, 1):
+    fc += f"[{i}:v]{F},setpts=PTS-STARTPTS+{k['t0']}/TB[i{i}];[{cur}][i{i}]overlay=enable='between(t,{k['t0']},{k['t1']})':eof_action=pass[v{i}];"
+    cur = f"v{i}"
+if end:
+    ei = len(ins) + 1
+    fc += f"[{ei}:v]{F},format=yuv420p[e];[{cur}]format=yuv420p[m];[m][e]concat=n=2:v=1:a=0[v9];"; cur = "v9"
+fc += f"[{cur}]ass={ass}:fontsdir=/usr/share/fonts/opentype/inter[o]"
+total = total + (end["secs"] if end else 0)
+subprocess.check_call(["ffmpeg","-loglevel","error","-y",*inputs,"-filter_complex",fc,"-map","[o]","-t",f"{total:.2f}",
     "-c:v","libx264","-pix_fmt","yuv420p","-crf","18","-preset","medium","-an",out.replace(".mp4","_v.mp4")])
 print(out.replace(".mp4","_v.mp4"), total)
