@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Server — 12 octombrie 2026
+
+- `/api/pro`: codurile Pro gratuite (`comp_…`) se citesc și din `PRO_COMP_CODES_2`, pe lângă `PRO_COMP_CODES`. Se pot adăuga coduri fără a rescrie valoarea secretă veche. Fără schimbări în aplicație (fără `APP_VER`).
+
+---
+
 ## 4.54.0 — 12 octombrie 2026
 
 **Audit: erori de calcul și de randare, comenzi mai clare.** Găsite cu un fuzz nou (`test/fuzz.js`: configurații aleatoare pe toate tipologiile, cu verificarea închiderii, a invarianților, a găuririi și a coliziunilor 3D între piese) și cu o trecere vizuală pe telefon.
