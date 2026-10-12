@@ -5,6 +5,7 @@ import os, subprocess, sys, tempfile, json
 from PIL import Image
 out = sys.argv[1]; T = tempfile.mkdtemp(); E = os.environ
 SK, PH, SCREEN, END, MUSIC, VO = E["SK"], E["PHOTOS"], E["SCREEN"], E["ENDCARD"], E.get("MUSIC", ""), E.get("VO", "")
+VOS = [x.rsplit(":", 1) for x in E.get("VOS", "").split(",") if x]   # voce pe bucăți: "fisier:secunde,fisier:secunde"
 F = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1,format=yuv420p"
 ENC = ["-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-preset", "medium"]
 def run(*a): subprocess.check_call(["ffmpeg", "-loglevel", "error", "-y", *a])
@@ -63,12 +64,19 @@ fc = "[0]asplit=6[a0][a1][a2][a3][a4][a5];[1]asplit=4[b0][b1][b2][b3];"
 mix = []
 for i in range(6): fc += f"[a{i}]adelay={int(i*FL*1000)}|{int(i*FL*1000)}[k{i}];"; mix.append(f"[k{i}]")
 for j, t in enumerate(ct): d = int(max(t - 0.1, 0) * 1000); fc += f"[b{j}]adelay={d}|{d}[w{j}];"; mix.append(f"[w{j}]")
-vo_idx = None
-if VO: inp += ["-i", VO]; vo_idx = 2; fc += f"[{vo_idx}]adelay={int(t0[6]*1000)}|{int(t0[6]*1000)}[vo];[vo]asplit=2[vo1][vo2];"; mix.append("[vo1]")
+have_vo = bool(VO or VOS)
+if VOS:
+    for p, _ in VOS: inp += ["-i", p]
+    base = 2
+    for j, (_, t) in enumerate(VOS): fc += f"[{base+j}]adelay={int(float(t)*1000)}|{int(float(t)*1000)}[v{j}];"
+    fc += "".join(f"[v{j}]" for j in range(len(VOS))) + f"amix=inputs={len(VOS)}:normalize=0,volume=1.6,apad=whole_dur={total}[vo];[vo]asplit=2[vo1][vo2];"; mix.append("[vo1]"); nxt = base + len(VOS)
+elif VO:
+    inp += ["-i", VO]; fc += f"[2]adelay={int(t0[6]*1000)}|{int(t0[6]*1000)},apad=whole_dur={total}[vo];[vo]asplit=2[vo1][vo2];"; mix.append("[vo1]"); nxt = 3
+else: nxt = 2
 if MUSIC:
-    inp += ["-i", MUSIC]; mi = 3 if VO else 2
-    fc += f"[{mi}]atrim=0:{total},asetpts=PTS-STARTPTS,volume=0.4[m0];"
-    fc += (f"[m0][vo2]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=250[m];" if VO else "[m0]anull[m];"); mix.append("[m]")
+    inp += ["-i", MUSIC]
+    fc += f"[{nxt}]atrim=0:{total},asetpts=PTS-STARTPTS,volume=0.4[m0];"
+    fc += (f"[m0][vo2]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=250[m];" if have_vo else "[m0]anull[m];"); mix.append("[m]")
 fc += "".join(mix) + f"amix=inputs={len(mix)}:normalize=0,alimiter=limit=0.95,atrim=0:{total}[a]"
 run(*inp, "-filter_complex", fc, "-map", "[a]", "-ar", "44100", f"{T}/a.wav")
 run("-i", f"{T}/vc.mp4", "-i", f"{T}/a.wav", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-t", str(total), "-movflags", "+faststart", out)
