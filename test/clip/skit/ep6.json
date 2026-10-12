@@ -1,0 +1,54 @@
+{
+ "hold": 2.4,
+ "end": {
+  "img": "/tmp/claude-0/-home-user/21298ed9-9fe9-5509-8089-a9995ea15a53/scratchpad/w3/endcard.png",
+  "secs": 2.8
+ },
+ "inserts": [
+  {
+   "t0": 3.4,
+   "t1": 7.6,
+   "src": "/tmp/claude-0/-home-user/21298ed9-9fe9-5509-8089-a9995ea15a53/scratchpad/w3/screen.mp4",
+   "ss": 3.0
+  }
+ ],
+ "bubbles": [
+  {
+   "t0": 0.2,
+   "t1": 2.3,
+   "who": "c",
+   "text": "Cliente: «Possiamo vedere come viene, prima?»"
+  },
+  {
+   "t0": 2.4,
+   "t1": 3.4,
+   "who": "m",
+   "text": "Certo."
+  },
+  {
+   "t0": 3.5,
+   "t1": 5.4,
+   "who": "n",
+   "text": "Misure. 3D. Colore."
+  },
+  {
+   "t0": 5.4,
+   "t1": 7.5,
+   "who": "n",
+   "text": "Lista di taglio. Tutto prima."
+  },
+  {
+   "t0": 8.0,
+   "t1": 10.4,
+   "who": "c",
+   "text": "«Approvato!»"
+  },
+  {
+   "t0": 10.7,
+   "t1": 13.2,
+   "who": "n",
+   "text": "Basta «più o meno».",
+   "y": 1720
+  }
+ ]
+}

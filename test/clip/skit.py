@@ -25,6 +25,7 @@ ev = ""
 for b in spec["bubbles"]:
     st = {"c": "C", "m": "M", "n": "N"}[b["who"]]
     x, y = {"C": (90, 210), "M": (990, 1640), "N": (540, 1560)}[st]
+    y = b.get("y", y)
     ev += f"Dialogue: 0,{t(b['t0'])},{t(b['t1'])},{st},,0,0,0,,{{\\pos({x},{y}){pop}}}{b['text']}\n"
 if spec.get("tag") and not spec.get("end"):
     ev += f"Dialogue: 0,{t(total-1.4)},{t(total)},T,,0,0,0,,{{\\fad(250,0)}}{spec['tag']}\n"
