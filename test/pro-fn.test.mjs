@@ -111,6 +111,15 @@ describe("/api/pro", () => {
     assert.deepStrictEqual(await r.json(), { ok: true, sub: COMP, status: "active", periodEnd: null, plan: "comp" });
     assert.strictEqual(seen.length, 0);
   });
+  test("codice comp nella seconda variabile PRO_COMP_CODES_2 → attivo; tolto da entrambe → 404", async () => {
+    stripeReplies({});
+    process.env.PRO_COMP_CODES = "comp_altroCodiceAltroCodice12";
+    process.env.PRO_COMP_CODES_2 = "\n" + COMP;
+    assert.strictEqual((await call({ sub: COMP })).status, 200);
+    process.env.PRO_COMP_CODES_2 = "comp_altroCodiceAltroCodice34";
+    assert.strictEqual((await call({ sub: COMP })).status, 404);
+    delete process.env.PRO_COMP_CODES_2;
+  });
   test("codice comp tolto dall'elenco (o elenco vuoto) → 404, la licenza si chiude", async () => {
     stripeReplies({});
     process.env.PRO_COMP_CODES = "comp_altroCodiceAltroCodice12";
