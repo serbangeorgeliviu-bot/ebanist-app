@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.56.0 — 13 octombrie 2026
+
+**Poloneză și spaniolă în aplicație.** A șasea și a șaptea limbă a interfeței, după ro, it, en, fr, de: tot ce se vede pe ecran și în documente (listă de debitare, fișă de montaj, distinta PDF, ofertă, mod Client, Order Rail) apare în limba aleasă din Setări → Limbă. Prima pornire alege `pl` sau `es` singură dacă browserul o cere (`es-MX` și alte variante regionale intră pe `es`).
+
+- Aceleași chei în șapte limbi: `I18N` (975), `SURVEY_I18N`, `AUTH_I18N`, `AI_I18N`, `EL_I18N`, `ACC_I18N`, `AU_I18N`, `order-rail/i18n.js`, numele feroneriei, ale sistemelor de sertar și ale materialelor din catalog.
+- Numerele se formatează `pl-PL` / `es-ES`; dictarea vocală la fel; asistentul AI primește poloneza și spaniola ca limbi de intrare.
+- Site: `/pl/` și `/es/` cu capturi și documente reale în limba lor, `hreflang`, sitemap, redirect `?lang=`, Edge Function (`pl`, `es`). Pagina de caz are textul tradus, dar capturile din proiectul real rămân în engleză (ca la germană).
+- Nimic din geometrie nu se schimbă.
+- Terminologia de tâmplărie merită citită de un vorbitor nativ înainte de promovare; paginile juridice (`privacy`, `termeni`, `rambursare`) nu au încă secțiuni în `de`, `pl`, `es`.
+
+---
+
 ## 4.55.0 — 13 octombrie 2026
 
 **Germană în aplicație.** A cincea limbă a interfeței, după ro, it, en, fr: tot ce se vede pe ecran și în documente (listă de debitare, fișă de montaj, distinta PDF, ofertă, mod Client, Order Rail) apare în limba aleasă din Setări → Limbă. Prima pornire alege germana singură dacă browserul o cere (`de`, `de-AT`, `de-CH`).

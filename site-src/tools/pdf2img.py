@@ -16,7 +16,7 @@ def save(im, base, widths, lightbox=None):
         r = im.resize((lightbox, round(im.height * lightbox / im.width)), Image.LANCZOS)
         r.save(f'{base}-{lightbox}.webp', quality=82, method=6)
 
-for L in ['en', 'ro', 'it', 'fr', 'de']:
+for L in ['en', 'ro', 'it', 'fr', 'de', 'pl', 'es']:
     out = f'{ROOT}/site/docs/{L}'; os.makedirs(out, exist_ok=True)
     for name, i in PAGES:
         f = f'{TMP}/{L}-{name}.pdf'

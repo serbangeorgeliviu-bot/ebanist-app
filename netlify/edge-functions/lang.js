@@ -20,7 +20,7 @@
    Googlebot non manda Accept-Language: vede sempre «/» in inglese.
    ===================================================================== */
 
-export const LANGS = ["en", "ro", "it", "fr", "de"];
+export const LANGS = ["en", "ro", "it", "fr", "de", "pl", "es"];
 export const DEFAULT = "en";
 
 /* Accept-Language → lingue in ordine di preferenza (codice di 2 lettere).

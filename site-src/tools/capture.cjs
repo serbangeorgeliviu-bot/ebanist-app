@@ -15,7 +15,7 @@ const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const ROOT = path.resolve(__dirname, "../..");
 const BASE = process.env.BASE || "http://localhost:8765";
-const LANGS = process.argv.slice(2).length ? process.argv.slice(2) : ["en", "ro", "it", "fr", "de"];
+const LANGS = process.argv.slice(2).length ? process.argv.slice(2) : ["en", "ro", "it", "fr", "de", "pl", "es"];
 const TMP = "/tmp/ebanist-docs";
 const GL = ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"];
 const PRO = () => localStorage.setItem("ebanist_lic", JSON.stringify({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() }));

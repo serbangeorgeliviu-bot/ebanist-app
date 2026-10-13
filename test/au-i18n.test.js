@@ -40,7 +40,7 @@ test("ci sono davvero dei testi da tradurre (l'estrazione non e vuota)", () => {
   assert.ok(S.ASSERTIONS.length >= 18);
 });
 
-for (const lang of ["it", "en", "fr", "de"]) {
+for (const lang of ["it", "en", "fr", "de", "pl", "es"]) {
   test(`${lang}: ogni testo della chiusura e degli invarianti ha la sua traduzione`, () => {
     for (const s of CLOSURE.concat(INVARIANTS, ENV)) {
       const tx = auTx(s, lang);
