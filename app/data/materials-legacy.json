@@ -12,7 +12,8 @@
     "it": "Truciolare melaminico Bianco 18mm",
     "ro": "PAL melaminat Alb 18mm",
     "en": "Melamine chipboard White 18mm",
-    "fr": "Aggloméré mélaminé Blanc 18mm"
+    "fr": "Aggloméré mélaminé Blanc 18mm",
+    "de": "Melaminbeschichtete Spanplatte Weiß 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -45,7 +46,8 @@
     "it": "Truciolare melaminico Decoro 18mm",
     "ro": "PAL melaminat Decor 18mm",
     "en": "Melamine chipboard Decor 18mm",
-    "fr": "Aggloméré mélaminé Décor 18mm"
+    "fr": "Aggloméré mélaminé Décor 18mm",
+    "de": "Melaminbeschichtete Spanplatte Dekor 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -78,7 +80,8 @@
     "it": "Truciolare Rovere Sonoma 18mm",
     "ro": "PAL Stejar Sonoma 18mm",
     "en": "Chipboard Sonoma Oak 18mm",
-    "fr": "Aggloméré Chêne Sonoma 18mm"
+    "fr": "Aggloméré Chêne Sonoma 18mm",
+    "de": "Spanplatte Eiche Sonoma 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -111,7 +114,8 @@
     "it": "Truciolare Noce 18mm",
     "ro": "PAL Nuc 18mm",
     "en": "Chipboard Walnut 18mm",
-    "fr": "Aggloméré Noyer 18mm"
+    "fr": "Aggloméré Noyer 18mm",
+    "de": "Spanplatte Nussbaum 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -144,7 +148,8 @@
     "it": "Truciolare Antracite 18mm",
     "ro": "PAL Antracit 18mm",
     "en": "Chipboard Anthracite 18mm",
-    "fr": "Aggloméré Anthracite 18mm"
+    "fr": "Aggloméré Anthracite 18mm",
+    "de": "Spanplatte Anthrazit 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -177,7 +182,8 @@
     "it": "Truciolare Grigio chiaro 18mm",
     "ro": "PAL Gri deschis 18mm",
     "en": "Chipboard Light grey 18mm",
-    "fr": "Aggloméré Gris clair 18mm"
+    "fr": "Aggloméré Gris clair 18mm",
+    "de": "Spanplatte Hellgrau 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -210,7 +216,8 @@
     "it": "Truciolare Nero 18mm",
     "ro": "PAL Negru 18mm",
     "en": "Chipboard Black 18mm",
-    "fr": "Aggloméré Noir 18mm"
+    "fr": "Aggloméré Noir 18mm",
+    "de": "Spanplatte Schwarz 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -243,7 +250,8 @@
     "it": "Truciolare melaminico Bianco 16mm",
     "ro": "PAL melaminat Alb 16mm",
     "en": "Melamine chipboard White 16mm",
-    "fr": "Aggloméré mélaminé Blanc 16mm"
+    "fr": "Aggloméré mélaminé Blanc 16mm",
+    "de": "Melaminbeschichtete Spanplatte Weiß 16mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -276,7 +284,8 @@
     "it": "Truciolare melaminico Bianco 25mm",
     "ro": "PAL melaminat Alb 25mm",
     "en": "Melamine chipboard White 25mm",
-    "fr": "Aggloméré mélaminé Blanc 25mm"
+    "fr": "Aggloméré mélaminé Blanc 25mm",
+    "de": "Melaminbeschichtete Spanplatte Weiß 25mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -309,7 +318,8 @@
     "it": "MDF grezzo 18mm",
     "ro": "MDF brut 18mm",
     "en": "Raw MDF 18mm",
-    "fr": "MDF brut 18mm"
+    "fr": "MDF brut 18mm",
+    "de": "MDF roh 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -339,7 +349,8 @@
     "it": "MDF laccato lucido 19mm",
     "ro": "MDF vopsit lucios 19mm",
     "en": "High-gloss lacquered MDF 19mm",
-    "fr": "MDF laqué brillant 19mm"
+    "fr": "MDF laqué brillant 19mm",
+    "de": "MDF hochglanzlackiert 19mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -372,7 +383,8 @@
     "it": "Compensato betulla 18mm",
     "ro": "Placaj mesteacăn 18mm",
     "en": "Birch plywood 18mm",
-    "fr": "Contreplaqué bouleau 18mm"
+    "fr": "Contreplaqué bouleau 18mm",
+    "de": "Birkensperrholz 18mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -405,7 +417,8 @@
     "it": "Pannello HDF Bianco 3mm",
     "ro": "PFL/HDF Alb 3mm",
     "en": "HDF panel White 3mm",
-    "fr": "Panneau HDF Blanc 3mm"
+    "fr": "Panneau HDF Blanc 3mm",
+    "de": "HDF-Platte Weiß 3mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -438,7 +451,8 @@
     "it": "Pannello HDF 5mm",
     "ro": "PFL/HDF 5mm",
     "en": "HDF panel 5mm",
-    "fr": "Panneau HDF 5mm"
+    "fr": "Panneau HDF 5mm",
+    "de": "HDF-Platte 5mm"
    },
    "codice": null,
    "fornitore": "—",
@@ -471,7 +485,8 @@
     "it": "Egger W980 Bianco kaolin 19mm",
     "ro": "Egger W980 Alb kaolin 19mm",
     "en": "Egger W980 Kaolin white 19mm",
-    "fr": "Egger W980 Blanc kaolin 19mm"
+    "fr": "Egger W980 Blanc kaolin 19mm",
+    "de": "Egger W980 Kaolinweiß 19mm"
    },
    "codice": "W980",
    "fornitore": "Dispano",
@@ -504,7 +519,8 @@
     "it": "Egger W908 Bianco creta 19mm",
     "ro": "Egger W908 Alb cretă 19mm",
     "en": "Egger W908 Chalk white 19mm",
-    "fr": "Egger W908 Blanc craie 19mm"
+    "fr": "Egger W908 Blanc craie 19mm",
+    "de": "Egger W908 Kreideweiß 19mm"
    },
    "codice": "W908",
    "fornitore": "Dispano",
@@ -537,7 +553,8 @@
     "it": "Egger W980 Bianco kaolin 12mm",
     "ro": "Egger W980 Alb kaolin 12mm",
     "en": "Egger W980 Kaolin white 12mm",
-    "fr": "Egger W980 Blanc kaolin 12mm"
+    "fr": "Egger W980 Blanc kaolin 12mm",
+    "de": "Egger W980 Kaolinweiß 12mm"
    },
    "codice": "W980",
    "fornitore": "Dispano",
@@ -570,7 +587,8 @@
     "it": "Egger W908 Bianco creta 16mm",
     "ro": "Egger W908 Alb cretă 16mm",
     "en": "Egger W908 Chalk white 16mm",
-    "fr": "Egger W908 Blanc craie 16mm"
+    "fr": "Egger W908 Blanc craie 16mm",
+    "de": "Egger W908 Kreideweiß 16mm"
    },
    "codice": "W908",
    "fornitore": "Dispano",
@@ -603,7 +621,8 @@
     "it": "Egger W980 Bianco kaolin 8mm",
     "ro": "Egger W980 Alb kaolin 8mm",
     "en": "Egger W980 Kaolin white 8mm",
-    "fr": "Egger W980 Blanc kaolin 8mm"
+    "fr": "Egger W980 Blanc kaolin 8mm",
+    "de": "Egger W980 Kaolinweiß 8mm"
    },
    "codice": "W980",
    "fornitore": "Dispano",
@@ -636,7 +655,8 @@
     "it": "Egger W980 idrofugo P3 19mm",
     "ro": "Egger W980 hidrofug P3 19mm",
     "en": "Egger W980 moisture-resistant P3 19mm",
-    "fr": "Egger W980 hydrofuge P3 19mm"
+    "fr": "Egger W980 hydrofuge P3 19mm",
+    "de": "Egger W980 feuchtigkeitsbeständig P3 19mm"
    },
    "codice": "W980",
    "fornitore": "Dispano",
@@ -669,7 +689,8 @@
     "it": "MDF grezzo 19mm",
     "ro": "MDF brut 19mm",
     "en": "Raw MDF 19mm",
-    "fr": "MDF brut 19mm"
+    "fr": "MDF brut 19mm",
+    "de": "MDF roh 19mm"
    },
    "codice": null,
    "fornitore": "Dispano",
@@ -699,7 +720,8 @@
     "it": "MDF grezzo 10mm",
     "ro": "MDF brut 10mm",
     "en": "Raw MDF 10mm",
-    "fr": "MDF brut 10mm"
+    "fr": "MDF brut 10mm",
+    "de": "MDF roh 10mm"
    },
    "codice": null,
    "fornitore": "Dispano",
@@ -729,7 +751,8 @@
     "it": "MDF grezzo 6mm",
     "ro": "MDF brut 6mm",
     "en": "Raw MDF 6mm",
-    "fr": "MDF brut 6mm"
+    "fr": "MDF brut 6mm",
+    "de": "MDF roh 6mm"
    },
    "codice": null,
    "fornitore": "Dispano",
@@ -759,7 +782,8 @@
     "it": "MDF grezzo 25mm",
     "ro": "MDF brut 25mm",
     "en": "Raw MDF 25mm",
-    "fr": "MDF brut 25mm"
+    "fr": "MDF brut 25mm",
+    "de": "MDF roh 25mm"
    },
    "codice": null,
    "fornitore": "Dispano",
@@ -789,7 +813,8 @@
     "it": "MDF idrofugo 12mm",
     "ro": "MDF hidrofug 12mm",
     "en": "Moisture-resistant MDF 12mm",
-    "fr": "MDF hydrofuge 12mm"
+    "fr": "MDF hydrofuge 12mm",
+    "de": "MDF feuchtigkeitsbeständig 12mm"
    },
    "codice": null,
    "fornitore": "Dispano",
@@ -819,7 +844,8 @@
     "it": "Fibra dura Isorel 3mm",
     "ro": "PFL Isorel 3mm",
     "en": "Hardboard Isorel 3mm",
-    "fr": "Fibres dures Isorel 3mm"
+    "fr": "Fibres dures Isorel 3mm",
+    "de": "Hartfaserplatte Isorel 3mm"
    },
    "codice": null,
    "fornitore": "Dispano",

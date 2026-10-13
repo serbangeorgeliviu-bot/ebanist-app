@@ -99,7 +99,7 @@
   }
 
   /* ---------- limba aleasă de mână (D-60) ----------
-     Rădăcina „/" trimite la /ro/ /it/ /fr/ după limba browserului
+     Rădăcina „/" trimite la /ro/ /it/ /fr/ /de/ după limba browserului
      (netlify/edge-functions/lang.js). Cine alege o limbă primește
      cookie-ul eb_lang, pe care funcția îl citește ÎNAINTEA limbii
      browserului: alegerea lui câștigă de acum încolo. E singurul cookie al

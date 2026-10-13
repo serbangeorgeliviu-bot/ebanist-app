@@ -7,7 +7,7 @@ const LOGO = fs.readFileSync(path.join(ROOT, "app/icons/ebanist-mark.svg"), "utf
 (async () => {
   const b = await chromium.launch({ executablePath: process.env.CHROME_PATH || "/opt/pw-browsers/chromium" });
   const p = await (await b.newContext({ viewport: { width: 1200, height: 630 } })).newPage();
-  for (const L of ["en", "ro", "it", "fr"]) {
+  for (const L of ["en", "ro", "it", "fr", "de"]) {
     const t = JSON.parse(fs.readFileSync(path.join(ROOT, `site-src/i18n/${L}.json`), "utf8"));
     const h1 = t["hero.h1"].replace(/&nbsp;/g, " ");
     await p.goto(`${BASE}/robots.txt`);

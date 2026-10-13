@@ -59,6 +59,9 @@ const home = l => (l === cfg.DEFAULT_LANG ? "/" : `/${l}/`);
 const CASE = "case/bagno/";
 const caseHome = l => home(l) + CASE;
 const caseUrl = l => cfg.SITE_URL + caseHome(l);
+/* capturile și etichetele paginii de caz ies din proiectul real (tools/case-capture.cjs).
+   O limbă fără ele (încă) folosește imaginile din engleză; textul rămâne în limba paginii. */
+const caseAsset = l => ((cfg.CASE_ASSET_LANGS || cfg.LANGS).includes(l) ? l : cfg.DEFAULT_LANG);
 
 function t(L, key) {
   const v = key in I18N[L] ? I18N[L][key] : EN[key];
@@ -189,12 +192,12 @@ function casePhoto(L, name, key, hero) {
     : `<figure class="case-fig"><a href="${b}-1600.webp" target="_blank" rel="noopener">${img}</a><figcaption class="mono">${t(L, key)}</figcaption></figure>`;
 }
 function caseScreen(L, name, key) {
-  const b = `/site/screens/${L}/case-bagno-${name}-780`;
+  const b = `/site/screens/${caseAsset(L)}/case-bagno-${name}-780`;
   return `<figure class="case-fig case-scr"><div class="scr"><picture><source type="image/avif" srcset="${b}.avif"><img src="${b}.webp" width="780" height="1688" alt="${esc(strip(t(L, key)))}" loading="lazy"></picture></div><figcaption class="mono">${t(L, key)}</figcaption></figure>`;
 }
 /* montajele foto (eticheta reală pusă digital pe poza panoului): marcate ca ilustrație, D-65 */
 function caseLabelPhoto(L, name) {
-  const b = `/site/img/case/bagno-lbl-${name}-${L}`, cap = `${esc(t(L, "case.p." + name))} · ${t(L, "case.c.illus")}`;
+  const b = `/site/img/case/bagno-lbl-${name}-${caseAsset(L)}`, cap = `${esc(t(L, "case.p." + name))} · ${t(L, "case.c.illus")}`;
   return `<figure class="case-fig case-illus"><a href="${b}-1050.webp" target="_blank" rel="noopener"><picture><source type="image/avif" srcset="${b}-900.avif"><img src="${b}-900.webp" width="900" height="1200" alt="${esc(strip(cap))}" loading="lazy"></picture><span class="illus-tag mono">${esc(t(L, "case.c.illus").split(/[:：]/)[0])}</span></a><figcaption class="mono">${cap}</figcaption></figure>`;
 }
 const CASE_ROWS = [["side", 2260, 341, 2, "✂ 600×110"], ["bottom", 832, 231, 1], ["top", 832, 341, 1], ["div", 1500, 341, 1, "✂ 581×110"],
@@ -215,7 +218,7 @@ function caseJsonld(L) {
 /* ---------- randare ---------- */
 function render(L, tplSrc = tpl, isCase = false) {
   const blocks = {
-    css: CSS, logo: LOGO, lang: L, url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
+    css: CSS, logo: LOGO, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))

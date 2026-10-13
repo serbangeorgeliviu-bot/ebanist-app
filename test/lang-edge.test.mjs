@@ -12,6 +12,9 @@ test("il browser decide quando non c'e una scelta a mano", () => {
   assert.equal(go(R, undefined, "ro-RO,ro;q=0.9,en-US;q=0.8"), "/ro/");
   assert.equal(go(R, undefined, "it-IT,it;q=0.9"), "/it/");
   assert.equal(go(R, undefined, "fr-FR"), "/fr/");
+  assert.equal(go(R, undefined, "de-DE,de;q=0.9"), "/de/");
+  assert.equal(go(R, undefined, "de-AT"), "/de/", "tedesco d'Austria");
+  assert.equal(go(R, undefined, "de-CH,fr;q=0.8"), "/de/", "tedesco svizzero");
   assert.equal(go(R, undefined, "RO"), "/ro/", "maiuscole");
 });
 
@@ -19,13 +22,13 @@ test("inglese, nessuna lingua o lingua che il sito non ha: resta la pagina ingle
   assert.equal(go(R, undefined, "en-US,en;q=0.9,ro;q=0.8"), null, "inglese prima del romeno");
   assert.equal(go(R, undefined, ""), null, "Googlebot: nessun Accept-Language");
   assert.equal(go(R, undefined, undefined), null);
-  assert.equal(go(R, undefined, "de-DE,de;q=0.9"), null);
+  assert.equal(go(R, undefined, "pl-PL,pl;q=0.9"), null);
   assert.equal(go(R, undefined, "*"), null);
 });
 
 test("vale l'ordine di preferenza (q), non l'ordine scritto", () => {
   assert.equal(go(R, undefined, "en;q=0.5,it;q=0.9"), "/it/");
-  assert.equal(go(R, undefined, "de-DE,ro;q=0.5"), "/ro/", "la prima lingua che il sito ha");
+  assert.equal(go(R, undefined, "pl-PL,ro;q=0.5"), "/ro/", "la prima lingua che il sito ha");
   assert.equal(go(R, undefined, "ro;q=0,it"), "/it/", "q=0 vuol dire no");
   assert.deepEqual(preferred("ro-RO, en;q=0.8 , it;q=0.9"), ["ro", "it", "en"]);
 });
@@ -34,6 +37,8 @@ test("la scelta a mano (cookie eb_lang) vince sempre sul browser", () => {
   assert.equal(go(R, "en", "ro-RO,ro;q=0.9"), null, "romeno che ha scelto l'inglese");
   assert.equal(go(R, "it", "ro-RO"), "/it/");
   assert.equal(go(R, "fr", "en-US"), "/fr/");
+  assert.equal(go(R, "de", "en-US"), "/de/");
+  assert.equal(go(R, "en", "de-DE"), null, "tedesco che ha scelto l'inglese");
   assert.equal(go(R, "ro", ""), "/ro/");
   assert.equal(chooseLang("xx", "fr-FR"), "fr", "un cookie non valido si ignora");
   assert.equal(chooseLang("RO", "it-IT"), "it", "il cookie lo scrive la pagina in minuscolo");

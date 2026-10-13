@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<!-- GENERAT de site-src/build.mjs din site-src/template.html + site-src/i18n/de.json.
+     Nu edita aici: modificările se pierd la următorul build. -->
+<html lang="de" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaeee4">
+<meta name="color-scheme" content="light">
+<title>Ebanist — vom Aufmaß zur Zuschnittliste in 10 Minuten</title>
+<meta name="description" content="Möbelplanungs-App für Tischler. Ein Möbel auf dem Handy entwerfen und Zuschnittliste, Teileetiketten, Montageanleitung und technische Zeichnung erhalten. Läuft im Browser, funktioniert offline. Kostenlos für 1 Projekt.">
+<link rel="canonical" href="https://ebanist.com/de/">
+<link rel="alternate" hreflang="en" href="https://ebanist.com/">
+<link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/">
+<link rel="alternate" hreflang="it" href="https://ebanist.com/it/">
+<link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/">
+<link rel="alternate" hreflang="de" href="https://ebanist.com/de/">
+<link rel="alternate" hreflang="x-default" href="https://ebanist.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ebanist">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://ebanist.com/de/">
+<meta property="og:title" content="Ebanist — vom Aufmaß zur Zuschnittliste in 10 Minuten">
+<meta property="og:description" content="Ein Möbel auf dem Handy entwerfen, direkt vor Ort. Das 3D-Modell, die Zuschnittliste, die Etiketten und die Montageanleitung gibt es dazu.">
+<meta property="og:image" content="https://ebanist.com/site/og/og-de.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/app/icons/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/app/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/app/icons/apple-touch-icon-180.png">
+<link rel="preload" href="/fonts/site-fraunces-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:Fraunces;font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/site-fraunces-400.woff2) format("woff2")}
+@font-face{font-family:Fraunces;font-style:italic;font-weight:400;font-display:swap;src:url(/fonts/site-fraunces-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/site-inter-tight-400.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-style:normal;font-weight:500 600;font-display:swap;src:url(/fonts/site-inter-tight-600.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/site-jetbrains-mono-400.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:500 600;font-display:swap;src:url(/fonts/site-jetbrains-mono-500.woff2) format("woff2")}
+@property --draw{syntax:"<number>";inherits:true;initial-value:0}
+:root{
+--char:#eaeee4; --char2:#ffffff; --graphite:#e2e8d8; --graphite2:#d3dbc6;
+--walnut:#6b5410; --oak:#0E3B2A; --paper:#faf9f5; --paper2:#f0f2ea;
+--laser:#0E3B2A; --laser-ink:#6b5410;
+--green:#0E3B2A; --green2:#16513a; --gold:#D4AF37; --gold-soft:#E3C877; --gold-ink:#6b5410; --cota:#b8912a;
+--txt:#1d221b; --txt2:#4f584b; --txt3:#5d6759;
+--ink:#1d221b; --ink2:#5c6558;
+--line:rgba(14,59,42,.12); --line2:rgba(14,59,42,.22);
+--serif:Fraunces,"Iowan Old Style",Georgia,serif;
+--sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+--ease:cubic-bezier(.22,1,.36,1);
+--gut:clamp(16px,4vw,48px); --max:1320px;
+--r:14px;
+}
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:80px;background:var(--char)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--char);color:var(--txt);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip;text-rendering:optimizeLegibility}
+img,svg,canvas,picture{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+em{font-family:var(--serif);font-style:italic;font-weight:400}
+.mono{font-family:var(--mono);font-feature-settings:"zero" 1;letter-spacing:0}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.skip{position:fixed;left:12px;top:-60px;z-index:200;background:var(--green);color:#fff;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:.35s var(--ease) both vtOut}
+::view-transition-new(root){animation:.45s var(--ease) both vtIn}
+@keyframes vtOut{to{opacity:0;transform:translateY(-8px)}}
+@keyframes vtIn{from{opacity:0;transform:translateY(8px)}}
+body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.03;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.grid32{position:absolute;inset:0;pointer-events:none;opacity:.5;
+background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+background-size:32px 32px;-webkit-mask-image:radial-gradient(ellipse 80% 70% at 70% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 80% 70% at 70% 40%,#000 20%,transparent 75%)}
+.grid32-paper{background-image:linear-gradient(rgba(28,25,22,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(28,25,22,.07) 1px,transparent 1px);opacity:1}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:2px;background:var(--gold)}
+.h-hero{font-family:var(--serif);font-weight:400;font-size:clamp(2.9rem,5.9vw,7rem);line-height:.95;letter-spacing:-.035em;margin-top:22px;max-width:12ch;font-variation-settings:"opsz" 144}
+.h-hero em{color:var(--green2)}
+.h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.5rem,6vw,5.6rem);line-height:.98;letter-spacing:-.03em;margin-top:18px;max-width:16ch}
+.h2 em{color:var(--green2)}
+.sub{color:var(--txt2);font-size:clamp(17px,1.5vw,20px);max-width:58ch;margin-top:20px}
+.sec{position:relative;padding:clamp(96px,14vw,200px) 0}
+.split .ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.split .ln>span{display:inline-block;transform:translateY(105%);transition:transform 1.1s var(--ease)}
+.split.in .ln>span{transform:none}
+.split.in .ln:nth-child(2)>span{transition-delay:.08s}.split.in .ln:nth-child(3)>span{transition-delay:.16s}.split.in .ln:nth-child(4)>span{transition-delay:.24s}.split.in .ln:nth-child(5)>span{transition-delay:.32s}
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;
+font:500 15px/1 var(--sans);letter-spacing:.01em;text-decoration:none;white-space:nowrap;border:1px solid transparent;
+transition:transform .5s var(--ease),background-color .3s,border-color .3s,color .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn-laser{background:var(--green);color:#fff}
+.btn-laser:hover{background:var(--green2)}
+.btn-line{border-color:var(--line2);color:var(--txt)}
+.btn-line:hover{border-color:var(--txt)}
+.btn-sm{min-height:40px;padding:0 16px;font-size:14px}
+.btn-xl{min-height:64px;padding:0 34px;font-size:18px}
+.top{position:fixed;inset:0 0 auto;z-index:60;padding-top:env(safe-area-inset-top);transition:background-color .4s,border-color .4s,backdrop-filter .4s;border-bottom:1px solid transparent}
+.top.solid{background:rgba(234,238,228,.86);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border-color:var(--line)}
+.bar{display:flex;align-items:center;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:500 15px/1 var(--mono);letter-spacing:.2em}
+.badge{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--green);color:var(--gold);flex:none}
+.badge svg{width:76%;height:76%;fill:currentColor}
+.badge-lg{width:56px;height:56px;border-radius:14px}
+.intro-logo{width:clamp(64px,9vw,110px);height:clamp(64px,9vw,110px);fill:var(--gold);opacity:0;transform:scale(.85);transition:opacity .7s var(--ease),transform .9s var(--ease)}
+.intro-title.on .intro-logo{opacity:1;transform:none}
+.final-logo{width:84px;height:84px;fill:var(--gold);margin:0 auto 26px;display:block}
+.foot-brand{display:flex;gap:16px;align-items:center}
+.nav{display:flex;gap:28px;margin-left:28px}
+.nav a{font-size:14px;color:var(--txt2);text-decoration:none;transition:color .2s}
+.nav a:hover{color:var(--txt)}
+.sp{flex:1}
+.langs{display:flex;gap:2px}
+.langs a{font:500 12px/1 var(--mono);color:var(--txt3);text-decoration:none;padding:8px 7px;border-radius:6px}
+.langs a[aria-current]{color:var(--txt);box-shadow:inset 0 -2px 0 var(--gold)}
+.langs a:hover{color:var(--txt)}
+@media (max-width:1000px){.nav{display:none}}
+.lang-pick{display:none;position:relative;flex:none}
+.top .bar>.brand,.top .tt-btn,.top .btn{flex:none}
+@media (max-width:470px){.top .brand>span:last-child{display:none}}
+.lang-pick summary{list-style:none;display:flex;align-items:center;gap:4px;min-height:36px;padding:0 10px;border:1px solid var(--line2);border-radius:999px;font:500 12px/1 var(--mono);color:var(--txt);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lang-pick summary::-webkit-details-marker{display:none}
+.lang-pick summary svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .2s}
+.lang-pick[open] summary svg{transform:rotate(180deg)}
+.lang-pick summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.lang-menu{position:absolute;left:0;top:calc(100% + 8px);min-width:176px;padding:6px;background:var(--paper);border:1px solid var(--line2);border-radius:12px;box-shadow:0 12px 32px rgba(14,59,42,.16);display:grid;gap:2px}
+.lang-menu a{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:8px;color:var(--txt);text-decoration:none;font-size:15px}
+.lang-menu a span{text-transform:capitalize}
+.lang-menu a b{font-weight:500;font-size:12px;color:var(--txt3);width:20px}
+.lang-menu a[aria-current]{background:var(--paper2);box-shadow:inset 3px 0 0 var(--gold)}
+.lang-menu a:active{background:var(--paper2)}
+@media (max-width:560px){.top .langs{display:none}.lang-pick{display:block}.top .btn{min-height:36px;padding:0 14px;font-size:13px}}
+@media (max-width:359px){.top .bar{gap:8px}.lang-pick summary{padding:0 8px}.top .btn{padding:0 12px}}
+.intro{position:fixed;inset:0;z-index:150;background:radial-gradient(120% 90% at 50% 40%,#16513a,#0b2e21);display:grid;place-items:center;overflow:hidden}
+.intro[hidden]{display:none}
+.intro canvas{position:absolute;inset:0;width:100%;height:100%}
+.intro-labels{position:absolute;inset:0;pointer-events:none}
+.intro-labels span{position:absolute;font:500 12px/1 var(--mono);color:var(--paper);white-space:nowrap;transform:translate(-50%,-50%);opacity:0;transition:opacity .25s;
+background:rgba(14,59,42,.78);padding:3px 5px;border-radius:3px}
+.intro-labels span.on{opacity:1}
+.intro-title{position:absolute;left:var(--gut);bottom:clamp(40px,10vh,110px);display:flex;flex-direction:column;gap:12px;pointer-events:none}
+.intro-word{font:400 clamp(3.4rem,12vw,10rem)/.9 var(--serif);letter-spacing:-.04em;color:var(--paper);display:flex;opacity:0}
+.intro-word.on{opacity:1}
+.intro-word b{font-weight:400;display:inline-block;clip-path:inset(0 0 100% 0);transform:translateY(30%);transition:clip-path .7s var(--ease),transform .7s var(--ease)}
+.intro-word.on b{clip-path:inset(0 0 -10% 0);transform:none}
+.intro-tag{font:400 13px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);opacity:0;transition:opacity .6s .5s}
+.intro-title.on .intro-tag{opacity:1}
+.intro-skip{position:absolute;right:var(--gut);bottom:calc(24px + env(safe-area-inset-bottom));z-index:2;font:500 13px/1 var(--mono);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:12px 18px;background:rgba(255,255,255,.08)}
+.intro-skip:hover{border-color:var(--gold);color:#fff}
+.intro.out{opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility 0s .7s}
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:110px 0 60px;overflow:hidden}
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,4vw,60px);align-items:center;position:relative}
+.hero-copy{position:relative;z-index:2}
+.hero-sub{color:var(--txt2);font-size:clamp(17px,1.35vw,19px);max-width:44ch;margin-top:26px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.proof{margin-top:26px;font-size:12px;color:var(--txt3);letter-spacing:.02em}
+.hero-stage{position:relative;aspect-ratio:1;width:100%;max-height:82svh;margin:0;touch-action:pan-y}
+.hero-static{position:absolute;inset:0}
+.hero-static img{width:100%;height:100%;object-fit:contain}
+.hero-stage canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .8s var(--ease)}
+.hero-stage.gl canvas{opacity:1}
+.hero-stage.gl .hero-static{opacity:0;transition:opacity .8s var(--ease)}
+.dims{position:absolute;inset:0;pointer-events:none}
+.dims span{position:absolute;font:500 12px/1 var(--mono);color:var(--gold-ink);transform:translate(-50%,-50%);white-space:nowrap;background:var(--char);padding:2px 5px}
+.drag{position:absolute;right:0;bottom:4%;font-size:12px;color:var(--txt3);letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .6s}
+.hero-stage.gl .drag{opacity:1}
+@media (max-width:900px){
+.h-hero{font-size:clamp(2.5rem,10.6vw,4.6rem)}
+.hero{align-items:flex-start;padding-top:84px;min-height:auto}
+.hero-in{grid-template-columns:1fr}
+.hero-stage{order:-1;max-height:none;width:min(62%,300px);aspect-ratio:1/1;margin:-12px auto -18px}
+.hero-sub{margin-top:16px;font-size:16px}
+.cta-row{margin-top:22px}
+.proof{margin-top:16px}
+.h-hero{margin-top:14px}
+}
+.prob-list{list-style:none;margin-top:clamp(40px,6vw,80px);border-top:1px solid var(--line)}
+.prob-row{display:grid;grid-template-columns:48px 1fr;gap:4px 20px;padding:clamp(22px,3vw,38px) 0;border-bottom:1px solid var(--line);position:relative}
+.prob-row .n{color:var(--txt3);font-size:12px;padding-top:.9em}
+.prob-old{position:relative;font:400 clamp(1.7rem,4.2vw,3.6rem)/1.08 var(--serif);letter-spacing:-.02em;color:var(--txt);transition:color .6s var(--ease);width:fit-content;max-width:100%}
+.laser-cut{position:absolute;left:-2%;right:-2%;top:54%;height:3px;background:var(--gold);box-shadow:0 0 10px 1px rgba(212,175,55,.55);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease)}
+.prob-new{grid-column:2;font-size:clamp(16px,1.5vw,19px);color:var(--green);font-weight:500;max-width:60ch;}
+.js .prob-new{opacity:0;transform:translateY(10px);transition:opacity .8s var(--ease) .7s,transform .8s var(--ease) .7s}
+.prob-row.cut .laser-cut{transform:scaleX(1)}
+.prob-row.cut .prob-old{color:var(--txt3)}
+.js .prob-row.cut .prob-new{opacity:1;transform:none}
+.story{position:relative;padding-top:clamp(96px,12vw,170px)}
+.story-head .note{margin-top:18px;font-size:12px;color:var(--txt3)}
+.story-pin{position:relative;display:grid;grid-template-columns:56px minmax(260px,.8fr) minmax(0,1.6fr);gap:clamp(16px,3vw,48px);
+max-width:var(--max);margin:clamp(30px,5vw,60px) auto 0;padding:0 var(--gut);height:100svh;align-items:center}
+.story-rail{height:70%;display:flex;gap:8px;align-self:center}
+.rail-svg{width:40px;height:100%;overflow:visible}
+.rail-svg path{fill:none;stroke:var(--line2);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.rail-svg .rail-fill{stroke:var(--gold);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--p,0))}
+.rail-ticks{list-style:none;display:flex;flex-direction:column;justify-content:space-between;font:500 12px/1 var(--mono);color:var(--txt3)}
+.rail-ticks li.on{color:var(--gold-ink)}
+.story-copy{position:relative;height:60%}
+.stp{position:absolute;inset:auto 0 auto 0;top:50%;transform:translateY(-40%);opacity:0;transition:opacity .5s var(--ease),transform .7s var(--ease);pointer-events:none}
+.stp.on{opacity:1;transform:translateY(-50%);pointer-events:auto}
+.stp .k{font-size:12px;color:var(--gold-ink);letter-spacing:.08em;text-transform:uppercase}
+.stp h3{font:400 clamp(2rem,3.4vw,3.2rem)/1.02 var(--serif);letter-spacing:-.02em;margin-top:14px}
+.stp p{color:var(--txt2);margin-top:14px;max-width:40ch}
+.params{display:flex;gap:10px;margin-top:22px}
+.params div{border:1px solid var(--line2);border-radius:10px;padding:10px 12px;min-width:84px}
+.params dt{font-size:12px;color:var(--txt3)}
+.params dd{font-size:22px;color:var(--txt);margin-top:4px}
+.params dd::after{content:" mm";font-size:12px;color:var(--txt3)}
+.story-view{position:relative;height:82%;border-radius:18px;overflow:hidden;background:radial-gradient(120% 90% at 50% 35%,#ffffff,#dfe5d5);box-shadow:inset 0 0 0 1px var(--line)}
+.story-view canvas{position:absolute;inset:0;width:100%;height:100%}
+.sv{position:absolute;inset:0;display:grid;place-items:center;opacity:0;visibility:hidden;padding:clamp(12px,2.5vw,32px)}
+.sv.on{opacity:1;visibility:visible}
+.sv-img{background:#eceee7}
+.sv-img img{width:100%;height:100%;object-fit:contain}
+.story.gl .sv-img{display:none}
+.sheet{background:var(--paper);color:var(--ink);border-radius:4px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);width:100%;max-height:100%;overflow:hidden}
+.tbl-sheet{padding:26px;width:760px}
+.cut{width:100%;border-collapse:collapse;font-size:13px}
+.cut caption{text-align:left;font:600 13px/1 var(--sans);padding-bottom:10px;letter-spacing:.02em}
+.cut th{background:var(--ink);color:var(--paper);font-weight:500;text-align:left;padding:7px 8px;font-size:.9em;text-transform:uppercase;letter-spacing:.04em}
+.cut td{padding:6px 8px;border-bottom:1px solid rgba(28,25,22,.12)}
+.cut td:nth-child(3),.cut td:nth-child(4),.cut td:nth-child(5),.cut th:nth-child(3),.cut th:nth-child(4),.cut th:nth-child(5){text-align:right}
+.cut tbody tr{opacity:1;transform:none;transition:opacity .4s var(--ease),transform .5s var(--ease)}
+.sv-c:not(.on) .cut tbody tr{opacity:0;transform:translateX(-10px)}
+.cut tbody tr:nth-child(n){transition-delay:calc(var(--i,0) * 35ms)}
+.tot{margin-top:14px;font-size:13px;color:var(--ink2)}
+.fitbox{overflow:hidden}
+.sheet.fit{max-height:none}
+.fit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--fs,1));transform-origin:center}
+.lbl-sheet{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:0;padding:18px;width:666px;height:942px;max-height:none}
+.lbl{position:relative;border:1px dashed rgba(28,25,22,.25);padding:9px 11px;display:flex;flex-direction:column;font-family:var(--mono);font-size:12px;line-height:1.2;color:var(--ink);overflow:hidden;transition:transform .5s var(--ease),opacity .5s}
+.lbl .lp{color:var(--ink2)}
+.lbl b{font-weight:500;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbl strong{font:600 22px/1.1 var(--sans);margin-top:4px}
+.lbl .lm{margin-top:auto;color:var(--ink2)}
+.lbl .ln{color:var(--ink2)}
+.lbl .eg{position:absolute;right:10px;bottom:12px;width:52px;height:auto}
+.eg rect{fill:none;stroke:rgba(28,25,22,.35);stroke-width:1}
+.eg path{fill:none;stroke:transparent;stroke-width:2.6}
+.eg path.on{stroke:#3f6d1f}
+.sv-d:not(.on) .lbl{opacity:0;transform:scale(.9)}
+.asm-sheet{padding:28px;width:1160px}
+.asm{width:100%;height:auto}
+.asm .pnl{fill:#fbf8f2;stroke:var(--ink);stroke-width:.7;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--draw))}
+.asm .h{fill:var(--ink)}
+.asm .thk{fill:#d8d0c2}
+.asm .pnl.door{fill:#8a5c3c;fill-opacity:.18}
+.asm .cup{fill:rgba(212,175,55,.2);stroke:var(--cota);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.asm .dl{fill:none;stroke:var(--cota);stroke-width:.7;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--draw))}
+.asm .dl.ext{stroke-dasharray:none;stroke-width:.45;opacity:calc(var(--draw))}
+.asm .dt{font:500 14px var(--mono);fill:var(--laser-ink);opacity:var(--draw)}
+.asm .cap{font:500 13px var(--mono);fill:var(--ink2)}
+.sv-e.on{--draw:1;transition:--draw 1.6s var(--ease)}
+.sv-e{--draw:0}
+@media (max-width:900px){
+.story-pin{display:block;height:auto;padding:0}
+.story-rail{display:none}
+.story-copy{height:auto}
+.story-view{display:none}
+.stp{position:relative;inset:auto;top:auto;transform:none;opacity:1;pointer-events:auto}
+}
+.mstory{display:none}
+@media (max-width:900px){
+.story-copy{display:none}
+.mstory{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px var(--gut) 26px;scrollbar-width:none;overscroll-behavior-x:contain}
+.mstory::-webkit-scrollbar{display:none}
+.mcard{flex:0 0 86%;scroll-snap-align:center;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--char2)}
+.mcard .mv{aspect-ratio:4/5;position:relative;overflow:hidden;background:#eceee7;display:grid;place-items:center}
+.mcard .mv>.sv{position:absolute;inset:0;opacity:1;visibility:visible}
+.mcard .mv .sv{padding:0}
+.mcard .mt{padding:18px 18px 22px}
+.mcard .mt .k{font:500 12px/1 var(--mono);color:var(--gold-ink);text-transform:uppercase;letter-spacing:.08em}
+.mcard .mt h3{font:400 1.8rem/1.05 var(--serif);margin-top:10px}
+.mcard .mt p{color:var(--txt2);font-size:15px;margin-top:8px}
+.mdots{display:flex;gap:6px;justify-content:center}
+.mdots i{width:18px;height:2px;background:var(--line2)}
+.mdots i.on{background:var(--gold)}
+}
+.dev-stage{position:relative;margin-top:clamp(40px,6vw,80px);height:clamp(320px,50vw,660px)}
+.mock{position:absolute;margin:0;background:#0c0a09;box-shadow:0 50px 90px -40px rgba(0,0,0,.9),0 0 0 1px rgba(239,233,223,.1),inset 0 0 0 1px rgba(255,255,255,.04)}
+.mock .scr{overflow:hidden;background:#eef0e9}
+.mock img{width:100%;height:100%;object-fit:cover;object-position:top}
+.mock-pc{left:0;top:0;width:64%;padding:12px 12px 14px;border-radius:14px}
+.mock-pc .scr{aspect-ratio:16/10;border-radius:6px}
+.mock-pc::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-16px;height:16px;border-radius:0 0 16px 16px;background:linear-gradient(#3a3531,#1f1b18)}
+.mock-tab{right:0;top:14%;width:43%;padding:14px;border-radius:26px}
+.mock-tab .scr{aspect-ratio:1180/820;border-radius:12px}
+.mock-ph{left:53%;top:30%;width:15.5%;min-width:120px;padding:7px;border-radius:32px}
+.mock-ph .scr{aspect-ratio:390/844;border-radius:26px}
+.mock-ph::before{content:"";position:absolute;left:50%;top:13px;transform:translateX(-50%);width:28%;height:9px;border-radius:9px;background:#0c0a09;z-index:2}
+.dev-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,40px);margin-top:clamp(50px,7vw,90px)}
+.dev-legend div{border-top:1px solid var(--line2);padding-top:18px}
+.dev-legend .k{font-size:12px;color:var(--gold-ink);text-transform:uppercase;letter-spacing:.08em}
+.dev-legend h3{font:400 clamp(1.6rem,2.4vw,2.2rem)/1.05 var(--serif);margin-top:10px}
+.dev-legend p{color:var(--txt2);margin-top:8px;font-size:16px}
+@media (max-width:760px){
+.dev-stage{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}
+.mock{position:relative;left:auto;right:auto;top:auto}
+.mock-pc{grid-column:1/-1;width:100%}
+.mock-tab{width:100%;grid-column:1}
+.mock-ph{width:62%;justify-self:center;grid-column:2}
+.dev-legend{grid-template-columns:1fr}
+}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(150px,auto);gap:14px;margin-top:clamp(40px,6vw,80px)}
+.card{position:relative;background:var(--char2);border:1px solid var(--line);box-shadow:0 1px 2px rgba(25,35,15,.05);border-radius:18px;padding:clamp(20px,2vw,28px);overflow:hidden;
+transition:border-color .4s,transform .6s var(--ease),background-color .4s;container-type:inline-size}
+.card:hover,.card:focus-visible{border-color:var(--line2);background:#fbfcf8;box-shadow:0 18px 40px -26px rgba(25,35,15,.35)}
+.card h3{font:500 18px/1.2 var(--sans);letter-spacing:-.01em}
+.card p{color:var(--txt2);font-size:15px;margin-top:6px;max-width:44ch}
+.c-types{grid-column:span 2;grid-row:span 2}
+.c-hw{grid-column:span 4}
+.c-mat{grid-column:span 2}
+.c-lbl{grid-column:span 2;grid-row:span 2}
+.c-draw{grid-column:span 2;grid-row:span 2}
+.c-room{grid-column:span 3}
+.c-lab{grid-column:span 3}
+.c-off{grid-column:span 2}
+.types{list-style:none;margin-top:18px;display:grid;gap:2px;font-size:12.5px}
+.types li{display:grid;grid-template-columns:22px 26px 1fr;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);color:var(--txt2);transition:color .3s,padding .4s var(--ease)}
+.types svg{width:18px;height:18px;fill:none;stroke:var(--green);stroke-width:1.3}
+.types span{color:var(--txt3)}
+.c-types:hover .types li:hover,.c-types:focus-within .types li:hover{color:var(--txt);padding-left:6px}
+.types li:hover svg{stroke:var(--gold)}
+.hw{width:100%;border-collapse:collapse;margin-top:16px;font-size:12.5px}
+.hw td{padding:8px 0;border-bottom:1px solid var(--line);color:var(--txt2)}
+.hw td:nth-child(2){padding-left:12px}.hw td:last-child{text-align:right;color:var(--txt3)}
+.code{color:var(--txt);border-bottom:1px dashed var(--line2);position:relative}
+.c-hw:hover .code,.c-hw:focus .code{color:var(--gold-ink);border-color:var(--gold)}
+.c-hw:hover tr:first-child .code::after{content:"";position:absolute;right:-5px;top:1px;bottom:1px;width:1px;background:var(--gold-ink);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+@container (max-width:420px){.hw td:first-child{display:none}.hw td:nth-child(2){padding-left:0}}
+.swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:16px}
+.sw{position:relative;aspect-ratio:1;border-radius:6px;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);transition:transform .5s var(--ease)}
+.sw.wood{background:repeating-linear-gradient(92deg,rgba(0,0,0,.12) 0 1px,transparent 1px 5px),repeating-linear-gradient(88deg,rgba(255,255,255,.06) 0 2px,transparent 2px 9px),var(--c)}
+.sw em{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);font:400 12px/1.25 var(--mono);color:#fff;white-space:nowrap;background:var(--green);padding:4px 6px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s}
+.sw:hover{transform:translateY(-3px)}
+.sw:hover em{opacity:1}
+.panel3d{position:absolute;right:-30px;bottom:-40px;width:160px;height:110px;perspective:500px;opacity:.9}
+.panel3d i{position:absolute;inset:0;border-radius:4px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.15) 0 1px,transparent 1px 6px),#6E4B33;transform:rotateX(62deg) rotateZ(-28deg);box-shadow:0 20px 30px rgba(0,0,0,.5);transition:transform 1.2s var(--ease)}
+.c-mat:hover .panel3d i,.c-mat:focus .panel3d i{transform:rotateX(58deg) rotateZ(152deg)}
+.crop{position:relative;height:clamp(200px,24vw,300px);margin:-8px -8px 18px;border-radius:10px;overflow:hidden;background:var(--paper)}
+.crop img{width:100%;height:auto;transition:transform 1.4s var(--ease)}
+.crop-lbl img{transform:scale(1.9);transform-origin:12% 6%}
+.c-lbl:hover .crop-lbl img{transform:scale(2.6);transform-origin:10% 4%}
+.crop-draw img{transform:scale(1.25);transform-origin:20% 10%}
+.dimline{position:absolute;left:12%;right:12%;bottom:14px;width:76%;height:auto;overflow:visible}
+.dimline path{fill:none;stroke:var(--cota);stroke-width:1.2;stroke-dasharray:420;stroke-dashoffset:420;transition:stroke-dashoffset 1.2s var(--ease)}
+.dimline text{font:500 9px var(--mono);fill:var(--laser-ink);text-anchor:middle;opacity:0;transition:opacity .4s .8s}
+.c-draw:hover .dimline path,.c-draw:focus .dimline path,.c-draw.in .dimline path{stroke-dashoffset:0}
+.c-draw:hover .dimline text,.c-draw:focus .dimline text,.c-draw.in .dimline text{opacity:1}
+.room{margin:-8px -8px 16px;border-radius:10px;overflow:hidden;background:#eceee7;height:clamp(180px,20vw,240px);perspective:900px}
+.room img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;transition:transform 1.4s var(--ease)}
+.c-room:hover .room img,.c-room:focus .room img{transform:rotateY(-14deg) rotateX(6deg) scale(1.08)}
+.json{margin-top:16px;font-size:12px;line-height:1.55;color:var(--txt2);background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;white-space:pre}
+.c-lab:hover .json{color:var(--txt)}
+.off{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.off div{border-top:1px solid var(--line2);padding-top:10px}
+.off dt{font-size:12px;color:var(--txt3)}
+.off dd{font-size:20px;margin-top:4px}
+@media (max-width:1000px){.bento{grid-template-columns:repeat(2,1fr)}.bento>.card{grid-column:span 2;grid-row:auto}.c-lbl,.c-draw,.c-mat,.c-off{grid-column:span 1}}
+@media (max-width:620px){.bento>.card,.c-lbl,.c-draw,.c-mat,.c-off{grid-column:1/-1}.bento{grid-template-columns:1fr}}
+.paper{background:var(--paper);color:var(--ink);color-scheme:light;overflow:hidden}
+.paper .kicker{color:var(--walnut)}
+.paper .h2 em{color:var(--walnut)}
+.paper .sub{color:var(--ink2)}
+.pile{position:relative;max-width:var(--max);margin:clamp(40px,6vw,80px) auto 0;padding:0 var(--gut);height:clamp(520px,62vw,860px)}
+.sheet-doc{position:absolute;top:0;width:clamp(200px,26vw,380px);left:calc(var(--gut) + var(--x,0%));transform:translate3d(0,var(--ty,40px),0) rotate(var(--rot,0deg));
+background:#fff;padding:0;border-radius:2px;box-shadow:0 1px 1px rgba(0,0,0,.06),0 20px 40px -18px rgba(40,30,20,.45),0 50px 80px -40px rgba(40,30,20,.35);
+transition:transform 1s var(--ease),box-shadow .4s,opacity 1s var(--ease);cursor:zoom-in}
+.js .sheet-doc{opacity:0}
+.sheet-doc img{width:100%;height:auto;border-radius:2px}
+.sheet-doc .tag{position:absolute;left:0;top:calc(100% + 10px);font-size:12px;color:var(--ink2);white-space:nowrap}
+.sheet-doc:hover,.sheet-doc:focus-visible{transform:translate3d(0,calc(var(--ty,0px) - 10px),0) rotate(calc(var(--rot,0deg) * .3));z-index:10;box-shadow:0 2px 2px rgba(0,0,0,.06),0 40px 70px -24px rgba(40,30,20,.55)}
+.pile.in .sheet-doc,.js .pile.in .sheet-doc{opacity:1;--ty:var(--y,0px)}
+.sheet-doc:nth-child(1){--x:0%;--y:40px;--rot:-5deg;transition-delay:.0s}
+.sheet-doc:nth-child(2){--x:15%;--y:0px;--rot:3deg;transition-delay:.12s}
+.sheet-doc:nth-child(3){--x:30%;--y:60px;--rot:-2deg;transition-delay:.24s}
+.sheet-doc:nth-child(4){--x:45%;--y:10px;--rot:4deg;transition-delay:.36s}
+.sheet-doc:nth-child(5){--x:60%;--y:70px;--rot:-3.5deg;transition-delay:.48s}
+.sheet-doc:nth-child(6){--x:72%;--y:24px;--rot:2deg;transition-delay:.6s}
+@media (max-width:760px){
+.pile{height:auto;display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:20px var(--gut) 60px;scrollbar-width:none}
+.pile::-webkit-scrollbar{display:none}
+.sheet-doc{position:relative;left:auto;flex:0 0 72%;scroll-snap-align:center;transform:rotate(var(--rot));opacity:1}
+.sheet-doc:nth-child(odd){--rot:-1.5deg}.sheet-doc:nth-child(even){--rot:1.5deg}
+}
+.lightbox{margin:auto;max-width:min(96vw,1100px);max-height:96svh;border:0;padding:0;background:transparent;color:var(--txt);overflow:visible}
+.lightbox::backdrop{background:rgba(12,10,9,.9);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.lightbox figure{max-height:92svh;overflow:auto;border-radius:4px;background:#fff}
+.lightbox img{width:min(90vw,1000px);height:auto}
+.lightbox figcaption{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);font-size:12px;color:var(--txt);background:var(--graphite);padding:6px 10px;border-radius:6px}
+.lb-close,.lb-nav{position:fixed;z-index:2;width:48px;height:48px;border-radius:50%;background:var(--graphite);color:var(--txt);font:400 22px/1 var(--mono);border:1px solid var(--line2)}
+.lb-close{right:16px;top:16px}
+.lb-prev{left:16px;top:50%}.lb-next{right:16px;top:50%}
+.lb-close:hover,.lb-nav:hover{border-color:var(--gold)}
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);margin-top:clamp(40px,6vw,80px)}
+.who-card .ph{aspect-ratio:4/5;border-radius:14px;overflow:hidden;background:var(--graphite)}
+.who-card img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.who-card:hover img{transform:scale(1.03)}
+.who-card .k{display:block;margin-top:20px;font-size:12px;color:var(--gold-ink);text-transform:uppercase;letter-spacing:.08em}
+.who-card h3{font:400 clamp(1.6rem,2.4vw,2.2rem)/1.05 var(--serif);margin-top:10px;letter-spacing:-.015em}
+.who-card p{color:var(--txt2);margin-top:8px;font-size:16px}
+@media (max-width:860px){.who-grid{grid-template-columns:1fr}}
+.work{padding-top:0}
+.work-grid{display:grid;grid-template-columns:1fr 1.35fr 1fr;grid-template-rows:auto auto;gap:clamp(10px,1.4vw,18px);margin-top:clamp(36px,5vw,64px)}
+.work-grid figure{position:relative;margin:0;border-radius:14px;overflow:hidden;background:var(--graphite)}
+.work-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.work-grid figure:hover img{transform:scale(1.04)}
+.work-grid figcaption{position:absolute;left:12px;bottom:12px;font-size:12px;color:#fff;background:rgba(14,59,42,.82);padding:6px 9px;border-radius:6px}
+.w-a{grid-row:1/3}.w-c{grid-column:3;grid-row:1/3}.w-b{aspect-ratio:4/3}.w-d{aspect-ratio:4/3}
+@media (max-width:760px){.work-grid{grid-template-columns:1fr 1fr}.w-a,.w-c{grid-row:auto;grid-column:auto;aspect-ratio:4/5}.w-b,.w-d{grid-column:1/-1}}
+.tt-ico,.gp-ico{width:16px;height:16px;fill:currentColor;flex:none}
+.tt-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#111;color:#fff;transition:transform .4s var(--ease)}
+.tt-btn:hover{transform:translateY(-2px)}
+.tt-btn .tt-ico{width:18px;height:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 14px;border-radius:999px;font:500 13px/1 var(--sans);text-decoration:none;border:1px solid var(--line2);background:#fff;color:var(--txt)}
+.chip-play .gp-ico{color:var(--green)}
+a.chip-play:hover{border-color:var(--green)}
+a.chip-dark:hover{background:rgba(255,255,255,.18)}
+.chip-tt{background:#111;color:#fff;border-color:#111}
+.chip-tt:hover{background:#000}
+.chip-dark{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.chip-dark .gp-ico{color:var(--gold)}
+.final-note{margin-top:26px}
+.final-sub{margin:12px auto 0;max-width:52ch;color:rgba(255,255,255,.75);font-size:15px}
+.tt-sec{background:linear-gradient(180deg,var(--char),#dfe5d5)}
+.tt-in{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(30px,6vw,90px);align-items:center}
+.btn-tt{background:#111;color:#fff}
+.btn-tt:hover{background:#000}
+.btn-tt .tt-ico{width:18px;height:18px}
+.tt-phone{justify-self:center;width:min(300px,70vw);border-radius:40px;background:#0c0a09;padding:10px;box-shadow:0 40px 80px -40px rgba(25,35,15,.6);transition:transform .6s var(--ease);text-decoration:none}
+.tt-phone:hover{transform:translateY(-6px) rotate(-1deg)}
+.tt-phone .scr{position:relative;display:block;aspect-ratio:390/844;border-radius:31px;overflow:hidden}
+.tt-phone img{width:100%;height:100%;object-fit:cover}
+.tt-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))}
+.tt-play{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);color:#fff;font-size:24px;padding-left:4px}
+.tt-meta{color:#fff;font-size:13px;line-height:1.35}
+.tt-meta b{display:block;font-weight:600;margin-bottom:4px}
+@media (max-width:860px){.tt-in{grid-template-columns:1fr}}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:clamp(40px,6vw,72px);max-width:1180px}
+.tier{border:1px solid var(--line2);border-radius:20px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;background:var(--char2);box-shadow:0 20px 50px -34px rgba(25,35,15,.4)}
+.tier-pro{background:var(--green);border-color:var(--green);color:#fff}
+.tier-pro .per{color:rgba(255,255,255,.7)!important}
+.tier-pro li{color:rgba(255,255,255,.88)!important}
+.tier-pro .name{color:var(--gold-soft)!important}
+.tier-pro .btn-laser{background:var(--gold);color:#1d221b}
+.tier-pro .btn-laser:hover{background:var(--gold-soft)}
+.tier-pro .yearly a{color:var(--gold-soft)}
+.tier .name{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold-ink)}
+.tier .amt{font:400 clamp(3rem,6vw,4.6rem)/1 var(--serif);margin-top:16px;letter-spacing:-.02em}
+.tier .per{color:var(--txt3);font-size:14px;margin-top:8px}
+.tier ul{list-style:none;margin:28px 0 30px;display:grid;gap:12px;flex:1}
+.tier li{display:grid;grid-template-columns:18px 1fr;gap:12px;color:var(--txt2)}
+.tier li::before{content:"";height:2px;background:var(--gold);margin-top:.7em}
+.tier-pro li::before{background:var(--gold)}
+.tier .btn{align-self:flex-start}
+.yearly{margin-top:14px;font-size:14px}
+.yearly a{color:var(--green)}
+.vat{margin-top:22px;color:var(--txt3);font-size:14px;max-width:70ch}
+.tier-fd{border-color:var(--gold);background:linear-gradient(180deg,#fffaf0,var(--char2))}
+.tier-fd .name{color:var(--gold-ink)}
+.tier-fd .btn-laser{background:var(--gold);color:#1d221b}
+.tier-fd .btn-laser:hover{background:var(--gold-soft)}
+.plans-note{margin-top:18px;color:var(--txt2);font-size:15px}
+.cmp-wrap{margin-top:clamp(28px,4vw,48px);max-width:1180px;overflow-x:auto;border:1px solid var(--line2);border-radius:20px;background:var(--char2)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;line-height:1.4}
+.cmp th,.cmp td{padding:14px clamp(14px,2vw,24px);border-top:1px solid var(--line2);text-align:left}
+.cmp thead th{border-top:0;font:600 12px/1 var(--sans);text-transform:uppercase;letter-spacing:.12em;color:var(--gold-ink)}
+.cmp thead th+th,.cmp td{text-align:center;width:22%}
+.cmp tbody th{font-weight:400;color:var(--txt2)}
+.cmp td.y{color:var(--green);font-weight:700}
+.cmp td.n{color:var(--txt3)}
+.cmp td.v{font-weight:600}
+@media (max-width:1000px){.tiers{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.tiers{grid-template-columns:1fr}.cmp{font-size:14px}}
+.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,6vw,100px);align-items:start}
+.faq{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;font:400 clamp(1.25rem,1.9vw,1.6rem)/1.25 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:0 0 14px;height:14px;background:linear-gradient(var(--green),var(--green)) center/100% 2px no-repeat,linear-gradient(var(--green),var(--green)) center/2px 100% no-repeat;transition:transform .4s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 0 26px;color:var(--txt2);max-width:62ch}
+.faq details::details-content{block-size:0;overflow:hidden;transition:block-size .5s var(--ease),content-visibility .5s allow-discrete}
+.faq details[open]::details-content{block-size:auto}
+:root{interpolate-size:allow-keywords}
+@media (max-width:860px){.faq-wrap{grid-template-columns:1fr}}
+.final{position:relative;padding:clamp(120px,18vw,260px) 0;text-align:center;overflow:hidden;background:radial-gradient(120% 100% at 50% 30%,#16513a,#0b2e21);color:#fff}
+.final .grid32{background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px)}
+.final .kicker{color:var(--gold-soft)}
+.final .btn-laser{background:var(--gold);color:#1d221b}
+.final .btn-laser:hover{background:var(--gold-soft)}
+.final .kicker{justify-content:center}
+.h-final{font:400 clamp(3rem,9vw,9rem)/.94 var(--serif);letter-spacing:-.035em;margin:22px auto 0;max-width:12ch}
+.h-final em{color:var(--gold-soft)}
+.final-dim{width:min(600px,80%);margin:40px auto 34px;overflow:visible}
+.final-dim path{fill:none;stroke:var(--gold);stroke-width:1.3;stroke-dasharray:1300;stroke-dashoffset:1300;transition:stroke-dashoffset 1.6s var(--ease)}
+.final.in .final-dim path{stroke-dashoffset:0}
+.foot{border-top:1px solid var(--line);padding:44px 0 calc(40px + env(safe-area-inset-bottom))}
+.foot-in{display:grid;grid-template-columns:1fr auto auto;gap:24px 40px;align-items:start}
+.foot-by{font:400 22px/1.2 var(--serif)}
+.foot-legal{font-size:12px;color:var(--txt3);margin-top:8px}
+.foot-nav{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px}
+.foot-nav a{color:var(--txt2);text-decoration:none}
+.foot-nav a:hover{color:var(--txt)}
+@media (max-width:860px){.foot-in{grid-template-columns:1fr}}
+.suggest{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:70;display:flex;align-items:center;gap:12px;
+background:#fff;border:1px solid var(--line2);border-radius:999px;padding:8px 8px 8px 18px;font-size:14px;box-shadow:0 20px 40px -20px #000;max-width:calc(100% - 24px)}
+.suggest[hidden]{display:none}
+.suggest a{color:var(--green);font-weight:600}
+.suggest button{width:32px;height:32px;border-radius:50%;color:var(--txt2)}
+.xhair{position:fixed;left:0;top:0;z-index:120;pointer-events:none;opacity:0;transition:opacity .3s;mix-blend-mode:difference}
+.xhair i{position:absolute;background:#fff}
+.xh-h{left:-14px;top:0;width:28px;height:1px}
+.xh-v{left:0;top:-14px;width:1px;height:28px}
+.xhair span{position:absolute;left:14px;top:10px;font-size:12px;color:#fff;white-space:nowrap}
+@media (hover:hover) and (pointer:fine){
+html.xh,html.xh a,html.xh button,html.xh summary{cursor:none}
+html.xh .xhair{opacity:1}
+html.xh input,html.xh textarea{cursor:text}
+}
+@media (prefers-reduced-motion:reduce){
+*,*::before,*::after{animation:none!important;transition:none!important}
+.js .rv,.split .ln>span{opacity:1!important;transform:none!important}
+.js .prob-new{opacity:1;transform:none}
+.js .sheet-doc{opacity:1}
+.xhair{display:none}
+}
+.case-teaser{padding-top:0}
+.ct-in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
+.ct-ph{display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--graphite)}
+.ct-ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.ct-ph:hover img{transform:scale(1.03)}
+.ct-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+.ct-strip picture{aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--graphite)}
+.ct-strip img{width:100%;height:100%;object-fit:cover;object-position:top}
+.case-teaser .cta-row{margin-top:28px}
+@media (max-width:860px){.ct-in{grid-template-columns:1fr}.ct-ph{aspect-ratio:4/5}}
+.case-page .top{background:rgba(234,238,228,.92);border-color:var(--line)}
+.case{padding-top:68px}
+.case-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,72px);align-items:end;padding-top:clamp(40px,7vw,96px);padding-bottom:clamp(40px,6vw,80px)}
+.case-h1{font:400 clamp(2.4rem,5.4vw,4.8rem)/1 var(--serif);letter-spacing:-.03em;margin-top:18px}
+.case-h1 em,.case-h2 em{color:var(--gold-ink)}
+.case-facts{display:grid;grid-template-columns:repeat(4,auto);gap:clamp(14px,2.4vw,36px);margin-top:36px;justify-content:start}
+.case-facts dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt3)}
+.case-facts dd{font:400 clamp(1.5rem,2.6vw,2.4rem)/1.1 var(--serif);margin-top:6px;color:var(--green);white-space:nowrap}
+.case-hero-ph{border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--graphite)}
+.case-hero-ph img{width:100%;height:100%;object-fit:cover}
+.case-sec{padding-top:clamp(56px,8vw,112px);border-top:1px solid var(--line)}
+.case-txt{max-width:68ch}
+.case-txt p:not(.kicker){color:var(--txt2);font-size:clamp(17px,1.4vw,19px);margin-top:16px}
+.case-h2{font:400 clamp(1.9rem,3.6vw,3.2rem)/1.04 var(--serif);letter-spacing:-.02em;margin-top:14px}
+.case-grid{display:grid;gap:clamp(10px,1.4vw,18px);margin-top:clamp(28px,4vw,48px)}
+.case-grid.g1{grid-template-columns:1fr;margin-top:clamp(10px,1.4vw,18px)}
+.case-grid.g2{grid-template-columns:repeat(2,1fr)}
+.case-grid.g3,.case-grid.g4{grid-template-columns:repeat(3,1fr)}
+.case-grid.g-lbl{grid-template-columns:minmax(0,2fr) minmax(0,1fr);align-items:start}
+.case-fig a{display:block;border-radius:12px;overflow:hidden;background:var(--graphite)}
+.case-fig img{width:100%;height:auto}
+.case-fig figcaption{font-size:12px;color:var(--txt3);margin-top:10px;line-height:1.45}
+.case-scr .scr{border-radius:22px;overflow:hidden;border:6px solid #1d221b;background:#1d221b;box-shadow:0 18px 40px rgba(14,59,42,.18)}
+.case-grid.phones{max-width:1000px}
+.lbl-fig picture{display:block;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 10px 30px rgba(14,59,42,.12);border:1px solid var(--line)}
+.case-table-wrap{overflow-x:auto;margin-top:clamp(24px,3vw,40px);border:1px solid var(--line2);border-radius:12px;background:var(--paper)}
+.case-table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+.case-table th{background:var(--green);color:#fff;text-align:left;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:12px 14px}
+.case-table td{padding:11px 14px;border-top:1px solid var(--line)}
+.case-table td:nth-child(n+3):nth-child(-n+5){font-variant-numeric:tabular-nums}
+.case-table td.mono{font-size:13px;color:var(--gold-ink)}
+.case-note{margin-top:clamp(24px,3vw,40px);padding:22px 24px;border-left:3px solid var(--gold);background:var(--paper);border-radius:0 12px 12px 0;max-width:68ch}
+.case-note h3{font:400 1.4rem/1.2 var(--serif)}
+.case-note p{color:var(--txt2);margin-top:8px}
+.case-final{margin-top:clamp(72px,10vw,140px);padding:clamp(80px,12vw,160px) 0}
+.case-final-h{color:#fff;max-width:18ch;margin:0 auto 34px}
+.case-final .final-sub a{color:var(--gold-soft)}
+@media (max-width:860px){
+.case-hero{grid-template-columns:1fr}
+.case-facts{grid-template-columns:repeat(2,auto)}
+.case-grid.g2,.case-grid.g-lbl{grid-template-columns:1fr}
+.case-grid.g3,.case-grid.g4{grid-template-columns:repeat(2,1fr)}
+.case-grid.phones{grid-template-columns:repeat(3,minmax(200px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+.case-grid.phones .case-fig{scroll-snap-align:start}
+}
+.case-h3{font:400 clamp(1.3rem,2vw,1.7rem)/1.2 var(--serif);margin-top:clamp(32px,4vw,52px)}
+.case-illus a{position:relative}
+.illus-tag{position:absolute;left:10px;top:10px;background:rgba(14,59,42,.88);color:var(--gold-soft);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:6px}
+.case-grid.g-illus{margin-top:16px}
+</style>
+<link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/de/","inLanguage":"de","installUrl":"https://play.google.com/store/apps/details?id=com.domusrenov.ebanist","description":"Möbelplanungs-App für Tischler. Ein Möbel auf dem Handy entwerfen und Zuschnittliste, Teileetiketten, Montageanleitung und technische Zeichnung erhalten. Läuft im Browser, funktioniert offline. Kostenlos für 1 Projekt.","offers":[{"@type":"Offer","name":"Kostenlos","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app","https://play.google.com/store/apps/details?id=com.domusrenov.ebanist"]}}</script>
+<!-- Nessun cookie, nessun tracciatore di terzi: GoatCounter e ospitato qui
+     (/site/js/count.js) e non usa cookie, quindi nessun banner. -->
+<script data-goatcounter="https://ebanist.goatcounter.com/count" data-goatcounter-settings='{"allow_local":false}' async src="/site/js/count.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ebLogo" viewBox="155.68 -69.54 353.43 353.43"><g transform="translate(-376,559.923803) scale(0.1,-0.1)" stroke="none">
+<path d="M6385 5585 c-320 -70 -585 -319 -681 -640 -32 -111 -44 -311 -24
+-433 61 -384 341 -744 715 -921 213 -101 372 -136 610 -135 234 1 370 31 582
+129 267 125 524 377 662 654 118 234 161 452 161 821 l0 156 29 17 c61 36 78
+136 34 196 -24 33 -79 61 -118 61 -65 0 -135 -72 -135 -138 0 -50 26 -100 61
+-120 l31 -17 -5 -245 c-4 -197 -9 -264 -26 -342 -55 -254 -168 -476 -321 -628
+-67 -67 -83 -78 -146 -98 -39 -12 -91 -22 -117 -22 l-46 0 69 69 c228 228 355
+516 376 856 l7 110 41 36 c39 35 41 39 41 96 0 73 -21 108 -81 134 -36 17 -50
+18 -83 9 -79 -21 -121 -86 -107 -164 8 -40 47 -92 77 -101 18 -6 19 -13 14
+-83 -21 -267 -74 -440 -187 -613 -55 -85 -167 -223 -174 -216 -2 2 9 30 25 63
+51 102 82 226 88 355 6 115 6 117 34 133 76 45 83 154 14 223 -29 29 -39 33
+-85 33 -69 0 -113 -27 -135 -82 -21 -54 -12 -109 26 -153 35 -39 36 -56 8
+-132 -75 -201 -231 -303 -462 -303 -308 0 -582 192 -703 493 l-33 82 472 5
+472 5 -1 100 c-1 125 -28 225 -92 349 -37 74 -65 110 -142 187 -82 83 -108
+103 -190 143 -135 66 -225 86 -374 85 -67 0 -148 -6 -181 -14z m70 -108 c-136
+-101 -253 -229 -304 -331 -34 -69 -38 -86 -18 -86 6 0 27 29 45 63 93 180 311
+363 447 375 105 9 290 -65 395 -158 l35 -31 -42 20 c-66 33 -187 69 -250 76
+-136 16 -277 -41 -397 -160 -42 -41 -82 -75 -89 -75 -8 0 -21 -8 -30 -17 -50
+-57 7 -129 69 -88 23 15 26 22 21 55 -5 37 -2 41 67 107 39 38 87 79 106 90
+138 83 322 70 509 -34 107 -59 170 -128 196 -211 6 -20 1 -19 -44 16 -79 59
+-207 134 -264 153 -30 11 -81 18 -122 19 -137 0 -254 -49 -344 -146 -63 -67
+-96 -127 -122 -219 l-16 -60 -182 -3 -181 -2 0 25 c0 13 6 46 13 72 9 35 20
+51 44 66 38 22 50 51 33 82 -30 57 157 321 268 379 33 17 133 44 167 45 17 0
+15 -3 -10 -22z m1937 -84 c41 -37 5 -111 -49 -97 -23 6 -47 49 -37 67 27 48
+55 58 86 30z m-2297 -89 c-31 -42 -67 -103 -82 -135 -17 -37 -33 -59 -44 -59
+-35 0 -63 -55 -44 -89 10 -20 9 -34 -6 -83 -11 -33 -19 -68 -19 -78 0 -15 -10
+-19 -56 -22 -31 -1 -58 0 -60 4 -2 4 9 49 26 100 48 152 135 279 258 379 40
+32 75 59 77 59 2 0 -20 -34 -50 -76z m796 -94 c64 -19 182 -92 297 -181 54
+-43 60 -51 66 -95 4 -27 10 -60 13 -74 5 -21 -5 -15 -58 36 -81 76 -137 114
+-241 164 -105 50 -169 63 -245 49 -73 -14 -118 -37 -171 -88 -34 -33 -92 -125
+-92 -146 0 -17 29 0 44 28 65 111 163 177 265 177 111 -1 280 -82 394 -190
+l62 -59 -48 -1 c-52 0 -75 9 -121 47 -63 52 -127 77 -201 77 -89 0 -154 -22
+-228 -78 l-57 -43 -113 1 -112 1 3 25 c7 47 40 128 70 172 109 159 302 232
+473 178z m-591 -85 c13 -16 6 -35 -15 -35 -18 0 -28 17 -21 35 7 19 20 19 36
+0z m1798 -48 c32 -66 -62 -109 -97 -46 -13 24 -13 29 3 53 24 37 75 33 94 -7z
+m-2100 -31 c-2 -13 -10 -21 -23 -21 -23 0 -33 34 -14 45 20 13 40 -1 37 -24z
+m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
+12 62 50 109 68 21 8 67 12 111 11 66 -3 83 -7 133 -38z m759 -157 c22 -20 23
+-51 1 -75 -22 -24 -69 -24 -83 1 -33 63 30 121 82 74z m-1820 -10 c33 -37 89
+-154 147 -306 59 -154 107 -257 121 -257 6 0 -115 343 -154 434 -9 22 -30 61
+-46 88 -17 27 -30 51 -30 53 0 3 79 4 175 3 l176 -3 28 -82 c47 -135 105 -227
+211 -334 58 -58 123 -112 165 -137 54 -33 64 -42 45 -42 -42 0 -130 27 -200
+61 -131 65 -271 247 -254 334 11 60 -37 96 -78 58 -27 -24 -23 -61 10 -80 17
+-11 41 -45 66 -96 89 -184 264 -295 494 -313 48 -4 120 -15 161 -25 93 -24
+271 -26 356 -4 95 24 181 72 247 136 53 52 59 56 54 32 -10 -42 -61 -147 -94
+-195 -114 -166 -289 -280 -495 -324 -76 -16 -261 -21 -342 -9 -253 37 -466
+143 -645 324 -165 166 -258 352 -277 556 l-6 69 42 -33 c69 -55 107 -122 135
+-241 32 -128 78 -224 149 -310 56 -67 148 -139 211 -165 62 -26 63 -16 1 23
+-86 55 -178 144 -228 220 -55 84 -71 123 -102 247 -33 128 -67 188 -141 248
+-32 26 -60 56 -62 67 -3 18 3 20 71 20 58 0 77 -4 89 -17z m358 -169 c0 -8 -9
+-14 -20 -14 -22 0 -28 26 -7 33 16 6 27 -1 27 -19z m1520 -698 c0 -9 -125 -94
+-197 -135 -93 -52 -200 -95 -321 -127 -77 -20 -130 -27 -252 -31 -166 -6 -277
+7 -395 46 l-60 20 55 -7 c30 -4 134 -7 230 -6 154 1 187 4 271 27 119 31 216
+71 344 142 91 51 104 55 165 56 36 0 83 4 105 8 54 12 55 12 55 7z"/>
+<path d="M6140 4525 c0 -19 49 -120 87 -179 130 -201 313 -338 511 -382 120
+-27 349 -7 315 27 -5 5 -38 4 -78 -3 -139 -21 -303 12 -434 89 -36 21 -104 76
+-151 123 -91 89 -146 163 -199 268 -17 34 -36 62 -41 62 -6 0 -10 -2 -10 -5z"/>
+<path d="M6254 4134 c-16 -23 -16 -28 -1 -59 43 -90 149 -170 279 -211 46 -14
+137 -43 203 -64 142 -45 225 -56 320 -40 72 11 92 21 81 38 -4 7 -19 7 -44 0
+-20 -6 -77 -11 -127 -11 -78 0 -104 5 -195 36 -58 20 -145 48 -195 62 -117 34
+-173 66 -240 136 -53 56 -71 99 -40 99 18 0 127 -97 137 -122 8 -20 38 -25 38
+-5 0 7 -35 47 -78 90 -85 84 -111 94 -138 51z"/>
+<path d="M7305 3970 c-125 -68 -223 -94 -357 -94 -73 -1 -108 -5 -108 -12 0
+-6 17 -14 38 -18 137 -22 346 28 487 119 52 33 70 56 43 54 -7 0 -53 -23 -103
+-49z"/>
+</g></symbol></svg>
+<a class="skip" href="#main">Zum Inhalt springen</a>
+
+<!-- ======================= INTRO ======================= -->
+<div class="intro" id="intro" hidden aria-hidden="true">
+  <canvas id="introCanvas"></canvas>
+  <div class="intro-labels" id="introLabels"></div>
+  <div class="intro-title"><svg class="intro-logo" aria-hidden="true"><use href="#ebLogo"/></svg><span class="intro-word" id="introWord">Ebanist</span><span class="intro-tag">Möbelplanung für Tischler</span></div>
+  <button type="button" class="intro-skip" id="introSkip">Überspringen <span aria-hidden="true">→</span></button>
+</div>
+
+<header class="top" id="top">
+  <div class="wrap bar">
+    <a class="brand" href="/de/" aria-label="Ebanist">
+      <span class="badge" aria-hidden="true"><svg><use href="#ebLogo"/></svg></span>
+      <span>EBANIST</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#story">So funktioniert's</a>
+      <a href="#features">Funktionen</a>
+      <a href="#output">Ergebnis</a>
+      <a href="#pricing">Preise</a>
+    </nav>
+    <span class="sp"></span>
+    <nav class="langs" aria-label="Sprache"><a href="/" hreflang="en" lang="en">EN</a><a href="/ro/" hreflang="ro" lang="ro">RO</a><a href="/it/" hreflang="it" lang="it">IT</a><a href="/fr/" hreflang="fr" lang="fr">FR</a><a href="/de/" hreflang="de" lang="de" aria-current="page">DE</a></nav>
+    <details class="lang-pick"><summary aria-label="Sprache: Deutsch"><span class="mono">DE</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></summary><nav class="lang-menu" aria-label="Sprache"><a href="/" hreflang="en" lang="en"><b class="mono">EN</b><span>English</span></a><a href="/ro/" hreflang="ro" lang="ro"><b class="mono">RO</b><span>română</span></a><a href="/it/" hreflang="it" lang="it"><b class="mono">IT</b><span>italiano</span></a><a href="/fr/" hreflang="fr" lang="fr"><b class="mono">FR</b><span>français</span></a><a href="/de/" hreflang="de" lang="de" aria-current="page"><b class="mono">DE</b><span>Deutsch</span></a></nav></details>
+    <a class="tt-btn" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" aria-label="TikTok @ebanist.app" data-goatcounter-click="tiktok-header"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg></a>
+    <a class="btn btn-laser btn-sm" href="/app/?lang=de" data-goatcounter-click="cta-header">Ebanist öffnen</a>
+  </div>
+</header>
+
+<main id="main">
+<!-- ======================= 1 · HERO ======================= -->
+<section class="hero" id="hero">
+  <div class="grid32" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="kicker mono">Neu: jetzt bei Google Play · PWA für Tischler</p>
+      <h1 class="h-hero split">Vom Aufmaß zur <em>Zuschnittliste</em> in 10&nbsp;Minuten.</h1>
+      <p class="hero-sub">Eine Möbelplanungs-App für Tischler. Sie läuft im Browser – nichts zu installieren – und funktioniert auch offline, direkt auf der Baustelle.</p>
+      <div class="cta-row">
+        <a class="btn btn-laser" id="ctaHero" href="/app/?lang=de" data-goatcounter-click="cta-hero">Ebanist öffnen — kostenlos <span aria-hidden="true">→</span></a>
+        <a class="btn btn-line" href="#story">So funktioniert's</a>
+      </div>
+      <p class="proof mono">15 Möbeltypen · Blum &amp; Häfele · Egger-Dekore · PDF-Ausgabe</p>
+      <div class="chips">
+        <a class="chip chip-play" href="https://play.google.com/store/apps/details?id=com.domusrenov.ebanist&hl=de" rel="noopener" target="_blank" data-goatcounter-click="play-hero"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Jetzt bei Google Play</a>
+        <a class="chip chip-tt" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" data-goatcounter-click="tiktok-hero"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>@ebanist.app</a>
+      </div>
+    </div>
+    <figure class="hero-stage" id="heroStage">
+      <picture class="hero-static">
+        <source type="image/avif" srcset="/site/img/hero-carcass-900.avif 900w, /site/img/hero-carcass-1400.avif 1400w" sizes="(max-width:900px) 100vw, 55vw">
+        <img src="/site/img/hero-carcass-1400.webp" srcset="/site/img/hero-carcass-900.webp 900w, /site/img/hero-carcass-1400.webp 1400w" sizes="(max-width:900px) 100vw, 55vw" width="1400" height="1400" alt="Zweitüriger Kleiderschrank mit Nussbaumfronten, 1000 × 2200 × 600 mm, gezeichnet mit Ebanist" fetchpriority="high">
+      </picture>
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="dims" id="heroDims" aria-hidden="true"></div>
+      <figcaption class="drag mono">Zum Drehen ziehen</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= 2 · PROBLEM ======================= -->
+<section class="prob sec" id="problem">
+  <div class="wrap">
+    <p class="kicker mono rv">Das Problem</p>
+    <h2 class="h2 split">Drei Dinge, die eine Werkstatt jede Woche Geld kosten.</h2>
+    <ol class="prob-list">
+      <li class="prob-row"><span class="mono n">01</span><p class="prob-old"><span>Zuschnittlisten, die nachts von Hand addiert werden.</span><i class="laser-cut" aria-hidden="true"></i></p><p class="prob-new">Jedes Teil aus einem einzigen Modell berechnet – Fertigmaß, auf 0,1 mm genau.</p></li>
+      <li class="prob-row"><span class="mono n">02</span><p class="prob-old"><span>Eine falsche Tiefe, die erst auf der Baustelle auffällt.</span><i class="laser-cut" aria-hidden="true"></i></p><p class="prob-new">Die Stärke kommt aus dem Material. Wenn der Korpus nicht aufgeht, wird das PDF nicht gedruckt.</p></li>
+      <li class="prob-row"><span class="mono n">03</span><p class="prob-old"><span>Tage, die zwischen Zeichnung und Fertigung verloren gehen.</span><i class="laser-cut" aria-hidden="true"></i></p><p class="prob-new">Zuschnittliste, Etiketten und Montageanleitung kommen am selben Tag aus demselben Modell.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= 3 · SCROLL STORY ======================= -->
+<section class="story" id="story" aria-labelledby="storyH">
+  <div class="wrap story-head">
+    <p class="kicker mono rv">So funktioniert's</p>
+    <h2 class="h2 split" id="storyH">Ein Möbel. Fünf Blätter.</h2>
+    <p class="mono note rv">Kleiderschrank W1000 · echte Daten aus der App</p>
+  </div>
+  <div class="story-pin" id="storyPin">
+    <div class="story-rail" aria-hidden="true">
+      <svg class="rail-svg" viewBox="0 0 40 400" preserveAspectRatio="none"><path class="rail-base" d="M20 8V392"/><path class="rail-fill" id="railFill" d="M20 8V392" pathLength="1"/><path d="M12 8h16M12 392h16"/></svg>
+      <ol class="rail-ticks"><li>a</li><li>b</li><li>c</li><li>d</li><li>e</li></ol>
+    </div>
+    <div class="story-copy">
+      <article class="stp" data-i="0"><span class="mono k">a · Parameter</span><h3>Drei Maße eintippen.</h3><p>Breite, Höhe, Tiefe. Korpus, Trennwand, Böden und Türen folgen – jedes Teil an einer einzigen Stelle abgeleitet.</p>
+        <dl class="params mono" id="params"><div><dt>L</dt><dd data-p="w">1000</dd></div><div><dt>H</dt><dd data-p="h">2200</dd></div><div><dt>P</dt><dd data-p="d">600</dd></div></dl></article>
+      <article class="stp" data-i="1"><span class="mono k">b · Explosionsansicht</span><h3>Jedes Brett einzeln.</h3><p>30 Teile, jedes mit Rolle, Achsen und Stärke. Nichts wird mit absoluten Koordinaten gesetzt: Ändern Sie ein Maß, und alles folgt.</p></article>
+      <article class="stp" data-i="2"><span class="mono k">c · Zuschnittliste</span><h3>Die Teile liegen flach.</h3><p>Fertigmaße, Kanten, Material. Die Tabelle, die Ihr Säger liest – direkt aus dem Modell.</p></article>
+      <article class="stp" data-i="3"><span class="mono k">d · Etiketten</span><h3>Ein Etikett für jedes Teil.</h3><p>70 × 37 mm, 24 pro A4-Bogen. Maß, Material und die zu bekantenden Seiten sind auf das Etikett gezeichnet.</p></article>
+      <article class="stp" data-i="4"><span class="mono k">e · Montage</span><h3>Und die Bohrungen.</h3><p>System-32-Reihen an den Seiten, fünf Topfbänder pro Tür bei 100 · 579 · 1057 · 1536 · 2014 mm. Der Monteur liest es ab, er rät nicht.</p></article>
+    </div>
+    <div class="story-view" id="storyView">
+      <canvas id="storyCanvas" aria-hidden="true"></canvas>
+      <div class="sv sv-img sv-a"><picture><source type="image/avif" srcset="/site/img/3d-closed-1200.avif"><img src="/site/img/3d-closed-1200.webp" width="1200" height="871" alt="" loading="lazy"></picture></div>
+      <div class="sv sv-img sv-b"><picture><source type="image/avif" srcset="/site/img/3d-explode-1200.avif"><img src="/site/img/3d-explode-1200.webp" width="1200" height="871" alt="" loading="lazy"></picture></div>
+      <div class="sv sv-c fitbox"><div class="sheet tbl-sheet fit">
+        <table class="cut mono">
+          <caption>Kleiderschrank W1000</caption>
+          <thead><tr><th>#</th><th>Bauteil</th><th>L</th><th>B</th><th>Stk.</th><th>Kante</th><th class="mat">Material</th></tr></thead>
+          <tbody><tr><td>01</td><td>Seitenwand</td><td>2200</td><td>600</td><td>2</td><td>2L+2C</td><td class="mat">Weiß</td></tr><tr><td>02</td><td>Boden / Deckel</td><td>962</td><td>600</td><td>2</td><td>1L</td><td class="mat">Weiß</td></tr><tr><td>03</td><td>Sockel</td><td>962</td><td>80</td><td>1</td><td>1L</td><td class="mat">Weiß</td></tr><tr><td>04</td><td>Trennwand</td><td>2082</td><td>567</td><td>1</td><td>1L</td><td class="mat">Weiß</td></tr><tr><td>05</td><td>Einlegeboden</td><td>469</td><td>567</td><td>2</td><td>1L</td><td class="mat">Weiß</td></tr><tr><td>06</td><td>Kleiderstange</td><td>467</td><td>25</td><td>1</td><td>—</td><td class="mat">Ovale Kleiderstange</td></tr><tr><td>07</td><td>Innenschubladenfront</td><td>210</td><td>464</td><td>3</td><td>2L+2C</td><td class="mat">Nogal Victoria</td></tr><tr><td>08</td><td>Schubladenseite</td><td>500</td><td>165</td><td>6</td><td>1L</td><td class="mat">Weiß</td></tr><tr><td>09</td><td>Schubladenvorder-/-rückwand</td><td>384</td><td>165</td><td>6</td><td>1L</td><td class="mat">Weiß</td></tr><tr><td>10</td><td>Schubladenboden</td><td>384</td><td>480</td><td>3</td><td>—</td><td class="mat">HDF 5 mm</td></tr><tr><td>11</td><td>Tür</td><td>2114</td><td>495</td><td>2</td><td>2L+2C</td><td class="mat">Nogal Victoria</td></tr><tr><td>12</td><td>Rückwand</td><td>2098</td><td>978</td><td>1</td><td>—</td><td class="mat">HDF weiß 3 mm</td></tr></tbody>
+        </table>
+        <p class="mono tot">30 Teile · 11,46 m² · 36,9 lfm Kante</p>
+      </div></div>
+      <div class="sv sv-d fitbox"><div class="sheet lbl-sheet fit" aria-hidden="true"><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Seitenwand (1/2)</b><strong>2200 × 600</strong><span class="lm">Weiß</span><span class="ln">#001/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class="on"/><path d="M4 4V20" class="on"/><path d="M36 4V20" class="on"/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Seitenwand (2/2)</b><strong>2200 × 600</strong><span class="lm">Weiß</span><span class="ln">#002/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class="on"/><path d="M4 4V20" class="on"/><path d="M36 4V20" class="on"/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Boden / Deckel (1/2)</b><strong>962 × 600</strong><span class="lm">Weiß</span><span class="ln">#003/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Boden / Deckel (2/2)</b><strong>962 × 600</strong><span class="lm">Weiß</span><span class="ln">#004/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Sockel</b><strong>962 × 80</strong><span class="lm">Weiß</span><span class="ln">#005/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Trennwand</b><strong>2082 × 567</strong><span class="lm">Weiß</span><span class="ln">#006/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Einlegeboden (1/2)</b><strong>469 × 567</strong><span class="lm">Weiß</span><span class="ln">#007/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Einlegeboden (2/2)</b><strong>469 × 567</strong><span class="lm">Weiß</span><span class="ln">#008/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Kleiderstange</b><strong>467 × 25</strong><span class="lm">Ovale Kleiderstange</span><span class="ln">#009/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class=""/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Innenschubladenfront (1/3)</b><strong>210 × 464</strong><span class="lm">Nogal Victoria</span><span class="ln">#010/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class="on"/><path d="M4 4V20" class="on"/><path d="M36 4V20" class="on"/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Innenschubladenfront (2/3)</b><strong>210 × 464</strong><span class="lm">Nogal Victoria</span><span class="ln">#011/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class="on"/><path d="M4 4V20" class="on"/><path d="M36 4V20" class="on"/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Innenschubladenfront (3/3)</b><strong>210 × 464</strong><span class="lm">Nogal Victoria</span><span class="ln">#012/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class="on"/><path d="M4 4V20" class="on"/><path d="M36 4V20" class="on"/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenseite (1/6)</b><strong>500 × 165</strong><span class="lm">Weiß</span><span class="ln">#013/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenseite (2/6)</b><strong>500 × 165</strong><span class="lm">Weiß</span><span class="ln">#014/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenseite (3/6)</b><strong>500 × 165</strong><span class="lm">Weiß</span><span class="ln">#015/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenseite (4/6)</b><strong>500 × 165</strong><span class="lm">Weiß</span><span class="ln">#016/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenseite (5/6)</b><strong>500 × 165</strong><span class="lm">Weiß</span><span class="ln">#017/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenseite (6/6)</b><strong>500 × 165</strong><span class="lm">Weiß</span><span class="ln">#018/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenvorder-/-rückwand (1/6)</b><strong>384 × 165</strong><span class="lm">Weiß</span><span class="ln">#019/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenvorder-/-rückwand (2/6)</b><strong>384 × 165</strong><span class="lm">Weiß</span><span class="ln">#020/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenvorder-/-rückwand (3/6)</b><strong>384 × 165</strong><span class="lm">Weiß</span><span class="ln">#021/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenvorder-/-rückwand (4/6)</b><strong>384 × 165</strong><span class="lm">Weiß</span><span class="ln">#022/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenvorder-/-rückwand (5/6)</b><strong>384 × 165</strong><span class="lm">Weiß</span><span class="ln">#023/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div><div class="lbl"><span class="lp">Kleiderschrank W1000 · Armadio</span><b>Schubladenvorder-/-rückwand (6/6)</b><strong>384 × 165</strong><span class="lm">Weiß</span><span class="ln">#024/30</span><svg class="eg" viewBox="0 0 40 24" aria-hidden="true"><rect x="4" y="4" width="32" height="16"/><path d="M4 4H36" class="on"/><path d="M4 20H36" class=""/><path d="M4 4V20" class=""/><path d="M36 4V20" class=""/></svg></div></div></div>
+      <div class="sv sv-e fitbox"><div class="sheet asm-sheet fit"><svg class="asm" viewBox="-20 140 1120 580" role="img" aria-label="Und die Bohrungen.">
+  <path class="thk" d="M0.0 350.0L880.0 350.0L880.0 354.6L0.0 354.6Z"/><path class="pnl " d="M0.0 350.0L880.0 350.0L1012.0 239.6L132.0 239.6Z" pathLength="1"/><g transform="matrix(0.4 0 0.22000000000000003 -0.18400000000000002 0 350)"><circle class="h" cx="101" cy="37" r="7"/><circle class="h" cx="101" cy="563" r="7"/><circle class="h" cx="133" cy="37" r="7"/><circle class="h" cx="133" cy="563" r="7"/><circle class="h" cx="165" cy="37" r="7"/><circle class="h" cx="165" cy="563" r="7"/><circle class="h" cx="197" cy="37" r="7"/><circle class="h" cx="197" cy="563" r="7"/><circle class="h" cx="229" cy="37" r="7"/><circle class="h" cx="229" cy="563" r="7"/><circle class="h" cx="261" cy="37" r="7"/><circle class="h" cx="261" cy="563" r="7"/><circle class="h" cx="293" cy="37" r="7"/><circle class="h" cx="293" cy="563" r="7"/><circle class="h" cx="325" cy="37" r="7"/><circle class="h" cx="325" cy="563" r="7"/><circle class="h" cx="357" cy="37" r="7"/><circle class="h" cx="357" cy="563" r="7"/><circle class="h" cx="389" cy="37" r="7"/><circle class="h" cx="389" cy="563" r="7"/><circle class="h" cx="421" cy="37" r="7"/><circle class="h" cx="421" cy="563" r="7"/><circle class="h" cx="453" cy="37" r="7"/><circle class="h" cx="453" cy="563" r="7"/><circle class="h" cx="485" cy="37" r="7"/><circle class="h" cx="485" cy="563" r="7"/><circle class="h" cx="517" cy="37" r="7"/><circle class="h" cx="517" cy="563" r="7"/><circle class="h" cx="549" cy="37" r="7"/><circle class="h" cx="549" cy="563" r="7"/><circle class="h" cx="581" cy="37" r="7"/><circle class="h" cx="581" cy="563" r="7"/><circle class="h" cx="613" cy="37" r="7"/><circle class="h" cx="613" cy="563" r="7"/><circle class="h" cx="645" cy="37" r="7"/><circle class="h" cx="645" cy="563" r="7"/><circle class="h" cx="677" cy="37" r="7"/><circle class="h" cx="677" cy="563" r="7"/><circle class="h" cx="709" cy="37" r="7"/><circle class="h" cx="709" cy="563" r="7"/><circle class="h" cx="741" cy="37" r="7"/><circle class="h" cx="741" cy="563" r="7"/><circle class="h" cx="773" cy="37" r="7"/><circle class="h" cx="773" cy="563" r="7"/><circle class="h" cx="805" cy="37" r="7"/><circle class="h" cx="805" cy="563" r="7"/><circle class="h" cx="837" cy="37" r="7"/><circle class="h" cx="837" cy="563" r="7"/><circle class="h" cx="869" cy="37" r="7"/><circle class="h" cx="869" cy="563" r="7"/><circle class="h" cx="901" cy="37" r="7"/><circle class="h" cx="901" cy="563" r="7"/><circle class="h" cx="933" cy="37" r="7"/><circle class="h" cx="933" cy="563" r="7"/><circle class="h" cx="965" cy="37" r="7"/><circle class="h" cx="965" cy="563" r="7"/><circle class="h" cx="997" cy="37" r="7"/><circle class="h" cx="997" cy="563" r="7"/><circle class="h" cx="1029" cy="37" r="7"/><circle class="h" cx="1029" cy="563" r="7"/><circle class="h" cx="1061" cy="37" r="7"/><circle class="h" cx="1061" cy="563" r="7"/><circle class="h" cx="1093" cy="37" r="7"/><circle class="h" cx="1093" cy="563" r="7"/><circle class="h" cx="1125" cy="37" r="7"/><circle class="h" cx="1125" cy="563" r="7"/><circle class="h" cx="1157" cy="37" r="7"/><circle class="h" cx="1157" cy="563" r="7"/><circle class="h" cx="1189" cy="37" r="7"/><circle class="h" cx="1189" cy="563" r="7"/><circle class="h" cx="1221" cy="37" r="7"/><circle class="h" cx="1221" cy="563" r="7"/><circle class="h" cx="1253" cy="37" r="7"/><circle class="h" cx="1253" cy="563" r="7"/><circle class="h" cx="1285" cy="37" r="7"/><circle class="h" cx="1285" cy="563" r="7"/><circle class="h" cx="1317" cy="37" r="7"/><circle class="h" cx="1317" cy="563" r="7"/><circle class="h" cx="1349" cy="37" r="7"/><circle class="h" cx="1349" cy="563" r="7"/><circle class="h" cx="1381" cy="37" r="7"/><circle class="h" cx="1381" cy="563" r="7"/><circle class="h" cx="1413" cy="37" r="7"/><circle class="h" cx="1413" cy="563" r="7"/><circle class="h" cx="1445" cy="37" r="7"/><circle class="h" cx="1445" cy="563" r="7"/><circle class="h" cx="1477" cy="37" r="7"/><circle class="h" cx="1477" cy="563" r="7"/><circle class="h" cx="1509" cy="37" r="7"/><circle class="h" cx="1509" cy="563" r="7"/><circle class="h" cx="1541" cy="37" r="7"/><circle class="h" cx="1541" cy="563" r="7"/><circle class="h" cx="1573" cy="37" r="7"/><circle class="h" cx="1573" cy="563" r="7"/><circle class="h" cx="1605" cy="37" r="7"/><circle class="h" cx="1605" cy="563" r="7"/><circle class="h" cx="1637" cy="37" r="7"/><circle class="h" cx="1637" cy="563" r="7"/><circle class="h" cx="1669" cy="37" r="7"/><circle class="h" cx="1669" cy="563" r="7"/><circle class="h" cx="1701" cy="37" r="7"/><circle class="h" cx="1701" cy="563" r="7"/><circle class="h" cx="1733" cy="37" r="7"/><circle class="h" cx="1733" cy="563" r="7"/><circle class="h" cx="1765" cy="37" r="7"/><circle class="h" cx="1765" cy="563" r="7"/><circle class="h" cx="1797" cy="37" r="7"/><circle class="h" cx="1797" cy="563" r="7"/><circle class="h" cx="1829" cy="37" r="7"/><circle class="h" cx="1829" cy="563" r="7"/><circle class="h" cx="1861" cy="37" r="7"/><circle class="h" cx="1861" cy="563" r="7"/><circle class="h" cx="1893" cy="37" r="7"/><circle class="h" cx="1893" cy="563" r="7"/><circle class="h" cx="1925" cy="37" r="7"/><circle class="h" cx="1925" cy="563" r="7"/><circle class="h" cx="1957" cy="37" r="7"/><circle class="h" cx="1957" cy="563" r="7"/><circle class="h" cx="1989" cy="37" r="7"/><circle class="h" cx="1989" cy="563" r="7"/><circle class="h" cx="2021" cy="37" r="7"/><circle class="h" cx="2021" cy="563" r="7"/><circle class="h" cx="2053" cy="37" r="7"/><circle class="h" cx="2053" cy="563" r="7"/><circle class="h" cx="2085" cy="37" r="7"/><circle class="h" cx="2085" cy="563" r="7"/><circle class="h" cx="2117" cy="37" r="7"/><circle class="h" cx="2117" cy="563" r="7"/></g><path class="thk" d="M0.0 600.0L845.6 600.0L845.6 604.6L0.0 604.6Z"/><path class="pnl door" d="M0.0 600.0L845.6 600.0L954.5 508.9L108.9 508.9Z" pathLength="1"/><g transform="matrix(0.4 0 0.22000000000000003 -0.18400000000000002 0 600)"><circle class="cup" cx="100" cy="22.5" r="17.5"/><circle class="cup" cx="579" cy="22.5" r="17.5"/><circle class="cup" cx="1057" cy="22.5" r="17.5"/><circle class="cup" cx="1536" cy="22.5" r="17.5"/><circle class="cup" cx="2014" cy="22.5" r="17.5"/></g><path class="dl" d="M0 652H845.6" pathLength="1"/><path class="dl ext" d="M0.0 612V660"/><path class="dl ext" d="M40.0 612V660"/><text class="dt" x="40.0" y="680" text-anchor="middle">100</text><path class="dl ext" d="M231.6 612V660"/><text class="dt" x="231.6" y="680" text-anchor="middle">579</text><path class="dl ext" d="M422.8 612V660"/><text class="dt" x="422.8" y="680" text-anchor="middle">1057</text><path class="dl ext" d="M614.4 612V660"/><text class="dt" x="614.4" y="680" text-anchor="middle">1536</text><path class="dl ext" d="M805.6 612V660"/><text class="dt" x="805.6" y="680" text-anchor="middle">2014</text><path class="dl ext" d="M845.6 612V660"/><text class="dt" x="845.6" y="644" text-anchor="end">2114</text><path class="dl" d="M132.0 211.6H1012.0M132.0 203.6v16M1012.0 203.6v16" pathLength="1"/><text class="dt" x="572.0" y="201.6" text-anchor="middle">2200</text>
+  <text class="cap" x="0" y="386">SEITE L · 2200 × 600 × 19 · System 32 · Ø5 · 37 mm von der Vorderkante</text>
+  <text class="cap" x="0" y="700">TÜR · 2114 × 495 × 19 · Topf Ø35 · 12,5 mm tief</text>
+</svg></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 3b · TREI ECRANE ======================= -->
+<section class="sec devs" id="screens">
+  <div class="wrap">
+    <p class="kicker mono rv">Eine App, drei Bildschirme</p>
+    <h2 class="h2 split">Das Handy auf der Baustelle. Das Tablet <em>beim Kunden.</em> Der PC in der Werkstatt.</h2>
+    <div class="dev-stage" aria-hidden="false">
+      <figure class="mock mock-pc rv"><div class="scr"><picture><source type="image/avif" srcset="/site/screens/de/pc-explode-1600.avif"><img src="/site/screens/de/pc-explode-1600.webp" width="1600" height="1000" alt="Ebanist auf einem PC: Generator, Explosionsansicht und Teileliste" loading="lazy"></picture></div></figure>
+      <figure class="mock mock-tab rv"><div class="scr"><picture><source type="image/avif" srcset="/site/screens/de/tablet-client-1600.avif"><img src="/site/screens/de/tablet-client-1600.webp" width="1600" height="1112" alt="Ebanist auf einem Tablet im Kundenmodus: Oberflächen und Preis" loading="lazy"></picture></div></figure>
+      <figure class="mock mock-ph rv"><div class="scr"><picture><source type="image/avif" srcset="/site/screens/de/phone-build-780.avif"><img src="/site/screens/de/phone-build-780.webp" width="780" height="1688" alt="Ebanist auf einem Handy: der Generator mit dem 3D-Kleiderschrank" loading="lazy"></picture></div></figure>
+    </div>
+    <div class="dev-legend">
+      <div class="rv"><span class="mono k">01 · Handy</span><h3>Die Baustelle</h3><p>Aufmaß, diktierte Maße, das 3D-Möbel. Funktioniert auch ohne Netz.</p></div>
+      <div class="rv"><span class="mono k">02 · Tablet</span><h3>Der Kunde</h3><p>Oberfläche, Preis und Unterschrift im Kundenmodus.</p></div>
+      <div class="rv"><span class="mono k">03 · PC</span><h3>Die Werkstatt</h3><p>Zuschnittliste, Schnittpläne, Etiketten und Montageanleitung auf dem großen Bildschirm.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4 · BENTO ======================= -->
+<section class="sec bento-sec" id="features">
+  <div class="wrap">
+    <p class="kicker mono rv">Funktionen</p>
+    <h2 class="h2 split">Alles, was die Werkstatt <em>früher von Hand schrieb.</em></h2>
+    <div class="bento">
+      <article class="card c-types rv" tabindex="0">
+        <h3>15 Möbeltypen</h3><p>Alle parametrisch. Ein Maß ändern, und jedes Teil folgt.</p>
+        <ol class="types mono"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM12 2v20"/></svg><span>01</span>Kleiderschrank</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2h20v20H2zM12 2v20M2 12h10"/></svg><span>02</span>Begehbarer Schrank</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v12H3zM3 8l2-3h14l2 3"/></svg><span>03</span>Unterschrank</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v15H3zM3 10h18M3 15h18"/></svg><span>04</span>Schubladen-Unterschrank</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v10H3z"/></svg><span>05</span>Hängeschrank</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 1h10v22H7zM7 12h10"/></svg><span>06</span>Hochschrank</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM4 8h16M4 14h16"/></svg><span>07</span>Bücherregal</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M3 14h18"/></svg><span>08</span>Kommode</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h12v18H2zM14 11h8v10h-8"/></svg><span>09</span>Eckschrank · L</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h12v18H10zM2 11h8v10H2"/></svg><span>10</span>Eckschrank · R</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2zM12 4v16M2 20h20"/></svg><span>11</span>Schiebetüren</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 10h20v8H2zM6 18v2M18 18v2"/></svg><span>12</span>TV-Möbel</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8h20M4 8v12M20 8v12M4 13h7"/></svg><span>13</span>Schreibtisch</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9h20M5 9v11M19 9v11"/></svg><span>14</span>Tisch</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20v6H2zM2 8h5v4"/></svg><span>15</span>Bett</li></ol>
+      </article>
+      <article class="card c-hw rv" tabindex="0">
+        <h3>Blum- &amp; Häfele-Katalog</h3><p>Echte Artikelnummern, editierbar. Einmal gezählt – Angebot und Montageanleitung stimmen immer überein.</p>
+        <table class="hw mono">
+          <tr><td>Blum CLIP top BLUMOTION 110°</td><td><span class="code">71B3550</span></td><td>10</td></tr>
+          <tr><td>Blum TANDEM BLUMOTION</td><td><span class="code">560H····B</span></td><td>3</td></tr>
+          <tr><td>Häfele shelf support ø5</td><td><span class="code">282.24.720</span></td><td>8</td></tr>
+          <tr><td>Häfele AXILO 78</td><td><span class="code">637.79.xxx</span></td><td>4</td></tr>
+          <tr><td>Häfele Minifix 15</td><td><span class="code">262.26.033</span></td><td>12</td></tr>
+        </table>
+      </article>
+      <article class="card c-mat rv" tabindex="0">
+        <h3>17 Materialien + Egger-Dekore</h3><p>Die Stärke kommt aus dem Material, nie aus einer „18“, die irgendwo getippt wurde.</p>
+        <div class="swatches"><span class="sw" style="--c:#A8B08A"><i></i><em class="mono">Avocado Green<br>19 mm</em></span><span class="sw" style="--c:#5C7A99"><i></i><em class="mono">Blue Avio<br>19 mm</em></span><span class="sw" style="--c:#F5F5F2"><i></i><em class="mono">Bianco<br>19 mm</em></span><span class="sw" style="--c:#3C4043"><i></i><em class="mono">Antracite / Storm Grey<br>19 mm</em></span><span class="sw" style="--c:#9A9A95"><i></i><em class="mono">Textil Grigio<br>19 mm</em></span><span class="sw" style="--c:#B6B4AE"><i></i><em class="mono">Cemento / Concrete Art Pearl Grey<br>19 mm</em></span><span class="sw wood" style="--c:#6E4B33"><i></i><em class="mono">Nogal Victoria<br>19 mm</em></span><span class="sw" style="--c:#F5F5F2"><i></i><em class="mono">Bianco (2)<br>18 mm</em></span><span class="sw" style="--c:#6B2431"><i></i><em class="mono">Bordeaux<br>19 mm</em></span><span class="sw wood" style="--c:#C4A87C"><i></i><em class="mono">Rovere Wood Lime Classic<br>19 mm</em></span><span class="sw" style="--c:#F2F1EC"><i></i><em class="mono">Blanc Grace<br>18 mm</em></span><span class="sw" style="--c:#A8A49C"><i></i><em class="mono">Tessuto<br>18 mm</em></span></div>
+        <div class="panel3d" aria-hidden="true"><i></i></div>
+      </article>
+      <article class="card c-lbl rv" tabindex="0">
+        <div class="crop crop-lbl"><picture><source type="image/avif" srcset="/site/docs/de/etichete-0-720.avif"><img src="/site/docs/de/etichete-0-720.webp" width="720" height="1019" alt="" loading="lazy"></picture></div>
+        <h3>A4-Etiketten, 24 pro Bogen</h3><p>Kantenschema und Ausschnitte auf jedem Etikett.</p>
+      </article>
+      <article class="card c-draw rv" tabindex="0">
+        <div class="crop crop-draw"><picture><source type="image/avif" srcset="/site/docs/de/desen-0-720.avif"><img src="/site/docs/de/desen-0-720.webp" width="720" height="1019" alt="" loading="lazy"></picture>
+          <svg class="dimline" viewBox="0 0 200 20" aria-hidden="true"><path d="M4 10H196M4 4v12M196 4v12M4 10l6-3v6zM196 10l-6-3v6z"/><text x="100" y="7">1000</text></svg></div>
+        <h3>Bemaßte 2D-Zeichnung</h3><p>Vorder- und Seitenansicht mit den Maßen aus dem Modell.</p>
+      </article>
+      <article class="card c-room rv" tabindex="0">
+        <div class="room"><picture><source type="image/avif" srcset="/site/img/3d-closed-1200.avif"><img src="/site/img/3d-closed-1200.webp" width="1200" height="871" alt="" loading="lazy"></picture></div>
+        <h3>„In Ihrem Raum“</h3><p>3D-Darstellung mit echter Holzmaserung, in drei Achsen drehbar, JPG-Export für WhatsApp.</p>
+      </article>
+      <article class="card c-lab rv" tabindex="0">
+        <h3>Fertigungspaket</h3><p>JSON ohne Preise für das Zuschnittzentrum, dazu CSV-Import und -Export.</p>
+<pre class="json mono" aria-label="JSON"><code>{"ebanist_lab": 1,
+ "pieces": [
+  {"modulo":"Armadio","elemento":"Fianco",
+   "lung":2200,"larg":600,"pz":2,
+   "bordo":"2L+2C","materiale":"Bianco"},
+  {"elemento":"Anta","lung":2114,
+   "larg":495,"pz":2,"bordo":"2L+2C",
+   "materiale":"Nogal Victoria"}, …
+ ]}</code></pre>
+      </article>
+      <article class="card c-off rv" tabindex="0">
+        <h3>Offline, lokal, Ihres</h3><p>Die Projekte bleiben auf Ihrem Gerät. Vollständige Sicherung in einer Datei, wann immer Sie wollen.</p>
+        <dl class="off mono"><div><dt>Netz</dt><dd>0 KB</dd></div><div><dt>Konto</dt><dd>—</dd></div><div><dt>Sicherung</dt><dd>.json</dd></div></dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5 · OUTPUT ======================= -->
+<section class="sec paper" id="output">
+  <div class="grid32 grid32-paper" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="kicker mono rv">Ergebnis</p>
+    <h2 class="h2 split">Das geben Sie <em>an die Fertigung.</em></h2>
+    <p class="sub rv">Echte Seiten, von der App für den Kleiderschrank W1000 gedruckt – keine Mock-ups. Tippen Sie auf ein Blatt, um es zu lesen.</p>
+  </div>
+  <div class="pile" id="pile"><button type="button" class="sheet-doc" data-i="0" data-full="/site/docs/de/distinta-0-1500.webp" data-cap="Zuschnittliste" aria-label="Zuschnittliste"><picture><source type="image/avif" srcset="/site/docs/de/distinta-0-720.avif"><img src="/site/docs/de/distinta-0-720.webp" width="720" height="1019" alt="Zuschnittliste" loading="lazy"></picture><span class="mono tag">01 · Zuschnittliste</span></button><button type="button" class="sheet-doc" data-i="1" data-full="/site/docs/de/etichete-0-1500.webp" data-cap="Etiketten 70 × 37" aria-label="Etiketten 70 × 37"><picture><source type="image/avif" srcset="/site/docs/de/etichete-0-720.avif"><img src="/site/docs/de/etichete-0-720.webp" width="720" height="1019" alt="Etiketten 70 × 37" loading="lazy"></picture><span class="mono tag">02 · Etiketten 70 × 37</span></button><button type="button" class="sheet-doc" data-i="2" data-full="/site/docs/de/montaj-0-1500.webp" data-cap="Montageanleitung · 1" aria-label="Montageanleitung · 1"><picture><source type="image/avif" srcset="/site/docs/de/montaj-0-720.avif"><img src="/site/docs/de/montaj-0-720.webp" width="720" height="1019" alt="Montageanleitung · 1" loading="lazy"></picture><span class="mono tag">03 · Montageanleitung · 1</span></button><button type="button" class="sheet-doc" data-i="3" data-full="/site/docs/de/montaj-1-1500.webp" data-cap="Montageanleitung · 2" aria-label="Montageanleitung · 2"><picture><source type="image/avif" srcset="/site/docs/de/montaj-1-720.avif"><img src="/site/docs/de/montaj-1-720.webp" width="720" height="1019" alt="Montageanleitung · 2" loading="lazy"></picture><span class="mono tag">04 · Montageanleitung · 2</span></button><button type="button" class="sheet-doc" data-i="4" data-full="/site/docs/de/desen-0-1500.webp" data-cap="Technische Zeichnung" aria-label="Technische Zeichnung"><picture><source type="image/avif" srcset="/site/docs/de/desen-0-720.avif"><img src="/site/docs/de/desen-0-720.webp" width="720" height="1019" alt="Technische Zeichnung" loading="lazy"></picture><span class="mono tag">05 · Technische Zeichnung</span></button><button type="button" class="sheet-doc" data-i="5" data-full="/site/docs/de/oferta-0-1500.webp" data-cap="Angebot" aria-label="Angebot"><picture><source type="image/avif" srcset="/site/docs/de/oferta-0-720.avif"><img src="/site/docs/de/oferta-0-720.webp" width="720" height="1019" alt="Angebot" loading="lazy"></picture><span class="mono tag">06 · Angebot</span></button></div>
+</section>
+
+<dialog class="lightbox" id="lightbox" aria-label="Ergebnis">
+  <button type="button" class="lb-close" id="lbClose" aria-label="Schließen">×</button>
+  <button type="button" class="lb-nav lb-prev" id="lbPrev" aria-label="Vorheriges Blatt">←</button>
+  <figure><img id="lbImg" src="" alt=""><figcaption class="mono" id="lbCap"></figcaption></figure>
+  <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="Nächstes Blatt">→</button>
+</dialog>
+
+<!-- ======================= 6 · WHO ======================= -->
+<section class="sec who" id="who">
+  <div class="wrap">
+    <p class="kicker mono rv">Für wen</p>
+    <h2 class="h2 split">In einer Werkstatt gebaut, <em>für Werkstätten.</em></h2>
+    <div class="who-grid">
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/niche-raw-900.avif"><img src="/site/img/work/niche-raw-900.webp" width="900" height="1125" alt="Einbaunische aus rohem MDF mit Kiefernrahmen, vor dem Lackieren" loading="lazy"></picture></div><span class="mono k">01 · Selbstständiger Tischler</span><h3>Ihre Abende gehören wieder Ihnen.</h3><p>Nachmittags aufmessen, die Zuschnittliste noch am selben Tag an den Plattenlieferanten schicken.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/carcass-laser-900.avif"><img src="/site/img/work/carcass-laser-900.webp" width="900" height="1125" alt="Einbau eines Schrankkorpus, mit dem Laser ausgerichtet" loading="lazy"></picture></div><span class="mono k">02 · Kleine Werkstatt</span><h3>Ein Blatt, keine Rückfragen.</h3><p>Etiketten an jedem Teil und eine Montageanleitung, der der Monteur folgen kann, ohne Sie anzurufen.</p></article>
+      <article class="who-card rv"><div class="ph"><picture><source type="image/avif" srcset="/site/img/work/wardrobe-finished-900.avif"><img src="/site/img/work/wardrobe-finished-900.webp" width="900" height="1125" alt="Fertiger Einbauschrank mit zwei lackierten Türen und einem Messing-Lüftungsgitter" loading="lazy"></picture></div><span class="mono k">03 · Monteur · Renovierer</span><h3>Der Kunde entscheidet vor Ort.</h3><p>Das Möbel in 3D auf dem Tablet zeigen, die Oberfläche ändern, die Unterschrift holen, bevor Sie gehen.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6a · LUCRARE REALĂ (pagina de caz) ======================= -->
+<section class="sec case-teaser" id="case">
+  <div class="wrap ct-in">
+    <a class="ct-ph rv" href="/de/case/bagno/" data-goatcounter-click="case-bagno-teaser" tabindex="-1" aria-hidden="true"><picture><source type="image/avif" srcset="/site/img/case/bagno-finished-900.avif"><img src="/site/img/case/bagno-finished-900.webp" width="900" height="1200" alt="" loading="lazy"></picture></a>
+    <div class="ct-txt">
+      <p class="kicker mono rv">Echter Auftrag · Roquebrune-Cap-Martin</p>
+      <h2 class="h2 split">Ein Badschrank um den Wasserverteiler herum gebaut.</h2>
+      <p class="sub rv">16 Teile, ein Ausschnitt von 600 × 110, null Anpassungen vor Ort. Fotos von der Baustelle, Bildschirme aus der App – dasselbe Projekt.</p>
+      <div class="ct-strip rv" aria-hidden="true"><picture><source type="image/avif" srcset="/site/img/case/bagno-manifold-900.avif"><img src="/site/img/case/bagno-manifold-900.webp" width="900" height="1200" alt="" loading="lazy"></picture><picture><source type="image/avif" srcset="/site/screens/de/case-bagno-part-780.avif"><img src="/site/screens/de/case-bagno-part-780.webp" width="780" height="1688" alt="" loading="lazy"></picture><picture><source type="image/avif" srcset="/site/img/case/bagno-side-step-900.avif"><img src="/site/img/case/bagno-side-step-900.webp" width="900" height="675" alt="" loading="lazy"></picture></div>
+      <div class="cta-row rv"><a class="btn btn-laser" href="/de/case/bagno/" data-goatcounter-click="case-bagno-teaser-btn">Den Fall lesen <span aria-hidden="true">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6b · DIN ATELIER ======================= -->
+<section class="sec work" id="work">
+  <div class="wrap">
+    <p class="kicker mono rv">Aus unserer Werkstatt</p>
+    <h2 class="h2 split">Möbel, die wir bauen – <em>vom MDF bis zum letzten Anstrich.</em></h2>
+    <p class="sub rv">Einbauschränke und Nischen von Domus Renov, der Werkstatt hinter Ebanist. Jede Regel in der App war hier zuerst ein Fehler, den es zu vermeiden galt.</p>
+    <div class="work-grid">
+      <figure class="w-a rv"><picture><source type="image/avif" srcset="/site/img/work/door-reveals-800.avif"><img src="/site/img/work/door-reveals-800.webp" width="800" height="1000" alt="Nahaufnahme von MDF-Türen mit gleichmäßigen 3-mm-Fugen" loading="lazy"></picture><figcaption class="mono">Türen · 3 mm Fuge</figcaption></figure>
+      <figure class="w-b rv"><picture><source type="image/avif" srcset="/site/img/work/grille-1000.avif"><img src="/site/img/work/grille-1000.webp" width="1000" height="750" alt="Messing-Lüftungsgitter im Gesims des Schranks" loading="lazy"></picture><figcaption class="mono">Messinggitter im Gesims</figcaption></figure>
+      <figure class="w-c rv"><picture><source type="image/avif" srcset="/site/img/work/niche-lacquered-800.avif"><img src="/site/img/work/niche-lacquered-800.webp" width="800" height="1000" alt="Lackierte Einbaunische mit vier Böden" loading="lazy"></picture><figcaption class="mono">Nische · lackiert</figcaption></figure>
+      <figure class="w-d rv"><picture><source type="image/avif" srcset="/site/img/work/plinth-vent-1000.avif"><img src="/site/img/work/plinth-vent-1000.webp" width="1000" height="750" alt="Lackierter Sockel mit perforiertem Messinglüfter unter den Türen" loading="lazy"></picture><figcaption class="mono">Sockel mit Belüftung</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6c · TIKTOK ======================= -->
+<section class="sec tt-sec" id="tiktok">
+  <div class="wrap tt-in">
+    <div>
+      <p class="kicker mono rv">Folgen Sie uns auf TikTok</p>
+      <h2 class="h2 split">Ebanist <em>bei der Arbeit</em> in 30 Sekunden.</h2>
+      <p class="sub rv">Kurze Videos von der Baustelle und aus der Werkstatt: ein am Handy entworfenes Möbel, die Zuschnittliste, die Etiketten, das 3D. Jede Woche neue Clips.</p>
+      <div class="cta-row rv">
+        <a class="btn btn-tt" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" data-goatcounter-click="tiktok-section"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>Auf TikTok ansehen · @ebanist.app</a>
+      </div>
+    </div>
+    <a class="tt-phone rv" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" aria-label="Auf TikTok ansehen" data-goatcounter-click="tiktok-phone">
+      <span class="scr"><picture><source type="image/avif" srcset="/site/screens/de/phone-build-780.avif"><img src="/site/screens/de/phone-build-780.webp" width="780" height="1688" alt="Ebanist auf einem Handy: der 3D-Kleiderschrank im Generator" loading="lazy"></picture>
+        <span class="tt-ov"><span class="tt-play" aria-hidden="true">▶</span><span class="tt-meta"><b>@ebanist.app</b><span>Vom Aufmaß zur Zuschnittliste – auf dem Handy, vor Ort.</span></span></span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ======================= 7 · PRICING ======================= -->
+<section class="sec pricing" id="pricing">
+  <div class="wrap">
+    <p class="kicker mono rv">Preise</p>
+    <h2 class="h2 split">Am Bildschirm kostenlos. <em>Pro in der Werkstatt.</em></h2>
+    <div class="tiers">
+      <article class="tier rv">
+        <span class="mono name">Kostenlos</span>
+        <div class="amt">0 €</div>
+        <p class="per">kostenlos, ohne Zeitlimit</p>
+        <ul><li>1 Projekt</li><li>Jeder Möbeltyp, 3D mit Teilen und Bohrungen</li><li>Zuschnittliste und Angebot am Bildschirm</li></ul>
+        <a class="btn btn-line" href="/app/?lang=de" data-goatcounter-click="cta-price-free">Ebanist öffnen — kostenlos</a>
+      </article>
+      <article class="tier tier-pro rv">
+        <span class="mono name">Pro</span>
+        <div class="amt" id="proAmt">9 €</div>
+        <p class="per">pro Monat, inkl. MwSt.</p>
+        <ul><li>Unbegrenzte Projekte</li><li>Zuschnittlisten-PDF &amp; CSV, Etiketten, Montageanleitung, 2D-Zeichnung</li><li>Ihr Logo auf jedem PDF · Kundenmodus</li><li>Schnittpläne mit Restplatten-Lager</li></ul>
+        <a class="btn btn-laser" id="buyM" href="/app/?lang=de&amp;activate=1" data-goatcounter-click="cta-price-pro">Pro holen</a>
+        <p class="yearly"><a id="buyY" href="/app/?lang=de&amp;activate=1" data-goatcounter-click="cta-price-yearly">Oder 79 € pro Jahr — zwei Monate gratis</a></p>
+      </article>
+      <article class="tier tier-fd rv">
+        <span class="mono name">Founders</span>
+        <div class="amt">149 €</div>
+        <p class="per">einmalige Zahlung · Pro auf Lebenszeit</p>
+        <ul><li>Alles aus Pro</li><li>Dazu alles, was ab jetzt zu Pro hinzukommt</li><li>Keine Verlängerung, kein Abo</li><li>Nur 100 Plätze</li></ul>
+        <a class="btn btn-laser" id="buyF" href="/app/?lang=de&amp;activate=1" data-goatcounter-click="cta-price-founders">Founder werden</a>
+      </article>
+    </div>
+    <p class="plans-note">Alle drei Pläne schalten genau dieselben Funktionen frei.</p>
+    <div class="cmp-wrap rv">
+      <table class="cmp">
+        <thead><tr><th>Was Sie bekommen</th><th>Kostenlos</th><th>Pro</th></tr></thead>
+        <tbody><tr><th scope="row">Projekte</th><td class="v">1</td><td class="v">Unbegrenzt</td></tr><tr><th scope="row">Jeder Möbeltyp, 3D mit Teilen und Bohrungen</th><td class="y" aria-label="✓">✓</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Aufmaß vor Ort, Raumplan mit Kollisionsprüfung</th><td class="y" aria-label="✓">✓</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Zuschnittliste, Schnittplan und Angebot am Bildschirm</th><td class="y" aria-label="✓">✓</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">PDF und CSV der Zuschnittliste für das Zuschnittzentrum</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Teileetiketten (A4, 24 pro Bogen, mit Kantenschema)</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Bebilderte Montageanleitung und technische 2D-Zeichnung</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Bestellliste: Platten, Kanten, Beschläge</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Paket für das Zuschnittzentrum</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Kundenangebot als PDF und Kundenmodus</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">„In Ihrem Raum“, AR und JPG-Export</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr><tr><th scope="row">Ihr Firmenlogo auf den Dokumenten</th><td class="n" aria-label="—">—</td><td class="y" aria-label="✓">✓</td></tr></tbody>
+      </table>
+    </div>
+    <p class="vat">Die Zahlung wickelt Stripe als eingetragener Verkäufer ab; MwSt. inbegriffen. Abonnements sind jederzeit kündbar, Founders wird einmalig bezahlt; Ihre Projekte bleiben Ihre.</p>
+  </div>
+</section>
+
+<!-- ======================= 8 · FAQ ======================= -->
+<section class="sec faq-sec" id="faq">
+  <div class="wrap faq-wrap">
+    <div><p class="kicker mono rv">Fragen</p><h2 class="h2 split">Was Tischler fragen.</h2></div>
+    <div class="faq">
+      <details><summary>Muss ich etwas installieren?</summary><p>Nicht unbedingt. Ebanist öffnet sich im Browser und lässt sich zum Home-Bildschirm hinzufügen. Auf Android gibt es die App auch bei Google Play: „Ebanist: Furniture Design CAD“.</p></details>
+      <details><summary>Funktioniert es auf dem iPhone?</summary><p>Ja – in Safari auf iPhone und iPad ebenso wie auf Android-Handys, Tablets und jedem PC.</p></details>
+      <details><summary>Wo sind meine Daten?</summary><p>Auf Ihrem Gerät, im Speicher des Browsers. Es gibt kein Konto, und nichts wird hochgeladen. Eine vollständige Sicherung ist eine JSON-Datei, die Sie jederzeit kostenlos exportieren können.</p></details>
+      <details><summary>Funktioniert es offline?</summary><p>Ja. Nach dem ersten Start funktioniert die ganze App – Aufmaß, Entwurf, 3D, Zuschnittliste – ohne Netz.</p></details>
+      <details><summary>Welche Fertigungsbetriebe akzeptieren die Dateien?</summary><p>Jeder Zuschnittdienst, der eine Zuschnittliste als PDF oder CSV liest. Das Werkstattpaket (JSON, ohne Preise) enthält jedes Teil mit seinen Kanten. Native Maschinendateien (Biesse, SCM, Homag) sind mit einem Partner in Entwicklung und noch nicht verfügbar.</p></details>
+      <details><summary>Kann ich mein eigenes Logo auf die PDFs setzen?</summary><p>Ja, mit Pro: Einstellungen → Logo auf PDFs. Ihr Firmenname und Ihre Angaben stehen auf jedem Dokument.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 9 · CTA ======================= -->
+<section class="final" id="final">
+  <div class="grid32" aria-hidden="true"></div>
+  <div class="wrap">
+    <svg class="final-logo rv" aria-hidden="true"><use href="#ebLogo"/></svg>
+    <p class="kicker mono rv">Das erste Projekt ist kostenlos</p>
+    <h2 class="h-final split">Ihr nächstes Möbel <em>beginnt auf Ihrem Handy.</em></h2>
+    <svg class="final-dim" viewBox="0 0 600 24" aria-hidden="true"><path d="M2 12H598M2 4v16M598 4v16M2 12l8-4v8zM598 12l-8-4v8z"/></svg>
+    <a class="btn btn-laser btn-xl" href="/app/?lang=de" data-goatcounter-click="cta-final">Ebanist öffnen <span aria-hidden="true">→</span></a>
+    <p class="final-note"><a class="chip chip-play chip-dark" href="https://play.google.com/store/apps/details?id=com.domusrenov.ebanist&hl=de" rel="noopener" target="_blank" data-goatcounter-click="play-final"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Jetzt bei Google Play</a></p>
+    <p class="final-sub">Die Android-App ist bei Google Play verfügbar. Am Computer läuft Ebanist in jedem Browser, mit denselben Projekten.</p>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <span class="badge badge-lg" aria-hidden="true"><svg><use href="#ebLogo"/></svg></span>
+      <div>
+      <p class="foot-by">Ebanist von Domus Renov</p>
+      <p class="mono foot-legal">Made in Romania</p>
+      </div>
+    </div>
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="/termeni.html">AGB</a>
+      <a href="/privacy.html">Datenschutz</a>
+      <a href="/rambursare.html">Rückerstattung</a>
+      <a href="mailto:info@ebanist.com">info@ebanist.com</a>
+      <a href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank">TikTok @ebanist.app</a>
+    </nav>
+    <nav class="langs langs-foot" aria-label="Sprache"><a href="/" hreflang="en" lang="en">EN</a><a href="/ro/" hreflang="ro" lang="ro">RO</a><a href="/it/" hreflang="it" lang="it">IT</a><a href="/fr/" hreflang="fr" lang="fr">FR</a><a href="/de/" hreflang="de" lang="de" aria-current="page">DE</a></nav>
+  </div>
+</footer>
+
+<div class="suggest" id="suggest" hidden><span id="suggestText"></span> <a id="suggestGo" href="/"></a><button type="button" id="suggestX" aria-label="Schließen">×</button></div>
+<div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
+
+<script src="/app/config/billing.js"></script>
+<script>window.EB={"lang":"de","langs":["en","ro","it","fr","de"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"}},"yearly":"Oder {y} pro Jahr — zwei Monate gratis","pieces":["SEITE L","SEITE R","TRENNWAND","BODEN","BODEN","SOCKEL","SCHUBLADENSEITE","SCHUBLADENSEITE","SCHUBLADENSEITE"],"app":"/app/?lang=de","ver":"4.55.0"};</script>
+<script src="/site/js/main.js?v=4.55.0" defer></script>
+</body>
+</html>

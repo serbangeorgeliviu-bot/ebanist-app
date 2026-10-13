@@ -6,7 +6,7 @@
 
    Rulare (din rădăcina repo-ului, cu un server static pornit pe 8765):
      python3 -m http.server 8765 &
-     NODE_PATH=test/node_modules node site-src/tools/capture.cjs [en ro it fr]
+     NODE_PATH=test/node_modules node site-src/tools/capture.cjs [en ro it fr de]
      python3 site-src/tools/pdf2img.py
    Ieșire:
      site/screens/<lang>/*.png  → convertite de pdf2img.py în AVIF + WebP
@@ -15,7 +15,7 @@ const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const ROOT = path.resolve(__dirname, "../..");
 const BASE = process.env.BASE || "http://localhost:8765";
-const LANGS = process.argv.slice(2).length ? process.argv.slice(2) : ["en", "ro", "it", "fr"];
+const LANGS = process.argv.slice(2).length ? process.argv.slice(2) : ["en", "ro", "it", "fr", "de"];
 const TMP = "/tmp/ebanist-docs";
 const GL = ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"];
 const PRO = () => localStorage.setItem("ebanist_lic", JSON.stringify({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() }));

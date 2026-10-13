@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.55.0 — 13 octombrie 2026
+
+**Germană în aplicație.** A cincea limbă a interfeței, după ro, it, en, fr: tot ce se vede pe ecran și în documente (listă de debitare, fișă de montaj, distinta PDF, ofertă, mod Client, Order Rail) apare în limba aleasă din Setări → Limbă. Prima pornire alege germana singură dacă browserul o cere (`de`, `de-AT`, `de-CH`).
+
+- Dicționarele `I18N` (975 chei), `SURVEY_I18N`, `AUTH_I18N`, `AI_I18N`, `EL_I18N`, `ACC_I18N`, mesajele verificărilor de coerență (`AU_I18N`) și textele paginilor de atelier (`order-rail/i18n.js`) au aceleași chei în cinci limbi. Numele feroneriei, ale sistemelor de sertar și ale materialelor din catalog au varianta germană (`de`).
+- Numerele și monedele se formatează `de-DE` (virgulă zecimală, punct la mii). Dictarea vocală folosește `de-DE`; asistentul AI primește germana ca limbă de intrare.
+- Nimic din geometrie nu se schimbă: cotele, piesele și golden-urile sunt identice.
+- Terminologia (Korpus, Seitenwand, Einlegeboden, Topfband, Zuschnittliste, Umleimer/Kante…) a fost aleasă din meseria de tâmplărie; **merită citită de un tâmplar vorbitor nativ înainte de promovare în DE/AT/CH.**
+
+---
+
 ## Server — 12 octombrie 2026
 
 - `/api/pro`: codurile Pro gratuite (`comp_…`) se citesc și din `PRO_COMP_CODES_2`, pe lângă `PRO_COMP_CODES`. Se pot adăuga coduri fără a rescrie valoarea secretă veche. Fără schimbări în aplicație (fără `APP_VER`).

@@ -1,6 +1,6 @@
 # Site-ul de prezentare Ebanist
 
-`ebanist.com/` (EN), `/ro/`, `/it/`, `/fr/`. Aplicația rămâne la `/app/`, pe
+`ebanist.com/` (EN), `/ro/`, `/it/`, `/fr/`, `/de/`. Aplicația rămâne la `/app/`, pe
 **aceeași origine**. `localStorage` (cheia `tagliapro`), IndexedDB și
 proiectele utilizatorilor nu se mută nicăieri.
 
@@ -35,7 +35,7 @@ site/
 
 ## Limba (D-60)
 
-`ebanist.com/` trimite la `/ro/`, `/it/` sau `/fr/` după limba browserului,
+`ebanist.com/` trimite la `/ro/`, `/it/`, `/fr/` sau `/de/` după limba browserului,
 cu un 302 dat de Edge Function-ul `netlify/edge-functions/lang.js` (numai pe
 `/`, la fiecare cerere, înainte de cache). Alegerea de mână câștigă: linkurile
 de limbă pun cookie-ul `eb_lang`, pe care funcția îl citește înaintea
@@ -44,6 +44,14 @@ CDN-ul memora redirectul după limbă și ignora cookie-ul. Logica e pură și a
 teste: `cd test && node --test lang-edge.test.mjs`. Pe telefon (sub 560 px) limba se schimbă din butonul `RO ▾`
 din antet (`langPick()` în `build.mjs`); sub 470 px din antet pleacă cuvântul
 EBANIST, rămâne logo-ul.
+
+## Limba nouă (D-79)
+
+O limbă nouă: `i18n/<l>.json` (aceleași chei ca `en.json`), `LANGS` în
+`site.config.json`, `LANGS` în `netlify/edge-functions/lang.js`, redirectul
+`?lang=<l>` din `netlify.toml`, apoi `capture.cjs <l>`, `pdf2img.py`, `og.cjs`.
+`CASE_ASSET_LANGS` listează limbile care au capturile și etichetele paginii de
+caz; celelalte (acum `de`) folosesc imaginile din engleză, cu textul în limba lor.
 
 ## Comenzi
 

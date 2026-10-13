@@ -2,7 +2,7 @@
    Ebanist — la radice «/» nella lingua del visitatore (D-60)
    ---------------------------------------------------------------------
    Gira SOLO su «/» e decide, a ogni richiesta, se rimandare a /ro/ /it/
-   /fr/ o lasciare la pagina inglese.
+   /fr/ /de/ o lasciare la pagina inglese.
 
    Perche una edge function e non le regole `Language` di netlify.toml:
    provate sul deploy preview, la CDN memorizza il redirect per lingua del
@@ -20,7 +20,7 @@
    Googlebot non manda Accept-Language: vede sempre «/» in inglese.
    ===================================================================== */
 
-export const LANGS = ["en", "ro", "it", "fr"];
+export const LANGS = ["en", "ro", "it", "fr", "de"];
 export const DEFAULT = "en";
 
 /* Accept-Language → lingue in ordine di preferenza (codice di 2 lettere).

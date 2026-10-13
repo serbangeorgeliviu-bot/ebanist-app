@@ -104,6 +104,29 @@
       diffTitle: "What changed since {v}", diffAdd: "added", diffDel: "removed",
       diffQty: "quantity", diffNone: "No changes on the parts.", parentOf: "version of order",
       frozen: "Snapshot frozen", appVer: "App version"
+    },
+    de: {
+      _locale: "de-DE",
+      inbox: "Bestellungen", pin: "PIN", enter: "Eintreten",
+      badPin: "Falsche PIN.",
+      locked: "Zu viele Fehlversuche. Versuchen Sie es in 15 Minuten erneut.",
+      notConfigured: "Der Posteingang ist für diese Werkstatt noch nicht aktiviert. Schreiben Sie an info@ebanist.com.",
+      noServer: "Der Server antwortet nicht. Per WhatsApp gesendete Bestellungen sind trotzdem angekommen.",
+      insecure: "Posteingang im ungeschützten Modus: Die PIN wird aus der öffentlichen Datei der Werkstatt gelesen. Setzen Sie die Umgebungsvariable INBOX_PIN_… auf Netlify – siehe ORDER_RAIL_README.md.",
+      empty: "Noch keine Bestellungen.",
+      pieces: "Teile", hash: "Fingerabdruck", frozenAt: "eingefroren am",
+      open: "Öffnen", confirm: "Bestätigen",
+      confirmAsk: "Bestellung {id} bestätigen? Nach der Bestätigung wird der Snapshot eingefroren und lässt sich nicht mehr ändern. Eine spätere Änderung erzeugt eine neue Bestellung, v2.",
+      markAs: "Markieren als {s}",
+      status: { received: "eingegangen", confirmed: "bestätigt", cut: "zugeschnitten", collected: "abgeholt" },
+      client: "Kunde", order: "Bestellung", total: "Gesamt", docs: "Dokumente",
+      dlLab: "Zuschnittpaket (JSON)", dlSnap: "Projekt (JSON)", dlZip: "Alles als ZIP",
+      docCut: "Zuschnittliste", docAssy: "Montageanleitung", docLabels: "Etiketten",
+      printHint: "Öffnet druckfertig. «Als PDF speichern» finden Sie im Druckdialog.",
+      notFound: "Diese Bestellung existiert nicht, oder der Link ist falsch.",
+      diffTitle: "Was sich seit {v} geändert hat", diffAdd: "hinzugefügt", diffDel: "entfernt",
+      diffQty: "Menge", diffNone: "Keine Änderungen an den Teilen.", parentOf: "Version der Bestellung",
+      frozen: "Snapshot eingefroren", appVer: "App-Version"
     }
   };
 

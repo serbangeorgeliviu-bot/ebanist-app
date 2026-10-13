@@ -591,7 +591,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   head("Traduzioni — nessuna etichetta deve mostrare il nome della chiave");
   const i18n = await pg.evaluate(() => {
     const dicts = { I18N, SURVEY_I18N, AUTH_I18N, AI_I18N };
-    const langs = ["it", "ro", "en", "fr"], out = { missing: [], raw: [] }, keep = state.lang;
+    const langs = ["it", "ro", "en", "fr", "de"], out = { missing: [], raw: [] }, keep = state.lang;
     // 1. ogni tabella completa in tutte e quattro le lingue
     for (const [name, D] of Object.entries(dicts)) {
       const all = new Set(); langs.forEach(l => Object.keys(D[l] || {}).forEach(k => all.add(k)));
@@ -607,7 +607,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     state.lang = keep; applyLang();
     return out;
   });
-  ok("tutte le tabelle complete nelle 4 lingue", i18n.missing.length === 0,
+  ok("tutte le tabelle complete nelle 5 lingue", i18n.missing.length === 0,
      i18n.missing.length ? i18n.missing.slice(0, 8).join(", ") : "467 chiavi");
   ok("nessuna etichetta mostra il nome della chiave", i18n.raw.length === 0,
      i18n.raw.length ? i18n.raw.slice(0, 8).join(", ") : undefined);
@@ -1533,7 +1533,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         return { l: [...document.querySelectorAll(".top .lang-menu a")].filter(a => a.getBoundingClientRect().height >= 44).map(a => a.getAttribute("hreflang")).join(),
                  dentro: m.left >= 0 && m.right <= innerWidth };
       });
-      ok("il selettore apre le 4 lingue, ognuna tappabile (44 px), dentro lo schermo a 360 px", menu.l === "en,ro,it,fr" && menu.dentro, JSON.stringify(menu));
+      ok("il selettore apre le 5 lingue, ognuna tappabile (44 px), dentro lo schermo a 360 px", menu.l === "en,ro,it,fr,de" && menu.dentro, JSON.stringify(menu));
       await Promise.all([lp.waitForURL(/\/it\/$/), lp.tap('.top .lang-menu a[hreflang="it"]')]);
       const ck = (await ctx.cookies(ORIGIN)).find(c => c.name === "eb_lang");
       ok("scegliere una lingua mette eb_lang (la edge function lo preferisce ad Accept-Language)", !!ck && ck.value === "it", ck ? ck.value : "nessun cookie");
