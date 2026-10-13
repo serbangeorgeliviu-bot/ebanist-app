@@ -165,7 +165,7 @@
     var cur = (OR.cfg && OR.cfg.currency) || "EUR";
     try {
       return new Intl.NumberFormat(
-        lang === "ro" ? "ro-RO" : lang === "fr" ? "fr-FR" : lang === "en" ? "en-GB" : "it-IT",
+        lang === "ro" ? "ro-RO" : lang === "fr" ? "fr-FR" : lang === "en" ? "en-GB" : lang === "de" ? "de-DE" : lang === "pl" ? "pl-PL" : lang === "es" ? "es-ES" : "it-IT",
         { style: "currency", currency: cur, minimumFractionDigits: 2 }
       ).format(n);
     } catch (e) {

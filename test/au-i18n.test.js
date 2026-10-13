@@ -40,7 +40,7 @@ test("ci sono davvero dei testi da tradurre (l'estrazione non e vuota)", () => {
   assert.ok(S.ASSERTIONS.length >= 18);
 });
 
-for (const lang of ["it", "en", "fr"]) {
+for (const lang of ["it", "en", "fr", "de", "pl", "es"]) {
   test(`${lang}: ogni testo della chiusura e degli invarianti ha la sua traduzione`, () => {
     for (const s of CLOSURE.concat(INVARIANTS, ENV)) {
       const tx = auTx(s, lang);
@@ -70,12 +70,14 @@ test("i prefissi tengono il dettaglio che il nucleo ci attacca", () => {
     "The thickness written on the part is not that of the role's material: Fianco 18 mm ≠ Bianco 19 mm");
   assert.equal(auTx("Nu se pot citi cotele pentru verificare: x", "fr"),
     "Impossible de lire les cotes pour la vérification : x");
+  assert.equal(auTx("Nu se pot citi cotele pentru verificare: x", "de"),
+    "Die Maße können nicht zur Prüfung gelesen werden: x");
 });
 
 test("romeno, lingua sconosciuta, testo assente: passa com'e", () => {
   const s = CLOSURE[0];
   assert.equal(auTx(s, "ro"), s);
-  assert.equal(auTx(s, "de"), s);
+  assert.equal(auTx(s, "xx"), s);
   assert.equal(auTx("Un testo qualunque", "en"), "Un testo qualunque");
   assert.equal(auTx("", "en"), "");
   assert.equal(auTx(undefined, "en"), undefined);
