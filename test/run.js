@@ -588,6 +588,22 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      /const APP_VER="[^"]+"; \/\* APP_VER-MARKER \*\//.test(
        await (await fetch(URL)).text()), "v" + pgVer);
 
+  head("Lingua dal link del sito — vince anche per chi ha gia dei dati (4.56.1)");
+  {
+    const lc = await browser.newContext({ viewport: { width: 412, height: 915 }, locale: "it-IT" });
+    const lpg = await lc.newPage();
+    await lpg.goto(`${URL}?lang=it`); await lpg.waitForTimeout(800);
+    const l1 = await lpg.evaluate(() => state.lang);
+    await lpg.goto(`${URL}?lang=es`); await lpg.waitForTimeout(800);
+    const l2 = await lpg.evaluate(() => [state.lang, document.documentElement.lang, !!state.langChosen]);
+    await lpg.goto(URL); await lpg.waitForTimeout(800);
+    const l3 = await lpg.evaluate(() => state.lang);
+    ok("prima apertura con ?lang=it: italiano", l1 === "it", l1);
+    ok("riapertura con ?lang=es (dati gia salvati): spagnolo", l2[0] === "es" && l2[1] === "es" && l2[2], JSON.stringify(l2));
+    ok("senza ?lang resta la lingua scelta", l3 === "es", l3);
+    await lc.close();
+  }
+
   head("Traduzioni — nessuna etichetta deve mostrare il nome della chiave");
   const i18n = await pg.evaluate(() => {
     const dicts = { I18N, SURVEY_I18N, AUTH_I18N, AI_I18N };
