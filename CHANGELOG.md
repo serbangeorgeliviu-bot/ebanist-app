@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.56.1 — 13 octombrie 2026
+
+**Limba din linkul site-ului vine și în aplicația deja folosită.** Cine deschidea aplicația din `/es/`, `/de/`, `/pl/` (sau orice pagină de limbă a site-ului) și avea deja date salvate pe dispozitiv rămânea în limba veche: `?lang=` era citit numai la prima pornire. Acum un `?lang=` valid din link are prioritate și se reține ca alegere (`langChosen`). Fără `?lang=` rămâne limba aleasă.
+
+Notă: aplicația se actualizează „cache-first” (fiecare versiune nouă se instalează la prima deschidere și se vede la a doua). Pe un dispozitiv care a deschis aplicația înainte de 4.56.0, prima deschidere după lansare arată încă versiunea veche, fără `de`, `pl`, `es`; a doua deschidere (sau «Verifică actualizări» din Setări) aduce versiunea nouă.
+
+Teste: `run.js` — „Lingua dal link del sito” (3 verificări).
+
+---
+
 ## 4.56.0 — 13 octombrie 2026
 
 **Poloneză și spaniolă în aplicație.** A șasea și a șaptea limbă a interfeței, după ro, it, en, fr, de: tot ce se vede pe ecran și în documente (listă de debitare, fișă de montaj, distinta PDF, ofertă, mod Client, Order Rail) apare în limba aleasă din Setări → Limbă. Prima pornire alege `pl` sau `es` singură dacă browserul o cere (`es-MX` și alte variante regionale intră pe `es`).
