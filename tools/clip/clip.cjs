@@ -18,10 +18,10 @@ catch (e) { ({ chromium } = require(path.resolve(__dirname, "../../test/node_mod
 
 const ROOT = path.resolve(__dirname, "../..");
 const TXT = {
-  ro: { a: "Din același desen", b: "Piesele, cu cotele lor", c1: "Găurile, exact unde trebuie", c2: "Balamalele și șuruburile intră în găuri", d: "Clientul îl vede în 3D", cta: "Ebanist · link în bio", hook: "Clientul vede dulapul în 3D. Mașina primește găurile.", holes: "găuri", role: { fianco: "Lateral", divisorio: "Separator", base: "Bază", cielo: "Plafon", ripiano: "Raft", zoccolo: "Plintă", frontale: "Ușă" } },
-  fr: { a: "Depuis le même dessin", b: "Chaque pièce, avec ses cotes", c1: "Les perçages, au bon endroit", c2: "Charnières et vis entrent dans les trous", d: "Le client le voit en 3D", cta: "Ebanist · lien en bio", hook: "Le client voit le meuble en 3D. La machine reçoit les perçages.", holes: "perçages", role: { fianco: "Côté", divisorio: "Séparation", base: "Fond bas", cielo: "Dessus", ripiano: "Étagère", zoccolo: "Plinthe", frontale: "Porte" } },
-  it: { a: "Dallo stesso disegno", b: "Ogni pezzo, con le sue quote", c1: "I fori, esattamente dove servono", c2: "Cerniere e viti entrano nei fori", d: "Il cliente lo vede in 3D", cta: "Ebanist · link in bio", hook: "Il cliente vede il mobile in 3D. La macchina riceve i fori.", holes: "forature", role: { fianco: "Fianco", divisorio: "Divisorio", base: "Base", cielo: "Cielo", ripiano: "Ripiano", zoccolo: "Zoccolo", frontale: "Anta" } },
-  en: { a: "From the same drawing", b: "Every part, with its dimensions", c1: "Holes exactly where they go", c2: "Hinges and screws drop into the holes", d: "The client sees it in 3D", cta: "Ebanist · link in bio", hook: "The client sees the cabinet in 3D. The machine gets the holes.", holes: "holes", role: { fianco: "Side", divisorio: "Divider", base: "Bottom", cielo: "Top", ripiano: "Shelf", zoccolo: "Plinth", frontale: "Door" } }
+  ro: { rev1: "Cazan, contor de gaz, tablou electric. Un singur dulap.", rev2: "Dulapul se adaptează, cazanul rămâne unde e", a: "Din același desen", b: "Piesele, cu cotele lor", c1: "Găurile, exact unde trebuie", c2: "Balamalele și șuruburile intră în găuri", d: "Clientul îl vede în 3D", cta: "Ebanist · link în bio", hook: "Clientul vede dulapul în 3D. Mașina primește găurile.", holes: "găuri", role: { fianco: "Lateral", divisorio: "Separator", base: "Bază", cielo: "Plafon", ripiano: "Raft", zoccolo: "Plintă", frontale: "Ușă" } },
+  fr: { rev1: "Chaudière, compteur de gaz, tableau électrique. Un seul meuble.", rev2: "Le meuble s'adapte, la chaudière reste où elle est", a: "Depuis le même dessin", b: "Chaque pièce, avec ses cotes", c1: "Les perçages, au bon endroit", c2: "Charnières et vis entrent dans les trous", d: "Le client le voit en 3D", cta: "Ebanist · lien en bio", hook: "Le client voit le meuble en 3D. La machine reçoit les perçages.", holes: "perçages", role: { fianco: "Côté", divisorio: "Séparation", base: "Fond bas", cielo: "Dessus", ripiano: "Étagère", zoccolo: "Plinthe", frontale: "Porte" } },
+  it: { rev1: "Caldaia, contatore del gas, quadro elettrico. Un solo mobile.", rev2: "Il mobile si adatta, la caldaia resta dov'è", a: "Dallo stesso disegno", b: "Ogni pezzo, con le sue quote", c1: "I fori, esattamente dove servono", c2: "Cerniere e viti entrano nei fori", d: "Il cliente lo vede in 3D", cta: "Ebanist · link in bio", hook: "Il cliente vede il mobile in 3D. La macchina riceve i fori.", holes: "forature", role: { fianco: "Fianco", divisorio: "Divisorio", base: "Base", cielo: "Cielo", ripiano: "Ripiano", zoccolo: "Zoccolo", frontale: "Anta" } },
+  en: { rev1: "Boiler, gas meter, electrical panel. One single unit.", rev2: "The unit adapts, the boiler stays where it is", a: "From the same drawing", b: "Every part, with its dimensions", c1: "Holes exactly where they go", c2: "Hinges and screws drop into the holes", d: "The client sees it in 3D", cta: "Ebanist · link in bio", hook: "The client sees the cabinet in 3D. The machine gets the holes.", holes: "holes", role: { fianco: "Side", divisorio: "Divider", base: "Bottom", cielo: "Top", ripiano: "Shelf", zoccolo: "Plinth", frontale: "Door" } }
 };
 
 function args(argv) {
@@ -188,7 +188,7 @@ function loadInput(o) {
   const nr = (n) => String(n).replace(".", ",");
   const low = "h-250";
   const vf = [
-    dt(put("hook", wrap(hookTxt, 22)), "h*0.12", 72, 0.2, Math.min(3.2, at(PH.b))),
+    ...(o.reveal ? [] : [dt(put("hook", wrap(hookTxt, 22)), "h*0.12", 72, 0.2, Math.min(3.2, at(PH.b)))]),
     dt(put("ca", T.a), low, 54, Math.max(3.4, at(PH.b) - 0.6), at(PH.b) + 0.6),
     dt(put("cb", T.b), low, 54, at(PH.b) + 0.8, at(PH.c)),
     dt(put("cc1", T.c1), R(60), 54, at(PH.c) + 0.1, at(PH.c2)),
@@ -202,10 +202,26 @@ function loadInput(o) {
     const L = layout[k], txt = `${T.role[p.role] || p.role} n.${p.n} · ${nr(p.L)} × ${nr(p.W)} × ${nr(p.T)}\n${p.nops} ${T.holes}${dias ? " · " + dias : ""}`;
     vf.push(dt(put("lab" + k, txt), L.y + L.h + R(22), k === 0 ? 34 : 24, at(PH.c) + 0.3, at(PH.d) - 0.2, L.x + L.w / 2));
   });
-  const out = path.resolve(o.out);
+  const out = path.resolve(o.out), main = o.reveal ? path.join(tmp, "main.mp4") : out;
   const r = spawnSync("ffmpeg", ["-y", "-hide_banner", "-loglevel", "error", "-framerate", String(o.fps), "-i", path.join(fdir, "%05d.jpg"),
-    "-vf", vf.join(","), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", out], { stdio: "inherit" });
+    "-vf", vf.join(","), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", main], { stdio: "inherit" });
   if (r.status !== 0) { console.error("ffmpeg a esuat; cadrele sunt in " + fdir); process.exit(5); }
+  if (o.reveal) {
+    /* introducere: poza «inainte» (cu hook-ul), apoi «dupa», cu zoom lent si fundal estompat; apoi 3D-ul */
+    const [bf, af] = String(o.reveal).split(",").map(p => path.resolve(p));
+    const FPS = o.fps, d1 = 3.6, d2 = 3.6, xf = 0.6;
+    const layer = i => `[${i}:v]split[bg${i}][fg${i}];[bg${i}]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},boxblur=40:4[b${i}];` +
+      `[fg${i}]scale=${W}:-2,zoompan=z='min(1+0.0009*on,1.12)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=${W}x${Math.round(W * 4 / 3)}:fps=${FPS}[z${i}];[b${i}][z${i}]overlay=(W-w)/2:(H-h)/2[v${i}]`;
+    const tx = (f, t0, t1) => dt(f, "h*0.1", 66, t0, t1);
+    const intro = path.join(tmp, "intro.mp4");
+    const rr = spawnSync("ffmpeg", ["-y", "-hide_banner", "-loglevel", "error", "-loop", "1", "-framerate", String(FPS), "-t", String(d1 + xf), "-i", bf, "-loop", "1", "-framerate", String(FPS), "-t", String(d2 + xf), "-i", af,
+      "-filter_complex", `${layer(0)};${layer(1)};[v0][v1]xfade=transition=wipeleft:duration=${xf}:offset=${d1}[x];[x]${tx(put("rv1", wrap(T.rev1, 22)), 0.2, d1 - 0.2)},${tx(put("rv2", wrap(T.rev2, 22)), d1 + xf + 0.2, d1 + d2 - 0.2)}[o]`,
+      "-map", "[o]", "-r", String(FPS), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", intro], { stdio: "inherit" });
+    if (rr.status !== 0) { console.error("intro (ffmpeg) a esuat"); process.exit(7); }
+    const rc = spawnSync("ffmpeg", ["-y", "-hide_banner", "-loglevel", "error", "-i", intro, "-i", main, "-filter_complex", "[0:v][1:v]concat=n=2:v=1:a=0[v]", "-map", "[v]",
+      "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", out], { stdio: "inherit" });
+    if (rc.status !== 0) { console.error("concat (ffmpeg) a esuat"); process.exit(8); }
+  }
   if (!o["keep-frames"]) fs.rmSync(tmp, { recursive: true, force: true }); else console.log("cadre: " + fdir);
   console.log("gata: " + out);
 })().catch(e => { console.error(e); process.exit(1); });
