@@ -518,6 +518,44 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   ok("e produce una distinta vera", pre.pezzi > 0, pre.pezzi + " pezzi");
   ok("la X toglie il tipo proprio, quelli di serie restano", pre.tolto && pre.serieIntatti);
 
+  head("Pollici (D-81) — il progetto resta in mm, il campo no");
+  const inch = await pg.evaluate(async () => {
+    const out = {};
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    const S = state.settings, was = { u: S.units, f: S.inFmt };
+    const nset = (el, v) => { LEN_NATIVE.set.call(el, v); el.dispatchEvent(new Event("input")); };
+    S.units = "in"; S.inFmt = "frac16"; applyLang(); await wait(60);
+    const bL = document.getElementById("bL"), k = document.getElementById("sKerf");
+    bL.value = 800;
+    out.tipo = bL.type;
+    out.mostra = LEN_NATIVE.get.call(bL);                       // 31 1/2
+    out.restituisce = bL.value;                                  // 800, non 800.1
+    nset(bL, "30 3/4");
+    out.digitato = +bL.value;                                    // 781.05
+    nset(bL, "800mm");
+    out.suffisso = +bL.value;                                    // il suffisso batte l'unita
+    bL.blur(); out.dopoBlur = LEN_NATIVE.get.call(bL);
+    k.value = 4; out.lama = LEN_NATIVE.get.call(k);              // 5/32, non 3/16
+    const mat = LEN.fmt(18, true), mat19 = LEN.fmt(19, true);
+    out.sp18 = mat; out.sp19 = mat19;
+    out.etichetta = [...document.querySelectorAll("label[data-i=fWidth]")].every(l => /\(in\)/.test(l.textContent));
+    out.dual = lenTxt(800);
+    out.forare_mm = fmtMMmm(37);
+    S.units = "mm"; applyLang(); await wait(60);
+    out.tornato = bL.type === "number" && bL.value === "800";
+    out.etichettaMm = [...document.querySelectorAll("label[data-i=fWidth]")].every(l => /\(mm\)/.test(l.textContent));
+    S.units = was.u; S.inFmt = was.f; applyLang();
+    return out;
+  });
+  ok("in pollici il campo e di testo e mostra la frazione", inch.tipo === "text" && inch.mostra === "31 1/2", inch.mostra);
+  ok("un campo non toccato restituisce i mm esatti, non il testo arrotondato", inch.restituisce === "800", inch.restituisce);
+  ok("30 3/4 digitato = 781,05 mm", Math.abs(inch.digitato - 781.05) < 1e-6, inch.digitato);
+  ok("il suffisso mm batte l'unita predefinita", inch.suffisso === 800);
+  ok("la lama da 4 mm si vede a 5/32, lo spessore 18 a 23/32", inch.lama === "5/32" && inch.sp18 === "23/32" && inch.sp19 === "3/4", [inch.lama, inch.sp18, inch.sp19].join(" "));
+  ok("etichette (mm) -> (in) e ritorno", inch.etichetta && inch.etichettaMm);
+  ok("documenti: pollici accanto ai mm; forature sempre in mm", /31 1\/2.*\(800\)/.test(inch.dual) && inch.forare_mm === "37", inch.dual);
+  ok("tornando a mm il campo e di nuovo numerico con gli stessi mm", inch.tornato);
+
   head("Chiave API — resta sul telefono, quindi va detto e va potuta togliere");
   const key = await pg.evaluate(async () => {
     const out = {};

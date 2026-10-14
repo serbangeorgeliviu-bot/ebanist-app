@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.57.0 — 14 octombrie 2026
+
+**Inch pentru piața SUA (D-81).** În Setări → Unități de măsură se alege *Millimetri* sau *Pollici (in)*, cu fracții la 1/16, la 1/32 sau zecimale. Câmpurile de lungime acceptă `31 1/2`, `31-1/2"`, `2'-7 1/2"`, `800mm`, `80cm`. Proiectul rămâne în milimetri: inch-ul e doar afișare și introducere, deci niciun proiect existent nu se schimbă și geometria e identică (golden-urile neatinse). Un câmp pe care nu l-ai modificat păstrează exact mm-ii pe care îi avea, nu valoarea rotunjită la fracție.
+
+În documente (distinta tipărită, fișa de montaj) cota în inch stă **lângă** mm: «31 1/2″ (800)». Găurirea, tabelul de operații și exportul de text rămân în mm. Grosimile, lama și cantul se afișează cel puțin la 1/32 (18 mm = 23/32″, nu 11/16″). Butonul „Pannello 4×8 ft (USA)” pune 2438×1219 mm și lama de 1/8″.
+
+Nu intră încă: catalog de materiale cu placaj în inch, feronerie Blum US, engleză americană, USD. Vezi D-81, „Rămâne deschis”.
+
+---
+
 ## 4.56.1 — 13 octombrie 2026
 
 **Limba din linkul site-ului vine și în aplicația deja folosită.** Cine deschidea aplicația din `/es/`, `/de/`, `/pl/` (sau orice pagină de limbă a site-ului) și avea deja date salvate pe dispozitiv rămânea în limba veche: `?lang=` era citit numai la prima pornire. Acum un `?lang=` valid din link are prioritate și se reține ca alegere (`langChosen`). Fără `?lang=` rămâne limba aleasă.
