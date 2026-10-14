@@ -18,14 +18,14 @@ catch (e) { ({ chromium } = require(path.resolve(__dirname, "../../test/node_mod
 
 const ROOT = path.resolve(__dirname, "../..");
 const TXT = {
-  ro: { a: "Din același desen", b: "Piesele, cu cotele lor", c: "Găurile, unde trebuie", d: "Clientul îl vede în 3D", cta: "Ebanist · link în bio", hook: "Clientul vede dulapul în 3D. Mașina primește găurile." },
-  fr: { a: "Depuis le même dessin", b: "Chaque pièce, avec ses cotes", c: "Les perçages, au bon endroit", d: "Le client le voit en 3D", cta: "Ebanist · lien en bio", hook: "Le client voit le meuble en 3D. La machine reçoit les perçages." },
-  it: { a: "Dallo stesso disegno", b: "Ogni pezzo, con le sue quote", c: "I fori, dove servono", d: "Il cliente lo vede in 3D", cta: "Ebanist · link in bio", hook: "Il cliente vede il mobile in 3D. La macchina riceve i fori." },
-  en: { a: "From the same drawing", b: "Every part, with its dimensions", c: "Holes exactly where they go", d: "The client sees it in 3D", cta: "Ebanist · link in bio", hook: "The client sees the cabinet in 3D. The machine gets the holes." }
+  ro: { a: "Din același desen", b: "Piesele, cu cotele lor", d: "Clientul îl vede în 3D", cta: "Ebanist · link în bio", hook: "Clientul vede dulapul în 3D. Mașina primește găurile.", holes: "găuri", role: { fianco: "Lateral", divisorio: "Separator", base: "Bază", cielo: "Plafon", ripiano: "Raft", zoccolo: "Plintă", frontale: "Ușă" } },
+  fr: { a: "Depuis le même dessin", b: "Chaque pièce, avec ses cotes", d: "Le client le voit en 3D", cta: "Ebanist · lien en bio", hook: "Le client voit le meuble en 3D. La machine reçoit les perçages.", holes: "perçages", role: { fianco: "Côté", divisorio: "Séparation", base: "Fond bas", cielo: "Dessus", ripiano: "Étagère", zoccolo: "Plinthe", frontale: "Porte" } },
+  it: { a: "Dallo stesso disegno", b: "Ogni pezzo, con le sue quote", d: "Il cliente lo vede in 3D", cta: "Ebanist · link in bio", hook: "Il cliente vede il mobile in 3D. La macchina riceve i fori.", holes: "forature", role: { fianco: "Fianco", divisorio: "Divisorio", base: "Base", cielo: "Cielo", ripiano: "Ripiano", zoccolo: "Zoccolo", frontale: "Anta" } },
+  en: { a: "From the same drawing", b: "Every part, with its dimensions", d: "The client sees it in 3D", cta: "Ebanist · link in bio", hook: "The client sees the cabinet in 3D. The machine gets the holes.", holes: "holes", role: { fianco: "Side", divisorio: "Divider", base: "Bottom", cielo: "Top", ripiano: "Shelf", zoccolo: "Plinth", frontale: "Door" } }
 };
 
 function args(argv) {
-  const o = { secs: 20, fps: 24, size: "1080x1920", lang: "ro", out: "clip.mp4" };
+  const o = { secs: 20, fps: 24, size: "1080x1920", lang: "it", out: "clip.mp4" };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i]; if (!a.startsWith("--")) continue;
     const k = a.slice(2); const v = (argv[i + 1] && !argv[i + 1].startsWith("--")) ? argv[++i] : true;
@@ -36,16 +36,19 @@ function args(argv) {
 const ss = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
 /* Cronologia: t in [0,1] -> starea camerei si a corpului. Totul e o functie pura de t,
-   deci acelasi input da aceleasi cadre. */
+   deci acelasi input da aceleasi cadre.
+   A 0-.17 corp inchis · B .17-.38 explodat · C .38-.80 o piesa izolata cu gaurile · D .80-1 ușile deschise */
+const PH = { b: .17, c: .38, d: .80 };
 function scene(t) {
-  const yaw = 0.35 + 1.0 * t;                      // balans de ~57 de grade in jurul corpului, nu pe spate
-  const pitch = 0.30 - 0.06 * Math.sin(t * Math.PI * 2);
-  const explode = ss(.32, .50, t) - ss(.62, .80, t);
-  const holes = t > .40 && t < .84;
-  const open = t > .84;
-  const phase = t < .32 ? "a" : t < .62 ? "b" : t < .84 ? "c" : "d";
-  const close = ss(.58, .66, t) - ss(.78, .84, t);   // apropiere cand se vad gaurile
-  return { yaw, pitch, explode, holes, open, zoom: (1.5 - 0.5 * explode) * (1 + 0.45 * close), phase };
+  const explode = ss(PH.b, .29, t) - ss(.33, PH.c, t);
+  const iso = t >= PH.c && t < PH.d;
+  const yaw = iso ? 0.4 + 2 * Math.PI * ((t - PH.c) / (PH.d - PH.c)) * 0.92 : (t < PH.c ? 0.35 + 0.7 * t : 0.50 + 0.25 * ss(PH.d, 1, t));
+  const pitch = iso ? 0.22 : 0.30 - 0.06 * Math.sin(t * Math.PI * 2);
+  const holes = iso || (t > .26 && t < PH.c);
+  const open = t >= PH.d + .05;
+  const phase = t < PH.b ? "a" : t < PH.c ? "b" : t < PH.d ? "c" : "d";
+  const zoom = iso ? 1.2 : (1.5 - 0.5 * explode);
+  return { yaw, pitch, explode, holes, open, iso, zoom, phase };
 }
 
 function findFont() {
@@ -94,15 +97,28 @@ function loadInput(o) {
   if (!ok) { console.error("WebGL indisponibil in Chromium headless: " + (await pg.evaluate(() => window.GL3D && window.GL3D.err))); process.exit(3); }
   await pg.evaluate(cfg => { buildCfg = cfg; if (typeof buildFormReady !== "undefined" && buildFormReady) syncBuildForm(); }, inp.cfg);
 
+  /* piesa de aratat: cea cu cele mai multe gauri vizibile, nu prea alungita (sau --piece <n>), cotele si gaurile din modelul de operatii */
+  const piece = await pg.evaluate(([cfg, want]) => {
+    window.GL3D.render(cfg, { explode: 0 });
+    const P = window.GL3D.model().ops.pieces.filter(p => p.thickness);
+    const score = q => (q.operations || []).reduce((a, op) => a + (op.type === "drill" ? op.dia * op.dia : 0), 0);
+    const ok = P.filter(q => q.length / q.width <= 3.6);   // o piesa care incape bine pe verticala 9:16
+    const p = want ? P.find(x => x.n === want) : (ok.length ? ok : P).slice().sort((a, b) => score(b) - score(a))[0];
+    if (!p) return null;
+    const byDia = {}; (p.operations || []).forEach(op => { if (op.type === "drill") byDia[op.dia] = (byDia[op.dia] || 0) + 1; });
+    return { pk: p.pk, n: p.n, role: p.role, L: p.length, W: p.width, T: p.thickness, nops: (p.operations || []).length, byDia };
+  }, [inp.cfg, o.piece ? +o.piece : 0]);
+  if (!piece) { console.error("nicio piesa in model"); process.exit(6); }
+  console.log(`piesa: n.${piece.n} ${piece.role} ${piece.L}x${piece.W}x${piece.T}, ${piece.nops} operatii`);
   const N = Math.round(o.secs * o.fps), fdir = path.join(tmp, "f"); fs.mkdirSync(fdir);
   console.log(`${inp.name}: ${N} cadre ${W}x${H} -> ${o.out}`);
   const t0 = Date.now();
   for (let i = 0; i < N; i++) {
     const s = scene(N === 1 ? 0 : i / (N - 1));
-    const x = await pg.evaluate(([cfg, p, w, h]) => {
-      const r = window.GL3D.capture(cfg, { w, h, yaw: p.yaw, pitch: p.pitch, explode: p.explode, holes: p.holes, open: p.open, zoom: p.zoom, edges: true });
+    const x = await pg.evaluate(([cfg, p, w, h, piece]) => {
+      const r = window.GL3D.capture(cfg, { w, h, yaw: p.yaw, pitch: p.pitch, explode: p.explode, holes: p.holes, open: p.open, zoom: p.zoom, edges: true, sel: p.iso ? piece.pk : null, iso: p.iso });
       return r && r.img;
-    }, [inp.cfg, s, W, H]);
+    }, [inp.cfg, s, W, H, piece]);
     if (!x) { console.error("capture() n-a returnat imagine la cadrul " + i); process.exit(4); }
     fs.writeFileSync(path.join(fdir, String(i).padStart(5, "0") + ".jpg"), Buffer.from(x.split(",")[1], "base64"));
     if (i % 24 === 0) console.log(`  ${i}/${N}  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
@@ -114,17 +130,23 @@ function loadInput(o) {
   const font = findFont(), put = (n, s) => { const f = path.join(tmp, n + ".txt"); fs.writeFileSync(f, s); return f; };
   const hookTxt = typeof o.hook === "string" ? o.hook : T.hook;
   const wrap = (s, n) => s.split(" ").reduce((L, w) => { const c = L[L.length - 1]; (c && (c + " " + w).length <= n) ? L[L.length - 1] = c + " " + w : L.push(w); return L; }, []).join("\n");
+  const K = W / 1080;
   const dt = (file, y, size, from, to, box) =>
-    `drawtext=fontfile='${font}':textfile='${file}':fontcolor=white:fontsize=${size}:line_spacing=14:x=(w-text_w)/2:y=${y}:` +
-    `box=1:boxcolor=black@0.55:boxborderw=26:enable='between(t,${from},${to})':alpha='if(lt(t,${from}+0.3),(t-${from})/0.3,if(gt(t,${to}-0.3),(${to}-t)/0.3,1))'`;
-  const D = o.secs, cap = (k, a, b) => dt(put("c" + k, "h-360", 54, a, b), "h-360", 54, a, b);
+    `drawtext=fontfile='${font}':textfile='${file}':fontcolor=white:fontsize=${Math.round(size * K)}:line_spacing=${Math.round(14 * K)}:x=(w-text_w)/2:y=${y}:` +
+    `box=1:boxcolor=black@0.55:boxborderw=${Math.round(26 * K)}:enable='between(t,${from},${to})':alpha='if(lt(t,${from}+0.3),(t-${from})/0.3,if(gt(t,${to}-0.3),(${to}-t)/0.3,1))'`;
+  const D = o.secs, at = f => D * f;
+  const nr = (n) => String(n).replace(".", ",");
+  const dias = Object.keys(piece.byDia).map(Number).sort((x, y) => y - x).map(d => `Ø${nr(d)} ×${piece.byDia[d]}`).join(" · ");
+  const pieceTxt = `${T.role[piece.role] || piece.role} n.${piece.n}\n${nr(piece.L)} × ${nr(piece.W)} × ${nr(piece.T)} mm\n${piece.nops} ${T.holes} · ${dias}`;
+  const low = "h-360";
   const vf = [
-    dt(put("hook", wrap(hookTxt, 22)), "h*0.12", 72, 0.2, Math.min(3.2, D * .2)),
-    cap("a", D * .17, D * .32), cap("b", D * .34, D * .60), cap("c", D * .62, D * .83), cap("d", D * .86, D - 2.4),
-    dt(put("cta", T.cta), "h-360", 60, D - 2.3, D)
+    dt(put("hook", wrap(hookTxt, 22)), "h*0.12", 72, 0.2, Math.min(3.2, at(PH.b))),
+    dt(put("ca", T.a), low, 54, at(PH.b) - 0.6 < 3.4 ? 3.4 : at(PH.b) - 0.6, at(PH.b) + 0.9),
+    dt(put("cb", T.b), low, 54, at(PH.b) + 1.0, at(PH.c)),
+    dt(put("cc", pieceTxt), "h*0.07", 56, at(PH.c) + 0.2, at(PH.d) - 0.2),
+    dt(put("cd", T.d), low, 54, at(PH.d) + 0.2, D - 2.5),
+    dt(put("cta", T.cta), low, 60, D - 2.4, D)
   ];
-  // textele pe faze: a,b,c,d (fisierele c*.txt se rescriu cu continutul real)
-  ["a", "b", "c", "d"].forEach(k => fs.writeFileSync(path.join(tmp, "c" + k + ".txt"), T[k]));
   const out = path.resolve(o.out);
   const r = spawnSync("ffmpeg", ["-y", "-hide_banner", "-loglevel", "error", "-framerate", String(o.fps), "-i", path.join(fdir, "%05d.jpg"),
     "-vf", vf.join(","), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", out], { stdio: "inherit" });

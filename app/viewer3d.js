@@ -741,7 +741,7 @@ const GL3D = {
     try {
       this.render(cfg, { explode: o.explode || 0 });
       Object.assign(R.st, { mode: o.mode || "real", hw: !!o.hw, holes: !!o.holes, open: !!o.open,
-        sel: null, iso: false, edges: o.edges !== false, explode: o.explode || 0 });
+        sel: o.sel != null ? String(o.sel) : null, iso: !!(o.iso && o.sel != null), edges: o.edges !== false, explode: o.explode || 0 });
       setTargets(R.boxes); applyState();
       if (V) { V.yaw = o.yaw != null ? o.yaw : .62; V.pitch = o.pitch != null ? o.pitch : .36; V.zoom = o.zoom || 1; }
       const w = o.w || 1200, h = o.h || 900;
