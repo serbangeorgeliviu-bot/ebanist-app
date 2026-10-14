@@ -371,7 +371,9 @@ function box(mat, lo, hi) {
 }
 const along = (w, ax, d) => { const o = w.slice(); o[ax] += d; return o; };
 
+let HW_N = 0;
 function buildHardware(model) {
+  HW_N = 0;
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (!model || !model.ops) return;
   const O = model.ops;
@@ -379,27 +381,31 @@ function buildHardware(model) {
   O.hw.forEach(h => {
     const P = R.pieces.get(String(h.piece)); if (!P) return;
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;
-    const tag = (m, always) => { m.userData.hw = h.type; m.userData.always = !!always; m.userData.rel = [String(h.piece), String(h.against)]; return m; };
+    /* pull: directia in care piesa iese din gaura (vector unitar); home: pozitia montata.
+       Numai pentru animatia de montaj (capture {fly}); fara ea pozitiile raman cele montate. */
+    const tag = (m, always, pull) => { m.userData.hw = h.type; m.userData.always = !!always; m.userData.rel = [String(h.piece), String(h.against)];
+      m.userData.pull = pull || null; m.userData.home = m.position.clone(); m.userData.rank = ((HW_N++ * 37) % 100) / 100; return m; };
+    const ax = (a, sg) => { const v = [0, 0, 0]; v[a] = sg < 0 ? -1 : 1; return v; };
     if (h.type === "cerniera") {
       const w = h.w;                                            // tazza, faccia interna dell'anta
-      P.hw.add(tag(cyl("__hw", along(w, 2, 0), along(w, 2, 12), 35)));
+      P.hw.add(tag(cyl("__hw", along(w, 2, 0), along(w, 2, 12), 35), false, [0, 0, -1]));
       if (h.plate && A) {
         const p = h.plate, sd = h.hingeLeft ? 1 : -1;
-        A.hw.add(tag(box("__hw", [p[0], p[1] - 24, p[2] - 18], [p[0] + sd * 11, p[1] + 24, p[2] + 18])));
+        A.hw.add(tag(box("__hw", [p[0], p[1] - 24, p[2] - 18], [p[0] + sd * 11, p[1] + 24, p[2] + 18]), false, [sd, 0, 0]));
         /* braccio: dalla tazza alla basetta */
         P.hw.add(tag(box("__hw", [Math.min(w[0], p[0] + sd * 11), w[1] - 9, Math.min(w[2] - 14, p[2])],
-                                 [Math.max(w[0], p[0] + sd * 11), w[1] + 9, w[2]])));
+                                 [Math.max(w[0], p[0] + sd * 11), w[1] + 9, w[2]]), false, [0, 0, -1]));
       }
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
     } else if (h.type === "minifix") {
-      P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15)));
-      const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5)));
+      P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15), false, ax(h.dir.ax, h.dir.side)));
+      const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5), false, ax(h.eAx, h.eSide)));
     } else if (h.type === "tassello") {
-      P.hw.add(tag(cyl("__wooddowel", along(h.w, h.eAx, h.eSide * 12), along(h.w, h.eAx, -h.eSide * 23), 8)));
+      P.hw.add(tag(cyl("__wooddowel", along(h.w, h.eAx, h.eSide * 12), along(h.w, h.eAx, -h.eSide * 23), 8), false, ax(h.eAx, h.eSide)));
     } else if (h.type === "reggipiano") {
       const w = h.w, s = h.dir.side;
-      P.hw.add(tag(cyl("__hw", along(w, 0, -s * 10), along(w, 0, s * 9), 5)));
-      P.hw.add(tag(box("__hw", [w[0] + s * 1, w[1] + 2, w[2] - 5], [w[0] + s * 9, w[1] + 3.5, w[2] + 5])));
+      P.hw.add(tag(cyl("__hw", along(w, 0, -s * 10), along(w, 0, s * 9), 5), false, ax(0, s)));
+      P.hw.add(tag(box("__hw", [w[0] + s * 1, w[1] + 2, w[2] - 5], [w[0] + s * 9, w[1] + 3.5, w[2] + 5]), false, ax(0, s)));
     } else if (h.type === "guida") {
       const w = h.w, s = h.side < 0 ? 1 : -1;
       P.hw.add(tag(box("__metal", [w[0], w[1] - 6, w[2] - h.len], [w[0] + s * 13, w[1] + 22, w[2] - 4])));
@@ -445,6 +451,18 @@ function buildHardware(model) {
 }
 
 /* --- stato → visibilità ------------------------------------------------ */
+/* Montaj animat: f=0 feroneria ssta deasupra gaurilor, f=1 e montata. Fiecare piesa are
+   un rang, deci intra pe rand, nu toate odata. Fara {fly}, f=1 si nimic nu se misca. */
+const FLY_MM = 140;
+function applyFly() {
+  const f = R.fly == null ? 1 : R.fly, V = new THREE.Vector3();
+  for (const P of R.pieces.values()) for (const m of P.hw.children) {
+    const u = m.userData; if (!u.pull || !u.home) continue;
+    const k = Math.min(1, Math.max(0, f * 1.8 - 0.8 * u.rank)), e = k * k * (3 - 2 * k);
+    m.position.copy(u.home).addScaledVector(V.fromArray(u.pull), FLY_MM * MM * (1 - e));
+  }
+}
+
 function applyState() {
   const st = R.st, sel = st.sel != null ? String(st.sel) : null;
   const hwMode = st.mode === "hw";
@@ -472,6 +490,7 @@ function applyState() {
     });
     P.holes.visible = st.holes || hwMode || isSel;
   }
+  applyFly();
   R.need = true; kick();
 }
 
@@ -735,11 +754,12 @@ const GL3D = {
   capture(cfg, o) {
     if (!this.ok) return null;
     o = o || {};
-    const prev = Object.assign({}, R.st), V = (typeof VIEW === "object") ? VIEW : null;
+    const prev = Object.assign({}, R.st), prevFly = R.fly, V = (typeof VIEW === "object") ? VIEW : null;
     const pv = V ? { yaw: V.yaw, pitch: V.pitch, zoom: V.zoom } : null;
     const spin = R.spin; R.spin = false;
     try {
       this.render(cfg, { explode: o.explode || 0 });
+      R.fly = o.fly != null ? o.fly : 1;
       Object.assign(R.st, { mode: o.mode || "real", hw: !!o.hw, holes: !!o.holes, open: !!o.open,
         sel: o.sel != null ? String(o.sel) : null, iso: !!(o.iso && o.sel != null), edges: o.edges !== false, explode: o.explode || 0 });
       setTargets(R.boxes); applyState();
@@ -768,7 +788,7 @@ const GL3D = {
       });
       return { img, labels, w, h };
     } finally {
-      Object.assign(R.st, prev); R.spin = spin;
+      Object.assign(R.st, prev); R.spin = spin; R.fly = prevFly; applyFly();
       if (V && pv) Object.assign(V, pv);
       resize();
     }
