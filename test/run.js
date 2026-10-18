@@ -2178,6 +2178,23 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         o.titles[l] = (svg.match(/<text[^>]*>([^<]*)<\/text>/g) || []).map(s => s.replace(/<[^>]+>/g, ""));
         o.titles[l].filter(s => /^(sh[A-Z]\w*|op[A-Z]\w*|part[A-Z]\w*)$/.test(s)).forEach(s => o.raw.push(l + ":" + s));
       }
+      o.elabRaw = [];
+      const cfgE = { ...PRESETS.armadio, name: "E1" }, bxE = buildModule(cfgE).boxes, titlesE = {};
+      for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) {
+        state.lang = l; applyLang();
+        const sv = EBElab.elevationsSheetSVG(bxE, { tr: t, meta: { name: "E1", date: "d", ver: APP_VER } });
+        const tx = (sv.match(/<text[^>]*>([^<]*)<\/text>/g) || []).map(q => q.replace(/<[^>]+>/g, ""));
+        titlesE[l] = tx.join("|"); tx.filter(q => /^(ea[A-Z]\w*|sh[A-Z]\w*)$/.test(q)).forEach(q => o.elabRaw.push(l + ":" + q));
+      }
+      o.elabDiff = new Set(Object.values(titlesE)).size === 7;
+      state.lang = "fr"; applyLang();
+      PRINT_CAPTURE = []; document.getElementById("btnElab").click(); const capE = PRINT_CAPTURE; PRINT_CAPTURE = null;
+      o.elabCap = capE.length === 1 && /sh-svg/.test(capE[0]) && /eh-body/.test(capE[0]) && /Coupe A–A|Coupe/.test(capE[0]);
+      state.lang = "de"; applyLang();
+      PRINT_CAPTURE = []; document.getElementById("btnAsmA3").click(); const capA = PRINT_CAPTURE; PRINT_CAPTURE = null;
+      o.asmCap = capA.length === 1 && /sh-svg/.test(capA[0]) && /Montage/.test(capA[0]) && /Explosionsansicht/.test(capA[0]);
+      const txA = (capA[0] || "").match(/<text[^>]*>([^<]*)<\/text>/g) || [];
+      o.asmRaw = txA.map(q => q.replace(/<[^>]+>/g, "")).filter(q => /^(as[A-Z]\w*|ea[A-Z]\w*|sh[A-Z]\w*|mStepsT|mParts)$/.test(q));
       state.lang = "fr"; applyLang();
       PRINT_CAPTURE = []; partA3(M, pc, 5); const cap = PRINT_CAPTURE; PRINT_CAPTURE = null;
       o.cap = cap.length === 1 && /sh-svg/.test(cap[0]) && /@page/.test(cap[0]) && /Fiche de fabrication/.test(cap[0]);
@@ -2188,6 +2205,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("foaia A3: nicio cheie netradusă în nicio limbă", sh.raw.length === 0, sh.raw.slice(0, 5).join(","));
     ok("foaia A3: titlul diferă pe limbi", new Set(Object.values(sh.titles).map(a => a.join("|"))).size === 7);
     ok("foaia A3 trece prin printOut, în limba aleasă", sh.cap === true);
+    ok("prospecte A3: nicio cheie netradusă în nicio limbă", sh.elabRaw.length === 0, sh.elabRaw.slice(0, 5).join(","));
+    ok("prospecte A3: textele diferă pe limbi", sh.elabDiff === true);
+    ok("prospecte A3: butonul trece prin printOut, în limba aleasă", sh.elabCap === true);
+    ok("montaj A3: butonul trece prin printOut, vedere explodată și titlu în limba aleasă", sh.asmCap === true);
+    ok("montaj A3: nicio cheie netradusă", sh.asmRaw.length === 0, sh.asmRaw.slice(0, 5).join(","));
     ok("nessun errore JS", serr.length === 0, serr.join(" | ").slice(0, 200));
 
   }
