@@ -778,6 +778,14 @@ function reconstructCarcass(corpo, pieces, geometry) {
      di essere allentata per tutti. */
   var squadro = !(isAngle(inp.angL) || isAngle(inp.angR) ||
                   isAngle(c.angL) || isAngle(c.angR));
+  /* Saltata in silenzio sarebbe un falso «a posto»: si dice, come per le
+     righe senza grossezza. Avviso, non blocco: il corpo non e sbagliato,
+     la catena non si puo chiudere. */
+  if (!squadro && (base || back || (topMode === "traverse" && cielo)))
+    out.push({ axa: "L", chain: "fuori-squadro", severity: "warn",
+               valoare_nominala: null, valoare_calculata: null, delta: null,
+               piese_implicate: (base || back || cielo).nomi,
+               why: "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare." });
   if (base && squadro)
     add("L", "base+2×fianco", W, alongAxis(base, "L") + 2 * spF,
         base.nomi.concat(fianco.nomi),

@@ -2677,6 +2677,28 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("export: oferta e la client, montajul la atelier", x.expClient.join() === "btnQuote" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
   }
 
+  /* audit 18.10: corp în afara echerului → avertisment, nu blocaj; computeHardware fără setări */
+  {
+    const a = await pg.evaluate(async () => {
+      const o = {}; closeSheets();
+      const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Z", angL: 87 });
+      const keepLang = state.lang; state.lang = "en";
+      const r = assertExportable(p); state.lang = keepLang;
+      o.fara_blocaj = r.blocking.filter(x => /^C-L/.test(x.id || "")).length === 0;
+      o.avertisment = r.warn.some(x => x.id === "C-L" && x.closure && x.closure.chain === "fuori-squadro");
+      o.text = (r.warn.find(x => x.id === "C-L") || {}).why || "";
+      const keep = state.settings.hwProd; state.settings.hwProd = { cern: "NU-EXISTA", guida: "NU-EXISTA" };
+      try { o.hw = Array.isArray(computeHardware(p)); } catch (e) { o.hw = String(e.message); }
+      state.settings.hwProd = keep;
+      p.pieces = []; p.configs = {}; persist(); setView("projects");
+      return o;
+    });
+    ok("fuori squadro: avertisment pe lățime, fără blocaj", a.fara_blocaj === true && a.avertisment === true, JSON.stringify(a).slice(0, 200));
+    ok("fuori squadro: textul e tradus în limba interfeței", /out of square/i.test(a.text), a.text.slice(0, 80));
+    ok("computeHardware fără setări nu cade cu un articol necunoscut", a.hw === true, String(a.hw));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

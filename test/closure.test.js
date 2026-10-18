@@ -144,7 +144,17 @@ describe("Quello che NON si puo chiudere si dichiara, non si allenta", () => {
        luce interna, e la catena non chiuderebbe. Si salta QUELLA, non si
        abbassa la tolleranza per tutti. */
     const b = build({ ...BASE, angL: 87 });
-    assert.deepEqual(arr(b.close()), []);
+    /* si dichiara: un solo avviso, non bloccante, senza cote. Il corpo
+       a squadra non ne ha. */
+    const w = arr(b.close());
+    assert.equal(w.length, 1);
+    assert.equal(w[0].chain, "fuori-squadro");
+    assert.equal(w[0].severity, "warn");
+    assert.equal(w[0].delta, null);
+    assert.ok(w[0].piese_implicate.length > 0);
+    assert.deepEqual(arr(build({ ...BASE }).close()), []);
+    assert.ok(!arr(S.reconstructCarcass(b.cfg, b.pieces, b.G)).some(x => x.axa === "L" && x.delta != null),
+      "nessuna catena in larghezza con cifre sul fuori squadro");
     const e = S.validateCarcassClosure(b.cfg,
       b.pieces.map(p => p.role === "fianco" ? { ...p, larg: p.larg + 5 } : p), b.G);
     assert.ok(e.some(x => x.axa === "P"), "sul fuori squadro la profondita si controlla lo stesso");

@@ -11076,6 +11076,7 @@ $("btnCatalogSave").addEventListener("click",()=>{
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
   hwAW:"aw",hwGolaL:"gola",hwGolaC:"golac",hwLeg:"gamba",hwTopClip:"fissp",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
 function computeHardware(p,S,byModule){
+  S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
     "hwLeg","hwTopClip","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwAW"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
