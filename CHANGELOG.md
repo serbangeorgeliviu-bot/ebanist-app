@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.64.0 — 18 octombrie 2026
+
+**Dosarul tehnic complet pe A3 (D-83, pasul 4).** Butonul „Dosar tehnic A3" deschide o fereastră cu foile de tipărit, câte una pe pagină A3:
+- **Copertă și cuprins:** proiect, client, randare 3D, corpurile proiectului, cuprinsul foilor cu „pentru cine", „cum se citesc foile" și „despre"; sigla utilizatorului, dacă există.
+- **Prezentare pentru client:** randare 3D mare (cu două vederi mici, ușile deschise și frontal), materiale cu culoarea lor, feroneria inclusă și loc de semnătură; fără prețuri.
+- **Raport tehnic:** capitole din șabloane traduse și din datele modelului (descriere, materiale, construcție, feronerie, note de fabricație, montaj și siguranță, controale), fără text generat liber.
+- Plus foile deja existente: prospecte și secțiuni, montaj și, la alegere, foaia de fabricație a fiecărei piese.
+- 53 de chei noi în toate cele 7 limbi, verificate în e2e.
+
 ## 4.63.0 — 18 octombrie 2026
 
 **Foaia A3 de montaj (D-83, pasul 3).** Butonul „Fișă de montaj A3" tipărește, pentru fiecare corp cu piese generate, o foaie landscape cu cartuș:
