@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.64.1 — 18 octombrie 2026
+
+**Telefon: constructorul nu mai iese din ecran.** Cu cele cinci butoane de documente (desen tehnic, prospecte, montaj, dosar, „în camera ta") rândul de butoane depășea lățimea telefonului și împingea toată pagina în lateral (antetul și marginea stângă tăiate). Rândul trece acum pe mai multe linii; un test e2e pe 412 px lățime verifică.
+
 ## 4.64.0 — 18 octombrie 2026
 
 **Dosarul tehnic complet pe A3 (D-83, pasul 4).** Butonul „Dosar tehnic A3" deschide o fereastră cu foile de tipărit, câte una pe pagină A3:
