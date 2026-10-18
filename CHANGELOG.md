@@ -11,6 +11,8 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 În plus, forma din 3D urmează articolul ales: **mâner** bară neagră, bară inox sau **buton** (cu o singură gaură, nu două); **balama** Blum cu amortizor (BLUMOTION) sau fără, Häfele în inox, Duomatic cu braț gros; **culisantă** ascunsă (Tandem, Movento cu clemă neagră) sau laterală (rolă 230M, cu bile Häfele); **îmbinări** desenate în 3D: șurub Confirmat, lamelă Lamello, tenon Festool Domino și conector Clamex, cu orientarea canalului din Modelul de Operații. Îmbinările și balamalele se văd în modul „Feronerie” sau la vedere explodată.
 
+Intern: `GL3D.focusOn(pk, raza, deplasare)` apropie camera de un punct al unei piese (folosit la capturi și la filmele de prezentare, nu are buton în aplicație).
+
 La corpul care alege un buton, fișa piesei are o singură gaură în ușă, ca în realitate. Profilul Gola/L ales pe corp nu mai e ignorat (înainte conta doar alegerea din Catalog).
 
 ## 4.67.0 — 18 octombrie 2026

@@ -1036,6 +1036,14 @@ function updateBoundsAndLights(boxes) {
 /* un pezzo selezionato e isolato: la camera lo inquadra da solo */
 function focusBounds() {
   const st = R.st;
+  /* privire de aproape (GL3D.focusOn): centrul e un punct al piesei, cu raza dată */
+  if (R.focusOv) {
+    const P = R.pieces.get(String(R.focusOv.pk));
+    if (P) {
+      const B = boundsOf(P.boxes), o = R.focusOv.off || [0, 0, 0];
+      if (B) return { cx: B.cx + P.tgt.ex + o[0] * MM, cy: B.cy + P.tgt.ey + o[1] * MM, cz: B.cz + P.tgt.ez + o[2] * MM, rad: R.focusOv.rad * MM, size: (R.full && R.full.size) || B.size };
+    }
+  }
   if (st.iso && st.sel != null) {
     const P = R.pieces.get(String(st.sel));
     if (P) {
@@ -1285,6 +1293,9 @@ const GL3D = {
       resize();
     }
   },
+  /* apropie camera de o piesă: pk, raza vizată (mm) și o deplasare (mm) față de centrul piesei;
+     focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
+  focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
   ssao(on) { SSAO.enabled = !!on; if (!on) SSAO.U.uAoOn.value = 0; if (R) { R.need = true; kick(); } },
   touch() { if (this.ok) { R.need = true; kick(); } },
   resize,
