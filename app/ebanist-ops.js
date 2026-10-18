@@ -91,8 +91,17 @@ function physicalPieces(boxes) {
     });
     p.min = mn; p.max = mx;
     p.ext = [mx[0] - mn[0], mx[1] - mn[1], mx[2] - mn[2]];
-    /* l'asse della grossezza e il piu corto: e cosi per ogni pannello */
+    /* l'asse della grossezza e il piu corto: e cosi per ogni pannello, salvo
+       una striscia piu stretta della sua grossezza (18 x 15 in un pannello da
+       18): li il piu corto e la larghezza. Allora decide il ruolo, tabella
+       ROLE_AXES del nucleo, purche l'asse indicato non sia il piu lungo. */
     var t = 0; for (var a2 = 1; a2 < 3; a2++) if (p.ext[a2] < p.ext[t]) t = a2;
+    var ra = typeof axesFor === "function" ? axesFor(p.role) : null;
+    var ta = ra ? { L: 0, H: 1, P: 2 }[ra.sp] : null;
+    if (ta != null && ta !== t && !p.curved && p.ext[ta] <= 40) {
+      var longest = 0; for (var a3 = 1; a3 < 3; a3++) if (p.ext[a3] > p.ext[longest]) longest = a3;
+      if (ta !== longest) t = ta;
+    }
     p.tAx = t; p.T = p.ext[t];
     p.holes = []; p.grooves = []; p.mills = [];
     return p;
