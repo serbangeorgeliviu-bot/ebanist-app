@@ -2699,6 +2699,69 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("computeHardware fără setări nu cade cu un articol necunoscut", a.hw === true, String(a.hw));
   }
 
+  /* Releveu (D-82): decalaj cu cifră, Enter, perete de închidere, diagonale, DXF, poze */
+  {
+    const zlib = require("zlib");
+    const png = (w, h) => { const raw = Buffer.concat(Array.from({ length: h }, (_, y) => Buffer.concat([Buffer.from([0]), Buffer.concat(Array.from({ length: w }, (_, x) => Buffer.from([x * 255 / w | 0, y * 255 / h | 0, 128])))])));
+      const crc = (b) => { let c, t = []; for (let n = 0; n < 256; n++) { c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } let r = 0xffffffff; for (const x of b) r = t[(r ^ x) & 255] ^ (r >>> 8); return (r ^ 0xffffffff) >>> 0; };
+      const ch = (t, d) => { const l = Buffer.alloc(4); l.writeUInt32BE(d.length); const c = Buffer.alloc(4); c.writeUInt32BE(crc(Buffer.concat([Buffer.from(t), d]))); return Buffer.concat([l, Buffer.from(t), d, c]); };
+      const ih = Buffer.alloc(13); ih.writeUInt32BE(w, 0); ih.writeUInt32BE(h, 4); ih[8] = 8; ih[9] = 2;
+      return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), ch("IHDR", ih), ch("IDAT", zlib.deflateSync(raw)), ch("IEND", Buffer.alloc(0))]); };
+    await pg.evaluate(() => { closeSheets(); const p = proj(); p.survey = null; setView("survey"); const s = survey();
+      s.walls = [{ id: "a", len: 3200, angle: 90, bow: null }, { id: "b", len: 2800, angle: 90, bow: null }, { id: "c", len: 3188, angle: 90, bow: null }, { id: "d", len: 2800, angle: 90, bow: null }];
+      persist(); renderSurvey(); });
+    const g1 = await pg.evaluate(() => ({ txt: document.getElementById("svGapTxt").textContent, hints: document.getElementById("svGapHints").textContent,
+      info: document.getElementById("svPlanInfo").textContent, hidden: document.getElementById("svGapBar").hidden, pos: getComputedStyle(document.getElementById("svGapBar")).position }));
+    ok("releveu: decalajul se spune cu cifră (12 mm)", /12 mm/.test(g1.txt) && /12 mm/.test(g1.info), g1.txt + " | " + g1.info);
+    ok("releveu: hint-ul numește peretele (3188 sau 3200)", /3188/.test(g1.hints) && /3200/.test(g1.hints), g1.hints);
+    ok("releveu: bara cu conturul e lipicioasă", g1.hidden === false && g1.pos === "sticky");
+    /* Enter: lungime → unghi → următorul perete; după ultimul, contur deschis → perete nou */
+    await pg.evaluate(() => { const s = survey(); s.walls = s.walls.slice(0, 3); persist(); renderSurvey(); });
+    await pg.locator("#svWalls [data-k=len]").first().focus(); await pg.keyboard.press("Enter");
+    const f1 = await pg.evaluate(() => document.activeElement.dataset.k + "#" + (document.activeElement.dataset.id === survey().walls[0].id));
+    await pg.locator("#svWalls [data-k=angle]").last().focus(); await pg.keyboard.press("Enter");
+    const f2 = await pg.evaluate(() => ({ n: survey().walls.length, k: document.activeElement.dataset.k, last: document.activeElement.dataset.id === survey().walls[survey().walls.length - 1].id }));
+    ok("releveu: Enter merge de la lungime la unghi", f1 === "angle#true", f1);
+    ok("releveu: Enter pe ultimul unghi, contur deschis → perete nou cu focus pe lungime", f2.n === 4 && f2.k === "len" && f2.last, JSON.stringify(f2));
+    /* perete de închidere */
+    await pg.evaluate(() => { const s = survey(); s.walls = [{ id: "a", len: 3200, angle: 90, bow: null }, { id: "b", len: 2800, angle: 90, bow: null }, { id: "c", len: 3200, angle: 90, bow: null }]; persist(); renderSurvey(); });
+    const c1 = await pg.evaluate(() => !document.getElementById("btnSvClose").hidden);
+    await pg.locator("#btnSvClose").click();
+    const c2 = await pg.evaluate(() => ({ w: survey().walls.map(w => w.len + "/" + w.angle).join(" "), gap: EBSurvey.closure(survey().walls).gap, btn: document.getElementById("btnSvClose").hidden }));
+    ok("releveu: peretele de închidere apare, se adaugă și închide conturul", c1 === true && c2.w === "3200/90 2800/90 3200/90 2800/90" && c2.gap < 1 && c2.btn === true, JSON.stringify(c2));
+    /* diagonală */
+    await pg.locator("#btnSvAddDiag").click(); await pg.locator("#svDiags [data-dk=len]").fill("4300");
+    const dg = await pg.evaluate(() => document.querySelector("#svDiags [data-read]").textContent);
+    ok("releveu: diagonala arată planul și diferența", /4252/.test(dg) && /\+47/.test(dg), dg);
+    /* obstacol desenat pe plan */
+    await pg.evaluate(() => { const s = survey(); s.obstacles = [{ id: "o1", type: "presa", wall: s.walls[0].id, fromCorner: 800, fromFloor: 1100, w: 80, h: 80 }]; persist(); renderSurvey(); });
+    ok("releveu: obstacolul apare pe plan", await pg.evaluate(() => /↑1100/.test(document.getElementById("svgPlan").innerHTML)));
+    /* poze legate de punct */
+    const wid = await pg.evaluate(() => survey().walls[0].id);
+    await pg.evaluate(id => { svPhTarget = { kind: "wall", ref: id }; }, wid);
+    await pg.setInputFiles("#svPhotoIn", { name: "p.png", mimeType: "image/png", buffer: png(1600, 1200) });
+    await pg.waitForTimeout(1200);
+    const ph = await pg.evaluate(async () => { const x = survey().photos || []; const u = x[0] ? await EBStore.get("svp:" + x[0].id) : null;
+      let dim = null; if (u) { const im = new Image(); im.src = u; await im.decode(); dim = [im.naturalWidth, im.naturalHeight]; }
+      return { n: x.length, kind: x[0] && x[0].kind, thumb: [...document.querySelectorAll("#svWalls img[data-phimg]")].some(i => i.naturalWidth > 0), dim, inState: JSON.stringify(state).includes("data:image") }; });
+    ok("releveu: poza se salvează în IndexedDB, micșorată la 1280 px", ph.n === 1 && ph.kind === "wall" && ph.dim && Math.max(...ph.dim) === 1280, JSON.stringify(ph));
+    ok("releveu: poza nu intră în state (localStorage) și se vede ca miniatură", ph.inState === false && ph.thumb === true);
+    const bk = await pg.evaluate(async () => { const m = await svPhMap(state.projects); const id = Object.keys(m)[0];
+      svPhCache.clear(); await EBStore.del("svp:" + id); const gone = await EBStore.get("svp:" + id); await svPhRestore(m); const back = await EBStore.get("svp:" + id);
+      await svPhRestore({ "../x": "data:image/svg+xml;base64,AAAA", ok1: "data:text/html;base64,AAAA" });
+      return { n: Object.keys(m).length, gone: !gone, back: !!back, bad: !(await EBStore.get("svp:../x")) && !(await EBStore.get("svp:ok1")) }; });
+    ok("releveu: pozele intră în backup și se refac la restaurare; id sau tip nevalid se ignoră", bk.n === 1 && bk.gone && bk.back && bk.bad, JSON.stringify(bk));
+    await pg.evaluate(id => { svPhDropFor("wall", id); }, wid);
+    ok("releveu: poza ștearsă dispare din proiect și din memorie", await pg.evaluate(async id => (survey().photos || []).length === 0, wid));
+    /* DXF: cameră în L din milimetri */
+    const dxf = "0\nSECTION\n2\nHEADER\n9\n$INSUNITS\n70\n4\n0\nENDSEC\n0\nSECTION\n2\nENTITIES\n0\nLWPOLYLINE\n90\n6\n70\n1\n10\n0\n20\n0\n10\n5000\n20\n0\n10\n5000\n20\n2000\n10\n2500\n20\n2000\n10\n2500\n20\n4000\n10\n0\n20\n4000\n0\nENDSEC\n0\nEOF\n";
+    await pg.setInputFiles("#svDxfFile", { name: "camera.dxf", mimeType: "application/dxf", buffer: Buffer.from(dxf) });
+    await pg.waitForSelector("#dlgYes", { timeout: 3000 }); await pg.click("#dlgYes"); await pg.waitForTimeout(400);
+    const dx = await pg.evaluate(() => ({ n: survey().walls.length, lens: survey().walls.map(w => w.len).sort((a, b) => a - b).join(), reflex: survey().walls.some(w => w.angle > 180), gap: EBSurvey.closure(survey().walls).gap, diag: (survey().diagonals || []).length }));
+    ok("releveu: DXF-ul devine pereți (cameră în L, un colț intrând), conturul se închide", dx.n === 6 && dx.lens === "2000,2000,2500,2500,4000,5000" && dx.reflex && dx.gap < 6 && dx.diag === 0, JSON.stringify(dx));
+    await pg.evaluate(() => { proj().survey = null; persist(); setView("projects"); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

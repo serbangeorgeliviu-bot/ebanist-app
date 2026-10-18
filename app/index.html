@@ -217,6 +217,15 @@ table.gv td.gv-new{color:var(--danger);font-weight:700}
 .eyebrow{font-family:var(--font-disp);font-size:12.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;
   color:var(--red);margin:22px 0 9px;display:flex;align-items:center;gap:9px}
 .eyebrow::before{content:"";flex:none;width:18px;height:2px;border-radius:2px;background:var(--gold)}
+.svgap{position:sticky;top:var(--hdr-h,58px);z-index:30;display:flex;gap:10px;align-items:center;background:var(--bg);padding:6px 0;margin:6px 0;border-bottom:1px solid var(--line-soft)}
+.svgap svg{flex:none;width:64px;height:64px;background:var(--surface,#fff);border-radius:8px}
+.svgap-t{min-width:0;flex:1;font-variant-numeric:tabular-nums;font-size:13px}
+.svgap-t .ok{color:var(--ok);font-weight:700}.svgap-t .off{color:var(--danger);font-weight:700}
+.svgap-t .chip{margin-top:4px}
+.svph{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.svph-t,.svph-add,.svph-miss{width:48px;height:48px;border-radius:8px;border:1px solid var(--line);background:var(--raised);padding:0;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}
+.svph-t img{width:100%;height:100%;object-fit:cover;display:block}
+.svph-add svg{width:20px;height:20px}
 .exp-h{font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 -2px;letter-spacing:.3px}
 
 /* ---------- cards / list ---------- */
@@ -1618,12 +1627,30 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <button class="btn sm" id="btnWtAdd" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span id="btnWtAddLbl">Aggiungi blat</span></button>
     </div>
 
+    <div class="svgap" id="svGapBar" hidden>
+      <svg id="svMini" viewBox="0 0 100 100" aria-hidden="true"></svg>
+      <div class="svgap-t">
+        <div id="svGapTxt"></div>
+        <div id="svGapHints" class="mini"></div>
+        <button class="chip" id="btnSvClose" hidden></button>
+      </div>
+    </div>
     <div class="eyebrow" id="svWallsLbl">Pareti</div>
     <p class="mini" id="svWallsHint" style="margin-bottom:6px"></p>
+    <div class="chips" style="margin-bottom:8px"><button class="chip" id="btnSvDxf"></button></div>
+    <input type="file" id="svDxfFile" accept=".dxf,.DXF,.dwg,.DWG" hidden>
     <div id="svWalls"></div>
     <button class="btn" id="btnSvAddWall" style="margin-top:4px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
       <span id="svAddWallLbl">Aggiungi parete</span>
+    </button>
+
+    <div class="eyebrow" id="svDiagLbl" style="margin-top:18px"></div>
+    <p class="mini" id="svDiagHintTxt" style="margin-bottom:6px"></p>
+    <div id="svDiags"></div>
+    <button class="btn" id="btnSvAddDiag" style="margin-top:4px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
+      <span id="svAddDiagLbl"></span>
     </button>
 
     <div class="f" style="margin-bottom:10px"><label id="svWallHLbl">Altezza pareti (mm)</label>
@@ -1635,6 +1662,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <div class="f"><label id="svH2Lbl">Punto 2</label><input id="svH2" type="number" inputmode="numeric"></div>
       <div class="f"><label id="svH3Lbl">Punto 3</label><input id="svH3" type="number" inputmode="numeric"></div>
     </div>
+    <div class="f3" id="svHPh" style="margin-bottom:6px"></div>
     <div class="note-box card" id="svHeightSummary" style="padding:8px 10px;margin-bottom:8px"></div>
 
     <div class="eyebrow" id="svObstLbl">Ostacoli</div>
@@ -2193,6 +2221,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
      esca. Una riga per corpo, densa, senza decoro. Chi la legge deve poter
      confrontare in un colpo d'occhio il gabarito ordinato con quello che
      esce dai pezzi, e vedere con che grossezze e stato calcolato. -->
+<input type="file" id="svPhotoIn" accept="image/*" capture="environment" hidden>
+<div class="sheet" id="shSvPhoto" style="max-height:92vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <img id="svPhotoBig" alt="" style="width:100%;border-radius:10px;display:block;margin-bottom:10px">
+  <button class="btn" id="btnSvPhotoDel" style="width:100%"></button>
+</div>
 <div class="sheet" id="shClosure" style="max-height:88vh;overflow-y:auto">
   <div class="sheet-grip"></div>
   <h3 data-i="clTitle">Foaia de închidere</h3>
@@ -2310,6 +2344,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 </script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-worktop.js"></script>
+<script src="./ebanist-survey.js"></script>
 <script src="./ebanist-au-i18n.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
@@ -3077,6 +3112,13 @@ de:{"navSurvey":"Aufmaß","svTitle":"Aufmaß vor Ort","svSub":"Echte Maße von d
 pl:{"navSurvey":"Pomiar","svTitle":"Pomiar na budowie","svSub":"Rzeczywiste wymiary z budowy","svWalls":"Ściany","svWallsHint":"Długość każdej ściany i rzeczywisty kąt narożnika — nie zakładaj 90°.","svAddWall":"Dodaj ścianę","svWall":"Ściana","svLen":"Długość (mm)","svAngle":"Kąt (°)","svBow":"Odchylenie od płaszczyzny (mm)","svHeights":"Wysokości","svHeightsHint":"Zmierz w 3 różnych punktach — podłoga nigdy nie jest idealnie pozioma.","svPoint":"Punkt","svMinH":"Wysokość minimalna","svDelta":"Różnica poziomów","svObst":"Przeszkody","svAddObst":"Dodaj przeszkodę","svType":"Typ","svOnWall":"Na ścianie","svFromCorner":"Od narożnika (mm)","svFromFloor":"Od podłogi (mm)","svW":"Szerokość (mm)","svH":"Wysokość (mm)","svExport":"Użyj w projekcie","svApply":"Wypełnij konfigurator","svApplyHint":"Przenosi wymiary do konfiguratora: szerokość z najdłuższej ściany, wysokość z najniższego punktu (minus 20 mm luzu). Pełny silnik parametryczny pojawi się później.","svApplied":"Konfigurator wypełniony","svRoom3D":"Pomieszczenie w 3D","wtTitle":"Blat","wtHint":"Blat nad ustawionymi meblami: długość wynika z mebli przy ścianie, głębokość z najbardziej wystającego frontu, grubość z materiału. W narożniku proste połączenie na styk z wyfrezowanymi od spodu wybraniami na łączniki. Nigdy nie przelicza się sam.","wtAdd":"Dodaj blat","wtNew":"do obliczenia","wtStale":"nie odpowiada już meblom: przelicz ponownie","wtOk":"aktualny","wtMods":"Meble pod blatem","wtMat":"Materiał","wtPick":"Wybierz materiał","wtOvF":"Nawis z przodu (mm)","wtOvS":"Nawis na wolnych końcach (mm)","wtCorner":"Narożniki","wtJoint":"Narożnik {a}/{b}","wtPasses":"ściana {n} biegnie dalej","wtCutouts":"Wycięcia (zlew, płyta)","wtK_sink":"Zlew","wtK_hob":"Płyta grzewcza","wtK_other":"Inne","wtX":"X (środek na ścianie)","wtY":"Od frontu","wtW":"Szerokość","wtD":"Głębokość","wtR":"Promień","wtEdge":"krawędź","wtPockets":"wybrania na łączniki","wtCutsN":"wycięcia","wtBoltNote":"Wybrania na łączniki: Ø35 od spodu, wymiary nadal do sprawdzenia na szablonie i używanym łączniku — nie trafiają do maszyny, dopóki nie zostaną sprawdzone.","wtCalc":"Oblicz blat","wtRecalc":"Przelicz blat ponownie","wtApplied":"Blat obliczony: {n} elementów","wtManaged":"Blat edytuje się tutaj, nie w konfiguratorze.","wtSlabBig":"{n}: {l}×{p} jest większe niż płyta materiału ({L}×{W}). Ustaw format w katalogu.","wtNeedRoom":"Najpierw ustaw pomiar ze ścianami i meblami.","wtNoMods":"Wybierz co najmniej jeden mebel.","wtModMissing":"Mebel {name} już nie istnieje.","wtModRotated":"Mebel {name} jest obrócony: blaty montuje się tylko na prostych meblach.","wtNoWall":"Żaden z mebli blatu nie stoi przy ścianie.","wtWallsNotAdjacent":"Ściany wybranych mebli nie następują po sobie.","wtTooManyWalls":"Zbyt wiele ścian na jeden blat.","wtOverhangNeg":"Nawisy nie mogą być ujemne.","wtCornerAngle":"Kąt między ścianą {wall} a następną wynosi {angle}°: proste połączenie działa tylko przy 90°.","wtTooShort":"Blat na ścianie {wall} ma tylko {len} mm długości.","wtCutSize":"Wycięcie {n} wymaga szerokości i głębokości.","wtCutX":"Wycięcie {n} nie ma pozycji X.","wtCutRadius":"Wycięcie {n}: promień {r} jest za duży dla jego rozmiaru.","wtCutOutside":"Wycięcie {n} wychodzi poza element {seg} lub jest bliżej niż 30 mm od krawędzi.","wtCutOverlap":"Wycięcia {a} i {b} są zbyt blisko lub się nakładają.","wtNoMat":"Wybierz materiał blatu: grubość wynika z niego.","wtModOutside":"Mebel na ścianie {wall} wystaje poza blat.","wtGapCorner":"Brak mebla pod blatem na odcinku {mm} mm przy narożniku (ściana {wall}).","wtGapStart":"Blat na ścianie {wall} zaczyna się {mm} mm za pierwszym meblem.","wtHeights":"Meble o różnych wysokościach ({mm} mm): blat leży na najwyższym.","wtCutPocket":"Wycięcie {n} wypada na wybraniu na łącznik w elemencie {seg}.","svWallH":"Wysokość ściany (mm)","svFlipHint":"Odwróć narożnik (90↔270) — dla pomieszczeń w kształcie litery L","svAxisX":"wzdłuż ściany","svAxisY":"od ściany","svAxisZ":"wysokość od podłogi","svAxisR":"obrót (°)","svTapDrag":"Dotknij mebel na planie i przeciągnij go albo wpisz dokładną wartość.","svOpenDoors":"Drzwi otwarte","svRoomLbl":"Meble w pomieszczeniu","svRoomHint":"Wybierz ścianę i odległość od narożnika. Plan pokazuje obrysy, zakres otwierania drzwi i kolizje.","svIssues":"Znalezione problemy","svNoIssues":"Brak kolizji: wszystko się mieści i wszystko się otwiera","svIssBefore":"{a}: odległość od narożnika jest ujemna","svIssOver":"{a} wystaje poza ścianę o {mm} mm","svIssHit":"{a} i {b} nakładają się","svIssDoor":"drzwi {a} uderzają w {b}","svIssDrawer":"szuflada {a} uderza w {b}","svIssDoorWall":"drzwi {a} uderzają w ścianę {b}","svIssDrawerWall":"szuflada {a} uderza w ścianę {b}","svNoPlaced":"Brak ustawionych mebli","svModsPlaced":"mebli ustawionych","svCutouts":"wycięcia","svObstSkip":"{n} przeszkód nie da się rozwiązać wycięciem (grzejnik, belka, wnęka) — sprawdź ręcznie.","svNeedWall":"Dodaj co najmniej jedną ścianę","svNoProject":"Najpierw wybierz projekt","svEmpty":"Brak jeszcze ścian. Dotknij «Dodaj ścianę», aby zacząć.","svPerimeter":"Obwód","svNotClosed":"obrys niezamknięty","svClosed":"obrys zamknięty","tPresa":"Gniazdko","tInterr":"Włącznik","tTubo":"Rura","tCalorifero":"Grzejnik","tVano":"Otwór","tTrave":"Belka","tAltro":"Inne"},
 es:{"navSurvey":"Medición","svTitle":"Medición en obra","svSub":"Medidas reales de la obra","svWalls":"Paredes","svWallsHint":"Longitud de cada pared y ángulo real de la esquina — no des por hecho 90°.","svAddWall":"Añadir pared","svWall":"Pared","svLen":"Largo (mm)","svAngle":"Ángulo (°)","svBow":"Desviación del plano (mm)","svHeights":"Alturas","svHeightsHint":"Mide en 3 puntos distintos — el suelo nunca está nivelado.","svPoint":"Punto","svMinH":"Altura mínima","svDelta":"Diferencia de nivel","svObst":"Obstáculos","svAddObst":"Añadir obstáculo","svType":"Tipo","svOnWall":"En la pared","svFromCorner":"Desde la esquina (mm)","svFromFloor":"Desde el suelo (mm)","svW":"Ancho (mm)","svH":"Alto (mm)","svExport":"Usar en el proyecto","svApply":"Rellenar el configurador","svApplyHint":"Copia las medidas al configurador: ancho de la pared más larga, alto del punto más bajo (menos 20 mm de holgura). El motor paramétrico completo llegará después.","svApplied":"Configurador rellenado","svRoom3D":"Habitación en 3D","wtTitle":"Encimera","wtHint":"La encimera sobre los muebles colocados: la longitud sale de los muebles de la pared, el fondo del frente más saliente, el grosor del material. En la esquina, unión a tope recta con los alojamientos de unión fresados por debajo. Nunca se recalcula sola.","wtAdd":"Añadir encimera","wtNew":"por calcular","wtStale":"ya no coincide con los muebles: recalcula","wtOk":"al día","wtMods":"Muebles bajo la encimera","wtMat":"Material","wtPick":"Elige el material","wtOvF":"Voladizo frontal (mm)","wtOvS":"Voladizo en los extremos libres (mm)","wtCorner":"Esquinas","wtJoint":"Esquina {a}/{b}","wtPasses":"la pared {n} continúa","wtCutouts":"Recortes (fregadero, placa)","wtK_sink":"Fregadero","wtK_hob":"Placa","wtK_other":"Otro","wtX":"X (centro sobre la pared)","wtY":"Desde el frente","wtW":"Ancho","wtD":"Fondo","wtR":"Radio","wtEdge":"canto","wtPockets":"alojamientos de unión","wtCutsN":"recortes","wtBoltNote":"Alojamientos de unión: Ø35 por debajo, medidas aún por verificar con la plantilla y la unión empleada — no pasan a la máquina hasta verificarse.","wtCalc":"Calcular encimera","wtRecalc":"Recalcular encimera","wtApplied":"Encimera calculada: {n} piezas","wtManaged":"La encimera se edita aquí, no en el configurador.","wtSlabBig":"{n}: {l}×{p} es mayor que la plancha del material ({L}×{W}). Define el formato en el catálogo.","wtNeedRoom":"Configura primero la medición con paredes y muebles.","wtNoMods":"Elige al menos un mueble.","wtModMissing":"El mueble {name} ya no existe.","wtModRotated":"El mueble {name} está girado: las encimeras solo van sobre muebles rectos.","wtNoWall":"Ninguno de los muebles de la encimera está en una pared.","wtWallsNotAdjacent":"Las paredes de los muebles elegidos no son consecutivas.","wtTooManyWalls":"Demasiadas paredes para una sola encimera.","wtOverhangNeg":"Los voladizos no pueden ser negativos.","wtCornerAngle":"El ángulo entre la pared {wall} y la siguiente es {angle}°: la unión recta solo funciona a 90°.","wtTooShort":"La encimera de la pared {wall} mide solo {len} mm de largo.","wtCutSize":"El recorte {n} necesita ancho y fondo.","wtCutX":"El recorte {n} no tiene posición X.","wtCutRadius":"Recorte {n}: el radio {r} es demasiado grande para su tamaño.","wtCutOutside":"El recorte {n} sale de la pieza {seg} o queda a menos de 30 mm de un borde.","wtCutOverlap":"Los recortes {a} y {b} están demasiado juntos o se solapan.","wtNoMat":"Elige el material de la encimera: el grosor sale de él.","wtModOutside":"Un mueble de la pared {wall} sobresale de la encimera.","wtGapCorner":"No hay mueble bajo la encimera en {mm} mm junto a la esquina (pared {wall}).","wtGapStart":"La encimera de la pared {wall} empieza {mm} mm después del primer mueble.","wtHeights":"Muebles de alturas distintas ({mm} mm): la encimera se apoya en el más alto.","wtCutPocket":"El recorte {n} cae sobre un alojamiento de unión de la pieza {seg}.","svWallH":"Altura de la pared (mm)","svFlipHint":"Invertir la esquina (90↔270) — para habitaciones en L","svAxisX":"a lo largo de la pared","svAxisY":"separado de la pared","svAxisZ":"altura desde el suelo","svAxisR":"rotación (°)","svTapDrag":"Toca un mueble en el plano y arrástralo, o escribe el valor exacto.","svOpenDoors":"Puertas abiertas","svRoomLbl":"Muebles en la habitación","svRoomHint":"Elige la pared y la distancia desde la esquina. El plano muestra huellas, apertura de puertas y choques.","svIssues":"Problemas encontrados","svNoIssues":"Sin choques: todo cabe y todo se abre","svIssBefore":"{a}: la distancia desde la esquina es negativa","svIssOver":"{a} sobrepasa la pared en {mm} mm","svIssHit":"{a} y {b} se solapan","svIssDoor":"la puerta de {a} choca con {b}","svIssDrawer":"el cajón de {a} choca con {b}","svIssDoorWall":"la puerta de {a} choca con la pared {b}","svIssDrawerWall":"el cajón de {a} choca con la pared {b}","svNoPlaced":"No hay muebles colocados","svModsPlaced":"muebles colocados","svCutouts":"recortes","svObstSkip":"{n} obstáculos no se pueden resolver con un recorte (radiador, viga, hueco) — compruébalos a mano.","svNeedWall":"Añade al menos una pared","svNoProject":"Selecciona primero un proyecto","svEmpty":"Aún no hay paredes. Toca «Añadir pared» para empezar.","svPerimeter":"Perímetro","svNotClosed":"contorno sin cerrar","svClosed":"contorno cerrado","tPresa":"Enchufe","tInterr":"Interruptor","tTubo":"Tubería","tCalorifero":"Radiador","tVano":"Hueco","tTrave":"Viga","tAltro":"Otro"}
 };
+Object.assign(SURVEY_I18N.it,{svGapLbl:"Scostamento",svHintLen:"Parete {n}: dovrebbe essere {v} mm ({d})",svHintAngle:"Angolo dopo la parete {n}: dovrebbe essere {v}° ({d}°)",svHintsLbl:"Possibile causa",svHintOr:"oppure",svCloseWall:"Chiudi con una parete calcolata",svCloseNote:"Parete {n} ({len} mm) calcolata, non misurata; l'angolo dell'ultimo spigolo è stato ricalcolato.",svDiagTitle:"Diagonali",svDiagHint:"Misura una diagonale fra due spigoli: se non coincide con la pianta, sai dove cercare l'errore.",svAddDiag:"Aggiungi diagonale",svDiagA:"Dallo spigolo",svDiagB:"Allo spigolo",svDiagLen:"Misurata (mm)",svDiagPlan:"pianta {p} mm",svImportDxf:"Importa DXF",svDxfReplace:"Sostituire le pareti esistenti con quelle del DXF?",svDxfOk:"DXF importato: {n} pareti",svDxfUnits:"Unità del disegno non dichiarata: si sono usati i millimetri.",svDxfArc:"Gli archi sono stati sostituiti da tratti dritti.",svDxfGap:"Il contorno del disegno non si chiude esattamente: controlla le pareti.",svDxfBinary:"DXF binario: salvalo come DXF ASCII (testo).",svDxfNone:"Nessun contorno chiuso (polilinea o linee collegate) nel disegno.",svDxfFormat:"Il file non sembra un DXF.",svDwg:"Il DWG non si legge qui: esporta come DXF dal programma di disegno.",svPhotoAdd:"Aggiungi foto",svPhotoDel:"Elimina foto",svPhotoErr:"Foto non salvata: archivio non disponibile.",svPhotoMissing:"Foto non disponibile su questo dispositivo",svHeightPh:"Foto dei punti",svObstOnPlan:"sulla pianta"});
+Object.assign(SURVEY_I18N.ro,{svGapLbl:"Decalaj",svHintLen:"Peretele {n}: ar trebui să fie {v} mm ({d})",svHintAngle:"Unghiul de după peretele {n}: ar trebui {v}° ({d}°)",svHintsLbl:"Cauză posibilă",svHintOr:"sau",svCloseWall:"Închide cu un perete calculat",svCloseNote:"Peretele {n} ({len} mm) e calculat, nu măsurat; unghiul din ultimul colț s-a recalculat.",svDiagTitle:"Diagonale",svDiagHint:"Măsoară o diagonală între două colțuri: dacă nu coincide cu planul, afli unde e eroarea.",svAddDiag:"Adaugă diagonală",svDiagA:"Din colț",svDiagB:"În colț",svDiagLen:"Măsurat (mm)",svDiagPlan:"plan {p} mm",svImportDxf:"Importă DXF",svDxfReplace:"Înlocuiești pereții existenți cu cei din DXF?",svDxfOk:"DXF importat: {n} pereți",svDxfUnits:"Unitatea desenului nu e declarată: s-au luat milimetri.",svDxfArc:"Arcele s-au înlocuit cu linii drepte.",svDxfGap:"Conturul din desen nu se închide exact: verifică pereții.",svDxfBinary:"DXF binar: salvează-l ca DXF ASCII (text).",svDxfNone:"Nu am găsit un contur închis (polilinie sau linii legate) în desen.",svDxfFormat:"Fișierul nu pare un DXF.",svDwg:"DWG nu se poate citi aici: exportă ca DXF din programul de desen.",svPhotoAdd:"Adaugă poză",svPhotoDel:"Șterge poza",svPhotoErr:"Poza nu s-a salvat: stocarea nu e disponibilă.",svPhotoMissing:"Poza nu e disponibilă pe acest dispozitiv",svHeightPh:"Poze la puncte",svObstOnPlan:"pe plan"});
+Object.assign(SURVEY_I18N.en,{svGapLbl:"Gap",svHintLen:"Wall {n}: should be {v} mm ({d})",svHintAngle:"Corner after wall {n}: should be {v}° ({d}°)",svHintsLbl:"Possible cause",svHintOr:"or",svCloseWall:"Close with a calculated wall",svCloseNote:"Wall {n} ({len} mm) is calculated, not measured; the angle of the last corner was recalculated.",svDiagTitle:"Diagonals",svDiagHint:"Measure a diagonal between two corners: if it does not match the plan, you know where the error is.",svAddDiag:"Add diagonal",svDiagA:"From corner",svDiagB:"To corner",svDiagLen:"Measured (mm)",svDiagPlan:"plan {p} mm",svImportDxf:"Import DXF",svDxfReplace:"Replace the existing walls with those from the DXF?",svDxfOk:"DXF imported: {n} walls",svDxfUnits:"Drawing units are not declared: millimetres were used.",svDxfArc:"Arcs were replaced by straight lines.",svDxfGap:"The outline in the drawing does not close exactly: check the walls.",svDxfBinary:"Binary DXF: save it as ASCII (text) DXF.",svDxfNone:"No closed outline (polyline or connected lines) found in the drawing.",svDxfFormat:"The file does not look like a DXF.",svDwg:"DWG cannot be read here: export as DXF from the drawing program.",svPhotoAdd:"Add photo",svPhotoDel:"Delete photo",svPhotoErr:"Photo not saved: storage is not available.",svPhotoMissing:"Photo not available on this device",svHeightPh:"Point photos",svObstOnPlan:"on the plan"});
+Object.assign(SURVEY_I18N.fr,{svGapLbl:"Écart",svHintLen:"Mur {n} : devrait faire {v} mm ({d})",svHintAngle:"Angle après le mur {n} : devrait être {v}° ({d}°)",svHintsLbl:"Cause possible",svHintOr:"ou",svCloseWall:"Fermer avec un mur calculé",svCloseNote:"Le mur {n} ({len} mm) est calculé, pas mesuré ; l'angle du dernier coin a été recalculé.",svDiagTitle:"Diagonales",svDiagHint:"Mesurez une diagonale entre deux coins : si elle ne correspond pas au plan, vous savez où chercher l'erreur.",svAddDiag:"Ajouter une diagonale",svDiagA:"Du coin",svDiagB:"Au coin",svDiagLen:"Mesuré (mm)",svDiagPlan:"plan {p} mm",svImportDxf:"Importer DXF",svDxfReplace:"Remplacer les murs existants par ceux du DXF ?",svDxfOk:"DXF importé : {n} murs",svDxfUnits:"Unité du dessin non déclarée : millimètres utilisés.",svDxfArc:"Les arcs ont été remplacés par des droites.",svDxfGap:"Le contour du dessin ne se ferme pas exactement : vérifiez les murs.",svDxfBinary:"DXF binaire : enregistrez-le en DXF ASCII (texte).",svDxfNone:"Aucun contour fermé (polyligne ou lignes reliées) dans le dessin.",svDxfFormat:"Le fichier ne ressemble pas à un DXF.",svDwg:"Le DWG ne se lit pas ici : exportez en DXF depuis le logiciel de dessin.",svPhotoAdd:"Ajouter une photo",svPhotoDel:"Supprimer la photo",svPhotoErr:"Photo non enregistrée : stockage indisponible.",svPhotoMissing:"Photo indisponible sur cet appareil",svHeightPh:"Photos des points",svObstOnPlan:"sur le plan"});
+Object.assign(SURVEY_I18N.de,{svGapLbl:"Abweichung",svHintLen:"Wand {n}: sollte {v} mm sein ({d})",svHintAngle:"Winkel nach Wand {n}: sollte {v}° sein ({d}°)",svHintsLbl:"Mögliche Ursache",svHintOr:"oder",svCloseWall:"Mit berechneter Wand schließen",svCloseNote:"Wand {n} ({len} mm) ist berechnet, nicht gemessen; der Winkel der letzten Ecke wurde neu berechnet.",svDiagTitle:"Diagonalen",svDiagHint:"Miss eine Diagonale zwischen zwei Ecken: Weicht sie vom Plan ab, weißt du, wo der Fehler liegt.",svAddDiag:"Diagonale hinzufügen",svDiagA:"Von Ecke",svDiagB:"Zu Ecke",svDiagLen:"Gemessen (mm)",svDiagPlan:"Plan {p} mm",svImportDxf:"DXF importieren",svDxfReplace:"Vorhandene Wände durch die aus der DXF ersetzen?",svDxfOk:"DXF importiert: {n} Wände",svDxfUnits:"Zeicheneinheit nicht angegeben: Millimeter angenommen.",svDxfArc:"Bögen wurden durch Geraden ersetzt.",svDxfGap:"Die Kontur der Zeichnung schließt nicht genau: Wände prüfen.",svDxfBinary:"Binäres DXF: als ASCII-DXF (Text) speichern.",svDxfNone:"Keine geschlossene Kontur (Polylinie oder verbundene Linien) in der Zeichnung.",svDxfFormat:"Die Datei sieht nicht wie eine DXF aus.",svDwg:"DWG kann hier nicht gelesen werden: im Zeichenprogramm als DXF exportieren.",svPhotoAdd:"Foto hinzufügen",svPhotoDel:"Foto löschen",svPhotoErr:"Foto nicht gespeichert: Speicher nicht verfügbar.",svPhotoMissing:"Foto auf diesem Gerät nicht verfügbar",svHeightPh:"Fotos der Punkte",svObstOnPlan:"im Plan"});
+Object.assign(SURVEY_I18N.pl,{svGapLbl:"Odchyłka",svHintLen:"Ściana {n}: powinna mieć {v} mm ({d})",svHintAngle:"Kąt za ścianą {n}: powinien wynosić {v}° ({d}°)",svHintsLbl:"Możliwa przyczyna",svHintOr:"albo",svCloseWall:"Zamknij obliczoną ścianą",svCloseNote:"Ściana {n} ({len} mm) jest obliczona, nie zmierzona; kąt ostatniego narożnika przeliczono.",svDiagTitle:"Przekątne",svDiagHint:"Zmierz przekątną między dwoma narożnikami: jeśli różni się od planu, wiesz, gdzie szukać błędu.",svAddDiag:"Dodaj przekątną",svDiagA:"Z narożnika",svDiagB:"Do narożnika",svDiagLen:"Zmierzone (mm)",svDiagPlan:"plan {p} mm",svImportDxf:"Importuj DXF",svDxfReplace:"Zastąpić istniejące ściany ścianami z DXF?",svDxfOk:"Zaimportowano DXF: {n} ścian",svDxfUnits:"Jednostka rysunku nie jest zadeklarowana: przyjęto milimetry.",svDxfArc:"Łuki zastąpiono liniami prostymi.",svDxfGap:"Kontur z rysunku nie zamyka się dokładnie: sprawdź ściany.",svDxfBinary:"Binarny DXF: zapisz jako DXF ASCII (tekst).",svDxfNone:"Brak zamkniętego konturu (polilinii lub połączonych linii) w rysunku.",svDxfFormat:"Plik nie wygląda na DXF.",svDwg:"Plik DWG nie jest tu odczytywany: wyeksportuj jako DXF z programu rysunkowego.",svPhotoAdd:"Dodaj zdjęcie",svPhotoDel:"Usuń zdjęcie",svPhotoErr:"Zdjęcie nie zostało zapisane: pamięć niedostępna.",svPhotoMissing:"Zdjęcie niedostępne na tym urządzeniu",svHeightPh:"Zdjęcia punktów",svObstOnPlan:"na planie"});
+Object.assign(SURVEY_I18N.es,{svGapLbl:"Desviación",svHintLen:"Pared {n}: debería medir {v} mm ({d})",svHintAngle:"Ángulo tras la pared {n}: debería ser {v}° ({d}°)",svHintsLbl:"Posible causa",svHintOr:"o",svCloseWall:"Cerrar con una pared calculada",svCloseNote:"La pared {n} ({len} mm) está calculada, no medida; el ángulo de la última esquina se recalculó.",svDiagTitle:"Diagonales",svDiagHint:"Mide una diagonal entre dos esquinas: si no coincide con el plano, sabes dónde está el error.",svAddDiag:"Añadir diagonal",svDiagA:"Desde la esquina",svDiagB:"A la esquina",svDiagLen:"Medida (mm)",svDiagPlan:"plano {p} mm",svImportDxf:"Importar DXF",svDxfReplace:"¿Sustituir las paredes existentes por las del DXF?",svDxfOk:"DXF importado: {n} paredes",svDxfUnits:"Unidad del dibujo no declarada: se usaron milímetros.",svDxfArc:"Los arcos se sustituyeron por rectas.",svDxfGap:"El contorno del dibujo no cierra exactamente: revisa las paredes.",svDxfBinary:"DXF binario: guárdalo como DXF ASCII (texto).",svDxfNone:"No hay un contorno cerrado (polilínea o líneas unidas) en el dibujo.",svDxfFormat:"El archivo no parece un DXF.",svDwg:"El DWG no se lee aquí: exporta como DXF desde el programa de dibujo.",svPhotoAdd:"Añadir foto",svPhotoDel:"Eliminar foto",svPhotoErr:"Foto no guardada: almacenamiento no disponible.",svPhotoMissing:"Foto no disponible en este dispositivo",svHeightPh:"Fotos de los puntos",svObstOnPlan:"en el plano"});
 function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
 
 AUTH_I18N.it.syncConflict="⇄ Versione più recente ricevuta da un altro dispositivo";
@@ -5308,6 +5350,7 @@ function importCsv(txt,fname){
    dentro IndexedDB. Una strada sola, cosi non ci sono due modi diversi di
    sovrascrivere i progetti. */
 function doRestore(o){
+  svPhRestore(o.photos);
   snapUndo();
   state.projects=o.state.projects;
   state.settings=Object.assign({},defaultState().settings,o.state.settings||{});
@@ -5328,6 +5371,7 @@ function importJson(txt){
   if(o&&Array.isArray(o.pieces)&&o.name){
     if(!gateNewProject()) return;
     o.id=uid(); o.pieces.forEach(x=>x.id=uid()); delete o.demo;
+    svPhRestore(o.svPhotos); delete o.svPhotos;
     state.projects.unshift(o); state.activeId=o.id;
     persist(); setView("list"); toast(t("imported"));
   } else throw 0;
@@ -5359,8 +5403,9 @@ $("btnJson").addEventListener("click",()=>{
      telefono a un PC o si ripara un guasto. Bloccarla vorrebbe dire tenere
      in ostaggio il lavoro di qualcuno proprio nel momento in cui qualcosa
      non torna. Nessuno taglia da un backup. */
-  download(`${slug(p.name)}.json`,JSON.stringify(p,null,2),"application/json");
-  toast(t("jsonDone"));
+  /* fără poze: descărcarea e sincronă, calea de scăpare nu așteaptă nimic */
+  const out=phs=>{ download(`${slug(p.name)}.json`,JSON.stringify(phs&&Object.keys(phs).length?{...p,svPhotos:phs}:p,null,2),"application/json"); toast(t("jsonDone")); };
+  if(p.survey&&(p.survey.photos||[]).length) svPhMap([p]).then(out,()=>out(null)); else out(null);
 });
 
 /* ================= PRINT / PDF ================= */
@@ -10848,6 +10893,8 @@ async function fullBackup(opt){
   const silent=!!(opt&&opt.silent);
   const pkg={ebanist_backup:1,ver:APP_VER,date:new Date().toISOString(),
              state:{projects:state.projects,settings:state.settings}};
+  const phs=await svPhMap(state.projects);
+  if(Object.keys(phs).length) pkg.photos=phs;
   const json=JSON.stringify(pkg);
   const fname=`Ebanist_Backup_${new Date().toISOString().slice(0,10)}.json`;
   state.lastBk=Date.now(); persist();
@@ -11337,16 +11384,7 @@ function survey(){
   return p.survey;
 }
 
-function planPoints(walls){
-  const pts=[{x:0,y:0}]; let heading=0;
-  for(const w of walls){
-    const L=+w.len||0;
-    const last=pts[pts.length-1];
-    pts.push({x:last.x+L*Math.cos(heading), y:last.y+L*Math.sin(heading)});
-    heading += Math.PI - (+w.angle||90)*Math.PI/180;
-  }
-  return pts;
-}
+function planPoints(walls){ return EBSurvey.planPoints(walls); }   // ebanist-survey.js, singura sursă a conturului
 
 /* ================= MOBILIER IN CAMERA (pianta + collisioni) =================
    Ogni modulo si appoggia a una parete, a X mm dall'angolo. Il resto —
@@ -11658,7 +11696,7 @@ function renderPlan(){
   const sv=survey(); const el=$("svgPlan"); if(!el) return;
   const walls=sv?sv.walls:[];
   $("svPlanCard").style.display=walls.length?"":"none";
-  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; return; }
+  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; renderGapBar(sv); return; }
   const pts=planPoints(walls);
   const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
   const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
@@ -11682,6 +11720,7 @@ function renderPlan(){
   }
   const first=pts[0], last=pts[pts.length-1];
   const gap=Math.hypot(last.x-first.x,last.y-first.y);
+  out+=svPlanExtras(sv,pts,u);
   if(gap>50) out+=`<line x1="${last.x}" y1="${last.y}" x2="${first.x}" y2="${first.y}" stroke="#d97706" stroke-width="${u*0.6}" stroke-dasharray="${u*3} ${u*2.4}"/>`;
   /* mobilierul asezat peste contur */
   const RL=roomLayout();
@@ -11726,7 +11765,8 @@ function renderPlan(){
   }
   el.innerHTML=out;
   const perim=walls.reduce((s,x)=>s+(+x.len||0),0);
-  $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")}`;
+  $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")} · ${ts("svGapLbl")} ${Math.round(gap)} mm`;
+  renderGapBar(sv);
   renderRoomList(RL);
   renderWorktops(RL);
   renderSelBar();
@@ -11972,8 +12012,25 @@ function renderSurveyWalls(){
           <div style="display:flex;gap:6px"><input type="number" inputmode="decimal" step="0.5" data-k="angle" data-id="${w.id}" value="${w.angle!=null?w.angle:""}" style="min-width:0;flex:1">
           <button class="sel-btn" data-flip="${w.id}" title="${esc(ts("svFlipHint"))}" style="flex:none;width:40px">⟲</button></div></div>
         <div class="f"><label>${ts("svBow")}</label><input type="number" inputmode="numeric" data-k="bow" data-id="${w.id}" value="${w.bow!=null?w.bow:""}"></div>
-      </div>`;
+      </div>${svPhWidget("wall",w.id)}`;
     box.appendChild(c);
+  });
+  svPhHydrate(box);
+  /* tastatura: Enter merge la câmpul următor; după ultimul perete, dacă conturul nu e închis, se adaugă altul */
+  box.querySelectorAll("input[data-k]").forEach(inp=>{
+    inp.setAttribute("enterkeyhint","next");
+    inp.addEventListener("keydown",ev=>{
+      if(ev.key!=="Enter") return; ev.preventDefault();
+      const sv2=survey(), i=sv2.walls.findIndex(x=>x.id===inp.dataset.id), id=inp.dataset.id;
+      const focus=(wid,k)=>{ const el=box.querySelector(`[data-k="${k}"][data-id="${wid}"]`); if(el){ el.focus(); if(el.select) el.select(); } return !!el; };
+      if(inp.dataset.k==="len"){ focus(id,"angle"); return; }
+      if(i<sv2.walls.length-1){ focus(sv2.walls[i+1].id,"len"); return; }
+      const cl=EBSurvey.closure(sv2.walls,{tol:SV_TOL});
+      if(cl.complete&&!cl.closed){
+        const nw={id:uid(),len:null,angle:90,bow:null}; sv2.walls.push(nw); persist(); renderSurvey();
+        const el=$("svWalls").querySelector(`[data-k="len"][data-id="${nw.id}"]`); if(el) el.focus();
+      } else inp.blur();
+    });
   });
   box.querySelectorAll("input[data-k]").forEach(inp=>{
     inp.addEventListener("input",()=>{
@@ -11995,8 +12052,10 @@ function renderSurveyWalls(){
   box.querySelectorAll("button[data-del]").forEach(b=>{
     b.addEventListener("click",()=>{
       const sv2=survey();
+      svPhDropFor("wall",b.dataset.del);
       sv2.walls=sv2.walls.filter(x=>x.id!==b.dataset.del);
       sv2.obstacles.forEach(o=>{ if(o.wall===b.dataset.del) o.wall=null; });
+      (sv2.diagonals||[]).forEach(d=>{ if(d.a>sv2.walls.length||d.b>sv2.walls.length){ d.a=1; d.b=Math.min(3,sv2.walls.length); } });
       persist(); renderSurvey();
     });
   });
@@ -12029,23 +12088,25 @@ function renderSurveyObstacles(){
         <div class="f"><label>${ts("svFromFloor")}</label><input type="number" inputmode="numeric" data-k="fromFloor" data-id="${o.id}" value="${o.fromFloor!=null?o.fromFloor:""}"></div>
         <div class="f"><label>${ts("svW")}</label><input type="number" inputmode="numeric" data-k="w" data-id="${o.id}" value="${o.w!=null?o.w:""}"></div>
         <div class="f"><label>${ts("svH")}</label><input type="number" inputmode="numeric" data-k="h" data-id="${o.id}" value="${o.h!=null?o.h:""}"></div>
-      </div>`;
+      </div>${svPhWidget("obst",o.id)}`;
     box.appendChild(c);
   });
+  svPhHydrate(box);
   box.querySelectorAll("[data-k]").forEach(inp=>{
     inp.addEventListener(inp.tagName==="SELECT"?"change":"input",()=>{
       const sv2=survey(); const o=sv2.obstacles.find(x=>x.id===inp.dataset.id); if(!o) return;
       const k=inp.dataset.k;
       if(k==="type"||k==="wall") o[k]=inp.value||null;
       else { const v=parseFloat(inp.value); o[k]=isFinite(v)?v:null; }
-      persist();
+      persist(); renderPlan();
     });
   });
   box.querySelectorAll("button[data-del]").forEach(b=>{
     b.addEventListener("click",()=>{
       const sv2=survey();
+      svPhDropFor("obst",b.dataset.del);
       sv2.obstacles=sv2.obstacles.filter(x=>x.id!==b.dataset.del);
-      persist(); renderSurveyObstacles();
+      persist(); renderSurveyObstacles(); renderPlan();
     });
   });
 }
@@ -12063,6 +12124,216 @@ function renderSurveyHeights(){
   const min=Math.min(...vals), max=Math.max(...vals);
   const delta=max-min;
   sum.innerHTML=`<span class="mini">${ts("svMinH")}: <b>${min} mm</b>${vals.length>1?` · ${ts("svDelta")}: <b class="${delta>10?"danger":""}">${delta} mm</b>`:""}</span>`;
+}
+
+
+/* ================= RELEVEU: decalaj, diagonale, DXF, poze (D-82) =================
+   Matematica stă în ebanist-survey.js; aici e doar ecranul. */
+const SV_TOL=50;
+const CAM_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+const sgn=v=>(v>0?"+":"")+Math.round(v*10)/10;
+
+/* desenul pe plan: obstacole la poziția lor pe perete și diagonalele măsurate */
+function svPlanExtras(sv,pts,u){
+  let o="";
+  (sv.diagonals||[]).forEach(d=>{
+    const r=EBSurvey.diagonal(sv.walls,d); if(!r) return;
+    const a=pts[r.a], b=pts[r.b], bad=r.delta!=null&&Math.abs(r.delta)>10;
+    o+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${bad?"#d94b4b":"#2f6fb0"}" stroke-width="${u*0.45}" stroke-dasharray="${u*2.4} ${u*1.6}"/>`;
+    o+=`<text x="${(a.x+b.x)/2}" y="${(a.y+b.y)/2}" font-size="${u*3.2}" text-anchor="middle" fill="${bad?"#b3261e":"#2f6fb0"}" font-weight="700">${d.len?Math.round(d.len):Math.round(r.plan)}</text>`;
+  });
+  (sv.obstacles||[]).forEach(ob=>{
+    const i=sv.walls.findIndex(w=>w.id===ob.wall); if(i<0||ob.fromCorner==null) return;
+    const A=pts[i], B=pts[i+1], L=Math.hypot(B.x-A.x,B.y-A.y); if(!(L>0)) return;
+    const dx=(B.x-A.x)/L, dy=(B.y-A.y)/L, w=Math.max(+ob.w||60,60);
+    const c0=Math.max(0,Math.min(L,+ob.fromCorner)), c1=Math.max(0,Math.min(L,+ob.fromCorner+w));
+    const col=ob.type==="tubo"?"#2f6fb0":ob.type==="altro"?"#6b7280":"#d97706";
+    o+=`<line x1="${A.x+dx*c0}" y1="${A.y+dy*c0}" x2="${A.x+dx*c1}" y2="${A.y+dy*c1}" stroke="${col}" stroke-width="${u*1.8}" stroke-linecap="butt"/>`;
+    const mx=A.x+dx*(c0+c1)/2-dy*u*3.6, my=A.y+dy*(c0+c1)/2+dx*u*3.6;
+    o+=`<text x="${mx}" y="${my}" font-size="${u*2.8}" text-anchor="middle" dominant-baseline="middle" fill="${col}" font-weight="700">${esc(obstLabel(ob.type).slice(0,1))}${ob.fromFloor!=null?" ↑"+Math.round(ob.fromFloor):""}</text>`;
+  });
+  return o;
+}
+
+/* bara lipicioasă: conturul mic, decalajul cu cifră și ce l-ar explica */
+function renderGapBar(sv){
+  const bar=$("svGapBar"); if(!bar) return;
+  const hdr=document.querySelector("header"); if(hdr) document.documentElement.style.setProperty("--hdr-h",hdr.offsetHeight+"px");
+  const walls=sv?sv.walls:[];
+  if(!walls.length){ bar.hidden=true; return; }
+  bar.hidden=false;
+  const cl=EBSurvey.closure(walls,{tol:SV_TOL}), pts=planPoints(walls);
+  const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+  const x0=Math.min(...xs), y0=Math.min(...ys), side=Math.max(Math.max(...xs)-x0,Math.max(...ys)-y0,1)*1.2;
+  const sx=x0-(side-(Math.max(...xs)-x0))/2, sy=y0-(side-(Math.max(...ys)-y0))/2;
+  let m=`<polyline points="${pts.map(p=>p.x.toFixed(0)+","+p.y.toFixed(0)).join(" ")}" fill="none" stroke="${cl.closed?"#5f9412":"#d97706"}" stroke-width="${side/22}" stroke-linejoin="round"/>`;
+  if(!cl.closed) m+=`<line x1="${pts[pts.length-1].x}" y1="${pts[pts.length-1].y}" x2="${pts[0].x}" y2="${pts[0].y}" stroke="#d94b4b" stroke-width="${side/40}" stroke-dasharray="${side/18} ${side/24}"/>`;
+  $("svMini").setAttribute("viewBox",`${sx} ${sy} ${side} ${side}`); $("svMini").innerHTML=m;
+  const state1=cl.complete?`<span class="${cl.closed?"ok":"off"}">${esc(cl.closed?ts("svClosed"):ts("svNotClosed"))}</span> · ${esc(ts("svGapLbl"))} <b>${Math.round(cl.gap)} mm</b>`:`<span class="mini">${esc(ts("svWallsHint"))}</span>`;
+  $("svGapTxt").innerHTML=state1;
+  const hs=cl.hints.map(h=>h.kind==="len"
+    ?ts("svHintLen").replace("{n}",h.wall+1).replace("{v}",Math.round(h.value)).replace("{d}",sgn(h.delta))
+    :ts("svHintAngle").replace("{n}",h.wall+1).replace("{v}",Math.round(h.value*10)/10).replace("{d}",sgn(h.delta)));
+  $("svGapHints").innerHTML=hs.length?`${esc(ts("svHintsLbl"))}: ${hs.map(esc).join(` <i>${esc(ts("svHintOr"))}</i> `)}`:"";
+  const cb=$("btnSvClose"), cw=(!cl.closed&&cl.complete&&walls.length>=2)?EBSurvey.closingWall(walls):null;
+  cb.hidden=!cw; cb.textContent=ts("svCloseWall");
+}
+$("btnSvClose").addEventListener("click",()=>{
+  const sv=survey(); if(!sv) return;
+  const cw=EBSurvey.closingWall(sv.walls); if(!cw) return;
+  sv.walls[sv.walls.length-1].angle=cw.prevAngle;
+  sv.walls.push({id:uid(),len:cw.wall.len,angle:cw.wall.angle,bow:null});
+  persist(); renderSurvey();
+  toast(ts("svCloseNote").replace("{n}",sv.walls.length).replace("{len}",cw.wall.len));
+});
+
+/* ---- diagonale ---- */
+function renderSurveyDiags(){
+  const sv=survey(); const box=$("svDiags"); if(!box||!sv) return;
+  sv.diagonals=sv.diagonals||[]; box.innerHTML="";
+  const n=sv.walls.length, opts=sel=>Array.from({length:n},(_,i)=>`<option value="${i+1}"${sel===i+1?" selected":""}>${i+1}</option>`).join("");
+  sv.diagonals.forEach(d=>{
+    const r=EBSurvey.diagonal(sv.walls,d);
+    const read=r?`${esc(ts("svDiagPlan").replace("{p}",Math.round(r.plan)))}${r.delta!=null?` · <b class="${Math.abs(r.delta)>10?"danger":""}">${sgn(r.delta)} mm</b>`:""}`:"—";
+    const c=document.createElement("div"); c.className="card"; c.style.cssText="padding:10px;margin-bottom:8px";
+    c.innerHTML=`<div class="f3"><div class="f"><label>${esc(ts("svDiagA"))}</label><select data-dk="a" data-id="${d.id}">${opts(d.a)}</select></div>
+      <div class="f"><label>${esc(ts("svDiagB"))}</label><select data-dk="b" data-id="${d.id}">${opts(d.b)}</select></div>
+      <div class="f"><label>${esc(ts("svDiagLen"))}</label><input type="number" inputmode="numeric" data-dk="len" data-id="${d.id}" value="${d.len!=null?d.len:""}"></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px"><span class="mini" data-read>${read}</span>
+      <button class="iconbtn danger" data-ddel="${d.id}" aria-label="x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button></div>`;
+    box.appendChild(c);
+  });
+  box.querySelectorAll("[data-dk]").forEach(el=>el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{
+    const sv2=survey(), d=sv2.diagonals.find(x=>x.id===el.dataset.id); if(!d) return;
+    const v=parseFloat(el.value); d[el.dataset.dk]=isFinite(v)?v:null; persist(); renderPlan();
+    const r=EBSurvey.diagonal(sv2.walls,d), rd=el.closest(".card").querySelector("[data-read]");
+    rd.innerHTML=r?`${esc(ts("svDiagPlan").replace("{p}",Math.round(r.plan)))}${r.delta!=null?` · <b class="${Math.abs(r.delta)>10?"danger":""}">${sgn(r.delta)} mm</b>`:""}`:"—";
+  }));
+  box.querySelectorAll("[data-ddel]").forEach(b=>b.addEventListener("click",()=>{
+    const sv2=survey(); sv2.diagonals=sv2.diagonals.filter(x=>x.id!==b.dataset.ddel); persist(); renderSurvey();
+  }));
+}
+$("btnSvAddDiag").addEventListener("click",()=>{
+  const sv=survey(); if(!sv){ toast(ts("svNoProject")); return; }
+  sv.diagonals=sv.diagonals||[];
+  const n=sv.walls.length; if(n<3){ toast(ts("svWallsHint")); return; }
+  sv.diagonals.push({id:uid(),a:1,b:3,len:null}); persist(); renderSurvey();
+});
+
+/* ---- DXF: conturul unui plan devine pereți ---- */
+$("btnSvDxf").addEventListener("click",()=>$("svDxfFile").click());
+$("svDxfFile").addEventListener("change",e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  if(/\.dwg$/i.test(f.name)){ toast(ts("svDwg")); return; }
+  const rd=new FileReader();
+  rd.onload=async()=>{
+    const r=EBSurvey.wallsFromDxf(String(rd.result));
+    if(!r.ok){ toast(ts({binary:"svDxfBinary",nocontour:"svDxfNone",format:"svDxfFormat"}[r.error]||"svDxfFormat")); return; }
+    const sv=survey(); if(!sv){ toast(ts("svNoProject")); return; }
+    if(sv.walls.length&&!(await confirmDlg(ts("svDxfReplace")))) return;
+    snapUndo();
+    sv.walls=r.walls.map(w=>({id:uid(),len:w.len,angle:w.angle,bow:null}));
+    sv.obstacles.forEach(o=>{ o.wall=null; });
+    sv.diagonals=[];
+    persist(); renderSurvey();
+    const w=r.warnings.map(k=>ts({units:"svDxfUnits",arc:"svDxfArc",gap:"svDxfGap"}[k])).join(" ");
+    toast(ts("svDxfOk").replace("{n}",r.walls.length)+(w?" · "+w:""));
+  };
+  rd.readAsText(f,"utf-8");
+});
+
+/* ---- poze legate de punct (spec 05, punctul 5) ----
+   Pozele nu intră în `state` (localStorage ar crăpa): stau în IndexedDB, sub
+   `svp:<id>`, iar proiectul poartă doar lista `survey.photos`. Se micșorează
+   la 1280 px, JPEG. Backup-ul JSON le poartă cu el. */
+const SV_PH_MAX=1280, svPhCache=new Map();
+let svPhTarget=null;
+const svPhOk=id=>/^[A-Za-z0-9_-]{1,40}$/.test(String(id));
+function svPhLoad(id){
+  if(svPhCache.has(id)) return Promise.resolve(svPhCache.get(id));
+  return EBStore.get("svp:"+id).then(u=>{ if(u) svPhCache.set(id,u); return u||null; },()=>null);
+}
+function svPhotos(kind,ref){ const sv=survey(); return ((sv&&sv.photos)||[]).filter(x=>x.kind===kind&&String(x.ref)===String(ref)); }
+function svPhWidget(kind,ref){
+  return `<div class="svph" data-kind="${kind}" data-ref="${esc(ref)}">${svPhotos(kind,ref).map(x=>`<button class="svph-t" data-ph="${esc(x.id)}" aria-label="${esc(ts("svPhotoAdd"))}"><img alt="" data-phimg="${esc(x.id)}"></button>`).join("")}<button class="svph-add" data-phadd aria-label="${esc(ts("svPhotoAdd"))}">${CAM_SVG}</button></div>`;
+}
+function svPhHydrate(root){
+  root.querySelectorAll("img[data-phimg]").forEach(img=>{
+    svPhLoad(img.dataset.phimg).then(u=>{
+      if(u) img.src=u;
+      else{ const sp=document.createElement("span"); sp.className="svph-miss"; sp.textContent="∅"; sp.title=ts("svPhotoMissing"); img.replaceWith(sp); }
+    });
+  });
+}
+function svPhShrink(file){
+  return new Promise((res,rej)=>{
+    const url=URL.createObjectURL(file), im=new Image();
+    im.onload=()=>{
+      const k=Math.min(1,SV_PH_MAX/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement("canvas");
+      c.width=Math.max(1,Math.round(im.naturalWidth*k)); c.height=Math.max(1,Math.round(im.naturalHeight*k));
+      c.getContext("2d").drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg",0.72));
+    };
+    im.onerror=()=>{ URL.revokeObjectURL(url); rej(new Error("img")); };
+    im.src=url;
+  });
+}
+document.addEventListener("click",e=>{
+  const add=e.target.closest("[data-phadd]"), th=e.target.closest("[data-ph]");
+  if(add){ const w=add.closest(".svph"); svPhTarget={kind:w.dataset.kind,ref:w.dataset.ref}; $("svPhotoIn").click(); }
+  else if(th&&th.closest("#v-survey")){
+    const id=th.dataset.ph; svPhLoad(id).then(u=>{ if(!u){ toast(ts("svPhotoMissing")); return; }
+      $("svPhotoBig").src=u; $("btnSvPhotoDel").textContent=ts("svPhotoDel"); $("btnSvPhotoDel").dataset.id=id; openSheet("shSvPhoto"); });
+  }
+});
+$("svPhotoIn").addEventListener("change",async e=>{
+  const f=e.target.files[0]; e.target.value=""; const tg=svPhTarget; svPhTarget=null;
+  if(!f||!tg) return;
+  const sv=survey(); if(!sv) return;
+  try{
+    const url=await svPhShrink(f), id=uid();
+    if(!EBStore.available()) throw new Error("store");
+    await EBStore.set("svp:"+id,url); svPhCache.set(id,url);
+    (sv.photos=sv.photos||[]).push({id,kind:tg.kind,ref:tg.ref,at:Date.now()});
+    persist(); renderSurvey();
+  }catch(err){ toast(ts("svPhotoErr")); }
+});
+$("btnSvPhotoDel").addEventListener("click",()=>{
+  const id=$("btnSvPhotoDel").dataset.id; closeSheets();
+  svPhDrop([id]); renderSurvey();
+});
+/* scoate pozele din proiect și din memorie, dacă niciun alt proiect nu le mai folosește */
+function svPhDrop(ids){
+  const sv=survey(); if(sv&&sv.photos) sv.photos=sv.photos.filter(x=>ids.indexOf(x.id)<0);
+  persist();
+  ids.forEach(id=>{
+    const used=state.projects.some(p=>p.survey&&(p.survey.photos||[]).some(x=>x.id===id));
+    if(!used){ svPhCache.delete(id); EBStore.del("svp:"+id).catch(()=>{}); }
+  });
+}
+function svPhDropFor(kind,ref){ const ids=svPhotos(kind,ref).map(x=>x.id); if(ids.length) svPhDrop(ids); }
+async function svPhMap(projects){
+  const m={};
+  for(const p of projects) for(const x of ((p.survey&&p.survey.photos)||[])){
+    if(m[x.id]||!svPhOk(x.id)) continue;
+    const u=await svPhLoad(x.id); if(u) m[x.id]=u;
+  }
+  return m;
+}
+async function svPhRestore(map){
+  if(!map||typeof map!=="object") return;
+  for(const id of Object.keys(map)){
+    const u=map[id];
+    if(!svPhOk(id)||typeof u!=="string"||!/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(u)) continue;
+    svPhCache.set(id,u);
+    try{ await EBStore.set("svp:"+id,u); }catch(e){}
+  }
+}
+
+function renderSurveyPhotoRows(){
+  const sv=survey(); const h=$("svHPh"); if(!sv||!h) return;
+  h.innerHTML=[1,2,3].map(i=>`<div>${svPhWidget("height","h"+i)}</div>`).join("");
+  svPhHydrate(h);
 }
 
 function renderSurvey(){
@@ -12083,7 +12354,9 @@ function renderSurvey(){
   $("svApplyHint").textContent=ts("svApplyHint");
   const navLbl=$("navSurveyLbl"); if(navLbl) navLbl.textContent=ts("navSurvey");
   if(!p) return;
-  renderSurveyWalls(); renderSurveyHeights(); renderSurveyObstacles(); renderPlan();
+  $("btnSvDxf").textContent=ts("svImportDxf");
+  $("svDiagLbl").textContent=ts("svDiagTitle"); $("svDiagHintTxt").textContent=ts("svDiagHint"); $("svAddDiagLbl").textContent=ts("svAddDiag");
+  renderSurveyWalls(); renderSurveyHeights(); renderSurveyObstacles(); renderSurveyDiags(); renderSurveyPhotoRows(); renderPlan();
 }
 
 $("btnSvAddWall").addEventListener("click",()=>{
@@ -13849,12 +14122,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.57.0"; /* APP_VER-MARKER */
+const APP_VER="4.58.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v117";
+const SW_CACHE="ebanist-v118";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

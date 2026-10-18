@@ -5,6 +5,24 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.58.0 — 18 octombrie 2026
+
+**Releveu (D-82).** Idei luate de la Leica DISTO Plan, fără hardware:
+
+- **Decalajul de închidere se spune cu cifră** („Decalaj 12 mm”) și, când o singură cotă îl explică, cu cauza probabilă: „Peretele 1 ar trebui să fie 3188 mm sau Peretele 3, 3200 mm”. Mai multe erori deodată nu primesc nicio explicație inventată.
+- **Bară lipicioasă** cu conturul mic și decalajul, vizibilă cât tastezi pereții (planul mare rămânea la ~670 px mai sus pe telefon).
+- **Perete de închidere calculat**, la cerere; mesajul spune că e calculat, nu măsurat, și că unghiul ultimului colț s-a recalculat.
+- **Diagonale** între două colțuri, cu diferența față de plan; se desenează pe plan (roșu peste 10 mm).
+- **Enter** trece de la lungime la unghi și la peretele următor; după ultimul perete, cu contur deschis, adaugă unul nou.
+- **Obstacolele se văd pe plan**, la poziția lor pe perete.
+- **Poze legate de punct:** pe fiecare perete, obstacol și înălțime; micșorate la 1280 px, în IndexedDB (nu în localStorage), în backup și în exportul JSON al proiectului. Nu se sincronizează prin Supabase.
+- **Import DXF** al conturului camerei (ASCII; unități din `$INSUNITS`; arcele devin coarde, cu avertisment). DWG nu se citește: se cere export DXF.
+- Chei noi în toate cele 7 limbi.
+
+Teste: `survey.test.js` (21), 15 verificări noi în `run.js`; `test:full` 635/635 cu golden 42/42, e2e 546/546.
+
+---
+
 ## 4.57.0 — 18 octombrie 2026
 
 **Audit și îmbunătățiri de interfață.**
