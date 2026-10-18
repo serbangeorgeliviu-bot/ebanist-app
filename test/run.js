@@ -65,7 +65,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      Testele de funcții rulează deci ca Pro; cele de licență își pun singure
      starea gratuită (licWrite(null)) și o refac la final. */
   const PRO_INIT = () => { try { if (!localStorage.getItem("ebanist_lic")) localStorage.setItem("ebanist_lic",
-    JSON.stringify({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() })); } catch (e) {} };
+    JSON.stringify({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() })); } catch (e) {} };
   const _newContext = browser.newContext.bind(browser);
   browser.newContext = async (o = {}) => { const c = await _newContext(o); await c.addInitScript(PRO_INIT); return c; };
   const pg = await (await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true })).newPage();
@@ -1034,7 +1034,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       };
       /* documentele de atelier sunt Pro (D-55): urma se verifică pe Pro */
       const keepLic = LIC;
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       for (const [k, id] of [["distinta", "btnPdf"], ["montaggio", "btnMont"]]) {
         document.getElementById("printArea").innerHTML = "";
         document.getElementById(id).click();
@@ -1096,10 +1096,6 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      migrazione e il recupero dopo la cancellazione di localStorage si
      vedono solo all'avvio, e l'avvio capita una volta sola.
      ===================================================================== */
-  const genkey = n => require("child_process")
-    .execFileSync("python3", [path.join(ROOT, "app", "tools", "genkey.py"), String(n || 1)], { encoding: "utf8" })
-    .trim().split("\n");
-
   /* Una pagina pulita, con lo stato che le si vuole mettere in mano PRIMA
      che l'app parta: il seme va scritto su una pagina qualsiasi della
      stessa origine, poi si va sull'app. */
@@ -1191,13 +1187,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   head("La licenza sopravvive alla stessa cancellazione");
   {
-    const key = genkey(1)[0];
     const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
     const pp = await ctx.newPage();
     await pp.goto(`${ORIGIN}/app/index.html`);
     await pp.waitForTimeout(1500);
-    const act = await pp.evaluate(async k => { closeSheets(); const r = await proActivate(k); return { r, pro: isPro() }; }, key);
-    ok("una chiave storica valida attiva Pro, senza rete", act.r.ok && act.pro, key);
+    const act = await pp.evaluate(() => { closeSheets(); licWrite({ kind: "stripe", key: "sub_TESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() }); return isPro(); });
+    ok("una licenza Stripe in memoria apre Pro, senza rete", act === true);
     await pp.evaluate(() => new Promise(r => setTimeout(r, 600)));
     await pp.evaluate(() => localStorage.clear());
     await pp.reload();
@@ -1207,27 +1202,24 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
-  head("Chiavi — quello che si accetta e quello che no");
+  head("Chiavi — quello che si accetta e quello che no (D-81: le EBP- sono ritirate)");
   {
-    const [k1] = genkey(1);
-    const r = await pg.evaluate(async k => {
+    const r = await pg.evaluate(async () => {
       const out = {}, keep = LIC;
       licWrite(null);
       out.vuota = (await proActivate("")).ok;
       out.spazzatura = (await proActivate("ciao-mamma")).ok;
-      out.storpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).ok;
-      out.messaggioStorpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).msg;
-      out.buona = (await proActivate(k)).ok;
-      out.proDopo = isPro();
-      out.senzaTrattini = (await proActivate(k.replace(/-/g, "").toLowerCase())).ok;
+      const ebp = await proActivate("EBP-AB23-CD45-EF67");
+      out.ebp = ebp.ok; out.ebpMsg = ebp.msg; out.ebpPro = isPro();
+      licWrite({ kind: "legacy", key: "EBP-AB23-CD45-EF67", valid: true, activated: true, checkedAt: Date.now() });
+      out.vecchiaInMemoria = EBLicense.proFrom(LIC).pro;
       licWrite(keep); return out;
-    }, k1);
+    });
     ok("una chiave vuota non attiva niente", r.vuota === false);
     ok("una stringa a caso nemmeno", r.spazzatura === false);
-    ok("una chiave con un carattere sbagliato viene rifiutata", r.storpiata === false);
-    ok("e lo dice con parole, non con un codice", /\w{4}/.test(r.messaggioStorpiata || ""), r.messaggioStorpiata);
-    ok("una chiave buona attiva Pro", r.buona && r.proDopo);
-    ok("e si accetta anche senza trattini e in minuscolo", r.senzaTrattini);
+    ok("una chiave EBP- ben formata non attiva piu Pro", r.ebp === false && r.ebpPro === false);
+    ok("e lo dice con parole, non con un codice", /\w{4}/.test(r.ebpMsg || ""), r.ebpMsg);
+    ok("una licenza legacy rimasta in memoria non da Pro", r.vecchiaInMemoria === false);
   }
 
   head("Il muro del progetto gratuito (1, D-55) — su TUTTE le strade d'ingresso");
@@ -1286,7 +1278,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
       /* 7. da Pro il muro non c'e piu */
       state.projects = [mk("a", "A"), mk("b", "B"), mk("c", "C")];
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       out.proPassa = gateNewProject() === true;
 
       closeSheets(); state.projects = keepP; licWrite(keepL);
@@ -1352,7 +1344,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       out.proAperto = document.getElementById("shPro").classList.contains("on"); closeSheets();
       out.testoFiligrana = (document.querySelector("#printArea .wm-foot") || {}).textContent || "";
 
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       out.pro = await giro();
       out.chiamate = calls;
       window.print = realPrint;
@@ -1389,7 +1381,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
       /* e da Pro il cancello lascia passare: il controllo dopo e quello
          delle regole di coerenza, che e un'altra cosa e resta */
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       out.proPassaLab = proGate("lab") === true;
       out.proPassaJpg = proGate("jpg") === true;
 
@@ -2067,7 +2059,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       document.getElementById("btnShare").click(); await w(100); o.csv = pro(); closeSheets();
       document.getElementById("btnRoom").click(); await w(100); o.camera = pro() && document.getElementById("roomView").style.display !== "flex"; closeSheets();
       // Pro: se vede tot
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       setView("nest"); await w(300);
       o.nestPro = !!document.querySelector("#nestOut svg") && document.getElementById("btnCuts").style.display !== "none";
       closeSheets(); clientOpen(); await w(200); o.clientPro = !document.getElementById("clientMode").hidden;
@@ -2185,10 +2177,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       // anulat din Play: la următoarea verificare Pro dispare
       window.__playActive = false; EbanistAndroid.billingRestore(); await w(200);
       o.anulat = !isPro() && !LIC;
-      // o cheie EBP nu e atinsă de Play
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true });
+      // o licență Stripe nu e atinsă de Play
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true });
       EbanistAndroid.billingRestore(); await w(200);
-      o.cheiaRamane = isPro() && LIC.kind === "legacy";
+      o.cheiaRamane = isPro() && LIC.kind === "stripe";
       // Play nu răspunde: nu se schimbă nimic
       licWrite({ kind: "play", key: "tok-2", activated: true, valid: true, status: "active" });
       __ebPlay("purchases", JSON.stringify({ ok: false, code: "unavailable", source: "check" })); await w(50);
@@ -2225,7 +2217,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("setări: „Gestionează abonamentul” deschide Play", g.gestionare === true && g.manage === true);
     ok("un abonament Play nu se „deconectează”", g.faraDeconectare === true);
     ok("anulat în Play → Pro dispare la verificare", g.anulat === true);
-    ok("o cheie EBP nu e atinsă de Play", g.cheiaRamane === true);
+    ok("o licență Stripe nu e atinsă de Play", g.cheiaRamane === true);
     ok("Play nu răspunde → nu se schimbă nimic", g.faraRaspuns === true);
     ok("Android: selectorul de fișiere acceptă orice (backup .json)", g.faraAccept === true);
     ok("setări: „Restaurează din fișier” deschide selectorul", g.restaurare === true);
