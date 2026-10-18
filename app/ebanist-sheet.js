@@ -356,7 +356,25 @@
     return svg + "</svg>";
   }
 
-  var API = { partSheetSVG: partSheetSVG, chainSegs: chainSegs, pickScale: pickScale, groupOps: groupOps };
+  /* piesele comune ale foilor A3 (le folosește și ebanist-elab.js): chenar și cartuș */
+  function sheetOpen() {
+    return '<svg class="sh-svg" viewBox="0 0 ' + PW + " " + PH + '" width="' + PW + 'mm" height="' + PH + 'mm" ' +
+      'xmlns="http://www.w3.org/2000/svg" font-family="Barlow,Arial,sans-serif" fill="' + INK + '">' +
+      '<rect width="' + PW + '" height="' + PH + '" fill="#fff"/>' +
+      '<rect x="' + M + '" y="' + M + '" width="' + (PW - 2 * M) + '" height="' + (PH - 2 * M) + '" fill="none" stroke="' + INK + '" stroke-width="0.7"/>';
+  }
+  /* rând = [[lățime, etichetă, valoare, corp?], …], suma lățimilor = 400 */
+  function titleBlock(row1, row2) {
+    var o = "", xx = M, h = TB_H / 2;
+    row1.forEach(function (c) { o += cell(xx, TB_Y, c[0], h, c[1], c[2] || "", c[3] || 4.2); xx += c[0]; });
+    xx = M;
+    row2.forEach(function (c) { o += cell(xx, TB_Y + h, c[0], h, c[1], c[2] || "", c[3] || 4.2); xx += c[0]; });
+    return o;
+  }
+
+  var API = { partSheetSVG: partSheetSVG, chainSegs: chainSegs, pickScale: pickScale, groupOps: groupOps,
+    sheetOpen: sheetOpen, titleBlock: titleBlock, chainSvg: chainSvg, tx: tx, ln: ln, f: f, r1: r1, esc: esc, uniq: uniq,
+    PW: PW, PH: PH, M: M, TB_Y: TB_Y, COL_X: COL_X, INK: INK };
   if (typeof module !== "undefined" && module.exports) module.exports = API;
   root.EBSheet = API;
 })(typeof globalThis !== "undefined" ? globalThis : this);

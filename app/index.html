@@ -1588,6 +1588,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h20v14H2zM8 21h8M12 17v4"/><path d="M6 7h6M6 10h4"/></svg>
         <span data-i="drawBtn">Disegno tecnico 2D</span>
       </button>
+      <button class="btn sm" id="btnElab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 12h18M12 3v18"/></svg>
+        <span data-i="eaBtn">Elaborat A3</span>
+      </button>
       <button class="btn sm" id="btnRoom">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <span data-i="roomBtn">Nel tuo ambiente</span>
@@ -2348,6 +2352,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-survey.js"></script>
 <script src="./ebanist-sheet.js"></script>
+<script src="./ebanist-elab.js"></script>
 <script src="./ebanist-au-i18n.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
@@ -3103,13 +3108,13 @@ Object.assign(I18N.pl,{"shPos":"Pozycje","shDetail":"Szczegół","shTitle": "Kar
 Object.assign(I18N.es,{"shPos":"Posiciones","shDetail":"Detalle","shTitle": "Hoja de fabricación", "shCompany": "Empresa", "shProject": "Proyecto", "shClient": "Cliente", "shPiece": "Pieza", "shMat": "Material", "shThk": "Espesor", "shQty": "Cant.", "shEdge": "Canto", "shScale": "Escala", "shDate": "Fecha", "shSheet": "Hoja", "shGen": "Generado con", "shTable": "Mecanizados", "shRef": "Ref.", "shDia": "Ø / medida", "shEdgeHoles": "Taladros en canto", "shEdgeN": "Canto {n}", "shNote1": "Cotas en mm, desde el borde hasta el eje del taladro. Origen 0,0 en rojo.", "shBtn": "Hoja de fabricación A3"});
 
 /* tipuri de imbinare (D-84) */
-Object.assign(I18N.it,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Cava Clamex P-14","fJoint": "Tipo di giunzione", "hw_confirmat": "Viti Confirmat", "hw_biscuit": "Lamelle (biscotti)", "hw_domino": "Festool Domino", "op_confirmat": "Foro passante confirmat", "op_pilot": "Foro pilota confirmat", "op_slotBisc": "Cava lamella", "op_slotDom": "Cava Domino", "ms3j": "Giunzioni {j} ({p}): {n} punti sui bordi di base, cielo e ripiani fissi. Controlla le quote sul primo pezzo prima di forare il resto."});
-Object.assign(I18N.ro,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Canal Clamex P-14","fJoint": "Tip îmbinare", "hw_confirmat": "Șuruburi Confirmat", "hw_biscuit": "Lamele (biscuiți)", "hw_domino": "Festool Domino", "op_confirmat": "Gaură trecătoare confirmat", "op_pilot": "Gaură pilot confirmat", "op_slotBisc": "Canal lamelă", "op_slotDom": "Mortează Domino", "ms3j": "Îmbinări {j} ({p}): {n} puncte pe canturile bazei, tavanului și rafturilor fixe. Verifică cotele pe prima piesă înainte să găurești restul."});
-Object.assign(I18N.en,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex P-14 groove","fJoint": "Joint type", "hw_confirmat": "Confirmat screws", "hw_biscuit": "Biscuits (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat clearance hole", "op_pilot": "Confirmat pilot hole", "op_slotBisc": "Biscuit slot", "op_slotDom": "Domino mortise", "ms3j": "{j} joints ({p}): {n} points on the edges of base, top and fixed shelves. Check the dimensions on the first part before drilling the rest."});
-Object.assign(I18N.fr,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Rainure Clamex P-14","fJoint": "Type d'assemblage", "hw_confirmat": "Vis Confirmat", "hw_biscuit": "Lamelles", "hw_domino": "Festool Domino", "op_confirmat": "Perçage de passage confirmat", "op_pilot": "Avant-trou confirmat", "op_slotBisc": "Rainure de lamelle", "op_slotDom": "Mortaise Domino", "ms3j": "Assemblages {j} ({p}) : {n} points sur les chants du dessous, du dessus et des tablettes fixes. Vérifiez les cotes sur la première pièce avant de percer le reste."});
-Object.assign(I18N.de,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex-P-14-Nut","fJoint": "Verbindungsart", "hw_confirmat": "Confirmat-Schrauben", "hw_biscuit": "Flachdübel (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat-Durchgangsbohrung", "op_pilot": "Confirmat-Vorbohrung", "op_slotBisc": "Flachdübelnut", "op_slotDom": "Domino-Zapfenloch", "ms3j": "{j}-Verbindungen ({p}): {n} Punkte an den Kanten von Boden, Deckel und festen Böden. Maße am ersten Teil prüfen, bevor der Rest gebohrt wird."});
-Object.assign(I18N.pl,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Gniazdo Clamex P-14","fJoint": "Typ połączenia", "hw_confirmat": "Wkręty Confirmat", "hw_biscuit": "Lamele", "hw_domino": "Festool Domino", "op_confirmat": "Otwór przelotowy confirmat", "op_pilot": "Otwór pilotażowy confirmat", "op_slotBisc": "Gniazdo lamela", "op_slotDom": "Gniazdo Domino", "ms3j": "Połączenia {j} ({p}): {n} punktów na krawędziach dna, góry i półek stałych. Sprawdź wymiary na pierwszym elemencie, zanim wywiercisz resztę."});
-Object.assign(I18N.es,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Ranura Clamex P-14","fJoint": "Tipo de unión", "hw_confirmat": "Tornillos Confirmat", "hw_biscuit": "Láminas (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Taladro pasante confirmat", "op_pilot": "Taladro piloto confirmat", "op_slotBisc": "Ranura de lámina", "op_slotDom": "Mortaja Domino", "ms3j": "Uniones {j} ({p}): {n} puntos en los cantos de base, techo y estantes fijos. Comprueba las cotas en la primera pieza antes de taladrar el resto."});
+Object.assign(I18N.it,{"eaBtn":"Elaborato A3: prospetti e sezioni","eaTitle":"Prospetti e sezioni","eaUnit":"Corpo","eaViewFront":"Prospetto frontale","eaViewSect":"Sezione","eaViewPlan":"Pianta","eaLegend":"Materiali tagliati","eaBody":"Struttura","eaBack":"Schienale","eaDoor":"Frontali e ante","eaGlass":"Vetro","eaMetal":"Metallo","eaNote":"Quote in mm. Il tratteggio indica il materiale tagliato dal piano di sezione.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Cava Clamex P-14","fJoint": "Tipo di giunzione", "hw_confirmat": "Viti Confirmat", "hw_biscuit": "Lamelle (biscotti)", "hw_domino": "Festool Domino", "op_confirmat": "Foro passante confirmat", "op_pilot": "Foro pilota confirmat", "op_slotBisc": "Cava lamella", "op_slotDom": "Cava Domino", "ms3j": "Giunzioni {j} ({p}): {n} punti sui bordi di base, cielo e ripiani fissi. Controlla le quote sul primo pezzo prima di forare il resto."});
+Object.assign(I18N.ro,{"eaBtn":"Elaborat A3: prospecte și secțiuni","eaTitle":"Prospecte și secțiuni","eaUnit":"Corp","eaViewFront":"Vedere frontală","eaViewSect":"Secțiune","eaViewPlan":"Plan","eaLegend":"Materiale tăiate","eaBody":"Structură","eaBack":"Spate","eaDoor":"Fronturi și uși","eaGlass":"Sticlă","eaMetal":"Metal","eaNote":"Cote în mm. Hașura arată materialul tăiat de planul de secțiune.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Canal Clamex P-14","fJoint": "Tip îmbinare", "hw_confirmat": "Șuruburi Confirmat", "hw_biscuit": "Lamele (biscuiți)", "hw_domino": "Festool Domino", "op_confirmat": "Gaură trecătoare confirmat", "op_pilot": "Gaură pilot confirmat", "op_slotBisc": "Canal lamelă", "op_slotDom": "Mortează Domino", "ms3j": "Îmbinări {j} ({p}): {n} puncte pe canturile bazei, tavanului și rafturilor fixe. Verifică cotele pe prima piesă înainte să găurești restul."});
+Object.assign(I18N.en,{"eaBtn":"A3 drawings: elevations and sections","eaTitle":"Elevations and sections","eaUnit":"Unit","eaViewFront":"Front elevation","eaViewSect":"Section","eaViewPlan":"Plan","eaLegend":"Cut materials","eaBody":"Carcass","eaBack":"Back panel","eaDoor":"Fronts and doors","eaGlass":"Glass","eaMetal":"Metal","eaNote":"Dimensions in mm. Hatching shows the material cut by the section plane.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex P-14 groove","fJoint": "Joint type", "hw_confirmat": "Confirmat screws", "hw_biscuit": "Biscuits (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat clearance hole", "op_pilot": "Confirmat pilot hole", "op_slotBisc": "Biscuit slot", "op_slotDom": "Domino mortise", "ms3j": "{j} joints ({p}): {n} points on the edges of base, top and fixed shelves. Check the dimensions on the first part before drilling the rest."});
+Object.assign(I18N.fr,{"eaBtn":"Dossier A3 : élévations et coupes","eaTitle":"Élévations et coupes","eaUnit":"Caisson","eaViewFront":"Élévation de face","eaViewSect":"Coupe","eaViewPlan":"Plan","eaLegend":"Matériaux coupés","eaBody":"Structure","eaBack":"Fond","eaDoor":"Façades et portes","eaGlass":"Verre","eaMetal":"Métal","eaNote":"Cotes en mm. Les hachures indiquent le matériau coupé par le plan de coupe.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Rainure Clamex P-14","fJoint": "Type d'assemblage", "hw_confirmat": "Vis Confirmat", "hw_biscuit": "Lamelles", "hw_domino": "Festool Domino", "op_confirmat": "Perçage de passage confirmat", "op_pilot": "Avant-trou confirmat", "op_slotBisc": "Rainure de lamelle", "op_slotDom": "Mortaise Domino", "ms3j": "Assemblages {j} ({p}) : {n} points sur les chants du dessous, du dessus et des tablettes fixes. Vérifiez les cotes sur la première pièce avant de percer le reste."});
+Object.assign(I18N.de,{"eaBtn":"A3-Zeichnung: Ansichten und Schnitte","eaTitle":"Ansichten und Schnitte","eaUnit":"Korpus","eaViewFront":"Vorderansicht","eaViewSect":"Schnitt","eaViewPlan":"Grundriss","eaLegend":"Geschnittene Materialien","eaBody":"Korpus","eaBack":"Rückwand","eaDoor":"Fronten und Türen","eaGlass":"Glas","eaMetal":"Metall","eaNote":"Maße in mm. Die Schraffur zeigt das vom Schnitt getroffene Material.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex-P-14-Nut","fJoint": "Verbindungsart", "hw_confirmat": "Confirmat-Schrauben", "hw_biscuit": "Flachdübel (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat-Durchgangsbohrung", "op_pilot": "Confirmat-Vorbohrung", "op_slotBisc": "Flachdübelnut", "op_slotDom": "Domino-Zapfenloch", "ms3j": "{j}-Verbindungen ({p}): {n} Punkte an den Kanten von Boden, Deckel und festen Böden. Maße am ersten Teil prüfen, bevor der Rest gebohrt wird."});
+Object.assign(I18N.pl,{"eaBtn":"Rysunek A3: widoki i przekroje","eaTitle":"Widoki i przekroje","eaUnit":"Korpus","eaViewFront":"Widok z przodu","eaViewSect":"Przekrój","eaViewPlan":"Rzut","eaLegend":"Przecięte materiały","eaBody":"Korpus","eaBack":"Plecy","eaDoor":"Fronty i drzwi","eaGlass":"Szkło","eaMetal":"Metal","eaNote":"Wymiary w mm. Kreskowanie oznacza materiał przecięty płaszczyzną przekroju.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Gniazdo Clamex P-14","fJoint": "Typ połączenia", "hw_confirmat": "Wkręty Confirmat", "hw_biscuit": "Lamele", "hw_domino": "Festool Domino", "op_confirmat": "Otwór przelotowy confirmat", "op_pilot": "Otwór pilotażowy confirmat", "op_slotBisc": "Gniazdo lamela", "op_slotDom": "Gniazdo Domino", "ms3j": "Połączenia {j} ({p}): {n} punktów na krawędziach dna, góry i półek stałych. Sprawdź wymiary na pierwszym elemencie, zanim wywiercisz resztę."});
+Object.assign(I18N.es,{"eaBtn":"Plano A3: alzados y secciones","eaTitle":"Alzados y secciones","eaUnit":"Módulo","eaViewFront":"Alzado frontal","eaViewSect":"Sección","eaViewPlan":"Planta","eaLegend":"Materiales cortados","eaBody":"Estructura","eaBack":"Trasera","eaDoor":"Frentes y puertas","eaGlass":"Vidrio","eaMetal":"Metal","eaNote":"Cotas en mm. El rayado indica el material cortado por el plano de sección.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Ranura Clamex P-14","fJoint": "Tipo de unión", "hw_confirmat": "Tornillos Confirmat", "hw_biscuit": "Láminas (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Taladro pasante confirmat", "op_pilot": "Taladro piloto confirmat", "op_slotBisc": "Ranura de lámina", "op_slotDom": "Mortaja Domino", "ms3j": "Uniones {j} ({p}): {n} puntos en los cantos de base, techo y estantes fijos. Comprueba las cotas en la primera pieza antes de taladrar el resto."});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -9938,6 +9943,20 @@ $("btnDraw").addEventListener("click",()=>{
   printOut();
 });
 
+/* Elaborat tehnic, pasul 2: prospect + secțiune + plan pe A3 (ebanist-elab.js) */
+$("btnElab").addEventListener("click",()=>{
+  if(!proGate("doc")) return;
+  buildCfg=cfgFromForm();
+  const {boxes}=buildModule(buildCfg), S=state.settings, p=proj();
+  const mt=id=>{ try{ const m=id?matById(id):null; return m?{n:m.label,t:m.spessore}:{n:"",t:""}; }catch(e){ return {n:"",t:""}; } };
+  const b=mt(buildCfg.matBody||S.matBody), fr=mt(buildCfg.matFront||S.matFront), bk=mt(buildCfg.matBack||S.matBack);
+  const svg=EBElab.elevationsSheetSVG(boxes,{tr:t,sheetNo:1,sheetTot:1,meta:{
+    company:prCoName()||"",project:p?p.name:"",client:p&&p.client||"",name:buildCfg.name||"",
+    matBody:b.n,matFront:fr.n,matBack:bk.n,tBody:b.t,tBack:bk.t,date:new Date().toISOString().slice(0,10),ver:APP_VER}});
+  $("printArea").innerHTML=`<style>@page{size:420mm 297mm;margin:0}#printArea .sh-svg{display:block;width:420mm;height:297mm}</style>`+svg;
+  printOut();
+});
+
 /* ================= STATISTICHE ================= */
 $("btnStats").addEventListener("click",()=>{
   let pcs=0,area=0,edge=0,val=0;
@@ -14215,12 +14234,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.61.0"; /* APP_VER-MARKER */
+const APP_VER="4.62.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v122";
+const SW_CACHE="ebanist-v123";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

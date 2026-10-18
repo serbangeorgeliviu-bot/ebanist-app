@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.62.0 — 18 octombrie 2026
+
+**Prospecte și secțiuni pe A3 (D-83, pasul 2).** Butonul „Elaborat A3" de lângă desenul tehnic tipărește o foaie landscape cu cartuș:
+- prospect frontal, secțiune verticală A–A (fața în stânga) și plan C–C, la aceeași scară dacă încape; planurile de tăiere sunt marcate pe prospect;
+- planurile trec prin mijlocul celei mai late coloane și al celui mai înalt gol, deci arată rafturi, sertare, spate și uși;
+- hașuri după materialul tăiat (structură, spate, fronturi; sticlă și metal separat) și legendă cu materialul și grosimea proiectului;
+- cote în lanț: lățimi, înălțimi de la podea, adâncimi, grosimi de panou; geometria vine din cutiile modelului, nimic scris de mână;
+- 14 chei noi în toate cele 7 limbi, verificate în e2e.
+
 ## 4.61.0 — 18 octombrie 2026
 
 **Cote din fișele producătorilor (D-84).**
