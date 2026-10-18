@@ -1835,7 +1835,7 @@ function assertionEnv(d, ctx) {
               "P_int", "L_int", "H_int", "sectiune_W", "rezerva_glisiera",
               "P_cassetto_max", "L_cassetto",
               "sp_fianco", "sp_base", "sp_cielo", "sp_schienale", "sp_ripiano",
-              "sp_frontale", "sp_zoccolo", "sp_divisorio"];
+              "sp_frontale", "sp_zoccolo", "sp_divisorio", "sp_top", "top"];
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
   /* le cote che possono valere zero (un corpo senza ante, senza cassetti)
      devono comunque ESISTERE nell'ambiente, o la regola cade per "cota

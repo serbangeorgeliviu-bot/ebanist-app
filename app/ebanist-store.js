@@ -33,6 +33,8 @@
 
   var dbp = null;          // Promise<IDBDatabase> | null
   var broken = false;      // IndexedDB assente o rotta: si lavora senza
+  var timeouts = 0;        // aperture andate a vuoto per lentezza, non per guasto
+  var MAX_TIMEOUTS = 3;
 
   function open() {
     if (dbp) return dbp;
@@ -53,6 +55,7 @@
            mollare la presa: altrimenti quella resta bloccata per sempre
            su un `onblocked` che nessuno vede. */
         db.onversionchange = function () { try { db.close(); } catch (e) {} dbp = null; };
+        timeouts = 0;
         res(db);
       };
       rq.onerror = function () { rej(rq.error || new Error("idb-open")); };
@@ -60,7 +63,12 @@
          Meglio dichiararsi rotti che tenere l'app in attesa. */
       setTimeout(function () { rej(new Error("idb-timeout")); }, 4000);
     }).catch(function (e) {
-      broken = true; dbp = null;
+      dbp = null;
+      /* Un timeout puo essere solo un telefono lento: si riprova alla
+         prossima operazione. Dopo MAX_TIMEOUTS di fila si considera rotta
+         (navigazione privata: open() non risponde mai). */
+      if (e && e.message === "idb-timeout" && ++timeouts < MAX_TIMEOUTS) throw e;
+      broken = true;
       throw e;
     });
     return dbp;
