@@ -2195,6 +2195,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.asmCap = capA.length === 1 && /sh-svg/.test(capA[0]) && /Montage/.test(capA[0]) && /Explosionsansicht/.test(capA[0]);
       const txA = (capA[0] || "").match(/<text[^>]*>([^<]*)<\/text>/g) || [];
       o.asmRaw = txA.map(q => q.replace(/<[^>]+>/g, "")).filter(q => /^(as[A-Z]\w*|ea[A-Z]\w*|sh[A-Z]\w*|mStepsT|mParts)$/.test(q));
+      state.lang = "it"; applyLang();
+      const pkP = proj(), pkMods = asmModules(pkP), pkPcs = pkMods.reduce((n, [, mm]) => n + mm.ops.pieces.length, 0);
+      const pk = packBuild(pkP, { cover: 1, client: 1, report: 1, elev: 1, asm: 1, parts: 1 });
+      o.packN = pk.length; o.packWant = pkMods.length * 4 + pkPcs + 1;
+      o.packCover = /Dossier tecnico/.test(pk[0]) && /Indice dei fogli/.test(pk[0]);
+      o.packRaw = pk.flatMap(sv => (sv.match(/<text[^>]*>([^<]*)<\/text>/g) || []).map(q => q.replace(/<[^>]+>/g, ""))).filter(q => /^(dc[A-Z]\w*|rp[A-Z0-9]\w*|as[A-Z]\w*|ea[A-Z]\w*|sh[A-Z]\w*)$/.test(q));
+      o.packClient = /Presentazione cliente/.test(pk[1]) && /data:image\/jpeg/.test(pk[1]);
       state.lang = "fr"; applyLang();
       PRINT_CAPTURE = []; partA3(M, pc, 5); const cap = PRINT_CAPTURE; PRINT_CAPTURE = null;
       o.cap = cap.length === 1 && /sh-svg/.test(cap[0]) && /@page/.test(cap[0]) && /Fiche de fabrication/.test(cap[0]);
@@ -2210,6 +2217,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("prospecte A3: butonul trece prin printOut, în limba aleasă", sh.elabCap === true);
     ok("montaj A3: butonul trece prin printOut, vedere explodată și titlu în limba aleasă", sh.asmCap === true);
     ok("montaj A3: nicio cheie netradusă", sh.asmRaw.length === 0, sh.asmRaw.slice(0, 5).join(","));
+    ok("dosar A3: copertă + (client, raport, prospecte, montaj) × corpuri + o foaie pe piesă", sh.packN === sh.packWant && sh.packN > 5, sh.packN + " ≠ " + sh.packWant);
+    ok("dosar A3: coperta și prezentarea client, în limba aleasă, cu randare 3D", sh.packCover === true && sh.packClient === true);
+    ok("dosar A3: nicio cheie netradusă pe nicio foaie", sh.packRaw.length === 0, sh.packRaw.slice(0, 5).join(","));
     ok("nessun errore JS", serr.length === 0, serr.join(" | ").slice(0, 200));
 
   }
