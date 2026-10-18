@@ -2590,6 +2590,28 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  /* resturile recuperabile pe planul de tăiere: aceeași soglie ca „Adaugă resturile” */
+  {
+    const n = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Z" });
+      const keep = state.settings.stockMin;
+      state.settings.stockMin = 250; setView("nest"); await w(300); renderNest();
+      const zs = [...document.querySelectorAll("svg .keepz")];
+      o.zone = zs.length; o.egale = zs.length === nestLeftovers.length;
+      o.soglia = zs.every(z => Math.min(+z.getAttribute("width"), +z.getAttribute("height")) >= 250);
+      o.legenda = !!document.querySelector(".nest-legend");
+      state.settings.stockMin = 99999; renderNest();
+      o.zero = document.querySelectorAll("svg .keepz").length === 0 && !document.querySelector(".nest-legend");
+      state.settings.stockMin = keep; renderNest(); p.pieces = []; p.configs = {}; persist(); setView("projects");
+      return o;
+    });
+    ok("nesting: resturile ≥ prag sunt conturate în verde pe plan", n.zone > 0 && n.egale === true, JSON.stringify(n));
+    ok("nesting: nicio zonă verde sub prag", n.soglia === true);
+    ok("nesting: legenda apare cu resturi și dispare fără", n.legenda === true && n.zero === true);
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
