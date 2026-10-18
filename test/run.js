@@ -2127,6 +2127,38 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   }
 
   {
+    head("Tipuri de îmbinare — alese pe corp, în ops, fișă și limbi (D-84)");
+    const jctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const jp = await jctx.newPage();
+    const jerr = []; jp.on("pageerror", e => jerr.push(String(e)));
+    await jp.goto(URL); await jp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await jp.waitForTimeout(3300);
+    const jn = await jp.evaluate(() => {
+      const o = {}; closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "J1" });
+      const cfg = Object.values(p.configs)[0], kinds = {};
+      for (const id of ["haf_minifix", "gen_confirmat", "gen_dowel", "gen_biscuit", "fes_domino"]) {
+        cfg.hwSel = { conn: id };
+        const built = buildModule(cfg), G = deriveCarcass(carcassParams(cfg, {}));
+        const ops = generateOperations({ boxes: built.boxes, cfg, G });
+        kinds[id] = [ops.joint, ops.pieces.reduce((n, q) => n + q.operations.filter(x => x.type === "slot").length, 0)];
+      }
+      delete cfg.hwSel; state.settings.hwProd.conn = "gen_confirmat";
+      const b2 = buildModule(cfg); o.def = generateOperations({ boxes: b2.boxes, cfg, G: deriveCarcass(carcassParams(cfg, {})) }).joint;
+      state.settings.hwProd.conn = "haf_minifix";
+      o.kinds = kinds; o.items = hwList("conn").map(x => x.id);
+      o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["gen_dowel", "gen_biscuit", "fes_domino"].every(id => { const it = hwList("conn").find(x => x.id === id); return it && it.n[l]; }));
+      return o;
+    });
+    await jp.close(); await jctx.close();
+    ok("îmbinare: articolul `conn` al corpului hotărăște tipul în ops", jn.kinds.gen_confirmat[0] === "confirmat" && jn.kinds.gen_dowel[0] === "dowel" && jn.kinds.gen_biscuit[0] === "biscuit" && jn.kinds.fes_domino[0] === "domino" && jn.kinds.haf_minifix[0] === "minifix", JSON.stringify(jn.kinds));
+    ok("îmbinare: canale numai la lamelă și Domino", jn.kinds.fes_domino[1] > 0 && jn.kinds.gen_biscuit[1] > 0 && jn.kinds.haf_minifix[1] === 0 && jn.kinds.gen_confirmat[1] === 0);
+    ok("îmbinare: fără alegere pe corp, valoarea implicită din setări", jn.def === "confirmat", jn.def);
+    ok("îmbinare: articolele noi au nume în toate limbile", jn.names === true);
+    ok("nessun errore JS", jerr.length === 0, jerr.join(" | ").slice(0, 200));
+
+  }
+  {
     head("Foaia A3 de fabricație — textele urmează limba din meniu");
     const sctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const sp = await sctx.newPage();

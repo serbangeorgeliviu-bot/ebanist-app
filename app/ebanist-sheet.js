@@ -107,7 +107,7 @@
   function groupOps(ops, opName) {
     var by = {}, order = [];
     ops.forEach(function (o) {
-      var key = [o.type, o.type === "drill" ? o.dia : o.type === "groove" ? o.width : o.w + "x" + o.d,
+      var key = [o.type, o.type === "drill" ? o.dia : o.type === "groove" ? o.width : o.type === "slot" ? o.len + "x" + o.thk : o.w + "x" + o.d,
         o.depth, o.through ? 1 : 0, o.note, o.face < 5 ? "e" + o.face : "f"].join("|");
       if (!by[key]) { by[key] = { key: key, o: o, ops: [], name: opName(o) }; order.push(by[key]); }
       by[key].ops.push(o);
@@ -135,8 +135,8 @@
     var tr = o.tr, face = o.face || 5, meta = o.meta || {};
     var L = pc.length, W = pc.width;
     var ops = pc.operations || [];
-    var faceOps = ops.filter(function (x) { return x.type !== "drill" || x.face === 5 || x.face === 6; });
-    var edgeOps = ops.filter(function (x) { return x.type === "drill" && x.face < 5; });
+    var faceOps = ops.filter(function (x) { return x.face >= 5; });
+    var edgeOps = ops.filter(function (x) { return (x.type === "drill" || x.type === "slot") && x.face < 5; });
     var has6 = ops.some(function (x) { return x.face === 6; });
     var views = has6 ? [5, 6] : [face === 6 ? 6 : 5];
     var groups = groupOps(ops, o.opName);
@@ -199,6 +199,13 @@
         svg += ln(PX(x.x) - 2, PY(x.y), PX(x.x) + 2, PY(x.y), 0.15) + ln(PX(x.x), PY(x.y) - 2, PX(x.x), PY(x.y) + 2, 0.15);
         svg += tx(PX(x.x) + 2.4, PY(x.y) - 1.4, tagOf[x.id] || "", 2.8, { bold: true });
       });
+      /* canale (lamele, domino) pe față */
+      faceOps.filter(function (x) { return x.type === "slot" && x.face === vf; }).forEach(function (x) {
+        var sw = x.ori === "X" ? x.len : x.thk, sh = x.ori === "X" ? x.thk : x.len;
+        svg += '<rect x="' + r1(PX(x.x) - sw * s / 2) + '" y="' + r1(PY(x.y) - sh * s / 2) + '" width="' + r1(Math.max(sw * s, 0.5)) + '" height="' + r1(Math.max(sh * s, 0.5)) +
+          '" fill="#cdb48a" stroke="' + INK + '" stroke-width="0.3"/>';
+        svg += tx(PX(x.x) + sw * s / 2 + 0.8, PY(x.y) - sh * s / 2, tagOf[x.id] || "", 2.6, { bold: true });
+      });
       /* găuri */
       var tagged = onFace.filter(function (x) { return x.type === "drill"; }).length <= 60;
       onFace.filter(function (x) { return x.type === "drill"; }).forEach(function (x) {
@@ -211,7 +218,7 @@
       });
       /* găuri în cant: o crestătură la muchie */
       edgeOps.forEach(function (x) {
-        var d = Math.max(x.depth * s, 0.8), w = Math.max(x.dia * s, 0.9), rx, ry, rw, rh;
+        var d = Math.max(x.depth * s, 0.8), w = Math.max((x.type === "slot" ? x.len : x.dia) * s, 0.9), rx, ry, rw, rh;
         if (x.face === 1) { rx = PX(x.u) - w / 2; ry = PY(0) - d; rw = w; rh = d; }
         else if (x.face === 3) { rx = PX(x.u) - w / 2; ry = PY(W); rw = w; rh = d; }
         else { var atX0 = (x.face === 4) === (vf === 5); rx = atX0 ? ox : ox + L * s - d; ry = PY(x.u) - w / 2; rw = d; rh = w; }
@@ -291,7 +298,7 @@
     var maxRows = Math.floor((TB_Y - 40 - ty) / rowH), shown = 0;
     groups.forEach(function (g) {
       if (shown >= maxRows) return; shown++;
-      var x = g.o, dia = x.type === "drill" ? "Ø" + f(x.dia) : x.type === "groove" ? f(x.width) : f(x.w) + "×" + f(x.d);
+      var x = g.o, dia = x.type === "drill" ? "Ø" + f(x.dia) : x.type === "groove" ? f(x.width) : x.type === "slot" ? f(x.len) + "×" + f(x.thk) : f(x.w) + "×" + f(x.d);
       svg += '<rect x="' + COL_X + '" y="' + ty + '" width="' + (PW - M - 3 - COL_X) + '" height="' + rowH + '" fill="none" stroke="' + INK + '" stroke-width="0.15"/>';
       svg += tx(COL_X + 1, ty + 3.7, g.tag, 3, { bold: true });
       var nm = g.name; if (nm.length > 20) nm = nm.slice(0, 19) + "…";
@@ -326,7 +333,7 @@
       var shownE = 0;
       edgeOps.forEach(function (x) {
         if (ty > TB_Y - 18 || shownE > 9) return; shownE++;
-        svg += tx(COL_X + 1, ty + 3, (tagOf[x.id] || "") + "  " + tr("shEdgeN").replace("{n}", x.face) + "  u " + f(x.u) + "  z " + f(x.z) + "  Ø" + f(x.dia) + "×" + f(x.depth), 2.6);
+        svg += tx(COL_X + 1, ty + 3, (tagOf[x.id] || "") + "  " + tr("shEdgeN").replace("{n}", x.face) + "  u " + f(x.u) + "  z " + f(x.z) + "  " + (x.type === "slot" ? f(x.len) + "×" + f(x.thk) : "Ø" + f(x.dia)) + "×" + f(x.depth), 2.6);
         ty += 4.2;
       });
     }

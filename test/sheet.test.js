@@ -27,3 +27,13 @@ test("foaia: SVG A3, cote și etichete din piesă, texte prin tr()", () => {
   assert.ok(!svg.includes("<b>"), "textul utilizatorului e scăpat");
   assert.ok(svg.includes(">800<") && svg.includes(">400<") && svg.includes(">37<") && svg.includes(">32<"));
 });
+
+test("foaia: canale pe față și în cant apar în tabel și în desen", () => {
+  const pc = { length: 800, width: 400, thickness: 19, outline: [{ x0: 0, x1: 800, y0: 0, y1: 400 }],
+    operations: [{ id: "op_001", type: "slot", face: 5, x: 100, y: 9.5, len: 21, thk: 8, depth: 15, ori: "X", note: "canal domino" },
+                 { id: "op_002", type: "slot", face: 4, u: 200, z: 9.5, x: 0, y: 200, len: 21, thk: 8, depth: 25, note: "canal domino" }] };
+  const svg = S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => o.note, meta: {} });
+  assert.ok(svg.includes(">21×8<"), "dimensiunea canalului în tabel");
+  assert.ok(svg.includes("#cdb48a"), "canalul de pe față e desenat");
+  assert.equal(S.groupOps(pc.operations, o => o.note).length, 2, "față și cant = două grupuri");
+});

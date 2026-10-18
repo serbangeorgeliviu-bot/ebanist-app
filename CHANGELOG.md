@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.60.0 — 18 octombrie 2026
+
+**Tipuri de îmbinare (D-84).** Pe fiecare corp, la „Tip îmbinare" (articolul `conn`), se alege cum se prind baza, tavanul și rafturile fixe de laterale; motorul de operații generează găurirea potrivită:
+- **Minifix** (ca până acum), **Confirmat** (Ø7 prin fața laterală, pilot Ø5×50 în cantul piesei), **Tasel** 8×35 cu clei, **Lamelă** Lamello #20, **Festool Domino** 8×40.
+- Operație nouă `slot` (canal dreptunghiular, pe față sau în cant): apare în fișa piesei, în tabel, în CSV și pe foaia A3; lamelă și Domino sunt centrate pe grosime, fără să treacă prin piesă.
+- Fișa de montaj descrie pasul îmbinării alese.
+- Cotele sunt de catalog, `verificat:false`.
+- 10 chei noi în toate cele 7 limbi.
+
 ## 4.59.0 — 18 octombrie 2026
 
 **Foaia A3 de fabricație (D-83, pasul 1).** Din fișa piesei, butonul „Foaie de fabricație A3" tipărește o foaie landscape cu cartuș (firmă, proiect, client, piesă, material, grosime, cantitate, cant, scară, dată, versiune):
