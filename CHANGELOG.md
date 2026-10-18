@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.68.1 — 18 octombrie 2026
+
+**Mânerele și balamalele nu mai dispar din 3D când schimbi materialul.** Când schimbai decorul frontului sau al corpului, piesele își schimbau materialul, dar feroneria (mânere, balamale, culisante) nu se mai reconstruia: rămâneai cu uși și sertare fără mânere până la altă modificare care schimba geometria. Semnătura modelului din viewer include acum și materialul fiecărei piese, deci orice schimbare de decor refă și feroneria.
+
 ## 4.68.0 — 18 octombrie 2026
 
 **Feroneria aleasă se schimbă acum live în 3D.** Până acum, când alegeai alt tip de feronerie la „Feroneria aleasă pe corp” nu se întâmpla nimic: formularul își reafișa lista fără să redeseneze, iar modelul 3D nu își recalcula nici găurile, pentru că semnătura lui nu includea alegerea. Acum fiecare schimbare redesenează imediat și refă găurile și feroneria.

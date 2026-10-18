@@ -2159,6 +2159,28 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   }
   {
+    head("3D — feroneria rămâne când schimbi materialul (4.68.1)");
+    const fctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const fp = await fctx.newPage();
+    const ferr = []; fp.on("pageerror", e => ferr.push(String(e)));
+    await fp.goto(URL); await fp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await fp.waitForTimeout(3300);
+    const fo = await fp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "F1" }); setView("build"); await w(900);
+      const cfg = { ...buildCfg }, n0 = GL3D.hwCount(), ids = (matById ? ["bordeaux_19", "blue_avio_23196mn_19"] : []);
+      const after = [];
+      for (const id of ids) { GL3D.render({ ...cfg, matFront: id }, { explode: 0 }); await w(200); after.push(GL3D.hwCount()); }
+      return { n0, after };
+    });
+    await fp.close(); await fctx.close();
+    ok("3D: există feronerie în scenă", fo.n0 > 0, JSON.stringify(fo));
+    ok("3D: după schimbarea materialului feroneria e aceeași", fo.after.every(n => n === fo.n0), JSON.stringify(fo));
+    ok("nessun errore JS", ferr.length === 0, ferr.join(" | ").slice(0, 200));
+
+  }
+  {
     head("Telefon — constructorul nu depășește ecranul (butoanele de documente trec pe rânduri)");
     const mctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
     const mp = await mctx.newPage();
