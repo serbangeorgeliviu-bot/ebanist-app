@@ -44,14 +44,48 @@ var HW_DRILL = {
              cam_dist: 34, bolt_dia: 5, bolt_depth: 11,
              shank_dia: 8, end_dist: 50, mid_over: 700 },
   dowel: { dia: 8, len: 35, face_depth: 12, offset: 32 },
+  /* Alte tipuri de imbinare (alese prin articolul `conn` al corpului). Date de
+     catalog generice, verificat:false: se confirma pe o piesa inainte sa mearga
+     in masina. end = distanta primei fixari de capete, pitch = pasul maxim. */
+  joints: {
+    confirmat: { through_dia: 7, pilot_dia: 5, pilot_depth: 50, end: 50, mid_over: 700 },
+    dowel:     { dia: 8, len: 35, face_depth: 12, end: 50, pitch: 128 },
+    biscuit:   { len: 56, thk: 4, depth: 12.5, depth_face: 12.5, end: 60, pitch: 200 }, // Lamello #20 (23 mm de lamela)
+    domino:    { len: 22, thk: 8, depth: 25, depth_face: 15, end: 50, pitch: 128 },  // Festool DF500 8x40 (tenon 8×22×40): 25 + 15 = 40; adancimile NU sunt din fisa
+    /* Lamello Clamex P-14, fisa Lamello Clamex P-14/10 Flexus (02/22): freza P-System
+       Ø100.4×7×22, canal de 14 mm adancime, 9.8 mm inalt, ~69.6 mm lung (coarda); conector
+       64×13.5×9.7; de la capat min. 37 mm, pas max. 300 mm; panou min. 18 mm. */
+    clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22" }
+  },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
-  slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0 },
+  slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
+    /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
+       din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
+       `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
+    series: {
+      blum_movento: { src: "Blum MOVENTO 760H, Attachment of runners (BLUMOTION S / TIP-ON), brosura tehnica",
+        front: [18, 37, 69],
+        nl: [[250, 270, [197]], [300, 350, [261]], [380, 600, [243, 261, 293]]] },
+      blum_tandem: { src: "Blum TANDEM plus BLUMOTION 563H, Panel application (instalare, 2013): NL in inci → mm",
+        front: [37],
+        nlExact: { 229: [133, 229], 305: [165, 261], 381: [165, 357], 457: [261, 453], 533: [261, 517] } }
+    } },
   handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 },
   /* canalul profilului anti-curbare (U.6, D-76): pe fata dinapoi a usii, pe toata
      inaltimea, paralel cu marginea libera. Date de profil generic, de verificat
      pe un profil real inainte sa mearga in masina. */
   antiwarp: { groove_w: 10, groove_d: 9, from_free_edge: 45, end_margin: 30 }
 };
+
+/* tipul de imbinare al corpului: din articolul `conn` ales pe corp (cfg.hwSel.conn),
+   altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
+var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
+                    gen_dowel: "dowel", gen_biscuit: "biscuit", fes_domino: "domino", lam_clamex: "clamex" };
+function jointKind(input) {
+  var cfg = (input && input.cfg) || {}, id = cfg.hwSel && cfg.hwSel.conn;
+  if (!id && typeof root.jointDefaultId === "function") id = root.jointDefaultId();
+  return JOINT_OF_ID[id] || "minifix";
+}
 
 var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo"];
@@ -103,7 +137,7 @@ function physicalPieces(boxes) {
       if (ta !== longest) t = ta;
     }
     p.tAx = t; p.T = p.ext[t];
-    p.holes = []; p.grooves = []; p.mills = [];
+    p.holes = []; p.grooves = []; p.mills = []; p.slots = [];
     return p;
   });
 }
@@ -181,6 +215,37 @@ function jointPositions(a, b) {
   out.push(b - M.end_dist); if (span > M.mid_over) out.push((a + b) / 2); out.push(a + M.end_dist);
   return out;
 }
+/* Pozitii echidistante, cu pasul maxim `pitch`: de la `end` de capete, cel putin doua
+   (una la mijloc daca nu incap doua). */
+function evenPositions(a, b, end, pitch, minSpan) {
+  var span = b - a;
+  if (span < 2 * end + (minSpan || 30)) return [(a + b) / 2];
+  var n = Math.max(2, Math.ceil((span - 2 * end) / pitch) + 1), out = [];
+  for (var i = 0; i < n; i++) out.push(a + end + (span - 2 * end) * i / (n - 1));
+  return out;
+}
+/* pozitiile de fixare ale ghidajului, de la fata dulapului: seria din fisele
+   producatorului dupa NL; cea mai apropiata NL din tabel daca nu e una exacta */
+function slidePositions(cfg, nl) {
+  var S = HW_DRILL.slide, id = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null, ser = id && S.series[id];
+  if (!ser) return { list: S.positions, src: null, approx: false };
+  if (ser.nl) {
+    var row = null;
+    ser.nl.forEach(function (r) { if (nl >= r[0] - 0.5 && nl <= r[1] + 0.5) row = r; });
+    var approx = !row;
+    if (!row) row = nl < ser.nl[0][0] ? ser.nl[0] : ser.nl[ser.nl.length - 1];
+    return { list: ser.front.concat(row[2]).sort(function (a, b) { return a - b; }), src: ser.src, approx: approx };
+  }
+  var best = null, bd = 1e9;
+  Object.keys(ser.nlExact).forEach(function (k) { var d = Math.abs(+k - nl); if (d < bd) { bd = d; best = +k; } });
+  return { list: ser.front.concat(ser.nlExact[best]), src: ser.src, approx: bd > 12 };
+}
+
+/* canal drept in fata unei piese: centrul `at`, axa lunga `la`, lungime, grosime, adancime */
+function slot(p, ax, side, at, la, len, thk, depth, hw, note) {
+  if (!p) return;
+  p.slots.push({ ax: ax, side: side, w: at.slice(), la: la, len: len, thk: thk, depth: depth, hw: hw || null, note: note || "" });
+}
 
 /* Una giunzione di testa: il pezzo `E` (che arriva col suo bordo) contro la
    faccia del pezzo `F`. Minifix + tassello a ogni posizione.
@@ -189,6 +254,8 @@ function jointPositions(a, b) {
    sAx = l'asse lungo cui si distribuiscono le posizioni.
    camAx/camSide = la faccia di E dove sta la tazza dell'eccentrico. */
 function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
+  var kind = out.joint || "minifix";
+  if (kind !== "minifix") return jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out);
   var M = HW_DRILL.minifix, D = HW_DRILL.dowel;
   var edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
   var mid = (E.min[camAx] + E.max[camAx]) / 2;          // meta grossezza di E
@@ -220,11 +287,44 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
   });
 }
 
+
+/* confirmat / tasel / lamelle / domino: aceeasi geometrie de capat (E vine cu
+   muchia pe fata lui F), alt fel de legatura. Pozitia pe grosimea lui E: la mijloc. */
+function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
+  var J = HW_DRILL.joints[kind], edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
+  var mid = (E.min[camAx] + E.max[camAx]) / 2;
+  var pos = kind === "confirmat" ? jointPositions2(lo, hi, J.end, J.mid_over) : evenPositions(lo, hi, J.end, J.pitch, kind === "dowel" ? 30 : J.len);
+  pos.forEach(function (s) {
+    var id = "hw_" + out.hw.length, p = [0, 0, 0]; p[eAx] = edge; p[camAx] = mid; p[sAx] = s;
+    if (kind === "confirmat") {
+      /* surubul trece prin fata exterioara a lui F si intra in muchia lui E */
+      hole(F, eAx, eSide, p.slice(), J.through_dia, 0, id, "confirmat", true);
+      hole(E, eAx, eSide, p.slice(), J.pilot_dia, J.pilot_depth, id, "pilot confirmat");
+      out.hw.push({ id: id, type: "confirmat", catalog: "gen_confirmat", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Confirmat 7×50" });
+    } else if (kind === "dowel") {
+      hole(F, eAx, -eSide, p.slice(), J.dia, J.face_depth, id, "tassello");
+      hole(E, eAx, eSide, p.slice(), J.dia, J.len - J.face_depth, id, "tassello");
+      out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
+    } else {
+      var nm = kind === "biscuit" ? "lamella" : kind === "clamex" ? "clamex" : "domino";
+      slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, J.depth_face, id, "canal " + nm);
+      slot(E, eAx, eSide, p.slice(), sAx, J.len, J.thk, J.depth, id, "canal " + nm);
+      out.hw.push({ id: id, type: kind, catalog: kind === "biscuit" ? "gen_biscuit" : kind === "clamex" ? "lam_clamex" : "fes_domino", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide,
+                    note: kind === "biscuit" ? "Lamello #20" : kind === "clamex" ? "Lamello Clamex P-14" : "Festool Domino 8×40" });
+    }
+  });
+}
+function jointPositions2(a, b, end, over) {
+  var span = b - a;
+  if (span < 2 * end + 30) return [(a + b) / 2];
+  var o = [b - end]; if (span > over) o.push((a + b) / 2); o.push(a + end); return o;
+}
+
 /* ------------------------------------------------------------------------ */
 function generate(input) {
   var boxes = (input && input.boxes) || [], cfg = (input && input.cfg) || {}, G = input && input.G;
   var out = { schema_version: "1.0", units: "mm", verificat: HW_DRILL.verificat,
-              pieces: [], hw: [], warnings: [] };
+              pieces: [], hw: [], warnings: [], joint: jointKind(input) };
   var pcs = physicalPieces(boxes);
   if (!pcs.length) return out;
   var byRole = function (r) { return pcs.filter(function (p) { return p.role === r; }); };
@@ -377,16 +477,17 @@ function generate(input) {
     var x0 = 1e9, x1 = -1e9, y0 = 1e9, z0 = 1e9, z1 = -1e9;
     body.forEach(function (b) { x0 = Math.min(x0, b.x0); x1 = Math.max(x1, b.x1); y0 = Math.min(y0, b.y0); z0 = Math.min(z0, b.z0); z1 = Math.max(z1, b.z1); });
     var y = y0 + H.slide.lift, nl = z1 - z0;
+    var spos = slidePositions(cfg, nl);
     [-1, 1].forEach(function (side) {
       var P = panelBeside(pcs, side < 0 ? x0 : x1, side, y + 10, (z0 + z1) / 2, 60);
       if (!P) return;
       var fx = side < 0 ? P.max[0] : P.min[0], id = "hw_" + out.hw.length;
-      H.slide.positions.forEach(function (d) {
+      spos.list.forEach(function (d) {
         if (d > nl - 10) return;
         hole(P, 0, side < 0 ? 1 : -1, [fx, y, P.max[2] - d], H.slide.dia, H.slide.depth, id, "guida cassetto");
       });
       out.hw.push({ id: id, type: "guida", catalog: "blum_tandem", piece: P.pk, w: [fx, y, z1], len: nl,
-                    side: side, note: "Guida cassetto NL " + Math.round(nl) });
+                    side: side, note: "Guida cassetto NL " + Math.round(nl), slideSrc: spos.src, slideApprox: spos.approx });
     });
   });
 
@@ -507,11 +608,23 @@ function localize(p) {
     o._w = h.w; o._ax = h.ax; o._side = h.side;
     push(o);
   });
+  (p.slots || []).forEach(function (h) {
+    var o = { type: "slot", len: R1(h.len), thk: R1(h.thk), depth: R1(h.depth), hw: h.hw, note: h.note };
+    if (h.ax === t) {
+      o.face = h.side === s5 ? 5 : 6; o.x = R1(X(h.w)); o.y = R1(Y(h.w)); o.ori = h.la === aL ? "X" : "Y";
+    } else {
+      var atMax = h.side > 0;
+      if (h.ax === aL) { o.face = atMax ? 2 : 4; o.u = R1(Y(h.w)); }
+      else { var yMax = flipY ? !atMax : atMax; o.face = yMax ? 3 : 1; o.u = R1(X(h.w)); }
+      o.z = R1(Z6(h.w)); o.x = R1(X(h.w)); o.y = R1(Y(h.w));
+    }
+    push(o);
+  });
   /* i fori da due facce opposte nello stesso punto si toccano: su un
      tramezzo i reggipiani delle due sezioni diventano UN foro passante. */
   for (var i = 0; i < ops.length; i++) for (var j = i + 1; j < ops.length; j++) {
     var a = ops[i], b = ops[j];
-    if (!a || !b || a.face > 6 || a.x == null) continue;
+    if (!a || !b || a.face > 6 || a.x == null || a.type !== "drill" || b.type !== "drill") continue;
     if ((a.face === 5 && b.face === 6 || a.face === 6 && b.face === 5) && a.dia === b.dia &&
         Math.abs(a.x - b.x) < 0.05 && Math.abs(a.y - b.y) < 0.05 && a.depth + b.depth >= T - 2) {
       a.through = true; a.face = 5; a.depth = R1(T); a.note = a.note + " (passante, due lati)"; ops[j] = null;
@@ -632,7 +745,7 @@ function dimensionSpec(pieces, opts) {
            P: Math.round((hi[2] - lo[2]) * 10) / 10, gaps: gaps };
 }
 
-var API = { HW_DRILL: HW_DRILL, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
+var API = { HW_DRILL: HW_DRILL, slidePositions: slidePositions, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 

@@ -5,6 +5,30 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.61.0 — 18 octombrie 2026
+
+**Cote din fișele producătorilor (D-84).**
+- **Ghidaje Blum:** pozițiile de fixare pe lateral urmează lungimea nominală NL, din fișele Blum: MOVENTO 760H (față 18/37/69 mm, spate 197 / 261 / 243-261-293 după NL) și TANDEM plus 563H (37 + 133…517 după NL, pe grila de 32). Seria vine din ghidajul corpului; fără serie sau fără NL în tabel rămân pozițiile de dinainte, iar NL în afara tabelului e marcat ca aproximativ.
+- **Lamello Clamex P-14** ca tip de îmbinare, din fișa Lamello (frezare P-System Ø100,4×7, canal 14 mm adânc, 9,8 mm înalt, ~69,6 mm lung, min. 37 mm de la capăt, pas max. 300 mm).
+- Domino: lungimea canalului 22 mm (tenon 8×22×40).
+
+## 4.60.0 — 18 octombrie 2026
+
+**Tipuri de îmbinare (D-84).** Pe fiecare corp, la „Tip îmbinare" (articolul `conn`), se alege cum se prind baza, tavanul și rafturile fixe de laterale; motorul de operații generează găurirea potrivită:
+- **Minifix** (ca până acum), **Confirmat** (Ø7 prin fața laterală, pilot Ø5×50 în cantul piesei), **Tasel** 8×35 cu clei, **Lamelă** Lamello #20, **Festool Domino** 8×40.
+- Operație nouă `slot` (canal dreptunghiular, pe față sau în cant): apare în fișa piesei, în tabel, în CSV și pe foaia A3; lamelă și Domino sunt centrate pe grosime, fără să treacă prin piesă.
+- Fișa de montaj descrie pasul îmbinării alese.
+- Cotele sunt de catalog, `verificat:false`.
+- 10 chei noi în toate cele 7 limbi.
+
+## 4.59.0 — 18 octombrie 2026
+
+**Foaia A3 de fabricație (D-83, pasul 1).** Din fișa piesei, butonul „Foaie de fabricație A3" tipărește o foaie landscape cu cartuș (firmă, proiect, client, piesă, material, grosime, cantitate, cant, scară, dată, versiune):
+- cotare în lanț de la muchie la axa găurii, cu pașii egali strânși în „n×pas" (sistemul de 32);
+- fiecare gaură, canal și decupaj poartă o literă legată de tabelul de prelucrări (Ø, adâncime, față, cantitate) și de lista pozițiilor;
+- detalii la scară mare pe grupurile de găuri, cotate de la muchia piesei;
+- toate textele în limba din meniu (22 chei noi, în toate cele 7 limbi); trece prin `printOut()` ca orice document.
+
 ## 4.58.1 — 18 octombrie 2026
 
 **„Camera în 3D" arată ca vizorul corpului.** Până acum camera era desenată în SVG, plat: pereți translucizi, fără lumină și fără umbre. Acum folosește același vizor WebGL ca la corp:

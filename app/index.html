@@ -2347,6 +2347,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-survey.js"></script>
+<script src="./ebanist-sheet.js"></script>
 <script src="./ebanist-au-i18n.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
@@ -3092,6 +3093,24 @@ Object.assign(I18N.fr,{vtCoh:"Cohérence"});
 Object.assign(I18N.de,{vtCoh:"Konsistenz"});
 Object.assign(I18N.pl,{vtCoh:"Spójność"});
 Object.assign(I18N.es,{vtCoh:"Coherencia"});
+
+/* foaia A3 de fabricație (ebanist-sheet.js) */
+Object.assign(I18N.it,{"shPos":"Posizioni","shDetail":"Dettaglio","shTitle": "Scheda di fabbricazione", "shCompany": "Ditta", "shProject": "Progetto", "shClient": "Cliente", "shPiece": "Pezzo", "shMat": "Materiale", "shThk": "Spessore", "shQty": "Q.tà", "shEdge": "Bordo", "shScale": "Scala", "shDate": "Data", "shSheet": "Foglio", "shGen": "Generato con", "shTable": "Lavorazioni", "shRef": "Rif.", "shDia": "Ø / misura", "shEdgeHoles": "Fori sul bordo", "shEdgeN": "Bordo {n}", "shNote1": "Quote in mm, dal bordo all'asse del foro. Origine 0,0 in rosso.", "shBtn": "Foglio di fabbricazione A3"});
+Object.assign(I18N.en,{"shPos":"Positions","shDetail":"Detail","shTitle": "Fabrication sheet", "shCompany": "Company", "shProject": "Project", "shClient": "Client", "shPiece": "Part", "shMat": "Material", "shThk": "Thickness", "shQty": "Qty", "shEdge": "Edge band", "shScale": "Scale", "shDate": "Date", "shSheet": "Sheet", "shGen": "Generated with", "shTable": "Machining", "shRef": "Ref.", "shDia": "Ø / size", "shEdgeHoles": "Edge holes", "shEdgeN": "Edge {n}", "shNote1": "Dimensions in mm, from the edge to the hole axis. Origin 0,0 in red.", "shBtn": "A3 fabrication sheet"});
+Object.assign(I18N.fr,{"shPos":"Positions","shDetail":"Détail","shTitle": "Fiche de fabrication", "shCompany": "Société", "shProject": "Projet", "shClient": "Client", "shPiece": "Pièce", "shMat": "Matériau", "shThk": "Épaisseur", "shQty": "Qté", "shEdge": "Chant", "shScale": "Échelle", "shDate": "Date", "shSheet": "Feuille", "shGen": "Généré avec", "shTable": "Usinages", "shRef": "Réf.", "shDia": "Ø / taille", "shEdgeHoles": "Perçages en chant", "shEdgeN": "Chant {n}", "shNote1": "Cotes en mm, du bord à l'axe du perçage. Origine 0,0 en rouge.", "shBtn": "Fiche de fabrication A3"});
+Object.assign(I18N.de,{"shPos":"Positionen","shDetail":"Detail","shTitle": "Fertigungsblatt", "shCompany": "Firma", "shProject": "Projekt", "shClient": "Kunde", "shPiece": "Teil", "shMat": "Material", "shThk": "Dicke", "shQty": "Menge", "shEdge": "Kante", "shScale": "Maßstab", "shDate": "Datum", "shSheet": "Blatt", "shGen": "Erstellt mit", "shTable": "Bearbeitungen", "shRef": "Pos.", "shDia": "Ø / Maß", "shEdgeHoles": "Kantenbohrungen", "shEdgeN": "Kante {n}", "shNote1": "Maße in mm, von der Kante bis zur Bohrachse. Ursprung 0,0 in Rot.", "shBtn": "Fertigungsblatt A3"});
+Object.assign(I18N.pl,{"shPos":"Pozycje","shDetail":"Szczegół","shTitle": "Karta wykonania", "shCompany": "Firma", "shProject": "Projekt", "shClient": "Klient", "shPiece": "Element", "shMat": "Materiał", "shThk": "Grubość", "shQty": "Ilość", "shEdge": "Okleina", "shScale": "Skala", "shDate": "Data", "shSheet": "Arkusz", "shGen": "Wygenerowano w", "shTable": "Obróbki", "shRef": "Poz.", "shDia": "Ø / wymiar", "shEdgeHoles": "Otwory w krawędzi", "shEdgeN": "Krawędź {n}", "shNote1": "Wymiary w mm, od krawędzi do osi otworu. Początek 0,0 na czerwono.", "shBtn": "Karta wykonania A3"});
+Object.assign(I18N.es,{"shPos":"Posiciones","shDetail":"Detalle","shTitle": "Hoja de fabricación", "shCompany": "Empresa", "shProject": "Proyecto", "shClient": "Cliente", "shPiece": "Pieza", "shMat": "Material", "shThk": "Espesor", "shQty": "Cant.", "shEdge": "Canto", "shScale": "Escala", "shDate": "Fecha", "shSheet": "Hoja", "shGen": "Generado con", "shTable": "Mecanizados", "shRef": "Ref.", "shDia": "Ø / medida", "shEdgeHoles": "Taladros en canto", "shEdgeN": "Canto {n}", "shNote1": "Cotas en mm, desde el borde hasta el eje del taladro. Origen 0,0 en rojo.", "shBtn": "Hoja de fabricación A3"});
+
+/* tipuri de imbinare (D-84) */
+Object.assign(I18N.it,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Cava Clamex P-14","fJoint": "Tipo di giunzione", "hw_confirmat": "Viti Confirmat", "hw_biscuit": "Lamelle (biscotti)", "hw_domino": "Festool Domino", "op_confirmat": "Foro passante confirmat", "op_pilot": "Foro pilota confirmat", "op_slotBisc": "Cava lamella", "op_slotDom": "Cava Domino", "ms3j": "Giunzioni {j} ({p}): {n} punti sui bordi di base, cielo e ripiani fissi. Controlla le quote sul primo pezzo prima di forare il resto."});
+Object.assign(I18N.ro,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Canal Clamex P-14","fJoint": "Tip îmbinare", "hw_confirmat": "Șuruburi Confirmat", "hw_biscuit": "Lamele (biscuiți)", "hw_domino": "Festool Domino", "op_confirmat": "Gaură trecătoare confirmat", "op_pilot": "Gaură pilot confirmat", "op_slotBisc": "Canal lamelă", "op_slotDom": "Mortează Domino", "ms3j": "Îmbinări {j} ({p}): {n} puncte pe canturile bazei, tavanului și rafturilor fixe. Verifică cotele pe prima piesă înainte să găurești restul."});
+Object.assign(I18N.en,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex P-14 groove","fJoint": "Joint type", "hw_confirmat": "Confirmat screws", "hw_biscuit": "Biscuits (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat clearance hole", "op_pilot": "Confirmat pilot hole", "op_slotBisc": "Biscuit slot", "op_slotDom": "Domino mortise", "ms3j": "{j} joints ({p}): {n} points on the edges of base, top and fixed shelves. Check the dimensions on the first part before drilling the rest."});
+Object.assign(I18N.fr,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Rainure Clamex P-14","fJoint": "Type d'assemblage", "hw_confirmat": "Vis Confirmat", "hw_biscuit": "Lamelles", "hw_domino": "Festool Domino", "op_confirmat": "Perçage de passage confirmat", "op_pilot": "Avant-trou confirmat", "op_slotBisc": "Rainure de lamelle", "op_slotDom": "Mortaise Domino", "ms3j": "Assemblages {j} ({p}) : {n} points sur les chants du dessous, du dessus et des tablettes fixes. Vérifiez les cotes sur la première pièce avant de percer le reste."});
+Object.assign(I18N.de,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex-P-14-Nut","fJoint": "Verbindungsart", "hw_confirmat": "Confirmat-Schrauben", "hw_biscuit": "Flachdübel (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat-Durchgangsbohrung", "op_pilot": "Confirmat-Vorbohrung", "op_slotBisc": "Flachdübelnut", "op_slotDom": "Domino-Zapfenloch", "ms3j": "{j}-Verbindungen ({p}): {n} Punkte an den Kanten von Boden, Deckel und festen Böden. Maße am ersten Teil prüfen, bevor der Rest gebohrt wird."});
+Object.assign(I18N.pl,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Gniazdo Clamex P-14","fJoint": "Typ połączenia", "hw_confirmat": "Wkręty Confirmat", "hw_biscuit": "Lamele", "hw_domino": "Festool Domino", "op_confirmat": "Otwór przelotowy confirmat", "op_pilot": "Otwór pilotażowy confirmat", "op_slotBisc": "Gniazdo lamela", "op_slotDom": "Gniazdo Domino", "ms3j": "Połączenia {j} ({p}): {n} punktów na krawędziach dna, góry i półek stałych. Sprawdź wymiary na pierwszym elemencie, zanim wywiercisz resztę."});
+Object.assign(I18N.es,{"hw_clamex":"Lamello Clamex P-14","op_slotClx":"Ranura Clamex P-14","fJoint": "Tipo de unión", "hw_confirmat": "Tornillos Confirmat", "hw_biscuit": "Láminas (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Taladro pasante confirmat", "op_pilot": "Taladro piloto confirmat", "op_slotBisc": "Ranura de lámina", "op_slotDom": "Mortaja Domino", "ms3j": "Uniones {j} ({p}): {n} puntos en los cantos de base, techo y estantes fijos. Comprueba las cotas en la primera pieza antes de taladrar el resto."});
+Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
@@ -3241,7 +3260,11 @@ const HWDB={
  conn:[
   {id:"haf_minifix",brand:"Häfele",n:{it:"Minifix 15 (legno ≥16mm) + perno + spina",ro:"Minifix 15 (lemn ≥16mm) + bolț + diblu",en:"Minifix 15 (wood ≥16mm) + bolt + dowel",fr:"Minifix 15 (bois ≥16mm) + boulon + tourillon",de:"Minifix 15 (Holz ≥16 mm) + Bolzen + Dübel",pl:"Minifix 15 (drewno ≥16 mm) + łącznik + kołek",es:"Minifix 15 (madera ≥16 mm) + perno + taco"},art:"262.26.033 + boulon",price:0.48,chk:1},
   {id:"gen_confirmat",brand:"—",n:{it:"Vite Confirmat 7×50",ro:"Confirmat 7×50",en:"Confirmat screw 7×50",fr:"Vis Confirmat 7×50",de:"Confirmat-Schraube 7×50",pl:"Wkręt Confirmat 7×50",es:"Tornillo Confirmat 7×50"},art:"—",price:0.07},
-  {id:"haf_rafix",brand:"Häfele",n:{it:"Rafix 20 + perno + spina 8×35",ro:"Rafix 20 + bolț + diblu 8×35",en:"Rafix 20 + bolt + dowel 8×35",fr:"Rafix 20 + boulon + tourillon 8×35",de:"Rafix 20 + Bolzen + Dübel 8×35",pl:"Rafix 20 + łącznik + kołek 8×35",es:"Rafix 20 + perno + taco 8×35"},art:"263.10.xxx",price:0.55,chk:1}],
+  {id:"haf_rafix",brand:"Häfele",n:{it:"Rafix 20 + perno + spina 8×35",ro:"Rafix 20 + bolț + diblu 8×35",en:"Rafix 20 + bolt + dowel 8×35",fr:"Rafix 20 + boulon + tourillon 8×35",de:"Rafix 20 + Bolzen + Dübel 8×35",pl:"Rafix 20 + łącznik + kołek 8×35",es:"Rafix 20 + perno + taco 8×35"},art:"263.10.xxx",price:0.55,chk:1},
+  {id:"gen_dowel",brand:"—",n:{it:"Tasselli 8×35 + colla",ro:"Dibluri 8×35 + clei",en:"Dowels 8×35 + glue",fr:"Tourillons 8×35 + colle",de:"Dübel 8×35 + Leim",pl:"Kołki 8×35 + klej",es:"Tacos 8×35 + cola"},art:"—",price:0.06,chk:1},
+  {id:"gen_biscuit",brand:"Lamello",n:{it:"Lamelle Lamello #20",ro:"Lamele Lamello #20",en:"Lamello #20 biscuits",fr:"Lamelles Lamello #20",de:"Lamello Flachdübel #20",pl:"Lamele Lamello #20",es:"Láminas Lamello #20"},art:"—",price:0.12,chk:1},
+  {id:"fes_domino",brand:"Festool",n:{it:"Festool Domino 8×40",ro:"Festool Domino 8×40",en:"Festool Domino 8×40",fr:"Festool Domino 8×40",de:"Festool Domino 8×40",pl:"Festool Domino 8×40",es:"Festool Domino 8×40"},art:"—",price:0.45,chk:1},
+  {id:"lam_clamex",brand:"Lamello",n:{it:"Lamello Clamex P-14",ro:"Lamello Clamex P-14",en:"Lamello Clamex P-14",fr:"Lamello Clamex P-14",de:"Lamello Clamex P-14",pl:"Lamello Clamex P-14",es:"Lamello Clamex P-14"},art:"—",price:1.2,chk:1}],
  gola:[
   {id:"gen_gola_l",brand:"—",n:{it:"Profilo gola L in alluminio (al metro)",ro:"Profil gola L din aluminiu (la metru)",en:"Aluminium L handle-less profile (per metre)",fr:"Profilé gorge L en aluminium (au mètre)",de:"Aluminium-Griffleistenprofil L (pro Meter)",pl:"Profil bezuchwytowy L z aluminium (za metr)",es:"Perfil sin tirador L de aluminio (por metro)"},art:"\u2014",price:9.5,chk:1}],
  golac:[
@@ -3306,6 +3329,9 @@ function guidaIdFor(cfg){
   return (sys.metal&&sys.guida)?sys.guida:own?own:(((state.settings||{}).hwProd||{}).guida||((HWDB.guida||[])[0]||{}).id);
 }
 /* U.2 — articolul unei categorii pentru UN corp: alegerea lui (cfg.hwSel) sau cea din catalog */
+/* tipul de imbinare implicit (ebanist-ops.js il citeste cand corpul nu are alegere proprie) */
+window.slideGuidaId=cfg=>guidaIdFor(cfg);
+window.jointDefaultId=()=>{ const it=hwItem("conn"); return it&&it.id; };
 function hwItemFor(cfg,cat){ const id=cfg&&cfg.hwSel&&cfg.hwSel[cat]; return id?hwItemById(cat,id):hwItem(cat); }
 function handleIsProfile(){ try{ const it=hwItem("man"); return !!(it&&it.profile); }catch(e){ return false; } }
 /* ===== CATALOGO MATERIALI ================================================
@@ -7572,8 +7598,9 @@ function init3DControls(){
    ebanist-ops.js — e la scheda del pezzo stampa gli stessi numeri che il
    3D disegna. */
 const HW_CAT={cerniera:"cern",guida:"guida",maniglia:"man",reggipiano:"sup",minifix:"conn"};
-const HW_ORDER=["cerniera","maniglia","guida","reggipiano","minifix","tassello"];
-function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):null;
+const HW_JOINT_ITEM={confirmat:"gen_confirmat",biscuit:"gen_biscuit",domino:"fes_domino",clamex:"lam_clamex",tassello:"gen_dowel"};
+const HW_ORDER=["cerniera","maniglia","guida","reggipiano","minifix","confirmat","biscuit","domino","clamex","tassello"];
+function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):HW_JOINT_ITEM[ty]&&ty!=="tassello"?hwItemById("conn",HW_JOINT_ITEM[ty]):null;
   return {name:t("hw_"+ty),prod:it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):(ty==="tassello"?"Ø8×35":""),art:it&&it.art&&it.art!=="—"?it.art:""}; }
 /* il nome di un pezzo fisico: la riga di distinta a cui corrisponde, con il
    lato quando le righe sono a coppie (i due fianchi sono una riga da 2 pz) */
@@ -7776,6 +7803,20 @@ function partSVG(pc,face){
     const gx=hz?x0:x0-o.width/2, gy=hz?Y(y0)-o.width/2:Y(y1), gw=hz?x1-x0:o.width, gh=hz?o.width:y1-y0;
     s+=`<rect x="${gx}" y="${gy}" width="${gw}" height="${gh}" fill="${o.face===face?"#8a7a60":"none"}" fill-opacity=".35" stroke="#6b5b43" stroke-width="${rmin*0.35}" stroke-dasharray="${o.face===face?"0":rmin*1.6}"/>`;
   });
+  ops.filter(o=>o.type==="slot").forEach(o=>{
+    if(o.face===5||o.face===6){
+      if(o.face!==face) return;
+      const sw=o.ori==="X"?o.len:o.thk, sh=o.ori==="X"?o.thk:o.len;
+      s+=`<rect x="${X(o.x)-sw/2}" y="${Y(o.y)-sh/2}" width="${sw}" height="${sh}" fill="#8a5a2b" fill-opacity=".45" stroke="#8a5a2b" stroke-width="${rmin*.3}"/>`;
+    }else{
+      const d=o.depth, w=Math.max(o.len,rmin*1.4);
+      let x,y,ww,hh;
+      if(o.face===1){ x=X(o.u)-w/2; y=Y(0)-d; ww=w; hh=d; }
+      else if(o.face===3){ x=X(o.u)-w/2; y=Y(W); ww=w; hh=d; }
+      else { const atX0=(o.face===4)===(face===5); x=atX0?0:L-d; y=Y(o.u)-w/2; ww=d; hh=w; }
+      s+=`<rect x="${x}" y="${y}" width="${ww}" height="${hh}" fill="#8a5a2b" fill-opacity=".55" stroke="#8a5a2b" stroke-width="${rmin*.3}"/>`;
+    }
+  });
   const drills=ops.filter(o=>o.type==="drill");
   drills.forEach((o,i)=>{
     const col=DIA_COL[o.dia]||"#555";
@@ -7833,7 +7874,7 @@ function openPartSheet(M,pc,face){
     const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
     const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
     const bad=pf.some(w=>w.level==="error"&&String(w.op||"").split("/").indexOf(o.id)>=0);
-    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
+    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":o.type==="slot"?"#8a5a2b":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):o.type==="slot"?fmtMM(o.len)+"×"+fmtMM(o.thk):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
   const html=`<div class="part-head"><i class="pcs-n big">${m.n||""}</i><div><h3 style="margin:0;padding-right:44px">${esc(partName(M,pc))}</h3>`+
     `<p class="mini">${esc(row.modulo||(M.cfg&&M.cfg.name)||"")}${row.materiale||row.mat?" · "+esc(row.materiale||row.mat):""}</p></div></div>`+
     `<div class="part-kpis"><div><b>${fmtMM(pc.length)}</b><span>L</span></div><div><b>${fmtMM(pc.width)}</b><span>${esc(t("partW"))}</span></div><div><b>${fmtMM(pc.thickness)}</b><span>${esc(t("partT"))}</span></div>`+
@@ -7848,21 +7889,32 @@ function openPartSheet(M,pc,face){
       :`<p class="mini">${esc(t("partNoOps"))}</p>`)+
     `<p class="mini" style="margin-top:10px">${esc(t("partAxes"))}</p>`+
     `<p class="mini warnline">${esc(t("hwVerify"))}</p>`+
-    `<div class="btnrow"><button class="btn sm" data-3d>${esc(t("partIn3D"))}</button><button class="btn sm" data-csv>${esc(t("partCsv"))}</button></div>`;
+    `<div class="btnrow"><button class="btn sm" data-3d>${esc(t("partIn3D"))}</button><button class="btn sm" data-csv>${esc(t("partCsv"))}</button><button class="btn sm" data-a3>${esc(t("shBtn"))}</button></div>`;
   $("partBody").innerHTML=html;
   $("partBody").querySelectorAll("[data-face]").forEach(b=>b.addEventListener("click",()=>{ if(!b.disabled) openPartSheet(M,pc,+b.dataset.face); }));
   $("partBody").querySelector("[data-3d]").addEventListener("click",()=>{ closeSheets();
     if(currentView!=="build") setView("build");
     if(gl3dOn()&&window.GL3D.model()&&window.GL3D.model().meta[String(pc.pk)]) window.GL3D.select(pc.pk,true); });
   $("partBody").querySelector("[data-csv]").addEventListener("click",()=>partCsv(M,pc));
+  $("partBody").querySelector("[data-a3]").addEventListener("click",()=>partA3(M,pc,face));
   if(!$("shPart").classList.contains("on")) openSheet("shPart");
+}
+/* foaia A3 de fabricație: SVG-ul vine din ebanist-sheet.js, textele din limba meniului */
+function partA3(M,pc,face){
+  if(!proGate("part")) return;
+  const m=M.meta[String(pc.pk)]||{}, row=m.row||{}, p=proj();
+  const svg=EBSheet.partSheetSVG(pc,{face,tr:t,opName,sheetNo:1,sheetTot:1,meta:{
+    company:prCoName()||"",project:p?p.name:"",client:p&&p.client||"",name:partName(M,pc),n:m.n,
+    material:row.materiale||row.mat||"",qty:row.pz,edge:row.bordo,date:new Date().toISOString().slice(0,10),ver:APP_VER}});
+  $("printArea").innerHTML=`<style>@page{size:420mm 297mm;margin:0}#printArea .sh-svg{display:block;width:420mm;height:297mm}</style>`+svg;
+  printOut();
 }
 function opName(o){
   if(o.type==="groove") return t("op_groove");
   const k={"tazza cerniera":"op_cup","tassello cerniera":"op_hdowel","basetta cerniera":"op_plate","perno minifix":"op_bolt",
     "gambo minifix":"op_shank","eccentrico minifix":"op_cam","tassello":"op_dowel","reggipiano":"op_pin",
     "reggipiano (regolazione)":"op_pinAdj","guida cassetto":"op_slide","maniglia":"op_handle",
-    "buzunar bulon blat":"op_wtBolt","decupaj chiuvetă":"op_cutSink","decupaj plită":"op_cutHob","decupaj blat":"op_cutOther"}[o.note.replace(/ \(passante, due lati\)$/,"")];
+    "confirmat":"op_confirmat","pilot confirmat":"op_pilot","canal lamella":"op_slotBisc","canal domino":"op_slotDom","canal clamex":"op_slotClx","buzunar bulon blat":"op_wtBolt","decupaj chiuvetă":"op_cutSink","decupaj plită":"op_cutHob","decupaj blat":"op_cutOther"}[o.note.replace(/ \(passante, due lati\)$/,"")];
   return (k?t(k):o.note)+(/passante/.test(o.note)?" · "+t("partThrough"):"");
 }
 /* CSV di foratura del pezzo: formato piatto, la priorita 1 della matrice
@@ -7876,6 +7928,7 @@ function partCsv(M,pc){
     "# "+fmtMM(pc.length)+" x "+fmtMM(pc.width)+" x "+fmtMM(pc.thickness)+" mm; faccia 5 in alto, origine in basso a sinistra; cote HW_DRILL non verificate",
     "id;tipo;faccia;x;y;u;z;diametro;profondita;passante;nota"];
   pc.operations.forEach(o=>{ if(o.type==="groove") L.push([o.id,"cava",o.face,o.from.x,o.from.y,o.to.x,o.to.y,o.width,o.depth,"",o.note].join(";"));
+    else if(o.type==="slot") L.push([o.id,"canal",o.face,o.x,o.y,o.u==null?"":o.u,o.z==null?"":o.z,o.len+"x"+o.thk,o.depth,0,o.note].join(";"));
     else if(o.type==="mill") L.push([o.id,"freza",o.face,o.x,o.y,"","",o.w+"x"+o.d+" R"+o.r,o.depth,o.through?1:0,o.note].join(";"));
     else L.push([o.id,"foro",o.face,o.x,o.y,o.u==null?"":o.u,o.z==null?"":o.z,o.dia,o.depth,o.through?1:0,o.note].join(";")); });
   const blob=new Blob([L.join("\n")],{type:"text/csv"}), a=document.createElement("a");
@@ -8435,7 +8488,7 @@ function renderHwSel(sel){
   const cur=sel||readHwSel()||{};
   box.innerHTML=HW_BODY_CATS.map(cat=>{
     const key=Object.keys(HW_CAT_OF).find(k=>HW_CAT_OF[k]===cat), def=hwItem(cat);
-    return `<div class="f" style="margin-bottom:8px"><label>${esc(t(key))}</label>
+    return `<div class="f" style="margin-bottom:8px"><label>${esc(t(cat==="conn"?"fJoint":key))}</label>
       <select data-cat="${cat}"><option value="">${esc(t("hwSelDef"))}${def?" — "+esc((def.brand&&def.brand!=="—"?def.brand+" ":"")+def.name):""}</option>`+
       hwList(cat).map(x=>`<option value="${x.id}"${cur[cat]===x.id?" selected":""}>${esc((x.brand&&x.brand!=="—"?x.brand+" — ":"")+hwName(x))}</option>`).join("")+`</select></div>`;
   }).join("");
@@ -10131,6 +10184,9 @@ function mSteps(M,hw,items){
   /* 2. premontaggio sui fianchi */
   const cams=by("minifix"), dws=by("tassello");
   const topK=G&&G.top==="none"?"n":G&&G.top==="traverse"?"t":"";
+  const jk=O&&O.joint;
+  if(jk&&jk!=="minifix"){ const jn=O.hw.filter(h=>h.type===(jk==="dowel"?"tassello":jk));
+    if(jn.length) add(t("ms3j").replace("{j}",t(jk==="dowel"?"hw_tassello":"hw_"+jk)).replace("{p}",P("conn","hwConn")).replace("{n}",jn.length),{hi:["lato"],show:[]}); }
   if(cams.length) add(t("ms3"+topK).replace("{n}",cams.length).replace("{p}",P("conn","hwConn")).replace("{d}",dws.length),{hi:["lato"],show:[]});
   const plates=by("cerniera").filter(h=>h.plate);
   if(plates.length) add(t("ms4").replace("{n}",plates.length).replace("{y}",mList(plates.map(h=>h.plate[1]))).replace("{p}",P("cern","hwCern")),{hi:["lato","tram"],show:[]});
@@ -14159,12 +14215,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.58.1"; /* APP_VER-MARKER */
+const APP_VER="4.61.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v119";
+const SW_CACHE="ebanist-v122";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

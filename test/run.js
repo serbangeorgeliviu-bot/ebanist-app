@@ -2127,6 +2127,71 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   }
 
   {
+    head("Tipuri de îmbinare — alese pe corp, în ops, fișă și limbi (D-84)");
+    const jctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const jp = await jctx.newPage();
+    const jerr = []; jp.on("pageerror", e => jerr.push(String(e)));
+    await jp.goto(URL); await jp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await jp.waitForTimeout(3300);
+    const jn = await jp.evaluate(() => {
+      const o = {}; closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "J1" });
+      const cfg = Object.values(p.configs)[0], kinds = {};
+      for (const id of ["haf_minifix", "gen_confirmat", "gen_dowel", "gen_biscuit", "fes_domino", "lam_clamex"]) {
+        cfg.hwSel = { conn: id };
+        const built = buildModule(cfg), G = deriveCarcass(carcassParams(cfg, {}));
+        const ops = generateOperations({ boxes: built.boxes, cfg, G });
+        kinds[id] = [ops.joint, ops.pieces.reduce((n, q) => n + q.operations.filter(x => x.type === "slot").length, 0)];
+      }
+      delete cfg.hwSel; state.settings.hwProd.conn = "gen_confirmat";
+      const b2 = buildModule(cfg); o.def = generateOperations({ boxes: b2.boxes, cfg, G: deriveCarcass(carcassParams(cfg, {})) }).joint;
+      state.settings.hwProd.conn = "haf_minifix";
+      o.kinds = kinds; o.items = hwList("conn").map(x => x.id);
+      o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["gen_dowel", "gen_biscuit", "fes_domino", "lam_clamex"].every(id => { const it = hwList("conn").find(x => x.id === id); return it && it.n[l]; }));
+      return o;
+    });
+    await jp.close(); await jctx.close();
+    ok("îmbinare: articolul `conn` al corpului hotărăște tipul în ops", jn.kinds.gen_confirmat[0] === "confirmat" && jn.kinds.gen_dowel[0] === "dowel" && jn.kinds.gen_biscuit[0] === "biscuit" && jn.kinds.fes_domino[0] === "domino" && jn.kinds.lam_clamex[0] === "clamex" && jn.kinds.haf_minifix[0] === "minifix", JSON.stringify(jn.kinds));
+    ok("îmbinare: canale numai la lamelă și Domino", jn.kinds.fes_domino[1] > 0 && jn.kinds.gen_biscuit[1] > 0 && jn.kinds.haf_minifix[1] === 0 && jn.kinds.gen_confirmat[1] === 0);
+    ok("îmbinare: fără alegere pe corp, valoarea implicită din setări", jn.def === "confirmat", jn.def);
+    ok("îmbinare: articolele noi au nume în toate limbile", jn.names === true);
+    ok("nessun errore JS", jerr.length === 0, jerr.join(" | ").slice(0, 200));
+
+  }
+  {
+    head("Foaia A3 de fabricație — textele urmează limba din meniu");
+    const sctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const sp = await sctx.newPage();
+    const serr = []; sp.on("pageerror", e => serr.push(String(e)));
+    await sp.goto(URL); await sp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await sp.waitForTimeout(3300);
+    const sh = await sp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = { titles: {}, raw: [] }, lang0 = state.lang;
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "S1" });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      setView("build"); await w(400);
+      const M = GL3D.model(), pc = M.ops.pieces.find(q => q.operations.length > 3) || M.ops.pieces[0];
+      for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) {
+        state.lang = l; applyLang();
+        const svg = EBSheet.partSheetSVG(pc, { face: 5, tr: t, opName, sheetNo: 1, sheetTot: 1, meta: { project: "P", name: "N", date: "2026-01-01", ver: APP_VER } });
+        o.titles[l] = (svg.match(/<text[^>]*>([^<]*)<\/text>/g) || []).map(s => s.replace(/<[^>]+>/g, ""));
+        o.titles[l].filter(s => /^(sh[A-Z]\w*|op[A-Z]\w*|part[A-Z]\w*)$/.test(s)).forEach(s => o.raw.push(l + ":" + s));
+      }
+      state.lang = "fr"; applyLang();
+      PRINT_CAPTURE = []; partA3(M, pc, 5); const cap = PRINT_CAPTURE; PRINT_CAPTURE = null;
+      o.cap = cap.length === 1 && /sh-svg/.test(cap[0]) && /@page/.test(cap[0]) && /Fiche de fabrication/.test(cap[0]);
+      state.lang = lang0; applyLang(); closeSheets(); setView("projects");
+      return o;
+    });
+    await sp.close(); await sctx.close();
+    ok("foaia A3: nicio cheie netradusă în nicio limbă", sh.raw.length === 0, sh.raw.slice(0, 5).join(","));
+    ok("foaia A3: titlul diferă pe limbi", new Set(Object.values(sh.titles).map(a => a.join("|"))).size === 7);
+    ok("foaia A3 trece prin printOut, în limba aleasă", sh.cap === true);
+    ok("nessun errore JS", serr.length === 0, serr.join(" | ").slice(0, 200));
+
+  }
+  {
     head("Google Play Billing — pe Android se plătește numai prin Play");
     const gctx = await browser.newContext({ viewport: { width: 412, height: 800 } });
     await gctx.addInitScript(() => {
