@@ -64,7 +64,7 @@ const caseUrl = l => cfg.SITE_URL + caseHome(l);
 /* capturile și etichetele paginii de caz ies din proiectul real (tools/case-capture.cjs).
    O limbă fără ele (încă) folosește imaginile din engleză; textul rămâne în limba paginii. */
 /* blogul: indexul și articolul, aceeași adresă sub fiecare limbă; videoclipul există în limbile din VIDEO_LANGS, restul folosesc engleza */
-const BLOG = "blog/", POST = "blog/whats-new-4-62/";
+const BLOG = "blog/", POST = "blog/whats-new-4-63/";
 const blogHome = l => home(l) + BLOG, postHome = l => home(l) + POST;
 const blogUrl = l => cfg.SITE_URL + blogHome(l), postUrl = l => cfg.SITE_URL + postHome(l);
 const vidLang = l => ((cfg.VIDEO_LANGS || []).includes(l) ? l : cfg.DEFAULT_LANG);

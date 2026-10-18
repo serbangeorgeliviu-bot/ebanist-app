@@ -8,7 +8,7 @@ const rd = f => fs.readFileSync(path.join(ROOT, f), "utf8");
 const dir = l => (l === cfg.DEFAULT_LANG ? "" : l + "/");
 
 test("fiecare limbă are indexul și articolul, cu hreflang către toate", () => {
-  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-62/"]) {
+  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-63/"]) {
     const h = rd(dir(l) + p + "index.html");
     assert.ok(h.includes(`<html lang="${l}">`), l + p);
     for (const x of cfg.LANGS) assert.ok(h.includes(`hreflang="${x}"`), `${l} ${p} → ${x}`);
@@ -17,7 +17,7 @@ test("fiecare limbă are indexul și articolul, cu hreflang către toate", () =>
 });
 test("articolul: JSON-LD valid, video și poster existente, fără chei nerezolvate", () => {
   for (const l of cfg.LANGS) {
-    const h = rd(dir(l) + "blog/whats-new-4-62/index.html");
+    const h = rd(dir(l) + "blog/whats-new-4-63/index.html");
     const j = JSON.parse(h.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
     assert.equal(j["@type"], "BlogPosting");
     assert.equal(j.video["@type"], "VideoObject");
@@ -33,12 +33,12 @@ test("videoclipurile din VIDEO_LANGS există; celelalte limbi folosesc engleza",
     assert.ok(fs.statSync(path.join(ROOT, `site/video/ebanist-whats-new-${l}.mp4`)).size > 100000, l);
     assert.ok(fs.existsSync(path.join(ROOT, `site/video/poster-${l}.webp`)), l);
   }
-  const de = rd("de/blog/whats-new-4-62/index.html");
+  const de = rd("de/blog/whats-new-4-63/index.html");
   assert.ok(de.includes("ebanist-whats-new-en.mp4"));
 });
 test("sitemap: indexul și articolul, în toate limbile", () => {
   const sm = rd("sitemap.xml");
-  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-62/"]) assert.ok(sm.includes(`https://ebanist.com/${dir(l)}${p}`), l + p);
+  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-63/"]) assert.ok(sm.includes(`https://ebanist.com/${dir(l)}${p}`), l + p);
 });
 test("textele articolului nu sunt copii ale englezei în limbile traduse", () => {
   const en = JSON.parse(rd("site-src/i18n/en.json"));

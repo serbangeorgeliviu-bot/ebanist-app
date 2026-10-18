@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.63.0 — 18 octombrie 2026
+
+**Foaia A3 de montaj (D-83, pasul 3).** Butonul „Fișă de montaj A3" tipărește, pentru fiecare corp cu piese generate, o foaie landscape cu cartuș:
+- vederea explodată (aceeași captură WebGL ca la fișa A4) cu baloane de poziție — numerele sunt pozițiile din lista de piese, ca în panoul de piese din 3D; fără WebGL, desenul SVG de rezervă;
+- lista de piese pe poziții (L, lățime, grosime, cant), feroneria cu produse, coduri și cantități (inclusiv îmbinarea aleasă: confirmat, lamelă, Domino, Clamex), uneltele și greutatea estimată;
+- secvența de montaj din fișa A4 (aceiași pași, aceleași cote), cu corpul textului care se micșorează dacă sunt mulți pași;
+- 4 chei noi în toate cele 7 limbi, verificate în e2e.
+
 ## 4.62.0 — 18 octombrie 2026
 
 **Prospecte și secțiuni pe A3 (D-83, pasul 2).** Butonul „Elaborat A3" de lângă desenul tehnic tipărește o foaie landscape cu cartuș:
