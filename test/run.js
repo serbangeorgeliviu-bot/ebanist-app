@@ -2137,7 +2137,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const o = {}; closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
       generateInto(p, { ...PRESETS.armadio, name: "J1" });
       const cfg = Object.values(p.configs)[0], kinds = {};
-      for (const id of ["haf_minifix", "gen_confirmat", "gen_dowel", "gen_biscuit", "fes_domino"]) {
+      for (const id of ["haf_minifix", "gen_confirmat", "gen_dowel", "gen_biscuit", "fes_domino", "lam_clamex"]) {
         cfg.hwSel = { conn: id };
         const built = buildModule(cfg), G = deriveCarcass(carcassParams(cfg, {}));
         const ops = generateOperations({ boxes: built.boxes, cfg, G });
@@ -2147,11 +2147,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const b2 = buildModule(cfg); o.def = generateOperations({ boxes: b2.boxes, cfg, G: deriveCarcass(carcassParams(cfg, {})) }).joint;
       state.settings.hwProd.conn = "haf_minifix";
       o.kinds = kinds; o.items = hwList("conn").map(x => x.id);
-      o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["gen_dowel", "gen_biscuit", "fes_domino"].every(id => { const it = hwList("conn").find(x => x.id === id); return it && it.n[l]; }));
+      o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["gen_dowel", "gen_biscuit", "fes_domino", "lam_clamex"].every(id => { const it = hwList("conn").find(x => x.id === id); return it && it.n[l]; }));
       return o;
     });
     await jp.close(); await jctx.close();
-    ok("îmbinare: articolul `conn` al corpului hotărăște tipul în ops", jn.kinds.gen_confirmat[0] === "confirmat" && jn.kinds.gen_dowel[0] === "dowel" && jn.kinds.gen_biscuit[0] === "biscuit" && jn.kinds.fes_domino[0] === "domino" && jn.kinds.haf_minifix[0] === "minifix", JSON.stringify(jn.kinds));
+    ok("îmbinare: articolul `conn` al corpului hotărăște tipul în ops", jn.kinds.gen_confirmat[0] === "confirmat" && jn.kinds.gen_dowel[0] === "dowel" && jn.kinds.gen_biscuit[0] === "biscuit" && jn.kinds.fes_domino[0] === "domino" && jn.kinds.lam_clamex[0] === "clamex" && jn.kinds.haf_minifix[0] === "minifix", JSON.stringify(jn.kinds));
     ok("îmbinare: canale numai la lamelă și Domino", jn.kinds.fes_domino[1] > 0 && jn.kinds.gen_biscuit[1] > 0 && jn.kinds.haf_minifix[1] === 0 && jn.kinds.gen_confirmat[1] === 0);
     ok("îmbinare: fără alegere pe corp, valoarea implicită din setări", jn.def === "confirmat", jn.def);
     ok("îmbinare: articolele noi au nume în toate limbile", jn.names === true);

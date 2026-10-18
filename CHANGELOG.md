@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.61.0 — 18 octombrie 2026
+
+**Cote din fișele producătorilor (D-84).**
+- **Ghidaje Blum:** pozițiile de fixare pe lateral urmează lungimea nominală NL, din fișele Blum: MOVENTO 760H (față 18/37/69 mm, spate 197 / 261 / 243-261-293 după NL) și TANDEM plus 563H (37 + 133…517 după NL, pe grila de 32). Seria vine din ghidajul corpului; fără serie sau fără NL în tabel rămân pozițiile de dinainte, iar NL în afara tabelului e marcat ca aproximativ.
+- **Lamello Clamex P-14** ca tip de îmbinare, din fișa Lamello (frezare P-System Ø100,4×7, canal 14 mm adânc, 9,8 mm înalt, ~69,6 mm lung, min. 37 mm de la capăt, pas max. 300 mm).
+- Domino: lungimea canalului 22 mm (tenon 8×22×40).
+
 ## 4.60.0 — 18 octombrie 2026
 
 **Tipuri de îmbinare (D-84).** Pe fiecare corp, la „Tip îmbinare" (articolul `conn`), se alege cum se prind baza, tavanul și rafturile fixe de laterale; motorul de operații generează găurirea potrivită:
