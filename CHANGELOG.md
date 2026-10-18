@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.65.0 — 18 octombrie 2026
+
+**3D și modul Client, mai realiste.** Lemnul are acum fibră neregulată, cu pori și variații de lățime, nu dungi egale; fiecare piesă are fibra ei, deci ușile și sertarele vecine nu mai sunt copii una după alta. Muchiile panourilor prind lumina, ca un cant teșit. Uni-ul melaminic are un grăunte fin, în loc de plastic neted. Interiorul corpului are ocluzie ambientală simulată: colțurile unde raftul întâlnește lateralul sau spatele sunt mai întunecate, iar spre fundul corpului lumina scade. Gresia din cameră are plăci cu tonuri ușor diferite și rost închis la culoare.
+
+Pe drum s-a corectat un defect: proiecția fibrei folosea matricea primei piese pentru toate piesele cu același material, deci fibra de pe fețele sertarelor ieșea cu desen de „flacără" în loc de linii drepte. Acum fiecare piesă are propriul material (același program compilat), deci fibra urmează piesa.
+
+Nu schimbă nicio cotă, nicio distinctă și nicio piesă; e doar aspectul în 3D și în randările din Client și din dosarul tehnic.
+
 ## 4.64.1 — 18 octombrie 2026
 
 **Telefon: constructorul nu mai iese din ecran.** Cu cele cinci butoane de documente (desen tehnic, prospecte, montaj, dosar, „în camera ta") rândul de butoane depășea lățimea telefonului și împingea toată pagina în lateral (antetul și marginea stângă tăiate). Rândul trece acum pe mai multe linii; un test e2e pe 412 px lățime verifică.
