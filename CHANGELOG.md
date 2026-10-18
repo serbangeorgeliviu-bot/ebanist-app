@@ -5,6 +5,29 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.57.0 — 18 octombrie 2026
+
+**Audit și îmbunătățiri de interfață.**
+
+- **Coerența pe 3D.** În Studio 3D apare un buton roșu cu numărul problemelor când gabaritul sau un invariant pe rol nu se închide; la atingere, piesele nominalizate devin roșii.
+- **Cote de lumină pe 3D.** Butonul „Cote" arată L × H × P și luminile libere dintre bază, rafturi și tavan, calculate din piesele fizice (`dimensionSpec`). Se ascund în vederea explodată și în fotografiile pentru documente.
+- **Restul recuperabil pe planul de tăiere.** Zonele libere cu latura scurtă ≥ „Păstrează resturile de la" sunt conturate în verde, cu cota; sfrido rămâne hașurat.
+- **Iconița de cant în lista de debitare**, aceeași ca pe etichete, lângă textul cantului.
+- **Exportul din Rezumat, în trei grupe:** pentru client, debitare și furnizor, atelier și șantier.
+- **Corp în afara echerului:** foaia de închidere spune acum că lățimea nu se verifică (avertisment, nu blocaj); adâncimea și înălțimea se verifică în continuare.
+- **Piese înguste:** axa grosimii vine din rol, nu doar din cea mai scurtă extensie; o placă de 18 mm adâncă de 15 mm nu mai citea 15 drept grosime și nu mai pierdea găurile.
+- **Stocarea:** un timeout la deschiderea IndexedDB nu mai oprește salvările toată sesiunea; după 3 timeouturi la rând se comportă ca înainte.
+- **Aserțiuni:** `sp_top` și `top` intră în mediul aserțiunilor (D-72).
+- **Cheile `EBP-` sunt ritirate (D-81).** Nicio cheie nu fusese vândută; validarea cu sare din client dispare, o licență `legacy` rămasă pe un dispozitiv nu mai dă Pro, `genkey.py` e șters. Pro rămâne pe Stripe, Play, `comp_…`, Founders și Lemon Squeezy.
+- `computeHardware` fără setări citește pe cele din aplicație (cădea cu un articol necunoscut).
+- Chei noi în toate cele 7 limbi: `vtCoh`, `vtDims`, `nestKeep`, `nestWaste`, `expClient`, `expShop`, `expSite`; avertismentul „în afara echerului" în `AU_I18N`.
+
+**Rămâne deschis (nemodificat):** fundul sertarelor metalice cu 4 mm sub fața bazei (D-78 punctul 4); mesajele de la cote absolute rămân în română în toate limbile.
+
+Teste: `test:full` 614/614 cu golden 42/42, `run.js` 533/533.
+
+---
+
 ## 4.56.1 — 13 octombrie 2026
 
 **Limba din linkul site-ului vine și în aplicația deja folosită.** Cine deschidea aplicația din `/es/`, `/de/`, `/pl/` (sau orice pagină de limbă a site-ului) și avea deja date salvate pe dispozitiv rămânea în limba veche: `?lang=` era citit numai la prima pornire. Acum un `?lang=` valid din link are prioritate și se reține ca alegere (`langChosen`). Fără `?lang=` rămâne limba aleasă.

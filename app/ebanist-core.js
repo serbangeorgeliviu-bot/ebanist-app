@@ -778,6 +778,14 @@ function reconstructCarcass(corpo, pieces, geometry) {
      di essere allentata per tutti. */
   var squadro = !(isAngle(inp.angL) || isAngle(inp.angR) ||
                   isAngle(c.angL) || isAngle(c.angR));
+  /* Saltata in silenzio sarebbe un falso «a posto»: si dice, come per le
+     righe senza grossezza. Avviso, non blocco: il corpo non e sbagliato,
+     la catena non si puo chiudere. */
+  if (!squadro && (base || back || (topMode === "traverse" && cielo)))
+    out.push({ axa: "L", chain: "fuori-squadro", severity: "warn",
+               valoare_nominala: null, valoare_calculata: null, delta: null,
+               piese_implicate: (base || back || cielo).nomi,
+               why: "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare." });
   if (base && squadro)
     add("L", "base+2×fianco", W, alongAxis(base, "L") + 2 * spF,
         base.nomi.concat(fianco.nomi),
@@ -1835,7 +1843,7 @@ function assertionEnv(d, ctx) {
               "P_int", "L_int", "H_int", "sectiune_W", "rezerva_glisiera",
               "P_cassetto_max", "L_cassetto",
               "sp_fianco", "sp_base", "sp_cielo", "sp_schienale", "sp_ripiano",
-              "sp_frontale", "sp_zoccolo", "sp_divisorio"];
+              "sp_frontale", "sp_zoccolo", "sp_divisorio", "sp_top", "top"];
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
   /* le cote che possono valere zero (un corpo senza ante, senza cassetti)
      devono comunque ESISTERE nell'ambiente, o la regola cade per "cota

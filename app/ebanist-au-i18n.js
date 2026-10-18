@@ -34,6 +34,8 @@ it: {
     "L'altezza ricomposta dall'interno (zoccolo + base + luce interna + cielo) non dà l'altezza nominale.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.":
     "Distinta generata prima del controllo di chiusura: i pezzi non portano la loro grossezza. È stata usata quella del materiale del ruolo. Rigenera la distinta.",
+  "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare.":
+    "Corpo fuori squadro: la larghezza non si verifica, perché la riga della base porta il rettangolo di sbozzo di un trapezio, non la luce interna. Profondità e altezza si verificano comunque.",
   /* --- invarianti per ruolo (Fase 3) --- */
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.":
     "Schienale applicato: il fianco va accorciato della grossezza dello schienale, altrimenti il corpo esce più profondo del nominale.",
@@ -136,6 +138,8 @@ en: {
     "The height rebuilt from inside (plinth + bottom + inner opening + top) does not give the nominal height.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.":
     "Cut list generated before the closure check: the parts do not carry their thickness. The thickness of the role's material was used. Regenerate the cut list.",
+  "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare.":
+    "Body out of square: the width is not checked, because the base row carries the rough rectangle of a trapezoid, not the inner opening. Depth and height are still checked.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.":
     "Surface-mounted back: the side must be shortened by the back's thickness, otherwise the carcass comes out deeper than nominal.",
   "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.":
@@ -235,6 +239,8 @@ fr: {
     "La hauteur recomposée de l'intérieur (socle + dessous + vide intérieur + dessus) ne donne pas la hauteur nominale.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.":
     "Fiche de débit générée avant le contrôle de fermeture : les pièces ne portent pas leur épaisseur. L'épaisseur du matériau du rôle a été utilisée. Régénérez la fiche de débit.",
+  "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare.":
+    "Corps hors équerre : la largeur n'est pas vérifiée, car la ligne du dessous porte le rectangle d'ébauche d'un trapèze, pas le vide intérieur. La profondeur et la hauteur restent vérifiées.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.":
     "Fond rapporté : le côté doit être raccourci de l'épaisseur du fond, sinon le caisson sort plus profond que le nominal.",
   "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.":
@@ -327,6 +333,8 @@ de: {
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.": "Die von innen zurückgerechnete Höhe (Sockel + Boden + lichte Innenhöhe + Deckel) ergibt nicht die Nennhöhe.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.": "Die Zuschnittliste wurde vor der Schließungsprüfung erzeugt: Die Teile tragen ihre Stärke nicht. Es wurde die Stärke des Rollenmaterials verwendet. Zuschnittliste neu erzeugen.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.": "Aufgesetzte Rückwand: Die Seitenwand muss um die Stärke der Rückwand gekürzt werden, sonst wird der Korpus tiefer als nominal.",
+  "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare.":
+    "Korpus nicht rechtwinklig: Die Breite wird nicht geprüft, weil die Zeile des Bodens das Rohrechteck eines Trapezes enthält, nicht das Innenmaß. Tiefe und Höhe werden weiterhin geprüft.",
   "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.": "Eingelassene Rückwand: Die Seitenwand läuft bis zur hinteren Ebene und wird nicht gekürzt.",
   "Spate încastrat: intră între laterale, deci e mai îngust cu două grosimi de laterală.": "Eingelassene Rückwand: Sie sitzt zwischen den Seitenwänden und ist daher um zwei Seitenwandstärken schmaler.",
   "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă.": "Ein Boden liegt außerhalb der Öffnung oder auf einem anderen: Eine der lichten Innenhöhen ist null oder negativ.",
@@ -383,6 +391,8 @@ pl: {
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.": "Wysokość odtworzona od wewnątrz (cokół + dno + światło wewnętrzne + wieniec) nie daje wysokości nominalnej.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.": "Lista formatek wygenerowana przed kontrolą zamknięcia: elementy nie niosą swojej grubości. Użyto grubości materiału roli. Wygeneruj listę ponownie.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.": "Plecy nakładane: bok trzeba skrócić o grubość pleców, inaczej korpus wyjdzie głębszy niż nominalny.",
+  "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare.":
+    "Korpus poza kątem prostym: szerokość nie jest sprawdzana, bo wiersz dna zawiera prostokąt surowy trapezu, a nie światło wewnętrzne. Głębokość i wysokość są nadal sprawdzane.",
   "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.": "Plecy wpuszczone: bok sięga do płaszczyzny tylnej i nie jest skracany.",
   "Spate încastrat: intră între laterale, deci e mai îngust cu două grosimi de laterală.": "Plecy wpuszczone: wchodzą między boki, więc są węższe o dwie grubości boku.",
   "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă.": "Półka wypada poza otwór lub na inną: jedno ze świateł wewnętrznych jest zerowe lub ujemne.",
@@ -439,6 +449,8 @@ es: {
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.": "La altura reconstruida desde el interior (zócalo + base + luz interior + techo) no da la altura nominal.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.": "El despiece se generó antes de la comprobación de cierre: las piezas no llevan su grosor. Se usó el grosor del material del rol. Regenera el despiece.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.": "Trasera aplicada: el lateral debe acortarse en el grosor de la trasera; si no, el cuerpo sale más profundo que el nominal.",
+  "Corp în afara echerului: lățimea nu se verifică, pentru că rândul bazei poartă dreptunghiul de debitare al unui trapez, nu lumina interioară. Adâncimea și înălțimea se verifică în continuare.":
+    "Cuerpo fuera de escuadra: no se comprueba el ancho, porque la fila de la base lleva el rectángulo en bruto de un trapecio, no el hueco interior. La profundidad y la altura se siguen comprobando.",
   "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.": "Trasera empotrada: el lateral llega hasta el plano trasero y no se acorta.",
   "Spate încastrat: intră între laterale, deci e mai îngust cu două grosimi de laterală.": "Trasera empotrada: entra entre los laterales, por lo que es más estrecha en dos grosores de lateral.",
   "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă.": "Una balda cae fuera del hueco o sobre otra: una de las luces interiores es nula o negativa.",

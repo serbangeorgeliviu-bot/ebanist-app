@@ -2,9 +2,9 @@
  *
  *   cd test && npm run test:license
  *
- * Qui dentro non si tocca Lemon Squeezy: si provano il checksum delle
- * chiavi storiche (che deve combaciare con il generatore Python), il
- * riconoscimento del formato, e la decisione «sono Pro?» — che e la sola
+ * Qui dentro non si tocca Lemon Squeezy: si prova che le chiavi storiche
+ * EBP- sono ritirate (D-81), il riconoscimento del formato, e la
+ * decisione «sono Pro?» — che e la sola
  * riga di codice capace di togliere il lavoro a un falegname che ha
  * pagato, quindi merita di essere fissata da una prova.
  */
@@ -12,7 +12,6 @@ const { test, describe } = require("node:test");
 const assert = require("node:assert");
 const fs = require("fs");
 const path = require("path");
-const { execFileSync } = require("child_process");
 
 /* Il file e uno script classico per il browser (window.EBLicense) e la
    radice del repo si dichiara "type": "module": un require() diretto lo
@@ -21,50 +20,14 @@ const { execFileSync } = require("child_process");
 const SRC = fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-license.js"), "utf8");
 const L = new Function(SRC + "\nreturn globalThis.EBLicense;")();
 
-const GENKEY = path.join(__dirname, "..", "app", "tools", "genkey.py");
-function python(args) {
-  return execFileSync("python3", [GENKEY].concat(args), { encoding: "utf8" }).trim();
-}
-
-describe("Chiavi storiche EBP — checksum e forma", () => {
-  test("una chiave generata dal Python e valida in JavaScript", () => {
-    /* La prova che conta davvero: i due checksum sono scritti due volte,
-       in due linguaggi, e devono restare d'accordo per sempre. Se un
-       giorno si tocca uno solo, questa riga cade. */
-    const keys = python(["25"]).split("\n");
-    assert.strictEqual(keys.length, 25);
-    for (const k of keys) {
-      assert.strictEqual(L.keyKind(k), "legacy", k);
-      assert.ok(L.legacyValid(k), k + " rifiutata dal validatore JS");
-    }
+describe("Chiavi storiche EBP — ritirate (D-81)", () => {
+  test("una chiave EBP- ben formata e sconosciuta, non un formato valido", () => {
+    for (const k of ["EBP-AB23-CD45-EF67", "ebpab23cd45ef67", "EBP-2222-2222-2222"])
+      assert.strictEqual(L.keyKind(L.normalize(k)), "unknown", k);
   });
-
-  test("e una chiave valida in JavaScript e valida anche in Python", () => {
-    const k = python(["1"]);
-    assert.strictEqual(python(["--check", k]), "valida");
-  });
-
-  test("un carattere cambiato la invalida", () => {
-    const k = python(["1"]);
-    const A = L.ALPHA;
-    for (let i = 4; i < k.length; i++) {
-      if (k[i] === "-") continue;
-      const other = A[(A.indexOf(k[i]) + 7) % A.length];
-      const bad = k.slice(0, i) + other + k.slice(i + 1);
-      assert.ok(!L.legacyValid(bad), "accettata una chiave storpiata: " + bad);
-    }
-  });
-
-  test("i simboli ambigui non entrano mai nell'alfabeto", () => {
-    for (const c of "01IO") assert.ok(L.ALPHA.indexOf(c) < 0, "l'alfabeto contiene " + c);
-  });
-
-  test("si normalizza quello che l'utente incolla davvero", () => {
-    const k = python(["1"]);
-    const nudo = k.replace(/-/g, "").toLowerCase();
-    assert.strictEqual(L.normalize(nudo), k);
-    assert.strictEqual(L.normalize("  " + k.toLowerCase() + " "), k);
-    assert.ok(L.legacyValid(nudo));
+  test("il validatore e il sale non esistono piu nell'API", () => {
+    for (const n of ["legacyValid", "legacyCheck", "isLegacyShape", "fnv1a32", "SALT", "ALPHA"])
+      assert.strictEqual(L[n], undefined, n);
   });
 });
 
@@ -88,8 +51,8 @@ describe("La decisione «sono Pro?»", () => {
     assert.strictEqual(L.proFrom({}, NOW).pro, false);
   });
 
-  test("chiave storica valida = Pro, per sempre e senza rete", () => {
-    assert.strictEqual(L.proFrom({ kind: "legacy", key: "EBP-…", valid: true }, NOW).pro, true);
+  test("una licenza legacy rimasta in memoria non da Pro (D-81)", () => {
+    assert.strictEqual(L.proFrom({ kind: "legacy", key: "EBP-…", valid: true, activated: true }, NOW).pro, false);
     assert.strictEqual(L.proFrom({ kind: "legacy", key: "EBP-…", valid: false }, NOW).pro, false);
     // Google Play: activ cât timp Play spune „active”, fără dată de expirare în client
     assert.strictEqual(L.proFrom({ kind: "play", key: "tok", status: "active", activated: true }, NOW).pro, true);
@@ -149,7 +112,7 @@ describe("Ogni quanto si ricontrolla", () => {
   test("controllata otto giorni fa → si ricontrolla", () => {
     assert.strictEqual(L.needsRecheck({ kind: "ls", key: "k", checkedAt: NOW - 8 * 864e5 }, NOW), true);
   });
-  test("una chiave storica non si ricontrolla mai: e offline di natura", () => {
+  test("una licenza legacy non si ricontrolla: e ritirata, non c'e un server", () => {
     assert.strictEqual(L.needsRecheck({ kind: "legacy", key: "k", checkedAt: 0 }, NOW), false);
   });
 });

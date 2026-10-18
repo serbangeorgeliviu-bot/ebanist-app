@@ -65,7 +65,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      Testele de funcții rulează deci ca Pro; cele de licență își pun singure
      starea gratuită (licWrite(null)) și o refac la final. */
   const PRO_INIT = () => { try { if (!localStorage.getItem("ebanist_lic")) localStorage.setItem("ebanist_lic",
-    JSON.stringify({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() })); } catch (e) {} };
+    JSON.stringify({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() })); } catch (e) {} };
   const _newContext = browser.newContext.bind(browser);
   browser.newContext = async (o = {}) => { const c = await _newContext(o); await c.addInitScript(PRO_INIT); return c; };
   const pg = await (await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true })).newPage();
@@ -1034,7 +1034,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       };
       /* documentele de atelier sunt Pro (D-55): urma se verifică pe Pro */
       const keepLic = LIC;
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       for (const [k, id] of [["distinta", "btnPdf"], ["montaggio", "btnMont"]]) {
         document.getElementById("printArea").innerHTML = "";
         document.getElementById(id).click();
@@ -1096,10 +1096,6 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      migrazione e il recupero dopo la cancellazione di localStorage si
      vedono solo all'avvio, e l'avvio capita una volta sola.
      ===================================================================== */
-  const genkey = n => require("child_process")
-    .execFileSync("python3", [path.join(ROOT, "app", "tools", "genkey.py"), String(n || 1)], { encoding: "utf8" })
-    .trim().split("\n");
-
   /* Una pagina pulita, con lo stato che le si vuole mettere in mano PRIMA
      che l'app parta: il seme va scritto su una pagina qualsiasi della
      stessa origine, poi si va sull'app. */
@@ -1191,13 +1187,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   head("La licenza sopravvive alla stessa cancellazione");
   {
-    const key = genkey(1)[0];
     const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
     const pp = await ctx.newPage();
     await pp.goto(`${ORIGIN}/app/index.html`);
     await pp.waitForTimeout(1500);
-    const act = await pp.evaluate(async k => { closeSheets(); const r = await proActivate(k); return { r, pro: isPro() }; }, key);
-    ok("una chiave storica valida attiva Pro, senza rete", act.r.ok && act.pro, key);
+    const act = await pp.evaluate(() => { closeSheets(); licWrite({ kind: "stripe", key: "sub_TESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() }); return isPro(); });
+    ok("una licenza Stripe in memoria apre Pro, senza rete", act === true);
     await pp.evaluate(() => new Promise(r => setTimeout(r, 600)));
     await pp.evaluate(() => localStorage.clear());
     await pp.reload();
@@ -1207,27 +1202,24 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
-  head("Chiavi — quello che si accetta e quello che no");
+  head("Chiavi — quello che si accetta e quello che no (D-81: le EBP- sono ritirate)");
   {
-    const [k1] = genkey(1);
-    const r = await pg.evaluate(async k => {
+    const r = await pg.evaluate(async () => {
       const out = {}, keep = LIC;
       licWrite(null);
       out.vuota = (await proActivate("")).ok;
       out.spazzatura = (await proActivate("ciao-mamma")).ok;
-      out.storpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).ok;
-      out.messaggioStorpiata = (await proActivate(k.slice(0, -1) + (k.slice(-1) === "Z" ? "Y" : "Z"))).msg;
-      out.buona = (await proActivate(k)).ok;
-      out.proDopo = isPro();
-      out.senzaTrattini = (await proActivate(k.replace(/-/g, "").toLowerCase())).ok;
+      const ebp = await proActivate("EBP-AB23-CD45-EF67");
+      out.ebp = ebp.ok; out.ebpMsg = ebp.msg; out.ebpPro = isPro();
+      licWrite({ kind: "legacy", key: "EBP-AB23-CD45-EF67", valid: true, activated: true, checkedAt: Date.now() });
+      out.vecchiaInMemoria = EBLicense.proFrom(LIC).pro;
       licWrite(keep); return out;
-    }, k1);
+    });
     ok("una chiave vuota non attiva niente", r.vuota === false);
     ok("una stringa a caso nemmeno", r.spazzatura === false);
-    ok("una chiave con un carattere sbagliato viene rifiutata", r.storpiata === false);
-    ok("e lo dice con parole, non con un codice", /\w{4}/.test(r.messaggioStorpiata || ""), r.messaggioStorpiata);
-    ok("una chiave buona attiva Pro", r.buona && r.proDopo);
-    ok("e si accetta anche senza trattini e in minuscolo", r.senzaTrattini);
+    ok("una chiave EBP- ben formata non attiva piu Pro", r.ebp === false && r.ebpPro === false);
+    ok("e lo dice con parole, non con un codice", /\w{4}/.test(r.ebpMsg || ""), r.ebpMsg);
+    ok("una licenza legacy rimasta in memoria non da Pro", r.vecchiaInMemoria === false);
   }
 
   head("Il muro del progetto gratuito (1, D-55) — su TUTTE le strade d'ingresso");
@@ -1286,7 +1278,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
       /* 7. da Pro il muro non c'e piu */
       state.projects = [mk("a", "A"), mk("b", "B"), mk("c", "C")];
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       out.proPassa = gateNewProject() === true;
 
       closeSheets(); state.projects = keepP; licWrite(keepL);
@@ -1352,7 +1344,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       out.proAperto = document.getElementById("shPro").classList.contains("on"); closeSheets();
       out.testoFiligrana = (document.querySelector("#printArea .wm-foot") || {}).textContent || "";
 
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       out.pro = await giro();
       out.chiamate = calls;
       window.print = realPrint;
@@ -1389,7 +1381,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
       /* e da Pro il cancello lascia passare: il controllo dopo e quello
          delle regole di coerenza, che e un'altra cosa e resta */
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       out.proPassaLab = proGate("lab") === true;
       out.proPassaJpg = proGate("jpg") === true;
 
@@ -2067,7 +2059,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       document.getElementById("btnShare").click(); await w(100); o.csv = pro(); closeSheets();
       document.getElementById("btnRoom").click(); await w(100); o.camera = pro() && document.getElementById("roomView").style.display !== "flex"; closeSheets();
       // Pro: se vede tot
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() });
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       setView("nest"); await w(300);
       o.nestPro = !!document.querySelector("#nestOut svg") && document.getElementById("btnCuts").style.display !== "none";
       closeSheets(); clientOpen(); await w(200); o.clientPro = !document.getElementById("clientMode").hidden;
@@ -2185,10 +2177,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       // anulat din Play: la următoarea verificare Pro dispare
       window.__playActive = false; EbanistAndroid.billingRestore(); await w(200);
       o.anulat = !isPro() && !LIC;
-      // o cheie EBP nu e atinsă de Play
-      licWrite({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true });
+      // o licență Stripe nu e atinsă de Play
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true });
       EbanistAndroid.billingRestore(); await w(200);
-      o.cheiaRamane = isPro() && LIC.kind === "legacy";
+      o.cheiaRamane = isPro() && LIC.kind === "stripe";
       // Play nu răspunde: nu se schimbă nimic
       licWrite({ kind: "play", key: "tok-2", activated: true, valid: true, status: "active" });
       __ebPlay("purchases", JSON.stringify({ ok: false, code: "unavailable", source: "check" })); await w(50);
@@ -2225,7 +2217,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("setări: „Gestionează abonamentul” deschide Play", g.gestionare === true && g.manage === true);
     ok("un abonament Play nu se „deconectează”", g.faraDeconectare === true);
     ok("anulat în Play → Pro dispare la verificare", g.anulat === true);
-    ok("o cheie EBP nu e atinsă de Play", g.cheiaRamane === true);
+    ok("o licență Stripe nu e atinsă de Play", g.cheiaRamane === true);
     ok("Play nu răspunde → nu se schimbă nimic", g.faraRaspuns === true);
     ok("Android: selectorul de fișiere acceptă orice (backup .json)", g.faraAccept === true);
     ok("setări: „Restaurează din fișier” deschide selectorul", g.restaurare === true);
@@ -2564,6 +2556,147 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.2: articolul propriu se poate sterge; catalogul revine la cel de serie", await pg.evaluate(() => state.settings.hwAdd.length === 0 && !hwItem("cern").custom));
     await pg.evaluate(() => { setView("build"); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
     ok("U.2: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
+  /* D-43 pe 3D: piesele din lanțul de închidere care cade devin roșii, butonul apare doar la nevoie */
+  {
+    const c = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build"); buildCfg = { ...PRESETS.armadio }; syncBuildForm(); draw3D(); await w(400); studioSync();
+      const btn = document.getElementById("btnCoh3d"), M = GL3D.model();
+      o.sanatos = btn.hidden === true && cohIssues(M).length === 0;
+      const fi = M.rows.find(x => x.role === "fianco"), real = window.closureOf;
+      window.closureOf = () => [{ axa: "L", chain: "fianco+base", valoare_nominala: 900, valoare_calculata: 905, delta: 5, piese_implicate: [fi.elemento], why: "t" }];
+      studioSync(); o.apare = !btn.hidden && document.getElementById("cohN").textContent === "1";
+      btn.click(); await w(200); o.pornit = btn.classList.contains("on");
+      btn.click(); await w(100); o.oprit = !btn.classList.contains("on");
+      window.closureOf = real; studioSync(); o.dispare = btn.hidden === true;
+      /* invarianții pe rol: doar ei, fără lanțurile de închidere */
+      window.closureOf = () => [];
+      const rows = M.rows.map(x => x.role === "ripiano" ? { ...x, ys: [9999] } : x);
+      const rp = M.rows.find(x => x.role === "ripiano"), iv = cohIssues({ ...M, rows });
+      o.inv = !rp || (iv.length >= 1 && iv.some(e => e.names.includes(rp.elemento)));
+      window.closureOf = real;
+      return o;
+    });
+    if (c.fara_gl) ok("coerență 3D: fără WebGL, sărit", true);
+    else {
+      ok("coerență 3D: corp sănătos → butonul ascuns", c.sanatos === true);
+      ok("coerență 3D: o închidere căzută → butonul apare cu numărul", c.apare === true);
+      ok("coerență 3D: butonul pornește și oprește evidențierea", c.pornit === true && c.oprit === true);
+      ok("coerență 3D: butonul dispare când corpul se închide", c.dispare === true);
+      ok("coerență 3D: un invariant pe rol căzut numește piesa", c.inv === true);
+    }
+  }
+
+  /* resturile recuperabile pe planul de tăiere: aceeași soglie ca „Adaugă resturile” */
+  {
+    const n = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Z" });
+      const keep = state.settings.stockMin;
+      state.settings.stockMin = 250; setView("nest"); await w(300); renderNest();
+      const zs = [...document.querySelectorAll("svg .keepz")];
+      o.zone = zs.length; o.egale = zs.length === nestLeftovers.length;
+      o.soglia = zs.every(z => Math.min(+z.getAttribute("width"), +z.getAttribute("height")) >= 250);
+      o.legenda = !!document.querySelector(".nest-legend");
+      state.settings.stockMin = 99999; renderNest();
+      o.zero = document.querySelectorAll("svg .keepz").length === 0 && !document.querySelector(".nest-legend");
+      state.settings.stockMin = keep; renderNest(); p.pieces = []; p.configs = {}; persist(); setView("projects");
+      return o;
+    });
+    ok("nesting: resturile ≥ prag sunt conturate în verde pe plan", n.zone > 0 && n.egale === true, JSON.stringify(n));
+    ok("nesting: nicio zonă verde sub prag", n.soglia === true);
+    ok("nesting: legenda apare cu resturi și dispare fără", n.legenda === true && n.zero === true);
+  }
+
+  /* iconița de cant pe rândul din lista de debitare (edgeSvg, ca pe etichete) */
+  {
+    const e = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Z" }); setView("list"); await w(300); renderList();
+      const rows = p.pieces.filter(x => x.role !== undefined || true);
+      const want = p.pieces.filter(x => /[12][LC]/i.test(x.bordo || "")).length;
+      o.icoane = document.querySelectorAll(".pc .pc-edge svg").length; o.cu = want;
+      o.textRamane = [...document.querySelectorAll(".pc .pc-edge")].every(el => /[12][LC]/i.test(el.parentElement.textContent));
+      const full = p.pieces.find(x => /2L\+2C/i.test(x.bordo || ""));
+      if (full) { const el = [...document.querySelectorAll(".pc")].find(r => r.querySelector(".pc-edge[title='2L+2C']")); o.patru = !!el && el.querySelectorAll(".pc-edge line[stroke='#3e6b0a']").length === 4; } else o.patru = true;
+      p.pieces = []; p.configs = {}; persist(); setView("projects");
+      return o;
+    });
+    ok("lista: fiecare rând cu cant are iconița lui", e.icoane > 0 && e.icoane === e.cu, JSON.stringify(e));
+    ok("lista: textul cantului rămâne lângă iconiță", e.textRamane === true);
+    ok("lista: 2L+2C desenează cele patru laturi", e.patru === true);
+  }
+
+  /* cote de lumină pe 3D: dimensionSpec desenat în viewer */
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build"); buildCfg = { ...PRESETS.armadio, doors: 0 }; syncBuildForm(); draw3D(); await w(400); studioSync();
+      const btn = document.getElementById("btnDims3d");
+      o.implicit = GL3D.dimsInfo().visible === false;
+      btn.click(); await w(200); const i = GL3D.dimsInfo();
+      o.vizibil = i.visible === true && btn.classList.contains("on");
+      o.etichete = i.labels === 3 + i.spec.gaps.length && i.spec.gaps.length > 0;
+      o.gabarit = i.spec.L === buildCfg.L && i.spec.H === buildCfg.H;
+      GL3D.set({ explode: 1 }); await w(100); o.ascuns = GL3D.dimsInfo().visible === false;
+      GL3D.set({ explode: 0 }); await w(100); o.revine = GL3D.dimsInfo().visible === true;
+      btn.click(); await w(100); o.oprit = GL3D.dimsInfo().visible === false;
+      return o;
+    });
+    if (d.fara_gl) ok("cote 3D: fără WebGL, sărit", true);
+    else {
+      ok("cote 3D: implicit ascunse", d.implicit === true);
+      ok("cote 3D: butonul le arată, cu 3 cote exterioare + câte o lumină pe vano", d.vizibil === true && d.etichete === true, JSON.stringify(d));
+      ok("cote 3D: gabaritul din cote = cota corpului", d.gabarit === true);
+      ok("cote 3D: dispar în vederea explodată și revin", d.ascuns === true && d.revine === true);
+      ok("cote 3D: butonul le oprește", d.oprit === true);
+    }
+  }
+
+  /* Rezumat: butoanele de export în trei grupe, fiecare buton o singură dată */
+  {
+    const x = await pg.evaluate(async () => {
+      closeSheets(); setView("summary"); await new Promise(r => setTimeout(r, 300));
+      const g = {};
+      document.querySelectorAll("#v-summary .exp-h").forEach(h => {
+        const row = h.nextElementSibling; g[h.dataset.i] = [...row.querySelectorAll("button")].map(b => b.id);
+      });
+      setView("projects");
+      return g;
+    });
+    const all = [].concat(...Object.values(x));
+    ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
+    ok("export: fiecare dintre cele 9 butoane e într-o grupă, o singură dată",
+      all.length === 9 && new Set(all).size === 9 && ["btnPdf","btnQuote","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+    ok("export: oferta e la client, montajul la atelier", x.expClient.join() === "btnQuote" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
+  }
+
+  /* audit 18.10: corp în afara echerului → avertisment, nu blocaj; computeHardware fără setări */
+  {
+    const a = await pg.evaluate(async () => {
+      const o = {}; closeSheets();
+      const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Z", angL: 87 });
+      const keepLang = state.lang; state.lang = "en";
+      const r = assertExportable(p); state.lang = keepLang;
+      o.fara_blocaj = r.blocking.filter(x => /^C-L/.test(x.id || "")).length === 0;
+      o.avertisment = r.warn.some(x => x.id === "C-L" && x.closure && x.closure.chain === "fuori-squadro");
+      o.text = (r.warn.find(x => x.id === "C-L") || {}).why || "";
+      const keep = state.settings.hwProd; state.settings.hwProd = { cern: "NU-EXISTA", guida: "NU-EXISTA" };
+      try { o.hw = Array.isArray(computeHardware(p)); } catch (e) { o.hw = String(e.message); }
+      state.settings.hwProd = keep;
+      p.pieces = []; p.configs = {}; persist(); setView("projects");
+      return o;
+    });
+    ok("fuori squadro: avertisment pe lățime, fără blocaj", a.fara_blocaj === true && a.avertisment === true, JSON.stringify(a).slice(0, 200));
+    ok("fuori squadro: textul e tradus în limba interfeței", /out of square/i.test(a.text), a.text.slice(0, 80));
+    ok("computeHardware fără setări nu cade cu un articol necunoscut", a.hw === true, String(a.hw));
   }
 
   const bad = results.filter(r => !r.cond).length;

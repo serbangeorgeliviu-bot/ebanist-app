@@ -11,7 +11,7 @@ const LANGS = (process.env.LANGS || "it,ro,en,fr").split(",");
   const report = [];
   for (const [vn, v] of Object.entries(VP)) for (const L of LANGS) {
     const ctx = await b.newContext({ viewport: { width: v.width, height: v.height }, isMobile: !!v.isMobile, hasTouch: !!v.hasTouch });
-    await ctx.addInitScript(() => { try { localStorage.setItem("ebanist_lic", JSON.stringify({ kind:"legacy", key:"EBP-TEST", valid:true, activated:true, checkedAt:Date.now() })); } catch(e){} });
+    await ctx.addInitScript(() => { try { localStorage.setItem("ebanist_lic", JSON.stringify({ kind:"stripe", key:"comp_TESTTESTTESTTESTTESTTEST", status:"active", activated:true, checkedAt:Date.now() })); } catch(e){} });
     const pg = await ctx.newPage();
     const errs = []; pg.on("pageerror", e => errs.push(String(e).slice(0,200)));
     pg.on("console", m => { if (m.type()==="error" && !/ERR_CERT|net::|Failed to load resource/.test(m.text())) errs.push("console: "+m.text().slice(0,200)); });

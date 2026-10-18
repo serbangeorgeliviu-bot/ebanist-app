@@ -98,7 +98,7 @@ laborator, exportul JPG.
 - Offline / eroare de rețea → **nu se schimbă nimic**. Pro cade doar când
   serverul, contactat, spune `expired` sau `disabled`, și oricum după 14 zile
   de grație peste `expires_at`. Proiectele nu se șterg în niciun caz.
-- Cheile `EBP-…` se validează offline și nu expiră niciodată.
+- Cheile `EBP-…` nu mai există (D-81); restul se validează pe server.
 
 **Nicio cheie API în client, și nicio funcție Netlify nouă.** Am verificat
 documentația curentă Lemon Squeezy (septembrie 2026): cele trei rute de
@@ -318,23 +318,14 @@ Același traseu. În plus:
 
 ---
 
-## 4. Cheile permanente `EBP-XXXX-XXXX-XXXX`
+## 4. Cheile permanente `EBP-XXXX-XXXX-XXXX` — ritirate (D-81)
 
-Format definit acum (nu exista): 12 simboli din alfabetul
-`23456789ABCDEFGHJKLMNPQRSTUVWXYZ` (32 de caractere, fără `0 1 I O` — o
-cheie se dictează la telefon). Primii 10 sunt aleatori, ultimii 2 sunt
-checksum FNV-1a pe 32 de biți al `"ebanist-pro-2026" + primii10`, luat în
-două felii de 5 biți.
-
-```
-cd app/tools
-python3 genkey.py 20                       # 20 de chei
-python3 genkey.py --check EBP-AB23-CD45-EF67
-```
-
-Checksum-ul e scris de două ori — în Python și în JavaScript — și
-`npm run test:license` verifică la fiecare rulare că cele două sunt de acord.
-Dacă atingi unul, atinge-l și pe celălalt în același commit.
+Formatul (12 simboluri, checksum FNV-1a cu un sare din client) a fost scos pe
+18.10.2026: sarele și algoritmul stăteau în `ebanist-license.js`, deci oricine
+putea fabrica o cheie, iar nicio cheie nu fusese vreodată vândută. `keyKind`
+citește acum un `EBP-…` ca necunoscut, iar o licență `kind:"legacy"` rămasă în
+memoria unui dispozitiv nu mai deschide Pro. `app/tools/genkey.py` a fost șters.
+Pro vine din Stripe (`sub_…`, `cs_…`), Play, `comp_…` (D-63) sau Lemon Squeezy.
 
 ---
 

@@ -1,12 +1,13 @@
 /* =====================================================================
    Ebanist — licenze
    ---------------------------------------------------------------------
-   Due formati convivono, per sempre:
+   Tre formati, due server:
 
-   1. CHIAVI STORICHE  `EBP-XXXX-XXXX-XXXX`
-      Emesse a mano, verificate offline con un checksum FNV-1a. Chi le ha
-      le tiene: non scadono, non chiedono rete, non passano da Lemon
-      Squeezy. Il generatore sta in tools/genkey.py.
+   0. CHIAVI STORICHE  `EBP-XXXX-XXXX-XXXX`  — RITIRATE (D-81)
+      Erano verificate offline con un checksum FNV-1a e un sale scritto nel
+      client: chiunque poteva fabbricarne una. Nessuna e mai stata venduta,
+      quindi non si accettano piu: `keyKind` le legge come sconosciute e
+      una licenza `kind:"legacy"` gia in memoria non da Pro.
 
    2. CHIAVI LEMON SQUEEZY  (un UUID)
       Emesse dal negozio a ogni abbonamento. Si attivano una volta contro
@@ -20,8 +21,8 @@
       l'utente copia su un altro dispositivo. Ricontrollo ogni 7 giorni e
       subito dopo la data di rinnovo.
 
-   Il formato si riconosce da solo — un UUID, un EBP- e un sub_ non si somigliano
-   — quindi l'utente incolla e basta: non gli si chiede di sapere quale
+   Il formato si riconosce da solo — un UUID e un sub_ non si somigliano —
+   quindi l'utente incolla e basta: non gli si chiede di sapere quale
    dei due ha in mano.
 
    OFFLINE E LA CONDIZIONE NORMALE, non l'eccezione. In un cantiere sotto
@@ -38,31 +39,6 @@
 
   var API = "https://api.lemonsqueezy.com/v1/licenses";
 
-  /* ---------- chiavi storiche: formato e checksum ---------- */
-
-  /* 32 simboli, senza 0/1/I/O: una chiave si detta al telefono e si
-     ricopia a mano da un'email, e "0 o O?" e il modo piu veloce di far
-     scrivere un'assistenza. */
-  var ALPHA = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
-  var SALT = "ebanist-pro-2026";
-
-  function fnv1a32(str) {
-    var h = 0x811c9dc5;
-    for (var i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      /* moltiplicazione FNV a 32 bit senza overflow in virgola mobile:
-         Math.imul e l'unico modo corretto in JavaScript. */
-      h = Math.imul(h, 0x01000193) >>> 0;
-    }
-    return h >>> 0;
-  }
-
-  /* Le due cifre di controllo di un corpo di 10 simboli. */
-  function legacyCheck(payload) {
-    var h = fnv1a32(SALT + payload);
-    return ALPHA.charAt((h >>> 5) & 31) + ALPHA.charAt(h & 31);
-  }
-
   /* Maiuscole, senza spazi, e con i trattini al posto giusto anche se
      l'utente li ha persi nel copia-incolla. */
   function normalize(raw) {
@@ -71,21 +47,7 @@
     if (/^cs_(live|test)_[A-Za-z0-9]+$/.test(s)) return s;         // Founders: la sessione di pagamento
     if (/^comp_[A-Za-z0-9]+$/.test(s)) return s;                   // Pro gratuito (D-63): maiuscole e minuscole contano
     if (/^[0-9a-fA-F-]{36}$/.test(s)) return s.toLowerCase();     // UUID: resta com'e
-    s = s.toUpperCase().replace(/[^A-Z0-9]/g, "");
-    if (s.indexOf("EBP") === 0) s = s.slice(3);
-    if (s.length !== 12) return String(raw || "").trim().toUpperCase();
-    return "EBP-" + s.slice(0, 4) + "-" + s.slice(4, 8) + "-" + s.slice(8, 12);
-  }
-
-  function isLegacyShape(key) {
-    return /^EBP-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4}$/.test(String(key || ""));
-  }
-
-  function legacyValid(key) {
-    var k = normalize(key);
-    if (!isLegacyShape(k)) return false;
-    var body = k.slice(4).replace(/-/g, "");          // 12 simboli
-    return legacyCheck(body.slice(0, 10)) === body.slice(10);
+    return s.toUpperCase();
   }
 
   /* Un UUID v4 come lo emette Lemon Squeezy. */
@@ -104,7 +66,6 @@
 
   function keyKind(key) {
     var k = normalize(key);
-    if (isLegacyShape(k)) return "legacy";
     if (isStripeShape(k)) return "stripe";
     if (isLsShape(k)) return "ls";
     return "unknown";
@@ -121,9 +82,9 @@
     now = now || Date.now();
     if (!lic || !lic.key) return { pro: false, reason: "none" };
 
-    if (lic.kind === "legacy") {
-      return lic.valid ? { pro: true, reason: "legacy" } : { pro: false, reason: "bad" };
-    }
+    /* D-81: le chiavi EBP- sono ritirate. Una licenza `legacy` rimasta nella
+       memoria di un dispositivo non apre il Pro. */
+    if (lic.kind === "legacy") return { pro: false, reason: "bad" };
 
     /* Abonamentul Google Play (aplicația Android): valabilitatea o decide
        Play la fiecare pornire — aplicația șterge licența când Play spune
@@ -289,20 +250,14 @@
   }
 
   global.EBLicense = {
-    ALPHA: ALPHA,
-    SALT: SALT,
     GRACE_MS: GRACE_MS,
     RECHECK_MS: RECHECK_MS,
-    fnv1a32: fnv1a32,
-    legacyCheck: legacyCheck,
     normalize: normalize,
-    isLegacyShape: isLegacyShape,
     isLsShape: isLsShape,
     isStripeShape: isStripeShape,
     stripeFromSession: stripeFromSession,
     stripeValidate: stripeValidate,
     shapeFromStripe: shapeFromStripe,
-    legacyValid: legacyValid,
     keyKind: keyKind,
     proFrom: proFrom,
     needsRecheck: needsRecheck,
