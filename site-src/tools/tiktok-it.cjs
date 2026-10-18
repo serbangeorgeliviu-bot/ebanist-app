@@ -12,13 +12,14 @@ const FPS=+process.env.FPS||30, DPR=+process.env.DPR||2, ONLY=process.env.ONLY||
 fs.rmSync(OUT,{recursive:true,force:true});fs.mkdirSync(path.join(OUT,"frames"),{recursive:true});
 
 const CFG={name:"Armadio",type:"standard",L:900,L2:900,H:2000,P:580,plinth:80,tram:1,shelves:2,drawers:3,doors:2,back:1,hang:0,
-  drawerPos:"vista",secMode:["shelves"],drawerZone:700,drawerSys:"legrabox",drawerDist:"uguali"};
+  drawerPos:"vista",secMode:["shelves"],drawerZone:700,drawerSys:"legrabox",drawerDist:"uguali",
+  matBody:"rovere_wood_lime_classic_k2414ah_19",matFront:"nogal_victoria_19",matBack:"rovere_wood_lime_classic_k2414ah_19"};
 const FULL=[0.45,0.78,0.3];
 
 /* cam: chiavi [u, cx,cy,cz, rad, yaw, pitch, zoom]; u = 0..1 dentro la scena */
 const K=(u,c,rad,yaw,pitch,zoom)=>({u,c,rad,yaw,pitch,zoom:zoom||1});
 const S=[
- {id:"hook",v:"Armadio su misura: ante sopra, cassetti sotto. Progettato sul telefono, in cinque minuti.",c:"Armadio su misura<br>progettato sul telefono",
+ {id:"hook",v:"Armadio su misura, con i decori veri: ante sopra, cassetti sotto. Progettato sul telefono, in cinque minuti.",c:"Armadio su misura<br>progettato sul telefono",
   keys:[K(0,FULL,1.14,0.95,0.2,1.2),K(1,FULL,1.14,0.2,0.18,1.3)]},
  {id:"open",v:"Apri ante e cassetti direttamente nel modello tre di.",c:"Ante e cassetti si aprono nel 3D",
   keys:[K(0,FULL,1.14,0.4,0.2,1.3),K(1,[0.45,0.95,0.4],1.0,0.3,0.14,1.45)]},
@@ -26,6 +27,8 @@ const S=[
   keys:[K(0,[0.45,0.95,0.4],1.0,0.3,0.14,1.45),K(0.55,[0.03,1.88,0.58],0.22,0.8,0.12,1),K(1,[0.03,1.88,0.58],0.2,0.9,0.1,1.1)]},
  {id:"slide",v:"La guida del cassetto si telescopa insieme al cassetto, come nella realtà.",c:"La guida si telescopa col cassetto",
   keys:[K(0,[0.03,1.88,0.58],0.22,0.9,0.1,1),K(0.5,[0.88,0.3,0.42],0.32,-0.55,0.3,1),K(1,[0.88,0.3,0.42],0.26,-0.8,0.35,1)]},
+ {id:"hw",v:"Cambi la ferramenta e il modello cambia subito: dalla maniglia a barra al pomello, con la sua foratura.",c:"Cambi la ferramenta<br>cambia subito nel 3D",
+  keys:[K(0,[0.88,0.3,0.42],0.26,-0.8,0.35,1),K(0.35,[0.45,1.05,0.6],0.3,0.35,0.1,1),K(1,[0.45,1.05,0.6],0.22,0.5,0.1,1)]},
  {id:"holes",v:"Ogni pezzo ha i suoi fori: ripiani, guide, giunzioni. Selezioni il fianco e li vedi, uno per uno.",c:"Ogni pezzo con i suoi fori",
   keys:[K(0,[0.01,0.9,0.29],1.1,1.2,0.15,1.15),K(0.3,[0.01,0.4,0.29],0.5,1.0,0.2,1.1),K(1,[0.01,1.55,0.29],0.5,0.9,0.2,1.1)]},
  {id:"sheet",v:"E per ogni pezzo, un foglio A tre con le quote dal bordo all'asse del foro.",c:"Foglio A3 per ogni pezzo<br>quote dal bordo all'asse del foro",sheet:true},
@@ -54,7 +57,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
 window.__R=()=>R;
 const __fb=focusBounds; focusBounds=function(){return window.__FB||__fb()};
 kick=function(){};
-window.__adv=(n)=>{ if(R.raf){cancelAnimationFrame(R.raf);R.raf=0} for(let i=0;i<n;i++)step(); stepCamera(); R.renderer.render(R.scene,R.camera); };`:fs.readFileSync(f))}).listen(8796,async()=>{
+window.__adv=(n)=>{ if(R.raf){cancelAnimationFrame(R.raf);R.raf=0} for(let i=0;i<n;i++)step(); stepCamera(); renderScene(); };`:fs.readFileSync(f))}).listen(8796,async()=>{
  const b=await chromium.launch({executablePath:"/opt/pw-browsers/chromium-1194/chrome-linux/chrome",args:["--use-gl=angle","--use-angle=swiftshader","--enable-unsafe-swiftshader","--no-sandbox"]});
  const ctx=await b.newContext({viewport:{width:540,height:960},deviceScaleFactor:DPR,isMobile:true,hasTouch:true});
  await ctx.addInitScript(()=>{try{localStorage.setItem("ebanist_lic",JSON.stringify({kind:"stripe",key:"comp_TESTTESTTESTTESTTESTTEST",status:"active",activated:true,checkedAt:Date.now()}))}catch(e){}});
@@ -88,15 +91,17 @@ window.__adv=(n)=>{ if(R.raf){cancelAnimationFrame(R.raf);R.raf=0} for(let i=0;i
   if(s.id==="hook")await pg.evaluate(()=>GL3D.set({open:false,mode:"real",hw:false,holes:false}));
   if(s.id==="open")await pg.evaluate(()=>GL3D.set({open:true}));
   if(s.id==="hinge")await pg.evaluate(()=>GL3D.set({mode:"hw",hw:true}));
+  if(s.id==="hw")await pg.evaluate(()=>{GL3D.set({open:false,mode:"real",hw:false,holes:false})});
   if(s.id==="holes")await pg.evaluate(()=>{GL3D.set({open:false,mode:"real",hw:false,holes:true});const M=GL3D.model();const pc=M.ops.pieces.find(q=>q.role==="fianco");GL3D.select(pc.pk,true)});
   if(s.id==="sheet"){await sheet(a3)}
-  const joint=async id=>{await pg.evaluate(id=>{const sel=document.querySelector('#hwSelBox select[data-cat="conn"]');if(!sel)return;sel.value=id;sel.dispatchEvent(new Event("change",{bubbles:true}));buildCfg=cfgFromForm();drawPreview();const M=GL3D.model();const pc=M.ops.pieces.find(q=>q.role==="fianco");GL3D.select(pc.pk,true)},id)};
-  const jmarks=s.id==="holes"?[]:[];
+  /* schimbă un articol de feronerie ca din formular (4.68: redesenează live); cat = conn|man|cern|guida */
+  const setHw=async(cat,id)=>{await pg.evaluate(([cat,id])=>{const sel=document.querySelector('#hwSelBox select[data-cat="'+cat+'"]');if(!sel)return;sel.value=id;sel.dispatchEvent(new Event("change",{bubbles:true}))},[cat,id])};
+  const jmarks=s.id==="hw"?[[0.45,"man","gen_pomo"]]:[];
   if(s.id==="asm"){await sheet(null);await pg.evaluate(()=>{GL3D.select(null);GL3D.set({holes:false,open:false,mode:"real",hw:false});explodeOn=1;drawPreview()})}
   if(s.id==="cta"){await sheet(null);await cap("");await card("Ebanist",s.c)}
   for(let i=0;i<s.n;i++,fr++){
    const u=i/(s.n-1||1);
-   for(const jm of jmarks)if(!jm.done&&u>=jm[0]){jm.done=1;await joint(jm[1])}
+   for(const jm of jmarks)if(!jm.done&&u>=jm[0]){jm.done=1;await setHw(jm[1],jm[2])}
    if(s.sheet){const e=ease(Math.min(1,Math.max(0,(u-0.2)/0.8)));await sheetXf(1+2.4*e,22,40)}
    else if(s.id==="asm"&&asm&&u>=0.45){ if(!s.shown){s.shown=1;await sheet(asm)}; const e=ease(Math.min(1,(u-0.5)/0.5));await sheetXf(1+1.3*Math.max(0,e),22,34)}
    else if(s.keys){const c=camAt(s.keys,u);await pg.evaluate(c=>{const R=__R();window.__FB={cx:c.c[0],cy:c.c[1],cz:c.c[2],rad:c.rad,size:R.full0.size,floor:0};
