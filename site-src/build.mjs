@@ -23,6 +23,8 @@ const read = f => fs.readFileSync(path.join(SRC, f), "utf8");
 const cfg = JSON.parse(read("site.config.json"));
 const tpl = read("template.html");
 const tplCase = read("case-bagno.html");
+const tplPost = read("blog-post.html");
+const tplBlogIdx = read("blog-index.html");
 const pieces = JSON.parse(read("data/wardrobe-pieces.json"));
 /* CSS-ul intră în pagină: fără cerere care blochează prima randare */
 const CSS = fs.readFileSync(path.join(ROOT, "site/css/site.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s*\n\s*/g, "\n");
@@ -61,6 +63,11 @@ const caseHome = l => home(l) + CASE;
 const caseUrl = l => cfg.SITE_URL + caseHome(l);
 /* capturile și etichetele paginii de caz ies din proiectul real (tools/case-capture.cjs).
    O limbă fără ele (încă) folosește imaginile din engleză; textul rămâne în limba paginii. */
+/* blogul: indexul și articolul, aceeași adresă sub fiecare limbă; videoclipul există în limbile din VIDEO_LANGS, restul folosesc engleza */
+const BLOG = "blog/", POST = "blog/whats-new-4-62/";
+const blogHome = l => home(l) + BLOG, postHome = l => home(l) + POST;
+const blogUrl = l => cfg.SITE_URL + blogHome(l), postUrl = l => cfg.SITE_URL + postHome(l);
+const vidLang = l => ((cfg.VIDEO_LANGS || []).includes(l) ? l : cfg.DEFAULT_LANG);
 const caseAsset = l => ((cfg.CASE_ASSET_LANGS || cfg.LANGS).includes(l) ? l : cfg.DEFAULT_LANG);
 
 function t(L, key) {
@@ -215,15 +222,35 @@ function caseJsonld(L) {
   }).replace(/</g, "\\u003c");
 }
 
+function postJsonld(L) {
+  const vl = vidLang(L), v = `${cfg.SITE_URL}/site/video/ebanist-whats-new-${vl}.mp4`;
+  return JSON.stringify({
+    "@context": "https://schema.org", "@type": "BlogPosting", headline: strip(t(L, "blog.meta.title")), description: strip(t(L, "blog.meta.desc")),
+    inLanguage: L, url: postUrl(L), image: `${cfg.SITE_URL}/site/og/blog-whats-new.jpg`, datePublished: "2026-10-18",
+    author: { "@type": "Organization", name: "Domus Renov SRL" }, publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL },
+    about: { "@type": "SoftwareApplication", name: "Ebanist", url: pageUrl(L) },
+    video: { "@type": "VideoObject", name: strip(t(L, "blog.idx.card.t")), description: strip(t(L, "blog.idx.card.p")), uploadDate: "2026-10-18",
+      thumbnailUrl: `${cfg.SITE_URL}/site/video/poster-${vl}.webp`, contentUrl: v, inLanguage: vl }
+  }).replace(/</g, "\\u003c");
+}
+function blogJsonld(L) {
+  return JSON.stringify({ "@context": "https://schema.org", "@type": "Blog", name: "Ebanist", inLanguage: L, url: blogUrl(L),
+    publisher: { "@type": "Organization", name: "Domus Renov SRL" },
+    blogPost: [{ "@type": "BlogPosting", headline: strip(t(L, "blog.idx.card.t")), url: postUrl(L), datePublished: "2026-10-18" }] }).replace(/</g, "\\u003c");
+}
+
 /* ---------- randare ---------- */
-function render(L, tplSrc = tpl, isCase = false) {
+function render(L, tplSrc = tpl, mode = null) {
+  const isCase = mode === true || mode === "case";
   const blocks = {
     css: CSS, logo: LOGO, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
-    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
+    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), postUrl: postHome(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
   if (isCase) Object.assign(blocks, { url: caseUrl(L), hreflang: hreflang(caseUrl), langlinks: langLinks(L, caseHome), langpick: langPick(L, caseHome), jsonld: caseJsonld(L) });
+  if (mode === "post") Object.assign(blocks, { url: postUrl(L), hreflang: hreflang(postUrl), langlinks: langLinks(L, postHome), langpick: langPick(L, postHome), jsonld: postJsonld(L) });
+  if (mode === "blogIdx") Object.assign(blocks, { url: blogUrl(L), hreflang: hreflang(blogUrl), langlinks: langLinks(L, blogHome), langpick: langPick(L, blogHome), jsonld: blogJsonld(L) });
   return tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
     if (key.startsWith("@ph:")) { const [, n, k, h] = key.split(":"); v = casePhoto(L, n, k, h === "hero"); }
@@ -252,6 +279,12 @@ for (const L of cfg.LANGS) {
   fs.mkdirSync(path.dirname(outCase), { recursive: true });
   fs.writeFileSync(outCase, render(L, tplCase, true));
   console.log("✓", path.relative(OUT, outCase));
+  for (const [dir, src, md] of [[blogHome(L), tplBlogIdx, "blogIdx"], [postHome(L), tplPost, "post"]]) {
+    const o = path.join(OUT, dir.slice(1), "index.html");
+    fs.mkdirSync(path.dirname(o), { recursive: true });
+    fs.writeFileSync(o, render(L, src, md));
+    console.log("✓", path.relative(OUT, o));
+  }
 }
 
 /* sitemap: paginile de prezentare cu alternativele lor + paginile legale */
@@ -260,6 +293,10 @@ const alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}"
 const urls = cfg.LANGS.map(l => `  <url><loc>${pageUrl(l)}</loc><lastmod>${today}</lastmod><priority>${l === cfg.DEFAULT_LANG ? "1.0" : "0.9"}</priority>\n${alts}\n  </url>`);
 const caseAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${caseUrl(l)}"/>`).join("\n");
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${caseUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${caseAlts}\n  </url>`);
+const blogAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${blogUrl(l)}"/>`).join("\n");
+const postAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${postUrl(l)}"/>`).join("\n");
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.6</priority>\n${blogAlts}\n  </url>`);
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
 for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
   urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`);
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);

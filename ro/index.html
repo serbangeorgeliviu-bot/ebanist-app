@@ -595,6 +595,29 @@ html.xh input,html.xh textarea{cursor:text}
 .case-illus a{position:relative}
 .illus-tag{position:absolute;left:10px;top:10px;background:rgba(14,59,42,.88);color:var(--gold-soft);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:6px}
 .case-grid.g-illus{margin-top:16px}
+.blog-hero{padding-top:clamp(40px,7vw,96px);padding-bottom:clamp(24px,4vw,48px);max-width:960px}
+.blog-hero .sub{margin-top:22px;color:var(--txt2);font-size:clamp(17px,1.5vw,20px);max-width:62ch}
+.blog-date{margin-top:22px;color:var(--txt3);font-size:12px}
+.blog-vid{padding-top:clamp(28px,4vw,56px);max-width:1100px}
+.blog-vid-p{color:var(--txt2);margin-top:10px}
+.vid-frame{margin-top:clamp(18px,2.4vw,30px);border-radius:var(--r);overflow:hidden;background:#0e3b2a;box-shadow:0 18px 40px rgba(14,59,42,.18)}
+.vid-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0e3b2a}
+.blog-body{max-width:900px;padding-top:clamp(40px,6vw,80px)}
+.blog-item{display:grid;grid-template-columns:44px minmax(0,1fr);gap:clamp(12px,2vw,28px);padding:clamp(22px,3vw,38px) 0;border-top:1px solid var(--line)}
+.blog-item>.mono{color:var(--gold-ink);font-size:13px;padding-top:.7em}
+.blog-item .case-h2{font-size:clamp(1.5rem,2.6vw,2.2rem);margin-top:0}
+.blog-item p{color:var(--txt2);font-size:clamp(16px,1.3vw,18px);margin-top:10px;max-width:64ch}
+.blog-body .case-note{max-width:none}
+.blog-list{max-width:960px;padding-bottom:clamp(40px,6vw,90px)}
+.blog-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(18px,3vw,40px);align-items:center;padding:clamp(14px,2vw,22px);border:1px solid var(--line2);border-radius:var(--r);background:var(--paper);transition:border-color .2s}
+.blog-card:hover{border-color:var(--gold)}
+.blog-card img{width:100%;height:auto;border-radius:12px;display:block;aspect-ratio:16/9;object-fit:cover}
+.blog-card .case-h2{font-size:clamp(1.4rem,2.4vw,2rem);margin-top:6px}
+.blog-card p:not(.mono){color:var(--txt2);margin-top:10px}
+.blog-card .mono{color:var(--txt3);font-size:12px}
+.blog-card .blog-read{display:inline-block;margin-top:14px;color:var(--gold-ink)}
+@media (max-width:760px){.blog-card{grid-template-columns:1fr}.blog-item{grid-template-columns:1fr}.blog-item>.mono{padding-top:0}}
+.blog-card,.blog-card *{text-decoration:none}
 </style>
 <link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/ro/","inLanguage":"ro","installUrl":"https://play.google.com/store/apps/details?id=com.domusrenov.ebanist","description":"Aplicație de proiectare mobilier pentru tâmplari. Proiectezi corpul pe telefon și primești lista de debitare, etichetele pieselor, fișa de montaj și desenul tehnic. Rulează în browser, merge offline. Gratuit pentru 1 proiect.","offers":[{"@type":"Offer","name":"Gratuit","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app","https://play.google.com/store/apps/details?id=com.domusrenov.ebanist"]}}</script>
@@ -1019,6 +1042,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </div>
     <nav class="foot-nav" aria-label="Footer">
+      <a href="/ro/blog/">Blog</a>
       <a href="/termeni.html">Termeni</a>
       <a href="/privacy.html">Confidențialitate</a>
       <a href="/rambursare.html">Rambursare</a>
