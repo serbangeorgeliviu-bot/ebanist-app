@@ -264,7 +264,7 @@ function boot(canvas) {
 
   R = { renderer, scene, camera, key, fill, rim, hemi, ground, contact, root, canvas, dark,
         pieces: new Map(), model: null, sig: "", need: true, raf: 0,
-        st: { explode: 0, open: 0, mode: "real", hw: false, holes: false, sel: null, iso: false, edges: true },
+        st: { explode: 0, open: 0, mode: "real", hw: false, holes: false, dims: false, sel: null, iso: false, edges: true },
         cam: { yaw: .46, pitch: .30, zoom: 1, cx: 0, cy: 0, cz: 0, rad: 1 }, bounds: null, full: null };
   return R;
 }
@@ -448,6 +448,69 @@ function buildHardware(model) {
 }
 
 /* --- stato → visibilità ------------------------------------------------ */
+/* ---- COTE DI LUCE ------------------------------------------------------
+   Le cote vengono da `dimensionSpec` (ebanist-ops.js, min/max dei pezzi): il
+   3D mostra quello che la distinta taglia. Linee e etichette senza test di
+   profondita, cosi si leggono anche attraverso le ante; spariscono quando il
+   mobile e esploso, perche le cote descriverebbero un corpo che non c'e. */
+const DIM_COLOR = 0xb8860b;
+const LBL_CACHE = new Map();
+function labelTexture(text) {
+  let t = LBL_CACHE.get(text);
+  if (t) return t;
+  const cv = document.createElement("canvas"); cv.width = 256; cv.height = 96;
+  const g = cv.getContext("2d");
+  g.fillStyle = "rgba(255,255,255,.92)"; g.strokeStyle = "#b8860b"; g.lineWidth = 5;
+  const r = 20; g.beginPath(); g.moveTo(r, 6); g.arcTo(250, 6, 250, 90, r); g.arcTo(250, 90, 6, 90, r); g.arcTo(6, 90, 6, 6, r); g.arcTo(6, 6, 250, 6, r); g.closePath();
+  g.fill(); g.stroke();
+  g.fillStyle = "#14181d"; g.font = "700 50px 'Barlow Condensed', Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillText(text, 128, 50);
+  t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace;
+  LBL_CACHE.set(text, t);
+  return t;
+}
+function clearDims() {
+  if (!R.dims) return;
+  for (const c of [...R.dims.children]) {
+    R.dims.remove(c);
+    if (c.geometry) c.geometry.dispose();
+    if (c.material) c.material.dispose();      // texturile restano in LBL_CACHE
+  }
+}
+function buildDims(model) {
+  if (!R.dims) { R.dims = new THREE.Group(); R.dims.renderOrder = 10; R.root.add(R.dims); }
+  clearDims();
+  const spec = model && model.ops && typeof dimensionSpec === "function" ? dimensionSpec(model.ops.pieces) : null;
+  R.dimSpec = spec;
+  if (!spec) return;
+  const size = Math.max(spec.L, spec.H, spec.P) * MM, off = 70, tick = 28, lh = size * 0.065;
+  const lineMat = new THREE.LineBasicMaterial({ color: DIM_COLOR, depthTest: false, transparent: true });
+  const pts = [];
+  const seg = (a, b) => pts.push(a[0] * MM, a[1] * MM, a[2] * MM, b[0] * MM, b[1] * MM, b[2] * MM);
+  const label = (txt, at) => {
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTexture(txt), depthTest: false, transparent: true }));
+    sp.position.set(at[0] * MM, at[1] * MM, at[2] * MM); sp.scale.set(lh * 256 / 96, lh, 1); sp.renderOrder = 11;
+    R.dims.add(sp);
+  };
+  const [x0, y0, z0] = spec.min, [x1, y1, z1] = spec.max, zf = z1 + 4;
+  /* L sotto, H a sinistra, P a destra: davanti al mobile */
+  seg([x0, y0 - off, zf], [x1, y0 - off, zf]); seg([x0, y0 - off - tick, zf], [x0, y0 - off + tick, zf]); seg([x1, y0 - off - tick, zf], [x1, y0 - off + tick, zf]);
+  label(String(spec.L), [(x0 + x1) / 2, y0 - off, zf]);
+  seg([x0 - off, y0, zf], [x0 - off, y1, zf]); seg([x0 - off - tick, y0, zf], [x0 - off + tick, y0, zf]); seg([x0 - off - tick, y1, zf], [x0 - off + tick, y1, zf]);
+  label(String(spec.H), [x0 - off, (y0 + y1) / 2, zf]);
+  seg([x1 + off, y0, z0], [x1 + off, y0, z1]); seg([x1 + off, y0 - tick, z0], [x1 + off, y0 + tick, z0]); seg([x1 + off, y0 - tick, z1], [x1 + off, y0 + tick, z1]);
+  label(String(spec.P), [x1 + off, y0, (z0 + z1) / 2]);
+  /* luci libere, una linea per colonna e per vano */
+  spec.gaps.forEach(g => {
+    seg([g.x, g.y0, zf], [g.x, g.y1, zf]); seg([g.x - tick / 2, g.y0, zf], [g.x + tick / 2, g.y0, zf]); seg([g.x - tick / 2, g.y1, zf], [g.x + tick / 2, g.y1, zf]);
+    label(String(Math.round(g.h)), [g.x, (g.y0 + g.y1) / 2, zf]);
+  });
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+  const ls = new THREE.LineSegments(geo, lineMat); ls.renderOrder = 10; ls.frustumCulled = false;
+  R.dims.add(ls);
+}
+
 /* Un pezzo e segnalato se la sua riga di distinta e fra quelle che la
    chiusura del gabarito (D-43) nomina in un guasto. */
 function isFlagged(P) {
@@ -484,6 +547,7 @@ function applyState() {
     });
     P.holes.visible = st.holes || hwMode || isSel;
   }
+  if (R.dims) R.dims.visible = !!st.dims && !(st.explode > 0.01) && !(st.iso && sel);
   R.need = true; kick();
 }
 
@@ -693,6 +757,7 @@ const GL3D = {
         R.sig = sig;
         R.model = computeModel(cfg, boxes, built || { pieces: [] });
         buildHardware(R.model);
+        buildDims(R.model);
         if (R.st.sel != null && !R.pieces.has(String(R.st.sel))) { R.st.sel = null; R.st.iso = false; }
       }
       R.boxes = boxes;
@@ -742,6 +807,8 @@ const GL3D = {
     R.need = true; kick();
   },
   model() { return R ? R.model : null; },
+  /* per le prove: cosa c'e nel gruppo delle cote */
+  dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; R.renderer.render(R.scene, R.camera); return R.canvas.toDataURL("image/png"); },
   theme() { if (!this.ok) return; R.dark = isDark(); R.scene.background = gradientBg(R.dark);
     R.ground.material.opacity = R.dark ? .34 : .16; R.contact.material.opacity = R.dark ? .8 : .5; applyState(); },
@@ -759,7 +826,7 @@ const GL3D = {
     try {
       this.render(cfg, { explode: o.explode || 0 });
       Object.assign(R.st, { mode: o.mode || "real", hw: !!o.hw, holes: !!o.holes, open: !!o.open,
-        sel: null, iso: false, edges: o.edges !== false, explode: o.explode || 0 });
+        sel: null, iso: false, dims: false, edges: o.edges !== false, explode: o.explode || 0 });
       setTargets(R.boxes); applyState();
       if (V) { V.yaw = o.yaw != null ? o.yaw : .62; V.pitch = o.pitch != null ? o.pitch : .36; V.zoom = o.zoom || 1; }
       const w = o.w || 1200, h = o.h || 900;

@@ -2632,6 +2632,33 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("lista: 2L+2C desenează cele patru laturi", e.patru === true);
   }
 
+  /* cote de lumină pe 3D: dimensionSpec desenat în viewer */
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build"); buildCfg = { ...PRESETS.armadio, doors: 0 }; syncBuildForm(); draw3D(); await w(400); studioSync();
+      const btn = document.getElementById("btnDims3d");
+      o.implicit = GL3D.dimsInfo().visible === false;
+      btn.click(); await w(200); const i = GL3D.dimsInfo();
+      o.vizibil = i.visible === true && btn.classList.contains("on");
+      o.etichete = i.labels === 3 + i.spec.gaps.length && i.spec.gaps.length > 0;
+      o.gabarit = i.spec.L === buildCfg.L && i.spec.H === buildCfg.H;
+      GL3D.set({ explode: 1 }); await w(100); o.ascuns = GL3D.dimsInfo().visible === false;
+      GL3D.set({ explode: 0 }); await w(100); o.revine = GL3D.dimsInfo().visible === true;
+      btn.click(); await w(100); o.oprit = GL3D.dimsInfo().visible === false;
+      return o;
+    });
+    if (d.fara_gl) ok("cote 3D: fără WebGL, sărit", true);
+    else {
+      ok("cote 3D: implicit ascunse", d.implicit === true);
+      ok("cote 3D: butonul le arată, cu 3 cote exterioare + câte o lumină pe vano", d.vizibil === true && d.etichete === true, JSON.stringify(d));
+      ok("cote 3D: gabaritul din cote = cota corpului", d.gabarit === true);
+      ok("cote 3D: dispar în vederea explodată și revin", d.ascuns === true && d.revine === true);
+      ok("cote 3D: butonul le oprește", d.oprit === true);
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

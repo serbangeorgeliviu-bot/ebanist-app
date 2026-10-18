@@ -1346,6 +1346,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <button class="vtb" id="btnOpen3d" title="Ante aperte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h9v18H4z"/><path d="M13 5l7-2v18l-7-2"/></svg><span data-i="vtOpen">Apri</span></button>
           <button class="vtb" id="btnHw3d" title="Ferramenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span data-i="vtHw">Ferramenta</span></button>
           <button class="vtb" id="btnHoles3d" title="Fori"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="3.4"/></svg><span data-i="vtHoles">Fori</span></button>
+          <button class="vtb" id="btnDims3d" title="Cote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10M20 7v10M4 12h16M7 9l-3 3 3 3M17 9l3 3-3 3"/></svg><span data-i="vtDims">Cote</span></button>
           <button class="vtb" id="btnCoh3d" title="Coerenza" hidden style="--coh:#c02f2f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4.5M12 17.5v.01"/></svg><span id="cohN"></span></button>
         </div>
         <div class="vt vt-side" role="toolbar">
@@ -3029,6 +3030,13 @@ Object.assign(I18N.fr,{nestKeep:"Chute à garder",nestWaste:"Perte"});
 Object.assign(I18N.de,{nestKeep:"Wiederverwendbarer Rest",nestWaste:"Verschnitt"});
 Object.assign(I18N.pl,{nestKeep:"Resztka do zachowania",nestWaste:"Odpad"});
 Object.assign(I18N.es,{nestKeep:"Retal reutilizable",nestWaste:"Desperdicio"});
+Object.assign(I18N.it,{vtDims:"Quote"});
+Object.assign(I18N.ro,{vtDims:"Cote"});
+Object.assign(I18N.en,{vtDims:"Dimensions"});
+Object.assign(I18N.fr,{vtDims:"Cotes"});
+Object.assign(I18N.de,{vtDims:"Maße"});
+Object.assign(I18N.pl,{vtDims:"Wymiary"});
+Object.assign(I18N.es,{vtDims:"Cotas"});
 Object.assign(I18N.it,{vtCoh:"Coerenza"});
 Object.assign(I18N.ro,{vtCoh:"Coerență"});
 Object.assign(I18N.en,{vtCoh:"Consistency"});
@@ -7614,7 +7622,8 @@ function studioSync(){
   $("btnOpen3d").classList.toggle("on",!!st.open);
   $("btnHw3d").classList.toggle("on",st.mode==="hw");
   $("btnHoles3d").classList.toggle("on",!!st.holes);
-  ["btnOpen3d","btnHw3d","btnHoles3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
+  $("btnDims3d").classList.toggle("on",!!st.dims);
+  ["btnOpen3d","btnHw3d","btnHoles3d","btnDims3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
   cohSync(M);
   const box=$("pcsList"); if(!box) return;
   if(!M||!M.ops||!M.ops.pieces.length){
@@ -7673,6 +7682,7 @@ function studioInit(){
     const on=window.GL3D.state.mode!=="hw"; window.GL3D.set({mode:on?"hw":"real"}); studioTab=on?"hw":"pcs";
     if(on) $("grpPieces").open=true; studioSync(); });
   $("btnHoles3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({holes:!window.GL3D.state.holes}); studioSync(); });
+  $("btnDims3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({dims:!window.GL3D.state.dims}); studioSync(); });
   $("btnCoh3d").addEventListener("click",()=>{ if(!gl3dOn())return; cohOn=!cohOn; studioSync();
     if(cohOn){ const iss=cohIssues(window.GL3D.model()); if(iss.length) toast(iss[0].why); } });
   document.querySelectorAll("[data-view3d]").forEach(b=>b.addEventListener("click",()=>{

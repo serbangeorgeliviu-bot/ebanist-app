@@ -596,7 +596,43 @@ function matchRow(piece, rows) {
   return same.length ? { row: same[0], exact: false } : null;
 }
 
-var API = { HW_DRILL: HW_DRILL, generateOperations: generate, matchOpsRow: matchRow };
+/* ------------------------------------------------------------------------ */
+/* COTE DE LUMINA PE 3D: dai pezzi fisici (stesso `pieces` di generate), le tre
+   cote esterne del corpo e, colonna per colonna, le luci libere fra base,
+   ripiani e cielo. Niente cote scritte a mano: tutto da min/max dei pezzi, cosi
+   il 3D mostra quello che la distinta taglia. */
+var DIM_EXT = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, schienale: 1, ripiano: 1, divisorio: 1,
+  zoccolo: 1, traversa_cielo: 1, traversa: 1 };
+var DIM_HOR = { base: 1, cielo: 1, base_cielo: 1, ripiano: 1, traversa_cielo: 1 };
+function dimensionSpec(pieces, opts) {
+  var minGap = (opts && opts.minGap) || 20;
+  var ps = (pieces || []).filter(function (p) { return p && p.min && p.max && DIM_EXT[p.role]; });
+  if (!ps.length) return null;
+  var lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9], a, i;
+  ps.forEach(function (p) { for (a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], p.min[a]); hi[a] = Math.max(hi[a], p.max[a]); } });
+  var H = hi[1] - lo[1];
+  /* i pezzi verticali che chiudono una colonna: fianchi e tramezzi alti quasi quanto il corpo */
+  var vert = ps.filter(function (p) {
+    return (p.role === "fianco" || p.role === "divisorio") && p.max[1] - p.min[1] > 0.6 * H &&
+      Math.abs((p.max[0] - p.min[0]) - (p.thickness || 0)) < 1;
+  }).sort(function (x, y) { return x.min[0] - y.min[0]; });
+  var hor = ps.filter(function (p) { return DIM_HOR[p.role] && Math.abs((p.max[1] - p.min[1]) - (p.thickness || 0)) < 1; });
+  var gaps = [];
+  for (i = 0; i + 1 < vert.length; i++) {
+    var cl = vert[i].max[0], ch = vert[i + 1].min[0];
+    if (ch - cl < 40) continue;
+    var stack = hor.filter(function (p) { return p.min[0] < ch - 1 && p.max[0] > cl + 1; })
+      .sort(function (x, y) { return x.min[1] - y.min[1]; });
+    for (var j = 0; j + 1 < stack.length; j++) {
+      var g0 = stack[j].max[1], g1 = stack[j + 1].min[1];
+      if (g1 - g0 >= minGap) gaps.push({ x: (cl + ch) / 2, y0: g0, y1: g1, h: Math.round((g1 - g0) * 10) / 10, col: i });
+    }
+  }
+  return { min: lo, max: hi, L: Math.round((hi[0] - lo[0]) * 10) / 10, H: Math.round(H * 10) / 10,
+           P: Math.round((hi[2] - lo[2]) * 10) / 10, gaps: gaps };
+}
+
+var API = { HW_DRILL: HW_DRILL, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 
