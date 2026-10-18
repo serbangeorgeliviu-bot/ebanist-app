@@ -298,6 +298,8 @@ table.gv td.gv-new{color:var(--danger);font-weight:700}
 .pc-right{flex:none;text-align:right}
 .pc-pz{font-family:var(--font-disp);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums}
 .pc-bordo{font-size:11px;color:var(--red);font-weight:600;letter-spacing:.5px}
+.pc-bordo{display:flex;align-items:center;justify-content:flex-end;gap:5px}
+.pc-edge{display:inline-flex;flex:none}
 
 /* ---------- buttons ---------- */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px 16px;
@@ -4687,7 +4689,7 @@ function renderList(){
         <button class="pc-check${x.done?" on":""}" data-chk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></button>
         <div class="pc-dim">${x.lung}<i>×</i>${x.larg}${angTag(x)}${(cd=>cd.d?`<div style="font-size:11px;font-weight:600;color:var(--red,#c33);letter-spacing:0">✂ ${fmtMm(cd.L)}×${fmtMm(cd.W)}</div>`:"")(cutLW(x))}</div>
         <div class="pc-info"><div class="pc-el">${esc(elName(x.elemento))}${scList(x).length?` <span style="color:var(--red,#c33);font-size:11px">✂ ${esc(scTxt(x))}</span>`:""}</div><div class="pc-mat">${esc(shortMat)}</div>${jointTag(x)}${curveTag(x)}</div>
-        <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>${hasCfg&&x.role&&x.role!=="accessorio"?`<button class="pc-ops" data-ops title="${esc(t("listHoles"))}" aria-label="${esc(t("listHoles"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8" cy="9" r="1.6"/><circle cx="16" cy="9" r="1.6"/><circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="2.6"/></svg></button>`:""}`;
+        <div class="pc-right"><div class="pc-pz">×${x.pz}</div><div class="pc-bordo">${/[12][LC]/i.test(x.bordo||"")?`<span class="pc-edge" title="${esc(x.bordo)}">${edgeSvg(x.bordo,30)}</span>`:""}${x.grain?"↕ ":""}${esc(x.bordo||"—")}</div></div>${hasCfg&&x.role&&x.role!=="accessorio"?`<button class="pc-ops" data-ops title="${esc(t("listHoles"))}" aria-label="${esc(t("listHoles"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8" cy="9" r="1.6"/><circle cx="16" cy="9" r="1.6"/><circle cx="8" cy="15" r="1.6"/><circle cx="16" cy="15" r="2.6"/></svg></button>`:""}`;
       r.querySelector("[data-chk]").addEventListener("click",e=>{
         e.stopPropagation(); x.done=x.done?0:1; persist(); renderList();
       });
@@ -10350,13 +10352,14 @@ $("btnMont").addEventListener("click",()=>{
 });
 
 /* ================= ETICHETTE & PACCHETTO LABORATORIO ================= */
-function edgeSvg(bordo){
+function edgeSvg(bordo,w){
   // diagramma bordatura: lati lunghi = orizzontali, corti = verticali
   const b=(bordo||"").toUpperCase();
   const nL=b.includes("2L")?2:b.includes("1L")?1:0;
   const nC=b.includes("2C")?2:b.includes("1C")?1:0;
   const th="stroke='#3e6b0a' stroke-width='3'", tn="stroke='#bbb' stroke-width='0.8'";
-  return `<svg width="46" height="30" viewBox="0 0 46 30">
+  const W=w||46, H=Math.round(W*30/46);
+  return `<svg width="${W}" height="${H}" viewBox="0 0 46 30" aria-hidden="true">
     <line x1="3" y1="3" x2="43" y2="3" ${nL>=1?th:tn}/>
     <line x1="3" y1="27" x2="43" y2="27" ${nL>=2?th:tn}/>
     <line x1="3" y1="3" x2="3" y2="27" ${nC>=1?th:tn}/>

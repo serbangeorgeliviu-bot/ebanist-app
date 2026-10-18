@@ -2612,6 +2612,26 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nesting: legenda apare cu resturi și dispare fără", n.legenda === true && n.zero === true);
   }
 
+  /* iconița de cant pe rândul din lista de debitare (edgeSvg, ca pe etichete) */
+  {
+    const e = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "Z" }); setView("list"); await w(300); renderList();
+      const rows = p.pieces.filter(x => x.role !== undefined || true);
+      const want = p.pieces.filter(x => /[12][LC]/i.test(x.bordo || "")).length;
+      o.icoane = document.querySelectorAll(".pc .pc-edge svg").length; o.cu = want;
+      o.textRamane = [...document.querySelectorAll(".pc .pc-edge")].every(el => /[12][LC]/i.test(el.parentElement.textContent));
+      const full = p.pieces.find(x => /2L\+2C/i.test(x.bordo || ""));
+      if (full) { const el = [...document.querySelectorAll(".pc")].find(r => r.querySelector(".pc-edge[title='2L+2C']")); o.patru = !!el && el.querySelectorAll(".pc-edge line[stroke='#3e6b0a']").length === 4; } else o.patru = true;
+      p.pieces = []; p.configs = {}; persist(); setView("projects");
+      return o;
+    });
+    ok("lista: fiecare rând cu cant are iconița lui", e.icoane > 0 && e.icoane === e.cu, JSON.stringify(e));
+    ok("lista: textul cantului rămâne lângă iconiță", e.textRamane === true);
+    ok("lista: 2L+2C desenează cele patru laturi", e.patru === true);
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
