@@ -7569,7 +7569,20 @@ let studioTab="pcs", cohOn=false;
    `elemento`. Nessun'altra verifica qui: una sola verita. */
 function cohIssues(M){
   if(!M||!M.cfg||!M.rows||!M.rows.length) return [];
-  try{ return closureOf(M.cfg,M.rows).filter(e=>e.delta!==0&&e.delta!=null); }catch(e){ return []; }
+  const out=[];
+  try{
+    for(const e of closureOf(M.cfg,M.rows))
+      if(e.delta!==0&&e.delta!=null) out.push({names:e.piese_implicate||[],why:closureWhy(e)});
+  }catch(e){}
+  /* gli invarianti per ruolo: il pezzo e quello giusto per il suo posto */
+  try{
+    if(CASSA_TYPES.indexOf(M.cfg.type||"standard")>=0&&typeof carcassMaterials==="function"){
+      const {MAT,G}=auditGeom(M.cfg);
+      for(const r of invariantsOf(M.cfg,M.rows,G,MAT))
+        if(r.ok===false) out.push({names:r.piese_implicate||[],why:auT(r.why)});
+    }
+  }catch(e){}
+  return out;
 }
 function cohSync(M){
   const b=$("btnCoh3d"); if(!b) return;
@@ -7578,8 +7591,8 @@ function cohSync(M){
   if(!iss.length) cohOn=false;
   b.classList.toggle("on",cohOn);
   $("cohN").textContent=iss.length?String(iss.length):"";
-  b.title=iss.length?iss.map(closureWhy).join("\n"):t("vtCoh");
-  if(gl3dOn()) window.GL3D.flag(cohOn?iss.flatMap(e=>e.piese_implicate||[]):null);
+  b.title=iss.length?iss.map(e=>e.why).join("\n"):t("vtCoh");
+  if(gl3dOn()) window.GL3D.flag(cohOn?iss.flatMap(e=>e.names):null);
 }
 function studioSync(){
   const M=gl3dOn()?window.GL3D.model():null, st=gl3dOn()?window.GL3D.state:{};
@@ -7647,7 +7660,7 @@ function studioInit(){
     if(on) $("grpPieces").open=true; studioSync(); });
   $("btnHoles3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({holes:!window.GL3D.state.holes}); studioSync(); });
   $("btnCoh3d").addEventListener("click",()=>{ if(!gl3dOn())return; cohOn=!cohOn; studioSync();
-    if(cohOn){ const iss=cohIssues(window.GL3D.model()); if(iss.length) toast(closureWhy(iss[0])); } });
+    if(cohOn){ const iss=cohIssues(window.GL3D.model()); if(iss.length) toast(iss[0].why); } });
   document.querySelectorAll("[data-view3d]").forEach(b=>b.addEventListener("click",()=>{
     if(gl3dOn()) window.GL3D.view(b.dataset.view3d);
     else { const V={front:[0.08,0.05],side:[1.45,0.05],top:[0.08,1.2],iso:[0.62,0.38]}[b.dataset.view3d]||[.46,.3];
@@ -9268,20 +9281,26 @@ function invariantsOf(cfg,pieces,G,MAT){
 }
 
 /* Verifica un corpo: le cote derivate piu la distinta che ne e uscita. */
+/* Le cote e le grossezze con cui si verifica un corpo: le stesse che usa il
+   generatore. Una sola strada, per la foglia di audit e per il 3D. */
+function auditGeom(cfg){
+  const P=cfg.P, support=cfg.support||"zoccolo";
+  const pl=support==="sospeso"?0:(cfg.plinth||0);
+  /* le stesse grossezze che usa il generatore: se le due strade le
+     calcolassero da sole, il controllo verificherebbe un corpo diverso
+     da quello che e andato in distinta. */
+  const MAT=carcassMaterials(cfg);
+  const backTh=cfg.back?Math.min(MAT.sp.schienale,Math.max(0,P-50)):0;
+  const G=deriveCarcass(carcassParams(cfg,{P,pl,backTh,support,sp:MAT.sp}));
+  return {MAT,G};
+}
 function auditModule(cfg,pieces){
   if(typeof deriveCarcass!=="function") return [];
   /* le tipologie che non sono una cassa (tavolo, tondo, letto…) non hanno
      cote di carcassa da verificare: non si inventa un corpo che non c'e. */
   if(cfg&&cfg.type&&CASSA_TYPES.indexOf(cfg.type)<0) return [];
   try{
-    const P=cfg.P, support=cfg.support||"zoccolo";
-    const pl=support==="sospeso"?0:(cfg.plinth||0);
-    /* le stesse grossezze che usa il generatore: se le due strade le
-       calcolassero da sole, il controllo verificherebbe un corpo diverso
-       da quello che e andato in distinta. */
-    const MAT=carcassMaterials(cfg);
-    const backTh=cfg.back?Math.min(MAT.sp.schienale,Math.max(0,P-50)):0;
-    const G=deriveCarcass(carcassParams(cfg,{P,pl,backTh,support,sp:MAT.sp}));
+    const {MAT,G}=auditGeom(cfg);
     /* copie, non le righe di ASSERTIONS: il testo tradotto non deve
        finire nella tabella delle regole */
     const failed=checkAssertions(G,auditCtx(cfg,pieces))

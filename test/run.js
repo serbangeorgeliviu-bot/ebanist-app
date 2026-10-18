@@ -2580,6 +2580,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       btn.click(); await w(200); o.pornit = btn.classList.contains("on");
       btn.click(); await w(100); o.oprit = !btn.classList.contains("on");
       window.closureOf = real; studioSync(); o.dispare = btn.hidden === true;
+      /* invarianții pe rol: doar ei, fără lanțurile de închidere */
+      window.closureOf = () => [];
+      const rows = M.rows.map(x => x.role === "ripiano" ? { ...x, ys: [9999] } : x);
+      const rp = M.rows.find(x => x.role === "ripiano"), iv = cohIssues({ ...M, rows });
+      o.inv = !rp || (iv.length >= 1 && iv.some(e => e.names.includes(rp.elemento)));
+      window.closureOf = real;
       return o;
     });
     if (c.fara_gl) ok("coerență 3D: fără WebGL, sărit", true);
@@ -2588,6 +2594,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       ok("coerență 3D: o închidere căzută → butonul apare cu numărul", c.apare === true);
       ok("coerență 3D: butonul pornește și oprește evidențierea", c.pornit === true && c.oprit === true);
       ok("coerență 3D: butonul dispare când corpul se închide", c.dispare === true);
+      ok("coerență 3D: un invariant pe rol căzut numește piesa", c.inv === true);
     }
   }
 
