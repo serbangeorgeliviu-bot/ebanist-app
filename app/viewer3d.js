@@ -1182,7 +1182,7 @@ const GL3D = {
       setRoom(opts.room);
       R.cfg = cfg;
       boxes = setModel(boxes, cfg);
-      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig();
+      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1), keyOf(b, cfg)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig();
       if (sig !== R.sig) {
         R.sig = sig;
         R.model = computeModel(cfg, boxes, built || { pieces: [] });
@@ -1296,6 +1296,8 @@ const GL3D = {
   /* apropie camera de o piesă: pk, raza vizată (mm) și o deplasare (mm) față de centrul piesei;
      focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
   focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
+  /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
+  hwCount() { let n = 0; if (R) for (const P of R.pieces.values()) n += P.hw.children.length; return n; },
   ssao(on) { SSAO.enabled = !!on; if (!on) SSAO.U.uAoOn.value = 0; if (R) { R.need = true; kick(); } },
   touch() { if (this.ok) { R.need = true; kick(); } },
   resize,
