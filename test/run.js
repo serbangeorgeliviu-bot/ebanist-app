@@ -2159,6 +2159,27 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   }
   {
+    head("Telefon — constructorul nu depășește ecranul (butoanele de documente trec pe rânduri)");
+    const mctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
+    const mp = await mctx.newPage();
+    const merr = []; mp.on("pageerror", e => merr.push(String(e)));
+    await mp.goto(URL); await mp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await mp.waitForTimeout(3300);
+    const mo = await mp.evaluate(async () => {
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      generateInto(p, { ...PRESETS.armadio, name: "M1" }); setView("build");
+      await new Promise(r => setTimeout(r, 800));
+      const ids = ["btnDraw", "btnElab", "btnAsmA3", "btnPack", "btnRoom"], bs = ids.map(i => document.getElementById(i).getBoundingClientRect());
+      return { sw: document.documentElement.scrollWidth, iw: innerWidth, right: Math.max(...bs.map(b => b.right)), rows: new Set(bs.map(b => Math.round(b.top))).size };
+    });
+    await mp.close(); await mctx.close();
+    ok("telefon: pagina nu e mai lată decât ecranul", mo.sw <= mo.iw, JSON.stringify(mo));
+    ok("telefon: toate butoanele de documente încap în ecran", mo.right <= mo.iw, JSON.stringify(mo));
+    ok("telefon: butoanele trec pe mai multe rânduri", mo.rows >= 2, JSON.stringify(mo));
+    ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
+
+  }
+  {
     head("Foaia A3 de fabricație — textele urmează limba din meniu");
     const sctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const sp = await sctx.newPage();
