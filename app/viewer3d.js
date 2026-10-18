@@ -332,6 +332,10 @@ function materialFor(key) {
     m = new THREE.MeshStandardMaterial({ color: 0x2c2e33, roughness: .38, metalness: .85, envMapIntensity: 1.1 });
   } else if (key === "__zinc") {
     m = new THREE.MeshStandardMaterial({ color: 0xb3b7ba, roughness: .4, metalness: .95, envMapIntensity: 1.15 });
+  } else if (key === "__brass") {
+    m = new THREE.MeshStandardMaterial({ color: 0xc7a24c, roughness: .35, metalness: .9, envMapIntensity: 1.2 });
+  } else if (key === "__domino") {
+    m = new THREE.MeshStandardMaterial({ color: 0x8c5b39, roughness: .8, metalness: 0 });
   } else if (key === "__nylon") {
     m = new THREE.MeshStandardMaterial({ color: 0xe4e0d4, roughness: .62, metalness: 0 });
   } else if (key === "__nylongrey") {
@@ -699,6 +703,14 @@ function box(mat, lo, hi) {
 }
 const along = (w, ax, d) => { const o = w.slice(); o[ax] += d; return o; };
 
+/* alegerea de feronerie: pe corp (cfg.hwSel) sau cea din Catalog; intră în semnătura
+   modelului ca schimbarea ei să refacă găurile și feroneria din 3D */
+function hwProdSig() { try { return typeof state === "object" && state.settings ? JSON.stringify(state.settings.hwProd || null) : ""; } catch (e) { return ""; } }
+function hwId(cat) {
+  try { const it = typeof hwItemFor === "function" && R && R.cfg ? hwItemFor(R.cfg, cat) : null; return it && it.id ? String(it.id) : ""; }
+  catch (e) { return ""; }
+}
+
 function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (!model || !model.ops) return;
@@ -711,10 +723,11 @@ function buildHardware(model) {
     if (h.type === "cerniera") {
       /* Blum CLIP top: tazza în ușă, flanșă cu urechi, braț din tablă, pivot,
          placă de montaj pe lateral cu două șuruburi și șurub de reglaj */
-      const w = h.w, sd = h.hingeLeft ? 1 : -1;
-      P.hw.add(tag(cyl("__zinc", along(w, 2, 0), along(w, 2, 11.5), 35)));
-      P.hw.add(tag(cyl("__zinc", along(w, 2, -1.2), along(w, 2, 0.4), 37.5)));
-      P.hw.add(tag(box("__zinc", [w[0] - 9, w[1] - 24, w[2] - 1.6], [w[0] + 9, w[1] + 24, w[2] - 0.2])));
+      const w = h.w, sd = h.hingeLeft ? 1 : -1, hid = hwId("cern");
+      const HM = /^haf_/.test(hid) ? "__inox" : "__zinc", damper = /^blum_71b/.test(hid), inset = hid === "haf_duomatic";
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 11.5), 35)));
+      P.hw.add(tag(cyl(HM, along(w, 2, -1.2), along(w, 2, 0.4), 37.5)));
+      P.hw.add(tag(box(HM, [w[0] - 9, w[1] - 24, w[2] - 1.6], [w[0] + 9, w[1] + 24, w[2] - 0.2])));
       [-1, 1].forEach(k => P.hw.add(tag(cyl("__inox", [w[0], w[1] + k * 21, w[2] - 1.6], [w[0], w[1] + k * 21, w[2] - 3.2], 5.5))));
       if (h.plate && A) {
         const p = h.plate, px = p[0] + sd * 11, ax = (w[0] + px) / 2;
@@ -724,7 +737,10 @@ function buildHardware(model) {
         A.hw.add(tag(box("__zinc", [p[0] + sd * 2.6, p[1] - 9, p[2] - 14], [px, p[1] + 9, p[2] + 14])));
         [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [p[0] + sd * 2.6, p[1] + k * 16, p[2] + 11], [p[0] + sd * 4.4, p[1] + k * 16, p[2] + 11], 6.5))));
         /* braț: tablă îndoită de la flanșă la placă */
-        P.hw.add(tag(box("__zinc", [Math.min(ax, px) - 5.5, w[1] - 11, zb], [Math.max(ax, px) + 5.5, w[1] + 11, zt])));
+        P.hw.add(tag(box(HM, [Math.min(ax, px) - 5.5, w[1] - 11, zb], [Math.max(ax, px) + 5.5, w[1] + 11, zt])));
+        /* BLUMOTION / SM: amortizorul integrat, cilindru pe braț; la balamaua în ușă (inset) brațul e mai gros */
+        if (damper || /^haf_/.test(hid)) P.hw.add(tag(cyl("__blackmetal", [ax, w[1] - 8, zb + 14], [ax, w[1] + 22, zb + 14], 9)));
+        if (inset) P.hw.add(tag(box(HM, [Math.min(ax, px) - 8, w[1] - 11, zb], [Math.max(ax, px) + 8, w[1] + 11, zb + 6])));
         P.hw.add(tag(cyl("__inox", [w[0], w[1] - 13, w[2] - 5], [w[0], w[1] + 13, w[2] - 5], 8)));
         P.hw.add(tag(cyl("__blackmetal", [ax, w[1], zb], [ax, w[1], zb - 3.5], 6)));
         P.hw.add(tag(box("__nylongrey", [px - sd * 1.5, w[1] - 5, zb - 1], [px + sd * 6, w[1] + 5, zb + 7])));
@@ -744,7 +760,8 @@ function buildHardware(model) {
     } else if (h.type === "guida") {
       /* culisantă ascunsă: șina corpului (profil C pe lateral, rolă, fixare în
          spate) rămâne pe loc; alergătorul cu clemă de față merge cu sertarul */
-      const w = h.w, s = h.side < 0 ? 1 : -1, y = w[1], z1 = w[2], zf = z1 - h.len;
+      const w = h.w, s = h.side < 0 ? 1 : -1, y = w[1], z1 = w[2], zf = z1 - h.len, gid = hwId("guida");
+      const side = gid === "blum_230m" || gid === "haf_ball", movento = gid === "blum_movento";
       const X = (a, b) => [w[0] + s * a, w[0] + s * b].sort((u, v) => u - v);
       const bx = (m, xa, xb, ya, yb, za, zb, G) => { const x = X(xa, xb); (G || P.hw).add(tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb]))); };
       bx("__zinc", 0, 1.8, -10, 26, zf + 6, z1 - 6);              // placa de fixare pe lateral
@@ -755,6 +772,16 @@ function buildHardware(model) {
       [-1, 1].forEach(k => { const c = [w[0] + s * 1.8, y + 8 + k * 6, z1 - 3]; P.hw.add(tag(cyl("__inox", c, [c[0] + s * 1.2, c[1], c[2]], 5.5))); });
       const x0 = w[0] + s * 4, rl = [x0, y + 8, z1 - 24];
       P.hw.add(tag(cyl("__nylon", rl, [x0 + s * 7, rl[1], rl[2]], 13)));
+      if (side) {
+        /* culisantă laterală: șina corpului e vizibilă, cu role sau bile */
+        bx("__zinc", 1.8, 7.5, -4, 30, zf + 8, z1 - 8);
+        const nb = gid === "haf_ball" ? 7 : 3;
+        for (let k = 0; k < nb; k++) {
+          const zz = zf + 22 + k * ((h.len - 44) / Math.max(nb - 1, 1)), c = [w[0] + s * 7.5, y + 13, zz];
+          if (gid === "haf_ball") { P.hw.add(tag(sph("__inox", [c[0], c[1] - 6, zz], 5))); P.hw.add(tag(sph("__inox", [c[0], c[1] + 6, zz], 5))); }
+          else P.hw.add(tag(cyl("__nylon", [c[0] - s * 3, y + 13, zz], [c[0] + s * 4, y + 13, zz], 12)));
+        }
+      }
       /* partea mobilă, pe peretele sertarului din partea aceasta */
       let D = null;
       for (const Q of R.pieces.values()) {
@@ -765,22 +792,45 @@ function buildHardware(model) {
       }
       const G = D ? D.hw : P.hw, rel = D ? [String(D.pk), String(h.piece)] : null;
       const gb = (m, xa, xb, ya, yb, za, zb) => { const x = X(xa, xb); const q = tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb])); if (rel) q.userData.rel = rel; G.add(q); };
-      gb("__zinc", 2.2, 12, -8.6, -4.6, zf + 22, z1 - 14);        // alergătorul de jos
+      if (side) gb("__zinc", 7.5, 12.7, -4, 30, zf + 8, z1 - 8);   // șina sertarului
+      else gb("__zinc", 2.2, 12, -8.6, -4.6, zf + 22, z1 - 14);    // alergătorul de jos
       gb("__zinc", 2.2, 4, -8.6, 18, zf + 22, zf + 30);           // cârligul din spate
-      gb("__nylongrey", 2.2, 12.5, -8.6, 16, z1 - 40, z1 - 8);    // clema de fixare din față
+      gb(movento ? "__blackmetal" : "__nylongrey", 2.2, 12.5, -8.6, 16, z1 - 40, z1 - 8);    // clema de fixare din față
       gb("__nylon", 8, 12.5, 16, 19, z1 - 40, z1 - 24);           // pârghia de eliberare
     } else if (h.type === "maniglia") {
-      /* mâner bară: capete rotunjite, stâlpi cu rozete la față */
-      const w = h.w, ia = h.ia, L2 = ia / 2 + 22, zb = w[2] + 32;
-      const a = h.vertical ? [w[0], w[1] - L2, zb] : [w[0] - L2, w[1], zb];
-      const b = h.vertical ? [w[0], w[1] + L2, zb] : [w[0] + L2, w[1], zb];
-      P.hw.add(tag(cyl("__blackmetal", a, b, 12), true));
-      P.hw.add(tag(sph("__blackmetal", a, 12), true)); P.hw.add(tag(sph("__blackmetal", b, 12), true));
-      [-1, 1].forEach(k => {
-        const p1 = h.vertical ? [w[0], w[1] + k * ia / 2, w[2]] : [w[0] + k * ia / 2, w[1], w[2]];
-        P.hw.add(tag(cyl("__blackmetal", along(p1, 2, 1.5), along(p1, 2, 33), 8.5), true));
-        P.hw.add(tag(cyl("__blackmetal", p1, along(p1, 2, 3), 17), true));
-      });
+      /* după articolul ales: mâner bară negru, bară inox, sau buton */
+      const w = h.w, mid = hwId("man"), HM = mid === "haf_bar128" ? "__inox" : "__blackmetal";
+      if (h.knob) {
+        P.hw.add(tag(cyl(HM, w, along(w, 2, 3), 20), true));
+        P.hw.add(tag(cyl(HM, along(w, 2, 1.5), along(w, 2, 24), 7), true));
+        P.hw.add(tag(sph(HM, along(w, 2, 31), 30), true));
+      } else {
+        const ia = h.ia, L2 = ia / 2 + 22, zb = w[2] + 32;
+        const a = h.vertical ? [w[0], w[1] - L2, zb] : [w[0] - L2, w[1], zb];
+        const b = h.vertical ? [w[0], w[1] + L2, zb] : [w[0] + L2, w[1], zb];
+        P.hw.add(tag(cyl(HM, a, b, 12), true));
+        P.hw.add(tag(sph(HM, a, 12), true)); P.hw.add(tag(sph(HM, b, 12), true));
+        [-1, 1].forEach(k => {
+          const p1 = h.vertical ? [w[0], w[1] + k * ia / 2, w[2]] : [w[0] + k * ia / 2, w[1], w[2]];
+          P.hw.add(tag(cyl(HM, along(p1, 2, 1.5), along(p1, 2, 33), 8.5), true));
+          P.hw.add(tag(cyl(HM, p1, along(p1, 2, 3), 17), true));
+        });
+      }
+    } else if (h.type === "confirmat") {
+      /* șurub confirmat 7×50: capul pe fața exterioară a lui F, tija intră în muchia lui E */
+      const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
+      const hd = along(h.w, h.eAx, h.eSide * ext), tip = along(h.w, h.eAx, -h.eSide * (50 - ext));
+      P.hw.add(tag(cyl("__brass", hd, tip, 7)));
+      P.hw.add(tag(cyl("__brass", hd, along(hd, h.eAx, h.eSide * 3.5), 10.5)));
+    } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex") {
+      /* lamela / tenon / conector: corp care trece din F în E, orientat după canal */
+      const D = { biscuit: [56, 4, 12.5, 12.5, "__wooddowel"], domino: [22, 8, 15, 25, "__domino"], clamex: [64, 9.7, 14, 14, "__nylongrey"] }[h.type];
+      const lo = h.w.slice(), hi = h.w.slice();
+      const e0 = h.w[h.eAx] + h.eSide * D[2], e1 = h.w[h.eAx] - h.eSide * D[3];
+      lo[h.eAx] = Math.min(e0, e1); hi[h.eAx] = Math.max(e0, e1);
+      lo[h.sAx] = h.w[h.sAx] - D[0] / 2; hi[h.sAx] = h.w[h.sAx] + D[0] / 2;
+      lo[h.camAx] = h.w[h.camAx] - D[1] / 2; hi[h.camAx] = h.w[h.camAx] + D[1] / 2;
+      P.hw.add(tag(box(D[4], lo, hi)));
     }
   });
   /* fori e cave: dischi scuri sulla superficie, un InstancedMesh per pezzo */
@@ -986,6 +1036,14 @@ function updateBoundsAndLights(boxes) {
 /* un pezzo selezionato e isolato: la camera lo inquadra da solo */
 function focusBounds() {
   const st = R.st;
+  /* privire de aproape (GL3D.focusOn): centrul e un punct al piesei, cu raza dată */
+  if (R.focusOv) {
+    const P = R.pieces.get(String(R.focusOv.pk));
+    if (P) {
+      const B = boundsOf(P.boxes), o = R.focusOv.off || [0, 0, 0];
+      if (B) return { cx: B.cx + P.tgt.ex + o[0] * MM, cy: B.cy + P.tgt.ey + o[1] * MM, cz: B.cz + P.tgt.ez + o[2] * MM, rad: R.focusOv.rad * MM, size: (R.full && R.full.size) || B.size };
+    }
+  }
   if (st.iso && st.sel != null) {
     const P = R.pieces.get(String(st.sel));
     if (P) {
@@ -1122,8 +1180,9 @@ const GL3D = {
       let boxes = opts.boxes ? opts.boxes.slice() : (built = buildModule(cfg)).boxes;
       if (opts.explode != null) R.st.explode = opts.explode;
       setRoom(opts.room);
+      R.cfg = cfg;
       boxes = setModel(boxes, cfg);
-      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1)])) + "|" + cfg.handles + "|" + cfg.shelfType;
+      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig();
       if (sig !== R.sig) {
         R.sig = sig;
         R.model = computeModel(cfg, boxes, built || { pieces: [] });
@@ -1234,6 +1293,9 @@ const GL3D = {
       resize();
     }
   },
+  /* apropie camera de o piesă: pk, raza vizată (mm) și o deplasare (mm) față de centrul piesei;
+     focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
+  focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
   ssao(on) { SSAO.enabled = !!on; if (!on) SSAO.U.uAoOn.value = 0; if (R) { R.need = true; kick(); } },
   touch() { if (this.ok) { R.need = true; kick(); } },
   resize,
