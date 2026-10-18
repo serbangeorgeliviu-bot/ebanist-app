@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.68.2 — 18 octombrie 2026
+
+**Balamaua din 3D seamănă acum cu CLIP top.** Până acum era un bloc cu un stâlp, nu o balama. Acum are cupa Ø35 cu inel, flanșa de 57 × 27,5 mm cu cele două găuri la 45 mm și șuruburi, legătura (linkul) înclinată, placa de montaj de pe lateral cu două șuruburi la 32 mm și brațul lung de tablă, cu profil mai înalt spre ușă, fantă și două șuruburi de reglaj. Cutia neagră a amortizorului BLUMOTION apare doar la modelele cu amortizor. Cotele cupei și flanșei sunt din fișa Blum 71B3590 (același corp, cu boss INSERTA): cupă Ø35, adâncime 13, flanșă 57 × 27,5 × 6,4, găuri Ø8 la 45 mm, excentric 9,5.
+
+Brațul stă pe placa de pe lateral și rămâne pe loc când ușa se deschide; cupa și linkul merg cu ușa. Forma brațului și lungimea lui sunt aproximări după fotografiile Blum, nu după un desen cotat. Nu schimbă nicio cotă, nicio gaură și nicio distinctă.
+
 ## 4.68.1 — 18 octombrie 2026
 
 **Mânerele și balamalele nu mai dispar din 3D când schimbi materialul.** Când schimbai decorul frontului sau al corpului, piesele își schimbau materialul, dar feroneria (mânere, balamale, culisante) nu se mai reconstruia: rămâneai cu uși și sertare fără mânere până la altă modificare care schimba geometria. Semnătura modelului din viewer include acum și materialul fiecărei piese, deci orice schimbare de decor refă și feroneria.

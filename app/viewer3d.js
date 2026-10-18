@@ -332,6 +332,8 @@ function materialFor(key) {
     m = new THREE.MeshStandardMaterial({ color: 0x2c2e33, roughness: .38, metalness: .85, envMapIntensity: 1.1 });
   } else if (key === "__zinc") {
     m = new THREE.MeshStandardMaterial({ color: 0xb3b7ba, roughness: .4, metalness: .95, envMapIntensity: 1.15 });
+  } else if (key === "__zincD" || key === "__inoxD") {
+    m = materialFor(key.slice(0, -1)).clone(); m.side = THREE.DoubleSide;
   } else if (key === "__brass") {
     m = new THREE.MeshStandardMaterial({ color: 0xc7a24c, roughness: .35, metalness: .9, envMapIntensity: 1.2 });
   } else if (key === "__domino") {
@@ -721,31 +723,56 @@ function buildHardware(model) {
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;
     const tag = (m, always) => { m.userData.hw = h.type; m.userData.always = !!always; m.userData.rel = [String(h.piece), String(h.against)]; return m; };
     if (h.type === "cerniera") {
-      /* Blum CLIP top: tazza în ușă, flanșă cu urechi, braț din tablă, pivot,
-         placă de montaj pe lateral cu două șuruburi și șurub de reglaj */
+      /* Blum CLIP top (fișa 71B3590/71B3550): cupă Ø35 adâncă 13, flanșă 57 × 27,5 cu două găuri la 45 mm
+         (excentric 9,5 față de cupă), braț lung din tablă îndoită, pe placa de montaj de pe lateral;
+         amortizorul BLUMOTION e o cutie neagră pe braț; două șuruburi de reglaj pe capătul brațului */
       const w = h.w, sd = h.hingeLeft ? 1 : -1, hid = hwId("cern");
-      const HM = /^haf_/.test(hid) ? "__inox" : "__zinc", damper = /^blum_71b/.test(hid), inset = hid === "haf_duomatic";
-      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 11.5), 35)));
-      P.hw.add(tag(cyl(HM, along(w, 2, -1.2), along(w, 2, 0.4), 37.5)));
-      P.hw.add(tag(box(HM, [w[0] - 9, w[1] - 24, w[2] - 1.6], [w[0] + 9, w[1] + 24, w[2] - 0.2])));
-      [-1, 1].forEach(k => P.hw.add(tag(cyl("__inox", [w[0], w[1] + k * 21, w[2] - 1.6], [w[0], w[1] + k * 21, w[2] - 3.2], 5.5))));
+      const HM = /^haf_/.test(hid) ? "__inox" : "__zinc", damper = /^blum_71b/.test(hid) || /^haf_/.test(hid), inset = hid === "haf_duomatic";
+      const y = w[1], z0 = w[2];
+      /* — partea din ușă: cupă, flanșă cu urechi, șuruburi, brațul de legătură — */
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      P.hw.add(tag(cyl(HM, along(w, 2, -1.7), along(w, 2, 0.3), 37)));
+      const fx0 = w[0] - sd * 14, fx1 = w[0] + sd * 13.5;
+      P.hw.add(tag(box(HM, [Math.min(fx0, fx1), y - 28.5, z0 - 1.7], [Math.max(fx0, fx1), y + 28.5, z0 - 0.1])));
+      [-1, 1].forEach(k => {
+        const c = [w[0] + sd * 9.5, y + k * 22.5, z0 - 1.7];
+        P.hw.add(tag(cyl("__blackmetal", c, [c[0], c[1], c[2] - 0.15], 8.4)));
+        P.hw.add(tag(cyl("__inox", [c[0], c[1], c[2] - 0.1], [c[0], c[1], c[2] - 1.6], 6)));
+      });
       if (h.plate && A) {
-        const p = h.plate, px = p[0] + sd * 11, ax = (w[0] + px) / 2;
-        const zt = Math.min(w[2] - 3, p[2] + 4), zb = p[2] - 4;
-        /* placa de montaj: bază subțire + bloc ridicat, șuruburi pe bază */
-        A.hw.add(tag(box("__zinc", [p[0], p[1] - 24, p[2] - 19], [p[0] + sd * 2.6, p[1] + 24, p[2] + 19])));
-        A.hw.add(tag(box("__zinc", [p[0] + sd * 2.6, p[1] - 9, p[2] - 14], [px, p[1] + 9, p[2] + 14])));
-        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [p[0] + sd * 2.6, p[1] + k * 16, p[2] + 11], [p[0] + sd * 4.4, p[1] + k * 16, p[2] + 11], 6.5))));
-        /* braț: tablă îndoită de la flanșă la placă */
-        P.hw.add(tag(box(HM, [Math.min(ax, px) - 5.5, w[1] - 11, zb], [Math.max(ax, px) + 5.5, w[1] + 11, zt])));
-        /* BLUMOTION / SM: amortizorul integrat, cilindru pe braț; la balamaua în ușă (inset) brațul e mai gros */
-        if (damper || /^haf_/.test(hid)) P.hw.add(tag(cyl("__blackmetal", [ax, w[1] - 8, zb + 14], [ax, w[1] + 22, zb + 14], 9)));
-        if (inset) P.hw.add(tag(box(HM, [Math.min(ax, px) - 8, w[1] - 11, zb], [Math.max(ax, px) + 8, w[1] + 11, zb + 6])));
-        P.hw.add(tag(cyl("__inox", [w[0], w[1] - 13, w[2] - 5], [w[0], w[1] + 13, w[2] - 5], 8)));
-        P.hw.add(tag(cyl("__blackmetal", [ax, w[1], zb], [ax, w[1], zb - 3.5], 6)));
-        P.hw.add(tag(box("__nylongrey", [px - sd * 1.5, w[1] - 5, zb - 1], [px + sd * 6, w[1] + 5, zb + 7])));
+        const p = h.plate, up = p[0] + sd * 0, zp = p[2];
+        const xo = (d) => p[0] + sd * d;
+        /* — placa de montaj de pe lateral: bază 3 mm, 45 × 40, cu două șuruburi la 32 mm — */
+        A.hw.add(tag(box(HM, [Math.min(p[0], xo(3)), p[1] - 22.5, zp - 20], [Math.max(p[0], xo(3)), p[1] + 22.5, zp + 20])));
+        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [xo(3), p[1] + k * 16, zp + 13], [xo(4.4), p[1] + k * 16, zp + 13], 6.5))));
+        /* — brațul: tablă îndoită, mai înalt spre ușă (profil trapez), lat de 22 mm — */
+        const zNear = z0 - 16, zFar = zNear - 56;
+        const sh = new THREE.Shape();
+        sh.moveTo(zFar, 3); sh.lineTo(zNear, 3); sh.lineTo(zNear, inset ? 27 : 23); sh.lineTo(zFar + 18, 16); sh.lineTo(zFar, 13); sh.closePath();
+        const g = new THREE.ExtrudeGeometry(sh, { depth: 22, bevelEnabled: false });
+        g.translate(0, 0, -11);
+        /* (a, b, depth) → (z, xo, y): permutare ciclică, deci rotație proprie */
+        const M = new THREE.Matrix4().set(0, sd, 0, p[0] * 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1);
+        g.applyMatrix4(M); g.translate(0, p[1], 0); g.scale(MM, MM, MM);
+        const arm = new THREE.Mesh(g, materialFor(HM + "D")); arm.castShadow = true; arm.userData.own = true;
+        A.hw.add(tag(arm));
+        /* amortizor, pivot și șuruburi de reglaj */
+        if (damper) A.hw.add(tag(box("__blackmetal", [xo(4), p[1] - 8, zNear - 22], [xo(11), p[1] + 8, zNear - 3])));
+        A.hw.add(tag(cyl("__inox", [xo(14), p[1] - 11, zNear - 1], [xo(14), p[1] + 11, zNear - 1], 5.5)));
+        [[zFar + 9, 13.2], [zFar + 31, 18]].forEach(([zz, hh]) => {
+          A.hw.add(tag(cyl("__inox", [xo(hh), p[1], zz], [xo(hh + 1.6), p[1], zz], 7.5)));
+          A.hw.add(tag(box("__blackmetal", [xo(hh + 1.6), p[1] - 0.6, zz - 2.8], [xo(hh + 1.9), p[1] + 0.6, zz + 2.8])));
+          A.hw.add(tag(box("__blackmetal", [xo(hh + 1.6), p[1] - 2.8, zz - 0.6], [xo(hh + 1.9), p[1] + 2.8, zz + 0.6])));
+        });
+        A.hw.add(tag(box("__blackmetal", [xo(12), p[1] - 3, zFar + 16], [xo(17.6), p[1] + 3, zFar + 26])));  // fanta de reglaj
+        /* legătura din ușă: stâlp scurt de la flanșă la pivot */
+        const a = [w[0], y, z0 - 1.7], b = [xo(14), y, zNear - 1];
+        const L = Math.hypot(b[0] - a[0], b[2] - a[2]), lk = new THREE.Mesh(UNIT, materialFor(HM));
+        lk.position.set((a[0] + b[0]) / 2 * MM, y * MM, (a[2] + b[2]) / 2 * MM); lk.scale.set(3.2 * MM, 17 * MM, L * MM);
+        lk.rotation.y = Math.atan2(b[0] - a[0], b[2] - a[2]); lk.castShadow = true; P.hw.add(tag(lk));
+        P.hw.add(tag(cyl("__inox", [a[0] - sd * 0, y - 10, z0 - 3.5], [a[0], y + 10, z0 - 3.5], 4.5)));
       } else {
-        P.hw.add(tag(box("__zinc", [w[0] - 5, w[1] - 11, w[2] - 14], [w[0] + 5, w[1] + 11, w[2] - 1.6])));
+        P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
       }
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
     } else if (h.type === "minifix") {
