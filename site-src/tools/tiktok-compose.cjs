@@ -63,6 +63,18 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  for(const s of TL.segs){const f0=n+1;for(let i=0;i<s.n;i++)add(path.join(BASE,"frames","f_"+String(s.first+i).padStart(5,"0")+".jpg"));marks.push({from:f0,to:n,cap:s.cap,sw:s.swatch?s.swatch[0]:null})}
  for(const s of segS){const f0=n+1;for(let i=0;i<s.n;i++)add(path.join(D,"sheet-"+s.name+"-"+String(i).padStart(3,"0")+".jpg"));marks.push({from:f0,to:n,cap:s.cap,sw:null})}
  add(end,Math.round(2.8*FPS));
+ /* vocea (Piper, doar pentru limbile cu voce): replică la începutul fiecărui segment */
+ const VOICE_TXT={it:{hook:"Ebanist. Mobili progettati come in fabbrica.",c1:"Scegli il decoro, e lo vedi subito.",c2:"Ante e cassetti, come nella realtà.",c3:"Cerniere Blum, disegnate nel dettaglio.",c4:"Guide telescopiche, con la loro clip.",c5:"Maniglie, con rosette.",c6:"Cambi la ferramenta? Cambia all'istante.",c7:"E le giunzioni si vedono: Domino, Confirmat, Lamello.",c8:"Dossier tecnico A3, con un clic.",c9:"Quote dal bordo, all'asse del foro.",c10:"Foglio di montaggio, con posizioni numerate.",end:"Ebanist. Provalo gratis su ebanist punto com."}}[L];
+ let voiceFile=null;
+ if(VOICE_TXT&&process.env.PIPER_VOICE){
+   const cues=[{start:0.35,avail:3.1,text:VOICE_TXT.hook}], seen=new Set();
+   marks.forEach(m=>{ if(!m.cap||seen.has(m.cap)) return; seen.add(m.cap); const same=marks.filter(x=>x.cap===m.cap); const from=Math.min(...same.map(x=>x.from)), to=Math.max(...same.map(x=>x.to));
+     cues.push({start:(from-1)/FPS+(m.cap==="c1"?1.5:0.12),avail:(to-from+1)/FPS-(m.cap==="c1"?1.6:0.2),text:VOICE_TXT[m.cap]}); });
+   cues.push({start:(n-Math.round(2.8*FPS))/FPS+0.3,avail:2.3,text:VOICE_TXT.end});
+   fs.writeFileSync(path.join(D,"cues.json"),JSON.stringify(cues));
+   voiceFile=path.join(D,"voice.wav");
+   cp.execFileSync(process.env.PIPER_PY||"python3",[path.join(__dirname,"tiktok-voice.py"),path.join(D,"cues.json"),voiceFile,String(n/FPS),process.env.PIPER_VOICE],{stdio:"inherit"});
+ }
  /* ffmpeg: suprapunerile cu enable pe interval de timp */
  const ins=["-framerate",String(FPS),"-i",path.join(D,"seq","s_%05d.jpg")], fc=[]; let last="0:v", ii=0;
  const ovs=[];marks.forEach(m=>{if(m.cap)ovs.push({f:path.join(D,"ov","cap-"+m.cap+".png"),a:(m.from-1)/FPS,b:m.to/FPS});if(m.sw)ovs.push({f:path.join(D,"ov","sw-"+m.sw+".png"),a:(m.from-1)/FPS,b:m.to/FPS})});
@@ -70,7 +82,8 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  const merged=[];ovs.forEach(o=>{const p=merged.find(x=>x.f===o.f&&Math.abs(x.b-o.a)<1e-6);if(p)p.b=o.b;else merged.push({...o})});
  merged.forEach(o=>{ins.push("-loop","1","-i",o.f);ii++;const out="v"+ii;fc.push(`[${last}][${ii}:v]overlay=0:0:enable='between(t,${o.a.toFixed(3)},${o.b.toFixed(3)})'[${out}]`);last=out});
  const outFile=path.join(BASE,"ebanist-tiktok-"+L+".mp4");
- const args=[...["-loglevel","error","-y"],...ins,"-filter_complex",fc.join(";"),"-map","["+last+"]","-r",String(FPS),"-c:v","libx264","-crf","20","-preset","slow","-pix_fmt","yuv420p","-movflags","+faststart","-shortest",outFile];
+ if(voiceFile){ins.push("-i",voiceFile);}
+ const args=[...["-loglevel","error","-y"],...ins,"-filter_complex",fc.join(";"),"-map","["+last+"]",...(voiceFile?["-map",(ii+1)+":a","-af","loudnorm=I=-16:TP=-1.5:LRA=9","-c:a","aac","-b:a","160k","-ar","44100"]:[]),"-r",String(FPS),"-c:v","libx264","-crf","20","-preset","slow","-pix_fmt","yuv420p","-movflags","+faststart","-shortest",outFile];
  cp.execFileSync("ffmpeg",args,{stdio:"inherit"});
  console.log("gata",outFile,"cadre",n,"sec",(n/FPS).toFixed(1));
 });
