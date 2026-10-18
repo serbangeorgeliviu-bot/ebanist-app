@@ -217,6 +217,7 @@ table.gv td.gv-new{color:var(--danger);font-weight:700}
 .eyebrow{font-family:var(--font-disp);font-size:12.5px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;
   color:var(--red);margin:22px 0 9px;display:flex;align-items:center;gap:9px}
 .eyebrow::before{content:"";flex:none;width:18px;height:2px;border-radius:2px;background:var(--gold)}
+.exp-h{font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 -2px;letter-spacing:.3px}
 
 /* ---------- cards / list ---------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px;
@@ -313,6 +314,8 @@ table.gv td.gv-new{color:var(--danger);font-weight:700}
 .btn.sm{width:auto;padding:9px 14px;font-size:13.5px;border-radius:10px}
 .btn svg{width:17px;height:17px;flex:none}
 .btnrow{display:flex;gap:10px;margin:12px 0}
+#v-summary .btnrow{flex-wrap:wrap}
+#v-summary .btnrow .btn{flex:1 1 150px}
 .btnrow .btn{flex:1}
 
 /* FAB */
@@ -1678,21 +1681,19 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="card card-tbl"><table class="t" id="costTable"></table></div>
     <div id="offerList" hidden></div>
     <div class="eyebrow" data-i="export">Esporta</div>
+    <div class="exp-h" data-i="expClient">Per il cliente</div>
+    <div class="btnrow">
+      <button class="btn" id="btnQuote">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span data-i="quote">PDF preventivo</span>
+      </button>
+    </div>
+    <div class="exp-h" data-i="expShop">Taglio e fornitore</div>
     <div class="btnrow">
       <button class="btn red" id="btnPdf">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
         <span data-i="exportPdf">PDF distinta</span>
       </button>
-      <button class="btn" id="btnQuote">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        <span data-i="quote">PDF preventivo</span>
-      </button>
-      <button class="btn" id="btnMont">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        <span data-i="mTitle">Scheda montaggio</span>
-      </button>
-    </div>
-    <div class="btnrow">
       <button class="btn" id="btnLabels">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg>
         <span data-i="lblBtn">Etichette</span>
@@ -1701,18 +1702,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
         <span data-i="labBtn">Al laboratorio</span>
       </button>
-    </div>
-    <div class="btnrow">
       <button class="btn" id="btnOrder">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
         <span data-i="orderBtn">Comandă furnizor</span>
       </button>
-      <button class="btn" id="btnTransp">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        <span data-i="transpBtn">Trece pe ușă?</span>
-      </button>
-    </div>
-    <div class="btnrow">
       <button class="btn" id="btnCsv">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5-5 5 5M12 5v12" transform="rotate(180 12 12)"/></svg>
         <span>CSV</span>
@@ -1720,6 +1713,17 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <button class="btn" id="btnShare">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
         <span data-i="share">Condividi</span>
+      </button>
+    </div>
+    <div class="exp-h" data-i="expSite">Officina e cantiere</div>
+    <div class="btnrow">
+      <button class="btn" id="btnMont">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <span data-i="mTitle">Scheda montaggio</span>
+      </button>
+      <button class="btn" id="btnTransp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span data-i="transpBtn">Trece pe ușă?</span>
       </button>
     </div>
     <button class="btn ghost" id="btnJson" style="margin-bottom:6px">
@@ -3037,6 +3041,13 @@ Object.assign(I18N.fr,{vtDims:"Cotes"});
 Object.assign(I18N.de,{vtDims:"Maße"});
 Object.assign(I18N.pl,{vtDims:"Wymiary"});
 Object.assign(I18N.es,{vtDims:"Cotas"});
+Object.assign(I18N.it,{expClient:"Per il cliente",expShop:"Taglio e fornitore",expSite:"Officina e cantiere"});
+Object.assign(I18N.ro,{expClient:"Pentru client",expShop:"Debitare și furnizor",expSite:"Atelier și șantier"});
+Object.assign(I18N.en,{expClient:"For the client",expShop:"Cutting and supplier",expSite:"Workshop and site"});
+Object.assign(I18N.fr,{expClient:"Pour le client",expShop:"Débit et fournisseur",expSite:"Atelier et chantier"});
+Object.assign(I18N.de,{expClient:"Für den Kunden",expShop:"Zuschnitt und Lieferant",expSite:"Werkstatt und Baustelle"});
+Object.assign(I18N.pl,{expClient:"Dla klienta",expShop:"Cięcie i dostawca",expSite:"Warsztat i budowa"});
+Object.assign(I18N.es,{expClient:"Para el cliente",expShop:"Corte y proveedor",expSite:"Taller y obra"});
 Object.assign(I18N.it,{vtCoh:"Coerenza"});
 Object.assign(I18N.ro,{vtCoh:"Coerență"});
 Object.assign(I18N.en,{vtCoh:"Consistency"});

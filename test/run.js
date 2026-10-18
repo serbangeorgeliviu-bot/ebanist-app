@@ -2659,6 +2659,24 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  /* Rezumat: butoanele de export în trei grupe, fiecare buton o singură dată */
+  {
+    const x = await pg.evaluate(async () => {
+      closeSheets(); setView("summary"); await new Promise(r => setTimeout(r, 300));
+      const g = {};
+      document.querySelectorAll("#v-summary .exp-h").forEach(h => {
+        const row = h.nextElementSibling; g[h.dataset.i] = [...row.querySelectorAll("button")].map(b => b.id);
+      });
+      setView("projects");
+      return g;
+    });
+    const all = [].concat(...Object.values(x));
+    ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
+    ok("export: fiecare dintre cele 9 butoane e într-o grupă, o singură dată",
+      all.length === 9 && new Set(all).size === 9 && ["btnPdf","btnQuote","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+    ok("export: oferta e la client, montajul la atelier", x.expClient.join() === "btnQuote" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
