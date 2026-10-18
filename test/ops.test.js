@@ -157,5 +157,22 @@ describe("Profilo gola in catalogo: niente fori di maniglia", () => {
 test("nel catalogo il profilo gola e marcato profile:1, e handleIsProfile lo legge", () => {
   const html = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
   assert.match(html, /\{id:"haf_profil",[^\n]*profile:1\}/);
-  assert.match(html, /function handleIsProfile\(\)\{[^\n]*hwItem\("man"\)[^\n]*it\.profile/);
+  /* dal 4.68.0 se citește articolul ales pe corp (hwItemFor), nu doar cel din Catalog */
+  assert.match(html, /function handleIsProfile\(cfg\)\{[^\n]*hwItemFor\(cfg\|\|null,"man"\)[^\n]*it\.profile/);
+  assert.match(html, /function handleIsKnob\(cfg\)\{[^\n]*hwItemFor\(cfg\|\|null,"man"\)[^\n]*it\.knob/);
+});
+
+test("butonul are o singură gaură pe front, bara două (4.68.0)", () => {
+  const cfg = { type: "standard", L: 600, H: 800, P: 500, doors: 1, hingeSel: "maniglia" };
+  const holes = (o) => o.pieces.filter(p => p.role === "frontale" || p.sub === "door")
+    .reduce((n, p) => n + p.operations.filter(x => x.type === "drill" && /maniglia|pomello/.test(x.note || "")).length, 0);
+  const bar = genWith(Object.assign({ handles: "maniglia" }, cfg), {});
+  S.handleIsKnob = () => true;
+  const kn = genWith(Object.assign({ handles: "maniglia" }, cfg), {});
+  delete S.handleIsKnob;
+  const nb = holes(bar.o), nk = holes(kn.o);
+  assert.ok(nb >= 2, "bara: cel puțin două găuri, are " + nb);
+  assert.equal(nk, nb / 2);
+  assert.ok(kn.o.hw.filter(h => h.type === "maniglia").every(h => h.knob === true));
+  assert.ok(bar.o.hw.filter(h => h.type === "maniglia").every(h => h.knob === false));
 });

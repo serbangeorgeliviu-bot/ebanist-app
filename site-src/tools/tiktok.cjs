@@ -1,115 +1,98 @@
-/* TikTok Ebanist (it, 9:16): armadio con ante sopra e cassetti sotto, zoom sui dettagli, voce italiana.
-   node tiktok.cjs [outDir]   — richiede playwright, ffmpeg, piper-tts (+ it_IT-paola-medium.onnx accanto allo script o in PIPER_MODEL).
-   Frame per frame: la camera e le animazioni sono guidate dalla linea del tempo (non dal tempo reale), quindi il movimento
-   e fluido anche con WebGL software. L'app non si tocca: il server aggiunge a viewer3d.js un gancio (__R, __adv, __FB).
-   Env: FPS (30), DPR (2), ONLY=<scena> per provare una scena sola. */
+/* Film vertical (9:16) pentru TikTok: aplicația reală, înregistrată cu Playwright.
+   node site-src/tools/tiktok.cjs <ro|it|en|fr> [stills]
+   „stills" nu filmează: salvează un cadru la fiecare marcaj în vid-tt/<lang>/still-*.png
+   Ieșire: vid-tt/<lang>/*.webm (+ cut.txt); apoi ffmpeg → mp4 1080×1920, 30 fps. */
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
-const http=require("http"),fs=require("fs"),path=require("path"),cp=require("child_process");
-const root=process.env.EBANIST_APP||"/home/user/ebanist-app";
-const OUT=path.resolve(process.argv[2]||path.join(__dirname,"out"));
-const MODEL=process.env.PIPER_MODEL||path.join(__dirname,"it_IT-paola-medium.onnx");
-const FPS=+process.env.FPS||30, DPR=+process.env.DPR||2, ONLY=process.env.ONLY||"";
-fs.rmSync(OUT,{recursive:true,force:true});fs.mkdirSync(path.join(OUT,"frames"),{recursive:true});
-
-const CFG={name:"Armadio",type:"standard",L:900,L2:900,H:2000,P:580,plinth:80,tram:1,shelves:2,drawers:3,doors:2,back:1,hang:0,
-  drawerPos:"vista",secMode:["shelves"],drawerZone:700,drawerSys:"legrabox",drawerDist:"uguali"};
-const FULL=[0.45,0.78,0.3];
-
-/* cam: chiavi [u, cx,cy,cz, rad, yaw, pitch, zoom]; u = 0..1 dentro la scena */
-const K=(u,c,rad,yaw,pitch,zoom)=>({u,c,rad,yaw,pitch,zoom:zoom||1});
-const S=[
- {id:"hook",v:"Armadio su misura: ante sopra, cassetti sotto. Progettato sul telefono, in cinque minuti.",c:"Armadio su misura<br>progettato sul telefono",
-  keys:[K(0,FULL,1.14,0.95,0.2,1.2),K(1,FULL,1.14,0.2,0.18,1.3)]},
- {id:"open",v:"Apri ante e cassetti direttamente nel modello tre di.",c:"Ante e cassetti si aprono nel 3D",
-  keys:[K(0,FULL,1.14,0.4,0.2,1.3),K(1,[0.45,0.95,0.4],1.0,0.3,0.14,1.45)]},
- {id:"hinge",v:"Rendi tutto trasparente e vedi la ferramenta. La cerniera, con tazza e piastra di montaggio.",c:"Cerniera con tazza e piastra",
-  keys:[K(0,[0.45,0.95,0.4],1.0,0.3,0.14,1.45),K(0.55,[0.03,1.88,0.58],0.22,0.8,0.12,1),K(1,[0.03,1.88,0.58],0.2,0.9,0.1,1.1)]},
- {id:"slide",v:"La guida del cassetto si telescopa insieme al cassetto, come nella realtà.",c:"La guida si telescopa col cassetto",
-  keys:[K(0,[0.03,1.88,0.58],0.22,0.9,0.1,1),K(0.5,[0.88,0.3,0.42],0.32,-0.55,0.3,1),K(1,[0.88,0.3,0.42],0.26,-0.8,0.35,1)]},
- {id:"holes",v:"Ogni pezzo ha i suoi fori: ripiani, guide, giunzioni. Selezioni il fianco e li vedi, uno per uno.",c:"Ogni pezzo con i suoi fori",
-  keys:[K(0,[0.01,0.9,0.29],1.1,1.2,0.15,1.15),K(0.3,[0.01,0.4,0.29],0.5,1.0,0.2,1.1),K(1,[0.01,1.55,0.29],0.5,0.9,0.2,1.1)]},
- {id:"sheet",v:"E per ogni pezzo, un foglio A tre con le quote dal bordo all'asse del foro.",c:"Foglio A3 per ogni pezzo<br>quote dal bordo all'asse del foro",sheet:true},
- {id:"asm",v:"Vista esplosa con le posizioni numerate, e giunzioni a tua scelta: confirmat, lamello, Domino, Clamex. Il foglio di montaggio è già pronto.",c:"Montaggio con posizioni numerate<br>confirmat · lamello · Domino · Clamex",
-  keys:[K(0,FULL,1.4,0.55,0.25,1.3),K(0.55,FULL,1.4,0.35,0.2,1.35)],sheet2:true},
- {id:"cta",v:"Ebanist. Provalo gratis su ebanist punto com, e su Google Play.",c:"Provalo gratis<br>ebanist.com · Google Play",card:true}
-];
-const GAP=0.55; /* pausa dopo ogni frase */
-const todo=ONLY?S.filter(s=>s.id===ONLY):S;
-
-/* 1. voce */
-todo.forEach((s,i)=>{const wav=path.join(OUT,`v${i}.wav`);
-  cp.execFileSync("python3",["-m","piper","-m",MODEL,"-f",wav],{input:s.v});
-  s.wav=wav;s.dur=parseFloat(cp.execFileSync("ffprobe",["-v","error","-show_entries","format=duration","-of","csv=p=0",wav]).toString())+GAP;});
-let acc=0;todo.forEach(s=>{s.t0=acc;acc+=s.dur;s.n=Math.round(s.dur*FPS)});
-const TOTAL=acc;console.log("voce",todo.map(s=>s.id+":"+s.dur.toFixed(1)).join(" "),"tot",TOTAL.toFixed(1)+"s",Math.round(TOTAL*FPS)+" cadri");
-
-const ease=x=>x*x*(3-2*x);
-function camAt(keys,u){let a=keys[0],b=keys[keys.length-1];for(let i=0;i<keys.length-1;i++)if(u>=keys[i].u&&u<=keys[i+1].u){a=keys[i];b=keys[i+1];break}
-  const e=b.u>a.u?ease(Math.min(1,Math.max(0,(u-a.u)/(b.u-a.u)))):1,L=(p,q)=>p+(q-p)*e;
-  return{c:[L(a.c[0],b.c[0]),L(a.c[1],b.c[1]),L(a.c[2],b.c[2])],rad:L(a.rad,b.rad),yaw:L(a.yaw,b.yaw),pitch:L(a.pitch,b.pitch),zoom:L(a.zoom,b.zoom)}}
-
+const http=require("http"),fs=require("fs"),path=require("path");
+const L=process.argv[2]||"ro", STILLS=process.argv[3]==="stills", root=path.resolve(__dirname,"../.."), OUT=path.join(root,"vid-tt",L);
+fs.rmSync(OUT,{recursive:true,force:true});fs.mkdirSync(OUT,{recursive:true});
+const T={
+ ro:{h1:"Ebanist",h2:"Mobilier proiectat ca la fabrică",
+  c1:"Alegi decorul. Îl vezi pe loc.",c2:"Uși și sertare, ca în realitate",c3:"Balamale Blum, desenate la detaliu",c4:"Culisante telescopice cu clemă",
+  c5:"Mânere și rozete",c6:"Schimbi feroneria? Se schimbă pe loc",c7:"Îmbinările se văd: Domino, Confirmat, Lamello",c8:"Dosar tehnic A3 dintr-un clic",c9:"Foaie de fabricație: cote de la muchie la axa găurii",c10:"Foaie de montaj cu poziții numerotate",
+  m1:"Nogal Victoria",m2:"Rovere Wood Lime",m3:"Avocado Green",m4:"Bordeaux",m5:"Blue Avio",e1:"Ebanist",e2:"Încearcă gratuit pe ebanist.com"},
+ it:{h1:"Ebanist",h2:"Mobili progettati come in fabbrica",
+  c1:"Scegli il decoro. Lo vedi subito.",c2:"Ante e cassetti, come nella realtà",c3:"Cerniere Blum disegnate nel dettaglio",c4:"Guide telescopiche con clip",
+  c5:"Maniglie e rosette",c6:"Cambi la ferramenta? Cambia subito",c7:"Le giunzioni si vedono: Domino, Confirmat, Lamello",c8:"Dossier tecnico A3 con un clic",c9:"Foglio di fabbricazione: quote dal bordo all'asse del foro",c10:"Foglio di montaggio con posizioni numerate",
+  m1:"Nogal Victoria",m2:"Rovere Wood Lime",m3:"Avocado Green",m4:"Bordeaux",m5:"Blue Avio",e1:"Ebanist",e2:"Provalo gratis su ebanist.com"},
+ en:{h1:"Ebanist",h2:"Furniture designed like the factory does it",
+  c1:"Pick the decor. See it instantly.",c2:"Doors and drawers, like the real thing",c3:"Blum hinges, drawn in detail",c4:"Telescopic slides with clip",
+  c5:"Handles and rosettes",c6:"Change the hardware? It changes live",c7:"Joints you can see: Domino, Confirmat, Lamello",c8:"A3 technical dossier in one click",c9:"Shop sheet: dimensions from the edge to the hole axis",c10:"Assembly sheet with numbered positions",
+  m1:"Nogal Victoria",m2:"Rovere Wood Lime",m3:"Avocado Green",m4:"Bordeaux",m5:"Blue Avio",e1:"Ebanist",e2:"Try it free at ebanist.com"},
+ fr:{h1:"Ebanist",h2:"Du mobilier conçu comme en usine",
+  c1:"Choisissez le décor. Voyez-le tout de suite.",c2:"Portes et tiroirs, comme en vrai",c3:"Charnières Blum dessinées en détail",c4:"Coulisses télescopiques avec clip",
+  c5:"Poignées et rosaces",c6:"Vous changez la quincaillerie ? Ça change en direct",c7:"Les assemblages se voient : Domino, Confirmat, Lamello",c8:"Dossier technique A3 en un clic",c9:"Fiche de fabrication : cotes du bord à l'axe du perçage",c10:"Fiche de montage avec positions numérotées",
+  m1:"Nogal Victoria",m2:"Rovere Wood Lime",m3:"Avocado Green",m4:"Bordeaux",m5:"Blue Avio",e1:"Ebanist",e2:"À essayer gratuitement sur ebanist.com"}}[L];
 const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.url.split("?")[0]));if(fs.existsSync(f)&&fs.statSync(f).isDirectory())f=path.join(f,"index.html");
- if(!fs.existsSync(f)){r.statusCode=404;return r.end()}const ext=path.extname(f);r.setHeader("content-type",{".html":"text/html",".js":"text/javascript",".json":"application/json",".css":"text/css",".svg":"image/svg+xml",".woff2":"font/woff2",".webp":"image/webp",".png":"image/png"}[ext]||"application/octet-stream");
- r.end(f.endsWith("viewer3d.js")?fs.readFileSync(f,"utf8")+`
-window.__R=()=>R;
-const __fb=focusBounds; focusBounds=function(){return window.__FB||__fb()};
-kick=function(){};
-window.__adv=(n)=>{ if(R.raf){cancelAnimationFrame(R.raf);R.raf=0} for(let i=0;i<n;i++)step(); stepCamera(); R.renderer.render(R.scene,R.camera); };`:fs.readFileSync(f))}).listen(8796,async()=>{
+ if(!fs.existsSync(f)){r.statusCode=404;return r.end()}const ext=path.extname(f);r.setHeader("content-type",{".html":"text/html",".js":"text/javascript",".json":"application/json",".css":"text/css",".svg":"image/svg+xml",".woff2":"font/woff2",".webp":"image/webp",".png":"image/png"}[ext]||"application/octet-stream");r.end(fs.readFileSync(f))}).listen(8794,async()=>{
  const b=await chromium.launch({executablePath:"/opt/pw-browsers/chromium-1194/chrome-linux/chrome",args:["--use-gl=angle","--use-angle=swiftshader","--enable-unsafe-swiftshader","--no-sandbox"]});
- const ctx=await b.newContext({viewport:{width:540,height:960},deviceScaleFactor:DPR,isMobile:true,hasTouch:true});
+ const ctxo={viewport:{width:540,height:960},deviceScaleFactor:1.5};
+ if(!STILLS) ctxo.recordVideo={dir:OUT,size:{width:810,height:1440}};
+ const ctx=await b.newContext(ctxo);
  await ctx.addInitScript(()=>{try{localStorage.setItem("ebanist_lic",JSON.stringify({kind:"stripe",key:"comp_TESTTESTTESTTESTTESTTEST",status:"active",activated:true,checkedAt:Date.now()}))}catch(e){}});
- const pg=await ctx.newPage();const errs=[];pg.on("pageerror",e=>errs.push(String(e)));
- pg.setDefaultTimeout(60000);const w=ms=>pg.waitForTimeout(ms);
- const cap=h=>pg.evaluate(h=>{let d=document.getElementById("vcap");if(!d){d=document.createElement("div");d.id="vcap";d.style.cssText="position:fixed;left:18px;right:18px;bottom:150px;z-index:2147483647;padding:12px 16px;border-radius:14px;background:rgba(14,59,42,.92);color:#fff;font:700 23px/1.25 Barlow,system-ui,sans-serif;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.3)";document.body.appendChild(d)}d.innerHTML=h;d.style.display=h?"block":"none"},h);
- const card=(a,bb)=>pg.evaluate(([a,bb])=>{let d=document.getElementById("vcard");if(!d){d=document.createElement("div");d.id="vcard";d.style.cssText="position:fixed;inset:0;z-index:2147483646;background:#0e3b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-family:Barlow,system-ui,sans-serif;text-align:center;padding:30px";document.body.appendChild(d)}d.innerHTML=a?`<div style="font:700 20px Barlow;letter-spacing:7px;opacity:.8">EBANIST</div><div style="font:700 46px/1.1 Barlow">${a}</div><div style="font:400 22px/1.3 Barlow;opacity:.9">${bb||""}</div>`:"";d.style.display=a?"flex":"none"},[a,bb]);
- const sheet=(svg)=>pg.evaluate(svg=>{let d=document.getElementById("vsheet");if(!d){d=document.createElement("div");d.id="vsheet";d.style.cssText="position:fixed;inset:0;z-index:2147483645;background:#3b403c;display:flex;align-items:center;justify-content:center;overflow:hidden";document.body.appendChild(d)}
-   if(!svg){d.style.display="none";return}d.style.display="flex";d.innerHTML='<div id="vsh" style="width:100vw;flex:none;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,.5)">'+svg.replace(/width="420mm" height="297mm"/,'style="width:100%;height:auto;display:block"')+'</div>'},svg);
- const sheetXf=(s,ox,oy)=>pg.evaluate(([s,ox,oy])=>{const e=document.getElementById("vsh");e.style.transformOrigin=ox+"% "+oy+"%";e.style.transform="scale("+s+")"},[s,ox,oy]);
-
- await pg.goto("http://localhost:8796/app/index.html?lang=it");await pg.waitForFunction(()=>window.MAT_LOADED===true);await w(3000);
- await pg.locator('#btnIntroGo').click({timeout:1500}).catch(()=>{});await pg.getByText('Start',{exact:true}).click({timeout:1500}).catch(()=>{});await w(500);
- await pg.evaluate(cfg=>{closeSheets();const p=proj();p.pieces=[];p.configs={};p.layout={};generateInto(p,Object.assign({},cfg));buildCfg=Object.assign({},cfg);if(buildFormReady)syncBuildForm();persist();setView("build");draw3D()},CFG);await w(1500);
- await pg.locator("#btnPrevBig").click();await w(1200);
- await pg.evaluate(()=>{GL3D.set({open:false,mode:"real",hw:false,holes:false})});await w(500);
- /* fogli pronti prima di girare (la cattura WebGL e lenta) */
- const a3=await pg.evaluate(()=>{const M=GL3D.model();const pc=M.ops.pieces.find(q=>q.role==="fianco")||M.ops.pieces[0],m=M.meta[String(pc.pk)]||{},row=m.row||{},p=proj();
-   return EBSheet.partSheetSVG(pc,{face:5,tr:t,opName,sheetNo:1,sheetTot:1,meta:{company:"Domus Renov",project:p.name,client:"",name:partName(M,pc),n:m.n,material:row.materiale||row.mat||"",qty:row.pz,edge:row.bordo,date:new Date().toISOString().slice(0,10),ver:APP_VER}});});
- const pack=await pg.evaluate(()=>{closeSheets();return packBuild(proj(),{cover:false,client:false,report:false,elev:false,asm:true,parts:false})});
- const asm=pack&&pack[0]||null;console.log("fogli",a3.length,asm?asm.length:"nessun foglio montaggio");
- await pg.evaluate(()=>{closeSheets();setView("build");draw3D()});await w(1500);
- if(!await pg.locator("#btnPrevBig.on").count())await pg.locator("#btnPrevBig").click();await w(800);
- await pg.evaluate(()=>{window.__FB=null;const R=__R();R.full0=Object.assign({},R.full);R.cam.rad=R.full.rad});
-
- await pg.evaluate(()=>__adv(80));
- let fr=0,tStart=Date.now();
- for(const s of todo){
-  /* entrata nella scena: stato discreto */
-  await cap(s.c);
-  if(s.id==="hook")await pg.evaluate(()=>GL3D.set({open:false,mode:"real",hw:false,holes:false}));
-  if(s.id==="open")await pg.evaluate(()=>GL3D.set({open:true}));
-  if(s.id==="hinge")await pg.evaluate(()=>GL3D.set({mode:"hw",hw:true}));
-  if(s.id==="holes")await pg.evaluate(()=>{GL3D.set({open:false,mode:"real",hw:false,holes:true});const M=GL3D.model();const pc=M.ops.pieces.find(q=>q.role==="fianco");GL3D.select(pc.pk,true)});
-  if(s.id==="sheet"){await sheet(a3)}
-  const joint=async id=>{await pg.evaluate(id=>{const sel=document.querySelector('#hwSelBox select[data-cat="conn"]');if(!sel)return;sel.value=id;sel.dispatchEvent(new Event("change",{bubbles:true}));buildCfg=cfgFromForm();drawPreview();const M=GL3D.model();const pc=M.ops.pieces.find(q=>q.role==="fianco");GL3D.select(pc.pk,true)},id)};
-  const jmarks=s.id==="holes"?[]:[];
-  if(s.id==="asm"){await sheet(null);await pg.evaluate(()=>{GL3D.select(null);GL3D.set({holes:false,open:false,mode:"real",hw:false});explodeOn=1;drawPreview()})}
-  if(s.id==="cta"){await sheet(null);await cap("");await card("Ebanist",s.c)}
-  for(let i=0;i<s.n;i++,fr++){
-   const u=i/(s.n-1||1);
-   for(const jm of jmarks)if(!jm.done&&u>=jm[0]){jm.done=1;await joint(jm[1])}
-   if(s.sheet){const e=ease(Math.min(1,Math.max(0,(u-0.2)/0.8)));await sheetXf(1+2.4*e,22,40)}
-   else if(s.id==="asm"&&asm&&u>=0.45){ if(!s.shown){s.shown=1;await sheet(asm)}; const e=ease(Math.min(1,(u-0.5)/0.5));await sheetXf(1+1.3*Math.max(0,e),22,34)}
-   else if(s.keys){const c=camAt(s.keys,u);await pg.evaluate(c=>{const R=__R();window.__FB={cx:c.c[0],cy:c.c[1],cz:c.c[2],rad:c.rad,size:R.full0.size,floor:0};
-      Object.assign(VIEW,{yaw:c.yaw,pitch:c.pitch,zoom:c.zoom});Object.assign(R.cam,{cx:c.c[0],cy:c.c[1],cz:c.c[2],rad:c.rad,yaw:c.yaw,pitch:c.pitch,zoom:c.zoom});__adv(1)},c)}
-   await pg.screenshot({path:path.join(OUT,"frames",`f${String(fr).padStart(5,"0")}.jpg`),type:"jpeg",quality:92});
-   if(fr%30===0)console.log(s.id,fr,((Date.now()-tStart)/1000/(fr+1)).toFixed(2)+"s/cadru");
-  }
- }
- console.log("cadri",fr,"errs",JSON.stringify(errs.slice(0,3)));
- await b.close();srv.close();
- /* 2. montaggio: cadri + voce sincronizzata */
- const ins=todo.flatMap(s=>["-i",s.wav]);
- const filt=todo.map((s,i)=>`[${i+1}:a]adelay=${Math.round(s.t0*1000)}|${Math.round(s.t0*1000)}[a${i}]`).join(";")+";"+todo.map((s,i)=>`[a${i}]`).join("")+`amix=inputs=${todo.length}:normalize=0,loudnorm=I=-16:TP=-1.5[aout]`;
- cp.execFileSync("ffmpeg",["-y","-framerate",String(FPS),"-i",path.join(OUT,"frames","f%05d.jpg"),...ins,"-filter_complex",filt,"-map","0:v","-map","[aout]","-vf","scale=1080:1920,format=yuv420p","-r",String(FPS),"-c:v","libx264","-crf","19","-preset","medium","-c:a","aac","-b:a","160k","-shortest",path.join(OUT,"ebanist-tiktok-it.mp4")],{stdio:"ignore"});
- console.log("mp4 gata:",path.join(OUT,"ebanist-tiktok-it.mp4"));
-});
+ const pg=await ctx.newPage(); const errs=[]; pg.on("pageerror",e=>errs.push(String(e)));
+ pg.setDefaultTimeout(20000); const w=ms=>pg.waitForTimeout(ms); const t0=Date.now(); let cutAt=0, n=0;
+ const still=async(name)=>{ if(STILLS) await pg.screenshot({path:path.join(OUT,"still-"+String(++n).padStart(2,"0")+"-"+name+".png")}); };
+ const cap=async(txt,sub)=>pg.evaluate(([t,s])=>{let d=document.getElementById("vcap");if(!d){d=document.createElement("div");d.id="vcap";d.style.cssText="position:fixed;left:14px;right:14px;bottom:88px;z-index:2147483647;padding:12px 16px;border-radius:14px;background:rgba(14,59,42,.92);color:#fff;font:700 25px/1.2 Barlow,system-ui,sans-serif;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.35)";document.body.appendChild(d)}d.innerHTML=t?(t+(s?'<div style="font:500 17px Barlow;opacity:.85;margin-top:4px">'+s+'</div>':'')):"";d.style.display=t?"block":"none"},[txt,sub||""]);
+ const swatch=async(name,hex)=>pg.evaluate(([n,h])=>{let d=document.getElementById("vsw");if(!d){d=document.createElement("div");d.id="vsw";d.style.cssText="position:fixed;left:14px;top:16px;z-index:2147483647;display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:30px;background:rgba(255,255,255,.92);font:700 20px Barlow,system-ui,sans-serif;color:#0e3b2a;box-shadow:0 4px 16px rgba(0,0,0,.25)";document.body.appendChild(d)}d.innerHTML=n?'<span style="width:22px;height:22px;border-radius:50%;background:'+h+';border:2px solid rgba(0,0,0,.15)"></span>'+n:"";d.style.display=n?"flex":"none"},[name,hex||""]);
+ const card=async(a,bb)=>pg.evaluate(([a,bb])=>{let d=document.getElementById("vcard");if(!d){d=document.createElement("div");d.id="vcard";d.style.cssText="position:fixed;inset:0;z-index:2147483646;background:#0e3b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;font-family:Barlow,system-ui,sans-serif;text-align:center;padding:40px";document.body.appendChild(d)}d.innerHTML=a?`<div style="font:700 26px Barlow;letter-spacing:10px;opacity:.8">EBANIST</div><div style="font:800 54px/1.08 Barlow">${a}</div><div style="font:500 28px/1.25 Barlow;opacity:.92">${bb||""}</div>`:"";d.style.display=a?"flex":"none"},[a,bb]);
+ const sheet=async(svg,zoom)=>pg.evaluate(([svg,zoom])=>{let d=document.getElementById("vsheet");if(!d){d=document.createElement("div");d.id="vsheet";d.style.cssText="position:fixed;inset:0;z-index:2147483645;background:#2f3430;display:flex;align-items:center;justify-content:center;overflow:hidden";document.body.appendChild(d)}
+   if(!svg){d.style.display="none";return}d.style.display="flex";d.innerHTML='<div id="vsh" style="width:96vw;max-width:none;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,.5);transition:transform 2.6s ease-in-out;transform-origin:'+(zoom?zoom[0]+'% '+zoom[1]+'%':'50% 50%')+';transform:scale(1)">'+svg.replace(/width="420mm" height="297mm"/,'style="width:100%;height:auto;display:block"')+'</div>'},[svg,zoom]);
+ const zoomTo=async(s)=>pg.evaluate(s=>{document.getElementById("vsh").style.transform="scale("+s+")"},s);
+ await pg.goto("http://localhost:8794/app/index.html?lang="+L);await pg.waitForFunction(()=>window.MAT_LOADED===true);await w(3500);
+ await pg.locator('#btnIntroGo').click({timeout:1500}).catch(()=>{}); await w(400);
+ /* corpul-vitrină: dulap complex, uși + sertare + raft + bară, mâner inox */
+ await pg.evaluate(()=>{closeSheets();const q=proj();q.pieces=[];q.configs={};q.layout={};
+   state.settings.matBody="antracite_storm_grey_19";state.settings.matFront="nogal_victoria_19";
+   window.__cfg={...PRESETS.armadio,name:"Dulap",L:1400,H:2300,P:620,drawers:3,doors:2,shelves:3,hang:1,matBody:"antracite_storm_grey_19",matFront:"nogal_victoria_19",matBack:"antracite_storm_grey_19",hwSel:{man:"haf_bar128"}};
+   generateInto(q,window.__cfg);persist();setView("build");
+   document.body.classList.add("vp-full");$("bldView").classList.add("full");
+   const st=document.createElement("style");st.textContent="#bldView .vbtns,#bldView button,#bldView .vctl,.vp-full .topbar,.vp-full header{display:none!important} .vp-full nav,.vp-full .tabbar,.vp-full .bnav,#buildInfo{display:none!important}";document.head.appendChild(st);
+   window.GL3D.resize();});
+ await w(1500);
+ const R=async(cfgPatch,st)=>pg.evaluate(([p,s])=>{const c={...window.__cfg,...p};window.__cur=c;GL3D.render(c,{explode:0});if(s)GL3D.set(s);},[cfgPatch||{},st||null]);
+ const V=async(yaw,pitch,zoom)=>pg.evaluate(([a,b,c])=>{VIEW.yaw=a;VIEW.pitch=b;VIEW.zoom=c;GL3D.touch()},[yaw,pitch,zoom]);
+ const orbit=async(y0,y1,p0,p1,z0,z1,ms)=>{const steps=Math.round(ms/90);for(let i=0;i<=steps;i++){const k=i/steps,e=k*k*(3-2*k);await V(y0+(y1-y0)*e,p0+(p1-p0)*e,z0+(z1-z0)*e);await w(ms/steps)}};
+ const pkOf=async(sel)=>pg.evaluate(sel=>{const M=GL3D.model();const pc=M.ops.pieces.find(new Function("q","return "+sel));return pc?pc.pk:null},sel);
+ const spot=async(type,pick,dz)=>pg.evaluate(([type,pick,dz])=>{const M=GL3D.model();const hs=M.ops.hw.filter(h=>h.type===type);const h=hs[Math.min(hs.length-1,Math.floor(hs.length*pick))];const pc=M.ops.pieces.find(q=>String(q.pk)===String(h.piece));const c=[0,1,2].map(i=>(pc.min[i]+pc.max[i])/2);return {pk:pc.pk,off:[0,1,2].map(i=>h.w[i]-c[i]+(i===2?dz:0)),against:h.against}},[type,pick,dz||0]);
+ const focus=async(pk,rad,off)=>pg.evaluate(([a,b,c])=>GL3D.focusOn(a,b,c),[pk,rad,off||[0,0,0]]);
+ /* 0. hook */
+ const Z=1.5;
+ await R({},{open:false,hw:false,holes:false,dims:false,edges:false});await V(.35,.2,Z);await card(T.h1,T.h2);cutAt=Date.now()-t0;await w(2200);await card("");await still("hook");
+ /* 1. decoruri */
+ await cap(T.c1);
+ const decors=[["nogal_victoria_19","#6E4B33",T.m1],["rovere_wood_lime_classic_k2414ah_19","#C4A87C",T.m2],["avocado_green_22458mn_19","#A8B08A",T.m3],["bordeaux_19","#6B2431",T.m4],["blue_avio_23196mn_19","#5C7A99",T.m5]];
+ let k=0;
+ for(const [id,hex,nm] of decors){ await R({matFront:id},{open:false,hw:false}); await swatch(nm,hex); await still("decor-"+id.split("_")[0]); const y0=k%2?.62:.22; await orbit(y0,k%2?.22:.62,.2,.22,Z,Z+.05,1500); k++; }
+ await swatch("");
+ /* 2. uși și sertare deschise */
+ await R({matFront:"nogal_victoria_19"},{open:true,hw:false});await cap(T.c2);await orbit(.3,-.35,.2,.34,Z,Z+.1,3200);await still("open");
+ /* 3. balama: din interior, ușa deschisă */
+ await R({matFront:"nogal_victoria_19"},{open:true,hw:true});
+ const hg=await spot("cerniera",.4);
+ await cap(T.c3);await focus(hg.pk,120,hg.off);await V(-1.05,.15,1.6);await w(1400);await orbit(-1.05,-.45,.15,.3,1.6,2.4,2600);await still("hinge");
+ /* 4. culisantă telescopică */
+ const sl=await spot("guida",0,70);
+ await cap(T.c4);await focus(sl.pk,260,sl.off);await V(-.5,.45,1.4);await w(1200);await orbit(-.5,.7,.45,.25,1.4,2.2,3000);await still("slide");
+ /* 5. mâner */
+ await R({matFront:"nogal_victoria_19"},{open:false,hw:false});
+ const hd=await spot("maniglia",0);
+ await cap(T.c5);await focus(hd.pk,170,hd.off);await V(.5,.1,1.6);await w(1000);await orbit(.5,-.55,.1,.2,1.6,3,2600);await still("handle");
+ /* 6. feronerie schimbată live */
+ await cap(T.c6);await R({hwSel:{man:"gen_pomo",cern:"haf_metalla",guida:"blum_230m",conn:"fes_domino"}},{open:false,hw:false});
+ const hk=await spot("maniglia",0);await focus(hk.pk,200,hk.off);await V(.4,.1,1.8);await w(1100);await still("knob");await orbit(.4,-.4,.1,.2,1.8,2.6,1800);
+ /* 7. îmbinări (vedere explodată) */
+ await cap(T.c7);await pg.evaluate(()=>GL3D.focusOn(null));await R({hwSel:{man:"haf_bar128",conn:"fes_domino"}},{open:false,hw:true});await pg.evaluate(()=>GL3D.set({explode:.6,hw:true}));
+ await orbit(.4,.75,.3,.28,Z-.1,Z+.15,3400);await still("joints");
+ await pg.evaluate(()=>GL3D.set({explode:0}));
+ /* 8. dosar */
+ await cap("");
+ const sheets=await pg.evaluate(()=>{closeSheets();const p=proj();return packBuild(p,{cover:true,client:false,report:false,elev:true,asm:true,parts:true}).slice(0,6)});
+ await cap(T.c8);await sheet(sheets[0],[28,30]);await w(900);await zoomTo(1.9);await w(2200);
+ await cap(T.c9);const part=sheets[sheets.length-1];await sheet(part,[22,50]);await w(900);await zoomTo(2.6);await w(2400);await still("sheet");
+ await cap(T.c10);await sheet(sheets[2]||sheets[1],[30,40]);await w(900);await zoomTo(1.9);await w(2400);await sheet(null);
+ /* final */
+ await cap("");await card(T.e1,T.e2);await w(3000);
+ fs.writeFileSync(path.join(OUT,"cut.txt"),String(cutAt));
+ console.log("errs",JSON.stringify(errs.slice(0,5)),"sec",Math.round((Date.now()-t0)/1000));
+ await ctx.close();await b.close();srv.close();});

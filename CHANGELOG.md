@@ -5,6 +5,22 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.68.0 — 18 octombrie 2026
+
+**Feroneria aleasă se schimbă acum live în 3D.** Până acum, când alegeai alt tip de feronerie la „Feroneria aleasă pe corp” nu se întâmpla nimic: formularul își reafișa lista fără să redeseneze, iar modelul 3D nu își recalcula nici găurile, pentru că semnătura lui nu includea alegerea. Acum fiecare schimbare redesenează imediat și refă găurile și feroneria.
+
+În plus, forma din 3D urmează articolul ales: **mâner** bară neagră, bară inox sau **buton** (cu o singură gaură, nu două); **balama** Blum cu amortizor (BLUMOTION) sau fără, Häfele în inox, Duomatic cu braț gros; **culisantă** ascunsă (Tandem, Movento cu clemă neagră) sau laterală (rolă 230M, cu bile Häfele); **îmbinări** desenate în 3D: șurub Confirmat, lamelă Lamello, tenon Festool Domino și conector Clamex, cu orientarea canalului din Modelul de Operații. Îmbinările și balamalele se văd în modul „Feronerie” sau la vedere explodată.
+
+Intern: `GL3D.focusOn(pk, raza, deplasare)` apropie camera de un punct al unei piese (folosit la capturi și la filmele de prezentare, nu are buton în aplicație).
+
+La corpul care alege un buton, fișa piesei are o singură gaură în ușă, ca în realitate. Profilul Gola/L ales pe corp nu mai e ignorat (înainte conta doar alegerea din Catalog).
+
+## 4.67.0 — 18 octombrie 2026
+
+**Ocluzie ambientală reală (SSAO) în 3D, în Client și în randările din dosar.** Colțurile unde raftul întâlnește lateralul, spatele sau separatorul, golurile de sub sertare și locul unde corpul atinge peretele sau podeaua sunt acum întunecate de un calcul real făcut din adâncimea scenei, nu de o aproximare pe cutie. Se calculează la jumătate de rezoluție, în trei treceri (normale și adâncime, ocluzie, estompare), și numai când scena se schimbă. La telefoanele cu memorie puțină se folosesc 8 eșantioane în loc de 12. Dacă dispozitivul nu poate face trecerea, aplicația o oprește singură și rămâne ocluzia simulată de la 4.65.0.
+
+Nu schimbă nicio cotă, nicio distinctă și nicio piesă.
+
 ## 4.66.0 — 18 octombrie 2026
 
 **Feroneria în 3D, desenată cu detaliu.** Balamaua Blum are tazza cu inel, flanșa cu urechi și șuruburi, brațul din tablă, pivotul, placa de montaj de pe lateral cu două șuruburi și șurubul de reglaj. Culisanta de sertar are șina de pe lateral (placă și două buze), consola din spate, reazemul și rola din față; partea mobilă, cu clema de față și pârghia de eliberare, merge cu sertarul când îl deschizi, deci culisanta se vede cum se telescopează. Mânerul bară are capete rotunjite, stâlpi și rozete la față, într-un metal închis satinat.

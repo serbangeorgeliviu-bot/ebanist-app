@@ -300,7 +300,7 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       /* surubul trece prin fata exterioara a lui F si intra in muchia lui E */
       hole(F, eAx, eSide, p.slice(), J.through_dia, 0, id, "confirmat", true);
       hole(E, eAx, eSide, p.slice(), J.pilot_dia, J.pilot_depth, id, "pilot confirmat");
-      out.hw.push({ id: id, type: "confirmat", catalog: "gen_confirmat", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Confirmat 7×50" });
+      out.hw.push({ id: id, type: "confirmat", catalog: "gen_confirmat", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx, note: "Confirmat 7×50" });
     } else if (kind === "dowel") {
       hole(F, eAx, -eSide, p.slice(), J.dia, J.face_depth, id, "tassello");
       hole(E, eAx, eSide, p.slice(), J.dia, J.len - J.face_depth, id, "tassello");
@@ -309,7 +309,7 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       var nm = kind === "biscuit" ? "lamella" : kind === "clamex" ? "clamex" : "domino";
       slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, J.depth_face, id, "canal " + nm);
       slot(E, eAx, eSide, p.slice(), sAx, J.len, J.thk, J.depth, id, "canal " + nm);
-      out.hw.push({ id: id, type: kind, catalog: kind === "biscuit" ? "gen_biscuit" : kind === "clamex" ? "lam_clamex" : "fes_domino", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide,
+      out.hw.push({ id: id, type: kind, catalog: kind === "biscuit" ? "gen_biscuit" : kind === "clamex" ? "lam_clamex" : "fes_domino", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx,
                     note: kind === "biscuit" ? "Lamello #20" : kind === "clamex" ? "Lamello Clamex P-14" : "Festool Domino 8×40" });
     }
   });
@@ -332,7 +332,7 @@ function generate(input) {
   /* push = niente maniglia; un profilo gola scelto in catalogo, nemmeno: in
      tutti e due i casi il frontale non ha fori di maniglia */
   var hingeSel = (cfg.handles === "push" || cfg.handles === "gola") ? "push"
-    : (root.handleIsProfile && root.handleIsProfile()) ? "profilo" : "maniglia";
+    : (root.handleIsProfile && root.handleIsProfile(cfg)) ? "profilo" : "maniglia";
 
   /* --- 1. giunzioni della cassa: base/cielo/ripiani fissi fra i verticali -- */
   var horiz = pcs.filter(function (p) {
@@ -450,10 +450,14 @@ function generate(input) {
                : D.min[1] > 1300 ? D.min[1] + H.handle.from_top + ia / 2
                : Math.max(D.min[1] + 60 + ia / 2, Math.min(D.max[1] - 60 - ia / 2, H.handle.tall_y));
         var hid = "hw_" + out.hw.length;
-        hole(D, 2, 1, [ox, yc - ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-        hole(D, 2, 1, [ox, yc + ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+        var knob = !!(root.handleIsKnob && root.handleIsKnob(cfg));
+        if (knob) hole(D, 2, 1, [ox, yc, D.max[2]], H.handle.dia, 0, hid, "pomello", true);
+        else {
+          hole(D, 2, 1, [ox, yc - ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+          hole(D, 2, 1, [ox, yc + ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+        }
         out.hw.push({ id: hid, type: "maniglia", catalog: "gen_man", piece: D.pk, w: [ox, yc, D.max[2]],
-                      vertical: true, ia: ia, note: "Maniglia " + ia + " mm" });
+                      vertical: true, ia: ia, knob: knob, note: knob ? "Pomello" : "Maniglia " + ia + " mm" });
       }
     });
   });
@@ -468,10 +472,14 @@ function generate(input) {
       var ia = H.handle.interaxis, xc = (fr.min[0] + fr.max[0]) / 2;
       var yc = fr.ext[1] > 250 ? fr.max[1] - H.handle.from_top : (fr.min[1] + fr.max[1]) / 2;
       var hid = "hw_" + out.hw.length;
-      hole(fr, 2, 1, [xc - ia / 2, yc, fr.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-      hole(fr, 2, 1, [xc + ia / 2, yc, fr.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+      var knob2 = !!(root.handleIsKnob && root.handleIsKnob(cfg));
+      if (knob2) hole(fr, 2, 1, [xc, yc, fr.max[2]], H.handle.dia, 0, hid, "pomello", true);
+      else {
+        hole(fr, 2, 1, [xc - ia / 2, yc, fr.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+        hole(fr, 2, 1, [xc + ia / 2, yc, fr.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+      }
       out.hw.push({ id: hid, type: "maniglia", catalog: "gen_man", piece: fr.pk, w: [xc, yc, fr.max[2]],
-                    vertical: false, ia: ia, note: "Maniglia " + ia + " mm" });
+                    vertical: false, ia: ia, knob: knob2, note: knob2 ? "Pomello" : "Maniglia " + ia + " mm" });
     }
     if (!body.length) return;
     var x0 = 1e9, x1 = -1e9, y0 = 1e9, z0 = 1e9, z1 = -1e9;
