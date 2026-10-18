@@ -32,7 +32,7 @@ import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 /* Un factor de luminanță în jurul lui 1, nu o culoare: culoarea o dă
    materialul. Așa aceeași textură servește stejarul și nucul. Fibra
    curge pe verticală (axa v a texturii). */
-function makeWoodTexture(seed = 1, size = 512) {
+function makeWoodTexture(seed = 1, size = 1024) {
   const cv = document.createElement("canvas"); cv.width = cv.height = size;
   const g = cv.getContext("2d");
   let s = seed * 9301 + 49297;
@@ -45,17 +45,26 @@ function makeWoodTexture(seed = 1, size = 512) {
   for (let i = 0; i < 5; i++) { ph.push(rnd() * 6.283); amp.push(0.25 + rnd() * 0.55); fr.push(1 + Math.floor(rnd() * 3)); }
   /* benzi de culoare mai late, ca la placa reală: câteva fâșii mai închise */
   const band = []; for (let i = 0; i < 4; i++) band.push([rnd(), 0.02 + rnd() * 0.05, 0.02 + rnd() * 0.03]);
+  /* pori: dungi scurte pe direcția fibrei, ca la stejarul real */
+  const pores = new Float32Array(size * size), nP = Math.round(size * size / 120);
+  for (let i = 0; i < nP; i++) {
+    const px = Math.floor(rnd() * size), py = Math.floor(rnd() * size), ln = 4 + Math.floor(rnd() * 16), st = 0.08 + rnd() * 0.2;
+    for (let j = 0; j < ln; j++) { const k = ((py + j) % size) * size + px, a = st * Math.sin(Math.PI * (j + 0.5) / ln); if (a > pores[k]) pores[k] = a; }
+  }
   for (let y = 0; y < size; y++) {
     const v = y / size;
     for (let x = 0; x < size; x++) {
       const u = x / size;
-      let w = u * 64 * 6.283 / 6.283;
-      for (let i = 0; i < 5; i++) w += amp[i] * Math.sin(v * 6.283 * fr[i] + ph[i] + u * 3.1 * (i + 1));
-      const ring = 0.5 + 0.5 * Math.sin(w);
+      /* spațiere neregulată: u e deformat lent, ca să nu apară dungi egale */
+      const uu = u + 0.018 * Math.sin(u * 6.283 * 3 + ph[0]) + 0.01 * Math.sin(u * 6.283 * 9 + ph[1] + v * 6.283);
+      let w = uu * 20 * 6.283;
+      for (let i = 0; i < 5; i++) w += amp[i] * 2.4 * Math.sin(v * 6.283 * fr[i] + ph[i] + u * 3.1 * (i + 1));
+      const A = 0.62 + 0.38 * Math.sin(u * 6.283 * 2.3 + v * 6.283 + ph[2]);
+      const ring = A * Math.pow(0.5 + 0.5 * Math.sin(w), 2.6);
       const fine = 0.5 + 0.5 * Math.sin(u * 6.283 * 180 + Math.sin(v * 6.283 * 3 + u * 11) * 1.4);
       let b = 0; for (const [c, wd, k] of band) { const du = Math.min(Math.abs(u - c), 1 - Math.abs(u - c)); if (du < wd) b += k * (1 - du / wd); }
       const n = rnd();
-      let f = 0.95 - 0.075 * Math.pow(ring, 2.2) - 0.028 * fine - b + (n - 0.5) * 0.035;
+      let f = 0.97 - 0.24 * ring - 0.05 * fine - b * 1.8 + (n - 0.5) * 0.04 - pores[y * size + x];
       f = Math.max(0, Math.min(1, f));
       const k = (y * size + x) * 4, c = Math.round(f * 255);
       d[k] = c; d[k + 1] = c; d[k + 2] = c; d[k + 3] = 255;
@@ -66,6 +75,30 @@ function makeWoodTexture(seed = 1, size = 512) {
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
   tex.colorSpace = THREE.NoColorSpace;
   tex.anisotropy = 4;
+  return tex;
+}
+
+
+/* Uni melaminic: nu e plat, are un grăunte fin izotrop (aproape invizibil
+   de aproape, dar rupe aspectul de plastic neted). Factor de luminanță ~1. */
+function makeFineTexture(seed = 3, size = 256) {
+  const cv = document.createElement("canvas"); cv.width = cv.height = size;
+  const g = cv.getContext("2d"), img = g.createImageData(size, size), d = img.data;
+  let s = seed * 7919 + 104729;
+  const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  const base = new Float32Array(size * size);
+  for (let i = 0; i < base.length; i++) base[i] = rnd();
+  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+    /* două scări: zgomot pe pixel + o ondulare largă (petele plăcii) */
+    const a = base[y * size + x], b = base[((y + 1) % size) * size + (x + 1) % size];
+    const m = 0.5 + 0.5 * Math.sin(x / size * 6.283 * 3 + Math.sin(y / size * 6.283 * 2) * 1.7);
+    const f = 0.965 + 0.02 * (a + b - 1) + 0.014 * m;
+    const k = (y * size + x) * 4, c = Math.round(Math.max(0, Math.min(1, f)) * 255);
+    d[k] = d[k + 1] = d[k + 2] = c; d[k + 3] = 255;
+  }
+  g.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.colorSpace = THREE.NoColorSpace; tex.anisotropy = 4;
   return tex;
 }
 
@@ -83,35 +116,99 @@ const ID_OVR = {
   pal18_nero: { roughness: .64 }, pal18_antracite: { roughness: .62 },
 };
 
-let WOOD = null;
+let WOOD = null, FINE = null;
 const MAT_CACHE = new Map();
 
 /* Proiecția triplanară în coordonatele de REPAUS ale piesei: `uRest` e
    matricea locală a mesh-ului (poziție × dimensiune), actualizată înainte de
    fiecare desen. Fețele laterale și frontale au fibra pe verticală, cele
    orizontale de-a lungul lui x — cum se taie de fapt un corp. */
-function triplanar(m) {
-  m.onBeforeCompile = (sh) => {
+function triplanar(m, o) {
+  o = o || {};
+  const sc = o.scale || [1 / 0.42, 1 / 1.9], bump = o.bump || 0, rough = o.rough || 0, edge = o.edge === undefined ? 1 : o.edge;
+  m.userData.tp = 1;
+  m.onBeforeCompile = function (sh) {
     sh.uniforms.uRest = { value: new THREE.Matrix4() };
-    sh.uniforms.uEbScale = { value: new THREE.Vector2(1 / 0.42, 1 / 1.9) };
-    m.userData.shader = sh;
-    sh.vertexShader = "uniform mat4 uRest;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\n" + sh.vertexShader.replace(
+    sh.uniforms.uEbScale = { value: new THREE.Vector2(sc[0], sc[1]) };
+    sh.uniforms.uEbOff = { value: new THREE.Vector2(0, 0) };
+    sh.uniforms.uEbRect = { value: 1 };
+    sh.uniforms.uEbLo = { value: new THREE.Vector3() };
+    sh.uniforms.uEbHi = { value: new THREE.Vector3() };
+    sh.uniforms.uEbOn = { value: 0 };
+    this.userData.shader = sh;
+    sh.vertexShader = "uniform mat4 uRest;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\nvarying vec3 vEbL;\nvarying vec3 vEbS;\nvarying vec3 vEbAx;\nvarying vec3 vEbAy;\nvarying vec3 vEbAz;\n" + sh.vertexShader.replace(
       "#include <begin_vertex>",
-      "#include <begin_vertex>\n vEbP = (uRest * vec4(transformed,1.0)).xyz;\n vEbN = normalize(mat3(uRest) * objectNormal);");
-    sh.fragmentShader = "uniform vec2 uEbScale;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\n" + sh.fragmentShader.replace(
-      "#include <map_fragment>",
+      `#include <begin_vertex>
+       vEbP = (uRest * vec4(transformed,1.0)).xyz;
+       vEbN = normalize(mat3(uRest) * objectNormal);
+       vEbL = transformed;
+       vEbS = vec3(length(uRest[0].xyz), length(uRest[1].xyz), length(uRest[2].xyz));
+       vEbAx = normalize(mat3(modelViewMatrix) * vec3(1.,0.,0.));
+       vEbAy = normalize(mat3(modelViewMatrix) * vec3(0.,1.,0.));
+       vEbAz = normalize(mat3(modelViewMatrix) * vec3(0.,0.,1.));`);
+    sh.fragmentShader = "uniform vec2 uEbScale;\nuniform vec2 uEbOff;\nuniform float uEbRect;\nuniform vec3 uEbLo;\nuniform vec3 uEbHi;\nuniform float uEbOn;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\nvarying vec3 vEbL;\nvarying vec3 vEbS;\nvarying vec3 vEbAx;\nvarying vec3 vEbAy;\nvarying vec3 vEbAz;\nfloat ebT = 0.9;\nfloat ebAO = 1.0;\n" + sh.fragmentShader
+    .replace("#include <map_fragment>",
       `#ifdef USE_MAP
         vec3 ebA = abs(vEbN); vec2 ebUV;
         if (ebA.x > ebA.y && ebA.x > ebA.z) ebUV = vec2(vEbP.z, vEbP.y);
         else if (ebA.y > ebA.z) ebUV = vec2(vEbP.z, vEbP.x);
         else ebUV = vec2(vEbP.x, vEbP.y);
-        vec4 sampledDiffuseColor = texture2D(map, ebUV * uEbScale);
+        vec4 sampledDiffuseColor = texture2D(map, ebUV * uEbScale + uEbOff);
+        ebT = sampledDiffuseColor.r;
         diffuseColor *= sampledDiffuseColor;
-      #endif`);
+        diffuseColor.rgb *= 0.955 + 0.09 * fract(uEbOff.x * 7.31 + uEbOff.y * 3.17);
+      #endif`)
+    .replace("#include <opaque_fragment>", "outgoingLight *= ebAO;\n#include <opaque_fragment>")
+    .replace("#include <roughnessmap_fragment>",
+      `float roughnessFactor = roughness;
+       ${rough ? "roughnessFactor = clamp(roughness * (0.74 + (1.0 - ebT) * " + rough.toFixed(2) + "), 0.04, 1.0);" : ""}`)
+    .replace("#include <normal_fragment_maps>",
+      `#include <normal_fragment_maps>
+       ${bump ? `{
+         vec2 ebdH = vec2(dFdx(ebT), dFdy(ebT)) * ${bump.toFixed(5)};
+         vec3 ebSX = dFdx(-vViewPosition), ebSY = dFdy(-vViewPosition);
+         vec3 ebR1 = cross(ebSY, normal), ebR2 = cross(normal, ebSX);
+         float ebDet = dot(ebSX, ebR1);
+         vec3 ebG = sign(ebDet) * (ebdH.x * ebR1 + ebdH.y * ebR2);
+         normal = normalize(abs(ebDet) * normal - ebG);
+       }` : ""}
+       if (uEbOn > .5) {
+         vec3 ebP = vEbP, ebNa = abs(vEbN);
+         vec3 ebIn = step(uEbLo - 0.0025, ebP) * step(ebP, uEbHi + 0.0025);
+         if (ebIn.x * ebIn.y * ebIn.z > .5) {
+           float ebW = 0.10, ebK = 0.5;
+           if (ebNa.x < .5) { ebAO *= 1.0 - ebK * (1.0 - smoothstep(0.0, ebW, ebP.x - uEbLo.x)); ebAO *= 1.0 - ebK * (1.0 - smoothstep(0.0, ebW, uEbHi.x - ebP.x)); }
+           if (ebNa.y < .5) { ebAO *= 1.0 - ebK * (1.0 - smoothstep(0.0, ebW, ebP.y - uEbLo.y)); ebAO *= 1.0 - ebK * (1.0 - smoothstep(0.0, ebW, uEbHi.y - ebP.y)); }
+           if (ebNa.z < .5) { ebAO *= 1.0 - ebK * (1.0 - smoothstep(0.0, ebW, ebP.z - uEbLo.z)); }
+           /* adâncimea: spre fundul corpului lumina scade */
+           ebAO *= 1.0 - 0.16 * smoothstep(0.0, 1.0, (uEbHi.z - ebP.z) / max(uEbHi.z - uEbLo.z, 0.05));
+         }
+       }
+       ${edge ? `if (uEbRect > .5) {
+         vec3 ebD = (0.5 - abs(vEbL)) * vEbS, ebN = abs(vEbN), ebTd = vec3(0.);
+         float ebM = 1.0;
+         if (ebN.x > ebN.y && ebN.x > ebN.z) { ebM = min(ebD.y, ebD.z); ebTd = ebD.y < ebD.z ? sign(vEbL.y) * vEbAy : sign(vEbL.z) * vEbAz; }
+         else if (ebN.y > ebN.z) { ebM = min(ebD.x, ebD.z); ebTd = ebD.x < ebD.z ? sign(vEbL.x) * vEbAx : sign(vEbL.z) * vEbAz; }
+         else { ebM = min(ebD.x, ebD.y); ebTd = ebD.x < ebD.y ? sign(vEbL.x) * vEbAx : sign(vEbL.y) * vEbAy; }
+         float ebE = 1.0 - smoothstep(0.0, 0.0017, ebM);
+         normal = normalize(normal + ebTd * ebE * 1.1);
+         diffuseColor.rgb *= 1.0 - 0.07 * (1.0 - smoothstep(0.0, 0.0003, ebM));
+       }` : ""}`);
   };
-  m.customProgramCacheKey = () => "eb-triplanar";
+  m.customProgramCacheKey = () => "eb-triplanar-" + sc[0].toFixed(2) + "-" + bump + "-" + rough + "-" + edge;
 }
 
+/* Un material per mesh: three încarcă uniformele unui material numai când se
+   schimbă materialul între două desene, deci uRest, decalajul fibrei și
+   volumul de ocluzie ar rămâne ale primului mesh. Clona refolosește același
+   program compilat, doar uniformele sunt ale ei. */
+function perMesh(m) {
+  if (!m.userData.tp) return m;
+  const c = m.clone();
+  c.onBeforeCompile = m.onBeforeCompile; c.customProgramCacheKey = m.customProgramCacheKey;
+  c.userData = { tp: 1, own: 1 };
+  return c;
+}
 function materialFor(key) {
   if (MAT_CACHE.has(key)) return MAT_CACHE.get(key);
   let m;
@@ -133,7 +230,7 @@ function materialFor(key) {
   } else if (key === "__beech") {
     if (!WOOD) WOOD = makeWoodTexture(7);
     m = new THREE.MeshPhysicalMaterial({ color: new THREE.Color("#d8b98c"), roughness: .6, clearcoat: .15, clearcoatRoughness: .5, map: WOOD });
-    triplanar(m);
+    triplanar(m, { bump: 0.0007, rough: 2.4 });
   } else if (key === "__hole") {
     m = new THREE.MeshBasicMaterial({ color: 0x17130f, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
   } else if (key === "__groove") {
@@ -153,8 +250,14 @@ function materialFor(key) {
          ca media să rămână cea a mostrei */
       m.color.multiplyScalar(1.08);
       m.map = WOOD;
+      triplanar(m, { bump: 0.0007, rough: 2.4 });
+    } else if (info.tx === "gloss") {
+      triplanar(m, {});
+    } else {
+      if (!FINE) FINE = makeFineTexture(3);
+      m.map = FINE; m.color.multiplyScalar(1.03);
+      triplanar(m, { scale: [1 / 0.16, 1 / 0.16], bump: 0.0004, rough: 1.2 });
     }
-    triplanar(m);
   }
   MAT_CACHE.set(key, m);
   return m;
@@ -167,15 +270,24 @@ const FLAG = () => MAT_CACHE.get("__flag") || (MAT_CACHE.set("__flag", new THREE
 const WALL_FADE = () => MAT_CACHE.get("__wallfade") || (MAT_CACHE.set("__wallfade", new THREE.MeshStandardMaterial({
   color: 0xd8d2c6, roughness: .95, transparent: true, opacity: .09, depthWrite: false, side: THREE.DoubleSide })), MAT_CACHE.get("__wallfade"));
 let TILE = null;
+/* gresie: 4×4 plăci în aceeași textură, fiecare cu tonul ei, rost închis la
+   culoare, puncte fine și vene slabe (un singur desen repetat ar arăta ca un
+   carton cu grilă) */
 function tileTexture() {
   if (TILE) return TILE;
-  const cv = document.createElement("canvas"); cv.width = cv.height = 256;
+  const N = 4, T = 256, S = N * T, cv = document.createElement("canvas"); cv.width = cv.height = S;
   const g = cv.getContext("2d");
-  g.fillStyle = "#bfb5a3"; g.fillRect(0, 0, 256, 256);
-  for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(${110 + (i * 7) % 60},${100 + (i * 5) % 55},${85 + (i * 3) % 50},.07)`; g.fillRect((i * 53) % 256, (i * 97) % 256, 1 + i % 3, 1 + (i * 3) % 3); }
-  g.strokeStyle = "#9d9382"; g.lineWidth = 3; g.strokeRect(1.5, 1.5, 253, 253);
+  let sd = 11; const rnd = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+  for (let ty = 0; ty < N; ty++) for (let tx = 0; tx < N; tx++) {
+    const k = (rnd() - 0.5) * 22, x0 = tx * T, y0 = ty * T;
+    g.fillStyle = `rgb(${Math.round(196 + k)},${Math.round(188 + k)},${Math.round(174 + k)})`; g.fillRect(x0, y0, T, T);
+    for (let i = 0; i < 700; i++) { const a = rnd() * 0.09; g.fillStyle = rnd() < .5 ? `rgba(70,62,50,${a})` : `rgba(255,252,244,${a})`; g.fillRect(x0 + rnd() * T, y0 + rnd() * T, 1 + rnd() * 2.5, 1 + rnd() * 2.5); }
+    for (let v = 0; v < 3; v++) { g.strokeStyle = `rgba(120,108,92,${0.05 + rnd() * 0.06})`; g.lineWidth = 1 + rnd() * 1.5; g.beginPath(); let vx = x0 + rnd() * T, vy = y0; g.moveTo(vx, vy); for (let q = 1; q <= 6; q++) { vx += (rnd() - 0.5) * 60; vy = y0 + q * T / 6; g.lineTo(vx, vy); } g.stroke(); }
+    g.strokeStyle = "#8f8676"; g.lineWidth = 5; g.strokeRect(x0 + 2.5, y0 + 2.5, T - 5, T - 5);
+    g.strokeStyle = "rgba(255,255,255,.18)"; g.lineWidth = 1.5; g.strokeRect(x0 + 6, y0 + 6, T - 12, T - 12);
+  }
   TILE = new THREE.CanvasTexture(cv);
-  TILE.wrapS = TILE.wrapT = THREE.RepeatWrapping; TILE.colorSpace = THREE.SRGBColorSpace; TILE.anisotropy = 4;
+  TILE.wrapS = TILE.wrapT = THREE.RepeatWrapping; TILE.colorSpace = THREE.SRGBColorSpace; TILE.anisotropy = 8;
   return TILE;
 }
 /* podeaua camerei: poligonul pereților, plăci de 600 mm (se vede scara) */
@@ -189,8 +301,8 @@ function setRoom(room) {
   if (!poly) return;
   const shape = new THREE.Shape(poly.map(p => new THREE.Vector2(p[0] * MM, -p[1] * MM)));
   const geo = new THREE.ShapeGeometry(shape); geo.rotateX(-Math.PI / 2);
-  const t = tileTexture().clone(); t.needsUpdate = true; t.repeat.set(1 / 0.6, 1 / 0.6);
-  const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: t, color: 0x9d9382, roughness: .8, metalness: 0 }));
+  const t = tileTexture().clone(); t.needsUpdate = true; t.repeat.set(1 / 2.4, 1 / 2.4);
+  const m = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({ map: t, color: 0xb5ac9a, roughness: .42, metalness: 0, clearcoat: .35, clearcoatRoughness: .3 }));
   m.receiveShadow = true; m.renderOrder = -2; R.floor = m; R.scene.add(m);
 }
 function fadeWalls() {
@@ -273,11 +385,11 @@ function boot(canvas) {
 
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  if ("environmentIntensity" in scene) scene.environmentIntensity = 0.75;
+  if ("environmentIntensity" in scene) scene.environmentIntensity = 0.58;
 
-  const hemi = new THREE.HemisphereLight(0xf6f3ec, 0x6f685c, 0.42);
+  const hemi = new THREE.HemisphereLight(0xf6f3ec, 0x6f685c, 0.34);
   scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xfff1e0, 2.6);
+  const key = new THREE.DirectionalLight(0xfff1e0, 2.9);
   key.castShadow = true;
   const lowMem = navigator.deviceMemory && navigator.deviceMemory <= 4;
   key.shadow.mapSize.set(lowMem ? 1024 : 2048, lowMem ? 1024 : 2048);
@@ -327,7 +439,7 @@ function makeMesh(b, cfg) {
   const key = keyOf(b, cfg);
   let mesh;
   if (isRectPC(b.pc)) {
-    mesh = new THREE.Mesh(UNIT, materialFor(key));
+    mesh = new THREE.Mesh(UNIT, perMesh(materialFor(key)));
     const c = restOf(b); mesh.userData.cur = Object.assign({}, c); mesh.userData.tgt = c;
     applyRest(mesh, c);
     const ln = new THREE.LineSegments(UNIT_EDGES, new THREE.LineBasicMaterial({ color: 0x2b2a26, transparent: true, opacity: .16 }));
@@ -336,18 +448,21 @@ function makeMesh(b, cfg) {
     const pc = pcOf(b);
     const cx = pc.reduce((s, p) => s + p[0], 0) / pc.length, cz = pc.reduce((s, p) => s + p[1], 0) / pc.length;
     const cy = (b.y0 + b.y1) / 2;
-    mesh = new THREE.Mesh(buildPrism(pc.map(([x, z]) => [x - cx, z - cz]), b.y0 - cy, b.y1 - cy), materialFor(key));
+    mesh = new THREE.Mesh(buildPrism(pc.map(([x, z]) => [x - cx, z - cz]), b.y0 - cy, b.y1 - cy), perMesh(materialFor(key)));
     mesh.position.set(cx * MM, cy * MM, cz * MM); mesh.updateMatrix();
     mesh.userData.prism = true;
   }
   mesh.matrixAutoUpdate = false;
+  { let h = 2166136261; const id = String(b.pk != null ? b.pk : b.role || "") + ":" + String(b.role || "");
+    for (let i = 0; i < id.length; i++) { h ^= id.charCodeAt(i); h = Math.imul(h, 16777619); }
+    mesh.userData.off0 = ((h >>> 0) % 1000) / 1000; mesh.userData.off1 = (((h >>> 10) >>> 0) % 1000) / 1000; }
   if (b.kind === "w") mesh.userData.wall = wallInfo(b);
   mesh.castShadow = b.kind !== "g" && b.kind !== "w";   // pereții camerei nu aruncă umbră: ar întuneca toată camera
   mesh.receiveShadow = b.kind !== "g";
   mesh.userData.key = key; mesh.userData.base = mesh.material;
   mesh.onBeforeRender = (r, s, c, g, mat) => {
     const sh = mat.userData && mat.userData.shader;
-    if (sh) { sh.uniforms.uRest.value.copy(mesh.matrix); mat.uniformsNeedUpdate = true; }
+    if (sh) { sh.uniforms.uRest.value.copy(mesh.matrix); sh.uniforms.uEbOff.value.set(mesh.userData.off0 || 0, mesh.userData.off1 || 0); sh.uniforms.uEbRect.value = mesh.userData.prism ? 0 : 1; const ao = mesh.userData.ao; sh.uniforms.uEbOn.value = ao ? 1 : 0; if (ao) { sh.uniforms.uEbLo.value.set(ao.lo[0], ao.lo[1], ao.lo[2]); sh.uniforms.uEbHi.value.set(ao.hi[0], ao.hi[1], ao.hi[2]); } mat.uniformsNeedUpdate = true; }
   };
   return mesh;
 }
@@ -367,11 +482,47 @@ function pieceGroup(pk) {
 }
 function disposePiece(P) {
   R.root.remove(P.g);
-  P.meshes.forEach(m => { if (m.userData.prism) m.geometry.dispose(); if (m.userData.lines) m.userData.lines.material.dispose(); });
+  P.meshes.forEach(m => { if (m.userData.prism) m.geometry.dispose(); if (m.userData.base && m.userData.base.userData.own) m.userData.base.dispose(); if (m.userData.lines) m.userData.lines.material.dispose(); });
   clearGroup(P.hw); clearGroup(P.holes);
 }
 function clearGroup(g) {
   for (const c of [...g.children]) { g.remove(c); if (c.userData.own) c.geometry.dispose(); if (c.isInstancedMesh) c.dispose(); }
+}
+
+
+/* Interiorul fiecărui corp (carcasa: flancuri, bază, tavan, spate): de aici
+   vine ocluzia ambientală simulată din shader. Întoarce o funcție care dă,
+   pentru o cutie, volumul interior al corpului în care stă (sau null: ușile,
+   sertarele care ies și tot ce e în afara unui corp nu primesc ocluzie). */
+function carcassAO(boxes) {
+  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc));
+  const cl = [];
+  car.forEach(b => {
+    const hit = cl.filter(c => b.x0 <= c.X1 + 1 && b.x1 >= c.X0 - 1 && b.y0 <= c.Y1 + 1 && b.y1 >= c.Y0 - 1 && b.z0 <= c.Z1 + 1 && b.z1 >= c.Z0 - 1);
+    const c = hit[0] || { X0: 1e9, X1: -1e9, Y0: 1e9, Y1: -1e9, Z0: 1e9, Z1: -1e9, bs: [] };
+    hit.slice(1).forEach(o => { c.bs.push(...o.bs); cl.splice(cl.indexOf(o), 1); });
+    if (!hit.length) cl.push(c);
+    c.bs.push(b);
+    c.X0 = Math.min(...c.bs.map(q => q.x0)); c.X1 = Math.max(...c.bs.map(q => q.x1));
+    c.Y0 = Math.min(...c.bs.map(q => q.y0)); c.Y1 = Math.max(...c.bs.map(q => q.y1));
+    c.Z0 = Math.min(...c.bs.map(q => q.z0)); c.Z1 = Math.max(...c.bs.map(q => q.z1));
+  });
+  cl.forEach(c => {
+    const fi = c.bs.filter(q => q.role === "fianco").sort((a, b) => (a.x0 + a.x1) - (b.x0 + b.x1));
+    const ba = c.bs.filter(q => q.role === "base"), ci = c.bs.filter(q => q.role === "cielo"), sc = c.bs.filter(q => q.role === "schienale");
+    const lo = [c.X0, c.Y0, c.Z0], hi = [c.X1, c.Y1, c.Z1];
+    if (fi.length >= 2) { lo[0] = fi[0].x1; hi[0] = fi[fi.length - 1].x0; }
+    if (ba.length) lo[1] = Math.max(...ba.map(q => q.y1));
+    if (ci.length) hi[1] = Math.min(...ci.map(q => q.y0));
+    if (sc.length) lo[2] = Math.max(...sc.map(q => q.z1));
+    c.ao = hi[0] > lo[0] && hi[1] > lo[1] && hi[2] > lo[2] ? { lo: lo.map(v => v * MM), hi: hi.map(v => v * MM) } : null;
+  });
+  return (b) => {
+    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc)) return null;
+    const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2;
+    const c = cl.find(q => q.ao && cx >= q.X0 - 1 && cx <= q.X1 + 1 && cy >= q.Y0 - 1 && cy <= q.Y1 + 1 && cz >= q.Z0 - 1 && cz <= q.Z1 + 1);
+    return c ? c.ao : null;
+  };
 }
 
 function setModel(boxes, cfg) {
@@ -379,6 +530,7 @@ function setModel(boxes, cfg) {
      primesc unul sintetic: se văd, dar nu se forează */
   let syn = 100000;
   boxes = boxes.map(b => (b.pk == null ? Object.assign({}, b, { pk: "s" + (syn++) }) : b));
+  const aoOf = carcassAO(boxes);
   const byPk = new Map();
   boxes.forEach(b => { const k = String(b.pk); if (!byPk.has(k)) byPk.set(k, []); byPk.get(k).push(b); });
 
@@ -391,10 +543,10 @@ function setModel(boxes, cfg) {
   }
   for (const [pk, bs] of byPk) {
     let P = R.pieces.get(pk);
-    if (P) { bs.forEach((b, i) => { P.meshes[i].userData.tgt = restOf(b); if (b.kind === "w") P.meshes[i].userData.wall = wallInfo(b); }); }
+    if (P) { bs.forEach((b, i) => { P.meshes[i].userData.ao = aoOf(b); P.meshes[i].userData.tgt = restOf(b); if (b.kind === "w") P.meshes[i].userData.wall = wallInfo(b); }); }
     else {
       P = pieceGroup(pk);
-      bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; P.meshes.push(m); P.g.add(m); });
+      bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
     P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null;
   }
