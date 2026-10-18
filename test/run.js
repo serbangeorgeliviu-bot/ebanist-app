@@ -2566,6 +2566,31 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.2: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* D-43 pe 3D: piesele din lanțul de închidere care cade devin roșii, butonul apare doar la nevoie */
+  {
+    const c = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build"); buildCfg = { ...PRESETS.armadio }; syncBuildForm(); draw3D(); await w(400); studioSync();
+      const btn = document.getElementById("btnCoh3d"), M = GL3D.model();
+      o.sanatos = btn.hidden === true && cohIssues(M).length === 0;
+      const fi = M.rows.find(x => x.role === "fianco"), real = window.closureOf;
+      window.closureOf = () => [{ axa: "L", chain: "fianco+base", valoare_nominala: 900, valoare_calculata: 905, delta: 5, piese_implicate: [fi.elemento], why: "t" }];
+      studioSync(); o.apare = !btn.hidden && document.getElementById("cohN").textContent === "1";
+      btn.click(); await w(200); o.pornit = btn.classList.contains("on");
+      btn.click(); await w(100); o.oprit = !btn.classList.contains("on");
+      window.closureOf = real; studioSync(); o.dispare = btn.hidden === true;
+      return o;
+    });
+    if (c.fara_gl) ok("coerență 3D: fără WebGL, sărit", true);
+    else {
+      ok("coerență 3D: corp sănătos → butonul ascuns", c.sanatos === true);
+      ok("coerență 3D: o închidere căzută → butonul apare cu numărul", c.apare === true);
+      ok("coerență 3D: butonul pornește și oprește evidențierea", c.pornit === true && c.oprit === true);
+      ok("coerență 3D: butonul dispare când corpul se închide", c.dispare === true);
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -161,6 +161,9 @@ function materialFor(key) {
 }
 /* Materialul „fantomă": piesele din jurul celei selectate, sau corpul în
    modul feronerie. Transparent, fără umbre, fără scriere în adâncime. */
+/* Pezzi che non tornano nella chiusura del gabarito (rosso-ambra, pieno). */
+const FLAG = () => MAT_CACHE.get("__flag") || (MAT_CACHE.set("__flag", new THREE.MeshStandardMaterial({
+  color: 0xc02f2f, emissive: 0x4a0d0d, roughness: .7 })), MAT_CACHE.get("__flag"));
 const GHOST = () => MAT_CACHE.get("__ghost") || (MAT_CACHE.set("__ghost", new THREE.MeshStandardMaterial({
   color: 0xb9c2b4, transparent: true, opacity: .14, depthWrite: false, roughness: .9 })), MAT_CACHE.get("__ghost"));
 
@@ -445,6 +448,14 @@ function buildHardware(model) {
 }
 
 /* --- stato → visibilità ------------------------------------------------ */
+/* Un pezzo e segnalato se la sua riga di distinta e fra quelle che la
+   chiusura del gabarito (D-43) nomina in un guasto. */
+function isFlagged(P) {
+  if (!R.flag || !R.model || !R.model.meta) return false;
+  const m = R.model.meta[P.pk];
+  return !!(m && m.row && R.flag.has(String(m.row.elemento)));
+}
+
 function applyState() {
   const st = R.st, sel = st.sel != null ? String(st.sel) : null;
   const hwMode = st.mode === "hw";
@@ -453,14 +464,15 @@ function applyState() {
     const show = !(st.iso && sel && !isSel);
     P.g.visible = show;
     const ghost = (hwMode && !isSel) || (sel && !isSel && !st.iso);
+    const flagged = !ghost && isFlagged(P);
     P.meshes.forEach(m => {
       const glass = m.userData.key === "__glass";
-      m.material = ghost ? (glass ? GHOST() : GHOST()) : m.userData.base;
+      m.material = ghost ? (glass ? GHOST() : GHOST()) : flagged && !glass ? FLAG() : m.userData.base;
       m.castShadow = !ghost && !glass;
       const ln = m.userData.lines;
       if (ln) {
         ln.visible = st.edges || isSel;
-        ln.material.color.setHex(isSel ? 0xd4af37 : (R.dark ? 0x0a0c09 : 0x2b2a26));
+        ln.material.color.setHex(isSel ? 0xd4af37 : flagged ? 0x7a1111 : (R.dark ? 0x0a0c09 : 0x2b2a26));
         ln.material.opacity = isSel ? 1 : ghost ? .25 : (st.mode === "real" ? .14 : .32);
       }
     });
@@ -698,6 +710,12 @@ const GL3D = {
     applyState();
   },
   get state() { return R ? Object.assign({}, R.st) : {}; },
+  /* nomi di riga (`elemento`) da evidenziare in rosso; vuoto/null = niente */
+  flag(names) {
+    if (!this.ok) return;
+    R.flag = names && names.length ? new Set(names.map(String)) : null;
+    applyState();
+  },
   select(pk, iso) {
     if (!this.ok) return;
     R.st.sel = pk == null ? null : String(pk);
