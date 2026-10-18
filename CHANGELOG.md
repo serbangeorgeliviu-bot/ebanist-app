@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.58.1 — 18 octombrie 2026
+
+**„Camera în 3D" arată ca vizorul corpului.** Până acum camera era desenată în SVG, plat: pereți translucizi, fără lumină și fără umbre. Acum folosește același vizor WebGL ca la corp:
+
+- umbre ale corpurilor pe podea, materialele reale ale corpurilor;
+- **podea din plăci de 600 mm** (se vede scara camerei), cu poligonul real al pereților;
+- **pereții dinspre cameră se subțiază**, deci vezi mereu interiorul, indiferent din ce parte te uiți; pereții nu mai aruncă umbră peste cameră;
+- rotire și zoom cu degetul ca la corp; la închidere, canvasul, camera și umbra de contact revin cum erau în Constructor.
+- Fără WebGL se păstrează desenul SVG de dinainte.
+
+Teste: 5 verificări noi în `run.js`; `test:full` 635/635 cu golden 42/42, e2e 551/551.
+
+---
+
 ## 4.58.0 — 18 octombrie 2026
 
 **Releveu (D-82).** Idei luate de la Leica DISTO Plan, fără hardware:

@@ -76,10 +76,10 @@ export function buildPrism(pc, y0, y1) {
   return g;
 }
 
-export function boundsOf(boxes) {
+export function boundsOf(boxes, withWalls) {
   let X0 = 1e9, X1 = -1e9, Y0 = 1e9, Y1 = -1e9, Z0 = 1e9, Z1 = -1e9, any = false;
   for (const b of boxes) {
-    if (b.kind === "w") continue;
+    if (b.kind === "w" && !withWalls) continue;
     any = true;
     pcOf(b).forEach(([x, z]) => { X0 = Math.min(X0, x); X1 = Math.max(X1, x); Z0 = Math.min(Z0, z); Z1 = Math.max(Z1, z); });
     Y0 = Math.min(Y0, b.y0); Y1 = Math.max(Y1, b.y1);

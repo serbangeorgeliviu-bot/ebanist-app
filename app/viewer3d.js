@@ -164,6 +164,45 @@ function materialFor(key) {
 /* Pezzi che non tornano nella chiusura del gabarito (rosso-ambra, pieno). */
 const FLAG = () => MAT_CACHE.get("__flag") || (MAT_CACHE.set("__flag", new THREE.MeshStandardMaterial({
   color: 0xc02f2f, emissive: 0x4a0d0d, roughness: .7 })), MAT_CACHE.get("__flag"));
+const WALL_FADE = () => MAT_CACHE.get("__wallfade") || (MAT_CACHE.set("__wallfade", new THREE.MeshStandardMaterial({
+  color: 0xd8d2c6, roughness: .95, transparent: true, opacity: .09, depthWrite: false, side: THREE.DoubleSide })), MAT_CACHE.get("__wallfade"));
+let TILE = null;
+function tileTexture() {
+  if (TILE) return TILE;
+  const cv = document.createElement("canvas"); cv.width = cv.height = 256;
+  const g = cv.getContext("2d");
+  g.fillStyle = "#bfb5a3"; g.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(${110 + (i * 7) % 60},${100 + (i * 5) % 55},${85 + (i * 3) % 50},.07)`; g.fillRect((i * 53) % 256, (i * 97) % 256, 1 + i % 3, 1 + (i * 3) % 3); }
+  g.strokeStyle = "#9d9382"; g.lineWidth = 3; g.strokeRect(1.5, 1.5, 253, 253);
+  TILE = new THREE.CanvasTexture(cv);
+  TILE.wrapS = TILE.wrapT = THREE.RepeatWrapping; TILE.colorSpace = THREE.SRGBColorSpace; TILE.anisotropy = 4;
+  return TILE;
+}
+/* podeaua camerei: poligonul pereților, plăci de 600 mm (se vede scara) */
+function setRoom(room) {
+  R.room = room || null;
+  const poly = room && room.floor && room.floor.length >= 3 ? room.floor : null;
+  const sig = poly ? JSON.stringify(poly.map(p => [Math.round(p[0]), Math.round(p[1])])) : "";
+  if (R.floorSig === sig) return;
+  R.floorSig = sig;
+  if (R.floor) { R.scene.remove(R.floor); R.floor.geometry.dispose(); R.floor.material.dispose(); R.floor = null; }
+  if (!poly) return;
+  const shape = new THREE.Shape(poly.map(p => new THREE.Vector2(p[0] * MM, -p[1] * MM)));
+  const geo = new THREE.ShapeGeometry(shape); geo.rotateX(-Math.PI / 2);
+  const t = tileTexture().clone(); t.needsUpdate = true; t.repeat.set(1 / 0.6, 1 / 0.6);
+  const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map: t, color: 0x9d9382, roughness: .8, metalness: 0 }));
+  m.receiveShadow = true; m.renderOrder = -2; R.floor = m; R.scene.add(m);
+}
+function fadeWalls() {
+  if (!R.camera) return;
+  const cp = R.camera.position;
+  for (const P of R.pieces.values()) for (const m of P.meshes) {
+    const w = m.userData.wall; if (!w) continue;
+    const near = !!R.room && ((cp.x - w.cx) * w.nx + (cp.z - w.cz) * w.nz) > 0;
+    const want = near ? WALL_FADE() : m.userData.base;
+    if (m.material !== want) { m.material = want; R.need = true; }
+  }
+}
 const GHOST = () => MAT_CACHE.get("__ghost") || (MAT_CACHE.set("__ghost", new THREE.MeshStandardMaterial({
   color: 0xb9c2b4, transparent: true, opacity: .14, depthWrite: false, roughness: .9 })), MAT_CACHE.get("__ghost"));
 
@@ -278,6 +317,12 @@ function restOf(b) {
 function applyRest(mesh, c) {
   mesh.position.set(c.px, c.py, c.pz); mesh.scale.set(c.sx, c.sy, c.sz); mesh.updateMatrix();
 }
+/* peretele își știe fața dinafară: când camera e de partea aceea, peretele se subțiază */
+function wallInfo(b) {
+  const q = pcOf(b), cx = q.reduce((a, p) => a + p[0], 0) / q.length, cz = q.reduce((a, p) => a + p[1], 0) / q.length;
+  const nx = q[3][0] - q[0][0], nz = q[3][1] - q[0][1], nl = Math.hypot(nx, nz) || 1;
+  return { cx: cx * MM, cz: cz * MM, nx: nx / nl, nz: nz / nl };
+}
 function makeMesh(b, cfg) {
   const key = keyOf(b, cfg);
   let mesh;
@@ -296,7 +341,9 @@ function makeMesh(b, cfg) {
     mesh.userData.prism = true;
   }
   mesh.matrixAutoUpdate = false;
-  mesh.castShadow = mesh.receiveShadow = b.kind !== "g";
+  if (b.kind === "w") mesh.userData.wall = wallInfo(b);
+  mesh.castShadow = b.kind !== "g" && b.kind !== "w";   // pereții camerei nu aruncă umbră: ar întuneca toată camera
+  mesh.receiveShadow = b.kind !== "g";
   mesh.userData.key = key; mesh.userData.base = mesh.material;
   mesh.onBeforeRender = (r, s, c, g, mat) => {
     const sh = mat.userData && mat.userData.shader;
@@ -344,7 +391,7 @@ function setModel(boxes, cfg) {
   }
   for (const [pk, bs] of byPk) {
     let P = R.pieces.get(pk);
-    if (P) { bs.forEach((b, i) => { P.meshes[i].userData.tgt = restOf(b); }); }
+    if (P) { bs.forEach((b, i) => { P.meshes[i].userData.tgt = restOf(b); if (b.kind === "w") P.meshes[i].userData.wall = wallInfo(b); }); }
     else {
       P = pieceGroup(pk);
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; P.meshes.push(m); P.g.add(m); });
@@ -531,7 +578,7 @@ function applyState() {
     P.meshes.forEach(m => {
       const glass = m.userData.key === "__glass";
       m.material = ghost ? (glass ? GHOST() : GHOST()) : flagged && !glass ? FLAG() : m.userData.base;
-      m.castShadow = !ghost && !glass;
+      m.castShadow = !ghost && !glass && !m.userData.wall;
       const ln = m.userData.lines;
       if (ln) {
         ln.visible = st.edges || isSel;
@@ -548,6 +595,7 @@ function applyState() {
     P.holes.visible = st.holes || hwMode || isSel;
   }
   if (R.dims) R.dims.visible = !!st.dims && !(st.explode > 0.01) && !(st.iso && sel);
+  fadeWalls();
   R.need = true; kick();
 }
 
@@ -595,14 +643,16 @@ function setTargets(boxesOrig) {
 }
 
 function updateBoundsAndLights(boxes) {
-  const B = boundsOf(boxes);
+  const B = boundsOf(boxes, !!R.room);
   if (!B) return;
   R.full = B;
   const s = B.size;
   R.ground.position.set(B.cx, B.floor + 0.0005, B.cz); R.ground.scale.set(s * 6, s * 6, 1);
   /* l'impronta vera, un po' allargata */
   let X0 = 1e9, X1 = -1e9, Z0 = 1e9, Z1 = -1e9;
-  boxes.forEach(b => { if (b.kind === "w") return; pcOf(b).forEach(([x, z]) => { X0 = Math.min(X0, x); X1 = Math.max(X1, x); Z0 = Math.min(Z0, z); Z1 = Math.max(Z1, z); }); });
+  boxes.forEach(b => { if (b.kind === "w" && !R.room) return; pcOf(b).forEach(([x, z]) => { X0 = Math.min(X0, x); X1 = Math.max(X1, x); Z0 = Math.min(Z0, z); Z1 = Math.max(Z1, z); }); });
+  R.contact.visible = !R.room;
+  if (R.floor) R.floor.position.y = B.floor + 0.0002;
   R.contact.position.set(B.cx, B.floor + 0.001, B.cz);
   R.contact.scale.set((X1 - X0) * MM * 1.5 + .15, (Z1 - Z0) * MM * 1.9 + .15, 1);
   R.key.position.set(B.cx - s * 0.8, B.cy + s * 3.2, B.cz + s * 1.4);
@@ -676,6 +726,7 @@ function stepCamera() {
   R.camera.near = Math.max(0.005, d - full.size * 2.2, 0.005);
   R.camera.far = d + full.size * 8;
   R.camera.updateProjectionMatrix();
+  if (R.room) fadeWalls();
   return moving;
 }
 
@@ -751,6 +802,7 @@ const GL3D = {
       let built = null;
       let boxes = opts.boxes ? opts.boxes.slice() : (built = buildModule(cfg)).boxes;
       if (opts.explode != null) R.st.explode = opts.explode;
+      setRoom(opts.room);
       boxes = setModel(boxes, cfg);
       const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1)])) + "|" + cfg.handles + "|" + cfg.shelfType;
       if (sig !== R.sig) {
@@ -807,6 +859,11 @@ const GL3D = {
     R.need = true; kick();
   },
   model() { return R ? R.model : null; },
+  /* ieșirea din camera 3D: fără podea, cu umbra de contact la loc */
+  leaveRoom() { if (!R) return; setRoom(null); R.contact.visible = true; R.need = true; kick(); },
+  /* per le prove: podeaua și pereții camerei */
+  roomInfo() { if (!R) return null; let walls = 0, faded = 0; for (const P of R.pieces.values()) for (const m of P.meshes) if (m.userData.wall) { walls++; if (m.material === WALL_FADE()) faded++; }
+    return { room: !!R.room, floor: !!R.floor, walls, faded, contactHidden: R.contact ? !R.contact.visible : null }; },
   /* per le prove: cosa c'e nel gruppo delle cote */
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; R.renderer.render(R.scene, R.camera); return R.canvas.toDataURL("image/png"); },
