@@ -3273,7 +3273,7 @@ const HWDB={
   {id:"gen_man",brand:"—",n:{it:"Maniglia generica",ro:"Mâner generic",en:"Generic handle",fr:"Poignée générique",de:"Standardgriff",pl:"Uchwyt standardowy",es:"Tirador genérico"},art:"—",price:3.5},
   {id:"haf_bar128",brand:"Häfele",n:{it:"Maniglia a barra inox 128mm",ro:"Mâner bară inox 128mm",en:"Stainless bar handle 128mm",fr:"Poignée barre inox 128mm",de:"Edelstahl-Stangengriff 128 mm",pl:"Uchwyt prętowy ze stali nierdzewnej 128 mm",es:"Tirador de barra de acero inoxidable 128 mm"},art:"106.61.xxx",price:4.8,chk:1},
   {id:"haf_profil",brand:"Häfele",n:{it:"Profilo presa Gola/L",ro:"Profil prindere Gola/L",en:"Gola/L grip profile",fr:"Profil de prise Gola/L",de:"Griffleistenprofil Gola/L",pl:"Profil uchwytowy Gola/L",es:"Perfil de agarre Gola/L"},art:"126.36.xxx",price:6.0,chk:1,profile:1},
-  {id:"gen_pomo",brand:"—",n:{it:"Pomello",ro:"Buton",en:"Knob",fr:"Bouton",de:"Knopf",pl:"Gałka",es:"Pomo"},art:"—",price:2.2}],
+  {id:"gen_pomo",brand:"—",n:{it:"Pomello",ro:"Buton",en:"Knob",fr:"Bouton",de:"Knopf",pl:"Gałka",es:"Pomo"},art:"—",price:2.2,knob:1}],
  sup:[
   {id:"haf_sup",brand:"Häfele",n:{it:"Supporto ripiano ø5 con sicura, 15,6 kg",ro:"Suport poliță ø5 cu siguranță, 15,6 kg",en:"Shelf support ø5 with safety pin, 15.6 kg",fr:"Taquet ø5 avec sécurité, 15,6 kg",de:"Fachbodenträger ø5 mit Sicherung, 15,6 kg",pl:"Podpórka półki ø5 z zabezpieczeniem, 15,6 kg",es:"Soporte de balda ø5 con seguro, 15,6 kg"},art:"282.24.720",price:0.12},
   {id:"gen_sup",brand:"—",n:{it:"Supporto ø5 semplice",ro:"Suport ø5 simplu",en:"Plain ø5 support",fr:"Taquet ø5 simple",de:"Einfacher Fachbodenträger ø5",pl:"Prosta podpórka ø5",es:"Soporte simple ø5"},art:"—",price:0.05}],
@@ -3362,7 +3362,8 @@ function guidaIdFor(cfg){
 window.slideGuidaId=cfg=>guidaIdFor(cfg);
 window.jointDefaultId=()=>{ const it=hwItem("conn"); return it&&it.id; };
 function hwItemFor(cfg,cat){ const id=cfg&&cfg.hwSel&&cfg.hwSel[cat]; return id?hwItemById(cat,id):hwItem(cat); }
-function handleIsProfile(){ try{ const it=hwItem("man"); return !!(it&&it.profile); }catch(e){ return false; } }
+function handleIsProfile(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(it&&it.profile); }catch(e){ return false; } }
+function handleIsKnob(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(it&&it.knob); }catch(e){ return false; } }
 /* ===== CATALOGO MATERIALI ================================================
  * Il catalogo NON sta piu nel codice. Sta in due file JSON, in /data/, e si
  * carica all'avvio:
@@ -9014,7 +9015,7 @@ function renderBuild(){
     $("bHandles").addEventListener("change",renderGola);
     $("bAW").addEventListener("change",renderAW);
     $("grpHw").addEventListener("toggle",()=>{ if($("grpHw").open) renderHwSel(); });
-    $("hwSelBox").addEventListener("change",()=>renderHwSel());
+    $("hwSelBox").addEventListener("change",()=>{ renderHwSel(); drawPreview(); });
     $("bTipo").addEventListener("change",renderAbs);
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
@@ -14405,12 +14406,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.67.0"; /* APP_VER-MARKER */
+const APP_VER="4.68.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v129";
+const SW_CACHE="ebanist-v130";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
