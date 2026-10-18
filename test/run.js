@@ -2762,6 +2762,41 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { proj().survey = null; persist(); setView("projects"); });
   }
 
+  /* Camera în 3D în WebGL: canvasul se mută în foaie, podeaua și pereții apar, la închidere totul se întoarce */
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      p.survey = { walls: [{ id: "a", len: 4000, angle: 90 }, { id: "b", len: 3000, angle: 90 }, { id: "c", len: 4000, angle: 90 }, { id: "d", len: 3000, angle: 90 }], heights: [2500, 2500, 2500], obstacles: [], wallH: 2500 };
+      generateInto(p, { ...PRESETS.armadio, name: "Arm" });
+      p.layout = { Arm: { wall: "a", from: 300, off: 0, lift: 0, rot: 0 } }; persist();
+      setView("survey"); await w(300);
+      document.getElementById("btnRoom3D").click(); await w(900);
+      const i = GL3D.roomInfo();
+      o.mutat = ROOM_GL === true && document.getElementById("gl3d").parentElement.id === "room3dGL";
+      o.podea = i.room && i.floor && i.contactHidden === true;
+      o.pereti = i.walls === 4;
+      /* camera în afara camerei: pereții dinspre ea se subțiază */
+      VIEW.yaw = 0.7; redrawCam(); await w(900); const a = GL3D.roomInfo().faded;
+      VIEW.yaw = 0.7 + Math.PI; redrawCam(); await w(900); const b2 = GL3D.roomInfo().faded;
+      o.fade = a >= 1 && b2 >= 1 && a <= 3 && b2 <= 3;
+      closeSheets(); await w(300);
+      const j = GL3D.roomInfo();
+      o.intors = ROOM_GL === false && document.getElementById("gl3d").parentElement.id === "vp3d" && j.floor === false && j.contactHidden === false;
+      return o;
+    });
+    if (r.fara_gl) ok("camera 3D: fără WebGL, sărit", true);
+    else {
+      ok("camera 3D: canvasul WebGL se mută în foaie", r.mutat === true);
+      ok("camera 3D: podeaua apare și umbra de contact a corpului dispare", r.podea === true);
+      ok("camera 3D: cei 4 pereți sunt în scenă", r.pereti === true);
+      ok("camera 3D: pereții dinspre cameră se subțiază (1–3 din 4, din ambele părți)", r.fade === true);
+      ok("camera 3D: la închidere canvasul, podeaua și umbra revin cum erau", r.intors === true);
+    }
+    await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; p.survey = null; persist(); setView("projects"); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
