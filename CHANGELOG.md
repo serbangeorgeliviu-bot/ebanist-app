@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.59.0 — 18 octombrie 2026
+
+**Foaia A3 de fabricație (D-83, pasul 1).** Din fișa piesei, butonul „Foaie de fabricație A3" tipărește o foaie landscape cu cartuș (firmă, proiect, client, piesă, material, grosime, cantitate, cant, scară, dată, versiune):
+- cotare în lanț de la muchie la axa găurii, cu pașii egali strânși în „n×pas" (sistemul de 32);
+- fiecare gaură, canal și decupaj poartă o literă legată de tabelul de prelucrări (Ø, adâncime, față, cantitate) și de lista pozițiilor;
+- detalii la scară mare pe grupurile de găuri, cotate de la muchia piesei;
+- toate textele în limba din meniu (22 chei noi, în toate cele 7 limbi); trece prin `printOut()` ca orice document.
+
 ## 4.58.1 — 18 octombrie 2026
 
 **„Camera în 3D" arată ca vizorul corpului.** Până acum camera era desenată în SVG, plat: pereți translucizi, fără lumină și fără umbre. Acum folosește același vizor WebGL ca la corp:
