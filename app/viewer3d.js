@@ -216,6 +216,16 @@ function materialFor(key) {
     m = new THREE.MeshStandardMaterial({ color: 0xc4c8cc, roughness: .3, metalness: 1, envMapIntensity: 1.2 });
   } else if (key === "__hwdark") {
     m = new THREE.MeshStandardMaterial({ color: 0x3a3d40, roughness: .35, metalness: .9, envMapIntensity: 1.1 });
+  } else if (key === "__inox") {
+    m = new THREE.MeshStandardMaterial({ color: 0xc9ccd0, roughness: .27, metalness: 1, envMapIntensity: 1.3 });
+  } else if (key === "__blackmetal") {
+    m = new THREE.MeshStandardMaterial({ color: 0x2c2e33, roughness: .38, metalness: .85, envMapIntensity: 1.1 });
+  } else if (key === "__zinc") {
+    m = new THREE.MeshStandardMaterial({ color: 0xb3b7ba, roughness: .4, metalness: .95, envMapIntensity: 1.15 });
+  } else if (key === "__nylon") {
+    m = new THREE.MeshStandardMaterial({ color: 0xe4e0d4, roughness: .62, metalness: 0 });
+  } else if (key === "__nylongrey") {
+    m = new THREE.MeshStandardMaterial({ color: 0x80858b, roughness: .6, metalness: 0 });
   } else if (key === "__plastic") {
     m = new THREE.MeshStandardMaterial({ color: 0xd9d6cf, roughness: .55, metalness: 0 });
   } else if (key === "__wooddowel") {
@@ -564,6 +574,12 @@ function cyl(mat, a, b, dia) {
   m.castShadow = true;
   return m;
 }
+const SPH = new THREE.SphereGeometry(0.5, 18, 12);
+function sph(mat, c, dia) {
+  const m = new THREE.Mesh(SPH, materialFor(mat));
+  m.position.set(c[0] * MM, c[1] * MM, c[2] * MM); m.scale.setScalar(dia * MM); m.castShadow = true;
+  return m;
+}
 function box(mat, lo, hi) {
   const m = new THREE.Mesh(UNIT, materialFor(mat));
   m.position.set((lo[0] + hi[0]) / 2 * MM, (lo[1] + hi[1]) / 2 * MM, (lo[2] + hi[2]) / 2 * MM);
@@ -583,14 +599,27 @@ function buildHardware(model) {
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;
     const tag = (m, always) => { m.userData.hw = h.type; m.userData.always = !!always; m.userData.rel = [String(h.piece), String(h.against)]; return m; };
     if (h.type === "cerniera") {
-      const w = h.w;                                            // tazza, faccia interna dell'anta
-      P.hw.add(tag(cyl("__hw", along(w, 2, 0), along(w, 2, 12), 35)));
+      /* Blum CLIP top: tazza în ușă, flanșă cu urechi, braț din tablă, pivot,
+         placă de montaj pe lateral cu două șuruburi și șurub de reglaj */
+      const w = h.w, sd = h.hingeLeft ? 1 : -1;
+      P.hw.add(tag(cyl("__zinc", along(w, 2, 0), along(w, 2, 11.5), 35)));
+      P.hw.add(tag(cyl("__zinc", along(w, 2, -1.2), along(w, 2, 0.4), 37.5)));
+      P.hw.add(tag(box("__zinc", [w[0] - 9, w[1] - 24, w[2] - 1.6], [w[0] + 9, w[1] + 24, w[2] - 0.2])));
+      [-1, 1].forEach(k => P.hw.add(tag(cyl("__inox", [w[0], w[1] + k * 21, w[2] - 1.6], [w[0], w[1] + k * 21, w[2] - 3.2], 5.5))));
       if (h.plate && A) {
-        const p = h.plate, sd = h.hingeLeft ? 1 : -1;
-        A.hw.add(tag(box("__hw", [p[0], p[1] - 24, p[2] - 18], [p[0] + sd * 11, p[1] + 24, p[2] + 18])));
-        /* braccio: dalla tazza alla basetta */
-        P.hw.add(tag(box("__hw", [Math.min(w[0], p[0] + sd * 11), w[1] - 9, Math.min(w[2] - 14, p[2])],
-                                 [Math.max(w[0], p[0] + sd * 11), w[1] + 9, w[2]])));
+        const p = h.plate, px = p[0] + sd * 11, ax = (w[0] + px) / 2;
+        const zt = Math.min(w[2] - 3, p[2] + 4), zb = p[2] - 4;
+        /* placa de montaj: bază subțire + bloc ridicat, șuruburi pe bază */
+        A.hw.add(tag(box("__zinc", [p[0], p[1] - 24, p[2] - 19], [p[0] + sd * 2.6, p[1] + 24, p[2] + 19])));
+        A.hw.add(tag(box("__zinc", [p[0] + sd * 2.6, p[1] - 9, p[2] - 14], [px, p[1] + 9, p[2] + 14])));
+        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [p[0] + sd * 2.6, p[1] + k * 16, p[2] + 11], [p[0] + sd * 4.4, p[1] + k * 16, p[2] + 11], 6.5))));
+        /* braț: tablă îndoită de la flanșă la placă */
+        P.hw.add(tag(box("__zinc", [Math.min(ax, px) - 5.5, w[1] - 11, zb], [Math.max(ax, px) + 5.5, w[1] + 11, zt])));
+        P.hw.add(tag(cyl("__inox", [w[0], w[1] - 13, w[2] - 5], [w[0], w[1] + 13, w[2] - 5], 8)));
+        P.hw.add(tag(cyl("__blackmetal", [ax, w[1], zb], [ax, w[1], zb - 3.5], 6)));
+        P.hw.add(tag(box("__nylongrey", [px - sd * 1.5, w[1] - 5, zb - 1], [px + sd * 6, w[1] + 5, zb + 7])));
+      } else {
+        P.hw.add(tag(box("__zinc", [w[0] - 5, w[1] - 11, w[2] - 14], [w[0] + 5, w[1] + 11, w[2] - 1.6])));
       }
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
     } else if (h.type === "minifix") {
@@ -603,17 +632,45 @@ function buildHardware(model) {
       P.hw.add(tag(cyl("__hw", along(w, 0, -s * 10), along(w, 0, s * 9), 5)));
       P.hw.add(tag(box("__hw", [w[0] + s * 1, w[1] + 2, w[2] - 5], [w[0] + s * 9, w[1] + 3.5, w[2] + 5])));
     } else if (h.type === "guida") {
-      const w = h.w, s = h.side < 0 ? 1 : -1;
-      P.hw.add(tag(box("__metal", [w[0], w[1] - 6, w[2] - h.len], [w[0] + s * 13, w[1] + 22, w[2] - 4])));
+      /* culisantă ascunsă: șina corpului (profil C pe lateral, rolă, fixare în
+         spate) rămâne pe loc; alergătorul cu clemă de față merge cu sertarul */
+      const w = h.w, s = h.side < 0 ? 1 : -1, y = w[1], z1 = w[2], zf = z1 - h.len;
+      const X = (a, b) => [w[0] + s * a, w[0] + s * b].sort((u, v) => u - v);
+      const bx = (m, xa, xb, ya, yb, za, zb, G) => { const x = X(xa, xb); (G || P.hw).add(tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb]))); };
+      bx("__zinc", 0, 1.8, -10, 26, zf + 6, z1 - 6);              // placa de fixare pe lateral
+      bx("__zinc", 0, 13, -10, -8.2, zf + 6, z1 - 6);             // buza de jos
+      bx("__zinc", 0, 13, 24.2, 26, zf + 6, z1 - 6);              // buza de sus
+      bx("__zinc", 0, 10, -10, 26, zf, zf + 6);                   // consola din spate
+      bx("__zinc", 0, 8, -10, 26, z1 - 6, z1);                    // reazemul din față
+      [-1, 1].forEach(k => { const c = [w[0] + s * 1.8, y + 8 + k * 6, z1 - 3]; P.hw.add(tag(cyl("__inox", c, [c[0] + s * 1.2, c[1], c[2]], 5.5))); });
+      const x0 = w[0] + s * 4, rl = [x0, y + 8, z1 - 24];
+      P.hw.add(tag(cyl("__nylon", rl, [x0 + s * 7, rl[1], rl[2]], 13)));
+      /* partea mobilă, pe peretele sertarului din partea aceasta */
+      let D = null;
+      for (const Q of R.pieces.values()) {
+        if (!Q.grp || Q.role !== "cassetto_fianco" || !Q.boxes.length) continue;
+        const B = Q.boxes[0]; if (B.x1 - B.x0 > 30) continue;
+        const fxd = h.side < 0 ? B.x0 : B.x1;
+        if (Math.abs(fxd - w[0]) < 40 && y >= B.y0 - 6 && y <= B.y1 && B.z0 < z1 && B.z1 > zf) { D = Q; break; }
+      }
+      const G = D ? D.hw : P.hw, rel = D ? [String(D.pk), String(h.piece)] : null;
+      const gb = (m, xa, xb, ya, yb, za, zb) => { const x = X(xa, xb); const q = tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb])); if (rel) q.userData.rel = rel; G.add(q); };
+      gb("__zinc", 2.2, 12, -8.6, -4.6, zf + 22, z1 - 14);        // alergătorul de jos
+      gb("__zinc", 2.2, 4, -8.6, 18, zf + 22, zf + 30);           // cârligul din spate
+      gb("__nylongrey", 2.2, 12.5, -8.6, 16, z1 - 40, z1 - 8);    // clema de fixare din față
+      gb("__nylon", 8, 12.5, 16, 19, z1 - 40, z1 - 24);           // pârghia de eliberare
     } else if (h.type === "maniglia") {
-      const w = h.w, ia = h.ia, L2 = ia / 2 + 22;
-      const a = h.vertical ? [w[0], w[1] - L2, w[2] + 32] : [w[0] - L2, w[1], w[2] + 32];
-      const b = h.vertical ? [w[0], w[1] + L2, w[2] + 32] : [w[0] + L2, w[1], w[2] + 32];
-      P.hw.add(tag(cyl("__hwdark", a, b, 12), true));
-      const p1 = h.vertical ? [w[0], w[1] - ia / 2, w[2]] : [w[0] - ia / 2, w[1], w[2]];
-      const p2 = h.vertical ? [w[0], w[1] + ia / 2, w[2]] : [w[0] + ia / 2, w[1], w[2]];
-      P.hw.add(tag(cyl("__hwdark", p1, along(p1, 2, 32), 9), true));
-      P.hw.add(tag(cyl("__hwdark", p2, along(p2, 2, 32), 9), true));
+      /* mâner bară: capete rotunjite, stâlpi cu rozete la față */
+      const w = h.w, ia = h.ia, L2 = ia / 2 + 22, zb = w[2] + 32;
+      const a = h.vertical ? [w[0], w[1] - L2, zb] : [w[0] - L2, w[1], zb];
+      const b = h.vertical ? [w[0], w[1] + L2, zb] : [w[0] + L2, w[1], zb];
+      P.hw.add(tag(cyl("__blackmetal", a, b, 12), true));
+      P.hw.add(tag(sph("__blackmetal", a, 12), true)); P.hw.add(tag(sph("__blackmetal", b, 12), true));
+      [-1, 1].forEach(k => {
+        const p1 = h.vertical ? [w[0], w[1] + k * ia / 2, w[2]] : [w[0] + k * ia / 2, w[1], w[2]];
+        P.hw.add(tag(cyl("__blackmetal", along(p1, 2, 1.5), along(p1, 2, 33), 8.5), true));
+        P.hw.add(tag(cyl("__blackmetal", p1, along(p1, 2, 3), 17), true));
+      });
     }
   });
   /* fori e cave: dischi scuri sulla superficie, un InstancedMesh per pezzo */
