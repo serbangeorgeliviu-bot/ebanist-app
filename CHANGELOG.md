@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.66.0 — 18 octombrie 2026
+
+**Feroneria în 3D, desenată cu detaliu.** Balamaua Blum are tazza cu inel, flanșa cu urechi și șuruburi, brațul din tablă, pivotul, placa de montaj de pe lateral cu două șuruburi și șurubul de reglaj. Culisanta de sertar are șina de pe lateral (placă și două buze), consola din spate, reazemul și rola din față; partea mobilă, cu clema de față și pârghia de eliberare, merge cu sertarul când îl deschizi, deci culisanta se vede cum se telescopează. Mânerul bară are capete rotunjite, stâlpi și rozete la față, într-un metal închis satinat.
+
+Nu schimbă nicio cotă, nicio gaură și nicio distinctă: feroneria rămâne cea din Modelul de Operații, doar forma ei în 3D e mai fidelă. Tipurile de culisantă sunt desenate la fel (Tandem/Movento au aceeași formă generică); cotele reale ale fiecărui model rămân cele din fișele producătorului, folosite la găurire.
+
 ## 4.65.0 — 18 octombrie 2026
 
 **3D și modul Client, mai realiste.** Lemnul are acum fibră neregulată, cu pori și variații de lățime, nu dungi egale; fiecare piesă are fibra ei, deci ușile și sertarele vecine nu mai sunt copii una după alta. Muchiile panourilor prind lumina, ca un cant teșit. Uni-ul melaminic are un grăunte fin, în loc de plastic neted. Interiorul corpului are ocluzie ambientală simulată: colțurile unde raftul întâlnește lateralul sau spatele sunt mai întunecate, iar spre fundul corpului lumina scade. Gresia din cameră are plăci cu tonuri ușor diferite și rost închis la culoare.
