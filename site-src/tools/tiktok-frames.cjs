@@ -37,6 +37,8 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
   const n=Math.round(s.sec*FPS); const first=idx+1;
   for(let i=0;i<n;i++){
    const k=n>1?sm(i/(n-1)):0, c=s.cam;
+   const fn=path.join(FR,"f_"+String(idx+1).padStart(5,"0")+".jpg");
+   if(process.env.RESUME&&fs.existsSync(fn)){idx++;continue}
    const r=await pg.evaluate(([cfgPatch,st,cam,focus,k,W,H])=>{
      const cfg={...window.__cfg,...cfgPatch};
      if(focus) GL3D.focusOn(focus.pk,focus.rad,focus.off); else GL3D.focusOn(null);
