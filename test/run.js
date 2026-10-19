@@ -2983,6 +2983,37 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("computeHardware fără setări nu cade cu un articol necunoscut", a.hw === true, String(a.hw));
   }
 
+  /* Releveu → pantă (D-88): punctele 1 și 3 devin profilul tavanului la «Completează generatorul» */
+  {
+    head("Releveu — panta tavanului propusă constructorului (D-88)");
+    await pg.evaluate(() => { closeSheets(); const p = proj(); p.survey = { walls: [{ id: "w1", len: 1800, angle: 90, bow: null }], heights: [2500, 2300, 1900], obstacles: [] };
+      persist(); setView("survey"); renderPlan(); renderSurveyHeights(); });
+    await pg.waitForTimeout(300);
+    const sug = await pg.evaluate(() => ({ vis: $("svSlopeHint").style.display !== "none", txt: $("svSlopeHint").textContent, sel: $("svSlope").value }));
+    ok("D-88: cu punctele 1 și 3 diferite apare sugestia, cu diferența, fără pantă aleasă", sug.vis && sug.txt.includes("600") && sug.sel === "", JSON.stringify(sug));
+    await pg.selectOption("#svSlope", "x"); await pg.waitForTimeout(200);
+    const rd = await pg.evaluate(() => ({ sv: survey().slope, txt: $("svSlopeHint").textContent }));
+    ok("D-88: alegerea se salvează în releveu și indiciul spune ce se propune (minus 20 mm)", rd.sv === "x" && rd.txt.includes("2480") && rd.txt.includes("1880"), JSON.stringify(rd));
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(400);
+    const ap = await pg.evaluate(() => { const c = cfgFromForm(); return { view: currentView, tp: c.topProfile, H: c.H, ro: $("bH").readOnly, L: c.L }; });
+    ok("D-88: «Completează generatorul» pune panta: stânga 2480, dreapta 1880, H = 2480", ap.view === "build" && ap.tp && ap.tp.axis === "x" && ap.tp.h0 === 2480 && ap.tp.h1 === 1880 && ap.H === 2480 && ap.ro, JSON.stringify(ap));
+    ok("D-88: corpul propus se generează fără eroare", await pg.evaluate(() => { try { const m = buildModule({ ...cfgFromForm(), name: "Rv" }); return m.boxes.some(b => b.vp); } catch (e) { return String(e); } }));
+    await pg.evaluate(() => { setView("survey"); }); await pg.selectOption("#svSlope", "z"); await pg.waitForTimeout(150);
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(300);
+    ok("D-88: pe adâncime, punctul 1 = față, punctul 3 = spate", await pg.evaluate(() => { const t = cfgFromForm().topProfile; return t && t.axis === "z" && t.h0 === 2480 && t.h1 === 1880; }));
+    await pg.evaluate(() => { setView("survey"); survey().heights[2] = 2490; persist(); renderSurveyHeights(); });
+    ok("D-88: diferență sub minim: indiciul o spune", await pg.evaluate(() => /10/.test($("svSlopeHint").textContent) && $("svSlopeHint").style.display !== "none"));
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(300);
+    ok("D-88: diferență sub minim → constructorul rămâne fără pantă, cu H = punctul cel mai jos − 20", await pg.evaluate(() => { const c = cfgFromForm(); return c.topProfile === null && c.H === 2280; }));
+    await pg.evaluate(() => { setView("survey"); survey().slope = null; survey().heights = [2500, 2300, 1900]; persist(); renderSurveyHeights(); });
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(300);
+    ok("D-88: fără pantă aleasă, comportamentul vechi (H = minimul − 20, fără profil)", await pg.evaluate(() => { const c = cfgFromForm(); return c.topProfile === null && c.H === 1880 && !$("bH").readOnly; }));
+    ok("D-88: cheile de interfață există în toate cele 7 limbi", await pg.evaluate(() => ["svSlope", "svSlopeNone", "svSlopeX", "svSlopeZ", "svSlopeSuggest", "svSlopePoints", "svSlopeFlat", "svSlopeReady", "svSlopeBit"]
+      .every(k => ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => SURVEY_I18N[l] && SURVEY_I18N[l][k]))));
+    await pg.evaluate(() => { const p = proj(); p.survey = null; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+    ok("D-88: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* Releveu (D-82): decalaj cu cifră, Enter, perete de închidere, diagonale, DXF, poze */
   {
     const zlib = require("zlib");

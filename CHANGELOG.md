@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.71.0 — 19 octombrie 2026
+
+**Releveu propune panta tavanului.** Sub cele trei înălțimi măsurate ai un câmp nou, „Tavan”: orizontal, înclinat pe lățime (punctul 1 = stânga, punctul 3 = dreapta) sau înclinat pe adâncime (punctul 1 = față, punctul 3 = spate). Când punctele 1 și 3 diferă cu peste 20 mm și nu ai ales nimic, ecranul îți sugerează că tavanul pare înclinat.
+
+Cu panta aleasă, „Completează generatorul” pune în Constructor tavanul înclinat: cele două înălțimi măsurate minus 20 mm, înălțimea corpului fiind cea mai mare. Nu generează nimic singur: vezi cotele în formular și apeși tu „Generează”. Dacă diferența e sub 20 mm sau lipsește punctul 1 sau 3, rămâne comportamentul de până acum (înălțimea punctului celui mai jos minus 20 mm), iar mesajul spune de ce.
+
 ## 4.70.0 — 19 octombrie 2026
 
 **Mobilier cu tavan înclinat: sub scară, la mansardă.** În Constructor ai un câmp nou, „Cielo inclinato”: pantă pe lățime sau pe adâncime. Scrii cele două înălțimi, de la pardoseală până la fața de sus a tavanului (stânga și dreapta, sau față și spate); înălțimea corpului e cea mai mare, iar unghiul se calculează și se afișează.

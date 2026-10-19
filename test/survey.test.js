@@ -171,3 +171,39 @@ describe("DXF → pereți", () => {
     assert.equal(S.wallsFromDxf(dxf("", 4)).error, "nocontour");
   });
 });
+
+/* D-88: panta tavanului din cele trei înălțimi măsurate */
+describe("Panta tavanului din Releveu (D-86, D-88)", () => {
+  const sv = (o) => Object.assign({ heights: [2400, 2300, 1800], slope: "x" }, o);
+  test("fără pantă aleasă: nicio propunere", () => {
+    assert.equal(S.slopeProposal(sv({ slope: null })), null);
+    assert.equal(S.slopeProposal(sv({ slope: "" })), null);
+    assert.equal(S.slopeProposal({ heights: [1, 2, 3] }), null);
+  });
+  test("punctul 1 și 3 devin h0 și h1, minus jocul; H = cea mai mare", () => {
+    const p = S.slopeProposal(sv({}));
+    assert.deepEqual({ ...p }, { axis: "x", h0: 2380, h1: 1780, H: 2380 });
+    const q = S.slopeProposal(sv({ slope: "z", heights: [1500, 1900, 2200] }));
+    assert.deepEqual({ ...q }, { axis: "z", h0: 1480, h1: 2180, H: 2180 });
+  });
+  test("jocul și diferența minimă se pot da", () => {
+    assert.equal(S.slopeProposal(sv({}), { joc: 0 }).h0, 2400);
+    assert.equal(S.slopeProposal(sv({ heights: [2400, 0, 2390] }), { minDiff: 5 }).h1, 2370);
+  });
+  test("punctul 1 sau 3 lipsă → eroare «points»", () => {
+    assert.equal(S.slopeProposal(sv({ heights: [2400, 2300, null] })).error, "points");
+    assert.equal(S.slopeProposal(sv({ heights: [null, 2300, 1800] })).error, "points");
+    assert.equal(S.slopeProposal(sv({ heights: [] })).error, "points");
+  });
+  test("diferență sub minim → eroare «flat», cu diferența măsurată", () => {
+    const p = S.slopeProposal(sv({ heights: [2400, 2300, 2390] }));
+    assert.equal(p.error, "flat"); assert.equal(p.diff, 10);
+  });
+  test("sugestia: apare când punctele 1 și 3 diferă destul și nu s-a ales nimic", () => {
+    assert.equal(S.slopeSuggest(sv({ slope: null })), 600);
+    assert.equal(S.slopeSuggest(sv({ slope: "x" })), null);
+    assert.equal(S.slopeSuggest(sv({ slope: null, heights: [2400, 2300, 2390] })), null);
+    assert.equal(S.slopeSuggest(sv({ slope: null, heights: [2400, 2300, null] })), null);
+    assert.equal(S.slopeSuggest(null), null);
+  });
+});
