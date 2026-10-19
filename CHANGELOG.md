@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.68.4 — 19 octombrie 2026
+
+**Găurile de glisieră de pe sertar, după fișele producătorilor.** În 4.68.3 lateralul sertarului primea găuri de glisieră indiferent de glisieră; fișele arată că nu e corect. Acum:
+
+- **Glisieră pe lateral** (Häfele cu bile, Blum 230M): găuri Ø3 pe fața exterioară a lateralului, la mijlocul înălțimii, prima la 26 mm de față, apoi din 128 în 128 mm (Häfele 23T10-268, Accuride 2642). Pentru 230M folosim aceleași cote, nu avem fișa lui.
+- **Glisieră ascunsă** (TANDEM, MOVENTO): lateralul rămâne fără găuri de glisieră. Cârligul din spate se prinde într-o gaură Ø6 × 10 mm în fața dinapoi a peretelui din spate, la 7 mm de lateral și 24 mm de jos (Blum, instrucțiunile TANDEM plus 563H/563 și TD-132/1).
+
+Nu sunt în model, fiindcă fișele nu le dau în cote (sunt pe șablonul Blum): găurile pilot Ø2,5 la 75° pentru dispozitivele de blocare din față și crestătura de 35 × 13 mm din spatele lateralului. Toate cotele rămân `verificat:false` până pe o piesă reală. Test: `cd test && node --test drawerside.test.js`.
+
+---
+
 ## 4.68.3 — 19 octombrie 2026
 
 **Lateralul sertarului are acum găuri.** La un sertar din lemn, piesa „Laterală sertar” ieșea fără nicio gaură: nici pentru îmbinarea cu fața și spatele, nici pentru glisieră. Acum primește taseli Ø8 spre față și spate (perechea lor e în cantul fețelor și se numără la feronerie ca restul tasel-ilor) și găurile glisierei pe fața exterioară, la jumătatea înălțimii, în aceleași poziții de la fața sertarului ca pe corp.

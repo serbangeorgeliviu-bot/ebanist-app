@@ -59,9 +59,21 @@ var HW_DRILL = {
   },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
-    /* partea de pe cassetto: gaurile pe fata exterioara a lateralului, aceleasi pozitii
-       de la fata cassetto-ului, la jumatatea inaltimii. Generic, verificat:false. */
-    dside: { dia: 5, depth: 10 },
+    /* partea de pe sertar, dupa tipul glisierei (U.15). `lateral`: glisiera pe lateral,
+       gaurile in fata exterioara a lateralului, la jumatatea inaltimii (modelul Accuride
+       2642 din Hafele 23T10-268: prima la 26 mm de capat, apoi din 128 in 128 pana la
+       44 mm de capatul din spate; M4 → pilot Ø3). `hook`: glisiera ascunsa, cuiul din
+       spate in fata dinapoi a peretelui din spate (Blum, instructiunile TANDEM plus
+       563H/563 si TD-132/1 MOVENTO: Ø6 × 10 adanc, la 7 mm de lateral, 24 mm de jos =
+       13 + 11). Dispozitivele de blocare din fata (Ø2,5, 75°, pe sablon) si crestatura
+       de 35 × 13 din spatele lateralului nu au cote in fise si nu se genereaza.
+       Toate verificat:false pana pe o piesa reala. */
+    dside: {
+      lateral: { ids: { haf_ball: 1, blum_230m: 1 }, dia: 3, depth: 10, first: 26, pitch: 128, rear: 44,
+                 src: "Häfele 23T10-268, Accuride 2642" },
+      hook: { ids: { blum_tandem: 1, blum_movento: 1 }, dia: 6, depth: 10, from_side: 7, from_bottom: 24,
+              src: "Blum TANDEM plus 563H/563 (2025), MOVENTO TD-132/1" }
+    },
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
        din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
        `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
@@ -510,12 +522,18 @@ function generate(input) {
       dSides.forEach(function (q) { if (!S || Math.abs(q.min[0] + q.max[0] - (side < 0 ? 2 * x0 : 2 * x1)) < Math.abs(S.min[0] + S.max[0] - (side < 0 ? 2 * x0 : 2 * x1))) S = q; });
       if (!P) return;
       var id = "hw_" + out.hw.length;
-      if (S) {
-        var sy = (S.min[1] + S.max[1]) / 2, sx = side < 0 ? S.min[0] : S.max[0];
-        spos.list.forEach(function (d) {
-          if (d > nl - 10) return;
-          hole(S, 0, side, [sx, sy, S.max[2] - d], H.slide.dside.dia, H.slide.dside.depth, id, "guida cassetto");
-        });
+      var DS = H.slide.dside, gid = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null;
+      if (S && gid && DS.lateral.ids[gid]) {
+        var sy = (S.min[1] + S.max[1]) / 2, sx = side < 0 ? S.min[0] : S.max[0], L = DS.lateral;
+        for (var d = L.first; d <= nl - L.rear + 0.5; d += L.pitch)
+          hole(S, 0, side, [sx, sy, S.max[2] - d], L.dia, L.depth, id, "guida cassetto");
+      }
+      if (S && gid && DS.hook.ids[gid]) {
+        var Hk = DS.hook, back = null;
+        dEnds.forEach(function (e) { if (!back || e.min[2] < back.min[2]) back = e; });
+        if (back && S.ext[1] > Hk.from_bottom + Hk.dia)
+          hole(back, 2, -1, [side < 0 ? S.max[0] + Hk.from_side : S.min[0] - Hk.from_side, S.min[1] + Hk.from_bottom, back.min[2]],
+               Hk.dia, Hk.depth, id, "guida cassetto");
       }
       var fx = side < 0 ? P.max[0] : P.min[0];
       spos.list.forEach(function (d) {
