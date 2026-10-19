@@ -74,7 +74,11 @@ var HW_DRILL = {
   /* canalul profilului anti-curbare (U.6, D-76): pe fata dinapoi a usii, pe toata
      inaltimea, paralel cu marginea libera. Date de profil generic, de verificat
      pe un profil real inainte sa mearga in masina. */
-  antiwarp: { groove_w: 10, groove_d: 9, from_free_edge: 45, end_margin: 30 }
+  antiwarp: { groove_w: 10, groove_d: 9, from_free_edge: 45, end_margin: 30 },
+  /* balamaua dintre două foi ale unui pachet pliant (U.9, D-87): cupa pe fața dinapoi a
+     foii din stânga, la marginea ei din dreapta; placa pe fața dinapoi a foii vecine, la
+     `plate_from_edge` de margine. Date de catalog generice, de verificat pe un sistem real. */
+  fold: { cup_dia: 35, cup_depth: 12.5, dist_cant: 5, plate_from_edge: 37, plate_spacing: 32, plate_dia: 5, plate_depth: 13 }
 };
 
 /* tipul de imbinare al corpului: din articolul `conn` ales pe corp (cfg.hwSel.conn),
@@ -113,7 +117,7 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, curved: false }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, curved: false }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
   }
@@ -460,6 +464,49 @@ function generate(input) {
                       vertical: true, ia: ia, knob: knob, note: knob ? "Pomello" : "Maniglia " + ia + " mm" });
       }
     });
+  });
+
+  /* --- 4b. pachete pliante (U.9, D-87): balamale între foi și mâner pe foaia liberă.
+         Foile nu se prind de lateral: atârnă pe șină, deci nu au bază pe flanc. */
+  var packs = {};
+  pcs.forEach(function (p) {
+    if (p.role === "frontale" && p.sub === "fold" && p.fold && p.tAx === 2) (packs[p.fold.i] = packs[p.fold.i] || []).push(p);
+  });
+  Object.keys(packs).sort(function (a, b) { return a - b; }).forEach(function (pi) {
+    var ls = packs[pi].slice().sort(function (a, b) { return a.min[0] - b.min[0]; });
+    var F = H.fold, eo = (G && G.in && G.in.edge_offset) || 100;
+    for (var j = 0; j < ls.length - 1; j++) {
+      var A = ls[j], B = ls[j + 1];
+      var h = A.ext[1], nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
+      var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
+      var cx = A.max[0] - (F.dist_cant + F.cup_dia / 2), zA = A.min[2], zB = B.min[2];
+      ys.forEach(function (yy) {
+        var y = A.min[1] + yy, id = "hw_" + out.hw.length;
+        hole(A, 2, -1, [cx, y, zA], F.cup_dia, F.cup_depth, id, "tazza cerniera pliante");
+        var px = B.min[0] + F.plate_from_edge;
+        hole(B, 2, -1, [px, y - F.plate_spacing / 2, zB], F.plate_dia, F.plate_depth, id, "basetta cerniera pliante");
+        hole(B, 2, -1, [px, y + F.plate_spacing / 2, zB], F.plate_dia, F.plate_depth, id, "basetta cerniera pliante");
+        out.hw.push({ id: id, type: "cerniera_pliante", catalog: "blum_71b3550", piece: A.pk, against: B.pk,
+                      w: [cx, y, zA], plate: [px, y, zB], note: "Cerniera tra le ante (pacchetto)" });
+      });
+    }
+    /* mânerul stă pe foaia de la capătul liber al pachetului */
+    var stackLeft = ls[0].hinge === "left", D = stackLeft ? ls[ls.length - 1] : ls[0];
+    if (hingeSel === "maniglia" && D) {
+      var ia = H.handle.interaxis, ox = stackLeft ? D.max[0] - H.handle.from_edge : D.min[0] + H.handle.from_edge;
+      var yc = D.max[1] < 1100 ? D.max[1] - H.handle.from_top - ia / 2
+             : D.min[1] > 1300 ? D.min[1] + H.handle.from_top + ia / 2
+             : Math.max(D.min[1] + 60 + ia / 2, Math.min(D.max[1] - 60 - ia / 2, H.handle.tall_y));
+      var hid = "hw_" + out.hw.length;
+      var knob = !!(root.handleIsKnob && root.handleIsKnob(cfg));
+      if (knob) hole(D, 2, 1, [ox, yc, D.max[2]], H.handle.dia, 0, hid, "pomello", true);
+      else {
+        hole(D, 2, 1, [ox, yc - ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+        hole(D, 2, 1, [ox, yc + ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
+      }
+      out.hw.push({ id: hid, type: "maniglia", catalog: "gen_man", piece: D.pk, w: [ox, yc, D.max[2]],
+                    vertical: true, ia: ia, knob: knob, note: knob ? "Pomello" : "Maniglia " + ia + " mm" });
+    }
   });
 
   /* --- 5. cassetti: frontale (maniglia) e guide sui pannelli di fianco ----- */

@@ -2181,6 +2181,36 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   }
   {
+    head("3D — pachet pliant: foile se strâng pe partea aleasă (U.9)");
+    const gctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const gp = await gctx.newPage();
+    const gerr = []; gp.on("pageerror", e => gerr.push(String(e)));
+    await gp.goto(URL); await gp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await gp.waitForTimeout(3300);
+    const go = await gp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); const cfg = { ...PRESETS.armadio, name: "Fd3", L: 1200, H: 2200, doors: 1, tram: 0, drawers: 0, hang: 0, fold: 3, doorHinge: ["left"] };
+      GL3D.render(cfg, { explode: 0, open: false }); await w(400);
+      const boxes = buildModule(cfg).boxes.filter(b => b.sub === "fold");
+      const closed = boxes.map(b => GL3D.tgtOf(b.pk));
+      GL3D.set({ open: true }); await w(500);
+      const open = boxes.map(b => GL3D.tgtOf(b.pk));
+      const th = boxes[0].z1 - boxes[0].z0, g = FOLD.open_gap;
+      return { n: boxes.length, closedAng: closed.map(c => c && c.ang), openAng: open.map(c => c && c.ang), ex: open.map(c => Math.round(c.ex * 10) / 10),
+               want: boxes.map(b => Math.round((b.fold.x0 + b.fold.k * (th + g) - b.x0) * 10) / 10), subs: open.map(c => c.sub) };
+    });
+    await gp.close(); await gctx.close();
+    if (go.fara_gl) ok("3D: pachet pliant — fără WebGL în acest browser, verificarea se sare", true, "fara_gl");
+    else {
+      ok("3D: 3 foi, toate cu sub:\"fold\"", go.n === 3 && go.subs.every(s2 => s2 === "fold"), JSON.stringify(go));
+      ok("3D: închis — nicio rotație", go.closedAng.every(a => a === 0), JSON.stringify(go));
+      ok("3D: deschis — fiecare foaie 90° în jurul muchiei din stânga", go.openAng.every(a => Math.abs(a + Math.PI / 2) < 1e-6), JSON.stringify(go));
+      ok("3D: deschis — foile se strâng una lângă alta, cu rostul din date", JSON.stringify(go.ex) === JSON.stringify(go.want), JSON.stringify(go));
+    }
+    ok("nessun errore JS", gerr.length === 0, gerr.join(" | ").slice(0, 200));
+  }
+  {
     head("Telefon — constructorul nu depășește ecranul (butoanele de documente trec pe rânduri)");
     const mctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
     const mp = await mctx.newPage();
@@ -2662,6 +2692,41 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       return n(low) === 0 && n(all) === 1; }));
     await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Aw1"); delete p.configs["Aw1"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
     ok("U.6: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
+  /* U.9 — usi pliante, a pacchetto */
+  {
+    head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.armadio, name: "Fd1", L: 1200, H: 2200, doors: 2, tram: 0, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.9: implicit «Nessuna» — fara foi pliante", await pg.evaluate(() => $("bFold").value === "" && cfgFromForm().fold === null && !buildModule(cfgFromForm()).pieces.some(p => /pieghevole/.test(p.elemento))));
+    await pg.selectOption("#bFold", "2"); await pg.waitForTimeout(200);
+    ok("U.9: alegerea ajunge in cfg: 4 foi si 2 seturi de sina", await pg.evaluate(() => { const c = cfgFromForm(); const ps = buildModule(c).pieces;
+      const f = ps.find(p => /^Anta pieghevole/.test(p.elemento)), s2 = ps.find(p => /^Sistema anta pieghevole/.test(p.elemento));
+      return c.fold === 2 && f && f.pz === 4 && s2 && s2.pz === 2 && s2.role === "accessorio"; }));
+    ok("U.9: indiciul se vede si poarta rostul si latimea minima", await pg.evaluate(() => { const h = $("foldHint"); return h.style.display !== "none" && h.textContent.includes(String(FOLD.gap_leaf)) && h.textContent.includes(String(FOLD.min_leaf)); }));
+    const fh = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Fd1" });
+      const items = computeHardware(p, state.settings), g = k => items.find(i => i.k === k) || {};
+      const leaf = p.pieces.find(x => /^Anta pieghevole/.test(x.elemento));
+      const o = { fold: g("hwFold").qty, price: g("hwFold").price, cern: g("hwCern").qty, man: g("hwMan").qty, want: 2 * hingeCount(Math.max(leaf.lung, leaf.larg)) };
+      try { o.mont = montDoc(p).length > 200; } catch (e) { o.err = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.err = String(e); }
+      return o; });
+    ok("U.9: deviz — 2 seturi de sina cu pret, balamale intre foi (foi-1 pe inaltime, per pachet), 2 maner", fh.fold === 2 && fh.price > 0 && fh.cern === fh.want && fh.man === 2, JSON.stringify(fh));
+    ok("U.9: fisa de montaj si rezumatul fara erori", fh.mont === true && fh.sum === true && !fh.err, JSON.stringify(fh));
+    ok("U.9: «Montaj» are pasul cu sina pliantă", await pg.evaluate(() => { const p = proj(); return montDoc(p).includes(t("mFold").split("{p}")[0].trim().slice(0, 12)); }));
+    ok("U.9: foaia deschisa — stanga: se strang de la marginea pachetului; dreapta: oglinda", await pg.evaluate(() => {
+      const F = k => ({ x0: 100, x1: 700, k, n: 2, w: 298 }), th = 19, g = FOLD.open_gap;
+      return foldOpenX(F(0), true, th) === 100 && foldOpenX(F(1), true, th) === 100 + th + g
+        && foldOpenX(F(1), false, th) === 700 - th && foldOpenX(F(0), false, th) === 700 - (th + g) - th; }));
+    ok("U.9: nume traduse pentru foaie si sina in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
+      const ok2 = L.every(l => { state.lang = l; return elName("Anta pieghevole") !== "Anta pieghevole" && elName("Sistema anta pieghevole") !== "Sistema anta pieghevole"; });
+      state.lang = keep; return ok2; }));
+    ok("U.9: cheile de interfata exista in toate cele 7 limbi", await pg.evaluate(() => ["fFold", "foldNone", "fold2", "fold3", "fold4", "foldHint", "wFoldNarrow", "wFoldLY", "wFoldFront", "wFoldReach", "hwFold", "mFold"]
+      .every(k => ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l] && I18N[l][k]))));
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Fd1"); delete p.configs["Fd1"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.9: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
   /* U.2 — catalog propriu si feronerie aleasa pe corp */

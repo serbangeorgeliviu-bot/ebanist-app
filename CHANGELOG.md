@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.69.0 — 19 octombrie 2026
+
+**Uși pliante, „a pacchetto”.** În Constructor → „Frontale e appoggio” ai un câmp nou, „Uși pliante”: 2, 3 sau 4 foi pe pachet. Fiecare ușă devine un pachet de foi legate cu balamale între ele, suspendat pe o șină sus. Lățimea pachetului e lățimea ușii de până acum, împărțită în foi cu 3 mm între ele; sus rămâne loc pentru șină. Partea pe care se strânge pachetul e cea de la „Lato cerniere”, aceeași alegere ca la balamale.
+
+Distinta are rândul „Anta pieghevole” (câte foi, cu cota finită) și un set de șină pe pachet. Devizul și fișa de montaj numără balamalele dintre foi, un mâner pe pachet și sistemul de șină, o singură dată; sistemul are categorie proprie în Catalog, cu preț de reglat. În 3D și în camera 3D, la „Ante aperte” foile se strâng una lângă alta, perpendicular pe față, deci se vede cât iese pachetul în față; același spațiu intră în zona de deschidere din planul camerei.
+
+Fișa piesei are găurile balamalelor dintre foi (cupa Ø35 într-o foaie, placa în vecina). **Cotele sistemului și ale găurilor sunt de catalog, nu luate de pe un sistem real:** marcate nevalidate până la un sistem montat. Nu se aplică pe front cu sticlă sau bombat și nici pe cotele absolute ale fronturilor: acolo rămân uși obișnuite, cu avertisment; foile mai înguste de 100 mm nu se generează. Proiectele vechi rămân neschimbate.
+
 ## 4.68.2 — 18 octombrie 2026
 
 **Balamaua din 3D seamănă acum cu CLIP top.** Până acum era un bloc cu un stâlp, nu o balama. Acum are cupa Ø35 cu inel, flanșa de 57 × 27,5 mm cu cele două găuri la 45 mm și șuruburi, legătura (linkul) înclinată, placa de montaj de pe lateral cu două șuruburi la 32 mm și brațul lung de tablă, cu profil mai înalt spre ușă, fantă și două șuruburi de reglaj. Cutia neagră a amortizorului BLUMOTION apare doar la modelele cu amortizor. Cotele cupei și flanșei sunt din fișa Blum 71B3590 (același corp, cu boss INSERTA): cupă Ø35, adâncime 13, flanșă 57 × 27,5 × 6,4, găuri Ø8 la 45 mm, excentric 9,5.

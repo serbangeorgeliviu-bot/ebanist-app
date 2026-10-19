@@ -674,7 +674,7 @@ function setModel(boxes, cfg) {
       P = pieceGroup(pk);
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
-    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null;
+    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null;
   }
   return boxes;
 }
@@ -775,6 +775,11 @@ function buildHardware(model) {
         P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
       }
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
+    } else if (h.type === "cerniera_pliante") {
+      /* balamaua dintre două foi ale unui pachet pliant: cupa în prima foaie, placa pe fața dinapoi a vecinei */
+      const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc";
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      if (h.plate && A) { const p = h.plate; A.hw.add(tag(box(HM, [p[0] - 22.5, p[1] - 22.5, p[2] - 3], [p[0] + 22.5, p[1] + 22.5, p[2]]))); }
     } else if (h.type === "minifix") {
       P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15)));
       const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5)));
@@ -1034,6 +1039,16 @@ function setTargets(boxesOrig) {
     P.tgt.ex = ((b.x0 - a.x0) + (R.st.open ? (slideX[P.pk] || 0) : 0)) * MM; P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
     const open = R.st.open ? 1 : 0;
     P.tgt.ang = (open && P.pivot && P.sub === "door") ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
+    /* pachet pliant (U.9): foaia se rotește 90° în jurul muchiei ei de pe partea pachetului și se așază
+       lângă celelalte, perpendicular pe față — la fel ca în camera 3D și în planul de balamale */
+    if (P.sub === "fold" && P.fold) {
+      const F = P.fold, left = a.hinge === "left", th = a.z1 - a.z0;
+      const gap = (typeof FOLD === "object" && FOLD.open_gap != null) ? FOLD.open_gap : 3;
+      const px = left ? a.x0 : a.x1, stack = left ? F.x0 + F.k * (th + gap) : F.x1 - (F.n - 1 - F.k) * (th + gap);
+      P.pivot = { x: px, z: a.z1, left };
+      P.tgt.ang = open ? (left ? -1 : 1) * Math.PI / 2 : 0;
+      P.tgt.ex += open ? (stack - px) * MM : 0;
+    }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
   }
 }
@@ -1324,6 +1339,8 @@ const GL3D = {
      focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
   focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
   /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
+  /* ținta de mișcare a unei piese (pentru teste): translația și unghiul la deschidere/explozie */
+  tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sub: P.sub, pivot: P.pivot ? { ...P.pivot } : null } : null; },
   hwCount() { let n = 0; if (R) for (const P of R.pieces.values()) n += P.hw.children.length; return n; },
   ssao(on) { SSAO.enabled = !!on; if (!on) SSAO.U.uAoOn.value = 0; if (R) { R.need = true; kick(); } },
   touch() { if (this.ok) { R.need = true; kick(); } },
