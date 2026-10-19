@@ -14,18 +14,51 @@ const N = +process.argv[2] || 3000; let seed = +process.argv[3] || 1;
 const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
 const pick = a => a[Math.floor(rnd() * a.length)], ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
 const arr = x => Array.from(x || []);
+/* panou pe pantă (D-86): suprapunerea reală între profilul lui (poligon convex în planul vertical) și cutia celuilalt.
+   Întoarce false când nu se ating, true când se ating, null când niciuna nu are `vp` sau ambele au (se păstrează gabaritul). */
+function clipArea(poly, r) {
+  let P = poly.slice();
+  const cut = (inside, inter) => { const out = []; for (let i = 0; i < P.length; i++) { const A = P[i], B = P[(i + 1) % P.length], ia = inside(A), ib = inside(B);
+    if (ia) out.push(A); if (ia !== ib) out.push(inter(A, B)); } P = out; };
+  cut(p => p[0] >= r[0], (A, B) => { const t = (r[0] - A[0]) / (B[0] - A[0]); return [r[0], A[1] + t * (B[1] - A[1])]; });
+  cut(p => p[0] <= r[1], (A, B) => { const t = (r[1] - A[0]) / (B[0] - A[0]); return [r[1], A[1] + t * (B[1] - A[1])]; });
+  cut(p => p[1] >= r[2], (A, B) => { const t = (r[2] - A[1]) / (B[1] - A[1]); return [A[0] + t * (B[0] - A[0]), r[2]]; });
+  cut(p => p[1] <= r[3], (A, B) => { const t = (r[3] - A[1]) / (B[1] - A[1]); return [A[0] + t * (B[0] - A[0]), r[3]]; });
+  let s = 0; for (let i = 0; i < P.length; i++) { const A = P[i], B = P[(i + 1) % P.length]; s += A[0] * B[1] - B[0] * A[1]; } return Math.abs(s) / 2;
+}
+function polyPoly(A, B) {                 /* aria intersecției a două poligoane convexe */
+  const sgn = (() => { let t = 0; for (let i = 0; i < B.length; i++) { const p = B[i], q = B[(i + 1) % B.length]; t += p[0] * q[1] - q[0] * p[1]; } return t >= 0 ? 1 : -1; })();
+  let P = A.slice();
+  for (let i = 0; i < B.length && P.length; i++) {
+    const p = B[i], q = B[(i + 1) % B.length], side = pt => sgn * ((q[0] - p[0]) * (pt[1] - p[1]) - (q[1] - p[1]) * (pt[0] - p[0]));
+    const out = [];
+    for (let k = 0; k < P.length; k++) { const U = P[k], V = P[(k + 1) % P.length], su = side(U), sv = side(V);
+      if (su >= 0) out.push(U);
+      if ((su >= 0) !== (sv >= 0)) { const t = su / (su - sv); out.push([U[0] + t * (V[0] - U[0]), U[1] + t * (V[1] - U[1])]); } }
+    P = out;
+  }
+  let s = 0; for (let i = 0; i < P.length; i++) { const U = P[i], V = P[(i + 1) % P.length]; s += U[0] * V[1] - V[0] * U[1]; } return Math.abs(s) / 2;
+}
+function vpOverlap(a, c) {
+  if (a.vp && c.vp) return a.vp.ax !== c.vp.ax ? null : polyPoly(a.vp.pts, c.vp.pts) > .6 * .6;
+  if (!!a.vp === !!c.vp) return null;
+  const v = a.vp ? a : c, o = a.vp ? c : a, vx = v.vp.ax === "x";
+  const r = vx ? [o.x0, o.x1, o.y0, o.y1] : [o.z0, o.z1, o.y0, o.y1];
+  return clipArea(v.vp.pts, r) > .6 * .6;
+}
 const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind !== "m" && x.role && x.role !== "accessorio" && x.role !== "profilo" && x.role !== "schienale");
   const out = {};
   for (let i = 0; i < bx.length; i++) for (let j = i + 1; j < bx.length; j++) { const a = bx[i], c = bx[j]; if (a.pk != null && a.pk === c.pk) continue;
     const pr = [a.role, c.role].sort().join("|"); if (pr === "cassetto_fianco|cassetto_fondo") continue;
     const ox = Math.min(a.x1, c.x1) - Math.max(a.x0, c.x0), oy = Math.min(a.y1, c.y1) - Math.max(a.y0, c.y0), oz = Math.min(a.z1, c.z1) - Math.max(a.z0, c.z0);
+    if (ox > .6 && oy > .6 && oz > .6 && vpOverlap(a, c) === false) continue;     /* panou pe pantă: gabaritul se suprapune, piesa nu */
     if (ox > .6 && oy > .6 && oz > .6) { const k = [a.role + (a.sub ? "/" + a.sub : ""), c.role + (c.sub ? "/" + c.sub : "")].sort().join(" × "); out[k] = 1; } }
   return Object.keys(out); };
 const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {};
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
-const KNOWN = /(nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
+const KNOWN = /(nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
 for (let i = 0; i < N; i++) {
   const b = pick(base) || {};
@@ -43,6 +76,14 @@ for (let i = 0; i < N; i++) {
   if (rnd() < .2) cfg.antiWarp = pick(["auto", "all"]);
   if (rnd() < .3) cfg.support = pick(["zoccolo", "piedini", "sospeso"]);
   if (rnd() < .3) cfg.drawerSys = pick(["legno", "tandembox", "legrabox", "matrix", "movento"]);
+  /* D-86: tavan înclinat pe o parte din corpurile standard */
+  if (t === "standard" && rnd() < .2) {
+    const hi = cfg.H || 720, lo = ri(Math.round(hi * .35), Math.max(Math.round(hi * .35), hi - 20));
+    cfg.topProfile = rnd() < .5 ? { axis: "x", h0: hi, h1: lo } : { axis: "z", h0: hi, h1: lo };
+    if (rnd() < .5) { const q = cfg.topProfile.h0; cfg.topProfile.h0 = cfg.topProfile.h1; cfg.topProfile.h1 = q; }
+    cfg.H = Math.max(cfg.topProfile.h0, cfg.topProfile.h1);
+    if (process.env.NOSLOPE) delete cfg.topProfile;   /* aceeași succesiune de numere aleatoare, fără pantă: pentru comparație */
+  }
   if (rnd() < .2) cfg.hang = ri(0, 1);
   if (rnd() < .2) cfg.back = ri(0, 1);
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",

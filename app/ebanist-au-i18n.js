@@ -30,6 +30,14 @@ it: {
     "La larghezza ricomposta dallo schienale non dà quella nominale: lo schienale non entra giusto fra i fianchi.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.":
     "L'altezza ricomposta dal fianco (più i piedini) non dà l'altezza nominale.",
+  "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.":
+    "L'altezza ricomposta da un fianco (più i piedini) non dà l'altezza del profilo in quel punto.",
+  "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.":
+    "La lunghezza del cielo sulla pendenza non dà l'ipotenusa (lunghezza × sec θ): il cielo non segue il profilo.",
+  "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.":
+    "L'altezza di un tramezzo (zoccolo + base + altezza + cielo) non arriva alla linea del cielo nella sua posizione.",
+  "Despărțitorul trapezoidal iese în afara profilului tavanului.":
+    "Il tramezzo trapezoidale esce dal profilo del cielo.",
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.":
     "L'altezza ricomposta dall'interno (zoccolo + base + luce interna + cielo) non dà l'altezza nominale.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.":
@@ -134,6 +142,14 @@ en: {
     "The width rebuilt from the back does not give the nominal width: the back does not fit between the sides.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.":
     "The height rebuilt from the side (plus the feet) does not give the nominal height.",
+  "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.":
+    "The height rebuilt from one side panel (plus feet) does not give the profile height at that point.",
+  "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.":
+    "The length of the top along the slope does not give the hypotenuse (length × sec θ): the top does not follow the profile.",
+  "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.":
+    "The height of a divider (plinth + bottom + height + top) does not reach the top line at its position.",
+  "Despărțitorul trapezoidal iese în afara profilului tavanului.":
+    "The trapezoidal divider sticks out of the top profile.",
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.":
     "The height rebuilt from inside (plinth + bottom + inner opening + top) does not give the nominal height.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.":
@@ -235,6 +251,14 @@ fr: {
     "La largeur recomposée à partir du fond ne donne pas la largeur nominale : le fond ne s'ajuste pas entre les côtés.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.":
     "La hauteur recomposée à partir du côté (plus les pieds) ne donne pas la hauteur nominale.",
+  "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.":
+    "La hauteur recomposée à partir d’un côté (plus les pieds) ne donne pas la hauteur du profil à cet endroit.",
+  "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.":
+    "La longueur du dessus sur la pente ne donne pas l’hypoténuse (longueur × sec θ) : le dessus ne suit pas le profil.",
+  "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.":
+    "La hauteur d’une séparation (socle + dessous + hauteur + dessus) n’atteint pas la ligne du dessus à sa position.",
+  "Despărțitorul trapezoidal iese în afara profilului tavanului.":
+    "La séparation trapézoïdale dépasse le profil du dessus.",
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.":
     "La hauteur recomposée de l'intérieur (socle + dessous + vide intérieur + dessus) ne donne pas la hauteur nominale.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.":
@@ -330,6 +354,10 @@ de: {
   "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.": "Die aus den Deckelquerträgern plus den beiden Seitenwänden zurückgerechnete Breite ergibt nicht die Nennbreite.",
   "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.": "Die aus der Rückwand zurückgerechnete Breite ergibt nicht die Nennbreite: Die Rückwand passt nicht zwischen die Seitenwände.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.": "Die aus der Seitenwand (plus Füße) zurückgerechnete Höhe ergibt nicht die Nennhöhe.",
+  "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.": "Die aus einer Seite (plus Füßen) zusammengesetzte Höhe ergibt an dieser Stelle nicht die Profilhöhe.",
+  "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.": "Die Länge des Deckels entlang der Schräge ergibt nicht die Hypotenuse (Länge × sec θ): der Deckel folgt dem Profil nicht.",
+  "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.": "Die Höhe einer Trennwand (Sockel + Boden + Höhe + Deckel) reicht an ihrer Stelle nicht bis zur Deckellinie.",
+  "Despărțitorul trapezoidal iese în afara profilului tavanului.": "Die trapezförmige Trennwand ragt aus dem Deckelprofil.",
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.": "Die von innen zurückgerechnete Höhe (Sockel + Boden + lichte Innenhöhe + Deckel) ergibt nicht die Nennhöhe.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.": "Die Zuschnittliste wurde vor der Schließungsprüfung erzeugt: Die Teile tragen ihre Stärke nicht. Es wurde die Stärke des Rollenmaterials verwendet. Zuschnittliste neu erzeugen.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.": "Aufgesetzte Rückwand: Die Seitenwand muss um die Stärke der Rückwand gekürzt werden, sonst wird der Korpus tiefer als nominal.",
@@ -388,6 +416,10 @@ pl: {
   "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.": "Szerokość odtworzona z belek górnych plus dwóch boków nie daje szerokości nominalnej.",
   "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.": "Szerokość odtworzona z pleców nie daje szerokości nominalnej: plecy nie pasują między boki.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.": "Wysokość odtworzona z boku (plus nóżki) nie daje wysokości nominalnej.",
+  "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.": "Wysokość złożona z jednego boku (plus nóżki) nie daje w tym miejscu wysokości profilu.",
+  "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.": "Długość wieńca wzdłuż spadku nie daje przeciwprostokątnej (długość × sec θ): wieniec nie pasuje do profilu.",
+  "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.": "Wysokość przegrody (cokół + dno + wysokość + wieniec) nie sięga w jej miejscu linii wieńca.",
+  "Despărțitorul trapezoidal iese în afara profilului tavanului.": "Trapezowa przegroda wystaje poza profil wieńca.",
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.": "Wysokość odtworzona od wewnątrz (cokół + dno + światło wewnętrzne + wieniec) nie daje wysokości nominalnej.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.": "Lista formatek wygenerowana przed kontrolą zamknięcia: elementy nie niosą swojej grubości. Użyto grubości materiału roli. Wygeneruj listę ponownie.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.": "Plecy nakładane: bok trzeba skrócić o grubość pleców, inaczej korpus wyjdzie głębszy niż nominalny.",
@@ -446,6 +478,10 @@ es: {
   "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.": "El ancho reconstruido desde los travesaños superiores más los dos laterales no da el ancho nominal.",
   "Lățimea recompusă din spate nu dă lățimea nominală: spatele nu se potrivește între laterale.": "El ancho reconstruido desde la trasera no da el nominal: la trasera no encaja entre los laterales.",
   "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.": "La altura reconstruida desde el lateral (más las patas) no da la altura nominal.",
+  "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.": "La altura recompuesta desde un lateral (más las patas) no da la altura del perfil en ese punto.",
+  "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.": "La longitud del techo en la pendiente no da la hipotenusa (longitud × sec θ): el techo no sigue el perfil.",
+  "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.": "La altura de un divisor (zócalo + base + altura + techo) no llega a la línea del techo en su posición.",
+  "Despărțitorul trapezoidal iese în afara profilului tavanului.": "El divisor trapezoidal sobresale del perfil del techo.",
   "Înălțimea recompusă dinăuntru (soclu + bază + lumina interioară + tavan) nu dă înălțimea nominală.": "La altura reconstruida desde el interior (zócalo + base + luz interior + techo) no da la altura nominal.",
   "Distinta e generată înainte de controlul de închidere: piesele nu poartă grosimea lor. S-a folosit grosimea materialului rolului. Regenerează distinta.": "El despiece se generó antes de la comprobación de cierre: las piezas no llevan su grosor. Se usó el grosor del material del rol. Regenera el despiece.",
   "Spate aplicat: laterala trebuie scurtata cu grosimea spatelui, altfel corpul iese mai adânc decât nominalul.": "Trasera aplicada: el lateral debe acortarse en el grosor de la trasera; si no, el cuerpo sale más profundo que el nominal.",

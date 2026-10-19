@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.70.0 — 19 octombrie 2026
+
+**Mobilier cu tavan înclinat: sub scară, la mansardă.** În Constructor ai un câmp nou, „Cielo inclinato”: pantă pe lățime sau pe adâncime. Scrii cele două înălțimi, de la pardoseală până la fața de sus a tavanului (stânga și dreapta, sau față și spate); înălțimea corpului e cea mai mare, iar unghiul se calculează și se afișează.
+
+Laterale, tavan, despărțitoare și spate urmează panta: laterale de înălțimi diferite sau trapezoidale, tavanul ca un singur panou cu lungimea măsurată pe pantă și cu capetele tăiate la unghi, despărțitoare cu înălțimea de la poziția lor, spate trapezoidal. Ușile se opresc la punctul cel mai jos al deschiderii lor. Polițele, sertarele și bara stau sub partea cea mai joasă. În 3D, în exportul AR și în prospectul A3 se vede conturul înclinat.
+
+Închiderea gabaritului verifică înălțimea la ambele capete, lungimea tavanului și fiecare despărțitor, cu toleranța de jumătate de milimetru: rândurile distinctei sunt întregi, iar tavanul înclinat contribuie cu grosimea împărțită la cosinusul unghiului. **În fișa piesei, îmbinările cu tavanul înclinat nu se găuresc încă**, iar piesele pe pantă dau avertisment: cere o piesă reală (bevelul) înainte să meargă în mașină.
+
+Pasul 1: nu merge împreună cu cotele absolute, cu unghiurile în plan, cu tavanul din două traverse, cu treapta din perete, cu gola, cu spatele aplicat sau pe alte tipologii; în aceste cazuri apare o eroare cu motivul. Proiectele vechi rămân neschimbate.
+
 ## 4.69.0 — 19 octombrie 2026
 
 **Uși pliante, „a pacchetto”.** În Constructor → „Frontale e appoggio” ai un câmp nou, „Uși pliante”: 2, 3 sau 4 foi pe pachet. Fiecare ușă devine un pachet de foi legate cu balamale între ele, suspendat pe o șină sus. Lățimea pachetului e lățimea ușii de până acum, împărțită în foi cu 3 mm între ele; sus rămâne loc pentru șină. Partea pe care se strânge pachetul e cea de la „Lato cerniere”, aceeași alegere ca la balamale.

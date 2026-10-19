@@ -117,9 +117,12 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, curved: false }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, curved: false, sloped: false, dim: null }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
+    /* panou pe pantă (D-86): conturul în planul vertical și, la tavanul înclinat, dimensiunile reale
+       (lungime pe pantă, lățime, grosime), fiindcă cutia de gabarit nu le mai dă. */
+    if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; }
   }
   return order.map(function (k) {
     var p = map[k], mn = [1e9, 1e9, 1e9], mx = [-1e9, -1e9, -1e9];
@@ -340,7 +343,7 @@ function generate(input) {
 
   /* --- 1. giunzioni della cassa: base/cielo/ripiani fissi fra i verticali -- */
   var horiz = pcs.filter(function (p) {
-    return p.tAx === 1 && !p.curved && (p.role === "base" || p.role === "cielo" || p.role === "base_cielo" ||
+    return p.tAx === 1 && !p.curved && !p.sloped && (p.role === "base" || p.role === "cielo" || p.role === "base_cielo" ||
            p.role === "traversa_cielo" || (p.role === "ripiano" && cfg.shelfType === "fisso"));
   });
   horiz.forEach(function (E) {
@@ -376,7 +379,7 @@ function generate(input) {
       var F = null;
       for (var i = 0; i < pcs.length; i++) {
         var q = pcs[i];
-        if (q === E || q.tAx !== 1 || !(q.role === "base" || q.role === "cielo" || q.role === "base_cielo" ||
+        if (q === E || q.tAx !== 1 || q.sloped || !(q.role === "base" || q.role === "cielo" || q.role === "base_cielo" ||
             (q.role === "ripiano" && cfg.shelfType === "fisso"))) continue;
         var face = end < 0 ? q.max[1] : q.min[1];
         if (Math.abs(face - edgeY) > 0.6) continue;
@@ -404,6 +407,11 @@ function generate(input) {
       joint(E, q, 1, 1, 2, lo, hi, 0, 1, out);
     });
   });
+
+  /* --- 3b. tavan înclinat (D-86): îmbinările cu un panou înclinat sau cu muchie oblică nu se găuresc
+         în pasul 1. Piesa iese în model fără operații pe muchia oblică, cu avertisment: cotele cer
+         o piesă reală (bevel) înainte să meargă în mașină. */
+  pcs.forEach(function (p) { if (p.sloped) out.warnings.push({ piece: p.pk, k: "opsSlope" }); });
 
   /* --- 4. ante: cerniere (tazza + tasselli sull'anta, basetta sul fianco) e
          maniglie. Il lato cerniera e quello scritto sull'anta (`fronts[].hinge`);
@@ -642,6 +650,7 @@ function localize(p) {
   var cr = [eL[1] * eW[2] - eL[2] * eW[1], eL[2] * eW[0] - eL[0] * eW[2], eL[0] * eW[1] - eL[1] * eW[0]];
   var flipY = (cr[0] * n[0] + cr[1] * n[1] + cr[2] * n[2]) < 0;
   var Lp = p.ext[aL], Wp = p.ext[aW], T = p.ext[t];
+  if (p.dim) { Lp = p.dim[0]; Wp = p.dim[1]; T = p.dim[2]; }
   var X = function (w) { return w[aL] - p.min[aL]; };
   var Y = function (w) { return flipY ? p.max[aW] - w[aW] : w[aW] - p.min[aW]; };
   var Z6 = function (w) { return s5 > 0 ? w[t] - p.min[t] : p.max[t] - w[t]; };  // distanza dalla faccia 6
@@ -737,13 +746,15 @@ function localize(p) {
   var both = ops.some(function (o) { return o.face === 5 && !o.through; }) && ops.some(function (o) { return o.face === 6; });
   if (both) warns.push({ rule: "V12", level: "info", op: null });
 
-  return {
+  var res = {
     pk: p.pk, role: p.role, sub: p.sub, grp: p.grp, wing: p.wing, curved: p.curved,
     length: R1(Lp), width: R1(Wp), thickness: R1(T),
     axes: { lung: AX[aL], larg: AX[aW], sp: AX[t], face5: s5, flipY: flipY },
     min: p.min.slice(), max: p.max.slice(), outline: rects,
     operations: ops, preflight: warns
   };
+  if (p.sloped) res.sloped = true;      /* panou pe pantă (D-86): numai când e cazul, ca modelul vechi să rămână identic */
+  return res;
 }
 
 /* La riga di distinta di un pezzo fisico: stesso ruolo, stesse due cote a

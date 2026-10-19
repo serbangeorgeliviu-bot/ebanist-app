@@ -14,7 +14,7 @@
 /* Da geo3d.js, NON da viewer3d.js: l'export non deve dipendere dal viewer.
    Importando dal viewer, se quello non partiva moriva anche l'AR — proprio
    l'opposto del motivo per cui l'AR e stato scelto. */
-import { THREE, MM, buildPrism, isRectPC, pcOf, matKeyOf, boundsOf } from "./geo3d.js";
+import { THREE, MM, buildPrism, buildVPrism, isRectPC, pcOf, matKeyOf, boundsOf } from "./geo3d.js";
 import { GLTFExporter } from "./vendor/GLTFExporter.js";
 import { USDZExporter } from "./vendor/USDZExporter.js";
 
@@ -66,7 +66,13 @@ export function buildExportScene(boxes, cfg) {
     const key = matKeyOf(b, cfg);
     const mat = exportMaterial(key, cache);
     let mesh;
-    if (isRectPC(b.pc)) {
+    if (b.vp) {
+      /* panou pe pantă (D-86): aceeași prismă ca în viewer */
+      const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2, vx = b.vp.ax === "x";
+      const cu = vx ? cx : cz, e0 = vx ? b.z0 - cz : b.x0 - cx, e1 = vx ? b.z1 - cz : b.x1 - cx;
+      mesh = new THREE.Mesh(buildVPrism({ ax: b.vp.ax, pts: b.vp.pts.map(([u, y]) => [u - cu, y - cy]) }, e0, e1), mat);
+      mesh.position.set(cx * MM, cy * MM, cz * MM);
+    } else if (isRectPC(b.pc)) {
       mesh = new THREE.Mesh(unit, mat);
       mesh.position.set((b.x0 + b.x1) / 2 * MM, (b.y0 + b.y1) / 2 * MM, (b.z0 + b.z1) / 2 * MM);
       mesh.scale.set(Math.abs(b.x1 - b.x0) * MM, Math.abs(b.y1 - b.y0) * MM, Math.abs(b.z1 - b.z0) * MM);

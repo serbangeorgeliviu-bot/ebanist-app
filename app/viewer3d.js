@@ -25,7 +25,7 @@
 
 /* Percorsi diretti, NIENTE importmap: gli importmap arrivano solo con
    iOS 16.4 / Chrome 89. */
-import { THREE, MM, pcOf, isRectPC, buildPrism, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
+import { THREE, MM, pcOf, isRectPC, buildPrism, buildVPrism, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 
 /* ============ 1. FIBRA LEMNOASĂ (procedurală, zero fișiere) ========== */
@@ -564,7 +564,14 @@ function wallInfo(b) {
 function makeMesh(b, cfg) {
   const key = keyOf(b, cfg);
   let mesh;
-  if (isRectPC(b.pc)) {
+  if (b.vp) {
+    /* panou pe pantă (D-86): profil în plan vertical, relativ la centrul cutiei de gabarit */
+    const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2, vx = b.vp.ax === "x";
+    const cu = vx ? cx : cz, e0 = (vx ? b.z0 - cz : b.x0 - cx), e1 = (vx ? b.z1 - cz : b.x1 - cx);
+    mesh = new THREE.Mesh(buildVPrism({ ax: b.vp.ax, pts: b.vp.pts.map(([u, y]) => [u - cu, y - cy]) }, e0, e1), perMesh(materialFor(key)));
+    mesh.position.set(cx * MM, cy * MM, cz * MM); mesh.updateMatrix();
+    mesh.userData.prism = true;
+  } else if (isRectPC(b.pc)) {
     mesh = new THREE.Mesh(UNIT, perMesh(materialFor(key)));
     const c = restOf(b); mesh.userData.cur = Object.assign({}, c); mesh.userData.tgt = c;
     applyRest(mesh, c);
@@ -621,7 +628,7 @@ function clearGroup(g) {
    pentru o cutie, volumul interior al corpului în care stă (sau null: ușile,
    sertarele care ies și tot ce e în afara unui corp nu primesc ocluzie). */
 function carcassAO(boxes) {
-  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc));
+  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc) && !b.vp);
   const cl = [];
   car.forEach(b => {
     const hit = cl.filter(c => b.x0 <= c.X1 + 1 && b.x1 >= c.X0 - 1 && b.y0 <= c.Y1 + 1 && b.y1 >= c.Y0 - 1 && b.z0 <= c.Z1 + 1 && b.z1 >= c.Z0 - 1);
@@ -644,7 +651,7 @@ function carcassAO(boxes) {
     c.ao = hi[0] > lo[0] && hi[1] > lo[1] && hi[2] > lo[2] ? { lo: lo.map(v => v * MM), hi: hi.map(v => v * MM) } : null;
   });
   return (b) => {
-    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc)) return null;
+    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc) || b.vp) return null;
     const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2;
     const c = cl.find(q => q.ao && cx >= q.X0 - 1 && cx <= q.X1 + 1 && cy >= q.Y0 - 1 && cy <= q.Y1 + 1 && cz >= q.Z0 - 1 && cz <= q.Z1 + 1);
     return c ? c.ao : null;
@@ -663,7 +670,7 @@ function setModel(boxes, cfg) {
   for (const [pk, P] of [...R.pieces]) {
     const nb = byPk.get(pk);
     const same = nb && nb.length === P.meshes.length && nb.every((b, i) => {
-      const m = P.meshes[i]; return !m.userData.prism && isRectPC(b.pc) && m.userData.key === keyOf(b, cfg);
+      const m = P.meshes[i]; return !b.vp && !m.userData.prism && isRectPC(b.pc) && m.userData.key === keyOf(b, cfg);   // un panou pe pantă (vp) nu refolosește cutia unitate
     });
     if (!same) { disposePiece(P); R.pieces.delete(pk); }
   }
@@ -1341,6 +1348,8 @@ const GL3D = {
   /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
   /* ținta de mișcare a unei piese (pentru teste): translația și unghiul la deschidere/explozie */
   tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sub: P.sub, pivot: P.pivot ? { ...P.pivot } : null } : null; },
+  /* pentru teste: ce fel de plasă are fiecare piesă (prismă = contur propriu, altfel cutie unitate scalată) */
+  meshKinds() { const o = []; if (R) for (const P of R.pieces.values()) o.push({ pk: P.pk, role: P.role, prism: P.meshes.map(m => !!m.userData.prism) }); return o; },
   hwCount() { let n = 0; if (R) for (const P of R.pieces.values()) n += P.hw.children.length; return n; },
   ssao(on) { SSAO.enabled = !!on; if (!on) SSAO.U.uAoOn.value = 0; if (R) { R.need = true; kick(); } },
   touch() { if (this.ok) { R.need = true; kick(); } },
@@ -1350,4 +1359,4 @@ const GL3D = {
 window.GL3D = GL3D;
 if (typeof window.__gl3dReady === "function") window.__gl3dReady();
 
-export { THREE, MM, buildPrism, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };
+export { THREE, MM, buildPrism, buildVPrism, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };

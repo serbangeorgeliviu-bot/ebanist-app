@@ -76,6 +76,38 @@ export function buildPrism(pc, y0, y1) {
   return g;
 }
 
+/* Prismă cu profilul într-un PLAN VERTICAL (D-86): panourile de sub o pantă. `vp` = { ax, pts },
+   unde pts sunt vârfurile convexe [u, y] (u = x când ax:"x", z când ax:"z"), extrudate pe axa
+   cealaltă între e0 și e1. Sunt trapeze (laterale, despărțitoare) și paralelograme (tavanul înclinat);
+   orientarea fețelor se alege după centrul prismei, deci nu depinde de sensul în care vin vârfurile. */
+export function buildVPrism(vp, e0, e1) {
+  const pts = vp.pts, n = pts.length;
+  const at = (u, y, e) => vp.ax === "x" ? [u, y, e] : [e, y, u];
+  const A = pts.map(([u, y]) => at(u, y, e0)), B = pts.map(([u, y]) => at(u, y, e1));
+  const ctr = [0, 1, 2].map(k => (A.concat(B)).reduce((s, q) => s + q[k], 0) / (2 * n));
+  const v = [];
+  const tri = (a, b, c) => {
+    const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+    const nr = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]];
+    const m = [(a[0] + b[0] + c[0]) / 3 - ctr[0], (a[1] + b[1] + c[1]) / 3 - ctr[1], (a[2] + b[2] + c[2]) / 3 - ctr[2]];
+    if (nr[0] * m[0] + nr[1] * m[1] + nr[2] * m[2] >= 0) v.push(...a, ...b, ...c); else v.push(...a, ...c, ...b);
+  };
+  for (let i = 1; i < n - 1; i++) { tri(A[0], A[i], A[i + 1]); tri(B[0], B[i], B[i + 1]); }
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    tri(A[i], A[j], B[j]); tri(A[i], B[j], B[i]);
+  }
+  const pos = new Float32Array(v.map((q) => q * MM));
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  g.computeVertexNormals();
+  const uv = new Float32Array((pos.length / 3) * 2);
+  for (let i = 0, k = 0; i < pos.length; i += 3, k += 2) { uv[k] = pos[i] * 2; uv[k + 1] = pos[i + 1] * 2; }
+  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  g.computeBoundingSphere();
+  return g;
+}
+
 export function boundsOf(boxes, withWalls) {
   let X0 = 1e9, X1 = -1e9, Y0 = 1e9, Y1 = -1e9, Z0 = 1e9, Z1 = -1e9, any = false;
   for (const b of boxes) {
