@@ -2865,6 +2865,25 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => { const it = hwList("push").find(x => x.id === "haf_onetouch"); return it && it.n[l]; });
       persist(); return o; });
     ok("U.10: One Touch ajunge în deviz pe uși drepte, pe pantă și pliante", ["dritta", "panta", "pliante"].every(k => Array.isArray(ot[k]) && ot[k].some(x => x[1] === "haf_onetouch" && x[0] > 0)), JSON.stringify(ot));
+    /* notificare de actualizare la deschidere */
+    const un = await pg.evaluate(async () => {
+      const o = {}, of = window.fetch, mk = v => ({ ok: true, text: async () => 'const APP_VER="' + v + '"; /* APP_VER-MARKER */' });
+      try {
+        window.fetch = async u => String(u).includes("upd=") ? mk("99.0.0") : of(u);
+        _updChk = 0; await updateNotice();
+        const bar = document.getElementById("updBar");
+        o.shown = !!bar && bar.textContent.includes("99.0.0");
+        bar.querySelectorAll("button")[1].click(); o.gone = !document.getElementById("updBar");
+        _updChk = 0; await updateNotice(); o.silent = !document.getElementById("updBar");
+        updDismissed = null; window.fetch = async u => String(u).includes("upd=") ? mk(APP_VER) : of(u);
+        _updChk = 0; await updateNotice(); o.same = !document.getElementById("updBar");
+        window.fetch = async () => { throw new Error("offline"); };
+        _updChk = 0; await updateNotice(); o.offline = !document.getElementById("updBar");
+      } finally { window.fetch = of; updDismissed = null; }
+      o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["updBanner", "updNow", "updLater"].every(k => I18N[l] && I18N[l][k]));
+      return o; });
+    ok("Update: bara apare la versiune nouă, «Mai târziu» o tace, la aceeași versiune/offline nu apare nimic", un.shown && un.gone && un.silent && un.same && un.offline, JSON.stringify(un));
+    ok("Update: textele există în toate limbile", un.i18n === true, JSON.stringify(un));
     ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));
     await pg.evaluate(() => { state.settings.hwProd.cern = state.settings.hwAdd[0].id; renderCatalog(); });
     await pg.evaluate(() => { document.querySelector(".catOwnDel").click(); });

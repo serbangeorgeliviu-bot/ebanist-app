@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.0 — 19 octombrie 2026
+
+**Notificare de actualizare la deschidere.** Când pe server există o versiune mai nouă decât cea deschisă, apare sus o bară: „Versiune nouă disponibilă: vX” cu „Actualizează” și „Mai târziu”. Verificarea se face în liniște, la 2,5 secunde după pornire și la revenirea în aplicație (cel mult o dată la 30 de minute); fără internet nu apare nimic. Aplicația nu se reîncarcă singură, deci un proiect aflat în lucru nu se pierde. „Mai târziu” tace bara până la următoarea deschidere. Butonul „Verifică actualizări” din setări merge ca înainte.
+
 ## 4.73.0 — 19 octombrie 2026
 
 **Häfele One Touch în catalog.** Categoria „Push-open” are un articol nou, „One Touch — push-to-open pentru uși”, selectabil pe corp la „Feronerie corp” (sau ca implicit în Catalog). Intră în deviz, în fișa de montaj și în PDF, o bucată pe ușă, la fel pe uși drepte, trapezoidale sub pantă și pliante. Codul de articol și prețul (6 €) sunt provizorii și marcate „de verificat”: îl poți înlocui cu articolul tău în Catalog propriu. Push-open nu are găuri proprii în mașină, deci nu apare nimic nou în fișa piesei.
