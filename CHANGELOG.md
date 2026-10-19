@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.68.3 — 19 octombrie 2026
+
+**Lateralul sertarului are acum găuri.** La un sertar din lemn, piesa „Laterală sertar” ieșea fără nicio gaură: nici pentru îmbinarea cu fața și spatele, nici pentru glisieră. Acum primește taseli Ø8 spre față și spate (perechea lor e în cantul fețelor și se numără la feronerie ca restul tasel-ilor) și găurile glisierei pe fața exterioară, la jumătatea înălțimii, în aceleași poziții de la fața sertarului ca pe corp.
+
+Cotele găurilor de glisieră de pe sertar (Ø5, adâncime 10 mm) sunt generice, `verificat:false`: se verifică pe o piesă reală înainte să meargă în mașină. Pentru glisierele ascunse (TANDEM, MOVENTO) montajul real are și alte puncte (spate, față) care nu sunt încă în model. Test: `cd test && node --test drawerside.test.js`.
+
+---
+
 ## 4.68.2 — 18 octombrie 2026
 
 **Balamaua din 3D seamănă acum cu CLIP top.** Până acum era un bloc cu un stâlp, nu o balama. Acum are cupa Ø35 cu inel, flanșa de 57 × 27,5 mm cu cele două găuri la 45 mm și șuruburi, legătura (linkul) înclinată, placa de montaj de pe lateral cu două șuruburi la 32 mm și brațul lung de tablă, cu profil mai înalt spre ușă, fantă și două șuruburi de reglaj. Cutia neagră a amortizorului BLUMOTION apare doar la modelele cu amortizor. Cotele cupei și flanșei sunt din fișa Blum 71B3590 (același corp, cu boss INSERTA): cupă Ø35, adâncime 13, flanșă 57 × 27,5 × 6,4, găuri Ø8 la 45 mm, excentric 9,5.

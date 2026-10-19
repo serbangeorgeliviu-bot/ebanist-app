@@ -59,6 +59,9 @@ var HW_DRILL = {
   },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
+    /* partea de pe cassetto: gaurile pe fata exterioara a lateralului, aceleasi pozitii
+       de la fata cassetto-ului, la jumatatea inaltimii. Generic, verificat:false. */
+    dside: { dia: 5, depth: 10 },
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
        din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
        `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
@@ -486,10 +489,35 @@ function generate(input) {
     body.forEach(function (b) { x0 = Math.min(x0, b.x0); x1 = Math.max(x1, b.x1); y0 = Math.min(y0, b.y0); z0 = Math.min(z0, b.z0); z1 = Math.max(z1, b.z1); });
     var y = y0 + H.slide.lift, nl = z1 - z0;
     var spos = slidePositions(cfg, nl);
+    /* cutia in panou: lateralele (grosimea pe x) si fata/spatele (grosimea pe z) */
+    var dSides = pcs.filter(function (q) { return q.grp === g && q.role === "cassetto_fianco" && q.sub === "dbox" && q.tAx === 0; });
+    var dEnds = pcs.filter(function (q) { return q.grp === g && q.role === "cassetto_fianco" && q.sub === "dbox" && q.tAx === 2; });
+    /* imbinarea lateral <-> fata/spate: tasselii, ca in orice cutie de lemn (si se numara
+       in lista de feronerie prin `tassello`, la fel ca cei ai corpului) */
+    dEnds.forEach(function (E) {
+      var zMid = (E.min[2] + E.max[2]) / 2, camSide = zMid > (z0 + z1) / 2 ? -1 : 1;
+      dSides.forEach(function (S) {
+        var end = Math.abs(S.max[0] - E.min[0]) < 0.6 ? -1 : Math.abs(S.min[0] - E.max[0]) < 0.6 ? 1 : 0;
+        if (!end) return;
+        var lo = Math.max(E.min[1], S.min[1]), hi = Math.min(E.max[1], S.max[1]);
+        if (hi - lo < 20) return;
+        jointOther("dowel", E, S, 0, end, 1, lo, hi, 2, out);
+      });
+    });
     [-1, 1].forEach(function (side) {
       var P = panelBeside(pcs, side < 0 ? x0 : x1, side, y + 10, (z0 + z1) / 2, 60);
+      var S = null;
+      dSides.forEach(function (q) { if (!S || Math.abs(q.min[0] + q.max[0] - (side < 0 ? 2 * x0 : 2 * x1)) < Math.abs(S.min[0] + S.max[0] - (side < 0 ? 2 * x0 : 2 * x1))) S = q; });
       if (!P) return;
-      var fx = side < 0 ? P.max[0] : P.min[0], id = "hw_" + out.hw.length;
+      var id = "hw_" + out.hw.length;
+      if (S) {
+        var sy = (S.min[1] + S.max[1]) / 2, sx = side < 0 ? S.min[0] : S.max[0];
+        spos.list.forEach(function (d) {
+          if (d > nl - 10) return;
+          hole(S, 0, side, [sx, sy, S.max[2] - d], H.slide.dside.dia, H.slide.dside.depth, id, "guida cassetto");
+        });
+      }
+      var fx = side < 0 ? P.max[0] : P.min[0];
       spos.list.forEach(function (d) {
         if (d > nl - 10) return;
         hole(P, 0, side < 0 ? 1 : -1, [fx, y, P.max[2] - d], H.slide.dia, H.slide.depth, id, "guida cassetto");
