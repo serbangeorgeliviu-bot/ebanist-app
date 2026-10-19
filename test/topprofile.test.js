@@ -122,11 +122,31 @@ describe("Panta pe lățime (axis x)", () => {
     const us = b.poly.map(q => q[0]), vs = b.poly.map(q => q[1]);
     assert.ok(Math.max(...us) <= b.lung + 0.11 && Math.max(...vs) <= b.larg + 0.11);
   });
-  test("uși: fiecare până la punctul cel mai jos al deschiderii ei; stânga (mai înaltă) mai lungă", () => {
-    const d = rows(r, /^Anta/).sort((p, q) => p.lung - q.lung);
-    assert.equal(d.length, 2); assert.ok(d[1].lung > d[0].lung + 50);
-    const door = r.boxes.filter(b => b.sub === "door");
-    door.forEach(b => assert.ok(b.y1 <= Math.min(S.topLineY(g, b.x0, 0), S.topLineY(g, b.x1, 0)) + 0.01, "sub linia tavanului"));
+  test("uși: fiecare e un trapez, cu muchia de sus la un joc sub linia tavanului", () => {
+    const d = rows(r, /^Anta/).sort((p, q) => q.lung - p.lung);
+    assert.equal(d.length, 2); d.forEach(p => { assert.equal(p.pz, 1); assert.equal(p.poly.length, 4); });
+    const gap = g.in.gap_sup, doors = r.boxes.filter(b => b.sub === "door").sort((a, b) => a.x0 - b.x0);
+    const cl = x => Math.min(1200 - g.sp_fianco, Math.max(g.sp_fianco, x));
+    doors.forEach(b => {
+      assert.equal(b.vp.ax, "x");
+      const [A, B, C, D] = b.vp.pts;                                    /* jos-stânga, jos-dreapta, sus-dreapta, sus-stânga */
+      assert.ok(Math.abs(D[1] - (S.topLineY(g, cl(b.x0), 0) - gap)) < 1e-6, "sus-stânga");
+      assert.ok(Math.abs(C[1] - (S.topLineY(g, cl(b.x1), 0) - gap)) < 1e-6, "sus-dreapta");
+      assert.equal(A[1], B[1]); assert.ok(D[1] <= 2200 && C[1] <= 2200);
+      assert.equal(b.edgeH.length, 2);
+    });
+    /* conturul din rând: (0,0), (înălțime stânga, 0), (înălțime dreapta, lățime), (0, lățime) */
+    const p0 = d[0].poly; assert.equal(p0[0][0], 0); assert.equal(p0[3][1], d[0].larg); assert.ok(p0[1][0] > p0[2][0]);
+    assert.equal(d[0].lung, Math.round(p0[1][0]));
+  });
+  test("uși: ușa din stânga (mai înaltă) e mai lungă, iar între uși muchiile se continuă (în rostul de 3 mm)", () => {
+    const [a, b] = r.boxes.filter(x => x.sub === "door").sort((p, q) => p.x0 - q.x0);
+    assert.ok(a.y1 > b.y1 + 50);
+    assert.ok(Math.abs(a.vp.pts[2][1] - b.vp.pts[3][1]) < 4, `${a.vp.pts[2][1]} vs ${b.vp.pts[3][1]}`);
+  });
+  test("uși: partea balamalelor e scrisă pe cutie (prima la stânga, a doua la dreapta)", () => {
+    const h = r.boxes.filter(x => x.sub === "door").sort((p, q) => p.x0 - q.x0).map(x => x.hinge);
+    assert.equal(J(h), J(["left", "right"]));
   });
   test("polițele și restul interiorului stau sub partea cea mai joasă", () => {
     r.boxes.filter(b => b.role === "ripiano").forEach(b => assert.ok(b.y1 <= 1600 - SL.t_vert + 0.01));
@@ -220,6 +240,38 @@ describe("Ops: piese pe pantă", () => {
   test("laterale trapez (axis z): marcate, cu operații pe față", () => {
     const o = build({ topProfile: Z }).ops(), f = o.pieces.filter(p => p.role === "fianco");
     f.forEach(p => { assert.equal(p.sloped, true); assert.ok(p.operations.length > 0); });
+  });
+});
+
+describe("Uși trapezoidale în ops", () => {
+  const r = build({ topProfile: X }), o = r.ops(), hingeCount = S.hingeCount;
+  const doors = o.pieces.filter(p => p.role === "frontale").sort((p, q) => q.length - p.length);
+  test("piesele sunt marcate, dar nu dau avertismentul opsSlope (balamalele se găuresc normal)", () => {
+    doors.forEach(p => assert.equal(p.sloped, true));
+    assert.ok(!o.warnings.some(w => w.k === "opsSlope" && doors.some(p => p.pk === w.piece)));
+  });
+  test("numărul de balamale urmează muchia mai scundă a fiecărei uși", () => {
+    const boxes = r.boxes.filter(b => b.sub === "door").sort((p, q) => p.x0 - q.x0);
+    boxes.forEach(b => {
+      const n = hingeCount(Math.min(b.edgeH[0], b.edgeH[1]));
+      const pc = o.pieces.find(p => p.role === "frontale" && Math.abs(p.min[0] - b.x0) < 0.6);
+      const cups = pc.operations.filter(op => /tazza cerniera/.test(op.note || ""));
+      assert.equal(cups.length, n, `balamale ${cups.length} vs ${n}`);
+    });
+  });
+  test("balamalele cad în contur: sub muchia mai scundă", () => {
+    r.boxes.filter(b => b.sub === "door").forEach(b => {
+      const lowTop = b.vp.pts[0][1] + Math.min(b.edgeH[0], b.edgeH[1]);
+      const pc = o.pieces.find(p => p.role === "frontale" && Math.abs(p.min[0] - b.x0) < 0.6);
+      pc.operations.filter(op => op.type === "drill" && /tazza cerniera/.test(op.note || "")).forEach(op => assert.ok(op._w[1] <= lowTop - 50, "tazza la y=" + op._w[1]));
+    });
+  });
+  test("mânerul stă sub muchia mai scundă", () => {
+    r.boxes.filter(b => b.sub === "door").forEach(b => {
+      const lowTop = b.vp.pts[0][1] + Math.min(b.edgeH[0], b.edgeH[1]);
+      const pc = o.pieces.find(p => p.role === "frontale" && Math.abs(p.min[0] - b.x0) < 0.6);
+      pc.operations.filter(op => /aniglia/.test(op.note || "")).forEach(op => assert.ok(op._w[1] <= lowTop, "mâner la y=" + op._w[1]));
+    });
   });
 });
 

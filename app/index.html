@@ -5794,11 +5794,14 @@ function planPC(b){ return b.pc||[[b.x0,b.z0],[b.x1,b.z0],[b.x1,b.z1],[b.x0,b.z1
 /* Fețele unei cutii cu profil în plan vertical (`vp`, D-86): două capace și câte un patrulater pe latură.
    Vârfurile sunt în coordonatele corpului; profilul e convex (trapez sau paralelogram). */
 function vpFaces(b){
-  const vp=b.vp, pts=vp.pts, n=pts.length, vx=vp.ax==="x";
-  const at=(u,y,e)=>vx?[u,y,e]:[e,y,u];
-  const e0=vx?b.z0:b.x0, e1=vx?b.z1:b.x1;
-  const A=pts.map(q=>at(q[0],q[1],e0)), B=pts.map(q=>at(q[0],q[1],e1));
-  const faces=[A,B];
+  let A,B;
+  if(b.prism3){ A=b.prism3.A; B=b.prism3.B; }
+  else{
+    const vp=b.vp, vx=vp.ax==="x", at=(u,y,e)=>vx?[u,y,e]:[e,y,u];
+    const e0=vx?b.z0:b.x0, e1=vx?b.z1:b.x1;
+    A=vp.pts.map(q=>at(q[0],q[1],e0)); B=vp.pts.map(q=>at(q[0],q[1],e1));
+  }
+  const n=A.length, faces=[A,B];
   for(let i=0;i<n;i++) faces.push([A[i],A[(i+1)%n],B[(i+1)%n],B[i]]);
   return faces;
 }
@@ -7045,16 +7048,21 @@ function buildCore(cfg){
           }
           foldReach=Math.round(fW);
         }else if(SL&&SL.axis==="x"&&!(drawersTop>frontY0)&&!fN){
-          /* panta pe lățime (D-86): fiecare ușă urcă până la punctul cel mai jos al deschiderii ei */
-          const hs=[]; for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); hs.push(frontHeightAt(G,x,x+aW)); }
-          const groups={}; hs.forEach(h=>{ const k=Math.round(h); groups[k]=(groups[k]||0)+1; });
-          Object.keys(groups).map(Number).sort((a,b)=>a-b).forEach(k=>{
-            add("Anta"+hsfx,k,aW,groups[k],"2L+2C",null,{role:"frontale"});
-            if(awOn(cfg,k)) add("Profilo anticurvatura",k-ANTIWARP.len_margin,ANTIWARP.sect,groups[k],"",MAT_AW,{role:"accessorio"}); });
+          /* panta pe lățime (D-86, pasul 2): fiecare ușă e un TRAPEZ, cu muchia de sus paralelă cu tavanul (la distanța
+             jocului de sus). Rândul poartă gabaritul (cota cea mai înaltă) și conturul ca date; balamalele și mânerul
+             se așază pe muchia mai scundă, ca să nu cadă niciodată în afara conturului. */
           bxRole="frontale";
-          for(let i=0;i<cfg.doors;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+hs[i],P,P+tA,"f",0,0,"door");
-            if(dHinge(cfg,i)) boxes[boxes.length-1].hinge=dHinge(cfg,i);
-            if(awOn(cfg,hs[i])) boxes[boxes.length-1].aw=true; }
+          for(let i=0;i<cfg.doors;i++){
+            const x=dX0+2+i*(aW+3), hA=frontHeightAt(G,x,x), hB=frontHeightAt(G,x+aW,x+aW), hMax=Math.max(hA,hB), hMin=Math.min(hA,hB);
+            add("Anta"+hsfx,hMax,aW,1,"2L+2C",null,{role:"frontale",poly:[[0,0],[hA,0],[hB,aW],[0,aW]]});
+            if(awOn(cfg,hMin)) add("Profilo anticurvatura",hMin-ANTIWARP.len_margin,ANTIWARP.sect,1,"",MAT_AW,{role:"accessorio"});
+            bxRole="frontale";
+            bx(x,x+aW,aY0,aY0+hMax,P,P+tA,"f",0,0,"door");
+            const bb=boxes[boxes.length-1];
+            bb.vp={ax:"x",pts:[[x,aY0],[x+aW,aY0],[x+aW,aY0+hB],[x,aY0+hA]]}; bb.edgeH=[hA,hB];
+            bb.hinge=dHinge(cfg,i)||(cfg.doors===1?"left":(i<cfg.doors/2?"left":"right"));
+            if(awOn(cfg,hMin)) bb.aw=true;
+          }
         }else{
           add("Anta"+hsfx,aH,aW,cfg.doors,"2L+2C",null,{role:"frontale"});
           if(awOn(cfg,aH)) add("Profilo anticurvatura",aH-ANTIWARP.len_margin,ANTIWARP.sect,cfg.doors,"",MAT_AW,{role:"accessorio"});
@@ -7538,7 +7546,15 @@ function render3D(svgEl,cfg,view,opts){
        tocca — questa e una strada in piu, non una modifica di quella vecchia.
        Le facce laterali si ordinano per profondita e le nascoste non si
        disegnano, altrimenti il retro del cilindro copre il davanti. */
-    if(b.vp){
+    if((b.vp||b.prism3)&&b.kind==="f"){
+      /* ușă trapezoidală: se desenează fața din față, ca la o ușă obișnuită (D-86, pasul 2) */
+      const fr=b.prism3?b.prism3.B:b.vp.pts.map(q=>[q[0],q[1],b.z1]);
+      const pts=fr.map(q=>pr(q[0],q[1],q[2]));
+      if(real) face(pts,woodF?"url(#wgF)":fc,`stroke="${shade(fc,0.62)}" stroke-width="1.6" stroke-linejoin="round"`);
+      else face(pts,"rgba(255,255,255,0.28)",'stroke="#5f9412" stroke-width="4" stroke-linejoin="round"');
+      continue;
+    }
+    if(b.vp||b.prism3){
       /* panou pe pantă (D-86): fețele prismei, de la cele mai îndepărtate la cele mai apropiate */
       const ctr=[(b.x0+b.x1)/2,(b.y0+b.y1)/2,(b.z0+b.z1)/2], Ln=[-0.35,0.85,0.4], Lm=Math.hypot(...Ln);
       vpFaces(b).map(f=>{
@@ -11640,7 +11656,9 @@ function computeHardware(p,S,byModule){
     else if(el.startsWith("profilo gola l")){ bump(mod,"hwGolaL",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola c")){ bump(mod,"hwGolaC",Math.round(x.lung*x.pz/10)/100); }
     else if(el.includes("anta scorrevole")){ binMods.add(mod); }
-    else if(el.startsWith("anta")){ const hgt=Math.max(x.lung,x.larg);
+    else if(el.startsWith("anta")){
+      /* ușă trapezoidală (D-86, pasul 2): balamalele se numără pe înălțimea muchiei mai scunde, ca în fișa piesei */
+      const hgt=(x.poly&&x.poly.length===4)?Math.min(x.poly[1][0],x.poly[2][0]):Math.max(x.lung,x.larg);
       bump(mod,"hwCern",x.pz*hingeCount(hgt));
       grip(mod,x.pz); }
     else if(el.startsWith("montante anta vetro")){ const hgt=x.lung, nA=x.pz/2;
@@ -12033,6 +12051,14 @@ function roomBoxes(){
   const p=proj(), out=[];
   const put=(fr,from,off,lift,rot,piv,b)=>{
     const pc=planPC(b).map(q=>toRoom(fr,from,q[0],q[1],off,rot,piv));
+    if(b.vp){
+      /* panou pe pantă (D-86): vârfurile profilului trec prin aceeași mutare/rotație ca planul, deci prisma urmează peretele */
+      const vf=vpFaces(b), A=vf[0], B=vf[1];
+      const tr=P=>P.map(q=>{ const t=toRoom(fr,from,q[0],q[2],off,rot,piv); return [t.x,q[1]+lift,t.y]; });
+      const A2=tr(A), B2=tr(B), all=A2.concat(B2), mn=k=>Math.min.apply(null,all.map(q=>q[k])), mx=k=>Math.max.apply(null,all.map(q=>q[k]));
+      out.push({x0:mn(0),x1:mx(0),y0:mn(1),y1:mx(1),z0:mn(2),z1:mx(2),kind:b.kind,mat:b.mat,pc:pc.map(q=>[q.x,q.y]),prism3:{A:A2,B:B2}});
+      return;
+    }
     out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
               y0:b.y0+lift,y1:b.y1+lift,
               z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
@@ -14699,12 +14725,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.71.0"; /* APP_VER-MARKER */
+const APP_VER="4.72.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v135";
+const SW_CACHE="ebanist-v136";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

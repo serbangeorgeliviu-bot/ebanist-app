@@ -25,7 +25,7 @@
 
 /* Percorsi diretti, NIENTE importmap: gli importmap arrivano solo con
    iOS 16.4 / Chrome 89. */
-import { THREE, MM, pcOf, isRectPC, buildPrism, buildVPrism, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
+import { THREE, MM, pcOf, isRectPC, buildPrism, buildVPrism, buildPrism3, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 
 /* ============ 1. FIBRA LEMNOASĂ (procedurală, zero fișiere) ========== */
@@ -564,7 +564,14 @@ function wallInfo(b) {
 function makeMesh(b, cfg) {
   const key = keyOf(b, cfg);
   let mesh;
-  if (b.vp) {
+  if (b.prism3) {
+    /* panou pe pantă în camera 3D: prismă între două poligoane deja în coordonatele camerei */
+    const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2;
+    const sh = q => q.map(([x, y, z]) => [x - cx, y - cy, z - cz]);
+    mesh = new THREE.Mesh(buildPrism3(sh(b.prism3.A), sh(b.prism3.B)), perMesh(materialFor(key)));
+    mesh.position.set(cx * MM, cy * MM, cz * MM); mesh.updateMatrix();
+    mesh.userData.prism = true;
+  } else if (b.vp) {
     /* panou pe pantă (D-86): profil în plan vertical, relativ la centrul cutiei de gabarit */
     const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2, vx = b.vp.ax === "x";
     const cu = vx ? cx : cz, e0 = (vx ? b.z0 - cz : b.x0 - cx), e1 = (vx ? b.z1 - cz : b.x1 - cx);
@@ -628,7 +635,7 @@ function clearGroup(g) {
    pentru o cutie, volumul interior al corpului în care stă (sau null: ușile,
    sertarele care ies și tot ce e în afara unui corp nu primesc ocluzie). */
 function carcassAO(boxes) {
-  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc) && !b.vp);
+  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc) && !b.vp && !b.prism3);
   const cl = [];
   car.forEach(b => {
     const hit = cl.filter(c => b.x0 <= c.X1 + 1 && b.x1 >= c.X0 - 1 && b.y0 <= c.Y1 + 1 && b.y1 >= c.Y0 - 1 && b.z0 <= c.Z1 + 1 && b.z1 >= c.Z0 - 1);
@@ -651,7 +658,7 @@ function carcassAO(boxes) {
     c.ao = hi[0] > lo[0] && hi[1] > lo[1] && hi[2] > lo[2] ? { lo: lo.map(v => v * MM), hi: hi.map(v => v * MM) } : null;
   });
   return (b) => {
-    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc) || b.vp) return null;
+    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc) || b.vp || b.prism3) return null;
     const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2;
     const c = cl.find(q => q.ao && cx >= q.X0 - 1 && cx <= q.X1 + 1 && cy >= q.Y0 - 1 && cy <= q.Y1 + 1 && cz >= q.Z0 - 1 && cz <= q.Z1 + 1);
     return c ? c.ao : null;
@@ -670,7 +677,7 @@ function setModel(boxes, cfg) {
   for (const [pk, P] of [...R.pieces]) {
     const nb = byPk.get(pk);
     const same = nb && nb.length === P.meshes.length && nb.every((b, i) => {
-      const m = P.meshes[i]; return !b.vp && !m.userData.prism && isRectPC(b.pc) && m.userData.key === keyOf(b, cfg);   // un panou pe pantă (vp) nu refolosește cutia unitate
+      const m = P.meshes[i]; return !b.vp && !b.prism3 && !m.userData.prism && isRectPC(b.pc) && m.userData.key === keyOf(b, cfg);   // un panou pe pantă (vp) nu refolosește cutia unitate
     });
     if (!same) { disposePiece(P); R.pieces.delete(pk); }
   }
@@ -1359,4 +1366,4 @@ const GL3D = {
 window.GL3D = GL3D;
 if (typeof window.__gl3dReady === "function") window.__gl3dReady();
 
-export { THREE, MM, buildPrism, buildVPrism, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };
+export { THREE, MM, buildPrism, buildVPrism, buildPrism3, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };

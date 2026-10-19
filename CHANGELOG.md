@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.72.0 — 19 octombrie 2026
+
+**Uși trapezoidale sub tavanul înclinat.** Când corpul are „Cielo inclinato” pe lățime, fiecare ușă devine un trapez: marginea de sus e paralelă cu tavanul, la rostul de sus sub el, iar cota rândului din distinctă e înălțimea maximă a ușii. Foaia piesei și prospectul A3 desenează conturul trapezoidal; în 3D și în camera 3D ușa închisă urmează panta.
+
+Balamalele și mânerul se așază după marginea cea mai joasă a ușii, la fel în fișa de operații, în deviz și în 3D; numărul de balamale se calculează pe înălțimea cea mai mică. Fiecare ușă primește partea balamalei explicit (prima jumătate stânga, a doua dreapta). Rămân dreptunghiulare ușile cu sertare deasupra, ușile pliante și pantele pe adâncime.
+
+Limite declarate: ușa deschisă în camera 3D se desenează încă dreptunghiular; în 3D, panourile trapezoidale pot arăta benzi de nuanță (numai redare, cotele sunt corecte); canturile tăiate la unghi nu se găuresc încă.
+
 ## 4.71.0 — 19 octombrie 2026
 
 **Releveu propune panta tavanului.** Sub cele trei înălțimi măsurate ai un câmp nou, „Tavan”: orizontal, înclinat pe lățime (punctul 1 = stânga, punctul 3 = dreapta) sau înclinat pe adâncime (punctul 1 = față, punctul 3 = spate). Când punctele 1 și 3 diferă cu peste 20 mm și nu ai ales nimic, ecranul îți sugerează că tavanul pare înclinat.

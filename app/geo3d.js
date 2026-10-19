@@ -81,9 +81,15 @@ export function buildPrism(pc, y0, y1) {
    cealaltă între e0 și e1. Sunt trapeze (laterale, despărțitoare) și paralelograme (tavanul înclinat);
    orientarea fețelor se alege după centrul prismei, deci nu depinde de sensul în care vin vârfurile. */
 export function buildVPrism(vp, e0, e1) {
-  const pts = vp.pts, n = pts.length;
   const at = (u, y, e) => vp.ax === "x" ? [u, y, e] : [e, y, u];
-  const A = pts.map(([u, y]) => at(u, y, e0)), B = pts.map(([u, y]) => at(u, y, e1));
+  return buildPrism3(vp.pts.map(([u, y]) => at(u, y, e0)), vp.pts.map(([u, y]) => at(u, y, e1)));
+}
+
+/* Prismă între două poligoane convexe din spațiu, A și B, cu vârfuri în aceeași ordine (D-86): capacele sunt
+   A și B, fețele laterale unesc vârfurile corespunzătoare. Camera 3D o folosește pentru panourile pe pantă,
+   după ce vârfurile au trecut prin rotația peretelui. Orientarea fețelor se alege după centru. */
+export function buildPrism3(A, B) {
+  const n = A.length;
   const ctr = [0, 1, 2].map(k => (A.concat(B)).reduce((s, q) => s + q[k], 0) / (2 * n));
   const v = [];
   const tri = (a, b, c) => {

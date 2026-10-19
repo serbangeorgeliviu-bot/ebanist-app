@@ -261,11 +261,16 @@ function topLineY(G, x, z) {
   return S.h0 + (S.h1 - S.h0) * (G.in.D - z) / S.run;
 }
 /* Înălțimea ușii (anta_H) pentru un deschis între x0 și x1 la planul din față: tavanul înclinat o
-   limitează la punctul cel mai jos al deschiderii. UN loc pentru formula (D-37). */
+   limitează la punctul cel mai jos al deschiderii (x0 = x1 dă înălțimea într-un punct, pentru ușa trapezoidală).
+   UN loc pentru formula (D-37). */
 function frontHeightAt(G, x0, x1) {
   var S = G && G.slope;
   if (!S) return G.anta_H;
-  var top = S.axis === "x" ? Math.min(topLineY(G, x0, G.in.D), topLineY(G, x1, G.in.D)) : S.h0;
+  /* ușa acoperă și grosimea laterală (overlay): linia tavanului nu continuă dincolo de colțurile de sus interioare,
+     acolo laterala se oprește la înălțimea ei plană */
+  var lo = G.sp_fianco, hi = G.in.W - G.sp_fianco;
+  var cl = function (x) { return Math.min(hi, Math.max(lo, x)); };
+  var top = S.axis === "x" ? Math.min(topLineY(G, cl(x0), G.in.D), topLineY(G, cl(x1), G.in.D)) : S.h0;
   return G.anta_H + (top - S.H_lo);
 }
 

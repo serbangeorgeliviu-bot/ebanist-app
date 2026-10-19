@@ -117,12 +117,13 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, curved: false, sloped: false, dim: null }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, curved: false, sloped: false, dim: null, edgeH: null }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
     /* panou pe pantă (D-86): conturul în planul vertical și, la tavanul înclinat, dimensiunile reale
        (lungime pe pantă, lățime, grosime), fiindcă cutia de gabarit nu le mai dă. */
     if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; }
+    if (b.edgeH) map[k].edgeH = b.edgeH;
   }
   return order.map(function (k) {
     var p = map[k], mn = [1e9, 1e9, 1e9], mx = [-1e9, -1e9, -1e9];
@@ -411,7 +412,7 @@ function generate(input) {
   /* --- 3b. tavan înclinat (D-86): îmbinările cu un panou înclinat sau cu muchie oblică nu se găuresc
          în pasul 1. Piesa iese în model fără operații pe muchia oblică, cu avertisment: cotele cer
          o piesă reală (bevel) înainte să meargă în mașină. */
-  pcs.forEach(function (p) { if (p.sloped) out.warnings.push({ piece: p.pk, k: "opsSlope" }); });
+  pcs.forEach(function (p) { if (p.sloped && p.role !== "frontale") out.warnings.push({ piece: p.pk, k: "opsSlope" }); });
 
   /* --- 4. ante: cerniere (tazza + tasselli sull'anta, basetta sul fianco) e
          maniglie. Il lato cerniera e quello scritto sull'anta (`fronts[].hinge`);
@@ -425,7 +426,8 @@ function generate(input) {
       if (D.curved) { out.warnings.push({ piece: D.pk, k: "opsCurved" }); return; }
       var hingeLeft = D.hinge === "left" ? true : D.hinge === "right" ? false : (n === 1 ? true : i < n / 2);
       var hEdge = hingeLeft ? D.min[0] : D.max[0], inw = hingeLeft ? 1 : -1;
-      var h = D.ext[1], nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
+      /* ușă trapezoidală (D-86, pasul 2): balamalele se așază pe înălțimea muchiei mai scunde, ca să rămână în contur */
+      var h = D.edgeH ? Math.min(D.edgeH[0], D.edgeH[1]) : D.ext[1], topD = D.min[1] + h, nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
       var eo = (G && G.in && G.in.edge_offset) || 100;
       var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
       var distCant = (G && G.foratura && G.foratura.dist_cant) || 5, cupD = (G && G.foratura && G.foratura.prof) || 12.5;
@@ -458,9 +460,9 @@ function generate(input) {
       }
       if (hingeSel === "maniglia") {
         var ia = H.handle.interaxis, ox = hingeLeft ? D.max[0] - H.handle.from_edge : D.min[0] + H.handle.from_edge;
-        var yc = D.max[1] < 1100 ? D.max[1] - H.handle.from_top - ia / 2
+        var yc = topD < 1100 ? topD - H.handle.from_top - ia / 2
                : D.min[1] > 1300 ? D.min[1] + H.handle.from_top + ia / 2
-               : Math.max(D.min[1] + 60 + ia / 2, Math.min(D.max[1] - 60 - ia / 2, H.handle.tall_y));
+               : Math.max(D.min[1] + 60 + ia / 2, Math.min(topD - 60 - ia / 2, H.handle.tall_y));
         var hid = "hw_" + out.hw.length;
         var knob = !!(root.handleIsKnob && root.handleIsKnob(cfg));
         if (knob) hole(D, 2, 1, [ox, yc, D.max[2]], H.handle.dia, 0, hid, "pomello", true);
