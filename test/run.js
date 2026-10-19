@@ -2849,6 +2849,23 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.2: alegerea ajunge in cfg", r.sel && r.sel.cern && r.sel.cern.startsWith("u"), JSON.stringify(r).slice(0, 200));
     ok("U.2: devizul are doua randuri de balamale — propriul pe Hw1, cel din catalog pe Hw2, fiecare cu pretul lui", r.rows.length === 2 && r.rows.some(x => x[1] === "Balama X" && x[2] === 3.2) && r.rows.some(x => x[1] !== "Balama X"), JSON.stringify(r.rows));
     ok("U.2: fisa de montaj si rezumatul fara erori", r.mont === true && r.sum === true, JSON.stringify(r).slice(0, 200));
+    /* U.10: Häfele One Touch — articol generic in categoria push, pe uși drepte, trapezoidale și pliante */
+    const ot = await pg.evaluate(() => {
+      const o = {}; const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      const base = { ...PRESETS.armadio, handles: "push", hwSel: { push: "haf_onetouch" } };
+      const variants = { dritta: {}, panta: { H: 2000, topProfile: { axis: "x", h0: 2000, h1: 1700 } }, pliante: { fold: { n: 4 } } };
+      for (const [k, v] of Object.entries(variants)) {
+        try { generateInto(p, { ...base, ...v, name: "OT" + k });
+          const it = computeHardware(p, state.settings).filter(i => i.k === "hwPush");
+          o[k] = it.map(i => [i.qty, i.prod && i.prod.id]);
+          if (k === "dritta") { try { o.mont = montDoc(p).length > 200; } catch (e) { o.mont = String(e); } }
+          p.pieces = p.pieces.filter(q => q.gen !== "OT" + k); delete p.configs["OT" + k];
+        } catch (e) { o[k] = String(e); }
+      }
+      o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => { const it = hwList("push").find(x => x.id === "haf_onetouch"); return it && it.n[l]; });
+      persist(); return o; });
+    ok("U.10: One Touch ajunge în deviz pe uși drepte, pe pantă și pliante", ["dritta", "panta", "pliante"].every(k => Array.isArray(ot[k]) && ot[k].some(x => x[1] === "haf_onetouch" && x[0] > 0)), JSON.stringify(ot));
+    ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));
     await pg.evaluate(() => { state.settings.hwProd.cern = state.settings.hwAdd[0].id; renderCatalog(); });
     await pg.evaluate(() => { document.querySelector(".catOwnDel").click(); });
     ok("U.2: articolul propriu se poate sterge; catalogul revine la cel de serie", await pg.evaluate(() => state.settings.hwAdd.length === 0 && !hwItem("cern").custom));

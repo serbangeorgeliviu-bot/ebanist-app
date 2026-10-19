@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.73.0 — 19 octombrie 2026
+
+**Häfele One Touch în catalog.** Categoria „Push-open” are un articol nou, „One Touch — push-to-open pentru uși”, selectabil pe corp la „Feronerie corp” (sau ca implicit în Catalog). Intră în deviz, în fișa de montaj și în PDF, o bucată pe ușă, la fel pe uși drepte, trapezoidale sub pantă și pliante. Codul de articol și prețul (6 €) sunt provizorii și marcate „de verificat”: îl poți înlocui cu articolul tău în Catalog propriu. Push-open nu are găuri proprii în mașină, deci nu apare nimic nou în fișa piesei.
+
 ## 4.72.0 — 19 octombrie 2026
 
 **Uși trapezoidale sub tavanul înclinat.** Când corpul are „Cielo inclinato” pe lățime, fiecare ușă devine un trapez: marginea de sus e paralelă cu tavanul, la rostul de sus sub el, iar cota rândului din distinctă e înălțimea maximă a ușii. Foaia piesei și prospectul A3 desenează conturul trapezoidal; în 3D și în camera 3D ușa închisă urmează panta.

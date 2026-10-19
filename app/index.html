@@ -3322,7 +3322,8 @@ const HWDB={
  push:[
   {id:"blum_tipon_a",brand:"Blum",n:{it:"TIP-ON anta, versione lunga + placchetta",ro:"TIP-ON ușă, versiune lungă + plăcuță",en:"TIP-ON for doors, long version + plate",fr:"TIP-ON porte, version longue + plaque",de:"TIP-ON für Türen, lange Version + Platte",pl:"TIP-ON do drzwi, wersja długa + płytka",es:"TIP-ON para puertas, versión larga + placa"},art:"956A1004 + adapter",price:4.5},
   {id:"blum_tipon_t",brand:"Blum",n:{it:"TIP-ON BLUMOTION per TANDEM (set)",ro:"TIP-ON BLUMOTION pt. TANDEM (set)",en:"TIP-ON BLUMOTION for TANDEM (set)",fr:"TIP-ON BLUMOTION pour TANDEM (kit)",de:"TIP-ON BLUMOTION für TANDEM (Set)",pl:"TIP-ON BLUMOTION do TANDEM (zestaw)",es:"TIP-ON BLUMOTION para TANDEM (juego)"},art:"T60L7540",price:14},
-  {id:"haf_pushlatch",brand:"Häfele",n:{it:"Push-latch magnetico",ro:"Push-latch magnetic",en:"Magnetic push latch",fr:"Loqueteau magnétique push",de:"Magnetischer Push-Latch",pl:"Magnetyczny zatrzask push",es:"Pulsador magnético push-latch"},art:"356.11.xxx",price:1.9,chk:1}],
+  {id:"haf_pushlatch",brand:"Häfele",n:{it:"Push-latch magnetico",ro:"Push-latch magnetic",en:"Magnetic push latch",fr:"Loqueteau magnétique push",de:"Magnetischer Push-Latch",pl:"Magnetyczny zatrzask push",es:"Pulsador magnético push-latch"},art:"356.11.xxx",price:1.9,chk:1},
+  {id:"haf_onetouch",brand:"Häfele",n:{it:"One Touch — apertura push-to-open per ante (codice da confermare)",ro:"One Touch — deschidere push-to-open pentru uși (cod de confirmat)",en:"One Touch — push-to-open for doors (article code to confirm)",fr:"One Touch — ouverture push-to-open pour portes (code à confirmer)",de:"One Touch — Push-to-open für Türen (Artikelnummer zu bestätigen)",pl:"One Touch — otwieranie push-to-open do drzwi (kod do potwierdzenia)",es:"One Touch — apertura push-to-open para puertas (código por confirmar)"},art:"\u2014",price:6,chk:1}],
  gamba:[
   {id:"gen_legplate",brand:"—",n:{it:"Piastra d'angolo per gamba + vite doppia M8 + dado ad alette",ro:"Placă de colț pentru picior + șurub dublu M8 + piuliță fluture",en:"Leg corner plate + M8 hanger bolt + wing nut",fr:"Plaque d'angle de pied + vis double M8 + écrou papillon",de:"Beineckplatte + Stockschraube M8 + Flügelmutter",pl:"Płytka narożna nogi + śruba kołkowa M8 + nakrętka motylkowa",es:"Placa de esquina de pata + tirafondo M8 + tuerca de mariposa"},art:"\u2014",price:1.9,chk:1},
   {id:"gen_legplate_hd",brand:"—",n:{it:"Piastra d'angolo rinforzata + vite doppia M10",ro:"Placă de colț ranforsată + șurub dublu M10",en:"Heavy-duty corner plate + M10 hanger bolt",fr:"Plaque d'angle renforcée + vis double M10",de:"Verstärkte Eckplatte + Stockschraube M10",pl:"Wzmocniona płytka narożna + śruba kołkowa M10",es:"Placa de esquina reforzada + tirafondo M10"},art:"\u2014",price:3.2,chk:1}],
@@ -14725,12 +14726,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.72.0"; /* APP_VER-MARKER */
+const APP_VER="4.73.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v136";
+const SW_CACHE="ebanist-v137";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
