@@ -2181,6 +2181,129 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   }
   {
+    head("3D — pachet pliant: foile se strâng pe partea aleasă (U.9)");
+    const gctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const gp = await gctx.newPage();
+    const gerr = []; gp.on("pageerror", e => gerr.push(String(e)));
+    await gp.goto(URL); await gp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await gp.waitForTimeout(3300);
+    const go = await gp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); const cfg = { ...PRESETS.armadio, name: "Fd3", L: 1200, H: 2200, doors: 1, tram: 0, drawers: 0, hang: 0, fold: 3, doorHinge: ["left"] };
+      GL3D.render(cfg, { explode: 0, open: false }); await w(400);
+      const boxes = buildModule(cfg).boxes.filter(b => b.sub === "fold");
+      const closed = boxes.map(b => GL3D.tgtOf(b.pk));
+      GL3D.set({ open: true }); await w(500);
+      const open = boxes.map(b => GL3D.tgtOf(b.pk));
+      const th = boxes[0].z1 - boxes[0].z0, g = FOLD.open_gap;
+      return { n: boxes.length, closedAng: closed.map(c => c && c.ang), openAng: open.map(c => c && c.ang), ex: open.map(c => Math.round(c.ex * 10) / 10),
+               want: boxes.map(b => Math.round((b.fold.x0 + b.fold.k * (th + g) - b.x0) * 10) / 10), subs: open.map(c => c.sub) };
+    });
+    await gp.close(); await gctx.close();
+    if (go.fara_gl) ok("3D: pachet pliant — fără WebGL în acest browser, verificarea se sare", true, "fara_gl");
+    else {
+      ok("3D: 3 foi, toate cu sub:\"fold\"", go.n === 3 && go.subs.every(s2 => s2 === "fold"), JSON.stringify(go));
+      ok("3D: închis — nicio rotație", go.closedAng.every(a => a === 0), JSON.stringify(go));
+      ok("3D: deschis — fiecare foaie 90° în jurul muchiei din stânga", go.openAng.every(a => Math.abs(a + Math.PI / 2) < 1e-6), JSON.stringify(go));
+      ok("3D: deschis — foile se strâng una lângă alta, cu rostul din date", JSON.stringify(go.ex) === JSON.stringify(go.want), JSON.stringify(go));
+    }
+    ok("nessun errore JS", gerr.length === 0, gerr.join(" | ").slice(0, 200));
+  }
+  {
+    head("Tavan înclinat — formular, distinctă, deviz, fișă, prospect, 3D (D-86)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.armadio, name: "Sl1", L: 1200, H: 2200, doors: 2, tram: 1, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("D-86: implicit «Dritto» — câmpul de înălțimi ascuns, înălțimea corpului editabilă", await pg.evaluate(() => $("bSlope").value === "" && $("rowSlopeH").style.display === "none" && !$("bH").readOnly && cfgFromForm().topProfile === null));
+    await pg.selectOption("#bSlope", "x"); await pg.waitForTimeout(200);
+    const pre = await pg.evaluate(() => ({ h0: +$("bSlopeH0").value, h1: +$("bSlopeH1").value, H: +$("bH").value, ro: $("bH").readOnly, vis: $("rowSlopeH").style.display !== "none",
+      hint: $("slopeHint").textContent, l0: $("lSlopeH0").textContent, m: TOPPROFILE.min_diff, d: TOPPROFILE.max_deg }));
+    ok("D-86: prima alegere pornește de la înălțimea corpului, cu panta blândă; H devine cea mai înaltă și nu se mai editează", pre.h0 === 2200 && pre.h1 === 1650 && pre.H === 2200 && pre.ro && pre.vis, JSON.stringify(pre));
+    ok("D-86: indiciul poartă diferența minimă și panta maximă din date", pre.hint.includes(String(pre.m)) && pre.hint.includes(String(pre.d)), pre.hint.slice(0, 80));
+    await pg.fill("#bSlopeH1", "1600"); await pg.dispatchEvent("#bSlopeH1", "input"); await pg.waitForTimeout(200);
+    const fm = await pg.evaluate(() => { drawPreview(); const c = cfgFromForm(); return { tp: c.topProfile, H: c.H, hint: $("angHint").textContent, info: $("buildInfo").textContent }; });
+    ok("D-86: cfg poartă profilul, iar H = cota cea mai înaltă", fm.tp && fm.tp.axis === "x" && fm.tp.h0 === 2200 && fm.tp.h1 === 1600 && fm.H === 2200, JSON.stringify(fm));
+    ok("D-86: nota din previzualizare spune unghiul", /27[.,]3/.test(fm.hint), fm.hint.slice(0, 100));
+    await pg.selectOption("#bSlope", "z"); await pg.waitForTimeout(150);
+    ok("D-86: pe adâncime etichetele devin față/spate", await pg.evaluate(() => /davanti|față|front|vorn|avant|przodu|delante/i.test($("lSlopeH0").textContent)));
+    await pg.selectOption("#bSlope", "x"); await pg.waitForTimeout(150);
+    const dev = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Sl1" });
+      const o = { rows: p.pieces.filter(x => x.gen === "Sl1" || x.modulo === "Sl1").map(x => [x.elemento, x.lung, x.larg, x.pz]) };
+      o.cfgSaved = !!(p.configs["Sl1"] && p.configs["Sl1"].topProfile);
+      o.poly = p.pieces.some(x => x.poly) && p.pieces.some(x => x.bevel) && p.pieces.some(x => x.xc != null);
+      try { const items = computeHardware(p, state.settings); o.hw = items.some(i => i.k === "hwCern" && i.qty > 0); } catch (e) { o.hwErr = String(e); }
+      try { o.mont = montDoc(p).length > 200; } catch (e) { o.montErr = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.sumErr = String(e); }
+      try { const c = p.configs["Sl1"]; const m = buildModule(c); o.vp = m.boxes.filter(b => b.vp).length; } catch (e) { o.vpErr = String(e); }
+      return o; });
+    ok("D-86: distincta poartă două laterale de înălțimi diferite și un tavan pe pantă", dev.rows.filter(r => /^Fianco/.test(r[0])).length === 2 && dev.rows.some(r => /^Cielo/.test(r[0]) && r[1] > 1162), JSON.stringify(dev.rows));
+    ok("D-86: proiectul păstrează profilul și rândurile poartă conturul, bevelul și poziția", dev.cfgSaved && dev.poly, JSON.stringify({ c: dev.cfgSaved, p: dev.poly }));
+    ok("D-86: deviz, fișă de montaj și rezumat fără erori", dev.hw === true && dev.mont === true && dev.sum === true && !dev.hwErr && !dev.montErr && !dev.sumErr, JSON.stringify(dev).slice(0, 200));
+    ok("D-86: cutii cu profil vertical pentru tavan, laterale/despărțitoare/spate", dev.vp >= 3, String(dev.vp));
+    const doors = await pg.evaluate(() => { const p = proj(); const c = p.configs["Sl1"]; const items = computeHardware(p, state.settings);
+      const cern = (items.find(i => i.k === "hwCern") || {}).qty;
+      const m = buildModule(c), G = deriveCarcass(carcassParams(c, {})), o = generateOperations({ boxes: m.boxes, cfg: c, G });
+      const dr = m.boxes.filter(b => b.sub === "door");
+      return { cern, hinges: o.hw.filter(h => h.type === "cerniera").length, trap: dr.length > 0 && dr.every(b => b.vp && b.edgeH), rows: p.pieces.filter(x => /^Anta/.test(x.elemento) && x.poly).length }; });
+    ok("D-86 pasul 2: ușile sunt trapeze (cutie cu profil, rând cu contur), câte una pe rând", doors.trap && doors.rows === 2, JSON.stringify(doors));
+    ok("D-86 pasul 2: devizul numără aceleași balamale ca fișa piesei (pe muchia mai scundă)", doors.cern === doors.hinges && doors.cern > 0, JSON.stringify(doors));
+    const room = await pg.evaluate(() => { const p = proj();
+      p.survey = { walls: [{ id: "w1", len: 3000, angle: 90, bow: null }, { id: "w2", len: 2400, angle: 90, bow: null }, { id: "w3", len: 3000, angle: 90, bow: null }, { id: "w4", len: 2400, angle: 90, bow: null }], heights: [2500, 2500, 2500], obstacles: [] };
+      layout()["Sl1"] = { wall: "w1", from: 300, off: 0, lift: 0, rot: 0 }; persist();
+      try { setView("survey"); const bx = roomBoxes(); const pr = bx ? bx.filter(b => b.prism3) : []; return { n: pr.length, doors: pr.filter(b => b.kind === "f").length, ok: pr.every(b => b.prism3.A.length === 4 && b.prism3.B.length === 4) }; }
+      catch (e) { return { err: String(e) }; } });
+    ok("D-86: camera 3D păstrează panourile înclinate și ușile trapezoidale ca prisme (nu gabarite)", room.n >= 5 && room.doors === 2 && room.ok && !room.err, JSON.stringify(room));
+    await pg.evaluate(() => { delete layout()["Sl1"]; proj().survey = null; persist(); setView("build"); });
+    const svgr = await pg.evaluate(() => { const c = { ...cfgFromForm(), name: "Sl1" }; const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      try { render3D(svg, c, null, {}); return { n: svg.querySelectorAll("polygon").length }; } catch (e) { return { err: String(e) }; } });
+    ok("D-86: randarea SVG (fără WebGL) desenează panourile înclinate", svgr.n > 10 && !svgr.err, JSON.stringify(svgr));
+    await pg.evaluate(() => setView("build")); await pg.waitForTimeout(200);
+    const el = await pg.evaluate(() => { try { const c = { ...cfgFromForm(), name: "Sl1" }; const svg = elabSvgFor(c, buildModule(c).boxes, proj(), 1, 1);
+      return { len: svg.length, poly: /<polygon/.test(svg) }; } catch (e) { return { err: String(e) }; } });
+    ok("D-86: prospectul A3 desenează conturul înclinat (poligoane)", el.poly === true && !el.err, JSON.stringify(el));
+    await pg.selectOption("#bSlope", ""); await pg.waitForTimeout(150);
+    ok("D-86: «Dritto» redă H editabil și scoate profilul", await pg.evaluate(() => !$("bH").readOnly && cfgFromForm().topProfile === null));
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Sl1"); delete p.configs["Sl1"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("D-86: cheile de interfață există în toate cele 7 limbi", await pg.evaluate(() => ["fSlope", "slopeNone", "slopeX", "slopeZ", "slopeH0x", "slopeH1x", "slopeH0z", "slopeH1z", "slopeHint", "wSlope"]
+      .every(k => ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l] && I18N[l][k]))));
+    ok("D-86: numele «Fianco sx/dx» sunt traduse în toate limbile", await pg.evaluate(() => { const keep = state.lang;
+      const r = ["ro", "en", "fr", "de", "pl", "es"].every(l => { state.lang = l; return elName("Fianco sx") !== "Fianco sx" && elName("Fianco dx") !== "Fianco dx"; });
+      state.lang = keep; return r; }));
+    ok("D-86: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+  {
+    head("3D — panouri pe pantă: prisme cu profil vertical, fără erori (D-86)");
+    const sctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const sp = await sctx.newPage();
+    const serr = []; sp.on("pageerror", e => serr.push(String(e)));
+    await sp.goto(URL); await sp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await sp.waitForTimeout(3300);
+    const so = await sp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); const out = [];
+      /* mai întâi un corp drept: plasele lui (cutii unitate) nu trebuie refolosite pentru panourile pe pantă */
+      GL3D.render({ ...PRESETS.armadio, name: "Sl3", L: 1200, H: 2200, doors: 2, tram: 1, drawers: 0, hang: 0 }, { explode: 0 }); await w(300);
+      for (const tp of [{ axis: "x", h0: 2200, h1: 1600 }, { axis: "z", h0: 2200, h1: 1500 }]) {
+        const cfg = { ...PRESETS.armadio, name: "Sl3", L: 1200, H: 2200, doors: 2, tram: 1, drawers: 0, hang: 0, topProfile: tp };
+        GL3D.render(cfg, { explode: 0, open: false }); await w(400);
+        GL3D.set({ open: true, explode: 0.6 }); await w(400);
+        const sloped = new Set(buildModule(cfg).boxes.filter(b => b.vp).map(b => b.role));
+        const kinds = GL3D.meshKinds().filter(k => sloped.has(k.role));
+        out.push({ ax: tp.axis, hw: GL3D.hwCount(), vp: buildModule(cfg).boxes.filter(b => b.vp).length, prism: kinds.length > 0 && kinds.every(k => k.prism.every(Boolean)) });
+      }
+      return { out };
+    });
+    await sp.close(); await sctx.close();
+    if (so.fara_gl) ok("3D: panouri pe pantă — fără WebGL în acest browser, verificarea se sare", true, "fara_gl");
+    else {
+      ok("3D: ambele axe se randează (deschis și explodat) cu cutii `vp`", so.out.length === 2 && so.out.every(o => o.vp >= 3), JSON.stringify(so));
+      ok("3D: după un corp drept, panourile pe pantă au prisme proprii, nu cutii unitate refolosite", so.out.every(o => o.prism), JSON.stringify(so));
+    }
+    ok("nessun errore JS", serr.length === 0, serr.join(" | ").slice(0, 200));
+  }
+  {
     head("Telefon — constructorul nu depășește ecranul (butoanele de documente trec pe rânduri)");
     const mctx = await browser.newContext({ viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
     const mp = await mctx.newPage();
@@ -2664,6 +2787,41 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.6: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.9 — usi pliante, a pacchetto */
+  {
+    head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.armadio, name: "Fd1", L: 1200, H: 2200, doors: 2, tram: 0, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.9: implicit «Nessuna» — fara foi pliante", await pg.evaluate(() => $("bFold").value === "" && cfgFromForm().fold === null && !buildModule(cfgFromForm()).pieces.some(p => /pieghevole/.test(p.elemento))));
+    await pg.selectOption("#bFold", "2"); await pg.waitForTimeout(200);
+    ok("U.9: alegerea ajunge in cfg: 4 foi si 2 seturi de sina", await pg.evaluate(() => { const c = cfgFromForm(); const ps = buildModule(c).pieces;
+      const f = ps.find(p => /^Anta pieghevole/.test(p.elemento)), s2 = ps.find(p => /^Sistema anta pieghevole/.test(p.elemento));
+      return c.fold === 2 && f && f.pz === 4 && s2 && s2.pz === 2 && s2.role === "accessorio"; }));
+    ok("U.9: indiciul se vede si poarta rostul si latimea minima", await pg.evaluate(() => { const h = $("foldHint"); return h.style.display !== "none" && h.textContent.includes(String(FOLD.gap_leaf)) && h.textContent.includes(String(FOLD.min_leaf)); }));
+    const fh = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Fd1" });
+      const items = computeHardware(p, state.settings), g = k => items.find(i => i.k === k) || {};
+      const leaf = p.pieces.find(x => /^Anta pieghevole/.test(x.elemento));
+      const o = { fold: g("hwFold").qty, price: g("hwFold").price, cern: g("hwCern").qty, man: g("hwMan").qty, want: 2 * hingeCount(Math.max(leaf.lung, leaf.larg)) };
+      try { o.mont = montDoc(p).length > 200; } catch (e) { o.err = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.err = String(e); }
+      return o; });
+    ok("U.9: deviz — 2 seturi de sina cu pret, balamale intre foi (foi-1 pe inaltime, per pachet), 2 maner", fh.fold === 2 && fh.price > 0 && fh.cern === fh.want && fh.man === 2, JSON.stringify(fh));
+    ok("U.9: fisa de montaj si rezumatul fara erori", fh.mont === true && fh.sum === true && !fh.err, JSON.stringify(fh));
+    ok("U.9: «Montaj» are pasul cu sina pliantă", await pg.evaluate(() => { const p = proj(); return montDoc(p).includes(t("mFold").split("{p}")[0].trim().slice(0, 12)); }));
+    ok("U.9: foaia deschisa — stanga: se strang de la marginea pachetului; dreapta: oglinda", await pg.evaluate(() => {
+      const F = k => ({ x0: 100, x1: 700, k, n: 2, w: 298 }), th = 19, g = FOLD.open_gap;
+      return foldOpenX(F(0), true, th) === 100 && foldOpenX(F(1), true, th) === 100 + th + g
+        && foldOpenX(F(1), false, th) === 700 - th && foldOpenX(F(0), false, th) === 700 - (th + g) - th; }));
+    ok("U.9: nume traduse pentru foaie si sina in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
+      const ok2 = L.every(l => { state.lang = l; return elName("Anta pieghevole") !== "Anta pieghevole" && elName("Sistema anta pieghevole") !== "Sistema anta pieghevole"; });
+      state.lang = keep; return ok2; }));
+    ok("U.9: cheile de interfata exista in toate cele 7 limbi", await pg.evaluate(() => ["fFold", "foldNone", "fold2", "fold3", "fold4", "foldHint", "wFoldNarrow", "wFoldLY", "wFoldFront", "wFoldReach", "hwFold", "mFold"]
+      .every(k => ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l] && I18N[l][k]))));
+    await pg.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Fd1"); delete p.configs["Fd1"]; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); });
+    ok("U.9: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.2 — catalog propriu si feronerie aleasa pe corp */
   {
     head("Catalog propriu + feronerie aleasa pe corp (U.2)");
@@ -2691,6 +2849,42 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.2: alegerea ajunge in cfg", r.sel && r.sel.cern && r.sel.cern.startsWith("u"), JSON.stringify(r).slice(0, 200));
     ok("U.2: devizul are doua randuri de balamale — propriul pe Hw1, cel din catalog pe Hw2, fiecare cu pretul lui", r.rows.length === 2 && r.rows.some(x => x[1] === "Balama X" && x[2] === 3.2) && r.rows.some(x => x[1] !== "Balama X"), JSON.stringify(r.rows));
     ok("U.2: fisa de montaj si rezumatul fara erori", r.mont === true && r.sum === true, JSON.stringify(r).slice(0, 200));
+    /* U.10: Häfele One Touch — articol generic in categoria push, pe uși drepte, trapezoidale și pliante */
+    const ot = await pg.evaluate(() => {
+      const o = {}; const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      const base = { ...PRESETS.armadio, handles: "push", hwSel: { push: "haf_onetouch" } };
+      const variants = { dritta: {}, panta: { H: 2000, topProfile: { axis: "x", h0: 2000, h1: 1700 } }, pliante: { fold: { n: 4 } } };
+      for (const [k, v] of Object.entries(variants)) {
+        try { generateInto(p, { ...base, ...v, name: "OT" + k });
+          const it = computeHardware(p, state.settings).filter(i => i.k === "hwPush");
+          o[k] = it.map(i => [i.qty, i.prod && i.prod.id]);
+          if (k === "dritta") { try { o.mont = montDoc(p).length > 200; } catch (e) { o.mont = String(e); } }
+          p.pieces = p.pieces.filter(q => q.gen !== "OT" + k); delete p.configs["OT" + k];
+        } catch (e) { o[k] = String(e); }
+      }
+      o.names = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => { const it = hwList("push").find(x => x.id === "haf_onetouch"); return it && it.n[l]; });
+      persist(); return o; });
+    ok("U.10: One Touch ajunge în deviz pe uși drepte, pe pantă și pliante", ["dritta", "panta", "pliante"].every(k => Array.isArray(ot[k]) && ot[k].some(x => x[1] === "haf_onetouch" && x[0] > 0)), JSON.stringify(ot));
+    /* notificare de actualizare la deschidere */
+    const un = await pg.evaluate(async () => {
+      const o = {}, of = window.fetch, mk = v => ({ ok: true, text: async () => 'const APP_VER="' + v + '"; /* APP_VER-MARKER */' });
+      try {
+        window.fetch = async u => String(u).includes("upd=") ? mk("99.0.0") : of(u);
+        _updChk = 0; await updateNotice();
+        const bar = document.getElementById("updBar");
+        o.shown = !!bar && bar.textContent.includes("99.0.0");
+        bar.querySelectorAll("button")[1].click(); o.gone = !document.getElementById("updBar");
+        _updChk = 0; await updateNotice(); o.silent = !document.getElementById("updBar");
+        updDismissed = null; window.fetch = async u => String(u).includes("upd=") ? mk(APP_VER) : of(u);
+        _updChk = 0; await updateNotice(); o.same = !document.getElementById("updBar");
+        window.fetch = async () => { throw new Error("offline"); };
+        _updChk = 0; await updateNotice(); o.offline = !document.getElementById("updBar");
+      } finally { window.fetch = of; updDismissed = null; }
+      o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["updBanner", "updNow", "updLater"].every(k => I18N[l] && I18N[l][k]));
+      return o; });
+    ok("Update: bara apare la versiune nouă, «Mai târziu» o tace, la aceeași versiune/offline nu apare nimic", un.shown && un.gone && un.silent && un.same && un.offline, JSON.stringify(un));
+    ok("Update: textele există în toate limbile", un.i18n === true, JSON.stringify(un));
+    ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));
     await pg.evaluate(() => { state.settings.hwProd.cern = state.settings.hwAdd[0].id; renderCatalog(); });
     await pg.evaluate(() => { document.querySelector(".catOwnDel").click(); });
     ok("U.2: articolul propriu se poate sterge; catalogul revine la cel de serie", await pg.evaluate(() => state.settings.hwAdd.length === 0 && !hwItem("cern").custom));
@@ -2837,6 +3031,37 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("fuori squadro: avertisment pe lățime, fără blocaj", a.fara_blocaj === true && a.avertisment === true, JSON.stringify(a).slice(0, 200));
     ok("fuori squadro: textul e tradus în limba interfeței", /out of square/i.test(a.text), a.text.slice(0, 80));
     ok("computeHardware fără setări nu cade cu un articol necunoscut", a.hw === true, String(a.hw));
+  }
+
+  /* Releveu → pantă (D-88): punctele 1 și 3 devin profilul tavanului la «Completează generatorul» */
+  {
+    head("Releveu — panta tavanului propusă constructorului (D-88)");
+    await pg.evaluate(() => { closeSheets(); const p = proj(); p.survey = { walls: [{ id: "w1", len: 1800, angle: 90, bow: null }], heights: [2500, 2300, 1900], obstacles: [] };
+      persist(); setView("survey"); renderPlan(); renderSurveyHeights(); });
+    await pg.waitForTimeout(300);
+    const sug = await pg.evaluate(() => ({ vis: $("svSlopeHint").style.display !== "none", txt: $("svSlopeHint").textContent, sel: $("svSlope").value }));
+    ok("D-88: cu punctele 1 și 3 diferite apare sugestia, cu diferența, fără pantă aleasă", sug.vis && sug.txt.includes("600") && sug.sel === "", JSON.stringify(sug));
+    await pg.selectOption("#svSlope", "x"); await pg.waitForTimeout(200);
+    const rd = await pg.evaluate(() => ({ sv: survey().slope, txt: $("svSlopeHint").textContent }));
+    ok("D-88: alegerea se salvează în releveu și indiciul spune ce se propune (minus 20 mm)", rd.sv === "x" && rd.txt.includes("2480") && rd.txt.includes("1880"), JSON.stringify(rd));
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(400);
+    const ap = await pg.evaluate(() => { const c = cfgFromForm(); return { view: currentView, tp: c.topProfile, H: c.H, ro: $("bH").readOnly, L: c.L }; });
+    ok("D-88: «Completează generatorul» pune panta: stânga 2480, dreapta 1880, H = 2480", ap.view === "build" && ap.tp && ap.tp.axis === "x" && ap.tp.h0 === 2480 && ap.tp.h1 === 1880 && ap.H === 2480 && ap.ro, JSON.stringify(ap));
+    ok("D-88: corpul propus se generează fără eroare", await pg.evaluate(() => { try { const m = buildModule({ ...cfgFromForm(), name: "Rv" }); return m.boxes.some(b => b.vp); } catch (e) { return String(e); } }));
+    await pg.evaluate(() => { setView("survey"); }); await pg.selectOption("#svSlope", "z"); await pg.waitForTimeout(150);
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(300);
+    ok("D-88: pe adâncime, punctul 1 = față, punctul 3 = spate", await pg.evaluate(() => { const t = cfgFromForm().topProfile; return t && t.axis === "z" && t.h0 === 2480 && t.h1 === 1880; }));
+    await pg.evaluate(() => { setView("survey"); survey().heights[2] = 2490; persist(); renderSurveyHeights(); });
+    ok("D-88: diferență sub minim: indiciul o spune", await pg.evaluate(() => /10/.test($("svSlopeHint").textContent) && $("svSlopeHint").style.display !== "none"));
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(300);
+    ok("D-88: diferență sub minim → constructorul rămâne fără pantă, cu H = punctul cel mai jos − 20", await pg.evaluate(() => { const c = cfgFromForm(); return c.topProfile === null && c.H === 2280; }));
+    await pg.evaluate(() => { setView("survey"); survey().slope = null; survey().heights = [2500, 2300, 1900]; persist(); renderSurveyHeights(); });
+    await pg.click("#btnSvApply"); await pg.waitForTimeout(300);
+    ok("D-88: fără pantă aleasă, comportamentul vechi (H = minimul − 20, fără profil)", await pg.evaluate(() => { const c = cfgFromForm(); return c.topProfile === null && c.H === 1880 && !$("bH").readOnly; }));
+    ok("D-88: cheile de interfață există în toate cele 7 limbi", await pg.evaluate(() => ["svSlope", "svSlopeNone", "svSlopeX", "svSlopeZ", "svSlopeSuggest", "svSlopePoints", "svSlopeFlat", "svSlopeReady", "svSlopeBit"]
+      .every(k => ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => SURVEY_I18N[l] && SURVEY_I18N[l][k]))));
+    await pg.evaluate(() => { const p = proj(); p.survey = null; persist(); buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+    ok("D-88: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
   /* Releveu (D-82): decalaj cu cifră, Enter, perete de închidere, diagonale, DXF, poze */

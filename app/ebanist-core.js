@@ -243,6 +243,37 @@ function readThickness(p) {
   return out;
 }
 
+/* --- TAVAN ÎNCLINAT (D-86) ---------------------------------------------------
+   `topProfile` = {axis, h0, h1}: tavanul urmează o dreaptă între două înălțimi, de la
+   pardoseală, la fața DE SUS a tavanului. `axis:"x"` = panta pe lățime (h0 la lateralul
+   stâng, h1 la cel drept); `axis:"z"` = panta pe adâncime (h0 în față, h1 în spate).
+   Limitele sunt DATE, nu cod. `tol` = jumătate de milimetru (plus 0,05 pentru poziția rotunjită la 0,1):
+   rândurile distinctei sunt întregi, iar lanțurile care trec prin tavanul înclinat conțin t/cos θ,
+   care nu e întreg. */
+var TOPPROFILE = { min_diff: 20, max_deg: 60, min_int: 150, tol: 0.5 };
+
+/* Înălțimea feței de sus a tavanului în punctul (x, z) al corpului: x de la fața exterioară
+   stângă, z de la spate (fața din față e z = D). Fără pantă, nu există: întoarce null. */
+function topLineY(G, x, z) {
+  var S = G && G.slope;
+  if (!S) return null;
+  if (S.axis === "x") return S.h0 + (S.h1 - S.h0) * (x - G.sp_fianco) / S.run;
+  return S.h0 + (S.h1 - S.h0) * (G.in.D - z) / S.run;
+}
+/* Înălțimea ușii (anta_H) pentru un deschis între x0 și x1 la planul din față: tavanul înclinat o
+   limitează la punctul cel mai jos al deschiderii (x0 = x1 dă înălțimea într-un punct, pentru ușa trapezoidală).
+   UN loc pentru formula (D-37). */
+function frontHeightAt(G, x0, x1) {
+  var S = G && G.slope;
+  if (!S) return G.anta_H;
+  /* ușa acoperă și grosimea laterală (overlay): linia tavanului nu continuă dincolo de colțurile de sus interioare,
+     acolo laterala se oprește la înălțimea ei plană */
+  var lo = G.sp_fianco, hi = G.in.W - G.sp_fianco;
+  var cl = function (x) { return Math.min(hi, Math.max(lo, x)); };
+  var top = S.axis === "x" ? Math.min(topLineY(G, cl(x0), G.in.D), topLineY(G, cl(x1), G.in.D)) : S.h0;
+  return G.anta_H + (top - S.H_lo);
+}
+
 /* --- la funzione ---------------------------------------------------------- */
 
 function deriveCarcass(params) {
@@ -306,7 +337,38 @@ function deriveCarcass(params) {
   if (gola && !(gola_c >= 5 && gola_c <= 200))
     throw new Error("deriveCarcass: rostul golului C trebuie să fie între 5 și 200 mm, primit " + gola_c);
   if (gola) gap_sup = gola_h;
-  var sp_top = top === "none" ? 0 : SP.cielo;
+  /* tavan înclinat (D-86): cotele PLATE derivate mai jos sunt ale corpului la înălțimea capătului
+     scund (`H = H_lo`), cu un tavan gros pe verticală cât t / cos θ. Profilul în sine, cu cele două
+     înălțimi, iese în `slope`. Cine desenează partea de sus citește `slope`, nu recalculează. */
+  var slope = null;
+  if (p.topProfile != null) {
+    var tp = p.topProfile;
+    if (typeof tp !== "object" || (tp.axis !== "x" && tp.axis !== "z"))
+      throw new Error("deriveCarcass: topProfile.axis trebuie să fie 'x' sau 'z', primit " + JSON.stringify(tp && tp.axis));
+    var th0 = +tp.h0, th1 = +tp.h1;
+    if (!(th0 > 0 && th1 > 0))
+      throw new Error("deriveCarcass: topProfile.h0 și h1 trebuie să fie > 0, primit " + JSON.stringify([tp.h0, tp.h1]));
+    if (Math.abs(Math.max(th0, th1) - H) > 0.05)
+      throw new Error("deriveCarcass: H (" + H + ") trebuie să fie cota cea mai înaltă a profilului (" + Math.max(th0, th1) + ")");
+    if (backMode === "applicato")
+      throw new Error("deriveCarcass: panta nu se combină cu spatele aplicat; alege spate în cava sau încastrat");
+    if (top === "traverse")
+      throw new Error("deriveCarcass: panta nu se combină cu tavanul din două traverse");
+    if (p.treapta_H > 0 || p.treapta_P > 0 || p.depthProfile != null)
+      throw new Error("deriveCarcass: panta nu se combină cu treapta din perete");
+    if (gola)
+      throw new Error("deriveCarcass: panta nu se combină cu gola");
+    var sRun = tp.axis === "x" ? (W - 2 * t_fianco) : D;
+    var sDh = Math.abs(th0 - th1), sTan = sDh / sRun, sDeg = Math.atan(sTan) * 180 / Math.PI;
+    if (sDh < TOPPROFILE.min_diff)
+      throw new Error("deriveCarcass: diferența dintre cele două înălțimi (" + fmt01(sDh) + " mm) e sub " + TOPPROFILE.min_diff + " mm: folosește un corp drept");
+    if (sDeg > TOPPROFILE.max_deg)
+      throw new Error("deriveCarcass: panta (" + fmt01(sDeg) + "°) depășește " + TOPPROFILE.max_deg + "°");
+    slope = { axis: tp.axis, h0: th0, h1: th1, H_hi: Math.max(th0, th1), H_lo: Math.min(th0, th1),
+              tan: sTan, sec: Math.sqrt(1 + sTan * sTan), deg: sDeg, run: sRun, dh: sDh };
+    H = slope.H_lo;
+  }
+  var sp_top = top === "none" ? 0 : SP.cielo * (slope ? slope.sec : 1);
 
   /* luce interna */
   var Wi = W - 2 * t_fianco;
@@ -439,6 +501,8 @@ function deriveCarcass(params) {
   var P_int = D - piano_interno;
   var L_int = Wi;
   var H_int = H - h_base - SP.base - sp_top;
+  if (slope && H_int < TOPPROFILE.min_int)
+    throw new Error("deriveCarcass: la capătul scund rămân " + fmt01(H_int) + " mm de lumină interioară (minim " + TOPPROFILE.min_int + " mm)");
   /* due traverse non pot ocupa toata adancimea: ramane o deschidere, sau nu
      mai sunt traverse. 30 mm e il minimo che tiene un minifix. */
   if (top === "traverse") {
@@ -473,7 +537,7 @@ function deriveCarcass(params) {
      `Object.freeze`: le cote derivate si LEGGONO. Un generatore che le
      ritoccava per farsi tornare un conto e esattamente come nasce la
      seconda sorgente di verita. Adesso il tentativo fallisce. */
-  return Object.freeze({
+  var res = {
     geomVersion: GEOM_VERSION,
     /* le entrate viaggiano con le uscite: la scheda di officina deve poter
        ristampare con che numeri e stato calcolato quel pezzo */
@@ -618,7 +682,15 @@ function deriveCarcass(params) {
     /* la tabella degli assi viaggia con le cote: chi rimonta il gabarito
        (Fase 2) non deve andarsela a cercare altrove. */
     ROLE_AXES: ROLE_AXES
+  };
+  /* numai cu pantă: fără ea, G rămâne exact ce era (goldenele, proiectele vechi) */
+  if (slope) res.slope = Object.freeze({
+    axis: slope.axis, h0: slope.h0, h1: slope.h1, H_hi: slope.H_hi, H_lo: slope.H_lo,
+    tan: slope.tan, sec: slope.sec, deg: slope.deg, run: slope.run,
+    /* ce închide sus pe verticală: t / cos θ, precizie plină (D-86, pct. 4) */
+    t_vert: sp_top
   });
+  return Object.freeze(res);
 }
 
 /* --- LA RICOSTRUZIONE INVERSA DEL GABARITO --------------------------------
@@ -814,14 +886,64 @@ function reconstructCarcass(corpo, pieces, geometry) {
   /* ---- ALTEZZA ----------------------------------------------------------
      Sui piedini il fianco si ferma sopra di loro; sullo zoccolo arriva a
      terra. In tutti e due i casi il corpo e alto H. */
-  add("H", "fianco+piedini", H, alongAxis(fianco, "H") + h_picior,
-      fianco.nomi,
-      "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.");
+  var SL = G.slope || null;
+  if (SL && SL.axis === "x") {
+    /* panta pe lățime: două laterale de înălțimi diferite, câte un rând fiecare (D-86) */
+    var fiRows = (pieces || []).filter(function (r) { return r && r.role === "fianco" && !r.part; });
+    fiRows.forEach(function (r) {
+      var left = r.xc != null ? +r.xc < W / 2 : (r === fiRows[0]);
+      add("H", left ? "fianco-stg+piedini" : "fianco-dr+piedini", left ? SL.h0 : SL.h1, (+r.lung || 0) + h_picior,
+          [r.elemento],
+          "Înălțimea recompusă dintr-o laterală (plus picioarele) nu dă înălțimea profilului în acel punct.");
+    });
+  } else {
+    add("H", "fianco+piedini", H, alongAxis(fianco, "H") + h_picior,
+        fianco.nomi,
+        "Înălțimea recompusă din laterală (plus picioarele) nu dă înălțimea nominală.");
+  }
+  if (SL) {
+    /* tavanul înclinat contribuie pe verticală cu t / cos θ (D-86, pct. 4): lanțurile care îl
+       traversează se compară pe valorile exacte, cu toleranța de jumătate de milimetru, fiindcă
+       rândurile distinctei sunt întregi. Celelalte lanțuri rămân la 0 mm. */
+    var tolS = TOPPROFILE.tol;
+    function addTol(axa, chain, nominal, calc, piese, why) {
+      if (calc == null) return;
+      var d = calc - nominal;
+      out.push({ axa: axa, chain: chain, valoare_nominala: +nominal.toFixed(3), valoare_calculata: +calc.toFixed(3),
+                 delta: Math.abs(d) <= tolS + 0.05 ? 0 : +d.toFixed(3), piese_implicate: piese, why: why,
+                 toleranta: tolS });
+    }
+    /* lungimea tavanului pe pantă = ipotenuza: lățimea (x) sau adâncimea (z) a tavanului × sec θ */
+    if (cielo && topMode !== "none") {
+      var runC = SL.axis === "x" ? alongAxis(cielo, "L") : alongAxis(cielo, "P");
+      var slopeLen = SL.axis === "x" ? alongAxis(cielo, "L") : alongAxis(cielo, "P");
+      var runFlat = SL.axis === "x" ? (W - 2 * spF) : (+(G.D_bc) || D);
+      if (slopeLen != null) addTol(SL.axis === "x" ? "L" : "P", "tavan-pe-panta", runFlat * SL.sec, slopeLen, cielo.nomi,
+        "Lungimea tavanului pe pantă nu dă ipotenuza (lungime × sec θ): tavanul nu se potrivește profilului.");
+    }
+    /* despărțitoarele: înălțimea fiecărui rând, față de linia tavanului la poziția lui */
+    (pieces || []).forEach(function (r) {
+      if (!r || r.role !== "divisorio" || r.partial) return;
+      var yBot = h_base + spB, lung = +r.lung || 0;
+      if (SL.axis === "x" && r.xc != null) {
+        addTol("H", "despartitor@" + Math.round(r.xc), topLineY(G, +r.xc, 0), yBot + lung + SL.t_vert, [r.elemento],
+          "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.");
+      } else if (SL.axis === "z") {
+        /* trapez: dreptunghiul de gabarit se oprește la capătul înalt al tavanului */
+        var top = Math.max(topLineY(G, 0, +(G.in.D)), topLineY(G, 0, 0));
+        var lowTop = SL.H_lo;
+        var ok = yBot + lung + SL.t_vert <= top + tolS + 0.05 && yBot + lung + SL.t_vert >= lowTop - tolS - 0.05;
+        out.push({ axa: "H", chain: "despartitor-trapez", valoare_nominala: +top.toFixed(3), valoare_calculata: +(yBot + lung + SL.t_vert).toFixed(3),
+                   delta: ok ? 0 : +((yBot + lung + SL.t_vert) - top).toFixed(3), piese_implicate: [r.elemento],
+                   why: "Despărțitorul trapezoidal iese în afara profilului tavanului.", toleranta: tolS });
+      }
+    });
+  }
 
   /* La catena che entra DENTRO il corpo: zoccolo/piedini, base, luce interna,
      cielo. E' quella che si accorge di una base o di un cielo tagliati con la
      grossezza sbagliata — il tramezzo e lungo esattamente la luce interna. */
-  if (divis) {
+  if (divis && !SL) {
     var hi = alongAxis(divis, "H");
     add("H", "zoccolo+base+interno+cielo", H,
         (hi == null ? null : h_base + spB + hi + spC),
@@ -894,6 +1016,8 @@ function isAngle(v) { return typeof v === "number" && isFinite(v) && Math.abs(v 
 function validateInvariants(corpo, pieces, geometry, opts) {
   var out = [], o = opts || {}, G = geometry || {}, c = corpo || {};
   var W = +(c.W != null ? c.W : c.L), H = +c.H, D = +(c.D != null ? c.D : c.P);
+  /* cu tavan înclinat, pila verticală se verifică pe corpul plat de la capătul scund (D-86) */
+  if (G.slope) H = G.slope.H_lo;
   var rows = pieces || [];
   var maxDim = +o.maxDim > 0 ? +o.maxDim : 2800;
 
@@ -1925,6 +2049,9 @@ var API = {
   ROLE_AXES: ROLE_AXES,
   axesFor: axesFor,
   topSp: topSp,
+  TOPPROFILE: TOPPROFILE,
+  topLineY: topLineY,
+  frontHeightAt: frontHeightAt,
   TOP_MODES: TOP_MODES,
   SLIDE_CATALOG: SLIDE_CATALOG,
   slideById: slideById,

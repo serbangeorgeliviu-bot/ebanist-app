@@ -259,7 +259,31 @@
     return { ok: true, walls: walls, warnings: warnings, units: P.units, scale: scale, gap: cl.gap };
   }
 
-  root.EBSurvey = { planPoints: planPoints, closure: closure, closingWall: closingWall, diagonal: diagonal,
+  /* Tavan înclinat din cele trei înălțimi măsurate (D-86, D-88). Punctul 1 e capătul de la început al
+     peretelui (stânga, sau fața la pantă pe adâncime), punctul 3 capătul opus (dreapta, sau spatele); punctul 2
+     rămâne de control. `joc` se scade din fiecare cotă. Întoarce null dacă nu s-a ales nicio pantă, altfel
+     {axis, h0, h1, H} sau {error:"points"|"flat"}. PURĂ. */
+  function slopeProposal(sv, opts) {
+    var o = opts || {}, joc = o.joc == null ? 20 : +o.joc, minDiff = o.minDiff == null ? 20 : +o.minDiff;
+    var ax = sv && sv.slope;
+    if (ax !== "x" && ax !== "z") return null;
+    var hs = (sv.heights || []), a = hs[0], b = hs[2];
+    if (a == null || b == null || !(isFinite(a) && +a > 0 && isFinite(b) && +b > 0)) return { error: "points" };
+    var h0 = Math.round(a - joc), h1 = Math.round(b - joc);
+    if (Math.abs(h0 - h1) < minDiff) return { error: "flat", diff: Math.abs(a - b) };
+    return { axis: ax, h0: h0, h1: h1, H: Math.max(h0, h1) };
+  }
+  /* diferența dintre punctele 1 și 3 când e destul de mare ca tavanul să pară înclinat și nu s-a ales nicio pantă;
+     altfel null. Pentru sugestia din ecran. */
+  function slopeSuggest(sv, minDiff) {
+    if (!sv || sv.slope === "x" || sv.slope === "z") return null;
+    var hs = sv.heights || [], a = hs[0], b = hs[2];
+    if (a == null || b == null || !(isFinite(a) && isFinite(b))) return null;
+    var d = Math.abs(a - b);
+    return d >= (minDiff == null ? 20 : +minDiff) ? d : null;
+  }
+
+  root.EBSurvey = { slopeProposal: slopeProposal, slopeSuggest: slopeSuggest, planPoints: planPoints, closure: closure, closingWall: closingWall, diagonal: diagonal,
                     wallsFromDxf: wallsFromDxf, parseDxf: parseDxf };
   if (typeof module !== "undefined" && module.exports) module.exports = root.EBSurvey;
 })(typeof globalThis !== "undefined" ? globalThis : this);

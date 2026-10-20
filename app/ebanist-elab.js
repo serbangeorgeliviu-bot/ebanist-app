@@ -70,10 +70,16 @@
     var H = bb.hi[1], Z1 = bb.hi[2];
     boxes.forEach(function (b) {
       var k = classify(b), r;
-      if (mode === "elev") { r = { u0: b.x0, u1: b.x1, v0: H - b.y1, v1: H - b.y0, k: k, z: (b.z0 + b.z1) / 2, b: b }; out.vis.push(r); return; }
+      if (mode === "elev") {
+        r = { u0: b.x0, u1: b.x1, v0: H - b.y1, v1: H - b.y0, k: k, z: (b.z0 + b.z1) / 2, b: b };
+        /* panou pe pantă (D-86): în prospect se vede conturul real când profilul e în planul x–y */
+        if (b.vp && b.vp.ax === "x") r.poly = b.vp.pts.map(function (q) { return [q[0], H - q[1]]; });
+        out.vis.push(r); return;
+      }
       if (mode === "secx") {
         if (b.x0 >= c - EPS) return;                                   /* de partea privitorului: se scoate */
         r = { u0: Z1 - b.z1, u1: Z1 - b.z0, v0: H - b.y1, v1: H - b.y0, k: k, z: b.x1, b: b };
+        if (b.vp && b.vp.ax === "z") r.poly = b.vp.pts.map(function (q) { return [Z1 - q[0], H - q[1]]; });
         (b.x1 > c + EPS ? out.cut : out.vis).push(r); return;
       }
       if (b.y0 >= c - EPS) return;                                     /* deasupra planului: se scoate */
@@ -103,6 +109,9 @@
       if (r.b && r.b.sub === "dbox") extra = ' stroke-dasharray="1.2 .6"';
       if (r.k === "door") sw = 0.35;
     }
+    if (r.poly)
+      return '<polygon points="' + r.poly.map(function (q) { return r1(ox + q[0] * s) + "," + r1(oy + q[1] * s); }).join(" ") +
+             '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"' + extra + "/>";
     return '<rect x="' + r1(x) + '" y="' + r1(y) + '" width="' + r1(w) + '" height="' + r1(h) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="' + sw + '"' + extra + "/>";
   }
 

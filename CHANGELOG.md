@@ -5,6 +5,46 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.0 — 19 octombrie 2026
+
+**Notificare de actualizare la deschidere.** Când pe server există o versiune mai nouă decât cea deschisă, apare sus o bară: „Versiune nouă disponibilă: vX” cu „Actualizează” și „Mai târziu”. Verificarea se face în liniște, la 2,5 secunde după pornire și la revenirea în aplicație (cel mult o dată la 30 de minute); fără internet nu apare nimic. Aplicația nu se reîncarcă singură, deci un proiect aflat în lucru nu se pierde. „Mai târziu” tace bara până la următoarea deschidere. Butonul „Verifică actualizări” din setări merge ca înainte.
+
+## 4.73.0 — 19 octombrie 2026
+
+**Häfele One Touch în catalog.** Categoria „Push-open” are un articol nou, „One Touch — push-to-open pentru uși”, selectabil pe corp la „Feronerie corp” (sau ca implicit în Catalog). Intră în deviz, în fișa de montaj și în PDF, o bucată pe ușă, la fel pe uși drepte, trapezoidale sub pantă și pliante. Codul de articol și prețul (6 €) sunt provizorii și marcate „de verificat”: îl poți înlocui cu articolul tău în Catalog propriu. Push-open nu are găuri proprii în mașină, deci nu apare nimic nou în fișa piesei.
+
+## 4.72.0 — 19 octombrie 2026
+
+**Uși trapezoidale sub tavanul înclinat.** Când corpul are „Cielo inclinato” pe lățime, fiecare ușă devine un trapez: marginea de sus e paralelă cu tavanul, la rostul de sus sub el, iar cota rândului din distinctă e înălțimea maximă a ușii. Foaia piesei și prospectul A3 desenează conturul trapezoidal; în 3D și în camera 3D ușa închisă urmează panta.
+
+Balamalele și mânerul se așază după marginea cea mai joasă a ușii, la fel în fișa de operații, în deviz și în 3D; numărul de balamale se calculează pe înălțimea cea mai mică. Fiecare ușă primește partea balamalei explicit (prima jumătate stânga, a doua dreapta). Rămân dreptunghiulare ușile cu sertare deasupra, ușile pliante și pantele pe adâncime.
+
+Limite declarate: ușa deschisă în camera 3D se desenează încă dreptunghiular; în 3D, panourile trapezoidale pot arăta benzi de nuanță (numai redare, cotele sunt corecte); canturile tăiate la unghi nu se găuresc încă.
+
+## 4.71.0 — 19 octombrie 2026
+
+**Releveu propune panta tavanului.** Sub cele trei înălțimi măsurate ai un câmp nou, „Tavan”: orizontal, înclinat pe lățime (punctul 1 = stânga, punctul 3 = dreapta) sau înclinat pe adâncime (punctul 1 = față, punctul 3 = spate). Când punctele 1 și 3 diferă cu peste 20 mm și nu ai ales nimic, ecranul îți sugerează că tavanul pare înclinat.
+
+Cu panta aleasă, „Completează generatorul” pune în Constructor tavanul înclinat: cele două înălțimi măsurate minus 20 mm, înălțimea corpului fiind cea mai mare. Nu generează nimic singur: vezi cotele în formular și apeși tu „Generează”. Dacă diferența e sub 20 mm sau lipsește punctul 1 sau 3, rămâne comportamentul de până acum (înălțimea punctului celui mai jos minus 20 mm), iar mesajul spune de ce.
+
+## 4.70.0 — 19 octombrie 2026
+
+**Mobilier cu tavan înclinat: sub scară, la mansardă.** În Constructor ai un câmp nou, „Cielo inclinato”: pantă pe lățime sau pe adâncime. Scrii cele două înălțimi, de la pardoseală până la fața de sus a tavanului (stânga și dreapta, sau față și spate); înălțimea corpului e cea mai mare, iar unghiul se calculează și se afișează.
+
+Laterale, tavan, despărțitoare și spate urmează panta: laterale de înălțimi diferite sau trapezoidale, tavanul ca un singur panou cu lungimea măsurată pe pantă și cu capetele tăiate la unghi, despărțitoare cu înălțimea de la poziția lor, spate trapezoidal. Ușile se opresc la punctul cel mai jos al deschiderii lor. Polițele, sertarele și bara stau sub partea cea mai joasă. În 3D, în exportul AR și în prospectul A3 se vede conturul înclinat.
+
+Închiderea gabaritului verifică înălțimea la ambele capete, lungimea tavanului și fiecare despărțitor, cu toleranța de jumătate de milimetru: rândurile distinctei sunt întregi, iar tavanul înclinat contribuie cu grosimea împărțită la cosinusul unghiului. **În fișa piesei, îmbinările cu tavanul înclinat nu se găuresc încă**, iar piesele pe pantă dau avertisment: cere o piesă reală (bevelul) înainte să meargă în mașină.
+
+Pasul 1: nu merge împreună cu cotele absolute, cu unghiurile în plan, cu tavanul din două traverse, cu treapta din perete, cu gola, cu spatele aplicat sau pe alte tipologii; în aceste cazuri apare o eroare cu motivul. Proiectele vechi rămân neschimbate.
+
+## 4.69.0 — 19 octombrie 2026
+
+**Uși pliante, „a pacchetto”.** În Constructor → „Frontale e appoggio” ai un câmp nou, „Uși pliante”: 2, 3 sau 4 foi pe pachet. Fiecare ușă devine un pachet de foi legate cu balamale între ele, suspendat pe o șină sus. Lățimea pachetului e lățimea ușii de până acum, împărțită în foi cu 3 mm între ele; sus rămâne loc pentru șină. Partea pe care se strânge pachetul e cea de la „Lato cerniere”, aceeași alegere ca la balamale.
+
+Distinta are rândul „Anta pieghevole” (câte foi, cu cota finită) și un set de șină pe pachet. Devizul și fișa de montaj numără balamalele dintre foi, un mâner pe pachet și sistemul de șină, o singură dată; sistemul are categorie proprie în Catalog, cu preț de reglat. În 3D și în camera 3D, la „Ante aperte” foile se strâng una lângă alta, perpendicular pe față, deci se vede cât iese pachetul în față; același spațiu intră în zona de deschidere din planul camerei.
+
+Fișa piesei are găurile balamalelor dintre foi (cupa Ø35 într-o foaie, placa în vecina). **Cotele sistemului și ale găurilor sunt de catalog, nu luate de pe un sistem real:** marcate nevalidate până la un sistem montat. Nu se aplică pe front cu sticlă sau bombat și nici pe cotele absolute ale fronturilor: acolo rămân uși obișnuite, cu avertisment; foile mai înguste de 100 mm nu se generează. Proiectele vechi rămân neschimbate.
+
 ## 4.68.2 — 18 octombrie 2026
 
 **Balamaua din 3D seamănă acum cu CLIP top.** Până acum era un bloc cu un stâlp, nu o balama. Acum are cupa Ø35 cu inel, flanșa de 57 × 27,5 mm cu cele două găuri la 45 mm și șuruburi, legătura (linkul) înclinată, placa de montaj de pe lateral cu două șuruburi la 32 mm și brațul lung de tablă, cu profil mai înalt spre ușă, fantă și două șuruburi de reglaj. Cutia neagră a amortizorului BLUMOTION apare doar la modelele cu amortizor. Cotele cupei și flanșei sunt din fișa Blum 71B3590 (același corp, cu boss INSERTA): cupă Ø35, adâncime 13, flanșă 57 × 27,5 × 6,4, găuri Ø8 la 45 mm, excentric 9,5.

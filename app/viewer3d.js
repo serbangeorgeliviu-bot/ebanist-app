@@ -25,7 +25,7 @@
 
 /* Percorsi diretti, NIENTE importmap: gli importmap arrivano solo con
    iOS 16.4 / Chrome 89. */
-import { THREE, MM, pcOf, isRectPC, buildPrism, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
+import { THREE, MM, pcOf, isRectPC, buildPrism, buildVPrism, buildPrism3, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 
 /* ============ 1. FIBRA LEMNOASĂ (procedurală, zero fișiere) ========== */
@@ -564,7 +564,21 @@ function wallInfo(b) {
 function makeMesh(b, cfg) {
   const key = keyOf(b, cfg);
   let mesh;
-  if (isRectPC(b.pc)) {
+  if (b.prism3) {
+    /* panou pe pantă în camera 3D: prismă între două poligoane deja în coordonatele camerei */
+    const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2;
+    const sh = q => q.map(([x, y, z]) => [x - cx, y - cy, z - cz]);
+    mesh = new THREE.Mesh(buildPrism3(sh(b.prism3.A), sh(b.prism3.B)), perMesh(materialFor(key)));
+    mesh.position.set(cx * MM, cy * MM, cz * MM); mesh.updateMatrix();
+    mesh.userData.prism = true;
+  } else if (b.vp) {
+    /* panou pe pantă (D-86): profil în plan vertical, relativ la centrul cutiei de gabarit */
+    const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2, vx = b.vp.ax === "x";
+    const cu = vx ? cx : cz, e0 = (vx ? b.z0 - cz : b.x0 - cx), e1 = (vx ? b.z1 - cz : b.x1 - cx);
+    mesh = new THREE.Mesh(buildVPrism({ ax: b.vp.ax, pts: b.vp.pts.map(([u, y]) => [u - cu, y - cy]) }, e0, e1), perMesh(materialFor(key)));
+    mesh.position.set(cx * MM, cy * MM, cz * MM); mesh.updateMatrix();
+    mesh.userData.prism = true;
+  } else if (isRectPC(b.pc)) {
     mesh = new THREE.Mesh(UNIT, perMesh(materialFor(key)));
     const c = restOf(b); mesh.userData.cur = Object.assign({}, c); mesh.userData.tgt = c;
     applyRest(mesh, c);
@@ -621,7 +635,7 @@ function clearGroup(g) {
    pentru o cutie, volumul interior al corpului în care stă (sau null: ușile,
    sertarele care ies și tot ce e în afara unui corp nu primesc ocluzie). */
 function carcassAO(boxes) {
-  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc));
+  const car = boxes.filter(b => /^(fianco|base|cielo|schienale)$/.test(b.role || "") && isRectPC(b.pc) && !b.vp && !b.prism3);
   const cl = [];
   car.forEach(b => {
     const hit = cl.filter(c => b.x0 <= c.X1 + 1 && b.x1 >= c.X0 - 1 && b.y0 <= c.Y1 + 1 && b.y1 >= c.Y0 - 1 && b.z0 <= c.Z1 + 1 && b.z1 >= c.Z0 - 1);
@@ -644,7 +658,7 @@ function carcassAO(boxes) {
     c.ao = hi[0] > lo[0] && hi[1] > lo[1] && hi[2] > lo[2] ? { lo: lo.map(v => v * MM), hi: hi.map(v => v * MM) } : null;
   });
   return (b) => {
-    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc)) return null;
+    if (b.sub || /^cassetto/.test(b.role || "") || b.kind === "w" || !isRectPC(b.pc) || b.vp || b.prism3) return null;
     const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2, cz = (b.z0 + b.z1) / 2;
     const c = cl.find(q => q.ao && cx >= q.X0 - 1 && cx <= q.X1 + 1 && cy >= q.Y0 - 1 && cy <= q.Y1 + 1 && cz >= q.Z0 - 1 && cz <= q.Z1 + 1);
     return c ? c.ao : null;
@@ -663,7 +677,7 @@ function setModel(boxes, cfg) {
   for (const [pk, P] of [...R.pieces]) {
     const nb = byPk.get(pk);
     const same = nb && nb.length === P.meshes.length && nb.every((b, i) => {
-      const m = P.meshes[i]; return !m.userData.prism && isRectPC(b.pc) && m.userData.key === keyOf(b, cfg);
+      const m = P.meshes[i]; return !b.vp && !b.prism3 && !m.userData.prism && isRectPC(b.pc) && m.userData.key === keyOf(b, cfg);   // un panou pe pantă (vp) nu refolosește cutia unitate
     });
     if (!same) { disposePiece(P); R.pieces.delete(pk); }
   }
@@ -674,7 +688,7 @@ function setModel(boxes, cfg) {
       P = pieceGroup(pk);
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
-    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null;
+    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null;
   }
   return boxes;
 }
@@ -775,6 +789,11 @@ function buildHardware(model) {
         P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
       }
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
+    } else if (h.type === "cerniera_pliante") {
+      /* balamaua dintre două foi ale unui pachet pliant: cupa în prima foaie, placa pe fața dinapoi a vecinei */
+      const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc";
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      if (h.plate && A) { const p = h.plate; A.hw.add(tag(box(HM, [p[0] - 22.5, p[1] - 22.5, p[2] - 3], [p[0] + 22.5, p[1] + 22.5, p[2]]))); }
     } else if (h.type === "minifix") {
       P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15)));
       const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5)));
@@ -1034,6 +1053,16 @@ function setTargets(boxesOrig) {
     P.tgt.ex = ((b.x0 - a.x0) + (R.st.open ? (slideX[P.pk] || 0) : 0)) * MM; P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
     const open = R.st.open ? 1 : 0;
     P.tgt.ang = (open && P.pivot && P.sub === "door") ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
+    /* pachet pliant (U.9): foaia se rotește 90° în jurul muchiei ei de pe partea pachetului și se așază
+       lângă celelalte, perpendicular pe față — la fel ca în camera 3D și în planul de balamale */
+    if (P.sub === "fold" && P.fold) {
+      const F = P.fold, left = a.hinge === "left", th = a.z1 - a.z0;
+      const gap = (typeof FOLD === "object" && FOLD.open_gap != null) ? FOLD.open_gap : 3;
+      const px = left ? a.x0 : a.x1, stack = left ? F.x0 + F.k * (th + gap) : F.x1 - (F.n - 1 - F.k) * (th + gap);
+      P.pivot = { x: px, z: a.z1, left };
+      P.tgt.ang = open ? (left ? -1 : 1) * Math.PI / 2 : 0;
+      P.tgt.ex += open ? (stack - px) * MM : 0;
+    }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
   }
 }
@@ -1324,6 +1353,10 @@ const GL3D = {
      focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
   focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
   /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
+  /* ținta de mișcare a unei piese (pentru teste): translația și unghiul la deschidere/explozie */
+  tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sub: P.sub, pivot: P.pivot ? { ...P.pivot } : null } : null; },
+  /* pentru teste: ce fel de plasă are fiecare piesă (prismă = contur propriu, altfel cutie unitate scalată) */
+  meshKinds() { const o = []; if (R) for (const P of R.pieces.values()) o.push({ pk: P.pk, role: P.role, prism: P.meshes.map(m => !!m.userData.prism) }); return o; },
   hwCount() { let n = 0; if (R) for (const P of R.pieces.values()) n += P.hw.children.length; return n; },
   ssao(on) { SSAO.enabled = !!on; if (!on) SSAO.U.uAoOn.value = 0; if (R) { R.need = true; kick(); } },
   touch() { if (this.ok) { R.need = true; kick(); } },
@@ -1333,4 +1366,4 @@ const GL3D = {
 window.GL3D = GL3D;
 if (typeof window.__gl3dReady === "function") window.__gl3dReady();
 
-export { THREE, MM, buildPrism, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };
+export { THREE, MM, buildPrism, buildVPrism, buildPrism3, isRectPC, pcOf, matKeyOf, boundsOf, explodeBoxes };
