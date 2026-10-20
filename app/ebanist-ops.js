@@ -122,7 +122,7 @@ function physicalPieces(boxes) {
     if (!isRect(b)) map[k].curved = true;
     /* panou pe pantă (D-86): conturul în planul vertical și, la tavanul înclinat, dimensiunile reale
        (lungime pe pantă, lățime, grosime), fiindcă cutia de gabarit nu le mai dă. */
-    if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; }
+    if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; if (!map[k].vpPts) map[k].vpPts = b.vp.pts; }
     if (b.edgeH) map[k].edgeH = b.edgeH;
   }
   return order.map(function (k) {
@@ -657,6 +657,20 @@ function localize(p) {
   var Y = function (w) { return flipY ? p.max[aW] - w[aW] : w[aW] - p.min[aW]; };
   var Z6 = function (w) { return s5 > 0 ? w[t] - p.min[t] : p.max[t] - w[t]; };  // distanza dalla faccia 6
 
+  /* contur pe pantă (ușa trapezoidală, D-86): punctele din planul vertical, în coordonatele feței 5 */
+  var poly = null;
+  if (p.vpPts && p.vpPts.length >= 3) poly = p.vpPts.map(function (q) {
+    var w = [0, 0, 0]; w[aW] = q[0]; w[aL] = q[1]; return [X(w), Y(w)];
+  });
+  /* tăietura de sus: unghiul față de lățime și față de înălțime */
+  var cut = null;
+  if (poly && p.vpPts) {
+    var C0 = p.vpPts[2], D0 = p.vpPts[3];
+    var topL = Math.abs(C0[1] - D0[1]), topW = Math.abs(C0[0] - D0[0]);
+    var fromW = Math.atan2(topL, topW) * 180 / Math.PI;
+    cut = { h0: R1(D0[1] - p.min[aL]), h1: R1(C0[1] - p.min[aL]),
+            deg: R1(fromW), degSide: R1(90 - fromW) };
+  }
   var ops = [], k = 0, warns = [];
   var push = function (o) { o.id = "op_" + String(++k).padStart(3, "0"); ops.push(o); };
   p.holes.forEach(function (h) {
@@ -755,6 +769,7 @@ function localize(p) {
     min: p.min.slice(), max: p.max.slice(), outline: rects,
     operations: ops, preflight: warns
   };
+  if (poly) { res.poly = poly; res.cut = cut; }
   if (p.sloped) res.sloped = true;      /* panou pe pantă (D-86): numai când e cazul, ca modelul vechi să rămână identic */
   return res;
 }
