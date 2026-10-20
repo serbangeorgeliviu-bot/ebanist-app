@@ -10,9 +10,9 @@ const T={h1:"Armadio in mansarda?",h2:"Il soffitto scende. Il mobile lo segue.",
  c1:"Due altezze: sinistra e destra",c2:"Fianchi, cielo e schiena seguono la pendenza",c3:"Ante trapezoidali, parallele al soffitto",c4:"E si aprono anche sotto la falda",
  c5:"Cielo misurato sulla pendenza, capi tagliati ad angolo",c6:"Dossier tecnico A3 con un clic",c7:"Prospetto quotato, con la pendenza",c8:"Montaggio passo per passo",
  m1:"2400 → 1400 mm · 26,6°",e1:"Ebanist",e2:"Provalo gratis su ebanist.com",e3:"Pro: esportazioni e fogli A3"};
-const VOICE={hook:"Armadio in mansarda? Il soffitto scende, e il mobile lo segue.",c1:"Scrivi due altezze, sinistra e destra. L'angolo lo calcola Ebanist.",
- c2:"Fianchi, cielo e schiena seguono la pendenza.",c3:"Le ante diventano trapezi, parallele al soffitto.",c4:"E si aprono, anche sotto la falda.",
- c5:"Il cielo è misurato sulla pendenza, con i capi tagliati ad angolo.",c6:"Dossier tecnico A3, con un clic.",c7:"Prospetto quotato, con la pendenza.",
+const VOICE={hook:"Armadio in mansarda? Il mobile segue il soffitto.",c1:"Scrivi due altezze, sinistra e destra. L'angolo lo calcola Ebanist.",
+ c2:"Fianchi, cielo e schiena seguono la pendenza.",c3:"Ante trapezoidali, parallele al soffitto.",c4:"E si aprono, anche sotto la falda.",
+ c5:"Il cielo segue la pendenza, tagliato ad angolo.",c6:"Dossier tecnico A3, con un clic.",c7:"Prospetto quotato, con la pendenza.",
  c8:"E il montaggio, passo per passo.",end:"Ebanist. Provalo gratis su ebanist punto com."};
 const H0=2400, H1=1400;
 const CFG={name:"Mansarda",L:2000,H:H0,P:600,drawers:0,doors:4,shelves:3,hang:1,matBody:"antracite_storm_grey_19",matFront:"rovere_wood_lime_classic_k2414ah_19",matBack:"antracite_storm_grey_19",hwSel:{man:"haf_bar128"},topProfile:{axis:"x",h0:H0,h1:H1}};
@@ -37,7 +37,7 @@ async function frames(pg){
  const lerp=(a,b,k)=>a+(b-a)*k, sm=k=>k*k*(3-2*k);
  /* segmente: sec, cfg(k) = cfg la progresul k, st = stare 3D, cam = [yaw,pitch,zoom] început → sfârșit */
  const segs=[
-  {name:"slope",sec:4.5,cfg:k=>{const t=Math.min(1,Math.max(0,(k-.12)/.8));return {topProfile:{axis:"x",h0:H0,h1:Math.round(lerp(H0-10,H1,sm(t)))}}},st:{open:false,hw:false},cam:[.18,.1,1.5,.3,.14,1.45],cap:"c1",swatch:"m1"},
+  {name:"slope",sec:4.5,cfg:k=>{const t=Math.min(1,Math.max(0,(k-.12)/.8)), h1=Math.round(lerp(H0,H1,sm(t)));return {topProfile:H0-h1<30?null:{axis:"x",h0:H0,h1}}}   /* sub 30 mm motorul nu primește panta: corpul drept */,st:{open:false,hw:false},cam:[.18,.1,1.5,.3,.14,1.45],cap:"c1",swatch:"m1"},
   {name:"orbit",sec:3.4,cfg:()=>({}),st:{open:false,hw:false},cam:[.3,.14,1.45,-.75,.32,1.5],cap:"c2"},
   {name:"doors",sec:3.0,cfg:()=>({}),st:{open:false,hw:false},cam:[-.35,.08,1.55,.12,.04,1.8],cap:"c3"},
   {name:"open",sec:3.4,cfg:()=>({}),st:{open:true,hw:true},cam:[.15,.12,1.35,-.55,.26,1.5],cap:"c4"},
@@ -92,7 +92,7 @@ async function compose(pg){
  /* secvența: card, cadre 3D, foi, card */
  let n=0; const add=(file,times=1)=>{for(let i=0;i<times;i++){n++;fs.copyFileSync(file,path.join(D,"seq","s_"+String(n).padStart(5,"0")+".jpg"))}};
  const jpg=(png)=>{const j=png.replace(/\.png$/,".jpg");cp.execFileSync("ffmpeg",["-loglevel","error","-y","-i",png,"-q:v","2",j]);return j};
- const hook=jpg(path.join(D,"card-hook.png")), end=jpg(path.join(D,"card-end.png")), HOOK=3.2, END=3.0;
+ const hook=jpg(path.join(D,"card-hook.png")), end=jpg(path.join(D,"card-end.png")), HOOK=3.4, END=3.4;
  const marks=[];
  add(hook,Math.round(HOOK*FPS));
  for(const s of TL.segs){const f0=n+1;for(let i=0;i<s.n;i++)add(path.join(FR,"f_"+String(s.first+i).padStart(5,"0")+".jpg"));marks.push({from:f0,to:n,cap:s.cap,sw:s.swatch})}
