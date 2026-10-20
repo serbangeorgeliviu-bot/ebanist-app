@@ -2942,6 +2942,52 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       closeSheets(); persist(); return o; });
     ok("Scheda pezzo: ușa trapezoidală se desenează cu conturul real și arată unghiul tăieturii", sc.poly && sc.cut && sc.h && sc.i18n && sc.onDrawing && sc.a3, JSON.stringify(sc));
     ok("Ripara l'app: buton și texte în toate limbile", await pg.evaluate(() => !!document.getElementById("btnRepair") && typeof repairApp === "function" && ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].updRepair && I18N[l].updRepairHint && I18N[l].updRepairing)));
+    /* D-89 — mânere: fiecare model din catalog găurește/frezează după tipul lui; sertarele pot avea mânerul lor */
+    const hd = await pg.evaluate(() => {
+      const o = { bad: [], types: {} }; closeSheets();
+      const base = { ...PRESETS.armadio, name: "Hd", L: 900, H: 720, P: 560, doors: 2, drawers: 0, tram: 0, shelves: 0, hang: 0 };
+      for (const it of hwList("man")) {
+        if (it.profile) continue;
+        const cfg = { ...base, hwSel: { man: it.id } }, built = buildModule(cfg), G = deriveCarcass(carcassParams(cfg, {}));
+        const ops = generateOperations({ boxes: built.boxes, cfg, G }), h = ops.hw.filter(x => x.type === "maniglia");
+        const m = handleModel(cfg, "door"), door = ops.pieces.find(q => q.role === "frontale");
+        const nTh = door.operations.filter(x => x.type === "drill" && x.through && x.dia === 5).length;
+        const nMill = door.operations.filter(x => x.type === "mill").length, nBack = door.operations.filter(x => x.type === "drill" && x.dia === 3).length;
+        const want = m.knob ? [1, 0, 0] : (m.t === "flush" || m.t === "flushR") ? [0, 1, 0] : m.t === "edge" ? [0, 0, 2] : [2, 0, 0];
+        o.types[m.t] = (o.types[m.t] || 0) + 1;
+        if (h.length !== 2 || h[0].catalog !== it.id || JSON.stringify([nTh, nMill, nBack]) !== JSON.stringify(want)) o.bad.push([it.id, h.length, nTh, nMill, nBack]);
+      }
+      /* sertarele cu mânerul lor: rând separat în deviz, montaj pe tipuri */
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      generateInto(p, { ...base, name: "Hs", doors: 2, drawers: 2, H: 900, hwSel: { man: "gen_bar160_inox", manS: "gen_knob_wood" } });
+      const hw = computeHardware(p, state.settings);
+      o.man = hw.filter(i => i.k === "hwMan").map(i => [i.qty, i.prod && i.prod.id]);
+      o.manS = hw.filter(i => i.k === "hwManS").map(i => [i.qty, i.prod && i.prod.id]);
+      try { const md = montDoc(p); o.mont = md.includes(I18N[state.lang].ms21k.slice(0, 12)) || md.length > 200; } catch (e) { o.mont = String(e); }
+      p.pieces = []; p.configs = {}; persist();
+      o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["hwManS", "hwSelSame", "ms21k", "ms21f", "ms21e", "opsHandleFit"].every(k => I18N[l][k]));
+      return o; });
+    ok("Mânere (D-89): fiecare articol din catalog găurește după tipul lui (bară 2 găuri, buton 1, încastrat locaș, pe muchie 2 găuri pe spate)", hd.bad.length === 0 && Object.keys(hd.types).length >= 9, JSON.stringify(hd));
+    ok("Mânere (D-89): sertarele au mânerul lor, pe rând separat în deviz", hd.man.some(x => x[1] === "gen_bar160_inox" && x[0] === 2) && hd.manS.some(x => x[1] === "gen_knob_wood" && x[0] === 2) && hd.mont === true && hd.i18n, JSON.stringify(hd));
+    /* D-89 — tipuri de gola: L+C în corp, J pe fiecare front, frezată în front */
+    const gl = await pg.evaluate(() => {
+      const o = {};
+      for (const gt of ["L", "J", "fresata"]) {
+        const cfg = { ...PRESETS.armadio, name: "Gl", L: 600, H: 760, P: 560, doors: 0, drawers: 3, tram: 0, shelves: 0, hang: 0, handles: "gola", golaType: gt === "L" ? null : gt };
+        const built = buildModule(cfg), G = deriveCarcass(carcassParams(cfg, {})), ops = generateOperations({ boxes: built.boxes, cfg, G });
+        const el = built.pieces.map(x => x.elemento);
+        o[gt] = { L: el.includes("Profilo gola L"), C: el.includes("Profilo gola C"), J: el.includes("Profilo gola J"),
+          grooves: ops.pieces.filter(q => q.role === "cassetto_frontale").every(q => q.operations.some(x => x.type === "groove")),
+          holes: ops.pieces.filter(q => q.role === "cassetto_frontale").some(q => q.operations.some(x => x.type === "drill" && x.dia === 5)),
+          closure: Array.from(validateCarcassClosure(cfg, built.pieces, G)).filter(r => r.ok === false).length };
+      }
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      generateInto(p, { ...PRESETS.armadio, name: "GJ", L: 600, H: 760, P: 560, doors: 0, drawers: 3, tram: 0, shelves: 0, hang: 0, handles: "gola", golaType: "J" });
+      o.dev = computeHardware(p, state.settings).filter(i => i.k === "hwGolaJ").map(i => i.qty);
+      p.pieces = []; p.configs = {}; persist();
+      o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["fGolaType", "golaTL", "golaTJ", "golaTF", "golaHintJ", "golaHintF", "hwGolaJ"].every(k => I18N[l][k]));
+      return o; });
+    ok("Gola (D-89): L+C în corp, J pe fronturi, frezată în fronturi — fără mânere găurite, închiderea corectă", gl.L.L && gl.L.C && !gl.L.J && !gl.J.L && gl.J.J && !gl.fresata.J && !gl.fresata.L && gl.fresata.grooves && !gl.L.grooves && [gl.L, gl.J, gl.fresata].every(x => !x.holes && x.closure === 0) && gl.dev.length === 1 && gl.dev[0] > 1.7 && gl.i18n, JSON.stringify(gl));
     ok("Update: bara apare la versiune nouă, «Mai târziu» o tace, la aceeași versiune/offline nu apare nimic", un.shown && un.gone && un.silent && un.same && un.offline, JSON.stringify(un));
     ok("Update: textele există în toate limbile", un.i18n === true, JSON.stringify(un));
     ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));

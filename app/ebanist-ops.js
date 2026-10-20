@@ -71,6 +71,8 @@ var HW_DRILL = {
         nlExact: { 229: [133, 229], 305: [165, 261], 381: [165, 357], 457: [261, 453], 533: [261, 517] } }
     } },
   handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 },
+  /* gola frezată (D-89): priza pe spatele muchiei de sus a frontului, la 45°. Date generice, de verificat. */
+  golaFresata: { w: 20, d: 12, ang: 45, verificat: false },
   /* canalul profilului anti-curbare (U.6, D-76): pe fata dinapoi a usii, pe toata
      inaltimea, paralel cu marginea libera. Date de profil generic, de verificat
      pe un profil real inainte sa mearga in masina. */
@@ -177,6 +179,66 @@ function hole(p, ax, side, at, dia, depth, hw, note, through) {
   var w = at.slice();
   p.holes.push({ ax: ax, side: side, w: w, dia: dia, depth: through ? p.ext[ax] : depth,
                  through: !!through, hw: hw || null, note: note || "" });
+}
+
+/* D-89 — mânerul după modelul lui (catalog, `hm`): găuri trecute la interax, o gaură pentru buton,
+   locaș la freză pentru mânerul încastrat, găuri de fixare pe spate pentru mânerul pe muchie.
+   Cotele modelelor sunt date de catalog generice (chk), de verificat pe articolul real. */
+function handleOf(cfg, kind) {
+  var m = root.handleModel ? root.handleModel(cfg, kind) : null;
+  if (m) return m;
+  var knob = !!(root.handleIsKnob && root.handleIsKnob(cfg));
+  return { id: "gen_man", t: knob ? "knob" : "bar", ia: knob ? 0 : HW_DRILL.handle.interaxis, L: knob ? 30 : HW_DRILL.handle.interaxis + 44, knob: knob };
+}
+function handleLen(m) { return m.t === "flushR" ? m.d : (m.L || m.ia || 0); }
+function placeHandle(out, D, m, o) {
+  var hid = "hw_" + out.hw.length, zF = D.max[2], zB = D.min[2], t = m.t, ia = m.ia || 0;
+  var ax = o.vertical ? 1 : 0, len = handleLen(m), room = D.ext[ax] - 40;
+  if (len > room) out.warnings.push({ piece: D.pk, k: "opsHandleFit" });
+  var inst = { id: hid, type: "maniglia", catalog: m.id, piece: D.pk, w: [o.x, o.y, zF], vertical: !!o.vertical,
+               ia: ia, knob: !!m.knob, hm: m, T: zF - zB };
+  if (m.knob) {
+    hole(D, 2, 1, [o.x, o.y, zF], HW_DRILL.handle.dia, 0, hid, "pomello", true);
+    inst.note = "Pomello";
+  } else if (t === "flush" || t === "flushR") {
+    var Lf = t === "flushR" ? m.d : m.L, Wf = t === "flushR" ? m.d : (m.W || 40);
+    D.mills.push({ ax: 2, side: 1, c: [o.x, o.y, zF], du: o.vertical ? Wf : Lf, dv: o.vertical ? Lf : Wf,
+                   r: Wf / 2, depth: m.depth || 12, through: false, note: "locaș mâner încastrat" });
+    inst.note = "Maniglia a incasso " + Lf + (t === "flush" ? "×" + Wf : "") + " mm";
+  } else if (t === "edge") {
+    /* pe muchia de sus (sertar, ușă joasă) sau pe muchia liberă (ușă înaltă); șuruburi din spate */
+    var top = !o.vertical || D.max[1] < 1100, a = Math.max(10, len / 2 - 25);
+    if (top) {
+      var cx = o.vertical && o.freeX != null ? o.freeX - o.freeS * (len / 2 + 30) : o.x, yt = D.max[1];
+      cx = Math.max(D.min[0] + len / 2 + 5, Math.min(D.max[0] - len / 2 - 5, cx));
+      hole(D, 2, -1, [cx - a, yt - 10, zB], 3, 8, hid, "vite maniglia a bordo");
+      hole(D, 2, -1, [cx + a, yt - 10, zB], 3, 8, hid, "vite maniglia a bordo");
+      inst.w = [cx, yt, zF]; inst.vertical = false; inst.edge = { n: 1, s: 1, at: yt };
+    } else {
+      var xe = o.freeX;
+      hole(D, 2, -1, [xe - o.freeS * 10, o.y - a, zB], 3, 8, hid, "vite maniglia a bordo");
+      hole(D, 2, -1, [xe - o.freeS * 10, o.y + a, zB], 3, 8, hid, "vite maniglia a bordo");
+      inst.w = [xe, o.y, zF]; inst.vertical = true; inst.edge = { n: 0, s: o.freeS, at: xe };
+    }
+    inst.note = "Maniglia a filo bordo " + len + " mm";
+  } else {
+    var p1 = [o.x, o.y, zF], p2 = [o.x, o.y, zF]; p1[ax] -= ia / 2; p2[ax] += ia / 2;
+    hole(D, 2, 1, p1, HW_DRILL.handle.dia, 0, hid, "maniglia", true);
+    hole(D, 2, 1, p2, HW_DRILL.handle.dia, 0, hid, "maniglia", true);
+    inst.note = "Maniglia " + ia + " mm";
+  }
+  out.hw.push(inst);
+}
+/* ușă: mânerul pe partea liberă, la înălțimea obișnuită */
+function doorHandle(out, D, m, freeRight, topD) {
+  /* span: cât ocupă pe înălțime la așezare; bara și butonul ca până acum (interaxul), restul lungimea lor */
+  var len = m.knob ? HW_DRILL.handle.interaxis : (m.ia || handleLen(m)), fe = (m.t === "flush" || m.t === "flushR") ? Math.max(HW_DRILL.handle.from_edge, (m.t === "flushR" ? m.d : (m.W || 40)) / 2 + 20) : HW_DRILL.handle.from_edge;
+  var ox = freeRight ? D.max[0] - fe : D.min[0] + fe;
+  topD = topD != null ? topD : D.max[1];
+  var yc = topD < 1100 ? topD - HW_DRILL.handle.from_top - len / 2
+         : D.min[1] > 1300 ? D.min[1] + HW_DRILL.handle.from_top + len / 2
+         : Math.max(D.min[1] + 60 + len / 2, Math.min(topD - 60 - len / 2, HW_DRILL.handle.tall_y));
+  placeHandle(out, D, m, { vertical: true, x: ox, y: yc, freeX: freeRight ? D.max[0] : D.min[0], freeS: freeRight ? 1 : -1 });
 }
 
 /* un foro sulla stessa faccia che si sovrapporrebbe a questo? */
@@ -458,21 +520,7 @@ function generate(input) {
                            note: "canal profil anti-curbare" });
         } else out.warnings.push({ piece: D.pk, k: "opsAwThin" });
       }
-      if (hingeSel === "maniglia") {
-        var ia = H.handle.interaxis, ox = hingeLeft ? D.max[0] - H.handle.from_edge : D.min[0] + H.handle.from_edge;
-        var yc = topD < 1100 ? topD - H.handle.from_top - ia / 2
-               : D.min[1] > 1300 ? D.min[1] + H.handle.from_top + ia / 2
-               : Math.max(D.min[1] + 60 + ia / 2, Math.min(topD - 60 - ia / 2, H.handle.tall_y));
-        var hid = "hw_" + out.hw.length;
-        var knob = !!(root.handleIsKnob && root.handleIsKnob(cfg));
-        if (knob) hole(D, 2, 1, [ox, yc, D.max[2]], H.handle.dia, 0, hid, "pomello", true);
-        else {
-          hole(D, 2, 1, [ox, yc - ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-          hole(D, 2, 1, [ox, yc + ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-        }
-        out.hw.push({ id: hid, type: "maniglia", catalog: "gen_man", piece: D.pk, w: [ox, yc, D.max[2]],
-                      vertical: true, ia: ia, knob: knob, note: knob ? "Pomello" : "Maniglia " + ia + " mm" });
-      }
+      if (hingeSel === "maniglia") doorHandle(out, D, handleOf(cfg, "door"), hingeLeft, topD);
     });
   });
 
@@ -502,22 +550,20 @@ function generate(input) {
     }
     /* mânerul stă pe foaia de la capătul liber al pachetului */
     var stackLeft = ls[0].hinge === "left", D = stackLeft ? ls[ls.length - 1] : ls[0];
-    if (hingeSel === "maniglia" && D) {
-      var ia = H.handle.interaxis, ox = stackLeft ? D.max[0] - H.handle.from_edge : D.min[0] + H.handle.from_edge;
-      var yc = D.max[1] < 1100 ? D.max[1] - H.handle.from_top - ia / 2
-             : D.min[1] > 1300 ? D.min[1] + H.handle.from_top + ia / 2
-             : Math.max(D.min[1] + 60 + ia / 2, Math.min(D.max[1] - 60 - ia / 2, H.handle.tall_y));
-      var hid = "hw_" + out.hw.length;
-      var knob = !!(root.handleIsKnob && root.handleIsKnob(cfg));
-      if (knob) hole(D, 2, 1, [ox, yc, D.max[2]], H.handle.dia, 0, hid, "pomello", true);
-      else {
-        hole(D, 2, 1, [ox, yc - ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-        hole(D, 2, 1, [ox, yc + ia / 2, D.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-      }
-      out.hw.push({ id: hid, type: "maniglia", catalog: "gen_man", piece: D.pk, w: [ox, yc, D.max[2]],
-                    vertical: true, ia: ia, knob: knob, note: knob ? "Pomello" : "Maniglia " + ia + " mm" });
-    }
+    if (hingeSel === "maniglia" && D) doorHandle(out, D, handleOf(cfg, "door"), stackLeft);
   });
+
+  /* --- 4c. gola frezată (D-89): canal pe spatele muchiei de sus, pe fiecare front --- */
+  if (cfg.handles === "gola" && cfg.golaType === "fresata") {
+    var GF = H.golaFresata;
+    pcs.forEach(function (p) {
+      var isF = (p.role === "frontale" && (p.sub === "door" || p.sub === "fold")) || (p.role === "cassetto_frontale" && p.sub === "drawer");
+      if (!isF || p.tAx !== 2 || p.sloped) return;
+      p.grooves.push({ lo: [p.min[0], p.max[1] - GF.w, p.min[2]], hi: [p.max[0], p.max[1], p.min[2] + GF.d], note: "gola fresata 45°" });
+      out.hw.push({ id: "hw_" + out.hw.length, type: "gola_fresata", catalog: null, piece: p.pk,
+                    w: [(p.min[0] + p.max[0]) / 2, p.max[1], p.max[2]], x0: p.min[0], x1: p.max[0], zB: p.min[2], d: GF.d, note: "Gola fresata" });
+    });
+  }
 
   /* --- 5. cassetti: frontale (maniglia) e guide sui pannelli di fianco ----- */
   var grps = {};
@@ -526,17 +572,10 @@ function generate(input) {
     var bs = grps[g], fr = null, body = bs.filter(function (b) { return b.sub === "dbox"; });
     for (var i = 0; i < pcs.length; i++) if (pcs[i].grp === g && pcs[i].role === "cassetto_frontale") { fr = pcs[i]; break; }
     if (fr && hingeSel === "maniglia" && fr.sub === "drawer") {
-      var ia = H.handle.interaxis, xc = (fr.min[0] + fr.max[0]) / 2;
+      var hmS = handleOf(cfg, "drawer"), lenS = handleLen(hmS);
       var yc = fr.ext[1] > 250 ? fr.max[1] - H.handle.from_top : (fr.min[1] + fr.max[1]) / 2;
-      var hid = "hw_" + out.hw.length;
-      var knob2 = !!(root.handleIsKnob && root.handleIsKnob(cfg));
-      if (knob2) hole(fr, 2, 1, [xc, yc, fr.max[2]], H.handle.dia, 0, hid, "pomello", true);
-      else {
-        hole(fr, 2, 1, [xc - ia / 2, yc, fr.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-        hole(fr, 2, 1, [xc + ia / 2, yc, fr.max[2]], H.handle.dia, 0, hid, "maniglia", true);
-      }
-      out.hw.push({ id: hid, type: "maniglia", catalog: "gen_man", piece: fr.pk, w: [xc, yc, fr.max[2]],
-                    vertical: false, ia: ia, knob: knob2, note: knob2 ? "Pomello" : "Maniglia " + ia + " mm" });
+      if (hmS.t === "edge") yc = fr.max[1];
+      placeHandle(out, fr, hmS, { vertical: false, x: (fr.min[0] + fr.max[0]) / 2, y: yc });
     }
     if (!body.length) return;
     var x0 = 1e9, x1 = -1e9, y0 = 1e9, z0 = 1e9, z1 = -1e9;

@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.75.0 — 20 octombrie 2026
+
+**Mânere noi, mâner separat pentru sertare, trei tipuri de gola, balamale mai realiste.**
+- **20 de modele de mâner** în catalog, alese pe corp la „Feronerie corp”: bare rotunde (96, 128, 160, 192, 320 mm; inox, negru, bronz), bară pătrată nichel, mâner punte negru, arcuite (alb, crom), scoică bronz, butoane (crom, alamă, lemn, ceramică, pătrat negru), inel alamă patinată, încastrate (oval 120×40, rotund Ø40) și pe muchie (aluminiu 150, negru 300). Fiecare se desenează în 3D cu forma și finisajul lui și se găurește după tip: bara și scoica cu două găuri la interax, butonul și inelul cu una, cel încastrat cu locaș la freză, cel pe muchie cu două găuri de ghidaj pe spate. Prețurile sunt orientative, iar dimensiunile trebuie verificate pe articolul real.
+- **Sertarele pot avea alt mâner decât ușile** („Mânere sertare”, implicit „ca la uși”). În deviz apare pe rând separat, iar fișa de montaj scrie un rând pe articol, cu montajul lui.
+- **Gola în trei feluri** („Tip de gola”): profil L + C în corp (ca până acum), profil J pe muchia de sus a fiecărui front, sau priză frezată în front, fără profil. Rosturile implicite sunt ale tipului. Cotele J și ale frezării sunt de verificat înainte de mașină.
+- **Balamaua în 3D rămâne legată când ușa e deschisă**: brațul de pe lateral și cupa din ușă sunt unite la orice unghi.
+- Dacă mânerul ales e mai lung decât frontul, previzualizarea te avertizează.
+
 ## 4.74.7 — 20 octombrie 2026
 
 **Unghiul tăieturii scris pe desen.** În scheda pezzo și în foaia A3 de fabricație, panoul pe pantă are acum conturul trapezoidal și unghiul (de ex. „28,9°”) scris lângă muchia înclinată, nu doar în textul de sub cote.

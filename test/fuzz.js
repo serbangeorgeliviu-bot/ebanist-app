@@ -72,6 +72,8 @@ for (let i = 0; i < N; i++) {
   if (rnd() < .5) cfg.tram = ri(0, 8);
   if (rnd() < .5) cfg.shelves = ri(0, 10);
   if (rnd() < .3) cfg.handles = pick(["maniglia", "push", "gola"]);
+  /* D-89: tipul de gola */
+  if (cfg.handles === "gola" && rnd() < .6) cfg.golaType = pick(["L", "J", "fresata"]);
   if (rnd() < .2) cfg.top = pick(["traverse", "none"]);
   if (rnd() < .2) cfg.antiWarp = pick(["auto", "all"]);
   if (rnd() < .3) cfg.support = pick(["zoccolo", "piedini", "sospeso"]);
