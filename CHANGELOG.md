@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.4 — 20 octombrie 2026
+
+**Reparat: benzile de nuanță de pe panourile pe pantă, în 3D.** Ușile trapezoidale, lateralele și tavanul înclinat apăreau cu fâșii orizontale mai deschise și mai închise, mai ales în capturi (dosarul A3, imaginile de prezentare), unde rămâneau așa. Cauza: la primul desen al unei piese noi, shader-ul pornea cu reglajele cutiei dreptunghiulare. Acum fiecare piesă își primește reglajele înainte de primul desen. Cotele nu se schimbă.
+
 ## 4.74.3 — 20 octombrie 2026
 
 **Selectorul „Cielo inclinato” are acum toată lățimea**: textul „Pendenza sulla larghezza” nu se mai taie pe telefon.

@@ -246,6 +246,7 @@ function triplanar(m, o) {
     sh.uniforms.uEbOn = { value: 0 };
     sh.uniforms.uAoTex = SSAO.U.uAoTex; sh.uniforms.uAoInv = SSAO.U.uAoInv; sh.uniforms.uAoOn = SSAO.U.uAoOn;
     this.userData.shader = sh;
+    if (this.userData.sync) this.userData.sync(sh);
     sh.vertexShader = "uniform mat4 uRest;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\nvarying vec3 vEbL;\nvarying vec3 vEbS;\nvarying vec3 vEbAx;\nvarying vec3 vEbAy;\nvarying vec3 vEbAz;\n" + sh.vertexShader.replace(
       "#include <begin_vertex>",
       `#include <begin_vertex>
@@ -600,9 +601,13 @@ function makeMesh(b, cfg) {
   mesh.castShadow = b.kind !== "g" && b.kind !== "w";   // pereții camerei nu aruncă umbră: ar întuneca toată camera
   mesh.receiveShadow = b.kind !== "g";
   mesh.userData.key = key; mesh.userData.base = mesh.material;
+  const sync = (sh) => { sh.uniforms.uRest.value.copy(mesh.matrix); sh.uniforms.uEbOff.value.set(mesh.userData.off0 || 0, mesh.userData.off1 || 0); sh.uniforms.uEbRect.value = mesh.userData.prism ? 0 : 1; const ao = mesh.userData.ao; sh.uniforms.uEbOn.value = ao ? 1 : 0; if (ao) { sh.uniforms.uEbLo.value.set(ao.lo[0], ao.lo[1], ao.lo[2]); sh.uniforms.uEbHi.value.set(ao.hi[0], ao.hi[1], ao.hi[2]); } };
+  /* la primul desen shader-ul încă nu există când rulează onBeforeRender: îl potrivește
+     onBeforeCompile, altfel o prismă ar purta un cadru cu uEbRect = 1 (benzi pe panourile pe pantă) */
+  if (mesh.material.userData.own) mesh.material.userData.sync = sync;
   mesh.onBeforeRender = (r, s, c, g, mat) => {
     const sh = mat.userData && mat.userData.shader;
-    if (sh) { sh.uniforms.uRest.value.copy(mesh.matrix); sh.uniforms.uEbOff.value.set(mesh.userData.off0 || 0, mesh.userData.off1 || 0); sh.uniforms.uEbRect.value = mesh.userData.prism ? 0 : 1; const ao = mesh.userData.ao; sh.uniforms.uEbOn.value = ao ? 1 : 0; if (ao) { sh.uniforms.uEbLo.value.set(ao.lo[0], ao.lo[1], ao.lo[2]); sh.uniforms.uEbHi.value.set(ao.hi[0], ao.hi[1], ao.hi[2]); } mat.uniformsNeedUpdate = true; }
+    if (sh) { sync(sh); mat.uniformsNeedUpdate = true; }
   };
   return mesh;
 }
