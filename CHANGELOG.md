@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.3 — 20 octombrie 2026
+
+**Selectorul „Cielo inclinato” are acum toată lățimea**: textul „Pendenza sulla larghezza” nu se mai taie pe telefon.
+
 ## 4.74.2 — 20 octombrie 2026
 
 **Verificare cap-coadă: patru defecte reparate.**
