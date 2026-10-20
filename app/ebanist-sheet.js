@@ -161,7 +161,17 @@
       var PY = function (y) { return oy + (W - y) * s; };
       /* contur */
       var rects = mir ? pc.outline.map(function (r) { return { x0: L - r.x1, x1: L - r.x0, y0: r.y0, y1: r.y1 }; }) : pc.outline;
-      rects.forEach(function (r) {
+      if (pc.poly) {
+        /* panou pe pantă (D-86): conturul real, cu unghiul tăieturii lângă muchia înclinată */
+        svg += '<polygon points="' + pc.poly.map(function (q) { return r1(PX(q[0])) + "," + r1(PY(q[1])); }).join(" ") +
+          '" fill="#f3efe6" stroke="' + INK + '" stroke-width="0.5"/>';
+        if (pc.cut) {
+          var c0 = pc.poly[2], d0 = pc.poly[3];
+          svg += '<text x="' + r1((PX(c0[0]) + PX(d0[0])) / 2 + (mir ? 2 : -2)) + '" y="' + r1((PY(c0[1]) + PY(d0[1])) / 2) +
+            '" font-size="' + r1(fs * 1.3) + '" font-weight="700" text-anchor="' + (mir ? "start" : "end") + '" fill="#b03a2e">' +
+            String(pc.cut.deg).replace(".", ",") + "°</text>";
+        }
+      } else rects.forEach(function (r) {
         svg += '<rect x="' + r1(ox + r.x0 * s) + '" y="' + r1(oy + (W - r.y1) * s) + '" width="' + r1((r.x1 - r.x0) * s) +
           '" height="' + r1((r.y1 - r.y0) * s) + '" fill="#f3efe6" stroke="' + INK + '" stroke-width="0.5"/>';
       });
