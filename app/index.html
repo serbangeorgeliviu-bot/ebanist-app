@@ -2160,6 +2160,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
     <span data-i="updBtn">Verifica aggiornamenti</span>
   </button>
+  <button class="btn" id="btnRepair" style="margin-top:8px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>
+    <span data-i="updRepair">Ripara l'app (svuota la memoria locale dei file)</span>
+  </button>
+  <p class="mini" style="margin:4px 0 0;text-align:center" data-i="updRepairHint">Se dopo un aggiornamento qualcosa risulta ancora vecchio. I progetti non si toccano.</p>
   <p class="mini" style="margin-top:14px;text-align:center" id="verLabel">Ebanist · ebanist.com</p>
 </div>
 
@@ -3110,6 +3115,13 @@ Object.assign(I18N.fr,{partCutAng:"Coupe haute inclinée : {a}° par rapport à 
 Object.assign(I18N.de,{partCutAng:"Schräger Oberschnitt: {a}° zur Breite · {b}° zur Höhe",partCutH:"Höhe an den Ecken: {h0} → {h1} mm"});
 Object.assign(I18N.pl,{partCutAng:"Ukośne cięcie górne: {a}° względem szerokości · {b}° względem wysokości",partCutH:"wysokość w narożach: {h0} → {h1} mm"});
 Object.assign(I18N.es,{partCutAng:"Corte superior inclinado: {a}° respecto al ancho · {b}° respecto al alto",partCutH:"altura en las esquinas: {h0} → {h1} mm"});
+Object.assign(I18N.it,{updRepair:"Ripara l'app (svuota la memoria locale dei file)",updRepairHint:"Se dopo un aggiornamento qualcosa risulta ancora vecchio. I progetti non si toccano.",updRepairing:"Pulisco la memoria dei file… ricarico"});
+Object.assign(I18N.ro,{updRepair:"Repară aplicația (golește memoria locală a fișierelor)",updRepairHint:"Dacă după o actualizare ceva rămâne vechi. Proiectele nu se ating.",updRepairing:"Curăț memoria fișierelor… se reîncarcă"});
+Object.assign(I18N.en,{updRepair:"Repair the app (clear the local file cache)",updRepairHint:"If something still looks old after an update. Your projects are not touched.",updRepairing:"Clearing the file cache… reloading"});
+Object.assign(I18N.fr,{updRepair:"Réparer l'application (vider le cache des fichiers)",updRepairHint:"Si quelque chose reste ancien après une mise à jour. Vos projets ne sont pas touchés.",updRepairing:"Vidage du cache des fichiers… rechargement"});
+Object.assign(I18N.de,{updRepair:"App reparieren (lokalen Dateicache leeren)",updRepairHint:"Falls nach einem Update etwas noch alt wirkt. Projekte bleiben unberührt.",updRepairing:"Dateicache wird geleert… lädt neu"});
+Object.assign(I18N.pl,{updRepair:"Napraw aplikację (wyczyść lokalną pamięć plików)",updRepairHint:"Jeśli po aktualizacji coś nadal wygląda po staremu. Projekty pozostają nietknięte.",updRepairing:"Czyszczenie pamięci plików… ponowne ładowanie"});
+Object.assign(I18N.es,{updRepair:"Reparar la app (vaciar la caché local de archivos)",updRepairHint:"Si tras una actualización algo sigue viejo. Tus proyectos no se tocan.",updRepairing:"Vaciando la caché de archivos… recargando"});
 Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Cote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le cote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_wtBolt:"Buco per bullone blat",op_cutSink:"Taglio lavello",op_cutHob:"Taglio piano cottura",op_cutOther:"Taglio piano",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
 Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_wtBolt:"Locaș șurub blat",op_cutSink:"Decupaj chiuvetă",op_cutHob:"Decupaj plită",op_cutOther:"Decupaj blat",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
 Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_wtBolt:"Worktop bolt pocket",op_cutSink:"Sink cut-out",op_cutHob:"Hob cut-out",op_cutOther:"Worktop cut-out",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
@@ -14759,12 +14771,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.74.5"; /* APP_VER-MARKER */
+const APP_VER="4.74.6"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v143";
+const SW_CACHE="ebanist-v144";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
@@ -14831,6 +14843,17 @@ function geomStaleBar(){
   bar.querySelector("button").addEventListener("click",()=>location.reload(true));
 }
 
+/* «Ripara l'app»: dopo un aggiornamento fatto male la pagina può essere nuova e qualche file vecchio (cache del service worker o della
+   rete). Svuota le cache dei FILE, toglie il service worker e ricarica dal server. Progetti e impostazioni (localStorage) non si toccano. */
+async function repairApp(){
+  const bu=document.getElementById("btnRepair"); if(bu) bu.disabled=true;
+  toast(t("updRepairing"));
+  try{ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); }catch(e){}
+  try{ const rs=await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r=>r.unregister())); }catch(e){}
+  try{ await Promise.all([...document.querySelectorAll("script[src]")].map(sc=>fetch(sc.src,{cache:"reload"}).catch(()=>{}))); }catch(e){}
+  setTimeout(()=>location.reload(),500);
+}
+document.addEventListener("DOMContentLoaded",()=>{ const b=document.getElementById("btnRepair"); if(b) b.addEventListener("click",repairApp); });
 async function fetchRemoteVer(){
   const r=await fetch("./index.html?upd="+Date.now(),{cache:"no-store"});
   if(!r.ok) throw 0;

@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.6 — 20 octombrie 2026
+
+**Buton nou în setări: „Repară aplicația”.** Dacă după o actualizare pagina e nouă dar un fișier a rămas vechi (de exemplu scheda pezzo nu arată tăietura la unghi deși versiunea afișată e cea nouă), butonul golește memoria locală a fișierelor, scoate service worker-ul și reîncarcă din server. Proiectele și setările nu se ating.
+
 ## 4.74.5 — 20 octombrie 2026
 
 **Scheda pezzo arată tăietura la unghi.** Ușa (și orice panou pe pantă) se desenează cu conturul ei real, trapez, și nu cu dreptunghiul de gabarit. Sub cote apare unghiul tăieturii de sus, în grade, atât față de lățime, cât și față de înălțime, plus înălțimea în cele două colțuri.
