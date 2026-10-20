@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.2 — 20 octombrie 2026
+
+**Verificare cap-coadă: patru defecte reparate.**
+- **Ușile nu se deschideau sub tavanul înclinat pe lățime** (butonul „Ante aperte” din 3D nu făcea nimic). Acum se deschid, ca la tavanul drept. Reparat și pentru ușa de pe aripa corpului de colț, care nu se deschidea deloc.
+- **Tastatura acoperea câmpul în care scriai** (de exemplu înălțimea). Când apare tastatura, previzualizarea 3D și butonul „Generează” nu mai rămân lipite pe ecran, bara de jos se ascunde, foile se ridică deasupra tastaturii, iar câmpul activ urcă singur în zona vizibilă.
+- **Distinta unui corp cu tavan înclinat nu se mai putea exporta**: regula „piesă mai mare decât corpul” (A9) compara piesele cu înălțimea cea mai joasă. Acum le compară cu cea mai înaltă.
+- **Distinta cu uși pliabile (3–4 foi) nu se mai putea exporta**: rosturile dintre foile unui pachet nu intrau în suma lățimilor (I4). Acum intră.
+
 ## 4.74.1 — 20 octombrie 2026
 
 **Reparat: 3D-ul nu se schimba la uși pliabile și tavan înclinat.** Câmpurile „Uși pliabile”, „Cielo inclinato” (tip și cele două înălțimi), „Tavan”, „Anti-curbare” și „Gola” puneau valoarea în proiect, dar previzualizarea nu se redesena până nu atingeai alt câmp. Acum 3D-ul se schimbă imediat la fiecare dintre ele.

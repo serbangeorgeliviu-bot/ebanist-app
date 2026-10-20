@@ -1052,6 +1052,11 @@ function setTargets(boxesOrig) {
     const a = boxesOrig[i], b = ex[i];
     P.tgt.ex = ((b.x0 - a.x0) + (R.st.open ? (slideX[P.pk] || 0) : 0)) * MM; P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
     const open = R.st.open ? 1 : 0;
+    /* ușa trapezoidală (pantă) nu are balamale în lista de feronerie: pivotul vine din partea balamalei a cutiei */
+    if (P.sub === "door" && !P.pivot) {
+      if (a.z1 - a.z0 > a.x1 - a.x0) P.pivot = { x: a.x1, z: a.z0, left: false };   // ușa de pe aripa corpului de colț: stă în planul x, balamaua la capătul dinspre perete
+      else if (a.hinge === "left" || a.hinge === "right") P.pivot = { x: a.hinge === "left" ? a.x0 : a.x1, z: a.z1, left: a.hinge === "left" };
+    }
     P.tgt.ang = (open && P.pivot && P.sub === "door") ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
     /* pachet pliant (U.9): foaia se rotește 90° în jurul muchiei ei de pe partea pachetului și se așază
        lângă celelalte, perpendicular pe față — la fel ca în camera 3D și în planul de balamale */
