@@ -5,9 +5,21 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.7 — 20 octombrie 2026
+
+**Unghiul tăieturii scris pe desen.** În scheda pezzo și în foaia A3 de fabricație, panoul pe pantă are acum conturul trapezoidal și unghiul (de ex. „28,9°”) scris lângă muchia înclinată, nu doar în textul de sub cote.
+
+## 4.74.6 — 20 octombrie 2026
+
+**Buton nou în setări: „Repară aplicația”.** Dacă după o actualizare pagina e nouă dar un fișier a rămas vechi (de exemplu scheda pezzo nu arată tăietura la unghi deși versiunea afișată e cea nouă), butonul golește memoria locală a fișierelor, scoate service worker-ul și reîncarcă din server. Proiectele și setările nu se ating.
+
+## 4.74.5 — 20 octombrie 2026
+
+**Scheda pezzo arată tăietura la unghi.** Ușa (și orice panou pe pantă) se desenează cu conturul ei real, trapez, și nu cu dreptunghiul de gabarit. Sub cote apare unghiul tăieturii de sus, în grade, atât față de lățime, cât și față de înălțime, plus înălțimea în cele două colțuri.
+
 ## 4.74.4 — 20 octombrie 2026
 
-**Reparat: benzile de nuanță de pe panourile pe pantă, în 3D.** Ușile trapezoidale, lateralele și tavanul înclinat apăreau cu fâșii orizontale mai deschise și mai închise, mai ales în capturi (dosarul A3, imaginile de prezentare), unde rămâneau așa. Cauza: la primul desen al unei piese noi, shader-ul pornea cu reglajele cutiei dreptunghiulare. Acum fiecare piesă își primește reglajele înainte de primul desen. Cotele nu se schimbă.
+**Actualizarea nu mai lasă aplicația pe jumătate nouă.** „Actualizează” (și „Verifică actualizări”) reîncărcau pagina după 0,9 secunde, înainte ca fișierele noi să fie descărcate: pagina era cea nouă, dar 3D-ul și motorul rămâneau cele vechi până la a doua pornire (de aceea, după actualizare, ușile încă nu se deschideau sub pantă). Acum aplicația așteaptă să se instaleze versiunea nouă, apoi se reîncarcă.
 
 ## 4.74.3 — 20 octombrie 2026
 

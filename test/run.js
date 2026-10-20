@@ -2922,6 +2922,26 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Uși: se deschid sub pantă (ambele axe) și pe aripa corpului de colț", ee.slopeDoors.length === 2 && ee.slopeDoors.every(Boolean) && ee.cornerDoors.length >= 2 && ee.cornerDoors.every(Boolean), JSON.stringify(ee));
     ok("Export: pantă, uși pliabile (2/4 foi, 3×3 foi prea înguste) și colț pliabil nu sunt blocate", Object.values(ee.gate).every(a => a.length === 0), JSON.stringify(ee.gate));
     ok("Tastatură: detectată și când acoperă (visualViewport), și când redimensionează fereastra (WebView Android); dispare când se închide", ee.kbOn && ee.kbOff && ee.kbModes, JSON.stringify(ee));
+    /* Scheda pezzo: ușa trapezoidală are conturul real și unghiul tăieturii, în toate limbile */
+    const sc = await pg.evaluate(() => {
+      const o = {}; PRO = true; closeSheets(); setView("build");
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      const c = { ...PRESETS.armadio, name: "Sc", H: 2200, doors: 2, topProfile: { axis: "x", h0: 2200, h1: 1650 } };
+      generateInto(p, c); const k = Object.keys(p.configs)[0], cf = p.configs[k];
+      const built = buildModule(cf), G = deriveCarcass(carcassParams(cf, {})), ops = generateOperations({ boxes: built.boxes, cfg: cf, G });
+      const q = ops.pieces.find(x => x.role === "frontale" && x.cut);
+      const meta = {}; ops.pieces.forEach((x, i) => { meta[String(x.pk)] = { n: x.n || i + 1, row: null, exact: false }; });
+      openPartSheet({ cfg: cf, rows: built.pieces, ops, meta }, q);
+      const svg = document.querySelector("#partBody .part-svg");
+      o.poly = !!(svg && svg.querySelector("polygon"));
+      o.cut = /\d/.test((document.querySelector("#partBody .part-cut") || {}).textContent || "");
+      o.h = q.cut.h0 > q.cut.h1 && q.cut.deg > 0 && q.cut.deg < 90 && Math.abs(q.cut.deg + q.cut.degSide - 90) < 0.2;
+      o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].partCutAng && I18N[l].partCutH);
+      o.onDrawing = /\d+[,.]\d°/.test(Array.from(svg.querySelectorAll("text")).map(x => x.textContent).join(" "));
+      const a3 = partA3Svg({ cfg: cf, rows: built.pieces, ops, meta }, q, 5, 1, 1); o.a3 = a3.includes("<polygon") && /\d+,\d°/.test(a3);
+      closeSheets(); persist(); return o; });
+    ok("Scheda pezzo: ușa trapezoidală se desenează cu conturul real și arată unghiul tăieturii", sc.poly && sc.cut && sc.h && sc.i18n && sc.onDrawing && sc.a3, JSON.stringify(sc));
+    ok("Ripara l'app: buton și texte în toate limbile", await pg.evaluate(() => !!document.getElementById("btnRepair") && typeof repairApp === "function" && ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].updRepair && I18N[l].updRepairHint && I18N[l].updRepairing)));
     ok("Update: bara apare la versiune nouă, «Mai târziu» o tace, la aceeași versiune/offline nu apare nimic", un.shown && un.gone && un.silent && un.same && un.offline, JSON.stringify(un));
     ok("Update: textele există în toate limbile", un.i18n === true, JSON.stringify(un));
     ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));
