@@ -45,13 +45,16 @@ async function frames(pg){
  const tl=[]; let idx=0, t0=Date.now();
  for(const s of segs){
   const n=Math.round(s.sec*FPS), first=idx+1;
+  let warm=true;   /* prima captură după o schimbare de stare iese cu un cadru în urmă: o aruncăm */
   for(let i=0;i<n;i++){
    const fn=path.join(FR,"f_"+String(idx+1).padStart(5,"0")+".jpg");
    if(process.env.RESUME&&fs.existsSync(fn)){idx++;continue}
    const k=n>1?i/(n-1):0, e=sm(k), c=s.cam;
-   const img=await pg.evaluate(([patch,st,cam,W,H])=>{GL3D.focusOn(null);const cfg={...window.__cfg,...patch};
+   const cap=()=>pg.evaluate(([patch,st,cam,W,H])=>{GL3D.focusOn(null);const cfg={...window.__cfg,...patch};
      return GL3D.capture(cfg,{w:W,h:H,yaw:cam[0],pitch:cam[1],zoom:cam[2],hw:st.hw,open:st.open,explode:st.explode||0,edges:false}).img;
    },[s.cfg(k),s.st,[lerp(c[0],c[3],e),lerp(c[1],c[4],e),lerp(c[2],c[5],e)],W,H]);
+   if(warm){await cap();warm=false}
+   const img=await cap();
    idx++; fs.writeFileSync(fn,Buffer.from(img.split(",")[1],"base64"));
   }
   tl.push({name:s.name,first,n:idx-first+1,cap:s.cap,swatch:s.swatch||null});

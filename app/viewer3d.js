@@ -690,7 +690,7 @@ function setModel(boxes, cfg) {
     let P = R.pieces.get(pk);
     if (P) { bs.forEach((b, i) => { P.meshes[i].userData.ao = aoOf(b); P.meshes[i].userData.tgt = restOf(b); if (b.kind === "w") P.meshes[i].userData.wall = wallInfo(b); }); }
     else {
-      P = pieceGroup(pk);
+      P = pieceGroup(pk); R.fresh = true;
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
     P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null;
@@ -1247,6 +1247,7 @@ const GL3D = {
       if (opts.explode != null) R.st.explode = opts.explode;
       setRoom(opts.room);
       R.cfg = cfg;
+      R.fresh = false;
       boxes = setModel(boxes, cfg);
       const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1), keyOf(b, cfg)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig();
       if (sig !== R.sig) {
@@ -1255,6 +1256,9 @@ const GL3D = {
         buildHardware(R.model);
         buildDims(R.model);
         if (R.st.sel != null && !R.pieces.has(String(R.st.sel))) { R.st.sel = null; R.st.iso = false; }
+      } else if (R.fresh) {
+        /* piesele refăcute (panourile pe pantă se refac la fiecare randare) au grupuri de feronerie goale */
+        buildHardware(R.model);
       }
       R.boxes = boxes;
       updateBoundsAndLights(boxes);
