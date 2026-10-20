@@ -2882,6 +2882,24 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       } finally { window.fetch = of; updDismissed = null; }
       o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["updBanner", "updNow", "updLater"].every(k => I18N[l] && I18N[l][k]));
       return o; });
+    /* anteprima: câmpurile pliabil / pantă / tavan redesenează modelul fără alt gest */
+    const pv = await pg.evaluate(() => {
+      const o = {}, boxes = () => (typeof buildModule === "function" ? buildModule(buildCfg).boxes : []);
+      const ev = (id, val) => { const el = document.getElementById(id); el.value = val; el.dispatchEvent(new Event("change", { bubbles: true })); };
+      try {
+        ev("bTipo", "standard"); ev("bDoors", "2"); drawPreview();
+        const base = JSON.stringify(boxes().map(b => [b.x0, b.x1, b.y0, b.y1, b.z0, b.z1]));
+        ev("bFold", "2");
+        o.fold = buildCfg.fold === 2 && JSON.stringify(boxes().map(b => [b.x0, b.x1, b.y0, b.y1, b.z0, b.z1])) !== base;
+        ev("bFold", "");
+        ev("bSlope", "x");
+        o.slope = !!buildCfg.topProfile && boxes().some(b => b.vp);
+        ev("bSlopeH1", "1500");
+        o.slopeH = buildCfg.topProfile && buildCfg.topProfile.h1 === 1500;
+        ev("bSlope", ""); o.off = !buildCfg.topProfile;
+      } catch (e) { o.err = String(e); }
+      return o; });
+    ok("Anteprima: ușile pliabile și tavanul înclinat schimbă modelul 3D imediat", pv.fold && pv.slope && pv.slopeH && pv.off, JSON.stringify(pv));
     ok("Update: bara apare la versiune nouă, «Mai târziu» o tace, la aceeași versiune/offline nu apare nimic", un.shown && un.gone && un.silent && un.same && un.offline, JSON.stringify(un));
     ok("Update: textele există în toate limbile", un.i18n === true, JSON.stringify(un));
     ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));

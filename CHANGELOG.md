@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.1 — 20 octombrie 2026
+
+**Reparat: 3D-ul nu se schimba la uși pliabile și tavan înclinat.** Câmpurile „Uși pliabile”, „Cielo inclinato” (tip și cele două înălțimi), „Tavan”, „Anti-curbare” și „Gola” puneau valoarea în proiect, dar previzualizarea nu se redesena până nu atingeai alt câmp. Acum 3D-ul se schimbă imediat la fiecare dintre ele.
+
 ## 4.74.0 — 19 octombrie 2026
 
 **Notificare de actualizare la deschidere.** Când pe server există o versiune mai nouă decât cea deschisă, apare sus o bară: „Versiune nouă disponibilă: vX” cu „Actualizează” și „Mai târziu”. Verificarea se face în liniște, la 2,5 secunde după pornire și la revenirea în aplicație (cel mult o dată la 30 de minute); fără internet nu apare nimic. Aplicația nu se reîncarcă singură, deci un proiect aflat în lucru nu se pierde. „Mai târziu” tace bara până la următoarea deschidere. Butonul „Verifică actualizări” din setări merge ca înainte.
