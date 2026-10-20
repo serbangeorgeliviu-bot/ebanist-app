@@ -1140,7 +1140,12 @@ function validateInvariants(corpo, pieces, geometry, opts) {
       fronts.map(function (r) { return r.elemento; }));
   } else if (nA > 0 && G.jocuri) {
     var gap = +G.jocuri.joc_frontale_laterale || 0, rev = +G.jocuri.reveal || 0;
-    var tot = sumL + (nA - 1) * gap + 2 * rev;
+    /* ante pieghevoli (D-87): ogni anta e un pacchetto di `fold` fogli, con FOLD_GAP_LEAF tra un foglio e l'altro
+       (stessa costante di FOLD.gap_leaf in index.html, provata nel test) */
+    var nf = ((c.front === "piena" || !c.front) && [2, 3, 4].indexOf(+c.fold) >= 0) ? +c.fold : 0;
+    if (nf && nA !== (+c.doors || 0) * nf) nf = 0;   // fogli prea stretti: l'anta e rimasta normale (con avviso)
+    var nPack = nf ? Math.round(nA / nf) : nA;
+    var tot = sumL + (nPack - 1) * gap + 2 * rev + (nf ? nPack * (nf - 1) * FOLD_GAP_LEAF : 0);
     /* le ante escono arrotondate al mm: su una larghezza che non si divide
        esatta la somma non torna MAI al millesimo. Mezzo millimetro per anta
        e l'arrotondamento, non un errore. */
@@ -1842,7 +1847,7 @@ var ASSERTIONS = [
     source: "Jacquin rev.C — prof. 12,5 mm, distanță de la cant 5,0 mm" },
 
   { id: "A9", severity: "blocking", confidence: "medie",
-    when: "1", then: "piesa_max <= max(W, H) + tol",
+    when: "1", then: "piesa_max <= max(W, H_tot) + tol",
     why: "O piesă are o cotă mai mare decât corpul din care provine: nu e legată de niciun gabarit.",
     source: "auditul v4.24" },
 
@@ -1955,6 +1960,9 @@ function evalExpr(src, env) {
   return out;
 }
 
+/* Spazio tra i fogli di un'anta pieghevole (mm). Deve coincidere con FOLD.gap_leaf di index.html. */
+var FOLD_GAP_LEAF = 3;
+
 /* L'ambiente e CHIUSO: solo le cote derivate, le entrate, e i pochi valori che
    riguardano i pezzi gia emessi. Un'asserzione non puo leggere altro. */
 function assertionEnv(d, ctx) {
@@ -1969,6 +1977,8 @@ function assertionEnv(d, ctx) {
               "sp_fianco", "sp_base", "sp_cielo", "sp_schienale", "sp_ripiano",
               "sp_frontale", "sp_zoccolo", "sp_divisorio", "sp_top", "top"];
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
+  /* corp cu tavan înclinat: H e înălțimea interiorului plat (cel mai jos capăt); piesele se compară cu cea mai înaltă cotă */
+  e.H_tot = d.slope ? d.slope.H_hi : e.H;
   /* le cote che possono valere zero (un corpo senza ante, senza cassetti)
      devono comunque ESISTERE nell'ambiente, o la regola cade per "cota
      assente" invece di dire la verita. */
@@ -2050,6 +2060,7 @@ var API = {
   axesFor: axesFor,
   topSp: topSp,
   TOPPROFILE: TOPPROFILE,
+  FOLD_GAP_LEAF: FOLD_GAP_LEAF,
   topLineY: topLineY,
   frontHeightAt: frontHeightAt,
   TOP_MODES: TOP_MODES,
