@@ -336,6 +336,24 @@ function materialFor(key) {
     m = materialFor(key.slice(0, -1)).clone(); m.side = THREE.DoubleSide;
   } else if (key === "__brass") {
     m = new THREE.MeshStandardMaterial({ color: 0xc7a24c, roughness: .35, metalness: .9, envMapIntensity: 1.2 });
+  } else if (key === "__chrome") {
+    m = new THREE.MeshStandardMaterial({ color: 0xe8ebee, roughness: .07, metalness: 1, envMapIntensity: 1.6 });
+  } else if (key === "__nickel") {
+    m = new THREE.MeshStandardMaterial({ color: 0xbdb8ad, roughness: .32, metalness: 1, envMapIntensity: 1.2 });
+  } else if (key === "__bronze") {
+    m = new THREE.MeshStandardMaterial({ color: 0x8d6a4c, roughness: .4, metalness: .85, envMapIntensity: 1.1 });
+  } else if (key === "__antique") {
+    m = new THREE.MeshStandardMaterial({ color: 0x6f5733, roughness: .5, metalness: .8, envMapIntensity: 1 });
+  } else if (key === "__alu") {
+    m = new THREE.MeshStandardMaterial({ color: 0xc6c9cc, roughness: .45, metalness: .85, envMapIntensity: 1.1 });
+  } else if (key === "__whitemetal") {
+    m = new THREE.MeshStandardMaterial({ color: 0xf1f0ec, roughness: .35, metalness: .25 });
+  } else if (key === "__ceramic") {
+    m = new THREE.MeshStandardMaterial({ color: 0xf4f1ea, roughness: .15, metalness: 0, envMapIntensity: 1.2 });
+  } else if (key === "__woodknob") {
+    m = new THREE.MeshStandardMaterial({ color: 0xc89a62, roughness: .62, metalness: 0 });
+  } else if (key === "__flushdark") {
+    m = new THREE.MeshStandardMaterial({ color: 0x1e2022, roughness: .7, metalness: .2 });
   } else if (key === "__domino") {
     m = new THREE.MeshStandardMaterial({ color: 0x8c5b39, roughness: .8, metalness: 0 });
   } else if (key === "__nylon") {
@@ -727,8 +745,91 @@ function hwId(cat) {
   catch (e) { return ""; }
 }
 
+/* D-89 — mânerul după modelul din catalog (h.hm): bară rotundă, bară pătrată, punte, arc, scoică,
+   buton rotund/pătrat, inel, încastrat oval/rotund, profil pe muchie. Fără model: ca înainte (bară 128 / buton). */
+function drawHandle(P, h, tag) {
+  const w = h.w, mid = hwId("man");
+  const m = h.hm || (h.knob ? { t: "knob", d: 30, fin: mid === "haf_bar128" ? "__inox" : "__blackmetal" }
+                            : { t: "bar", ia: h.ia || 128, fin: mid === "haf_bar128" ? "__inox" : "__blackmetal" });
+  const F = m.fin || "__blackmetal", ia = m.ia || 0, ax = h.vertical ? 1 : 0;
+  const at = (u, d) => { const p = w.slice(); p[ax] += u; p[2] += d; return p; };
+  const add = o => P.hw.add(tag(o, true));
+  const L = m.L || ia + 44;
+  switch (m.t) {
+    case "knob": {
+      const d = m.d || 30;
+      add(cyl(F, w, at(0, 3), d * .55)); add(cyl(F, at(0, 1.5), at(0, d * .75), d * .28)); add(sph(F, at(0, d * .95), d));
+      break; }
+    case "knobSq": {
+      const d = m.d || 30;
+      add(cyl(F, at(0, 0), at(0, d * .5), d * .35));
+      const lo = w.slice(), hi = w.slice(); lo[0] -= d / 2; hi[0] += d / 2; lo[1] -= d / 2; hi[1] += d / 2; lo[2] += d * .45; hi[2] += d * .45 + d * .5;
+      add(box(F, lo, hi)); break; }
+    case "ring": {
+      const d = m.d || 40;
+      add(cyl(F, w, at(0, 4), 22)); add(cyl(F, at(0, 3), at(0, 9), 8));
+      const tor = new THREE.Mesh(new THREE.TorusGeometry((d / 2) * MM, 2.6 * MM, 10, 36), materialFor(F));
+      tor.position.set(w[0] * MM, (w[1] - d / 2 + 4) * MM, (w[2] + 9) * MM); tor.castShadow = true; tor.userData.own = true;
+      add(tor); break; }
+    case "flush": case "flushR": {
+      /* la nivelul feței: rama în finisaj, fundul închis */
+      const round = m.t === "flushR", Lf = round ? m.d : m.L, Wf = round ? m.d : (m.W || 40);
+      if (round) { add(cyl(F, at(0, -0.2), at(0, 0.9), Lf)); add(cyl("__flushdark", at(0, 0.6), at(0, 1.0), Lf - 6)); }
+      else {
+        const lo = w.slice(), hi = w.slice(), ux = h.vertical ? 1 : 0, vx = 1 - ux;
+        lo[ux] -= Lf / 2; hi[ux] += Lf / 2; lo[vx] -= Wf / 2; hi[vx] += Wf / 2; lo[2] -= 0.2; hi[2] += 0.9;
+        add(box(F, lo, hi));
+        const lo2 = lo.slice(), hi2 = hi.slice(); lo2[ux] += 3; hi2[ux] -= 3; lo2[vx] += 3; hi2[vx] -= 3; lo2[2] = w[2] + 0.6; hi2[2] = w[2] + 1.0;
+        add(box("__flushdark", lo2, hi2));
+      }
+      break; }
+    case "edge": {
+      /* profil în L pe muchie: talpă pe muchie + buză în față, cu rost de prindere */
+      const e = h.edge || { n: 1, s: 1, at: w[1] }, T = h.T || 19, Le = m.L || 150, n = e.n, s = e.s, along = 1 - n;
+      const lo = w.slice(), hi = w.slice();
+      lo[along] = w[along] - Le / 2; hi[along] = w[along] + Le / 2;
+      lo[n] = s > 0 ? e.at : e.at - 2; hi[n] = s > 0 ? e.at + 2 : e.at;
+      lo[2] = w[2] - T + 4; hi[2] = w[2] + 10;
+      add(box(F, lo, hi));
+      const l2 = lo.slice(), h2 = hi.slice();
+      l2[n] = s > 0 ? e.at - 24 : e.at - 2; h2[n] = s > 0 ? e.at + 2 : e.at + 24;
+      l2[2] = w[2] + 8; h2[2] = w[2] + 10;
+      add(box(F, l2, h2)); break; }
+    case "cup": {
+      const Lc = m.L || ia + 30, lo = w.slice(), hi = w.slice();
+      lo[ax] -= Lc / 2; hi[ax] += Lc / 2; const vx = 1 - ax;
+      lo[vx] -= 14; hi[vx] += 14; hi[2] = w[2] + 2.5;
+      add(box(F, lo, hi));
+      const l2 = lo.slice(), h2 = hi.slice(); h2[vx] = lo[vx] + 3; h2[2] = w[2] + 20; add(box(F, l2, h2));
+      const l3 = lo.slice(), h3 = hi.slice(); l3[vx] = lo[vx]; h3[vx] = lo[vx] + 16; l3[2] = w[2] + 17; h3[2] = w[2] + 20; add(box(F, l3, h3));
+      break; }
+    case "barsq": case "dpull": {
+      const sq = m.t === "dpull" ? 8 : 12, pr = m.t === "dpull" ? 30 : 34, Lb = m.t === "dpull" ? ia + sq : L;
+      [-1, 1].forEach(k => { const c = at(k * ia / 2, 0), lo = c.slice(), hi = c.slice();
+        lo[0] -= sq / 2.4; hi[0] += sq / 2.4; lo[1] -= sq / 2.4; hi[1] += sq / 2.4; hi[2] += pr; add(box(F, lo, hi)); });
+      const c = at(0, pr), lo = c.slice(), hi = c.slice(); lo[ax] -= Lb / 2; hi[ax] += Lb / 2; const vx = 1 - ax;
+      lo[vx] -= sq / 2; hi[vx] += sq / 2; lo[2] -= sq / 2; hi[2] += sq / 2; add(box(F, lo, hi));
+      break; }
+    case "bow": {
+      const n = 12, pts = [];
+      for (let i = 0; i <= n; i++) { const u = -L / 2 + L * i / n, q = Math.min(1, Math.abs(2 * u / L)); pts.push(at(u, 16 + 12 * (1 - q * q))); }
+      for (let i = 0; i < n; i++) add(cyl(F, pts[i], pts[i + 1], 10));
+      pts.forEach((p, i) => { if (i % 3 === 0) add(sph(F, p, 10)); });
+      [-1, 1].forEach(k => add(cyl(F, at(k * ia / 2, 0), at(k * ia / 2, 22), 9)));
+      break; }
+    default: {   /* bară rotundă pe două picioare */
+      const d = m.d || 12, zb = 32, a = at(-L / 2, zb), b = at(L / 2, zb);
+      add(cyl(F, a, b, d)); add(sph(F, a, d)); add(sph(F, b, d));
+      [-1, 1].forEach(k => { const p1 = at(k * ia / 2, 0);
+        add(cyl(F, at(k * ia / 2, 1.5), at(k * ia / 2, 33), 8.5)); add(cyl(F, p1, at(k * ia / 2, 3), 17)); });
+    }
+  }
+}
+
 function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
+  if (R.linkG) clearGroup(R.linkG);
+  R.links = [];
   if (!model || !model.ops) return;
   const O = model.ops;
   /* cerniere: dicono anche da che parte si apre l'anta */
@@ -780,10 +881,12 @@ function buildHardware(model) {
         });
         A.hw.add(tag(box("__blackmetal", [xo(12), p[1] - 3, zFar + 16], [xo(17.6), p[1] + 3, zFar + 26])));  // fanta de reglaj
         /* legătura din ușă: stâlp scurt de la flanșă la pivot */
-        const a = [w[0], y, z0 - 1.7], b = [xo(14), y, zNear - 1];
-        const L = Math.hypot(b[0] - a[0], b[2] - a[2]), lk = new THREE.Mesh(UNIT, materialFor(HM));
-        lk.position.set((a[0] + b[0]) / 2 * MM, y * MM, (a[2] + b[2]) / 2 * MM); lk.scale.set(3.2 * MM, 17 * MM, L * MM);
-        lk.rotation.y = Math.atan2(b[0] - a[0], b[2] - a[2]); lk.castShadow = true; P.hw.add(tag(lk));
+        /* capătul din ușă se mișcă odată cu ușa, capătul din braț rămâne pe lateral: legătura se
+           recalculează la fiecare cadru (updateLinks), deci balamaua rămâne legată și cu ușa deschisă */
+        const a = [w[0], y, z0 - 1.7], b = [xo(14), y, zNear - 1], lk = new THREE.Mesh(UNIT, materialFor(HM));
+        lk.castShadow = true; tag(lk); lk.userData.own = true;
+        if (!R.linkG) { R.linkG = new THREE.Group(); R.root.add(R.linkG); }
+        R.linkG.add(lk); R.links.push({ m: lk, P, A, a, b, rel: lk.userData.rel });
         P.hw.add(tag(cyl("__inox", [a[0] - sd * 0, y - 10, z0 - 3.5], [a[0], y + 10, z0 - 3.5], 4.5)));
       } else {
         P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
@@ -844,24 +947,10 @@ function buildHardware(model) {
       gb(movento ? "__blackmetal" : "__nylongrey", 2.2, 12.5, -8.6, 16, z1 - 40, z1 - 8);    // clema de fixare din față
       gb("__nylon", 8, 12.5, 16, 19, z1 - 40, z1 - 24);           // pârghia de eliberare
     } else if (h.type === "maniglia") {
-      /* după articolul ales: mâner bară negru, bară inox, sau buton */
-      const w = h.w, mid = hwId("man"), HM = mid === "haf_bar128" ? "__inox" : "__blackmetal";
-      if (h.knob) {
-        P.hw.add(tag(cyl(HM, w, along(w, 2, 3), 20), true));
-        P.hw.add(tag(cyl(HM, along(w, 2, 1.5), along(w, 2, 24), 7), true));
-        P.hw.add(tag(sph(HM, along(w, 2, 31), 30), true));
-      } else {
-        const ia = h.ia, L2 = ia / 2 + 22, zb = w[2] + 32;
-        const a = h.vertical ? [w[0], w[1] - L2, zb] : [w[0] - L2, w[1], zb];
-        const b = h.vertical ? [w[0], w[1] + L2, zb] : [w[0] + L2, w[1], zb];
-        P.hw.add(tag(cyl(HM, a, b, 12), true));
-        P.hw.add(tag(sph(HM, a, 12), true)); P.hw.add(tag(sph(HM, b, 12), true));
-        [-1, 1].forEach(k => {
-          const p1 = h.vertical ? [w[0], w[1] + k * ia / 2, w[2]] : [w[0] + k * ia / 2, w[1], w[2]];
-          P.hw.add(tag(cyl(HM, along(p1, 2, 1.5), along(p1, 2, 33), 8.5), true));
-          P.hw.add(tag(cyl(HM, p1, along(p1, 2, 3), 17), true));
-        });
-      }
+      drawHandle(P, h, tag);
+    } else if (h.type === "gola_fresata") {
+      /* priza frezată: fâșie închisă pe muchia de sus, pe spatele frontului — se vede ca adâncitura de prindere */
+      P.hw.add(tag(box("__flushdark", [h.x0 + 1, h.w[1] - 0.2, h.zB], [h.x1 - 1, h.w[1] + 0.3, h.zB + h.d]), true));
     } else if (h.type === "confirmat") {
       /* șurub confirmat 7×50: capul pe fața exterioară a lui F, tija intră în muchia lui E */
       const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
@@ -1009,6 +1098,7 @@ function applyState() {
     });
     P.holes.visible = st.holes || hwMode || isSel;
   }
+  (R.links || []).forEach(L => { L.m.visible = (st.hw || hwMode || (!!sel && L.rel.indexOf(sel) >= 0)) && L.P.g.visible && L.A.g.visible; });
   if (R.dims) R.dims.visible = !!st.dims && !(st.explode > 0.01) && !(st.iso && sel);
   fadeWalls();
   R.need = true; kick();
@@ -1138,7 +1228,22 @@ function step() {
     }
     P.g.matrix.copy(M4); P.g.matrixWorldNeedsUpdate = true;
   }
+  updateLinks();
   return moving;
+}
+
+/* legăturile balamalelor: între un punct al ușii (care se rotește) și unul al lateralului */
+const VLA = new THREE.Vector3(), VLB = new THREE.Vector3();
+function updateLinks() {
+  if (!R.links) return;
+  for (const L of R.links) {
+    VLA.set(L.a[0] * MM, L.a[1] * MM, L.a[2] * MM).applyMatrix4(L.P.g.matrix);
+    VLB.set(L.b[0] * MM, L.b[1] * MM, L.b[2] * MM).applyMatrix4(L.A.g.matrix);
+    const len = Math.max(VLA.distanceTo(VLB), 1e-5);
+    L.m.position.copy(VLA).add(VLB).multiplyScalar(0.5);
+    L.m.scale.set(3.2 * MM, 17 * MM, len);
+    L.m.rotation.set(0, Math.atan2(VLB.x - VLA.x, VLB.z - VLA.z), 0);
+  }
 }
 
 function stepCamera() {
@@ -1333,7 +1438,12 @@ const GL3D = {
         Object.assign(P.cur, P.tgt);
         P.meshes.forEach(m => { if (!m.userData.prism) { m.userData.cur = Object.assign({}, m.userData.tgt); } });
       }
-      const B = focusBounds(); Object.assign(R.cam, { cx: B.cx, cy: B.cy, cz: B.cz, rad: B.rad || B.size });
+      /* o.focus: încadrează o singură piesă (pk), fără s-o selecteze în imagine */
+      if (o.focus != null) R.st.sel = String(o.focus);
+      const B = focusBounds(); R.st.sel = null;
+      Object.assign(R.cam, { cx: B.cx, cy: B.cy, cz: B.cz, rad: B.rad || B.size });
+      /* o.target [x,y,z] mm + o.rad mm: un punct anume (de ex. o balama), pentru fotografii de detaliu */
+      if (o.target) Object.assign(R.cam, { cx: o.target[0] * MM, cy: o.target[1] * MM, cz: o.target[2] * MM, rad: (o.rad || 80) * MM });
       if (V) Object.assign(R.cam, { yaw: V.yaw, pitch: V.pitch, zoom: V.zoom });
       step(); stepCamera();
       R.scene.updateMatrixWorld(true);

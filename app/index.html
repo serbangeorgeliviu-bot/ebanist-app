@@ -1565,6 +1565,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
             <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
           <div class="f"><label data-i="fPlinth">Zoccolo (mm)</label><input id="bPlinth" type="number" inputmode="numeric"></div>
         </div>
+        <div class="f" id="rowGolaType" style="display:none"><label data-i="fGolaType">Tipo di gola</label>
+          <select id="bGolaType"><option value="L" data-i="golaTL">Profilo L + C nel corpo</option><option value="J" data-i="golaTJ">Profilo J sul frontale</option><option value="fresata" data-i="golaTF">Gola fresata nel frontale (senza profilo)</option></select></div>
         <div class="f2" id="rowGola" style="display:none">
           <div class="f"><label data-i="fGolaH">Gola sus (mm)</label><input id="bGolaH" type="number" inputmode="numeric" min="5" max="200" placeholder="40"></div>
           <div class="f"><label data-i="fGolaC">Rost gola C (mm)</label><input id="bGolaC" type="number" inputmode="numeric" min="5" max="200" placeholder="60"></div>
@@ -3122,6 +3124,34 @@ Object.assign(I18N.fr,{updRepair:"Réparer l'application (vider le cache des fic
 Object.assign(I18N.de,{updRepair:"App reparieren (lokalen Dateicache leeren)",updRepairHint:"Falls nach einem Update etwas noch alt wirkt. Projekte bleiben unberührt.",updRepairing:"Dateicache wird geleert… lädt neu"});
 Object.assign(I18N.pl,{updRepair:"Napraw aplikację (wyczyść lokalną pamięć plików)",updRepairHint:"Jeśli po aktualizacji coś nadal wygląda po staremu. Projekty pozostają nietknięte.",updRepairing:"Czyszczenie pamięci plików… ponowne ładowanie"});
 Object.assign(I18N.es,{updRepair:"Reparar la app (vaciar la caché local de archivos)",updRepairHint:"Si tras una actualización algo sigue viejo. Tus proyectos no se tocan.",updRepairing:"Vaciando la caché de archivos… recargando"});
+Object.assign(I18N.it,{hwManS:"Maniglie cassetti",hwSelSame:"come le ante"});
+Object.assign(I18N.ro,{hwManS:"Mânere sertare",hwSelSame:"ca la uși"});
+Object.assign(I18N.en,{hwManS:"Drawer handles",hwSelSame:"same as doors"});
+Object.assign(I18N.fr,{hwManS:"Poignées tiroirs",hwSelSame:"comme les portes"});
+Object.assign(I18N.de,{hwManS:"Schubladengriffe",hwSelSame:"wie die Türen"});
+Object.assign(I18N.pl,{hwManS:"Uchwyty szuflad",hwSelSame:"jak w drzwiach"});
+Object.assign(I18N.es,{hwManS:"Tiradores de cajón",hwSelSame:"como las puertas"});
+Object.assign(I18N.it,{ms21k:"Monta i {n} pomelli ({p}) con la vite del set nel foro passante.",ms21f:"Inserisci le {n} maniglie a incasso ({p}) nelle sedi fresate: a pressione o incollate, secondo l'articolo.",ms21e:"Monta le {n} maniglie a filo bordo ({p}) sul bordo dell'anta/cassetto, con le viti dal retro nei fori guida Ø3."});
+Object.assign(I18N.ro,{ms21k:"Montează cele {n} butoane ({p}) cu șurubul din set prin gaura străpunsă.",ms21f:"Montează cele {n} mânere încastrate ({p}) în locașurile frezate: prin presare sau lipite, după articol.",ms21e:"Montează cele {n} mânere pe muchie ({p}) pe muchia ușii/sertarului, cu șuruburile din spate în găurile de ghidaj Ø3."});
+Object.assign(I18N.en,{ms21k:"Fit the {n} knobs ({p}) with the screw from the set through the through-hole.",ms21f:"Fit the {n} flush pulls ({p}) into the milled pockets: press-fit or glued, depending on the item.",ms21e:"Fit the {n} edge pulls ({p}) on the door/drawer edge, with the screws from the back into the Ø3 pilot holes."});
+Object.assign(I18N.fr,{ms21k:"Posez les {n} boutons ({p}) avec la vis du kit dans le trou traversant.",ms21f:"Posez les {n} poignées encastrées ({p}) dans les logements fraisés : à force ou collées, selon l'article.",ms21e:"Posez les {n} poignées de chant ({p}) sur le chant de la porte/du tiroir, vis par l'arrière dans les avant-trous Ø3."});
+Object.assign(I18N.de,{ms21k:"Die {n} Knöpfe ({p}) mit der Schraube aus dem Set durch die Durchgangsbohrung montieren.",ms21f:"Die {n} Einlassgriffe ({p}) in die gefrästen Taschen setzen: eingepresst oder geklebt, je nach Artikel.",ms21e:"Die {n} Kantengriffe ({p}) an der Tür-/Schubladenkante montieren, Schrauben von hinten in die Ø3-Vorbohrungen."});
+Object.assign(I18N.pl,{ms21k:"Zamontuj {n} gałek ({p}) wkrętem z zestawu przez otwór przelotowy.",ms21f:"Osadź {n} uchwytów wpuszczanych ({p}) we frezowanych gniazdach: na wcisk lub na klej, zależnie od artykułu.",ms21e:"Zamontuj {n} uchwytów krawędziowych ({p}) na krawędzi drzwi/szuflady, wkrętami od tyłu w otwory pilotowe Ø3."});
+Object.assign(I18N.es,{ms21k:"Monta los {n} pomos ({p}) con el tornillo del juego por el agujero pasante.",ms21f:"Coloca los {n} tiradores empotrados ({p}) en los alojamientos fresados: a presión o pegados, según el artículo.",ms21e:"Monta los {n} tiradores de canto ({p}) en el canto de la puerta/cajón, con los tornillos por detrás en los agujeros guía Ø3."});
+Object.assign(I18N.it,{opsHandleFit:"La maniglia scelta è più lunga del frontale: scegline una più corta."});
+Object.assign(I18N.ro,{opsHandleFit:"Mânerul ales e mai lung decât frontul: alege unul mai scurt."});
+Object.assign(I18N.en,{opsHandleFit:"The chosen handle is longer than the front: choose a shorter one."});
+Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la façade : choisissez-en une plus courte."});
+Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
+Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
+Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{fGolaType:"Tipo di gola",golaTL:"Profilo L + C nel corpo",golaTJ:"Profilo J sul frontale",golaTF:"Gola fresata nel frontale (senza profilo)",golaHintJ:"Profilo J sulla testa di ogni anta e cassetto: sta nella fessura sopra il frontale. Niente profili nel corpo, niente tagli nei fianchi.",golaHintF:"Presa fresata a 45° sul retro del bordo superiore di ogni frontale: nessun profilo. Le quote della fresata non vanno in macchina finché non le verifichi.",hwGolaJ:"Profili gola J (m)"});
+Object.assign(I18N.ro,{fGolaType:"Tip de gola",golaTL:"Profil L + C în corp",golaTJ:"Profil J pe front",golaTF:"Gola frezată în front (fără profil)",golaHintJ:"Profil J pe muchia de sus a fiecărei uși și fiecărui sertar: stă în rostul de deasupra frontului. Fără profile în corp, fără decupări în laterale.",golaHintF:"Priză frezată la 45° pe spatele muchiei de sus a fiecărui front: fără profil. Cotele frezării nu merg în mașină până nu le verifici.",hwGolaJ:"Profile gola J (m)"});
+Object.assign(I18N.en,{fGolaType:"Gola type",golaTL:"L + C profiles in the carcass",golaTJ:"J profile on the front",golaTF:"Milled gola in the front (no profile)",golaHintJ:"J profile on the top edge of every door and drawer: it sits in the gap above the front. No profiles in the carcass, no cut-outs in the sides.",golaHintF:"45° grip milled into the back of the top edge of every front: no profile. The milling dimensions do not go to the machine until you verify them.",hwGolaJ:"J gola profiles (m)"});
+Object.assign(I18N.fr,{fGolaType:"Type de gorge",golaTL:"Profilés L + C dans le caisson",golaTJ:"Profilé J sur la façade",golaTF:"Gorge fraisée dans la façade (sans profilé)",golaHintJ:"Profilé J sur le chant supérieur de chaque porte et tiroir : il loge dans le jour au-dessus de la façade. Pas de profilés dans le caisson, pas d'entailles dans les côtés.",golaHintF:"Prise fraisée à 45° au dos du chant supérieur de chaque façade : sans profilé. Les cotes de fraisage ne vont pas en machine tant que vous ne les avez pas vérifiées.",hwGolaJ:"Profilés gorge J (m)"});
+Object.assign(I18N.de,{fGolaType:"Griffleisten-Typ",golaTL:"L- + C-Profil im Korpus",golaTJ:"J-Profil an der Front",golaTF:"Gefräste Griffmulde in der Front (ohne Profil)",golaHintJ:"J-Profil an der Oberkante jeder Tür und Schublade: es sitzt in der Fuge über der Front. Keine Profile im Korpus, keine Ausschnitte in den Seiten.",golaHintF:"45°-Griff an der Rückseite der Oberkante jeder Front gefräst: kein Profil. Die Fräsmaße gehen erst in die Maschine, wenn du sie geprüft hast.",hwGolaJ:"J-Griffprofile (m)"});
+Object.assign(I18N.pl,{fGolaType:"Typ gola",golaTL:"Profile L + C w korpusie",golaTJ:"Profil J na froncie",golaTF:"Gola frezowana we froncie (bez profilu)",golaHintJ:"Profil J na górnej krawędzi każdych drzwi i szuflady: siedzi w szczelinie nad frontem. Bez profili w korpusie, bez wycięć w bokach.",golaHintF:"Uchwyt frezowany pod kątem 45° z tyłu górnej krawędzi każdego frontu: bez profilu. Wymiary frezowania nie trafią do maszyny, dopóki ich nie sprawdzisz.",hwGolaJ:"Profile gola J (m)"});
+Object.assign(I18N.es,{fGolaType:"Tipo de gola",golaTL:"Perfiles L + C en el módulo",golaTJ:"Perfil J en el frente",golaTF:"Gola fresada en el frente (sin perfil)",golaHintJ:"Perfil J en el canto superior de cada puerta y cajón: va en la ranura sobre el frente. Sin perfiles en el módulo, sin rebajes en los laterales.",golaHintF:"Agarre fresado a 45° en la parte trasera del canto superior de cada frente: sin perfil. Las medidas del fresado no van a la máquina hasta que las verifiques.",hwGolaJ:"Perfiles gola J (m)"});
 Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Cote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le cote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_wtBolt:"Buco per bullone blat",op_cutSink:"Taglio lavello",op_cutHob:"Taglio piano cottura",op_cutOther:"Taglio piano",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
 Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_wtBolt:"Locaș șurub blat",op_cutSink:"Decupaj chiuvetă",op_cutHob:"Decupaj plită",op_cutOther:"Decupaj blat",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
 Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_wtBolt:"Worktop bolt pocket",op_cutSink:"Sink cut-out",op_cutHob:"Hob cut-out",op_cutOther:"Worktop cut-out",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
@@ -3318,10 +3348,30 @@ const HWDB={
  zarga:[
   {id:"blum_lbx_pure",brand:"Blum",n:{it:"LEGRABOX pure, sponde sx/dx (cp.)",ro:"LEGRABOX pure, laterale stânga/dreapta (per.)",en:"LEGRABOX pure drawer sides L/R (pair)",fr:"LEGRABOX pure, côtés G/D (paire)",de:"LEGRABOX pure Zargen links/rechts (Paar)",pl:"LEGRABOX pure boki lewy/prawy (para)",es:"LEGRABOX pure costados izq./dcha. (par)"},art:"770·____·2S",price:31,chk:1}],
  man:[
-  {id:"gen_man",brand:"—",n:{it:"Maniglia generica",ro:"Mâner generic",en:"Generic handle",fr:"Poignée générique",de:"Standardgriff",pl:"Uchwyt standardowy",es:"Tirador genérico"},art:"—",price:3.5},
-  {id:"haf_bar128",brand:"Häfele",n:{it:"Maniglia a barra inox 128mm",ro:"Mâner bară inox 128mm",en:"Stainless bar handle 128mm",fr:"Poignée barre inox 128mm",de:"Edelstahl-Stangengriff 128 mm",pl:"Uchwyt prętowy ze stali nierdzewnej 128 mm",es:"Tirador de barra de acero inoxidable 128 mm"},art:"106.61.xxx",price:4.8,chk:1},
+  {id:"gen_man",brand:"—",n:{it:"Maniglia generica",ro:"Mâner generic",en:"Generic handle",fr:"Poignée générique",de:"Standardgriff",pl:"Uchwyt standardowy",es:"Tirador genérico"},art:"—",price:3.5,hm:{t:"bar",ia:128,fin:"__blackmetal"}},
+  {id:"haf_bar128",brand:"Häfele",n:{it:"Maniglia a barra inox 128mm",ro:"Mâner bară inox 128mm",en:"Stainless bar handle 128mm",fr:"Poignée barre inox 128mm",de:"Edelstahl-Stangengriff 128 mm",pl:"Uchwyt prętowy ze stali nierdzewnej 128 mm",es:"Tirador de barra de acero inoxidable 128 mm"},art:"106.61.xxx",price:4.8,chk:1,hm:{t:"bar",ia:128,fin:"__inox"}},
   {id:"haf_profil",brand:"Häfele",n:{it:"Profilo presa Gola/L",ro:"Profil prindere Gola/L",en:"Gola/L grip profile",fr:"Profil de prise Gola/L",de:"Griffleistenprofil Gola/L",pl:"Profil uchwytowy Gola/L",es:"Perfil de agarre Gola/L"},art:"126.36.xxx",price:6.0,chk:1,profile:1},
-  {id:"gen_pomo",brand:"—",n:{it:"Pomello",ro:"Buton",en:"Knob",fr:"Bouton",de:"Knopf",pl:"Gałka",es:"Pomo"},art:"—",price:2.2,knob:1}],
+  {id:"gen_pomo",brand:"—",n:{it:"Pomello",ro:"Buton",en:"Knob",fr:"Bouton",de:"Knopf",pl:"Gałka",es:"Pomo"},art:"—",price:2.2,knob:1,hm:{t:"knob",d:30,fin:"__blackmetal"}},
+  {id:"gen_bar96_inox",brand:"—",n:{"it": "Maniglia a barra inox 96 mm", "ro": "Mâner bară inox 96 mm", "en": "Stainless bar handle 96 mm", "fr": "Poignée barre inox 96 mm", "de": "Edelstahl-Stangengriff 96 mm", "pl": "Uchwyt prętowy inox 96 mm", "es": "Tirador barra inox 96 mm"},art:"\u2014",price:4.9,chk:1,hm:{"t": "bar", "ia": 96, "fin": "__inox"}},
+  {id:"gen_bar160_inox",brand:"—",n:{"it": "Maniglia a barra inox 160 mm", "ro": "Mâner bară inox 160 mm", "en": "Stainless bar handle 160 mm", "fr": "Poignée barre inox 160 mm", "de": "Edelstahl-Stangengriff 160 mm", "pl": "Uchwyt prętowy inox 160 mm", "es": "Tirador barra inox 160 mm"},art:"\u2014",price:5.7,chk:1,hm:{"t": "bar", "ia": 160, "fin": "__inox"}},
+  {id:"gen_bar192_black",brand:"—",n:{"it": "Maniglia a barra nera 192 mm", "ro": "Mâner bară negru 192 mm", "en": "Black bar handle 192 mm", "fr": "Poignée barre noire 192 mm", "de": "Schwarzer Stangengriff 192 mm", "pl": "Czarny uchwyt prętowy 192 mm", "es": "Tirador barra negro 192 mm"},art:"\u2014",price:5.7,chk:1,hm:{"t": "bar", "ia": 192, "fin": "__blackmetal"}},
+  {id:"gen_bar320_inox",brand:"—",n:{"it": "Maniglia a barra inox 320 mm (ante alte)", "ro": "Mâner bară inox 320 mm (uși înalte)", "en": "Stainless bar handle 320 mm (tall doors)", "fr": "Poignée barre inox 320 mm (portes hautes)", "de": "Edelstahl-Stangengriff 320 mm (hohe Türen)", "pl": "Uchwyt prętowy inox 320 mm (wysokie drzwi)", "es": "Tirador barra inox 320 mm (puertas altas)"},art:"\u2014",price:12.5,chk:1,hm:{"t": "bar", "ia": 320, "fin": "__inox"}},
+  {id:"gen_bar160_bronze",brand:"—",n:{"it": "Maniglia bronzo 160 mm", "ro": "Mâner bronz 160 mm", "en": "Bronze handle 160 mm", "fr": "Poignée bronze 160 mm", "de": "Bronzegriff 160 mm", "pl": "Uchwyt brązowy 160 mm", "es": "Tirador bronce 160 mm"},art:"\u2014",price:11.2,chk:1,hm:{"t": "bar", "ia": 160, "fin": "__bronze", "d": 14}},
+  {id:"gen_barsq160_nickel",brand:"—",n:{"it": "Maniglia a barra quadra nichel satinato 160 mm", "ro": "Mâner bară pătrată nichel satinat 160 mm", "en": "Square bar handle, satin nickel 160 mm", "fr": "Poignée barre carrée nickel satiné 160 mm", "de": "Vierkant-Stangengriff Nickel satiniert 160 mm", "pl": "Uchwyt kwadratowy nikiel satyna 160 mm", "es": "Tirador barra cuadrada níquel satinado 160 mm"},art:"\u2014",price:10.0,chk:1,hm:{"t": "barsq", "ia": 160, "fin": "__nickel"}},
+  {id:"gen_dpull128_black",brand:"—",n:{"it": "Maniglia a ponte nera 128 mm", "ro": "Mâner punte negru 128 mm", "en": "Black D-pull 128 mm", "fr": "Poignée pont noire 128 mm", "de": "Schwarzer Bügelgriff 128 mm", "pl": "Czarny uchwyt mostkowy 128 mm", "es": "Tirador puente negro 128 mm"},art:"\u2014",price:4.3,chk:1,hm:{"t": "dpull", "ia": 128, "fin": "__blackmetal"}},
+  {id:"gen_bow96_white",brand:"—",n:{"it": "Maniglia ad arco bianca 96 mm", "ro": "Mâner arcuit alb 96 mm", "en": "White bow handle 96 mm", "fr": "Poignée arc blanche 96 mm", "de": "Weißer Bogengriff 96 mm", "pl": "Biały uchwyt łukowy 96 mm", "es": "Tirador arco blanco 96 mm"},art:"\u2014",price:3.35,chk:1,hm:{"t": "bow", "ia": 96, "fin": "__whitemetal"}},
+  {id:"gen_bow128_chrome",brand:"—",n:{"it": "Maniglia ad arco cromo lucido 128 mm", "ro": "Mâner arcuit crom lucios 128 mm", "en": "Polished chrome bow handle 128 mm", "fr": "Poignée arc chrome brillant 128 mm", "de": "Bogengriff Chrom glänzend 128 mm", "pl": "Uchwyt łukowy chrom błyszczący 128 mm", "es": "Tirador arco cromo brillo 128 mm"},art:"\u2014",price:8.3,chk:1,hm:{"t": "bow", "ia": 128, "fin": "__chrome"}},
+  {id:"gen_edge150_alu",brand:"—",n:{"it": "Maniglia a filo bordo alluminio 150 mm", "ro": "Mâner profil pe muchie aluminiu 150 mm", "en": "Edge pull, aluminium 150 mm", "fr": "Poignée de chant aluminium 150 mm", "de": "Kantengriff Aluminium 150 mm", "pl": "Uchwyt krawędziowy aluminium 150 mm", "es": "Tirador de canto aluminio 150 mm"},art:"\u2014",price:10.3,chk:1,hm:{"t": "edge", "L": 150, "fin": "__alu"}},
+  {id:"gen_edge300_black",brand:"—",n:{"it": "Maniglia a filo bordo nera 300 mm", "ro": "Mâner profil pe muchie negru 300 mm", "en": "Black edge pull 300 mm", "fr": "Poignée de chant noire 300 mm", "de": "Schwarzer Kantengriff 300 mm", "pl": "Czarny uchwyt krawędziowy 300 mm", "es": "Tirador de canto negro 300 mm"},art:"\u2014",price:12.2,chk:1,hm:{"t": "edge", "L": 300, "fin": "__blackmetal"}},
+  {id:"gen_flush_oval",brand:"—",n:{"it": "Maniglia a incasso ovale 120×40", "ro": "Mâner încastrat oval 120×40", "en": "Oval flush pull 120×40", "fr": "Poignée encastrée ovale 120×40", "de": "Ovale Einlassmuschel 120×40", "pl": "Owalny uchwyt wpuszczany 120×40", "es": "Tirador empotrado oval 120×40"},art:"\u2014",price:8.7,chk:1,hm:{"t": "flush", "L": 120, "W": 40, "depth": 12, "fin": "__alu"}},
+  {id:"gen_flush_round",brand:"—",n:{"it": "Maniglia a incasso tonda Ø40", "ro": "Mâner încastrat rotund Ø40", "en": "Round flush pull Ø40", "fr": "Poignée encastrée ronde Ø40", "de": "Runde Einlassmuschel Ø40", "pl": "Okrągły uchwyt wpuszczany Ø40", "es": "Tirador empotrado redondo Ø40"},art:"\u2014",price:4.5,chk:1,hm:{"t": "flushR", "d": 40, "depth": 12, "fin": "__inox"}},
+  {id:"gen_cup64_bronze",brand:"—",n:{"it": "Maniglia a conchiglia bronzo 64 mm", "ro": "Mâner scoică bronz 64 mm", "en": "Bronze cup pull 64 mm", "fr": "Poignée coquille bronze 64 mm", "de": "Muschelgriff Bronze 64 mm", "pl": "Uchwyt muszelkowy brąz 64 mm", "es": "Tirador concha bronce 64 mm"},art:"\u2014",price:5.3,chk:1,hm:{"t": "cup", "ia": 64, "fin": "__bronze"}},
+  {id:"gen_knob_chrome",brand:"—",n:{"it": "Pomello sfera cromo Ø25", "ro": "Buton sferă crom Ø25", "en": "Chrome ball knob Ø25", "fr": "Bouton boule chrome Ø25", "de": "Kugelknopf Chrom Ø25", "pl": "Gałka kulista chrom Ø25", "es": "Pomo bola cromo Ø25"},art:"\u2014",price:3.8,chk:1,hm:{"t": "knob", "d": 25, "fin": "__chrome"},knob:1},
+  {id:"gen_knob_brass",brand:"—",n:{"it": "Pomello ottone lucido Ø25", "ro": "Buton alamă lucioasă Ø25", "en": "Polished brass knob Ø25", "fr": "Bouton laiton poli Ø25", "de": "Messingknopf poliert Ø25", "pl": "Gałka mosiądz polerowany Ø25", "es": "Pomo latón pulido Ø25"},art:"\u2014",price:3.45,chk:1,hm:{"t": "knob", "d": 25, "fin": "__brass"},knob:1},
+  {id:"gen_knob_wood",brand:"—",n:{"it": "Pomello in legno Ø35", "ro": "Buton din lemn Ø35", "en": "Wooden knob Ø35", "fr": "Bouton en bois Ø35", "de": "Holzknopf Ø35", "pl": "Drewniana gałka Ø35", "es": "Pomo de madera Ø35"},art:"\u2014",price:0.95,chk:1,hm:{"t": "knob", "d": 35, "fin": "__woodknob"},knob:1},
+  {id:"gen_knob_ceramic",brand:"—",n:{"it": "Pomello ceramica bianca Ø30", "ro": "Buton ceramică albă Ø30", "en": "White ceramic knob Ø30", "fr": "Bouton céramique blanc Ø30", "de": "Porzellanknopf weiß Ø30", "pl": "Biała gałka ceramiczna Ø30", "es": "Pomo cerámica blanco Ø30"},art:"\u2014",price:2.3,chk:1,hm:{"t": "knob", "d": 30, "fin": "__ceramic"},knob:1},
+  {id:"gen_knob_sq_black",brand:"—",n:{"it": "Pomello quadro nero 30 mm", "ro": "Buton pătrat negru 30 mm", "en": "Square black knob 30 mm", "fr": "Bouton carré noir 30 mm", "de": "Quadratischer Knopf schwarz 30 mm", "pl": "Kwadratowa gałka czarna 30 mm", "es": "Pomo cuadrado negro 30 mm"},art:"\u2014",price:4.6,chk:1,hm:{"t": "knobSq", "d": 30, "fin": "__blackmetal"},knob:1},
+  {id:"gen_ring_antique",brand:"—",n:{"it": "Maniglia ad anello ottone anticato", "ro": "Mâner inel alamă patinată", "en": "Antique brass ring pull", "fr": "Anneau laiton vieilli", "de": "Ringgriff Messing antik", "pl": "Uchwyt pierścień mosiądz antyczny", "es": "Tirador anilla latón envejecido"},art:"\u2014",price:2.2,chk:1,hm:{"t": "ring", "d": 40, "fin": "__antique"},knob:1}],
  sup:[
   {id:"haf_sup",brand:"Häfele",n:{it:"Supporto ripiano ø5 con sicura, 15,6 kg",ro:"Suport poliță ø5 cu siguranță, 15,6 kg",en:"Shelf support ø5 with safety pin, 15.6 kg",fr:"Taquet ø5 avec sécurité, 15,6 kg",de:"Fachbodenträger ø5 mit Sicherung, 15,6 kg",pl:"Podpórka półki ø5 z zabezpieczeniem, 15,6 kg",es:"Soporte de balda ø5 con seguro, 15,6 kg"},art:"282.24.720",price:0.12},
   {id:"gen_sup",brand:"—",n:{it:"Supporto ø5 semplice",ro:"Suport ø5 simplu",en:"Plain ø5 support",fr:"Taquet ø5 simple",de:"Einfacher Fachbodenträger ø5",pl:"Prosta podpórka ø5",es:"Soporte simple ø5"},art:"—",price:0.05}],
@@ -3344,6 +3394,8 @@ const HWDB={
   {id:"lam_clamex",brand:"Lamello",n:{it:"Lamello Clamex P-14",ro:"Lamello Clamex P-14",en:"Lamello Clamex P-14",fr:"Lamello Clamex P-14",de:"Lamello Clamex P-14",pl:"Lamello Clamex P-14",es:"Lamello Clamex P-14"},art:"—",price:1.2,chk:1}],
  gola:[
   {id:"gen_gola_l",brand:"—",n:{it:"Profilo gola L in alluminio (al metro)",ro:"Profil gola L din aluminiu (la metru)",en:"Aluminium L handle-less profile (per metre)",fr:"Profilé gorge L en aluminium (au mètre)",de:"Aluminium-Griffleistenprofil L (pro Meter)",pl:"Profil bezuchwytowy L z aluminium (za metr)",es:"Perfil sin tirador L de aluminio (por metro)"},art:"\u2014",price:9.5,chk:1}],
+ golaj:[
+  {id:"gen_gola_j",brand:"—",n:{it:"Profilo gola J in alluminio (al metro)",ro:"Profil gola J din aluminiu (la metru)",en:"Aluminium J handle-less profile (per metre)",fr:"Profilé gorge J en aluminium (au mètre)",de:"Aluminium-J-Griffleiste (pro Meter)",pl:"Aluminiowy profil J bezuchwytowy (za metr)",es:"Perfil gola J de aluminio (por metro)"},art:"\u2014",price:14,chk:1}],
  golac:[
   {id:"gen_gola_c",brand:"—",n:{it:"Profilo gola C in alluminio (al metro)",ro:"Profil gola C din aluminiu (la metru)",en:"Aluminium C handle-less profile (per metre)",fr:"Profilé gorge C en aluminium (au mètre)",de:"Aluminium-Griffleistenprofil C (pro Meter)",pl:"Profil bezuchwytowy C z aluminium (za metr)",es:"Perfil sin tirador C de aluminio (por metro)"},art:"\u2014",price:12,chk:1}],
  aw:[
@@ -3381,7 +3433,7 @@ const HWDB={
 /* U.2 — articolele proprii ale utilizatorului (S.hwAdd: {id,cat,brand,n,art,price})
    stau in aceeasi lista cu cele de serie: orice cautare dupa id le gaseste. */
 function hwName(it){ const n=it.n; return typeof n==="string"?n:((n||{})[state.lang]||(n||{}).it||""); }
-function hwList(cat){ const add=((state.settings||{}).hwAdd||[]).filter(x=>x.cat===cat);
+function hwList(cat){ if(cat==="manS") cat="man"; const add=((state.settings||{}).hwAdd||[]).filter(x=>x.cat===cat);
   return add.length?(HWDB[cat]||[]).concat(add):(HWDB[cat]||[]); }
 function hwItem(cat){ const S=state.settings, id=(S.hwProd||{})[cat]||((HWDB[cat]||[])[0]||{}).id;
   const it=hwList(cat).find(x=>x.id===id)||null;
@@ -3394,6 +3446,7 @@ function hwItem(cat){ const S=state.settings, id=(S.hwProd||{})[cat]||((HWDB[cat
    preventivo; la gola vera (frontali accorciati, profilo a metro) e U.7. */
 /* un articolo preciso del catalogo, con i prezzi corretti dall'utente */
 function hwItemById(cat,id){
+  if(cat==="manS") cat="man";
   const it=hwList(cat).find(x=>x.id===id)||null;
   if(!it) return hwItem(cat);
   const eff=Object.assign({},it,((state.settings||{}).hwOvr||{})[it.id]||{});
@@ -3412,7 +3465,23 @@ function guidaIdFor(cfg){
 /* tipul de imbinare implicit (ebanist-ops.js il citeste cand corpul nu are alegere proprie) */
 window.slideGuidaId=cfg=>guidaIdFor(cfg);
 window.jointDefaultId=()=>{ const it=hwItem("conn"); return it&&it.id; };
-function hwItemFor(cfg,cat){ const id=cfg&&cfg.hwSel&&cfg.hwSel[cat]; return id?hwItemById(cat,id):hwItem(cat); }
+function hwItemFor(cfg,cat){
+  /* mânerul sertarelor (D-89): propriu dacă e ales pe corp, altfel același ca la uși */
+  if(cat==="manS"){ const id=cfg&&cfg.hwSel&&cfg.hwSel.manS; return id?hwItemById("man",id):hwItemFor(cfg,"man"); }
+  const id=cfg&&cfg.hwSel&&cfg.hwSel[cat]; return id?hwItemById(cat,id):hwItem(cat); }
+/* D-89 — modelul mânerului: tip, interax, lungime, finisaj. Din articolul ales (uși: «man», sertare: «manS»).
+   Articolele fără model (cele vechi, cele adăugate de utilizator) rămân bară de 128 sau buton, ca înainte. */
+const HANDLE_ONEHOLE=["knob","knobSq","ring"], HANDLE_NOHOLE_IA=["knob","knobSq","ring","flush","flushR","edge"];
+function handleModel(cfg,kind){
+  let it=null; try{ it=hwItemFor(cfg||null,kind==="drawer"?"manS":"man"); }catch(e){}
+  if(!it||it.profile) return null;
+  const hm=it.hm||(it.knob?{t:"knob",d:30,fin:"__blackmetal"}:{t:"bar",ia:128,fin:it.id==="haf_bar128"?"__inox":"__blackmetal"});
+  const m=Object.assign({id:it.id},hm);
+  if(m.ia==null) m.ia=HANDLE_NOHOLE_IA.includes(m.t)?0:128;
+  if(m.L==null) m.L={bar:m.ia+44,barsq:m.ia+40,bow:m.ia+16,dpull:m.ia+10,cup:m.ia+30,edge:150,flush:120}[m.t]||m.d||30;
+  m.knob=HANDLE_ONEHOLE.includes(m.t);
+  return m;
+}
 function handleIsProfile(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(it&&it.profile); }catch(e){ return false; } }
 function handleIsKnob(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(it&&it.knob); }catch(e){ return false; } }
 /* ===== CATALOGO MATERIALI ================================================
@@ -5599,7 +5668,13 @@ let buildSecDrawerH=null;
 let buildSecDrawerNL=null;  // profondita (NL) per sezione (U.13)  // altezze dei frontali per sezione (U.13), dall'alto  // cassetti per sezione (U.11): null = tutte come «Cassetti/sez.»
 let buildFormReady=false;
 const MAT_ACC="Accessorio — asta appendiabiti ovale";
-const MAT_GOLA_L="Accessorio — profilo gola L alluminio", MAT_GOLA_C="Accessorio — profilo gola C alluminio";
+const MAT_GOLA_L="Accessorio — profilo gola L alluminio", MAT_GOLA_C="Accessorio — profilo gola C alluminio", MAT_GOLA_J="Accessorio — profilo gola J alluminio";
+/* D-89 — tipurile de gola. «L»: profil L sus + C între sertare, în corp (U.7, D-75). «J»: profil J pe muchia
+   de sus a fiecărui front, stă în rostul gola. «fresata»: priza frezată în muchia de sus a frontului, pe spate,
+   fără profil. Rosturile implicite sunt ale tipului; cotele profilului J sunt date generice (verificat:false). */
+const GOLA_TYPES={L:{h:40,c:60},J:{h:30,c:30},fresata:{h:25,c:25}};
+const GOLA_J={verificat:false,h:25};
+function golaType(cfg){ const t=cfg&&cfg.golaType; return GOLA_TYPES[t]?t:"L"; }
 const MAT_AW="Accessorio — profilo anticurvatura";
 const MAT_FOLD="Accessorio — sistema anta pieghevole";
 const MAT_PIED="Accessorio — piedino regolabile";
@@ -6154,8 +6229,8 @@ function carcassParams(cfg,ctx){
     ...(+cfg.topRailW>0?{top_rail_W:+cfg.topRailW}:{}),
     /* gola (U.7): profil in loc de maner; cotele profilului vin din formular */
     gola:cfg.handles==="gola",
-    ...(cfg.handles==="gola"&&+cfg.golaH>0?{gola_h:+cfg.golaH}:{}),
-    ...(cfg.handles==="gola"&&+cfg.golaC>0?{gola_c:+cfg.golaC}:{})
+    ...(cfg.handles==="gola"&&+cfg.golaH>0?{gola_h:+cfg.golaH}:(cfg.handles==="gola"&&golaType(cfg)!=="L"?{gola_h:GOLA_TYPES[golaType(cfg)].h}:{})),
+    ...(cfg.handles==="gola"&&+cfg.golaC>0?{gola_c:+cfg.golaC}:(cfg.handles==="gola"&&golaType(cfg)!=="L"?{gola_c:GOLA_TYPES[golaType(cfg)].c}:{}))
   });
 }
 /* I campi a COTE ASSOLUTE del corpo. Tutti facoltativi: un progetto che non
@@ -7112,7 +7187,15 @@ function buildCore(cfg){
      doua sertare suprapuse. Sunt randuri de accesorii (aluminiu, la metru in
      deviz), nu panouri: nu intra in gabarit si nu se taie din placa. Laterale
      primesc cate o decupare la fiecare profil C, dupa primul grup de sertare. */
-  if(gola){
+  if(gola&&golaType(cfg)==="J"){
+    /* profil J pe muchia de sus a fiecărui front (ușă, sertar): stă în rostul gola de deasupra */
+    const fr=boxes.filter(b=>(b.role==="frontale"&&(b.sub==="door"||b.sub==="fold"))||(b.role==="cassetto_frontale"&&b.sub==="drawer"&&!(b.inner)));
+    const jRows={}, jh=Math.max(5,Math.min(GOLA_J.h,Math.min(gola.h,gola.c)-3));
+    fr.forEach(b=>{ const w=Math.round(b.x1-b.x0); jRows[w]=(jRows[w]||0)+1;
+      bxRole="profilo"; bx(b.x0,b.x1,b.y1,b.y1+jh,b.z0,b.z1,"p"); });
+    Object.keys(jRows).map(Number).sort((a,b)=>a-b).forEach(k=>add("Profilo gola J",k,jh,jRows[k],"",MAT_GOLA_J,{role:"accessorio"}));
+  }
+  if(gola&&golaType(cfg)==="L"){
     const stacks=dGroups.filter(g=>g.plan&&g.plan.ok&&!dInner);
     const blocks=dBlockPlans.filter(pl=>pl&&pl.ok&&!pl.inner);
     const anyFront=(cfg.doors>0&&!sliding)||hasFronts(cfg)||stacks.length||blocks.length;
@@ -8071,6 +8154,11 @@ function partSVG(pc,face){
     const gx=hz?x0:x0-o.width/2, gy=hz?Y(y0)-o.width/2:Y(y1), gw=hz?x1-x0:o.width, gh=hz?o.width:y1-y0;
     s+=`<rect x="${gx}" y="${gy}" width="${gw}" height="${gh}" fill="${o.face===face?"#8a7a60":"none"}" fill-opacity=".35" stroke="#6b5b43" stroke-width="${rmin*0.35}" stroke-dasharray="${o.face===face?"0":rmin*1.6}"/>`;
   });
+  /* locașuri la freză (mâner încastrat, D-89; decupaje): dreptunghi cu colțuri rotunjite */
+  ops.filter(o=>o.type==="mill"&&(o.face===face||o.through)).forEach(o=>{
+    const r=Math.min(o.r||0,o.w/2,o.d/2);
+    s+=`<rect x="${X(o.x)-o.w/2}" y="${Y(o.y)-o.d/2}" width="${o.w}" height="${o.d}" rx="${r}" fill="#6b4f9a" fill-opacity=".3" stroke="#6b4f9a" stroke-width="${rmin*.35}"/>`;
+  });
   ops.filter(o=>o.type==="slot").forEach(o=>{
     if(o.face===5||o.face===6){
       if(o.face!==face) return;
@@ -8507,6 +8595,7 @@ function cfgFromForm(){
     back:parseInt($("bBack").value,10)?1:0, hang:parseInt($("bHang").value,10)?1:0,
     front:$("bFront").value, support:$("bSupport").value,
     handles:$("bHandles").value, shelfType:$("bShelfT").value,
+    golaType:$("bHandles").value==="gola"&&$("bGolaType").value!=="L"?$("bGolaType").value:null,
     golaH:$("bHandles").value==="gola"&&v("bGolaH",0)>0?Math.max(5,Math.min(200,v("bGolaH",0))):null,
     golaC:$("bHandles").value==="gola"&&v("bGolaC",0)>0?Math.max(5,Math.min(200,v("bGolaC",0))):null,
     boxes:parseInt($("bBoxes").value,10), corner:$("bCorner").value, cornerKind:$("bCornerKind").value,
@@ -8545,7 +8634,7 @@ function cfgCarry(src){
 function fAng(id){ const raw=$(id).value.trim(); if(!raw) return 90; const n=parseFloat(raw.replace(",",".")); return isFinite(n)?angClamp(n):90; }
 function syncBuildForm(){
   $("bFront").value=buildCfg.front||"piena"; $("bSupport").value=buildCfg.support||"zoccolo";
-  $("bHandles").value=buildCfg.handles||"maniglia"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
+  $("bHandles").value=buildCfg.handles||"maniglia"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
   $("bBoxes").value=buildCfg.boxes===0||buildCfg.boxes==="0"?"0":"1";
   $("bCorner").value=buildCfg.corner||"sx";
   $("bCornerKind").value=buildCfg.cornerKind||"int";
@@ -8749,11 +8838,15 @@ function cleanDoorHinge(a,n){
 function renderGola(){
   const on=$("bHandles").value==="gola";
   $("rowGola").style.display=on?"":"none"; $("golaHint").style.display=on?"":"none";
+  const rt=$("rowGolaType"); if(rt) rt.style.display=on?"":"none";
+  const gt=($("bGolaType")&&$("bGolaType").value)||"L", d=GOLA_TYPES[gt]||GOLA_TYPES.L;
+  $("bGolaH").placeholder=d.h; $("bGolaC").placeholder=d.c;
+  $("golaHint").textContent=t({L:"golaHint",J:"golaHintJ",fresata:"golaHintF"}[gt]||"golaHint");
 }
 /* U.2 — feroneria aleasa pe corp. Un selector pe categorie; «catalog» = articolul
    din Setari. Citit direct din selectoare (nu din stare paralela), la fel ca restul
    formularului. Categoriile sunt cele pe care le foloseste un corp. */
-const HW_BODY_CATS=["cern","man","push","guida","sup","asta","pied","conn","aw"];
+const HW_BODY_CATS=["cern","man","manS","push","guida","sup","asta","pied","conn","aw"];
 function readHwSel(){ const o={}; document.querySelectorAll("#hwSelBox select[data-cat]").forEach(sl=>{ if(sl.value) o[sl.dataset.cat]=sl.value; });
   return Object.keys(o).length?o:null; }
 function renderHwSel(sel){
@@ -8762,7 +8855,7 @@ function renderHwSel(sel){
   box.innerHTML=HW_BODY_CATS.map(cat=>{
     const key=Object.keys(HW_CAT_OF).find(k=>HW_CAT_OF[k]===cat), def=hwItem(cat);
     return `<div class="f" style="margin-bottom:8px"><label>${esc(t(cat==="conn"?"fJoint":key))}</label>
-      <select data-cat="${cat}"><option value="">${esc(t("hwSelDef"))}${def?" — "+esc((def.brand&&def.brand!=="—"?def.brand+" ":"")+def.name):""}</option>`+
+      <select data-cat="${cat}"><option value="">${cat==="manS"?esc(t("hwSelSame")):esc(t("hwSelDef"))+(def?" — "+esc((def.brand&&def.brand!=="—"?def.brand+" ":"")+def.name):"")}</option>`+
       hwList(cat).map(x=>`<option value="${x.id}"${cur[cat]===x.id?" selected":""}>${esc((x.brand&&x.brand!=="—"?x.brand+" — ":"")+hwName(x))}</option>`).join("")+`</select></div>`;
   }).join("");
   const n=Object.keys(cur).length; const sm=$("sumHw"); if(sm) sm.textContent=n?String(n):"";
@@ -9072,6 +9165,14 @@ function drawPreview(){
   if(wn.doorNarrow) notes.push("⚠︎ "+t("wDoorNarrow").replace("{w}",wn.doorNarrow).replace("{m}",DOOR_NARROW));
   if(wn.slope) notes.push(t("wSlope").replace("{a}",wn.slope.deg));
   if(wn.foldNarrow) notes.push("⚠︎ "+t("wFoldNarrow").replace("{w}",wn.foldNarrow).replace("{m}",FOLD.min_leaf));
+  /* D-89: mânerul ales nu încape pe front */
+  try{
+    if(buildCfg.handles!=="push"&&buildCfg.handles!=="gola"){
+      const len=m=>m?(m.t==="flushR"?m.d:(m.L||m.ia||0)):0;
+      const big=(m,re)=>m&&pieces.some(x=>re.test(x.elemento||"")&&!/interno/i.test(x.elemento||"")&&Math.max(x.lung,x.larg)-40<len(m));
+      if(big(handleModel(buildCfg,"door"),/^anta/i)||big(handleModel(buildCfg,"drawer"),/^frontale cassetto/i)) notes.push("⚠︎ "+t("opsHandleFit"));
+    }
+  }catch(e){}
   if(wn.foldLY) notes.push("⚠︎ "+t("wFoldLY"));
   if(wn.foldFront) notes.push("⚠︎ "+t("wFoldFront"));
   if(wn.foldReach) notes.push(t("wFoldReach").replace("{w}",wn.foldReach));
@@ -9298,6 +9399,7 @@ function renderBuild(){
     ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     ["bTop","bTipo"].forEach(id=>$(id).addEventListener("change",renderTop)); renderTop();
     $("bHandles").addEventListener("change",renderGola);
+    $("bGolaType").addEventListener("change",()=>{ renderGola(); drawPreview(); });
     $("bAW").addEventListener("change",renderAW);
     $("bFold").addEventListener("change",renderFold);
     ["bSlope","bSlopeH0","bSlopeH1","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderSlope); $(id).addEventListener("change",renderSlope); });
@@ -10735,10 +10837,18 @@ function mSteps(M,hw,items){
   const hd=by("maniglia");
   if(hd.length){
     const v=hd.filter(h=>h.vertical), o=hd.filter(h=>!h.vertical);
-    let s=t("ms21").replace("{n}",hd.length).replace("{ia}",hd[0].ia).replace("{p}",P("man","hwMan"));
-    if(v.length) s+=" "+t("ms21v").replace("{y}",mList(v.map(h=>h.w[1]))).replace("{e}",HW_DRILL.handle.from_edge);
-    if(o.length) s+=" "+t("ms21o");
-    add(s);
+    /* D-89: un rând pe articol — bară (interax), buton, încastrat, pe muchie — fiecare cu montajul lui */
+    const groups={}; hd.forEach(h=>{ const k=h.catalog||"gen_man"; (groups[k]=groups[k]||[]).push(h); });
+    Object.keys(groups).forEach((id,gi)=>{
+      const g=groups[id], m=g[0].hm||{t:g[0].knob?"knob":"bar"}, it=id&&id!=="gen_man"?hwItemById("man",id):null;
+      const nm=it?`${it.brand&&it.brand!=="—"?it.brand+" ":""}${it.name}${it.art&&it.art!=="—"?" ("+it.art+")":""}`:P("man","hwMan");
+      const key=m.knob||m.t==="knob"||m.t==="knobSq"||m.t==="ring"?"ms21k":(m.t==="flush"||m.t==="flushR")?"ms21f":m.t==="edge"?"ms21e":"ms21";
+      let s=t(key).replace("{n}",g.length).replace("{ia}",g[0].ia).replace("{p}",nm);
+      const gv=g.filter(h=>h.vertical), go=g.filter(h=>!h.vertical);
+      if(key==="ms21"&&gv.length) s+=" "+t("ms21v").replace("{y}",mList(gv.map(h=>h.w[1]))).replace("{e}",HW_DRILL.handle.from_edge);
+      if(key==="ms21"&&go.length) s+=" "+t("ms21o");
+      add(s);
+    });
   }
   if(hw.hwPush>0) add(t("mPush").replace("{q}",hw.hwPush).replace("{p}",P("push","hwPush")));
   add(t("ms22"));
@@ -11504,7 +11614,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
+  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
 function renderCatalog(){
   const S=state.settings;
   $("catHwWrap").innerHTML=HW_CATS.map(([cat,key])=>{
@@ -11666,12 +11776,12 @@ $("btnCatalogSave").addEventListener("click",()=>{
 });
 
 /* ================= PRO: FERRAMENTA / PREVENTIVO / SHARE ================= */
-const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwLeg:"gamba",hwTopClip:"fissp",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
+const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
+  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTopClip:"fissp",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
-  const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTopClip","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwAW","hwFold"];
+  const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
+    "hwLeg","hwTopClip","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -11706,6 +11816,7 @@ function computeHardware(p,S,byModule){
       grip(mod,packs||x.pz); }
     else if(el.startsWith("profilo anticurvatura")){ bump(mod,"hwAW",x.pz); }
     else if(el.startsWith("profilo gola l")){ bump(mod,"hwGolaL",Math.round(x.lung*x.pz/10)/100); }
+    else if(el.startsWith("profilo gola j")){ bump(mod,"hwGolaJ",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola c")){ bump(mod,"hwGolaC",Math.round(x.lung*x.pz/10)/100); }
     else if(el.includes("anta scorrevole")){ binMods.add(mod); }
     else if(el.startsWith("anta")){
@@ -11720,7 +11831,10 @@ function computeHardware(p,S,byModule){
     else if(el.startsWith("frontale cassetto")){ bumpG(x,mod,x.pz);
       /* il cassetto interno sta dietro l'anta: si tira per il frontale,
          una maniglia li dentro urterebbe l'anta chiusa. */
-      if(!el.includes("interno")) grip(mod,x.pz); }
+      if(!el.includes("interno")){
+        /* sertarul cu mânerul lui (D-89): rând separat în deviz */
+        const c=cfgOf(x);
+        if(!gola&&!push&&c&&c.hwSel&&c.hwSel.manS) bump(mod,"hwManS",x.pz); else grip(mod,x.pz); } }
     else if(el.startsWith("fondo ripiano estraibile")){ bumpG(x,mod,x.pz); }  // una coppia di guide per vassoio (U.12)
     else if(el.includes("ripiano mobile")||el.includes("ripiano regolabile")){ bump(mod,"hwSup",4*x.pz); }
     else if(el.includes("asta appendiabiti")){ bump(mod,"hwAsta",2*x.pz); }
@@ -13614,6 +13728,7 @@ function aiSchema(mode){
         topRailW:{type:"integer",minimum:30,maximum:400,description:"Width of each top rail in mm, only with top=\"traverse\". Default 100."},
         golaH:{type:"integer",minimum:5,maximum:200,description:"With handles=\"gola\": height of the top L profile in mm (replaces the top gap of the fronts). Default 40."},
         golaC:{type:"integer",minimum:5,maximum:200,description:"With handles=\"gola\": gap between two stacked fronts, where the C profile sits, mm. Default 60."},
+        golaType:{type:"string",enum:["L","J","fresata"],description:"With handles=\"gola\": L = L profile on top + C profiles between drawers in the carcass (default); J = J profile on the top edge of every front; fresata = grip milled into the top back edge of every front, no profile."},
         corner:{type:"string",enum:AI_ENUM.corner}, cornerKind:{type:"string",enum:AI_ENUM.cornerKind},
         drawerSys:{type:"string",enum:AI_ENUM.drawerSys,description:"Drawer system. legno = wooden box on the slide chosen in the catalog."},
         drawerDist:{type:"string",enum:AI_ENUM.drawerDist,description:"How the drawer front heights are shared out: fix = every front drawerFH tall, uguali = equal over drawerZone, cucina = one shallow front on top."},
@@ -13685,7 +13800,7 @@ function aiContext(mode){
   if(mode==="genera"){
     const c=cfgFromForm(), keep={};
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
-     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC",
+     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC","golaType",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers","secDrawerH","secDrawerNL","secPull",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
      "backMode","partitions","fronts","depthProfile","customCuts","drawerBlocks"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
@@ -14777,12 +14892,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.74.7"; /* APP_VER-MARKER */
+const APP_VER="4.75.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v145";
+const SW_CACHE="ebanist-v146";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
