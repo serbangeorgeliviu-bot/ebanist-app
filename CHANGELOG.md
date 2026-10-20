@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.74.7 — 20 octombrie 2026
+
+**Unghiul tăieturii scris pe desen.** În scheda pezzo și în foaia A3 de fabricație, panoul pe pantă are acum conturul trapezoidal și unghiul (de ex. „28,9°”) scris lângă muchia înclinată, nu doar în textul de sub cote.
+
 ## 4.74.6 — 20 octombrie 2026
 
 **Buton nou în setări: „Repară aplicația”.** Dacă după o actualizare pagina e nouă dar un fișier a rămas vechi (de exemplu scheda pezzo nu arată tăietura la unghi deși versiunea afișată e cea nouă), butonul golește memoria locală a fișierelor, scoate service worker-ul și reîncarcă din server. Proiectele și setările nu se ating.
