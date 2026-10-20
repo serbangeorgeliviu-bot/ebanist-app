@@ -2913,12 +2913,15 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.gate = { slope: gate(sl), slopeZ: gate({ ...PRESETS.armadio, H: 2200, topProfile: { axis: "z", h0: 2200, h1: 1600 } }),
         fold2: gate({ ...PRESETS.armadio, fold: 2 }), fold4: gate({ ...PRESETS.armadio, fold: 4 }), fold3x3: gate({ ...PRESETS.armadio, doors: 3, fold: 3 }),
         cornerFold: gate({ ...PRESETS.angolare, fold: 2 }) };
+      o.kbc = [kbCompute({ ih: 800, vvH: 480, vvTop: 0, base: 800, typing: true }), kbCompute({ ih: 480, vvH: 480, vvTop: 0, base: 800, typing: true }),
+        kbCompute({ ih: 480, vvH: 480, vvTop: 0, base: 800, typing: false }), kbCompute({ ih: 800, vvH: 800, vvTop: 0, base: 800, typing: true })];
+      o.kbModes = o.kbc[0].open && o.kbc[0].inset === 320 && o.kbc[1].open && o.kbc[1].inset === 0 && !o.kbc[2].open && !o.kbc[3].open;
       kbApply(kbInset(800, 480, 0)); o.kbOn = document.body.classList.contains("kb-open") && getComputedStyle(document.documentElement).getPropertyValue("--kb").trim() === "320px";
       kbApply(kbInset(800, 790, 0)); o.kbOff = !document.body.classList.contains("kb-open");
       return o; });
     ok("Uși: se deschid sub pantă (ambele axe) și pe aripa corpului de colț", ee.slopeDoors.length === 2 && ee.slopeDoors.every(Boolean) && ee.cornerDoors.length >= 2 && ee.cornerDoors.every(Boolean), JSON.stringify(ee));
     ok("Export: pantă, uși pliabile (2/4 foi, 3×3 foi prea înguste) și colț pliabil nu sunt blocate", Object.values(ee.gate).every(a => a.length === 0), JSON.stringify(ee.gate));
-    ok("Tastatură: kb-open după visualViewport, dispare când se închide", ee.kbOn && ee.kbOff, JSON.stringify(ee));
+    ok("Tastatură: detectată și când acoperă (visualViewport), și când redimensionează fereastra (WebView Android); dispare când se închide", ee.kbOn && ee.kbOff && ee.kbModes, JSON.stringify(ee));
     ok("Update: bara apare la versiune nouă, «Mai târziu» o tace, la aceeași versiune/offline nu apare nimic", un.shown && un.gone && un.silent && un.same && un.offline, JSON.stringify(un));
     ok("Update: textele există în toate limbile", un.i18n === true, JSON.stringify(un));
     ok("U.10: One Touch are nume în toate limbile", ot.names === true && ot.mont === true, JSON.stringify(ot));

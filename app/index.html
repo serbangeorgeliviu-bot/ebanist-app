@@ -14851,23 +14851,36 @@ async function checkForUpdate(){
    massimo ogni 30 min; «Più tardi» tace per quella versione fino alla
    prossima apertura. Non ricarica mai da solo: un progetto aperto non si
    perde. */
-/* Tastiera virtuală peste câmpuri (mobil): nu există evenimentul «tastatura s-a deschis», dar visualViewport se
-   micșorează. Ținem --kb la zi, ascundem bara de jos și aducem câmpul activ în mijlocul zonei vizibile. */
+/* Tastiera virtuală peste câmpuri (mobil): nu există evenimentul «tastatura s-a deschis». Ținem --kb la zi, ascundem
+   bara de jos și aducem câmpul activ în mijlocul zonei vizibile. */
+/* Două feluri de tastatură: ACOPERĂ (Chrome/iOS: visualViewport se micșorează, fereastra rămâne) sau REDIMENSIONEAZĂ
+   fereastra (WebView-ul aplicației Android, adjustResize: innerHeight scade, visualViewport o urmează). Al doilea nu se
+   vede în visualViewport, deci îl prindem comparând înălțimea cu cea mai mare văzută cât nu se scria în niciun câmp. */
 function kbInset(innerH,vvH,vvTop){ const k=Math.round(innerH-vvH-(vvTop||0)); return k>120?k:0; }
-function kbApply(k){ document.documentElement.style.setProperty("--kb",k+"px"); document.body.classList.toggle("kb-open",k>0); }
-let _kbT=null;
+function kbCompute(o){ /* {ih, vvH, vvTop, base, typing} -> {open, inset} */
+  const over=o.vvH!=null?kbInset(o.ih,o.vvH,o.vvTop):0;
+  if(over>0) return {open:true,inset:over};
+  return (o.typing&&o.base-o.ih>120)?{open:true,inset:0}:{open:false,inset:0};
+}
+function kbApply(k,open){ document.documentElement.style.setProperty("--kb",k+"px"); document.body.classList.toggle("kb-open",open==null?k>0:!!open); }
+let _kbT=null, _kbBase=window.innerHeight, _kbW=window.innerWidth;
+const kbTyping=()=>{ const el=document.activeElement; return !!el&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName); };
 function kbCenter(){
   const el=document.activeElement;
-  if(!el||!/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)||!document.body.classList.contains("kb-open")) return;
+  if(!kbTyping()||!document.body.classList.contains("kb-open")) return;
   clearTimeout(_kbT); _kbT=setTimeout(()=>{ try{ el.scrollIntoView({block:"center",behavior:"smooth"}); }catch(e){} },120);
 }
-(function(){
-  const vv=window.visualViewport; if(!vv) return;
-  const upd=()=>{ kbApply(kbInset(window.innerHeight,vv.height,vv.offsetTop)); kbCenter(); };
-  vv.addEventListener("resize",upd); vv.addEventListener("scroll",upd);
-  document.addEventListener("focusin",e=>{ if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) setTimeout(upd,350); });
-  document.addEventListener("focusout",()=>setTimeout(upd,200));
-})();
+function kbUpdate(){
+  const vv=window.visualViewport, ih=window.innerHeight, typing=kbTyping();
+  if(window.innerWidth!==_kbW){ _kbW=window.innerWidth; _kbBase=ih; }          // rotire: altă înălțime de bază
+  if(!typing&&ih>_kbBase) _kbBase=ih;
+  const r=kbCompute({ih,vvH:vv?vv.height:null,vvTop:vv?vv.offsetTop:0,base:_kbBase,typing});
+  kbApply(r.inset,r.open); kbCenter();
+}
+window.addEventListener("resize",kbUpdate);
+if(window.visualViewport){ window.visualViewport.addEventListener("resize",kbUpdate); window.visualViewport.addEventListener("scroll",kbUpdate); }
+document.addEventListener("focusin",e=>{ if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) setTimeout(kbUpdate,350); });
+document.addEventListener("focusout",()=>setTimeout(kbUpdate,250));
 let _updChk=0;
 async function updateNotice(){
   if(!(location.protocol.startsWith("http")) || document.getElementById("updBar")) return;

@@ -9,7 +9,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 **Verificare cap-coadă: patru defecte reparate.**
 - **Ușile nu se deschideau sub tavanul înclinat pe lățime** (butonul „Ante aperte” din 3D nu făcea nimic). Acum se deschid, ca la tavanul drept. Reparat și pentru ușa de pe aripa corpului de colț, care nu se deschidea deloc.
-- **Tastatura acoperea câmpul în care scriai** (de exemplu înălțimea). Când apare tastatura, previzualizarea 3D și butonul „Generează” nu mai rămân lipite pe ecran, bara de jos se ascunde, foile se ridică deasupra tastaturii, iar câmpul activ urcă singur în zona vizibilă.
+- **Tastatura acoperea câmpul în care scriai** (de exemplu înălțimea). Când apare tastatura (și în aplicația Android, și în browser), previzualizarea 3D și butonul „Generează” nu mai rămân lipite pe ecran, bara de jos se ascunde, foile se ridică deasupra tastaturii, iar câmpul activ urcă singur în zona vizibilă.
 - **Distinta unui corp cu tavan înclinat nu se mai putea exporta**: regula „piesă mai mare decât corpul” (A9) compara piesele cu înălțimea cea mai joasă. Acum le compară cu cea mai înaltă.
 - **Distinta cu uși pliabile (3–4 foi) nu se mai putea exporta**: rosturile dintre foile unui pachet nu intrau în suma lățimilor (I4). Acum intră.
 
