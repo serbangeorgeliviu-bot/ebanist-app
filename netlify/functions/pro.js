@@ -63,7 +63,7 @@ function compKnown(code) {
   return hit;
 }
 
-async function stripe(path, key) {
+export async function stripe(path, key) {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 10000);
   try {
@@ -81,14 +81,14 @@ async function stripe(path, key) {
 /* Din aprilie 2025 (API „basil”) sfârșitul perioadei stă pe fiecare
    element al abonamentului, nu pe abonament. Se citesc amândouă locurile,
    ca funcția să nu depindă de versiunea API a contului. */
-function periodEnd(sub) {
+export function periodEnd(sub) {
   const items = (sub.items && sub.items.data) || [];
   const ends = items.map(i => i.current_period_end).filter(n => typeof n === "number");
   if (typeof sub.current_period_end === "number") ends.push(sub.current_period_end);
   return ends.length ? new Date(Math.max(...ends) * 1000).toISOString() : null;
 }
 
-function planOf(sub) {
+export function planOf(sub) {
   const items = (sub.items && sub.items.data) || [];
   for (const i of items) {
     const lk = i.price && i.price.lookup_key;
@@ -100,7 +100,7 @@ function planOf(sub) {
 /* Stările Stripe, reduse la cele trei pe care le înțelege aplicația.
    `past_due`: plata de reînnoire a eșuat și Stripe o reîncearcă — clientul
    rămâne Pro cât timp Stripe încă încearcă. */
-function statusOf(sub) {
+export function statusOf(sub) {
   switch (sub.status) {
     case "active":
     case "trialing":
@@ -125,7 +125,7 @@ function shape(sub, email) {
    rambursarea din plata atașată. Dacă cheia restricționată nu are drept
    de citire pe Payment Intents, rambursarea nu se verifică — nu e un
    motiv să refuzi un client care a plătit. */
-function lifetimePlan(session) {
+export function lifetimePlan(session) {
   const rows = (session.line_items && session.line_items.data) || [];
   for (const r of rows) {
     const lk = r.price && r.price.lookup_key;
