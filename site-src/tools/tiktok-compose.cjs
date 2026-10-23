@@ -62,17 +62,27 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  add(hook,Math.round(2.0*FPS));
  for(const s of TL.segs){const f0=n+1;for(let i=0;i<s.n;i++)add(path.join(BASE,"frames","f_"+String(s.first+i).padStart(5,"0")+".jpg"));marks.push({from:f0,to:n,cap:s.cap,sw:s.swatch?s.swatch[0]:null})}
  for(const s of segS){const f0=n+1;for(let i=0;i<s.n;i++)add(path.join(D,"sheet-"+s.name+"-"+String(i).padStart(3,"0")+".jpg"));marks.push({from:f0,to:n,cap:s.cap,sw:null})}
- add(end,Math.round(6.6*FPS));
+ add(end,Math.round(8.0*FPS));
  /* vocea (Piper, doar pentru limbile cu voce): replică la începutul fiecărui segment */
  const VOICE_TXT={it:{hook:"Ebanist. Mobili progettati come in fabbrica.",c1:"Scegli il decoro, e lo vedi subito.",c2:"Ante e cassetti, come nella realtà.",c3:"Cerniere Blum, disegnate nel dettaglio.",c4:"Guide telescopiche, con la loro clip.",c5:"Maniglie, con rosette.",c6:"Cambi la ferramenta? Cambia all'istante.",c7:"E le giunzioni si vedono: Domino, Confirmat, Lamello.",c8:"Dossier tecnico A3, con un clic.",c9:"Quote dal bordo, all'asse del foro.",c10:"Foglio di montaggio, con posizioni numerate.",end:"Ebanist. Provalo gratis su ebanist punto com. Codice ebanist cinquanta: meta prezzo il primo mese Pro."},en:{hook:"Ebanist. Furniture designed like the factory does it.",c1:"Pick the decor, and see it instantly.",c2:"Doors and drawers, like the real thing.",c3:"Blum hinges, drawn in detail.",c4:"Telescopic slides, with their clip.",c5:"Handles, with rosettes.",c6:"Change the hardware? It changes live.",c7:"Joints you can see: Domino, Confirmat, Lamello.",c8:"A3 technical dossier, in one click.",c9:"Dimensions from the edge, to the hole axis.",c10:"Assembly sheet, with numbered positions.",end:"Ebanist. Try it free at ebanist dot com. Code ebanist fifty: half price on your first Pro month."},ro:{hook:"Ebanist. Mobilier proiectat ca la fabrică.",c1:"Alegi decorul, și îl vezi pe loc.",c2:"Uși și sertare, ca în realitate.",c3:"Balamale Blum, desenate la detaliu.",c4:"Culisante telescopice, cu clemă.",c5:"Mânere și rozete.",c6:"Schimbi feroneria? Se schimbă pe loc.",c7:"Îmbinările se văd: Domino, Confirmat, Lamello.",c8:"Dosar tehnic A3, dintr-un clic.",c9:"Cote de la muchie, la axa găurii.",c10:"Foaie de montaj, cu poziții numerotate.",end:"Ebanist. Încearcă gratuit pe ebanist punct com. Cod ebanist cincizeci: jumătate de preț prima lună Pro."}}[L];
  let voiceFile=null;
- if(VOICE_TXT&&process.env.PIPER_VOICE){
-   const cues=[{start:0.35,avail:3.1,text:VOICE_TXT.hook}], seen=new Set();
-   marks.forEach(m=>{ if(!m.cap||seen.has(m.cap)) return; seen.add(m.cap); const same=marks.filter(x=>x.cap===m.cap); const from=Math.min(...same.map(x=>x.from)), to=Math.max(...same.map(x=>x.to));
+ if(VOICE_TXT&&(process.env.PIPER_VOICE||process.env.CUE_AUDIO_DIR)){
+   const cues=[{start:0.35,avail:3.1,text:VOICE_TXT.hook}], keys=["hook"], seen=new Set();
+   marks.forEach(m=>{ if(!m.cap||seen.has(m.cap)) return; seen.add(m.cap); keys.push(m.cap); const same=marks.filter(x=>x.cap===m.cap); const from=Math.min(...same.map(x=>x.from)), to=Math.max(...same.map(x=>x.to));
      cues.push({start:(from-1)/FPS+(m.cap==="c1"?1.5:0.12),avail:(to-from+1)/FPS-(m.cap==="c1"?1.6:0.2),text:VOICE_TXT[m.cap]}); });
-   cues.push({start:(n-Math.round(6.6*FPS))/FPS+0.3,avail:6.2,text:VOICE_TXT.end});
+   cues.push({start:(n-Math.round(8.0*FPS))/FPS+0.3,avail:7.3,text:VOICE_TXT.end}); keys.push("end");
    fs.writeFileSync(path.join(D,"cues.json"),JSON.stringify(cues));
    voiceFile=path.join(D,"voice.wav");
+   if(process.env.CUE_AUDIO_DIR){ /* o replică .mp3 pe cheie (hook, c1…c10, end), puse la start; ușor accelerate până la 1,35× dacă depășesc locul */
+     const args=["-loglevel","error","-y"], fcs=[];
+     cues.forEach((c,i)=>{ const f=path.join(process.env.CUE_AUDIO_DIR,keys[i]+".mp3"); args.push("-i",f);
+       const dur=parseFloat(cp.execFileSync("ffprobe",["-v","error","-show_entries","format=duration","-of","csv=p=0",f]).toString());
+       const t=Math.min(1.35,Math.max(1,dur/c.avail)); if(dur/t>c.avail+0.05) console.log("AVERT replica prea lunga:",keys[i],dur.toFixed(2),">",c.avail.toFixed(2));
+       const ms=Math.round(c.start*1000); fcs.push("["+i+":a]"+(t>1.001?"atempo="+t.toFixed(3)+",":"")+"adelay="+ms+"|"+ms+"[a"+i+"]"); });
+     fcs.push(cues.map((_,i)=>"[a"+i+"]").join("")+"amix=inputs="+cues.length+":normalize=0,apad=whole_dur="+(n/FPS).toFixed(2)+"[o]");
+     args.push("-filter_complex",fcs.join(";"),"-map","[o]","-ar","44100","-ac","1",voiceFile);
+     cp.execFileSync("ffmpeg",args,{stdio:"inherit"});
+   } else
    cp.execFileSync(process.env.PIPER_PY||"python3",[path.join(__dirname,"tiktok-voice.py"),path.join(D,"cues.json"),voiceFile,String(n/FPS),process.env.PIPER_VOICE],{stdio:"inherit"});
  }
  /* ffmpeg: suprapunerile cu enable pe interval de timp */
