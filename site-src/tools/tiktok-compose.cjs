@@ -80,7 +80,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
      const args=["-loglevel","error","-y"], fcs=[];
      cues.forEach((c,i)=>{ const f=path.join(process.env.CUE_AUDIO_DIR,keys[i]+".mp3"); args.push("-i",f);
        const dur=parseFloat(cp.execFileSync("ffprobe",["-v","error","-show_entries","format=duration","-of","csv=p=0",f]).toString());
-       const t=Math.min(1.35,Math.max(1,dur/c.avail)); if(dur/t>c.avail+0.05) console.log("AVERT replica prea lunga:",keys[i],dur.toFixed(2),">",c.avail.toFixed(2));
+       const t=Math.min(1.5,Math.max(1,dur/c.avail)); if(dur/t>c.avail+0.05) console.log("AVERT replica prea lunga:",keys[i],dur.toFixed(2),">",c.avail.toFixed(2));
        const ms=Math.round(c.start*1000); fcs.push("["+i+":a]"+(t>1.001?"atempo="+t.toFixed(3)+",":"")+"adelay="+ms+"|"+ms+"[a"+i+"]"); });
      fcs.push(cues.map((_,i)=>"[a"+i+"]").join("")+"amix=inputs="+cues.length+":normalize=0,apad=whole_dur="+(n/FPS).toFixed(2)+"[o]");
      args.push("-filter_complex",fcs.join(";"),"-map","[o]","-ar","44100","-ac","1",voiceFile);
