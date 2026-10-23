@@ -32,7 +32,10 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  /* carduri */
  const card=(a,bb,c)=>`<div style="${F}position:fixed;inset:0;background:#0e3b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;text-align:center;padding:90px"><div style="font-weight:700;font-size:44px;letter-spacing:20px;opacity:.8">EBANIST</div><div style="font-weight:800;font-size:112px;line-height:1.05">${a}</div><div style="font-weight:500;font-size:56px;line-height:1.2;opacity:.92">${bb}</div>${c?`<div style="margin-top:30px;font-weight:700;font-size:46px;color:#d9c9a3">${c}</div>`:""}</div>`;
  await shot(path.join(D,"card-hook.png"),card(T.h1,T.h2),true);
- await shot(path.join(D,"card-end.png"),card(T.e1,T.e2,T.e3),true);
+ const END={ro:{a:"−50% prima lună Pro",b:"până pe 30 noiembrie · primele 100"},it:{a:"−50% il primo mese Pro",b:"fino al 30 novembre · i primi 100"},en:{a:"50% off your first Pro month",b:"until 30 November · first 100 only"},fr:{a:"−50 % le premier mois Pro",b:"jusqu'au 30 novembre · 100 premiers"}}[L];
+ const BADGE={ro:"COD EBANIST50 · −50%",it:"CODICE EBANIST50 · −50%",en:"CODE EBANIST50 · 50% OFF",fr:"CODE EBANIST50 · −50 %"}[L];
+ await shot(path.join(D,"card-end.png"),`<div style="${F}position:fixed;inset:0;background:#0e3b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:46px;text-align:center;padding:60px"><div style="font-weight:700;font-size:44px;letter-spacing:20px;opacity:.8">EBANIST</div><div style="font-weight:800;font-size:68px;line-height:1.1">${T.e2}</div><div style="background:#d9c9a3;color:#0e3b2a;border-radius:40px;padding:36px 64px;font-weight:900;font-size:158px;letter-spacing:6px;line-height:1;box-shadow:0 18px 60px rgba(0,0,0,.45)">EBANIST50</div><div style="font-weight:800;font-size:76px;line-height:1.1;color:#d9c9a3">${END.a}</div><div style="font-weight:500;font-size:46px;opacity:.9">${END.b}</div></div>`,true);
+ await shot(path.join(D,"ov","badge.png"),`<div style="${F}position:fixed;left:50px;top:190px;padding:20px 36px;border-radius:26px;background:#d9c9a3;color:#0e3b2a;font-weight:900;font-size:58px;letter-spacing:2px;box-shadow:0 10px 36px rgba(0,0,0,.35)">${BADGE}</div>`);
  /* texte suprapuse (PNG transparent) */
  for(const k of ["c1","c2","c3","c4","c5","c6","c7","c8","c9","c10"]) await shot(path.join(D,"ov","cap-"+k+".png"),`<div style="${F}position:fixed;left:50px;right:50px;bottom:230px;padding:30px 38px;border-radius:34px;background:rgba(14,59,42,.93);color:#fff;font-weight:700;font-size:62px;line-height:1.15;text-align:center;box-shadow:0 14px 50px rgba(0,0,0,.4)">${T[k]}</div>`);
  const SW={m1:"#6E4B33",m2:"#C4A87C",m3:"#A8B08A",m4:"#6B2431",m5:"#5C7A99"};
@@ -88,7 +91,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  /* ffmpeg: suprapunerile cu enable pe interval de timp */
  const ins=["-framerate",String(FPS),"-i",path.join(D,"seq","s_%05d.jpg")], fc=[]; let last="0:v", ii=0;
  const ovs=[];marks.forEach(m=>{if(m.cap)ovs.push({f:path.join(D,"ov","cap-"+m.cap+".png"),a:(m.from-1)/FPS,b:m.to/FPS});if(m.sw)ovs.push({f:path.join(D,"ov","sw-"+m.sw+".png"),a:(m.from-1)/FPS,b:m.to/FPS})});
- /* același text pe segmente consecutive se contopește */
+ ovs.push({f:path.join(D,"ov","badge.png"),a:0,b:(n-Math.round(8.0*FPS))/FPS}); /* același text pe segmente consecutive se contopește */
  const merged=[];ovs.forEach(o=>{const p=merged.find(x=>x.f===o.f&&Math.abs(x.b-o.a)<1e-6);if(p)p.b=o.b;else merged.push({...o})});
  merged.forEach(o=>{ins.push("-loop","1","-i",o.f);ii++;const out="v"+ii;fc.push(`[${last}][${ii}:v]overlay=0:0:enable='between(t,${o.a.toFixed(3)},${o.b.toFixed(3)})'[${out}]`);last=out});
  const outFile=path.join(BASE,"ebanist-tiktok-"+L+".mp4");
