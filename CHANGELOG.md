@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.76.0 — 22 octombrie 2026
+
+**Pro pe web: codul de activare se poate primi pe email (ROADMAP U.14, D-90).**
+- În ecranul Pro, sub câmpul de cod, apare „Nu ai codul? Primește-l pe email” (numai pe web, nu pe Android). Clientul scrie emailul plății și primește codul `sub_…` (sau `cs_…` la Founders) pe acea adresă, în limba aplicației.
+- Rezolvă cazul în care redirectul de după plată se pierde (plată prin Link în alt browser, pagină închisă): chitanța Stripe nu conține codul, deci clientul nu se putea activa singur.
+- Răspunsul aplicației e același, există sau nu o plată pe adresa respectivă; codul nu apare niciodată pe ecran, doar în email. Limită: 3 cereri/oră pe adresă, 10/oră pe IP. Numai abonamente active și Founders nerambursate.
+- Nou: `netlify/functions/pro-restore.js` (`POST /api/pro-restore`), `test/pro-restore.test.mjs` (în `test:license` și `test:all`). Variabile noi în Netlify: `RESEND_API_KEY`, `PRO_MAIL_FROM`; cheia Stripe restricționată primește „Read” pe Customers. Fără ele, funcția răspunde 503 și aplicația trimite la info@ebanist.com.
+
+---
+
 ## 4.75.0 — 20 octombrie 2026
 
 **Mânere noi, mâner separat pentru sertare, trei tipuri de gola, balamale mai realiste.**
