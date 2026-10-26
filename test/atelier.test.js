@@ -118,3 +118,67 @@ test("flagOn: ?atelier=1 pornește și rămâne, ?atelier=0 oprește, fără par
   const broken = { location: { search: "?atelier=1" }, localStorage: { getItem() { throw new Error("x"); }, setItem() { throw new Error("x"); }, removeItem() {} } };
   assert.equal(A.flagOn(broken), false);
 });
+
+/* ===== E1 (migrarea 1.6): comenzi ===== */
+const JOB_ERRORS = ["title_invalid", "snapshot_invalid", "project_not_yours", "partner_invalid",
+  "cancelled_final", "not_open", "piece_unknown", "client_id_required", "not_allowed", "not_found"];
+/* aceeași listă albă ca `job_snapshot_ok` din migrarea 1.6 */
+const SNAP_PIECE_KEYS = ["pk", "modulo", "elemento", "role", "lung", "larg", "sp", "pz", "material", "decor", "bordo", "grain", "note"];
+
+test("E1: stările și evenimentele sunt cele din enumurile serverului, fiecare cu text", () => {
+  assert.deepEqual([...A.JOB_STATES], ["draft", "confirmed", "in_progress", "done", "shipped", "installed", "cancelled"]);
+  assert.deepEqual([...A.JOB_EVENTS], ["start", "done", "issue"]);
+  for (const l of LANGS) {
+    for (const s of A.JOB_STATES) assert.ok(A.I18N[l]["state_" + s], `${l}: stare ${s}`);
+    for (const e of JOB_ERRORS) assert.ok(A.I18N[l]["err_" + e], `${l}: eroare ${e}`);
+  }
+});
+
+test("E1: errKey recunoaște și erorile `job:<cod>`", () => {
+  assert.equal(A.errKey({ message: "job:not_open" }), "err_not_open");
+  assert.equal(A.errKey({ message: "job:cancelled_final" }), "err_cancelled_final");
+  assert.equal(A.errKey({ message: "job:nu_exista" }), "err_generic");
+});
+
+test("E1: can() pentru comenzi — operatorul doar înregistrează, partenerul doar citește", () => {
+  for (const c of ["job.create", "job.state", "job.progress"]) {
+    assert.ok(A.can("responsabil", c) && A.can("birou", c));
+    assert.ok(!A.can("operator", c) && !A.can("partener", c), c);
+  }
+  assert.ok(A.can("operator", "job.event"));
+  assert.ok(!A.can("partener", "job.event"));
+});
+
+const PROJ = { name: "Jacquin", price: 9999, client: "X", phone: "+33", pieces: [
+  { modulo: "Corp 1000", elemento: "fianco", lung: 2400, larg: 560, pz: 2, bordo: "2L+1C", materiale: "Egger W1000", prezzo: 12, costo: 5, gen: "Corp 1000" },
+  { modulo: "Corp 1000", elemento: "ripiano", lung: 764, larg: 540, pz: 3, materiale: "Egger W1000" }] };
+
+test("E1: buildSnapshot păstrează doar câmpurile din lista albă și niciun preț/client", () => {
+  const s = A.buildSnapshot(PROJ, { appVer: "4.78.0", material: x => x.materiale + " [U999]", note: () => "" });
+  assert.deepEqual(Object.keys(s).sort(), ["meta", "pieces"]);
+  for (const k of Object.keys(s.meta)) assert.ok(["app_ver", "units", "project_name"].includes(k), k);
+  for (const p of s.pieces) for (const k of Object.keys(p)) assert.ok(SNAP_PIECE_KEYS.includes(k), "cheie nepermisă: " + k);
+  const txt = JSON.stringify(s);
+  for (const bad of ["9999", "prezzo", "costo", "+33", "client"]) assert.ok(!txt.includes(bad), bad);
+  assert.equal(s.pieces[0].material, "Egger W1000 [U999]");
+  assert.equal(s.pieces[1].bordo, undefined);
+});
+
+test("E1: pk e stabil, unic și determinist (același proiect → același instantaneu)", () => {
+  const a = A.buildSnapshot(PROJ), b = A.buildSnapshot(JSON.parse(JSON.stringify(PROJ)));
+  assert.equal(JSON.stringify(a), JSON.stringify(b));
+  const pks = a.pieces.map(p => p.pk);
+  assert.deepEqual(pks, ["r1", "r2"]);
+  assert.equal(new Set(pks).size, pks.length);
+  assert.ok(pks.every(k => k.length >= 1 && k.length <= 80));
+});
+
+test("E1: buildSnapshot — fără piese sau peste 2000 → null; pz lipsă devine 1; cote nenumerice sunt omise", () => {
+  assert.equal(A.buildSnapshot({ name: "x", pieces: [] }), null);
+  assert.equal(A.buildSnapshot({ name: "x" }), null);
+  assert.equal(A.buildSnapshot({ name: "x", pieces: Array.from({ length: 2001 }, () => ({ lung: 1, larg: 1 })) }), null);
+  const s = A.buildSnapshot({ name: "x", pieces: [{ elemento: "e", lung: "abc", larg: 10 }] });
+  assert.equal(s.pieces[0].pz, 1);
+  assert.equal(s.pieces[0].lung, undefined);
+  assert.equal(s.pieces[0].larg, 10);
+});
