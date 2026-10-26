@@ -128,6 +128,55 @@
     return /(?:job|atelier):[a-z_]+/.test(String((err && err.message) || err || ""));
   }
 
+  /* — Panou de birou (E3, partea rămasă): unde stă fiecare comandă, coadă pe postazione și întârzieri.
+       Numai citire din `job_status_list` + `job_progress`; nimic nou pe server. `now` vine din afară (testabil).
+       Starea unei postazione pe o comandă: `done` (gata), `active` (are activitate: piese gata, probleme sau evenimente),
+       `idle` (neîncepută). O comandă e „întârziată” dacă termenul a trecut și nu e terminată, „stagnantă” dacă e
+       deschisă și n-a avut nicio mișcare de `waitHours` ore, „neînceput” dacă e confirmată fără niciun eveniment. — */
+  var JOB_CLOSED = ["done", "shipped", "installed", "cancelled"];
+  function boardModel(jobs, progMap, now, opts) {
+    opts = opts || {};
+    var waitH = opts.waitHours > 0 ? opts.waitHours : 24;
+    var today = new Date(now).toISOString().slice(0, 10);
+    var queue = {}; STATIONS.forEach(function (st) { queue[st] = 0; });
+    var counts = { open: 0, overdue: 0, stagnant: 0, notStarted: 0 };
+    var rows = [];
+    (jobs || []).forEach(function (j) {
+      if (j.state !== "confirmed" && j.state !== "in_progress") return;
+      var prog = (progMap && progMap[j.id]) || [], byStation = {}, last = 0;
+      prog.forEach(function (r) {
+        byStation[r.station] = r;
+        var t = r.last_at ? Date.parse(r.last_at) : 0; if (t > last) last = t;
+      });
+      var cells = STATIONS.map(function (st) {
+        var r = byStation[st], status = "idle", pct = 0, issues = 0;
+        if (r) {
+          issues = +r.issues || 0;
+          pct = r.total_pieces > 0 ? Math.min(100, Math.round(100 * (+r.done_pieces || 0) / r.total_pieces)) : 0;
+          if (r.station_done) { status = "done"; pct = 100; }
+          else if ((+r.done_pieces || 0) > 0 || issues > 0 || r.last_at) status = "active";
+        }
+        if (status === "active") queue[st]++;
+        return { station: st, status: status, pct: pct, issues: issues };
+      });
+      var notStarted = last === 0;
+      var idleH = notStarted ? null : Math.max(0, Math.floor((now - last) / 3600000));
+      var overdue = !!j.due_date && String(j.due_date).slice(0, 10) < today && JOB_CLOSED.indexOf(j.state) < 0;
+      var daysLate = overdue ? Math.floor((Date.parse(today) - Date.parse(String(j.due_date).slice(0, 10))) / 86400000) : 0;
+      var stagnant = idleH != null && idleH >= waitH;
+      counts.open++; if (overdue) counts.overdue++; if (stagnant) counts.stagnant++; if (notStarted) counts.notStarted++;
+      rows.push({ job: j, cells: cells, idleH: idleH, overdue: overdue, daysLate: daysLate, stagnant: stagnant, notStarted: notStarted,
+        issues: cells.reduce(function (a, c) { return a + c.issues; }, 0) });
+    });
+    rows.sort(function (a, b) {
+      if (a.overdue !== b.overdue) return a.overdue ? -1 : 1;
+      var da = a.job.due_date || "9999", db = b.job.due_date || "9999";
+      if (da !== db) return da < db ? -1 : 1;
+      return String(a.job.title) < String(b.job.title) ? -1 : 1;
+    });
+    return { rows: rows, queue: queue, counts: counts };
+  }
+
   /* — E4: comandă agregată. Rândurile unei comenzi (din instantaneu) înapoi în forma distinctei, ca să treacă prin
        același plan de tăiere ca orice proiect. Comenzile mai vechi (E1) au decorul lipit de material, `Material [decor]`:
        se scoate. Cele noi poartă `decor` separat și `material` curat. — */
@@ -646,6 +695,32 @@
       docSawPcs: "Piezas en este panel", docSawNone: "Ningún panel que cortar en este proyecto." }
   };
   Object.keys(SAW_TXT).forEach(function (l) { Object.assign(I18N[l], SAW_TXT[l]); });
+
+  /* — texte panou de birou — */
+  var BOARD_TXT = {
+    it: { boardTitle: "Pannello", boardNone: "Nessuna commessa aperta.", boardOverdue: "in ritardo", boardLate: "{n} g di ritardo",
+      boardIdle: "fermo da {h} h", boardNotStarted: "non iniziata", boardStagnant: "ferme", boardOpen: "aperte",
+      boardQueue: "In lavorazione per postazione", boardLegend: "✓ fatto · % in lavorazione · ⚠ problemi · — non iniziato" },
+    ro: { boardTitle: "Panou", boardNone: "Nicio comandă deschisă.", boardOverdue: "întârziate", boardLate: "{n} z întârziere",
+      boardIdle: "fără mișcare de {h} h", boardNotStarted: "neînceput", boardStagnant: "stagnante", boardOpen: "deschise",
+      boardQueue: "În lucru pe postazione", boardLegend: "✓ gata · % în lucru · ⚠ probleme · — neînceput" },
+    en: { boardTitle: "Board", boardNone: "No open jobs.", boardOverdue: "overdue", boardLate: "{n} d late",
+      boardIdle: "no movement for {h} h", boardNotStarted: "not started", boardStagnant: "stalled", boardOpen: "open",
+      boardQueue: "In progress per station", boardLegend: "✓ done · % in progress · ⚠ issues · — not started" },
+    fr: { boardTitle: "Tableau", boardNone: "Aucune commande ouverte.", boardOverdue: "en retard", boardLate: "{n} j de retard",
+      boardIdle: "immobile depuis {h} h", boardNotStarted: "non commencée", boardStagnant: "à l'arrêt", boardOpen: "ouvertes",
+      boardQueue: "En cours par poste", boardLegend: "✓ fait · % en cours · ⚠ problèmes · — non commencé" },
+    de: { boardTitle: "Tafel", boardNone: "Keine offenen Aufträge.", boardOverdue: "überfällig", boardLate: "{n} T überfällig",
+      boardIdle: "seit {h} Std. ohne Bewegung", boardNotStarted: "nicht begonnen", boardStagnant: "stillstehend", boardOpen: "offen",
+      boardQueue: "In Arbeit je Station", boardLegend: "✓ fertig · % in Arbeit · ⚠ Probleme · — nicht begonnen" },
+    pl: { boardTitle: "Tablica", boardNone: "Brak otwartych zleceń.", boardOverdue: "opóźnione", boardLate: "{n} d opóźnienia",
+      boardIdle: "bez ruchu od {h} godz.", boardNotStarted: "nierozpoczęte", boardStagnant: "stoją", boardOpen: "otwarte",
+      boardQueue: "W toku na stanowisku", boardLegend: "✓ gotowe · % w toku · ⚠ problemy · — nierozpoczęte" },
+    es: { boardTitle: "Panel", boardNone: "Ningún pedido abierto.", boardOverdue: "atrasados", boardLate: "{n} d de retraso",
+      boardIdle: "sin movimiento desde hace {h} h", boardNotStarted: "sin empezar", boardStagnant: "detenidos", boardOpen: "abiertos",
+      boardQueue: "En curso por puesto", boardLegend: "✓ hecho · % en curso · ⚠ problemas · — sin empezar" }
+  };
+  Object.keys(BOARD_TXT).forEach(function (l) { Object.assign(I18N[l], BOARD_TXT[l]); });
   Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
 
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }
@@ -671,7 +746,7 @@
     } catch (e) { return false; }
   }
 
-  return { snapshotRows: snapshotRows, setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
+  return { boardModel: boardModel, snapshotRows: snapshotRows, setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
            JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
            ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };
