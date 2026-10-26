@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.80.1 — 26 octombrie 2026
+
+**Atelier: pornire din Setări.** Aplicația Android nu are bară de adresă, deci `?atelier=1` nu se putea folosi acolo. În **Setări**, chiar la început, apare secțiunea „Funcții în probă” cu un comutator „Modul Atelier”. Se aplică pe loc (e o preferință a dispozitivului, ca tema), iar apoi butonul „Atelier” apare în Cont, după login. Același efect ca `?atelier=1`, același flag. Modulul rămâne în probă și în afara Pro.
+
+---
+
 ## 4.80.0 — 26 octombrie 2026
 
 **Modul Atelier, etapa E3 (D-92) — documente pe postazione. Tot ascuns** (`?atelier=1` și login).

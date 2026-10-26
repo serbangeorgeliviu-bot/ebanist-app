@@ -3689,6 +3689,35 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Atelier — pornirea din Setări (fără ?atelier=1): comutator în „Funcții în probă”, se aplică imediat");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSess = acctSession;
+      closeSheets(); localStorage.removeItem("ebAtelier");
+      acctSession = { user: { id: "u-a", email: "a@test.local" } }; acctProfile = null; renderAccount();
+      o.ascunsInitial = document.getElementById("btnAcctAtelier").style.display === "none";
+      document.getElementById("btnSettings").click(); await w(250);
+      const cb = document.getElementById("sExpAtelier");
+      o.exista = !!cb && cb.checked === false && document.getElementById("expTitle").textContent === EBAtelier.t(state.lang, "expTitle");
+      o.text = document.getElementById("expAtelierHint").textContent === EBAtelier.t(state.lang, "expAtelierHint");
+      const sheet = document.getElementById("shSettings"), first = sheet.querySelector("input, select");
+      o.sus = first && first.id === "sExpAtelier"; /* primul câmp din Setări, nu îngropat la capăt */
+      cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); await w(100);
+      o.pornit = localStorage.getItem("ebAtelier") === "1" && document.getElementById("btnAcctAtelier").style.display === "flex";
+      closeSheets(); document.getElementById("btnSettings").click(); await w(250);
+      o.bifatLaRedeschidere = document.getElementById("sExpAtelier").checked === true;
+      const cb2 = document.getElementById("sExpAtelier"); cb2.checked = false; cb2.dispatchEvent(new Event("change", { bubbles: true })); await w(100);
+      o.oprit = localStorage.getItem("ebAtelier") === null && document.getElementById("btnAcctAtelier").style.display === "none";
+      closeSheets(); acctSession = wasSess; renderAccount();
+      return o;
+    });
+    ok("Atelier: fără flag butonul e ascuns; în Setări există secțiunea „Funcții în probă” (nebifată)", r.ascunsInitial === true && r.exista === true && r.text === true && r.sus === true);
+    ok("Atelier: bifa din Setări pornește modulul pe loc (butonul apare în Cont) și rămâne bifată la redeschidere", r.pornit === true && r.bifatLaRedeschidere === true);
+    ok("Atelier: debifarea îl oprește la loc", r.oprit === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

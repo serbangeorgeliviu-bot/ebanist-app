@@ -297,3 +297,18 @@ test("E3: mutarea unui rând schimbă codurile (de aceea QR-ul și rowSig depind
   const a = A.edgeGroups(ROWS3, H3).find(x => x.label === "MDF 19").pieces[0].pk, b = A.edgeGroups(rev, H3).find(x => x.label === "MDF 19").pieces[0].pk;
   assert.notEqual(a, b);
 });
+
+
+/* ===== Setări: pornirea modulului fără ?atelier=1 ===== */
+test("Setări: setFlag/hasFlag pornesc și opresc aceeași cheie ca ?atelier=1, și nu aruncă fără stocare", () => {
+  const store = {}, win = { localStorage: { getItem: k => (k in store ? store[k] : null), setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } }, location: { search: "", hash: "" } };
+  assert.equal(A.hasFlag(win), false);
+  assert.equal(A.setFlag(win, true), true); assert.equal(A.hasFlag(win), true); assert.equal(A.flagOn(win), true);
+  assert.equal(A.setFlag(win, false), false); assert.equal(A.hasFlag(win), false); assert.equal(A.flagOn(win), false);
+  const broken = { localStorage: { getItem() { throw new Error("x"); }, setItem() { throw new Error("x"); }, removeItem() { throw new Error("x"); } }, location: { search: "", hash: "" } };
+  assert.equal(A.setFlag(broken, true), false); assert.equal(A.hasFlag(broken), false);
+});
+
+test("Setări: textele funcțiilor în probă există în toate limbile", () => {
+  for (const l of LANGS) for (const k of ["expTitle", "expAtelier", "expAtelierHint"]) assert.ok(A.I18N[l][k], `${l}.${k}`);
+});

@@ -2020,6 +2020,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <div class="sheet" id="shSettings">
   <div class="sheet-grip"></div>
   <h3 data-i="settings">Impostazioni</h3>
+  <!-- Funcții în probă: la începutul Setărilor, ca să se găsească ușor. Pornește modulul Atelier fără ?atelier=1 (aplicația Android nu are bară de adresă). -->
+  <div class="eyebrow" style="margin-top:4px" id="expTitle">Funzioni in prova</div>
+  <label class="chk" style="display:flex;gap:10px;align-items:center;margin:4px 0;font-size:14.5px;text-transform:none;letter-spacing:0;font-weight:500"><input type="checkbox" id="sExpAtelier"> <span id="expAtelierLbl">Modulo Atelier</span></label>
+  <p class="mini" id="expAtelierHint" style="margin:0 0 14px"></p>
   <div class="eyebrow" style="margin-top:4px" data-i="panelStd">Pannello standard</div>
   <div class="f3">
     <div class="f"><label data-i="fLength">Lungh. (mm)</label><input id="sPanelL" type="number" inputmode="numeric"></div>
@@ -5339,6 +5343,8 @@ $("btnSettings").addEventListener("click",()=>{
   $("sCostMode").value=S.costMode||"panels";$("sPriceM2").value=S.priceM2;$("sPriceMl").value=S.priceMl;$("sWaste").value=S.waste;$("sLabor").value=S.labor;$("sHourly").value=S.hourly!=null?S.hourly:35;
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
+  $("expTitle").textContent=EBAtelier.t(state.lang,"expTitle"); $("expAtelierLbl").textContent=EBAtelier.t(state.lang,"expAtelier");
+  $("expAtelierHint").textContent=EBAtelier.t(state.lang,"expAtelierHint"); $("sExpAtelier").checked=EBAtelier.hasFlag(window);
   $("sIntro").value=(S.intro===0?"0":"1"); $("sIntroSound").value=(S.introSound===0?"0":"1");
   /* Il tema si applica subito, non al "Salva": chi lo cambia vuole vedere se
      gli piace. Sta fuori da S perche e una preferenza del dispositivo. */
@@ -13975,6 +13981,8 @@ async function atRefreshMine(){
   }catch(e){}
 }
 $("btnAcctAtelier").addEventListener("click",atOpenSheet);
+/* se aplică imediat, ca tema: e o preferință a dispozitivului, nu o setare a proiectului */
+$("sExpAtelier").addEventListener("change",ev=>{ EBAtelier.setFlag(window,ev.target.checked); renderAccount(); });
 
 
 $("btnAcctLogin").addEventListener("click",async()=>{
@@ -15420,12 +15428,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.80.0"; /* APP_VER-MARKER */
+const APP_VER="4.80.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v151";
+const SW_CACHE="ebanist-v152";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
