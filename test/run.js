@@ -3718,6 +3718,95 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Atelier E4 — comandă agregată către furnizor din mai multe comenzi (panourile se împart între comenzi)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession, keepL = LIC, keepStock = state.stock;
+      const realPrint = window.print; let printed = 0; window.print = () => { printed++; };
+      printOut._offered = 1; state.stock = [];
+      localStorage.setItem("ebAtelier", "1");
+      const pc = (pk, lung, larg, extra) => Object.assign({ pk, modulo: "<b>M</b>", elemento: "Fianco", lung, larg, pz: 1, material: "PAL 18 Alb", bordo: "2L" }, extra || {});
+      const jobsDb = {
+        j1: { id: "j1", title: "Bucătărie <i>A</i>", state: "in_progress", snapshot: { pieces: [pc("r1", 1500, 1000), pc("r2", 700, 500, { material: "PAL 18 Alb [U999]" })] } },
+        j2: { id: "j2", title: "Dressing B", state: "confirmed", snapshot: { pieces: [pc("r1", 1500, 1000), pc("r2", 600, 400, { decor: "U999" })] } },
+        j3: { id: "j3", title: "Închisă", state: "done", snapshot: { pieces: [pc("r1", 100, 100)] } } };
+      const list = Object.values(jobsDb).map(j => ({ id: j.id, title: j.title, client_label: null, due_date: null, state: j.state, last_station: null, last_at: null, total_pieces: j.snapshot.pieces.length }));
+      let mine; const calls = [];
+      sb = {
+        from(t) {
+          const c = { select() { return c; }, eq() { return c; }, is() { return c; }, gt() { return c; }, order() { return c; },
+            in(col, ids) { calls.push(["in", t, col, ids]); c._ids = ids; return c; },
+            then(res) { res(t === "atelier_members" ? { data: mine, error: null } : t === "jobs" ? { data: (c._ids || []).map(i => jobsDb[i]).filter(Boolean), error: null } : { data: [], error: null }); } };
+          return c;
+        },
+        async rpc(fn) { return fn === "job_status_list" ? { data: list, error: null } : { data: [], error: null }; }
+      };
+      acctSession = { user: { id: "u-a", email: "a@test.local" } };
+      const body = () => document.getElementById("atBody"), area = () => document.getElementById("printArea");
+      const openAs = async role => { mine = [{ atelier_id: "at1", role, stations: role === "operator" ? ["cnc"] : [], ateliers: { id: "at1", name: "T", slug: "tt" } }];
+        closeSheets(); atMine = []; atScreen = { name: "detail", id: "at1" }; openSheet("shAtelier"); await atRefreshMine(); await atRender(); await w(300); };
+      const T = k => EBAtelier.t(state.lang, k);
+
+      /* bife doar pe comenzile deschise; fără bifă → mesaj, nu tipărește */
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      await openAs("birou");
+      const boxes = [...body().querySelectorAll("[data-at=jobsel]")].map(x => x.dataset.id);
+      o.bife = boxes.join() === "j1,j2" && !!body().querySelector("[data-at=aggorder]");
+      body().querySelector("[data-at=aggorder]").click(); await w(250);
+      o.faraBifa = printed === 0 && document.getElementById("toast").textContent === T("aggNone");
+
+      /* gratuit: ecranul Pro, nimic tipărit */
+      licWrite(null); body().querySelectorAll("[data-at=jobsel]").forEach(x => { x.checked = true; });
+      area().innerHTML = ""; printed = 0; body().querySelector("[data-at=aggorder]").click(); await w(300);
+      o.gratis = printed === 0 && area().innerHTML === "" && document.getElementById("shPro").classList.contains("on");
+      closeSheets();
+
+      /* Pro: comanda agregată */
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      await openAs("responsabil");
+      body().querySelectorAll("[data-at=jobsel]").forEach(x => { x.checked = true; });
+      calls.length = 0; area().innerHTML = ""; printed = 0; body().querySelector("[data-at=aggorder]").click(); await w(500);
+      const tx = area().textContent, html = area().innerHTML;
+      o.tipar = printed === 1 && tx.includes(T("aggTitle")) && /PAL 18 Alb/.test(tx);
+      o.cereDoarBifatele = calls.some(c => c[0] === "in" && c[1] === "jobs" && c[3].join() === "j1,j2");
+      o.titluri = tx.includes("Dressing B") && !tx.includes("Închisă");
+      o.xss = !area().querySelector("b") || [...area().querySelectorAll("b")].every(b => !/^[A-Z]$/.test(b.textContent)) ; /* titlul cu <i> nu devine element */
+      o.xss2 = !area().querySelector("i") && html.indexOf("&lt;i&gt;") >= 0;
+      /* panouri: separat ≥ împreună; economie = diferența */
+      const row = [...area().querySelectorAll("table")][0].querySelectorAll("tr")[1];
+      const cells = [...row.querySelectorAll("td")].map(x => x.textContent.trim());
+      const sep = +cells[2], tog = +cells[3], toOrder = +cells[5];
+      o.separatVsImpreuna = sep >= tog && tog >= 1 && toOrder === tog;
+      const saved = /(\d+)\s*$/.exec(area().querySelector(".pr-sum").textContent);
+      o.economie = !!saved && +saved[1] === sep - tog;
+      o.noteLimite = tx.includes(T("aggNoteHw")) && tx.includes(T("aggNoteShape"));
+      o.cant = /ml|m\b/i.test(tx) && area().innerHTML.includes("<table");
+
+      /* o comandă inexistentă între cele bifate nu strică restul */
+      body().querySelectorAll("[data-at=jobsel]").forEach(x => { x.checked = true; });
+      delete jobsDb.j2; area().innerHTML = ""; printed = 0; body().querySelector("[data-at=aggorder]").click(); await w(400);
+      o.dispareUna = printed === 1 && area().textContent.includes("Bucătărie");
+
+      /* operatorul și partenerul nu văd nici bife, nici buton */
+      await openAs("operator"); o.opFara = !body().querySelector("[data-at=jobsel]") && !body().querySelector("[data-at=aggorder]");
+      await openAs("partener"); o.parFara = !body().querySelector("[data-at=jobsel]") && !body().querySelector("[data-at=aggorder]");
+
+      closeSheets(); window.print = realPrint; sb = wasSb; acctSession = wasSess; licWrite(keepL); state.stock = keepStock;
+      localStorage.removeItem("ebAtelier"); renderAccount();
+      return o;
+    });
+    ok("Atelier E4: bife numai pe comenzile deschise; fără bifă, mesaj și nimic tipărit", r.bife === true && r.faraBifa === true);
+    ok("Atelier E4: fără Pro se deschide ecranul Pro și nu se tipărește nimic", r.gratis === true);
+    ok("Atelier E4: documentul cere doar comenzile bifate, le listează și nu include comenzile închise", r.tipar === true && r.cereDoarBifatele === true && r.titluri === true);
+    ok("Atelier E4: titlurile cu HTML nu se execută", r.xss2 === true);
+    ok("Atelier E4: panourile împreună ≤ separat, de comandat = împreună (fără stoc), economia = diferența", r.separatVsImpreuna === true && r.economie === true, JSON.stringify({ s: r.separatVsImpreuna, e: r.economie }));
+    ok("Atelier E4: documentul spune ce nu include (feronerie, cant pe piese profilate) și are cant", r.noteLimite === true && r.cant === true);
+    ok("Atelier E4: o comandă care a dispărut între timp nu blochează documentul", r.dispareUna === true);
+    ok("Atelier E4: operatorul și partenerul nu văd bifele și butonul", r.opFara === true && r.parFara === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

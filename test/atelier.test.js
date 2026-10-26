@@ -312,3 +312,32 @@ test("Setări: setFlag/hasFlag pornesc și opresc aceeași cheie ca ?atelier=1, 
 test("Setări: textele funcțiilor în probă există în toate limbile", () => {
   for (const l of LANGS) for (const k of ["expTitle", "expAtelier", "expAtelierHint"]) assert.ok(A.I18N[l][k], `${l}.${k}`);
 });
+
+/* ===== E4: comandă agregată ===== */
+test("E4: textele comenzii agregate există în toate limbile; doar biroul și responsabilul o pot cere", () => {
+  for (const l of LANGS) for (const k of ["aggPick", "aggBtn", "aggNone", "aggTitle", "aggJobs", "aggSeparate", "aggTogether", "aggFromStock",
+    "aggToOrder", "aggSaved", "aggNoteHw", "aggNoteShape", "aggNoteStock"]) assert.ok(A.I18N[l][k], `${l}.${k}`);
+  assert.ok(A.can("birou", "order.agg") && A.can("responsabil", "order.agg"));
+  assert.ok(!A.can("operator", "order.agg") && !A.can("partener", "order.agg"));
+});
+
+test("E4: buildSnapshot păstrează decorul separat (cheia `decor` e în lista albă), materialul rămâne curat", () => {
+  const s = A.buildSnapshot({ name: "x", pieces: [{ modulo: "A", elemento: "f", lung: 7, larg: 5, pz: 1, materiale: "PAL 18" }] },
+    { material: x => x.materiale, decor: () => "U999" });
+  assert.equal(s.pieces[0].material, "PAL 18"); assert.equal(s.pieces[0].decor, "U999");
+  for (const k of Object.keys(s.pieces[0])) assert.ok(SNAP_PIECE_KEYS.includes(k), k);
+  assert.equal(A.buildSnapshot({ name: "x", pieces: [{ lung: 7, larg: 5, materiale: "PAL" }] }, { decor: () => "" }).pieces[0].decor, undefined);
+});
+
+test("E4: snapshotRows — înapoi în rânduri de distinctă; comenzile vechi pierd decorul lipit, cele noi nu", () => {
+  const rows = A.snapshotRows({ pieces: [
+    { pk: "r1", modulo: "A", elemento: "fianco", lung: 700, larg: 500, pz: 2, material: "PAL 18 Alb [U999]", bordo: "2L" }, /* E1: decor lipit */
+    { pk: "r2", lung: 600, larg: 400, material: "Egger [x]", decor: "U999" }, /* nou: `[x]` e parte din etichetă */
+    { pk: "r3", lung: "abc", larg: 5, material: "PAL" }, /* cote stricate: se omit */
+    { pk: "r4", lung: 100, larg: 50, pz: 0, material: "PAL" }] });
+  assert.equal(rows.length, 3);
+  assert.equal(rows[0].materiale, "PAL 18 Alb"); assert.equal(rows[0].pz, 2); assert.equal(rows[0].bordo, "2L");
+  assert.equal(rows[1].materiale, "Egger [x]"); assert.equal(rows[1].bordo, undefined);
+  assert.equal(rows[2].pz, 1); /* pz lipsă sau 0 → 1 */
+  assert.equal(A.snapshotRows(null).length, 0); assert.equal(A.snapshotRows({}).length, 0);
+});

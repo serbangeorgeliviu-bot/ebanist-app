@@ -11220,14 +11220,14 @@ $("btnTransp").addEventListener("click",()=>{ renderTransp(); openSheet("shTrans
 /* ---------- ordine al fornitore ----------
    Il piano di taglio sa gia quanti pannelli servono DAVVERO (tolti i
    ritagli di magazzino); qui diventa una lista da mandare al fornitore. */
-function orderRows(p){
+function orderRows(p,opts){
   const S=state.settings, tot=computeTotals(p);
   const panels=[], edges={};
   for(const k of Object.keys(tot.mats)){
     const m=tot.mats[k];
     if(/^accessorio/i.test(m.label)) continue;
     const PN=panelFor(m.label);
-    const stk=(state.stock||[]).filter(r=>r.mat===m.label)
+    const stk=(opts&&opts.noStock)?[]:(state.stock||[]).filter(r=>r.mat===m.label)
       .flatMap(r=>Array.from({length:Math.max(1,r.n|0)},()=>({L:r.L,W:r.W})));
     const res=nest(m.pieces,PN.L,PN.W,S.kerf,stk);
     const neu=res.panels.filter(x=>!x.stock).length;
@@ -13641,7 +13641,10 @@ async function atJobsHtml(id,role,mine){
         '<span style="'+AT_CHIP+'">'+esc(tat("st_"+x.station))+' '+(x.station_done?"✓":x.done_pieces+"/"+x.total_pieces)+(x.issues?' ⚠'+x.issues:'')+'</span>').join("");
     }
     const open=["confirmed","in_progress"].includes(j.state);
-    h+='<div style="'+AT_BOX+'"><div style="display:flex;gap:8px;align-items:center"><div style="flex:1;min-width:0"><strong>'+esc(j.title)+'</strong>'+
+    const pickable=open&&EBAtelier.can(role,"order.agg");
+    h+='<div style="'+AT_BOX+'"><div style="display:flex;gap:8px;align-items:center">'+
+       (pickable?'<input type="checkbox" data-at="jobsel" data-id="'+esc(j.id)+'" aria-label="'+esc(tat("aggPick"))+'" style="width:20px;height:20px;flex:none">':'')+
+       '<div style="flex:1;min-width:0"><strong>'+esc(j.title)+'</strong>'+
        '<div class="mini">'+[j.client_label,j.due_date,j.total_pieces+" "+tat("jobPieces")].filter(Boolean).map(esc).join(" · ")+'</div></div>';
     if(EBAtelier.can(role,"job.state")){
       h+='<select data-at="jobstate" data-id="'+esc(j.id)+'" style="width:auto">'+EBAtelier.JOB_STATES.map(x=>'<option value="'+x+'"'+(x===j.state?' selected':'')+'>'+esc(tat("state_"+x))+'</option>').join("")+'</select>';
@@ -13654,6 +13657,8 @@ async function atJobsHtml(id,role,mine){
     }
     h+='</div>';
   }
+  if(EBAtelier.can(role,"order.agg")&&jobs.some(j=>["confirmed","in_progress"].includes(j.state)))
+    h+='<button class="btn" data-at="aggorder" style="margin-top:8px">'+esc(tat("aggBtn"))+'</button>';
   if(EBAtelier.can(role,"job.create")){
     const p=proj();
     h+='<div style="'+AT_H+'">'+esc(tat("jobNew"))+'</div>';
@@ -13669,7 +13674,7 @@ async function atJobsHtml(id,role,mine){
 async function atJobCreate(){
   const p=proj(); if(!p){ toast(tat("jobNoProject")); return; }
   const snap=EBAtelier.buildSnapshot(p,{appVer:APP_VER,
-    material:x=>(x.materiale||"")+(matDecorByLabel(x.materiale)?" ["+matDecorByLabel(x.materiale)+"]":""),
+    material:x=>x.materiale||"", decor:x=>matDecorByLabel(x.materiale)||"",
     note:x=>scList(x).length?scTxt(x):""});
   if(!snap){ toast(tat("jobNoProject")); return; }
   const title=$("atJobTitle").value.trim();
@@ -13679,6 +13684,46 @@ async function atJobCreate(){
   if(!r) return;
   atJobMapSet(p.id,{job:r.data,atelier:atScreen.id,sig:EBAtelier.rowSig(p.pieces)});
   toast(tat("jobCreated")); atRender();
+}
+
+/* ---- E4: comandă agregată către furnizor, din mai multe comenzi ----
+   Rândurile din instantaneele comenzilor trec prin același plan de tăiere ca un proiect: panourile se împart între
+   comenzi, deci se comandă mai puține decât suma comenzilor separate. Stocul de resturi e cel de pe acest dispozitiv. */
+async function atAggOrder(ids){
+  const {data,error}=await sb.from("jobs").select("id,title,state,snapshot").in("id",ids);
+  if(error){ atFail(error); return; }
+  const jobs=(data||[]).filter(j=>["confirmed","in_progress"].includes(j.state)&&j.snapshot);
+  if(!jobs.length){ toast(tat("aggNone")); return; }
+  const all=[], sep={};
+  for(const j of jobs){
+    const rows=EBAtelier.snapshotRows(j.snapshot); all.push(...rows);
+    for(const r of orderRows({pieces:rows},{noStock:true}).panels) sep[r.label]=(sep[r.label]||0)+r.n;
+  }
+  const agg=orderRows({pieces:all}), tog=orderRows({pieces:all},{noStock:true});
+  const togN={}; for(const r of tog.panels) togN[r.label]=r.n;
+  const sumSep=Object.values(sep).reduce((a,b)=>a+b,0), sumTog=Object.values(togN).reduce((a,b)=>a+b,0);
+  let h=`<div class="pr-head"><div><h1>${esc(tat("aggTitle"))}</h1>
+    <div style="font-size:11pt;margin-top:2px"><b>${esc(tat("aggJobs"))}:</b> ${esc(jobs.map(j=>j.title).join(" · "))}<br>
+    <b>${esc(t("date"))}:</b> ${esc(new Date().toISOString().slice(0,10))}</div></div>
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
+  h+=`<h2>${esc(t("orderPanels"))}</h2><table><tr><th>${esc(t("fMaterial"))}</th><th>${esc(t("orderSize"))}</th>
+    <th style="text-align:right">${esc(tat("aggSeparate"))}</th><th style="text-align:right">${esc(tat("aggTogether"))}</th>
+    <th style="text-align:right">${esc(tat("aggFromStock"))}</th><th style="text-align:right">${esc(tat("aggToOrder"))}</th></tr>`;
+  const labels=[...new Set(agg.panels.map(r=>r.label).concat(tog.panels.map(r=>r.label)))];
+  for(const lb of labels){
+    const a=agg.panels.find(r=>r.label===lb)||{n:0,stock:0}, ref=agg.panels.find(r=>r.label===lb)||tog.panels.find(r=>r.label===lb);
+    h+=`<tr><td>${esc(matLabelUI(lb))}${ref.dec?` <b>[${esc(ref.dec)}]</b>`:""}</td><td>${ref.L}×${ref.W}</td>
+      <td class="n">${sep[lb]||0}</td><td class="n">${togN[lb]||0}</td><td class="n">${a.stock||"—"}</td><td class="n"><b>${a.n}</b></td></tr>`;
+  }
+  h+=`</table><p class="pr-sum"><b>${esc(tat("aggSaved"))}:</b> ${sumSep-sumTog}</p>`;
+  const ek=Object.keys(agg.edges);
+  if(ek.length){
+    h+=`<h2>${esc(t("orderEdge"))}</h2><table><tr><th>${esc(t("fMaterial"))}</th><th style="text-align:right">${esc(t("orderMl"))}</th></tr>`;
+    for(const k of ek) h+=`<tr><td>${esc(matLabelUI(k))}</td><td class="n">${fmt(agg.edges[k]*1.1,1)}</td></tr>`;
+    h+=`</table><p class="pr-sum">${esc(t("orderEdgeNote"))}</p>`;
+  }
+  h+=`<div class="pr-foot"><span>${esc(tat("aggNoteHw"))}<br>${esc(tat("aggNoteShape"))}<br>${esc(tat("aggNoteStock"))}</span><span>${esc(prCoName())} · ${esc(t("orderCheck"))}</span></div>`;
+  $("printArea").innerHTML=h; printOut();
 }
 
 /* ---- E3: documente pe postazione (bordatrice, vopsitorie), din proiectul deschis ----
@@ -13916,6 +13961,12 @@ $("atBody").addEventListener("click",async ev=>{
   }
   if(act==="copy"){ atCopy(el.getAttribute("data-code")); return; }
   if(act==="jobcreate"){ await atJobCreate(); return; }
+  if(act==="aggorder"){
+    const ids=[...$("atBody").querySelectorAll("[data-at=jobsel]:checked")].map(x=>x.getAttribute("data-id"));
+    if(!ids.length){ toast(tat("aggNone")); return; }
+    if(!proGate("doc")) return;
+    await atAggOrder(ids); return;
+  }
   if(act==="docedge"||act==="docpaint"){
     const p=proj(); if(!p){ toast(t("selectProject")); return; }
     if(!proGate("doc")) return;
@@ -15428,12 +15479,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.80.1"; /* APP_VER-MARKER */
+const APP_VER="4.81.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v152";
+const SW_CACHE="ebanist-v153";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
