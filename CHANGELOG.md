@@ -5,6 +5,27 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.79.0 — 26 octombrie 2026
+
+**Modul Atelier, etapa E2 (D-92) — cod QR pe etichetă, scanare, coadă offline. Tot ascuns** (`?atelier=1` și login; un cod de piesă scanat cu camera telefonului pornește modulul pe acel telefon).
+- **Etichetele primesc QR** (16 mm, nivel M) când proiectul are o comandă creată din el și rândurile n-au fost schimbate de atunci. Dacă s-a schimbat ceva, QR-ul dispare: un `r7` nu poate arăta altă piesă decât cea înghețată în comandă. Fără comandă, etichetele rămân exact ca până acum. Codul e un link `ebanist.com/#e=<comandă>.<piesă>`: camera oricărui telefon îl deschide în aplicație, fără bibliotecă de scanare.
+- **Scanare:** în Atelier, „Scanează eticheta” (camera din aplicație unde telefonul are detector QR; altfel camera telefonului sau lipești codul). Apare piesa (cote, material, cant, postazioni deja gata); operatorul alege postazione (o ține minte) și apasă **Gata**: 2 atingeri. După „Gata” sau „Problemă” se trece la scanarea următoare.
+- **Coadă offline:** dacă pică Wi-Fi-ul, evenimentul se salvează pe telefon și pleacă singur când revine conexiunea (și la fiecare deschidere a ecranului). Același eveniment nu se dublează, iar unul refuzat de reguli (comandă închisă, fără drept) se aruncă, nu se reîncearcă la nesfârșit. Coada păstrează până la 500 de evenimente, 7 zile.
+- Generatorul de QR e cod propriu (`ebanist-qr.js`, fără bibliotecă, funcționează offline). Verificat cu un decodor independent (jsQR) pe sute de șiruri aleatoare, pe toate versiunile 1–10 și pe eticheta tipărită (randată în PDF și citită înapoi). Verificarea a prins greșeli de tabel (versiunile 3, 5 și 8 la nivel M) înainte de a ajunge în aplicație.
+- Limite cunoscute: codul identifică rândul din distinctă (un rând cu `pz: 3` e o singură piesă pentru progres); comanda nu se leagă încă de proiectul din cloud; legătura proiect → comandă se ține pe telefon.
+- Texte în cele 7 limbi. Nou: `ebanist-qr.js`, `test/qr.test.js`, teste în `atelier.test.js` și bloc e2e „Atelier E2”.
+
+---
+
+## 4.78.0 — 26 octombrie 2026
+
+**Modul Atelier, etapa E1 (D-92) — comenzi pe postazione. Ascuns** (`?atelier=1` și login). Folosește migrarea 1.6, rulată pe serverul real la 26.10.
+- În ecranul Atelier apare lista de **comenzi**. Biroul tehnic și responsabilul creează o comandă din proiectul deschis (titlu, client ca etichetă, termen) și îi schimbă starea: ciornă, confirmată, în lucru, finalizată, expediată, montată sau anulată (final, cu confirmare).
+- Comanda **îngheață piesele** proiectului (`pk` stabil `r1`, `r2`…). **Niciun preț, client sau telefon** nu intră în ea; lista de câmpuri e verificată și în aplicație, și pe server.
+- Pe comenzile deschise se înregistrează început / gata / problemă pe fiecare postazione, cu identificator unic (idempotent). Operatorul vede doar postazioni lui; biroul și responsabilul le văd pe toate și văd progresul; partenerul vede doar starea comenzilor la care e trecut.
+
+---
+
 ## 4.77.0 — 26 octombrie 2026
 
 **Modul Atelier, etapa E0 (D-92) — ascuns.** Nu se vede în aplicația obișnuită: apare numai cu `?atelier=1` în adresă (rămâne pornit pe acel dispozitiv; `?atelier=0` îl oprește) și numai după ce te-ai conectat la cont.
