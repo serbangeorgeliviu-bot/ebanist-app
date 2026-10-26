@@ -3112,9 +3112,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     });
     const all = [].concat(...Object.values(x));
     ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
-    ok("export: fiecare dintre cele 9 butoane e într-o grupă, o singură dată",
-      all.length === 9 && new Set(all).size === 9 && ["btnPdf","btnQuote","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
-    ok("export: oferta e la client, montajul la atelier", x.expClient.join() === "btnQuote" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
+    ok("export: fiecare dintre cele 10 butoane e într-o grupă, o singură dată",
+      all.length === 10 && new Set(all).size === 10 && ["btnPdf","btnQuote","btnPassport","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+    ok("export: oferta și pașaportul sunt la client, montajul la atelier", x.expClient.join() === "btnQuote,btnPassport" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
   }
 
   /* audit 18.10: corp în afara echerului → avertisment, nu blocaj; computeHardware fără setări */
@@ -3934,6 +3934,78 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Atelier panou: rezumat (deschise, întârziate, stagnante) și coada pe postazione", r.rezumat === true && r.coada === true && r.legenda === true);
     ok("Atelier panou: titlurile cu HTML nu se execută", r.xss === true);
     ok("Atelier panou: operatorul și partenerul nu-l văd; fără comenzi, mesaj", r.opFara === true && r.parFara === true && r.gol === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Pașaportul proiectului — documentul pentru client: materiale, decor, feronerie, fabricație");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId, keepL = LIC, keepNote = state.settings.passportNote;
+      const realPrint = window.print; let printed = 0; window.print = () => { printed++; };
+      printOut._offered = 1;
+      const T = k => EBPassport.t(state.lang, k);
+      state.projects = [{ id: "w6", name: "Villa <b>Blu</b>", client: "Jacquin", date: "2026-10-01", pieces: [
+        { id: "a1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" },
+        { id: "a2", modulo: "Corp", elemento: "Ripiano", lung: 600, larg: 400, pz: 3, materiale: "PAL 18 Alb" }] }];
+      state.activeId = "w6"; state.settings.passportNote = "Garanzia 24 mesi.\nManutenzione: panno umido <i>soltanto</i>.";
+      localStorage.removeItem("ebAtelierJobs");
+      const area = () => document.getElementById("printArea");
+
+      /* buton: etichetă în limba aplicației */
+      o.eticheta = document.getElementById("btnPassport").textContent.trim() === T("passBtn");
+      /* gratuit: ecranul Pro, nimic tipărit */
+      licWrite(null); area().innerHTML = ""; printed = 0; document.getElementById("btnPassport").click(); await w(300);
+      o.gratis = printed === 0 && area().innerHTML === "" && document.getElementById("shPro").classList.contains("on");
+      closeSheets();
+
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      area().innerHTML = ""; printed = 0; document.getElementById("btnPassport").click(); await w(400);
+      const tx = area().textContent, html = area().innerHTML;
+      o.tipar = printed === 1 && tx.includes(T("passTitle")) && tx.includes(T("passMaterials")) && /PAL 18 Alb|Bianco|Alb/.test(tx);
+      o.rezumat = tx.includes(T("passSummary")) && /\b5\b/.test(tx); /* 2 + 3 piese */
+      o.tabel = area().querySelectorAll("table").length >= 2 && /mm/.test(tx);
+      o.fabricatie = tx.includes(T("passFab")) && tx.includes(T("passQc")) && tx.includes(T("passSign")) && tx.includes(T("passDate"));
+      o.nota = tx.includes(T("passCare")) && tx.includes("Garanzia 24 mesi.") && tx.includes("panno umido");
+      o.xss = !html.includes("<b>Blu</b>") && html.indexOf("&lt;b&gt;Blu&lt;/b&gt;") >= 0 && !area().querySelector("i:not(:empty)") ; /* <i> din notă nu devine element; <i> de „cod de confirmat” e permis */
+      o.xss2 = html.indexOf("&lt;i&gt;soltanto&lt;/i&gt;") >= 0;
+      o.avertisment = tx.includes(T("passDisclaimer"));
+      o.faraComanda = !tx.includes(T("passOrder")) && !tx.includes(T("passTrace"));
+      o.urma = /Ebanist v/.test(tx);
+
+      /* cu comandă legată și neschimbată: codul comenzii și mențiunea de trasabilitate */
+      atJobMapSet("w6", { job: "6f1c2b7e-9a3d-4c58-8e21-0b5d7a9c4e13", atelier: "at1", sig: EBAtelier.rowSig(proj().pieces) });
+      area().innerHTML = ""; document.getElementById("btnPassport").click(); await w(300);
+      o.cuComanda = area().textContent.includes(T("passOrder")) && area().textContent.includes("6F1C2B7E") && area().textContent.includes(T("passTrace"));
+      proj().pieces[1].lung = 601; area().innerHTML = ""; document.getElementById("btnPassport").click(); await w(300);
+      o.schimbat = !area().textContent.includes("6F1C2B7E");
+      localStorage.removeItem("ebAtelierJobs");
+
+      /* fără notă: secțiunea „Garanție și întreținere” nu apare */
+      state.settings.passportNote = ""; area().innerHTML = ""; document.getElementById("btnPassport").click(); await w(300);
+      o.faraNota = !area().textContent.includes(T("passCare"));
+
+      /* câmpul din Setări: se afișează, se salvează, are text în limba aplicației */
+      state.settings.passportNote = "Nota veche"; document.getElementById("btnSettings").click(); await w(250);
+      o.camp = document.getElementById("sPassNote").value === "Nota veche" && document.getElementById("sPassNoteLbl").textContent === T("passNoteLbl");
+      document.getElementById("sPassNote").value = "Nota noua"; document.getElementById("btnSettingsSave").click(); await w(250);
+      o.salvat = state.settings.passportNote === "Nota noua";
+      closeSheets();
+
+      /* proiect gol: mesaj, nu tipărește */
+      state.projects = []; state.activeId = null; printed = 0; document.getElementById("btnPassport").click(); await w(200);
+      o.gol = printed === 0;
+
+      window.print = realPrint; state.projects = keepP; state.activeId = keepA; licWrite(keepL); state.settings.passportNote = keepNote;
+      return o;
+    });
+    ok("Pașaport: butonul are etichetă în limba aplicației; fără Pro se deschide ecranul Pro și nu se tipărește nimic", r.eticheta === true && r.gratis === true);
+    ok("Pașaport: se tipărește cu rezumat, tabel de materiale, fabricație (data, control, semnătură) și avertismentul de conformitate", r.tipar === true && r.rezumat === true && r.tabel === true && r.fabricatie === true && r.avertisment === true);
+    ok("Pașaport: textul de garanție și întreținere din Setări apare; fără text, secțiunea lipsește", r.nota === true && r.faraNota === true);
+    ok("Pașaport: numele proiectului și nota cu HTML nu se execută", r.xss === true && r.xss2 === true);
+    ok("Pașaport: cu comandă legată și neschimbată arată codul comenzii și trasabilitatea; altfel nu", r.cuComanda === true && r.schimbat === true && r.faraComanda === true);
+    ok("Pașaport: poartă urma versiunii (Ebanist v…, motor, reguli) ca celelalte documente", r.urma === true);
+    ok("Pașaport: câmpul din Setări se afișează, se salvează; proiect gol → nu tipărește", r.camp === true && r.salvat === true && r.gol === true);
     await pg.evaluate(() => { closeSheets(); });
   }
 
