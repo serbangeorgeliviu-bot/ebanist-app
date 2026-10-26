@@ -530,9 +530,37 @@
       docCodeNote: "El código coincide con el de la etiqueta (QR)." }
   };
   Object.keys(DOC_TXT).forEach(function (l) { Object.assign(I18N[l], DOC_TXT[l]); });
+
+  /* — Setări: funcții în probă — */
+  var EXP_TXT = {
+    it: { expTitle: "Funzioni in prova", expAtelier: "Modulo Atelier",
+      expAtelierHint: "Per officine: commesse, scansione etichette, documenti per postazione. In prova, non fa parte di Pro. Poi compare in Account, dopo l'accesso." },
+    ro: { expTitle: "Funcții în probă", expAtelier: "Modul Atelier",
+      expAtelierHint: "Pentru ateliere: comenzi, scanare etichete, documente pe postazione. În probă, nu face parte din Pro. Apoi apare în Cont, după login." },
+    en: { expTitle: "Trial features", expAtelier: "Workshop module",
+      expAtelierHint: "For workshops: jobs, label scanning, station documents. Trial, not part of Pro. It then appears in Account, after sign-in." },
+    fr: { expTitle: "Fonctions en test", expAtelier: "Module Atelier",
+      expAtelierHint: "Pour les ateliers : commandes, scan d'étiquettes, documents par poste. En test, ne fait pas partie de Pro. Il apparaît ensuite dans Compte, après connexion." },
+    de: { expTitle: "Testfunktionen", expAtelier: "Werkstatt-Modul",
+      expAtelierHint: "Für Werkstätten: Aufträge, Etiketten scannen, Dokumente je Station. Test, nicht Teil von Pro. Erscheint danach unter Konto, nach der Anmeldung." },
+    pl: { expTitle: "Funkcje testowe", expAtelier: "Moduł Warsztat",
+      expAtelierHint: "Dla warsztatów: zlecenia, skanowanie etykiet, dokumenty dla stanowisk. Test, nie należy do Pro. Potem pojawia się w Koncie, po zalogowaniu." },
+    es: { expTitle: "Funciones en prueba", expAtelier: "Módulo Taller",
+      expAtelierHint: "Para talleres: pedidos, escaneo de etiquetas, documentos por puesto. En prueba, no forma parte de Pro. Luego aparece en Cuenta, tras iniciar sesión." }
+  };
+  Object.keys(EXP_TXT).forEach(function (l) { Object.assign(I18N[l], EXP_TXT[l]); });
   Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
 
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }
+
+  /* Pornirea din Setări (aplicația Android nu are bară de adresă): aceeași cheie ca ?atelier=1 */
+  function setFlag(win, on) {
+    try {
+      if (on) win.localStorage.setItem("ebAtelier", "1"); else win.localStorage.removeItem("ebAtelier");
+      return win.localStorage.getItem("ebAtelier") === "1";
+    } catch (e) { return false; }
+  }
+  function hasFlag(win) { try { return win.localStorage.getItem("ebAtelier") === "1"; } catch (e) { return false; } }
 
   /* flag E0: ?atelier=1 lo pornește (și rămâne), ?atelier=0 îl oprește */
   function flagOn(win) {
@@ -546,7 +574,7 @@
     } catch (e) { return false; }
   }
 
-  return { edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
+  return { setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
            JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
            ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };
