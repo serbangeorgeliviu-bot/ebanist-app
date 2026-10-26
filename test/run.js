@@ -3113,7 +3113,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const all = [].concat(...Object.values(x));
     ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
     ok("export: fiecare dintre cele 10 butoane e într-o grupă, o singură dată",
-      all.length === 10 && new Set(all).size === 10 && ["btnPdf","btnQuote","btnPassport","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+      all.length === 11 && new Set(all).size === 11 && ["btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
     ok("export: oferta și pașaportul sunt la client, montajul la atelier", x.expClient.join() === "btnQuote,btnPassport" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
   }
 
@@ -4006,6 +4006,67 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Pașaport: cu comandă legată și neschimbată arată codul comenzii și trasabilitatea; altfel nu", r.cuComanda === true && r.schimbat === true && r.faraComanda === true);
     ok("Pașaport: poartă urma versiunii (Ebanist v…, motor, reguli) ca celelalte documente", r.urma === true);
     ok("Pașaport: câmpul din Setări se afișează, se salvează; proiect gol → nu tipărește", r.camp === true && r.salvat === true && r.gol === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Flux comercial — plan de plată în ofertă și proces-verbal de recepție");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId, keepL = LIC, keepPlan = state.settings.payPlan;
+      const realPrint = window.print; let printed = 0; window.print = () => { printed++; };
+      printOut._offered = 1;
+      const T = k => EBCommerce.t(state.lang, k);
+      state.projects = [{ id: "h1", name: "Villa <b>Blu</b>", client: "Jacquin <i>SA</i>", phone: "+377", date: "2026-10-01", pieces: [
+        { id: "a1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, materiale: "PAL 18 Alb" }] }];
+      state.activeId = "h1";
+      const area = () => document.getElementById("printArea");
+      o.eticheta = document.getElementById("btnHandover").textContent.trim() === T("hoBtn");
+      licWrite(null); area().innerHTML = ""; printed = 0; document.getElementById("btnHandover").click(); await w(300);
+      o.gratis = printed === 0 && area().innerHTML === "" && document.getElementById("shPro").classList.contains("on");
+      closeSheets();
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      area().innerHTML = ""; printed = 0; document.getElementById("btnHandover").click(); await w(300);
+      const tx = area().textContent, html = area().innerHTML;
+      o.tipar = printed === 1 && tx.includes(T("hoTitle")) && tx.includes(T("hoChecks")) && tx.includes(T("hoDefects")) && tx.includes(T("hoDecl"));
+      o.bife = ["hoC1", "hoC2", "hoC3", "hoC4", "hoC5", "hoC6", "hoC7"].every(k => tx.includes(T(k)));
+      o.semn = tx.includes(T("hoClient")) && tx.includes(T("hoCompany")) && tx.includes(T("hoNote"));
+      o.xss = !html.includes("<b>Blu</b>") && html.indexOf("&lt;b&gt;Blu&lt;/b&gt;") >= 0 && html.indexOf("&lt;i&gt;SA&lt;/i&gt;") >= 0;
+
+      /* plan de plată: fără plan nu apare; cu plan, trei rânduri cu suma exactă */
+      state.settings.payPlan = null; o.faraPlan = payPlanHtml(1000) === "";
+      state.settings.payPlan = [30, 40, 30];
+      const ph = payPlanHtml(1000.01); const d = document.createElement("div"); d.innerHTML = ph;
+      const cents = [...d.querySelectorAll("tr")].slice(1).map(tr => tr.lastChild.textContent.replace(/[^\d.,]/g, ""));
+      o.plan = d.querySelectorAll("tr").length === 4 && ph.includes(T("payTitle")) && cents.length === 3;
+      state.settings.payPlan = [50, 0, 50]; d.innerHTML = payPlanHtml(100); o.doua = d.querySelectorAll("tr").length === 3;
+      state.settings.payPlan = [30, 30, 30]; o.invalid = payPlanHtml(1000) === "";
+
+      /* Setări: câmpurile se încarcă, un plan greșit nu se salvează, unul bun da */
+      state.settings.payPlan = [20, 30, 50];
+      document.getElementById("btnSettings").click(); await w(250);
+      o.camp = document.getElementById("sPay1").value === "20" && document.getElementById("sPayLbl").textContent === T("payLbl");
+      document.getElementById("sPay1").value = "10"; document.getElementById("btnSettingsSave").click(); await w(250);
+      o.respins = state.settings.payPlan.join() === "20,30,50";
+      document.getElementById("sPay1").value = "10"; document.getElementById("sPay2").value = "40"; document.getElementById("sPay3").value = "50";
+      document.getElementById("btnSettingsSave").click(); await w(250);
+      o.salvat = state.settings.payPlan.join() === "10,40,50";
+      document.getElementById("btnSettings").click(); await w(250);
+      ["sPay1", "sPay2", "sPay3"].forEach(i => document.getElementById(i).value = "");
+      document.getElementById("btnSettingsSave").click(); await w(250);
+      o.golit = state.settings.payPlan === null;
+      closeSheets();
+
+      state.projects = []; state.activeId = null; printed = 0; document.getElementById("btnHandover").click(); await w(200);
+      o.gol = printed === 0;
+      window.print = realPrint; state.projects = keepP; state.activeId = keepA; licWrite(keepL); state.settings.payPlan = keepPlan;
+      return o;
+    });
+    ok("Recepție: buton în limba aplicației; fără Pro se deschide ecranul Pro", r.eticheta === true && r.gratis === true);
+    ok("Recepție: se tipărește cu verificări, rezerve, declarație, semnături și nota; nume și client cu HTML nu se execută", r.tipar === true && r.bife === true && r.semn === true && r.xss === true);
+    ok("Plan de plată: fără plan nu apare; cu plan un tabel exact; plan invalid nu se tipărește", r.faraPlan === true && r.plan === true && r.doua === true && r.invalid === true);
+    ok("Plan de plată în Setări: se încarcă, suma ≠ 100 se respinge, unul valid se salvează, gol îl șterge", r.camp === true && r.respins === true && r.salvat === true && r.golit === true);
+    ok("Recepție: proiect gol nu tipărește", r.gol === true);
     await pg.evaluate(() => { closeSheets(); });
   }
 
