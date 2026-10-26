@@ -5073,13 +5073,15 @@ let nestLeftovers=[];
 function keepZones(pan,stockMin){
   return (pan.free||[]).filter(f=>f.x!=null&&Math.min(f.w,f.h)>=Math.max(1,+stockMin||0));
 }
-function panelSvg(pan,PL,PW,kerf,stockMin){
+function panelSvg(pan,PL,PW,kerf,stockMin,codeOf){
   const rects=pan.rects.map(r=>{
     const cx=r.x+r.w/2, cy=r.y+r.h/2;
     const fs=Math.min(90, r.h*0.45, r.w/6.5);
     const cd=cutLW(r.ref), label=`${fmtMm(cd.L)}×${fmtMm(cd.W)}`;
     const el=elName(r.ref.elemento||"");
+    const cd2=codeOf?codeOf(r.ref):"", cfs=Math.min(60,r.h*0.3,r.w/5);
     return `<rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" fill="#ffffff" stroke="#0E3B2A" stroke-width="6"/>
+      ${cd2&&cfs>20?`<text x="${r.x+10}" y="${r.y+cfs+6}" font-size="${cfs}" fill="#0E3B2A" font-family="Barlow Condensed,Arial" font-weight="700">${esc(cd2)}</text>`:""}
       ${fs>26?`<text x="${cx}" y="${cy-(el&&fs>34?fs*0.34:0)}" font-size="${fs}" fill="#14181d" text-anchor="middle" dominant-baseline="middle" font-family="Barlow Condensed,Arial" font-weight="700">${label}</text>`:""}
       ${el&&fs>34?`<text x="${cx}" y="${cy+fs*0.62}" font-size="${fs*0.62}" fill="#5c6558" text-anchor="middle" dominant-baseline="middle" font-family="Barlow,Arial">${esc(el)}</text>`:""}`;
   }).join("");
@@ -8314,7 +8316,10 @@ function openPartSheet(M,pc,face){
 /* foaia A3 de fabricație: SVG-ul vine din ebanist-sheet.js, textele din limba meniului */
 function partA3Svg(M,pc,face,no,tot){
   const m=M.meta[String(pc.pk)]||{}, row=m.row||{}, p=proj();
-  return EBSheet.partSheetSVG(pc,{face,tr:t,opName,sheetNo:no||1,sheetTot:tot||1,meta:{
+  /* Atelier E2: QR-ul piesei (același cu al etichetei), dacă proiectul are o comandă neschimbată */
+  let qr=null;
+  try{ const lq=p&&atLabelQr(p), ri=p?p.pieces.indexOf(row):-1; const sv=lq&&ri>=0?lq(ri):null; if(sv) qr={svg:sv,code:"r"+(ri+1)}; }catch(e){}
+  return EBSheet.partSheetSVG(pc,{face,tr:t,opName,sheetNo:no||1,sheetTot:tot||1,qr,meta:{
     company:prCoName()||"",project:p?p.name:"",client:p&&p.client||"",name:partName(M,pc),n:m.n,
     material:row.materiale||row.mat||"",qty:row.pz,edge:row.bordo,date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
@@ -13734,7 +13739,8 @@ function atDocsHtml(){
   let h='<div style="'+AT_H+'">'+esc(tat("docsTitle"))+'</div>';
   if(!p||!p.pieces||!p.pieces.length) return h+'<p class="mini">'+esc(tat("docsNeedProject"))+'</p>';
   return h+'<div style="display:flex;gap:8px"><button class="btn" data-at="docedge" style="flex:1">'+esc(tat("docEdgeBtn"))+'</button>'+
-    '<button class="btn" data-at="docpaint" style="flex:1">'+esc(tat("docPaintBtn"))+'</button></div>';
+    '<button class="btn" data-at="docpaint" style="flex:1">'+esc(tat("docPaintBtn"))+'</button></div>'+
+    '<button class="btn" data-at="docsaw" style="margin-top:8px">'+esc(tat("docSawBtn"))+'</button>';
 }
 function atDocHelpers(){
   return {
@@ -13766,6 +13772,39 @@ function atDocEdge(p){
     }
     h+='</table>';
   }
+  return h+`<div class="pr-foot"><span>${esc(tat("docCodeNote"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
+}
+/* Plan de tăiere pentru sezionatrice: același plan ca în „Taglio", tipărit, cu codul fiecărei piese în dreptunghi
+   și, sub fiecare panou, lista pieselor cu QR (același cod ca pe etichetă). Fără comandă legată: coduri, dar fără QR. */
+function atDocSaw(p){
+  const S=state.settings, tot=computeTotals(p), lq=atLabelQr(p);
+  const codeOf=ref=>{ const i=p.pieces.indexOf(ref); return i>=0?"r"+(i+1):""; };
+  let h=atDocHead(tat("docSawTitle"),p), n=0;
+  if(!lq) h+='<p class="mini" style="border:0.3mm solid #b7791f;padding:2mm;margin:2mm 0">'+esc(tat("docSawNoLink"))+'</p>';
+  for(const k of Object.keys(tot.mats)){
+    const m=tot.mats[k];
+    if(/^accessorio/i.test(m.label)) continue;
+    const PN=panelFor(m.label);
+    const stk=(state.stock||[]).filter(r=>r.mat===m.label).flatMap(r=>Array.from({length:Math.max(1,r.n|0)},()=>({L:r.L,W:r.W,id:r.id})));
+    const res=nest(m.pieces,PN.L,PN.W,S.kerf,stk);
+    res.panels.forEach((pan,i)=>{
+      n++;
+      h+=`<div style="page-break-inside:avoid;margin:0 0 6mm"><h2>${esc(matLabelUI(m.label))} — ${esc(tat("docSawPanel"))} ${i+1}/${res.panels.length} · ${pan.L}×${pan.W} mm${pan.stock?` · ${esc(t("fromStock"))}`:""} · ${esc(fmt(pan.eff,1))}%</h2>
+        <div style="max-height:95mm">${panelSvg(pan,pan.L,pan.W,S.kerf,S.stockMin,codeOf).replace("<svg ",'<svg style="width:100%;max-height:95mm" ')}</div>`;
+      if(pan.cuts&&pan.cuts.length)
+        h+=`<p style="font-size:8.5pt;margin:1.5mm 0"><b>${esc(tat("docSawCuts"))}:</b> ${pan.cuts.map((c,j)=>`${j+1}${c.dir==="v"?"│":"─"}${Math.round(c.at-S.kerf)}`).join(" · ")}</p>`;
+      const per=new Map();
+      for(const r of pan.rects){ const i2=p.pieces.indexOf(r.ref); if(i2<0) continue; const e=per.get(i2)||{x:r.ref,n:0}; e.n++; per.set(i2,e); }
+      h+=`<div style="font-size:8.5pt"><b>${esc(tat("docSawPcs"))}:</b></div><div style="display:flex;flex-wrap:wrap;gap:3mm;margin-top:1.5mm">`;
+      for(const [i2,e] of [...per.entries()].sort((a,b)=>a[0]-b[0])){
+        const sv=lq?lq(i2):null, cd=cutLW(e.x);
+        h+=`<div style="display:flex;gap:1.5mm;align-items:center;border:0.2mm solid #bbb;padding:1mm 2mm;min-width:44mm">${sv?`<div style="width:15mm;height:15mm;flex:none">${sv.replace("<svg ",'<svg style="width:15mm;height:15mm" ')}</div>`:""}
+          <div style="font-size:8.5pt;line-height:1.25"><b>r${i2+1}</b> ×${e.n}<br>${esc(fmtMm(cd.L))} × ${esc(fmtMm(cd.W))}<br>${esc(elName(e.x.elemento))}</div></div>`;
+      }
+      h+=`</div></div>`;
+    });
+  }
+  if(!n) h+='<p>'+esc(tat("docSawNone"))+'</p>';
   return h+`<div class="pr-foot"><span>${esc(tat("docCodeNote"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
 }
 function atDocPaint(p){
@@ -13967,10 +14006,10 @@ $("atBody").addEventListener("click",async ev=>{
     if(!proGate("doc")) return;
     await atAggOrder(ids); return;
   }
-  if(act==="docedge"||act==="docpaint"){
+  if(act==="docedge"||act==="docpaint"||act==="docsaw"){
     const p=proj(); if(!p){ toast(t("selectProject")); return; }
     if(!proGate("doc")) return;
-    $("printArea").innerHTML=act==="docedge"?atDocEdge(p):atDocPaint(p);
+    $("printArea").innerHTML=act==="docedge"?atDocEdge(p):act==="docsaw"?atDocSaw(p):atDocPaint(p);
     printOut(); return;
   }
   if(act==="jobev"){
@@ -15479,12 +15518,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.81.0"; /* APP_VER-MARKER */
+const APP_VER="4.82.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v153";
+const SW_CACHE="ebanist-v154";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

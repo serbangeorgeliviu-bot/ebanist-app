@@ -620,6 +620,32 @@
       aggNoteStock: "Los retales en stock son los de este dispositivo." }
   };
   Object.keys(AGG_TXT).forEach(function (l) { Object.assign(I18N[l], AGG_TXT[l]); });
+
+  /* — texte plan de tăiere (sezionatrice) — */
+  var SAW_TXT = {
+    it: { docSawBtn: "Piano sezionatrice (QR)", docSawTitle: "Sezionatrice: piano di taglio", docSawPanel: "Pannello", docSawCuts: "Ordine dei tagli",
+      docSawNoLink: "Nessuna commessa collegata a questo progetto (o il progetto è cambiato): i codici ci sono, ma senza QR. Crea la commessa da questo progetto.",
+      docSawPcs: "Pezzi su questo pannello", docSawNone: "Nessun pannello da tagliare in questo progetto." },
+    ro: { docSawBtn: "Plan sezionatrice (QR)", docSawTitle: "Sezionatrice: plan de tăiere", docSawPanel: "Panou", docSawCuts: "Ordinea tăierilor",
+      docSawNoLink: "Nicio comandă legată de acest proiect (sau proiectul s-a schimbat): codurile apar, dar fără QR. Creează comanda din acest proiect.",
+      docSawPcs: "Piese pe acest panou", docSawNone: "Niciun panou de tăiat în acest proiect." },
+    en: { docSawBtn: "Panel saw plan (QR)", docSawTitle: "Panel saw: cutting plan", docSawPanel: "Panel", docSawCuts: "Cut order",
+      docSawNoLink: "No job linked to this project (or the project changed): the codes show, but without QR. Create the job from this project.",
+      docSawPcs: "Pieces on this panel", docSawNone: "No panel to cut in this project." },
+    fr: { docSawBtn: "Plan scie à panneaux (QR)", docSawTitle: "Scie à panneaux : plan de coupe", docSawPanel: "Panneau", docSawCuts: "Ordre des coupes",
+      docSawNoLink: "Aucune commande liée à ce projet (ou le projet a changé) : les codes y sont, mais sans QR. Créez la commande depuis ce projet.",
+      docSawPcs: "Pièces sur ce panneau", docSawNone: "Aucun panneau à couper dans ce projet." },
+    de: { docSawBtn: "Plattensägeplan (QR)", docSawTitle: "Plattensäge: Zuschnittplan", docSawPanel: "Platte", docSawCuts: "Schnittfolge",
+      docSawNoLink: "Kein Auftrag mit diesem Projekt verknüpft (oder das Projekt hat sich geändert): die Codes stehen da, aber ohne QR. Lege den Auftrag aus diesem Projekt an.",
+      docSawPcs: "Teile auf dieser Platte", docSawNone: "Keine Platte zum Zuschneiden in diesem Projekt." },
+    pl: { docSawBtn: "Plan piły formatowej (QR)", docSawTitle: "Piła formatowa: plan cięcia", docSawPanel: "Płyta", docSawCuts: "Kolejność cięć",
+      docSawNoLink: "Żadne zlecenie nie jest powiązane z tym projektem (albo projekt się zmienił): kody są, ale bez QR. Utwórz zlecenie z tego projektu.",
+      docSawPcs: "Elementy na tej płycie", docSawNone: "Brak płyt do cięcia w tym projekcie." },
+    es: { docSawBtn: "Plan de seccionadora (QR)", docSawTitle: "Seccionadora: plan de corte", docSawPanel: "Panel", docSawCuts: "Orden de los cortes",
+      docSawNoLink: "Ningún pedido vinculado a este proyecto (o el proyecto cambió): los códigos aparecen, pero sin QR. Crea el pedido desde este proyecto.",
+      docSawPcs: "Piezas en este panel", docSawNone: "Ningún panel que cortar en este proyecto." }
+  };
+  Object.keys(SAW_TXT).forEach(function (l) { Object.assign(I18N[l], SAW_TXT[l]); });
   Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
 
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }

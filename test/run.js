@@ -3807,6 +3807,83 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Atelier E5 — QR pe foaia A3 (CNC) și plan de tăiere tipăribil cu coduri și QR");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession, keepP = state.projects, keepA = state.activeId, keepL = LIC;
+      const realPrint = window.print; let printed = 0; window.print = () => { printed++; };
+      printOut._offered = 1; state.stock = [];
+      const JOB = "6f1c2b7e-9a3d-4c58-8e21-0b5d7a9c4e13";
+      const mk = () => ({ id: "w5", name: "Jacquin <b>X</b>", client: "", date: "2026-10-01", pieces: [
+        { id: "a1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" },
+        { id: "a2", modulo: "Corp", elemento: "Ripiano", lung: 600, larg: 400, pz: 3, materiale: "PAL 18 Alb" }] });
+      state.projects = [mk()]; state.activeId = "w5";
+      localStorage.setItem("ebAtelier", "1"); localStorage.removeItem("ebAtelierJobs");
+      const p = proj();
+
+      /* — foaia A3 (CNC): QR doar cu comandă legată și neschimbată — */
+      const pc = { pk: 5, role: "fianco", length: 600, width: 400, thickness: 18, outline: [{ x0: 0, x1: 600, y0: 0, y1: 400 }], operations: [] };
+      const M = { meta: { "5": { row: p.pieces[1], n: 2 } }, ops: { pieces: [pc] } };
+      const a3 = () => { try { return partA3Svg(M, pc, 5); } catch (e) { return "ERR " + e; } };
+      o.a3fara = !a3().includes("<svg x=") && !a3().startsWith("ERR");
+      atJobMapSet("w5", { job: JOB, atelier: "at1", sig: EBAtelier.rowSig(p.pieces) });
+      const withQ = a3();
+      const d = document.createElement("div"); d.innerHTML = EBQR.svg(EBAtelier.qrUrl(JOB, "r2"), { border: 1 });
+      const path = d.querySelector("path").getAttribute("d");
+      o.a3cu = withQ.includes("<svg x=") && withQ.includes(path.slice(0, 80)) && withQ.includes(">r2<");
+      p.pieces[1].lung = 601; o.a3schimbat = !a3().includes("<svg x="); p.pieces[1].lung = 600;
+      localStorage.removeItem("ebAtelier"); o.a3faraFlag = !a3().includes("<svg x="); localStorage.setItem("ebAtelier", "1");
+
+      /* — planul de tăiere — */
+      let mine;
+      sb = { from(t) { const c = { select() { return c; }, eq() { return c; }, is() { return c; }, gt() { return c; }, order() { return c; }, then(res) { res({ data: t === "atelier_members" ? mine : [], error: null }); } }; return c; },
+        async rpc() { return { data: [], error: null }; } };
+      acctSession = { user: { id: "u-a", email: "a@test.local" } };
+      const body = () => document.getElementById("atBody"), area = () => document.getElementById("printArea");
+      const openAs = async role => { mine = [{ atelier_id: "at1", role, stations: [], ateliers: { id: "at1", name: "T", slug: "tt" } }];
+        closeSheets(); atMine = []; atScreen = { name: "detail", id: "at1" }; openSheet("shAtelier"); await atRefreshMine(); await atRender(); await w(300); };
+      const T = k => EBAtelier.t(state.lang, k);
+
+      licWrite(null); await openAs("responsabil");
+      o.buton = !!body().querySelector("[data-at=docsaw]");
+      area().innerHTML = ""; printed = 0; body().querySelector("[data-at=docsaw]").click(); await w(300);
+      o.gratis = printed === 0 && area().innerHTML === "" && document.getElementById("shPro").classList.contains("on");
+      closeSheets();
+
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      await openAs("responsabil");
+      area().innerHTML = ""; printed = 0; body().querySelector("[data-at=docsaw]").click(); await w(400);
+      const html = area().innerHTML, tx = area().textContent;
+      o.tipar = printed === 1 && tx.includes(T("docSawTitle")) && /PAL 18 Alb/.test(tx) && area().querySelectorAll("svg").length >= 2;
+      o.coduriInPlan = /r1/.test(tx) && /r2/.test(tx);
+      /* un QR pe fiecare rând distinct de pe fiecare panou: r1 și r2 cel puțin o dată, doar din comanda legată */
+      const qrSvgs = [...area().querySelectorAll("div[style*='15mm'] svg")];
+      const dd = pk => { const x = document.createElement("div"); x.innerHTML = EBQR.svg(EBAtelier.qrUrl(JOB, pk), { border: 1 }); return x.querySelector("path").getAttribute("d"); };
+      const ds = qrSvgs.map(x => x.querySelector("path").getAttribute("d"));
+      o.qrPePiese = qrSvgs.length >= 2 && ds.includes(dd("r1")) && ds.includes(dd("r2")) && ds.every(x => x === dd("r1") || x === dd("r2"));
+      o.faraAvertisment = !tx.includes(T("docSawNoLink"));
+      o.xss = !html.includes("<b>X</b>") && html.indexOf("&lt;b&gt;X&lt;/b&gt;") >= 0;
+      o.ordineTaieturi = /│|─/.test(tx);
+
+      /* fără comandă legată: coduri, avertisment, nici un QR */
+      atJobMapSet("w5", null); await openAs("responsabil");
+      area().innerHTML = ""; body().querySelector("[data-at=docsaw]").click(); await w(400);
+      o.faraLink = area().textContent.includes(T("docSawNoLink")) && area().querySelectorAll("div[style*='15mm'] svg").length === 0 && /r1/.test(area().textContent);
+
+      closeSheets(); window.print = realPrint; sb = wasSb; acctSession = wasSess; state.projects = keepP; state.activeId = keepA; licWrite(keepL);
+      localStorage.removeItem("ebAtelier"); localStorage.removeItem("ebAtelierJobs"); renderAccount();
+      return o;
+    });
+    ok("Atelier E5: foaia A3 are QR-ul piesei (același cu al etichetei) doar cu comandă legată și neschimbată", r.a3fara === true && r.a3cu === true && r.a3schimbat === true && r.a3faraFlag === true, JSON.stringify({ f: r.a3fara, c: r.a3cu, s: r.a3schimbat, g: r.a3faraFlag }));
+    ok("Atelier E5: butonul „Plan sezionatrice” e în Atelier; fără Pro se deschide ecranul Pro și nu se tipărește nimic", r.buton === true && r.gratis === true);
+    ok("Atelier E5: planul de tăiere se tipărește cu codurile pieselor în dreptunghiuri și ordinea tăierilor", r.tipar === true && r.coduriInPlan === true && r.ordineTaieturi === true);
+    ok("Atelier E5: sub fiecare panou, QR-ul fiecărei piese; cele din plan sunt exact cele din comandă (r1, r2)", r.qrPePiese === true && r.faraAvertisment === true);
+    ok("Atelier E5: numele cu HTML nu se execută în plan", r.xss === true);
+    ok("Atelier E5: fără comandă legată: coduri și avertisment, fără QR", r.faraLink === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

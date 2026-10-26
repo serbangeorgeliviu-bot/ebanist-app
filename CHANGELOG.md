@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.82.0 — 26 octombrie 2026
+
+**Modul Atelier — QR pe foaia CNC și plan de tăiere cu coduri și QR. Tot ascuns.**
+- **Foaia A3 a piesei (CNC)** primește, în colțul cartușului, **același QR ca eticheta piesei** și codul ei (`r12`). Numai dacă proiectul are o comandă creată din el și rândurile n-au fost schimbate de atunci; altfel foaia rămâne exact cum era. Același lucru în „Dosar tehnic A3".
+- **Plan sezionatrice (QR)**, în Atelier → „Documente pe postazione": planul de tăiere tipărit, panou cu panou, cu codul fiecărei piese în dreptunghi, ordinea tăierilor și, sub panou, lista pieselor cu QR-ul fiecăreia. Fără comandă legată apar codurile și un avertisment, dar fără QR. Cu Pro, ca celelalte documente.
+- Un singur cod pe piesă, același peste tot: eticheta, foaia CNC, planul de tăiere, foaia bordatricei și lista de vopsitorie. Se scanează la fiecare postazione prin care trece piesa.
+- Texte în cele 7 limbi. Teste noi în `sheet.test.js` și bloc e2e „Atelier E5”.
+
+---
+
 ## 4.81.0 — 26 octombrie 2026
 
 **Modul Atelier, etapa E4a (D-92) — comandă agregată către furnizor. Tot ascuns.**
