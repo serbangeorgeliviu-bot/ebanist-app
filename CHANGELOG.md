@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.83.0 — 27 octombrie 2026
+
+**Modul Atelier — panou de birou. Tot ascuns.** Partea rămasă din E3: responsabilul și biroul tehnic văd, în ecranul Atelier, **unde stă fiecare comandă**.
+- Un tabel cu comenzile deschise (confirmate sau în lucru), câte un rând pe comandă și câte o coloană pe fiecare din cele 7 postazioni: **✓** gata, **%** în lucru, **⚠** probleme, **—** neîncepută. Sub tabel, câte comenzi sunt în lucru pe fiecare postazione (coada).
+- **Întârzierile:** comanda al cărei termen a trecut apare prima, cu zilele de întârziere în roșu. Comenzile **stagnante** (nicio mișcare de 24 de ore) și cele **neîncepute** sunt marcate. Deasupra, un rezumat: deschise, întârziate, stagnante.
+- Numai citire, din funcțiile existente (`job_status_list`, `job_progress`): nicio migrare, nimic nou pe server. Operatorul și partenerul nu-l văd.
+- Texte în cele 7 limbi. Teste noi în `atelier.test.js` și bloc e2e „Atelier panou”.
+
+---
+
 ## 4.82.0 — 26 octombrie 2026
 
 **Modul Atelier — QR pe foaia CNC și plan de tăiere cu coduri și QR. Tot ascuns.**

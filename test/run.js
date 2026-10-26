@@ -3400,8 +3400,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       await openAs("responsabil");
       let txt = body().textContent;
       o.lista = /Jacquin/.test(txt) && /2026-12-01/.test(txt) && /Dressing/.test(txt);
-      o.xss = !body().querySelector("b") && body().innerHTML.indexOf("&lt;b&gt;") >= 0;
-      const chips = [...body().querySelectorAll('span[style*="99px"]')].map(x => x.textContent);
+      o.xss = !body().innerHTML.includes("<b>Bucătărie") && body().innerHTML.indexOf("&lt;b&gt;Bucătărie") >= 0; /* panoul folosește și <b> pentru cifre */
+      const chips = [...body().querySelectorAll('div[style*="margin-top:6px"] > span[style*="99px"]')].map(x => x.textContent); /* numai chip-urile din comenzi, nu cele din panou */
       o.progres = chips.length === 2 && chips.some(c => /CNC 2\/5/.test(c) && /⚠1/.test(c)) && chips.some(c => /✓/.test(c)) && !chips.some(c => /Magazzino|Magazie|Warehouse|Lager|Magasin|Magazyn|Almac/.test(c));
       o.selStare = body().querySelectorAll("select[data-at=jobstate]").length === 2;
       /* creare din proiectul deschis */
@@ -3881,6 +3881,59 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Atelier E5: sub fiecare panou, QR-ul fiecărei piese; cele din plan sunt exact cele din comandă (r1, r2)", r.qrPePiese === true && r.faraAvertisment === true);
     ok("Atelier E5: numele cu HTML nu se execută în plan", r.xss === true);
     ok("Atelier E5: fără comandă legată: coduri și avertisment, fără QR", r.faraLink === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Atelier — panou de birou: unde stă fiecare comandă, coadă pe postazione, întârzieri");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession;
+      localStorage.setItem("ebAtelier", "1");
+      const iso = d => new Date(Date.now() + d * 3600e3).toISOString();
+      const day = d => new Date(Date.now() + d * 86400e3).toISOString().slice(0, 10);
+      const list = [
+        { id: "j1", title: "Bucătărie <i>A</i>", client_label: null, due_date: day(-5), state: "in_progress", last_station: "cnc", last_at: iso(-30), total_pieces: 4 },
+        { id: "j2", title: "Dressing B", client_label: null, due_date: day(10), state: "confirmed", last_station: null, last_at: null, total_pieces: 2 },
+        { id: "j3", title: "Terminată", client_label: null, due_date: day(-9), state: "done", last_station: null, last_at: null, total_pieces: 1 }];
+      const prog = {
+        j1: [{ station: "bordatrice", total_pieces: 4, done_pieces: 4, station_done: true, issues: 0, reworks: 0, last_at: iso(-60) }, { station: "cnc", total_pieces: 4, done_pieces: 2, station_done: false, issues: 1, reworks: 0, last_at: iso(-30) }],
+        j2: [], j3: [] };
+      let mine;
+      sb = { from(t) { const c = { select() { return c; }, eq() { return c; }, is() { return c; }, gt() { return c; }, order() { return c; }, then(res) { res({ data: t === "atelier_members" ? mine : [], error: null }); } }; return c; },
+        async rpc(fn, a) { return fn === "job_status_list" ? { data: list, error: null } : fn === "job_progress" ? { data: prog[a.p_job] || [], error: null } : { data: [], error: null }; } };
+      acctSession = { user: { id: "u-a", email: "a@test.local" } };
+      const body = () => document.getElementById("atBody");
+      const openAs = async role => { mine = [{ atelier_id: "at1", role, stations: role === "operator" ? ["cnc"] : [], ateliers: { id: "at1", name: "T", slug: "tt" } }];
+        closeSheets(); atMine = []; atScreen = { name: "detail", id: "at1" }; openSheet("shAtelier"); await atRefreshMine(); await atRender(); await w(300); };
+      const T = k => EBAtelier.t(state.lang, k);
+
+      await openAs("birou");
+      const rows = [...body().querySelectorAll("table tr")].slice(1);
+      o.randuri = rows.length === 2 && /Bucătărie/.test(rows[0].textContent) && /Dressing/.test(rows[1].textContent); /* terminată nu apare; întârziata e prima */
+      o.celule = rows[0].querySelectorAll("td").length === 8;
+      const cellTxt = rows[0].textContent;
+      o.stari = cellTxt.includes("✓") && cellTxt.includes("50%") && cellTxt.includes("⚠");
+      o.intarziere = rows[0].innerHTML.includes("#b3261e") && cellTxt.includes(T("boardLate").replace("{n}", "5"));
+      o.neinceput = rows[1].textContent.includes(T("boardNotStarted"));
+      const sum = [...body().querySelectorAll("span[style*='99px']")].map(x => x.textContent).join("|");
+      o.rezumat = /2\s*\S+/.test(sum) && sum.includes(T("boardOverdue")) && sum.includes(T("boardStagnant"));
+      o.coada = body().textContent.includes(T("boardQueue")) && /CNC\s*1/.test(body().textContent);
+      o.xss = !body().querySelector("i") && body().innerHTML.indexOf("&lt;i&gt;") >= 0;
+      o.legenda = body().textContent.includes(T("boardLegend"));
+
+      await openAs("operator"); o.opFara = !body().textContent.includes(T("boardLegend")) && !body().textContent.includes(T("boardQueue"));
+      await openAs("partener"); o.parFara = !body().textContent.includes(T("boardLegend"));
+      list.length = 0; await openAs("responsabil"); o.gol = body().textContent.includes(T("boardNone"));
+
+      closeSheets(); sb = wasSb; acctSession = wasSess; localStorage.removeItem("ebAtelier"); renderAccount();
+      return o;
+    });
+    ok("Atelier panou: numai comenzile deschise, întârziata prima, 7 postazioni pe rând", r.randuri === true && r.celule === true, JSON.stringify({ r: r.randuri, c: r.celule }));
+    ok("Atelier panou: ✓ gata, % în lucru, ⚠ probleme, zile de întârziere în roșu, „neînceput”", r.stari === true && r.intarziere === true && r.neinceput === true);
+    ok("Atelier panou: rezumat (deschise, întârziate, stagnante) și coada pe postazione", r.rezumat === true && r.coada === true && r.legenda === true);
+    ok("Atelier panou: titlurile cu HTML nu se execută", r.xss === true);
+    ok("Atelier panou: operatorul și partenerul nu-l văd; fără comenzi, mesaj", r.opFara === true && r.parFara === true && r.gol === true);
     await pg.evaluate(() => { closeSheets(); });
   }
 

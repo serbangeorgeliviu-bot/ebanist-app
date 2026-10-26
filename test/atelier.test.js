@@ -341,3 +341,66 @@ test("E4: snapshotRows — înapoi în rânduri de distinctă; comenzile vechi p
   assert.equal(rows[2].pz, 1); /* pz lipsă sau 0 → 1 */
   assert.equal(A.snapshotRows(null).length, 0); assert.equal(A.snapshotRows({}).length, 0);
 });
+
+/* ===== Panou de birou ===== */
+const NOW = Date.parse("2026-10-27T12:00:00Z");
+const pr = (station, total, done, isDone, issues, last) => ({ station, total_pieces: total, done_pieces: done, station_done: isDone, issues, reworks: 0, last_at: last });
+
+test("Panou: textele există în toate limbile", () => {
+  for (const l of LANGS) for (const k of ["boardTitle", "boardNone", "boardOverdue", "boardLate", "boardIdle", "boardNotStarted", "boardStagnant", "boardOpen", "boardQueue", "boardLegend"])
+    assert.ok(A.I18N[l][k], `${l}.${k}`);
+  for (const l of LANGS) { assert.ok(A.I18N[l].boardLate.includes("{n}")); assert.ok(A.I18N[l].boardIdle.includes("{h}")); }
+});
+
+test("Panou: numai comenzile deschise; întârziată doar dacă termenul a trecut și nu e terminată", () => {
+  const jobs = [
+    { id: "a", title: "A", state: "in_progress", due_date: "2026-10-20" }, { id: "b", title: "B", state: "confirmed", due_date: "2026-10-27" },
+    { id: "c", title: "C", state: "done", due_date: "2026-10-01" }, { id: "d", title: "D", state: "draft", due_date: "2026-10-01" },
+    { id: "e", title: "E", state: "cancelled" }, { id: "f", title: "F", state: "in_progress", due_date: "2026-12-01" }];
+  const m = A.boardModel(jobs, {}, NOW);
+  assert.deepEqual(Array.from(m.rows.map(r => r.job.id)), ["a", "b", "f"]);
+  assert.equal(m.counts.open, 3); assert.equal(m.counts.overdue, 1);
+  const a = m.rows[0]; assert.equal(a.overdue, true); assert.equal(a.daysLate, 7);
+  assert.equal(m.rows.find(r => r.job.id === "b").overdue, false, "termenul de azi nu e întârziere");
+});
+
+test("Panou: starea fiecărei postazione, procentul, problemele și coada", () => {
+  const jobs = [{ id: "a", title: "A", state: "in_progress" }, { id: "b", title: "B", state: "confirmed" }];
+  const pm = { a: [pr("bordatrice", 4, 4, true, 0, "2026-10-25T00:00:00Z"), pr("cnc", 4, 2, false, 1, "2026-10-26T06:00:00Z"), pr("magazzino", 4, 0, false, 0, null), pr("verniciatura", 4, 0, false, 2, "2026-10-26T07:00:00Z")],
+    b: [pr("cnc", 4, 1, false, 0, "2026-10-27T11:00:00Z")] };
+  const m = A.boardModel(jobs, pm, NOW), by = id => m.rows.find(r => r.job.id === id), cell = (r, st) => r.cells.find(c => c.station === st);
+  const a = by("a");
+  assert.equal(cell(a, "bordatrice").status, "done"); assert.equal(cell(a, "bordatrice").pct, 100);
+  assert.equal(cell(a, "cnc").status, "active"); assert.equal(cell(a, "cnc").pct, 50); assert.equal(cell(a, "cnc").issues, 1);
+  assert.equal(cell(a, "magazzino").status, "idle");
+  assert.equal(cell(a, "verniciatura").status, "active", "o problemă fără piese gata e tot activitate");
+  assert.equal(cell(a, "sezionatrice").status, "idle", "postazione fără rând de progres");
+  assert.equal(a.issues, 3);
+  assert.equal(m.queue.cnc, 2); assert.equal(m.queue.verniciatura, 1); assert.equal(m.queue.bordatrice, 0, "gata nu mai e în coadă");
+  assert.equal(a.cells.length, 7);
+});
+
+test("Panou: stagnare după waitHours (implicit 24), „neînceput” fără evenimente, ora ultimei mișcări din cea mai recentă postazione", () => {
+  const jobs = [{ id: "a", title: "A", state: "in_progress" }, { id: "b", title: "B", state: "confirmed" }, { id: "c", title: "C", state: "in_progress" }];
+  const pm = { a: [pr("cnc", 2, 1, false, 0, "2026-10-26T11:00:00Z"), pr("bordatrice", 2, 2, true, 0, "2026-10-20T00:00:00Z")], b: [pr("cnc", 2, 0, false, 0, null)], c: [pr("cnc", 2, 1, false, 0, "2026-10-27T10:00:00Z")] };
+  const m = A.boardModel(jobs, pm, NOW), by = id => m.rows.find(r => r.job.id === id);
+  assert.equal(by("a").idleH, 25); assert.equal(by("a").stagnant, true);
+  assert.equal(by("b").notStarted, true); assert.equal(by("b").idleH, null); assert.equal(by("b").stagnant, false);
+  assert.equal(by("c").idleH, 2); assert.equal(by("c").stagnant, false);
+  assert.equal(A.boardModel(jobs, pm, NOW, { waitHours: 48 }).counts.stagnant, 0);
+  assert.equal(A.boardModel(jobs, pm, NOW, { waitHours: 1 }).counts.stagnant, 2);
+  assert.equal(m.counts.notStarted, 1);
+});
+
+test("Panou: ordinea — întârziatele întâi, apoi după termen (fără termen la urmă), apoi după titlu", () => {
+  const jobs = [{ id: "x", title: "X", state: "confirmed", due_date: "2026-11-05" }, { id: "y", title: "Y", state: "confirmed" }, { id: "z", title: "Z", state: "confirmed", due_date: "2026-10-01" },
+    { id: "w", title: "W", state: "confirmed", due_date: "2026-11-05" }, { id: "v", title: "V", state: "confirmed", due_date: "2026-11-01" }];
+  assert.deepEqual(Array.from(A.boardModel(jobs, {}, NOW).rows.map(r => r.job.id)), ["z", "v", "w", "x", "y"]);
+});
+
+test("Panou: intrări goale sau stricate nu aruncă", () => {
+  assert.equal(A.boardModel(null, null, NOW).rows.length, 0);
+  assert.equal(A.boardModel([], {}, NOW).counts.open, 0);
+  const m = A.boardModel([{ id: "a", title: "A", state: "confirmed", due_date: "nu-e-dată" }], { a: [{ station: "cnc", total_pieces: 0, done_pieces: 3, station_done: false }, { station: "ceva-necunoscut" }] }, NOW);
+  assert.equal(m.rows.length, 1); assert.equal(m.rows[0].cells.find(c => c.station === "cnc").pct, 0);
+});
