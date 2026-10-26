@@ -31,7 +31,9 @@
     "job.create": ["responsabil", "birou"],
     "job.state": ["responsabil", "birou"],
     "job.progress": ["responsabil", "birou"],
-    "job.event": ["responsabil", "birou", "operator"]
+    "job.event": ["responsabil", "birou", "operator"],
+    /* E3: documente pe postazione din proiectul deschis */
+    "doc.print": ["responsabil", "birou"]
   };
   function can(role, cap) { return (CAPS[cap] || []).indexOf(role) >= 0; }
 
@@ -121,6 +123,59 @@
   /* o eroare a regulilor (`job:…`, `atelier:…`) nu se repară retrimițând; orice altceva (rețea) se reîncearcă */
   function qIsPermanent(err) {
     return /(?:job|atelier):[a-z_]+/.test(String((err && err.message) || err || ""));
+  }
+
+  /* — E3: documente pe postazione (bordatrice, vopsitorie). Numai grupare: cotele vin din rânduri,
+       fără recalculări. `h` aduce ce știe aplicația: isAcc(x), mm(x) = lungimea de cant a unui rând
+       (bandingMm), decor(x), mat(x), isMdf(x). `ri` e indexul rândului în distinctă: același `r<ri+1>` ca
+       în `pk`-ul comenzii și în QR-ul de pe etichetă. — */
+  function groupBy(items, keyOf, labelOf) {
+    var map = {}, order = [];
+    items.forEach(function (it) {
+      var k = keyOf(it.x);
+      if (!map[k]) { map[k] = { key: k, label: labelOf(it.x), pieces: [] }; order.push(k); }
+      map[k].pieces.push(it);
+    });
+    return order.map(function (k) { return map[k]; })
+      .sort(function (a, b) { return a.label < b.label ? -1 : a.label > b.label ? 1 : 0; });
+  }
+  /* Cantul se ia în decorul panoului (ABS asortat); grosimea e cea din Setări (`edgeTh`).
+     Rândurile fără cant sau cu 0 mm de cant nu apar. Rezerva de 10% e aceeași ca la comanda către furnizor. */
+  function edgeGroups(rows, h) {
+    var items = [];
+    (rows || []).forEach(function (x, ri) {
+      if (h.isAcc(x)) return;
+      var mm = h.mm(x);
+      if (!(mm > 0)) return;
+      items.push({ x: x, ri: ri, pk: "r" + (ri + 1), mm: mm, total: mm * (+x.pz || 1) });
+    });
+    var gs = groupBy(items, function (x) { return String(h.decor(x) || h.mat(x) || "").toLowerCase(); },
+      function (x) { return h.decor(x) ? h.decor(x) : h.mat(x); });
+    gs.forEach(function (g) {
+      g.pieces.sort(function (a, b) { return b.mm - a.mm || a.ri - b.ri; });
+      var sum = g.pieces.reduce(function (a, it) { return a + it.total; }, 0);
+      g.meters = sum / 1000;
+      g.metersReserve = Math.ceil(sum * 1.1 / 100) / 10; /* ml, rotunjit în sus la 0,1 */
+      g.count = g.pieces.reduce(function (a, it) { return a + (+it.x.pz || 1); }, 0);
+    });
+    return gs;
+  }
+  /* Vopsitorie: numai panourile din MDF, pe material. Suprafața = cele două fețe; canturile se vopsesc și ele, dar
+     nu se adună aici (nu avem grosimea reală a rândului). */
+  function paintGroups(rows, h) {
+    var items = [];
+    (rows || []).forEach(function (x, ri) {
+      if (h.isAcc(x) || !h.isMdf(x)) return;
+      var pz = +x.pz || 1;
+      items.push({ x: x, ri: ri, pk: "r" + (ri + 1), faces: 2 * (+x.lung || 0) * (+x.larg || 0) / 1e6 * pz });
+    });
+    var gs = groupBy(items, function (x) { return String(h.mat(x) || "").toLowerCase(); }, function (x) { return h.mat(x); });
+    gs.forEach(function (g) {
+      g.pieces.sort(function (a, b) { return a.ri - b.ri; });
+      g.area = g.pieces.reduce(function (a, it) { return a + it.faces; }, 0);
+      g.count = g.pieces.reduce(function (a, it) { return a + (+it.x.pz || 1); }, 0);
+    });
+    return gs;
   }
 
   /* erorile serverului au forma `atelier:<cod>` sau `job:<cod>`; întoarce cheia de text */
@@ -414,6 +469,67 @@
       scanLogin: "Inicia sesión para registrar piezas." }
   };
   Object.keys(SCAN_TXT).forEach(function (l) { Object.assign(I18N[l], SCAN_TXT[l]); });
+
+  /* — texte E3 — */
+  var DOC_TXT = {
+    it: { docsTitle: "Documenti per postazione", docsNeedProject: "Apri un progetto con dei pezzi per stampare i documenti.",
+      docEdgeBtn: "Foglio bordatrice", docPaintBtn: "Elenco verniciatura",
+      docEdgeTitle: "Bordatrice: bordi per pezzo", docPaintTitle: "Verniciatura: pannelli MDF",
+      docEdgeNone: "Nessun pezzo con bordo in questo progetto.", docPaintNone: "Nessun pannello in MDF in questo progetto.",
+      docEdgeOf: "Bordo", docEdgeTh: "spessore", docMl: "ml", docReserve: "con +10%", docCode: "Cod.", docPiece: "Pezzo",
+      docDim: "Misura", docQty: "Pz", docSides: "Lati", docEdgeMl: "Bordo (ml)", docPaintColor: "Colore / finitura", docArea: "m² (due facce)",
+      docPaintNote: "Anche i bordi dell'MDF si stuccano e si verniciano: la superficie indicata conta solo le facce.",
+      docCodeNote: "Il codice corrisponde a quello dell'etichetta (QR)." },
+    ro: { docsTitle: "Documente pe postazione", docsNeedProject: "Deschide un proiect cu piese ca să tipărești documentele.",
+      docEdgeBtn: "Foaie bordatrice", docPaintBtn: "Listă vopsitorie",
+      docEdgeTitle: "Bordatrice: cant pe piesă", docPaintTitle: "Vopsitorie: panouri MDF",
+      docEdgeNone: "Nicio piesă cu cant în acest proiect.", docPaintNone: "Niciun panou din MDF în acest proiect.",
+      docEdgeOf: "Cant", docEdgeTh: "grosime", docMl: "ml", docReserve: "cu +10%", docCode: "Cod", docPiece: "Piesă",
+      docDim: "Cotă", docQty: "Buc", docSides: "Laturi", docEdgeMl: "Cant (ml)", docPaintColor: "Culoare / finisaj", docArea: "m² (două fețe)",
+      docPaintNote: "Și canturile MDF-ului se chitează și se vopsesc: suprafața indicată numără doar fețele.",
+      docCodeNote: "Codul e cel de pe etichetă (QR)." },
+    en: { docsTitle: "Station documents", docsNeedProject: "Open a project with pieces to print the documents.",
+      docEdgeBtn: "Edge bander sheet", docPaintBtn: "Paint shop list",
+      docEdgeTitle: "Edge bander: banding per piece", docPaintTitle: "Paint shop: MDF panels",
+      docEdgeNone: "No piece with edge banding in this project.", docPaintNone: "No MDF panel in this project.",
+      docEdgeOf: "Edge", docEdgeTh: "thickness", docMl: "m", docReserve: "with +10%", docCode: "Code", docPiece: "Piece",
+      docDim: "Size", docQty: "Qty", docSides: "Sides", docEdgeMl: "Edge (m)", docPaintColor: "Colour / finish", docArea: "m² (two faces)",
+      docPaintNote: "MDF edges are also filled and painted: the area shown counts the faces only.",
+      docCodeNote: "The code matches the label (QR)." },
+    fr: { docsTitle: "Documents par poste", docsNeedProject: "Ouvrez un projet avec des pièces pour imprimer les documents.",
+      docEdgeBtn: "Feuille plaqueuse", docPaintBtn: "Liste peinture",
+      docEdgeTitle: "Plaqueuse de chants : chants par pièce", docPaintTitle: "Peinture : panneaux MDF",
+      docEdgeNone: "Aucune pièce avec chant dans ce projet.", docPaintNone: "Aucun panneau MDF dans ce projet.",
+      docEdgeOf: "Chant", docEdgeTh: "épaisseur", docMl: "ml", docReserve: "avec +10 %", docCode: "Code", docPiece: "Pièce",
+      docDim: "Cote", docQty: "Qté", docSides: "Côtés", docEdgeMl: "Chant (ml)", docPaintColor: "Couleur / finition", docArea: "m² (deux faces)",
+      docPaintNote: "Les chants du MDF se bouchent et se peignent aussi : la surface indiquée ne compte que les faces.",
+      docCodeNote: "Le code correspond à celui de l'étiquette (QR)." },
+    de: { docsTitle: "Dokumente je Station", docsNeedProject: "Öffne ein Projekt mit Teilen, um die Dokumente zu drucken.",
+      docEdgeBtn: "Blatt Kantenanleimer", docPaintBtn: "Liste Lackiererei",
+      docEdgeTitle: "Kantenanleimmaschine: Kanten je Teil", docPaintTitle: "Lackiererei: MDF-Platten",
+      docEdgeNone: "Kein Teil mit Kante in diesem Projekt.", docPaintNone: "Keine MDF-Platte in diesem Projekt.",
+      docEdgeOf: "Kante", docEdgeTh: "Stärke", docMl: "lfm", docReserve: "mit +10 %", docCode: "Code", docPiece: "Teil",
+      docDim: "Maß", docQty: "Stk", docSides: "Seiten", docEdgeMl: "Kante (lfm)", docPaintColor: "Farbe / Oberfläche", docArea: "m² (zwei Flächen)",
+      docPaintNote: "Auch die MDF-Kanten werden gespachtelt und lackiert: die Fläche zählt nur die Flächen.",
+      docCodeNote: "Der Code entspricht dem auf dem Etikett (QR)." },
+    pl: { docsTitle: "Dokumenty dla stanowisk", docsNeedProject: "Otwórz projekt z elementami, aby wydrukować dokumenty.",
+      docEdgeBtn: "Arkusz okleiniarki", docPaintBtn: "Lista lakierni",
+      docEdgeTitle: "Okleiniarka: okleina na element", docPaintTitle: "Lakiernia: płyty MDF",
+      docEdgeNone: "Brak elementów z okleiną w tym projekcie.", docPaintNone: "Brak płyt MDF w tym projekcie.",
+      docEdgeOf: "Okleina", docEdgeTh: "grubość", docMl: "mb", docReserve: "z +10%", docCode: "Kod", docPiece: "Element",
+      docDim: "Wymiar", docQty: "Szt", docSides: "Boki", docEdgeMl: "Okleina (mb)", docPaintColor: "Kolor / wykończenie", docArea: "m² (dwie strony)",
+      docPaintNote: "Krawędzie MDF też się szpachluje i maluje: podana powierzchnia liczy tylko strony.",
+      docCodeNote: "Kod odpowiada kodowi z etykiety (QR)." },
+    es: { docsTitle: "Documentos por puesto", docsNeedProject: "Abre un proyecto con piezas para imprimir los documentos.",
+      docEdgeBtn: "Hoja de canteadora", docPaintBtn: "Lista de pintura",
+      docEdgeTitle: "Canteadora: cantos por pieza", docPaintTitle: "Pintura: paneles MDF",
+      docEdgeNone: "Ninguna pieza con canto en este proyecto.", docPaintNone: "Ningún panel MDF en este proyecto.",
+      docEdgeOf: "Canto", docEdgeTh: "grosor", docMl: "ml", docReserve: "con +10 %", docCode: "Cód.", docPiece: "Pieza",
+      docDim: "Medida", docQty: "Ud", docSides: "Lados", docEdgeMl: "Canto (ml)", docPaintColor: "Color / acabado", docArea: "m² (dos caras)",
+      docPaintNote: "Los cantos del MDF también se masillan y se pintan: la superficie indicada cuenta solo las caras.",
+      docCodeNote: "El código coincide con el de la etiqueta (QR)." }
+  };
+  Object.keys(DOC_TXT).forEach(function (l) { Object.assign(I18N[l], DOC_TXT[l]); });
   Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
 
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }
@@ -430,7 +546,7 @@
     } catch (e) { return false; }
   }
 
-  return { qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
+  return { edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
            JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
            ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };

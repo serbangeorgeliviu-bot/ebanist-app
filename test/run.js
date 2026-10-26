@@ -3545,6 +3545,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       document.getElementById("atScanText").value = "https://ebanist.com/#e=" + JOB + ".r2"; body().querySelector("[data-at=scango]").click(); await w(400);
       o.codBun = atScreen.target && atScreen.target.pk === "r2" && !!document.getElementById("atScanStation");
       o.birouToate = document.getElementById("atScanStation").options.length === 7;
+      /* pistol de citit coduri (tastatură HID): scrie codul și apasă Enter */
+      await open("birou", [], null);
+      document.getElementById("atScanText").value = "https://ebanist.com/#e=" + JOB + ".r1";
+      document.getElementById("atScanText").dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true })); await w(400);
+      o.pistol = atScreen.target && atScreen.target.pk === "r1" && !!document.getElementById("atScanStation");
+      await open("birou", [], null);
+      o.focusFaraDetector = ("BarcodeDetector" in window) || document.activeElement === document.getElementById("atScanText");
 
       /* — coadă offline — */
       await open("operator", ["cnc"], { job: JOB, pk: "r2" });
@@ -3599,11 +3606,86 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Atelier E2: „Gata” trimite evenimentul pe piesă (pk, postazione, client_id) și trece la scanarea următoare", r.gata === true && r.urmatoarea === true && r.amintit === true);
     ok("Atelier E2: fără postazioni, piesă necunoscută sau comandă închisă → nu se poate înregistra", r.faraStatii === true && r.necunoscuta === true && r.inchisa === true);
     ok("Atelier E2: cod lipit greșit e refuzat în client; cel bun deschide piesa; biroul vede toate cele 7 postazioni", r.codGresit === true && r.codBun === true && r.birouToate === true);
+    ok("Atelier E2: un cititor de coduri (tastatură) merge: cod + Enter deschide piesa; fără detector de cameră câmpul are focus", r.pistol === true && r.focusFaraDetector === true);
     ok("Atelier E2: fără rețea evenimentul intră în coadă și utilizatorul e anunțat", r.inCoada === true && r.toastOffline === true);
     ok("Atelier E2: coada se retrimite cu ACELAȘI client_id (idempotent); un eșec o păstrează intactă", r.fluxIntrerupt === true && r.retrimis === true);
     ok("Atelier E2: o regulă încălcată (comandă închisă) aruncă evenimentul; la cădere de rețea ordinea se păstrează", r.aruncat === true && r.ordine === true);
     ok("Atelier E2: cod scanat cu camera telefonului deschide piesa și curăță adresa", r.deschis === true && r.fragmentSters === true);
     ok("Atelier E2: fără login cere conectarea, apoi continuă la piesă; un fragment fals e ignorat", r.cereLogin === true && r.continua === true && r.ignorat === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Atelier E3 — documente pe postazione: foaia bordatricei și lista de vopsitorie, din proiectul deschis");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession, keepP = state.projects, keepA = state.activeId, keepL = LIC;
+      const realPrint = window.print; let printed = 0; window.print = () => { printed++; };
+      printOut._offered = 1;
+      state.projects = [{ id: "w3", name: "Jacquin", client: "", date: "2026-10-01", pieces: [
+        { id: "a1", modulo: "Corp <img src=x onerror=window.__xss3=1>", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" },
+        { id: "a2", modulo: "Corp", elemento: "Fronte", lung: 500, larg: 300, pz: 1, materiale: "MDF 19" },
+        { id: "a3", modulo: "Corp", elemento: "Ripiano", lung: 900, larg: 300, pz: 1, bordo: "1L", materiale: "PAL 18 Alb" },
+        { id: "a4", modulo: "Corp", elemento: "Fronte", lung: 400, larg: 400, pz: 2, bordo: "2L+2C", materiale: "MDF 19" }] }];
+      state.activeId = "w3";
+      localStorage.setItem("ebAtelier", "1");
+      let mine;
+      sb = { from(t) { const c = { select() { return c; }, eq() { return c; }, is() { return c; }, gt() { return c; }, order() { return c; }, then(res) { res({ data: t === "atelier_members" ? mine : [], error: null }); } }; return c; },
+        async rpc() { return { data: [], error: null }; } };
+      acctSession = { user: { id: "u-a", email: "a@test.local" } };
+      const body = () => document.getElementById("atBody"), area = () => document.getElementById("printArea");
+      const openAs = async role => { mine = [{ atelier_id: "at1", role, stations: role === "operator" ? ["cnc"] : [], ateliers: { id: "at1", name: "T", slug: "tt" } }];
+        closeSheets(); atMine = []; atScreen = { name: "detail", id: "at1" }; openSheet("shAtelier"); await atRefreshMine(); await atRender(); await w(300); };
+      const T = k => EBAtelier.t(state.lang, k);
+
+      /* gratuit: ecranul Pro, nimic tipărit */
+      licWrite(null); await openAs("responsabil");
+      o.butoane = !!body().querySelector("[data-at=docedge]") && !!body().querySelector("[data-at=docpaint]");
+      area().innerHTML = ""; printed = 0; body().querySelector("[data-at=docedge]").click(); await w(300);
+      o.gratisBlocat = printed === 0 && area().innerHTML === "" && document.getElementById("shPro").classList.contains("on");
+      closeSheets();
+
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      await openAs("birou");
+      area().innerHTML = ""; printed = 0; body().querySelector("[data-at=docedge]").click(); await w(300);
+      const e = area().innerHTML, et = area().textContent;
+      o.edgeTipar = printed === 1 && et.includes(T("docEdgeTitle")) && /PAL 18 Alb/.test(et);
+      o.edgeCoduri = /r1/.test(et) && /r3/.test(et) && !/>r2</.test(e); /* r2 (MDF fără cant) nu apare; r4 (MDF cu cant) e în grupul lui */
+      o.edgeMDF = /MDF 19/.test(et) && /r4/.test(et);
+      o.edgeMl = /3[.,]7/.test(et) && /4[.,]1/.test(et); /* PAL: 2·1400 + 900 = 3,7 ml; cu +10% → 4,1 ml */
+      o.edgeSvg = (e.match(/<svg/g) || []).length >= 3;
+      o.xss = window.__xss3 === undefined && !area().querySelector("img") && e.indexOf("&lt;img") >= 0;
+      o.fataDeEtichete = true;
+      area().innerHTML = ""; printed = 0; body().querySelector("[data-at=docpaint]").click(); await w(300);
+      const pt = area().textContent, ph = area().innerHTML;
+      o.paintTipar = printed === 1 && pt.includes(T("docPaintTitle")) && /MDF 19/.test(pt) && /r2/.test(pt) && /r4/.test(pt) && !/r1\b|r3\b/.test(pt.replace(/Jacquin/g, ""));
+      o.paintCuloare = ph.includes("____") && pt.includes(T("docPaintColor"));
+      o.paintArie = /0[.,]30/.test(pt) && /0[.,]64/.test(pt); /* 2·0,5·0,3 = 0,30 ; 2·0,4·0,4·2 = 0,64 */
+
+      /* fără piese cu cant / fără MDF: mesaj, nu eroare */
+      state.projects[0].pieces = [{ id: "n1", modulo: "X", elemento: "Fianco", lung: 700, larg: 500, pz: 1, materiale: "PAL 18 Alb" }];
+      await openAs("responsabil");
+      area().innerHTML = ""; body().querySelector("[data-at=docedge]").click(); await w(250);
+      o.golEdge = area().textContent.includes(T("docEdgeNone"));
+      area().innerHTML = ""; body().querySelector("[data-at=docpaint]").click(); await w(250);
+      o.golPaint = area().textContent.includes(T("docPaintNone"));
+
+      /* roluri: operatorul și partenerul nu văd documentele; fără proiect, mesaj */
+      await openAs("operator"); o.opFara = !body().querySelector("[data-at=docedge]");
+      await openAs("partener"); o.parFara = !body().querySelector("[data-at=docedge]");
+      state.projects[0].pieces = []; await openAs("responsabil");
+      o.faraProiect = !body().querySelector("[data-at=docedge]") && body().textContent.includes(T("docsNeedProject"));
+
+      closeSheets(); window.print = realPrint; sb = wasSb; acctSession = wasSess; state.projects = keepP; state.activeId = keepA; licWrite(keepL);
+      localStorage.removeItem("ebAtelier"); renderAccount();
+      return o;
+    });
+    ok("Atelier E3: butoanele de documente apar pentru birou/responsabil; fără Pro se deschide ecranul Pro și nu se tipărește nimic", r.butoane === true && r.gratisBlocat === true);
+    ok("Atelier E3: foaia bordatricei — grupată pe decor/material, cu codurile pieselor cu cant, schița laturilor și metrii", r.edgeTipar === true && r.edgeCoduri === true && r.edgeMDF === true && r.edgeSvg === true && r.edgeMl === true, JSON.stringify({ t: r.edgeTipar, c: r.edgeCoduri, m: r.edgeMDF, s: r.edgeSvg, ml: r.edgeMl }));
+    ok("Atelier E3: numele cu HTML nu se execută în documente", r.xss === true);
+    ok("Atelier E3: lista de vopsitorie — numai MDF, cu suprafața celor două fețe și linie de completat pentru culoare", r.paintTipar === true && r.paintCuloare === true && r.paintArie === true);
+    ok("Atelier E3: fără piese de acel fel, documentul spune asta (nu eroare)", r.golEdge === true && r.golPaint === true);
+    ok("Atelier E3: operatorul și partenerul nu văd documentele; fără proiect apare mesajul", r.opFara === true && r.parFara === true && r.faraProiect === true);
     await pg.evaluate(() => { closeSheets(); });
   }
 

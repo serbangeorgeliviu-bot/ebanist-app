@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.80.0 — 26 octombrie 2026
+
+**Modul Atelier, etapa E3 (D-92) — documente pe postazione. Tot ascuns** (`?atelier=1` și login).
+- În ecranul Atelier (biroul tehnic și responsabilul) apar două documente din **proiectul deschis**, cu Pro ca la celelalte documente:
+  - **Foaia bordatricei:** cantul grupat pe decorul panoului (cant asortat), cu grosimea din Setări; pentru fiecare piesă cu cant: codul (`r1`, `r2`…, același cu al comenzii și al QR-ului de pe etichetă), cotele, bucățile, schița laturilor cu cant și metrii. La fiecare grup, totalul în ml și cu +10% rezervă (aceeași regulă ca la comanda către furnizor).
+  - **Lista de vopsitorie:** numai panourile din MDF, pe material, cu suprafața celor două fețe și o linie de completat pentru culoare/finisaj. Canturile MDF-ului se chitează și se vopsesc: suprafața numără doar fețele.
+- Numai grupare și tipărire: cotele sunt ale rândurilor distinctei, nimic recalculat; accesoriile nu apar.
+- **Cititor de coduri (tastatură/HID):** în ecranul de scanare, codul citit + Enter deschide piesa; fără detector de cameră, câmpul e activ de la început.
+- Neclar încă (decizii de luat): tipul cantului ca dată pe piesă (acum se ia în decorul panoului) și culoarea RAL/NCS (acum o scrii de mână pe foaie).
+- Texte în cele 7 limbi. Teste noi în `atelier.test.js` și bloc e2e „Atelier E3”.
+
+---
+
 ## 4.79.0 — 26 octombrie 2026
 
 **Modul Atelier, etapa E2 (D-92) — cod QR pe etichetă, scanare, coadă offline. Tot ascuns** (`?atelier=1` și login; un cod de piesă scanat cu camera telefonului pornește modulul pe acel telefon).

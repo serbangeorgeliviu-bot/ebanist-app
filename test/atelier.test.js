@@ -237,3 +237,63 @@ test("E2: qIsPermanent — erorile de reguli se aruncă, cele de rețea se reîn
   for (const m of ["Failed to fetch", "NetworkError when attempting to fetch resource.", "TypeError: Load failed", "", "JWT expired"]) assert.equal(A.qIsPermanent({ message: m }), false, m);
   assert.equal(A.qIsPermanent(null), false);
 });
+
+/* ===== E3: documente pe postazione (bordatrice, vopsitorie) ===== */
+const H3 = { isAcc: x => x.role === "accessorio", mm: x => (x.bordo ? 2 * x.lung : 0), decor: x => x.dec || "", mat: x => x.materiale, isMdf: x => /mdf/i.test(x.materiale) };
+const ROWS3 = [
+  { modulo: "A", elemento: "fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18", dec: "U999" },
+  { modulo: "A", elemento: "front", lung: 500, larg: 300, pz: 1, materiale: "MDF 19" },
+  { modulo: "A", elemento: "ripiano", lung: 900, larg: 300, pz: 1, bordo: "1L", materiale: "PAL 18", dec: "U999" },
+  { modulo: "B", elemento: "front", lung: 400, larg: 400, pz: 2, bordo: "2L", materiale: "MDF 19" },
+  { modulo: "B", elemento: "asta", lung: 800, larg: 20, pz: 1, role: "accessorio", bordo: "2L", materiale: "Alu" },
+  { modulo: "B", elemento: "ranforsare", lung: 300, larg: 100, pz: 1, materiale: "PAL 18", dec: "U999" }
+];
+
+test("E3: textele documentelor există în toate limbile", () => {
+  for (const l of LANGS) for (const k of ["docsTitle", "docsNeedProject", "docEdgeBtn", "docPaintBtn", "docEdgeTitle", "docPaintTitle", "docEdgeNone",
+    "docPaintNone", "docEdgeOf", "docEdgeTh", "docMl", "docReserve", "docCode", "docPiece", "docDim", "docQty", "docSides", "docEdgeMl",
+    "docPaintColor", "docArea", "docPaintNote", "docCodeNote"]) assert.ok(A.I18N[l][k], `${l}.${k}`);
+  assert.ok(A.can("birou", "doc.print") && A.can("responsabil", "doc.print"));
+  assert.ok(!A.can("operator", "doc.print") && !A.can("partener", "doc.print"));
+});
+
+test("E3: edgeGroups — pe decorul panoului, fără piese fără cant și fără accesorii, cu rezervă de 10%", () => {
+  const g = A.edgeGroups(ROWS3, H3);
+  assert.equal(g.length, 2); /* U999 și MDF 19 */
+  const u = g.find(x => x.label === "U999"), m = g.find(x => x.label === "MDF 19");
+  assert.deepEqual(Array.from(u.pieces.map(p => p.pk)), ["r3", "r1"]); /* cele mai lungi întâi */
+  assert.equal(u.meters, 4.6); /* 2·1400 + 1800 = 4600 mm */
+  assert.equal(u.metersReserve, 5.1); /* 5060 mm → 5,1 */
+  assert.equal(u.count, 3);
+  assert.deepEqual(Array.from(m.pieces.map(p => p.pk)), ["r4"]);
+  assert.equal(m.meters, 1.6);
+  assert.ok(!g.some(x => x.pieces.some(p => p.pk === "r5" || p.pk === "r6" || p.pk === "r2")), "accesoriul, piesa fără cant și MDF-ul fără cant nu apar");
+});
+
+test("E3: codul piesei e același cu pk-ul din comandă (r<index+1>), chiar dacă rândurile dinainte nu apar în document", () => {
+  const snap = A.buildSnapshot({ name: "x", pieces: ROWS3 });
+  const pks = new Set(snap.pieces.map(p => p.pk));
+  for (const g of A.edgeGroups(ROWS3, H3).concat(A.paintGroups(ROWS3, H3))) for (const it of g.pieces) assert.ok(pks.has(it.pk), it.pk);
+  assert.equal(A.edgeGroups(ROWS3, H3).find(x => x.label === "U999").pieces[1].x.elemento, "fianco");
+});
+
+test("E3: paintGroups — numai MDF, fără accesorii, cu suprafața celor două fețe", () => {
+  const g = A.paintGroups(ROWS3, H3);
+  assert.equal(g.length, 1); assert.equal(g[0].label, "MDF 19");
+  assert.deepEqual(Array.from(g[0].pieces.map(p => p.pk)), ["r2", "r4"]); /* în ordinea distinctei */
+  assert.equal(g[0].count, 3);
+  assert.ok(Math.abs(g[0].area - (2 * 0.5 * 0.3 + 2 * 0.4 * 0.4 * 2)) < 1e-9);
+});
+
+test("E3: liste goale și intrări ciudate nu aruncă", () => {
+  assert.equal(A.edgeGroups([], H3).length, 0);
+  assert.equal(A.paintGroups(null, H3).length, 0);
+  assert.equal(A.edgeGroups([{ lung: 1, larg: 1 }], H3).length, 0);
+  assert.equal(A.paintGroups([{ lung: "x", larg: 2, materiale: "mdf" }], H3)[0].area, 0);
+});
+
+test("E3: mutarea unui rând schimbă codurile (de aceea QR-ul și rowSig depind de ordine)", () => {
+  const rev = ROWS3.slice().reverse();
+  const a = A.edgeGroups(ROWS3, H3).find(x => x.label === "MDF 19").pieces[0].pk, b = A.edgeGroups(rev, H3).find(x => x.label === "MDF 19").pieces[0].pk;
+  assert.notEqual(a, b);
+});
