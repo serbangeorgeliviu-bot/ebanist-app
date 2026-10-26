@@ -83,6 +83,46 @@
     return { pieces: pieces, meta: meta };
   }
 
+  /* — E2: cod QR pe etichetă, scanare, coadă offline — */
+  /* Codul de pe etichetă e un URL: camera telefonului (și iOS, fără BarcodeDetector) îl deschide
+     direct în aplicație. Fragmentul `#e=` nu pleacă niciodată spre un server. */
+  var QR_BASE = "https://ebanist.com/";
+  var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  var PK_RE = /^[A-Za-z0-9_-]{1,80}$/;
+  function qrUrl(jobId, pk) {
+    if (!UUID_RE.test(String(jobId)) || !PK_RE.test(String(pk))) return null;
+    return QR_BASE + "#e=" + String(jobId).toLowerCase() + "." + pk;
+  }
+  /* acceptă URL-ul întreg, fragmentul `#e=…`, `e=…` sau doar `<comandă>.<piesă>` */
+  function parseScan(text) {
+    var m = /(?:^|[#&?])(?:e=)?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.([A-Za-z0-9_-]{1,80})$/i
+      .exec(String(text == null ? "" : text).trim());
+    return m ? { job: m[1].toLowerCase(), pk: m[2] } : null;
+  }
+  /* semnătura rândurilor distinctei: eticheta primește QR numai dacă proiectul nu s-a schimbat de la
+     crearea comenzii (altfel `r7` ar putea arăta altă piesă decât cea din instantaneu) */
+  function rowSig(rows) {
+    var str = (rows || []).map(function (x) {
+      return [x.modulo, x.elemento, x.lung, x.larg, x.pz].join("|");
+    }).join("\n"), h = 5381;
+    for (var i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36) + "." + (rows || []).length;
+  }
+  /* coada offline: evenimentele se păstrează până le primește serverul; `client_id` le face idempotente */
+  var Q_MAX = 500, Q_TTL = 7 * 24 * 3600 * 1000;
+  function qAdd(q, ev) {
+    q = (q || []).filter(function (x) { return x.client_id !== ev.client_id; });
+    q.push(ev);
+    return q.slice(-Q_MAX);
+  }
+  function qFresh(q, now) {
+    return (q || []).filter(function (x) { return now - Date.parse(x.client_at || 0) < Q_TTL; });
+  }
+  /* o eroare a regulilor (`job:…`, `atelier:…`) nu se repară retrimițând; orice altceva (rețea) se reîncearcă */
+  function qIsPermanent(err) {
+    return /(?:job|atelier):[a-z_]+/.test(String((err && err.message) || err || ""));
+  }
+
   /* erorile serverului au forma `atelier:<cod>` sau `job:<cod>`; întoarce cheia de text */
   function errKey(err) {
     var m = err && /(?:atelier|job):([a-z_]+)/.exec(String(err.message || err));
@@ -328,6 +368,52 @@
       err_cancelled_final: "Pedido cancelado: ya no cambia.", err_not_open: "El pedido no está abierto.",
       err_piece_unknown: "Pieza desconocida.", err_client_id_required: "Solicitud no válida." }
   };
+  /* — texte E2 — */
+  var SCAN_TXT = {
+    it: { scanBtn: "Scansiona etichetta", scanTitle: "Pezzo", scanPaste: "Incolla il codice dell'etichetta", scanGo: "Apri",
+      scanNoCam: "Fotocamera non disponibile: usa la fotocamera del telefono sull'etichetta, oppure incolla il codice.",
+      scanBad: "Codice non riconosciuto.", scanNotFound: "Commessa o pezzo non trovati (o la commessa non è aperta).",
+      scanStation: "Postazione", scanNoStation: "Nessuna postazione assegnata.", scanDoneAt: "già fatto",
+      evQueued: "Salvato offline: parte appena torna la connessione.", qPending: "in attesa di invio", qSent: "Inviati",
+      scanLogin: "Accedi per registrare i pezzi." },
+    ro: { scanBtn: "Scanează eticheta", scanTitle: "Piesă", scanPaste: "Lipește codul de pe etichetă", scanGo: "Deschide",
+      scanNoCam: "Camera nu e disponibilă: folosește camera telefonului pe etichetă sau lipește codul.",
+      scanBad: "Cod nerecunoscut.", scanNotFound: "Comanda sau piesa nu s-au găsit (sau comanda nu e deschisă).",
+      scanStation: "Postazione", scanNoStation: "Nicio postazione atribuită.", scanDoneAt: "deja gata",
+      evQueued: "Salvat offline: pleacă imediat ce revine conexiunea.", qPending: "în așteptare", qSent: "Trimise",
+      scanLogin: "Conectează-te ca să înregistrezi piesele." },
+    en: { scanBtn: "Scan label", scanTitle: "Piece", scanPaste: "Paste the label code", scanGo: "Open",
+      scanNoCam: "Camera not available: point the phone camera at the label, or paste the code.",
+      scanBad: "Code not recognised.", scanNotFound: "Job or piece not found (or the job is not open).",
+      scanStation: "Station", scanNoStation: "No station assigned.", scanDoneAt: "already done",
+      evQueued: "Saved offline: it will be sent when the connection returns.", qPending: "waiting to send", qSent: "Sent",
+      scanLogin: "Sign in to record pieces." },
+    fr: { scanBtn: "Scanner l'étiquette", scanTitle: "Pièce", scanPaste: "Collez le code de l'étiquette", scanGo: "Ouvrir",
+      scanNoCam: "Caméra indisponible : pointez l'appareil photo du téléphone sur l'étiquette, ou collez le code.",
+      scanBad: "Code non reconnu.", scanNotFound: "Commande ou pièce introuvable (ou commande non ouverte).",
+      scanStation: "Poste", scanNoStation: "Aucun poste attribué.", scanDoneAt: "déjà fait",
+      evQueued: "Enregistré hors ligne : envoi dès le retour de la connexion.", qPending: "en attente d'envoi", qSent: "Envoyés",
+      scanLogin: "Connectez-vous pour enregistrer les pièces." },
+    de: { scanBtn: "Etikett scannen", scanTitle: "Teil", scanPaste: "Etikett-Code einfügen", scanGo: "Öffnen",
+      scanNoCam: "Kamera nicht verfügbar: Handykamera auf das Etikett richten oder den Code einfügen.",
+      scanBad: "Code nicht erkannt.", scanNotFound: "Auftrag oder Teil nicht gefunden (oder Auftrag nicht offen).",
+      scanStation: "Station", scanNoStation: "Keine Station zugewiesen.", scanDoneAt: "schon erledigt",
+      evQueued: "Offline gespeichert: wird gesendet, sobald die Verbindung zurück ist.", qPending: "wartet auf Versand", qSent: "Gesendet",
+      scanLogin: "Melde dich an, um Teile zu erfassen." },
+    pl: { scanBtn: "Skanuj etykietę", scanTitle: "Element", scanPaste: "Wklej kod z etykiety", scanGo: "Otwórz",
+      scanNoCam: "Kamera niedostępna: skieruj aparat telefonu na etykietę lub wklej kod.",
+      scanBad: "Nierozpoznany kod.", scanNotFound: "Nie znaleziono zlecenia lub elementu (albo zlecenie nie jest otwarte).",
+      scanStation: "Stanowisko", scanNoStation: "Brak przypisanego stanowiska.", scanDoneAt: "już zrobione",
+      evQueued: "Zapisano offline: zostanie wysłane po powrocie połączenia.", qPending: "czeka na wysłanie", qSent: "Wysłano",
+      scanLogin: "Zaloguj się, aby rejestrować elementy." },
+    es: { scanBtn: "Escanear etiqueta", scanTitle: "Pieza", scanPaste: "Pega el código de la etiqueta", scanGo: "Abrir",
+      scanNoCam: "Cámara no disponible: apunta la cámara del móvil a la etiqueta o pega el código.",
+      scanBad: "Código no reconocido.", scanNotFound: "Pedido o pieza no encontrados (o el pedido no está abierto).",
+      scanStation: "Puesto", scanNoStation: "Ningún puesto asignado.", scanDoneAt: "ya hecho",
+      evQueued: "Guardado sin conexión: se enviará cuando vuelva la conexión.", qPending: "pendiente de envío", qSent: "Enviados",
+      scanLogin: "Inicia sesión para registrar piezas." }
+  };
+  Object.keys(SCAN_TXT).forEach(function (l) { Object.assign(I18N[l], SCAN_TXT[l]); });
   Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
 
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }
@@ -336,13 +422,16 @@
   function flagOn(win) {
     try {
       var q = new URLSearchParams(win.location.search).get("atelier");
+      /* un cod de piesă scanat cu camera telefonului pornește modul pe acel dispozitiv */
+      if (q == null && parseScan(String(win.location.hash || "").replace(/^#/, ""))) q = "1";
       if (q === "1") win.localStorage.setItem("ebAtelier", "1");
       else if (q === "0") win.localStorage.removeItem("ebAtelier");
       return win.localStorage.getItem("ebAtelier") === "1";
     } catch (e) { return false; }
   }
 
-  return { JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
+  return { qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
+           JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
            ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };
 });
