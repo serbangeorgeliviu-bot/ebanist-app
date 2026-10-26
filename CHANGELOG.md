@@ -12,7 +12,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - Patru roluri: **responsabil**, **birou tehnic**, **operator** (cu postazioni) și **partener**. Responsabilul invită, schimbă rolurile și scoate membri; biroul vede lista; operatorul și partenerul își văd doar rândul. Ultimul responsabil nu poate ieși sau fi retrogradat.
 - Totul se verifică pe server (migrarea 1.5 din `ebanist-hq`, politici RLS și funcții `atelier_*`, testate pe un Postgres real); aplicația doar afișează. Proiectele rămân private ca până acum.
 - Texte în cele 7 limbi. Nu face parte din Pro și nu schimbă nimic pentru cine nu pornește flag-ul. Nou: `ebanist-atelier.js`, `test/atelier.test.js`, bloc e2e „Atelier E0”.
-- Pentru a-l folosi pe serverul real trebuie rulată migrarea 1.5 în Supabase (nu s-a rulat).
+- Migrarea 1.5 (și 1.4, care lipsea) sunt rulate pe serverul real din 26.10; ecranul rămâne ascuns până la decizia de preț (D-55, D-54).
 
 ---
 
