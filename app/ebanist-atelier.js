@@ -26,7 +26,12 @@
   var CAPS = {
     "members.list": ["responsabil", "birou"],
     "members.manage": ["responsabil"],
-    "invite.create": ["responsabil"]
+    "invite.create": ["responsabil"],
+    /* E1 (migrarea 1.6): comenzi */
+    "job.create": ["responsabil", "birou"],
+    "job.state": ["responsabil", "birou"],
+    "job.progress": ["responsabil", "birou"],
+    "job.event": ["responsabil", "birou", "operator"]
   };
   function can(role, cap) { return (CAPS[cap] || []).indexOf(role) >= 0; }
 
@@ -47,9 +52,40 @@
   }
   function fmtCode(c) { return String(c).replace(/(.{4})(?=.)/g, "$1-"); }
 
-  /* erorile serverului au forma `atelier:<cod>`; întoarce cheia de text */
+  /* stările comenzii și tipurile de eveniment: aceleași valori ca enumurile din migrarea 1.6 */
+  var JOB_STATES = ["draft", "confirmed", "in_progress", "done", "shipped", "installed", "cancelled"];
+  var JOB_EVENTS = ["start", "done", "issue"];
+
+  /* Instantaneul comenzii: piesele proiectului, ÎNGHEȚATE. Numai câmpurile din lista albă a
+     serverului (`job_snapshot_ok`): niciun preț, niciun client, niciun telefon. Cheia `pk` e
+     stabilă la același proiect (r1, r2… în ordinea distinctei). `h` aduce ce nu știe modulul
+     pur: etichetă de material și nota de decupaj. Întoarce null dacă nu e nimic de înghețat. */
+  function buildSnapshot(p, h) {
+    h = h || {};
+    var rows = (p && p.pieces) || [];
+    if (!rows.length || rows.length > 2000) return null;
+    function s(v, n) { v = v == null ? "" : String(v); return v.slice(0, n || 200); }
+    var pieces = rows.map(function (x, i) {
+      var o = { pk: "r" + (i + 1) };
+      if (x.modulo) o.modulo = s(x.modulo);
+      if (x.elemento) o.elemento = s(x.elemento);
+      if (x.lung != null && isFinite(x.lung)) o.lung = +x.lung;
+      if (x.larg != null && isFinite(x.larg)) o.larg = +x.larg;
+      o.pz = x.pz > 0 ? Math.round(x.pz) : 1;
+      var m = h.material ? h.material(x) : x.materiale; if (m) o.material = s(m);
+      if (x.bordo) o.bordo = s(x.bordo, 40);
+      var n = h.note ? h.note(x) : ""; if (n) o.note = s(n, 200);
+      return o;
+    });
+    var meta = { units: "mm" };
+    if (h.appVer) meta.app_ver = s(h.appVer, 20);
+    if (p.name) meta.project_name = s(p.name, 120);
+    return { pieces: pieces, meta: meta };
+  }
+
+  /* erorile serverului au forma `atelier:<cod>` sau `job:<cod>`; întoarce cheia de text */
   function errKey(err) {
-    var m = err && /atelier:([a-z_]+)/.exec(String(err.message || err));
+    var m = err && /(?:atelier|job):([a-z_]+)/.exec(String(err.message || err));
     var k = m ? "err_" + m[1] : "err_generic";
     return I18N.it[k] ? k : "err_generic";
   }
@@ -205,6 +241,95 @@
     }
   };
 
+  /* — texte E1: comenzi — */
+  var JOB_TXT = {
+    it: { jobsTitle: "Commesse", jobNone: "Nessuna commessa.", jobNew: "Nuova commessa dal progetto aperto",
+      jobName: "Titolo", jobClient: "Cliente (etichetta)", jobDue: "Consegna", jobCreate: "Crea commessa",
+      jobNoProject: "Apri prima un progetto con dei pezzi.", jobCreated: "Commessa creata (bozza)",
+      jobPieces: "pezzi", jobSnapNote: "Si congelano solo i pezzi: nessun prezzo, nessun dato del cliente.",
+      jobState: "Stato", state_draft: "Bozza", state_confirmed: "Confermata", state_in_progress: "In lavorazione",
+      state_done: "Finita", state_shipped: "Spedita", state_installed: "Montata", state_cancelled: "Annullata",
+      jobProgress: "Avanzamento", evStart: "Inizio", evDone: "Fatto", evIssue: "Problema", evSent: "Registrato",
+      jobConfirmCancel: "Annullare la commessa? Non si può più cambiare.",
+      err_title_invalid: "Titolo troppo corto.", err_snapshot_invalid: "Elenco pezzi non valido.",
+      err_project_not_yours: "Il progetto non è tuo.", err_partner_invalid: "Partner non valido.",
+      err_cancelled_final: "Commessa annullata: non si cambia più.", err_not_open: "La commessa non è aperta.",
+      err_piece_unknown: "Pezzo sconosciuto.", err_client_id_required: "Richiesta non valida." },
+    ro: { jobsTitle: "Comenzi", jobNone: "Nicio comandă.", jobNew: "Comandă nouă din proiectul deschis",
+      jobName: "Titlu", jobClient: "Client (etichetă)", jobDue: "Termen", jobCreate: "Creează comanda",
+      jobNoProject: "Deschide mai întâi un proiect cu piese.", jobCreated: "Comandă creată (ciornă)",
+      jobPieces: "piese", jobSnapNote: "Se îngheață doar piesele: fără prețuri, fără datele clientului.",
+      jobState: "Stare", state_draft: "Ciornă", state_confirmed: "Confirmată", state_in_progress: "În lucru",
+      state_done: "Terminată", state_shipped: "Expediată", state_installed: "Montată", state_cancelled: "Anulată",
+      jobProgress: "Progres", evStart: "Început", evDone: "Gata", evIssue: "Problemă", evSent: "Înregistrat",
+      jobConfirmCancel: "Anulezi comanda? Nu se mai poate schimba.",
+      err_title_invalid: "Titlu prea scurt.", err_snapshot_invalid: "Lista de piese nu e validă.",
+      err_project_not_yours: "Proiectul nu e al tău.", err_partner_invalid: "Partener nevalid.",
+      err_cancelled_final: "Comandă anulată: nu se mai schimbă.", err_not_open: "Comanda nu e deschisă.",
+      err_piece_unknown: "Piesă necunoscută.", err_client_id_required: "Cerere nevalidă." },
+    en: { jobsTitle: "Jobs", jobNone: "No jobs.", jobNew: "New job from the open project",
+      jobName: "Title", jobClient: "Client (label)", jobDue: "Due", jobCreate: "Create job",
+      jobNoProject: "Open a project with pieces first.", jobCreated: "Job created (draft)",
+      jobPieces: "pieces", jobSnapNote: "Only the pieces are frozen: no prices, no client data.",
+      jobState: "State", state_draft: "Draft", state_confirmed: "Confirmed", state_in_progress: "In progress",
+      state_done: "Done", state_shipped: "Shipped", state_installed: "Installed", state_cancelled: "Cancelled",
+      jobProgress: "Progress", evStart: "Start", evDone: "Done", evIssue: "Issue", evSent: "Recorded",
+      jobConfirmCancel: "Cancel the job? It can't be changed afterwards.",
+      err_title_invalid: "Title too short.", err_snapshot_invalid: "Invalid piece list.",
+      err_project_not_yours: "This project is not yours.", err_partner_invalid: "Invalid partner.",
+      err_cancelled_final: "Job cancelled: it can't change any more.", err_not_open: "The job is not open.",
+      err_piece_unknown: "Unknown piece.", err_client_id_required: "Invalid request." },
+    fr: { jobsTitle: "Commandes", jobNone: "Aucune commande.", jobNew: "Nouvelle commande depuis le projet ouvert",
+      jobName: "Titre", jobClient: "Client (étiquette)", jobDue: "Échéance", jobCreate: "Créer la commande",
+      jobNoProject: "Ouvrez d'abord un projet avec des pièces.", jobCreated: "Commande créée (brouillon)",
+      jobPieces: "pièces", jobSnapNote: "Seules les pièces sont figées : ni prix, ni données du client.",
+      jobState: "État", state_draft: "Brouillon", state_confirmed: "Confirmée", state_in_progress: "En cours",
+      state_done: "Terminée", state_shipped: "Expédiée", state_installed: "Posée", state_cancelled: "Annulée",
+      jobProgress: "Avancement", evStart: "Début", evDone: "Fait", evIssue: "Problème", evSent: "Enregistré",
+      jobConfirmCancel: "Annuler la commande ? Elle ne pourra plus changer.",
+      err_title_invalid: "Titre trop court.", err_snapshot_invalid: "Liste de pièces invalide.",
+      err_project_not_yours: "Ce projet n'est pas le vôtre.", err_partner_invalid: "Partenaire invalide.",
+      err_cancelled_final: "Commande annulée : elle ne change plus.", err_not_open: "La commande n'est pas ouverte.",
+      err_piece_unknown: "Pièce inconnue.", err_client_id_required: "Requête invalide." },
+    de: { jobsTitle: "Aufträge", jobNone: "Keine Aufträge.", jobNew: "Neuer Auftrag aus dem offenen Projekt",
+      jobName: "Titel", jobClient: "Kunde (Bezeichnung)", jobDue: "Termin", jobCreate: "Auftrag anlegen",
+      jobNoProject: "Öffne zuerst ein Projekt mit Teilen.", jobCreated: "Auftrag angelegt (Entwurf)",
+      jobPieces: "Teile", jobSnapNote: "Eingefroren werden nur die Teile: keine Preise, keine Kundendaten.",
+      jobState: "Status", state_draft: "Entwurf", state_confirmed: "Bestätigt", state_in_progress: "In Arbeit",
+      state_done: "Fertig", state_shipped: "Versendet", state_installed: "Montiert", state_cancelled: "Storniert",
+      jobProgress: "Fortschritt", evStart: "Start", evDone: "Fertig", evIssue: "Problem", evSent: "Erfasst",
+      jobConfirmCancel: "Auftrag stornieren? Danach lässt er sich nicht mehr ändern.",
+      err_title_invalid: "Titel zu kurz.", err_snapshot_invalid: "Teileliste ungültig.",
+      err_project_not_yours: "Das Projekt gehört dir nicht.", err_partner_invalid: "Ungültiger Partner.",
+      err_cancelled_final: "Auftrag storniert: keine Änderung mehr.", err_not_open: "Der Auftrag ist nicht offen.",
+      err_piece_unknown: "Unbekanntes Teil.", err_client_id_required: "Ungültige Anfrage." },
+    pl: { jobsTitle: "Zlecenia", jobNone: "Brak zleceń.", jobNew: "Nowe zlecenie z otwartego projektu",
+      jobName: "Tytuł", jobClient: "Klient (etykieta)", jobDue: "Termin", jobCreate: "Utwórz zlecenie",
+      jobNoProject: "Najpierw otwórz projekt z elementami.", jobCreated: "Zlecenie utworzone (szkic)",
+      jobPieces: "elementy", jobSnapNote: "Zamrażane są tylko elementy: bez cen i danych klienta.",
+      jobState: "Status", state_draft: "Szkic", state_confirmed: "Potwierdzone", state_in_progress: "W toku",
+      state_done: "Gotowe", state_shipped: "Wysłane", state_installed: "Zamontowane", state_cancelled: "Anulowane",
+      jobProgress: "Postęp", evStart: "Start", evDone: "Gotowe", evIssue: "Problem", evSent: "Zapisano",
+      jobConfirmCancel: "Anulować zlecenie? Nie będzie można go już zmienić.",
+      err_title_invalid: "Tytuł zbyt krótki.", err_snapshot_invalid: "Nieprawidłowa lista elementów.",
+      err_project_not_yours: "To nie jest twój projekt.", err_partner_invalid: "Nieprawidłowy partner.",
+      err_cancelled_final: "Zlecenie anulowane: nie można go już zmienić.", err_not_open: "Zlecenie nie jest otwarte.",
+      err_piece_unknown: "Nieznany element.", err_client_id_required: "Nieprawidłowe żądanie." },
+    es: { jobsTitle: "Pedidos", jobNone: "Ningún pedido.", jobNew: "Nuevo pedido desde el proyecto abierto",
+      jobName: "Título", jobClient: "Cliente (etiqueta)", jobDue: "Entrega", jobCreate: "Crear pedido",
+      jobNoProject: "Abre primero un proyecto con piezas.", jobCreated: "Pedido creado (borrador)",
+      jobPieces: "piezas", jobSnapNote: "Solo se congelan las piezas: sin precios ni datos del cliente.",
+      jobState: "Estado", state_draft: "Borrador", state_confirmed: "Confirmado", state_in_progress: "En curso",
+      state_done: "Terminado", state_shipped: "Enviado", state_installed: "Montado", state_cancelled: "Cancelado",
+      jobProgress: "Avance", evStart: "Inicio", evDone: "Hecho", evIssue: "Problema", evSent: "Registrado",
+      jobConfirmCancel: "¿Cancelar el pedido? Ya no se podrá cambiar.",
+      err_title_invalid: "Título demasiado corto.", err_snapshot_invalid: "Lista de piezas no válida.",
+      err_project_not_yours: "Este proyecto no es tuyo.", err_partner_invalid: "Socio no válido.",
+      err_cancelled_final: "Pedido cancelado: ya no cambia.", err_not_open: "El pedido no está abierto.",
+      err_piece_unknown: "Pieza desconocida.", err_client_id_required: "Solicitud no válida." }
+  };
+  Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
+
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }
 
   /* flag E0: ?atelier=1 lo pornește (și rămâne), ?atelier=0 îl oprește */
@@ -217,6 +342,7 @@
     } catch (e) { return false; }
   }
 
-  return { ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
+  return { JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
+           ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };
 });

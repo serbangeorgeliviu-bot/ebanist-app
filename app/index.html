@@ -13556,6 +13556,8 @@ async function atRenderDetail(body){
         '<div style="margin:8px 0 2px;font-size:20px;font-weight:700">'+esc(mine.ateliers.name)+'</div>'+
         '<div class="mini">'+esc(tat("atRole"))+': <strong>'+esc(tat("role_"+role))+'</strong></div>';
 
+  h+=await atJobsHtml(id,role,mine);
+
   if(EBAtelier.can(role,"members.list")){
     const {data,error}=await sb.rpc("atelier_members_list",{p_atelier:id});
     if(error){ atFail(error); }
@@ -13604,6 +13606,63 @@ async function atRenderDetail(body){
   body.innerHTML=h;
 }
 
+/* ---- E1: comenzi (migrarea 1.6). Instantaneul se ia din proiectul deschis, fără prețuri. ---- */
+const AT_CHIP='display:inline-block;padding:2px 8px;border-radius:99px;border:1px solid var(--line);font-size:12px;margin:2px 4px 2px 0';
+async function atJobsHtml(id,role,mine){
+  let h='<div style="'+AT_H+'">'+esc(tat("jobsTitle"))+'</div>';
+  const {data,error}=await sb.rpc("job_status_list",{p_atelier:id});
+  if(error){ atFail(error); return h; }
+  const jobs=data||[];
+  if(!jobs.length) h+='<p class="mini">'+esc(tat("jobNone"))+'</p>';
+  /* postazioni la care poate înregistra: operatorul pe ale lui, biroul și responsabilul pe toate */
+  const sts=role==="operator"?(mine.stations||[]):EBAtelier.STATIONS;
+  for(const j of jobs){
+    let prog="";
+    if(EBAtelier.can(role,"job.progress")&&["confirmed","in_progress","done"].includes(j.state)){
+      const r=await sb.rpc("job_progress",{p_job:j.id});
+      if(!r.error) prog=(r.data||[]).filter(x=>x.station_done||x.done_pieces>0||x.issues>0||x.last_at).map(x=>
+        '<span style="'+AT_CHIP+'">'+esc(tat("st_"+x.station))+' '+(x.station_done?"✓":x.done_pieces+"/"+x.total_pieces)+(x.issues?' ⚠'+x.issues:'')+'</span>').join("");
+    }
+    const open=["confirmed","in_progress"].includes(j.state);
+    h+='<div style="'+AT_BOX+'"><div style="display:flex;gap:8px;align-items:center"><div style="flex:1;min-width:0"><strong>'+esc(j.title)+'</strong>'+
+       '<div class="mini">'+[j.client_label,j.due_date,j.total_pieces+" "+tat("jobPieces")].filter(Boolean).map(esc).join(" · ")+'</div></div>';
+    if(EBAtelier.can(role,"job.state")){
+      h+='<select data-at="jobstate" data-id="'+esc(j.id)+'" style="width:auto">'+EBAtelier.JOB_STATES.map(x=>'<option value="'+x+'"'+(x===j.state?' selected':'')+'>'+esc(tat("state_"+x))+'</option>').join("")+'</select>';
+    }else h+='<span class="mini">'+esc(tat("state_"+j.state))+'</span>';
+    h+='</div>'+(prog?'<div style="margin-top:6px">'+prog+'</div>':'');
+    if(open&&EBAtelier.can(role,"job.event")&&sts.length){
+      h+='<details style="margin-top:6px"><summary class="mini" style="cursor:pointer">'+esc(tat("jobProgress"))+'</summary>'+
+         sts.map(st=>'<div style="display:flex;gap:6px;align-items:center;margin:6px 0"><span style="flex:1;min-width:0">'+esc(tat("st_"+st))+'</span>'+
+           EBAtelier.JOB_EVENTS.map(k=>'<button class="btn" data-at="jobev" data-id="'+esc(j.id)+'" data-st="'+st+'" data-kind="'+k+'" style="width:auto;padding:6px 10px;font-size:13px">'+esc(tat("ev"+k[0].toUpperCase()+k.slice(1)))+'</button>').join("")+'</div>').join("")+'</details>';
+    }
+    h+='</div>';
+  }
+  if(EBAtelier.can(role,"job.create")){
+    const p=proj();
+    h+='<div style="'+AT_H+'">'+esc(tat("jobNew"))+'</div>';
+    if(!p||!p.pieces||!p.pieces.length) h+='<p class="mini">'+esc(tat("jobNoProject"))+'</p>';
+    else h+='<div class="f"><label>'+esc(tat("jobName"))+'</label><input id="atJobTitle" maxlength="120" value="'+esc(p.name||"")+'"></div>'+
+       '<div class="f"><label>'+esc(tat("jobClient"))+'</label><input id="atJobClient" maxlength="120"></div>'+
+       '<div class="f"><label>'+esc(tat("jobDue"))+'</label><input id="atJobDue" type="date"></div>'+
+       '<button class="btn red" data-at="jobcreate">'+esc(tat("jobCreate"))+' ('+p.pieces.length+' '+esc(tat("jobPieces"))+')</button>'+
+       '<p class="mini" style="margin-top:6px">'+esc(tat("jobSnapNote"))+'</p>';
+  }
+  return h;
+}
+async function atJobCreate(){
+  const p=proj(); if(!p){ toast(tat("jobNoProject")); return; }
+  const snap=EBAtelier.buildSnapshot(p,{appVer:APP_VER,
+    material:x=>(x.materiale||"")+(matDecorByLabel(x.materiale)?" ["+matDecorByLabel(x.materiale)+"]":""),
+    note:x=>scList(x).length?scTxt(x):""});
+  if(!snap){ toast(tat("jobNoProject")); return; }
+  const title=$("atJobTitle").value.trim();
+  if(title.length<2){ toast(tat("err_title_invalid")); return; }
+  const r=await atRpc("job_create",{p_atelier:atScreen.id,p_title:title,p_snapshot:snap,
+    p_client_label:$("atJobClient").value.trim()||null,p_due:$("atJobDue").value||null});
+  if(!r) return;
+  toast(tat("jobCreated")); atRender();
+}
+
 async function atCopy(code){
   try{ await navigator.clipboard.writeText(EBAtelier.fmtCode(code)); toast(tat("atCopied")); }
   catch(e){ toast(EBAtelier.fmtCode(code)); }
@@ -13640,6 +13699,13 @@ $("atBody").addEventListener("click",async ev=>{
     atCopy(r.data); return;
   }
   if(act==="copy"){ atCopy(el.getAttribute("data-code")); return; }
+  if(act==="jobcreate"){ await atJobCreate(); return; }
+  if(act==="jobev"){
+    const r=await atRpc("job_event_add",{p_job:el.getAttribute("data-id"),p_station:el.getAttribute("data-st"),
+      p_kind:el.getAttribute("data-kind"),p_client_id:crypto.randomUUID(),p_client_at:new Date().toISOString()});
+    if(r){ toast(tat("evSent")); atRender(); }
+    return;
+  }
   if(act==="remove"||act==="leave"){
     const self=act==="leave";
     const ok=await dialog({text:tat(self?"atConfirmLeave":"atConfirmRemove"),confirm:true}); if(!ok) return;
@@ -13652,6 +13718,11 @@ $("atBody").addEventListener("click",async ev=>{
 $("atBody").addEventListener("change",async ev=>{
   const el=ev.target;
   if(el.id==="atInvRole"){ $("atInvStations").style.display=el.value==="operator"?"block":"none"; return; }
+  if(el.getAttribute&&el.getAttribute("data-at")==="jobstate"){
+    if(el.value==="cancelled"&&!(await dialog({text:tat("jobConfirmCancel"),confirm:true}))){ atRender(); return; }
+    await atRpc("job_set_state",{p_job:el.getAttribute("data-id"),p_state:el.value});
+    atRender(); return;
+  }
   if(el.getAttribute&&el.getAttribute("data-at")==="setrole"){
     const r=await atRpc("atelier_set_role",{p_atelier:atScreen.id,p_user:el.getAttribute("data-user"),p_role:el.value,p_stations:[]});
     atRender(); return;
@@ -15113,12 +15184,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.77.0"; /* APP_VER-MARKER */
+const APP_VER="4.78.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v148";
+const SW_CACHE="ebanist-v149";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

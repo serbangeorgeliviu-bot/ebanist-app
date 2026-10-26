@@ -3365,6 +3365,96 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Atelier E1 — comenzi: instantaneu fără prețuri, stare, progres, evenimente pe postazione (migrarea 1.6)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession, p = proj(), wasPieces = p.pieces;
+      p.pieces = [{ id: "e1", modulo: "Corp 1000", elemento: "fianco", lung: 2400, larg: 560, pz: 2, bordo: "2L+1C", materiale: "Egger W1000", prezzo: 77, gen: "Corp 1000" },
+                  { id: "e2", modulo: "Corp 1000", elemento: "ripiano", lung: 764, larg: 540, pz: 3, materiale: "Egger W1000", gen: "Corp 1000" }];
+      p.client = "Client Secret"; p.phone = "+33600000000";
+      const calls = []; let mine;
+      const mk = role => [{ atelier_id: "at1", role, stations: role === "operator" ? ["cnc"] : [], ateliers: { id: "at1", name: "Tâmplăria Test", slug: "tamplaria-test" } }];
+      const jobs = [{ id: "j1", title: "<b>Bucătărie</b>", client_label: "Jacquin", due_date: "2026-12-01", state: "in_progress", last_station: "cnc", last_at: "2026-10-26T10:00:00Z", total_pieces: 5 },
+                    { id: "j2", title: "Dressing", client_label: null, due_date: null, state: "draft", last_station: null, last_at: null, total_pieces: 2 }];
+      sb = {
+        from(t) { const q = { select() { return q; }, eq() { return q; }, is() { return q; }, gt() { return q; }, order() { return q; },
+          then(res) { res(t === "atelier_members" ? { data: mine, error: null } : { data: [], error: null }); } }; return q; },
+        async rpc(fn, args) {
+          calls.push([fn, args]);
+          if (fn === "atelier_members_list") return { data: [], error: null };
+          if (fn === "job_status_list") return { data: jobs, error: null };
+          if (fn === "job_progress") return { data: [{ station: "cnc", total_pieces: 5, done_pieces: 2, station_done: false, issues: 1, reworks: 0, last_at: "2026-10-26T10:00:00Z" },
+            { station: "bordatrice", total_pieces: 5, done_pieces: 5, station_done: true, issues: 0, reworks: 0, last_at: "2026-10-26T09:00:00Z" },
+            { station: "magazzino", total_pieces: 5, done_pieces: 0, station_done: false, issues: 0, reworks: 0, last_at: null }], error: null };
+          if (fn === "job_create") return { data: "j3", error: null };
+          if (fn === "job_event_add") return { data: 1, error: null };
+          return { data: null, error: null };
+        }
+      };
+      acctSession = { user: { id: "u-a", email: "a@test.local" } };
+      localStorage.setItem("ebAtelier", "1");
+      const body = () => document.getElementById("atBody");
+      const openAs = async role => { mine = mk(role); calls.length = 0; closeSheets(); atMine = []; atScreen = { name: "detail", id: "at1" }; openSheet("shAtelier"); await atRefreshMine(); await atRender(); await w(300); };
+
+      await openAs("responsabil");
+      let txt = body().textContent;
+      o.lista = /Jacquin/.test(txt) && /2026-12-01/.test(txt) && /Dressing/.test(txt);
+      o.xss = !body().querySelector("b") && body().innerHTML.indexOf("&lt;b&gt;") >= 0;
+      const chips = [...body().querySelectorAll('span[style*="99px"]')].map(x => x.textContent);
+      o.progres = chips.length === 2 && chips.some(c => /CNC 2\/5/.test(c) && /⚠1/.test(c)) && chips.some(c => /✓/.test(c)) && !chips.some(c => /Magazzino|Magazie|Warehouse|Lager|Magasin|Magazyn|Almac/.test(c));
+      o.selStare = body().querySelectorAll("select[data-at=jobstate]").length === 2;
+      /* creare din proiectul deschis */
+      o.formular = !!document.getElementById("atJobTitle") && document.getElementById("atJobTitle").value === p.name;
+      document.getElementById("atJobTitle").value = "Comanda Jacquin"; document.getElementById("atJobClient").value = "Jacquin"; document.getElementById("atJobDue").value = "2026-12-15";
+      body().querySelector("[data-at=jobcreate]").click(); await w(400);
+      const cr = calls.find(c => c[0] === "job_create");
+      o.creat = !!cr && cr[1].p_atelier === "at1" && cr[1].p_title === "Comanda Jacquin" && cr[1].p_client_label === "Jacquin" && cr[1].p_due === "2026-12-15";
+      const snap = cr && cr[1].p_snapshot, sj = JSON.stringify(snap || {});
+      o.snapOk = !!snap && snap.pieces.length === 2 && snap.pieces[0].pk === "r1" && snap.pieces[1].pk === "r2" && snap.pieces[0].pz === 2 && snap.meta.app_ver === APP_VER;
+      o.faraPreturi = !/77|prezzo|Secret|\+3360/.test(sj) && snap.pieces.every(x => Object.keys(x).every(k => ["pk","modulo","elemento","role","lung","larg","sp","pz","material","decor","bordo","grain","note"].includes(k)));
+      /* stare: anulare cere confirmare */
+      await openAs("responsabil");
+      let sel = body().querySelector('select[data-at=jobstate][data-id=j2]');
+      sel.value = "confirmed"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(300);
+      o.confirmare = calls.some(c => c[0] === "job_set_state" && c[1].p_job === "j2" && c[1].p_state === "confirmed");
+      await openAs("responsabil"); calls.length = 0;
+      sel = body().querySelector('select[data-at=jobstate][data-id=j1]');
+      sel.value = "cancelled"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(200);
+      o.anulareCere = !calls.some(c => c[0] === "job_set_state");
+      document.getElementById("dlgYes").click(); await w(300);
+      o.anulare = calls.some(c => c[0] === "job_set_state" && c[1].p_job === "j1" && c[1].p_state === "cancelled");
+      /* eveniment pe postazione, doar la comenzile deschise */
+      await openAs("responsabil");
+      o.doarDeschise = !!body().querySelector("[data-at=jobev][data-id=j1]") && !body().querySelector("[data-at=jobev][data-id=j2]");
+      body().querySelector("[data-at=jobev][data-id=j1][data-st=bordatrice][data-kind=done]").click(); await w(300);
+      const ev = calls.find(c => c[0] === "job_event_add");
+      o.eveniment = !!ev && ev[1].p_job === "j1" && ev[1].p_station === "bordatrice" && ev[1].p_kind === "done" && /^[0-9a-f-]{36}$/.test(ev[1].p_client_id);
+
+      /* operator: numai postazioni lui, fără stare, fără creare, fără progres */
+      await openAs("operator");
+      o.opStatii = [...body().querySelectorAll("[data-at=jobev]")].every(b => b.dataset.st === "cnc") && !!body().querySelector("[data-at=jobev]");
+      o.opFaraStare = !body().querySelector("select[data-at=jobstate]") && !document.getElementById("atJobTitle");
+      o.opFaraProgres = !calls.some(c => c[0] === "job_progress");
+      /* partener: numai citire */
+      await openAs("partener");
+      o.parLectura = /Jacquin/.test(body().textContent) && !body().querySelector("[data-at=jobev]") && !body().querySelector("select[data-at=jobstate]") && !document.getElementById("atJobTitle");
+
+      closeSheets(); sb = wasSb; acctSession = wasSess; p.pieces = wasPieces; delete p.client; delete p.phone; localStorage.removeItem("ebAtelier"); renderAccount();
+      return o;
+    });
+    ok("Atelier E1: lista de comenzi cu client, termen, număr de piese; titlul cu HTML nu se execută", r.lista === true && r.xss === true);
+    ok("Atelier E1: progresul pe postazione apare numai pentru cele cu activitate", r.progres === true);
+    ok("Atelier E1: biroul și responsabilul au selector de stare pe fiecare comandă", r.selStare === true);
+    ok("Atelier E1: creare din proiectul deschis, cu titlu, client și termen", r.formular === true && r.creat === true);
+    ok("Atelier E1: instantaneul are pk stabile și niciun preț/client/telefon", r.snapOk === true && r.faraPreturi === true);
+    ok("Atelier E1: schimbarea stării apelează serverul; anularea cere confirmare", r.confirmare === true && r.anulareCere === true && r.anulare === true);
+    ok("Atelier E1: evenimentele se pot înregistra numai la comenzi deschise, cu client_id unic", r.doarDeschise === true && r.eveniment === true);
+    ok("Atelier E1: operatorul vede doar postazioni lui, fără stare/creare/progres", r.opStatii === true && r.opFaraStare === true && r.opFaraProgres === true);
+    ok("Atelier E1: partenerul doar citește", r.parLectura === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
