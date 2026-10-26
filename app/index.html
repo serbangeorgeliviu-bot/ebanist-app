@@ -1763,6 +1763,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         <span data-i="quote">PDF preventivo</span>
       </button>
+      <button class="btn" id="btnPassport">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span id="passBtnLbl">Passaporto progetto</span>
+      </button>
     </div>
     <div class="exp-h" data-i="expShop">Taglio e fornitore</div>
     <div class="btnrow">
@@ -2020,6 +2024,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <div class="sheet" id="shSettings">
   <div class="sheet-grip"></div>
   <h3 data-i="settings">Impostazioni</h3>
+  <div class="f"><label id="sPassNoteLbl">Testo per il passaporto</label><textarea id="sPassNote" rows="3" maxlength="600" style="width:100%"></textarea></div>
+  <p class="mini" id="sPassNoteHint" style="margin:-2px 0 12px"></p>
   <!-- Funcții în probă: la începutul Setărilor, ca să se găsească ușor. Pornește modulul Atelier fără ?atelier=1 (aplicația Android nu are bară de adresă). -->
   <div class="eyebrow" style="margin-top:4px" id="expTitle">Funzioni in prova</div>
   <label class="chk" style="display:flex;gap:10px;align-items:center;margin:4px 0;font-size:14.5px;text-transform:none;letter-spacing:0;font-weight:500"><input type="checkbox" id="sExpAtelier"> <span id="expAtelierLbl">Modulo Atelier</span></label>
@@ -2438,6 +2444,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-license.js"></script>
 <script src="./ebanist-atelier.js"></script>
 <script src="./ebanist-qr.js"></script>
+<script src="./ebanist-passport.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -4822,6 +4829,8 @@ function applyLang(){
     const v=tAny(el.dataset.ph); if(v!=null) el.placeholder=v;
   });
   const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
+  if($("passBtnLbl")&&window.EBPassport){ $("passBtnLbl").textContent=EBPassport.t(state.lang,"passBtn");
+    $("sPassNoteLbl").textContent=EBPassport.t(state.lang,"passNoteLbl"); $("sPassNoteHint").textContent=EBPassport.t(state.lang,"passNoteHint"); }
   if(typeof aiMount==="function") aiMount();
 }
 
@@ -5345,6 +5354,7 @@ $("btnSettings").addEventListener("click",()=>{
   $("sCostMode").value=S.costMode||"panels";$("sPriceM2").value=S.priceM2;$("sPriceMl").value=S.priceMl;$("sWaste").value=S.waste;$("sLabor").value=S.labor;$("sHourly").value=S.hourly!=null?S.hourly:35;
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
+  $("sPassNote").value=S.passportNote||"";
   $("expTitle").textContent=EBAtelier.t(state.lang,"expTitle"); $("expAtelierLbl").textContent=EBAtelier.t(state.lang,"expAtelier");
   $("expAtelierHint").textContent=EBAtelier.t(state.lang,"expAtelierHint"); $("sExpAtelier").checked=EBAtelier.hasFlag(window);
   $("sIntro").value=(S.intro===0?"0":"1"); $("sIntroSound").value=(S.introSound===0?"0":"1");
@@ -5479,6 +5489,7 @@ $("btnBkAuto").addEventListener("click",async()=>{
 });
 $("btnSettingsSave").addEventListener("click",()=>{
   const S=state.settings;
+  S.passportNote=String($("sPassNote").value||"").slice(0,600);
   S.panelL=parseInt($("sPanelL").value,10)||2800; S.panelW=parseInt($("sPanelW").value,10)||2070;
   S.decor_directional=$("sDecorDir").value==="1";
   S.edgeComp=$("sEdgeComp").value==="1";
@@ -11222,6 +11233,50 @@ $("btnTransp").addEventListener("click",()=>{ renderTransp(); openSheet("shTrans
   persist(); renderTransp();
 }));
 
+/* ================= PAȘAPORTUL PROIECTULUI =================
+   Documentul pentru client: ce materiale, ce decor, ce feronerie și cum s-a fabricat. Totul vine din model
+   (computeTotals, computeHardware); nu se declară nimic ce aplicația nu știe. Cu Pro, ca celelalte documente. */
+function passportHtml(p){
+  const L=state.lang, T=k=>EBPassport.t(L,k);
+  const m=EBPassport.model(p,{
+    tot:computeTotals, isAcc:isAccessoryMat, edgeTh,
+    modules:q=>Object.keys(q.configs||{}).length,
+    matInfo:label=>{ const raw=matRawByLabel(label), eff=raw?matById(raw.id):null;
+      return {decor:matDecorByLabel(label)||"", code:eff&&eff.codice||"", supplier:eff&&eff.sup||"", thickness:eff?eff.th:null}; },
+    hardware:q=>computeHardware(q,state.settings).map(i=>({name:t(i.k),product:i.prod?(i.prod.brand+" "+i.prod.name).trim():"",article:i.prod&&i.prod.art||"",qty:i.qty}))
+  });
+  const ref=(atJobMap()[p.id]||null), job=ref&&ref.sig===EBAtelier.rowSig(p.pieces)?ref:null;
+  let h=`<div class="pr-head"><div><h1>${esc(T("passTitle"))}</h1>
+    <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(m.project.name)}${m.project.client?` — <b>${esc(t("client"))}:</b> ${esc(m.project.client)}`:""}<br>
+    <b>${esc(t("date"))}:</b> ${esc(m.project.date||new Date().toISOString().slice(0,10))}</div>
+    <div style="font-size:9.5pt;color:#555;margin-top:1mm">${esc(T("passSub"))}</div>${prTrace(p)}</div>
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
+  h+=`<h2>${esc(T("passSummary"))}</h2><div class="pr-sum"><b>${esc(T("passPieces"))}:</b> ${m.summary.pieces} · <b>${esc(T("passArea"))}:</b> ${fmt(m.summary.area)} m² · <b>${esc(T("passEdge"))}:</b> ${fmt(m.summary.edge,1)} ${esc(T("passMl"))}${m.summary.modules?` · <b>${esc(T("passModules"))}:</b> ${m.summary.modules}`:""}</div>`;
+  h+=`<h2>${esc(T("passMaterials"))}</h2><table><tr><th>${esc(T("passMat"))}</th><th>${esc(T("passDecor"))}</th><th>${esc(T("passSupplier"))}</th><th style="text-align:right">${esc(T("passThick"))}</th><th style="text-align:right">${esc(T("passM2"))}</th><th style="text-align:right">${esc(T("passEdge"))} (${esc(T("passMl"))})</th></tr>`;
+  for(const x of m.materials)
+    h+=`<tr><td>${esc(matLabelUI(x.label))}</td><td>${esc([x.decor,x.code].filter(Boolean).join(" · ")||"—")}</td><td>${esc(x.supplier||"—")}</td><td class="n">${x.thickness==null?"—":esc(fmtMm(x.thickness))+" mm"}</td><td class="n">${esc(fmt(x.area))}</td><td class="n">${x.edgeMl?esc(fmt(x.edgeMl,1)):"—"}</td></tr>`;
+  h+=`</table><p class="pr-sum" style="margin-top:1.5mm">${esc(T("passEdgeNote").replace("{t}",fmtMm(m.edgeTh)))}</p>`;
+  if(m.hardware.length){
+    h+=`<h2>${esc(T("passHardware"))}</h2><table><tr><th>${esc(T("passItem"))}</th><th>${esc(T("passProduct"))}</th><th>${esc(T("passArticle"))}</th><th style="text-align:right">${esc(T("passQty"))}</th></tr>`;
+    for(const x of m.hardware)
+      h+=`<tr><td>${esc(x.name)}</td><td>${esc(x.product||"—")}</td><td>${x.article?esc(x.article):`<i>${esc(T("passArtCheck"))}</i>`}</td><td class="n">${esc(fmt(x.qty,x.qty%1?1:0))}</td></tr>`;
+    h+=`</table>`;
+  }
+  h+=`<h2>${esc(T("passFab"))}</h2>`;
+  if(job) h+=`<p><b>${esc(T("passOrder"))}:</b> <code>${esc(String(job.job).slice(0,8).toUpperCase())}</code></p><p style="font-size:9.5pt">${esc(T("passTrace"))}</p>`;
+  h+=`<table style="margin-top:2mm"><tr><td style="width:34%"><b>${esc(T("passDate"))}</b><br><br></td><td style="width:33%"><b>${esc(T("passQc"))}</b><br><br></td><td><b>${esc(T("passSign"))}</b><br><br></td></tr></table>`;
+  const note=(state.settings.passportNote||"").trim();
+  if(note) h+=`<h2>${esc(T("passCare"))}</h2><p style="white-space:pre-line">${esc(note)}</p>`;
+  h+=`<div class="pr-foot"><span>${esc(T("passDisclaimer"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
+  return h;
+}
+$("btnPassport").addEventListener("click",()=>{
+  const p=proj(); if(!p){ toast(t("selectProject")); return; }
+  if(!proGate("doc")) return;
+  $("printArea").innerHTML=passportHtml(p);
+  printOut();
+});
+
 /* ---------- ordine al fornitore ----------
    Il piano di taglio sa gia quanti pannelli servono DAVVERO (tolti i
    ritagli di magazzino); qui diventa una lista da mandare al fornitore. */
@@ -15549,12 +15604,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.83.0"; /* APP_VER-MARKER */
+const APP_VER="4.84.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v155";
+const SW_CACHE="ebanist-v156";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.84.0 — 27 octombrie 2026
+
+**Pașaportul proiectului** — documentul pentru client, în „Per il cliente”, lângă oferta PDF. Cu Pro, ca celelalte documente.
+- Pe o pagină A4, în limba aplicației (7 limbi): rezumatul (piese, suprafață, cant, mobile), **materialele** (decor sau cod, furnizor, grosime, m², cant), **feroneria** (produs și cod de articol; unde codul lipsește scrie „de confirmat”), **fabricația** (casete pentru data fabricației, controlul calității și semnătură) și un text liber pentru **garanție și întreținere**.
+- Textul de garanție și întreținere se scrie o dată, în Setări, și apare pe fiecare pașaport. Dacă e gol, secțiunea nu apare.
+- Dacă proiectul are o comandă de fabricație neschimbată (Atelier), pașaportul arată codul comenzii și spune că piesele au cod QR pe etichetă.
+- Poartă urma versiunii (aplicație, motor geometric, reguli), ca distinta.
+- **Nu declară conformitate.** Cifrele vin din model; ce aplicația nu știe (decor, furnizor, cod) rămâne „—”. Documentul spune explicit că nu înlocuiește declarațiile de conformitate ale producătorilor. Nu e un pașaport digital de produs al UE (DPP) și nu are încă pagină web cu QR: asta ar cere o migrare și o decizie despre datele clientului.
+- Nou: `ebanist-passport.js`, `test/passport.test.js`, bloc e2e „Pașaportul proiectului”. Butoanele de export sunt acum 10.
+
+---
+
 ## 4.83.0 — 27 octombrie 2026
 
 **Modul Atelier — panou de birou. Tot ascuns.** Partea rămasă din E3: responsabilul și biroul tehnic văd, în ecranul Atelier, **unde stă fiecare comandă**.
