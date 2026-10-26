@@ -3268,6 +3268,103 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; p.survey = null; persist(); setView("projects"); });
   }
 
+  head("Atelier E0 — ascuns, apare numai cu flag și login; fluxul cu server simulat (D-92)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession;
+      const calls = [];
+      closeSheets();
+      acctSession = { user: { id: "u-a", email: "a@test.local" } }; acctProfile = null;
+      localStorage.removeItem("ebAtelier"); renderAccount();
+      o.ascuns = document.getElementById("btnAcctAtelier").style.display === "none";
+      localStorage.setItem("ebAtelier", "1"); renderAccount();
+      o.vizibil = document.getElementById("btnAcctAtelier").style.display === "flex";
+      acctSession = null; renderAccount();
+      o.faraLogin = document.getElementById("btnAcctAtelier").style.display === "none";
+      acctSession = { user: { id: "u-a", email: "a@test.local" } }; renderAccount();
+
+      const mine = [{ atelier_id: "at1", role: "responsabil", stations: [], ateliers: { id: "at1", name: "Tâmplăria Test", slug: "tamplaria-test" } }];
+      const members = [
+        { user_id: "u-a", full_name: "Liviu", email: "a@test.local", role: "responsabil", stations: [] },
+        { user_id: "u-b", full_name: "<img src=x onerror=window.__xss=1>", email: "b@test.local", role: "birou", stations: [] },
+        { user_id: "u-c", full_name: "Ion", email: "c@test.local", role: "operator", stations: ["cnc", "bordatrice"] }];
+      sb = {
+        from(t) {
+          const q = { select() { return q; }, eq() { return q; }, is() { return q; }, gt() { return q; }, order() { return q; },
+            then(res) { res(t === "atelier_members" ? { data: mine, error: null }
+              : { data: [{ code: "0123456789ABCDEF", role: "operator", stations: ["cnc"], expires_at: "2999-01-01" }], error: null }); } };
+          return q;
+        },
+        async rpc(fn, args) {
+          calls.push([fn, args]);
+          if (fn === "atelier_members_list") return { data: members, error: null };
+          if (fn === "atelier_invite") return { data: "ABCDEF0123456789", error: null };
+          if (fn === "atelier_create") return { data: "at2", error: null };
+          if (fn === "atelier_accept") return { data: null, error: { message: "atelier:code_invalid" } };
+          return { data: null, error: null };
+        }
+      };
+
+      document.getElementById("btnAcctAtelier").click(); await w(250);
+      const body = () => document.getElementById("atBody");
+      o.lista = /Tâmplăria Test/.test(body().textContent) && /Responsabil|Responsabile|Manager|Responsable|Leiter|Kierownik/.test(body().textContent);
+      /* nume cu slug automat */
+      const nm = document.getElementById("atNewName"); nm.value = "Cafasso Serramenti"; nm.dispatchEvent(new Event("input", { bubbles: true }));
+      o.slugAuto = document.getElementById("atNewSlug").value === "cafasso-serramenti";
+      /* cod greșit din client, fără apel la server */
+      const before = calls.length;
+      document.getElementById("atJoinCode").value = "nu-e-cod"; body().querySelector('[data-at=join]').click(); await w(150);
+      o.codClient = calls.length === before;
+      /* cod bun, serverul îl refuză: eroarea e tradusă */
+      document.getElementById("atJoinCode").value = "0123-4567-89ab-cdef"; body().querySelector('[data-at=join]').click(); await w(250);
+      o.eroareTradusa = document.getElementById("toast").textContent === EBAtelier.t(state.lang, "err_code_invalid")
+        && calls.some(c => c[0] === "atelier_accept" && c[1].p_code === "0123456789ABCDEF");
+      /* creare */
+      nm.value = "Cafasso Serramenti"; body().querySelector('[data-at=create]').click(); await w(300);
+      o.creare = calls.some(c => c[0] === "atelier_create" && c[1].p_slug === "cafasso-serramenti" && c[1].p_name === "Cafasso Serramenti");
+      /* detaliu */
+      atScreen = { name: "home", id: null }; await atRender(); await w(100);
+      body().querySelector('[data-at=open]').click(); await w(400);
+      const txt = body().textContent;
+      o.membri = /Liviu/.test(txt) && /b@test.local/.test(txt) && /Ion/.test(txt);
+      o.xss = window.__xss === undefined && body().innerHTML.indexOf("&lt;img") >= 0 && !body().querySelector("img");
+      o.invitatie = /0123-4567-89AB-CDEF/.test(txt);
+      /* schimbare rol */
+      const sel = body().querySelector('select[data-at=setrole][data-user="u-b"]');
+      o.selRol = !!sel && !body().querySelector('select[data-at=setrole][data-user="u-a"]');
+      sel.value = "operator"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(250);
+      o.setRol = calls.some(c => c[0] === "atelier_set_role" && c[1].p_user === "u-b" && c[1].p_role === "operator");
+      /* invitație cu postazioni */
+      await atRender(); await w(250);
+      const role = document.getElementById("atInvRole"); role.value = "operator"; role.dispatchEvent(new Event("change", { bubbles: true }));
+      o.statiiVizibile = document.getElementById("atInvStations").style.display === "block";
+      document.querySelector('.atInvSt[value=cnc]').checked = true; document.querySelector('.atInvSt[value=bordatrice]').checked = true;
+      body().querySelector('[data-at=invite]').click(); await w(400);
+      o.invitare = calls.some(c => c[0] === "atelier_invite" && c[1].p_role === "operator" && c[1].p_stations.join() === "bordatrice,cnc");
+      o.coduArat = /ABCD-EF01-2345-6789/.test(document.getElementById("atInvOut") ? document.getElementById("atInvOut").textContent : "");
+      /* ieșire: cere confirmare */
+      body().querySelector('[data-at=leave]').click(); await w(200);
+      document.getElementById("dlgYes").click(); await w(300);
+      o.iesire = calls.some(c => c[0] === "atelier_remove_member" && c[1].p_user === "u-a");
+      closeSheets(); sb = wasSb; acctSession = wasSess; localStorage.removeItem("ebAtelier"); renderAccount();
+      return o;
+    });
+    ok("Atelier: fără flag butonul nu apare, nici cu login", r.ascuns === true);
+    ok("Atelier: cu flag și login butonul apare; fără login dispare", r.vizibil === true && r.faraLogin === true);
+    ok("Atelier: lista arată ateliere și rolul meu", r.lista === true);
+    ok("Atelier: slug-ul se completează din nume", r.slugAuto === true);
+    ok("Atelier: un cod prost se oprește în client, fără apel", r.codClient === true);
+    ok("Atelier: eroarea serverului apare tradusă, cu codul normalizat", r.eroareTradusa === true);
+    ok("Atelier: creare cu nume și slug", r.creare === true);
+    ok("Atelier: membrii și invitațiile în așteptare apar", r.membri === true && r.invitatie === true);
+    ok("Atelier: numele cu HTML nu se execută (escape)", r.xss === true);
+    ok("Atelier: responsabilul poate schimba rolul altora, nu pe al lui", r.selRol === true && r.setRol === true);
+    ok("Atelier: invitație de operator cu postazioni, codul apare formatat", r.statiiVizibile === true && r.invitare === true && r.coduArat === true);
+    ok("Atelier: ieșirea cere confirmare și apelează serverul", r.iesire === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
