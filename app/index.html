@@ -669,6 +669,9 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
   .lbl .dim{font-size:15pt;font-weight:700;font-family:'Barlow Condensed',Arial;letter-spacing:.3px}
   .lbl .l3{display:flex;justify-content:space-between;align-items:flex-end;font-size:7pt;color:#333}
   .lbl svg{display:block}
+  .lbl{position:relative}
+  .lbl .qr{position:absolute;right:2mm;top:2mm;width:16mm;height:16mm}
+  .lbl.hasqr .l1,.lbl.hasqr .l2{padding-right:17mm}
   .pr-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0E3B2A;padding-bottom:10px;margin-bottom:14px}
   .pr-head h1{font-family:'Barlow Condensed',Arial;font-size:22pt;text-transform:uppercase;letter-spacing:1px}
   .pr-head .co{text-align:right;font-size:9.5pt;color:#333}
@@ -2430,6 +2433,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./config/billing.js"></script>
 <script src="./ebanist-license.js"></script>
 <script src="./ebanist-atelier.js"></script>
+<script src="./ebanist-qr.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -4771,7 +4775,7 @@ function mountSheetClosers(){
 }
 
 function openSheet(id){$("scrim").classList.add("on");$(id).classList.add("on");navSync();}
-function closeSheets(){ if(typeof ROOM_GL!=="undefined"&&ROOM_GL) roomGLDetach(); $("scrim").classList.remove("on");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));navSync();}
+function closeSheets(){ if(typeof atCamStop==="function") atCamStop(); if(typeof ROOM_GL!=="undefined"&&ROOM_GL) roomGLDetach(); $("scrim").classList.remove("on");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));navSync();}
 $("scrim").addEventListener("click",closeSheets);
 
 function setView(v,fromBack){
@@ -11290,13 +11294,15 @@ $("btnLabels").addEventListener("click",()=>{
   if(!proGate("doc")) return;
   // ordina come la distinta e espandi pz → un'etichetta per pezzo fisico
   const rows=[];
-  for(const x of p.pieces) for(let i=1;i<=x.pz;i++) rows.push({...x,nOf:i,nTot:x.pz});
+  p.pieces.forEach((x,ri)=>{ for(let i=1;i<=x.pz;i++) rows.push({...x,nOf:i,nTot:x.pz,_ri:ri}); });
   const N=rows.length;
+  const lq=atLabelQr(p); /* Atelier E2: cod QR pe etichetă, numai dacă proiectul are o comandă neschimbată */
   let html=`<div class="lbl-grid">`;
   rows.forEach((x,i)=>{
     const dec=matDecorByLabel(x.materiale);
     const matShort=(matLabelUI(x.materiale||"").replace(/Truciolare Bilaminato/i,"PAL")+(dec?" · "+dec:"")).slice(0,38);
-    html+=`<div class="lbl">
+    const qr=lq?lq(x._ri):null;
+    html+=`<div class="lbl${qr?" hasqr":""}">${qr?`<div class="qr">${qr}</div>`:""}
       <div class="l1">${esc(p.name)} · ${esc(x.modulo)}</div>
       <div class="l2">${esc(elName(x.elemento))}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
       <div class="dim">${x.lung} × ${x.larg}</div>
@@ -13310,6 +13316,7 @@ async function initAuth(){
     acctSession=data.session;
     await loadAcctProfile();
     renderAccount();
+    atBoot(); atFlush();
     if(acctSession) await pullAndMergeProjects();
     sb.auth.onAuthStateChange(async(_event,newSession)=>{
       if(_event==="PASSWORD_RECOVERY"){ acctSession=newSession; renderAccount(); openPwdSheet(); return; }
@@ -13317,6 +13324,7 @@ async function initAuth(){
       acctSession=newSession;
       await loadAcctProfile();
       renderAccount();
+      if(acctSession&&!wasLoggedIn){ atBoot(); atFlush(); }
       if(acctSession&&!wasLoggedIn) await pullAndMergeProjects();
     });
   }catch(e){ /* offline o Supabase non raggiungibile — l'app continua a funzionare in locale */ }
@@ -13520,7 +13528,8 @@ async function atRender(){
   }
   if(!initSupabase()){ body.innerHTML='<p class="mini">'+esc(tat("atNoNet"))+'</p>'; return; }
   body.innerHTML='<p class="mini">'+esc(tat("atLoading"))+'</p>';
-  try{ if(atScreen.name==="detail") await atRenderDetail(body); else await atRenderHome(body); }
+  atCamStop(); atFlush();
+  try{ if(atScreen.name==="detail") await atRenderDetail(body); else if(atScreen.name==="scan") await atRenderScan(body); else await atRenderHome(body); }
   catch(e){ body.innerHTML='<p class="mini">'+esc(tat("err_generic"))+'</p>'; }
 }
 const AT_BOX='padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin:6px 0;background:var(--surface)';
@@ -13556,6 +13565,7 @@ async function atRenderDetail(body){
         '<div style="margin:8px 0 2px;font-size:20px;font-weight:700">'+esc(mine.ateliers.name)+'</div>'+
         '<div class="mini">'+esc(tat("atRole"))+': <strong>'+esc(tat("role_"+role))+'</strong></div>';
 
+  if(EBAtelier.can(role,"job.event")) h+='<button class="btn red" data-at="scan" style="margin-top:10px">'+esc(tat("scanBtn"))+'</button>';
   h+=await atJobsHtml(id,role,mine);
 
   if(EBAtelier.can(role,"members.list")){
@@ -13660,7 +13670,144 @@ async function atJobCreate(){
   const r=await atRpc("job_create",{p_atelier:atScreen.id,p_title:title,p_snapshot:snap,
     p_client_label:$("atJobClient").value.trim()||null,p_due:$("atJobDue").value||null});
   if(!r) return;
+  atJobMapSet(p.id,{job:r.data,atelier:atScreen.id,sig:EBAtelier.rowSig(p.pieces)});
   toast(tat("jobCreated")); atRender();
+}
+
+/* ---- E2: etichete cu QR, scanare, coadă offline ---- */
+function atJobMap(){ try{ return JSON.parse(localStorage.getItem("ebAtelierJobs")||"{}")||{}; }catch(e){ return {}; } }
+function atJobMapSet(pid,v){ const m=atJobMap(); if(v) m[pid]=v; else delete m[pid]; try{ localStorage.setItem("ebAtelierJobs",JSON.stringify(m)); }catch(e){} }
+/* QR numai dacă modul Atelier e pornit și proiectul are o comandă ale cărei rânduri n-au fost schimbate */
+function atLabelQr(p){
+  try{
+    if(!(window.EBAtelier&&window.EBQR&&EBAtelier.flagOn(window))) return null;
+    const l=atJobMap()[p.id]; if(!l||l.sig!==EBAtelier.rowSig(p.pieces)) return null;
+    return ri=>{ const u=EBAtelier.qrUrl(l.job,"r"+(ri+1)); return u?EBQR.svg(u,{border:1}):null; };
+  }catch(e){ return null; }
+}
+const AT_Q_KEY="ebAtelierQ";
+function atQGet(){ try{ return EBAtelier.qFresh(JSON.parse(localStorage.getItem(AT_Q_KEY)||"[]"),Date.now()); }catch(e){ return []; } }
+function atQSet(q){ try{ localStorage.setItem(AT_Q_KEY,JSON.stringify(q)); }catch(e){} }
+/* „ok” | „drop” (regulă încălcată: nu se mai reîncearcă) | „retry” (rețea, sesiune) */
+async function atTrySend(ev){
+  if(!acctSession||!initSupabase()) return "retry";
+  let res;
+  try{ res=await sb.rpc("job_event_add",{p_job:ev.job,p_station:ev.station,p_kind:ev.kind,p_client_id:ev.client_id,
+    p_piece_pk:ev.piece_pk||null,p_client_at:ev.client_at}); }catch(e){ return "retry"; }
+  if(!res.error) return "ok";
+  if(EBAtelier.qIsPermanent(res.error)){ atFail(res.error); return "drop"; }
+  return "retry";
+}
+/* întoarce „sent” | „queued” | „dropped”; un eveniment nu se pierde dacă pică rețeaua */
+async function atSendEvent(ev){
+  const full=Object.assign({},ev,{client_id:crypto.randomUUID(),client_at:new Date().toISOString()});
+  const r=await atTrySend(full);
+  if(r==="ok") return "sent";
+  if(r==="drop") return "dropped";
+  atQSet(EBAtelier.qAdd(atQGet(),full)); toast(tat("evQueued")); return "queued";
+}
+let atFlushing=false;
+async function atFlush(){
+  if(atFlushing||!acctSession) return 0;
+  const q=atQGet(); if(!q.length) return 0;
+  atFlushing=true; let sent=0;
+  try{
+    const keep=[]; let offline=false;
+    for(const ev of q){
+      if(offline){ keep.push(ev); continue; }
+      const r=await atTrySend(ev);
+      if(r==="ok") sent++; else if(r==="retry"){ keep.push(ev); offline=true; }
+    }
+    const added=atQGet().filter(x=>!q.some(y=>y.client_id===x.client_id)); /* ce s-a adăugat între timp */
+    atQSet(keep.concat(added));
+  }finally{ atFlushing=false; }
+  if(sent) toast(tat("qSent")+": "+sent);
+  return sent;
+}
+window.addEventListener("online",()=>{ if(window.EBAtelier&&EBAtelier.flagOn(window)) atFlush(); });
+
+let atCam=null;
+function atCamStop(){ if(atCam){ atCam.stop=true; try{ atCam.stream.getTracks().forEach(t=>t.stop()); }catch(e){} atCam=null; } }
+async function atCamStart(){
+  const v=$("atScanVideo"), msg=$("atScanMsg"); if(!v) return;
+  const no=()=>{ if(msg) msg.textContent=tat("scanNoCam"); v.style.display="none"; };
+  if(!("BarcodeDetector" in window)||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ no(); return; }
+  try{
+    const det=new BarcodeDetector({formats:["qr_code"]});
+    const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+    if(!$("atScanVideo")){ stream.getTracks().forEach(t=>t.stop()); return; } /* ecranul s-a schimbat între timp */
+    v.srcObject=stream; await v.play();
+    const cam=atCam={stream,stop:false};
+    const loop=async()=>{
+      if(cam.stop) return;
+      try{
+        const r=await det.detect(v);
+        const t=r.length&&EBAtelier.parseScan(r[0].rawValue);
+        if(t){ atCamStop(); atScreen={name:"scan",target:t,id:atScreen.id}; atRender(); return; }
+      }catch(e){}
+      setTimeout(loop,250);
+    };
+    loop();
+  }catch(e){ no(); }
+}
+async function atRenderScan(body){
+  let h='<button class="btn ghost" data-at="back" style="width:auto;padding:6px 10px;font-size:13.5px">← '+esc(tat("atBack"))+'</button>'+
+        '<div style="margin:8px 0 2px;font-size:20px;font-weight:700">'+esc(tat("scanBtn"))+'</div>';
+  const q=atQGet().length;
+  if(q) h+='<div class="mini">'+q+' '+esc(tat("qPending"))+'</div>';
+  const t=atScreen.target;
+  if(!t){
+    h+='<video id="atScanVideo" playsinline muted style="width:100%;max-height:48vh;border-radius:10px;background:#000;margin-top:8px"></video>'+
+       '<p class="mini" id="atScanMsg"></p>'+
+       '<div class="f"><label>'+esc(tat("scanPaste"))+'</label><input id="atScanText" autocomplete="off" autocapitalize="none" spellcheck="false"></div>'+
+       '<button class="btn" data-at="scango">'+esc(tat("scanGo"))+'</button>';
+    body.innerHTML=h; atCamStart(); return;
+  }
+  const notFound=()=>{ atScreen={name:"scan",target:null,id:atScreen.id};
+    body.innerHTML=h+'<p style="margin-top:10px">'+esc(tat("scanNotFound"))+'</p><button class="btn" data-at="scan">'+esc(tat("scanBtn"))+'</button>'; };
+  const {data:job,error}=await sb.from("jobs").select("id,title,state,atelier_id,snapshot").eq("id",t.job).maybeSingle();
+  const piece=!error&&job&&job.snapshot&&(job.snapshot.pieces||[]).find(x=>x.pk===t.pk);
+  if(!piece||!["confirmed","in_progress"].includes(job.state)){ notFound(); return; }
+  await atRefreshMine();
+  const mem=atMine.find(r=>r.atelier_id===job.atelier_id);
+  const sts=!mem?[]:mem.role==="operator"?(mem.stations||[]):EBAtelier.can(mem.role,"job.event")?EBAtelier.STATIONS:[];
+  const {data:evs}=await sb.from("job_events").select("station,kind").eq("job_id",t.job).eq("piece_pk",t.pk);
+  const done=new Set((evs||[]).filter(e=>e.kind==="done").map(e=>e.station));
+  const dim=[piece.lung,piece.larg].filter(v=>v!=null).join(" × ")+(piece.pz>1?" · ×"+piece.pz:"");
+  h+='<div style="'+AT_BOX+'"><div class="mini">'+esc(job.title)+'</div>'+
+     '<div style="font-size:18px;font-weight:700">'+esc([piece.modulo,piece.elemento].filter(Boolean).join(" · "))+'</div>'+
+     '<div style="font-size:22px;font-weight:700;font-family:\'Barlow Condensed\',Arial">'+esc(dim)+'</div>'+
+     '<div class="mini">'+[piece.material,piece.bordo,piece.note].filter(Boolean).map(esc).join(" · ")+'</div>'+
+     (done.size?'<div style="margin-top:6px">'+[...done].map(x=>'<span style="'+AT_CHIP+'">'+esc(tat("st_"+x))+' ✓</span>').join("")+'</div>':'')+'</div>';
+  if(!sts.length) h+='<p class="mini">'+esc(tat("scanNoStation"))+'</p>';
+  else{
+    let pick=""; try{ pick=localStorage.getItem("ebAtelierSt")||""; }catch(e){}
+    if(!sts.includes(pick)) pick=sts.find(x=>!done.has(x))||sts[0];
+    h+='<div class="f"><label>'+esc(tat("scanStation"))+'</label><select id="atScanStation">'+
+       sts.map(x=>'<option value="'+x+'"'+(x===pick?' selected':'')+'>'+esc(tat("st_"+x))+(done.has(x)?' ✓':'')+'</option>').join("")+'</select></div>'+
+       '<div style="display:flex;gap:8px"><button class="btn red" data-at="scanev" data-kind="done" style="flex:2;padding:18px 0;font-size:18px">'+esc(tat("evDone"))+'</button>'+
+       '<button class="btn" data-at="scanev" data-kind="start" style="flex:1">'+esc(tat("evStart"))+'</button>'+
+       '<button class="btn" data-at="scanev" data-kind="issue" style="flex:1">'+esc(tat("evIssue"))+'</button></div>';
+  }
+  body.innerHTML=h;
+}
+/* deschis dintr-un cod QR (camera telefonului): #e=<comandă>.<piesă>; așteaptă login-ul dacă lipsește */
+let atPending=null;
+function atBoot(){
+  try{
+    if(!atPending){
+      const t=window.EBAtelier&&EBAtelier.parseScan(location.hash.slice(1));
+      if(t) atPending={t,shown:false};
+    }
+    if(!atPending) return;
+    if(!acctSession){
+      if(!atPending.shown){ atPending.shown=true; atScreen={name:"home",id:null}; closeSheets(); openSheet("shAtelier"); atRender(); }
+      return;
+    }
+    const t=atPending.t; atPending=null;
+    try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+    atScreen={name:"scan",target:t,id:null}; closeSheets(); openSheet("shAtelier"); atRender();
+  }catch(e){}
 }
 
 async function atCopy(code){
@@ -13673,7 +13820,7 @@ $("atBody").addEventListener("click",async ev=>{
   const act=el.getAttribute("data-at");
   if(act==="account"){ renderAccount(); closeSheets(); openSheet("shAccount"); return; }
   if(act==="open"){ atScreen={name:"detail",id:el.getAttribute("data-id")}; atRender(); return; }
-  if(act==="back"){ atScreen={name:"home",id:null}; atRender(); return; }
+  if(act==="back"){ atScreen=atScreen.name==="scan"&&atScreen.id?{name:"detail",id:atScreen.id}:{name:"home",id:null}; atRender(); return; }
   if(act==="create"){
     const name=$("atNewName").value.trim(); let slug=$("atNewSlug").value.trim()||EBAtelier.slugify(name);
     if(name.length<2){ toast(tat("err_name_invalid")); return; }
@@ -13701,10 +13848,26 @@ $("atBody").addEventListener("click",async ev=>{
   if(act==="copy"){ atCopy(el.getAttribute("data-code")); return; }
   if(act==="jobcreate"){ await atJobCreate(); return; }
   if(act==="jobev"){
-    const r=await atRpc("job_event_add",{p_job:el.getAttribute("data-id"),p_station:el.getAttribute("data-st"),
-      p_kind:el.getAttribute("data-kind"),p_client_id:crypto.randomUUID(),p_client_at:new Date().toISOString()});
-    if(r){ toast(tat("evSent")); atRender(); }
+    const res=await atSendEvent({job:el.getAttribute("data-id"),station:el.getAttribute("data-st"),kind:el.getAttribute("data-kind")});
+    if(res==="sent") toast(tat("evSent"));
+    if(res!=="dropped") atRender();
     return;
+  }
+  if(act==="scan"){ atScreen={name:"scan",target:null}; atRender(); return; }
+  if(act==="scango"){
+    const t=EBAtelier.parseScan($("atScanText").value);
+    if(!t){ toast(tat("scanBad")); return; }
+    atScreen={name:"scan",target:t}; atRender(); return;
+  }
+  if(act==="scanev"){
+    const t=atScreen.target, st=$("atScanStation")&&$("atScanStation").value; if(!t||!st) return;
+    try{ localStorage.setItem("ebAtelierSt",st); }catch(e){}
+    const kind=el.getAttribute("data-kind");
+    const res=await atSendEvent({job:t.job,station:st,kind,piece_pk:t.pk});
+    if(res==="sent") toast(tat("evSent"));
+    if(res==="dropped") return;
+    /* după „gata” sau „problemă” se trece la piesa următoare; după „început” rămâne pe piesă */
+    atScreen={name:"scan",target:kind==="start"?t:null}; atRender(); return;
   }
   if(act==="remove"||act==="leave"){
     const self=act==="leave";
@@ -15184,12 +15347,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.78.0"; /* APP_VER-MARKER */
+const APP_VER="4.79.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v149";
+const SW_CACHE="ebanist-v150";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

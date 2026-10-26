@@ -3455,6 +3455,158 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Atelier E2 — QR pe etichetă, scanare piesă, coadă offline, deschidere din cod (migrarea 1.6)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const wasSb = sb, wasSess = acctSession, keepP = state.projects, keepA = state.activeId, keepL = LIC;
+      const realPrint = window.print; window.print = () => {};
+      const JOB = "6f1c2b7e-9a3d-4c58-8e21-0b5d7a9c4e13";
+      const mkProj = () => ({ id: "w2", name: "Jacquin", client: "", date: "2026-10-01", pieces: [
+        { id: "a1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, bordo: "2L", materiale: "PAL 18 Alb" },
+        { id: "a2", modulo: "Corp", elemento: "Ripiano", lung: 600, larg: 400, pz: 3, materiale: "PAL 18 Alb" }] });
+      state.projects = [mkProj()]; state.activeId = "w2";
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      printOut._offered = 1;
+      localStorage.setItem("ebAtelier", "1"); localStorage.removeItem("ebAtelierJobs"); localStorage.removeItem("ebAtelierQ");
+      const labels = () => { document.getElementById("printArea").innerHTML = ""; document.getElementById("btnLabels").click(); };
+      const qrs = () => [...document.querySelectorAll("#printArea .lbl")].map(l => { const q = l.querySelector(".qr svg"); return q ? q.outerHTML : null; });
+
+      /* — etichete — */
+      labels(); o.faraComanda = qrs().length === 5 && qrs().every(x => x === null);
+      atJobMapSet("w2", { job: JOB, atelier: "at1", sig: EBAtelier.rowSig(proj().pieces) });
+      labels(); const q = qrs();
+      const svgOf = pk => { const d = document.createElement("div"); d.innerHTML = EBQR.svg(EBAtelier.qrUrl(JOB, pk), { border: 1 }); return d.firstChild.outerHTML; };
+      o.cinciQr = q.length === 5 && q.every(x => !!x) && document.querySelectorAll("#printArea .lbl.hasqr").length === 5;
+      o.codPePiesa = q[0] === svgOf("r1") && q[1] === svgOf("r1") && q[2] === svgOf("r2") && q[4] === svgOf("r2") && q[0] !== q[2];
+      proj().pieces[1].lung = 601; labels();
+      o.piesaSchimbata = qrs().every(x => x === null);
+      proj().pieces[1].lung = 600; labels(); o.revineLaFel = qrs().every(x => !!x);
+      localStorage.removeItem("ebAtelier"); labels(); o.faraFlag = qrs().every(x => x === null);
+      localStorage.setItem("ebAtelier", "1");
+
+      /* — server simulat — */
+      const calls = [], eventsDb = [{ station: "bordatrice", kind: "done" }];
+      let mode = "ok", mine;
+      const mk = (role, stations) => [{ atelier_id: "at1", role, stations, ateliers: { id: "at1", name: "T", slug: "tt" } }];
+      const jobRow = { id: JOB, title: "Comanda <i>Jacquin</i>", state: "in_progress", atelier_id: "at1",
+        snapshot: { pieces: [{ pk: "r1", modulo: "Corp", elemento: "Fianco", lung: 700, larg: 500, pz: 2, material: "PAL 18 Alb", bordo: "2L", note: "" },
+                             { pk: "r2", modulo: "Corp", elemento: "Ripiano", lung: 600, larg: 400, pz: 3 }] } };
+      sb = {
+        from(t) {
+          const c = { select() { return c; }, eq() { return c; }, async maybeSingle() { return t === "jobs" ? { data: jobRow, error: null } : { data: null, error: null }; },
+            then(res) { res(t === "atelier_members" ? { data: mine, error: null } : t === "job_events" ? { data: eventsDb, error: null } : { data: [], error: null }); } };
+          return c;
+        },
+        async rpc(fn, args) {
+          calls.push([fn, args]);
+          if (fn === "job_event_add") {
+            if (mode === "net") return { data: null, error: { message: "Failed to fetch" } };
+            if (mode === "throw") throw new TypeError("Load failed");
+            if (mode === "closed") return { data: null, error: { message: "job:not_open" } };
+            return { data: 7, error: null };
+          }
+          if (fn === "job_status_list") return { data: [], error: null };
+          return { data: [], error: null };
+        }
+      };
+      acctSession = { user: { id: "u-op", email: "op@test.local" } };
+      const body = () => document.getElementById("atBody");
+      const open = async (role, stations, target) => { mine = mk(role, stations); calls.length = 0; closeSheets(); atMine = []; atScreen = { name: "scan", target, id: "at1" }; openSheet("shAtelier"); await atRender(); await w(300); };
+
+      /* — scanare: cardul piesei, postazioni, 2 atingeri — */
+      await open("operator", ["cnc", "bordatrice"], { job: JOB, pk: "r1" });
+      const txt = body().textContent;
+      o.card = /Fianco/.test(txt) && /700 × 500/.test(txt) && /×2/.test(txt) && /PAL 18 Alb/.test(txt) && !body().querySelector("i");
+      o.xss = body().innerHTML.indexOf("&lt;i&gt;") >= 0;
+      const sel = document.getElementById("atScanStation");
+      o.statiiOp = !!sel && [...sel.options].map(x => x.value).sort().join() === "bordatrice,cnc";
+      o.facutDeja = /Bordatrice|Edge bander|Kantenanleim|Plaqueuse|Okleiniarka|Canteadora/.test(txt) && /✓/.test(txt);
+      o.preselectat = sel.value === "cnc"; /* bordatrice e deja gata → propune cealaltă */
+      body().querySelector('[data-at=scanev][data-kind=done]').click(); await w(400);
+      const ev = calls.find(c => c[0] === "job_event_add");
+      o.gata = !!ev && ev[1].p_job === JOB && ev[1].p_piece_pk === "r1" && ev[1].p_station === "cnc" && ev[1].p_kind === "done" && /^[0-9a-f-]{36}$/.test(ev[1].p_client_id);
+      o.urmatoarea = !!document.getElementById("atScanVideo") && atScreen.target === null;
+      o.amintit = localStorage.getItem("ebAtelierSt") === "cnc";
+
+      /* operator fără postazioni: nu poate înregistra */
+      await open("operator", [], { job: JOB, pk: "r2" });
+      o.faraStatii = !document.getElementById("atScanStation") && !body().querySelector("[data-at=scanev]");
+      /* piesă necunoscută / comandă închisă */
+      await open("operator", ["cnc"], { job: JOB, pk: "r99" });
+      o.necunoscuta = /./.test(body().textContent) && !body().querySelector("[data-at=scanev]") && !!body().querySelector("[data-at=scan]");
+      jobRow.state = "done"; await open("operator", ["cnc"], { job: JOB, pk: "r1" });
+      o.inchisa = !body().querySelector("[data-at=scanev]"); jobRow.state = "in_progress";
+
+      /* lipire cod greșit / bun */
+      await open("birou", [], null);
+      document.getElementById("atScanText").value = "ceva"; body().querySelector("[data-at=scango]").click(); await w(150);
+      o.codGresit = document.getElementById("toast").textContent === EBAtelier.t(state.lang, "scanBad");
+      document.getElementById("atScanText").value = "https://ebanist.com/#e=" + JOB + ".r2"; body().querySelector("[data-at=scango]").click(); await w(400);
+      o.codBun = atScreen.target && atScreen.target.pk === "r2" && !!document.getElementById("atScanStation");
+      o.birouToate = document.getElementById("atScanStation").options.length === 7;
+
+      /* — coadă offline — */
+      await open("operator", ["cnc"], { job: JOB, pk: "r2" });
+      mode = "net"; calls.length = 0;
+      body().querySelector('[data-at=scanev][data-kind=done]').click(); await w(500);
+      let queue = JSON.parse(localStorage.getItem("ebAtelierQ") || "[]");
+      o.inCoada = queue.length === 1 && queue[0].piece_pk === "r2" && queue[0].station === "cnc" && queue[0].kind === "done";
+      o.toastOffline = document.getElementById("toast").textContent === EBAtelier.t(state.lang, "evQueued");
+      const cid = queue[0].client_id;
+      mode = "throw"; o.fluxIntrerupt = (await atFlush()) === 0 && JSON.parse(localStorage.getItem("ebAtelierQ")).length === 1;
+      mode = "ok"; calls.length = 0;
+      const trimise = await atFlush();
+      const resent = calls.find(c => c[0] === "job_event_add");
+      o.retrimis = trimise === 1 && !!resent && resent[1].p_client_id === cid && resent[1].p_piece_pk === "r2" && localStorage.getItem("ebAtelierQ") === "[]";
+      /* regulă încălcată → se aruncă, nu se reîncearcă la nesfârșit */
+      mode = "closed";
+      atQSet(EBAtelier.qAdd([], { job: JOB, station: "cnc", kind: "done", piece_pk: "r1", client_id: "11111111-1111-4111-8111-111111111111", client_at: new Date().toISOString() }));
+      await atFlush(); o.aruncat = localStorage.getItem("ebAtelierQ") === "[]";
+      /* două evenimente, rețeaua cade la primul: rămân amândouă, în ordine */
+      mode = "net";
+      atQSet([1, 2].map(i => ({ job: JOB, station: "cnc", kind: "done", piece_pk: "r" + i, client_id: "2222222" + i + "-2222-4222-8222-222222222222", client_at: new Date().toISOString() })));
+      calls.length = 0; await atFlush();
+      o.ordine = JSON.parse(localStorage.getItem("ebAtelierQ")).map(x => x.piece_pk).join() === "r1,r2" && calls.filter(c => c[0] === "job_event_add").length === 1;
+      localStorage.removeItem("ebAtelierQ");
+
+      /* — deschidere din cod, cu camera telefonului — */
+      mode = "ok"; mine = mk("operator", ["cnc"]); closeSheets(); atPending = null;
+      history.replaceState(null, "", location.pathname + location.search + "#e=" + JOB + ".r1"); atBoot(); await w(500);
+      o.deschis = document.getElementById("shAtelier").classList.contains("on") && atScreen.name === "scan" && atScreen.target && atScreen.target.pk === "r1";
+      o.fragmentSters = location.hash === "";
+      /* fără login: întâi cere conectarea, apoi continuă */
+      closeSheets(); acctSession = null; atPending = null; history.replaceState(null, "", location.pathname + location.search + "#e=" + JOB + ".r2"); atBoot(); await w(300);
+      o.cereLogin = document.getElementById("shAtelier").classList.contains("on") && /Accedi|Conectează|Sign in|Connectez|anmelden|Zaloguj|sesión/i.test(body().textContent);
+      acctSession = { user: { id: "u-op", email: "op@test.local" } }; atBoot(); await w(500);
+      o.continua = atScreen.name === "scan" && atScreen.target && atScreen.target.pk === "r2";
+      /* fragment fals sau fără cod: nu face nimic */
+      closeSheets(); atPending = null; history.replaceState(null, "", location.pathname + location.search + "#e=nu-e-cod"); atBoot(); await w(100);
+      o.ignorat = !document.getElementById("shAtelier").classList.contains("on");
+      history.replaceState(null, "", location.pathname + location.search);
+
+      closeSheets(); window.print = realPrint; sb = wasSb; acctSession = wasSess; state.projects = keepP; state.activeId = keepA; licWrite(keepL);
+      localStorage.removeItem("ebAtelier"); localStorage.removeItem("ebAtelierJobs"); localStorage.removeItem("ebAtelierQ"); localStorage.removeItem("ebAtelierSt"); atPending = null;
+      renderAccount();
+      return o;
+    });
+    ok("Atelier E2: fără comandă legată, etichetele rămân fără QR", r.faraComanda === true);
+    ok("Atelier E2: cu comandă legată, fiecare etichetă are QR; cele ale aceluiași rând poartă același cod", r.cinciQr === true && r.codPePiesa === true);
+    ok("Atelier E2: dacă proiectul s-a schimbat după comandă, QR dispare; revine când rândurile sunt iar la fel", r.piesaSchimbata === true && r.revineLaFel === true);
+    ok("Atelier E2: fără modul pornit, nicio etichetă nu primește QR", r.faraFlag === true);
+    ok("Atelier E2: scanarea arată piesa (cote, material), fără HTML executat, și ce e deja gata", r.card === true && r.xss === true && r.facutDeja === true);
+    ok("Atelier E2: operatorul alege doar dintre postazioni lui; propune prima negătată", r.statiiOp === true && r.preselectat === true);
+    ok("Atelier E2: „Gata” trimite evenimentul pe piesă (pk, postazione, client_id) și trece la scanarea următoare", r.gata === true && r.urmatoarea === true && r.amintit === true);
+    ok("Atelier E2: fără postazioni, piesă necunoscută sau comandă închisă → nu se poate înregistra", r.faraStatii === true && r.necunoscuta === true && r.inchisa === true);
+    ok("Atelier E2: cod lipit greșit e refuzat în client; cel bun deschide piesa; biroul vede toate cele 7 postazioni", r.codGresit === true && r.codBun === true && r.birouToate === true);
+    ok("Atelier E2: fără rețea evenimentul intră în coadă și utilizatorul e anunțat", r.inCoada === true && r.toastOffline === true);
+    ok("Atelier E2: coada se retrimite cu ACELAȘI client_id (idempotent); un eșec o păstrează intactă", r.fluxIntrerupt === true && r.retrimis === true);
+    ok("Atelier E2: o regulă încălcată (comandă închisă) aruncă evenimentul; la cădere de rețea ordinea se păstrează", r.aruncat === true && r.ordine === true);
+    ok("Atelier E2: cod scanat cu camera telefonului deschide piesa și curăță adresa", r.deschis === true && r.fragmentSters === true);
+    ok("Atelier E2: fără login cere conectarea, apoi continuă la piesă; un fragment fals e ignorat", r.cereLogin === true && r.continua === true && r.ignorat === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -182,3 +182,58 @@ test("E1: buildSnapshot — fără piese sau peste 2000 → null; pz lipsă devi
   assert.equal(s.pieces[0].lung, undefined);
   assert.equal(s.pieces[0].larg, 10);
 });
+
+/* ===== E2: QR pe etichetă, scanare, coadă offline ===== */
+const JOB_ID = "6f1c2b7e-9a3d-4c58-8e21-0b5d7a9c4e13";
+
+test("E2: textele de scanare și de coadă există în toate limbile", () => {
+  for (const l of LANGS) for (const k of ["scanBtn", "scanTitle", "scanPaste", "scanGo", "scanNoCam", "scanBad", "scanNotFound",
+    "scanStation", "scanNoStation", "scanDoneAt", "evQueued", "qPending", "qSent", "scanLogin"]) assert.ok(A.I18N[l][k], `${l}.${k}`);
+});
+
+test("E2: qrUrl / parseScan — dus-întors, în orice formă lipită", () => {
+  const u = A.qrUrl(JOB_ID.toUpperCase(), "r12");
+  assert.equal(u, "https://ebanist.com/#e=" + JOB_ID + ".r12");
+  const want = { job: JOB_ID, pk: "r12" };
+  assert.deepEqual({ ...A.parseScan(u) }, want);
+  assert.deepEqual({ ...A.parseScan("#e=" + JOB_ID + ".r12") }, want);
+  assert.deepEqual({ ...A.parseScan("e=" + JOB_ID + ".r12") }, want);
+  assert.deepEqual({ ...A.parseScan("  " + JOB_ID + ".r12\n") }, want);
+});
+
+test("E2: parseScan respinge orice nu e cod de piesă (injecții, uuid prost, pk lung, alt site cu același fragment)", () => {
+  for (const bad of ["", null, undefined, "r12", JOB_ID, JOB_ID + ".", JOB_ID + ".r 12", JOB_ID + ".r12;drop", JOB_ID + "./r12",
+    "not-a-uuid.r12", JOB_ID + "." + "a".repeat(81), "javascript:alert(1)", JOB_ID + ".r12" + "\n" + JOB_ID + ".r13"])
+    assert.equal(A.parseScan(bad), null, JSON.stringify(bad));
+  assert.equal(A.qrUrl("x", "r1"), null);
+  assert.equal(A.qrUrl(JOB_ID, "r 1"), null);
+  assert.equal(A.qrUrl(JOB_ID, "a".repeat(81)), null);
+});
+
+test("E2: rowSig se schimbă cu orice rând modificat, mutat, adăugat sau scos — și nu cu prețul/materialul", () => {
+  const base = [{ modulo: "A", elemento: "fianco", lung: 700, larg: 500, pz: 2 }, { modulo: "A", elemento: "ripiano", lung: 600, larg: 400, pz: 1 }];
+  const s0 = A.rowSig(base), cl = () => JSON.parse(JSON.stringify(base));
+  assert.equal(A.rowSig(cl()), s0);
+  const m1 = cl(); m1[0].lung = 701; assert.notEqual(A.rowSig(m1), s0);
+  const m2 = cl(); m2[1].pz = 2; assert.notEqual(A.rowSig(m2), s0);
+  assert.notEqual(A.rowSig([base[1], base[0]]), s0);
+  assert.notEqual(A.rowSig(base.slice(0, 1)), s0);
+  assert.notEqual(A.rowSig(base.concat(base[0])), s0);
+  const same = cl(); same[0].prezzo = 99; same[0].materiale = "alt"; assert.equal(A.rowSig(same), s0);
+});
+
+test("E2: coada offline — idempotentă pe client_id, plafonată, expiră după 7 zile", () => {
+  const ev = (id, at) => ({ job: JOB_ID, station: "cnc", kind: "done", client_id: id, client_at: at || new Date().toISOString() });
+  let q = A.qAdd([], ev("a")); q = A.qAdd(q, ev("b")); q = A.qAdd(q, ev("a"));
+  assert.deepEqual(q.map(x => x.client_id).sort(), ["a", "b"]);
+  let big = []; for (let i = 0; i < 520; i++) big = A.qAdd(big, ev("i" + i));
+  assert.equal(big.length, 500); assert.equal(big[499].client_id, "i519"); assert.equal(big[0].client_id, "i20");
+  const old = ev("old", new Date(Date.now() - 8 * 86400e3).toISOString());
+  assert.deepEqual(A.qFresh([old, ev("new")], Date.now()).map(x => x.client_id), ["new"]);
+});
+
+test("E2: qIsPermanent — erorile de reguli se aruncă, cele de rețea se reîncearcă", () => {
+  for (const m of ["job:not_open", "job:piece_unknown", "job:not_allowed", "job:cancelled_final", "atelier:not_allowed"]) assert.equal(A.qIsPermanent({ message: m }), true, m);
+  for (const m of ["Failed to fetch", "NetworkError when attempting to fetch resource.", "TypeError: Load failed", "", "JWT expired"]) assert.equal(A.qIsPermanent({ message: m }), false, m);
+  assert.equal(A.qIsPermanent(null), false);
+});
