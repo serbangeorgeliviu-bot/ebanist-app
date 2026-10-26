@@ -37,3 +37,17 @@ test("foaia: canale pe față și în cant apar în tabel și în desen", () => 
   assert.ok(svg.includes("#cdb48a"), "canalul de pe față e desenat");
   assert.equal(S.groupOps(pc.operations, o => o.note).length, 2, "față și cant = două grupuri");
 });
+
+test("foaia: cod QR opțional în cartuș — fără `qr` foaia e neschimbată, cu `qr` apare pozitionat și cu codul alături", () => {
+  const pc = { length: 800, width: 400, thickness: 19, outline: [{ x0: 0, x1: 800, y0: 0, y1: 400 }],
+    operations: [{ id: "op_001", type: "drill", face: 5, x: 37, y: 32, dia: 5, depth: 13, through: false, note: "x" }] };
+  const base = { face: 5, tr: k => k, opName: o => o.note, meta: { project: "P", name: "N", date: "d", ver: "v" } };
+  const plain = S.partSheetSVG(pc, base);
+  assert.ok(!plain.includes("<svg x="), "fără qr nu se adaugă nimic");
+  const withQr = S.partSheetSVG(pc, Object.assign({}, base, { qr: { svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M0 0h1v1z"/></svg>', code: "r12" } }));
+  assert.match(withQr, /<svg x="\d+(\.\d+)?" y="\d+(\.\d+)?" width="26" height="26" xmlns/);
+  assert.ok(withQr.includes(">r12<"), "codul scris alături");
+  assert.equal(withQr.replace(/<svg x=[^>]*>.*?<\/svg>/s, "").replace(/<text[^>]*>r12<\/text>/, ""), plain, "în rest foaia e identică");
+  const withoutCode = S.partSheetSVG(pc, Object.assign({}, base, { qr: { svg: '<svg viewBox="0 0 1 1"></svg>' } }));
+  assert.ok(withoutCode.includes("<svg x="));
+});

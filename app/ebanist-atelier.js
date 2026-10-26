@@ -33,7 +33,9 @@
     "job.progress": ["responsabil", "birou"],
     "job.event": ["responsabil", "birou", "operator"],
     /* E3: documente pe postazione din proiectul deschis */
-    "doc.print": ["responsabil", "birou"]
+    "doc.print": ["responsabil", "birou"],
+    /* E4: comandă agregată către furnizor din mai multe comenzi */
+    "order.agg": ["responsabil", "birou"]
   };
   function can(role, cap) { return (CAPS[cap] || []).indexOf(role) >= 0; }
 
@@ -75,6 +77,7 @@
       if (x.larg != null && isFinite(x.larg)) o.larg = +x.larg;
       o.pz = x.pz > 0 ? Math.round(x.pz) : 1;
       var m = h.material ? h.material(x) : x.materiale; if (m) o.material = s(m);
+      var dc = h.decor ? h.decor(x) : ""; if (dc) o.decor = s(dc, 60);
       if (x.bordo) o.bordo = s(x.bordo, 40);
       var n = h.note ? h.note(x) : ""; if (n) o.note = s(n, 200);
       return o;
@@ -123,6 +126,20 @@
   /* o eroare a regulilor (`job:…`, `atelier:…`) nu se repară retrimițând; orice altceva (rețea) se reîncearcă */
   function qIsPermanent(err) {
     return /(?:job|atelier):[a-z_]+/.test(String((err && err.message) || err || ""));
+  }
+
+  /* — E4: comandă agregată. Rândurile unei comenzi (din instantaneu) înapoi în forma distinctei, ca să treacă prin
+       același plan de tăiere ca orice proiect. Comenzile mai vechi (E1) au decorul lipit de material, `Material [decor]`:
+       se scoate. Cele noi poartă `decor` separat și `material` curat. — */
+  function snapshotRows(snap) {
+    var pcs = (snap && snap.pieces) || [];
+    return pcs.map(function (p) {
+      var mat = String(p.material == null ? "" : p.material);
+      if (p.decor == null) mat = mat.replace(/\s\[[^\]]*\]$/, "");
+      var r = { modulo: p.modulo || "", elemento: p.elemento || "", lung: +p.lung, larg: +p.larg, pz: +p.pz > 0 ? +p.pz : 1, materiale: mat };
+      if (p.bordo) r.bordo = p.bordo;
+      return r;
+    }).filter(function (r) { return isFinite(r.lung) && isFinite(r.larg); });
   }
 
   /* — E3: documente pe postazione (bordatrice, vopsitorie). Numai grupare: cotele vin din rânduri,
@@ -549,6 +566,86 @@
       expAtelierHint: "Para talleres: pedidos, escaneo de etiquetas, documentos por puesto. En prueba, no forma parte de Pro. Luego aparece en Cuenta, tras iniciar sesión." }
   };
   Object.keys(EXP_TXT).forEach(function (l) { Object.assign(I18N[l], EXP_TXT[l]); });
+
+  /* — texte E4 — */
+  var AGG_TXT = {
+    it: { aggPick: "Includi nell'ordine aggregato", aggBtn: "Ordine aggregato (commesse spuntate)",
+      aggNone: "Spunta almeno una commessa aperta.", aggTitle: "Ordine fornitore aggregato", aggJobs: "Commesse incluse",
+      aggSeparate: "Separato", aggTogether: "Insieme", aggFromStock: "Da magazzino", aggToOrder: "Da ordinare",
+      aggSaved: "Pannelli risparmiati ordinando insieme (senza magazzino)",
+      aggNoteHw: "La ferramenta non è inclusa: si ordina dai progetti.",
+      aggNoteShape: "Il bordo dei pezzi sagomati (angoli, curve) è calcolato sul rettangolo.",
+      aggNoteStock: "I ritagli di magazzino sono quelli di questo dispositivo." },
+    ro: { aggPick: "Include în comanda agregată", aggBtn: "Comandă agregată (comenzile bifate)",
+      aggNone: "Bifează cel puțin o comandă deschisă.", aggTitle: "Comandă furnizor agregată", aggJobs: "Comenzi incluse",
+      aggSeparate: "Separat", aggTogether: "Împreună", aggFromStock: "Din stoc", aggToOrder: "De comandat",
+      aggSaved: "Panouri economisite comandând împreună (fără stoc)",
+      aggNoteHw: "Feroneria nu e inclusă: se comandă din proiecte.",
+      aggNoteShape: "Cantul pieselor profilate (colțuri, curbe) e socotit pe dreptunghi.",
+      aggNoteStock: "Resturile din stoc sunt cele de pe acest dispozitiv." },
+    en: { aggPick: "Include in the combined order", aggBtn: "Combined order (ticked jobs)",
+      aggNone: "Tick at least one open job.", aggTitle: "Combined supplier order", aggJobs: "Jobs included",
+      aggSeparate: "Separate", aggTogether: "Together", aggFromStock: "From stock", aggToOrder: "To order",
+      aggSaved: "Panels saved by ordering together (ignoring stock)",
+      aggNoteHw: "Hardware is not included: it is ordered from the projects.",
+      aggNoteShape: "Edge banding of shaped pieces (corners, curves) is counted on the rectangle.",
+      aggNoteStock: "Offcut stock is the one on this device." },
+    fr: { aggPick: "Inclure dans la commande groupée", aggBtn: "Commande groupée (commandes cochées)",
+      aggNone: "Cochez au moins une commande ouverte.", aggTitle: "Commande fournisseur groupée", aggJobs: "Commandes incluses",
+      aggSeparate: "Séparé", aggTogether: "Ensemble", aggFromStock: "En stock", aggToOrder: "À commander",
+      aggSaved: "Panneaux économisés en commandant ensemble (hors stock)",
+      aggNoteHw: "La quincaillerie n'est pas incluse : elle se commande depuis les projets.",
+      aggNoteShape: "Le chant des pièces profilées (angles, courbes) est calculé sur le rectangle.",
+      aggNoteStock: "Les chutes en stock sont celles de cet appareil." },
+    de: { aggPick: "In die Sammelbestellung aufnehmen", aggBtn: "Sammelbestellung (angekreuzte Aufträge)",
+      aggNone: "Kreuze mindestens einen offenen Auftrag an.", aggTitle: "Sammelbestellung Lieferant", aggJobs: "Enthaltene Aufträge",
+      aggSeparate: "Einzeln", aggTogether: "Zusammen", aggFromStock: "Aus Lager", aggToOrder: "Zu bestellen",
+      aggSaved: "Eingesparte Platten bei gemeinsamer Bestellung (ohne Lager)",
+      aggNoteHw: "Beschläge sind nicht enthalten: sie werden aus den Projekten bestellt.",
+      aggNoteShape: "Die Kante geformter Teile (Ecken, Kurven) wird am Rechteck berechnet.",
+      aggNoteStock: "Der Restebestand ist der auf diesem Gerät." },
+    pl: { aggPick: "Dołącz do zamówienia zbiorczego", aggBtn: "Zamówienie zbiorcze (zaznaczone zlecenia)",
+      aggNone: "Zaznacz co najmniej jedno otwarte zlecenie.", aggTitle: "Zbiorcze zamówienie u dostawcy", aggJobs: "Uwzględnione zlecenia",
+      aggSeparate: "Osobno", aggTogether: "Razem", aggFromStock: "Ze stanu", aggToOrder: "Do zamówienia",
+      aggSaved: "Płyty zaoszczędzone przez wspólne zamówienie (bez stanu)",
+      aggNoteHw: "Okucia nie są uwzględnione: zamawia się je z projektów.",
+      aggNoteShape: "Okleina elementów kształtowych (narożniki, krzywe) liczona jest po prostokącie.",
+      aggNoteStock: "Resztki ze stanu są te z tego urządzenia." },
+    es: { aggPick: "Incluir en el pedido agrupado", aggBtn: "Pedido agrupado (pedidos marcados)",
+      aggNone: "Marca al menos un pedido abierto.", aggTitle: "Pedido agrupado al proveedor", aggJobs: "Pedidos incluidos",
+      aggSeparate: "Por separado", aggTogether: "Juntos", aggFromStock: "De stock", aggToOrder: "A pedir",
+      aggSaved: "Paneles ahorrados pidiendo juntos (sin stock)",
+      aggNoteHw: "La herrajería no está incluida: se pide desde los proyectos.",
+      aggNoteShape: "El canto de las piezas con forma (esquinas, curvas) se calcula sobre el rectángulo.",
+      aggNoteStock: "Los retales en stock son los de este dispositivo." }
+  };
+  Object.keys(AGG_TXT).forEach(function (l) { Object.assign(I18N[l], AGG_TXT[l]); });
+
+  /* — texte plan de tăiere (sezionatrice) — */
+  var SAW_TXT = {
+    it: { docSawBtn: "Piano sezionatrice (QR)", docSawTitle: "Sezionatrice: piano di taglio", docSawPanel: "Pannello", docSawCuts: "Ordine dei tagli",
+      docSawNoLink: "Nessuna commessa collegata a questo progetto (o il progetto è cambiato): i codici ci sono, ma senza QR. Crea la commessa da questo progetto.",
+      docSawPcs: "Pezzi su questo pannello", docSawNone: "Nessun pannello da tagliare in questo progetto." },
+    ro: { docSawBtn: "Plan sezionatrice (QR)", docSawTitle: "Sezionatrice: plan de tăiere", docSawPanel: "Panou", docSawCuts: "Ordinea tăierilor",
+      docSawNoLink: "Nicio comandă legată de acest proiect (sau proiectul s-a schimbat): codurile apar, dar fără QR. Creează comanda din acest proiect.",
+      docSawPcs: "Piese pe acest panou", docSawNone: "Niciun panou de tăiat în acest proiect." },
+    en: { docSawBtn: "Panel saw plan (QR)", docSawTitle: "Panel saw: cutting plan", docSawPanel: "Panel", docSawCuts: "Cut order",
+      docSawNoLink: "No job linked to this project (or the project changed): the codes show, but without QR. Create the job from this project.",
+      docSawPcs: "Pieces on this panel", docSawNone: "No panel to cut in this project." },
+    fr: { docSawBtn: "Plan scie à panneaux (QR)", docSawTitle: "Scie à panneaux : plan de coupe", docSawPanel: "Panneau", docSawCuts: "Ordre des coupes",
+      docSawNoLink: "Aucune commande liée à ce projet (ou le projet a changé) : les codes y sont, mais sans QR. Créez la commande depuis ce projet.",
+      docSawPcs: "Pièces sur ce panneau", docSawNone: "Aucun panneau à couper dans ce projet." },
+    de: { docSawBtn: "Plattensägeplan (QR)", docSawTitle: "Plattensäge: Zuschnittplan", docSawPanel: "Platte", docSawCuts: "Schnittfolge",
+      docSawNoLink: "Kein Auftrag mit diesem Projekt verknüpft (oder das Projekt hat sich geändert): die Codes stehen da, aber ohne QR. Lege den Auftrag aus diesem Projekt an.",
+      docSawPcs: "Teile auf dieser Platte", docSawNone: "Keine Platte zum Zuschneiden in diesem Projekt." },
+    pl: { docSawBtn: "Plan piły formatowej (QR)", docSawTitle: "Piła formatowa: plan cięcia", docSawPanel: "Płyta", docSawCuts: "Kolejność cięć",
+      docSawNoLink: "Żadne zlecenie nie jest powiązane z tym projektem (albo projekt się zmienił): kody są, ale bez QR. Utwórz zlecenie z tego projektu.",
+      docSawPcs: "Elementy na tej płycie", docSawNone: "Brak płyt do cięcia w tym projekcie." },
+    es: { docSawBtn: "Plan de seccionadora (QR)", docSawTitle: "Seccionadora: plan de corte", docSawPanel: "Panel", docSawCuts: "Orden de los cortes",
+      docSawNoLink: "Ningún pedido vinculado a este proyecto (o el proyecto cambió): los códigos aparecen, pero sin QR. Crea el pedido desde este proyecto.",
+      docSawPcs: "Piezas en este panel", docSawNone: "Ningún panel que cortar en este proyecto." }
+  };
+  Object.keys(SAW_TXT).forEach(function (l) { Object.assign(I18N[l], SAW_TXT[l]); });
   Object.keys(JOB_TXT).forEach(function (l) { Object.assign(I18N[l], JOB_TXT[l]); });
 
   function t(lang, key) { return (I18N[lang] || I18N.it)[key] || I18N.it[key] || key; }
@@ -574,7 +671,7 @@
     } catch (e) { return false; }
   }
 
-  return { setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
+  return { snapshotRows: snapshotRows, setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
            JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
            ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };

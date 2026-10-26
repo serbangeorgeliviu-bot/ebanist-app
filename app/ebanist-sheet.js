@@ -361,6 +361,13 @@
       [50, "shEdge", meta.edge || "—"], [30, "shScale", "1:" + den], [40, "shDate", meta.date], [30, "shSheet", (o.sheetNo || 1) + "/" + (o.sheetTot || 1)], [100, "shGen", "Ebanist " + (meta.ver || "")]];
     xx = X0;
     row2.forEach(function (c) { svg += cell(xx, Y0 + h, c[0], h, tr(c[1]), c[2] || "", 4.2); xx += c[0]; });
+    /* Atelier E2/E5: cod QR al piesei (SVG gata făcut) în colțul din dreapta-jos al cartușului, cu codul scris alături.
+       Fără `o.qr` foaia rămâne exact cum era. */
+    if (o.qr && o.qr.svg) {
+      var qs = TB_H - 4, qx = PW - M - qs - 2, qy = TB_Y + 2;
+      svg += o.qr.svg.replace("<svg ", '<svg x="' + qx + '" y="' + qy + '" width="' + qs + '" height="' + qs + '" ');
+      if (o.qr.code) svg += tx(qx - 1.5, TB_Y + TB_H - 3, o.qr.code, 4.2, { anchor: "end", bold: true });
+    }
     /* titlul foii, sus în cartuș */
     svg += tx(PW - M - 2, M + 4.5, tr("shTitle"), 3.2, { anchor: "end", fill: "#555" });
     return svg + "</svg>";

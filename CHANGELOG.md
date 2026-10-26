@@ -5,6 +5,26 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.82.0 — 26 octombrie 2026
+
+**Modul Atelier — QR pe foaia CNC și plan de tăiere cu coduri și QR. Tot ascuns.**
+- **Foaia A3 a piesei (CNC)** primește, în colțul cartușului, **același QR ca eticheta piesei** și codul ei (`r12`). Numai dacă proiectul are o comandă creată din el și rândurile n-au fost schimbate de atunci; altfel foaia rămâne exact cum era. Același lucru în „Dosar tehnic A3".
+- **Plan sezionatrice (QR)**, în Atelier → „Documente pe postazione": planul de tăiere tipărit, panou cu panou, cu codul fiecărei piese în dreptunghi, ordinea tăierilor și, sub panou, lista pieselor cu QR-ul fiecăreia. Fără comandă legată apar codurile și un avertisment, dar fără QR. Cu Pro, ca celelalte documente.
+- Un singur cod pe piesă, același peste tot: eticheta, foaia CNC, planul de tăiere, foaia bordatricei și lista de vopsitorie. Se scanează la fiecare postazione prin care trece piesa.
+- Texte în cele 7 limbi. Teste noi în `sheet.test.js` și bloc e2e „Atelier E5”.
+
+---
+
+## 4.81.0 — 26 octombrie 2026
+
+**Modul Atelier, etapa E4a (D-92) — comandă agregată către furnizor. Tot ascuns.**
+- În lista de comenzi, biroul și responsabilul pot **bifa mai multe comenzi deschise** și apăsa „Comandă agregată". Rândurile din instantaneele lor trec prin același plan de tăiere ca un proiect: panourile se împart între comenzi, deci se comandă mai puține decât suma comenzilor separate. Documentul arată, pe material: separat, împreună, din stoc, de comandat, plus economia de panouri și cantul în ml (+10% rezervă). Cu Pro, ca celelalte documente.
+- Spune ce nu include: feroneria (se comandă din proiecte) și cantul pieselor profilate (calculat pe dreptunghi). Stocul de resturi e cel de pe acel dispozitiv; stocul comun al atelierului vine separat (are nevoie de migrare pe server).
+- Instantaneele noi păstrează decorul în câmpul `decor` (material curat); cele din E1 își pierd decorul lipit la citire.
+- Texte în cele 7 limbi. Teste noi în `atelier.test.js` și bloc e2e „Atelier E4”.
+
+---
+
 ## 4.80.1 — 26 octombrie 2026
 
 **Atelier: pornire din Setări.** Aplicația Android nu are bară de adresă, deci `?atelier=1` nu se putea folosi acolo. În **Setări**, chiar la început, apare secțiunea „Funcții în probă” cu un comutator „Modul Atelier”. Se aplică pe loc (e o preferință a dispozitivului, ca tema), iar apoi butonul „Atelier” apare în Cont, după login. Același efect ca `?atelier=1`, același flag. Modulul rămâne în probă și în afara Pro.
