@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 4.77.0 — 26 octombrie 2026
+
+**Modul Atelier, etapa E0 (D-92) — ascuns.** Nu se vede în aplicația obișnuită: apare numai cu `?atelier=1` în adresă (rămâne pornit pe acel dispozitiv; `?atelier=0` îl oprește) și numai după ce te-ai conectat la cont.
+- Din Cont apare butonul „Atelier”. Poți crea un atelier, intra într-unul cu un cod de invitație (16 cifre, 4-4-4-4, valabil 7 zile, o singură folosire) sau deschide unul în care ești membru.
+- Patru roluri: **responsabil**, **birou tehnic**, **operator** (cu postazioni) și **partener**. Responsabilul invită, schimbă rolurile și scoate membri; biroul vede lista; operatorul și partenerul își văd doar rândul. Ultimul responsabil nu poate ieși sau fi retrogradat.
+- Totul se verifică pe server (migrarea 1.5 din `ebanist-hq`, politici RLS și funcții `atelier_*`, testate pe un Postgres real); aplicația doar afișează. Proiectele rămân private ca până acum.
+- Texte în cele 7 limbi. Nu face parte din Pro și nu schimbă nimic pentru cine nu pornește flag-ul. Nou: `ebanist-atelier.js`, `test/atelier.test.js`, bloc e2e „Atelier E0”.
+- Migrarea 1.5 (și 1.4, care lipsea) sunt rulate pe serverul real din 26.10; ecranul rămâne ascuns până la decizia de preț (D-55, D-54).
+
+---
+
 ## 4.76.0 — 22 octombrie 2026
 
 **Pro pe web: codul de activare se poate primi pe email (ROADMAP U.14, D-90).**

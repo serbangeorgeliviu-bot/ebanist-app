@@ -2200,8 +2200,17 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div id="acctLoggedIn" style="display:none">
     <p class="mini"><span id="acctLoggedInLbl">Connesso come</span> <strong id="acctEmailShow"></strong></p>
     <p class="mini"><span id="acctRoleLbl">Ruolo</span>: <strong id="acctRoleShow"></strong></p>
+    <button class="btn" id="btnAcctAtelier" style="margin-top:8px;display:none">Atelier</button>
     <button class="btn" id="btnAcctLogout" style="margin-top:8px">Esci</button>
   </div>
+</div>
+
+<!-- Atelier (E0, D-92): ascuns dietro ?atelier=1 -->
+<div class="sheet" id="shAtelier" style="max-height:88vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 id="atTitle">Atelier</h3>
+  <p class="mini" id="atBeta" style="margin-bottom:10px"></p>
+  <div id="atBody"></div>
 </div>
 
 <!-- camera in 3D -->
@@ -2420,6 +2429,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-store.js"></script>
 <script src="./config/billing.js"></script>
 <script src="./ebanist-license.js"></script>
+<script src="./ebanist-atelier.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -13281,6 +13291,8 @@ function renderAccount(){
     $("acctEmailShow").textContent=(acctSession.user&&acctSession.user.email)||"";
     $("acctRoleShow").textContent=acctProfile?acctProfile.role:"—";
   }
+  const atBtn=$("btnAcctAtelier");
+  if(atBtn){ atBtn.style.display=(loggedIn&&window.EBAtelier&&EBAtelier.flagOn(window))?"flex":"none"; atBtn.textContent=EBAtelier.t(state.lang,"atTitle"); }
 }
 
 async function loadAcctProfile(){
@@ -13483,6 +13495,180 @@ async function pullAndMergeProjects(){
 }
 
 $("btnAccount").addEventListener("click",()=>{ renderAccount(); closeSheets(); openSheet("shAccount"); });
+
+/* ================= ATELIER (E0, D-92) =================
+   Ascuns: apare numai cu ?atelier=1 și numai după login. Serverul decide
+   totul (RLS + funcții `atelier_*` din migrarea 1.5); aici doar se afișează.
+   Partea pură (roluri, slug, cod, texte) e în ebanist-atelier.js. */
+let atScreen={name:"home",id:null}, atMine=[];
+function tat(k){ return EBAtelier.t(state.lang,k); }
+function atFail(err){ toast(tat(EBAtelier.errKey(err))); }
+/* apel RPC: întoarce {data} sau null (după ce a arătat eroarea) */
+async function atRpc(fn,args){
+  if(!initSupabase()){ toast(tat("atNoNet")); return null; }
+  const {data,error}=await sb.rpc(fn,args);
+  if(error){ atFail(error); return null; }
+  return {data};
+}
+function atOpenSheet(){ atScreen={name:"home",id:null}; closeSheets(); openSheet("shAtelier"); atRender(); }
+async function atRender(){
+  $("atTitle").textContent=tat("atTitle"); $("atBeta").textContent=tat("atBeta");
+  const body=$("atBody");
+  if(!acctSession){
+    body.innerHTML='<p>'+esc(tat("atNeedLogin"))+'</p><button class="btn red" data-at="account" style="margin-top:8px">'+esc(tat("atOpenAccount"))+'</button>';
+    return;
+  }
+  if(!initSupabase()){ body.innerHTML='<p class="mini">'+esc(tat("atNoNet"))+'</p>'; return; }
+  body.innerHTML='<p class="mini">'+esc(tat("atLoading"))+'</p>';
+  try{ if(atScreen.name==="detail") await atRenderDetail(body); else await atRenderHome(body); }
+  catch(e){ body.innerHTML='<p class="mini">'+esc(tat("err_generic"))+'</p>'; }
+}
+const AT_BOX='padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin:6px 0;background:var(--surface)';
+const AT_H='margin:16px 0 6px;font-size:13px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)';
+
+async function atRenderHome(body){
+  const {data,error}=await sb.from("atelier_members").select("atelier_id,role,stations,ateliers(id,name,slug)").eq("user_id",acctSession.user.id);
+  if(error){ atFail(error); body.innerHTML=""; return; }
+  atMine=(data||[]).filter(r=>r.ateliers);
+  let h='<div style="'+AT_H+'">'+esc(tat("atMine"))+'</div>';
+  if(!atMine.length) h+='<p class="mini">'+esc(tat("atNone"))+'</p>';
+  for(const r of atMine){
+    h+='<div style="'+AT_BOX+';display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0"><strong>'+esc(r.ateliers.name)+'</strong>'+
+       '<div class="mini">'+esc(tat("role_"+r.role))+' · '+esc(r.ateliers.slug)+'</div></div>'+
+       '<button class="btn" data-at="open" data-id="'+esc(r.atelier_id)+'" style="width:auto;padding:8px 14px">'+esc(tat("atOpen"))+'</button></div>';
+  }
+  h+='<div style="'+AT_H+'">'+esc(tat("atCreateTitle"))+'</div>'+
+     '<div class="f"><label>'+esc(tat("atName"))+'</label><input id="atNewName" maxlength="80" autocomplete="off"></div>'+
+     '<div class="f"><label>'+esc(tat("atSlug"))+'</label><input id="atNewSlug" maxlength="40" autocomplete="off" autocapitalize="none"></div>'+
+     '<button class="btn red" data-at="create">'+esc(tat("atCreate"))+'</button>'+
+     '<div style="'+AT_H+'">'+esc(tat("atJoinTitle"))+'</div>'+
+     '<div class="f"><label>'+esc(tat("atCode"))+'</label><input id="atJoinCode" maxlength="24" autocomplete="off" autocapitalize="characters" placeholder="0000-0000-0000-0000"></div>'+
+     '<button class="btn" data-at="join">'+esc(tat("atJoin"))+'</button>';
+  body.innerHTML=h;
+}
+
+async function atRenderDetail(body){
+  const id=atScreen.id;
+  const mine=atMine.find(r=>r.atelier_id===id);
+  if(!mine){ atScreen={name:"home",id:null}; return atRenderHome(body); }
+  const role=mine.role;
+  let h='<button class="btn ghost" data-at="back" style="width:auto;padding:6px 10px;font-size:13.5px">← '+esc(tat("atBack"))+'</button>'+
+        '<div style="margin:8px 0 2px;font-size:20px;font-weight:700">'+esc(mine.ateliers.name)+'</div>'+
+        '<div class="mini">'+esc(tat("atRole"))+': <strong>'+esc(tat("role_"+role))+'</strong></div>';
+
+  if(EBAtelier.can(role,"members.list")){
+    const {data,error}=await sb.rpc("atelier_members_list",{p_atelier:id});
+    if(error){ atFail(error); }
+    else{
+      h+='<div style="'+AT_H+'">'+esc(tat("atMembers"))+' ('+data.length+')</div>';
+      for(const m of data){
+        const me=m.user_id===acctSession.user.id;
+        const manage=EBAtelier.can(role,"members.manage")&&!me;
+        const st=(m.role==="operator"&&m.stations&&m.stations.length)?'<div class="mini">'+m.stations.map(x=>esc(tat("st_"+x))).join(", ")+'</div>':'';
+        h+='<div style="'+AT_BOX+'"><div style="display:flex;gap:8px;align-items:center"><div style="flex:1;min-width:0">'+
+           '<strong>'+esc(m.full_name||m.email||"—")+'</strong>'+(me?' <span class="mini">('+esc(tat("atYou"))+')</span>':'')+
+           (m.email&&m.full_name?'<div class="mini">'+esc(m.email)+'</div>':'')+st+'</div>';
+        if(manage){
+          h+='<select data-at="setrole" data-user="'+esc(m.user_id)+'" style="width:auto">'+
+             EBAtelier.ROLES.map(x=>'<option value="'+x+'"'+(x===m.role?' selected':'')+'>'+esc(tat("role_"+x))+'</option>').join("")+'</select>'+
+             '<button class="btn" data-at="remove" data-user="'+esc(m.user_id)+'" style="width:auto;padding:8px 12px">'+esc(tat("atRemove"))+'</button>';
+        }else{
+          h+='<span class="mini">'+esc(tat("role_"+m.role))+'</span>';
+        }
+        h+='</div></div>';
+      }
+    }
+  }
+
+  if(EBAtelier.can(role,"invite.create")){
+    h+='<div style="'+AT_H+'">'+esc(tat("atInviteTitle"))+'</div>'+
+       '<div class="f"><label>'+esc(tat("atRole"))+'</label><select id="atInvRole">'+
+       EBAtelier.ROLES.filter(x=>x!=="responsabil").map(x=>'<option value="'+x+'">'+esc(tat("role_"+x))+'</option>').join("")+
+       '<option value="responsabil">'+esc(tat("role_responsabil"))+'</option></select></div>'+
+       '<div class="f" id="atInvStations" style="display:none"><label>'+esc(tat("atStations"))+'</label>'+
+       EBAtelier.STATIONS.map(x=>'<label class="chk" style="display:flex;gap:8px;margin:4px 0;font-size:14px;text-transform:none;letter-spacing:0;font-weight:500"><input type="checkbox" class="atInvSt" value="'+x+'"> <span>'+esc(tat("st_"+x))+'</span></label>').join("")+'</div>'+
+       '<button class="btn red" data-at="invite">'+esc(tat("atInviteBtn"))+'</button>'+
+       '<p class="mini" style="margin-top:6px">'+esc(tat("atInviteHint"))+'</p>'+
+       '<div id="atInvOut"></div>';
+    const {data:inv}=await sb.from("atelier_invites").select("code,role,stations,expires_at").eq("atelier_id",id).is("used_at",null).gt("expires_at",new Date().toISOString()).order("created_at",{ascending:false});
+    h+='<div style="'+AT_H+'">'+esc(tat("atPending"))+'</div>';
+    if(!inv||!inv.length) h+='<p class="mini">'+esc(tat("atNoPending"))+'</p>';
+    else for(const i of inv){
+      h+='<div style="'+AT_BOX+';display:flex;align-items:center;gap:8px"><div style="flex:1;min-width:0"><code style="font-size:15px">'+esc(EBAtelier.fmtCode(i.code))+'</code>'+
+         '<div class="mini">'+esc(tat("role_"+i.role))+(i.stations&&i.stations.length?' · '+i.stations.map(x=>esc(tat("st_"+x))).join(", "):'')+'</div></div>'+
+         '<button class="btn" data-at="copy" data-code="'+esc(i.code)+'" style="width:auto;padding:8px 12px">'+esc(tat("atCopy"))+'</button></div>';
+    }
+  }
+
+  h+='<button class="btn ghost" data-at="leave" style="margin-top:18px">'+esc(tat("atLeave"))+'</button>';
+  body.innerHTML=h;
+}
+
+async function atCopy(code){
+  try{ await navigator.clipboard.writeText(EBAtelier.fmtCode(code)); toast(tat("atCopied")); }
+  catch(e){ toast(EBAtelier.fmtCode(code)); }
+}
+
+$("atBody").addEventListener("click",async ev=>{
+  const el=ev.target.closest("[data-at]"); if(!el) return;
+  const act=el.getAttribute("data-at");
+  if(act==="account"){ renderAccount(); closeSheets(); openSheet("shAccount"); return; }
+  if(act==="open"){ atScreen={name:"detail",id:el.getAttribute("data-id")}; atRender(); return; }
+  if(act==="back"){ atScreen={name:"home",id:null}; atRender(); return; }
+  if(act==="create"){
+    const name=$("atNewName").value.trim(); let slug=$("atNewSlug").value.trim()||EBAtelier.slugify(name);
+    if(name.length<2){ toast(tat("err_name_invalid")); return; }
+    if(!EBAtelier.isSlug(slug)){ toast(tat("err_slug_invalid")); return; }
+    const r=await atRpc("atelier_create",{p_name:name,p_slug:slug}); if(!r) return;
+    atScreen={name:"detail",id:r.data};
+    await atRefreshMine(); atRender(); return;
+  }
+  if(act==="join"){
+    const code=EBAtelier.normCode($("atJoinCode").value);
+    if(!code){ toast(tat("err_code_invalid")); return; }
+    const r=await atRpc("atelier_accept",{p_code:code}); if(!r) return;
+    atScreen={name:"detail",id:r.data};
+    await atRefreshMine(); atRender(); return;
+  }
+  if(act==="invite"){
+    const role=$("atInvRole").value;
+    const stations=role==="operator"?[...document.querySelectorAll(".atInvSt:checked")].map(x=>x.value):[];
+    const r=await atRpc("atelier_invite",{p_atelier:atScreen.id,p_role:role,p_stations:stations}); if(!r) return;
+    await atRender();
+    const out=$("atInvOut");
+    if(out) out.innerHTML='<div style="'+AT_BOX+'"><code style="font-size:18px;font-weight:700">'+esc(EBAtelier.fmtCode(r.data))+'</code></div>';
+    atCopy(r.data); return;
+  }
+  if(act==="copy"){ atCopy(el.getAttribute("data-code")); return; }
+  if(act==="remove"||act==="leave"){
+    const self=act==="leave";
+    const ok=await dialog({text:tat(self?"atConfirmLeave":"atConfirmRemove"),confirm:true}); if(!ok) return;
+    const uid=self?acctSession.user.id:el.getAttribute("data-user");
+    const r=await atRpc("atelier_remove_member",{p_atelier:atScreen.id,p_user:uid}); if(!r) return;
+    if(self){ atScreen={name:"home",id:null}; }
+    await atRefreshMine(); atRender(); return;
+  }
+});
+$("atBody").addEventListener("change",async ev=>{
+  const el=ev.target;
+  if(el.id==="atInvRole"){ $("atInvStations").style.display=el.value==="operator"?"block":"none"; return; }
+  if(el.getAttribute&&el.getAttribute("data-at")==="setrole"){
+    const r=await atRpc("atelier_set_role",{p_atelier:atScreen.id,p_user:el.getAttribute("data-user"),p_role:el.value,p_stations:[]});
+    atRender(); return;
+  }
+});
+$("atBody").addEventListener("input",ev=>{
+  if(ev.target.id==="atNewName"){ const s=$("atNewSlug"); if(!s.dataset.touched) s.value=EBAtelier.slugify(ev.target.value); }
+  if(ev.target.id==="atNewSlug") ev.target.dataset.touched="1";
+});
+async function atRefreshMine(){
+  try{
+    const {data}=await sb.from("atelier_members").select("atelier_id,role,stations,ateliers(id,name,slug)").eq("user_id",acctSession.user.id);
+    atMine=(data||[]).filter(r=>r.ateliers);
+  }catch(e){}
+}
+$("btnAcctAtelier").addEventListener("click",atOpenSheet);
+
 
 $("btnAcctLogin").addEventListener("click",async()=>{
   if(!initSupabase()){ toast(ta("acctNoNet")); return; }
@@ -14927,12 +15113,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.76.0"; /* APP_VER-MARKER */
+const APP_VER="4.77.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v147";
+const SW_CACHE="ebanist-v148";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
