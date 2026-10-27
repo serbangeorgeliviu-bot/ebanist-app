@@ -4573,12 +4573,16 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.fara = Array.from(ops.pieces).every(p => Array.from(p.preflight || []).filter(w => w.level === "error").length === 0);
       o.hwId = (() => { const ids = Array.from(ops.hw).map(h => h.id); return new Set(ids).size === ids.length && Array.from(ops.hw).some(h => h.wing === "B"); })();
       o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].wBoxHit && /\{n\}/.test(I18N[l].wBoxHit) && /\{mm\}/.test(I18N[l].wBoxHit));
+      o.bara = (() => { const rodCfg = { ...base, drawerH: undefined, drawerSys: "legno", drawerDist: "uguali", tram: 0, L: 600, hang: 1, back: 1, H: 720, drawers: 4 };
+        const w = buildModule(rodCfg).warn; const ok2 = buildModule({ ...rodCfg, H: 2200, drawers: 2, L: 800 }).warn;
+        return w.rodHit === 1 && w.rodLow >= 1 && ok2.rodHit === 0 && ok2.rodLow === 0
+          && ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => /\{n\}/.test(I18N[l].wRodHit) && /\{mm\}/.test(I18N[l].wRodLow) && /\{m\}/.test(I18N[l].wRodLow)); })();
       /* nota apare în previzualizare */
       const keepL = state.lang; state.lang = "ro"; applyLang();
       o.nota = t("wBoxHit").replace("{n}", 2).replace("{mm}", "4").startsWith("2 sertar"); state.lang = keepL; applyLang();
       return o;
     });
-    ok("Fuzz D-103: avertisment când cutia sertarului intră în bază/tavan (și la colț, unde înainte tăcea); aripa B are balamale și mânere, fără erori de pre-flight, ID-uri hw unice; 7 limbi", r.warn === true && r.angWarn === true && r.d104 === true && r.aripaB === true && r.fara === true && r.hwId === true && r.limbi === true && r.nota === true, JSON.stringify(r));
+    ok("Fuzz D-103: avertisment când cutia sertarului intră în bază/tavan (și la colț, unde înainte tăcea); aripa B are balamale și mânere, fără erori de pre-flight, ID-uri hw unice; 7 limbi", r.warn === true && r.angWarn === true && r.d104 === true && r.aripaB === true && r.fara === true && r.hwId === true && r.limbi === true && r.nota === true && r.bara === true, JSON.stringify(r));
   }
 
   head("D-104 — sertarul metalic nu mai intră în bază; un proiect v2 se mută la v3 cu diferența în față");

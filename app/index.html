@@ -3354,6 +3354,14 @@ Object.assign(I18N.fr,{"wBoxHit": "{n} tiroir(s) : le caisson entre jusqu'à {mm
 Object.assign(I18N.de,{"wBoxHit": "{n} Schublade(n): Der Kasten ragt bis zu {mm} mm in Boden oder Deckel des Korpus. Korpushöhe und Schubladenzahl prüfen."});
 Object.assign(I18N.pl,{"wBoxHit": "{n} szuflad(y): korpus szuflady wchodzi do {mm} mm w dno lub wieniec korpusu. Sprawdź wysokość korpusu i liczbę szuflad."});
 Object.assign(I18N.es,{"wBoxHit": "{n} cajón(es): la caja entra hasta {mm} mm en el fondo o la tapa del cuerpo. Revisa la altura del cuerpo y el número de cajones."});
+/* 5.10.1 — bara de haine (D-105) */
+Object.assign(I18N.it,{"wRodHit": "{n} cassetto/i: la cassa tocca l'asta appendiabiti. Alza l'asta, riduci i cassetti o separa le sezioni.", "wRodLow": "L'asta appendiabiti ha solo {mm} mm liberi sotto di sé: sotto {m} mm i vestiti non ci stanno appesi. Riduci i cassetti o alza il corpo."});
+Object.assign(I18N.ro,{"wRodHit": "{n} sertar(e): cutia atinge bara de haine. Ridică bara, micșorează sertarele sau separă secțiunile.", "wRodLow": "Bara de haine are doar {mm} mm liberi sub ea: sub {m} mm hainele nu mai atârnă. Micșorează sertarele sau mărește corpul."});
+Object.assign(I18N.en,{"wRodHit": "{n} drawer(s): the box touches the hanging rod. Raise the rod, reduce the drawers or split the sections.", "wRodLow": "The hanging rod has only {mm} mm of free height under it: below {m} mm clothes will not hang. Reduce the drawers or make the body taller."});
+Object.assign(I18N.fr,{"wRodHit": "{n} tiroir(s) : le caisson touche la tringle. Relevez la tringle, réduisez les tiroirs ou séparez les sections.", "wRodLow": "La tringle n'a que {mm} mm de hauteur libre sous elle : sous {m} mm les vêtements ne pendent plus. Réduisez les tiroirs ou agrandissez le corps."});
+Object.assign(I18N.de,{"wRodHit": "{n} Schublade(n): Der Kasten berührt die Kleiderstange. Stange höher setzen, weniger Schubladen oder Bereiche trennen.", "wRodLow": "Unter der Kleiderstange bleiben nur {mm} mm frei: unter {m} mm hängt Kleidung nicht mehr. Weniger Schubladen oder höherer Korpus."});
+Object.assign(I18N.pl,{"wRodHit": "{n} szuflad(y): korpus szuflady dotyka drążka na ubrania. Podnieś drążek, zmniejsz liczbę szuflad lub rozdziel sekcje.", "wRodLow": "Pod drążkiem jest tylko {mm} mm wolnej wysokości: poniżej {m} mm ubrania nie zawisną. Zmniejsz szuflady lub zwiększ wysokość korpusu."});
+Object.assign(I18N.es,{"wRodHit": "{n} cajón(es): la caja toca la barra de colgar. Sube la barra, reduce los cajones o separa las secciones.", "wRodLow": "La barra de colgar tiene solo {mm} mm libres debajo: por debajo de {m} mm la ropa no cuelga. Reduce los cajones o aumenta la altura del cuerpo."});
 /* ---- 5.7: panou încastrat în ramă (D-100) ---- */
 Object.assign(I18N.it,{fRfInset:"Pannello incassato nella cornice",rfErrInsetMat:"Boiserie: scegli il materiale del pannello (frontali) — lo spessore viene dal materiale.",rfErrInset:"Boiserie: il pannello non entra nella cornice (spessore troppo grande o cornice troppo stretta per il canale).",rfS5:"Inserisci i {k} pannelli nei canali delle cornici prima di chiudere il telaio.",role_rama_camp:"Pannello campo"});
 Object.assign(I18N.ro,{fRfInset:"Panou încastrat în ramă",rfErrInsetMat:"Boiserie: alege materialul panoului (fronturi) — grosimea vine din material.",rfErrInset:"Boiserie: panoul nu încape în ramă (grosime prea mare sau ramă prea îngustă pentru canal).",rfS5:"Introdu cele {k} panouri în canalele ramelor înainte de a închide cadrul.",role_rama_camp:"Panou câmp"});
@@ -6504,6 +6512,8 @@ function topModeOf(cfg){
 }
 /* limitele formularului (U.5): usi si despartitori. Peste 4 nu mai e o ciudatenie: un dulap de 3 m are 6 usi. */
 const MAX_DOORS=8, MAX_TRAM=8, DOOR_NARROW=150;
+/* D-105: sub această înălțime liberă sub bară hainele nu mai atârnă (cămăși/sacouri ~600-700 mm); valoare generică, `verificat:false` */
+const ROD_MIN_CLEAR=600;
 const LAYOUT_KEYS=["partitions","fronts","depthProfile","customCuts","drawerBlocks"];
 function hasPartitions(cfg){ return !!(cfg&&Array.isArray(cfg.partitions)&&cfg.partitions.length); }
 function hasDrawerBlocks(cfg){ return !!(cfg&&Array.isArray(cfg.drawerBlocks)&&cfg.drawerBlocks.length); }
@@ -7558,6 +7568,22 @@ function buildCore(cfg){
         if(ox>0.5&&oy>0.5&&oz>0.5){ seen[b.grp]=1; boxHitMm=Math.max(boxHitMm,oy); } }); });
     boxHit=Object.keys(seen).length;
   }
+  /* D-105: bara de haine. Coliziune cu o cutie de sertar (AABB) și înălțimea liberă de sub ea pe fiecare secțiune cu bară */
+  let rodHit=0, rodLow=0;
+  if(hangSecs.length){
+    const seen={};
+    boxes.filter(b=>b.role==="asta").forEach(r=>boxes.forEach(b=>{
+      if(b.sub!=="dbox") return;
+      const ox=Math.min(b.x1,r.x1)-Math.max(b.x0,r.x0), oy=Math.min(b.y1,r.y1)-Math.max(b.y0,r.y0), oz=Math.min(b.z1,r.z1)-Math.max(b.z0,r.z0);
+      if(ox>0.5&&oy>0.5&&oz>0.5) seen[b.grp]=1; }));
+    rodHit=Object.keys(seen).length;
+    let minClear=Infinity;
+    hangSecs.forEach(si=>{
+      const m=secMode(si), bottom=Math.max(intY0,dSecs.indexOf(si)>=0?dTopOf(si):intY0);
+      const shelves=m==="hangShelf"&&!shSqueeze&&shelfYs(m,si).length>0;
+      minClear=Math.min(minClear,shelves?Math.min(railY-bottom,hangGap):railY-bottom); });
+    if(isFinite(minClear)&&minClear<ROD_MIN_CLEAR) rodLow=Math.max(1,Math.round(minClear));
+  }
   /* gli avvisi di tutti i piani, ognuno una volta sola */
   const dW=[], dWk={};
   dGroups.map(g=>g.plan).concat(dBlockPlans).concat(pullPlan?[pullPlan]:[]).forEach(pl=>(pl&&pl.warn||[]).forEach(w=>{ const k=JSON.stringify(w); if(!dWk[k]){ dWk[k]=1; dW.push(w); } }));
@@ -7565,7 +7591,7 @@ function buildCore(cfg){
           draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan}))
             .concat(dBlockPlans.map((pl,i)=>({N:pl.N,secs:[],block:LY.drawers[i].n,plan:pl}))),
           pull:(pullPlan&&pullPlan.ok)?{plan:pullPlan,secs:pullSecs.slice(),n:pullN}:null,
-          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,
+          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,rodHit,rodLow,
           topAng:cfg.top==="traverse"&&topMode!=="traverse",
           drawWarn:dW.length?dW:null}};
 }
@@ -7803,12 +7829,13 @@ function contBuild(cfg){
 /* avvisi delle due ali di un corpo d'angolo (D-103): prima `buildModule` li lasciava cadere e l'angolare non avvertiva MAI.
    Conteggi: si sommano; sertarele care intră în bază/tavan: n sumat, mm maxim; liste: concatenate; restul: primul valoare nenulă. */
 function mergeBodyWarn(a,b){
-  const o=Object.assign({},a||{}), SUM={shMissing:1,doorSkip:1,stepHit:1};
+  const o=Object.assign({},a||{}), SUM={shMissing:1,doorSkip:1,stepHit:1,rodHit:1};
   Object.keys(b||{}).forEach(k=>{
     const x=o[k], y=b[k];
     if(!y) return;
     if(!x){ o[k]=y; return; }
     if(SUM[k]) o[k]=x+y;
+    else if(k==="rodLow") o[k]=Math.min(x,y);
     else if(Array.isArray(x)&&Array.isArray(y)) o[k]=x.concat(y);
     else if(typeof x==="object"&&typeof y==="object"&&"n" in x&&"n" in y&&"mm" in x) o[k]={n:x.n+y.n,mm:Math.max(x.mm,y.mm)};
   });
@@ -9885,6 +9912,8 @@ function drawPreview(){
   if(wn.foldFront) notes.push("⚠︎ "+t("wFoldFront"));
   if(wn.foldReach) notes.push(t("wFoldReach").replace("{w}",wn.foldReach));
   if(wn.stepHit) notes.push("⚠︎ "+t("stepHit"));
+  if(wn.rodHit) notes.push("⚠︎ "+t("wRodHit").replace("{n}",wn.rodHit));
+  if(wn.rodLow) notes.push("⚠︎ "+t("wRodLow").replace("{mm}",wn.rodLow).replace("{m}",ROD_MIN_CLEAR));
   if(wn.boxHit) notes.push("⚠︎ "+t("wBoxHit").replace("{n}",wn.boxHit.n).replace("{mm}",fmt(wn.boxHit.mm,1)));
   if(wn.topAng) notes.push("⚠︎ "+t("wTopAngled"));
   if(built.lam) notes.push(t("lamInfo").replace("{n}",built.lam.n).replace("{g}",built.lam.gap));
@@ -16421,12 +16450,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.10.0"; /* APP_VER-MARKER */
+const APP_VER="5.10.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v168";
+const SW_CACHE="ebanist-v169";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
