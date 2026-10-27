@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.6.0 — 27 octombrie 2026
+
+**Consilierul tehnic: sfatul pentru ușă înaltă nu apărea niciodată în proiectele reale — corectat — și două reguli noi.**
+- **Corecție:** regula „ușă înaltă și îngustă” căuta rolul „anta”, dar ușile generate de motor au rolul „frontale” (numele „Anta”). Pe un proiect real nu se declanșa niciodată; testul de la 5.0.0 folosea un rând scris de mână cu rolul greșit. Acum regula citește ușile cum le scrie motorul, iar testele rulează pe un dulap generat de motor.
+- **Ușă grea:** greutatea estimată (arie × grosime × densitatea familiei de material) peste 12 kg dă sfatul „verifică capacitatea balamalelor și numărul lor”, cu greutatea în mesaj.
+- **Bară de haine lungă:** o bară de peste 1000 mm fără sprijin la mijloc dă sfatul de a adăuga un suport central.
+- Ca la restul consilierului, valorile (densități, 12 kg, 1000 mm) sunt ipoteze marcate `verificat:false`: orientative, de confirmat cu furnizorul. Nimic nu blochează exportul.
+- Teste: 735 în browser, 9 unitare pe consilier.
+
+---
+
 ## 5.5.0 — 27 octombrie 2026
 
 **Corpul de colț: colțul interior era pus greșit în 3D și în planul de montaj — corectat.**

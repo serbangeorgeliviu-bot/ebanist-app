@@ -4341,6 +4341,31 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Consilier tehnic pe rânduri REALE — ușă înaltă și grea, bară lungă (nu rânduri scrise de mână)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ad2", name: "T", pieces: [], configs: {} }]; state.activeId = "ad2";
+      /* un dulap real de 1400×2400 cu bară de haine: ușa generată de motor are rolul „frontale” */
+      generateInto(proj(), { ...PRESETS.armadio, name: "Arm", L: 1400, H: 2400, doors: 2, hang: 1 });
+      const ids = adviceList(proj()).map(a => a.id);
+      o.ua = proj().pieces.some(x => x.elemento === "Anta" && x.role === "frontale");
+      o.inalta = ids.includes("TALL_DOOR");
+      o.grea = ids.includes("HEAVY_DOOR");
+      /* bară peste prag: modulul cu 1800 de lățime */
+      generateInto(proj(), { ...PRESETS.armadio, name: "Larg", L: 2400, H: 2200, doors: 0, hang: 1, drawers: 0, tram: 0 });
+      o.bara = adviceList(proj()).some(a => a.id === "ROD_SPAN" && a.modulo === "Larg");
+      const keepSheet = document.getElementById("adviceBadge");
+      auditBadge(); o.insigna = !keepSheet.hidden;
+      state.projects = keepP; state.activeId = keepA; auditBadge();
+      return o;
+    });
+    ok("Consilier: ușa generată de motor (rol „frontale”, nume „Anta”) primește sfatul de ușă înaltă și îngustă și de ușă grea", r.ua === true && r.inalta === true && r.grea === true);
+    ok("Consilier: o bară de haine de peste 1000 mm dă sfat; insigna galbenă apare", r.bara === true && r.insigna === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
