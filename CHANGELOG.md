@@ -5,6 +5,22 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.9.0 — 28 octombrie 2026
+
+**Piesa cu contur liber v2** — găuri și decupaje în piesă, canale frezate și mai multe piese diferite în același modul.
+- **Găuri și decupaje interioare:** o linie per gaură, centrul măsurat de la colțul stânga-jos al piesei: `c x y d` (cerc), `r x y l h [raza]` (dreptunghi, cu colțuri rotunjite opțional), `s x y l h` (canal-ovală). **Cercurile până la 35 mm se burghiază** (operație „drill” trecută), restul se frezează ca **contur interior** exact, în sens opus exteriorului. Fișa piesei desenează găurile golite, 3D-ul le taie din piesă.
+- **Din fișier:** într-un SVG sau DXF, conturul cel mai mare e piesa, iar cele dinăuntru (și `CIRCLE`) devin găuri, scalate împreună cu ea. Un contur în afara piesei se respinge cu motiv („adaugă-l ca piesă separată”).
+- **Canale frezate:** `x1 y1 x2 y2 lățime adâncime [j]`, drepte, pe fața de sus (sau de jos cu `j`); trebuie să stea în piesă, să nu treacă peste găuri, lățime maximă 50 mm, 2 mm de material rămân sub canal. Apar în fișa piesei și în CSV-ul de găurire.
+- **Mai multe piese pe modul:** selectorul „Piesa n” cu **+ Piesă** / **✕**; fiecare piesă își are forma, mărimea, găurile, canalele, poziția, bucățile și cantul. În distinctă, rând separat pe piesă; în 3D, piesele stau una lângă alta. Un modul vechi se deschide neschimbat, ca piesă 1.
+- **Verificări cu mesaj, nu surprize:** gaură în afara piesei, atinsă de margine, suprapusă sau la mai puțin de 3 mm de margine sau de altă gaură; linie neînțeleasă (cu numărul liniei); canal prea adânc, prea lat sau ieșit din piesă; indiciul din formular arată câte găuri și canale are piesa.
+- **Cantul rămâne pe perimetrul exterior**; pașii de montaj spun câte găuri și canale are fiecare piesă. AI-ul poate dicta `cHoles` și `cGrooves` pentru piesa 1 (celelalte piese rămân). Traduceri în 7 limbi.
+- **3D robust:** triangularea cu găuri se verifică (aria = exterior − găuri, niciun triunghi în gaură) și, dacă ear clipping se încurcă pe vârfuri dublate, trece pe o descompunere exactă pe fâșii orizontale — descoperit de testele aleatoare.
+- **Date nevalidate:** puntea minimă de 3 mm, pragul de burghiere de 35 mm, lățimea maximă a canalului și restul de 2 mm sunt generice (`verificat:false`), adăugate în registrul de verificare a găuririi (92 de valori). Golden 49–50 verificate aritmetic, `validat:false`.
+- Teste: 745 în browser, 13 unitare noi (text de găuri/canale, validări, 1200 de piese aleatoare cu 0–6 găuri, SVG/DXF cu găuri, operații, mai multe piese), fuzz D-78 cu găuri, canale și piese multiple pe peste 14000 de configurații fără abateri la contur.
+- Limite: canalele sunt numai drepte; ce fețe sunt 5 și 6 se confirmă pe fișierul real de la Cafasso; fișierul nativ de mașină (.cix/.xxl/.mpr) așteaptă programul real (D-91); dictarea AI atinge numai piesa 1.
+
+---
+
 ## 5.8.0 — 28 octombrie 2026
 
 **Piesa cu contur liber** — un panou tăiat după un contur desenat (lateral arcuit, picior, blat curb), pentru cererile de tip „vreau ca în poză”.
@@ -14,7 +30,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - 3D-ul desenează piesa din triunghiuri (săgeata de aplatizare 0,3 mm), în picioare sau culcată; copiile de la „Bucăți” se așază una lângă alta. Pașii de montaj, AI-ul (formele gata) și cele 7 limbi sunt la fel ca la celelalte tipuri.
 - **Mesaje, nu surprize:** un contur care se intersectează, nu e închis, are mai multe trasee, are unități DXF necunoscute sau e mai mare decât placa nu se transformă în distinctă; indiciul din formular spune motivul.
 - Teste: 741 în browser, 16 unitare noi pe contur (arii exacte pe forme cu arce, triangulare pe forme concave, SVG, DXF, 1500 de poligoane aleatoare), 5 pe piesă (rând, 3D, operația), fuzz D-78 pe 18000 de configurații fără nicio abatere, golden 47 și 48 (`validat:false`).
-- Limite: o singură piesă pe modul (mai multe contururi diferite = module separate); fără găuri sau canale în piesă (se adaugă ulterior); curbele Bézier și elipsele se aproximează cu segmente drepte la 0,1 mm.
+- Limite: o singură piesă pe modul (mai multe contururi diferite = module separate; ridicat în 5.9.0); fără găuri sau canale în piesă (adăugate în 5.9.0); curbele Bézier și elipsele se aproximează cu segmente drepte la 0,1 mm.
 
 ---
 

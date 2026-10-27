@@ -746,7 +746,7 @@ function localize(p) {
   var Z6 = function (w) { return s5 > 0 ? w[t] - p.min[t] : p.max[t] - w[t]; };  // distanza dalla faccia 6
 
   /* contur pe pantă (ușa trapezoidală, D-86): punctele din planul vertical, în coordonatele feței 5 */
-  var poly = null;
+  var poly = null, polyHoles = [];
   if (p.vpPts && p.vpPts.length >= 3) poly = p.vpPts.map(function (q) {
     var w = [0, 0, 0]; w[aW] = q[0]; w[aL] = q[1]; return [X(w), Y(w)];
   });
@@ -835,6 +835,21 @@ function localize(p) {
     poly = root.EBContour.flatten(mp, 0.2).map(function (q) { return [R1(q[0]), R1(q[1])]; });
     rects = [{ x0: 0, x1: R1(Lp), y0: 0, y1: R1(Wp) }];
     push({ type: "contour", face: 5, closed: true, pts: mp, perim: R1(root.EBContour.perimeter(mp)), note: "contur liber" });
+    /* v2 (D-102): găurile și decupajele interioare, canalele. Un cerc de până la `drillMax` se burghiază (trecut, fața 5);
+       restul se frezează ca contur interior (același sens al bulge-ului ca la exterior, oglindit împreună cu el). */
+    var flipB = function (b) { return mirrored ? -(+b || 0) : (+b || 0); };
+    (p.cont.holes || []).forEach(function (h) {
+      if (h.circle && h.circle.d <= root.EBContour.HOLE.drillMax + 1e-9) {
+        push({ type: "drill", face: 5, x: R1(X(h.circle.c)), y: R1(Y(h.circle.c)), dia: R1(h.circle.d), depth: R1(T), through: true, hw: null, note: "gaură în contur" });
+      } else {
+        var hp = h.pts.map(function (q) { return [R1(X(q)), R1(Y(q)), flipB(q[3])]; });
+        push({ type: "contour", face: 5, closed: true, inner: true, through: true, pts: hp, perim: R1(root.EBContour.perimeter(hp)), note: "decupaj interior" });
+        polyHoles.push(root.EBContour.flatten(hp, 0.2).map(function (q) { return [R1(q[0]), R1(q[1])]; }));
+      }
+    });
+    (p.cont.grooves || []).forEach(function (g) {
+      push({ type: "groove", face: g.back ? 6 : 5, from: { x: R1(X(g.a)), y: R1(Y(g.a)) }, to: { x: R1(X(g.b)), y: R1(Y(g.b)) }, width: R1(g.w), depth: R1(g.d), note: "canal în contur" });
+    });
   }
 
   /* --- pre-flight: V1 dentro il contorno, V2 distanza dal bordo, V4
@@ -868,7 +883,7 @@ function localize(p) {
     min: p.min.slice(), max: p.max.slice(), outline: rects,
     operations: ops, preflight: warns
   };
-  if (poly) { res.poly = poly; res.cut = cut; }
+  if (poly) { res.poly = poly; res.cut = cut; if (polyHoles.length) res.polyHoles = polyHoles; }
   if (p.sloped) res.sloped = true;      /* panou pe pantă (D-86): numai când e cazul, ca modelul vechi să rămână identic */
   return res;
 }

@@ -129,7 +129,16 @@ const CASES = [
   /* lateral arcuit: 1800×500, partea de jos scobită cu săgeata 120, două bucăți, cant pe contur */
   c("47-contur-scoop", "contur", "m18", { L: 1800, H: 500, P: 18, plinth: 0, back: 0, cShape: "scoop", cRise: 120, cOri: "v", cPz: 2, cEdge: 1 }),
   /* dreptunghi rotunjit culcat 600×400, rază 50, fără cant */
-  c("48-contur-rotunjit", "contur", "m18", { L: 600, H: 400, P: 18, plinth: 0, back: 0, cShape: "round", cR: 50, cOri: "o", cPz: 1, cEdge: 0 })
+  c("48-contur-rotunjit", "contur", "m18", { L: 600, H: 400, P: 18, plinth: 0, back: 0, cShape: "round", cR: 50, cOri: "o", cPz: 1, cEdge: 0 }),
+
+  /* --- piesa cu contur liber v2 (D-102) ---------------------------------------------------------- */
+  /* panou 600×400 în picioare cu o gaură Ø8 (burghiu), un cerc Ø80 și un dreptunghi 60×40 R6 (decupaje interioare) și un canal 10×8 pe fața de sus; cantul pe exterior (2000 mm) */
+  c("49-contur-gauri", "contur", "m18", { L: 600, H: 400, P: 18, plinth: 0, back: 0, cShape: "rect", cOri: "v", cPz: 1, cEdge: 1,
+    cHoles: "c 100 100 8\nc 300 200 80\nr 480 200 60 40 6", cGrooves: "50 50 550 50 10 8" }),
+  /* două piese în același modul: dreptunghi 600×400 ×2 cu o gaură Ø40 și un lateral scobit 900×300 culcat */
+  c("50-contur-doua-piese", "contur", "m18", { L: 600, H: 400, P: 18, plinth: 0, back: 0, cShape: "rect", cOri: "v", cPz: 2, cEdge: 1,
+    cParts: [{ shape: "rect", L: 600, H: 400, pz: 2, ori: "v", edge: 1, holesTxt: "c 100 100 40" },
+             { shape: "scoop", L: 900, H: 300, rise: 80, pz: 1, ori: "o", edge: 0 }] })
 ];
 
 /* le coppie 18/19: il runner controlla che il gabarito NON si muova e che
