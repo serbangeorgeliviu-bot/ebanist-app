@@ -12,7 +12,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - **Cutia sertarului de sus nu mai trece de tavan:** la metal se alege sponda care încape, la lemn sponda se strânge; sub 40 mm nu mai e sertar și apare avertismentul „sertarele nu încap”, în loc de o cutie care intră în tavan.
 - **Un proiect salvat nu se schimbă singur:** păstrează cotele vechi și arată banner-ul cu diferența rând cu rând; abia după confirmare (cu backup) trece la geometria 3. Dacă recalcularea dă aceleași rânduri (proiecte fără sertare metalice), proiectul primește ștampila nouă în tăcere, fără banner.
 - Sertarele interne (între ante), blocurile de sertare la cote absolute și sertarele de lemn pe baze de 19 mm rămân neschimbate; golden validate neatinse. Pe o bază de 25 mm sertarul de lemn urcă 1 mm.
-- Teste: 749 în browser (inclusiv migrarea v2 → v3 cu diferența 313 → 311 și ștampila silențioasă), baleiaj de 576 de configurații valide (4 sisteme × 3 distribuții × 1–6 sertare × 3 înălțimi × 2 socluri × 2 tramezuri): nicio cutie în bază sau tavan; fuzz D-78 fără sertare în bază/tavan și fără `V1` pe tramezuri.
+- Teste: 749 în browser (inclusiv migrarea v2 → v3 cu diferența 313 → 311 și ștampila silențioasă), baleiaj de 864 de configurații, din care peste 300 cu plan valid (4 sisteme × 3 distribuții × 1–6 sertare × 3 înălțimi × 2 socluri × 2 tramezuri): nicio cutie în bază sau tavan; fuzz D-78 fără sertare în bază/tavan și fără `V1` pe tramezuri.
 - Limite: `lift` e cel din fișa producătorului (de reconfirmat); un corp real cu Legrabox nu a fost încă montat.
 
 ---
