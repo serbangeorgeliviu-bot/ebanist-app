@@ -102,6 +102,7 @@ describe("Cetinic — distinta", () => {
     const top = row(r, "filler", p => /sopra/.test(p.elemento))[0], dx = row(r, "filler", p => /dx/.test(p.elemento))[0];
     /* sus: L 1560 + 40 + 10 (filler dreapta cu tot cu surplus: 50) = 1610, înălțime 40 + 10 */
     eq([top.lung, top.larg, top.pz, top.sp], [1610, 50, 1, 19]);
+    eq([top.bordo, dx.bordo], ["1L+1C", "1L+1C"]);   /* cantuit pe muchia vizibilă lungă și pe un capăt */
     /* dreapta: H 2260 × (40 + 10) */
     eq([dx.lung, dx.larg, dx.pz, dx.sp], [2260, 50, 1, 19]);
     eq(top.axis_mapping, { lung: "L", larg: "H", sp: "P" });

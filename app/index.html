@@ -7646,7 +7646,9 @@ function buildCore(cfg){
     const fName={top:"Fascia di chiusura sopra",right:"Fascia di chiusura dx",left:"Fascia di chiusura sx"};
     const fOrd=["top","right","left"];
     FITR.fillers.slice().sort((a,b)=>fOrd.indexOf(a.side)-fOrd.indexOf(b.side)).forEach(f=>{
-      add(fName[f.side],f.lung,f.larg,1,"1L",null,{role:"filler",axes:f.axes});
+      /* cantul pe muchiile care se văd: muchia lungă dinspre ușă și un capăt (cel de la podea la cel din dreapta, cel dinspre colțul liber la cel de sus);
+         muchia dinspre perete și cea de sub tavan se potrivesc pe șantier, deci rămân brute */
+      add(fName[f.side],f.lung,f.larg,1,"1L+1C",null,{role:"filler",axes:f.axes});
       bxRole="filler";
       bx(f.x0,f.x1,f.y0,f.y1,P,P+tA,"f",0,0,"filler");
     });
@@ -16651,12 +16653,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.11.1"; /* APP_VER-MARKER */
+const APP_VER="5.11.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v170";
+const SW_CACHE="ebanist-v171";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
