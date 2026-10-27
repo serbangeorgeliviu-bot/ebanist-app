@@ -4121,8 +4121,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.pasi = rest.includes(t("lamS1")) && rest.includes("20.5") && rest.includes("40") && !rest.includes("{");
       o.auditVerde = auditProject(p).length === 0;
       /* orizontale, fără suport; prea lungă pentru placă → eroare, nu distinta */
-      let err = ""; try { buildModule({ ...p.configs["Lambriu A"], lamDir: "o", back: 0, L: 3000 }); } catch (e) { err = e.message; }
-      o.eroareLung = err.includes("2800") || err.includes(t("lamErrLen").split("{")[0]);
+      let err = ""; try { buildModule({ ...p.configs["Lambriu A"], back: 1, H: 2900 }); } catch (e) { err = e.message; }
+      o.eroareLung = err.includes("2900") && err.includes("2800");
+      const SP = buildModule({ ...p.configs["Lambriu A"], lamDir: "o", back: 0, L: 3000, H: 2400, lamW: 90, lamGap: 10 });
+      o.taiat = SP.pieces.length === 1 && SP.pieces[0].elemento === "Lamella tagliata" && SP.pieces[0].lung === 1500 && SP.pieces[0].pz === 48 && SP.warn.lamSplit === 24;
       const H = buildModule({ ...p.configs["Lambriu A"], lamDir: "o", back: 0, L: 2700, H: 2400, lamW: 90, lamGap: 10 });
       o.oriz = H.pieces.length === 1 && H.pieces[0].lung === 2700 && H.pieces[0].larg === 90 && H.pieces[0].pz === 24 && H.pieces[0].axis_mapping.lung === "L";
       /* textele există în toate cele 7 limbi, fără chei goale */
@@ -4138,8 +4140,61 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Lambriu: tipul apare în formular cu câmpurile lui (lățime, rost, direcție), fără adâncime; presetul are valori și anunță 40 lamele · rost 20.5", r.camp === true && r.valori === true && r.info === true);
     ok("Lambriu: distinta are suportul din două foi și 40 de lamele, materiale diferite, configurația se salvează cu adâncimea derivată", r.rows === true && r.cote === true && r.matLabel === true && r.fisaDeProiect === true);
     ok("Lambriu: închidere exactă (lamele + rosturi = lățimea, foile = lățimea), 3D cu 40 de piese de la 0 la 2400, semaforul de coerență verde", r.inchidere === true && r.treiD === true && r.auditVerde === true);
-    ok("Lambriu: pașii de montaj poartă rostul și numărul din model; orizontal merge, prea lung pentru placă se oprește", r.pasi === true && r.oriz === true && r.eroareLung === true);
+    ok("Lambriu: pașii de montaj poartă rostul și numărul din model; orizontal merge; suportul mai înalt decât placa se oprește, lamelele mai lungi se taie egal", r.pasi === true && r.oriz === true && r.eroareLung === true && r.taiat === true);
     ok("Lambriu: textele în toate cele 7 limbi, elementele traduse, AI-ul acceptă tipul și câmpurile", r.limbi === true && r.elemente === true && r.ai === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Lambriu v2 — decupaje (prize), lamele întrerupte, gaura în suport, 3D");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "lm2", name: "Perete", pieces: [], configs: {} }]; state.activeId = "lm2";
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.lambriu, name: "Lambriu B" }); await w(300);
+      o.gol = document.getElementById("rowLamCuts").style.display !== "none" && document.querySelectorAll("#lamCutBox [data-lc]").length === 0;
+      document.getElementById("btnLamCutAdd").click(); await w(150);
+      const inp = k => document.querySelector(`#lamCutBox [data-lc="0:${k}"]`);
+      o.rand = !!inp("x") && inp("w").value === "80" && inp("y").value === "300";
+      inp("x").value = "1000"; inp("x").dispatchEvent(new Event("input", { bubbles: true }));
+      inp("y").value = "300"; inp("y").dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      o.previzualizare = document.getElementById("angHint").textContent.includes(t("lamCutInfo").replace("{n}", "1").replace("{p}", String(buildLamCuts.length ? 0 : 0)).split(" · ")[0]);
+      document.getElementById("btnGenerate").click(); await w(400);
+      const p = proj(), c = p.configs["Lambriu B"];
+      o.salvat = Array.isArray(c.lamCuts) && c.lamCuts.length === 1 && c.lamCuts[0].x === 1000;
+      const full = p.pieces.find(x => x.elemento === "Lamella"), cutRows = p.pieces.filter(x => x.elemento === "Lamella tagliata");
+      const cutN = cutRows.reduce((q, x) => q + x.pz, 0);
+      o.randuri = !!full && cutRows.length === 2 && cutN === 4 && full.pz + cutN / 2 === 40 && cutRows.every(x => x.lung < 2600) && cutRows.reduce((q, x) => q + x.lung * x.pz, 0) === 2 * (2600 - 80);
+      const sheets = p.pieces.filter(x => x.elemento === "Pannello supporto");
+      const holed = sheets.find(x => x.scasso);
+      o.gaura = sheets.length === 2 && !!holed && sheets.reduce((a, x) => a + x.larg * x.pz, 0) === 2400 && scList(holed).length === 1 && scList(holed)[0].l === 80 && scList(holed)[0].w === 80 && scList(holed)[0].x === 300 && scList(holed)[0].y === 1000 - 0;
+      /* totalul: bucăți + decupaj = înălțimea, pe fiecare lamelă atinsă */
+      const B = buildModule(c), lam = B.boxes.filter(b => b.role === "lamela");
+      const col = {}; lam.forEach(b => { const k = Math.round(b.x0 * 100); col[k] = (col[k] || 0) + (b.y1 - b.y0); });
+      const hit = Object.keys(col).filter(k => Math.abs(col[k] - 2600) > 1e-6);
+      o.inchidere = hit.length >= 1 && hit.length <= 3 && hit.every(k => Math.abs(col[k] - 2520) < 1e-6) && Object.keys(col).length === 40;
+      const bk = B.boxes.filter(b => b.sub === "back" && b.x0 <= 1000 && b.x1 >= 1080 && b.y0 < 380 && b.y1 > 300);
+      o.treiDGaura = bk.length === 0;
+      o.pasiCut = assemblySteps("Lambriu B", {}, c, p.pieces).length >= 5;
+      o.auditVerde = auditProject(p).length === 0;
+      /* decupaj în afara peretelui: eroare declarată, nu distinctă */
+      let err = ""; try { buildModule({ ...c, lamCuts: [{ x: 2390, y: 0, w: 100, h: 50 }] }); } catch (e) { err = e.message; }
+      o.eroareCut = err === t("lamErrCut");
+      /* ștergerea unui decupaj și AI */
+      document.querySelector("#lamCutBox [data-lcdel]") || document.getElementById("btnLamCutAdd").click();
+      const ai = aiNormCfg({ type: "lambriu", lamCuts: [{ x: 500, y: 300, w: 80, h: 80 }, { x: "z", y: 1, w: 1, h: 1 }] }, []);
+      o.ai = Array.isArray(ai.lamCuts) && ai.lamCuts.length === 1 && ai.lamCuts[0].x === 500;
+      const ks = ["fLamCuts", "lamCutAdd", "lamCutX", "lamCutY", "lamCutW", "lamCutH", "lamCutHint", "lamCutInfo", "wLamSplit", "wLamShort", "lamErrCut"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2));
+      o.elem = ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Lamella tagliata"]);
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Lambriu v2: butonul „+ Decupaj” adaugă un rând (80×80 la 30 cm), valorile se citesc, preview-ul anunță decupajele", r.gol === true && r.rand === true && r.previzualizare === true);
+    ok("Lambriu v2: distinta are lamele întregi și lamele tăiate (perechi), suportul are gaura exactă (80×80 la 30 cm de jos, 1000 de la stânga) pe foaia potrivită", r.salvat === true && r.randuri === true && r.gaura === true);
+    ok("Lambriu v2: pe fiecare lamelă atinsă bucățile + decupajul = înălțimea; 3D-ul are gaura în suport; semaforul verde", r.inchidere === true && r.treiDGaura === true && r.auditVerde === true && r.pasiCut === true);
+    ok("Lambriu v2: decupaj în afara peretelui = eroare declarată; AI-ul acceptă lista și respinge rândurile invalide; textele în 7 limbi", r.eroareCut === true && r.ai === true && r.limbi === true && r.elem === true);
     await pg.evaluate(() => { closeSheets(); });
   }
 

@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.2.0 — 27 octombrie 2026
+
+**Lambriu v2: prize, întrerupătoare și pereți mai lungi decât placa.**
+- **Decupaje**: în Generator, la lambriu, „+ Decupaj” adaugă un rând (X de la stânga peretelui, Y de la pardoseală, lățime, înălțime; implicit 80×80 la 30 cm). Se pot pune până la 30.
+- **Lamelele se întrerup pe toată lățimea lor** acolo unde decupajul le atinge (nu un crestat pe jumătate): distinta primește „Lamella tagliata”, cu lungimile rămase, grupate pe lungime. Pe fiecare lamelă, bucățile + decupajul = înălțimea, exact.
+- **Suportul primește gaura exactă**, ca decupaj (`scasso`) pe foaia potrivită; un decupaj peste îmbinarea a două foi se împarte între ele. Foile cu găuri diferite sunt rânduri separate. Gaura se vede în 3D.
+- **Lamele mai lungi decât placa** (de exemplu orizontale pe un perete de 3000 mm) se taie automat în părți egale, cu îmbinare cap la cap; previzualizarea spune câte. Bucățile sub 30 mm sunt marcate ca greu de montat.
+- Dictarea cu AI cunoaște lista de decupaje. Textele sunt în 7 limbi.
+- Limite: suportul (foaia) nu poate fi mai înalt decât placa (2800 mm implicit); decupajul rotund (doză Ø60) se aproximează cu un pătrat; fără colțuri între doi pereți (se fac două lambriuri, câte unul pe perete).
+- Teste: 722 în browser, 12 unitare noi (închidere pe 2000 de combinații), fuzz D-78 pe 12000 de configurații cu decupaje fără nicio abatere, golden 40 și 41 (verificate aritmetic, `validat:false` până la privirea ta).
+
+---
+
 ## 5.1.0 — 27 octombrie 2026
 
 **Lambriul cu lamele** — un tip nou de „mobilier”: placare de perete cu lamele verticale sau orizontale, pe un suport. Tendința arhitecților în apartamentele noi și în livinguri.

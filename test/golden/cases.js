@@ -100,7 +100,12 @@ const CASES = [
 
   /* --- lambriu cu lamele (D-95): verticale pe suport din două foi, orizontale fără suport ---- */
   c("38-lambriu-vert", "lambriu", "m18", { L: 2400, H: 2600, P: 34, plinth: 0, back: 1, lamW: 40, lamGap: 20, lamDir: "v" }, "m16"),
-  c("39-lambriu-orizz", "lambriu", "m18", { L: 2700, H: 2400, P: 18, plinth: 0, back: 0, lamW: 90, lamGap: 10, lamDir: "o" })
+  c("39-lambriu-orizz", "lambriu", "m18", { L: 2700, H: 2400, P: 18, plinth: 0, back: 0, lamW: 90, lamGap: 10, lamDir: "o" }),
+  /* v2 (D-96): o priză și un întrerupător în perete, gaură în suport, lamele întrerupte */
+  c("40-lambriu-prize", "lambriu", "m18", { L: 2400, H: 2600, P: 34, plinth: 0, back: 1, lamW: 40, lamGap: 20, lamDir: "v",
+    lamCuts: [{ x: 1000, y: 300, w: 80, h: 80 }, { x: 1150, y: 1050, w: 80, h: 80 }] }, "m16"),
+  /* v2: perete mai lat decât placa, lamele orizontale tăiate în două părți egale */
+  c("41-lambriu-lung", "lambriu", "m18", { L: 3000, H: 2400, P: 18, plinth: 0, back: 0, lamW: 90, lamGap: 10, lamDir: "o" })
 ];
 
 /* le coppie 18/19: il runner controlla che il gabarito NON si muova e che
