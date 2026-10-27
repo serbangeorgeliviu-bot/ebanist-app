@@ -13,10 +13,16 @@ if (!D) { console.error("HW_DRILL nu s-a găsit"); process.exit(1); }
 /* valorile de ramă din modulul lambriului (D-100): date generice, nevalidate, de măsurat pe o ramă reală */
 { const c2 = vm.createContext({}); vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "..", "app", "ebanist-lambriu.js"), "utf8"), c2);
   if (c2.EBLambriu && c2.EBLambriu.INSET) D.panouIncastrat = { gd: c2.EBLambriu.INSET.gd, minLeft: c2.EBLambriu.INSET.minLeft, src: "generic, de măsurat pe o ramă reală (D-100)" }; }
-const UNIT = { gd: "mm", minLeft: "mm", dia: "mm", depth: "mm", dist: "mm", len: "mm", thk: "mm", end: "mm", pitch: "mm", offset: "mm", spacing: "mm", front: "mm", from_edge: "mm", from_top: "mm", w: "mm", d: "mm", ang: "°" };
+/* piesa cu contur liber v2 (D-102): puntea minimă de material, diametrul până la care se burghiază, lățimea maximă a canalului, restul sub canal */
+{ const c3 = vm.createContext({}); vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "..", "app", "ebanist-contour.js"), "utf8"), c3);
+  if (c3.EBContour) {
+    D.gauriContur = { minWeb: c3.EBContour.HOLE.minWeb, drillMax: c3.EBContour.HOLE.drillMax, src: "generic, de măsurat pe o piesă reală (D-102)" };
+    D.canaleContur = { maxW: c3.EBContour.GROOVE.maxW, keep: c3.EBContour.GROOVE.keep, src: "generic, de măsurat pe o piesă reală (D-102)" };
+  } }
+const UNIT = { minWeb: "mm", drillMax: "mm", maxW: "mm", keep: "mm", gd: "mm", minLeft: "mm", dia: "mm", depth: "mm", dist: "mm", len: "mm", thk: "mm", end: "mm", pitch: "mm", offset: "mm", spacing: "mm", front: "mm", from_edge: "mm", from_top: "mm", w: "mm", d: "mm", ang: "°" };
 const GROUPS = {
   sys32: "Sistem 32", hinge: "Balama cu cupă (Blum 45/9,5)", minifix: "Minifix / Rafix", dowel: "Dibluri", joints: "Alte îmbinări",
-  pin: "Suport raft", slide: "Glisiere sertar", handle: "Mânere", golaFresata: "Gola frezată", antiwarp: "Profil anti-curbare", fold: "Balama pliantă", panouIncastrat: "Panou încastrat în ramă (canal)"
+  pin: "Suport raft", slide: "Glisiere sertar", handle: "Mânere", golaFresata: "Gola frezată", antiwarp: "Profil anti-curbare", fold: "Balama pliantă", panouIncastrat: "Panou încastrat în ramă (canal)", gauriContur: "Piesa cu contur liber — găuri și decupaje", canaleContur: "Piesa cu contur liber — canale"
 };
 const rows = [];
 (function walk(o, p, grp, srcIn) {

@@ -146,6 +146,7 @@
     if (polyArea(P) < 0) idx.reverse();
     function cross(a, b, c) { return (P[b][0] - P[a][0]) * (P[c][1] - P[a][1]) - (P[b][1] - P[a][1]) * (P[c][0] - P[a][0]); }
     function inTri(v, a, b, c) { return cross(a, b, v) >= -EPS && cross(b, c, v) >= -EPS && cross(c, a, v) >= -EPS; }
+    function same(u, w) { return Math.abs(P[u][0] - P[w][0]) < 1e-9 && Math.abs(P[u][1] - P[w][1]) < 1e-9; }   // vârf dublat (podul spre o gaură)
     var guard = 0;
     while (idx.length > 3 && guard++ < 100000) {
       var found = false, m = idx.length;
@@ -153,7 +154,7 @@
         var a = idx[(i + m - 1) % m], b = idx[i], c = idx[(i + 1) % m];
         if (cross(a, b, c) <= 1e-12) continue;                           // vârf concav sau coliniar
         var ok = true;
-        for (var k = 0; k < m; k++) { var v = idx[k]; if (v === a || v === b || v === c) continue; if (inTri(v, a, b, c)) { ok = false; break; } }
+        for (var k = 0; k < m; k++) { var v = idx[k]; if (v === a || v === b || v === c) continue; if (same(v, a) || same(v, b) || same(v, c)) continue; if (inTri(v, a, b, c)) { ok = false; break; } }
         if (!ok) continue;
         tri.push([a, b, c]); idx.splice(i, 1); found = true; break;
       }
@@ -212,18 +213,24 @@
      M L H V Z (relative și absolute), A (cerc exact; elipsă aproximată), C și Q (aplatizate la 48 de segmente). y SVG se întoarce (în sus). */
   function tokens(d) { var re = /([MmLlHhVvAaCcQqZzSsTt])|(-?\d*\.?\d+(?:e[-+]?\d+)?)/gi, o = [], m; while ((m = re.exec(d))) o.push(m[1] ? m[1] : parseFloat(m[2])); return o; }
   function fromPath(d) {
-    var t = tokens(String(d || "")), i = 0, cmd = null, x = 0, y = 0, sx = 0, sy = 0, pts = [], started = false, closed = false;
+    var t = tokens(String(d || "")), i = 0, cmd = null, x = 0, y = 0, sx = 0, sy = 0, pts = [], started = false, closed = false, hadAny = false, loops = [];
     function num() { var v = t[i++]; if (typeof v !== "number") throw new Error("path"); return v; }
     function flag() { return num() ? 1 : 0; }
     function push(px, py, b) { pts.push([px, -py, b || 0]); }
+    function endLoop() {                                  // încheie subtraseul curent: închis cu Z sau cu ultimul punct pe primul
+      if (!started) return true;
+      if (!closed && !(pts.length > 2 && Math.hypot(pts[0][0] - pts[pts.length - 1][0], pts[0][1] - pts[pts.length - 1][1]) < 0.005)) return false;
+      loops.push(pts); pts = []; started = false; closed = false; return true;
+    }
     try {
       while (i < t.length) {
         if (typeof t[i] === "string") cmd = t[i++];
         else if (!cmd) return { ok: false, reason: "path" };
         var rel = cmd === cmd.toLowerCase() && cmd !== "Z" && cmd !== "z", C = cmd.toUpperCase();
-        if (C === "Z") { closed = true; x = sx; y = sy; if (i < t.length) return { ok: false, reason: "multi" }; break; }
-        if (C === "M") { var mx = num(), my = num(); if (started) return { ok: false, reason: "multi" }; x = rel && pts.length ? x + mx : mx; y = rel && pts.length ? y + my : my; sx = x; sy = y; push(x, y); started = true; cmd = rel ? "l" : "L"; continue; }
+        if (C === "Z") { closed = true; x = sx; y = sy; continue; }
+        if (C === "M") { var mx = num(), my = num(); if (!endLoop()) return { ok: false, reason: "open" }; x = rel && hadAny ? x + mx : mx; y = rel && hadAny ? y + my : my; sx = x; sy = y; push(x, y); started = true; hadAny = true; cmd = rel ? "l" : "L"; continue; }
         if (!started) return { ok: false, reason: "path" };
+        if (closed) return { ok: false, reason: "path" };              // după Z urmează un subtraseu nou (M), nu o continuare
         if (C === "L") { var lx = num(), ly = num(); x = rel ? x + lx : lx; y = rel ? y + ly : ly; push(x, y); }
         else if (C === "H") { var hx = num(); x = rel ? x + hx : hx; push(x, y); }
         else if (C === "V") { var vy = num(); y = rel ? y + vy : vy; push(x, y); }
@@ -250,8 +257,8 @@
         else return { ok: false, reason: "cmd" };
       }
     } catch (e) { return { ok: false, reason: "path" }; }
-    if (!closed && !(pts.length > 2 && Math.hypot(pts[0][0] - pts[pts.length - 1][0], pts[0][1] - pts[pts.length - 1][1]) < 0.005)) return { ok: false, reason: "open" };
-    return enough(pts) ? { ok: true, pts: pts } : { ok: false, reason: "few" };
+    if (!endLoop()) return { ok: false, reason: "open" };
+    return classify(loops);
   }
   /* arc SVG (F.6.5): cerc exact → bulge; elipsă → puncte */
   function arcSvg(x1, y1, rx, ry, rotDeg, large, sweep, x2, y2) {
@@ -291,18 +298,18 @@
     }
     if (cur) ents.push(cur);
     function f(e, code, nth) { var k = 0; for (var j = 0; j < e.g.length; j++) if (e.g[j][0] === code) { if (k === (nth || 0)) return parseFloat(e.g[j][1]); k++; } return NaN; }
-    var lw = ents.filter(function (e) { return e.t === "LWPOLYLINE"; });
-    for (i = 0; i < lw.length; i++) {
-      var e = lw[i], flag = f(e, 70), vs = [], cx0 = null;
+    var loops = [], lw = ents.filter(function (e) { return e.t === "LWPOLYLINE"; }), i2;
+    for (i2 = 0; i2 < lw.length; i2++) {
+      var e = lw[i2], flag = f(e, 70), vs = [];
       for (var j = 0; j < e.g.length; j++) {
         if (e.g[j][0] === 10) { vs.push([parseFloat(e.g[j][1]), NaN, 0]); }
         else if (e.g[j][0] === 20 && vs.length) vs[vs.length - 1][1] = parseFloat(e.g[j][1]);
         else if (e.g[j][0] === 42 && vs.length) vs[vs.length - 1][2] = parseFloat(e.g[j][1]);
       }
       if ((flag & 1) && vs.length >= 3 && vs.every(function (q) { return isFinite(q[0]) && isFinite(q[1]); }))
-        return { ok: true, pts: vs.map(function (q) { return [q[0] * unitsK, q[1] * unitsK, q[2]]; }) };
+        loops.push(vs.map(function (q) { return [q[0] * unitsK, q[1] * unitsK, q[2]]; }));
     }
-    /* LINE/ARC/CIRCLE: înlănțuire */
+    /* LINE/ARC înlănțuite; fiecare CIRCLE e un contur închis de sine stătător (două semicercuri) */
     var segs = [];
     ents.forEach(function (e) {
       if (e.t === "LINE") segs.push({ a: [f(e, 10) * unitsK, f(e, 20) * unitsK], b: [f(e, 11) * unitsK, f(e, 21) * unitsK], bulge: 0 });
@@ -312,24 +319,46 @@
         segs.push({ a: [cx + r * Math.cos(a0), cy + r * Math.sin(a0)], b: [cx + r * Math.cos(a1), cy + r * Math.sin(a1)], bulge: Math.tan(sw / 4) });
       } else if (e.t === "CIRCLE") {
         var kx = f(e, 10) * unitsK, ky = f(e, 20) * unitsK, kr = f(e, 40) * unitsK;
-        segs.push({ a: [kx + kr, ky], b: [kx - kr, ky], bulge: 1 }); segs.push({ a: [kx - kr, ky], b: [kx + kr, ky], bulge: 1 });
+        if (![kx, ky, kr].every(isFinite) || !(kr > 0)) segs.push({ a: [NaN, NaN], b: [NaN, NaN], bulge: 0 });
+        else loops.push([[kx + kr, ky, 1], [kx - kr, ky, 1]]);
       }
     });
-    if (!segs.length) return { ok: false, reason: "empty" };
     if (segs.some(function (s) { return ![s.a[0], s.a[1], s.b[0], s.b[1]].every(isFinite); })) return { ok: false, reason: "dxf" };
-    var used = segs.map(function () { return false; }), chain = [segs[0]], end = segs[0].b; used[0] = true;
+    var used = segs.map(function () { return false; });
     var close = function (p, q) { return Math.hypot(p[0] - q[0], p[1] - q[1]) < 0.01; };
-    for (var guard = 0; guard < segs.length; guard++) {
-      if (close(end, chain[0].a)) break;
-      var nx = -1, rev = false;
-      for (var s2 = 0; s2 < segs.length; s2++) { if (used[s2]) continue; if (close(segs[s2].a, end)) { nx = s2; break; } if (close(segs[s2].b, end)) { nx = s2; rev = true; break; } }
-      if (nx < 0) return { ok: false, reason: "open" };
-      used[nx] = true; var sg = segs[nx];
-      if (rev) sg = { a: sg.b, b: sg.a, bulge: -sg.bulge };
-      chain.push(sg); end = sg.b;
+    for (var s0 = 0; s0 < segs.length; s0++) {
+      if (used[s0]) continue;
+      var chain = [segs[s0]], end = segs[s0].b; used[s0] = true;
+      for (var guard = 0; guard < segs.length; guard++) {
+        if (close(end, chain[0].a)) break;
+        var nx = -1, rev = false;
+        for (var s2 = 0; s2 < segs.length; s2++) { if (used[s2]) continue; if (close(segs[s2].a, end)) { nx = s2; break; } if (close(segs[s2].b, end)) { nx = s2; rev = true; break; } }
+        if (nx < 0) return { ok: false, reason: "open" };
+        used[nx] = true; var sg = segs[nx];
+        if (rev) sg = { a: sg.b, b: sg.a, bulge: -sg.bulge };
+        chain.push(sg); end = sg.b;
+      }
+      if (!close(end, chain[0].a)) return { ok: false, reason: "open" };
+      loops.push(chain.map(function (s) { return [s.a[0], s.a[1], s.bulge]; }));
     }
-    if (!close(end, chain[0].a) || used.some(function (u) { return !u; })) return { ok: false, reason: used.some(function (u) { return !u; }) ? "multi" : "open" };
-    return { ok: true, pts: chain.map(function (s) { return [s.a[0], s.a[1], s.bulge]; }) };
+    if (!loops.length) return { ok: false, reason: "empty" };
+    return classify(loops);
+  }
+
+  /* ---------- mai multe contururi într-un fișier: cel mai mare e conturul piesei, cele dinăuntru sunt găuri ---------- */
+  function classify(loops) {
+    var L = loops.map(function (l) { return clean(l); });
+    for (var i = 0; i < L.length; i++) if (!enough(L[i])) return { ok: false, reason: "few" };
+    if (L.length === 1) return { ok: true, pts: loops[0], holes: [] };
+    var ai = L.map(function (l) { return Math.abs(area(l)); }), o = 0;
+    for (i = 1; i < L.length; i++) if (ai[i] > ai[o]) o = i;
+    var OP = flatten(L[o]), holes = [];
+    for (i = 0; i < L.length; i++) {
+      if (i === o) continue;
+      if (!pointInPoly(OP, L[i][0])) return { ok: false, reason: "multi" };       // un contur în afara piesei: se adaugă ca piesă separată
+      holes.push(loops[i]);
+    }
+    return { ok: true, pts: loops[o], holes: holes };
   }
 
   /* detectează formatul și importă */
@@ -350,9 +379,259 @@
       var bb = bbox(pts);
       k = opt.fitW > 0 && bb.w > 0 ? opt.fitW / bb.w : (opt.fitH > 0 && bb.h > 0 ? opt.fitH / bb.h : 1);
     }
-    return normalize(scale(pts, k));
+    var sc = scale(pts, k), N = normalize(sc);
+    if (N.ok && opt.holes && opt.holes.length) {                          // găurile din fișier: aceeași scală și același decalaj ca la conturul exterior
+      var b0 = bbox(clean(sc));
+      N.holes = opt.holes.map(function (l) {
+        return clean(scale(l, k)).map(function (q) { return [round6(q[0] - b0.x0), round6(q[1] - b0.y0), q[2]]; });
+      });
+    }
+    return N;
+  }
+
+  /* =====================================================================
+     v2 (D-102): găuri și decupaje interioare, canale, validare, triangulare cu găuri
+     ===================================================================== */
+  /* Datele sunt `verificat:false` până la măsurătoarea pe mașină: pentru găuri, grosimea minimă a punții de material între ele și față de marginea piesei;
+     sub diametrul `drillMax` o gaură rotundă se burghiază (operație „drill”), peste el se frezează (contur interior). */
+  var HOLE = { minWeb: 3, drillMax: 35, maxN: 60, verificat: false };
+  var GROOVE = { maxW: 50, keep: 2, maxN: 40, verificat: false };      // `keep` = cât material rămâne sub canal (adâncime ≤ grosime − keep)
+
+  function pointInPoly(P, q) {
+    var inside = false, x = q[0], y = q[1], n = P.length;
+    for (var i = 0, j = n - 1; i < n; j = i++) {
+      var xi = P[i][0], yi = P[i][1], xj = P[j][0], yj = P[j][1];
+      if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+    }
+    return inside;
+  }
+  function segDist(p, a, b) {
+    var dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy;
+    var t = l2 > 0 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2)) : 0;
+    return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy));
+  }
+  function polyDist(P, Q) {                    // distanța minimă între două contururi (vârf–segment, în ambele sensuri)
+    var d = 1e18, i, j;
+    for (i = 0; i < P.length; i++) for (j = 0; j < Q.length; j++) d = Math.min(d, segDist(P[i], Q[j], Q[(j + 1) % Q.length]));
+    for (i = 0; i < Q.length; i++) for (j = 0; j < P.length; j++) d = Math.min(d, segDist(Q[i], P[j], P[(j + 1) % P.length]));
+    return d;
+  }
+  function polysCross(P, Q) {
+    for (var i = 0; i < P.length; i++) for (var j = 0; j < Q.length; j++) if (segInter(P[i], P[(i + 1) % P.length], Q[j], Q[(j + 1) % Q.length])) return true;
+    return false;
+  }
+  function reverse(pts) {                      // sensul invers: vârfurile în ordine inversă, bulge-ul mutat pe segmentul vecin cu semn schimbat
+    var n = pts.length, rev = [];
+    for (var i = n - 1; i >= 0; i--) { var prev = pts[(i - 1 + n) % n]; rev.push([pts[i][0], pts[i][1], -(+prev[2] || 0)]); }
+    return rev;
+  }
+  function circleOf(pts) {                     // un cerc = două semicercuri (bulge ±1): centrul și diametrul
+    if (!pts || pts.length !== 2) return null;
+    if (Math.abs(Math.abs(+pts[0][2]) - 1) > 1e-6 || Math.abs(Math.abs(+pts[1][2]) - 1) > 1e-6) return null;
+    return { cx: (pts[0][0] + pts[1][0]) / 2, cy: (pts[0][1] + pts[1][1]) / 2, d: Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]) };
+  }
+
+  /* găurile din text, o linie per gaură; centrul se măsoară de la colțul stânga-jos al piesei, y în sus:
+       c x y d            cerc de diametru d
+       r x y w h [raza]   dreptunghi w × h, cu colțuri rotunjite opțional
+       s x y w h          canal-ovală (capete rotunde), pe lungime w sau h
+     separatori: spațiu, virgulă sau „;”; zecimale cu punct; „#” începe un comentariu. */
+  function parseLines(text, kinds, arity) {
+    var out = [], L = String(text || "").split(/\r?\n/);
+    for (var i = 0; i < L.length; i++) {
+      var ln = L[i].replace(/#.*$/, "").trim(); if (!ln) continue;
+      var tk = ln.split(/[\s,;]+/).filter(Boolean), k = tk[0].toLowerCase();
+      if (!arity[k] || arity[k].indexOf(tk.length - 1) < 0) return { ok: false, line: i + 1 };
+      var nums = [];
+      for (var j = 1; j < tk.length; j++) { var v = Number(tk[j]); if (!isFinite(v) || tk[j] === "" ) return { ok: false, line: i + 1 }; nums.push(v); }
+      out.push({ k: k, n: nums, line: i + 1 });
+    }
+    return { ok: true, items: out };
+  }
+  function parseHoles(text) {
+    var r = parseLines(text, "crs", { c: [3], r: [4, 5], s: [4] });
+    if (!r.ok) return { ok: false, reason: "holeSyntax", line: r.line };
+    var holes = [];
+    for (var i = 0; i < r.items.length; i++) {
+      var it = r.items[i], n = it.n, h;
+      if (it.k === "c") { if (!(n[2] > 0)) return { ok: false, reason: "holeSyntax", line: it.line }; h = { k: "c", x: n[0], y: n[1], d: n[2] }; }
+      else {
+        if (!(n[2] > 0 && n[3] > 0) || (n[4] != null && n[4] < 0)) return { ok: false, reason: "holeSyntax", line: it.line };
+        h = { k: it.k, x: n[0], y: n[1], w: n[2], h: n[3], r: it.k === "s" ? Math.min(n[2], n[3]) / 2 : Math.min(n[4] || 0, n[2] / 2, n[3] / 2) };
+      }
+      h.line = it.line; holes.push(h);
+    }
+    if (holes.length > HOLE.maxN) return { ok: false, reason: "holeMany" };
+    return { ok: true, holes: holes };
+  }
+  function holeLoop(h) {                       // conturul găurii, antiorar (se inversează la montare)
+    if (h.k === "c") { var r = h.d / 2; return [[h.x + r, h.y, 1], [h.x - r, h.y, 1]]; }
+    var x0 = h.x - h.w / 2, x1 = h.x + h.w / 2, y0 = h.y - h.h / 2, y1 = h.y + h.h / 2, rr = h.r || 0;
+    if (!(rr > 0)) return [[x0, y0, 0], [x1, y0, 0], [x1, y1, 0], [x0, y1, 0]];
+    var b = Math.tan(Math.PI / 8);
+    return clean([[x0 + rr, y0, 0], [x1 - rr, y0, b], [x1, y0 + rr, 0], [x1, y1 - rr, b], [x1 - rr, y1, 0], [x0 + rr, y1, b], [x0, y1 - rr, 0], [x0, y0 + rr, b]]);
+  }
+  /* canalele: x1 y1 x2 y2 lățime adâncime [j]  — dreaptă, pe fața de sus (5); „j” = pe fața de jos (6) */
+  function parseGrooves(text) {
+    var L = String(text || "").split(/\r?\n/), out = [];
+    for (var i = 0; i < L.length; i++) {
+      var ln = L[i].replace(/#.*$/, "").trim(); if (!ln) continue;
+      var tk = ln.split(/[\s,;]+/).filter(Boolean), back = false;
+      if (tk.length === 7 && /^[jJ]$/.test(tk[6])) { back = true; tk.pop(); }
+      if (tk.length !== 6) return { ok: false, reason: "grooveSyntax", line: i + 1 };
+      var n = tk.map(Number);
+      if (!n.every(isFinite) || !(n[4] > 0 && n[5] > 0) || Math.hypot(n[2] - n[0], n[3] - n[1]) < 1) return { ok: false, reason: "grooveSyntax", line: i + 1 };
+      out.push({ x1: n[0], y1: n[1], x2: n[2], y2: n[3], w: n[4], d: n[5], back: back, line: i + 1 });
+    }
+    if (out.length > GROOVE.maxN) return { ok: false, reason: "grooveMany" };
+    return { ok: true, grooves: out };
+  }
+
+  /* gaură din fișier: curăță, verifică, orientează în sens orar */
+  function normalizeHole(raw) {
+    var pts = clean(raw || []);
+    if (!enough(pts)) return null;
+    var P = flatten(pts);
+    if (!isSimple(P) || Math.abs(polyArea(P)) < 1) return null;
+    return area(pts) > 0 ? reverse(pts) : pts;
+  }
+  function mkHole(pts, src) { return { pts: pts, circle: circleOf(pts), src: src, area: Math.abs(area(pts)) }; }
+
+  /* Totul despre o piesă, dintr-o specificație:
+       { shape, L, H, r, rise, fit, src, contour?, impHoles?, holesTxt, groovesTxt }
+     `contour`/`impHoles` (deja normalizate, salvate odată cu modulul) au prioritate față de `shape`/`src`.
+     T = grosimea (opțional) — pentru adâncimea canalelor.
+     Întoarce { ok, pts, w, h, area, perim, impHoles, holes[{pts(orar), circle, src, area}], grooves[] } sau { ok:false, why, line? }. */
+  function resolve(spec, T) {
+    spec = spec || {};
+    var kind = spec.shape || "custom", N, imp = [], raw = null, rawHoles = [];
+    if (Array.isArray(spec.contour) && spec.contour.length >= 2) {
+      N = normalize(spec.contour); if (!N.ok) return { ok: false, why: N.reason };
+      imp = Array.isArray(spec.impHoles) ? spec.impHoles : [];
+    } else {
+      if (kind !== "custom") raw = shape(kind, spec.L, spec.H, { r: spec.r, rise: spec.rise });
+      else if (spec.src && String(spec.src).trim()) { var pr = parse(spec.src); if (!pr.ok) return { ok: false, why: pr.reason }; raw = pr.pts; rawHoles = pr.holes || []; }
+      if (!raw) return { ok: false, why: "empty" };
+      var fit = kind === "custom" ? spec.fit : "none";
+      N = build(raw, { fitW: fit === "W" ? +spec.L : 0, fitH: fit === "H" ? +spec.H : 0, holes: rawHoles });
+      if (!N.ok) return { ok: false, why: N.reason };
+      imp = N.holes || [];
+    }
+    var holes = [], i, j;
+    for (i = 0; i < imp.length; i++) { var q = normalizeHole(imp[i]); if (!q) return { ok: false, why: "holeBad", n: i + 1 }; holes.push(mkHole(q, "imp")); }
+    if (spec.holesTxt && String(spec.holesTxt).trim()) {
+      var ph = parseHoles(spec.holesTxt); if (!ph.ok) return { ok: false, why: ph.reason, line: ph.line };
+      ph.holes.forEach(function (h) { holes.push(mkHole(reverse(holeLoop(h)), "txt")); });
+    }
+    if (holes.length > HOLE.maxN) return { ok: false, why: "holeMany" };
+    var OP = flatten(N.pts), HP = holes.map(function (h) { return flatten(h.pts); });
+    for (i = 0; i < holes.length; i++) {
+      var hp = HP[i];
+      if (holes[i].area < 1) return { ok: false, why: "holeBad", n: i + 1 };
+      if (!hp.every(function (v) { return pointInPoly(OP, v); }) || polysCross(OP, hp)) return { ok: false, why: "holeOut", n: i + 1 };
+      if (polyDist(OP, hp) < HOLE.minWeb - 1e-9) return { ok: false, why: "holeWeb", n: i + 1 };
+      for (j = 0; j < i; j++) {
+        if (polysCross(HP[j], hp) || pointInPoly(HP[j], hp[0]) || pointInPoly(hp, HP[j][0])) return { ok: false, why: "holeHit", n: i + 1 };
+        if (polyDist(HP[j], hp) < HOLE.minWeb - 1e-9) return { ok: false, why: "holeWeb", n: i + 1 };
+      }
+    }
+    var grooves = [];
+    if (spec.groovesTxt && String(spec.groovesTxt).trim()) {
+      var pg = parseGrooves(spec.groovesTxt); if (!pg.ok) return { ok: false, why: pg.reason, line: pg.line };
+      for (i = 0; i < pg.grooves.length; i++) {
+        var g = pg.grooves[i];
+        if (g.w > GROOVE.maxW) return { ok: false, why: "grooveW", n: i + 1 };
+        if (T > 0 && g.d > T - GROOVE.keep + 1e-9) return { ok: false, why: "grooveDepth", n: i + 1 };
+        for (var s = 0; s <= 20; s++) {
+          var pt = [g.x1 + (g.x2 - g.x1) * s / 20, g.y1 + (g.y2 - g.y1) * s / 20];
+          if (!pointInPoly(OP, pt) || HP.some(function (h2) { return pointInPoly(h2, pt); })) return { ok: false, why: "grooveOut", n: i + 1 };
+        }
+        grooves.push(g);
+      }
+    }
+    var ha = 0; holes.forEach(function (h) { ha += h.area; });
+    return { ok: true, pts: N.pts, w: N.w, h: N.h, area: N.area, perim: N.perim, impHoles: holes.filter(function (h) { return h.src === "imp"; }).map(function (h) { return h.pts; }),
+             holes: holes, holeArea: ha, grooves: grooves };
+  }
+
+  /* triangulare cu găuri: fiecare gaură se leagă de contur printr-un „pod” (două muchii suprapuse), apoi ear clipping.
+     Întoarce { P: vârfurile poligonului unit, tri } sau null; suma ariilor triunghiurilor = aria conturului − ariile găurilor. */
+  function triangulateH(outer, holes) {
+    if (!holes || !holes.length) { var t0 = triangulate(outer); return t0 ? { P: outer, tri: t0 } : null; }
+    var O = polyArea(outer) < 0 ? outer.slice().reverse() : outer.slice();
+    var Hs = holes.map(function (h) { return polyArea(h) > 0 ? h.slice().reverse() : h.slice(); });
+    function maxX(h) { var m = -1e18; for (var i = 0; i < h.length; i++) m = Math.max(m, h[i][0]); return m; }
+    Hs.sort(function (a, b) { return maxX(b) - maxX(a); });
+    var poly = O.slice(), total = Math.abs(polyArea(O));
+    Hs.forEach(function (h) { total -= Math.abs(polyArea(h)); });
+    function crossesRing(M, V, R) {
+      for (var i = 0; i < R.length; i++) if (segInter(M, V, R[i], R[(i + 1) % R.length])) return true;
+      return false;
+    }
+    for (var hi = 0; hi < Hs.length; hi++) {
+      var h = Hs[hi], rest = Hs.slice(hi + 1), mi = 0, k;
+      for (k = 1; k < h.length; k++) if (h[k][0] > h[mi][0]) mi = k;
+      var M = h[mi], order = [];
+      for (k = 0; k < poly.length; k++) order.push(k);
+      order.sort(function (a, b) { return Math.hypot(poly[a][0] - M[0], poly[a][1] - M[1]) - Math.hypot(poly[b][0] - M[0], poly[b][1] - M[1]); });
+      var bridge = -1;
+      for (var oi = 0; oi < order.length && bridge < 0; oi++) {
+        var V = poly[order[oi]], mid = [(M[0] + V[0]) / 2, (M[1] + V[1]) / 2];
+        if (crossesRing(M, V, poly) || crossesRing(M, V, h)) continue;
+        if (rest.some(function (r) { return crossesRing(M, V, r) || pointInPoly(r, mid); })) continue;
+        if (!pointInPoly(O, mid) || pointInPoly(h, mid)) continue;
+        bridge = order[oi];
+      }
+      if (bridge < 0) return null;
+      var ring = []; for (k = 0; k <= h.length; k++) ring.push(h[(mi + k) % h.length]);
+      poly = poly.slice(0, bridge + 1).concat(ring, [poly[bridge]], poly.slice(bridge + 1));
+    }
+    var ok = function (T) {
+      if (!T) return false;
+      var sum = 0; T.tri.forEach(function (t3) { sum += Math.abs(polyArea([T.P[t3[0]], T.P[t3[1]], T.P[t3[2]]])); });
+      if (Math.abs(sum - total) > 1e-6 * Math.max(1, total)) return false;
+      /* fiecare triunghi e în piesă și nu e într-o gaură (centrul lui) */
+      return T.tri.every(function (t3) {
+        var a = T.P[t3[0]], b = T.P[t3[1]], c = T.P[t3[2]], m = [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3];
+        if (Math.abs(polyArea([a, b, c])) < 1e-9) return true;
+        return pointInPoly(O, m) && !Hs.some(function (h) { return pointInPoly(h, m); });
+      });
+    };
+    var tri = triangulate(poly), T1 = tri ? { P: poly, tri: tri } : null;
+    if (ok(T1)) return T1;
+    /* ear clipping se încurcă pe vârfuri dublate (podurile): descompunerea pe fâșii orizontale e mai lungă, dar exactă */
+    var T2 = slabs(O, Hs);
+    return ok(T2) ? T2 : null;
+  }
+  /* descompunere în trapeze pe fâșii orizontale între y-urile vârfurilor; fiecare trapez = 2 triunghiuri */
+  function slabs(outer, holes) {
+    var rings = [outer].concat(holes), edges = [], ys = [], i, j;
+    rings.forEach(function (r) {
+      for (i = 0; i < r.length; i++) {
+        var a = r[i], b = r[(i + 1) % r.length]; ys.push(a[1]);
+        if (Math.abs(a[1] - b[1]) < 1e-12) continue;
+        edges.push(a[1] < b[1] ? [a, b] : [b, a]);
+      }
+    });
+    ys.sort(function (u, w) { return u - w; });
+    var Y = []; ys.forEach(function (y) { if (!Y.length || y - Y[Y.length - 1] > 1e-9) Y.push(y); });
+    function xAt(e, y) { var t = (y - e[0][1]) / (e[1][1] - e[0][1]); return e[0][0] + t * (e[1][0] - e[0][0]); }
+    var P = [], tri = [];
+    for (i = 0; i + 1 < Y.length; i++) {
+      var y0 = Y[i], y1 = Y[i + 1], ym = (y0 + y1) / 2;
+      var act = edges.filter(function (e) { return e[0][1] <= y0 + 1e-9 && e[1][1] >= y1 - 1e-9; });
+      if (act.length % 2) return null;
+      act.sort(function (u, w) { return xAt(u, ym) - xAt(w, ym); });
+      for (j = 0; j < act.length; j += 2) {
+        var L = act[j], R = act[j + 1], l0 = [xAt(L, y0), y0], r0 = [xAt(R, y0), y0], r1 = [xAt(R, y1), y1], l1 = [xAt(L, y1), y1];
+        var base = P.length; P.push(l0, r0, r1, l1);
+        if (Math.abs(polyArea([l0, r0, r1])) > 1e-12) tri.push([base, base + 1, base + 2]);
+        if (Math.abs(polyArea([l0, r1, l1])) > 1e-12) tri.push([base, base + 2, base + 3]);
+      }
+    }
+    return { P: P, tri: tri };
   }
 
   return { TOL: TOL, SHAPES: SHAPES, arcOf: arcOf, flatten: flatten, area: area, perimeter: perimeter, bbox: bbox, isSimple: isSimple, normalize: normalize,
-           scale: scale, triangulate: triangulate, shape: shape, bulgeFor: bulgeFor, fromPoints: fromPoints, fromPath: fromPath, fromDXF: fromDXF, parse: parse, build: build, polyArea: polyArea };
+           scale: scale, triangulate: triangulate, triangulateH: triangulateH, slabs: slabs, resolve: resolve, parseHoles: parseHoles, parseGrooves: parseGrooves, holeLoop: holeLoop, pointInPoly: pointInPoly, polyDist: polyDist, reverse: reverse, circleOf: circleOf, classify: classify, HOLE: HOLE, GROOVE: GROOVE, shape: shape, bulgeFor: bulgeFor, fromPoints: fromPoints, fromPath: fromPath, fromDXF: fromDXF, parse: parse, build: build, polyArea: polyArea };
 });

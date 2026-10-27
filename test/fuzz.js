@@ -57,7 +57,7 @@ const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind
 const span2 = (c, horiz) => horiz ? c.L : c.H;
 const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
-const bucket = {}; const ex = {};
+const bucket = {}; const ex = {}; const CT = { n: 0, parts: 0, holes: 0, grooves: 0 };
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
 const KNOWN = /(contErr|rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
@@ -93,6 +93,17 @@ for (let i = 0; i < N; i++) {
     if (rnd() < .15) cfg.H = ri(2800, 3300); }
   /* D-101: piesă cu contur liber — formă, raze, săgeată, poziție, bucăți */
   if (t === "contur") { cfg.cShape = pick(["rect", "round", "arch", "scoop"]); cfg.cR = ri(0, 300); cfg.cRise = ri(0, 400); cfg.cOri = pick(["v", "o"]); cfg.cPz = ri(1, 4); cfg.cEdge = ri(0, 1); cfg.L = ri(150, 2700); cfg.H = ri(150, 2000); }
+  /* D-102: găuri/decupaje interioare, canale și mai multe piese pe modul; ce nu e valid după `resolve` se golește (nu e obiectul testului) */
+  if (t === "contur") {
+    const holesFor = (W, H) => { const out = []; for (let k = ri(0, 5); k > 0; k--) { const t3 = ri(0, 2), x = ri(20, Math.max(21, W - 20)), y = ri(20, Math.max(21, H - 20));
+      out.push(t3 === 0 ? `c ${x} ${y} ${ri(6, 120)}` : t3 === 1 ? `r ${x} ${y} ${ri(20, 200)} ${ri(20, 150)} ${ri(0, 15)}` : `s ${x} ${y} ${ri(30, 200)} ${ri(10, 40)}`); } return out.join("\n"); };
+    const groovesFor = (W, H) => { const out = []; for (let k = ri(0, 2); k > 0; k--) out.push(`${ri(10, W - 10)} ${ri(10, H - 10)} ${ri(10, W - 10)} ${ri(10, H - 10)} ${ri(4, 20)} ${ri(2, 14)}${rnd() < .3 ? " j" : ""}`); return out.join("\n"); };
+    const mkPart = (shape, L, H) => ({ shape, L, H, r: ri(0, 300), rise: ri(0, 400), ori: pick(["v", "o"]), pz: ri(1, 4), edge: ri(0, 1), holesTxt: rnd() < .6 ? holesFor(L, H) : "", groovesTxt: rnd() < .3 ? groovesFor(L, H) : "" });
+    const parts = [mkPart(cfg.cShape, cfg.L, cfg.H)]; parts[0].r = cfg.cR; parts[0].rise = cfg.cRise; parts[0].ori = cfg.cOri; parts[0].pz = cfg.cPz; parts[0].edge = cfg.cEdge;
+    for (let k = ri(0, 2); k > 0 && rnd() < .5; k--) parts.push(mkPart(pick(["rect", "round", "arch", "scoop"]), ri(150, 1500), ri(150, 1200)));
+    parts.forEach(q => { const R = S.EBContour.resolve(q, 19); if (!R.ok) { const R2 = S.EBContour.resolve(Object.assign({}, q, { holesTxt: "", groovesTxt: "" }), 19); if (R2.ok) { q.holesTxt = ""; q.groovesTxt = ""; } } });
+    if (rnd() < .8) cfg.cParts = parts; else { cfg.cHoles = parts[0].holesTxt; cfg.cGrooves = parts[0].groovesTxt; }
+  }
   /* D-98: colț între doi pereți, pe jumătate din lambriuri și boiserii */
   if ((t === "lambriu" || t === "boiserie") && rnd() < .5) { cfg.wall2 = 1; cfg.L2 = ri(300, 2700); cfg.corner = pick(["sx", "dx"]); cfg.cornerKind = pick(["int", "ext"]);
     if (rnd() < .5) { cfg.lamCuts = (cfg.lamCuts || []).concat([{ x: ri(60, Math.max(60, cfg.L2 - 100)), y: ri(0, 1500), w: ri(20, 90), h: ri(20, 90), wall: "B" }]); } }
@@ -140,21 +151,38 @@ for (let i = 0; i < N; i++) {
     continue;
   }
   if (t === "contur") {
-    /* piesa: n triunghiuri pe copie, aria lor = aria conturului aplatizat; ops: o operație contour în dreptunghiul piesei, aria păstrată */
-    const N = S.EBContour.normalize(S.EBContour.shape(cfg.cShape, cfg.L, cfg.H, { r: cfg.cR, rise: cfg.cRise }));
-    if (!N.ok) { note("contur: forma gata nu se normalizează", cfg, N.reason); continue; }
-    const P3 = S.EBContour.flatten(N.pts, 0.3), want = Math.abs(S.EBContour.polyArea(P3)), pk = {};
-    b2.boxes.forEach(x => { const A = x.prism3.A, f = cfg.cOri === "o" ? [0, 2] : [0, 1];
+    /* fiecare piesă a modulului: n triunghiuri pe copie, aria lor = aria conturului aplatizat − găurile; ops: contour exterior, un decupaj/burghiu per gaură, un canal per canal */
+    const EC = S.EBContour, th = 19, parts = S.contParts(cfg), want = [];
+    let bad = false;
+    parts.forEach(q => { const R = EC.resolve(q, th); if (!R.ok) { note("contur: partea nu se rezolvă", cfg, [R.why, q]); bad = true; return; }
+      const ar = Math.abs(EC.polyArea(EC.flatten(R.pts, 0.3))) - R.holes.reduce((a2, h) => a2 + Math.abs(EC.polyArea(EC.flatten(h.pts, 0.3))), 0);
+      for (let c = 0; c < Math.max(1, Math.min(20, Math.round(+q.pz || 1))); c++) want.push({ R, ar, q }); });
+    if (bad) continue;
+    CT.n++; CT.parts += parts.length; CT.holes += want.reduce((a2, w2) => a2 + w2.R.holes.length, 0); CT.grooves += want.reduce((a2, w2) => a2 + w2.R.grooves.length, 0);
+    const pk = {};
+    b2.boxes.forEach(x => { const flat = (parts[0] && 0, x.prism3.A.every(v => Math.abs(v[1] - x.prism3.A[0][1]) < 1e-9)), A = x.prism3.A, f = flat ? [0, 2] : [0, 1];
       pk[x.pk] = (pk[x.pk] || 0) + Math.abs((A[1][f[0]] - A[0][f[0]]) * (A[2][f[1]] - A[0][f[1]]) - (A[1][f[1]] - A[0][f[1]]) * (A[2][f[0]] - A[0][f[0]])) / 2; });
-    if (Object.keys(pk).length !== cfg.cPz) note("contur: copii ≠ cPz", cfg);
-    Object.values(pk).forEach(a2 => { if (Math.abs(a2 - want) > 1e-6 * Math.max(1, want)) note("contur: aria triunghiurilor ≠ aria conturului", cfg, [a2, want]); });
-    const row = pcs[0]; if (!row || row.pz !== cfg.cPz) note("contur: rândul", cfg);
-    if (cfg.cEdge && !(row.perim > 0)) note("contur: cant fără perimetru", cfg);
-    try { const o4 = S.generateOperations({ boxes: b2.boxes, cfg, G: undefined });
-      arr(o4.pieces).forEach(p => { const op = arr(p.operations).find(q => q.type === "contour"); if (!op) { note("contur: lipsește operația", cfg); return; }
-        const bb = S.EBContour.bbox(op.pts);
+    const keys = Object.keys(pk).map(Number).sort((a2, c2) => a2 - c2);
+    if (keys.length !== want.length) note("contur: piese fizice ≠ suma bucăților", cfg, [keys.length, want.length]);
+    keys.forEach((k, ix) => { if (want[ix] && Math.abs(pk[k] - want[ix].ar) > 1e-6 * Math.max(1, want[ix].ar) + 1e-6) note("contur: aria triunghiurilor ≠ aria conturului − găuri", cfg, [pk[k], want[ix].ar]); });
+    if (pcs.length !== parts.length) note("contur: rânduri ≠ piese", cfg, [pcs.length, parts.length]);
+    pcs.forEach((row, ix) => { if (parts[ix] && parts[ix].edge && !(row.perim > 0)) note("contur: cant fără perimetru", cfg); });
+    try { const o4 = S.generateOperations({ boxes: b2.boxes, cfg, G: undefined }), pp = arr(o4.pieces).slice().sort((a2, c2) => a2.pk - c2.pk);
+      pp.forEach((p, ix) => { const w = want[ix]; if (!w) return;
+        const ops = arr(p.operations), op = ops.find(q => q.type === "contour" && !q.inner);
+        if (!op) { note("contur: lipsește operația", cfg); return; }
+        const bb = EC.bbox(op.pts);
         if (bb.x0 < -0.3 || bb.y0 < -0.3 || bb.x1 > p.length + 0.3 || bb.y1 > p.width + 0.3) note("contur: operația iese din piesă", cfg, [bb, p.length, p.width]);
-        if (Math.abs(Math.abs(S.EBContour.area(op.pts)) - N.area) > 0.01 * N.area + 20) note("contur: aria operației ≠ aria conturului", cfg, [S.EBContour.area(op.pts), N.area]); });
+        if (Math.abs(Math.abs(EC.area(op.pts)) - w.R.area) > 0.01 * w.R.area + 20) note("contur: aria operației ≠ aria conturului", cfg, [EC.area(op.pts), w.R.area]);
+        const small = w.R.holes.filter(h => h.circle && h.circle.d <= EC.HOLE.drillMax + 1e-9).length, big = w.R.holes.length - small;
+        if (ops.filter(q => q.type === "drill").length !== small) note("contur: burghie ≠ cercuri mici", cfg, [ops.filter(q => q.type === "drill").length, small]);
+        if (ops.filter(q => q.type === "contour" && q.inner).length !== big) note("contur: decupaje ≠ găuri mari", cfg, [ops.filter(q => q.type === "contour" && q.inner).length, big]);
+        if (ops.filter(q => q.type === "groove").length !== w.R.grooves.length) note("contur: canale ≠ canale cerute", cfg);
+        const OP = EC.flatten(op.pts, 0.2);
+        ops.filter(q => q.type === "contour" && q.inner).forEach(q => { if (!q.pts.every(v => EC.pointInPoly(OP, v))) note("contur: decupaj în afara piesei", cfg); if (EC.area(q.pts) * EC.area(op.pts) >= 0) note("contur: decupajul nu e în sens opus", cfg); });
+        ops.filter(q => q.type === "drill").forEach(q => { if (!EC.pointInPoly(OP, [q.x, q.y])) note("contur: burghiu în afara piesei", cfg); });
+        ops.filter(q => q.type === "groove").forEach(q => { if (!EC.pointInPoly(OP, [q.from.x, q.from.y]) || !EC.pointInPoly(OP, [q.to.x, q.to.y])) note("contur: canal în afara piesei", cfg); });
+        arr(p.preflight).filter(x => x.level === "error").forEach(x => note("contur: pre-flight " + x.rule, cfg)); });
     } catch (e) { note("contur: EXCEPȚIE ops " + e.message.slice(0, 60), cfg); }
     continue;
   }
@@ -241,6 +269,6 @@ for (let i = 0; i < N; i++) {
     }
   } catch (e) { note("EXCEPȚIE în verificări: " + e.message.slice(0, 90), cfg, e.stack.split("\n")[1]); }
 }
-console.log("N =", N);
+console.log("N =", N, "· contur:", JSON.stringify(CT));
 Object.keys(bucket).sort((a, b) => bucket[b] - bucket[a]).forEach(k => console.log(String(bucket[k]).padStart(5), k));
 fs.writeFileSync(path.join(__dirname, "fuzz-out.json"), JSON.stringify(ex, null, 1));

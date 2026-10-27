@@ -4468,6 +4468,92 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Piesă cu contur liber v2 — mai multe piese, găuri și decupaje interioare, canale, import cu găuri");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ct3", name: "Bufet2", pieces: [], configs: {} }]; state.activeId = "ct3";
+      const $$ = id => document.getElementById(id), fire = (el, ev) => el.dispatchEvent(new Event(ev, { bubbles: true }));
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.contur, name: "Lat2" }); await w(400);
+      o.campuri = !!$$("bContHoles") && !!$$("bContGrooves") && !!$$("bContPart") && $$("rowContParts").style.display !== "none" && $$("bContDel").disabled === true && $$("bContPart").options.length === 1;
+      /* găuri + canal pe piesa 1 (lateral scobit 1800×500) */
+      $$("bContHoles").value = "c 300 300 8\nc 900 250 80\nr 1400 250 120 60 8"; fire($$("bContHoles"), "input");
+      $$("bContGrooves").value = "100 400 1700 400 10 8"; fire($$("bContGrooves"), "input"); await w(300);
+      o.dbgH = $$("contHint").textContent;
+      o.hint = /3/.test($$("contHint").textContent) && /1/.test($$("contHint").textContent) && $$("contHint").textContent.includes(t("contInfoH").split("{g}")[0]);
+      $$("btnGenerate").click(); await w(500);
+      let p = proj(), x = p.pieces.find(q => q.elemento === "Pezzo contorno");
+      const c = p.configs["Lat2"];
+      o.salvat = !!c && Array.isArray(c.cParts) && c.cParts.length === 1 && c.cParts[0].holesTxt.includes("c 900 250 80") && c.cHoles.includes("r 1400") && c.cGrooves === "100 400 1700 400 10 8" && c.contour.length === 4;
+      o.rand = !!x && x.pz === 2 && x.perim === 4621 && x.bordo === "CONT";
+      const B = buildModule(c), ops = generateOperations({ boxes: B.boxes, cfg: c, G: undefined });
+      const pcs = Array.from(ops.pieces), ol = pcs[0].operations ? Array.from(pcs[0].operations) : [];
+      o.ops = pcs.length === 2 && ol.filter(q => q.type === "drill").length === 1 && ol.filter(q => q.type === "contour" && q.inner).length === 2 && ol.filter(q => q.type === "groove").length === 1 && ol.some(q => q.type === "groove" && q.width === 10 && q.depth === 8);
+      o.pas = assemblySteps("Lat2", {}, c, p.pieces).map(q => q.x).join("|").includes(t("contS4").split("{n}")[0].trim());
+      o.audit = auditProject(p).length === 0;
+      /* fișa piesei desenează conturul cu găurile golite */
+      const sv = partSVG(pcs[0], 5); o.desen = sv.includes('fill-rule="evenodd"');
+      /* a doua piesă: dreptunghi 400×300 cu o gaură, 3 bucăți */
+      $$("bContAdd").click(); await w(300);
+      o.doua = $$("bContPart").options.length === 2 && $$("bContPart").value === "1" && $$("bContShape").value === "rect" && $$("bL").value === "600" && $$("bH").value === "400" && $$("bContHoles").value === "";
+      $$("bL").value = "400"; fire($$("bL"), "input"); $$("bH").value = "300"; fire($$("bH"), "input");
+      $$("bContPz").value = "3"; fire($$("bContPz"), "input");
+      $$("bContHoles").value = "c 200 150 30"; fire($$("bContHoles"), "input"); await w(300);
+      /* înapoi la piesa 1: câmpurile ei au rămas */
+      $$("bContPart").value = "0"; fire($$("bContPart"), "change"); await w(300);
+      o.inapoi = $$("bContShape").value === "scoop" && $$("bContHoles").value.includes("c 900 250 80") && $$("bContGrooves").value.startsWith("100 400") && $$("bL").value === "1800" && $$("bContPz").value === "2";
+      $$("bName").value = "Lat2"; $$("btnGenerate").click(); await w(500);
+      p = proj(); const rows = p.pieces.filter(q => q.elemento === "Pezzo contorno");
+      o.randuri = rows.length === 2 && rows.map(q => q.pz).sort().join() === "2,3" && p.configs["Lat2"].cParts.length === 2;
+      const c2 = p.configs["Lat2"], B2 = buildModule(c2), pks = new Set(B2.boxes.map(b => b.pk));
+      o.pk = pks.size === 5 && B2.cont.parts.length === 2 && B2.cont.parts[1].holes === 1;
+      /* se redeschide: modulul cu 2 piese se încarcă în formular */
+      buildCfg = JSON.parse(JSON.stringify(c2)); syncBuildForm(); await w(300);
+      o.reload = $$("bContPart").options.length === 2 && $$("bContPart").selectedIndex === 0 && $$("bContHoles").value.includes("c 900 250 80");
+      $$("bContPart").value = "1"; fire($$("bContPart"), "change"); await w(200);
+      o.reload2 = $$("bContShape").value === "rect" && $$("bContPz").value === "3" && $$("bContHoles").value === "c 200 150 30";
+      /* gaură greșită: mesajul cu linia, nicio piesă nouă */
+      $$("bContHoles").value = "c 200 150 30\nzzz"; fire($$("bContHoles"), "input"); await w(300);
+      o.eroare = $$("contHint").textContent.includes(t("contWhy_holeSyntax").split("{n}")[0]) && $$("contHint").textContent.includes("2");
+      const nB = proj().pieces.length;
+      $$("btnGenerate").click(); await w(400);
+      o.faraPiesa = proj().pieces.length === nB;
+      $$("bContHoles").value = "c 3 3 9"; fire($$("bContHoles"), "input"); await w(300);
+      o.eroare2 = $$("contHint").textContent.includes(t("contWhy_holeOut").split("{n}")[0]);
+      $$("bContHoles").value = "c 200 150 30"; fire($$("bContHoles"), "input"); await w(200);
+      /* ștergerea piesei 2 */
+      $$("bContDel").click(); await w(300);
+      o.sters = $$("bContPart").options.length === 1 && $$("bContShape").value === "scoop" && $$("bContDel").disabled === true;
+      /* import SVG cu o gaură: dreptunghi 400×300 + cerc Ø80 */
+      $$("bContAdd").click(); await w(200);
+      $$("bContShape").value = "custom"; fire($$("bContShape"), "change");
+      const src = $$("bContSrc"); src.value = "M 0 0 L 400 0 L 400 -300 L 0 -300 Z M 100 -150 A 40 40 0 1 1 180 -150 A 40 40 0 1 1 100 -150 Z"; fire(src, "input"); await w(300);
+      o.importH = $$("contHint").textContent.includes("400×300");
+      const cc = cfgFromForm(), B3 = buildModule(cc);
+      const withC = B3.boxes.filter(b => b.cont);
+      o.importH2 = cc.cParts.length === 2 && cc.cParts[1].impHoles.length === 1 && withC.length === 3 && withC.some(b => b.cont.holes.length === 1 && b.cont.holes[0].circle && Math.abs(b.cont.holes[0].circle.d - 80) < 1e-6);
+      /* AI: câmpurile noi, normalizate; piesa 1 dictată, piesa 2 rămâne */
+      const ai = aiNormCfg({ type: "contur", cHoles: "c 100 100 8", cGrooves: "50 50 550 50 10 8" }, []);
+      const warn = []; const bad = aiNormCfg({ cHoles: "zzz" }, warn);
+      o.ai = ai.cHoles === "c 100 100 8" && ai.cGrooves === "50 50 550 50 10 8" && bad.cHoles === undefined && warn.length === 1;
+      const base2 = JSON.parse(JSON.stringify(cc)); const fix = aiContFix(base2, { cRise: 60 });
+      o.aiFix = fix.cParts.length === 2 && fix.contour === null && fix.cParts[0].contour === null && fix.cParts[1].src.includes("M 0 0");
+      const ks = ["fContPart", "contPartN", "contPartAdd", "fContHoles", "contHolesHelp", "fContGrooves", "contGroovesHelp", "contInfoH", "contWhy_holeSyntax", "contWhy_holeOut", "contWhy_holeHit", "contWhy_holeWeb", "contWhy_holeBad", "contWhy_holeMany",
+        "contWhy_grooveSyntax", "contWhy_grooveOut", "contWhy_grooveDepth", "contWhy_grooveW", "contWhy_grooveMany", "contWhy_multi", "contS4", "contS5"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2)) && ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => /\{n\}/.test(I18N[l].contPartN) && /\{n\}/.test(I18N[l].contWhy_holeOut));
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    const dbg = JSON.stringify(r);
+    ok("Contur v2: câmpurile pentru găuri, canale și lista de piese apar (o piesă, ștergerea blocată); găurile și canalul se salvează în modul (cParts și câmpurile vechi)", r.campuri === true && r.salvat === true, dbg);
+    ok("Contur v2: indiciul numără găurile și canalele; rândul păstrează perimetrul exterior; operațiile: 1 burghiu, 2 decupaje interioare, canal 10×8; pașii; fișa cu găurile golite; semafor verde", r.hint === true && r.rand === true && r.ops === true && r.pas === true && r.audit === true && r.desen === true);
+    ok("Contur v2: a doua piesă (+): formular curat, valorile fiecărei piese rămân la schimbare, 2 rânduri și 5 piese fizice, modulul se redeschide cu ambele piese", r.doua === true && r.inapoi === true && r.randuri === true && r.pk === true && r.reload === true && r.reload2 === true);
+    ok("Contur v2: gaură greșită = mesaj cu linia sau gaura și nicio piesă nouă; ștergerea piesei; import SVG cu gaură (cerc Ø80 recunoscut); AI și 7 limbi", r.eroare === true && r.faraPiesa === true && r.eroare2 === true && r.sters === true && r.importH === true && r.importH2 === true && r.ai === true && r.aiFix === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
