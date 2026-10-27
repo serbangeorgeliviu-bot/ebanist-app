@@ -14,6 +14,7 @@
  "hang": 0,
  "shelfType": "mobile",
  "handles": "push",
+ "backMode": "applicato",
  "matBody": "rovere_chiaro_19",
  "matFront": "avocado_green_22458mn_19",
  "matBack": "pfl3",
