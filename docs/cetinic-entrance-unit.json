@@ -1,0 +1,79 @@
+{
+ "name": "Entrance unit",
+ "type": "standard",
+ "L": 1560,
+ "H": 2260,
+ "P": 410,
+ "plinth": 100,
+ "support": "zoccolo",
+ "tram": 0,
+ "shelves": 0,
+ "drawers": 0,
+ "doors": 0,
+ "back": 1,
+ "hang": 0,
+ "shelfType": "mobile",
+ "handles": "push",
+ "matBody": "rovere_chiaro_19",
+ "matFront": "avocado_green_22458mn_19",
+ "matBack": "pfl3",
+ "partitions": [
+  {
+   "type": "setto",
+   "x": "center"
+  }
+ ],
+ "fronts": [
+  {
+   "x": 0,
+   "y": 100,
+   "w": 780,
+   "h": 1048,
+   "hinge": "left"
+  },
+  {
+   "x": 0,
+   "y": 1151,
+   "w": 780,
+   "h": 1106,
+   "hinge": "left"
+  },
+  {
+   "x": 780,
+   "y": 100,
+   "w": 780,
+   "h": 1048,
+   "hinge": "right"
+  },
+  {
+   "x": 780,
+   "y": 1151,
+   "w": 780,
+   "h": 1106,
+   "hinge": "right"
+  }
+ ],
+ "backCols": [
+  1
+ ],
+ "backRails": [
+  {
+   "y": 1051,
+   "h": 100
+  },
+  {
+   "y": 1154,
+   "h": 100
+  }
+ ],
+ "fillers": [
+  {
+   "side": "top",
+   "size": 40
+  },
+  {
+   "side": "right",
+   "size": 40
+  }
+ ]
+}
