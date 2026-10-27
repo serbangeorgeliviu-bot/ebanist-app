@@ -4246,6 +4246,65 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Colț între doi pereți — lambriu și boiserie pe doi pereți: formular, piese pe pereți, 3D fără suprapuneri, montaj");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ct1", name: "Colț", pieces: [], configs: {} }]; state.activeId = "ct1";
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.lambriu, name: "Colt A" }); await w(300);
+      o.ascuns = document.getElementById("rowWall2").style.display !== "none" && document.getElementById("rowL2").style.display === "none" && document.getElementById("fCornerWrap").style.display === "none";
+      const sel = document.getElementById("bWall2"); sel.value = "1"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(250);
+      o.aratat = document.getElementById("rowL2").style.display !== "none" && document.getElementById("fCornerWrap").style.display !== "none" && document.getElementById("fCornerKindWrap").style.display !== "none" && document.getElementById("bL2").value === "900";
+      document.getElementById("bL2").value = "1500"; document.getElementById("bL2").dispatchEvent(new Event("input", { bubbles: true }));
+      document.getElementById("bCorner").value = "dx"; document.getElementById("bCornerKind").value = "int";
+      document.getElementById("btnLamCutAdd").click(); await w(150);
+      o.alegeZid = !!document.querySelector("#lamCutBox [data-lcw]");
+      const ws = document.querySelector("#lamCutBox [data-lcw]"); ws.value = "B"; ws.dispatchEvent(new Event("change", { bubbles: true }));
+      const xi = document.querySelector('#lamCutBox [data-lc="0:x"]'); xi.value = "300"; xi.dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      o.info = document.getElementById("angHint").textContent.includes(t("cornerInfo").replace("{k}", t("cornInt")).replace("{b}", "1466"));
+      document.getElementById("btnGenerate").click(); await w(500);
+      const p = proj(), c = p.configs["Colt A"];
+      const A = p.pieces.filter(x => x.modulo === "Colt A A"), Bw = p.pieces.filter(x => x.modulo === "Colt A B");
+      o.rows = c.wall2 === 1 && c.L2 === 1500 && A.length === 2 && Bw.length >= 2 && Bw.some(x => x.elemento === "Pannello supporto" && x.larg === 1466);
+      o.salvat = c.lamCuts.length === 1 && c.lamCuts[0].wall === "B" && c.lamCuts[0].x === 300;
+      const slB = Bw.filter(x => /^Lamella/.test(x.elemento)).reduce((q, x) => q + x.pz, 0);
+      o.pieseB = slB === 27; /* 25 lamele, două atinse de decupaj se împart în câte două: 23 + 2·2 */
+      const B = buildModule(c);
+      const a = B.boxes.filter(b => b.pk <= 3 && false);
+      const ovl = (x, y) => Math.min(x.x1, y.x1) - Math.max(x.x0, y.x0) > 1e-9 && Math.min(x.y1, y.y1) - Math.max(x.y0, y.y0) > 1e-9 && Math.min(x.z1, y.z1) - Math.max(x.z0, y.z0) > 1e-9;
+      const sl = B.boxes.filter(b => b.role === "lamela");
+      let hit = 0; for (let i = 0; i < sl.length; i++) for (let j = i + 1; j < sl.length; j++) if (ovl(sl[i], sl[j])) hit++;
+      o.faraSuprapuneri = hit === 0 && B.boxes.every(b => b.x0 >= -1e-9 && b.z0 >= -1e-9);
+      o.dimensiuni = Math.max(...B.boxes.map(b => b.x1)) === 2400 && Math.max(...B.boxes.map(b => b.z1)) === 34 + 1466;
+      const rest = assemblySteps("Colt A", {}, c, p.pieces).map(x => x.x).join("|");
+      o.pasi = rest.includes("A: ") && rest.includes("B: ") && rest.includes(t("cornInt")) && !rest.includes("{");
+      o.auditVerde = auditProject(p).length === 0;
+      /* colț ieșit: B are lățimea întreagă; stânga: coordonate mutate în octantul pozitiv */
+      const E = buildModule({ ...c, cornerKind: "ext", corner: "sx", lamCuts: [] });
+      const bB = E.pieces.find(x => x.wing === "B" && x.elemento === "Pannello supporto");
+      o.ext = bB.larg === 1500 && E.boxes.every(b => b.x0 >= -1e-9 && b.z0 >= -1e-9) && Math.max(...E.boxes.map(b => b.z1)) === 1500;
+      let err = ""; try { buildModule({ ...c, L2: 30 }); } catch (e) { err = e.message; }
+      let err2 = ""; try { buildModule({ ...c, lamCuts: [{ x: 10, y: 0, w: 20, h: 20, wall: "B" }] }); } catch (e) { err2 = e.message; }
+      o.erori = err === t("lamErrCorner") && err2 === t("lamErrCorner");
+      /* boiserie pe doi pereți */
+      const Q = buildModule({ ...PRESETS.boiserie, name: "Q", wall2: 1, L2: 1800, corner: "dx", cornerKind: "int", lamCuts: [] });
+      o.boiserie = !!Q.rf && !!Q.rf2 && Q.pieces.some(x => x.wing === "B" && x.elemento === "Montante cornice");
+      const ai = aiNormCfg({ type: "lambriu", wall2: 1, L2: 1500, corner: "dx", cornerKind: "int", lamCuts: [{ x: 300, y: 300, w: 80, h: 80, wall: "B" }] }, []);
+      o.ai = ai.wall2 === 1 && ai.lamCuts[0].wall === "B" && ai.L2 === 1500;
+      const ks = ["fWall2", "lamWall", "lamErrCorner", "cornerInfo", "cornerS"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2));
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Colț: „al doilea perete” apare numai la lambriu și boiserie și aduce lățimea lui B, partea și felul colțului; decupajele au alegere de perete", r.ascuns === true && r.aratat === true && r.alegeZid === true && r.info === true);
+    ok("Colț: distinta are piesele peretelui A (modul „… A”) și ale lui B („… B”, suport de 1466 la colț interior); decupajul din B se salvează", r.rows === true && r.salvat === true && r.pieseB === true);
+    ok("Colț: 3D fără nicio suprapunere, totul în octantul pozitiv, dimensiunile 2400 și 34 + 1466; colț ieșit și boiserie pe doi pereți merg", r.faraSuprapuneri === true && r.dimensiuni === true && r.ext === true && r.boiserie === true);
+    ok("Colț: pașii de montaj pe A și pe B cu felul colțului; semaforul verde; B prea scurt sau decupaj în grosimea lui A = eroare declarată; AI și 7 limbi", r.pasi === true && r.auditVerde === true && r.erori === true && r.ai === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

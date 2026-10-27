@@ -174,3 +174,38 @@ test("frame: pe 3000 de combinații aleatoare, ramele + câmpurile acoperă exac
   }
   assert.ok(ok > 1200);
 });
+
+/* ---------- colț între doi pereți (D-98) ---------- */
+const bx = (x0, x1, y0, y1, z0, z1) => ({ x0, x1, y0, y1, z0, z1, role: "lamela", pk: 1 });
+const ovl = (a, b) => Math.min(a.x1, b.x1) - Math.max(a.x0, b.x0) > 1e-9 && Math.min(a.y1, b.y1) - Math.max(a.y0, b.y0) > 1e-9 && Math.min(a.z1, b.z1) - Math.max(a.z0, b.z0) > 1e-9;
+
+test("splitCuts: decupajele din B se dau de la colț; la colțul interior se mută cu grosimea, înaintea ei se resping", () => {
+  const r = E.splitCuts([{ x: 100, y: 5, w: 10, h: 10 }, { wall: "B", x: 300, y: 5, w: 10, h: 10 }], 34, "int");
+  assert.equal(r.ok, true); assert.equal(r.A.length, 1); assert.equal(r.B[0].x, 266);
+  assert.equal(E.splitCuts([{ wall: "B", x: 10, y: 0, w: 5, h: 5 }], 34, "int").reason, "cutCorner");
+  assert.equal(E.splitCuts([{ wall: "B", x: 10, y: 0, w: 5, h: 5 }], 34, "ext").B[0].x, 10);
+  assert.deepEqual(J(E.splitCuts(null, 34, "int")), { ok: true, A: [], B: [] });
+});
+
+test("cornerPlace: patru colțuri, B nu intră în A și atinge fața lui A (interior) sau capătul lui (exterior)", () => {
+  const LA = 2000, t = 34;
+  const A = [bx(0, LA, 0, 2600, 0, t)];
+  const Bl = [bx(0, 40, 0, 2600, 0, t), bx(100, 140, 0, 2600, 0, t), bx(900, 1000, 0, 2600, 0, t)];
+  for (const kind of ["int", "ext"]) for (const side of ["sx", "dx"]) {
+    const P = E.shiftToOrigin(A.map(b => ({ ...b })).concat(E.cornerPlace(Bl, { LA, t, kind, side })));
+    const a = P[0], bs = P.slice(1);
+    bs.forEach(b => assert.equal(ovl(a, b), false, kind + side));
+    P.forEach(b => assert.ok(b.x0 >= -1e-9 && b.z0 >= -1e-9, "origine " + kind + side));
+    if (kind === "int") { /* B începe exact la fața lui A și rămâne în interiorul lățimii lui A */
+      const zmin = Math.min(...bs.map(b => b.z0)) - a.z0; assert.ok(Math.abs(zmin - t) < 1e-9, kind + side + " " + zmin);
+      bs.forEach(b => assert.ok(b.x0 >= a.x0 - 1e-9 && b.x1 <= a.x1 + 1e-9, "în lățimea lui A")); }
+    else { bs.forEach(b => assert.ok(b.x0 >= a.x1 - 1e-9 || b.x1 <= a.x0 + 1e-9, "în afara lățimii lui A")); }
+  }
+});
+
+test("cornerPlace: B local de la 0 la lungime acoperă exact lungimea pe axa z a modulului", () => {
+  const out = E.cornerPlace([bx(0, 1000, 0, 100, 0, 34)], { LA: 2000, t: 34, kind: "int", side: "dx" });
+  assert.equal(out[0].z0, 34); assert.equal(out[0].z1, 1034); assert.equal(out[0].x0, 2000 - 34); assert.equal(out[0].x1, 2000);
+  const e = E.cornerPlace([bx(0, 1000, 0, 100, 0, 34)], { LA: 2000, t: 34, kind: "ext", side: "dx" });
+  assert.equal(e[0].z0, 0); assert.equal(e[0].z1, 1000); assert.equal(e[0].x0, 2000); assert.equal(e[0].x1, 2034);
+});

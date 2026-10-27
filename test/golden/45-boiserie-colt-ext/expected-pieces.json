@@ -1,0 +1,85 @@
+{
+ "validat": false,
+ "nume": "45-boiserie-colt-ext",
+ "generat": "2026-10-27",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 6,
+ "n_piese": 26,
+ "pieces": [
+  {
+   "elemento": "Pannello supporto",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1100,
+   "larg": 1200,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "wing": "A",
+   "mat": "m16"
+  },
+  {
+   "elemento": "Montante cornice",
+   "role": "rama_montant",
+   "ax": "H/L/P",
+   "lung": 1100,
+   "larg": 60,
+   "pz": 5,
+   "sp": null,
+   "bordo": "2L",
+   "wing": "A",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Traversa cornice",
+   "role": "rama_traversa",
+   "ax": "L/H/P",
+   "lung": 525,
+   "larg": 60,
+   "pz": 8,
+   "sp": null,
+   "bordo": "2L",
+   "wing": "A",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Pannello supporto",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1100,
+   "larg": 1800,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "wing": "B",
+   "mat": "m16"
+  },
+  {
+   "elemento": "Montante cornice",
+   "role": "rama_montant",
+   "ax": "H/L/P",
+   "lung": 1100,
+   "larg": 60,
+   "pz": 4,
+   "sp": null,
+   "bordo": "2L",
+   "wing": "B",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Traversa cornice",
+   "role": "rama_traversa",
+   "ax": "L/H/P",
+   "lung": 520,
+   "larg": 60,
+   "pz": 6,
+   "sp": null,
+   "bordo": "2L",
+   "wing": "B",
+   "mat": "m18"
+  }
+ ]
+}

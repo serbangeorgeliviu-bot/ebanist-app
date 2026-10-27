@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.4.0 — 27 octombrie 2026
+
+**Colț între doi pereți** pentru lambriul cu lamele și boiseria cu rame.
+- În Generator, la lambriu și boiserie: „Al doilea perete (colț)” = Da aduce lățimea peretelui B (câmpul „Largh. ala B”), partea colțului (stânga/dreapta) și felul lui (interior = colț de cameră, exterior = colț ieșit).
+- **La colț interior, placarea lui B începe la fața placării lui A**: lățimea lui B se scade cu grosimea totală (suport + lamelă sau ramă). La colț exterior, B are lățimea întreagă. Fiecare perete se potrivește singur (lamele și rosturi, sau câmpuri și rame) cu aceeași închidere exactă ca la un perete singur.
+- **Decupajele (prize) au alegere de perete (A sau B)**; pentru B, X se măsoară de la colț. Un decupaj din B în grosimea lui A se respinge.
+- Distinta are piesele pe module „Nume A” și „Nume B”, ca la corpurile de colț. 3D-ul pune pereții în unghi drept, fără suprapuneri; preview-ul spune colțul și lățimea lui B, iar pașii de montaj sunt pe A și pe B cu felul colțului.
+- Dictarea cu AI cunoaște „al doilea perete” și decupajele pe perete; textele sunt în 7 limbi.
+- Limite: colț de 90° (nu alt unghi); colțul exterior are muchia lui A la vedere (fără tăietură în unghi la 45°); lățimea lui B trebuie să fie mai mare decât grosimea totală.
+- Teste: 731 în browser, 7 unitare noi (patru colțuri fără suprapuneri), fuzz D-78 pe 15000 de configurații fără abateri, golden 44 și 45 verificate aritmetic, `validat:false`.
+
+---
+
 ## 5.3.0 — 27 octombrie 2026
 
 **Boiserie cu rame și câmpuri** — placare de perete cu rame aplicate pe un suport (stilul clasic și cel modern „boiserie”), lângă lambriul cu lamele.

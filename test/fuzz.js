@@ -91,6 +91,9 @@ for (let i = 0; i < N; i++) {
   if (t === "lambriu") { if (rnd() < .8) cfg.lamW = ri(10, 300); if (rnd() < .8) cfg.lamGap = ri(0, 200); if (rnd() < .5) cfg.lamDir = pick(["v", "o"]);
     if (rnd() < .6) { cfg.lamCuts = []; for (let k = ri(1, 4); k > 0; k--) { const cw = ri(20, 250), ch = ri(20, 250); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } }
     if (rnd() < .15) cfg.H = ri(2800, 3300); }
+  /* D-98: colț între doi pereți, pe jumătate din lambriuri și boiserii */
+  if ((t === "lambriu" || t === "boiserie") && rnd() < .5) { cfg.wall2 = 1; cfg.L2 = ri(300, 2700); cfg.corner = pick(["sx", "dx"]); cfg.cornerKind = pick(["int", "ext"]);
+    if (rnd() < .5) { cfg.lamCuts = (cfg.lamCuts || []).concat([{ x: ri(60, Math.max(60, cfg.L2 - 100)), y: ri(0, 1500), w: ri(20, 90), h: ri(20, 90), wall: "B" }]); } }
   /* D-97: boiserie — ramă, câmp dorit, rânduri, decupaje */
   if (t === "boiserie") { if (rnd() < .8) cfg.rfW = ri(20, 200); if (rnd() < .8) cfg.rfTarget = ri(100, 1500); if (rnd() < .7) cfg.rfRows = ri(1, 8);
     if (rnd() < .5) { cfg.lamCuts = []; for (let k = ri(1, 3); k > 0; k--) { const cw = ri(20, 200), ch = ri(20, 200); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } } }
@@ -109,6 +112,23 @@ for (let i = 0; i < N; i++) {
     if (!/^Accessorio|accessorio|Profilo/.test(String(p.mat || "")) && p.role !== "accessorio" && Math.max(p.lung, p.larg) > 2800 + .5 && !p.seg) { note("piesă > placă", cfg, [p.elemento, p.lung, p.larg]); break; }
   }
   try { if (b2.boxes) coll(b2).forEach(k => note("coliziune " + k + ((b2.draw && b2.draw.warn && b2.draw.warn.length) || (b2.warn && Object.values(b2.warn).some(v => v)) ? " (cu avertisment)" : " (FĂRĂ avertisment)"), cfg)); } catch (e) {}
+  if ((t === "lambriu" || t === "boiserie") && cfg.wall2) {
+    /* două pereți: B trebuie să iasă la fel ca un perete singur de lățime L2 (−grosimea la colț interior), în octantul pozitiv, fără suprapuneri (coliziunile le prinde `coll`) */
+    const th = 19 + (cfg.back ? 3 : 0), Leff = cfg.cornerKind === "ext" ? cfg.L2 : cfg.L2 - th;
+    const nB = pcs.filter(x => x.wing === "B").reduce((a2, x) => a2 + x.pz, 0), nA = pcs.filter(x => x.wing === "A").reduce((a2, x) => a2 + x.pz, 0);
+    if (!nA || !nB) note("colț: un perete fără piese", cfg, [nA, nB]);
+    const shift = cfg.cornerKind === "ext" ? 0 : th, cutsB = arr(cfg.lamCuts).filter(c => c.wall === "B").map(c => ({ x: c.x - shift, y: c.y, w: c.w, h: c.h }));
+    let sA, sB; try { sA = S.buildModule(Object.assign({}, cfg, { wall2: 0, lamCuts: arr(cfg.lamCuts).filter(c => c.wall !== "B") })); sB = S.buildModule(Object.assign({}, cfg, { wall2: 0, L: Leff, lamCuts: cutsB })); }
+    catch (e) { note("colț: perete singur pică dar cu doi nu", cfg, e.message); sA = null; }
+    if (sA) {
+      if (nA !== sA.pieces.reduce((a2, x) => a2 + x.pz, 0)) note("colț: piesele lui A diferă de peretele singur", cfg);
+      if (nB !== sB.pieces.reduce((a2, x) => a2 + x.pz, 0)) note("colț: piesele lui B diferă de peretele singur", cfg, [nB, sB.pieces.reduce((a2, x) => a2 + x.pz, 0)]);
+    }
+    if (b2.boxes.some(x => x.x0 < -1e-9 || x.z0 < -1e-9 || !(x.x1 > x.x0) || !(x.z1 > x.z0))) note("colț: cutie în afara octantului", cfg);
+    const pks = b2.boxes.map(x => x.pk), dup = {}; b2.boxes.forEach(x => { dup[x.pk] = (dup[x.pk] || 0) + (x.role === "schienale" ? 0 : 1); });
+    if (Object.values(dup).some(v => v > 1)) note("colț: două piese cu același pk", cfg);
+    continue;
+  }
   if (t === "boiserie") {
     const st = b2.boxes.filter(x => x.role === "rama_montant").sort((x, y) => x.x0 - y.x0), tr = b2.boxes.filter(x => x.role === "rama_traversa");
     const rf = b2.rf, fw = Math.round(cfg.rfW || 60);

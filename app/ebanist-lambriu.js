@@ -159,5 +159,46 @@
     return r;
   }
 
-  return { LIM: LIM, layout: layout, closure: closure, backSheets: backSheets, normCuts: normCuts, splitEq: splitEq, slatPlan: slatPlan, sheetHoles: sheetHoles, frameN: frameN, frameFit: frameFit };
+  /* ---------- colț între doi pereți (D-98) ----------
+     Peretele A e cel din față; B e peretele de la colț, pe partea `side` (dx = la capătul din dreapta, sx = la stânga),
+     `kind` int (colț de cameră) sau ext (colț ieșit). Grosimea totală t (suport + lamelă/ramă) se scade din B la colțul
+     interior: placarea lui B începe la fața placării lui A. B se măsoară de la colț (x local = distanța de la colț). */
+
+  /* decupajele pe pereți: `wall:"B"` merg la B, restul la A; la colțul interior x-ul din B se dă de la colț (planul
+     peretelui A) și se mută cu t în sistemul placării. Întoarce { A:[...], B:[...] } sau { ok:false, reason } */
+  function splitCuts(raw, t, kind) {
+    var A = [], B = [];
+    (Array.isArray(raw) ? raw : []).forEach(function (c) {
+      if (c && c.wall === "B") { var d = {}; for (var k in c) d[k] = c[k]; d.x = Math.round(+c.x) - (kind === "ext" ? 0 : Math.round(t)); B.push(d); }
+      else A.push(c);
+    });
+    for (var i = 0; i < B.length; i++) if (!(B[i].x >= 0)) return { ok: false, reason: "cutCorner" };
+    return { ok: true, A: A, B: B };
+  }
+
+  /* cutiile lui B din sistemul local (x de la colț, z adâncime) în sistemul modulului; apoi totul se mută în octantul pozitiv */
+  function cornerPlace(boxesB, o) {
+    var t = o.t, out = boxesB.map(function (b) {
+      var c = {}; for (var k in b) c[k] = b[k];
+      var x0 = b.x0, x1 = b.x1, z0 = b.z0, z1 = b.z1;
+      if (o.kind === "ext") {
+        c.z0 = x0; c.z1 = x1;
+        if (o.side === "sx") { c.x0 = -z1; c.x1 = -z0; } else { c.x0 = o.LA + z0; c.x1 = o.LA + z1; }
+      } else {
+        c.z0 = t + x0; c.z1 = t + x1;
+        if (o.side === "sx") { c.x0 = z0; c.x1 = z1; } else { c.x0 = o.LA - z1; c.x1 = o.LA - z0; }
+      }
+      return c;
+    });
+    return out;
+  }
+  function shiftToOrigin(boxes) {
+    var mx = 0, mz = 0;
+    boxes.forEach(function (b) { mx = Math.min(mx, b.x0); mz = Math.min(mz, b.z0); });
+    if (mx === 0 && mz === 0) return boxes;
+    boxes.forEach(function (b) { b.x0 -= mx; b.x1 -= mx; b.z0 -= mz; b.z1 -= mz; });
+    return boxes;
+  }
+
+  return { LIM: LIM, layout: layout, closure: closure, backSheets: backSheets, normCuts: normCuts, splitEq: splitEq, slatPlan: slatPlan, sheetHoles: sheetHoles, frameN: frameN, frameFit: frameFit, splitCuts: splitCuts, cornerPlace: cornerPlace, shiftToOrigin: shiftToOrigin };
 });
