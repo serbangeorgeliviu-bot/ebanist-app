@@ -70,7 +70,7 @@ var HW_DRILL = {
         front: [37],
         nlExact: { 229: [133, 229], 305: [165, 261], 381: [165, 357], 457: [261, 453], 533: [261, 517] } }
     } },
-  handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050 },
+  handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050, min_edge: 20 },
   /* gola frezată (D-89): priza pe spatele muchiei de sus a frontului, la 45°. Date generice, de verificat. */
   golaFresata: { w: 20, d: 12, ang: 45, verificat: false },
   /* canalul profilului anti-curbare (U.6, D-76): pe fata dinapoi a usii, pe toata
@@ -243,6 +243,10 @@ function doorHandle(out, D, m, freeRight, topD) {
   var yc = topD < 1100 ? topD - HW_DRILL.handle.from_top - len / 2
          : D.min[1] > 1300 ? D.min[1] + HW_DRILL.handle.from_top + len / 2
          : Math.max(D.min[1] + 60 + len / 2, Math.min(topD - 60 - len / 2, HW_DRILL.handle.tall_y));
+  /* ușă joasă: nicio gaură a mânerului nu iese din ușă (D-103). Mânerul se mută în sus/jos cât să rămână `min_edge` de muchii;
+     dacă nu încape deloc, se centrează și `opsHandleFit` avertizează. */
+  { var lo = D.min[1] + HW_DRILL.handle.min_edge + len / 2, hi = topD - HW_DRILL.handle.min_edge - len / 2;
+    yc = lo <= hi ? Math.max(lo, Math.min(hi, yc)) : (D.min[1] + topD) / 2; }
   placeHandle(out, D, m, { vertical: true, x: ox, y: yc, freeX: freeRight ? D.max[0] : D.min[0], freeS: freeRight ? 1 : -1 });
 }
 
@@ -396,7 +400,53 @@ function jointPositions2(a, b, end, over) {
 }
 
 /* ------------------------------------------------------------------------ */
+/* Corpul de colț (angolare): aripa B e construită ca un corp de sine stătător (lățime L2) și apoi rotită/oglindită în plan
+   (`rot` pe fiecare cutie). Tot ce știe modelul de operații despre fronturi, balamale, mânere, glisiere și suporturi de raft
+   presupune fața corpului pe +z, deci aripa B se calculează în cadrul ei LOCAL (cutiile originale, `loc`) și abia apoi
+   referințele în lume (`_w`, `_ax`, `_side`, min/max) trec prin aceeași transformare ca cutiile (D-103). Coordonatele pe fața 5 (x, y)
+   rămân cele ale corpului de sine stătător, adică exact ce se debitează. */
+function wingXform(rot) {
+  var int = rot.k !== "ext", dx = !!rot.dx, sx = int ? 1 : -1, sz = int ? (dx ? -1 : 1) : (dx ? 1 : -1);
+  return {
+    /* (x, y, z) local -> lume: int dx [L−z, zA+x] · int sx [z, zA+x] · ext dx [L+z, −x] · ext sx [−z, −x] */
+    pt: function (w) { return [(dx ? rot.L : 0) + sz * w[2], w[1], (int ? rot.zA : 0) + sx * w[0]]; },
+    perm: [2, 1, 0], sign: [sx, 1, sz]
+  };
+}
 function generate(input) {
+  var boxes0 = (input && input.boxes) || [];
+  if (!boxes0.some(function (b) { return b && b.wing === "B" && b.loc && b.rot; })) return generate1(input);
+  var cfg0 = (input && input.cfg) || {};
+  var isB = function (b) { return b && b.wing === "B" && b.loc && b.rot; };
+  var rot = boxes0.filter(isB)[0].rot, X = wingXform(rot);
+  var A = boxes0.filter(function (b) { return !isB(b); });
+  var Bl = boxes0.filter(isB).map(function (b) { var o = {}; for (var k in b.loc) o[k] = b.loc[k]; o.pk = b.pk; o.grp = b.grp; o.wing = "B"; return o; });
+  var cfgB = {}; for (var k in cfg0) cfgB[k] = cfg0[k]; cfgB.L = Math.max(300, +cfg0.L2 || 900);
+  var ra = generate1({ boxes: A, cfg: cfg0, G: input.G }), rb = generate1({ boxes: Bl, cfg: cfgB, G: input.G });
+  var off = ra.hw.length;
+  var rid = function (id) { var m = /^hw_(\d+)$/.exec(String(id || "")); return m ? "hw_" + (+m[1] + off) : id; };
+  rb.hw.forEach(function (h) { h.id = rid(h.id); h.wing = "B"; if (h.w) h.w = X.pt(h.w); });
+  rb.pieces.forEach(function (p) {
+    p.wing = "B"; p.frame = "B-local";
+    var lo = X.pt(p.min), hi = X.pt(p.max);
+    p.min = [Math.min(lo[0], hi[0]), Math.min(lo[1], hi[1]), Math.min(lo[2], hi[2])];
+    p.max = [Math.max(lo[0], hi[0]), Math.max(lo[1], hi[1]), Math.max(lo[2], hi[2])];
+    p.operations.forEach(function (o) {
+      if (o.hw) o.hw = rid(o.hw);
+      if (o._w) { o._w = X.pt(o._w); o._side = o._side * X.sign[o._ax]; o._ax = X.perm[o._ax]; }
+      if (o._lo && o._hi) { var l2 = X.pt(o._lo), h2 = X.pt(o._hi); o._lo = [Math.min(l2[0], h2[0]), Math.min(l2[1], h2[1]), Math.min(l2[2], h2[2])]; o._hi = [Math.max(l2[0], h2[0]), Math.max(l2[1], h2[1]), Math.max(l2[2], h2[2])]; }
+    });
+  });
+  var out = { schema_version: ra.schema_version, units: ra.units, verificat: ra.verificat, joint: ra.joint,
+              pieces: ra.pieces.concat(rb.pieces), hw: ra.hw.concat(rb.hw), warnings: ra.warnings.concat(rb.warnings) };
+  out.pieces.sort(function (a, b) {
+    var ka = typeof a.pk === "number" ? a.pk : 1e9, kb = typeof b.pk === "number" ? b.pk : 1e9;
+    return (ORDER.indexOf(a.role) - ORDER.indexOf(b.role)) || (ka - kb) || (String(a.pk) < String(b.pk) ? -1 : 1);
+  });
+  out.pieces.forEach(function (p, i) { p.n = i + 1; });
+  return out;
+}
+function generate1(input) {
   var boxes = (input && input.boxes) || [], cfg = (input && input.cfg) || {}, G = input && input.G;
   var out = { schema_version: "1.0", units: "mm", verificat: HW_DRILL.verificat,
               pieces: [], hw: [], warnings: [], joint: jointKind(input) };

@@ -4554,6 +4554,31 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Analiza fuzz (D-103) — aripa B cu operații, sertar care intră în bază/tavan, mâner pe ușă joasă");
+  {
+    const r = await pg.evaluate(async () => {
+      const o = {};
+      const base = { name: "W", type: "standard", L: 1800, H: 1191, P: 434, plinth: 100, tram: 1, shelves: 0, drawers: 4, doors: 0, back: 1, hang: 0, drawerSys: "legrabox", drawerDist: "cucina", matBody: state.settings.matBody, matFront: state.settings.matFront, matBack: state.settings.matBack };
+      const b = buildModule(base);
+      o.warn = !!b.warn.boxHit && b.warn.boxHit.n === 2 && Math.abs(b.warn.boxHit.mm - 4) < 0.01;
+      const ang = buildModule({ ...base, type: "angolare", L2: 1100, cornerKind: "int", corner: "dx" });
+      o.angWarn = !!ang.warn && !!ang.warn.boxHit && ang.warn.boxHit.n === 4;
+      /* aripa B a unui colț cu uși: balamale și mâner pe ambele uși */
+      const c = { ...base, type: "angolare", L: 900, L2: 1100, H: 720, plinth: 100, tram: 0, drawers: 0, doors: 2, cornerKind: "int", corner: "dx" };
+      const cb = buildModule(c), ops = generateOperations({ boxes: cb.boxes, cfg: c, G: undefined });
+      const bd = Array.from(ops.pieces).filter(p => p.wing === "B" && p.role === "frontale");
+      o.aripaB = bd.length === 2 && bd.every(p => Array.from(p.operations).filter(q => q.note === "tazza cerniera").length >= 2 && Array.from(p.operations).filter(q => q.note === "maniglia").length === 2);
+      o.fara = Array.from(ops.pieces).every(p => Array.from(p.preflight || []).filter(w => w.level === "error").length === 0);
+      o.hwId = (() => { const ids = Array.from(ops.hw).map(h => h.id); return new Set(ids).size === ids.length && Array.from(ops.hw).some(h => h.wing === "B"); })();
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].wBoxHit && /\{n\}/.test(I18N[l].wBoxHit) && /\{mm\}/.test(I18N[l].wBoxHit));
+      /* nota apare în previzualizare */
+      const keepL = state.lang; state.lang = "ro"; applyLang();
+      o.nota = t("wBoxHit").replace("{n}", 2).replace("{mm}", "4").startsWith("2 sertar"); state.lang = keepL; applyLang();
+      return o;
+    });
+    ok("Fuzz D-103: avertisment când cutia sertarului intră în bază/tavan (și la colț, unde înainte tăcea); aripa B are balamale și mânere, fără erori de pre-flight, ID-uri hw unice; 7 limbi", r.warn === true && r.angWarn === true && r.aripaB === true && r.fara === true && r.hwId === true && r.limbi === true && r.nota === true, JSON.stringify(r));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

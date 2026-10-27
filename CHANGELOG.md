@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.9.1 — 28 octombrie 2026
+
+**Analiza fuzz** — constatările vechi ale fuzz-ului au fost analizate pe cauze; două erau defecte reale la corpul de colț și unul un avertisment lipsă la sertare.
+- **Colțul între doi pereți: aripa B are acum operații proprii.** Înainte, ușile din B nu aveau nicio operație (fără cupe de balama, fără mâner), iar frontul sertarelor din B primea găuri de mâner în afara piesei. Acum aripa B se calculează ca un corp de sine stătător de lățime L2: fișa piesei, CSV-ul de găurire și lista de feronerie sunt corecte. Balamalele, glisierele și mânerele aripii B nu se desenează în 3D (desenul presupune fața pe +z); găurile se văd.
+- **Colțul avertizează din nou.** `buildModule` arunca avertismentele corpului de colț (rafturi strivite, uși care nu încap); acum cele ale aripilor A și B se unesc.
+- **Sertar care intră în bază sau în tavan:** avertisment nou („N sertar(e): cutia intră până la X mm…”), în 7 limbi. **Cotele nu se schimbă.** Cauza: la sistemele metalice (Legrabox) primul front pornește prea jos și fundul cutiei intră 4 mm în bază; la multe sertare pe un corp scund, cutia de sus intră în tavan. Remedierea schimbă cote deja debitate și cere versiune de geometrie nouă: decizia ta, D-104 propus.
+- **Mânerul pe o ușă joasă nu mai iese din ușă** (rămân cel puțin 20 mm față de muchii; dacă nu încape deloc, avertisment de potrivire).
+- Registrul de verificare a găuririi: 93 de valori (+ distanța minimă a mânerului de muchie).
+- Teste: 746 în browser, 9 unitare noi (invariant: operațiile aripii B = ale corpului de sine stătător, 4 colțuri × 7 configurații; avertismente; mâner), fuzz D-78 cu invarianta nouă și verificarea per aripă (I4/I7 nu mai cad pe nedrept), pe 15000 de configurații fără alte categorii noi.
+- Constatări rămase, clasate ca intrări nerealiste sau avertismente corecte: uși de 70–180 mm (nu încap cupele), pat cu adâncimea sub 1000 mm (doage care se suprapun), mese de 200–325 mm lățime. Detalii în D-103.
+
+---
+
 ## 5.9.0 — 28 octombrie 2026
 
 **Piesa cu contur liber v2** — găuri și decupaje în piesă, canale frezate și mai multe piese diferite în același modul.
