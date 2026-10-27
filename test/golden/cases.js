@@ -96,7 +96,11 @@ const CASES = [
       mat: { cielo: "m25", ripiano: "m16" } }),
   /* e uno con un pannello sottile dappertutto: il caso che prima si
      bloccava da solo */
-  c("37-sottile-16", "standard", "m16", { L: 800, H: 1600, P: 350, plinth: 0, shelves: 3, doors: 2, support: "sospeso" })
+  c("37-sottile-16", "standard", "m16", { L: 800, H: 1600, P: 350, plinth: 0, shelves: 3, doors: 2, support: "sospeso" }),
+
+  /* --- lambriu cu lamele (D-95): verticale pe suport din două foi, orizontale fără suport ---- */
+  c("38-lambriu-vert", "lambriu", "m18", { L: 2400, H: 2600, P: 34, plinth: 0, back: 1, lamW: 40, lamGap: 20, lamDir: "v" }, "m16"),
+  c("39-lambriu-orizz", "lambriu", "m18", { L: 2700, H: 2400, P: 18, plinth: 0, back: 0, lamW: 90, lamGap: 10, lamDir: "o" })
 ];
 
 /* le coppie 18/19: il runner controlla che il gabarito NON si muova e che

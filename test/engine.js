@@ -70,6 +70,8 @@ function appEngine() {
   const s = newSandbox();
   const core = path.join(APP, "ebanist-core.js");
   if (fs.existsSync(core)) vm.runInContext(fs.readFileSync(core, "utf8"), s, { filename: "ebanist-core.js" });
+  const lam = path.join(APP, "ebanist-lambriu.js");
+  if (fs.existsSync(lam)) vm.runInContext(fs.readFileSync(lam, "utf8"), s, { filename: "ebanist-lambriu.js" });
   vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
   return (_app = s);
 }

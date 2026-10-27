@@ -1415,13 +1415,18 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <div class="f"><label data-i="fModule">Rif. Modulo</label><input id="bName"></div>
         <div class="f2">
           <div class="f"><label data-i="fType">Tipo</label>
-            <select id="bTipo"><option value="standard" data-i="typeStandard">Standard</option><option value="angolare" data-i="typeCorner">Angolare</option><option value="scorrevole" data-i="typeSliding">Ante scorrevoli</option><option value="scrivania" data-i="typeDesk">Scrivania</option><option value="tavolo" data-i="typeTable">Tavolo</option><option value="letto" data-i="typeBed">Letto</option><option value="tondo" data-i="typeRound">Tondo / ovale</option><option value="raccordato" data-i="typeFillet">Angoli raccordati</option></select></div>
+            <select id="bTipo"><option value="standard" data-i="typeStandard">Standard</option><option value="angolare" data-i="typeCorner">Angolare</option><option value="scorrevole" data-i="typeSliding">Ante scorrevoli</option><option value="scrivania" data-i="typeDesk">Scrivania</option><option value="tavolo" data-i="typeTable">Tavolo</option><option value="letto" data-i="typeBed">Letto</option><option value="tondo" data-i="typeRound">Tondo / ovale</option><option value="raccordato" data-i="typeFillet">Angoli raccordati</option><option value="lambriu" data-i="typeLambriu">Boiserie a lamelle</option></select></div>
           <div class="f" id="rowL2" style="display:none"><label data-i="fL2">Largh. ala B (mm)</label><input id="bL2" type="number" inputmode="numeric"></div>
         </div>
         <div class="f3">
           <div class="f"><label data-i="fWidth">Largh. (mm)</label><input id="bL" type="number" inputmode="numeric"></div>
           <div class="f"><label data-i="fHeight">Alt. (mm)</label><input id="bH" type="number" inputmode="numeric"></div>
-          <div class="f"><label data-i="fDepth">Prof. (mm)</label><input id="bP" type="number" inputmode="numeric"></div>
+          <div class="f" id="rowP"><label data-i="fDepth">Prof. (mm)</label><input id="bP" type="number" inputmode="numeric"></div>
+        </div>
+        <div class="f3" id="rowLam" style="display:none">
+          <div class="f"><label data-i="fLamW">Larghezza lamella (mm)</label><input id="bLamW" type="number" inputmode="numeric" min="10" max="300" placeholder="40"></div>
+          <div class="f"><label data-i="fLamGap">Fuga desiderata (mm)</label><input id="bLamGap" type="number" inputmode="numeric" min="0" max="200" placeholder="20"></div>
+          <div class="f"><label data-i="fLamDir">Direzione</label><select id="bLamDir"><option value="v" data-i="lamV">Verticali</option><option value="o" data-i="lamH">Orizzontali</option></select></div>
         </div>
         <div class="f2">
           <div class="f"><label data-i="fAngL">Angolo sx (°)</label><input id="bAngL" type="number" inputmode="decimal" min="45" max="135" step="0.5" placeholder="90"></div>
@@ -2455,6 +2460,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-passport.js"></script>
 <script src="./ebanist-commerce.js"></script>
 <script src="./ebanist-advice.js"></script>
+<script src="./ebanist-lambriu.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -3236,6 +3242,36 @@ Object.assign(I18N.fr,{expClient:"Pour le client",expShop:"Débit et fournisseur
 Object.assign(I18N.de,{expClient:"Für den Kunden",expShop:"Zuschnitt und Lieferant",expSite:"Werkstatt und Baustelle"});
 Object.assign(I18N.pl,{expClient:"Dla klienta",expShop:"Cięcie i dostawca",expSite:"Warsztat i budowa"});
 Object.assign(I18N.es,{expClient:"Para el cliente",expShop:"Corte y proveedor",expSite:"Taller y obra"});
+/* ---- 5.1: boiserie / lambriu cu lamele (D-95) ---- */
+Object.assign(I18N.it,{typeLambriu:"Boiserie a lamelle",preset_lambriu:"Boiserie",fLamW:"Larghezza lamella (mm)",fLamGap:"Fuga desiderata (mm)",fLamDir:"Direzione",lamV:"Verticali",lamH:"Orizzontali",
+ lamInfo:"{n} lamelle · fuga {g} mm",wLamTight:"Fuga sotto 3 mm: riduci la larghezza o il numero di lamelle.",wLamShift:"Fuga calcolata {g} mm, diversa da quella desiderata: le lamelle riempiono la parete in modo uniforme.",
+ lamErrMat:"Boiserie: scegli il materiale delle lamelle — lo spessore viene dal materiale.",lamErrBack:"Boiserie: scegli il materiale del supporto — lo spessore viene dal materiale.",lamErrDim:"Boiserie: lamella 10–300 mm, fuga 0–200 mm, lamella non più larga del campo.",lamErrLen:"Boiserie: {m} mm supera la lunghezza della lastra ({p} mm).",
+ lamS1:"Traccia sulla parete il livello e le linee di fissaggio del supporto; controlla la planarità.",lamS2:"Fissa sulla parete i {q} pannelli di supporto, affiancati a filo.",lamS3:"Incolla e fissa le {n} lamelle con un distanziale di {g} mm tra l'una e l'altra; la prima e l'ultima vanno a filo dei bordi della parete.",lamS4:"Controllo finale: lamelle allineate, fughe uguali, nessuna lamella fuori piano.",role_lamela:"Lamella"});
+Object.assign(I18N.ro,{typeLambriu:"Lambriu cu lamele",preset_lambriu:"Lambriu",fLamW:"Lățime lamelă (mm)",fLamGap:"Rost dorit (mm)",fLamDir:"Direcție",lamV:"Verticale",lamH:"Orizontale",
+ lamInfo:"{n} lamele · rost {g} mm",wLamTight:"Rost sub 3 mm: micșorează lățimea sau numărul de lamele.",wLamShift:"Rost calculat {g} mm, diferit de cel dorit: lamelele umplu peretele uniform.",
+ lamErrMat:"Lambriu: alege materialul lamelelor — grosimea vine din material.",lamErrBack:"Lambriu: alege materialul suportului — grosimea vine din material.",lamErrDim:"Lambriu: lamelă 10–300 mm, rost 0–200 mm, lamela nu mai lată decât peretele.",lamErrLen:"Lambriu: {m} mm depășește lungimea plăcii ({p} mm).",
+ lamS1:"Trasează pe perete nivelul și liniile de fixare ale suportului; verifică planeitatea.",lamS2:"Fixează pe perete cele {q} panouri de suport, alăturate la ras.",lamS3:"Lipește și fixează cele {n} lamele cu un distanțier de {g} mm între ele; prima și ultima merg la ras cu marginile peretelui.",lamS4:"Control final: lamele aliniate, rosturi egale, nicio lamelă ieșită din plan.",role_lamela:"Lamelă"});
+Object.assign(I18N.en,{typeLambriu:"Slat wall panelling",preset_lambriu:"Slat wall",fLamW:"Slat width (mm)",fLamGap:"Target gap (mm)",fLamDir:"Direction",lamV:"Vertical",lamH:"Horizontal",
+ lamInfo:"{n} slats · gap {g} mm",wLamTight:"Gap under 3 mm: reduce the slat width or the number of slats.",wLamShift:"Calculated gap {g} mm differs from the target: the slats fill the wall evenly.",
+ lamErrMat:"Slat panelling: choose the slat material — the thickness comes from the material.",lamErrBack:"Slat panelling: choose the support material — the thickness comes from the material.",lamErrDim:"Slat panelling: slat 10–300 mm, gap 0–200 mm, slat no wider than the wall.",lamErrLen:"Slat panelling: {m} mm exceeds the board length ({p} mm).",
+ lamS1:"Mark the level and the fixing lines of the support on the wall; check flatness.",lamS2:"Fix the {q} support panels to the wall, butted flush.",lamS3:"Glue and fix the {n} slats with a {g} mm spacer between them; the first and the last sit flush with the wall edges.",lamS4:"Final check: slats aligned, gaps equal, no slat out of plane.",role_lamela:"Slat"});
+Object.assign(I18N.fr,{typeLambriu:"Lambris à lamelles",preset_lambriu:"Lambris",fLamW:"Largeur de lamelle (mm)",fLamGap:"Jeu souhaité (mm)",fLamDir:"Sens",lamV:"Verticales",lamH:"Horizontales",
+ lamInfo:"{n} lamelles · jeu {g} mm",wLamTight:"Jeu inférieur à 3 mm : réduisez la largeur ou le nombre de lamelles.",wLamShift:"Jeu calculé {g} mm, différent du jeu souhaité : les lamelles remplissent le mur régulièrement.",
+ lamErrMat:"Lambris : choisissez le matériau des lamelles — l'épaisseur vient du matériau.",lamErrBack:"Lambris : choisissez le matériau du support — l'épaisseur vient du matériau.",lamErrDim:"Lambris : lamelle 10–300 mm, jeu 0–200 mm, lamelle pas plus large que le mur.",lamErrLen:"Lambris : {m} mm dépasse la longueur du panneau ({p} mm).",
+ lamS1:"Tracez au mur le niveau et les lignes de fixation du support ; vérifiez la planéité.",lamS2:"Fixez au mur les {q} panneaux de support, bord à bord.",lamS3:"Collez et fixez les {n} lamelles avec une cale de {g} mm entre elles ; la première et la dernière affleurent les bords du mur.",lamS4:"Contrôle final : lamelles alignées, jeux égaux, aucune lamelle hors plan.",role_lamela:"Lamelle"});
+Object.assign(I18N.de,{typeLambriu:"Lamellen-Wandverkleidung",preset_lambriu:"Lamellenwand",fLamW:"Lamellenbreite (mm)",fLamGap:"Gewünschte Fuge (mm)",fLamDir:"Richtung",lamV:"Senkrecht",lamH:"Waagerecht",
+ lamInfo:"{n} Lamellen · Fuge {g} mm",wLamTight:"Fuge unter 3 mm: Lamellenbreite oder Anzahl verringern.",wLamShift:"Berechnete Fuge {g} mm weicht vom Wunsch ab: die Lamellen füllen die Wand gleichmäßig.",
+ lamErrMat:"Lamellenwand: Lamellenmaterial wählen — die Dicke kommt aus dem Material.",lamErrBack:"Lamellenwand: Trägermaterial wählen — die Dicke kommt aus dem Material.",lamErrDim:"Lamellenwand: Lamelle 10–300 mm, Fuge 0–200 mm, Lamelle nicht breiter als die Wand.",lamErrLen:"Lamellenwand: {m} mm überschreitet die Plattenlänge ({p} mm).",
+ lamS1:"Höhe und Befestigungslinien des Trägers an der Wand anzeichnen; Ebenheit prüfen.",lamS2:"Die {q} Trägerplatten bündig nebeneinander an der Wand befestigen.",lamS3:"Die {n} Lamellen mit einem {g}-mm-Abstandhalter dazwischen kleben und befestigen; erste und letzte schließen bündig mit den Wandkanten ab.",lamS4:"Endkontrolle: Lamellen ausgerichtet, Fugen gleich, keine Lamelle aus der Ebene.",role_lamela:"Lamelle"});
+Object.assign(I18N.pl,{typeLambriu:"Okładzina lamelowa",preset_lambriu:"Lamele",fLamW:"Szerokość lamelki (mm)",fLamGap:"Żądana szczelina (mm)",fLamDir:"Kierunek",lamV:"Pionowe",lamH:"Poziome",
+ lamInfo:"{n} lamelek · szczelina {g} mm",wLamTight:"Szczelina poniżej 3 mm: zmniejsz szerokość lub liczbę lamelek.",wLamShift:"Obliczona szczelina {g} mm różni się od żądanej: lamelki wypełniają ścianę równomiernie.",
+ lamErrMat:"Okładzina: wybierz materiał lamelek — grubość wynika z materiału.",lamErrBack:"Okładzina: wybierz materiał podkładu — grubość wynika z materiału.",lamErrDim:"Okładzina: lamelka 10–300 mm, szczelina 0–200 mm, lamelka nie szersza niż ściana.",lamErrLen:"Okładzina: {m} mm przekracza długość płyty ({p} mm).",
+ lamS1:"Zaznacz na ścianie poziom i linie mocowania podkładu; sprawdź płaskość.",lamS2:"Przymocuj do ściany {q} płyt podkładu, równo obok siebie.",lamS3:"Przyklej i zamocuj {n} lamelek z przekładką {g} mm między nimi; pierwsza i ostatnia równo z krawędziami ściany.",lamS4:"Kontrola końcowa: lamelki w jednej linii, równe szczeliny, żadna nie wystaje z płaszczyzny.",role_lamela:"Lamelka"});
+Object.assign(I18N.es,{typeLambriu:"Revestimiento de lamas",preset_lambriu:"Lamas",fLamW:"Ancho de lama (mm)",fLamGap:"Junta deseada (mm)",fLamDir:"Dirección",lamV:"Verticales",lamH:"Horizontales",
+ lamInfo:"{n} lamas · junta {g} mm",wLamTight:"Junta inferior a 3 mm: reduce el ancho o el número de lamas.",wLamShift:"Junta calculada {g} mm, distinta de la deseada: las lamas llenan la pared de forma uniforme.",
+ lamErrMat:"Lamas: elige el material de las lamas — el grosor viene del material.",lamErrBack:"Lamas: elige el material del soporte — el grosor viene del material.",lamErrDim:"Lamas: lama 10–300 mm, junta 0–200 mm, lama no más ancha que la pared.",lamErrLen:"Lamas: {m} mm supera la longitud del tablero ({p} mm).",
+ lamS1:"Marca en la pared el nivel y las líneas de fijación del soporte; comprueba la planitud.",lamS2:"Fija a la pared los {q} paneles de soporte, a tope y enrasados.",lamS3:"Pega y fija las {n} lamas con un separador de {g} mm entre ellas; la primera y la última quedan enrasadas con los bordes de la pared.",lamS4:"Control final: lamas alineadas, juntas iguales, ninguna lama fuera de plano.",role_lamela:"Lama"});
+
 Object.assign(I18N.it,{vtCoh:"Coerenza"});
 Object.assign(I18N.ro,{vtCoh:"Coerență"});
 Object.assign(I18N.en,{vtCoh:"Consistency"});
@@ -5739,7 +5775,8 @@ const PRESETS = {
   tondo:{name:"Tondo",type:"tondo",L:600,L2:900,H:1200,P:600,plinth:0,tram:0,shelves:3,drawers:0,doors:0,back:0,hang:0},
   ovale:{name:"Ovale",type:"tondo",L:900,L2:900,H:800,P:450,plinth:0,tram:0,shelves:2,drawers:0,doors:0,back:0,hang:0},
   raccordato:{name:"Raccordato",type:"raccordato",L:900,L2:900,H:1400,P:450,plinth:0,tram:0,shelves:3,drawers:0,doors:0,back:1,hang:0,rcorner:80},
-  letto:{name:"Letto",type:"letto",L:1660,L2:900,H:950,P:2060,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:0,hang:0}
+  letto:{name:"Letto",type:"letto",L:1660,L2:900,H:950,P:2060,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:0,hang:0},
+  lambriu:{name:"Boiserie",type:"lambriu",L:2400,L2:900,H:2600,P:34,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:1,hang:0,lamW:40,lamGap:20,lamDir:"v",matBody:"mdf18",matBack:"pal16_alb"}
 };
 let buildCfg = {...PRESETS.armadio};
 let buildObst=[];   // ostacoli portati dal rilievo nel generatore
@@ -5959,7 +5996,7 @@ function isFrontEl(el){ return /^(anta|frontale|montante anta|traversa anta)/i.t
 const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
   base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
-  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio",
+  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco",
   zoccolo:"zoccolo", traversa:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
   cassetto_fianco:"fianco", cassetto_fondo:"fianco"
@@ -7572,6 +7609,43 @@ function buildModule(cfg){
      archi. Gli intagli servono li e SOLO li: nei tratti dritti il pannello
      resta intero, ed e per questo che le posizioni vanno dette.
      Piani e ripiani restano rettangoli di sbozzo con due angoli da rifilare. */
+  /* LAMBRIUL CU LAMELE (D-95): lamele egale pe un suport, rosturi egale, capetele la ras cu peretele.
+     Gabaritul se recompune din piese cu toleranță 0: n·w + (n−1)·rost = lungime, în ebanist-lambriu.js.
+     Lamela = materialul corpului (grosimea din material, D-41); suportul = materialul spatelui. */
+  if(cfg.type==="lambriu"){
+    const L=+cfg.L, H=+cfg.H, S0=(typeof state!=="undefined"&&state.settings)||{};
+    const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
+    const mS=matById(cfg.matBody), mB=cfg.back?matById(cfg.matBack||S0.matBack):null;
+    if(!mS||!(+mS.th>0)) throw new Error(t("lamErrMat"));
+    if(cfg.back&&(!mB||!(+mB.th>0))) throw new Error(t("lamErrBack"));
+    if(!(L>0&&H>0)) throw new Error(t("lamErrDim"));
+    const horiz=cfg.lamDir==="o", span=horiz?H:L, lenAx=horiz?L:H;
+    const w=+cfg.lamW>0?+cfg.lamW:40, gap=(+cfg.lamGap>=0&&cfg.lamGap!==""&&cfg.lamGap!=null)?+cfg.lamGap:20;
+    const lay=EBLambriu.layout(span,w,gap);
+    if(!lay.ok) throw new Error(t("lamErrDim"));
+    if(lenAx>PANL) throw new Error(t("lamErrLen").replace("{m}",Math.round(lenAx)).replace("{p}",PANL));
+    const ts=+mS.th, tb=mB?+mB.th:0, pieces=[], boxes=[], warn={};
+    let pk=0, sheets=null;
+    if(mB){
+      sheets=EBLambriu.backSheets(L,H,PANL,PANW);
+      if(!sheets.ok) throw new Error(t("lamErrLen").replace("{m}",Math.round(H)).replace("{p}",PANL));
+      let x=0;
+      sheets.groups.forEach(g=>{
+        pieces.push({elemento:"Pannello supporto",role:"schienale",lung:Math.round(H),larg:g.larg,pz:g.pz,bordo:"",
+          mat:mB.label,axis_mapping:{lung:"H",larg:"L",sp:"P"}});
+        for(let i=0;i<g.pz;i++){ boxes.push({x0:x,x1:x+g.larg,y0:0,y1:H,z0:0,z1:tb,kind:"p",role:"schienale",pk:++pk,sub:"back"}); x+=g.larg; }
+      });
+    }
+    pieces.push({elemento:"Lamella",role:"lamela",lung:Math.round(lenAx),larg:Math.round(w),pz:lay.n,
+      bordo:takesEdge(cfg,"Lamella","lamela")?"2L":"",mat:mS.label,
+      axis_mapping:horiz?{lung:"L",larg:"H",sp:"P"}:{lung:"H",larg:"L",sp:"P"}});
+    lay.xs.forEach(x=>boxes.push(horiz
+      ?{x0:0,x1:L,y0:x,y1:x+w,z0:tb,z1:tb+ts,kind:"p",role:"lamela",pk:++pk}
+      :{x0:x,x1:x+w,y0:0,y1:H,z0:tb,z1:tb+ts,kind:"p",role:"lamela",pk:++pk}));
+    if(lay.warn.indexOf("tightGap")>=0) warn.lamTight=1;
+    if(lay.warn.indexOf("gapShift")>=0) warn.lamShift=Math.round(lay.gap*10)/10;
+    return {pieces,boxes,warn,lam:{n:lay.n,gap:Math.round(lay.gap*10)/10,w,dir:horiz?"o":"v",sheets:sheets?sheets.groups.reduce((a,g)=>a+g.pz,0):0}};
+  }
   if(cfg.type==="raccordato"){
     const L=cfg.L, H=cfg.H, P=cfg.P, t=structTh(cfg);
     const pieces=[],boxes=[],warn={};
@@ -8069,6 +8143,13 @@ de:{"Anta":"Tür","Anta scorrevole":"Schiebetür","Fianco sx":"Seite links","Fia
 pl:{"Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
 es:{"Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
+/* elementele lambriului (D-95): numele din distinta rămân italiene, se traduc numai la afișare */
+Object.assign(EL_I18N.ro,{"Lamella":"Lamelă","Pannello supporto":"Panou suport"});
+Object.assign(EL_I18N.en,{"Lamella":"Slat","Pannello supporto":"Support panel"});
+Object.assign(EL_I18N.fr,{"Lamella":"Lamelle","Pannello supporto":"Panneau support"});
+Object.assign(EL_I18N.de,{"Lamella":"Lamelle","Pannello supporto":"Trägerplatte"});
+Object.assign(EL_I18N.pl,{"Lamella":"Lamelka","Pannello supporto":"Płyta podkładu"});
+Object.assign(EL_I18N.es,{"Lamella":"Lama","Pannello supporto":"Panel soporte"});
 function elName(s){
   if(s==null) return s;
   const D=EL_I18N[state&&state.lang]; if(!D) return s;
@@ -8662,11 +8743,22 @@ function clientBack(){
 }
 
 /* --- builder UI --- */
+/* adâncimea lambriului = lamela + suportul, din materialele alese (informativă: nu e cotă de piesă) */
+function lamDepth(){
+  const th=id=>{ const m=matById($(id).value); return m&&+m.th>0?+m.th:0; };
+  return Math.max(1,th("bMatBody")+(parseInt($("bBack").value,10)?th("bMatBack"):0));
+}
+function lamRows(){
+  const lam=$("bTipo").value==="lambriu";
+  $("rowLam").style.display=lam?"":"none"; $("rowP").style.display=lam?"none":"";
+}
 function cfgFromForm(){
   const v=(id,def)=>{const n=parseInt($(id).value,10);return isFinite(n)&&n>=0?n:def;};
   return {name:$("bName").value.trim(), type:$("bTipo").value,
     L:Math.max(100,v("bL",800)), L2:Math.max(300,v("bL2",900)),
-    H:(()=>{ const sl=slopeFromForm(); return sl&&sl.h0>0&&sl.h1>0?Math.max(sl.h0,sl.h1):Math.max(100,v("bH",720)); })(), P:Math.max(100,v("bP",500)),
+    H:(()=>{ const sl=slopeFromForm(); return sl&&sl.h0>0&&sl.h1>0?Math.max(sl.h0,sl.h1):Math.max(100,v("bH",720)); })(),
+    P:$("bTipo").value==="lambriu"?lamDepth():Math.max(100,v("bP",500)),
+    lamW:Math.max(10,Math.min(300,v("bLamW",40))), lamGap:Math.max(0,Math.min(200,v("bLamGap",20))), lamDir:$("bLamDir").value==="o"?"o":"v",
     /* LA GROSSEZZA VIENE DAL MATERIALE. Il vecchio `||{th:18}` era la rete
        di sicurezza che teneva il calcolo a 18 quando il pannello era da 19.
        Senza materiale la grossezza resta 0 e il generatore si ferma. */
@@ -8733,6 +8825,7 @@ function syncBuildForm(){
   $("bRc").value=buildCfg.rcorner||"";
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
   $("bName").value=buildCfg.name||""; $("bTipo").value=buildCfg.type||"standard";
+  $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v"; lamRows();
   $("bL").value=buildCfg.L; $("bL2").value=buildCfg.L2||900;
   $("bH").value=buildCfg.H; $("bP").value=buildCfg.P;
   const S=state.settings;
@@ -8895,7 +8988,7 @@ function renderSecPull(){
   const modes=(buildCfg.secMode||[]).slice(0,n);
   const eff=i=>modes[i]||(hang?(sh>0?"hangShelf":"hang"):(sh>0?"shelf":"empty"));
   const secs=[]; for(let i=0;i<n;i++){ const m=eff(i); if(m==="shelf"||m==="hangShelf"||m==="drawerShelf") secs.push(i); }
-  const show=sh>0&&secs.length>0&&!hasPartitions(buildCfg)&&!["scrivania","tavolo","letto","tondo","raccordato"].includes(buildCfg.type);
+  const show=sh>0&&secs.length>0&&!hasPartitions(buildCfg)&&!["scrivania","tavolo","letto","tondo","raccordato","lambriu"].includes(buildCfg.type);
   wrap.style.display=show?"":"none";
   if(!show){ box.innerHTML=""; return; }
   const cur=buildSecPull||[];
@@ -8992,7 +9085,7 @@ function renderAW(){
 }
 function renderTop(){
   const row=$("rowTop"); if(!row) return;
-  const noTop=["scrivania","tavolo","letto","tondo","raccordato"].includes($("bTipo").value);
+  const noTop=["scrivania","tavolo","letto","tondo","raccordato","lambriu"].includes($("bTipo").value);
   row.style.display=noTop?"none":""; $("topHint").style.display=noTop?"none":"";
   $("rowTopRail").style.display=(!noTop&&$("bTop").value==="traverse")?"":"none";
 }
@@ -9102,7 +9195,7 @@ function renderDoorHinge(){
   const wrap=$("doorHingeWrap"), box=$("doorHingeBox"); if(!wrap||!box) return;
   const nd=Math.min(MAX_DOORS,+($("bDoors").value||0));
   const show=nd>0&&buildCfg.type!=="scorrevole"&&!hasFronts(buildCfg)&&$("bFront").value!=="curvo"
-    &&!["scrivania","tavolo","letto","tondo","raccordato"].includes(buildCfg.type);
+    &&!["scrivania","tavolo","letto","tondo","raccordato","lambriu"].includes(buildCfg.type);
   wrap.style.display=show?"":"none";
   if(!show){ box.innerHTML=""; return; }
   const cur=buildDoorHinge||[];
@@ -9264,6 +9357,9 @@ function drawPreview(){
   if(wn.foldReach) notes.push(t("wFoldReach").replace("{w}",wn.foldReach));
   if(wn.stepHit) notes.push("⚠︎ "+t("stepHit"));
   if(wn.topAng) notes.push("⚠︎ "+t("wTopAngled"));
+  if(built.lam) notes.push(t("lamInfo").replace("{n}",built.lam.n).replace("{g}",built.lam.gap));
+  if(wn.lamTight) notes.push("⚠︎ "+t("wLamTight"));
+  if(wn.lamShift!=null&&!wn.lamTight) notes.push(t("wLamShift").replace("{g}",wn.lamShift));
   /* le verifiche del cassetto: profondità, altezza del frontale, larghezza
      utile, braccio della cerniera. Prima non ne esisteva nessuna e un cassetto
      impossibile finiva in distinta senza dire niente. */
@@ -9281,7 +9377,7 @@ function drawPreview(){
   renderLayBar();
   drawInfoLine(buildCfg,built);
   $("angHint").innerHTML=notes.length?notes.map(esc).join(" · "):"";
-  $("angHint").style.color=(skip.length||wn.doorSkip>0||wn.doorTight||(wn.drawWarn&&wn.drawWarn.length)||split.some(x=>x.joint==="visible"))?"var(--danger)":"var(--muted)";
+  $("angHint").style.color=(skip.length||wn.doorSkip>0||wn.doorTight||wn.lamTight||(wn.drawWarn&&wn.drawWarn.length)||split.some(x=>x.joint==="visible"))?"var(--danger)":"var(--muted)";
   updGrpSums();
 }
 
@@ -9500,7 +9596,10 @@ function renderBuild(){
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
+      lamRows();
+      if($("bTipo").value==="lambriu"){ if(!$("bLamW").value) $("bLamW").value=40; if(!$("bLamGap").value) $("bLamGap").value=20; }
     });
+    ["bLamW","bLamGap","bLamDir"].forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     $("bFront").addEventListener("change",()=>{
       $("rowBow").style.display=($("bFront").value==="curvo")?"":"none";
       if($("bFront").value==="curvo"&&!$("bBow").value) $("bBow").value=40;
@@ -9557,6 +9656,7 @@ function presetIcon(c){
   if(ty==="tavolo") return S('<path d="M3 15h30M6 15v20M30 15v20M3 13h30v2H3z"/>');
   if(ty==="scrivania") return S('<path d="M3 14h30M5 14v21M31 14v21M20 14v12h11"/><path d="M20 20h11"/>');
   if(ty==="letto") return S('<path d="M4 12v23M32 22v13M4 25h28M4 30h28M8 20h9a2 2 0 0 1 2 2v3H8z"/>');
+  if(ty==="lambriu") return S('<path d="M5 5h26v30H5z"/><path d="M10 5v30M15 5v30M20 5v30M25 5v30"/>');
   if(ty==="tondo") return S('<ellipse cx="18" cy="20" rx="13" ry="15"/><path d="M5.5 20h25"/>');
   if(ty==="raccordato") return S('<path d="M6 5h24v30H14a8 8 0 0 1-8-8z"/><path d="M6 18h24"/>');
   if(ty==="angolare") return S('<path d="M4 6h28v12H16v17H4z"/><path d="M16 6v12M10 12v17"/>');
@@ -10760,6 +10860,16 @@ function assemblySteps(modName,hw,cfg,items){
   const CARC=["lato","box"];
   const flat=cfg&&["scrivania","tavolo","letto"].includes(cfg.type);
   add(t("mPrep"));
+  if(cfg&&cfg.type==="lambriu"){
+    /* cotele vin din model (D-51): numărul de lamele, rostul și foile de suport, nu din text scris */
+    let B=null; try{ B=buildModule(cfg); }catch(e){}
+    const m=B&&B.lam;
+    add(t("lamS1"));
+    if(m&&m.sheets>0) add(t("lamS2").replace("{q}",m.sheets));
+    if(m) add(t("lamS3").replace("{n}",m.n).replace("{g}",m.gap));
+    add(t("lamS4"));
+    return st;
+  }
   if(flat){
     add(t("mFlatAsm"));
     if(hw.hwMan>0) add(t("mHandles").replace("{q}",hw.hwMan).replace("{p}",P("man","hwMan")));
@@ -14399,7 +14509,7 @@ const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR",de:"de-DE",pl:
    validazione lo scarta senza che si capisca perche. Regola: un tipo nuovo
    entra in AI_ENUM nello stesso commit in cui entra nell'interfaccia. */
 const AI_ENUM={
-  type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato"],
+  type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato","lambriu"], lamDir:["v","o"],
   front:["piena","vetro","curvo"], support:["zoccolo","piedini","sospeso"],
   handles:["maniglia","push","gola"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
   corner:["sx","dx"], cornerKind:["int","ext"],
@@ -14469,6 +14579,7 @@ EVERY NUMBER MUST LAND. The app compares every measurement in his text with your
 CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extra field:
   type="tondo" — a round or oval body. L and P are the OUTSIDE axes measured with a tape; equal L and P give a cylinder, different ones an oval. Shelves sit inside. No extra field.
   type="raccordato" — a rectangle with the two FRONT corners rounded; "rcorner" is the radius in mm (default 80). Give it only for this type.
+  type="lambriu" — wall slat panelling: L = wall width, H = wall height, "lamW" = slat width (mm), "lamGap" = wanted gap between slats (mm), "lamDir" = v (vertical) or o (horizontal); the engine spreads the slats evenly so the gaps are equal and the last slat ends exactly at the wall edge. back=1 adds a support panel. Give lamW/lamGap/lamDir only for this type.
   front="curvo" — bowed doors; "bow" is the camber in mm at the centre of the door (typical 30-60). Give it only for this front.
 For all three the cut list still gets a straight rectangle at the DEVELOPED length, because the panel is cut flat and bent afterwards — do not shorten a dimension to "account for the curve", give the real outside sizes and let the engine compute the development and the kerf plan.
 
@@ -14527,6 +14638,9 @@ function aiSchema(mode){
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
         bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
+        lamW:{type:"integer",minimum:10,maximum:300,description:"Slat width (mm), only with type=\"lambriu\"."},
+        lamGap:{type:"integer",minimum:0,maximum:200,description:"Wanted gap between slats (mm), only with type=\"lambriu\"; the engine adjusts it so the slats fill the wall exactly."},
+        lamDir:{type:"string",enum:AI_ENUM.lamDir,description:"v = vertical slats, o = horizontal; only with type=\"lambriu\"."},
         secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:MAX_TRAM+1,
           description:"Content of each section, left to right. Length must be tram+1."},
         secPull:{type:"array",items:{type:"integer",minimum:0,maximum:1},maxItems:MAX_TRAM+1,
@@ -14636,14 +14750,14 @@ async function aiCall(mode,text,imgs){
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,MAX_TRAM],
   shelves:[0,10],drawers:[0,8],doors:[0,MAX_DOORS],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
   shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
-  bow:[0,200],rcorner:[10,400],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
+  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
   if(!raw||typeof raw!=="object") return out;
   for(const k in AI_CFG_INT){ if(raw[k]==null) continue;
     const v=aiInt(raw[k],AI_CFG_INT[k][0],AI_CFG_INT[k][1]); if(v!=null) out[k]=v; }
-  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top"]){
+  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir"]){
     if(raw[k]==null) continue;
     if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
   if(raw.drawerH!=null){
@@ -14896,7 +15010,7 @@ function aiLbl(k){
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
-    bow:t("fBow"),rcorner:t("fRcorner"),
+    bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),
     partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
     customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
   return map[k]||k;
@@ -14914,12 +15028,12 @@ function aiVal(k,v){
   if(k==="customCuts") return (v||[]).map(c=>`${c.on} ${c.corner} ${c.h}×${c.w}`).join(" · ")||"—";
   if(k==="geom") return v&&v.setback_ripiano!=null?String(v.setback_ripiano):"—";
   if(["back","hang","boxes","shelfEven"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
-  if(["type","front","support","handles","shelfType","corner","cornerKind","top"].indexOf(k)>=0){
+  if(["type","front","support","handles","shelfType","corner","cornerKind","top","lamDir"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
       piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",mobile:"shMobile",
       fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt",
-      tondo:"typeRound",raccordato:"typeFillet",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
+      tondo:"typeRound",raccordato:"typeFillet",lambriu:"typeLambriu",v:"lamV",o:"lamH",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
     return m[v]?t(m[v]):v;
   }
   return String(v);
@@ -15680,12 +15794,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.0.0"; /* APP_VER-MARKER */
+const APP_VER="5.1.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v157";
+const SW_CACHE="ebanist-v158";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

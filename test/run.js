@@ -4094,6 +4094,55 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Lambriu cu lamele — tip nou: formular, distinta cu închidere exactă, 3D, fișa de montaj, 7 limbi");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId, keepLang = state.lang;
+      state.projects = [{ id: "lm1", name: "Perete", pieces: [], configs: {} }]; state.activeId = "lm1";
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.lambriu, name: "Lambriu A" }); await w(300);
+      o.camp = document.getElementById("bTipo").value === "lambriu" && document.getElementById("rowLam").style.display !== "none" && document.getElementById("rowP").style.display === "none";
+      o.valori = document.getElementById("bLamW").value === "40" && document.getElementById("bLamGap").value === "20" && document.getElementById("bLamDir").value === "v";
+      o.info = document.getElementById("angHint").textContent.includes(t("lamInfo").replace("{n}", "40").replace("{g}", "20.5"));
+      document.getElementById("btnGenerate").click(); await w(400);
+      const p = proj(), sl = p.pieces.find(x => x.elemento === "Lamella"), bk = p.pieces.filter(x => x.elemento === "Pannello supporto");
+      o.rows = p.pieces.length === 2 && !!sl && bk.length === 1;
+      o.cote = sl.lung === 2600 && sl.larg === 40 && sl.pz === 40 && bk[0].lung === 2600 && bk[0].larg === 1200 && bk[0].pz === 2;
+      /* închidere: lamelele + rosturile = lățimea; foile de suport = lățimea */
+      const gap = (2400 - sl.pz * sl.larg) / (sl.pz - 1);
+      o.inchidere = Math.abs(sl.pz * sl.larg + (sl.pz - 1) * gap - 2400) < 1e-9 && bk[0].larg * bk[0].pz === 2400;
+      o.matLabel = sl.materiale !== bk[0].materiale;
+      o.fisaDeProiect = !!p.configs["Lambriu A"] && p.configs["Lambriu A"].type === "lambriu" && p.configs["Lambriu A"].P === 34;
+      const B = buildModule(p.configs["Lambriu A"]);
+      const lam = B.boxes.filter(b => b.role === "lamela");
+      o.treiD = lam.length === 40 && Math.abs(lam[0].x0) < 1e-9 && Math.abs(lam[39].x1 - 2400) < 1e-9 && lam.every(b => b.pk > 0);
+      const rest = assemblySteps("Lambriu A", {}, p.configs["Lambriu A"], p.pieces).map(x => x.x).join("|");
+      o.pasi = rest.includes(t("lamS1")) && rest.includes("20.5") && rest.includes("40") && !rest.includes("{");
+      o.auditVerde = auditProject(p).length === 0;
+      /* orizontale, fără suport; prea lungă pentru placă → eroare, nu distinta */
+      let err = ""; try { buildModule({ ...p.configs["Lambriu A"], lamDir: "o", back: 0, L: 3000 }); } catch (e) { err = e.message; }
+      o.eroareLung = err.includes("2800") || err.includes(t("lamErrLen").split("{")[0]);
+      const H = buildModule({ ...p.configs["Lambriu A"], lamDir: "o", back: 0, L: 2700, H: 2400, lamW: 90, lamGap: 10 });
+      o.oriz = H.pieces.length === 1 && H.pieces[0].lung === 2700 && H.pieces[0].larg === 90 && H.pieces[0].pz === 24 && H.pieces[0].axis_mapping.lung === "L";
+      /* textele există în toate cele 7 limbi, fără chei goale */
+      const ks = ["typeLambriu", "preset_lambriu", "fLamW", "fLamGap", "fLamDir", "lamV", "lamH", "lamInfo", "wLamTight", "wLamShift", "lamErrMat", "lamErrBack", "lamErrDim", "lamErrLen", "lamS1", "lamS2", "lamS3", "lamS4", "role_lamela"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2));
+      o.elemente = ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Lamella"] && EL_I18N[l]["Pannello supporto"]);
+      /* AI: tipul și câmpurile nu se pierd la validare */
+      const n = aiNormCfg({ type: "lambriu", lamW: 50, lamGap: 12, lamDir: "o", L: 3000 }, []);
+      o.ai = n.type === "lambriu" && n.lamW === 50 && n.lamGap === 12 && n.lamDir === "o" && AI_ENUM.type.includes("lambriu");
+      state.projects = keepP; state.activeId = keepA; state.lang = keepLang;
+      return o;
+    });
+    ok("Lambriu: tipul apare în formular cu câmpurile lui (lățime, rost, direcție), fără adâncime; presetul are valori și anunță 40 lamele · rost 20.5", r.camp === true && r.valori === true && r.info === true);
+    ok("Lambriu: distinta are suportul din două foi și 40 de lamele, materiale diferite, configurația se salvează cu adâncimea derivată", r.rows === true && r.cote === true && r.matLabel === true && r.fisaDeProiect === true);
+    ok("Lambriu: închidere exactă (lamele + rosturi = lățimea, foile = lățimea), 3D cu 40 de piese de la 0 la 2400, semaforul de coerență verde", r.inchidere === true && r.treiD === true && r.auditVerde === true);
+    ok("Lambriu: pașii de montaj poartă rostul și numărul din model; orizontal merge, prea lung pentru placă se oprește", r.pasi === true && r.oriz === true && r.eroareLung === true);
+    ok("Lambriu: textele în toate cele 7 limbi, elementele traduse, AI-ul acceptă tipul și câmpurile", r.limbi === true && r.elemente === true && r.ai === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
