@@ -54,6 +54,7 @@ const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind
     if (ox > .6 && oy > .6 && oz > .6 && vpOverlap(a, c) === false) continue;     /* panou pe pantă: gabaritul se suprapune, piesa nu */
     if (ox > .6 && oy > .6 && oz > .6) { const k = [a.role + (a.sub ? "/" + a.sub : ""), c.role + (c.sub ? "/" + c.sub : "")].sort().join(" × "); out[k] = 1; } }
   return Object.keys(out); };
+const span2 = (c, horiz) => horiz ? c.L : c.H;
 const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {};
@@ -87,7 +88,9 @@ for (let i = 0; i < N; i++) {
     if (process.env.NOSLOPE) delete cfg.topProfile;   /* aceeași succesiune de numere aleatoare, fără pantă: pentru comparație */
   }
   /* D-95: lambriu — lățime, rost și direcție aleatoare */
-  if (t === "lambriu") { if (rnd() < .8) cfg.lamW = ri(10, 300); if (rnd() < .8) cfg.lamGap = ri(0, 200); if (rnd() < .5) cfg.lamDir = pick(["v", "o"]); }
+  if (t === "lambriu") { if (rnd() < .8) cfg.lamW = ri(10, 300); if (rnd() < .8) cfg.lamGap = ri(0, 200); if (rnd() < .5) cfg.lamDir = pick(["v", "o"]);
+    if (rnd() < .6) { cfg.lamCuts = []; for (let k = ri(1, 4); k > 0; k--) { const cw = ri(20, 250), ch = ri(20, 250); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } }
+    if (rnd() < .15) cfg.H = ri(2800, 3300); }
   if (rnd() < .2) cfg.hang = ri(0, 1);
   if (rnd() < .2) cfg.back = ri(0, 1);
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
@@ -105,14 +108,23 @@ for (let i = 0; i < N; i++) {
   try { if (b2.boxes) coll(b2).forEach(k => note("coliziune " + k + ((b2.draw && b2.draw.warn && b2.draw.warn.length) || (b2.warn && Object.values(b2.warn).some(v => v)) ? " (cu avertisment)" : " (FĂRĂ avertisment)"), cfg)); } catch (e) {}
   if (t === "lambriu") {
     /* închidere (D-43) pe piese: lamelele ocupă exact lungimea, foile de suport exact lățimea, nicio piesă peste placă */
-    const horiz = cfg.lamDir === "o", span = horiz ? cfg.H : cfg.L, sl = pcs.find(x => x.role === "lamela"), bks = pcs.filter(x => x.role === "schienale");
-    const lam = b2.boxes.filter(x => x.role === "lamela").sort((x, y) => horiz ? x.y0 - y.y0 : x.x0 - y.x0);
-    const lo = horiz ? "y0" : "x0", hi = horiz ? "y1" : "x1";
-    if (!sl || sl.pz !== lam.length) note("lambriu: lamele ≠ cutii 3D", cfg, [sl && sl.pz, lam.length]);
-    else if (lam.length > 1 && (Math.abs(lam[0][lo]) > 1e-6 || Math.abs(lam[lam.length - 1][hi] - span) > 1e-6)) note("lambriu: lamelele nu ajung la capete", cfg, [lam[0][lo], lam[lam.length - 1][hi], span]);
-    else if (lam.length > 1) { const g = lam[1][lo] - lam[0][hi]; for (let k = 1; k < lam.length; k++) if (Math.abs((lam[k][lo] - lam[k - 1][hi]) - g) > 1e-6) { note("lambriu: rosturi inegale", cfg, [k, g]); break; } }
+    const horiz = cfg.lamDir === "o", span = horiz ? cfg.H : cfg.L, bks = pcs.filter(x => x.role === "schienale");
+    const lam = b2.boxes.filter(x => x.role === "lamela"), lo = horiz ? "y0" : "x0", hi = horiz ? "y1" : "x1";
+    const nRows = pcs.filter(x => x.role === "lamela").reduce((a2, x) => a2 + x.pz, 0);
+    if (nRows !== lam.length) note("lambriu: lamele ≠ cutii 3D", cfg, [nRows, lam.length]);
+    if (b2.lam && b2.lam.pieces !== nRows) note("lambriu: lam.pieces ≠ rânduri", cfg, [b2.lam.pieces, nRows]);
+    const cols = [...new Set(lam.map(x => Math.round(x[lo] * 1e6)))].sort((x, y) => x - y).map(k => lam.find(x => Math.round(x[lo] * 1e6) === k));
+    if (cols.length !== (b2.lam && b2.lam.n)) note("lambriu: coloane ≠ n", cfg, [cols.length, b2.lam && b2.lam.n]);
+    else if (cols.length > 1 && (Math.abs(cols[0][lo]) > 1e-6 || Math.abs(cols[cols.length - 1][hi] - span) > 1e-6)) note("lambriu: lamelele nu ajung la capete", cfg, [cols[0][lo], cols[cols.length - 1][hi], span]);
+    else if (cols.length > 1) { const g = cols[1][lo] - cols[0][hi]; for (let k = 1; k < cols.length; k++) if (Math.abs((cols[k][lo] - cols[k - 1][hi]) - g) > 1e-6) { note("lambriu: rosturi inegale", cfg, [k, g]); break; } }
     if (cfg.back && bks.length && bks.reduce((a2, x) => a2 + x.larg * x.pz, 0) !== cfg.L) note("lambriu: foile de suport ≠ lățimea", cfg, bks.map(x => [x.larg, x.pz]));
-    if (b2.lam && b2.lam.n !== (sl && sl.pz)) note("lambriu: lam.n ≠ rând", cfg);
+    /* pe fiecare lamelă: bucățile + (uniunea decupajelor care o ating) = lungimea, nicio bucată peste placă */
+    { const cuts = arr(cfg.lamCuts), colK = {}; const uv = horiz ? (b) => [b.y0, b.y1, b.x0, b.x1] : (b) => [b.x0, b.x1, b.y0, b.y1];
+      lam.forEach(bx => { const [v0, v1, u0, u1] = uv(bx), k = Math.round(v0 * 1000); (colK[k] = colK[k] || { v0, v1, sum: 0, n: 0 }).sum += u1 - u0; colK[k].n++; if (u1 - u0 > 2800 + 1e-6) note("lambriu: bucată peste placă", cfg, [u1 - u0]); });
+      for (const k of Object.keys(colK)) { const c = colK[k], iv = [];
+        cuts.forEach(q => { const q0 = horiz ? q.y : q.x, q1 = q0 + (horiz ? q.h : q.w), a0 = horiz ? q.x : q.y, a1 = a0 + (horiz ? q.w : q.h); if (Math.min(c.v1, q1) - Math.max(c.v0, q0) > 1e-9) iv.push([a0, a1]); });
+        iv.sort((x, y) => x[0] - y[0]); let cov = 0, cur = -1; iv.forEach(q => { const a0 = Math.max(q[0], cur); if (q[1] > a0) { cov += q[1] - a0; cur = q[1]; } });
+        if (Math.abs(c.sum + cov - span2(cfg, horiz)) > 1e-6) { note("lambriu: lamelă ≠ bucăți + decupaje", cfg, [c.sum, cov]); break; } } }
     continue;
   }
   if (t !== "standard" && t !== "angolare") continue;

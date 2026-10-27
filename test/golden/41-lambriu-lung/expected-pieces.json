@@ -1,0 +1,24 @@
+{
+ "validat": false,
+ "nume": "41-lambriu-lung",
+ "generat": "2026-10-27",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 1,
+ "n_piese": 48,
+ "pieces": [
+  {
+   "elemento": "Lamella tagliata",
+   "role": "lamela",
+   "ax": "L/H/P",
+   "lung": 1500,
+   "larg": 90,
+   "pz": 48,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  }
+ ]
+}
