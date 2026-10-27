@@ -117,7 +117,9 @@ var ROLE_AXES = {
   blat:              { lung: "L", larg: "P", sp: "H" },
   schienale:         { lung: "L", larg: "H", sp: "P" },
   ripiano:           { lung: "L", larg: "P", sp: "H" },
-  lamela:            { lung: "H", larg: "L", sp: "P" },   /* lambriu: lamelă verticală; la cele orizontale rândul își poartă propriul axis_mapping */
+  lamela:            { lung: "H", larg: "L", sp: "P" },
+  rama_montant:      { lung: "H", larg: "L", sp: "P" },   /* boiserie: montant vertical al ramei */
+  rama_traversa:     { lung: "L", larg: "H", sp: "P" },   /* boiserie: traversă orizontală între montanți */   /* lambriu: lamelă verticală; la cele orizontale rândul își poartă propriul axis_mapping */
   frontale:          { lung: "H", larg: "L", sp: "P" },
   divisorio:         { lung: "H", larg: "P", sp: "L" },
   zoccolo:           { lung: "L", larg: "H", sp: "P" },
