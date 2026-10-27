@@ -193,6 +193,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
 .audit{border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.35;
   border:1px solid transparent}
 .audit[data-state="green"]{background:rgba(90,140,60,.10);border-color:rgba(90,140,60,.35);color:var(--faint)}
+.audit[data-state="warn"]{background:rgba(190,140,30,.12);border-color:rgba(190,140,30,.45);color:var(--text);cursor:pointer}
 .audit[data-state="red"]{background:rgba(140,29,29,.12);border-color:rgba(140,29,29,.45);
   color:var(--danger);cursor:pointer}
 .au-row{padding:10px 0;border-bottom:1px solid var(--line)}
@@ -1345,6 +1346,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <!-- Progetto calcolato col motore vecchio: si dice, non si ricalcola. -->
     <div id="geomBanner" class="gvbar" hidden></div>
     <div id="auditBadge" class="audit" hidden></div>
+    <div id="adviceBadge" class="audit" data-state="warn" hidden></div>
     <div class="pj-add" style="margin-bottom:12px">
       <button class="btn sm red" id="btnAddMod">＋ <span data-i="addFurniture">Mobile</span></button>
       <button class="btn sm ghost" id="btnAddPiece">＋ <span data-i="addPlainPiece">Pezzo singolo</span></button>
@@ -1801,6 +1803,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
         <span data-i="mTitle">Scheda montaggio</span>
       </button>
+      <button class="btn" id="btnHandover">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <span id="hoBtnLbl">Verbale di consegna</span>
+      </button>
       <button class="btn" id="btnTransp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
         <span data-i="transpBtn">Trece pe ușă?</span>
@@ -1997,7 +2003,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <!-- I motivi, non i codici: il campo `why` di ogni regola caduta. -->
 <div class="sheet" id="auditSheet">
   <div class="sheet-grip"></div>
-  <h3 data-i="auTitle">Controlli di coerenza</h3>
+  <h3 data-i="auTitle" id="auditTitle">Controlli di coerenza</h3>
   <div id="auditBody"></div>
 </div>
 
@@ -2030,6 +2036,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="eyebrow" style="margin-top:4px" id="expTitle">Funzioni in prova</div>
   <label class="chk" style="display:flex;gap:10px;align-items:center;margin:4px 0;font-size:14.5px;text-transform:none;letter-spacing:0;font-weight:500"><input type="checkbox" id="sExpAtelier"> <span id="expAtelierLbl">Modulo Atelier</span></label>
   <p class="mini" id="expAtelierHint" style="margin:0 0 14px"></p>
+  <div class="f"><label id="sPayLbl">Piano di pagamento (%)</label><div style="display:flex;gap:8px"><input id="sPay1" inputmode="decimal" placeholder="30" style="width:33%"><input id="sPay2" inputmode="decimal" placeholder="40" style="width:33%"><input id="sPay3" inputmode="decimal" placeholder="30" style="width:33%"></div></div>
+  <p class="mini" id="sPayHint" style="margin:-2px 0 12px"></p>
   <div class="eyebrow" style="margin-top:4px" data-i="panelStd">Pannello standard</div>
   <div class="f3">
     <div class="f"><label data-i="fLength">Lungh. (mm)</label><input id="sPanelL" type="number" inputmode="numeric"></div>
@@ -2445,6 +2453,8 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-atelier.js"></script>
 <script src="./ebanist-qr.js"></script>
 <script src="./ebanist-passport.js"></script>
+<script src="./ebanist-commerce.js"></script>
+<script src="./ebanist-advice.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -4831,6 +4841,7 @@ function applyLang(){
   const navSv=$("navSurveyLbl"); if(navSv) navSv.textContent=ts("navSurvey");
   if($("passBtnLbl")&&window.EBPassport){ $("passBtnLbl").textContent=EBPassport.t(state.lang,"passBtn");
     $("sPassNoteLbl").textContent=EBPassport.t(state.lang,"passNoteLbl"); $("sPassNoteHint").textContent=EBPassport.t(state.lang,"passNoteHint"); }
+  if($("sPayLbl")&&window.EBCommerce){ $("sPayLbl").textContent=EBCommerce.t(state.lang,"payLbl"); $("sPayHint").textContent=EBCommerce.t(state.lang,"payHint"); $("hoBtnLbl").textContent=EBCommerce.t(state.lang,"hoBtn"); }
   if(typeof aiMount==="function") aiMount();
 }
 
@@ -5355,6 +5366,7 @@ $("btnSettings").addEventListener("click",()=>{
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
   $("sPassNote").value=S.passportNote||"";
+  [1,2,3].forEach((n,i)=>{ $("sPay"+n).value=(S.payPlan&&S.payPlan[i])||""; });
   $("expTitle").textContent=EBAtelier.t(state.lang,"expTitle"); $("expAtelierLbl").textContent=EBAtelier.t(state.lang,"expAtelier");
   $("expAtelierHint").textContent=EBAtelier.t(state.lang,"expAtelierHint"); $("sExpAtelier").checked=EBAtelier.hasFlag(window);
   $("sIntro").value=(S.intro===0?"0":"1"); $("sIntroSound").value=(S.introSound===0?"0":"1");
@@ -5490,6 +5502,9 @@ $("btnBkAuto").addEventListener("click",async()=>{
 $("btnSettingsSave").addEventListener("click",()=>{
   const S=state.settings;
   S.passportNote=String($("sPassNote").value||"").slice(0,600);
+  { const r=EBCommerce.normPlan([$("sPay1").value,$("sPay2").value,$("sPay3").value]);
+    if(r.reason==="sum"||r.reason==="range"){ toast(r.reason==="sum"?EBCommerce.t(state.lang,"paySum").replace("{s}",String(r.sum)):EBCommerce.t(state.lang,"payRange")); return; }
+    S.payPlan=r.plan; }
   S.panelL=parseInt($("sPanelL").value,10)||2800; S.panelW=parseInt($("sPanelW").value,10)||2070;
   S.decor_directional=$("sDecorDir").value==="1";
   S.edgeComp=$("sEdgeComp").value==="1";
@@ -10026,6 +10041,29 @@ function auditBadge(){
     ? `<b>${esc(t("auBlocked").replace("{n}",bad.length))}</b>`
     : `<span>${esc(t("auOk"))}</span>`;
   el.onclick=bad.length?()=>auditSheet(failed):null;
+  adviceBadge(p);
+}
+
+/* sfaturi de inginerie (EBAdvice): consultative, nu blochează nimic */
+function adviceList(p){
+  if(!p||!window.EBAdvice) return [];
+  return EBAdvice.advise((p.pieces||[]).filter(x=>!isAccPiece(x)),{
+    th:x=>{ const m=matByLabel(x.materiale||x.mat); return m?+m.th||0:0; },
+    mat:x=>x.materiale||x.mat||"" });
+}
+function adviceBadge(p){
+  const el=$("adviceBadge"); if(!el) return;
+  const list=adviceList(p);
+  el.hidden=!list.length;
+  if(!list.length){ el.onclick=null; return; }
+  el.innerHTML=`<b>${esc(EBAdvice.t(state.lang,"title"))}: ${list.length}</b>`;
+  el.onclick=()=>{
+    $("auditTitle").textContent=EBAdvice.t(state.lang,"title");
+    $("auditBody").innerHTML=list.map(a=>`<div class="au-row"><div class="au-why">${esc(EBAdvice.text(state.lang,a))}</div>
+      <div class="au-meta">${esc([a.modulo,a.elemento,a.n>1?"×"+a.n:""].filter(Boolean).join(" · "))}</div></div>`).join("")
+      +`<div class="au-meta" style="margin-top:10px">${esc(EBAdvice.t(state.lang,"note"))}</div>`;
+    openSheet("auditSheet");
+  };
 }
 
 /* Il messaggio all'utente e il campo `why`, non un codice: chi sta in
@@ -10054,6 +10092,7 @@ function auditSheet(failed){
       <div class="au-meta">${esc(meta)}</div>
     </div>`;
   }).join("");
+  $("auditTitle").textContent=t("auTitle");
   $("auditBody").innerHTML=rows||`<div class="au-row"><div class="au-why">${esc(t("auOk"))}</div></div>`;
   openSheet("auditSheet");
 }
@@ -11277,6 +11316,34 @@ $("btnPassport").addEventListener("click",()=>{
   printOut();
 });
 
+/* proces-verbal de recepție: listă de verificări + rezerve + semnături; fără cifre din model */
+function handoverHtml(p){
+  const T=k=>EBCommerce.t(state.lang,k);
+  const box='<span style="display:inline-block;width:3.2mm;height:3.2mm;border:0.4mm solid #000;margin-right:2mm;vertical-align:-0.5mm"></span>';
+  const line='<div style="border-bottom:0.3mm solid #000;height:7mm"></div>';
+  let h=`<div class="pr-head"><div><h1>${esc(T("hoTitle"))}</h1><div style="font-size:9pt">${esc(T("hoSub"))}</div>
+    <div style="font-size:11pt;margin-top:4px"><b>${esc(T("hoWork"))}:</b> ${esc(p.name)}<br>
+    <b>${esc(t("client"))}:</b> ${esc(p.client||"—")}${p.phone?` · ${esc(p.phone)}`:""}<br>
+    <b>${esc(T("hoDate"))}:</b> ____ / ____ / ________ &nbsp; <b>${esc(T("hoPlace"))}:</b> ______________________</div></div>
+    <div class="co">${prLogo()}<b>${esc(prCoName())}</b><br>${esc(prCoInfo())}</div></div>`;
+  h+=`<h2 style="font-size:11pt;margin:12px 0 4px">${esc(T("hoChecks"))}</h2>`;
+  for(let i=1;i<=7;i++) h+=`<div style="margin:2.2mm 0;font-size:10.5pt">${box}${esc(T("hoC"+i))}</div>`;
+  h+=`<h2 style="font-size:11pt;margin:12px 0 4px">${esc(T("hoDefects"))}</h2>`;
+  for(let i=0;i<4;i++) h+=`<div style="display:flex;gap:6mm;align-items:flex-end;font-size:8.5pt"><span>${esc(T("hoDefLine"))} ${i+1}</span><span style="flex:1">${line}</span><span>${esc(T("hoDeadline"))}</span><span style="width:24mm">${line}</span></div>`;
+  h+=`<p style="margin:12px 0 4px;font-size:10.5pt"><b>${esc(T("hoDecl"))}:</b></p>
+    <div style="font-size:10.5pt">${box}${esc(T("hoOk"))} &nbsp;&nbsp;&nbsp; ${box}${esc(T("hoRes"))}</div>
+    <div style="display:flex;gap:14mm;margin-top:14mm;font-size:9.5pt"><div style="flex:1"><div style="border-top:0.3mm solid #000;padding-top:1mm">${esc(T("hoClient"))} — ${esc(T("hoSign"))}</div></div>
+    <div style="flex:1"><div style="border-top:0.3mm solid #000;padding-top:1mm">${esc(T("hoCompany"))} — ${esc(T("hoSign"))}</div></div></div>
+    <div class="pr-foot"><span>${esc(T("hoNote"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
+  return h;
+}
+$("btnHandover").addEventListener("click",()=>{
+  const p=proj(); if(!p){ toast(t("selectProject")); return; }
+  if(!proGate("doc")) return;
+  $("printArea").innerHTML=handoverHtml(p);
+  printOut();
+});
+
 /* ---------- ordine al fornitore ----------
    Il piano di taglio sa gia quanti pannelli servono DAVVERO (tolti i
    ritagli di magazzino); qui diventa una lista da mandare al fornitore. */
@@ -12101,6 +12168,14 @@ $("btnShare").addEventListener("click",async()=>{
   }catch(e){}
   download(fname,csv,"text/csv;charset=utf-8"); toast(t("csvDone"));
 });
+/* piano di plată în ofertă: numai dacă e setat și valid în Setări (EBCommerce.normPlan) */
+function payPlanHtml(total){
+  const r=EBCommerce.normPlan(state.settings.payPlan||[]);
+  if(!r.plan) return "";
+  const T=k=>EBCommerce.t(state.lang,k);
+  const rows=EBCommerce.payPlan(total,r.plan).map(x=>`<tr><td>${esc(T("pay"+x.step))}</td><td class="n">${fmt(x.pct)} %</td><td class="n">€ ${fmt(x.amount)}</td></tr>`).join("");
+  return `<h2 style="font-size:11pt;margin:14px 0 4px">${esc(T("payTitle"))}</h2><table><tr><th></th><th style="text-align:right">${esc(T("payPct"))}</th><th style="text-align:right">${esc(T("payAmount"))}</th></tr>${rows}</table>`;
+}
 $("btnQuote").addEventListener("click",async()=>{
   const p=proj(); if(!p)return;
   if(!proGate("offer")) return;
@@ -12130,6 +12205,7 @@ $("btnQuote").addEventListener("click",async()=>{
     <div class="pr-sum" style="text-align:right">${C.hours>0?`${esc(t("cLabor"))}: ${fmt(C.hours,1)}h × € ${fmt(C.hourly)} = € ${fmt(C.hours*C.hourly)} <span style="font-size:8pt">(${esc(t("qIncl"))})</span><br>`:""}${esc(t("qNet"))}: <b>€ ${fmt(C.prezzo)}</b><br>
     ${esc(t("qVat"))} ${S.iva||0}%: <b>€ ${fmt(C.ivaAmt)}</b><br>
     <span style="font-size:13pt">${esc(t("qTotal"))}: <b>€ ${fmt(C.prezzo+C.ivaAmt)}</b></span></div>
+    ${payPlanHtml(C.prezzo+C.ivaAmt)}
     ${p.notes?`<div style="margin-top:10px;font-size:9.5pt">${esc(p.notes)}</div>`:""}
     <div class="pr-foot"><span>${esc(t("qValidity"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   printOut();
@@ -15604,12 +15680,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.84.0"; /* APP_VER-MARKER */
+const APP_VER="5.0.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v156";
+const SW_CACHE="ebanist-v157";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
