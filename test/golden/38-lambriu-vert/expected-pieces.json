@@ -1,0 +1,35 @@
+{
+ "validat": false,
+ "nume": "38-lambriu-vert",
+ "generat": "2026-10-27",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 2,
+ "n_piese": 42,
+ "pieces": [
+  {
+   "elemento": "Pannello supporto",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 2600,
+   "larg": 1200,
+   "pz": 2,
+   "sp": null,
+   "bordo": "",
+   "mat": "m16"
+  },
+  {
+   "elemento": "Lamella",
+   "role": "lamela",
+   "ax": "H/L/P",
+   "lung": 2600,
+   "larg": 40,
+   "pz": 40,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  }
+ ]
+}

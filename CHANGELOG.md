@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.1.0 — 27 octombrie 2026
+
+**Lambriul cu lamele** — un tip nou de „mobilier”: placare de perete cu lamele verticale sau orizontale, pe un suport. Tendința arhitecților în apartamentele noi și în livinguri.
+- În Generator, tipul „Lambriu cu lamele” (și presetul din bandă). Alegi lățimea peretelui, înălțimea, lățimea lamelei, rostul dorit și direcția (verticale / orizontale). Materialul corpului = lamela, materialul spatelui = suportul (bifa „Spate”); grosimile vin din materiale (D-41).
+- **Rostul se calculează, nu se ghicește**: numărul de lamele e cel mai apropiat de rostul dorit, iar rostul real se împarte egal, astfel încât prima lamelă începe la capătul peretelui și ultima se termină exact la celălalt capăt (n·lățime + (n−1)·rost = lungimea, toleranță 0, D-43). Previzualizarea spune „40 lamele · rost 20,5 mm”; sub 3 mm avertizează.
+- Distinta: lamelele (cota finită, număr) și foile de suport (împărțite în lățimi întregi sub lățimea plăcii, suma exactă). O lamelă sau o foaie mai lungă decât placa oprește generarea cu un mesaj, nu scoate o distinctă imposibilă.
+- 3D cu aceleași cote ca distinta (D-61), fișa de montaj cu pașii de montaj, rostul și numărul din model (D-51), etichete, deviz, plan de tăiere, pașaport, comandă de atelier: totul trece prin aceleași căi ca la celelalte tipuri.
+- Dictarea cu AI cunoaște tipul și cele trei câmpuri noi; textele sunt în toate cele 7 limbi.
+- Limite cunoscute: lamelele orizontale nu pot fi mai lungi decât placa (2800 mm implicit); fără găuriri CNC pentru lambriu (se lipește și se fixează); fără colțuri, prize, întrerupătoare sau decupaje în perete; două cazuri golden noi (38, 39) așteaptă validarea ta manuală.
+- Teste: 718 în browser, golden 38 și 39, fuzz D-78 pe 9000 de configurații aleatoare fără nicio abatere pe lambriu.
+
+---
+
 ## 5.0.0 — 27 octombrie 2026
 
 **Fluxul comercial, de la ofertă la predare** — trei lucruri care lipseau între „am desenat” și „am predat”.

@@ -58,7 +58,7 @@ const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {};
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
-const KNOWN = /(nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
+const KNOWN = /(lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
 for (let i = 0; i < N; i++) {
   const b = pick(base) || {};
@@ -86,6 +86,8 @@ for (let i = 0; i < N; i++) {
     cfg.H = Math.max(cfg.topProfile.h0, cfg.topProfile.h1);
     if (process.env.NOSLOPE) delete cfg.topProfile;   /* aceeași succesiune de numere aleatoare, fără pantă: pentru comparație */
   }
+  /* D-95: lambriu — lățime, rost și direcție aleatoare */
+  if (t === "lambriu") { if (rnd() < .8) cfg.lamW = ri(10, 300); if (rnd() < .8) cfg.lamGap = ri(0, 200); if (rnd() < .5) cfg.lamDir = pick(["v", "o"]); }
   if (rnd() < .2) cfg.hang = ri(0, 1);
   if (rnd() < .2) cfg.back = ri(0, 1);
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
@@ -101,6 +103,18 @@ for (let i = 0; i < N; i++) {
     if (!/^Accessorio|accessorio|Profilo/.test(String(p.mat || "")) && p.role !== "accessorio" && Math.max(p.lung, p.larg) > 2800 + .5 && !p.seg) { note("piesă > placă", cfg, [p.elemento, p.lung, p.larg]); break; }
   }
   try { if (b2.boxes) coll(b2).forEach(k => note("coliziune " + k + ((b2.draw && b2.draw.warn && b2.draw.warn.length) || (b2.warn && Object.values(b2.warn).some(v => v)) ? " (cu avertisment)" : " (FĂRĂ avertisment)"), cfg)); } catch (e) {}
+  if (t === "lambriu") {
+    /* închidere (D-43) pe piese: lamelele ocupă exact lungimea, foile de suport exact lățimea, nicio piesă peste placă */
+    const horiz = cfg.lamDir === "o", span = horiz ? cfg.H : cfg.L, sl = pcs.find(x => x.role === "lamela"), bks = pcs.filter(x => x.role === "schienale");
+    const lam = b2.boxes.filter(x => x.role === "lamela").sort((x, y) => horiz ? x.y0 - y.y0 : x.x0 - y.x0);
+    const lo = horiz ? "y0" : "x0", hi = horiz ? "y1" : "x1";
+    if (!sl || sl.pz !== lam.length) note("lambriu: lamele ≠ cutii 3D", cfg, [sl && sl.pz, lam.length]);
+    else if (lam.length > 1 && (Math.abs(lam[0][lo]) > 1e-6 || Math.abs(lam[lam.length - 1][hi] - span) > 1e-6)) note("lambriu: lamelele nu ajung la capete", cfg, [lam[0][lo], lam[lam.length - 1][hi], span]);
+    else if (lam.length > 1) { const g = lam[1][lo] - lam[0][hi]; for (let k = 1; k < lam.length; k++) if (Math.abs((lam[k][lo] - lam[k - 1][hi]) - g) > 1e-6) { note("lambriu: rosturi inegale", cfg, [k, g]); break; } }
+    if (cfg.back && bks.length && bks.reduce((a2, x) => a2 + x.larg * x.pz, 0) !== cfg.L) note("lambriu: foile de suport ≠ lățimea", cfg, bks.map(x => [x.larg, x.pz]));
+    if (b2.lam && b2.lam.n !== (sl && sl.pz)) note("lambriu: lam.n ≠ rând", cfg);
+    continue;
+  }
   if (t !== "standard" && t !== "angolare") continue;
   try {
     const pieces = pcs.map(x => Object.assign({}, x));

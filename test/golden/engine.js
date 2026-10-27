@@ -33,6 +33,7 @@ function engine() {
   s.globalThis = s; s.t = k => k; s.state = { lang: "it", settings: {} };
   vm.createContext(s);
   vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-core.js"), "utf8"), s, { filename: "ebanist-core.js" });
+  vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-lambriu.js"), "utf8"), s, { filename: "ebanist-lambriu.js" });
   vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
   return (_s = s);
 }
