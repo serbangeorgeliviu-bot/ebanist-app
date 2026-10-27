@@ -22,22 +22,56 @@
   {
    "type": "setto",
    "x": "center"
+  },
+  {
+   "type": "ripiano",
+   "y": 380,
+   "span": "left"
+  },
+  {
+   "type": "ripiano",
+   "y": 640,
+   "span": "left"
+  },
+  {
+   "type": "ripiano",
+   "y": 1580,
+   "span": "left"
+  },
+  {
+   "type": "ripiano",
+   "y": 1910,
+   "span": "left"
   }
  ],
  "fronts": [
   {
    "x": 0,
    "y": 100,
-   "w": 780,
-   "h": 1048,
+   "w": 386,
+   "h": 798,
    "hinge": "left"
   },
   {
+   "x": 390,
+   "y": 100,
+   "w": 386,
+   "h": 798,
+   "hinge": "right"
+  },
+  {
    "x": 0,
-   "y": 1151,
-   "w": 780,
-   "h": 1106,
+   "y": 1249,
+   "w": 386,
+   "h": 1008,
    "hinge": "left"
+  },
+  {
+   "x": 390,
+   "y": 1249,
+   "w": 386,
+   "h": 1008,
+   "hinge": "right"
   },
   {
    "x": 780,
