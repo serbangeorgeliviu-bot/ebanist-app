@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.10.1 — 28 octombrie 2026
+
+**Bara de haine: două avertismente noi** (analiza fuzz, D-105). Cotele nu se schimbă.
+- **Sertarele ajung la bară:** „N sertar(e): cutia atinge bara de haine” (la colț, suma celor două aripi). Înainte, un corp scund cu bară și multe sertare ieșea fără niciun cuvânt, deși bara intra în cutiile sertarelor.
+- **Prea puțin loc sub bară:** „Bara de haine are doar X mm liberi sub ea: sub 600 mm hainele nu mai atârnă”. Pragul de 600 mm e generic (`verificat:false`).
+- Mesajele sunt în 7 limbi și apar în notele de previzualizare. Un șifonier obișnuit (H 2200, 2 sertare) nu primește nimic.
+- Fuzz D-78: orice coliziune bară × sertar trebuie să poarte unul din cele două avertismente (28 de tăceri înainte, 0 pe 15.000 de configurații după).
+- Teste: 749 în browser, 3 unitare noi (coliziune, înălțime liberă, colț).
+
+---
+
 ## 5.10.0 — 28 octombrie 2026
 
 **Sertarul nu mai intră în bază sau în tavan** — remedierea geometriei găsită de analiza fuzz (D-104). **Schimbă cote la corpurile cu sertare pe fațadă** de aceea motorul trece la versiunea de geometrie 3.

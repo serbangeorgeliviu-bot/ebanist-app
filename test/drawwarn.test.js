@@ -64,3 +64,25 @@ test("mâner pe ușă joasă: nicio gaură nu iese din ușă; pe o ușă normal�
   assert.equal(v[1] - v[0], 128);
   assert.equal(Math.min(v[0], len - v[1]), 60 - 0, "60 mm de la muchia de sus (centrul la 60 + 64)");
 });
+
+/* --- D-105: bara de haine --------------------------------------------------------------------------------------------------- */
+const rod = { ...base, drawerSys: "legno", drawerDist: "uguali", tram: 0, L: 800, hang: 1, back: 1 };
+
+test("bara de haine: sertarele care ajung la bară dau rodHit; un șifonier normal (2 sertare, H 2200) nu dă nimic", () => {
+  const bad = S.buildModule({ ...rod, H: 720, drawers: 4, L: 600 }).warn;
+  assert.equal(bad.rodHit, 1); assert.ok(bad.rodLow >= 1);
+  const ok = S.buildModule({ ...rod, H: 2200, drawers: 2 }).warn;
+  assert.equal(ok.rodHit, 0); assert.equal(ok.rodLow, 0);
+  assert.equal(S.buildModule({ ...rod, H: 2200, drawers: 0 }).warn.rodLow, 0);
+});
+
+test("bara de haine: înălțimea liberă de sub bară (rodLow) = bara − fața de sus a sertarelor; sub 600 mm avertizează, peste nu", () => {
+  const w = S.buildModule({ ...rod, H: 1200, drawers: 2 }).warn;     // bara la 1200−19−120 = 1061; sertare până la ~505
+  assert.equal(w.rodHit, 0); assert.ok(w.rodLow > 540 && w.rodLow < 600, "rodLow " + w.rodLow);
+  assert.equal(S.buildModule({ ...rod, H: 1500, drawers: 2 }).warn.rodLow, 0);
+});
+
+test("bara de haine la colț: avertismentul aripii B ajunge în corpul de colț (suma coliziunilor, minimul înălțimii libere)", () => {
+  const w = S.buildModule({ ...rod, type: "angolare", L2: 900, H: 720, drawers: 4, cornerKind: "int", corner: "dx" }).warn;
+  assert.equal(w.rodHit, 2); assert.ok(w.rodLow >= 1);
+});

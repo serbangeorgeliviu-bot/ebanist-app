@@ -126,6 +126,8 @@ for (let i = 0; i < N; i++) {
     if (p.pz !== Math.round(p.pz)) { note("pz neîntreg", cfg, p); break; }
     if (!/^Accessorio|accessorio|Profilo/.test(String(p.mat || "")) && p.role !== "accessorio" && Math.max(p.lung, p.larg) > 2800 + .5 && !p.seg) { note("piesă > placă", cfg, [p.elemento, p.lung, p.larg]); break; }
   }
+  /* D-105: o coliziune bară × cutie de sertar trebuie să poarte avertismentul `rodHit`; fără el e o tăcere */
+  try { if (b2.boxes) { const cs = coll(b2).filter(k => /asta/.test(k) && /dbox/.test(k)); if (cs.length && !(b2.warn && (b2.warn.rodHit || b2.warn.rodLow))) note("coliziune bară × sertar FĂRĂ rodHit/rodLow", cfg, cs); } } catch (e) {}
   try { if (b2.boxes) coll(b2).forEach(k => note("coliziune " + k + ((b2.draw && b2.draw.warn && b2.draw.warn.length) || (b2.warn && Object.values(b2.warn).some(v => v)) ? " (cu avertisment)" : " (FĂRĂ avertisment)"), cfg)); } catch (e) {}
   if ((t === "lambriu" || t === "boiserie") && cfg.wall2) {
     /* două pereți: B trebuie să iasă la fel ca un perete singur de lățime L2 (−grosimea la colț interior), în octantul pozitiv, fără suprapuneri (coliziunile le prinde `coll`) */
