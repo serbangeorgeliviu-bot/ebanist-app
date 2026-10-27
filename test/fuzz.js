@@ -59,7 +59,7 @@ const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {};
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
-const KNOWN = /(rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
+const KNOWN = /(contErr|rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
 for (let i = 0; i < N; i++) {
   const b = pick(base) || {};
@@ -91,6 +91,8 @@ for (let i = 0; i < N; i++) {
   if (t === "lambriu") { if (rnd() < .8) cfg.lamW = ri(10, 300); if (rnd() < .8) cfg.lamGap = ri(0, 200); if (rnd() < .5) cfg.lamDir = pick(["v", "o"]);
     if (rnd() < .6) { cfg.lamCuts = []; for (let k = ri(1, 4); k > 0; k--) { const cw = ri(20, 250), ch = ri(20, 250); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } }
     if (rnd() < .15) cfg.H = ri(2800, 3300); }
+  /* D-101: piesă cu contur liber — formă, raze, săgeată, poziție, bucăți */
+  if (t === "contur") { cfg.cShape = pick(["rect", "round", "arch", "scoop"]); cfg.cR = ri(0, 300); cfg.cRise = ri(0, 400); cfg.cOri = pick(["v", "o"]); cfg.cPz = ri(1, 4); cfg.cEdge = ri(0, 1); cfg.L = ri(150, 2700); cfg.H = ri(150, 2000); }
   /* D-98: colț între doi pereți, pe jumătate din lambriuri și boiserii */
   if ((t === "lambriu" || t === "boiserie") && rnd() < .5) { cfg.wall2 = 1; cfg.L2 = ri(300, 2700); cfg.corner = pick(["sx", "dx"]); cfg.cornerKind = pick(["int", "ext"]);
     if (rnd() < .5) { cfg.lamCuts = (cfg.lamCuts || []).concat([{ x: ri(60, Math.max(60, cfg.L2 - 100)), y: ri(0, 1500), w: ri(20, 90), h: ri(20, 90), wall: "B" }]); } }
@@ -135,6 +137,25 @@ for (let i = 0; i < N; i++) {
     { const roleOf = {}; let mix = false; b2.boxes.forEach(x => { if (roleOf[x.pk] && roleOf[x.pk] !== x.role) mix = true; roleOf[x.pk] = x.role; });
       const nPk = Object.keys(roleOf).length, nRows = pcs.reduce((a2, x) => a2 + x.pz, 0);
       if (mix || nPk !== nRows) note("colț: pk-uri ≠ piese", cfg, [nPk, nRows, mix]); }
+    continue;
+  }
+  if (t === "contur") {
+    /* piesa: n triunghiuri pe copie, aria lor = aria conturului aplatizat; ops: o operație contour în dreptunghiul piesei, aria păstrată */
+    const N = S.EBContour.normalize(S.EBContour.shape(cfg.cShape, cfg.L, cfg.H, { r: cfg.cR, rise: cfg.cRise }));
+    if (!N.ok) { note("contur: forma gata nu se normalizează", cfg, N.reason); continue; }
+    const P3 = S.EBContour.flatten(N.pts, 0.3), want = Math.abs(S.EBContour.polyArea(P3)), pk = {};
+    b2.boxes.forEach(x => { const A = x.prism3.A, f = cfg.cOri === "o" ? [0, 2] : [0, 1];
+      pk[x.pk] = (pk[x.pk] || 0) + Math.abs((A[1][f[0]] - A[0][f[0]]) * (A[2][f[1]] - A[0][f[1]]) - (A[1][f[1]] - A[0][f[1]]) * (A[2][f[0]] - A[0][f[0]])) / 2; });
+    if (Object.keys(pk).length !== cfg.cPz) note("contur: copii ≠ cPz", cfg);
+    Object.values(pk).forEach(a2 => { if (Math.abs(a2 - want) > 1e-6 * Math.max(1, want)) note("contur: aria triunghiurilor ≠ aria conturului", cfg, [a2, want]); });
+    const row = pcs[0]; if (!row || row.pz !== cfg.cPz) note("contur: rândul", cfg);
+    if (cfg.cEdge && !(row.perim > 0)) note("contur: cant fără perimetru", cfg);
+    try { const o4 = S.generateOperations({ boxes: b2.boxes, cfg, G: undefined });
+      arr(o4.pieces).forEach(p => { const op = arr(p.operations).find(q => q.type === "contour"); if (!op) { note("contur: lipsește operația", cfg); return; }
+        const bb = S.EBContour.bbox(op.pts);
+        if (bb.x0 < -0.3 || bb.y0 < -0.3 || bb.x1 > p.length + 0.3 || bb.y1 > p.width + 0.3) note("contur: operația iese din piesă", cfg, [bb, p.length, p.width]);
+        if (Math.abs(Math.abs(S.EBContour.area(op.pts)) - N.area) > 0.01 * N.area + 20) note("contur: aria operației ≠ aria conturului", cfg, [S.EBContour.area(op.pts), N.area]); });
+    } catch (e) { note("contur: EXCEPȚIE ops " + e.message.slice(0, 60), cfg); }
     continue;
   }
   if (t === "boiserie") {

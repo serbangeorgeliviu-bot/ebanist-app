@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.8.0 — 28 octombrie 2026
+
+**Piesa cu contur liber** — un panou tăiat după un contur desenat (lateral arcuit, picior, blat curb), pentru cererile de tip „vreau ca în poză”.
+- În Generator, tipul „Piesă cu contur liber”. **Forme gata:** dreptunghi, dreptunghi rotunjit (raza colțurilor), partea de sus bombată, partea de jos scobită (săgeata arcului), exact la L × H. **Sau un contur al tău:** lipești un traseu SVG (`d="…"`), un DXF (LWPOLYLINE închis, sau LINE/ARC/CERC înlănțuite, cu unitățile din fișier) sau puncte `x,y x,y …`, ori alegi un fișier. Îl poți scala uniform la lățimea sau înălțimea dorită; arcele rămân arce.
+- **Conturul se păstrează exact**, cu linii și arce (ca bulge din DXF), nu ca mii de segmente. Distinta primește gabaritul (cota finită), numărul de bucăți și **perimetrul exact pentru cant** (opțiunea „cant pe contur”, ml în deviz și plan). Nesting-ul tratează piesa ca pe gabaritul ei.
+- **Modelul de operații** emite pentru fiecare piesă operația „contour” în sistemul feței 5 (linii și arce), iar fișa piesei desenează conturul real, nu dreptunghiul. Fișierul nativ de mașină (`.cix`, `.xxl`, `.mpr`) așteaptă fișierul-program de la Cafasso (D-91); valorile rămân `verificat:false`.
+- 3D-ul desenează piesa din triunghiuri (săgeata de aplatizare 0,3 mm), în picioare sau culcată; copiile de la „Bucăți” se așază una lângă alta. Pașii de montaj, AI-ul (formele gata) și cele 7 limbi sunt la fel ca la celelalte tipuri.
+- **Mesaje, nu surprize:** un contur care se intersectează, nu e închis, are mai multe trasee, are unități DXF necunoscute sau e mai mare decât placa nu se transformă în distinctă; indiciul din formular spune motivul.
+- Teste: 741 în browser, 16 unitare noi pe contur (arii exacte pe forme cu arce, triangulare pe forme concave, SVG, DXF, 1500 de poligoane aleatoare), 5 pe piesă (rând, 3D, operația), fuzz D-78 pe 18000 de configurații fără nicio abatere, golden 47 și 48 (`validat:false`).
+- Limite: o singură piesă pe modul (mai multe contururi diferite = module separate); fără găuri sau canale în piesă (se adaugă ulterior); curbele Bézier și elipsele se aproximează cu segmente drepte la 0,1 mm.
+
+---
+
 ## 5.7.0 — 27 octombrie 2026
 
 **Boiserie cu panou încastrat în ramă** — varianta clasică: panourile câmpurilor sunt piese proprii, care intră în canalul ramelor.

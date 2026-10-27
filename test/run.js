@@ -4413,6 +4413,61 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Piesă cu contur liber — formă gata, import SVG/DXF, rând cu perimetru, contur exact pentru mașină");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ct2", name: "Bufet", pieces: [], configs: {} }]; state.activeId = "ct2";
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.contur, name: "Lateral" }); await w(400);
+      o.camp = document.getElementById("rowCont").style.display !== "none" && document.getElementById("rowP").style.display === "none" && document.getElementById("rowContRise").style.display !== "none" && document.getElementById("rowContSrc").style.display === "none";
+      o.dbgHint = document.getElementById("contHint").textContent + " | " + ["rowCont", "rowP", "rowContRise", "rowContSrc"].map(i => document.getElementById(i).style.display).join(",");
+      o.info = /1800×500/.test(document.getElementById("contHint").textContent) && /4[.,]62/.test(document.getElementById("contHint").textContent);
+      document.getElementById("btnGenerate").click(); await w(500);
+      let p = proj(), x = p.pieces.find(q => q.elemento === "Pezzo contorno");
+      o.rand = !!x && x.pz === 2 && x.lung === 500 && x.larg === 1800 && x.bordo === "CONT" && x.shape === "contur" && x.perim === 4621 && Array.isArray(x.contour) && x.contour.length === 4;
+      o.cant = Math.round(bandingMm(x.bordo, x.lung, x.larg, x.angL, x.angR, x.shape, x.perim)) === 4621 && bandingMm("2L", 100, 100, 0, 0, undefined, 0) > 0;
+      o.salvat = p.configs["Lateral"].type === "contur" && p.configs["Lateral"].cShape === "scoop" && p.configs["Lateral"].P === 18;
+      const c = p.configs["Lateral"], B = buildModule(c), ops = generateOperations({ boxes: B.boxes, cfg: c, G: undefined });
+      const op = Array.from(ops.pieces).flatMap(q => Array.from(q.operations)).find(q => q.type === "contour");
+      o.contur = !!op && op.face === 5 && op.pts.length === 4 && Math.abs(op.pts[0][2]) > 0.05 && Math.abs(op.perim - 4621.3) < 1;
+      o.pas = assemblySteps("Lateral", {}, c, p.pieces).map(q => q.x).join("|").includes("1800×500");
+      o.audit = auditProject(p).length === 0;
+      /* contur din SVG: un D, scalat la lățimea L = 400 */
+      const sel = document.getElementById("bContShape"); sel.value = "custom"; sel.dispatchEvent(new Event("change", { bubbles: true }));
+      const fit = document.getElementById("bContFit"); fit.value = "W"; fit.dispatchEvent(new Event("change", { bubbles: true }));
+      document.getElementById("bL").value = "400";
+      const src = document.getElementById("bContSrc"); src.value = "M 0 0 L 300 0 A 150 150 0 0 1 300 -300 L 0 -300 Z"; src.dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      o.dbg2 = document.getElementById("contHint").textContent + "|L=" + document.getElementById("bL").value;
+      o.imp = document.getElementById("rowContSrc").style.display !== "none" && document.getElementById("bL").value === "400" && document.getElementById("contHint").textContent.includes("400×");
+      /* fișier: se citește în casetă */
+      const dt = new DataTransfer(); dt.items.add(new File(["0,0 500,0 500,200 0,200"], "p.txt", { type: "text/plain" }));
+      const fi = document.getElementById("bContFile"); fi.files = dt.files; fi.dispatchEvent(new Event("change", { bubbles: true })); await w(400);
+      fit.value = "none"; fit.dispatchEvent(new Event("change", { bubbles: true })); await w(200);
+      o.fisier = document.getElementById("bContSrc").value.startsWith("0,0 500,0") && document.getElementById("bL").value === "500" && document.getElementById("bH").value === "200";
+      /* contur nevalid (fluture): mesajul în indiciu, fără piesă nouă */
+      src.value = "0,0 100,100 100,0 0,100"; src.dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      o.dbg3 = document.getElementById("contHint").textContent;
+      o.nevalid = document.getElementById("contHint").textContent.includes(t("contWhy_self"));
+      const nBefore = proj().pieces.length;
+      document.getElementById("bName").value = "Rau"; document.getElementById("btnGenerate").click(); await w(400);
+      o.faraPiesa = proj().pieces.length === nBefore;
+      /* AI + texte */
+      const ai = aiNormCfg({ type: "contur", cShape: "scoop", cRise: 100, cPz: 2, cOri: "o", cEdge: 1, cR: 40 }, []);
+      o.ai = ai.type === "contur" && ai.cShape === "scoop" && ai.cRise === 100 && ai.cPz === 2 && ai.cOri === "o" && ai.cEdge === 1 && AI_ENUM.type.includes("contur");
+      const ks = ["typeContur", "preset_contur", "fContShape", "contShapeCustom", "contShapeRect", "contShapeRound", "contShapeArch", "contShapeScoop", "fContR", "fContRise", "fContSrc", "contFitNone", "contFitW", "contFitH", "fContOri", "contOriV", "contOriO", "fContPz", "fContEdge", "contInfo", "contErr", "contErrMat", "contErrEmpty", "contErrBig", "contBig",
+        "contWhy_few", "contWhy_area", "contWhy_self", "contWhy_open", "contWhy_multi", "contWhy_path", "contWhy_cmd", "contWhy_points", "contWhy_empty", "contWhy_dxf", "contWhy_units", "contWhy_many", "contS1", "contS2", "contS3", "role_contur"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 1)) && ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Pezzo contorno"]);
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Contur liber: tipul apare cu forma, raza/săgeata, poziția, bucățile, cantul; presetul (lateral scobit 1800×500) anunță dimensiunile și cantul de 4,62 m", r.camp === true && r.info === true, JSON.stringify({ camp: r.camp, info: r.info, h: r.dbgHint }));
+    ok("Contur liber: rândul din distinctă are gabaritul, 2 bucăți, perimetrul exact pentru cant și conturul păstrat; operația „contour” cu arc ajunge la mașină; pașii și semaforul verde", r.rand === true && r.cant === true && r.salvat === true && r.contur === true && r.pas === true && r.audit === true);
+    ok("Contur liber: import din SVG scalat la lățime, din fișier citit în casetă (L și H se completează), contur nevalid = mesaj în indiciu și nicio piesă nouă; AI și 7 limbi", r.imp === true && r.fisier === true && r.nevalid === true && r.faraPiesa === true && r.ai === true && r.limbi === true, JSON.stringify({ imp: r.imp, fisier: r.fisier, nevalid: r.nevalid, faraPiesa: r.faraPiesa, ai: r.ai, limbi: r.limbi, h2: r.dbg2 }));
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

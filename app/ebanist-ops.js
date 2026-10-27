@@ -94,7 +94,7 @@ function jointKind(input) {
 }
 
 var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa",
-  "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp"];
+  "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
 
@@ -106,7 +106,9 @@ var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo:
   frontale: 1, divisorio: 1, zoccolo: 1, traversa: 1, cassetto_frontale: 1,
   cassetto_fianco: 1, cassetto_fondo: 1,
   /* boiserie cu rame (D-97, D-100): ramele sunt panouri, panoul din câmp intră în canal */
-  rama_montant: 1, rama_traversa: 1, rama_camp: 1 };
+  rama_montant: 1, rama_traversa: 1, rama_camp: 1,
+  /* piesa cu contur liber (D-101): conturul exact e pe cutia ei (`cont`), cutiile sunt triunghiuri pentru 3D */
+  contur: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -128,6 +130,7 @@ function physicalPieces(boxes) {
        (lungime pe pantă, lățime, grosime), fiindcă cutia de gabarit nu le mai dă. */
     if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; if (!map[k].vpPts) map[k].vpPts = b.vp.pts; }
     if (b.edgeH) map[k].edgeH = b.edgeH;
+    if (b.cont) map[k].cont = b.cont;
   }
   return order.map(function (k) {
     var p = map[k], mn = [1e9, 1e9, 1e9], mx = [-1e9, -1e9, -1e9];
@@ -822,6 +825,17 @@ function localize(p) {
     var xa = X(lo), xb = X(hi), ya = Y(lo), yb = Y(hi);
     return { x0: R1(Math.min(xa, xb)), x1: R1(Math.max(xa, xb)), y0: R1(Math.min(ya, yb)), y1: R1(Math.max(ya, yb)) };
   });
+  /* piesa cu contur liber (D-101): conturul exact (linii și arce) în sistemul feței 5, ca operație „contour”;
+     desenul primește poligonul aplatizat, gabaritul rămâne dreptunghiul de bază */
+  if (p.cont && p.cont.pts && p.cont.pts.length >= 2 && root.EBContour) {
+    var mp = p.cont.pts.map(function (q) { return [X([q[0], q[1], q[2]]), Y([q[0], q[1], q[2]]), +q[3] || 0]; });
+    var sa = 0; for (var qi = 0; qi < mp.length; qi++) { var qa = mp[qi], qb = mp[(qi + 1) % mp.length]; sa += qa[0] * qb[1] - qb[0] * qa[1]; }
+    var mirrored = (p.cont.ccw ? sa < 0 : sa > 0);       // conturul era antiorar în planul lui; după aducerea pe fața 5 își schimbă sensul dacă transformarea e o oglindire
+    mp = mp.map(function (q) { return [R1(q[0]), R1(q[1]), mirrored ? -q[2] : q[2]]; });
+    poly = root.EBContour.flatten(mp, 0.2).map(function (q) { return [R1(q[0]), R1(q[1])]; });
+    rects = [{ x0: 0, x1: R1(Lp), y0: 0, y1: R1(Wp) }];
+    push({ type: "contour", face: 5, closed: true, pts: mp, perim: R1(root.EBContour.perimeter(mp)), note: "contur liber" });
+  }
 
   /* --- pre-flight: V1 dentro il contorno, V2 distanza dal bordo, V4
          profondita, V5 sovrapposizioni. Le altre regole vogliono il profilo
