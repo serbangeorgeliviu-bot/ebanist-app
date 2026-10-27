@@ -1,0 +1,79 @@
+{
+ "validat": false,
+ "nume": "43-boiserie-rest",
+ "generat": "2026-10-27",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 6,
+ "n_piese": 15,
+ "pieces": [
+  {
+   "elemento": "Pannello supporto",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1103,
+   "larg": 1202,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "mat": "m16"
+  },
+  {
+   "elemento": "Pannello supporto",
+   "role": "schienale",
+   "ax": "H/L/P",
+   "lung": 1103,
+   "larg": 1201,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "mat": "m16"
+  },
+  {
+   "elemento": "Montante cornice",
+   "role": "rama_montant",
+   "ax": "H/L/P",
+   "lung": 1103,
+   "larg": 62,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Montante cornice",
+   "role": "rama_montant",
+   "ax": "H/L/P",
+   "lung": 1103,
+   "larg": 61,
+   "pz": 1,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Montante cornice",
+   "role": "rama_montant",
+   "ax": "H/L/P",
+   "lung": 1103,
+   "larg": 60,
+   "pz": 3,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Traversa cornice",
+   "role": "rama_traversa",
+   "ax": "L/H/P",
+   "lung": 525,
+   "larg": 60,
+   "pz": 8,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  }
+ ]
+}

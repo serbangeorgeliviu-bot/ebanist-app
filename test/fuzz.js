@@ -59,7 +59,7 @@ const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {};
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
-const KNOWN = /(lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
+const KNOWN = /(rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
 for (let i = 0; i < N; i++) {
   const b = pick(base) || {};
@@ -91,6 +91,9 @@ for (let i = 0; i < N; i++) {
   if (t === "lambriu") { if (rnd() < .8) cfg.lamW = ri(10, 300); if (rnd() < .8) cfg.lamGap = ri(0, 200); if (rnd() < .5) cfg.lamDir = pick(["v", "o"]);
     if (rnd() < .6) { cfg.lamCuts = []; for (let k = ri(1, 4); k > 0; k--) { const cw = ri(20, 250), ch = ri(20, 250); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } }
     if (rnd() < .15) cfg.H = ri(2800, 3300); }
+  /* D-97: boiserie — ramă, câmp dorit, rânduri, decupaje */
+  if (t === "boiserie") { if (rnd() < .8) cfg.rfW = ri(20, 200); if (rnd() < .8) cfg.rfTarget = ri(100, 1500); if (rnd() < .7) cfg.rfRows = ri(1, 8);
+    if (rnd() < .5) { cfg.lamCuts = []; for (let k = ri(1, 3); k > 0; k--) { const cw = ri(20, 200), ch = ri(20, 200); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } } }
   if (rnd() < .2) cfg.hang = ri(0, 1);
   if (rnd() < .2) cfg.back = ri(0, 1);
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
@@ -106,6 +109,26 @@ for (let i = 0; i < N; i++) {
     if (!/^Accessorio|accessorio|Profilo/.test(String(p.mat || "")) && p.role !== "accessorio" && Math.max(p.lung, p.larg) > 2800 + .5 && !p.seg) { note("piesă > placă", cfg, [p.elemento, p.lung, p.larg]); break; }
   }
   try { if (b2.boxes) coll(b2).forEach(k => note("coliziune " + k + ((b2.draw && b2.draw.warn && b2.draw.warn.length) || (b2.warn && Object.values(b2.warn).some(v => v)) ? " (cu avertisment)" : " (FĂRĂ avertisment)"), cfg)); } catch (e) {}
+  if (t === "boiserie") {
+    const st = b2.boxes.filter(x => x.role === "rama_montant").sort((x, y) => x.x0 - y.x0), tr = b2.boxes.filter(x => x.role === "rama_traversa");
+    const rf = b2.rf, fw = Math.round(cfg.rfW || 60);
+    if (!rf) note("boiserie: fără rf", cfg);
+    else {
+      if (st.length !== rf.n + 1) note("boiserie: montanți ≠ n+1", cfg, [st.length, rf.n]);
+      if (tr.length !== rf.n * (rf.m + 1)) note("boiserie: traverse ≠ n·(m+1)", cfg, [tr.length, rf.n, rf.m]);
+      if (st.length && (Math.abs(st[0].x0) > 1e-9 || Math.abs(st[st.length - 1].x1 - cfg.L) > 1e-9)) note("boiserie: montanții nu ajung la capete", cfg);
+      for (let k = 1; k < st.length; k++) if (Math.abs((st[k].x0 - st[k - 1].x1) - rf.field) > 1e-9) { note("boiserie: câmpuri inegale pe lățime", cfg, [k]); break; }
+      const ys = [...new Set(tr.map(x => Math.round(x.y0 * 1e6)))].sort((x, y) => x - y).map(k => tr.find(x => Math.round(x.y0 * 1e6) === k));
+      if (ys.length && (Math.abs(ys[0].y0) > 1e-9 || Math.abs(ys[ys.length - 1].y1 - cfg.H) > 1e-9)) note("boiserie: traversele nu ajung la capete", cfg);
+      for (let k = 1; k < ys.length; k++) if (Math.abs((ys[k].y0 - ys[k - 1].y1) - rf.fieldH) > 1e-9) { note("boiserie: câmpuri inegale pe înălțime", cfg, [k]); break; }
+      const wsum = pcs.filter(x => x.role === "rama_montant").reduce((a2, x) => a2 + x.larg * x.pz, 0);
+      if (wsum + rf.n * rf.field !== cfg.L) note("boiserie: rânduri montanți + câmpuri ≠ lățimea", cfg, [wsum, rf.n, rf.field, cfg.L]);
+      const hsum = pcs.filter(x => x.role === "rama_traversa").reduce((a2, x) => a2 + x.larg * x.pz, 0) / rf.n;
+      if (hsum + rf.m * rf.fieldH !== cfg.H) note("boiserie: rânduri traverse + câmpuri ≠ înălțimea", cfg, [hsum, rf.m, rf.fieldH, cfg.H]);
+      if (pcs.some(x => (x.role === "rama_montant" || x.role === "rama_traversa") && Math.max(x.lung, x.larg) > 2800)) note("boiserie: piesă peste placă", cfg);
+    }
+    continue;
+  }
   if (t === "lambriu") {
     /* închidere (D-43) pe piese: lamelele ocupă exact lungimea, foile de suport exact lățimea, nicio piesă peste placă */
     const horiz = cfg.lamDir === "o", span = horiz ? cfg.H : cfg.L, bks = pcs.filter(x => x.role === "schienale");

@@ -135,3 +135,42 @@ test("sheetHoles: gaura în sistemul foii (lung = H, larg = lățimea foii); dec
   assert.deepEqual(J(h2.map(h => [h.l, h.w, h.x, h.y])), [[80, 50, 300, 0]]);
   assert.equal(E.sheetHoles(0, 1160, [cut]).length, 1); assert.equal(E.sheetHoles(0, 1100, [cut]).length, 0);
 });
+
+/* ---------- boiserie cu rame și câmpuri (D-97) ---------- */
+test("frameN: (n+1)·ramă + n·câmp + rest = lungimea, exact, în mm întregi", () => {
+  const f = E.frameN(2400, 60, 4);
+  assert.equal(f.ok, true); assert.equal(f.field, 525); assert.equal(f.extraA + f.extraB, 0);
+  assert.equal(f.strips.length, 5); assert.equal(f.fields.length, 4);
+  assert.equal(f.strips[0].a, 0); assert.equal(f.strips[4].b, 2400);
+  const g = E.frameN(2403, 60, 4); /* rest 3: capetele iau 1 și 2 */
+  assert.equal(g.field, 525); assert.equal(g.extraA, 1); assert.equal(g.extraB, 2);
+  assert.equal(g.strips[0].b - g.strips[0].a, 61); assert.equal(g.strips[4].b - g.strips[4].a, 62); assert.equal(g.strips[4].b, 2403);
+});
+
+test("frameN: câmp prea mic, ramă în afara intervalului, n invalid se resping", () => {
+  assert.equal(E.frameN(300, 60, 4).reason, "tooSmall");
+  assert.equal(E.frameN(2400, 10, 4).reason, "dim");
+  assert.equal(E.frameN(2400, 60, 0).reason, "dim");
+  assert.equal(E.frameN(0, 60, 2).reason, "dim");
+});
+
+test("frameFit: n cel mai apropiat de câmpul dorit; scade dacă nu încape", () => {
+  assert.equal(E.frameFit(2400, 60, 600).n, 4);
+  assert.equal(E.frameFit(2400, 60, 1000).n, 2);
+  const s = E.frameFit(500, 60, 100); assert.equal(s.ok, true); assert.ok(s.field >= 40);
+  assert.equal(E.frameFit(2400, 60, 50).reason, "dim");
+});
+
+test("frame: pe 3000 de combinații aleatoare, ramele + câmpurile acoperă exact lungimea, fără goluri sau suprapuneri", () => {
+  let seed = 4242; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296, ri = (a, b) => a + Math.floor(rnd() * (b - a + 1));
+  let ok = 0;
+  for (let i = 0; i < 3000; i++) {
+    const span = ri(300, 6000), fw = ri(20, 200), n = ri(1, 12), f = E.frameN(span, fw, n); if (!f.ok) continue; ok++;
+    const all = []; for (let k = 0; k < f.n; k++) { all.push(f.strips[k]); all.push(f.fields[k]); } all.push(f.strips[f.n]);
+    assert.equal(all[0].a, 0); assert.equal(all[all.length - 1].b, span);
+    for (let k = 1; k < all.length; k++) assert.equal(all[k].a, all[k - 1].b);
+    assert.ok(all.every(q => q.b > q.a && Number.isInteger(q.a) && Number.isInteger(q.b)));
+    assert.ok(f.fields.every(q => q.b - q.a === f.field));
+  }
+  assert.ok(ok > 1200);
+});

@@ -105,7 +105,13 @@ const CASES = [
   c("40-lambriu-prize", "lambriu", "m18", { L: 2400, H: 2600, P: 34, plinth: 0, back: 1, lamW: 40, lamGap: 20, lamDir: "v",
     lamCuts: [{ x: 1000, y: 300, w: 80, h: 80 }, { x: 1150, y: 1050, w: 80, h: 80 }] }, "m16"),
   /* v2: perete mai lat decât placa, lamele orizontale tăiate în două părți egale */
-  c("41-lambriu-lung", "lambriu", "m18", { L: 3000, H: 2400, P: 18, plinth: 0, back: 0, lamW: 90, lamGap: 10, lamDir: "o" })
+  c("41-lambriu-lung", "lambriu", "m18", { L: 3000, H: 2400, P: 18, plinth: 0, back: 0, lamW: 90, lamGap: 10, lamDir: "o" }),
+
+  /* --- boiserie cu rame și câmpuri (D-97) ---------------------------------- */
+  c("42-boiserie-2x4", "boiserie", "m18", { L: 2400, H: 2600, P: 34, plinth: 0, back: 1, rfW: 60, rfTarget: 600, rfRows: 2 }, "m16"),
+  /* rest nenul: 2403 și 2603 — ramele de capăt iau milimetrii în plus */
+  c("43-boiserie-rest", "boiserie", "m18", { L: 2403, H: 1103, P: 34, plinth: 0, back: 1, rfW: 60, rfTarget: 600, rfRows: 1,
+    lamCuts: [{ x: 100, y: 300, w: 80, h: 80 }] }, "m16")
 ];
 
 /* le coppie 18/19: il runner controlla che il gabarito NON si muova e che

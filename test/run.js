@@ -4198,6 +4198,54 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Boiserie cu rame și câmpuri — tip nou: formular, rame exacte, suport cu gaură, 3D, montaj, 7 limbi");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "rf1", name: "Perete", pieces: [], configs: {} }]; state.activeId = "rf1";
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.boiserie, name: "Boiserie A" }); await w(300);
+      o.camp = document.getElementById("bTipo").value === "boiserie" && document.getElementById("rowRf").style.display !== "none" && document.getElementById("rowLam").style.display === "none" && document.getElementById("rowLamCuts").style.display !== "none" && document.getElementById("rowP").style.display === "none";
+      o.valori = document.getElementById("bRfW").value === "60" && document.getElementById("bRfT").value === "600" && document.getElementById("bRfRows").value === "2";
+      o.info = document.getElementById("angHint").textContent.includes(t("rfInfo").replace("{n}", "4").replace("{m}", "2").replace("{w}", "525").replace("{h}", "1210"));
+      document.getElementById("btnGenerate").click(); await w(400);
+      const p = proj(), c = p.configs["Boiserie A"];
+      const st = p.pieces.find(x => x.elemento === "Montante cornice"), tr = p.pieces.find(x => x.elemento === "Traversa cornice"), sp = p.pieces.filter(x => x.elemento === "Pannello supporto");
+      o.rows = !!st && !!tr && st.lung === 2600 && st.larg === 60 && st.pz === 5 && tr.lung === 525 && tr.larg === 60 && tr.pz === 12 && sp.length === 1 && sp[0].pz === 2;
+      o.salvat = c.type === "boiserie" && c.rfW === 60 && c.rfRows === 2 && c.P === 34;
+      /* închidere în mm: (n+1)·ramă + n·câmp = lățimea; (m+1)·ramă + m·câmp = înălțimea */
+      o.inchidere = (st.pz * st.larg + 4 * 525 === 2400) && (3 * 60 + 2 * 1210 === 2600);
+      const B = buildModule(c), stb = B.boxes.filter(b => b.role === "rama_montant"), trb = B.boxes.filter(b => b.role === "rama_traversa");
+      o.treiD = stb.length === 5 && trb.length === 12 && Math.abs(Math.min(...stb.map(b => b.x0))) < 1e-9 && Math.abs(Math.max(...stb.map(b => b.x1)) - 2400) < 1e-9 && Math.abs(Math.max(...trb.map(b => b.y1)) - 2600) < 1e-9 && stb.concat(trb).every(b => b.pk > 0);
+      const rest = assemblySteps("Boiserie A", {}, c, p.pieces).map(x => x.x).join("|");
+      o.pasi = rest.includes("525×1210") && rest.includes("5 ") && !rest.includes("{");
+      o.auditVerde = auditProject(p).length === 0;
+      /* rest nenul: ramele de capăt iau milimetrii */
+      const R = buildModule({ ...c, L: 2403, H: 1103, rfRows: 1, lamCuts: [] });
+      const wsum = R.pieces.filter(x => x.elemento === "Montante cornice").reduce((a, x) => a + x.larg * x.pz, 0);
+      o.rest = wsum + 4 * 525 === 2403 && R.pieces.filter(x => x.elemento === "Montante cornice").length === 3;
+      /* decupaj peste o ramă: avertisment; în câmp: fără */
+      const hit = buildModule({ ...c, lamCuts: [{ x: 560, y: 300, w: 80, h: 80 }] }), ok2 = buildModule({ ...c, lamCuts: [{ x: 100, y: 300, w: 80, h: 80 }] });
+      o.decupaj = hit.warn.rfCutHit === 1 && !ok2.warn.rfCutHit && ok2.pieces.some(x => x.elemento === "Pannello supporto" && x.scasso);
+      let err = ""; try { buildModule({ ...c, rfW: 500 }); } catch (e) { err = e.message; }
+      o.eroare = err === t("rfErrDim");
+      const ai = aiNormCfg({ type: "boiserie", rfW: 80, rfTarget: 500, rfRows: 3 }, []);
+      o.ai = ai.type === "boiserie" && ai.rfW === 80 && ai.rfTarget === 500 && ai.rfRows === 3 && AI_ENUM.type.includes("boiserie");
+      const ks = ["typeBoiserie", "preset_boiserie", "fRfW", "fRfT", "fRfRows", "rfInfo", "wRfCutHit", "rfErrMat", "rfErrBack", "rfErrDim", "rfS3", "rfS4", "role_rama_montant", "role_rama_traversa"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2));
+      o.elem = ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Montante cornice"] && EL_I18N[l]["Traversa cornice"]);
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Boiserie: tipul apare cu câmpurile lui (ramă, câmp dorit, rânduri) și decupajele, fără adâncime; presetul anunță 4×2 câmpuri de 525×1210", r.camp === true && r.valori === true && r.info === true);
+    ok("Boiserie: distinta are 5 montanți, 12 traverse și suportul din două foi; configurația se salvează cu adâncimea derivată", r.rows === true && r.salvat === true);
+    ok("Boiserie: închidere exactă pe ambele direcții, 3D cu 5+12 piese de la 0 la 2400, semaforul verde; restul de milimetri merge la ramele de capăt", r.inchidere === true && r.treiD === true && r.auditVerde === true && r.rest === true);
+    ok("Boiserie: pașii de montaj poartă numărul și mărimea câmpului din model; decupaj peste ramă avertizează, în câmp dă gaură în suport; ramă nepotrivită = eroare", r.pasi === true && r.decupaj === true && r.eroare === true);
+    ok("Boiserie: AI acceptă tipul și câmpurile; textele în 7 limbi, elementele traduse", r.ai === true && r.limbi === true && r.elem === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

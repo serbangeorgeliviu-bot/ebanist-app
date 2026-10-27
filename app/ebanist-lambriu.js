@@ -129,5 +129,35 @@
     return out;
   }
 
-  return { LIM: LIM, layout: layout, closure: closure, backSheets: backSheets, normCuts: normCuts, splitEq: splitEq, slatPlan: slatPlan, sheetHoles: sheetHoles };
+  /* ---------- boiserie cu rame și câmpuri (D-97) ----------
+     Pe un suport (câmpul) se aplică o grilă de rame: n+1 montanți pe verticală (cât înălțimea), iar între ei,
+     pe orizontală, m+1 traverse pe fiecare coloană. Într-o direcție: (n+1)·ramă + n·câmp = lungimea, EXACT,
+     cu câmpul în mm întregi; restul (0…n−1 mm) îl iau cele două rame de capăt, ca nimic să nu rămână în aer. */
+  LIM.rfW = [20, 200]; LIM.rfFieldMin = 40; LIM.rfTarget = [100, 1500]; LIM.rfRows = [1, 8];
+
+  /* o direcție, cu n câmpuri date: întoarce { ok, n, field, strips:[{a,b}], fields:[{a,b}] } */
+  function frameN(span, fw, n) {
+    span = Math.round(span); fw = Math.round(fw); n = Math.round(n);
+    if (!(span > 0) || !(fw >= LIM.rfW[0] && fw <= LIM.rfW[1]) || !(n >= 1)) return { ok: false, reason: "dim" };
+    var field = Math.floor((span - (n + 1) * fw) / n);
+    if (!(field >= LIM.rfFieldMin)) return { ok: false, reason: "tooSmall" };
+    var r = span - (n + 1) * fw - n * field, ea = Math.floor(r / 2), eb = r - ea, strips = [], fields = [], x = 0, i;
+    for (i = 0; i <= n; i++) {
+      var sw = fw + (i === 0 ? ea : 0) + (i === n ? eb : 0);
+      strips.push({ a: x, b: x + sw }); x += sw;
+      if (i < n) { fields.push({ a: x, b: x + field }); x += field; }
+    }
+    return { ok: true, n: n, field: field, extraA: ea, extraB: eb, strips: strips, fields: fields, span: span, fw: fw };
+  }
+  /* n cel mai apropiat de lățimea dorită a câmpului; scade dacă nu încape câmpul minim */
+  function frameFit(span, fw, target) {
+    span = +span; fw = +fw; target = +target;
+    if (!(target >= LIM.rfTarget[0] && target <= LIM.rfTarget[1])) return { ok: false, reason: "dim" };
+    var n = Math.max(1, Math.round((span - fw) / (target + fw)));
+    var r = frameN(span, fw, n);
+    while (!r.ok && r.reason === "tooSmall" && n > 1) { n--; r = frameN(span, fw, n); }
+    return r;
+  }
+
+  return { LIM: LIM, layout: layout, closure: closure, backSheets: backSheets, normCuts: normCuts, splitEq: splitEq, slatPlan: slatPlan, sheetHoles: sheetHoles, frameN: frameN, frameFit: frameFit };
 });

@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.3.0 — 27 octombrie 2026
+
+**Boiserie cu rame și câmpuri** — placare de perete cu rame aplicate pe un suport (stilul clasic și cel modern „boiserie”), lângă lambriul cu lamele.
+- În Generator, tipul „Boiserie cu rame”: lățimea peretelui, înălțimea, lățimea ramei, lățimea dorită a câmpului și numărul de rânduri de câmpuri. Materialul corpului = ramele, materialul spatelui = suportul (câmpul); grosimile vin din materiale (D-41).
+- **Câmpurile se potrivesc exact**: numărul de câmpuri e cel mai apropiat de lățimea dorită, iar (n+1)·ramă + n·câmp = lățimea și (m+1)·ramă + m·câmp = înălțimea, în mm întregi; restul de 0…n−1 mm îl iau ramele de capăt (mai late cu 1–2 mm), ca nimic să nu rămână în aer. Previzualizarea spune „4×2 câmpuri · câmp 525×1210 mm”.
+- Distinta: montanții (cât înălțimea) și traversele (cât câmpul), grupate pe lățime; suportul din foi cu gaură pentru prize (aceleași decupaje ca la lambriu). Un decupaj care atinge o ramă e semnalat. 3D cu aceleași cote ca distinta; pașii de montaj spun câți montanți și câte traverse, câmpurile și mărimea lor, din model.
+- Dictarea cu AI cunoaște tipul și cele trei câmpuri; textele sunt în 7 limbi.
+- Limite: câmpul e suportul însuși (fără panou încastrat în canal, deci fără freză); montanții sunt continui, traversele între ei; fără profil de ramă (muchii drepte); fără colț între doi pereți; foaia de suport nu depășește placa.
+- Teste: 727 în browser, 16 unitare noi pe modul (închidere exactă pe 3000 de combinații), fuzz D-78 pe 12000 de configurații fără nicio abatere pe boiserie, golden 42 și 43 (rest de 3 mm la ramele de capăt) verificate aritmetic, `validat:false`.
+
+---
+
 ## 5.2.0 — 27 octombrie 2026
 
 **Lambriu v2: prize, întrerupătoare și pereți mai lungi decât placa.**
