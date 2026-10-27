@@ -10,10 +10,13 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "..", "app", "ebanist
 const D = ctx.HW_DRILL;
 if (!D) { console.error("HW_DRILL nu s-a găsit"); process.exit(1); }
 
-const UNIT = { dia: "mm", depth: "mm", dist: "mm", len: "mm", thk: "mm", end: "mm", pitch: "mm", offset: "mm", spacing: "mm", front: "mm", from_edge: "mm", from_top: "mm", w: "mm", d: "mm", ang: "°" };
+/* valorile de ramă din modulul lambriului (D-100): date generice, nevalidate, de măsurat pe o ramă reală */
+{ const c2 = vm.createContext({}); vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "..", "app", "ebanist-lambriu.js"), "utf8"), c2);
+  if (c2.EBLambriu && c2.EBLambriu.INSET) D.panouIncastrat = { gd: c2.EBLambriu.INSET.gd, minLeft: c2.EBLambriu.INSET.minLeft, src: "generic, de măsurat pe o ramă reală (D-100)" }; }
+const UNIT = { gd: "mm", minLeft: "mm", dia: "mm", depth: "mm", dist: "mm", len: "mm", thk: "mm", end: "mm", pitch: "mm", offset: "mm", spacing: "mm", front: "mm", from_edge: "mm", from_top: "mm", w: "mm", d: "mm", ang: "°" };
 const GROUPS = {
   sys32: "Sistem 32", hinge: "Balama cu cupă (Blum 45/9,5)", minifix: "Minifix / Rafix", dowel: "Dibluri", joints: "Alte îmbinări",
-  pin: "Suport raft", slide: "Glisiere sertar", handle: "Mânere", golaFresata: "Gola frezată", antiwarp: "Profil anti-curbare", fold: "Balama pliantă"
+  pin: "Suport raft", slide: "Glisiere sertar", handle: "Mânere", golaFresata: "Gola frezată", antiwarp: "Profil anti-curbare", fold: "Balama pliantă", panouIncastrat: "Panou încastrat în ramă (canal)"
 };
 const rows = [];
 (function walk(o, p, grp, srcIn) {

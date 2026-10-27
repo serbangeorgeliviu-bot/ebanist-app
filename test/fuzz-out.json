@@ -1,40 +1,88 @@
 {
+ "invariant I4 [angolare]": [
+  {
+   "cfg": {
+    "name": "F0",
+    "type": "angolare",
+    "L": 477,
+    "L2": 900,
+    "H": 2200,
+    "P": 452,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 6,
+    "drawers": 5,
+    "doors": 2,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "none",
+    "antiWarp": "all"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F8",
+    "type": "angolare",
+    "L": 546,
+    "L2": 900,
+    "H": 2200,
+    "P": 231,
+    "plinth": 80,
+    "tram": 3,
+    "shelves": 3,
+    "drawers": 2,
+    "doors": 6,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "antiWarp": "auto",
+    "support": "piedini"
+   }
+  }
+ ],
  "ops:opsHandleFit [angolare]": [
   {
    "cfg": {
     "name": "F0",
     "type": "angolare",
-    "L": 1000,
+    "L": 477,
     "L2": 900,
-    "H": 2525,
-    "P": 714,
+    "H": 2200,
+    "P": 452,
     "plinth": 80,
     "tram": 0,
-    "shelves": 3,
-    "drawers": 8,
-    "doors": 0,
-    "back": 1,
+    "shelves": 6,
+    "drawers": 5,
+    "doors": 2,
+    "back": 0,
     "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
-    "matBack": "__k"
+    "matBack": "__k",
+    "top": "none",
+    "antiWarp": "all"
    }
   },
   {
    "cfg": {
-    "name": "F91",
+    "name": "F89",
     "type": "angolare",
-    "L": 2565,
+    "L": 2566,
     "L2": 900,
     "H": 2200,
-    "P": 798,
+    "P": 666,
     "plinth": 80,
     "tram": 0,
     "shelves": 3,
-    "drawers": 4,
-    "doors": 3,
+    "drawers": 3,
+    "doors": 1,
     "back": 1,
-    "hang": 1,
+    "hang": 0,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k"
@@ -46,23 +94,25 @@
    "cfg": {
     "name": "F0",
     "type": "angolare",
-    "L": 1000,
+    "L": 477,
     "L2": 900,
-    "H": 2525,
-    "P": 714,
+    "H": 2200,
+    "P": 452,
     "plinth": 80,
     "tram": 0,
-    "shelves": 3,
-    "drawers": 8,
-    "doors": 0,
-    "back": 1,
+    "shelves": 6,
+    "drawers": 5,
+    "doors": 2,
+    "back": 0,
     "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
-    "matBack": "__k"
+    "matBack": "__k",
+    "top": "none",
+    "antiWarp": "all"
    },
    "extra": [
-    21,
+    18,
     {
      "rule": "V3",
      "level": "error",
@@ -74,23 +124,25 @@
    "cfg": {
     "name": "F0",
     "type": "angolare",
-    "L": 1000,
+    "L": 477,
     "L2": 900,
-    "H": 2525,
-    "P": 714,
+    "H": 2200,
+    "P": 452,
     "plinth": 80,
     "tram": 0,
-    "shelves": 3,
-    "drawers": 8,
-    "doors": 0,
-    "back": 1,
+    "shelves": 6,
+    "drawers": 5,
+    "doors": 2,
+    "back": 0,
     "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
-    "matBack": "__k"
+    "matBack": "__k",
+    "top": "none",
+    "antiWarp": "all"
    },
    "extra": [
-    21,
+    18,
     {
      "rule": "V3",
      "level": "error",
@@ -99,45 +151,45 @@
    ]
   }
  ],
- "build:eroare-declarată [standard]": [
+ "ops:opsSlope [standard]": [
   {
    "cfg": {
-    "name": "F2",
+    "name": "F4",
     "type": "standard",
-    "L": 1043,
+    "L": 600,
     "L2": 900,
-    "H": 2398,
-    "P": 427,
+    "H": 720,
+    "P": 560,
     "plinth": 100,
     "tram": 8,
-    "shelves": 4,
-    "drawers": 1,
-    "doors": 2,
+    "shelves": 0,
+    "drawers": 4,
+    "doors": 0,
     "back": 1,
     "hang": 0,
+    "drawerSys": "legrabox",
+    "drawerDist": "cucina",
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "top": "traverse",
-    "antiWarp": "auto",
+    "handles": "maniglia",
     "topProfile": {
-     "axis": "z",
-     "h0": 2398,
-     "h1": 1675
+     "axis": "x",
+     "h0": 720,
+     "h1": 534
     }
-   },
-   "extra": "deriveCarcass: panta nu se combină cu tavanul din două traverse"
+   }
   },
   {
    "cfg": {
-    "name": "F28",
+    "name": "F20",
     "type": "standard",
-    "L": 2041,
+    "L": 397,
     "L2": 900,
-    "H": 2631,
-    "P": 309,
+    "H": 720,
+    "P": 279,
     "plinth": 0,
-    "tram": 2,
+    "tram": 0,
     "shelves": 1,
     "drawers": 0,
     "doors": 2,
@@ -147,29 +199,1038 @@
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "handles": "push",
-    "antiWarp": "all",
     "topProfile": {
      "axis": "z",
-     "h0": 1269,
-     "h1": 2631
+     "h0": 720,
+     "h1": 355
     }
-   },
-   "extra": "deriveCarcass: panta (77.2°) depășește 60°"
+   }
   }
  ],
- "invariant I4 [angolare]": [
+ "ops:opsNoHingePanel [angolare]": [
   {
    "cfg": {
-    "name": "F6",
+    "name": "F8",
     "type": "angolare",
+    "L": 546,
+    "L2": 900,
+    "H": 2200,
+    "P": 231,
+    "plinth": 80,
+    "tram": 3,
+    "shelves": 3,
+    "drawers": 2,
+    "doors": 6,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "antiWarp": "auto",
+    "support": "piedini"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F88",
+    "type": "angolare",
+    "L": 1116,
+    "L2": 900,
+    "H": 1500,
+    "P": 228,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 3,
+    "drawers": 0,
+    "doors": 3,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push"
+   }
+  }
+ ],
+ "coliziune cassetto_fianco/dbox × cielo (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F12",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 450,
+    "P": 798,
+    "plinth": 60,
+    "tram": 1,
+    "shelves": 0,
+    "drawers": 5,
+    "doors": 0,
+    "back": 1,
+    "hang": 0,
+    "support": "piedini",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F19",
+    "type": "standard",
     "L": 1000,
     "L2": 900,
-    "H": 2519,
+    "H": 321,
     "P": 600,
     "plinth": 80,
     "tram": 1,
+    "shelves": 9,
+    "drawers": 3,
+    "doors": 2,
+    "back": 1,
+    "hang": 1,
+    "secMode": [
+     "hang",
+     "drawerShelf"
+    ],
+    "drawerSys": "legno",
+    "drawerDist": "uguali",
+    "drawerZone": 640,
+    "drawerInset": 35,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "gola",
+    "golaType": "L"
+   }
+  }
+ ],
+ "coliziune base × cassetto_fondo/dbox (FĂRĂ avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F13",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 2200,
+    "P": 341,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 5,
+    "drawers": 4,
+    "doors": 5,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "top": "none",
+    "drawerSys": "matrix"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F67",
+    "type": "standard",
+    "L": 2206,
+    "L2": 900,
+    "H": 1154,
+    "P": 722,
+    "plinth": 100,
+    "tram": 0,
+    "shelves": 7,
+    "drawers": 3,
+    "doors": 1,
+    "back": 1,
+    "hang": 0,
+    "drawerSys": "legrabox",
+    "drawerDist": "cucina",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push",
+    "top": "traverse"
+   }
+  }
+ ],
+ "ops-pre:V5 [standard]": [
+  {
+   "cfg": {
+    "name": "F13",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 2200,
+    "P": 341,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 5,
+    "drawers": 4,
+    "doors": 5,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "top": "none",
+    "drawerSys": "matrix"
+   },
+   "extra": [
+    1,
+    {
+     "rule": "V5",
+     "level": "error",
+     "op": "op_004/op_012"
+    }
+   ]
+  },
+  {
+   "cfg": {
+    "name": "F13",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 2200,
+    "P": 341,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 5,
+    "drawers": 4,
+    "doors": 5,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "top": "none",
+    "drawerSys": "matrix"
+   },
+   "extra": [
+    2,
+    {
+     "rule": "V5",
+     "level": "error",
+     "op": "op_004/op_006"
+    }
+   ]
+  }
+ ],
+ "ops-pre:V1 [standard]": [
+  {
+   "cfg": {
+    "name": "F13",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 2200,
+    "P": 341,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 5,
+    "drawers": 4,
+    "doors": 5,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "top": "none",
+    "drawerSys": "matrix"
+   },
+   "extra": [
+    3,
+    {
+     "rule": "V1",
+     "level": "error",
+     "op": "op_007"
+    }
+   ]
+  },
+  {
+   "cfg": {
+    "name": "F13",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 2200,
+    "P": 341,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 5,
+    "drawers": 4,
+    "doors": 5,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "top": "none",
+    "drawerSys": "matrix"
+   },
+   "extra": [
+    3,
+    {
+     "rule": "V1",
+     "level": "error",
+     "op": "op_008"
+    }
+   ]
+  }
+ ],
+ "ops:opsPinMoved [standard]": [
+  {
+   "cfg": {
+    "name": "F15",
+    "type": "standard",
+    "L": 1000,
+    "L2": 900,
+    "H": 2200,
+    "P": 401,
+    "plinth": 80,
+    "tram": 3,
+    "shelves": 6,
+    "drawers": 3,
+    "doors": 2,
+    "back": 1,
+    "hang": 1,
+    "secMode": [
+     "hang",
+     "drawerShelf"
+    ],
+    "drawerSys": "matrix",
+    "drawerDist": "uguali",
+    "drawerZone": 640,
+    "drawerInset": 35,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "gola",
+    "antiWarp": "auto"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F110",
+    "type": "standard",
+    "L": 1880,
+    "L2": 900,
+    "H": 1406,
+    "P": 554,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 2,
+    "drawers": 0,
+    "doors": 3,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "drawerSys": "tandembox"
+   }
+  }
+ ],
+ "coliziune asta × ripiano (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F21",
+    "type": "standard",
+    "L": 1729,
+    "L2": 900,
+    "H": 1197,
+    "P": 560,
+    "plinth": 100,
+    "tram": 6,
+    "shelves": 10,
+    "drawers": 0,
+    "doors": 2,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "traverse",
+    "support": "sospeso"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F836",
+    "type": "standard",
+    "L": 1553,
+    "L2": 900,
+    "H": 720,
+    "P": 485,
+    "plinth": 100,
+    "tram": 0,
+    "shelves": 1,
+    "drawers": 2,
+    "doors": 2,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "antiWarp": "all"
+   }
+  }
+ ],
+ "coliziune cassetto_fianco/dbox × cassetto_fianco/dbox (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F25",
+    "type": "standard",
+    "L": 1206,
+    "L2": 900,
+    "H": 312,
+    "P": 300,
+    "plinth": 0,
+    "tram": 4,
+    "shelves": 6,
+    "drawers": 6,
+    "doors": 2,
+    "back": 1,
+    "hang": 0,
+    "support": "piedini",
+    "handles": "push",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F142",
+    "type": "standard",
+    "L": 2405,
+    "L2": 900,
+    "H": 408,
+    "P": 560,
+    "plinth": 100,
+    "tram": 0,
+    "shelves": 1,
+    "drawers": 6,
+    "doors": 5,
+    "back": 1,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "support": "zoccolo"
+   }
+  }
+ ],
+ "coliziune cassetto_fianco/dbox × cielo (FĂRĂ avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F32",
+    "type": "standard",
+    "L": 1294,
+    "L2": 900,
+    "H": 600,
+    "P": 500,
+    "plinth": 0,
+    "tram": 0,
     "shelves": 0,
+    "drawers": 6,
+    "doors": 0,
+    "back": 1,
+    "hang": 0,
+    "drawerSys": "legno",
+    "drawerDist": "uguali",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "antiWarp": "auto",
+    "support": "piedini"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F97",
+    "type": "standard",
+    "L": 842,
+    "L2": 900,
+    "H": 550,
+    "P": 530,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 5,
+    "doors": 0,
+    "back": 1,
+    "hang": 0,
+    "support": "sospeso",
+    "handles": "push",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
+  }
+ ],
+ "ops:opsNoHingePanel [standard]": [
+  {
+   "cfg": {
+    "name": "F33",
+    "type": "standard",
+    "L": 1044,
+    "L2": 900,
+    "H": 902,
+    "P": 282,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 2,
+    "drawers": 0,
+    "doors": 3,
+    "back": 1,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "support": "zoccolo",
+    "drawerSys": "legno",
+    "topProfile": {
+     "axis": "x",
+     "h0": 332,
+     "h1": 902
+    }
+   }
+  },
+  {
+   "cfg": {
+    "name": "F35",
+    "type": "standard",
+    "L": 2227,
+    "L2": 900,
+    "H": 1800,
+    "P": 400,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 7,
+    "drawers": 8,
+    "doors": 6,
+    "back": 1,
+    "hang": 0,
+    "front": "vetro",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "support": "sospeso"
+   }
+  }
+ ],
+ "coliziune asta × ripiano (cu avertisment) [scorrevole]": [
+  {
+   "cfg": {
+    "name": "F34",
+    "type": "scorrevole",
+    "L": 2400,
+    "L2": 900,
+    "H": 698,
+    "P": 484,
+    "plinth": 0,
+    "tram": 8,
+    "shelves": 6,
+    "drawers": 0,
+    "doors": 2,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F201",
+    "type": "scorrevole",
+    "L": 322,
+    "L2": 900,
+    "H": 852,
+    "P": 650,
+    "plinth": 0,
+    "tram": 2,
+    "shelves": 8,
+    "drawers": 4,
+    "doors": 2,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "gola",
+    "golaType": "fresata",
+    "support": "piedini",
+    "drawerSys": "tandembox"
+   }
+  }
+ ],
+ "ops:opsHandleFit [standard]": [
+  {
+   "cfg": {
+    "name": "F35",
+    "type": "standard",
+    "L": 2227,
+    "L2": 900,
+    "H": 1800,
+    "P": 400,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 7,
+    "drawers": 8,
+    "doors": 6,
+    "back": 1,
+    "hang": 0,
+    "front": "vetro",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "support": "sospeso"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F127",
+    "type": "standard",
+    "L": 1800,
+    "L2": 900,
+    "H": 370,
+    "P": 632,
+    "plinth": 60,
+    "tram": 1,
+    "shelves": 0,
+    "drawers": 1,
+    "doors": 5,
+    "back": 1,
+    "hang": 0,
+    "support": "piedini",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "drawerSys": "legrabox"
+   }
+  }
+ ],
+ "coliziune doga × doga (FĂRĂ avertisment) [letto]": [
+  {
+   "cfg": {
+    "name": "F37",
+    "type": "letto",
+    "L": 1631,
+    "L2": 900,
+    "H": 950,
+    "P": 733,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 1,
+    "drawers": 0,
+    "doors": 0,
+    "back": 0,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F49",
+    "type": "letto",
+    "L": 1660,
+    "L2": 900,
+    "H": 2228,
+    "P": 644,
+    "plinth": 0,
+    "tram": 4,
+    "shelves": 6,
+    "drawers": 0,
+    "doors": 4,
+    "back": 0,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "drawerSys": "matrix"
+   }
+  }
+ ],
+ "build:eroare-declarată [lambriu]": [
+  {
+   "cfg": {
+    "name": "F63",
+    "type": "lambriu",
+    "L": 963,
+    "L2": 1875,
+    "H": 1177,
+    "P": 34,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 8,
+    "doors": 0,
+    "back": 0,
+    "hang": 0,
+    "lamW": 74,
+    "lamGap": 189,
+    "lamDir": "v",
+    "matBody": "__b",
+    "matBack": "__k",
+    "matFront": "__b",
+    "wall2": 1,
+    "corner": "sx",
+    "cornerKind": "ext",
+    "lamCuts": [
+     {
+      "x": 1541,
+      "y": 1413,
+      "w": 34,
+      "h": 60,
+      "wall": "B"
+     }
+    ]
+   },
+   "extra": "lamErrCut"
+  },
+  {
+   "cfg": {
+    "name": "F254",
+    "type": "lambriu",
+    "L": 2466,
+    "L2": 796,
+    "H": 3292,
+    "P": 34,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 0,
+    "doors": 3,
+    "back": 1,
+    "hang": 0,
+    "lamW": 287,
+    "lamGap": 20,
+    "lamDir": "v",
+    "matBody": "__b",
+    "matBack": "__k",
+    "matFront": "__b",
+    "handles": "push",
+    "lamCuts": [
+     {
+      "x": 2260,
+      "y": 197,
+      "w": 191,
+      "h": 61
+     },
+     {
+      "x": 90,
+      "y": 1262,
+      "w": 52,
+      "h": 55,
+      "wall": "B"
+     }
+    ],
+    "wall2": 1,
+    "corner": "dx",
+    "cornerKind": "ext"
+   },
+   "extra": "lamErrLen"
+  }
+ ],
+ "build:eroare-declarată [standard]": [
+  {
+   "cfg": {
+    "name": "F69",
+    "type": "standard",
+    "L": 600,
+    "L2": 900,
+    "H": 617,
+    "P": 666,
+    "plinth": 100,
+    "tram": 0,
+    "shelves": 7,
+    "drawers": 8,
+    "doors": 1,
+    "back": 1,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "maniglia",
+    "top": "traverse",
+    "support": "zoccolo",
+    "topProfile": {
+     "axis": "x",
+     "h0": 617,
+     "h1": 495
+    }
+   },
+   "extra": "deriveCarcass: panta nu se combină cu tavanul din două traverse"
+  },
+  {
+   "cfg": {
+    "name": "F80",
+    "type": "standard",
+    "L": 2258,
+    "L2": 900,
+    "H": 1800,
+    "P": 400,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 3,
+    "drawers": 0,
+    "doors": 1,
+    "back": 1,
+    "hang": 0,
+    "front": "vetro",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "antiWarp": "all",
+    "topProfile": {
+     "axis": "z",
+     "h0": 1800,
+     "h1": 737
+    }
+   },
+   "extra": "deriveCarcass: panta (69.4°) depășește 60°"
+  }
+ ],
+ "build:eroare-declarată [boiserie]": [
+  {
+   "cfg": {
+    "name": "F131",
+    "type": "boiserie",
+    "L": 2365,
+    "L2": 900,
+    "H": 1423,
+    "P": 34,
+    "plinth": 0,
+    "tram": 8,
+    "shelves": 0,
+    "drawers": 0,
+    "doors": 8,
+    "back": 1,
+    "hang": 0,
+    "rfW": 143,
+    "rfTarget": 391,
+    "rfRows": 7,
+    "matBody": "__b",
+    "matBack": "__k",
+    "matFront": "__p",
+    "handles": "push",
+    "antiWarp": "auto",
+    "rfInset": 1
+   },
+   "extra": "rfErrDim"
+  },
+  {
+   "cfg": {
+    "name": "F740",
+    "type": "boiserie",
+    "L": 2400,
+    "L2": 1776,
+    "H": 368,
+    "P": 640,
+    "plinth": 0,
+    "tram": 5,
+    "shelves": 9,
+    "drawers": 0,
+    "doors": 0,
+    "back": 1,
+    "hang": 0,
+    "rfW": 124,
+    "rfTarget": 600,
+    "rfRows": 3,
+    "matBody": "__b",
+    "matBack": "__k",
+    "matFront": "__b",
+    "handles": "push",
+    "antiWarp": "all",
+    "drawerSys": "legrabox",
+    "wall2": 1,
+    "corner": "sx",
+    "cornerKind": "ext",
+    "lamCuts": [
+     {
+      "x": 1444,
+      "y": 1287,
+      "w": 87,
+      "h": 37,
+      "wall": "B"
+     }
+    ]
+   },
+   "extra": "rfErrDim"
+  }
+ ],
+ "coliziune base × cassetto_fondo/dbox (FĂRĂ avertisment) [angolare]": [
+  {
+   "cfg": {
+    "name": "F143",
+    "type": "angolare",
+    "L": 1325,
+    "L2": 900,
+    "H": 2200,
+    "P": 600,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 3,
+    "doors": 1,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "drawerSys": "legrabox"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F916",
+    "type": "angolare",
+    "L": 1000,
+    "L2": 900,
+    "H": 2200,
+    "P": 457,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 3,
+    "drawers": 1,
+    "doors": 1,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "antiWarp": "auto",
+    "drawerSys": "legrabox"
+   }
+  }
+ ],
+ "coliziune base × cassetto_fondo/dbox (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F177",
+    "type": "standard",
+    "L": 1251,
+    "L2": 900,
+    "H": 720,
+    "P": 792,
+    "plinth": 100,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 4,
+    "doors": 3,
+    "back": 1,
+    "hang": 0,
+    "drawerSys": "legrabox",
+    "drawerDist": "cucina",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "support": "zoccolo"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F212",
+    "type": "standard",
+    "L": 1204,
+    "L2": 900,
+    "H": 720,
+    "P": 560,
+    "plinth": 100,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 5,
+    "doors": 8,
+    "back": 0,
+    "hang": 0,
+    "drawerSys": "legrabox",
+    "drawerDist": "cucina",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "support": "zoccolo"
+   }
+  }
+ ],
+ "coliziune asta × cassetto_fianco/dbox (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F183",
+    "type": "standard",
+    "L": 900,
+    "L2": 900,
+    "H": 550,
+    "P": 722,
+    "plinth": 0,
+    "tram": 2,
+    "shelves": 0,
+    "drawers": 3,
+    "doors": 5,
+    "back": 1,
+    "hang": 1,
+    "support": "sospeso",
+    "handles": "push",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "traverse",
+    "antiWarp": "all"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F241",
+    "type": "standard",
+    "L": 451,
+    "L2": 900,
+    "H": 600,
+    "P": 462,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 8,
+    "drawers": 3,
+    "doors": 7,
+    "back": 0,
+    "hang": 1,
+    "drawerSys": "legno",
+    "drawerDist": "uguali",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push",
+    "antiWarp": "all",
+    "support": "piedini",
+    "topProfile": {
+     "axis": "x",
+     "h0": 265,
+     "h1": 600
+    }
+   }
+  }
+ ],
+ "ops:opsPinMoved [angolare]": [
+  {
+   "cfg": {
+    "name": "F199",
+    "type": "angolare",
+    "L": 2340,
+    "L2": 900,
+    "H": 2200,
+    "P": 722,
+    "plinth": 80,
+    "tram": 5,
+    "shelves": 10,
     "drawers": 0,
     "doors": 1,
     "back": 1,
@@ -179,1130 +1240,29 @@
     "matBack": "__k",
     "handles": "gola",
     "golaType": "J",
-    "support": "piedini"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F48",
-    "type": "angolare",
-    "L": 1674,
-    "L2": 900,
-    "H": 2200,
-    "P": 600,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 7,
-    "drawers": 4,
-    "doors": 4,
-    "back": 0,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "gola",
-    "golaType": "L",
-    "support": "piedini"
-   }
-  }
- ],
- "coliziune base × cassetto_fondo/dbox (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F7",
-    "type": "standard",
-    "L": 863,
-    "L2": 900,
-    "H": 732,
-    "P": 560,
-    "plinth": 100,
-    "tram": 0,
-    "shelves": 6,
-    "drawers": 1,
-    "doors": 0,
-    "back": 1,
-    "hang": 1,
-    "drawerSys": "legrabox",
-    "drawerDist": "cucina",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "gola",
-    "golaType": "J"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F102",
-    "type": "standard",
-    "L": 2596,
-    "L2": 900,
-    "H": 718,
-    "P": 606,
-    "plinth": 100,
-    "tram": 0,
-    "shelves": 2,
-    "drawers": 2,
-    "doors": 7,
-    "back": 1,
-    "hang": 0,
-    "drawerSys": "tandembox",
-    "drawerDist": "cucina",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "sospeso",
-    "topProfile": {
-     "axis": "x",
-     "h0": 718,
-     "h1": 353
-    }
-   }
-  }
- ],
- "coliziune base × cassetto_fondo/dbox (FĂRĂ avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F8",
-    "type": "standard",
-    "L": 1578,
-    "L2": 900,
-    "H": 791,
-    "P": 400,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 5,
-    "drawers": 2,
-    "doors": 2,
-    "back": 1,
-    "hang": 0,
-    "front": "vetro",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "sospeso",
-    "drawerSys": "legrabox"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F47",
-    "type": "standard",
-    "L": 1421,
-    "L2": 900,
-    "H": 1604,
-    "P": 421,
-    "plinth": 100,
-    "tram": 0,
-    "shelves": 4,
-    "drawers": 7,
-    "doors": 6,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "push",
-    "antiWarp": "all",
-    "support": "sospeso",
-    "drawerSys": "matrix"
-   }
-  }
- ],
- "ops:opsNoHingePanel [standard]": [
-  {
-   "cfg": {
-    "name": "F10",
-    "type": "standard",
-    "L": 800,
-    "L2": 900,
-    "H": 2244,
-    "P": 640,
-    "plinth": 100,
-    "tram": 0,
-    "shelves": 1,
-    "drawers": 0,
-    "doors": 5,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "drawerSys": "legrabox"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F12",
-    "type": "standard",
-    "L": 2037,
-    "L2": 900,
-    "H": 1885,
-    "P": 400,
-    "plinth": 60,
-    "tram": 3,
-    "shelves": 1,
-    "drawers": 1,
-    "doors": 7,
-    "back": 1,
-    "hang": 0,
-    "support": "piedini",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "drawerSys": "movento"
-   }
-  }
- ],
- "ops:opsPinMoved [standard]": [
-  {
-   "cfg": {
-    "name": "F10",
-    "type": "standard",
-    "L": 800,
-    "L2": 900,
-    "H": 2244,
-    "P": 640,
-    "plinth": 100,
-    "tram": 0,
-    "shelves": 1,
-    "drawers": 0,
-    "doors": 5,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "drawerSys": "legrabox"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F74",
-    "type": "standard",
-    "L": 1375,
-    "L2": 900,
-    "H": 1423,
-    "P": 316,
-    "plinth": 0,
-    "tram": 5,
-    "shelves": 5,
-    "drawers": 3,
-    "doors": 8,
-    "back": 1,
-    "hang": 0,
-    "drawerSys": "legno",
-    "drawerDist": "uguali",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "push"
-   }
-  }
- ],
- "coliziune doga × doga (FĂRĂ avertisment) [letto]": [
-  {
-   "cfg": {
-    "name": "F13",
-    "type": "letto",
-    "L": 2185,
-    "L2": 900,
-    "H": 1145,
-    "P": 683,
-    "plinth": 0,
-    "tram": 7,
-    "shelves": 7,
-    "drawers": 3,
-    "doors": 0,
-    "back": 0,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "push",
-    "support": "zoccolo"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F25",
-    "type": "letto",
-    "L": 1316,
-    "L2": 900,
-    "H": 2075,
-    "P": 646,
-    "plinth": 0,
-    "tram": 0,
-    "shelves": 0,
-    "drawers": 5,
-    "doors": 4,
-    "back": 0,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse",
-    "drawerSys": "legrabox"
-   }
-  }
- ],
- "ops:opsSlope [standard]": [
-  {
-   "cfg": {
-    "name": "F27",
-    "type": "standard",
-    "L": 867,
-    "L2": 900,
-    "H": 690,
-    "P": 707,
-    "plinth": 0,
-    "tram": 0,
-    "shelves": 9,
-    "drawers": 1,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "support": "sospeso",
-    "handles": "push",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "topProfile": {
-     "axis": "z",
-     "h0": 546,
-     "h1": 690
-    }
-   }
-  },
-  {
-   "cfg": {
-    "name": "F29",
-    "type": "standard",
-    "L": 1875,
-    "L2": 900,
-    "H": 576,
-    "P": 352,
-    "plinth": 0,
-    "tram": 0,
-    "shelves": 2,
-    "drawers": 3,
-    "doors": 3,
-    "back": 0,
-    "hang": 0,
-    "drawerSys": "legno",
-    "drawerDist": "uguali",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "maniglia",
-    "topProfile": {
-     "axis": "z",
-     "h0": 272,
-     "h1": 576
-    }
-   }
-  }
- ],
- "coliziune cassetto_fianco/dbox × cielo (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F29",
-    "type": "standard",
-    "L": 1875,
-    "L2": 900,
-    "H": 576,
-    "P": 352,
-    "plinth": 0,
-    "tram": 0,
-    "shelves": 2,
-    "drawers": 3,
-    "doors": 3,
-    "back": 0,
-    "hang": 0,
-    "drawerSys": "legno",
-    "drawerDist": "uguali",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "maniglia",
-    "topProfile": {
-     "axis": "z",
-     "h0": 272,
-     "h1": 576
-    }
-   }
-  },
-  {
-   "cfg": {
-    "name": "F56",
-    "type": "standard",
-    "L": 1800,
-    "L2": 900,
-    "H": 450,
-    "P": 307,
-    "plinth": 60,
-    "tram": 6,
-    "shelves": 10,
-    "drawers": 4,
-    "doors": 5,
-    "back": 1,
-    "hang": 0,
-    "support": "piedini",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  }
- ],
- "ops:opsNoHingePanel [angolare]": [
-  {
-   "cfg": {
-    "name": "F48",
-    "type": "angolare",
-    "L": 1674,
-    "L2": 900,
-    "H": 2200,
-    "P": 600,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 7,
-    "drawers": 4,
-    "doors": 4,
-    "back": 0,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "gola",
-    "golaType": "L",
-    "support": "piedini"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F91",
-    "type": "angolare",
-    "L": 2565,
-    "L2": 900,
-    "H": 2200,
-    "P": 798,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 3,
-    "drawers": 4,
-    "doors": 3,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  }
- ],
- "coliziune asta × ripiano (FĂRĂ avertisment) [angolare]": [
-  {
-   "cfg": {
-    "name": "F50",
-    "type": "angolare",
-    "L": 1000,
-    "L2": 900,
-    "H": 604,
-    "P": 784,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 4,
-    "drawers": 0,
-    "doors": 1,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "sospeso"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F390",
-    "type": "angolare",
-    "L": 1219,
-    "L2": 900,
-    "H": 1205,
-    "P": 589,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 3,
-    "drawers": 4,
-    "doors": 7,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "push",
-    "support": "sospeso"
-   }
-  }
- ],
- "ops:opsPinMoved [angolare]": [
-  {
-   "cfg": {
-    "name": "F50",
-    "type": "angolare",
-    "L": 1000,
-    "L2": 900,
-    "H": 604,
-    "P": 784,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 4,
-    "drawers": 0,
-    "doors": 1,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "sospeso"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F63",
-    "type": "angolare",
-    "L": 1572,
-    "L2": 900,
-    "H": 1181,
-    "P": 483,
-    "plinth": 80,
-    "tram": 8,
-    "shelves": 7,
-    "drawers": 0,
-    "doors": 1,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse"
-   }
-  }
- ],
- "ops:opsHandleFit [standard]": [
-  {
-   "cfg": {
-    "name": "F57",
-    "type": "standard",
-    "L": 418,
-    "L2": 900,
-    "H": 574,
-    "P": 514,
-    "plinth": 60,
-    "tram": 1,
-    "shelves": 0,
-    "drawers": 2,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "support": "piedini",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "none"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F193",
-    "type": "standard",
-    "L": 900,
-    "L2": 900,
-    "H": 1800,
-    "P": 400,
-    "plinth": 80,
-    "tram": 4,
-    "shelves": 3,
-    "drawers": 5,
-    "doors": 2,
-    "back": 1,
-    "hang": 0,
-    "front": "vetro",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "maniglia"
-   }
-  }
- ],
- "build:eroare-declarată [angolare]": [
-  {
-   "cfg": {
-    "name": "F58",
-    "type": "angolare",
-    "L": 2311,
-    "L2": 900,
-    "H": 2200,
-    "P": 203,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 3,
-    "drawers": 0,
-    "doors": 1,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse",
-    "drawerSys": "tandembox"
-   },
-   "extra": "deriveCarcass: două traverse de 100 mm nu încap în adâncimea 203 (rămâne sub 30 mm între ele)"
-  }
- ],
- "coliziune asta × ripiano (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F75",
-    "type": "standard",
-    "L": 1880,
-    "L2": 900,
-    "H": 301,
-    "P": 767,
-    "plinth": 0,
-    "tram": 2,
-    "shelves": 2,
-    "drawers": 0,
-    "doors": 3,
-    "back": 0,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "push",
-    "top": "traverse",
     "drawerSys": "matrix"
    }
   },
   {
    "cfg": {
-    "name": "F282",
-    "type": "standard",
-    "L": 582,
-    "L2": 900,
-    "H": 677,
-    "P": 500,
-    "plinth": 80,
-    "tram": 2,
-    "shelves": 2,
-    "drawers": 1,
-    "doors": 8,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "push"
-   }
-  }
- ],
- "ops-pre:V1 [standard]": [
-  {
-   "cfg": {
-    "name": "F89",
-    "type": "standard",
-    "L": 959,
-    "L2": 900,
-    "H": 2200,
-    "P": 437,
-    "plinth": 80,
-    "tram": 2,
-    "shelves": 5,
-    "drawers": 2,
-    "doors": 3,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "zoccolo",
-    "drawerSys": "legrabox"
-   },
-   "extra": [
-    3,
-    {
-     "rule": "V1",
-     "level": "error",
-     "op": "op_021"
-    }
-   ]
-  },
-  {
-   "cfg": {
-    "name": "F89",
-    "type": "standard",
-    "L": 959,
-    "L2": 900,
-    "H": 2200,
-    "P": 437,
-    "plinth": 80,
-    "tram": 2,
-    "shelves": 5,
-    "drawers": 2,
-    "doors": 3,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "zoccolo",
-    "drawerSys": "legrabox"
-   },
-   "extra": [
-    3,
-    {
-     "rule": "V1",
-     "level": "error",
-     "op": "op_022"
-    }
-   ]
-  }
- ],
- "coliziune cassetto_fianco/dbox × cassetto_fianco/dbox (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F93",
-    "type": "standard",
-    "L": 2534,
-    "L2": 900,
-    "H": 399,
-    "P": 347,
-    "plinth": 60,
-    "tram": 2,
-    "shelves": 0,
-    "drawers": 5,
-    "doors": 4,
-    "back": 1,
-    "hang": 0,
-    "support": "piedini",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F315",
-    "type": "standard",
-    "L": 1668,
-    "L2": 900,
-    "H": 450,
-    "P": 407,
-    "plinth": 60,
-    "tram": 8,
-    "shelves": 10,
-    "drawers": 7,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "support": "sospeso",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  }
- ],
- "ops-pre:V5 [standard]": [
-  {
-   "cfg": {
-    "name": "F93",
-    "type": "standard",
-    "L": 2534,
-    "L2": 900,
-    "H": 399,
-    "P": 347,
-    "plinth": 60,
-    "tram": 2,
-    "shelves": 0,
-    "drawers": 5,
-    "doors": 4,
-    "back": 1,
-    "hang": 0,
-    "support": "piedini",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   },
-   "extra": [
-    3,
-    {
-     "rule": "V5",
-     "level": "error",
-     "op": "op_011/op_022"
-    }
-   ]
-  },
-  {
-   "cfg": {
-    "name": "F93",
-    "type": "standard",
-    "L": 2534,
-    "L2": 900,
-    "H": 399,
-    "P": 347,
-    "plinth": 60,
-    "tram": 2,
-    "shelves": 0,
-    "drawers": 5,
-    "doors": 4,
-    "back": 1,
-    "hang": 0,
-    "support": "piedini",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   },
-   "extra": [
-    4,
-    {
-     "rule": "V5",
-     "level": "error",
-     "op": "op_011/op_022"
-    }
-   ]
-  }
- ],
- "coliziune asta × cassetto_fianco/dbox (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F163",
-    "type": "standard",
-    "L": 2517,
-    "L2": 900,
-    "H": 1616,
-    "P": 578,
-    "plinth": 100,
-    "tram": 2,
-    "shelves": 0,
-    "drawers": 8,
-    "doors": 5,
-    "back": 0,
-    "hang": 1,
-    "drawerSys": "movento",
-    "drawerDist": "cucina",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F241",
-    "type": "standard",
-    "L": 1880,
-    "L2": 900,
-    "H": 924,
-    "P": 466,
-    "plinth": 0,
-    "tram": 6,
-    "shelves": 2,
-    "drawers": 6,
-    "doors": 0,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "maniglia",
-    "antiWarp": "all",
-    "topProfile": {
-     "axis": "x",
-     "h0": 888,
-     "h1": 924
-    }
-   }
-  }
- ],
- "coliziune asta × cassetto_fondo/dbox (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F163",
-    "type": "standard",
-    "L": 2517,
-    "L2": 900,
-    "H": 1616,
-    "P": 578,
-    "plinth": 100,
-    "tram": 2,
-    "shelves": 0,
-    "drawers": 8,
-    "doors": 5,
-    "back": 0,
-    "hang": 1,
-    "drawerSys": "movento",
-    "drawerDist": "cucina",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F241",
-    "type": "standard",
-    "L": 1880,
-    "L2": 900,
-    "H": 924,
-    "P": 466,
-    "plinth": 0,
-    "tram": 6,
-    "shelves": 2,
-    "drawers": 6,
-    "doors": 0,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "maniglia",
-    "antiWarp": "all",
-    "topProfile": {
-     "axis": "x",
-     "h0": 888,
-     "h1": 924
-    }
-   }
-  }
- ],
- "build:eroare-declarată [lambriu]": [
-  {
-   "cfg": {
-    "name": "F207",
-    "type": "lambriu",
-    "L": 2400,
-    "L2": 308,
-    "H": 3133,
-    "P": 34,
-    "plinth": 0,
-    "tram": 6,
-    "shelves": 1,
-    "drawers": 0,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "lamW": 57,
-    "lamGap": 86,
-    "lamDir": "v",
-    "matBody": "__b",
-    "matBack": "__k",
-    "matFront": "__b",
-    "lamCuts": [
-     {
-      "x": 2028,
-      "y": 1329,
-      "w": 225,
-      "h": 234
-     },
-     {
-      "x": 1500,
-      "y": 1482,
-      "w": 170,
-      "h": 94
-     }
-    ],
-    "wall2": 1,
-    "corner": "sx",
-    "cornerKind": "int"
-   },
-   "extra": "lamErrLen"
-  },
-  {
-   "cfg": {
-    "name": "F270",
-    "type": "lambriu",
-    "L": 1185,
-    "L2": 900,
-    "H": 2873,
-    "P": 339,
-    "plinth": 0,
-    "tram": 0,
-    "shelves": 0,
-    "drawers": 0,
-    "doors": 5,
-    "back": 1,
-    "hang": 0,
-    "lamW": 12,
-    "lamGap": 125,
-    "lamDir": "v",
-    "matBody": "__b",
-    "matBack": "__k",
-    "matFront": "__b"
-   },
-   "extra": "lamErrLen"
-  }
- ],
- "build:eroare-declarată [boiserie]": [
-  {
-   "cfg": {
-    "name": "F216",
-    "type": "boiserie",
-    "L": 2162,
-    "L2": 900,
-    "H": 372,
-    "P": 800,
-    "plinth": 0,
-    "tram": 2,
-    "shelves": 0,
-    "drawers": 7,
-    "doors": 3,
-    "back": 1,
-    "hang": 0,
-    "rfW": 98,
-    "rfTarget": 700,
-    "rfRows": 6,
-    "matBody": "__b",
-    "matBack": "__k",
-    "matFront": "__b",
-    "handles": "maniglia",
-    "lamCuts": [
-     {
-      "x": 172,
-      "y": 123,
-      "w": 88,
-      "h": 151
-     },
-     {
-      "x": 2023,
-      "y": 4,
-      "w": 110,
-      "h": 196
-     },
-     {
-      "x": 75,
-      "y": 3,
-      "w": 114,
-      "h": 22
-     }
-    ]
-   },
-   "extra": "rfErrDim"
-  },
-  {
-   "cfg": {
-    "name": "F754",
-    "type": "boiserie",
-    "L": 2517,
-    "L2": 900,
-    "H": 595,
-    "P": 34,
-    "plinth": 0,
-    "tram": 3,
-    "shelves": 4,
-    "drawers": 2,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "rfW": 166,
-    "rfTarget": 428,
-    "rfRows": 8,
-    "matBody": "__b",
-    "matBack": "__k",
-    "matFront": "__b",
-    "handles": "push"
-   },
-   "extra": "rfErrDim"
-  }
- ],
- "coliziune base × cassetto_fondo/dbox (FĂRĂ avertisment) [angolare]": [
-  {
-   "cfg": {
-    "name": "F227",
+    "name": "F326",
     "type": "angolare",
-    "L": 1298,
+    "L": 1000,
     "L2": 900,
-    "H": 994,
-    "P": 755,
+    "H": 2200,
+    "P": 553,
     "plinth": 80,
     "tram": 0,
     "shelves": 3,
-    "drawers": 3,
+    "drawers": 0,
     "doors": 1,
-    "back": 0,
+    "back": 1,
     "hang": 0,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "support": "sospeso",
-    "drawerSys": "legrabox"
+    "antiWarp": "auto"
    }
-  },
-  {
-   "cfg": {
-    "name": "F1209",
-    "type": "angolare",
-    "L": 1734,
-    "L2": 900,
-    "H": 1375,
-    "P": 600,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 5,
-    "drawers": 2,
-    "doors": 7,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "maniglia",
-    "top": "traverse",
-    "drawerSys": "tandembox"
-   }
-  }
- ],
- "build:eroare-declarată [scorrevole]": [
-  {
-   "cfg": {
-    "name": "F232",
-    "type": "scorrevole",
-    "L": 1316,
-    "L2": 900,
-    "H": 2400,
-    "P": 219,
-    "plinth": 0,
-    "tram": 2,
-    "shelves": 1,
-    "drawers": 0,
-    "doors": 1,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse"
-   },
-   "extra": "deriveCarcass: două traverse de 100 mm nu încap în adâncimea 219 (rămâne sub 30 mm între ele)"
-  },
-  {
-   "cfg": {
-    "name": "F1110",
-    "type": "scorrevole",
-    "L": 2587,
-    "L2": 900,
-    "H": 1214,
-    "P": 222,
-    "plinth": 0,
-    "tram": 2,
-    "shelves": 3,
-    "drawers": 0,
-    "doors": 2,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse"
-   },
-   "extra": "deriveCarcass: două traverse de 100 mm nu încap în adâncimea 222 (rămâne sub 30 mm între ele)"
   }
  ],
  "coliziune gamba × gamba (FĂRĂ avertisment) [tavolo]": [
@@ -1310,233 +1270,106 @@
    "cfg": {
     "name": "F249",
     "type": "tavolo",
-    "L": 2471,
+    "L": 1600,
     "L2": 900,
-    "H": 2032,
-    "P": 226,
-    "plinth": 0,
-    "tram": 7,
-    "shelves": 0,
-    "drawers": 1,
-    "doors": 4,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "gola"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F259",
-    "type": "tavolo",
-    "L": 1212,
-    "L2": 900,
-    "H": 2697,
-    "P": 212,
+    "H": 1276,
+    "P": 230,
     "plinth": 0,
     "tram": 0,
     "shelves": 9,
-    "drawers": 8,
-    "doors": 0,
+    "drawers": 2,
+    "doors": 6,
     "back": 0,
     "hang": 0,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "support": "zoccolo",
-    "drawerSys": "matrix"
+    "handles": "gola",
+    "golaType": "fresata",
+    "antiWarp": "all"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F566",
+    "type": "tavolo",
+    "L": 2106,
+    "L2": 900,
+    "H": 1878,
+    "P": 234,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 0,
+    "doors": 0,
+    "back": 1,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push"
+   }
+  }
+ ],
+ "coliziune cassetto_fianco/dbox × traversa_cielo (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F363",
+    "type": "standard",
+    "L": 1413,
+    "L2": 900,
+    "H": 450,
+    "P": 400,
+    "plinth": 60,
+    "tram": 1,
+    "shelves": 0,
+    "drawers": 4,
+    "doors": 3,
+    "back": 1,
+    "hang": 0,
+    "support": "piedini",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "traverse"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F1661",
+    "type": "standard",
+    "L": 1246,
+    "L2": 900,
+    "H": 845,
+    "P": 368,
+    "plinth": 60,
+    "tram": 3,
+    "shelves": 0,
+    "drawers": 8,
+    "doors": 6,
+    "back": 1,
+    "hang": 0,
+    "support": "piedini",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "traverse",
+    "antiWarp": "auto"
    }
   }
  ],
  "coliziune asta × cassetto_fianco/dbox (FĂRĂ avertisment) [angolare]": [
   {
    "cfg": {
-    "name": "F285",
+    "name": "F367",
     "type": "angolare",
-    "L": 1491,
+    "L": 1812,
     "L2": 900,
-    "H": 1094,
-    "P": 319,
+    "H": 835,
+    "P": 578,
     "plinth": 80,
     "tram": 0,
-    "shelves": 6,
-    "drawers": 6,
-    "doors": 8,
-    "back": 0,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "sospeso"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F1108",
-    "type": "angolare",
-    "L": 960,
-    "L2": 900,
-    "H": 708,
-    "P": 600,
-    "plinth": 80,
-    "tram": 0,
-    "shelves": 3,
-    "drawers": 3,
-    "doors": 1,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  }
- ],
- "coliziune asta × cassetto_fianco/dbox (FĂRĂ avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F664",
-    "type": "standard",
-    "L": 1981,
-    "L2": 900,
-    "H": 1642,
-    "P": 500,
-    "plinth": 80,
-    "tram": 2,
-    "shelves": 2,
-    "drawers": 7,
-    "doors": 0,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "handles": "gola"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F2747",
-    "type": "standard",
-    "L": 1376,
-    "L2": 900,
-    "H": 1574,
-    "P": 500,
-    "plinth": 80,
-    "tram": 2,
-    "shelves": 10,
-    "drawers": 8,
-    "doors": 0,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  }
- ],
- "coliziune asta × ripiano (cu avertisment) [scorrevole]": [
-  {
-   "cfg": {
-    "name": "F1017",
-    "type": "scorrevole",
-    "L": 1765,
-    "L2": 900,
-    "H": 541,
-    "P": 701,
-    "plinth": 0,
-    "tram": 2,
-    "shelves": 4,
-    "drawers": 0,
-    "doors": 2,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "antiWarp": "all"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F1559",
-    "type": "scorrevole",
-    "L": 2045,
-    "L2": 900,
-    "H": 885,
-    "P": 590,
-    "plinth": 0,
-    "tram": 2,
-    "shelves": 7,
-    "drawers": 8,
-    "doors": 2,
-    "back": 1,
-    "hang": 1,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "support": "sospeso"
-   }
-  }
- ],
- "coliziune cassetto_fianco/dbox × cielo (FĂRĂ avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F1126",
-    "type": "standard",
-    "L": 2213,
-    "L2": 900,
-    "H": 775,
-    "P": 339,
-    "plinth": 0,
-    "tram": 2,
     "shelves": 5,
-    "drawers": 8,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "drawerSys": "legno"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F1265",
-    "type": "standard",
-    "L": 580,
-    "L2": 900,
-    "H": 600,
-    "P": 500,
-    "plinth": 0,
-    "tram": 0,
-    "shelves": 2,
-    "drawers": 6,
-    "doors": 0,
-    "back": 1,
-    "hang": 0,
-    "drawerSys": "legno",
-    "drawerDist": "uguali",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k"
-   }
-  }
- ],
- "coliziune cassetto_fianco/dbox × cielo (FĂRĂ avertisment) [angolare]": [
-  {
-   "cfg": {
-    "name": "F1294",
-    "type": "angolare",
-    "L": 2575,
-    "L2": 900,
-    "H": 512,
-    "P": 459,
-    "plinth": 80,
-    "tram": 5,
-    "shelves": 0,
     "drawers": 5,
     "doors": 1,
     "back": 1,
@@ -1544,45 +1377,45 @@
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "handles": "gola",
-    "drawerSys": "movento"
+    "handles": "maniglia",
+    "antiWarp": "all",
+    "support": "piedini"
    }
   },
   {
    "cfg": {
-    "name": "F2012",
+    "name": "F650",
     "type": "angolare",
-    "L": 2612,
+    "L": 1639,
     "L2": 900,
-    "H": 667,
-    "P": 661,
+    "H": 1667,
+    "P": 663,
     "plinth": 80,
-    "tram": 7,
+    "tram": 4,
     "shelves": 3,
-    "drawers": 7,
-    "doors": 4,
+    "drawers": 8,
+    "doors": 1,
     "back": 1,
     "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "handles": "gola",
-    "golaType": "fresata"
+    "handles": "push"
    }
   }
  ],
  "coliziune asta × cassetto_fondo/dbox (FĂRĂ avertisment) [angolare]": [
   {
    "cfg": {
-    "name": "F1294",
+    "name": "F367",
     "type": "angolare",
-    "L": 2575,
+    "L": 1812,
     "L2": 900,
-    "H": 512,
-    "P": 459,
+    "H": 835,
+    "P": 578,
     "plinth": 80,
-    "tram": 5,
-    "shelves": 0,
+    "tram": 0,
+    "shelves": 5,
     "drawers": 5,
     "doors": 1,
     "back": 1,
@@ -1590,22 +1423,46 @@
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "handles": "gola",
-    "drawerSys": "movento"
+    "handles": "maniglia",
+    "antiWarp": "all",
+    "support": "piedini"
    }
   },
   {
    "cfg": {
-    "name": "F1571",
+    "name": "F1249",
     "type": "angolare",
-    "L": 1194,
+    "L": 1617,
     "L2": 900,
-    "H": 1363,
-    "P": 560,
+    "H": 567,
+    "P": 426,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 3,
+    "drawers": 3,
+    "doors": 1,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push"
+   }
+  }
+ ],
+ "coliziune asta × ripiano (FĂRĂ avertisment) [angolare]": [
+  {
+   "cfg": {
+    "name": "F456",
+    "type": "angolare",
+    "L": 1536,
+    "L2": 900,
+    "H": 871,
+    "P": 600,
     "plinth": 80,
     "tram": 0,
-    "shelves": 3,
-    "drawers": 8,
+    "shelves": 7,
+    "drawers": 0,
     "doors": 1,
     "back": 1,
     "hang": 1,
@@ -1613,105 +1470,128 @@
     "matFront": "__b",
     "matBack": "__k"
    }
-  }
- ],
- "ops:opsAwThin [standard]": [
+  },
   {
    "cfg": {
-    "name": "F1330",
-    "type": "standard",
-    "L": 800,
-    "L2": 900,
-    "H": 720,
-    "P": 436,
-    "plinth": 0,
-    "tram": 3,
-    "shelves": 1,
-    "drawers": 3,
-    "doors": 2,
-    "back": 1,
-    "hang": 0,
-    "support": "sospeso",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "antiWarp": "all"
-   }
-  }
- ],
- "ops-pre:V5 [angolare]": [
-  {
-   "cfg": {
-    "name": "F1364",
+    "name": "F582",
     "type": "angolare",
-    "L": 313,
+    "L": 763,
     "L2": 900,
-    "H": 1713,
-    "P": 600,
+    "H": 597,
+    "P": 264,
     "plinth": 80,
     "tram": 0,
     "shelves": 3,
-    "drawers": 7,
-    "doors": 6,
+    "drawers": 5,
+    "doors": 1,
     "back": 1,
-    "hang": 0,
+    "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "antiWarp": "auto"
+    "support": "piedini",
+    "drawerSys": "legno"
+   }
+  }
+ ],
+ "ops-pre:V1 [angolare]": [
+  {
+   "cfg": {
+    "name": "F467",
+    "type": "angolare",
+    "L": 411,
+    "L2": 900,
+    "H": 447,
+    "P": 619,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 0,
+    "drawers": 1,
+    "doors": 2,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "traverse",
+    "antiWarp": "all"
    },
    "extra": [
-    13,
+    15,
     {
-     "rule": "V5",
+     "rule": "V1",
      "level": "error",
-     "op": "op_001/op_007"
+     "op": "op_007"
     }
    ]
   },
   {
    "cfg": {
-    "name": "F1364",
+    "name": "F467",
     "type": "angolare",
-    "L": 313,
+    "L": 411,
     "L2": 900,
-    "H": 1713,
-    "P": 600,
+    "H": 447,
+    "P": 619,
     "plinth": 80,
     "tram": 0,
-    "shelves": 3,
-    "drawers": 7,
-    "doors": 6,
+    "shelves": 0,
+    "drawers": 1,
+    "doors": 2,
     "back": 1,
-    "hang": 0,
+    "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "antiWarp": "auto"
+    "top": "traverse",
+    "antiWarp": "all"
    },
    "extra": [
-    14,
+    16,
     {
-     "rule": "V5",
+     "rule": "V1",
      "level": "error",
-     "op": "op_001/op_007"
+     "op": "op_007"
     }
    ]
+  }
+ ],
+ "coliziune asta × cassetto_fianco/dbox (FĂRĂ avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F486",
+    "type": "standard",
+    "L": 1475,
+    "L2": 900,
+    "H": 656,
+    "P": 600,
+    "plinth": 60,
+    "tram": 1,
+    "shelves": 0,
+    "drawers": 6,
+    "doors": 0,
+    "back": 1,
+    "hang": 1,
+    "support": "zoccolo",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
   }
  ],
  "coliziune asta × cassetto_fondo/dbox (FĂRĂ avertisment) [standard]": [
   {
    "cfg": {
-    "name": "F1756",
+    "name": "F708",
     "type": "standard",
-    "L": 1583,
+    "L": 713,
     "L2": 900,
     "H": 720,
-    "P": 451,
+    "P": 609,
     "plinth": 100,
     "tram": 0,
     "shelves": 0,
-    "drawers": 4,
+    "drawers": 3,
     "doors": 0,
     "back": 1,
     "hang": 1,
@@ -1720,125 +1600,299 @@
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "support": "sospeso"
+    "handles": "maniglia"
+   }
+  }
+ ],
+ "coliziune asta × cassetto_fondo/dbox (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F900",
+    "type": "standard",
+    "L": 1148,
+    "L2": 900,
+    "H": 450,
+    "P": 400,
+    "plinth": 60,
+    "tram": 1,
+    "shelves": 5,
+    "drawers": 3,
+    "doors": 0,
+    "back": 1,
+    "hang": 1,
+    "support": "piedini",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "drawerSys": "tandembox"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F1119",
+    "type": "standard",
+    "L": 1685,
+    "L2": 900,
+    "H": 364,
+    "P": 333,
+    "plinth": 0,
+    "tram": 4,
+    "shelves": 5,
+    "drawers": 7,
+    "doors": 3,
+    "back": 1,
+    "hang": 1,
+    "support": "sospeso",
+    "handles": "push",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
+  }
+ ],
+ "coliziune cassetto_fondo/dbox × cielo (cu avertisment) [standard]": [
+  {
+   "cfg": {
+    "name": "F1268",
+    "type": "standard",
+    "L": 1528,
+    "L2": 900,
+    "H": 303,
+    "P": 674,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 1,
+    "drawers": 8,
+    "doors": 2,
+    "back": 1,
+    "hang": 0,
+    "support": "sospeso",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F1521",
+    "type": "standard",
+    "L": 2286,
+    "L2": 900,
+    "H": 450,
+    "P": 645,
+    "plinth": 60,
+    "tram": 1,
+    "shelves": 0,
+    "drawers": 8,
+    "doors": 4,
+    "back": 1,
+    "hang": 0,
+    "support": "piedini",
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "topProfile": {
+     "axis": "x",
+     "h0": 450,
+     "h1": 374
+    }
+   }
+  }
+ ],
+ "ops-pre:V5 [angolare]": [
+  {
+   "cfg": {
+    "name": "F1470",
+    "type": "angolare",
+    "L": 1713,
+    "L2": 900,
+    "H": 2200,
+    "P": 202,
+    "plinth": 80,
+    "tram": 3,
+    "shelves": 3,
+    "drawers": 6,
+    "doors": 0,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "none"
+   },
+   "extra": [
+    11,
+    {
+     "rule": "V5",
+     "level": "error",
+     "op": "op_014/op_016"
+    }
+   ]
+  },
+  {
+   "cfg": {
+    "name": "F1470",
+    "type": "angolare",
+    "L": 1713,
+    "L2": 900,
+    "H": 2200,
+    "P": 202,
+    "plinth": 80,
+    "tram": 3,
+    "shelves": 3,
+    "drawers": 6,
+    "doors": 0,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "none"
+   },
+   "extra": [
+    11,
+    {
+     "rule": "V5",
+     "level": "error",
+     "op": "op_018/op_020"
+    }
+   ]
+  }
+ ],
+ "build:eroare-declarată [angolare]": [
+  {
+   "cfg": {
+    "name": "F1542",
+    "type": "angolare",
+    "L": 538,
+    "L2": 900,
+    "H": 2230,
+    "P": 212,
+    "plinth": 80,
+    "tram": 4,
+    "shelves": 3,
+    "drawers": 6,
+    "doors": 3,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "top": "traverse",
+    "antiWarp": "auto"
+   },
+   "extra": "deriveCarcass: două traverse de 100 mm nu încap în adâncimea 212 (rămâne sub 30 mm între ele)"
+  }
+ ],
+ "coliziune cassetto_fianco/dbox × cielo (FĂRĂ avertisment) [angolare]": [
+  {
+   "cfg": {
+    "name": "F1552",
+    "type": "angolare",
+    "L": 585,
+    "L2": 900,
+    "H": 512,
+    "P": 600,
+    "plinth": 80,
+    "tram": 2,
+    "shelves": 3,
+    "drawers": 4,
+    "doors": 1,
+    "back": 1,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "handles": "push"
+   }
+  },
+  {
+   "cfg": {
+    "name": "F2030",
+    "type": "angolare",
+    "L": 2512,
+    "L2": 900,
+    "H": 523,
+    "P": 474,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 5,
+    "drawers": 7,
+    "doors": 5,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
+   }
+  }
+ ],
+ "coliziune cassetto_fianco/dbox × cassetto_fianco/dbox (FĂRĂ avertisment) [angolare]": [
+  {
+   "cfg": {
+    "name": "F2030",
+    "type": "angolare",
+    "L": 2512,
+    "L2": 900,
+    "H": 523,
+    "P": 474,
+    "plinth": 80,
+    "tram": 0,
+    "shelves": 5,
+    "drawers": 7,
+    "doors": 5,
+    "back": 1,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k"
    }
   }
  ],
  "invariant I4,I7 [angolare]": [
   {
    "cfg": {
-    "name": "F2012",
+    "name": "F2640",
     "type": "angolare",
-    "L": 2612,
+    "L": 1458,
     "L2": 900,
-    "H": 667,
-    "P": 661,
+    "H": 2200,
+    "P": 555,
     "plinth": 80,
-    "tram": 7,
+    "tram": 4,
     "shelves": 3,
-    "drawers": 7,
-    "doors": 4,
+    "drawers": 4,
+    "doors": 1,
     "back": 1,
     "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
-    "handles": "gola",
-    "golaType": "fresata"
+    "top": "none",
+    "drawerSys": "matrix"
    }
   },
   {
    "cfg": {
-    "name": "F2941",
+    "name": "F2730",
     "type": "angolare",
-    "L": 1521,
+    "L": 1637,
     "L2": 900,
-    "H": 2200,
+    "H": 568,
     "P": 600,
     "plinth": 80,
     "tram": 8,
-    "shelves": 6,
-    "drawers": 8,
-    "doors": 1,
-    "back": 0,
-    "hang": 0,
+    "shelves": 3,
+    "drawers": 5,
+    "doors": 5,
+    "back": 1,
+    "hang": 1,
     "matBody": "__b",
     "matFront": "__b",
     "matBack": "__k",
+    "support": "zoccolo",
     "drawerSys": "legno"
-   }
-  }
- ],
- "coliziune cassetto_fianco/dbox × traversa_cielo (cu avertisment) [standard]": [
-  {
-   "cfg": {
-    "name": "F2038",
-    "type": "standard",
-    "L": 1062,
-    "L2": 900,
-    "H": 720,
-    "P": 473,
-    "plinth": 100,
-    "tram": 0,
-    "shelves": 4,
-    "drawers": 6,
-    "doors": 7,
-    "back": 1,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse",
-    "antiWarp": "all",
-    "support": "zoccolo"
-   }
-  },
-  {
-   "cfg": {
-    "name": "F2387",
-    "type": "standard",
-    "L": 855,
-    "L2": 900,
-    "H": 863,
-    "P": 500,
-    "plinth": 0,
-    "tram": 3,
-    "shelves": 0,
-    "drawers": 8,
-    "doors": 7,
-    "back": 1,
-    "hang": 0,
-    "drawerSys": "movento",
-    "drawerDist": "uguali",
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "top": "traverse",
-    "antiWarp": "auto",
-    "support": "sospeso"
-   }
-  }
- ],
- "coliziune traversa × traversa (FĂRĂ avertisment) [tavolo]": [
-  {
-   "cfg": {
-    "name": "F2713",
-    "type": "tavolo",
-    "L": 2522,
-    "L2": 900,
-    "H": 1666,
-    "P": 208,
-    "plinth": 0,
-    "tram": 7,
-    "shelves": 0,
-    "drawers": 7,
-    "doors": 8,
-    "back": 0,
-    "hang": 0,
-    "matBody": "__b",
-    "matFront": "__b",
-    "matBack": "__k",
-    "drawerSys": "legrabox"
    }
   }
  ]

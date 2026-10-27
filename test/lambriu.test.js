@@ -209,3 +209,23 @@ test("cornerPlace: B local de la 0 la lungime acoperă exact lungimea pe axa z a
   const e = E.cornerPlace([bx(0, 1000, 0, 100, 0, 34)], { LA: 2000, t: 34, kind: "ext", side: "dx" });
   assert.equal(e[0].z0, 0); assert.equal(e[0].z1, 1000); assert.equal(e[0].x0, 2000); assert.equal(e[0].x1, 2034);
 });
+
+/* ---------- panou încastrat în ramă (D-100) ---------- */
+test("insetOk: panoul încape în rama de grosime tf și lățime fw, cu cel puțin 3 mm rămas pe fiecare parte", () => {
+  assert.equal(E.insetOk(60, 18, 8), true);
+  assert.equal(E.insetOk(60, 18, 12), true);
+  assert.equal(E.insetOk(60, 18, 13), false, "rămân 2,5 mm");
+  assert.equal(E.insetOk(60, 18, 0), false);
+  assert.equal(E.insetOk(12, 18, 8), false, "ramă prea îngustă pentru canal");
+  assert.equal(E.INSET.verificat, false);
+});
+
+test("panelHoles: gaura în sistemul panoului (lung vertical, larg orizontal), tăiată la marginile panoului", () => {
+  const f = [0, 500, 0, 1000];   /* câmp 500×1000, panou 516×1016 (gd 8) */
+  const h = E.panelHoles(100, 600, 200, 1200, [{ x: 300, y: 400, w: 80, h: 80 }]);
+  assert.deepEqual(J(h.map(q => [q.l, q.w, q.x, q.y])), [[80, 80, 400 - (200 - 8), 300 - (100 - 8)]]);
+  assert.equal(E.panelHoles(100, 600, 200, 1200, [{ x: 2000, y: 400, w: 80, h: 80 }]).length, 0);
+  /* un decupaj în ramă dar care intră în canal dă gaură numai pe porțiunea din panou */
+  const g = E.panelHoles(100, 600, 200, 1200, [{ x: 600, y: 400, w: 100, h: 80 }]);
+  assert.equal(g.length, 1); assert.equal(g[0].w, 8);
+});

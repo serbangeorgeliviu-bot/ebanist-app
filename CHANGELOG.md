@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.7.0 — 27 octombrie 2026
+
+**Boiserie cu panou încastrat în ramă** — varianta clasică: panourile câmpurilor sunt piese proprii, care intră în canalul ramelor.
+- La boiserie, „Panou încastrat în ramă” = Da: câmpul nu mai e suportul, ci un panou din materialul fronturilor (grosimea din material, D-41), mărit cu 8 mm pe fiecare latură (cât intră în canal). Panourile apar în distinctă ca „Pannello campo”, câte unul pe câmp; același decupaj de priză dă gaură în panou, nu în suport. Suportul rămâne opțional.
+- **Canalele din rame** le scoate modelul de operații: câte patru pe panou, pe **marginea ramei** (fețele 1–4), cu grosimea panoului și adâncimea de 8 mm. Un decupaj de priză lângă marginea panoului nu rupe canalul. Ramele sunt acum piese fizice în model (montanți, traverse, panouri), numerotate în fișa piesei.
+- **Un panou prea gros pentru ramă dă eroare** (rămân sub 3 mm de lemn de fiecare parte); pașii de montaj spun câte panouri se introduc înainte de a închide cadrul. Merge și la colț între doi pereți.
+- **Date nevalidate:** adâncimea canalului (8 mm) și restul minim (3 mm) sunt generice, `verificat:false`, și apar în registrul de verificare a găuririi, de măsurat pe o ramă reală înainte să meargă în mașină. Fișierul de mașină așteaptă Cafasso (D-91).
+- Teste: 738 în browser, 5 unitare noi pe canale, fuzz D-78 pe 21000 de configurații (cu colțuri, decupaje și panouri) fără nicio abatere, golden 46 verificat aritmetic (`validat:false`).
+
+---
+
 ## 5.6.0 — 27 octombrie 2026
 
 **Consilierul tehnic: sfatul pentru ușă înaltă nu apărea niciodată în proiectele reale — corectat — și două reguli noi.**

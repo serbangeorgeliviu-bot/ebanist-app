@@ -4366,6 +4366,53 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Boiserie cu panou încastrat în ramă — formular, panouri, canale în rame, gaură de priză, montaj");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "in1", name: "Perete", pieces: [], configs: {} }]; state.activeId = "in1";
+      setView("build"); await w(200);
+      presetApply({ cfg: { ...PRESETS.boiserie, back: 0, matFront: "dsp_mdf_10" }, name: "Inset A" }); await w(300);
+      o.camp = document.getElementById("rowRfInset").style.display !== "none" && document.getElementById("bRfInset").value === "0";
+      const sel = document.getElementById("bRfInset"); sel.value = "1"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(300);
+      document.getElementById("btnLamCutAdd").click(); await w(150);
+      document.querySelector('#lamCutBox [data-lc="0:x"]').value = "300"; document.querySelector('#lamCutBox [data-lc="0:x"]').dispatchEvent(new Event("input", { bubbles: true }));
+      document.querySelector('#lamCutBox [data-lc="0:y"]').value = "400"; document.querySelector('#lamCutBox [data-lc="0:y"]').dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      document.getElementById("btnGenerate").click(); await w(500);
+      const p = proj(), c = p.configs["Inset A"];
+      const pn = p.pieces.filter(x => x.elemento === "Pannello campo");
+      o.salvat = c.rfInset === 1 && c.matFront === "dsp_mdf_10";
+      o.panouri = pn.reduce((a, x) => a + x.pz, 0) === 8 && pn.every(x => x.lung === 1226 && x.larg === 541) && pn.some(x => x.scasso) && pn.length === 2;
+      o.material = pn.every(x => /10/.test(x.materiale));
+      const B = buildModule(c), ops = generateOperations({ boxes: B.boxes, cfg: c, G: undefined });
+      const sl = Array.from(ops.pieces).filter(q => q.role === "rama_montant" || q.role === "rama_traversa").flatMap(q => Array.from(q.operations).filter(z => z.type === "slot"));
+      o.canale = sl.length === 32 && sl.every(z => z.face >= 1 && z.face <= 4 && z.depth === 8 && z.thk === 10);
+      const rest = assemblySteps("Inset A", {}, c, p.pieces).map(x => x.x).join("|");
+      o.pas = rest.includes(t("rfS5").replace("{k}", "8")) && !rest.includes("{");
+      o.auditVerde = auditProject(p).length === 0;
+      /* grosime prea mare: eroare declarată */
+      let err = ""; try { buildModule({ ...c, matFront: "pal25_alb" }); } catch (e) { err = e.message; }
+      o.eroare = err === t("rfErrInset");
+      /* colț cu panouri încastrate: B are și el panouri și canale */
+      const K = buildModule({ ...c, wall2: 1, L2: 1500, corner: "dx", cornerKind: "int", lamCuts: [] });
+      const oK = generateOperations({ boxes: K.boxes, cfg: { ...c, wall2: 1 }, G: undefined });
+      const nPanels = K.pieces.filter(x => x.role === "rama_camp").reduce((a, x) => a + x.pz, 0);
+      const slK = Array.from(oK.pieces).filter(q => q.role === "rama_montant" || q.role === "rama_traversa").flatMap(q => Array.from(q.operations).filter(z => z.type === "slot")).length;
+      o.colt = nPanels > 8 && slK === 4 * nPanels;
+      const ai = aiNormCfg({ type: "boiserie", rfInset: 1 }, []);
+      o.ai = ai.rfInset === 1;
+      const ks = ["fRfInset", "rfErrInsetMat", "rfErrInset", "rfS5", "role_rama_camp"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2)) && ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Pannello campo"]);
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Panou încastrat: comutatorul apare la boiserie, se salvează; panourile (8, dimensiunea câmpului + 2·gd, din materialul fronturilor), unul cu gaura de priză", r.camp === true && r.salvat === true && r.panouri === true && r.material === true);
+    ok("Panou încastrat: 32 de canale în rame (4 pe panou), pe marginea ramei, cu grosimea panoului; pașii de montaj spun câte panouri se introduc; semaforul verde", r.canale === true && r.pas === true && r.auditVerde === true);
+    ok("Panou încastrat: panou prea gros = eroare declarată; la colț și B are panouri și canale; AI și 7 limbi", r.eroare === true && r.colt === true && r.ai === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

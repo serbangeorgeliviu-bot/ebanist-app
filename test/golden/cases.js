@@ -119,7 +119,11 @@ const CASES = [
     wall2: 1, L2: 1500, corner: "dx", cornerKind: "int" }, "m16"),
   /* exterior, B la stânga: peretele B are lățimea întreagă (1800) */
   c("45-boiserie-colt-ext", "boiserie", "m18", { L: 2400, H: 1100, P: 34, plinth: 0, back: 1, rfW: 60, rfTarget: 600, rfRows: 1,
-    wall2: 1, L2: 1800, corner: "sx", cornerKind: "ext" }, "m16")
+    wall2: 1, L2: 1800, corner: "sx", cornerKind: "ext" }, "m16"),
+
+  /* --- panou încastrat în ramă (D-100): panou de 5 mm în rame de 18, cu o priză într-un câmp ----- */
+  c("46-boiserie-incastrat", "boiserie", "m18", { L: 2400, H: 2600, P: 18, plinth: 0, back: 0, rfW: 60, rfTarget: 600, rfRows: 2, rfInset: 1,
+    matFront: "hdf5", lamCuts: [{ x: 300, y: 400, w: 80, h: 80 }] })
 ];
 
 /* le coppie 18/19: il runner controlla che il gabarito NON si muova e che

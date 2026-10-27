@@ -46,7 +46,7 @@ function vpOverlap(a, c) {
   const r = vx ? [o.x0, o.x1, o.y0, o.y1] : [o.z0, o.z1, o.y0, o.y1];
   return clipArea(v.vp.pts, r) > .6 * .6;
 }
-const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind !== "m" && x.role && x.role !== "accessorio" && x.role !== "profilo" && x.role !== "schienale");
+const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind !== "m" && x.role && x.role !== "accessorio" && x.role !== "profilo" && x.role !== "schienale" && x.role !== "rama_camp");
   const out = {};
   for (let i = 0; i < bx.length; i++) for (let j = i + 1; j < bx.length; j++) { const a = bx[i], c = bx[j]; if (a.pk != null && a.pk === c.pk) continue;
     const pr = [a.role, c.role].sort().join("|"); if (pr === "cassetto_fianco|cassetto_fondo") continue;
@@ -96,11 +96,13 @@ for (let i = 0; i < N; i++) {
     if (rnd() < .5) { cfg.lamCuts = (cfg.lamCuts || []).concat([{ x: ri(60, Math.max(60, cfg.L2 - 100)), y: ri(0, 1500), w: ri(20, 90), h: ri(20, 90), wall: "B" }]); } }
   /* D-97: boiserie — ramă, câmp dorit, rânduri, decupaje */
   if (t === "boiserie") { if (rnd() < .8) cfg.rfW = ri(20, 200); if (rnd() < .8) cfg.rfTarget = ri(100, 1500); if (rnd() < .7) cfg.rfRows = ri(1, 8);
-    if (rnd() < .5) { cfg.lamCuts = []; for (let k = ri(1, 3); k > 0; k--) { const cw = ri(20, 200), ch = ri(20, 200); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } } }
+    if (rnd() < .5) { cfg.lamCuts = []; for (let k = ri(1, 3); k > 0; k--) { const cw = ri(20, 200), ch = ri(20, 200); cfg.lamCuts.push({ x: ri(0, Math.max(0, cfg.L - cw)), y: ri(0, Math.max(0, cfg.H - ch)), w: Math.min(cw, cfg.L), h: Math.min(ch, cfg.H) }); } } 
+    /* D-100: panou încastrat în ramă pe o parte din configurații, cu un panou subțire pentru fronturi */
+    if (rnd() < .4) { cfg.rfInset = 1; cfg.matFront = "__p"; } }
   if (rnd() < .2) cfg.hang = ri(0, 1);
   if (rnd() < .2) cfg.back = ri(0, 1);
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
-    matOvr: {}, matAdd: [MM("__b", 19), MM("__k", 3), MM("pfl5", 5)], hwProd: { guida: "blum_tandem" } };
+    matOvr: {}, matAdd: [MM("__b", 19), MM("__k", 3), MM("pfl5", 5), MM("__p", 8)], hwProd: { guida: "blum_tandem" } };
   let b2;
   try { b2 = S.buildModule(cfg); }
   catch (e) { note(KNOWN.test(e.message) ? "build:eroare-declarată" : "build:EXCEPȚIE " + e.message.slice(0, 80), cfg, e.message); continue; }
@@ -125,8 +127,14 @@ for (let i = 0; i < N; i++) {
       if (nB !== sB.pieces.reduce((a2, x) => a2 + x.pz, 0)) note("colț: piesele lui B diferă de peretele singur", cfg, [nB, sB.pieces.reduce((a2, x) => a2 + x.pz, 0)]);
     }
     if (b2.boxes.some(x => x.x0 < -1e-9 || x.z0 < -1e-9 || !(x.x1 > x.x0) || !(x.z1 > x.z0))) note("colț: cutie în afara octantului", cfg);
-    const pks = b2.boxes.map(x => x.pk), dup = {}; b2.boxes.forEach(x => { dup[x.pk] = (dup[x.pk] || 0) + (x.role === "schienale" ? 0 : 1); });
-    if (Object.values(dup).some(v => v > 1)) note("colț: două piese cu același pk", cfg);
+    if (cfg.rfInset) { try { const o3 = S.generateOperations({ boxes: b2.boxes, cfg, G: undefined });
+      const np = pcs.filter(x => x.role === "rama_camp").reduce((a2, x) => a2 + x.pz, 0);
+      const sl3 = arr(o3.pieces).filter(p => p.role === "rama_montant" || p.role === "rama_traversa").reduce((a2, p) => a2 + arr(p.operations).filter(q => q.type === "slot").length, 0);
+      if (sl3 !== 4 * np) note("colț încastrat: canale ≠ 4·panouri", cfg, [sl3, 4 * np]); } catch (e) { note("colț încastrat: EXCEPȚIE ops " + e.message.slice(0, 60), cfg); } }
+    /* fiecare piesă fizică are pk-ul ei: pk distincte = suma pz a rândurilor; un pk nu poate avea două roluri */
+    { const roleOf = {}; let mix = false; b2.boxes.forEach(x => { if (roleOf[x.pk] && roleOf[x.pk] !== x.role) mix = true; roleOf[x.pk] = x.role; });
+      const nPk = Object.keys(roleOf).length, nRows = pcs.reduce((a2, x) => a2 + x.pz, 0);
+      if (mix || nPk !== nRows) note("colț: pk-uri ≠ piese", cfg, [nPk, nRows, mix]); }
     continue;
   }
   if (t === "boiserie") {
@@ -146,6 +154,17 @@ for (let i = 0; i < N; i++) {
       const hsum = pcs.filter(x => x.role === "rama_traversa").reduce((a2, x) => a2 + x.larg * x.pz, 0) / rf.n;
       if (hsum + rf.m * rf.fieldH !== cfg.H) note("boiserie: rânduri traverse + câmpuri ≠ înălțimea", cfg, [hsum, rf.m, rf.fieldH, cfg.H]);
       if (pcs.some(x => (x.role === "rama_montant" || x.role === "rama_traversa") && Math.max(x.lung, x.larg) > 2800)) note("boiserie: piesă peste placă", cfg);
+      if (cfg.rfInset && !cfg.wall2) {
+        /* panourile: câte unul pe câmp, cu dimensiunea câmpului + 2·gd; fiecare intră în patru canale; canalele unui panou cu gaură rămân întregi */
+        const pn = pcs.filter(x => x.role === "rama_camp").reduce((a2, x) => a2 + x.pz, 0);
+        if (pn !== rf.n * rf.m) note("boiserie încastrat: panouri ≠ n·m", cfg, [pn, rf.n * rf.m]);
+        if (pcs.filter(x => x.role === "rama_camp").some(x => x.lung !== rf.fieldH + 16 || x.larg !== rf.field + 16)) note("boiserie încastrat: panou ≠ câmp + 2·gd", cfg);
+        try { const o2 = S.generateOperations({ boxes: b2.boxes, cfg, G: undefined });
+          const sl = arr(o2.pieces).filter(p => p.role === "rama_montant" || p.role === "rama_traversa").reduce((a2, p) => a2 + arr(p.operations).filter(q => q.type === "slot").length, 0);
+          if (sl !== 4 * rf.n * rf.m) note("boiserie încastrat: canale ≠ 4·panouri", cfg, [sl, 4 * rf.n * rf.m]);
+          arr(o2.pieces).forEach(p => arr(p.preflight).forEach(x => { if (x.level === "error") note("boiserie încastrat ops-pre:" + x.rule, cfg); }));
+        } catch (e) { note("boiserie încastrat: EXCEPȚIE ops " + e.message.slice(0, 60), cfg); }
+      }
     }
     continue;
   }
