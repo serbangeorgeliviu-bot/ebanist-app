@@ -4305,6 +4305,42 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Corp de colț (angolare) — colț interior: ala B pe partea camerei, nu în perete");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const out = {};
+      for (const kind of ["int", "ext"]) for (const corner of ["sx", "dx"]) {
+        const B = buildModule({ ...PRESETS.angolare, name: "X", corner, cornerKind: kind, L: 1000, L2: 900, P: 600 });
+        const A = B.boxes.filter(b => b.wing !== "B"), Bw = B.boxes.filter(b => b.wing === "B");
+        const zA = Math.max(...A.map(b => b.z1)), mm = (a, k) => Math.min(...a.map(b => b[k])), MM = (a, k) => Math.max(...a.map(b => b[k]));
+        out[kind + corner] = { zA, bz0: mm(Bw, "z0"), bz1: MM(Bw, "z1"), bx0: mm(Bw, "x0"), bx1: MM(Bw, "x1"), az0: mm(A, "z0"), info: B.angCorner };
+      }
+      const ok4 = (k, f) => f(out[k]);
+      /* interior: B începe la fața lui A, în cameră (z ≥ zA), cu spatele pe peretele lui (x ≤ 1000 la dx, x ≥ 0 la sx) */
+      o.intdx = ok4("intdx", q => q.bz0 >= q.zA - 1e-6 && q.bx1 <= 1000 + 1e-6 && q.az0 >= -1e-6);
+      o.intsx = ok4("intsx", q => q.bz0 >= q.zA - 1e-6 && q.bx0 >= -1e-6 && q.az0 >= -1e-6);
+      /* exterior: B în spatele planului lui A, pe fața peretelui care iese */
+      o.extdx = ok4("extdx", q => q.bz1 <= 1e-6 && q.bx0 >= 1000 - 1e-6);
+      o.extsx = ok4("extsx", q => q.bz1 <= 1e-6 && q.bx1 <= 1e-6);
+      o.latimeB = out.intdx.info.wallB === Math.round(900 + out.intdx.zA) && out.intdx.info.kind === "int" && out.extdx.info.kind === "ext";
+      /* preview: colțul interior spune cât trebuie să măsoare peretele B */
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "an1", name: "Colț", pieces: [], configs: {} }]; state.activeId = "an1";
+      setView("build"); await w(200);
+      presetApply({ cfg: { ...PRESETS.angolare, corner: "dx", cornerKind: "int" }, name: "Ang A" }); await w(300);
+      o.nota = document.getElementById("angHint").textContent.includes(t("angWallB").replace("{w}", String(out.intdx.info.wallB).length ? "" : "").split("{")[0].slice(0, 12));
+      document.getElementById("btnGenerate").click(); await w(400);
+      o.generat = Object.keys(proj().configs).length === 1 && proj().pieces.some(x => x.modulo === "Ang A B");
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].angWallB && I18N[l].angWallB.includes("{w}"));
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Corp de colț: interior — ala B începe la fața alei A și stă pe partea camerei, cu spatele pe peretele B (stânga și dreapta); nu mai intră în perete", r.intdx === true && r.intsx === true);
+    ok("Corp de colț: exterior neschimbat — ala B în spatele planului alei A, pe fața peretelui care iese; preview-ul spune lățimea peretelui B; textele în 7 limbi", r.extdx === true && r.extsx === true && r.latimeB === true && r.generat === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

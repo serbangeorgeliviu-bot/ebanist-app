@@ -170,6 +170,20 @@ for (let i = 0; i < N; i++) {
         if (Math.abs(c.sum + cov - span2(cfg, horiz)) > 1e-6) { note("lambriu: lamelă ≠ bucăți + decupaje", cfg, [c.sum, cov]); break; } } }
     continue;
   }
+  if (t === "angolare" && b2.boxes) {
+    /* D-99: ala B stă pe partea camerei. Interior: B începe la fața lui A (z ≥ zmax(A)) și se sprijină de peretele B (x=L sau x=0);
+       exterior: B stă în spatele planului lui A (z ≤ 0). A nu intră niciodată în perete (z ≥ 0). */
+    const A2 = b2.boxes.filter(x => x.wing !== "B"), B2 = b2.boxes.filter(x => x.wing === "B");
+    const zA = Math.max(...A2.map(x => x.z1)), eps = 1e-6, L = cfg.L, dxx = cfg.corner === "dx";
+    if (A2.some(x => x.z0 < -eps)) note("angolare: ala A în perete", cfg);
+    if (B2.length) {
+      if (cfg.cornerKind === "ext") { if (B2.some(x => x.z1 > eps)) note("angolare ext: ala B în fața planului lui A", cfg); }
+      else {
+        if (B2.some(x => x.z0 < zA - 1e-3)) note("angolare int: ala B nu începe la fața lui A", cfg, [Math.min(...B2.map(x => x.z0)), zA]);
+        if (dxx ? B2.some(x => x.x1 > L + 1e-3) : B2.some(x => x.x0 < -1e-3)) note("angolare int: ala B în peretele B", cfg);
+      }
+    }
+  }
   if (t !== "standard" && t !== "angolare") continue;
   try {
     const pieces = pcs.map(x => Object.assign({}, x));

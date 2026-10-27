@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.5.0 — 27 octombrie 2026
+
+**Corpul de colț: colțul interior era pus greșit în 3D și în planul de montaj — corectat.**
+- La **colț interior** (colț de cameră), ala B a corpului de colț (`angolare`) se întindea spre −z, adică **în interiorul peretelui A**, nu în cameră. Distinta (cotele pieselor) era corectă, dar așezarea celor două aripi în 3D, în explodat, în AR și în fișa de montaj era în perete. Acum ala B începe de la **fața alei A** (cu tot cu uși), stă pe partea camerei și se sprijină cu spatele pe peretele B, la stânga și la dreapta.
+- Preview-ul spune cât trebuie să măsoare peretele B de la colț: lățimea alei B plus adâncimea alei A.
+- **Colțul exterior (spigol ieșit) nu s-a schimbat.**
+- Cotele din distinta corpurilor de colț nu s-au schimbat (golden 19–22 identice).
+- Teste: 733 în browser; fuzz pe configurații aleatoare: 128 de cazuri cu „ala B nu începe la fața lui A” pe codul vechi, 0 pe cel nou. În fuzz mai apar pe corpurile de colț constatări vechi, neatinse de această corecție (reguli V3, invariantul I4, coliziuni la bara de umerașe); sunt de analizat separat.
+
+---
+
 ## 5.4.0 — 27 octombrie 2026
 
 **Colț între doi pereți** pentru lambriul cu lamele și boiseria cu rame.
