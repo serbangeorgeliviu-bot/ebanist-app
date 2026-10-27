@@ -5,6 +5,31 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.10.0 — 28 octombrie 2026
+
+**Sertarul nu mai intră în bază sau în tavan** — remedierea geometriei găsită de analiza fuzz (D-104). **Schimbă cote la corpurile cu sertare pe fațadă** de aceea motorul trece la versiunea de geometrie 3.
+- **Sertare metalice (Legrabox, Tandembox, Matrix):** primul front urcă cât trebuie ca fundul cutiei să stea deasupra bazei (4 mm la o bază de 19 mm); bordul de sus al coloanei nu se mișcă, deci restul fronturilor coboară cu ~2 mm la distribuția „cucina”. Găurile glisierei de pe tramezuri nu mai ies din piesă.
+- **Cutia sertarului de sus nu mai trece de tavan:** la metal se alege sponda care încape, la lemn sponda se strânge; sub 40 mm nu mai e sertar și apare avertismentul „sertarele nu încap”, în loc de o cutie care intră în tavan.
+- **Un proiect salvat nu se schimbă singur:** păstrează cotele vechi și arată banner-ul cu diferența rând cu rând; abia după confirmare (cu backup) trece la geometria 3. Dacă recalcularea dă aceleași rânduri (proiecte fără sertare metalice), proiectul primește ștampila nouă în tăcere, fără banner.
+- Sertarele interne (între ante), blocurile de sertare la cote absolute și sertarele de lemn pe baze de 19 mm rămân neschimbate; golden validate neatinse. Pe o bază de 25 mm sertarul de lemn urcă 1 mm.
+- Teste: 749 în browser (inclusiv migrarea v2 → v3 cu diferența 313 → 311 și ștampila silențioasă), baleiaj de 864 de configurații, din care peste 300 cu plan valid (4 sisteme × 3 distribuții × 1–6 sertare × 3 înălțimi × 2 socluri × 2 tramezuri): nicio cutie în bază sau tavan; fuzz D-78 fără sertare în bază/tavan și fără `V1` pe tramezuri.
+- Limite: `lift` e cel din fișa producătorului (de reconfirmat); un corp real cu Legrabox nu a fost încă montat.
+
+---
+
+## 5.9.1 — 28 octombrie 2026
+
+**Analiza fuzz** — constatările vechi ale fuzz-ului au fost analizate pe cauze; două erau defecte reale la corpul de colț și unul un avertisment lipsă la sertare.
+- **Colțul între doi pereți: aripa B are acum operații proprii.** Înainte, ușile din B nu aveau nicio operație (fără cupe de balama, fără mâner), iar frontul sertarelor din B primea găuri de mâner în afara piesei. Acum aripa B se calculează ca un corp de sine stătător de lățime L2: fișa piesei, CSV-ul de găurire și lista de feronerie sunt corecte. Balamalele, glisierele și mânerele aripii B nu se desenează în 3D (desenul presupune fața pe +z); găurile se văd.
+- **Colțul avertizează din nou.** `buildModule` arunca avertismentele corpului de colț (rafturi strivite, uși care nu încap); acum cele ale aripilor A și B se unesc.
+- **Sertar care intră în bază sau în tavan:** avertisment nou („N sertar(e): cutia intră până la X mm…”), în 7 limbi. **Cotele nu se schimbă.** Cauza: la sistemele metalice (Legrabox) primul front pornește prea jos și fundul cutiei intră 4 mm în bază; la multe sertare pe un corp scund, cutia de sus intră în tavan. Remedierea (cotele schimbate) vine în 5.10.0, D-104.
+- **Mânerul pe o ușă joasă nu mai iese din ușă** (rămân cel puțin 20 mm față de muchii; dacă nu încape deloc, avertisment de potrivire).
+- Registrul de verificare a găuririi: 93 de valori (+ distanța minimă a mânerului de muchie).
+- Teste: 746 în browser, 9 unitare noi (invariant: operațiile aripii B = ale corpului de sine stătător, 4 colțuri × 7 configurații; avertismente; mâner), fuzz D-78 cu invarianta nouă și verificarea per aripă (I4/I7 nu mai cad pe nedrept), pe 15000 de configurații fără alte categorii noi.
+- Constatări rămase, clasate ca intrări nerealiste sau avertismente corecte: uși de 70–180 mm (nu încap cupele), pat cu adâncimea sub 1000 mm (doage care se suprapun), mese de 200–325 mm lățime. Detalii în D-103.
+
+---
+
 ## 5.9.0 — 28 octombrie 2026
 
 **Piesa cu contur liber v2** — găuri și decupaje în piesă, canale frezate și mai multe piese diferite în același modul.

@@ -19,7 +19,7 @@ if (!D) { console.error("HW_DRILL nu s-a găsit"); process.exit(1); }
     D.gauriContur = { minWeb: c3.EBContour.HOLE.minWeb, drillMax: c3.EBContour.HOLE.drillMax, src: "generic, de măsurat pe o piesă reală (D-102)" };
     D.canaleContur = { maxW: c3.EBContour.GROOVE.maxW, keep: c3.EBContour.GROOVE.keep, src: "generic, de măsurat pe o piesă reală (D-102)" };
   } }
-const UNIT = { minWeb: "mm", drillMax: "mm", maxW: "mm", keep: "mm", gd: "mm", minLeft: "mm", dia: "mm", depth: "mm", dist: "mm", len: "mm", thk: "mm", end: "mm", pitch: "mm", offset: "mm", spacing: "mm", front: "mm", from_edge: "mm", from_top: "mm", w: "mm", d: "mm", ang: "°" };
+const UNIT = { min_edge: "mm", minWeb: "mm", drillMax: "mm", maxW: "mm", keep: "mm", gd: "mm", minLeft: "mm", dia: "mm", depth: "mm", dist: "mm", len: "mm", thk: "mm", end: "mm", pitch: "mm", offset: "mm", spacing: "mm", front: "mm", from_edge: "mm", from_top: "mm", w: "mm", d: "mm", ang: "°" };
 const GROUPS = {
   sys32: "Sistem 32", hinge: "Balama cu cupă (Blum 45/9,5)", minifix: "Minifix / Rafix", dowel: "Dibluri", joints: "Alte îmbinări",
   pin: "Suport raft", slide: "Glisiere sertar", handle: "Mânere", golaFresata: "Gola frezată", antiwarp: "Profil anti-curbare", fold: "Balama pliantă", panouIncastrat: "Panou încastrat în ramă (canal)", gauriContur: "Piesa cu contur liber — găuri și decupaje", canaleContur: "Piesa cu contur liber — canale"
