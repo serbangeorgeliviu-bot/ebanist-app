@@ -834,6 +834,7 @@ function buildHardware(model) {
   const O = model.ops;
   /* cerniere: dicono anche da che parte si apre l'anta */
   O.hw.forEach(h => {
+    if (h.wing === "B") return;   /* aripa B a corpului de colț: balamalele, glisierele și mânerele se desenează presupunând fața pe +z (D-103); fără desen, nu desen greșit */
     const P = R.pieces.get(String(h.piece)); if (!P) return;
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;
     const tag = (m, always) => { m.userData.hw = h.type; m.userData.always = !!always; m.userData.rel = [String(h.piece), String(h.against)]; return m; };

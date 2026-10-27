@@ -57,7 +57,7 @@ const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind
 const span2 = (c, horiz) => horiz ? c.L : c.H;
 const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
-const bucket = {}; const ex = {}; const CT = { n: 0, parts: 0, holes: 0, grooves: 0 };
+const bucket = {}; const ex = {}; const DET = {}; const DETEX = {}; const CT = { n: 0, parts: 0, holes: 0, grooves: 0 };
 const FZ = { construite: 0, backCols: 0, backCutouts: 0, backRails: 0, fillers: 0, vents: 0, refuzate: 0 };   /* D-103: câte configurații cu câmpurile noi s-au construit, câte au fost refuzate cu motiv */
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
 const KNOWN = /(Spate \/ rinforzo \/ filler|grila \d|contErr|rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
@@ -289,21 +289,38 @@ for (let i = 0; i < N; i++) {
   }
   if (t !== "standard" && t !== "angolare") continue;
   try {
+    /* corp de colț: fiecare aripă se verifică cu propria lățime (A cu L, B cu L2), ca în aplicație; împreună, Σ fronturi ≠ L și I4/I7 cad pe nedrept */
+    const wings = t === "angolare" ? [[pcs.filter(x => x.wing !== "B"), cfg], [pcs.filter(x => x.wing === "B"), Object.assign({}, cfg, { type: "standard", L: Math.max(300, cfg.L2 || 900) })]] : [[pcs, cfg]];
+    for (const [wp, wc] of wings) {
+      if (!wp.length) continue;
+      const pieces = wp.map(x => Object.assign({}, x));
+      const G = S.deriveCarcass(S.carcassParams(wc, {}));
+      const M = S.carcassMaterials(wc);
+      const ths = [...new Set(Object.values(M.sp).concat(pieces.map(x => x.sp)).filter(x => x > 0))];
+      const c = arr(S.validateCarcassClosure(wc, pieces, G)); if (c.length) note("închidere", cfg, c.slice(0, 2));
+      const k = arr(S.failedInvariants(wc, pieces, G, { materials: M.mats, thicknesses: ths })).map(r => r.id); if (k.length) note("invariant " + k.join(","), cfg);
+    }
     const pieces = pcs.map(x => Object.assign({}, x));
     const G = S.deriveCarcass(S.carcassParams(cfg, {}));
     const M = S.carcassMaterials(cfg);
     const ths = [...new Set(Object.values(M.sp).concat(pieces.map(x => x.sp)).filter(x => x > 0))];
-    const c = arr(S.validateCarcassClosure(cfg, pieces, G)); if (c.length) note("închidere", cfg, c.slice(0, 2));
-    const k = arr(S.failedInvariants(cfg, pieces, G, { materials: M.mats, thicknesses: ths })).map(r => r.id); if (k.length) note("invariant " + k.join(","), cfg);
     const a = arr(S.checkAssertions(G, {})).filter(x => x.blocking || x.level === "blocking"); if (a.length) note("aserțiune " + a.map(x => x.id).join(","), cfg);
     if (b2.boxes && b2.boxes.length) {
       const o = S.generateOperations({ boxes: b2.boxes, cfg, G });
       const w = {}; arr(o.warnings).forEach(x => w[x.k || x.rule || "?"] = 1);
       Object.keys(w).forEach(k2 => note("ops:" + k2, cfg));
-      arr(o.pieces).forEach(p => arr(p.warnings || p.preflight).forEach(x => { if (x.level === "error") note("ops-pre:" + x.rule, cfg, [p.n, x]); }));
+      if (t === "angolare") {      /* D-103: operațiile aripii B = ale corpului de sine stătător cu L = L2 */
+        const cfgS = Object.assign({}, cfg, { type: "standard", L: Math.max(300, cfg.L2 || 900) }), solo = S.buildModule(cfgS), os = S.generateOperations({ boxes: solo.boxes, cfg: cfgS, G });
+        const sig = q => q.type + "|" + q.note + "|" + q.face + "|" + q.x + "|" + q.y + "|" + q.u + "|" + q.z + "|" + q.dia + "|" + q.depth;
+        const by = {}; arr(os.pieces).forEach(p => { by[p.pk] = arr(p.operations).map(sig).sort().join(";"); });
+        arr(o.pieces).filter(p => p.wing === "B").forEach(p => { if (by[p.pk - 1000] !== arr(p.operations).map(sig).sort().join(";")) note("colț B: operații ≠ corp singur", cfg, [p.role, p.pk]); });
+        if (arr(o.pieces).filter(p => p.wing === "B").length !== arr(os.pieces).length) note("colț B: număr de piese ≠ corp singur", cfg);
+      }
+      arr(o.pieces).forEach(p => arr(p.warnings || p.preflight).forEach(x => { if (x.level === "error") { const op0 = arr(p.operations).find(q => String(x.op || "").split("/")[0] === q.id); note("ops-pre:" + x.rule, cfg, [p.n, x, p.role, op0 && { t: op0.type, note: op0.note, f: op0.face, x: op0.x, y: op0.y, z: op0.z, u: op0.u, dia: op0.dia }, [p.length, p.width, p.thickness]]); if (process.env.FUZZ_DETAIL) { const k = "V:" + x.rule + ":" + p.role + ":" + (op0 && op0.note) + ":" + (cfg.type || "standard"); DET[k] = (DET[k] || 0) + 1; (DETEX[k] = DETEX[k] || []).length < 3 && DETEX[k].push(cfg); } } }));
     }
   } catch (e) { note("EXCEPȚIE în verificări: " + e.message.slice(0, 90), cfg, e.stack.split("\n")[1]); }
 }
 console.log("N =", N, "· contur:", JSON.stringify(CT), "· D-103:", JSON.stringify(FZ));
 Object.keys(bucket).sort((a, b) => bucket[b] - bucket[a]).forEach(k => console.log(String(bucket[k]).padStart(5), k));
+if (process.env.FUZZ_DETAIL) { fs.writeFileSync("/tmp/fuzz-detail.json", JSON.stringify(DETEX)); console.log("--- detaliu ---"); Object.keys(DET).sort((a, b) => DET[b] - DET[a]).forEach(k => console.log(String(DET[k]).padStart(6), k)); }
 fs.writeFileSync(path.join(__dirname, "fuzz-out.json"), JSON.stringify(ex, null, 1));

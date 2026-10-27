@@ -947,12 +947,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const af = await mp.evaluate(() => ({ gv: proj().geomVersion, dl: window.__dl,
       f: proj().pieces.find(x => x.elemento === "Fianco"),
       bc: proj().pieces.find(x => x.elemento === "Base / Cielo"),
+      cur: GEOM_VERSION,
       saved: JSON.parse(localStorage.getItem("tagliapro")).projects[0].geomVersion }));
     ok("il backup completo parte PRIMA della scrittura", af.dl.length === 1, af.dl[0]);
     ok("solo dopo la conferma il fianco torna 2078×398", af.f.lung === 2078 && af.f.larg === 398,
        af.f.lung + "×" + af.f.larg);
     ok("e base/cielo 962×379", af.bc.lung === 962 && af.bc.larg === 379, af.bc.lung + "×" + af.bc.larg);
-    ok("geomVersion diventa 2 e resta scritto", af.gv === 2 && af.saved === 2,
+    ok("geomVersion diventa quella del motore (" + af.cur + ") e resta scritto", af.gv === af.cur && af.saved === af.cur,
        "in memoria " + af.gv + ", su disco " + af.saved);
     ok("nessun errore JS nella migrazione", mErrs.length === 0, mErrs[0] || "nessuno");
     await ctx.close();
@@ -961,8 +962,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   /* ---- Motore locale superato ----
      Dopo un deploy, il service worker puo tenere in vita la copia vecchia per
      giorni: l'utente continua a generare distinte col motore sbagliato senza
-     accorgersene. Qui si finge che il server abbia gia la versione 3 e si
-     verifica che l'esportazione si FERMI, non che avvisi. */
+     accorgersene. Qui si finge che il server abbia gia la versione 4 e si
+     verifica che l'esportazione si FERMI, non che avvisi (locale 3, server 4). */
   head("Motore vecchio in cache — l'esportazione si ferma, non avvisa");
   {
     /* `serviceWorkers: block`: senza, il service worker prende lui la richiesta
@@ -972,19 +973,19 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const ctx = await browser.newContext({ viewport: { width: 412, height: 915 },
                                            serviceWorkers: "block" });
     const sp = await ctx.newPage();
-    // il file sul server dice 3; quello caricato in pagina dice 2
+    // il file sul server dice 4; quello caricato in pagina dice 3
     await sp.route(/ebanist-core\.js\?gv=/, route => route.fulfill({
       status: 200, contentType: "text/javascript",
-      body: "var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER */"
+      body: "var GEOM_VERSION = 4; /* GEOM_VERSION-MARKER */"
     }));
     await sp.goto(URL);
     await sp.waitForTimeout(3300);
     await sp.evaluate(() => closeSheets());
     await sp.waitForTimeout(300);
 
-    ok("il motore locale si dichiara alla versione 2", await sp.evaluate(() => GEOM_VERSION) === 2);
+    ok("il motore locale si dichiara alla versione 3", await sp.evaluate(() => GEOM_VERSION) === 3);
     const remote = await sp.evaluate(() => checkGeomVersion());
-    ok("il verificatore vede la 3 sul server", remote === 3, "remote=" + remote);
+    ok("il verificatore vede la 4 sul server", remote === 4, "remote=" + remote);
     ok("la barra rossa compare e non si chiude da sola",
        await sp.evaluate(() => !!document.getElementById("geomStaleBar")));
     ok("l'esportazione e BLOCCATA", await sp.evaluate(() => exportAllowed() === false));
@@ -1001,7 +1002,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await sp.unroute(/ebanist-core\.js\?gv=/);
     await sp.route(/ebanist-core\.js\?gv=/, route => route.fulfill({
       status: 200, contentType: "text/javascript",
-      body: "var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER */"
+      body: "var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER */"
     }));
     await sp.evaluate(() => checkGeomVersion());
     ok("allineati, la barra sparisce", await sp.evaluate(() => !document.getElementById("geomStaleBar")));
@@ -4552,6 +4553,72 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Contur v2: a doua piesă (+): formular curat, valorile fiecărei piese rămân la schimbare, 2 rânduri și 5 piese fizice, modulul se redeschide cu ambele piese", r.doua === true && r.inapoi === true && r.randuri === true && r.pk === true && r.reload === true && r.reload2 === true);
     ok("Contur v2: gaură greșită = mesaj cu linia sau gaura și nicio piesă nouă; ștergerea piesei; import SVG cu gaură (cerc Ø80 recunoscut); AI și 7 limbi", r.eroare === true && r.faraPiesa === true && r.eroare2 === true && r.sters === true && r.importH === true && r.importH2 === true && r.ai === true && r.aiFix === true && r.limbi === true);
     await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Analiza fuzz (D-103) — aripa B cu operații, sertar care intră în bază/tavan, mâner pe ușă joasă");
+  {
+    const r = await pg.evaluate(async () => {
+      const o = {};
+      const base = { name: "W", type: "standard", L: 1800, H: 1191, P: 434, plinth: 100, tram: 1, shelves: 0, drawers: 4, doors: 0, back: 1, hang: 0, drawerSys: "legrabox", drawerDist: "cucina", drawerH: "F", matBody: state.settings.matBody, matFront: state.settings.matFront, matBack: state.settings.matBack };
+      const b = buildModule(base);
+      o.warn = !!b.warn.boxHit && b.warn.boxHit.n === 2 && b.warn.boxHit.mm > 0;
+      const ang = buildModule({ ...base, type: "angolare", L2: 1100, cornerKind: "int", corner: "dx" });
+      o.angWarn = !!ang.warn && !!ang.warn.boxHit && ang.warn.boxHit.n === 4;
+      o.d104 = buildModule({ ...base, drawerH: undefined }).draw.lowShift === 4 && !buildModule({ ...base, drawerH: undefined }).warn.boxHit;
+      /* aripa B a unui colț cu uși: balamale și mâner pe ambele uși */
+      const c = { ...base, type: "angolare", L: 900, L2: 1100, H: 720, plinth: 100, tram: 0, drawers: 0, doors: 2, cornerKind: "int", corner: "dx" };
+      const cb = buildModule(c), ops = generateOperations({ boxes: cb.boxes, cfg: c, G: undefined });
+      const bd = Array.from(ops.pieces).filter(p => p.wing === "B" && p.role === "frontale");
+      o.aripaB = bd.length === 2 && bd.every(p => Array.from(p.operations).filter(q => q.note === "tazza cerniera").length >= 2 && Array.from(p.operations).filter(q => q.note === "maniglia").length === 2);
+      o.fara = Array.from(ops.pieces).every(p => Array.from(p.preflight || []).filter(w => w.level === "error").length === 0);
+      o.hwId = (() => { const ids = Array.from(ops.hw).map(h => h.id); return new Set(ids).size === ids.length && Array.from(ops.hw).some(h => h.wing === "B"); })();
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].wBoxHit && /\{n\}/.test(I18N[l].wBoxHit) && /\{mm\}/.test(I18N[l].wBoxHit));
+      /* nota apare în previzualizare */
+      const keepL = state.lang; state.lang = "ro"; applyLang();
+      o.nota = t("wBoxHit").replace("{n}", 2).replace("{mm}", "4").startsWith("2 sertar"); state.lang = keepL; applyLang();
+      return o;
+    });
+    ok("Fuzz D-103: avertisment când cutia sertarului intră în bază/tavan (și la colț, unde înainte tăcea); aripa B are balamale și mânere, fără erori de pre-flight, ID-uri hw unice; 7 limbi", r.warn === true && r.angWarn === true && r.d104 === true && r.aripaB === true && r.fara === true && r.hwId === true && r.limbi === true && r.nota === true, JSON.stringify(r));
+  }
+
+  head("D-104 — sertarul metalic nu mai intră în bază; un proiect v2 se mută la v3 cu diferența în față");
+  {
+    const mkP = (id, cfg, rows) => ({ id, name: id, client: "", date: "2026-10-01", geomVersion: 2, configs: { [cfg.name]: cfg },
+      pieces: rows.map((r, i) => ({ id: id + i, gen: cfg.name, modulo: cfg.name, elemento: r[0], lung: r[1], larg: r[2], pz: r[3], bordo: "", materiale: "x" })) });
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const eErrs = [];
+    const metal = { name: "Cassettiera", type: "standard", L: 1800, H: 1191, P: 434, plinth: 100, tram: 1, shelves: 0, drawers: 4, doors: 0, back: 1, hang: 0, drawerSys: "legrabox", drawerDist: "cucina", matBody: "__none__" };
+    const plain = { name: "Libreria", type: "standard", L: 800, H: 1800, P: 300, plinth: 80, tram: 0, shelves: 4, drawers: 0, doors: 0, back: 1, hang: 0, matBody: "__none__" };
+    await ctx.addInitScript(([a, b]) => localStorage.setItem("tagliapro",
+      JSON.stringify({ lang: "it", activeId: "pm", projects: [a, b], settings: {}, stock: [] })), [mkP("pm", metal, []), mkP("pl", plain, [])]);
+    const mp = await ctx.newPage();
+    mp.on("pageerror", e => eErrs.push(String(e)));
+    await mp.goto(URL); await mp.waitForTimeout(3300); await mp.evaluate(() => closeSheets());
+    const r = await mp.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const mat = state.settings.matBody;
+      /* progetti salvati col motore v2: le righe di sempre, generate con il codice di prima (primo frontale 140, altri 313) */
+      for (const p of state.projects) { Object.values(p.configs).forEach(c => { c.matBody = mat; c.matFront = mat; c.matBack = state.settings.matBack; }); }
+      const pm = state.projects.find(p => p.id === "pm"), pl = state.projects.find(p => p.id === "pl");
+      pm.pieces = [["Frontale cassetto", 140, 897, 2], ["Frontale cassetto", 313, 897, 6]].map((r, i) => ({ id: "m" + i, gen: "Cassettiera", modulo: "Cassettiera", elemento: r[0], lung: r[1], larg: r[2], pz: r[3], bordo: "", materiale: "x" }));
+      const bp = buildModule(pl.configs["Libreria"]);
+      pl.pieces = bp.pieces.map((q, i) => ({ id: "l" + i, gen: "Libreria", modulo: "Libreria", elemento: q.elemento, lung: q.lung, larg: q.larg, pz: q.pz, bordo: q.bordo || "", materiale: "x" }));
+      state.activeId = "pl"; setView("list"); await w(400); geomBanner();
+      o.plainStampato = pl.geomVersion === GEOM_VERSION && document.getElementById("geomBanner").hidden;
+      state.activeId = "pm"; setView("list"); await w(400); geomBanner();
+      o.metalBanner = pm.geomVersion === 2 && !document.getElementById("geomBanner").hidden;
+      const d = geomDiff(pm).filter(r => r.vecchio && r.nuovo).map(r => r.elemento + ": " + r.vecchio.lung + "→" + r.nuovo.lung);
+      o.diff = d.includes("Frontale cassetto: 313→311");
+      o.dbg = d.join("|");
+      o.nuovo = buildModule(pm.configs["Cassettiera"]).draw.fronts[0].y0 === 106;
+      window.download = () => {}; await geomApply(); await w(600);
+      o.apply = pm.geomVersion === GEOM_VERSION && document.getElementById("geomBanner").hidden && pm.pieces.some(x => x.larg === 897 && x.lung === 311);
+      return o;
+    });
+    ok("D-104: un proiect v2 fără sertare metalice primește ștampila v3 în tăcere (fără banner veșnic)", r.plainStampato === true, JSON.stringify(r));
+    ok("D-104: un proiect v2 cu sertar metalic păstrează cotele vechi, arată diferența (313 → 311) și abia după confirmare trece la v3", r.metalBanner === true && r.diff === true && r.nuovo === true && r.apply === true, JSON.stringify(r));
+    ok("D-104: nicio eroare JS", eErrs.length === 0, eErrs[0] || "nessuno");
+    await ctx.close();
   }
 
   const bad = results.filter(r => !r.cond).length;
