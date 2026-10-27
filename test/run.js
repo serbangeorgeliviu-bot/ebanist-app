@@ -4082,7 +4082,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const el = document.getElementById("adviceBadge");
       o.apare = !el.hidden && el.textContent.includes(EBAdvice.t(state.lang, "title"));
       el.click(); await w(250);
-      o.foaie = document.getElementById("auditSheet").classList.contains("on") && document.getElementById("auditBody").textContent.includes("1100") && document.getElementById("auditBody").textContent.includes(EBAdvice.t(state.lang, "note"));
+      o.foaie = document.getElementById("auditTitle").textContent === EBAdvice.t(state.lang, "title") && document.getElementById("auditSheet").classList.contains("on") && document.getElementById("auditBody").textContent.includes("1100") && document.getElementById("auditBody").textContent.includes(EBAdvice.t(state.lang, "note"));
       closeSheets();
       state.projects[0].pieces = mk(600); auditBadge(); o.scurt = document.getElementById("adviceBadge").hidden === true;
       state.projects[0].pieces = mk(1100); auditBadge(); o.nebloc = document.getElementById("auditBadge").dataset.state !== "red";
