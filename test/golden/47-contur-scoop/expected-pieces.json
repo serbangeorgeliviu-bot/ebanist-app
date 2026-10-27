@@ -1,0 +1,25 @@
+{
+ "validat": false,
+ "nume": "47-contur-scoop",
+ "generat": "2026-10-27",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 1,
+ "n_piese": 2,
+ "pieces": [
+  {
+   "elemento": "Pezzo contorno",
+   "role": "contur",
+   "ax": "H/L/P",
+   "lung": 500,
+   "larg": 1800,
+   "pz": 2,
+   "sp": null,
+   "bordo": "CONT",
+   "shape": "contur",
+   "mat": "m18"
+  }
+ ]
+}

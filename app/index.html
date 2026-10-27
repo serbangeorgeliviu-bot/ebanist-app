@@ -1415,7 +1415,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <div class="f"><label data-i="fModule">Rif. Modulo</label><input id="bName"></div>
         <div class="f2">
           <div class="f"><label data-i="fType">Tipo</label>
-            <select id="bTipo"><option value="standard" data-i="typeStandard">Standard</option><option value="angolare" data-i="typeCorner">Angolare</option><option value="scorrevole" data-i="typeSliding">Ante scorrevoli</option><option value="scrivania" data-i="typeDesk">Scrivania</option><option value="tavolo" data-i="typeTable">Tavolo</option><option value="letto" data-i="typeBed">Letto</option><option value="tondo" data-i="typeRound">Tondo / ovale</option><option value="raccordato" data-i="typeFillet">Angoli raccordati</option><option value="lambriu" data-i="typeLambriu">Boiserie a lamelle</option><option value="boiserie" data-i="typeBoiserie">Boiserie a cornici</option></select></div>
+            <select id="bTipo"><option value="standard" data-i="typeStandard">Standard</option><option value="angolare" data-i="typeCorner">Angolare</option><option value="scorrevole" data-i="typeSliding">Ante scorrevoli</option><option value="scrivania" data-i="typeDesk">Scrivania</option><option value="tavolo" data-i="typeTable">Tavolo</option><option value="letto" data-i="typeBed">Letto</option><option value="tondo" data-i="typeRound">Tondo / ovale</option><option value="raccordato" data-i="typeFillet">Angoli raccordati</option><option value="lambriu" data-i="typeLambriu">Boiserie a lamelle</option><option value="boiserie" data-i="typeBoiserie">Boiserie a cornici</option><option value="contur" data-i="typeContur">Pezzo a contorno libero</option></select></div>
           <div class="f" id="rowL2" style="display:none"><label data-i="fL2">Largh. ala B (mm)</label><input id="bL2" type="number" inputmode="numeric"></div>
         </div>
         <div class="f3">
@@ -1432,6 +1432,26 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fRfW">Larghezza cornice (mm)</label><input id="bRfW" type="number" inputmode="numeric" min="20" max="200" placeholder="60"></div>
           <div class="f"><label data-i="fRfT">Campo desiderato (mm)</label><input id="bRfT" type="number" inputmode="numeric" min="100" max="1500" placeholder="600"></div>
           <div class="f"><label data-i="fRfRows">File di campi</label><input id="bRfRows" type="number" inputmode="numeric" min="1" max="8" placeholder="1"></div>
+        </div>
+        <div class="f" id="rowCont" style="display:none">
+          <div class="f2">
+            <div class="f"><label data-i="fContShape">Forma</label>
+              <select id="bContShape"><option value="custom" data-i="contShapeCustom">Din fișier / desen</option><option value="rect" data-i="contShapeRect">Dreptunghi</option><option value="round" data-i="contShapeRound">Dreptunghi rotunjit</option><option value="arch" data-i="contShapeArch">Partea de sus bombată</option><option value="scoop" data-i="contShapeScoop">Partea de jos scobită</option></select></div>
+            <div class="f" id="rowContR"><label data-i="fContR">Raza colțurilor (mm)</label><input id="bContR" type="number" inputmode="numeric" min="0" max="2000" placeholder="50"></div>
+            <div class="f" id="rowContRise"><label data-i="fContRise">Săgeata arcului (mm)</label><input id="bContRise" type="number" inputmode="numeric" min="0" max="2000" placeholder="100"></div>
+          </div>
+          <div id="rowContSrc">
+            <label data-i="fContSrc">Contur (SVG, DXF sau puncte)</label>
+            <textarea id="bContSrc" rows="4" style="width:100%;font-family:monospace;font-size:12px" maxlength="20000" placeholder="M 0 0 L 1000 0 ..."></textarea>
+            <div class="f2" style="margin-top:6px"><input type="file" id="bContFile" accept=".svg,.dxf,.txt,text/plain,image/svg+xml">
+              <select id="bContFit"><option value="none" data-i="contFitNone">Mărimea din fișier</option><option value="W" data-i="contFitW">Scalează la lățimea L</option><option value="H" data-i="contFitH">Scalează la înălțimea H</option></select></div>
+          </div>
+          <div class="f3" style="margin-top:6px">
+            <div class="f"><label data-i="fContOri">Poziție</label><select id="bContOri"><option value="v" data-i="contOriV">În picioare (plan vertical)</option><option value="o" data-i="contOriO">Culcată (orizontal)</option></select></div>
+            <div class="f"><label data-i="fContPz">Bucăți</label><input id="bContPz" type="number" inputmode="numeric" min="1" max="20" placeholder="1"></div>
+            <div class="f"><label data-i="fContEdge">Cant pe contur</label><select id="bContEdge"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select></div>
+          </div>
+          <p class="mini" id="contHint" style="margin-top:4px"></p>
         </div>
         <div class="f" id="rowRfInset" style="display:none"><label data-i="fRfInset">Panou încastrat în ramă</label>
           <select id="bRfInset"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select></div>
@@ -2476,6 +2496,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-commerce.js"></script>
 <script src="./ebanist-advice.js"></script>
 <script src="./ebanist-lambriu.js"></script>
+<script src="./ebanist-contour.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -3294,6 +3315,14 @@ Object.assign(I18N.fr,{fLamCuts:"Découpes (prises, interrupteurs)",lamCutAdd:"+
 Object.assign(I18N.de,{fLamCuts:"Aussparungen (Steckdosen, Schalter)",lamCutAdd:"+ Aussparung",lamCutX:"X von links",lamCutY:"Y vom Boden",lamCutW:"Breite",lamCutH:"Höhe",lamCutHint:"X vom linken Wandrand, Y vom Boden. Die Lamellen werden auf ihrer ganzen Breite unterbrochen, wo die Aussparung sie berührt; die Trägerplatte erhält das genaue Loch.",lamCutInfo:"{n} Aussparungen · {p} Lamellenstücke",wLamSplit:"{n} Lamellen länger als die Platte: in gleiche Teile geschnitten (Stoßfuge).",wLamShort:"{n} Lamellenstücke unter 30 mm: schwer zu montieren",lamErrCut:"Lamellenwand: Aussparung außerhalb der Wand oder ungültig (X, Y, Breite, Höhe ≥ 1 mm, innerhalb der Wand, höchstens 30)."});
 Object.assign(I18N.pl,{fLamCuts:"Wycięcia (gniazdka, włączniki)",lamCutAdd:"+ Wycięcie",lamCutX:"X od lewej",lamCutY:"Y od podłogi",lamCutW:"Szerokość",lamCutH:"Wysokość",lamCutHint:"X od lewej krawędzi ściany, Y od podłogi. Lamelki są przerywane na całej szerokości tam, gdzie dotyka ich wycięcie; podkład dostaje dokładny otwór.",lamCutInfo:"{n} wycięć · {p} kawałków lamelek",wLamSplit:"{n} lamelek dłuższych niż płyta: cięte na równe części (połączenie czołowe).",wLamShort:"{n} kawałków lamelek poniżej 30 mm: trudne w montażu",lamErrCut:"Okładzina: wycięcie poza ścianą lub nieprawidłowe (X, Y, szerokość, wysokość ≥ 1 mm, wewnątrz ściany, najwyżej 30)."});
 Object.assign(I18N.es,{fLamCuts:"Recortes (enchufes, interruptores)",lamCutAdd:"+ Recorte",lamCutX:"X desde la izquierda",lamCutY:"Y desde el suelo",lamCutW:"Ancho",lamCutH:"Alto",lamCutHint:"X desde el borde izquierdo de la pared, Y desde el suelo. Las lamas se interrumpen en todo su ancho donde el recorte las toca; el soporte recibe el hueco exacto.",lamCutInfo:"{n} recortes · {p} trozos de lama",wLamSplit:"{n} lamas más largas que el tablero: cortadas en partes iguales (junta a tope).",wLamShort:"{n} trozos de lama de menos de 30 mm: difíciles de montar",lamErrCut:"Lamas: recorte fuera de la pared o no válido (X, Y, ancho, alto ≥ 1 mm, dentro de la pared, máximo 30)."});
+/* ---- 5.8: piesa cu contur liber (D-101) ---- */
+Object.assign(I18N.it,{typeContur:"Pezzo a contorno libero",preset_contur:"Contorno",fContShape:"Forma",contShapeCustom:"Da file / disegno",contShapeRect:"Rettangolo",contShapeRound:"Rettangolo arrotondato",contShapeArch:"Parte alta bombata",contShapeScoop:"Parte bassa scavata",fContR:"Raggio degli angoli (mm)",fContRise:"Freccia dell'arco (mm)",fContSrc:"Contorno (SVG, DXF o punti)",contFitNone:"Misura del file",contFitW:"Scala alla larghezza L",contFitH:"Scala all'altezza H",fContOri:"Posizione",contOriV:"In piedi (piano verticale)",contOriO:"A terra (orizzontale)",fContPz:"Pezzi",fContEdge:"Bordo sul contorno",contInfo:"{w}×{h} mm · {n} vertici, {a} archi · bordo {p} m",contErr:"Contorno non valido: {why}.",contErrMat:"Pezzo a contorno: scegli il materiale — lo spessore viene dal materiale.",contErrEmpty:"Pezzo a contorno: scegli una forma o incolla un contorno.",contErrBig:"Pezzo a contorno: {w}×{h} mm non entra nella lastra ({p} mm).",contBig:"Il file è lungo: ho preso i primi 20.000 caratteri.",contWhy_few:"troppo pochi vertici",contWhy_area:"superficie nulla",contWhy_self:"il contorno si interseca",contWhy_open:"il contorno non è chiuso",contWhy_multi:"più di un contorno (ne serve uno solo)",contWhy_path:"percorso non leggibile",contWhy_cmd:"comando SVG non supportato",contWhy_points:"punti non leggibili (x,y x,y …)",contWhy_empty:"vuoto",contWhy_dxf:"DXF non leggibile",contWhy_units:"unità DXF non supportate",contWhy_many:"troppi vertici",contS1:"Taglia {k} pezzi a contorno (ingombro {w}×{h} mm): con il file macchina (dopo Cafasso) o con la dima; controlla l'ingombro sul pezzo.",contS2:"Applica il bordo su tutto il contorno ({p} m), arrotondando i raccordi.",contS3:"Controllo finale: contorno senza scheggiature, spigoli levigati, pezzi uguali alla dima.",role_contur:"Pezzo a contorno"});
+Object.assign(I18N.ro,{typeContur:"Piesă cu contur liber",preset_contur:"Contur",fContShape:"Forma",contShapeCustom:"Din fișier / desen",contShapeRect:"Dreptunghi",contShapeRound:"Dreptunghi rotunjit",contShapeArch:"Partea de sus bombată",contShapeScoop:"Partea de jos scobită",fContR:"Raza colțurilor (mm)",fContRise:"Săgeata arcului (mm)",fContSrc:"Contur (SVG, DXF sau puncte)",contFitNone:"Mărimea din fișier",contFitW:"Scalează la lățimea L",contFitH:"Scalează la înălțimea H",fContOri:"Poziție",contOriV:"În picioare (plan vertical)",contOriO:"Culcată (orizontal)",fContPz:"Bucăți",fContEdge:"Cant pe contur",contInfo:"{w}×{h} mm · {n} vârfuri, {a} arce · cant {p} m",contErr:"Contur nevalid: {why}.",contErrMat:"Piesă cu contur: alege materialul — grosimea vine din material.",contErrEmpty:"Piesă cu contur: alege o formă sau lipește un contur.",contErrBig:"Piesă cu contur: {w}×{h} mm nu încape în placă ({p} mm).",contBig:"Fișierul e lung: am luat primele 20.000 de caractere.",contWhy_few:"prea puține vârfuri",contWhy_area:"suprafață nulă",contWhy_self:"conturul se autointersectează",contWhy_open:"conturul nu e închis",contWhy_multi:"mai mult de un contur (trebuie unul singur)",contWhy_path:"traseu ilizibil",contWhy_cmd:"comandă SVG nesuportată",contWhy_points:"puncte ilizibile (x,y x,y …)",contWhy_empty:"gol",contWhy_dxf:"DXF ilizibil",contWhy_units:"unități DXF nesuportate",contWhy_many:"prea multe vârfuri",contS1:"Taie {k} piese cu contur (gabarit {w}×{h} mm): cu fișierul de mașină (după Cafasso) sau cu șablonul; verifică gabaritul pe piesă.",contS2:"Aplică cantul pe tot conturul ({p} m), rotunjind racordările.",contS3:"Control final: contur fără ciobituri, muchii șlefuite, piese identice cu șablonul.",role_contur:"Piesă contur"});
+Object.assign(I18N.en,{typeContur:"Free-outline piece",preset_contur:"Outline",fContShape:"Shape",contShapeCustom:"From file / drawing",contShapeRect:"Rectangle",contShapeRound:"Rounded rectangle",contShapeArch:"Bowed top",contShapeScoop:"Hollowed bottom",fContR:"Corner radius (mm)",fContRise:"Arc rise (mm)",fContSrc:"Outline (SVG, DXF or points)",contFitNone:"Size from the file",contFitW:"Scale to width L",contFitH:"Scale to height H",fContOri:"Position",contOriV:"Standing (vertical plane)",contOriO:"Flat (horizontal)",fContPz:"Pieces",fContEdge:"Edge banding on the outline",contInfo:"{w}×{h} mm · {n} vertices, {a} arcs · edge {p} m",contErr:"Invalid outline: {why}.",contErrMat:"Outline piece: choose the material — the thickness comes from the material.",contErrEmpty:"Outline piece: choose a shape or paste an outline.",contErrBig:"Outline piece: {w}×{h} mm does not fit the board ({p} mm).",contBig:"The file is long: only the first 20,000 characters were taken.",contWhy_few:"too few vertices",contWhy_area:"zero area",contWhy_self:"the outline crosses itself",contWhy_open:"the outline is not closed",contWhy_multi:"more than one outline (only one is allowed)",contWhy_path:"unreadable path",contWhy_cmd:"unsupported SVG command",contWhy_points:"unreadable points (x,y x,y …)",contWhy_empty:"empty",contWhy_dxf:"unreadable DXF",contWhy_units:"unsupported DXF units",contWhy_many:"too many vertices",contS1:"Cut {k} outline pieces (envelope {w}×{h} mm): with the machine file (after Cafasso) or a template; check the envelope on the piece.",contS2:"Apply the edge banding along the whole outline ({p} m), rounding the transitions.",contS3:"Final check: outline free of chips, edges sanded, pieces identical to the template.",role_contur:"Outline piece"});
+Object.assign(I18N.fr,{typeContur:"Pièce à contour libre",preset_contur:"Contour",fContShape:"Forme",contShapeCustom:"Depuis un fichier / dessin",contShapeRect:"Rectangle",contShapeRound:"Rectangle arrondi",contShapeArch:"Haut bombé",contShapeScoop:"Bas creusé",fContR:"Rayon des angles (mm)",fContRise:"Flèche de l'arc (mm)",fContSrc:"Contour (SVG, DXF ou points)",contFitNone:"Taille du fichier",contFitW:"Mettre à la largeur L",contFitH:"Mettre à la hauteur H",fContOri:"Position",contOriV:"Debout (plan vertical)",contOriO:"À plat (horizontal)",fContPz:"Pièces",fContEdge:"Chant sur le contour",contInfo:"{w}×{h} mm · {n} sommets, {a} arcs · chant {p} m",contErr:"Contour non valide : {why}.",contErrMat:"Pièce à contour : choisissez le matériau — l'épaisseur vient du matériau.",contErrEmpty:"Pièce à contour : choisissez une forme ou collez un contour.",contErrBig:"Pièce à contour : {w}×{h} mm ne rentre pas dans le panneau ({p} mm).",contBig:"Le fichier est long : seuls les 20 000 premiers caractères ont été pris.",contWhy_few:"trop peu de sommets",contWhy_area:"surface nulle",contWhy_self:"le contour se croise",contWhy_open:"le contour n'est pas fermé",contWhy_multi:"plus d'un contour (un seul est admis)",contWhy_path:"tracé illisible",contWhy_cmd:"commande SVG non prise en charge",contWhy_points:"points illisibles (x,y x,y …)",contWhy_empty:"vide",contWhy_dxf:"DXF illisible",contWhy_units:"unités DXF non prises en charge",contWhy_many:"trop de sommets",contS1:"Découpez {k} pièces à contour (encombrement {w}×{h} mm) : avec le fichier machine (après Cafasso) ou un gabarit ; vérifiez l'encombrement sur la pièce.",contS2:"Posez le chant sur tout le contour ({p} m), en arrondissant les raccords.",contS3:"Contrôle final : contour sans éclats, arêtes poncées, pièces identiques au gabarit.",role_contur:"Pièce à contour"});
+Object.assign(I18N.de,{typeContur:"Teil mit freier Kontur",preset_contur:"Kontur",fContShape:"Form",contShapeCustom:"Aus Datei / Zeichnung",contShapeRect:"Rechteck",contShapeRound:"Abgerundetes Rechteck",contShapeArch:"Gewölbte Oberseite",contShapeScoop:"Ausgehöhlte Unterseite",fContR:"Eckenradius (mm)",fContRise:"Bogenhöhe (mm)",fContSrc:"Kontur (SVG, DXF oder Punkte)",contFitNone:"Größe aus der Datei",contFitW:"Auf Breite L skalieren",contFitH:"Auf Höhe H skalieren",fContOri:"Lage",contOriV:"Stehend (senkrechte Ebene)",contOriO:"Liegend (waagerecht)",fContPz:"Stück",fContEdge:"Kante auf der Kontur",contInfo:"{w}×{h} mm · {n} Eckpunkte, {a} Bögen · Kante {p} m",contErr:"Ungültige Kontur: {why}.",contErrMat:"Konturteil: Material wählen — die Dicke kommt aus dem Material.",contErrEmpty:"Konturteil: Form wählen oder Kontur einfügen.",contErrBig:"Konturteil: {w}×{h} mm passt nicht auf die Platte ({p} mm).",contBig:"Die Datei ist lang: nur die ersten 20.000 Zeichen wurden übernommen.",contWhy_few:"zu wenige Eckpunkte",contWhy_area:"Fläche null",contWhy_self:"die Kontur überschneidet sich",contWhy_open:"die Kontur ist nicht geschlossen",contWhy_multi:"mehr als eine Kontur (nur eine erlaubt)",contWhy_path:"Pfad nicht lesbar",contWhy_cmd:"SVG-Befehl nicht unterstützt",contWhy_points:"Punkte nicht lesbar (x,y x,y …)",contWhy_empty:"leer",contWhy_dxf:"DXF nicht lesbar",contWhy_units:"DXF-Einheiten nicht unterstützt",contWhy_many:"zu viele Eckpunkte",contS1:"{k} Konturteile zuschneiden (Hüllmaß {w}×{h} mm): mit der Maschinendatei (nach Cafasso) oder einer Schablone; Hüllmaß am Teil prüfen.",contS2:"Kante auf der ganzen Kontur anbringen ({p} m), Übergänge verrunden.",contS3:"Endkontrolle: Kontur ohne Ausbrüche, Kanten geschliffen, Teile wie die Schablone.",role_contur:"Konturteil"});
+Object.assign(I18N.pl,{typeContur:"Element o dowolnym konturze",preset_contur:"Kontur",fContShape:"Kształt",contShapeCustom:"Z pliku / rysunku",contShapeRect:"Prostokąt",contShapeRound:"Zaokrąglony prostokąt",contShapeArch:"Wybrzuszona góra",contShapeScoop:"Wyżłobiony dół",fContR:"Promień narożników (mm)",fContRise:"Strzałka łuku (mm)",fContSrc:"Kontur (SVG, DXF lub punkty)",contFitNone:"Rozmiar z pliku",contFitW:"Skaluj do szerokości L",contFitH:"Skaluj do wysokości H",fContOri:"Położenie",contOriV:"Stojący (płaszczyzna pionowa)",contOriO:"Leżący (poziomo)",fContPz:"Sztuk",fContEdge:"Okleina na konturze",contInfo:"{w}×{h} mm · {n} wierzchołków, {a} łuków · okleina {p} m",contErr:"Nieprawidłowy kontur: {why}.",contErrMat:"Element z konturem: wybierz materiał — grubość wynika z materiału.",contErrEmpty:"Element z konturem: wybierz kształt lub wklej kontur.",contErrBig:"Element z konturem: {w}×{h} mm nie mieści się w płycie ({p} mm).",contBig:"Plik jest długi: wzięto pierwsze 20 000 znaków.",contWhy_few:"za mało wierzchołków",contWhy_area:"zerowa powierzchnia",contWhy_self:"kontur przecina się",contWhy_open:"kontur nie jest zamknięty",contWhy_multi:"więcej niż jeden kontur (dozwolony jeden)",contWhy_path:"nieczytelna ścieżka",contWhy_cmd:"nieobsługiwane polecenie SVG",contWhy_points:"nieczytelne punkty (x,y x,y …)",contWhy_empty:"puste",contWhy_dxf:"nieczytelny DXF",contWhy_units:"nieobsługiwane jednostki DXF",contWhy_many:"za dużo wierzchołków",contS1:"Wytnij {k} elementów z konturem (gabaryt {w}×{h} mm): plikiem maszynowym (po Cafasso) lub szablonem; sprawdź gabaryt na elemencie.",contS2:"Nałóż okleinę na całym konturze ({p} m), zaokrąglając przejścia.",contS3:"Kontrola końcowa: kontur bez wyszczerbień, krawędzie oszlifowane, elementy jak szablon.",role_contur:"Element z konturem"});
+Object.assign(I18N.es,{typeContur:"Pieza de contorno libre",preset_contur:"Contorno",fContShape:"Forma",contShapeCustom:"Desde archivo / dibujo",contShapeRect:"Rectángulo",contShapeRound:"Rectángulo redondeado",contShapeArch:"Parte superior abombada",contShapeScoop:"Parte inferior ahuecada",fContR:"Radio de las esquinas (mm)",fContRise:"Flecha del arco (mm)",fContSrc:"Contorno (SVG, DXF o puntos)",contFitNone:"Tamaño del archivo",contFitW:"Escalar al ancho L",contFitH:"Escalar a la altura H",fContOri:"Posición",contOriV:"De pie (plano vertical)",contOriO:"Tumbada (horizontal)",fContPz:"Piezas",fContEdge:"Canto en el contorno",contInfo:"{w}×{h} mm · {n} vértices, {a} arcos · canto {p} m",contErr:"Contorno no válido: {why}.",contErrMat:"Pieza de contorno: elige el material — el grosor viene del material.",contErrEmpty:"Pieza de contorno: elige una forma o pega un contorno.",contErrBig:"Pieza de contorno: {w}×{h} mm no cabe en el tablero ({p} mm).",contBig:"El archivo es largo: solo se tomaron los primeros 20.000 caracteres.",contWhy_few:"muy pocos vértices",contWhy_area:"área nula",contWhy_self:"el contorno se cruza",contWhy_open:"el contorno no está cerrado",contWhy_multi:"más de un contorno (solo se admite uno)",contWhy_path:"trazado ilegible",contWhy_cmd:"comando SVG no admitido",contWhy_points:"puntos ilegibles (x,y x,y …)",contWhy_empty:"vacío",contWhy_dxf:"DXF ilegible",contWhy_units:"unidades DXF no admitidas",contWhy_many:"demasiados vértices",contS1:"Corta {k} piezas de contorno (envolvente {w}×{h} mm): con el archivo de máquina (tras Cafasso) o con plantilla; comprueba la envolvente en la pieza.",contS2:"Aplica el canto en todo el contorno ({p} m), redondeando los empalmes.",contS3:"Control final: contorno sin astillas, cantos lijados, piezas iguales a la plantilla.",role_contur:"Pieza de contorno"});
 /* ---- 5.7: panou încastrat în ramă (D-100) ---- */
 Object.assign(I18N.it,{fRfInset:"Pannello incassato nella cornice",rfErrInsetMat:"Boiserie: scegli il materiale del pannello (frontali) — lo spessore viene dal materiale.",rfErrInset:"Boiserie: il pannello non entra nella cornice (spessore troppo grande o cornice troppo stretta per il canale).",rfS5:"Inserisci i {k} pannelli nei canali delle cornici prima di chiudere il telaio.",role_rama_camp:"Pannello campo"});
 Object.assign(I18N.ro,{fRfInset:"Panou încastrat în ramă",rfErrInsetMat:"Boiserie: alege materialul panoului (fronturi) — grosimea vine din material.",rfErrInset:"Boiserie: panoul nu încape în ramă (grosime prea mare sau ramă prea îngustă pentru canal).",rfS5:"Introdu cele {k} panouri în canalele ramelor înainte de a închide cadrul.",role_rama_camp:"Panou câmp"});
@@ -4310,8 +4339,10 @@ const fmt = (n,d=2) => n.toLocaleString(state.lang==="en"?"en-GB":state.lang==="
    e due corti, "3L" non esiste in officina — e bandCount lo limita gia cosi,
    quindi senza il cap i millimetri di bordo e la compensazione di taglio
    direbbero due cose diverse. */
-function bandingMm(bordo,lung,larg,angL,angR,shape){
+function bandingMm(bordo,lung,larg,angL,angR,shape,perim){
   if(!bordo) return 0;
+  /* piesa cu contur liber (D-101): cantul merge pe tot conturul, perimetrul exact (linii + arce) vine pe rând */
+  if(shape==="contur") return /CONT/i.test(bordo)&&perim>0?perim:0;
   /* un ripiano tondo bordato lo e tutt'attorno: sono π·Ø, non 2L+2C.
      Su un Ø800 la differenza e mezzo metro di ABS per pezzo. */
   if(shape==="tondo"||shape==="ovale") return ellipsePerim(lung/2,larg/2);
@@ -4369,7 +4400,7 @@ function computeTotals(p){
   const mats={}; let pcs=0, area=0, edge=0;
   for(const x of p.pieces){
     const a = x.lung*x.larg/1e6*x.pz;
-    const e = bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape)*x.pz/1000;
+    const e = bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)*x.pz/1000;
     pcs+=x.pz; area+=a; edge+=e;
     const k=normMat(x.materiale);
     if(!mats[k]) mats[k]={label:x.materiale,area:0,edge:0,pcs:0,pieces:[]};
@@ -5839,6 +5870,7 @@ const PRESETS = {
   raccordato:{name:"Raccordato",type:"raccordato",L:900,L2:900,H:1400,P:450,plinth:0,tram:0,shelves:3,drawers:0,doors:0,back:1,hang:0,rcorner:80},
   letto:{name:"Letto",type:"letto",L:1660,L2:900,H:950,P:2060,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:0,hang:0},
   lambriu:{name:"Boiserie",type:"lambriu",L:2400,L2:900,H:2600,P:34,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:1,hang:0,lamW:40,lamGap:20,lamDir:"v",matBody:"mdf18",matBack:"pal16_alb"},
+  contur:{name:"Pezzo a contorno",type:"contur",L:1800,L2:900,H:500,P:18,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:0,hang:0,cShape:"scoop",cRise:120,cOri:"v",cPz:2,cEdge:1,matBody:"pal18_rovere"},
   boiserie:{name:"Boiserie cornici",type:"boiserie",L:2400,L2:900,H:2600,P:34,plinth:0,tram:0,shelves:0,drawers:0,doors:0,back:1,hang:0,rfW:60,rfTarget:600,rfRows:2,matBody:"mdf18",matBack:"pal16_alb"}
 };
 let buildCfg = {...PRESETS.armadio};
@@ -6059,7 +6091,7 @@ function isFrontEl(el){ return /^(anta|frontale|montante anta|traversa anta)/i.t
 const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
   base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
-  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale",
+  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale", contur:"fianco",
   zoccolo:"zoccolo", traversa:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
   cassetto_fianco:"fianco", cassetto_fondo:"fianco"
@@ -7646,6 +7678,51 @@ function lamBuild(cfg){
   if(A.lam){ out.lam=A.lam; out.lam2=B.lam; } if(A.rf){ out.rf=A.rf; out.rf2=B.rf; }
   return out;
 }
+
+/* PIESA CU CONTUR LIBER (D-101): un panou cu conturul desenat (linii și arce exacte), grosimea din material (D-41).
+   Conturul vine din `cfg.contour` (importat, normalizat) sau, la formele gata, din `cShape` + L × H. Rândul din distinctă are
+   gabaritul (cota finită) și perimetrul pentru cant; 3D-ul îl desenează din triunghiuri, mașina primește conturul exact (ops). */
+function contFromCfg(cfg){
+  let pts=null;
+  if(Array.isArray(cfg.contour)&&cfg.contour.length>=2) pts=cfg.contour;
+  else if(cfg.cShape&&cfg.cShape!=="custom") pts=EBContour.shape(cfg.cShape,+cfg.L,+cfg.H,{r:+cfg.cR||0,rise:+cfg.cRise||0});
+  return pts;
+}
+function contBuild(cfg){
+  const S0=(typeof state!=="undefined"&&state.settings)||{};
+  const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
+  const mS=matById(cfg.matBody);
+  if(!mS||!(+mS.th>0)) throw new Error(t("contErrMat"));
+  const raw=contFromCfg(cfg);
+  if(!raw) throw new Error(t("contErrEmpty"));
+  const N=EBContour.normalize(raw);
+  if(!N.ok) throw new Error(t("contErr").replace("{why}",t("contWhy_"+N.reason)));
+  if(Math.max(N.w,N.h)>PANL+1e-9||Math.min(N.w,N.h)>PANW+1e-9) throw new Error(t("contErrBig").replace("{w}",Math.round(N.w)).replace("{h}",Math.round(N.h)).replace("{p}",PANL+"×"+PANW));
+  const th=+mS.th, flat=cfg.cOri==="o", pz=Math.max(1,Math.min(20,Math.round(+cfg.cPz||1)));
+  const P=EBContour.flatten(N.pts,0.3), tri=EBContour.triangulate(P);   /* 3D: săgeata 0,3 mm; conturul exact merge la mașină */
+  if(!tri) throw new Error(t("contErr").replace("{why}",t("contWhy_self")));
+  const pieces=[], boxes=[], gap=60;
+  const edge=cfg.cEdge?"CONT":"";
+  pieces.push({elemento:"Pezzo contorno",role:"contur",lung:Math.round(flat?N.w:N.h),larg:Math.round(flat?N.h:N.w),pz,bordo:edge,mat:mS.label,
+    shape:"contur",perim:Math.round(N.perim),contour:N.pts.map(q=>[+q[0].toFixed(3),+q[1].toFixed(3),+(+q[2]).toFixed(6)]),
+    axis_mapping:flat?{lung:"L",larg:"P",sp:"H"}:{lung:"H",larg:"L",sp:"P"}});
+  for(let c=0;c<pz;c++){
+    const ox=c*(N.w+gap);
+    /* vârfurile conturului în coordonatele modulului: în plan vertical (x,y; grosimea pe z) sau culcat (x,z; grosimea pe y) */
+    const W3=q=>flat?[ox+q[0],0,q[1],q[2]]:[ox+q[0],q[1],0,q[2]];
+    const first=boxes.length;
+    tri.forEach(t3=>{
+      const A=t3.map(i=>{ const q=P[i]; return flat?[ox+q[0],0,q[1]]:[ox+q[0],q[1],0]; });
+      const B=A.map(a=>flat?[a[0],th,a[2]]:[a[0],a[1],th]);
+      const xs=A.map(a=>a[0]), ys=A.map(a=>flat?th*0+a[1]:a[1]), zs=A.map(a=>a[2]);
+      boxes.push({x0:Math.min(...xs),x1:Math.max(...xs),y0:flat?0:Math.min(...ys),y1:flat?th:Math.max(...ys),z0:flat?Math.min(...zs):0,z1:flat?Math.max(...zs):th,
+        kind:"p",role:"contur",pk:c+1,prism3:{A,B}});
+    });
+    /* conturul exact, o singură dată pe piesă, pe prima cutie: linii și arce în coordonatele modulului */
+    boxes[first].cont={pts:N.pts.map(W3),ccw:true};
+  }
+  return {pieces,boxes,warn:{},cont:{w:Math.round(N.w),h:Math.round(N.h),perim:Math.round(N.perim),n:N.pts.length,arcs:N.pts.filter(q=>Math.abs(q[2])>1e-9).length,pz}};
+}
 /* --- dispatch: standard / scorrevole / angolare (due ali a L) --- */
 function buildModule(cfg){
   if(cfg.topProfile&&(cfg.type||"standard")!=="standard")
@@ -7839,6 +7916,7 @@ function buildModule(cfg){
      Piani e ripiani restano rettangoli di sbozzo con due angoli da rifilare. */
   /* lambriu și boiserie: unul sau doi pereți (colț), vezi lamBuild */
   if(cfg.type==="lambriu"||cfg.type==="boiserie") return lamBuild(cfg);
+  if(cfg.type==="contur") return contBuild(cfg);
   if(cfg.type==="raccordato"){
     const L=cfg.L, H=cfg.H, P=cfg.P, t=structTh(cfg);
     const pieces=[],boxes=[],warn={};
@@ -8355,6 +8433,12 @@ Object.assign(EL_I18N.fr,{"Pannello campo":"Panneau de champ"});
 Object.assign(EL_I18N.de,{"Pannello campo":"Füllung"});
 Object.assign(EL_I18N.pl,{"Pannello campo":"Płyta pola"});
 Object.assign(EL_I18N.es,{"Pannello campo":"Panel de campo"});
+Object.assign(EL_I18N.ro,{"Pezzo contorno":"Piesă contur"});
+Object.assign(EL_I18N.en,{"Pezzo contorno":"Outline piece"});
+Object.assign(EL_I18N.fr,{"Pezzo contorno":"Pièce à contour"});
+Object.assign(EL_I18N.de,{"Pezzo contorno":"Konturteil"});
+Object.assign(EL_I18N.pl,{"Pezzo contorno":"Element z konturem"});
+Object.assign(EL_I18N.es,{"Pezzo contorno":"Pieza de contorno"});
 Object.assign(EL_I18N.ro,{"Lamella":"Lamelă","Pannello supporto":"Panou suport"});
 Object.assign(EL_I18N.en,{"Lamella":"Slat","Pannello supporto":"Support panel"});
 Object.assign(EL_I18N.fr,{"Lamella":"Lamelle","Pannello supporto":"Panneau support"});
@@ -8975,6 +9059,24 @@ function renderLamCuts(){
   box.querySelectorAll("[data-lcdel]").forEach(b=>b.addEventListener("click",()=>{ buildLamCuts.splice(+b.dataset.lcdel,1); renderLamCuts(); drawPreview(); }));
   $("lamCutHint").textContent=t("lamCutHint");
 }
+/* piesa cu contur liber (D-101): conturul din formular (formă gata sau text importat), normalizat; { ok, pts, w, h, why } */
+let contLast={ok:false,why:"empty"};
+function contFromForm(){
+  const shape=$("bContShape").value, L=Math.max(0,parseInt($("bL").value,10)||0), H=Math.max(0,parseInt($("bH").value,10)||0);
+  let pts=null, why=null;
+  if(shape!=="custom"){
+    pts=EBContour.shape(shape,L,H,{r:parseInt($("bContR").value,10)||0,rise:parseInt($("bContRise").value,10)||0});
+    if(!pts) why="empty";
+  }else{
+    const src=$("bContSrc").value;
+    const r=EBContour.parse(src);
+    if(!r.ok) why=r.reason||"empty"; else pts=r.pts;
+  }
+  if(!pts) return {ok:false,why};
+  const fit=shape==="custom"?$("bContFit").value:"none";
+  const B=EBContour.build(pts,{fitW:fit==="W"?L:0,fitH:fit==="H"?H:0});
+  return B.ok?B:{ok:false,why:B.reason};
+}
 /* adâncimea lambriului = lamela + suportul, din materialele alese (informativă: nu e cotă de piesă) */
 function lamDepth(){
   const th=id=>{ const m=matById($(id).value); return m&&+m.th>0?+m.th:0; };
@@ -8989,7 +9091,7 @@ function cornerRows(){
 function lamRows(){
   const ty=$("bTipo").value, lam=ty==="lambriu", rf=ty==="boiserie";
   $("rowLam").style.display=lam?"":"none"; $("rowRf").style.display=rf?"":"none"; $("rowRfInset").style.display=rf?"":"none";
-  $("rowP").style.display=(lam||rf)?"none":""; $("rowLamCuts").style.display=(lam||rf)?"":"none"; cornerRows();
+  $("rowP").style.display=(lam||rf)?"none":""; $("rowLamCuts").style.display=(lam||rf)?"":"none"; cornerRows(); contRows();
   if(lam||rf) renderLamCuts();
 }
 function cfgFromForm(){
@@ -8997,8 +9099,11 @@ function cfgFromForm(){
   return {name:$("bName").value.trim(), type:$("bTipo").value,
     L:Math.max(100,v("bL",800)), L2:Math.max(300,v("bL2",900)),
     H:(()=>{ const sl=slopeFromForm(); return sl&&sl.h0>0&&sl.h1>0?Math.max(sl.h0,sl.h1):Math.max(100,v("bH",720)); })(),
-    P:["lambriu","boiserie"].includes($("bTipo").value)?lamDepth():Math.max(100,v("bP",500)),
-    lamW:Math.max(10,Math.min(300,v("bLamW",40))), lamGap:Math.max(0,Math.min(200,v("bLamGap",20))), lamDir:$("bLamDir").value==="o"?"o":"v", lamCuts:cleanLamCuts(buildLamCuts), rfInset:parseInt($("bRfInset").value,10)?1:0, wall2:parseInt($("bWall2").value,10)?1:0,
+    P:$("bTipo").value==="contur"?contDepth():(["lambriu","boiserie"].includes($("bTipo").value)?lamDepth():Math.max(100,v("bP",500))),
+    lamW:Math.max(10,Math.min(300,v("bLamW",40))), lamGap:Math.max(0,Math.min(200,v("bLamGap",20))), lamDir:$("bLamDir").value==="o"?"o":"v", cShape:$("bContShape").value, cR:Math.max(0,v("bContR",0)), cRise:Math.max(0,v("bContRise",0)), cFit:$("bContFit").value,
+    cOri:$("bContOri").value==="o"?"o":"v", cPz:Math.max(1,Math.min(20,v("bContPz",1))), cEdge:parseInt($("bContEdge").value,10)?1:0,
+    cSrc:$("bTipo").value==="contur"&&$("bContShape").value==="custom"?String($("bContSrc").value).slice(0,20000):"",
+    lamCuts:cleanLamCuts(buildLamCuts), rfInset:parseInt($("bRfInset").value,10)?1:0, wall2:parseInt($("bWall2").value,10)?1:0,
     rfW:Math.max(20,Math.min(200,v("bRfW",60))), rfTarget:Math.max(100,Math.min(1500,v("bRfT",600))), rfRows:Math.max(1,Math.min(8,v("bRfRows",1))),
     /* LA GROSSEZZA VIENE DAL MATERIALE. Il vecchio `||{th:18}` era la rete
        di sicurezza che teneva il calcolo a 18 quando il pannello era da 19.
@@ -9038,7 +9143,35 @@ function cfgFromForm(){
     /* quello che il modulo non ha campi per mostrare viaggia col corpo: le cote
        assolute, il modo dello schienale, gli arretramenti. Senza questa riga
        il primo tocco su un campo qualunque le cancellava in silenzio. */
+    ...(()=>{ if($("bTipo").value!=="contur") return {}; const B=contFromForm(); contLast=B;
+      return B.ok?{contour:B.pts.map(q=>[+q[0].toFixed(3),+q[1].toFixed(3),+(+q[2]).toFixed(6)]),L:Math.round(B.w),H:Math.round(B.h)}:{}; })(),
     ...cfgCarry(buildCfg)};
+}
+/* grosimea piesei cu contur = materialul corpului (informativ, ca adâncimea lambriului) */
+function contDepth(){ const m=matById($("bMatBody").value); return Math.max(1,m&&+m.th>0?+m.th:0); }
+/* câmpurile piesei cu contur: ce se vede după formă, textul de ajutor și mărimea derivată a conturului importat */
+function contRows(){
+  const on=$("bTipo").value==="contur", sh=$("bContShape").value;
+  $("rowCont").style.display=on?"":"none";
+  $("rowContR").style.display=sh==="round"?"":"none";
+  $("rowContRise").style.display=(sh==="arch"||sh==="scoop")?"":"none";
+  $("rowContSrc").style.display=sh==="custom"?"":"none";
+  if(on){ $("rowP").style.display="none"; contSync(false); }
+}
+function contSync(redraw){
+  if($("bTipo").value!=="contur") return;
+  const B=contFromForm(); contLast=B;
+  if(B.ok){
+    /* L și H arată mărimea reală a conturului (importat sau scalat) */
+    if($("bContShape").value==="custom"){
+      const fit=$("bContFit").value;                       // lățimea sau înălțimea dorită rămâne ținta; cealaltă cotă se deduce
+      if(fit!=="W") $("bL").value=Math.round(B.w);
+      if(fit!=="H") $("bH").value=Math.round(B.h);
+    }
+    $("contHint").textContent=t("contInfo").replace("{w}",Math.round(B.w)).replace("{h}",Math.round(B.h))
+      .replace("{n}",B.pts.length).replace("{a}",B.pts.filter(q=>Math.abs(q[2])>1e-9).length).replace("{p}",fmt(B.perim/1000,2));
+  }else $("contHint").textContent=t("contErr").replace("{why}",t("contWhy_"+(B.why||"empty")));
+  if(redraw) drawPreview();
 }
 const CFG_CARRY=LAYOUT_KEYS.concat(["backMode","geom"]);
 function cfgCarry(src){
@@ -9066,6 +9199,8 @@ function syncBuildForm(){
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
   $("bName").value=buildCfg.name||""; $("bTipo").value=buildCfg.type||"standard";
   $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v"; $("bWall2").value=buildCfg.wall2?"1":"0"; $("bRfInset").value=buildCfg.rfInset?"1":"0";
+  $("bContShape").value=buildCfg.cShape||"custom"; $("bContR").value=buildCfg.cR||""; $("bContRise").value=buildCfg.cRise||""; $("bContFit").value=buildCfg.cFit||"none";
+  $("bContOri").value=buildCfg.cOri==="o"?"o":"v"; $("bContPz").value=buildCfg.cPz||1; $("bContEdge").value=buildCfg.cEdge?"1":"0"; $("bContSrc").value=buildCfg.cSrc||"";
   $("bRfW").value=buildCfg.rfW||""; $("bRfT").value=buildCfg.rfTarget||""; $("bRfRows").value=buildCfg.rfRows||"";
   buildLamCuts=Array.isArray(buildCfg.lamCuts)?buildCfg.lamCuts.map(c=>({x:c.x,y:c.y,w:c.w,h:c.h})):[]; renderLamCuts(); lamRows();
   $("bL").value=buildCfg.L; $("bL2").value=buildCfg.L2||900;
@@ -9230,7 +9365,7 @@ function renderSecPull(){
   const modes=(buildCfg.secMode||[]).slice(0,n);
   const eff=i=>modes[i]||(hang?(sh>0?"hangShelf":"hang"):(sh>0?"shelf":"empty"));
   const secs=[]; for(let i=0;i<n;i++){ const m=eff(i); if(m==="shelf"||m==="hangShelf"||m==="drawerShelf") secs.push(i); }
-  const show=sh>0&&secs.length>0&&!hasPartitions(buildCfg)&&!["scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie"].includes(buildCfg.type);
+  const show=sh>0&&secs.length>0&&!hasPartitions(buildCfg)&&!["scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"].includes(buildCfg.type);
   wrap.style.display=show?"":"none";
   if(!show){ box.innerHTML=""; return; }
   const cur=buildSecPull||[];
@@ -9327,7 +9462,7 @@ function renderAW(){
 }
 function renderTop(){
   const row=$("rowTop"); if(!row) return;
-  const noTop=["scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie"].includes($("bTipo").value);
+  const noTop=["scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"].includes($("bTipo").value);
   row.style.display=noTop?"none":""; $("topHint").style.display=noTop?"none":"";
   $("rowTopRail").style.display=(!noTop&&$("bTop").value==="traverse")?"":"none";
 }
@@ -9437,7 +9572,7 @@ function renderDoorHinge(){
   const wrap=$("doorHingeWrap"), box=$("doorHingeBox"); if(!wrap||!box) return;
   const nd=Math.min(MAX_DOORS,+($("bDoors").value||0));
   const show=nd>0&&buildCfg.type!=="scorrevole"&&!hasFronts(buildCfg)&&$("bFront").value!=="curvo"
-    &&!["scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie"].includes(buildCfg.type);
+    &&!["scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"].includes(buildCfg.type);
   wrap.style.display=show?"":"none";
   if(!show){ box.innerHTML=""; return; }
   const cur=buildDoorHinge||[];
@@ -9552,6 +9687,7 @@ function renderLayBar(){
   $("btnLayClear").querySelector("span").textContent=tia("layClear");
 }
 function drawPreview(){
+  if($("bTipo").value==="contur") contSync(false);
   buildCfg=cfgFromForm();
   cornerRows();
   draw3D();
@@ -9560,13 +9696,13 @@ function drawPreview(){
      e lasciare a vista i numeri del corpo precedente. */
   let built;
   try{ built=buildModule(buildCfg); }
-  catch(e){ toast(e&&e.message||String(e)); return; }
+  catch(e){ if(buildCfg.type==="contur"){ if(contLast&&contLast.ok) $("contHint").textContent=e&&e.message||String(e); return; } toast(e&&e.message||String(e)); return; }
   const pieces=built.pieces;
   /* lo stesso conto della distinta e della vista dei pezzi: i fondi in HDF
      sono pezzi (hanno un materiale proprio, ma si tagliano), l'asta no */
   const panelPieces=pieces.filter(x=>!isAccPiece(x));
   const {pcs,area:m2}=panelTotals(pieces);
-  const ml=panelPieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape)*x.pz/1000,0);
+  const ml=panelPieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)*x.pz/1000,0);
   const dim=buildCfg.type==="angolare"?`${buildCfg.L}+${buildCfg.L2}×${buildCfg.H}×${buildCfg.P}`:`${buildCfg.L}×${buildCfg.H}×${buildCfg.P}`;
   $("buildInfo").textContent=`${dim} mm · ${pcs} ${t("pieces")} · ${fmt(m2)} m² · ${fmt(ml,1)} ml`;
   const ang=pieces.filter(x=>isAng(x.angL)||isAng(x.angR));
@@ -9848,8 +9984,14 @@ function renderBuild(){
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
       lamRows();
       if($("bTipo").value==="lambriu"){ if(!$("bLamW").value) $("bLamW").value=40; if(!$("bLamGap").value) $("bLamGap").value=20; }
+      if($("bTipo").value==="contur"){ if(!$("bContPz").value) $("bContPz").value=1; if($("bContShape").value==="custom"&&!$("bContSrc").value){ $("bContShape").value="scoop"; $("bContRise").value=$("bContRise").value||80; } }
       if($("bTipo").value==="boiserie"){ if(!$("bRfW").value) $("bRfW").value=60; if(!$("bRfT").value) $("bRfT").value=600; if(!$("bRfRows").value) $("bRfRows").value=1; }
     });
+    $("bContShape").addEventListener("change",()=>{ contRows(); drawPreview(); });
+    ["bContR","bContRise","bContSrc","bContFit","bContOri","bContPz","bContEdge"].forEach(id=>{ $(id).addEventListener("input",()=>contSync(true)); $(id).addEventListener("change",()=>contSync(true)); });
+    $("bContFile").addEventListener("change",async e=>{ const f=e.target.files&&e.target.files[0]; if(!f) return;
+      try{ const txt=await f.text(); $("bContSrc").value=txt.slice(0,20000); if(txt.length>20000) toast(t("contBig")); }catch(err){ toast(t("contErr").replace("{why}",t("contWhy_empty"))); }
+      e.target.value=""; contSync(true); });
     $("btnLamCutAdd").addEventListener("click",()=>{ buildLamCuts.push({x:Math.round((parseInt($("bL").value,10)||0)/2),y:300,w:80,h:80}); renderLamCuts(); drawPreview(); });
     $("bWall2").addEventListener("change",()=>{ if($("bWall2").value==="1"&&!$("bL2").value) $("bL2").value=900; cornerRows(); renderLamCuts(); drawPreview(); });
     ["bCorner","bCornerKind","bL2"].forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
@@ -9911,6 +10053,7 @@ function presetIcon(c){
   if(ty==="tavolo") return S('<path d="M3 15h30M6 15v20M30 15v20M3 13h30v2H3z"/>');
   if(ty==="scrivania") return S('<path d="M3 14h30M5 14v21M31 14v21M20 14v12h11"/><path d="M20 20h11"/>');
   if(ty==="letto") return S('<path d="M4 12v23M32 22v13M4 25h28M4 30h28M8 20h9a2 2 0 0 1 2 2v3H8z"/>');
+  if(ty==="contur") return S('<path d="M4 8h28v22H24c0-6-12-6-12 0H4z"/>');
   if(ty==="boiserie") return S('<path d="M5 5h26v30H5z"/><path d="M9 9h8v10H9zM19 9h8v10h-8zM9 22h8v9H9zM19 22h8v9h-8z"/>');
   if(ty==="lambriu") return S('<path d="M5 5h26v30H5z"/><path d="M10 5v30M15 5v30M20 5v30M25 5v30"/>');
   if(ty==="tondo") return S('<ellipse cx="18" cy="20" rx="13" ry="15"/><path d="M5.5 20h25"/>');
@@ -10036,6 +10179,8 @@ function generateInto(p,cfg){
     ...(x.yInf?{yInf:x.yInf.slice()}:{}), ...(x.partial?{partial:1}:{}), ...(x.flush?{flush:1}:{}),
     angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
     curve:x.curve||null,
+    /* piesa cu contur liber (D-101): conturul exact, perimetrul pentru cant */
+    ...(x.contour?{contour:x.contour,perim:x.perim,shape:x.shape}:{}),
     /* panta (D-86): poziția pe x, conturul și bevelul — numai când există, rândurile vechi rămân identice */
     ...(x.xc!=null?{xc:x.xc}:{}), ...(x.poly?{poly:x.poly}:{}), ...(x.bevel?{bevel:x.bevel}:{}),
     materiale:x.mat||labelFor(x)}));
@@ -11116,6 +11261,13 @@ function assemblySteps(modName,hw,cfg,items){
   const CARC=["lato","box"];
   const flat=cfg&&["scrivania","tavolo","letto"].includes(cfg.type);
   add(t("mPrep"));
+  if(cfg&&cfg.type==="contur"){
+    let B=null; try{ B=buildModule(cfg); }catch(e){}
+    const m=B&&B.cont;
+    if(m){ add(t("contS1").replace("{w}",m.w).replace("{h}",m.h).replace("{k}",m.pz)); if(cfg.cEdge) add(t("contS2").replace("{p}",fmt(m.perim/1000,2))); }
+    add(t("contS3"));
+    return st;
+  }
   if(cfg&&cfg.type==="boiserie"){
     let B=null; try{ B=buildModule(cfg); }catch(e){}
     const m=B&&B.rf, m2=B&&B.rf2;
@@ -11742,7 +11894,7 @@ function orderRows(p,opts){
     const fromStock=res.panels.filter(x=>x.stock).length;
     const dec=matDecorByLabel(m.label);
     if(neu||fromStock) panels.push({label:m.label,dec,L:PN.L,W:PN.W,n:neu,stock:fromStock});
-    const ml=m.pieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape)*x.pz/1000,0);
+    const ml=m.pieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)*x.pz/1000,0);
     if(ml>0.01) edges[m.label]=(edges[m.label]||0)+ml;
   }
   return {panels,edges,hw:computeHardware(p)};
@@ -14288,7 +14440,7 @@ function atDocsHtml(){
 function atDocHelpers(){
   return {
     isAcc:x=>isAccPiece(x),
-    mm:x=>bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape),
+    mm:x=>bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim),
     decor:x=>matDecorByLabel(x.materiale)||"",
     mat:x=>matLabelUI(x.materiale||""),
     isMdf:x=>/mdf/i.test(String(x.materiale||""))||/mdf/i.test(matLabelUI(x.materiale||""))
@@ -14780,7 +14932,7 @@ const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR",de:"de-DE",pl:
    validazione lo scarta senza che si capisca perche. Regola: un tipo nuovo
    entra in AI_ENUM nello stesso commit in cui entra nell'interfaccia. */
 const AI_ENUM={
-  type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie"], lamDir:["v","o"],
+  type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"], lamDir:["v","o"], cShape:["rect","round","arch","scoop"], cOri:["v","o"],
   front:["piena","vetro","curvo"], support:["zoccolo","piedini","sospeso"],
   handles:["maniglia","push","gola"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
   corner:["sx","dx"], cornerKind:["int","ext"],
@@ -14850,6 +15002,7 @@ EVERY NUMBER MUST LAND. The app compares every measurement in his text with your
 CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extra field:
   type="tondo" — a round or oval body. L and P are the OUTSIDE axes measured with a tape; equal L and P give a cylinder, different ones an oval. Shelves sit inside. No extra field.
   type="raccordato" — a rectangle with the two FRONT corners rounded; "rcorner" is the radius in mm (default 80). Give it only for this type.
+  type="contur" — one board cut to a drawn outline (shaped side, leg, top): L × H is the outline's bounding box, "cShape" = rect | round (corner radius "cR") | arch (top bowed by "cRise") | scoop (bottom hollowed by "cRise", like an arched leg), "cOri" = v (standing) or o (flat), "cPz" copies, "cEdge" = 1 to edge-band the whole outline. A free drawing cannot be dictated: it is imported from SVG/DXF in the form. Give these only for this type.
   type="boiserie" — wall panelling with applied frames and fields: L = wall width, H = wall height, "rfW" = frame strip width (mm), "rfTarget" = wanted field width (mm), "rfRows" = number of rows of fields; the engine fits whole fields so frames + fields fill the wall exactly. Cut-outs go in "lamCuts" (they should sit inside a field). Give rfW/rfTarget/rfRows only for this type.
   type="lambriu" — wall slat panelling (cut-outs for sockets go in "lamCuts"): L = wall width, H = wall height, "lamW" = slat width (mm), "lamGap" = wanted gap between slats (mm), "lamDir" = v (vertical) or o (horizontal); the engine spreads the slats evenly so the gaps are equal and the last slat ends exactly at the wall edge. back=1 adds a support panel. Give lamW/lamGap/lamDir only for this type.
   front="curvo" — bowed doors; "bow" is the camber in mm at the centre of the door (typical 30-60). Give it only for this front.
@@ -14910,6 +15063,12 @@ function aiSchema(mode){
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
         bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
+        cShape:{type:"string",enum:AI_ENUM.cShape,description:"Outline for type=\"contur\"."},
+        cR:{type:"integer",minimum:0,maximum:2000,description:"Corner radius (mm), cShape=round."},
+        cRise:{type:"integer",minimum:0,maximum:2000,description:"Arc rise (mm), cShape=arch or scoop."},
+        cOri:{type:"string",enum:AI_ENUM.cOri,description:"v = standing panel, o = flat; type=\"contur\"."},
+        cPz:{type:"integer",minimum:1,maximum:20,description:"Number of identical pieces, type=\"contur\"."},
+        cEdge:{type:"integer",minimum:0,maximum:1,description:"1 = edge banding along the whole outline, type=\"contur\"."},
         rfInset:{type:"integer",minimum:0,maximum:1,description:"1 = the fields are separate panels set in a groove of the frame (type boiserie); 0 = the support panel is the field."},
         rfW:{type:"integer",minimum:20,maximum:200,description:"Frame strip width (mm), only with type=\"boiserie\"."},
         rfTarget:{type:"integer",minimum:100,maximum:1500,description:"Wanted field width (mm), only with type=\"boiserie\"; the engine picks the whole number of fields closest to it."},
@@ -15029,14 +15188,14 @@ async function aiCall(mode,text,imgs){
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,MAX_TRAM],
   shelves:[0,10],drawers:[0,8],doors:[0,MAX_DOORS],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
   shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
-  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
+  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
   if(!raw||typeof raw!=="object") return out;
   for(const k in AI_CFG_INT){ if(raw[k]==null) continue;
     const v=aiInt(raw[k],AI_CFG_INT[k][0],AI_CFG_INT[k][1]); if(v!=null) out[k]=v; }
-  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir"]){
+  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir","cShape","cOri"]){
     if(raw[k]==null) continue;
     if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
   if(Array.isArray(raw.lamCuts)){
@@ -15294,7 +15453,7 @@ function aiLbl(k){
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
-    bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),wall2:t("fWall2"),rfInset:t("fRfInset"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
+    bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),wall2:t("fWall2"),rfInset:t("fRfInset"),cShape:t("fContShape"),cR:t("fContR"),cRise:t("fContRise"),cOri:t("fContOri"),cPz:t("fContPz"),cEdge:t("fContEdge"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
     partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
     customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
   return map[k]||k;
@@ -15313,13 +15472,13 @@ function aiVal(k,v){
   if(k==="geom") return v&&v.setback_ripiano!=null?String(v.setback_ripiano):"—";
   if(k==="lamCuts") return Array.isArray(v)&&v.length?v.map(c=>`${c.wall==="B"?"B ":""}${c.w}×${c.h} @ ${c.x}/${c.y}`).join(" · "):"—";
   if(k==="wall2") return v?t("optYes"):t("optNo");
-  if(["back","hang","boxes","shelfEven","wall2","rfInset"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
-  if(["type","front","support","handles","shelfType","corner","cornerKind","top","lamDir"].indexOf(k)>=0){
+  if(["back","hang","boxes","shelfEven","wall2","rfInset","cEdge"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
+  if(["type","front","support","handles","shelfType","corner","cornerKind","top","lamDir","cShape","cOri"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
       piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",mobile:"shMobile",
       fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt",
-      tondo:"typeRound",raccordato:"typeFillet",lambriu:"typeLambriu",boiserie:"typeBoiserie",v:"lamV",o:"lamH",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
+      tondo:"typeRound",raccordato:"typeFillet",lambriu:"typeLambriu",boiserie:"typeBoiserie",contur:"typeContur",rect:"contShapeRect",round:"contShapeRound",arch:"contShapeArch",scoop:"contShapeScoop",v:"lamV",o:"lamH",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
     return m[v]?t(m[v]):v;
   }
   return String(v);
@@ -15484,7 +15643,7 @@ function aiCheckHTML(C){
     const pcs=C.built.pieces.filter(x=>!x.mat);
     const n=pcs.reduce((s,x)=>s+x.pz,0);
     const m2=pcs.reduce((s,x)=>s+x.lung*x.larg*x.pz/1e6,0);
-    const ml=pcs.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape)*x.pz/1000,0);
+    const ml=pcs.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)*x.pz/1000,0);
     const cut=x=>scList(x).map(c=>`${c.l}×${c.w} ${c.rif||""}`.trim()).join(", ");
     h.push(`<div class="aitblw"><table class="aitbl"><thead><tr><th>${esc(tia("aiColPc"))}</th><th>${esc(tia("aiColDim"))}</th>`+
       `<th>${esc(tia("aiColPz"))}</th><th>${esc(tia("aiColPos"))}</th><th>${esc(tia("aiColCut"))}</th></tr></thead><tbody>`+
@@ -16080,12 +16239,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.7.0"; /* APP_VER-MARKER */
+const APP_VER="5.8.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v164";
+const SW_CACHE="ebanist-v165";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

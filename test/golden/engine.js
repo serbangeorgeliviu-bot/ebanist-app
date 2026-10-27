@@ -34,6 +34,7 @@ function engine() {
   vm.createContext(s);
   vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-core.js"), "utf8"), s, { filename: "ebanist-core.js" });
   vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-lambriu.js"), "utf8"), s, { filename: "ebanist-lambriu.js" });
+  vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-contour.js"), "utf8"), s, { filename: "ebanist-contour.js" });
   vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
   return (_s = s);
 }

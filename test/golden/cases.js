@@ -123,7 +123,13 @@ const CASES = [
 
   /* --- panou încastrat în ramă (D-100): panou de 5 mm în rame de 18, cu o priză într-un câmp ----- */
   c("46-boiserie-incastrat", "boiserie", "m18", { L: 2400, H: 2600, P: 18, plinth: 0, back: 0, rfW: 60, rfTarget: 600, rfRows: 2, rfInset: 1,
-    matFront: "hdf5", lamCuts: [{ x: 300, y: 400, w: 80, h: 80 }] })
+    matFront: "hdf5", lamCuts: [{ x: 300, y: 400, w: 80, h: 80 }] }),
+
+  /* --- piesa cu contur liber (D-101) ----------------------------------------------------------- */
+  /* lateral arcuit: 1800×500, partea de jos scobită cu săgeata 120, două bucăți, cant pe contur */
+  c("47-contur-scoop", "contur", "m18", { L: 1800, H: 500, P: 18, plinth: 0, back: 0, cShape: "scoop", cRise: 120, cOri: "v", cPz: 2, cEdge: 1 }),
+  /* dreptunghi rotunjit culcat 600×400, rază 50, fără cant */
+  c("48-contur-rotunjit", "contur", "m18", { L: 600, H: 400, P: 18, plinth: 0, back: 0, cShape: "round", cR: 50, cOri: "o", cPz: 1, cEdge: 0 })
 ];
 
 /* le coppie 18/19: il runner controlla che il gabarito NON si muova e che
