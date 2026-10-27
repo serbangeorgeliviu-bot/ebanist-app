@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.0.0 — 27 octombrie 2026
+
+**Fluxul comercial, de la ofertă la predare** — trei lucruri care lipseau între „am desenat” și „am predat”.
+- **Plan de plată în ofertă**: în Setări, trei procente (avans, începutul fabricației, livrare) care trebuie să dea 100. Oferta PDF tipărește un tabel cu sumele (TVA inclus), calculate în cenți: suma etapelor este exact totalul. Gol = fără tabel. Un plan greșit nu se salvează.
+- **Proces-verbal de recepție** („Atelier și șantier”, cu Pro): listă de verificări cu căsuțe, rezerve cu termen, declarația clientului, semnături. În 7 limbi; nu conține cifre din model.
+- **Consilier tehnic**: o insignă galbenă sub semaforul de coerență. Avertizează la rafturi și blaturi prea lungi pentru grosimea și materialul lor (săgeată estimată) și la uși înalte și înguste (curbare). Nu blochează nimic. Regulile și valorile (modul de elasticitate, sarcină, limită) sunt date marcate `verificat:false`: orientative, de confirmat cu furnizorul plăcii.
+- Pentru atelier: registrul de verificare a cotelor de găurire (`test/tools/hw-registry.js`, 86 de valori din `HW_DRILL`) se generează în ebanist-hq, ca foaie de completat pe piesa reală.
+- Nu s-a atins geometria: distinta, goldenele și 3D-ul sunt neschimbate.
+
+---
+
 ## 4.84.0 — 27 octombrie 2026
 
 **Pașaportul proiectului** — documentul pentru client, în „Per il cliente”, lângă oferta PDF. Cu Pro, ca celelalte documente.

@@ -4070,6 +4070,30 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Consilier tehnic — rafturi lungi, sfaturi fără blocaj");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      const lab = matById("pal18_alb").label;
+      const mk = L => [{ id: "s1", modulo: "Corp", elemento: "Ripiano", role: "ripiano", lung: L, larg: 300, pz: 2, materiale: lab }];
+      state.projects = [{ id: "ad1", name: "T", pieces: mk(1100), configs: { Corp: { type: "base", L: 1100, H: 800, P: 350 } } }]; state.activeId = "ad1";
+      auditBadge();
+      const el = document.getElementById("adviceBadge");
+      o.apare = !el.hidden && el.textContent.includes(EBAdvice.t(state.lang, "title"));
+      el.click(); await w(250);
+      o.foaie = document.getElementById("auditSheet").classList.contains("on") && document.getElementById("auditBody").textContent.includes("1100") && document.getElementById("auditBody").textContent.includes(EBAdvice.t(state.lang, "note"));
+      closeSheets();
+      state.projects[0].pieces = mk(600); auditBadge(); o.scurt = document.getElementById("adviceBadge").hidden === true;
+      state.projects[0].pieces = mk(1100); auditBadge(); o.nebloc = document.getElementById("auditBadge").dataset.state !== "red";
+      state.projects = keepP; state.activeId = keepA; auditBadge();
+      return o;
+    });
+    ok("Consilier: raftul lung de PAL 18 dă sfat (insignă galbenă, foaie cu motiv și nota de ipoteze); raftul scurt nu", r.apare === true && r.foaie === true && r.scurt === true);
+    ok("Consilier: sfatul nu blochează exportul (semaforul de coerență rămâne neroșu)", r.nebloc === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

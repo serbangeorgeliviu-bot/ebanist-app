@@ -193,6 +193,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
 .audit{border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:13px;line-height:1.35;
   border:1px solid transparent}
 .audit[data-state="green"]{background:rgba(90,140,60,.10);border-color:rgba(90,140,60,.35);color:var(--faint)}
+.audit[data-state="warn"]{background:rgba(190,140,30,.12);border-color:rgba(190,140,30,.45);color:var(--text);cursor:pointer}
 .audit[data-state="red"]{background:rgba(140,29,29,.12);border-color:rgba(140,29,29,.45);
   color:var(--danger);cursor:pointer}
 .au-row{padding:10px 0;border-bottom:1px solid var(--line)}
@@ -1345,6 +1346,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <!-- Progetto calcolato col motore vecchio: si dice, non si ricalcola. -->
     <div id="geomBanner" class="gvbar" hidden></div>
     <div id="auditBadge" class="audit" hidden></div>
+    <div id="adviceBadge" class="audit" data-state="warn" hidden></div>
     <div class="pj-add" style="margin-bottom:12px">
       <button class="btn sm red" id="btnAddMod">＋ <span data-i="addFurniture">Mobile</span></button>
       <button class="btn sm ghost" id="btnAddPiece">＋ <span data-i="addPlainPiece">Pezzo singolo</span></button>
@@ -2452,6 +2454,7 @@ if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-qr.js"></script>
 <script src="./ebanist-passport.js"></script>
 <script src="./ebanist-commerce.js"></script>
+<script src="./ebanist-advice.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -10038,6 +10041,28 @@ function auditBadge(){
     ? `<b>${esc(t("auBlocked").replace("{n}",bad.length))}</b>`
     : `<span>${esc(t("auOk"))}</span>`;
   el.onclick=bad.length?()=>auditSheet(failed):null;
+  adviceBadge(p);
+}
+
+/* sfaturi de inginerie (EBAdvice): consultative, nu blochează nimic */
+function adviceList(p){
+  if(!p||!window.EBAdvice) return [];
+  return EBAdvice.advise((p.pieces||[]).filter(x=>!isAccPiece(x)),{
+    th:x=>{ const m=matByLabel(x.materiale||x.mat); return m?+m.th||0:0; },
+    mat:x=>x.materiale||x.mat||"" });
+}
+function adviceBadge(p){
+  const el=$("adviceBadge"); if(!el) return;
+  const list=adviceList(p);
+  el.hidden=!list.length;
+  if(!list.length){ el.onclick=null; return; }
+  el.innerHTML=`<b>${esc(EBAdvice.t(state.lang,"title"))}: ${list.length}</b>`;
+  el.onclick=()=>{
+    $("auditBody").innerHTML=list.map(a=>`<div class="au-row"><div class="au-why">${esc(EBAdvice.text(state.lang,a))}</div>
+      <div class="au-meta">${esc([a.modulo,a.elemento,a.n>1?"×"+a.n:""].filter(Boolean).join(" · "))}</div></div>`).join("")
+      +`<div class="au-meta" style="margin-top:10px">${esc(EBAdvice.t(state.lang,"note"))}</div>`;
+    openSheet("auditSheet");
+  };
 }
 
 /* Il messaggio all'utente e il campo `why`, non un codice: chi sta in
@@ -15653,12 +15678,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="4.84.0"; /* APP_VER-MARKER */
+const APP_VER="5.0.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v156";
+const SW_CACHE="ebanist-v157";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
