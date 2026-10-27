@@ -93,8 +93,8 @@ function jointKind(input) {
   return JOINT_OF_ID[id] || "minifix";
 }
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa",
-  "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur"];
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa", "traversa_spate",
+  "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur", "filler"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
 
@@ -108,7 +108,9 @@ var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo:
   /* boiserie cu rame (D-97, D-100): ramele sunt panouri, panoul din câmp intră în canal */
   rama_montant: 1, rama_traversa: 1, rama_camp: 1,
   /* piesa cu contur liber (D-101): conturul exact e pe cutia ei (`cont`), cutiile sunt triunghiuri pentru 3D */
-  contur: 1 };
+  contur: 1,
+  /* rinforzo în spate și filler (D-103): panouri ca toate celelalte */
+  traversa_spate: 1, filler: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -476,6 +478,26 @@ function generate(input) {
     });
   });
 
+  /* --- 2c. rinforzo (D-103): traversa din spate se prinde cu câte un minifix de laterala sau despărțitorul de la fiecare capăt;
+         piesa e prea îngustă (100 mm) pentru mai mult de o fixare pe capăt. Tazza stă pe fața dinspre perete, ascunsă. */
+  byRole("traversa_spate").forEach(function (E) {
+    if (E.tAx !== 2) return;
+    var yMid = (E.min[1] + E.max[1]) / 2, zMid = (E.min[2] + E.max[2]) / 2;
+    [-1, 1].forEach(function (end) {
+      var edgeX = end < 0 ? E.min[0] : E.max[0], F = null;
+      for (var i = 0; i < pcs.length; i++) {
+        var q = pcs[i];
+        if (q === E || q.tAx !== 0 || (q.role !== "fianco" && q.role !== "divisorio")) continue;
+        var face = end < 0 ? q.max[0] : q.min[0];
+        if (Math.abs(face - edgeX) > 0.6) continue;
+        if (!inside(q, [(q.min[0] + q.max[0]) / 2, yMid, zMid], 0.5)) continue;
+        F = q; break;
+      }
+      if (!F) { out.warnings.push({ piece: E.pk, k: "opsNoRailPanel" }); return; }
+      joint(E, F, 0, end, 1, E.min[1], E.max[1], 2, -1, out);
+    });
+  });
+
   /* --- 3b. tavan înclinat (D-86): îmbinările cu un panou înclinat sau cu muchie oblică nu se găuresc
          în pasul 1. Piesa iese în model fără operații pe muchia oblică, cu avertisment: cotele cer
          o piesă reală (bevel) înainte să meargă în mașină. */
@@ -663,6 +685,27 @@ function generate(input) {
     });
   });
 
+  /* --- 6c. decupajele din spate și grilele din uși (D-103): găuri trecute prin placă, la freză. Grila e o cutie
+         `sub:"vent"` pe aceeași piesă cu ușa (dreptunghiul ei e gaura); decupajul din spate vine din cfg, în cotele lumii. */
+  var byPk = {}; pcs.forEach(function (q) { byPk[String(q.pk)] = q; });
+  boxes.forEach(function (b) {
+    if (!b || b.sub !== "vent" || b.pk == null) return;
+    var D = byPk[String(b.pk)]; if (!D) return;
+    D.mills.push({ ax: 2, side: 1, uAx: 0, c: [(b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, D.max[2]], du: b.x1 - b.x0, dv: b.y1 - b.y0,
+                   r: 0, through: true, depth: D.T, note: "grilă de aerisire" });
+  });
+  (cfg.backCutouts || []).forEach(function (c) {
+    if (!c || !(c.w > 0 && c.h > 0)) return;
+    var cx = +c.x + c.w / 2, cy = +c.y + c.h / 2, B = null;
+    byRole("schienale").forEach(function (q) {
+      if (!B && q.boxes.some(function (bb) { return cx >= bb.x0 - 0.5 && cx <= bb.x1 + 0.5 && cy >= bb.y0 - 0.5 && cy <= bb.y1 + 0.5; })) B = q;
+    });
+    /* spatele are gaura și în cutii (3D); freza o ia din cota cfg, pe fața cea mare */
+    if (!B) { var any = byRole("schienale"); B = any.filter(function (q) { return cx >= q.min[0] - 0.5 && cx <= q.max[0] + 0.5 && cy >= q.min[1] - 0.5 && cy <= q.max[1] + 0.5; })[0]; }
+    if (!B) return;
+    B.mills.push({ ax: 2, side: 1, uAx: 0, c: [cx, cy, B.max[2]], du: +c.w, dv: +c.h, r: 0, through: true, depth: B.T, note: "decupaj spate" });
+  });
+
   /* --- 6b. canalele ramei (D-100): panoul din câmp intră în montanți și traverse; canalul e exact unde cutia panoului se
          suprapune cu cutia ramei, pe MARGINEA ramei (fețele 1–4), nu pe fața mare ca la cava spatelui. ----------- */
   byRole("rama_camp").forEach(function (Pn) {
@@ -813,7 +856,9 @@ function localize(p) {
   /* i decupaje la freza: dreptunghi cu colturi rotunjite, centrat in `c`;
      `du` merge pe axa 0 a modulului, `dv` pe axa 2 */
   (p.mills || []).forEach(function (m) {
-    var wX = aL === 0 ? m.du : m.dv, dY = aL === 0 ? m.dv : m.du;
+    /* `uAx` = axa lumii pe care merge `du` (implicit 0 = x, ca la blat; 0 și la spate/uși, unde dv merge pe y, nu pe z) */
+    var uA = m.uAx != null ? m.uAx : 0;
+    var wX = aL === uA ? m.du : m.dv, dY = aL === uA ? m.dv : m.du;
     push({ type: "mill", shape: "rect", face: m.through ? 5 : (m.side === s5 ? 5 : 6),
            x: R1(X(m.c)), y: R1(Y(m.c)), w: R1(wX), d: R1(dY), r: R1(m.r), depth: R1(m.depth),
            through: !!m.through, note: m.note });

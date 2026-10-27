@@ -1664,6 +1664,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <p class="mini" data-i="absHint" style="margin:0 0 8px"></p>
         <div id="absLists"></div>
         <div class="chips" id="absAdd" style="margin-top:6px"></div>
+        <div class="chips" id="absBackCols"></div>
         <div id="absCheck" style="margin-top:8px"></div>
       </div>
     </details>
@@ -2489,7 +2490,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
    caricato non e la revisione che questa pagina si aspetta, se ne scarica
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
-if(window.CORE_REV!=="4.54.0") document.write('<script src="./ebanist-core.js?rev=4.54.0"><\/script>');
+if(window.CORE_REV!=="5.10.0") document.write('<script src="./ebanist-core.js?rev=5.10.0"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-worktop.js"></script>
@@ -3330,6 +3331,14 @@ Object.assign(I18N.fr,{fLamCuts:"Découpes (prises, interrupteurs)",lamCutAdd:"+
 Object.assign(I18N.de,{fLamCuts:"Aussparungen (Steckdosen, Schalter)",lamCutAdd:"+ Aussparung",lamCutX:"X von links",lamCutY:"Y vom Boden",lamCutW:"Breite",lamCutH:"Höhe",lamCutHint:"X vom linken Wandrand, Y vom Boden. Die Lamellen werden auf ihrer ganzen Breite unterbrochen, wo die Aussparung sie berührt; die Trägerplatte erhält das genaue Loch.",lamCutInfo:"{n} Aussparungen · {p} Lamellenstücke",wLamSplit:"{n} Lamellen länger als die Platte: in gleiche Teile geschnitten (Stoßfuge).",wLamShort:"{n} Lamellenstücke unter 30 mm: schwer zu montieren",lamErrCut:"Lamellenwand: Aussparung außerhalb der Wand oder ungültig (X, Y, Breite, Höhe ≥ 1 mm, innerhalb der Wand, höchstens 30)."});
 Object.assign(I18N.pl,{fLamCuts:"Wycięcia (gniazdka, włączniki)",lamCutAdd:"+ Wycięcie",lamCutX:"X od lewej",lamCutY:"Y od podłogi",lamCutW:"Szerokość",lamCutH:"Wysokość",lamCutHint:"X od lewej krawędzi ściany, Y od podłogi. Lamelki są przerywane na całej szerokości tam, gdzie dotyka ich wycięcie; podkład dostaje dokładny otwór.",lamCutInfo:"{n} wycięć · {p} kawałków lamelek",wLamSplit:"{n} lamelek dłuższych niż płyta: cięte na równe części (połączenie czołowe).",wLamShort:"{n} kawałków lamelek poniżej 30 mm: trudne w montażu",lamErrCut:"Okładzina: wycięcie poza ścianą lub nieprawidłowe (X, Y, szerokość, wysokość ≥ 1 mm, wewnątrz ściany, najwyżej 30)."});
 Object.assign(I18N.es,{fLamCuts:"Recortes (enchufes, interruptores)",lamCutAdd:"+ Recorte",lamCutX:"X desde la izquierda",lamCutY:"Y desde el suelo",lamCutW:"Ancho",lamCutH:"Alto",lamCutHint:"X desde el borde izquierdo de la pared, Y desde el suelo. Las lamas se interrumpen en todo su ancho donde el recorte las toca; el soporte recibe el hueco exacto.",lamCutInfo:"{n} recortes · {p} trozos de lama",wLamSplit:"{n} lamas más largas que el tablero: cortadas en partes iguales (junta a tope).",wLamShort:"{n} trozos de lama de menos de 30 mm: difíciles de montar",lamErrCut:"Lamas: recorte fuera de la pared o no válido (X, Y, ancho, alto ≥ 1 mm, dentro de la pared, máximo 30)."});
+/* ---- 5.10: spate pe coloane, rinforzo, filler, grile de aerisire (D-103) ---- */
+Object.assign(I18N.it,{"absBackCut": "Foro nello schienale", "absFiller": "Fascia di chiusura", "absCols": "Colonne", "absSide": "Lato", "absTop": "sopra", "absSize": "Visibile (mm)", "absScribe": "Da rifilare (mm)", "absVentB": "Griglia in basso L×A", "absVentT": "Griglia in alto L×A", "absVentBad": "Scrivi la griglia come larghezza×altezza, per esempio 300×100.", "absBackCols": "Schienale sulle colonne", "absBackNone": "Almeno una colonna deve avere lo schienale. Per nessuno schienale scegli Schienale = No.", "role_traversa_spate": "Rinforzo schienale", "role_filler": "Fascia di chiusura", "opsNoRailPanel": "Il rinforzo non ha un fianco o un setto a un'estremità: non si può fissare."});
+Object.assign(I18N.ro,{"absBackCut": "Decupaj în spate", "absFiller": "Filler", "absCols": "Coloane", "absSide": "Latura", "absTop": "sus", "absSize": "Cât se vede (mm)", "absScribe": "De potrivit (mm)", "absVentB": "Grilă jos L×Î", "absVentT": "Grilă sus L×Î", "absVentBad": "Scrie grila ca lățime×înălțime, de exemplu 300×100.", "absBackCols": "Spate pe coloane", "absBackNone": "Cel puțin o coloană trebuie să aibă spate. Pentru fără spate, alege Spate = Nu.", "role_traversa_spate": "Rinforzo spate", "role_filler": "Filler", "opsNoRailPanel": "Rinforzo-ul nu are laterală sau despărțitor la un capăt: nu se poate fixa."});
+Object.assign(I18N.en,{"absBackCut": "Back cut-out", "absFiller": "Closing strip", "absCols": "Columns", "absSide": "Side", "absTop": "top", "absSize": "Visible (mm)", "absScribe": "To scribe (mm)", "absVentB": "Vent bottom W×H", "absVentT": "Vent top W×H", "absVentBad": "Write the vent as width×height, for example 300×100.", "absBackCols": "Back on columns", "absBackNone": "At least one column must carry the back. For no back, set Back = No.", "role_traversa_spate": "Back rail", "role_filler": "Closing strip", "opsNoRailPanel": "The back rail has no side or divider at one end: it cannot be fixed."});
+Object.assign(I18N.fr,{"absBackCut": "Découpe dans le fond", "absFiller": "Fileur", "absCols": "Colonnes", "absSide": "Côté", "absTop": "haut", "absSize": "Visible (mm)", "absScribe": "À ajuster (mm)", "absVentB": "Grille bas L×H", "absVentT": "Grille haut L×H", "absVentBad": "Écrivez la grille en largeur×hauteur, par exemple 300×100.", "absBackCols": "Fond sur les colonnes", "absBackNone": "Au moins une colonne doit avoir le fond. Pour aucun fond, choisissez Fond = Non.", "role_traversa_spate": "Traverse de fond", "role_filler": "Fileur", "opsNoRailPanel": "La traverse de fond n'a ni côté ni séparation à une extrémité : elle ne peut pas être fixée."});
+Object.assign(I18N.de,{"absBackCut": "Ausschnitt in der Rückwand", "absFiller": "Blende", "absCols": "Spalten", "absSide": "Seite", "absTop": "oben", "absSize": "Sichtbar (mm)", "absScribe": "Anzupassen (mm)", "absVentB": "Gitter unten B×H", "absVentT": "Gitter oben B×H", "absVentBad": "Das Gitter als Breite×Höhe schreiben, z. B. 300×100.", "absBackCols": "Rückwand auf Spalten", "absBackNone": "Mindestens eine Spalte muss die Rückwand tragen. Ohne Rückwand: Rückwand = Nein.", "role_traversa_spate": "Rückwandriegel", "role_filler": "Blende", "opsNoRailPanel": "Dem Rückwandriegel fehlt an einem Ende eine Seite oder ein Trenner: Er lässt sich nicht befestigen."});
+Object.assign(I18N.pl,{"absBackCut": "Wycięcie w plecach", "absFiller": "Zaślepka", "absCols": "Kolumny", "absSide": "Strona", "absTop": "góra", "absSize": "Widoczne (mm)", "absScribe": "Do dopasowania (mm)", "absVentB": "Kratka dół S×W", "absVentT": "Kratka góra S×W", "absVentBad": "Wpisz kratkę jako szerokość×wysokość, na przykład 300×100.", "absBackCols": "Plecy na kolumnach", "absBackNone": "Co najmniej jedna kolumna musi mieć plecy. Bez pleców wybierz Plecy = Nie.", "role_traversa_spate": "Poprzeczka pleców", "role_filler": "Zaślepka", "opsNoRailPanel": "Poprzeczka pleców nie ma boku ani przegrody na jednym końcu: nie da się jej zamocować."});
+Object.assign(I18N.es,{"absBackCut": "Recorte en la trasera", "absFiller": "Cubrejuntas", "absCols": "Columnas", "absSide": "Lado", "absTop": "arriba", "absSize": "Visible (mm)", "absScribe": "A ajustar (mm)", "absVentB": "Rejilla abajo A×H", "absVentT": "Rejilla arriba A×H", "absVentBad": "Escribe la rejilla como ancho×alto, por ejemplo 300×100.", "absBackCols": "Trasera en columnas", "absBackNone": "Al menos una columna debe llevar trasera. Para ninguna trasera elige Trasera = No.", "role_traversa_spate": "Travesaño trasero", "role_filler": "Cubrejuntas", "opsNoRailPanel": "El travesaño trasero no tiene lateral ni divisor en un extremo: no se puede fijar."});
 /* ---- 5.8: piesa cu contur liber (D-101) ---- */
 Object.assign(I18N.it,{typeContur:"Pezzo a contorno libero",preset_contur:"Contorno",fContShape:"Forma",contShapeCustom:"Da file / disegno",contShapeRect:"Rettangolo",contShapeRound:"Rettangolo arrotondato",contShapeArch:"Parte alta bombata",contShapeScoop:"Parte bassa scavata",fContR:"Raggio degli angoli (mm)",fContRise:"Freccia dell'arco (mm)",fContSrc:"Contorno (SVG, DXF o punti)",contFitNone:"Misura del file",contFitW:"Scala alla larghezza L",contFitH:"Scala all'altezza H",fContOri:"Posizione",contOriV:"In piedi (piano verticale)",contOriO:"A terra (orizzontale)",fContPz:"Pezzi",fContEdge:"Bordo sul contorno",contInfo:"{w}×{h} mm · {n} vertici, {a} archi · bordo {p} m",contErr:"Contorno non valido: {why}.",contErrMat:"Pezzo a contorno: scegli il materiale — lo spessore viene dal materiale.",contErrEmpty:"Pezzo a contorno: scegli una forma o incolla un contorno.",contErrBig:"Pezzo a contorno: {w}×{h} mm non entra nella lastra ({p} mm).",contBig:"Il file è lungo: ho preso i primi 20.000 caratteri.",contWhy_few:"troppo pochi vertici",contWhy_area:"superficie nulla",contWhy_self:"il contorno si interseca",contWhy_open:"il contorno non è chiuso",contWhy_multi:"più di un contorno (ne serve uno solo)",contWhy_path:"percorso non leggibile",contWhy_cmd:"comando SVG non supportato",contWhy_points:"punti non leggibili (x,y x,y …)",contWhy_empty:"vuoto",contWhy_dxf:"DXF non leggibile",contWhy_units:"unità DXF non supportate",contWhy_many:"troppi vertici",contS1:"Taglia {k} pezzi a contorno (ingombro {w}×{h} mm): con il file macchina (dopo Cafasso) o con la dima; controlla l'ingombro sul pezzo.",contS2:"Applica il bordo su tutto il contorno ({p} m), arrotondando i raccordi.",contS3:"Controllo finale: contorno senza scheggiature, spigoli levigati, pezzi uguali alla dima.",role_contur:"Pezzo a contorno"});
 Object.assign(I18N.ro,{typeContur:"Piesă cu contur liber",preset_contur:"Contur",fContShape:"Forma",contShapeCustom:"Din fișier / desen",contShapeRect:"Dreptunghi",contShapeRound:"Dreptunghi rotunjit",contShapeArch:"Partea de sus bombată",contShapeScoop:"Partea de jos scobită",fContR:"Raza colțurilor (mm)",fContRise:"Săgeata arcului (mm)",fContSrc:"Contur (SVG, DXF sau puncte)",contFitNone:"Mărimea din fișier",contFitW:"Scalează la lățimea L",contFitH:"Scalează la înălțimea H",fContOri:"Poziție",contOriV:"În picioare (plan vertical)",contOriO:"Culcată (orizontal)",fContPz:"Bucăți",fContEdge:"Cant pe contur",contInfo:"{w}×{h} mm · {n} vârfuri, {a} arce · cant {p} m",contErr:"Contur nevalid: {why}.",contErrMat:"Piesă cu contur: alege materialul — grosimea vine din material.",contErrEmpty:"Piesă cu contur: alege o formă sau lipește un contur.",contErrBig:"Piesă cu contur: {w}×{h} mm nu încape în placă ({p} mm).",contBig:"Fișierul e lung: am luat primele 20.000 de caractere.",contWhy_few:"prea puține vârfuri",contWhy_area:"suprafață nulă",contWhy_self:"conturul se autointersectează",contWhy_open:"conturul nu e închis",contWhy_multi:"mai mult de un contur (trebuie unul singur)",contWhy_path:"traseu ilizibil",contWhy_cmd:"comandă SVG nesuportată",contWhy_points:"puncte ilizibile (x,y x,y …)",contWhy_empty:"gol",contWhy_dxf:"DXF ilizibil",contWhy_units:"unități DXF nesuportate",contWhy_many:"prea multe vârfuri",contS1:"Taie {k} piese cu contur (gabarit {w}×{h} mm): cu fișierul de mașină (după Cafasso) sau cu șablonul; verifică gabaritul pe piesă.",contS2:"Aplică cantul pe tot conturul ({p} m), rotunjind racordările.",contS3:"Control final: contur fără ciobituri, muchii șlefuite, piese identice cu șablonul.",role_contur:"Piesă contur"});
@@ -5914,6 +5923,7 @@ const GOLA_TYPES={L:{h:40,c:60},J:{h:30,c:30},fresata:{h:25,c:25}};
 const GOLA_J={verificat:false,h:25};
 function golaType(cfg){ const t=cfg&&cfg.golaType; return GOLA_TYPES[t]?t:"L"; }
 const MAT_AW="Accessorio — profilo anticurvatura";
+const MAT_VENT="Accessorio — griglia di aerazione";
 const MAT_FOLD="Accessorio — sistema anta pieghevole";
 const MAT_PIED="Accessorio — piedino regolabile";
 const MAT_VETRO="Accessorio — vetro temperato 4mm";
@@ -6115,7 +6125,7 @@ const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
   base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
   schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale", contur:"fianco",
-  zoccolo:"zoccolo", traversa:"frontale",
+  zoccolo:"zoccolo", traversa:"frontale", traversa_spate:"fianco", filler:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
   cassetto_fianco:"fianco", cassetto_fondo:"fianco"
 };
@@ -6483,6 +6493,10 @@ function topModeOf(cfg){
 /* limitele formularului (U.5): usi si despartitori. Peste 4 nu mai e o ciudatenie: un dulap de 3 m are 6 usi. */
 const MAX_DOORS=8, MAX_TRAM=8, DOOR_NARROW=150;
 const LAYOUT_KEYS=["partitions","fronts","depthProfile","customCuts","drawerBlocks"];
+/* D-103: spate pe coloane, decupaje în spate, rinforzo, filler. Nu sunt „cote absolute de piese interioare”: nu opresc împărțirea
+   în secțiuni egale, deci nu intră în LAYOUT_KEYS. Se păstrează la fel (cfgCarry, aiMerge). */
+const FIT_KEYS=["backCols","backCutouts","backRails","fillers"];
+function hasFit(cfg){ return !!cfg&&FIT_KEYS.some(k=>Array.isArray(cfg[k])&&cfg[k].length); }
 function hasPartitions(cfg){ return !!(cfg&&Array.isArray(cfg.partitions)&&cfg.partitions.length); }
 function hasDrawerBlocks(cfg){ return !!(cfg&&Array.isArray(cfg.drawerBlocks)&&cfg.drawerBlocks.length); }
 function hasFronts(cfg){ return !!(cfg&&Array.isArray(cfg.fronts)&&cfg.fronts.length); }
@@ -6493,7 +6507,7 @@ function hasLayout(cfg){ return !!cfg&&LAYOUT_KEYS.some(k=>Array.isArray(cfg[k])
    Toglie solo gli array vuoti, che sono la stessa cosa dell'assenza. */
 function migrateLayoutCfg(cfg){
   if(!cfg||typeof cfg!=="object") return cfg;
-  LAYOUT_KEYS.forEach(k=>{ if(Array.isArray(cfg[k])&&!cfg[k].length) delete cfg[k]; });
+  LAYOUT_KEYS.concat(FIT_KEYS).forEach(k=>{ if(Array.isArray(cfg[k])&&!cfg[k].length) delete cfg[k]; });
   return cfg;
 }
 /* Quale guida monta questo corpo. UNA riga, letta sia dal motore che dal
@@ -6634,6 +6648,8 @@ function buildCore(cfg){
       if(ex.yInf&&ex.yInf.length) o.yInf=ex.yInf.slice();
       if(ex.partial) o.partial=1;
       if(ex.flush) o.flush=1;
+      /* spate parțial (D-103): nu trece de la o laterală la cealaltă, deci lanțul de lățime nu-l măsoară; adâncimea da */
+      if(ex.backPart) o.backPart=1;
       /* `axis_mapping`: quale cota del pezzo corre lungo L, H e P del corpo.
          Senza, 2078x398 e un fianco o un'anta a seconda di chi guarda. */
       if(axes) o.axis_mapping={lung:axes.lung,larg:axes.larg,sp:axes.sp};
@@ -6743,6 +6759,17 @@ function buildCore(cfg){
   const LY=hasLayout(cfg)?validateLayout(cfg,G):null;
   if(LY&&LY.errors.length) throw new Error("Cote absolute: "+LY.errors.join(" · "));
   const PT=(LY&&LY.parts)||null;
+  /* ---- SPATE PE COLOANE, RINFORZO, FILLER, GRILE (D-103) ----
+     Coloanele, rulările de spate, rinforzo-urile și filler-ele le rezolvă `validateFit`; aici se decide
+     doar unde stau piesele. Fără aceste câmpuri, `FITR` e null și nimic de mai jos nu se atinge. */
+  /* capetele spatelui întreg: în cavă intră NUT_D în laterale; aplicat acoperă tot corpul, lat cât el (ca `G.back_W`); încastrat stă între laterale */
+  const backApp=G.in.backMode==="applicato";
+  const FITR=hasFit(cfg)?validateFit(cfg,G,LY,{xa:backNut?tF-NUT_D:(backApp?0:tF),xb:backNut?L-tF+NUT_D:(backApp?L:L-tF),
+      y0:(G.treapta&&G.treapta.back_y0!=null)?G.treapta.back_y0:(backNut?intY0-NUT_D:y0),h:G.back_H}):null;
+  if(FITR&&FITR.errors.length) throw new Error("Spate / rinforzo / filler: "+FITR.errors.join(" · "));
+  /* o fâșie de filler e o singură piesă: dacă nu încape în placă, se spune (nu se împarte, ar fi o îmbinare la vedere) */
+  if(FITR){ const big=FITR.fillers.filter(f=>f.lung>PANL+0.5||f.larg>PANW+0.5);
+    if(big.length) throw new Error("Spate / rinforzo / filler: fâșia de filler "+big.map(f=>f.side+" "+Math.round(f.lung)+"×"+Math.round(f.larg)).join(", ")+" nu încape în placa de "+PANL+"×"+PANW+" mm"); }
   const tramRel=[];
   if(PT) PT.setti.forEach(s=>tramRel.push(s.x0-tF+tD/2));
   else for(let i=1;i<=(cfg.tram||0);i++) tramRel.push(i*secW+(i-1)*tD+tD/2); // lungo L-2t
@@ -7269,16 +7296,42 @@ function buildCore(cfg){
        quanto dice. Niente gioco ricavato, niente rost al centro: le cote
        sono gia quelle finite. Stesse misure = una riga. */
     const fRows={}, fOrder=[];
-    LY.fronts.forEach(f=>{ const key=Math.round(f.h)+"x"+Math.round(f.w);
+    /* grilele de aerisire (D-103): o ușă cu grile nu e aceeași piesă cu una fără, deci rândul poartă semnătura lor.
+       `scasso`: x pe lungime (înălțimea ușii) de jos, y pe lățime de la marginea stângă, văzută din față. */
+    const ventSig=f=>(f.vents||[]).map(v=>[v.at,Math.round(v.x*10),Math.round(v.y*10),Math.round(v.w*10),Math.round(v.h*10)].join(":")).join(",");
+    const ventCuts=f=>(f.vents||[]).map(v=>({l:Math.round(v.h),w:Math.round(v.w),x:Math.round(v.y),y:Math.round(v.x),forma:"R",r:0,tip:"vent",rif:"fata"}));
+    LY.fronts.forEach(f=>{ const key=Math.round(f.h)+"x"+Math.round(f.w)+"|"+ventSig(f);
       if(!fRows[key]){ fRows[key]={f,n:0}; fOrder.push(key); } fRows[key].n++; });
-    fOrder.forEach(k=>{ const g=fRows[k]; add("Anta"+hsfx,g.f.h,g.f.w,g.n,"2L+2C",null,{role:"frontale"}); });
+    fOrder.forEach(k=>{ const g=fRows[k], vc=ventCuts(g.f); add("Anta"+hsfx,g.f.h,g.f.w,g.n,"2L+2C",null,vc.length?{role:"frontale",scassi:vc}:{role:"frontale"}); });
+    /* grila în sine se cumpără (accesoriu): un rând pe mărime, cu bucățile numărate */
+    const vRows={};
+    LY.fronts.forEach(f=>(f.vents||[]).forEach(v=>{ const k=Math.round(v.w)+"x"+Math.round(v.h); vRows[k]=(vRows[k]||{w:v.w,h:v.h,n:0}); vRows[k].n++; }));
+    Object.keys(vRows).sort().forEach(k=>add("Griglia di aerazione",vRows[k].w,vRows[k].h,vRows[k].n,"",MAT_VENT,{role:"accessorio"}));
     const awRows={}; LY.fronts.forEach(f=>{ if(awOn(cfg,f.h)){ const k=Math.round(f.h); awRows[k]=(awRows[k]||0)+1; } });
     Object.keys(awRows).map(Number).sort((a,b)=>a-b).forEach(k=>add("Profilo anticurvatura",k-ANTIWARP.len_margin,ANTIWARP.sect,awRows[k],"",MAT_AW,{role:"accessorio"}));
     bxRole="frontale";
     if(foldN(cfg)>0) foldLY=1;
-    LY.fronts.forEach(f=>{ bx(f.x,f.x+f.w,f.y,f.y+f.h,P,P+tA,"f",0,0,"door");
-      if(awOn(cfg,f.h)) boxes[boxes.length-1].aw=true;
-      if(f.hinge) boxes[boxes.length-1].hinge=f.hinge; });
+    LY.fronts.forEach(f=>{
+      /* o ușă cu grile = ușa minus găurile, pe o grilă tăiată de dreptunghiurile lor; toate cutiile ei sunt ACEEAȘI piesă fizică (pk).
+         Prima cutie e cea dinspre balama: pivotul ușii se citește din prima cutie a piesei. */
+      const vs=f.vents||[];
+      const xs=[f.x,f.x+f.w], ys=[f.y,f.y+f.h];
+      vs.forEach(v=>{ xs.push(v.ax,v.ax+v.w); ys.push(v.ay,v.ay+v.h); });
+      const uq=a=>[...new Set(a.map(v=>+v.toFixed(3)))].sort((m,n2)=>m-n2);
+      const X=uq(xs), Y=uq(ys), cells=[];
+      for(let i=0;i+1<X.length;i++) for(let j=0;j+1<Y.length;j++){
+        const xm=(X[i]+X[i+1])/2, ym=(Y[j]+Y[j+1])/2;
+        if(vs.some(v=>xm>v.ax&&xm<v.ax+v.w&&ym>v.ay&&ym<v.ay+v.h)) continue;
+        cells.push([X[i],X[i+1],Y[j],Y[j+1]]);
+      }
+      if(f.hinge==="right") cells.sort((a,b)=>(b[1]-a[1])||(a[2]-b[2])); else cells.sort((a,b)=>(a[0]-b[0])||(a[2]-b[2]));
+      cells.forEach((q,ci)=>{ if(ci>0) bxSame=true;
+        bx(q[0],q[1],q[2],q[3],P,P+tA,"f",0,0,"door");
+        if(awOn(cfg,f.h)) boxes[boxes.length-1].aw=true;
+        if(f.hinge) boxes[boxes.length-1].hinge=f.hinge; });
+      /* grila, ca placă subțire în gaură: se vede că e o deschidere, nu o ușă ruptă; aceeași piesă ca ușa, deci se mișcă cu ea */
+      vs.forEach(v=>{ bxSame=true; bx(v.ax,v.ax+v.w,v.ay,v.ay+v.h,P+tA/2-1,P+tA/2+1,"m",0,0,"vent"); });
+    });
   }else if(cfg.doors>0){
     if(sliding){
       const nA=Math.max(2,cfg.doors);
@@ -7479,7 +7532,9 @@ function buildCore(cfg){
          {nm:"Schienale sotto",y0:bY0,h:TR.back_jos_H,dz:TR.back_jos_Z,part:"jos"}]
       : [{nm:"Schienale",y0:bY0,h:G.back_H+(SL&&SL.axis==="z"?SL.h1-SL.H_lo:0),dz:0}];
     const x1B=backNut?L-tF+NUT_D:L-tF;
-    for(const pt of parts){
+    /* spate pe coloane (D-103): un spate pe fiecare șir de coloane vecine care îl poartă; altfel, cel de dinainte, neschimbat */
+    const bSegs=(FITR&&FITR.partialBack)?FITR.runs.map((r,ri)=>({x0:r.x0,x1:r.x1,r,ri})):[{x0:bX0,x1:x1B,r:null,ri:0}];
+    for(const sg of bSegs) for(const pt of parts){
       /* panta pe lățime (D-86): spatele e un trapez; rândul poartă dreptunghiul de gabarit */
       let bPts=null;
       if(SL&&SL.axis==="x"){
@@ -7487,19 +7542,30 @@ function buildCore(cfg){
         bPts=[[bX0,pt.y0],[x1B,pt.y0],[x1B,yTb],[bX0,yTa]];
         pt.h=Math.max(yTa,yTb)-pt.y0;
       }
-      const bh=pt.h, horiz=bw>=bh;
-      const bCuts=horiz?tramRel.map(v=>v+off)
+      const bwS=sg.r?(sg.x1-sg.x0):bw;
+      const bh=pt.h, horiz=bwS>=bh;
+      /* despărțitoarele din interiorul unui spate parțial: locurile unde rosturile rămân ascunse în spatele lor */
+      const tramRun=sg.r?FITR.divs.filter(d=>d.x0>sg.x0+1&&d.x1<sg.x1-1).map(d=>d.x0+tD/2-sg.x0):null;
+      const bCuts=horiz?(tramRun||tramRel.map(v=>v+off))
                        :shelfRel.map(v=>v+y0-pt.y0).filter(v=>!split||(v>0&&v<bh));
       /* ostacoli misurati in cantiere -> decupaje sullo schienale, in coordinate del pezzo */
       const scs=(cfg.obstacles||[]).map(function(o){
-        const px=(+o.x||0)-bX0, py=(+o.y||0)-pt.y0;
+        const px=(+o.x||0)-sg.x0, py=(+o.y||0)-pt.y0;
         const c=horiz?{l:Math.round(+o.w||0),w:Math.round(+o.h||0),x:Math.round(px),y:Math.round(py)}
                      :{l:Math.round(+o.h||0),w:Math.round(+o.w||0),x:Math.round(py),y:Math.round(px)};
-        return (c.l>0&&c.w>0&&c.x>=0&&c.y>=0&&c.x+c.l<=Math.max(bw,bh)&&c.y+c.w<=Math.min(bw,bh))?c:null;
+        return (c.l>0&&c.w>0&&c.x>=0&&c.y>=0&&c.x+c.l<=Math.max(bwS,bh)&&c.y+c.w<=Math.min(bwS,bh))?c:null;
       }).filter(Boolean);
+      /* decupajele din spate la cotă (D-103): ale acestui spate, în coordonatele piesei, ca interioare cu `forma:"R"` */
+      const myCuts=FITR?FITR.cutouts.filter(o=>(sg.r?o.run===sg.ri:true)&&o.y>=pt.y0-0.05&&o.y+o.h<=pt.y0+bh+0.05):[];
+      myCuts.forEach(o=>{
+        const px=o.x-sg.x0, py=o.y-pt.y0;
+        scs.push(horiz?{l:Math.round(o.w),w:Math.round(o.h),x:Math.round(px),y:Math.round(py),forma:"R",r:0,tip:"back",rif:"fata"}
+                      :{l:Math.round(o.h),w:Math.round(o.w),x:Math.round(py),y:Math.round(px),forma:"R",r:0,tip:"back",rif:"fata"});
+      });
       const n0=pieces.length;
-      add(pt.nm,Math.max(bw,bh),Math.min(bw,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs,role:"schienale",
+      add(pt.nm+(bSegs.length>1?" sez."+(sg.ri+1):""),Math.max(bwS,bh),Math.min(bwS,bh),1,"",null,{cuts:bCuts.filter(v=>v>0),scassi:scs,role:"schienale",
           poly:bPts?bPts.map(q=>horiz?[q[0]-bX0,q[1]-pt.y0]:[q[1]-pt.y0,q[0]-bX0]):undefined,
+          backPart:!!sg.r,
           /* lo schienale si emette con la cota maggiore per prima: quale dei
              due assi sia dipende dal corpo, e il controllo di chiusura deve
              sapere QUALE, non indovinarlo. */
@@ -7511,11 +7577,54 @@ function buildCore(cfg){
          usciva col materiale della carcassa nel 3D WebGL e nel file AR mandato
          al cliente — un fondo in rovere invece dell'HDF bianco. */
       bxRole="schienale";
-      const z0=backZ0+pt.dz;
-      if(backNut) bx(tF-NUT_D,x1B,pt.y0,pt.y0+bh,z0,z0+backTh,"p",0,0,"back");
-      else        bx(tF,x1B,pt.y0,pt.y0+bh,pt.dz,pt.dz+backTh,"p",0,0,"back");
-      if(bPts) boxes[boxes.length-1].vp={ax:"x",pts:bPts};
+      /* în 3D spatele stă între laterale, ca la spatele obișnuit (și cel aplicat): rândul poartă lățimea lui adevărată, 3D-ul o taie la fețele laterale */
+      const z0=backZ0+pt.dz, zA=backNut?z0:pt.dz, xA=sg.r?Math.max(sg.x0,bX0):bX0, xB=sg.r?Math.min(sg.x1,x1B):x1B;
+      if(!myCuts.length){
+        if(backNut) bx(xA,xB,pt.y0,pt.y0+bh,z0,z0+backTh,"p",0,0,"back");
+        else        bx(xA,xB,pt.y0,pt.y0+bh,pt.dz,pt.dz+backTh,"p",0,0,"back");
+        if(bPts) boxes[boxes.length-1].vp={ax:"x",pts:bPts};
+      }else{
+        /* spatele cu găuri în 3D: panoul minus decupajele, pe o grilă tăiată de dreptunghiurile lor, toate cutiile = o singură piesă */
+        const xa=xA, xb=xB, ya=pt.y0, yb=pt.y0+bh;
+        const hs=myCuts.map(o=>[Math.max(xa,o.x),Math.min(xb,o.x+o.w),Math.max(ya,o.y),Math.min(yb,o.y+o.h)]);
+        const uq=a=>[...new Set(a.map(v=>+v.toFixed(3)))].sort((m,n2)=>m-n2);
+        const X=uq([xa,xb].concat(hs.flatMap(q=>[q[0],q[1]]))), Y=uq([ya,yb].concat(hs.flatMap(q=>[q[2],q[3]])));
+        let first=true;
+        for(let i=0;i+1<X.length;i++) for(let j=0;j+1<Y.length;j++){
+          const xm=(X[i]+X[i+1])/2, ym=(Y[j]+Y[j+1])/2;
+          if(hs.some(q=>xm>q[0]&&xm<q[1]&&ym>q[2]&&ym<q[3])) continue;
+          if(!first) bxSame=true; first=false;
+          bx(X[i],X[i+1],Y[j],Y[j+1],zA,zA+backTh,"p",0,0,"back");
+        }
+      }
     }
+  }
+  /* RINFORZO (D-103): traverse în spate, în coloanele fără spate, la planul interior (`intZ0`: unde încep despărțitoarele și polițele,
+     cu spatele în față de el la cel încastrat/aplicat). O traversă = un rând pe lungime și înălțime; stau între laterale/despărțitoare. */
+  if(FITR&&FITR.rails.length){
+    const rRows={};
+    FITR.rails.forEach(r=>{ const k=Math.round(r.lung)+"x"+Math.round(r.h); (rRows[k]=rRows[k]||{r,n:0}).n++; });
+    Object.keys(rRows).sort().forEach(k=>{ const g=rRows[k]; add("Traversa retro",g.r.lung,g.r.h,g.n,"",null,{role:"traversa_spate"}); });
+    bxRole="traversa_spate";
+    FITR.rails.forEach(r=>bx(r.x0,r.x1,r.y,r.y+r.h,intZ0,intZ0+tF,"p"));
+    /* în coloanele fără spate rinforzo-ul stă unde ar sta polițele și sertarele: ce se atinge de el e o eroare, nu o piesă mutată */
+    const hitR={};
+    boxes.filter(a=>a.role==="traversa_spate").forEach(a=>boxes.forEach(c=>{
+      if(c===a||c.pk===a.pk||c.kind==="g"||c.kind==="m"||c.role==="traversa_spate"||c.sub==="vent") return;
+      const ox=Math.min(a.x1,c.x1)-Math.max(a.x0,c.x0), oy=Math.min(a.y1,c.y1)-Math.max(a.y0,c.y0), oz=Math.min(a.z1,c.z1)-Math.max(a.z0,c.z0);
+      if(ox>0.6&&oy>0.6&&oz>0.6) hitR[c.role||"?"]=1; }));
+    if(Object.keys(hitR).length) throw new Error("Spate / rinforzo / filler: rinforzo-ul se lovește de "+Object.keys(hitR).join(", ")+" — alege altă înălțime sau altă coloană");
+  }
+  /* FILLER (D-103): fâșii în planul frontului, din materialul ușilor, care închid golul dintre dulap și pereți.
+     Cota din distinctă e cea de tăiat: cât se vede + surplusul de potrivit pe șantier (3D-ul = distinta). */
+  if(FITR&&FITR.fillers.length){
+    const fName={top:"Fascia di chiusura sopra",right:"Fascia di chiusura dx",left:"Fascia di chiusura sx"};
+    const fOrd=["top","right","left"];
+    FITR.fillers.slice().sort((a,b)=>fOrd.indexOf(a.side)-fOrd.indexOf(b.side)).forEach(f=>{
+      add(fName[f.side],f.lung,f.larg,1,"1L",null,{role:"filler",axes:f.axes});
+      bxRole="filler";
+      bx(f.x0,f.x1,f.y0,f.y1,P,P+tA,"f",0,0,"filler");
+    });
   }
   /* il gradino non sposta ripiani e cassetti: se uno ci finisce dentro si dice */
   let stepHit=0;
@@ -8463,6 +8572,12 @@ pl:{"Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","F
 es:{"Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
 /* elementele lambriului (D-95): numele din distinta rămân italiene, se traduc numai la afișare */
+Object.assign(EL_I18N.ro,{"Griglia di aerazione": "Grilă de aerisire", "Traversa retro": "Traversă spate (rinforzo)", "Fascia di chiusura sopra": "Filler sus", "Fascia di chiusura dx": "Filler dreapta", "Fascia di chiusura sx": "Filler stânga"});
+Object.assign(EL_I18N.en,{"Griglia di aerazione": "Ventilation grille", "Traversa retro": "Back rail (stiffener)", "Fascia di chiusura sopra": "Closing strip, top", "Fascia di chiusura dx": "Closing strip, right", "Fascia di chiusura sx": "Closing strip, left"});
+Object.assign(EL_I18N.fr,{"Griglia di aerazione": "Grille d'aération", "Traversa retro": "Traverse de fond (renfort)", "Fascia di chiusura sopra": "Fileur haut", "Fascia di chiusura dx": "Fileur droit", "Fascia di chiusura sx": "Fileur gauche"});
+Object.assign(EL_I18N.de,{"Griglia di aerazione": "Lüftungsgitter", "Traversa retro": "Rückwandriegel (Aussteifung)", "Fascia di chiusura sopra": "Blende oben", "Fascia di chiusura dx": "Blende rechts", "Fascia di chiusura sx": "Blende links"});
+Object.assign(EL_I18N.pl,{"Griglia di aerazione": "Kratka wentylacyjna", "Traversa retro": "Poprzeczka pleców (usztywnienie)", "Fascia di chiusura sopra": "Zaślepka górna", "Fascia di chiusura dx": "Zaślepka prawa", "Fascia di chiusura sx": "Zaślepka lewa"});
+Object.assign(EL_I18N.es,{"Griglia di aerazione": "Rejilla de ventilación", "Traversa retro": "Travesaño trasero (refuerzo)", "Fascia di chiusura sopra": "Cubrejuntas superior", "Fascia di chiusura dx": "Cubrejuntas derecha", "Fascia di chiusura sx": "Cubrejuntas izquierda"});
 Object.assign(EL_I18N.ro,{"Lamella tagliata":"Lamelă tăiată"});Object.assign(EL_I18N.en,{"Lamella tagliata":"Cut slat"});Object.assign(EL_I18N.fr,{"Lamella tagliata":"Lamelle coupée"});Object.assign(EL_I18N.de,{"Lamella tagliata":"Gekürzte Lamelle"});Object.assign(EL_I18N.pl,{"Lamella tagliata":"Lamelka cięta"});Object.assign(EL_I18N.es,{"Lamella tagliata":"Lama cortada"});
 Object.assign(EL_I18N.ro,{"Montante cornice":"Montant ramă","Traversa cornice":"Traversă ramă"});
 Object.assign(EL_I18N.en,{"Montante cornice":"Frame stile","Traversa cornice":"Frame rail"});
@@ -9276,7 +9391,7 @@ function contSync(redraw){
   contStore(); renderContParts();
   if(redraw) drawPreview();
 }
-const CFG_CARRY=LAYOUT_KEYS.concat(["backMode","geom"]);
+const CFG_CARRY=LAYOUT_KEYS.concat(FIT_KEYS,["backMode","geom"]);
 function cfgCarry(src){
   const o={}; if(!src) return o;
   CFG_CARRY.forEach(k=>{ const v=src[k];
@@ -9576,7 +9691,7 @@ function renderTop(){
    `validateLayout`: o cota care nu are loc se vede aici, sub lista, nu la
    «Genereaza». Cat timp exista cel putin o cota, formularul nu mai imparte
    corpul in sectiuni egale (la fel ca la patch-ul AI). */
-const ABS_KINDS=["partitions","fronts","drawerBlocks","customCuts"];
+const ABS_KINDS=["partitions","fronts","drawerBlocks","customCuts","backCutouts","backRails","fillers"];
 function absList(k){ return Array.isArray(buildCfg[k])?buildCfg[k]:[]; }
 function absStore(k,arr){
   const clean=arr.filter(Boolean);
@@ -9596,6 +9711,34 @@ function absEdit(k,i,f,v){
   renderAbsCheck();
 }
 function absNum(v){ const n=parseFloat(v); return isFinite(n)?n:null; }
+/* grilele unei uși, ca text «lățime×înălțime» pe fiecare margine; gol = fără grilă */
+function ventTxt(o,at){ const v=(o&&Array.isArray(o.vents)?o.vents:[]).find(q=>q&&q.at===at); return v?`${v.w}×${v.h}`:""; }
+function ventParse(txt){ const m=String(txt||"").trim().match(/^(\d+(?:[.,]\d+)?)\s*[x×*]\s*(\d+(?:[.,]\d+)?)$/i); return m?{w:parseFloat(m[1].replace(",",".")),h:parseFloat(m[2].replace(",","."))}:null; }
+function ventSet(i,at,txt){
+  const a=absList("fronts"); if(!a[i]) return;
+  const cur=(a[i].vents||[]).filter(q=>q&&q.at!==at), nv=ventParse(txt);
+  if(String(txt||"").trim()!==""&&!nv){ toast(t("absVentBad")); return; }
+  if(nv){ const old=(a[i].vents||[]).find(q=>q&&q.at===at); cur.push(Object.assign({},old||{},{at,w:nv.w,h:nv.h})); }
+  absEdit("fronts",i,"vents",cur.length?cur:null);
+}
+/* coloanele corpului și care din ele au spate (D-103): chip pe coloană, doar când corpul are spate și cel puțin două coloane */
+function fitColumns(){
+  try{ const c=cfgFromForm(); if((c.type||"standard")!=="standard"||!c.back) return []; const G=deriveCarcass(carcassParams(c,{}));
+    return bodyColumns(G,hasLayout(c)?validateLayout(c,G):null).cols; }catch(e){ return []; }
+}
+function renderBackCols(){
+  const box=$("absBackCols"); if(!box) return;
+  const cols=fitColumns();
+  if(cols.length<2){ box.innerHTML=""; return; }
+  const cur=Array.isArray(buildCfg.backCols)&&buildCfg.backCols.length?buildCfg.backCols:cols.map(c=>c.n);
+  box.innerHTML=`<div class="mini" style="margin:8px 0 4px">${esc(ts2("absBackCols"))}</div>`+cols.map(c=>`<button class="chip sm${cur.indexOf(c.n)>=0?" on":""}" data-bcol="${c.n}">${esc(ts2("absCol"))} ${c.n}</button>`).join("");
+  box.querySelectorAll("[data-bcol]").forEach(b=>b.addEventListener("click",()=>{
+    const n=+b.dataset.bcol, has=cur.indexOf(n)>=0;
+    if(has&&cur.length===1){ toast(t("absBackNone")); return; }
+    const next=(has?cur.filter(x=>x!==n):cur.concat(n)).sort((x,y)=>x-y);
+    absStore("backCols",next.length===cols.length?[]:next);
+  }));
+}
 function absRow(k,i,o){
   const f=(name,label,val,w)=>`<label class="mini" style="min-width:${w||64}px;flex:1">${esc(label)}<input data-k="${k}" data-i="${i}" data-f="${name}" type="text" inputmode="decimal" value="${val==null?"":esc(String(val))}" style="width:100%"></label>`;
   const sel=(name,label,val,opts)=>`<label class="mini" style="min-width:84px;flex:1">${esc(label)}<select data-k="${k}" data-i="${i}" data-f="${name}" style="width:100%">${opts.map(([v,l])=>`<option value="${v}"${String(val)===String(v)?" selected":""}>${esc(l)}</option>`).join("")}</select></label>`;
@@ -9605,22 +9748,31 @@ function absRow(k,i,o){
     else h=f("y",ts2("absY"),o.y)+sel("span",ts2("absSpan"),Array.isArray(o.span)?o.span.join("–"):(o.span||"full"),[["full",ts2("absFull")],["left",ts2("absLeft")],["right",ts2("absRight")]].concat(Array.isArray(o.span)?[[o.span.join("–"),o.span.join("–")]]:[]))+f("depth",ts2("absDepth"),o.depth);
   }else if(k==="fronts"){
     h=f("x","x",o.x)+f("y","y",o.y)+f("w",ts2("absW"),o.w)+f("h",ts2("absH"),o.h)
-      +sel("hinge",ts2("absHinge"),o.hinge||"",[["",t("hingeAuto")],["left",t("hingeL")],["right",t("hingeR")]]);
+      +sel("hinge",ts2("absHinge"),o.hinge||"",[["",t("hingeAuto")],["left",t("hingeL")],["right",t("hingeR")]])
+      +f("ventB",ts2("absVentB"),ventTxt(o,"bottom"),84)+f("ventT",ts2("absVentT"),ventTxt(o,"top"),84);
   }else if(k==="drawerBlocks"){
     h=f("col",ts2("absCol"),o.col,48)+f("yStart",ts2("absYs"),o.yStart)+f("yEnd",ts2("absYe"),o.yEnd)
       +f("n",ts2("absN"),o.n,44)+f("heights",ts2("absHeights"),(o.heights||[]).join("/"),90)+f("nl","NL",o.nl,48)
       +`<label class="mini" style="min-width:60px"><input data-k="${k}" data-i="${i}" data-f="inner" type="checkbox"${o.inner?" checked":""}> ${esc(ts2("absInner"))}</label>`;
+  }else if(k==="backCutouts"){
+    h=f("x","x",o.x)+f("y","y",o.y)+f("w",ts2("absW"),o.w)+f("h",ts2("absH"),o.h);
+  }else if(k==="backRails"){
+    h=f("y",ts2("absY"),o.y)+f("h",ts2("absH"),o.h==null?"":o.h)+f("cols",ts2("absCols"),(o.cols||[]).join("/"),72);
+  }else if(k==="fillers"){
+    h=sel("side",ts2("absSide"),o.side,[["top",ts2("absTop")],["right",ts2("absRight")],["left",ts2("absLeft")]])
+      +f("size",ts2("absSize"),o.size)+f("scribe",ts2("absScribe"),o.scribe==null?"":o.scribe);
   }else if(k==="customCuts"){
     h=sel("on",ts2("absOn"),o.on,[["fianchi",ts2("absSides")],["setti",ts2("absDividers")]])
       +sel("corner",ts2("absCorner"),o.corner,["back-bottom","front-bottom","back-top","front-top"].map(c=>[c,ts2("absC_"+c)]))
       +f("h",ts2("absCutH"),o.h)+f("w",ts2("absCutD"),o.w);
   }
-  const title=k==="partitions"?(o.type==="setto"?elName("Setto"):elName("Ripiano")):k==="fronts"?elName("Anta"):k==="drawerBlocks"?ts2("drawBlock"):ts2("absCut");
+  const title=k==="partitions"?(o.type==="setto"?elName("Setto"):elName("Ripiano")):k==="fronts"?elName("Anta"):k==="drawerBlocks"?ts2("drawBlock")
+    :k==="backCutouts"?ts2("absBackCut"):k==="backRails"?elName("Traversa retro"):k==="fillers"?ts2("absFiller"):ts2("absCut");
   return `<div class="abs-row" style="border-top:1px solid var(--line,#e5e2d8);padding:6px 0"><div style="display:flex;align-items:center"><b class="mini" style="flex:1">${esc(title)} ${i+1}</b><button class="iconbtn" data-k="${k}" data-del="${i}" aria-label="x">✕</button></div><div style="display:flex;flex-wrap:wrap;gap:6px">${h}</div></div>`;
 }
 function absCheck(){
   try{
-    const c=cfgFromForm(); if(!hasLayout(c)) return {errors:[],chains:null};
+    const c=cfgFromForm(); if(!hasLayout(c)&&!hasFit(c)) return {errors:[],chains:null};
     const G=deriveCarcass(carcassParams(c,{})), LY=validateLayout(c,G);
     if(!LY.errors.length){ try{ buildModule(c); }catch(e){ LY.errors.push(e.message||String(e)); } }
     return {errors:LY.errors,chains:LY.chains};
@@ -9636,7 +9788,7 @@ function renderAbsCheck(){
 function renderAbs(){
   const box=$("absLists"); if(!box) return;
   const standard=($("bTipo").value||"standard")==="standard";
-  const n=ABS_KINDS.reduce((s2,k)=>s2+absList(k).length,0);
+  const n=ABS_KINDS.reduce((s2,k)=>s2+absList(k).length,0)+(Array.isArray(buildCfg.backCols)&&buildCfg.backCols.length?1:0);
   $("sumAbs").textContent=n?String(n):"";
   $("grpAbs").style.display=standard?"":"none";
   if(!standard) return;
@@ -9645,7 +9797,9 @@ function renderAbs(){
   if(absBusy||editingIn($("absBody"))){ renderAbsCheck(); return; }
   box.innerHTML=ABS_KINDS.map(k=>absList(k).map((o,i)=>absRow(k,i,o)).join("")).join("");
   const add=(label,fn)=>`<button class="chip sm" data-addk="${fn}">+ ${esc(label)}</button>`;
-  $("absAdd").innerHTML=add(elName("Setto"),"setto")+add(elName("Ripiano"),"ripiano")+add(elName("Anta"),"anta")+add(ts2("drawBlock"),"cass")+add(ts2("absCut"),"cut");
+  $("absAdd").innerHTML=add(elName("Setto"),"setto")+add(elName("Ripiano"),"ripiano")+add(elName("Anta"),"anta")+add(ts2("drawBlock"),"cass")+add(ts2("absCut"),"cut")
+    +add(ts2("absBackCut"),"bcut")+add(elName("Traversa retro"),"rail")+add(ts2("absFiller"),"fill");
+  renderBackCols();
   renderAbsCheck();
   box.querySelectorAll("[data-f]").forEach(inp=>inp.addEventListener("change",()=>{
     const k=inp.dataset.k, i=+inp.dataset.i, f=inp.dataset.f;
@@ -9653,6 +9807,8 @@ function renderAbs(){
     if(inp.type==="checkbox") v=inp.checked?true:null;
     else if(inp.tagName==="SELECT"){ v=inp.value; if(f==="hinge"&&v==="") v=null; if(f==="span"&&/–/.test(v)) v=v.split("–").map(Number); }
     else if(f==="heights"){ const hs=inp.value.split(/[\/,; ]+/).map(Number).filter(x=>x>0); v=hs.length?hs:null; }
+    else if(f==="cols"){ const cs=inp.value.split(/[\/,; ]+/).map(Number).filter(x=>x>0); v=cs.length?cs:null; }
+    else if(f==="ventB"||f==="ventT"){ ventSet(+inp.dataset.i,f==="ventB"?"bottom":"top",inp.value); return; }
     else if(f==="x"&&k==="partitions"){ v=(inp.value.trim()===""||/^c/i.test(inp.value.trim()))?"center":absNum(inp.value); }
     else v=absNum(inp.value);
     absEdit(k,i,f,v); }));
@@ -9666,6 +9822,9 @@ function renderAbs(){
     else if(kk==="ripiano") absStore("partitions",absList("partitions").concat({type:"ripiano",y:Math.round((yIn0+yIn1)/2),span:absList("partitions").some(q=>q.type==="setto")?"left":"full"}));
     else if(kk==="anta") absStore("fronts",absList("fronts").concat({x:0,y:Math.round(yIn0),w:Math.round(W/2-2),h:Math.round(yIn1-yIn0)}));
     else if(kk==="cass") absStore("drawerBlocks",absList("drawerBlocks").concat({col:1,yStart:Math.round(yIn0),yEnd:Math.round(yIn0+Math.min(600,(yIn1-yIn0)/2)),n:3}));
+    else if(kk==="bcut") absStore("backCutouts",absList("backCutouts").concat({x:Math.round(W/4),y:Math.round(yIn0+(yIn1-yIn0)/3),w:300,h:300}));
+    else if(kk==="rail") absStore("backRails",absList("backRails").concat({y:Math.round((yIn0+yIn1)/2-50),h:FIT.rail_h}));
+    else if(kk==="fill") absStore("fillers",absList("fillers").concat({side:absList("fillers").some(q=>q.side==="top")?"right":"top",size:40}));
     else absStore("customCuts",absList("customCuts").concat({on:"fianchi",corner:"back-bottom",h:300,w:100}));
   }));
 }
@@ -10280,7 +10439,7 @@ function generateInto(p,cfg){
     sp:(x.sp!=null?x.sp:null), spSrc:x.spSrc||null, seg:x.seg||null, ys:x.ys||null,
     /* cote assolute: la quota dei ripiani e i segni per la chiusura. Solo se
        ci sono: le righe dei progetti di sempre restano identiche. */
-    ...(x.yInf?{yInf:x.yInf.slice()}:{}), ...(x.partial?{partial:1}:{}), ...(x.flush?{flush:1}:{}),
+    ...(x.yInf?{yInf:x.yInf.slice()}:{}), ...(x.partial?{partial:1}:{}), ...(x.flush?{flush:1}:{}), ...(x.backPart?{backPart:1}:{}),
     angL:x.angL,angR:x.angR,joint:x.joint,scasso:x.scasso||null,
     curve:x.curve||null,
     /* piesa cu contur liber (D-101): conturul exact, perimetrul pentru cant */
@@ -15050,7 +15209,9 @@ const AI_ENUM={
   obst:["presa","interr","tubo","calorifero","vano","trave","altro"],
   /* cote assolute */
   backMode:["incassato","applicato","in_cava"], partType:["setto","ripiano"], span:["full","left","right"],
-  hinge:["left","right"], cutOn:["fianchi","setti"], cutCorner:["back-bottom","front-bottom","back-top","front-top"]};
+  hinge:["left","right"], cutOn:["fianchi","setti"], cutCorner:["back-bottom","front-bottom","back-top","front-top"],
+  /* D-103 */
+  fillerSide:["top","right","left"], ventAt:["top","bottom"]};
 /* i codici di altezza sponda validi: dipendono dal sistema, quindi l'unione */
 const AI_DRAWH=Object.keys(DRAWSYS).reduce((a,k)=>{
   Object.keys(DRAWSYS[k].hs||{}).forEach(c=>{ if(a.indexOf(c)<0) a.push(c); }); return a; },[]);
@@ -15102,6 +15263,12 @@ Reference, always the same: y = 0 is the FLOOR under the unit (feet or plinth in
 "fronts" — doors at absolute positions, finished sizes: [{x, y, w, h, hinge:"left"|"right"}], x from the outside left, y from the floor. Use it whenever he gives door sizes or doors of different heights, and set doors = fronts.length. Without it the doors are generated from the sections as before.
 "drawerBlocks" — a stack of drawers inside ONE column of a unit that has partitions (or just the two sides), between two heights: [{col, yStart, yEnd, n | heights, nl, inner}]. "col" counts from the left among the dividers (setti) that cut that height: 1 = left of the first divider. yStart/yEnd = the zone the drawer fronts fill, from the floor (it must sit between two shelves, or the base and a shelf, never across one). "n" = number of drawers (1–8) sharing the zone equally; "heights" = front heights written one by one TOP to BOTTOM (then n is optional); "nl" = runner length; "inner": true = behind the doors. Use it when he mixes zones in one unit ("2700 high: 900 doors, 450 drawers, 450 shelves, 900 doors"): doors via "fronts", shelves via "partitions", drawers via "drawerBlocks". Do NOT use "drawers" together with partitions or drawerBlocks.
 "customCuts" — rectangular corner notches on the vertical pieces: [{on:"fianchi"|"setti", corner:"back-bottom"|"front-bottom"|"back-top"|"front-top", height (along the HEIGHT of the piece), depth (along the DEPTH, front-back)}]. "600 × 110 in the back-bottom corner" of a 341-deep side is height 600, depth 110: the depth can never exceed the piece depth. The piece is still cut as its full rectangle (the factory cuts at 90°); the notch is a guide line on the drawing and the label. When he states a notch that also follows from depthProfile, emit it anyway: the app checks the two agree.
+COLUMN BACKS, STIFFENING RAILS, CLOSING STRIPS, VENTS — for a unit standing in front of a boiler, a meter or a wall that is not straight. Columns are counted from the left, between the dividers that run from base to top (a unit with one divider has columns 1 and 2).
+"backCols" — which columns carry a back panel: [1] = back only behind the left column, the right column stays open. Omit it for a full back. It needs back=1; a back panel then ends at the face of the divider that separates it from an open column.
+"backCutouts" — rectangular openings through the back, absolute: [{x, y, w, h}], x from the outside left of the unit, y from the floor, (x, y) = the lower-left corner of the opening, w = width, h = height. "Cut the back only where the electric panel is" = ONE entry, with the measurements he gives. Never invent them; ask in "questions".
+"backRails" — horizontal rails at the back that keep an open column from twisting: [{y, h, cols}], y = the UNDERSIDE from the floor, h = height (default 100), cols = the columns (default: every column without a back). "Two rails at the back, at the door joint" = two entries, one just below and one just above the joint between the stacked doors.
+"fillers" — strips of the door material in the plane of the doors that close the gap between the unit and the walls: [{side:"top"|"right"|"left", size, scribe}]. size = the part that shows, mm; scribe = extra mm left on the wall side to be trimmed on site (default 10). "3-4 cm gap above and on the right, closed with a filler" = two entries. The unit's own L and H do NOT include the fillers: L = overall width minus the side fillers, H = overall height minus the top filler.
+"fronts[].vents" — ventilation openings cut through a door: [{at:"top"|"bottom", w, h, off, x}], at = near which edge of the door, off = distance from that edge to the near edge of the opening (default 40), x = left edge of the opening from the left edge of the door (default: centred). They always sit at least 50 mm from the side edges of the door (hinge cups). A gas appliance behind a door needs an opening in the top part of the cabinet and one in the bottom part: put one entry on the upper door and one on the lower door. The FREE area the opening must have comes from the appliance manual or the installer, never from you: if he gives only a number of cm2, ask for the opening size in "questions".
 "backMode": incassato = back between the sides; applicato = back over everything, as wide as the unit, the sides lose its thickness in depth; in_cava = thin back in a groove. A back as wide as the unit (870 on an 870 unit) is applicato.
 "shelfSetback": how far the shelves stand back from the front edge, mm.
 THICKNESS IS BINDING. When he states a thickness ("truciolare 19", "PAL 18"), the material you pick MUST have exactly that thickness: every derived size moves with it, and 18 instead of 19 shifts the whole unit. If several materials of that thickness could match his words, pick the closest name and mention the others in "questions" — never fall back to one of another thickness.
@@ -15213,7 +15380,19 @@ function aiSchema(mode){
             depth:num(10,1200)},required:["type"]}},
         fronts:{type:"array",maxItems:12,description:"Doors at absolute positions, finished sizes. x from the outside left, y from the floor.",
           items:{type:"object",properties:{x:num(0,6000),y:num(0,3500),w:num(60,3000),h:num(60,3500),
-            hinge:{type:"string",enum:AI_ENUM.hinge}},required:["x","y","w","h"]}},
+            hinge:{type:"string",enum:AI_ENUM.hinge},
+            vents:{type:"array",maxItems:4,description:"Ventilation grille openings cut through this door, in door-local terms.",
+              items:{type:"object",properties:{at:{type:"string",enum:AI_ENUM.ventAt,description:"Near the top or the bottom edge of the door."},
+                w:num(20,1500),h:num(20,1500),off:{type:"integer",minimum:20,maximum:1500,description:"Distance from the door's top/bottom edge to the near edge of the opening (default 40)."},
+                x:{type:"integer",minimum:0,maximum:3000,description:"Left edge of the opening from the door's left edge; omit to centre it."}},required:["at","w","h"]}}},
+            required:["x","y","w","h"]}},
+        backCols:{type:"array",maxItems:8,items:{type:"integer",minimum:1,maximum:8},description:"Columns (counted from the left, between full-height dividers) that carry a back panel. Omit = every column."},
+        backCutouts:{type:"array",maxItems:12,description:"Rectangular openings cut through the back panel, absolute: x from the outside left, y from the floor.",
+          items:{type:"object",properties:{x:num(0,6000),y:num(0,3500),w:num(10,3000),h:num(10,3500)},required:["x","y","w","h"]}},
+        backRails:{type:"array",maxItems:8,description:"Horizontal stiffening rails at the back, between sides/dividers. y = underside from the floor.",
+          items:{type:"object",properties:{y:num(0,3500),h:num(30,400),cols:{type:"array",maxItems:8,items:{type:"integer",minimum:1,maximum:8}}},required:["y"]}},
+        fillers:{type:"array",maxItems:3,description:"Closing strips in the plane of the doors, between the unit and the walls (top, right, left).",
+          items:{type:"object",properties:{side:{type:"string",enum:AI_ENUM.fillerSide},size:num(10,150),scribe:{type:"integer",minimum:0,maximum:50}},required:["side","size"]}},
         drawerBlocks:{type:"array",maxItems:8,description:"Drawer stacks inside a column, between two heights (absolute coordinates).",
           items:{type:"object",properties:{col:{type:"integer",minimum:1,maximum:6,description:"Column, counted from the left among the dividers that cut that height."},
             yStart:{type:"integer",minimum:0,maximum:3500},yEnd:{type:"integer",minimum:0,maximum:3500},
@@ -15254,7 +15433,7 @@ function aiContext(mode){
      "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC","golaType",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers","secDrawerH","secDrawerNL","secPull",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
-     "backMode","partitions","fronts","depthProfile","customCuts","drawerBlocks"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
+     "backMode","partitions","fronts","depthProfile","customCuts","drawerBlocks","backCols","backCutouts","backRails","fillers"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
     if(c.geom&&c.geom.setback_ripiano!=null) keep.shelfSetback=c.geom.setback_ripiano;
     return JSON.stringify(keep);
   }
@@ -15401,8 +15580,50 @@ function aiNormAbs(raw,out,warn){
       const o={x:I(q.x,0,6000),y:I(q.y,0,3500),w:I(q.w,60,3000),h:I(q.h,60,3500)};
       if(Object.keys(o).some(k=>o[k]==null||!isFinite(o[k]))){ warn.push(`fronts ${i+1} ?`); return; }
       if(q.hinge!=null){ if(AI_ENUM.hinge.indexOf(q.hinge)<0){ warn.push(`fronts ${i+1} hinge "${q.hinge}" ?`); return; } o.hinge=q.hinge; }
+      if(Array.isArray(q.vents)&&q.vents.length){
+        const vs=[];
+        for(const [vi,v0] of q.vents.slice(0,4).entries()){ const v=v0||{};
+          const w=I(v.w,20,1500), h=I(v.h,20,1500);
+          if(AI_ENUM.ventAt.indexOf(v.at)<0||w==null||h==null||!isFinite(w)||!isFinite(h)){ warn.push(`fronts ${i+1} vents ${vi+1} ?`); return; }
+          const ov={at:v.at,w,h};
+          if(v.off!=null){ const f=I(v.off,20,1500); if(!isFinite(f)){ warn.push(`fronts ${i+1} vents ${vi+1} off ?`); return; } ov.off=f; }
+          if(v.x!=null){ const f=I(v.x,0,3000); if(!isFinite(f)){ warn.push(`fronts ${i+1} vents ${vi+1} x ?`); return; } ov.x=f; }
+          vs.push(ov); }
+        o.vents=vs; }
       fr.push(o); });
     out.fronts=fr;
+  }
+  /* D-103: spate pe coloane, decupaje în spate, rinforzo, filler — același filtru, nicio cotă inventată */
+  if(Array.isArray(raw.backCols)){
+    const cs=raw.backCols.map(v=>I(v,1,8));
+    if(cs.some(v=>v==null||!isFinite(v))) warn.push("backCols ?"); else out.backCols=cs;
+  }
+  if(Array.isArray(raw.backCutouts)){
+    const bc=[];
+    raw.backCutouts.forEach((q,i)=>{ q=q||{};
+      const o={x:I(q.x,0,6000),y:I(q.y,0,3500),w:I(q.w,10,3000),h:I(q.h,10,3500)};
+      if(Object.keys(o).some(k=>o[k]==null||!isFinite(o[k]))){ warn.push(`backCutouts ${i+1} ?`); return; }
+      bc.push(o); });
+    out.backCutouts=bc;
+  }
+  if(Array.isArray(raw.backRails)){
+    const br=[];
+    raw.backRails.forEach((q,i)=>{ q=q||{};
+      const o={y:I(q.y,0,3500)};
+      if(o.y==null||!isFinite(o.y)){ warn.push(`backRails ${i+1} ?`); return; }
+      if(q.h!=null){ const h=I(q.h,30,400); if(!isFinite(h)){ warn.push(`backRails ${i+1} h ?`); return; } o.h=h; }
+      if(Array.isArray(q.cols)&&q.cols.length){ const cs=q.cols.map(v=>I(v,1,8)); if(cs.some(v=>v==null||!isFinite(v))){ warn.push(`backRails ${i+1} cols ?`); return; } o.cols=cs; }
+      br.push(o); });
+    out.backRails=br;
+  }
+  if(Array.isArray(raw.fillers)){
+    const fl=[];
+    raw.fillers.forEach((q,i)=>{ q=q||{};
+      const o={side:q.side,size:I(q.size,10,150)};
+      if(AI_ENUM.fillerSide.indexOf(o.side)<0||o.size==null||!isFinite(o.size)){ warn.push(`fillers ${i+1} ?`); return; }
+      if(q.scribe!=null){ const sc=I(q.scribe,0,50); if(!isFinite(sc)){ warn.push(`fillers ${i+1} scribe ?`); return; } o.scribe=sc; }
+      fl.push(o); });
+    out.fillers=fl;
   }
   if(Array.isArray(raw.drawerBlocks)){
     const db=[];
@@ -15440,7 +15661,7 @@ function aiMerge(cur,pc){
   const m=Object.assign({},cur,pc);
   if(pc.matBody){ const mb=matById(pc.matBody); if(mb) m.t=mb.th; }
   if(pc.tram!=null&&m.secMode&&m.secMode.length!==pc.tram+1) m.secMode=null;
-  LAYOUT_KEYS.forEach(k=>{ if(Array.isArray(pc[k])&&!pc[k].length) delete m[k]; });
+  LAYOUT_KEYS.concat(FIT_KEYS).forEach(k=>{ if(Array.isArray(pc[k])&&!pc[k].length) delete m[k]; });
   /* le partizioni a cote SOSTITUISCONO le sezioni uguali: lasciare tram e
      ripiani accesi darebbe due verita sulla stessa luce */
   /* i cassetti sono un contenuto PER SEZIONE: senza sezioni non hanno dove
@@ -15469,15 +15690,18 @@ function aiCheck(cur,pc,merged,text){
     C.errors.push.apply(C.errors,LY.errors); C.chains=LY.chains; C.layout=LY;
   }
   if(!C.errors.length){ try{ C.built=buildModule(merged); }catch(e){ C.errors.push(e.message||String(e)); } }
-  if(C.built&&hasLayout(merged)){
+  if(C.built&&(hasLayout(merged)||hasFit(merged))){
     /* ogni partizione e ogni anta dichiarata deve uscire come pezzo */
     const sum=r=>C.built.pieces.filter(x=>x.role===r).reduce((s,x)=>s+x.pz,0);
     const pt=merged.partitions||[];
+    const fitR=hasFit(merged)?validateFit(merged,C.G,C.layout||null,{}):null;
     const want=[["divisorio",pt.filter(q=>q.type==="setto").length,hasPartitions(merged)],
                 ["ripiano",pt.filter(q=>q.type==="ripiano").length,hasPartitions(merged)],
                 ["frontale",(merged.fronts||[]).length,hasFronts(merged)],
                 ["cassetto_frontale",(merged.drawerBlocks||[]).reduce((s2,q)=>s2+(q.n!=null?q.n:(q.heights||[]).length),0),hasDrawerBlocks(merged)],
-                ["schienale",merged.back?((C.G&&C.G.treapta&&C.G.treapta.back_split)?2:1):0,true]];
+                ["schienale",merged.back?(fitR&&fitR.partialBack?fitR.runs.length:((C.G&&C.G.treapta&&C.G.treapta.back_split)?2:1)):0,true],
+                ["traversa_spate",fitR?fitR.rails.length:0,!!(fitR&&Array.isArray(merged.backRails)&&merged.backRails.length)],
+                ["filler",fitR?fitR.fillers.length:0,!!(fitR&&Array.isArray(merged.fillers)&&merged.fillers.length)]];
     want.forEach(([r,a,on])=>{ if(!on) return; const b=sum(r); if(a!==b) C.errors.push(`${tia("aiBlkCount")} — ${r}: ${a} ≠ ${b}`); });
   }
   if(text){
@@ -15487,7 +15711,7 @@ function aiCheck(cur,pc,merged,text){
     ["L","L2","H","P","plinth","stepH","stepP","angL","angR","drawerFH","drawerZone","hangGap","shelfStep"].forEach(x=>{
       [cur[x],merged[x]].forEach(v=>{ if(typeof v==="number") k.push(v); });
       if(typeof pc[x]==="number"&&typeof cur[x]==="number") k.push(Math.abs(pc[x]-cur[x])); });
-    LAYOUT_KEYS.forEach(x=>walk(merged[x]));
+    LAYOUT_KEYS.concat(FIT_KEYS).forEach(x=>walk(merged[x]));
     ["matBody","matFront","matBack"].forEach(r=>{ const m=matById(merged[r]); if(m) k.push(+m.th); });
     if(C.G) ["Wi","H_fianco","D_fianco","D_bc","P_int","L_int","H_int","back_W","back_H"].forEach(x=>k.push(C.G[x]));
     /* le cote DERIVATE che il falegname scrive come verifica: facce dei
@@ -15568,7 +15792,8 @@ function aiLbl(k){
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
     bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),wall2:t("fWall2"),rfInset:t("fRfInset"),cShape:t("fContShape"),cR:t("fContR"),cRise:t("fContRise"),cOri:t("fContOri"),cPz:t("fContPz"),cEdge:t("fContEdge"),cHoles:t("fContHoles"),cGrooves:t("fContGrooves"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
     partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
-    customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
+    customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤",
+    backCols:elName("Schienale")+" ▥",backCutouts:t("absBackCut"),backRails:elName("Traversa retro"),fillers:t("absFiller")};
   return map[k]||k;
 }
 function aiVal(k,v){
@@ -15582,6 +15807,10 @@ function aiVal(k,v){
   if(k==="fronts") return (v||[]).map(f=>`${f.w}×${f.h} @${f.x},${f.y}${f.hinge?" "+f.hinge:""}`).join(" · ")||"—";
   if(k==="depthProfile") return (v||[]).map(z=>`${z.yFrom}–${z.yTo}: ${z.depth}`).join(" · ")||"—";
   if(k==="customCuts") return (v||[]).map(c=>`${c.on} ${c.corner} ${c.h}×${c.w}`).join(" · ")||"—";
+  if(k==="backCols") return (v||[]).length?(v||[]).join(" + "):"—";
+  if(k==="backCutouts") return (v||[]).map(c=>`${c.w}×${c.h} @${c.x},${c.y}`).join(" · ")||"—";
+  if(k==="backRails") return (v||[]).map(r=>`y${r.y} h${r.h!=null?r.h:FIT.rail_h}${r.cols?" c"+r.cols.join("/"):""}`).join(" · ")||"—";
+  if(k==="fillers") return (v||[]).map(f=>`${f.side} ${f.size}${f.scribe!=null?"+"+f.scribe:""}`).join(" · ")||"—";
   if(k==="geom") return v&&v.setback_ripiano!=null?String(v.setback_ripiano):"—";
   if(k==="lamCuts") return Array.isArray(v)&&v.length?v.map(c=>`${c.wall==="B"?"B ":""}${c.w}×${c.h} @ ${c.x}/${c.y}`).join(" · "):"—";
   if(k==="wall2") return v?t("optYes"):t("optNo");
@@ -16361,12 +16590,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.9.0"; /* APP_VER-MARKER */
+const APP_VER="5.10.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v166";
+const SW_CACHE="ebanist-v167";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

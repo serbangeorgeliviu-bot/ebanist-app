@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "4.54.0";
+var CORE_REV = "5.10.0";
 var GEOM_VERSION = 2; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -91,7 +91,8 @@ var PANEL_DEFAULTS = { panelL: 2800, panelW: 2070, decor_directional: false };
  */
 var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo", "traversa_cielo",
              "schienale", "ripiano", "frontale", "cassetto_fianco", "cassetto_fondo",
-             "cassetto_frontale", "divisorio", "zoccolo", "traversa", "blat", "accessorio"];
+             "cassetto_frontale", "divisorio", "zoccolo", "traversa", "blat", "accessorio",
+             "traversa_spate", "filler"];
 
 /* Perche esiste `fianco` accanto a `fianco_sx`/`fianco_dx`, e `base_cielo`
    accanto a `base`/`cielo`: una RIGA di distinta non e un pezzo, e un
@@ -126,6 +127,8 @@ var ROLE_AXES = {
   divisorio:         { lung: "H", larg: "P", sp: "L" },
   zoccolo:           { lung: "L", larg: "H", sp: "P" },
   traversa:          { lung: "L", larg: "H", sp: "P" },
+  traversa_spate:    { lung: "L", larg: "H", sp: "P" },   /* rinforzo în spate, între laterale/despărțitoare (D-103) */
+  filler:            { lung: "H", larg: "L", sp: "P" },   /* fâșie în planul frontului; cea de sus își poartă propriul axis_mapping */
   cassetto_fianco:   { lung: "P", larg: "H", sp: "L" },
   cassetto_fondo:    { lung: "L", larg: "P", sp: "H" },
   cassetto_frontale: { lung: "H", larg: "L", sp: "P" },
@@ -752,6 +755,8 @@ function closureRow(pieces, role) {
   }
   return { lung: +rows[0].lung || 0, larg: +rows[0].larg || 0, sp: rows[0].sp,
            pz: +rows[0].pz || 0, axes: rows[0].axis_mapping,
+           /* `backPart` = spate pe coloane (D-103): nu trece de la o laterală la cealaltă, lățimea lui nu închide gabaritul */
+           backPart: !!rows[0].backPart,
            nomi: [rows[0].elemento] };
 }
 /* base e cielo escono in una riga sola quando sono lo stesso pezzo, e in due
@@ -875,7 +880,7 @@ function reconstructCarcass(corpo, pieces, geometry) {
         cielo.nomi.concat(fianco.nomi),
         "Lățimea recompusă din traversele de tavan plus cele două laterale nu dă lățimea nominală.");
 
-  if (back && squadro) {
+  if (back && squadro && !back.backPart) {
     var bl = alongAxis(back, "L");
     /* incassato: fra i fianchi. applicato: largo quanto il corpo.
        scanalato: entra di `nut_d` per lato nella cava. */
@@ -1060,7 +1065,7 @@ function validateInvariants(corpo, pieces, geometry, opts) {
       eq(P_fianco, D), { P_fianco: P_fianco, P_nom: D },
       "Spate încastrat: laterala merge până la planul din spate, nu se scurtează.",
       fianco.nomi);
-    if (back)
+    if (back && !back.backPart)
       rule("I2b", "L_schienale == L_nom - 2*sp_fianco",
         eq(alongAxis(back, "L"), W - 2 * spF),
         { L_schienale: alongAxis(back, "L"), L_nom: W, sp_fianco: spF },
@@ -1258,6 +1263,7 @@ var ROLE_SP_KEY = {
   base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base", traversa_cielo: "sp_cielo",
   schienale: "sp_schienale", ripiano: "sp_ripiano", divisorio: "sp_divisorio",
   zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale", blat: "sp_fianco",
+  traversa_spate: "sp_fianco", filler: "sp_frontale",
   cassetto_frontale: "sp_frontale", cassetto_fianco: "sp_fianco",
   cassetto_fondo: "sp_fianco"
 };
@@ -1266,6 +1272,7 @@ var ROLE_MAT_OF = {
   base: "base", cielo: "cielo", base_cielo: "base", traversa_cielo: "cielo", schienale: "schienale",
   ripiano: "ripiano", divisorio: "divisorio", zoccolo: "zoccolo",
   frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale", blat: "fianco",
+  traversa_spate: "fianco", filler: "frontale",
   cassetto_fianco: "fianco", cassetto_fondo: "fianco"
 };
 /* solo quelle cadute: e quello che guarda il cancello */
@@ -1483,6 +1490,8 @@ function validateFronts(fronts, W, H) {
     if (o.x < -LAYOUT_EPS || o.y < -LAYOUT_EPS || o.x + o.w > W + LAYOUT_EPS || o.y + o.h > H + LAYOUT_EPS)
       errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " la (" + fmt01(o.x) + ", " + fmt01(o.y) + ") iese din gabaritul " + W + "×" + H);
     if (f.hinge != null && !o.hinge) errors.push(tag + ": balama '" + f.hinge + "' — doar left / right");
+    /* grilele de aerisire (D-103): decupaje prin ușă, în cotele ușii. Numai la ușile cu cote absolute. */
+    if (f.vents != null) { var vr = resolveVents(f.vents, o, tag, errors); if (vr.length) o.vents = vr; }
     out.push(o);
   }
   for (i = 0; i < out.length; i++) for (j = i + 1; j < out.length; j++) {
@@ -1709,6 +1718,253 @@ function validateLayout(cfg, G, opts) {
     if (!nearMm(tot2, W)) ok2 = false;
     out.chains.H.push({ y0: ev[e], y1: ev[e + 1], ok: ok2, total: tot2, nominal: W, terms: terms2.slice(),
                         text: terms2.map(fmt01).join(" + ") + " = " + fmt01(tot2) });
+  }
+  return out;
+}
+
+/* --- SPATE PE COLOANE, RINFORZO, FILLER, GRILE DE AERISIRE (D-103) ---------
+ *
+ * Cazul care a cerut-o: un dulap de 1600 în fața unei centrale pe gaz și a unui
+ * tablou electric. Coloana din stânga ține tabloul: are spate, cu decupaj numai
+ * în dreptul lui. Coloana din dreapta ține centrala: nu are spate (țevile, contorul
+ * de gaz) și se înțepenește cu două traverse în spate, ca să nu se deformeze. Ușile
+ * ei au grile de aerisire sus și jos. Pereții nu sunt drepți: între dulap și perete
+ * rămân 3–4 cm sus și în dreapta, închiși cu filler din același material cu ușile.
+ *
+ * Cotele sunt ale piesei și nu se calculează în altă parte:
+ *   - coloanele sunt luminile dintre laterale și despărțitoarele care urcă de la
+ *     bază la tavan (cele parțiale nu taie spatele);
+ *   - un spate acoperă un șir de coloane vecine, de la capătul dulapului până la
+ *     FAȚA FAȚĂ-DE-CEALALTĂ a despărțitorului care îl desparte de coloana deschisă:
+ *     astfel se sprijină pe toată grosimea lui;
+ *   - decupajul spatelui, rinforzo-ul și grila sunt cote absolute (x de la fața
+ *     exterioară stângă, y de la pardoseală), ca la restul cotelor absolute;
+ *   - o cotă care nu are loc e o eroare cu motivul ei, niciodată o piesă mutată.
+ * Cotele implicite de mai jos sunt DATE nevalidate (verificat:false).
+ * PURE: intră cote, ies cote și erori.
+ */
+var FIT = {
+  verificat: false,
+  rail_h: 100, rail_h_min: 30, rail_h_max: 400,   /* înălțimea unui rinforzo, mm */
+  cutout_min: 10,                                  /* decupaj în spate: latura minimă */
+  vent_min: 20,                                    /* grilă: latura minimă și materialul rămas sus/jos */
+  vent_edge: 40,                                   /* distanța implicită a grilei de marginea de sus/jos a ușii */
+  vent_keep: 50,                                   /* ce rămâne între grilă și marginea laterală: cuvele balamalelor */
+  vent_max: 4,                                     /* grile pe o ușă */
+  filler_scribe: 10,                               /* surplus de potrivit pe șantier, pe latura dinspre perete */
+  filler_min: 10, filler_max: 150
+};
+function resolveVents(list, o, tag, errors) {
+  var out = [], k, a, b;
+  if (!Array.isArray(list)) { errors.push(tag + ": `vents` trebuie să fie o listă"); return out; }
+  if (list.length > FIT.vent_max) errors.push(tag + ": cel mult " + FIT.vent_max + " grile pe ușă, primit " + list.length);
+  list.slice(0, FIT.vent_max).forEach(function (q, i) {
+    var vt = tag + ", grila " + (i + 1);
+    q = q || {};
+    if (q.at !== "top" && q.at !== "bottom") { errors.push(vt + ": `at` = top / bottom, primit " + JSON.stringify(q.at)); return; }
+    if (!finiteNum(q.w) || !finiteNum(q.h)) { errors.push(vt + ": w și h trebuie să fie numere"); return; }
+    var w = +q.w, h = +q.h, off = finiteNum(q.off) ? +q.off : FIT.vent_edge;
+    if (!(w >= FIT.vent_min && h >= FIT.vent_min)) { errors.push(vt + ": " + fmt01(w) + "×" + fmt01(h) + " e sub " + FIT.vent_min + " mm"); return; }
+    var x = finiteNum(q.x) ? +q.x : (o.w - w) / 2;
+    var y = q.at === "bottom" ? off : o.h - off - h;
+    if (x < FIT.vent_keep - LAYOUT_EPS || x + w > o.w - FIT.vent_keep + LAYOUT_EPS) {
+      errors.push(vt + ": " + fmt01(w) + " mm lățime la x " + fmt01(x) + " nu lasă " + FIT.vent_keep +
+        " mm până la marginile ușii (" + fmt01(o.w) + " mm) — acolo stau cuvele balamalelor"); return; }
+    if (y < FIT.vent_min - LAYOUT_EPS || y + h > o.h - FIT.vent_min + LAYOUT_EPS) {
+      errors.push(vt + ": " + fmt01(h) + " mm înălțime la y " + fmt01(y) + " nu lasă " + FIT.vent_min +
+        " mm până la marginea ușii (" + fmt01(o.h) + " mm)"); return; }
+    out.push({ n: i + 1, at: q.at, x: x, y: y, w: w, h: h, ax: o.x + x, ay: o.y + y });
+  });
+  for (a = 0; a < out.length; a++) for (b = a + 1; b < out.length; b++) {
+    var A = out[a], B = out[b];
+    if (A.x < B.x + B.w - LAYOUT_EPS && B.x < A.x + A.w - LAYOUT_EPS && A.y < B.y + B.h - LAYOUT_EPS && B.y < A.y + A.h - LAYOUT_EPS)
+      errors.push(tag + ": grila " + A.n + " și grila " + B.n + " se suprapun");
+  }
+  return out;
+}
+
+/* Coloanele unui corp: luminile dintre laterale și despărțitoarele de toată înălțimea.
+   `divs` = despărțitoarele (x0, x1, de la fața exterioară stângă). */
+function bodyColumns(G, LY) {
+  var inp = G.in, W = inp.W, H = inp.H, tF = G.sp.fianco, i;
+  var yIn0 = inp.h_base + G.sp.base, yIn1 = H - topSp(G);
+  var divs = [];
+  if (LY && LY.parts && LY.parts.setti.length) {
+    LY.parts.setti.forEach(function (s) {
+      if (nearMm(s.y0, yIn0) && nearMm(s.y1, yIn1)) divs.push({ x0: s.x0, x1: s.x1 });
+    });
+    divs.sort(function (a, b) { return a.x0 - b.x0; });
+  } else {
+    var n = inp.n_divisorio | 0, secW = G.exact.sectiune_W, tD = G.sp.divisorio;
+    for (i = 1; i <= n; i++) { var x0 = tF + i * secW + (i - 1) * tD; divs.push({ x0: x0, x1: x0 + tD }); }
+  }
+  var cols = [], prev = tF;
+  for (i = 0; i < divs.length; i++) { cols.push({ n: i + 1, x0: prev, x1: divs[i].x0 }); prev = divs[i].x1; }
+  cols.push({ n: divs.length + 1, x0: prev, x1: W - tF });
+  return { cols: cols, divs: divs, yIn0: yIn0, yIn1: yIn1 };
+}
+/* Un spate acoperă un șir de coloane vecine. Capătul dinspre o coloană deschisă e FAȚA
+   despărțitorului din partea opusă (se sprijină pe toată grosimea lui); capătul dinspre
+   marginea dulapului e al spatelui obișnuit (`xa`, `xb`). */
+function backRuns(B, backCols, xa, xb) {
+  var n = B.cols.length, sel = [], runs = [], cur = null, i;
+  for (i = 0; i < n; i++) sel[i] = !backCols || backCols.indexOf(i + 1) >= 0;
+  for (i = 0; i < n; i++) {
+    if (sel[i]) { if (!cur) { cur = { a: i, b: i }; runs.push(cur); } else cur.b = i; } else cur = null;
+  }
+  runs.forEach(function (r) {
+    r.x0 = r.a === 0 ? xa : B.divs[r.a - 1].x0;
+    r.x1 = r.b === n - 1 ? xb : B.divs[r.b].x1;
+    r.cols = []; for (i = r.a; i <= r.b; i++) r.cols.push(i + 1);
+  });
+  var open = []; for (i = 0; i < n; i++) if (!sel[i]) open.push(B.cols[i]);
+  return { runs: runs, open: open };
+}
+/* `geo` = { xa, xb (capetele spatelui întreg), y0, h (jos și înălțimea spatelui) }, din buildCore.
+   Întoarce { errors, warnings, active, cols, divs, runs, open, partialBack, cutouts, rails, fillers }. */
+function validateFit(cfg, G, LY, geo) {
+  var c = cfg || {}, errors = [], warnings = [], g = geo || {}, i, j;
+  var hasCols = Array.isArray(c.backCols) && c.backCols.length > 0;
+  var hasCut = Array.isArray(c.backCutouts) && c.backCutouts.length > 0;
+  var hasRail = Array.isArray(c.backRails) && c.backRails.length > 0;
+  var hasFill = Array.isArray(c.fillers) && c.fillers.length > 0;
+  var out = { errors: errors, warnings: warnings, active: hasCols || hasCut || hasRail || hasFill,
+              cols: [], divs: [], runs: [], open: [], partialBack: false, cutouts: [], rails: [], fillers: [] };
+  if (!out.active) return out;
+  var type = c.type || "standard";
+  if (type !== "standard") {
+    errors.push("spatele pe coloane, rinforzo-ul, filler-ele și decupajele din spate sunt suportate doar pe tipologia standard, nu pe '" + type + "'");
+    return out;
+  }
+  var inp = G.in, W = inp.W, H = inp.H;
+  var B = bodyColumns(G, LY);
+  out.cols = B.cols; out.divs = B.divs;
+  var ncol = B.cols.length;
+
+  /* --- spatele: care coloane îl poartă --- */
+  var cols = null;
+  if (hasCols) {
+    cols = [];
+    c.backCols.forEach(function (v) {
+      var n = Math.round(+v);
+      if (!finiteNum(v) || n < 1 || n > ncol) { errors.push("spate: coloana " + JSON.stringify(v) + " nu există (corpul are " + ncol + " coloane)"); return; }
+      if (cols.indexOf(n) >= 0) { errors.push("spate: coloana " + n + " e scrisă de două ori"); return; }
+      cols.push(n);
+    });
+    if (!c.back) errors.push("spate: `backCols` cere spate (Spate = Da)");
+    if (G.slope || (G.treapta && G.treapta.back_split))
+      errors.push("spate pe coloane: nu se combină cu panta sau cu treapta din perete (spatele ar trebui tăiat în două direcții)");
+    if (cols.length === ncol) cols = null;   /* toate coloanele = spatele obișnuit */
+  }
+  var RN = c.back ? backRuns(B, cols, g.xa != null ? g.xa : G.sp.fianco, g.xb != null ? g.xb : W - G.sp.fianco) : { runs: [], open: B.cols.slice() };
+  out.runs = RN.runs; out.open = RN.open;
+  out.partialBack = !!(c.back && cols && cols.length > 0 && cols.length < ncol);
+  if (c.back && cols && cols.length === 0 && hasCols) errors.push("spate: `backCols` nu conține nicio coloană validă");
+
+  /* --- decupaje în spate: în coloanele care au spate --- */
+  var y0b = g.y0 != null ? g.y0 : 0, hb = g.h != null ? g.h : H;
+  if (hasCut) {
+    if (!c.back) errors.push("decupaj în spate: corpul nu are spate (Spate = Da)");
+    if (G.slope || (G.treapta && G.treapta.back_split))
+      errors.push("decupaj în spate: nu se combină cu panta sau cu treapta din perete (spatele e tăiat în două piese)");
+    c.backCutouts.forEach(function (q, k) {
+      var tag = "decupaj spate " + (k + 1);
+      q = q || {};
+      if (!finiteNum(q.x) || !finiteNum(q.y) || !finiteNum(q.w) || !finiteNum(q.h)) { errors.push(tag + ": x, y, w, h trebuie să fie numere"); return; }
+      var o = { n: k + 1, x: +q.x, y: +q.y, w: +q.w, h: +q.h, run: -1 };
+      if (!(o.w >= FIT.cutout_min && o.h >= FIT.cutout_min)) { errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " e sub " + FIT.cutout_min + " mm"); return; }
+      if (!c.back) return;
+      for (j = 0; j < RN.runs.length; j++) {
+        var r = RN.runs[j];
+        if (o.x >= r.x0 - LAYOUT_EPS && o.x + o.w <= r.x1 + LAYOUT_EPS) { o.run = j; break; }
+      }
+      if (o.run < 0) {
+        var inOpen = RN.open.filter(function (cl) { return o.x < cl.x1 && o.x + o.w > cl.x0; });
+        errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " la x " + fmt01(o.x) + (inOpen.length
+          ? " cade în coloana " + inOpen.map(function (cl) { return cl.n; }).join(", ") + ", care nu are spate"
+          : " nu încape într-un singur spate (iese peste capătul lui sau trece peste un despărțitor care îi desparte)"));
+        return;
+      }
+      if (o.y < y0b - LAYOUT_EPS || o.y + o.h > y0b + hb + LAYOUT_EPS) {
+        errors.push(tag + ": y " + fmt01(o.y) + "–" + fmt01(o.y + o.h) + " iese din spate (" + fmt01(y0b) + "–" + fmt01(y0b + hb) + ")"); return; }
+      out.cutouts.push(o);
+    });
+    for (i = 0; i < out.cutouts.length; i++) for (j = i + 1; j < out.cutouts.length; j++) {
+      var A = out.cutouts[i], D2 = out.cutouts[j];
+      if (A.run === D2.run && A.x < D2.x + D2.w - LAYOUT_EPS && D2.x < A.x + A.w - LAYOUT_EPS && A.y < D2.y + D2.h - LAYOUT_EPS && D2.y < A.y + A.h - LAYOUT_EPS)
+        errors.push("decupajele " + A.n + " și " + D2.n + " din spate se suprapun");
+    }
+  }
+
+  /* --- rinforzo: traverse în spate, între laterale/despărțitoare --- */
+  if (hasRail) {
+    var ripiani = (LY && LY.parts) ? LY.parts.ripiani : [];
+    c.backRails.forEach(function (q, k) {
+      var tag = "rinforzo " + (k + 1);
+      q = q || {};
+      if (!finiteNum(q.y)) { errors.push(tag + ": y (fața de jos, de la pardoseală) trebuie să fie număr"); return; }
+      var h = finiteNum(q.h) ? +q.h : FIT.rail_h, y = +q.y;
+      if (!(h >= FIT.rail_h_min && h <= FIT.rail_h_max)) { errors.push(tag + ": înălțimea " + fmt01(h) + " mm trebuie să fie între " + FIT.rail_h_min + " și " + FIT.rail_h_max); return; }
+      if (y < B.yIn0 - LAYOUT_EPS || y + h > B.yIn1 + LAYOUT_EPS) {
+        errors.push(tag + ": " + fmt01(y) + "–" + fmt01(y + h) + " iese din lumina interioară (" + fmt01(B.yIn0) + "–" + fmt01(B.yIn1) + ")"); return; }
+      var want;
+      if (q.cols != null) {
+        if (!Array.isArray(q.cols) || !q.cols.length) { errors.push(tag + ": `cols` trebuie să fie o listă de coloane"); return; }
+        want = [];
+        for (var z = 0; z < q.cols.length; z++) {
+          var n = Math.round(+q.cols[z]);
+          if (!finiteNum(q.cols[z]) || n < 1 || n > ncol) { errors.push(tag + ": coloana " + JSON.stringify(q.cols[z]) + " nu există (corpul are " + ncol + ")"); return; }
+          want.push(n);
+        }
+      } else want = RN.open.map(function (cl) { return cl.n; });
+      if (!want.length) { errors.push(tag + ": nu există nicio coloană fără spate; dă `cols` ca să-l pui totuși"); return; }
+      want.forEach(function (n) {
+        var cl = B.cols[n - 1];
+        ripiani.forEach(function (r) {
+          if (r.x0 < cl.x1 - LAYOUT_EPS && r.x1 > cl.x0 + LAYOUT_EPS && r.y < y + h - LAYOUT_EPS && r.y1 > y + LAYOUT_EPS)
+            errors.push(tag + ": în coloana " + n + " trece prin polița " + r.n + " (" + fmt01(r.y) + "–" + fmt01(r.y1) + ")");
+        });
+        out.rails.push({ n: k + 1, col: n, x0: cl.x0, x1: cl.x1, y: y, h: h, lung: cl.x1 - cl.x0 });
+      });
+    });
+    for (i = 0; i < out.rails.length; i++) for (j = i + 1; j < out.rails.length; j++) {
+      var R1 = out.rails[i], R2 = out.rails[j];
+      if (R1.col === R2.col && R1.y < R2.y + R2.h - LAYOUT_EPS && R2.y < R1.y + R1.h - LAYOUT_EPS)
+        errors.push("rinforzo " + R1.n + " și rinforzo " + R2.n + " se suprapun în coloana " + R1.col);
+    }
+  }
+
+  /* --- filler: fâșii în planul frontului, lângă dulap (dreapta, stânga) și deasupra --- */
+  if (hasFill) {
+    var seen = {}, sizeOf = {};
+    c.fillers.forEach(function (q, k) {
+      var tag = "filler " + (k + 1);
+      q = q || {};
+      if (q.side !== "top" && q.side !== "right" && q.side !== "left") { errors.push(tag + ": `side` = top / right / left, primit " + JSON.stringify(q.side)); return; }
+      if (seen[q.side]) { errors.push(tag + ": două filler-e pe " + q.side); return; }
+      seen[q.side] = 1;
+      if (!finiteNum(q.size)) { errors.push(tag + ": `size` (cât se vede, mm) trebuie să fie număr"); return; }
+      var size = +q.size, scribe = finiteNum(q.scribe) ? +q.scribe : FIT.filler_scribe;
+      if (!(size >= FIT.filler_min && size <= FIT.filler_max)) { errors.push(tag + ": " + fmt01(size) + " mm trebuie să fie între " + FIT.filler_min + " și " + FIT.filler_max); return; }
+      if (!(scribe >= 0 && scribe <= 50)) { errors.push(tag + ": surplusul de potrivire " + fmt01(scribe) + " mm trebuie să fie între 0 și 50"); return; }
+      sizeOf[q.side] = size + scribe;
+      out.fillers.push({ n: k + 1, side: q.side, size: size, scribe: scribe });
+    });
+    /* fâșia de sus acoperă și colțurile: lățimea ei = L + filler-ul din stânga + cel din dreapta (cu tot cu surplus) */
+    out.fillers.forEach(function (f) {
+      if (f.side === "top") {
+        f.x0 = -(sizeOf.left || 0); f.x1 = W + (sizeOf.right || 0);
+        f.y0 = H; f.y1 = H + f.size + f.scribe;
+        f.lung = f.x1 - f.x0; f.larg = f.y1 - f.y0;
+        f.axes = { lung: "L", larg: "H", sp: "P" };
+      } else {
+        f.x0 = f.side === "right" ? W : -(f.size + f.scribe);
+        f.x1 = f.side === "right" ? W + f.size + f.scribe : 0;
+        f.y0 = 0; f.y1 = H;
+        f.lung = f.y1 - f.y0; f.larg = f.x1 - f.x0;
+        f.axes = { lung: "H", larg: "L", sp: "P" };
+      }
+    });
   }
   return out;
 }
@@ -2095,6 +2351,10 @@ var API = {
   derivePartitions: derivePartitions,
   validateFronts: validateFronts,
   validateLayout: validateLayout,
+  FIT: FIT,
+  bodyColumns: bodyColumns,
+  backRuns: backRuns,
+  validateFit: validateFit,
   CUT_CORNERS: CUT_CORNERS,
   extractCotas: extractCotas,
   unconsumedCotas: unconsumedCotas,
