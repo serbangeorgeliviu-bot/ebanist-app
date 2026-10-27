@@ -6326,10 +6326,15 @@ function drawerPlan(cfg,g){
   }
   out.zone=zone;
 
-  /* 2. le altezze dei frontali, dal basso in su */
-  const hs=own||drawerHeights(N,zone,dist,fixH,GP);
+  /* 2. le altezze dei frontali, dal basso in su.
+     D-104: la cassa sta `lift` mm SOPRA il bordo inferiore del frontale. Se il primo frontale parte a g.y0+2 e `lift` e piu
+     piccolo della grossezza della base (Legrabox: 13 contro 19), il fondo della cassa finisce SOTTO la faccia di sopra della
+     base. Il primo frontale sale il necessario (`lowShift`) e la zona scende di tanto, cosi il bordo di sopra non si muove. */
+  const lowShift=(!out.inner&&g.yBase!=null&&!sys.none&&sys.lift>0)?Math.max(0,Math.round((g.yBase-sys.lift-(g.y0+2))*10)/10):0;
+  out.lowShift=lowShift;
+  const hs=own||drawerHeights(N,zone-lowShift,dist,fixH,GP);
   if(!hs.length||hs.some(h=>h<20)){ out.ok=0; warn.push({k:"wDrawRoom"}); return out; }
-  let y=g.y0+2;
+  let y=g.y0+2+lowShift;
   hs.forEach(h=>{ out.fronts.push({y0:y,h}); y+=h+GP; });
   out.top=y-GP;
   out.minH=Math.min.apply(null,hs);
@@ -6370,10 +6375,14 @@ function drawerPlan(cfg,g){
   /* 5. l'altezza della cassa. Sul sistema metallico si sceglie un'altezza di
         listino: la piu alta che il frontale copre ancora. Sul legno la cassa
         segue il frontale. */
+  /* D-104: cutia celui mai de sus sertar nu trece de fața de jos a tavanului (g.yTop) */
+  const lastF=out.fronts[out.fronts.length-1];
+  const availTop=(g.yTop!=null&&lastF&&!sys.none)?g.yTop-(lastF.y0+sys.lift):Infinity;
+  out.availTop=isFinite(availTop)?availTop:null;
   if(sys.metal){
     const codes=Object.keys(sys.hs);
     const want=cfg.drawerH&&sys.hs[cfg.drawerH]?cfg.drawerH:null;
-    const fits=codes.filter(c=>sys.hs[c]<=out.minH-sys.headroom);
+    const fits=codes.filter(c=>sys.hs[c]<=Math.min(out.minH-sys.headroom,availTop));
     const auto=fits.length?fits[fits.length-1]:null;
     out.hcode=want||auto;
     if(want&&sys.hs[want]>out.minH-sys.headroom) warn.push({k:"wDrawFront",h:want,need:Math.ceil(sys.hs[want]+sys.headroom)});
@@ -6382,19 +6391,24 @@ function drawerPlan(cfg,g){
     out.backH=sys.backHs?sys.backHs[out.hcode]:Math.round(sys.hs[out.hcode]-sys.backOff);
   }else if(!sys.none){
     out.sideH=Math.max(70,Math.round(out.minH-45));
+    if(out.sideH>availTop){                                                    // D-104: cutia de sus se strânge sub tavan; sub 40 mm nu mai e sertar
+      out.sideH=Math.floor(availTop);
+      if(out.sideH<40){ warn.push({k:"wDrawRoom"}); out.ok=0; return out; }
+    }
     out.boxL=out.nl;
   }
   if(!sys.none&&out.minH<(sys.minFront||0)) warn.push({k:"wDrawFront",h:"",need:sys.minFront});
   /* U.13: con le altezze scritte a mano ogni cassa segue il SUO frontale.
      Un cassetto da 450 sotto uno da 200 non deve avere la cassa da 155. Solo
      qui: «uguali» e «fisse» hanno frontali uguali, e «cucina» resta com'era. */
-  if(own&&!sys.none) out.fronts.forEach(f=>{
+  if(own&&!sys.none) out.fronts.forEach((f,fi)=>{
+    const cap=(fi===out.fronts.length-1)?availTop:Infinity;
     if(sys.metal){
-      const codes=Object.keys(sys.hs), fits=codes.filter(c=>sys.hs[c]<=f.h-sys.headroom);
+      const codes=Object.keys(sys.hs), fits=codes.filter(c=>sys.hs[c]<=Math.min(f.h-sys.headroom,cap));
       const c=cfg.drawerH&&sys.hs[cfg.drawerH]?cfg.drawerH:(fits.length?fits[fits.length-1]:out.hcode);
       f.hcode=c; f.sideH=sys.hs[c];
       f.backH=sys.backHs?sys.backHs[c]:Math.round(sys.hs[c]-sys.backOff);
-    }else f.sideH=Math.max(70,Math.round(f.h-45));
+    }else{ f.sideH=Math.min(Math.max(70,Math.round(f.h-45)),Math.floor(cap)); if(f.sideH<40){ warn.push({k:"wDrawRoom"}); out.ok=0; } }
   });
 
   /* 6. il cassetto interno deve lasciar passare il braccio della cerniera */
@@ -7004,6 +7018,8 @@ function buildCore(cfg){
       /* un frontale interno sta DENTRO il vano: parte dalla faccia superiore della base, non dal
          filo del mobile (prima il primo frontale entrava fino a 17 mm nella base) */
       y0:dInner?intY0:frontY0,frontH:dInner?Math.max(0,intY1-intY0):frontH_all,
+      /* D-104: un frontal pe fațadă acoperă marginea bazei și a tavanului, dar cutia stă ÎNĂUNTRU: între fața de sus a bazei și fața de jos a tavanului */
+      yBase:dInner?null:intY0,yTop:dInner?null:intY1,
       fill:(cfg.doors===0&&cfg.shelves===0&&!cfg.hang),secW,depth:P-intZ0,inner:dInner,
       tFront:tA,tBox:tF,hsTop:hs,nl})}; dGroups.push(g); }
     g.secs.push(si); });
@@ -10448,9 +10464,17 @@ async function geomApply(){
 
 /* Lo striscione. Compare solo su un progetto v1 CHE HA corpi generati: uno
    con soli pezzi battuti a mano non ha niente da ricalcolare. */
+const geomChecked=new Set();
 function geomBanner(){
   const el=$("geomBanner"); if(!el) return;
   const p=proj();
+  /* D-104: o versiune nouă a motorului nu trebuie să lase un banner veșnic pe proiectele pe care nu le atinge. Dacă recalcularea
+     dă exact aceleași rânduri (nicio cotă nu se schimbă), proiectul doar își primește ștampila; altfel rămâne banner-ul cu diferența. */
+  if(p&&(p.geomVersion||1)<GEOM_VERSION&&Object.keys(p.configs||{}).length>0&&!geomChecked.has(p.id+"|"+(p.geomVersion||1))){
+    geomChecked.add(p.id+"|"+(p.geomVersion||1));
+    let same=false; try{ same=geomDiff(p).length===0; }catch(e){}
+    if(same){ p.geomVersion=GEOM_VERSION; persist(); }
+  }
   const show=!!p&&(p.geomVersion||1)<GEOM_VERSION&&Object.keys((p&&p.configs)||{}).length>0;
   el.hidden=!show;
   if(!show) return;
@@ -16397,12 +16421,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.9.1"; /* APP_VER-MARKER */
+const APP_VER="5.10.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v167";
+const SW_CACHE="ebanist-v168";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
