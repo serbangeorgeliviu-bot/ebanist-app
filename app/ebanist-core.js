@@ -119,7 +119,8 @@ var ROLE_AXES = {
   ripiano:           { lung: "L", larg: "P", sp: "H" },
   lamela:            { lung: "H", larg: "L", sp: "P" },
   rama_montant:      { lung: "H", larg: "L", sp: "P" },   /* boiserie: montant vertical al ramei */
-  rama_traversa:     { lung: "L", larg: "H", sp: "P" },   /* boiserie: traversă orizontală între montanți */   /* lambriu: lamelă verticală; la cele orizontale rândul își poartă propriul axis_mapping */
+  rama_traversa:     { lung: "L", larg: "H", sp: "P" },
+  rama_camp:         { lung: "H", larg: "L", sp: "P" },   /* boiserie: panou încastrat în ramă */   /* boiserie: traversă orizontală între montanți */   /* lambriu: lamelă verticală; la cele orizontale rândul își poartă propriul axis_mapping */
   frontale:          { lung: "H", larg: "L", sp: "P" },
   divisorio:         { lung: "H", larg: "P", sp: "L" },
   zoccolo:           { lung: "L", larg: "H", sp: "P" },

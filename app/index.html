@@ -1433,6 +1433,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fRfT">Campo desiderato (mm)</label><input id="bRfT" type="number" inputmode="numeric" min="100" max="1500" placeholder="600"></div>
           <div class="f"><label data-i="fRfRows">File di campi</label><input id="bRfRows" type="number" inputmode="numeric" min="1" max="8" placeholder="1"></div>
         </div>
+        <div class="f" id="rowRfInset" style="display:none"><label data-i="fRfInset">Panou încastrat în ramă</label>
+          <select id="bRfInset"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select></div>
+        <div class="f" id="rowWall2" style="display:none"><label data-i="fWall2">Secondo muro (angolo)</label>
+          <select id="bWall2"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select></div>
         <div class="f" id="rowLamCuts" style="display:none">
           <label data-i="fLamCuts">Ritagli (prese, interruttori)</label>
           <div id="lamCutBox"></div>
@@ -3290,6 +3294,30 @@ Object.assign(I18N.fr,{fLamCuts:"Découpes (prises, interrupteurs)",lamCutAdd:"+
 Object.assign(I18N.de,{fLamCuts:"Aussparungen (Steckdosen, Schalter)",lamCutAdd:"+ Aussparung",lamCutX:"X von links",lamCutY:"Y vom Boden",lamCutW:"Breite",lamCutH:"Höhe",lamCutHint:"X vom linken Wandrand, Y vom Boden. Die Lamellen werden auf ihrer ganzen Breite unterbrochen, wo die Aussparung sie berührt; die Trägerplatte erhält das genaue Loch.",lamCutInfo:"{n} Aussparungen · {p} Lamellenstücke",wLamSplit:"{n} Lamellen länger als die Platte: in gleiche Teile geschnitten (Stoßfuge).",wLamShort:"{n} Lamellenstücke unter 30 mm: schwer zu montieren",lamErrCut:"Lamellenwand: Aussparung außerhalb der Wand oder ungültig (X, Y, Breite, Höhe ≥ 1 mm, innerhalb der Wand, höchstens 30)."});
 Object.assign(I18N.pl,{fLamCuts:"Wycięcia (gniazdka, włączniki)",lamCutAdd:"+ Wycięcie",lamCutX:"X od lewej",lamCutY:"Y od podłogi",lamCutW:"Szerokość",lamCutH:"Wysokość",lamCutHint:"X od lewej krawędzi ściany, Y od podłogi. Lamelki są przerywane na całej szerokości tam, gdzie dotyka ich wycięcie; podkład dostaje dokładny otwór.",lamCutInfo:"{n} wycięć · {p} kawałków lamelek",wLamSplit:"{n} lamelek dłuższych niż płyta: cięte na równe części (połączenie czołowe).",wLamShort:"{n} kawałków lamelek poniżej 30 mm: trudne w montażu",lamErrCut:"Okładzina: wycięcie poza ścianą lub nieprawidłowe (X, Y, szerokość, wysokość ≥ 1 mm, wewnątrz ściany, najwyżej 30)."});
 Object.assign(I18N.es,{fLamCuts:"Recortes (enchufes, interruptores)",lamCutAdd:"+ Recorte",lamCutX:"X desde la izquierda",lamCutY:"Y desde el suelo",lamCutW:"Ancho",lamCutH:"Alto",lamCutHint:"X desde el borde izquierdo de la pared, Y desde el suelo. Las lamas se interrumpen en todo su ancho donde el recorte las toca; el soporte recibe el hueco exacto.",lamCutInfo:"{n} recortes · {p} trozos de lama",wLamSplit:"{n} lamas más largas que el tablero: cortadas en partes iguales (junta a tope).",wLamShort:"{n} trozos de lama de menos de 30 mm: difíciles de montar",lamErrCut:"Lamas: recorte fuera de la pared o no válido (X, Y, ancho, alto ≥ 1 mm, dentro de la pared, máximo 30)."});
+/* ---- 5.7: panou încastrat în ramă (D-100) ---- */
+Object.assign(I18N.it,{fRfInset:"Pannello incassato nella cornice",rfErrInsetMat:"Boiserie: scegli il materiale del pannello (frontali) — lo spessore viene dal materiale.",rfErrInset:"Boiserie: il pannello non entra nella cornice (spessore troppo grande o cornice troppo stretta per il canale).",rfS5:"Inserisci i {k} pannelli nei canali delle cornici prima di chiudere il telaio.",role_rama_camp:"Pannello campo"});
+Object.assign(I18N.ro,{fRfInset:"Panou încastrat în ramă",rfErrInsetMat:"Boiserie: alege materialul panoului (fronturi) — grosimea vine din material.",rfErrInset:"Boiserie: panoul nu încape în ramă (grosime prea mare sau ramă prea îngustă pentru canal).",rfS5:"Introdu cele {k} panouri în canalele ramelor înainte de a închide cadrul.",role_rama_camp:"Panou câmp"});
+Object.assign(I18N.en,{fRfInset:"Panel set in the frame",rfErrInsetMat:"Framed panelling: choose the panel material (fronts) — the thickness comes from the material.",rfErrInset:"Framed panelling: the panel does not fit the frame (too thick, or the frame is too narrow for the groove).",rfS5:"Slide the {k} panels into the frame grooves before closing the frame.",role_rama_camp:"Field panel"});
+Object.assign(I18N.fr,{fRfInset:"Panneau encastré dans le cadre",rfErrInsetMat:"Lambris à cadres : choisissez le matériau du panneau (façades) — l'épaisseur vient du matériau.",rfErrInset:"Lambris à cadres : le panneau ne rentre pas dans le cadre (trop épais, ou cadre trop étroit pour la rainure).",rfS5:"Glissez les {k} panneaux dans les rainures des cadres avant de fermer le cadre.",role_rama_camp:"Panneau de champ"});
+Object.assign(I18N.de,{fRfInset:"Füllung in den Rahmen eingelassen",rfErrInsetMat:"Rahmenverkleidung: Material der Füllung (Fronten) wählen — die Dicke kommt aus dem Material.",rfErrInset:"Rahmenverkleidung: die Füllung passt nicht in den Rahmen (zu dick oder Rahmen zu schmal für die Nut).",rfS5:"Die {k} Füllungen in die Nuten der Rahmen einsetzen, bevor der Rahmen geschlossen wird.",role_rama_camp:"Füllung"});
+Object.assign(I18N.pl,{fRfInset:"Płyta wpuszczona w ramę",rfErrInsetMat:"Okładzina ramowa: wybierz materiał płyty (fronty) — grubość wynika z materiału.",rfErrInset:"Okładzina ramowa: płyta nie mieści się w ramie (za gruba lub rama za wąska na rowek).",rfS5:"Włóż {k} płyt w rowki ram przed zamknięciem ramy.",role_rama_camp:"Płyta pola"});
+Object.assign(I18N.es,{fRfInset:"Panel encastrado en el marco",rfErrInsetMat:"Marcos: elige el material del panel (frentes) — el grosor viene del material.",rfErrInset:"Marcos: el panel no cabe en el marco (demasiado grueso o marco demasiado estrecho para la ranura).",rfS5:"Introduce los {k} paneles en las ranuras de los marcos antes de cerrar el marco.",role_rama_camp:"Panel de campo"});
+/* ---- 5.5: colț interior la corpul de colț (D-99) ---- */
+Object.assign(I18N.it,{angWallB:"Angolo interno: il muro B deve misurare almeno {w} mm dall'angolo (l'ala B parte dalla faccia dell'ala A)."});
+Object.assign(I18N.ro,{angWallB:"Colț interior: peretele B trebuie să aibă cel puțin {w} mm de la colț (ala B pornește de la fața alei A)."});
+Object.assign(I18N.en,{angWallB:"Inside corner: wall B must be at least {w} mm long from the corner (wing B starts at the face of wing A)."});
+Object.assign(I18N.fr,{angWallB:"Angle intérieur : le mur B doit mesurer au moins {w} mm depuis l'angle (l'aile B part de la face de l'aile A)."});
+Object.assign(I18N.de,{angWallB:"Innenecke: Wand B muss ab der Ecke mindestens {w} mm lang sein (Flügel B beginnt an der Front von Flügel A)."});
+Object.assign(I18N.pl,{angWallB:"Narożnik wewnętrzny: ściana B musi mieć co najmniej {w} mm od narożnika (skrzydło B zaczyna się od frontu skrzydła A)."});
+Object.assign(I18N.es,{angWallB:"Esquina interior: la pared B debe medir al menos {w} mm desde la esquina (el ala B parte de la cara del ala A)."});
+/* ---- 5.4: colț între doi pereți (D-98) ---- */
+Object.assign(I18N.it,{fWall2:"Secondo muro (angolo)",lamWall:"Muro",lamErrCorner:"Boiserie: il secondo muro non ha spazio (troppo corto per lo spessore) o un ritaglio del muro B cade nello spessore del muro A.",cornerInfo:"Angolo {k}: muro B di {b} mm dalla faccia del muro A",cornerS:"Segna sull'angolo la linea del muro B; monta prima il muro A fino all'angolo ({k}), poi il muro B."});
+Object.assign(I18N.ro,{fWall2:"Al doilea perete (colț)",lamWall:"Perete",lamErrCorner:"Boiserie: al doilea perete nu are loc (prea scurt pentru grosime) sau un decupaj din peretele B cade în grosimea peretelui A.",cornerInfo:"Colț {k}: peretele B are {b} mm de la fața peretelui A",cornerS:"Marchează pe colț linia peretelui B; montează întâi peretele A până la colț ({k}), apoi peretele B."});
+Object.assign(I18N.en,{fWall2:"Second wall (corner)",lamWall:"Wall",lamErrCorner:"Panelling: the second wall has no room (too short for the thickness) or a cut-out on wall B falls inside the thickness of wall A.",cornerInfo:"Corner {k}: wall B is {b} mm from the face of wall A",cornerS:"Mark the line of wall B on the corner; fit wall A up to the corner first ({k}), then wall B."});
+Object.assign(I18N.fr,{fWall2:"Second mur (angle)",lamWall:"Mur",lamErrCorner:"Lambris : le second mur n'a pas la place (trop court pour l'épaisseur) ou une découpe du mur B tombe dans l'épaisseur du mur A.",cornerInfo:"Angle {k} : mur B de {b} mm depuis la face du mur A",cornerS:"Marquez sur l'angle la ligne du mur B ; posez d'abord le mur A jusqu'à l'angle ({k}), puis le mur B."});
+Object.assign(I18N.de,{fWall2:"Zweite Wand (Ecke)",lamWall:"Wand",lamErrCorner:"Verkleidung: die zweite Wand hat keinen Platz (zu kurz für die Dicke) oder eine Aussparung an Wand B liegt in der Dicke von Wand A.",cornerInfo:"Ecke {k}: Wand B {b} mm ab der Fläche von Wand A",cornerS:"Linie von Wand B an der Ecke anzeichnen; zuerst Wand A bis zur Ecke montieren ({k}), dann Wand B."});
+Object.assign(I18N.pl,{fWall2:"Druga ściana (narożnik)",lamWall:"Ściana",lamErrCorner:"Okładzina: druga ściana nie ma miejsca (za krótka na grubość) lub wycięcie na ścianie B wypada w grubości ściany A.",cornerInfo:"Narożnik {k}: ściana B {b} mm od lica ściany A",cornerS:"Zaznacz w narożniku linię ściany B; najpierw zamontuj ścianę A do narożnika ({k}), potem ścianę B."});
+Object.assign(I18N.es,{fWall2:"Segunda pared (esquina)",lamWall:"Pared",lamErrCorner:"Revestimiento: la segunda pared no tiene sitio (demasiado corta para el grosor) o un recorte de la pared B cae en el grosor de la pared A.",cornerInfo:"Esquina {k}: pared B de {b} mm desde la cara de la pared A",cornerS:"Marca en la esquina la línea de la pared B; monta primero la pared A hasta la esquina ({k}) y luego la pared B."});
 /* ---- 5.3: boiserie cu rame și câmpuri (D-97) ---- */
 Object.assign(I18N.ro,{role_rama_montant:"Montant ramă",role_rama_traversa:"Traversă ramă"});
 Object.assign(I18N.en,{role_rama_montant:"Frame stile",role_rama_traversa:"Frame rail"});
@@ -6031,7 +6059,7 @@ function isFrontEl(el){ return /^(anta|frontale|montante anta|traversa anta)/i.t
 const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
   base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
-  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco",
+  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale",
   zoccolo:"zoccolo", traversa:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
   cassetto_fianco:"fianco", cassetto_fondo:"fianco"
@@ -7486,6 +7514,138 @@ function lamSupport(L,H,mB,cuts,PANL,PANW,pieces,boxes,pk0){
   });
   return {pk,sheets};
 }
+function lamWallLambriu(cfg,L,cuts0){
+/* LAMBRIUL CU LAMELE (D-95): lamele egale pe un suport, rosturi egale, capetele la ras cu peretele.
+   Gabaritul se recompune din piese cu toleranță 0: n·w + (n−1)·rost = lungime, în ebanist-lambriu.js.
+   Lamela = materialul corpului (grosimea din material, D-41); suportul = materialul spatelui. */
+  const H=+cfg.H, S0=(typeof state!=="undefined"&&state.settings)||{};
+  const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
+  const mS=matById(cfg.matBody), mB=cfg.back?matById(cfg.matBack||S0.matBack):null;
+  if(!mS||!(+mS.th>0)) throw new Error(t("lamErrMat"));
+  if(cfg.back&&(!mB||!(+mB.th>0))) throw new Error(t("lamErrBack"));
+  if(!(L>0&&H>0)) throw new Error(t("lamErrDim"));
+  const horiz=cfg.lamDir==="o", span=horiz?H:L;
+  const w=+cfg.lamW>0?+cfg.lamW:40, gap=(+cfg.lamGap>=0&&cfg.lamGap!==""&&cfg.lamGap!=null)?+cfg.lamGap:20;
+  const lay=EBLambriu.layout(span,w,gap);
+  if(!lay.ok) throw new Error(t("lamErrDim"));
+  const nc=EBLambriu.normCuts(cuts0,L,H);
+  if(!nc.ok) throw new Error(t("lamErrCut"));
+  const cuts=nc.cuts;
+  const ts=+mS.th, tb=mB?+mB.th:0, pieces=[], boxes=[], warn={};
+  let pk=0, sheets=null;
+  if(mB){ const sp=lamSupport(L,H,mB,cuts,PANL,PANW,pieces,boxes,pk); pk=sp.pk; sheets=sp.sheets; }
+  /* lamelele: întrerupte la decupaje, tăiate egal peste lungimea plăcii; piesele de aceeași lungime = un rând */
+  const plan=EBLambriu.slatPlan(lay,horiz,L,H,cuts,PANL), full=Math.round(plan.len);
+  const byLen=new Map();
+  plan.slats.forEach(sl=>sl.pieces.forEach(pc=>{
+    const len=Math.round(pc.u1-pc.u0); byLen.set(len,(byLen.get(len)||0)+1);
+    boxes.push(horiz
+      ?{x0:pc.u0,x1:pc.u1,y0:sl.v0,y1:sl.v1,z0:tb,z1:tb+ts,kind:"p",role:"lamela",pk:++pk}
+      :{x0:sl.v0,x1:sl.v1,y0:pc.u0,y1:pc.u1,z0:tb,z1:tb+ts,kind:"p",role:"lamela",pk:++pk});
+  }));
+  [...byLen.keys()].sort((a,b)=>b-a).forEach(len=>{
+    pieces.push({elemento:len===full?"Lamella":"Lamella tagliata",role:"lamela",lung:len,larg:Math.round(w),pz:byLen.get(len),
+      bordo:takesEdge(cfg,"Lamella","lamela")?"2L":"",mat:mS.label,
+      axis_mapping:horiz?{lung:"L",larg:"H",sp:"P"}:{lung:"H",larg:"L",sp:"P"}});
+  });
+  if(lay.warn.indexOf("tightGap")>=0) warn.lamTight=1;
+  if(lay.warn.indexOf("gapShift")>=0) warn.lamShift=Math.round(lay.gap*10)/10;
+  if(plan.short>0) warn.lamShort=plan.short;
+  if(plan.splits>0) warn.lamSplit=plan.splits;
+  const nPieces=[...byLen.values()].reduce((a,b)=>a+b,0);
+  return {pieces,boxes,warn,lam:{n:lay.n,gap:Math.round(lay.gap*10)/10,w,dir:horiz?"o":"v",sheets:sheets?sheets.groups.reduce((a,g)=>a+g.pz,0):0,cuts:cuts.length,pieces:nPieces}};
+}
+function lamWallBoiserie(cfg,L,cuts0){
+/* BOISERIE CU RAME ȘI CÂMPURI (D-97): rame aplicate pe un suport (câmpul). Montanți pe toată înălțimea, traverse între ei;
+   (n+1)·ramă + n·câmp = lățimea și (m+1)·ramă + m·câmp = înălțimea, exact, în mm întregi (restul îl iau ramele de capăt). */
+  const H=+cfg.H, S0=(typeof state!=="undefined"&&state.settings)||{};
+  const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
+  const mF=matById(cfg.matBody), mB=cfg.back?matById(cfg.matBack||S0.matBack):null;
+  if(!mF||!(+mF.th>0)) throw new Error(t("rfErrMat"));
+  if(cfg.back&&(!mB||!(+mB.th>0))) throw new Error(t("rfErrBack"));
+  if(!(L>0&&H>0)) throw new Error(t("rfErrDim"));
+  const fw=Math.round(+cfg.rfW>0?+cfg.rfW:60), rows=Math.round(+cfg.rfRows>0?+cfg.rfRows:1), tg=+cfg.rfTarget>0?+cfg.rfTarget:600;
+  const fx=EBLambriu.frameFit(L,fw,tg), fy=EBLambriu.frameN(H,fw,rows);
+  if(!fx.ok||!fy.ok) throw new Error(t("rfErrDim"));
+  if(Math.max(H,fx.field)>PANL) throw new Error(t("lamErrLen").replace("{m}",Math.round(Math.max(H,fx.field))).replace("{p}",PANL));
+  const nc=EBLambriu.normCuts(cuts0,L,H);
+  if(!nc.ok) throw new Error(t("lamErrCut"));
+  const cuts=nc.cuts, tf=+mF.th, tb=mB?+mB.th:0, pieces=[], boxes=[], warn={};
+  let pk=0, sheets=null;
+  if(mB){ const sp=lamSupport(L,H,mB,cuts,PANL,PANW,pieces,boxes,pk); pk=sp.pk; sheets=sp.sheets; }
+  const edge=takesEdge(cfg,"Montante cornice","rama_montant")?"2L":"";
+  /* montanții: cât înălțimea, pe grupe de lățime */
+  const byW=new Map(); fx.strips.forEach(q=>{ const w=q.b-q.a; byW.set(w,(byW.get(w)||0)+1); });
+  [...byW.keys()].sort((a,b)=>b-a).forEach(w=>pieces.push({elemento:"Montante cornice",role:"rama_montant",lung:Math.round(H),larg:w,pz:byW.get(w),
+    bordo:edge,mat:mF.label,axis_mapping:{lung:"H",larg:"L",sp:"P"}}));
+  /* traversele: cât câmpul, pe grupe de înălțime, câte una pe coloană */
+  const byH=new Map(); fy.strips.forEach(q=>{ const h=q.b-q.a; byH.set(h,(byH.get(h)||0)+fx.n); });
+  [...byH.keys()].sort((a,b)=>b-a).forEach(h=>pieces.push({elemento:"Traversa cornice",role:"rama_traversa",lung:fx.field,larg:h,pz:byH.get(h),
+    bordo:edge,mat:mF.label,axis_mapping:{lung:"L",larg:"H",sp:"P"}}));
+  fx.strips.forEach(q=>boxes.push({x0:q.a,x1:q.b,y0:0,y1:H,z0:tb,z1:tb+tf,kind:"p",role:"rama_montant",pk:++pk}));
+  fx.fields.forEach(c=>fy.strips.forEach(q=>boxes.push({x0:c.a,x1:c.b,y0:q.a,y1:q.b,z0:tb,z1:tb+tf,kind:"p",role:"rama_traversa",pk:++pk})));
+  /* PANOU ÎNCASTRAT ÎN RAMĂ (D-100): câmpul nu mai e suportul, ci un panou propriu din materialul fronturilor, care intră cu
+     `gd` mm în canalul fiecărei rame (canalul îl scoate modelul de operații din suprapunerea cutiilor) */
+  let panels=0;
+  if(cfg.rfInset){
+    const mP=matById(cfg.matFront||S0.matFront), tp=mP&&+mP.th>0?+mP.th:0;
+    if(!tp) throw new Error(t("rfErrInsetMat"));
+    if(!EBLambriu.insetOk(fw,tf,tp)) throw new Error(t("rfErrInset"));
+    const gd=EBLambriu.INSET.gd, pz0=tb+(tf-tp)/2, groups=[];
+    fx.fields.forEach(fc=>fy.fields.forEach(fr=>{
+      const holes=EBLambriu.panelHoles(fc.a,fc.b,fr.a,fr.b,cuts), sig=JSON.stringify(holes);
+      let g=groups.find(q=>q.sig===sig); if(!g){ g={sig,holes,pz:0}; groups.push(g); } g.pz++;
+      const x0=fc.a-gd, x1=fc.b+gd, y0=fr.a-gd, y1=fr.b+gd, id=++pk;
+      const hs=holes.map(h=>[x0+h.y,x0+h.y+h.w,y0+h.x,y0+h.x+h.l]);
+      const uq=a=>[...new Set(a)].sort((m,n)=>m-n);
+      const X=uq([x0,x1].concat(hs.flatMap(q=>[q[0],q[1]]))), Y=uq([y0,y1].concat(hs.flatMap(q=>[q[2],q[3]])));
+      for(let i=0;i+1<X.length;i++) for(let j=0;j+1<Y.length;j++){
+        const xm=(X[i]+X[i+1])/2, ym=(Y[j]+Y[j+1])/2;
+        if(hs.some(q=>xm>q[0]&&xm<q[1]&&ym>q[2]&&ym<q[3])) continue;
+        boxes.push({x0:X[i],x1:X[i+1],y0:Y[j],y1:Y[j+1],z0:pz0,z1:pz0+tp,kind:"f",role:"rama_camp",pk:id,ph:[x0,x1,y0,y1,pz0,pz0+tp]});
+      }
+      panels++;
+    }));
+    groups.forEach(g=>{
+      const o={elemento:"Pannello campo",role:"rama_camp",lung:fy.field+2*gd,larg:fx.field+2*gd,pz:g.pz,bordo:"",mat:mP.label,axis_mapping:{lung:"H",larg:"L",sp:"P"}};
+      if(g.holes.length) o.scasso=g.holes.length===1?g.holes[0]:g.holes;
+      pieces.push(o);
+    });
+  }
+  /* un decupaj trebuie să încapă întreg într-un câmp: dacă atinge o ramă, se spune */
+  const inField=c=>fx.fields.some(f=>c.x>=f.a&&c.x+c.w<=f.b)&&fy.fields.some(f=>c.y>=f.a&&c.y+c.h<=f.b);
+  const hit=cuts.filter(c=>!inField(c)).length;
+  if(hit) warn.rfCutHit=hit;
+  return {pieces,boxes,warn,rf:{n:fx.n,m:fy.n,field:fx.field,fieldH:fy.field,fw,stiles:fx.strips.length,rails:fx.n*fy.strips.length,panels,sheets:sheets?sheets.groups.reduce((a,g)=>a+g.pz,0):0,cuts:cuts.length}};
+}
+
+/* grosimea totală a placării (suport + lamelă/ramă), din materialele alese */
+function lamTotalTh(cfg){
+  const S0=(typeof state!=="undefined"&&state.settings)||{};
+  const mS=matById(cfg.matBody), mB=cfg.back?matById(cfg.matBack||S0.matBack):null;
+  return (mS&&+mS.th>0?+mS.th:0)+(mB&&+mB.th>0?+mB.th:0);
+}
+/* un perete sau doi (colț): același constructor pe fiecare perete, B așezat după colț (D-98) */
+function lamBuild(cfg){
+  const fn=cfg.type==="boiserie"?lamWallBoiserie:lamWallLambriu;
+  const LA=+cfg.L;
+  if(!cfg.wall2) return fn(cfg,LA,(Array.isArray(cfg.lamCuts)?cfg.lamCuts:[]).filter(c=>!(c&&c.wall==="B")));
+  const kind=cfg.cornerKind==="ext"?"ext":"int", side=cfg.corner==="sx"?"sx":"dx";
+  const A=fn(cfg,LA,(Array.isArray(cfg.lamCuts)?cfg.lamCuts:[]).filter(c=>!(c&&c.wall==="B")));
+  const tt=lamTotalTh(cfg), LB=+cfg.L2, Leff=kind==="int"?LB-tt:LB;
+  if(!(Leff>0)) throw new Error(t("lamErrCorner"));
+  const sc=EBLambriu.splitCuts(cfg.lamCuts,tt,kind);
+  if(!sc.ok) throw new Error(t("lamErrCorner"));
+  const B=fn(cfg,Leff,sc.B);
+  const pkA=A.boxes.reduce((m,b)=>Math.max(m,b.pk||0),0);
+  const Bb=EBLambriu.cornerPlace(B.boxes.map(b=>({...b,pk:(b.pk||0)+pkA})),{LA,t:tt,kind,side});
+  const boxes=EBLambriu.shiftToOrigin(A.boxes.map(b=>({...b})).concat(Bb));
+  const warn=Object.assign({},A.warn);
+  Object.keys(B.warn||{}).forEach(k=>{ warn[k]=typeof B.warn[k]==="number"&&typeof warn[k]==="number"?warn[k]+B.warn[k]:B.warn[k]; });
+  const out={pieces:A.pieces.map(x=>({...x,wing:"A"})).concat(B.pieces.map(x=>({...x,wing:"B"}))),boxes,warn,corner:{kind,side,t:tt,LB:Leff}};
+  if(A.lam){ out.lam=A.lam; out.lam2=B.lam; } if(A.rf){ out.rf=A.rf; out.rf2=B.rf; }
+  return out;
+}
 /* --- dispatch: standard / scorrevole / angolare (due ali a L) --- */
 function buildModule(cfg){
   if(cfg.topProfile&&(cfg.type||"standard")!=="standard")
@@ -7677,82 +7837,8 @@ function buildModule(cfg){
      archi. Gli intagli servono li e SOLO li: nei tratti dritti il pannello
      resta intero, ed e per questo che le posizioni vanno dette.
      Piani e ripiani restano rettangoli di sbozzo con due angoli da rifilare. */
-  /* LAMBRIUL CU LAMELE (D-95): lamele egale pe un suport, rosturi egale, capetele la ras cu peretele.
-     Gabaritul se recompune din piese cu toleranță 0: n·w + (n−1)·rost = lungime, în ebanist-lambriu.js.
-     Lamela = materialul corpului (grosimea din material, D-41); suportul = materialul spatelui. */
-  if(cfg.type==="lambriu"){
-    const L=+cfg.L, H=+cfg.H, S0=(typeof state!=="undefined"&&state.settings)||{};
-    const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
-    const mS=matById(cfg.matBody), mB=cfg.back?matById(cfg.matBack||S0.matBack):null;
-    if(!mS||!(+mS.th>0)) throw new Error(t("lamErrMat"));
-    if(cfg.back&&(!mB||!(+mB.th>0))) throw new Error(t("lamErrBack"));
-    if(!(L>0&&H>0)) throw new Error(t("lamErrDim"));
-    const horiz=cfg.lamDir==="o", span=horiz?H:L;
-    const w=+cfg.lamW>0?+cfg.lamW:40, gap=(+cfg.lamGap>=0&&cfg.lamGap!==""&&cfg.lamGap!=null)?+cfg.lamGap:20;
-    const lay=EBLambriu.layout(span,w,gap);
-    if(!lay.ok) throw new Error(t("lamErrDim"));
-    const nc=EBLambriu.normCuts(cfg.lamCuts,L,H);
-    if(!nc.ok) throw new Error(t("lamErrCut"));
-    const cuts=nc.cuts;
-    const ts=+mS.th, tb=mB?+mB.th:0, pieces=[], boxes=[], warn={};
-    let pk=0, sheets=null;
-    if(mB){ const sp=lamSupport(L,H,mB,cuts,PANL,PANW,pieces,boxes,pk); pk=sp.pk; sheets=sp.sheets; }
-    /* lamelele: întrerupte la decupaje, tăiate egal peste lungimea plăcii; piesele de aceeași lungime = un rând */
-    const plan=EBLambriu.slatPlan(lay,horiz,L,H,cuts,PANL), full=Math.round(plan.len);
-    const byLen=new Map();
-    plan.slats.forEach(sl=>sl.pieces.forEach(pc=>{
-      const len=Math.round(pc.u1-pc.u0); byLen.set(len,(byLen.get(len)||0)+1);
-      boxes.push(horiz
-        ?{x0:pc.u0,x1:pc.u1,y0:sl.v0,y1:sl.v1,z0:tb,z1:tb+ts,kind:"p",role:"lamela",pk:++pk}
-        :{x0:sl.v0,x1:sl.v1,y0:pc.u0,y1:pc.u1,z0:tb,z1:tb+ts,kind:"p",role:"lamela",pk:++pk});
-    }));
-    [...byLen.keys()].sort((a,b)=>b-a).forEach(len=>{
-      pieces.push({elemento:len===full?"Lamella":"Lamella tagliata",role:"lamela",lung:len,larg:Math.round(w),pz:byLen.get(len),
-        bordo:takesEdge(cfg,"Lamella","lamela")?"2L":"",mat:mS.label,
-        axis_mapping:horiz?{lung:"L",larg:"H",sp:"P"}:{lung:"H",larg:"L",sp:"P"}});
-    });
-    if(lay.warn.indexOf("tightGap")>=0) warn.lamTight=1;
-    if(lay.warn.indexOf("gapShift")>=0) warn.lamShift=Math.round(lay.gap*10)/10;
-    if(plan.short>0) warn.lamShort=plan.short;
-    if(plan.splits>0) warn.lamSplit=plan.splits;
-    const nPieces=[...byLen.values()].reduce((a,b)=>a+b,0);
-    return {pieces,boxes,warn,lam:{n:lay.n,gap:Math.round(lay.gap*10)/10,w,dir:horiz?"o":"v",sheets:sheets?sheets.groups.reduce((a,g)=>a+g.pz,0):0,cuts:cuts.length,pieces:nPieces}};
-  }
-  /* BOISERIE CU RAME ȘI CÂMPURI (D-97): rame aplicate pe un suport (câmpul). Montanți pe toată înălțimea, traverse între ei;
-     (n+1)·ramă + n·câmp = lățimea și (m+1)·ramă + m·câmp = înălțimea, exact, în mm întregi (restul îl iau ramele de capăt). */
-  if(cfg.type==="boiserie"){
-    const L=+cfg.L, H=+cfg.H, S0=(typeof state!=="undefined"&&state.settings)||{};
-    const PANL=S0.panelL||2800, PANW=S0.panelW||2070;
-    const mF=matById(cfg.matBody), mB=cfg.back?matById(cfg.matBack||S0.matBack):null;
-    if(!mF||!(+mF.th>0)) throw new Error(t("rfErrMat"));
-    if(cfg.back&&(!mB||!(+mB.th>0))) throw new Error(t("rfErrBack"));
-    if(!(L>0&&H>0)) throw new Error(t("rfErrDim"));
-    const fw=Math.round(+cfg.rfW>0?+cfg.rfW:60), rows=Math.round(+cfg.rfRows>0?+cfg.rfRows:1), tg=+cfg.rfTarget>0?+cfg.rfTarget:600;
-    const fx=EBLambriu.frameFit(L,fw,tg), fy=EBLambriu.frameN(H,fw,rows);
-    if(!fx.ok||!fy.ok) throw new Error(t("rfErrDim"));
-    if(Math.max(H,fx.field)>PANL) throw new Error(t("lamErrLen").replace("{m}",Math.round(Math.max(H,fx.field))).replace("{p}",PANL));
-    const nc=EBLambriu.normCuts(cfg.lamCuts,L,H);
-    if(!nc.ok) throw new Error(t("lamErrCut"));
-    const cuts=nc.cuts, tf=+mF.th, tb=mB?+mB.th:0, pieces=[], boxes=[], warn={};
-    let pk=0, sheets=null;
-    if(mB){ const sp=lamSupport(L,H,mB,cuts,PANL,PANW,pieces,boxes,pk); pk=sp.pk; sheets=sp.sheets; }
-    const edge=takesEdge(cfg,"Montante cornice","rama_montant")?"2L":"";
-    /* montanții: cât înălțimea, pe grupe de lățime */
-    const byW=new Map(); fx.strips.forEach(q=>{ const w=q.b-q.a; byW.set(w,(byW.get(w)||0)+1); });
-    [...byW.keys()].sort((a,b)=>b-a).forEach(w=>pieces.push({elemento:"Montante cornice",role:"rama_montant",lung:Math.round(H),larg:w,pz:byW.get(w),
-      bordo:edge,mat:mF.label,axis_mapping:{lung:"H",larg:"L",sp:"P"}}));
-    /* traversele: cât câmpul, pe grupe de înălțime, câte una pe coloană */
-    const byH=new Map(); fy.strips.forEach(q=>{ const h=q.b-q.a; byH.set(h,(byH.get(h)||0)+fx.n); });
-    [...byH.keys()].sort((a,b)=>b-a).forEach(h=>pieces.push({elemento:"Traversa cornice",role:"rama_traversa",lung:fx.field,larg:h,pz:byH.get(h),
-      bordo:edge,mat:mF.label,axis_mapping:{lung:"L",larg:"H",sp:"P"}}));
-    fx.strips.forEach(q=>boxes.push({x0:q.a,x1:q.b,y0:0,y1:H,z0:tb,z1:tb+tf,kind:"p",role:"rama_montant",pk:++pk}));
-    fx.fields.forEach(c=>fy.strips.forEach(q=>boxes.push({x0:c.a,x1:c.b,y0:q.a,y1:q.b,z0:tb,z1:tb+tf,kind:"p",role:"rama_traversa",pk:++pk})));
-    /* un decupaj trebuie să încapă întreg într-un câmp: dacă atinge o ramă, se spune */
-    const inField=c=>fx.fields.some(f=>c.x>=f.a&&c.x+c.w<=f.b)&&fy.fields.some(f=>c.y>=f.a&&c.y+c.h<=f.b);
-    const hit=cuts.filter(c=>!inField(c)).length;
-    if(hit) warn.rfCutHit=hit;
-    return {pieces,boxes,warn,rf:{n:fx.n,m:fy.n,field:fx.field,fieldH:fy.field,fw,stiles:fx.strips.length,rails:fx.n*fy.strips.length,sheets:sheets?sheets.groups.reduce((a,g)=>a+g.pz,0):0,cuts:cuts.length}};
-  }
+  /* lambriu și boiserie: unul sau doi pereți (colț), vezi lamBuild */
+  if(cfg.type==="lambriu"||cfg.type==="boiserie") return lamBuild(cfg);
   if(cfg.type==="raccordato"){
     const L=cfg.L, H=cfg.H, P=cfg.P, t=structTh(cfg);
     const pieces=[],boxes=[],warn={};
@@ -7822,8 +7908,13 @@ function buildModule(cfg){
        formano l'angolo concavo della stanza. Esterno: esce oltre l'ala A e i due
        schienali abbracciano uno spigolo che sporge (camino, pilastro). */
     const dx=cfg.corner==="dx", ext=cfg.cornerKind==="ext";
+    /* COLȚ INTERIOR (D-99): peretele B e la x=L (dx) sau x=0 (sx), iar camera e de partea +z. Ala B începe la FAȚA
+       alei A (cea mai mare z a ei, cu tot cu uși) și se întinde spre cameră (+z), cu spatele pe peretele B.
+       Înainte B se întindea spre −z, adică înăuntrul peretelui A: corp „în perete”. La colț exterior (spigol ieșit)
+       B rămâne în spatele planului lui A, pe fața peretelui care iese, ca până acum. */
+    const zA=A.boxes.reduce((m,b)=>Math.max(m,b.z1),0);
     const rot = ext ? (dx ? (x,z)=>[cfg.L+z,-x] : (x,z)=>[-z,-x])
-                    : (dx ? (x,z)=>[cfg.L-z,-x] : (x,z)=>[z,-x]);
+                    : (dx ? (x,z)=>[cfg.L-z,zA+x] : (x,z)=>[z,zA+x]);
     const mapB=o=>{
       const pc=planPC(o).map(q=>rot(q[0],q[1]));
       const xs=pc.map(q=>q[0]), zs=pc.map(q=>q[1]);
@@ -7837,7 +7928,7 @@ function buildModule(cfg){
               role:o.role,pk:o.pk?o.pk+1000:undefined,sub:o.sub,grp:o.grp?"B"+o.grp:undefined,wing:"B"};
     };
     const boxes=A.boxes.concat(B.boxes.map(mapB));
-    return {pieces,boxes};
+    return {pieces,boxes,angCorner:{kind:ext?"ext":"int",side:dx?"dx":"sx",wallB:Math.round((+cfg.L2||900)+zA)}};
   }
   return buildCore(cfg);
 }
@@ -8258,6 +8349,12 @@ Object.assign(EL_I18N.fr,{"Montante cornice":"Montant de cadre","Traversa cornic
 Object.assign(EL_I18N.de,{"Montante cornice":"Rahmenpfosten","Traversa cornice":"Rahmenriegel"});
 Object.assign(EL_I18N.pl,{"Montante cornice":"Słupek ramy","Traversa cornice":"Poprzeczka ramy"});
 Object.assign(EL_I18N.es,{"Montante cornice":"Montante de marco","Traversa cornice":"Travesaño de marco"});
+Object.assign(EL_I18N.ro,{"Pannello campo":"Panou câmp"});
+Object.assign(EL_I18N.en,{"Pannello campo":"Field panel"});
+Object.assign(EL_I18N.fr,{"Pannello campo":"Panneau de champ"});
+Object.assign(EL_I18N.de,{"Pannello campo":"Füllung"});
+Object.assign(EL_I18N.pl,{"Pannello campo":"Płyta pola"});
+Object.assign(EL_I18N.es,{"Pannello campo":"Panel de campo"});
 Object.assign(EL_I18N.ro,{"Lamella":"Lamelă","Pannello supporto":"Panou suport"});
 Object.assign(EL_I18N.en,{"Lamella":"Slat","Pannello supporto":"Support panel"});
 Object.assign(EL_I18N.fr,{"Lamella":"Lamelle","Pannello supporto":"Panneau support"});
@@ -8861,15 +8958,18 @@ function clientBack(){
 let buildLamCuts=[];
 function cleanLamCuts(a){
   const n=v=>{ const q=parseInt(v,10); return isFinite(q)?q:NaN; };
-  return (Array.isArray(a)?a:[]).map(c=>({x:Math.max(0,n(c.x)||0),y:Math.max(0,n(c.y)||0),w:n(c.w),h:n(c.h)}))
+  return (Array.isArray(a)?a:[]).map(c=>Object.assign({x:Math.max(0,n(c.x)||0),y:Math.max(0,n(c.y)||0),w:n(c.w),h:n(c.h)},c&&c.wall==="B"?{wall:"B"}:{}))
     .filter(c=>c.w>0&&c.h>0);
 }
 function renderLamCuts(){
   const box=$("lamCutBox"); if(!box) return;
   const ph=[t("lamCutX"),t("lamCutY"),t("lamCutW"),t("lamCutH")], keys=["x","y","w","h"];
-  box.innerHTML=buildLamCuts.map((c,i)=>`<div class="f2" style="grid-template-columns:repeat(4,1fr) auto;gap:6px;margin-bottom:6px;align-items:center">`+
+  const two=$("bWall2")&&$("bWall2").value==="1";
+  box.innerHTML=buildLamCuts.map((c,i)=>`<div class="f2" style="grid-template-columns:repeat(4,1fr) ${two?"auto ":""}auto;gap:6px;margin-bottom:6px;align-items:center">`+
     keys.map((k,j)=>`<input type="number" inputmode="numeric" min="0" data-lc="${i}:${k}" value="${c[k]==null||isNaN(c[k])?"":c[k]}" placeholder="${esc(ph[j])}" title="${esc(ph[j])}" aria-label="${esc(ph[j])}">`).join("")+
+    (two?`<select data-lcw="${i}" aria-label="${esc(t("lamWall"))}"><option value="A"${c.wall==="B"?"":" selected"}>A</option><option value="B"${c.wall==="B"?" selected":""}>B</option></select>`:"")+
     `<button type="button" class="btn sm ghost" data-lcdel="${i}" aria-label="×">✕</button></div>`).join("");
+  box.querySelectorAll("[data-lcw]").forEach(sel=>sel.addEventListener("change",()=>{ const c=buildLamCuts[+sel.dataset.lcw]; if(sel.value==="B") c.wall="B"; else delete c.wall; drawPreview(); }));
   box.querySelectorAll("[data-lc]").forEach(inp=>inp.addEventListener("input",()=>{
     const [i,k]=inp.dataset.lc.split(":"); buildLamCuts[+i][k]=inp.value===""?"":parseInt(inp.value,10); drawPreview(); }));
   box.querySelectorAll("[data-lcdel]").forEach(b=>b.addEventListener("click",()=>{ buildLamCuts.splice(+b.dataset.lcdel,1); renderLamCuts(); drawPreview(); }));
@@ -8880,10 +8980,16 @@ function lamDepth(){
   const th=id=>{ const m=matById($(id).value); return m&&+m.th>0?+m.th:0; };
   return Math.max(1,th("bMatBody")+(parseInt($("bBack").value,10)?th("bMatBack"):0));
 }
+/* câmpurile colțului: la angolare mereu, la lambriu/boiserie numai cu „al doilea perete” */
+function cornerRows(){
+  const ty=$("bTipo").value, two=(ty==="lambriu"||ty==="boiserie")&&$("bWall2").value==="1", ang=ty==="angolare";
+  $("rowL2").style.display=(ang||two)?"":"none"; $("fCornerWrap").style.display=(ang||two)?"":"none"; $("fCornerKindWrap").style.display=(ang||two)?"":"none";
+  $("rowWall2").style.display=(ty==="lambriu"||ty==="boiserie")?"":"none";
+}
 function lamRows(){
   const ty=$("bTipo").value, lam=ty==="lambriu", rf=ty==="boiserie";
-  $("rowLam").style.display=lam?"":"none"; $("rowRf").style.display=rf?"":"none";
-  $("rowP").style.display=(lam||rf)?"none":""; $("rowLamCuts").style.display=(lam||rf)?"":"none";
+  $("rowLam").style.display=lam?"":"none"; $("rowRf").style.display=rf?"":"none"; $("rowRfInset").style.display=rf?"":"none";
+  $("rowP").style.display=(lam||rf)?"none":""; $("rowLamCuts").style.display=(lam||rf)?"":"none"; cornerRows();
   if(lam||rf) renderLamCuts();
 }
 function cfgFromForm(){
@@ -8892,7 +8998,7 @@ function cfgFromForm(){
     L:Math.max(100,v("bL",800)), L2:Math.max(300,v("bL2",900)),
     H:(()=>{ const sl=slopeFromForm(); return sl&&sl.h0>0&&sl.h1>0?Math.max(sl.h0,sl.h1):Math.max(100,v("bH",720)); })(),
     P:["lambriu","boiserie"].includes($("bTipo").value)?lamDepth():Math.max(100,v("bP",500)),
-    lamW:Math.max(10,Math.min(300,v("bLamW",40))), lamGap:Math.max(0,Math.min(200,v("bLamGap",20))), lamDir:$("bLamDir").value==="o"?"o":"v", lamCuts:cleanLamCuts(buildLamCuts),
+    lamW:Math.max(10,Math.min(300,v("bLamW",40))), lamGap:Math.max(0,Math.min(200,v("bLamGap",20))), lamDir:$("bLamDir").value==="o"?"o":"v", lamCuts:cleanLamCuts(buildLamCuts), rfInset:parseInt($("bRfInset").value,10)?1:0, wall2:parseInt($("bWall2").value,10)?1:0,
     rfW:Math.max(20,Math.min(200,v("bRfW",60))), rfTarget:Math.max(100,Math.min(1500,v("bRfT",600))), rfRows:Math.max(1,Math.min(8,v("bRfRows",1))),
     /* LA GROSSEZZA VIENE DAL MATERIALE. Il vecchio `||{th:18}` era la rete
        di sicurezza che teneva il calcolo a 18 quando il pannello era da 19.
@@ -8951,8 +9057,7 @@ function syncBuildForm(){
   $("bBoxes").value=buildCfg.boxes===0||buildCfg.boxes==="0"?"0":"1";
   $("bCorner").value=buildCfg.corner||"sx";
   $("bCornerKind").value=buildCfg.cornerKind||"int";
-  $("fCornerWrap").style.display=($("bTipo").value==="angolare")?"":"none";
-  $("fCornerKindWrap").style.display=($("bTipo").value==="angolare")?"":"none";
+  cornerRows();
   /* la bombatura si chiede solo quando serve: su un frontale piatto sarebbe
      un campo in piu che non fa niente, e sono gia ventinove */
   $("bBow").value=buildCfg.bow||"";
@@ -8960,7 +9065,7 @@ function syncBuildForm(){
   $("bRc").value=buildCfg.rcorner||"";
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
   $("bName").value=buildCfg.name||""; $("bTipo").value=buildCfg.type||"standard";
-  $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v";
+  $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v"; $("bWall2").value=buildCfg.wall2?"1":"0"; $("bRfInset").value=buildCfg.rfInset?"1":"0";
   $("bRfW").value=buildCfg.rfW||""; $("bRfT").value=buildCfg.rfTarget||""; $("bRfRows").value=buildCfg.rfRows||"";
   buildLamCuts=Array.isArray(buildCfg.lamCuts)?buildCfg.lamCuts.map(c=>({x:c.x,y:c.y,w:c.w,h:c.h})):[]; renderLamCuts(); lamRows();
   $("bL").value=buildCfg.L; $("bL2").value=buildCfg.L2||900;
@@ -8989,7 +9094,7 @@ function syncBuildForm(){
   $("bShelfStep").value=buildCfg.shelfStep||320;
   $("bAngL").value=isAng(buildCfg.angL)?buildCfg.angL:"";
   $("bAngR").value=isAng(buildCfg.angR)?buildCfg.angR:"";
-  $("rowL2").style.display=$("bTipo").value==="angolare"?"":"none";
+  cornerRows();
   /* I bottoni del cercatore mostrano quello che c'e nel <select>: se non si
      ridipingono DOPO averlo riempito, restano sulla prima voce della lista.
      Si vedeva come uno schienale in rovere da 19 al posto dell'HDF da 3 — il
@@ -9448,9 +9553,7 @@ function renderLayBar(){
 }
 function drawPreview(){
   buildCfg=cfgFromForm();
-  $("rowL2").style.display=buildCfg.type==="angolare"?"":"none";
-  $("fCornerWrap").style.display=buildCfg.type==="angolare"?"":"none";
-  $("fCornerKindWrap").style.display=buildCfg.type==="angolare"?"":"none";
+  cornerRows();
   draw3D();
   /* Senza materiale non c'e grossezza, e senza grossezza non c'e geometria:
      il motore si ferma. L'anteprima lo DICE, invece di rompersi in silenzio
@@ -9495,6 +9598,10 @@ function drawPreview(){
   if(wn.stepHit) notes.push("⚠︎ "+t("stepHit"));
   if(wn.topAng) notes.push("⚠︎ "+t("wTopAngled"));
   if(built.lam) notes.push(t("lamInfo").replace("{n}",built.lam.n).replace("{g}",built.lam.gap));
+  if(built.angCorner&&built.angCorner.kind==="int") notes.push(t("angWallB").replace("{w}",built.angCorner.wallB));
+  if(built.corner) notes.push(t("cornerInfo").replace("{k}",t(built.corner.kind==="ext"?"cornExt":"cornInt")).replace("{b}",built.corner.LB));
+  if(built.lam2) notes.push("B: "+t("lamInfo").replace("{n}",built.lam2.n).replace("{g}",built.lam2.gap));
+  if(built.rf2) notes.push("B: "+t("rfInfo").replace("{n}",built.rf2.n).replace("{m}",built.rf2.m).replace("{w}",built.rf2.field).replace("{h}",built.rf2.fieldH));
   if(built.rf) notes.push(t("rfInfo").replace("{n}",built.rf.n).replace("{m}",built.rf.m).replace("{w}",built.rf.field).replace("{h}",built.rf.fieldH));
   if(built.rf&&built.rf.cuts) notes.push(t("lamCutInfo").replace("{n}",built.rf.cuts).replace("{p}",built.rf.stiles+built.rf.rails));
   if(wn.rfCutHit) notes.push("⚠︎ "+t("wRfCutHit").replace("{n}",wn.rfCutHit));
@@ -9744,7 +9851,9 @@ function renderBuild(){
       if($("bTipo").value==="boiserie"){ if(!$("bRfW").value) $("bRfW").value=60; if(!$("bRfT").value) $("bRfT").value=600; if(!$("bRfRows").value) $("bRfRows").value=1; }
     });
     $("btnLamCutAdd").addEventListener("click",()=>{ buildLamCuts.push({x:Math.round((parseInt($("bL").value,10)||0)/2),y:300,w:80,h:80}); renderLamCuts(); drawPreview(); });
-    ["bRfW","bRfT","bRfRows"].forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
+    $("bWall2").addEventListener("change",()=>{ if($("bWall2").value==="1"&&!$("bL2").value) $("bL2").value=900; cornerRows(); renderLamCuts(); drawPreview(); });
+    ["bCorner","bCornerKind","bL2"].forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
+    ["bRfW","bRfT","bRfRows","bRfInset"].forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     ["bLamW","bLamGap","bLamDir"].forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     $("bFront").addEventListener("change",()=>{
       $("rowBow").style.display=($("bFront").value==="curvo")?"":"none";
@@ -10294,7 +10403,7 @@ function auditBadge(){
 /* sfaturi de inginerie (EBAdvice): consultative, nu blochează nimic */
 function adviceList(p){
   if(!p||!window.EBAdvice) return [];
-  return EBAdvice.advise((p.pieces||[]).filter(x=>!isAccPiece(x)),{
+  return EBAdvice.advise(p.pieces||[],{
     th:x=>{ const m=matByLabel(x.materiale||x.mat); return m?+m.th||0:0; },
     mat:x=>x.materiale||x.mat||"" });
 }
@@ -11009,20 +11118,26 @@ function assemblySteps(modName,hw,cfg,items){
   add(t("mPrep"));
   if(cfg&&cfg.type==="boiserie"){
     let B=null; try{ B=buildModule(cfg); }catch(e){}
-    const m=B&&B.rf;
+    const m=B&&B.rf, m2=B&&B.rf2;
+    const rf3=q=>t("rfS3").replace("{a}",q.stiles).replace("{b}",q.rails).replace("{n}",q.n).replace("{m}",q.m).replace("{w}",q.field).replace("{h}",q.fieldH);
     add(t("lamS1"));
-    if(m&&m.sheets>0) add(t("lamS2").replace("{q}",m.sheets));
-    if(m) add(t("rfS3").replace("{a}",m.stiles).replace("{b}",m.rails).replace("{n}",m.n).replace("{m}",m.m).replace("{w}",m.field).replace("{h}",m.fieldH));
+    if(B&&B.corner) add(t("cornerS").replace("{k}",t(B.corner.kind==="ext"?"cornExt":"cornInt")));
+    if(m&&m.sheets>0) add((m2?"A: ":"")+t("lamS2").replace("{q}",m.sheets));
+    if(m) add((m2?"A: ":"")+rf3(m));
+    if(m2){ if(m2.sheets>0) add("B: "+t("lamS2").replace("{q}",m2.sheets)); add("B: "+rf3(m2)); }
+    if(m&&m.panels) add(t("rfS5").replace("{k}",m.panels));
     add(t("rfS4"));
     return st;
   }
   if(cfg&&cfg.type==="lambriu"){
     /* cotele vin din model (D-51): numărul de lamele, rostul și foile de suport, nu din text scris */
     let B=null; try{ B=buildModule(cfg); }catch(e){}
-    const m=B&&B.lam;
+    const m=B&&B.lam, m2=B&&B.lam2;
     add(t("lamS1"));
-    if(m&&m.sheets>0) add(t("lamS2").replace("{q}",m.sheets));
-    if(m) add(t("lamS3").replace("{n}",m.n).replace("{g}",m.gap));
+    if(B&&B.corner) add(t("cornerS").replace("{k}",t(B.corner.kind==="ext"?"cornExt":"cornInt")));
+    if(m&&m.sheets>0) add((m2?"A: ":"")+t("lamS2").replace("{q}",m.sheets));
+    if(m) add((m2?"A: ":"")+t("lamS3").replace("{n}",m.n).replace("{g}",m.gap));
+    if(m2){ if(m2.sheets>0) add("B: "+t("lamS2").replace("{q}",m2.sheets)); add("B: "+t("lamS3").replace("{n}",m2.n).replace("{g}",m2.gap)); }
     add(t("lamS4"));
     return st;
   }
@@ -14795,13 +14910,15 @@ function aiSchema(mode){
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
         bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
+        rfInset:{type:"integer",minimum:0,maximum:1,description:"1 = the fields are separate panels set in a groove of the frame (type boiserie); 0 = the support panel is the field."},
         rfW:{type:"integer",minimum:20,maximum:200,description:"Frame strip width (mm), only with type=\"boiserie\"."},
         rfTarget:{type:"integer",minimum:100,maximum:1500,description:"Wanted field width (mm), only with type=\"boiserie\"; the engine picks the whole number of fields closest to it."},
         rfRows:{type:"integer",minimum:1,maximum:8,description:"Rows of fields, only with type=\"boiserie\"."},
         lamW:{type:"integer",minimum:10,maximum:300,description:"Slat width (mm), only with type=\"lambriu\"."},
         lamGap:{type:"integer",minimum:0,maximum:200,description:"Wanted gap between slats (mm), only with type=\"lambriu\"; the engine adjusts it so the slats fill the wall exactly."},
         lamCuts:{type:"array",maxItems:30,description:"Cut-outs in the wall (sockets, switches), only with type=\"lambriu\": x from the left edge of the wall, y from the floor, w and h in mm. The slats are interrupted where a cut-out touches them.",
-          items:{type:"object",properties:{x:{type:"integer",minimum:0},y:{type:"integer",minimum:0},w:{type:"integer",minimum:1},h:{type:"integer",minimum:1}},required:["x","y","w","h"]}},
+          items:{type:"object",properties:{x:{type:"integer",minimum:0},y:{type:"integer",minimum:0},w:{type:"integer",minimum:1},h:{type:"integer",minimum:1},wall:{type:"string",enum:["A","B"],description:"B = the second wall of a corner, x measured from the corner"}},required:["x","y","w","h"]}},
+        wall2:{type:"integer",minimum:0,maximum:1,description:"1 = the panelling continues on a second wall at a corner (type lambriu or boiserie); then L2 is the second wall width, corner = sx|dx the side of the second wall, cornerKind = int|ext."},
         lamDir:{type:"string",enum:AI_ENUM.lamDir,description:"v = vertical slats, o = horizontal; only with type=\"lambriu\"."},
         secMode:{type:"array",items:{type:"string",enum:AI_ENUM.secMode},maxItems:MAX_TRAM+1,
           description:"Content of each section, left to right. Length must be tram+1."},
@@ -14912,7 +15029,7 @@ async function aiCall(mode,text,imgs){
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,MAX_TRAM],
   shelves:[0,10],drawers:[0,8],doors:[0,MAX_DOORS],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
   shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
-  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
+  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
@@ -14923,7 +15040,7 @@ function aiNormCfg(raw,warn){
     if(raw[k]==null) continue;
     if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
   if(Array.isArray(raw.lamCuts)){
-    const arr=raw.lamCuts.slice(0,30).map(c=>({x:aiInt(c&&c.x,0,6000),y:aiInt(c&&c.y,0,6000),w:aiInt(c&&c.w,1,6000),h:aiInt(c&&c.h,1,6000)}));
+    const arr=raw.lamCuts.slice(0,30).map(c=>Object.assign({x:aiInt(c&&c.x,0,6000),y:aiInt(c&&c.y,0,6000),w:aiInt(c&&c.w,1,6000),h:aiInt(c&&c.h,1,6000)},c&&c.wall==="B"?{wall:"B"}:{}));
     const good=arr.filter(c=>c.x!=null&&c.y!=null&&c.w!=null&&c.h!=null);
     out.lamCuts=good; if(good.length<arr.length) warn.push("lamCuts: ?");
   }
@@ -15177,7 +15294,7 @@ function aiLbl(k){
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
-    bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
+    bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),wall2:t("fWall2"),rfInset:t("fRfInset"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
     partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
     customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤"};
   return map[k]||k;
@@ -15194,8 +15311,9 @@ function aiVal(k,v){
   if(k==="depthProfile") return (v||[]).map(z=>`${z.yFrom}–${z.yTo}: ${z.depth}`).join(" · ")||"—";
   if(k==="customCuts") return (v||[]).map(c=>`${c.on} ${c.corner} ${c.h}×${c.w}`).join(" · ")||"—";
   if(k==="geom") return v&&v.setback_ripiano!=null?String(v.setback_ripiano):"—";
-  if(k==="lamCuts") return Array.isArray(v)&&v.length?v.map(c=>`${c.w}×${c.h} @ ${c.x}/${c.y}`).join(" · "):"—";
-  if(["back","hang","boxes","shelfEven"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
+  if(k==="lamCuts") return Array.isArray(v)&&v.length?v.map(c=>`${c.wall==="B"?"B ":""}${c.w}×${c.h} @ ${c.x}/${c.y}`).join(" · "):"—";
+  if(k==="wall2") return v?t("optYes"):t("optNo");
+  if(["back","hang","boxes","shelfEven","wall2","rfInset"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
   if(["type","front","support","handles","shelfType","corner","cornerKind","top","lamDir"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
@@ -15962,12 +16080,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.3.0"; /* APP_VER-MARKER */
+const APP_VER="5.7.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v160";
+const SW_CACHE="ebanist-v164";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -5,6 +5,52 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.7.0 — 27 octombrie 2026
+
+**Boiserie cu panou încastrat în ramă** — varianta clasică: panourile câmpurilor sunt piese proprii, care intră în canalul ramelor.
+- La boiserie, „Panou încastrat în ramă” = Da: câmpul nu mai e suportul, ci un panou din materialul fronturilor (grosimea din material, D-41), mărit cu 8 mm pe fiecare latură (cât intră în canal). Panourile apar în distinctă ca „Pannello campo”, câte unul pe câmp; același decupaj de priză dă gaură în panou, nu în suport. Suportul rămâne opțional.
+- **Canalele din rame** le scoate modelul de operații: câte patru pe panou, pe **marginea ramei** (fețele 1–4), cu grosimea panoului și adâncimea de 8 mm. Un decupaj de priză lângă marginea panoului nu rupe canalul. Ramele sunt acum piese fizice în model (montanți, traverse, panouri), numerotate în fișa piesei.
+- **Un panou prea gros pentru ramă dă eroare** (rămân sub 3 mm de lemn de fiecare parte); pașii de montaj spun câte panouri se introduc înainte de a închide cadrul. Merge și la colț între doi pereți.
+- **Date nevalidate:** adâncimea canalului (8 mm) și restul minim (3 mm) sunt generice, `verificat:false`, și apar în registrul de verificare a găuririi, de măsurat pe o ramă reală înainte să meargă în mașină. Fișierul de mașină așteaptă Cafasso (D-91).
+- Teste: 738 în browser, 5 unitare noi pe canale, fuzz D-78 pe 21000 de configurații (cu colțuri, decupaje și panouri) fără nicio abatere, golden 46 verificat aritmetic (`validat:false`).
+
+---
+
+## 5.6.0 — 27 octombrie 2026
+
+**Consilierul tehnic: sfatul pentru ușă înaltă nu apărea niciodată în proiectele reale — corectat — și două reguli noi.**
+- **Corecție:** regula „ușă înaltă și îngustă” căuta rolul „anta”, dar ușile generate de motor au rolul „frontale” (numele „Anta”). Pe un proiect real nu se declanșa niciodată; testul de la 5.0.0 folosea un rând scris de mână cu rolul greșit. Acum regula citește ușile cum le scrie motorul, iar testele rulează pe un dulap generat de motor.
+- **Ușă grea:** greutatea estimată (arie × grosime × densitatea familiei de material) peste 12 kg dă sfatul „verifică capacitatea balamalelor și numărul lor”, cu greutatea în mesaj.
+- **Bară de haine lungă:** o bară de peste 1000 mm fără sprijin la mijloc dă sfatul de a adăuga un suport central.
+- Ca la restul consilierului, valorile (densități, 12 kg, 1000 mm) sunt ipoteze marcate `verificat:false`: orientative, de confirmat cu furnizorul. Nimic nu blochează exportul.
+- Teste: 735 în browser, 9 unitare pe consilier.
+
+---
+
+## 5.5.0 — 27 octombrie 2026
+
+**Corpul de colț: colțul interior era pus greșit în 3D și în planul de montaj — corectat.**
+- La **colț interior** (colț de cameră), ala B a corpului de colț (`angolare`) se întindea spre −z, adică **în interiorul peretelui A**, nu în cameră. Distinta (cotele pieselor) era corectă, dar așezarea celor două aripi în 3D, în explodat, în AR și în fișa de montaj era în perete. Acum ala B începe de la **fața alei A** (cu tot cu uși), stă pe partea camerei și se sprijină cu spatele pe peretele B, la stânga și la dreapta.
+- Preview-ul spune cât trebuie să măsoare peretele B de la colț: lățimea alei B plus adâncimea alei A.
+- **Colțul exterior (spigol ieșit) nu s-a schimbat.**
+- Cotele din distinta corpurilor de colț nu s-au schimbat (golden 19–22 identice).
+- Teste: 733 în browser; fuzz pe configurații aleatoare: 128 de cazuri cu „ala B nu începe la fața lui A” pe codul vechi, 0 pe cel nou. În fuzz mai apar pe corpurile de colț constatări vechi, neatinse de această corecție (reguli V3, invariantul I4, coliziuni la bara de umerașe); sunt de analizat separat.
+
+---
+
+## 5.4.0 — 27 octombrie 2026
+
+**Colț între doi pereți** pentru lambriul cu lamele și boiseria cu rame.
+- În Generator, la lambriu și boiserie: „Al doilea perete (colț)” = Da aduce lățimea peretelui B (câmpul „Largh. ala B”), partea colțului (stânga/dreapta) și felul lui (interior = colț de cameră, exterior = colț ieșit).
+- **La colț interior, placarea lui B începe la fața placării lui A**: lățimea lui B se scade cu grosimea totală (suport + lamelă sau ramă). La colț exterior, B are lățimea întreagă. Fiecare perete se potrivește singur (lamele și rosturi, sau câmpuri și rame) cu aceeași închidere exactă ca la un perete singur.
+- **Decupajele (prize) au alegere de perete (A sau B)**; pentru B, X se măsoară de la colț. Un decupaj din B în grosimea lui A se respinge.
+- Distinta are piesele pe module „Nume A” și „Nume B”, ca la corpurile de colț. 3D-ul pune pereții în unghi drept, fără suprapuneri; preview-ul spune colțul și lățimea lui B, iar pașii de montaj sunt pe A și pe B cu felul colțului.
+- Dictarea cu AI cunoaște „al doilea perete” și decupajele pe perete; textele sunt în 7 limbi.
+- Limite: colț de 90° (nu alt unghi); colțul exterior are muchia lui A la vedere (fără tăietură în unghi la 45°); lățimea lui B trebuie să fie mai mare decât grosimea totală.
+- Teste: 731 în browser, 7 unitare noi (patru colțuri fără suprapuneri), fuzz D-78 pe 15000 de configurații fără abateri, golden 44 și 45 verificate aritmetic, `validat:false`.
+
+---
+
 ## 5.3.0 — 27 octombrie 2026
 
 **Boiserie cu rame și câmpuri** — placare de perete cu rame aplicate pe un suport (stilul clasic și cel modern „boiserie”), lângă lambriul cu lamele.

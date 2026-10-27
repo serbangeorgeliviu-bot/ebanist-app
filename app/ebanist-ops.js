@@ -94,7 +94,7 @@ function jointKind(input) {
 }
 
 var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa",
-  "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo"];
+  "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
 
@@ -104,7 +104,9 @@ var AX = ["x", "y", "z"];
    parti metalliche del cassetto e la ferramenta non si forano qui. */
 var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo: 1, blat: 1, schienale: 1, ripiano: 1,
   frontale: 1, divisorio: 1, zoccolo: 1, traversa: 1, cassetto_frontale: 1,
-  cassetto_fianco: 1, cassetto_fondo: 1 };
+  cassetto_fianco: 1, cassetto_fondo: 1,
+  /* boiserie cu rame (D-97, D-100): ramele sunt panouri, panoul din câmp intră în canal */
+  rama_montant: 1, rama_traversa: 1, rama_camp: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -656,6 +658,50 @@ function generate(input) {
                      du: c.w, dv: c.d, r: c.r || 0, through: true, depth: q.T,
                      note: c.kind === "hob" ? "decupaj plită" : c.kind === "sink" ? "decupaj chiuvetă" : "decupaj blat" });
     });
+  });
+
+  /* --- 6b. canalele ramei (D-100): panoul din câmp intră în montanți și traverse; canalul e exact unde cutia panoului se
+         suprapune cu cutia ramei, pe MARGINEA ramei (fețele 1–4), nu pe fața mare ca la cava spatelui. ----------- */
+  byRole("rama_camp").forEach(function (Pn) {
+    /* canalul urmează dreptunghiul panoului ÎNTREG (o gaură de priză lângă margine nu întrerupe canalul din ramă) */
+    var hull = null; Pn.boxes.forEach(function (b0) { if (b0.ph) hull = b0.ph; });
+    [hull ? { x0: hull[0], x1: hull[1], y0: hull[2], y1: hull[3], z0: hull[4], z1: hull[5] }
+          : { x0: Pn.min[0], x1: Pn.max[0], y0: Pn.min[1], y1: Pn.max[1], z0: Pn.min[2], z1: Pn.max[2] }].forEach(function (pb) {
+      pcs.forEach(function (q) {
+        if (q === Pn || (q.role !== "rama_montant" && q.role !== "rama_traversa")) return;
+        q.boxes.forEach(function (qb) {
+          var lo = [Math.max(pb.x0, qb.x0), Math.max(pb.y0, qb.y0), Math.max(pb.z0, qb.z0)];
+          var hi = [Math.min(pb.x1, qb.x1), Math.min(pb.y1, qb.y1), Math.min(pb.z1, qb.z1)];
+          var ext = [hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]];
+          if (ext[0] < 0.05 || ext[1] < 0.05 || ext[2] < 0.05) return;
+          var t2 = q.tAx, oth = [0, 1, 2].filter(function (a) { return a !== t2; });
+          /* adâncimea canalului = axa de pe lățimea ramei pe care suprapunerea e mai mică; lungimea = cealaltă */
+          var e = ext[oth[0]] <= ext[oth[1]] ? oth[0] : oth[1], la = e === oth[0] ? oth[1] : oth[0];
+          var lq = [qb.x0, qb.y0, qb.z0], hq = [qb.x1, qb.y1, qb.z1];
+          var side = Math.abs(hi[e] - hq[e]) < 0.05 ? 1 : -1;   // marginea ramei dinspre câmp
+          slot(q, e, side, [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2], la, ext[la], ext[t2], ext[e], "canal rama", "canal panou câmp");
+        });
+      });
+    });
+  });
+
+  /* un panou cu gaură se desparte în mai multe cutii 3D: canalul din ramă trebuie să rămână UNUL, nu bucăți.
+     Canalele ramei de pe aceeași margine, de aceeași grosime și adâncime, care se ating pe lungime, se unesc. */
+  pcs.forEach(function (q) {
+    if (q.role !== "rama_montant" && q.role !== "rama_traversa") return;
+    var rest = q.slots.filter(function (h) { return h.hw !== "canal rama"; }), mine = q.slots.filter(function (h) { return h.hw === "canal rama"; });
+    var merged = [];
+    mine.sort(function (a, b) { return a.ax - b.ax || a.side - b.side || a.la - b.la || a.w[a.la] - a.len / 2 - (b.w[b.la] - b.len / 2); });
+    mine.forEach(function (h) {
+      var m = merged[merged.length - 1];
+      if (m && m.ax === h.ax && m.side === h.side && m.la === h.la && Math.abs(m.thk - h.thk) < 0.05 && Math.abs(m.depth - h.depth) < 0.05 &&
+          [0, 1, 2].every(function (a) { return a === h.la || Math.abs(m.w[a] - h.w[a]) < 0.05; }) &&
+          Math.abs((h.w[h.la] - h.len / 2) - (m.w[m.la] + m.len / 2)) < 0.05) {
+        var lo = m.w[m.la] - m.len / 2, hi = h.w[h.la] + h.len / 2;
+        m.len = hi - lo; m.w[m.la] = (lo + hi) / 2;
+      } else merged.push(h);
+    });
+    q.slots = rest.concat(merged);
   });
 
   /* --- 7. nel sistema del pezzo, con le regole di pre-flight -------------- */

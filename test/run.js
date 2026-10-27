@@ -4246,6 +4246,173 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Colț între doi pereți — lambriu și boiserie pe doi pereți: formular, piese pe pereți, 3D fără suprapuneri, montaj");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ct1", name: "Colț", pieces: [], configs: {} }]; state.activeId = "ct1";
+      setView("build"); await w(200);
+      presetApply({ cfg: PRESETS.lambriu, name: "Colt A" }); await w(300);
+      o.ascuns = document.getElementById("rowWall2").style.display !== "none" && document.getElementById("rowL2").style.display === "none" && document.getElementById("fCornerWrap").style.display === "none";
+      const sel = document.getElementById("bWall2"); sel.value = "1"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(250);
+      o.aratat = document.getElementById("rowL2").style.display !== "none" && document.getElementById("fCornerWrap").style.display !== "none" && document.getElementById("fCornerKindWrap").style.display !== "none" && document.getElementById("bL2").value === "900";
+      document.getElementById("bL2").value = "1500"; document.getElementById("bL2").dispatchEvent(new Event("input", { bubbles: true }));
+      document.getElementById("bCorner").value = "dx"; document.getElementById("bCornerKind").value = "int";
+      document.getElementById("btnLamCutAdd").click(); await w(150);
+      o.alegeZid = !!document.querySelector("#lamCutBox [data-lcw]");
+      const ws = document.querySelector("#lamCutBox [data-lcw]"); ws.value = "B"; ws.dispatchEvent(new Event("change", { bubbles: true }));
+      const xi = document.querySelector('#lamCutBox [data-lc="0:x"]'); xi.value = "300"; xi.dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      o.info = document.getElementById("angHint").textContent.includes(t("cornerInfo").replace("{k}", t("cornInt")).replace("{b}", "1466"));
+      document.getElementById("btnGenerate").click(); await w(500);
+      const p = proj(), c = p.configs["Colt A"];
+      const A = p.pieces.filter(x => x.modulo === "Colt A A"), Bw = p.pieces.filter(x => x.modulo === "Colt A B");
+      o.rows = c.wall2 === 1 && c.L2 === 1500 && A.length === 2 && Bw.length >= 2 && Bw.some(x => x.elemento === "Pannello supporto" && x.larg === 1466);
+      o.salvat = c.lamCuts.length === 1 && c.lamCuts[0].wall === "B" && c.lamCuts[0].x === 300;
+      const slB = Bw.filter(x => /^Lamella/.test(x.elemento)).reduce((q, x) => q + x.pz, 0);
+      o.pieseB = slB === 27; /* 25 lamele, două atinse de decupaj se împart în câte două: 23 + 2·2 */
+      const B = buildModule(c);
+      const a = B.boxes.filter(b => b.pk <= 3 && false);
+      const ovl = (x, y) => Math.min(x.x1, y.x1) - Math.max(x.x0, y.x0) > 1e-9 && Math.min(x.y1, y.y1) - Math.max(x.y0, y.y0) > 1e-9 && Math.min(x.z1, y.z1) - Math.max(x.z0, y.z0) > 1e-9;
+      const sl = B.boxes.filter(b => b.role === "lamela");
+      let hit = 0; for (let i = 0; i < sl.length; i++) for (let j = i + 1; j < sl.length; j++) if (ovl(sl[i], sl[j])) hit++;
+      o.faraSuprapuneri = hit === 0 && B.boxes.every(b => b.x0 >= -1e-9 && b.z0 >= -1e-9);
+      o.dimensiuni = Math.max(...B.boxes.map(b => b.x1)) === 2400 && Math.max(...B.boxes.map(b => b.z1)) === 34 + 1466;
+      const rest = assemblySteps("Colt A", {}, c, p.pieces).map(x => x.x).join("|");
+      o.pasi = rest.includes("A: ") && rest.includes("B: ") && rest.includes(t("cornInt")) && !rest.includes("{");
+      o.auditVerde = auditProject(p).length === 0;
+      /* colț ieșit: B are lățimea întreagă; stânga: coordonate mutate în octantul pozitiv */
+      const E = buildModule({ ...c, cornerKind: "ext", corner: "sx", lamCuts: [] });
+      const bB = E.pieces.find(x => x.wing === "B" && x.elemento === "Pannello supporto");
+      o.ext = bB.larg === 1500 && E.boxes.every(b => b.x0 >= -1e-9 && b.z0 >= -1e-9) && Math.max(...E.boxes.map(b => b.z1)) === 1500;
+      let err = ""; try { buildModule({ ...c, L2: 30 }); } catch (e) { err = e.message; }
+      let err2 = ""; try { buildModule({ ...c, lamCuts: [{ x: 10, y: 0, w: 20, h: 20, wall: "B" }] }); } catch (e) { err2 = e.message; }
+      o.erori = err === t("lamErrCorner") && err2 === t("lamErrCorner");
+      /* boiserie pe doi pereți */
+      const Q = buildModule({ ...PRESETS.boiserie, name: "Q", wall2: 1, L2: 1800, corner: "dx", cornerKind: "int", lamCuts: [] });
+      o.boiserie = !!Q.rf && !!Q.rf2 && Q.pieces.some(x => x.wing === "B" && x.elemento === "Montante cornice");
+      const ai = aiNormCfg({ type: "lambriu", wall2: 1, L2: 1500, corner: "dx", cornerKind: "int", lamCuts: [{ x: 300, y: 300, w: 80, h: 80, wall: "B" }] }, []);
+      o.ai = ai.wall2 === 1 && ai.lamCuts[0].wall === "B" && ai.L2 === 1500;
+      const ks = ["fWall2", "lamWall", "lamErrCorner", "cornerInfo", "cornerS"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2));
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Colț: „al doilea perete” apare numai la lambriu și boiserie și aduce lățimea lui B, partea și felul colțului; decupajele au alegere de perete", r.ascuns === true && r.aratat === true && r.alegeZid === true && r.info === true);
+    ok("Colț: distinta are piesele peretelui A (modul „… A”) și ale lui B („… B”, suport de 1466 la colț interior); decupajul din B se salvează", r.rows === true && r.salvat === true && r.pieseB === true);
+    ok("Colț: 3D fără nicio suprapunere, totul în octantul pozitiv, dimensiunile 2400 și 34 + 1466; colț ieșit și boiserie pe doi pereți merg", r.faraSuprapuneri === true && r.dimensiuni === true && r.ext === true && r.boiserie === true);
+    ok("Colț: pașii de montaj pe A și pe B cu felul colțului; semaforul verde; B prea scurt sau decupaj în grosimea lui A = eroare declarată; AI și 7 limbi", r.pasi === true && r.auditVerde === true && r.erori === true && r.ai === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Corp de colț (angolare) — colț interior: ala B pe partea camerei, nu în perete");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const out = {};
+      for (const kind of ["int", "ext"]) for (const corner of ["sx", "dx"]) {
+        const B = buildModule({ ...PRESETS.angolare, name: "X", corner, cornerKind: kind, L: 1000, L2: 900, P: 600 });
+        const A = B.boxes.filter(b => b.wing !== "B"), Bw = B.boxes.filter(b => b.wing === "B");
+        const zA = Math.max(...A.map(b => b.z1)), mm = (a, k) => Math.min(...a.map(b => b[k])), MM = (a, k) => Math.max(...a.map(b => b[k]));
+        out[kind + corner] = { zA, bz0: mm(Bw, "z0"), bz1: MM(Bw, "z1"), bx0: mm(Bw, "x0"), bx1: MM(Bw, "x1"), az0: mm(A, "z0"), info: B.angCorner };
+      }
+      const ok4 = (k, f) => f(out[k]);
+      /* interior: B începe la fața lui A, în cameră (z ≥ zA), cu spatele pe peretele lui (x ≤ 1000 la dx, x ≥ 0 la sx) */
+      o.intdx = ok4("intdx", q => q.bz0 >= q.zA - 1e-6 && q.bx1 <= 1000 + 1e-6 && q.az0 >= -1e-6);
+      o.intsx = ok4("intsx", q => q.bz0 >= q.zA - 1e-6 && q.bx0 >= -1e-6 && q.az0 >= -1e-6);
+      /* exterior: B în spatele planului lui A, pe fața peretelui care iese */
+      o.extdx = ok4("extdx", q => q.bz1 <= 1e-6 && q.bx0 >= 1000 - 1e-6);
+      o.extsx = ok4("extsx", q => q.bz1 <= 1e-6 && q.bx1 <= 1e-6);
+      o.latimeB = out.intdx.info.wallB === Math.round(900 + out.intdx.zA) && out.intdx.info.kind === "int" && out.extdx.info.kind === "ext";
+      /* preview: colțul interior spune cât trebuie să măsoare peretele B */
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "an1", name: "Colț", pieces: [], configs: {} }]; state.activeId = "an1";
+      setView("build"); await w(200);
+      presetApply({ cfg: { ...PRESETS.angolare, corner: "dx", cornerKind: "int" }, name: "Ang A" }); await w(300);
+      o.nota = document.getElementById("angHint").textContent.includes(t("angWallB").replace("{w}", String(out.intdx.info.wallB).length ? "" : "").split("{")[0].slice(0, 12));
+      document.getElementById("btnGenerate").click(); await w(400);
+      o.generat = Object.keys(proj().configs).length === 1 && proj().pieces.some(x => x.modulo === "Ang A B");
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].angWallB && I18N[l].angWallB.includes("{w}"));
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Corp de colț: interior — ala B începe la fața alei A și stă pe partea camerei, cu spatele pe peretele B (stânga și dreapta); nu mai intră în perete", r.intdx === true && r.intsx === true);
+    ok("Corp de colț: exterior neschimbat — ala B în spatele planului alei A, pe fața peretelui care iese; preview-ul spune lățimea peretelui B; textele în 7 limbi", r.extdx === true && r.extsx === true && r.latimeB === true && r.generat === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Consilier tehnic pe rânduri REALE — ușă înaltă și grea, bară lungă (nu rânduri scrise de mână)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ad2", name: "T", pieces: [], configs: {} }]; state.activeId = "ad2";
+      /* un dulap real de 1400×2400 cu bară de haine: ușa generată de motor are rolul „frontale” */
+      generateInto(proj(), { ...PRESETS.armadio, name: "Arm", L: 1400, H: 2400, doors: 2, hang: 1 });
+      const ids = adviceList(proj()).map(a => a.id);
+      o.ua = proj().pieces.some(x => x.elemento === "Anta" && x.role === "frontale");
+      o.inalta = ids.includes("TALL_DOOR");
+      o.grea = ids.includes("HEAVY_DOOR");
+      /* bară peste prag: modulul cu 1800 de lățime */
+      generateInto(proj(), { ...PRESETS.armadio, name: "Larg", L: 2400, H: 2200, doors: 0, hang: 1, drawers: 0, tram: 0 });
+      o.bara = adviceList(proj()).some(a => a.id === "ROD_SPAN" && a.modulo === "Larg");
+      const keepSheet = document.getElementById("adviceBadge");
+      auditBadge(); o.insigna = !keepSheet.hidden;
+      state.projects = keepP; state.activeId = keepA; auditBadge();
+      return o;
+    });
+    ok("Consilier: ușa generată de motor (rol „frontale”, nume „Anta”) primește sfatul de ușă înaltă și îngustă și de ușă grea", r.ua === true && r.inalta === true && r.grea === true);
+    ok("Consilier: o bară de haine de peste 1000 mm dă sfat; insigna galbenă apare", r.bara === true && r.insigna === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
+  head("Boiserie cu panou încastrat în ramă — formular, panouri, canale în rame, gaură de priză, montaj");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "in1", name: "Perete", pieces: [], configs: {} }]; state.activeId = "in1";
+      setView("build"); await w(200);
+      presetApply({ cfg: { ...PRESETS.boiserie, back: 0, matFront: "dsp_mdf_10" }, name: "Inset A" }); await w(300);
+      o.camp = document.getElementById("rowRfInset").style.display !== "none" && document.getElementById("bRfInset").value === "0";
+      const sel = document.getElementById("bRfInset"); sel.value = "1"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(300);
+      document.getElementById("btnLamCutAdd").click(); await w(150);
+      document.querySelector('#lamCutBox [data-lc="0:x"]').value = "300"; document.querySelector('#lamCutBox [data-lc="0:x"]').dispatchEvent(new Event("input", { bubbles: true }));
+      document.querySelector('#lamCutBox [data-lc="0:y"]').value = "400"; document.querySelector('#lamCutBox [data-lc="0:y"]').dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      document.getElementById("btnGenerate").click(); await w(500);
+      const p = proj(), c = p.configs["Inset A"];
+      const pn = p.pieces.filter(x => x.elemento === "Pannello campo");
+      o.salvat = c.rfInset === 1 && c.matFront === "dsp_mdf_10";
+      o.panouri = pn.reduce((a, x) => a + x.pz, 0) === 8 && pn.every(x => x.lung === 1226 && x.larg === 541) && pn.some(x => x.scasso) && pn.length === 2;
+      o.material = pn.every(x => /10/.test(x.materiale));
+      const B = buildModule(c), ops = generateOperations({ boxes: B.boxes, cfg: c, G: undefined });
+      const sl = Array.from(ops.pieces).filter(q => q.role === "rama_montant" || q.role === "rama_traversa").flatMap(q => Array.from(q.operations).filter(z => z.type === "slot"));
+      o.canale = sl.length === 32 && sl.every(z => z.face >= 1 && z.face <= 4 && z.depth === 8 && z.thk === 10);
+      const rest = assemblySteps("Inset A", {}, c, p.pieces).map(x => x.x).join("|");
+      o.pas = rest.includes(t("rfS5").replace("{k}", "8")) && !rest.includes("{");
+      o.auditVerde = auditProject(p).length === 0;
+      /* grosime prea mare: eroare declarată */
+      let err = ""; try { buildModule({ ...c, matFront: "pal25_alb" }); } catch (e) { err = e.message; }
+      o.eroare = err === t("rfErrInset");
+      /* colț cu panouri încastrate: B are și el panouri și canale */
+      const K = buildModule({ ...c, wall2: 1, L2: 1500, corner: "dx", cornerKind: "int", lamCuts: [] });
+      const oK = generateOperations({ boxes: K.boxes, cfg: { ...c, wall2: 1 }, G: undefined });
+      const nPanels = K.pieces.filter(x => x.role === "rama_camp").reduce((a, x) => a + x.pz, 0);
+      const slK = Array.from(oK.pieces).filter(q => q.role === "rama_montant" || q.role === "rama_traversa").flatMap(q => Array.from(q.operations).filter(z => z.type === "slot")).length;
+      o.colt = nPanels > 8 && slK === 4 * nPanels;
+      const ai = aiNormCfg({ type: "boiserie", rfInset: 1 }, []);
+      o.ai = ai.rfInset === 1;
+      const ks = ["fRfInset", "rfErrInsetMat", "rfErrInset", "rfS5", "role_rama_camp"];
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ks.every(k => I18N[l][k] && I18N[l][k].length > 2)) && ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Pannello campo"]);
+      state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Panou încastrat: comutatorul apare la boiserie, se salvează; panourile (8, dimensiunea câmpului + 2·gd, din materialul fronturilor), unul cu gaura de priză", r.camp === true && r.salvat === true && r.panouri === true && r.material === true);
+    ok("Panou încastrat: 32 de canale în rame (4 pe panou), pe marginea ramei, cu grosimea panoului; pașii de montaj spun câte panouri se introduc; semaforul verde", r.canale === true && r.pas === true && r.auditVerde === true);
+    ok("Panou încastrat: panou prea gros = eroare declarată; la colț și B are panouri și canale; AI și 7 limbi", r.eroare === true && r.colt === true && r.ai === true && r.limbi === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -135,6 +135,24 @@
      cu câmpul în mm întregi; restul (0…n−1 mm) îl iau cele două rame de capăt, ca nimic să nu rămână în aer. */
   LIM.rfW = [20, 200]; LIM.rfFieldMin = 40; LIM.rfTarget = [100, 1500]; LIM.rfRows = [1, 8];
 
+  /* panoul încastrat în ramă (D-100): panoul intră în canal pe toate cele patru laturi cu `gd` mm; canalul e în rame,
+     lat cât grosimea panoului. Valorile sunt date generice, `verificat:false`, de confirmat pe o ramă reală. */
+  var INSET = { gd: 8, minLeft: 3, verificat: false };
+  /* verifică că panoul (grosime tp) încape în rama de grosime tf și lățime fw: rămâne cel puțin `minLeft` mm de fiecare parte */
+  function insetOk(fw, tf, tp) {
+    return tp > 0 && tf - tp >= 2 * INSET.minLeft && fw - INSET.gd >= 2 * INSET.minLeft;
+  }
+  /* găurile unui panou din câmpul [fa..fb] × [ya..yb] (în mm de perete), cu panoul mărit cu gd pe fiecare latură;
+     în sistemul panoului: lung = pe verticală, larg = pe orizontală (ca la suport) */
+  function panelHoles(fa, fb, ya, yb, cuts) {
+    var gd = INSET.gd, a = fa - gd, b = fb + gd, y0 = ya - gd, y1 = yb + gd, out = [];
+    cuts.forEach(function (c) {
+      var x0 = Math.max(c.x, a), x1 = Math.min(c.x + c.w, b), v0 = Math.max(c.y, y0), v1 = Math.min(c.y + c.h, y1);
+      if (x1 - x0 > 1e-9 && v1 - v0 > 1e-9) out.push({ l: v1 - v0, w: x1 - x0, x: v0 - y0, y: x0 - a, forma: "R", r: 0, tip: "priza", rif: "sus" });
+    });
+    return out;
+  }
+
   /* o direcție, cu n câmpuri date: întoarce { ok, n, field, strips:[{a,b}], fields:[{a,b}] } */
   function frameN(span, fw, n) {
     span = Math.round(span); fw = Math.round(fw); n = Math.round(n);
@@ -159,5 +177,53 @@
     return r;
   }
 
-  return { LIM: LIM, layout: layout, closure: closure, backSheets: backSheets, normCuts: normCuts, splitEq: splitEq, slatPlan: slatPlan, sheetHoles: sheetHoles, frameN: frameN, frameFit: frameFit };
+  /* ---------- colț între doi pereți (D-98) ----------
+     Peretele A e cel din față; B e peretele de la colț, pe partea `side` (dx = la capătul din dreapta, sx = la stânga),
+     `kind` int (colț de cameră) sau ext (colț ieșit). Grosimea totală t (suport + lamelă/ramă) se scade din B la colțul
+     interior: placarea lui B începe la fața placării lui A. B se măsoară de la colț (x local = distanța de la colț). */
+
+  /* decupajele pe pereți: `wall:"B"` merg la B, restul la A; la colțul interior x-ul din B se dă de la colț (planul
+     peretelui A) și se mută cu t în sistemul placării. Întoarce { A:[...], B:[...] } sau { ok:false, reason } */
+  function splitCuts(raw, t, kind) {
+    var A = [], B = [];
+    (Array.isArray(raw) ? raw : []).forEach(function (c) {
+      if (c && c.wall === "B") { var d = {}; for (var k in c) d[k] = c[k]; d.x = Math.round(+c.x) - (kind === "ext" ? 0 : Math.round(t)); B.push(d); }
+      else A.push(c);
+    });
+    for (var i = 0; i < B.length; i++) if (!(B[i].x >= 0)) return { ok: false, reason: "cutCorner" };
+    return { ok: true, A: A, B: B };
+  }
+
+  /* cutiile lui B din sistemul local (x de la colț, z adâncime) în sistemul modulului; apoi totul se mută în octantul pozitiv */
+  function cornerPlace(boxesB, o) {
+    var t = o.t;
+    /* (x0,x1,z0,z1) locale → modulul: întoarce { x0,x1,z0,z1 } */
+    function map(x0, x1, z0, z1) {
+      var r = {};
+      if (o.kind === "ext") {
+        r.z0 = x0; r.z1 = x1;
+        if (o.side === "sx") { r.x0 = -z1; r.x1 = -z0; } else { r.x0 = o.LA + z0; r.x1 = o.LA + z1; }
+      } else {
+        r.z0 = t + x0; r.z1 = t + x1;
+        if (o.side === "sx") { r.x0 = z0; r.x1 = z1; } else { r.x0 = o.LA - z1; r.x1 = o.LA - z0; }
+      }
+      return r;
+    }
+    return boxesB.map(function (b) {
+      var c = {}; for (var k in b) c[k] = b[k];
+      var m = map(b.x0, b.x1, b.z0, b.z1); c.x0 = m.x0; c.x1 = m.x1; c.z0 = m.z0; c.z1 = m.z1;
+      /* dreptunghiul întreg al panoului (`ph` = [x0,x1,y0,y1,z0,z1]) se mută la fel */
+      if (b.ph) { var q = map(b.ph[0], b.ph[1], b.ph[4], b.ph[5]); c.ph = [q.x0, q.x1, b.ph[2], b.ph[3], q.z0, q.z1]; }
+      return c;
+    });
+  }
+  function shiftToOrigin(boxes) {
+    var mx = 0, mz = 0;
+    boxes.forEach(function (b) { mx = Math.min(mx, b.x0); mz = Math.min(mz, b.z0); });
+    if (mx === 0 && mz === 0) return boxes;
+    boxes.forEach(function (b) { b.x0 -= mx; b.x1 -= mx; b.z0 -= mz; b.z1 -= mz; if (b.ph) b.ph = [b.ph[0] - mx, b.ph[1] - mx, b.ph[2], b.ph[3], b.ph[4] - mz, b.ph[5] - mz]; });
+    return boxes;
+  }
+
+  return { LIM: LIM, layout: layout, closure: closure, backSheets: backSheets, normCuts: normCuts, splitEq: splitEq, slatPlan: slatPlan, sheetHoles: sheetHoles, frameN: frameN, frameFit: frameFit, INSET: INSET, insetOk: insetOk, panelHoles: panelHoles, splitCuts: splitCuts, cornerPlace: cornerPlace, shiftToOrigin: shiftToOrigin };
 });

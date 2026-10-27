@@ -1,0 +1,57 @@
+{
+ "validat": false,
+ "nume": "46-boiserie-incastrat",
+ "generat": "2026-10-27",
+ "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "geometrie": null,
+ "chiusura_ok": true,
+ "invarianti_ok": true,
+ "n_randuri": 4,
+ "n_piese": 25,
+ "pieces": [
+  {
+   "elemento": "Montante cornice",
+   "role": "rama_montant",
+   "ax": "H/L/P",
+   "lung": 2600,
+   "larg": 60,
+   "pz": 5,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Traversa cornice",
+   "role": "rama_traversa",
+   "ax": "L/H/P",
+   "lung": 525,
+   "larg": 60,
+   "pz": 12,
+   "sp": null,
+   "bordo": "2L",
+   "mat": "m18"
+  },
+  {
+   "elemento": "Pannello campo",
+   "role": "rama_camp",
+   "ax": "H/L/P",
+   "lung": 1226,
+   "larg": 541,
+   "pz": 1,
+   "sp": null,
+   "bordo": "",
+   "mat": "hdf5"
+  },
+  {
+   "elemento": "Pannello campo",
+   "role": "rama_camp",
+   "ax": "H/L/P",
+   "lung": 1226,
+   "larg": 541,
+   "pz": 7,
+   "sp": null,
+   "bordo": "",
+   "mat": "hdf5"
+  }
+ ]
+}
