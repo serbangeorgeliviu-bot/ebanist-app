@@ -5,6 +5,21 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.11.0 — 28 octombrie 2026
+
+**Spate pe coloane, rinforzo, filler și grile de aerisire** (D-103) — pentru un dulap în fața unei centrale pe gaz și a unui tablou electric, într-o nișă cu pereți strâmbi.
+- **Spate pe coloane** (`backCols`): numai coloanele alese au spate; un spate se sprijină pe toată grosimea despărțitorului dinspre coloana deschisă. În formular: chip pe coloană, la „Cote la cotă”. Cu toate coloanele alese, distinta e cea de dinainte.
+- **Decupaje în spate** la cotă (x de la fața exterioară stângă, y de la pardoseală): în distinctă ca decupaj interior, în 3D gaură în panou, în ops gaură trecută la freză. Trebuie să încapă într-un singur spate; cade în coloana deschisă = eroare cu motiv.
+- **Rinforzo** (traverse în spate): rol nou `traversa_spate`, grosime de structură, implicit în coloanele fără spate, fixate cu minifix de laterală și de despărțitor. Dacă atinge o poliță sau un sertar, construirea se oprește cu motiv.
+- **Filler** (sus / dreapta / stânga): fâșii în planul ușilor, din materialul ușilor, cu cota de tăiat = cât se vede + surplus de potrivit (10 mm implicit). Cea de sus acoperă și colțurile.
+- **Grile de aerisire** în uși (`fronts[].vents`): decupaj prin ușă la cotă față de marginea de sus/jos, minim 50 mm de marginile laterale (cuvele balamalelor). Ușa cu grilă e rând separat în distinctă, grila e accesoriu, în 3D se mișcă cu ușa.
+- **AI-ul** dictează toate cele cinci (`backCols`, `backCutouts`, `backRails`, `fillers`, `vents`); orice cotă din text care nu ajunge nicăieri oprește „Aplică”. Traduceri în 7 limbi.
+- **Nu face aplicația:** suprafața liberă a grilelor (a producătorului centralei sau a instalatorului), distanțele minime față de centrală, coșul de fum și accesul la contor. Cotele implicite noi sunt `verificat:false`.
+- Teste: `cetinic.test.js` (34), fuzz D-78 extins cu aceste câmpuri pe peste 12000 de configurații, fără categorii noi de abateri.
+- Limite: numai tipologia standard; fără pantă sau treaptă cu spate pe coloane; grila nu intră în deviz.
+
+---
+
 ## 5.10.0 — 28 octombrie 2026
 
 **Sertarul nu mai intră în bază sau în tavan** — remedierea geometriei găsită de analiza fuzz (D-104). **Schimbă cote la corpurile cu sertare pe fațadă** de aceea motorul trece la versiunea de geometrie 3.

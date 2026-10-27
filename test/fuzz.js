@@ -58,8 +58,9 @@ const span2 = (c, horiz) => horiz ? c.L : c.H;
 const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {}; const DET = {}; const DETEX = {}; const CT = { n: 0, parts: 0, holes: 0, grooves: 0 };
+const FZ = { construite: 0, backCols: 0, backCutouts: 0, backRails: 0, fillers: 0, vents: 0, refuzate: 0 };   /* D-103: câte configurații cu câmpurile noi s-au construit, câte au fost refuzate cu motiv */
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
-const KNOWN = /(contErr|rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
+const KNOWN = /(Spate \/ rinforzo \/ filler|grila \d|contErr|rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
 for (let i = 0; i < N; i++) {
   const b = pick(base) || {};
@@ -116,10 +117,44 @@ for (let i = 0; i < N; i++) {
   if (rnd() < .2) cfg.back = ri(0, 1);
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
     matOvr: {}, matAdd: [MM("__b", 19), MM("__k", 3), MM("pfl5", 5), MM("__p", 8)], hwProd: { guida: "blum_tandem" } };
+  /* D-103: spate pe coloane, decupaje în spate, rinforzo, filler și grile de aerisire pe o parte din corpurile standard.
+     Cotele sunt alese în jurul valorilor valide (în spate, în lumină, în ușă) cu o parte voit stricată: ce nu are loc trebuie să iasă ca eroare
+     declarată (`Spate / rinforzo / filler`, `grila n`), niciodată excepție; ce are loc trebuie să dea piese care se închid, nu se ciocnesc și se găuresc. */
+  if (t === "standard" && !cfg.topProfile && rnd() < .45) {
+    try {
+      const G0 = S.deriveCarcass(S.carcassParams(cfg, {})), noLay = !(cfg.partitions || cfg.fronts || cfg.drawerBlocks || cfg.customCuts || cfg.depthProfile);
+      const B0 = noLay ? S.bodyColumns(G0, null) : null, bad = () => rnd() < .12;
+      if (B0) {
+        const nc = B0.cols.length, Wf = cfg.L, Hf = cfg.H, tF0 = G0.sp.fianco;
+        if (cfg.back && nc >= 2 && rnd() < .6) { const cs = []; for (let k = 1; k <= nc; k++) if (rnd() < .5) cs.push(k); if (cs.length) cfg.backCols = cs; }
+        if (cfg.back && rnd() < .55) {
+          const RN = S.backRuns(B0, cfg.backCols || null, tF0, Wf - tF0).runs;
+          cfg.backCutouts = [];
+          for (let k = ri(1, 3); k > 0 && RN.length; k--) { const r = RN[ri(0, RN.length - 1)], w = ri(10, Math.max(10, Math.min(400, Math.round(r.x1 - r.x0) - 2))), h = ri(10, Math.max(10, Math.min(600, G0.back_H - 2)));
+            cfg.backCutouts.push(bad() ? { x: ri(0, Wf), y: ri(0, Hf), w, h } : { x: Math.round(r.x0) + ri(0, Math.max(0, Math.round(r.x1 - r.x0) - w - 1)), y: ri(0, Math.max(0, G0.back_H - h - 1)), w, h }); }
+          if (!cfg.backCutouts.length) delete cfg.backCutouts;
+        }
+        if (rnd() < .6) { cfg.backRails = []; for (let k = ri(1, 3); k > 0; k--) { const h = rnd() < .6 ? ri(30, 250) : 100, y0 = Math.round(B0.yIn0), y1 = Math.round(B0.yIn1) - h;
+            const r = { y: bad() ? ri(0, Hf) : ri(y0, Math.max(y0, y1)) }; if (h !== 100) r.h = h; if (rnd() < .25) r.cols = [ri(1, nc)]; cfg.backRails.push(r); } }
+        if (rnd() < .6) { cfg.fillers = []; for (const sd of ["top", "right", "left"]) if (rnd() < .5) { const f = { side: sd, size: bad() ? ri(1, 200) : ri(10, 150) }; if (rnd() < .3) f.scribe = ri(0, 50); cfg.fillers.push(f); } }
+      }
+      if (noLay && !cfg.doors && cfg.front !== "vetro" && cfg.front !== "curvo" && rnd() < .6) {
+        const nd = ri(1, 4), wd = Math.floor((cfg.L - 2 * 3) / nd);
+        cfg.fronts = []; for (let k = 0; k < nd; k++) { const fh = ri(150, Math.max(151, cfg.H - 250)), f = { x: k * wd + 3, y: ri(0, 150), w: wd - 3, h: fh, hinge: pick(["left", "right"]) };
+          if (rnd() < .7 && f.w >= 140) { f.vents = []; for (let v = ri(1, 3); v > 0; v--) { const vh = ri(20, Math.max(20, Math.min(200, Math.round(fh / 3)))), vw = ri(20, Math.max(20, f.w - 100)), vt = { at: pick(["top", "bottom"]), w: vw, h: vh };
+              if (rnd() < .3) vt.off = ri(20, Math.max(20, Math.round(fh / 3))); if (rnd() < .3) vt.x = ri(50, Math.max(50, f.w - vw - 50)); if (bad()) vt.w = ri(20, f.w); f.vents.push(vt); } }
+          cfg.fronts.push(f); }
+        cfg.doors = cfg.fronts.length;
+      }
+    } catch (e) { /* configurația de bază nu se construiește: o prinde pasul de mai jos */ }
+    if (process.env.NOFIT) { ["backCols", "backCutouts", "backRails", "fillers"].forEach(k => delete cfg[k]); if (cfg.fronts && cfg.fronts.some(f => f.vents)) { delete cfg.fronts; cfg.doors = 0; } }   /* aceeași succesiune de numere aleatoare, fără D-103: pentru comparație */
+  }
   let b2;
   try { b2 = S.buildModule(cfg); }
-  catch (e) { note(KNOWN.test(e.message) ? "build:eroare-declarată" : "build:EXCEPȚIE " + e.message.slice(0, 80), cfg, e.message); continue; }
+  catch (e) { if (/Spate \/ rinforzo \/ filler|grila \d/.test(e.message)) FZ.refuzate++; note(KNOWN.test(e.message) ? "build:eroare-declarată" : "build:EXCEPȚIE " + e.message.slice(0, 80), cfg, e.message); continue; }
   const pcs = b2.pieces || [];
+  if (cfg.backCols || cfg.backCutouts || cfg.backRails || cfg.fillers || (cfg.fronts && cfg.fronts.some(f => f.vents))) {
+    FZ.construite++; ["backCols", "backCutouts", "backRails", "fillers"].forEach(k => { if (cfg[k]) FZ[k]++; }); if (cfg.fronts && cfg.fronts.some(f => f.vents)) FZ.vents++; }
   if (!pcs.length && t !== "tondo") note("fără piese", cfg);
   for (const p of pcs) {
     if (!isFinite(p.lung) || !isFinite(p.larg) || !(p.pz >= 1) || p.lung <= 0 || p.larg <= 0) { note("piesă invalidă", cfg, p); break; }
@@ -285,7 +320,7 @@ for (let i = 0; i < N; i++) {
     }
   } catch (e) { note("EXCEPȚIE în verificări: " + e.message.slice(0, 90), cfg, e.stack.split("\n")[1]); }
 }
-console.log("N =", N, "· contur:", JSON.stringify(CT));
+console.log("N =", N, "· contur:", JSON.stringify(CT), "· D-103:", JSON.stringify(FZ));
 Object.keys(bucket).sort((a, b) => bucket[b] - bucket[a]).forEach(k => console.log(String(bucket[k]).padStart(5), k));
 if (process.env.FUZZ_DETAIL) { fs.writeFileSync("/tmp/fuzz-detail.json", JSON.stringify(DETEX)); console.log("--- detaliu ---"); Object.keys(DET).sort((a, b) => DET[b] - DET[a]).forEach(k => console.log(String(DET[k]).padStart(6), k)); }
 fs.writeFileSync(path.join(__dirname, "fuzz-out.json"), JSON.stringify(ex, null, 1));
