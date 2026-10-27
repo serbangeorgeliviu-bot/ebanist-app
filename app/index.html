@@ -3590,6 +3590,7 @@ const HWDB={
   {id:"haf_asta",brand:"Häfele",n:{it:"Supporto asta ovale a vite",ro:"Suport bară ovală cu șurub",en:"Oval rail support, screw-on",fr:"Support tringle ovale à vis",de:"Ovaler Stangenträger, zum Anschrauben",pl:"Wspornik drążka owalnego, na wkręty",es:"Soporte de barra ovalada, atornillable"},art:"801.35.xxx",price:1.4,chk:1}],
  pied:[
   {id:"haf_axilo",brand:"Häfele",n:{it:"Piedino AXILO 78 regolabile",ro:"Picior AXILO 78 reglabil",en:"AXILO 78 adjustable foot",fr:"Pied AXILO 78 réglable",de:"Stellfuß AXILO 78",pl:"Nóżka regulowana AXILO 78",es:"Pata regulable AXILO 78"},art:"637.79.xxx",price:1.3,chk:1},
+  {id:"fav_pied50",brand:"F.A.V.",n:{it:"Piedino regolabile ø50 polipropilene nero, H=27, stelo M10",ro:"Picior reglabil ø50 polipropilenă neagră, H=27, tijă M10",en:"Adjustable foot ø50 black polypropylene, H=27, M10 stem",fr:"Pied réglable ø50 polypropylène noir, H=27, tige M10",de:"Stellfuß ø50 schwarz Polypropylen, H=27, Schaft M10",pl:"Nóżka regulowana ø50 czarny polipropylen, H=27, trzpień M10",es:"Pata regulable ø50 polipropileno negro, H=27, vástago M10"},art:"06.0406P02741",price:0,chk:1},
   {id:"gen_pied",brand:"—",n:{it:"Piedino regolabile M10",ro:"Picior reglabil M10",en:"Adjustable foot M10",fr:"Pied réglable M10",de:"Stellfuß M10",pl:"Nóżka regulowana M10",es:"Pata regulable M10"},art:"—",price:0.6}],
  bin:[
   {id:"haf_slido",brand:"Häfele",n:{it:"Slido Classic 40 (set/anta)",ro:"Slido Classic 40 (set/ușă)",en:"Slido Classic 40 (set/door)",fr:"Slido Classic 40 (kit/porte)",de:"Slido Classic 40 (Set/Tür)",pl:"Slido Classic 40 (zestaw/drzwi)",es:"Slido Classic 40 (juego/puerta)"},art:"400.51.xxx",price:29,chk:1},
@@ -16650,12 +16651,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.11.0"; /* APP_VER-MARKER */
+const APP_VER="5.11.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v169";
+const SW_CACHE="ebanist-v170";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
