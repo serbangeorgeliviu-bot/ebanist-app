@@ -1391,6 +1391,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         </div>
         <div class="vsel" id="vSel" hidden></div>
       </div>
+      <div class="chips" id="buildAsm" style="display:none;flex-wrap:wrap;justify-content:center;gap:6px;padding:6px 8px 0"></div>
       <div class="vfoot"><span class="mini" id="buildInfo"></span><span class="mini vhint" data-i="vtHint">Trascina per ruotare · tocca un pezzo</span></div>
     </div>
 
@@ -8427,8 +8428,49 @@ function gl3dOn(){ return !!(window.GL3D&&window.GL3D.ok); }
 /* girare la camera NON deve ricostruire la geometria: in WebGL basta
    ridisegnare, i pannelli sono gia sulla scheda video */
 function redrawCam(){ if(gl3dOn()) window.GL3D.touch(); else redraw3D(); }
+/* Constructor: mobila întreagă (toate corpurile poziționate în Releveu) sau un singur corp.
+   asmSel: "" = tot ansamblul, "__filler" = numai fillerele, un nume = corpul acela (se încarcă în formular) */
+let asmSel="", ASM_ON=false, asmSaved=null;
+function asmMods(){ try{ const RL=roomLayout(); return RL&&RL.mods.length>=2?RL.mods.map(m=>m.name):[]; }catch(e){ return []; } }
+function asmDraw(){
+  let bx=null; try{ bx=roomBoxes(); }catch(e){}
+  if(!bx||!bx.length) return false;
+  if(asmSel==="__filler") bx=bx.filter(b=>b.kind==="w"||b.rmRole==="filler");
+  const cfg={matBody:(state.settings||{}).matBody||"pal18_alb",matFront:(state.settings||{}).matFront||"pal18_alb"};
+  if(gl3dOn()){
+    if(!ASM_ON){
+      asmSaved={st:window.GL3D.state,view:{yaw:VIEW.yaw,pitch:VIEW.pitch,zoom:VIEW.zoom}}; ASM_ON=true;
+      Object.assign(VIEW,{yaw:ROOM_VIEW.yaw,pitch:ROOM_VIEW.pitch,zoom:0.68});
+      window.GL3D.select(null);
+      window.GL3D.set({mode:"real",hw:false,holes:false,dims:false,edges:false,open:false,explode:0});
+    }
+    const RL=roomLayout(), floor=RL.frames.map(f=>{ const q=toRoom(f,0,0,0); return [q.x,q.y]; });
+    window.GL3D.render(cfg,{boxes:bx,room:{floor}});
+  } else render3D($("svg3d"),cfg,ROOM_VIEW,{boxes:bx,real:true,solidFronts:true});
+  return true;
+}
+function asmLeave(){
+  if(!ASM_ON) return; ASM_ON=false;
+  if(window.GL3D&&window.GL3D.leaveRoom) window.GL3D.leaveRoom();
+  if(asmSaved){ Object.assign(VIEW,asmSaved.view); window.GL3D.set(Object.assign({},asmSaved.st,{sel:null,iso:false})); asmSaved=null; }
+}
+function renderAsmChips(){
+  const el=$("buildAsm"); if(!el) return;
+  const names=asmMods();
+  if(names.length<2){ el.style.display="none"; el.innerHTML=""; return; }
+  const cur=buildCfg&&buildCfg.name;
+  el.style.display="flex";
+  el.innerHTML=[["",ts("room3dAll")]].concat(names.map(n=>[n,n]),[["__filler",ts("room3dFillers")]])
+    .map(([v,l])=>`<button class="chip sm${(asmSel===v||(asmSel!==""&&asmSel!=="__filler"&&v===cur))?" on":""}" data-as="${esc(v)}">${esc(l)}</button>`).join("");
+  el.querySelectorAll("[data-as]").forEach(b=>b.addEventListener("click",()=>{
+    const v=b.dataset.as; asmSel=v;
+    if(v!==""&&v!=="__filler"){ const p=proj(); if(p&&p.configs&&p.configs[v]){ buildCfg={...p.configs[v],name:v}; if(buildFormReady) syncBuildForm(); } }
+    drawPreview();
+  }));
+}
 function draw3D(){
   if(typeof ROOM_GL!=="undefined"&&ROOM_GL) return;       // canvasul e în foaia „Camera în 3D"
+  if((asmSel===""||asmSel==="__filler")&&asmMods().length>=2){ if(asmDraw()) return; } else asmLeave();
   if(gl3dOn()){ window.GL3D.render(buildCfg,{explode:explodeOn}); }
   else render3D($("svg3d"),buildCfg,null,{explode:explodeOn});
 }
@@ -10048,6 +10090,7 @@ function drawPreview(){
   const ml=panelPieces.reduce((s,x)=>s+bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)*x.pz/1000,0);
   const dim=buildCfg.type==="angolare"?`${buildCfg.L}+${buildCfg.L2}×${buildCfg.H}×${buildCfg.P}`:`${buildCfg.L}×${buildCfg.H}×${buildCfg.P}`;
   $("buildInfo").textContent=`${dim} mm · ${pcs} ${t("pieces")} · ${fmt(m2)} m² · ${fmt(ml,1)} ml`;
+  renderAsmChips();
   const ang=pieces.filter(x=>isAng(x.angL)||isAng(x.angR));
   const split=pieces.filter(x=>x.joint);
   const skip=pieces.filter(x=>x.angSkip);
@@ -10481,7 +10524,7 @@ function openBuilder(mod){
   const p=proj();
   /* un blat se calculeaza din Releveu (U.8): in constructor ar deveni un corp */
   if(p&&p.configs&&p.configs[mod]&&p.configs[mod].type==="blat"){ setView("survey"); toast(ts("wtManaged")); return; }
-  if(p&&p.configs&&p.configs[mod]){ buildCfg={...p.configs[mod],name:mod}; if(buildFormReady)syncBuildForm(); }
+  if(p&&p.configs&&p.configs[mod]){ buildCfg={...p.configs[mod],name:mod}; if(buildFormReady)syncBuildForm(); asmSel=mod; }
   setView("build");
 }
 /* La traducerea cfg → rânduri de distinta, scoasă din handler ca să o
@@ -14231,6 +14274,7 @@ function roomGLAttach(){
   if(!gl3dOn()) return false;
   const host=$("room3dGL");
   if(!ROOM_GL){
+    asmLeave();
     roomSaved={st:window.GL3D.state,view:{yaw:VIEW.yaw,pitch:VIEW.pitch,zoom:VIEW.zoom}};
     host.appendChild($("gl3d")); ROOM_GL=true;
     Object.assign(VIEW,{yaw:ROOM_VIEW.yaw,pitch:ROOM_VIEW.pitch,zoom:1.05});
@@ -16703,12 +16747,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.13.0"; /* APP_VER-MARKER */
+const APP_VER="5.13.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v175";
+const SW_CACHE="ebanist-v176";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
