@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.11.2 — 28 octombrie 2026
+
+**Filler cantuit:** fâșiile de filler (sus, dreapta, stânga) iau cant ABS pe muchia lungă vizibilă și pe un capăt (1L+1C), nu doar pe muchia lungă. Muchia dinspre perete și cea de sub tavan rămân brute, se potrivesc pe șantier. Cota nu se schimbă.
+
+---
+
+## 5.11.1 — 28 octombrie 2026
+
+**Catalog:** piciorul reglabil F.A.V. ø50 din polipropilenă neagră, H=27, tijă M10 (cod 06.0406P02741), la categoria „Piedini". Prețul e 0 și cotele neverificate (`chk`): se completează cu prețul real din Catalog. Fără alte schimbări.
+
+---
+
 ## 5.11.0 — 28 octombrie 2026
 
 **Spate pe coloane, rinforzo, filler și grile de aerisire** (D-103) — pentru un dulap în fața unei centrale pe gaz și a unui tablou electric, într-o nișă cu pereți strâmbi.
