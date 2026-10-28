@@ -472,6 +472,7 @@ function keyOf(b, cfg) {
   /* doghe di faggio e gambe in massello: non sono il pannello del corpo */
   if (b.role === "doga" || b.role === "gamba") return "__beech";
   if (b.role === "asta") return "__hw";
+  if (b.matId) return b.matId;   // material explicit al cutiei (capac lateral, corpuri cu materiale proprii în „Camera în 3D")
   try {
     if (b.role && typeof PIECE_MAT_ROLE === "object" && PIECE_MAT_ROLE[b.role] && typeof roleMatId === "function") {
       const id = roleMatId(cfg, PIECE_MAT_ROLE[b.role]);

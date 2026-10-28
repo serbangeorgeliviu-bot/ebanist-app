@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.13.3 — 28 octombrie 2026
+
+**Culori corecte în 3D:** capacul lateral Rovere de la corpul de sus apare Rovere (nu culoarea ușilor), iar în „Tot” (Constructor și „Camera în 3D”) fiecare corp își păstrează materialele: ușile și fillerele, Avocado Green; structura, Rovere.
+
+---
+
 ## 5.13.2 — 28 octombrie 2026
 
 **Constructor:** previzualizarea 3D se redesenează după ce vederea devine vizibilă (pe telefon rămânea goală la prima deschidere), iar mobila întreagă se vede cu mai multă marginea.
