@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.13.0 — 28 octombrie 2026
+
+**„Camera în 3D” cu filtru pe corpuri:** mobilierul din mai multe corpuri se vede întreg, iar sub el apar butoane — „Tot”, câte unul pe corp și „Filler” — ca să vezi un singur corp sau numai fillerele (pereții rămân). Fiecare cutie poartă corpul și rolul ei (`rmMod`, `rmRole`). Apare numai când sunt cel puțin două corpuri așezate. Pozițiile (perete, `from`, `lift`) rămân ale proiectului.
+
+---
+
 ## 5.12.2 — 28 octombrie 2026
 
 **Un singur filler de sus peste mai multe corpuri** (`extend` pe fillerul `top`): fâșia se prelungește spre stânga cu atâția mm cât au corpurile vecine, ca să rămână o singură piesă. Distinta o poartă un corp; lungimea = lățimea lui + prelungirea + fillerul lateral.
