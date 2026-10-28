@@ -102,7 +102,7 @@ describe("Cetinic — distinta", () => {
     const top = row(r, "filler", p => /sopra/.test(p.elemento))[0], dx = row(r, "filler", p => /dx/.test(p.elemento))[0];
     /* sus: L 1560 + 40 + 10 (filler dreapta cu tot cu surplus: 50) = 1610, înălțime 40 + 10 */
     eq([top.lung, top.larg, top.pz, top.sp], [1610, 50, 1, 19]);
-    eq([top.bordo, dx.bordo], ["1L+1C", "1L+1C"]);   /* cantuit pe muchia vizibilă lungă și pe un capăt */
+    eq([top.bordo, dx.bordo], ["1L+2C", "1L+2C"]);   /* cantuit pe muchia vizibilă lungă și pe ambele capete */
     /* dreapta: H 2260 × (40 + 10) */
     eq([dx.lung, dx.larg, dx.pz, dx.sp], [2260, 50, 1, 19]);
     eq(top.axis_mapping, { lung: "L", larg: "H", sp: "P" });
@@ -340,9 +340,9 @@ describe("Cetinic — mai multe spate, o singură coloană din trei", () => {
 describe("Cetinic — capac lateral de filler (capL)", () => {
   const cap = Object.assign(clone(CETI), { fillers: [{ side: "top", size: 100, scribe: 0 }, { side: "capL", size: 100, scribe: 0 }] });
   const r = build(cap), o = r.ops();
-  test("panou din materialul structurii, 450 adâncime × 100 înălțime, cant 1C pe capătul din față", () => {
+  test("panou din materialul structurii, 450 adâncime × 100 înălțime, cant 1L+2C", () => {
     const c = row(r, "filler", p => /Fianco di chiusura/.test(p.elemento))[0];
-    eq([c.lung, c.larg, c.pz, c.sp, c.bordo], [410, 100, 1, 19, "1C"]);
+    eq([c.lung, c.larg, c.pz, c.sp, c.bordo], [410, 100, 1, 19, "1L+2C"]);
     eq(c.axis_mapping, { lung: "P", larg: "H", sp: "L" });
   });
   test("3D: deasupra corpului, la fața stângă, pe toată adâncimea", () => {

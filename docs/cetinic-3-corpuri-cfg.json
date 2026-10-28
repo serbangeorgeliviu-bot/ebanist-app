@@ -120,10 +120,8 @@
   "hang": 0,
   "shelfType": "mobile",
   "handles": "push",
-  "backMode": "in_cava",
-  "geom": {
-   "nut_off": 50
-  },
+  "backMode": "incassato",
+  "geom": {},
   "matBody": "rovere_chiaro_19",
   "matFront": "avocado_green_22458mn_19",
   "matBack": "rovere_chiaro_19",
@@ -133,6 +131,13 @@
   "support": "piedini",
   "plinth": 30,
   "back": 0,
+  "partitions": [
+   {
+    "type": "ripiano",
+    "y": 1140,
+    "span": "full"
+   }
+  ],
   "fronts": [
    {
     "x": 0,

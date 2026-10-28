@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.12.1 — 28 octombrie 2026
+
+**Cant la filler:** toate fâșiile de filler și capacul lateral iau cant `1L+2C` (muchia lungă vizibilă și ambele capete), nu `1L+1C`. Cotele nu se schimbă.
+
+---
+
 ## 5.12.0 — 28 octombrie 2026
 
 **Capac lateral de filler** (`fillers` cu `side:"capL"` / `"capR"`): panou din materialul structurii, în planul lateralei, deasupra corpului, pe toată adâncimea, care închide capătul vizibil al golului de sub fillerul de sus. `size` = înălțimea lui. Cant 1C pe capătul din față. Rând nou în distinctă („Fianco di chiusura sopra sx/dx"), 7 limbi, AI și editor.
