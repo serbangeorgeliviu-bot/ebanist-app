@@ -5,6 +5,30 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.13.0 — 28 octombrie 2026
+
+**„Camera în 3D” cu filtru pe corpuri:** mobilierul din mai multe corpuri se vede întreg, iar sub el apar butoane — „Tot”, câte unul pe corp și „Filler” — ca să vezi un singur corp sau numai fillerele (pereții rămân). Fiecare cutie poartă corpul și rolul ei (`rmMod`, `rmRole`). Apare numai când sunt cel puțin două corpuri așezate. Pozițiile (perete, `from`, `lift`) rămân ale proiectului.
+
+---
+
+## 5.12.2 — 28 octombrie 2026
+
+**Un singur filler de sus peste mai multe corpuri** (`extend` pe fillerul `top`): fâșia se prelungește spre stânga cu atâția mm cât au corpurile vecine, ca să rămână o singură piesă. Distinta o poartă un corp; lungimea = lățimea lui + prelungirea + fillerul lateral.
+
+---
+
+## 5.12.1 — 28 octombrie 2026
+
+**Cant la filler:** toate fâșiile de filler și capacul lateral iau cant `1L+2C` (muchia lungă vizibilă și ambele capete), nu `1L+1C`. Cotele nu se schimbă.
+
+---
+
+## 5.12.0 — 28 octombrie 2026
+
+**Capac lateral de filler** (`fillers` cu `side:"capL"` / `"capR"`): panou din materialul structurii, în planul lateralei, deasupra corpului, pe toată adâncimea, care închide capătul vizibil al golului de sub fillerul de sus. `size` = înălțimea lui. Cant 1C pe capătul din față. Rând nou în distinctă („Fianco di chiusura sopra sx/dx"), 7 limbi, AI și editor.
+
+---
+
 ## 5.11.2 — 28 octombrie 2026
 
 **Filler cantuit:** fâșiile de filler (sus, dreapta, stânga) iau cant ABS pe muchia lungă vizibilă și pe un capăt (1L+1C), nu doar pe muchia lungă. Muchia dinspre perete și cea de sub tavan rămân brute, se potrivesc pe șantier. Cota nu se schimbă.

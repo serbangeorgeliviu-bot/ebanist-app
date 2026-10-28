@@ -1,5 +1,5 @@
 /* Ebanist service worker — offline-first app shell */
-const CACHE = "ebanist-v171";
+const CACHE = "ebanist-v175";
 const SHELL = ["./index.html","./ebanist-core.js","./ebanist-ops.js","./ebanist-worktop.js","./ebanist-survey.js","./ebanist-sheet.js","./ebanist-elab.js","./ebanist-asm.js","./ebanist-doc.js","./ebanist-au-i18n.js","/order-rail/price.js","/order-rail/atelier.js","/order-rail/order.js","./ebanist-store.js","./config/billing.js","./ebanist-license.js","./ebanist-atelier.js","./ebanist-qr.js","./ebanist-passport.js","./ebanist-commerce.js","./ebanist-advice.js","./ebanist-lambriu.js","./ebanist-contour.js","./viewer3d.js","./geo3d.js","./vendor/three.module.min.js","./vendor/RoomEnvironment.js","./arexport.js","./vendor/GLTFExporter.js","./vendor/USDZExporter.js","./vendor/TextureUtils.js","./vendor/fflate.module.js","./vendor/supabase.js","./data/materials-centro-legno.json","./data/materials-legacy.json","/fonts/fonts.css","./manifest.webmanifest","./icons/icon-192.png","./icons/icon-512.png","./icons/icon-maskable-512.png","./icons/favicon.ico"];
 
 self.addEventListener("install", e => {
