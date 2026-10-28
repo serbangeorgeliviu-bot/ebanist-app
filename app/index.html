@@ -7667,6 +7667,7 @@ function buildCore(cfg){
         const mS0=matById(cfg.matBody);
         add(fName[f.side],f.lung,f.larg,1,"1L+2C",mS0?mS0.label:null,{role:"filler",axes:f.axes});
         bxRole="filler"; bx(f.x0,f.x1,f.y0,f.y1,f.z0,f.z1,"p",0,0,"filler");
+        if(boxes.length&&mS0) boxes[boxes.length-1].matId=mS0.id;   // capacul e din materialul structurii, nu din cel al ușilor
         return;
       }
       /* cantul pe muchiile care se văd: muchia lungă dinspre ușă și un capăt (cel de la podea la cel din dreapta, cel dinspre colțul liber la cel de sus);
@@ -8440,7 +8441,7 @@ function asmDraw(){
   if(gl3dOn()){
     if(!ASM_ON){
       asmSaved={st:window.GL3D.state,view:{yaw:VIEW.yaw,pitch:VIEW.pitch,zoom:VIEW.zoom}}; ASM_ON=true;
-      Object.assign(VIEW,{yaw:ROOM_VIEW.yaw,pitch:ROOM_VIEW.pitch,zoom:0.68});
+      Object.assign(VIEW,{yaw:ROOM_VIEW.yaw,pitch:ROOM_VIEW.pitch,zoom:0.58});
       window.GL3D.select(null);
       window.GL3D.set({mode:"real",hw:false,holes:false,dims:false,edges:false,open:false,explode:0});
     }
@@ -10330,6 +10331,8 @@ function renderMatRolesSummary(){
 }
 function renderBuild(){
   fillMatSelects();
+  /* la prima apertura il canvas puo avere ancora misura 0 (telefono): si misura e si ridisegna dopo che la vista e visibile */
+  [60,350].forEach(ms=>setTimeout(()=>{ if(currentView!=="build") return; try{ if(gl3dOn()) window.GL3D.resize(); drawPreview(); }catch(e){} },ms));
   if(!buildFormReady){
     syncBuildForm();
     ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc",
@@ -13420,7 +13423,7 @@ function roomBoxes(){
       }
       put(m.fr,m.from,m.off,m.lift,m.rot,m.piv,b);
       })(b0);
-      for(let k=n1;k<out.length;k++){ out[k].rmMod=m.name; out[k].rmRole=b0.role||null; }
+      for(let k=n1;k<out.length;k++){ out[k].rmMod=m.name; out[k].rmRole=b0.role||null; if((b0.kind==="p"||b0.kind==="f")&&typeof out[k].mat==="string") out[k].matId=out[k].mat; }   // materialul fiecărui corp, nu cel din setări
     });
   });
   // pareti veri, con altezza propria e colore diverso ("w")
@@ -16747,12 +16750,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.13.1"; /* APP_VER-MARKER */
+const APP_VER="5.13.3"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v176";
+const SW_CACHE="ebanist-v178";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
