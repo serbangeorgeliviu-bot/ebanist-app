@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.14.0 — 28 octombrie 2026
+
+**Distinta pentru debitator, curată:** două opțiuni noi în Setări — „Distinta de tăiere: fără accesorii” (fără picioare etc. în PDF și CSV; rămân în tabelul de feronerie) și „fără găuri de balamale” (nu mai apar în PDF și CSV). Implicit, ca înainte: Nu.
+
+---
+
 ## 5.13.3 — 28 octombrie 2026
 
 **Culori corecte în 3D:** capacul lateral Rovere de la corpul de sus apare Rovere (nu culoarea ușilor), iar în „Tot” (Constructor și „Camera în 3D”) fiecare corp își păstrează materialele: ușile și fillerele, Avocado Green; structura, Rovere.
