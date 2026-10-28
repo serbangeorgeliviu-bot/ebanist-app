@@ -2490,7 +2490,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    poi cadere al primo uso: «validateLayout is not defined». Se il nucleo
    caricato non e la revisione che questa pagina si aspetta, se ne scarica
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
-if(window.CORE_REV!=="5.11.0") document.write('<script src="./ebanist-core.js?rev=5.11.0"><\/script>');
+if(window.CORE_REV!=="5.12.0") document.write('<script src="./ebanist-core.js?rev=5.12.0"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-worktop.js"></script>
@@ -3339,6 +3339,13 @@ Object.assign(I18N.fr,{"absBackCut": "Découpe dans le fond", "absFiller": "File
 Object.assign(I18N.de,{"absBackCut": "Ausschnitt in der Rückwand", "absFiller": "Blende", "absCols": "Spalten", "absSide": "Seite", "absTop": "oben", "absSize": "Sichtbar (mm)", "absScribe": "Anzupassen (mm)", "absVentB": "Gitter unten B×H", "absVentT": "Gitter oben B×H", "absVentBad": "Das Gitter als Breite×Höhe schreiben, z. B. 300×100.", "absBackCols": "Rückwand auf Spalten", "absBackNone": "Mindestens eine Spalte muss die Rückwand tragen. Ohne Rückwand: Rückwand = Nein.", "role_traversa_spate": "Rückwandriegel", "role_filler": "Blende", "opsNoRailPanel": "Dem Rückwandriegel fehlt an einem Ende eine Seite oder ein Trenner: Er lässt sich nicht befestigen."});
 Object.assign(I18N.pl,{"absBackCut": "Wycięcie w plecach", "absFiller": "Zaślepka", "absCols": "Kolumny", "absSide": "Strona", "absTop": "góra", "absSize": "Widoczne (mm)", "absScribe": "Do dopasowania (mm)", "absVentB": "Kratka dół S×W", "absVentT": "Kratka góra S×W", "absVentBad": "Wpisz kratkę jako szerokość×wysokość, na przykład 300×100.", "absBackCols": "Plecy na kolumnach", "absBackNone": "Co najmniej jedna kolumna musi mieć plecy. Bez pleców wybierz Plecy = Nie.", "role_traversa_spate": "Poprzeczka pleców", "role_filler": "Zaślepka", "opsNoRailPanel": "Poprzeczka pleców nie ma boku ani przegrody na jednym końcu: nie da się jej zamocować."});
 Object.assign(I18N.es,{"absBackCut": "Recorte en la trasera", "absFiller": "Cubrejuntas", "absCols": "Columnas", "absSide": "Lado", "absTop": "arriba", "absSize": "Visible (mm)", "absScribe": "A ajustar (mm)", "absVentB": "Rejilla abajo A×H", "absVentT": "Rejilla arriba A×H", "absVentBad": "Escribe la rejilla como ancho×alto, por ejemplo 300×100.", "absBackCols": "Trasera en columnas", "absBackNone": "Al menos una columna debe llevar trasera. Para ninguna trasera elige Trasera = No.", "role_traversa_spate": "Travesaño trasero", "role_filler": "Cubrejuntas", "opsNoRailPanel": "El travesaño trasero no tiene lateral ni divisor en un extremo: no se puede fijar."});
+Object.assign(I18N.it,{"absCapL": "Fianco di chiusura sopra sx", "absCapR": "Fianco di chiusura sopra dx"});
+Object.assign(I18N.ro,{"absCapL": "capac lateral sus stânga", "absCapR": "capac lateral sus dreapta"});
+Object.assign(I18N.en,{"absCapL": "side cap top left", "absCapR": "side cap top right"});
+Object.assign(I18N.fr,{"absCapL": "joue haut gauche", "absCapR": "joue haut droite"});
+Object.assign(I18N.de,{"absCapL": "Seitenabschluss oben links", "absCapR": "Seitenabschluss oben rechts"});
+Object.assign(I18N.pl,{"absCapL": "zaślepka boczna górna lewa", "absCapR": "zaślepka boczna górna prawa"});
+Object.assign(I18N.es,{"absCapL": "cierre lateral superior izq.", "absCapR": "cierre lateral superior der."});
 /* ---- 5.8: piesa cu contur liber (D-101) ---- */
 Object.assign(I18N.it,{typeContur:"Pezzo a contorno libero",preset_contur:"Contorno",fContShape:"Forma",contShapeCustom:"Da file / disegno",contShapeRect:"Rettangolo",contShapeRound:"Rettangolo arrotondato",contShapeArch:"Parte alta bombata",contShapeScoop:"Parte bassa scavata",fContR:"Raggio degli angoli (mm)",fContRise:"Freccia dell'arco (mm)",fContSrc:"Contorno (SVG, DXF o punti)",contFitNone:"Misura del file",contFitW:"Scala alla larghezza L",contFitH:"Scala all'altezza H",fContOri:"Posizione",contOriV:"In piedi (piano verticale)",contOriO:"A terra (orizzontale)",fContPz:"Pezzi",fContEdge:"Bordo sul contorno",contInfo:"{w}×{h} mm · {n} vertici, {a} archi · bordo {p} m",contErr:"Contorno non valido: {why}.",contErrMat:"Pezzo a contorno: scegli il materiale — lo spessore viene dal materiale.",contErrEmpty:"Pezzo a contorno: scegli una forma o incolla un contorno.",contErrBig:"Pezzo a contorno: {w}×{h} mm non entra nella lastra ({p} mm).",contBig:"Il file è lungo: ho preso i primi 20.000 caratteri.",contWhy_few:"troppo pochi vertici",contWhy_area:"superficie nulla",contWhy_self:"il contorno si interseca",contWhy_open:"il contorno non è chiuso",contWhy_multi:"più di un contorno (ne serve uno solo)",contWhy_path:"percorso non leggibile",contWhy_cmd:"comando SVG non supportato",contWhy_points:"punti non leggibili (x,y x,y …)",contWhy_empty:"vuoto",contWhy_dxf:"DXF non leggibile",contWhy_units:"unità DXF non supportate",contWhy_many:"troppi vertici",contS1:"Taglia {k} pezzi a contorno (ingombro {w}×{h} mm): con il file macchina (dopo Cafasso) o con la dima; controlla l'ingombro sul pezzo.",contS2:"Applica il bordo su tutto il contorno ({p} m), arrotondando i raccordi.",contS3:"Controllo finale: contorno senza scheggiature, spigoli levigati, pezzi uguali alla dima.",role_contur:"Pezzo a contorno"});
 Object.assign(I18N.ro,{typeContur:"Piesă cu contur liber",preset_contur:"Contur",fContShape:"Forma",contShapeCustom:"Din fișier / desen",contShapeRect:"Dreptunghi",contShapeRound:"Dreptunghi rotunjit",contShapeArch:"Partea de sus bombată",contShapeScoop:"Partea de jos scobită",fContR:"Raza colțurilor (mm)",fContRise:"Săgeata arcului (mm)",fContSrc:"Contur (SVG, DXF sau puncte)",contFitNone:"Mărimea din fișier",contFitW:"Scalează la lățimea L",contFitH:"Scalează la înălțimea H",fContOri:"Poziție",contOriV:"În picioare (plan vertical)",contOriO:"Culcată (orizontal)",fContPz:"Bucăți",fContEdge:"Cant pe contur",contInfo:"{w}×{h} mm · {n} vârfuri, {a} arce · cant {p} m",contErr:"Contur nevalid: {why}.",contErrMat:"Piesă cu contur: alege materialul — grosimea vine din material.",contErrEmpty:"Piesă cu contur: alege o formă sau lipește un contur.",contErrBig:"Piesă cu contur: {w}×{h} mm nu încape în placă ({p} mm).",contBig:"Fișierul e lung: am luat primele 20.000 de caractere.",contWhy_few:"prea puține vârfuri",contWhy_area:"suprafață nulă",contWhy_self:"conturul se autointersectează",contWhy_open:"conturul nu e închis",contWhy_multi:"mai mult de un contur (trebuie unul singur)",contWhy_path:"traseu ilizibil",contWhy_cmd:"comandă SVG nesuportată",contWhy_points:"puncte ilizibile (x,y x,y …)",contWhy_empty:"gol",contWhy_dxf:"DXF ilizibil",contWhy_units:"unități DXF nesuportate",contWhy_many:"prea multe vârfuri",contS1:"Taie {k} piese cu contur (gabarit {w}×{h} mm): cu fișierul de mașină (după Cafasso) sau cu șablonul; verifică gabaritul pe piesă.",contS2:"Aplică cantul pe tot conturul ({p} m), rotunjind racordările.",contS3:"Control final: contur fără ciobituri, muchii șlefuite, piese identice cu șablonul.",role_contur:"Piesă contur"});
@@ -7643,9 +7650,16 @@ function buildCore(cfg){
   /* FILLER (D-103): fâșii în planul frontului, din materialul ușilor, care închid golul dintre dulap și pereți.
      Cota din distinctă e cea de tăiat: cât se vede + surplusul de potrivit pe șantier (3D-ul = distinta). */
   if(FITR&&FITR.fillers.length){
-    const fName={top:"Fascia di chiusura sopra",right:"Fascia di chiusura dx",left:"Fascia di chiusura sx"};
-    const fOrd=["top","right","left"];
+    const fName={top:"Fascia di chiusura sopra",right:"Fascia di chiusura dx",left:"Fascia di chiusura sx",capL:"Fianco di chiusura sopra sx",capR:"Fianco di chiusura sopra dx"};
+    const fOrd=["top","right","left","capL","capR"];
     FITR.fillers.slice().sort((a,b)=>fOrd.indexOf(a.side)-fOrd.indexOf(b.side)).forEach(f=>{
+      if(f.cap){
+        /* capacul lateral: din materialul structurii, în planul lateralei; cant pe capătul din față (singura muchie care se vede) */
+        const mS0=matById(cfg.matBody);
+        add(fName[f.side],f.lung,f.larg,1,"1C",mS0?mS0.label:null,{role:"filler",axes:f.axes});
+        bxRole="filler"; bx(f.x0,f.x1,f.y0,f.y1,f.z0,f.z1,"p",0,0,"filler");
+        return;
+      }
       /* cantul pe muchiile care se văd: muchia lungă dinspre ușă și un capăt (cel de la podea la cel din dreapta, cel dinspre colțul liber la cel de sus);
          muchia dinspre perete și cea de sub tavan se potrivesc pe șantier, deci rămân brute */
       add(fName[f.side],f.lung,f.larg,1,"1L+1C",null,{role:"filler",axes:f.axes});
@@ -8632,6 +8646,12 @@ Object.assign(EL_I18N.fr,{"Griglia di aerazione": "Grille d'aération", "Travers
 Object.assign(EL_I18N.de,{"Griglia di aerazione": "Lüftungsgitter", "Traversa retro": "Rückwandriegel (Aussteifung)", "Fascia di chiusura sopra": "Blende oben", "Fascia di chiusura dx": "Blende rechts", "Fascia di chiusura sx": "Blende links"});
 Object.assign(EL_I18N.pl,{"Griglia di aerazione": "Kratka wentylacyjna", "Traversa retro": "Poprzeczka pleców (usztywnienie)", "Fascia di chiusura sopra": "Zaślepka górna", "Fascia di chiusura dx": "Zaślepka prawa", "Fascia di chiusura sx": "Zaślepka lewa"});
 Object.assign(EL_I18N.es,{"Griglia di aerazione": "Rejilla de ventilación", "Traversa retro": "Travesaño trasero (refuerzo)", "Fascia di chiusura sopra": "Cubrejuntas superior", "Fascia di chiusura dx": "Cubrejuntas derecha", "Fascia di chiusura sx": "Cubrejuntas izquierda"});
+Object.assign(EL_I18N.ro,{"Fianco di chiusura sopra sx":"Capac lateral sus stânga","Fianco di chiusura sopra dx":"Capac lateral sus dreapta"});
+Object.assign(EL_I18N.en,{"Fianco di chiusura sopra sx":"Side cap, top left","Fianco di chiusura sopra dx":"Side cap, top right"});
+Object.assign(EL_I18N.fr,{"Fianco di chiusura sopra sx":"Joue de fermeture haut gauche","Fianco di chiusura sopra dx":"Joue de fermeture haut droite"});
+Object.assign(EL_I18N.de,{"Fianco di chiusura sopra sx":"Seitenabschluss oben links","Fianco di chiusura sopra dx":"Seitenabschluss oben rechts"});
+Object.assign(EL_I18N.pl,{"Fianco di chiusura sopra sx":"Zaślepka boczna górna lewa","Fianco di chiusura sopra dx":"Zaślepka boczna górna prawa"});
+Object.assign(EL_I18N.es,{"Fianco di chiusura sopra sx":"Cierre lateral superior izquierdo","Fianco di chiusura sopra dx":"Cierre lateral superior derecho"});
 Object.assign(EL_I18N.ro,{"Lamella tagliata":"Lamelă tăiată"});Object.assign(EL_I18N.en,{"Lamella tagliata":"Cut slat"});Object.assign(EL_I18N.fr,{"Lamella tagliata":"Lamelle coupée"});Object.assign(EL_I18N.de,{"Lamella tagliata":"Gekürzte Lamelle"});Object.assign(EL_I18N.pl,{"Lamella tagliata":"Lamelka cięta"});Object.assign(EL_I18N.es,{"Lamella tagliata":"Lama cortada"});
 Object.assign(EL_I18N.ro,{"Montante cornice":"Montant ramă","Traversa cornice":"Traversă ramă"});
 Object.assign(EL_I18N.en,{"Montante cornice":"Frame stile","Traversa cornice":"Frame rail"});
@@ -9813,7 +9833,7 @@ function absRow(k,i,o){
   }else if(k==="backRails"){
     h=f("y",ts2("absY"),o.y)+f("h",ts2("absH"),o.h==null?"":o.h)+f("cols",ts2("absCols"),(o.cols||[]).join("/"),72);
   }else if(k==="fillers"){
-    h=sel("side",ts2("absSide"),o.side,[["top",ts2("absTop")],["right",ts2("absRight")],["left",ts2("absLeft")]])
+    h=sel("side",ts2("absSide"),o.side,[["top",ts2("absTop")],["right",ts2("absRight")],["left",ts2("absLeft")],["capL",ts2("absCapL")],["capR",ts2("absCapR")]])
       +f("size",ts2("absSize"),o.size)+f("scribe",ts2("absScribe"),o.scribe==null?"":o.scribe);
   }else if(k==="customCuts"){
     h=sel("on",ts2("absOn"),o.on,[["fianchi",ts2("absSides")],["setti",ts2("absDividers")]])
@@ -15274,7 +15294,7 @@ const AI_ENUM={
   backMode:["incassato","applicato","in_cava"], partType:["setto","ripiano"], span:["full","left","right"],
   hinge:["left","right"], cutOn:["fianchi","setti"], cutCorner:["back-bottom","front-bottom","back-top","front-top"],
   /* D-103 */
-  fillerSide:["top","right","left"], ventAt:["top","bottom"]};
+  fillerSide:["top","right","left","capL","capR"], ventAt:["top","bottom"]};
 /* i codici di altezza sponda validi: dipendono dal sistema, quindi l'unione */
 const AI_DRAWH=Object.keys(DRAWSYS).reduce((a,k)=>{
   Object.keys(DRAWSYS[k].hs||{}).forEach(c=>{ if(a.indexOf(c)<0) a.push(c); }); return a; },[]);
@@ -15330,7 +15350,7 @@ COLUMN BACKS, STIFFENING RAILS, CLOSING STRIPS, VENTS — for a unit standing in
 "backCols" — which columns carry a back panel: [1] = back only behind the left column, the right column stays open. Omit it for a full back. It needs back=1; a back panel then ends at the face of the divider that separates it from an open column.
 "backCutouts" — rectangular openings through the back, absolute: [{x, y, w, h}], x from the outside left of the unit, y from the floor, (x, y) = the lower-left corner of the opening, w = width, h = height. "Cut the back only where the electric panel is" = ONE entry, with the measurements he gives. Never invent them; ask in "questions".
 "backRails" — horizontal rails at the back that keep an open column from twisting: [{y, h, cols}], y = the UNDERSIDE from the floor, h = height (default 100), cols = the columns (default: every column without a back). "Two rails at the back, at the door joint" = two entries, one just below and one just above the joint between the stacked doors.
-"fillers" — strips of the door material in the plane of the doors that close the gap between the unit and the walls: [{side:"top"|"right"|"left", size, scribe}]. size = the part that shows, mm; scribe = extra mm left on the wall side to be trimmed on site (default 10). "3-4 cm gap above and on the right, closed with a filler" = two entries. The unit's own L and H do NOT include the fillers: L = overall width minus the side fillers, H = overall height minus the top filler.
+"fillers" with side capL / capR — a side cap: a panel of the carcass material in the plane of the side, over the unit, as deep as the unit, closing the open end of the gap above it ("a 100 mm oak cap over the left side"): size = its height. "fillers" — strips of the door material in the plane of the doors that close the gap between the unit and the walls: [{side:"top"|"right"|"left", size, scribe}]. size = the part that shows, mm; scribe = extra mm left on the wall side to be trimmed on site (default 10). "3-4 cm gap above and on the right, closed with a filler" = two entries. The unit's own L and H do NOT include the fillers: L = overall width minus the side fillers, H = overall height minus the top filler.
 "fronts[].vents" — ventilation openings cut through a door: [{at:"top"|"bottom", w, h, off, x}], at = near which edge of the door, off = distance from that edge to the near edge of the opening (default 40), x = left edge of the opening from the left edge of the door (default: centred). They always sit at least 50 mm from the side edges of the door (hinge cups). A gas appliance behind a door needs an opening in the top part of the cabinet and one in the bottom part: put one entry on the upper door and one on the lower door. The FREE area the opening must have comes from the appliance manual or the installer, never from you: if he gives only a number of cm2, ask for the opening size in "questions".
 "backMode": incassato = back between the sides; applicato = back over everything, as wide as the unit, the sides lose its thickness in depth; in_cava = thin back in a groove. A back as wide as the unit (870 on an 870 unit) is applicato.
 "shelfSetback": how far the shelves stand back from the front edge, mm.
@@ -16653,12 +16673,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.11.2"; /* APP_VER-MARKER */
+const APP_VER="5.12.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v171";
+const SW_CACHE="ebanist-v172";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "5.11.0";
+var CORE_REV = "5.12.0";
 var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -1940,19 +1940,27 @@ function validateFit(cfg, G, LY, geo) {
     c.fillers.forEach(function (q, k) {
       var tag = "filler " + (k + 1);
       q = q || {};
-      if (q.side !== "top" && q.side !== "right" && q.side !== "left") { errors.push(tag + ": `side` = top / right / left, primit " + JSON.stringify(q.side)); return; }
+      if (["top", "right", "left", "capL", "capR"].indexOf(q.side) < 0) { errors.push(tag + ": `side` = top / right / left / capL / capR, primit " + JSON.stringify(q.side)); return; }
       if (seen[q.side]) { errors.push(tag + ": două filler-e pe " + q.side); return; }
       seen[q.side] = 1;
       if (!finiteNum(q.size)) { errors.push(tag + ": `size` (cât se vede, mm) trebuie să fie număr"); return; }
       var size = +q.size, scribe = finiteNum(q.scribe) ? +q.scribe : FIT.filler_scribe;
       if (!(size >= FIT.filler_min && size <= FIT.filler_max)) { errors.push(tag + ": " + fmt01(size) + " mm trebuie să fie între " + FIT.filler_min + " și " + FIT.filler_max); return; }
       if (!(scribe >= 0 && scribe <= 50)) { errors.push(tag + ": surplusul de potrivire " + fmt01(scribe) + " mm trebuie să fie între 0 și 50"); return; }
-      sizeOf[q.side] = size + scribe;
+      if (q.side !== "capL" && q.side !== "capR") sizeOf[q.side] = size + scribe;
       out.fillers.push({ n: k + 1, side: q.side, size: size, scribe: scribe });
     });
     /* fâșia de sus acoperă și colțurile: lățimea ei = L + filler-ul din stânga + cel din dreapta (cu tot cu surplus) */
     out.fillers.forEach(function (f) {
-      if (f.side === "top") {
+      if (f.side === "capL" || f.side === "capR") {
+        /* capac lateral (D-103): panou în planul lateralei, deasupra corpului, pe toată adâncimea; închide golul de sub filler la capătul vizibil.
+           `size` = înălțimea lui (cât filler-ul de sus). Din materialul structurii, ca lateralele. */
+        var tCap = G.sp.fianco;
+        f.cap = true; f.x0 = f.side === "capL" ? 0 : W - tCap; f.x1 = f.side === "capL" ? tCap : W;
+        f.y0 = H; f.y1 = H + f.size + f.scribe; f.z0 = 0; f.z1 = G.in.D;
+        f.lung = f.z1 - f.z0; f.larg = f.y1 - f.y0;
+        f.axes = { lung: "P", larg: "H", sp: "L" };
+      } else if (f.side === "top") {
         f.x0 = -(sizeOf.left || 0); f.x1 = W + (sizeOf.right || 0);
         f.y0 = H; f.y1 = H + f.size + f.scribe;
         f.lung = f.x1 - f.x0; f.larg = f.y1 - f.y0;

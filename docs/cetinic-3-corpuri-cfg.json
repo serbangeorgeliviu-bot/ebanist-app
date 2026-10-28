@@ -70,14 +70,14 @@
   "matBack": "rovere_chiaro_19",
   "name": "Entrance sx sus",
   "L": 780,
-  "H": 951,
+  "H": 1051,
   "support": "sospeso",
   "plinth": 0,
   "back": 1,
   "partitions": [
    {
     "type": "ripiano",
-    "y": 475,
+    "y": 525,
     "span": "full"
    }
   ],
@@ -86,20 +86,25 @@
     "x": 0,
     "y": 0,
     "w": 386,
-    "h": 948,
+    "h": 1048,
     "hinge": "left"
    },
    {
     "x": 390,
     "y": 0,
     "w": 386,
-    "h": 948,
+    "h": 1048,
     "hinge": "right"
    }
   ],
   "fillers": [
    {
     "side": "top",
+    "size": 100,
+    "scribe": 0
+   },
+   {
+    "side": "capL",
     "size": 100,
     "scribe": 0
    }
@@ -124,7 +129,7 @@
   "matBack": "rovere_chiaro_19",
   "name": "Entrance dx",
   "L": 780,
-  "H": 2200,
+  "H": 2300,
   "support": "piedini",
   "plinth": 30,
   "back": 0,
@@ -133,14 +138,14 @@
     "x": 0,
     "y": 33,
     "w": 386,
-    "h": 2164,
+    "h": 2264,
     "hinge": "left"
    },
    {
     "x": 390,
     "y": 33,
     "w": 386,
-    "h": 2164,
+    "h": 2264,
     "hinge": "right"
    }
   ],
@@ -150,7 +155,7 @@
     "h": 100
    },
    {
-    "y": 1450,
+    "y": 1500,
     "h": 100
    }
   ],

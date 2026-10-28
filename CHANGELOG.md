@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.12.0 — 28 octombrie 2026
+
+**Capac lateral de filler** (`fillers` cu `side:"capL"` / `"capR"`): panou din materialul structurii, în planul lateralei, deasupra corpului, pe toată adâncimea, care închide capătul vizibil al golului de sub fillerul de sus. `size` = înălțimea lui. Cant 1C pe capătul din față. Rând nou în distinctă („Fianco di chiusura sopra sx/dx"), 7 limbi, AI și editor.
+
+---
+
 ## 5.11.2 — 28 octombrie 2026
 
 **Filler cantuit:** fâșiile de filler (sus, dreapta, stânga) iau cant ABS pe muchia lungă vizibilă și pe un capăt (1L+1C), nu doar pe muchia lungă. Muchia dinspre perete și cea de sub tavan rămân brute, se potrivesc pe șantier. Cota nu se schimbă.
