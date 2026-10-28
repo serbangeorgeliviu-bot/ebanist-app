@@ -359,3 +359,17 @@ describe("Cetinic — capac lateral de filler (capL)", () => {
     assert.match(errOf(Object.assign(clone(CETI), { fillers: [{ side: "capL", size: 100 }, { side: "capL", size: 80 }] })), /două filler-e/);
   });
 });
+
+describe("Cetinic — un singur filler de sus peste mai multe corpuri (extend)", () => {
+  test("top cu extend: lungime = L + extend + fillerul lateral; x0 negativ în 3D", () => {
+    const c = Object.assign(clone(CETI), { fillers: [{ side: "top", size: 100, scribe: 0, extend: 780 }, { side: "right", size: 100, scribe: 0 }] });
+    const r = build(c), f = row(r, "filler", p => /sopra/.test(p.elemento))[0];
+    eq([f.lung, f.larg], [1560 + 780 + 100, 100]);
+    const bb = r.b.boxes.find(b => b.sub === "filler" && b.y0 === 2260);
+    eq([bb.x0, bb.x1], [-780, 1660]);
+  });
+  test("extend negativ, peste 6000 sau pe alt filler = eroare", () => {
+    assert.match(errOf(Object.assign(clone(CETI), { fillers: [{ side: "top", size: 100, extend: -5 }] })), /extend/);
+    assert.match(errOf(Object.assign(clone(CETI), { fillers: [{ side: "right", size: 100, extend: 100 }] })), /doar pentru filler-ul de sus/);
+  });
+});

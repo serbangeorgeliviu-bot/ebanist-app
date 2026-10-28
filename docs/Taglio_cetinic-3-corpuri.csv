@@ -10,7 +10,6 @@ Entrance sx sus;Base / Cielo;742;450;2;1L;Rovere 19 mm;
 Entrance sx sus;Ripiano traversante;740;361;1;1L;Rovere 19 mm;
 Entrance sx sus;Anta push;1048;386;2;2L+2C;Avocado Green;cerniere 3x d35 @ 100/524/948
 Entrance sx sus;Schienale;1029;758;1;;Rovere 19 mm;
-Entrance sx sus;Fascia di chiusura sopra;780;100;1;1L+2C;Avocado Green;
 Entrance sx sus;Fianco di chiusura sopra sx;450;100;1;1L+2C;Rovere 19 mm;
 Entrance dx;Fianco;2270;450;2;2L+2C;Rovere 19 mm;
 Entrance dx;Base / Cielo;742;450;2;1L;Rovere 19 mm;
@@ -18,5 +17,5 @@ Entrance dx;Piedino regolabile;30;50;4;;Accessorio — piedino regolabile;
 Entrance dx;Ripiano traversante;740;430;1;1L;Rovere 19 mm;
 Entrance dx;Anta push;2264;386;2;2L+2C;Avocado Green;cerniere 5x d35 @ 100/616/1132/1648/2164
 Entrance dx;Traversa retro;742;100;2;;Rovere 19 mm;
-Entrance dx;Fascia di chiusura sopra;880;100;1;1L+2C;Avocado Green;
+Entrance dx;Fascia di chiusura sopra;1660;100;1;1L+2C;Avocado Green;
 Entrance dx;Fascia di chiusura dx;2300;100;1;1L+2C;Avocado Green;

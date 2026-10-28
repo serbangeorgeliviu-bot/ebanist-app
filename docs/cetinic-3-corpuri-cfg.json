@@ -99,11 +99,6 @@
   ],
   "fillers": [
    {
-    "side": "top",
-    "size": 100,
-    "scribe": 0
-   },
-   {
     "side": "capL",
     "size": 100,
     "scribe": 0
@@ -168,7 +163,8 @@
    {
     "side": "top",
     "size": 100,
-    "scribe": 0
+    "scribe": 0,
+    "extend": 780
    },
    {
     "side": "right",

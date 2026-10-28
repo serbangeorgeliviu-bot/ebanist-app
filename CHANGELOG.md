@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.12.2 — 28 octombrie 2026
+
+**Un singur filler de sus peste mai multe corpuri** (`extend` pe fillerul `top`): fâșia se prelungește spre stânga cu atâția mm cât au corpurile vecine, ca să rămână o singură piesă. Distinta o poartă un corp; lungimea = lățimea lui + prelungirea + fillerul lateral.
+
+---
+
 ## 5.12.1 — 28 octombrie 2026
 
 **Cant la filler:** toate fâșiile de filler și capacul lateral iau cant `1L+2C` (muchia lungă vizibilă și ambele capete), nu `1L+1C`. Cotele nu se schimbă.

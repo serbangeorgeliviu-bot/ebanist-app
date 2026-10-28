@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "5.12.1";
+var CORE_REV = "5.12.2";
 var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -1947,8 +1947,11 @@ function validateFit(cfg, G, LY, geo) {
       var size = +q.size, scribe = finiteNum(q.scribe) ? +q.scribe : FIT.filler_scribe;
       if (!(size >= FIT.filler_min && size <= FIT.filler_max)) { errors.push(tag + ": " + fmt01(size) + " mm trebuie să fie între " + FIT.filler_min + " și " + FIT.filler_max); return; }
       if (!(scribe >= 0 && scribe <= 50)) { errors.push(tag + ": surplusul de potrivire " + fmt01(scribe) + " mm trebuie să fie între 0 și 50"); return; }
+      var ext = finiteNum(q.extend) ? +q.extend : 0;
+      if (!(ext >= 0 && ext <= 6000)) { errors.push(tag + ": `extend` (mm de prelungire spre alt corp, în stânga) trebuie să fie între 0 și 6000"); return; }
+      if (ext > 0 && q.side !== "top") { errors.push(tag + ": `extend` e doar pentru filler-ul de sus"); return; }
       if (q.side !== "capL" && q.side !== "capR") sizeOf[q.side] = size + scribe;
-      out.fillers.push({ n: k + 1, side: q.side, size: size, scribe: scribe });
+      out.fillers.push({ n: k + 1, side: q.side, size: size, scribe: scribe, ext: ext });
     });
     /* fâșia de sus acoperă și colțurile: lățimea ei = L + filler-ul din stânga + cel din dreapta (cu tot cu surplus) */
     out.fillers.forEach(function (f) {
@@ -1961,7 +1964,8 @@ function validateFit(cfg, G, LY, geo) {
         f.lung = f.z1 - f.z0; f.larg = f.y1 - f.y0;
         f.axes = { lung: "P", larg: "H", sp: "L" };
       } else if (f.side === "top") {
-        f.x0 = -(sizeOf.left || 0); f.x1 = W + (sizeOf.right || 0);
+        /* `ext`: un singur filler de sus peste mai multe corpuri — se prelungește spre stânga cu lățimile corpurilor vecine */
+        f.x0 = -(sizeOf.left || 0) - (f.ext || 0); f.x1 = W + (sizeOf.right || 0);
         f.y0 = H; f.y1 = H + f.size + f.scribe;
         f.lung = f.x1 - f.x0; f.larg = f.y1 - f.y0;
         f.axes = { lung: "L", larg: "H", sp: "P" };
