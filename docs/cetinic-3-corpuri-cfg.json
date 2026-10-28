@@ -1,0 +1,158 @@
+[
+ {
+  "type": "standard",
+  "P": 410,
+  "tram": 0,
+  "shelves": 0,
+  "drawers": 0,
+  "doors": 0,
+  "hang": 0,
+  "shelfType": "mobile",
+  "handles": "push",
+  "backMode": "applicato",
+  "matBody": "rovere_chiaro_19",
+  "matFront": "avocado_green_22458mn_19",
+  "matBack": "rovere_chiaro_19",
+  "name": "Entrance sx jos",
+  "L": 780,
+  "H": 1249,
+  "support": "piedini",
+  "plinth": 30,
+  "back": 1,
+  "partitions": [
+   {
+    "type": "ripiano",
+    "y": 499,
+    "span": "full"
+   },
+   {
+    "type": "ripiano",
+    "y": 879,
+    "span": "full"
+   }
+  ],
+  "fronts": [
+   {
+    "x": 0,
+    "y": 33,
+    "w": 386,
+    "h": 865,
+    "hinge": "left"
+   },
+   {
+    "x": 390,
+    "y": 33,
+    "w": 386,
+    "h": 865,
+    "hinge": "right"
+   }
+  ]
+ },
+ {
+  "type": "standard",
+  "P": 410,
+  "tram": 0,
+  "shelves": 0,
+  "drawers": 0,
+  "doors": 0,
+  "hang": 0,
+  "shelfType": "mobile",
+  "handles": "push",
+  "backMode": "applicato",
+  "matBody": "rovere_chiaro_19",
+  "matFront": "avocado_green_22458mn_19",
+  "matBack": "rovere_chiaro_19",
+  "name": "Entrance sx sus",
+  "L": 780,
+  "H": 1011,
+  "support": "sospeso",
+  "plinth": 0,
+  "back": 1,
+  "partitions": [
+   {
+    "type": "ripiano",
+    "y": 501,
+    "span": "full"
+   }
+  ],
+  "fronts": [
+   {
+    "x": 0,
+    "y": 0,
+    "w": 386,
+    "h": 1008,
+    "hinge": "left"
+   },
+   {
+    "x": 390,
+    "y": 0,
+    "w": 386,
+    "h": 1008,
+    "hinge": "right"
+   }
+  ],
+  "fillers": [
+   {
+    "side": "top",
+    "size": 40
+   }
+  ]
+ },
+ {
+  "type": "standard",
+  "P": 410,
+  "tram": 0,
+  "shelves": 0,
+  "drawers": 0,
+  "doors": 0,
+  "hang": 0,
+  "shelfType": "mobile",
+  "handles": "push",
+  "backMode": "applicato",
+  "matBody": "rovere_chiaro_19",
+  "matFront": "avocado_green_22458mn_19",
+  "matBack": "rovere_chiaro_19",
+  "name": "Entrance dx",
+  "L": 780,
+  "H": 2260,
+  "support": "piedini",
+  "plinth": 30,
+  "back": 0,
+  "fronts": [
+   {
+    "x": 0,
+    "y": 33,
+    "w": 386,
+    "h": 2224,
+    "hinge": "left"
+   },
+   {
+    "x": 390,
+    "y": 33,
+    "w": 386,
+    "h": 2224,
+    "hinge": "right"
+   }
+  ],
+  "backRails": [
+   {
+    "y": 700,
+    "h": 100
+   },
+   {
+    "y": 1500,
+    "h": 100
+   }
+  ],
+  "fillers": [
+   {
+    "side": "top",
+    "size": 40
+   },
+   {
+    "side": "right",
+    "size": 40
+   }
+  ]
+ }
+]
