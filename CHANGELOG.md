@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.13.1 — 28 octombrie 2026
 
-**Din Constructor, la mobila întreagă:** când proiectul are cel puțin două corpuri poziționate în Releveu, sub previzualizarea 3D apare butonul „Vezi mobila completă, asamblată”, care deschide „Camera în 3D” (cu filtrele Tot / corp / Filler).
+**Constructor cu mobila întreagă:** când proiectul are cel puțin două corpuri poziționate în Releveu, previzualizarea 3D din Constructor arată mobila completă, asamblată, iar sub ea apar butoanele „Tot”, câte unul pe corp (se încarcă în formular) și „Filler”.
 
 ---
 
