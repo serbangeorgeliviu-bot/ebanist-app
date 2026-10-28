@@ -1,20 +1,20 @@
 ﻿Rif. Modulo;Elemento;Lunghezza (mm);Larghezza (mm);Pz.;Bordatura (ABS);Materiale;Lavorazioni
-Entrance sx jos;Fianco;1219;391;2;2L+2C;Light oak;
-Entrance sx jos;Base / Cielo;742;391;2;1L;Light oak;
+Entrance sx jos;Fianco;1219;450;2;2L+2C;Rovere 19 mm;
+Entrance sx jos;Base / Cielo;742;450;2;1L;Rovere 19 mm;
 Entrance sx jos;Piedino regolabile;30;50;4;;Accessorio — piedino regolabile;
-Entrance sx jos;Ripiano traversante;740;371;2;1L;Light oak;
+Entrance sx jos;Ripiano traversante;740;361;2;1L;Rovere 19 mm;
 Entrance sx jos;Anta push;865;386;2;2L+2C;Avocado Green;cerniere 2x d35 @ 100/765
-Entrance sx jos;Schienale;1219;780;1;;Light oak;
-Entrance sx sus;Fianco;1011;391;2;2L+2C;Light oak;
-Entrance sx sus;Base / Cielo;742;391;2;1L;Light oak;
-Entrance sx sus;Ripiano traversante;740;371;1;1L;Light oak;
-Entrance sx sus;Anta push;1008;386;2;2L+2C;Avocado Green;cerniere 3x d35 @ 100/504/908
-Entrance sx sus;Schienale;1011;780;1;;Light oak;
-Entrance sx sus;Fascia di chiusura sopra;780;50;1;1L+1C;Avocado Green;
-Entrance dx;Fianco;2230;410;2;2L+2C;Light oak;
-Entrance dx;Base / Cielo;742;410;2;1L;Light oak;
+Entrance sx jos;Schienale;1197;758;1;;Rovere 19 mm;
+Entrance sx sus;Fianco;951;450;2;2L+2C;Rovere 19 mm;
+Entrance sx sus;Base / Cielo;742;450;2;1L;Rovere 19 mm;
+Entrance sx sus;Ripiano traversante;740;361;1;1L;Rovere 19 mm;
+Entrance sx sus;Anta push;948;386;2;2L+2C;Avocado Green;cerniere 3x d35 @ 100/474/848
+Entrance sx sus;Schienale;929;758;1;;Rovere 19 mm;
+Entrance sx sus;Fascia di chiusura sopra;780;100;1;1L+1C;Avocado Green;
+Entrance dx;Fianco;2170;450;2;2L+2C;Rovere 19 mm;
+Entrance dx;Base / Cielo;742;450;2;1L;Rovere 19 mm;
 Entrance dx;Piedino regolabile;30;50;4;;Accessorio — piedino regolabile;
-Entrance dx;Anta push;2224;386;2;2L+2C;Avocado Green;cerniere 5x d35 @ 100/606/1112/1618/2124
-Entrance dx;Traversa retro;742;100;2;;Light oak;
-Entrance dx;Fascia di chiusura sopra;830;50;1;1L+1C;Avocado Green;
-Entrance dx;Fascia di chiusura dx;2260;50;1;1L+1C;Avocado Green;
+Entrance dx;Anta push;2164;386;2;2L+2C;Avocado Green;cerniere 5x d35 @ 100/591/1082/1573/2064
+Entrance dx;Traversa retro;742;100;2;;Rovere 19 mm;
+Entrance dx;Fascia di chiusura sopra;830;100;1;1L+1C;Avocado Green;
+Entrance dx;Fascia di chiusura dx;2200;50;1;1L+1C;Avocado Green;
