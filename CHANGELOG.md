@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.14.1 — 28 octombrie 2026
+
+**Grosimea în distinta de tăiere:** opțiune nouă în Setări, „Distinta de tăiere: grosimea în material” — materialul apare ca „Rovere 19 mm” / „Avocado Green 19 mm” în PDF și CSV. Implicit: Nu.
+
+---
+
 ## 5.14.0 — 28 octombrie 2026
 
 **Distinta pentru debitator, curată:** două opțiuni noi în Setări — „Distinta de tăiere: fără accesorii” (fără picioare etc. în PDF și CSV; rămân în tabelul de feronerie) și „fără găuri de balamale” (nu mai apar în PDF și CSV). Implicit, ca înainte: Nu.

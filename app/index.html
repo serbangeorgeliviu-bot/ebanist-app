@@ -2115,6 +2115,9 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="f"><label data-i="fCutNoAcc">Distinta di taglio: senza accessori</label>
     <select id="sCutNoAcc"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select>
     <div class="mini" style="margin-top:4px" data-i="cutNoAccHint"></div></div>
+  <div class="f"><label data-i="fCutMatTh">Distinta di taglio: spessore nel materiale</label>
+    <select id="sCutMatTh"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select>
+    <div class="mini" style="margin-top:4px" data-i="cutMatThHint"></div></div>
   <div class="f"><label data-i="fCutNoHinge">Distinta di taglio: senza fori cerniere</label>
     <select id="sCutNoHinge"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select>
     <div class="mini" style="margin-top:4px" data-i="cutNoHingeHint"></div></div>
@@ -3207,6 +3210,13 @@ Object.assign(I18N.fr,{cmOther:"Autres travaux"});
 Object.assign(I18N.en,{cmOther:"Other work"});
 Object.assign(I18N.ro,{cmOther:"Alte lucrări"});
 Object.assign(I18N.it,{cmOther:"Altre lavorazioni"});
+Object.assign(I18N.it,{"fCutMatTh": "Distinta di taglio: spessore nel materiale", "cutMatThHint": "Il materiale esce con lo spessore, es. «Rovere 19 mm», in PDF e CSV."});
+Object.assign(I18N.ro,{"fCutMatTh": "Distinta de tăiere: grosimea în material", "cutMatThHint": "Materialul apare cu grosimea, ex. «Rovere 19 mm», în PDF și CSV."});
+Object.assign(I18N.en,{"fCutMatTh": "Cut list: thickness in the material", "cutMatThHint": "The material shows its thickness, e.g. “Oak 19 mm”, in the PDF and CSV."});
+Object.assign(I18N.fr,{"fCutMatTh": "Liste de débit : épaisseur dans le matériau", "cutMatThHint": "Le matériau s’affiche avec son épaisseur, p. ex. « Chêne 19 mm », dans le PDF et le CSV."});
+Object.assign(I18N.de,{"fCutMatTh": "Zuschnittliste: Stärke im Material", "cutMatThHint": "Das Material erscheint mit Stärke, z. B. „Eiche 19 mm“, in PDF und CSV."});
+Object.assign(I18N.pl,{"fCutMatTh": "Lista cięcia: grubość w materiale", "cutMatThHint": "Materiał pojawia się z grubością, np. „Dąb 19 mm”, w PDF i CSV."});
+Object.assign(I18N.es,{"fCutMatTh": "Lista de corte: grosor en el material", "cutMatThHint": "El material sale con su grosor, p. ej. «Roble 19 mm», en el PDF y el CSV."});
 Object.assign(I18N.it,{"fCutNoAcc": "Distinta di taglio: senza accessori", "cutNoAccHint": "Nel PDF e nel CSV restano solo i pezzi da tagliare e bordare: niente piedini e altri accessori (restano nel riepilogo ferramenta).", "fCutNoHinge": "Distinta di taglio: senza fori cerniere", "cutNoHingeHint": "Nel PDF e nel CSV non compaiono i fori per le cerniere (li fa l'officina)."});
 Object.assign(I18N.ro,{"fCutNoAcc": "Distinta de tăiere: fără accesorii", "cutNoAccHint": "În PDF și CSV rămân doar piesele de tăiat și de bordat: fără picioare și alte accesorii (rămân în tabelul de feronerie).", "fCutNoHinge": "Distinta de tăiere: fără găuri de balamale", "cutNoHingeHint": "În PDF și CSV nu mai apar găurile pentru balamale (le faci tu)."});
 Object.assign(I18N.en,{"fCutNoAcc": "Cut list: no accessories", "cutNoAccHint": "The PDF and CSV only list the pieces to cut and edge: no feet or other accessories (they stay in the hardware table).", "fCutNoHinge": "Cut list: no hinge holes", "cutNoHingeHint": "The PDF and CSV no longer show the hinge holes (the workshop drills them)."});
@@ -4450,6 +4460,13 @@ function edgeTh(){ const v=(state&&state.settings)?state.settings.edgeTh:null; r
 /* distinta per il debitatore (PDF e CSV): solo pezzi da tagliare e bordare; fori cerniere e accessori si escludono a richiesta */
 function cutNoAcc(){ return !!(state&&state.settings&&state.settings.cutNoAcc); }
 function cutNoHinge(){ return !!(state&&state.settings&&state.settings.cutNoHinge); }
+/* materiale in distinta di taglio: con lo spessore («Rovere 19 mm»), se l'opzione e attiva e il nome non lo porta gia */
+function cutMat(x,ui){
+  const lab=ui?matLabelUI(x.materiale):x.materiale;
+  if(!(state&&state.settings&&state.settings.cutMatTh)||!lab||isAccPiece(x)||/\d\s*mm\b/i.test(lab)) return lab;
+  let th=null; try{ const m=matByLabel(x.materiale); th=m&&+m.th; }catch(e){}
+  return th>0?lab+" "+(Math.round(th*10)/10)+" mm":lab;
+}
 function cutRows(p){ return cutNoAcc()?p.pieces.filter(x=>!isAccPiece(x)):p.pieces; }
 function edgeComp(){ return !!(state&&state.settings&&state.settings.edgeComp); }
 function cutLW(x){
@@ -5566,7 +5583,7 @@ $("btnSettings").addEventListener("click",()=>{
   $("sPanelL").value=S.panelL;$("sPanelW").value=S.panelW;$("sKerf").value=S.kerf;
   $("sDecorDir").value=S.decor_directional?"1":"0";
   $("sEdgeComp").value=S.edgeComp?"1":"0";
-  $("sCutNoAcc").value=S.cutNoAcc?"1":"0"; $("sCutNoHinge").value=S.cutNoHinge?"1":"0";
+  $("sCutMatTh").value=S.cutMatTh?"1":"0"; $("sCutNoAcc").value=S.cutNoAcc?"1":"0"; $("sCutNoHinge").value=S.cutNoHinge?"1":"0";
   $("sCostMode").value=S.costMode||"panels";$("sPriceM2").value=S.priceM2;$("sPriceMl").value=S.priceMl;$("sWaste").value=S.waste;$("sLabor").value=S.labor;$("sHourly").value=S.hourly!=null?S.hourly:35;
   $("sMargin").value=S.margin;$("sIva").value=S.iva;
   $("sEdgeTh").value=(S.edgeTh==null?0.8:S.edgeTh);
@@ -5713,7 +5730,7 @@ $("btnSettingsSave").addEventListener("click",()=>{
   S.panelL=parseInt($("sPanelL").value,10)||2800; S.panelW=parseInt($("sPanelW").value,10)||2070;
   S.decor_directional=$("sDecorDir").value==="1";
   S.edgeComp=$("sEdgeComp").value==="1";
-  S.cutNoAcc=$("sCutNoAcc").value==="1"; S.cutNoHinge=$("sCutNoHinge").value==="1";
+  S.cutMatTh=$("sCutMatTh").value==="1"; S.cutNoAcc=$("sCutNoAcc").value==="1"; S.cutNoHinge=$("sCutNoHinge").value==="1";
   S.kerf=parseInt($("sKerf").value,10)||4;
   S.priceM2=parseFloat($("sPriceM2").value)||0; S.priceMl=parseFloat($("sPriceMl").value)||0;
   S.costMode=$("sCostMode").value; S.waste=parseFloat($("sWaste").value)||0; S.labor=parseFloat($("sLabor").value)||0; S.hourly=parseFloat($("sHourly").value)||35;
@@ -5902,7 +5919,7 @@ $("btnPdf").addEventListener("click",()=>{
       <th>${esc(t("fBanding"))}</th><th>${esc(t("fMaterial"))}</th></tr>`;
     for(const x of items)
       html+=`<tr><td>${esc(elName(x.elemento))}${scList(x).length?` <b style="font-size:8pt">✂ ${esc(scList(x).map(function(c){return c.l+"×"+c.w+" @ X"+c.x+"/Y"+c.y;}).join(" · "))}</b>`:""}${!cutNoHinge()&&hingeTxt(x)?`<br><b style="font-size:8pt;color:#7a1c1c">⌀35 ${esc(hingeTxt(x))}</b>`:""}</td><td class="n">${x.lung}</td><td class="n">${x.larg}</td>${comp?(cd=>`<td class="n">${cd.d?`<b>${fmtMm(cd.L)} × ${fmtMm(cd.W)}</b>`:"="}</td>`)(cutLW(x)):""}
-        <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(matLabelUI(x.materiale))}</td></tr>`;
+        <td class="n">${x.pz}</td><td>${esc(x.bordo||"—")}</td><td>${esc(cutMat(x,true))}</td></tr>`;
     html+="</table>";
   }
   const hwP=computeHardware(p,S).filter(i2=>i2.qty>0);
@@ -13108,7 +13125,7 @@ function buildCsv(p){
     scList(x).forEach(c=>lav.push("scasso "+c.l+"x"+c.w+" @X"+c.x+"/Y"+c.y));
     const hi=cutNoHinge()?null:hingeInfo(x);
     if(hi) lav.push("cerniere "+hi.n+"x d35 @ "+hi.pos.join("/"));
-    const row=[x.modulo,x.elemento,x.lung,x.larg,x.pz,x.bordo,x.materiale,lav.join(" | ")];
+    const row=[x.modulo,x.elemento,x.lung,x.larg,x.pz,x.bordo,cutMat(x,false),lav.join(" | ")];
     if(comp){ const cd=cutLW(x); row.push(cd.L,cd.W,cd.d?edgeTh():0); }
     csv+=row.join(";")+"\r\n";
   }
@@ -16770,12 +16787,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.14.0"; /* APP_VER-MARKER */
+const APP_VER="5.14.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v179";
+const SW_CACHE="ebanist-v180";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
