@@ -77,11 +77,13 @@ var HW_DRILL = {
     clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22" }
   },
   domino_depths: [12, 15, 20, 25, 28],                     // Festool DF 500 Q, instrucțiuni 7.2
-  /* KEKU (Häfele HTH Furniture Fittings 2023, FF 2.61–2.65) pentru filler-e (D-105): cele două găuri de șurub ale fiecărei piese stau la 32 mm una de alta
-     (din catalog). NU sunt în catalog și sunt ipoteze, de confirmat pe piesa reală înainte de orice export: distanța de la muchie (panel_off, frame_off),
-     pilotul (3 mm, 12 mm adâncime: Varianta Ø3 din catalog, adâncimea nu), pasul între perechi (500) și distanța de la capete (60). */
-  keku: { pair: 32, pilot_dia: 3, pilot_depth: 12, panel_off: 10, frame_off: 15, end: 60, pitch: 500, verificat: false,
-          src: "Häfele HTH Furniture Fittings 2023, FF 2.61–2.65 (KEKU EH/AS, găuri la 32 mm)" },
+  /* KEKU (Häfele HTH Furniture Fittings 2023, FF 2.61–2.65), cotele de pe desene: piesa de cadru EH: placă 15×60 (găuri la 14 de capete, 32 între ele), axa găurilor la 8 mm de
+     muchia plăcii și, la montaj, la 8 mm de muchia cadrului (FF 2.61, „8”; profilul perforat de la FF 2.64: 7,5); piesa de panou EH: placă 16×48, găuri pe axa
+     centrală, la 8 de capete și 32 între ele, cârlig de 20; cu buclă 16×68 (8 + 32 + 28); șuruburi Ø4 pentru PAL sau Varianta Ø3/Ø5, pre-găurit. NU sunt pe desene și sunt
+     ipoteze de confirmat pe piesa reală înainte de orice export: distanța axei piesei de panou de muchia panoului (panel_off), pilotul (Ø3, 12 mm), pasul între perechi (500),
+     distanța de la capete (60). */
+  keku: { pair: 32, pilot_dia: 3, pilot_depth: 12, panel_off: 10, frame_off: 8, end: 60, pitch: 500, verificat: false,
+          src: "Häfele HTH Furniture Fittings 2023, FF 2.61–2.65 (KEKU EH/EHS/AS: găuri la 32 mm, axă la 8 mm de muchia cadrului)" },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
