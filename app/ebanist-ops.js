@@ -77,13 +77,14 @@ var HW_DRILL = {
     clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22" }
   },
   domino_depths: [12, 15, 20, 25, 28],                     // Festool DF 500 Q, instrucțiuni 7.2
-  /* KEKU (Häfele HTH Furniture Fittings 2023, FF 2.61–2.65), cotele de pe desene: piesa de cadru EH: placă 15×60 (găuri la 14 de capete, 32 între ele), axa găurilor la 8 mm de
-     muchia plăcii și, la montaj, la 8 mm de muchia cadrului (FF 2.61, „8”; profilul perforat de la FF 2.64: 7,5); piesa de panou EH: placă 16×48, găuri pe axa
-     centrală, la 8 de capete și 32 între ele, cârlig de 20; cu buclă 16×68 (8 + 32 + 28); șuruburi Ø4 pentru PAL sau Varianta Ø3/Ø5, pre-găurit. NU sunt pe desene și sunt
-     ipoteze de confirmat pe piesa reală înainte de orice export: distanța axei piesei de panou de muchia panoului (panel_off), pilotul (Ø3, 12 mm), pasul între perechi (500),
-     distanța de la capete (60). */
-  keku: { pair: 32, pilot_dia: 3, pilot_depth: 12, panel_off: 10, frame_off: 8, end: 60, pitch: 500, verificat: false,
-          src: "Häfele HTH Furniture Fittings 2023, FF 2.61–2.65 (KEKU EH/EHS/AS: găuri la 32 mm, axă la 8 mm de muchia cadrului)" },
+  /* KEKU Push-in AS (Häfele HTH Furniture Fittings 2023, FF 2.65; articolele 262.50.368/.377 cadru și 262.50.359/.358 panou), cotele de pe desene:
+     piesa de cadru AS: placă 16×48, grosime 6, lungime totală 36; găuri pe axa centrală, la 8 mm de capete și 32 între ele; la montaj axa șuruburilor la 37 mm de
+     muchia cadrului. Piesa de panou AS: placă 15×48, grosime 4; găuri la 8 mm de muchia plăcii, la 8 mm de capete și 32 între ele; braț de 16. Șuruburi Ø4 pentru PAL
+     sau Varianta Ø3/Ø5, pre-găurit. (Suspension EH/EHS, FF 2.61–2.64: placă 15×60 și 16×48, axă la 8 mm de muchia cadrului.) NU sunt pe desene și sunt ipoteze de
+     confirmat pe piesa reală înainte de orice export: poziția plăcii de panou față de muchia fâșiei (panel_off = axa la 8 mm de muchie), pilotul (Ø3, 12 mm), pasul între
+     perechi (500) și distanța de la capete (60). */
+  keku: { pair: 32, plate: 48, pilot_dia: 3, pilot_depth: 12, panel_off: 8, frame_off: 37, end: 60, pitch: 500, verificat: false,
+          src: "Häfele HTH Furniture Fittings 2023, FF 2.65 (KEKU Push-in AS: găuri la 32 mm, plăci de 48, axa cadrului la 37 mm de muchie)" },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
