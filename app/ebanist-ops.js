@@ -52,7 +52,7 @@ var HW_DRILL = {
      in masina. end = distanta primei fixari de capete, pitch = pasul maxim. */
   joints: {
     /* Confirmat 7×50: burghiu în trepte Häfele (cat. HS-Stufenbohrer): treapta 1 Ø5 (pilot în cant), treapta 2 Ø7 (prin placa de față), îngroșare Ø10 pentru cap;
-       src: Häfele, Einteilverbinder Confirmat 7×50 și HS-Stufenbohrer für Confirmatschrauben. Adâncimea pilotului (pilot_depth) NU e din fișă. */
+       src: Häfele, HTH Furniture Fittings 2023, FF 2.45 (CONFIRMAT, Ø5 hole, shank Ø7.0, L 38/50/70, cap Ø10, miez Ø4) și HS-Stufenbohrer. Adâncimea pilotului (pilot_depth) NU e în catalog. */
     confirmat: { through_dia: 7, pilot_dia: 5, pilot_depth: 50, end: 50, mid_over: 700 },
     dowel:     { dia: 8, len: 35, face_depth: 12, end: 50, pitch: 128 },
     /* Lamello #20 (56×23×4): adâncimea canalului la reglajul „20” = 12,3 mm (Lamello Classic X, instrucțiuni: «20» 12,3 · S 13,0 · D 14,7 · max 20,0).
