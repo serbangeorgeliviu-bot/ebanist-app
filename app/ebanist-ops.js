@@ -40,7 +40,10 @@ var HW_DRILL = {
   hinge: { cup_dia: 35, dowel_dia: 8, dowel_depth: 11,     // Blum 45/9,5
            dowel_spacing: 45, dowel_offset: 9.5,
            plate_dia: 5, plate_depth: 13, plate_spacing: 32 },
-  minifix: { cam_dia: 15, cam_depth_16: 12.5, cam_depth_19: 13.5, // Häfele Minifix 15
+  /* Häfele Minifix 15, carcasă fără margine (HTH Furniture Fittings 2023, FF 2.14): adâncimea găurii D pe grosimea piesei
+     (15→12,0 · 16→12,5 · 18→13,5 · 19→14,0 · 23→16,5 · 26→18,5 · 29→19,5, toleranță +0,5); gaura carcasei Ø15, gaura tijei Ø5 (S100/S200/S300),
+     distanța B 24 sau 34 mm, lungimea filetului 11 mm (S100: 8 sau 11). Neverificat în fișă: adâncimea găurii tijei și shank_dia. */
+  minifix: { cam_dia: 15, cam_depth: { 15: 12.0, 16: 12.5, 18: 13.5, 19: 14.0, 23: 16.5, 26: 18.5, 29: 19.5 },
              cam_dist: 34, bolt_dia: 5, bolt_depth: 11,
              shank_dia: 8, end_dist: 50, mid_over: 700 },
   dowel: { dia: 8, len: 35, face_depth: 12, offset: 32 },
@@ -348,7 +351,7 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
   var M = HW_DRILL.minifix, D = HW_DRILL.dowel;
   var edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
   var mid = (E.min[camAx] + E.max[camAx]) / 2;          // meta grossezza di E
-  var camD = E.T >= 19 ? M.cam_depth_19 : M.cam_depth_16;
+  var camD = camDepthFor(E.T);
   var inward = -eSide;
   var pos = jointPositions(lo, hi), c = (lo + hi) / 2;
   pos.forEach(function (s, i) {
@@ -407,6 +410,12 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
                     note: kind === "biscuit" ? "Lamello #20" : kind === "clamex" ? "Lamello Clamex P-14" : "Festool Domino 8×40" });
     }
   });
+}
+/* adâncimea excentricului din tabelul Häfele: grosimea exactă, altfel cea mai apropiată mai mică din tabel (nu mai adânc decât fișa) */
+function camDepthFor(T) {
+  var t = HW_DRILL.minifix.cam_depth, ks = Object.keys(t).map(Number).sort(function (a, b) { return a - b; }), k = ks[0];
+  ks.forEach(function (x) { if (x <= T + 0.01) k = x; });
+  return t[k];
 }
 function jointPositions2(a, b, end, over) {
   var span = b - a;
