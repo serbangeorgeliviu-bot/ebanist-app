@@ -373,3 +373,21 @@ describe("Cetinic — un singur filler de sus peste mai multe corpuri (extend)",
     assert.match(errOf(Object.assign(clone(CETI), { fillers: [{ side: "right", size: 100, extend: 100 }] })), /doar pentru filler-ul de sus/);
   });
 });
+
+
+describe("KEKU pe filler: găuri pregătite în corp (D-105)", () => {
+  const withFix = c => Object.assign(clone(c), { fillerFix: "keku" });
+  const holes = (o, role) => o.pieces.filter(p => p.role === role).flatMap(p => p.operations.filter(x => /KEKU/.test(x.note)).map(x => Object.assign({ pk: p.pk }, x)));
+  test("implicit nimic; cu opțiunea, perechi la 32 mm pe filler-ul de sus și pe cel din dreapta", () => {
+    const off = build(CET).ops();
+    assert.equal(off.hw.filter(h => h.type === "keku").length, 0, "fără opțiune, fără KEKU");
+    const o = build(withFix(CET)).ops(), keku = o.hw.filter(h => h.type === "keku");
+    assert.ok(keku.length >= 2, "cel puțin o fixare pe sus și una pe dreapta");
+    ["filler", "cielo", "fianco"].forEach(r => assert.ok(o.pieces.some(p => p.role === r && p.operations.some(x => /KEKU/.test(x.note))), "găuri pe " + r));
+    const pan = holes(o, "filler");
+    assert.ok(pan.every(x => x.dia === 3 && x.depth === 12), "pilot Ø3×12");
+    const byHw = {}; pan.forEach(x => (byHw[x.hw] = byHw[x.hw] || []).push(x));
+    Object.values(byHw).forEach(a => { assert.equal(a.length, 2); const d = Math.abs(a[0]._w[0] - a[1]._w[0]) + Math.abs(a[0]._w[1] - a[1]._w[1]); assert.ok(Math.abs(d - 32) < 0.01, "32 mm între găuri"); });
+    assert.equal(o.verificat, false, "cotele rămân neverificate");
+  });
+});

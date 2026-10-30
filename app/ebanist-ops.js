@@ -77,6 +77,11 @@ var HW_DRILL = {
     clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22" }
   },
   domino_depths: [12, 15, 20, 25, 28],                     // Festool DF 500 Q, instrucțiuni 7.2
+  /* KEKU (Häfele HTH Furniture Fittings 2023, FF 2.61–2.65) pentru filler-e (D-105): cele două găuri de șurub ale fiecărei piese stau la 32 mm una de alta
+     (din catalog). NU sunt în catalog și sunt ipoteze, de confirmat pe piesa reală înainte de orice export: distanța de la muchie (panel_off, frame_off),
+     pilotul (3 mm, 12 mm adâncime: Varianta Ø3 din catalog, adâncimea nu), pasul între perechi (500) și distanța de la capete (60). */
+  keku: { pair: 32, pilot_dia: 3, pilot_depth: 12, panel_off: 10, frame_off: 15, end: 60, pitch: 500, verificat: false,
+          src: "Häfele HTH Furniture Fittings 2023, FF 2.61–2.65 (KEKU EH/AS, găuri la 32 mm)" },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
@@ -428,6 +433,51 @@ function camDepthFor(T) {
   ks.forEach(function (x) { if (x <= T + 0.01) k = x; });
   return t[k];
 }
+/* KEKU pe filler: piesa de panou pe fața dinapoi a fâșiei (spre corp), piesa de cadru pe corp, lângă muchia din față:
+   lateralul pe fața lui exterioară, tavanul pe fața lui de sus. Câte o pereche de găuri la 32 mm; o fâșie prea scurtă pentru o pereche = avertisment. */
+function fillerKeku(pcs, out) {
+  var K = HW_DRILL.keku, fl = pcs.filter(function (p) { return p.role === "fianco"; });
+  var fi = pcs.filter(function (p) { return p.role === "filler"; });
+  var ci = pcs.filter(function (p) { return p.role === "cielo" || p.role === "traversa_cielo"; });
+  if (!fi.length || !fl.length) return;
+  var front = Math.max.apply(null, fl.map(function (p) { return p.max[2]; }));
+  var xL = Math.min.apply(null, fl.map(function (p) { return p.min[0]; })), xR = Math.max.apply(null, fl.map(function (p) { return p.max[0]; }));
+  var yT = Math.max.apply(null, fl.map(function (p) { return p.max[1]; }));
+  var h = K.pair / 2;
+  fi.forEach(function (Fp) {
+    if (Fp.min[2] < front - 0.5) return;                         // capacul lateral stă în planul lateralei, nu în față
+    var side = Fp.min[1] >= yT - 0.5 ? "top" : Fp.max[0] <= xL + 0.5 ? "left" : Fp.min[0] >= xR - 0.5 ? "right" : null;
+    if (!side) return;
+    var ax = side === "top" ? 0 : 1, lo = Fp.min[ax], hi = Fp.max[ax];
+    if (hi - lo < K.pair + 2 * 10) { out.warnings.push({ piece: Fp.pk, k: "opsKekuShort" }); return; }
+    evenPositions(lo, hi, K.end, K.pitch, K.pair).forEach(function (sp) {
+      var Q = null, probe = side === "top" ? [sp, 0, front - 1] : [0, sp, front - 1];
+      var hosts = side === "top" ? ci : fl.filter(function (q) { return side === "left" ? Math.abs(q.min[0] - xL) < 0.6 : Math.abs(q.max[0] - xR) < 0.6; });
+      for (var i = 0; i < hosts.length && !Q; i++) {
+        var q = hosts[i];
+        probe[side === "top" ? 1 : 0] = side === "top" ? (q.min[1] + q.max[1]) / 2 : (q.min[0] + q.max[0]) / 2;
+        if (inside(q, probe, 0.5)) Q = q;
+      }
+      if (!Q) { out.warnings.push({ piece: Fp.pk, k: "opsKekuNoHost" }); return; }
+      var id = "hw_" + out.hw.length;
+      [-h, h].forEach(function (d) {
+        var pa = [0, 0, Fp.min[2]], fr = [0, 0, front - K.frame_off], sl = sp + d;
+        if (side === "top") {
+          pa[0] = sl; pa[1] = Fp.min[1] + K.panel_off; fr[0] = sl; fr[1] = Q.max[1];
+          hole(Fp, 2, -1, pa, K.pilot_dia, K.pilot_depth, id, "pilot KEKU panou");
+          hole(Q, 1, 1, fr, K.pilot_dia, K.pilot_depth, id, "pilot KEKU cadru");
+        } else {
+          pa[1] = sl; fr[1] = sl;
+          pa[0] = side === "left" ? Fp.max[0] - K.panel_off : Fp.min[0] + K.panel_off;
+          fr[0] = side === "left" ? Q.min[0] : Q.max[0];
+          hole(Fp, 2, -1, pa, K.pilot_dia, K.pilot_depth, id, "pilot KEKU panou");
+          hole(Q, 0, side === "left" ? -1 : 1, fr, K.pilot_dia, K.pilot_depth, id, "pilot KEKU cadru");
+        }
+      });
+      out.hw.push({ id: id, type: "keku", catalog: "haf_keku", piece: Fp.pk, against: Q.pk, w: side === "top" ? [sp, Q.max[1], front] : [side === "left" ? Q.min[0] : Q.max[0], sp, front], note: "KEKU " + side });
+    });
+  });
+}
 function jointPositions2(a, b, end, over) {
   var span = b - a;
   if (span < 2 * end + 30) return [(a + b) / 2];
@@ -522,6 +572,9 @@ function generate1(input) {
       joint(E, F, 0, end, 2, lo, hi, 1, camSide, out);
     });
   });
+
+  /* --- 1b. filler-ele fixate cu KEKU (D-105): găurile pentru piesa de cadru se fac în atelier în corp, înainte de montaj ---- */
+  if (cfg.fillerFix === "keku") fillerKeku(pcs, out);
 
   /* --- 2. i tramezzi fra base e cielo ------------------------------------- */
   byRole("divisorio").forEach(function (E) {
