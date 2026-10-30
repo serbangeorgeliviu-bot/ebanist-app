@@ -48,10 +48,17 @@ var HW_DRILL = {
      catalog generice, verificat:false: se confirma pe o piesa inainte sa mearga
      in masina. end = distanta primei fixari de capete, pitch = pasul maxim. */
   joints: {
+    /* Confirmat 7×50: burghiu în trepte Häfele (cat. HS-Stufenbohrer): treapta 1 Ø5 (pilot în cant), treapta 2 Ø7 (prin placa de față), îngroșare Ø10 pentru cap;
+       src: Häfele, Einteilverbinder Confirmat 7×50 și HS-Stufenbohrer für Confirmatschrauben. Adâncimea pilotului (pilot_depth) NU e din fișă. */
     confirmat: { through_dia: 7, pilot_dia: 5, pilot_depth: 50, end: 50, mid_over: 700 },
     dowel:     { dia: 8, len: 35, face_depth: 12, end: 50, pitch: 128 },
-    biscuit:   { len: 56, thk: 4, depth: 12.5, depth_face: 12.5, end: 60, pitch: 200 }, // Lamello #20 (23 mm de lamela)
-    domino:    { len: 22, thk: 8, depth: 25, depth_face: 15, end: 50, pitch: 128 },  // Festool DF500 8x40 (tenon 8×22×40): 25 + 15 = 40; adancimile NU sunt din fisa
+    /* Lamello #20 (56×23×4): adâncimea canalului la reglajul „20” = 12,3 mm (Lamello Classic X, instrucțiuni: «20» 12,3 · S 13,0 · D 14,7 · max 20,0).
+       Lungimea canalului și distanța de la capăt nu sunt din fișă. */
+    biscuit:   { len: 56, thk: 4, depth: 12.3, depth_face: 12.3, end: 60, pitch: 200, src: "Lamello Classic X, instrucțiuni (reglaj «20» = 12,3 mm)" },
+    /* Festool DF 500 Q, instrucțiuni: adâncime de frezare doar 12/15/20/25/28 mm (freza Ø5: max. 20), mereu cu cel puțin 3 mm mai mică decât grosimea piesei;
+       lățimea sloturii 13/19/23 mm + Ø freza; mortezele sunt centrate pe grosime (culisa 16…40 mm); tenonul 8×40 are 8×21,9×40 mm (~2 mm mai scurt decât nominal).
+       Împărțirea 25 (cant) + 15 (față) = 40 NU e din fișă: 15 intră sub regula „grosime − 3” pentru 18/19 mm, dar nu pentru 16 mm (12). */
+    domino:    { len: 22, thk: 8, depth: 25, depth_face: 15, end: 50, pitch: 128 },
     /* Lamello Clamex P-14, fisa Lamello Clamex P-14/10 Flexus (02/22): freza P-System
        Ø100.4×7×22, canal de 14 mm adancime, 9.8 mm inalt, ~69.6 mm lung (coarda); conector
        64×13.5×9.7; de la capat min. 37 mm, pas max. 300 mm; panou min. 18 mm. */

@@ -40,7 +40,7 @@ test("tasel: perechi Ø8 8+23 mm, pas maxim 128, fara eccentric", () => {
   assert.ok(a.every(x => x.depth === 12 || x.depth === 23));
 });
 test("lamela si domino: canale in muchia lui E si in fata lui F, centrate pe grosime", () => {
-  for (const [id, len, thk, dEdge, dFace] of [["gen_biscuit", 56, 4, 12.5, 12.5], ["fes_domino", 22, 8, 25, 15], ["lam_clamex", 69.6, 9.8, 14, 14]]) {
+  for (const [id, len, thk, dEdge, dFace] of [["gen_biscuit", 56, 4, 12.3, 12.3], ["fes_domino", 22, 8, 25, 15], ["lam_clamex", 69.6, 9.8, 14, 14]]) {
     const o = gen(id), s = ops(o).filter(x => x.type === "slot");
     assert.ok(s.length > 0, id);
     assert.ok(s.some(x => x.face < 5) && s.some(x => x.face === 5 || x.face === 6), "muchie + fata");
