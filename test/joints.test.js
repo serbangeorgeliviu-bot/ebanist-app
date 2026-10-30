@@ -56,6 +56,19 @@ test("domino: adancimea in fata respecta DF 500 (12/15/20/25/28 si grosime - 3 m
   const d16 = face(gen("fes_domino", null, 16));
   assert.ok(d16.length > 0 && d16.every(d => d === 12), "16 mm → 12");
 });
+test("conectoare Häfele de carcasă: cupa Ø, adâncimea și distanța B din catalog (FF 2023)", () => {
+  for (const [id, dia, dep, B, thk] of [["haf_minifix12", 12, 9.5, 34, 19], ["haf_maxifix35", 35, 15.5, 35, 19], ["haf_rondorfix", 25, 12, 33.5, 16]]) {
+    const o = gen(id, null, thk), cups = ops(o).filter(x => x.note === "eccentrico minifix" && x.dia === dia);
+    assert.ok(cups.length > 0, id + " are cupa Ø" + dia);
+    assert.ok(cups.every(x => x.depth === dep), id + " adâncime " + dep);
+    assert.ok(o.hw.some(h => h.type === "minifix" && h.dist === B && h.camDia === dia), id + " B=" + B);
+    assert.ok(!o.warnings.some(w => w.k === "opsConnThin"), id + " fără avertisment la grosimea admisă");
+  }
+});
+test("conectoare Häfele: grosime sub minim sau în afara celei admise → avertisment", () => {
+  assert.ok(gen("haf_maxifix35", null, 16).warnings.some(w => w.k === "opsConnThin"), "Maxifix 35 cere ≥19");
+  assert.ok(gen("haf_rondorfix", null, 19).warnings.some(w => w.k === "opsConnThin"), "Rondorfix numai 16");
+});
 test("determinism: acelasi corp, aceleasi operatii", () => {
   for (const id of ["gen_confirmat", "gen_dowel", "gen_biscuit", "fes_domino", "lam_clamex"])
     assert.deepEqual(JSON.stringify(gen(id)), JSON.stringify(gen(id)));

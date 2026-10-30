@@ -900,8 +900,8 @@ function buildHardware(model) {
       P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
       if (h.plate && A) { const p = h.plate; A.hw.add(tag(box(HM, [p[0] - 22.5, p[1] - 22.5, p[2] - 3], [p[0] + 22.5, p[1] + 22.5, p[2]]))); }
     } else if (h.type === "minifix") {
-      P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15)));
-      const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5)));
+      P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * (h.camDepth || 12.5)), h.camDia || 15)));
+      const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * (h.boltLen || 11)), along(e, h.eAx, -h.eSide * ((h.dist || 34) - 2)), 5)));
     } else if (h.type === "tassello") {
       P.hw.add(tag(cyl("__wooddowel", along(h.w, h.eAx, h.eSide * 12), along(h.w, h.eAx, -h.eSide * 23), 8)));
     } else if (h.type === "reggipiano") {

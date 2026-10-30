@@ -46,6 +46,15 @@ var HW_DRILL = {
   minifix: { cam_dia: 15, cam_depth: { 15: 12.0, 16: 12.5, 18: 13.5, 19: 14.0, 23: 16.5, 26: 18.5, 29: 19.5 },
              cam_dist: 34, bolt_dia: 5, bolt_depth: 11,
              shank_dia: 8, end_dist: 50, mid_over: 700 },
+  /* Alte conectoare de carcasă cu aceeași geometrie ca Minifix (cupă pe fața lui E, tijă în fața lui F, gaură de trecere în muchia lui E).
+     Sursa: Häfele, HTH Furniture Fittings 2023: MINIFIX 12 (FF 2.12 și 2.17: Ø12, adâncime 9,5, B 24/34, lemn ≥12), MAXIFIX 35 (FF 2.25–2.26:
+     Ø35, adâncime 15,5, A 9,5, B 35/55, filet 16, gaură tijă Ø9, lemn ≥19), RONDORFIX (FF 2.24: Ø25, adâncime 12, A 7, B 33,5, lemn 16).
+     NU sunt în catalog: diametrul găurii de trecere la Minifix 12 și Rondorfix (luat ca la Minifix 15) și lungimea filetului Rondorfix (10,5 de pe desen). */
+  cams: {
+    minifix12: { catalog: "haf_minifix12", note: "Minifix 12 + perno", cam_dia: 12, cam_depth: 9.5, cam_dist: 34, bolt_dia: 5, bolt_depth: 11, shank_dia: 8, end_dist: 50, mid_over: 700, min_T: 12 },
+    maxifix35: { catalog: "haf_maxifix35", note: "Maxifix 35 + perno", cam_dia: 35, cam_depth: 15.5, cam_dist: 35, bolt_dia: 5, bolt_depth: 16, shank_dia: 9, end_dist: 70, mid_over: 700, min_T: 19 },
+    rondorfix: { catalog: "haf_rondorfix", note: "Rondorfix + perno", cam_dia: 25, cam_depth: 12, cam_dist: 33.5, bolt_dia: 5, bolt_depth: 10.5, shank_dia: 8, end_dist: 60, mid_over: 700, min_T: 16, max_T: 16 }
+  },
   dowel: { dia: 8, len: 35, face_depth: 12, offset: 32 },
   /* Alte tipuri de imbinare (alese prin articolul `conn` al corpului). Date de
      catalog generice, verificat:false: se confirma pe o piesa inainte sa mearga
@@ -96,7 +105,7 @@ var HW_DRILL = {
 
 /* tipul de imbinare al corpului: din articolul `conn` ales pe corp (cfg.hwSel.conn),
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
-var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
+var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", haf_minifix12: "minifix12", haf_maxifix35: "maxifix35", haf_rondorfix: "rondorfix", gen_confirmat: "confirmat",
                     gen_dowel: "dowel", gen_biscuit: "biscuit", fes_domino: "domino", lam_clamex: "clamex" };
 function jointKind(input) {
   var cfg = (input && input.cfg) || {}, id = cfg.hwSel && cfg.hwSel.conn;
@@ -299,8 +308,8 @@ function panelBeside(pcs, x, dir, y, z, tol) {
 
 /* Le posizioni di una giunzione lungo la sua lunghezza [a,b]: due a
    `end_dist` dai capi, una in mezzo oltre `mid_over`. */
-function jointPositions(a, b) {
-  var M = HW_DRILL.minifix, out = [], span = b - a;
+function jointPositions(a, b, M) {
+  M = M || HW_DRILL.minifix; var out = [], span = b - a;
   /* sub 2×end_dist + 30 cele doua pozitii ar cadea una peste alta (sau la mai putin
      de un diametru de excentric): o singura fixare, la mijloc (de ex. traversa de 100 mm) */
   if (span < 2 * M.end_dist + 30) return [(a + b) / 2];
@@ -347,17 +356,19 @@ function slot(p, ax, side, at, la, len, thk, depth, hw, note) {
    camAx/camSide = la faccia di E dove sta la tazza dell'eccentrico. */
 function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
   var kind = out.joint || "minifix";
-  if (kind !== "minifix") return jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out);
-  var M = HW_DRILL.minifix, D = HW_DRILL.dowel;
+  var C = HW_DRILL.cams[kind];
+  if (kind !== "minifix" && !C) return jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out);
+  var M = C || HW_DRILL.minifix, D = HW_DRILL.dowel;
+  if (C && (E.T < C.min_T - 0.01 || (C.max_T && E.T > C.max_T + 0.01))) out.warnings.push({ piece: E.pk, k: "opsConnThin" });
   var edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
   var mid = (E.min[camAx] + E.max[camAx]) / 2;          // meta grossezza di E
-  var camD = camDepthFor(E.T);
+  var camD = typeof M.cam_depth === "object" ? camDepthFor(E.T) : M.cam_depth;
   var inward = -eSide;
-  var pos = jointPositions(lo, hi), c = (lo + hi) / 2;
+  var pos = jointPositions(lo, hi, M), c = (lo + hi) / 2;
   pos.forEach(function (s, i) {
     var id = out.hw.length;
-    var inst = { id: "hw_" + id, type: "minifix", catalog: "haf_minifix", piece: E.pk, against: F.pk,
-                 w: null, note: "Minifix 15 + perno" };
+    var inst = { id: "hw_" + id, type: "minifix", catalog: C ? C.catalog : "haf_minifix", piece: E.pk, against: F.pk,
+                 w: null, note: C ? C.note : "Minifix 15 + perno", camDia: M.cam_dia, camDepth: camD, dist: M.cam_dist, boltLen: M.bolt_depth };
     var p = [0, 0, 0]; p[eAx] = edge; p[camAx] = mid; p[sAx] = s;
     /* bullone nella faccia di F, gambo nel bordo di E, tazza sulla faccia di E */
     hole(F, eAx, -eSide, p.slice(), M.bolt_dia, M.bolt_depth, inst.id, "perno minifix");

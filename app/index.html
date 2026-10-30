@@ -3265,13 +3265,13 @@ Object.assign(I18N.fr,{ms21k:"Posez les {n} boutons ({p}) avec la vis du kit dan
 Object.assign(I18N.de,{ms21k:"Die {n} Knöpfe ({p}) mit der Schraube aus dem Set durch die Durchgangsbohrung montieren.",ms21f:"Die {n} Einlassgriffe ({p}) in die gefrästen Taschen setzen: eingepresst oder geklebt, je nach Artikel.",ms21e:"Die {n} Kantengriffe ({p}) an der Tür-/Schubladenkante montieren, Schrauben von hinten in die Ø3-Vorbohrungen."});
 Object.assign(I18N.pl,{ms21k:"Zamontuj {n} gałek ({p}) wkrętem z zestawu przez otwór przelotowy.",ms21f:"Osadź {n} uchwytów wpuszczanych ({p}) we frezowanych gniazdach: na wcisk lub na klej, zależnie od artykułu.",ms21e:"Zamontuj {n} uchwytów krawędziowych ({p}) na krawędzi drzwi/szuflady, wkrętami od tyłu w otwory pilotowe Ø3."});
 Object.assign(I18N.es,{ms21k:"Monta los {n} pomos ({p}) con el tornillo del juego por el agujero pasante.",ms21f:"Coloca los {n} tiradores empotrados ({p}) en los alojamientos fresados: a presión o pegados, según el artículo.",ms21e:"Monta los {n} tiradores de canto ({p}) en el canto de la puerta/cajón, con los tornillos por detrás en los agujeros guía Ø3."});
-Object.assign(I18N.it,{opsHandleFit:"La maniglia scelta è più lunga del frontale: scegline una più corta."});
-Object.assign(I18N.ro,{opsHandleFit:"Mânerul ales e mai lung decât frontul: alege unul mai scurt."});
-Object.assign(I18N.en,{opsHandleFit:"The chosen handle is longer than the front: choose a shorter one."});
-Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la façade : choisissez-en une plus courte."});
-Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
-Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
-Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{opsConnThin:"Il pezzo è fuori dallo spessore ammesso dal connettore scelto: scegli un altro connettore.",opsHandleFit:"La maniglia scelta è più lunga del frontale: scegline una più corta."});
+Object.assign(I18N.ro,{opsConnThin:"Piesa e în afara grosimii admise de conectorul ales: alege alt conector.",opsHandleFit:"Mânerul ales e mai lung decât frontul: alege unul mai scurt."});
+Object.assign(I18N.en,{opsConnThin:"The panel is outside the thickness allowed by the chosen connector: pick another connector.",opsHandleFit:"The chosen handle is longer than the front: choose a shorter one."});
+Object.assign(I18N.fr,{opsConnThin:"La pièce est hors de l'épaisseur admise par le connecteur choisi : choisissez-en un autre.",opsHandleFit:"La poignée choisie est plus longue que la façade : choisissez-en une plus courte."});
+Object.assign(I18N.de,{opsConnThin:"Das Teil liegt außerhalb der für den gewählten Verbinder zulässigen Dicke: anderen Verbinder wählen.",opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
+Object.assign(I18N.pl,{opsConnThin:"Element jest poza grubością dopuszczoną dla wybranego łącznika: wybierz inny łącznik.",opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
+Object.assign(I18N.es,{opsConnThin:"La pieza está fuera del grosor admitido por el conector elegido: elige otro conector.",opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
 Object.assign(I18N.it,{fGolaType:"Tipo di gola",golaTL:"Profilo L + C nel corpo",golaTJ:"Profilo J sul frontale",golaTF:"Gola fresata nel frontale (senza profilo)",golaHintJ:"Profilo J sulla testa di ogni anta e cassetto: sta nella fessura sopra il frontale. Niente profili nel corpo, niente tagli nei fianchi.",golaHintF:"Presa fresata a 45° sul retro del bordo superiore di ogni frontale: nessun profilo. Le quote della fresata non vanno in macchina finché non le verifichi.",hwGolaJ:"Profili gola J (m)"});
 Object.assign(I18N.ro,{fGolaType:"Tip de gola",golaTL:"Profil L + C în corp",golaTJ:"Profil J pe front",golaTF:"Gola frezată în front (fără profil)",golaHintJ:"Profil J pe muchia de sus a fiecărei uși și fiecărui sertar: stă în rostul de deasupra frontului. Fără profile în corp, fără decupări în laterale.",golaHintF:"Priză frezată la 45° pe spatele muchiei de sus a fiecărui front: fără profil. Cotele frezării nu merg în mașină până nu le verifici.",hwGolaJ:"Profile gola J (m)"});
 Object.assign(I18N.en,{fGolaType:"Gola type",golaTL:"L + C profiles in the carcass",golaTJ:"J profile on the front",golaTF:"Milled gola in the front (no profile)",golaHintJ:"J profile on the top edge of every door and drawer: it sits in the gap above the front. No profiles in the carcass, no cut-outs in the sides.",golaHintF:"45° grip milled into the back of the top edge of every front: no profile. The milling dimensions do not go to the machine until you verify them.",hwGolaJ:"J gola profiles (m)"});
@@ -3637,6 +3637,9 @@ const HWDB={
   {id:"gen_sevroll",brand:"—",n:{it:"Sistema scorrevole tipo Sevroll (set/anta)",ro:"Sistem glisant tip Sevroll (set/ușă)",en:"Sevroll-type sliding system (set/door)",fr:"Système coulissant type Sevroll (kit/porte)",de:"Schiebetürsystem Typ Sevroll (Set/Tür)",pl:"System przesuwny typu Sevroll (zestaw/drzwi)",es:"Sistema corredero tipo Sevroll (juego/puerta)"},art:"—",price:38}],
  conn:[
   {id:"haf_minifix",brand:"Häfele",n:{it:"Minifix 15 (legno ≥16mm) + perno + spina",ro:"Minifix 15 (lemn ≥16mm) + bolț + diblu",en:"Minifix 15 (wood ≥16mm) + bolt + dowel",fr:"Minifix 15 (bois ≥16mm) + boulon + tourillon",de:"Minifix 15 (Holz ≥16 mm) + Bolzen + Dübel",pl:"Minifix 15 (drewno ≥16 mm) + łącznik + kołek",es:"Minifix 15 (madera ≥16 mm) + perno + taco"},art:"262.26.033 + boulon",price:0.48,chk:1},
+  {id:"haf_minifix12",brand:"Häfele",n:{it:"Minifix 12 (legno ≥12mm) + perno",ro:"Minifix 12 (lemn ≥12mm) + bolț",en:"Minifix 12 (wood ≥12mm) + bolt",fr:"Minifix 12 (bois ≥12mm) + boulon",de:"Minifix 12 (Holz ≥12 mm) + Bolzen",pl:"Minifix 12 (drewno ≥12 mm) + łącznik",es:"Minifix 12 (madera ≥12mm) + perno"},art:"262.17.020",price:0,chk:1},
+  {id:"haf_maxifix35",brand:"Häfele",n:{it:"Maxifix 35 (legno ≥19mm) + perno",ro:"Maxifix 35 (lemn ≥19mm) + bolț",en:"Maxifix 35 (wood ≥19mm) + bolt",fr:"Maxifix 35 (bois ≥19mm) + boulon",de:"Maxifix 35 (Holz ≥19 mm) + Bolzen",pl:"Maxifix 35 (drewno ≥19 mm) + łącznik",es:"Maxifix 35 (madera ≥19mm) + perno"},art:"262.87.013",price:0,chk:1},
+  {id:"haf_rondorfix",brand:"Häfele",n:{it:"Rondorfix (legno 16mm) + perno",ro:"Rondorfix (lemn 16mm) + bolț",en:"Rondorfix (wood 16mm) + bolt",fr:"Rondorfix (bois 16mm) + boulon",de:"Rondorfix (Holz 16 mm) + Bolzen",pl:"Rondorfix (drewno 16 mm) + łącznik",es:"Rondorfix (madera 16mm) + perno"},art:"262.75.061",price:0,chk:1},
   {id:"gen_confirmat",brand:"—",n:{it:"Vite Confirmat 7×50",ro:"Confirmat 7×50",en:"Confirmat screw 7×50",fr:"Vis Confirmat 7×50",de:"Confirmat-Schraube 7×50",pl:"Wkręt Confirmat 7×50",es:"Tornillo Confirmat 7×50"},art:"—",price:0.07},
   {id:"haf_rafix",brand:"Häfele",n:{it:"Rafix 20 + perno + spina 8×35",ro:"Rafix 20 + bolț + diblu 8×35",en:"Rafix 20 + bolt + dowel 8×35",fr:"Rafix 20 + boulon + tourillon 8×35",de:"Rafix 20 + Bolzen + Dübel 8×35",pl:"Rafix 20 + łącznik + kołek 8×35",es:"Rafix 20 + perno + taco 8×35"},art:"263.10.xxx",price:0.55,chk:1},
   {id:"gen_dowel",brand:"—",n:{it:"Tasselli 8×35 + colla",ro:"Dibluri 8×35 + clei",en:"Dowels 8×35 + glue",fr:"Tourillons 8×35 + colle",de:"Dübel 8×35 + Leim",pl:"Kołki 8×35 + klej",es:"Tacos 8×35 + cola"},art:"—",price:0.06,chk:1},
@@ -16787,12 +16790,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.14.1"; /* APP_VER-MARKER */
+const APP_VER="5.15.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v180";
+const SW_CACHE="ebanist-v181";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
