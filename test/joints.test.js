@@ -7,10 +7,10 @@ const E = require("./engine.js");
 const S = E.appEngine(), MM = E.MM;
 vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-ops.js"), "utf8"), S, { filename: "ebanist-ops.js" });
 const ARM = { type: "standard", L: 1000, H: 2200, P: 600, plinth: 80, tram: 1, shelves: 3, drawers: 0, doors: 2, back: 1, hang: 0, support: "zoccolo", shelfType: "mobile" };
-function gen(conn, cfg) {
+function gen(conn, cfg, thk) {
   S.handleIsProfile = () => false;
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k", matOvr: {},
-    matAdd: [MM("__b", 19), MM("__k", 3)], hwProd: { guida: "blum_tandem" } };
+    matAdd: [MM("__b", thk || 19), MM("__k", 3)], hwProd: { guida: "blum_tandem" } };
   const full = Object.assign({ name: "M", matBody: "__b", matFront: "__b", matBack: "__k" }, ARM, cfg || {}, conn ? { hwSel: { conn } } : {});
   const b = S.buildModule(full), G = S.deriveCarcass(S.carcassParams(full, {}));
   return JSON.parse(JSON.stringify(S.generateOperations({ boxes: b.boxes, cfg: full, G })));
@@ -49,6 +49,12 @@ test("lamela si domino: canale in muchia lui E si in fata lui F, centrate pe gro
     s.filter(x => x.face < 5).forEach(x => assert.ok(Math.abs(x.z - x.pc.thickness / 2) < 0.2, "z la jumatatea grosimii"));
     assert.equal(s.length % 2, 0, "cate un canal pe fiecare piesa");
   }
+});
+test("domino: adancimea in fata respecta DF 500 (12/15/20/25/28 si grosime - 3 mm)", () => {
+  const face = o => ops(o).filter(x => x.type === "slot" && x.face >= 5).map(x => x.depth);
+  assert.ok(face(gen("fes_domino", null, 19)).every(d => d === 15));
+  const d16 = face(gen("fes_domino", null, 16));
+  assert.ok(d16.length > 0 && d16.every(d => d === 12), "16 mm → 12");
 });
 test("determinism: acelasi corp, aceleasi operatii", () => {
   for (const id of ["gen_confirmat", "gen_dowel", "gen_biscuit", "fes_domino", "lam_clamex"])

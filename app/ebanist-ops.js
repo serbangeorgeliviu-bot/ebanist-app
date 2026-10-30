@@ -64,6 +64,7 @@ var HW_DRILL = {
        64×13.5×9.7; de la capat min. 37 mm, pas max. 300 mm; panou min. 18 mm. */
     clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22" }
   },
+  domino_depths: [12, 15, 20, 25, 28],                     // Festool DF 500 Q, instrucțiuni 7.2
   pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
@@ -395,7 +396,12 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
     } else {
       var nm = kind === "biscuit" ? "lamella" : kind === "clamex" ? "clamex" : "domino";
-      slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, J.depth_face, id, "canal " + nm);
+      var df = J.depth_face;
+      if (kind === "domino") {   // DF 500: numai 12/15/20/25/28 și cu cel puțin 3 mm sub grosimea piesei
+        var tF = F.max[eAx] - F.min[eAx], ok = HW_DRILL.domino_depths.filter(function (d) { return d <= df && d <= tF - 3; });
+        df = ok.length ? ok[ok.length - 1] : HW_DRILL.domino_depths[0];
+      }
+      slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, df, id, "canal " + nm);
       slot(E, eAx, eSide, p.slice(), sAx, J.len, J.thk, J.depth, id, "canal " + nm);
       out.hw.push({ id: id, type: kind, catalog: kind === "biscuit" ? "gen_biscuit" : kind === "clamex" ? "lam_clamex" : "fes_domino", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx,
                     note: kind === "biscuit" ? "Lamello #20" : kind === "clamex" ? "Lamello Clamex P-14" : "Festool Domino 8×40" });
