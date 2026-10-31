@@ -438,6 +438,13 @@ function camDepthFor(T) {
 }
 /* KEKU pe filler: piesa de panou pe fața dinapoi a fâșiei (spre corp), piesa de cadru pe corp, lângă muchia din față:
    lateralul pe fața lui exterioară, tavanul pe fața lui de sus. Câte o pereche de găuri la 32 mm; o fâșie prea scurtă pentru o pereche = avertisment. */
+/* pozițiile perechilor KEKU pe o fâșie între lo și hi (aceleași pentru găurire și pentru numărătoarea din distinctă) */
+function kekuPositions(lo, hi) {
+  var K = HW_DRILL.keku;
+  if (hi - lo < K.plate + 4) return [];
+  return evenPositions(lo, hi, K.end, K.pitch, K.pair);
+}
+function kekuCount(len) { return kekuPositions(0, len).length; }
 function fillerKeku(pcs, out) {
   var K = HW_DRILL.keku, fl = pcs.filter(function (p) { return p.role === "fianco"; });
   var fi = pcs.filter(function (p) { return p.role === "filler"; });
@@ -452,8 +459,11 @@ function fillerKeku(pcs, out) {
     var side = Fp.min[1] >= yT - 0.5 ? "top" : Fp.max[0] <= xL + 0.5 ? "left" : Fp.min[0] >= xR - 0.5 ? "right" : null;
     if (!side) return;
     var ax = side === "top" ? 0 : 1, lo = Fp.min[ax], hi = Fp.max[ax];
-    if (hi - lo < K.pair + 2 * 10) { out.warnings.push({ piece: Fp.pk, k: "opsKekuShort" }); return; }
-    evenPositions(lo, hi, K.end, K.pitch, K.pair).forEach(function (sp) {
+    /* numai pe porțiunea în care fâșia are corp în spate (filler-ul de sus depășește tavanul cu cele laterale) */
+    var hs = side === "top" ? ci : fl;
+    if (hs.length) { lo = Math.max(lo, Math.min.apply(null, hs.map(function (q) { return q.min[ax]; }))); hi = Math.min(hi, Math.max.apply(null, hs.map(function (q) { return q.max[ax]; }))); }
+    if (hi - lo < K.plate + 4) { out.warnings.push({ piece: Fp.pk, k: "opsKekuShort" }); return; }
+    kekuPositions(lo, hi).forEach(function (sp) {
       var Q = null, probe = side === "top" ? [sp, 0, front - 1] : [0, sp, front - 1];
       var hosts = side === "top" ? ci : fl.filter(function (q) { return side === "left" ? Math.abs(q.min[0] - xL) < 0.6 : Math.abs(q.max[0] - xR) < 0.6; });
       for (var i = 0; i < hosts.length && !Q; i++) {
@@ -577,7 +587,7 @@ function generate1(input) {
   });
 
   /* --- 1b. filler-ele fixate cu KEKU (D-105): găurile pentru piesa de cadru se fac în atelier în corp, înainte de montaj ---- */
-  if (cfg.fillerFix === "keku") fillerKeku(pcs, out);
+  if (cfg.fillerFix === "keku" || (cfg.hwSel && cfg.hwSel.fix === "haf_keku_push")) fillerKeku(pcs, out);
 
   /* --- 2. i tramezzi fra base e cielo ------------------------------------- */
   byRole("divisorio").forEach(function (E) {
@@ -1126,7 +1136,7 @@ function dimensionSpec(pieces, opts) {
            P: Math.round((hi[2] - lo[2]) * 10) / 10, gaps: gaps };
 }
 
-var API = { HW_DRILL: HW_DRILL, slidePositions: slidePositions, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
+var API = { kekuCount: kekuCount, HW_DRILL: HW_DRILL, slidePositions: slidePositions, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 

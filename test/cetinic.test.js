@@ -391,3 +391,16 @@ describe("KEKU pe filler: găuri pregătite în corp (D-105)", () => {
     assert.equal(o.verificat, false, "cotele rămân neverificate");
   });
 });
+
+describe("KEKU din selectorul de feronerie (hwSel.fix): distinct, găurire și numărătoare identice", () => {
+  test("rândul KEKU din distinctă = perechile din operații; fără selecție nu apare", () => {
+    const withSel = Object.assign(clone(CET), { hwSel: { fix: "haf_keku_push" } });
+    const b = build(withSel), o = b.ops(), n = o.hw.filter(h => h.type === "keku").length;
+    const rows = b.pieces.filter(p => /^KEKU Push-in/i.test(p.elemento || p.nome || ""));
+    assert.ok(n >= 2, "perechi în operații");
+    assert.equal(rows.reduce((a, p) => a + (p.pz != null ? p.pz : p.qty || p.q || 0), 0), n, "rânduri = perechi");
+    const none = build(CET);
+    assert.ok(!none.pieces.some(p => /^KEKU/i.test(p.elemento || p.nome || "")) && none.ops().hw.every(h => h.type !== "keku"), "fără selecție nimic");
+    assert.deepEqual(clone(none.close()), [], "închiderea corpului nu se schimbă");
+  });
+});
