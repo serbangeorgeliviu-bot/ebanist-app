@@ -1673,7 +1673,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       window.print = () => { printed++; };
       window.download = n => { downloaded.push(n); };
       o.vie = {};
-      for (const id of ["btnPdf", "btnCsv", "btnLabels", "btnMont", "btnOrder", "btnQuote", "btnDraw"]) {
+      for (const id of ["btnPdf", "btnCsv", "btnDxf", "btnLabels", "btnMont", "btnOrder", "btnQuote", "btnDraw"]) {
         const el = document.getElementById(id);
         if (!el) { o.vie[id] = "assente"; continue; }
         printed = 0; downloaded = [];
@@ -2369,6 +2369,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.packCover = /Dossier tecnico/.test(pk[0]) && /Indice dei fogli/.test(pk[0]);
       o.packRaw = pk.flatMap(sv => (sv.match(/<text[^>]*>([^<]*)<\/text>/g) || []).map(q => q.replace(/<[^>]+>/g, ""))).filter(q => /^(dc[A-Z]\w*|rp[A-Z0-9]\w*|as[A-Z]\w*|ea[A-Z]\w*|sh[A-Z]\w*)$/.test(q));
       o.packClient = /Presentazione cliente/.test(pk[1]) && /data:image\/jpeg/.test(pk[1]);
+      /* DXF 2D: un ZIP cu cel putin un fisier per piesa, fisiere DXF reale */
+      { const dl = [], rd = window.download; window.download = (n, c, m) => { dl.push({ n, c, m }); };
+        try { document.getElementById("btnDxf").click(); } finally { window.download = rd; }
+        const z = dl[0] && dl[0].c;
+        o.dxfZip = dl.length === 1 && /_DXF\.zip$/.test(dl[0].n) && dl[0].m === "application/zip" && z instanceof Uint8Array && z[0] === 0x50 && z[1] === 0x4b;
+        const dec = z ? new TextDecoder().decode(z) : "";
+        o.dxfFiles = (dec.match(/\.dxf/g) || []).length >= 2 * pkPcs;       /* nume in header local + central */
+        o.dxfLayers = /PANEL_CUT/.test(dec) && /DRILL_V_D/.test(dec) && /INFO_TEXT/.test(dec); }
       state.lang = "fr"; applyLang();
       PRINT_CAPTURE = []; partA3(M, pc, 5); const cap = PRINT_CAPTURE; PRINT_CAPTURE = null;
       o.cap = cap.length === 1 && /sh-svg/.test(cap[0]) && /@page/.test(cap[0]) && /Fiche de fabrication/.test(cap[0]);
@@ -2385,6 +2393,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("montaj A3: butonul trece prin printOut, vedere explodată și titlu în limba aleasă", sh.asmCap === true);
     ok("montaj A3: nicio cheie netradusă", sh.asmRaw.length === 0, sh.asmRaw.slice(0, 5).join(","));
     ok("dosar A3: copertă + (client, raport, prospecte, montaj) × corpuri + o foaie pe piesă", sh.packN === sh.packWant && sh.packN > 5, sh.packN + " ≠ " + sh.packWant);
+    ok("DXF 2D: butonul de proiect descarcă un ZIP valid", sh.dxfZip, String(sh.dxfZip));
+    ok("DXF 2D: cel puțin un fișier .dxf pe piesă", sh.dxfFiles, String(sh.dxfFiles));
+    ok("DXF 2D: straturile PANEL_CUT, DRILL_V_*, INFO_TEXT în pachet", sh.dxfLayers, String(sh.dxfLayers));
     ok("dosar A3: coperta și prezentarea client, în limba aleasă, cu randare 3D", sh.packCover === true && sh.packClient === true);
     ok("dosar A3: nicio cheie netradusă pe nicio foaie", sh.packRaw.length === 0, sh.packRaw.slice(0, 5).join(","));
     ok("nessun errore JS", serr.length === 0, serr.join(" | ").slice(0, 200));
@@ -3113,8 +3124,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     });
     const all = [].concat(...Object.values(x));
     ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
-    ok("export: fiecare dintre cele 10 butoane e într-o grupă, o singură dată",
-      all.length === 11 && new Set(all).size === 11 && ["btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+    ok("export: fiecare dintre cele 12 butoane e într-o grupă, o singură dată",
+      all.length === 12 && new Set(all).size === 12 && ["btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnDxf","btnShare"].every(i => all.includes(i)), all.join());
     ok("export: oferta și pașaportul sunt la client, montajul la atelier", x.expClient.join() === "btnQuote,btnPassport" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
   }
 

@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.15.0 — 31 octombrie 2026
+
+**Export DXF 2D pe straturi pentru CNC:** buton nou „DXF 2D (CNC)" în export (tot proiectul, ZIP) și „DXF" pe fișa piesei. Un fișier AutoCAD R12 ASCII pe piesă (și pe față, când are operații pe fața 6), cu aceeași geometrie ca foaia A3: `PANEL_CUT`, `DRILL_V_D*_Z*`, `DRILL_H_<muchie>_D*_Z*`, `GROOVE_Z*_W*`, `INFO_TEXT`, plus `SLOT_*` și `MILL_*`. Originea e colțul stânga-jos al feței de prelucrare; pe fața 6, X e oglindit. Cu opțiunea „Cota de tăiere minus cantul" activă, `PANEL_CUT` poartă cota de tăiere, iar cota finită rămâne pe `PANEL_FINISHED`. Cotele HW_DRILL neverificate rămân neverificate.
+
+**iPhone/iPad în Safari:** după primul proiect, un avertisment discret (o singură dată) despre ștergerea datelor de către WebKit — „Adaugă pe ecranul principal", cont de sincronizare sau backup .json.
+
+**Teste:** `xss-import` (un JSON modificat nu injectează HTML), `ios-hint`, `dxf`.
+
+---
+
 ## 5.14.1 — 28 octombrie 2026
 
 **Grosimea în distinta de tăiere:** opțiune nouă în Setări, „Distinta de tăiere: grosimea în material” — materialul apare ca „Rovere 19 mm” / „Avocado Green 19 mm” în PDF și CSV. Implicit: Nu.
