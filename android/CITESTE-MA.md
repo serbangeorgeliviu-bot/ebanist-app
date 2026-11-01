@@ -64,3 +64,24 @@ răspunsurile prin `window.__ebPlay(kind, json)` (vezi `playApply` în index.htm
 
 ID-urile sunt în cod (`PRODUCT_ID`, `data-play="monthly|yearly"`): dacă se
 schimbă în Console, se schimbă și aici.
+
+## Publicare în Google Play din GitHub (opțional, D-107)
+
+`.github/workflows/android-aab.yml` construiește `.aab`-ul semnat (ca până acum) și,
+dacă la „Run workflow" alegi un `track`, îl și urcă în Play prin Android Publisher API
+(`android/tools/play-upload.mjs`, fără dependențe; testul: `cd test && node --test play-upload.test.mjs`).
+
+- `track`: `none` (doar construiește) · `internal` · `alpha` (testare închisă) · `beta` · `production`.
+- `status`: `draft` (implicit — apare în Play Console ca ciornă, nu pleacă la nimeni până o trimiți tu)
+  sau `completed`. `production` + `completed` cere `confirm` = `da`.
+- `versionCode` trebuie să fie nou (crește în `app/build.gradle`); Play refuză unul deja folosit.
+
+**O singură dată** (de făcut de proprietarul contului, nu se poate din cod):
+1. Google Cloud: un proiect, activezi „Google Play Android Developer API", creezi un cont de serviciu și o cheie JSON.
+2. Play Console → Utilizatori și permisiuni → inviți e-mailul contului de serviciu, cu drept de a gestiona lansările
+   pe aplicația Ebanist.
+3. GitHub → repo `ebanist-app` → Settings → Secrets and variables → Actions → secretul
+   `PLAY_SERVICE_ACCOUNT_JSON` = conținutul JSON-ului. Nu intră în repo.
+
+Rămân manuale în Play Console: formularul „Data safety", declarațiile de conținut,
+crearea unei aplicații noi, trimiterea la verificare a unei ciorne.
