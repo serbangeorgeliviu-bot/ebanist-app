@@ -26,7 +26,7 @@ const tplCase = read("case-bagno.html");
 const tplPost = read("blog-post.html");
 const tplBlogIdx = read("blog-index.html");
 const tplHelp = read("help.html");
-/* ajutorul: conținutul e al aplicației (app/ebanist-help.js), nu al site-ului — o singură sursă (D-108) */
+/* ajutorul: conținutul e al aplicației (app/ebanist-help.js), nu al site-ului — o singură sursă (D-109) */
 const EBHelp = new Function(fs.readFileSync(path.join(ROOT, "app/ebanist-help.js"), "utf8") + "\nreturn globalThis.EBHelp;")();
 const pieces = JSON.parse(read("data/wardrobe-pieces.json"));
 /* CSS-ul intră în pagină: fără cerere care blochează prima randare */

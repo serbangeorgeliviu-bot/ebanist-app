@@ -33,7 +33,7 @@ site/
 ├── img/  docs/<lang>/  screens/<lang>/  og/
 ```
 
-## Ajutorul (D-108)
+## Ajutorul (D-109)
 
 `/help/` (și `/ro/help/`, …) nu are texte în `i18n/`, în afară de titlu și descriere: subiectele, pașii și
 întrebările frecvente vin din `app/ebanist-help.js`, același fișier pe care îl arată aplicația în foaia „Ajutor”.

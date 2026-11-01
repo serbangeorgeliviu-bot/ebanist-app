@@ -651,7 +651,7 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .blog-card .mono{color:var(--txt3);font-size:12px}
 .blog-card .blog-read{display:inline-block;margin-top:14px;color:var(--gold-ink)}
 @media (max-width:760px){.blog-card{grid-template-columns:1fr}.blog-item{grid-template-columns:1fr}.blog-item>.mono{padding-top:0}}
-/* ajutor (D-108): același conținut ca foaia „Ajutor” din aplicație (app/ebanist-help.js) */
+/* ajutor (D-109): același conținut ca foaia „Ajutor” din aplicație (app/ebanist-help.js) */
 .help .blog-hero{max-width:1100px}
 .help-toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
 .help-toc a{text-decoration:none;padding:8px 14px;border:1px solid var(--line2);border-radius:999px;font-size:14px;color:var(--txt);background:var(--paper)}

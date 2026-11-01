@@ -1,4 +1,4 @@
-/* Ajutorul (D-108): app/ebanist-help.js — aceeași sursă pentru foaia din aplicație și pentru /help/.
+/* Ajutorul (D-109): app/ebanist-help.js — aceeași sursă pentru foaia din aplicație și pentru /help/.
    Rulează: node --test help.test.js
    Verifică structura, nu stilul: toate cele 7 limbi complete, aceiași pași în fiecare limbă, numele de butoane
    din text există în aplicație, imaginile referite există pe disc, iar paginile site-ului sunt generate. */

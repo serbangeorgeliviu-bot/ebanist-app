@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — ajutor (D-108)
+   Ebanist — ajutor (D-109)
    ---------------------------------------------------------------------
    O SINGURĂ SURSĂ pentru două locuri:
      · aplicația  — foaia „Ajutor” (butonul ? din antet), offline;

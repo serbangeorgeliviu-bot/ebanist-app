@@ -1,4 +1,4 @@
-/* Ebanist — capturile pentru ajutor (D-108).
+/* Ebanist — capturile pentru ajutor (D-109).
    -------------------------------------------------------------------
    Aceleași reguli ca la capture.cjs: nimic nu e desenat de mână. Fiecare
    imagine iese din aplicația din acest repo, pe proiectul curat „Wardrobe
