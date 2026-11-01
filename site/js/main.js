@@ -218,30 +218,25 @@
   }
   fitAll(); (doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve()).then(fitAll);
 
-  /* ---------- intro: o singură dată pe sesiune, sărită oricând ---------- */
-  var intro = $("#intro"), heroStage = $("#heroStage");
+  /* ---------- intro: identic cu cel din aplicație (#splash, D-110) ----------
+     o singură dată pe sesiune, sărit oricând (buton, Escape, atingere); CSS-ul îl joacă în ~2,95 s */
+  var intro = $("#splash"), introSkip = $("#introSkip"), heroStage = $("#heroStage");
   var wantIntro = !REDUCE && !store("sessionStorage", "eb_intro") && intro;
-  var introCtl = null, introEnded = !wantIntro;
+  var introEnded = !wantIntro, introTimer = 0;
   function endIntro() {
-    if (introEnded) return; introEnded = true;
+    if (introEnded) return; introEnded = true; clearTimeout(introTimer);
     store("sessionStorage", "eb_intro", "1");
-    intro.classList.add("out"); doc.body.style.overflow = "";
-    setTimeout(function () { intro.hidden = true; }, 800);
+    intro.classList.add("out"); introSkip.hidden = true; doc.body.style.overflow = "";
+    setTimeout(function () { intro.hidden = true; }, 500);
     startHero();
   }
-  function titleIn() {
-    var w = $("#introWord"); if (!w.dataset.done) { w.dataset.done = 1; w.innerHTML = w.textContent.split("").map(function (c, i) { return '<b style="transition-delay:' + (i * 55) + 'ms">' + c + "</b>"; }).join(""); }
-    requestAnimationFrame(function () { w.classList.add("on"); $(".intro-title").classList.add("on"); });
-  }
+  if (intro && !wantIntro) intro.remove();
   if (wantIntro) {
-    intro.hidden = false; intro.removeAttribute("aria-hidden"); doc.body.style.overflow = "hidden";
-    $("#introSkip").addEventListener("click", function () { introCtl ? introCtl.skip() : endIntro(); });
-    addEventListener("keydown", function k(e) { if (e.key === "Escape") { removeEventListener("keydown", k); introCtl ? introCtl.skip() : endIntro(); } });
-    var opts = { canvas: $("#introCanvas"), labelsEl: $("#introLabels"), names: EB.pieces || [], target: heroStage, onTitle: titleIn, onDone: function () { setTimeout(endIntro, 450); } };
-    var failsafe = setTimeout(endIntro, 6500);
-    var go = GL ? import("/site/js/scene3d.js?v=" + EB.ver).then(function (m) { introCtl = m.createIntro(opts); })
-                : import("/site/js/intro2d.js?v=" + EB.ver).then(function (m) { introCtl = m.createIntro2D(opts); });
-    go.catch(function () { clearTimeout(failsafe); endIntro(); });
+    intro.hidden = false; intro.removeAttribute("aria-hidden"); introSkip.hidden = false; doc.body.style.overflow = "hidden";
+    introSkip.addEventListener("click", endIntro);
+    intro.addEventListener("click", endIntro);
+    addEventListener("keydown", function k(e) { if (e.key === "Escape") { removeEventListener("keydown", k); endIntro(); } });
+    introTimer = setTimeout(endIntro, 2950);
   }
 
   /* ---------- 3D + GSAP + Lenis, după prima randare (desktop) ---------- */
