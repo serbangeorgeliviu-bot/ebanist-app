@@ -4,7 +4,7 @@ Pachet `com.domusrenov.ebanist`, Android 7+ (minSdk 24). Din versionCode 2 (1.1.
 PWABuilder (versionCode 1): testarea plătită nu primește TWA, iar Google nu
 numără bine activitatea testerilor într-un TWA.
 
-Aplicația încarcă `https://ebanist.com/app/` din versionCode 6 (1.3.0, ROADMAP L.10).
+Aplicația încarcă `https://ebanist.com/app/` din versionCode 6 (1.3.0, ROADMAP L.10); versionCode 7 (1.3.1) adaugă cererea de recenzie în Play (D-105).
 Până la versionCode 5 încărca `https://whimsical-wisp-61cbbf.netlify.app/app/`, care rămâne
 publicat pentru telefoanele neactualizate.
 
