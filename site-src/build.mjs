@@ -329,7 +329,7 @@ const helpAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="$
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${helpUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${helpAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.6</priority>\n${blogAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
-for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
+for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/stergere-cont.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
   urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`);
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);
 console.log("✓ sitemap.xml");
