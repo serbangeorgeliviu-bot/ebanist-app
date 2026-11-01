@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.20.2 — 2 noiembrie 2026
+
+**Asistentul AI: două butoane pentru poză, „Galerie” și „Cameră”.** Pe telefon, poza aleasă din selector nu ajungea la aplicație (nicio miniatură, nicio eroare). Cauza probabilă: un singur câmp cu `capture` și `multiple` împreună, care se comportă diferit în WebView-ul Android și în Chrome. Acum sunt două câmpuri separate: Galerie (fără `capture`) și Cameră (`capture`). Dacă selectorul nu întoarce niciun fișier, apare un mesaj, nu tăcere. Cheie nouă `aiGal` în cele 7 limbi.
+
+---
+
 ## 5.20.1 — 2 noiembrie 2026
 
 **Poza din Asistentul AI se încarcă și din galeria telefonului.** Pozele mari (10–20 MB) nu se mai țin de trei ori în memorie: se decodează direct din fișier (`createImageBitmap`, cu orientarea EXIF corectată), cu rezervă pe blob URL. Dacă o poză tot nu se poate citi, mesajul arată acum și motivul (de ex. „decode (image/heic, 8200 KB)”), ca să se poată raporta.
