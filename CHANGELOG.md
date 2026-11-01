@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.20.1 — 2 noiembrie 2026
+
+**Poza din Asistentul AI se încarcă și din galeria telefonului.** Pozele mari (10–20 MB) nu se mai țin de trei ori în memorie: se decodează direct din fișier (`createImageBitmap`, cu orientarea EXIF corectată), cu rezervă pe blob URL. Dacă o poză tot nu se poate citi, mesajul arată acum și motivul (de ex. „decode (image/heic, 8200 KB)”), ca să se poată raporta.
+
+---
+
+## 5.20.0 — 2 noiembrie 2026
+
+**Asistentul AI fără cheie pe telefon (Pro pe web).** Un abonat Pro (Stripe sau cod `comp_…`) care nu și-a pus cheia proprie folosește acum cheia Anthropic a serverului, prin `/api/ai`. Cheia stă numai în Netlify (`ANTHROPIC_API_KEY`); la următoarea rotire se schimbă o singură valoare, fără release. Funcția verifică licența ca `/api/pro`, acceptă numai Opus 5 și Sonnet 5, plafonează `max_tokens` la 4000 și nu păstrează nimic.
+- **Neschimbat:** cheia proprie și „endpoint propriu” din Setări au prioritate; licența Google Play rămâne pe cheia proprie (nu se poate verifica de pe server).
+- **Pentru deploy:** setează `ANTHROPIC_API_KEY` în Netlify (proiectul ebanist.com).
+
+---
+
 ## 5.19.0 — 1 noiembrie 2026
 
 **Cererea de recenzie în Google Play** (numai în aplicația Android, D-105). După ce ai reușit ceva — un corp generat, un document ieșit la Pro, o ofertă semnată — și numai după cel puțin 7 zile, 3 sesiuni și 3 astfel de momente, Google arată dialogul de stele peste aplicație; nu ieși din ecran. Cel mult o dată la 90 de zile, de cel mult 3 ori, și niciodată în aceeași sesiune cu ecranul Pro. Nu întrebăm „îți place?” înainte, ca să filtrăm: cerem direct. Setări → „Evaluează Ebanist” deschide pagina din Play oricând. Cere un `.aab` nou (versionCode 6): pe web și într-un `.aab` vechi nu se întâmplă nimic.

@@ -65,7 +65,7 @@ răspunsurile prin `window.__ebPlay(kind, json)` (vezi `playApply` în index.htm
 ID-urile sunt în cod (`PRODUCT_ID`, `data-play="monthly|yearly"`): dacă se
 schimbă în Console, se schimbă și aici.
 
-## Publicare în Google Play din GitHub (opțional, D-107)
+## Publicare în Google Play din GitHub (opțional, D-108)
 
 `.github/workflows/android-aab.yml` construiește `.aab`-ul semnat (ca până acum) și,
 dacă la „Run workflow" alegi un `track`, îl și urcă în Play prin Android Publisher API

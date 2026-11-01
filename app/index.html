@@ -15571,6 +15571,14 @@ function aiSetKey(v){
     return aiKey()===(v||"");
   }catch(e){ return false; }
 }
+/* D-107: cheia Anthropic a serverului (/api/ai). Pro pe web (Stripe sau cod
+   comp_…) o folosește când utilizatorul nu și-a pus cheia sau endpoint-ul
+   propriu; licența Play nu se poate verifica pe server, deci rămâne pe cheia ei. */
+const AI_SERVER="/api/ai";
+function aiServerCode(){
+  const k=(typeof LIC!=="undefined"&&LIC&&LIC.kind!=="play"&&LIC.key)||"";
+  return /^(sub_[A-Za-z0-9]{8,64}|cs_(live|test)_[A-Za-z0-9]{10,200}|comp_[A-Za-z0-9]{24,64})$/.test(k)?k:"";
+}
 function aiModel(){ return (state.settings&&state.settings.aiModel)||"claude-opus-5"; }
 function aiProxy(){ return ((state.settings&&state.settings.aiProxy)||"").trim(); }
 const AI_MODELS=[["claude-opus-5","Opus 5"],["claude-sonnet-5","Sonnet 5"]];
@@ -15842,12 +15850,15 @@ async function aiCall(mode,text,imgs){
     tools:[{name:"applica_patch",description:"Apply a partial patch to the Ebanist state.",input_schema:aiSchema(mode)}],
     tool_choice:{type:"tool",name:"applica_patch"},
     messages:[{role:"user",content:blocks}]};
-  const proxy=aiProxy(), headers={"content-type":"application/json"};
+  let proxy=aiProxy(); const headers={"content-type":"application/json"};
   if(!proxy){
-    if(!aiKey()) throw new Error(tia("aiNoKey"));
-    headers["x-api-key"]=aiKey();
-    headers["anthropic-version"]="2023-06-01";
-    headers["anthropic-dangerous-direct-browser-access"]="true";
+    if(aiKey()){
+      headers["x-api-key"]=aiKey();
+      headers["anthropic-version"]="2023-06-01";
+      headers["anthropic-dangerous-direct-browser-access"]="true";
+    } else if(aiServerCode()){
+      proxy=AI_SERVER; headers["x-ebanist-license"]=aiServerCode();
+    } else throw new Error(tia("aiNoKey"));
   }
   const r=await fetch(proxy||AI_ENDPOINT,{method:"POST",headers,body:JSON.stringify(body)});
   const j=await r.json().catch(()=>null);
@@ -16237,25 +16248,38 @@ function aiBarHTML(mode){
 
 /* le immagini vanno rimpicciolite: una foto da telefono e' 4 MB e il lato lungo
    utile per il modello e' 1568 px. */
-function aiShrink(file){
-  return new Promise((res,rej)=>{
-    const fr=new FileReader();
-    fr.onerror=()=>rej(new Error("read"));
-    fr.onload=()=>{
-      const img=new Image();
-      img.onerror=()=>rej(new Error("img"));
-      img.onload=()=>{
-        const s=Math.min(1,1568/Math.max(img.width,img.height));
-        const cv=document.createElement("canvas");
-        cv.width=Math.round(img.width*s); cv.height=Math.round(img.height*s);
-        cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
-        const url=cv.toDataURL("image/jpeg",0.82);
-        res({mime:"image/jpeg",b64:url.split(",")[1],url});
-      };
-      img.src=fr.result;
-    };
-    fr.readAsDataURL(file);
-  });
+/* D-107b: poza din galeria telefonului poate fi de 10–20 MB. Calea veche (FileReader →
+   data URL → <img>) ține poza de 3 ori în memorie și în WebView-ul Android eșua în
+   tăcere. Acum: createImageBitmap direct din fișier (și corectează orientarea EXIF),
+   cu <img> + blob URL ca rezervă; eroarea are motiv, ca să se poată raporta. */
+async function aiShrink(file){
+  let src=null, w=0, h=0, revoke=null;
+  if(window.createImageBitmap){
+    try{ src=await createImageBitmap(file,{imageOrientation:"from-image"}); w=src.width; h=src.height; }
+    catch(e){ src=null; }
+  }
+  if(!src){
+    const u=URL.createObjectURL(file); revoke=u;
+    const img=new Image();
+    try{
+      await new Promise((ok,no)=>{ img.onload=ok; img.onerror=()=>no(new Error("decode")); img.src=u; });
+    }catch(e){ URL.revokeObjectURL(u); throw new Error("decode ("+(file.type||"?")+", "+Math.round((file.size||0)/1024)+" KB)"); }
+    src=img; w=img.naturalWidth||img.width; h=img.naturalHeight||img.height;
+  }
+  try{
+    if(!w||!h) throw new Error("empty");
+    const s=Math.min(1,1568/Math.max(w,h));
+    const cv=document.createElement("canvas");
+    cv.width=Math.max(1,Math.round(w*s)); cv.height=Math.max(1,Math.round(h*s));
+    cv.getContext("2d").drawImage(src,0,0,cv.width,cv.height);
+    const url=cv.toDataURL("image/jpeg",0.82);
+    const b64=url.split(",")[1];
+    if(!b64) throw new Error("canvas");
+    return {mime:"image/jpeg",b64,url};
+  } finally {
+    if(src&&src.close) try{ src.close(); }catch(e){}
+    if(revoke) URL.revokeObjectURL(revoke);
+  }
 }
 function aiRenderThumbs(mode){
   const box=$("aiThumbs"+mode); if(!box) return;
@@ -16326,7 +16350,7 @@ async function aiRun(mode){
   if(aiBusy) return;
   const ta=$("aiTxt"+mode), txt=(ta.value||"").trim();
   if(!txt&&!aiImgs.length){ toast(tia("aiImgOnly")); ta.focus(); return; }
-  if(!aiProxy()&&!aiKey()){ toast(tia("aiNoKey")); return; }
+  if(!aiProxy()&&!aiKey()&&!aiServerCode()){ toast(tia("aiNoKey")); return; }
   if(mode==="rilievo"&&!proj()){ toast(ts("svNoProject")); return; }
   aiMode=mode; aiBusy=true; aiVeil(true);
   const go=$("aiGo"+mode); go.disabled=true; const old=go.textContent; go.textContent=tia("aiThinking");
@@ -16528,7 +16552,7 @@ function aiMount(){
     $("aiFile"+mode).addEventListener("change",async e=>{
       aiMode=mode;
       for(const f of Array.from(e.target.files||[]).slice(0,4)){
-        try{ aiImgs.push(await aiShrink(f)); }catch(err){ toast(t("importErr")); }
+        try{ aiImgs.push(await aiShrink(f)); }catch(err){ toast(t("importErr")+" ("+((err&&err.message)||err)+")"); }
       }
       aiRenderThumbs(mode); e.target.value="";
     });
@@ -16975,7 +16999,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.19.0"; /* APP_VER-MARKER */
+const APP_VER="5.20.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
