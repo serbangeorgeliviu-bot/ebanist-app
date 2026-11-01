@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.17.0 — 1 noiembrie 2026
+
+**Prețuri orientative în Catalog:** sub balama, glisiere TANDEM/MOVENTO, Minifix și picioarele AXILO, Setări → Catalog arată prețurile citite pe site-uri publice (sursă cu link, dată, TVA inclus sau exclus; pentru glisiere intervalul după lungime). **Nu intră în devizele tale**: prețul rămâne al tău, ca până acum. Sunt orientative și pot diferi la furnizorul tău (D-109, C.7).
+
+---
+
 ## 5.16.0 — 1 noiembrie 2026
 
 **Furnizori: prețuri private din CSV** (Setări → Catalog → Furnizori). Imporți un CSV cu prețurile furnizorului tău (cod, preț, TVA incl/excl, monedă, dată); aplicația le leagă de catalog după cod și le păstrează **numai pe dispozitiv**: nu intră în sincronizarea cloud, nici în proiecte. Rândul fără preț se sare, rândul fără TVA sau monedă se respinge, cu motivul pe rând. Poți exporta furnizorul înapoi în CSV și descărca un model de fișier. Prețurile încă nu intră în deviz (urmează alegerea furnizorului pe articol). D-109.
