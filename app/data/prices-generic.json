@@ -1,0 +1,125 @@
+{
+ "schema": 1,
+ "updated": "2026-11-01",
+ "_nota": "Prețuri ORIENTATIVE citite pe site-uri publice (D-109, C.7). Nu intră în devizul utilizatorului: se arată în Setări → Catalog, sub articol. Intră numai rânduri cu TVA declarat explicit pe pagină. Sursele și cifrele: ebanist-hq/01-arhitectura/Ebanist-Furnizori-Preturi-v1.md. Aprobat pentru publicare de Liviu, 01.11.2026.",
+ "items": [
+  {
+   "hwId": "blum_71b3550",
+   "refs": [
+    {
+     "source": "Tuttoferramenta.it",
+     "price": 3.79,
+     "currency": "EUR",
+     "vat": "incl",
+     "unit": "piece",
+     "partial": "noPlate",
+     "readAt": "2026-11-01",
+     "url": "https://www.tuttoferramenta.it/prodotto/cerniere-blum-71b3550-per-ante-in-legno-clip-top-blumotion-110deg/BL005245"
+    },
+    {
+     "source": "HWT Pro",
+     "price": 4.05,
+     "currency": "EUR",
+     "vat": "incl",
+     "unit": "piece",
+     "partial": "noPlate",
+     "readAt": "2026-11-01",
+     "url": "https://www.hwt-pro.com/it/accessori-per-mobili/cerniere-per-mobili/cerniere-a-vasistas/cerniera-a-scodellino-blum-clip-top-1100-ammortizzazione-blumotion-arresto-d-angolo-1005392m"
+    }
+   ]
+  },
+  {
+   "hwId": "blum_tandem",
+   "refs": [
+    {
+     "source": "Tuttoferramenta.it",
+     "currency": "EUR",
+     "vat": "incl",
+     "unit": "pair",
+     "lengths": {
+      "250": 30.01,
+      "270": 30.01,
+      "300": 30.01,
+      "320": 30.01,
+      "350": 30.01,
+      "380": 30.41,
+      "400": 30.41,
+      "420": 30.81,
+      "450": 30.81,
+      "480": 31.21,
+      "500": 31.21,
+      "520": 32.67,
+      "550": 32.67,
+      "600": 36.64
+     },
+     "readAt": "2026-11-01",
+     "url": "https://www.tuttoferramenta.it/ferramenta-per-mobili/scorrevoli-per-cassetti-spondine/guide-tandem-blum-estrazione-totale/2040400c"
+    }
+   ]
+  },
+  {
+   "hwId": "blum_movento",
+   "refs": [
+    {
+     "source": "Tuttoferramenta.it",
+     "currency": "EUR",
+     "vat": "incl",
+     "unit": "pair",
+     "lengths": {
+      "250": 34.97,
+      "270": 34.97,
+      "300": 34.97,
+      "320": 34.97,
+      "350": 34.97,
+      "380": 35.37,
+      "400": 35.37,
+      "420": 35.76,
+      "450": 35.76,
+      "480": 36.16,
+      "500": 36.16,
+      "520": 38.28,
+      "550": 38.28,
+      "600": 42.57
+     },
+     "readAt": "2026-11-01",
+     "url": "https://www.tuttoferramenta.it/ferramenta-per-mobili/scorrevoli-per-cassetti-spondine/guide-movento-blum-estrazione-totale/2040401c"
+    }
+   ]
+  },
+  {
+   "hwId": "haf_minifix",
+   "refs": [
+    {
+     "source": "HWT Pro",
+     "price": 0.44,
+     "currency": "EUR",
+     "vat": "incl",
+     "unit": "piece",
+     "partial": "body",
+     "tiers": [
+      {
+       "from": 100,
+       "price": 0.3
+      }
+     ],
+     "readAt": "2026-11-01",
+     "url": "https://www.hwt-pro.com/en/furniture-fittings/furniture-connectors/eccentric-fasteners/haefele-connector-housing-minifix-15-die-cast-zinc-without-cover-edge-for-wood-thickness-13-mm-1011117m"
+    }
+   ]
+  },
+  {
+   "hwId": "haf_axilo",
+   "refs": [
+    {
+     "source": "HWT Pro",
+     "price": 2.68,
+     "currency": "EUR",
+     "vat": "incl",
+     "unit": "set",
+     "readAt": "2026-11-01",
+     "url": "https://www.hwt-pro.com/it/accessori-per-armadi-e-cucine/regolatori-per-basi/3689/haefele-piedino-regolabile-per-zoccolo-axilo-78-set-completo"
+    }
+   ]
+  }
+ ]
+}

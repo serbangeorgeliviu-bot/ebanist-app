@@ -53,8 +53,11 @@ răspunsurile prin `window.__ebPlay(kind, json)` (vezi `playApply` în index.htm
 1. Configurează profilul de plăți (Setări → Profil de plăți), dacă nu există.
 2. Generează bani cu Play → Produse → Abonamente → Creează abonament:
    ID produs **`ebanist_pro`**, nume „Ebanist Pro”.
-3. Planuri de bază: **`monthly`** (reînnoire automată, 1 lună) și **`yearly`**
-   (reînnoire automată, 1 an). Prețurile se pun aici; aplicația le citește de la Play.
+3. Planuri de bază: **`monthly`** (plată în avans, 1 lună) și **`yearly`**
+   (plată în avans, 1 an), ambele de tip *prepaid*, **fără reînnoire automată**
+   (D-54, actualizat 23.09.2026; în aplicație `PLAY_PREPAID = true`, iar
+   `termeni.html` spune la fel). Prețurile se pun aici; aplicația le citește de la Play.
+   Trecerea la reînnoire automată cere planuri noi în Console + `PLAY_PREPAID = false`.
 4. Activează ambele planuri.
 5. Setări → Testarea licențelor → adaugă contul tău Gmail: plățile de test nu
    se încasează și un abonament de test se reînnoiește la câteva minute.
