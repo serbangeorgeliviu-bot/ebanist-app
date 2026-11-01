@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.23.1 — 2 noiembrie 2026
+
+**Asistentul AI cu Pro: câmpul gol nu mai pare o cheie pierdută.** În Setări → Asistent AI, cine are licență Pro de pe web (Stripe sau cod `comp_…`) vede acum „Cu Pro, asistentul AI merge fără cheie (prin serverul Ebanist)", iar avertismentul despre cheia care pleacă din browser nu mai apare când nu există cheie proprie. Textul de sub câmp nu mai spune că cheia „nu intră în backup": din 5.23.0 intră în Backup complet, dar numai dacă bifezi, criptată cu parolă.
+
+---
+
 ## 5.23.0 — 2 noiembrie 2026
 
 **Backup complet mai complet** (D-111). Până acum fișierul „Backup complet" avea proiectele, setările și pozele de releveu, dar **nu și stocul de resturi** (ecranul „Stoc"): după o reinstalare sau o restaurare, stocul dispărea. Acum stocul e în fișier, în copia automată și la restaurare; un backup vechi, fără stoc, nu-l șterge pe cel de acum.
