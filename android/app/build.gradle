@@ -55,4 +55,7 @@ dependencies {
     /* Abonamentul Pro pe Android trece prin Google Play (regula Play
        pentru bunuri digitale). Aduce cu ea AndroidX și Play Services. */
     implementation "com.android.billingclient:billing:8.3.0"
+    /* Cererea de recenzie în aplicație (Play In-App Review): dialogul îl
+       desenează Google, aplicația nu iese din ecran. Vezi Bridge.requestReview. */
+    implementation "com.google.android.play:review:2.0.2"
 }
