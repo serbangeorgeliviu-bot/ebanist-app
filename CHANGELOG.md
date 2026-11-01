@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.23.0 — 2 noiembrie 2026
+
+**Backup complet mai complet** (D-111). Până acum fișierul „Backup complet" avea proiectele, setările și pozele de releveu, dar **nu și stocul de resturi** (ecranul „Stoc"): după o reinstalare sau o restaurare, stocul dispărea. Acum stocul e în fișier, în copia automată și la restaurare; un backup vechi, fără stoc, nu-l șterge pe cel de acum.
+
+**Cheile, în backup, cu parolă.** La „Backup complet", dacă ai o cheie pentru asistentul AI sau un cod Pro de pe web, aplicația întreabă dacă le incluzi. Dacă da, ți se cere o parolă (de două ori, minimum 6 caractere) și cheile intră în fișier **criptate** (PBKDF2-SHA256 + AES-256-GCM); fără parolă nu se pot citi. La restaurare, aplicația cere parola și repune cheile **numai dacă lipsesc** pe dispozitiv. Licența Google Play nu se salvează: Play o restabilește singur. Backup-urile automate și cel „silențios" de la migrări nu poartă chei. Parola uitată nu se poate recupera; proiectele rămân restaurabile.
+
+`privacy.html` spune acum exact asta, în cele patru limbi.
+
+---
+
 ## 5.22.0 — 1 noiembrie 2026
 
 **Poză la articolele proprii din catalog** (sugestia unui utilizator, prin „Sugerează o funcție”). La feroneria și la materialele pe care le adaugi tu, butonul **Foto** pune o poză: se micșorează pe dispozitiv (240 px, ~10 KB), se păstrează în catalog și se vede lângă articol; ✕ o scoate. Funcționează offline.
