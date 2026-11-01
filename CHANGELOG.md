@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.19.0 — 1 noiembrie 2026
+
+**Cererea de recenzie în Google Play** (numai în aplicația Android, D-105). După ce ai reușit ceva — un corp generat, un document ieșit la Pro, o ofertă semnată — și numai după cel puțin 7 zile, 3 sesiuni și 3 astfel de momente, Google arată dialogul de stele peste aplicație; nu ieși din ecran. Cel mult o dată la 90 de zile, de cel mult 3 ori, și niciodată în aceeași sesiune cu ecranul Pro. Nu întrebăm „îți place?” înainte, ca să filtrăm: cerem direct. Setări → „Evaluează Ebanist” deschide pagina din Play oricând. Cere un `.aab` nou (versionCode 6): pe web și într-un `.aab` vechi nu se întâmplă nimic.
+
+**Măsurarea conversiei** (D-104): cinci evenimente anonime — aplicația s-a deschis, s-a văzut ecranul Pro (și de la ce buton), s-a apăsat „cumpără” (și ce plan), plata a trecut, s-a cerut recenzia. Fără IP, fără id de dispozitiv, fără e-mail, fără nume de proiect; nu pleacă din modul atelier. Rezumatul (`/api/funnel`) e închis, cu `FUNNEL_KEY` din Netlify. `privacy.html` e actualizat în cele patru limbi.
+
+**De făcut în afara codului:** `FUNNEL_KEY` în Netlify (fără ea nu se poate citi rezumatul) și completarea „Data safety” din Play Console cu interacțiunile din aplicație.
+
+---
+
 ## 5.18.0 — 1 noiembrie 2026
 
 **Feroneria în 3D, din aceleași date ca fișa piesei.** Forma fiecărui articol de feronerie care are găuri sau canale în fișa de găurire iese acum din acele operații (diametru, adâncime, poziție), nu din cifre scrise separat în vizor. Așa 3D-ul și desenul tehnic nu mai pot diverge.
