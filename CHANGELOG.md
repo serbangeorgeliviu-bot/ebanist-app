@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.16.0 — 1 noiembrie 2026
+
+**Furnizori: prețuri private din CSV** (Setări → Catalog → Furnizori). Imporți un CSV cu prețurile furnizorului tău (cod, preț, TVA incl/excl, monedă, dată); aplicația le leagă de catalog după cod și le păstrează **numai pe dispozitiv**: nu intră în sincronizarea cloud, nici în proiecte. Rândul fără preț se sare, rândul fără TVA sau monedă se respinge, cu motivul pe rând. Poți exporta furnizorul înapoi în CSV și descărca un model de fișier. Prețurile încă nu intră în deviz (urmează alegerea furnizorului pe articol). D-109.
+
+---
+
 ## 5.15.0 — 1 noiembrie 2026
 
 **DXF pe straturi, per piesă** (Pro): în fișa piesei, butonul „DXF pe straturi” dă un DXF R12 cu piesa văzută de pe fața 5: conturul, găurile Ø5 (Sistem 32), oalele Ø35, alte burghie pe diametru, canalele de spate și decupajele. Fețele 6 au straturi proprii (`_F6`). Straturile cu feronerie neverificată se numesc `_NEVERIF` și fișierul are antet de avertizare (D-48, D-106). Trece prin același cancel de export ca restul (D-44).

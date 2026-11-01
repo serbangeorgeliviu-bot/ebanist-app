@@ -2376,6 +2376,17 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <button class="btn sm" id="btnMatImport" data-i="matImport">Importa catalogo (JSON)</button>
   </div>
   <input type="file" id="matImportFile" accept="application/json,.json" hidden>
+  <!-- Furnizori: prețuri private importate din CSV (D-109). Stau în settings.suppliers,
+       numai pe dispozitiv: settingsPayload() le scoate din sincronizarea cloud. -->
+  <h3 style="margin-top:18px" data-i="supTitle">Fornitori (prezzi privati)</h3>
+  <p class="mini" data-i="supHint"></p>
+  <div id="supWrap"></div>
+  <div class="f2" style="margin-top:8px">
+    <button class="btn sm" id="btnSupImport" data-i="supImport">Importa prezzi (CSV)</button>
+    <button class="btn sm" id="btnSupTemplate" data-i="supTemplate">Modello CSV</button>
+  </div>
+  <input type="file" id="supImportFile" accept=".csv,text/csv,text/plain" hidden>
+  <p class="mini" id="supMsg" role="status" style="margin-top:8px"></p>
   <p class="mini" style="margin-top:10px" data-i="catNote">Verifica i codici articolo sul catalogo attuale del fornitore.</p>
 </div>
 
@@ -2505,6 +2516,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 if(window.CORE_REV!=="5.13.0") document.write('<script src="./ebanist-core.js?rev=5.13.0"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
+<script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-survey.js"></script>
 <script src="./ebanist-sheet.js"></script>
@@ -3306,6 +3318,13 @@ Object.assign(I18N.fr,{partDxf:"DXF par calques"});
 Object.assign(I18N.de,{partDxf:"DXF mit Layern"});
 Object.assign(I18N.pl,{partDxf:"DXF z warstwami"});
 Object.assign(I18N.es,{partDxf:"DXF por capas"});
+Object.assign(I18N.it,{"supTitle": "Fornitori (prezzi privati)", "supHint": "Importa un CSV con i prezzi del tuo fornitore. Restano su questo dispositivo: non vanno nel cloud, nella sincronizzazione né nei progetti condivisi. Colonne: codice, prezzo, IVA (incl/excl), valuta, data.", "supImport": "Importa prezzi (CSV)", "supTemplate": "Modello CSV", "supName": "Nome del fornitore:", "supNone": "Nessun fornitore importato.", "supExport": "Esporta", "supDel": "Elimina", "supDelAsk": "Eliminare «{n}» e i suoi prezzi?", "supRows": "{n} articoli · {m} nel catalogo · {d}", "supImported": "{n} prezzi importati ({m} collegati al catalogo). Senza prezzo, saltati: {u}. Righe respinte: {e}.", "supNothing": "Nessun prezzo importato. Senza prezzo: {u}. Righe respinte: {e}.", "supBadFile": "File vuoto o illeggibile.", "supNoCols": "Mancano le colonne: {c}.", "supErr_key": "manca il codice", "supErr_price": "prezzo non valido", "supErr_vat": "IVA mancante (incl/excl)", "supErr_cur": "valuta mancante", "supErr_date": "data non valida", "supErrLine": "riga {l}: {r}"});
+Object.assign(I18N.ro,{"supTitle": "Furnizori (prețuri private)", "supHint": "Importă un CSV cu prețurile furnizorului tău. Rămân pe acest dispozitiv: nu merg în cloud, în sincronizare sau în proiectele partajate. Coloane: cod, preț, TVA (incl/excl), monedă, dată.", "supImport": "Importă prețuri (CSV)", "supTemplate": "Model CSV", "supName": "Numele furnizorului:", "supNone": "Niciun furnizor importat.", "supExport": "Exportă", "supDel": "Șterge", "supDelAsk": "Ștergi «{n}» și prețurile lui?", "supRows": "{n} articole · {m} în catalog · {d}", "supImported": "{n} prețuri importate ({m} legate de catalog). Fără preț, sărite: {u}. Rânduri respinse: {e}.", "supNothing": "Niciun preț importat. Fără preț: {u}. Rânduri respinse: {e}.", "supBadFile": "Fișier gol sau ilizibil.", "supNoCols": "Lipsesc coloanele: {c}.", "supErr_key": "lipsește codul", "supErr_price": "preț invalid", "supErr_vat": "lipsește TVA (incl/excl)", "supErr_cur": "lipsește moneda", "supErr_date": "dată invalidă", "supErrLine": "rândul {l}: {r}"});
+Object.assign(I18N.en,{"supTitle": "Suppliers (private prices)", "supHint": "Import a CSV with your supplier's prices. They stay on this device: they never go to the cloud, to sync or into shared projects. Columns: code, price, VAT (incl/excl), currency, date.", "supImport": "Import prices (CSV)", "supTemplate": "CSV template", "supName": "Supplier name:", "supNone": "No supplier imported.", "supExport": "Export", "supDel": "Delete", "supDelAsk": "Delete \"{n}\" and its prices?", "supRows": "{n} items · {m} in catalog · {d}", "supImported": "{n} prices imported ({m} linked to the catalog). No price, skipped: {u}. Rejected rows: {e}.", "supNothing": "No price imported. No price: {u}. Rejected rows: {e}.", "supBadFile": "Empty or unreadable file.", "supNoCols": "Missing columns: {c}.", "supErr_key": "code missing", "supErr_price": "invalid price", "supErr_vat": "VAT missing (incl/excl)", "supErr_cur": "currency missing", "supErr_date": "invalid date", "supErrLine": "row {l}: {r}"});
+Object.assign(I18N.fr,{"supTitle": "Fournisseurs (prix privés)", "supHint": "Importez un CSV avec les prix de votre fournisseur. Ils restent sur cet appareil : ils ne vont ni dans le cloud, ni dans la synchronisation, ni dans les projets partagés. Colonnes : code, prix, TVA (incl/excl), devise, date.", "supImport": "Importer les prix (CSV)", "supTemplate": "Modèle CSV", "supName": "Nom du fournisseur :", "supNone": "Aucun fournisseur importé.", "supExport": "Exporter", "supDel": "Supprimer", "supDelAsk": "Supprimer « {n} » et ses prix ?", "supRows": "{n} articles · {m} au catalogue · {d}", "supImported": "{n} prix importés ({m} liés au catalogue). Sans prix, ignorés : {u}. Lignes rejetées : {e}.", "supNothing": "Aucun prix importé. Sans prix : {u}. Lignes rejetées : {e}.", "supBadFile": "Fichier vide ou illisible.", "supNoCols": "Colonnes manquantes : {c}.", "supErr_key": "code manquant", "supErr_price": "prix invalide", "supErr_vat": "TVA manquante (incl/excl)", "supErr_cur": "devise manquante", "supErr_date": "date invalide", "supErrLine": "ligne {l} : {r}"});
+Object.assign(I18N.de,{"supTitle": "Lieferanten (private Preise)", "supHint": "Importiere eine CSV mit den Preisen deines Lieferanten. Sie bleiben auf diesem Gerät: weder in der Cloud noch in der Synchronisierung noch in geteilten Projekten. Spalten: Code, Preis, MwSt. (incl/excl), Währung, Datum.", "supImport": "Preise importieren (CSV)", "supTemplate": "CSV-Vorlage", "supName": "Name des Lieferanten:", "supNone": "Kein Lieferant importiert.", "supExport": "Exportieren", "supDel": "Löschen", "supDelAsk": "„{n}“ und seine Preise löschen?", "supRows": "{n} Artikel · {m} im Katalog · {d}", "supImported": "{n} Preise importiert ({m} mit dem Katalog verknüpft). Ohne Preis übersprungen: {u}. Abgelehnte Zeilen: {e}.", "supNothing": "Kein Preis importiert. Ohne Preis: {u}. Abgelehnte Zeilen: {e}.", "supBadFile": "Datei leer oder nicht lesbar.", "supNoCols": "Fehlende Spalten: {c}.", "supErr_key": "Code fehlt", "supErr_price": "ungültiger Preis", "supErr_vat": "MwSt. fehlt (incl/excl)", "supErr_cur": "Währung fehlt", "supErr_date": "ungültiges Datum", "supErrLine": "Zeile {l}: {r}"});
+Object.assign(I18N.pl,{"supTitle": "Dostawcy (ceny prywatne)", "supHint": "Zaimportuj plik CSV z cenami dostawcy. Zostają na tym urządzeniu: nie trafiają do chmury, synchronizacji ani udostępnianych projektów. Kolumny: kod, cena, VAT (incl/excl), waluta, data.", "supImport": "Importuj ceny (CSV)", "supTemplate": "Wzór CSV", "supName": "Nazwa dostawcy:", "supNone": "Brak zaimportowanych dostawców.", "supExport": "Eksportuj", "supDel": "Usuń", "supDelAsk": "Usunąć „{n}” i jego ceny?", "supRows": "{n} pozycji · {m} w katalogu · {d}", "supImported": "Zaimportowano {n} cen ({m} powiązanych z katalogiem). Bez ceny, pominięte: {u}. Odrzucone wiersze: {e}.", "supNothing": "Nie zaimportowano cen. Bez ceny: {u}. Odrzucone wiersze: {e}.", "supBadFile": "Plik pusty lub nieczytelny.", "supNoCols": "Brakujące kolumny: {c}.", "supErr_key": "brak kodu", "supErr_price": "nieprawidłowa cena", "supErr_vat": "brak VAT (incl/excl)", "supErr_cur": "brak waluty", "supErr_date": "nieprawidłowa data", "supErrLine": "wiersz {l}: {r}"});
+Object.assign(I18N.es,{"supTitle": "Proveedores (precios privados)", "supHint": "Importa un CSV con los precios de tu proveedor. Se quedan en este dispositivo: no van a la nube, a la sincronización ni a proyectos compartidos. Columnas: código, precio, IVA (incl/excl), moneda, fecha.", "supImport": "Importar precios (CSV)", "supTemplate": "Plantilla CSV", "supName": "Nombre del proveedor:", "supNone": "Ningún proveedor importado.", "supExport": "Exportar", "supDel": "Eliminar", "supDelAsk": "¿Eliminar «{n}» y sus precios?", "supRows": "{n} artículos · {m} en el catálogo · {d}", "supImported": "{n} precios importados ({m} vinculados al catálogo). Sin precio, omitidos: {u}. Filas rechazadas: {e}.", "supNothing": "No se importó ningún precio. Sin precio: {u}. Filas rechazadas: {e}.", "supBadFile": "Archivo vacío o ilegible.", "supNoCols": "Faltan columnas: {c}.", "supErr_key": "falta el código", "supErr_price": "precio no válido", "supErr_vat": "falta el IVA (incl/excl)", "supErr_cur": "falta la moneda", "supErr_date": "fecha no válida", "supErrLine": "fila {l}: {r}"});
 Object.assign(I18N.it,{nestKeep:"Resto da tenere",nestWaste:"Sfrido"});
 Object.assign(I18N.ro,{nestKeep:"Rest recuperabil",nestWaste:"Pierdere"});
 Object.assign(I18N.en,{nestKeep:"Reusable offcut",nestWaste:"Waste"});
@@ -12795,6 +12814,7 @@ const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man",
   ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
 function renderCatalog(){
   const S=state.settings;
+  renderSuppliers();
   $("catHwWrap").innerHTML=HW_CATS.map(([cat,key])=>{
     const sel=(S.hwProd||{})[cat]||"";
     const it=hwItem(cat)||{price:"",art:""};
@@ -12932,6 +12952,56 @@ $("matImportFile").addEventListener("change",async e=>{
   }
   persist(); renderCatalog(); fillMatSelects();
   toast(t("matImported").replace("{n}",n));
+});
+/* --- furnizori: prețuri private din CSV (D-109, varianta A) -----------------
+   Nimic nu se ghicește: rândul fără preț e „necunoscut” și nu intră, rândul fără
+   TVA sau fără monedă e respins. Datele stau în settings.suppliers, local. */
+function supCatalog(){ return Object.values(HWDB).flat().concat(state.settings.hwAdd||[]); }
+function supDownload(name,text,type){
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([text],{type:type||"text/csv"}));
+  a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+function renderSuppliers(){
+  const w=$("supWrap"); if(!w) return;
+  const L=state.settings.suppliers||[], cat=new Set(supCatalog().map(x=>x.id));
+  w.innerHTML=L.length?L.map(s=>{
+    const m=s.items.filter(x=>x.hwId&&cat.has(x.hwId)).length;
+    return `<div class="f2" style="align-items:center;justify-content:space-between;margin:6px 0">`+
+      `<span><b>${esc(s.name)}</b><br><span class="mini">${esc(t("supRows").replace("{n}",s.items.length).replace("{m}",m).replace("{d}",s.importedAt||""))}</span></span>`+
+      `<span><button class="btn sm" data-sup-exp="${esc(s.id)}">${esc(t("supExport"))}</button> `+
+      `<button class="btn sm" data-sup-del="${esc(s.id)}">${esc(t("supDel"))}</button></span></div>`;
+  }).join(""):`<p class="mini">${esc(t("supNone"))}</p>`;
+  w.querySelectorAll("[data-sup-exp]").forEach(b=>b.addEventListener("click",()=>{
+    const s=(state.settings.suppliers||[]).find(x=>x.id===b.dataset.supExp); if(!s) return;
+    supDownload("furnizor-"+s.id+"-"+new Date().toISOString().slice(0,10)+".csv",EBSuppliers.toCSV(s));
+  }));
+  w.querySelectorAll("[data-sup-del]").forEach(b=>b.addEventListener("click",async()=>{
+    const s=(state.settings.suppliers||[]).find(x=>x.id===b.dataset.supDel); if(!s) return;
+    if(!(await confirmDlg(t("supDelAsk").replace("{n}",s.name)))) return;
+    state.settings.suppliers=EBSuppliers.removeSupplier(state.settings.suppliers,s.id);
+    persist(); renderSuppliers();
+  }));
+}
+$("btnSupTemplate").addEventListener("click",()=>supDownload("model-preturi-furnizor.csv",EBSuppliers.templateCSV()));
+$("btnSupImport").addEventListener("click",()=>$("supImportFile").click());
+$("supImportFile").addEventListener("change",async e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  e.target.value="";
+  const msg=$("supMsg"); msg.textContent="";
+  let text; try{ text=await f.text(); }catch(err){ msg.textContent=t("importErr"); return; }
+  const today=new Date().toISOString().slice(0,10), r=EBSuppliers.importCSV(text,{today});
+  if(!r.ok){ msg.textContent=r.reason==="cols"?t("supNoCols").replace("{c}",r.missing.join(", ")):t("supBadFile"); return; }
+  const errs=r.errors.slice(0,4).map(x=>t("supErrLine").replace("{l}",x.line).replace("{r}",t("supErr_"+x.code))).join(" · ")+(r.errors.length>4?" …":"");
+  if(!r.items.length){
+    msg.textContent=t("supNothing").replace("{u}",r.unknown).replace("{e}",r.errors.length)+(errs?" "+errs:""); return;
+  }
+  const guess=f.name.replace(/\.[^.]+$/,"").replace(/[_-]+/g," ").trim();
+  const name=((await promptDlg(t("supName"),guess))||"").trim(); if(!name) return;
+  const matched=EBSuppliers.matchCatalog(r.items,supCatalog());
+  state.settings.suppliers=EBSuppliers.mergeSupplier(state.settings.suppliers,{name},r.items,today);
+  persist(); renderSuppliers();
+  msg.textContent=t("supImported").replace("{n}",r.items.length).replace("{m}",matched).replace("{u}",r.unknown).replace("{e}",r.errors.length)+(errs?" "+errs:"");
 });
 $("btnCatalogSave").addEventListener("click",()=>{
   const S=state.settings; S.hwOvr=S.hwOvr||{}; S.matOvr=S.matOvr||{}; S.hwProd=S.hwProd||{};
@@ -14582,7 +14652,7 @@ function saveSetMeta(m){ try{localStorage.setItem(SET_META_KEY,JSON.stringify(m)
    cantiere in romeno non deve ritrovarsi l'app in italiano perche il PC in
    ufficio e in italiano. */
 function settingsPayload(){
-  const s=Object.assign({},state.settings);
+  const s=EBSuppliers.stripPrivate(state.settings);     // prețurile private de furnizor (D-109) nu pleacă din dispozitiv
   return {settings:s,stock:state.stock||[]};
 }
 async function syncSettings(){
@@ -14600,7 +14670,7 @@ async function syncSettings(){
         const rs=JSON.stringify(remote.data);
         if(rs!==snap){
           if(meta.lastSyncedSnapshot&&meta.lastSyncedSnapshot!==snap) toast(ta("syncConflict"));
-          state.settings=Object.assign({},defaultState().settings,remote.data.settings||{},{lang:state.lang});
+          state.settings=EBSuppliers.keepPrivate(Object.assign({},defaultState().settings,remote.data.settings||{},{lang:state.lang}),state.settings);
           if(Array.isArray(remote.data.stock)) state.stock=remote.data.stock;
         }
         saveSetMeta({lastSyncedSnapshot:rs,updatedAt:remote.updated_at,lastRemoteUpdatedAt:remote.updated_at});
@@ -16806,12 +16876,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.15.0"; /* APP_VER-MARKER */
+const APP_VER="5.16.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v181";
+const SW_CACHE="ebanist-v182";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
