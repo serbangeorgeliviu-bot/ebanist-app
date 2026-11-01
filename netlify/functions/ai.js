@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — proxy pentru Asistentul AI (D-106)
+   Ebanist — proxy pentru Asistentul AI (D-107)
    ---------------------------------------------------------------------
      POST /api/ai
        Header  x-ebanist-license: <sub_… | cs_… | comp_…>   codul Pro
