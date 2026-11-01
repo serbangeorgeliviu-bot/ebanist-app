@@ -49,7 +49,8 @@ describe("conectori: 3D = operațiile din fișa piesei", () => {
         if (h.type !== "reggipiano") sh.forEach(s => assert.ok(s.src.length > 0, `${h.id}/${s.role}: nu leagă nicio operație`));
         /* garda „placă”: nicio formă de conector nu depășește 100 mm pe vreo axă */
         for (const s of sh) {
-          const ext = s.t === "cyl" ? [Math.abs(s.a[0] - s.b[0]) + s.d, Math.abs(s.a[1] - s.b[1]) + s.d, Math.abs(s.a[2] - s.b[2]) + s.d] : [0, 1, 2].map(i => s.hi[i] - s.lo[i]);
+          const rad = s.t === "lathe" ? 2 * Math.max(...s.profile.map(p => p[0])) : s.d;
+          const ext = s.t !== "box" ? [Math.abs(s.a[0] - s.b[0]) + rad, Math.abs(s.a[1] - s.b[1]) + rad, Math.abs(s.a[2] - s.b[2]) + rad] : [0, 1, 2].map(i => s.hi[i] - s.lo[i]);
           ext.forEach(e => assert.ok(e > 0 && e <= 100, `${h.id}/${s.role}: dimensiune ${e} mm`));
         }
         const op = n => { const f = (by[h.id] || []).find(x => n.test(x.op.note || "")); return f ? f.op : null; };
@@ -62,8 +63,10 @@ describe("conectori: 3D = operațiile din fișa piesei", () => {
         } else if (h.type === "tassello") {
           const d = sh[0]; near(d.d, HD.dowel.dia, "Ø tasel"); near(len(d.a, d.b), HD.dowel.len, "lungime tasel");
         } else if (h.type === "confirmat") {
-          const shank = sh.find(s => s.role === "shank"), head = sh.find(s => s.role === "head");
-          near(len(shank.a, shank.b), HD.joints.confirmat.screw_len, "lungime șurub"); near(shank.d, 7, "Ø tijă"); near(head.d, HD.joints.confirmat.head_dia, "Ø cap");
+          const scr = sh.find(s => s.role === "screw"), J = HD.joints.confirmat;
+          near(len(scr.a, scr.b), J.head_h + J.screw_len, "lungime șurub (cap + 50 sub cap)"); near(scr.d, 7, "Ø tijă");
+          near(2 * Math.max(...scr.profile.map(p => p[0])), J.head_dia, "Ø cap (cea mai mare rază a profilului)");
+          near(scr.profile[scr.profile.length - 1][1], J.head_h + J.screw_len, "profilul se termină la vârf");
         } else if (h.type === "reggipiano") {
           const pin = sh.find(x => x.role === "pin"), plate = sh.find(x => x.role === "plate"), pcOps = o.pieces.find(q => String(q.pk) === String(h.piece)).operations, p0 = pcOps.find(x => x.type === "drill" && /reggipiano/.test(x.note || "") && x._w && Math.abs(x._w[1] - h.seat[1]) < 0.05 && Math.abs(x._w[2] - h.seat[2]) < 0.05);   // gaura din piesă (poate fi trecută și atribuită altui suport opus)
           near(pin.d, p0.dia, "Ø tijă"); const seatD = p0.through ? HD.pin.depth : p0.depth;     // gaură trecută (două suporturi opuse): adâncimea din catalog
@@ -72,9 +75,11 @@ describe("conectori: 3D = operațiile din fișa piesei", () => {
           assert.ok(p0, "suportul stă într-o gaură care există în fișa piesei");
           assert.ok(plate.hi[1] - plate.lo[1] > 0 && plate.hi[0] - plate.lo[0] > 0, "plăcuța are volum");
         } else {
-          const K = HD.joints[h.type], b = sh[0], dim = i => b.hi[i] - b.lo[i];
-          near(dim(h.sAx), K.body.len, "lungimea corpului"); near(dim(h.camAx), K.body.thk, "grosimea corpului");
-          near(dim(h.eAx), K.depth + K.depth_face, "adâncimea totală (canal F + canal E)");
+          const K = HD.joints[h.type], bs = sh.filter(x => x.t === "box"), dim = (b, i) => b.hi[i] - b.lo[i];
+          bs.forEach(b => { near(dim(b, h.sAx), K.body.len, "lungimea corpului"); near(dim(b, h.camAx), K.body.thk, "grosimea corpului"); });
+          const total = bs.reduce((s, b) => s + dim(b, h.eAx), 0);
+          near(total, K.depth + K.depth_face - (h.type === "clamex" ? 0.3 : 0), "adâncimea totală (canal F + canal E; Clamex cu jocul de 0,3 mm între cele două părți)");
+          assert.equal(bs.length, h.type === "clamex" ? 2 : 1, "Clamex = două părți, restul o singură piesă");
           assert.ok(K.body.len <= K.len && K.body.thk <= K.thk, "corpul trebuie să încapă în canal");
         }
       }
