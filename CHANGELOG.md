@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.15.0 — 1 noiembrie 2026
+
+**DXF pe straturi, per piesă** (Pro): în fișa piesei, butonul „DXF pe straturi” dă un DXF R12 cu piesa văzută de pe fața 5: conturul, găurile Ø5 (Sistem 32), oalele Ø35, alte burghie pe diametru, canalele de spate și decupajele. Fețele 6 au straturi proprii (`_F6`). Straturile cu feronerie neverificată se numesc `_NEVERIF` și fișierul are antet de avertizare (D-48, D-106). Trece prin același cancel de export ca restul (D-44).
+
+---
+
 ## 5.14.1 — 28 octombrie 2026
 
 **Grosimea în distinta de tăiere:** opțiune nouă în Setări, „Distinta de tăiere: grosimea în material” — materialul apare ca „Rovere 19 mm” / „Avocado Green 19 mm” în PDF și CSV. Implicit: Nu.
