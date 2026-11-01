@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.18.0 — 1 noiembrie 2026
+
+**Conectorii în 3D, din aceleași date ca fișa piesei** (etapa 1 din «feroneria în 3D exact ca în desenul tehnic»): Minifix, tasel, Confirmat, lamelă, Domino și Clamex au acum forma făcută din operațiile găurilor și canalelor lor (diametru, adâncime, poziție), nu din cifre scrise separat în vizor. Corectat: corpul Minifix era desenat mereu de 12,5 mm, deși la plăci de 19 mm gaura are 13,5 mm; bolțul Minifix se oprea la 32 mm în loc de 34. Un test verifică fiecare conector în 5 corpuri, la 18 și 19 mm, și respinge orice formă mai mare de 100 mm. Balamale, glisiere, suporturi de raft, mânere și picioare urmează.
+
+---
+
 ## 5.17.0 — 1 noiembrie 2026
 
 **Prețuri orientative în Catalog:** sub balama, glisiere TANDEM/MOVENTO, Minifix și picioarele AXILO, Setări → Catalog arată prețurile citite pe site-uri publice (sursă cu link, dată, TVA inclus sau exclus; pentru glisiere intervalul după lungime). **Nu intră în devizele tale**: prețul rămâne al tău, ca până acum. Sunt orientative și pot diferi la furnizorul tău (D-109, C.7).

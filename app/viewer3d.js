@@ -833,6 +833,8 @@ function buildHardware(model) {
   R.links = [];
   if (!model || !model.ops) return;
   const O = model.ops;
+  /* conectori: forma 3D iese din aceleași operații (găuri și canale) ca fișa piesei (ebanist-hwgeom.js) */
+  const OPS = EBHwGeom.opsByHw(O.pieces);
   /* cerniere: dicono anche da che parte si apre l'anta */
   O.hw.forEach(h => {
     if (h.wing === "B") return;   /* aripa B a corpului de colț: balamalele, glisierele și mânerele se desenează presupunând fața pe +z (D-103); fără desen, nu desen greșit */
@@ -899,11 +901,11 @@ function buildHardware(model) {
       const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc";
       P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
       if (h.plate && A) { const p = h.plate; A.hw.add(tag(box(HM, [p[0] - 22.5, p[1] - 22.5, p[2] - 3], [p[0] + 22.5, p[1] + 22.5, p[2]]))); }
-    } else if (h.type === "minifix") {
-      P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15)));
-      const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5)));
-    } else if (h.type === "tassello") {
-      P.hw.add(tag(cyl("__wooddowel", along(h.w, h.eAx, h.eSide * 12), along(h.w, h.eAx, -h.eSide * 23), 8)));
+    } else if (EBHwGeom.TYPES.indexOf(h.type) >= 0) {
+      /* Minifix, tasel, Confirmat, lamelă, Domino, Clamex: cilindri și cutii cu cotele găurilor și canalelor lor */
+      const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
+      EBHwGeom.connectorShapes(h, OPS[h.id], HW_DRILL, { thickF: ext }).forEach(sh =>
+        P.hw.add(tag(sh.t === "cyl" ? cyl(sh.mat, sh.a, sh.b, sh.d) : box(sh.mat, sh.lo, sh.hi))));
     } else if (h.type === "reggipiano") {
       const w = h.w, s = h.dir.side;
       P.hw.add(tag(cyl("__hw", along(w, 0, -s * 10), along(w, 0, s * 9), 5)));
@@ -953,21 +955,6 @@ function buildHardware(model) {
     } else if (h.type === "gola_fresata") {
       /* priza frezată: fâșie închisă pe muchia de sus, pe spatele frontului — se vede ca adâncitura de prindere */
       P.hw.add(tag(box("__flushdark", [h.x0 + 1, h.w[1] - 0.2, h.zB], [h.x1 - 1, h.w[1] + 0.3, h.zB + h.d]), true));
-    } else if (h.type === "confirmat") {
-      /* șurub confirmat 7×50: capul pe fața exterioară a lui F, tija intră în muchia lui E */
-      const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
-      const hd = along(h.w, h.eAx, h.eSide * ext), tip = along(h.w, h.eAx, -h.eSide * (50 - ext));
-      P.hw.add(tag(cyl("__brass", hd, tip, 7)));
-      P.hw.add(tag(cyl("__brass", hd, along(hd, h.eAx, h.eSide * 3.5), 10.5)));
-    } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex") {
-      /* lamela / tenon / conector: corp care trece din F în E, orientat după canal */
-      const D = { biscuit: [56, 4, 12.5, 12.5, "__wooddowel"], domino: [22, 8, 15, 25, "__domino"], clamex: [64, 9.7, 14, 14, "__nylongrey"] }[h.type];
-      const lo = h.w.slice(), hi = h.w.slice();
-      const e0 = h.w[h.eAx] + h.eSide * D[2], e1 = h.w[h.eAx] - h.eSide * D[3];
-      lo[h.eAx] = Math.min(e0, e1); hi[h.eAx] = Math.max(e0, e1);
-      lo[h.sAx] = h.w[h.sAx] - D[0] / 2; hi[h.sAx] = h.w[h.sAx] + D[0] / 2;
-      lo[h.camAx] = h.w[h.camAx] - D[1] / 2; hi[h.camAx] = h.w[h.camAx] + D[1] / 2;
-      P.hw.add(tag(box(D[4], lo, hi)));
     }
   });
   /* fori e cave: dischi scuri sulla superficie, un InstancedMesh per pezzo */
