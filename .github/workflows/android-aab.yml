@@ -15,11 +15,45 @@
 #   ANDROID_KEY_PASSWORD       parola cheii
 # Fără ele, lucrarea se oprește cu un mesaj clar, nu cu un .aab nesemnat
 # pe care Play l-ar refuza oricum.
+#
+# UPLOAD ÎN GOOGLE PLAY (opțional). La „Run workflow" alegi `track`:
+#   none        (implicit) numai construiește, ca până acum;
+#   internal / alpha (testare închisă) / beta / production
+#               după construire, urcă .aab-ul în Play prin API
+#               (android/tools/play-upload.mjs, fără acțiuni terțe).
+# `status` = draft (implicit: apare în Play Console ca ciornă, nu pleacă la
+# nimeni până nu o trimiți tu) sau completed. production + completed pleacă
+# la toți utilizatorii și cere `confirm` = da.
+# Mai cere un secret al repo-ului:
+#   PLAY_SERVICE_ACCOUNT_JSON  cheia JSON a contului de serviciu din Google
+#                              Cloud, invitat în Play Console cu drept de
+#                              gestionare a lansărilor. Nu intră în repo.
+# Doar .aab-ul: formularul „Data safety", abonamentele și pagina aplicației
+# nu se ating de aici.
 
 name: android-aab
 
 on:
   workflow_dispatch:
+    inputs:
+      track:
+        description: "Urcă în Google Play pe acest track (none = doar construiește)"
+        type: choice
+        options: [none, internal, alpha, beta, production]
+        default: none
+      status:
+        description: "draft = ciornă în Play Console; completed = lansează pe track"
+        type: choice
+        options: [draft, completed]
+        default: draft
+      notes:
+        description: "Note de lansare, ro-RO, max 500 de caractere (opțional)"
+        type: string
+        default: ""
+      confirm:
+        description: "Scrie «da» pentru production + completed (pleacă la toți utilizatorii)"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -35,6 +69,10 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
       - uses: gradle/actions/setup-gradle@v4
         with:
@@ -136,6 +174,25 @@ jobs:
           path: android/app/build/outputs/apk/release/*.apk
           retention-days: 14
 
+      - name: Urcă în Google Play
+        if: ${{ inputs.track != 'none' }}
+        env:
+          SA_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          PLAY_TRACK: ${{ inputs.track }}
+          PLAY_STATUS: ${{ inputs.status }}
+          PLAY_NOTES: ${{ inputs.notes }}
+          PLAY_CONFIRM: ${{ inputs.confirm }}
+        run: |
+          # Valorile intrărilor vin prin mediu, nu lipite în script (nicio injecție).
+          if [ -z "$SA_JSON" ]; then
+            echo "::error::Lipsește secretul PLAY_SERVICE_ACCOUNT_JSON (cheia JSON a contului de serviciu din Google Cloud)."
+            exit 1
+          fi
+          umask 077
+          printf '%s' "$SA_JSON" > "$RUNNER_TEMP/play-sa.json"
+          PLAY_SA_FILE="$RUNNER_TEMP/play-sa.json" \
+            node android/tools/play-upload.mjs android/app/build/outputs/bundle/release/app-release.aab
+
       - name: Șterge cheia
         if: always()
-        run: rm -f "$RUNNER_TEMP/upload.keystore" android/keystore.properties
+        run: rm -f "$RUNNER_TEMP/upload.keystore" "$RUNNER_TEMP/play-sa.json" android/keystore.properties
