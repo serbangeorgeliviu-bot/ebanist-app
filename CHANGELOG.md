@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.19.0 — 2 noiembrie 2026
+
+**Asistentul AI fără cheie pe telefon (Pro pe web).** Un abonat Pro (Stripe sau cod `comp_…`) care nu și-a pus cheia proprie folosește acum cheia Anthropic a serverului, prin `/api/ai`. Cheia stă numai în Netlify (`ANTHROPIC_API_KEY`); la următoarea rotire se schimbă o singură valoare, fără release. Funcția verifică licența ca `/api/pro`, acceptă numai Opus 5 și Sonnet 5, plafonează `max_tokens` la 4000 și nu păstrează nimic.
+- **Neschimbat:** cheia proprie și „endpoint propriu” din Setări au prioritate; licența Google Play rămâne pe cheia proprie (nu se poate verifica de pe server).
+- **Pentru deploy:** setează `ANTHROPIC_API_KEY` în Netlify (proiectul ebanist.com).
+
 ## 5.18.0 — 1 noiembrie 2026
 
 **Feroneria în 3D, din aceleași date ca fișa piesei.** Forma fiecărui articol de feronerie care are găuri sau canale în fișa de găurire iese acum din acele operații (diametru, adâncime, poziție), nu din cifre scrise separat în vizor. Așa 3D-ul și desenul tehnic nu mai pot diverge.

@@ -15516,6 +15516,14 @@ function aiSetKey(v){
     return aiKey()===(v||"");
   }catch(e){ return false; }
 }
+/* D-104: cheia Anthropic a serverului (/api/ai). Pro pe web (Stripe sau cod
+   comp_…) o folosește când utilizatorul nu și-a pus cheia sau endpoint-ul
+   propriu; licența Play nu se poate verifica pe server, deci rămâne pe cheia ei. */
+const AI_SERVER="/api/ai";
+function aiServerCode(){
+  const k=(typeof LIC!=="undefined"&&LIC&&LIC.kind!=="play"&&LIC.key)||"";
+  return /^(sub_[A-Za-z0-9]{8,64}|cs_(live|test)_[A-Za-z0-9]{10,200}|comp_[A-Za-z0-9]{24,64})$/.test(k)?k:"";
+}
 function aiModel(){ return (state.settings&&state.settings.aiModel)||"claude-opus-5"; }
 function aiProxy(){ return ((state.settings&&state.settings.aiProxy)||"").trim(); }
 const AI_MODELS=[["claude-opus-5","Opus 5"],["claude-sonnet-5","Sonnet 5"]];
@@ -15787,12 +15795,15 @@ async function aiCall(mode,text,imgs){
     tools:[{name:"applica_patch",description:"Apply a partial patch to the Ebanist state.",input_schema:aiSchema(mode)}],
     tool_choice:{type:"tool",name:"applica_patch"},
     messages:[{role:"user",content:blocks}]};
-  const proxy=aiProxy(), headers={"content-type":"application/json"};
+  let proxy=aiProxy(); const headers={"content-type":"application/json"};
   if(!proxy){
-    if(!aiKey()) throw new Error(tia("aiNoKey"));
-    headers["x-api-key"]=aiKey();
-    headers["anthropic-version"]="2023-06-01";
-    headers["anthropic-dangerous-direct-browser-access"]="true";
+    if(aiKey()){
+      headers["x-api-key"]=aiKey();
+      headers["anthropic-version"]="2023-06-01";
+      headers["anthropic-dangerous-direct-browser-access"]="true";
+    } else if(aiServerCode()){
+      proxy=AI_SERVER; headers["x-ebanist-license"]=aiServerCode();
+    } else throw new Error(tia("aiNoKey"));
   }
   const r=await fetch(proxy||AI_ENDPOINT,{method:"POST",headers,body:JSON.stringify(body)});
   const j=await r.json().catch(()=>null);
@@ -16271,7 +16282,7 @@ async function aiRun(mode){
   if(aiBusy) return;
   const ta=$("aiTxt"+mode), txt=(ta.value||"").trim();
   if(!txt&&!aiImgs.length){ toast(tia("aiImgOnly")); ta.focus(); return; }
-  if(!aiProxy()&&!aiKey()){ toast(tia("aiNoKey")); return; }
+  if(!aiProxy()&&!aiKey()&&!aiServerCode()){ toast(tia("aiNoKey")); return; }
   if(mode==="rilievo"&&!proj()){ toast(ts("svNoProject")); return; }
   aiMode=mode; aiBusy=true; aiVeil(true);
   const go=$("aiGo"+mode); go.disabled=true; const old=go.textContent; go.textContent=tia("aiThinking");
@@ -16919,7 +16930,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.18.0"; /* APP_VER-MARKER */
+const APP_VER="5.19.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
