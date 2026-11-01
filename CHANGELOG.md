@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.22.0 — 1 noiembrie 2026
+
+**Poză la articolele proprii din catalog** (sugestia unui utilizator, prin „Sugerează o funcție”). La feroneria și la materialele pe care le adaugi tu, butonul **Foto** pune o poză: se micșorează pe dispozitiv (240 px, ~10 KB), se păstrează în catalog și se vede lângă articol; ✕ o scoate. Funcționează offline.
+- **Articolele din catalogul de serie (Blum, Häfele) nu au poze**: pozele producătorilor au drepturi de autor.
+- **Confidențialitate:** pozele sunt parte din „catalogul tău”; pleacă din dispozitiv numai dacă ai cont și sincronizarea e pornită, ca restul catalogului. `privacy.html` a fost completat.
+- Ghidul „Ajutor” are un pas nou despre poze, în toate limbile.
+
+---
+
 ## 5.21.0 — 1 noiembrie 2026
 
 **Ajutor în aplicație și pe site** (D-109). Butonul **?** din antet deschide foaia „Ajutor”: 11 subiecte scurte cu pași și capturi (pornire rapidă, generator, 3D, lista, planul de tăiere, documente, releveu, modul Client, catalogul tău, Pro, backup) și 6 întrebări frecvente, cu căutare. Funcționează și fără rețea. Ecranul de bun venit are acum și butonul „Deschide ghidul”; `ebanist.com/app/#help` deschide foaia direct.

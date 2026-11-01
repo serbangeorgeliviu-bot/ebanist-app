@@ -553,6 +553,8 @@ table.t tr:last-child td{border-bottom:none}
 .hp-none{color:var(--muted);font-size:14px;padding:10px 2px}
 .hp-foot{margin:14px 0 0;text-align:center}
 .hp-foot a{color:var(--grn);font-weight:600}
+.cat-ph{display:flex;align-items:center;gap:10px;margin-top:6px}
+.cat-ph img{width:56px;height:56px;object-fit:cover;border-radius:8px;border:1px solid var(--line);flex:none}
 .toast{pointer-events:none;position:fixed;left:50%;bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
   background:var(--raised);border:1px solid var(--line);border-left:3px solid var(--gold);color:var(--text);box-shadow:var(--sh-3);
   padding:11px 18px;border-radius:10px;font-size:14px;z-index:70;opacity:0;transition:.25s;white-space:nowrap;max-width:92vw;
@@ -3547,6 +3549,13 @@ Object.assign(I18N.fr,{"dcCover":"Dossier technique","dcFor":"Préparé pour","d
 Object.assign(I18N.de,{"dcCover":"Technische Unterlagen","dcFor":"Erstellt für","dcUnits":"Korpusse im Projekt","dcContents":"Inhalt","dcSheet":"Blatt","dcAudience":"Für","dcRead":"So lesen Sie die Blätter","dcAbout":"Über","dcRead1":"Alle Maße sind in Millimetern. Teilemaße sind Fertigmaße.","dcRead2":"Auf den Teileblättern sind Bohrungen und Nuten von der Kante bis zur Achse bemaßt; gleiche Abstände stehen als n×Abstand.","dcRead3":"Schnitt A–A wird von rechts betrachtet, die Vorderseite des Möbels liegt links; Grundriss C–C von oben.","dcRead4":"Die Schraffur zeigt das geschnittene Material: Korpus, Rückwand, Fronten; Glas und Metall sind gesondert markiert.","dcRead5":"Die Nummern in der Explosionsansicht sind die Positionen der Teileliste.","dcRead6":"Bohrmaße ohne Herstellerblatt sind Katalogwerte: am ersten Teil prüfen.","dcAbout1":"Ebanist ist die Möbelplanungs-App von Domus Renov für Tischler: vom Aufmaß bis zu den Werkstattzeichnungen.","dcAudAll":"Alle","dcAudClient":"Kunde","dcAudOffice":"Büro und Werkstatt","dcAudAsm":"Monteur","dcAudShop":"Werkstatt (CNC, Zuschnitt)","dcClientKicker":"Ihr Projekt","dcClientTitle":"Kundenpräsentation","dcDims":"Abmessungen","dcMaterials":"Materialien","dcIncluded":"Enthaltene Beschläge","dcApprove":"Freigabe durch den Kunden","dcSign":"Unterschrift","dcColorNote":"Bildschirmfarben können leicht von den fertigen Materialien abweichen.","dcReportTitle":"Technischer Bericht","rpH1":"Beschreibung","rpH2":"Materialien","rpH3":"Konstruktion","rpH4":"Beschläge","rpH5":"Fertigungshinweise","rpH6":"Montage und Sicherheit","rpH7":"Prüfmaße und Übergabe","rpDesc":"{name}: {dims}; {pcs} Teile aus Platten geschnitten; geschätztes Gewicht ≈ {kg} kg.","rpJoint":"Verbindungen: {j}.","rpPlinth":"Sockel: Höhe {h} mm.","rpHung":"Wandhängendes Möbel.","rpFinal":"Alle Maße sind Fertigmaße in Millimetern; Kanten wie in der Teileliste.","rpPos":"Bearbeitungspositionen sind auf den Fertigungsblättern von der Kante bis zur Achse bemaßt.","rpUnver":"Bohrmaße ohne Herstellerblatt sind Katalogwerte: vor der Serie am ersten Teil prüfen.","rpSquare":"Korpus vor dem Befestigen der Rückwand winkelig ausrichten: beide Frontdiagonalen auf 2 mm gleich.","dcPackBtn":"Technische Unterlagen A3","dcPackH":"Technische Unterlagen","dcPackHint":"Wählen Sie die Blätter für den A3-Druck, eines pro Seite.","dcPCover":"Deckblatt und Inhalt","dcPClient":"Kundenpräsentation","dcPReport":"Technischer Bericht","dcPParts":"Fertigungsblatt für jedes Teil","dcPPartsN":"({n} Seiten)","dcPGo":"Drucken","asBtn":"Montageblatt A3","asTitle":"Montage","asView":"Explosionsansicht","asNote":"Die Nummern in der Ansicht sind die Positionen der Teileliste, wie im Teilepanel der 3D-Ansicht.","eaBtn":"A3-Zeichnung: Ansichten und Schnitte","eaTitle":"Ansichten und Schnitte","eaUnit":"Korpus","eaViewFront":"Vorderansicht","eaViewSect":"Schnitt","eaViewPlan":"Grundriss","eaLegend":"Geschnittene Materialien","eaBody":"Korpus","eaBack":"Rückwand","eaDoor":"Fronten und Türen","eaGlass":"Glas","eaMetal":"Metall","eaNote":"Maße in mm. Die Schraffur zeigt das vom Schnitt getroffene Material.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Clamex-P-14-Nut","fJoint": "Verbindungsart", "hw_confirmat": "Confirmat-Schrauben", "hw_biscuit": "Flachdübel (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Confirmat-Durchgangsbohrung", "op_pilot": "Confirmat-Vorbohrung", "op_slotBisc": "Flachdübelnut", "op_slotDom": "Domino-Zapfenloch", "ms3j": "{j}-Verbindungen ({p}): {n} Punkte an den Kanten von Boden, Deckel und festen Böden. Maße am ersten Teil prüfen, bevor der Rest gebohrt wird."});
 Object.assign(I18N.pl,{"dcCover":"Dokumentacja techniczna","dcFor":"Przygotowano dla","dcUnits":"Korpusy w projekcie","dcContents":"Spis arkuszy","dcSheet":"Arkusz","dcAudience":"Dla","dcRead":"Jak czytać arkusze","dcAbout":"O programie","dcRead1":"Wszystkie wymiary są w milimetrach. Wymiary elementów są wymiarami gotowymi.","dcRead2":"Na kartach elementów otwory i rowki są wymiarowane od krawędzi do osi; równe kroki zapisano jako n×krok.","dcRead3":"Przekrój A–A patrzy się z prawej, więc front mebla jest po lewej; rzut C–C patrzy się z góry.","dcRead4":"Kreskowanie oznacza przecięty materiał: korpus, plecy, fronty; szkło i metal oznaczono osobno.","dcRead5":"Numery na rysunku rozstrzelonym to pozycje z listy części.","dcRead6":"Wymiary wiercenia bez karty producenta to wartości katalogowe: sprawdź je na pierwszym elemencie.","dcAbout1":"Ebanist to aplikacja do projektowania mebli Domus Renov dla stolarzy: od pomiaru do rysunków warsztatowych.","dcAudAll":"Wszyscy","dcAudClient":"Klient","dcAudOffice":"Biuro i warsztat","dcAudAsm":"Monter","dcAudShop":"Warsztat (CNC, cięcie)","dcClientKicker":"Twój projekt","dcClientTitle":"Prezentacja dla klienta","dcDims":"Wymiary","dcMaterials":"Materiały","dcIncluded":"Okucia w komplecie","dcApprove":"Akceptacja klienta","dcSign":"Podpis","dcColorNote":"Kolory na ekranie mogą nieznacznie różnić się od gotowych materiałów.","dcReportTitle":"Raport techniczny","rpH1":"Opis","rpH2":"Materiały","rpH3":"Konstrukcja","rpH4":"Okucia","rpH5":"Uwagi do wykonania","rpH6":"Montaż i bezpieczeństwo","rpH7":"Kontrola i odbiór","rpDesc":"{name}: {dims}; {pcs} elementów cięte z płyty; szacowana masa ≈ {kg} kg.","rpJoint":"Połączenia: {j}.","rpPlinth":"Cokół: wysokość {h} mm.","rpHung":"Mebel wiszący.","rpFinal":"Wszystkie wymiary to wymiary gotowe w milimetrach; okleiny jak na liście części.","rpPos":"Położenia obróbek są wymiarowane od krawędzi do osi na kartach wykonania elementów.","rpUnver":"Wymiary wiercenia bez karty producenta to wartości katalogowe: sprawdź je na pierwszym elemencie przed serią.","rpSquare":"Wyrównaj korpus przed mocowaniem pleców: obie przekątne z przodu równe z dokładnością 2 mm.","dcPackBtn":"Dokumentacja techniczna A3","dcPackH":"Dokumentacja techniczna","dcPackHint":"Wybierz arkusze do wydruku A3, po jednym na stronę.","dcPCover":"Okładka i spis","dcPClient":"Prezentacja dla klienta","dcPReport":"Raport techniczny","dcPParts":"Karta wykonania każdego elementu","dcPPartsN":"({n} stron)","dcPGo":"Drukuj","asBtn":"Karta montażu A3","asTitle":"Montaż","asView":"Rysunek rozstrzelony","asNote":"Numery na rysunku to pozycje z listy części, jak w panelu części w 3D.","eaBtn":"Rysunek A3: widoki i przekroje","eaTitle":"Widoki i przekroje","eaUnit":"Korpus","eaViewFront":"Widok z przodu","eaViewSect":"Przekrój","eaViewPlan":"Rzut","eaLegend":"Przecięte materiały","eaBody":"Korpus","eaBack":"Plecy","eaDoor":"Fronty i drzwi","eaGlass":"Szkło","eaMetal":"Metal","eaNote":"Wymiary w mm. Kreskowanie oznacza materiał przecięty płaszczyzną przekroju.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Gniazdo Clamex P-14","fJoint": "Typ połączenia", "hw_confirmat": "Wkręty Confirmat", "hw_biscuit": "Lamele", "hw_domino": "Festool Domino", "op_confirmat": "Otwór przelotowy confirmat", "op_pilot": "Otwór pilotażowy confirmat", "op_slotBisc": "Gniazdo lamela", "op_slotDom": "Gniazdo Domino", "ms3j": "Połączenia {j} ({p}): {n} punktów na krawędziach dna, góry i półek stałych. Sprawdź wymiary na pierwszym elemencie, zanim wywiercisz resztę."});
 Object.assign(I18N.es,{"dcCover":"Dossier técnico","dcFor":"Preparado para","dcUnits":"Módulos del proyecto","dcContents":"Índice de hojas","dcSheet":"Hoja","dcAudience":"Para","dcRead":"Cómo leer las hojas","dcAbout":"Acerca de","dcRead1":"Todas las cotas están en milímetros. Las medidas de las piezas son medidas acabadas.","dcRead2":"En las hojas de pieza, taladros y ranuras se acotan del borde al eje; los pasos iguales se escriben n×paso.","dcRead3":"La sección A–A se mira desde la derecha, así el frente del mueble queda a la izquierda; la planta C–C se mira desde arriba.","dcRead4":"El rayado indica el material cortado: estructura, trasera, frentes; vidrio y metal se marcan aparte.","dcRead5":"Los números de la vista despiezada son las posiciones de la lista de piezas.","dcRead6":"Las cotas de taladrado sin ficha del fabricante son valores de catálogo: compruébalas en la primera pieza.","dcAbout1":"Ebanist es la aplicación de diseño de muebles de Domus Renov para ebanistas: del levantamiento a los planos de taller.","dcAudAll":"Todos","dcAudClient":"Cliente","dcAudOffice":"Oficina y taller","dcAudAsm":"Montador","dcAudShop":"Taller (CNC, corte)","dcClientKicker":"Tu proyecto","dcClientTitle":"Presentación al cliente","dcDims":"Dimensiones","dcMaterials":"Materiales","dcIncluded":"Herrajes incluidos","dcApprove":"Aprobación del cliente","dcSign":"Firma","dcColorNote":"Los colores en pantalla pueden diferir ligeramente de los materiales acabados.","dcReportTitle":"Informe técnico","rpH1":"Descripción","rpH2":"Materiales","rpH3":"Construcción","rpH4":"Herrajes","rpH5":"Notas de fabricación","rpH6":"Montaje y seguridad","rpH7":"Controles y entrega","rpDesc":"{name}: {dims}; {pcs} piezas cortadas de tablero; peso estimado ≈ {kg} kg.","rpJoint":"Uniones: {j}.","rpPlinth":"Zócalo: altura {h} mm.","rpHung":"Mueble suspendido a la pared.","rpFinal":"Todas las cotas son medidas acabadas en milímetros; canteado como en la lista de piezas.","rpPos":"Las posiciones de mecanizado se acotan del borde al eje en las hojas de fabricación de las piezas.","rpUnver":"Las cotas de taladrado sin ficha del fabricante son valores de catálogo: compruébalas en la primera pieza antes de la serie.","rpSquare":"Escuadra el módulo antes de fijar la trasera: las dos diagonales frontales iguales con 2 mm de diferencia.","dcPackBtn":"Dossier técnico A3","dcPackH":"Dossier técnico","dcPackHint":"Elige las hojas para imprimir en A3, una por página.","dcPCover":"Portada e índice","dcPClient":"Presentación al cliente","dcPReport":"Informe técnico","dcPParts":"Hoja de fabricación de cada pieza","dcPPartsN":"({n} páginas)","dcPGo":"Imprimir","asBtn":"Hoja de montaje A3","asTitle":"Montaje","asView":"Vista despiezada","asNote":"Los números de la vista son las posiciones de la lista de piezas, como en el panel de piezas del 3D.","eaBtn":"Plano A3: alzados y secciones","eaTitle":"Alzados y secciones","eaUnit":"Módulo","eaViewFront":"Alzado frontal","eaViewSect":"Sección","eaViewPlan":"Planta","eaLegend":"Materiales cortados","eaBody":"Estructura","eaBack":"Trasera","eaDoor":"Frentes y puertas","eaGlass":"Vidrio","eaMetal":"Metal","eaNote":"Cotas en mm. El rayado indica el material cortado por el plano de sección.","hw_clamex":"Lamello Clamex P-14","op_slotClx":"Ranura Clamex P-14","fJoint": "Tipo de unión", "hw_confirmat": "Tornillos Confirmat", "hw_biscuit": "Láminas (Lamello)", "hw_domino": "Festool Domino", "op_confirmat": "Taladro pasante confirmat", "op_pilot": "Taladro piloto confirmat", "op_slotBisc": "Ranura de lámina", "op_slotDom": "Mortaja Domino", "ms3j": "Uniones {j} ({p}): {n} puntos en los cantos de base, techo y estantes fijos. Comprueba las cotas en la primera pieza antes de taladrar el resto."});
+Object.assign(I18N.it,{"hwOwnPhoto":"Foto","hwOwnPhotoDel":"Elimina la foto","hwOwnPhotoErr":"Foto non leggibile"});
+Object.assign(I18N.ro,{"hwOwnPhoto":"Foto","hwOwnPhotoDel":"Șterge poza","hwOwnPhotoErr":"Nu am putut citi poza"});
+Object.assign(I18N.en,{"hwOwnPhoto":"Photo","hwOwnPhotoDel":"Remove photo","hwOwnPhotoErr":"Could not read the photo"});
+Object.assign(I18N.fr,{"hwOwnPhoto":"Photo","hwOwnPhotoDel":"Supprimer la photo","hwOwnPhotoErr":"Photo illisible"});
+Object.assign(I18N.de,{"hwOwnPhoto":"Foto","hwOwnPhotoDel":"Foto entfernen","hwOwnPhotoErr":"Foto nicht lesbar"});
+Object.assign(I18N.pl,{"hwOwnPhoto":"Zdjęcie","hwOwnPhotoDel":"Usuń zdjęcie","hwOwnPhotoErr":"Nie można odczytać zdjęcia"});
+Object.assign(I18N.es,{"hwOwnPhoto":"Foto","hwOwnPhotoDel":"Quitar la foto","hwOwnPhotoErr":"No se pudo leer la foto"});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -12912,6 +12921,26 @@ $("logoFile").addEventListener("change",e=>{
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
   ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
+/* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
+   poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
+const CAT_PH_MAX=240;
+function catPhotoRow(kind,id,img){
+  return `<div class="cat-ph">${img?`<img src="${img}" alt="" width="56" height="56">`:""}
+    <label class="btn sm">${esc(t("hwOwnPhoto"))}<input type="file" accept="image/*" class="catPhIn" data-kind="${kind}" data-id="${id}" hidden></label>
+    ${img?`<button class="iconbtn danger catPhDel" data-kind="${kind}" data-id="${id}" title="${esc(t("hwOwnPhotoDel"))}" aria-label="${esc(t("hwOwnPhotoDel"))}">✕</button>`:""}</div>`;
+}
+function catPhOwner(kind,id){ const S=state.settings; return ((kind==="hw"?S.hwAdd:S.matAdd)||[]).find(x=>x.id===id); }
+function catPhWire(root){
+  root.querySelectorAll(".catPhIn").forEach(inp=>inp.addEventListener("change",async()=>{
+    const f=inp.files&&inp.files[0]; if(!f) return;
+    const o=catPhOwner(inp.dataset.kind,inp.dataset.id); if(!o) return;
+    try{ o.img=await imgShrink(f,CAT_PH_MAX,0.72); persist(); renderCatalog(); }
+    catch(e){ toast(t("hwOwnPhotoErr")); }
+  }));
+  root.querySelectorAll(".catPhDel").forEach(b=>b.addEventListener("click",()=>{
+    const o=catPhOwner(b.dataset.kind,b.dataset.id); if(o){ delete o.img; persist(); renderCatalog(); }
+  }));
+}
 function renderCatalog(){
   const S=state.settings;
   renderSuppliers();
@@ -12929,7 +12958,7 @@ function renderCatalog(){
       ${it.custom?`<div style="display:flex;gap:8px;margin-top:6px">
         <input class="catOwnBrand" data-id="${it.id}" placeholder="${esc(t("hwOwnBrand"))}" value="${esc(it.brand||"")}" style="flex:1">
         <input class="catOwnName" data-id="${it.id}" placeholder="${esc(t("hwOwnName"))}" value="${esc(it.name||"")}" style="flex:2">
-        <button class="iconbtn danger catOwnDel" data-id="${it.id}" data-cat="${cat}" title="${esc(t("hwOwnDel"))}">✕</button></div>`:""}
+        <button class="iconbtn danger catOwnDel" data-id="${it.id}" data-cat="${cat}" title="${esc(t("hwOwnDel"))}">✕</button></div>${catPhotoRow("hw",it.id,it.img)}`:""}
       <button class="btn sm catOwnAdd" data-cat="${cat}" style="margin-top:6px">＋ ${esc(t("hwOwnAdd"))}</button>
       </div>`;
   }).join("");
@@ -12955,6 +12984,7 @@ function renderCatalog(){
         <input class="catMatDecor" data-mid="${m.id}" placeholder="${esc(t("decorPh"))}" value="${esc(eff.decor||"")}">
         <input class="catMatPrice" data-mid="${m.id}" type="number" step="0.01" inputmode="decimal" value="${eff.price}" title="€/m²">
       </div>
+      ${custom?catPhotoRow("mat",m.id,m.img):""}
       <div class="cat-mat-r3">
         <input class="catMatTh" data-mid="${m.id}" type="number" inputmode="numeric" value="${eff.th}" ${custom?"":"disabled"} title="${esc(t("fThickness"))}">
         <input class="catMatPw" data-mid="${m.id}" type="number" inputmode="numeric" value="${eff.pw||state.settings.panelL}" title="L">
@@ -12989,6 +13019,7 @@ function renderCatalog(){
       l:{it:"Nuovo materiale",ro:"Material nou",en:"New material",fr:"Nouveau matériau",de:"Neues Material",pl:"Nowy materiał",es:"Material nuevo"}});
     persist(); renderCatalog(); fillMatSelects();
   });
+  catPhWire($("catHwWrap")); catPhWire($("catMatWrap"));
   /* U.2 — articole proprii: marca, nume, cod si pret ca date, ca materialele */
   const ownOf=id=>(state.settings.hwAdd||[]).find(x=>x.id===id);
   $("catHwWrap").querySelectorAll(".catOwnAdd").forEach(b2=>b2.addEventListener("click",()=>{
@@ -14395,14 +14426,16 @@ function svPhHydrate(root){
     });
   });
 }
-function svPhShrink(file){
+function svPhShrink(file){ return imgShrink(file,SV_PH_MAX,0.72); }
+/* poză → JPEG mic, local (releveu: 1280 px; catalog propriu: 240 px) */
+function imgShrink(file,max,q){
   return new Promise((res,rej)=>{
     const url=URL.createObjectURL(file), im=new Image();
     im.onload=()=>{
-      const k=Math.min(1,SV_PH_MAX/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement("canvas");
+      const k=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight)), c=document.createElement("canvas");
       c.width=Math.max(1,Math.round(im.naturalWidth*k)); c.height=Math.max(1,Math.round(im.naturalHeight*k));
       c.getContext("2d").drawImage(im,0,0,c.width,c.height); URL.revokeObjectURL(url);
-      res(c.toDataURL("image/jpeg",0.72));
+      res(c.toDataURL("image/jpeg",q));
     };
     im.onerror=()=>{ URL.revokeObjectURL(url); rej(new Error("img")); };
     im.src=url;
@@ -17089,12 +17122,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.21.0"; /* APP_VER-MARKER */
+const APP_VER="5.22.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v189";
+const SW_CACHE="ebanist-v190";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

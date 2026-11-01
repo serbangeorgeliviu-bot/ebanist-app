@@ -2847,6 +2847,21 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       try { setView("summary"); o.sum = true; } catch (e) { o.sum = String(e); }
       p.pieces = p.pieces.filter(q => q.gen !== "Hw1" && q.gen !== "Hw2"); delete p.configs["Hw1"]; delete p.configs["Hw2"]; persist();
       return o; });
+    /* poza articolului propriu (5.22.0): se micsoreaza, ramane in articol, se vede, se poate scoate; cele de serie nu au poza */
+    {
+      const prevCern = await pg.evaluate(() => { closeSheets(); const prev = state.settings.hwProd.cern; state.settings.hwProd.cern = state.settings.hwAdd[0].id; renderCatalog(); openSheet("shCatalog"); return prev; });
+      const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVR4nGP8z8Dwn4EIwESMolGF5FUIAKvMBAw1OZb2AAAAAElFTkSuQmCC", "base64");
+      const hid = await pg.evaluate(() => state.settings.hwAdd[0].id);
+      await pg.setInputFiles(`.catPhIn[data-kind="hw"][data-id="${hid}"]`, { name: "b.png", mimeType: "image/png", buffer: png });
+      await pg.waitForTimeout(500);
+      const ph = await pg.evaluate(id => ({ img: (state.settings.hwAdd.find(x => x.id === id) || {}).img || "", thumb: !!document.querySelector("#catHwWrap .cat-ph img"),
+        del: !!document.querySelector("#catHwWrap .catPhDel"), serie: !!document.querySelector('#catHwWrap .catSel') && !((HWDB.cern[0]) || {}).img }), hid);
+      ok("5.22.0: poza articolului propriu: JPEG mic in articol, miniatura si ✕ vizibile, articolele de serie fara poza",
+         ph.img.startsWith("data:image/jpeg") && ph.img.length < 60000 && ph.thumb && ph.del && ph.serie, JSON.stringify({ n: ph.img.length, t: ph.thumb, d: ph.del, s: ph.serie }));
+      await pg.evaluate(() => document.querySelector("#catHwWrap .catPhDel").click()); await pg.waitForTimeout(200);
+      ok("5.22.0: ✕ scoate poza", await pg.evaluate(id => !state.settings.hwAdd.find(x => x.id === id).img && !document.querySelector("#catHwWrap .cat-ph img"), hid));
+      await pg.evaluate(prev => { closeSheets(); state.settings.hwProd.cern = prev; }, prevCern);
+    }
     ok("U.2: alegerea ajunge in cfg", r.sel && r.sel.cern && r.sel.cern.startsWith("u"), JSON.stringify(r).slice(0, 200));
     ok("U.2: devizul are doua randuri de balamale — propriul pe Hw1, cel din catalog pe Hw2, fiecare cu pretul lui", r.rows.length === 2 && r.rows.some(x => x[1] === "Balama X" && x[2] === 3.2) && r.rows.some(x => x[1] !== "Balama X"), JSON.stringify(r.rows));
     ok("U.2: fisa de montaj si rezumatul fara erori", r.mont === true && r.sum === true, JSON.stringify(r).slice(0, 200));
