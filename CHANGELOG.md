@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.21.0 — 1 noiembrie 2026
+
+**Ajutor în aplicație și pe site** (D-108). Butonul **?** din antet deschide foaia „Ajutor”: 11 subiecte scurte cu pași și capturi (pornire rapidă, generator, 3D, lista, planul de tăiere, documente, releveu, modul Client, catalogul tău, Pro, backup) și 6 întrebări frecvente, cu căutare. Funcționează și fără rețea. Ecranul de bun venit are acum și butonul „Deschide ghidul”; `ebanist.com/app/#help` deschide foaia direct.
+- **Pe site:** pagina `/help/` în toate cele 7 limbi (cu link în antet și în subsol, în sitemap, cu întrebările frecvente marcate pentru motoarele de căutare). Textele sunt aceleași ca în aplicație: un singur fișier, `app/ebanist-help.js`.
+- **Capturile** sunt făcute din aplicație, cu un cerc pe butonul la care se referă pasul (`site-src/tools/help-capture.cjs`).
+- **Neschimbat:** nimic nu se trimite în afară și nimic nu se măsoară din ajutor.
+
+---
+
 ## 5.20.0 — 2 noiembrie 2026
 
 **Asistentul AI fără cheie pe telefon (Pro pe web).** Un abonat Pro (Stripe sau cod `comp_…`) care nu și-a pus cheia proprie folosește acum cheia Anthropic a serverului, prin `/api/ai`. Cheia stă numai în Netlify (`ANTHROPIC_API_KEY`); la următoarea rotire se schimbă o singură valoare, fără release. Funcția verifică licența ca `/api/pro`, acceptă numai Opus 5 și Sonnet 5, plafonează `max_tokens` la 4000 și nu păstrează nimic.

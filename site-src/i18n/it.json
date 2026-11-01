@@ -368,5 +368,10 @@
  "blog.s9.h": "Un foglio A3 di montaggio per ogni corpo",
  "blog.s9.p": "Una vista esplosa con i pezzi numerati come nell'elenco pezzi, l'elenco per posizione, la ferramenta con i codici e la sequenza di montaggio, su un foglio A3 per ogni corpo.",
  "blog.s10.h": "Un dossier tecnico completo, pronto da stampare",
- "blog.s10.p": "Una copertina con indice e guida alla lettura, una presentazione per il cliente con grandi render 3D, materiali e riga per la firma, e una relazione tecnica costruita dai dati del tuo progetto. Un solo pulsante stampa il set su A3, a scelta con il foglio di fabbricazione di ogni pezzo."
+ "blog.s10.p": "Una copertina con indice e guida alla lettura, una presentazione per il cliente con grandi render 3D, materiali e riga per la firma, e una relazione tecnica costruita dai dati del tuo progetto. Un solo pulsante stampa il set su A3, a scelta con il foglio di fabbricazione di ogni pezzo.",
+ "help.nav": "Guida",
+ "help.meta.title": "Guida e istruzioni · Ebanist",
+ "help.meta.desc": "Guide passo passo per Ebanist con immagini dell'app vera: la prima distinta, 3D, documenti, rilievo, modalità Cliente, backup e Pro. Le trovi anche nell'app, offline.",
+ "help.h": "Impara Ebanist in dieci minuti.",
+ "help.lead": "Guide brevi, passo passo, con immagini prese dall'app vera. La stessa guida è dentro l'app e funziona offline."
 }

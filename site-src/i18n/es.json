@@ -368,5 +368,10 @@
  "blog.s9.h": "Una hoja de montaje A3 por módulo",
  "blog.s9.p": "Una vista despiezada con las piezas numeradas como en la lista de piezas, la lista por posición, la herrajería con códigos y la secuencia de montaje, en una hoja A3 por módulo.",
  "blog.s10.h": "Un dossier técnico completo, listo para imprimir",
- "blog.s10.p": "Una portada con índice y guía de lectura, una presentación al cliente con grandes renders 3D, materiales y línea de firma, y un informe técnico construido con los datos de tu proyecto. Un solo botón imprime el conjunto en A3, opcionalmente con la hoja de fabricación de cada pieza."
+ "blog.s10.p": "Una portada con índice y guía de lectura, una presentación al cliente con grandes renders 3D, materiales y línea de firma, y un informe técnico construido con los datos de tu proyecto. Un solo botón imprime el conjunto en A3, opcionalmente con la hoja de fabricación de cada pieza.",
+ "help.nav": "Ayuda",
+ "help.meta.title": "Ayuda y guías · Ebanist",
+ "help.meta.desc": "Guías paso a paso de Ebanist con capturas de la aplicación real: primera lista de despiece, 3D, documentos, medición, modo Cliente, copias de seguridad y Pro. También dentro de la aplicación, sin conexión.",
+ "help.h": "Aprende Ebanist en diez minutos.",
+ "help.lead": "Guías cortas, paso a paso, con capturas de la aplicación real. La misma guía está dentro de la aplicación y funciona sin conexión."
 }

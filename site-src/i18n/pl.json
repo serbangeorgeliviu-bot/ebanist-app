@@ -368,5 +368,10 @@
  "blog.s9.h": "Karta montażu A3 dla każdego korpusu",
  "blog.s9.p": "Rysunek rozstrzelony z elementami ponumerowanymi jak na liście części, lista części według pozycji, okucia z kodami i kolejność montażu, na jednym arkuszu A3 dla każdego korpusu.",
  "blog.s10.h": "Kompletna dokumentacja techniczna, gotowa do druku",
- "blog.s10.p": "Okładka ze spisem i wskazówkami czytania, prezentacja dla klienta z dużymi renderami 3D, materiałami i miejscem na podpis oraz raport techniczny zbudowany z danych projektu. Jeden przycisk drukuje komplet na A3, opcjonalnie z kartą wykonania każdego elementu."
+ "blog.s10.p": "Okładka ze spisem i wskazówkami czytania, prezentacja dla klienta z dużymi renderami 3D, materiałami i miejscem na podpis oraz raport techniczny zbudowany z danych projektu. Jeden przycisk drukuje komplet na A3, opcjonalnie z kartą wykonania każdego elementu.",
+ "help.nav": "Pomoc",
+ "help.meta.title": "Pomoc i przewodniki · Ebanist",
+ "help.meta.desc": "Przewodniki krok po kroku dla Ebanist ze zrzutami prawdziwej aplikacji: pierwsza lista formatek, 3D, dokumenty, pomiar, tryb Klient, kopie zapasowe i Pro. Dostępne też w aplikacji, offline.",
+ "help.h": "Poznaj Ebanist w dziesięć minut.",
+ "help.lead": "Krótkie przewodniki krok po kroku ze zrzutami ekranu z prawdziwej aplikacji. Ten sam przewodnik jest w aplikacji i działa offline."
 }

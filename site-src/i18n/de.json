@@ -368,5 +368,10 @@
  "blog.s9.h": "Ein A3-Montageblatt pro Korpus",
  "blog.s9.p": "Eine Explosionsansicht mit den Teilen nummeriert wie in der Teileliste, die Teileliste nach Position, die Beschläge mit Artikelnummern und die Montagefolge, auf einem A3-Blatt pro Korpus.",
  "blog.s10.h": "Vollständige technische Unterlagen, druckfertig",
- "blog.s10.p": "Ein Deckblatt mit Inhalt und Lesehilfe, eine Kundenpräsentation mit großen 3D-Renderings, Materialien und Unterschriftsfeld sowie ein technischer Bericht aus den Daten Ihres Projekts. Ein Knopf druckt den Satz auf A3, wahlweise mit dem Fertigungsblatt jedes Teils."
+ "blog.s10.p": "Ein Deckblatt mit Inhalt und Lesehilfe, eine Kundenpräsentation mit großen 3D-Renderings, Materialien und Unterschriftsfeld sowie ein technischer Bericht aus den Daten Ihres Projekts. Ein Knopf druckt den Satz auf A3, wahlweise mit dem Fertigungsblatt jedes Teils.",
+ "help.nav": "Hilfe",
+ "help.meta.title": "Hilfe und Anleitungen · Ebanist",
+ "help.meta.desc": "Schritt-für-Schritt-Anleitungen für Ebanist mit Screenshots aus der echten App: erste Zuschnittliste, 3D, Dokumente, Aufmaß, Kundenmodus, Sicherungen und Pro. Auch in der App verfügbar, offline.",
+ "help.h": "Ebanist in zehn Minuten lernen.",
+ "help.lead": "Kurze Schritt-für-Schritt-Anleitungen mit Screenshots aus der echten App. Dieselbe Anleitung steckt in der App und funktioniert offline."
 }
