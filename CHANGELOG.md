@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.15.1 — 1 noiembrie 2026
+
+**Mesajele validatorilor de cote, în limba interfeței:** erorile de la cotele absolute (partiții, uși, sertare, profil de adâncime) și de la spate pe coloane / rinforzo / filler / grile se afișează în italiană, engleză și franceză (germana, poloneza și spaniola primesc engleza, nu româna). Cotele și validarea nu se schimbă; textele nucleului rămân sursa. Test nou: `au-layout-i18n`.
+
+---
+
 ## 5.15.0 — 31 octombrie 2026
 
 **Export DXF 2D pe straturi pentru CNC:** buton nou „DXF 2D (CNC)" în export (tot proiectul, ZIP) și „DXF" pe fișa piesei. Un fișier AutoCAD R12 ASCII pe piesă (și pe față, când are operații pe fața 6), cu aceeași geometrie ca foaia A3: `PANEL_CUT`, `DRILL_V_D*_Z*`, `DRILL_H_<muchie>_D*_Z*`, `GROOVE_Z*_W*`, `INFO_TEXT`, plus `SLOT_*` și `MILL_*`. Originea e colțul stânga-jos al feței de prelucrare; pe fața 6, X e oglindit. Cu opțiunea „Cota de tăiere minus cantul" activă, `PANEL_CUT` poartă cota de tăiere, iar cota finită rămâne pe `PANEL_FINISHED`. Cotele HW_DRILL neverificate rămân neverificate.

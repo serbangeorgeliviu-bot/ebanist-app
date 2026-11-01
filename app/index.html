@@ -2517,6 +2517,7 @@ if(window.CORE_REV!=="5.13.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-asm.js"></script>
 <script src="./ebanist-doc.js"></script>
 <script src="./ebanist-au-i18n.js"></script>
+<script src="./ebanist-au-layout-i18n.js"></script>
 <!-- Magazzino durevole, configurazione dell'incasso, licenze. Tutti e tre
      script classici e SINCRONI, prima del corpo dell'app: `loadState()`
      gira alla prima riga dello script che segue e deve gia trovarli. -->
@@ -10024,7 +10025,7 @@ function renderAbsCheck(){
   const el=$("absCheck"); if(!el) return;
   const n=ABS_KINDS.reduce((s2,k)=>s2+absList(k).length,0);
   const chk=absCheck();
-  el.innerHTML=(chk.errors.length?chk.errors.map(e=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(e)}</div>`).join(""):(n?`<div class="mini">✓ ${esc(ts2("absOk"))}</div>`:""))
+  el.innerHTML=(chk.errors.length?chk.errors.map(e=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(auT(e))}</div>`).join(""):(n?`<div class="mini">✓ ${esc(ts2("absOk"))}</div>`:""))
     +(chk.chains&&!chk.errors.length?`<div class="mini" style="margin-top:4px;opacity:.8">${(chk.chains.V||[]).map(c=>esc(ts2("absColV"))+" "+c.col+": "+esc(c.text)).join("<br>")}</div>`:"");
 }
 function renderAbs(){
@@ -10199,7 +10200,7 @@ function drawPreview(){
      e lasciare a vista i numeri del corpo precedente. */
   let built;
   try{ built=buildModule(buildCfg); }
-  catch(e){ if(buildCfg.type==="contur"){ if(contLast&&contLast.ok) $("contHint").textContent=e&&e.message||String(e); return; } toast(e&&e.message||String(e)); return; }
+  catch(e){ if(buildCfg.type==="contur"){ if(contLast&&contLast.ok) $("contHint").textContent=e&&e.message||String(e); return; } toast(auT(e&&e.message||String(e))); return; }
   const pieces=built.pieces;
   /* lo stesso conto della distinta e della vista dei pezzi: i fondi in HDF
      sono pezzi (hanno un materiale proprio, ma si tagliano), l'asta no */
@@ -10705,7 +10706,7 @@ $("btnGenerate").addEventListener("click",()=>{
      calcolate su una grossezza che nessuno ha scelto. */
   let gen;
   try{ gen=generateInto(p,cfg); }
-  catch(e){ toast(e&&e.message||String(e)); return; }
+  catch(e){ toast(auT(e&&e.message||String(e))); return; }
   const {pieces,rows}=gen;
   persist(); setView("list");
   /* le regole girano a OGNI generazione, prima di qualunque esportazione */
@@ -16257,7 +16258,7 @@ function aiCheckHTML(C){
   /* senza pezzi generati le cote della distinta attesa non si possono
      confrontare: si dice, invece di accusarle tutte di essere perse */
   if(C.unused.length) h.push(`<div class="aiblock"><b>${esc(tia(C.built?"aiBlkUnused":"aiBlkUnchecked"))}</b> ${C.unused.map(c=>`<b>${esc(c.raw)}</b>`).join(", ")}</div>`);
-  if(C.errors.length) h.push(`<div class="aiblock"><b>${esc(tia("aiBlkErr"))}</b><ul>${C.errors.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>`);
+  if(C.errors.length) h.push(`<div class="aiblock"><b>${esc(tia("aiBlkErr"))}</b><ul>${C.errors.map(e=>`<li>${esc(auT(e))}</li>`).join("")}</ul></div>`);
   if(C.built){
     const pcs=C.built.pieces.filter(x=>!x.mat);
     const n=pcs.reduce((s,x)=>s+x.pz,0);
@@ -16867,12 +16868,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.15.0"; /* APP_VER-MARKER */
+const APP_VER="5.15.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v181";
+const SW_CACHE="ebanist-v182";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
