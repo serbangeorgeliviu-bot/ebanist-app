@@ -85,6 +85,10 @@
   from = "/api/stats"
   to = "/.netlify/functions/stats"
   status = 200
+[[redirects]]
+  from = "/api/funnel"
+  to = "/.netlify/functions/funnel"
+  status = 200
 
 # Sursele aplicației Android stau în repo, nu pe site.
 [[redirects]]

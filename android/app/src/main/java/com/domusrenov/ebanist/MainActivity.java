@@ -41,6 +41,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -309,6 +311,19 @@ public class MainActivity extends Activity {
             Toast.makeText(this, R.string.no_app, Toast.LENGTH_SHORT).show();
     }
 
+    /* Play In-App Review. Orice eșec (aplicație instalată din afara Play,
+       Play Services lipsă, cotă depășită) se înghite: o cerere de recenzie
+       nu trebuie să strice niciodată un moment de lucru. */
+    void askReview() {
+        try {
+            ReviewManager rm = ReviewManagerFactory.create(this);
+            rm.requestReviewFlow().addOnCompleteListener(task -> {
+                if (!task.isSuccessful() || isFinishing()) return;
+                try { rm.launchReviewFlow(this, task.getResult()); } catch (Throwable ignored) { }
+            });
+        } catch (Throwable ignored) { }
+    }
+
     boolean tryStart(Intent i) {
         try {
             startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -572,6 +587,24 @@ public class MainActivity extends Activity {
         public void billingManage() {
             openExternal(Uri.parse("https://play.google.com/store/account/subscriptions?sku="
                     + PlayBilling.PRODUCT_ID + "&package=" + getPackageName()));
+        }
+
+        /* ---- recenzie în Google Play ----
+           requestReview: dialogul de stele al Google, peste aplicație.
+           Google decide singur dacă îl arată (are o cotă) și nu spune ce a
+           făcut omul, deci nu așteptăm niciun răspuns. Când și cât de des
+           se cere hotărăște ebanist-review.js, nu partea nativă.
+           rateStore: butonul manual din Setări — pagina aplicației în Play. */
+        @JavascriptInterface
+        public void requestReview() { runOnUiThread(() -> askReview()); }
+
+        @JavascriptInterface
+        public void rateStore() {
+            runOnUiThread(() -> {
+                String id = getPackageName();
+                if (!tryStart(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + id))))
+                    openExternal(Uri.parse("https://play.google.com/store/apps/details?id=" + id));
+            });
         }
 
         @JavascriptInterface
