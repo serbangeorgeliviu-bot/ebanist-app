@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.20.1 — 2 noiembrie 2026
+
+**Poza din Asistentul AI se încarcă și din galeria telefonului.** Pozele mari (10–20 MB) nu se mai țin de trei ori în memorie: se decodează direct din fișier (`createImageBitmap`, cu orientarea EXIF corectată), cu rezervă pe blob URL. Dacă o poză tot nu se poate citi, mesajul arată acum și motivul (de ex. „decode (image/heic, 8200 KB)”), ca să se poată raporta.
+
+---
+
 ## 5.20.0 — 2 noiembrie 2026
 
 **Asistentul AI fără cheie pe telefon (Pro pe web).** Un abonat Pro (Stripe sau cod `comp_…`) care nu și-a pus cheia proprie folosește acum cheia Anthropic a serverului, prin `/api/ai`. Cheia stă numai în Netlify (`ANTHROPIC_API_KEY`); la următoarea rotire se schimbă o singură valoare, fără release. Funcția verifică licența ca `/api/pro`, acceptă numai Opus 5 și Sonnet 5, plafonează `max_tokens` la 4000 și nu păstrează nimic.
