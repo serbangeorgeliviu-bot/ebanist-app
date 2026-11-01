@@ -546,6 +546,8 @@ function auTx(s, lang) {
   for (var k in D) {
     if (k.slice(-2) === ": " && s.indexOf(k) === 0) return D[k] + s.slice(k.length);
   }
+  /* mesajele compuse ale validatorilor de cote (ebanist-au-layout-i18n.js) */
+  if (typeof auLayoutTx === "function") return auLayoutTx(s, lang);
   return s;
 }
 
