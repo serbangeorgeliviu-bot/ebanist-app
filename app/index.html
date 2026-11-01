@@ -533,6 +533,26 @@ table.t tr:last-child td{border-bottom:none}
 .updBar{position:fixed;left:0;right:0;top:0;z-index:9999;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:calc(8px + env(safe-area-inset-top)) 12px 8px;background:var(--grn);color:#fff;font-size:14px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
 .updBar b{font-weight:600}.updBar button{font:inherit;border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;border-radius:8px;padding:5px 12px;cursor:pointer}
 .updBar button.go{background:#fff;color:var(--grn);font-weight:600}
+/* ajutor (D-109) */
+.hp-search{width:100%;margin:0 0 12px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--raised);color:var(--text);font:inherit;font-size:15px}
+.hp-h{margin:14px 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.hp-item{border:1px solid var(--line);border-radius:12px;background:var(--raised);margin-bottom:8px}
+.hp-item>summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hp-item>summary::-webkit-details-marker{display:none}
+.hp-item>summary::after{content:"+";color:var(--muted);font-weight:400;font-size:22px;line-height:1;flex:none}
+.hp-item[open]>summary::after{content:"\2013"}
+.hp-in{padding:0 14px 14px}
+.hp-in p{margin:0}
+.hp-lead{color:var(--muted);font-size:14px;margin-bottom:10px!important}
+.hp-steps{margin:0 0 10px;padding-left:22px;font-size:14.5px;line-height:1.5}
+.hp-steps li{margin-bottom:6px}
+.hp-tip{font-size:13.5px;line-height:1.45;padding:9px 12px;border-left:3px solid var(--grn);background:var(--surface);border-radius:0 8px 8px 0}
+.hp-fig{margin:12px 0 0}
+.hp-fig img{display:block;width:100%;max-width:250px;height:auto;margin:0 auto;border-radius:12px;border:1px solid var(--line)}
+.hp-fig-wide img{max-width:100%}
+.hp-none{color:var(--muted);font-size:14px;padding:10px 2px}
+.hp-foot{margin:14px 0 0;text-align:center}
+.hp-foot a{color:var(--grn);font-weight:600}
 .toast{pointer-events:none;position:fixed;left:50%;bottom:calc(var(--nav-h) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
   background:var(--raised);border:1px solid var(--line);border-left:3px solid var(--gold);color:var(--text);box-shadow:var(--sh-3);
   padding:11px 18px;border-radius:10px;font-size:14px;z-index:70;opacity:0;transition:.25s;white-space:nowrap;max-width:92vw;
@@ -1308,6 +1328,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="hbtn hbtn-client" id="btnClient" title="Cliente" aria-label="Cliente" data-ti="cmBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="m10 8 4 2-4 2z" fill="currentColor"/></svg>
     <span data-i="cmBtn">Cliente</span>
+  </button>
+  <!-- ajutor (D-109): conținutul vine din ebanist-help.js, aceeași sursă ca ebanist.com/help/ -->
+  <button class="hbtn" id="btnHelp" title="Help" aria-label="Help">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.8 2.4-2.8 4.1"/><path d="M12 17.6h.01"/></svg>
   </button>
   <button class="hbtn" id="btnAccount" title="Account" aria-label="Account" data-ti="tiAccount">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -2294,6 +2318,15 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   </div>
 </div>
 
+<!-- Ajutor (D-109) -->
+<div class="sheet" id="shHelp" style="max-height:90vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 id="helpTitle">Help</h3>
+  <input type="search" id="helpQ" class="hp-search" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <div id="helpBody"></div>
+  <p class="mini hp-foot" id="helpFoot"></p>
+</div>
+
 <!-- Atelier (E0, D-92): ascuns dietro ?atelier=1 -->
 <div class="sheet" id="shAtelier" style="max-height:88vh;overflow-y:auto">
   <div class="sheet-grip"></div>
@@ -2340,6 +2373,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <p><b>📷 </b><span data-i="intro3">Mostra il mobile nella foto della stanza del cliente ed esporta il JPG su WhatsApp.</span></p>
   </div>
   <button class="btn red" id="btnIntroGo" data-i="introGo" style="margin-top:8px">Inizia</button>
+  <button class="btn" id="btnIntroHelp" style="margin-top:8px"></button>
 </div>
 
 <div class="sheet" id="shPack" style="max-height:80vh;overflow-y:auto">
@@ -2542,6 +2576,7 @@ if(window.CORE_REV!=="5.13.0") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-advice.js"></script>
 <script src="./ebanist-lambriu.js"></script>
 <script src="./ebanist-contour.js"></script>
+<script src="./ebanist-help.js"></script>
 <!-- Order Rail. Cale absolută: aceleași fișiere le încarcă și pagina de
      inbox și cea de comandă, care nu stau în /app/. Slug-ul se citește
      sincron — de el depinde dacă prima tipărire pune filigran. -->
@@ -5146,6 +5181,7 @@ function applyLang(){
   if($("passBtnLbl")&&window.EBPassport){ $("passBtnLbl").textContent=EBPassport.t(state.lang,"passBtn");
     $("sPassNoteLbl").textContent=EBPassport.t(state.lang,"passNoteLbl"); $("sPassNoteHint").textContent=EBPassport.t(state.lang,"passNoteHint"); }
   if($("sPayLbl")&&window.EBCommerce){ $("sPayLbl").textContent=EBCommerce.t(state.lang,"payLbl"); $("sPayHint").textContent=EBCommerce.t(state.lang,"payHint"); $("hoBtnLbl").textContent=EBCommerce.t(state.lang,"hoBtn"); }
+  if(typeof helpApply==="function") helpApply();
   if(typeof aiMount==="function") aiMount();
 }
 
@@ -16996,6 +17032,51 @@ function backupReminder(){
   toast(state.lastBk?t("bkManualOld"):t("bkRemind"));
 }
 document.addEventListener("click",e=>{ if(e.target&&e.target.id==="btnIntroGo") closeSheets(); });
+/* ================= AJUTOR (D-109) =================
+   Textele sunt în ebanist-help.js (EBHelp), aceeași sursă pe care o citește
+   și site-ul. Aici e doar încastrarea: foaia, căutarea, subiectele pliabile. */
+function helpNorm(s){ return String(s).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); }
+function helpRender(){
+  const H=window.EBHelp; if(!H||!$("helpBody")) return;
+  const L=state.lang, U=H.ui(L);
+  $("helpTitle").textContent=U.title;
+  $("helpQ").placeholder=U.search; $("helpQ").setAttribute("aria-label",U.search);
+  let h='<div class="hp-h">'+H.esc(U.topics)+'</div>';
+  H.TOPICS.forEach((tp,i)=>{
+    h+='<details class="hp-item" data-q="'+H.esc(helpNorm(H.topicText(tp,L)))+'"'+(i===0?' data-def="1" open':"")+'><summary>'+H.esc(H.plain(H.tx(tp,L).title))+'</summary><div class="hp-in">'+H.topicBody(tp,L)+'</div></details>';
+  });
+  h+='<div class="hp-h">'+H.esc(U.faq)+'</div>';
+  H.FAQ.forEach(f=>{
+    const c=H.tx(f,L);
+    h+='<details class="hp-item" data-q="'+H.esc(helpNorm(c.q+" "+H.plain(c.a)))+'"><summary>'+H.esc(c.q)+'</summary><div class="hp-in">'+H.faqBody(f,L)+'</div></details>';
+  });
+  h+='<p class="hp-none" id="helpNone" hidden>'+H.esc(U.none)+'</p>';
+  $("helpBody").innerHTML=h;
+  $("helpFoot").innerHTML='<a href="/'+(L==="en"?"":L+"/")+'help/" target="_blank" rel="noopener">'+H.esc(U.full)+' ↗</a><br>'+H.esc(U.contact)+' <a href="mailto:'+H.MAIL+'">'+H.MAIL+'</a>';
+  $("helpQ").value="";
+}
+function helpFilter(){
+  const q=helpNorm($("helpQ").value.trim()); let any=false;
+  document.querySelectorAll("#helpBody .hp-item").forEach(d=>{
+    const hit=!q||d.dataset.q.indexOf(q)>=0; d.hidden=!hit; if(hit) any=true;
+    if(q.length>1) d.open=hit; else if(!q) d.open=d.dataset.def==="1";
+  });
+  document.querySelectorAll("#helpBody .hp-h").forEach(x=>{ x.hidden=!!q; });
+  const n=$("helpNone"); if(n) n.hidden=any;
+}
+function helpOpen(){ closeSheets(); helpRender(); openSheet("shHelp"); }
+function helpApply(){
+  const H=window.EBHelp; if(!H) return; const U=H.ui(state.lang);
+  const b=$("btnHelp"); if(b){ b.title=U.title; b.setAttribute("aria-label",U.title); }
+  const ib=$("btnIntroHelp"); if(ib) ib.textContent=U.openGuide;
+  if($("shHelp")&&$("shHelp").classList.contains("on")) helpRender();
+}
+document.addEventListener("click",e=>{
+  const t2=e.target&&e.target.closest?e.target.closest("#btnHelp,#btnIntroHelp"):null;
+  if(t2){ helpOpen(); }
+});
+document.addEventListener("input",e=>{ if(e.target&&e.target.id==="helpQ") helpFilter(); });
+if(location.hash==="#help") setTimeout(helpOpen,600);
 applyLang();
 aiMount();
 mountSheetClosers();
@@ -17008,12 +17089,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.20.2"; /* APP_VER-MARKER */
+const APP_VER="5.21.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v188";
+const SW_CACHE="ebanist-v189";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -368,5 +368,10 @@
  "blog.s9.h": "Foaie A3 de montaj pentru fiecare corp",
  "blog.s9.p": "Vedere explodată cu piesele numerotate ca în lista de piese, lista pe poziții, feroneria cu coduri și secvența de montaj, pe o singură foaie A3 pentru fiecare corp.",
  "blog.s10.h": "Un dosar tehnic complet, gata de tipărit",
- "blog.s10.p": "O copertă cu cuprins și ghid de citire, o prezentare pentru client cu randări 3D mari, materiale și loc de semnătură, și un raport tehnic făcut din datele proiectului tău. Un singur buton tipărește setul pe A3, opțional cu foaia de fabricație a fiecărei piese."
+ "blog.s10.p": "O copertă cu cuprins și ghid de citire, o prezentare pentru client cu randări 3D mari, materiale și loc de semnătură, și un raport tehnic făcut din datele proiectului tău. Un singur buton tipărește setul pe A3, opțional cu foaia de fabricație a fiecărei piese.",
+ "help.nav": "Ajutor",
+ "help.meta.title": "Ajutor și ghiduri · Ebanist",
+ "help.meta.desc": "Ghiduri pas cu pas pentru Ebanist, cu imagini din aplicația reală: prima listă de debitare, 3D, documente, releveu, modul Client, backup și Pro. Le găsești și în aplicație, offline.",
+ "help.h": "Învață Ebanist în zece minute.",
+ "help.lead": "Ghiduri scurte, pas cu pas, cu imagini luate din aplicația reală. Același ghid e în aplicație și funcționează offline."
 }

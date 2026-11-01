@@ -126,6 +126,69 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/case/bagno/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/case/bagno/"/>
   </url>
+  <url><loc>https://ebanist.com/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
+  <url><loc>https://ebanist.com/ro/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
+  <url><loc>https://ebanist.com/it/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
+  <url><loc>https://ebanist.com/fr/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
+  <url><loc>https://ebanist.com/de/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
+  <url><loc>https://ebanist.com/pl/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
+  <url><loc>https://ebanist.com/es/help/</loc><lastmod>2026-11-01</lastmod><priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/help/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/help/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/help/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ebanist.com/fr/help/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://ebanist.com/de/help/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/help/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
+  </url>
   <url><loc>https://ebanist.com/blog/</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>

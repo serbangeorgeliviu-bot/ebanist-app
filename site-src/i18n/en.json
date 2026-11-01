@@ -368,5 +368,10 @@
  "blog.s9.h": "An A3 assembly sheet per unit",
  "blog.s9.p": "An exploded view with the parts numbered as in the parts list, the parts list by position, the hardware with codes and the assembly sequence, on one A3 sheet per unit.",
  "blog.s10.h": "A complete technical dossier, ready to print",
- "blog.s10.p": "A cover with contents and a reading guide, a client presentation with large 3D renders, materials and a signature line, and a technical report built from your project's data. One button prints the set on A3, optionally with the fabrication sheet of every part."
+ "blog.s10.p": "A cover with contents and a reading guide, a client presentation with large 3D renders, materials and a signature line, and a technical report built from your project's data. One button prints the set on A3, optionally with the fabrication sheet of every part.",
+ "help.nav": "Help",
+ "help.meta.title": "Help and guides · Ebanist",
+ "help.meta.desc": "Step-by-step guides for Ebanist with screenshots from the real app: your first cut list, 3D, documents, site survey, Client mode, backups and Pro. Also available inside the app, offline.",
+ "help.h": "Learn Ebanist in ten minutes.",
+ "help.lead": "Short, step-by-step guides with screenshots taken from the real app. The same guide is inside the app and works offline."
 }
