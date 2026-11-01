@@ -70,6 +70,14 @@ describe("/api/ai", () => {
     await call(body(), "sub_1AbCdEfGh"); await call(body(), "sub_1AbCdEfGh");
     assert.strictEqual(calls.filter(c => c.url.includes("api.stripe.com")).length, 1);
   });
+  test("blocurile de imagine (base64) trec neschimbate către Anthropic", async () => {
+    const img = { type: "image", source: { type: "base64", media_type: "image/jpeg", data: "/9j/".repeat(50000) } };
+    const messages = [{ role: "user", content: [img, { type: "text", text: "vezi poza" }] }];
+    const r = await call(body({ messages }));
+    assert.strictEqual(r.status, 200);
+    const sent = JSON.parse(anth()[0].opt.body);
+    assert.deepStrictEqual(sent.messages, messages);
+  });
   test("JSON stricat → 400; GET → 405; corp prea mare → 413", async () => {
     assert.strictEqual((await call("nu e json")).status, 400);
     assert.strictEqual((await handler(new Request("https://ebanist.com/api/ai"))).status, 405);
