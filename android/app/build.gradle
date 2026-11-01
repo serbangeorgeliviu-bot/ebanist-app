@@ -20,8 +20,9 @@ android {
            5 = butonul AR: linkurile intent:// deschise din WebView.
            6 = aplicația pe ebanist.com, cu mutarea datelor de pe adresa veche (L.10).
            7 = cererea de recenzie în Play (In-App Review) și butonul „Evaluează Ebanist" (D-105);
-               codul 6 era deja folosit în Play Console, deci același conținut + recenzia pleacă cu 7. */
-        versionCode 7
+               codul 6 era deja folosit în Play Console, deci același conținut + recenzia pleacă cu 7.
+           8 = prima urcare automată prin API (workflow android-aab, D-108), același conținut ca 7. */
+        versionCode 8
         versionName "1.3.1"
     }
 
