@@ -44,6 +44,17 @@
         out.push(cyl("__hw", along(e, h.eAx, h.eSide * (bolt ? seat(bolt.op, D.minifix.bolt_depth) : D.minifix.bolt_depth)), along(e, h.eAx, -h.eSide * shank.op.depth),
           bolt ? bolt.op.dia : D.minifix.bolt_dia, "bolt", bolt ? [bolt.op.id, shank.op.id] : [shank.op.id]));
       }
+    } else if (h.type === "reggipiano") {
+      /* suport de raft Ø5: tija intră cât gaura (adâncimea din ops), iese `out`, plăcuța sub raft din HW_DRILL.pin.plate */
+      var sw = h.seat === undefined ? w : h.seat;         // poziția găurii în care stă suportul; null = nicio gaură liberă, deci nimic de desenat
+      if (sw) {
+        var pin = ops.filter(function (x) { return x.op.type === "drill" && /reggipiano/.test(x.op.note || "") && x.op._w && Math.abs(x.op._w[1] - sw[1]) < 0.05 && Math.abs(x.op._w[2] - sw[2]) < 0.05; })[0];
+        var sd = h.dir.side, ax = h.dir.ax, Pn = D.pin;
+        var depth = pin ? seat(pin.op, Pn.depth) : Pn.depth, dia = pin ? pin.op.dia : Pn.dia, src = pin ? [pin.op.id] : [];
+        out.push(cyl("__hw", along(sw, ax, -sd * depth), along(sw, ax, sd * Pn.out), dia, "pin", src));
+        var x0 = sw[0] + sd * Pn.plate.from, x1 = sw[0] + sd * Pn.plate.to;
+        out.push(box("__hw", [Math.min(x0, x1), sw[1] + Pn.plate.y0, sw[2] - Pn.plate.zhalf], [Math.max(x0, x1), sw[1] + Pn.plate.y1, sw[2] + Pn.plate.zhalf], "plate", src));
+      }
     } else if (h.type === "tassello") {
       /* tasel: un singur cilindru care umple ambele găuri (în F și în E) */
       var holes = ops.filter(function (x) { return x.op.type === "drill"; });
@@ -74,6 +85,30 @@
     return out;
   }
 
+  /* cotele balamalei care apar și în fișa de găurire: cupa (Ø și adâncime din operație), tasealele, găurile plăcuței.
+     Forma corpului balamalei (flanșă, braț, amortizor) rămâne după fișa Blum 71B3590, neverificată pe piesă. */
+  function hingeDims(h, ops, D) {
+    ops = ops || [];
+    var cup = byNote(ops, /tazza/)[0], H = h.type === "cerniera_pliante" ? D.fold : D.hinge;
+    return { cupDia: cup ? cup.op.dia : H.cup_dia, cupDepth: cup ? cup.op.depth : (H.cup_depth || 12.5),
+             dowelOffset: D.hinge.dowel_offset, dowelHalf: D.hinge.dowel_spacing / 2, plateHalf: H.plate_spacing / 2,
+             plateDia: H.plate_dia, plateDepth: H.plate_depth, src: cup ? [cup.op.id] : [] };
+  }
+
+  /* șuruburile glisierei: câte unul în fiecare gaură «guida cassetto» din fișa piesei (poziții din fișele Blum, Ø și adâncime din operație).
+     Șina corpului stă pe fața panoului, cu placa de `plate` mm; capul șurubului e peste ea. */
+  function slideScrews(h, ops, D, plate) {
+    plate = plate == null ? 1.8 : plate;
+    var sd = h.side < 0 ? 1 : -1, out = [];
+    byNote(ops || [], /guida cassetto/).forEach(function (x) {
+      var o = x.op; if (!o._w) return;
+      var f = o._w, seatD = o.depth || D.slide.depth;
+      out.push(cyl("__inox", along(f, 0, -sd * seatD), along(f, 0, sd * plate), o.dia, "screw", [o.id]));
+      out.push(cyl("__inox", along(f, 0, sd * plate), along(f, 0, sd * (plate + D.slide.head_h)), D.slide.head_dia, "head", [o.id]));
+    });
+    return out;
+  }
+
   /* operațiile unui model, grupate după conectorul din care fac parte (`hw`) */
   function opsByHw(pieces) {
     var map = {};
@@ -83,5 +118,5 @@
     return map;
   }
 
-  return { connectorShapes: connectorShapes, opsByHw: opsByHw, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex"] };
+  return { slideScrews: slideScrews, hingeDims: hingeDims, connectorShapes: connectorShapes, opsByHw: opsByHw, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "reggipiano"] };
 });

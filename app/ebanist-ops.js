@@ -59,8 +59,11 @@ var HW_DRILL = {
     clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22",
                  body: { len: 64, thk: 9.7 } }            // conectorul 64×13,5×9,7; canalul îl depășește cu jocul de montaj
   },
-  pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
+  pin: { dia: 5, depth: 12, drop: 6, extra: 1,            // reggipiano: +-1 foro di regolazione
+         out: 9,                                          // cât iese tija în afara feței panoului (3D)
+         plate: { from: 1, to: 9, y0: 2, y1: 3.5, zhalf: 5 } },   // plăcuța pe care stă raftul, față de axa tijei (3D)
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
+    head_dia: 7, head_h: 1.6,                          // capul șurubului de fixare, pentru 3D (șuruburile stau în găurile din fișă)
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
        din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
        `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
@@ -689,15 +692,18 @@ function generate1(input) {
       var fx = side < 0 ? P.max[0] : P.min[0];
       var zs = [P.max[2] - H.sys32.front, S.min[2] + H.sys32.front];
       zs.forEach(function (z) {
-        var id = "hw_" + out.hw.length, sd = side < 0 ? 1 : -1, moved = false;
+        var id = "hw_" + out.hw.length, sd = side < 0 ? 1 : -1, moved = false, seatK = null;
         for (var k = -H.pin.extra; k <= H.pin.extra; k++) {
           var w = [fx, y + k * H.sys32.pitch, z];
           if (clash(P, 0, sd, w, H.pin.dia)) { if (k === 0) moved = true; continue; }
           hole(P, 0, sd, w, H.pin.dia, H.pin.depth, id,
                k === 0 ? "reggipiano" : "reggipiano (regolazione)");
+          if (k === 0) seatK = 0; else if (seatK === null && k < 0) seatK = k;   // fără gaura principală, raftul stă pe cea de reglare de dedesubt
         }
         if (moved) out.warnings.push({ piece: P.pk, k: "opsPinMoved" });
         out.hw.push({ id: id, type: "reggipiano", catalog: "haf_sup", piece: P.pk, w: [fx, y, z],
+                      /* `seat`: gaura în care stă de fapt suportul (3D = fișa piesei); null = nicio gaură liberă */
+                      seat: seatK === null ? null : [fx, y + seatK * H.sys32.pitch, z],
                       dir: { ax: 0, side: side < 0 ? 1 : -1 }, note: "Reggipiano Ø5" });
       });
     });

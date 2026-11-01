@@ -7,7 +7,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.18.0 — 1 noiembrie 2026
 
-**Conectorii în 3D, din aceleași date ca fișa piesei** (etapa 1 din «feroneria în 3D exact ca în desenul tehnic»): Minifix, tasel, Confirmat, lamelă, Domino și Clamex au acum forma făcută din operațiile găurilor și canalelor lor (diametru, adâncime, poziție), nu din cifre scrise separat în vizor. Corectat: corpul Minifix era desenat mereu de 12,5 mm, deși la plăci de 19 mm gaura are 13,5 mm; bolțul Minifix se oprea la 32 mm în loc de 34. Un test verifică fiecare conector în 5 corpuri, la 18 și 19 mm, și respinge orice formă mai mare de 100 mm. Balamale, glisiere, suporturi de raft, mânere și picioare urmează.
+**Feroneria în 3D, din aceleași date ca fișa piesei.** Forma fiecărui articol de feronerie care are găuri sau canale în fișa de găurire iese acum din acele operații (diametru, adâncime, poziție), nu din cifre scrise separat în vizor. Așa 3D-ul și desenul tehnic nu mai pot diverge.
+- **Conectori:** Minifix, tasel, Confirmat, lamelă, Domino, Clamex. Corpul Minifix era desenat mereu de 12,5 mm, deși la plăci de 19 mm gaura are 13,5 mm; bolțul se oprea la 32 mm în loc de 34.
+- **Suport de raft:** tija intră cât gaura (12 mm, nu 10). Când gaura principală e sărită (cade peste o placă de balama), suportul se desenează pe gaura de reglare în care stă de fapt, nu pe poziția fără gaură.
+- **Balamale:** adâncimea cupei din operație (12,5 mm, nu 13), tasealele și găurile plăcuței la distanțele din fișa de găurire.
+- **Glisiere:** șuruburile de fixare se desenează în fiecare gaură din fișă (1–3 pe lateral, pozițiile din fișele Blum), nu două șuruburi inventate lângă față.
+- **Mânere:** verificat că picioarele stau în găurile din fișă.
+
+Neschimbat: forma corpului balamalei (flanșă, braț, amortizor) rămâne după fișa Blum 71B3590, neverificată pe piesă; picioarele reglabile (AXILO), profilul anti-curbare și Tip-On nu se desenează din date. Un test (`hwgeom`, 72 de cazuri) verifică conectorii în 5 corpuri, la 18 și 19 mm, balamalele, glisierele și mânerele, și respinge orice formă de conector mai mare de 100 mm.
 
 ---
 

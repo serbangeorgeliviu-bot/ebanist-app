@@ -847,14 +847,14 @@ function buildHardware(model) {
          amortizorul BLUMOTION e o cutie neagră pe braț; două șuruburi de reglaj pe capătul brațului */
       const w = h.w, sd = h.hingeLeft ? 1 : -1, hid = hwId("cern");
       const HM = /^haf_/.test(hid) ? "__inox" : "__zinc", damper = /^blum_71b/.test(hid) || /^haf_/.test(hid), inset = hid === "haf_duomatic";
-      const y = w[1], z0 = w[2];
-      /* — partea din ușă: cupă, flanșă cu urechi, șuruburi, brațul de legătură — */
-      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      const y = w[1], z0 = w[2], HX = EBHwGeom.hingeDims(h, OPS[h.id], HW_DRILL);
+      /* — partea din ușă: cupă (Ø și adâncime din operația «tazza cerniera»), flanșă cu urechi, șuruburi, brațul de legătură — */
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, HX.cupDepth), HX.cupDia)));
       P.hw.add(tag(cyl(HM, along(w, 2, -1.7), along(w, 2, 0.3), 37)));
       const fx0 = w[0] - sd * 14, fx1 = w[0] + sd * 13.5;
       P.hw.add(tag(box(HM, [Math.min(fx0, fx1), y - 28.5, z0 - 1.7], [Math.max(fx0, fx1), y + 28.5, z0 - 0.1])));
       [-1, 1].forEach(k => {
-        const c = [w[0] + sd * 9.5, y + k * 22.5, z0 - 1.7];
+        const c = [w[0] + sd * HX.dowelOffset, y + k * HX.dowelHalf, z0 - 1.7];   // pe tasealele din fișa de găurire
         P.hw.add(tag(cyl("__blackmetal", c, [c[0], c[1], c[2] - 0.15], 8.4)));
         P.hw.add(tag(cyl("__inox", [c[0], c[1], c[2] - 0.1], [c[0], c[1], c[2] - 1.6], 6)));
       });
@@ -863,7 +863,7 @@ function buildHardware(model) {
         const xo = (d) => p[0] + sd * d;
         /* — placa de montaj de pe lateral: bază 3 mm, 45 × 40, cu două șuruburi la 32 mm — */
         A.hw.add(tag(box(HM, [Math.min(p[0], xo(3)), p[1] - 22.5, zp - 20], [Math.max(p[0], xo(3)), p[1] + 22.5, zp + 20])));
-        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [xo(3), p[1] + k * 16, zp + 13], [xo(4.4), p[1] + k * 16, zp + 13], 6.5))));
+        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [xo(3), p[1] + k * HX.plateHalf, zp + 13], [xo(4.4), p[1] + k * HX.plateHalf, zp + 13], 6.5))));
         /* — brațul: tablă îndoită, mai înalt spre ușă (profil trapez), lat de 22 mm — */
         const zNear = z0 - 16, zFar = zNear - 56;
         const sh = new THREE.Shape();
@@ -898,18 +898,14 @@ function buildHardware(model) {
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
     } else if (h.type === "cerniera_pliante") {
       /* balamaua dintre două foi ale unui pachet pliant: cupa în prima foaie, placa pe fața dinapoi a vecinei */
-      const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc";
-      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc", HX = EBHwGeom.hingeDims(h, OPS[h.id], HW_DRILL);
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, HX.cupDepth), HX.cupDia)));
       if (h.plate && A) { const p = h.plate; A.hw.add(tag(box(HM, [p[0] - 22.5, p[1] - 22.5, p[2] - 3], [p[0] + 22.5, p[1] + 22.5, p[2]]))); }
     } else if (EBHwGeom.TYPES.indexOf(h.type) >= 0) {
-      /* Minifix, tasel, Confirmat, lamelă, Domino, Clamex: cilindri și cutii cu cotele găurilor și canalelor lor */
+      /* Minifix, tasel, Confirmat, lamelă, Domino, Clamex, suport de raft: cilindri și cutii cu cotele găurilor și canalelor lor */
       const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
       EBHwGeom.connectorShapes(h, OPS[h.id], HW_DRILL, { thickF: ext }).forEach(sh =>
         P.hw.add(tag(sh.t === "cyl" ? cyl(sh.mat, sh.a, sh.b, sh.d) : box(sh.mat, sh.lo, sh.hi))));
-    } else if (h.type === "reggipiano") {
-      const w = h.w, s = h.dir.side;
-      P.hw.add(tag(cyl("__hw", along(w, 0, -s * 10), along(w, 0, s * 9), 5)));
-      P.hw.add(tag(box("__hw", [w[0] + s * 1, w[1] + 2, w[2] - 5], [w[0] + s * 9, w[1] + 3.5, w[2] + 5])));
     } else if (h.type === "guida") {
       /* culisantă ascunsă: șina corpului (profil C pe lateral, rolă, fixare în
          spate) rămâne pe loc; alergătorul cu clemă de față merge cu sertarul */
@@ -922,7 +918,7 @@ function buildHardware(model) {
       bx("__zinc", 0, 13, 24.2, 26, zf + 6, z1 - 6);              // buza de sus
       bx("__zinc", 0, 10, -10, 26, zf, zf + 6);                   // consola din spate
       bx("__zinc", 0, 8, -10, 26, z1 - 6, z1);                    // reazemul din față
-      [-1, 1].forEach(k => { const c = [w[0] + s * 1.8, y + 8 + k * 6, z1 - 3]; P.hw.add(tag(cyl("__inox", c, [c[0] + s * 1.2, c[1], c[2]], 5.5))); });
+      EBHwGeom.slideScrews(h, OPS[h.id], HW_DRILL, 1.8).forEach(sh => P.hw.add(tag(cyl(sh.mat, sh.a, sh.b, sh.d))));   // șuruburile stau în găurile din fișa piesei
       const x0 = w[0] + s * 4, rl = [x0, y + 8, z1 - 24];
       P.hw.add(tag(cyl("__nylon", rl, [x0 + s * 7, rl[1], rl[2]], 13)));
       if (side) {
