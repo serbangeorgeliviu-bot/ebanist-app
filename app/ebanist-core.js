@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "5.24.0";
+var CORE_REV = "5.24.2";
 var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -2126,7 +2126,7 @@ var ASSERTIONS = [
     source: "Jacquin rev.C — prof. 12,5 mm, distanță de la cant 5,0 mm" },
 
   { id: "A9", severity: "blocking", confidence: "medie",
-    when: "1", then: "piesa_max <= max(W, H_tot) + tol",
+    when: "1", then: "piesa_max <= max(W, H_tot, L_panta) + tol",
     why: "O piesă are o cotă mai mare decât corpul din care provine: nu e legată de niciun gabarit.",
     source: "auditul v4.24" },
 
@@ -2258,6 +2258,9 @@ function assertionEnv(d, ctx) {
   for (var j = 0; j < outs.length; j++) if (d[outs[j]] != null) e[outs[j]] = d[outs[j]];
   /* corp cu tavan înclinat: H e înălțimea interiorului plat (cel mai jos capăt); piesele se compară cu cea mai înaltă cotă */
   e.H_tot = d.slope ? d.slope.H_hi : e.H;
+  /* tavanul înclinat se taie pe pantă: sqrt(rulare² + diferență²) poate depăși și L, și H (L 1250, 1450 → 605).
+     Fără pantă, L_panta = 0 și regula rămâne cea de dinainte. */
+  e.L_panta = d.slope ? d.slope.run * d.slope.sec : 0;
   /* le cote che possono valere zero (un corpo senza ante, senza cassetti)
      devono comunque ESISTERE nell'ambiente, o la regola cade per "cota
      assente" invece di dire la verita. */
