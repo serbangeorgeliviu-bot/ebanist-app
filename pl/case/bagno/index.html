@@ -112,8 +112,6 @@ transition:transform .5s var(--ease),background-color .3s,border-color .3s,color
 .badge{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--green);color:var(--gold);flex:none}
 .badge svg{width:76%;height:76%;fill:currentColor}
 .badge-lg{width:56px;height:56px;border-radius:14px}
-.intro-logo{width:clamp(64px,9vw,110px);height:clamp(64px,9vw,110px);fill:var(--gold);opacity:0;transform:scale(.85);transition:opacity .7s var(--ease),transform .9s var(--ease)}
-.intro-title.on .intro-logo{opacity:1;transform:none}
 .final-logo{width:84px;height:84px;fill:var(--gold);margin:0 auto 26px;display:block}
 .foot-brand{display:flex;gap:16px;align-items:center}
 .nav{display:flex;gap:28px;margin-left:28px}
@@ -141,23 +139,52 @@ transition:transform .5s var(--ease),background-color .3s,border-color .3s,color
 .lang-menu a:active{background:var(--paper2)}
 @media (max-width:560px){.top .langs{display:none}.lang-pick{display:block}.top .btn{min-height:36px;padding:0 14px;font-size:13px}}
 @media (max-width:359px){.top .bar{gap:8px}.lang-pick summary{padding:0 8px}.top .btn{padding:0 12px}}
-.intro{position:fixed;inset:0;z-index:150;background:radial-gradient(120% 90% at 50% 40%,#16513a,#0b2e21);display:grid;place-items:center;overflow:hidden}
-.intro[hidden]{display:none}
-.intro canvas{position:absolute;inset:0;width:100%;height:100%}
-.intro-labels{position:absolute;inset:0;pointer-events:none}
-.intro-labels span{position:absolute;font:500 12px/1 var(--mono);color:var(--paper);white-space:nowrap;transform:translate(-50%,-50%);opacity:0;transition:opacity .25s;
-background:rgba(14,59,42,.78);padding:3px 5px;border-radius:3px}
-.intro-labels span.on{opacity:1}
-.intro-title{position:absolute;left:var(--gut);bottom:clamp(40px,10vh,110px);display:flex;flex-direction:column;gap:12px;pointer-events:none}
-.intro-word{font:400 clamp(3.4rem,12vw,10rem)/.9 var(--serif);letter-spacing:-.04em;color:var(--paper);display:flex;opacity:0}
-.intro-word.on{opacity:1}
-.intro-word b{font-weight:400;display:inline-block;clip-path:inset(0 0 100% 0);transform:translateY(30%);transition:clip-path .7s var(--ease),transform .7s var(--ease)}
-.intro-word.on b{clip-path:inset(0 0 -10% 0);transform:none}
-.intro-tag{font:400 13px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);opacity:0;transition:opacity .6s .5s}
-.intro-title.on .intro-tag{opacity:1}
-.intro-skip{position:absolute;right:var(--gut);bottom:calc(24px + env(safe-area-inset-bottom));z-index:2;font:500 13px/1 var(--mono);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:12px 18px;background:rgba(255,255,255,.08)}
+#splash{position:fixed;inset:0;z-index:150;overflow:hidden;background:transparent}
+#splash .sp-panel{position:absolute;left:0;right:0;height:50.4%;background:#0E3B2A;will-change:transform}
+#splash .sp-top{top:0;animation:spTop .64s cubic-bezier(.7,0,.2,1) 2.30s forwards}
+#splash .sp-bot{bottom:0;animation:spBot .64s cubic-bezier(.7,0,.2,1) 2.30s forwards}
+#splash .sp-stage{position:absolute;inset:0;display:flex;flex-direction:column;
+align-items:center;justify-content:center;padding:0 12vw;
+animation:spStage .52s ease-in 2.30s forwards}
+#splash .sp-glow{position:absolute;top:50%;left:50%;width:86vw;height:86vw;max-width:460px;max-height:460px;
+transform:translate(-50%,-50%) scale(.6);border-radius:50%;pointer-events:none;opacity:0;
+background:radial-gradient(circle,rgba(212,175,55,.34) 0%,rgba(212,175,55,0) 66%);
+animation:spGlow 1.5s cubic-bezier(.1,.8,.3,1) .58s forwards}
+#splash .sp-seam{position:absolute;top:50%;left:50%;height:2px;width:0;transform:translate(-50%,-50%);
+background:linear-gradient(90deg,rgba(212,175,55,0),#E3C877 50%,rgba(212,175,55,0));
+box-shadow:0 0 14px rgba(227,200,119,.85);animation:spSeam .95s cubic-bezier(.2,.9,.2,1) forwards}
+#splash .sp-mark{position:relative;width:min(50vw,208px);color:#D4AF37}
+#splash .sp-mark svg{width:100%;height:auto;display:block}
+#splash .sp-fill{position:absolute;inset:0;opacity:0;animation:spFill .42s ease-out 1.36s forwards}
+#splash .sp-draw{opacity:0;animation:spDrawIn .01s linear .6s forwards, spDrawOut .36s ease-in 1.40s forwards}
+#splash .sp-draw g,#splash .sp-draw path{fill:none;stroke:currentColor;stroke-width:46;
+stroke-linecap:round;stroke-linejoin:round}
+#splash .sp-word{margin-top:26px;color:#E3C877;width:min(64vw,272px);height:auto;
+opacity:0;transform:translateY(12px);animation:spWord .55s cubic-bezier(.2,.8,.3,1) 1.62s forwards}
+#splash .sp-light{position:absolute;top:-40%;left:-60%;width:60%;height:180%;pointer-events:none;
+transform:rotate(18deg);mix-blend-mode:screen;opacity:0;
+background:linear-gradient(90deg,rgba(255,245,214,0) 0%,rgba(255,245,214,.16) 45%,rgba(255,245,214,.30) 50%,rgba(255,245,214,.16) 55%,rgba(255,245,214,0) 100%);
+animation:spLight .9s ease-in-out 1.32s forwards}
+@keyframes spSeam{0%{width:0;opacity:0}18%{opacity:1}
+62%{width:64%;height:2px}72%{width:70%;height:5px;opacity:1}100%{width:74%;height:1px;opacity:0}}
+@keyframes spGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+16%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}100%{opacity:.62;transform:translate(-50%,-50%) scale(1)}}
+@keyframes spDrawIn{to{opacity:1}}
+@keyframes spDrawOut{to{opacity:0}}
+@keyframes spFill{from{opacity:0;filter:drop-shadow(0 0 26px rgba(227,200,119,.9))}
+to{opacity:1;filter:drop-shadow(0 0 0 rgba(227,200,119,0))}}
+@keyframes spWord{to{opacity:1;transform:translateY(0)}}
+@keyframes spLight{0%{opacity:0;transform:translateX(0) rotate(18deg)}
+20%{opacity:1}100%{opacity:0;transform:translateX(320%) rotate(18deg)}}
+@keyframes spTop{to{transform:translateY(-101%)}}
+@keyframes spBot{to{transform:translateY(101%)}}
+@keyframes spStage{to{opacity:0;transform:scale(1.14)}}
+#splash[hidden]{display:none}
+@media (prefers-reduced-motion: reduce){#splash{display:none}}
+.intro-skip{position:fixed;right:var(--gut);bottom:calc(24px + env(safe-area-inset-bottom));z-index:160;font:500 13px/1 var(--mono);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:12px 18px;background:rgba(255,255,255,.08)}
+.intro-skip[hidden]{display:none}
 .intro-skip:hover{border-color:var(--gold);color:#fff}
-.intro.out{opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility 0s .7s}
+#splash.out{opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility 0s .45s}
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:110px 0 60px;overflow:hidden}
 .hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,4vw,60px);align-items:center;position:relative}
 .hero-copy{position:relative;z-index:2}
@@ -617,6 +644,34 @@ html.xh input,html.xh textarea{cursor:text}
 .blog-card .mono{color:var(--txt3);font-size:12px}
 .blog-card .blog-read{display:inline-block;margin-top:14px;color:var(--gold-ink)}
 @media (max-width:760px){.blog-card{grid-template-columns:1fr}.blog-item{grid-template-columns:1fr}.blog-item>.mono{padding-top:0}}
+.help .blog-hero{max-width:1100px}
+.help-toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.help-toc a{text-decoration:none;padding:8px 14px;border:1px solid var(--line2);border-radius:999px;font-size:14px;color:var(--txt);background:var(--paper)}
+.help-toc a:hover{border-color:var(--gold)}
+.help-sec{max-width:1100px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:start;padding-top:clamp(32px,5vw,60px);padding-bottom:clamp(32px,5vw,60px);border-top:1px solid var(--line);scroll-margin-top:76px}
+.help-sec-1{grid-template-columns:minmax(0,1fr);max-width:900px}
+.help-n{color:var(--gold-ink);font-size:13px}
+.help-sec .case-h2{font-size:clamp(1.5rem,2.6vw,2.2rem);margin-top:6px}
+.help .hp-lead{color:var(--txt2);font-size:clamp(16px,1.3vw,18px);margin-top:12px;max-width:60ch}
+.help .hp-steps{margin:18px 0 0;padding-left:1.5em;display:grid;gap:12px;font-size:clamp(16px,1.3vw,18px);max-width:60ch}
+.help .hp-steps li::marker{color:var(--gold-ink);font-family:var(--mono);font-size:.9em}
+.help .hp-tip{margin-top:20px;max-width:60ch;padding:12px 16px;border-left:3px solid var(--green);background:var(--paper2);border-radius:0 10px 10px 0;color:var(--txt2);font-size:16px}
+.help-fig-col{position:sticky;top:92px}
+.help .hp-fig{margin:0}
+.help .hp-fig img{display:block;width:100%;max-width:330px;height:auto;border-radius:20px;border:1px solid var(--line2);box-shadow:0 18px 44px -20px rgba(14,59,42,.35)}
+.help .hp-fig-wide img{max-width:100%;border-radius:14px}
+.help-faq{max-width:900px;padding-top:clamp(40px,6vw,80px);border-top:1px solid var(--line);scroll-margin-top:76px}
+.help-q{border-top:1px solid var(--line);padding:16px 0}
+.help-q:first-of-type{margin-top:22px}
+.help-q summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-weight:600;font-size:clamp(16px,1.3vw,18px)}
+.help-q summary::-webkit-details-marker{display:none}
+.help-q summary::after{content:"+";color:var(--gold-ink);font-family:var(--mono);font-size:1.3em;line-height:1}
+.help-q[open] summary::after{content:"\2013"}
+.help-q p{color:var(--txt2);margin-top:10px;max-width:64ch}
+.help-cta{max-width:900px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;padding-top:clamp(36px,5vw,64px);padding-bottom:clamp(48px,7vw,96px);border-top:1px solid var(--line)}
+.help-cta p{color:var(--txt2)}
+.help-cta a:not(.btn){color:var(--green);font-weight:600}
+@media (max-width:760px){.help-sec{grid-template-columns:1fr}.help-fig-col{position:static}.help .hp-fig img{margin:0 auto}}
 .blog-card,.blog-card *{text-decoration:none}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Prawdziwe zlecenie: szafka łazienkowa zbudowana wokół rozdzielacza wody · Ebanist","description":"Szafka łazienkowa 870 × 2280 mm, 16 elementów, wycięcie 600 × 110 wokół rozdzielacza wody. Zaprojektowana w Ebanist, zamontowana na miejscu bez żadnych poprawek. Zdjęcia z budowy i ekrany aplikacji tego samego projektu.","inLanguage":"pl","url":"https://ebanist.com/pl/case/bagno/","image":"https://ebanist.com/site/og/case-bagno.jpg","datePublished":"2026-10-06","author":{"@type":"Organization","name":"Domus Renov SRL"},"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com"},"about":{"@type":"SoftwareApplication","name":"Ebanist","url":"https://ebanist.com/pl/"}}</script>
@@ -785,6 +840,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </div>
     <nav class="foot-nav" aria-label="Footer">
+      <a href="/pl/help/">Pomoc</a>
       <a href="/pl/blog/">Blog</a>
       <a href="/termeni.html">Regulamin</a>
       <a href="/privacy.html">Prywatność</a>

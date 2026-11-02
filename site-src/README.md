@@ -26,12 +26,19 @@ site-src/
 site/
 ├── css/site.css         design tokens (paleta aplicației) + toate secțiunile (inline la build)
 ├── js/main.js           scriptul inițial (~6 KB gzip): reveal, poveste, lightbox, cursor, limbă
-├── js/scene3d.js        Three.js: intro, hero, povestea — DOAR pe desktop, încărcat lazy
-├── js/intro2d.js        intro-ul pe telefon (Canvas 2D, fără Three.js)
+├── js/scene3d.js        Three.js: hero, povestea — DOAR pe desktop, încărcat lazy
+├── (intro-ul vine din app/index.html, #splash — D-112)
 ├── js/count.js          GoatCounter, găzduit aici
 ├── vendor/              three.module.min.js, gsap, ScrollTrigger, lenis — locale, lazy
 ├── img/  docs/<lang>/  screens/<lang>/  og/
 ```
+
+## Ajutorul (D-109)
+
+`/help/` (și `/ro/help/`, …) nu are texte în `i18n/`, în afară de titlu și descriere: subiectele, pașii și
+întrebările frecvente vin din `app/ebanist-help.js`, același fișier pe care îl arată aplicația în foaia „Ajutor”.
+`build.mjs` îl încarcă și scoate HTML-ul. Capturile: `tools/help-capture.cjs` (cu un server static pe 8765),
+apoi `tools/help-shots.py`.
 
 ## Limba (D-60)
 
@@ -171,3 +178,7 @@ nimic de configurat. Vechile linkuri `/?lang=xx` primesc 301 spre pagina limbii
 (`netlify.toml`). Service worker-ul din rădăcină (`/sw.js`) doar se
 dezinstalează și nu mai interceptează nicio pagină. Cel al aplicației rămâne
 în `/app/`.
+
+## Versiunea fișierelor site-ului
+
+`?v=` pe `/site/*` = `APP_VER.s<SITE_REV>` (`SITE_REV` în `build.mjs`). Crește `SITE_REV` când schimbi `/site/*`; `APP_VER` rămâne a aplicației.

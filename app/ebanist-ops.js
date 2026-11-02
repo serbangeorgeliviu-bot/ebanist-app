@@ -48,17 +48,22 @@ var HW_DRILL = {
      catalog generice, verificat:false: se confirma pe o piesa inainte sa mearga
      in masina. end = distanta primei fixari de capete, pitch = pasul maxim. */
   joints: {
-    confirmat: { through_dia: 7, pilot_dia: 5, pilot_depth: 50, end: 50, mid_over: 700 },
+    confirmat: { through_dia: 7, pilot_dia: 5, pilot_depth: 50, end: 50, mid_over: 700,
+                 screw_len: 50, head_dia: 10.5, head_h: 3.5 },        // șurub 7×50: capul și lungimea, ca să se deseneze din date (3D = fișa piesei)
     dowel:     { dia: 8, len: 35, face_depth: 12, end: 50, pitch: 128 },
-    biscuit:   { len: 56, thk: 4, depth: 12.5, depth_face: 12.5, end: 60, pitch: 200 }, // Lamello #20 (23 mm de lamela)
-    domino:    { len: 22, thk: 8, depth: 25, depth_face: 15, end: 50, pitch: 128 },  // Festool DF500 8x40 (tenon 8×22×40): 25 + 15 = 40; adancimile NU sunt din fisa
+    biscuit:   { len: 56, thk: 4, depth: 12.5, depth_face: 12.5, end: 60, pitch: 200, body: { len: 56, thk: 4 } }, // Lamello #20 (23 mm de lamela)
+    domino:    { len: 22, thk: 8, depth: 25, depth_face: 15, end: 50, pitch: 128, body: { len: 22, thk: 8 } },  // Festool DF500 8x40 (tenon 8×22×40): 25 + 15 = 40; adancimile NU sunt din fisa
     /* Lamello Clamex P-14, fisa Lamello Clamex P-14/10 Flexus (02/22): freza P-System
        Ø100.4×7×22, canal de 14 mm adancime, 9.8 mm inalt, ~69.6 mm lung (coarda); conector
        64×13.5×9.7; de la capat min. 37 mm, pas max. 300 mm; panou min. 18 mm. */
-    clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22" }
+    clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22",
+                 body: { len: 64, thk: 9.7 } }            // conectorul 64×13,5×9,7; canalul îl depășește cu jocul de montaj
   },
-  pin: { dia: 5, depth: 12, drop: 6, extra: 1 },          // reggipiano: +-1 foro di regolazione
+  pin: { dia: 5, depth: 12, drop: 6, extra: 1,            // reggipiano: +-1 foro di regolazione
+         out: 9,                                          // cât iese tija în afara feței panoului (3D)
+         plate: { from: 1, to: 9, y0: 2, y1: 3.5, zhalf: 5 } },   // plăcuța pe care stă raftul, față de axa tijei (3D)
   slide: { dia: 5, depth: 13, positions: [37, 261, 453], lift: 0,
+    head_dia: 7, head_h: 1.6,                          // capul șurubului de fixare, pentru 3D (șuruburile stau în găurile din fișă)
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
        din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
        `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
@@ -687,15 +692,18 @@ function generate1(input) {
       var fx = side < 0 ? P.max[0] : P.min[0];
       var zs = [P.max[2] - H.sys32.front, S.min[2] + H.sys32.front];
       zs.forEach(function (z) {
-        var id = "hw_" + out.hw.length, sd = side < 0 ? 1 : -1, moved = false;
+        var id = "hw_" + out.hw.length, sd = side < 0 ? 1 : -1, moved = false, seatK = null;
         for (var k = -H.pin.extra; k <= H.pin.extra; k++) {
           var w = [fx, y + k * H.sys32.pitch, z];
           if (clash(P, 0, sd, w, H.pin.dia)) { if (k === 0) moved = true; continue; }
           hole(P, 0, sd, w, H.pin.dia, H.pin.depth, id,
                k === 0 ? "reggipiano" : "reggipiano (regolazione)");
+          if (k === 0) seatK = 0; else if (seatK === null && k < 0) seatK = k;   // fără gaura principală, raftul stă pe cea de reglare de dedesubt
         }
         if (moved) out.warnings.push({ piece: P.pk, k: "opsPinMoved" });
         out.hw.push({ id: id, type: "reggipiano", catalog: "haf_sup", piece: P.pk, w: [fx, y, z],
+                      /* `seat`: gaura în care stă de fapt suportul (3D = fișa piesei); null = nicio gaură liberă */
+                      seat: seatK === null ? null : [fx, y + seatK * H.sys32.pitch, z],
                       dir: { ax: 0, side: side < 0 ? 1 : -1 }, note: "Reggipiano Ø5" });
       });
     });
@@ -1037,7 +1045,78 @@ function dimensionSpec(pieces, opts) {
            P: Math.round((hi[2] - lo[2]) * 10) / 10, gaps: gaps };
 }
 
-var API = { HW_DRILL: HW_DRILL, slidePositions: slidePositions, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
+
+/* --- DXF PER PIESĂ, PE STRATURI DE OPERAȚIE (2B.6, D-106) --------------------
+   Un DXF R12 (ASCII, fără handle-uri: îl deschide orice CAD/CAM) cu piesa văzută
+   de pe fața 5, origine jos-stânga. Straturi:
+     CONTUR            conturul piesei (și DECUPAJ pentru decupajele interioare)
+     SISTEM32_D5       găuri Ø5 (Sistem 32: rânduri de reggipiani / balamale)
+     OALA_D35          oale de balama Ø35
+     FORO_D<Ø>         orice alt burghiu pe fața 5 (cu _F6 pe fața 6)
+     CANAL_SPATE       canalele de spate (contur al canalului, lățimea reală)
+     CANAL_LAMELA      canale de lamelă / domino / clamex
+     FREZA             decupaje la freză (blat)
+   Orice strat care vine dintr-o operație de feronerie (`hw`) poartă sufixul
+   _NEVERIF cât timp HW_DRILL.verificat e false (D-48), iar fișierul are antet de
+   avertizare: cotele nu merg în mașină nemarcate. Găurile pe canturi (fețele 1–4)
+   nu se văd în plan: sunt numărate în antet. Cotele se rotunjesc la 0,1 mm numai aici. */
+function dxfForPiece(pc, opts) {
+  opts = opts || {};
+  var f = function (v) { return (Math.round(v * 10) / 10).toFixed(1); };
+  var unver = HW_DRILL.verificat === false;
+  var out = [], layers = {}, body = [], edgeN = 0;
+  var g = function (code, val) { body.push(String(code), String(val)); };
+  var L = function (name, color) { layers[name] = color || 7; return name; };
+  var verif = function (o, base) { return L(base + (o.hw && unver ? "_NEVERIF" : ""), o.hw && unver ? 1 : 7); };
+  var circle = function (layer, x, y, r) { g(0, "CIRCLE"); g(8, layer); g(10, f(x)); g(20, f(y)); g(30, "0.0"); g(40, f(r)); };
+  var line = function (layer, a, b) { g(0, "LINE"); g(8, layer); g(10, f(a[0])); g(20, f(a[1])); g(30, "0.0"); g(11, f(b[0])); g(21, f(b[1])); g(31, "0.0"); };
+  var poly = function (layer, pts, closed) {
+    g(0, "POLYLINE"); g(8, layer); g(66, 1); g(70, closed ? 1 : 0);
+    pts.forEach(function (q) { g(0, "VERTEX"); g(8, layer); g(10, f(q[0])); g(20, f(q[1])); g(30, "0.0"); if (q[2]) g(42, (Math.round(q[2] * 1e6) / 1e6).toString()); });
+    g(0, "SEQEND"); g(8, layer);
+  };
+  var rect = function (layer, x0, y0, x1, y1) { poly(layer, [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], true); };
+
+  /* conturul: piesa liberă (contur/poly) sau dreptunghiurile pieselor-cutie */
+  var cont = (pc.operations || []).filter(function (o) { return o.type === "contour" && !o.inner; })[0];
+  if (cont) poly(L("CONTUR", 3), cont.pts, true);
+  else if (pc.poly) poly(L("CONTUR", 3), pc.poly, true);
+  else (pc.outline || []).forEach(function (r) { rect(L("CONTUR", 3), r.x0, r.y0, r.x1, r.y1); });
+
+  (pc.operations || []).forEach(function (o) {
+    if (o.type === "contour") { if (o.inner) poly(L("DECUPAJ", 5), o.pts, true); return; }
+    var f6 = o.face === 6 ? "_F6" : "";
+    if (o.face != null && o.face < 5) { edgeN++; return; }
+    if (o.type === "drill") {
+      var base = o.dia === 35 ? "OALA_D35" : o.dia === 5 ? "SISTEM32_D5" : "FORO_D" + String(o.dia).replace(".", "_");
+      circle(verif(o, base + f6), o.x, o.y, o.dia / 2);
+    } else if (o.type === "slot") {
+      var hx = (o.ori === "Y" ? o.thk : o.len) / 2, hy = (o.ori === "Y" ? o.len : o.thk) / 2;
+      rect(verif(o, "CANAL_LAMELA" + f6), o.x - hx, o.y - hy, o.x + hx, o.y + hy);
+    } else if (o.type === "groove") {
+      var ax = o.from.x, ay = o.from.y, bx = o.to.x, by = o.to.y, dx = bx - ax, dy = by - ay, ln = Math.hypot(dx, dy) || 1, hw = (o.width || 0) / 2;
+      var nx = -dy / ln * hw, ny = dx / ln * hw;
+      poly(verif(o, "CANAL_SPATE" + f6), [[ax + nx, ay + ny], [bx + nx, by + ny], [bx - nx, by - ny], [ax - nx, ay - ny]], true);
+    } else if (o.type === "mill") {
+      rect(verif(o, "FREZA" + f6), o.x - o.w / 2, o.y - o.d / 2, o.x + o.w / 2, o.y + o.d / 2);
+    }
+  });
+
+  var head = ["Ebanist " + (opts.ver || "") + " — " + (opts.name || ("piesa " + pc.pk)),
+    "Piesa " + f(pc.length) + " x " + f(pc.width) + " x " + f(pc.thickness) + " mm, vazuta de pe fata 5, origine jos-stanga, cote la 0,1 mm"];
+  if (unver) head.push("ATENTIE: cotele de feronerie (HW_DRILL) NU sunt verificate pe o piesa reala. Straturile *_NEVERIF nu merg in masina.");
+  if (edgeN) head.push(edgeN + " operatii pe canturi (fetele 1-4) nu apar in plan: vezi CSV-ul de gaurire.");
+  head.forEach(function (h) { out.push("999", h); });
+  out.push("0", "SECTION", "2", "HEADER", "9", "$ACADVER", "1", "AC1009", "9", "$INSUNITS", "70", "4", "0", "ENDSEC");
+  var names = Object.keys(layers);
+  out.push("0", "SECTION", "2", "TABLES", "0", "TABLE", "2", "LTYPE", "70", "1", "0", "LTYPE", "2", "CONTINUOUS", "70", "0", "3", "Solid line", "72", "65", "73", "0", "40", "0.0", "0", "ENDTAB");
+  out.push("0", "TABLE", "2", "LAYER", "70", String(names.length));
+  names.forEach(function (n) { out.push("0", "LAYER", "2", n, "70", "0", "62", String(layers[n]), "6", "CONTINUOUS"); });
+  out.push("0", "ENDTAB", "0", "ENDSEC", "0", "SECTION", "2", "ENTITIES");
+  return out.concat(body, ["0", "ENDSEC", "0", "EOF"]).join("\n") + "\n";
+}
+
+var API = { HW_DRILL: HW_DRILL, dxfForPiece: dxfForPiece, slidePositions: slidePositions, generateOperations: generate, matchOpsRow: matchRow, dimensionSpec: dimensionSpec };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 

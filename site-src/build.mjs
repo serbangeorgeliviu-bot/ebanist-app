@@ -25,6 +25,9 @@ const tpl = read("template.html");
 const tplCase = read("case-bagno.html");
 const tplPost = read("blog-post.html");
 const tplBlogIdx = read("blog-index.html");
+const tplHelp = read("help.html");
+/* ajutorul: conținutul e al aplicației (app/ebanist-help.js), nu al site-ului — o singură sursă (D-109) */
+const EBHelp = new Function(fs.readFileSync(path.join(ROOT, "app/ebanist-help.js"), "utf8") + "\nreturn globalThis.EBHelp;")();
 const pieces = JSON.parse(read("data/wardrobe-pieces.json"));
 /* CSS-ul intră în pagină: fără cerere care blochează prima randare */
 const CSS = fs.readFileSync(path.join(ROOT, "site/css/site.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s*\n\s*/g, "\n");
@@ -48,6 +51,13 @@ function cmpRows(L) {
 }
 const appHtml = fs.readFileSync(path.join(ROOT, "app/index.html"), "utf8");
 const APP_VER = (appHtml.match(/const APP_VER="([^"]+)"/) || [])[1] || "0";
+/* versiunea fișierelor site-ului (?v=): crește când se schimbă /site/*, fără să atingă versiunea aplicației */
+const SITE_REV = 2;
+const SITE_VER = `${APP_VER}.s${SITE_REV}`;
+/* intro-ul (D-110): ACELAȘI marcaj ca în aplicație, luat din app/index.html — o singură sursă */
+const SPLASH = (() => { const a = appHtml.indexOf('<div id="splash"'), b = appHtml.indexOf("<script>", a);
+  if (a < 0 || b < 0) throw new Error("splash lipsește din app/index.html");
+  return appHtml.slice(a, b).trim().replace('<div id="splash" aria-hidden="true">', '<div id="splash" hidden aria-hidden="true">'); })();
 
 const I18N = {};
 for (const l of cfg.LANGS) I18N[l] = JSON.parse(read(`i18n/${l}.json`));
@@ -67,6 +77,9 @@ const caseUrl = l => cfg.SITE_URL + caseHome(l);
 const BLOG = "blog/", POST = "blog/whats-new-4-63/";
 const blogHome = l => home(l) + BLOG, postHome = l => home(l) + POST;
 const blogUrl = l => cfg.SITE_URL + blogHome(l), postUrl = l => cfg.SITE_URL + postHome(l);
+/* pagina de ajutor: aceeași adresă sub fiecare limbă */
+const HELP = "help/";
+const helpHome = l => home(l) + HELP, helpUrl = l => cfg.SITE_URL + helpHome(l);
 const vidLang = l => ((cfg.VIDEO_LANGS || []).includes(l) ? l : cfg.DEFAULT_LANG);
 const caseAsset = l => ((cfg.CASE_ASSET_LANGS || cfg.LANGS).includes(l) ? l : cfg.DEFAULT_LANG);
 
@@ -183,7 +196,7 @@ function runtime(L) {
   return JSON.stringify({
     lang: L, langs: cfg.LANGS, home: Object.fromEntries(cfg.LANGS.map(l => [l, home(l)])), langNames,
     suggest: Object.fromEntries(cfg.LANGS.map(l => [l, { text: t(l, "suggest.text"), go: t(l, "suggest.go") }])),
-    yearly: t(L, "price.yearly"), pieces: t(L, "intro.pieces"), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER
+    yearly: t(L, "price.yearly"), pieces: t(L, "intro.pieces"), app: `${cfg.APP_URL}?lang=${L}`, ver: SITE_VER
   }).replace(/</g, "\\u003c");
 }
 
@@ -239,17 +252,41 @@ function blogJsonld(L) {
     blogPost: [{ "@type": "BlogPosting", headline: strip(t(L, "blog.idx.card.t")), url: postUrl(L), datePublished: "2026-10-18" }] }).replace(/</g, "\\u003c");
 }
 
+/* ---------- ajutorul ---------- */
+const helpNum = i => String(i + 1).padStart(2, "0");
+function helpToc(L) {
+  return EBHelp.TOPICS.map(tp => `<a href="#h-${tp.id}">${esc(EBHelp.plain(EBHelp.tx(tp, L).title))}</a>`).join("") +
+    `<a href="#h-faq">${esc(EBHelp.ui(L).faq)}</a>`;
+}
+function helpBody(L) {
+  return EBHelp.TOPICS.map((tp, i) => {
+    const fig = EBHelp.figure(tp, L);
+    return `<section class="wrap help-sec${fig ? "" : " help-sec-1"}" id="h-${tp.id}" aria-labelledby="h-${tp.id}-t">` +
+      `<div class="help-txt"><span class="mono help-n">${helpNum(i)}</span><h2 class="case-h2" id="h-${tp.id}-t">${esc(EBHelp.plain(EBHelp.tx(tp, L).title))}</h2>${EBHelp.topicBody(tp, L, { noFig: true })}</div>` +
+      (fig ? `<div class="help-fig-col">${fig}</div>` : "") + `</section>`;
+  }).join("\n  ");
+}
+const helpFaq = L => EBHelp.FAQ.map(f => `<details class="help-q"><summary>${esc(EBHelp.tx(f, L).q)}</summary>${EBHelp.faqBody(f, L)}</details>`).join("\n    ");
+function helpJsonld(L) {
+  const faq = EBHelp.FAQ.map(f => ({ "@type": "Question", name: EBHelp.tx(f, L).q, acceptedAnswer: { "@type": "Answer", text: EBHelp.plain(EBHelp.tx(f, L).a) } }));
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": [
+    { "@type": "WebPage", name: strip(t(L, "help.meta.title")), description: strip(t(L, "help.meta.desc")), inLanguage: L, url: helpUrl(L), isPartOf: { "@type": "WebSite", name: "Ebanist", url: cfg.SITE_URL } },
+    { "@type": "FAQPage", inLanguage: L, mainEntity: faq }] }).replace(/</g, "\\u003c");
+}
+
 /* ---------- randare ---------- */
 function render(L, tplSrc = tpl, mode = null) {
   const isCase = mode === true || mode === "case";
   const blocks = {
-    css: CSS, logo: LOGO, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: APP_VER,
+    css: CSS, logo: LOGO, splash: SPLASH, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: SITE_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
-    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), postUrl: postHome(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
+    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), helpIdx: helpHome(L), postUrl: postHome(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
   if (isCase) Object.assign(blocks, { url: caseUrl(L), hreflang: hreflang(caseUrl), langlinks: langLinks(L, caseHome), langpick: langPick(L, caseHome), jsonld: caseJsonld(L) });
   if (mode === "post") Object.assign(blocks, { url: postUrl(L), hreflang: hreflang(postUrl), langlinks: langLinks(L, postHome), langpick: langPick(L, postHome), jsonld: postJsonld(L) });
+  if (mode === "help") Object.assign(blocks, { url: helpUrl(L), hreflang: hreflang(helpUrl), langlinks: langLinks(L, helpHome), langpick: langPick(L, helpHome), jsonld: helpJsonld(L), helptoc: helpToc(L), helpbody: helpBody(L), helpfaq: helpFaq(L),
+    helpTopicsH: esc(EBHelp.ui(L).topics), helpFaqH: esc(EBHelp.ui(L).faq), helpContactH: esc(EBHelp.ui(L).contact), og: "og-" + L + ".jpg" });
   if (mode === "blogIdx") Object.assign(blocks, { url: blogUrl(L), hreflang: hreflang(blogUrl), langlinks: langLinks(L, blogHome), langpick: langPick(L, blogHome), jsonld: blogJsonld(L) });
   return tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
@@ -279,7 +316,7 @@ for (const L of cfg.LANGS) {
   fs.mkdirSync(path.dirname(outCase), { recursive: true });
   fs.writeFileSync(outCase, render(L, tplCase, true));
   console.log("✓", path.relative(OUT, outCase));
-  for (const [dir, src, md] of [[blogHome(L), tplBlogIdx, "blogIdx"], [postHome(L), tplPost, "post"]]) {
+  for (const [dir, src, md] of [[blogHome(L), tplBlogIdx, "blogIdx"], [postHome(L), tplPost, "post"], [helpHome(L), tplHelp, "help"]]) {
     const o = path.join(OUT, dir.slice(1), "index.html");
     fs.mkdirSync(path.dirname(o), { recursive: true });
     fs.writeFileSync(o, render(L, src, md));
@@ -295,9 +332,11 @@ const caseAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="$
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${caseUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${caseAlts}\n  </url>`);
 const blogAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${blogUrl(l)}"/>`).join("\n");
 const postAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${postUrl(l)}"/>`).join("\n");
+const helpAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${helpUrl(l)}"/>`).join("\n");
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${helpUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${helpAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.6</priority>\n${blogAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
-for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
+for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/stergere-cont.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
   urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`);
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);
 console.log("✓ sitemap.xml");

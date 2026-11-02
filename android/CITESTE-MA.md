@@ -4,7 +4,7 @@ Pachet `com.domusrenov.ebanist`, Android 7+ (minSdk 24). Din versionCode 2 (1.1.
 PWABuilder (versionCode 1): testarea plătită nu primește TWA, iar Google nu
 numără bine activitatea testerilor într-un TWA.
 
-Aplicația încarcă `https://ebanist.com/app/` din versionCode 6 (1.3.0, ROADMAP L.10).
+Aplicația încarcă `https://ebanist.com/app/` din versionCode 6 (1.3.0, ROADMAP L.10); versionCode 7 (1.3.1) adaugă cererea de recenzie în Play (D-105).
 Până la versionCode 5 încărca `https://whimsical-wisp-61cbbf.netlify.app/app/`, care rămâne
 publicat pentru telefoanele neactualizate.
 
@@ -53,11 +53,35 @@ răspunsurile prin `window.__ebPlay(kind, json)` (vezi `playApply` în index.htm
 1. Configurează profilul de plăți (Setări → Profil de plăți), dacă nu există.
 2. Generează bani cu Play → Produse → Abonamente → Creează abonament:
    ID produs **`ebanist_pro`**, nume „Ebanist Pro”.
-3. Planuri de bază: **`monthly`** (reînnoire automată, 1 lună) și **`yearly`**
-   (reînnoire automată, 1 an). Prețurile se pun aici; aplicația le citește de la Play.
+3. Planuri de bază: **`monthly`** (plată în avans, 1 lună) și **`yearly`**
+   (plată în avans, 1 an), ambele de tip *prepaid*, **fără reînnoire automată**
+   (D-54, actualizat 23.09.2026; în aplicație `PLAY_PREPAID = true`, iar
+   `termeni.html` spune la fel). Prețurile se pun aici; aplicația le citește de la Play.
+   Trecerea la reînnoire automată cere planuri noi în Console + `PLAY_PREPAID = false`.
 4. Activează ambele planuri.
 5. Setări → Testarea licențelor → adaugă contul tău Gmail: plățile de test nu
    se încasează și un abonament de test se reînnoiește la câteva minute.
 
 ID-urile sunt în cod (`PRODUCT_ID`, `data-play="monthly|yearly"`): dacă se
 schimbă în Console, se schimbă și aici.
+
+## Publicare în Google Play din GitHub (opțional, D-108)
+
+`.github/workflows/android-aab.yml` construiește `.aab`-ul semnat (ca până acum) și,
+dacă la „Run workflow" alegi un `track`, îl și urcă în Play prin Android Publisher API
+(`android/tools/play-upload.mjs`, fără dependențe; testul: `cd test && node --test play-upload.test.mjs`).
+
+- `track`: `none` (doar construiește) · `internal` · `alpha` (testare închisă) · `beta` · `production`.
+- `status`: `draft` (implicit — apare în Play Console ca ciornă, nu pleacă la nimeni până o trimiți tu)
+  sau `completed`. `production` + `completed` cere `confirm` = `da`.
+- `versionCode` trebuie să fie nou (crește în `app/build.gradle`); Play refuză unul deja folosit.
+
+**O singură dată** (de făcut de proprietarul contului, nu se poate din cod):
+1. Google Cloud: un proiect, activezi „Google Play Android Developer API", creezi un cont de serviciu și o cheie JSON.
+2. Play Console → Utilizatori și permisiuni → inviți e-mailul contului de serviciu, cu drept de a gestiona lansările
+   pe aplicația Ebanist.
+3. GitHub → repo `ebanist-app` → Settings → Secrets and variables → Actions → secretul
+   `PLAY_SERVICE_ACCOUNT_JSON` = conținutul JSON-ului. Nu intră în repo.
+
+Rămân manuale în Play Console: formularul „Data safety", declarațiile de conținut,
+crearea unei aplicații noi, trimiterea la verificare a unei ciorne.

@@ -27,6 +27,7 @@
    iOS 16.4 / Chrome 89. */
 import { THREE, MM, pcOf, isRectPC, buildPrism, buildVPrism, buildPrism3, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
+import { rboxGeom, latheGeom, cylGeom } from "./hwmesh.js";
 
 /* ============ 1. FIBRA LEMNOASĂ (procedurală, zero fișiere) ========== */
 /* Un factor de luminanță în jurul lui 1, nu o culoare: culoarea o dă
@@ -713,14 +714,25 @@ function setModel(boxes, cfg) {
 }
 
 /* --- ferramenta e fori dal Modello di Operazioni ---------------------- */
-function cyl(mat, a, b, dia) {
+/* Feronerie realistă (hwmesh.js): cilindrii au capetele teșite, cutiile muchiile rotunjite, iar profilele rotite
+   (șuruburi, came) se construiesc dintr-un profil. Geometriile sunt în cache, deci mesh-urile sunt `own`:
+   clearGroup() le eliberează din GPU și three le reîncarcă dacă mai sunt folosite. */
+const UPY = new THREE.Vector3(0, 1, 0);
+function place(m, va, vb) {
+  m.position.copy(va); m.quaternion.setFromUnitVectors(UPY, vb.clone().sub(va).normalize());
+}
+function cyl(mat, a, b, dia, ch) {
   const va = new THREE.Vector3(a[0] * MM, a[1] * MM, a[2] * MM), vb = new THREE.Vector3(b[0] * MM, b[1] * MM, b[2] * MM);
-  const m = new THREE.Mesh(CYL, materialFor(mat));
-  const len = va.distanceTo(vb);
-  m.position.copy(va).add(vb).multiplyScalar(.5);
-  m.scale.set(dia * MM, Math.max(len, 1e-5), dia * MM);
-  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize());
-  m.castShadow = true;
+  const len = Math.max(va.distanceTo(vb) / MM, 0.01);
+  const m = new THREE.Mesh(cylGeom(len, dia, ch == null ? Math.min(0.45, dia * 0.1, len * 0.2) : ch), materialFor(mat));
+  place(m, va, vb); m.castShadow = true; m.userData.own = true;
+  return m;
+}
+/* profil rotit de la `a` (y=0 al profilului) la `b`; profile = [[rază, y], …] în mm */
+function lathe(mat, a, b, profile, seg) {
+  const va = new THREE.Vector3(a[0] * MM, a[1] * MM, a[2] * MM), vb = new THREE.Vector3(b[0] * MM, b[1] * MM, b[2] * MM);
+  const m = new THREE.Mesh(latheGeom(profile, seg || 20), materialFor(mat));
+  place(m, va, vb); m.castShadow = true; m.userData.own = true;
   return m;
 }
 const SPH = new THREE.SphereGeometry(0.5, 18, 12);
@@ -729,12 +741,18 @@ function sph(mat, c, dia) {
   m.position.set(c[0] * MM, c[1] * MM, c[2] * MM); m.scale.setScalar(dia * MM); m.castShadow = true;
   return m;
 }
-function box(mat, lo, hi) {
-  const m = new THREE.Mesh(UNIT, materialFor(mat));
+function box(mat, lo, hi, r) {
+  const sx = Math.max(Math.abs(hi[0] - lo[0]), .2), sy = Math.max(Math.abs(hi[1] - lo[1]), .2), sz = Math.max(Math.abs(hi[2] - lo[2]), .2);
+  const m = new THREE.Mesh(rboxGeom(sx, sy, sz, r == null ? Math.min(0.6, Math.min(sx, sy, sz) * 0.25) : r), materialFor(mat));
   m.position.set((lo[0] + hi[0]) / 2 * MM, (lo[1] + hi[1]) / 2 * MM, (lo[2] + hi[2]) / 2 * MM);
-  m.scale.set(Math.max(Math.abs(hi[0] - lo[0]), .2) * MM, Math.max(Math.abs(hi[1] - lo[1]), .2) * MM, Math.max(Math.abs(hi[2] - lo[2]), .2) * MM);
-  m.castShadow = true;
+  m.castShadow = true; m.userData.own = true;
   return m;
+}
+/* o primitivă din ebanist-hwgeom.js (cyl / box / lathe) */
+function shapeMesh(sh) {
+  if (sh.t === "cyl") return cyl(sh.mat, sh.a, sh.b, sh.d, sh.ch);
+  if (sh.t === "lathe") return lathe(sh.mat, sh.a, sh.b, sh.profile, sh.seg);
+  return box(sh.mat, sh.lo, sh.hi, sh.r);
 }
 const along = (w, ax, d) => { const o = w.slice(); o[ax] += d; return o; };
 
@@ -833,6 +851,8 @@ function buildHardware(model) {
   R.links = [];
   if (!model || !model.ops) return;
   const O = model.ops;
+  /* conectori: forma 3D iese din aceleași operații (găuri și canale) ca fișa piesei (ebanist-hwgeom.js) */
+  const OPS = EBHwGeom.opsByHw(O.pieces);
   /* cerniere: dicono anche da che parte si apre l'anta */
   O.hw.forEach(h => {
     if (h.wing === "B") return;   /* aripa B a corpului de colț: balamalele, glisierele și mânerele se desenează presupunând fața pe +z (D-103); fără desen, nu desen greșit */
@@ -845,14 +865,14 @@ function buildHardware(model) {
          amortizorul BLUMOTION e o cutie neagră pe braț; două șuruburi de reglaj pe capătul brațului */
       const w = h.w, sd = h.hingeLeft ? 1 : -1, hid = hwId("cern");
       const HM = /^haf_/.test(hid) ? "__inox" : "__zinc", damper = /^blum_71b/.test(hid) || /^haf_/.test(hid), inset = hid === "haf_duomatic";
-      const y = w[1], z0 = w[2];
-      /* — partea din ușă: cupă, flanșă cu urechi, șuruburi, brațul de legătură — */
-      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      const y = w[1], z0 = w[2], HX = EBHwGeom.hingeDims(h, OPS[h.id], HW_DRILL);
+      /* — partea din ușă: cupă (Ø și adâncime din operația «tazza cerniera»), flanșă cu urechi, șuruburi, brațul de legătură — */
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, HX.cupDepth), HX.cupDia)));
       P.hw.add(tag(cyl(HM, along(w, 2, -1.7), along(w, 2, 0.3), 37)));
       const fx0 = w[0] - sd * 14, fx1 = w[0] + sd * 13.5;
       P.hw.add(tag(box(HM, [Math.min(fx0, fx1), y - 28.5, z0 - 1.7], [Math.max(fx0, fx1), y + 28.5, z0 - 0.1])));
       [-1, 1].forEach(k => {
-        const c = [w[0] + sd * 9.5, y + k * 22.5, z0 - 1.7];
+        const c = [w[0] + sd * HX.dowelOffset, y + k * HX.dowelHalf, z0 - 1.7];   // pe tasealele din fișa de găurire
         P.hw.add(tag(cyl("__blackmetal", c, [c[0], c[1], c[2] - 0.15], 8.4)));
         P.hw.add(tag(cyl("__inox", [c[0], c[1], c[2] - 0.1], [c[0], c[1], c[2] - 1.6], 6)));
       });
@@ -861,13 +881,14 @@ function buildHardware(model) {
         const xo = (d) => p[0] + sd * d;
         /* — placa de montaj de pe lateral: bază 3 mm, 45 × 40, cu două șuruburi la 32 mm — */
         A.hw.add(tag(box(HM, [Math.min(p[0], xo(3)), p[1] - 22.5, zp - 20], [Math.max(p[0], xo(3)), p[1] + 22.5, zp + 20])));
-        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [xo(3), p[1] + k * 16, zp + 13], [xo(4.4), p[1] + k * 16, zp + 13], 6.5))));
+        [-1, 1].forEach(k => A.hw.add(tag(cyl("__inox", [xo(3), p[1] + k * HX.plateHalf, zp + 13], [xo(4.4), p[1] + k * HX.plateHalf, zp + 13], 6.5))));
         /* — brațul: tablă îndoită, mai înalt spre ușă (profil trapez), lat de 22 mm — */
         const zNear = z0 - 16, zFar = zNear - 56;
         const sh = new THREE.Shape();
         sh.moveTo(zFar, 3); sh.lineTo(zNear, 3); sh.lineTo(zNear, inset ? 27 : 23); sh.lineTo(zFar + 18, 16); sh.lineTo(zFar, 13); sh.closePath();
-        const g = new THREE.ExtrudeGeometry(sh, { depth: 22, bevelEnabled: false });
-        g.translate(0, 0, -11);
+        /* tablă îndoită: grosime 22 cu muchii rotunjite (bevel), conturul rămâne cel desenat */
+        const g = new THREE.ExtrudeGeometry(sh, { depth: 20.4, bevelEnabled: true, bevelThickness: .8, bevelSize: .8, bevelOffset: -.8, bevelSegments: 2, curveSegments: 4 });
+        g.translate(0, 0, -11 + .8);
         /* (a, b, depth) → (z, xo, y): permutare ciclică, deci rotație proprie */
         const M = new THREE.Matrix4().set(0, sd, 0, p[0] * 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1);
         g.applyMatrix4(M); g.translate(0, p[1], 0); g.scale(MM, MM, MM);
@@ -896,18 +917,14 @@ function buildHardware(model) {
       if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
     } else if (h.type === "cerniera_pliante") {
       /* balamaua dintre două foi ale unui pachet pliant: cupa în prima foaie, placa pe fața dinapoi a vecinei */
-      const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc";
-      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, 13), 35)));
+      const w = h.w, HM = /^haf_/.test(hwId("cern")) ? "__inox" : "__zinc", HX = EBHwGeom.hingeDims(h, OPS[h.id], HW_DRILL);
+      P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, HX.cupDepth), HX.cupDia)));
       if (h.plate && A) { const p = h.plate; A.hw.add(tag(box(HM, [p[0] - 22.5, p[1] - 22.5, p[2] - 3], [p[0] + 22.5, p[1] + 22.5, p[2]]))); }
-    } else if (h.type === "minifix") {
-      P.hw.add(tag(cyl("__hw", h.w, along(h.w, h.dir.ax, -h.dir.side * 12.5), 15)));
-      const e = h.edge; P.hw.add(tag(cyl("__hw", along(e, h.eAx, h.eSide * 11), along(e, h.eAx, -h.eSide * 32), 5)));
-    } else if (h.type === "tassello") {
-      P.hw.add(tag(cyl("__wooddowel", along(h.w, h.eAx, h.eSide * 12), along(h.w, h.eAx, -h.eSide * 23), 8)));
-    } else if (h.type === "reggipiano") {
-      const w = h.w, s = h.dir.side;
-      P.hw.add(tag(cyl("__hw", along(w, 0, -s * 10), along(w, 0, s * 9), 5)));
-      P.hw.add(tag(box("__hw", [w[0] + s * 1, w[1] + 2, w[2] - 5], [w[0] + s * 9, w[1] + 3.5, w[2] + 5])));
+    } else if (EBHwGeom.TYPES.indexOf(h.type) >= 0) {
+      /* Minifix, tasel, Confirmat, lamelă, Domino, Clamex, suport de raft: cilindri și cutii cu cotele găurilor și canalelor lor */
+      const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
+      EBHwGeom.connectorShapes(h, OPS[h.id], HW_DRILL, { thickF: ext }).forEach(sh =>
+        P.hw.add(tag(shapeMesh(sh))));
     } else if (h.type === "guida") {
       /* culisantă ascunsă: șina corpului (profil C pe lateral, rolă, fixare în
          spate) rămâne pe loc; alergătorul cu clemă de față merge cu sertarul */
@@ -920,7 +937,7 @@ function buildHardware(model) {
       bx("__zinc", 0, 13, 24.2, 26, zf + 6, z1 - 6);              // buza de sus
       bx("__zinc", 0, 10, -10, 26, zf, zf + 6);                   // consola din spate
       bx("__zinc", 0, 8, -10, 26, z1 - 6, z1);                    // reazemul din față
-      [-1, 1].forEach(k => { const c = [w[0] + s * 1.8, y + 8 + k * 6, z1 - 3]; P.hw.add(tag(cyl("__inox", c, [c[0] + s * 1.2, c[1], c[2]], 5.5))); });
+      EBHwGeom.slideScrews(h, OPS[h.id], HW_DRILL, 1.8).forEach(sh => P.hw.add(tag(shapeMesh(sh))));   // șuruburile stau în găurile din fișa piesei
       const x0 = w[0] + s * 4, rl = [x0, y + 8, z1 - 24];
       P.hw.add(tag(cyl("__nylon", rl, [x0 + s * 7, rl[1], rl[2]], 13)));
       if (side) {
@@ -953,21 +970,6 @@ function buildHardware(model) {
     } else if (h.type === "gola_fresata") {
       /* priza frezată: fâșie închisă pe muchia de sus, pe spatele frontului — se vede ca adâncitura de prindere */
       P.hw.add(tag(box("__flushdark", [h.x0 + 1, h.w[1] - 0.2, h.zB], [h.x1 - 1, h.w[1] + 0.3, h.zB + h.d]), true));
-    } else if (h.type === "confirmat") {
-      /* șurub confirmat 7×50: capul pe fața exterioară a lui F, tija intră în muchia lui E */
-      const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
-      const hd = along(h.w, h.eAx, h.eSide * ext), tip = along(h.w, h.eAx, -h.eSide * (50 - ext));
-      P.hw.add(tag(cyl("__brass", hd, tip, 7)));
-      P.hw.add(tag(cyl("__brass", hd, along(hd, h.eAx, h.eSide * 3.5), 10.5)));
-    } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex") {
-      /* lamela / tenon / conector: corp care trece din F în E, orientat după canal */
-      const D = { biscuit: [56, 4, 12.5, 12.5, "__wooddowel"], domino: [22, 8, 15, 25, "__domino"], clamex: [64, 9.7, 14, 14, "__nylongrey"] }[h.type];
-      const lo = h.w.slice(), hi = h.w.slice();
-      const e0 = h.w[h.eAx] + h.eSide * D[2], e1 = h.w[h.eAx] - h.eSide * D[3];
-      lo[h.eAx] = Math.min(e0, e1); hi[h.eAx] = Math.max(e0, e1);
-      lo[h.sAx] = h.w[h.sAx] - D[0] / 2; hi[h.sAx] = h.w[h.sAx] + D[0] / 2;
-      lo[h.camAx] = h.w[h.camAx] - D[1] / 2; hi[h.camAx] = h.w[h.camAx] + D[1] / 2;
-      P.hw.add(tag(box(D[4], lo, hi)));
     }
   });
   /* fori e cave: dischi scuri sulla superficie, un InstancedMesh per pezzo */

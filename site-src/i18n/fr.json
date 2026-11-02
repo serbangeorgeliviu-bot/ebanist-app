@@ -368,5 +368,10 @@
  "blog.s9.h": "Une fiche de montage A3 par caisson",
  "blog.s9.p": "Une vue éclatée avec les pièces numérotées comme dans la liste des pièces, la liste par position, la quincaillerie avec ses codes et la séquence de montage, sur une feuille A3 par caisson.",
  "blog.s10.h": "Un dossier technique complet, prêt à imprimer",
- "blog.s10.p": "Une couverture avec sommaire et guide de lecture, une présentation client avec de grands rendus 3D, les matériaux et une ligne de signature, et un rapport technique construit à partir des données de votre projet. Un seul bouton imprime l'ensemble en A3, au choix avec la fiche de fabrication de chaque pièce."
+ "blog.s10.p": "Une couverture avec sommaire et guide de lecture, une présentation client avec de grands rendus 3D, les matériaux et une ligne de signature, et un rapport technique construit à partir des données de votre projet. Un seul bouton imprime l'ensemble en A3, au choix avec la fiche de fabrication de chaque pièce.",
+ "help.nav": "Aide",
+ "help.meta.title": "Aide et guides · Ebanist",
+ "help.meta.desc": "Guides pas à pas pour Ebanist avec des captures de la vraie application : première liste de débit, 3D, documents, relevé, mode Client, sauvegardes et Pro. Disponibles aussi dans l'application, hors ligne.",
+ "help.h": "Maîtrisez Ebanist en dix minutes.",
+ "help.lead": "Des guides courts, pas à pas, avec des captures de la vraie application. Le même guide est dans l'application et fonctionne hors ligne."
 }

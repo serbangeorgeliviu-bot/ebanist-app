@@ -112,8 +112,6 @@ transition:transform .5s var(--ease),background-color .3s,border-color .3s,color
 .badge{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;background:var(--green);color:var(--gold);flex:none}
 .badge svg{width:76%;height:76%;fill:currentColor}
 .badge-lg{width:56px;height:56px;border-radius:14px}
-.intro-logo{width:clamp(64px,9vw,110px);height:clamp(64px,9vw,110px);fill:var(--gold);opacity:0;transform:scale(.85);transition:opacity .7s var(--ease),transform .9s var(--ease)}
-.intro-title.on .intro-logo{opacity:1;transform:none}
 .final-logo{width:84px;height:84px;fill:var(--gold);margin:0 auto 26px;display:block}
 .foot-brand{display:flex;gap:16px;align-items:center}
 .nav{display:flex;gap:28px;margin-left:28px}
@@ -141,23 +139,52 @@ transition:transform .5s var(--ease),background-color .3s,border-color .3s,color
 .lang-menu a:active{background:var(--paper2)}
 @media (max-width:560px){.top .langs{display:none}.lang-pick{display:block}.top .btn{min-height:36px;padding:0 14px;font-size:13px}}
 @media (max-width:359px){.top .bar{gap:8px}.lang-pick summary{padding:0 8px}.top .btn{padding:0 12px}}
-.intro{position:fixed;inset:0;z-index:150;background:radial-gradient(120% 90% at 50% 40%,#16513a,#0b2e21);display:grid;place-items:center;overflow:hidden}
-.intro[hidden]{display:none}
-.intro canvas{position:absolute;inset:0;width:100%;height:100%}
-.intro-labels{position:absolute;inset:0;pointer-events:none}
-.intro-labels span{position:absolute;font:500 12px/1 var(--mono);color:var(--paper);white-space:nowrap;transform:translate(-50%,-50%);opacity:0;transition:opacity .25s;
-background:rgba(14,59,42,.78);padding:3px 5px;border-radius:3px}
-.intro-labels span.on{opacity:1}
-.intro-title{position:absolute;left:var(--gut);bottom:clamp(40px,10vh,110px);display:flex;flex-direction:column;gap:12px;pointer-events:none}
-.intro-word{font:400 clamp(3.4rem,12vw,10rem)/.9 var(--serif);letter-spacing:-.04em;color:var(--paper);display:flex;opacity:0}
-.intro-word.on{opacity:1}
-.intro-word b{font-weight:400;display:inline-block;clip-path:inset(0 0 100% 0);transform:translateY(30%);transition:clip-path .7s var(--ease),transform .7s var(--ease)}
-.intro-word.on b{clip-path:inset(0 0 -10% 0);transform:none}
-.intro-tag{font:400 13px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);opacity:0;transition:opacity .6s .5s}
-.intro-title.on .intro-tag{opacity:1}
-.intro-skip{position:absolute;right:var(--gut);bottom:calc(24px + env(safe-area-inset-bottom));z-index:2;font:500 13px/1 var(--mono);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:12px 18px;background:rgba(255,255,255,.08)}
+#splash{position:fixed;inset:0;z-index:150;overflow:hidden;background:transparent}
+#splash .sp-panel{position:absolute;left:0;right:0;height:50.4%;background:#0E3B2A;will-change:transform}
+#splash .sp-top{top:0;animation:spTop .64s cubic-bezier(.7,0,.2,1) 2.30s forwards}
+#splash .sp-bot{bottom:0;animation:spBot .64s cubic-bezier(.7,0,.2,1) 2.30s forwards}
+#splash .sp-stage{position:absolute;inset:0;display:flex;flex-direction:column;
+align-items:center;justify-content:center;padding:0 12vw;
+animation:spStage .52s ease-in 2.30s forwards}
+#splash .sp-glow{position:absolute;top:50%;left:50%;width:86vw;height:86vw;max-width:460px;max-height:460px;
+transform:translate(-50%,-50%) scale(.6);border-radius:50%;pointer-events:none;opacity:0;
+background:radial-gradient(circle,rgba(212,175,55,.34) 0%,rgba(212,175,55,0) 66%);
+animation:spGlow 1.5s cubic-bezier(.1,.8,.3,1) .58s forwards}
+#splash .sp-seam{position:absolute;top:50%;left:50%;height:2px;width:0;transform:translate(-50%,-50%);
+background:linear-gradient(90deg,rgba(212,175,55,0),#E3C877 50%,rgba(212,175,55,0));
+box-shadow:0 0 14px rgba(227,200,119,.85);animation:spSeam .95s cubic-bezier(.2,.9,.2,1) forwards}
+#splash .sp-mark{position:relative;width:min(50vw,208px);color:#D4AF37}
+#splash .sp-mark svg{width:100%;height:auto;display:block}
+#splash .sp-fill{position:absolute;inset:0;opacity:0;animation:spFill .42s ease-out 1.36s forwards}
+#splash .sp-draw{opacity:0;animation:spDrawIn .01s linear .6s forwards, spDrawOut .36s ease-in 1.40s forwards}
+#splash .sp-draw g,#splash .sp-draw path{fill:none;stroke:currentColor;stroke-width:46;
+stroke-linecap:round;stroke-linejoin:round}
+#splash .sp-word{margin-top:26px;color:#E3C877;width:min(64vw,272px);height:auto;
+opacity:0;transform:translateY(12px);animation:spWord .55s cubic-bezier(.2,.8,.3,1) 1.62s forwards}
+#splash .sp-light{position:absolute;top:-40%;left:-60%;width:60%;height:180%;pointer-events:none;
+transform:rotate(18deg);mix-blend-mode:screen;opacity:0;
+background:linear-gradient(90deg,rgba(255,245,214,0) 0%,rgba(255,245,214,.16) 45%,rgba(255,245,214,.30) 50%,rgba(255,245,214,.16) 55%,rgba(255,245,214,0) 100%);
+animation:spLight .9s ease-in-out 1.32s forwards}
+@keyframes spSeam{0%{width:0;opacity:0}18%{opacity:1}
+62%{width:64%;height:2px}72%{width:70%;height:5px;opacity:1}100%{width:74%;height:1px;opacity:0}}
+@keyframes spGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+16%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}100%{opacity:.62;transform:translate(-50%,-50%) scale(1)}}
+@keyframes spDrawIn{to{opacity:1}}
+@keyframes spDrawOut{to{opacity:0}}
+@keyframes spFill{from{opacity:0;filter:drop-shadow(0 0 26px rgba(227,200,119,.9))}
+to{opacity:1;filter:drop-shadow(0 0 0 rgba(227,200,119,0))}}
+@keyframes spWord{to{opacity:1;transform:translateY(0)}}
+@keyframes spLight{0%{opacity:0;transform:translateX(0) rotate(18deg)}
+20%{opacity:1}100%{opacity:0;transform:translateX(320%) rotate(18deg)}}
+@keyframes spTop{to{transform:translateY(-101%)}}
+@keyframes spBot{to{transform:translateY(101%)}}
+@keyframes spStage{to{opacity:0;transform:scale(1.14)}}
+#splash[hidden]{display:none}
+@media (prefers-reduced-motion: reduce){#splash{display:none}}
+.intro-skip{position:fixed;right:var(--gut);bottom:calc(24px + env(safe-area-inset-bottom));z-index:160;font:500 13px/1 var(--mono);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:12px 18px;background:rgba(255,255,255,.08)}
+.intro-skip[hidden]{display:none}
 .intro-skip:hover{border-color:var(--gold);color:#fff}
-.intro.out{opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility 0s .7s}
+#splash.out{opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility 0s .45s}
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:110px 0 60px;overflow:hidden}
 .hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,4vw,60px);align-items:center;position:relative}
 .hero-copy{position:relative;z-index:2}
@@ -617,6 +644,34 @@ html.xh input,html.xh textarea{cursor:text}
 .blog-card .mono{color:var(--txt3);font-size:12px}
 .blog-card .blog-read{display:inline-block;margin-top:14px;color:var(--gold-ink)}
 @media (max-width:760px){.blog-card{grid-template-columns:1fr}.blog-item{grid-template-columns:1fr}.blog-item>.mono{padding-top:0}}
+.help .blog-hero{max-width:1100px}
+.help-toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.help-toc a{text-decoration:none;padding:8px 14px;border:1px solid var(--line2);border-radius:999px;font-size:14px;color:var(--txt);background:var(--paper)}
+.help-toc a:hover{border-color:var(--gold)}
+.help-sec{max-width:1100px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,5vw,72px);align-items:start;padding-top:clamp(32px,5vw,60px);padding-bottom:clamp(32px,5vw,60px);border-top:1px solid var(--line);scroll-margin-top:76px}
+.help-sec-1{grid-template-columns:minmax(0,1fr);max-width:900px}
+.help-n{color:var(--gold-ink);font-size:13px}
+.help-sec .case-h2{font-size:clamp(1.5rem,2.6vw,2.2rem);margin-top:6px}
+.help .hp-lead{color:var(--txt2);font-size:clamp(16px,1.3vw,18px);margin-top:12px;max-width:60ch}
+.help .hp-steps{margin:18px 0 0;padding-left:1.5em;display:grid;gap:12px;font-size:clamp(16px,1.3vw,18px);max-width:60ch}
+.help .hp-steps li::marker{color:var(--gold-ink);font-family:var(--mono);font-size:.9em}
+.help .hp-tip{margin-top:20px;max-width:60ch;padding:12px 16px;border-left:3px solid var(--green);background:var(--paper2);border-radius:0 10px 10px 0;color:var(--txt2);font-size:16px}
+.help-fig-col{position:sticky;top:92px}
+.help .hp-fig{margin:0}
+.help .hp-fig img{display:block;width:100%;max-width:330px;height:auto;border-radius:20px;border:1px solid var(--line2);box-shadow:0 18px 44px -20px rgba(14,59,42,.35)}
+.help .hp-fig-wide img{max-width:100%;border-radius:14px}
+.help-faq{max-width:900px;padding-top:clamp(40px,6vw,80px);border-top:1px solid var(--line);scroll-margin-top:76px}
+.help-q{border-top:1px solid var(--line);padding:16px 0}
+.help-q:first-of-type{margin-top:22px}
+.help-q summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-weight:600;font-size:clamp(16px,1.3vw,18px)}
+.help-q summary::-webkit-details-marker{display:none}
+.help-q summary::after{content:"+";color:var(--gold-ink);font-family:var(--mono);font-size:1.3em;line-height:1}
+.help-q[open] summary::after{content:"\2013"}
+.help-q p{color:var(--txt2);margin-top:10px;max-width:64ch}
+.help-cta{max-width:900px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;padding-top:clamp(36px,5vw,64px);padding-bottom:clamp(48px,7vw,96px);border-top:1px solid var(--line)}
+.help-cta p{color:var(--txt2)}
+.help-cta a:not(.btn){color:var(--green);font-weight:600}
+@media (max-width:760px){.help-sec{grid-template-columns:1fr}.help-fig-col{position:static}.help .hp-fig img{margin:0 auto}}
 .blog-card,.blog-card *{text-decoration:none}
 </style>
 <link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
@@ -694,13 +749,191 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 </g></symbol></svg>
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- ======================= INTRO ======================= -->
-<div class="intro" id="intro" hidden aria-hidden="true">
-  <canvas id="introCanvas"></canvas>
-  <div class="intro-labels" id="introLabels"></div>
-  <div class="intro-title"><svg class="intro-logo" aria-hidden="true"><use href="#ebLogo"/></svg><span class="intro-word" id="introWord">Ebanist</span><span class="intro-tag">Furniture design for cabinetmakers</span></div>
-  <button type="button" class="intro-skip" id="introSkip">Skip <span aria-hidden="true">→</span></button>
+<!-- ======================= INTRO (identic cu cel din aplicație) ======================= -->
+<div id="splash" hidden aria-hidden="true">
+  <div class="sp-panel sp-top"></div>
+  <div class="sp-panel sp-bot"></div>
+  <div class="sp-stage">
+    <div class="sp-glow"></div>
+    <div class="sp-seam"></div>
+    <div class="sp-mark">
+      <svg class="sp-draw" viewBox="155.68 -69.54 353.43 353.43" fill="none" stroke="currentColor" aria-hidden="true"><g transform="translate(-376,559.923803) scale(0.1,-0.1)" stroke="none">
+<path d="M6385 5585 c-320 -70 -585 -319 -681 -640 -32 -111 -44 -311 -24
+-433 61 -384 341 -744 715 -921 213 -101 372 -136 610 -135 234 1 370 31 582
+129 267 125 524 377 662 654 118 234 161 452 161 821 l0 156 29 17 c61 36 78
+136 34 196 -24 33 -79 61 -118 61 -65 0 -135 -72 -135 -138 0 -50 26 -100 61
+-120 l31 -17 -5 -245 c-4 -197 -9 -264 -26 -342 -55 -254 -168 -476 -321 -628
+-67 -67 -83 -78 -146 -98 -39 -12 -91 -22 -117 -22 l-46 0 69 69 c228 228 355
+516 376 856 l7 110 41 36 c39 35 41 39 41 96 0 73 -21 108 -81 134 -36 17 -50
+18 -83 9 -79 -21 -121 -86 -107 -164 8 -40 47 -92 77 -101 18 -6 19 -13 14
+-83 -21 -267 -74 -440 -187 -613 -55 -85 -167 -223 -174 -216 -2 2 9 30 25 63
+51 102 82 226 88 355 6 115 6 117 34 133 76 45 83 154 14 223 -29 29 -39 33
+-85 33 -69 0 -113 -27 -135 -82 -21 -54 -12 -109 26 -153 35 -39 36 -56 8
+-132 -75 -201 -231 -303 -462 -303 -308 0 -582 192 -703 493 l-33 82 472 5
+472 5 -1 100 c-1 125 -28 225 -92 349 -37 74 -65 110 -142 187 -82 83 -108
+103 -190 143 -135 66 -225 86 -374 85 -67 0 -148 -6 -181 -14z m70 -108 c-136
+-101 -253 -229 -304 -331 -34 -69 -38 -86 -18 -86 6 0 27 29 45 63 93 180 311
+363 447 375 105 9 290 -65 395 -158 l35 -31 -42 20 c-66 33 -187 69 -250 76
+-136 16 -277 -41 -397 -160 -42 -41 -82 -75 -89 -75 -8 0 -21 -8 -30 -17 -50
+-57 7 -129 69 -88 23 15 26 22 21 55 -5 37 -2 41 67 107 39 38 87 79 106 90
+138 83 322 70 509 -34 107 -59 170 -128 196 -211 6 -20 1 -19 -44 16 -79 59
+-207 134 -264 153 -30 11 -81 18 -122 19 -137 0 -254 -49 -344 -146 -63 -67
+-96 -127 -122 -219 l-16 -60 -182 -3 -181 -2 0 25 c0 13 6 46 13 72 9 35 20
+51 44 66 38 22 50 51 33 82 -30 57 157 321 268 379 33 17 133 44 167 45 17 0
+15 -3 -10 -22z m1937 -84 c41 -37 5 -111 -49 -97 -23 6 -47 49 -37 67 27 48
+55 58 86 30z m-2297 -89 c-31 -42 -67 -103 -82 -135 -17 -37 -33 -59 -44 -59
+-35 0 -63 -55 -44 -89 10 -20 9 -34 -6 -83 -11 -33 -19 -68 -19 -78 0 -15 -10
+-19 -56 -22 -31 -1 -58 0 -60 4 -2 4 9 49 26 100 48 152 135 279 258 379 40
+32 75 59 77 59 2 0 -20 -34 -50 -76z m796 -94 c64 -19 182 -92 297 -181 54
+-43 60 -51 66 -95 4 -27 10 -60 13 -74 5 -21 -5 -15 -58 36 -81 76 -137 114
+-241 164 -105 50 -169 63 -245 49 -73 -14 -118 -37 -171 -88 -34 -33 -92 -125
+-92 -146 0 -17 29 0 44 28 65 111 163 177 265 177 111 -1 280 -82 394 -190
+l62 -59 -48 -1 c-52 0 -75 9 -121 47 -63 52 -127 77 -201 77 -89 0 -154 -22
+-228 -78 l-57 -43 -113 1 -112 1 3 25 c7 47 40 128 70 172 109 159 302 232
+473 178z m-591 -85 c13 -16 6 -35 -15 -35 -18 0 -28 17 -21 35 7 19 20 19 36
+0z m1798 -48 c32 -66 -62 -109 -97 -46 -13 24 -13 29 3 53 24 37 75 33 94 -7z
+m-2100 -31 c-2 -13 -10 -21 -23 -21 -23 0 -33 34 -14 45 20 13 40 -1 37 -24z
+m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
+12 62 50 109 68 21 8 67 12 111 11 66 -3 83 -7 133 -38z m759 -157 c22 -20 23
+-51 1 -75 -22 -24 -69 -24 -83 1 -33 63 30 121 82 74z m-1820 -10 c33 -37 89
+-154 147 -306 59 -154 107 -257 121 -257 6 0 -115 343 -154 434 -9 22 -30 61
+-46 88 -17 27 -30 51 -30 53 0 3 79 4 175 3 l176 -3 28 -82 c47 -135 105 -227
+211 -334 58 -58 123 -112 165 -137 54 -33 64 -42 45 -42 -42 0 -130 27 -200
+61 -131 65 -271 247 -254 334 11 60 -37 96 -78 58 -27 -24 -23 -61 10 -80 17
+-11 41 -45 66 -96 89 -184 264 -295 494 -313 48 -4 120 -15 161 -25 93 -24
+271 -26 356 -4 95 24 181 72 247 136 53 52 59 56 54 32 -10 -42 -61 -147 -94
+-195 -114 -166 -289 -280 -495 -324 -76 -16 -261 -21 -342 -9 -253 37 -466
+143 -645 324 -165 166 -258 352 -277 556 l-6 69 42 -33 c69 -55 107 -122 135
+-241 32 -128 78 -224 149 -310 56 -67 148 -139 211 -165 62 -26 63 -16 1 23
+-86 55 -178 144 -228 220 -55 84 -71 123 -102 247 -33 128 -67 188 -141 248
+-32 26 -60 56 -62 67 -3 18 3 20 71 20 58 0 77 -4 89 -17z m358 -169 c0 -8 -9
+-14 -20 -14 -22 0 -28 26 -7 33 16 6 27 -1 27 -19z m1520 -698 c0 -9 -125 -94
+-197 -135 -93 -52 -200 -95 -321 -127 -77 -20 -130 -27 -252 -31 -166 -6 -277
+7 -395 46 l-60 20 55 -7 c30 -4 134 -7 230 -6 154 1 187 4 271 27 119 31 216
+71 344 142 91 51 104 55 165 56 36 0 83 4 105 8 54 12 55 12 55 7z"/>
+<path d="M6140 4525 c0 -19 49 -120 87 -179 130 -201 313 -338 511 -382 120
+-27 349 -7 315 27 -5 5 -38 4 -78 -3 -139 -21 -303 12 -434 89 -36 21 -104 76
+-151 123 -91 89 -146 163 -199 268 -17 34 -36 62 -41 62 -6 0 -10 -2 -10 -5z"/>
+<path d="M6254 4134 c-16 -23 -16 -28 -1 -59 43 -90 149 -170 279 -211 46 -14
+137 -43 203 -64 142 -45 225 -56 320 -40 72 11 92 21 81 38 -4 7 -19 7 -44 0
+-20 -6 -77 -11 -127 -11 -78 0 -104 5 -195 36 -58 20 -145 48 -195 62 -117 34
+-173 66 -240 136 -53 56 -71 99 -40 99 18 0 127 -97 137 -122 8 -20 38 -25 38
+-5 0 7 -35 47 -78 90 -85 84 -111 94 -138 51z"/>
+<path d="M7305 3970 c-125 -68 -223 -94 -357 -94 -73 -1 -108 -5 -108 -12 0
+-6 17 -14 38 -18 137 -22 346 28 487 119 52 33 70 56 43 54 -7 0 -53 -23 -103
+-49z"/>
+</g></svg>
+      <svg class="sp-fill" viewBox="155.68 -69.54 353.43 353.43" fill="currentColor" aria-hidden="true"><g transform="translate(-376,559.923803) scale(0.1,-0.1)" stroke="none">
+<path d="M6385 5585 c-320 -70 -585 -319 -681 -640 -32 -111 -44 -311 -24
+-433 61 -384 341 -744 715 -921 213 -101 372 -136 610 -135 234 1 370 31 582
+129 267 125 524 377 662 654 118 234 161 452 161 821 l0 156 29 17 c61 36 78
+136 34 196 -24 33 -79 61 -118 61 -65 0 -135 -72 -135 -138 0 -50 26 -100 61
+-120 l31 -17 -5 -245 c-4 -197 -9 -264 -26 -342 -55 -254 -168 -476 -321 -628
+-67 -67 -83 -78 -146 -98 -39 -12 -91 -22 -117 -22 l-46 0 69 69 c228 228 355
+516 376 856 l7 110 41 36 c39 35 41 39 41 96 0 73 -21 108 -81 134 -36 17 -50
+18 -83 9 -79 -21 -121 -86 -107 -164 8 -40 47 -92 77 -101 18 -6 19 -13 14
+-83 -21 -267 -74 -440 -187 -613 -55 -85 -167 -223 -174 -216 -2 2 9 30 25 63
+51 102 82 226 88 355 6 115 6 117 34 133 76 45 83 154 14 223 -29 29 -39 33
+-85 33 -69 0 -113 -27 -135 -82 -21 -54 -12 -109 26 -153 35 -39 36 -56 8
+-132 -75 -201 -231 -303 -462 -303 -308 0 -582 192 -703 493 l-33 82 472 5
+472 5 -1 100 c-1 125 -28 225 -92 349 -37 74 -65 110 -142 187 -82 83 -108
+103 -190 143 -135 66 -225 86 -374 85 -67 0 -148 -6 -181 -14z m70 -108 c-136
+-101 -253 -229 -304 -331 -34 -69 -38 -86 -18 -86 6 0 27 29 45 63 93 180 311
+363 447 375 105 9 290 -65 395 -158 l35 -31 -42 20 c-66 33 -187 69 -250 76
+-136 16 -277 -41 -397 -160 -42 -41 -82 -75 -89 -75 -8 0 -21 -8 -30 -17 -50
+-57 7 -129 69 -88 23 15 26 22 21 55 -5 37 -2 41 67 107 39 38 87 79 106 90
+138 83 322 70 509 -34 107 -59 170 -128 196 -211 6 -20 1 -19 -44 16 -79 59
+-207 134 -264 153 -30 11 -81 18 -122 19 -137 0 -254 -49 -344 -146 -63 -67
+-96 -127 -122 -219 l-16 -60 -182 -3 -181 -2 0 25 c0 13 6 46 13 72 9 35 20
+51 44 66 38 22 50 51 33 82 -30 57 157 321 268 379 33 17 133 44 167 45 17 0
+15 -3 -10 -22z m1937 -84 c41 -37 5 -111 -49 -97 -23 6 -47 49 -37 67 27 48
+55 58 86 30z m-2297 -89 c-31 -42 -67 -103 -82 -135 -17 -37 -33 -59 -44 -59
+-35 0 -63 -55 -44 -89 10 -20 9 -34 -6 -83 -11 -33 -19 -68 -19 -78 0 -15 -10
+-19 -56 -22 -31 -1 -58 0 -60 4 -2 4 9 49 26 100 48 152 135 279 258 379 40
+32 75 59 77 59 2 0 -20 -34 -50 -76z m796 -94 c64 -19 182 -92 297 -181 54
+-43 60 -51 66 -95 4 -27 10 -60 13 -74 5 -21 -5 -15 -58 36 -81 76 -137 114
+-241 164 -105 50 -169 63 -245 49 -73 -14 -118 -37 -171 -88 -34 -33 -92 -125
+-92 -146 0 -17 29 0 44 28 65 111 163 177 265 177 111 -1 280 -82 394 -190
+l62 -59 -48 -1 c-52 0 -75 9 -121 47 -63 52 -127 77 -201 77 -89 0 -154 -22
+-228 -78 l-57 -43 -113 1 -112 1 3 25 c7 47 40 128 70 172 109 159 302 232
+473 178z m-591 -85 c13 -16 6 -35 -15 -35 -18 0 -28 17 -21 35 7 19 20 19 36
+0z m1798 -48 c32 -66 -62 -109 -97 -46 -13 24 -13 29 3 53 24 37 75 33 94 -7z
+m-2100 -31 c-2 -13 -10 -21 -23 -21 -23 0 -33 34 -14 45 20 13 40 -1 37 -24z
+m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
+12 62 50 109 68 21 8 67 12 111 11 66 -3 83 -7 133 -38z m759 -157 c22 -20 23
+-51 1 -75 -22 -24 -69 -24 -83 1 -33 63 30 121 82 74z m-1820 -10 c33 -37 89
+-154 147 -306 59 -154 107 -257 121 -257 6 0 -115 343 -154 434 -9 22 -30 61
+-46 88 -17 27 -30 51 -30 53 0 3 79 4 175 3 l176 -3 28 -82 c47 -135 105 -227
+211 -334 58 -58 123 -112 165 -137 54 -33 64 -42 45 -42 -42 0 -130 27 -200
+61 -131 65 -271 247 -254 334 11 60 -37 96 -78 58 -27 -24 -23 -61 10 -80 17
+-11 41 -45 66 -96 89 -184 264 -295 494 -313 48 -4 120 -15 161 -25 93 -24
+271 -26 356 -4 95 24 181 72 247 136 53 52 59 56 54 32 -10 -42 -61 -147 -94
+-195 -114 -166 -289 -280 -495 -324 -76 -16 -261 -21 -342 -9 -253 37 -466
+143 -645 324 -165 166 -258 352 -277 556 l-6 69 42 -33 c69 -55 107 -122 135
+-241 32 -128 78 -224 149 -310 56 -67 148 -139 211 -165 62 -26 63 -16 1 23
+-86 55 -178 144 -228 220 -55 84 -71 123 -102 247 -33 128 -67 188 -141 248
+-32 26 -60 56 -62 67 -3 18 3 20 71 20 58 0 77 -4 89 -17z m358 -169 c0 -8 -9
+-14 -20 -14 -22 0 -28 26 -7 33 16 6 27 -1 27 -19z m1520 -698 c0 -9 -125 -94
+-197 -135 -93 -52 -200 -95 -321 -127 -77 -20 -130 -27 -252 -31 -166 -6 -277
+7 -395 46 l-60 20 55 -7 c30 -4 134 -7 230 -6 154 1 187 4 271 27 119 31 216
+71 344 142 91 51 104 55 165 56 36 0 83 4 105 8 54 12 55 12 55 7z"/>
+<path d="M6140 4525 c0 -19 49 -120 87 -179 130 -201 313 -338 511 -382 120
+-27 349 -7 315 27 -5 5 -38 4 -78 -3 -139 -21 -303 12 -434 89 -36 21 -104 76
+-151 123 -91 89 -146 163 -199 268 -17 34 -36 62 -41 62 -6 0 -10 -2 -10 -5z"/>
+<path d="M6254 4134 c-16 -23 -16 -28 -1 -59 43 -90 149 -170 279 -211 46 -14
+137 -43 203 -64 142 -45 225 -56 320 -40 72 11 92 21 81 38 -4 7 -19 7 -44 0
+-20 -6 -77 -11 -127 -11 -78 0 -104 5 -195 36 -58 20 -145 48 -195 62 -117 34
+-173 66 -240 136 -53 56 -71 99 -40 99 18 0 127 -97 137 -122 8 -20 38 -25 38
+-5 0 7 -35 47 -78 90 -85 84 -111 94 -138 51z"/>
+<path d="M7305 3970 c-125 -68 -223 -94 -357 -94 -73 -1 -108 -5 -108 -12 0
+-6 17 -14 38 -18 137 -22 346 28 487 119 52 33 70 56 43 54 -7 0 -53 -23 -103
+-49z"/>
+</g></svg>
+    </div>
+    <svg class="sp-word" viewBox="-4.00 247.18 664.00 108.17" fill="currentColor" aria-hidden="true"><g transform="translate(-376,559.923803) scale(0.1,-0.1)" stroke="none">
+<path d="M8828 3077 c-196 -56 -252 -304 -96 -430 24 -19 105 -70 181 -113
+163 -92 209 -129 231 -184 13 -34 14 -49 5 -82 -20 -77 -88 -118 -194 -118
+-134 0 -229 73 -265 202 -12 45 -22 63 -34 63 -9 0 -16 -3 -16 -7 0 -5 0 -49
+0 -100 l0 -91 44 -43 c69 -65 137 -87 276 -88 111 -1 118 0 183 32 80 40 120
+88 138 167 15 69 5 131 -31 189 -35 55 -79 87 -252 184 -158 88 -191 113 -212
+157 -50 106 27 208 158 209 128 2 209 -59 247 -184 17 -56 25 -70 41 -70 19 0
+20 6 16 99 -4 118 -13 133 -117 184 -57 28 -76 32 -160 34 -57 2 -115 -3 -143
+-10z"/>
+<path d="M3760 3052 c0 -15 9 -21 40 -26 26 -4 44 -14 52 -29 10 -16 14 -129
+18 -457 l5 -435 270 0 c315 0 310 -1 345 92 31 81 37 133 17 133 -9 0 -24 -16
+-33 -37 -10 -20 -32 -51 -50 -69 -45 -44 -107 -56 -274 -52 l-135 3 0 200 0
+200 35 1 c19 1 104 2 188 3 l152 1 0 35 0 35 -190 0 -190 0 0 175 0 175 161 0
+c130 0 168 -3 196 -17 41 -19 68 -59 77 -114 4 -26 11 -39 22 -39 14 0 15 13
+12 90 -3 82 -5 92 -31 117 l-27 28 -330 3 c-319 3 -330 2 -330 -16z"/>
+<path d="M4730 3052 c0 -15 9 -21 40 -26 76 -12 75 -2 78 -494 l3 -434 217 5
+c270 6 324 19 404 95 50 48 73 116 64 195 -10 103 -70 176 -169 207 l-38 12
+53 31 c72 44 103 99 103 187 -1 85 -24 134 -84 172 -88 56 -122 61 -408 66
+-256 4 -263 3 -263 -16z m505 -71 c113 -51 139 -199 51 -287 -41 -41 -89 -54
+-203 -54 l-93 0 0 180 0 180 103 0 c77 0 112 -5 142 -19z m27 -436 c93 -33
+140 -122 119 -224 -23 -112 -102 -154 -282 -149 l-104 3 -3 199 -2 199 112 -6
+c66 -3 133 -12 160 -22z"/>
+<path d="M6156 3038 c-146 -338 -386 -916 -386 -928 0 -6 16 -10 36 -10 31 0
+37 4 51 38 8 20 35 85 60 145 l45 107 198 0 c146 0 200 -3 208 -12 5 -7 24
+-47 41 -88 61 -143 114 -183 241 -184 95 -1 105 17 28 54 -47 23 -56 33 -95
+105 -23 44 -113 243 -199 442 -154 355 -157 363 -185 363 -23 0 -32 -7 -43
+-32z m94 -373 c44 -104 80 -195 80 -202 0 -10 -26 -13 -112 -13 -126 0 -218 9
+-218 20 0 13 162 391 166 388 2 -2 39 -89 84 -193z"/>
+<path d="M6860 3052 c0 -13 12 -21 42 -28 27 -6 49 -19 62 -37 20 -28 21 -41
+24 -458 l3 -430 35 3 35 3 -1 373 c0 204 3 372 8 372 5 0 145 -171 311 -380
+248 -311 307 -380 327 -380 l24 0 0 490 0 490 -40 0 -41 0 3 -350 c2 -193 1
+-350 -2 -350 -3 0 -17 15 -31 33 -14 17 -66 82 -115 142 -49 61 -141 175 -203
+255 -199 254 -220 269 -358 270 -73 0 -83 -2 -83 -18z"/>
+<path d="M8130 2635 c0 -347 3 -442 14 -469 20 -47 66 -66 165 -66 71 0 81 2
+81 18 0 13 -13 21 -45 30 -27 7 -49 20 -57 34 -10 18 -14 127 -18 453 l-5 430
+-67 3 -68 3 0 -436z"/>
+<path d="M9573 3060 c-37 -15 -51 -50 -55 -140 -3 -79 -2 -85 17 -85 15 0 21
+9 26 37 14 88 64 120 196 126 l93 4 2 -448 3 -449 70 0 70 0 3 448 2 447 160
+0 160 0 0 35 0 35 -362 -1 c-200 0 -373 -4 -385 -9z"/>
+</g></svg>
+  </div>
+  <div class="sp-light"></div>
 </div>
+<button type="button" class="intro-skip" id="introSkip" hidden>Skip <span aria-hidden="true">→</span></button>
 
 <header class="top" id="top">
   <div class="wrap bar">
@@ -713,6 +946,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <a href="#features">Features</a>
       <a href="#output">Output</a>
       <a href="#pricing">Pricing</a>
+      <a href="/help/">Help</a>
     </nav>
     <span class="sp"></span>
     <nav class="langs" aria-label="Language"><a href="/" hreflang="en" lang="en" aria-current="page">EN</a><a href="/ro/" hreflang="ro" lang="ro">RO</a><a href="/it/" hreflang="it" lang="it">IT</a><a href="/fr/" hreflang="fr" lang="fr">FR</a><a href="/de/" hreflang="de" lang="de">DE</a><a href="/pl/" hreflang="pl" lang="pl">PL</a><a href="/es/" hreflang="es" lang="es">ES</a></nav>
@@ -1042,6 +1276,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </div>
     <nav class="foot-nav" aria-label="Footer">
+      <a href="/help/">Help</a>
       <a href="/blog/">Blog</a>
       <a href="/termeni.html">Terms</a>
       <a href="/privacy.html">Privacy</a>
@@ -1057,7 +1292,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
 
 <script src="/app/config/billing.js"></script>
-<script>window.EB={"lang":"en","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Or {y} a year — two months free","pieces":["SIDE L","SIDE R","DIVIDER","SHELF","SHELF","PLINTH","DRAWER SIDE","DRAWER SIDE","DRAWER SIDE"],"app":"/app/?lang=en","ver":"5.15.0"};</script>
-<script src="/site/js/main.js?v=5.15.0" defer></script>
+<script>window.EB={"lang":"en","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Or {y} a year — two months free","pieces":["SIDE L","SIDE R","DIVIDER","SHELF","SHELF","PLINTH","DRAWER SIDE","DRAWER SIDE","DRAWER SIDE"],"app":"/app/?lang=en","ver":"5.15.0.s2"};</script>
+<script src="/site/js/main.js?v=5.15.0.s2" defer></script>
 </body>
 </html>

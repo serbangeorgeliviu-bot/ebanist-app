@@ -23,7 +23,7 @@
 <body>
 <h1>Ebanist</h1>
 <p class="meta">Politica de confidențialitate / Informativa sulla privacy / Privacy Policy / Politique de confidentialité<br>
-Ultima actualizare: 29 septembrie 2026 · Versiunea aplicației: 4.38.1<br>
+Ultima actualizare: 2 noiembrie 2026 · Versiunea aplicației: 5.23.0<br>
 Operator: Domus Renov SRL, CUI RO47806657, Nr. Reg. Com. J2023000458042, str. Nicolae Bălcescu nr. 12, et. 1, camera C2, modulul B227, 600051 Bacău, jud. Bacău, România — <a href="mailto:info@ebanist.com">info@ebanist.com</a> <br>
 Aplicația Android e publicată în Google Play de Serban George Liviu (persoană fizică).</p>
 
@@ -54,15 +54,15 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </tr>
 <tr>
   <td><b>Cont și sincronizare</b><br>(opțional)</td>
-  <td>Adresa de email și parola (parola stocată doar ca hash). Conținutul integral al proiectelor: denumiri, cote, materiale, prețuri și <b>datele de contact ale clienților tăi</b> — nume, telefon, note. Catalogul tău și tipurile proprii.</td>
+  <td>Adresa de email și parola (parola stocată doar ca hash). Conținutul integral al proiectelor: denumiri, cote, materiale, prețuri și <b>datele de contact ale clienților tăi</b> — nume, telefon, note. Catalogul tău (inclusiv pozele articolelor tale) și tipurile proprii.</td>
   <td>Supabase (găzduire UE)</td>
   <td>Executarea serviciului pe care l-ai cerut</td>
 </tr>
 <tr>
   <td><b>Asistentul AI</b><br>(opțional)</td>
   <td>Textul dictat sau scris, <b>fotografiile pe care le atașezi</b>, și configurația corpului sau a releveului curent. Nu se trimit numele clienților sau prețurile.</td>
-  <td>Anthropic (API Claude), sau endpoint-ul propriu dacă îl configurezi tu</td>
-  <td>Consimțământ — funcția pornește doar dacă introduci o cheie API</td>
+  <td>Anthropic (API Claude). Direct de pe dispozitiv, dacă ai introdus propria cheie sau propriul endpoint; altfel, printr-o funcție a serverului nostru (Netlify), care verifică licența Pro și trimite cererea mai departe fără să păstreze nimic</td>
+  <td>Consimțământ — funcția pornește doar când o folosești: cu cheia ta, cu endpoint-ul tău sau (pe web) cu un abonament Pro activ</td>
 </tr>
 <tr>
   <td><b>Vizualizare AR</b><br>(opțional)</td>
@@ -85,7 +85,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </table>
 
 <div class="key">
-<b>Cheia API a asistentului AI</b> rămâne exclusiv pe dispozitivul tău. Nu intră în backupuri, nu intră în sincronizare și nu ajunge niciodată la Domus Renov SRL. O poți șterge oricând: Setări → Asistent AI → Șterge cheia.
+<b>Cheia API a asistentului AI</b>, dacă o introduci tu, rămâne exclusiv pe dispozitivul tău. Nu intră în sincronizare și nu ajunge niciodată la Domus Renov SRL. În backup-ul complet (fișierul pe care îl descarci tu) intră, împreună cu codul abonamentului Pro de pe web, numai dacă alegi asta, criptate cu o parolă pe care o stabilești tu; fără parolă nu se pot citi. O poți șterge oricând: Setări → Asistent AI → Șterge cheia. Dacă nu introduci nicio cheie și ai un abonament Pro activ pe web, cererile trec prin serverul nostru, care folosește cheia noastră: serverul primește codul abonamentului tău, doar ca să-l verifice, și nu păstrează conținutul cererii. Cine are abonamentul prin Google Play folosește cheia proprie.
 </div>
 
 <h3>Transferuri în afara UE</h3>
@@ -97,7 +97,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>4. Ce NU face aplicația</h3>
 <ul>
   <li>Nu conține reclame.</li>
-  <li>Aplicația nu folosește analytics, cookie-uri de urmărire sau profilare. Singura numărătoare din aplicație e cea anonimă de la comenzile către ateliere, descrisă mai sus.</li>
+  <li>Aplicația nu folosește analytics terț, cookie-uri de urmărire sau profilare. În aplicație există două numărători anonime: cea de la comenzile către ateliere, descrisă mai sus, și una a ecranului Pro — doar „aplicația s-a deschis”, „s-a văzut ecranul Pro”, „s-a apăsat cumpără”, „plata a trecut” și „s-a cerut recenzia”, cu motivul și planul alese dintr-o listă fixă. Fără IP, fără identificator de dispozitiv, fără e-mail, fără numele sau conținutul proiectelor; singurul fir între două evenimente e un cod aleator care dispare când închizi aplicația. Nu pleacă din modul atelier.</li>
   <li>Site-ul de prezentare (ebanist.com, /ro/, /it/, /fr/) numără vizitele și click-urile pe butoanele spre aplicație cu GoatCounter: fără cookie-uri, fără identificator al vizitatorului, fără profilare; adresa IP nu se păstrează. Scriptul e găzduit pe ebanist.com.</li>
   <li>Site-ul de prezentare pune un singur cookie, <code>eb_lang</code>, și numai când alegi o limbă de pe site: ține minte limba aleasă, ca pagina să se deschidă în ea data viitoare. Nu identifică pe nimeni, nu e folosit pentru statistici și expiră după un an. Fără el, pagina se deschide în limba browserului.</li>
   <li>Nu vinde și nu partajează date cu terți în scopuri de marketing.</li>
@@ -107,7 +107,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>5. Cât se păstrează și cum se șterge</h3>
 <ul>
   <li><b>Local:</b> până le ștergi tu, dezinstalezi aplicația sau ștergi datele din setările sistemului.</li>
-  <li><b>Sincronizat:</b> până ștergi proiectul din aplicație — ștergerea se propagă și pe server — sau până ceri ștergerea contului.</li>
+  <li><b>Sincronizat:</b> până ștergi proiectul din aplicație — ștergerea se propagă și pe server — sau până ceri ștergerea contului (<a href="/stergere-cont.html">pașii și ce se șterge</a>).</li>
   <li><b>Modele AR:</b> șterse automat după 24 de ore.</li>
   <li><b>Comenzi către ateliere:</b> până le șterge atelierul sau până ceri tu ștergerea (scrie-ne; se execută în cel mult 30 de zile).</li>
   <li><b>Ștergerea contului și a tuturor datelor:</b> scrie la adresa de mai jos; se execută în cel mult 30 de zile.</li>
@@ -146,15 +146,15 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </tr>
 <tr>
   <td><b>Account e sincronizzazione</b><br>(opzionale)</td>
-  <td>Email e password (conservata solo come hash). Il contenuto completo dei progetti: nomi, quote, materiali, prezzi e <b>i dati di contatto dei tuoi clienti</b> — nome, telefono, note. Il tuo catalogo e i tipi propri.</td>
+  <td>Email e password (conservata solo come hash). Il contenuto completo dei progetti: nomi, quote, materiali, prezzi e <b>i dati di contatto dei tuoi clienti</b> — nome, telefono, note. Il tuo catalogo (comprese le foto dei tuoi articoli) e i tipi propri.</td>
   <td>Supabase (hosting UE)</td>
   <td>Esecuzione del servizio richiesto</td>
 </tr>
 <tr>
   <td><b>Assistente AI</b><br>(opzionale)</td>
   <td>Il testo dettato o scritto, <b>le foto che alleghi</b> e la configurazione del mobile o del rilievo corrente. Non vengono inviati i nomi dei clienti né i prezzi.</td>
-  <td>Anthropic (API Claude), oppure il tuo endpoint se lo configuri</td>
-  <td>Consenso — la funzione parte solo se inserisci una chiave API</td>
+  <td>Anthropic (API Claude). Direttamente dal dispositivo, se hai inserito la tua chiave o il tuo endpoint; altrimenti tramite una funzione del nostro server (Netlify), che verifica la licenza Pro e inoltra la richiesta senza conservare nulla</td>
+  <td>Consenso — la funzione parte solo quando la usi: con la tua chiave, con il tuo endpoint o (sul web) con un abbonamento Pro attivo</td>
 </tr>
 <tr>
   <td><b>Visualizzazione AR</b><br>(opzionale)</td>
@@ -177,7 +177,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </table>
 
 <div class="key">
-<b>La chiave API dell'assistente AI</b> resta esclusivamente sul tuo dispositivo. Non entra nei backup, non entra nella sincronizzazione e non arriva mai a Domus Renov SRL. Puoi cancellarla in qualsiasi momento: Impostazioni → Assistente AI → Elimina la chiave.
+<b>La chiave API dell'assistente AI</b>, se la inserisci tu, resta esclusivamente sul tuo dispositivo. Non entra nella sincronizzazione e non arriva mai a Domus Renov SRL. Nel backup completo (il file che scarichi tu) entra, insieme al codice dell'abbonamento Pro del web, solo se lo scegli, cifrata con una password che stabilisci tu; senza la password non si può leggere. Puoi cancellarla in qualsiasi momento: Impostazioni → Assistente AI → Elimina la chiave. Se non inserisci alcuna chiave e hai un abbonamento Pro attivo sul web, le richieste passano dal nostro server, che usa la nostra chiave: il server riceve il codice del tuo abbonamento, solo per verificarlo, e non conserva il contenuto della richiesta. Chi ha l'abbonamento tramite Google Play usa la propria chiave.
 </div>
 
 <h3>Trasferimenti fuori dall'UE</h3>
@@ -189,7 +189,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>4. Cosa l'app NON fa</h3>
 <ul>
   <li>Nessuna pubblicità.</li>
-  <li>Nell'app nessun servizio di analisi, cookie di tracciamento o profilazione. L'unico conteggio nell'app è quello anonimo degli ordini ai laboratori, descritto sopra.</li>
+  <li>Nell'app nessun servizio di analisi di terzi, cookie di tracciamento o profilazione. Nell'app ci sono due conteggi anonimi: quello degli ordini ai laboratori, descritto sopra, e quello della schermata Pro — solo «l'app si è aperta», «si è vista la schermata Pro», «si è premuto acquista», «il pagamento è andato a buon fine» e «è stata chiesta la recensione», con motivo e piano scelti da un elenco fisso. Nessun IP, nessun identificativo del dispositivo, nessuna e-mail, nessun nome o contenuto dei progetti; l'unico filo tra due eventi è un codice casuale che scompare quando chiudi l'app. Non parte dalla modalità laboratorio.</li>
   <li>Il sito di presentazione (ebanist.com, /ro/, /it/, /fr/) conta le visite e i clic sui pulsanti verso l'app con GoatCounter: senza cookie, senza identificativo del visitatore, senza profilazione; l'indirizzo IP non viene conservato. Lo script è ospitato su ebanist.com.</li>
   <li>Il sito di presentazione usa un solo cookie, <code>eb_lang</code>, e solo quando scegli una lingua sul sito: ricorda la lingua scelta, perché la pagina si apra in quella la volta successiva. Non identifica nessuno, non serve alle statistiche e scade dopo un anno. Senza, la pagina si apre nella lingua del browser.</li>
   <li>Nessuna vendita o condivisione di dati a terzi per marketing.</li>
@@ -199,7 +199,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>5. Per quanto si conservano e come si cancellano</h3>
 <ul>
   <li><b>In locale:</b> finché non li cancelli tu, disinstalli l'app o cancelli i dati dalle impostazioni di sistema.</li>
-  <li><b>Sincronizzati:</b> finché non cancelli il progetto dall'app — la cancellazione si propaga anche al server — o finché non chiedi la cancellazione dell'account.</li>
+  <li><b>Sincronizzati:</b> finché non cancelli il progetto dall'app — la cancellazione si propaga anche al server — o finché non chiedi la cancellazione dell'account (<a href="/stergere-cont.html">passi e cosa viene cancellato</a>).</li>
   <li><b>Modelli AR:</b> cancellati automaticamente dopo 24 ore.</li>
   <li><b>Ordini ai laboratori:</b> finché il laboratorio non li cancella o finché non ne chiedi tu la cancellazione (scrivici; entro 30 giorni).</li>
   <li><b>Cancellazione dell'account e di tutti i dati:</b> scrivi all'indirizzo qui sotto; eseguita entro 30 giorni.</li>
@@ -238,15 +238,15 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </tr>
 <tr>
   <td><b>Account and sync</b><br>(optional)</td>
-  <td>Email and password (stored only as a hash). The full content of your projects: names, dimensions, materials, prices and <b>your clients' contact details</b> — name, phone, notes. Your catalogue and your own types.</td>
+  <td>Email and password (stored only as a hash). The full content of your projects: names, dimensions, materials, prices and <b>your clients' contact details</b> — name, phone, notes. Your catalogue (including the photos of your own articles) and your own types.</td>
   <td>Supabase (EU hosting)</td>
   <td>Performance of the service you requested</td>
 </tr>
 <tr>
   <td><b>AI assistant</b><br>(optional)</td>
   <td>The text you dictate or type, <b>the photos you attach</b>, and the current unit or survey configuration. Client names and prices are not sent.</td>
-  <td>Anthropic (Claude API), or your own endpoint if you configure one</td>
-  <td>Consent — the feature only runs if you enter an API key</td>
+  <td>Anthropic (Claude API). Directly from the device if you entered your own key or endpoint; otherwise through a function on our server (Netlify), which checks the Pro licence and forwards the request without storing anything</td>
+  <td>Consent — the feature only runs when you use it: with your own key, your own endpoint or (on the web) an active Pro subscription</td>
 </tr>
 <tr>
   <td><b>AR view</b><br>(optional)</td>
@@ -269,7 +269,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </table>
 
 <div class="key">
-<b>The AI assistant's API key</b> stays on your device only. It never enters backups, never enters sync, and never reaches Domus Renov SRL. You can delete it at any time: Settings → AI assistant → Delete the key.
+<b>The AI assistant's API key</b>, if you enter one, stays on your device only. It never enters sync and never reaches Domus Renov SRL. It enters the full backup (the file you download yourself), together with the web Pro subscription code, only if you choose so, encrypted with a password you set; without the password it cannot be read. You can delete it at any time: Settings → AI assistant → Delete the key. If you enter no key and have an active Pro subscription on the web, requests go through our server, which uses our key: the server receives your subscription code only to check it, and does not keep the content of the request. Subscribers through Google Play use their own key.
 </div>
 
 <h3>Transfers outside the EU</h3>
@@ -281,7 +281,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>4. What the app does NOT do</h3>
 <ul>
   <li>No advertising.</li>
-  <li>The app uses no analytics, tracking cookies or profiling. The only count in the app is the anonymous one for workshop orders, described above.</li>
+  <li>The app uses no third-party analytics, tracking cookies or profiling. The app has two anonymous counts: the one for workshop orders, described above, and one for the Pro screen — only “the app opened”, “the Pro screen was shown”, “buy was tapped”, “payment went through” and “a review was requested”, with the reason and plan taken from a fixed list. No IP address, no device identifier, no e-mail, no project names or contents; the only thread between two events is a random code that disappears when you close the app. It is not sent from workshop mode.</li>
   <li>The presentation site (ebanist.com, /ro/, /it/, /fr/) counts visits and clicks on the buttons that open the app with GoatCounter: no cookies, no visitor identifier, no profiling; the IP address is not stored. The script is hosted on ebanist.com.</li>
   <li>The presentation site sets a single cookie, <code>eb_lang</code>, and only when you choose a language on the site: it remembers your choice so the page opens in that language next time. It identifies no one, is not used for statistics and expires after one year. Without it, the page opens in your browser's language.</li>
   <li>No selling or sharing of data with third parties for marketing.</li>
@@ -291,7 +291,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>5. Retention and deletion</h3>
 <ul>
   <li><b>Local:</b> until you delete it, uninstall the app, or clear the data from system settings.</li>
-  <li><b>Synced:</b> until you delete the project in the app — the deletion propagates to the server too — or until you request account deletion.</li>
+  <li><b>Synced:</b> until you delete the project in the app — the deletion propagates to the server too — or until you request account deletion (<a href="/stergere-cont.html">steps and what is deleted</a>).</li>
   <li><b>AR models:</b> deleted automatically after 24 hours.</li>
   <li><b>Orders to workshops:</b> until the workshop deletes them or you ask us to (write to us; done within 30 days).</li>
   <li><b>Account and full data deletion:</b> write to the address below; carried out within 30 days.</li>
@@ -337,8 +337,8 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <tr>
   <td><b>Assistant IA</b><br>(optionnel)</td>
   <td>Le texte dicté ou saisi, <b>les photos que vous joignez</b>, et la configuration du meuble ou du relevé en cours. Ni les noms de clients ni les prix ne sont envoyés.</td>
-  <td>Anthropic (API Claude), ou votre propre endpoint si vous le configurez</td>
-  <td>Consentement — la fonction ne démarre que si vous saisissez une clé API</td>
+  <td>Anthropic (API Claude). Directement depuis l'appareil si vous avez saisi votre propre clé ou endpoint ; sinon via une fonction de notre serveur (Netlify), qui vérifie la licence Pro et transmet la demande sans rien conserver</td>
+  <td>Consentement — la fonction ne démarre que lorsque vous l'utilisez : avec votre clé, votre endpoint ou (sur le web) un abonnement Pro actif</td>
 </tr>
 <tr>
   <td><b>Vue AR</b><br>(optionnel)</td>
@@ -361,7 +361,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 </table>
 
 <div class="key">
-<b>La clé API de l'assistant IA</b> reste exclusivement sur votre appareil. Elle n'entre ni dans les sauvegardes ni dans la synchronisation, et ne parvient jamais à Domus Renov SRL. Vous pouvez la supprimer à tout moment : Réglages → Assistant IA → Supprimer la clé.
+<b>La clé API de l'assistant IA</b>, si vous en saisissez une, reste exclusivement sur votre appareil. Elle n'entre pas dans la synchronisation et ne parvient jamais à Domus Renov SRL. Elle entre dans la sauvegarde complète (le fichier que vous téléchargez vous-même), avec le code d'abonnement Pro du web, uniquement si vous le choisissez, chiffrée avec un mot de passe que vous définissez ; sans le mot de passe, elle ne peut pas être lue. Vous pouvez la supprimer à tout moment : Réglages → Assistant IA → Supprimer la clé. Si vous ne saisissez aucune clé et avez un abonnement Pro actif sur le web, les demandes passent par notre serveur, qui utilise notre clé : le serveur reçoit le code de votre abonnement uniquement pour le vérifier et ne conserve pas le contenu de la demande. Les abonnés via Google Play utilisent leur propre clé.
 </div>
 
 <h3>Transferts hors de l'UE</h3>
@@ -373,7 +373,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>4. Ce que l'application NE fait PAS</h3>
 <ul>
   <li>Aucune publicité.</li>
-  <li>Dans l'application, aucun service d'analyse, cookie de suivi ou profilage. Le seul comptage dans l'application est celui, anonyme, des commandes aux ateliers, décrit plus haut.</li>
+  <li>Dans l'application, aucun service d'analyse tiers, cookie de suivi ou profilage. L'application compte de façon anonyme deux choses : les commandes aux ateliers, décrites plus haut, et l'écran Pro — seulement « l'application s'est ouverte », « l'écran Pro a été affiché », « acheter a été touché », « le paiement a abouti » et « un avis a été demandé », avec le motif et l'offre pris dans une liste fixe. Aucune adresse IP, aucun identifiant d'appareil, aucun e-mail, aucun nom ni contenu de projet ; le seul lien entre deux événements est un code aléatoire qui disparaît à la fermeture de l'application. Rien n'est envoyé depuis le mode atelier.</li>
   <li>Le site de présentation (ebanist.com, /ro/, /it/, /fr/) compte les visites et les clics sur les boutons qui ouvrent l'application avec GoatCounter : sans cookie, sans identifiant du visiteur, sans profilage ; l'adresse IP n'est pas conservée. Le script est hébergé sur ebanist.com.</li>
   <li>Le site de présentation dépose un seul cookie, <code>eb_lang</code>, et uniquement quand vous choisissez une langue sur le site : il mémorise ce choix pour que la page s'ouvre dans cette langue la fois suivante. Il n'identifie personne, ne sert pas aux statistiques et expire après un an. Sans lui, la page s'ouvre dans la langue du navigateur.</li>
   <li>Aucune vente ni partage de données à des tiers à des fins marketing.</li>
@@ -383,7 +383,7 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <h3>5. Durée de conservation et suppression</h3>
 <ul>
   <li><b>En local :</b> jusqu'à ce que vous les supprimiez, désinstalliez l'application ou effaciez les données depuis les réglages du système.</li>
-  <li><b>Synchronisées :</b> jusqu'à ce que vous supprimiez le projet dans l'application — la suppression se propage aussi au serveur — ou que vous demandiez la suppression du compte.</li>
+  <li><b>Synchronisées :</b> jusqu'à ce que vous supprimiez le projet dans l'application — la suppression se propage aussi au serveur — ou que vous demandiez la suppression du compte (<a href="/stergere-cont.html">étapes et ce qui est supprimé</a>).</li>
   <li><b>Modèles AR :</b> supprimés automatiquement au bout de 24 heures.</li>
   <li><b>Commandes aux ateliers :</b> jusqu'à ce que l'atelier les supprime ou que vous en demandiez l'effacement (écrivez-nous ; sous 30 jours).</li>
   <li><b>Suppression du compte et de toutes les données :</b> écrivez à l'adresse ci-dessous ; effectuée sous 30 jours.</li>

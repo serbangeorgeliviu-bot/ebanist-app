@@ -36,13 +36,9 @@
 {{@logo}}
 <a class="skip" href="#main">{{nav.skip}}</a>
 
-<!-- ======================= INTRO ======================= -->
-<div class="intro" id="intro" hidden aria-hidden="true">
-  <canvas id="introCanvas"></canvas>
-  <div class="intro-labels" id="introLabels"></div>
-  <div class="intro-title"><svg class="intro-logo" aria-hidden="true"><use href="#ebLogo"/></svg><span class="intro-word" id="introWord">Ebanist</span><span class="intro-tag">{{intro.tag}}</span></div>
-  <button type="button" class="intro-skip" id="introSkip">{{intro.skip}} <span aria-hidden="true">→</span></button>
-</div>
+<!-- ======================= INTRO (identic cu cel din aplicație) ======================= -->
+{{@splash}}
+<button type="button" class="intro-skip" id="introSkip" hidden>{{intro.skip}} <span aria-hidden="true">→</span></button>
 
 <header class="top" id="top">
   <div class="wrap bar">
@@ -55,6 +51,7 @@
       <a href="#features">{{nav.features}}</a>
       <a href="#output">{{nav.output}}</a>
       <a href="#pricing">{{nav.price}}</a>
+      <a href="{{@helpIdx}}">{{help.nav}}</a>
     </nav>
     <span class="sp"></span>
     <nav class="langs" aria-label="{{nav.langLabel}}">{{@langlinks}}</nav>
@@ -380,6 +377,7 @@
       </div>
     </div>
     <nav class="foot-nav" aria-label="Footer">
+      <a href="{{@helpIdx}}">{{help.nav}}</a>
       <a href="{{@blogIdx}}">{{foot.blog}}</a>
       <a href="/termeni.html">{{foot.terms}}</a>
       <a href="/privacy.html">{{foot.privacy}}</a>
