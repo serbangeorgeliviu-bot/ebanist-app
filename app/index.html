@@ -10833,18 +10833,29 @@ function geomDiff(p){
     const old=(p.pieces||[]).filter(x=>x.gen===name||x.modulo===name||
                                        x.modulo===name+" A"||x.modulo===name+" B");
     /* si confronta per elemento: e la chiave che il falegname legge in
-       distinta, e non cambia fra una versione e l'altra del motore. */
+       distinta, e non cambia fra una versione e l'altra del motore.
+       Piu pezzi con lo STESSO nome e misure diverse (due ante di altezza
+       diversa sotto una scala) si confrontano per gruppo: prima i pezzi
+       identici, poi i rimasti a coppie, il piu vicino per misura. Una chiave
+       sola per nome confrontava ogni anta con l'ultima della distinta e
+       inventava una differenza dove non ce n'era. */
     const key=x=>(x.wing?x.wing+"·":"")+x.elemento;
-    const byKey=new Map(); for(const x of old) byKey.set((x.modulo&&/ [AB]$/.test(x.modulo)?x.modulo.slice(-1)+"·":"")+x.elemento,x);
-    const seen=new Set();
-    for(const n of gen.pieces){
-      const k=key(n); seen.add(k);
-      const o=byKey.get(k);
-      if(!o){ out.push({modulo:name,elemento:k,vecchio:null,nuovo:n}); continue; }
-      if(o.lung!==n.lung||o.larg!==n.larg||o.pz!==n.pz)
-        out.push({modulo:name,elemento:k,vecchio:o,nuovo:n});
+    const oKey=x=>(x.modulo&&/ [AB]$/.test(x.modulo)?x.modulo.slice(-1)+"·":"")+x.elemento;
+    const group=(arr,kf)=>{ const m=new Map(); for(const x of arr){ const k=kf(x); if(!m.has(k)) m.set(k,[]); m.get(k).push(x); } return m; };
+    const oldBy=group(old,oKey), newBy=group(gen.pieces,key);
+    const same=(o,n)=>o.lung===n.lung&&o.larg===n.larg&&o.pz===n.pz;
+    for(const [k,ns] of newBy){
+      const os=(oldBy.get(k)||[]).slice(), rest=[];
+      for(const n of ns){ const i=os.findIndex(o=>same(o,n)); if(i>=0) os.splice(i,1); else rest.push(n); }
+      for(const n of rest){
+        if(!os.length){ out.push({modulo:name,elemento:k,vecchio:null,nuovo:n}); continue; }
+        let bi=0, bd=Infinity;
+        os.forEach((o,i)=>{ const d=Math.abs(o.lung-n.lung)+Math.abs(o.larg-n.larg); if(d<bd){ bd=d; bi=i; } });
+        out.push({modulo:name,elemento:k,vecchio:os.splice(bi,1)[0],nuovo:n});
+      }
+      for(const o of os) out.push({modulo:name,elemento:k,vecchio:o,nuovo:null});
     }
-    for(const [k,o] of byKey) if(!seen.has(k)) out.push({modulo:name,elemento:k,vecchio:o,nuovo:null});
+    for(const [k,os] of oldBy) if(!newBy.has(k)) for(const o of os) out.push({modulo:name,elemento:k,vecchio:o,nuovo:null});
   }
   return out;
 }
@@ -17225,12 +17236,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.24.2"; /* APP_VER-MARKER */
+const APP_VER="5.24.3"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v195";
+const SW_CACHE="ebanist-v196";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
