@@ -39,6 +39,27 @@ describe("tavan înclinat: exportul nu se blochează", () => {
       });
 });
 
+/* Găsit la proba „sub scară în L” (2.11.2026): tavanul pe pantă măsoară sqrt(rulare² + diferență²), iar la o pantă
+ * lungă (L 1250, 1450 → 605) iese mai lung decât max(L, H) — A9 bloca exportul unui corp corect. */
+describe("tavan înclinat: tavanul pe pantă poate depăși max(L, H)", () => {
+  for (const [nome, cfg] of [
+    ["sub scară 1450 → 605", { L: 1250, P: 600, plinth: 100, shelves: 1, doors: 2, H: 1450, topProfile: { axis: "x", h0: 1450, h1: 605 } }],
+    ["invers", { L: 1250, P: 600, plinth: 100, shelves: 1, doors: 2, H: 1450, topProfile: { axis: "x", h0: 605, h1: 1450 } }],
+    ["pe adâncime", { L: 600, P: 1250, plinth: 100, shelves: 0, doors: 1, H: 1450, topProfile: { axis: "z", h0: 1450, h1: 605 } }]])
+    test(nome, () => {
+      assert.deepEqual(verdict({ ...BASE, ...cfg }), { inv: [], asr: [] });
+    });
+  test("A9 tot prinde o piesă adevărat prea mare", () => {
+    S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k", matOvr: {}, matAdd: [MM("__b", 18), MM("__k", 3)], hwProd: { guida: "blum_tandem" } };
+    const cfg = Object.assign({ name: "C", matBody: "__b", matFront: "__b", matBack: "__k" }, BASE, { L: 1250, H: 1450, P: 600, topProfile: { axis: "x", h0: 1450, h1: 605 } });
+    const G = S.deriveCarcass(S.carcassParams(cfg, {}));
+    const hyp = G.slope.run * G.slope.sec;
+    const ids = x => arr(S.checkAssertions(G, { panelL: 0, panelW: 0, piesa_max: x, piesa_L: 0, piesa_W: 0, aria_per_material: 1 })).map(r => r.id);
+    assert.deepEqual(ids(hyp), []);
+    assert.ok(ids(hyp + 5).includes("A9"));
+  });
+});
+
 describe("uși pliabile: exportul nu se blochează", () => {
   for (const fold of [2, 3, 4])
     for (const doors of [1, 2, 3])
