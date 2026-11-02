@@ -5,9 +5,106 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.15.0 — 2 noiembrie 2026
+## 5.24.0 — 2 noiembrie 2026
 
 **Keku pentru filler:** piesele de prindere ale fillerelor („Fascia di chiusura …”) intră în feronerie, 4 bucăți pe fiecare filler, în deviz și în tabelul de feronerie. Capacul lateral nu are Keku. Categorie nouă în catalogul de feronerie („Fissaggi filler (Keku)”); prețul se completează în catalog.
+
+---
+
+## 5.23.1 — 2 noiembrie 2026
+
+**Asistentul AI cu Pro: câmpul gol nu mai pare o cheie pierdută.** În Setări → Asistent AI, cine are licență Pro de pe web (Stripe sau cod `comp_…`) vede acum „Cu Pro, asistentul AI merge fără cheie (prin serverul Ebanist)", iar avertismentul despre cheia care pleacă din browser nu mai apare când nu există cheie proprie. Textul de sub câmp nu mai spune că cheia „nu intră în backup": din 5.23.0 intră în Backup complet, dar numai dacă bifezi, criptată cu parolă.
+
+---
+
+## 5.23.0 — 2 noiembrie 2026
+
+**Backup complet mai complet** (D-111). Până acum fișierul „Backup complet" avea proiectele, setările și pozele de releveu, dar **nu și stocul de resturi** (ecranul „Stoc"): după o reinstalare sau o restaurare, stocul dispărea. Acum stocul e în fișier, în copia automată și la restaurare; un backup vechi, fără stoc, nu-l șterge pe cel de acum.
+
+**Cheile, în backup, cu parolă.** La „Backup complet", dacă ai o cheie pentru asistentul AI sau un cod Pro de pe web, aplicația întreabă dacă le incluzi. Dacă da, ți se cere o parolă (de două ori, minimum 6 caractere) și cheile intră în fișier **criptate** (PBKDF2-SHA256 + AES-256-GCM); fără parolă nu se pot citi. La restaurare, aplicația cere parola și repune cheile **numai dacă lipsesc** pe dispozitiv. Licența Google Play nu se salvează: Play o restabilește singur. Backup-urile automate și cel „silențios" de la migrări nu poartă chei. Parola uitată nu se poate recupera; proiectele rămân restaurabile.
+
+`privacy.html` spune acum exact asta, în cele patru limbi.
+
+---
+
+## 5.22.0 — 1 noiembrie 2026
+
+**Poză la articolele proprii din catalog** (sugestia unui utilizator, prin „Sugerează o funcție”). La feroneria și la materialele pe care le adaugi tu, butonul **Foto** pune o poză: se micșorează pe dispozitiv (240 px, ~10 KB), se păstrează în catalog și se vede lângă articol; ✕ o scoate. Funcționează offline.
+- **Articolele din catalogul de serie (Blum, Häfele) nu au poze**: pozele producătorilor au drepturi de autor.
+- **Confidențialitate:** pozele sunt parte din „catalogul tău”; pleacă din dispozitiv numai dacă ai cont și sincronizarea e pornită, ca restul catalogului. `privacy.html` a fost completat.
+- Ghidul „Ajutor” are un pas nou despre poze, în toate limbile.
+
+---
+
+## 5.21.0 — 1 noiembrie 2026
+
+**Ajutor în aplicație și pe site** (D-109). Butonul **?** din antet deschide foaia „Ajutor”: 11 subiecte scurte cu pași și capturi (pornire rapidă, generator, 3D, lista, planul de tăiere, documente, releveu, modul Client, catalogul tău, Pro, backup) și 6 întrebări frecvente, cu căutare. Funcționează și fără rețea. Ecranul de bun venit are acum și butonul „Deschide ghidul”; `ebanist.com/app/#help` deschide foaia direct.
+- **Pe site:** pagina `/help/` în toate cele 7 limbi (cu link în antet și în subsol, în sitemap, cu întrebările frecvente marcate pentru motoarele de căutare). Textele sunt aceleași ca în aplicație: un singur fișier, `app/ebanist-help.js`.
+- **Capturile** sunt făcute din aplicație, cu un cerc pe butonul la care se referă pasul (`site-src/tools/help-capture.cjs`).
+- **Neschimbat:** nimic nu se trimite în afară și nimic nu se măsoară din ajutor.
+
+---
+
+## 5.20.2 — 2 noiembrie 2026
+
+**Asistentul AI: două butoane pentru poză, „Galerie” și „Cameră”.** Pe telefon, poza aleasă din selector nu ajungea la aplicație (nicio miniatură, nicio eroare). Cauza probabilă: un singur câmp cu `capture` și `multiple` împreună, care se comportă diferit în WebView-ul Android și în Chrome. Acum sunt două câmpuri separate: Galerie (fără `capture`) și Cameră (`capture`). Dacă selectorul nu întoarce niciun fișier, apare un mesaj, nu tăcere. Cheie nouă `aiGal` în cele 7 limbi.
+
+---
+
+## 5.20.1 — 2 noiembrie 2026
+
+**Poza din Asistentul AI se încarcă și din galeria telefonului.** Pozele mari (10–20 MB) nu se mai țin de trei ori în memorie: se decodează direct din fișier (`createImageBitmap`, cu orientarea EXIF corectată), cu rezervă pe blob URL. Dacă o poză tot nu se poate citi, mesajul arată acum și motivul (de ex. „decode (image/heic, 8200 KB)”), ca să se poată raporta.
+
+---
+
+## 5.20.0 — 2 noiembrie 2026
+
+**Asistentul AI fără cheie pe telefon (Pro pe web).** Un abonat Pro (Stripe sau cod `comp_…`) care nu și-a pus cheia proprie folosește acum cheia Anthropic a serverului, prin `/api/ai`. Cheia stă numai în Netlify (`ANTHROPIC_API_KEY`); la următoarea rotire se schimbă o singură valoare, fără release. Funcția verifică licența ca `/api/pro`, acceptă numai Opus 5 și Sonnet 5, plafonează `max_tokens` la 4000 și nu păstrează nimic.
+- **Neschimbat:** cheia proprie și „endpoint propriu” din Setări au prioritate; licența Google Play rămâne pe cheia proprie (nu se poate verifica de pe server).
+- **Pentru deploy:** setează `ANTHROPIC_API_KEY` în Netlify (proiectul ebanist.com).
+
+---
+
+## 5.19.0 — 1 noiembrie 2026
+
+**Cererea de recenzie în Google Play** (numai în aplicația Android, D-105). După ce ai reușit ceva — un corp generat, un document ieșit la Pro, o ofertă semnată — și numai după cel puțin 7 zile, 3 sesiuni și 3 astfel de momente, Google arată dialogul de stele peste aplicație; nu ieși din ecran. Cel mult o dată la 90 de zile, de cel mult 3 ori, și niciodată în aceeași sesiune cu ecranul Pro. Nu întrebăm „îți place?” înainte, ca să filtrăm: cerem direct. Setări → „Evaluează Ebanist” deschide pagina din Play oricând. Cere un `.aab` nou (versionCode 6): pe web și într-un `.aab` vechi nu se întâmplă nimic.
+
+**Măsurarea conversiei** (D-104): cinci evenimente anonime — aplicația s-a deschis, s-a văzut ecranul Pro (și de la ce buton), s-a apăsat „cumpără” (și ce plan), plata a trecut, s-a cerut recenzia. Fără IP, fără id de dispozitiv, fără e-mail, fără nume de proiect; nu pleacă din modul atelier. Rezumatul (`/api/funnel`) e închis, cu `FUNNEL_KEY` din Netlify. `privacy.html` e actualizat în cele patru limbi.
+
+**De făcut în afara codului:** `FUNNEL_KEY` în Netlify (fără ea nu se poate citi rezumatul) și completarea „Data safety” din Play Console cu interacțiunile din aplicație.
+
+---
+
+## 5.18.0 — 1 noiembrie 2026
+
+**Feroneria în 3D, din aceleași date ca fișa piesei.** Forma fiecărui articol de feronerie care are găuri sau canale în fișa de găurire iese acum din acele operații (diametru, adâncime, poziție), nu din cifre scrise separat în vizor. Așa 3D-ul și desenul tehnic nu mai pot diverge.
+- **Conectori:** Minifix, tasel, Confirmat, lamelă, Domino, Clamex. Corpul Minifix era desenat mereu de 12,5 mm, deși la plăci de 19 mm gaura are 13,5 mm; bolțul se oprea la 32 mm în loc de 34.
+- **Suport de raft:** tija intră cât gaura (12 mm, nu 10). Când gaura principală e sărită (cade peste o placă de balama), suportul se desenează pe gaura de reglare în care stă de fapt, nu pe poziția fără gaură.
+- **Balamale:** adâncimea cupei din operație (12,5 mm, nu 13), tasealele și găurile plăcuței la distanțele din fișa de găurire.
+- **Glisiere:** șuruburile de fixare se desenează în fiecare gaură din fișă (1–3 pe lateral, pozițiile din fișele Blum), nu două șuruburi inventate lângă față.
+- **Mânere:** verificat că picioarele stau în găurile din fișă.
+
+**Aspect mai realist** (`hwmesh.js`): cilindrii au capetele teșite și cutiile muchiile rotunjite; brațul balamalei e din tablă cu bevel; bolțul Minifix și șurubul Confirmat sunt profile rotite, cu cap, gât conic, filet și vârf; corpul Minifix are fanta de șurubelniță; tasealele au capete teșite; lamela și Domino au muchii rotunjite; Clamex P-14 e din două părți cu un joc de 0,3 mm între ele. Geometriile se țin în cache și se eliberează din GPU odată cu mesh-ul. Un test (`hwmesh`, 8 cazuri) verifică dimensiunile geometriilor și un buget de triunghiuri pe conectorii unui corp (60 000 în total, 1 500 pe formă; azi 10–26 mii).
+
+Neschimbat: forma corpului balamalei (flanșă, braț, amortizor) rămâne după fișa Blum 71B3590, neverificată pe piesă; picioarele reglabile (AXILO), profilul anti-curbare și Tip-On nu se desenează din date. Un test (`hwgeom`, 72 de cazuri) verifică conectorii în 5 corpuri, la 18 și 19 mm, balamalele, glisierele și mânerele, și respinge orice formă de conector mai mare de 100 mm.
+
+---
+
+## 5.17.0 — 1 noiembrie 2026
+
+**Prețuri orientative în Catalog:** sub balama, glisiere TANDEM/MOVENTO, Minifix și picioarele AXILO, Setări → Catalog arată prețurile citite pe site-uri publice (sursă cu link, dată, TVA inclus sau exclus; pentru glisiere intervalul după lungime). **Nu intră în devizele tale**: prețul rămâne al tău, ca până acum. Sunt orientative și pot diferi la furnizorul tău (D-109, C.7).
+
+---
+
+## 5.16.0 — 1 noiembrie 2026
+
+**Furnizori: prețuri private din CSV** (Setări → Catalog → Furnizori). Imporți un CSV cu prețurile furnizorului tău (cod, preț, TVA incl/excl, monedă, dată); aplicația le leagă de catalog după cod și le păstrează **numai pe dispozitiv**: nu intră în sincronizarea cloud, nici în proiecte. Rândul fără preț se sare, rândul fără TVA sau monedă se respinge, cu motivul pe rând. Poți exporta furnizorul înapoi în CSV și descărca un model de fișier. Prețurile încă nu intră în deviz (urmează alegerea furnizorului pe articol). D-109.
+
+---
+
+## 5.15.0 — 1 noiembrie 2026
+
+**DXF pe straturi, per piesă** (Pro): în fișa piesei, butonul „DXF pe straturi” dă un DXF R12 cu piesa văzută de pe fața 5: conturul, găurile Ø5 (Sistem 32), oalele Ø35, alte burghie pe diametru, canalele de spate și decupajele. Fețele 6 au straturi proprii (`_F6`). Straturile cu feronerie neverificată se numesc `_NEVERIF` și fișierul are antet de avertizare (D-48, D-106). Trece prin același cancel de export ca restul (D-44).
 
 ---
 
