@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.24.0 — 2 noiembrie 2026
 
-**Keku pentru filler:** piesele de prindere ale fillerelor („Fascia di chiusura …”) intră în feronerie, 4 bucăți pe fiecare filler, în deviz și în tabelul de feronerie. Capacul lateral nu are Keku. Categorie nouă în catalogul de feronerie („Fissaggi filler (Keku)”); prețul se completează în catalog.
+**Keku pentru filler:** tot ce are filler (fâșiile „Fascia di chiusura …” și capacul lateral) primește Keku, set mascul + femelă: femela pe cielo (filler sus) sau pe lateralul corpului (filler lateral), masculul pe filler, fără rost între filler și corp. Distanța ≈ 50 cm, minimum 3 pe filler (80 cm → 3, 230 cm → 5); în fișa de montaj apar pozițiile. În feronerie, deviz și PDF; prețul se completează în catalog. Cotele (pas 500, 150 de la capete) sunt nevalidate.
 
 ---
 
