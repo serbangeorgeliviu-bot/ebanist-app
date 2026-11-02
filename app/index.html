@@ -15336,12 +15336,12 @@ function atLabelQr(p){
     return ri=>{ const u=EBAtelier.qrUrl(l.job,"r"+(ri+1)); return u?EBQR.svg(u,{border:1}):null; };
   }catch(e){ return null; }
 }
-/* QR propriu pe etichetă, fără comandă Atelier: datele piesei, ca text scurt (se citește cu orice cameră). Piesele cu cote/proiect lungi se taie. */
+/* QR propriu pe etichetă, fără comandă Atelier: datele piesei, ca text scurt (se citește cu orice cameră), mereu cu numele italian al piesei (cel din distintă), indiferent de limba aplicației. Numele lungi se taie. */
 function lblQrLocal(p,x,i,N){
   try{
     if(!window.EBQR) return null;
     const cut=(v,n)=>String(v==null?"":v).replace(/[|\r\n]+/g," ").trim().slice(0,n);
-    const txt=["EBANIST",cut(p.name,24),cut(x.modulo,20),cut(elName(x.elemento),24)+(x.nTot>1?" "+x.nOf+"/"+x.nTot:""),x.lung+"x"+x.larg,"#"+(i+1)+"/"+N].join("|");
+    const txt=["EBANIST",cut(p.name,24),cut(x.modulo,20),cut(String(x.elemento||"").replace(/\s*sez\.\s*\d+$/i,""),24)+(x.nTot>1?" "+x.nOf+"/"+x.nTot:""),x.lung+"x"+x.larg,"#"+(i+1)+"/"+N].join("|");
     return EBQR.svg(txt,{border:1});
   }catch(e){ return null; }
 }

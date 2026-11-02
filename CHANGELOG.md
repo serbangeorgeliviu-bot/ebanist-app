@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.24.1 — 2 noiembrie 2026
 
-**Etichete cu QR fără comandă Atelier:** fiecare etichetă de piesă are acum un cod QR cu datele piesei (proiect, modul, piesă și numărul ei, cote, numărul etichetei), citibil cu orice cameră. Dacă proiectul are o comandă Atelier neschimbată, QR-ul rămâne cel al comenzii, ca până acum.
+**Etichete cu QR fără comandă Atelier:** fiecare etichetă de piesă are acum un cod QR cu datele piesei (proiect, modul, piesă și numărul ei, cote, numărul etichetei), citibil cu orice cameră, cu numele italian al piesei, indiferent de limba aplicației. Dacă proiectul are o comandă Atelier neschimbată, QR-ul rămâne cel al comenzii, ca până acum.
 
 ---
 
