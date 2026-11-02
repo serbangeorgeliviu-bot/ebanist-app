@@ -5,11 +5,11 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.24.2 — 2 noiembrie 2026 (în așteptarea deploy-ului)
+## 5.24.2 — 2 noiembrie 2026
 
 **Tavanul înclinat nu mai pică pe A9 la o pantă lungă.** Un corp cu tavan înclinat, la care tavanul pe pantă iese mai lung decât cea mai mare dintre lățime și înălțime (de exemplu sub o scară, lățime 1250, înălțimi 1450 → 605: tavanul are 1477 mm), primea eroarea blocantă „o piesă are o cotă mai mare decât corpul” și nu se putea exporta, deși cotele erau corecte. Regula se compară acum și cu lungimea tavanului pe pantă. Fără pantă, regula e cea de dinainte; o piesă cu adevărat prea mare tot cade.
 
-Cotele din distinta nu s-au schimbat. Teste noi în `exportgate.test.js` (trei pante lungi și limita de 5 mm), seria completă trece, iar fuzz-ul D-78 e identic cu cel de dinainte. `APP_VER` și numele cache-ului Service Worker se cresc la deploy.
+Cotele din distinta nu s-au schimbat. Teste noi în `exportgate.test.js` (trei pante lungi și limita de 5 mm), seria completă trece, iar fuzz-ul D-78 e identic cu cel de dinainte. `APP_VER` 5.24.2, `CORE_REV` 5.24.2, cache-ul Service Worker `ebanist-v195`.
 
 ---
 
