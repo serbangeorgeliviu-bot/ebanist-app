@@ -373,3 +373,35 @@ describe("Cetinic — un singur filler de sus peste mai multe corpuri (extend)",
     assert.match(errOf(Object.assign(clone(CETI), { fillers: [{ side: "right", size: 100, extend: 100 }] })), /doar pentru filler-ul de sus/);
   });
 });
+
+describe("Keku — prinderea fillerelor", () => {
+  test("1 la ~50 cm, minimum 3: 80 cm → 3, 230 cm → 5, pozițiile de la 150 mm de capete", () => {
+    const K = E.coreEngine();
+    assert.equal(K.kekuN(800), 3);
+    assert.equal(K.kekuN(2300), 5);
+    assert.equal(K.kekuN(450), 3);
+    eq(K.kekuPos(2300), [150, 650, 1150, 1650, 2150]);
+    eq(K.kekuPos(800), [150, 400, 650]);
+  });
+  const r = build(CETI), o = r.ops();
+  const kek = (p, tag) => p.operations.filter(x => x.type === "drill" && x.note === tag);
+  test("fiecare filler are 2 găuri Ø2×10 pe mascul și pe femelă pentru fiecare Keku, la 32 mm între ele", () => {
+    const K = E.coreEngine();
+    const fills = o.pieces.filter(p => p.role === "filler");
+    assert.ok(fills.length >= 2);
+    fills.forEach(F => {
+      const L = Math.max(F.length, F.width), n = K.kekuN(L);
+      const m = kek(F, "keku mascul");
+      assert.equal(m.length, 2 * n, F.pk + ": găuri mascul");
+      m.forEach(x => { assert.equal(x.dia, 2); assert.equal(x.depth, 10); });
+    });
+    const fem = o.pieces.reduce((s, p) => s + kek(p, "keku femela").length, 0);
+    const mas = o.pieces.reduce((s, p) => s + kek(p, "keku mascul").length, 0);
+    assert.equal(fem, mas, "câte o femelă la fiecare mascul");
+  });
+  test("femela stă la 37 mm de muchia din față a cielo-ului sau a laterale", () => {
+    const hits = o.pieces.filter(p => kek(p, "keku femela").length && p.role !== "filler");
+    assert.ok(hits.length >= 1);
+    hits.forEach(p => assert.ok(["cielo", "base_cielo", "fianco", "traversa_cielo"].includes(p.role), p.role));
+  });
+});

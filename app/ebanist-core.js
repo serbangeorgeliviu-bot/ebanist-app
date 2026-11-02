@@ -25,7 +25,7 @@
 
 /* La versione del motore viaggia col progetto. Un progetto calcolato col
    motore vecchio NON si ricalcola da solo: l'utente puo avere gia debitato. */
-var CORE_REV = "5.13.0";
+var CORE_REV = "5.24.0";
 var GEOM_VERSION = 3; /* GEOM_VERSION-MARKER — il verificatore di aggiornamenti
    legge questa riga dal file sul server. Se il numero e piu alto di quello
    caricato qui, il motore locale e vecchio e l'esportazione si blocca: una
@@ -181,6 +181,12 @@ function num(p, k) {
    scritta in TRE punti diversi dell'app — la distinta, il conteggio della
    ferramenta e la scheda di montaggio — e i tre non erano d'accordo fra loro.
    Adesso e una sola, e le tre la chiamano. */
+/* Keku (prindere filler): un set la ~500 mm, minimum 3 pe filler; primul și ultimul la `edge` de capete.
+   Cotele sunt ale atelierului, nevalidate pe un set real. O singură sursă pentru deviz, fișa de montaj și găurire. */
+var KEKU = { step: 500, min: 3, edge: 150, hole_dia: 2, hole_depth: 10, hole_pitch: 32, front: 37, plate_len: 48, verificat: false };
+function kekuN(L) { return Math.max(KEKU.min, Math.ceil(L / KEKU.step)); }
+function kekuPos(L) { var n = kekuN(L), a = Math.min(KEKU.edge, L / 2), st = n > 1 ? (L - 2 * a) / (n - 1) : 0, o = [];
+  for (var i = 0; i < n; i++) o.push(Math.round(a + i * st)); return o; }
 function hingeCount(anta_H) {
   if (!(anta_H > 0)) return 0;
   return anta_H < 900 ? 2 : anta_H < 1600 ? 3 : anta_H < 2000 ? 4 : 5;
@@ -2354,6 +2360,7 @@ var API = {
   reconstructedBBox: reconstructedBBox,
   positionsHinges: positionsHinges,
   hingeCount: hingeCount,
+  KEKU: KEKU, kekuN: kekuN, kekuPos: kekuPos,
   ASSERTIONS: ASSERTIONS,
   evalExpr: evalExpr,
   checkAssertions: checkAssertions,
