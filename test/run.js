@@ -3489,16 +3489,19 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const qrs = () => [...document.querySelectorAll("#printArea .lbl")].map(l => { const q = l.querySelector(".qr svg"); return q ? q.outerHTML : null; });
 
       /* — etichete — */
-      labels(); o.faraComanda = qrs().length === 5 && qrs().every(x => x === null);
+      /* 5.24.1: fără comandă Atelier eticheta are un cod propriu (datele piesei), câte unul pe etichetă */
+      const svgOf = pk => { const d = document.createElement("div"); d.innerHTML = EBQR.svg(EBAtelier.qrUrl(JOB, pk), { border: 1 }); return d.firstChild.outerHTML; };
+      const codAtelier = [svgOf("r1"), svgOf("r2")], propriu = x => !!x && !codAtelier.includes(x);
+      labels(); const own = qrs();
+      o.faraComanda = own.length === 5 && own.every(propriu) && new Set(own).size === 5;
       atJobMapSet("w2", { job: JOB, atelier: "at1", sig: EBAtelier.rowSig(proj().pieces) });
       labels(); const q = qrs();
-      const svgOf = pk => { const d = document.createElement("div"); d.innerHTML = EBQR.svg(EBAtelier.qrUrl(JOB, pk), { border: 1 }); return d.firstChild.outerHTML; };
       o.cinciQr = q.length === 5 && q.every(x => !!x) && document.querySelectorAll("#printArea .lbl.hasqr").length === 5;
       o.codPePiesa = q[0] === svgOf("r1") && q[1] === svgOf("r1") && q[2] === svgOf("r2") && q[4] === svgOf("r2") && q[0] !== q[2];
       proj().pieces[1].lung = 601; labels();
-      o.piesaSchimbata = qrs().every(x => x === null);
-      proj().pieces[1].lung = 600; labels(); o.revineLaFel = qrs().every(x => !!x);
-      localStorage.removeItem("ebAtelier"); labels(); o.faraFlag = qrs().every(x => x === null);
+      o.piesaSchimbata = qrs().every(propriu);
+      proj().pieces[1].lung = 600; labels(); o.revineLaFel = JSON.stringify(qrs()) === JSON.stringify(q);
+      localStorage.removeItem("ebAtelier"); labels(); o.faraFlag = qrs().every(propriu);
       localStorage.setItem("ebAtelier", "1");
 
       /* — server simulat — */
@@ -3613,10 +3616,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       renderAccount();
       return o;
     });
-    ok("Atelier E2: fără comandă legată, etichetele rămân fără QR", r.faraComanda === true);
+    ok("Atelier E2: fără comandă legată, fiecare etichetă are un QR propriu (diferit pe etichetă, nu cel al comenzii)", r.faraComanda === true);
     ok("Atelier E2: cu comandă legată, fiecare etichetă are QR; cele ale aceluiași rând poartă același cod", r.cinciQr === true && r.codPePiesa === true);
-    ok("Atelier E2: dacă proiectul s-a schimbat după comandă, QR dispare; revine când rândurile sunt iar la fel", r.piesaSchimbata === true && r.revineLaFel === true);
-    ok("Atelier E2: fără modul pornit, nicio etichetă nu primește QR", r.faraFlag === true);
+    ok("Atelier E2: dacă proiectul s-a schimbat după comandă, QR-ul comenzii dispare (rămâne cel propriu); revine când rândurile sunt iar la fel", r.piesaSchimbata === true && r.revineLaFel === true);
+    ok("Atelier E2: fără modul pornit, etichetele au doar QR-ul propriu, nu al comenzii", r.faraFlag === true);
     ok("Atelier E2: scanarea arată piesa (cote, material), fără HTML executat, și ce e deja gata", r.card === true && r.xss === true && r.facutDeja === true);
     ok("Atelier E2: operatorul alege doar dintre postazioni lui; propune prima negătată", r.statiiOp === true && r.preselectat === true);
     ok("Atelier E2: „Gata” trimite evenimentul pe piesă (pk, postazione, client_id) și trece la scanarea următoare", r.gata === true && r.urmatoarea === true && r.amintit === true);
