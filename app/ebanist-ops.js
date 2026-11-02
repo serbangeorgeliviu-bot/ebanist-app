@@ -553,6 +553,48 @@ function generate1(input) {
     });
   });
 
+  /* --- 2d. Keku (prindere filler): femela pe cielo sau pe lateralul corpului, masculul pe fața dinapoi a fillerului; fiecare
+         plăcuță are 2 găuri la 32 mm între ele, linia găurilor la 37 mm de muchie (fișa producătorului). Pe cielo/lateral cei 37 mm
+         se măsoară de la muchia din față. Ø2 × 10 mm (cotă din atelier). Dacă sub poziția unui Keku nu e panou, se spune. */
+  byRole("filler").forEach(function (F) {
+    var K = root.KEKU; if (!K || !root.kekuPos) return;
+    var tA = F.tAx, ax = [0, 1, 2].filter(function (a) { return a !== tA; });
+    var lenAx = F.ext[ax[0]] >= F.ext[ax[1]] ? ax[0] : ax[1], widAx = lenAx === ax[0] ? ax[1] : ax[0];
+    var L = F.ext[lenAx], pos = root.kekuPos(L), half = K.hole_pitch / 2, plate = K.plate_len / 2;
+    var panels = pcs.filter(function (q) { return q !== F; });
+    var find = function (pred) { for (var i = 0; i < panels.length; i++) if (pred(panels[i])) return panels[i]; return null; };
+    var sideF = 0, Q = null, fem = null, male = null;   // fem / male: { p, ax, side, base: [x,y,z] (cu lenAx de completat) }
+    var covers = function (q, c) { return q.min[lenAx] <= c - plate + 0.5 && q.max[lenAx] >= c + plate - 0.5; };
+    var ok = true;
+    pos.forEach(function (d, idx) {
+      var c = F.min[lenAx] + d, id = "keku_" + out.hw.length + "_" + idx, pF = null, pM = null, M = null, FM = null;
+      if (tA === 2 && widAx === 1) {
+        /* filler de sus: femela pe fața de sus a cielo-ului, masculul pe fața dinapoi, la 37 mm de muchia de jos */
+        Q = find(function (q) { return q.tAx === 1 && Math.abs(q.max[1] - F.min[1]) < 1.2 && covers(q, c); });
+        FM = Q && { p: Q, ax: 1, side: 1, at: function (u) { var w = [0, 0, 0]; w[lenAx] = u; w[1] = Q.max[1]; w[2] = Q.max[2] - K.front; return w; } };
+        M = { p: F, ax: 2, side: -1, at: function (u) { var w = [0, 0, 0]; w[lenAx] = u; w[1] = F.min[1] + K.front; w[2] = F.min[2]; return w; } };
+      } else if (tA === 2 && widAx === 0) {
+        /* filler lateral: femela pe fața exterioară a laterală, masculul pe fața dinapoi, la 37 mm de muchia spre corp */
+        var right = !find(function (q) { return q.tAx === 0 && Math.abs(q.min[0] - F.max[0]) < 1.2 && covers(q, c); });
+        Q = find(function (q) { return q.tAx === 0 && (right ? Math.abs(q.max[0] - F.min[0]) < 1.2 : Math.abs(q.min[0] - F.max[0]) < 1.2) && covers(q, c); });
+        FM = Q && { p: Q, ax: 0, side: right ? 1 : -1, at: function (u) { var w = [0, 0, 0]; w[lenAx] = u; w[0] = right ? Q.max[0] : Q.min[0]; w[2] = Q.max[2] - K.front; return w; } };
+        M = { p: F, ax: 2, side: -1, at: function (u) { var w = [0, 0, 0]; w[lenAx] = u; w[0] = right ? F.min[0] + K.front : F.max[0] - K.front; w[2] = F.min[2]; return w; } };
+      } else if (tA === 0) {
+        /* capac lateral: femela pe fața de sus a cielo-ului, la 37 mm de fața interioară a capacului; masculul pe fața interioară, la 37 mm de muchia de jos */
+        var left = !!find(function (q) { return q.tAx === 1 && Math.abs(q.min[0] - F.max[0]) < 1.2 && Math.abs(q.max[1] - F.min[1]) < 1.2 && covers(q, c); });
+        Q = find(function (q) { return q.tAx === 1 && (left ? Math.abs(q.min[0] - F.max[0]) < 1.2 : Math.abs(q.max[0] - F.min[0]) < 1.2) && Math.abs(q.max[1] - F.min[1]) < 1.2 && covers(q, c); });
+        FM = Q && { p: Q, ax: 1, side: 1, at: function (u) { var w = [0, 0, 0]; w[lenAx] = u; w[1] = Q.max[1]; w[0] = left ? F.max[0] + K.front : F.min[0] - K.front; return w; } };
+        M = { p: F, ax: 0, side: left ? 1 : -1, at: function (u) { var w = [0, 0, 0]; w[lenAx] = u; w[1] = F.min[1] + K.front; w[0] = left ? F.max[0] : F.min[0]; return w; } };
+      } else return;
+      [c - half, c + half].forEach(function (u) {
+        hole(M.p, M.ax, M.side, M.at(u), K.hole_dia, K.hole_depth, id, "keku mascul");
+        if (FM) hole(FM.p, FM.ax, FM.side, FM.at(u), K.hole_dia, K.hole_depth, id, "keku femela");
+      });
+      if (!FM) ok = false;
+    });
+    if (!ok) out.warnings.push({ piece: F.pk, k: "opsKekuNoPanel" });
+  });
+
   /* --- 3b. tavan înclinat (D-86): îmbinările cu un panou înclinat sau cu muchie oblică nu se găuresc
          în pasul 1. Piesa iese în model fără operații pe muchia oblică, cu avertisment: cotele cer
          o piesă reală (bevel) înainte să meargă în mașină. */
