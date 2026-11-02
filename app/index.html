@@ -3210,6 +3210,13 @@ Object.assign(I18N.fr,{cmOther:"Autres travaux"});
 Object.assign(I18N.en,{cmOther:"Other work"});
 Object.assign(I18N.ro,{cmOther:"Alte lucrări"});
 Object.assign(I18N.it,{cmOther:"Altre lavorazioni"});
+Object.assign(I18N.it,{"hwFill": "Fissaggi filler (Keku)"});
+Object.assign(I18N.ro,{"hwFill": "Prinderi filler (Keku)"});
+Object.assign(I18N.en,{"hwFill": "Filler fixings (Keku)"});
+Object.assign(I18N.fr,{"hwFill": "Fixations de filler (Keku)"});
+Object.assign(I18N.de,{"hwFill": "Blendenbefestigung (Keku)"});
+Object.assign(I18N.pl,{"hwFill": "Mocowania zaślepek (Keku)"});
+Object.assign(I18N.es,{"hwFill": "Fijaciones de cubrejuntas (Keku)"});
 Object.assign(I18N.it,{"fCutMatTh": "Distinta di taglio: spessore nel materiale", "cutMatThHint": "Il materiale esce con lo spessore, es. «Rovere 19 mm», in PDF e CSV."});
 Object.assign(I18N.ro,{"fCutMatTh": "Distinta de tăiere: grosimea în material", "cutMatThHint": "Materialul apare cu grosimea, ex. «Rovere 19 mm», în PDF și CSV."});
 Object.assign(I18N.en,{"fCutMatTh": "Cut list: thickness in the material", "cutMatThHint": "The material shows its thickness, e.g. “Oak 19 mm”, in the PDF and CSV."});
@@ -3662,6 +3669,8 @@ const HWDB={
  gamba:[
   {id:"gen_legplate",brand:"—",n:{it:"Piastra d'angolo per gamba + vite doppia M8 + dado ad alette",ro:"Placă de colț pentru picior + șurub dublu M8 + piuliță fluture",en:"Leg corner plate + M8 hanger bolt + wing nut",fr:"Plaque d'angle de pied + vis double M8 + écrou papillon",de:"Beineckplatte + Stockschraube M8 + Flügelmutter",pl:"Płytka narożna nogi + śruba kołkowa M8 + nakrętka motylkowa",es:"Placa de esquina de pata + tirafondo M8 + tuerca de mariposa"},art:"\u2014",price:1.9,chk:1},
   {id:"gen_legplate_hd",brand:"—",n:{it:"Piastra d'angolo rinforzata + vite doppia M10",ro:"Placă de colț ranforsată + șurub dublu M10",en:"Heavy-duty corner plate + M10 hanger bolt",fr:"Plaque d'angle renforcée + vis double M10",de:"Verstärkte Eckplatte + Stockschraube M10",pl:"Wzmocniona płytka narożna + śruba kołkowa M10",es:"Placa de esquina reforzada + tirafondo M10"},art:"\u2014",price:3.2,chk:1}],
+ fissf:[
+  {id:"gen_keku",brand:"—",n:{it: "Keku — elemento di fissaggio per filler", ro: "Keku — piesă de prindere pentru filler", en: "Keku — filler fixing piece", fr: "Keku — pièce de fixation de filler", de: "Keku — Befestigungsteil für Blende", pl: "Keku — element mocujący zaślepkę", es: "Keku — pieza de fijación de cubrejuntas"},art:"—",price:0}],
  fissp:[
   {id:"gen_topclip",brand:"—",n:{it:"Squadretta 30×30 per fissaggio piano",ro:"Colțar 30×30 pentru prinderea blatului",en:"30×30 bracket for fixing the top",fr:"Équerre 30×30 de fixation du plateau",de:"Winkel 30×30 zur Plattenbefestigung",pl:"Kątownik 30×30 do mocowania blatu",es:"Escuadra 30×30 para fijar el tablero"},art:"\u2014",price:0.25,chk:1},
   {id:"gen_figure8",brand:"—",n:{it:"Fermapiano a otto (figure-8)",ro:"Clemă în opt pentru blat (figure-8)",en:"Figure-8 table-top fastener",fr:"Attache de plateau en huit",de:"Plattenverbinder Achter (Figure-8)",pl:"Łącznik blatu typu ósemka (figure-8)",es:"Fijación de tablero en ocho (figure-8)"},art:"\u2014",price:0.4,chk:1}],
@@ -12773,7 +12782,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["fissp","hwTopClip"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
+  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
 function renderCatalog(){
   const S=state.settings;
   $("catHwWrap").innerHTML=HW_CATS.map(([cat,key])=>{
@@ -12936,11 +12945,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
 
 /* ================= PRO: FERRAMENTA / PREVENTIVO / SHARE ================= */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTopClip:"fissp",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
+  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTopClip","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
+    "hwLeg","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -12987,6 +12996,7 @@ function computeHardware(p,S,byModule){
       bump(mod,"hwCern",nA*hingeCount(hgt));
       grip(mod,nA); }
     else if(el.startsWith("piedino")){ bump(mod,"hwPied",x.pz); }
+    else if(el.startsWith("fascia di chiusura")){ bump(mod,"hwFill",4*x.pz); }   // 4 Keku pe fiecare filler (nu și pe capacul lateral, care e panou al structurii)
     else if(el.startsWith("frontale cassetto")){ bumpG(x,mod,x.pz);
       /* il cassetto interno sta dietro l'anta: si tira per il frontale,
          una maniglia li dentro urterebbe l'anta chiusa. */
@@ -16787,12 +16797,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.14.1"; /* APP_VER-MARKER */
+const APP_VER="5.15.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v180";
+const SW_CACHE="ebanist-v181";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

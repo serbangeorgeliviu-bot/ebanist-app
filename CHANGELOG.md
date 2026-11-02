@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.15.0 — 2 noiembrie 2026
+
+**Keku pentru filler:** piesele de prindere ale fillerelor („Fascia di chiusura …”) intră în feronerie, 4 bucăți pe fiecare filler, în deviz și în tabelul de feronerie. Capacul lateral nu are Keku. Categorie nouă în catalogul de feronerie („Fissaggi filler (Keku)”); prețul se completează în catalog.
+
+---
+
 ## 5.14.1 — 28 octombrie 2026
 
 **Grosimea în distinta de tăiere:** opțiune nouă în Setări, „Distinta de tăiere: grosimea în material” — materialul apare ca „Rovere 19 mm” / „Avocado Green 19 mm” în PDF și CSV. Implicit: Nu.
