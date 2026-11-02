@@ -73,7 +73,9 @@ describe("I file del catalogo", () => {
     for (const m of CL.materiali) assert.equal(m.colore_verificato, false, m.id);
   });
   test("prezzo non ancora rilevato = null, non uno inventato", () => {
-    for (const m of CL.materiali) assert.equal(m.prezzo_mq, null, m.id);
+    /* uniche referenze col prezzo del DDT Centro Legno 2934 (02/11/2026), commessa Cetinic */
+    const DDT = { rovere_chiaro_19: 18.177, avocado_green_22458mn_19: 18.682 };
+    for (const m of CL.materiali) assert.equal(m.prezzo_mq, DDT[m.id] ?? null, m.id);
   });
   test("la famiglia e una di quelle previste", () => {
     const ok = ["tinta_unita", "legno", "tessuto", "cemento", "lucido"];
@@ -162,7 +164,7 @@ describe("Il caricamento nell'app", () => {
     assert.equal(a.spessore, 19);
     assert.equal(a.codice, "22458MN");
     assert.equal(a.colore_verificato, false);
-    assert.equal(a.prezzo_mq, null);
+    assert.equal(a.prezzo_mq, 18.682);
     const back = S.matFromCatalog(a);
     assert.equal(back.th, 19);
     assert.equal(back.codice, "22458MN");

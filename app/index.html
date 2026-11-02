@@ -3675,7 +3675,7 @@ function defaultState(){
      un link non deve trovarsi davanti la commessa di qualcun altro. */
   const p = {id:uid(),name:"Ebanist demo",client:"",date:new Date().toISOString().slice(0,10),pieces,geomVersion:1,demo:1};
   return {lang:detectLang(),activeId:p.id,projects:[p],
-    settings:{panelL:2800,panelW:2070,decor_directional:false,kerf:4,priceM2:42,priceMl:1.2,waste:15,labor:0,hourly:35,
+    settings:{panelL:2800,panelW:2070,decor_directional:false,kerf:4,priceM2:42,priceMl:2.05,waste:15,labor:0,hourly:35,
       coName:"",coInfo:"",margin:30,iva:20,
       hwCern:1.4,hwGuida:6.5,hwMan:3.5,hwSup:0.08,hwAsta:1.2,hwPied:0.9,hwBin:45,hwConn:0.35,hwPush:2.5,
       hwProd:{cern:"blum_71b3550",guida:"blum_tandem",man:"gen_man",sup:"haf_sup",asta:"gen_asta",pied:"haf_axilo",bin:"haf_slido",conn:"haf_minifix",push:"blum_tipon_a"},
@@ -3690,7 +3690,7 @@ function defaultState(){
 /* ===== CATALOGO FERRAMENTA (Blum / Häfele) — prezzi e codici modificabili ===== */
 const HWDB={
  cern:[
-  {id:"blum_71b3550",brand:"Blum",n:{it:"CLIP top BLUMOTION 110° + basetta CLIP",ro:"CLIP top BLUMOTION 110° + plăcuță CLIP",en:"CLIP top BLUMOTION 110° + CLIP plate",fr:"CLIP top BLUMOTION 110° + embase CLIP",de:"CLIP top BLUMOTION 110° + CLIP-Platte",pl:"CLIP top BLUMOTION 110° + płytka CLIP",es:"CLIP top BLUMOTION 110° + base CLIP"},art:"71B3550 + 173L6100",price:3.6},
+  {id:"blum_71b3550",brand:"Blum",n:{it:"CLIP top BLUMOTION 110° + basetta CLIP",ro:"CLIP top BLUMOTION 110° + plăcuță CLIP",en:"CLIP top BLUMOTION 110° + CLIP plate",fr:"CLIP top BLUMOTION 110° + embase CLIP",de:"CLIP top BLUMOTION 110° + CLIP-Platte",pl:"CLIP top BLUMOTION 110° + płytka CLIP",es:"CLIP top BLUMOTION 110° + base CLIP"},art:"71B3550 + 173L6100",price:3.44},
   {id:"blum_71t3550",brand:"Blum",n:{it:"CLIP top 110° + basetta CLIP",ro:"CLIP top 110° + plăcuță CLIP",en:"CLIP top 110° + CLIP plate",fr:"CLIP top 110° + embase CLIP",de:"CLIP top 110° + CLIP-Platte",pl:"CLIP top 110° + płytka CLIP",es:"CLIP top 110° + base CLIP"},art:"71T3550 + 173L6100",price:2.4},
   {id:"blum_71b7550",brand:"Blum",n:{it:"CLIP top BLUMOTION 155° + basetta",ro:"CLIP top BLUMOTION 155° + plăcuță",en:"CLIP top BLUMOTION 155° + plate",fr:"CLIP top BLUMOTION 155° + embase",de:"CLIP top BLUMOTION 155° + Platte",pl:"CLIP top BLUMOTION 155° + płytka",es:"CLIP top BLUMOTION 155° + base"},art:"71B7550 + 173L6100",price:7.2},
   {id:"haf_metalla",brand:"Häfele",n:{it:"Metalla 510 A/SM 110° in applique + basetta",ro:"Metalla 510 A/SM 110° aplicată + plăcuță",en:"Metalla 510 A/SM 110° full overlay + plate",fr:"Metalla 510 A/SM 110° en applique + embase",de:"Metalla 510 A/SM 110° aufschlagend + Platte",pl:"Metalla 510 A/SM 110° nakładany + płytka",es:"Metalla 510 A/SM 110° de superposición + base"},art:"329.17.100 + 329.73.608",price:1.7},
@@ -3747,7 +3747,7 @@ const HWDB={
   {id:"haf_slido",brand:"Häfele",n:{it:"Slido Classic 40 (set/anta)",ro:"Slido Classic 40 (set/ușă)",en:"Slido Classic 40 (set/door)",fr:"Slido Classic 40 (kit/porte)",de:"Slido Classic 40 (Set/Tür)",pl:"Slido Classic 40 (zestaw/drzwi)",es:"Slido Classic 40 (juego/puerta)"},art:"400.51.xxx",price:29,chk:1},
   {id:"gen_sevroll",brand:"—",n:{it:"Sistema scorrevole tipo Sevroll (set/anta)",ro:"Sistem glisant tip Sevroll (set/ușă)",en:"Sevroll-type sliding system (set/door)",fr:"Système coulissant type Sevroll (kit/porte)",de:"Schiebetürsystem Typ Sevroll (Set/Tür)",pl:"System przesuwny typu Sevroll (zestaw/drzwi)",es:"Sistema corredero tipo Sevroll (juego/puerta)"},art:"—",price:38}],
  conn:[
-  {id:"haf_minifix",brand:"Häfele",n:{it:"Minifix 15 (legno ≥16mm) + perno + spina",ro:"Minifix 15 (lemn ≥16mm) + bolț + diblu",en:"Minifix 15 (wood ≥16mm) + bolt + dowel",fr:"Minifix 15 (bois ≥16mm) + boulon + tourillon",de:"Minifix 15 (Holz ≥16 mm) + Bolzen + Dübel",pl:"Minifix 15 (drewno ≥16 mm) + łącznik + kołek",es:"Minifix 15 (madera ≥16 mm) + perno + taco"},art:"262.26.033 + boulon",price:0.48,chk:1},
+  {id:"haf_minifix",brand:"Häfele",n:{it:"Minifix 15 (legno ≥16mm) + perno + spina",ro:"Minifix 15 (lemn ≥16mm) + bolț + diblu",en:"Minifix 15 (wood ≥16mm) + bolt + dowel",fr:"Minifix 15 (bois ≥16mm) + boulon + tourillon",de:"Minifix 15 (Holz ≥16 mm) + Bolzen + Dübel",pl:"Minifix 15 (drewno ≥16 mm) + łącznik + kołek",es:"Minifix 15 (madera ≥16 mm) + perno + taco"},art:"262.26.033 + boulon",price:0.33,chk:1},
   {id:"gen_confirmat",brand:"—",n:{it:"Vite Confirmat 7×50",ro:"Confirmat 7×50",en:"Confirmat screw 7×50",fr:"Vis Confirmat 7×50",de:"Confirmat-Schraube 7×50",pl:"Wkręt Confirmat 7×50",es:"Tornillo Confirmat 7×50"},art:"—",price:0.07},
   {id:"haf_rafix",brand:"Häfele",n:{it:"Rafix 20 + perno + spina 8×35",ro:"Rafix 20 + bolț + diblu 8×35",en:"Rafix 20 + bolt + dowel 8×35",fr:"Rafix 20 + boulon + tourillon 8×35",de:"Rafix 20 + Bolzen + Dübel 8×35",pl:"Rafix 20 + łącznik + kołek 8×35",es:"Rafix 20 + perno + taco 8×35"},art:"263.10.xxx",price:0.55,chk:1},
   {id:"gen_dowel",brand:"—",n:{it:"Tasselli 8×35 + colla",ro:"Dibluri 8×35 + clei",en:"Dowels 8×35 + glue",fr:"Tourillons 8×35 + colle",de:"Dübel 8×35 + Leim",pl:"Kołki 8×35 + klej",es:"Tacos 8×35 + cola"},art:"—",price:0.06,chk:1},

@@ -1,7 +1,8 @@
 {
   "schema": 1,
   "fornitore": "Centro Legno",
-  "aggiornato": "2026-09-20",
+  "aggiornato": "2026-11-02",
+  "_nota_prezzi": "prezzo_mq = netto, dal DDT Centro Legno n. 2934 del 02/11/2026 (famiglia legni 18,177; tinte unite 18,682 €/mq). Solo le referenze usate nella commessa Cetinic; le altre restano null finche non si legge il loro prezzo.",
   "_nota_codici": "I codici marcati null nel pannello campioni sono ancora da leggere: NON sono stati inventati. Vanno compilati a mano da Liviu, dal pannello fisico.",
   "_nota_colori": "colore_verificato:false su tutte le voci: i colori sono approssimazioni per la visualizzazione, non letture su campione fisico. Il selettore lo segnala.",
   "_nota_bordo": "bordo_abs riporta lo standard del fornitore (0,8 e 2 mm). Da confermare per referenza, insieme ai codici.",
@@ -10,7 +11,7 @@
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
       "colore_hex": "#A8B08A", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
-      "prezzo_mq": null, "attivo": true },
+      "prezzo_mq": 18.682, "attivo": true },
 
     { "id": "blue_avio_23196mn_19", "nome": "Blue Avio", "codice": "23196MN", "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
@@ -82,7 +83,7 @@
       "spessore": 19, "famiglia": "legno", "finitura": "melaminico",
       "colore_hex": "#CDB392", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
-      "prezzo_mq": null, "attivo": true },
+      "prezzo_mq": 18.177, "attivo": true },
 
     { "id": "grigio_medio_19", "nome": "Grigio medio", "nome_i18n": { "it": "Grigio medio", "ro": "Gri mediu", "en": "Mid grey", "fr": "Gris moyen", "de": "Mittelgrau", "pl": "Szary średni", "es": "Gris medio" }, "codice": null, "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
