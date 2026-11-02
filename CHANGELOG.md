@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.24.3 — 2 noiembrie 2026
+
+**Ecranul „diferența de geometrie” nu mai inventează diferențe la piesele cu același nume.** Un corp cu două piese cu același nume și cote diferite (de exemplu cele două uși trapezoidale de înălțimi diferite sub o scară) își compara fiecare ușă cu ultima din distinta salvată, așa că arăta un rând fals, de tipul „922 → 1344”, deși nimic nu se schimbase. Piesele se potrivesc acum pe grupuri: întâi cele identice, apoi cele rămase pe perechi, după cea mai apropiată cotă. O piesă schimbată dă exact un rând, iar una lipsă sau în plus e raportată ca atare. Ordinea rândurilor în distinta nu mai contează.
+
+Cotele din distinta nu s-au schimbat și proiectele salvate nu se recalculează singure (D-39). Teste noi în suita din browser (două uși de înălțimi diferite: neatins, ordine inversă, o ușă schimbată, una lipsă, una în plus). `APP_VER` 5.24.3, cache-ul Service Worker `ebanist-v196`.
+
+---
+
 ## 5.24.2 — 2 noiembrie 2026
 
 **Tavanul înclinat nu mai pică pe A9 la o pantă lungă.** Un corp cu tavan înclinat, la care tavanul pe pantă iese mai lung decât cea mai mare dintre lățime și înălțime (de exemplu sub o scară, lățime 1250, înălțimi 1450 → 605: tavanul are 1477 mm), primea eroarea blocantă „o piesă are o cotă mai mare decât corpul” și nu se putea exporta, deși cotele erau corecte. Regula se compară acum și cu lungimea tavanului pe pantă. Fără pantă, regula e cea de dinainte; o piesă cu adevărat prea mare tot cade.

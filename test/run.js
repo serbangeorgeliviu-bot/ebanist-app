@@ -4639,6 +4639,47 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
+  head("geomDiff — piese cu același nume și cote diferite (uși trapezoidale sub scară): fără diferențe false");
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const eErrs = [];
+    const gp = await ctx.newPage();
+    gp.on("pageerror", e => eErrs.push(String(e)));
+    await gp.goto(URL); await gp.waitForTimeout(3300); await gp.evaluate(() => closeSheets());
+    const r = await gp.evaluate(() => {
+      const o = {}, mat = state.settings.matBody;
+      const mk = () => {
+        const p = { id: "gd", name: "gd", client: "", date: "2026-11-02", geomVersion: GEOM_VERSION, pieces: [] };
+        generateInto(p, { name: "Sottoscala", type: "standard", L: 1250, H: 1450, P: 600, plinth: 100, tram: 1, shelves: 1, drawers: 0, doors: 2, back: 1, hang: 0,
+          topProfile: { axis: "x", h0: 1450, h1: 605 }, matBody: mat, matFront: mat, matBack: state.settings.matBack });
+        return p;
+      };
+      const p = mk(), ante = p.pieces.filter(x => x.elemento === "Anta");
+      o.due = ante.length === 2 && ante[0].lung !== ante[1].lung;
+      o.identic = geomDiff(p).length === 0;
+      const q = mk(); const i0 = q.pieces.findIndex(x => x.elemento === "Anta"), i1 = q.pieces.map(x => x.elemento).lastIndexOf("Anta");
+      [q.pieces[i0], q.pieces[i1]] = [q.pieces[i1], q.pieces[i0]];
+      o.ordineAltfel = geomDiff(q).length === 0;
+      const c = mk(), big = c.pieces.find(x => x.elemento === "Anta" && x.lung === ante[0].lung);
+      big.lung = ante[0].lung - 20;
+      const dc = geomDiff(c);
+      o.unaSchimbata = dc.length === 1 && dc[0].vecchio.lung === ante[0].lung - 20 && dc[0].nuovo.lung === ante[0].lung;
+      const m = mk(); m.pieces.splice(m.pieces.findIndex(x => x.elemento === "Anta" && x.lung === ante[1].lung), 1);
+      const dm = geomDiff(m);
+      o.lipsa = dm.length === 1 && dm[0].vecchio === null && dm[0].nuovo.lung === ante[1].lung;
+      const e = mk(); e.pieces.push(Object.assign({}, e.pieces.find(x => x.elemento === "Anta"), { id: "extra", lung: 777 }));
+      const de = geomDiff(e);
+      o.extra = de.length === 1 && de[0].nuovo === null && de[0].vecchio.lung === 777;
+      o.dbg = JSON.stringify([ante.map(x => x.lung), dc.map(x => [x.elemento, x.vecchio && x.vecchio.lung, x.nuovo && x.nuovo.lung]), dm.length, de.length]);
+      return o;
+    });
+    ok("geomDiff: un corp cu două uși de înălțimi diferite, neatins, nu dă nicio diferență (și nici dacă rândurile sunt în altă ordine)", r.due === true && r.identic === true && r.ordineAltfel === true, JSON.stringify(r));
+    ok("geomDiff: o ușă schimbată în distinta salvată dă exact un rând (ea), nu un rând fals pentru cealaltă", r.unaSchimbata === true, JSON.stringify(r));
+    ok("geomDiff: o ușă lipsă sau în plus în distinta salvată e raportată ca atare", r.lipsa === true && r.extra === true, JSON.stringify(r));
+    ok("geomDiff: nicio eroare JS", eErrs.length === 0, eErrs[0] || "nessuno");
+    await ctx.close();
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
