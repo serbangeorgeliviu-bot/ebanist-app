@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.24.0 — 2 noiembrie 2026
 
-**Keku pentru filler:** tot ce are filler (fâșiile „Fascia di chiusura …” și capacul lateral) primește Keku, set mascul + femelă: femela pe cielo (filler sus) sau pe lateralul corpului (filler lateral), masculul pe filler, fără rost între filler și corp. Distanța ≈ 50 cm, minimum 3 pe filler (80 cm → 3, 230 cm → 5); în fișa de montaj apar pozițiile. În feronerie, deviz și PDF; prețul se completează în catalog. Cotele (pas 500, 150 de la capete) sunt nevalidate.
+**Keku pentru filler:** tot ce are filler (fâșiile „Fascia di chiusura …” și capacul lateral) primește Keku, set mascul + femelă: femela pe cielo (filler sus) sau pe lateralul corpului (filler lateral), masculul pe filler, fără rost între filler și corp. Distanța ≈ 50 cm, minimum 3 pe filler (80 cm → 3, 230 cm → 5); în fișa de montaj apar pozițiile. În feronerie, deviz și PDF; prețul se completează în catalog. Fișa de montaj trece și datele din fișa producătorului: plăcuță 16×48×4 mm, 2 șuruburi la 32 mm, linia găurilor la 37 mm de muchie. Cotele de poziționare (pas 500, 150 de la capete) sunt nevalidate.
 
 ---
 
