@@ -405,3 +405,18 @@ describe("Keku — prinderea fillerelor", () => {
     hits.forEach(p => assert.ok(["cielo", "base_cielo", "fianco", "traversa_cielo"].includes(p.role), p.role));
   });
 });
+
+/* Raft peste balama: pe fișa piesei din proiectul real (3 corpuri), rafturile de la y=1134 (dx) și 519 (sx sus) cădeau
+   în banda plăcuței de balama (găuri la 15–17 mm de gaura suportului). Nu se mută nimic: avertisment pe raft. */
+describe("raft peste balama (fișa piesei Cetinic)", () => {
+  const proj = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "docs", "Ebanist_Proiect_Cetinic-3-corpuri.json"), "utf8"));
+  const mats = { matBody: "__b", matFront: "__f", matBack: "__k" };
+  const warn = n => build(Object.assign({}, proj.configs[n], mats)).ops().warnings.filter(w => w.k === "opsShelfVsHinge");
+  test("Entrance dx și sx sus: avertisment, câte unul pe balama de la aceeași înălțime", () => {
+    assert.equal(warn("Entrance dx").length, 2);
+    assert.equal(warn("Entrance sx sus").length, 2);
+  });
+  test("Entrance sx jos: rafturile sunt între balame, fără avertisment", () => {
+    assert.equal(warn("Entrance sx jos").length, 0);
+  });
+});
