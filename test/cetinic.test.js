@@ -454,8 +454,10 @@ describe("găurile raftului față de placuța balamalei (punte minimă 3 mm)", 
       });
     });
   });
-  test("data: banda raft×balama stă în HW_DRILL, marcată neverificată", () => {
+  test("data: conturul placuței (Blum p.147) și banda raft×balama stau în HW_DRILL", () => {
     const sb = S.HW_DRILL.hinge.shelf_band;
     assert.deepEqual([sb.hole_gap, sb.web, sb.aria, sb.verificat], [8, 3, 5, false]);
+    const pl = S.HW_DRILL.hinge.plate;   // Blum KA-150 p.147, 173L6100: 57 × 53
+    assert.deepEqual([pl.D, pl.L, pl.H, pl.verificat], [57, 53, 8.5, true]);
   });
 });

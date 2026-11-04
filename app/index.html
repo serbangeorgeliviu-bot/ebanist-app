@@ -198,6 +198,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
   color:var(--danger);cursor:pointer}
 .au-row{padding:10px 0;border-bottom:1px solid var(--line)}
 .au-row:last-child{border-bottom:none}
+.hs h4{margin:0 0 6px}.hs h5{margin:12px 0 4px}.hs-draw{display:flex;gap:12px;flex-wrap:wrap;color:var(--ink,#222)}.hs-svg{flex:1 1 240px;max-width:100%;color:var(--ink,#222)}.hs-t{border-collapse:collapse;margin:8px 0;font-size:12px;display:block;overflow-x:auto}.hs-t td,.hs-t th,.hs-t caption{border:1px solid var(--line);padding:2px 5px;text-align:center}.hs-t caption{border:none;text-align:left;font-weight:600;padding:2px 0}
 .au-why{font-size:13.5px;line-height:1.4}
 .au-meta{color:var(--faint);font-size:11.5px;margin-top:3px}
 .au-row.bad{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
@@ -2083,6 +2084,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="btn red" id="geomApply" style="margin-top:12px" data-i="gvApply">Conferma e riscrivi</button>
 </div>
 
+<!-- Fișa tehnică a balamalei (date Blum KA-150, desen generat din cote). -->
+<div class="sheet" id="hsSheet">
+  <div class="sheet-grip"></div>
+  <div id="hsBody"></div>
+  <button class="btn" id="hsClose" style="margin-top:12px" data-i="hsClose">Închide</button>
+</div>
+
 <!-- Raft peste balama: cota veche, cota nouă, confirmare. Scrie numai după backup. -->
 <div class="sheet" id="shfSheet">
   <div class="sheet-grip"></div>
@@ -2562,6 +2570,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?rev=5.24.2"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
+<script src="./ebanist-hinges.js"></script>
 <script src="./ebanist-hwgeom.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
@@ -3593,6 +3602,13 @@ Object.assign(I18N.fr,{"shfSrc": "Étagère et charnières", "shfWhy": "L’éta
 Object.assign(I18N.de,{"shfSrc": "Fachboden und Scharniere", "shfWhy": "Der Fachboden bei {y} mm stößt an die Scharniere bei {h} mm: Der Arm läuft durch den Fachboden, und die Bohrungen liegen 15–17 mm auseinander.", "shfBtn": "Neues Maß wählen", "shfTitle": "Neues Fachbodenmaß", "shfOld": "Jetzt", "shfUp": "Höher", "shfDown": "Tiefer", "shfApply": "Maß übernehmen", "shfNone": "Der Fachboden hat kein absolutes Maß (er kommt aus der Fachbodenzahl), oder kein freies Maß passt in den Korpus: Maß vorgeben oder Scharniere verschieben.", "shfNote": "Zuerst wird eine vollständige Sicherung gemacht, dann wird die Stückliste des Korpus mit dem neuen Maß neu berechnet.", "shfDone": "Fachboden auf {y} mm gesetzt."});
 Object.assign(I18N.pl,{"shfSrc": "Półka i zawiasy", "shfWhy": "Półka na {y} mm uderza w zawiasy na {h} mm: ramię przechodzi przez półkę, a otwory leżą 15–17 mm od siebie.", "shfBtn": "Wybierz nową wysokość", "shfTitle": "Nowa wysokość półki", "shfOld": "Teraz", "shfUp": "Wyżej", "shfDown": "Niżej", "shfApply": "Zastosuj wysokość", "shfNone": "Półka nie ma wymiaru bezwzględnego (wynika z liczby półek) albo żadna wolna wysokość nie mieści się w korpusie: podaj jej wysokość lub przesuń zawiasy.", "shfNote": "Najpierw powstaje pełna kopia zapasowa, potem rozkrój korpusu liczy się od nowa z nową wysokością.", "shfDone": "Półka przesunięta na {y} mm."});
 Object.assign(I18N.es,{"shfSrc": "Balda y bisagras", "shfWhy": "La balda a {y} mm choca con las bisagras a {h} mm: el brazo atraviesa la balda y los agujeros quedan a 15–17 mm entre sí.", "shfBtn": "Elegir la nueva cota", "shfTitle": "Nueva cota de la balda", "shfOld": "Ahora", "shfUp": "Más arriba", "shfDown": "Más abajo", "shfApply": "Aplicar la cota", "shfNone": "La balda no está a cota absoluta (viene del número de baldas) o ninguna cota libre cabe en el cuerpo: dale una cota o mueve las bisagras.", "shfNote": "Primero se hace una copia de seguridad completa y luego se recalcula el despiece del cuerpo con la nueva cota.", "shfDone": "Balda movida a {y} mm."});
+Object.assign(I18N.it,{"opsSrc": "Foratura (modello di operazioni)", "opsNoHingePanel": "Accanto alla cerniera di un'anta non c'è un fianco o un setto: la basetta non si fora.", "opsPinMoved": "Il foro del reggipiano cade su un altro foro (basetta o guida): il ripiano poggia sul foro di regolazione.", "opsSlope": "Cielo inclinato: le forature sul bordo obliquo non sono generate; controlla sul primo pezzo.", "opsCurved": "Anta curva: le cerniere non sono generate.", "opsAwThin": "Anta troppo sottile per la cava del profilo anti-imbarcamento: la cava non è generata.", "opsHingeTB": "La distanza di foratura della tazza è {tb} mm, fuori dall'intervallo Blum 3–7 mm.", "hsBtn": "Scheda tecnica", "hsClose": "Chiudi"});
+Object.assign(I18N.ro,{"opsSrc": "Găurire (modelul de operații)", "opsNoHingePanel": "Lângă balamaua unei uși nu e laterală sau despărțitor: plăcuța nu se poate găuri.", "opsPinMoved": "Gaura suportului de raft cade peste altă gaură (plăcuță sau glisieră): raftul stă pe gaura de reglare.", "opsSlope": "Tavan înclinat: găurile de pe muchia oblică nu sunt generate; verifică pe prima piesă.", "opsCurved": "Ușă curbă: balamalele nu sunt generate.", "opsAwThin": "Ușă prea subțire pentru canalul profilului anti-curbare: canalul nu e generat.", "opsHingeTB": "Distanța de găurire a cupei e {tb} mm, în afara intervalului Blum 3–7 mm.", "hsBtn": "Fișă tehnică", "hsClose": "Închide"});
+Object.assign(I18N.en,{"opsSrc": "Drilling (operations model)", "opsNoHingePanel": "There is no side or divider next to a door's hinge: the plate cannot be drilled.", "opsPinMoved": "The shelf-pin hole falls on another hole (plate or slide): the shelf rests on the adjustment hole.", "opsSlope": "Sloped top: holes on the oblique edge are not generated; check the first piece.", "opsCurved": "Curved door: hinges are not generated.", "opsAwThin": "Door too thin for the anti-warp profile groove: the groove is not generated.", "opsHingeTB": "The cup drilling distance is {tb} mm, outside Blum's 3–7 mm range.", "hsBtn": "Data sheet", "hsClose": "Close"});
+Object.assign(I18N.fr,{"opsSrc": "Perçage (modèle d'opérations)", "opsNoHingePanel": "Il n'y a ni côté ni séparation à côté de la charnière d'une porte : l'embase ne peut pas être percée.", "opsPinMoved": "Le trou du taquet tombe sur un autre trou (embase ou coulisse) : l'étagère repose sur le trou de réglage.", "opsSlope": "Dessus incliné : les perçages sur le chant oblique ne sont pas générés ; vérifiez sur la première pièce.", "opsCurved": "Porte courbe : les charnières ne sont pas générées.", "opsAwThin": "Porte trop fine pour la rainure du profil anti-voilage : la rainure n'est pas générée.", "opsHingeTB": "La distance de perçage de la cuvette est de {tb} mm, hors de la plage Blum 3–7 mm.", "hsBtn": "Fiche technique", "hsClose": "Fermer"});
+Object.assign(I18N.de,{"opsSrc": "Bohrungen (Operationsmodell)", "opsNoHingePanel": "Neben dem Scharnier einer Tür gibt es keine Seite und keinen Trenner: Die Platte lässt sich nicht bohren.", "opsPinMoved": "Das Bodenträgerloch fällt auf ein anderes Loch (Platte oder Auszug): Der Boden liegt auf dem Verstelloch.", "opsSlope": "Schräge Decke: Bohrungen an der schrägen Kante werden nicht erzeugt; am ersten Teil prüfen.", "opsCurved": "Gebogene Tür: Scharniere werden nicht erzeugt.", "opsAwThin": "Tür zu dünn für die Nut des Verzugsprofils: Die Nut wird nicht erzeugt.", "opsHingeTB": "Der Bohrabstand des Topfes beträgt {tb} mm, außerhalb des Blum-Bereichs 3–7 mm.", "hsBtn": "Datenblatt", "hsClose": "Schließen"});
+Object.assign(I18N.pl,{"opsSrc": "Wiercenie (model operacji)", "opsNoHingePanel": "Obok zawiasu drzwi nie ma boku ani przegrody: prowadnika nie da się nawiercić.", "opsPinMoved": "Otwór podpórki półki wypada na innym otworze (prowadnik lub prowadnica): półka leży na otworze regulacyjnym.", "opsSlope": "Pochylony wieniec: otwory na ukośnej krawędzi nie są generowane; sprawdź na pierwszym elemencie.", "opsCurved": "Drzwi gięte: zawiasy nie są generowane.", "opsAwThin": "Drzwi za cienkie na rowek profilu przeciw odkształceniu: rowek nie jest generowany.", "opsHingeTB": "Odległość wiercenia puszki wynosi {tb} mm, poza zakresem Blum 3–7 mm.", "hsBtn": "Karta techniczna", "hsClose": "Zamknij"});
+Object.assign(I18N.es,{"opsSrc": "Taladrado (modelo de operaciones)", "opsNoHingePanel": "Junto a la bisagra de una puerta no hay lateral ni divisor: la base no se puede taladrar.", "opsPinMoved": "El agujero del soporte de balda cae sobre otro agujero (base o guía): la balda se apoya en el agujero de ajuste.", "opsSlope": "Tapa inclinada: los taladros del canto oblicuo no se generan; revisa la primera pieza.", "opsCurved": "Puerta curva: las bisagras no se generan.", "opsAwThin": "Puerta demasiado fina para la ranura del perfil antialabeo: la ranura no se genera.", "opsHingeTB": "La distancia de taladrado de la cazoleta es {tb} mm, fuera del rango Blum 3–7 mm.", "hsBtn": "Ficha técnica", "hsClose": "Cerrar"});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -10820,9 +10836,10 @@ $("btnGenerate").addEventListener("click",()=>{
   const fx=found.find(a=>a.shelfFix);
   if(fx){ shelfFixSheet(cfg.name,fx.shelfFix); return; }
   const bad=blocking(found);
-  if(bad.length){ auditSheet(bad); return; }
+  if(bad.length){ auditSheet(found); return; }
   toast(`${cfg.name}: ${panelTotals(rows).pcs} ${t("pieces")}`);
-  rvGood();
+  if(found.length) auditSheet(found);   // fără blocaje, dar cu avertismente de găurire: se văd, nu se pierd
+  else rvGood();
 });
 
 /* La riga di tracciabilita, stampata su ogni documento che porta delle cote.
@@ -11092,13 +11109,17 @@ function opsWarnings(cfg){
   let G=null; try{ G=deriveCarcass(carcassParams(cfg,{})); }catch(e){}
   return generateOperations({boxes:bm.boxes,cfg,G}).warnings||[];
 }
-function shelfHingeOf(cfg){
+function opsAllOf(cfg){
   let key; try{ key=JSON.stringify(cfg); }catch(e){ return []; }
   if(shfCache.has(key)) return shfCache.get(key);
-  let r=[]; try{ r=opsWarnings(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }catch(e){}
+  let r=[]; try{ r=opsWarnings(cfg); }catch(e){}
   if(shfCache.size>60) shfCache.clear();
   shfCache.set(key,r); return r;
 }
+function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
+/* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
+const OPS_NOTES=["opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
   const i=(cfg.partitions||[]).findIndex(q=>q.type==="ripiano"&&Math.abs(+q.y-sf.y)<0.6);
@@ -11153,7 +11174,7 @@ function shelfFixNext(modulo){
   const fx=found.find(a=>a.shelfFix);
   if(fx){ setTimeout(()=>shelfFixSheet(modulo,fx.shelfFix),250); return; }
   const bad=blocking(found);
-  if(bad.length){ setTimeout(()=>auditSheet(bad),250); return; }
+  if(bad.length||found.length){ setTimeout(()=>auditSheet(found),250); return; }
   auditBadge();
 }
 function auditModule(cfg,pieces){
@@ -11188,6 +11209,8 @@ function auditModule(cfg,pieces){
         why:t("shfWhy").replace("{y}",w.y).replace("{h}",[...new Set(w.hy)].join(" · ")),
         source:t("shfSrc"),shelfFix:{y:w.y,t:w.t,up:w.up,down:w.down,hy:w.hy}});
     }
+    for(const w of opsNotesOf(cfg))
+      failed.push({id:"O-"+w.k,severity:"warn",confidence:"alta",why:t(w.k).replace("{tb}",w.tb==null?"":w.tb),source:t("opsSrc")});
     return failed;
   }catch(e){
     return [{id:"ENV",severity:"blocking",why:t("auErr")+" "+(e&&e.message||e)}];
@@ -13067,6 +13090,7 @@ $("btnFullBk").addEventListener("click",()=>fullBackup());
 $("geomApply").addEventListener("click",geomApply);
 $("shfApply").addEventListener("click",shelfFixApply);
 $("shfCancel").addEventListener("click",closeSheets);
+$("hsClose").addEventListener("click",closeSheets);
 
 /* ================= FEEDBACK ================= */
 /* DE CREAT ÎNAINTE DE DEPLOY: forwarding pe ebanist.com (register.it →
@@ -13151,6 +13175,7 @@ function renderCatalog(){
         <input class="catPrice" data-cat="${cat}" type="number" step="0.01" inputmode="decimal" placeholder="€" value="${it.price}" style="flex:1">
       </div>
       <div class="mini catRef" data-hw="${it.id||""}" style="margin-top:4px;line-height:1.4"></div>
+      ${cat==="cern"&&window.EBHinges&&EBHinges.familyOfHw(sel)?`<button class="btn sm hsOpen" data-hw="${sel}" style="margin-top:6px">${esc(t("hsBtn"))}</button>`:""}
       ${it.custom?`<div style="display:flex;gap:8px;margin-top:6px">
         <input class="catOwnBrand" data-id="${it.id}" placeholder="${esc(t("hwOwnBrand"))}" value="${esc(it.brand||"")}" style="flex:1">
         <input class="catOwnName" data-id="${it.id}" placeholder="${esc(t("hwOwnName"))}" value="${esc(it.name||"")}" style="flex:2">
@@ -13159,6 +13184,8 @@ function renderCatalog(){
       </div>`;
   }).join("");
   paintGenericPrices();
+  $("catHwWrap").querySelectorAll(".hsOpen").forEach(b2=>b2.addEventListener("click",()=>{
+    $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
   const ov=state.settings.matOvr||{};
   $("catMatWrap").innerHTML=matAll().map(m=>{
     const eff=matById(m.id), hid=matHidden(m), custom=!!m.custom;

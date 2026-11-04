@@ -11,6 +11,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 Găurile de reglare ale suportului de raft nu se mai fac la mai puțin de 3 mm punte (8 mm între centre) de o gaură de plăcuță; înainte contau doar cercurile care se suprapuneau (cu 1 mm de material între ele). Raftul se potrivește cu balama la 6 mm de peretele plăcuței, nu la 0,6 mm: rafturile egale din număr de rafturi au joc de montaj și scăpau verificării. Constantele benzii stau acum în `HW_DRILL.hinge.shelf_band` (`verificat:false`).
 
+Conturul placuței CLIP 173L6100 vine acum din catalogul Blum (KA-150 2022/23, p. 147): 57 mm adâncime × 53 mm înălțime, deci banda raftului e ±26,5 mm față de axa balamalei, nu ±21 estimat. Cotele propuse au ieșit: raft 1140 → 1195 sau 1114 mm (dx), 525 → 554 sau 473 mm (sx sus).
+
+**Fișă tehnică Blum pentru balama.** Fișierul nou `app/ebanist-hinges.js` poartă datele CLIP top BLUMOTION | CLIP top 110° din catalog (p. 74–75): cupă Ø35 / adâncime 13, distanță de găurire TB 3–7 mm, dornuri INSERTA Ø8 la 45 mm cu linia la 9,5 mm, tabelul TB după acoperire FA și spacing MD, rostul minim F după TB și grosimea frontului, reglaje, cele 18 numere de comandă și 5 familii de plăcuțe (173L, 175H7, 175H9, 174E, 175H3) cu conturul total. În Catalog, butonul „Fișă tehnică” de la balama deschide fișa cu desenul găuririi ușii și al plăcuței, generat din cote. Ce nu are etichetă în desenul Blum nu s-a copiat; familiile rămase (107°, 155°, 170°, subțire, sticlă, colț, unghiulare) sunt în `PENDING`, cu pagina din catalog. Testul `hinges.test.js` verifică regula TB pe fiecare celulă din tabel.
+
+**Avertismentele de găurire se văd.** `opsNoHingePanel`, `opsPinMoved`, `opsSlope`, `opsCurved`, `opsAwThin` și noul `opsHingeTB` (TB în afara 3–7 mm) apar în foaia de controale, în 7 limbi, și la „Generează”; nu blochează exportul.
+
 Nimic nu se mută singur (D-39, D-56). Teste noi în `cetinic.test.js` pe proiectul real. `APP_VER` 5.24.4, cache-ul Service Worker `ebanist-v197`.
 
 ---

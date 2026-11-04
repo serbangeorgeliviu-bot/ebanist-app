@@ -40,11 +40,13 @@ var HW_DRILL = {
   hinge: { cup_dia: 35, dowel_dia: 8, dowel_depth: 11,     // Blum 45/9,5
            dowel_spacing: 45, dowel_offset: 9.5,
            plate_dia: 5, plate_depth: 13, plate_spacing: 32,
-           /* D-113: banda în care un raft nu are voie, pe lângă placuța de balama. SURSE (Blum, CLIP top BLUMOTION, cat. 2010 și 2022):
-              găuri Ø5 la 32 mm una de alta, linia lor la 37 mm de față, placuța de 8,5 mm înălțime la plăcuța de 0 mm. Lungimea
-              și lățimea exterioară a placuței NU sunt în documentele găsite (doar în desenul de tehnică, fără cote de contur), deci
-              banda e calculată din găuri, nu din contur: hole_gap = distanța liberă între gaura suportului și gaura placuței
-              (3 mm de punte între două Ø5), aria = aer sub placuță. De înlocuit cu conturul real când se măsoară placuța. */
+           tb: [3, 7],     // distanța de găurire TB (muchia ușii → muchia cupei), Blum KA-150 2022/23 p.75: 3–7 mm
+           /* Placuța CLIP cruciformă de oțel 173L6100 (0 mm, 8,5 mm înălțime): contur 57 (adâncime) × 53 (înălțime pe perete), găuri la 37 mm de față
+              și 32 mm între ele. Sursa: Blum, catalog 2022/2023 KA-150, p. 147 (planning: cotele 57 și 53). Aceeași valoare din catalog pentru 175H7100
+              (zinc) e 68 × 44: placuța se schimbă, banda se recalculează din `plate`. */
+           plate: { L: 53, D: 57, H: 8.5, art: "173L6100", src: "Blum KA-150 2022/23 p.147", verificat: true },
+           /* D-113: marginile din jurul placuței sunt ale noastre, nu ale Blum: hole_gap = distanța liberă între gaura suportului și gaura placuței
+              (punte de 3 mm între două Ø5), aria = aer sub placuță. */
            shelf_band: { hole_gap: 8, web: 3, aria: 5, verificat: false } },
   minifix: { cam_dia: 15, cam_depth_16: 12.5, cam_depth_19: 13.5, // Häfele Minifix 15
              cam_dist: 34, bolt_dia: 5, bolt_depth: 11,
@@ -623,6 +625,7 @@ function generate1(input) {
       var eo = (G && G.in && G.in.edge_offset) || 100;
       var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
       var distCant = (G && G.foratura && G.foratura.dist_cant) || 5, cupD = (G && G.foratura && G.foratura.prof) || 12.5;
+      if (distCant < H.hinge.tb[0] || distCant > H.hinge.tb[1]) out.warnings.push({ piece: D.pk, k: "opsHingeTB", tb: distCant });
       var cx = hEdge + inw * (distCant + H.hinge.cup_dia / 2), zIn = D.min[2];
       var P = panelBeside(pcs, hEdge + inw * 1, hingeLeft ? -1 : 1, D.min[1] + h / 2, zIn - 30, 30);
       if (!P) out.warnings.push({ piece: D.pk, k: "opsNoHingePanel" });
@@ -758,12 +761,12 @@ function generate1(input) {
   });
 
   /* --- 3c. raft peste o balama (blocant, ca un invariant): placuța balamalei stă la 37 mm de față, pe peretele lateral,
-         cu găurile la ±16 mm; un raft care ajunge la față, la aceeași înălțime, o lovește (brațul balamalei trece prin
+         cu corpul de 53 mm pe înălțime (±26,5 mm față de axa balamalei) și găurile la ±16 mm; un raft care ajunge la față, la aceeași înălțime, o lovește (brațul balamalei trece prin
          raft), iar gaura lui de suport (6 mm sub raft) cade la 15–17 mm de gaura placuței. Nu mutăm nimic: cota raftului
          e a utilizatorului (D-56). Se spune care raft, care balame și la ce cotă ar sta liber, în sus sau în jos.
          Raftul cu fundul la b e liber față de o placuță la y când b >= y + 30 (16 gaură + 6 drop + 8 între găuri)
-         sau b + grosime <= y - 21 (16 gaură + 5 aer). */
-  var SH_UP = H.hinge.plate_spacing / 2 + H.pin.drop + H.hinge.shelf_band.hole_gap, SH_DN = H.hinge.plate_spacing / 2 + H.hinge.shelf_band.aria;
+         sau b + grosime <= y - 31,5 (26,5 jumătate de placuță + 5 aer). */
+  var SH_UP = H.hinge.plate_spacing / 2 + H.pin.drop + H.hinge.shelf_band.hole_gap, SH_DN = H.hinge.plate.L / 2 + H.hinge.shelf_band.aria;
   byRole("ripiano").forEach(function (S) {
     if (S.tAx !== 1 || S.curved) return;
     var t = S.max[1] - S.min[1], hits = [];
