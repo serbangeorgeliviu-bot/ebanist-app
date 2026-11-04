@@ -5,13 +5,45 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.25.0 — 4 noiembrie 2026
+## 5.26.0 — 4 noiembrie 2026
 
 **Deblocare cu amprentă / Face ID pentru cont, pe web (D-116).** În foaia „Cont”, după o logare cu parolă, apare „Activează deblocarea cu amprentă / Face ID”. Cu ea activă, „Ieși din cont” închide sesiunea numai pe acest dispozitiv, iar contul se redeschide cu un singur gest, fără email și parolă. Parola rămâne mereu valabilă și poate fi folosită oricând.
 
 Cum e păstrat: refresh token-ul sesiunii stă în localStorage numai criptat (ECDH P-256 + AES-GCM). Cheia privată e învelită cu un secret dat de autentificatorul dispozitivului (WebAuthn, extensia PRF), care se eliberează numai după amprentă. La fiecare rotație a token-ului, copia criptată se reînnoiește tăcut, fără o nouă amprentă. Dacă dispozitivul sau browserul nu are PRF, funcția nu se activează și aplicația spune de ce; o poartă numai în interfață nu ar proteja nimic. Nu intră în backup (e legată de dispozitiv). Nicio dată biometrică nu ajunge în aplicație.
 
-Se activează numai unde browserul are autentificator de platformă. Pe Android (aplicația din Play) nu apare încă: acolo vine, în versiunea următoare, cu `BiometricPrompt` și Keystore. Geometria și distinta nu s-au schimbat. Teste noi: `biometric.test.js` (14), seria completă trece. `APP_VER` 5.25.0, cache-ul SW `ebanist-v197`.
+Se activează numai unde browserul are autentificator de platformă. Pe Android (aplicația din Play) nu apare încă: acolo vine, în versiunea următoare, cu `BiometricPrompt` și Keystore. Geometria și distinta nu s-au schimbat. Teste noi: `biometric.test.js` (14), seria completă trece. `APP_VER` 5.26.0, cache-ul SW `ebanist-v200`.
+
+---
+
+## 5.25.0 — 4 noiembrie 2026
+
+**Glisierele și casetele Blum din catalog, cu fișă tehnică.** Același procedeu ca la balamale (D-114): pagina din catalogul oficial 2022/2023 (KA-150), transcrisă pe pagini, numai cote cu etichetă sau din tabel, fiecare cu pagina sursă (`tools/blum-slides-data/*.json` → `tools/blum-slides-build.mjs` → `app/ebanist-slides-data.js`). Sunt 42 de sisteme și 912 de coduri: MOVENTO (BLUMOTION S, TIP-ON BLUMOTION, TIP-ON), TANDEM 11–16 mm și 19 mm (locking device, hook and peg), METABOX, LEGRABOX pure (N, M, K, C, F) și free, sertarul de sub chiuvetă, MERIVOBOX, TANDEMBOX antaro, accesoriile și TIP-ON. În Catalog, sub ferătura obișnuită, apare lista lor cu căutare (nume, cod) și butonul „Fișă tehnică”: lungimi NL, sarcină, cotele de dulap, formulele de tăiere, constantele, tabelele, codurile, ce nu s-a putut transcrie.
+
+**Glisiere noi în lista de glisiere:** 7 serii Blum (MOVENTO ×3, TANDEM ×2, TANDEM 19 mm ×2). TANDEM 19 mm taie sertarul din lemn la LW − 49 (nu 42 ca MOVENTO și TANDEM 11–16 mm): `ded_lat` din `ebanist-core.js`, la fel pentru controlul de închidere. Pozițiile găurilor de fixare pe lateral rămân cele vechi ale MOVENTO-ului (confirmate pe catalog, p. 419) și ale TANDEM-ului (fișa din 2013, `approx` când NL nu se potrivește); catalogul 2022/23 dă lanțuri de cote, nu poziții pe NL, și nu le-am folosit.
+
+**Constantele casetelor față de catalog:** LEGRABOX (fund LW − 35, NL − 10 cu spate PAL, spate LW − 38, laterale N 66,5 / M 90,5 / K 128,5 / C 177 / F 241) și TANDEMBOX antaro (fund LW − 75, NL − 24, spate LW − 87) se confirmă. Corectate: grosimea laterală LEGRABOX 12,8 mm (era 13), laterale TANDEMBOX N 68,5 / M 83,6 / K 115,6 (erau 68 / 83 / 115). Nerezolvat: TANDEMBOX C 193 și D 203 (catalogul dă 192 și 224, înălțimi cu galerie). MERIVOBOX și METABOX nu au încă sistem de casetă în aplicație (formulele lor sunt în date). Testul `slides-blum.test.js` ține aceste comparații. `APP_VER` 5.25.0, cache-ul Service Worker `ebanist-v199`.
+
+## 5.24.5 — 4 noiembrie 2026
+
+**Căutare în listele lungi de ferătură.** Lista de balamale are 176 de coduri după catalogul Blum: deasupra selectorului, în Catalog și în formularul corpului, apare un câmp de căutare care filtrează după nume, brand, cod și unghi (cuvintele se potrivesc toate, fără diacritice și litere mari). Alegerea curentă rămâne mereu în listă; apare la liste cu cel puțin 12 opțiuni. Teste noi în suita din browser. `APP_VER` 5.24.5, cache-ul Service Worker `ebanist-v198`.
+
+## 5.24.4 — 4 noiembrie 2026
+
+**Raftul care lovește o balama blochează exportul și propune cota nouă.** La proiectul Cetinic, pe fișa piesei, rafturile de la 525 mm (Entrance sx sus) și 1140 mm (Entrance dx) cădeau la aceeași înălțime cu balamalele de la 524 și 1165 mm: brațul balamalei trecea prin raft, iar găurile suportului de raft ajungeau la 15–17 mm de cele ale plăcuței (rândurile 1102–1181 din fișă). Verificarea veche compara doar centrele găurilor și nu vedea nimic. Acum motorul de găurire dă `opsShelfVsHinge` (raftul ajunge la fața dulapului în banda plăcuței: gaura ±16 mm, plus 6 mm de la raft la gaura suportului și 8 mm între găuri), iar auditul îl trece ca regulă `blocking` (`H-SHELF`): distinta PDF, CSV și pachetul de laborator nu pornesc până nu se rezolvă. În foaia de controale, butonul „Alege cota nouă” deschide o căsuță cu cota veche, cota liberă mai sus și cea mai jos (nicio cotă nu e propusă dacă motorul n-o primește), apoi, la confirmare, face backup complet și rescrie distinta corpului (`generateInto`). La „Generează”, căsuța se deschide direct, fără lista de controale, și revine după fiecare cotă aplicată până nu mai rămâne niciun raft de corectat (apoi lista, dacă mai sunt alte blocaje, sau verde). Cu două rafturi în aceeași bandă, fiecare își primește cota pe rând. Raftul care vine din numărul de rafturi, nu dintr-o cotă scrisă, primește numai mesajul.
+
+Găurile de reglare ale suportului de raft nu se mai fac la mai puțin de 3 mm punte (8 mm între centre) de o gaură de plăcuță; înainte contau doar cercurile care se suprapuneau (cu 1 mm de material între ele). Raftul se potrivește cu balama la 6 mm de peretele plăcuței, nu la 0,6 mm: rafturile egale din număr de rafturi au joc de montaj și scăpau verificării. Constantele benzii stau acum în `HW_DRILL.hinge.shelf_band` (`verificat:false`).
+
+Conturul placuței CLIP 173L6100 vine acum din catalogul Blum (KA-150 2022/23, p. 147): 57 mm adâncime × 53 mm înălțime, deci banda raftului e ±26,5 mm față de axa balamalei, nu ±21 estimat. Cotele propuse au ieșit: raft 1140 → 1195 sau 1114 mm (dx), 525 → 554 sau 473 mm (sx sus).
+
+**Fișă tehnică Blum pentru balama.** Fișierul nou `app/ebanist-hinges.js` poartă datele CLIP top BLUMOTION | CLIP top 110° din catalog (p. 74–75): cupă Ø35 / adâncime 13, distanță de găurire TB 3–7 mm, dornuri INSERTA Ø8 la 45 mm cu linia la 9,5 mm, tabelul TB după acoperire FA și spacing MD, rostul minim F după TB și grosimea frontului, reglaje, cele 18 numere de comandă și 5 familii de plăcuțe (173L, 175H7, 175H9, 174E, 175H3) cu conturul total. În Catalog, butonul „Fișă tehnică” de la balama deschide fișa cu desenul găuririi ușii și al plăcuței, generat din cote. Ce nu are etichetă în desenul Blum nu s-a copiat. Au venit apoi toate celelalte familii din catalog: 107°, 100°, 110° special, 155° și 125° 0-protrusion, 170°, ușă cu profil, colț (inset/overlay), aluminiu, ușă subțire, CRISTALLO (sticlă), oglindă, 94°, mini, colț pliabil 60°, toate cele 13 balamale unghiulare, MODUL, plus accesoriile BLUMOTION pentru uși și TIP-ON: 44 de familii, 218 de coduri de comandă (`tools/blum-data/*.json` → `tools/blum-build.mjs` → `app/ebanist-hinges-data.js`; scriptul verifică regula TB pe fiecare celulă și rostul F). Catalogul de balamale din aplicație are acum toate codurile (preț orientativ, marcat „de verificat”), cu alegerea plăcuței și fișa tehnică. Testul `hinges.test.js` verifică regula TB pe fiecare celulă din tabel.
+
+**Găurirea din motor urmează balamaua aleasă.** `ebanist-ops.js` cere găurirea prin `hingeGeom(cfg)`: Ø cupei, distanța TB, dornurile (numai la INSERTA, knock-in, EXPANDO; la screw-on nu se mai fac găuri pentru dornuri; articolele vechi 71B3550 și 71T3550 le păstrează, ca distinta să rămână), plăcuța aleasă (cruciformă 37/32 sau orizontală 20/32, cu găurile pe adâncime). Pentru o familie fără cotă de cupă în date se folosește găurirea standard și apare avertismentul `opsHingeNoGeom`.
+
+**Raftul din „număr de rafturi” primește cotă.** Când căsuța nu are ce muta (raftul vine din numărul de rafturi), butonul „Treci la cote absolute” rescrie corpul cu aceleași rafturi la cote scrise, doar dacă piesele ies identice (rol, lungime, lățime, grosime), cu backup înainte; apoi căsuța se deschide pe raftul în conflict.
+
+**Avertismentele de găurire se văd.** `opsNoHingePanel`, `opsPinMoved`, `opsSlope`, `opsCurved`, `opsAwThin` și noul `opsHingeTB` (TB în afara 3–7 mm) apar în foaia de controale, în 7 limbi, și la „Generează”; nu blochează exportul.
+
+Nimic nu se mută singur (D-39, D-56). Teste noi în `cetinic.test.js` pe proiectul real. `APP_VER` 5.24.4, cache-ul Service Worker `ebanist-v197`.
 
 ---
 

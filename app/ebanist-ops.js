@@ -39,7 +39,16 @@ var HW_DRILL = {
   sys32: { front: 37, pitch: 32 },                         // prima fila dal filo anteriore
   hinge: { cup_dia: 35, dowel_dia: 8, dowel_depth: 11,     // Blum 45/9,5
            dowel_spacing: 45, dowel_offset: 9.5,
-           plate_dia: 5, plate_depth: 13, plate_spacing: 32 },
+           plate_dia: 5, plate_depth: 13, plate_spacing: 32,
+           plate_front: 37, dowels: true,   // plate_front = linia găurilor placuței față de față; dowels = dornuri INSERTA/knock-in găurite în ușă
+           tb: [3, 7],     // distanța de găurire TB (muchia ușii → muchia cupei), Blum KA-150 2022/23 p.75: 3–7 mm
+           /* Placuța CLIP cruciformă de oțel 173L6100 (0 mm, 8,5 mm înălțime): contur 57 (adâncime) × 53 (înălțime pe perete), găuri la 37 mm de față
+              și 32 mm între ele. Sursa: Blum, catalog 2022/2023 KA-150, p. 147 (planning: cotele 57 și 53). Aceeași valoare din catalog pentru 175H7100
+              (zinc) e 68 × 44: placuța se schimbă, banda se recalculează din `plate`. */
+           plate: { L: 53, D: 57, H: 8.5, art: "173L6100", src: "Blum KA-150 2022/23 p.147", verificat: true },
+           /* D-113: marginile din jurul placuței sunt ale noastre, nu ale Blum: hole_gap = distanța liberă între gaura suportului și gaura placuței
+              (punte de 3 mm între două Ø5), aria = aer sub placuță. */
+           shelf_band: { hole_gap: 8, web: 3, aria: 5, verificat: false } },
   minifix: { cam_dia: 15, cam_depth_16: 12.5, cam_depth_19: 13.5, // Häfele Minifix 15
              cam_dist: 34, bolt_dia: 5, bolt_depth: 11,
              shank_dia: 8, end_dist: 50, mid_over: 700 },
@@ -67,6 +76,10 @@ var HW_DRILL = {
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
        din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
        `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
+    /* seriile noi din catalogul Blum folosesc pozițiile seriei vechi de același fel (MOVENTO confirmat pe catalog 2022/23, p. 419; TANDEM din fișa 2013);
+       la TANDEM 19 mm catalogul nu dă poziții pe NL fără echivoc, deci rămân cele ale TANDEM-ului, cu marcajul `approx` */
+    alias: { blums_movento_blumotion_s: "blum_movento", blums_movento_tipon_blumotion: "blum_movento", blums_movento_tipon: "blum_movento",
+             blums_tandem_locking: "blum_tandem", blums_tandem_hook_peg: "blum_tandem", blums_tandem19_locking: "blum_tandem", blums_tandem19_hook_peg: "blum_tandem" },
     series: {
       blum_movento: { src: "Blum MOVENTO 760H, Attachment of runners (BLUMOTION S / TIP-ON), brosura tehnica",
         front: [18, 37, 69],
@@ -258,13 +271,13 @@ function doorHandle(out, D, m, freeRight, topD) {
 }
 
 /* un foro sulla stessa faccia che si sovrapporrebbe a questo? */
-function clash(p, ax, side, w, dia) {
+function clash(p, ax, side, w, dia, web) {   // web = puntea minimă între două găuri (implicit 0,5 mm)
   for (var i = 0; i < p.holes.length; i++) {
     var h = p.holes[i];
     if (h.ax !== ax || (h.side !== side && !h.through)) continue;
     var d2 = 0;
     for (var a = 0; a < 3; a++) if (a !== ax) d2 += (h.w[a] - w[a]) * (h.w[a] - w[a]);
-    if (Math.sqrt(d2) < (h.dia + dia) / 2 + 0.5) return true;
+    if (Math.sqrt(d2) < (h.dia + dia) / 2 + (web == null ? 0.5 : web)) return true;
   }
   return false;
 }
@@ -313,7 +326,7 @@ function evenPositions(a, b, end, pitch, minSpan) {
 /* pozitiile de fixare ale ghidajului, de la fata dulapului: seria din fisele
    producatorului dupa NL; cea mai apropiata NL din tabel daca nu e una exacta */
 function slidePositions(cfg, nl) {
-  var S = HW_DRILL.slide, id = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null, ser = id && S.series[id];
+  var S = HW_DRILL.slide, id = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null, ser = id && (S.series[id] || S.series[S.alias[id]]);
   if (!ser) return { list: S.positions, src: null, approx: false };
   if (ser.nl) {
     var row = null;
@@ -461,6 +474,9 @@ function generate1(input) {
   if (!pcs.length) return out;
   var byRole = function (r) { return pcs.filter(function (p) { return p.role === r; }); };
   var H = HW_DRILL;
+  /* găurirea balamalei alese (ebanist-hinges.js, prin `hingeGeom(cfg)` din aplicație): cupă, dornuri, placuță. Fără alegere, cea din HW_DRILL. */
+  var HG = H.hinge;
+  if (root.hingeGeom) { var hg = root.hingeGeom(cfg); if (hg) { HG = Object.assign({}, H.hinge, hg); if (hg.noGeom) out.warnings.push({ piece: null, k: "opsHingeNoGeom" }); } }
   /* push = niente maniglia; un profilo gola scelto in catalogo, nemmeno: in
      tutti e due i casi il frontale non ha fori di maniglia */
   var hingeSel = (cfg.handles === "push" || cfg.handles === "gola") ? "push"
@@ -617,21 +633,25 @@ function generate1(input) {
       var eo = (G && G.in && G.in.edge_offset) || 100;
       var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
       var distCant = (G && G.foratura && G.foratura.dist_cant) || 5, cupD = (G && G.foratura && G.foratura.prof) || 12.5;
-      var cx = hEdge + inw * (distCant + H.hinge.cup_dia / 2), zIn = D.min[2];
+      if (distCant < HG.tb[0] || distCant > HG.tb[1]) out.warnings.push({ piece: D.pk, k: "opsHingeTB", tb: distCant });
+      var cx = hEdge + inw * (distCant + HG.cup_dia / 2), zIn = D.min[2];
       var P = panelBeside(pcs, hEdge + inw * 1, hingeLeft ? -1 : 1, D.min[1] + h / 2, zIn - 30, 30);
       if (!P) out.warnings.push({ piece: D.pk, k: "opsNoHingePanel" });
       ys.forEach(function (yy) {
         var y = D.min[1] + yy, id = "hw_" + out.hw.length;
-        hole(D, 2, -1, [cx, y, zIn], H.hinge.cup_dia, cupD, id, "tazza cerniera");
-        var dxw = cx + inw * H.hinge.dowel_offset;
-        hole(D, 2, -1, [dxw, y - H.hinge.dowel_spacing / 2, zIn], H.hinge.dowel_dia, H.hinge.dowel_depth, id, "tassello cerniera");
-        hole(D, 2, -1, [dxw, y + H.hinge.dowel_spacing / 2, zIn], H.hinge.dowel_dia, H.hinge.dowel_depth, id, "tassello cerniera");
+        hole(D, 2, -1, [cx, y, zIn], HG.cup_dia, cupD, id, "tazza cerniera");
+        if (HG.dowels !== false) {
+          var dxw = cx + inw * HG.dowel_offset;
+          hole(D, 2, -1, [dxw, y - HG.dowel_spacing / 2, zIn], HG.dowel_dia, HG.dowel_depth, id, "tassello cerniera");
+          hole(D, 2, -1, [dxw, y + HG.dowel_spacing / 2, zIn], HG.dowel_dia, HG.dowel_depth, id, "tassello cerniera");
+        }
         var inst = { id: id, type: "cerniera", catalog: "blum_71b3550", piece: D.pk, against: P ? P.pk : null,
                      w: [cx, y, zIn], hingeLeft: hingeLeft, note: "Cerniera + basetta" };
         if (P) {
-          var fx = hingeLeft ? P.max[0] : P.min[0], zp = P.max[2] - H.sys32.front;
-          hole(P, 0, hingeLeft ? 1 : -1, [fx, y - H.hinge.plate_spacing / 2, zp], H.hinge.plate_dia, H.hinge.plate_depth, id, "basetta cerniera");
-          hole(P, 0, hingeLeft ? 1 : -1, [fx, y + H.hinge.plate_spacing / 2, zp], H.hinge.plate_dia, H.hinge.plate_depth, id, "basetta cerniera");
+          var fx = hingeLeft ? P.max[0] : P.min[0], zp = P.max[2] - HG.plate_front, hor = HG.plate && HG.plate.kind === "horizontal", pd = hingeLeft ? 1 : -1;
+          /* placuța cruciformă: două găuri pe verticală (y ± pas/2) la `plate_front` de față; cea orizontală: două găuri pe adâncime, la același y */
+          hole(P, 0, pd, hor ? [fx, y, zp] : [fx, y - HG.plate_spacing / 2, zp], HG.plate_dia, HG.plate_depth, id, "basetta cerniera");
+          hole(P, 0, pd, hor ? [fx, y, zp - HG.plate_spacing] : [fx, y + HG.plate_spacing / 2, zp], HG.plate_dia, HG.plate_depth, id, "basetta cerniera");
           inst.plate = [fx, y, zp];
         }
         out.hw.push(inst);
@@ -737,7 +757,7 @@ function generate1(input) {
         var id = "hw_" + out.hw.length, sd = side < 0 ? 1 : -1, moved = false, seatK = null;
         for (var k = -H.pin.extra; k <= H.pin.extra; k++) {
           var w = [fx, y + k * H.sys32.pitch, z];
-          if (clash(P, 0, sd, w, H.pin.dia)) { if (k === 0) moved = true; continue; }
+          if (clash(P, 0, sd, w, H.pin.dia, H.hinge.shelf_band.web)) { if (k === 0) moved = true; continue; }   // și gaura de reglare, la mai puțin de `web` de o placuță, se sare
           hole(P, 0, sd, w, H.pin.dia, H.pin.depth, id,
                k === 0 ? "reggipiano" : "reggipiano (regolazione)");
           if (k === 0) seatK = 0; else if (seatK === null && k < 0) seatK = k;   // fără gaura principală, raftul stă pe cea de reglare de dedesubt
@@ -749,6 +769,33 @@ function generate1(input) {
                       dir: { ax: 0, side: side < 0 ? 1 : -1 }, note: "Reggipiano Ø5" });
       });
     });
+  });
+
+  /* --- 3c. raft peste o balama (blocant, ca un invariant): placuța balamalei stă la 37 mm de față, pe peretele lateral,
+         cu corpul de 53 mm pe înălțime (±26,5 mm față de axa balamalei) și găurile la ±16 mm; un raft care ajunge la față, la aceeași înălțime, o lovește (brațul balamalei trece prin
+         raft), iar gaura lui de suport (6 mm sub raft) cade la 15–17 mm de gaura placuței. Nu mutăm nimic: cota raftului
+         e a utilizatorului (D-56). Se spune care raft, care balame și la ce cotă ar sta liber, în sus sau în jos.
+         Raftul cu fundul la b e liber față de o placuță la y când b >= y + 30 (16 gaură + 6 drop + 8 între găuri)
+         sau b + grosime <= y - 31,5 (26,5 jumătate de placuță + 5 aer). */
+  var SH_UP = (HG.plate && HG.plate.kind === "horizontal" ? 0 : HG.plate_spacing / 2) + H.pin.drop + H.hinge.shelf_band.hole_gap, SH_DN = HG.plate.L / 2 + H.hinge.shelf_band.aria;
+  byRole("ripiano").forEach(function (S) {
+    if (S.tAx !== 1 || S.curved) return;
+    var t = S.max[1] - S.min[1], hits = [];
+    out.hw.forEach(function (hw) {
+      if (hw.type !== "cerniera" || !hw.plate) return;
+      if (Math.abs(S.min[0] - hw.plate[0]) > 6 && Math.abs(S.max[0] - hw.plate[0]) > 6) return;   // ca la suporți (panelBeside, 6 mm): raftul din rafturi egale are un joc de montaj față de perete
+      if (S.max[2] < hw.plate[2] - 10) return;
+      hits.push({ id: hw.id, y: hw.plate[1] });
+    });
+    var bad = function (b) { return hits.filter(function (h) { return b < h.y + SH_UP && b + t > h.y - SH_DN; }); };
+    var first = bad(S.min[1]);
+    if (!first.length) return;
+    var up = S.min[1], dn = S.min[1], i, c;
+    for (i = 0; i < 20 && (c = bad(up)).length; i++) up = Math.ceil(Math.max.apply(null, c.map(function (h) { return h.y + SH_UP; })));
+    for (i = 0; i < 20 && (c = bad(dn)).length; i++) dn = Math.floor(Math.min.apply(null, c.map(function (h) { return h.y - SH_DN - t; })));
+    out.warnings.push({ piece: S.pk, k: "opsShelfVsHinge", blocking: true, y: S.min[1], t: t,
+                        hinges: first.map(function (h) { return h.id; }), hy: first.map(function (h) { return h.y; }),
+                        up: bad(up).length ? null : up, down: bad(dn).length ? null : dn });
   });
 
   /* --- 6. cave: lo schienale in cava entra nei pezzi intorno. La cava e

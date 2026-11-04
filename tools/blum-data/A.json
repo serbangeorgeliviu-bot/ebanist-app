@@ -1,0 +1,1243 @@
+[
+ {
+  "key": "clip_top_110_special",
+  "name": "CLIP top BLUMOTION | CLIP top 110° special hinge",
+  "angle": 110,
+  "webCode": "DQDFAM",
+  "pages": [
+   76,
+   77
+  ],
+  "applications": [
+   "overlay"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "WInserta": 43,
+   "H": 3.2,
+   "HInserta": 6.4
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tbRule": {
+   "overlay": 13
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "16": 3,
+     "17": 4,
+     "18": 5,
+     "19": 6,
+     "20": 7
+    },
+    "3": {
+     "13": 3,
+     "14": 4,
+     "15": 5,
+     "16": 6,
+     "17": 7
+    },
+    "6": {
+     "10": 3,
+     "11": 4,
+     "12": 5,
+     "13": 6,
+     "14": 7
+    },
+    "9": {
+     "7": 3,
+     "8": 4,
+     "9": 5,
+     "10": 6,
+     "11": 7
+    }
+   }
+  },
+  "minEdge": {
+   "screwOn": 13,
+   "inserta": 13
+  },
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   28,
+   30
+  ],
+  "gap": {
+   "3": [
+    0.5,
+    0.8,
+    1.0,
+    1.2,
+    1.5,
+    1.8,
+    2.2,
+    2.7,
+    3.5,
+    4.3,
+    null,
+    null
+   ],
+   "4": [
+    0.5,
+    0.8,
+    1.0,
+    1.2,
+    1.4,
+    1.7,
+    2.0,
+    2.5,
+    3.1,
+    3.8,
+    null,
+    null
+   ],
+   "5": [
+    0.5,
+    0.8,
+    0.9,
+    1.2,
+    1.4,
+    1.7,
+    2.0,
+    2.4,
+    2.9,
+    3.4,
+    null,
+    null
+   ],
+   "6": [
+    0.5,
+    0.8,
+    0.9,
+    1.2,
+    1.3,
+    1.6,
+    1.9,
+    2.3,
+    2.7,
+    3.2,
+    null,
+    null
+   ],
+   "7": [
+    0.5,
+    0.8,
+    0.9,
+    1.1,
+    1.3,
+    1.6,
+    1.9,
+    2.2,
+    2.6,
+    3.0,
+    null,
+    null
+   ]
+  },
+  "gapSide2": [
+   0.2,
+   0.4,
+   0.4,
+   0.5,
+   0.5,
+   0.5,
+   0.5,
+   0.5,
+   0.5,
+   0.5
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "73B3590",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "73T3590",
+    "spring": true,
+    "hinge": "CLIP top"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "72T3590.TL",
+    "spring": false,
+    "hinge": "CLIP top"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "73B3550",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "73T3550",
+    "spring": true,
+    "hinge": "CLIP top"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "72T3550.TL",
+    "spring": false,
+    "hinge": "CLIP top"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "73B3580",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "73T3580",
+    "spring": true,
+    "hinge": "CLIP top"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.1503",
+    "stampedBlum": "70.1503.BP",
+    "colours": "NI|ONS"
+   },
+   "openingAngleStop": {
+    "angle": 86,
+    "colour": "SZ",
+    "art": "70T3553"
+   },
+   "bossCoverCap": {
+    "art": "70T3504",
+    "hinges": "CLIP top BLUMOTION (NI|ONS), CLIP top (NI)"
+   },
+   "bossSpacing": {
+    "mm": 1.5,
+    "art": "70T3507.21",
+    "note": "1.5 labelled for CLIP top BLUMOTION row; same part no. for CLIP top"
+   },
+   "screws": {
+    "609.1500": {
+     "len": 15.0,
+     "dia": 3.5
+    },
+    "609.1700": {
+     "len": 17.0,
+     "dia": 3.5
+    }
+   },
+   "insertionRam": {
+    "colour": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   },
+   "tipOn": {
+    "956.1004": [
+     "short",
+     "standard",
+     "unsprung"
+    ],
+    "956A1004": [
+     "extended",
+     "standard",
+     "unsprung"
+    ],
+    "956A1006": [
+     "extended",
+     "standard",
+     "spring"
+    ],
+    "956A1006F": [
+     "extended",
+     "strong",
+     "spring"
+    ]
+   }
+  },
+  "plates": [],
+  "dimsPage": 77,
+  "dims": {
+   "TB": "3-7",
+   "min (edge, screw-on and INSERTA)": 13,
+   "Ø cup": 35,
+   "INSERTA hole spacing": 45,
+   "INSERTA dowel offset": 9.5,
+   "INSERTA dowel dia": "8±0.1",
+   "boss L": 57,
+   "boss W": 37.5,
+   "boss W INSERTA": 43,
+   "boss H": 3.2,
+   "boss H INSERTA": 6.4
+  },
+  "notes": [
+   "Hinge with larger overlay capacity for thick cabinet sides",
+   "CLIP top BLUMOTION with integrated BLUMOTION (with deactivation option)",
+   "CLIP top with or without closing mechanism (spring)",
+   "110° opening angle",
+   "3-dimensional front adjustment; spiral-tech depth adjustment; tool-free door to cabinet assembly and removal; INSERTA tool-free hinge to door",
+   "Trial application recommended when combining CLIP top BLUMOTION and CLIP top with springs on small light fronts up to 300 mm wide; not recommended for wider fronts FB",
+   "Gap table: triangle = trial recommended (stored as null)",
+   "Adjustment: height max ±3.0 (see mounting plates), side ±2.0, depth +3.0/-2.0"
+  ],
+  "unlabeled": 5,
+  "unreadable": [],
+  "fdMin": null
+ },
+ {
+  "key": "clip_top_107",
+  "name": "CLIP top BLUMOTION | CLIP top 107° hinge",
+  "angle": 107,
+  "webCode": "DQDFZY",
+  "pages": [
+   78,
+   79
+  ],
+  "fdMin": 15,
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    6
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "LClipTop": 57,
+   "LClipTopInserta": 65,
+   "W": 37.5,
+   "WClipTop": 37,
+   "WClipTopInserta": 40.5,
+   "H": 3.2,
+   "HInserta": 7,
+   "note": "B = CLIP top BLUMOTION, T = CLIP top; () = INSERTA"
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": -7
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6
+    },
+    "6": {
+     "-1.5": 3,
+     "-0.5": 4,
+     "0.5": 5,
+     "1.5": 6
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6
+    }
+   },
+   "inset": {
+    "0": {
+     "-4": 3,
+     "-3": 4,
+     "-2": 5,
+     "-1": 6
+    },
+    "3": {
+     "-7": 3,
+     "-6": 4,
+     "-5": 5,
+     "-4": 6
+    }
+   }
+  },
+  "minEdge": {
+   "screwOn": 11.5,
+   "inserta": 12
+  },
+  "gapFD": [
+   15,
+   16,
+   18,
+   19,
+   20,
+   21,
+   22,
+   24,
+   26,
+   28,
+   30,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.4,
+    0.5,
+    1.0,
+    1.3,
+    1.6,
+    2.1,
+    2.7,
+    4.3,
+    null,
+    null,
+    null,
+    null
+   ],
+   "4": [
+    0.4,
+    0.5,
+    0.9,
+    1.2,
+    1.5,
+    2.0,
+    2.5,
+    3.9,
+    null,
+    null,
+    null,
+    null
+   ],
+   "5": [
+    0.3,
+    0.5,
+    0.9,
+    1.2,
+    1.4,
+    1.8,
+    2.3,
+    3.6,
+    null,
+    null,
+    null,
+    null
+   ],
+   "6": [
+    0.3,
+    0.5,
+    0.8,
+    1.1,
+    1.4,
+    1.7,
+    2.2,
+    3.3,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "gapSide2": [
+   0.1,
+   0.1,
+   0.2,
+   0.2,
+   0.3,
+   0.3,
+   0.3,
+   0.3
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1590B",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "overlay"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "74T1590BTL",
+    "spring": false,
+    "hinge": "CLIP top",
+    "app": "overlay"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1690B",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "dual"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1790B",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "75B1550",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION",
+    "app": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1550",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "74T1550.TL",
+    "spring": false,
+    "hinge": "CLIP top",
+    "app": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "75B1650",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION",
+    "app": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1650",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "74T1650.TL",
+    "spring": false,
+    "hinge": "CLIP top",
+    "app": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "75B1750",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION",
+    "app": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1750",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "74T1750.TL",
+    "spring": false,
+    "hinge": "CLIP top",
+    "app": "inset"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "75B1580",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION",
+    "app": "overlay"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1580",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "overlay"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "75B1680",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION",
+    "app": "dual"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1680",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "dual"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "75B1780",
+    "spring": true,
+    "hinge": "CLIP top BLUMOTION",
+    "app": "inset"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "75T1780",
+    "spring": true,
+    "hinge": "CLIP top",
+    "app": "inset"
+   }
+  ],
+  "accessories": {
+   "screws": {
+    "609.1500": {
+     "len": 15.0,
+     "dia": 3.5
+    },
+    "609.1700": {
+     "len": 17.0,
+     "dia": 3.5
+    }
+   },
+   "insertionRam": {
+    "colour": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   },
+   "tipOn": {
+    "956.1004": [
+     "short",
+     "standard",
+     "unsprung"
+    ],
+    "956A1004": [
+     "extended",
+     "standard",
+     "unsprung"
+    ],
+    "956A1006": [
+     "extended",
+     "standard",
+     "spring"
+    ],
+    "956A1006F": [
+     "extended",
+     "strong",
+     "spring"
+    ]
+   },
+   "armCoverCap": {
+    "overlay": {
+     "plain": "70.1503",
+     "stampedBlum": "70.1503.BP",
+     "colours": "NI|ONS"
+    },
+    "dualInset": {
+     "plain": "70.1663 (NI|ONS)",
+     "stampedBlum": "70.1663.BP (NI)"
+    }
+   },
+   "openingAngleStop": {
+    "angle": 86,
+    "colour": "SZ",
+    "art": "74.1103"
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": "70T3504 (NI|ONS)",
+    "CLIP top": "70T1504 (NI)"
+   },
+   "bossSpacing": {
+    "mm": 1.5,
+    "art": "70T3507.21",
+    "hinge": "CLIP top BLUMOTION"
+   }
+  },
+  "plates": [],
+  "dims": {
+   "Ø cup": 35,
+   "INSERTA hole spacing": 45,
+   "INSERTA dowel offset": 9.5,
+   "INSERTA dowel dia": "8±0.1",
+   "TB": "3-6",
+   "min edge screw-on": 11.5,
+   "min edge INSERTA": "11.5 (12)",
+   "inset: move back plate by FD +": 1.5,
+   "overlay FA range": "5..17",
+   "dual FA range": "-4.5..7.5",
+   "inset FA range": "-7..-1"
+  },
+  "dimsPage": 79,
+  "notes": [
+   "For front thicknesses FD starting from 15 mm",
+   "CLIP top BLUMOTION with integrated BLUMOTION (with deactivation option); CLIP top with or without spring",
+   "107° opening angle",
+   "Trial application recommended for CLIP top BLUMOTION + sprung CLIP top on small light fronts up to 300 mm wide",
+   "Order table rows carry a phone symbol before each part no. (meaning not stated on the page; not interpreted)",
+   "Inset: move back fixing position of mounting plate by front thickness FD +1.5 mm",
+   "Gap table: triangle = trial recommended (null)"
+  ],
+  "unlabeled": 13,
+  "unreadable": []
+ },
+ {
+  "key": "clip_100",
+  "name": "CLIP 100° hinge",
+  "angle": 100,
+  "webCode": "DQDGPA",
+  "pages": [
+   80,
+   81
+  ],
+  "fdMin": 16,
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    6
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "LInserta": 65,
+   "W": 37,
+   "WInserta": 40.5,
+   "H": 3.2,
+   "HInserta": 7
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -1
+  },
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": -7
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6
+    },
+    "6": {
+     "-1.5": 3,
+     "-0.5": 4,
+     "0.5": 5,
+     "1.5": 6
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6
+    }
+   },
+   "inset": {
+    "0": {
+     "-4": 3,
+     "-3": 4,
+     "-2": 5,
+     "-1": 6
+    },
+    "3": {
+     "-7": 3,
+     "-6": 4,
+     "-5": 5,
+     "-4": 6
+    }
+   }
+  },
+  "minEdge": {
+   "screwOn": 10.5,
+   "inserta": 11
+  },
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   21,
+   22,
+   24,
+   26,
+   28,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.3,
+    0.5,
+    0.7,
+    1.0,
+    1.3,
+    1.6,
+    3.3,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "4": [
+    0.3,
+    0.5,
+    0.7,
+    1.0,
+    1.2,
+    1.6,
+    3.2,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "5": [
+    0.3,
+    0.5,
+    0.7,
+    0.9,
+    1.2,
+    1.5,
+    2.6,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "6": [
+    0.3,
+    0.5,
+    0.7,
+    0.9,
+    1.1,
+    1.4,
+    2.4,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "gapSide2": [
+   0.1,
+   0.3,
+   0.3,
+   0.4,
+   0.4,
+   0.5,
+   0.4
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2590B",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "overlay"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2690B",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "dual"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2790B",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2550",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "70M2550.TL",
+    "spring": false,
+    "hinge": "CLIP",
+    "app": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2650",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "70M2650.TL",
+    "spring": false,
+    "hinge": "CLIP",
+    "app": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2750",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "70M2750.TL",
+    "spring": false,
+    "hinge": "CLIP",
+    "app": "inset"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2580",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "overlay"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "70M2580.TL",
+    "spring": false,
+    "hinge": "CLIP",
+    "app": "overlay"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2680",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "dual"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71M2780",
+    "spring": true,
+    "hinge": "CLIP",
+    "app": "inset"
+   }
+  ],
+  "accessories": {
+   "screws": {
+    "609.1500": {
+     "len": 15.0,
+     "dia": 3.5
+    },
+    "609.1700": {
+     "len": 17.0,
+     "dia": 3.5
+    }
+   },
+   "insertionRam": {
+    "colour": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   },
+   "tipOn": {
+    "956.1004": [
+     "short",
+     "standard",
+     "unsprung"
+    ],
+    "956A1004": [
+     "extended",
+     "standard",
+     "unsprung"
+    ],
+    "956A1006": [
+     "extended",
+     "standard",
+     "spring"
+    ],
+    "956A1006F": [
+     "extended",
+     "strong",
+     "spring"
+    ]
+   },
+   "armCoverCap": {
+    "overlay": {
+     "plain": "90M2503",
+     "stampedBlum": "90M2503.BP",
+     "colours": "NI"
+    },
+    "dualInset": {
+     "plain": "94M3603",
+     "stampedBlum": "94M3603.BP",
+     "colours": "NI"
+    }
+   },
+   "blumotion973A": {
+    "overlay": "973A0500.01",
+    "dual": "973A0600",
+    "inset": "973A0700",
+    "version": "Clip on"
+   }
+  },
+  "plates": [],
+  "dims": {
+   "Ø cup": 35,
+   "INSERTA hole spacing": 45,
+   "INSERTA dowel offset": 9.5,
+   "INSERTA dowel dia": "8±0.1",
+   "TB": "3-6",
+   "min edge screw-on": 10.5,
+   "min edge INSERTA": "10.5 (11)",
+   "inset: move back plate by FD +": 1.2,
+   "overlay FA range": "5..17",
+   "dual FA range": "-4.5..7.5",
+   "inset FA range": "-7..-1"
+  },
+  "dimsPage": 81,
+  "notes": [
+   "CLIP with or without closing mechanism (spring)",
+   "100° opening angle",
+   "3-dimensional front adjustment; tool-free assembly/removal; INSERTA tool-free hinge to door",
+   "Inset: move back fixing position of mounting plate by front thickness FD +1.2 mm",
+   "Gap table: triangle = trial recommended (null)",
+   "Adjustment depth +3.0/-1.0 (differs from 107/110)"
+  ],
+  "unlabeled": 13,
+  "unreadable": []
+ }
+]

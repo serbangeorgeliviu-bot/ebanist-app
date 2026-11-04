@@ -1,0 +1,1414 @@
+[
+ {
+  "key": "profile_95",
+  "name": "CLIP top BLUMOTION | CLIP top - Profile/thick door hinge",
+  "angle": 95,
+  "webCode": "DQDITA",
+  "pages": [
+   88,
+   89
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tb": [
+    3,
+    7
+   ],
+   "depth": null,
+   "tol": "+0.2/0 (INSERTA)"
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "drill": {
+   "door": {
+    "type": "cup",
+    "dia": 35,
+    "tol": "+0.2/0 (INSERTA)",
+    "TBrange": [
+     3,
+     7
+    ],
+    "dowelDia": 8,
+    "dowelTol": "±0.1",
+    "dowelSpacing": 45,
+    "dowelOffset": 9.5
+   },
+   "lateral": {
+    "note": "mounting plates p.144"
+   }
+  },
+  "boss": {
+   "L": 57,
+   "LInserta": 65,
+   "W": 37.5,
+   "WInserta": 43,
+   "W_T": 37,
+   "WInserta_T": 40.5,
+   "H": 3.2,
+   "HInserta": 6.4,
+   "H_T": 3.2,
+   "HInserta_T": 7,
+   "note": "B=CLIP top BLUMOTION; T=CLIP top; () INSERTA. As read: B 57 | T 57 (65); B 37.5 (43) | T 37 (40.5); B 3.2 (6.4) | T 3.2 (7)"
+  },
+  "dims": {
+   "B min (screw-on / INSERTA)": 13,
+   "T min (screw-on)": 12.3,
+   "T min (INSERTA)": 12.6,
+   "TB": "3-7",
+   "dowel offset": 9.5,
+   "cup Ø": 35,
+   "dowel Ø": 8,
+   "dowel spacing": 45
+  },
+  "dimsPage": 89,
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2,
+   "note": "height ±3.0 (see mounting plates), side ±2.0, depth +3.0/-2.0"
+  },
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": -7
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6,
+     "18": 7
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6,
+     "15": 7
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6,
+     "12": 7
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6,
+     "9": 7
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6,
+     "8.5": 7
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6,
+     "5.5": 7
+    },
+    "6": {
+     "-1.5": 3,
+     "-0.5": 4,
+     "0.5": 5,
+     "1.5": 6,
+     "2.5": 7
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6,
+     "-0.5": 7
+    }
+   },
+   "inset": {
+    "0": {
+     "0": 7,
+     "-4": 3,
+     "-3": 4,
+     "-2": 5,
+     "-1": 6
+    },
+    "3": {
+     "-7": 3,
+     "-6": 4,
+     "-5": 5,
+     "-4": 6,
+     "-3": 7
+    },
+    "6": {},
+    "9": {}
+   }
+  },
+  "tbTableMD": [
+   0,
+   3,
+   6,
+   9
+  ],
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   22,
+   24,
+   26,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1,
+    1.5,
+    1.9,
+    2.8,
+    3.6,
+    4.5,
+    5.4
+   ],
+   "4": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    2.5,
+    3.1,
+    4,
+    4.8
+   ],
+   "5": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    2.3,
+    2.7,
+    3.5,
+    4.3
+   ],
+   "6": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    2.2,
+    2.5,
+    3.2,
+    3.8
+   ],
+   "7": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    0.9,
+    1.4,
+    1.7,
+    2.1,
+    2.4,
+    3,
+    3.5
+   ]
+  },
+  "gapSide2": [
+   0.1,
+   0.2,
+   0.2,
+   0.2,
+   0.3,
+   0.4,
+   0.4,
+   0.5,
+   0.4,
+   0.4,
+   0.4,
+   0.3
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "straight",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9590",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "straight",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9590B",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "straight",
+    "fn": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T9590BTL",
+    "application": "overlay",
+    "spring": false
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "half-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9690",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "half-cranked",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9690B",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "half-cranked",
+    "fn": "unsprung",
+    "colours": "ONS",
+    "art": "70T9690BTL",
+    "application": "dual",
+    "spring": false
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9790",
+    "application": "inset",
+    "spring": true
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9790B",
+    "application": "inset",
+    "spring": true
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "unsprung",
+    "colours": "ONS",
+    "art": "70T9790BTL",
+    "application": "inset",
+    "spring": false
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9550",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9550",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T9550.TL",
+    "application": "overlay",
+    "spring": false
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9650",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9650",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T9650.TL",
+    "application": "dual",
+    "spring": false
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9750",
+    "application": "inset",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9750",
+    "application": "inset",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T9750.TL",
+    "application": "inset",
+    "spring": false
+   },
+   {
+    "boss": "knock-in",
+    "arm": "straight",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B9580",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "knock-in",
+    "arm": "straight",
+    "fn": "spring",
+    "colours": "NI",
+    "art": "71T9580",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "knock-in",
+    "arm": "straight",
+    "fn": "unsprung",
+    "colours": "ONS",
+    "art": "70T9580.TL",
+    "application": "overlay",
+    "spring": false
+   },
+   {
+    "boss": "knock-in",
+    "arm": "half-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "71B9680",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "knock-in",
+    "arm": "full-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "71B9780",
+    "application": "inset",
+    "spring": true
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "overlay": {
+     "plain": "70.1553",
+     "stamped": "70.1553.BP"
+    },
+    "dual": {
+     "plain": "70.1663",
+     "stamped": "70.1663.BP"
+    },
+    "inset": {
+     "plain": "70.1663",
+     "stamped": "70.1663.BP"
+    }
+   },
+   "bossCoverCap": {
+    "BLUMOTION": "70T3504",
+    "CLIP_top": "70T1504"
+   },
+   "bossSpacing": {
+    "spacing": 1.5,
+    "art": "70T3507.21",
+    "hinge": "CLIP top BLUMOTION"
+   },
+   "chipboardScrews": {
+    "15.0": "609.1500",
+    "17.0": "609.1700",
+    "dia": 3.5
+   },
+   "insertionRam": "MZM.0040",
+   "tipOn": {
+    "956.1004": "short, standard, unsprung",
+    "956A1004": "extended, standard, unsprung",
+    "956A1006": "extended, standard, sprung",
+    "956A1006F": "extended, strong, sprung"
+   }
+  },
+  "plates": null,
+  "notes": [
+   "Hinge for thick doors and doors with profile",
+   "CLIP top BLUMOTION and CLIP top hinges cannot be combined with each other on a door",
+   "Inset: move back fixing position of mounting plate by front thickness FD +1.5 mm",
+   "Factory setting mounting plate spacing = 0 mm",
+   "Gap table: Minimum gap F for fronts with front radius R = 1 mm"
+  ],
+  "unlabeled": 14,
+  "unreadable": []
+ },
+ {
+  "key": "blind_corner_inset",
+  "name": "Blind corner hinge inset application (CLIP top BLUMOTION | CLIP top)",
+  "angle": [
+   95,
+   83
+  ],
+  "webCode": "DQDK7Y",
+  "pages": [
+   94,
+   95
+  ],
+  "applications": [
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tb": [
+    3,
+    7
+   ],
+   "tol": "+0.2/0 (INSERTA)"
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "offset": 9.5,
+   "spacing": 45
+  },
+  "drill": {
+   "door": {
+    "type": "cup",
+    "dia": 35,
+    "tol": "+0.2/0 (INSERTA)",
+    "TBrange": [
+     3,
+     7
+    ],
+    "dowelDia": 8,
+    "dowelTol": "±0.1",
+    "dowelSpacing": 45,
+    "dowelOffset": 9.5
+   }
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "WInserta": 43,
+   "W_T": 37,
+   "H": 3.2,
+   "HInserta": 6.4,
+   "H_T": 3.2,
+   "note": "B 57 | T 57; B 37.5 (43) | T 37; B 3.2 (6.4) | T 3.2"
+  },
+  "dims": {
+   "min (hinge+arm clearance)": 70,
+   "B min (screw-on)": 13,
+   "T min (screw-on)": 12.3,
+   "min (INSERTA|knock-in)": 13,
+   "TB": "3-7",
+   "cup Ø": 35,
+   "dowel offset": 9.5,
+   "dowel Ø": 8,
+   "dowel spacing": 45,
+   "F": "8 - TB"
+  },
+  "dimsPage": 95,
+  "adjust": {
+   "height": 3,
+   "side": 2.5,
+   "depth": 1,
+   "note": "±3.0 (see mounting plates), ±2.5, ±1.0"
+  },
+  "tbRule": {
+   "inset": "F = 8 mm - TB"
+  },
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   22,
+   24,
+   26,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1,
+    1.5,
+    1.9,
+    null,
+    null,
+    null,
+    null
+   ],
+   "4": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "5": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "6": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "7": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    0.9,
+    1.4,
+    1.7,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "platesNote": "Factory setting mounting plate spacing = 3 mm. Move standard plate fixing positions 15.5 mm nearer the edge of the muntin (set back 21.5 mm). Use 3 mm spaced standard plates only.",
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "79B9590",
+    "angle": 95,
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "79B9550",
+    "angle": 95,
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "78T9550.TL",
+    "angle": 95,
+    "spring": false,
+    "fnNote": "CLIP top"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "79B9550.83",
+    "angle": 83,
+    "spring": true,
+    "phoneOrder": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "unsprung",
+    "colours": "NI",
+    "art": "78T9550.83",
+    "angle": 83,
+    "spring": false,
+    "fnNote": "CLIP top",
+    "phoneOrder": true
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "79B9580",
+    "angle": 95,
+    "spring": true
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.1503",
+    "stamped": "70.1503.BP"
+   },
+   "bossCoverCap": {
+    "BLUMOTION": "70T3504",
+    "CLIP_top": "70T1504"
+   },
+   "chipboardScrews": {
+    "15.0": "609.1500",
+    "17.0": "609.1700",
+    "dia": 3.5
+   },
+   "insertionRam": "MZM.0040",
+   "tipOn": {
+    "956.1004": "short, standard, unsprung",
+    "956A1004": "extended, standard, unsprung",
+    "956A1006": "extended, standard, sprung",
+    "956A1006F": "extended, strong, sprung"
+   }
+  },
+  "notes": [
+   "Hinge for blind corner applications",
+   "CLIP top BLUMOTION and CLIP top cannot be combined on a door",
+   "The triangle in the gap table = trial recommended (FD 29-32)",
+   "83° codes carry a phone symbol in the catalog (79B9550.83, 78T9550.83) = by enquiry/phone order"
+  ],
+  "unlabeled": 6,
+  "unreadable": []
+ },
+ {
+  "key": "blind_corner_overlay",
+  "name": "Blind corner hinge overlay application (CLIP top BLUMOTION)",
+  "angle": 95,
+  "webCode": "DQDKXA",
+  "pages": [
+   96,
+   97
+  ],
+  "applications": [
+   "overlay"
+  ],
+  "cup": {
+   "dia": 35,
+   "tb": [
+    3,
+    7
+   ],
+   "tol": "+0.2/0 (INSERTA)"
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "offset": 9.5,
+   "spacing": 45
+  },
+  "drill": {
+   "door": {
+    "type": "cup",
+    "dia": 35,
+    "tol": "+0.2/0 (INSERTA)",
+    "TBrange": [
+     3,
+     7
+    ],
+    "dowelDia": 8,
+    "dowelTol": "±0.1",
+    "dowelSpacing": 45,
+    "dowelOffset": 9.5
+   }
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "WInserta": 43,
+   "H": 3.2,
+   "HInserta": 6.4,
+   "note": "57; 37.5 (43); 3.2 (6.4)"
+  },
+  "dims": {
+   "min.": 86,
+   "RS (frame thickness, drawing)": 19,
+   "B (3-7 = TB)": "3-7",
+   "min (screw-on)": 13,
+   "min (INSERTA|knock-in)": 13,
+   "cup Ø": 35,
+   "dowel offset": 9.5,
+   "dowel Ø": 8,
+   "dowel spacing": 45
+  },
+  "dimsPage": 97,
+  "adjust": {
+   "height": 3,
+   "side": 2.5,
+   "depth": 1,
+   "note": "±3.0 (see mounting plates), ±2.5, ±1.0"
+  },
+  "tables": [
+   {
+    "title": "Mounting plate spacing by frame thickness RS",
+    "rowLabel": "Frame thickness RS (mm)",
+    "colLabel": "Mounting plate spacing (mm)",
+    "cols": [
+     "spacing"
+    ],
+    "rows": {
+     "16": [
+      6
+     ],
+     "19": [
+      3
+     ],
+     "22": [
+      0
+     ]
+    },
+    "page": 97
+   }
+  ],
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   22,
+   24,
+   26,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1,
+    1.5,
+    1.9,
+    null,
+    null,
+    null,
+    null
+   ],
+   "4": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "5": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "6": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "7": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    0.9,
+    1.4,
+    1.7,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "79B9990",
+    "spring": true,
+    "phoneOrder": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "79B9950",
+    "spring": true
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "79B9980",
+    "spring": true,
+    "phoneOrder": true
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.1503",
+    "stamped": "70.1503.BP"
+   },
+   "bossCoverCap": {
+    "BLUMOTION": "70T3504"
+   },
+   "chipboardScrews": {
+    "15.0": "609.1500",
+    "17.0": "609.1700",
+    "dia": 3.5
+   },
+   "insertionRam": "MZM.0040"
+  },
+  "notes": [
+   "Hinge for blind corner overlay applications",
+   "Factory setting mounting plate spacing = 3 mm",
+   "Triangle in gap table = trial recommended (FD 29-32)",
+   "79B9990 and 79B9980 carry a phone symbol in the catalog"
+  ],
+  "unlabeled": 8,
+  "unreadable": []
+ },
+ {
+  "key": "alu_clip_top_95",
+  "name": "CLIP top BLUMOTION 95° aluminium frame door hinge",
+  "angle": 95,
+  "webCode": "DQDLMM",
+  "pages": [
+   98,
+   99
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "drill": {
+   "door": {
+    "type": "slot/route",
+    "note": "screw-on in alu frame: see dims"
+   }
+  },
+  "dims": {
+   "Ø hole": 6,
+   "Ø tol": "±0.05",
+   "R (two corners)": 3,
+   "R": 17.6,
+   "RB": "18-22"
+  },
+  "dimsPage": 99,
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2,
+   "note": "±3.0 (see mounting plates), ±2.0, +3.0/-2.0"
+  },
+  "tables": [
+   {
+    "title": "Minimum gap F for aluminium frame fronts (R = 1 mm)",
+    "rowLabel": "Side frame width RB (mm)",
+    "colLabel": "Frame thickness RS (mm)",
+    "cols": [
+     18,
+     19,
+     20,
+     21,
+     22,
+     24,
+     25,
+     26,
+     27,
+     28,
+     30,
+     32
+    ],
+    "rows": {
+     "18": [
+      0.2,
+      0.3,
+      0.4,
+      0.6,
+      0.7,
+      1.2,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "19": [
+      0.2,
+      0.3,
+      0.4,
+      0.6,
+      0.7,
+      1.2,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "20": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      1.1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "21": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "22": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      1.1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "Additional for +2 mm side adjustment": [
+      0.1,
+      0.2,
+      0.3,
+      0.3,
+      0.3,
+      0.4,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    "note": "null = triangle (trial recommended); extra row blank beyond RS 24",
+    "page": 99
+   }
+  ],
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "71B950A",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "71B960A",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "BLUMOTION",
+    "colours": "NI",
+    "art": "71B970A",
+    "application": "inset",
+    "spring": true
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "overlay": {
+     "plain": "70.1553",
+     "stamped": "70.1553.BP"
+    },
+    "dual": {
+     "plain": "70.1663",
+     "stamped": "70.1663.BP"
+    },
+    "inset": {
+     "plain": "70.1663",
+     "stamped": "70.1663.BP"
+    }
+   }
+  },
+  "notes": [
+   "Hinge for narrow alu frame doors",
+   "Boss fixing screws are included",
+   "Inset: set mounting plate back by frame width +2.5 mm",
+   "Factory setting mounting plate spacing = 0 mm"
+  ],
+  "unlabeled": 17,
+  "unreadable": []
+ },
+ {
+  "key": "alu_95",
+  "name": "95° aluminium frame door hinge (CLIP top | CLIP top for 973A)",
+  "angle": 95,
+  "webCode": "DQDMBY",
+  "pages": [
+   100,
+   101
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "dims": {
+   "Ø": 7,
+   "Ø tol": "±0.1",
+   "countersink angle": 90,
+   "RB": "19-22"
+  },
+  "dimsPage": 101,
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2,
+   "note": "±3.0 (see mounting plates), ±2.0, +3.0/-2.0"
+  },
+  "tables": [
+   {
+    "title": "Minimum gap F for aluminium frame fronts (R = 1 mm)",
+    "rowLabel": "Side frame width RB (mm)",
+    "colLabel": "Frame thickness RS (mm)",
+    "cols": [
+     18,
+     19,
+     20,
+     21,
+     22,
+     24,
+     25,
+     26,
+     27,
+     28,
+     30,
+     32
+    ],
+    "rows": {
+     "19": [
+      0.2,
+      0.3,
+      0.4,
+      0.6,
+      0.7,
+      1.2,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "20": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      1.1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "21": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "22": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      1.1,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "Additional for +2 mm side adjustment": [
+      0.1,
+      0.2,
+      0.3,
+      0.3,
+      0.3,
+      0.4,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    "note": "null = triangle (trial recommended)",
+    "page": 101
+   }
+  ],
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "spring (for 973A)",
+    "colours": "NI",
+    "art": "71T950AB",
+    "application": "overlay",
+    "spring": true,
+    "variant": "CLIP top for 973A"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "spring",
+    "colours": "NI|ONS",
+    "art": "71T950A",
+    "application": "overlay",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T950A.TL",
+    "application": "overlay",
+    "spring": false
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "spring",
+    "colours": "NI|ONS",
+    "art": "71T960A",
+    "application": "dual",
+    "spring": true
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "spring",
+    "colours": "NI|ONS",
+    "art": "71T970A",
+    "application": "inset",
+    "spring": true
+   }
+  ],
+  "accessories": {
+   "blumotion973A": {
+    "clipOn": "973A0500.01"
+   },
+   "armCoverCap": {
+    "overlay": {
+     "plain": "70.1553",
+     "stamped": "70.1553.BP"
+    },
+    "dual": {
+     "plain": "70.1663",
+     "stamped": "70.1663.BP"
+    },
+    "inset": {
+     "plain": "70.1663",
+     "stamped": "70.1663.BP"
+    }
+   },
+   "tipOn": {
+    "956.1004": "short, standard, unsprung",
+    "956A1004": "extended, standard, unsprung",
+    "956A1006": "extended, standard, sprung",
+    "956A1006F": "extended, strong, sprung"
+   }
+  },
+  "notes": [
+   "Hinge for narrow alu frame doors",
+   "Boss fixing screws are included",
+   "Inset: set mounting plate back by frame width +1.7 mm",
+   "A: The hinge boss should be able to support itself in the routing"
+  ],
+  "unlabeled": 23,
+  "unreadable": [
+   "Order-information pages 100 (codes from catalog_text.json; image of page 100 not viewed in full detail, 98 viewed neither)"
+  ]
+ }
+]

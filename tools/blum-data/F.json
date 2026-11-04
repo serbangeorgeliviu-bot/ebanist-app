@@ -1,0 +1,1661 @@
+[
+ {
+  "key": "modul_standard",
+  "name": "MODUL 100° hinge (standard application)",
+  "angle": 100,
+  "webCode": "DQE3XA",
+  "pages": [
+   176,
+   177
+  ],
+  "fdMax": null,
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "depth": null,
+   "tol": "+0.2/0 (knock-in)",
+   "tb": [
+    3,
+    6
+   ],
+   "tbRange": "3-6 (screw-on and knock-in, as labelled)"
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": "+0.1",
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "W": 37,
+   "H": 3.2
+  },
+  "drill": {
+   "type": "cup",
+   "dia": 35,
+   "minEdge": 10.5,
+   "note": "Screw-on: Ø35, TB 3-6, min 10.5; Knock-in: Ø35 +0.2/0, 45 between two Ø8 +0.1 dowel holes, 9.5, TB 3-6, min 10.5"
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 2,
+   "depthMinus": -2,
+   "note": "height max ±3.0 (see mounting plates), side ±2.0 mm, depth ±2.0 mm"
+  },
+  "dims": {
+   "TB": "3-6",
+   "min edge screw-on": 10.5,
+   "min edge knock-in": 10.5,
+   "Ø cup": 35,
+   "knock-in spacing": 45,
+   "knock-in offset": 9.5,
+   "dowel Ø": "8 +0.1",
+   "boss L": 57,
+   "boss W": 37,
+   "boss H": 3.2
+  },
+  "dimsNote": "Only labelled values. Hinge-protrusion drawing numbers (20/58/9/11; 30/58/18.5/1.5; 38/58/27/7) have no symbol: omitted and counted in unlabeled.",
+  "unlabeledOnDrawings": 12,
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": -7,
+   "note": "TB = FA - k + MD"
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6
+    }
+   },
+   "inset": {
+    "0": {
+     "-4": 3,
+     "-3": 4,
+     "-2": 5,
+     "-1": 6
+    },
+    "3": {
+     "-7": 3,
+     "-6": 4,
+     "-5": 5,
+     "-4": 6
+    }
+   }
+  },
+  "tbTableAxes": {
+   "rows": "MD mounting plate spacing (mm)",
+   "cols": "FA front overlay (mm)",
+   "values": "TB drilling distance (mm)",
+   "faColumnsPrinted": {
+    "overlay": [
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "dual": [
+     -4.5,
+     -3.5,
+     -2.5,
+     -1.5,
+     -0.5,
+     0.5,
+     1.5,
+     2.5,
+     3.5,
+     4.5,
+     5.5,
+     6.5,
+     7.5
+    ],
+    "inset": [
+     -7,
+     -6,
+     -5,
+     -4,
+     -3,
+     -2,
+     -1
+    ]
+   },
+   "mdRowsPrinted": [
+    0,
+    3,
+    9,
+    "-"
+   ],
+   "note": "row MD='-' empty in all three; inset MD=9 empty"
+  },
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   21,
+   22,
+   24,
+   26,
+   28,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.3,
+    0.5,
+    0.7,
+    1.0,
+    1.3,
+    1.6,
+    3.3,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "4": [
+    0.3,
+    0.5,
+    0.7,
+    1.0,
+    1.2,
+    1.6,
+    3.2,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "5": [
+    0.3,
+    0.5,
+    0.7,
+    0.9,
+    1.2,
+    1.5,
+    2.6,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "6": [
+    0.3,
+    0.5,
+    0.7,
+    0.9,
+    1.1,
+    1.4,
+    2.4,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "gapNote": "null = triangle symbol 'In these cases a trial is recommended' (FD 26-32). Table is 'Minimum gap F for fronts with a front radius (R = 1 mm) based on the factory setting'; keys = TB",
+  "gapSide2": [
+   0.1,
+   0.3,
+   0.3,
+   0.4,
+   0.4,
+   0.5,
+   0.4
+  ],
+  "gapSide2Note": "Additional for +2 mm side adjustment, for FD 16..24 (7 values, FD 26-32 blank)",
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "MODUL with closing mechanism (spring)",
+    "spring": true,
+    "application": "overlay",
+    "colours": "NI",
+    "art": "91M2550"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "MODUL with closing mechanism (spring)",
+    "spring": true,
+    "application": "overlay",
+    "colours": "NI",
+    "art": "91M2580"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "MODUL with closing mechanism (spring)",
+    "spring": true,
+    "application": "dual",
+    "colours": "NI",
+    "art": "91M2650"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "MODUL with closing mechanism (spring)",
+    "spring": true,
+    "application": "inset",
+    "colours": "NI",
+    "art": "91M2750"
+   }
+  ],
+  "armNote": "Arm type not stated in text; pictographs show overlay/dual/inset arm profile. 'other' = not classified.",
+  "accessories": [
+   {
+    "name": "Hinge arm cover cap",
+    "print": "Plain",
+    "logo": "-",
+    "colours": "NI",
+    "art": "90M2503",
+    "applications": [
+     "overlay"
+    ]
+   },
+   {
+    "name": "Hinge arm cover cap",
+    "print": "Stamped",
+    "logo": "Blum",
+    "colours": "NI",
+    "art": "90M2503.BP",
+    "applications": [
+     "overlay"
+    ]
+   },
+   {
+    "name": "Hinge arm cover cap",
+    "print": "Plain",
+    "logo": "-",
+    "colours": "NI",
+    "art": "90M2603",
+    "applications": [
+     "dual",
+     "inset"
+    ]
+   },
+   {
+    "name": "Chipboard screws",
+    "length": 15.0,
+    "dia": 3.5,
+    "art": "609.1500"
+   },
+   {
+    "name": "Chipboard screws",
+    "length": 17.0,
+    "dia": 3.5,
+    "art": "609.1700"
+   },
+   {
+    "name": "Insertion ram",
+    "colours": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   }
+  ],
+  "notes": [
+   "Slide on hinge arm",
+   "100° opening angle",
+   "3-dimensional front adjustment",
+   "Integrated pull-out stop",
+   "Hinge dimensions and gap calculation based on factory setting (mounting plate spacing = 0 mm)",
+   "Inset: move back fixing position of mounting plate by front thickness FD"
+  ],
+  "plates": [
+   "MODUL cruciform plates, see modul_plates"
+  ],
+  "unlabeled": 12,
+  "unreadable": [],
+  "dimsPage": 177
+ },
+ {
+  "key": "modul_blind_corner",
+  "name": "MODUL BLUMOTION blind corner hinge inset application",
+  "angle": 95,
+  "webCode": "DQE4MM",
+  "pages": [
+   178,
+   179
+  ],
+  "fdMax": 32,
+  "applications": [
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": null,
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "H": 3.2
+  },
+  "drill": {
+   "type": "cup",
+   "dia": 35,
+   "minEdge": 13,
+   "note": "Screw-on: Ø35, TB 3-7, min 13"
+  },
+  "adjust": {
+   "height": 2,
+   "side": 2,
+   "depth": 0.8,
+   "note": "Max ±2.0 mm height (see mounting plates), ±2.0 mm, ±0.8 mm"
+  },
+  "dims": {
+   "min (overall, drawing)": 69,
+   "min inner blind corner width": 28,
+   "TB": "3-7",
+   "min edge screw-on": 13,
+   "Ø cup": 35,
+   "boss L": 57,
+   "boss W": 37.5,
+   "boss H": 3.2,
+   "muntin fixing position from inside edge": 14
+  },
+  "unlabeledOnDrawings": 3,
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   22,
+   24,
+   26,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1.0,
+    1.5,
+    1.9,
+    null,
+    null,
+    null,
+    null
+   ],
+   "4": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1.0,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "5": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1.0,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "6": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    1.0,
+    1.4,
+    1.8,
+    null,
+    null,
+    null,
+    null
+   ],
+   "7": [
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.7,
+    0.9,
+    1.4,
+    1.7,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "gapNote": "null = triangle (trial recommended), FD 29-32. Keys = TB. Factory setting mounting plate spacing = 3 mm. No MD/FA TB table on this page.",
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "MODUL BLUMOTION (integrated BLUMOTION, with deactivation option)",
+    "spring": true,
+    "application": "inset",
+    "colours": "NI",
+    "art": "99B9550"
+   }
+  ],
+  "plates": [
+   "199.8130 (cruciform mounting plate - blind corner hinge inset application - 14/32; spacing 3, height 12.2; only combinable)"
+  ],
+  "accessories": [
+   {
+    "name": "Hinge arm cover cap",
+    "print": "Plain",
+    "logo": "-",
+    "colours": "NI",
+    "art": "90M2503"
+   },
+   {
+    "name": "Hinge arm cover cap",
+    "print": "Stamped",
+    "logo": "Blum",
+    "colours": "NI",
+    "art": "90M2503.BP"
+   },
+   {
+    "name": "Hinge boss cover cap",
+    "hinge": "MODUL BLUMOTION",
+    "colours": "NI",
+    "art": "70T3504"
+   },
+   {
+    "name": "Chipboard screws",
+    "length": 15.0,
+    "dia": 3.5,
+    "art": "609.1500"
+   },
+   {
+    "name": "Chipboard screws",
+    "length": 17.0,
+    "dia": 3.5,
+    "art": "609.1700"
+   }
+  ],
+  "notes": [
+   "Hinge for blind corner applications; inner blind corner width 28 mm and higher",
+   "Can only be combined with mounting plate 199.8130",
+   "95° opening angle",
+   "Slide on hinge arm; 3-dimensional front adjustment; integrated pull-out stop"
+  ],
+  "unlabeled": 3,
+  "unreadable": [],
+  "dimsPage": 179
+ },
+ {
+  "key": "modul_fridge",
+  "name": "MODUL refrigerator facade door hinge",
+  "angle": 95,
+  "webCode": "DQE5BY",
+  "pages": [
+   180,
+   181
+  ],
+  "fdMax": 30,
+  "applications": [
+   "overlay"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (knock-in)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": "+0.1",
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "H": 3.2
+  },
+  "drill": {
+   "type": "cup",
+   "dia": 35,
+   "minEdge": 13,
+   "note": "Screw-on: Ø35, TB 3-7, min 13; Knock-in: Ø35 +0.2/0, 45 between two Ø8 +0.1 dowel holes, 9.5, TB 3-7, min 13"
+  },
+  "adjust": {
+   "height": 2,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2,
+   "note": "max ±2.0 mm (see mounting plates), ±2.0 mm, +3.0/-2.0 mm"
+  },
+  "dims": {
+   "TB": "3-7",
+   "min edge": 13,
+   "Ø cup": 35,
+   "knock-in spacing": 45,
+   "knock-in offset": 9.5,
+   "dowel Ø": "8 +0.1",
+   "boss L": 57,
+   "boss W": 37.5,
+   "boss H": 3.2,
+   "max FD": 30
+  },
+  "unlabeledOnDrawings": 5,
+  "tbRule": {
+   "overlay": 11,
+   "note": "TB = FA - 11 + MD (verified on printed cells; only MD=0 populated)"
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6,
+     "18": 7
+    }
+   }
+  },
+  "tbTableAxes": {
+   "rows": "MD (0,3,6,9)",
+   "cols": "FA 6..18",
+   "values": "TB",
+   "note": "MD 3, 6, 9 rows are empty"
+  },
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   22,
+   24,
+   26,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "gap": {
+   "3": [
+    0.2,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1.3,
+    2.5,
+    3.5,
+    4.4,
+    5.3,
+    6.1
+   ],
+   "4": [
+    0.2,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1.3,
+    1.9,
+    2.9,
+    3.8,
+    4.7,
+    5.5
+   ],
+   "5": [
+    0.2,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1.2,
+    1.7,
+    2.4,
+    3.2,
+    4.0,
+    4.9
+   ],
+   "6": [
+    0.2,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1.2,
+    1.7,
+    2.2,
+    2.8,
+    3.5,
+    4.3
+   ],
+   "7": [
+    0.2,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.8,
+    1.2,
+    1.6,
+    2.0,
+    2.4,
+    3.0,
+    3.8
+   ]
+  },
+  "gapNote": "Min gap F, front radius R=1 mm, factory setting; keys = TB. No triangle cells in this table.",
+  "gapSide2": [
+   0.0,
+   0.1,
+   0.1,
+   0.1,
+   0.3,
+   0.5,
+   0.4,
+   0.4,
+   0.4,
+   0.4,
+   0.3,
+   0.2
+  ],
+  "gapSide2Note": "Additional for +2 mm side adjustment, one value per FD 16..32 column in same order",
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "MODUL with closing mechanism (spring), shallow arm",
+    "spring": true,
+    "application": "overlay",
+    "colours": "NI|ONS",
+    "art": "91K9550"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "MODUL with closing mechanism (spring), shallow arm",
+    "spring": true,
+    "application": "overlay",
+    "colours": "NI",
+    "art": "91K9580"
+   }
+  ],
+  "plates": [
+   "194K6100E (spacing 0, height 10.3; only combinable)"
+  ],
+  "accessories": [
+   {
+    "name": "Hinge boss cover cap",
+    "colours": "NI|ONS",
+    "art": "70T3504"
+   },
+   {
+    "name": "Chipboard screws",
+    "length": 15.0,
+    "dia": 3.5,
+    "art": "609.1500"
+   },
+   {
+    "name": "Chipboard screws",
+    "length": 17.0,
+    "dia": 3.5,
+    "art": "609.1700"
+   },
+   {
+    "name": "Insertion ram",
+    "colours": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   }
+  ],
+  "notes": [
+   "Hinge for refrigerator facade doors; shallow hinge arm height",
+   "Front thicknesses FD of up to 30 mm are possible",
+   "Can only be combined with mounting plate 194K6100E",
+   "Assembly, adjustment and removal of front possible when refrigerator is installed"
+  ],
+  "unlabeled": 5,
+  "unreadable": [],
+  "dimsPage": 181
+ },
+ {
+  "key": "modul_plates",
+  "name": "MODUL mounting plates",
+  "pages": [
+   182,
+   183,
+   184
+  ],
+  "kind": "plate",
+  "tables": [
+   {
+    "title": "Mounting plates overview (p.182)",
+    "rowLabel": "Description",
+    "colLabel": "Material | Adjustment | Height | fixing page",
+    "cols": [
+     "Material",
+     "Adjustment",
+     "Height (mm)",
+     "chipboard screw fixing page",
+     "EXPANDO fixing page",
+     "system screw fixing page"
+    ],
+    "rows": {
+     "Cruciform mounting plate - 37/32 (zinc, screws two-part)": [
+      "Zinc",
+      "Screws (two-part)",
+      "±2.0",
+      182,
+      null,
+      null
+     ],
+     "Cruciform mounting plate - 37/32 (steel, ±2.0)": [
+      "Steel",
+      "Elongated hole",
+      "±2.0",
+      null,
+      183,
+      null
+     ],
+     "Cruciform mounting plate - 37/32 (steel, ±3.0)": [
+      "Steel",
+      "Elongated hole",
+      "±3.0",
+      182,
+      null,
+      183
+     ],
+     "Cruciform mounting plate - Twin application - 37/32": [
+      "Steel",
+      "Elongated hole",
+      "±3.0",
+      null,
+      null,
+      183
+     ],
+     "Cruciform mounting plate - Blind corner hinge inset application - 14/32": [
+      "Zinc",
+      "Elongated hole",
+      "±2.0",
+      null,
+      null,
+      183
+     ],
+     "Cruciform mounting plate - Refrigerator facade door hinge - 37/32": [
+      "Steel",
+      "Elongated hole",
+      "±2.0",
+      null,
+      184,
+      null
+     ]
+    },
+    "page": 182
+   }
+  ],
+  "plateList": [
+   {
+    "name": "Cruciform mounting plate - 37/32",
+    "fix": "chipboard screws Ø3.5 or Ø4",
+    "screwLen": 17,
+    "material": "zinc",
+    "adjust": 2,
+    "colour": "NI",
+    "page": 182,
+    "variants": [
+     {
+      "spacing": 0,
+      "height": 9.2,
+      "art": "195H7100"
+     },
+     {
+      "spacing": 3,
+      "height": 12.2,
+      "art": "195H7130"
+     },
+     {
+      "spacing": 9,
+      "height": 18.2,
+      "art": "195H7190"
+     }
+    ],
+    "labelled": {
+     "H": "Height",
+     "min": null
+    }
+   },
+   {
+    "name": "Cruciform mounting plate - 37/32",
+    "fix": "chipboard screws Ø3.5 or Ø4",
+    "screwLen": 17,
+    "material": "steel",
+    "adjust": 3,
+    "colour": "NI",
+    "page": 182,
+    "variants": [
+     {
+      "spacing": 0,
+      "height": 8.3,
+      "art": "193L6100"
+     },
+     {
+      "spacing": 3,
+      "height": 11.3,
+      "art": "193L6130"
+     }
+    ]
+   },
+   {
+    "name": "Cruciform mounting plate - 37/32",
+    "fix": "EXPANDO (pre-mounted special screws with split dowels)",
+    "material": "steel",
+    "adjust": 2,
+    "colour": "NI",
+    "page": 183,
+    "minPanelThickness": 11.5,
+    "variants": [
+     {
+      "spacing": 0,
+      "height": 8.3,
+      "art": "194E6100.ED"
+     },
+     {
+      "spacing": 3,
+      "height": 11.3,
+      "art": "194E6130.ED"
+     }
+    ],
+    "pitch5": "5±0.1 (as printed)"
+   },
+   {
+    "name": "Cruciform mounting plate - 37/32",
+    "fix": "pre-mounted system screws Ø6",
+    "material": "steel",
+    "adjust": 3,
+    "colour": "NI",
+    "page": 183,
+    "minPanelThickness": 11.5,
+    "variants": [
+     {
+      "spacing": 0,
+      "height": 8.3,
+      "art": "193L8100"
+     }
+    ],
+    "pitch5": "5±0.1 (as printed)"
+   },
+   {
+    "name": "Cruciform mounting plate - Twin application - 37/32",
+    "fix": "pre-mounted system screws Ø6, for twin application",
+    "material": "steel",
+    "adjust": 3,
+    "colour": "NI",
+    "page": 183,
+    "minPanelThickness": 8.5,
+    "variants": [
+     {
+      "spacing": 0,
+      "height": 8.3,
+      "art": "193L8100.21"
+     }
+    ],
+    "note": "* Additional screw required as standard"
+   },
+   {
+    "name": "Cruciform mounting plate - Blind corner hinge inset application - 14/32",
+    "fix": "pre-mounted system screws Ø6",
+    "material": "zinc",
+    "adjust": 2,
+    "colour": "NI",
+    "page": 183,
+    "minPanelThickness": 11.5,
+    "variants": [
+     {
+      "spacing": 3,
+      "height": 12.2,
+      "art": "199.8130"
+     }
+    ]
+   },
+   {
+    "name": "Cruciform mounting plate - Refrigerator facade door hinge - 37/32",
+    "fix": "EXPANDO",
+    "material": "steel",
+    "adjust": 2,
+    "colour": "NI|ONS",
+    "page": 184,
+    "variants": [
+     {
+      "spacing": 0,
+      "height": 10.3,
+      "art": "194K6100E"
+     }
+    ],
+    "note": "* Additional screw optional"
+   }
+  ],
+  "dims": {
+   "37/32 pattern (title)": "37/32",
+   "14/32 pattern (title)": "14/32",
+   "H": "Height (symbol on drawings)",
+   "min plate panel thickness (193L8100, 194E, 199.8130)": 11.5,
+   "min (193L8100.21 twin)": 8.5,
+   "5±0.1": "on EXPANDO/system-screw plates"
+  },
+  "dimsPage": 183,
+  "unlabeled": 27,
+  "parts": [],
+  "unreadable": [
+   "p.183 (printed 183) text layer failed to render in the page image (all text blank): order-table content (spacing/height/colour/art) taken from catalog_text.json and matched to drawings by order/features; bullets in text were not in the same order as the images so fixing/adjust/material assignment per plate was inferred from the p.182 overview table (Material/Adjustment/Height ±/fixing page) which is clean."
+  ],
+  "notes": [
+   "Fixarea, reglajul și materialul fiecărei plăcuțe MODUL sunt deduse din ordinea textului paginii 183 (imaginea nu s-a putut citi): de verificat înainte de a le folosi."
+  ],
+  "verificat": false
+ },
+ {
+  "key": "modul_accessories",
+  "name": "MODUL accessories",
+  "pages": [
+   185,
+   186,
+   187
+  ],
+  "kind": "accessory",
+  "parts": [
+   {
+    "name": "Hinge arm cover cap straight (100° hinge)",
+    "colours": "NI",
+    "material": "Steel",
+    "print": "Plain",
+    "art": "90M2503"
+   },
+   {
+    "name": "Hinge arm cover cap straight (100° hinge)",
+    "colours": "NI",
+    "material": "Steel",
+    "print": "Stamped",
+    "logo": "Blum",
+    "art": "90M2503.BP"
+   },
+   {
+    "name": "Hinge arm cover cap cranked/double cranked",
+    "colours": "NI",
+    "material": "Steel",
+    "print": "Plain",
+    "art": "90M2603"
+   },
+   {
+    "name": "Hinge boss cover cap MODUL / MODUL BLUMOTION / blind corner",
+    "colours": "NI",
+    "material": "Steel",
+    "art": "70T3504"
+   },
+   {
+    "name": "Hinge boss cover cap refrigerator",
+    "colours": "NI|ONS",
+    "material": "Steel",
+    "art": "70T3504"
+   },
+   {
+    "name": "Chipboard screws Ø3.5",
+    "length": 15.0,
+    "art": "609.1500"
+   },
+   {
+    "name": "Chipboard screws Ø3.5",
+    "length": 17.0,
+    "art": "609.1700"
+   },
+   {
+    "name": "System screw Ø6.0",
+    "length": 10.0,
+    "art": "661.1000.HG"
+   },
+   {
+    "name": "System screw Ø6.0",
+    "length": 11.5,
+    "art": "661.1150.HG"
+   },
+   {
+    "name": "System screw Ø6.0",
+    "length": 13.0,
+    "art": "661.1300.HG"
+   },
+   {
+    "name": "System screw Ø6.0",
+    "length": 14.5,
+    "art": "661.1450.HG"
+   },
+   {
+    "name": "System screw Ø6.0",
+    "length": 20.0,
+    "art": "661.2000.HG"
+   },
+   {
+    "name": "Centre bit",
+    "dia": 2.7,
+    "art": "M01.ZZ03.01"
+   },
+   {
+    "name": "Replacement bit",
+    "art": "M01.ZZB3"
+   },
+   {
+    "name": "Stick-on door buffer 8 mm",
+    "dia": 8.0,
+    "art": "993.710"
+   },
+   {
+    "name": "8 mm Ø door buffer",
+    "dia": 8.0,
+    "art": "993.706"
+   },
+   {
+    "name": "Pozidriv screwdriver PZ 2",
+    "totalLength": 210,
+    "art": "303.756.1"
+   },
+   {
+    "name": "Slotted screwdriver size 1",
+    "totalLength": 200,
+    "art": "314.928.1"
+   }
+  ],
+  "notes": [
+   "Centre bit: pre-drill for Ø3.5 chipboard screws, drilling depth up to 8 mm, steel hardened",
+   "Stick-on door buffer: natural coloured nylon; 8 mm Ø door buffer: gap 2 mm, two-part, RAL 9006"
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "p.186-187 accessory page 'Centre bit' vs buffer part numbers taken from text layer only (page 186 image not viewed); order of text columns assumed Centre bit Ø2.7 M01.ZZ03.01, Stick-on door buffer Ø8.0 993.710, 8 mm Ø door buffer Ø8.0 993.706",
+   "Text bullet 'Drilling diameter Ø 5 mm' (nickel plated steel) not assigned to a part number; page 186 image not viewed."
+  ]
+ },
+ {
+  "key": "blumotion_doors_973A",
+  "name": "BLUMOTION 973A clip-on (for CLIP top / CLIP hinges)",
+  "kind": "accessory",
+  "pages": [
+   160,
+   161
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "parts": [
+   {
+    "boss": "clip-on",
+    "arm": "straight",
+    "fn": "BLUMOTION 973A",
+    "colours": "nickel plated",
+    "material": "Steel",
+    "art": "973A0500.01",
+    "fits": [
+     "CLIP top 110°",
+     "110° special",
+     "107°",
+     "profile/thick door",
+     "95° aluminium frame door CLIP top for 973A",
+     "CLIP 100°"
+    ]
+   },
+   {
+    "boss": "clip-on",
+    "arm": "half-cranked",
+    "fn": "BLUMOTION 973A",
+    "colours": "nickel plated",
+    "material": "Steel",
+    "art": "973A0600",
+    "fits": [
+     "CLIP top 110°",
+     "107°",
+     "profile/thick door",
+     "CLIP 100°"
+    ],
+    "armNote": "printed 'cranked hinge arm'"
+   },
+   {
+    "boss": "clip-on",
+    "arm": "full-cranked",
+    "fn": "BLUMOTION 973A",
+    "colours": "nickel plated",
+    "material": "Steel",
+    "art": "973A0700",
+    "fits": [
+     "CLIP top 110°",
+     "107°",
+     "profile/thick door",
+     "CLIP 100°"
+    ],
+    "armNote": "printed 'double cranked hinge arm'"
+   },
+   {
+    "boss": "clip-on",
+    "arm": "other",
+    "fn": "BLUMOTION 973A 170° (inline and cranked)",
+    "colours": "nickel plated",
+    "material": "Zinc",
+    "art": "973A6000",
+    "fits": [
+     "CLIP top 170° inline",
+     "170° cranked"
+    ]
+   }
+  ],
+  "notes": [
+   "For normal door sizes, one BLUMOTION 973A per hinge is required; for smaller, lighter doors the number can be reduced"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "blumotion_doors_971A",
+  "name": "BLUMOTION 971A in adapter plate for overlay application",
+  "kind": "accessory",
+  "pages": [
+   162,
+   163
+  ],
+  "applications": [
+   "overlay"
+  ],
+  "dims": {
+   "construction height 25 (straight arm, 0 mm raised plate)": 25,
+   "construction height 33 (straight arm, 3 mm spaced plate)": 33,
+   "depth adjustment": "+3 to -7 mm (spiral screw)",
+   "5±0.1 (EXPANDO hole pitch)": "5±0.1"
+  },
+  "dimsPage": 162,
+  "unlabeledOnDrawings": 8,
+  "unlabeledNote": "75, 46, 32, 37, 9.5 on the 3 planning drawings have no symbol (75/46 position, 32/37/9.5 plate pattern same as title 37/32 and 9.5/32; kept out)",
+  "parts": [
+   {
+    "boss": "adapter plate 37/32 chipboard screws Ø3.5/Ø4",
+    "arm": "other",
+    "fn": "BLUMOTION 971A",
+    "constructionHeight": 25,
+    "colours": "NI",
+    "material": "zinc",
+    "art": "971A0500"
+   },
+   {
+    "boss": "adapter plate 37/32 chipboard screws Ø3.5/Ø4",
+    "arm": "other",
+    "fn": "BLUMOTION 971A",
+    "constructionHeight": 33,
+    "colours": "NI",
+    "material": "zinc",
+    "art": "971A2500"
+   },
+   {
+    "boss": "adapter plate 37/32 EXPANDO",
+    "arm": "other",
+    "fn": "BLUMOTION 971A",
+    "constructionHeight": 25,
+    "colours": "NI",
+    "material": "zinc",
+    "art": "971A05E0"
+   },
+   {
+    "boss": "adapter plate 9.5/32 chipboard screws Ø3.5/Ø4",
+    "arm": "other",
+    "fn": "BLUMOTION 971A",
+    "constructionHeight": 25,
+    "colours": "NI",
+    "material": "zinc",
+    "art": "971A0700"
+   }
+  ],
+  "notes": [
+   "Construction height 25 mm: for all hinges with a straight hinge arm and a 0 mm raised mounting plate. Exception: 95° profile door hinge",
+   "Construction height 33 mm: for all hinges with a straight hinge arm and a 3 mm spaced mounting plate. Also for 95° profile door hinge with 0 mm spaced plate",
+   "For optimal effect attach 971A to the centre between the hinges; for high and heavy doors use an additional 971A between an additional hinge pair",
+   "Depth adjustment of the hinge arm should be mirrored on the 971A (+3 to -7 mm)"
+  ],
+  "unlabeled": 8,
+  "unreadable": []
+ },
+ {
+  "key": "blumotion_doors_970A",
+  "name": "BLUMOTION 970A for drilling, hinge side",
+  "kind": "accessory",
+  "pages": [
+   164,
+   165
+  ],
+  "drill": {
+   "type": "hole",
+   "dia": 10,
+   "depthMin": 50,
+   "note": "Ø10, min 50 (depth), position by drilling distance BA from front edge; drilled in cabinet top; hole in side/top panel"
+  },
+  "dims": {
+   "Ø": 10,
+   "min": 50,
+   "BA": "see table"
+  },
+  "dimsPage": 164,
+  "parts": [
+   {
+    "boss": "drilling",
+    "arm": "other",
+    "fn": "BLUMOTION 970A (angled-application capable)",
+    "colours": "R7037",
+    "material": "Nylon",
+    "art": "970A1002"
+   }
+  ],
+  "tables": [
+   {
+    "title": "Drilling distance BA (All hinge applications except for angled applications)",
+    "rowLabel": "Mounting plate spacing MD (mm)",
+    "colLabel": "application pictogram",
+    "cols": [
+     "overlay (pictogram 1)",
+     "dual (pictogram 2)",
+     "inset (pictogram 3)",
+     "pictogram 4 (footnote 1: narrow top rails/larger front gaps - use adapter plate as needed)",
+     "pictogram 5"
+    ],
+    "rows": {
+     "0": [
+      32,
+      41,
+      50,
+      null,
+      34
+     ],
+     "3": [
+      35,
+      44,
+      53,
+      51,
+      34
+     ],
+     "6": [
+      38,
+      47,
+      null,
+      null,
+      null
+     ],
+     "9": [
+      41,
+      50,
+      null,
+      null,
+      null
+     ]
+    },
+    "page": 165
+   }
+  ],
+  "tableNote": "BA = 32+MD (overlay), 41+MD (dual), 50+MD (inset): verified on all 9 cells. Columns 4-5 pictographs not identifiable by name (hinge top-view drawings, probably angled/other applications); values kept under pictogram ordinal.",
+  "notes": [
+   "Location on the hinge side; guarantees perfect motion even for angled hinges",
+   "Hole must be drilled in the cabinet top; if BLUMOTION effect insufficient, install an additional 970A in the bottom"
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "p.165 columns 4 and 5: application pictographs not nameable"
+  ]
+ },
+ {
+  "key": "blumotion_doors_970_handle",
+  "name": "BLUMOTION 970. for drilling, handle side",
+  "kind": "accessory",
+  "pages": [
+   166,
+   167
+  ],
+  "drill": {
+   "type": "hole",
+   "dia": 10,
+   "tol": "+0.2/-0.1",
+   "depthMin": 50,
+   "note": "Ø10 +0.2/-0.1, depth min 50; BLUMOTION protrudes 1.5"
+  },
+  "dims": {
+   "Ø": "10 +0.2/-0.1",
+   "min": 50,
+   "protrusion 1.5": 1.5
+  },
+  "dimsPage": 166,
+  "unlabeledOnDrawings": 0,
+  "parts": [
+   {
+    "boss": "drilling",
+    "arm": "other",
+    "fn": "BLUMOTION 970.",
+    "colours": "R7037",
+    "material": "Nylon",
+    "art": "970.1002"
+   }
+  ],
+  "notes": [
+   "Distance from hinge: max. 600 mm",
+   "For glass door | mini-hinges: 1/2 front width FB",
+   "Normally one BLUMOTION per front; second for high front weights FG or unstable fronts",
+   "Optimal/optional position colours shown for cabinet widths KB up to 600 mm, applicable for all CLIP top hinges"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "blumotion_adapter_plates",
+  "name": "BLUMOTION adapter plates (accessories)",
+  "kind": "accessory",
+  "pages": [
+   168,
+   169
+  ],
+  "parts": [
+   {
+    "fn": "Straight adapter plate 20/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "R7036",
+    "material": "Nylon",
+    "art": "970.1201"
+   },
+   {
+    "fn": "Straight adapter plate 20/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "NI",
+    "material": "Zinc",
+    "art": "970.5201"
+   },
+   {
+    "fn": "Cruciform adapter plate 37/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "R7036",
+    "material": "Nylon",
+    "art": "970.1501"
+   },
+   {
+    "fn": "Cruciform adapter plate 37/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "NI",
+    "material": "Zinc",
+    "art": "970.5501"
+   },
+   {
+    "fn": "Cruciform adapter plate 37/32 EXPANDO",
+    "boss": "EXPANDO",
+    "colours": "R7036",
+    "material": "Nylon",
+    "art": "970.15E1"
+   },
+   {
+    "fn": "Cruciform adapter plate 37/32 EXPANDO",
+    "boss": "EXPANDO",
+    "colours": "NI",
+    "material": "Zinc",
+    "art": "970.55E1"
+   },
+   {
+    "fn": "Cruciform adapter plate 9.5/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "R7036",
+    "material": "Nylon",
+    "art": "970.1701"
+   },
+   {
+    "fn": "Cruciform adapter plate 9.5/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "NI",
+    "material": "Zinc",
+    "art": "970.5701"
+   },
+   {
+    "fn": "Cruciform double adapter plate 37/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "R7036",
+    "material": "Nylon",
+    "art": "970.2501"
+   },
+   {
+    "fn": "Cruciform double adapter plate 9.5/32",
+    "boss": "chipboard screws Ø3.5/Ø4",
+    "colours": "NI",
+    "material": "Zinc",
+    "art": "970.6701"
+   }
+  ],
+  "dims": {
+   "min (EXPANDO plate)": 11.5,
+   "5 (EXPANDO hole pitch)": 5,
+   "adapter plate pattern 20/32": "20/32",
+   "37/32": "37/32",
+   "9.5/32": "9.5/32"
+  },
+  "dimsPage": 168,
+  "notes": [
+   "BLUMOTION must be ordered separately",
+   "Double plates for cabinets with double doors"
+  ],
+  "unlabeled": 22,
+  "unlabeledNote": "numbers 59,20,15,32,55,46,12,37,9.5 without symbol on drawings of p.168-169",
+  "unreadable": []
+ },
+ {
+  "key": "tipon_doors_956",
+  "name": "TIP-ON 956x for doors",
+  "kind": "accessory",
+  "pages": [
+   172
+  ],
+  "drill": {
+   "type": "hole",
+   "dia": 10,
+   "tol": "+0.1/-0.1",
+   "depthMin": 50,
+   "note": "short version: min 50; long versions: min 76; protrusion 0.6"
+  },
+  "dims": {
+   "Ø": "10±0.1",
+   "min (short)": 50,
+   "min (long)": 76,
+   "0.6": 0.6,
+   "front gap min": 1.5,
+   "front gap catch plate screw-on (2.6)": "min 2.6(3.1)",
+   "front gap bumper": "min 3.2",
+   "glue-on catch plate offset": 7.5,
+   "glue-on 0.5": 0.5,
+   "glue-on 18": 18,
+   "glue-on 13": 13,
+   "screw-on 7.5": 7.5,
+   "screw-on offset": "3* (3 mm offset installation)",
+   "screw-on Ø15": 15,
+   "screw-on 1": 1,
+   "FA": "front overlay",
+   "setting": "+4/-1",
+   "outputPath short": 17,
+   "outputPath long": 38,
+   "bumper min 76": 76,
+   "bumper min 3.2": 3.2
+  },
+  "dimsPage": 172,
+  "unlabeledOnDrawings": 0,
+  "parts": [
+   {
+    "boss": "drilling",
+    "arm": "other",
+    "fn": "TIP-ON 956. short version with magnet (overlay fronts up to ~1300 mm height, unsprung hinges), output path ~17",
+    "colours": "SW|CS|R7036",
+    "spring": "Standard",
+    "art": "956.1004",
+    "consistsOf": [
+     "TIP-ON",
+     "glue-on catch plate",
+     "screw-on catch plate",
+     "chipboard screws Ø3.5x15 (609.1500)"
+    ]
+   },
+   {
+    "boss": "drilling",
+    "arm": "other",
+    "fn": "TIP-ON 956A long version with magnet (overlay fronts from ~1300 mm height and all inset, unsprung hinges), output path ~38",
+    "colours": "SW|CS|R7036",
+    "spring": "Standard",
+    "art": "956A1004",
+    "consistsOf": [
+     "TIP-ON",
+     "glue-on catch plate",
+     "screw-on catch plate",
+     "chipboard screws Ø3.5x15 (609.1500)"
+    ]
+   },
+   {
+    "boss": "drilling",
+    "arm": "other",
+    "fn": "TIP-ON 956A long version with bumper (sprung hinges), output path ~38",
+    "colours": "SW|CS|R7036",
+    "spring": "Standard",
+    "art": "956A1006"
+   },
+   {
+    "boss": "drilling",
+    "arm": "other",
+    "fn": "TIP-ON 956A long version with bumper (sprung hinges)",
+    "colours": "SW|CS|R7036",
+    "spring": "Strong (for high ejection forces, e.g. narrow fronts with many hinges)",
+    "art": "956A1006F"
+   }
+  ],
+  "notes": [
+   "Setting +4/-1 mm; material nylon",
+   "No catch plate needed for bumper (recommended on very soft surfaces)",
+   "Glue-on catch plate not suitable for powder-coated, waxed or oiled surfaces"
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "Min gap 'min 2.6(3.1)' - value in brackets is for screw-on catch plate as printed ('() Screw-on catch plate')"
+  ]
+ },
+ {
+  "key": "tipon_adapter_plates",
+  "name": "TIP-ON adapter plates (accessories)",
+  "kind": "accessory",
+  "pages": [
+   173
+  ],
+  "parts": [
+   {
+    "fn": "Straight adapter plate - Short version - 20/17",
+    "colours": "SW|CS|R7036|NI-L",
+    "material": "Nylon",
+    "art": "956.1201"
+   },
+   {
+    "fn": "Straight adapter plate - Extended version - 20/32",
+    "colours": "SW|CS|R7036|NI-L",
+    "material": "Nylon",
+    "art": "956A1201"
+   },
+   {
+    "fn": "Cruciform adapter plate - Extended version - 37/32",
+    "colours": "R7036",
+    "material": "Nylon",
+    "art": "956A1501"
+   }
+  ],
+  "dims": {
+   "front gap min (to catch plate)": 1.5,
+   "FA": "front overlay",
+   "8 (catch plate)": 8,
+   "3*": "3 mm offset installation"
+  },
+  "dimsPage": 173,
+  "unlabeledOnDrawings": 14,
+  "notes": [
+   "Fixing with chipboard screws Ø3.5 or Ø4; alternative assembly with system screws",
+   "TIP-ON must be ordered separately"
+  ],
+  "unlabeled": 14,
+  "unreadable": []
+ }
+]

@@ -1,0 +1,357 @@
+[
+ {
+  "name": "CLIP top BLUMOTION | CLIP top 110°",
+  "angle": 110,
+  "webCode": "DQDELA",
+  "pages": [
+   74,
+   75
+  ],
+  "fdMax": 24,
+  "cup": {
+   "dia": 35,
+   "depth": 13,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "WInserta": 43,
+   "H": 3.2,
+   "HInserta": 6.4
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": -7
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6,
+     "18": 7
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6,
+     "15": 7
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6,
+     "12": 7
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6,
+     "9": 7
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6,
+     "8.5": 7
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6,
+     "5.5": 7
+    },
+    "6": {
+     "-1.5": 3,
+     "-0.5": 4,
+     "0.5": 5,
+     "1.5": 6,
+     "2.5": 7
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6,
+     "-0.5": 7
+    }
+   },
+   "inset": {
+    "0": {
+     "0": 7,
+     "-4": 3,
+     "-3": 4,
+     "-2": 5,
+     "-1": 6
+    },
+    "3": {
+     "-7": 3,
+     "-6": 4,
+     "-5": 5,
+     "-4": 6,
+     "-3": 7
+    }
+   }
+  },
+  "gapFD": [
+   16,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   28,
+   30
+  ],
+  "gap": {
+   "3": [
+    0.5,
+    0.8,
+    1,
+    1.2,
+    1.5,
+    1.8,
+    2.2,
+    2.7,
+    3.5,
+    4.3,
+    null,
+    null
+   ],
+   "4": [
+    0.5,
+    0.8,
+    1,
+    1.2,
+    1.4,
+    1.7,
+    2,
+    2.5,
+    3.1,
+    3.8,
+    null,
+    null
+   ],
+   "5": [
+    0.5,
+    0.8,
+    0.9,
+    1.2,
+    1.4,
+    1.7,
+    2,
+    2.4,
+    2.9,
+    3.4,
+    null,
+    null
+   ],
+   "6": [
+    0.5,
+    0.8,
+    0.9,
+    1.2,
+    1.3,
+    1.6,
+    1.9,
+    2.3,
+    2.7,
+    3.2,
+    null,
+    null
+   ],
+   "7": [
+    0.5,
+    0.8,
+    0.9,
+    1.1,
+    1.3,
+    1.6,
+    1.9,
+    2.2,
+    2.6,
+    3,
+    null,
+    null
+   ]
+  },
+  "gapSide2": [
+   0.2,
+   0.4,
+   0.4,
+   0.5,
+   0.5,
+   0.5,
+   0.5,
+   0.5,
+   0.5,
+   0.5
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "straight",
+    "fn": "CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B3590"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "straight",
+    "fn": "CLIP top (spring)",
+    "colours": "NI",
+    "art": "71T3590"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "straight",
+    "fn": "CLIP top (unsprung)",
+    "colours": "NI|ONS",
+    "art": "70T3590.TL"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "half-cranked",
+    "fn": "CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B3690"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "half-cranked",
+    "fn": "CLIP top (spring)",
+    "colours": "NI",
+    "art": "71T3690"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "half-cranked",
+    "fn": "CLIP top (unsprung)",
+    "colours": "NI|ONS",
+    "art": "70T3690.TL"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B3790"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "CLIP top (spring)",
+    "colours": "NI",
+    "art": "71T3790"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "CLIP top (unsprung)",
+    "colours": "NI|ONS",
+    "art": "70T3790.TL"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B3550"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "CLIP top (spring)",
+    "colours": "NI",
+    "art": "71T3550"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "fn": "CLIP top (unsprung)",
+    "colours": "NI|ONS",
+    "art": "70T3550.TL"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B3650"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "CLIP top (spring)",
+    "colours": "NI",
+    "art": "71T3650"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "half-cranked",
+    "fn": "CLIP top (unsprung)",
+    "colours": "NI|ONS",
+    "art": "70T3650.TL"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "71B3750"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "CLIP top (spring)",
+    "colours": "NI",
+    "art": "71T3750"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "CLIP top (unsprung)",
+    "colours": "NI|ONS",
+    "art": "70T3750.TL"
+   }
+  ],
+  "plates": [
+   "173L61",
+   "175H71",
+   "175H91",
+   "174E61",
+   "175H31"
+  ],
+  "key": "clip_top_110"
+ }
+]

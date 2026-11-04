@@ -1,0 +1,1433 @@
+[
+ {
+  "key": "tandem_locking",
+  "name": "TANDEM 11–16 mm – locking device feature (560H / 550H)",
+  "kind": "runner",
+  "pages": [
+   450,
+   451,
+   452,
+   453,
+   454,
+   455,
+   456,
+   457
+  ],
+  "variants": [
+   "560H full ext BLUMOTION (B)",
+   "560H full ext BLUMATIC for TIP-ON (C)",
+   "550H single ext BLUMOTION (B)",
+   "550H single ext TIP-ON (T)"
+  ],
+  "load": {
+   "kg": [
+    30
+   ]
+  },
+  "webCodes": {
+   "560H B": "DQD1XA",
+   "560H C": "DQD2MM",
+   "550H B": "DQD3BY",
+   "550H T": "DQD41C"
+  },
+  "parts": [
+   {
+    "art": "560H2500B",
+    "nl": 250,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H2700B",
+    "nl": 270,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3000B",
+    "nl": 300,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3200B",
+    "nl": 320,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3500B",
+    "nl": 350,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3800B",
+    "nl": 380,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4000B",
+    "nl": 400,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4200B",
+    "nl": 420,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4500B",
+    "nl": 450,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4800B",
+    "nl": 480,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H5000B",
+    "nl": 500,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H5200B",
+    "nl": 520,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H5500B",
+    "nl": 550,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H6000B",
+    "nl": 600,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H2500C",
+    "nl": 250,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H2700C",
+    "nl": 270,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3000C",
+    "nl": 300,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3200C",
+    "nl": 320,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3500C",
+    "nl": 350,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H3800C",
+    "nl": 380,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4000C",
+    "nl": 400,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4200C",
+    "nl": 420,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4500C",
+    "nl": 450,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H4800C",
+    "nl": 480,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H5000C",
+    "nl": 500,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H5200C",
+    "nl": 520,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H5500C",
+    "nl": 550,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "560H6000C",
+    "nl": 600,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "550H2700B",
+    "nl": 270,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H3000B",
+    "nl": 300,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H3500B",
+    "nl": 350,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H4000B",
+    "nl": 400,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H4500B",
+    "nl": 450,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H5000B",
+    "nl": 500,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H5500B",
+    "nl": 550,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H6000B",
+    "nl": 600,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H6500B",
+    "nl": 650,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H2700T",
+    "nl": 270,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H3000T",
+    "nl": 300,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H3500T",
+    "nl": 350,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H4000T",
+    "nl": 400,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H4500T",
+    "nl": 450,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H5000T",
+    "nl": 500,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H5500T",
+    "nl": 550,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H6000T",
+    "nl": 600,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   },
+   {
+    "art": "550H6500T",
+    "nl": 650,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single"
+   }
+  ],
+  "accessories": [
+   {
+    "art": "295.1000",
+    "name": "Front adjuster, natural nylon",
+    "page": null
+   },
+   {
+    "art": "298.5500",
+    "name": "POSISTOP, RAL 7037 dust grey, nylon (depth stop +2 mm)"
+   },
+   {
+    "art": "ZST.410TV",
+    "name": "Side stabilisation set full extension, NL up to 410"
+   },
+   {
+    "art": "ZST.600TV",
+    "name": "Side stabilisation set full extension, NL up to 600/750 (see pages)"
+   },
+   {
+    "art": "ZST.750TV",
+    "name": "Side stabilisation set full extension, NL up to 750 (p.450)"
+   },
+   {
+    "art": "ZST.410TT",
+    "name": "Side stabilisation set single extension, NL up to 410"
+   },
+   {
+    "art": "ZST.650TT",
+    "name": "Side stabilisation set single extension, NL up to 650"
+   },
+   {
+    "art": "T55.7150S",
+    "name": "TIP-ON left/right, black, 30 kg, only full extension"
+   },
+   {
+    "art": "T55.000R",
+    "name": "TIP-ON synchronisation pinion set, semicircular, RAL 7037"
+   },
+   {
+    "art": "T55.889W",
+    "name": "TIP-ON synchronisation linkage, semicircular, KB up to 1200, cut LW-277"
+   },
+   {
+    "art": "T55.1089ZR",
+    "name": "TIP-ON sync pinion set and shaft, round, KB up to 1200, cut LW-277"
+   },
+   {
+    "art": "T57.1140S",
+    "name": "TIP-ON synchronisation linkage, profile, KB up to 1200, cut LW-31"
+   },
+   {
+    "art": "T51.1700.04",
+    "name": "Locking device left/right, orange, nylon/zinc (order left/right)"
+   },
+   {
+    "art": "T65.1000.02",
+    "name": "Drilling template"
+   }
+  ],
+  "cabinet": {
+   "LW": "internal cabinet width",
+   "page": 451,
+   "labeled": {
+    "SKW": "LW − 42 +0.0/−1.5",
+    "SKL": "NL − 10",
+    "ISKL": "SKL + X",
+    "X": "front thickness",
+    "min above": 7,
+    "below runner": 37,
+    "side clearance": "min 27.5",
+    "outer side": "12–15",
+    "wall": 21,
+    "panel": "11–16",
+    "NL+3": "space requirement (+3 with side stabilisation)",
+    "single ext A": "3 mm distance to interchange with full extension; min 24.5; max 13",
+    "full vs single below": "full 37, single 34 (p.455)",
+    "drawer length +12": "with side stabilisation",
+    "KB max stabilisation": 1400,
+    "TIP-ON trigger": "85 mm with TIP-ON (p.453)"
+   }
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "drawer width (SKW)",
+     "expr": "LW − 42",
+     "tol": "+0.0/−1.5",
+     "page": 451
+    },
+    {
+     "piece": "drawer length (SKL)",
+     "expr": "NL − 10",
+     "page": 451
+    },
+    {
+     "piece": "inner drawer length",
+     "expr": "SKL + X",
+     "page": 451
+    },
+    {
+     "piece": "TIP-ON sync linkage/pinion+shaft (full ext)",
+     "expr": "LW − 277",
+     "page": 452
+    },
+    {
+     "piece": "TIP-ON sync linkage profile (single ext)",
+     "expr": "LW − 31",
+     "page": 456
+    }
+   ],
+   "constants": {
+    "widthOffset": -42,
+    "lengthOffset": -10,
+    "rearReserve": null,
+    "sidePanelMin": 11,
+    "sidePanelMax": 16
+   }
+  },
+  "drill": {
+   "labeledDims": {
+    "37": "first labeled dim at front end",
+    "9": "",
+    "32": "",
+    "224": "",
+    "14": "",
+    "64": "left-most",
+    "96": "NL 250|270 spacing",
+    "160": "NL 300-380 spacing",
+    "128": "NL 450|480 spacing",
+    "64b": "NL 400|420 spacing"
+   },
+   "groupsNL_locking": [
+    [
+     250,
+     270
+    ],
+    [
+     300,
+     320,
+     350,
+     380
+    ],
+    [
+     400,
+     420
+    ],
+    [
+     450,
+     480
+    ],
+    [
+     500,
+     520,
+     550
+    ],
+    [
+     600
+    ]
+   ],
+   "groupsNL_650_single": [
+    [
+     270
+    ],
+    [
+     300,
+     350,
+     400,
+     450
+    ],
+    [
+     500,
+     550
+    ],
+    [
+     600
+    ],
+    [
+     650
+    ]
+   ],
+   "dia": 6,
+   "depthToTopEdge": 7,
+   "fromFrontFace_X": null,
+   "drawerAssembly": {
+    "edgeDist": 10,
+    "fromBottom": 11,
+    "dia": 6,
+    "pin33": 33,
+    "fixing55": 55
+   },
+   "page": 451,
+   "text": "Hole spacing by NL group; drawing dims 64,14,224,32,9,37 / 96,160,64,128 – assignment of each dim to hole not unambiguous in drawing; groups 550H p.455"
+  },
+  "dims": {
+   "front hole from front": 37,
+   "drill dia": 6,
+   "bore depth edge": 7,
+   "edge dist": 10,
+   "fromBottom": 11,
+   "pin": 33,
+   "ref55": 55
+  },
+  "notes": [
+   "Locking device T51.1700.04 is ordered left/right; tool-free height adjustment.",
+   "TIP-ON/POSISTOP/stabilisation modify space requirement as in common_plan.",
+   "Planning text: {\"SKW\": \"LW − 42 (+0.0/−1.5)\", \"SKL\": \"NL − 10\", \"ISKL\": \"SKL + X\", \"sidePanel\": \"11–16\", \"minAbove\": 7, \"below37\": 37, \"clearanceSide\": \"min 27.5 (12–15 for locking; 11–13 hook&peg)\", \"gap21\": 21, \"stabilisation\": {\"cabinetNL\": \"+3\", \"drawerLength\": \"+12\"}, \"posistop\": \"+2 mm inner drawer\", \"tipon\": \"+1 mm cabinet, +4/+6 mm inner drawer\"}"
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "hole spacing per-NL distances: which of 37/9/32/224/14/64/96/160/128 belongs to which hole group is not clearly attributable from the drawing (451,453,455,457)"
+  ]
+ },
+ {
+  "key": "tandem_hook_peg",
+  "name": "TANDEM 11–16 mm – hook and peg variant (561H / 551H)",
+  "kind": "runner",
+  "pages": [
+   458,
+   459,
+   460,
+   461,
+   462,
+   463,
+   464,
+   465
+  ],
+  "variants": [
+   "561H full ext BLUMOTION (B)",
+   "561H full ext BLUMATIC for TIP-ON (C)",
+   "551H single ext BLUMOTION (B)",
+   "551H single ext TIP-ON (T)"
+  ],
+  "load": {
+   "kg": [
+    30
+   ]
+  },
+  "webCodes": {
+   "561H B": "DQD4QM",
+   "561H C": "DQD5FY",
+   "551H B": "DQD65A",
+   "551H T": "DQD6UP"
+  },
+  "parts": [
+   {
+    "art": "561H2601B",
+    "nl": 260,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H2851B",
+    "nl": 285,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3101B",
+    "nl": 310,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3351B",
+    "nl": 335,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3601B",
+    "nl": 360,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3851B",
+    "nl": 385,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4101B",
+    "nl": 410,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4351B",
+    "nl": 435,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4601B",
+    "nl": 460,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4851B",
+    "nl": 485,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H5101B",
+    "nl": 510,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H5351B",
+    "nl": 535,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H5601B",
+    "nl": 560,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H2601C",
+    "nl": 260,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H2851C",
+    "nl": 285,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3101C",
+    "nl": 310,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3351C",
+    "nl": 335,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3601C",
+    "nl": 360,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H3851C",
+    "nl": 385,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4101C",
+    "nl": 410,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4351C",
+    "nl": 435,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4601C",
+    "nl": 460,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H4851C",
+    "nl": 485,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H5101C",
+    "nl": 510,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H5351C",
+    "nl": 535,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "561H5601C",
+    "nl": 560,
+    "load": 30,
+    "fn": "BLUMATIC (TIP-ON)",
+    "side": "left/right",
+    "ext": "full",
+    "onRequest": true
+   },
+   {
+    "art": "551H2601B",
+    "nl": 260,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H2851B",
+    "nl": 285,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3101B",
+    "nl": 310,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3351B",
+    "nl": 335,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3601B",
+    "nl": 360,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3851B",
+    "nl": 385,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4101B",
+    "nl": 410,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4351B",
+    "nl": 435,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4601B",
+    "nl": 460,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4851B",
+    "nl": 485,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H5101B",
+    "nl": 510,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H5351B",
+    "nl": 535,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H5601B",
+    "nl": 560,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H2601T",
+    "nl": 260,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H2851T",
+    "nl": 285,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3101T",
+    "nl": 310,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3351T",
+    "nl": 335,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3601T",
+    "nl": 360,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H3851T",
+    "nl": 385,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4101T",
+    "nl": 410,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4351T",
+    "nl": 435,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4601T",
+    "nl": 460,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H4851T",
+    "nl": 485,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H5101T",
+    "nl": 510,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H5351T",
+    "nl": 535,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   },
+   {
+    "art": "551H5601T",
+    "nl": 560,
+    "load": 30,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "single",
+    "onRequest": true
+   }
+  ],
+  "accessories": [
+   {
+    "art": "295.1000",
+    "name": "Front adjuster, natural nylon",
+    "page": null
+   },
+   {
+    "art": "298.5500",
+    "name": "POSISTOP, RAL 7037 dust grey, nylon (depth stop +2 mm)"
+   },
+   {
+    "art": "ZST.410TV",
+    "name": "Side stabilisation set full extension, NL up to 410"
+   },
+   {
+    "art": "ZST.600TV",
+    "name": "Side stabilisation set full extension, NL up to 600/750 (see pages)"
+   },
+   {
+    "art": "ZST.750TV",
+    "name": "Side stabilisation set full extension, NL up to 750 (p.450)"
+   },
+   {
+    "art": "ZST.410TT",
+    "name": "Side stabilisation set single extension, NL up to 410"
+   },
+   {
+    "art": "ZST.650TT",
+    "name": "Side stabilisation set single extension, NL up to 650"
+   },
+   {
+    "art": "T55.7150S",
+    "name": "TIP-ON left/right, black, 30 kg, only full extension"
+   },
+   {
+    "art": "T55.000R",
+    "name": "TIP-ON synchronisation pinion set, semicircular, RAL 7037"
+   },
+   {
+    "art": "T55.889W",
+    "name": "TIP-ON synchronisation linkage, semicircular, KB up to 1200, cut LW-277"
+   },
+   {
+    "art": "T55.1089ZR",
+    "name": "TIP-ON sync pinion set and shaft, round, KB up to 1200, cut LW-277"
+   },
+   {
+    "art": "T57.1140S",
+    "name": "TIP-ON synchronisation linkage, profile, KB up to 1200, cut LW-31"
+   },
+   {
+    "art": "T65.1000.02",
+    "name": "Drilling template"
+   }
+  ],
+  "cabinet": {
+   "page": 459,
+   "labeled": {
+    "SKW": "LW − 42 +0.0/−1.5",
+    "SKL": "NL − 10",
+    "ISKL": "SKL + X",
+    "side clearance": "11–13 (outer), min 27.5 (inner)",
+    "panel": "11–16",
+    "NL+3": "+3 with side stabilisation",
+    "drawer length +12": "with side stabilisation",
+    "inner drawer": "X + 17 (X + 23 with TIP-ON single ext)"
+   }
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "drawer width (SKW)",
+     "expr": "LW − 42",
+     "tol": "+0.0/−1.5",
+     "page": 459
+    },
+    {
+     "piece": "drawer length",
+     "expr": "NL − 10",
+     "page": 459
+    },
+    {
+     "piece": "TIP-ON linkage full ext",
+     "expr": "LW − 277",
+     "page": 460
+    },
+    {
+     "piece": "TIP-ON linkage single ext",
+     "expr": "LW − 31",
+     "page": 464
+    }
+   ],
+   "constants": {
+    "widthOffset": -42,
+    "lengthOffset": -10
+   }
+  },
+  "drill": {
+   "page": 459,
+   "groupsNL_561": [
+    [
+     260
+    ],
+    [
+     285
+    ],
+    [
+     310,
+     335
+    ],
+    [
+     360,
+     385
+    ],
+    [
+     410
+    ],
+    [
+     435,
+     460,
+     485
+    ],
+    [
+     510,
+     535
+    ],
+    [
+     560
+    ]
+   ],
+   "groupsNL_551": [
+    [
+     260,
+     285
+    ],
+    [
+     310,
+     335,
+     360,
+     385,
+     410,
+     435
+    ],
+    [
+     460,
+     485
+    ],
+    [
+     510,
+     535
+    ],
+    [
+     560
+    ]
+   ],
+   "dimsDrawn": [
+    96,
+    64,
+    128,
+    14,
+    32,
+    9,
+    224,
+    37,
+    64
+   ],
+   "boreRunner": {
+    "dia": 6,
+    "depth": 13,
+    "dist": "6, 9"
+   },
+   "pegBore": {
+    "dia": 8,
+    "depth": 5,
+    "dist": 9
+   },
+   "dia": 6,
+   "text": "two Ø6 / one Ø8 drilled bores; 13 and 5 deep as labeled"
+  },
+  "tables": [
+   {
+    "title": "Pegs / lift-off stop 561H",
+    "cols": [
+     "NL",
+     "X2",
+     "X3"
+    ],
+    "rows": {
+     "260": [
+      205,
+      185
+     ],
+     "285": [
+      220,
+      200
+     ],
+     "310": [
+      230,
+      242
+     ],
+     "335": [
+      245,
+      257
+     ],
+     "360": [
+      275,
+      287
+     ],
+     "385": [
+      285,
+      297
+     ],
+     "410": [
+      300,
+      344
+     ],
+     "435": [
+      310,
+      354
+     ],
+     "460": [
+      335,
+      379
+     ],
+     "485": [
+      350,
+      394
+     ],
+     "510": [
+      360,
+      436
+     ],
+     "535": [
+      375,
+      451
+     ],
+     "560": [
+      405,
+      481
+     ]
+    },
+    "page": 459
+   },
+   {
+    "title": "Pegs / lift-off stop 551H",
+    "cols": [
+     "NL",
+     "X2",
+     "X1"
+    ],
+    "rows": {
+     "260": [
+      205,
+      185
+     ],
+     "285": [
+      220,
+      200
+     ],
+     "310": [
+      230,
+      210
+     ],
+     "335": [
+      245,
+      225
+     ],
+     "360": [
+      275,
+      255
+     ],
+     "385": [
+      285,
+      265
+     ],
+     "410": [
+      300,
+      280
+     ],
+     "435": [
+      310,
+      290
+     ],
+     "460": [
+      335,
+      315
+     ],
+     "485": [
+      350,
+      330
+     ],
+     "510": [
+      360,
+      340
+     ],
+     "535": [
+      375,
+      355
+     ],
+     "560": [
+      405,
+      385
+     ]
+    },
+    "page": 463
+   }
+  ],
+  "notes": [
+   "Hook and peg: no locking device; lift-off stop + height adjustment integrated. All runner codes marked on request (☎).",
+   "Order info page 458-464; no 560F/17-19 mm here."
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "561H/551H hole-group distances: same ambiguity as locking variant",
+   "561H group boundaries/551H group lists from rows p459/463 (551 groups per 463 text: 260|285, 310..435, 460|485, 510|535, 560 - text table order)"
+  ]
+ }
+]

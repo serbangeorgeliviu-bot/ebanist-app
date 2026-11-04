@@ -1,0 +1,1799 @@
+[
+ {
+  "key": "legrabox_free",
+  "name": "LEGRABOX free – standard cabinet (high fronted pull-out C, inner pull-out design element, inner pull-out gallery)",
+  "kind": "box",
+  "pages": [
+   212,
+   213,
+   214,
+   215,
+   216,
+   217
+  ],
+  "variants": [
+   "BLUMOTION S"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "side": "left/right",
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "side": "left/right",
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "side": "left/right",
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "side": "left/right",
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "side": "left/right",
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "side": "left/right",
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right"
+   },
+   {
+    "art": "780C3502S",
+    "nl": 350,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C3502I",
+    "nl": 350,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "780C4002S",
+    "nl": 400,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C4002I",
+    "nl": 400,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "780C4502S",
+    "nl": 450,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C4502I",
+    "nl": 450,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "780C5002S",
+    "nl": 500,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C5002I",
+    "nl": 500,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "780C5502S",
+    "nl": 550,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C5502I",
+    "nl": 550,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "780C6002S",
+    "nl": 600,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C6002I",
+    "nl": 600,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "780C6502S",
+    "nl": 650,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "780C6502I",
+    "nl": 650,
+    "height": 177,
+    "colour": "INGL"
+   },
+   {
+    "art": "ZB7C000S",
+    "desc": "Chipboard back fixings left/right, steel, SW-M|OG-M|CS-M|NI (pos.3)"
+   },
+   {
+    "art": "ZF7C70E2",
+    "desc": "Front fixing bracket EXPANDO, 2 x (pos.4)"
+   },
+   {
+    "art": "ZF7C70T2",
+    "desc": "EXPANDO T, 2 x"
+   },
+   {
+    "art": "ZF7C7002",
+    "desc": "Screw-on, 2 x"
+   },
+   {
+    "art": "ZF7M70E2",
+    "desc": "Front fixing bracket alt. 4a EXPANDO, 4 x"
+   },
+   {
+    "art": "ZF7M70T2",
+    "desc": "EXPANDO T, 4 x"
+   },
+   {
+    "art": "ZF7M7002",
+    "desc": "Screw-on, 4 x"
+   },
+   {
+    "art": "ZE7Sxx8G",
+    "desc": "Glass design element (side)"
+   },
+   {
+    "art": "780C0009",
+    "desc": "Transportation lock design element (side), yellow nylon"
+   },
+   {
+    "art": "ZI7.2CS0",
+    "desc": "Front piece set (inner pull-out design element) SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZI7.2CI0",
+    "desc": "Front piece set, INGL"
+   },
+   {
+    "art": "ZV7.1043MN1",
+    "desc": "Front piece with groove, 1043 mm (KB 1200)"
+   },
+   {
+    "art": "ZE7VxxxxG",
+    "desc": "Glass design element low"
+   },
+   {
+    "art": "ZE7WxxxxG",
+    "desc": "Glass design element high"
+   },
+   {
+    "art": "ZI7.3CS0",
+    "desc": "Front piece set (gallery) SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZI7.3CI0",
+    "desc": "Front piece set (gallery) INGL"
+   },
+   {
+    "art": "ZV7.1043C01",
+    "desc": "Front piece without groove 1043 mm"
+   },
+   {
+    "art": "ZR7.1080U",
+    "desc": "Cross gallery 1080 mm (KB 1200)"
+   }
+  ],
+  "sideHeights": {
+   "C": 177,
+   "note": "drawer side height 177 (catalogue order table, high fronted pull-out C and inner pull-out)"
+  },
+  "cabinet": {
+   "labeled": {
+    "LT min": "NL + 3 mm (internal cabinet depth)",
+    "KB": "Cabinet width",
+    "LW": "Internal cabinet width",
+    "NL": "Nominal length",
+    "FA": "Front overlay",
+    "X (side design element)": "NL – 112",
+    "Y (side design element)": 138,
+    "X low design element": "LW – 80",
+    "Y low": 70,
+    "X high": "LW – 80",
+    "Y high": 138
+   },
+   "minDepthByNL": {
+    "270": 273,
+    "300": 303,
+    "350": 353,
+    "400": 403,
+    "450": 453,
+    "500": 503,
+    "550": 553,
+    "600": 603,
+    "650": 653
+   },
+   "spaceBelow_min": 38,
+   "sideClearance_toProfile": 20.5,
+   "spaceAbove": {
+    "M": "min 68 (incl. 2 mm tilt adjustment)",
+    "C": "min 155 (incl. 2 mm tilt adjustment)"
+   },
+   "note": "+1 mm on 38 / 51 / front dims if cabinet profile is installed before the cabinet is assembled",
+   "page": 213
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "chipboard back (16 mm chipboard)",
+     "expr": "LW – 38 (width) x 148 (height)",
+     "page": 213,
+     "text": "Chipboard back 148 mm; LW – 38 mm"
+    },
+    {
+     "piece": "base (chipboard back)",
+     "expr": "LW – 35 x NL – 10",
+     "page": 213
+    },
+    {
+     "piece": "base (steel back)",
+     "expr": "LW – 35 x NL – 21",
+     "page": 213
+    },
+    {
+     "piece": "front piece with groove / without groove",
+     "expr": "LW – 126 (KB ≤ 1200 mm)",
+     "page": "214,216"
+    },
+    {
+     "piece": "cross gallery",
+     "expr": "LW – 90",
+     "page": 216
+    },
+    {
+     "piece": "design element low/high (X)",
+     "expr": "LW – 80 ; Y 70 / 138",
+     "page": "215, 228"
+    },
+    {
+     "piece": "design element side",
+     "expr": "X NL – 112, Y 138",
+     "page": 213
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL_chipboard": -10,
+    "baseL_steel": -21,
+    "backW": -38,
+    "backHeight_C": 148,
+    "sideTh_chipboard": 16,
+    "rebate_width": 8,
+    "rebate_depth": 38,
+    "rebate_16": 16,
+    "glass_edge_mm": 10,
+    "sideDE_X": -112,
+    "sideDE_Y": 138
+   }
+  },
+  "drill": {
+   "byNL_profiles": {
+    "750_40kg": {
+     "chain_from_front_mm": {
+      "9": "",
+      "32": "",
+      "37": "to first group",
+      "64": "",
+      "192": "",
+      "32_32": ""
+     },
+     "note": "p.213 rows 350 | 400-450-500 | 550-600: labelled chain read from the rear/front end: 37, 9, 32, 192, 32, 32, 64 (sum to farthest group)"
+    },
+    "753_70kg": {
+     "chain_from_front_mm": {},
+     "note": "p.213 rows 450 | 500-550-600 | 650: labelled 37, 9, 32, 224, 32, 96, 320 (320 = span of the three right groups)"
+    }
+   },
+   "page": "213, 242",
+   "dia": null,
+   "note": "Fixing positions of cabinet profile: see page 242 entry (legrabox_accessories). Front drilling (EXPANDO): Ø 10; C height: 32/64/32 verticals and 96/32 (labelled 32**, 64**, 32**, 96, 32, min 51*, min 12**); screw-on front: 24.4, 14, FA, 32**,64**,32**; back fixing: 9, 16, 64, 32, 19 (from picture)",
+   "front": {
+    "page": 213,
+    "EXPANDO_dia": 10,
+    "vertical_pattern_C_mm": [
+     32,
+     64,
+     32
+    ],
+    "alt_pattern_mm": [
+     96,
+     32
+    ],
+    "min_from_bottom": "51*",
+    "min_to_side": "12** (6 for EXPANDO T)",
+    "screwOn_below": 24.4,
+    "screwOn_X": "14 + FA"
+   },
+   "back_fixing": {
+    "page": 213,
+    "from_top": [
+     16,
+     64,
+     32,
+     19
+    ],
+    "edge": 9
+   }
+  },
+  "tables": [
+   {
+    "title": "Cabinet profile hole spacing (page 213)",
+    "page": 213,
+    "note": "see drill.byNL_profiles"
+   }
+  ],
+  "dims": {
+   "Rebate (cabinet back groove)": "16 wide x 8 deep, 38 from back edge (labelled 16, 8, 38)",
+   "Design element glass thickness edge": "10 +0.3/-0.3 (labelled)",
+   "Tilt adjustment": "2 mm included in min 155/min 68"
+  },
+  "notes": [
+   "Back height C = 148 chipboard back (16 mm chipboard).",
+   "Inner pull-out: low X=LW–80, Y=70; high Y=138; side glass NL–112 x 138.",
+   "Larder/narrow: see other keys."
+  ],
+  "unlabeled": 2,
+  "unreadable": [
+   "Exact per-NL screw positions for hole spacing rows on 213/215/217 (see page 242 chain)"
+  ]
+ },
+ {
+  "key": "legrabox_sink",
+  "name": "LEGRABOX sink cabinet – drawer M, high fronted pull-out C, C with centre piece",
+  "kind": "box",
+  "pages": [
+   218,
+   219,
+   220,
+   221,
+   222,
+   223
+  ],
+  "variants": [
+   "BLUMOTION S"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "note": "centre piece variant only (page 222)"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "note": "centre piece variant only (page 222)"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "note": "centre piece variant only (page 222)"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "note": "centre piece variant only (page 222)"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "note": "centre piece variant only (page 222)"
+   },
+   {
+    "art": "770M3502S",
+    "nl": 350,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M3502I",
+    "nl": 350,
+    "height": 90.5,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M4002S",
+    "nl": 400,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M4002I",
+    "nl": 400,
+    "height": 90.5,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M4502S",
+    "nl": 450,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M4502I",
+    "nl": 450,
+    "height": 90.5,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M5002S",
+    "nl": 500,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M5002I",
+    "nl": 500,
+    "height": 90.5,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M5502S",
+    "nl": 550,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M5502I",
+    "nl": 550,
+    "height": 90.5,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M6002S",
+    "nl": 600,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770M6002I",
+    "nl": 600,
+    "height": 90.5,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "drawer M sink"
+   },
+   {
+    "art": "770C3502S",
+    "nl": 350,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C3502I",
+    "nl": 350,
+    "height": 177,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C4002S",
+    "nl": 400,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C4002I",
+    "nl": 400,
+    "height": 177,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C4502S",
+    "nl": 450,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C4502I",
+    "nl": 450,
+    "height": 177,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C5002S",
+    "nl": 500,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C5002I",
+    "nl": 500,
+    "height": 177,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C5502S",
+    "nl": 550,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C5502I",
+    "nl": 550,
+    "height": 177,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C6002S",
+    "nl": 600,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C6002I",
+    "nl": 600,
+    "height": 177,
+    "colour": "INGL",
+    "qty": 2,
+    "variant": "high fronted C sink"
+   },
+   {
+    "art": "770C4502S",
+    "nl": 450,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C4502I",
+    "nl": 450,
+    "height": 177,
+    "colour": "INGL",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C5002S",
+    "nl": 500,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C5002I",
+    "nl": 500,
+    "height": 177,
+    "colour": "INGL",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C5502S",
+    "nl": 550,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C5502I",
+    "nl": 550,
+    "height": 177,
+    "colour": "INGL",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C6002S",
+    "nl": 600,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C6002I",
+    "nl": 600,
+    "height": 177,
+    "colour": "INGL",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C6502S",
+    "nl": 650,
+    "height": 177,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770C6502I",
+    "nl": 650,
+    "height": 177,
+    "colour": "INGL",
+    "variant": "C centre piece exterior"
+   },
+   {
+    "art": "770M3002S",
+    "nl": 300,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M3502S",
+    "nl": 350,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M4002S",
+    "nl": 400,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M4502S",
+    "nl": 450,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M5002S",
+    "nl": 500,
+    "height": 90.5,
+    "colour": "SW-M|OG-M|CS-M",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M3002I",
+    "nl": 300,
+    "height": 90.5,
+    "colour": "INGL",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M3502I",
+    "nl": 350,
+    "height": 90.5,
+    "colour": "INGL",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M4002I",
+    "nl": 400,
+    "height": 90.5,
+    "colour": "INGL",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M4502I",
+    "nl": 450,
+    "height": 90.5,
+    "colour": "INGL",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "770M5002I",
+    "nl": 500,
+    "height": 90.5,
+    "colour": "INGL",
+    "variant": "C centre piece interior (no 11)"
+   },
+   {
+    "art": "2 x ZB7M000S",
+    "desc": "Chipboard back fixings (drawer M)"
+   },
+   {
+    "art": "2 x ZB7C000S",
+    "desc": "Chipboard back fixings (C)"
+   },
+   {
+    "art": "ZB7C129S.6S",
+    "desc": "Steel back L shape left/right (centre piece)"
+   },
+   {
+    "art": "ZF7M70E2",
+    "desc": "4 x front bracket EXPANDO (M)"
+   },
+   {
+    "art": "ZF7C70E2",
+    "desc": "4 x front bracket EXPANDO (C) / 2 x (centre piece)"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT min": "NL + 3 mm (internal cabinet depth)",
+    "KB": "Cabinet width",
+    "LW": "Internal cabinet width",
+    "NL": "Nominal length",
+    "FA": "Front overlay",
+    "SPW": "Internal cabinet width between inner drawer sides",
+    "Y min": 115,
+    "Y max": 155,
+    "Y1,Y2": "widths of the two chipboard backs (drawer M, two backs B1,B2 = Y–3)"
+   },
+   "minDepthByNL": {
+    "270": 273,
+    "300": 303,
+    "350": 353,
+    "400": 403,
+    "450": 453,
+    "500": 503,
+    "550": 553,
+    "600": 603,
+    "650": 653
+   },
+   "spaceBelow_min": 38,
+   "sideClearance_toProfile": 20.5,
+   "spaceAbove": {
+    "M": "min 68 (incl. 2 mm tilt adjustment)",
+    "C": "min 155 (incl. 2 mm tilt adjustment)"
+   },
+   "note": "+1 mm on 38 / 51 / front dims if cabinet profile is installed before the cabinet is assembled",
+   "page": "219,221,223"
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back B1/B2 (drawer M, 16 mm chipboard)",
+     "expr": "Y1 – 3 / Y2 – 3 x 63 high",
+     "page": 219,
+     "text": "Chipboard back 63 mm"
+    },
+    {
+     "piece": "base A1/A2 (chipboard back)",
+     "expr": "NL – 10 x Y (Y1,Y2); SPW + 20 and LW – 35 shown",
+     "page": 219
+    },
+    {
+     "piece": "back (C high fronted, chipboard)",
+     "expr": "148 mm high",
+     "page": 221
+    },
+    {
+     "piece": "base C, steel back centre piece",
+     "expr": "NL – 21; SPW + 20; 125 + 125 margins; LW – 35; 138",
+     "page": 223
+    },
+    {
+     "piece": "centre piece C",
+     "expr": "SPW + 27 x 62.5",
+     "page": 223
+    }
+   ],
+   "constants": {
+    "backH_M": 63,
+    "backH_C": 148,
+    "centrePieceH": 62.5,
+    "Ymin": 115,
+    "Ymax": 155,
+    "baseL_chipboard": -10,
+    "baseL_steel": -21,
+    "baseW_sinkLW": -35,
+    "SPWplus": 20,
+    "SPWplusCentre": 27,
+    "sideTh": 16
+   }
+  },
+  "drill": {
+   "byNL_profiles": {
+    "750_40kg": {
+     "chain_from_front_mm": {
+      "9": "",
+      "32": "",
+      "37": "to first group",
+      "64": "",
+      "192": "",
+      "32_32": ""
+     },
+     "note": "p.213 rows 350 | 400-450-500 | 550-600: labelled chain read from the rear/front end: 37, 9, 32, 192, 32, 32, 64 (sum to farthest group)"
+    },
+    "753_70kg": {
+     "chain_from_front_mm": {},
+     "note": "p.213 rows 450 | 500-550-600 | 650: labelled 37, 9, 32, 224, 32, 96, 320 (320 = span of the three right groups)"
+    }
+   },
+   "page": "219,221,223",
+   "front_M": {
+    "dia": 10,
+    "vertical": "32 between holes; min 51*; min 12**; horizontal Y+7",
+    "page": 219
+   },
+   "base": {
+    "page": 219,
+    "offsets": [
+     128,
+     24,
+     48.5
+    ]
+   },
+   "base_centre": {
+    "page": 223,
+    "offsets": [
+     128,
+     36,
+     48.5,
+     24
+    ],
+    "radius": "R10"
+   }
+  },
+  "dims": {
+   "min height space M": "68 (incl. 2 mm tilt)",
+   "min bottom space": 38,
+   "side clearance": 20.5,
+   "screw-on front": "23.4, 14+FA, 32, 51*",
+   "centre piece position": "62.5 high; 32; 11.5; 7* (*+1.5 mm with ZF7M70E2)",
+   "min NL difference exterior–interior side (no.2 – no.11)": 150
+  },
+  "notes": [
+   "Chipboard back 63 for drawer M (sink), 148 for C.",
+   "*+3 mm with ZF7M70E2 on centre piece."
+  ],
+  "unlabeled": 3,
+  "unreadable": [
+   "Which of 128/24/48.5 dims is horizontal vs vertical on drawer-base drilling drawings (readable only partially)"
+  ]
+ },
+ {
+  "key": "legrabox_larder",
+  "name": "LEGRABOX larder unit SPACE TOWER",
+  "kind": "box",
+  "pages": [
+   224,
+   225
+  ],
+  "notes": [
+   "KB 275–1200 mm recommended; combines Inner drawer M (p.198) and Inner pull-out design element C (p.206), AMBIA-LINE (533), CLIP top BLUMOTION 155° hinge (82).",
+   "Page 225 positioning figure numbers unlabeled: 19, 57*, 436, 320, 756, 352, 1108, 1428, 1684, 256, 379, 38*, 80, 280, 670, 1340 not transcribed."
+  ],
+  "unlabeled": 16,
+  "parts": [],
+  "unreadable": [
+   "Drilling distances – front on p.225 (no labels)"
+  ]
+ },
+ {
+  "key": "legrabox_narrow",
+  "name": "LEGRABOX narrow cabinets SPACE TWIN (KB 200)",
+  "kind": "box",
+  "pages": [
+   226,
+   227
+  ],
+  "load": {
+   "kg": [
+    20
+   ],
+   "note": "20 kg per base cabinet"
+  },
+  "cabinet": {
+   "labeled": {
+    "KB": 200,
+    "X (mm) by installation height": {
+     "M": 68,
+     "K": 106,
+     "C": 155
+    },
+    "min bottom": 38,
+    "side": 20.5,
+    "min width": 147,
+    "FA": "Front overlay",
+    "FA offset": 14,
+    "51 / 32": "front drill: 51 (51* if profile installed before assembly), 32"
+   },
+   "page": 227
+  },
+  "dims": {
+   "X M": 68,
+   "X K": 106,
+   "X C": 155,
+   "Y M": "–",
+   "Y K": "–",
+   "Y C": 96
+  },
+  "notes": [
+   "Y (mm) table: M and K shown as '–', C = 96.",
+   "Application recommendation: Drawer M (196), Drawer K (200), High fronted pull-out C (204)."
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "legrabox_accessories",
+  "name": "LEGRABOX design element, design options and accessories",
+  "kind": "accessory",
+  "pages": [
+   228,
+   229,
+   230,
+   231,
+   232,
+   233,
+   234,
+   235,
+   236,
+   237,
+   238,
+   239,
+   240,
+   241,
+   242,
+   243
+  ],
+  "parts": [
+   {
+    "art": "ZE7V488G",
+    "desc": "Low glass design element KB 600, SWD 15/16"
+   },
+   {
+    "art": "ZE7V482G",
+    "desc": "low, KB 600, SWD 18/19"
+   },
+   {
+    "art": "ZE7V1088G",
+    "desc": "low KB 1200 SWD 15/16"
+   },
+   {
+    "art": "ZE7V1082G",
+    "desc": "low KB 1200 SWD 18/19"
+   },
+   {
+    "art": "ZE7W488G",
+    "desc": "high KB 600 SWD 15/16"
+   },
+   {
+    "art": "ZE7W482G",
+    "desc": "high KB 600 SWD 18/19"
+   },
+   {
+    "art": "ZE7W1088G",
+    "desc": "high KB 1200 SWD 15/16"
+   },
+   {
+    "art": "ZE7W1082G",
+    "desc": "high KB 1200 SWD 18/19"
+   },
+   {
+    "art": "ZE7S338G",
+    "nl": 450,
+    "desc": "glass side"
+   },
+   {
+    "art": "ZE7S388G",
+    "nl": 500,
+    "desc": "glass side"
+   },
+   {
+    "art": "ZE7S438G",
+    "nl": 550
+   },
+   {
+    "art": "ZE7S488G",
+    "nl": 600
+   },
+   {
+    "art": "ZE7S538G",
+    "nl": 650
+   },
+   {
+    "art": "780C0009",
+    "desc": "Transportation lock design element side"
+   },
+   {
+    "art": "770M2701S",
+    "desc": "special edition side interior CS-M M NL270"
+   },
+   {
+    "art": "770C2701S",
+    "desc": "C NL270"
+   },
+   {
+    "art": "770F4001S",
+    "desc": "F NL400"
+   },
+   {
+    "art": "770.0008",
+    "desc": "LEGRABOX decorative element fixing, dark grey nylon"
+   },
+   {
+    "art": "ZA7.5700.BT",
+    "desc": "Interior cover cap Blum stamp SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZA7.5709.BT",
+    "desc": "INGL"
+   },
+   {
+    "art": "770M0009",
+    "desc": "Insulating piece M"
+   },
+   {
+    "art": "770K0009",
+    "desc": "Insulating piece K"
+   },
+   {
+    "art": "770C0009",
+    "desc": "Insulating piece C"
+   },
+   {
+    "art": "770F0009",
+    "desc": "Insulating piece F"
+   },
+   {
+    "art": "ZB7NxxxS.6",
+    "desc": "Steel back N (not compatible with SERVO-DRIVE)"
+   },
+   {
+    "art": "ZB7MxxxS.6",
+    "desc": "Steel back M"
+   },
+   {
+    "art": "ZB7KxxxS.6",
+    "desc": "Steel back K"
+   },
+   {
+    "art": "ZB7CxxxS.6",
+    "desc": "Steel back C"
+   },
+   {
+    "art": "ZB7FxxxS.6",
+    "desc": "Steel back F"
+   },
+   {
+    "art": "Z96.10E1",
+    "desc": "Front/base stabiliser EXPANDO RAL 7037"
+   },
+   {
+    "art": "Z96.00T1",
+    "desc": "Front/base stabiliser for thin fronts EXPANDO T"
+   },
+   {
+    "art": "ZS7M400LU",
+    "nl": "270-400",
+    "desc": "Side stabilisation"
+   },
+   {
+    "art": "ZS7M650LU",
+    "nl": "450-650",
+    "desc": "Side stabilisation"
+   },
+   {
+    "art": "ZB7A0008",
+    "desc": "Support angle bracket"
+   },
+   {
+    "art": "61D.1500",
+    "desc": "Fixing screw Ø4x15"
+   },
+   {
+    "art": "609.1500",
+    "desc": "Chipboard screw Ø3.5x15"
+   },
+   {
+    "art": "609.1700",
+    "desc": "Ø3.5x17"
+   },
+   {
+    "art": "661.1000.HG",
+    "desc": "System screw Ø6x10"
+   },
+   {
+    "art": "661.1150.HG",
+    "desc": "Ø6x11.5"
+   },
+   {
+    "art": "661.1300.HG",
+    "desc": "Ø6x13"
+   },
+   {
+    "art": "661.1450.HG",
+    "desc": "Ø6x14.5"
+   },
+   {
+    "art": "661.2000.HG",
+    "desc": "Ø6x20"
+   },
+   {
+    "art": "M01.ZZ03.01",
+    "desc": "Centre bit Ø2.7"
+   },
+   {
+    "art": "M01.ZZB3",
+    "desc": "Replacement bit"
+   },
+   {
+    "art": "993.710",
+    "desc": "Stick-on door buffer Ø8"
+   },
+   {
+    "art": "993.706",
+    "desc": "Ø8 door buffer"
+   },
+   {
+    "art": "303.756.1",
+    "desc": "Pozidriv PZ2 210 mm"
+   },
+   {
+    "art": "314.928.1",
+    "desc": "Slotted size 1 200 mm"
+   },
+   {
+    "art": "623.882.2",
+    "desc": "TORX T20 100 mm"
+   },
+   {
+    "art": "209.093.7",
+    "desc": "TORX T20 210 mm"
+   }
+  ],
+  "sideHeightsSpecial": {
+   "M": [
+    270,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650
+   ],
+   "K": [
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600
+   ],
+   "C": [
+    270,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650
+   ],
+   "F": [
+    400,
+    450,
+    500,
+    550,
+    600,
+    650
+   ],
+   "note": "special edition / individual NL ranges"
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "steel back width",
+     "expr": "LW – 31 (xxx)",
+     "example": "LW 567 -> 536 -> ZB7M536S.6",
+     "page": 238
+    },
+    {
+     "piece": "base with steel back",
+     "expr": "NL – 21 x LW – 35",
+     "page": 238
+    },
+    {
+     "piece": "side stabilisation length 1",
+     "expr": "LW – 295 (stabiliser for thin fronts)",
+     "page": 239
+    },
+    {
+     "piece": "side stabilisation length 2",
+     "expr": "NL + 10",
+     "page": 239
+    },
+    {
+     "piece": "glass: design element side",
+     "expr": "NL – 112 x 138",
+     "page": 228
+    },
+    {
+     "piece": "glass low/high",
+     "expr": "LW – 80 x 70 / 138",
+     "page": 228
+    }
+   ],
+   "constants": {
+    "steelBackW": -31,
+    "rebate": {
+     "w": 16,
+     "d": 8,
+     "from": 38
+    }
+   }
+  },
+  "drill": {
+   "page": 242,
+   "dia": null,
+   "series_750_40kg": {
+    "front_distances_mm": [
+     4,
+     18,
+     32,
+     37,
+     160,
+     192,
+     224,
+     256,
+     320
+    ],
+    "nlRanges": [
+     "270",
+     "300",
+     "350",
+     "400–500",
+     "550–600"
+    ],
+    "farthestScrew_mm_from_front_inferred": {
+     "270": 192,
+     "300": 224,
+     "350": 224,
+     "400–500": 256,
+     "550–600": 320
+    },
+    "screws": "A chipboard Ø4x15; B system Ø6x14.5 (661.1450.HG); * can be replaced with A"
+   },
+   "series_753_70kg": {
+    "front_distances_mm": [
+     4,
+     9,
+     18,
+     32,
+     224,
+     256,
+     320,
+     416,
+     37
+    ],
+    "nlRanges": [
+     "450",
+     "500–600",
+     "650"
+    ],
+    "farthestScrew_mm_from_front_inferred": {
+     "450": 256,
+     "650": 416,
+     "500–600": 320
+    },
+    "optional_for_stability": "**"
+   },
+   "note": "Farthest screw per NL inferred from vertical alignment of dimension lines (not in a table). Dimensions 9,18,37,4 near the front."
+  },
+  "unlabeled": 0,
+  "unreadable": [
+   "Precise per-NL screw column list on page 242 (only dimension chain + farthest screw inferred)"
+  ],
+  "notes": [
+   "Stabiliser: X = 14 mm + FA, min 72 (80 for thin fronts)",
+   "Recommendation: KB>900: 1 base stabiliser; thin front KB>600:1, >900:2, FH>380:1; side stabilisation KB 900–1400"
+  ]
+ },
+ {
+  "key": "tipon_legrabox",
+  "name": "TIP-ON BLUMOTION for LEGRABOX and TIP-ON for LEGRABOX",
+  "kind": "runner",
+  "pages": [
+   244,
+   245,
+   246,
+   247,
+   248,
+   249,
+   250,
+   251,
+   252,
+   253,
+   254,
+   255
+  ],
+  "variants": [
+   "TIP-ON BLUMOTION",
+   "TIP-ON"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.2701S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S (for TIP-ON BLUMOTION)"
+   },
+   {
+    "art": "750.2701T",
+    "nl": 270,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.3001T",
+    "nl": 300,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.3501T",
+    "nl": 350,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.4001T",
+    "nl": 400,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.4501T",
+    "nl": 450,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.5001T",
+    "nl": 500,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.5501T",
+    "nl": 550,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "750.6001T",
+    "nl": 600,
+    "load": 40,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "753.4501T",
+    "nl": 450,
+    "load": 70,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "753.5001T",
+    "nl": 500,
+    "load": 70,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "753.5501T",
+    "nl": 550,
+    "load": 70,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "753.6001T",
+    "nl": 600,
+    "load": 70,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "753.6501T",
+    "nl": 650,
+    "load": 70,
+    "fn": "TIP-ON"
+   },
+   {
+    "art": "T60L7040",
+    "nl": "270–300",
+    "unit": "S0",
+    "profile": 40,
+    "weight": "≤10",
+    "fn": "TIP-ON BLUMOTION set"
+   },
+   {
+    "art": "T60L7140",
+    "nl": "270–300",
+    "unit": "S1",
+    "profile": 40,
+    "weight": ">10–20"
+   },
+   {
+    "art": "T60L7340",
+    "nl": "350–600",
+    "unit": "L1",
+    "profile": 40,
+    "weight": "≤20"
+   },
+   {
+    "art": "T60L7540",
+    "nl": "350–600",
+    "unit": "L3",
+    "profile": 40,
+    "weight": "15–40"
+   },
+   {
+    "art": "T60L7570",
+    "nl": "450–650",
+    "unit": "L5",
+    "profile": 70,
+    "weight": "35–70"
+   },
+   {
+    "art": "T60L9340",
+    "nl": "350–600",
+    "unit": "L1",
+    "profile": 40,
+    "weight": "≤20",
+    "fn": "set sink pull-out"
+   },
+   {
+    "art": "T60L9540",
+    "nl": "350–600",
+    "unit": "L3",
+    "profile": 40,
+    "weight": "15–40",
+    "fn": "set sink pull-out"
+   },
+   {
+    "art": "T60.300D",
+    "desc": "TIP-ON BLUMOTION synchronisation, square, LW 245–293"
+   },
+   {
+    "art": "T60.000D",
+    "desc": "synchronisation adapter 6e, 2 x, symmetrical"
+   },
+   {
+    "art": "T60.1125W",
+    "desc": "synchronisation linkage 6f round, LW ≤ 1370"
+   },
+   {
+    "art": "65.5631",
+    "desc": "Front gap template 2.5 mm"
+   },
+   {
+    "art": "T57.7400.01",
+    "desc": "TIP-ON synchronisation pinion set"
+   },
+   {
+    "art": "ZST.1160W",
+    "desc": "TIP-ON synchronisation linkage, KB 1400"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT": "NL + 3 (drawer | high fronted pull-out)",
+    "inner drawer | inner pull-out": "NL + 12",
+    "min space above (M)": "68 (drawer) / 66 (inner)",
+    "min bottom": 38,
+    "side": 20.5,
+    "front gap FS": {
+     "BLUMOTION": 2.5,
+     "TIP-ON": 3.5
+    },
+    "screw position inner drawer": {
+     "Variant 1": 44,
+     "Variant 2": 37
+    }
+   },
+   "page": "247,253"
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "TIP-ON BLUMOTION synchronisation 6.1 (LW 245–293)",
+     "expr": "LW – 247",
+     "page": 246
+    },
+    {
+     "piece": "6.2 sink pull-out set",
+     "expr": "LW – 267",
+     "page": 246
+    },
+    {
+     "piece": "linkage 6f LW≥294",
+     "expr": "LW – 221",
+     "page": 246
+    },
+    {
+     "piece": "TIP-ON linkage ZST.1160W",
+     "expr": "LW – 229",
+     "page": 252
+    }
+   ],
+   "constants": {
+    "tipOnBlumotionSetMinLW": 294,
+    "sinkSetMinLW": 314,
+    "frontGap_BM": 2.5,
+    "frontGap_TO": 3.5
+   }
+  },
+  "drill": {
+   "page": "248,254",
+   "note": "identical to cabinet profile fixing positions on page 242 (see legrabox_accessories)"
+  },
+  "notes": [
+   "TIP-ON BLUMOTION: synchronisation recommended; sync LW≥245; TIP-ON: sync for KB≥400, recommended KB≥600",
+   "Latch set ZI7.0M07 cannot be used with TIP-ON BLUMOTION",
+   "TIP-ON profiles 750 up to 40 kg, 753 up to 70 kg"
+  ],
+  "unlabeled": 2,
+  "unreadable": []
+ }
+]

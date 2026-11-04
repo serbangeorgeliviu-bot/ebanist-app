@@ -1,0 +1,1459 @@
+[
+ {
+  "key": "tandembox_antaro_standard",
+  "name": "TANDEMBOX antaro - standard cabinet",
+  "kind": "box",
+  "pages": [
+   304,
+   305,
+   306,
+   307,
+   308,
+   309,
+   310,
+   311,
+   312,
+   313,
+   314,
+   315,
+   316,
+   317,
+   318,
+   319,
+   320,
+   321,
+   322,
+   323,
+   324,
+   325,
+   326,
+   327,
+   328,
+   329,
+   330,
+   331
+  ],
+  "variants": [
+   "BLUMOTION",
+   "TIP-ON BLUMOTION (p350)",
+   "SERVO-DRIVE (p358)"
+  ],
+  "load": {
+   "kg": [
+    30,
+    65
+   ]
+  },
+  "extension": "full",
+  "colours": {
+   "SW": "Silk white",
+   "R9006": "RAL 9006 grey (white aluminium)",
+   "WGR": "White grey (nylon parts)",
+   "NA": "Natural"
+  },
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "sideHeights": {
+   "N": {
+    "drawerSide": 68.5,
+    "pages": [
+     306
+    ]
+   },
+   "M": {
+    "drawerSide": 83.6,
+    "pages": [
+     308
+    ]
+   },
+   "K": {
+    "drawerSide": 115.6,
+    "pages": [
+     312
+    ]
+   }
+  },
+  "overviewHeights": {
+   "note": "column 'Height (mm)' of the overview table p304, not further labelled in text",
+   "N": 82.5,
+   "M": 98.5,
+   "K": 130.5,
+   "gallery C": 192,
+   "gallery D": 224,
+   "page": 304
+  },
+  "parts": [
+   {
+    "fn": "cabinet profiles left/right, BLUMOTION, 30 kg",
+    "art": {
+     "270": "578.2701M",
+     "300": "578.3001M",
+     "350": "578.3501M",
+     "400": "578.4001M",
+     "450": "578.4501M",
+     "500": "578.5001M",
+     "550": "578.5501M",
+     "600": "578.6001M"
+    },
+    "note": "N drawer: only NL 400,450,500,550 (p306); 650 only exists as 576 (65 kg)",
+    "pages": [
+     306,
+     308
+    ]
+   },
+   {
+    "fn": "cabinet profiles left/right, BLUMOTION, 65 kg",
+    "art": {
+     "450": "576.4501M",
+     "500": "576.5001M",
+     "550": "576.5501M",
+     "600": "576.6001M",
+     "650": "576.6501M"
+    },
+    "note": "not offered for drawer N (p306)",
+    "pages": [
+     308
+    ]
+   },
+   {
+    "fn": "drawer side set N (h 68.5)",
+    "art": {
+     "400": "378N4002SA",
+     "450": "378N4502SA",
+     "500": "378N5002SA",
+     "550": "378N5502SA"
+    },
+    "page": 306
+   },
+   {
+    "fn": "drawer side set M (h 83.6)",
+    "art": {
+     "270": "378M2702SA",
+     "300": "378M3002SA",
+     "350": "378M3502SA",
+     "400": "378M4002SA",
+     "450": "378M4502SA",
+     "500": "378M5002SA",
+     "550": "378M5502SA",
+     "600": "378M6002SA",
+     "650": "378M6502SA"
+    },
+    "page": 308
+   },
+   {
+    "fn": "drawer side set K (h 115.6)",
+    "art": {
+     "270": "378K2702SA",
+     "300": "378K3002SA",
+     "350": "378K3502SA",
+     "400": "378K4002SA",
+     "450": "378K4502SA",
+     "500": "378K5002SA",
+     "550": "378K5502SA",
+     "600": "378K6002SA",
+     "650": "378K6502SA"
+    },
+    "page": 312
+   },
+   {
+    "fn": "chipboard back fixings left/right",
+    "byHeight": {
+     "N": "Z30N000S.04",
+     "M": "Z30M000S.04",
+     "K": "Z30K000S",
+     "C": "Z30C000S",
+     "D": "Z30D000SL"
+    },
+    "pages": [
+     306,
+     308,
+     312,
+     316,
+     320
+    ],
+    "note": "SW|R9006 steel; C=Z30C000S, D=Z30D000SL as printed"
+   },
+   {
+    "fn": "front fixing bracket",
+    "art": {
+     "knockIn": "2 x ZSF.36A2",
+     "INSERTA": "2 x ZSF.39A2",
+     "screwOn": "2 x ZSF.35A2"
+    },
+    "pages": [
+     306,
+     308
+    ]
+   },
+   {
+    "fn": "longside gallery rail left/right (steel)",
+    "art": {
+     "270": "ZRG.207RSIC",
+     "300": "ZRG.237RSIC",
+     "350": "ZRG.287RSIC",
+     "400": "ZRG.337RSIC",
+     "450": "ZRG.387RSIC",
+     "500": "ZRG.437RSIC",
+     "550": "ZRG.487RSIC",
+     "600": "ZRG.537RSIC",
+     "650": "ZRG.587RSIC"
+    },
+    "pages": [
+     316,
+     318,
+     320,
+     322,
+     324,
+     326,
+     328,
+     330
+    ]
+   },
+   {
+    "fn": "front piece without groove (inner)",
+    "art": "Z31L1036A",
+    "length": 1036,
+    "cutting": "LW - 132",
+    "page": 310
+   },
+   {
+    "fn": "cross gallery",
+    "art": "ZRG.1046Z",
+    "length": 1046,
+    "cutting": "LW - 122",
+    "page": 318
+   },
+   {
+    "fn": "front piece set inner drawer M",
+    "art": "ZIF.71M0",
+    "page": 310
+   },
+   {
+    "fn": "front piece set inner drawer K",
+    "art": "ZIF.71K0",
+    "page": 314
+   },
+   {
+    "fn": "front piece set inner pull-out C",
+    "art": "ZIF.76C0",
+    "page": 318
+   },
+   {
+    "fn": "front piece set inner pull-out D",
+    "art": "ZIF.76D0",
+    "pages": [
+     322,
+     326
+    ]
+   },
+   {
+    "fn": "locking piece",
+    "art": "Z31A0008",
+    "page": 310
+   },
+   {
+    "fn": "gallery head",
+    "art": "ZRG.000R5F",
+    "qty": 2,
+    "page": 318
+   },
+   {
+    "fn": "handle",
+    "art": "ZIF.80M5",
+    "page": 310
+   },
+   {
+    "fn": "handle and latch (not with TIP-ON BLUMOTION)",
+    "art": "ZIF.80M7",
+    "page": 310
+   },
+   {
+    "fn": "adapter for aluminium frames",
+    "art": "ZRF.2200.01",
+    "qty": 2,
+    "note": "countersunk screw 3.5 mm (head 7 mm)",
+    "page": 328
+   }
+  ],
+  "applications": [
+   {
+    "name": "Drawer - N",
+    "web": "DQC21A",
+    "page": 306,
+    "planPage": 307,
+    "sideHeight": "N",
+    "galley": null
+   },
+   {
+    "name": "Drawer - M",
+    "web": "DQC2QM",
+    "page": 308,
+    "planPage": 309
+   },
+   {
+    "name": "Inner drawer - M",
+    "web": "DQC45A",
+    "page": 310,
+    "planPage": 311
+   },
+   {
+    "name": "Drawer - K",
+    "web": "DQC3FY",
+    "page": 312,
+    "planPage": 313
+   },
+   {
+    "name": "Inner drawer - K",
+    "web": "DQC4UM",
+    "page": 314,
+    "planPage": 315
+   },
+   {
+    "name": "High fronted pull-out - gallery - C",
+    "web": "DQC5JY",
+    "page": 316,
+    "planPage": 317
+   },
+   {
+    "name": "Inner pull-out - gallery - C",
+    "web": "DQCAHA",
+    "page": 318,
+    "planPage": 319
+   },
+   {
+    "name": "High fronted pull-out - gallery - D",
+    "web": "DQC69A",
+    "page": 320,
+    "planPage": 321
+   },
+   {
+    "name": "Inner pull-out - gallery - D",
+    "web": "DQCB6M",
+    "page": 322,
+    "planPage": 323
+   },
+   {
+    "name": "High fronted pull-out - gallery - D - K drawer side",
+    "web": "DQC6YM",
+    "page": 324,
+    "planPage": 325
+   },
+   {
+    "name": "Inner pull-out - gallery - D - K drawer side",
+    "web": "DQCBVY",
+    "page": 326,
+    "planPage": 327
+   },
+   {
+    "name": "High fronted pull-out - gallery - C - alu frames",
+    "web": "DQC7NY",
+    "page": 328,
+    "planPage": 329
+   },
+   {
+    "name": "High fronted pull-out - gallery - D - alu frames",
+    "web": "DQC8DA",
+    "page": 330,
+    "planPage": 331
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LW": "internal cabinet width",
+    "KB": "cabinet width",
+    "NL": "nominal length",
+    "FA": "front overlay",
+    "LT_min": "NL + 3 mm (internal cabinet depth LT min.)",
+    "A": "base (drawer bottom)",
+    "B": "chipboard back"
+   },
+   "minDepthByNL": {
+    "270": 273,
+    "300": 303,
+    "350": 353,
+    "400": 403,
+    "450": 453,
+    "500": 503,
+    "550": 553,
+    "600": 603,
+    "650": 653
+   },
+   "page": 307,
+   "note": "drawer N: NL 400-550 only"
+  },
+  "cutting": {
+   "material": "16 mm chipboard",
+   "formulas": [
+    {
+     "piece": "base (A) width",
+     "expr": "LW - 75",
+     "page": 307,
+     "text": "LW - 75 mm"
+    },
+    {
+     "piece": "base (A) length, chipboard back",
+     "expr": "NL - 24",
+     "page": 307,
+     "text": "Base / Chipboard back NL - 24 mm"
+    },
+    {
+     "piece": "base (A) length, steel back",
+     "expr": "NL - 22",
+     "page": 307,
+     "text": "Steel back NL - 22 mm"
+    },
+    {
+     "piece": "chipboard back (B) width",
+     "expr": "LW - 87",
+     "page": 307,
+     "text": "LW - 87 mm"
+    },
+    {
+     "piece": "inner drawer front piece 5",
+     "expr": "LW - 132",
+     "page": 310
+    },
+    {
+     "piece": "cross gallery 7",
+     "expr": "LW - 122",
+     "page": 318
+    }
+   ],
+   "chipboardBackHeight": {
+    "N": 69,
+    "M": 84,
+    "K": 116,
+    "C": 167,
+    "D": 199,
+    "B": 135,
+    "note": "B = chipboard back fixing height B (p343), pages 307,309,313,317,321,343"
+   },
+   "constants": {
+    "baseW": -75,
+    "baseL_chipboardBack": -24,
+    "baseL_steelBack": -22,
+    "backW": -87,
+    "sideTh": 16,
+    "rearInternalDepthExtra": 3
+   }
+  },
+  "planning": {
+   "spaceRequirement": {
+    "N": {
+     "totalHeight": 79.5,
+     "minAboveFront": 49.5,
+     "minBelow": 33,
+     "fromBack": 37.5,
+     "page": 307
+    },
+    "M": {
+     "totalHeight": 95.5,
+     "above": 65.5,
+     "minBelow": 33,
+     "fromBack": 37.5,
+     "page": 309
+    },
+    "K": {
+     "totalHeight": 127.5,
+     "minAbove": 97.5,
+     "minBelow": 33,
+     "fromBack": 37.5,
+     "page": 313
+    },
+    "D": {
+     "totalHeight": 95.5,
+     "minAbove": 191,
+     "minBelow": 33,
+     "fromBack": 37.5,
+     "page": 321
+    },
+    "innerDrawerM": {
+     "totalHeight": 95.5,
+     "minAbove": "73 (*) / 103 (**)",
+     "minBelow": 33,
+     "fromBack": 37.5,
+     "page": 311,
+     "note": "* with or without handle, opening only from below; ** easy access from above"
+    }
+   },
+   "frontInstall": {
+    "N": {
+     "vertical": [
+      32,
+      32.5
+     ],
+     "bottomOffset": 9,
+     "FAx": 15.5,
+     "dia": 10,
+     "tol": "+0.2/-0.1",
+     "depth": 12,
+     "minBelowFirst": "32.5 min",
+     "page": 307
+    },
+    "M": {
+     "vertical": [
+      32,
+      47.5
+     ],
+     "bottomOffset": 9,
+     "FAx": 15.5,
+     "dia": 10,
+     "depth": 12,
+     "page": 309
+    },
+    "K": {
+     "vertical": [
+      32,
+      32,
+      47.5
+     ],
+     "bottomOffset": 9,
+     "FAx": 15.5,
+     "dia": 10,
+     "depth": 12,
+     "page": 313
+    },
+    "D": {
+     "vertical": [
+      128,
+      32,
+      47.5
+     ],
+     "bottomOffset": 9,
+     "FAx": 15.5,
+     "dia": 10,
+     "depth": 12,
+     "page": 321
+    },
+    "note": "values read as printed on the drawings (dimension lines, no symbol labels); the 3 shown numbers are stacked from the lowest hole upward: 47.5 (min), then 32 steps, then 96/128 for C/D galleries"
+   },
+   "backInstall": {
+    "N": {
+     "vertical": [
+      22,
+      38
+     ],
+     "horizontal": 9,
+     "page": 307
+    },
+    "M": {
+     "vertical": [
+      20,
+      32
+     ],
+     "horizontal": 9,
+     "page": 309
+    },
+    "K": {
+     "vertical": [
+      22,
+      32,
+      32
+     ],
+     "horizontal": 9,
+     "page": 313
+    },
+    "D": {
+     "vertical": [
+      8,
+      32,
+      64,
+      32,
+      32
+     ],
+     "horizontal": 9,
+     "page": 321
+    },
+    "innerM": {
+     "vertical": [
+      20,
+      32
+     ],
+     "horizontal": 9,
+     "page": 311
+    }
+   },
+   "innerLatchDrill": {
+    "page": 311,
+    "items": {
+     "dia": 25,
+     "min": 17,
+     "=": "centered",
+     "y1": 61.5,
+     "x+47": true,
+     "note": "x unlabeled variable; 12 = thickness"
+    }
+   }
+  },
+  "drill": {
+   "profileHoles": {
+    "page": 307,
+    "note": "hole spacing for cabinet profiles; chain read from drawing p309 (M/K/D/N identical): distance from front hole line 37; 9; 96; 32+32+32; 192; 320; 480; 32+32; 32. Per-NL hole choice is shown only graphically.",
+    "chainFromFront": {
+     "front": 37,
+     "rowFromFront": [
+      9
+     ],
+     "steps": [
+      96,
+      32,
+      32,
+      32,
+      192,
+      320,
+      480
+     ]
+    },
+    "chainSource": 309,
+    "fixingTables": {
+     "page": 346,
+     "30kg": {
+      "offsetsFrom37Line": [
+       18,
+       96,
+       128,
+       192,
+       224,
+       256,
+       288,
+       320,
+       416,
+       480
+      ]
+     },
+     "65kg": {
+      "offsetsFrom37Line": [
+       9,
+       18,
+       96,
+       128,
+       224,
+       256,
+       320,
+       416,
+       480,
+       512
+      ]
+     },
+     "screws": {
+      "A": "chipboard screws 4 x 15",
+      "B": "system screws 6 x 14.5 (661.1450.HG)"
+     },
+     "*": "optional for greater stability, may be replaced by A",
+     "perNL": "unreadable (hole selection per NL only in the drawing)"
+    }
+   }
+  },
+  "notes": [
+   "N drawer only for NL 400/450/500/550 (30 kg)",
+   "Pages 309-331 repeat the cutting block identical to 307 except chipboard back height (verified in text)",
+   "Inner drawer/inner pull-out pages have no front screw-on dims, only back dims",
+   "Recommendation: TIP-ON/synchronisation on p350-357"
+  ],
+  "unlabeled": 2,
+  "unreadable": [
+   "per-NL hole selection in profile hole spacing drawings (pages 307-331, 346)",
+   "page 317/319 planning drawings for gallery C not rendered, values assumed to repeat D structure but NOT verified: space requirement, front/back install dims"
+  ]
+ },
+ {
+  "key": "tandembox_antaro_sink",
+  "name": "TANDEMBOX antaro - sink cabinet",
+  "kind": "box",
+  "pages": [
+   332,
+   333,
+   334,
+   335
+  ],
+  "variants": [
+   "gallery C (DQC92M)",
+   "gallery D (DQC9RY)"
+  ],
+  "load": {
+   "kg": [
+    30,
+    65
+   ]
+  },
+  "lengths": [
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "fn": "cabinet profiles 30 kg",
+    "art": {
+     "450": "578.4501M",
+     "500": "578.5001M",
+     "550": "578.5501M",
+     "600": "578.6001M"
+    },
+    "page": 332
+   },
+   {
+    "fn": "cabinet profiles 65 kg",
+    "art": {
+     "600": "576.6001M",
+     "650": "576.6501M"
+    },
+    "page": 332,
+    "note": "as printed in this table: 576 only at 600 and 650"
+   },
+   {
+    "fn": "drawer side set exterior (h 83.6)",
+    "art": {
+     "450": "378M4502SA",
+     "500": "378M5002SA",
+     "550": "378M5502SA",
+     "600": "378M6002SA",
+     "650": "378M6502SA"
+    },
+    "page": 332
+   },
+   {
+    "fn": "drawer side set interior (h 83.6)",
+    "art": {
+     "300": "378M3002SA",
+     "350": "378M3502SA",
+     "400": "378M4002SA",
+     "450": "378M4502SA",
+     "500": "378M5002SA"
+    },
+    "page": 332
+   },
+   {
+    "fn": "longside gallery rail",
+    "art": {
+     "450": "ZRG.387RSIC",
+     "500": "ZRG.437RSIC",
+     "550": "ZRG.487RSIC",
+     "600": "ZRG.537RSIC",
+     "650": "ZRG.587RSIC"
+    },
+    "page": 332
+   },
+   {
+    "fn": "sink chipboard back fixing C",
+    "art": "Z30C000S.22",
+    "page": 332
+   },
+   {
+    "fn": "sink chipboard back fixing D",
+    "art": "Z30D000S.22",
+    "page": 334
+   },
+   {
+    "fn": "chipboard back fixings (interior)",
+    "art": "Z30M000S.04",
+    "pages": [
+     332,
+     334
+    ]
+   },
+   {
+    "fn": "front fixing bracket",
+    "art": {
+     "knockIn": "4 x ZSF.36A2",
+     "INSERTA": "4 x ZSF.39A2",
+     "screwOn": "4 x ZSF.35A2"
+    },
+    "page": 332
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LW": "internal cabinet width",
+    "KB": "cabinet width",
+    "SPW": "internal cabinet width between the inner drawer sides",
+    "W": "NL drawer sides exterior - NL drawer sides interior - 10 mm",
+    "Y": "min/max",
+    "LT_min": "NL + 3"
+   },
+   "page": 333,
+   "Y": {
+    "BLUMOTION": {
+     "min": 48,
+     "max": 225
+    },
+    "TIP-ON BLUMOTION": {
+     "min": 75,
+     "max": 225
+    }
+   },
+   "recommendation": "NL exterior - NL interior = min 150 mm (p332)"
+  },
+  "cutting": {
+   "material": "16 mm chipboard",
+   "formulas": [
+    {
+     "piece": "chipboard back B1/B2 height",
+     "expr": "84 mm",
+     "page": 333
+    },
+    {
+     "piece": "chipboard back B1 width",
+     "expr": "Y1 - 12",
+     "page": 333
+    },
+    {
+     "piece": "chipboard back B2 width",
+     "expr": "Y2 - 12",
+     "page": 333
+    },
+    {
+     "piece": "base length",
+     "expr": "NL - 24",
+     "page": 333
+    },
+    {
+     "piece": "base (A) outer width",
+     "expr": "LW - 75",
+     "page": 333
+    },
+    {
+     "piece": "base (A) inner width",
+     "expr": "SPW + 63",
+     "page": 333
+    },
+    {
+     "piece": "centre piece C width",
+     "expr": "SPW + 75",
+     "page": 333
+    },
+    {
+     "piece": "centre piece C height",
+     "expr": "71",
+     "page": 333
+    }
+   ],
+   "constants": {
+    "backH": 84,
+    "centreH": 71,
+    "baseL": -24
+   }
+  },
+  "drill": {
+   "centrePiece": {
+    "vertical": [
+     32,
+     22.5
+    ],
+    "horizontal": 28,
+    "page": 333,
+    "text": "drilling distances centre piece"
+   },
+   "front": {
+    "vertical": [
+     96,
+     32,
+     47.5
+    ],
+    "dia": 10,
+    "depth": 12,
+    "page": 333
+   },
+   "back": {
+    "horizontal": 9,
+    "vertical": [
+     20,
+     32
+    ],
+    "page": 333
+   }
+  },
+  "planning": {
+   "spaceRequirement": {
+    "height": 95.5,
+    "minAbove": 159,
+    "minBelow": 33,
+    "fromBack": 37.5,
+    "page": 333
+   }
+  },
+  "notes": [
+   "Page 335 (gallery D) repeats the same text/cutting block (verified)"
+  ],
+  "unlabeled": 2,
+  "unreadable": [
+   "page 335 drawings not viewed (planning for D)",
+   "Y1/Y2 positions only graphical"
+  ]
+ },
+ {
+  "key": "tandembox_antaro_larder",
+  "name": "SPACE TOWER (larder unit)",
+  "kind": "box",
+  "pages": [
+   336,
+   337
+  ],
+  "web": "DQGRMM",
+  "cabinet": {
+   "KB": "275-1200 mm"
+  },
+  "recommendation": [
+   "Inner drawer M (310)",
+   "Inner pull-out gallery C (318)",
+   "Inner pull-out gallery D (322)",
+   "ORGA-LINE cross divider (550)",
+   "ORGA-LINE cross gallery (551)",
+   "CLIP top BLUMOTION 155 deg hinge (82)"
+  ],
+  "tables": [
+   {
+    "title": "Drilling/positioning numbers on p337 (no symbol labels, list only from text)",
+    "numbers": [
+     19,
+     52,
+     436,
+     320,
+     756,
+     352,
+     1108,
+     1428,
+     1684,
+     256,
+     80,
+     280,
+     80,
+     280,
+     670,
+     1340
+    ],
+    "note": "unlabeled, not interpreted"
+   }
+  ],
+  "unlabeled": 16,
+  "unreadable": [
+   "page 337 drawings not rendered: numbers without labels"
+  ]
+ },
+ {
+  "key": "tandembox_antaro_narrow",
+  "name": "SPACE TWIN (narrow cabinet)",
+  "kind": "box",
+  "pages": [
+   338,
+   339
+  ],
+  "web": "DQGV5A",
+  "load": {
+   "kg": 20
+  },
+  "cabinet": {
+   "KB": 200
+  },
+  "recommendation": [
+   "Drawer M (308)",
+   "Drawer K (312)",
+   "gallery C (316)",
+   "gallery D (320)",
+   "gallery D K side (324)"
+  ],
+  "tables": [
+   {
+    "title": "Space requirement X",
+    "rowLabel": "installation height",
+    "cols": [
+     "X (mm)"
+    ],
+    "rows": {
+     "M": [
+      65.5
+     ],
+     "K": [
+      97.5
+     ],
+     "C": [
+      159
+     ],
+     "D": [
+      191
+     ]
+    },
+    "page": 339
+   },
+   {
+    "title": "Installation dimensions front Y",
+    "cols": [
+     "height of drawer side",
+     "side panel",
+     "Y (mm)"
+    ],
+    "rows": {
+     "M": [
+      "M",
+      "-",
+      "-"
+     ],
+     "K": [
+      "K",
+      "-",
+      "32"
+     ],
+     "C": [
+      "M",
+      "gallery",
+      "96"
+     ],
+     "D_M": [
+      "M",
+      "gallery",
+      "128"
+     ],
+     "D_K": [
+      "K",
+      "gallery",
+      "32 + 96"
+     ]
+    },
+    "page": 339
+   }
+  ],
+  "dims": {
+   "minWidth": 127,
+   "fromBack": 37.5,
+   "FA": 15.5,
+   "minBelow": 33,
+   "frontVertical": [
+    32,
+    47.5
+   ]
+  },
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "tandembox_accessories",
+  "name": "TANDEMBOX antaro accessories",
+  "kind": "accessory",
+  "pages": [
+   340,
+   341,
+   342,
+   343,
+   344,
+   345,
+   346
+  ],
+  "parts": [
+   {
+    "name": "Steel back",
+    "art": "Z30{H}xxxS.6",
+    "byHeight": {
+     "N": "Z30NxxxS.6",
+     "M": "Z30MxxxS.6",
+     "K": "Z30KxxxS.6",
+     "C": "Z30CxxxS.6",
+     "D": "Z30DxxxS.6"
+    },
+    "formula": "xxx = LW - 28",
+    "example": "M, LW 567 -> 539 -> Z30M539S.6",
+    "page": 340,
+    "note": "availability marked with phone symbol (on request)"
+   },
+   {
+    "name": "Front/base stabiliser EXPANDO",
+    "art": "Z96.10E1",
+    "colour": "RAL 7037 dust grey",
+    "page": 340,
+    "rule": "FH<300: KB>900 1 pc; FH>=300: KB<450 1 pc, KB>=450 2 pc, KB>900 3 pc"
+   },
+   {
+    "name": "Side stabilisation top mounted",
+    "art": {
+     "450": "ZST.450BA",
+     "500": "ZST.500BA",
+     "550": "ZST.550BA",
+     "600": "ZST.600BA",
+     "650": "ZST.650BA"
+    },
+    "cutting": "LW - 86",
+    "page": 341,
+    "holeSpacing": {
+     "from": "front",
+     "offsets": [
+      2,
+      19,
+      96,
+      128,
+      128,
+      128,
+      96
+     ],
+     "page": 341,
+     "note": "drawing chain 2,19 front; 9; 64; 96/128 spacing, per NL graphical"
+    },
+    "spaceRequirement": {
+     "M": {
+      "min": 106,
+      "h": 92,
+      "minAbove": 4,
+      "minBelow": 33
+     },
+     "K": {
+      "min": 138,
+      "h": 124
+     },
+     "C": {
+      "min": 189,
+      "h": 175
+     },
+     "D": {
+      "min": 221,
+      "h": 207
+     },
+     "vertical": [
+      47.5,
+      32,
+      96,
+      128
+     ],
+     "FA": 15.5
+    }
+   },
+   {
+    "name": "Flexible gallery fixing",
+    "art": "ZRR.5200",
+    "version": "left|right",
+    "formulas": {
+     "Y": "X - 4",
+     "Z": "X - 71",
+     "W": "X - 103"
+    },
+    "page": 342
+   },
+   {
+    "name": "Chipboard back fixing height B",
+    "art": "Z30B000S.04",
+    "cutting": {
+     "height": 135,
+     "width": "LW - 87"
+    },
+    "page": 343
+   },
+   {
+    "name": "Centre bit",
+    "art": "M01.ZZ03.01",
+    "dia": 2.7,
+    "replacement": "M01.ZZB3",
+    "page": 344
+   },
+   {
+    "name": "Stick-on door buffer",
+    "art": "993.710",
+    "dia": 8,
+    "page": 344
+   },
+   {
+    "name": "8 mm door buffer",
+    "art": "993.706",
+    "dia": 8,
+    "page": 344
+   },
+   {
+    "name": "Chipboard screws 3.5",
+    "art": {
+     "15.0": "609.1500",
+     "17.0": "609.1700"
+    },
+    "page": 344
+   },
+   {
+    "name": "System screws 6.0",
+    "art": {
+     "10.0": "661.1000.HG",
+     "11.5": "661.1150.HG",
+     "13.0": "661.1300.HG",
+     "14.5": "661.1450.HG",
+     "20.0": "661.2000.HG"
+    },
+    "page": 344
+   },
+   {
+    "name": "Pozidriv screwdriver PZ2",
+    "art": "303.756.1",
+    "page": 345
+   },
+   {
+    "name": "Slotted screwdriver size 1",
+    "art": "314.928.1",
+    "page": 345
+   }
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "pages 342-343 planning drawings not rendered"
+  ]
+ },
+ {
+  "key": "tandembox_plus",
+  "name": "TANDEMBOX plus (overview only in catalogue)",
+  "kind": "box",
+  "pages": [
+   348,
+   349
+  ],
+  "note": "Catalogue pp 348-349 contain only an overview; no order codes, cutting or drilling tables.",
+  "applications": [
+   {
+    "name": "Drawer N",
+    "h": 81.5,
+    "web": "DQCCLA"
+   },
+   {
+    "name": "Drawer M",
+    "h": 96.5,
+    "web": "DQCDAM"
+   },
+   {
+    "name": "Inner drawer M",
+    "h": 105,
+    "web": "DQCFEM"
+   },
+   {
+    "name": "Drawer K",
+    "h": 128.5,
+    "web": "DQCDZY"
+   },
+   {
+    "name": "Inner drawer K",
+    "h": 134,
+    "web": "DQCG3Y"
+   },
+   {
+    "name": "High fronted pull-out gallery B",
+    "h": 160,
+    "web": "DQCGTA"
+   },
+   {
+    "name": "Inner pull-out gallery B",
+    "h": 160,
+    "web": "DQCIXA"
+   },
+   {
+    "name": "High fronted pull-out gallery D (BOXSIDE possible)",
+    "h": 224,
+    "web": "DQCHIM"
+   },
+   {
+    "name": "Inner pull-out gallery D (BOXSIDE possible)",
+    "h": 224,
+    "web": "DQCJMM"
+   },
+   {
+    "name": "High fronted pull-out gallery D (BOXSIDE possible), second entry",
+    "h": 224,
+    "web": "DQCI7Y"
+   }
+  ],
+  "spaceTower": {
+   "KB": "275-1200",
+   "web": "DQGSBY"
+  },
+  "spaceTwin": {
+   "KB": 200,
+   "web": "DQGVUM",
+   "kg": 20
+  },
+  "unlabeled": 0,
+  "unreadable": [
+   "column mapping 'Height (mm)' vs 'space requirement' ambiguous in text; rows with web code but no height assignments for sink/larder"
+  ]
+ },
+ {
+  "key": "tipon_tandembox",
+  "name": "TIP-ON BLUMOTION for TANDEMBOX",
+  "kind": "accessory",
+  "pages": [
+   350,
+   351,
+   352,
+   353,
+   354,
+   355,
+   356
+  ],
+  "parts": [
+   {
+    "name": "TIP-ON BLUMOTION set",
+    "table": [
+     {
+      "NL": "270-300",
+      "unit": "S0",
+      "profile": 30,
+      "weight": "<= 10",
+      "art": "T60B3030"
+     },
+     {
+      "NL": "270-300",
+      "unit": "S1",
+      "profile": 30,
+      "weight": "> 10-20",
+      "art": "T60B3130"
+     },
+     {
+      "NL": "350-600",
+      "unit": "L1",
+      "profile": 30,
+      "weight": "<= 20",
+      "art": "T60B3330",
+      "note": "30 kg profile only"
+     },
+     {
+      "NL": "350-600",
+      "unit": "L3",
+      "profile": 30,
+      "weight": "15-30",
+      "art": "T60B3530",
+      "note": "30 kg profile only"
+     },
+     {
+      "NL": "450-650",
+      "unit": "L5",
+      "profile": 65,
+      "weight": "> 30-65",
+      "art": "T60B3560",
+      "note": "only with 65 kg profile"
+     }
+    ],
+    "page": 352
+   },
+   {
+    "name": "cabinet profiles TIP-ON BLUMOTION",
+    "art": {
+     "kg30": {
+      "270": "578.2701M",
+      "300": "578.3001M",
+      "350": "578.3501M",
+      "400": "578.4001M",
+      "450": "578.4501M",
+      "500": "578.5001M",
+      "550": "578.5501M",
+      "600": "578.6001M"
+     },
+     "kg65": {
+      "450": "576.4501M",
+      "500": "576.5001M",
+      "550": "576.5501M",
+      "600": "576.6001M",
+      "650": "576.6501M"
+     }
+    },
+    "page": 352
+   },
+   {
+    "name": "synchronisation 6g square, LW 238-286",
+    "art": "T60.300D",
+    "cutting": "LW - 214",
+    "page": 352
+   },
+   {
+    "name": "synchronisation adapter 6e, LW>=287",
+    "art": "2 x T60.000D",
+    "page": 352
+   },
+   {
+    "name": "synchronisation linkage 6f, round (up to LW 1370)",
+    "art": "T60.1125W",
+    "cutting": "LW - 240",
+    "page": 352
+   },
+   {
+    "name": "linkage fixing 6h",
+    "art": "T60B000H",
+    "KB": ">= 750",
+    "page": 352
+   },
+   {
+    "name": "base support bracket 6i",
+    "art": "Z96.2011",
+    "KB": ">= 750",
+    "page": 352
+   },
+   {
+    "name": "front/base stabiliser 6j (nylon)",
+    "art": "Z96.10E1",
+    "page": 352
+   },
+   {
+    "name": "checking/setting template, gap 2.5",
+    "art": "65.5627",
+    "page": 352
+   }
+  ],
+  "planning": {
+   "minFrontGap": 2.5,
+   "synchronisationFromLW": 238,
+   "backHeightY": {
+    "drawerAndHighFronted": {
+     "N": 85.5,
+     "M": 101.5,
+     "K": 133.5,
+     "B": 161,
+     "C": 195,
+     "D": 227
+    },
+    "innerDrawerInnerPullout": {
+     "M": 109,
+     "K": 139.5,
+     "B": 161,
+     "C": 195,
+     "D": 227
+    }
+   },
+   "dimsNL": {
+    "drawer": "NL + 3",
+    "innerDrawer": "NL + 12"
+   },
+   "spaceRequirement": {
+    "minAbove": {
+     "drawer": 65.5,
+     "inner": 73
+    },
+    "minBelow": "36 (*)",
+    "fromBack": 37.5
+   },
+   "screwPosition": {
+    "variant1": 42,
+    "variant2": 37,
+    "note": "inner drawer"
+   },
+   "page": 353,
+   "stabiliser": {
+    "FH_gt_300": {
+     "KB_lt_750": "1 piece",
+     "KB_ge_750": "2 pieces"
+    },
+    "art": "Z96.10E1",
+    "page": 355
+   },
+   "notes": [
+    "* at 36-39 mm and KB >= 750, linkage fixing and base support bracket required"
+   ]
+  },
+  "drill": {
+   "page": 356,
+   "fixingPositions": "identical drawing/chains as p346: see tandembox_antaro_standard.drill.profileHoles.fixingTables",
+   "perNL": "unreadable"
+  },
+  "unlabeled": 0,
+  "unreadable": [
+   "page 354 drilling drawing numbers (base/front) not rendered",
+   "page 356 per-NL hole selection"
+  ]
+ }
+]
