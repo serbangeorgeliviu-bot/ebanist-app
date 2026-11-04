@@ -1,0 +1,3788 @@
+[
+ {
+  "key": "legrabox_pure_N",
+  "name": "LEGRABOX Drawer – N",
+  "kind": "box",
+  "pages": [
+   194,
+   195
+  ],
+  "webCode": "DQBMJY",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   400,
+   450,
+   500,
+   550
+  ],
+  "parts": [
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770N4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "N",
+    "sideHeightMm": 66.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770N4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "N",
+    "sideHeightMm": 66.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770N4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "N",
+    "sideHeightMm": 66.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770N5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "N",
+    "sideHeightMm": 66.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770N5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "N",
+    "sideHeightMm": 66.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770N5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "N",
+    "sideHeightMm": 66.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7N000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZF7N70E2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO"
+   },
+   {
+    "art": "ZF7N70T2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO T"
+   },
+   {
+    "art": "ZF7N7002",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "Screw-on"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 66.5,
+    "spaceRequirement_mm": "min 38*, min 42; 20.5"
+   },
+   "page": 195
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 39,
+     "width": "LW – 38",
+     "page": 195,
+     "text": "Chipboard back 39 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 195,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 195,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 39,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 195,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 195,
+    "holes750": {
+     "groups": [
+      "400|450|500",
+      "550"
+     ],
+     "dims": [
+      64,
+      32,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": null,
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 195,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 45.5*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 195,
+    "dims": [
+     9,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_M",
+  "name": "LEGRABOX Drawer – M",
+  "kind": "box",
+  "pages": [
+   196,
+   197
+  ],
+  "webCode": "DQBN9A",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.2701S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770M2702S",
+    "nl": 270,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M2702I",
+    "nl": 270,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3002I",
+    "nl": 300,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6002I",
+    "nl": 600,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6502S",
+    "nl": 650,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6502I",
+    "nl": 650,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7M000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZF7M70E2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO"
+   },
+   {
+    "art": "ZF7M70T2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO T"
+   },
+   {
+    "art": "ZF7M7002",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "Screw-on"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 90.5,
+    "spaceRequirement_mm": "min 38*, min 68**; 20.5"
+   },
+   "page": 197
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 63,
+     "width": "LW – 38",
+     "page": 197,
+     "text": "Chipboard back 63 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 197,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 197,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 63,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 197,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 197,
+    "holes750": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 197,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 197,
+    "dims": [
+     9,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_M_inner",
+  "name": "LEGRABOX Inner drawer – M",
+  "kind": "box",
+  "pages": [
+   198,
+   199
+  ],
+  "webCode": "DQBPDA",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.2701S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770M2702S",
+    "nl": 270,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M2702I",
+    "nl": 270,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3002I",
+    "nl": 300,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6002I",
+    "nl": 600,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6502S",
+    "nl": 650,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770M6502I",
+    "nl": 650,
+    "colour": "INGL",
+    "height": "M",
+    "sideHeightMm": 90.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7M000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZI7.0MS0",
+    "part": "front piece set",
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZI7.0MI0",
+    "part": "front piece set",
+    "colour": "INGL"
+   },
+   {
+    "art": "ZV7.1043C01",
+    "part": "front piece without groove",
+    "length": 1043,
+    "cut": "LW – 126",
+    "suitableKB": 1200
+   },
+   {
+    "art": "ZI7.0M07",
+    "part": "latch set (accessory)",
+    "note": "not usable with TIP-ON BLUMOTION"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 90.5,
+    "spaceRequirement_mm": "min 38*, min 68**; 20.5"
+   },
+   "page": 199
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 63,
+     "width": "LW – 38",
+     "page": 199,
+     "text": "Chipboard back 63 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 199,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 199,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 63,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 199,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 199,
+    "holes750": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 199,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 199,
+    "dims": [
+     9,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_K",
+  "name": "LEGRABOX Drawer – K",
+  "kind": "box",
+  "pages": [
+   200,
+   201
+  ],
+  "webCode": "DQBNYM",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600
+  ],
+  "parts": [
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770K3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7K000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZF7K70E2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO"
+   },
+   {
+    "art": "ZF7K70T2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO T"
+   },
+   {
+    "art": "ZF7K7002",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "Screw-on"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 128.5,
+    "spaceRequirement_mm": "min 38*, min 106**; 20.5"
+   },
+   "page": 201
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 101,
+     "width": "LW – 38",
+     "page": 201,
+     "text": "Chipboard back 101 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 201,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 201,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 101,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 201,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 201,
+    "holes750": {
+     "groups": [
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600"
+     ],
+     "dims": [
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 201,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 201,
+    "dims": [
+     9,
+     32,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_K_inner",
+  "name": "LEGRABOX Inner drawer – K",
+  "kind": "box",
+  "pages": [
+   202,
+   203
+  ],
+  "webCode": "DQGPIM",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600
+  ],
+  "parts": [
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770K3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770K6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "K",
+    "sideHeightMm": 128.5,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7K000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZI7.0KS0",
+    "part": "front piece set",
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZI7.0KI0",
+    "part": "front piece set",
+    "colour": "INGL"
+   },
+   {
+    "art": "ZV7.1043C01",
+    "part": "front piece without groove",
+    "length": 1043,
+    "cut": "LW – 126",
+    "suitableKB": 1200
+   },
+   {
+    "art": "ZI7.0M07",
+    "part": "latch set (accessory)",
+    "note": "not usable with TIP-ON BLUMOTION"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 128.5,
+    "spaceRequirement_mm": "min 38*, min 106**; 20.5"
+   },
+   "page": 203
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 101,
+     "width": "LW – 38",
+     "page": 203,
+     "text": "Chipboard back 101 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 203,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 203,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 101,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 203,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 203,
+    "holes750": {
+     "groups": [
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600"
+     ],
+     "dims": [
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 203,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 203,
+    "dims": [
+     9,
+     32,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_C",
+  "name": "LEGRABOX High fronted pull-out – C (pure)",
+  "kind": "box",
+  "pages": [
+   204,
+   205
+  ],
+  "webCode": "DQBQ2M",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.2701S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770C2702S",
+    "nl": 270,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C2702I",
+    "nl": 270,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3002I",
+    "nl": 300,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6002I",
+    "nl": 600,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6502S",
+    "nl": 650,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6502I",
+    "nl": 650,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7C000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZF7C70E2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO"
+   },
+   {
+    "art": "ZF7C70T2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO T"
+   },
+   {
+    "art": "ZF7C7002",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "Screw-on"
+   },
+   {
+    "art": "ZF7M70E2/ZF7M70T2/ZF7M7002",
+    "part": "alternative 4a front fixing bracket",
+    "qty": "4 x"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 177,
+    "spaceRequirement_mm": "min 38*, min 155**; 20.5"
+   },
+   "page": 205
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 148,
+     "width": "LW – 38",
+     "page": 205,
+     "text": "Chipboard back 148 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 205,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 205,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 148,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 205,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 205,
+    "holes750": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 205,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 205,
+    "dims": [
+     9,
+     16,
+     64,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_C_inner_design",
+  "name": "LEGRABOX Inner pull-out – design element – C (pure)",
+  "kind": "box",
+  "pages": [
+   206,
+   207
+  ],
+  "webCode": "DQBSVY",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.2701S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770C2702S",
+    "nl": 270,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C2702I",
+    "nl": 270,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3002I",
+    "nl": 300,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6002I",
+    "nl": 600,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6502S",
+    "nl": 650,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6502I",
+    "nl": 650,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7C000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZI7.2CS0",
+    "part": "front piece set",
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZI7.2CI0",
+    "part": "front piece set",
+    "colour": "INGL"
+   },
+   {
+    "art": "ZV7.1043MN1",
+    "part": "front piece with groove",
+    "length": 1043,
+    "cut": "LW – 126",
+    "suitableKB": 1200
+   },
+   {
+    "art": "ZE7VxxxxG",
+    "part": "glass design element low"
+   },
+   {
+    "art": "ZE7WxxxxG",
+    "part": "glass design element high"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 177,
+    "spaceRequirement_mm": "min 38*, min 155**; 20.5"
+   },
+   "page": 207
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 148,
+     "width": "LW – 38",
+     "page": 207,
+     "text": "Chipboard back 148 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 207,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 207,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "design element low",
+     "X": "LW – 80",
+     "Y": 70,
+     "page": 207
+    },
+    {
+     "piece": "design element high",
+     "X": "LW – 80",
+     "Y": 138,
+     "page": 207
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 148,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 207,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 207,
+    "holes750": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 207,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 207,
+    "dims": [
+     9,
+     16,
+     64,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_C_inner_gallery",
+  "name": "LEGRABOX Inner pull-out – gallery – C (pure)",
+  "kind": "box",
+  "pages": [
+   208,
+   209
+  ],
+  "webCode": "DQBTLA",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.2701S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3001S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.3501S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770C2702S",
+    "nl": 270,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C2702I",
+    "nl": 270,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3002S",
+    "nl": 300,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3002I",
+    "nl": 300,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3502S",
+    "nl": 350,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C3502I",
+    "nl": 350,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6002I",
+    "nl": 600,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6502S",
+    "nl": 650,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770C6502I",
+    "nl": 650,
+    "colour": "INGL",
+    "height": "C",
+    "sideHeightMm": 177,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7C000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZI7.3CS0",
+    "part": "front piece set",
+    "colour": "SW-M|OG-M|CS-M"
+   },
+   {
+    "art": "ZI7.3CI0",
+    "part": "front piece set",
+    "colour": "INGL"
+   },
+   {
+    "art": "ZV7.1043C01",
+    "part": "front piece without groove",
+    "length": 1043,
+    "cut": "LW – 126",
+    "suitableKB": 1200
+   },
+   {
+    "art": "ZR7.1080U",
+    "part": "cross gallery",
+    "length": 1080,
+    "cut": "LW – 90",
+    "suitableKB": 1200
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 177,
+    "spaceRequirement_mm": "min 38*, min 155**; 20.5"
+   },
+   "page": 209
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 148,
+     "width": "LW – 38",
+     "page": 209,
+     "text": "Chipboard back 148 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 209,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 209,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 148,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 209,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 209,
+    "holes750": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 209,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 209,
+    "dims": [
+     9,
+     16,
+     64,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ],
+  "unlabeled": 0
+ },
+ {
+  "key": "legrabox_pure_F",
+  "name": "LEGRABOX High fronted pull-out – F (pure)",
+  "kind": "box",
+  "pages": [
+   210,
+   211
+  ],
+  "webCode": "DQBRHA",
+  "variants": [
+   "BLUMOTION S (integrated)",
+   "TIP-ON BLUMOTION",
+   "SERVO-DRIVE"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   400,
+   450,
+   500,
+   550,
+   600,
+   650
+  ],
+  "parts": [
+   {
+    "art": "750.4001S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.4501S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.4501S",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5001S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5001S",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.5501S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.5501S",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "750.6001S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6001S",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "753.6501S",
+    "nl": 650,
+    "load": 70,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "part": "cabinet profile"
+   },
+   {
+    "art": "770F4002S",
+    "nl": 400,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F4002I",
+    "nl": 400,
+    "colour": "INGL",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F4502S",
+    "nl": 450,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F4502I",
+    "nl": 450,
+    "colour": "INGL",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F5002S",
+    "nl": 500,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F5002I",
+    "nl": 500,
+    "colour": "INGL",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F5502S",
+    "nl": 550,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F5502I",
+    "nl": 550,
+    "colour": "INGL",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F6002S",
+    "nl": 600,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F6002I",
+    "nl": 600,
+    "colour": "INGL",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F6502S",
+    "nl": 650,
+    "colour": "SW-M|OG-M|CS-M",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "770F6502I",
+    "nl": 650,
+    "colour": "INGL",
+    "height": "F",
+    "sideHeightMm": 241,
+    "part": "drawer side set"
+   },
+   {
+    "art": "ZB7F000S",
+    "part": "chipboard back fixings left/right",
+    "colour": "SW-M|OG-M|CS-M|NI",
+    "material": "Steel"
+   },
+   {
+    "art": "ZF7M70E2 / ZF7C70E2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO"
+   },
+   {
+    "art": "ZF7M70T2 / ZF7C70T2",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "EXPANDO T"
+   },
+   {
+    "art": "ZF7M7002 / ZF7C7002",
+    "part": "front fixing bracket",
+    "qty": "2 x",
+    "method": "Screw-on"
+   },
+   {
+    "art": "ZF7M70E2/ZF7M70T2/ZF7M7002",
+    "part": "alternative 4a front fixing bracket",
+    "qty": "6 x"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LT_min": "NL + 3 mm",
+    "sideThicknessMm": 12.8,
+    "sideHeight": 241,
+    "spaceRequirement_mm": "min 38*, min 219**; 20.5"
+   },
+   "page": 211
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "back (chipboard B)",
+     "height": 212,
+     "width": "LW – 38",
+     "page": 211,
+     "text": "Chipboard back 212 mm x LW – 38 mm (16 mm chipboard)"
+    },
+    {
+     "piece": "base (chipboard A)",
+     "length": "NL – 10",
+     "width": "LW – 35",
+     "page": 211,
+     "text": "Base chipboard back: NL – 10 mm; width LW – 35 mm"
+    },
+    {
+     "piece": "base (steel back)",
+     "length": "NL – 21",
+     "width": "LW – 35",
+     "page": 211,
+     "text": "Base steel back: NL – 21 mm; width LW – 35 mm"
+    }
+   ],
+   "constants": {
+    "baseW": -35,
+    "baseL": -10,
+    "baseL_steelBack": -21,
+    "backW": -38,
+    "backH": 212,
+    "sideTh": 12.8,
+    "rebate": {
+     "depthFromDrawing": "16 / 8 / 38 (labels on rebate drawing, unassigned)"
+    }
+   }
+  },
+  "drill": {
+   "base": {
+    "page": 211,
+    "text": "Drilling distances – drawer base: 24 from side edge, 128 along, 48.5 (labels on drawing)",
+    "dims": [
+     24,
+     128,
+     48.5
+    ]
+   },
+   "cabinetProfile": {
+    "page": 211,
+    "holes750": {
+     "groups": [
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "holes753": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "text": "Hole spacing – cabinet profiles (dims labelled on drawing; assignment of each dim to a specific hole and NL group not unambiguous in text)"
+   },
+   "front": {
+    "page": 211,
+    "exp_dia": 10,
+    "min_edge": "min 12** (min 6 for EXPANDO T)",
+    "min_from_bottom": "min 51*",
+    "note": "+1 mm if profile installed before cabinet assembled; ** incl. 2 mm tilt adjustment (not N)"
+   },
+   "back": {
+    "page": 211,
+    "dims": [
+     9,
+     32,
+     96,
+     32,
+     19
+    ],
+    "dia": null,
+    "text": "Installation dimensions – back (cabinet profile back hook / chipboard back fixing)"
+   }
+  },
+  "notes": [],
+  "unlabeled": 0,
+  "unreadable": [
+   "assignment of each hole-spacing dimension to a specific hole/NL group (drawing only)"
+  ]
+ },
+ {
+  "key": "legrabox_standard_cabinet",
+  "name": "LEGRABOX standard cabinet – summary (pure/free, 16 mm chipboard)",
+  "kind": "box",
+  "pages": [
+   192,
+   193,
+   194,
+   195,
+   196,
+   197,
+   198,
+   199,
+   200,
+   201,
+   202,
+   203,
+   204,
+   205,
+   206,
+   207,
+   208,
+   209,
+   210,
+   211
+  ],
+  "constants_from_catalog": {
+   "sideHeights_mm": {
+    "N": 66.5,
+    "M": 90.5,
+    "K": 128.5,
+    "C": 177,
+    "F": 241
+   },
+   "sideThickness_mm": 12.8,
+   "baseW": "LW – 35",
+   "baseL_chipboardBack": "NL – 10",
+   "baseL_steelBack": "NL – 21",
+   "backW": "LW – 38",
+   "backH_chipboard_mm": {
+    "N": 39,
+    "M": 63,
+    "K": 101,
+    "C": 148,
+    "F": 212
+   },
+   "LT_min": "NL + 3",
+   "rebate_mm": {
+    "a": 16,
+    "b": 8,
+    "c": 38
+   },
+   "baseDrill": {
+    "a": 24,
+    "b": 128,
+    "c": 48.5
+   }
+  },
+  "applications": {
+   "N": {
+    "kg": 40,
+    "space": 80,
+    "web": "DQBMJY",
+    "pg": 194
+   },
+   "M": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 106,
+    "web": "DQBN9A",
+    "pg": 196
+   },
+   "M_inner": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 104,
+    "web": "DQBPDA",
+    "pg": 198
+   },
+   "K": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 144,
+    "web": "DQBNYM",
+    "pg": 200
+   },
+   "K_inner": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 142,
+    "web": "DQGPIM",
+    "pg": 202
+   },
+   "C": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 193,
+    "web": "DQBQ2M",
+    "pg": 204
+   },
+   "C_inner": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 191,
+    "pg": "206/208"
+   },
+   "F": {
+    "kg": [
+     40,
+     70
+    ],
+    "space": 257,
+    "web": "DQBRHA",
+    "pg": 210
+   }
+  },
+  "notes": [
+   "Space requirement values from overview table on p192 (“Space requirement” column: height mm).",
+   "N has 40 kg only (NL 400-550).",
+   "Cabinet profile fixing positions page 242 (Cabinet profile 750/753) are outside pages 188-211."
+  ]
+ },
+ {
+  "key": "box_cabinet_profile",
+  "name": "LEGRABOX cabinet profile (750 – 40 kg, 753 – 70 kg)",
+  "kind": "box",
+  "pages": [
+   195,
+   197,
+   201,
+   205,
+   211
+  ],
+  "parts750": [
+   "750.2701S",
+   "750.3001S",
+   "750.3501S",
+   "750.4001S",
+   "750.4501S",
+   "750.5001S",
+   "750.5501S",
+   "750.6001S"
+  ],
+  "parts753": [
+   "753.4501S",
+   "753.5001S",
+   "753.5501S",
+   "753.6001S",
+   "753.6501S"
+  ],
+  "screws": {
+   "systemScrew": {
+    "art": "661.1450.HG",
+    "dia": 6,
+    "len": 14.5
+   },
+   "chipboardScrew": {
+    "art": [
+     "609.1500",
+     "609.1700"
+    ],
+    "dia": 3.5,
+    "len": [
+     15,
+     17
+    ]
+   },
+   "fixingScrew": {
+    "art": "61D.1500",
+    "dia": 4,
+    "len": 15
+   },
+   "note": "recommend chipboard screws Ø4x15 for connecting profile to cabinet"
+  },
+  "holeDims": {
+   "750": {
+    "N": {
+     "groups": [
+      "400|450|500",
+      "550"
+     ],
+     "dims": [
+      64,
+      32,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "M": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "K": {
+     "groups": [
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "C": {
+     "groups": [
+      "270",
+      "300|350",
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      32,
+      160,
+      192,
+      32,
+      9,
+      37
+     ]
+    },
+    "F": {
+     "groups": [
+      "400|450|500",
+      "550|600"
+     ],
+     "dims": [
+      64,
+      32,
+      224,
+      32,
+      9,
+      37
+     ]
+    }
+   },
+   "753": {
+    "M": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "K": {
+     "groups": [
+      "450",
+      "500|550|600"
+     ],
+     "dims": [
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "C": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    },
+    "F": {
+     "groups": [
+      "450",
+      "500|550|600",
+      "650"
+     ],
+     "dims": [
+      96,
+      32,
+      320,
+      224,
+      32,
+      9,
+      37
+     ]
+    }
+   }
+  },
+  "notes": [
+   "Dimensions labelled on hole-spacing drawings: 750: 64,32,32,160|192|224,32,9,37; 753: 96,32,320,224,32,9,37",
+   "LT min = NL + 3 mm for all"
+  ]
+ }
+]

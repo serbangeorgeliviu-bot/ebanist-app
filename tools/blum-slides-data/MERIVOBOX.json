@@ -1,0 +1,1209 @@
+[
+ {
+  "key": "merivobox_standard",
+  "name": "MERIVOBOX standard cabinet (BLUMOTION, 40/70 kg)",
+  "kind": "box",
+  "pages": [
+   256,
+   257,
+   258,
+   260,
+   261,
+   262,
+   263,
+   264,
+   265,
+   266,
+   267,
+   268,
+   269,
+   270,
+   271,
+   272,
+   273,
+   274,
+   275,
+   276,
+   277,
+   278,
+   279,
+   280,
+   281
+  ],
+  "variants": [
+   "Drawer N",
+   "Drawer M",
+   "Drawer K",
+   "Inner drawer M",
+   "Inner drawer K",
+   "High fronted pull-out gallery E",
+   "BOXCOVER E",
+   "BOXCAP E",
+   "Inner pull-out BOXCAP gallery E",
+   "Inner pull-out BOXCAP design element E",
+   "Cabinet profile with over extension (waste bin)"
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600
+  ],
+  "colours": {
+   "SW-M": "Silk white matt",
+   "IG-M": "Indium grey matt",
+   "OG-M": "Orion grey matt"
+  },
+  "parts": [
+   {
+    "art": "450.2701B",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.3001B",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.3501B",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.4001B",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.4501B",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.5001B",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.5501B",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "450.6001B",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "450"
+   },
+   {
+    "art": "453.4501B",
+    "nl": 450,
+    "load": 70,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "453"
+   },
+   {
+    "art": "453.5001B",
+    "nl": 500,
+    "load": 70,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "453"
+   },
+   {
+    "art": "453.5501B",
+    "nl": 550,
+    "load": 70,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "453"
+   },
+   {
+    "art": "453.6001B",
+    "nl": 600,
+    "load": 70,
+    "fn": "BLUMOTION",
+    "side": "left/right",
+    "profile": "453"
+   }
+  ],
+  "drawerSideSets": [
+   {
+    "art": "470N4002S",
+    "nl": 400,
+    "height": "N",
+    "heightMM": 68.5,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470N4502S",
+    "nl": 450,
+    "height": "N",
+    "heightMM": 68.5,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470N5002S",
+    "nl": 500,
+    "height": "N",
+    "heightMM": 68.5,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470N5502S",
+    "nl": 550,
+    "height": "N",
+    "heightMM": 68.5,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M2702S",
+    "nl": 270,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M3002S",
+    "nl": 300,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M3502S",
+    "nl": 350,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M4002S",
+    "nl": 400,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M4502S",
+    "nl": 450,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M5002S",
+    "nl": 500,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M5502S",
+    "nl": 550,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470M6002S",
+    "nl": 600,
+    "height": "M",
+    "heightMM": 91,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K3002S",
+    "nl": 300,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K3502S",
+    "nl": 350,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K4002S",
+    "nl": 400,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K4502S",
+    "nl": 450,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K5002S",
+    "nl": 500,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K5502S",
+    "nl": 550,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   },
+   {
+    "art": "470K6002S",
+    "nl": 600,
+    "height": "K",
+    "heightMM": 129,
+    "colour": "SW-M|IG-M|OG-M",
+    "consists": "1 x left/right drawer sides, 2 x branding element, 2 x cover caps"
+   }
+  ],
+  "heights": {
+   "spaceRequirement": {
+    "N": 85.5,
+    "M": 108,
+    "K": 146,
+    "E": 209,
+    "note": "incl. 2 mm tilt adjustment; inner drawers M 106, K 144, inner pull-out E 207 (no tilt adjustment)"
+   },
+   "sideHeight": {
+    "N": 68.5,
+    "M": 91,
+    "K": 129,
+    "E": "M sides (91) + gallery/BOXCOVER/BOXCAP"
+   },
+   "installationMin": {
+    "N": {
+     "below": "min. 54*",
+     "above": "min. 31.5**",
+     "total": 80.5
+    },
+    "M": {
+     "total": 103,
+     "min": "54*/54**"
+    },
+    "K": {
+     "min": "54*/92**",
+     "note": "labels as printed p267: min.54*, min.92**"
+    },
+    "E": {
+     "min": "54*/155**",
+     "x": 204
+    }
+   }
+  },
+  "cabinet": {
+   "page": 261,
+   "LW": "internal cabinet width",
+   "KB": "cabinet width",
+   "NL": "nominal length",
+   "minDepth": "LT min. = NL + 3 mm",
+   "minDepthByNL": {
+    "270": 273,
+    "300": 303,
+    "350": 353,
+    "400": 403,
+    "450": 453,
+    "500": 503,
+    "550": 553,
+    "600": 603
+   },
+   "labeled": {
+    "20": "front hole lower",
+    "28": "distance of profile from cabinet side (p261/263: 28)",
+    "32": "drilling spacing front / back",
+    "20.5": "front fixing distance from profile",
+    "FA": "front overlay",
+    "33.5*": "min 33.5 (+1 mm if profile installed before cabinet assembly)",
+    "12**": "incl. 2 mm tilt adjustment (min 6 mm for EXPANDO T)",
+    "Ø10 +0.2/-0.1": "drilling Ø for INSERTA|EXPANDO T",
+    "10 / 11": "back installation dims (p261)",
+    "9, 16, X": "drawer base drilling (9 edge, 16 edge)"
+   },
+   "frontMinHole": 33.5,
+   "tiltAdjust": 2,
+   "panelThicknessAssumed": 16,
+   "backFixation": "chipboard back fixings ZB4x000S"
+  },
+  "cutting": {
+   "page": 261,
+   "thicknessCutting": 16,
+   "formulas": [
+    {
+     "piece": "base width",
+     "expr": "LW − 51",
+     "page": 261
+    },
+    {
+     "piece": "base length (chipboard back)",
+     "expr": "NL − 26",
+     "page": 261
+    },
+    {
+     "piece": "base length (steel back)",
+     "expr": "NL − 22",
+     "page": 261
+    },
+    {
+     "piece": "chipboard back width",
+     "expr": "LW − 51",
+     "page": 261
+    },
+    {
+     "piece": "steel back width xxx",
+     "expr": "LW − 38",
+     "page": 291,
+     "text": "e.g. M, LW 567 -> 529 -> ZB4M529S.6"
+    },
+    {
+     "piece": "inner pull-out front piece (without groove/with groove, KB 1200)",
+     "expr": "LW − 126",
+     "page": 276
+    },
+    {
+     "piece": "cross gallery (KB 1200)",
+     "expr": "LW − 111",
+     "page": 276
+    },
+    {
+     "piece": "front piece length 1042 / cross gallery length 1059",
+     "expr": "max values for KB 1200",
+     "page": 276
+    }
+   ],
+   "constants": {
+    "baseW": -51,
+    "baseL_chipboardBack": -26,
+    "baseL_steelBack": -22,
+    "backW_chipboard": -51,
+    "backW_steel": -38,
+    "backOff": null,
+    "sideTh": null,
+    "panel": 16
+   },
+   "chipboardBackHeight": {
+    "N": 60.5,
+    "M": 83,
+    "K": 121,
+    "E": 184
+   },
+   "chipboardBackHeightNote": "p261 N 60.5; p263 M 83; p267 K 121; p271 E 184 (all 'Chipboard back' height, width LW − 51)"
+  },
+  "drill": {
+   "page": 261,
+   "byNL": {
+    "270": {
+     "baseX": 128
+    },
+    "300": {
+     "baseX": 128
+    },
+    "350": {
+     "baseX": 256
+    },
+    "400": {
+     "baseX": 256
+    },
+    "450": {
+     "baseX": 256
+    },
+    "500": {
+     "baseX": 256
+    },
+    "550": {
+     "baseX": 256
+    },
+    "600": {
+     "baseX": 256
+    }
+   },
+   "baseEdges": {
+    "fromFront": 16,
+    "fromSide": 9
+   },
+   "fronts": {
+    "dia": 10,
+    "tol": "+0.2/-0.1",
+    "spacing": 32,
+    "minFromBottom": 33.5,
+    "highPullOut": {
+     "rows": [
+      32,
+      128
+     ],
+     "extra": "Ø10 at 128 and 32 / 64 (p271)"
+    }
+   },
+   "profileHoles": {
+    "450_40kg": {
+     "ref": "fixing positions measured from the front end of the profile (labeled 32, 18, 37, 9, 4)",
+     "front_group": [
+      32,
+      18,
+      37
+     ],
+     "NL270_350": {
+      "rear": [
+       160,
+       192
+      ]
+     },
+     "NL400_600": {
+      "rear": [
+       224,
+       256
+      ]
+     },
+     "extra": "dimension 4 at the front end; 9 on 453 series",
+     "page": 295
+    },
+    "453_70kg": {
+     "NL450_550": {
+      "rear": [
+       224,
+       238,
+       256
+      ]
+     },
+     "NL600": {
+      "rear": [
+       224,
+       238,
+       256,
+       352,
+       366,
+       384
+      ]
+     },
+     "front_group": [
+      32,
+      18,
+      37
+     ],
+     "extra": "dimension 9 labeled at front; 4 at the end",
+     "page": 295
+    }
+   },
+   "text": "Cabinet profile fixing: chipboard screws A Ø4x15, system screws B Ø6x14.5 661.1450.HG; * and ** positions may be replaced by chipboard screw Ø4x15"
+  },
+  "order": {
+   "chipboardBackFixings": {
+    "N": "ZB4N000S",
+    "M": "ZB4M000S",
+    "K": "ZB4K000S",
+    "E": "ZB4E000S",
+    "material": "Steel",
+    "pairs": "left/right"
+   },
+   "frontFixingBracket": {
+    "EXPANDO_T": "ZF4.10T2",
+    "INSERTA": "ZF4.10I2",
+    "screwOn": "ZF4.1002",
+    "qty": 2
+   },
+   "frontFixingBracketTop": {
+    "EXPANDO_T": "ZF4.50T2",
+    "INSERTA": "ZF4.50I2",
+    "screwOn": "ZF4.5002",
+    "countersunk": "ZF4.5012",
+    "qty": 2
+   },
+   "longsideGalleryRail": {
+    "270": "ZR4.270RS.E",
+    "300": "ZR4.300RS.E",
+    "350": "ZR4.350RS.E",
+    "400": "ZR4.400RS.E",
+    "450": "ZR4.450RS.E",
+    "500": "ZR4.500RS.E",
+    "550": "ZR4.550RS.E",
+    "600": "ZR4.600RS.E"
+   },
+   "boxcover": "ZL4M00808",
+   "boxcoverGlass": "ZE4Mxx0G",
+   "boxcap": {
+    "270": "ZL4.270S.E",
+    "300": "ZL4.300S.E",
+    "350": "ZL4.350S.E",
+    "400": "ZL4.400S.E",
+    "450": "ZL4.450S.E",
+    "500": "ZL4.500S.E",
+    "550": "ZL4.550S.E",
+    "600": "ZL4.600S.E"
+   },
+   "chipboardBackFixingCoverCapE": "ZB4E00AK",
+   "frontPieceSet": {
+    "innerM": "ZI4.0MS1",
+    "innerK": "ZI4.1KS1",
+    "innerEgallery": "ZI4.2ES1",
+    "innerEdesign": "ZI4.4ES1"
+   },
+   "frontPieceWithoutGroove": "ZV4.1042M",
+   "frontPieceWithGroove": "ZV4.1042NN",
+   "latchSet": "ZI7.0M07",
+   "crossGallery": "ZR4.1059U",
+   "glassLow": "ZE4LxxxxG",
+   "glassHigh": "ZE4HxxxxG",
+   "overExtensionProfile": {
+    "450": "453.4501BZ",
+    "500": "453.5001BZ",
+    "550": "453.5501BZ",
+    "sideNL": {
+     "450": "470M4002S",
+     "500": "470M4502S",
+     "550": "470M5002S"
+    },
+    "rule": "profile NL − 50 mm = drawer side NL (400/450/500)"
+   }
+  },
+  "screws": {
+   "chipboard": [
+    "609.1500 (Ø3.5x15)",
+    "609.1700 (Ø3.5x17)"
+   ],
+   "flatHead": "61R.1500",
+   "system": [
+    "661.1450.HG (Ø6x14.5)"
+   ]
+  },
+  "notes": [
+   "Cutting formulas and heights repeat the same structure across pages 260-281; only the drawer side height (N 68.5/M 91/K 129), chipboard-back height (60.5/83/121/184), NL list and base-drilling X differ (verified in script).",
+   "Latch set ZI7.0M07 cannot be combined with TIP-ON BLUMOTION (p264).",
+   "Inner drawer: SERVO-DRIVE triggers only by pulling.",
+   "Glass design elements: edge polished with 1 mm ±0.5 mm bevel; no safety glass required (p273)."
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "Exact edge distances of chipboard back drilling (p261 'Installation dimensions – back' 10 / 11 labels only, no description of axis)"
+  ]
+ },
+ {
+  "key": "merivobox_sink",
+  "name": "MERIVOBOX sink cabinet (centre piece, U-shaped base)",
+  "kind": "box",
+  "pages": [
+   259,
+   282,
+   283,
+   284,
+   285
+  ],
+  "lengths": [
+   300,
+   350,
+   400,
+   450,
+   500,
+   550,
+   600
+  ],
+  "parts": {
+   "profiles": [
+    {
+     "art": "450.4501B",
+     "nl": 450,
+     "load": 40,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "450"
+    },
+    {
+     "art": "450.5001B",
+     "nl": 500,
+     "load": 40,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "450"
+    },
+    {
+     "art": "450.5501B",
+     "nl": 550,
+     "load": 40,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "450"
+    },
+    {
+     "art": "450.6001B",
+     "nl": 600,
+     "load": 40,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "450"
+    },
+    {
+     "art": "453.4501B",
+     "nl": 450,
+     "load": 70,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "453"
+    },
+    {
+     "art": "453.5001B",
+     "nl": 500,
+     "load": 70,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "453"
+    },
+    {
+     "art": "453.5501B",
+     "nl": 550,
+     "load": 70,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "453"
+    },
+    {
+     "art": "453.6001B",
+     "nl": 600,
+     "load": 70,
+     "fn": "BLUMOTION",
+     "side": "left/right",
+     "profile": "453"
+    }
+   ],
+   "exteriorSides": {
+    "M": {
+     "450": "470M4502S",
+     "500": "470M5002S",
+     "550": "470M5502S",
+     "600": "470M6002S"
+    },
+    "height": 91
+   },
+   "interiorSides": {
+    "M": {
+     "300": "470M3002S",
+     "350": "470M3502S",
+     "400": "470M4002S",
+     "450": "470M4502S"
+    },
+    "height": 91
+   },
+   "chipboardBackFixingsDrawerM": "2 x ZB4M000S",
+   "frontFixingBracket": {
+    "EXPANDO_T": "4 x ZF4.10T2",
+    "screwOn": "4 x ZF4.1002",
+    "note": "INSERTA not possible with centre piece; bracket installed turned 180°"
+   },
+   "highPullOut": {
+    "externalBackFixing": "ZB4E000S",
+    "internalBackFixing": "ZB4M000S",
+    "capSymmetrical": "2 x ZB4M00AK",
+    "boxcap": {
+     "450": "ZL4.450S.E",
+     "500": "ZL4.500S.E",
+     "550": "ZL4.550S.E",
+     "600": "ZL4.600S.E"
+    }
+   }
+  },
+  "cutting": {
+   "page": 283,
+   "formulas": [
+    {
+     "piece": "chipboard back (B1,B2)",
+     "value": 83,
+     "text": "83 mm height; widths Y1/Y2 (Y min: BLUMOTION 40, TIP-ON BLUMOTION 99)"
+    },
+    {
+     "piece": "base A notch width",
+     "expr": "SPW + 37"
+    },
+    {
+     "piece": "base width",
+     "expr": "LW − 51"
+    },
+    {
+     "piece": "base length (chipboard back)",
+     "expr": "NL − 26"
+    },
+    {
+     "piece": "centre piece C width",
+     "expr": "SPW + 42",
+     "height": 67
+    }
+   ],
+   "labeled": {
+    "SPW": "internal cabinet width between inner drawer sides",
+    "W": "NL drawer sides exterior − NL drawer sides interior − 10 mm",
+    "Ymin": {
+     "BLUMOTION": 40,
+     "TIP_ON_BLUMOTION": 99
+    },
+    "R": 10,
+    "drillBase": {
+     "9": "edge",
+     "16": "edge",
+     "26": "notch",
+     "256": "X"
+    },
+    "centrePieceDrill": {
+     "32": "hole spacing",
+     "11.5": "from edge",
+     "7.5": "from edge"
+    }
+   },
+   "recommendation": "NL drawer sides exterior − NL interior = min. 150 mm"
+  },
+  "drill": {
+   "profileHoles": {
+    "450_40kg_NL450_600": {
+     "front_group": [
+      32,
+      37,
+      9
+     ],
+     "rear": 224
+    },
+    "453_70kg_NL450_550": {
+     "front_group": [
+      32,
+      37,
+      9
+     ],
+     "rear": [
+      224,
+      352
+     ]
+    },
+    "453_70kg_NL600": {
+     "front_group": [
+      32,
+      37,
+      9
+     ],
+     "rear": [
+      224,
+      352
+     ],
+     "extra": "additional 32 at 352"
+    }
+   }
+  },
+  "notes": [
+   "Hole spacing from p283/285 drawing; 453 NL 600 shows a third hole group (labels 32, 224, 352, 32)"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "merivobox_larder",
+  "name": "MERIVOBOX SPACE TOWER larder unit",
+  "kind": "box",
+  "pages": [
+   259,
+   286,
+   287
+  ],
+  "cabinetWidthKB": [
+   275,
+   1200
+  ],
+  "parts": {
+   "note": "uses inner drawer M/K and inner pull-out components (pp. 264, 268, 276, 278, 258)"
+  },
+  "dims": {
+   "54*": "min. 54 (+1 mm if profile installed before assembly)"
+  },
+  "notes": [
+   "Hinge CLIP top BLUMOTION 155° recommended"
+  ],
+  "unlabeled": 16,
+  "unreadable": [
+   "p287 positioning dims (unlabelled)"
+  ]
+ },
+ {
+  "key": "merivobox_narrow",
+  "name": "MERIVOBOX SPACE TWIN narrow cabinet (KB 150)",
+  "kind": "box",
+  "pages": [
+   259,
+   288,
+   289
+  ],
+  "cabinetWidthKB": 150,
+  "load": {
+   "kg": 20
+  },
+  "dims": {
+   "32": 32,
+   "X(M)": 54,
+   "X(K)": 92,
+   "X(E)": 155,
+   "Y_K": 64,
+   "Y_E_gallery": 128,
+   "Y_E_BOXCOVER": 128,
+   "Y_E_BOXCAP": 128,
+   "minWidth": 112,
+   "minHeight": 54,
+   "offset": 28,
+   "FA": "front overlay",
+   "20.5": 20.5,
+   "33.5*": 33.5
+  },
+  "notes": [
+   "Diagonally offset cabinet profiles; combines Drawer M/K and high fronted pull-out E"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "merivobox_accessories",
+  "name": "MERIVOBOX accessories",
+  "kind": "accessory",
+  "pages": [
+   290,
+   291,
+   292,
+   293,
+   294,
+   295
+  ],
+  "parts": [
+   {
+    "art": "ZB4NxxxS.6",
+    "name": "Steel back N",
+    "xxx": "LW−38"
+   },
+   {
+    "art": "ZB4MxxxS.6",
+    "name": "Steel back M"
+   },
+   {
+    "art": "ZB4KxxxS.6",
+    "name": "Steel back K"
+   },
+   {
+    "art": "ZB4ExxxS.6",
+    "name": "Steel back E"
+   },
+   {
+    "art": "Z96.10E1",
+    "name": "Front/base stabiliser (EXPANDO)"
+   },
+   {
+    "art": "Z96.00T1",
+    "name": "Front/base stabiliser for thin fronts (EXPANDO T)"
+   },
+   {
+    "art": "ZS4.400MU",
+    "name": "Side stabilisation NL 270–400"
+   },
+   {
+    "art": "ZS4.650MU",
+    "name": "Side stabilisation NL 450–650"
+   },
+   {
+    "art": "61R.1500",
+    "name": "Flat head screw Ø3.5x15"
+   },
+   {
+    "art": "609.1500",
+    "name": "Chipboard screw Ø3.5x15"
+   },
+   {
+    "art": "609.1700",
+    "name": "Chipboard screw Ø3.5x17"
+   },
+   {
+    "art": "661.1000.HG",
+    "name": "System screw Ø6x10"
+   },
+   {
+    "art": "661.1150.HG",
+    "name": "System screw Ø6x11.5"
+   },
+   {
+    "art": "661.1300.HG",
+    "name": "System screw Ø6x13"
+   },
+   {
+    "art": "661.1450.HG",
+    "name": "System screw Ø6x14.5"
+   },
+   {
+    "art": "661.2000.HG",
+    "name": "System screw Ø6x20"
+   },
+   {
+    "art": "M01.ZZ03.01",
+    "name": "Centre bit Ø2.7"
+   },
+   {
+    "art": "M01.ZZB3",
+    "name": "Replacement bit"
+   },
+   {
+    "art": "993.710",
+    "name": "Stick-on door buffer Ø8"
+   },
+   {
+    "art": "993.706",
+    "name": "8 mm Ø door buffer"
+   },
+   {
+    "art": "303.756.1",
+    "name": "Pozidriv PZ2 screwdriver"
+   },
+   {
+    "art": "314.928.1",
+    "name": "Slotted screwdriver size 1"
+   },
+   {
+    "art": "623.882.2",
+    "name": "TORX T20 screwdriver 100"
+   },
+   {
+    "art": "209.093.7",
+    "name": "TORX T20 screwdriver 210"
+   },
+   {
+    "art": "ZE4L464G",
+    "name": "Low glass 600 (SWD 15/16)"
+   },
+   {
+    "art": "ZE4L458G",
+    "name": "Low glass 600 (SWD 18/19)"
+   },
+   {
+    "art": "ZE4L1064G",
+    "name": "Low glass 1200 (15/16)"
+   },
+   {
+    "art": "ZE4L1058G",
+    "name": "Low glass 1200 (18/19)"
+   },
+   {
+    "art": "ZE4H464G",
+    "name": "High glass 600 (15/16)"
+   },
+   {
+    "art": "ZE4H458G",
+    "name": "High glass 600 (18/19)"
+   },
+   {
+    "art": "ZE4H1064G",
+    "name": "High glass 1200 (15/16)"
+   },
+   {
+    "art": "ZE4H1058G",
+    "name": "High glass 1200 (18/19)"
+   },
+   {
+    "art": "ZE4M360G",
+    "name": "Side glass NL 450"
+   },
+   {
+    "art": "ZE4M410G",
+    "name": "Side glass NL 500"
+   },
+   {
+    "art": "ZE4M460G",
+    "name": "Side glass NL 550"
+   },
+   {
+    "art": "ZE4M510G",
+    "name": "Side glass NL 600"
+   }
+  ],
+  "cutting": {
+   "steelBackWidth": "LW − 38",
+   "steelBackBase": "NL − 22; LW − 51",
+   "sideStabilisation": {
+    "cut1": "LW − 231 mm",
+    "cut2": "NL + 10 mm"
+   },
+   "glass": {
+    "low": {
+     "X": "LW − 104",
+     "Y": 75
+    },
+    "high": {
+     "X": "LW − 104",
+     "Y": 142.5
+    },
+    "side": {
+     "X": "NL − 90",
+     "Y": 95
+    }
+   }
+  },
+  "dims": {
+   "stabiliserX": "20.5 mm + FA (min. 105 mm)",
+   "stabiliserThinX": "14 mm + FA (min 80 mm); labels 13, 20, 22, min 6",
+   "recommend": "KB>600: 1 item; thin fronts KB>600:1, KB>900: 2, FH>380: 1; side stabilisation KB 900–1400"
+  },
+  "notes": [
+   "Steel back N not compatible with SERVO-DRIVE"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "tipon_merivobox",
+  "name": "TIP-ON BLUMOTION for MERIVOBOX",
+  "kind": "box",
+  "pages": [
+   296,
+   297,
+   298,
+   299,
+   300
+  ],
+  "load": {
+   "kg": [
+    40,
+    70
+   ]
+  },
+  "parts": [
+   {
+    "art": "T60H4040",
+    "nl": "270–300",
+    "unit": "S0",
+    "profile_kg": 40,
+    "weight_kg": "≤ 10"
+   },
+   {
+    "art": "T60H4140",
+    "nl": "270–300",
+    "unit": "S1",
+    "profile_kg": 40,
+    "weight_kg": "> 10–20"
+   },
+   {
+    "art": "T60H4340",
+    "nl": "350–600",
+    "unit": "L1",
+    "profile_kg": 40,
+    "weight_kg": "≤ 20"
+   },
+   {
+    "art": "T60H4540",
+    "nl": "350–600",
+    "unit": "L3",
+    "profile_kg": 40,
+    "weight_kg": "15–40"
+   },
+   {
+    "art": "T60H4570",
+    "nl": "450–600",
+    "unit": "L5",
+    "profile_kg": 70,
+    "weight_kg": "35–70"
+   },
+   {
+    "art": "T60.300D",
+    "name": "Synchronisation square (LW 243–296)",
+    "cut": "LW − 224 mm"
+   },
+   {
+    "art": "T60.000D",
+    "name": "Synchronisation adapter (2x), LW ≥ 297"
+   },
+   {
+    "art": "T60.1125W",
+    "name": "Synchronisation linkage round, up to LW 1370",
+    "cut": "LW − 250 mm"
+   },
+   {
+    "art": "65.5627",
+    "name": "Checking/setting template 2.5 mm"
+   }
+  ],
+  "cabinet": {
+   "frontGap": 2.5,
+   "spaceRequirement": {
+    "drawer": "NL + 3",
+    "inner": "NL + 12"
+   },
+   "installation": {
+    "total": 103,
+    "min": 54,
+    "minInner": 52,
+    "offset": 28
+   },
+   "screwPosInner": {
+    "variant1": 42,
+    "variant2": 37
+   },
+   "syncLW": {
+    "min": 243,
+    "square": "243–296",
+    "linkage": ">=297"
+   },
+   "page": 299
+  },
+  "drill": {
+   "profileHoles": "see merivobox_standard.drill.profileHoles (pp. 300)"
+  },
+  "notes": [
+   "Latch set ZI7.0M07 cannot be used with TIP-ON BLUMOTION",
+   "L1/L3 only with 40 kg profile; L5 only with 70 kg"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ }
+]

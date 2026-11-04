@@ -76,6 +76,10 @@ var HW_DRILL = {
     /* pozitiile de fixare pe lateral, de la fata dulapului, dupa lungimea nominala NL,
        din fisele producatorului (nu din memorie). Fara serie sau fara NL in tabel:
        `positions` de mai sus, ca inainte. Randul vertical nu e in aceste fise. */
+    /* seriile noi din catalogul Blum folosesc pozițiile seriei vechi de același fel (MOVENTO confirmat pe catalog 2022/23, p. 419; TANDEM din fișa 2013);
+       la TANDEM 19 mm catalogul nu dă poziții pe NL fără echivoc, deci rămân cele ale TANDEM-ului, cu marcajul `approx` */
+    alias: { blums_movento_blumotion_s: "blum_movento", blums_movento_tipon_blumotion: "blum_movento", blums_movento_tipon: "blum_movento",
+             blums_tandem_locking: "blum_tandem", blums_tandem_hook_peg: "blum_tandem", blums_tandem19_locking: "blum_tandem", blums_tandem19_hook_peg: "blum_tandem" },
     series: {
       blum_movento: { src: "Blum MOVENTO 760H, Attachment of runners (BLUMOTION S / TIP-ON), brosura tehnica",
         front: [18, 37, 69],
@@ -322,7 +326,7 @@ function evenPositions(a, b, end, pitch, minSpan) {
 /* pozitiile de fixare ale ghidajului, de la fata dulapului: seria din fisele
    producatorului dupa NL; cea mai apropiata NL din tabel daca nu e una exacta */
 function slidePositions(cfg, nl) {
-  var S = HW_DRILL.slide, id = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null, ser = id && S.series[id];
+  var S = HW_DRILL.slide, id = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null, ser = id && (S.series[id] || S.series[S.alias[id]]);
   if (!ser) return { list: S.positions, src: null, approx: false };
   if (ser.nl) {
     var row = null;

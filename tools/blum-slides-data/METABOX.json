@@ -1,0 +1,1380 @@
+[
+ {
+  "key": "metabox_single_extension",
+  "name": "METABOX single extension (320), 25 kg",
+  "kind": "box",
+  "pages": [
+   390,
+   392,
+   394,
+   395,
+   396,
+   397,
+   398,
+   399,
+   400,
+   401,
+   402,
+   403,
+   404,
+   405
+  ],
+  "variants": [
+   "BLUMATIC self closing",
+   "BLUMOTION for METABOX 320 (Z70.0320)"
+  ],
+  "load": {
+   "kg": [
+    25
+   ]
+  },
+  "extension": "single",
+  "sideHeights": {
+   "N": 54,
+   "M": 86,
+   "K": 118,
+   "H": 150,
+   "gallery B (side M)": 86,
+   "gallery D (side M)": 86
+  },
+  "sideHeightsHighFronted": {
+   "B": "side M 86 (catalog: High fronted pull-out gallery B, drawer side height 86)",
+   "D": "side M 86"
+  },
+  "applicationsOverview": {
+   "page": 392,
+   "rows": [
+    {
+     "app": "Drawer N",
+     "kg": 25,
+     "space": 78,
+     "web": "DQCKBY"
+    },
+    {
+     "app": "Inner drawer N",
+     "kg": 25,
+     "space": 81,
+     "web": "DQCN5A"
+    },
+    {
+     "app": "Drawer M",
+     "kg": 25,
+     "space": 110,
+     "web": "DQCL1A"
+    },
+    {
+     "app": "Inner drawer M",
+     "kg": 25,
+     "space": 113,
+     "web": "DQCNUM"
+    },
+    {
+     "app": "Drawer K",
+     "kg": 25,
+     "space": 142,
+     "web": "DQCLQM"
+    },
+    {
+     "app": "Inner drawer K",
+     "kg": 25,
+     "space": 145,
+     "web": "DQCOJY"
+    },
+    {
+     "app": "Drawer H",
+     "kg": 25,
+     "space": 174,
+     "web": "DQCMFY"
+    },
+    {
+     "app": "Inner drawer H",
+     "kg": 25,
+     "space": 177,
+     "web": "DQCP9A"
+    },
+    {
+     "app": "High fronted pull-out gallery B",
+     "kg": 25,
+     "space": 175,
+     "web": "DQCPYM"
+    },
+    {
+     "app": "High fronted pull-out gallery D",
+     "kg": 25,
+     "space": 239,
+     "web": "DQCQNY",
+     "note": "BOXSIDE possible"
+    }
+   ],
+   "note": "column header \"Space requirement\" = mm, as printed in table (Height (mm))"
+  },
+  "lengths": [
+   270,
+   350,
+   400,
+   450,
+   500,
+   550
+  ],
+  "parts": [
+   {
+    "art": "320N2700C",
+    "nl": 270,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "screw-on",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N2700C15",
+    "nl": 270,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "quick assembly",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N3500C",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "screw-on",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N3500C15",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "quick assembly",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N4000C",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "screw-on",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N4000C15",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "quick assembly",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N4500C",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "screw-on",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N4500C15",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "quick assembly",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N5000C",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "screw-on",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N5000C15",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "quick assembly",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N5500C",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "screw-on",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320N5500C15",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "N",
+    "sideHeight": 54,
+    "version": "quick assembly",
+    "use": [
+     "N"
+    ],
+    "page": 394
+   },
+   {
+    "art": "320M2700C",
+    "nl": 270,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "screw-on",
+    "use": [
+     "M"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M2700C15",
+    "nl": 270,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "quick assembly",
+    "use": [
+     "M"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M3500C",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "screw-on",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M3500C15",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "quick assembly",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M4000C",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "screw-on",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M4000C15",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "quick assembly",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M4500C",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "screw-on",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M4500C15",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "quick assembly",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M5000C",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "screw-on",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M5000C15",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "quick assembly",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M5500C",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "screw-on",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320M5500C15",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "M",
+    "sideHeight": 86,
+    "version": "quick assembly",
+    "use": [
+     "M",
+     "B",
+     "D"
+    ],
+    "page": 396
+   },
+   {
+    "art": "320K3500C",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "screw-on",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K3500C15",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "quick assembly",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K4000C",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "screw-on",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K4000C15",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "quick assembly",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K4500C",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "screw-on",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K4500C15",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "quick assembly",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K5000C",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "screw-on",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K5000C15",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "quick assembly",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K5500C",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "screw-on",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320K5500C15",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "K",
+    "sideHeight": 118,
+    "version": "quick assembly",
+    "use": [
+     "K"
+    ],
+    "page": 398
+   },
+   {
+    "art": "320H3500C",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "screw-on",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H3500C15",
+    "nl": 350,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "quick assembly",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H4000C",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "screw-on",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H4000C15",
+    "nl": 400,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "quick assembly",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H4500C",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "screw-on",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H4500C15",
+    "nl": 450,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "quick assembly",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H5000C",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "screw-on",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H5000C15",
+    "nl": 500,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "quick assembly",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H5500C",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "screw-on",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   },
+   {
+    "art": "320H5500C15",
+    "nl": 550,
+    "load": 25,
+    "fn": "single extension",
+    "side": "left/right",
+    "colour": "R9001",
+    "height": "H",
+    "sideHeight": 150,
+    "version": "quick assembly",
+    "use": [
+     "H"
+    ],
+    "page": 400
+   }
+  ],
+  "frontBrackets": {
+   "2a CLIP (M,K,H,B,D)": {
+    "EXPANDO": "ZSF.130E",
+    "knock-in": "ZSF.1300",
+    "screw-on": "ZSF.1200",
+    "note": "order left/right; covers 2b ZAA.3700"
+   },
+   "2c standard": {
+    "N": {
+     "knock-in": "ZSF.1610",
+     "screw-on": "ZSF.1510"
+    },
+    "M,K,H,B,D": {
+     "knock-in": "ZSF.1800",
+     "screw-on": "ZSF.1700"
+    },
+    "note": "2d covers 2 x ZAA.3500 (not for N page 394 list)"
+   },
+   "3 inner drawer front fixing": {
+    "N": "ZIF.3010",
+    "M": "ZIF.3000",
+    "K": "ZIF.3030",
+    "H": "ZIF.3050",
+    "colour": "R9001",
+    "material": "Nylon"
+   },
+   "6 BLUMOTION for METABOX 320": "Z70.0320"
+  },
+  "gallery": {
+   "4 longside gallery rail, aluminium R9001": {
+    "350": "ZRE.321S.ID",
+    "400": "ZRE.371S.ID",
+    "450": "ZRE.421S.ID",
+    "500": "ZRE.471S.ID",
+    "550": "ZRE.521S.ID"
+   },
+   "5 single-wall BOXSIDE steel R9001 (D only, 2 pcs)": {
+    "400": "2 x Z36H367SE01",
+    "450": "2 x Z36H417SE01",
+    "500": "2 x Z36H467SE01",
+    "550": "2 x Z36H517SE01"
+   }
+  },
+  "cabinet": {
+   "LW": "internal cabinet width",
+   "KB": "cabinet width",
+   "NL": "nominal length",
+   "minDepthLT": {
+    "drawer": "LT min = NL + 3",
+    "innerDrawer": "LT min = NL + 5",
+    "highFronted_B_D": "LT min = NL + 7"
+   },
+   "minDepthByNL": {
+    "drawer": {
+     "270": 273,
+     "350": 353,
+     "400": 403,
+     "450": 453,
+     "500": 503,
+     "550": 553
+    },
+    "innerDrawer": {
+     "270": 275,
+     "350": 355,
+     "400": 405,
+     "450": 455,
+     "500": 505,
+     "550": 555
+    },
+    "highFronted": {
+     "350": 357,
+     "400": 407,
+     "450": 457,
+     "500": 507,
+     "550": 557
+    }
+   },
+   "boardThickness": "16 mm chipboard (cutting tables are for 16 mm)",
+   "frontOverlay": "FA (value not given)",
+   "blumotionAdd": "+2 mm drawer / high fronted (depth dims marked *), +3 mm inner drawer with BLUMOTION",
+   "minSpaceAboveSide": {
+    "N": "min 24 above; min 54* clear",
+    "M": "min 24; min 86*",
+    "K": "min 24; min 118*",
+    "H": "min 24; min 150*",
+    "B": "min 89; min 86*",
+    "D": "min 153; min 86*"
+   },
+   "sideClearance": 15.5,
+   "page": 395
+  },
+  "cutting": {
+   "board": "16 mm chipboard",
+   "formulas": [
+    {
+     "piece": "back (B)",
+     "expr": "LW − 31",
+     "dim": "width",
+     "page": 395
+    },
+    {
+     "piece": "back (B) height N",
+     "value": 39,
+     "page": 395
+    },
+    {
+     "piece": "back (B) height M",
+     "value": 71,
+     "page": 397
+    },
+    {
+     "piece": "back (B) height K",
+     "value": 103,
+     "page": 399
+    },
+    {
+     "piece": "back (B) height H",
+     "value": 135,
+     "page": 401
+    },
+    {
+     "piece": "back (B) height gallery B",
+     "value": 127,
+     "page": 403
+    },
+    {
+     "piece": "back (B) height gallery D",
+     "value": 191,
+     "page": 405
+    },
+    {
+     "piece": "base (A) width",
+     "expr": "LW − 31",
+     "page": 395
+    },
+    {
+     "piece": "base (A) length drawer / high fronted",
+     "expr": "NL − 2",
+     "page": 395
+    },
+    {
+     "piece": "base (A) length inner drawer",
+     "expr": "NL − 18",
+     "page": 395
+    },
+    {
+     "piece": "front (C) inner drawer width",
+     "expr": "LW − 64",
+     "page": 395
+    },
+    {
+     "piece": "front (C) inner drawer height N",
+     "value": 61,
+     "page": 395
+    },
+    {
+     "piece": "front (C) height M",
+     "value": 61,
+     "page": 397
+    },
+    {
+     "piece": "front (C) height K",
+     "value": 93,
+     "page": 399
+    },
+    {
+     "piece": "front (C) height H",
+     "value": 125,
+     "page": 401
+    }
+   ],
+   "constants": {
+    "baseW": -31,
+    "baseL": -2,
+    "baseLInner": -18,
+    "backW": -31,
+    "frontInnerW": -64,
+    "backH": {
+     "N": 39,
+     "M": 71,
+     "K": 103,
+     "H": 135,
+     "B": 127,
+     "D": 191
+    },
+    "frontInnerH": {
+     "N": 61,
+     "M": 61,
+     "K": 93,
+     "H": 125
+    }
+   },
+   "quickAssemblyBaseX": {
+    "drawer": 69,
+    "innerDrawer": 53,
+    "highFronted": 69,
+    "page": 395,
+    "note": "X (mm) on Base assembly for quick assembly version; also 32, Ø5, 9, 9 labelled on drawing (unlabeled symbol)"
+   }
+  },
+  "drill": {
+   "ref": "positions measured from the front reference line of the cabinet profile; chain read off labelled spacings 37, 128, 96, 128, 128 (cumulative 37,165,261,389,517); NL270: 192 from first hole; NL400 extra hole 96 beyond 261; NL500 extra hole 64 beyond 389",
+   "byNL": {
+    "270": [
+     37,
+     229
+    ],
+    "350": [
+     37,
+     165,
+     261
+    ],
+    "400": [
+     37,
+     165,
+     261,
+     357
+    ],
+    "450": [
+     37,
+     165,
+     261,
+     389
+    ],
+    "500": [
+     37,
+     165,
+     261,
+     389,
+     453
+    ],
+    "550": [
+     37,
+     165,
+     261,
+     389,
+     517
+    ]
+   },
+   "front": {
+    "N": {
+     "EXPANDO": {
+      "dia": "10 +0.2/-0.1",
+      "depth": 12,
+      "fromEdge": 32,
+      "minEdge": "13.5*"
+     }
+    },
+    "M": {
+     "EXPANDO": {
+      "dia": "10 +0.2/-0.1",
+      "depth": 12,
+      "spacing": 64,
+      "minEdge": "13.5*"
+     }
+    },
+    "K": {
+     "EXPANDO": {
+      "dia": "10 +0.2/-0.1",
+      "depth": 12,
+      "spacing": 64,
+      "minEdge": "45.5*"
+     }
+    },
+    "H": {
+     "EXPANDO": {
+      "dia": "10 +0.2/-0.1",
+      "depth": 12,
+      "spacing": 64,
+      "minEdge": "77.5*"
+     }
+    },
+    "B": {
+     "EXPANDO": {
+      "dia": "10 +0.2/-0.1",
+      "depth": 12,
+      "spacing": [
+       64,
+       64
+      ],
+      "minEdge": "13.5*"
+     }
+    },
+    "D": {
+     "EXPANDO": {
+      "dia": "10 +0.2/-0.1",
+      "depth": 12,
+      "spacing": [
+       64,
+       64,
+       64
+      ],
+      "minEdge": "13.5*"
+     }
+    },
+    "note": "* +2 mm with BLUMOTION, +3 inner drawer"
+   },
+   "back": {
+    "N": {
+     "note": "18.5 from bottom"
+    },
+    "M": {
+     "pattern": [
+      18.5,
+      32
+     ]
+    },
+    "K": {
+     "pattern": [
+      18.5,
+      32,
+      32
+     ]
+    },
+    "H": {
+     "pattern": [
+      18.5,
+      32,
+      32,
+      32
+     ]
+    },
+    "B": {
+     "pattern": [
+      18.5,
+      32,
+      32,
+      32
+     ],
+     "totalLabel": 143
+    },
+    "D": {
+     "pattern": [
+      18.5,
+      32,
+      32,
+      32,
+      32,
+      32
+     ],
+     "totalLabel": 207
+    },
+    "note": "dims shown on Installation dimensions – back; first value from base/bottom"
+   },
+   "hole9": "9 from front plate (back mounting dimension)",
+   "hole2": "2 mm rear gap",
+   "page": 399
+  },
+  "notes": [
+   "Chipboard back heights and widths as printed on the planning pages (16 mm board).",
+   "METABOX not among the app constants (those cover LEGRABOX, TANDEMBOX, MOVENTO, TANDEM); cutting base LW-31, NL-2 are specific to METABOX.",
+   "Positions in drill.byNL derived from the labelled chain (37, 128, 96, 128, 128 with 192, 96, 64); the drawing marks the lines, assignment per NL is read from the image.",
+   "Drawing at page 413 (Cabinet profile fixing positions) not in my range."
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "metabox_accessories",
+  "name": "METABOX accessories",
+  "kind": "accessory",
+  "pages": [
+   406,
+   407,
+   408,
+   409,
+   410,
+   411,
+   412
+  ],
+  "items": [
+   {
+    "name": "Child safety latch 320",
+    "art": "295.5501"
+   },
+   {
+    "name": "Lock-out stop 320",
+    "art": "320M0009.01"
+   },
+   {
+    "name": "Anti-tilt device",
+    "art": "295.5300"
+   },
+   {
+    "name": "Spacers screw-on FE 4.0",
+    "art": "320M0048"
+   },
+   {
+    "name": "Spacers screw-on FE 8.0",
+    "art": "320M0088"
+   },
+   {
+    "name": "Spacers dowel Ø5",
+    "art": "320M0188"
+   },
+   {
+    "name": "Contoured profile (cut to size 1200, 16 mm base)",
+    "art": "ZSD.1200S"
+   },
+   {
+    "name": "POSISTOP 320 gap 1.5",
+    "art": "298.3210.01"
+   },
+   {
+    "name": "POSISTOP 320 gap 3.0",
+    "art": "298.3230.01"
+   },
+   {
+    "name": "METAFILE file drawer",
+    "art": "ZRM.5500"
+   },
+   {
+    "name": "BLUMOTION for METABOX 320, 25 kg",
+    "art": "Z70.0320"
+   },
+   {
+    "name": "Chipboard screw Ø3.5 x15",
+    "art": "609.1500"
+   },
+   {
+    "name": "Chipboard screw Ø3.5 x17",
+    "art": "609.1700"
+   },
+   {
+    "name": "System screw Ø6 x10",
+    "art": "661.1000.HG"
+   },
+   {
+    "name": "System screw Ø6 x11.5",
+    "art": "661.1150.HG"
+   },
+   {
+    "name": "System screw Ø6 x13",
+    "art": "661.1300.HG"
+   },
+   {
+    "name": "System screw Ø6 x14.5",
+    "art": "661.1450.HG"
+   },
+   {
+    "name": "System screw Ø6 x20",
+    "art": "661.2000.HG"
+   },
+   {
+    "name": "Special system screw Ø6 x11.5",
+    "art": "662.1150.HG"
+   },
+   {
+    "name": "Special system screw Ø6 x13",
+    "art": "662.1300.HG"
+   },
+   {
+    "name": "Special system screw Ø6 x14.5",
+    "art": "662.1450.HG"
+   },
+   {
+    "name": "Centre bit Ø2.7",
+    "art": "M01.ZZ03.01"
+   },
+   {
+    "name": "Replacement bit",
+    "art": "M01.ZZB3"
+   },
+   {
+    "name": "Stick-on door buffer Ø8",
+    "art": "993.710"
+   },
+   {
+    "name": "Door buffer Ø8 two-part",
+    "art": "993.706"
+   },
+   {
+    "name": "Pozidriv PZ2 screwdriver",
+    "art": "303.756.1"
+   },
+   {
+    "name": "Slotted screwdriver size 1",
+    "art": "314.928.1"
+   },
+   {
+    "name": "ORGA-LINE cross gallery rail 1104 (gallery)",
+    "art": "ZRG.1104U"
+   },
+   {
+    "name": "Cross gallery connector",
+    "art": "ZRU.00Z0"
+   },
+   {
+    "name": "Lateral divider",
+    "art": "ZRU.00F0"
+   },
+   {
+    "name": "Gallery connector BOXSIDE",
+    "art": "ZRU.10B1E"
+   }
+  ],
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "Contoured profile base width",
+     "expr": "LW − 34",
+     "page": 407
+    },
+    {
+     "piece": "Contoured profile length drawer/high fronted",
+     "expr": "NL − 2 − RD (back thickness)",
+     "page": 407
+    },
+    {
+     "piece": "Contoured profile length inner drawer",
+     "expr": "NL − 2 − RD − FD",
+     "page": 407
+    },
+    {
+     "piece": "contoured base length drawer",
+     "expr": "NL − 2",
+     "page": 407
+    },
+    {
+     "piece": "contoured base length inner",
+     "expr": "NL − 2 − FD",
+     "page": 407
+    },
+    {
+     "piece": "ORGA-LINE gallery cross rail",
+     "expr": "LW − 58",
+     "page": 411
+    },
+    {
+     "piece": "ORGA-LINE BOXSIDE cross rail",
+     "expr": "LW − 65",
+     "page": 412
+    },
+    {
+     "piece": "METAFILE DIN-A4 across",
+     "expr": "LWmin 376; 1: NL−28; 2: NL−53",
+     "page": 408
+    },
+    {
+     "piece": "METAFILE lengthwise",
+     "expr": "NL min 500; 1 NL−28; 2 305; 3 NL−406; 4 LW−82; 5 LW−59",
+     "page": 408
+    }
+   ]
+  },
+  "spacerTable": {
+   "page": 407,
+   "rows": [
+    {
+     "hinge": "170°",
+     "FE": 8,
+     "screw": "Ø4x20",
+     "fixing": "1 x Dowel Ø5 1x"
+    },
+    {
+     "hinge": "100/107/110°",
+     "FE": 12,
+     "screw": "Ø4x25"
+    },
+    {
+     "hinge": "Profile/thick door",
+     "FE": 16,
+     "screw": "Ø4x30"
+    },
+    {
+     "hinge": "Maximum spacing",
+     "FE": 24,
+     "screw": "Ø4x40"
+    }
+   ],
+   "note": "spacer quantities per row are ambiguous in text"
+  },
+  "notes": [
+   "METAFILE NL 450–550, KB 275–600 (page 408 bullets).",
+   "BLUMOTION: one unit up to KB 900."
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ }
+]

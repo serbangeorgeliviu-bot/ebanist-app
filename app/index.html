@@ -2417,6 +2417,9 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="sheet-grip"></div>
   <h3 data-i="catTitle">Catalogo</h3>
   <div id="catHwWrap"></div>
+  <h3 style="margin-top:18px" data-i="slTitle">Glisiere și casete Blum</h3>
+  <p class="mini" data-i="slHint" style="margin:0 0 8px"></p>
+  <div id="catSlidesWrap"></div>
   <p class="mini" id="catRefNote" style="margin-top:6px"></p>
   <h3 style="margin-top:18px" data-i="catMats">Materiali (€/m²)</h3>
   <div id="catMatWrap"></div>
@@ -2572,6 +2575,8 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-hinges-data.js"></script>
 <script src="./ebanist-hinges.js"></script>
+<script src="./ebanist-slides-data.js"></script>
+<script src="./ebanist-slides.js"></script>
 <script src="./ebanist-hwgeom.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
@@ -3638,6 +3643,13 @@ Object.assign(I18N.fr,{"hwFind": "Rechercher : nom, référence, angle…", "hwF
 Object.assign(I18N.de,{"hwFind": "Suchen: Name, Nummer, Winkel…", "hwFindNone": "Keine Treffer"});
 Object.assign(I18N.pl,{"hwFind": "Szukaj: nazwa, kod, kąt…", "hwFindNone": "Brak wyników"});
 Object.assign(I18N.es,{"hwFind": "Buscar: nombre, código, ángulo…", "hwFindNone": "Sin resultados"});
+Object.assign(I18N.it,{"slTitle": "Glisiere e cassetti Blum", "slHint": "Tutti i sistemi del catalogo Blum 2022/23 con codici, formule di taglio e foratura. La scheda tecnica si apre dal pulsante."});
+Object.assign(I18N.ro,{"slTitle": "Glisiere și casete Blum", "slHint": "Toate sistemele din catalogul Blum 2022/23, cu coduri, formule de tăiere și găurire. Fișa tehnică se deschide din buton."});
+Object.assign(I18N.en,{"slTitle": "Blum runners and drawer boxes", "slHint": "All systems of the Blum 2022/23 catalogue with order codes, cutting formulas and drilling. The data sheet opens from the button."});
+Object.assign(I18N.fr,{"slTitle": "Coulisses et tiroirs Blum", "slHint": "Tous les systèmes du catalogue Blum 2022/23 avec références, formules de débit et perçage. La fiche technique s'ouvre depuis le bouton."});
+Object.assign(I18N.de,{"slTitle": "Blum-Auszüge und Schubkästen", "slHint": "Alle Systeme des Blum-Katalogs 2022/23 mit Bestellnummern, Zuschnittformeln und Bohrungen. Das Datenblatt öffnet sich über die Schaltfläche."});
+Object.assign(I18N.pl,{"slTitle": "Prowadnice i szuflady Blum", "slHint": "Wszystkie systemy z katalogu Blum 2022/23 z numerami, wzorami krojenia i wierceniem. Kartę techniczną otwiera przycisk."});
+Object.assign(I18N.es,{"slTitle": "Guías y cajones Blum", "slHint": "Todos los sistemas del catálogo Blum 2022/23 con referencias, fórmulas de despiece y taladrado. La ficha técnica se abre desde el botón."});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -3854,6 +3866,7 @@ const HWDB={
 };
 /* D-114: toate codurile de comandă Blum din catalogul 2022/23 (ebanist-hinges-data.js) intră în lista de balamale; cele deja scrise mai sus rămân. */
 if(window.EBHinges) HWDB.cern.push(...EBHinges.catalogEntries(HWDB.cern.map(x=>x.id)));
+if(window.EBSlides) HWDB.guida.push(...EBSlides.catalogEntries(HWDB.guida.map(x=>x.id)));
 /* balamaua aleasă (pe corp: cfg.hwSel.cern, altfel din setări) și placuța ei: ebanist-ops.js cere găurirea ei prin hingeGeom(cfg) */
 function hingeGeom(cfg){
   if(!window.EBHinges) return null;
@@ -6501,12 +6514,12 @@ const DRAWSYS={
     n:{it:"Blum LEGRABOX",ro:"Blum LEGRABOX",en:"Blum LEGRABOX",fr:"Blum LEGRABOX",de:"Blum LEGRABOX",pl:"Blum LEGRABOX",es:"Blum LEGRABOX"},
     lat:"blum_lbx_pure",   // le sponde si comprano a parte: HWDB.zarga
     hs:{N:66.5,M:90.5,K:128.5,C:177,F:241},
-    baseW:-35, baseL:-10, backW:-38, backOff:27.5, sideTh:13,
+    baseW:-35, baseL:-10, backW:-38, backOff:27.5, sideTh:12.8,   // sideTh 12,8: catalog KA-150 p.197 („slim drawer side 12.8 mm”)
     nl:[270,300,350,400,450,500,550,600],
     rear:12, lift:13, headroom:24, chk:1},
   tandembox:{id:"tandembox",metal:1,brand:"Blum",guida:"blum_tandem",
     n:{it:"Blum TANDEMBOX antaro",ro:"Blum TANDEMBOX antaro",en:"Blum TANDEMBOX antaro",fr:"Blum TANDEMBOX antaro",de:"Blum TANDEMBOX antaro",pl:"Blum TANDEMBOX antaro",es:"Blum TANDEMBOX antaro"},
-    hs:{N:68,M:83,K:115,C:193,D:203},
+    hs:{N:68.5,M:83.6,K:115.6,C:193,D:203},   // N/M/K: Blum KA-150 2022/23 p.306/308/312 („drawer side”); C și D rămân (în catalog 192 și 224 sunt înălțimi cu galerie, nu laterală): de verificat
     baseW:-75, baseL:-24, backW:-87, backOff:26, sideTh:16,
     nl:[270,300,350,400,450,500,550,600],
     rear:12, lift:13, headroom:24, chk:1},
@@ -13242,6 +13255,29 @@ function catPhWire(root){
     const o=catPhOwner(b.dataset.kind,b.dataset.id); if(o){ delete o.img; persist(); renderCatalog(); }
   }));
 }
+/* guida aleasă → sistemul din catalogul Blum (blum_movento/blum_tandem = seriile vechi ale aplicației) */
+function slideSysOf(id){
+  if(!window.EBSlides) return "";
+  const k=EBSlides.keyOfHw(id)||({blum_movento:"movento_blumotion_s",blum_tandem:"tandem_locking"})[id]||"";
+  return k&&EBSlides.system(k)?k:"";
+}
+/* lista tuturor sistemelor de glisiere și casete din catalog, cu căutare; butonul deschide fișa */
+function paintSlidesBlock(){
+  const box=$("catSlidesWrap"); if(!box||!window.EBSlides) return;
+  const all=EBSlides.list().filter(x=>x.kind!=="drill").sort((a,b)=>({runner:0,box:1,accessory:2}[a.kind]-{runner:0,box:1,accessory:2}[b.kind])||a.name.localeCompare(b.name));
+  box.innerHTML=`<input type="search" class="slFind" placeholder="🔍 ${esc(t("hwFind"))}" autocomplete="off" style="width:100%;margin-bottom:6px"><div class="slList"></div>`;
+  const kindName=k=>({runner:"▭",box:"▣",accessory:"＋"}[k]||"");
+  const draw=q=>{
+    const w=hwNorm(q).split(/\s+/).filter(Boolean), hit=all.filter(x=>{ const k=hwNorm(x.name+" "+x.key+" "+(x.parts||[]).slice(0,60).map(p=>p.art).join(" ")); return w.every(z=>k.includes(z)); });
+    box.querySelector(".slList").innerHTML=hit.length?hit.map(x=>`<div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)"><span style="flex:1;font-size:13px">${kindName(x.kind)} ${esc(x.name)} <span class="mini">· ${(x.parts||[]).length}</span></span><button class="btn sm slOpen" data-sys="${x.key}">${esc(t("hsBtn"))}</button></div>`).join(""):`<div class="mini">${esc(t("hwFindNone"))}</div>`;
+    wireSlOpen(box);
+  };
+  box.querySelector(".slFind").addEventListener("input",e=>draw(e.target.value)); draw("");
+}
+function wireSlOpen(root){
+  root.querySelectorAll(".slOpen").forEach(b2=>b2.addEventListener("click",()=>{
+    $("hsBody").innerHTML=EBSlides.sheetHtml(b2.dataset.sys,{lang:state.lang})||""; openSheet("hsSheet"); }));
+}
 function renderCatalog(){
   const S=state.settings;
   renderSuppliers();
@@ -13256,6 +13292,7 @@ function renderCatalog(){
         <input class="catPrice" data-cat="${cat}" type="number" step="0.01" inputmode="decimal" placeholder="€" value="${it.price}" style="flex:1">
       </div>
       <div class="mini catRef" data-hw="${it.id||""}" style="margin-top:4px;line-height:1.4"></div>
+      ${cat==="guida"&&slideSysOf(sel)?`<button class="btn sm slOpen" data-sys="${slideSysOf(sel)}" style="margin-top:6px">${esc(t("hsBtn"))}</button>`:""}
       ${cat==="cern"&&window.EBHinges&&EBHinges.familyOfHw(sel)?`<div style="display:flex;gap:8px;margin-top:6px;align-items:center">
         <select class="catPlate" aria-label="${esc(t("hsPlate"))}" style="flex:1">${(EBHinges.familyOfHw(sel).plates||[]).map(pid=>{ const pl=EBHinges.plateById(pid); return pl?`<option value="${pid}"${(S.hwProd||{}).plate===pid?" selected":""}>${esc(t("hsPlate")+": "+pl.art.join(" / "))}</option>`:""; }).join("")}</select>
         <button class="btn sm hsOpen" data-hw="${sel}">${esc(t("hsBtn"))}</button></div>`:""}
@@ -13268,6 +13305,8 @@ function renderCatalog(){
   }).join("");
   paintGenericPrices();
   $("catHwWrap").querySelectorAll("select.catSel").forEach(hwSearchWire);
+  wireSlOpen($("catHwWrap"));
+  paintSlidesBlock();
   $("catHwWrap").querySelectorAll(".catPlate").forEach(s2=>s2.addEventListener("change",()=>{ state.settings.hwProd=state.settings.hwProd||{}; state.settings.hwProd.plate=s2.value; persist(); }));
   $("catHwWrap").querySelectorAll(".hsOpen").forEach(b2=>b2.addEventListener("click",()=>{
     $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5,plate:(state.settings.hwProd||{}).plate})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
@@ -17451,12 +17490,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.24.5"; /* APP_VER-MARKER */
+const APP_VER="5.25.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v198";
+const SW_CACHE="ebanist-v199";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
