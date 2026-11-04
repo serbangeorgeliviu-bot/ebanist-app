@@ -440,3 +440,22 @@ describe("raft peste balama: cota nouă propusă", () => {
     });
   });
 });
+
+describe("găurile raftului față de placuța balamalei (punte minimă 3 mm)", () => {
+  const proj = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "docs", "Ebanist_Proiect_Cetinic-3-corpuri.json"), "utf8"));
+  const mats = { matBody: "__b", matFront: "__f", matBack: "__k" };
+  ["Entrance sx jos", "Entrance sx sus", "Entrance dx"].forEach(n => {
+    test(n + ": nicio gaură de suport la mai puțin de 8 mm (centre) de o gaură de placuță", () => {
+      const o = build(Object.assign({}, proj.configs[n], mats)).ops();
+      o.pieces.forEach(p => {
+        const d = p.operations.filter(q => q.type === "drill" && q._w);
+        const pl = d.filter(q => /basetta/.test(q.note)), pn = d.filter(q => /reggipiano/.test(q.note));
+        pl.forEach(a => pn.forEach(b => { if (a.face === b.face) assert.ok(Math.hypot(a._w[1] - b._w[1], a._w[2] - b._w[2]) >= 8 || Math.abs(a._w[0] - b._w[0]) > 1, `${n}: ${a._w} / ${b._w}`); }));
+      });
+    });
+  });
+  test("data: banda raft×balama stă în HW_DRILL, marcată neverificată", () => {
+    const sb = S.HW_DRILL.hinge.shelf_band;
+    assert.deepEqual([sb.hole_gap, sb.web, sb.aria, sb.verificat], [8, 3, 5, false]);
+  });
+});

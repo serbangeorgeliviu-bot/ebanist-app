@@ -39,7 +39,13 @@ var HW_DRILL = {
   sys32: { front: 37, pitch: 32 },                         // prima fila dal filo anteriore
   hinge: { cup_dia: 35, dowel_dia: 8, dowel_depth: 11,     // Blum 45/9,5
            dowel_spacing: 45, dowel_offset: 9.5,
-           plate_dia: 5, plate_depth: 13, plate_spacing: 32 },
+           plate_dia: 5, plate_depth: 13, plate_spacing: 32,
+           /* D-113: banda în care un raft nu are voie, pe lângă placuța de balama. SURSE (Blum, CLIP top BLUMOTION, cat. 2010 și 2022):
+              găuri Ø5 la 32 mm una de alta, linia lor la 37 mm de față, placuța de 8,5 mm înălțime la plăcuța de 0 mm. Lungimea
+              și lățimea exterioară a placuței NU sunt în documentele găsite (doar în desenul de tehnică, fără cote de contur), deci
+              banda e calculată din găuri, nu din contur: hole_gap = distanța liberă între gaura suportului și gaura placuței
+              (3 mm de punte între două Ø5), aria = aer sub placuță. De înlocuit cu conturul real când se măsoară placuța. */
+           shelf_band: { hole_gap: 8, web: 3, aria: 5, verificat: false } },
   minifix: { cam_dia: 15, cam_depth_16: 12.5, cam_depth_19: 13.5, // Häfele Minifix 15
              cam_dist: 34, bolt_dia: 5, bolt_depth: 11,
              shank_dia: 8, end_dist: 50, mid_over: 700 },
@@ -258,13 +264,13 @@ function doorHandle(out, D, m, freeRight, topD) {
 }
 
 /* un foro sulla stessa faccia che si sovrapporrebbe a questo? */
-function clash(p, ax, side, w, dia) {
+function clash(p, ax, side, w, dia, web) {   // web = puntea minimă între două găuri (implicit 0,5 mm)
   for (var i = 0; i < p.holes.length; i++) {
     var h = p.holes[i];
     if (h.ax !== ax || (h.side !== side && !h.through)) continue;
     var d2 = 0;
     for (var a = 0; a < 3; a++) if (a !== ax) d2 += (h.w[a] - w[a]) * (h.w[a] - w[a]);
-    if (Math.sqrt(d2) < (h.dia + dia) / 2 + 0.5) return true;
+    if (Math.sqrt(d2) < (h.dia + dia) / 2 + (web == null ? 0.5 : web)) return true;
   }
   return false;
 }
@@ -737,7 +743,7 @@ function generate1(input) {
         var id = "hw_" + out.hw.length, sd = side < 0 ? 1 : -1, moved = false, seatK = null;
         for (var k = -H.pin.extra; k <= H.pin.extra; k++) {
           var w = [fx, y + k * H.sys32.pitch, z];
-          if (clash(P, 0, sd, w, H.pin.dia)) { if (k === 0) moved = true; continue; }
+          if (clash(P, 0, sd, w, H.pin.dia, H.hinge.shelf_band.web)) { if (k === 0) moved = true; continue; }   // și gaura de reglare, la mai puțin de `web` de o placuță, se sare
           hole(P, 0, sd, w, H.pin.dia, H.pin.depth, id,
                k === 0 ? "reggipiano" : "reggipiano (regolazione)");
           if (k === 0) seatK = 0; else if (seatK === null && k < 0) seatK = k;   // fără gaura principală, raftul stă pe cea de reglare de dedesubt
@@ -757,13 +763,13 @@ function generate1(input) {
          e a utilizatorului (D-56). Se spune care raft, care balame și la ce cotă ar sta liber, în sus sau în jos.
          Raftul cu fundul la b e liber față de o placuță la y când b >= y + 30 (16 gaură + 6 drop + 8 între găuri)
          sau b + grosime <= y - 21 (16 gaură + 5 aer). */
-  var SH_UP = H.hinge.plate_spacing / 2 + H.pin.drop + 8, SH_DN = H.hinge.plate_spacing / 2 + 5;
+  var SH_UP = H.hinge.plate_spacing / 2 + H.pin.drop + H.hinge.shelf_band.hole_gap, SH_DN = H.hinge.plate_spacing / 2 + H.hinge.shelf_band.aria;
   byRole("ripiano").forEach(function (S) {
     if (S.tAx !== 1 || S.curved) return;
     var t = S.max[1] - S.min[1], hits = [];
     out.hw.forEach(function (hw) {
       if (hw.type !== "cerniera" || !hw.plate) return;
-      if (Math.abs(S.min[0] - hw.plate[0]) > 0.6 && Math.abs(S.max[0] - hw.plate[0]) > 0.6) return;
+      if (Math.abs(S.min[0] - hw.plate[0]) > 6 && Math.abs(S.max[0] - hw.plate[0]) > 6) return;   // ca la suporți (panelBeside, 6 mm): raftul din rafturi egale are un joc de montaj față de perete
       if (S.max[2] < hw.plate[2] - 10) return;
       hits.push({ id: hw.id, y: hw.plate[1] });
     });
