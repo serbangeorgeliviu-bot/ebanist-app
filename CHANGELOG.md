@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.26.0 — 4 noiembrie 2026
+
+**Deblocare cu amprentă / Face ID pentru cont, pe web (D-116).** În foaia „Cont”, după o logare cu parolă, apare „Activează deblocarea cu amprentă / Face ID”. Cu ea activă, „Ieși din cont” închide sesiunea numai pe acest dispozitiv, iar contul se redeschide cu un singur gest, fără email și parolă. Parola rămâne mereu valabilă și poate fi folosită oricând.
+
+Cum e păstrat: refresh token-ul sesiunii stă în localStorage numai criptat (ECDH P-256 + AES-GCM). Cheia privată e învelită cu un secret dat de autentificatorul dispozitivului (WebAuthn, extensia PRF), care se eliberează numai după amprentă. La fiecare rotație a token-ului, copia criptată se reînnoiește tăcut, fără o nouă amprentă. Dacă dispozitivul sau browserul nu are PRF, funcția nu se activează și aplicația spune de ce; o poartă numai în interfață nu ar proteja nimic. Nu intră în backup (e legată de dispozitiv). Nicio dată biometrică nu ajunge în aplicație.
+
+Se activează numai unde browserul are autentificator de platformă. Pe Android (aplicația din Play) nu apare încă: acolo vine, în versiunea următoare, cu `BiometricPrompt` și Keystore. Geometria și distinta nu s-au schimbat. Teste noi: `biometric.test.js` (14), seria completă trece. `APP_VER` 5.26.0, cache-ul SW `ebanist-v200`.
+
+---
+
 ## 5.25.0 — 4 noiembrie 2026
 
 **Glisierele și casetele Blum din catalog, cu fișă tehnică.** Același procedeu ca la balamale (D-114): pagina din catalogul oficial 2022/2023 (KA-150), transcrisă pe pagini, numai cote cu etichetă sau din tabel, fiecare cu pagina sursă (`tools/blum-slides-data/*.json` → `tools/blum-slides-build.mjs` → `app/ebanist-slides-data.js`). Sunt 42 de sisteme și 912 de coduri: MOVENTO (BLUMOTION S, TIP-ON BLUMOTION, TIP-ON), TANDEM 11–16 mm și 19 mm (locking device, hook and peg), METABOX, LEGRABOX pure (N, M, K, C, F) și free, sertarul de sub chiuvetă, MERIVOBOX, TANDEMBOX antaro, accesoriile și TIP-ON. În Catalog, sub ferătura obișnuită, apare lista lor cu căutare (nume, cod) și butonul „Fișă tehnică”: lungimi NL, sarcină, cotele de dulap, formulele de tăiere, constantele, tabelele, codurile, ce nu s-a putut transcrie.

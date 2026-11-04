@@ -2326,12 +2326,15 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <button class="btn red" id="btnAcctLogin" style="margin-top:8px">Accedi</button>
     <button class="btn" id="btnAcctSignup" style="margin-top:8px">Crea account</button>
     <button class="btn ghost" id="btnAcctForgot" style="margin-top:8px;font-size:13.5px">Password dimenticata</button>
+    <button class="btn" id="btnAcctBio" style="margin-top:8px;display:none"></button>
   </div>
 
   <div id="acctLoggedIn" style="display:none">
     <p class="mini"><span id="acctLoggedInLbl">Connesso come</span> <strong id="acctEmailShow"></strong></p>
     <p class="mini"><span id="acctRoleLbl">Ruolo</span>: <strong id="acctRoleShow"></strong></p>
     <button class="btn" id="btnAcctAtelier" style="margin-top:8px;display:none">Atelier</button>
+    <button class="btn" id="btnAcctBioToggle" style="margin-top:8px;display:none"></button>
+    <p class="mini" id="acctBioNote" style="margin-top:6px;display:none"></p>
     <button class="btn" id="btnAcctLogout" style="margin-top:8px">Esci</button>
   </div>
 </div>
@@ -2595,6 +2598,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-funnel.js"></script>
 <script src="./ebanist-review.js"></script>
 <script src="./ebanist-backup.js"></script>
+<script src="./ebanist-biometric.js"></script>
 <script src="./ebanist-atelier.js"></script>
 <script src="./ebanist-qr.js"></script>
 <script src="./ebanist-passport.js"></script>
@@ -3655,13 +3659,13 @@ const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"
 
 /* ================= ACCOUNT I18N (izolat de I18N principal) ================= */
 const AUTH_I18N = {
-it:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Accedi",acctSignup:"Crea account",acctLogout:"Esci",acctLoggedInAs:"Connesso come",acctRole:"Ruolo",acctOk:"Fatto",acctCheckEmail:"Controlla la tua email per confermare l'account.",acctOffline:"Modalità offline — l'app funziona anche senza account. Con l'account i progetti si sincronizzano fra telefono e computer.",acctNoNet:"Nessuna connessione — riprova quando sei online.",acctNeedEmail:"Scrivi prima la tua email.",acctResetSent:"Ti ho inviato un link per reimpostare la password.",acctNewPwd:"Nuova password",acctNewPwdNote:"Almeno 8 caratteri. Dopo il salvataggio resti connesso.",acctRepeat:"Ripeti",acctSave:"Salva",acctPwdShort:"Almeno 8 caratteri.",acctPwdMismatch:"Le due password non coincidono.",acctPwdChanged:"Password aggiornata ✓",acctForgot:"Password dimenticata"},
-ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conectare",acctSignup:"Creează cont",acctLogout:"Ieși din cont",acctLoggedInAs:"Conectat ca",acctRole:"Rol",acctOk:"Gata",acctCheckEmail:"Verifică emailul pentru a confirma contul.",acctOffline:"Mod offline — aplicația funcționează și fără cont. Cu cont, proiectele se sincronizează între telefon și calculator.",acctNoNet:"Fără conexiune — încearcă din nou când ai internet.",acctNeedEmail:"Scrie întâi emailul tău.",acctResetSent:"Ți-am trimis pe email un link de resetare.",acctNewPwd:"Parolă nouă",acctNewPwdNote:"Minim 8 caractere. După salvare rămâi conectat.",acctRepeat:"Repetă",acctSave:"Salvează",acctPwdShort:"Minim 8 caractere.",acctPwdMismatch:"Cele două parole nu coincid.",acctPwdChanged:"Parolă schimbată ✓",acctForgot:"Am uitat parola"},
-en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. With an account your projects sync between phone and computer.",acctNoNet:"No connection — try again when you are online.",acctNeedEmail:"Enter your email first.",acctResetSent:"I sent you a reset link by email.",acctNewPwd:"New password",acctNewPwdNote:"At least 8 characters. You stay signed in after saving.",acctRepeat:"Repeat",acctSave:"Save",acctPwdShort:"At least 8 characters.",acctPwdMismatch:"The two passwords do not match.",acctPwdChanged:"Password updated ✓",acctForgot:"Forgot password"},
-fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Avec un compte, les projets se synchronisent entre téléphone et ordinateur.",acctNoNet:"Pas de connexion — réessayez une fois en ligne.",acctNeedEmail:"Saisissez d'abord votre email.",acctResetSent:"Je vous ai envoyé un lien de réinitialisation.",acctNewPwd:"Nouveau mot de passe",acctNewPwdNote:"Au moins 8 caractères. Vous restez connecté après l'enregistrement.",acctRepeat:"Répéter",acctSave:"Enregistrer",acctPwdShort:"Au moins 8 caractères.",acctPwdMismatch:"Les deux mots de passe ne correspondent pas.",acctPwdChanged:"Mot de passe mis à jour ✓",acctForgot:"Mot de passe oublié"},
-de:{"acctTitle":"Konto","acctEmail":"E-Mail","acctPassword":"Passwort","acctLogin":"Anmelden","acctSignup":"Konto erstellen","acctLogout":"Abmelden","acctLoggedInAs":"Angemeldet als","acctRole":"Rolle","acctOk":"Fertig","acctCheckEmail":"Prüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu bestätigen.","acctOffline":"Offline-Modus – die App funktioniert auch ohne Konto. Mit Konto werden Ihre Projekte zwischen Handy und Computer synchronisiert.","acctNoNet":"Keine Verbindung – versuchen Sie es erneut, wenn Sie online sind.","acctNeedEmail":"Geben Sie zuerst Ihre E-Mail-Adresse ein.","acctResetSent":"Ich habe Ihnen einen Link zum Zurücksetzen per E-Mail geschickt.","acctNewPwd":"Neues Passwort","acctNewPwdNote":"Mindestens 8 Zeichen. Nach dem Speichern bleiben Sie angemeldet.","acctRepeat":"Wiederholen","acctSave":"Speichern","acctPwdShort":"Mindestens 8 Zeichen.","acctPwdMismatch":"Die beiden Passwörter stimmen nicht überein.","acctPwdChanged":"Passwort aktualisiert ✓","acctForgot":"Passwort vergessen"},
-pl:{"acctTitle":"Konto","acctEmail":"E-mail","acctPassword":"Hasło","acctLogin":"Zaloguj się","acctSignup":"Utwórz konto","acctLogout":"Wyloguj się","acctLoggedInAs":"Zalogowano jako","acctRole":"Rola","acctOk":"Gotowe","acctCheckEmail":"Sprawdź pocztę, aby potwierdzić konto.","acctOffline":"Tryb offline — aplikacja działa także bez konta. Z kontem Twoje projekty synchronizują się między telefonem a komputerem.","acctNoNet":"Brak połączenia — spróbuj ponownie, gdy będziesz online.","acctNeedEmail":"Najpierw wpisz swój e-mail.","acctResetSent":"Wysłałem Ci e-mailem link do zresetowania hasła.","acctNewPwd":"Nowe hasło","acctNewPwdNote":"Co najmniej 8 znaków. Po zapisaniu pozostajesz zalogowany.","acctRepeat":"Powtórz","acctSave":"Zapisz","acctPwdShort":"Co najmniej 8 znaków.","acctPwdMismatch":"Oba hasła nie są takie same.","acctPwdChanged":"Hasło zaktualizowane ✓","acctForgot":"Nie pamiętam hasła"},
-es:{"acctTitle":"Cuenta","acctEmail":"Correo electrónico","acctPassword":"Contraseña","acctLogin":"Iniciar sesión","acctSignup":"Crear cuenta","acctLogout":"Cerrar sesión","acctLoggedInAs":"Sesión iniciada como","acctRole":"Rol","acctOk":"Hecho","acctCheckEmail":"Revisa tu correo para confirmar la cuenta.","acctOffline":"Modo sin conexión — la app funciona también sin cuenta. Con cuenta, tus proyectos se sincronizan entre el móvil y el ordenador.","acctNoNet":"Sin conexión — inténtalo de nuevo cuando estés en línea.","acctNeedEmail":"Escribe primero tu correo electrónico.","acctResetSent":"Te envié por correo un enlace para restablecer la contraseña.","acctNewPwd":"Nueva contraseña","acctNewPwdNote":"Al menos 8 caracteres. Sigues con la sesión iniciada tras guardar.","acctRepeat":"Repetir","acctSave":"Guardar","acctPwdShort":"Al menos 8 caracteres.","acctPwdMismatch":"Las dos contraseñas no coinciden.","acctPwdChanged":"Contraseña actualizada ✓","acctForgot":"Olvidé la contraseña"}
+it:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Accedi",acctSignup:"Crea account",acctLogout:"Esci",acctLoggedInAs:"Connesso come",acctRole:"Ruolo",acctOk:"Fatto",acctCheckEmail:"Controlla la tua email per confermare l'account.",acctOffline:"Modalità offline — l'app funziona anche senza account. Con l'account i progetti si sincronizzano fra telefono e computer.",acctNoNet:"Nessuna connessione — riprova quando sei online.",acctNeedEmail:"Scrivi prima la tua email.",acctResetSent:"Ti ho inviato un link per reimpostare la password.",acctNewPwd:"Nuova password",acctNewPwdNote:"Almeno 8 caratteri. Dopo il salvataggio resti connesso.",acctRepeat:"Ripeti",acctSave:"Salva",acctPwdShort:"Almeno 8 caratteri.",acctPwdMismatch:"Le due password non coincidono.",acctPwdChanged:"Password aggiornata ✓",acctForgot:"Password dimenticata",acctBioLogin:"Accedi con impronta / Face ID",acctBioOn:"Attiva lo sblocco con impronta / Face ID",acctBioOff:"Disattiva lo sblocco biometrico",acctBioNote:"Dopo «Esci» l'account si riapre solo con l'impronta o il Face ID di questo dispositivo. La password resta sempre valida.",acctBioEnabled:"Sblocco biometrico attivato ✓",acctBioDisabled:"Sblocco biometrico disattivato",acctBioNoPrf:"Questo dispositivo o browser non permette lo sblocco sicuro con l'impronta. Usa la password.",acctBioFail:"Sblocco non riuscito. Usa la password.",acctBioExpired:"Sessione scaduta. Accedi con la password."},
+ro:{acctTitle:"Cont",acctEmail:"Email",acctPassword:"Parolă",acctLogin:"Conectare",acctSignup:"Creează cont",acctLogout:"Ieși din cont",acctLoggedInAs:"Conectat ca",acctRole:"Rol",acctOk:"Gata",acctCheckEmail:"Verifică emailul pentru a confirma contul.",acctOffline:"Mod offline — aplicația funcționează și fără cont. Cu cont, proiectele se sincronizează între telefon și calculator.",acctNoNet:"Fără conexiune — încearcă din nou când ai internet.",acctNeedEmail:"Scrie întâi emailul tău.",acctResetSent:"Ți-am trimis pe email un link de resetare.",acctNewPwd:"Parolă nouă",acctNewPwdNote:"Minim 8 caractere. După salvare rămâi conectat.",acctRepeat:"Repetă",acctSave:"Salvează",acctPwdShort:"Minim 8 caractere.",acctPwdMismatch:"Cele două parole nu coincid.",acctPwdChanged:"Parolă schimbată ✓",acctForgot:"Am uitat parola",acctBioLogin:"Conectare cu amprentă / Face ID",acctBioOn:"Activează deblocarea cu amprentă / Face ID",acctBioOff:"Dezactivează deblocarea biometrică",acctBioNote:"După „Ieși din cont” contul se redeschide numai cu amprenta sau Face ID de pe acest dispozitiv. Parola rămâne mereu valabilă.",acctBioEnabled:"Deblocare biometrică activată ✓",acctBioDisabled:"Deblocare biometrică dezactivată",acctBioNoPrf:"Acest dispozitiv sau browser nu permite deblocarea sigură cu amprenta. Folosește parola.",acctBioFail:"Deblocarea nu a reușit. Folosește parola.",acctBioExpired:"Sesiunea a expirat. Conectează-te cu parola."},
+en:{acctTitle:"Account",acctEmail:"Email",acctPassword:"Password",acctLogin:"Sign in",acctSignup:"Create account",acctLogout:"Sign out",acctLoggedInAs:"Signed in as",acctRole:"Role",acctOk:"Done",acctCheckEmail:"Check your email to confirm your account.",acctOffline:"Offline mode — the app works without an account too. With an account your projects sync between phone and computer.",acctNoNet:"No connection — try again when you are online.",acctNeedEmail:"Enter your email first.",acctResetSent:"I sent you a reset link by email.",acctNewPwd:"New password",acctNewPwdNote:"At least 8 characters. You stay signed in after saving.",acctRepeat:"Repeat",acctSave:"Save",acctPwdShort:"At least 8 characters.",acctPwdMismatch:"The two passwords do not match.",acctPwdChanged:"Password updated ✓",acctForgot:"Forgot password",acctBioLogin:"Sign in with fingerprint / Face ID",acctBioOn:"Turn on fingerprint / Face ID unlock",acctBioOff:"Turn off biometric unlock",acctBioNote:"After “Sign out” the account reopens only with this device's fingerprint or Face ID. Your password always keeps working.",acctBioEnabled:"Biometric unlock on ✓",acctBioDisabled:"Biometric unlock off",acctBioNoPrf:"This device or browser cannot do secure fingerprint unlock. Use your password.",acctBioFail:"Unlock failed. Use your password.",acctBioExpired:"Session expired. Sign in with your password."},
+fr:{acctTitle:"Compte",acctEmail:"Email",acctPassword:"Mot de passe",acctLogin:"Se connecter",acctSignup:"Créer un compte",acctLogout:"Se déconnecter",acctLoggedInAs:"Connecté en tant que",acctRole:"Rôle",acctOk:"Terminé",acctCheckEmail:"Vérifiez votre email pour confirmer le compte.",acctOffline:"Mode hors ligne — l'app fonctionne aussi sans compte. Avec un compte, les projets se synchronisent entre téléphone et ordinateur.",acctNoNet:"Pas de connexion — réessayez une fois en ligne.",acctNeedEmail:"Saisissez d'abord votre email.",acctResetSent:"Je vous ai envoyé un lien de réinitialisation.",acctNewPwd:"Nouveau mot de passe",acctNewPwdNote:"Au moins 8 caractères. Vous restez connecté après l'enregistrement.",acctRepeat:"Répéter",acctSave:"Enregistrer",acctPwdShort:"Au moins 8 caractères.",acctPwdMismatch:"Les deux mots de passe ne correspondent pas.",acctPwdChanged:"Mot de passe mis à jour ✓",acctForgot:"Mot de passe oublié",acctBioLogin:"Se connecter avec l'empreinte / Face ID",acctBioOn:"Activer le déverrouillage par empreinte / Face ID",acctBioOff:"Désactiver le déverrouillage biométrique",acctBioNote:"Après « Se déconnecter », le compte ne se rouvre qu'avec l'empreinte ou le Face ID de cet appareil. Le mot de passe reste toujours valable.",acctBioEnabled:"Déverrouillage biométrique activé ✓",acctBioDisabled:"Déverrouillage biométrique désactivé",acctBioNoPrf:"Cet appareil ou ce navigateur ne permet pas le déverrouillage sécurisé par empreinte. Utilisez le mot de passe.",acctBioFail:"Échec du déverrouillage. Utilisez le mot de passe.",acctBioExpired:"Session expirée. Connectez-vous avec le mot de passe."},
+de:{"acctTitle":"Konto","acctEmail":"E-Mail","acctPassword":"Passwort","acctLogin":"Anmelden","acctSignup":"Konto erstellen","acctLogout":"Abmelden","acctLoggedInAs":"Angemeldet als","acctRole":"Rolle","acctOk":"Fertig","acctCheckEmail":"Prüfen Sie Ihr E-Mail-Postfach, um Ihr Konto zu bestätigen.","acctOffline":"Offline-Modus – die App funktioniert auch ohne Konto. Mit Konto werden Ihre Projekte zwischen Handy und Computer synchronisiert.","acctNoNet":"Keine Verbindung – versuchen Sie es erneut, wenn Sie online sind.","acctNeedEmail":"Geben Sie zuerst Ihre E-Mail-Adresse ein.","acctResetSent":"Ich habe Ihnen einen Link zum Zurücksetzen per E-Mail geschickt.","acctNewPwd":"Neues Passwort","acctNewPwdNote":"Mindestens 8 Zeichen. Nach dem Speichern bleiben Sie angemeldet.","acctRepeat":"Wiederholen","acctSave":"Speichern","acctPwdShort":"Mindestens 8 Zeichen.","acctPwdMismatch":"Die beiden Passwörter stimmen nicht überein.","acctPwdChanged":"Passwort aktualisiert ✓","acctForgot":"Passwort vergessen","acctBioLogin":"Mit Fingerabdruck / Face ID anmelden","acctBioOn":"Entsperren mit Fingerabdruck / Face ID aktivieren","acctBioOff":"Biometrisches Entsperren deaktivieren","acctBioNote":"Nach „Abmelden“ öffnet sich das Konto nur noch mit Fingerabdruck oder Face ID dieses Geräts. Das Passwort funktioniert immer.","acctBioEnabled":"Biometrisches Entsperren aktiviert ✓","acctBioDisabled":"Biometrisches Entsperren deaktiviert","acctBioNoPrf":"Dieses Gerät oder dieser Browser unterstützt kein sicheres Entsperren per Fingerabdruck. Verwenden Sie das Passwort.","acctBioFail":"Entsperren fehlgeschlagen. Verwenden Sie das Passwort.","acctBioExpired":"Sitzung abgelaufen. Melden Sie sich mit dem Passwort an."},
+pl:{"acctTitle":"Konto","acctEmail":"E-mail","acctPassword":"Hasło","acctLogin":"Zaloguj się","acctSignup":"Utwórz konto","acctLogout":"Wyloguj się","acctLoggedInAs":"Zalogowano jako","acctRole":"Rola","acctOk":"Gotowe","acctCheckEmail":"Sprawdź pocztę, aby potwierdzić konto.","acctOffline":"Tryb offline — aplikacja działa także bez konta. Z kontem Twoje projekty synchronizują się między telefonem a komputerem.","acctNoNet":"Brak połączenia — spróbuj ponownie, gdy będziesz online.","acctNeedEmail":"Najpierw wpisz swój e-mail.","acctResetSent":"Wysłałem Ci e-mailem link do zresetowania hasła.","acctNewPwd":"Nowe hasło","acctNewPwdNote":"Co najmniej 8 znaków. Po zapisaniu pozostajesz zalogowany.","acctRepeat":"Powtórz","acctSave":"Zapisz","acctPwdShort":"Co najmniej 8 znaków.","acctPwdMismatch":"Oba hasła nie są takie same.","acctPwdChanged":"Hasło zaktualizowane ✓","acctForgot":"Nie pamiętam hasła","acctBioLogin":"Zaloguj się odciskiem palca / Face ID","acctBioOn":"Włącz odblokowanie odciskiem palca / Face ID","acctBioOff":"Wyłącz odblokowanie biometryczne","acctBioNote":"Po „Wyloguj się” konto otworzy się tylko odciskiem palca lub Face ID tego urządzenia. Hasło zawsze działa.","acctBioEnabled":"Odblokowanie biometryczne włączone ✓","acctBioDisabled":"Odblokowanie biometryczne wyłączone","acctBioNoPrf":"To urządzenie lub przeglądarka nie obsługuje bezpiecznego odblokowania odciskiem palca. Użyj hasła.","acctBioFail":"Odblokowanie nie powiodło się. Użyj hasła.","acctBioExpired":"Sesja wygasła. Zaloguj się hasłem."},
+es:{"acctTitle":"Cuenta","acctEmail":"Correo electrónico","acctPassword":"Contraseña","acctLogin":"Iniciar sesión","acctSignup":"Crear cuenta","acctLogout":"Cerrar sesión","acctLoggedInAs":"Sesión iniciada como","acctRole":"Rol","acctOk":"Hecho","acctCheckEmail":"Revisa tu correo para confirmar la cuenta.","acctOffline":"Modo sin conexión — la app funciona también sin cuenta. Con cuenta, tus proyectos se sincronizan entre el móvil y el ordenador.","acctNoNet":"Sin conexión — inténtalo de nuevo cuando estés en línea.","acctNeedEmail":"Escribe primero tu correo electrónico.","acctResetSent":"Te envié por correo un enlace para restablecer la contraseña.","acctNewPwd":"Nueva contraseña","acctNewPwdNote":"Al menos 8 caracteres. Sigues con la sesión iniciada tras guardar.","acctRepeat":"Repetir","acctSave":"Guardar","acctPwdShort":"Al menos 8 caracteres.","acctPwdMismatch":"Las dos contraseñas no coinciden.","acctPwdChanged":"Contraseña actualizada ✓","acctForgot":"Olvidé la contraseña","acctBioLogin":"Iniciar sesión con huella / Face ID","acctBioOn":"Activar el desbloqueo con huella / Face ID","acctBioOff":"Desactivar el desbloqueo biométrico","acctBioNote":"Tras «Cerrar sesión», la cuenta solo se reabre con la huella o el Face ID de este dispositivo. La contraseña siempre sigue valiendo.","acctBioEnabled":"Desbloqueo biométrico activado ✓","acctBioDisabled":"Desbloqueo biométrico desactivado","acctBioNoPrf":"Este dispositivo o navegador no permite el desbloqueo seguro con huella. Usa la contraseña.","acctBioFail":"No se pudo desbloquear. Usa la contraseña.","acctBioExpired":"Sesión caducada. Inicia sesión con la contraseña."}
 };
 /* ================= RILIEVO I18N (Faza 2A — izolat de I18N principal) ================= */
 const SURVEY_I18N = {
@@ -15024,6 +15028,27 @@ function initSupabase(){
 }
 let acctSession=null, acctProfile=null;
 
+/* ---- deblocare biometrică (D-116, ebanist-biometric.js) ----
+   Biometria deschide o sesiune care exista deja; parola ramane mereu valabila.
+   Cu biometria activa, «Esci» inchide sesiunea numai pe acest dispozitiv (token-ul
+   ramane valid pe server, dar nu se citeste decat cu amprenta). */
+let bioAvail=false;
+const bioEnv=()=>EBBiometric.browserEnv();
+function renderBio(loggedIn){
+  const on=EBBiometric.has(bioEnv());
+  const tg=$("btnAcctBioToggle"), lg=$("btnAcctBio"), nt=$("acctBioNote");
+  if(!tg||!lg||!nt) return;
+  tg.style.display=(loggedIn&&bioAvail)?"flex":"none";
+  tg.textContent=ta(on?"acctBioOff":"acctBioOn");
+  nt.style.display=(loggedIn&&bioAvail&&on)?"block":"none";
+  nt.textContent=ta("acctBioNote");
+  lg.style.display=(!loggedIn&&bioAvail&&on)?"flex":"none";
+  lg.textContent=ta("acctBioLogin");
+}
+function bioInit(){
+  try{ EBBiometric.available(bioEnv()).then(ok=>{ bioAvail=ok; renderAccount(); }); }catch(e){}
+}
+
 function renderAccount(){
   if(!$("shAccount"))return;
   $("acctTitle").textContent=ta("acctTitle");
@@ -15043,6 +15068,7 @@ function renderAccount(){
     $("acctEmailShow").textContent=(acctSession.user&&acctSession.user.email)||"";
     $("acctRoleShow").textContent=acctProfile?acctProfile.role:"—";
   }
+  renderBio(loggedIn);
   const atBtn=$("btnAcctAtelier");
   if(atBtn){ atBtn.style.display=(loggedIn&&window.EBAtelier&&EBAtelier.flagOn(window))?"flex":"none"; atBtn.textContent=EBAtelier.t(state.lang,"atTitle"); }
 }
@@ -15065,6 +15091,8 @@ async function initAuth(){
     atBoot(); atFlush();
     if(acctSession) await pullAndMergeProjects();
     sb.auth.onAuthStateChange(async(_event,newSession)=>{
+      /* Supabase rotește token-ul: păstrăm copia criptată la zi, tăcut, fără amprentă */
+      if(newSession&&newSession.refresh_token&&EBBiometric.has(bioEnv())) EBBiometric.reseal(bioEnv(),newSession.refresh_token).catch(()=>{});
       if(_event==="PASSWORD_RECOVERY"){ acctSession=newSession; renderAccount(); openPwdSheet(); return; }
       const wasLoggedIn=!!acctSession;
       acctSession=newSession;
@@ -15900,7 +15928,40 @@ $("btnPwdSave").addEventListener("click",async()=>{
 
 $("btnAcctLogout").addEventListener("click",async()=>{
   if(!initSupabase()){ toast(ta("acctNoNet")); return; }
-  await sb.auth.signOut();
+  await sb.auth.signOut(EBBiometric.has(bioEnv())?{scope:"local"}:undefined);
+  toast(ta("acctOk"));
+});
+
+$("btnAcctBioToggle").addEventListener("click",async()=>{
+  const env=bioEnv();
+  if(EBBiometric.has(env)){ EBBiometric.clear(env); renderAccount(); toast(ta("acctBioDisabled")); return; }
+  if(!acctSession||!acctSession.refresh_token) return;
+  try{
+    await EBBiometric.enroll(env,{email:(acctSession.user&&acctSession.user.email)||"",refreshToken:acctSession.refresh_token});
+    renderAccount(); toast(ta("acctBioEnabled"));
+  }catch(e){
+    EBBiometric.clear(env);
+    if(e&&e.message==="cancelled") return;
+    if(e&&(e.name==="NotAllowedError"||e.name==="AbortError")) return;
+    toast(ta(e&&e.message==="no-prf"?"acctBioNoPrf":"acctBioFail"));
+  }
+});
+
+$("btnAcctBio").addEventListener("click",async()=>{
+  if(!initSupabase()){ toast(ta("acctNoNet")); return; }
+  const env=bioEnv();
+  let tok;
+  try{ tok=await EBBiometric.unlock(env); }
+  catch(e){
+    if(e&&(e.message==="cancelled"||e.name==="NotAllowedError"||e.name==="AbortError")) return;
+    toast(ta("acctBioFail")); return;
+  }
+  const {error}=await sb.auth.refreshSession({refresh_token:tok});
+  if(error){
+    /* fără rețea: blocul rămâne. Numai un refuz al serverului (token revocat sau expirat) îl strică; parola rămâne */
+    if(error.name!=="AuthApiError"){ toast(ta("acctNoNet")); return; }
+    EBBiometric.clear(env); renderAccount(); toast(ta("acctBioExpired")); return;
+  }
   toast(ta("acctOk"));
 });
 
@@ -17351,7 +17412,7 @@ playBoot();
    cosa che sta fra un telefono ripulito e la giornata di lavoro di
    qualcuno. Tutto il resto dell'avvio la aspetta. */
 const HYDRATED=hydrateFromIDB().catch(()=>{});
-function bootAuth(){ initSupabase(); initAuth(); initSplash(); }
+function bootAuth(){ initSupabase(); initAuth(); bioInit(); initSplash(); }
 if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",bootAuth); else bootAuth();
 
 /* ---- il resto dell'avvio, in ordine e senza fretta ----
@@ -17490,12 +17551,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.25.0"; /* APP_VER-MARKER */
+const APP_VER="5.26.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v199";
+const SW_CACHE="ebanist-v200";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
