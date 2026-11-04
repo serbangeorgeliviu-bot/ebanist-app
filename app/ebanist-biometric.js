@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — deblocare biometrică a contului, pe web (D-113)
+   Ebanist — deblocare biometrică a contului, pe web (D-116)
    ---------------------------------------------------------------------
    Parte pură, fără DOM: dependențele (crypto, credentials, storage) se dau
    din afară, ca să se poată proba în node.

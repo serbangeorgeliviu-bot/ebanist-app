@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.25.0 — 4 noiembrie 2026
 
-**Deblocare cu amprentă / Face ID pentru cont, pe web (D-113).** În foaia „Cont”, după o logare cu parolă, apare „Activează deblocarea cu amprentă / Face ID”. Cu ea activă, „Ieși din cont” închide sesiunea numai pe acest dispozitiv, iar contul se redeschide cu un singur gest, fără email și parolă. Parola rămâne mereu valabilă și poate fi folosită oricând.
+**Deblocare cu amprentă / Face ID pentru cont, pe web (D-116).** În foaia „Cont”, după o logare cu parolă, apare „Activează deblocarea cu amprentă / Face ID”. Cu ea activă, „Ieși din cont” închide sesiunea numai pe acest dispozitiv, iar contul se redeschide cu un singur gest, fără email și parolă. Parola rămâne mereu valabilă și poate fi folosită oricând.
 
 Cum e păstrat: refresh token-ul sesiunii stă în localStorage numai criptat (ECDH P-256 + AES-GCM). Cheia privată e învelită cu un secret dat de autentificatorul dispozitivului (WebAuthn, extensia PRF), care se eliberează numai după amprentă. La fiecare rotație a token-ului, copia criptată se reînnoiește tăcut, fără o nouă amprentă. Dacă dispozitivul sau browserul nu are PRF, funcția nu se activează și aplicația spune de ce; o poartă numai în interfață nu ar proteja nimic. Nu intră în backup (e legată de dispozitiv). Nicio dată biometrică nu ajunge în aplicație.
 

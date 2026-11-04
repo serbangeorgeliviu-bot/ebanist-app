@@ -1,4 +1,4 @@
-/* Deblocare biometrică pe web (D-113): app/ebanist-biometric.js, cu un autentificator fals.
+/* Deblocare biometrică pe web (D-116): app/ebanist-biometric.js, cu un autentificator fals.
  *
  *   cd test && node --test biometric.test.js
  */
