@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.25.0 — 4 noiembrie 2026
+
+**Deblocare cu amprentă / Face ID pentru cont, pe web (D-113).** În foaia „Cont”, după o logare cu parolă, apare „Activează deblocarea cu amprentă / Face ID”. Cu ea activă, „Ieși din cont” închide sesiunea numai pe acest dispozitiv, iar contul se redeschide cu un singur gest, fără email și parolă. Parola rămâne mereu valabilă și poate fi folosită oricând.
+
+Cum e păstrat: refresh token-ul sesiunii stă în localStorage numai criptat (ECDH P-256 + AES-GCM). Cheia privată e învelită cu un secret dat de autentificatorul dispozitivului (WebAuthn, extensia PRF), care se eliberează numai după amprentă. La fiecare rotație a token-ului, copia criptată se reînnoiește tăcut, fără o nouă amprentă. Dacă dispozitivul sau browserul nu are PRF, funcția nu se activează și aplicația spune de ce; o poartă numai în interfață nu ar proteja nimic. Nu intră în backup (e legată de dispozitiv). Nicio dată biometrică nu ajunge în aplicație.
+
+Se activează numai unde browserul are autentificator de platformă. Pe Android (aplicația din Play) nu apare încă: acolo vine, în versiunea următoare, cu `BiometricPrompt` și Keystore. Geometria și distinta nu s-au schimbat. Teste noi: `biometric.test.js` (14), seria completă trece. `APP_VER` 5.25.0, cache-ul SW `ebanist-v197`.
+
+---
+
 ## 5.24.3 — 2 noiembrie 2026
 
 **Ecranul „diferența de geometrie” nu mai inventează diferențe la piesele cu același nume.** Un corp cu două piese cu același nume și cote diferite (de exemplu cele două uși trapezoidale de înălțimi diferite sub o scară) își compara fiecare ușă cu ultima din distinta salvată, așa că arăta un rând fals, de tipul „922 → 1344”, deși nimic nu se schimbase. Piesele se potrivesc acum pe grupuri: întâi cele identice, apoi cele rămase pe perechi, după cea mai apropiată cotă. O piesă schimbată dă exact un rând, iar una lipsă sau în plus e raportată ca atare. Ordinea rândurilor în distinta nu mai contează.
