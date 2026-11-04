@@ -3631,6 +3631,13 @@ Object.assign(I18N.fr,{"opsHingeNoGeom": "La charnière choisie n'a pas encore d
 Object.assign(I18N.de,{"opsHingeNoGeom": "Für das gewählte Scharnier liegt noch kein Topfbohrmaß in den Daten vor: Es wird die Standardbohrung Ø35 verwendet."});
 Object.assign(I18N.pl,{"opsHingeNoGeom": "Wybrany zawias nie ma jeszcze w danych wymiaru wiercenia puszki: używane jest standardowe wiercenie Ø35."});
 Object.assign(I18N.es,{"opsHingeNoGeom": "La bisagra elegida aún no tiene cota de taladrado de la cazoleta en los datos: se usa el taladrado estándar Ø35."});
+Object.assign(I18N.it,{"hwFind": "Cerca: nome, codice, angolo…", "hwFindNone": "Nessun risultato"});
+Object.assign(I18N.ro,{"hwFind": "Caută: nume, cod, unghi…", "hwFindNone": "Niciun rezultat"});
+Object.assign(I18N.en,{"hwFind": "Search: name, code, angle…", "hwFindNone": "No results"});
+Object.assign(I18N.fr,{"hwFind": "Rechercher : nom, référence, angle…", "hwFindNone": "Aucun résultat"});
+Object.assign(I18N.de,{"hwFind": "Suchen: Name, Nummer, Winkel…", "hwFindNone": "Keine Treffer"});
+Object.assign(I18N.pl,{"hwFind": "Szukaj: nazwa, kod, kąt…", "hwFindNone": "Brak wyników"});
+Object.assign(I18N.es,{"hwFind": "Buscar: nombre, código, ángulo…", "hwFindNone": "Sin resultados"});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -10014,6 +10021,26 @@ function renderGola(){
 const HW_BODY_CATS=["cern","man","manS","push","guida","sup","asta","pied","conn","aw"];
 function readHwSel(){ const o={}; document.querySelectorAll("#hwSelBox select[data-cat]").forEach(sl=>{ if(sl.value) o[sl.dataset.cat]=sl.value; });
   return Object.keys(o).length?o:null; }
+/* Căutare în listele lungi de ferătură (balamale: ~170 de coduri Blum). Un câmp de text deasupra selectorului filtrează după nume, brand, cod
+   și unghi; cuvintele se potrivesc toate (ȘI), fără diacritice și fără litere mari. Opțiunea curentă și „implicit" rămân mereu în listă.
+   Se reconstruiesc opțiunile (nu `hidden`: Safari pe iPhone nu ascunde <option>). Sub 12 opțiuni nu apare. */
+const hwNorm=x=>String(x||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+function hwSearchWire(sl){
+  if(!sl||sl.dataset.srch||sl.options.length<12) return;
+  sl.dataset.srch="1";
+  const all=[...sl.options].map(o=>({v:o.value,t:o.textContent,k:hwNorm(o.textContent+" "+(o.dataset.art||"")),art:o.dataset.art||""}));
+  const inp=document.createElement("input"); inp.type="search"; inp.className="hw-find"; inp.autocomplete="off"; inp.spellcheck=false;
+  inp.placeholder="🔍 "+t("hwFind"); inp.setAttribute("aria-label",t("hwFind")); inp.style.cssText="width:100%;margin-bottom:6px";
+  const cnt=document.createElement("div"); cnt.className="mini hw-find-n"; cnt.style.cssText="margin:-2px 0 4px;display:none";
+  sl.parentNode.insertBefore(inp,sl); sl.parentNode.insertBefore(cnt,sl);
+  inp.addEventListener("input",()=>{
+    const q=hwNorm(inp.value).split(/\s+/).filter(Boolean), cur=sl.value;
+    const keep=all.filter((o,i)=>(i===0&&o.v==="")||o.v===cur||q.every(w=>o.k.includes(w)));
+    sl.innerHTML=""; keep.forEach(o=>{ const op=new Option(o.t,o.v); op.dataset.art=o.art; if(o.v===cur) op.selected=true; sl.add(op); });
+    const hit=keep.filter(o=>o.v&&o.v!==cur||o.v===cur&&q.every(w=>o.k.includes(w))).length;
+    cnt.style.display=q.length?"":"none"; cnt.textContent=hit?hit+" / "+(all.length-(all[0].v===""?1:0)):t("hwFindNone");
+  });
+}
 function renderHwSel(sel){
   const box=$("hwSelBox"); if(!box) return;
   const cur=sel||readHwSel()||{};
@@ -10021,8 +10048,9 @@ function renderHwSel(sel){
     const key=Object.keys(HW_CAT_OF).find(k=>HW_CAT_OF[k]===cat), def=hwItem(cat);
     return `<div class="f" style="margin-bottom:8px"><label>${esc(t(cat==="conn"?"fJoint":key))}</label>
       <select data-cat="${cat}"><option value="">${cat==="manS"?esc(t("hwSelSame")):esc(t("hwSelDef"))+(def?" — "+esc((def.brand&&def.brand!=="—"?def.brand+" ":"")+def.name):"")}</option>`+
-      hwList(cat).map(x=>`<option value="${x.id}"${cur[cat]===x.id?" selected":""}>${esc((x.brand&&x.brand!=="—"?x.brand+" — ":"")+hwName(x))}</option>`).join("")+`</select></div>`;
+      hwList(cat).map(x=>`<option value="${x.id}" data-art="${esc(x.art||"")}"${cur[cat]===x.id?" selected":""}>${esc((x.brand&&x.brand!=="—"?x.brand+" — ":"")+hwName(x))}</option>`).join("")+`</select></div>`;
   }).join("");
+  box.querySelectorAll("select[data-cat]").forEach(hwSearchWire);
   const n=Object.keys(cur).length; const sm=$("sumHw"); if(sm) sm.textContent=n?String(n):"";
 }
 /* D-86 — tavan înclinat: panta, cu cele două înălțimi de la pardoseală. Înălțimea corpului e cea mai mare. */
@@ -13222,7 +13250,7 @@ function renderCatalog(){
     const it=hwItem(cat)||{price:"",art:""};
     return `<div class="f" style="margin-bottom:10px">
       <label>${esc(t(key))}${it.chk?` <span class="mini" style="color:#b8860b">${esc(t("artCheck"))}</span>`:""}</label>
-      <select data-cat="${cat}" class="catSel">${hwList(cat).map(x=>`<option value="${x.id}"${x.id===sel?" selected":""}>${esc(x.brand+" — "+hwName(x))}</option>`).join("")}</select>
+      <select data-cat="${cat}" class="catSel">${hwList(cat).map(x=>`<option value="${x.id}" data-art="${esc(x.art||"")}"${x.id===sel?" selected":""}>${esc(x.brand+" — "+hwName(x))}</option>`).join("")}</select>
       <div style="display:flex;gap:8px;margin-top:6px">
         <input class="catArt" data-cat="${cat}" placeholder="${esc(t("catArt"))}" value="${esc(it.art||"")}" style="flex:2">
         <input class="catPrice" data-cat="${cat}" type="number" step="0.01" inputmode="decimal" placeholder="€" value="${it.price}" style="flex:1">
@@ -13239,6 +13267,7 @@ function renderCatalog(){
       </div>`;
   }).join("");
   paintGenericPrices();
+  $("catHwWrap").querySelectorAll("select.catSel").forEach(hwSearchWire);
   $("catHwWrap").querySelectorAll(".catPlate").forEach(s2=>s2.addEventListener("change",()=>{ state.settings.hwProd=state.settings.hwProd||{}; state.settings.hwProd.plate=s2.value; persist(); }));
   $("catHwWrap").querySelectorAll(".hsOpen").forEach(b2=>b2.addEventListener("click",()=>{
     $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5,plate:(state.settings.hwProd||{}).plate})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
@@ -17422,12 +17451,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.24.4"; /* APP_VER-MARKER */
+const APP_VER="5.24.5"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v197";
+const SW_CACHE="ebanist-v198";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
