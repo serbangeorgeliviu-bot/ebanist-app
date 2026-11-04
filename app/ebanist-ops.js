@@ -751,20 +751,31 @@ function generate1(input) {
     });
   });
 
-  /* --- 3c. raft peste o balama: placuța balamalei stă la 37 mm de față, pe peretele lateral; un raft care ajunge
-         la față, la aceeași înălțime, o lovește (brațul balamalei trece prin raft). Nu mutăm nimic: cota raftului e a
-         utilizatorului (D-56) — se spune care raft și care balama, ca să-l urce sau să-l coboare. Banda placuței =
-         distanța dintre găuri + 5 mm de fiecare parte. */
-  var plateBand = H.hinge.plate_spacing / 2 + 5;
-  out.hw.forEach(function (hw) {
-    if (hw.type !== "cerniera" || !hw.plate) return;
-    byRole("ripiano").forEach(function (S) {
-      if (S.tAx !== 1 || S.curved) return;
-      if (Math.abs((hw.hingeLeft ? S.min[0] : S.max[0]) - hw.plate[0]) > 0.6) return;
+  /* --- 3c. raft peste o balama (blocant, ca un invariant): placuța balamalei stă la 37 mm de față, pe peretele lateral,
+         cu găurile la ±16 mm; un raft care ajunge la față, la aceeași înălțime, o lovește (brațul balamalei trece prin
+         raft), iar gaura lui de suport (6 mm sub raft) cade la 15–17 mm de gaura placuței. Nu mutăm nimic: cota raftului
+         e a utilizatorului (D-56). Se spune care raft, care balame și la ce cotă ar sta liber, în sus sau în jos.
+         Raftul cu fundul la b e liber față de o placuță la y când b >= y + 30 (16 gaură + 6 drop + 8 între găuri)
+         sau b + grosime <= y - 21 (16 gaură + 5 aer). */
+  var SH_UP = H.hinge.plate_spacing / 2 + H.pin.drop + 8, SH_DN = H.hinge.plate_spacing / 2 + 5;
+  byRole("ripiano").forEach(function (S) {
+    if (S.tAx !== 1 || S.curved) return;
+    var t = S.max[1] - S.min[1], hits = [];
+    out.hw.forEach(function (hw) {
+      if (hw.type !== "cerniera" || !hw.plate) return;
+      if (Math.abs(S.min[0] - hw.plate[0]) > 0.6 && Math.abs(S.max[0] - hw.plate[0]) > 0.6) return;
       if (S.max[2] < hw.plate[2] - 10) return;
-      if (S.max[1] < hw.plate[1] - plateBand || S.min[1] > hw.plate[1] + plateBand) return;
-      out.warnings.push({ piece: S.pk, k: "opsShelfVsHinge", hinge: hw.id, y: hw.plate[1] });
+      hits.push({ id: hw.id, y: hw.plate[1] });
     });
+    var bad = function (b) { return hits.filter(function (h) { return b < h.y + SH_UP && b + t > h.y - SH_DN; }); };
+    var first = bad(S.min[1]);
+    if (!first.length) return;
+    var up = S.min[1], dn = S.min[1], i, c;
+    for (i = 0; i < 20 && (c = bad(up)).length; i++) up = Math.ceil(Math.max.apply(null, c.map(function (h) { return h.y + SH_UP; })));
+    for (i = 0; i < 20 && (c = bad(dn)).length; i++) dn = Math.floor(Math.min.apply(null, c.map(function (h) { return h.y - SH_DN - t; })));
+    out.warnings.push({ piece: S.pk, k: "opsShelfVsHinge", blocking: true, y: S.min[1], t: t,
+                        hinges: first.map(function (h) { return h.id; }), hy: first.map(function (h) { return h.y; }),
+                        up: bad(up).length ? null : up, down: bad(dn).length ? null : dn });
   });
 
   /* --- 6. cave: lo schienale in cava entra nei pezzi intorno. La cava e

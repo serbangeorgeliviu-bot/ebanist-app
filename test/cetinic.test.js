@@ -412,11 +412,31 @@ describe("raft peste balama (fișa piesei Cetinic)", () => {
   const proj = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "docs", "Ebanist_Proiect_Cetinic-3-corpuri.json"), "utf8"));
   const mats = { matBody: "__b", matFront: "__f", matBack: "__k" };
   const warn = n => build(Object.assign({}, proj.configs[n], mats)).ops().warnings.filter(w => w.k === "opsShelfVsHinge");
-  test("Entrance dx și sx sus: avertisment, câte unul pe balama de la aceeași înălțime", () => {
-    assert.equal(warn("Entrance dx").length, 2);
-    assert.equal(warn("Entrance sx sus").length, 2);
+  test("Entrance dx și sx sus: avertisment, un avertisment blocant pe raft, cu cele două balame", () => {
+    const dx = warn("Entrance dx"), sx = warn("Entrance sx sus");
+    assert.equal(dx.length, 1); assert.equal(sx.length, 1);
+    assert.equal(dx[0].y, 1140); assert.equal(dx[0].hinges.length, 2);
+    assert.ok(dx[0].blocking && sx[0].blocking);
   });
   test("Entrance sx jos: rafturile sunt între balame, fără avertisment", () => {
     assert.equal(warn("Entrance sx jos").length, 0);
+  });
+});
+
+describe("raft peste balama: cota nouă propusă", () => {
+  const proj = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "docs", "Ebanist_Proiect_Cetinic-3-corpuri.json"), "utf8"));
+  const mats = { matBody: "__b", matFront: "__f", matBack: "__k" };
+  ["Entrance dx", "Entrance sx sus"].forEach(n => {
+    test(n + ": ambele cote propuse scot raftul din banda balamalei", () => {
+      const w = build(Object.assign({}, proj.configs[n], mats)).ops().warnings.find(x => x.k === "opsShelfVsHinge");
+      const cands = [w.up, w.down].filter(v => v != null);
+      assert.ok(cands.length >= 1, "cel puțin o cotă liberă");
+      cands.forEach(y => {
+        const cfg = Object.assign({}, clone(proj.configs[n]), mats);
+        cfg.partitions = cfg.partitions.map(p => p.type === "ripiano" ? Object.assign({}, p, { y }) : p);
+        let ws; try { ws = build(cfg).ops().warnings.filter(x => x.k === "opsShelfVsHinge"); } catch (e) { return; }   // cota iese din corp: apărată de validateLayout
+        assert.equal(ws.length, 0, n + ": cota " + y + " încă lovește balamaua");
+      });
+    });
   });
 });

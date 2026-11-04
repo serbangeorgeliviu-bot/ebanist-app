@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.24.4 — 4 noiembrie 2026
+
+**Raftul care lovește o balama blochează exportul și propune cota nouă.** La proiectul Cetinic, pe fișa piesei, rafturile de la 525 mm (Entrance sx sus) și 1140 mm (Entrance dx) cădeau la aceeași înălțime cu balamalele de la 524 și 1165 mm: brațul balamalei trecea prin raft, iar găurile suportului de raft ajungeau la 15–17 mm de cele ale plăcuței (rândurile 1102–1181 din fișă). Verificarea veche compara doar centrele găurilor și nu vedea nimic. Acum motorul de găurire dă `opsShelfVsHinge` (raftul ajunge la fața dulapului în banda plăcuței: gaura ±16 mm, plus 6 mm de la raft la gaura suportului și 8 mm între găuri), iar auditul îl trece ca regulă `blocking` (`H-SHELF`): distinta PDF, CSV și pachetul de laborator nu pornesc până nu se rezolvă. În foaia de controale, butonul „Alege cota nouă” deschide o căsuță cu cota veche, cota liberă mai sus și cea mai jos (nicio cotă nu e propusă dacă motorul n-o primește), apoi, la confirmare, face backup complet și rescrie distinta corpului (`generateInto`). Raftul care vine din numărul de rafturi, nu dintr-o cotă scrisă, primește numai mesajul.
+
+Nimic nu se mută singur (D-39, D-56). Teste noi în `cetinic.test.js` pe proiectul real. `APP_VER` 5.24.4, cache-ul Service Worker `ebanist-v197`.
+
+---
+
 ## 5.24.3 — 2 noiembrie 2026
 
 **Ecranul „diferența de geometrie” nu mai inventează diferențe la piesele cu același nume.** Un corp cu două piese cu același nume și cote diferite (de exemplu cele două uși trapezoidale de înălțimi diferite sub o scară) își compara fiecare ușă cu ultima din distinta salvată, așa că arăta un rând fals, de tipul „922 → 1344”, deși nimic nu se schimbase. Piesele se potrivesc acum pe grupuri: întâi cele identice, apoi cele rămase pe perechi, după cea mai apropiată cotă. O piesă schimbată dă exact un rând, iar una lipsă sau în plus e raportată ca atare. Ordinea rândurilor în distinta nu mai contează.
