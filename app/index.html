@@ -10814,8 +10814,13 @@ $("btnGenerate").addEventListener("click",()=>{
   persist(); setView("list");
   /* le regole girano a OGNI generazione, prima di qualunque esportazione */
   auditBadge();
-  const bad=blocking(auditModule(cfg,pieces));
-  if(bad.length){ auditSheet(bad.map(a=>({...a,modulo:cfg.name}))); return; }
+  const found=auditModule(cfg,pieces).map(a=>({...a,modulo:cfg.name}));
+  /* un raft care lovește o balama nu se lasă într-o listă: se deschide direct căsuța cu cota nouă, și iar,
+     după fiecare aplicare, până nu mai e nimic de corectat (shelfFixNext) */
+  const fx=found.find(a=>a.shelfFix);
+  if(fx){ shelfFixSheet(cfg.name,fx.shelfFix); return; }
+  const bad=blocking(found);
+  if(bad.length){ auditSheet(bad); return; }
   toast(`${cfg.name}: ${panelTotals(rows).pcs} ${t("pieces")}`);
   rvGood();
 });
@@ -11105,7 +11110,7 @@ function shelfFixOptions(cfg,sf){
   for(const [kind,y] of [["up",sf.up],["down",sf.down]]){
     if(y==null) continue;
     const c=shelfFixCfg(cfg,sf,y); if(!c) continue;
-    try{ if(opsWarnings(c).some(w=>w.k==="opsShelfVsHinge")) continue; }catch(e){ continue; }
+    try{ if(opsWarnings(c).some(w=>w.k==="opsShelfVsHinge"&&Math.abs(w.y-y)<0.6)) continue; }catch(e){ continue; }   // numai raftul mutat: alte rafturi în conflict se rezolvă pe rând
     out.push({kind,y});
   }
   return out;
@@ -11138,6 +11143,18 @@ async function shelfFixApply(){
   try{ generateInto(p,Object.assign({},nc,{name:c.modulo})); }catch(e){ toast(String(e&&e.message||e)); return; }
   persist(); closeSheets(); render();
   toast(t("shfDone").replace("{y}",o.y));
+  shelfFixNext(c.modulo);
+}
+/* după fiecare cotă aplicată: încă un raft de corectat → încă o căsuță; alte blocaje → lista; altfel verde */
+function shelfFixNext(modulo){
+  const p=proj(); const cfg=p&&p.configs&&p.configs[modulo]; if(!cfg) return;
+  const pieces=(p.pieces||[]).filter(x=>x.gen===modulo||x.modulo===modulo||x.modulo===modulo+" A"||x.modulo===modulo+" B");
+  const found=auditModule(cfg,pieces).map(a=>({...a,modulo}));
+  const fx=found.find(a=>a.shelfFix);
+  if(fx){ setTimeout(()=>shelfFixSheet(modulo,fx.shelfFix),250); return; }
+  const bad=blocking(found);
+  if(bad.length){ setTimeout(()=>auditSheet(bad),250); return; }
+  auditBadge();
 }
 function auditModule(cfg,pieces){
   if(typeof deriveCarcass!=="function") return [];
