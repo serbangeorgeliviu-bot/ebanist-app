@@ -4680,6 +4680,34 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
+  head("Căutare în listele lungi de ferătură (balamale Blum: ~170 de coduri) — catalog și formularul corpului");
+  {
+    const ctx = await browser.newContext({ viewport: { width: 430, height: 900 } });
+    const eErrs = [];
+    const sp = await ctx.newPage();
+    sp.on("pageerror", e => eErrs.push(String(e)));
+    await sp.goto(URL); await sp.waitForTimeout(3300); await sp.evaluate(() => closeSheets());
+    const r = await sp.evaluate(() => {
+      const o = {}; renderCatalog();
+      const sl = document.querySelector('#catHwWrap select[data-cat="cern"]'), inp = sl.parentNode.querySelector(".hw-find"), n0 = sl.options.length, cur = sl.value;
+      const type = v => { inp.value = v; inp.dispatchEvent(new Event("input")); return sl.options.length; };
+      o.lung = n0 > 100; o.camp = !!inp;
+      o.cod = type("71b3590") <= 3 && [...sl.options].some(x => /71B3590/.test(x.textContent));
+      o.cuvinte = type("155 blumotion") > 3 && type("155 blumotion") < n0 && [...sl.options].every(x => x.value === cur || /155/.test(x.textContent));
+      o.faraDiacritice = type("CRISTALLO") > 1;
+      o.nimic = type("zzzzqq") === 1 && /./.test(sl.parentNode.querySelector(".hw-find-n").textContent);
+      o.pastrata = sl.value === cur;
+      type(""); o.reset = sl.options.length === n0;
+      o.scurta = !document.querySelector('#catHwWrap select[data-cat="guida"]').parentNode.querySelector(".hw-find");
+      renderHwSel(); const bs = document.querySelector('#hwSelBox select[data-cat="cern"]'); o.corp = !!bs.parentNode.querySelector(".hw-find");
+      return o;
+    });
+    ok("Căutare: câmpul apare la lista lungă (balamale), nu la cele scurte; filtrează după cod, cuvinte (ȘI) și fără diacritice; păstrează alegerea curentă", r.lung && r.camp && r.cod && r.cuvinte && r.faraDiacritice && r.pastrata && r.reset && r.scurta, JSON.stringify(r));
+    ok("Căutare: «niciun rezultat» se spune; același câmp apare și în formularul corpului", r.nimic && r.corp, JSON.stringify(r));
+    ok("Căutare: nicio eroare JS", eErrs.length === 0, eErrs[0] || "nessuno");
+    await ctx.close();
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
