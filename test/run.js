@@ -4698,13 +4698,46 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.nimic = type("zzzzqq") === 1 && /./.test(sl.parentNode.querySelector(".hw-find-n").textContent);
       o.pastrata = sl.value === cur;
       type(""); o.reset = sl.options.length === n0;
-      o.scurta = !document.querySelector('#catHwWrap select[data-cat="guida"]').parentNode.querySelector(".hw-find");
+      o.scurta = !document.querySelector('#catHwWrap select[data-cat="zarga"]').parentNode.querySelector(".hw-find");   // o listă scurtă
+      o.guida = !!document.querySelector('#catHwWrap select[data-cat="guida"]').parentNode.querySelector(".hw-find");   // glisierele Blum noi (≥12) au și ele căutare
       renderHwSel(); const bs = document.querySelector('#hwSelBox select[data-cat="cern"]'); o.corp = !!bs.parentNode.querySelector(".hw-find");
       return o;
     });
-    ok("Căutare: câmpul apare la lista lungă (balamale), nu la cele scurte; filtrează după cod, cuvinte (ȘI) și fără diacritice; păstrează alegerea curentă", r.lung && r.camp && r.cod && r.cuvinte && r.faraDiacritice && r.pastrata && r.reset && r.scurta, JSON.stringify(r));
+    ok("Căutare: câmpul apare la lista lungă (balamale), nu la cele scurte; filtrează după cod, cuvinte (ȘI) și fără diacritice; păstrează alegerea curentă", r.lung && r.camp && r.cod && r.cuvinte && r.faraDiacritice && r.pastrata && r.reset && r.scurta && r.guida, JSON.stringify(r));
     ok("Căutare: «niciun rezultat» se spune; același câmp apare și în formularul corpului", r.nimic && r.corp, JSON.stringify(r));
     ok("Căutare: nicio eroare JS", eErrs.length === 0, eErrs[0] || "nessuno");
+    await ctx.close();
+  }
+
+  head("Glisiere și casete Blum — lista din Catalog, căutare și fișa tehnică");
+  {
+    const ctx = await browser.newContext({ viewport: { width: 430, height: 900 } });
+    const eErrs = [];
+    const sp = await ctx.newPage();
+    sp.on("pageerror", e => eErrs.push(String(e)));
+    await sp.goto(URL); await sp.waitForTimeout(3300); await sp.evaluate(() => closeSheets());
+    const r = await sp.evaluate(() => {
+      const o = {}; renderCatalog();
+      const rows = () => document.querySelectorAll("#catSlidesWrap .slList .slOpen").length;
+      o.toate = rows(); o.sisteme = EBSlides.list().filter(x => x.kind !== "drill").length;
+      const inp = document.querySelector("#catSlidesWrap .slFind");
+      inp.value = "tandem 19"; inp.dispatchEvent(new Event("input")); o.filtrat = rows() > 0 && rows() < o.toate;
+      inp.value = "760H2500S"; inp.dispatchEvent(new Event("input")); o.cod = rows() >= 1;
+      inp.value = "zzzz"; inp.dispatchEvent(new Event("input")); o.nimic = rows() === 0;
+      inp.value = ""; inp.dispatchEvent(new Event("input"));
+      document.querySelector("#catSlidesWrap .slOpen").click();
+      o.fisa = document.getElementById("hsSheet").classList.contains("on") && document.getElementById("hsBody").innerText.length > 200;
+      closeSheets();
+      /* TANDEM 19 mm: sertarul din lemn se strânge cu 49, nu cu 42 */
+      state.settings.hwProd.guida = "blums_tandem19_locking"; o.ded19 = woodDed();
+      state.settings.hwProd.guida = "blums_movento_blumotion_s"; o.ded42 = woodDed();
+      state.settings.hwProd.guida = "blum_tandem";
+      renderCatalog(); const g = document.querySelector('#catHwWrap select[data-cat="guida"]'); o.guidaN = g.options.length;
+      return o;
+    });
+    ok("Glisiere Blum: lista din Catalog arată toate sistemele, filtrează după nume și cod, «niciun rezultat», butonul deschide fișa", r.toate === r.sisteme && r.toate >= 40 && r.filtrat && r.cod && r.nimic && r.fisa, JSON.stringify(r));
+    ok("Glisiere Blum: TANDEM 19 mm taie sertarul din lemn cu 49 mm, MOVENTO cu 42; lista de glisiere are seriile noi", r.ded19 === 49 && r.ded42 === 42 && r.guidaN >= 12, JSON.stringify(r));
+    ok("Glisiere Blum: nicio eroare JS", eErrs.length === 0, eErrs[0] || "nessuno");
     await ctx.close();
   }
 

@@ -1,0 +1,1407 @@
+[
+ {
+  "key": "movento_blumotion_s",
+  "name": "MOVENTO cu BLUMOTION S - 760H | 766H (locking device feature - full extension)",
+  "kind": "runner",
+  "pages": [
+   416,
+   417,
+   418,
+   419,
+   420,
+   421,
+   422,
+   423,
+   424,
+   425,
+   426,
+   427,
+   428,
+   429,
+   430,
+   431,
+   432,
+   433
+  ],
+  "variants": [
+   "BLUMOTION S",
+   "BLUMOTION S base fixing 760H..SU"
+  ],
+  "load": {
+   "kg": [
+    40,
+    60,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   250,
+   270,
+   300,
+   320,
+   350,
+   380,
+   400,
+   420,
+   450,
+   480,
+   500,
+   520,
+   550,
+   580,
+   600,
+   650,
+   700,
+   750
+  ],
+  "webcode": "DQCZ3Y",
+  "parts": [
+   {
+    "art": "760H2500S",
+    "nl": 250,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H2700S",
+    "nl": 270,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3000S",
+    "nl": 300,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3200S",
+    "nl": 320,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3500S",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3800S",
+    "nl": 380,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4000S",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4200S",
+    "nl": 420,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4500S",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4800S",
+    "nl": 480,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5000S",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5200S",
+    "nl": 520,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5500S",
+    "nl": 550,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H6000S",
+    "nl": 600,
+    "load": 40,
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H4500S",
+    "nl": 450,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5000S",
+    "nl": 500,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5200S",
+    "nl": 520,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5500S",
+    "nl": 550,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5800S",
+    "nl": 580,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H6000S",
+    "nl": 600,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H6500S",
+    "nl": 650,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H7000S",
+    "nl": 700,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H7500S",
+    "nl": 750,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "BLUMOTION S",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3500SU",
+    "nl": 350,
+    "load": 40,
+    "fn": "BLUMOTION S, fixare pe fundul corpului",
+    "side": "left/right",
+    "pages": "420,422"
+   },
+   {
+    "art": "760H4000SU",
+    "nl": 400,
+    "load": 40,
+    "fn": "BLUMOTION S, fixare pe fundul corpului",
+    "side": "left/right",
+    "pages": "420,422"
+   },
+   {
+    "art": "760H4500SU",
+    "nl": 450,
+    "load": 40,
+    "fn": "BLUMOTION S, fixare pe fundul corpului",
+    "side": "left/right",
+    "pages": "420,422"
+   },
+   {
+    "art": "760H5000SU",
+    "nl": 500,
+    "load": 40,
+    "fn": "BLUMOTION S, fixare pe fundul corpului",
+    "side": "left/right",
+    "pages": "420,422"
+   },
+   {
+    "art": "T51.7601",
+    "fn": "Locking device left/right",
+    "colour": "Orange",
+    "material": "Nylon/steel"
+   }
+  ],
+  "cabinet": {
+   "LW": "latime interioara corp",
+   "labeled": {
+    "SKW": "LW - 42 (+0.0 / -1.5)",
+    "SKL": "NL - 10",
+    "ISKL": "SKL + X",
+    "X": "grosime front",
+    "min_side_top": 7,
+    "min_below": 38,
+    "below_note": "+1 mm la montajul glisierelor inainte de corp (min 39)",
+    "side_gap_min": 28.5,
+    "side_gap_12_15": "12-15",
+    "max_side_panel": 16,
+    "side_panel_note": "reglaj lateral limitat la lateral 16 mm",
+    "21": 21,
+    "space_NL": "NL + 3 (cu reglaj adancime); +12 cu stabilizare laterala",
+    "space_inner": "NL + X + 3",
+    "front_offset_inner": "X + 18",
+    "rear": 10,
+    "drill_ref_hole_spacing": [
+     37,
+     32
+    ],
+    "drill_template": "T65.1000.02"
+   },
+   "page": 419
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "SKW (latime sertar)",
+     "expr": "LW - 42",
+     "tol": "+0.0/-1.5",
+     "page": 419
+    },
+    {
+     "piece": "SKL (lungime sertar)",
+     "expr": "NL - 10",
+     "page": 419
+    },
+    {
+     "piece": "ISKL",
+     "expr": "SKL + X",
+     "page": 419
+    },
+    {
+     "piece": "spate/lungime fund TL pull-out shelf",
+     "expr": "NL - 20",
+     "page": 423
+    },
+    {
+     "piece": "LTW (lat. fund POS)",
+     "expr": "LW - 42",
+     "page": 423
+    }
+   ],
+   "constants": {
+    "widthOff": -42,
+    "lenOff": -10,
+    "rearReserve": 12,
+    "rearReserveNote": "cota 12 e +12 mm spatiu cu side stabilisation set (nu rezerva generala)"
+   }
+  },
+  "drill": {
+   "dims": {
+    "front_edge_to_first_hole": 37,
+    "front_pair_spacing": 32,
+    "front_extra": 9,
+    "rear_from_37_hole_760H": {
+     "NL250-270": 160,
+     "NL300-350": 224,
+     "NL380-600_a": 224,
+     "NL380-600_b": 256
+    },
+    "extra_18": 18,
+    "note": "cotele 160/224/256 sunt masurate de la gaura de 37 mm; adica de la fata 37+160=197, 37+224=261, 37+256=293; 243 = 261-18 (cota 18 de pe p432)"
+   },
+   "front": [
+    37,
+    69
+   ],
+   "byNL_760H": {
+    "250": [
+     197
+    ],
+    "270": [
+     197
+    ],
+    "300": [
+     261
+    ],
+    "320": [
+     261
+    ],
+    "350": [
+     261
+    ],
+    "380": [
+     243,
+     261,
+     293
+    ],
+    "400": [
+     243,
+     261,
+     293
+    ],
+    "420": [
+     243,
+     261,
+     293
+    ],
+    "450": [
+     243,
+     261,
+     293
+    ],
+    "480": [
+     243,
+     261,
+     293
+    ],
+    "500": [
+     243,
+     261,
+     293
+    ],
+    "520": [
+     243,
+     261,
+     293
+    ],
+    "550": [
+     243,
+     261,
+     293
+    ],
+    "600": [
+     243,
+     261,
+     293
+    ]
+   },
+   "dims_766H": {
+    "32": 32,
+    "224": 224,
+    "256": 256,
+    "320": 320,
+    "416": 416,
+    "9": 9,
+    "18": 18,
+    "37": 37,
+    "note": "766H: 6 cote (37,32+9 la fata; 224,256,320,416 de la gaura 37); pozitiile pe NL nu sunt cotate individual, grupele NL: 450 | 500-600 | 650-750"
+   },
+   "groups760H": "250|270 ; 300|320|350 ; 380|400|420|450|480|500|520 ; 550|600 (p419, p443); pe p437 grupa 1 e doar 270",
+   "dia": 5,
+   "page": "419,432"
+  },
+  "accessories": [
+   {
+    "art": "298.7600",
+    "name": "Depth adjustment left/right"
+   },
+   {
+    "art": "ZS7M400MU",
+    "name": "Side stabilisation set NL up to 400"
+   },
+   {
+    "art": "ZS7M600MU",
+    "name": "Side stabilisation set up to 600"
+   },
+   {
+    "art": "ZS7M750MU",
+    "name": "Side stabilisation set up to 750"
+   },
+   {
+    "art": "T51.7000.01",
+    "name": "Back fixing bracket pull-out shelf"
+   }
+  ],
+  "notes": [
+   "BLUMOTION S integrat; nu e compatibil cu TIP-ON BLUMOTION (nota p418 pt. unele versiuni)",
+   "Side stabilisation: taiere LW - 315, NL + 10 (p426); pt. KB 1400",
+   "Fixare pe fund: lateral 8.8, lungime SKL = NL - 10, rezerva X+39 (p421)"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "movento_tipon",
+  "name": "MOVENTO cu TIP-ON - 760H | 766H",
+  "kind": "runner",
+  "pages": [
+   440,
+   441,
+   442,
+   443,
+   444,
+   445
+  ],
+  "variants": [
+   "TIP-ON"
+  ],
+  "load": {
+   "kg": [
+    40,
+    60,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   250,
+   270,
+   300,
+   320,
+   350,
+   380,
+   400,
+   420,
+   450,
+   480,
+   500,
+   520,
+   550,
+   580,
+   600,
+   650,
+   700,
+   750
+  ],
+  "webcode": "DQCZTA",
+  "parts": [
+   {
+    "art": "760H2500T",
+    "nl": 250,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H2700T",
+    "nl": 270,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3000T",
+    "nl": 300,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3200T",
+    "nl": 320,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3500T",
+    "nl": 350,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3800T",
+    "nl": 380,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4000T",
+    "nl": 400,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4200T",
+    "nl": 420,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4500T",
+    "nl": 450,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4800T",
+    "nl": 480,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5000T",
+    "nl": 500,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5200T",
+    "nl": 520,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5500T",
+    "nl": 550,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H6000T",
+    "nl": 600,
+    "load": 40,
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H4500T",
+    "nl": 450,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5000T",
+    "nl": 500,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5200T",
+    "nl": 520,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5500T",
+    "nl": 550,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5800T",
+    "nl": 580,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H6000T",
+    "nl": 600,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H6500T",
+    "nl": 650,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H7000T",
+    "nl": 700,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H7500T",
+    "nl": 750,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON",
+    "side": "left/right",
+    "ext": "full"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "SKW": "LW - 42 (+0.0/-1.5)",
+    "SKL": "NL - 10",
+    "ISKL": "SKL + X",
+    "space_NL": "NL + 3 (+12 cu stabilizare)",
+    "space_inner": "NL + X + 7",
+    "front_offset_inner": "X + 23",
+    "min_side_top": 7,
+    "min_below": 38,
+    "max_side_panel": 16,
+    "front_gap_trigger": "3.5 mm (desen trigger range)"
+   },
+   "page": 443
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "SKW",
+     "expr": "LW - 42",
+     "page": 443
+    },
+    {
+     "piece": "SKL",
+     "expr": "NL - 10",
+     "page": 443
+    },
+    {
+     "piece": "TIP-ON synchronisation linkage 6c",
+     "expr": "LW - 249",
+     "page": 442
+    }
+   ],
+   "constants": {
+    "widthOff": -42,
+    "lenOff": -10
+   }
+  },
+  "drill": {
+   "front": [
+    37,
+    69
+   ],
+   "groups760H": "250|270 ; 300|320|350 ; 380..520 ; 550|600",
+   "dims": {
+    "front_edge_to_first_hole": 37,
+    "front_pair_spacing": 32,
+    "front_extra": 9,
+    "rear_from_37_hole_760H": {
+     "NL250-270": 160,
+     "NL300-350": 224,
+     "NL380-600_a": 224,
+     "NL380-600_b": 256
+    },
+    "extra_18": 18,
+    "note": "cotele 160/224/256 sunt masurate de la gaura de 37 mm; adica de la fata 37+160=197, 37+224=261, 37+256=293; 243 = 261-18 (cota 18 de pe p432)"
+   },
+   "page": "443,444"
+  },
+  "accessories": [
+   {
+    "art": "T57.7400.01",
+    "name": "TIP-ON synchronisation pinion set"
+   },
+   {
+    "art": "ZST.1160W",
+    "name": "TIP-ON synchronisation linkage 1160 mm"
+   },
+   {
+    "art": "T51.7601",
+    "name": "Locking device left/right"
+   },
+   {
+    "art": "ZS7M400MU",
+    "name": "Side stabilisation"
+   },
+   {
+    "art": "ZS7M600MU",
+    "name": "Side stabilisation"
+   },
+   {
+    "art": "ZS7M750MU",
+    "name": "Side stabilisation"
+   }
+  ],
+  "notes": [
+   "Fata necesita +4 mm (TIP-ON) la lungimea de spatiu (p425)"
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "pozitiile gaurilor pe NL: aceleasi desene ca p419, necotate individual"
+  ]
+ },
+ {
+  "key": "movento_tipon_blumotion",
+  "name": "MOVENTO cu TIP-ON BLUMOTION - 760H | 766H",
+  "kind": "runner",
+  "pages": [
+   434,
+   435,
+   436,
+   437,
+   438,
+   439
+  ],
+  "variants": [
+   "TIP-ON BLUMOTION",
+   "BLUMOTION S"
+  ],
+  "load": {
+   "kg": [
+    40,
+    60,
+    70
+   ]
+  },
+  "extension": "full",
+  "lengths": [
+   270,
+   300,
+   320,
+   350,
+   380,
+   400,
+   420,
+   450,
+   480,
+   500,
+   520,
+   550,
+   580,
+   600,
+   650,
+   700,
+   750
+  ],
+  "webcode": "DQD0IM",
+  "parts": [
+   {
+    "art": "760H2700S",
+    "nl": 270,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3000S",
+    "nl": 300,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3200S",
+    "nl": 320,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3500S",
+    "nl": 350,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H3800S",
+    "nl": 380,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4000S",
+    "nl": 400,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4200S",
+    "nl": 420,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4500S",
+    "nl": 450,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H4800S",
+    "nl": 480,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5000S",
+    "nl": 500,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5200S",
+    "nl": 520,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H5500S",
+    "nl": 550,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "760H6000S",
+    "nl": 600,
+    "load": 40,
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H4500S",
+    "nl": 450,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5000S",
+    "nl": 500,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5200S",
+    "nl": 520,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5500S",
+    "nl": 550,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H5800S",
+    "nl": 580,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H6000S",
+    "nl": 600,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H6500S",
+    "nl": 650,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H7000S",
+    "nl": 700,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "766H7500S",
+    "nl": 750,
+    "load": [
+     60,
+     70
+    ],
+    "fn": "TIP-ON BLUMOTION (runner BLUMOTION S)",
+    "side": "left/right",
+    "ext": "full"
+   },
+   {
+    "art": "T60L7040",
+    "fn": "TIP-ON BLUMOTION set S0",
+    "nl": "270-320",
+    "load": 40,
+    "weight": "<=10 kg"
+   },
+   {
+    "art": "T60L7140",
+    "fn": "set S1",
+    "nl": "270-320",
+    "load": 40,
+    "weight": ">10-20 kg"
+   },
+   {
+    "art": "T60L7340",
+    "fn": "set L1",
+    "nl": "350-600",
+    "load": 40,
+    "weight": "<=20 kg"
+   },
+   {
+    "art": "T60L7540",
+    "fn": "set L3",
+    "nl": "350-600",
+    "load": 40,
+    "weight": "15-40 kg"
+   },
+   {
+    "art": "T60L7570",
+    "fn": "set L5",
+    "nl": "450-750",
+    "load": [
+     60,
+     70
+    ],
+    "weight": "35-70 kg"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "SKW": "LW - 42 (+0.0/-1.5)",
+    "SKL": "NL - 10",
+    "ISKL": "SKL + X",
+    "space_NL": "NL + 3",
+    "space_inner": "NL + X + 7",
+    "front_offset_inner": "X + 23",
+    "front_gap_FS": 2.5,
+    "min_side_top": 7,
+    "min_below": 38,
+    "synchronisation_LW_min": 265,
+    "adapter_LW_min": 314
+   },
+   "page": 437
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "SKW",
+     "expr": "LW - 42",
+     "page": 437
+    },
+    {
+     "piece": "SKL",
+     "expr": "NL - 10",
+     "page": 437
+    },
+    {
+     "piece": "TIP-ON BLUMOTION synchronisation 6e (patrat, LW 265-313)",
+     "expr": "LW - 241",
+     "page": 436
+    },
+    {
+     "piece": "TIP-ON BLUMOTION synchronisation linkage 6d",
+     "expr": "LW - 267",
+     "page": 436
+    }
+   ],
+   "constants": {
+    "widthOff": -42,
+    "lenOff": -10
+   }
+  },
+  "drill": {
+   "front": [
+    37,
+    69
+   ],
+   "groups760H": "270 ; 300|320|350 ; 380..520 ; 550|600",
+   "dims": {
+    "front_edge_to_first_hole": 37,
+    "front_pair_spacing": 32,
+    "front_extra": 9,
+    "rear_from_37_hole_760H": {
+     "NL250-270": 160,
+     "NL300-350": 224,
+     "NL380-600_a": 224,
+     "NL380-600_b": 256
+    },
+    "extra_18": 18,
+    "note": "cotele 160/224/256 sunt masurate de la gaura de 37 mm; adica de la fata 37+160=197, 37+224=261, 37+256=293; 243 = 261-18 (cota 18 de pe p432)"
+   },
+   "dia_front_template": "Ø6, 7, 125 mm de la fata (desen 'drawer assembly')",
+   "page": "437,438"
+  },
+  "accessories": [
+   {
+    "art": "T60.300D",
+    "name": "TIP-ON BLUMOTION synchronisation 6e"
+   },
+   {
+    "art": "T60.000D",
+    "name": "synchronisation adapter symmetrical (x2)"
+   },
+   {
+    "art": "T60.1125W",
+    "name": "synchronisation linkage 6d round"
+   },
+   {
+    "art": "65.5631",
+    "name": "Front gap template 2.5 mm"
+   }
+  ],
+  "notes": [],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "movento_accessories",
+  "name": "MOVENTO accesorii",
+  "kind": "accessory",
+  "pages": [
+   424,
+   425,
+   426,
+   427,
+   428,
+   429,
+   430,
+   431
+  ],
+  "parts": [
+   {
+    "art": "295H5700",
+    "name": "Pull-out shelf lock (Orion grey matt)",
+    "page": 424
+   },
+   {
+    "art": "ZST.1089W",
+    "name": "Synchronisation linkage round 1089",
+    "cut": "LW - 87 +-1"
+   },
+   {
+    "art": "ZST.1160W",
+    "name": "Synchronisation linkage round 1160",
+    "cut": "LW - 87 +-1"
+   },
+   {
+    "art": "609.1500",
+    "name": "Chipboard screw 3.5x15"
+   },
+   {
+    "art": "609.1700",
+    "name": "Chipboard screw 3.5x17"
+   },
+   {
+    "art": "661.1450.HG",
+    "name": "System screw 6x14.5"
+   },
+   {
+    "art": "661.1000.HG",
+    "name": "System screw 6x10"
+   },
+   {
+    "art": "661.1150.HG",
+    "name": "6x11.5"
+   },
+   {
+    "art": "661.1300.HG",
+    "name": "6x13"
+   },
+   {
+    "art": "661.2000.HG",
+    "name": "6x20"
+   },
+   {
+    "art": "ZRE.363A.ID",
+    "nl": 400
+   },
+   {
+    "art": "ZRE.413A.ID",
+    "nl": 450
+   },
+   {
+    "art": "ZRE.443A.ID",
+    "nl": 480
+   },
+   {
+    "art": "ZRE.463A.ID",
+    "nl": 500
+   },
+   {
+    "art": "ZRE.483A.ID",
+    "nl": 520
+   },
+   {
+    "art": "ZRE.513A.ID",
+    "nl": 550
+   },
+   {
+    "art": "ZRE.543A.ID",
+    "nl": 580
+   },
+   {
+    "art": "ZRE.563A.ID",
+    "nl": 600
+   },
+   {
+    "art": "ZRE.613A.ID",
+    "nl": 650
+   },
+   {
+    "art": "ZTU.00Z0",
+    "name": "Corner connectors 2 tier"
+   },
+   {
+    "art": "ZTU.00D0",
+    "name": "3 tier"
+   },
+   {
+    "art": "ZRG.1094U",
+    "name": "Gallery rail"
+   },
+   {
+    "art": "295.5600",
+    "name": "Lock-open stop"
+   },
+   {
+    "art": "M01.ZZ03.01",
+    "name": "Centre bit"
+   },
+   {
+    "art": "M01.ZZB3",
+    "name": "Replacement bit"
+   },
+   {
+    "art": "993.710",
+    "name": "Stick-on door buffer"
+   },
+   {
+    "art": "993.706",
+    "name": "8mm door buffer"
+   },
+   {
+    "art": "303.756.1",
+    "name": "Pozidriv PZ2"
+   },
+   {
+    "art": "314.928.1",
+    "name": "Slotted size 1"
+   },
+   {
+    "art": "T65.1000.02",
+    "name": "drilling template"
+   }
+  ],
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "POS TB",
+     "expr": "LW - 22",
+     "page": 425
+    },
+    {
+     "piece": "POS TBL",
+     "expr": "NL - 38",
+     "page": 425
+    },
+    {
+     "piece": "TL",
+     "expr": "NL - 38 + X",
+     "page": 425
+    },
+    {
+     "piece": "synchronisation linkage",
+     "expr": "LW - 87",
+     "page": 424
+    },
+    {
+     "piece": "Side stabilisation",
+     "expr": "LW - 315 ; NL + 10",
+     "page": 426
+    },
+    {
+     "piece": "Gallery rail corner",
+     "expr": "KB - 106 ; NL - 64",
+     "page": 428
+    }
+   ],
+   "labeled": {
+    "A": "12-15",
+    "LW-5": "LW - 5",
+    "min25": 25
+   }
+  },
+  "notes": [
+   "Pull-out shelf lock: LW max 1200, nu se combina cu fixare pe fund"
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ }
+]

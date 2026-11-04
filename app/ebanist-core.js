@@ -153,6 +153,15 @@ var SLIDE_CATALOG = {
   blum_movento: { brand: "Blum",   rear: 12,   ded_lat: 42 },
   blum_230m:    { brand: "Blum",   rear: 12.5, ded_lat: 25 },
   haf_ball:     { brand: "Hafele", rear: 10,   ded_lat: 26 },
+  /* seriile Blum din catalogul 2022/23 (ebanist-slides.js; ded_lat = x din SKW = LW − x, verificat de slides-blum.test.js pe catalog):
+     MOVENTO și TANDEM 11–16 mm: 42; TANDEM 19 mm: 49. Rezerva din spate rămâne cea de la TANDEM/MOVENTO (12). */
+  blums_movento_blumotion_s:     { brand: "Blum", rear: 12, ded_lat: 42 },
+  blums_movento_tipon_blumotion: { brand: "Blum", rear: 12, ded_lat: 42 },
+  blums_movento_tipon:           { brand: "Blum", rear: 12, ded_lat: 42 },
+  blums_tandem_locking:          { brand: "Blum", rear: 12, ded_lat: 42 },
+  blums_tandem_hook_peg:         { brand: "Blum", rear: 12, ded_lat: 42 },
+  blums_tandem19_locking:        { brand: "Blum", rear: 12, ded_lat: 49 },
+  blums_tandem19_hook_peg:       { brand: "Blum", rear: 12, ded_lat: 49 },
   /* Matrix Box P: catalogo Häfele DGH-M 2021, MB 9.8–9.9 — profondita minima
      del vano NL + 3, fondo largo luce interna − 62 (31 mm per lato) */
   haf_matrix:   { brand: "Hafele", rear: 3,    ded_lat: 62 },

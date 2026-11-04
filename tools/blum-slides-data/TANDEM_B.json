@@ -1,0 +1,1375 @@
+[
+ {
+  "key": "tandem19_locking",
+  "name": "TANDEM 19 mm – locking device feature (560F / 550F)",
+  "kind": "runner",
+  "pages": [
+   466,
+   467,
+   468,
+   469,
+   470,
+   471,
+   472,
+   473
+  ],
+  "variants": [
+   "560F BLUMOTION full ext.",
+   "560F BLUMATIC (TIP-ON)",
+   "550F BLUMOTION single ext.",
+   "550F TIP-ON single ext."
+  ],
+  "load": {
+   "kg": [
+    30
+   ]
+  },
+  "panelThickness": "17–19",
+  "lengths": {
+   "560F": [
+    250,
+    270,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600
+   ],
+   "550F": [
+    270,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650
+   ]
+  },
+  "parts": [
+   {
+    "art": "560F2500B",
+    "nl": 250,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F2700B",
+    "nl": 270,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F3000B",
+    "nl": 300,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F3500B",
+    "nl": 350,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F4000B",
+    "nl": 400,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F4500B",
+    "nl": 450,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F5000B",
+    "nl": 500,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F5500B",
+    "nl": 550,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F6000B",
+    "nl": 600,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "560F2500C",
+    "nl": 250,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F2700C",
+    "nl": 270,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F3000C",
+    "nl": 300,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F3500C",
+    "nl": 350,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F4000C",
+    "nl": 400,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F4500C",
+    "nl": 450,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F5000C",
+    "nl": 500,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F5500C",
+    "nl": 550,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "560F6000C",
+    "nl": 600,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "550F2700B",
+    "nl": 270,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F3000B",
+    "nl": 300,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F3500B",
+    "nl": 350,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F4000B",
+    "nl": 400,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F4500B",
+    "nl": 450,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F5000B",
+    "nl": 500,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F5500B",
+    "nl": 550,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F6000B",
+    "nl": 600,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F6500B",
+    "nl": 650,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "550F2700T",
+    "nl": 270,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F3000T",
+    "nl": 300,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F3500T",
+    "nl": 350,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F4000T",
+    "nl": 400,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F4500T",
+    "nl": 450,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F5000T",
+    "nl": 500,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F5500T",
+    "nl": 550,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F6000T",
+    "nl": 600,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "550F6500T",
+    "nl": 650,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   }
+  ],
+  "accessories": [
+   {
+    "art": "T51.1700.04",
+    "name": "Locking device left/right (orange, nylon/zinc), item 3"
+   },
+   {
+    "art": "295.1000",
+    "name": "Front adjuster, item 4 (not listed for 550F/TIP-ON page 472 order table beyond item 4)"
+   },
+   {
+    "art": "298.5500",
+    "name": "POSISTOP RAL 7037, item 5 (BLUMOTION variants only)"
+   },
+   {
+    "art": "T55.7150S",
+    "name": "TIP-ON left/right black, 6a, only for full extension (30 kg)"
+   },
+   {
+    "art": "T55.000R",
+    "name": "TIP-ON synchronisation pinion set, semicircular, 6b"
+   },
+   {
+    "art": "T55.882W",
+    "name": "TIP-ON synchronisation linkage, semicircular, 6c, KB up to 1200, from KB 600 recommended",
+    "cutting": "LW − 284 mm"
+   },
+   {
+    "art": "T55.1089ZR",
+    "name": "TIP-ON synchronisation pinion set and shaft, round, 6d, KB up to 1400",
+    "cutting": "LW − 284 mm"
+   },
+   {
+    "art": "T57.1140S",
+    "name": "TIP-ON synchronisation linkage, profile, 6c (single extension), KB up to 1200",
+    "cutting": "LW − 39 mm"
+   },
+   {
+    "art": "T65.1000.02",
+    "name": "Drilling template (drawer assembly, 55 / 10 / 11 / Ø6 / 7 / 33 on p.467)"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "LW": "Internal cabinet width",
+    "SKW": "LW − 49 (+0.0/−1.5)",
+    "SKL": "NL − 10",
+    "ISKL": "SKL + X",
+    "X": "front thickness",
+    "min7": 7,
+    "min27.5": 27.5,
+    "24.5": 24.5,
+    "gapSide560F": "12–15",
+    "drawerPanel": "17–19"
+   },
+   "page": 467,
+   "extra": {
+    "560F": {
+     "spaceNL": "NL + 3",
+     "frontDistance": "X + 19 (+2 with POSISTOP)",
+     "inner": "NL + X + 3 (+2 with POSISTOP)",
+     "pegSideBottomOffset": 10,
+     "hole18": 18,
+     "hole32": 32,
+     "hole37": 37
+    },
+    "560F_TIPON(p469)": {
+     "SKW": "LW − 49",
+     "frontDistance": "X + 19 (+4 with TIP-ON)",
+     "min_values": "37 / 27.5 +1 mm with TIP-ON",
+     "triggerRange85": "85 mm with TIP-ON"
+    },
+    "550F(p471)": {
+     "SKW": "LW − 49",
+     "SKL": "NL − 10",
+     "frontDistance": "X + 19 (+2 with POSISTOP)",
+     "A": "3 mm distance to interchange with full extension",
+     "side": "min 24.5, max 13 at drawer, 34, 17–19"
+    },
+    "550F_TIPON(p473)": {
+     "SKW": "LW − 49",
+     "SKL": "NL − 10",
+     "frontDistance": "X + 23",
+     "inner": "NL + X + 7",
+     "A": "3 mm distance to interchange with full extension"
+    }
+   }
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "drawer_width_SKW",
+     "expr": "LW − 49",
+     "tol": "+0.0 / −1.5",
+     "pages": [
+      467,
+      469,
+      471,
+      473
+     ]
+    },
+    {
+     "piece": "drawer_length_SKL",
+     "expr": "NL − 10",
+     "pages": [
+      467,
+      469,
+      471,
+      473
+     ]
+    },
+    {
+     "piece": "inner_drawer_length_ISKL",
+     "expr": "SKL + X",
+     "pages": [
+      467,
+      469,
+      471,
+      473
+     ]
+    },
+    {
+     "piece": "TIP-ON_linkage_6c/6b(560F)",
+     "expr": "LW − 284",
+     "page": 468
+    },
+    {
+     "piece": "TIP-ON_linkage_6c(550F)",
+     "expr": "LW − 39",
+     "page": 472
+    }
+   ],
+   "constants": {
+    "skwOffset": -49,
+    "sklOffset": -10,
+    "drawerSideThickness": "17–19"
+   }
+  },
+  "drill": {
+   "page": 467,
+   "text": "Hole spacing – runners (560F 30 kg), runner mounting holes drawn on the runner; labelled dims 96, 160, 64, 128, 14, 32, 9, 37, 224, 64. Groups by NL: 250|270; 300|350; 400; 450; 500|550; 600. Chains common: 64, 224, 37; 14, 32, 9. 560F 250|270 row labelled 96 and 160 near it; 300|350 row 160; 400 row 64; 450 row 128; 500|550/600 row 14/32/9 at bottom. See attachment page 490 for cabinet side positions.",
+   "byNLgroup": {
+    "400": [
+     "64"
+    ],
+    "450": [
+     "128"
+    ],
+    "600": [],
+    "250|270": [
+     "96"
+    ],
+    "300|350": [
+     "160"
+    ],
+    "500|550": []
+   },
+   "shared": {
+    "9": 9,
+    "14": 14,
+    "32": 32,
+    "37": 37,
+    "64": 64,
+    "224": 224
+   }
+  },
+  "tables": [
+   {
+    "title": "Hole spacing – runners 560F 30 kg (NL groups)",
+    "cols": [
+     "250|270",
+     "300|350",
+     "400",
+     "450",
+     "500|550",
+     "600"
+    ],
+    "page": 467
+   },
+   {
+    "title": "Hole spacing – runners 550F 30 kg (NL groups)",
+    "cols": [
+     "270",
+     "300|350|400|450",
+     "500|550",
+     "600",
+     "650"
+    ],
+    "page": 471
+   },
+   {
+    "title": "Drawer assembly",
+    "rows": {
+     "template": "T65.1000.02",
+     "dims": [
+      55,
+      10,
+      11,
+      "Ø6",
+      7,
+      33
+     ]
+    },
+    "page": 467
+   }
+  ],
+  "dims": {
+   "drawerAssembly55": 55,
+   "drawerAssembly10": 10,
+   "drawerAssembly11": 11,
+   "drawerAssemblyDia": 6,
+   "drawerAssembly7": 7,
+   "drawerAssembly33": 33
+  },
+  "notes": [
+   "Pagina 467/469: *+2 mm cu POSISTOP (467), *+4 mm cu TIP-ON (469); +1 mm la spațiul din dulap cu TIP-ON.",
+   "Sertar 4 laturi, panou 17–19.",
+   "Pagina 470–473: 550F e extensie simplă."
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "Atribuirea exactă a cotelor 96/160/64/128/14/32/9 pe rândurile de NL din p.467 (desen fin) – vezi p.490."
+  ]
+ },
+ {
+  "key": "tandem19_hook_peg",
+  "name": "TANDEM 19 mm – hook and peg variant (561F / 551F)",
+  "kind": "runner",
+  "pages": [
+   474,
+   475,
+   476,
+   477,
+   478,
+   479,
+   480,
+   481
+  ],
+  "variants": [
+   "561F BLUMOTION",
+   "561F BLUMATIC (TIP-ON)",
+   "551F BLUMOTION",
+   "551F TIP-ON"
+  ],
+  "load": {
+   "kg": [
+    30
+   ]
+  },
+  "panelThickness": "17–19",
+  "lengths": {
+   "561F": [
+    260,
+    310,
+    360,
+    410,
+    460,
+    510,
+    560
+   ],
+   "551F": [
+    260,
+    310,
+    360,
+    410,
+    460,
+    510,
+    560
+   ]
+  },
+  "parts": [
+   {
+    "art": "561F2601B",
+    "nl": 260,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F3101B",
+    "nl": 310,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F3601B",
+    "nl": 360,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F4101B",
+    "nl": 410,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F4601B",
+    "nl": 460,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F5101B",
+    "nl": 510,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F5601B",
+    "nl": 560,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "full"
+   },
+   {
+    "art": "561F2601C",
+    "nl": 260,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "561F3101C",
+    "nl": 310,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "561F3601C",
+    "nl": 360,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "561F4101C",
+    "nl": 410,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "561F4601C",
+    "nl": 460,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "561F5101C",
+    "nl": 510,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "561F5601C",
+    "nl": 560,
+    "load": 30,
+    "fn": "BLUMATIC (for TIP-ON)",
+    "ext": "full"
+   },
+   {
+    "art": "551F2601B",
+    "nl": 260,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F3101B",
+    "nl": 310,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F3601B",
+    "nl": 360,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F4101B",
+    "nl": 410,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F4601B",
+    "nl": 460,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F5101B",
+    "nl": 510,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F5601B",
+    "nl": 560,
+    "load": 30,
+    "fn": "BLUMOTION",
+    "ext": "single"
+   },
+   {
+    "art": "551F2601T",
+    "nl": 260,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "551F3101T",
+    "nl": 310,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "551F3601T",
+    "nl": 360,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "551F4101T",
+    "nl": 410,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "551F4601T",
+    "nl": 460,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "551F5101T",
+    "nl": 510,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   },
+   {
+    "art": "551F5601T",
+    "nl": 560,
+    "load": 30,
+    "fn": "TIP-ON",
+    "ext": "single"
+   }
+  ],
+  "accessories": [
+   {
+    "art": "295.1000",
+    "name": "Front adjuster, item 4"
+   },
+   {
+    "art": "T55.7150S",
+    "name": "TIP-ON left/right black 30 kg, only for full ext. (561F BLUMATIC page)"
+   },
+   {
+    "art": "T55.000R",
+    "name": "TIP-ON synchronisation pinion set, semicircular, 6b"
+   },
+   {
+    "art": "T55.882W",
+    "name": "TIP-ON synchronisation linkage semicircular 6c, KB up to 1200",
+    "cutting": "LW − 284 mm"
+   },
+   {
+    "art": "T55.1089ZR",
+    "name": "TIP-ON pinion set and shaft round 6d, KB up to 1400",
+    "cutting": "LW − 284 mm"
+   },
+   {
+    "art": "T57.1140S",
+    "name": "TIP-ON sync linkage profile 6c (551F), KB up to 1200",
+    "cutting": "LW − 39 mm"
+   },
+   {
+    "art": "T65.1000.02",
+    "name": "Drilling template"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "SKW": "LW − 49 (+0.0/−1.5)",
+    "SKL": "NL − 10",
+    "ISKL": "SKL + X",
+    "drawerSideThicknessRange": "17–19",
+    "gap": "11–13"
+   },
+   "page": 475,
+   "extra": {
+    "561F_BLUMOTION(p475)": {
+     "frontDistance": "X + 17",
+     "inner": "NL + X + 3"
+    },
+    "561F_TIPON(p477)": {
+     "frontDistance": "X + 17 (+6 with TIP-ON)",
+     "inner": "NL + X + 3 (+4 with TIP-ON)"
+    },
+    "551F_BLUMOTION(p479)": {
+     "frontDistance": "X + 17",
+     "inner": "NL + X + 3",
+     "A": "3 mm distance to interchange with full extension"
+    },
+    "551F_TIPON(p481)": {
+     "frontDistance": "X + 23",
+     "inner": "NL + X + 7"
+    }
+   }
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "drawer_width_SKW",
+     "expr": "LW − 49",
+     "tol": "+0.0 / −1.5"
+    },
+    {
+     "piece": "drawer_length_SKL",
+     "expr": "NL − 10"
+    },
+    {
+     "piece": "inner_drawer_length_ISKL",
+     "expr": "SKL + X"
+    }
+   ],
+   "constants": {
+    "skwOffset": -49,
+    "sklOffset": -10
+   }
+  },
+  "drill": {
+   "page": 475,
+   "text": "Hole spacing 561F 30 kg: NL 260 | 310 | 360 | 410 | 460 | 510 | 560. Drawer assembly: pegs X2 and lift-off stop X3 (561F) / X1 (551F) by NL. 551F p.479: dims 9, 37, 96, 14, 224, 128, 64 (labelled)."
+  },
+  "tables": [
+   {
+    "title": "Drawer assembly 561F (pegs X2, lift-off stop X3)",
+    "cols": [
+     "NL",
+     "X2",
+     "X3"
+    ],
+    "rows": {
+     "260": [
+      205,
+      185
+     ],
+     "310": [
+      230,
+      242
+     ],
+     "360": [
+      275,
+      287
+     ],
+     "410": [
+      300,
+      344
+     ],
+     "460": [
+      335,
+      379
+     ],
+     "510": [
+      360,
+      436
+     ],
+     "560": [
+      405,
+      481
+     ]
+    },
+    "page": 475
+   },
+   {
+    "title": "Drawer assembly 551F (pegs X2, lift-off stop X1)",
+    "cols": [
+     "NL",
+     "X2",
+     "X1"
+    ],
+    "rows": {
+     "260": [
+      205,
+      185
+     ],
+     "310": [
+      230,
+      210
+     ],
+     "360": [
+      275,
+      255
+     ],
+     "410": [
+      300,
+      280
+     ],
+     "460": [
+      335,
+      315
+     ],
+     "510": [
+      360,
+      340
+     ],
+     "560": [
+      405,
+      385
+     ]
+    },
+    "page": 479
+   }
+  ],
+  "dims": {},
+  "notes": [
+   "Cotele X2/X3/X1 sunt în mm de la fața sertarului (copiate din tabel)."
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "tandem_accessories",
+  "name": "TANDEM accessories (pull-out shelf lock, side stabilisation, gallery rail etc.)",
+  "kind": "accessory",
+  "pages": [
+   482,
+   483,
+   484,
+   485,
+   486,
+   487,
+   488
+  ],
+  "parts": [
+   {
+    "art": "295H5700",
+    "name": "Pull-out shelf lock for 560H|561H, Orion grey matt"
+   },
+   {
+    "art": "295F5700",
+    "name": "Pull-out shelf lock for 560F|561F"
+   },
+   {
+    "art": "ZST.1160W",
+    "name": "Synchronisation linkage round, 1160 mm (12c, alternative)"
+   },
+   {
+    "art": "ZST.1089W",
+    "name": "Synchronisation linkage round, 1089 mm, 12c"
+   },
+   {
+    "art": "609.1500",
+    "name": "Chipboard screw Ø3.5×15"
+   },
+   {
+    "art": "609.1700",
+    "name": "Chipboard screw Ø3.5×17"
+   },
+   {
+    "art": "661.1450.HG",
+    "name": "System screw Ø6×14.5"
+   },
+   {
+    "art": "661.1000.HG",
+    "name": "System screw Ø6×10"
+   },
+   {
+    "art": "661.1150.HG",
+    "name": "System screw Ø6×11.5"
+   },
+   {
+    "art": "661.1300.HG",
+    "name": "System screw Ø6×13"
+   },
+   {
+    "art": "661.2000.HG",
+    "name": "System screw Ø6×20"
+   },
+   {
+    "art": "ZST.410TV",
+    "name": "Side stabilisation set full ext., NL up to 410"
+   },
+   {
+    "art": "ZST.600TV",
+    "name": "Side stabilisation set full ext., NL up to 600"
+   },
+   {
+    "art": "ZST.750TV",
+    "name": "Side stabilisation set full ext., NL up to 750"
+   },
+   {
+    "art": "ZST.410TT",
+    "name": "Side stabilisation set single ext., NL up to 410"
+   },
+   {
+    "art": "ZST.650TT",
+    "name": "Side stabilisation set single ext., NL up to 650"
+   },
+   {
+    "art": "ZRE.363A.ID",
+    "name": "Longside gallery rail NL 400"
+   },
+   {
+    "art": "ZRE.413A.ID",
+    "name": "Longside gallery rail NL 450"
+   },
+   {
+    "art": "ZRE.443A.ID",
+    "name": "Longside gallery rail NL 480"
+   },
+   {
+    "art": "ZRE.463A.ID",
+    "name": "Longside gallery rail NL 500"
+   },
+   {
+    "art": "ZRE.483A.ID",
+    "name": "Longside gallery rail NL 520"
+   },
+   {
+    "art": "ZRE.513A.ID",
+    "name": "Longside gallery rail NL 550"
+   },
+   {
+    "art": "ZRE.543A.ID",
+    "name": "Longside gallery rail NL 580"
+   },
+   {
+    "art": "ZRE.563A.ID",
+    "name": "Longside gallery rail NL 600"
+   },
+   {
+    "art": "ZRE.613A.ID",
+    "name": "Longside gallery rail NL 650"
+   },
+   {
+    "art": "295.1000",
+    "name": "Front adjuster"
+   },
+   {
+    "art": "298.5500",
+    "name": "POSISTOP"
+   },
+   {
+    "art": "MZM.0095",
+    "name": "Insertion ram for MINIPRESS"
+   },
+   {
+    "art": "M01.ZZ03.01",
+    "name": "Centre bit Ø2.7"
+   },
+   {
+    "art": "M01.ZZB3",
+    "name": "Replacement bit"
+   },
+   {
+    "art": "993.710",
+    "name": "Stick-on door buffer"
+   },
+   {
+    "art": "993.706",
+    "name": "Ø8 door buffer"
+   },
+   {
+    "art": "303.756.1",
+    "name": "Pozidriv PZ2 screwdriver 210 mm"
+   },
+   {
+    "art": "314.928.1",
+    "name": "Slotted screwdriver size 1, 200 mm"
+   }
+  ],
+  "cabinet": {
+   "labeled": {
+    "TB": "LW − 22 (560H|561H, +0.0/−1.5)",
+    "TB_F": "LW − 29 (560F|561F, +0.0/−1.5)",
+    "TBL": "NL − 38",
+    "TL": "NL − 38 + X",
+    "TSBL": "pull-out shelf side panel length",
+    "Y": "base thickness",
+    "A_560": "12–15",
+    "A_561": "11–13",
+    "maxCabinetWidth_KB": 1200
+   },
+   "page": 483,
+   "extra": {
+    "frontDistance_560H": "X + 19 (+2 POSISTOP / +4 TIP-ON)",
+    "frontDistance_561H": "X + 17",
+    "spaceNL": "NL + 3",
+    "sideStabiliser": "+3 mm space, +12 mm length",
+    "TIPON": "+1 mm"
+   }
+  },
+  "cutting": {
+   "formulas": [
+    {
+     "piece": "shelf_width_TB_H",
+     "expr": "LW − 22",
+     "page": 483
+    },
+    {
+     "piece": "shelf_width_TB_F",
+     "expr": "LW − 29",
+     "page": 484
+    },
+    {
+     "piece": "shelf_base_length_TBL",
+     "expr": "NL − 38",
+     "page": 483
+    },
+    {
+     "piece": "shelf_length_TL",
+     "expr": "NL − 38 + X",
+     "page": 483
+    },
+    {
+     "piece": "pull-out shelf lock sync 560H|561H",
+     "expr": "LW − 87 ±1",
+     "page": 482
+    },
+    {
+     "piece": "pull-out shelf lock sync 560F|561F",
+     "expr": "LW − 94 ±1",
+     "page": 482
+    },
+    {
+     "piece": "side stabilisation full ext. rod",
+     "expr": "LW − 254",
+     "page": 485
+    },
+    {
+     "piece": "side stabilisation single ext. rod",
+     "expr": "LW − 222",
+     "page": 485
+    },
+    {
+     "piece": "side stabilisation length",
+     "expr": "NL + 12",
+     "page": 485
+    }
+   ],
+   "constants": {}
+  },
+  "notes": [
+   "Pull-out shelf lock numai pentru extensie completă.",
+   "Gallery rail tabel: NL → cod."
+  ],
+  "unlabeled": 0,
+  "unreadable": []
+ },
+ {
+  "key": "tandem_attachment",
+  "name": "TANDEM attachment of runners (pp. 490–491)",
+  "kind": "drill",
+  "pages": [
+   490,
+   491
+  ],
+  "drill": {
+   "dia": "chipboard screws Ø4×15 (A); system screws Ø6×14.5, 661.1450.HG (B)",
+   "page": 490,
+   "text": "Chipboard screws A (Ø4×15) and system screws B (Ø6×14.5). Labelled dims on drawing: 37, 224, 64, 32, 23, 18, 96, 128, 160, 192; attributed to rows only where drawn beside them. Cumulative positions from front are NOT stated in the catalogue.",
+   "labelledDims": [
+    "37",
+    "224",
+    "64",
+    "32",
+    "23",
+    "18",
+    "96",
+    "128",
+    "160",
+    "192"
+   ],
+   "560H|560F": {
+    "rows": {
+     "600": {
+      "dims": [
+       64
+      ]
+     },
+     "250–270": {
+      "dims": [
+       160,
+       96
+      ]
+     },
+     "300–380": {
+      "note": "* = BLUMOTION"
+     },
+     "400–420": {
+      "dims": [
+       192
+      ]
+     },
+     "450–480": {
+      "dims": [
+       128
+      ]
+     },
+     "500–550": {}
+    },
+    "shared": [
+     18,
+     23,
+     32,
+     18,
+     64,
+     224,
+     37
+    ]
+   },
+   "561H|561F": {
+    "rows": {
+     "260": {},
+     "285": {
+      "dims": [
+       96
+      ],
+      "note": "* BLUMOTION"
+     },
+     "410": {},
+     "560": {
+      "dims": [
+       23,
+       18,
+       32,
+       18,
+       128,
+       192,
+       64,
+       224,
+       37
+      ]
+     },
+     "310–335": {},
+     "360–385": {
+      "note": "* BLUMOTION"
+     },
+     "435–485": {},
+     "510–535": {}
+    }
+   },
+   "550H|550F": {
+    "rows": {
+     "270": {
+      "dims": [
+       96
+      ]
+     },
+     "600": {},
+     "650": {
+      "dims": [
+       64,
+       64,
+       224,
+       23,
+       18,
+       37
+      ]
+     },
+     "300–450": {
+      "dims": [
+       18,
+       128
+      ]
+     },
+     "500–550": {}
+    },
+    "note": "* poate fi înlocuit cu șurub aglomerat Ø4×15"
+   },
+   "551H|551F": {
+    "rows": {
+     "560": {
+      "dims": [
+       64,
+       224,
+       23,
+       18,
+       37
+      ]
+     },
+     "260–285": {
+      "dims": [
+       96
+      ]
+     },
+     "310–435": {
+      "dims": [
+       18,
+       128
+      ]
+     },
+     "460–485": {
+      "dims": [
+       18
+      ]
+     },
+     "510–535": {}
+    },
+    "note": "* poate fi înlocuit cu șurub aglomerat Ø4×15"
+   }
+  },
+  "tables": [
+   {
+    "title": "NL groups attachment",
+    "page": 490,
+    "560H|560F": [
+     "250–270",
+     "300–380",
+     "400–420",
+     "450–480",
+     "500–550",
+     "600"
+    ],
+    "561H|561F": [
+     "260",
+     "285",
+     "310–335",
+     "360–385",
+     "410",
+     "435–485",
+     "510–535",
+     "560"
+    ],
+    "550H|550F": [
+     "270",
+     "300–450",
+     "500–550",
+     "600",
+     "650"
+    ],
+    "551H|551F": [
+     "260–285",
+     "310–435",
+     "460–485",
+     "510–535",
+     "560"
+    ]
+   }
+  ],
+  "notes": [
+   "Grupele de NL și cotele sunt cele de pe desen; poziția exactă pe rând din desen se citește cu lanțul 37/224 de la față."
+  ],
+  "unlabeled": 0,
+  "unreadable": [
+   "Poziția fiecărei găuri pe rând (desen cu lanțuri de cote comune)."
+  ]
+ }
+]
