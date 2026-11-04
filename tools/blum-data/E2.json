@@ -1,0 +1,1819 @@
+[
+ {
+  "key": "angled_p15_III",
+  "name": "CLIP top BLUMOTION | CLIP top +15° III angled hinge full overlay",
+  "angle": 15,
+  "webCode": "DQDVHA",
+  "pages": [
+   130,
+   131
+  ],
+  "openingAngle": 95,
+  "applications": [
+   "overlay (full overlay, angled)"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L_B": 57,
+   "L_T": 57,
+   "W_B": 37.5,
+   "W_B_INSERTA": 43,
+   "W_T": 37,
+   "H_B": 3.2,
+   "H_B_INSERTA": 6.4,
+   "H_T": 3.2
+  },
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depth": 2.0
+  },
+  "dims": {
+   "B min (screw-on)": 13,
+   "T min (screw-on)": 12.3,
+   "INSERTA min": 13,
+   "hinge boss B width": 57,
+   "hinge boss T width": 57,
+   "hinge boss B length": "37.5 (43 INSERTA)",
+   "hinge boss T length": 37,
+   "hinge boss B height": "3.2 (6.4 INSERTA)",
+   "hinge boss T height": 3.2
+  },
+  "dimsPage": 131,
+  "angleSeries": [
+   {
+    "no": 17,
+    "angle": 10
+   },
+   {
+    "no": 47,
+    "angle": 10
+   },
+   {
+    "no": 2,
+    "angle": 10
+   },
+   {
+    "no": 37,
+    "angle": 10
+   },
+   {
+    "no": 18,
+    "angle": 15,
+    "note": "on p128, outside my pages; reference only"
+   },
+   {
+    "no": 3,
+    "angle": 15
+   },
+   {
+    "no": 38,
+    "angle": 15
+   },
+   {
+    "no": 39,
+    "angle": 20
+   }
+  ],
+  "planning": [
+   {
+    "no": 17,
+    "angle": 10,
+    "plate": {
+     "spacing": 18,
+     "part": "175H7190.22"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 47,
+    "angle": 10,
+    "plate": {
+     "spacing": 18,
+     "part": "175H7190.22"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 2,
+    "angle": 10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 37,
+    "angle": 10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 3,
+    "angle": 15,
+    "plate": {
+     "spacing": 9,
+     "part": "175H7190"
+    }
+   },
+   {
+    "no": 38,
+    "angle": 15,
+    "plate": {
+     "spacing": 6,
+     "part": "175H9160"
+    }
+   },
+   {
+    "no": 39,
+    "angle": 20,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "+5°",
+     "part": "171A5070",
+     "qty": 1
+    },
+    "screwMin": 25
+   }
+  ],
+  "referencesOtherPages": "Nº 18, 19, 48, 49, 4, 56 and 55 (+15° hinge) are listed in the reference table but shown on pp. 128-129",
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B9494"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI|ONS",
+    "art": "79B9454"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": false,
+    "colours": "NI",
+    "art": "78A9454.T"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": {
+     "colours": "NI|ONS",
+     "art": "70.1553"
+    },
+    "stamped Blum": {
+     "colours": "NI",
+     "art": "70.1553.BP"
+    }
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": {
+     "colours": "NI|ONS",
+     "art": "70T3504"
+    },
+    "CLIP top": {
+     "colours": "NI",
+     "art": "70T1504"
+    }
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ],
+   "chipboardScrews": [
+    {
+     "len": 15.0,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17.0,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ]
+  },
+  "plates": [
+   "173H7100",
+   "175H7190",
+   "175H7190.22",
+   "175H9160"
+  ],
+  "spacers": [
+   "171A5500",
+   "171A5070"
+  ],
+  "notes": [
+   "CLIP top BLUMOTION and CLIP top hinges cannot be combined with each other on a door.",
+   "Dimensions based on factory setting; application changes in cases of deviation, a trial is recommended; some applications require the mounting plate to be moved from standard fixing positions."
+  ],
+  "unlabeled": 65,
+  "unlabeledByPage": {
+   "130": 28,
+   "131": 37
+  },
+  "unreadable": []
+ },
+ {
+  "key": "angled_p5",
+  "name": "CLIP top BLUMOTION | CLIP top ±5° angled application",
+  "angle": [
+   -5,
+   5
+  ],
+  "webCode": "DQDW6M",
+  "pages": [
+   132,
+   133
+  ],
+  "openingAngle": 95,
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L_B": 57,
+   "L_T": "57 (65 INSERTA)",
+   "W_B": 37.5,
+   "W_B_INSERTA": 43,
+   "W_T": 37,
+   "W_T_INSERTA": 40.5,
+   "H_B": 3.2,
+   "H_B_INSERTA": 6.4,
+   "H_T": 3.2,
+   "H_T_INSERTA": 7
+  },
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depthPlus": 3.0,
+   "depthMinus": -2.0
+  },
+  "dims": {
+   "B min (screw-on)": 13,
+   "T min (screw-on)": 12.3,
+   "INSERTA min": 13
+  },
+  "dimsPage": 133,
+  "planning": [
+   {
+    "no": 15,
+    "angle": -5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "arm": "cranked"
+   },
+   {
+    "no": 35,
+    "angle": -5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "arm": "straight"
+   },
+   {
+    "no": 16,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "arm": "double cranked"
+   },
+   {
+    "no": 46,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "+5°",
+     "part": "171A5070",
+     "qty": 1
+    },
+    "screwMin": 25,
+    "arm": "cranked"
+   },
+   {
+    "no": 1,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "arm": "straight"
+   },
+   {
+    "no": 36,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "arm": "straight"
+   }
+  ],
+  "planningNote": "Nº to application (overlay/dual/inset) is shown only by pictographs; not transcribed.",
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9590",
+    "application": "overlay"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T9590B",
+    "application": "overlay"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T9590BTL",
+    "application": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9550",
+    "application": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T9550",
+    "application": "overlay"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T9550.TL",
+    "application": "overlay"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9690",
+    "application": "dual"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T9690B",
+    "application": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9650",
+    "application": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T9650",
+    "application": "dual"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T9650.TL",
+    "application": "dual"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9790",
+    "application": "inset"
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T9790B",
+    "application": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9750",
+    "application": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T9750",
+    "application": "inset"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T9750.TL",
+    "application": "inset"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "overlay": {
+     "plain": "70.1553",
+     "stamped Blum": "70.1553.BP"
+    },
+    "dual": {
+     "plain": "70.1663",
+     "stamped Blum": "70.1663.BP"
+    },
+    "inset": {
+     "plain": "70.1663",
+     "stamped Blum": "70.1663.BP"
+    },
+    "colours": "NI"
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": "70T3504",
+    "CLIP top": "70T1504",
+    "colours": "NI"
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ],
+   "chipboardScrews": [
+    {
+     "len": 15.0,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17.0,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ]
+  },
+  "plates": [
+   "173H7100"
+  ],
+  "spacers": [
+   "171A5500",
+   "171A5070",
+   "171A5010"
+  ],
+  "notes": [
+   "CLIP top BLUMOTION and CLIP top hinges cannot be combined with each other on a door."
+  ],
+  "unlabeled": 51,
+  "unreadable": []
+ },
+ {
+  "key": "angled_m15_III",
+  "name": "CLIP top BLUMOTION | CLIP top -15° III angled hinge full overlay",
+  "angle": -15,
+  "webCode": "DQDWVY",
+  "pages": [
+   134,
+   135
+  ],
+  "openingAngle": 110,
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L_B": 57,
+   "L_T": 57,
+   "W_B": 37.5,
+   "W_B_INSERTA": 43,
+   "W_T": 37,
+   "H_B": 3.2,
+   "H_B_INSERTA": 6.4,
+   "H_T": 3.2
+  },
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depth": 2.0
+  },
+  "dims": {
+   "B edge (screw-on)": "3-7",
+   "T edge (screw-on)": "3-6",
+   "B min": 13,
+   "T min": 12.6,
+   "INSERTA min": 13
+  },
+  "dimsPage": 135,
+  "planning": [
+   {
+    "no": 12,
+    "angle": -20,
+    "plate": {
+     "spacing": 6,
+     "part": "175H9160"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 32,
+    "angle": -20,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 13,
+    "angle": -15,
+    "plate": {
+     "spacing": 18,
+     "part": "175H7190.22"
+    }
+   },
+   {
+    "no": 33,
+    "angle": -15,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    }
+   },
+   {
+    "no": 14,
+    "angle": -10,
+    "plate": {
+     "spacing": 9,
+     "part": "175H7190"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "+5°",
+     "part": "171A5070",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 34,
+    "angle": -10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 25
+   }
+  ],
+  "angleSeries": [
+   {
+    "no": 12,
+    "angle": -20
+   },
+   {
+    "no": 32,
+    "angle": -20
+   },
+   {
+    "no": 13,
+    "angle": -15
+   },
+   {
+    "no": 33,
+    "angle": -15
+   },
+   {
+    "no": 14,
+    "angle": -10
+   },
+   {
+    "no": 34,
+    "angle": -10
+   }
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B3493"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B3453"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "78A5453.T"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.1553",
+    "stamped Blum": "70.1553.BP",
+    "colours": "NI"
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": "70T3504",
+    "CLIP top": "70T1504",
+    "colours": "NI"
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ],
+   "chipboardScrews": [
+    {
+     "len": 15.0,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17.0,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ]
+  },
+  "notes": [
+   "CLIP top BLUMOTION and CLIP top hinges cannot be combined with each other on a door."
+  ],
+  "unlabeled": 52,
+  "unlabeledByPage": {
+   "134": 27,
+   "135": 25
+  },
+  "unreadable": []
+ },
+ {
+  "key": "angled_m30_III",
+  "name": "CLIP top BLUMOTION | CLIP top -30° III angled hinge full overlay",
+  "angle": -30,
+  "webCode": "DQDXLA",
+  "pages": [
+   136,
+   137
+  ],
+  "openingAngle": 110,
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L_B": 57,
+   "L_T": 57,
+   "W_B": 37.5,
+   "W_B_INSERTA": 43,
+   "W_T": 37,
+   "H_B": 3.2,
+   "H_B_INSERTA": 6.4,
+   "H_T": 3.2
+  },
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depth": 2.0
+  },
+  "dims": {
+   "B edge (screw-on)": "3-7",
+   "T edge (screw-on)": "3-6",
+   "B min": 13,
+   "T min": 12.6,
+   "INSERTA min": 13
+  },
+  "dimsPage": 137,
+  "planning": [
+   {
+    "no": 29,
+    "angle": -35,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 30,
+    "angle": -30,
+    "plate": {
+     "spacing": 3,
+     "part": "173H7130"
+    }
+   },
+   {
+    "no": 11,
+    "angle": -25,
+    "plate": {
+     "spacing": 9,
+     "part": "175H7190"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "+5°",
+     "part": "171A5070",
+     "qty": 1
+    },
+    "screwMin": 25
+   },
+   {
+    "no": 31,
+    "angle": -25,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 3,
+     "wedge": "+5°",
+     "part": "171A5040",
+     "qty": 1
+    },
+    "screwMin": 25
+   }
+  ],
+  "angleSeries": [
+   {
+    "no": 29,
+    "angle": -35
+   },
+   {
+    "no": 30,
+    "angle": -30
+   },
+   {
+    "no": 11,
+    "angle": -25
+   },
+   {
+    "no": 31,
+    "angle": -25
+   }
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B3491"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B3451"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "78A5451.T"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.1553",
+    "stamped Blum": "70.1553.BP",
+    "colours": "NI"
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": "70T3504",
+    "CLIP top": "70T1504",
+    "colours": "NI"
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ],
+   "chipboardScrews": [
+    {
+     "len": 15.0,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17.0,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ]
+  },
+  "notes": [
+   "CLIP top BLUMOTION and CLIP top hinges cannot be combined with each other on a door."
+  ],
+  "unlabeled": 33,
+  "unlabeledByPage": {
+   "136": 25,
+   "137": 8
+  },
+  "unreadable": []
+ },
+ {
+  "key": "angled_m45_III",
+  "name": "CLIP top BLUMOTION | CLIP top -45° III angled hinge full overlay",
+  "angle": -45,
+  "webCode": "DQDYAM",
+  "pages": [
+   138,
+   139
+  ],
+  "openingAngle": 110,
+  "cup": {
+   "dia": 35,
+   "tol": "+0.2/0 (INSERTA)",
+   "tb": [
+    3,
+    7
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L_B": 57,
+   "L_T": 57,
+   "W_B": 37.5,
+   "W_B_INSERTA": 43,
+   "W_T": 37,
+   "H_B": 3.2,
+   "H_B_INSERTA": 6.4,
+   "H_T": 3.2
+  },
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depth": 2.0
+  },
+  "dims": {
+   "B edge (screw-on)": "3-7",
+   "T edge (screw-on)": "3-6",
+   "B min": 13,
+   "T min": 12.6,
+   "INSERTA min": 13
+  },
+  "dimsPage": 139,
+  "planning": [
+   {
+    "no": 26,
+    "angle": -50,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20
+   },
+   {
+    "no": 27,
+    "angle": -45,
+    "plate": {
+     "spacing": 3,
+     "part": "173H7130"
+    }
+   },
+   {
+    "no": 28,
+    "angle": -40,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 3,
+     "wedge": "+5°",
+     "part": "171A5040",
+     "qty": 1
+    },
+    "screwMin": 25
+   }
+  ],
+  "angleSeries": [
+   {
+    "no": 26,
+    "angle": -50
+   },
+   {
+    "no": 27,
+    "angle": -45
+   },
+   {
+    "no": 28,
+    "angle": -40
+   }
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B3490"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "79B3450"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "78A5450.T"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.1553",
+    "stamped Blum": "70.1553.BP",
+    "colours": "NI"
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": "70T3504",
+    "CLIP top": "70T1504",
+    "colours": "NI"
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ],
+   "chipboardScrews": [
+    {
+     "len": 15.0,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17.0,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ]
+  },
+  "notes": [
+   "CLIP top BLUMOTION and CLIP top hinges cannot be combined with each other on a door."
+  ],
+  "unlabeled": 24,
+  "unlabeledByPage": {
+   "138": 24,
+   "139": 0
+  },
+  "unreadable": []
+ },
+ {
+  "key": "angled_thin_expando",
+  "name": "CLIP top BLUMOTION | CLIP top hinge for thin doors (EXPANDO T) - angled application",
+  "angle": [
+   -5,
+   5,
+   10,
+   15
+  ],
+  "webCode": null,
+  "pages": [
+   140,
+   141
+  ],
+  "openingAngle": 110,
+  "applications": [
+   "angled, thin fronts 8-14 mm"
+  ],
+  "frontThickness": {
+   "min": 8,
+   "max": 14
+  },
+  "drill": {
+   "type": "hole",
+   "dia": 10,
+   "tol": "+0.1/-0.1 (stone and ceramic +0.2/-0.1)",
+   "depthBT": "min 6",
+   "dowelSystem": "EXPANDO T",
+   "front": {
+    "spacingAcross": 34.5,
+    "note": "44 and 32 and 3.5 shown on fixing drawing without symbol"
+   }
+  },
+  "dims": {
+   "B (fixing position)": "min 23.5 / max 46",
+   "B formula": "B = FA + 27",
+   "FA": "front overlay",
+   "BT (drilling depth)": "min 6",
+   "Ø": 10,
+   "Ø tol": "+0.1/-0.1"
+  },
+  "dimsPage": 141,
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depthPlus": 3.0,
+   "depthMinus": -2.0
+  },
+  "planning": [
+   {
+    "no": 114,
+    "angle": -5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 61.5
+   },
+   {
+    "no": 110,
+    "angle": -5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 61.5
+   },
+   {
+    "no": 115,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 58
+   },
+   {
+    "no": 111,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 58
+   },
+   {
+    "no": 116,
+    "angle": 10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 2
+    },
+    "screwMin": 25,
+    "maxLabel": 59.5
+   },
+   {
+    "no": 112,
+    "angle": 10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 2
+    },
+    "screwMin": 25,
+    "maxLabel": 59.5
+   },
+   {
+    "no": 117,
+    "angle": 15,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 3
+    },
+    "screwMin": 30,
+    "maxLabel": 60.5
+   },
+   {
+    "no": 113,
+    "angle": 15,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 3
+    },
+    "screwMin": 30,
+    "maxLabel": 60.5
+   }
+  ],
+  "planningNote": "maxLabel = 'max' dimension from the front-overlay-side of drawing (labelled max). Base assumptions: front thickness 12 mm, cabinet side panel 19 mm.",
+  "parts": [
+   {
+    "boss": "EXPANDO T",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B453T"
+   },
+   {
+    "boss": "EXPANDO T",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T453T"
+   },
+   {
+    "boss": "EXPANDO T",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T453T.TL"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.4503",
+    "stamped Blum": "70.4503.BP",
+    "colours": "NI"
+   },
+   "bossCoverCap": {
+    "CLIP top BLUMOTION": "70T4504",
+    "CLIP top": "70T4504",
+    "colours": "NI"
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ]
+  },
+  "plates": [
+   "173H7100"
+  ],
+  "spacers": [
+   "171A5010",
+   "171A5500"
+  ],
+  "notes": [
+   "Thin fronts from 8-14 mm",
+   "EXPANDO T fixing system for a variety of front materials",
+   "0-protrusion (for cabinets with inner pull-outs or pull-out shelves)",
+   "Trial recommended when combining CLIP top BLUMOTION and CLIP top hinges with springs on small, light fronts up to 300 mm wide; not recommended for wider fronts FB."
+  ],
+  "unlabeled": 72,
+  "unlabeledByPage": {
+   "140": 25,
+   "141": 47
+  },
+  "unreadable": []
+ },
+ {
+  "key": "angled_cristallo",
+  "name": "CLIP top BLUMOTION | CLIP top CRISTALLO angled application (glass and mirror doors)",
+  "angle": [
+   -5,
+   5,
+   10,
+   15
+  ],
+  "webCode": null,
+  "pages": [
+   142,
+   143
+  ],
+  "openingAngle": 110,
+  "applications": [
+   "angled, glass/mirror door, glue-on adhesion plate"
+  ],
+  "frontThickness": {
+   "basis": 6
+  },
+  "drill": {
+   "type": "none",
+   "note": "Adhesion plate is glued onto glass; no glass drilling necessary"
+  },
+  "adjust": {
+   "height": 3.0,
+   "heightNote": "max, see mounting plates",
+   "side": 2.0,
+   "depthPlus": 3.0,
+   "depthMinus": -2.0
+  },
+  "planning": [
+   {
+    "no": 106,
+    "angle": -5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 61.5
+   },
+   {
+    "no": 107,
+    "angle": -5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 6,
+     "wedge": "-5°",
+     "part": "171A5500",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 61.5
+   },
+   {
+    "no": 103,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 58
+   },
+   {
+    "no": 100,
+    "angle": 5,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 1
+    },
+    "screwMin": 20,
+    "maxLabel": 58
+   },
+   {
+    "no": 104,
+    "angle": 10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 2
+    },
+    "screwMin": 25,
+    "maxLabel": 59.5
+   },
+   {
+    "no": 101,
+    "angle": 10,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 2
+    },
+    "screwMin": 25,
+    "maxLabel": 59.5
+   },
+   {
+    "no": 105,
+    "angle": 15,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 3
+    },
+    "screwMin": 30,
+    "maxLabel": 60.5
+   },
+   {
+    "no": 102,
+    "angle": 15,
+    "plate": {
+     "spacing": 0,
+     "part": "173H7100"
+    },
+    "spacer": {
+     "spacing": 0.8,
+     "wedge": "+5°",
+     "part": "171A5010",
+     "qty": 3
+    },
+    "screwMin": 30,
+    "maxLabel": 60.5
+   }
+  ],
+  "planningNote": "Base: front 6 mm, cabinet side panel 19 mm.",
+  "parts": [
+   {
+    "boss": "glue-on",
+    "arm": null,
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B4500C"
+   },
+   {
+    "boss": "glue-on",
+    "arm": null,
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T4500C"
+   },
+   {
+    "boss": "glue-on",
+    "arm": null,
+    "fn": "CLIP top (unsprung)",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T4500CTL"
+   }
+  ],
+  "cristalloAdhesionPlate": [
+   {
+    "front": "Glass | Mirror",
+    "colour": "NI-M",
+    "art": "70T4568C"
+   },
+   {
+    "front": "Mirror",
+    "colour": "NI-S",
+    "art": "70T4568C"
+   }
+  ],
+  "accessories": {
+   "armCoverCap": {
+    "plain": "70.4503",
+    "stamped Blum": "70.4503.BP",
+    "colours": "NI"
+   },
+   "tipOn": [
+    {
+     "version": "short",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "version": "extended",
+     "spring": "unsprung",
+     "tipOnSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "version": "extended",
+     "spring": "sprung",
+     "tipOnSpring": "strong",
+     "art": "956A1006F"
+    }
+   ]
+  },
+  "plates": [
+   "173H7100"
+  ],
+  "spacers": [
+   "171A5010",
+   "171A5500"
+  ],
+  "notes": [
+   "Hinge for glass and mirror doors",
+   "Tool-free hinge to adhesion plate assembly",
+   "Trial recommended when combining CLIP top BLUMOTION and CLIP top hinges with springs on small, light fronts up to 300 mm wide."
+  ],
+  "unlabeled": 60,
+  "unlabeledByPage": {
+   "142": 22,
+   "143": 38
+  },
+  "unreadable": []
+ }
+]

@@ -58,7 +58,7 @@ const span2 = (c, horiz) => horiz ? c.L : c.H;
 const base = PRESETS ? Object.values(PRESETS) : [];
 console.log("preseturi:", base.length);
 const bucket = {}; const ex = {}; const DET = {}; const DETEX = {}; const CT = { n: 0, parts: 0, holes: 0, grooves: 0 };
-const FZ = { construite: 0, backCols: 0, backCutouts: 0, backRails: 0, fillers: 0, vents: 0, refuzate: 0 };   /* D-103: câte configurații cu câmpurile noi s-au construit, câte au fost refuzate cu motiv */
+const FZ = { construite: 0, backCols: 0, backCutouts: 0, backRails: 0, fillers: 0, vents: 0, refuzate: 0, shfInj: 0, shfWarn: 0, shfFixOk: 0, shfFixSkip: 0 };   /* D-103: câte configurații cu câmpurile noi s-au construit, câte au fost refuzate cu motiv */
 const note = (k0, cfg, extra) => { const k = k0 + " [" + (cfg.type || "standard") + "]"; bucket[k] = (bucket[k] || 0) + 1; if (!ex[k] || ex[k].length < 2) (ex[k] = ex[k] || []).push({ cfg, extra }); };
 const KNOWN = /(Spate \/ rinforzo \/ filler|grila \d|contErr|rfErr|lamErr|nu se combină|depășește|sub \d+ mm|lumină interioară|nu încap|non entra|nu încape|impossibile|troppo|prea|minim|maxim|deve|trebuie|must|invalid|erore|blocc|Errore|negativ|oltre|nessun materiale|fără material)/i;
 
@@ -115,6 +115,12 @@ for (let i = 0; i < N; i++) {
     if (rnd() < .4) { cfg.rfInset = 1; cfg.matFront = "__p"; } }
   if (rnd() < .2) cfg.hang = ri(0, 1);
   if (rnd() < .2) cfg.back = ri(0, 1);
+  /* D-113: rafturi la cotă absolută pe corpuri cu uși, ca regula raft × balama (opsShelfVsHinge) să fie atinsă des (~1 din 5 rafturi cad în bandă) */
+  if (t === "standard" && !cfg.topProfile && !cfg.partitions && !cfg.fronts && !cfg.drawerBlocks && !cfg.customCuts && !cfg.depthProfile && (cfg.doors || 0) > 0 && rnd() < .3) {
+    const Hh = cfg.H || 720; cfg.shelves = 0; cfg.partitions = [];
+    for (let k = ri(1, 3); k > 0; k--) { const y0 = ri(120, Math.max(121, Hh - 160)); if (cfg.partitions.every(q => Math.abs(q.y - y0) > 60)) cfg.partitions.push({ type: "ripiano", y: y0, span: "full" }); }
+    FZ.shfInj++;
+  }
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__k",
     matOvr: {}, matAdd: [MM("__b", 19), MM("__k", 3), MM("pfl5", 5), MM("__p", 8)], hwProd: { guida: "blum_tandem" } };
   /* D-103: spate pe coloane, decupaje în spate, rinforzo, filler și grile de aerisire pe o parte din corpurile standard.
@@ -309,6 +315,25 @@ for (let i = 0; i < N; i++) {
       const o = S.generateOperations({ boxes: b2.boxes, cfg, G });
       const w = {}; arr(o.warnings).forEach(x => w[x.k || x.rule || "?"] = 1);
       Object.keys(w).forEach(k2 => note("ops:" + k2, cfg));
+      /* D-113 (1): fiecare cotă propusă de `opsShelfVsHinge` trebuie să scoată raftul din bandă. Cota cade pe raftul din `partitions`;
+         un corp care refuză cota (iese din lumină, se ciocnește cu alt raft) nu e o greșeală a propunerii, doar se numără. */
+      arr(o.warnings).filter(x => x.k === "opsShelfVsHinge").forEach(x => {
+        FZ.shfWarn++;
+        if (!x.blocking || !arr(x.hinges).length) note("raft×balama: avertisment fără blocking/balame", cfg, x);
+        [x.up, x.down].filter(v => v != null).forEach(yy => {
+          const i2 = arr(cfg.partitions).findIndex(q => q.type === "ripiano" && Math.abs(+q.y - x.y) < 0.6); if (i2 < 0) return;
+          const c2 = JSON.parse(JSON.stringify(cfg)); c2.partitions[i2].y = yy;
+          try { const b3 = S.buildModule(c2), G3 = S.deriveCarcass(S.carcassParams(c2, {})), w3 = arr(S.generateOperations({ boxes: b3.boxes, cfg: c2, G: G3 }).warnings);
+            if (w3.some(q => q.k === "opsShelfVsHinge" && Math.abs(q.y - yy) < 0.6)) note("raft×balama: cota propusă tot lovește", cfg, [x.y, yy]); else FZ.shfFixOk++;
+          } catch (e) { FZ.shfFixSkip++; }
+        });
+      });
+      /* D-113 (2): fără avertisment, nicio gaură de suport de raft nu stă la mai puțin de 7 mm (centre) de o gaură de placuță pe aceeași față */
+      if (!arr(o.warnings).some(x => x.k === "opsShelfVsHinge")) arr(o.pieces).forEach(p => {
+        const ops = arr(p.operations).filter(q => q.type === "drill" && q._w && q.face != null);
+        const pl = ops.filter(q => /basetta/.test(q.note || "")), pn = ops.filter(q => /reggipiano/.test(q.note || ""));
+        pl.forEach(a => pn.forEach(b2 => { if (a.face === b2.face && Math.hypot(a._w[1] - b2._w[1], a._w[2] - b2._w[2]) < 7 && Math.abs(a._w[0] - b2._w[0]) < 1) note("raft×balama: găuri la <7 mm", cfg, [p.role, a._w, b2._w]); }));
+      });
       if (t === "angolare") {      /* D-103: operațiile aripii B = ale corpului de sine stătător cu L = L2 */
         const cfgS = Object.assign({}, cfg, { type: "standard", L: Math.max(300, cfg.L2 || 900) }), solo = S.buildModule(cfgS), os = S.generateOperations({ boxes: solo.boxes, cfg: cfgS, G });
         const sig = q => q.type + "|" + q.note + "|" + q.face + "|" + q.x + "|" + q.y + "|" + q.u + "|" + q.z + "|" + q.dia + "|" + q.depth;

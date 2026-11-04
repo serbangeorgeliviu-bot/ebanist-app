@@ -198,6 +198,7 @@ h2.vtitle{font-family:var(--font-disp);font-size:15px;font-weight:700;text-trans
   color:var(--danger);cursor:pointer}
 .au-row{padding:10px 0;border-bottom:1px solid var(--line)}
 .au-row:last-child{border-bottom:none}
+.hs h4{margin:0 0 6px}.hs h5{margin:12px 0 4px}.hs-draw{display:flex;gap:12px;flex-wrap:wrap;color:var(--ink,#222)}.hs-svg{flex:1 1 240px;max-width:100%;color:var(--ink,#222)}.hs-t{border-collapse:collapse;margin:8px 0;font-size:12px;display:block;overflow-x:auto}.hs-t td,.hs-t th,.hs-t caption{border:1px solid var(--line);padding:2px 5px;text-align:center}.hs-t caption{border:none;text-align:left;font-weight:600;padding:2px 0}
 .au-why{font-size:13.5px;line-height:1.4}
 .au-meta{color:var(--faint);font-size:11.5px;margin-top:3px}
 .au-row.bad{border-left:3px solid var(--danger);padding-left:9px;margin-left:-12px}
@@ -2083,6 +2084,21 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="btn red" id="geomApply" style="margin-top:12px" data-i="gvApply">Conferma e riscrivi</button>
 </div>
 
+<!-- Fișa tehnică a balamalei (date Blum KA-150, desen generat din cote). -->
+<div class="sheet" id="hsSheet">
+  <div class="sheet-grip"></div>
+  <div id="hsBody"></div>
+  <button class="btn" id="hsClose" style="margin-top:12px" data-i="hsClose">Închide</button>
+</div>
+
+<!-- Raft peste balama: cota veche, cota nouă, confirmare. Scrie numai după backup. -->
+<div class="sheet" id="shfSheet">
+  <div class="sheet-grip"></div>
+  <h3 data-i="shfTitle">Cota nouă a raftului</h3>
+  <div id="shfBody"></div>
+  <div class="btnrow" style="margin-top:12px"><button class="btn" id="shfCancel" data-i="cancel">Annulla</button><button class="btn red" id="shfApply" data-i="shfApply">Aplică cota</button><button class="btn red" id="shfConv" data-i="shfConv" hidden>Cote absolute</button></div>
+</div>
+
 <!-- I motivi, non i codici: il campo `why` di ogni regola caduta. -->
 <div class="sheet" id="auditSheet">
   <div class="sheet-grip"></div>
@@ -2554,6 +2570,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?rev=5.24.2"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
+<script src="./ebanist-hinges-data.js"></script>
+<script src="./ebanist-hinges.js"></script>
 <script src="./ebanist-hwgeom.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
@@ -3578,6 +3596,41 @@ Object.assign(I18N.fr,{"hwOwnPhoto":"Photo","hwOwnPhotoDel":"Supprimer la photo"
 Object.assign(I18N.de,{"hwOwnPhoto":"Foto","hwOwnPhotoDel":"Foto entfernen","hwOwnPhotoErr":"Foto nicht lesbar"});
 Object.assign(I18N.pl,{"hwOwnPhoto":"Zdjęcie","hwOwnPhotoDel":"Usuń zdjęcie","hwOwnPhotoErr":"Nie można odczytać zdjęcia"});
 Object.assign(I18N.es,{"hwOwnPhoto":"Foto","hwOwnPhotoDel":"Quitar la foto","hwOwnPhotoErr":"No se pudo leer la foto"});
+Object.assign(I18N.it,{"shfSrc": "Ripiano e cerniere", "shfWhy": "Il ripiano a {y} mm batte contro le cerniere a {h} mm: il braccio passa nel ripiano e i fori restano a 15–17 mm l'uno dall'altro.", "shfBtn": "Scegli la nuova quota", "shfTitle": "Nuova quota del ripiano", "shfOld": "Adesso", "shfUp": "Più in alto", "shfDown": "Più in basso", "shfApply": "Applica la quota", "shfNone": "Il ripiano non è a quota assoluta (viene dal numero di ripiani) o nessuna quota libera entra nel corpo: scrivigli una quota o sposta le cerniere.", "shfNote": "Si fa prima un backup completo, poi la distinta del corpo si ricalcola con la nuova quota.", "shfDone": "Ripiano portato a {y} mm."});
+Object.assign(I18N.ro,{"shfSrc": "Raft și balamale", "shfWhy": "Raftul de la {y} mm lovește balamalele de la {h} mm: brațul trece prin raft, iar găurile rămân la 15–17 mm una de alta.", "shfBtn": "Alege cota nouă", "shfTitle": "Cota nouă a raftului", "shfOld": "Acum", "shfUp": "Mai sus", "shfDown": "Mai jos", "shfApply": "Aplică cota", "shfNone": "Raftul nu e pe cotă absolută (vine din numărul de rafturi) sau nicio cotă liberă nu încape în corp: scrie-i o cotă sau mută balamalele.", "shfNote": "Se face întâi un backup complet, apoi distinta corpului se recalculează cu cota nouă.", "shfDone": "Raft mutat la {y} mm."});
+Object.assign(I18N.en,{"shfSrc": "Shelf and hinges", "shfWhy": "The shelf at {y} mm hits the hinges at {h} mm: the arm runs through the shelf and the holes sit 15–17 mm apart.", "shfBtn": "Pick the new height", "shfTitle": "New shelf height", "shfOld": "Now", "shfUp": "Higher", "shfDown": "Lower", "shfApply": "Apply height", "shfNone": "The shelf is not at an absolute height (it comes from the shelf count), or no free height fits in the cabinet: write it a height or move the hinges.", "shfNote": "A full backup is made first, then the cabinet's cutting list is recalculated with the new height.", "shfDone": "Shelf moved to {y} mm."});
+Object.assign(I18N.fr,{"shfSrc": "Étagère et charnières", "shfWhy": "L’étagère à {y} mm heurte les charnières à {h} mm : le bras passe dans l’étagère et les perçages sont à 15–17 mm l’un de l’autre.", "shfBtn": "Choisir la nouvelle cote", "shfTitle": "Nouvelle cote de l’étagère", "shfOld": "Actuellement", "shfUp": "Plus haut", "shfDown": "Plus bas", "shfApply": "Appliquer la cote", "shfNone": "L’étagère n’est pas à cote absolue (elle vient du nombre d’étagères) ou aucune cote libre n’entre dans le caisson : donnez-lui une cote ou déplacez les charnières.", "shfNote": "Une sauvegarde complète est faite d’abord, puis la liste de débit du caisson est recalculée avec la nouvelle cote.", "shfDone": "Étagère déplacée à {y} mm."});
+Object.assign(I18N.de,{"shfSrc": "Fachboden und Scharniere", "shfWhy": "Der Fachboden bei {y} mm stößt an die Scharniere bei {h} mm: Der Arm läuft durch den Fachboden, und die Bohrungen liegen 15–17 mm auseinander.", "shfBtn": "Neues Maß wählen", "shfTitle": "Neues Fachbodenmaß", "shfOld": "Jetzt", "shfUp": "Höher", "shfDown": "Tiefer", "shfApply": "Maß übernehmen", "shfNone": "Der Fachboden hat kein absolutes Maß (er kommt aus der Fachbodenzahl), oder kein freies Maß passt in den Korpus: Maß vorgeben oder Scharniere verschieben.", "shfNote": "Zuerst wird eine vollständige Sicherung gemacht, dann wird die Stückliste des Korpus mit dem neuen Maß neu berechnet.", "shfDone": "Fachboden auf {y} mm gesetzt."});
+Object.assign(I18N.pl,{"shfSrc": "Półka i zawiasy", "shfWhy": "Półka na {y} mm uderza w zawiasy na {h} mm: ramię przechodzi przez półkę, a otwory leżą 15–17 mm od siebie.", "shfBtn": "Wybierz nową wysokość", "shfTitle": "Nowa wysokość półki", "shfOld": "Teraz", "shfUp": "Wyżej", "shfDown": "Niżej", "shfApply": "Zastosuj wysokość", "shfNone": "Półka nie ma wymiaru bezwzględnego (wynika z liczby półek) albo żadna wolna wysokość nie mieści się w korpusie: podaj jej wysokość lub przesuń zawiasy.", "shfNote": "Najpierw powstaje pełna kopia zapasowa, potem rozkrój korpusu liczy się od nowa z nową wysokością.", "shfDone": "Półka przesunięta na {y} mm."});
+Object.assign(I18N.es,{"shfSrc": "Balda y bisagras", "shfWhy": "La balda a {y} mm choca con las bisagras a {h} mm: el brazo atraviesa la balda y los agujeros quedan a 15–17 mm entre sí.", "shfBtn": "Elegir la nueva cota", "shfTitle": "Nueva cota de la balda", "shfOld": "Ahora", "shfUp": "Más arriba", "shfDown": "Más abajo", "shfApply": "Aplicar la cota", "shfNone": "La balda no está a cota absoluta (viene del número de baldas) o ninguna cota libre cabe en el cuerpo: dale una cota o mueve las bisagras.", "shfNote": "Primero se hace una copia de seguridad completa y luego se recalcula el despiece del cuerpo con la nueva cota.", "shfDone": "Balda movida a {y} mm."});
+Object.assign(I18N.it,{"opsSrc": "Foratura (modello di operazioni)", "opsNoHingePanel": "Accanto alla cerniera di un'anta non c'è un fianco o un setto: la basetta non si fora.", "opsPinMoved": "Il foro del reggipiano cade su un altro foro (basetta o guida): il ripiano poggia sul foro di regolazione.", "opsSlope": "Cielo inclinato: le forature sul bordo obliquo non sono generate; controlla sul primo pezzo.", "opsCurved": "Anta curva: le cerniere non sono generate.", "opsAwThin": "Anta troppo sottile per la cava del profilo anti-imbarcamento: la cava non è generata.", "opsHingeTB": "La distanza di foratura della tazza è {tb} mm, fuori dall'intervallo Blum 3–7 mm.", "hsBtn": "Scheda tecnica", "hsClose": "Chiudi"});
+Object.assign(I18N.ro,{"opsSrc": "Găurire (modelul de operații)", "opsNoHingePanel": "Lângă balamaua unei uși nu e laterală sau despărțitor: plăcuța nu se poate găuri.", "opsPinMoved": "Gaura suportului de raft cade peste altă gaură (plăcuță sau glisieră): raftul stă pe gaura de reglare.", "opsSlope": "Tavan înclinat: găurile de pe muchia oblică nu sunt generate; verifică pe prima piesă.", "opsCurved": "Ușă curbă: balamalele nu sunt generate.", "opsAwThin": "Ușă prea subțire pentru canalul profilului anti-curbare: canalul nu e generat.", "opsHingeTB": "Distanța de găurire a cupei e {tb} mm, în afara intervalului Blum 3–7 mm.", "hsBtn": "Fișă tehnică", "hsClose": "Închide"});
+Object.assign(I18N.en,{"opsSrc": "Drilling (operations model)", "opsNoHingePanel": "There is no side or divider next to a door's hinge: the plate cannot be drilled.", "opsPinMoved": "The shelf-pin hole falls on another hole (plate or slide): the shelf rests on the adjustment hole.", "opsSlope": "Sloped top: holes on the oblique edge are not generated; check the first piece.", "opsCurved": "Curved door: hinges are not generated.", "opsAwThin": "Door too thin for the anti-warp profile groove: the groove is not generated.", "opsHingeTB": "The cup drilling distance is {tb} mm, outside Blum's 3–7 mm range.", "hsBtn": "Data sheet", "hsClose": "Close"});
+Object.assign(I18N.fr,{"opsSrc": "Perçage (modèle d'opérations)", "opsNoHingePanel": "Il n'y a ni côté ni séparation à côté de la charnière d'une porte : l'embase ne peut pas être percée.", "opsPinMoved": "Le trou du taquet tombe sur un autre trou (embase ou coulisse) : l'étagère repose sur le trou de réglage.", "opsSlope": "Dessus incliné : les perçages sur le chant oblique ne sont pas générés ; vérifiez sur la première pièce.", "opsCurved": "Porte courbe : les charnières ne sont pas générées.", "opsAwThin": "Porte trop fine pour la rainure du profil anti-voilage : la rainure n'est pas générée.", "opsHingeTB": "La distance de perçage de la cuvette est de {tb} mm, hors de la plage Blum 3–7 mm.", "hsBtn": "Fiche technique", "hsClose": "Fermer"});
+Object.assign(I18N.de,{"opsSrc": "Bohrungen (Operationsmodell)", "opsNoHingePanel": "Neben dem Scharnier einer Tür gibt es keine Seite und keinen Trenner: Die Platte lässt sich nicht bohren.", "opsPinMoved": "Das Bodenträgerloch fällt auf ein anderes Loch (Platte oder Auszug): Der Boden liegt auf dem Verstelloch.", "opsSlope": "Schräge Decke: Bohrungen an der schrägen Kante werden nicht erzeugt; am ersten Teil prüfen.", "opsCurved": "Gebogene Tür: Scharniere werden nicht erzeugt.", "opsAwThin": "Tür zu dünn für die Nut des Verzugsprofils: Die Nut wird nicht erzeugt.", "opsHingeTB": "Der Bohrabstand des Topfes beträgt {tb} mm, außerhalb des Blum-Bereichs 3–7 mm.", "hsBtn": "Datenblatt", "hsClose": "Schließen"});
+Object.assign(I18N.pl,{"opsSrc": "Wiercenie (model operacji)", "opsNoHingePanel": "Obok zawiasu drzwi nie ma boku ani przegrody: prowadnika nie da się nawiercić.", "opsPinMoved": "Otwór podpórki półki wypada na innym otworze (prowadnik lub prowadnica): półka leży na otworze regulacyjnym.", "opsSlope": "Pochylony wieniec: otwory na ukośnej krawędzi nie są generowane; sprawdź na pierwszym elemencie.", "opsCurved": "Drzwi gięte: zawiasy nie są generowane.", "opsAwThin": "Drzwi za cienkie na rowek profilu przeciw odkształceniu: rowek nie jest generowany.", "opsHingeTB": "Odległość wiercenia puszki wynosi {tb} mm, poza zakresem Blum 3–7 mm.", "hsBtn": "Karta techniczna", "hsClose": "Zamknij"});
+Object.assign(I18N.es,{"opsSrc": "Taladrado (modelo de operaciones)", "opsNoHingePanel": "Junto a la bisagra de una puerta no hay lateral ni divisor: la base no se puede taladrar.", "opsPinMoved": "El agujero del soporte de balda cae sobre otro agujero (base o guía): la balda se apoya en el agujero de ajuste.", "opsSlope": "Tapa inclinada: los taladros del canto oblicuo no se generan; revisa la primera pieza.", "opsCurved": "Puerta curva: las bisagras no se generan.", "opsAwThin": "Puerta demasiado fina para la ranura del perfil antialabeo: la ranura no se genera.", "opsHingeTB": "La distancia de taladrado de la cazoleta es {tb} mm, fuera del rango Blum 3–7 mm.", "hsBtn": "Ficha técnica", "hsClose": "Cerrar"});
+Object.assign(I18N.it,{"shfConv": "Passa a quote assolute", "shfConvNote": "I ripiani vengono dal numero di ripiani, non da una quota scritta. Si possono portare a quote assolute (stesse quote di adesso, stessi pezzi in distinta) e poi spostare uno per uno.", "shfConvDone": "Ripiani passati a quote assolute: la distinta non cambia."});
+Object.assign(I18N.ro,{"shfConv": "Treci la cote absolute", "shfConvNote": "Rafturile vin din numărul de rafturi, nu dintr-o cotă scrisă. Se pot trece la cote absolute (aceleași cote ca acum, aceleași piese în distinta) și apoi se mută pe rând.", "shfConvDone": "Rafturi trecute la cote absolute: distinta nu se schimbă."});
+Object.assign(I18N.en,{"shfConv": "Switch to absolute heights", "shfConvNote": "The shelves come from the shelf count, not from a written height. They can be switched to absolute heights (same heights as now, same pieces in the cutting list) and then moved one by one.", "shfConvDone": "Shelves switched to absolute heights: the cutting list does not change."});
+Object.assign(I18N.fr,{"shfConv": "Passer en cotes absolues", "shfConvNote": "Les étagères viennent du nombre d'étagères, pas d'une cote écrite. On peut les passer en cotes absolues (mêmes cotes qu'à présent, mêmes pièces dans la liste de débit) puis les déplacer une à une.", "shfConvDone": "Étagères passées en cotes absolues : la liste de débit ne change pas."});
+Object.assign(I18N.de,{"shfConv": "Auf absolute Maße umstellen", "shfConvNote": "Die Fachböden stammen aus der Fachbodenzahl, nicht aus einem geschriebenen Maß. Sie lassen sich auf absolute Maße umstellen (gleiche Maße wie jetzt, gleiche Teile in der Stückliste) und dann einzeln verschieben.", "shfConvDone": "Fachböden auf absolute Maße umgestellt: Die Stückliste ändert sich nicht."});
+Object.assign(I18N.pl,{"shfConv": "Przejdź na wymiary bezwzględne", "shfConvNote": "Półki wynikają z liczby półek, nie z zapisanej wysokości. Można je przełączyć na wymiary bezwzględne (te same wysokości, te same elementy w rozkroju), a potem przesuwać po jednej.", "shfConvDone": "Półki przełączone na wymiary bezwzględne: rozkrój się nie zmienia."});
+Object.assign(I18N.es,{"shfConv": "Pasar a cotas absolutas", "shfConvNote": "Las baldas vienen del número de baldas, no de una cota escrita. Se pueden pasar a cotas absolutas (las mismas cotas de ahora, las mismas piezas en el despiece) y luego moverlas una a una.", "shfConvDone": "Baldas pasadas a cotas absolutas: el despiece no cambia."});
+Object.assign(I18N.it,{"hsPlate": "Basetta"});
+Object.assign(I18N.ro,{"hsPlate": "Plăcuță"});
+Object.assign(I18N.en,{"hsPlate": "Plate"});
+Object.assign(I18N.fr,{"hsPlate": "Embase"});
+Object.assign(I18N.de,{"hsPlate": "Montageplatte"});
+Object.assign(I18N.pl,{"hsPlate": "Prowadnik"});
+Object.assign(I18N.es,{"hsPlate": "Base"});
+Object.assign(I18N.it,{"opsHingeNoGeom": "La cerniera scelta non ha ancora una quota di foratura della tazza nei dati: si usa la foratura standard Ø35."});
+Object.assign(I18N.ro,{"opsHingeNoGeom": "Balamaua aleasă nu are încă în date cota de găurire a cupei: se folosește găurirea standard Ø35."});
+Object.assign(I18N.en,{"opsHingeNoGeom": "The chosen hinge has no cup drilling dimension in the data yet: the standard Ø35 drilling is used."});
+Object.assign(I18N.fr,{"opsHingeNoGeom": "La charnière choisie n'a pas encore de cote de perçage de cuvette dans les données : le perçage standard Ø35 est utilisé."});
+Object.assign(I18N.de,{"opsHingeNoGeom": "Für das gewählte Scharnier liegt noch kein Topfbohrmaß in den Daten vor: Es wird die Standardbohrung Ø35 verwendet."});
+Object.assign(I18N.pl,{"opsHingeNoGeom": "Wybrany zawias nie ma jeszcze w danych wymiaru wiercenia puszki: używane jest standardowe wiercenie Ø35."});
+Object.assign(I18N.es,{"opsHingeNoGeom": "La bisagra elegida aún no tiene cota de taladrado de la cazoleta en los datos: se usa el taladrado estándar Ø35."});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -3792,6 +3845,14 @@ const HWDB={
  feltro:[
   {id:"gen_felt",brand:"—",n:{it:"Feltrino adesivo Ø 60",ro:"Pâslă adezivă Ø 60",en:"Adhesive felt pad Ø 60",fr:"Patin feutre adhésif Ø 60",de:"Selbstklebender Filzgleiter Ø 60",pl:"Samoprzylepna podkładka filcowa Ø 60",es:"Fieltro adhesivo Ø 60"},art:"\u2014",price:0.2}]
 };
+/* D-114: toate codurile de comandă Blum din catalogul 2022/23 (ebanist-hinges-data.js) intră în lista de balamale; cele deja scrise mai sus rămân. */
+if(window.EBHinges) HWDB.cern.push(...EBHinges.catalogEntries(HWDB.cern.map(x=>x.id)));
+/* balamaua aleasă (pe corp: cfg.hwSel.cern, altfel din setări) și placuța ei: ebanist-ops.js cere găurirea ei prin hingeGeom(cfg) */
+function hingeGeom(cfg){
+  if(!window.EBHinges) return null;
+  const S=(typeof state!=="undefined"&&state.settings)||{}, id=(cfg&&cfg.hwSel&&cfg.hwSel.cern)||(S.hwProd&&S.hwProd.cern)||"";
+  return EBHinges.geomOf(id,(cfg&&cfg.hwSel&&cfg.hwSel.plate)||(S.hwProd&&S.hwProd.plate)||null);
+}
 /* una categoria nuova non ha ancora una scelta salvata nelle impostazioni:
    vale la prima voce del catalogo, la stessa che il selettore mostra */
 /* U.2 — articolele proprii ale utilizatorului (S.hwAdd: {id,cat,brand,n,art,price})
@@ -10799,10 +10860,16 @@ $("btnGenerate").addEventListener("click",()=>{
   persist(); setView("list");
   /* le regole girano a OGNI generazione, prima di qualunque esportazione */
   auditBadge();
-  const bad=blocking(auditModule(cfg,pieces));
-  if(bad.length){ auditSheet(bad.map(a=>({...a,modulo:cfg.name}))); return; }
+  const found=auditModule(cfg,pieces).map(a=>({...a,modulo:cfg.name}));
+  /* un raft care lovește o balama nu se lasă într-o listă: se deschide direct căsuța cu cota nouă, și iar,
+     după fiecare aplicare, până nu mai e nimic de corectat (shelfFixNext) */
+  const fx=found.find(a=>a.shelfFix);
+  if(fx){ shelfFixSheet(cfg.name,fx.shelfFix); return; }
+  const bad=blocking(found);
+  if(bad.length){ auditSheet(found); return; }
   toast(`${cfg.name}: ${panelTotals(rows).pcs} ${t("pieces")}`);
-  rvGood();
+  if(found.length) auditSheet(found);   // fără blocaje, dar cu avertismente de găurire: se văd, nu se pierd
+  else rvGood();
 });
 
 /* La riga di tracciabilita, stampata su ogni documento che porta delle cote.
@@ -11063,6 +11130,105 @@ function auditGeom(cfg){
   const G=deriveCarcass(carcassParams(cfg,{P,pl,backTh,support,sp:MAT.sp}));
   return {MAT,G};
 }
+/* D-56/D-48: raftul care ajunge la fața dulapului la aceeași înălțime cu o balama lovește plăcuța. Motorul de găurire
+   îl spune (`opsShelfVsHinge`, blocant); aici se cache-uiește pe cfg, ca semaforul să nu refacă găurirea la fiecare randare. */
+const shfCache=new Map();
+function opsWarnings(cfg){
+  if(typeof generateOperations!=="function") return [];
+  const bm=buildModule(cfg);
+  let G=null; try{ G=deriveCarcass(carcassParams(cfg,{})); }catch(e){}
+  return generateOperations({boxes:bm.boxes,cfg,G}).warnings||[];
+}
+function opsAllOf(cfg){
+  let key; try{ key=JSON.stringify(cfg); }catch(e){ return []; }
+  if(shfCache.has(key)) return shfCache.get(key);
+  let r=[]; try{ r=opsWarnings(cfg); }catch(e){}
+  if(shfCache.size>60) shfCache.clear();
+  shfCache.set(key,r); return r;
+}
+function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
+/* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
+const OPS_NOTES=["opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
+/* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
+function shelfFixCfg(cfg,sf,y){
+  const i=(cfg.partitions||[]).findIndex(q=>q.type==="ripiano"&&Math.abs(+q.y-sf.y)<0.6);
+  if(i<0) return null;
+  const c=JSON.parse(JSON.stringify(cfg)); c.partitions[i].y=y; return c;
+}
+function shelfFixOptions(cfg,sf){
+  const out=[];
+  for(const [kind,y] of [["up",sf.up],["down",sf.down]]){
+    if(y==null) continue;
+    const c=shelfFixCfg(cfg,sf,y); if(!c) continue;
+    try{ if(opsWarnings(c).some(w=>w.k==="opsShelfVsHinge"&&Math.abs(w.y-y)<0.6)) continue; }catch(e){ continue; }   // numai raftul mutat: alte rafturi în conflict se rezolvă pe rând
+    out.push({kind,y});
+  }
+  return out;
+}
+/* Rafturile din „număr de rafturi" nu au cotă scrisă; ca să primească una se trec în cote absolute (partitions). Numai dacă piesele
+   (rol, lungime, lățime, grosime) ies identice, altfel nu se oferă: o conversie care schimbă distinta nu e o conversie. */
+function shelvesAbsCfg(cfg){
+  if(!cfg||(cfg.type&&cfg.type!=="standard")||!(cfg.shelves>0)||cfg.partitions||cfg.fronts||cfg.drawerBlocks||cfg.customCuts||cfg.depthProfile||cfg.tram>0) return null;
+  try{
+    const b=buildModule(cfg), ys=[...new Set(b.boxes.filter(x=>x.role==="ripiano").map(x=>Math.round(x.y0*100)/100))].sort((a,c)=>a-c);
+    if(!ys.length) return null;
+    const c=JSON.parse(JSON.stringify(cfg)); c.shelves=0; c.partitions=ys.map(y=>({type:"ripiano",y,span:"full"}));
+    const sig=r=>r.pieces.map(q=>[q.role,Math.round(q.lung*10),Math.round(q.larg*10),q.pz].join("|")).sort().join("\n");
+    return sig(b)===sig(buildModule(c))?c:null;
+  }catch(e){ return null; }
+}
+let shfCtx=null;
+function shelfFixSheet(modulo,sf){
+  const p=proj(); const cfg=p&&p.configs&&p.configs[modulo]; if(!cfg) return;
+  const opts=shelfFixOptions(cfg,sf);
+  shfCtx={modulo,sf,opts,pick:null};
+  const near=opts.slice().sort((a,b)=>Math.abs(a.y-sf.y)-Math.abs(b.y-sf.y))[0];
+  shfCtx.pick=near?near.kind:null;
+  const row=(lbl,val)=>`<div class="au-num"><span>${esc(lbl)}</span><b>${esc(String(val))} mm</b></div>`;
+  let h=`<div class="au-row"><div class="au-why">${esc(t("shfWhy").replace("{y}",sf.y).replace("{h}",[...new Set(sf.hy)].join(" · ")))}</div>${row(t("shfOld"),sf.y)}</div>`;
+  const conv=!opts.length&&!!shelvesAbsCfg(cfg);
+  if(conv) h+=`<div class="au-row"><div class="au-why">${esc(t("shfConvNote"))}</div></div>`;
+  else if(!opts.length) h+=`<div class="au-row"><div class="au-why">${esc(t("shfNone"))}</div></div>`;
+  else h+=opts.map(o=>`<label class="au-row" style="display:flex;gap:10px;align-items:center;cursor:pointer">
+      <input type="radio" name="shfPick" value="${o.kind}"${o.kind===shfCtx.pick?" checked":""}>
+      <span class="au-why" style="flex:1;text-align:left;margin:0">${esc(t(o.kind==="up"?"shfUp":"shfDown"))}: <b>${o.y} mm</b> <em>(${o.y>sf.y?"+":""}${o.y-sf.y} mm)</em></span></label>`).join("")+
+      `<p class="vsub" style="margin-top:10px">${esc(t("shfNote"))}</p>`;
+  $("shfBody").innerHTML=h;
+  $("shfApply").hidden=!opts.length; $("shfConv").hidden=!conv;
+  $("shfBody").querySelectorAll('input[name="shfPick"]').forEach(r=>r.addEventListener("change",()=>{ shfCtx.pick=r.value; }));
+  openSheet("shfSheet");
+}
+/* Scrierea: backup complet înainte (ca la geomApply), apoi singura cale de scris o distinctă — generateInto. */
+async function shelfFixApply(){
+  const c=shfCtx; if(!c||!c.pick) return;
+  const o=c.opts.find(x=>x.kind===c.pick); const p=proj(); if(!o||!p||!p.configs||!p.configs[c.modulo]) return;
+  try{ await fullBackup({silent:true}); }catch(e){ toast(t("gvBkFail")); return; }
+  const nc=shelfFixCfg(p.configs[c.modulo],c.sf,o.y); if(!nc) return;
+  try{ generateInto(p,Object.assign({},nc,{name:c.modulo})); }catch(e){ toast(String(e&&e.message||e)); return; }
+  persist(); closeSheets(); render();
+  toast(t("shfDone").replace("{y}",o.y));
+  shelfFixNext(c.modulo);
+}
+/* după fiecare cotă aplicată: încă un raft de corectat → încă o căsuță; alte blocaje → lista; altfel verde */
+async function shelfConvApply(){
+  const c=shfCtx; const p=proj(); if(!c||!p||!p.configs||!p.configs[c.modulo]) return;
+  const nc=shelvesAbsCfg(p.configs[c.modulo]); if(!nc) return;
+  try{ await fullBackup({silent:true}); }catch(e){ toast(t("gvBkFail")); return; }
+  try{ generateInto(p,Object.assign({},nc,{name:c.modulo})); }catch(e){ toast(String(e&&e.message||e)); return; }
+  persist(); closeSheets(); render(); toast(t("shfConvDone"));
+  shelfFixNext(c.modulo);
+}
+function shelfFixNext(modulo){
+  const p=proj(); const cfg=p&&p.configs&&p.configs[modulo]; if(!cfg) return;
+  const pieces=(p.pieces||[]).filter(x=>x.gen===modulo||x.modulo===modulo||x.modulo===modulo+" A"||x.modulo===modulo+" B");
+  const found=auditModule(cfg,pieces).map(a=>({...a,modulo}));
+  const fx=found.find(a=>a.shelfFix);
+  if(fx){ setTimeout(()=>shelfFixSheet(modulo,fx.shelfFix),250); return; }
+  const bad=blocking(found);
+  if(bad.length||found.length){ setTimeout(()=>auditSheet(found),250); return; }
+  auditBadge();
+}
 function auditModule(cfg,pieces){
   if(typeof deriveCarcass!=="function") return [];
   /* le tipologie che non sono una cassa (tavolo, tondo, letto…) non hanno
@@ -11090,6 +11256,13 @@ function auditModule(cfg,pieces){
         why:auT(r.why),source:t("invSrc")+" · "+r.regola,invariant:r,
         modulo:undefined});
     }
+    for(const w of shelfHingeOf(cfg)){
+      failed.unshift({id:"H-SHELF",severity:"blocking",confidence:"alta",
+        why:t("shfWhy").replace("{y}",w.y).replace("{h}",[...new Set(w.hy)].join(" · ")),
+        source:t("shfSrc"),shelfFix:{y:w.y,t:w.t,up:w.up,down:w.down,hy:w.hy}});
+    }
+    for(const w of opsNotesOf(cfg))
+      failed.push({id:"O-"+w.k,severity:"warn",confidence:"alta",why:t(w.k).replace("{tb}",w.tb==null?"":w.tb),source:t("opsSrc")});
     return failed;
   }catch(e){
     return [{id:"ENV",severity:"blocking",why:t("auErr")+" "+(e&&e.message||e)}];
@@ -11209,10 +11382,13 @@ function auditSheet(failed){
       ${c&&c.piese_implicate&&c.piese_implicate.length
         ?`<div class="au-meta">${esc(c.piese_implicate.map(elName).join(" · "))}</div>`:""}
       <div class="au-meta">${esc(meta)}</div>
+      ${a.shelfFix?`<button class="btn red sm" data-shf="${ord.indexOf(a)}" style="margin-top:8px">${esc(t("shfBtn"))}</button>`:""}
     </div>`;
   }).join("");
   $("auditTitle").textContent=t("auTitle");
   $("auditBody").innerHTML=rows||`<div class="au-row"><div class="au-why">${esc(t("auOk"))}</div></div>`;
+  $("auditBody").querySelectorAll("[data-shf]").forEach(b=>b.addEventListener("click",()=>{
+    const a=ord[+b.dataset.shf]; if(a&&a.shelfFix){ closeSheets(); shelfFixSheet(a.modulo,a.shelfFix); } }));
   openSheet("auditSheet");
 }
 
@@ -12964,6 +13140,10 @@ async function bkRestoreSecrets(o){
 }
 $("btnFullBk").addEventListener("click",()=>fullBackup());
 $("geomApply").addEventListener("click",geomApply);
+$("shfApply").addEventListener("click",shelfFixApply);
+$("shfCancel").addEventListener("click",closeSheets);
+$("shfConv").addEventListener("click",shelfConvApply);
+$("hsClose").addEventListener("click",closeSheets);
 
 /* ================= FEEDBACK ================= */
 /* DE CREAT ÎNAINTE DE DEPLOY: forwarding pe ebanist.com (register.it →
@@ -13048,6 +13228,9 @@ function renderCatalog(){
         <input class="catPrice" data-cat="${cat}" type="number" step="0.01" inputmode="decimal" placeholder="€" value="${it.price}" style="flex:1">
       </div>
       <div class="mini catRef" data-hw="${it.id||""}" style="margin-top:4px;line-height:1.4"></div>
+      ${cat==="cern"&&window.EBHinges&&EBHinges.familyOfHw(sel)?`<div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+        <select class="catPlate" aria-label="${esc(t("hsPlate"))}" style="flex:1">${(EBHinges.familyOfHw(sel).plates||[]).map(pid=>{ const pl=EBHinges.plateById(pid); return pl?`<option value="${pid}"${(S.hwProd||{}).plate===pid?" selected":""}>${esc(t("hsPlate")+": "+pl.art.join(" / "))}</option>`:""; }).join("")}</select>
+        <button class="btn sm hsOpen" data-hw="${sel}">${esc(t("hsBtn"))}</button></div>`:""}
       ${it.custom?`<div style="display:flex;gap:8px;margin-top:6px">
         <input class="catOwnBrand" data-id="${it.id}" placeholder="${esc(t("hwOwnBrand"))}" value="${esc(it.brand||"")}" style="flex:1">
         <input class="catOwnName" data-id="${it.id}" placeholder="${esc(t("hwOwnName"))}" value="${esc(it.name||"")}" style="flex:2">
@@ -13056,6 +13239,9 @@ function renderCatalog(){
       </div>`;
   }).join("");
   paintGenericPrices();
+  $("catHwWrap").querySelectorAll(".catPlate").forEach(s2=>s2.addEventListener("change",()=>{ state.settings.hwProd=state.settings.hwProd||{}; state.settings.hwProd.plate=s2.value; persist(); }));
+  $("catHwWrap").querySelectorAll(".hsOpen").forEach(b2=>b2.addEventListener("click",()=>{
+    $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5,plate:(state.settings.hwProd||{}).plate})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
   const ov=state.settings.matOvr||{};
   $("catMatWrap").innerHTML=matAll().map(m=>{
     const eff=matById(m.id), hid=matHidden(m), custom=!!m.custom;
@@ -17236,12 +17422,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.24.3"; /* APP_VER-MARKER */
+const APP_VER="5.24.4"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v196";
+const SW_CACHE="ebanist-v197";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

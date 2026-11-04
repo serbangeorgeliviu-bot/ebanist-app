@@ -1,0 +1,197 @@
+[
+ {
+  "id": "173L61",
+  "art": [
+   "173L6100",
+   "173L6130"
+  ],
+  "name": "Cruciform mounting plate 37/32",
+  "kind": "cruciform",
+  "material": "steel",
+  "adj": 3,
+  "fix": "chipboard Ø3.5 / Ø4, 17 mm",
+  "front": 37,
+  "pitch": 32,
+  "D": 57,
+  "L": 53,
+  "spacings": [
+   [
+    0,
+    8.5,
+    "173L6100"
+   ],
+   [
+    3,
+    11.5,
+    "173L6130"
+   ]
+  ],
+  "colours": [
+   "NI",
+   "ONS"
+  ],
+  "page": 147
+ },
+ {
+  "id": "175H71",
+  "art": [
+   "175H7100",
+   "175H7130",
+   "175H7190",
+   "175H7190.22"
+  ],
+  "name": "Cruciform mounting plate 37/32",
+  "kind": "cruciform",
+  "material": "zinc",
+  "adj": 2,
+  "fix": "chipboard Ø3.5 / Ø4, 17 mm",
+  "front": 37,
+  "pitch": 32,
+  "D": 68,
+  "L": 44,
+  "spacings": [
+   [
+    0,
+    8.5,
+    "175H7100"
+   ],
+   [
+    3,
+    11.5,
+    "175H7130"
+   ],
+   [
+    9,
+    17.5,
+    "175H7190"
+   ],
+   [
+    18,
+    26.5,
+    "175H7190.22"
+   ]
+  ],
+  "colours": [
+   "NI"
+  ],
+  "page": 147
+ },
+ {
+  "id": "175H91",
+  "art": [
+   "175H9100",
+   "175H9130",
+   "175H9160",
+   "175H9190",
+   "175H9190.22"
+  ],
+  "name": "Cruciform mounting plate 37/32 (system screws)",
+  "kind": "cruciform",
+  "material": "zinc",
+  "adj": 2,
+  "fix": "system screws Ø6 × 14.5 (661.1450.HG)",
+  "front": 37,
+  "pitch": 32,
+  "D": 68,
+  "L": 44,
+  "minDepth": 11.5,
+  "spacings": [
+   [
+    0,
+    8.5,
+    "175H9100"
+   ],
+   [
+    3,
+    11.5,
+    "175H9130"
+   ],
+   [
+    6,
+    14.5,
+    "175H9160"
+   ],
+   [
+    9,
+    17.5,
+    "175H9190"
+   ],
+   [
+    18,
+    26.5,
+    "175H9190.22"
+   ]
+  ],
+  "colours": [
+   "NI",
+   "ONS (6 mm)"
+  ],
+  "page": 147
+ },
+ {
+  "id": "174E61",
+  "art": [
+   "174E6100.01",
+   "174E6130.01"
+  ],
+  "name": "Cruciform mounting plate 37/32 (EXPANDO)",
+  "kind": "cruciform",
+  "material": "steel",
+  "adj": 2,
+  "fix": "EXPANDO: pre-mounted screws with split dowels",
+  "front": 37,
+  "pitch": 32,
+  "D": 57,
+  "L": 53,
+  "minDepth": 11.5,
+  "spacings": [
+   [
+    0,
+    8.5,
+    "174E6100.01"
+   ],
+   [
+    3,
+    11.5,
+    "174E6130.01"
+   ]
+  ],
+  "colours": [
+   "NI"
+  ],
+  "page": 147
+ },
+ {
+  "id": "175H31",
+  "art": [
+   "175H3100",
+   "175H3130"
+  ],
+  "name": "Horizontal cam mounting plate 20/32",
+  "kind": "horizontal",
+  "material": "steel",
+  "adj": 2,
+  "fix": "chipboard Ø3.5, 17 mm",
+  "front": 20,
+  "pitch": 32,
+  "D": 58.3,
+  "L": 18.7,
+  "spacings": [
+   [
+    0,
+    8.5,
+    "175H3100"
+   ],
+   [
+    3,
+    11.5,
+    "175H3130"
+   ]
+  ],
+  "colours": [
+   "NI",
+   "ONS"
+  ],
+  "page": 144
+ }
+]
