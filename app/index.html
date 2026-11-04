@@ -2096,7 +2096,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="sheet-grip"></div>
   <h3 data-i="shfTitle">Cota nouă a raftului</h3>
   <div id="shfBody"></div>
-  <div class="btnrow" style="margin-top:12px"><button class="btn" id="shfCancel" data-i="cancel">Annulla</button><button class="btn red" id="shfApply" data-i="shfApply">Aplică cota</button></div>
+  <div class="btnrow" style="margin-top:12px"><button class="btn" id="shfCancel" data-i="cancel">Annulla</button><button class="btn red" id="shfApply" data-i="shfApply">Aplică cota</button><button class="btn red" id="shfConv" data-i="shfConv" hidden>Cote absolute</button></div>
 </div>
 
 <!-- I motivi, non i codici: il campo `why` di ogni regola caduta. -->
@@ -2570,6 +2570,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?rev=5.24.2"><\/script>');
 </script>
 <script src="./ebanist-ops.js"></script>
+<script src="./ebanist-hinges-data.js"></script>
 <script src="./ebanist-hinges.js"></script>
 <script src="./ebanist-hwgeom.js"></script>
 <script src="./ebanist-suppliers.js"></script>
@@ -3609,6 +3610,27 @@ Object.assign(I18N.fr,{"opsSrc": "Perçage (modèle d'opérations)", "opsNoHinge
 Object.assign(I18N.de,{"opsSrc": "Bohrungen (Operationsmodell)", "opsNoHingePanel": "Neben dem Scharnier einer Tür gibt es keine Seite und keinen Trenner: Die Platte lässt sich nicht bohren.", "opsPinMoved": "Das Bodenträgerloch fällt auf ein anderes Loch (Platte oder Auszug): Der Boden liegt auf dem Verstelloch.", "opsSlope": "Schräge Decke: Bohrungen an der schrägen Kante werden nicht erzeugt; am ersten Teil prüfen.", "opsCurved": "Gebogene Tür: Scharniere werden nicht erzeugt.", "opsAwThin": "Tür zu dünn für die Nut des Verzugsprofils: Die Nut wird nicht erzeugt.", "opsHingeTB": "Der Bohrabstand des Topfes beträgt {tb} mm, außerhalb des Blum-Bereichs 3–7 mm.", "hsBtn": "Datenblatt", "hsClose": "Schließen"});
 Object.assign(I18N.pl,{"opsSrc": "Wiercenie (model operacji)", "opsNoHingePanel": "Obok zawiasu drzwi nie ma boku ani przegrody: prowadnika nie da się nawiercić.", "opsPinMoved": "Otwór podpórki półki wypada na innym otworze (prowadnik lub prowadnica): półka leży na otworze regulacyjnym.", "opsSlope": "Pochylony wieniec: otwory na ukośnej krawędzi nie są generowane; sprawdź na pierwszym elemencie.", "opsCurved": "Drzwi gięte: zawiasy nie są generowane.", "opsAwThin": "Drzwi za cienkie na rowek profilu przeciw odkształceniu: rowek nie jest generowany.", "opsHingeTB": "Odległość wiercenia puszki wynosi {tb} mm, poza zakresem Blum 3–7 mm.", "hsBtn": "Karta techniczna", "hsClose": "Zamknij"});
 Object.assign(I18N.es,{"opsSrc": "Taladrado (modelo de operaciones)", "opsNoHingePanel": "Junto a la bisagra de una puerta no hay lateral ni divisor: la base no se puede taladrar.", "opsPinMoved": "El agujero del soporte de balda cae sobre otro agujero (base o guía): la balda se apoya en el agujero de ajuste.", "opsSlope": "Tapa inclinada: los taladros del canto oblicuo no se generan; revisa la primera pieza.", "opsCurved": "Puerta curva: las bisagras no se generan.", "opsAwThin": "Puerta demasiado fina para la ranura del perfil antialabeo: la ranura no se genera.", "opsHingeTB": "La distancia de taladrado de la cazoleta es {tb} mm, fuera del rango Blum 3–7 mm.", "hsBtn": "Ficha técnica", "hsClose": "Cerrar"});
+Object.assign(I18N.it,{"shfConv": "Passa a quote assolute", "shfConvNote": "I ripiani vengono dal numero di ripiani, non da una quota scritta. Si possono portare a quote assolute (stesse quote di adesso, stessi pezzi in distinta) e poi spostare uno per uno.", "shfConvDone": "Ripiani passati a quote assolute: la distinta non cambia."});
+Object.assign(I18N.ro,{"shfConv": "Treci la cote absolute", "shfConvNote": "Rafturile vin din numărul de rafturi, nu dintr-o cotă scrisă. Se pot trece la cote absolute (aceleași cote ca acum, aceleași piese în distinta) și apoi se mută pe rând.", "shfConvDone": "Rafturi trecute la cote absolute: distinta nu se schimbă."});
+Object.assign(I18N.en,{"shfConv": "Switch to absolute heights", "shfConvNote": "The shelves come from the shelf count, not from a written height. They can be switched to absolute heights (same heights as now, same pieces in the cutting list) and then moved one by one.", "shfConvDone": "Shelves switched to absolute heights: the cutting list does not change."});
+Object.assign(I18N.fr,{"shfConv": "Passer en cotes absolues", "shfConvNote": "Les étagères viennent du nombre d'étagères, pas d'une cote écrite. On peut les passer en cotes absolues (mêmes cotes qu'à présent, mêmes pièces dans la liste de débit) puis les déplacer une à une.", "shfConvDone": "Étagères passées en cotes absolues : la liste de débit ne change pas."});
+Object.assign(I18N.de,{"shfConv": "Auf absolute Maße umstellen", "shfConvNote": "Die Fachböden stammen aus der Fachbodenzahl, nicht aus einem geschriebenen Maß. Sie lassen sich auf absolute Maße umstellen (gleiche Maße wie jetzt, gleiche Teile in der Stückliste) und dann einzeln verschieben.", "shfConvDone": "Fachböden auf absolute Maße umgestellt: Die Stückliste ändert sich nicht."});
+Object.assign(I18N.pl,{"shfConv": "Przejdź na wymiary bezwzględne", "shfConvNote": "Półki wynikają z liczby półek, nie z zapisanej wysokości. Można je przełączyć na wymiary bezwzględne (te same wysokości, te same elementy w rozkroju), a potem przesuwać po jednej.", "shfConvDone": "Półki przełączone na wymiary bezwzględne: rozkrój się nie zmienia."});
+Object.assign(I18N.es,{"shfConv": "Pasar a cotas absolutas", "shfConvNote": "Las baldas vienen del número de baldas, no de una cota escrita. Se pueden pasar a cotas absolutas (las mismas cotas de ahora, las mismas piezas en el despiece) y luego moverlas una a una.", "shfConvDone": "Baldas pasadas a cotas absolutas: el despiece no cambia."});
+Object.assign(I18N.it,{"hsPlate": "Basetta"});
+Object.assign(I18N.ro,{"hsPlate": "Plăcuță"});
+Object.assign(I18N.en,{"hsPlate": "Plate"});
+Object.assign(I18N.fr,{"hsPlate": "Embase"});
+Object.assign(I18N.de,{"hsPlate": "Montageplatte"});
+Object.assign(I18N.pl,{"hsPlate": "Prowadnik"});
+Object.assign(I18N.es,{"hsPlate": "Base"});
+Object.assign(I18N.it,{"opsHingeNoGeom": "La cerniera scelta non ha ancora una quota di foratura della tazza nei dati: si usa la foratura standard Ø35."});
+Object.assign(I18N.ro,{"opsHingeNoGeom": "Balamaua aleasă nu are încă în date cota de găurire a cupei: se folosește găurirea standard Ø35."});
+Object.assign(I18N.en,{"opsHingeNoGeom": "The chosen hinge has no cup drilling dimension in the data yet: the standard Ø35 drilling is used."});
+Object.assign(I18N.fr,{"opsHingeNoGeom": "La charnière choisie n'a pas encore de cote de perçage de cuvette dans les données : le perçage standard Ø35 est utilisé."});
+Object.assign(I18N.de,{"opsHingeNoGeom": "Für das gewählte Scharnier liegt noch kein Topfbohrmaß in den Daten vor: Es wird die Standardbohrung Ø35 verwendet."});
+Object.assign(I18N.pl,{"opsHingeNoGeom": "Wybrany zawias nie ma jeszcze w danych wymiaru wiercenia puszki: używane jest standardowe wiercenie Ø35."});
+Object.assign(I18N.es,{"opsHingeNoGeom": "La bisagra elegida aún no tiene cota de taladrado de la cazoleta en los datos: se usa el taladrado estándar Ø35."});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A3"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -3823,6 +3845,14 @@ const HWDB={
  feltro:[
   {id:"gen_felt",brand:"—",n:{it:"Feltrino adesivo Ø 60",ro:"Pâslă adezivă Ø 60",en:"Adhesive felt pad Ø 60",fr:"Patin feutre adhésif Ø 60",de:"Selbstklebender Filzgleiter Ø 60",pl:"Samoprzylepna podkładka filcowa Ø 60",es:"Fieltro adhesivo Ø 60"},art:"\u2014",price:0.2}]
 };
+/* D-114: toate codurile de comandă Blum din catalogul 2022/23 (ebanist-hinges-data.js) intră în lista de balamale; cele deja scrise mai sus rămân. */
+if(window.EBHinges) HWDB.cern.push(...EBHinges.catalogEntries(HWDB.cern.map(x=>x.id)));
+/* balamaua aleasă (pe corp: cfg.hwSel.cern, altfel din setări) și placuța ei: ebanist-ops.js cere găurirea ei prin hingeGeom(cfg) */
+function hingeGeom(cfg){
+  if(!window.EBHinges) return null;
+  const S=(typeof state!=="undefined"&&state.settings)||{}, id=(cfg&&cfg.hwSel&&cfg.hwSel.cern)||(S.hwProd&&S.hwProd.cern)||"";
+  return EBHinges.geomOf(id,(cfg&&cfg.hwSel&&cfg.hwSel.plate)||(S.hwProd&&S.hwProd.plate)||null);
+}
 /* una categoria nuova non ha ancora una scelta salvata nelle impostazioni:
    vale la prima voce del catalogo, la stessa che il selettore mostra */
 /* U.2 — articolele proprii ale utilizatorului (S.hwAdd: {id,cat,brand,n,art,price})
@@ -11118,7 +11148,7 @@ function opsAllOf(cfg){
 }
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
-const OPS_NOTES=["opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+const OPS_NOTES=["opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -11136,6 +11166,18 @@ function shelfFixOptions(cfg,sf){
   }
   return out;
 }
+/* Rafturile din „număr de rafturi" nu au cotă scrisă; ca să primească una se trec în cote absolute (partitions). Numai dacă piesele
+   (rol, lungime, lățime, grosime) ies identice, altfel nu se oferă: o conversie care schimbă distinta nu e o conversie. */
+function shelvesAbsCfg(cfg){
+  if(!cfg||(cfg.type&&cfg.type!=="standard")||!(cfg.shelves>0)||cfg.partitions||cfg.fronts||cfg.drawerBlocks||cfg.customCuts||cfg.depthProfile||cfg.tram>0) return null;
+  try{
+    const b=buildModule(cfg), ys=[...new Set(b.boxes.filter(x=>x.role==="ripiano").map(x=>Math.round(x.y0*100)/100))].sort((a,c)=>a-c);
+    if(!ys.length) return null;
+    const c=JSON.parse(JSON.stringify(cfg)); c.shelves=0; c.partitions=ys.map(y=>({type:"ripiano",y,span:"full"}));
+    const sig=r=>r.pieces.map(q=>[q.role,Math.round(q.lung*10),Math.round(q.larg*10),q.pz].join("|")).sort().join("\n");
+    return sig(b)===sig(buildModule(c))?c:null;
+  }catch(e){ return null; }
+}
 let shfCtx=null;
 function shelfFixSheet(modulo,sf){
   const p=proj(); const cfg=p&&p.configs&&p.configs[modulo]; if(!cfg) return;
@@ -11145,13 +11187,15 @@ function shelfFixSheet(modulo,sf){
   shfCtx.pick=near?near.kind:null;
   const row=(lbl,val)=>`<div class="au-num"><span>${esc(lbl)}</span><b>${esc(String(val))} mm</b></div>`;
   let h=`<div class="au-row"><div class="au-why">${esc(t("shfWhy").replace("{y}",sf.y).replace("{h}",[...new Set(sf.hy)].join(" · ")))}</div>${row(t("shfOld"),sf.y)}</div>`;
-  if(!opts.length) h+=`<div class="au-row"><div class="au-why">${esc(t("shfNone"))}</div></div>`;
+  const conv=!opts.length&&!!shelvesAbsCfg(cfg);
+  if(conv) h+=`<div class="au-row"><div class="au-why">${esc(t("shfConvNote"))}</div></div>`;
+  else if(!opts.length) h+=`<div class="au-row"><div class="au-why">${esc(t("shfNone"))}</div></div>`;
   else h+=opts.map(o=>`<label class="au-row" style="display:flex;gap:10px;align-items:center;cursor:pointer">
       <input type="radio" name="shfPick" value="${o.kind}"${o.kind===shfCtx.pick?" checked":""}>
       <span class="au-why" style="flex:1;text-align:left;margin:0">${esc(t(o.kind==="up"?"shfUp":"shfDown"))}: <b>${o.y} mm</b> <em>(${o.y>sf.y?"+":""}${o.y-sf.y} mm)</em></span></label>`).join("")+
       `<p class="vsub" style="margin-top:10px">${esc(t("shfNote"))}</p>`;
   $("shfBody").innerHTML=h;
-  $("shfApply").hidden=!opts.length;
+  $("shfApply").hidden=!opts.length; $("shfConv").hidden=!conv;
   $("shfBody").querySelectorAll('input[name="shfPick"]').forEach(r=>r.addEventListener("change",()=>{ shfCtx.pick=r.value; }));
   openSheet("shfSheet");
 }
@@ -11167,6 +11211,14 @@ async function shelfFixApply(){
   shelfFixNext(c.modulo);
 }
 /* după fiecare cotă aplicată: încă un raft de corectat → încă o căsuță; alte blocaje → lista; altfel verde */
+async function shelfConvApply(){
+  const c=shfCtx; const p=proj(); if(!c||!p||!p.configs||!p.configs[c.modulo]) return;
+  const nc=shelvesAbsCfg(p.configs[c.modulo]); if(!nc) return;
+  try{ await fullBackup({silent:true}); }catch(e){ toast(t("gvBkFail")); return; }
+  try{ generateInto(p,Object.assign({},nc,{name:c.modulo})); }catch(e){ toast(String(e&&e.message||e)); return; }
+  persist(); closeSheets(); render(); toast(t("shfConvDone"));
+  shelfFixNext(c.modulo);
+}
 function shelfFixNext(modulo){
   const p=proj(); const cfg=p&&p.configs&&p.configs[modulo]; if(!cfg) return;
   const pieces=(p.pieces||[]).filter(x=>x.gen===modulo||x.modulo===modulo||x.modulo===modulo+" A"||x.modulo===modulo+" B");
@@ -13090,6 +13142,7 @@ $("btnFullBk").addEventListener("click",()=>fullBackup());
 $("geomApply").addEventListener("click",geomApply);
 $("shfApply").addEventListener("click",shelfFixApply);
 $("shfCancel").addEventListener("click",closeSheets);
+$("shfConv").addEventListener("click",shelfConvApply);
 $("hsClose").addEventListener("click",closeSheets);
 
 /* ================= FEEDBACK ================= */
@@ -13175,7 +13228,9 @@ function renderCatalog(){
         <input class="catPrice" data-cat="${cat}" type="number" step="0.01" inputmode="decimal" placeholder="€" value="${it.price}" style="flex:1">
       </div>
       <div class="mini catRef" data-hw="${it.id||""}" style="margin-top:4px;line-height:1.4"></div>
-      ${cat==="cern"&&window.EBHinges&&EBHinges.familyOfHw(sel)?`<button class="btn sm hsOpen" data-hw="${sel}" style="margin-top:6px">${esc(t("hsBtn"))}</button>`:""}
+      ${cat==="cern"&&window.EBHinges&&EBHinges.familyOfHw(sel)?`<div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+        <select class="catPlate" aria-label="${esc(t("hsPlate"))}" style="flex:1">${(EBHinges.familyOfHw(sel).plates||[]).map(pid=>{ const pl=EBHinges.plateById(pid); return pl?`<option value="${pid}"${(S.hwProd||{}).plate===pid?" selected":""}>${esc(t("hsPlate")+": "+pl.art.join(" / "))}</option>`:""; }).join("")}</select>
+        <button class="btn sm hsOpen" data-hw="${sel}">${esc(t("hsBtn"))}</button></div>`:""}
       ${it.custom?`<div style="display:flex;gap:8px;margin-top:6px">
         <input class="catOwnBrand" data-id="${it.id}" placeholder="${esc(t("hwOwnBrand"))}" value="${esc(it.brand||"")}" style="flex:1">
         <input class="catOwnName" data-id="${it.id}" placeholder="${esc(t("hwOwnName"))}" value="${esc(it.name||"")}" style="flex:2">
@@ -13184,8 +13239,9 @@ function renderCatalog(){
       </div>`;
   }).join("");
   paintGenericPrices();
+  $("catHwWrap").querySelectorAll(".catPlate").forEach(s2=>s2.addEventListener("change",()=>{ state.settings.hwProd=state.settings.hwProd||{}; state.settings.hwProd.plate=s2.value; persist(); }));
   $("catHwWrap").querySelectorAll(".hsOpen").forEach(b2=>b2.addEventListener("click",()=>{
-    $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
+    $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5,plate:(state.settings.hwProd||{}).plate})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
   const ov=state.settings.matOvr||{};
   $("catMatWrap").innerHTML=matAll().map(m=>{
     const eff=matById(m.id), hid=matHidden(m), custom=!!m.custom;

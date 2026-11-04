@@ -1,0 +1,1284 @@
+[
+ {
+  "key": "clip_top_155",
+  "name": "CLIP top BLUMOTION | CLIP top 155°",
+  "angle": 155,
+  "webCode": "DQDHEM",
+  "pages": [
+   82,
+   83,
+   84,
+   85
+  ],
+  "section": "Wide angled application",
+  "applications": [
+   "overlay (0-protrusion)",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tb": [
+    3,
+    8
+   ],
+   "note": "depth and tolerance for screw-on not drawn; INSERTA +0.2/0"
+  },
+  "cupInserta": {
+   "dia": 35,
+   "tol": "+0.2/0",
+   "tb": [
+    3,
+    8
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "WInserta": 43,
+   "H": 3.2,
+   "HInserta": 6.4
+  },
+  "edgeMin": {
+   "screwOn": 11.7,
+   "inserta": 11.7,
+   "knockIn": 11.7
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": 1.5,
+   "note": "TB = FA - k + MD; inset table only MD 9 (page shows 9 only)"
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6,
+     "18": 7,
+     "19": 8
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6,
+     "15": 7,
+     "16": 8
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6,
+     "12": 7,
+     "13": 8
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6,
+     "9": 7,
+     "10": 8
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6,
+     "8.5": 7,
+     "9.5": 8
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6,
+     "5.5": 7,
+     "6.5": 8
+    },
+    "6": {
+     "-1.5": 3,
+     "-0.5": 4,
+     "0.5": 5,
+     "1.5": 6,
+     "2.5": 7,
+     "3.5": 8
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6,
+     "-0.5": 7,
+     "0.5": 8
+    }
+   },
+   "inset": {
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6,
+     "-0.5": 7
+    }
+   }
+  },
+  "tbTablePage": 83,
+  "fa": {
+   "overlay": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "dual_inset": [
+    -4.5,
+    -3.5,
+    -2.5,
+    -1.5,
+    -0.5,
+    0.5,
+    1.5,
+    2.5,
+    3.5,
+    4.5,
+    5.5,
+    6.5,
+    7.5,
+    8.5,
+    9.5
+   ]
+  },
+  "gapFD": [
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31
+  ],
+  "gap": {
+   "3": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0.5,
+    0.5,
+    1,
+    2,
+    2,
+    3,
+    4.5
+   ],
+   "4": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0.5,
+    1,
+    2,
+    2,
+    2.5,
+    4
+   ],
+   "5": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0.5,
+    1,
+    2,
+    2,
+    3.5
+   ],
+   "6": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1.5,
+    2,
+    3
+   ],
+   "7": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1.5,
+    2.5
+   ],
+   "8": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1.5
+   ]
+  },
+  "gapPage": 83,
+  "gapNote": "Row TB=n starts at FD 20 and has fewer cells as TB grows (TB3: 12 cells, TB8: 7); cells with no value are empty in the catalogue",
+  "dims": {
+   "F": "gap",
+   "TB range": "3-8",
+   "MD": "mounting plate spacing 0/3/6/9 (overlay,dual); 9 for inset",
+   "Move back fixing position of mounting plate (inset)": "FD + 1.5"
+  },
+  "dimsPage": 83,
+  "openingAngleStops": {
+   "110°": "70T7553",
+   "92°": "70T7553.09"
+  },
+  "notes": [
+   "0-protrusion for overlay application (for cabinets with inner pull-outs or pull-out shelfs)",
+   "CLIP top BLUMOTION with integrated BLUMOTION (with deactivation option)",
+   "CLIP top with or without closing mechanism (spring)",
+   "155° opening angle",
+   "For inset application use hinges for twin application and a 9 mm spaced mounting plate",
+   "A trial application is recommended when combining CLIP top BLUMOTION and CLIP top with springs on small, light fronts up to 300 mm wide; not recommended for wider fronts FB",
+   "We recommend a trial application for an overlay application against a wall",
+   "Hinge dimensions at 90° opening angle, factory setting (MD = 0 or 9 mm)"
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI|ONS",
+    "art": "71B7590",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T7590",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T7590.TL",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI|ONS",
+    "art": "71B7550",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T7550",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI|ONS",
+    "art": "70T7550.TL",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "knock-in",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI|ONS",
+    "art": "71B7580",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "knock-in",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T7580",
+    "app": "overlay 0-protrusion",
+    "page": 82
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI|ONS",
+    "art": "71B7690",
+    "app": "dual",
+    "page": 82
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T7690",
+    "app": "dual",
+    "page": 82
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI",
+    "art": "70T7690.TL",
+    "app": "dual",
+    "page": 82
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI|ONS",
+    "art": "71B7650",
+    "app": "dual",
+    "page": 82
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T7650",
+    "app": "dual",
+    "page": 82
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI",
+    "art": "70T7650.TL",
+    "app": "dual",
+    "page": 82
+   }
+  ],
+  "plates": [
+   "175H9160"
+  ],
+  "platesNote": "175H9160 (spacing 6 mm) only appears for rebated applications; other plates: see page 144 (not on these pages)",
+  "accessories": {
+   "armCoverCap": {
+    "plain": {
+     "colour": "NI|ONS",
+     "art": "70.4503"
+    },
+    "stampedBlum": {
+     "colour": "NI",
+     "art": "70.4503.BP"
+    }
+   },
+   "openingAngleStop": [
+    {
+     "ow": "92°",
+     "colour": "TGR",
+     "art": "70T7553.09"
+    },
+    {
+     "ow": "110°",
+     "colour": "R7037",
+     "art": "70T7553"
+    }
+   ],
+   "bossCoverCap": {
+    "colour": "NI|ONS",
+    "art": "70T7504",
+    "hinges": [
+     "CLIP top BLUMOTION",
+     "CLIP top"
+    ]
+   },
+   "bossSpacing": {
+    "mm": 1.5,
+    "art": "70T3507.21"
+   },
+   "chipboardScrews": [
+    {
+     "len": 15,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ],
+   "insertionRam": {
+    "colour": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   },
+   "tipOn": [
+    {
+     "ver": "short",
+     "spring": "unsprung",
+     "tipSpring": "standard",
+     "art": "956.1004"
+    },
+    {
+     "ver": "extended",
+     "hingeSpring": "unsprung",
+     "tipSpring": "standard",
+     "art": "956A1004"
+    },
+    {
+     "ver": "extended",
+     "hingeSpring": "spring",
+     "tipSpring": "standard",
+     "art": "956A1006"
+    },
+    {
+     "ver": "extended",
+     "hingeSpring": "spring",
+     "tipSpring": "strong",
+     "art": "956A1006F"
+    }
+   ]
+  },
+  "special": {
+   "mitredAll4": {
+    "19": {
+     "dual_hinge_plate_spacing": 0
+    },
+    "22": {
+     "dual_hinge_plate_spacing": 0
+    },
+    "24": {
+     "dual_hinge_plate_spacing": 0
+    },
+    "page": 84,
+    "note": "drawings carry numeric dims with no legend (not copied); mounting plate dimension A = 37 mm"
+   },
+   "mitredSide": {
+    "19": {},
+    "22": {},
+    "24": {},
+    "page": 84
+   },
+   "mitredSideLargeOverlay": {
+    "16/19 mm": {
+     "hinge": "overlay",
+     "stop": "110° 70T7553"
+    },
+    "19/19 mm": {
+     "hinge": "overlay",
+     "stop": "110° 70T7553"
+    },
+    "34 mm": {
+     "hinge": "overlay",
+     "stop": "110° 70T7553",
+     "note": "front overlay max.; any FD for free-standing cabinet; trial application for neighbouring front or wall"
+    },
+    "page": 85
+   },
+   "rebated": {
+    "10 mm": {
+     "hinge": "dual",
+     "plate": "175H9160",
+     "plateSpacing": 6,
+     "stop": "70T7553",
+     "cabinetSituation": [
+      {
+       "X_max": 18,
+       "Y_max": 28
+      },
+      {
+       "X_max": 20,
+       "Y_max": 30
+      },
+      {
+       "X_max": 25,
+       "Y_max": 35
+      }
+     ]
+    },
+    "13 mm": {
+     "hinge": "dual",
+     "plate": "175H9160",
+     "plateSpacing": 6,
+     "stop": "70T7553",
+     "cabinetSituation": [
+      {
+       "X_max": 16,
+       "Y_max": 29
+      },
+      {
+       "X_max": 17,
+       "Y_max": 30
+      },
+      {
+       "X_max": 17,
+       "Y_max": 30
+      }
+     ]
+    },
+    "16 mm": {
+     "hinge": "dual",
+     "plate": "175H9160",
+     "plateSpacing": 6,
+     "cabinetSituation": [
+      {
+       "X_max": 8,
+       "Y_max": 24
+      },
+      {
+       "X_max": 8,
+       "Y_max": 24
+      },
+      {
+       "X_max": 8,
+       "Y_max": 24
+      }
+     ],
+     "note": "no opening angle stop listed for 16 mm"
+    },
+    "page": 85,
+    "note": "cabinet situations are the three pictographs top to bottom; pictograph meaning not transcribed"
+   }
+  },
+  "unlabeled": "approx. 15 (p83 overlay/dual/inset hinge-dimension drawings) + approx. 100 (p84-85 special-application section drawings)",
+  "unreadable": [
+   "p83: shading (110° vs 92° opening-angle stop) of cells in the gap F table and in the TB tables is not transcribed",
+   "p85: pictographs of the three cabinet situations are not described"
+  ]
+ },
+ {
+  "key": "clip_top_170",
+  "name": "CLIP top 170°",
+  "angle": 170,
+  "webCode": "DQDI3Y",
+  "pages": [
+   86,
+   87
+  ],
+  "section": "Wide angled application",
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "cup": {
+   "dia": 35,
+   "tb": [
+    3,
+    8
+   ]
+  },
+  "cupInserta": {
+   "dia": 35,
+   "tol": "+0.2/0",
+   "tb": [
+    3,
+    8
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5
+  },
+  "boss": {
+   "L": 57,
+   "LInserta": 65,
+   "W": 47,
+   "H": 2.2,
+   "HInserta": 7.5
+  },
+  "edgeMin": {
+   "screwOn": 11,
+   "inserta": 11.2,
+   "knockIn": null
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tbRule": {
+   "overlay": 11,
+   "dual": 1.5,
+   "inset": 1.5
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6,
+     "18": 7,
+     "19": 8
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6,
+     "15": 7,
+     "16": 8
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6,
+     "12": 7,
+     "13": 8
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6,
+     "9": 7,
+     "10": 8
+    }
+   },
+   "dual": {
+    "0": {
+     "4.5": 3,
+     "5.5": 4,
+     "6.5": 5,
+     "7.5": 6,
+     "8.5": 7,
+     "9.5": 8
+    },
+    "3": {
+     "1.5": 3,
+     "2.5": 4,
+     "3.5": 5,
+     "4.5": 6,
+     "5.5": 7,
+     "6.5": 8
+    },
+    "6": {
+     "-1.5": 3,
+     "-0.5": 4,
+     "0.5": 5,
+     "1.5": 6,
+     "2.5": 7,
+     "3.5": 8
+    },
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6,
+     "-0.5": 7,
+     "0.5": 8
+    }
+   },
+   "inset": {
+    "9": {
+     "-4.5": 3,
+     "-3.5": 4,
+     "-2.5": 5,
+     "-1.5": 6,
+     "-0.5": 7
+    }
+   }
+  },
+  "tbTablePage": 87,
+  "fa": {
+   "overlay": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "dual_inset": [
+    -4.5,
+    -3.5,
+    -2.5,
+    -1.5,
+    -0.5,
+    0.5,
+    1.5,
+    2.5,
+    3.5,
+    4.5,
+    5.5,
+    6.5,
+    7.5,
+    8.5,
+    9.5
+   ]
+  },
+  "gapNote": "No gap table: for front thicknesses FD up to 21 mm no gap F is required; for FD in excess of 22 mm a trial application is recommended",
+  "gapFD": null,
+  "dims": {
+   "F": "gap",
+   "TB range": "3-8",
+   "MD": "0/3/6/9; inset 9"
+  },
+  "dimsPage": 87,
+  "openingAngleStops": {
+   "130°": "70.6103 (colour SZ, marked ☎ in catalogue)"
+  },
+  "notes": [
+   "CLIP top with or without closing mechanism (spring)",
+   "170° opening angle",
+   "3-dimensional front adjustment",
+   "For inset application use hinges for twin application and a 9 mm spaced mounting plate",
+   "If young children have access to furniture with wide angle hinges then the 155° opening 0-protrusion hinges should be used (safety information p.701)"
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T6540B",
+    "app": "overlay",
+    "page": 86
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI",
+    "art": "70T6540BTL",
+    "app": "overlay",
+    "page": 86,
+    "note": "printed 70T6540BTL without a dot in catalog_text"
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T6550",
+    "app": "overlay",
+    "page": 86
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI",
+    "art": "70T6550.TL",
+    "app": "overlay",
+    "page": 86
+   },
+   {
+    "boss": "knock-in",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T6580",
+    "app": "overlay",
+    "page": 86
+   },
+   {
+    "boss": "INSERTA",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T6640B",
+    "app": "dual",
+    "page": 86
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T6650",
+    "app": "dual",
+    "page": 86
+   },
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "unsprung",
+    "spring": "unsprung",
+    "colours": "NI",
+    "art": "70T6650.TL",
+    "app": "dual",
+    "page": 86
+   },
+   {
+    "boss": "knock-in",
+    "arm": null,
+    "fn": "spring",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71T6680",
+    "app": "dual",
+    "page": 86
+   }
+  ],
+  "plates": [],
+  "accessories": {
+   "blumotion973A": {
+    "version": "clip on",
+    "art": "973A6000"
+   },
+   "armCoverCap": {
+    "plain": {
+     "colour": "NI",
+     "art": "80.6507"
+    },
+    "stampedBlum": {
+     "colour": "NI",
+     "art": "80.6507.BP"
+    }
+   },
+   "openingAngleStop": {
+    "ow": "130°",
+    "colour": "SZ",
+    "art": "70.6103"
+   },
+   "chipboardScrews": [
+    {
+     "len": 15,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ],
+   "insertionRam": {
+    "colour": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   },
+   "tipOn": "as 155° family (956.1004, 956A1004, 956A1006, 956A1006F)"
+  },
+  "unlabeled": "approx. 14 (p87 hinge-dimension drawings)",
+  "unreadable": [
+   "p86: order-information images (boss/dual layout) not rendered in this session; codes copied from catalog_text; spring and colour columns for each code taken from text only",
+   "p87: boss measures L/H partly in brackets for INSERTA (65, 7.5) read from image"
+  ]
+ },
+ {
+  "key": "clip_top_125",
+  "name": "CLIP top BLUMOTION 125° (profile door application)",
+  "angle": 125,
+  "webCode": "DQDJIM",
+  "pages": [
+   90,
+   91,
+   92,
+   93
+  ],
+  "section": "Profile door application",
+  "applications": [
+   "overlay (0-protrusion)"
+  ],
+  "cup": {
+   "dia": 35,
+   "tb": [
+    3,
+    8
+   ]
+  },
+  "cupInserta": null,
+  "knockIn": {
+   "dia": 35,
+   "tol": "+0.2/0",
+   "tb": [
+    3,
+    8
+   ]
+  },
+  "dowel": {
+   "dia": 8,
+   "tol": 0.1,
+   "spacing": 45,
+   "offset": 9.5,
+   "note": "knock-in only (no INSERTA)"
+  },
+  "boss": {
+   "L": 57,
+   "W": 37.5,
+   "H": 3.2
+  },
+  "edgeMin": {
+   "screwOn": 11.7,
+   "knockIn": 11.7
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tbRule": {
+   "overlay": 11
+  },
+  "tbTable": {
+   "overlay": {
+    "0": {
+     "14": 3,
+     "15": 4,
+     "16": 5,
+     "17": 6,
+     "18": 7,
+     "19": 8
+    },
+    "3": {
+     "11": 3,
+     "12": 4,
+     "13": 5,
+     "14": 6,
+     "15": 7,
+     "16": 8
+    },
+    "6": {
+     "8": 3,
+     "9": 4,
+     "10": 5,
+     "11": 6,
+     "12": 7,
+     "13": 8
+    },
+    "9": {
+     "5": 3,
+     "6": 4,
+     "7": 5,
+     "8": 6,
+     "9": 7,
+     "10": 8
+    }
+   }
+  },
+  "tbTablePage": 91,
+  "fa": {
+   "overlay": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+   ]
+  },
+  "gapFD": [
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40
+  ],
+  "gap": {
+   "3": [
+    0,
+    0,
+    0,
+    0.1,
+    0.3,
+    0.7,
+    1.2,
+    2,
+    2.8,
+    4.1,
+    5.7
+   ],
+   "4": [
+    0,
+    0,
+    0,
+    0.1,
+    0.4,
+    0.8,
+    1.5,
+    2.3,
+    3.4,
+    4.9
+   ],
+   "5": [
+    0,
+    0,
+    0,
+    0.1,
+    0.4,
+    1,
+    1.7,
+    2.8,
+    4.2
+   ],
+   "6": [
+    0,
+    0,
+    0,
+    0.1,
+    0.6,
+    1.2,
+    2.1,
+    3.5
+   ],
+   "7": [
+    0,
+    0,
+    0,
+    0.2,
+    0.7,
+    1.6,
+    2.8
+   ],
+   "8": [
+    0,
+    0,
+    0,
+    0.3,
+    1,
+    2
+   ]
+  },
+  "gapPage": 91,
+  "dims": {
+   "F": "gap",
+   "TB range": "3-8",
+   "MD": "0 (factory setting; table rows 0/3/6/9)"
+  },
+  "dimsPage": 91,
+  "openingAngleStops": {
+   "92°": "70T7553 (colour R7037)"
+  },
+  "notes": [
+   "0-protrusion for overlay application (for cabinets with inner pull-outs or pull-out shelfs)",
+   "Hinge for thick doors and doors with profile",
+   "CLIP top BLUMOTION with integrated BLUMOTION (with deactivation option)",
+   "125° opening angle",
+   "We recommend a trial application for an overlay application against a wall",
+   "Hinge dimensions at 90° opening angle, factory setting (MD = 0 mm)"
+  ],
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI|ONS",
+    "art": "71B7550D",
+    "app": "overlay 0-protrusion",
+    "page": 90
+   },
+   {
+    "boss": "knock-in",
+    "arm": null,
+    "fn": "BLUMOTION",
+    "spring": "spring",
+    "colours": "NI",
+    "art": "71B7580D",
+    "app": "overlay 0-protrusion",
+    "page": 90
+   }
+  ],
+  "plates": [
+   "175H7190"
+  ],
+  "platesNote": "175H7190 (spacing 9 mm) listed for mitred applications p.92",
+  "accessories": {
+   "armCoverCap": {
+    "plain": {
+     "colour": "NI|ONS",
+     "art": "70.4503"
+    },
+    "stampedBlum": {
+     "colour": "NI",
+     "art": "70.4503.BP"
+    }
+   },
+   "openingAngleStop": {
+    "ow": "92°",
+    "colour": "R7037",
+    "art": "70T7553"
+   },
+   "chipboardScrews": [
+    {
+     "len": 15,
+     "dia": 3.5,
+     "art": "609.1500"
+    },
+    {
+     "len": 17,
+     "dia": 3.5,
+     "art": "609.1700"
+    }
+   ],
+   "bossCoverCap": {
+    "colour": "NI|ONS",
+    "art": "70T7504"
+   },
+   "bossSpacing": {
+    "mm": 1.5,
+    "art": "70T3507.21"
+   },
+   "insertionRam": {
+    "colour": "OR",
+    "material": "Nylon",
+    "art": "MZM.0040"
+   }
+  },
+  "special": {
+   "mitredAll4": {
+    "22 mm": {
+     "plate": "175H7190",
+     "spacing": 9
+    },
+    "25 mm": {
+     "plate": "175H7190",
+     "spacing": 9
+    },
+    "28 mm": {
+     "plate": "175H7190",
+     "spacing": 9
+    },
+    "page": 92
+   },
+   "mitredSide": {
+    "22 mm": {
+     "plate": "175H7190",
+     "spacing": 9
+    },
+    "25 mm": {
+     "plate": "175H7190",
+     "spacing": 9
+    },
+    "30 mm": {
+     "plate": "175H7190",
+     "spacing": 9
+    },
+    "page": 92
+   },
+   "largeOverlay": {
+    "max 19/24 mm": {},
+    "19/19 mm": {},
+    "39 mm": {
+     "stop": "92° 70T7553"
+    },
+    "page": 93
+   },
+   "thinProtruding": {
+    "16+6 mm": {
+     "stop": "92° 70T7553"
+    },
+    "page": 93
+   },
+   "note": "hinge for overlay applications, standard mounting plates 0 mm spacing; dims on drawings have no legend"
+  },
+  "unlabeled": "approx. 5 (p91 overlay drawing) + approx. 100 (p92-93 special-application drawings)",
+  "unreadable": [
+   "p91: shading in gap F table (92° opening angle stop) not transcribed",
+   "p92-93: not viewed as images this session, only text; special-application rows from text",
+   "p90: order page image not viewed; codes/colours from text"
+  ]
+ }
+]

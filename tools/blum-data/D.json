@@ -1,0 +1,1414 @@
+[
+ {
+  "key": "thin_door_110",
+  "name": "CLIP top BLUMOTION | CLIP top – Hinge for thin doors",
+  "angle": 110,
+  "webCode": "DQGT1A",
+  "pages": [
+   102,
+   103
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "fixing": {
+   "system": "EXPANDO T",
+   "frontThicknessFD": [
+    8,
+    14
+   ],
+   "note": "fronts from 8–14 mm; 0-protrusion"
+  },
+  "drill": [
+   {
+    "type": "hole",
+    "dia": 10,
+    "tol": "+0.1/-0.1 (stone and ceramic +0.2/-0.1)",
+    "depthBTmin": 6,
+    "on": "door"
+   }
+  ],
+  "dims": {
+   "B min": 23.5,
+   "B max": 46,
+   "BT min": 6,
+   "hinge height max (overlay/dual)": "see unlabeled",
+   "max (depth, drawing)": 56.5
+  },
+  "dimsPage": 103,
+  "formulas": {
+   "B": "B = FA + 27 + MD",
+   "overlayFixing": "FA gap",
+   "inset": "move back fixing position of mounting plate by front thickness FD + 1.5 mm"
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tables": [
+   {
+    "title": "Fixing position B (distance for door drilling)",
+    "rowLabel": "MD mounting plate spacing (mm)",
+    "colLabel": "FA front overlay (mm)",
+    "cols": [
+     -3.5,
+     -3,
+     -2.5,
+     -2,
+     -1.5,
+     -1,
+     2.5,
+     4,
+     5.5,
+     7,
+     8.5,
+     10,
+     11.5,
+     13,
+     14.5,
+     16,
+     17.5,
+     19
+    ],
+    "rows": {
+     "0": [
+      23.5,
+      24,
+      24.5,
+      25,
+      25.5,
+      26,
+      29.5,
+      31,
+      32.5,
+      34,
+      35.5,
+      37,
+      38.5,
+      40,
+      41.5,
+      43,
+      44.5,
+      46
+     ],
+     "3": [
+      26.5,
+      27,
+      27.5,
+      28,
+      28.5,
+      29,
+      32.5,
+      34,
+      35.5,
+      37,
+      38.5,
+      40,
+      41.5,
+      43,
+      44.5,
+      46
+     ],
+     "6": [
+      29.5,
+      30,
+      30.5,
+      31,
+      31.5,
+      32,
+      35.5,
+      37,
+      38.5,
+      40,
+      41.5,
+      43,
+      44.5,
+      46
+     ],
+     "9": [
+      32.5,
+      33,
+      33.5,
+      34,
+      34.5,
+      35,
+      38.5,
+      40,
+      41.5,
+      43,
+      44.5,
+      46
+     ]
+    },
+    "note": "rows shorter than cols = blank cells at right (row n starts at FA -3.5)",
+    "page": 103
+   },
+   {
+    "title": "Mounting plate spacing MD required by cabinet side panel thickness SWD and front thickness FD (0 = MD 0 possible, 3 = MD 3 required, 6 = MD 6 required; read from colours)",
+    "rowLabel": "SWD (mm)",
+    "colLabel": "FD (mm)",
+    "cols": [
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "rows": {
+     "12": [
+      3,
+      3,
+      3,
+      6,
+      6,
+      6,
+      6
+     ],
+     "13": [
+      0,
+      3,
+      3,
+      3,
+      6,
+      6,
+      6
+     ],
+     "14": [
+      0,
+      0,
+      3,
+      3,
+      3,
+      6,
+      6
+     ],
+     "15": [
+      0,
+      0,
+      0,
+      3,
+      3,
+      3,
+      6
+     ],
+     "16": [
+      0,
+      0,
+      0,
+      0,
+      3,
+      3,
+      3
+     ],
+     "17": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      3
+     ],
+     "18": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      3
+     ],
+     "19": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "20": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "page": 103
+   }
+  ],
+  "notes": [
+   "Thin fronts from 8–14 mm",
+   "Hinge dimensions and gap calculation based on factory setting (MD = 0)",
+   "Trial application recommended when combining CLIP top BLUMOTION and CLIP top with springs on small light fronts up to 300 mm wide; not for wider FB",
+   "EXPANDO T min tightening torque: chipboard 1.5, MDF 1.5, HDF 2, HPL 2, mineral composites 2, Nero Assoluto 3, quartz composite 3, ceramic 3 Nm; transverse tensile strength chipboard >0.40, MDF >0.60 N/mm²",
+   "Blum accepts no liability for EXPANDO T with unlisted materials"
+  ],
+  "parts": [
+   {
+    "boss": "EXPANDO T",
+    "arm": "straight",
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI|ONS",
+    "art": "71B453T"
+   },
+   {
+    "boss": "EXPANDO T",
+    "arm": "straight",
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T453T"
+   },
+   {
+    "boss": "EXPANDO T",
+    "arm": "straight",
+    "fn": "CLIP top unsprung",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T453T.TL"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI|ONS",
+    "art": "70.4503"
+   },
+   {
+    "what": "Hinge arm cover cap stamped Blum",
+    "colours": "NI",
+    "art": "70.4503.BP"
+   },
+   {
+    "what": "Opening angle stop 85°",
+    "colours": "TGR",
+    "art": "70T4503"
+   },
+   {
+    "what": "Opening angle stop 92°",
+    "colours": "R7037",
+    "art": "70T4503.09"
+   },
+   {
+    "what": "Hinge boss cover cap CLIP top BLUMOTION",
+    "colours": "NI|ONS",
+    "art": "70T4504"
+   },
+   {
+    "what": "Hinge boss cover cap CLIP top",
+    "colours": "NI",
+    "art": "70T4504"
+   },
+   {
+    "what": "TIP-ON short, unsprung",
+    "art": "956.1004"
+   },
+   {
+    "what": "TIP-ON extended, unsprung",
+    "art": "956A1004"
+   },
+   {
+    "what": "TIP-ON extended standard spring",
+    "art": "956A1006"
+   },
+   {
+    "what": "TIP-ON extended strong spring",
+    "art": "956A1006F"
+   }
+  ],
+  "unlabeled": 9,
+  "unreadable": []
+ },
+ {
+  "key": "cristallo_110",
+  "name": "CRISTALLO hinge (CLIP top BLUMOTION | CLIP top, glass/mirror, glue-on)",
+  "angle": 110,
+  "webCode": "DQDN1A",
+  "pages": [
+   104,
+   105
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "drill": [
+   {
+    "type": "none",
+    "note": "adhesion plate glued onto glass, no glass drilling"
+   }
+  ],
+  "dims": {
+   "A (overlay/dual, mounting plate A20)": 20,
+   "A (overlay/dual, mounting plate A37)": 37,
+   "A (inset, A20)": "21.5 + FD",
+   "A (inset, A37)": "38.5 + FD",
+   "KT min": 0,
+   "KT max": 22.5,
+   "max (depth, drawing)": 56.5
+  },
+  "dimsPage": 105,
+  "formulas": {
+   "KT": "KT = FA + 3.5 + MD"
+  },
+  "adjust": {
+   "height": 3,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "tables": [
+   {
+    "title": "Distance KT (adhesion plate distance)",
+    "rowLabel": "MD mounting plate spacing (mm)",
+    "colLabel": "FA front overlay (mm)",
+    "cols": [
+     -3.5,
+     -3,
+     -2.5,
+     -2,
+     -1.5,
+     -1,
+     2.5,
+     4,
+     5.5,
+     7,
+     8.5,
+     10,
+     11.5,
+     13,
+     14.5,
+     16,
+     17.5,
+     19
+    ],
+    "rows": {
+     "0": [
+      0,
+      0.5,
+      1,
+      1.5,
+      2,
+      2.5,
+      6,
+      7.5,
+      9,
+      10.5,
+      12,
+      13.5,
+      15,
+      16.5,
+      18,
+      19.5,
+      21,
+      22.5
+     ],
+     "3": [
+      3,
+      3.5,
+      4,
+      4.5,
+      5,
+      5.5,
+      9,
+      10.5,
+      12,
+      13.5,
+      15,
+      16.5,
+      18,
+      19.5,
+      21,
+      22.5
+     ],
+     "6": [
+      6,
+      6.5,
+      7,
+      7.5,
+      8,
+      8.5,
+      12,
+      13.5,
+      15,
+      16.5,
+      18,
+      19.5,
+      21,
+      22.5
+     ],
+     "9": [
+      9,
+      9.5,
+      10,
+      10.5,
+      11,
+      11.5,
+      15,
+      16.5,
+      18,
+      19.5,
+      21,
+      22.5
+     ]
+    },
+    "page": 105
+   }
+  ],
+  "notes": [
+   "Due to the risk of breakage to glass and mirror doors, sufficient surrounding gaps are required (recommendation: min 2 mm)",
+   "Please contact your glass or front suppliers concerning the right adhesive",
+   "Trial application recommended when combining CLIP top BLUMOTION and CLIP top with springs on small light fronts up to 300 mm wide",
+   "Blum cannot accept liability for adhesive/adhesive process"
+  ],
+  "parts": [
+   {
+    "boss": "glue-on",
+    "arm": "straight",
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI|ONS",
+    "art": "71B4500C"
+   },
+   {
+    "boss": "glue-on",
+    "arm": "straight",
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI|ONS",
+    "art": "71T4500C",
+    "colourNote": "colour column reads NI"
+   },
+   {
+    "boss": "glue-on",
+    "arm": "straight",
+    "fn": "CLIP top unsprung",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T4500CTL"
+   }
+  ],
+  "plates": [
+   {
+    "what": "CRISTALLO adhesion plate, glass|mirror",
+    "colours": "NI-M",
+    "art": "70T4568C"
+   },
+   {
+    "what": "CRISTALLO adhesion plate, mirror",
+    "colours": "NI-S",
+    "art": "70T4568C"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI|ONS",
+    "art": "70.4503"
+   },
+   {
+    "what": "Hinge arm cover cap stamped Blum",
+    "colours": "NI",
+    "art": "70.4503.BP"
+   },
+   {
+    "what": "Opening angle stop 85°",
+    "colours": "TGR",
+    "art": "70T4503"
+   },
+   {
+    "what": "Opening angle stop 92°",
+    "colours": "R7037",
+    "art": "70T4503.09"
+   }
+  ],
+  "unlabeled": 9,
+  "unreadable": []
+ },
+ {
+  "key": "cristallo_display",
+  "name": "CRISTALLO hinge – glass display cabinets",
+  "angle": 110,
+  "webCode": "DQDNQM",
+  "pages": [
+   106,
+   107
+  ],
+  "applications": [
+   "overlay",
+   "inset"
+  ],
+  "drill": [
+   {
+    "type": "none",
+    "note": "mounting plate and adhesion plate glued onto glass"
+   }
+  ],
+  "dims": {
+   "max (depth, drawing)": 58.5,
+   "KM (overlay)": 3,
+   "KM (inset)": "FD + 4.5",
+   "KT (overlay)": "FA + 5.5",
+   "KT (inset)": "5.5 - F",
+   "F (inset) min": 2.5,
+   "FD": "3-8"
+  },
+  "dimsPage": 107,
+  "formulas": {
+   "KM_overlay": "KM = 3",
+   "KM_inset": "KM = FD + 4.5",
+   "KT_overlay": "KT = FA + 5.5",
+   "KT_inset": "KT = 5.5 - F"
+  },
+  "adjust": {
+   "height": 2,
+   "side": 2,
+   "depthPlus": 3,
+   "depthMinus": -2
+  },
+  "notes": [
+   "Mounting | adhesion plate glued onto glass; no glass drilling",
+   "Please contact glass/front suppliers concerning adhesive",
+   "Trial application recommended when combining BLUMOTION and spring hinges on fronts up to 300 mm wide"
+  ],
+  "parts": [
+   {
+    "boss": "glue-on",
+    "arm": "straight",
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B4500C"
+   },
+   {
+    "boss": "glue-on",
+    "arm": "straight",
+    "fn": "CLIP top",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T4500C"
+   },
+   {
+    "boss": "glue-on",
+    "arm": "straight",
+    "fn": "CLIP top unsprung",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T4500CTL"
+   }
+  ],
+  "plates": [
+   {
+    "what": "CRISTALLO adhesion plate",
+    "colours": "NI-M",
+    "art": "70T4568C"
+   },
+   {
+    "what": "CRISTALLO adhesion plate (mirror)",
+    "colours": "NI-S",
+    "art": "70T4568C"
+   },
+   {
+    "what": "CRISTALLO mounting plate, glue-on, glass|mirror",
+    "colours": "NI-M",
+    "art": "175M4C20N"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI",
+    "art": "70.4503"
+   },
+   {
+    "what": "Hinge arm cover cap stamped Blum",
+    "colours": "NI",
+    "art": "70.4503.BP"
+   },
+   {
+    "what": "Opening angle stop 85°",
+    "colours": "TGR",
+    "art": "70T4503"
+   },
+   {
+    "what": "Opening angle stop 92°",
+    "colours": "R7037",
+    "art": "70T4503.09"
+   }
+  ],
+  "unlabeled": 12,
+  "unreadable": []
+ },
+ {
+  "key": "mirror_cabinet_95",
+  "name": "Bathroom mirror cabinets with fronts that protrude all the way around (double cranked arm)",
+  "angle": 95,
+  "pages": [
+   108,
+   109
+  ],
+  "applications": [
+   "overlay (protruding all round)"
+  ],
+  "drill": [
+   {
+    "type": "cup",
+    "dia": 35,
+    "tol": "screw-on: 35; INSERTA|knock-in +0.2/0",
+    "depthTmin": 12.3,
+    "Bmin": 13,
+    "edgeDist": 7,
+    "on": "cabinet side (boss)"
+   },
+   {
+    "type": "dowel",
+    "dia": 8,
+    "tol": "±0.1",
+    "spacing": 45,
+    "offset": 9.5,
+    "note": "INSERTA|knock-in only"
+   }
+  ],
+  "dims": {
+   "B min": 13,
+   "T min": 12.3,
+   "FA max": 70,
+   "KM": "FA + 4.5",
+   "INSERTA boss hole dia": 35,
+   "INSERTA dowel dia": 8,
+   "INSERTA dowel spacing": 45,
+   "INSERTA dowel offset": 9.5
+  },
+  "dimsPage": 109,
+  "formulas": {
+   "KM": "KM = FA + 4.5"
+  },
+  "adjust": {
+   "height": 2,
+   "side": {
+    "plus": 2,
+    "minus": -3
+   },
+   "depth": 2
+  },
+  "tables": [],
+  "notes": [
+   "Only recommended for wall cabinets due to lower load bearing limits",
+   "Mounting plate is glued onto the front",
+   "Page 108 has no planning table; dimension drawing on 109"
+  ],
+  "parts": [
+   {
+    "boss": "INSERTA",
+    "arm": "full-cranked",
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9790",
+    "note": "double cranked arm"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "CLIP top BLUMOTION",
+    "spring": true,
+    "colours": "NI",
+    "art": "71B9750",
+    "note": "double cranked arm"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "full-cranked",
+    "fn": "CLIP top unsprung",
+    "spring": false,
+    "colours": "NI",
+    "art": "70T9750.TL",
+    "note": "double cranked arm"
+   }
+  ],
+  "plates": [
+   {
+    "what": "CRISTALLO mounting plate glue-on glass|mirror",
+    "colours": "NI-M",
+    "art": "175M4C20N"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI",
+    "art": "70.1663"
+   },
+   {
+    "what": "stamped Blum",
+    "colours": "NI",
+    "art": "70.1663.BP"
+   },
+   {
+    "what": "Boss cover cap CLIP top BLUMOTION",
+    "colours": "NI",
+    "art": "70T3504"
+   },
+   {
+    "what": "Boss cover cap CLIP top",
+    "colours": "NI",
+    "art": "70T1504"
+   },
+   {
+    "what": "Chipboard screw 15 mm Ø3.5",
+    "art": "609.1500"
+   },
+   {
+    "what": "Chipboard screw 17 mm Ø3.5",
+    "art": "609.1700"
+   }
+  ],
+  "unlabeled": 10,
+  "unreadable": []
+ },
+ {
+  "key": "glass_door_94",
+  "name": "Glass door hinge",
+  "angle": 94,
+  "webCode": "DQDP5A",
+  "pages": [
+   110,
+   111
+  ],
+  "fdRange": [
+   4.5,
+   7
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "drill": [
+   {
+    "type": "hole",
+    "dia": 26,
+    "tol": "+0.2/0",
+    "on": "door (screw-on)"
+   }
+  ],
+  "tables": [
+   {
+    "title": "Drilling distance TB – overlay (blank cells omitted)",
+    "rowLabel": "MD",
+    "colLabel": "FA (mm)",
+    "cols": [
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "rows": {
+     "0": {
+      "16": 6,
+      "17": 7
+     },
+     "3": {
+      "13": 6,
+      "14": 7
+     },
+     "6": {
+      "10": 6,
+      "11": 7
+     },
+     "9": {
+      "7": 6,
+      "8": 7
+     }
+    },
+    "page": 111
+   },
+   {
+    "title": "Drilling distance TB – dual",
+    "rowLabel": "MD",
+    "colLabel": "FA (mm)",
+    "cols": [
+     -2.5,
+     -1.5,
+     -0.5,
+     0.5,
+     1.5,
+     2.5,
+     3.5,
+     4.5,
+     5.5,
+     6.5,
+     7.5
+    ],
+    "rows": {
+     "0": {
+      "6.5": 6,
+      "7.5": 7
+     },
+     "3": {
+      "3.5": 6,
+      "4.5": 7
+     },
+     "6": {
+      "0.5": 6,
+      "1.5": 7
+     },
+     "9": {
+      "-2.5": 6,
+      "-1.5": 7
+     }
+    },
+    "page": 111
+   },
+   {
+    "title": "Drilling distance TB – inset",
+    "rowLabel": "MD",
+    "colLabel": "FA (mm)",
+    "cols": [
+     -5.5,
+     -5,
+     -4.5,
+     -4,
+     -3.5,
+     -3,
+     -2.5,
+     -2,
+     -1.5,
+     -1
+    ],
+    "rows": {
+     "0": {
+      "-2.5": 5.5,
+      "-2": 6,
+      "-1.5": 6.5,
+      "-1": 7
+     },
+     "3": {
+      "-5.5": 5.5,
+      "-5": 6,
+      "-4.5": 6.5,
+      "-4": 7
+     },
+     "6": {},
+     "9": {}
+    },
+    "page": 111
+   }
+  ],
+  "dims": {
+   "boss cover cap dia (84.4140)": 31,
+   "boss cover cap 84.4120 width": 31,
+   "boss cover cap 84.4120 length": 41,
+   "boss dims width": 31
+  },
+  "dimsPage": 111,
+  "adjust": {
+   "height": 3,
+   "side": {
+    "plus": 0.5,
+    "minus": -3.5
+   },
+   "depth": 2
+  },
+  "notes": [
+   "For front thicknesses FD 4.5–7 mm, no gap F is required",
+   "Move back fixing position of mounting plate by front thickness FD and height of boss cover +3 mm (inset)",
+   "Boss fixing screws included",
+   "Minimum gap F table for R=1 mm: none required for FD 4.5–7"
+  ],
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "application": "overlay",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "75T4100",
+    "cap": "84.4120"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "application": "dual",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "75T4200",
+    "cap": "84.4120"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "application": "inset",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "75T4300",
+    "cap": "84.4120"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "Boss cover cap",
+    "colours": "SZ|CR|NI-M",
+    "art": "84.4120"
+   },
+   {
+    "what": "Boss cover cap",
+    "colours": "SZ|CR|NI-M",
+    "art": "84.4140"
+   },
+   {
+    "what": "BLUMOTION 971A in adapter plate (overlay)",
+    "art": "971Axxxx"
+   },
+   {
+    "what": "BLUMOTION 970A for drilling (dual, inset)",
+    "art": "970A1002"
+   },
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI",
+    "art": "70.1553"
+   },
+   {
+    "what": "stamped Blum",
+    "colours": "NI",
+    "art": "70.1553.BP"
+   },
+   {
+    "what": "TIP-ON extended standard spring",
+    "art": "956A1006"
+   },
+   {
+    "what": "TIP-ON extended strong spring",
+    "art": "956A1006F"
+   }
+  ],
+  "unlabeled": 27,
+  "unreadable": [
+   "page 110 cap-to-application mapping (84.4120/84.4140 per hinge) from text order only; not checked on image"
+  ]
+ },
+ {
+  "key": "mini_94",
+  "name": "Mini-hinge (frame door)",
+  "angle": 94,
+  "webCode": "DQDPUM",
+  "pages": [
+   112,
+   113
+  ],
+  "applications": [
+   "overlay",
+   "dual",
+   "inset"
+  ],
+  "drill": [
+   {
+    "type": "cup",
+    "dia": 26,
+    "tol": "+0.2/0",
+    "on": "door",
+    "screwSpacing": 38,
+    "edgeDist": "3-5",
+    "min": 12.5,
+    "note": "7.5 offset and 38 not symbol-labelled"
+   }
+  ],
+  "tables": [
+   {
+    "title": "Drilling distance TB – overlay",
+    "rowLabel": "MD",
+    "colLabel": "FA",
+    "cols": [
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "rows": {
+     "0": {
+      "13": 3,
+      "14": 4,
+      "15": 5
+     },
+     "3": {
+      "10": 3,
+      "11": 4,
+      "12": 5
+     },
+     "6": {
+      "7": 3,
+      "8": 4,
+      "9": 5
+     },
+     "9": {
+      "4": 3,
+      "5": 4,
+      "6": 5
+     }
+    },
+    "page": 113
+   },
+   {
+    "title": "Drilling distance TB – dual",
+    "rowLabel": "MD",
+    "colLabel": "FA",
+    "cols": [
+     -5.5,
+     -4.5,
+     -3.5,
+     -2.5,
+     -1.5,
+     -0.5,
+     0.5,
+     1.5,
+     2.5,
+     3.5,
+     4.5,
+     5.5
+    ],
+    "rows": {
+     "0": {
+      "3.5": 3,
+      "4.5": 4,
+      "5.5": 5
+     },
+     "3": {
+      "0.5": 3,
+      "1.5": 4,
+      "2.5": 5
+     },
+     "6": {
+      "-2.5": 3,
+      "-1.5": 4,
+      "-0.5": 5
+     },
+     "9": {
+      "-5.5": 3,
+      "-4.5": 4,
+      "-3.5": 5
+     }
+    },
+    "page": 113
+   },
+   {
+    "title": "Drilling distance TB – inset",
+    "rowLabel": "MD",
+    "colLabel": "FA",
+    "cols": [
+     -8,
+     -7,
+     -6,
+     -5,
+     -4,
+     -3
+    ],
+    "rows": {
+     "0": {
+      "-5": 3,
+      "-4": 4,
+      "-3": 5
+     },
+     "3": {
+      "-8": 3,
+      "-7": 4,
+      "-6": 5
+     },
+     "6": {},
+     "9": {}
+    },
+    "page": 113
+   },
+   {
+    "title": "Minimum gap F for fronts with front radius R=1 mm (factory setting); null = triangle 'in these cases a trial is recommended'",
+    "rowLabel": "TB (mm)",
+    "colLabel": "FD (mm)",
+    "cols": [
+     16,
+     18,
+     19,
+     20,
+     22,
+     23,
+     24,
+     26,
+     28,
+     30,
+     31,
+     32
+    ],
+    "rows": {
+     "3": [
+      1.1,
+      2.2,
+      3,
+      3.8,
+      5.5,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "4": [
+      1.1,
+      2,
+      2.7,
+      3.5,
+      5,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ],
+     "5": [
+      1.1,
+      1.8,
+      2.4,
+      3,
+      4.6,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+     ]
+    },
+    "page": 113
+   }
+  ],
+  "dims": {
+   "hinge boss width": 50,
+   "hinge boss height": 28,
+   "hinge boss thickness": 3.5,
+   "Ø": 26
+  },
+  "dimsPage": 113,
+  "adjust": {
+   "height": 3,
+   "side": {
+    "plus": 0.5,
+    "minus": -3.5
+   },
+   "depthPlus": 3,
+   "depthMinus": -1
+  },
+  "notes": [
+   "Move back fixing position of mounting plate by front thickness FD +1.5 mm (inset)",
+   "Hinge for small doors and doors with narrow frames"
+  ],
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "application": "overlay",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T0550"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "application": "dual",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T0650"
+   },
+   {
+    "boss": "screw-on",
+    "arm": "straight",
+    "application": "inset",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "71T0750"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "BLUMOTION 971A in adapter plate (overlay)",
+    "art": "971Axxxx"
+   },
+   {
+    "what": "BLUMOTION 970A for drilling",
+    "art": "970A1002"
+   },
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI",
+    "art": "70.1553"
+   },
+   {
+    "what": "stamped Blum",
+    "colours": "NI",
+    "art": "70.1553.BP"
+   },
+   {
+    "what": "Chipboard screw 15 mm Ø3.5",
+    "art": "609.1500"
+   },
+   {
+    "what": "Chipboard screw 17 mm Ø3.5",
+    "art": "609.1700"
+   },
+   {
+    "what": "TIP-ON extended standard spring",
+    "art": "956A1006"
+   },
+   {
+    "what": "TIP-ON extended strong spring",
+    "art": "956A1006F"
+   }
+  ],
+  "unlabeled": 27,
+  "unreadable": []
+ },
+ {
+  "key": "bifold_60",
+  "name": "Corner cabinet bi-fold hinge",
+  "angle": 60,
+  "webCode": "DQDQJY",
+  "pages": [
+   114,
+   115
+  ],
+  "fdRange": [
+   15,
+   23
+  ],
+  "fdFactory": 19,
+  "applications": [
+   "bi-fold corner with 155° or 170° hinge"
+  ],
+  "drill": [
+   {
+    "type": "cup",
+    "dia": 35,
+    "edgeDist": "12.5",
+    "min": 11,
+    "on": "door"
+   },
+   {
+    "type": "dowel",
+    "dia": 8,
+    "tol": "±0.1",
+    "spacing": 45,
+    "offset": 9.5,
+    "note": "knock-in only; cup tol +0.2/0"
+   }
+  ],
+  "dims": {
+   "boss width": 57,
+   "boss height": 33.5,
+   "boss thickness": 3.2,
+   "hole min": 11,
+   "opening angle": 60
+  },
+  "dimsPage": 115,
+  "adjust": {
+   "height": 3,
+   "side": {
+    "plus": 3,
+    "minus": -2
+   },
+   "depth": 2,
+   "gap": {
+    "plus": 7.2,
+    "minus": -4.2
+   }
+  },
+  "notes": [
+   "For front thicknesses FD 15–23 mm (bullet) / 15–19 mm (planning page 115), factory setting 19 mm",
+   "Hinge boss should be fixed to the same front as the boss of the 170°/155° hinge",
+   "Also requires CLIP top 155° hinge (p. 82) or 170° (p. 86)",
+   "Application types for FD 19 with 0 mm and 3 mm spaced mounting plate (drawings with unlabelled dims)"
+  ],
+  "parts": [
+   {
+    "boss": "screw-on",
+    "arm": "other",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI|ONS",
+    "art": "79T8500"
+   },
+   {
+    "boss": "knock-in",
+    "arm": "other",
+    "fn": "CLIP top spring",
+    "spring": true,
+    "colours": "NI",
+    "art": "79T8530"
+   }
+  ],
+  "accessories": [
+   {
+    "what": "BLUMOTION 970. for drilling",
+    "art": "970.1002"
+   },
+   {
+    "what": "Hinge arm cover cap plain",
+    "colours": "NI|ONS",
+    "art": "70.1503"
+   },
+   {
+    "what": "stamped Blum",
+    "colours": "NI|ONS",
+    "art": "70.1503.BP"
+   },
+   {
+    "what": "Chipboard screw 15 mm",
+    "art": "609.1500"
+   },
+   {
+    "what": "Chipboard screw 17 mm",
+    "art": "609.1700"
+   },
+   {
+    "what": "Insertion ram OR nylon",
+    "art": "MZM.0040"
+   }
+  ],
+  "unlabeled": 14,
+  "unreadable": []
+ }
+]

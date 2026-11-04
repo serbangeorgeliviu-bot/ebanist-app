@@ -7,7 +7,7 @@ const { test, describe } = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("fs"), vm = require("vm"), path = require("path");
 const ctx = vm.createContext({ console });
-["ebanist-hinges.js", "ebanist-ops.js"].forEach(f => vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", f), "utf8"), ctx, { filename: f }));
+["ebanist-hinges-data.js", "ebanist-hinges.js", "ebanist-ops.js"].forEach(f => vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", f), "utf8"), ctx, { filename: f }));
 const H = ctx.EBHinges, F = H.HINGES.clip_top_110;
 
 describe("tabelul TB (Blum KA-150 p.75)", () => {
@@ -64,5 +64,22 @@ describe("fișa", () => {
     const src = fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-hinges.js"), "utf8"), blk = src.slice(src.indexOf("var L = {"), src.indexOf("function tr("));
     const sets = ["ro", "it", "en", "fr", "de", "pl", "es"].map(l => (blk.match(new RegExp("\\b" + l + ": \\{([^}]*)\\}"))[1].match(/\b(\w+): "/g) || []).sort().join());
     sets.forEach(x => assert.equal(x, sets[0]));
+  });
+});
+
+describe("fișa pentru toate familiile încărcate", () => {
+  test("fiecare cod din catalog dă o fișă fără NaN / undefined / [object], în toate limbile", () => {
+    let n = 0;
+    Object.keys(H.HINGES).forEach(k => {
+      const f = H.HINGES[k]; if (/accessor/i.test(f.kind || "")) return;
+      (f.parts || []).slice(0, 2).forEach(p => ["ro", "en", "de"].forEach(lang => {
+        const h = H.sheetHtml(H.hwIdOf(p.art), { lang }); if (!h) return; n++;
+        assert.ok(!/NaN|undefined|\[object/.test(h), `${k} ${p.art} ${lang}: ${(h.match(/.{30}(NaN|undefined|\[object).{30}/) || [""])[0]}`);
+      }));
+    });
+    assert.ok(n > 60, "fișe generate: " + n);
+  });
+  test("familii cu pagină sursă și cod web (dacă există) valid", () => {
+    Object.keys(H.HINGES).forEach(k => { const f = H.HINGES[k]; assert.ok(f.pages && f.pages.length, k); assert.ok(f.pages.every(p => p >= 70 && p <= 190), k + " pagina " + f.pages); if (f.webCode) assert.match(f.webCode, /^DQ[A-Z0-9]{4}$/, k); });
   });
 });

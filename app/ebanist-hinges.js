@@ -15,91 +15,54 @@
 
 var SRC = "Blum, Catalogue and technical manual 2022/2023 (KA-150), publications.blum.com/2022/catalogue/en/";
 
-/* ---- placuțe (pp. 144–149) ---------------------------------------------------------------------------------------
-   front = distanța de la fața dulapului la linia găurilor; pitch = distanța între găuri; D × L = conturul total din
-   desenul „Planning" (D pe adâncimea dulapului, L pe înălțimea lui); H = înălțimea pentru spacing 0. */
-var PLATES = [
-  { id: "173L61", art: ["173L6100", "173L6130"], name: "Cruciform mounting plate 37/32", kind: "cruciform", material: "steel", adj: 3,
-    fix: "chipboard Ø3.5 / Ø4, 17 mm", front: 37, pitch: 32, D: 57, L: 53, spacings: [[0, 8.5, "173L6100"], [3, 11.5, "173L6130"]], colours: ["NI", "ONS"], page: 147 },
-  { id: "175H71", art: ["175H7100", "175H7130", "175H7190", "175H7190.22"], name: "Cruciform mounting plate 37/32", kind: "cruciform", material: "zinc", adj: 2,
-    fix: "chipboard Ø3.5 / Ø4, 17 mm", front: 37, pitch: 32, D: 68, L: 44, spacings: [[0, 8.5, "175H7100"], [3, 11.5, "175H7130"], [9, 17.5, "175H7190"], [18, 26.5, "175H7190.22"]], colours: ["NI"], page: 147 },
-  { id: "175H91", art: ["175H9100", "175H9130", "175H9160", "175H9190", "175H9190.22"], name: "Cruciform mounting plate 37/32 (system screws)", kind: "cruciform", material: "zinc", adj: 2,
-    fix: "system screws Ø6 × 14.5 (661.1450.HG)", front: 37, pitch: 32, D: 68, L: 44, minDepth: 11.5, spacings: [[0, 8.5, "175H9100"], [3, 11.5, "175H9130"], [6, 14.5, "175H9160"], [9, 17.5, "175H9190"], [18, 26.5, "175H9190.22"]], colours: ["NI", "ONS (6 mm)"], page: 147 },
-  { id: "174E61", art: ["174E6100.01", "174E6130.01"], name: "Cruciform mounting plate 37/32 (EXPANDO)", kind: "cruciform", material: "steel", adj: 2,
-    fix: "EXPANDO: pre-mounted screws with split dowels", front: 37, pitch: 32, D: 57, L: 53, minDepth: 11.5, spacings: [[0, 8.5, "174E6100.01"], [3, 11.5, "174E6130.01"]], colours: ["NI"], page: 147 },
-  { id: "175H31", art: ["175H3100", "175H3130"], name: "Horizontal cam mounting plate 20/32", kind: "horizontal", material: "steel", adj: 2,
-    fix: "chipboard Ø3.5, 17 mm", front: 20, pitch: 32, D: 58.3, L: 18.7, spacings: [[0, 8.5, "175H3100"], [3, 11.5, "175H3130"]], colours: ["NI", "ONS"], page: 144 }
-];
-
-/* ---- balamale ------------------------------------------------------------------------------------------------------
-   Fiecare familie = o pagină de catalog (planning + tabele + order information). */
-var HINGES = {
-  clip_top_110: {
-    name: "CLIP top BLUMOTION | CLIP top 110°", angle: 110, webCode: "DQDELA", pages: [74, 75], fdMax: 24,
-    /* alegerea cupei: Ø35, adâncime minimă 13, distanța de găurire TB 3–7 mm de la muchia ușii */
-    cup: { dia: 35, depth: 13, tol: "+0.2/0 (INSERTA)", tb: [3, 7] },
-    /* INSERTA | knock-in: două găuri Ø8 ±0,1, la 45 mm una de alta, linia lor la 9,5 mm de axa cupei */
-    dowel: { dia: 8, tol: 0.1, spacing: 45, offset: 9.5 },
-    boss: { L: 57, W: 37.5, WInserta: 43, H: 3.2, HInserta: 6.4 },
-    adjust: { height: 3, side: 2, depthPlus: 3, depthMinus: -2 },
-    /* Drilling distance TB (mm) = FA − k + MD: citit din tabel (p. 75) pe fiecare coloană. FA = acoperirea frontului,
-       MD = spacing-ul placuței. TB valid numai 3…7. k: acoperire normală 11, dual application 1.5, inset −7 (FA negativ). */
-    tbRule: { overlay: 11, dual: 1.5, inset: -7 },
-    /* tabela pe care se bazează regula (FA → TB), ca testul să prindă o regulă scrisă greșit */
-    tbTable: {
-      overlay: { 0: { 14: 3, 15: 4, 16: 5, 17: 6, 18: 7 }, 3: { 11: 3, 12: 4, 13: 5, 14: 6, 15: 7 }, 6: { 8: 3, 9: 4, 10: 5, 11: 6, 12: 7 }, 9: { 5: 3, 6: 4, 7: 5, 8: 6, 9: 7 } },
-      dual: { 0: { 4.5: 3, 5.5: 4, 6.5: 5, 7.5: 6, 8.5: 7 }, 3: { 1.5: 3, 2.5: 4, 3.5: 5, 4.5: 6, 5.5: 7 }, 6: { "-1.5": 3, "-0.5": 4, 0.5: 5, 1.5: 6, 2.5: 7 }, 9: { "-4.5": 3, "-3.5": 4, "-2.5": 5, "-1.5": 6, "-0.5": 7 } },
-      inset: { 0: { "-4": 3, "-3": 4, "-2": 5, "-1": 6, 0: 7 }, 3: { "-7": 3, "-6": 4, "-5": 5, "-4": 6, "-3": 7 } }
-    },
-    /* rost minim F (mm) la front cu raza R = 1 mm, după TB și grosimea frontului FD; null = „se recomandă probă" (△) */
-    gapFD: [16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28, 30],
-    gap: {
-      3: [0.5, 0.8, 1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.5, 4.3, null, null],
-      4: [0.5, 0.8, 1.0, 1.2, 1.4, 1.7, 2.0, 2.5, 3.1, 3.8, null, null],
-      5: [0.5, 0.8, 0.9, 1.2, 1.4, 1.7, 2.0, 2.4, 2.9, 3.4, null, null],
-      6: [0.5, 0.8, 0.9, 1.2, 1.3, 1.6, 1.9, 2.3, 2.7, 3.2, null, null],
-      7: [0.5, 0.8, 0.9, 1.1, 1.3, 1.6, 1.9, 2.2, 2.6, 3.0, null, null]
-    },
-    gapSide2: [0.2, 0.4, 0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],   // +F la reglajul lateral de +2 mm, FD 16…26
-    /* numere de comandă (p. 74): [boss, braț, BLUMOTION/arc, culori, cod] */
-    parts: [
-      { boss: "INSERTA", arm: "straight", fn: "CLIP top BLUMOTION", colours: "NI|ONS", art: "71B3590" },
-      { boss: "INSERTA", arm: "straight", fn: "CLIP top (spring)", colours: "NI", art: "71T3590" },
-      { boss: "INSERTA", arm: "straight", fn: "CLIP top (unsprung)", colours: "NI|ONS", art: "70T3590.TL" },
-      { boss: "INSERTA", arm: "half-cranked", fn: "CLIP top BLUMOTION", colours: "NI|ONS", art: "71B3690" },
-      { boss: "INSERTA", arm: "half-cranked", fn: "CLIP top (spring)", colours: "NI", art: "71T3690" },
-      { boss: "INSERTA", arm: "half-cranked", fn: "CLIP top (unsprung)", colours: "NI|ONS", art: "70T3690.TL" },
-      { boss: "INSERTA", arm: "full-cranked", fn: "CLIP top BLUMOTION", colours: "NI|ONS", art: "71B3790" },
-      { boss: "INSERTA", arm: "full-cranked", fn: "CLIP top (spring)", colours: "NI", art: "71T3790" },
-      { boss: "INSERTA", arm: "full-cranked", fn: "CLIP top (unsprung)", colours: "NI|ONS", art: "70T3790.TL" },
-      { boss: "screw-on", arm: "straight", fn: "CLIP top BLUMOTION", colours: "NI|ONS", art: "71B3550" },
-      { boss: "screw-on", arm: "straight", fn: "CLIP top (spring)", colours: "NI", art: "71T3550" },
-      { boss: "screw-on", arm: "straight", fn: "CLIP top (unsprung)", colours: "NI|ONS", art: "70T3550.TL" },
-      { boss: "screw-on", arm: "half-cranked", fn: "CLIP top BLUMOTION", colours: "NI|ONS", art: "71B3650" },
-      { boss: "screw-on", arm: "half-cranked", fn: "CLIP top (spring)", colours: "NI", art: "71T3650" },
-      { boss: "screw-on", arm: "half-cranked", fn: "CLIP top (unsprung)", colours: "NI|ONS", art: "70T3650.TL" },
-      { boss: "screw-on", arm: "full-cranked", fn: "CLIP top BLUMOTION", colours: "NI|ONS", art: "71B3750" },
-      { boss: "screw-on", arm: "full-cranked", fn: "CLIP top (spring)", colours: "NI", art: "71T3750" },
-      { boss: "screw-on", arm: "full-cranked", fn: "CLIP top (unsprung)", colours: "NI|ONS", art: "70T3750.TL" }
-    ],
-    /* legătura cu articolele din catalogul aplicației (HWDB.cern) */
-    hwIds: ["blum_71b3550", "blum_71t3550"],
-    plates: ["173L61", "175H71", "175H91", "174E61", "175H31"]
-  }
-};
-
-/* familii din catalog încă neîncărcate (aceleași pagini, același procedeu): angle, pagina din catalog */
-var PENDING = [
-  ["107° hinge", 78], ["CLIP 100° hinge", 80], ["110° special hinge", 76], ["155° hinge 0-protrusion", 82], ["170° wide-angled hinge", 86],
-  ["125° hinge 0-protrusion", 90], ["Profile/thick door hinge 95°", 88], ["Blind corner hinges 95°/83°", 94], ["Aluminium frame door hinges", 98],
-  ["Hinge for thin doors 8–14 mm", 102], ["CRISTALLO glass door hinges", 104], ["Mini-hinge 94°", 112], ["Corner cabinet bi-fold 60°", 114],
-  ["Angled hinges −30°…+45°", 118]
-];
+/* Datele vin din ebanist-hinges-data.js (generat de tools/blum-build.mjs din tools/blum-data/*.json, transcrise de pe paginile catalogului).
+   PLATES: front = distanța de la fața dulapului la linia găurilor; pitch = între găuri; D × L = conturul total din „Planning" (D pe adâncime,
+   L pe înălțime). HINGES: o familie = o pagină (sau o pereche) de catalog, cu `parts` = codurile din „Order information". */
+var DATA = root.EBHingesData || { plates: [], hinges: {} };
+var PLATES = DATA.plates, HINGES = DATA.hinges;
+/* placuțele CLIP sunt compatibile cu toate balamalele CLIP / CLIP top (catalog p.71: „Compatible with all CLIP mounting plates") */
+var CLIP_PLATES = PLATES.filter(function (p) { return p.kind === "cruciform" || p.kind === "horizontal"; }).map(function (p) { return p.id; });
+Object.keys(HINGES).forEach(function (k) { var f = HINGES[k]; if (f && (!f.plates || !f.plates.length) && /CLIP/i.test(f.name) && !f.kind) f.plates = CLIP_PLATES.slice(); });
+var PENDING = DATA.pending || [];
 
 function plateById(id) { for (var i = 0; i < PLATES.length; i++) if (PLATES[i].id === id) return PLATES[i]; return null; }
 function plateByArt(art) { for (var i = 0; i < PLATES.length; i++) if (PLATES[i].art.indexOf(art) >= 0) return PLATES[i]; return null; }
-function familyOfHw(hwId) { for (var k in HINGES) if (HINGES[k].hwIds.indexOf(hwId) >= 0) return HINGES[k]; return null; }
-function familyOfArt(art) { for (var k in HINGES) for (var i = 0; i < HINGES[k].parts.length; i++) if (HINGES[k].parts[i].art === art) return HINGES[k]; return null; }
+function hwIdOf(art) { return "blum_" + String(art).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_$/, ""); }
+/* index: id-ul articolului din catalogul aplicației → {fam, part}. Id-urile vechi (blum_71b3550, blum_71t3550, blum_71b7550) se potrivesc cu hwIdOf(cod). */
+var HW = {}, KIND_ACCESSORY = /accessor/i;
+Object.keys(HINGES).forEach(function (k) {
+  var f = HINGES[k]; if (KIND_ACCESSORY.test(f.kind || "")) return;
+  (f.parts || []).forEach(function (pt) { if (pt.art && !HW[hwIdOf(pt.art)]) HW[hwIdOf(pt.art)] = { fam: f, part: pt }; });
+});
+function familyOfHw(hwId) { return HW[hwId] ? HW[hwId].fam : null; }
+function partOfHw(hwId) { return HW[hwId] ? HW[hwId].part : null; }
+function familyOfArt(art) { var e = HW[hwIdOf(art)]; return e ? e.fam : null; }
+var LEGACY_DOWELS = { blum_71b3550: 1, blum_71t3550: 1 };   // articolele vechi: găurile pentru dornuri se păstrează (D-48), ca distinta să nu se schimbe
+function bossHasDowels(boss) { return /insert|knock|press|expando/i.test(boss || ""); }
+
+/* găurirea balamalei alese, pentru motorul de găurire (ebanist-ops.js): cupă, dornuri, placuță. null = articol fără date (se folosește HW_DRILL).
+   `noGeom` = familia nu are cotă de cupă în date: se folosește găurirea standard și se spune. */
+function geomOf(hwId, plateId) {
+  var e = HW[hwId]; if (!e) return null; var f = e.fam, g = { art: e.part.art, family: f.key };
+  if (f.cup && f.cup.dia) { g.cup_dia = f.cup.dia; if (f.cup.tb) g.tb = f.cup.tb.slice(); } else g.noGeom = true;
+  g.dowels = LEGACY_DOWELS[hwId] ? true : bossHasDowels(e.part.boss) && !!f.dowel;
+  if (f.dowel && f.dowel.spacing) { g.dowel_dia = f.dowel.dia; g.dowel_spacing = f.dowel.spacing; g.dowel_offset = f.dowel.offset; }
+  var pl = plateById(plateId || (f.plates && f.plates[0]));
+  if (pl) { g.plate_front = pl.front; g.plate_spacing = pl.pitch; g.plate = { L: pl.L, D: pl.D, H: pl.H || 8.5, kind: pl.kind, art: pl.art[0] }; }
+  return g;
+}
+/* articolele de catalog pentru HWDB.cern: câte unul pe cod de comandă, fără cele deja existente (`known` = ids). Prețul e orientativ, de corectat cu lista furnizorului. */
+function catalogEntries(known) {
+  var out = [], seen = {};
+  (known || []).forEach(function (id) { seen[id] = 1; });
+  Object.keys(HW).forEach(function (id) {
+    if (seen[id]) return; var f = HW[id].fam, pt = HW[id].part;
+    var arm = pt.arm && pt.arm !== "other" ? ", " + pt.arm : "", nm = f.name + " · " + pt.art + " (" + [pt.boss, pt.fn].filter(Boolean).join(", ") + arm + ")";
+    var price = (f.angle >= 155 ? 7.2 : f.angle >= 125 ? 6 : /BLUMOTION/i.test(pt.fn || "") ? 3.6 : 2.4);
+    out.push({ id: id, brand: "Blum", n: { it: nm, ro: nm, en: nm, fr: nm, de: nm, pl: nm, es: nm }, art: pt.art, price: price, chk: 1, hing: f.key });
+  });
+  return out;
+}
 
 /* distanța de găurire TB pentru acoperirea FA și spacing-ul placuței MD; null dacă nu e în 3…7 (cota nu există în tabel) */
 function tb(fam, application, FA, MD) {
@@ -137,17 +100,16 @@ function dimLine(x1, y1, x2, y2, label, off) {
 /* ușa: muchia sus (y=0), cupa Ø35 la TB de muchie; dornurile INSERTA Ø8 la 45 mm între ele, linia lor la 9,5 mm de axa cupei */
 var CSS = '<style>.hs-svg text{font:11px sans-serif;fill:currentColor}.hs-svg .dim path{stroke:currentColor;stroke-width:.7;fill:none}.hs-svg .p{fill:none;stroke:currentColor;stroke-width:1.2}.hs-svg .c{stroke:currentColor;stroke-width:.6;stroke-dasharray:4 2;fill:none}</style>';
 function svgDoor(fam, TB, lang) {
-  var k = 5, S = function (v) { return Math.round(v * k * 10) / 10; }, w = 70, h = 70, cx = w / 2, cy = TB + fam.cup.dia / 2, dy = cy + fam.dowel.offset;
-  var x1 = cx - fam.dowel.spacing / 2, x2 = cx + fam.dowel.spacing / 2;
+  var k = 5, S = function (v) { return Math.round(v * k * 10) / 10; }, w = 70, h = 70, cx = w / 2, cy = TB + fam.cup.dia / 2, dw = fam.dowel && fam.dowel.spacing ? fam.dowel : null;
+  var dy = dw ? cy + dw.offset : cy, x1 = dw ? cx - dw.spacing / 2 : 0, x2 = dw ? cx + dw.spacing / 2 : 0;
   return '<svg class="hs-svg" viewBox="-60 -30 ' + (S(w) + 120) + " " + (S(h) + 70) + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="' + esc(tr(lang, "drill")) + '">' + CSS +
     '<rect class="p" x="0" y="0" width="' + S(w) + '" height="' + S(h) + '"/>' +
     '<circle class="p" cx="' + S(cx) + '" cy="' + S(cy) + '" r="' + S(fam.cup.dia / 2) + '"/>' +
-    '<path class="c" d="M' + S(cx) + " 0 V" + S(h) + " M0 " + S(dy) + " H" + S(w) + '"/>' +
-    '<circle class="p" cx="' + S(x1) + '" cy="' + S(dy) + '" r="' + S(fam.dowel.dia / 2) + '"/><circle class="p" cx="' + S(x2) + '" cy="' + S(dy) + '" r="' + S(fam.dowel.dia / 2) + '"/>' +
+    '<path class="c" d="M' + S(cx) + " 0 V" + S(h) + (dw ? " M0 " + S(dy) + " H" + S(w) : "") + '"/>' +
+    (dw ? '<circle class="p" cx="' + S(x1) + '" cy="' + S(dy) + '" r="' + S(dw.dia / 2) + '"/><circle class="p" cx="' + S(x2) + '" cy="' + S(dy) + '" r="' + S(dw.dia / 2) + '"/>' : "") +
     dimLine(S(w), 0, S(w), S(TB), "TB " + TB, 22) +
-    dimLine(S(x1), S(h), S(x2), S(h), String(fam.dowel.spacing), 22) +
-    dimLine(0, S(cy), 0, S(dy), String(fam.dowel.offset), -22) +
-    '<text x="' + S(cx) + '" y="' + (S(cy) + 4) + '" text-anchor="middle">Ø' + fam.cup.dia + ' / ' + fam.cup.depth + '</text>' +
+    (dw ? dimLine(S(x1), S(h), S(x2), S(h), String(dw.spacing), 22) + dimLine(0, S(cy), 0, S(dy), String(dw.offset), -22) : "") +
+    '<text x="' + S(cx) + '" y="' + (S(cy) + 4) + '" text-anchor="middle">Ø' + fam.cup.dia + (fam.cup.depth ? " / " + fam.cup.depth : "") + '</text>' +
     '<text x="' + S(w) / 2 + '" y="-10" text-anchor="middle">' + esc(tr(lang, "edge")) + "</text></svg>";
 }
 /* peretele dulapului, vedere din față: fața dulapului = linia din stânga (x=0). Placuța cruciformă: două găuri Ø5 pe verticală, la `front` de față,
@@ -165,9 +127,9 @@ function svgPlate(pl, lang) {
 }
 
 function tableTB(fam, lang) {
-  var out = '<table class="hs-t"><caption>' + esc(tr(lang, "tbT")) + "</caption>", apps = ["overlay", "dual", "inset"];
+  var out = '<table class="hs-t"><caption>' + esc(tr(lang, "tbT")) + "</caption>", apps = Object.keys(fam.tbTable);
   apps.forEach(function (a) {
-    var t = fam.tbTable[a], cols = {}; Object.keys(t).forEach(function (md) { Object.keys(t[md]).forEach(function (fa) { cols[fa] = 1; }); });
+    var t = fam.tbTable[a], cols = {}; if (!t) return; Object.keys(t).forEach(function (md) { Object.keys(t[md]).forEach(function (fa) { cols[fa] = 1; }); });
     var fas = Object.keys(cols).sort(function (x, y) { return x - y; });
     out += '<tr><th>' + esc(a) + " · FA</th>" + fas.map(function (f) { return "<th>" + f + "</th>"; }).join("") + "</tr>";
     Object.keys(t).forEach(function (md) { out += "<tr><th>MD " + md + "</th>" + fas.map(function (f) { return "<td>" + (t[md][f] != null ? t[md][f] : "") + "</td>"; }).join("") + "</tr>"; });
@@ -177,27 +139,63 @@ function tableTB(fam, lang) {
 function tableGap(fam, lang) {
   var out = '<table class="hs-t"><caption>' + esc(tr(lang, "gap")) + "</caption><tr><th>TB \\ FD</th>" + fam.gapFD.map(function (f) { return "<th>" + f + "</th>"; }).join("") + "</tr>";
   Object.keys(fam.gap).forEach(function (b) { out += "<tr><th>" + b + "</th>" + fam.gap[b].map(function (v) { return "<td>" + (v == null ? "△" : v) + "</td>"; }).join("") + "</tr>"; });
-  out += "<tr><th>" + esc(tr(lang, "ex2")) + "</th>" + fam.gapFD.map(function (f, i) { return "<td>" + (fam.gapSide2[i] != null ? "+" + fam.gapSide2[i] : "") + "</td>"; }).join("") + "</tr></table>";
+  var g2 = fam.gapSide2 || [];
+  if (g2.length) out += "<tr><th>" + esc(tr(lang, "ex2")) + "</th>" + fam.gapFD.map(function (f, i) { return "<td>" + (g2[i] != null ? "+" + g2[i] : "") + "</td>"; }).join("") + "</tr>";
+  out += "</table>";
   return out + '<p class="mini">△ = ' + esc(tr(lang, "trial")) + "</p>";
 }
 
-/* fișa completă pentru un articol din catalogul aplicației (`hwId`) sau pentru o familie; null dacă articolul nu are date încărcate */
+/* fișa completă pentru un articol din catalogul aplicației (`hwId`) sau pentru o familie; null dacă articolul nu are date încărcate.
+   Familiile au tabele diferite: se arată ce există (TB, rost F, `tables` transcrise, `dims` cu etichetă, `notes`). */
+/* reglajele: la 110° {height, side, depthPlus, depthMinus}; la alte familii pot avea alte chei sau valori compuse — se arată ce există */
+function adjText(a, lang) {
+  var lab = { height: tr(lang, "h"), side: tr(lang, "s"), depthPlus: tr(lang, "d") + " +", depthMinus: tr(lang, "d") + " −" }, parts = [];
+  Object.keys(a).forEach(function (k) { var v = a[k]; if (v == null) return; parts.push((lab[k] || k) + " " + (typeof v === "object" ? JSON.stringify(v) : (typeof v === "number" && (k === "height" || k === "side") ? "±" : "") + v)); });
+  return esc(parts.join(" · ")) + " mm";
+}
+function kv(o) { return Object.keys(o).map(function (k) { return "<tr><th>" + esc(k) + "</th><td>" + esc(typeof o[k] === "object" ? JSON.stringify(o[k]) : o[k]) + "</td></tr>"; }).join(""); }
+/* rândul unui tabel transcris: listă de valori, sau obiect {coloană: valoare} */
+function rowCells(r, cols) {
+  if (Array.isArray(r)) return r;
+  if (r && typeof r === "object") return cols.length ? cols.map(function (c) { return r[c]; }) : Object.keys(r).map(function (k) { return k + ": " + r[k]; });
+  return r == null ? [] : [r];
+}
+function tableGeneric(t) {
+  var cols = t.cols || [], rows = t.rows || {};
+  return '<table class="hs-t"><caption>' + esc(t.title || "") + (t.page ? " (p. " + t.page + ")" : "") + "</caption>" +
+    (cols.length ? "<tr><th>" + esc(t.rowLabel || "") + (t.colLabel ? " \\ " + esc(t.colLabel) : "") + "</th>" + cols.map(function (c) { return "<th>" + esc(c) + "</th>"; }).join("") + "</tr>" : "") +
+    Object.keys(rows).map(function (r) { return "<tr><th>" + esc(r) + "</th>" + rowCells(rows[r], cols).map(function (v) { return "<td>" + (v == null ? "" : esc(typeof v === "object" ? JSON.stringify(v) : v)) + "</td>"; }).join("") + "</tr>"; }).join("") + "</table>";
+}
 function sheetHtml(hwId, opts) {
   opts = opts || {}; var lang = opts.lang || "en", fam = typeof hwId === "string" ? familyOfHw(hwId) : hwId; if (!fam) return null;
-  var TB = opts.TB != null ? opts.TB : 5, pl = plateById(opts.plate || fam.plates[0]);
-  var h = '<div class="hs"><h4>' + esc(fam.name) + "</h4>" +
-    '<p class="mini">' + esc(tr(lang, "angle")) + " " + fam.angle + "° · FD ≤ " + fam.fdMax + " mm · " + esc(tr(lang, "src")) + ": " + esc(SRC) + ", p. " + fam.pages.join("–") + " · web " + esc(fam.webCode) + "</p>" +
-    '<div class="hs-draw">' + svgDoor(fam, TB, lang) + svgPlate(pl, lang) + "</div>" +
-    '<p class="mini">' + esc(tr(lang, "tb")) + " " + TB + " mm (" + fam.cup.tb[0] + "–" + fam.cup.tb[1] + ") · Ø" + fam.cup.dia + " × " + fam.cup.depth + " · Ø" + fam.dowel.dia + "±" + fam.dowel.tol + " · " +
-    esc(tr(lang, "footprint")) + ": " + pl.D + " × " + pl.L + " mm · " + esc(pl.name) + " " + esc(pl.art.join(" / ")) + "</p>" +
-    "<h5>" + esc(tr(lang, "adj")) + "</h5><p class=\"mini\">" + esc(tr(lang, "h")) + " ±" + fam.adjust.height + " · " + esc(tr(lang, "s")) + " ±" + fam.adjust.side + " · " + esc(tr(lang, "d")) + " +" + fam.adjust.depthPlus + " / " + fam.adjust.depthMinus + " mm</p>" +
-    tableTB(fam, lang) + tableGap(fam, lang) +
-    "<h5>" + esc(tr(lang, "order")) + "</h5><table class=\"hs-t\">" + fam.parts.map(function (p) { return "<tr><td>" + esc(p.art) + "</td><td>" + esc(p.boss) + "</td><td>" + esc(p.arm) + "</td><td>" + esc(p.fn) + "</td><td>" + esc(p.colours) + "</td></tr>"; }).join("") + "</table>" +
-    "<h5>" + esc(tr(lang, "plates")) + "</h5><table class=\"hs-t\">" + fam.plates.map(plateById).map(function (p) { return "<tr><td>" + esc(p.art.join(" / ")) + "</td><td>" + esc(p.material) + "</td><td>±" + p.adj + "</td><td>" + p.D + " × " + p.L + "</td><td>" + p.front + "/" + p.pitch + "</td><td>" + esc(p.fix) + "</td></tr>"; }).join("") + "</table></div>";
-  return h;
+  var part = typeof hwId === "string" ? partOfHw(hwId) : null, pl = plateById(opts.plate || (fam.plates && fam.plates[0]));
+  var TB = opts.TB != null ? opts.TB : 5; if (fam.cup && fam.cup.tb) TB = Math.min(Math.max(TB, fam.cup.tb[0]), fam.cup.tb[1]);
+  var h = '<div class="hs"><h4>' + esc(fam.name) + (part ? " · " + esc(part.art) : "") + "</h4>" +
+    '<p class="mini">' + (fam.angle ? esc(tr(lang, "angle")) + " " + fam.angle + "° · " : "") + (fam.fdMax ? "FD ≤ " + fam.fdMax + " mm · " : "") + (fam.fdMin ? "FD ≥ " + fam.fdMin + " mm · " : "") +
+    esc(tr(lang, "src")) + ": " + esc(SRC) + ", p. " + fam.pages.join("–") + (fam.webCode ? " · web " + esc(fam.webCode) : "") + "</p>";
+  var draw = (fam.cup && fam.cup.dia ? svgDoor(fam, TB, lang) : "") + (pl ? svgPlate(pl, lang) : "");
+  if (draw) h += '<div class="hs-draw">' + draw + "</div>";
+  if (fam.cup && fam.cup.dia) h += '<p class="mini">' + esc(tr(lang, "tb")) + " " + TB + " mm (" + (fam.cup.tb ? fam.cup.tb[0] + "–" + fam.cup.tb[1] : "") + ") · Ø" + fam.cup.dia + (fam.cup.depth ? " × " + fam.cup.depth : "") +
+    (fam.dowel ? " · Ø" + fam.dowel.dia + "±" + fam.dowel.tol : "") + (pl ? " · " + esc(tr(lang, "footprint")) + ": " + pl.D + " × " + pl.L + " mm · " + esc(pl.name) + " " + esc(pl.art.join(" / ")) : "") + "</p>";
+  if (fam.adjust && Object.keys(fam.adjust).length) h += "<h5>" + esc(tr(lang, "adj")) + '</h5><p class="mini">' + adjText(fam.adjust, lang) + "</p>";
+  if (fam.tbTable && Object.keys(fam.tbTable).length) h += tableTB(fam, lang);
+  if (fam.gap && fam.gapFD) h += tableGap(fam, lang);
+  (fam.tables || []).forEach(function (t) { h += tableGeneric(t); });
+  if (fam.dims && Object.keys(fam.dims).length) h += '<table class="hs-t">' + kv(fam.dims) + "</table>";
+  if (fam.boss && Object.keys(fam.boss).length) h += '<table class="hs-t">' + kv(fam.boss) + "</table>";
+  (fam.notes || []).forEach(function (n) { h += '<p class="mini">• ' + esc(n) + "</p>"; });
+  h += "<h5>" + esc(tr(lang, "order")) + "</h5>" + partsTable(fam, part);
+  if (fam.plates && fam.plates.length) h += "<h5>" + esc(tr(lang, "plates")) + '</h5><table class="hs-t">' + fam.plates.map(plateById).filter(Boolean).map(function (p) { return "<tr><td>" + esc(p.art.join(" / ")) + "</td><td>" + esc(p.material) + "</td><td>±" + p.adj + "</td><td>" + p.D + " × " + p.L + "</td><td>" + p.front + "/" + p.pitch + "</td><td>" + esc(p.fix) + "</td></tr>"; }).join("") + "</table>";
+  return h + "</div>";
+}
+function partsTable(fam, cur) {
+  var cols = ["art", "boss", "arm", "fn", "colours"], extra = {};
+  (fam.parts || []).forEach(function (p) { Object.keys(p).forEach(function (k) { if (cols.indexOf(k) < 0) extra[k] = 1; }); });
+  cols = cols.concat(Object.keys(extra));
+  return '<table class="hs-t">' + (fam.parts || []).map(function (p) { return "<tr" + (cur && cur.art === p.art ? ' style="font-weight:700"' : "") + ">" + cols.map(function (k) { return "<td>" + (p[k] == null ? "" : esc(p[k])) + "</td>"; }).join("") + "</tr>"; }).join("") + "</table>";
 }
 
-var API = { SRC: SRC, PLATES: PLATES, HINGES: HINGES, PENDING: PENDING, plateById: plateById, plateByArt: plateByArt, familyOfHw: familyOfHw, familyOfArt: familyOfArt, tb: tb, minGap: minGap, sheetHtml: sheetHtml, svgDoor: svgDoor, svgPlate: svgPlate };
+var API = { SRC: SRC, PLATES: PLATES, HINGES: HINGES, PENDING: PENDING, plateById: plateById, plateByArt: plateByArt, hwIdOf: hwIdOf, familyOfHw: familyOfHw, partOfHw: partOfHw, familyOfArt: familyOfArt, geomOf: geomOf, catalogEntries: catalogEntries, tb: tb, minGap: minGap, sheetHtml: sheetHtml, svgDoor: svgDoor, svgPlate: svgPlate };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 root.EBHinges = API;
 
