@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.27.0 — 5 noiembrie 2026
+
+**Instalările noi pornesc în dark.** Fără temă aleasă și fără date pe dispozitiv, aplicația se deschide în dark și își scrie alegerea; cine a ales deja (Automat, Deschis, Închis) rămâne cum e. „Automat” e acum o valoare scrisă, nu absența cheii, ca o instalare nouă să nu revină la dark după prima sesiune dacă a ales Automat.
+
+**Rezumat, Releveu și Listă, pe grupe.** Rezumat: Materiale · Feronerie · Costuri estimate, apoi exporturile pe trei grupe (Pentru client · Tăiere și furnizor · Atelier și șantier), fiecare cu iconiță. Releveu: Pereți (cu diagonale) · Înălțimi · Obstacole; „Compilează generatorul” rămâne la vedere. Listă: fiecare corp se strânge la un tap pe titlu. Aceleași id-uri și aceleași texte ca înainte, nicio cheie nouă.
+
 ## 5.26.0 — 5 noiembrie 2026
 
 **Interfață „Spatial”: sticlă peste verde și auriu, opțiuni pe grupe cu iconiță.** Cardurile, grupele, foile și bara de navigare sunt acum panouri de sticlă (blur, rază mare, fir auriu) peste un fundal verde cu o luminiță aurie; pe telefon bara de jos plutește ca o pastilă, pe PC bara laterală poartă rândul activ în auriu. Culorile sunt cele ale mărcii (verde #0E3B2A, auriu #D4AF37), în tema deschisă și în cea închisă; fundalul vederii 3D închise e verde adânc. Fără funcție nouă și fără cotă schimbată.

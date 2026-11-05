@@ -11,6 +11,9 @@
 <script>
 (function(){try{
   var t=localStorage.getItem("ebanist_theme");
+  /* D-117: o instalare nouă (nici temă, nici date) pornește în dark și își scrie alegerea;
+     "auto" devine o valoare scrisă, nu absența cheii, ca să nu se întoarcă la dark după prima sesiune. */
+  if(t===null&&localStorage.getItem("tagliapro")===null){t="dark";localStorage.setItem("ebanist_theme","dark");}
   if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);
 }catch(e){}})();
 </script>
@@ -1113,9 +1116,9 @@ header{background:var(--chrome);backdrop-filter:var(--blur);-webkit-backdrop-fil
 .hbtn{border-radius:14px;border:1px solid var(--glass-line);background:var(--glass);box-shadow:var(--glass-edge)}
 
 /* materie: tot ce plutește e sticlă */
-.card,.grp,.kpi,.bld-view,.laybar,.strow{background:var(--glass);border-color:var(--glass-line);
+.card,.grp,.kpi,.bld-view,.laybar,.strow,.mod{background:var(--glass);border-color:var(--glass-line);
   box-shadow:var(--glass-edge),var(--sh-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
-.card,.grp,.kpi,.bld-view{border-radius:var(--radius)}
+.card,.grp,.kpi,.bld-view,.mod{border-radius:var(--radius)}
 .grp[open]>summary{background:transparent;border-bottom-color:var(--glass-line)}
 .kpi.hl{background:linear-gradient(150deg,var(--gold-tint),var(--glass) 62%)}
 .sheet{background:var(--glass-hi);border-color:var(--glass-line);
@@ -1155,6 +1158,25 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .grp[data-ic=door]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 21V3h14v18M3 21h18M15 12h.01'/%3E%3C/svg%3E")}
 .grp[data-ic=wrench]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z'/%3E%3C/svg%3E")}
 .grp[data-ic=ruler]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17 17 3l4 4L7 21zM7 13l2 2M11 9l2 2M15 5l2 2'/%3E%3C/svg%3E")}
+
+.grp[data-ic=send]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 2 11 13M22 2l-7 20-4-9-9-4z'/%3E%3C/svg%3E")}
+.grp[data-ic=height]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4M4 3h4M16 21h4'/%3E%3C/svg%3E")}
+.grp[data-ic=box]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4' width='16' height='16' rx='2'/%3E%3Cpath d='M4 4l16 16M20 4 4 20'/%3E%3C/svg%3E")}
+/* tabelele din grupe nu mai poartă a doua sticlă */
+.grp-body>.card-tbl{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;margin:0 0 10px;border-radius:0}
+.grp.sg>.grp-body>.btnrow:last-child{margin-bottom:10px}
+
+/* Listă: fiecare corp se strânge la un tap pe titlu */
+.mod-h{background:transparent;border-bottom:1px solid var(--glass-line)}
+.mod-h h3{cursor:pointer;display:flex;align-items:center;gap:10px}
+.mod-h h3::before{content:"";flex:none;width:20px;height:20px;background:var(--ic-ink);
+  -webkit-mask:var(--ic-cube) center/contain no-repeat;mask:var(--ic-cube) center/contain no-repeat}
+.mod-h h3::after{content:"";flex:none;width:8px;height:8px;margin-left:2px;border-right:2px solid var(--faint);
+  border-bottom:2px solid var(--faint);transform:rotate(45deg) translate(-2px,-2px);transition:transform .18s}
+.mod.collapsed>.pc,.mod.collapsed>.pc-headrow{display:none}
+.mod.collapsed>.mod-h{border-bottom-color:transparent}
+.mod.collapsed .mod-h h3::after{transform:rotate(-45deg)}
+:root{--ic-cube:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8l-9-5-9 5v8l9 5 9-5zM3.3 7.3 12 12l8.7-4.7M12 22V12'/%3E%3C/svg%3E")}
 
 /* Setări: „Salvează” rămâne la îndemână, cât timp defilezi prin grupe */
 .sg-save{position:sticky;bottom:calc(-20px - env(safe-area-inset-bottom));margin:12px -16px 0;
@@ -1879,7 +1901,9 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <button class="chip" id="btnSvClose" hidden></button>
       </div>
     </div>
-    <div class="eyebrow" id="svWallsLbl">Pareti</div>
+    <details class="grp sg" id="sgSvWalls" data-ic="ruler" open>
+      <summary><span id="svWallsLbl">Pareti</span></summary>
+      <div class="grp-body">
     <p class="mini" id="svWallsHint" style="margin-bottom:6px"></p>
     <div class="chips" style="margin-bottom:8px"><button class="chip" id="btnSvDxf"></button></div>
     <input type="file" id="svDxfFile" accept=".dxf,.DXF,.dwg,.DWG" hidden>
@@ -1889,7 +1913,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <span id="svAddWallLbl">Aggiungi parete</span>
     </button>
 
-    <div class="eyebrow" id="svDiagLbl" style="margin-top:18px"></div>
+    <div class="eyebrow" id="svDiagLbl" style="margin-top:14px"></div>
     <p class="mini" id="svDiagHintTxt" style="margin-bottom:6px"></p>
     <div id="svDiags"></div>
     <button class="btn" id="btnSvAddDiag" style="margin-top:4px">
@@ -1897,9 +1921,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <span id="svAddDiagLbl"></span>
     </button>
 
+      </div>
+    </details>
+    <details class="grp sg" id="sgSvHeights" data-ic="height">
+      <summary><span id="svHeightsLbl">Altezze</span></summary>
+      <div class="grp-body">
     <div class="f" style="margin-bottom:10px"><label id="svWallHLbl">Altezza pareti (mm)</label>
       <input id="svWallH" type="number" inputmode="numeric" placeholder="2500"></div>
-    <div class="eyebrow" id="svHeightsLbl">Altezze</div>
     <p class="mini" id="svHeightsHint" style="margin-bottom:6px"></p>
     <div class="f3">
       <div class="f"><label id="svH1Lbl">Punto 1</label><input id="svH1" type="number" inputmode="numeric"></div>
@@ -1912,13 +1940,19 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <select id="svSlope"><option value="" id="svSlopeOpt0"></option><option value="x" id="svSlopeOptX"></option><option value="z" id="svSlopeOptZ"></option></select>
       <p class="mini" id="svSlopeHint" style="margin-top:4px"></p></div>
 
-    <div class="eyebrow" id="svObstLbl">Ostacoli</div>
+      </div>
+    </details>
+    <details class="grp sg" id="sgSvObst" data-ic="box">
+      <summary><span id="svObstLbl">Ostacoli</span></summary>
+      <div class="grp-body">
     <div id="svObstacles"></div>
     <button class="btn" id="btnSvAddObst" style="margin-top:4px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
       <span id="svAddObstLbl">Aggiungi ostacolo</span>
     </button>
 
+      </div>
+    </details>
     <div class="eyebrow" id="svExportLbl">Usa nel progetto</div>
     <button class="btn red" id="btnSvApply" style="margin-top:4px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
@@ -1948,15 +1982,29 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <h2 class="vtitle" data-i="summary">Riepilogo</h2>
     <p class="vsub" data-i="summarySub">Materiali, bordatura e costi</p>
     <div class="kpis" id="sumKpis"></div>
-    <div class="eyebrow" data-i="materials">Materiali</div>
-    <div class="card card-tbl"><table class="t" id="matTable"></table></div>
-    <div class="eyebrow" data-i="hardware">Ferramenta</div>
-    <div class="card card-tbl"><table class="t" id="hwTable"></table></div>
-    <div class="eyebrow" data-i="costs">Costi stimati</div>
-    <div class="card card-tbl"><table class="t" id="costTable"></table></div>
+    <details class="grp sg" id="sgSumMat" data-ic="layers" open>
+      <summary><span data-i="materials">Materiali</span></summary>
+      <div class="grp-body">
+        <div class="card card-tbl"><table class="t" id="matTable"></table></div>
+      </div>
+    </details>
+    <details class="grp sg" id="sgSumHw" data-ic="wrench" open>
+      <summary><span data-i="hardware">Ferramenta</span></summary>
+      <div class="grp-body">
+        <div class="card card-tbl"><table class="t" id="hwTable"></table></div>
+      </div>
+    </details>
+    <details class="grp sg" id="sgSumCost" data-ic="euro" open>
+      <summary><span data-i="costs">Costi stimati</span></summary>
+      <div class="grp-body">
+        <div class="card card-tbl"><table class="t" id="costTable"></table></div>
+      </div>
+    </details>
     <div id="offerList" hidden></div>
     <div class="eyebrow" data-i="export">Esporta</div>
-    <div class="exp-h" data-i="expClient">Per il cliente</div>
+    <details class="grp sg" id="sgExp_expClient" data-ic="send">
+      <summary><span data-i="expClient">Per il cliente</span></summary>
+      <div class="grp-body">
     <div class="btnrow">
       <button class="btn" id="btnQuote">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -1967,7 +2015,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <span id="passBtnLbl">Passaporto progetto</span>
       </button>
     </div>
-    <div class="exp-h" data-i="expShop">Taglio e fornitore</div>
+      </div>
+    </details>
+    <details class="grp sg" id="sgExp_expShop" data-ic="saw" open>
+      <summary><span data-i="expShop">Taglio e fornitore</span></summary>
+      <div class="grp-body">
     <div class="btnrow">
       <button class="btn red" id="btnPdf">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
@@ -1994,7 +2046,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <span data-i="share">Condividi</span>
       </button>
     </div>
-    <div class="exp-h" data-i="expSite">Officina e cantiere</div>
+      </div>
+    </details>
+    <details class="grp sg" id="sgExp_expSite" data-ic="building">
+      <summary><span data-i="expSite">Officina e cantiere</span></summary>
+      <div class="grp-body">
     <div class="btnrow">
       <button class="btn" id="btnMont">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
@@ -2009,6 +2065,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <span data-i="transpBtn">Trece pe ușă?</span>
       </button>
     </div>
+      </div>
+    </details>
     <button class="btn ghost" id="btnJson" style="margin-bottom:6px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0 4-4m-4 4-4-4M4 21h16"/></svg>
       <span data-i="backup">Backup progetto (JSON)</span>
@@ -5059,14 +5117,14 @@ function themeSet(v){
   if(v!=="dark"&&v!=="light")v="auto";
   const r=document.documentElement;
   if(v==="auto")r.removeAttribute("data-theme"); else r.setAttribute("data-theme",v);
-  try{v==="auto"?localStorage.removeItem(THEME_KEY):localStorage.setItem(THEME_KEY,v);}catch(e){}
+  try{localStorage.setItem(THEME_KEY,v);}catch(e){}
   themeMeta();
 }
 function themeMeta(){
   const m=document.querySelector('meta[name="theme-color"]');
   if(!m)return;
   const dark=themeGet()==="dark"||(themeGet()==="auto"&&matchMedia("(prefers-color-scheme:dark)").matches);
-  m.setAttribute("content",dark?"#141812":"#0E3B2A");
+  m.setAttribute("content",dark?"#06110c":"#0E3B2A");
   /* lo studio 3D ha il suo fondo: segue il tema come il resto dell'app */
   try{ if(window.GL3D&&window.GL3D.ok) window.GL3D.theme(); }catch(e){}
 }
@@ -5551,6 +5609,7 @@ function jointTag(x){
   return `<div class="pc-joint${vis?" vis":""}">⋈ ${esc(t(vis?"jointVisible":"jointHidden"))}</div>`;
 }
 let listQ="", listMatF="";
+const listCollapsed=new Set();
 function renderList(){
   const p=proj(); const box=$("pieceList"); box.innerHTML="";
   /* il semaforo si ridipinge con la lista: cambiare un pezzo a mano puo
@@ -5585,6 +5644,10 @@ function renderList(){
     /* sul PC la distinta si legge come una tabella: le intestazioni delle
        colonne, una volta per corpo. Sul telefono restano nascoste. */
     g.insertAdjacentHTML("beforeend",`<div class="pc-headrow"><span></span><span>${esc(t("lhDim"))}</span><span>${esc(t("lhPiece"))}</span><span>${esc(t("lhQty"))}</span><span>${hasCfg?esc(t("listHoles")):""}</span></div>`);
+    if(listCollapsed.has(mod)) g.classList.add("collapsed");
+    g.querySelector(".mod-h h3").addEventListener("click",()=>{
+      g.classList.toggle("collapsed"); g.classList.contains("collapsed")?listCollapsed.add(mod):listCollapsed.delete(mod);
+    });
     g.querySelector("[data-delmod]").addEventListener("click",e=>{
       e.stopPropagation(); snapUndo();
       p.pieces=p.pieces.filter(x=>x.modulo!==mod);
@@ -17644,12 +17707,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.26.0"; /* APP_VER-MARKER */
+const APP_VER="5.27.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v200";
+const SW_CACHE="ebanist-v201";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
