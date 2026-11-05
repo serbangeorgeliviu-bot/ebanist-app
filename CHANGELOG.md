@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.26.0 — 5 noiembrie 2026
+
+**Interfață „Spatial”: sticlă peste verde și auriu, opțiuni pe grupe cu iconiță.** Cardurile, grupele, foile și bara de navigare sunt acum panouri de sticlă (blur, rază mare, fir auriu) peste un fundal verde cu o luminiță aurie; pe telefon bara de jos plutește ca o pastilă, pe PC bara laterală poartă rândul activ în auriu. Culorile sunt cele ale mărcii (verde #0E3B2A, auriu #D4AF37), în tema deschisă și în cea închisă; fundalul vederii 3D închise e verde adânc. Fără funcție nouă și fără cotă schimbată.
+
+**Setările, din listă lungă în 8 grupe:** Funcții în probă · Firmă și ofertă · Panou și debitare · Prețuri · Asistent AI · Abonament · Datele tale · Aplicație și aspect. Fiecare grupă are iconiță și se deschide singură; „Salvează” rămâne lipit jos cât defilezi. Toate câmpurile și butoanele au aceleași id-uri ca înainte. Grupele din Generator (Piese, Corp și cote, Materiale, Interior, Fronturi, Feronerie, Cote la cotă) au și ele iconiță. Trei chei noi în toate cele 7 limbi: `stgFirm`, `stgCut`, `stgApp`.
+
 ## 5.25.0 — 4 noiembrie 2026
 
 **Glisierele și casetele Blum din catalog, cu fișă tehnică.** Același procedeu ca la balamale (D-114): pagina din catalogul oficial 2022/2023 (KA-150), transcrisă pe pagini, numai cote cu etichetă sau din tabel, fiecare cu pagina sursă (`tools/blum-slides-data/*.json` → `tools/blum-slides-build.mjs` → `app/ebanist-slides-data.js`). Sunt 42 de sisteme și 912 de coduri: MOVENTO (BLUMOTION S, TIP-ON BLUMOTION, TIP-ON), TANDEM 11–16 mm și 19 mm (locking device, hook and peg), METABOX, LEGRABOX pure (N, M, K, C, F) și free, sertarul de sub chiuvetă, MERIVOBOX, TANDEMBOX antaro, accesoriile și TIP-ON. În Catalog, sub ferătura obișnuită, apare lista lor cu căutare (nume, cod) și butonul „Fișă tehnică”: lungimi NL, sarcină, cotele de dulap, formulele de tăiere, constantele, tabelele, codurile, ce nu s-a putut transcrie.

@@ -496,7 +496,7 @@ let R = null;
 function gradientBg(dark) {
   const cv = document.createElement("canvas"); cv.width = 4; cv.height = 256;
   const g = cv.getContext("2d"), gr = g.createLinearGradient(0, 0, 0, 256);
-  if (dark) { gr.addColorStop(0, "#2b3129"); gr.addColorStop(.62, "#1d221b"); gr.addColorStop(1, "#141712"); }
+  if (dark) { gr.addColorStop(0, "#1f4535"); gr.addColorStop(.62, "#10281d"); gr.addColorStop(1, "#08150f"); }
   else { gr.addColorStop(0, "#f4f5f1"); gr.addColorStop(.62, "#e6e8e1"); gr.addColorStop(1, "#d6d9cf"); }
   g.fillStyle = gr; g.fillRect(0, 0, 4, 256);
   const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t;

@@ -777,8 +777,8 @@ nav button{font-family:var(--font-body);text-transform:none;letter-spacing:0;fon
 .bld-view{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
   box-shadow:var(--sh-2);margin-bottom:12px;position:sticky;top:58px;z-index:20;padding:0}
 .vp{position:relative;height:31vh;min-height:230px;background:linear-gradient(#f2f3ef,#dfe2da)}
-:root[data-theme="dark"] .vp{background:linear-gradient(#2b3129,#161915)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vp{background:linear-gradient(#2b3129,#161915)}}
+:root[data-theme="dark"] .vp{background:linear-gradient(#1f4535,#08150f)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vp{background:linear-gradient(#1f4535,#08150f)}}
 .vp canvas,.vp>svg{position:absolute;inset:0;width:100%;height:100%}
 #room3dGL canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .vt{position:absolute;display:flex;gap:6px;z-index:3}
@@ -971,8 +971,8 @@ body.client-on{overflow:hidden}
 .cm-body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,400px)}
 .cm-view{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column}
 .cm-stage{position:relative;flex:1;min-height:0;background:linear-gradient(#f2f3ef,#dfe2da)}
-:root[data-theme="dark"] .cm-stage{background:linear-gradient(#2b3129,#161915)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cm-stage{background:linear-gradient(#2b3129,#161915)}}
+:root[data-theme="dark"] .cm-stage{background:linear-gradient(#1f4535,#08150f)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cm-stage{background:linear-gradient(#1f4535,#08150f)}}
 .cm-stage canvas,.cm-stage>svg{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
 .cm-stage canvas~svg{display:none}
 .cm-tools{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;z-index:2}
@@ -1068,6 +1068,119 @@ body.client-on{overflow:hidden}
   #printArea .m-note{font-size:8pt;color:#6b5410;margin:2px 0 6px}
   #printArea .m-sign{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10mm;margin-top:16mm;page-break-inside:avoid}
   #printArea .m-sign div{border-top:1px solid #333;padding-top:2mm;font-size:8.5pt;color:#444}
+}
+/* ---------- Spatial (D-116) ----------
+   Sticla peste un fundal verde cu o luminiță aurie. Numai pe ecran: la tipar
+   rămân jetoanele din @media print. Nicio culoare nouă — verdele #0E3B2A și
+   auriul #D4AF37 ale mărcii; ce se schimbă e materia (sticlă, rază, aer). */
+@media screen{
+:root{
+  --radius:20px;
+  --glass:rgba(255,255,255,.62); --glass-hi:rgba(255,255,255,.86); --glass-line:rgba(14,59,42,.14);
+  --glass-edge:inset 0 1px 0 rgba(255,255,255,.75);
+  --blur:blur(18px) saturate(150%);
+  --stage:radial-gradient(900px 520px at 90% -8%,rgba(212,175,55,.22),transparent 60%),
+          radial-gradient(760px 620px at -10% 12%,rgba(14,59,42,.16),transparent 62%),
+          linear-gradient(180deg,#ebf0e6,#dde7d6);
+  --ic-ink:#0E3B2A;
+  --ic-chip:rgba(14,59,42,.09);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#06110c; --surface:#0d1f16; --raised:rgba(255,255,255,.07); --field:rgba(3,12,8,.55);
+  --line:rgba(255,255,255,.11); --line-soft:rgba(255,255,255,.06);
+  --chrome:rgba(7,19,13,.74);
+  --glass:rgba(16,36,27,.56); --glass-hi:rgba(18,42,31,.80); --glass-line:rgba(227,200,119,.17);
+  --glass-edge:inset 0 1px 0 rgba(255,255,255,.07);
+  --stage:radial-gradient(900px 560px at 90% -8%,rgba(212,175,55,.17),transparent 60%),
+          radial-gradient(780px 640px at -8% 10%,rgba(61,156,116,.22),transparent 62%),
+          linear-gradient(180deg,#071510,#040c08);
+  --ic-ink:#E3C877; --ic-chip:rgba(227,200,119,.12);
+}}
+:root[data-theme="dark"]{
+  --bg:#06110c; --surface:#0d1f16; --raised:rgba(255,255,255,.07); --field:rgba(3,12,8,.55);
+  --line:rgba(255,255,255,.11); --line-soft:rgba(255,255,255,.06);
+  --chrome:rgba(7,19,13,.74);
+  --glass:rgba(16,36,27,.56); --glass-hi:rgba(18,42,31,.80); --glass-line:rgba(227,200,119,.17);
+  --glass-edge:inset 0 1px 0 rgba(255,255,255,.07);
+  --stage:radial-gradient(900px 560px at 90% -8%,rgba(212,175,55,.17),transparent 60%),
+          radial-gradient(780px 640px at -8% 10%,rgba(61,156,116,.22),transparent 62%),
+          linear-gradient(180deg,#071510,#040c08);
+  --ic-ink:#E3C877; --ic-chip:rgba(227,200,119,.12);
+}
+
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--stage)}
+header{background:var(--chrome);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--glass-line)}
+.hbtn{border-radius:14px;border:1px solid var(--glass-line);background:var(--glass);box-shadow:var(--glass-edge)}
+
+/* materie: tot ce plutește e sticlă */
+.card,.grp,.kpi,.bld-view,.laybar,.strow{background:var(--glass);border-color:var(--glass-line);
+  box-shadow:var(--glass-edge),var(--sh-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.card,.grp,.kpi,.bld-view{border-radius:var(--radius)}
+.grp[open]>summary{background:transparent;border-bottom-color:var(--glass-line)}
+.kpi.hl{background:linear-gradient(150deg,var(--gold-tint),var(--glass) 62%)}
+.sheet{background:var(--glass-hi);border-color:var(--glass-line);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-edge),var(--sh-3)}
+.sheet-grip{background:var(--glass-line)}
+input,select,textarea{border-radius:12px;background:var(--field);border-color:var(--glass-line)}
+
+/* butoane: sticla, iar acțiunea principală = verdele mărcii cu un fir de aur */
+.btn{border-radius:14px;border:1px solid var(--glass-line);background:var(--glass);box-shadow:var(--glass-edge)}
+.btn.ghost{background:transparent}
+.btn.red{color:#fff;border-color:rgba(227,200,119,.5);
+  background:linear-gradient(135deg,#1d6e50 0%,#0E3B2A 100%);
+  box-shadow:0 10px 22px -10px rgba(14,59,42,.85),inset 0 1px 0 rgba(255,255,255,.2)}
+.btn.red:active{box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.chip{background:var(--glass);border-color:var(--glass-line)}
+.chip.on,.typestrip .chip.on{background:var(--gold-tint);border-color:var(--gold);color:var(--gold-ink)}
+.typestrip .chip.on .ti{color:var(--gold-ink)}
+.vtb.on{background:linear-gradient(135deg,#1d6e50,#0E3B2A);border-color:rgba(227,200,119,.5);color:#fff}
+
+/* grupe cu iconiță: titlul se citește dintr-o privire, valoarea curentă rămâne în dreapta */
+.grp>summary{font-family:var(--font-body);font-size:15px;font-weight:650;letter-spacing:0;text-transform:none}
+.grp[data-ic]>summary::before{content:"";flex:none;width:22px;height:22px;background:var(--ic-ink);
+  -webkit-mask:var(--ic) center/contain no-repeat;mask:var(--ic) center/contain no-repeat}
+.grp.sg>.grp-body{padding-bottom:6px}
+.grp[data-ic=flask]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3'/%3E%3C/svg%3E")}
+.grp[data-ic=building]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6'/%3E%3C/svg%3E")}
+.grp[data-ic=saw]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='6' r='3'/%3E%3Ccircle cx='6' cy='18' r='3'/%3E%3Cpath d='M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12'/%3E%3C/svg%3E")}
+.grp[data-ic=euro]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 7a7 7 0 1 0 0 10M4 10h10M4 14h10'/%3E%3C/svg%3E")}
+.grp[data-ic=spark]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 3l1.9 5.1L18 10l-5.1 1.9L11 17l-1.9-5.1L4 10l5.1-1.9zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z'/%3E%3C/svg%3E")}
+.grp[data-ic=crown]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18h18M4 18 3 7l5 4 4-7 4 7 5-4-1 11'/%3E%3C/svg%3E")}
+.grp[data-ic=shield]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4'/%3E%3C/svg%3E")}
+.grp[data-ic=sliders]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'/%3E%3C/svg%3E")}
+.grp[data-ic=list]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01'/%3E%3C/svg%3E")}
+.grp[data-ic=cube]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8l-9-5-9 5v8l9 5 9-5zM3.3 7.3 12 12l8.7-4.7M12 22V12'/%3E%3C/svg%3E")}
+.grp[data-ic=layers]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2 22 7l-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E")}
+.grp[data-ic=columns]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='M9 3v18M15 3v18'/%3E%3C/svg%3E")}
+.grp[data-ic=door]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 21V3h14v18M3 21h18M15 12h.01'/%3E%3C/svg%3E")}
+.grp[data-ic=wrench]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z'/%3E%3C/svg%3E")}
+.grp[data-ic=ruler]{--ic:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17 17 3l4 4L7 21zM7 13l2 2M11 9l2 2M15 5l2 2'/%3E%3C/svg%3E")}
+
+/* Setări: „Salvează” rămâne la îndemână, cât timp defilezi prin grupe */
+.sg-save{position:sticky;bottom:calc(-20px - env(safe-area-inset-bottom));margin:12px -16px 0;
+  padding:12px 16px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--glass-hi) 70%,transparent)}
+
+/* telefon: bara de jos plutește ca o pastilă de sticlă */
+@media (max-width:1023px){
+  :root{--nav-h:64px}
+  body{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-inset-bottom))}
+  nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));height:var(--nav-h);padding:5px;
+    border:1px solid var(--glass-line);border-radius:26px;background:var(--glass-hi);
+    backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-edge),var(--sh-3)}
+  nav button{border-radius:20px;font-family:var(--font-body)}
+  nav button.on{background:var(--gold-tint);color:var(--gold-ink)}
+  nav button.on::before{display:none}
+  .fab{bottom:calc(var(--nav-h) + 26px + env(safe-area-inset-bottom))}
+  #v-build #btnGenerate{bottom:calc(var(--nav-h) + 22px + env(safe-area-inset-bottom))}
+}
+/* tabletă / PC: bara laterală, la fel de sticloasă; rândul activ poartă auriul */
+@media (min-width:1024px){
+  nav{background:var(--chrome);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-right-color:var(--glass-line)}
+  nav button{border-radius:14px}
+  nav button.on{background:linear-gradient(90deg,var(--gold-tint),transparent);color:var(--gold-ink)}
+  .sheet{border-radius:24px;border-bottom:1px solid var(--glass-line)}
+}
 }
 </style>
 </head>
@@ -1423,7 +1536,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     </div>
 
     <aside class="bld-side" id="bldSide">
-      <details class="grp pcs-grp" id="grpPieces">
+      <details class="grp pcs-grp" id="grpPieces" data-ic="list">
         <summary><span data-i="vtPieces">Pezzi</span><i class="grp-sum" id="sumPieces"></i></summary>
         <div class="pcs-body"><div class="pcs-list" id="pcsList"></div></div>
       </details>
@@ -1437,7 +1550,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <!-- cote assolute attive: si vede che i campi sezioni/ripiani/ante sono sostituiti -->
     <div class="laybar" id="layBar" style="display:none"><span id="layBarTxt"></span><button class="btn sm" id="btnLayClear"><span></span></button></div>
 
-    <details class="grp" id="grpBase" open>
+    <details class="grp" id="grpBase" data-ic="cube" open>
       <summary><span data-i="grpBase">Corpo e misure</span><i class="grp-sum" id="sumBase"></i></summary>
       <div class="grp-body">
         <div class="f"><label data-i="fModule">Rif. Modulo</label><input id="bName"></div>
@@ -1514,7 +1627,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
 
-    <details class="grp" id="grpMat">
+    <details class="grp" id="grpMat" data-ic="layers">
       <summary><span data-i="grpMat">Materiali</span><i class="grp-sum" id="sumMat"></i></summary>
       <div class="grp-body">
         <!-- I selettori di materiale: un bottone che apre il cercatore, e
@@ -1547,7 +1660,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
 
-    <details class="grp" id="grpIn">
+    <details class="grp" id="grpIn" data-ic="columns">
       <summary><span data-i="grpIn">Interno</span><i class="grp-sum" id="sumIn"></i></summary>
       <div class="grp-body">
         <div class="f2">
@@ -1624,7 +1737,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
 
-    <details class="grp" id="grpFr">
+    <details class="grp" id="grpFr" data-ic="door">
       <summary><span data-i="grpFr">Frontali e appoggio</span><i class="grp-sum" id="sumFr"></i></summary>
       <div class="grp-body">
         <div class="f2">
@@ -1678,7 +1791,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
 
-    <details class="grp" id="grpHw">
+    <details class="grp" id="grpHw" data-ic="wrench">
       <summary><span data-i="grpHw">Feronerie corp</span><i class="grp-sum" id="sumHw"></i></summary>
       <div class="grp-body">
         <p class="mini" data-i="hwSelHint" style="margin:0 0 8px"></p>
@@ -1686,7 +1799,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
 
-    <details class="grp" id="grpAbs">
+    <details class="grp" id="grpAbs" data-ic="ruler">
       <summary><span data-i="grpAbs">Cote la cotă</span><i class="grp-sum" id="sumAbs"></i></summary>
       <div class="grp-body" id="absBody">
         <p class="mini" data-i="absHint" style="margin:0 0 8px"></p>
@@ -2129,15 +2242,34 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 <div class="sheet" id="shSettings">
   <div class="sheet-grip"></div>
   <h3 data-i="settings">Impostazioni</h3>
-  <div class="f"><label id="sPassNoteLbl">Testo per il passaporto</label><textarea id="sPassNote" rows="3" maxlength="600" style="width:100%"></textarea></div>
-  <p class="mini" id="sPassNoteHint" style="margin:-2px 0 12px"></p>
+  <details class="grp sg" id="sgExp" data-ic="flask">
+    <summary><span id="expTitle">Funzioni in prova</span></summary>
+    <div class="grp-body">
   <!-- Funcții în probă: la începutul Setărilor, ca să se găsească ușor. Pornește modulul Atelier fără ?atelier=1 (aplicația Android nu are bară de adresă). -->
-  <div class="eyebrow" style="margin-top:4px" id="expTitle">Funzioni in prova</div>
   <label class="chk" style="display:flex;gap:10px;align-items:center;margin:4px 0;font-size:14.5px;text-transform:none;letter-spacing:0;font-weight:500"><input type="checkbox" id="sExpAtelier"> <span id="expAtelierLbl">Modulo Atelier</span></label>
   <p class="mini" id="expAtelierHint" style="margin:0 0 14px"></p>
+    </div>
+  </details>
+  <details class="grp sg" id="sgFirm" data-ic="building">
+    <summary><span data-i="stgFirm">Azienda e offerta</span></summary>
+    <div class="grp-body">
+  <div class="f"><label data-i="fCompanyName">Nome</label><input id="sCoName"></div>
+  <div class="f"><label data-i="fCompanyInfo">Dati (CUI, contatti)</label><input id="sCoInfo"></div>
+<div class="f"><label id="sPassNoteLbl">Testo per il passaporto</label><textarea id="sPassNote" rows="3" maxlength="600" style="width:100%"></textarea></div>
+  <p class="mini" id="sPassNoteHint" style="margin:-2px 0 12px"></p>
   <div class="f"><label id="sPayLbl">Piano di pagamento (%)</label><div style="display:flex;gap:8px"><input id="sPay1" inputmode="decimal" placeholder="30" style="width:33%"><input id="sPay2" inputmode="decimal" placeholder="40" style="width:33%"><input id="sPay3" inputmode="decimal" placeholder="30" style="width:33%"></div></div>
   <p class="mini" id="sPayHint" style="margin:-2px 0 12px"></p>
-  <div class="eyebrow" style="margin-top:4px" data-i="panelStd">Pannello standard</div>
+  <button class="btn" id="btnLogo" style="margin-top:8px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    <span data-i="logoBtn">Logo sui PDF</span>
+  </button>
+  <input type="file" id="logoFile" accept="image/*" style="display:none">
+    </div>
+  </details>
+  <details class="grp sg" id="sgCut" data-ic="saw">
+    <summary><span data-i="stgCut">Pannello e taglio</span></summary>
+    <div class="grp-body">
+  <div class="eyebrow" data-i="panelStd">Pannello standard</div>
   <div class="f3">
     <div class="f"><label data-i="fLength">Lungh. (mm)</label><input id="sPanelL" type="number" inputmode="numeric"></div>
     <div class="f"><label data-i="fWidth">Largh. (mm)</label><input id="sPanelW" type="number" inputmode="numeric"></div>
@@ -2163,7 +2295,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="f"><label data-i="fCutNoHinge">Distinta di taglio: senza fori cerniere</label>
     <select id="sCutNoHinge"><option value="0" data-i="optNo">No</option><option value="1" data-i="optYes">Sì</option></select>
     <div class="mini" style="margin-top:4px" data-i="cutNoHingeHint"></div></div>
-  <div class="eyebrow" data-i="prices">Prezzi</div>
+    </div>
+  </details>
+  <details class="grp sg" id="sgPrice" data-ic="euro">
+    <summary><span data-i="prices">Prezzi</span></summary>
+    <div class="grp-body">
   <div class="f"><label data-i="costModeLbl">Costo pannelli</label>
     <select id="sCostMode">
       <option value="panels" data-i="costModePan">a pannelli interi (ottimizzazione)</option>
@@ -2207,10 +2343,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="f"></div>
   </div>
   <div class="mini" data-i="hwPriceNote" style="margin:-4px 0 4px"></div>
-  <div class="eyebrow" data-i="company">Azienda</div>
-  <div class="f"><label data-i="fCompanyName">Nome</label><input id="sCoName"></div>
-  <div class="f"><label data-i="fCompanyInfo">Dati (CUI, contatti)</label><input id="sCoInfo"></div>
-  <div class="eyebrow" id="aiSetLbl">Assistente AI</div>
+    </div>
+  </details>
+  <details class="grp sg" id="sgAi" data-ic="spark">
+    <summary><span id="aiSetLbl">Assistente AI</span></summary>
+    <div class="grp-body">
   <div class="f"><label id="aiKeyLbl">Chiave API</label>
     <input id="sAiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…"></div>
   <p class="mini" id="aiKeyHint" style="margin:-4px 0 6px"></p>
@@ -2226,11 +2363,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="f"><label id="aiProxyLbl">Endpoint</label><input id="sAiProxy" type="url" autocomplete="off" spellcheck="false" placeholder="https://…"></div>
   </div>
   <p class="mini" id="aiProxyHint" style="margin:-4px 0 10px"></p>
-  <button class="btn red" id="btnSettingsSave" data-i="save">Salva</button>
-
-  <!-- Abbonamento e memoria: le due cose che un cliente che paga deve
-       poter verificare da solo, senza scrivere a nessuno. -->
-  <div class="eyebrow" style="margin-top:18px" data-i="proStatus">Abbonamento</div>
+    </div>
+  </details>
+  <details class="grp sg" id="sgPro" data-ic="crown">
+    <summary><span data-i="proStatus">Abbonamento</span></summary>
+    <div class="grp-body">
   <p class="mini" id="proStateLine" style="margin:-2px 0 8px;line-height:1.45"></p>
   <button class="btn red" id="btnGoPro" style="display:none"><span data-i="proTitle">Ebanist Pro</span></button>
   <button class="btn" id="btnLicCheck" style="display:none;margin-top:8px"><span data-i="proRestore">Ricontrolla</span></button>
@@ -2239,7 +2376,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="btn" id="btnRate" style="display:none;margin-top:8px"><span data-i="rateApp">Valuta Ebanist</span></button>
   <button class="btn ghost danger" id="btnLicOff" style="display:none;margin-top:8px"><span data-i="proDeactivate">Scollega</span></button>
 
-  <div class="eyebrow" style="margin-top:18px" data-i="stTitle">I tuoi dati</div>
+    </div>
+  </details>
+  <details class="grp sg" id="sgData" data-ic="shield">
+    <summary><span data-i="stTitle">I tuoi dati</span></summary>
+    <div class="grp-body">
   <p class="mini" id="stStateLine" style="margin:-2px 0 8px;line-height:1.45"></p>
   <button class="btn" id="btnPersist" style="display:none"><span data-i="stAskPersist">Chiedi memoria protetta</span></button>
   <p class="mini" id="bkAutoLine" style="margin:8px 0 6px"></p>
@@ -2253,22 +2394,22 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
     <span data-i="restoreFileBtn">Ripristina da file</span>
   </button>
-  <button class="btn" id="btnFeedback" style="margin-top:8px">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    <span data-i="fbBtn">Suggerisci una funzione</span>
+    </div>
+  </details>
+  <details class="grp sg" id="sgApp" data-ic="sliders">
+    <summary><span data-i="stgApp">App e aspetto</span></summary>
+    <div class="grp-body">
+  <button class="btn" id="btnCatalog" style="margin-top:8px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/></svg>
+    <span data-i="catBtn">Catalogo ferramenta & materiali</span>
   </button>
   <button class="btn" id="btnStats" style="margin-top:8px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
     <span data-i="statsBtn">Statistiche</span>
   </button>
-  <button class="btn" id="btnLogo" style="margin-top:8px">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    <span data-i="logoBtn">Logo sui PDF</span>
-  </button>
-  <input type="file" id="logoFile" accept="image/*" style="display:none">
-  <button class="btn" id="btnCatalog" style="margin-top:8px">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/></svg>
-    <span data-i="catBtn">Catalogo ferramenta & materiali</span>
+  <button class="btn" id="btnFeedback" style="margin-top:8px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span data-i="fbBtn">Suggerisci una funzione</span>
   </button>
   <div class="f2" style="margin-top:12px">
     <div class="f"><label data-i="fTheme">Aspetto</label>
@@ -2297,7 +2438,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg>
     <span data-i="updRepair">Ripara l'app (svuota la memoria locale dei file)</span>
   </button>
-  <p class="mini" style="margin:4px 0 0;text-align:center" data-i="updRepairHint">Se dopo un aggiornamento qualcosa risulta ancora vecchio. I progetti non si toccano.</p>
+  <p class="mini" style="margin:4px 0 0;text-align:center" data-i="updRepairHint">Se dopo un aggiornamento qualcosa risulta ancora vecchio. I progetti non si toccano.</p>    </div>
+  </details>
+  <div class="sg-save">
+    <button class="btn red" id="btnSettingsSave" data-i="save">Salva</button>
+  </div>
+</div>
   <p class="mini" style="margin-top:14px;text-align:center" id="verLabel">Ebanist · ebanist.com</p>
 </div>
 
@@ -3302,6 +3448,14 @@ Object.assign(I18N.fr,{"hwFill": "Fixations de filler (Keku)"});
 Object.assign(I18N.de,{"hwFill": "Blendenbefestigung (Keku)"});
 Object.assign(I18N.pl,{"hwFill": "Mocowania zaślepek (Keku)"});
 Object.assign(I18N.es,{"hwFill": "Fijaciones de cubrejuntas (Keku)"});
+/* D-116: grupele din Setări */
+Object.assign(I18N.it,{"stgFirm": "Azienda e offerta", "stgCut": "Pannello e taglio", "stgApp": "App e aspetto"});
+Object.assign(I18N.ro,{"stgFirm": "Firmă și ofertă", "stgCut": "Panou și debitare", "stgApp": "Aplicație și aspect"});
+Object.assign(I18N.en,{"stgFirm": "Company & quotes", "stgCut": "Panel & cutting", "stgApp": "App & appearance"});
+Object.assign(I18N.fr,{"stgFirm": "Société et devis", "stgCut": "Panneau et débit", "stgApp": "App et affichage"});
+Object.assign(I18N.de,{"stgFirm": "Firma und Angebot", "stgCut": "Platte und Zuschnitt", "stgApp": "App und Darstellung"});
+Object.assign(I18N.pl,{"stgFirm": "Firma i oferta", "stgCut": "Płyta i cięcie", "stgApp": "Aplikacja i wygląd"});
+Object.assign(I18N.es,{"stgFirm": "Empresa y oferta", "stgCut": "Tablero y corte", "stgApp": "App y aspecto"});
 Object.assign(I18N.it,{"fCutMatTh": "Distinta di taglio: spessore nel materiale", "cutMatThHint": "Il materiale esce con lo spessore, es. «Rovere 19 mm», in PDF e CSV."});
 Object.assign(I18N.ro,{"fCutMatTh": "Distinta de tăiere: grosimea în material", "cutMatThHint": "Materialul apare cu grosimea, ex. «Rovere 19 mm», în PDF și CSV."});
 Object.assign(I18N.en,{"fCutMatTh": "Cut list: thickness in the material", "cutMatThHint": "The material shows its thickness, e.g. “Oak 19 mm”, in the PDF and CSV."});
@@ -17490,12 +17644,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.25.0"; /* APP_VER-MARKER */
+const APP_VER="5.26.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v199";
+const SW_CACHE="ebanist-v200";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
