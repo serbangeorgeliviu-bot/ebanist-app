@@ -3120,8 +3120,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const x = await pg.evaluate(async () => {
       closeSheets(); setView("summary"); await new Promise(r => setTimeout(r, 300));
       const g = {};
-      document.querySelectorAll("#v-summary .exp-h").forEach(h => {
-        const row = h.nextElementSibling; g[h.dataset.i] = [...row.querySelectorAll("button")].map(b => b.id);
+      /* D-117: titlul grupei e în <summary>, butoanele în corpul <details> */
+      document.querySelectorAll("#v-summary details[id^=sgExp_]").forEach(d => {
+        g[d.querySelector("summary [data-i]").dataset.i] = [...d.querySelectorAll(".grp-body button")].map(b => b.id);
       });
       setView("projects");
       return g;
