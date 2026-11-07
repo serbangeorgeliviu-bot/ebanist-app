@@ -56,7 +56,7 @@ it: {
   "Pila verticală — soclu, bază, polițe, tavan — nu închide înălțimea corpului.":
     "La pila verticale — zoccolo, base, ripiani, cielo — non chiude l'altezza del corpo.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.":
-    "Le ante hanno cote assolute (x, y, l, h): si verificano nella disposizione, non con la somma delle larghezze.",
+    "Le ante hanno quote assolute (x, y, l, h): si verificano nella disposizione, non con la somma delle larghezze.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.":
     "Le ante scorrevoli si sovrappongono, non si accostano: la somma delle larghezze supera l'apertura, ed è giusto così.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
@@ -70,7 +70,7 @@ it: {
   "Polița nu are jocul declarat: fie freacă în laterale, fie joacă în gol.":
     "Il ripiano non ha il gioco dichiarato: o sfrega sui fianchi, o balla.",
   "Piese cu o cotă nulă, negativă sau mai mare decât placa: nu se pot tăia.":
-    "Pezzi con una cota nulla, negativa o più grande del pannello: non si possono tagliare.",
+    "Pezzi con una quota nulla, negativa o più grande del pannello: non si possono tagliare.",
   "Grosimea scrisă pe piesă nu e cea a materialului rolului: ":
     "La grossezza scritta sul pezzo non è quella del materiale del ruolo: ",
   "Grosimea fiecărei piese e cea a materialului alocat rolului ei.":
@@ -79,7 +79,7 @@ it: {
     "Una grossezza che non compare in nessun materiale del progetto non viene da un materiale: viene dal codice.",
   /* --- asserzioni (Fase 3, dati) --- */
   "Nu se pot citi cotele pentru verificare: ":
-    "Impossibile leggere le cote per la verifica: ",
+    "Impossibile leggere le quote per la verifica: ",
   "Falțul pentru spate trebuie să fie exact grosimea spatelui, altfel spatele iese din planul lateralei.":
     "La battuta per lo schienale deve essere esattamente la grossezza dello schienale, altrimenti lo schienale esce dal piano del fianco.",
   "Spatele e mai lung decât corpul: nu intră între laterale.":
@@ -95,9 +95,9 @@ it: {
   "Picioare și laterale până la pardoseală în același timp: corpul se sprijină pe laterale, iar picioarele nu ating solul.":
     "Piedini e fianchi fino a terra insieme: il corpo poggia sui fianchi e i piedini non toccano il pavimento.",
   "O cotă de găurire nu poate fi un interval („3–6 mm\"): mașina trebuie să primească un singur număr.":
-    "Una cota di foratura non può essere un intervallo («3–6 mm»): la macchina deve ricevere un solo numero.",
+    "Una quota di foratura non può essere un intervallo («3–6 mm»): la macchina deve ricevere un solo numero.",
   "O piesă are o cotă mai mare decât corpul din care provine: nu e legată de niciun gabarit.":
-    "Un pezzo ha una cota più grande del corpo da cui viene: non è legato a nessun ingombro.",
+    "Un pezzo ha una quota più grande del corpo da cui viene: non è legato a nessun ingombro.",
   "O piesă e mai mare decât placa din care se debitează: nu se poate tăia.":
     "Un pezzo è più grande del pannello da cui si taglia: non si può tagliare.",
   "Aria netă amestecă materiale diferite: metrii pătrați trebuie raportați grupat pe material.":
@@ -109,9 +109,9 @@ it: {
   "Spatele ocupă toată adâncimea corpului: nu mai rămâne adâncime utilă.":
     "Lo schienale occupa tutta la profondità del corpo: non resta profondità utile.",
   "Retrasarea poliței depășește adâncimea utilă, sau jocul depășește lățimea: polița iese cu cotă negativă.":
-    "L'arretramento del ripiano supera la profondità utile, o il gioco supera la larghezza: il ripiano esce con cota negativa.",
+    "L'arretramento del ripiano supera la profondità utile, o il gioco supera la larghezza: il ripiano esce con quota negativa.",
   "Jocurile declarate depășesc gabaritul: ușa iese cu cotă zero sau negativă.":
-    "I giochi dichiarati superano l'ingombro: l'anta esce con cota zero o negativa.",
+    "I giochi dichiarati superano l'ingombro: l'anta esce con quota zero o negativa.",
   "Tramezzii sunt împreună mai groși decât lumina interioară: nu mai rămâne nicio secțiune.":
     "I tramezzi insieme sono più spessi della luce interna: non resta nessuna sezione.",
   "Rezerva glisierei depășește adâncimea utilă: sertarul nu are unde să intre.":
