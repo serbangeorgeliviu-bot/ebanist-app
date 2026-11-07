@@ -2226,7 +2226,7 @@ function evalExpr(src, env) {
     }
     /* `in` avrebbe pescato anche i membri di Object.prototype: una regola che
        nomina `constructor` avrebbe ricevuto una funzione invece dell'errore. */
-    if (!Object.prototype.hasOwnProperty.call(env, name)) throw new Error("cota assente: " + name);
+    if (!Object.prototype.hasOwnProperty.call(env, name)) throw new Error("quota assente: " + name);
     return env[name];
   }
   function mul() { var v = primary(); for (;;) { ws();

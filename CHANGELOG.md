@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.27.1 — 7 noiembrie 2026
+
+**Italiană: „quote”, nu „cote”.** Un utilizator ne-a scris că în program apărea de mai multe ori „cote”, iar în italiană cotele se numesc „quote” („cote” e franceză). Corectat peste tot în textele italiene: Quote assolute, Quota di taglio meno il bordo, Quote ricalcolate, „Ho verificato quote e grossezze”, mesajele de verificare și nota din fișierul de găurire. Româna, franceza și spaniola rămân neschimbate.
+
 ## 5.27.0 — 5 noiembrie 2026
 
 **Instalările noi pornesc în dark.** Fără temă aleasă și fără date pe dispozitiv, aplicația se deschide în dark și își scrie alegerea; cine a ales deja (Automat, Deschis, Închis) rămâne cum e. „Automat” e acum o valoare scrisă, nu absența cheii, ca o instalare nouă să nu revină la dark după prima sesiune dacă a ales Automat.
