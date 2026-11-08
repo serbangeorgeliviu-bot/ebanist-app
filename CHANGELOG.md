@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.29.0 — 8 noiembrie 2026
+
+**Suport „Cadru” pentru corp (U.14, D-117).** În Constructor → Suport apare „Cadru” lângă Zoccolo, Piedini și Sospeso. Corpul stă ridicat pe un cadru de nivelare, cu înălțimea din câmpul „Zoccolo (mm)”; picioarele sunt ale cadrului, deci corpul nu mai are accesoriul „Piedino” și nu le numără în deviz.
+
+- **Geometrie:** laterala pornește la înălțimea cadrului și are H − h; ușile și spatele urmează, ca la picioare; închiderea la 0 mm, invarianții și aserțiunile trec la 100, 120 și 150 mm. Distinta e identică cu cea pe picioare, rând cu rând, în afară de accesoriul picior.
+- **Fișa de montaj:** pas nou, „Așază corpul pe cadrul deja la nivel și prinde-l de șine”, în 7 limbi; asistentul AI știe „cadru”.
+- **Nu se schimbă:** Zoccolo, Piedini, Sospeso, proiectele existente.
+- **Încă nu:** cadrul însuși (șine, traverse, picioare Camar 300) nu e încă în distinta proiectului și în Releveu; geometria lui e gata (`ebanist-baseframe.js`), urmează cardul din Releveu, deviz și 3D.
+- Test: `cd test && node --test cadru.test.js`.
+
 ## 5.28.2 — 8 noiembrie 2026
 
 **Corecție: piciorul cadrului e Camar 300 (Häfele), nu un picior „ø50, M10”.** În 5.28.1 articolul și cotele erau presupuse din clip; Liviu a identificat piciorul real și a trimis desenul fișei. Articolul „Picior reglabil pentru cadru de nivelare, bază ø50, șurub M10” e înlocuit cu **„Picior de soclu Camar 300 (Häfele), cilindric metalic, prindere laterală, reglaj de sus”**, în 7 limbi.

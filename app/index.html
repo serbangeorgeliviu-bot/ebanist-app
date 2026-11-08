@@ -1785,7 +1785,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fHandles">Apertura</label>
             <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option><option value="raza" data-i="hRaza">Raza</option></select></div>
           <div class="f"><label data-i="fSupport">Supporto</label>
-            <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
+            <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="cadru" data-i="supFrame">Cadru</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
           <div class="f"><label data-i="fPlinth">Zoccolo (mm)</label><input id="bPlinth" type="number" inputmode="numeric"></div>
         </div>
         <div class="f" id="rowGolaType" style="display:none"><label data-i="fGolaType">Tipo di gola</label>
@@ -3597,6 +3597,14 @@ Object.assign(I18N.fr,{"hRaza": "Rayon dans la porte", "fRazaR": "Rayon (mm)", "
 Object.assign(I18N.de,{"hRaza": "Radius in der Tür", "fRazaR": "Radius (mm)", "fRazaCorner": "Abgerundete Ecke", "razaAuto": "Automatisch", "razaTop": "Oben", "razaBottom": "Unten", "razaBoth": "Oben und unten", "razaHint": "Ohne Griff: Die Türecke auf der Öffnungsseite ist abgerundet, die entstehende Lücke dient als Fingergriff. Das Umleimen eines Radius braucht eine geeignete Kantenanleimmaschine: Werkstatt fragen.", "op_razaCorner": "Abgerundete Ecke (Griff)", "opsRazaSmall": "Der gewählte Radius ist kleiner als der Fräser: Die Fronten bleiben gerade.", "opsRazaBig": "Der Radius ist für diese Front zu groß: Sie bleibt gerade.", "opsRazaGrip": "Mit diesem Radius ist die Fingerlücke klein: Radius vergrößern."});
 Object.assign(I18N.pl,{"hRaza": "Promień w drzwiach", "fRazaR": "Promień (mm)", "fRazaCorner": "Zaokrąglony narożnik", "razaAuto": "Automatycznie", "razaTop": "Na górze", "razaBottom": "Na dole", "razaBoth": "Góra i dół", "razaHint": "Bez uchwytu: narożnik drzwi po stronie otwierania jest zaokrąglony, a powstała szczelina służy za chwyt palców. Oklejanie promienia wymaga odpowiedniej okleiniarki: zapytaj warsztat.", "op_razaCorner": "Zaokrąglony narożnik (chwyt)", "opsRazaSmall": "Wybrany promień jest mniejszy niż frez: fronty zostają proste.", "opsRazaBig": "Promień jest za duży dla tego frontu: zostaje prosty.", "opsRazaGrip": "Przy tym promieniu szczelina na palce jest mała: zwiększ promień."});
 Object.assign(I18N.es,{"hRaza": "Radio en la puerta", "fRazaR": "Radio (mm)", "fRazaCorner": "Esquina redondeada", "razaAuto": "Automático", "razaTop": "Arriba", "razaBottom": "Abajo", "razaBoth": "Arriba y abajo", "razaHint": "Sin tirador: la esquina de la puerta, del lado de apertura, está redondeada y el hueco que queda sirve de agarre para los dedos. Canteado en un radio exige una canteadora adecuada: pregunta al taller.", "op_razaCorner": "Esquina redondeada (agarre)", "opsRazaSmall": "El radio elegido es menor que la fresa: los frentes quedan rectos.", "opsRazaBig": "El radio es demasiado grande para este frente: queda recto.", "opsRazaGrip": "Con este radio el hueco para los dedos es pequeño: aumenta el radio."});
+/* U.14 — cadru de nivelare ca suport al corpului (D-117) */
+Object.assign(I18N.it,{"supFrame": "Telaio", "ms11c": "Il corpo poggia su un telaio di livellamento alto {h} mm, già messo in bolla: i piedini sono del telaio. Appoggia il corpo e fissalo ai correnti con viti.", "mFrame": "Appoggia il corpo sul telaio già in bolla (altezza {h} mm) e fissalo ai correnti con viti. I piedini sono del telaio, non del corpo."});
+Object.assign(I18N.ro,{"supFrame": "Cadru", "ms11c": "Corpul stă pe un cadru de nivelare înalt de {h} mm, deja adus la nivel: picioarele sunt ale cadrului. Așază corpul și prinde-l de șine cu șuruburi.", "mFrame": "Așază corpul pe cadrul deja la nivel (înălțime {h} mm) și prinde-l de șine cu șuruburi. Picioarele sunt ale cadrului, nu ale corpului."});
+Object.assign(I18N.en,{"supFrame": "Frame", "ms11c": "The unit sits on a levelling frame {h} mm high, already levelled: the feet belong to the frame. Set the unit down and screw it to the rails.", "mFrame": "Set the unit on the frame, already level ({h} mm high), and screw it to the rails. The feet belong to the frame, not the unit."});
+Object.assign(I18N.fr,{"supFrame": "Cadre", "ms11c": "Le meuble repose sur un cadre de mise à niveau de {h} mm, déjà réglé : les pieds sont ceux du cadre. Posez le meuble et vissez-le aux rails.", "mFrame": "Posez le meuble sur le cadre déjà à niveau (hauteur {h} mm) et vissez-le aux rails. Les pieds sont ceux du cadre, pas du meuble."});
+Object.assign(I18N.de,{"supFrame": "Rahmen", "ms11c": "Der Korpus steht auf einem Nivellierrahmen von {h} mm Höhe, bereits ausgerichtet: Die Füße gehören zum Rahmen. Korpus aufsetzen und mit den Schienen verschrauben.", "mFrame": "Korpus auf den bereits ausgerichteten Rahmen ({h} mm hoch) setzen und mit den Schienen verschrauben. Die Füße gehören zum Rahmen, nicht zum Korpus."});
+Object.assign(I18N.pl,{"supFrame": "Rama", "ms11c": "Korpus stoi na ramie poziomującej o wysokości {h} mm, już wypoziomowanej: nóżki należą do ramy. Postaw korpus i przykręć go do szyn.", "mFrame": "Postaw korpus na wypoziomowanej już ramie (wysokość {h} mm) i przykręć do szyn. Nóżki należą do ramy, nie do korpusu."});
+Object.assign(I18N.es,{"supFrame": "Bastidor", "ms11c": "El mueble se apoya en un bastidor de nivelación de {h} mm de altura, ya nivelado: las patas son del bastidor. Coloca el mueble y atorníllalo a los largueros.", "mFrame": "Coloca el mueble sobre el bastidor ya nivelado (altura {h} mm) y atorníllalo a los largueros. Las patas son del bastidor, no del mueble."});
 Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Quote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le quote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_wtBolt:"Buco per bullone blat",op_cutSink:"Taglio lavello",op_cutHob:"Taglio piano cottura",op_cutOther:"Taglio piano",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
 Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_wtBolt:"Locaș șurub blat",op_cutSink:"Decupaj chiuvetă",op_cutHob:"Decupaj plită",op_cutOther:"Decupaj blat",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
 Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_wtBolt:"Worktop bolt pocket",op_cutSink:"Sink cut-out",op_cutHob:"Hob cut-out",op_cutOther:"Worktop cut-out",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
@@ -7017,8 +7025,9 @@ function carcassParams(cfg,ctx){
        ogni anta porta le sue. Le regole A3/A4 non hanno niente da misurare. */
     n_ante:(sliding||hasFronts(cfg))?0:Math.max(0,cfg.doors||0),
     n_cerniere:0,          // lo decide l'altezza dell'anta, sotto
-    piedini:support==="piedini"?4:0,
-    h_picior:support==="piedini"?pl:0,
+    /* cadru de nivelare (U.14, D-117): corpul stă ridicat pe cadru ca pe picioare, dar picioarele sunt ale cadrului, nu ale corpului */
+    piedini:(support==="piedini"||support==="cadru")?4:0,
+    h_picior:(support==="piedini"||support==="cadru")?pl:0,
     /* i tramezzi: da loro esce la larghezza di una sezione, e quindi quella
        del ripiano e della cassa del cassetto. Prima si ricalcolava in
        quattro punti diversi. */
@@ -7315,7 +7324,7 @@ function buildCore(cfg){
      grossezza diversa avrebbero sbagliato tutti e due. */
   const intY0=G.in.h_base+G.sp_base, intY1=H-G.sp_top, intH=G.H_int;
   const intD=G.ripiano_D; // profondità utile: dal piano interno, meno l'arretramento del ripiano
-  const y0=support==="piedini"?pl:0;
+  const y0=(support==="piedini"||support==="cadru")?pl:0;
   /* ---- COTE ASSOLUTE ----
      Setti, ripiani, ante e decupaje alle loro cote. Il controllo gira QUI,
      prima di qualunque pezzo: una cota che non ha dove stare ferma il
@@ -8072,7 +8081,7 @@ function buildCore(cfg){
     /* decuparea laterala: x de jos pe lungimea laturii, y de la muchia din spate */
     const g0=stacks[0], fp=pieces.find(x=>x.role==="fianco");
     if(g0&&fp&&G.D_fianco>gola.depth){
-      const y00=support==="piedini"?pl:0, nt=[];
+      const y00=(support==="piedini"||support==="cadru")?pl:0, nt=[];
       for(let i=0;i+1<g0.plan.fronts.length;i++){ const a=g0.plan.fronts[i], b=g0.plan.fronts[i+1];
         const yA=a.y0+a.h; nt.push({l:Math.round(b.y0-yA),w:Math.round(gola.depth),x:Math.round(yA-y00),y:Math.round(G.D_fianco-gola.depth),forma:"R",rif:"fata",tip:"gola"}); }
       if(nt.length){ const cur=fp.scasso?(Array.isArray(fp.scasso)?fp.scasso:[fp.scasso]):[]; const all=cur.concat(nt);
@@ -12410,6 +12419,7 @@ function assemblySteps(modName,hw,cfg,items){
   add(t("mBox"),{hi:CARC,show:[]});
   if(cfg&&cfg.tram>0) add(t("mTram").replace("{q}",cfg.tram),{hi:["tram"],show:CARC});
   const sup=cfg?(cfg.support||"zoccolo"):"zoccolo";
+  if(sup==="cadru") add(t("mFrame").replace("{h}",cfg.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini"||hw.hwPied>0) add(t("mFeet").replace("{q}",hw.hwPied).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   else if(sup==="sospeso") add(t("mWall"));
   else add(t("mPlinth"),{hi:["zocc"],show:[...CARC,"tram"]});
@@ -12537,6 +12547,7 @@ function mSteps(M,hw,items){
   add(t("ms10").replace("{d}",dg).replace("{w}",c.L).replace("{h}",Hc));
   /* 4. appoggio */
   const sup=c.support||"zoccolo";
+  if(sup==="cadru") add(t("ms11c").replace("{h}",c.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini") add(t("ms11f").replace("{n}",hw.hwPied||4).replace("{h}",c.plinth||0).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   /* il pensile si appende DOPO averlo messo in piedi: il passo va dopo */
   else if((c.plinth||0)>=30) add(t("ms11z").replace("{s}",G&&G.in?G.in.setback_zoccolo:50).replace("{h}",c.plinth),{hi:["zocc"],show:[...CARC,"tram"]});
@@ -16289,7 +16300,7 @@ const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR",de:"de-DE",pl:
    entra in AI_ENUM nello stesso commit in cui entra nell'interfaccia. */
 const AI_ENUM={
   type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"], lamDir:["v","o"], cShape:["rect","round","arch","scoop"], cOri:["v","o"],
-  front:["piena","vetro","curvo"], support:["zoccolo","piedini","sospeso"],
+  front:["piena","vetro","curvo"], support:["zoccolo","piedini","cadru","sospeso"],
   handles:["maniglia","push","gola","raza"], razaCorner:["auto","top","bottom","both"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
   corner:["sx","dx"], cornerKind:["int","ext"],
   secMode:["hangShelf","hang","shelf","empty","drawers","drawerShelf"],
@@ -16913,7 +16924,7 @@ function aiVal(k,v){
   if(["type","front","support","handles","razaCorner","shelfType","corner","cornerKind","top","lamDir","cShape","cOri"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
-      piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",raza:"hRaza",auto:"razaAuto",top:"razaTop",bottom:"razaBottom",both:"razaBoth",mobile:"shMobile",
+      piedini:"supFeet",cadru:"supFrame",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",raza:"hRaza",auto:"razaAuto",top:"razaTop",bottom:"razaBottom",both:"razaBoth",mobile:"shMobile",
       fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt",
       tondo:"typeRound",raccordato:"typeFillet",lambriu:"typeLambriu",boiserie:"typeBoiserie",contur:"typeContur",rect:"contShapeRect",round:"contShapeRound",arch:"contShapeArch",scoop:"contShapeScoop",v:"lamV",o:"lamH",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
     return m[v]?t(m[v]):v;
@@ -17753,12 +17764,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.28.2"; /* APP_VER-MARKER */
+const APP_VER="5.29.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v207";
+const SW_CACHE="ebanist-v208";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
