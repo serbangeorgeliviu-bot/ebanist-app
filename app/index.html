@@ -1766,6 +1766,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fDoorsN">Ante</label><input id="bDoors" type="number" inputmode="numeric" min="0" max="8"></div>
           <div class="f"><label data-i="fFront">Frontale</label>
             <select id="bFront"><option value="piena" data-i="frontFull">Pieno</option><option value="vetro" data-i="frontGlass">Telaio + vetro</option><option value="curvo" data-i="frontCurved">Bombato</option></select></div>
+          <div class="f2" id="rowBedBox" style="display:none">
+            <div class="f"><label data-i="fBedBox">Cutii sub pat</label>
+              <select id="bBedBox"><option value="" data-i="deskKbNone">Fără</option><option value="sx" data-i="deskPedSx">Stânga</option><option value="dx" data-i="deskPedDx">Dreapta</option><option value="both" data-i="deskPedBoth">Ambele părți</option></select></div>
+            <div class="f"><label data-i="fBedBoxN">Cutii pe latură</label>
+              <select id="bBedBoxN"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
+          </div>
           <div class="f" id="rowTblExt" style="display:none"><label data-i="fTblExt">Masă extensibilă (glisiere Häfele)</label>
             <select id="bTblExt"><option value="" data-i="tblExtNone">Fixă</option><option value="haf_642_68_901">800 · sincron · prelungire 500 (642.68.901)</option><option value="haf_642_68_921">800 · prelungire 500 (642.68.921)</option><option value="haf_642_68_922">1000 · prelungire 600 (642.68.922)</option></select></div>
           <div class="f" id="rowDeskPed" style="display:none"><label data-i="fDeskPed">Corp cu sertare</label>
@@ -3589,6 +3595,13 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{fBedBox:"Scatole sotto il letto",fBedBoxN:"Scatole per lato",hwBoxRot:"Rotelle scatole sotto letto",fBX:"Monta le {n} scatole sotto il letto: fondo, frontale, retro e due fianchi con spine e confirmat (i fori sono nella scheda di ogni pezzo), poi le {c} rotelle sul fondo. Si estraggono di lato, sotto la sponda."});
+Object.assign(I18N.ro,{fBedBox:"Cutii sub pat",fBedBoxN:"Cutii pe latură",hwBoxRot:"Rotile cutii sub pat",fBX:"Montează cele {n} cutii de sub pat: fund, front, spate și două laterale cu diblu și confirmat (găurile sunt în fișa fiecărei piese), apoi cele {c} rotile pe fund. Se scot lateral, pe sub sponda patului."});
+Object.assign(I18N.en,{fBedBox:"Under-bed boxes",fBedBoxN:"Boxes per side",hwBoxRot:"Under-bed box castors",fBX:"Assemble the {n} under-bed boxes: bottom, front, back and two sides with dowels and confirmat screws (the holes are on each part's sheet), then fit the {c} castors under the bottom. They pull out sideways, under the side rail."});
+Object.assign(I18N.fr,{fBedBox:"Caisses sous le lit",fBedBoxN:"Caisses par côté",hwBoxRot:"Roulettes de caisses sous lit",fBX:"Montez les {n} caisses sous le lit : fond, façade, arrière et deux côtés avec tourillons et vis confirmat (les perçages sont sur la fiche de chaque pièce), puis les {c} roulettes sous le fond. Elles sortent de côté, sous la traverse du lit."});
+Object.assign(I18N.de,{fBedBox:"Bettkästen",fBedBoxN:"Kästen pro Seite",hwBoxRot:"Rollen für Bettkästen",fBX:"Montieren Sie die {n} Bettkästen: Boden, Front, Rückwand und zwei Seiten mit Dübeln und Konfirmatschrauben (die Bohrungen stehen auf dem Teileblatt), dann die {c} Rollen unter den Boden. Sie lassen sich seitlich unter der Bettzarge herausziehen."});
+Object.assign(I18N.pl,{fBedBox:"Szuflady pod łóżko",fBedBoxN:"Szuflad na stronę",hwBoxRot:"Kółka szuflad pod łóżko",fBX:"Zmontuj {n} szuflad pod łóżko: dno, front, tył i dwa boki na kołkach i konfirmatach (otwory są na karcie każdej części), potem {c} kółek pod dnem. Wysuwają się bokiem, pod podłużnicą łóżka."});
+Object.assign(I18N.es,{fBedBox:"Cajas bajo la cama",fBedBoxN:"Cajas por lado",hwBoxRot:"Ruedas de cajas bajo cama",fBX:"Monta las {n} cajas bajo la cama: fondo, frente, trasera y dos laterales con espigas y tornillos confirmat (los taladros están en la ficha de cada pieza) y luego las {c} ruedas bajo el fondo. Salen de lado, bajo el larguero de la cama."});
 Object.assign(I18N.it,{fTblExt:"Tavolo estraibile (guide Häfele)",tblExtNone:"Fisso",hwTblExt:"Guide tavolo estraibile (set)",hw_guida_tav:"Guide tavolo estraibile",fTX:"Fissa le due guide {art} (lunghezza di montaggio {nl} mm) all'interno delle traverse lunghe, subito sotto il piano. Monta le squadrette da {ang} mm sotto ogni metà del piano e prova l'apertura prima di inserire la prolunga {leaf}×{P} mm (apertura per la prolunga {open} mm)."});
 Object.assign(I18N.ro,{fTblExt:"Masă extensibilă (glisiere Häfele)",tblExtNone:"Fixă",hwTblExt:"Glisiere masă extensibilă (garnitură)",hw_guida_tav:"Glisieră masă extensibilă",fTX:"Fixează cele două glisiere {art} (lungime de montaj {nl} mm) pe interiorul zargilor lungi, chiar sub blat. Montează unghiurile de {ang} mm sub fiecare jumătate de blat și încearcă extragerea înainte de a introduce prelungirea de {leaf}×{P} mm (deschidere pentru prelungire {open} mm)."});
 Object.assign(I18N.en,{fTblExt:"Extending table (Häfele slides)",tblExtNone:"Fixed",hwTblExt:"Table extension slides (set)",hw_guida_tav:"Table extension slide",fTX:"Fix the two slides {art} (installation length {nl} mm) to the inside of the long aprons, just under the top. Fit the {ang} mm mounting angles under each half of the top and test the extension before inserting the {leaf}×{P} mm leaf (opening for the leaf {open} mm)."});
@@ -4120,6 +4133,8 @@ const HWDB={
   {id:"haf_642_68_901",brand:"Häfele",n:{it:"Guide per tavolo estraibile, sincrone con fune, 800 mm, 1 prolunga 500 mm (642.68.901)",ro:"Glisiere masă extensibilă, sincron cu cablu, 800 mm, o prelungire de 500 mm (642.68.901)",en:"Table extension slides, synchronised with cable, 800 mm, one 500 mm leaf (642.68.901)",fr:"Coulisses de table à rallonge, synchrones à câble, 800 mm, une rallonge de 500 mm (642.68.901)",de:"Auszugstischbeschlag, synchron mit Seilzug, 800 mm, 1 Einlageplatte 500 mm (642.68.901)",pl:"Prowadnice stołu rozkładanego, synchroniczne z linką, 800 mm, jedna wstawka 500 mm (642.68.901)",es:"Guías de mesa extensible, sincronizadas por cable, 800 mm, una prolongación de 500 mm (642.68.901)"},art:"642.68.901",price:0,chk:1},
   {id:"haf_642_68_921",brand:"Häfele",n:{it:"Guide per tavolo estraibile, 800 mm, 1 prolunga 500 mm (642.68.921)",ro:"Glisiere masă extensibilă, 800 mm, o prelungire de 500 mm (642.68.921)",en:"Table extension slides, 800 mm, one 500 mm leaf (642.68.921)",fr:"Coulisses de table à rallonge, 800 mm, une rallonge de 500 mm (642.68.921)",de:"Auszugstischbeschlag, 800 mm, 1 Einlageplatte 500 mm (642.68.921)",pl:"Prowadnice stołu rozkładanego, 800 mm, jedna wstawka 500 mm (642.68.921)",es:"Guías de mesa extensible, 800 mm, una prolongación de 500 mm (642.68.921)"},art:"642.68.921",price:0,chk:1},
   {id:"haf_642_68_922",brand:"Häfele",n:{it:"Guide per tavolo estraibile, 1000 mm, 1 prolunga 600 mm (642.68.922)",ro:"Glisiere masă extensibilă, 1000 mm, o prelungire de 600 mm (642.68.922)",en:"Table extension slides, 1000 mm, one 600 mm leaf (642.68.922)",fr:"Coulisses de table à rallonge, 1000 mm, une rallonge de 600 mm (642.68.922)",de:"Auszugstischbeschlag, 1000 mm, 1 Einlageplatte 600 mm (642.68.922)",pl:"Prowadnice stołu rozkładanego, 1000 mm, jedna wstawka 600 mm (642.68.922)",es:"Guías de mesa extensible, 1000 mm, una prolongación de 600 mm (642.68.922)"},art:"642.68.922",price:0,chk:1}],
+ rotbox:[
+  {id:"gen_castor_box",brand:"—",n:{it:"Rotella piroettante Ø50 con piastra per scatola sotto letto",ro:"Rotilă pivotantă Ø50 cu placă pentru cutia de sub pat",en:"Swivel castor Ø50 with plate for under-bed box",fr:"Roulette pivotante Ø50 à platine pour caisse sous lit",de:"Lenkrolle Ø50 mit Platte für Bettkasten",pl:"Kółko skrętne Ø50 z płytką do szuflady pod łóżko",es:"Rueda giratoria Ø50 con placa para caja bajo cama"},art:"—",price:0,chk:1}],
  fissp:[
   {id:"gen_topclip",brand:"—",n:{it:"Squadretta 30×30 per fissaggio piano",ro:"Colțar 30×30 pentru prinderea blatului",en:"30×30 bracket for fixing the top",fr:"Équerre 30×30 de fixation du plateau",de:"Winkel 30×30 zur Plattenbefestigung",pl:"Kątownik 30×30 do mocowania blatu",es:"Escuadra 30×30 para fijar el tablero"},art:"\u2014",price:0.25,chk:1},
   {id:"gen_figure8",brand:"—",n:{it:"Fermapiano a otto (figure-8)",ro:"Clemă în opt pentru blat (figure-8)",en:"Figure-8 table-top fastener",fr:"Attache de plateau en huit",de:"Plattenverbinder Achter (Figure-8)",pl:"Łącznik blatu typu ósemka (figure-8)",es:"Fijación de tablero en ocho (figure-8)"},art:"\u2014",price:0.4,chk:1}],
@@ -4368,6 +4383,7 @@ const ACC_I18N={
   "Accessorio — gamba legno massello 70×70":{ro:"Accesoriu — picior lemn masiv 70×70",en:"Accessory — solid wood leg 70×70",fr:"Accessoire — pied bois massif 70×70",de:"Zubehör — Massivholzbein 70×70",pl:"Akcesorium — noga z litego drewna 70×70",es:"Accesorio — pata de madera maciza 70×70"},
   "Accessorio — doga faggio curvata 68mm":{ro:"Accesoriu — șipcă fag curbată 68 mm",en:"Accessory — curved beech slat 68 mm",fr:"Accessoire — latte hêtre cintrée 68 mm",de:"Zubehör — gebogene Buchenlatte 68 mm",pl:"Akcesorium — wygięta listwa bukowa 68 mm",es:"Accesorio — lama de haya curvada 68 mm"}
 };
+Object.assign(ACC_I18N,{"Accessorio — rotella scatola sotto letto":{ro:"Accesoriu — rotilă cutie sub pat",en:"Accessory — under-bed box castor",fr:"Accessoire — roulette de caisse sous lit",de:"Zubehör — Rolle für Bettkasten",pl:"Akcesorium — kółko szuflady pod łóżko",es:"Accesorio — rueda de caja bajo cama"}});
 Object.assign(ACC_I18N,{"Accessorio — guide tavolo estensibile Häfele":{ro:"Accesoriu — glisiere masă extensibilă Häfele",en:"Accessory — Häfele table extension slides",fr:"Accessoire — coulisses de table à rallonge Häfele",de:"Zubehör — Häfele Auszugstischbeschlag",pl:"Akcesorium — prowadnice stołu rozkładanego Häfele",es:"Accesorio — guías de mesa extensible Häfele"}});
 Object.assign(ACC_I18N,{"Accessorio — guida ripiano tastiera Hettich KA 3434":{ro:"Accesoriu — glisieră raft tastatură Hettich KA 3434",en:"Accessory — keyboard tray runner Hettich KA 3434",fr:"Accessoire — coulisse de tablette clavier Hettich KA 3434",de:"Zubehör — Tastaturauszug Hettich KA 3434",pl:"Akcesorium — prowadnica półki na klawiaturę Hettich KA 3434",es:"Accesorio — guía de bandeja de teclado Hettich KA 3434"},"Accessorio — passacavi Ø60":{ro:"Accesoriu — trecere cabluri Ø60",en:"Accessory — cable grommet Ø60",fr:"Accessoire — passe-câbles Ø60",de:"Zubehör — Kabeldurchlass Ø60",pl:"Akcesorium — przepust kablowy Ø60",es:"Accesorio — pasacables Ø60"}});
 function matLabelUI(label){
@@ -6689,6 +6705,7 @@ const TABLE_EXT={
   haf_642_68_921:{nl:800,open:550,leaf:500,ang:250,art:"642.68.921",sync:false},
   haf_642_68_922:{nl:1000,open:700,leaf:600,ang:300,art:"642.68.922",sync:false}
 };
+const BED_CASTOR_H=35;
 const DESK_KB_GAP=13, DESK_KB_DROP=70, DESK_KB_BACK=30, DESK_GROMMET=60;
 function structTh(cfg){
   const S=(typeof state!=="undefined"&&state.settings)||{};
@@ -6723,7 +6740,7 @@ function isFrontEl(el){ return /^(anta|frontale|montante anta|traversa anta)/i.t
 const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
   base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
-  schienale:"schienale", ripiano:"ripiano", raft_tast:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale", contur:"fianco",
+  schienale:"schienale", ripiano:"ripiano", raft_tast:"ripiano", cutie_front:"frontale", cutie_lat:"fianco", cutie_fond:"fianco", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale", contur:"fianco",
   zoccolo:"zoccolo", traversa:"frontale", traversa_spate:"fianco", filler:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
   cassetto_fianco:"fianco", cassetto_fondo:"fianco"
@@ -8720,6 +8737,34 @@ function buildModule(cfg){
     const NDO=14, doW=68, doA=t+40, doB=P-t-40-doW, doStep=NDO>1?(doB-doA)/(NDO-1):0;
     for(let i=0;i<NDO;i++){ const z=doA+i*doStep;
       B({x0:t+5,x1:L-t-5,y0:dTop,y1:sy+sh,z0:z,z1:z+doW},"doga"); }
+    /* SCATOLE SOTTO IL LETTO (D-120): scatole basse su rotelle, si estraggono di lato, sotto la sponda. Fondo pieno (t) con i
+       quattro lati sopra; l'altezza sta nel vuoto fra pavimento e sponda (sy = 150) meno 15 mm di gioco e 35 di rotella. */
+    const bb=["sx","dx","both"].includes(cfg.bedBox)?cfg.bedBox:null;
+    if(bb){
+      const N=Math.max(1,Math.min(3,cfg.bedBoxN|0||2)), sides=bb==="both"?[0,1]:[bb==="sx"?0:1], inL=L-2*t;
+      const yb=BED_CASTOR_H, hb=sy-15-yb, hs=hb-t;
+      const D=bb==="both"?Math.floor(inL/2)-30:Math.min(inL-60,1000);
+      const zA=t+20, zB=P-t-20, Lb=(zB-zA-(N-1)*20)/N;
+      if(hs<40) throw new Error("Pat: cu un panou de "+t+" mm rămân doar "+Math.round(hs)+" mm pentru pereții cutiilor de sub pat");
+      if(D<250) throw new Error("Pat: cutiile de sub pat ar fi mai puțin adânci de 250 mm");
+      if(Lb<300) throw new Error("Pat: "+N+" cutii pe o latură ar fi mai scurte de 300 mm (sunt "+Math.round(Lb)+" mm)");
+      const nB=N*sides.length, rl=Math.round(Lb*10)/10;
+      add("Scatola sotto letto — frontale",rl,hs,nB,"1L",null,"cutie_front");
+      add("Scatola sotto letto — retro",rl,hs,nB,"",null,"cutie_front");
+      add("Scatola sotto letto — fianco",D-2*t,hs,2*nB,"",null,"cutie_lat");
+      add("Scatola sotto letto — fondo",D,rl,nB,"",null,"cutie_fond");
+      add("Rotella scatola sotto letto",BED_CASTOR_H,50,4*nB,"","Accessorio — rotella scatola sotto letto","accessorio");
+      let gi=0;
+      sides.forEach(sd=>{ for(let k=0;k<N;k++){
+        const z0=zA+k*(Lb+20), z1=z0+Lb, g="BX"+(++gi), mx=(a,b)=>sd?[L-b,L-a]:[a,b];
+        const put=(a,b,y0,y1,za,zb,role,sub)=>{ const [x0,x1]=mx(a,b); B({x0,x1,y0,y1,z0:za,z1:zb,grp:g},role,sub); };
+        put(0,D,yb,yb+t,z0,z1,"cutie_fond","fondo");
+        put(0,t,yb+t,yb+hb,z0,z1,"cutie_front","frontale");
+        put(D-t,D,yb+t,yb+hb,z0,z1,"cutie_front","retro");
+        put(t,D-t,yb+t,yb+hb,z0,z0+t,"cutie_lat","fianco");
+        put(t,D-t,yb+t,yb+hb,z1-t,z1,"cutie_lat","fianco");
+      } });
+    }
     return {pieces,boxes};
   }
   /* ---------- corpo tondo / ovale ----------
@@ -9347,6 +9392,12 @@ de:{"Anta":"Tür","Anta scorrevole":"Schiebetür","Fianco sx":"Seite links","Fia
 pl:{"Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
 es:{"Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
+Object.assign(EL_I18N.ro,{"Scatola sotto letto — frontale":"Cutie sub pat — front","Scatola sotto letto — retro":"Cutie sub pat — spate","Scatola sotto letto — fianco":"Cutie sub pat — laterală","Scatola sotto letto — fondo":"Cutie sub pat — fund","Rotella scatola sotto letto":"Rotilă cutie sub pat"});
+Object.assign(EL_I18N.en,{"Scatola sotto letto — frontale":"Under-bed box — front","Scatola sotto letto — retro":"Under-bed box — back","Scatola sotto letto — fianco":"Under-bed box — side","Scatola sotto letto — fondo":"Under-bed box — bottom","Rotella scatola sotto letto":"Under-bed box castor"});
+Object.assign(EL_I18N.fr,{"Scatola sotto letto — frontale":"Caisse sous lit — façade","Scatola sotto letto — retro":"Caisse sous lit — arrière","Scatola sotto letto — fianco":"Caisse sous lit — côté","Scatola sotto letto — fondo":"Caisse sous lit — fond","Rotella scatola sotto letto":"Roulette de caisse sous lit"});
+Object.assign(EL_I18N.de,{"Scatola sotto letto — frontale":"Bettkasten — Front","Scatola sotto letto — retro":"Bettkasten — Rückwand","Scatola sotto letto — fianco":"Bettkasten — Seite","Scatola sotto letto — fondo":"Bettkasten — Boden","Rotella scatola sotto letto":"Rolle für Bettkasten"});
+Object.assign(EL_I18N.pl,{"Scatola sotto letto — frontale":"Szuflada pod łóżko — front","Scatola sotto letto — retro":"Szuflada pod łóżko — tył","Scatola sotto letto — fianco":"Szuflada pod łóżko — bok","Scatola sotto letto — fondo":"Szuflada pod łóżko — dno","Rotella scatola sotto letto":"Kółko szuflady pod łóżko"});
+Object.assign(EL_I18N.es,{"Scatola sotto letto — frontale":"Caja bajo cama — frente","Scatola sotto letto — retro":"Caja bajo cama — trasera","Scatola sotto letto — fianco":"Caja bajo cama — lateral","Scatola sotto letto — fondo":"Caja bajo cama — fondo","Rotella scatola sotto letto":"Rueda de caja bajo cama"});
 Object.assign(EL_I18N.ro,{"Piano tavolo (metà)":"Jumătate de blat masă","Prolunga tavolo":"Prelungire masă","Guide tavolo estensibile Häfele 642.68.901":"Glisiere masă extensibilă Häfele 642.68.901","Guide tavolo estensibile Häfele 642.68.921":"Glisiere masă extensibilă Häfele 642.68.921","Guide tavolo estensibile Häfele 642.68.922":"Glisiere masă extensibilă Häfele 642.68.922"});
 Object.assign(EL_I18N.en,{"Piano tavolo (metà)":"Table top half","Prolunga tavolo":"Table leaf","Guide tavolo estensibile Häfele 642.68.901":"Häfele table extension slides 642.68.901","Guide tavolo estensibile Häfele 642.68.921":"Häfele table extension slides 642.68.921","Guide tavolo estensibile Häfele 642.68.922":"Häfele table extension slides 642.68.922"});
 Object.assign(EL_I18N.fr,{"Piano tavolo (metà)":"Moitié de plateau de table","Prolunga tavolo":"Rallonge de table","Guide tavolo estensibile Häfele 642.68.901":"Coulisses de table à rallonge Häfele 642.68.901","Guide tavolo estensibile Häfele 642.68.921":"Coulisses de table à rallonge Häfele 642.68.921","Guide tavolo estensibile Häfele 642.68.922":"Coulisses de table à rallonge Häfele 642.68.922"});
@@ -10119,6 +10170,7 @@ function deskRows(){
   $("rowDeskKb").style.display=d?"":"none"; $("rowDeskCab").style.display=d?"":"none";
   $("rowDeskKbW").style.display=d&&$("bDeskKb").value?"":"none";
   $("rowTblExt").style.display=$("bTipo").value==="tavolo"?"":"none";
+  $("rowBedBox").style.display=$("bTipo").value==="letto"?"":"none";
   $("rowDeskPed").style.display=d?"":"none"; $("rowDeskPedN").style.display=d&&$("bDeskPed").value?"":"none";
 }
 function lamRows(){
@@ -10164,6 +10216,8 @@ function cfgFromForm(){
     bow:Math.min(200,v("bBow",0)), rcorner:Math.max(10,Math.min(400,v("bRc",60))),
     deskKb:$("bTipo").value==="scrivania"&&DESK_KB[$("bDeskKb").value]?$("bDeskKb").value:null,
     deskKbW:$("bTipo").value==="scrivania"&&DESK_KB[$("bDeskKb").value]&&v("bDeskKbW",0)>0?Math.max(300,Math.min(900,v("bDeskKbW",0))):null,
+    bedBox:$("bTipo").value==="letto"&&["sx","dx","both"].includes($("bBedBox").value)?$("bBedBox").value:null,
+    bedBoxN:$("bTipo").value==="letto"&&$("bBedBox").value?Math.max(1,Math.min(3,v("bBedBoxN",2))):null,
     tableExt:$("bTipo").value==="tavolo"&&TABLE_EXT[$("bTblExt").value]?$("bTblExt").value:null,
     deskCable:$("bTipo").value==="scrivania"?Math.max(0,Math.min(3,v("bDeskCab",0))):0,
     deskPed:$("bTipo").value==="scrivania"&&["sx","dx","both"].includes($("bDeskPed").value)?$("bDeskPed").value:null,
@@ -10239,6 +10293,7 @@ function syncBuildForm(){
   $("bRc").value=buildCfg.rcorner||"";
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
   $("bDeskKb").value=DESK_KB[buildCfg.deskKb]?buildCfg.deskKb:""; $("bDeskKbW").value=buildCfg.deskKbW||""; $("bDeskCab").value=String(buildCfg.deskCable|0); $("bTblExt").value=TABLE_EXT[buildCfg.tableExt]?buildCfg.tableExt:"";
+  $("bBedBox").value=["sx","dx","both"].includes(buildCfg.bedBox)?buildCfg.bedBox:""; $("bBedBoxN").value=String(buildCfg.bedBoxN||2);
   $("bDeskPed").value=["sx","dx","both"].includes(buildCfg.deskPed)?buildCfg.deskPed:""; $("bDeskPedW").value=buildCfg.deskPedW||""; $("bDeskPedDr").value=buildCfg.deskPedDr||"";
   $("bName").value=buildCfg.name||""; $("bTipo").value=buildCfg.type||"standard";
   $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v"; $("bWall2").value=buildCfg.wall2?"1":"0"; $("bRfInset").value=buildCfg.rfInset?"1":"0";
@@ -11056,7 +11111,7 @@ function renderBuild(){
   [60,350].forEach(ms=>setTimeout(()=>{ if(currentView!=="build") return; try{ if(gl3dOn()) window.GL3D.resize(); drawPreview(); }catch(e){} },ms));
   if(!buildFormReady){
     syncBuildForm();
-    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab","bDeskPed","bDeskPedW","bDeskPedDr","bTblExt",
+    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab","bDeskPed","bDeskPedW","bDeskPedDr","bTblExt","bBedBox","bBedBoxN",
      "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos","bStepH","bStepP"]
       .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     /* il pannello cassetti si ridisegna prima dell'anteprima: cambiando sistema
@@ -12784,6 +12839,7 @@ function flatHwCounts(c){
   }else if(c.type==="letto"){
     const trav=R("traversa")[0], slats=R("doga");
     q.hwBedFit=4; q.hwSlatHold=slats.length*2;
+    const castors=bx.filter(b=>b.role==="cutie_fond").length*4; if(castors) q.hwBoxRot=castors;
     if(trav){ q.hwTravFit=2; q.hwCenterFoot=c.L>=1400?2:1; q.hwSlatHold2=slats.length; }
   }
   return {q,info};
@@ -12835,7 +12891,7 @@ function mFlat(M){
     const first=slats[0]?Math.round(slats[0].z0-th):40;
     const feet=FC.q.hwCenterFoot||0;
     out.kg=[head,foot,...sides,trav].filter(Boolean).reduce((s,b)=>s+vol(b)*mDens(""),0)+slats.reduce((s,b)=>s+vol(b)*700,0);
-    hwc("hwBedFit"); hwc("hwTravFit"); hwc("hwCenterFoot"); hwc("hwSlatHold"); hwc("hwSlatHold2");
+    hwc("hwBedFit"); hwc("hwTravFit"); hwc("hwCenterFoot"); hwc("hwSlatHold"); hwc("hwSlatHold2"); hwc("hwBoxRot");
     hw(t("hfScrew"),"3,5×16 / 4×30 ("+t("fConsum")+")",slats.length*4+24);
     add(t("fB1").replaceAll("{L}",c.L).replaceAll("{H}",c.H).replaceAll("{P}",inP).replaceAll("{sh}",sh).replaceAll("{n}",slats.length).replaceAll("{sl}",Math.round(c.L-2*th-10)));
     add(t("fB2").replaceAll("{L}",c.L).replaceAll("{H}",c.H));
@@ -12846,6 +12902,8 @@ function mFlat(M){
     if(trav) add(t("fB6").replaceAll("{x}",Math.round(c.L/2)).replaceAll("{y}",Math.round(dTop)).replaceAll("{f}",feet).replaceAll("{h}",Math.round(dTop-120)),["trav"],["lato","anta"]);
     add(t("fB7").replaceAll("{n}",slats.length).replaceAll("{y}",Math.round(dTop)).replaceAll("{f}",first).replaceAll("{s}",step).replaceAll("{g}",gap),["lato","trav"],["anta"]);
     add(t("fB8").replaceAll("{n}",slats.length),["doga"],["lato","anta","trav"]);
+    const nBox=bx.filter(b=>b.role==="cutie_fond").length;
+    if(nBox) add(t("fBX").replaceAll("{n}",nBox).replaceAll("{c}",nBox*4));
     add(t("fB9").replaceAll("{a}",mat(inL)).replaceAll("{b}",mat(inP)).replaceAll("{i}",inL).replaceAll("{j}",inP));
     add(t("fB10"));
     out.checks=[[t("mcOuter"),`${c.L} × ${c.H} × ${c.P}`],[t("fcInner"),`${inL} × ${inP}`],[t("fcFrameDiag"),`${dg} mm ×2`],[t("fcMattress"),`${mat(inL)} × ${mat(inP)}`],[t("fcSlatTop"),`${Math.round(sy+sh)} mm`]];
@@ -13652,7 +13710,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
+  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
 const CAT_PH_MAX=240;
@@ -13958,11 +14016,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
    masculul pe filler, astfel încât să nu rămână rost între filler și corp. Distanța ≈ 500 mm, minimum 3 pe filler;
    prima și ultima la KEKU_EDGE de capete. Cotele sunt ale atelierului, nevalidate pe un set real. */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
+  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTblExt","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
+    "hwLeg","hwTblExt","hwBoxRot","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -17909,12 +17967,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.31.0"; /* APP_VER-MARKER */
+const APP_VER="5.32.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v209";
+const SW_CACHE="ebanist-v210";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

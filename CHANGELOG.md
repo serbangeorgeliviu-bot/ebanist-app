@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.32.0 — 8 noiembrie 2026
+
+**Pat: cutii joase pe rotile sub pat (D-120).** Pe una sau pe ambele laturi, 1–3 cutii pe latură, care se scot lateral, pe sub sponda patului. Fiecare cutie: fund plin, frontal, retro și două laterale; înălțimea vine din golul de sub sponde (150 mm) minus 15 mm de joc și 35 mm de rotilă. Adâncimea: pe o latură până la 1000 mm, pe ambele jumătate din lățimea interioară minus 30 mm. Intră în distinctă (patru rânduri pe cutie și rotilele ca accesoriu), în 3D, în deviz (rotilele, categorie nouă, preț 0 până îl completezi), în fișa de montaj și în găurire: diblu între laterale și frontal/retro, confirmat de jos la fund. Cutiile folosesc roluri noi (`cutie_front`, `cutie_lat`, `cutie_fond`), ca să nu declanșeze găurirea de glisiere a sertarelor. Erori: cutii care ar fi mai scurte de 300 mm, mai puțin adânci de 250 mm sau cu pereți sub 40 mm.
+- Rotilele nu se găuresc (catalogul nu dă placa); cotele de găurire sunt generice, `verificat:false`.
+- Un pat fără cutii dă distinta de dinainte, identică.
+
 ## 5.31.0 — 8 noiembrie 2026
 
 **Masă extensibilă pe glisiere Häfele (D-119).** Trei modele din catalogul Häfele DGH-M2026, pagina 9.22: 642.68.901 (800 mm, sincron cu cablu, prelungire 500), 642.68.921 (800 mm, prelungire 500) și 642.68.922 (1000 mm, prelungire 600). Cadrul (picioare + zargi) rămâne fix; blatul devine **două jumătăți** (L/2, cu cant pe toate laturile) care glisează, iar **prelungirea** se introduce la mijloc (lungimea deschisă = L + prelungire). Intră în distinctă (jumătăți, prelungire, glisierele ca accesoriu), în 3D (rostul dintre jumătăți), în deviz (o garnitură de glisiere în loc de colțarele de blat) și în fișa de montaj. Glisierele trebuie să încapă pe zarga lungă: la 800 mm masa are cel puțin 1080 mm, la 1000 mm cel puțin 1280 mm; sub asta, eroare cu lungimea minimă.

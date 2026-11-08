@@ -111,7 +111,7 @@ function jointKind(input) {
   return JOINT_OF_ID[id] || "minifix";
 }
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "schienale", "zoccolo", "traversa", "traversa_spate",
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "cutie_fond", "cutie_front", "cutie_lat", "schienale", "zoccolo", "traversa", "traversa_spate",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur", "filler"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
@@ -128,7 +128,7 @@ var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo:
   /* piesa cu contur liber (D-101): conturul exact e pe cutia ei (`cont`), cutiile sunt triunghiuri pentru 3D */
   contur: 1,
   /* rinforzo în spate și filler (D-103): panouri ca toate celelalte */
-  traversa_spate: 1, filler: 1, raft_tast: 1 };
+  traversa_spate: 1, filler: 1, raft_tast: 1, cutie_front: 1, cutie_lat: 1, cutie_fond: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -1032,6 +1032,33 @@ function generate1(input) {
                       note: "Häfele " + X.id.replace(/^haf_/, "").replace(/_/g, ".") + " (lungime de montaj " + X.nl + " mm)" });
       });
     }
+  }
+
+  /* --- 6g. scatole sotto il letto (D-120): ogni scatola (grp BX…) = fondo pieno + frontale, retro e due fianchi sopra. Fianchi e retro/frontale
+     si uniscono con spine (una a meta altezza); i quattro lati si fissano al fondo con confirmat da sotto. Le rotelle non si forano: il catalogo
+     non dice la piastra. Le quote di foratura sono generiche, `verificat:false`. */
+  if (cfg.type === "letto") {
+    var gids = {}; pcs.forEach(function (q) { if (q.grp && /^BX/.test(q.grp) && (q.role === "cutie_front" || q.role === "cutie_lat" || q.role === "cutie_fond")) (gids[q.grp] = gids[q.grp] || []).push(q); });
+    Object.keys(gids).forEach(function (g) {
+      var P0 = gids[g], bot = P0.filter(function (q) { return q.role === "cutie_fond"; })[0];
+      var fr = P0.filter(function (q) { return q.sub === "frontale"; })[0], bk = P0.filter(function (q) { return q.sub === "retro"; })[0];
+      var sd = P0.filter(function (q) { return q.role === "cutie_lat"; });
+      if (!bot || !fr || !bk) return;
+      var fixBottom = function (E, sAx, camAx) {
+        var n0 = bot.holes.length;
+        jointOther("confirmat", E, bot, 1, -1, sAx, E.min[sAx], E.max[sAx], camAx, out);
+        for (var i = n0; i < bot.holes.length; i++) { var hh = bot.holes[i]; if (hh.through) hh.w[1] = hh.side > 0 ? bot.max[1] : bot.min[1]; }
+      };
+      sd.forEach(function (S) {
+        [fr, bk].forEach(function (F) {
+          var lowEnd = S.min[0] - F.max[0], highEnd = F.min[0] - S.max[0];
+          if (Math.abs(lowEnd) < 0.6) jointOther("dowel", S, F, 0, -1, 1, S.min[1], S.max[1], 2, out);
+          else if (Math.abs(highEnd) < 0.6) jointOther("dowel", S, F, 0, 1, 1, S.min[1], S.max[1], 2, out);
+        });
+        fixBottom(S, 0, 2);
+      });
+      fixBottom(fr, 2, 0); fixBottom(bk, 2, 0);
+    });
   }
 
   /* --- 7. nel sistema del pezzo, con le regole di pre-flight -------------- */
