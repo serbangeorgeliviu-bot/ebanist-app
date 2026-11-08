@@ -128,3 +128,36 @@ test("sertar sub blat + corpuri laterale + raft nu: tot împreună, deterministi
   assert.deepEqual(a.o, d.o); assert.equal(new Set(a.o.pieces.map(p => p.pk)).size, a.o.pieces.length);
   assert.ok(!a.o.pieces.some(p => p.preflight.some(w => w.level === "error")));
 });
+
+/* --- retur lipit (D-123) -------------------------------------------------------------------------------- */
+test("retur lipit: blat lipit de muchia din față a blatului principal, lateral prelungit, panou de capăt", () => {
+  for (const ret of ["sx", "dx"]) {
+    const { b, o } = genRaw({ ...DESK, deskRet: ret, deskRetL: 1000, deskRetW: 600 });
+    const tops = b.boxes.filter(x => x.role === "cielo"), main = tops.find(x => x.z0 === 0), rt = tops.find(x => x.z0 > 0);
+    assert.equal(tops.length, 2);
+    assert.equal(rt.z0, main.z1, "returul nu e lipit de muchia din față");
+    assert.equal(rt.z1 - rt.z0, 1000); assert.equal(rt.x1 - rt.x0, 600);
+    assert.equal(ret === "sx" ? rt.x0 : rt.x1, ret === "sx" ? 0 : DESK.L, "returul nu e la capătul biroului");
+    const lat = b.boxes.filter(x => x.role === "fianco"), long = lat.find(x => x.z1 > main.z1);
+    assert.ok(long && Math.abs(long.z1 - (DESK.P + 1000 - 20)) < 0.01, "lateralul nu e prelungit");
+    assert.ok(b.pieces.some(r => r.elemento === "Fianco di testa ritorno"));
+    assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")), ret + ": pre-flight");
+    assert.equal(new Set(o.pieces.map(p => p.pk)).size, o.pieces.length);
+    /* lipirea: găuri pe muchia returului și pe muchia din față a blatului principal */
+    const rtp = o.pieces.find(p => p.role === "cielo" && p.min[2] > 0), mp = o.pieces.find(p => p.role === "cielo" && p.min[2] < 1);
+    assert.ok(rtp.operations.some(x => x.type === "drill" && x.face >= 1 && x.face <= 4), "returul fără găuri pe muchie");
+    assert.ok(mp.operations.some(x => x.type === "drill" && x.face >= 1 && x.face <= 4), "blatul principal fără găuri pe muchie");
+  }
+});
+test("retur lipit: erori (latura cu corp, dimensiuni) și compatibilitate cu corpul de pe cealaltă parte", () => {
+  assert.throws(() => genRaw({ ...DESK, deskRet: "sx", deskPed: "sx" }), /nu poate sta corp/);
+  assert.throws(() => genRaw({ ...DESK, deskRet: "dx", deskPed: "both" }), /nu poate sta corp/);
+  assert.throws(() => genRaw({ ...DESK, deskRet: "dx", deskRetL: 200 }), /între 400 și 2000/);
+  assert.throws(() => genRaw({ ...DESK, deskRet: "dx", deskRetW: 1200 }), /între 400 și 800/);
+  const { o } = genRaw({ ...DESK, deskRet: "sx", deskPed: "dx", deskPedDr: 3, deskCable: 2 });
+  assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+});
+test("fără retur = biroul de dinainte", () => {
+  const a = genRaw(DESK), c = genRaw({ ...DESK, deskRet: null });
+  assert.deepEqual(a.b.pieces, c.b.pieces); assert.deepEqual(a.o, c.o);
+});

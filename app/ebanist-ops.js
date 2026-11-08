@@ -958,23 +958,39 @@ function generate1(input) {
      nu una nouă: lateralul vine cu muchia de sus sub blat, cu cupa pe fața dinspre interior (ascunsă); spatele vine cu muchia pe
      fața interioară a fiecărui lateral și sub blat, cupa pe fața dinspre perete. Cotele sunt ale pieselor, niciuna din text. */
   if (cfg.type === "scrivania") {
-    var dTop = byRole("cielo")[0], dSides = byRole("fianco").filter(function (q) { return q.tAx === 0; }), dBacks = byRole("schienale");
+    var dTops = byRole("cielo").filter(function (q) { return q.tAx === 1 && !q.tbl; }), dTop = dTops.filter(function (q) { return q.min[2] < 1; })[0] || dTops[0],
+        dRetTop = dTops.filter(function (q) { return q !== dTop; })[0] || null;
+    var dSides = byRole("fianco").filter(function (q) { return q.tAx === 0; }), dBacks = byRole("schienale");
     if (dTop && dTop.tAx === 1) {
       var xm = (dTop.min[0] + dTop.max[0]) / 2;
+      var topOf = function (q) {
+        var cx = (q.min[0] + q.max[0]) / 2, cz = (q.min[2] + q.max[2]) / 2;
+        return dTops.filter(function (T) { return cx >= T.min[0] - 0.6 && cx <= T.max[0] + 0.6 && cz >= T.min[2] - 0.6 && cz <= T.max[2] + 0.6; })[0] || null;
+      };
+      /* lateralul vine cu muchia de sus sub fiecare blat pe care îl atinge (principal și retur), pe porțiunea comună */
       dSides.forEach(function (S) {
         var left = (S.min[0] + S.max[0]) / 2 < xm;
-        if (Math.abs(S.max[1] - dTop.min[1]) > 0.6) return;                       // lateralul nu ajunge sub blat
-        joint(S, dTop, 1, 1, 2, S.min[2], S.max[2], 0, left ? 1 : -1, out);
+        dTops.forEach(function (T) {
+          if (Math.abs(S.max[1] - T.min[1]) > 0.6) return;
+          var sx = (S.min[0] + S.max[0]) / 2; if (sx < T.min[0] - 0.6 || sx > T.max[0] + 0.6) return;
+          var lo = Math.max(S.min[2], T.min[2]), hi = Math.min(S.max[2], T.max[2]); if (hi - lo < 100) return;
+          joint(S, T, 1, 1, 2, lo, hi, 0, left ? 1 : -1, out);
+        });
       });
-      /* spatele și panoul frontal (D-122): fiecare între laterale și sub blat, cupa pe fața dinspre perete / dinspre genunchi */
+      /* spatele, panoul frontal și panoul de capăt al returului (D-122, D-123): fiecare între laterale și sub blatul lui */
       dBacks.filter(function (dBack) { return dBack.tAx === 2; }).forEach(function (dBack) {
+        var bz = (dBack.min[2] + dBack.max[2]) / 2;
         dSides.forEach(function (S) {
           var left = (S.min[0] + S.max[0]) / 2 < xm, edge = left ? dBack.min[0] : dBack.max[0], face = left ? S.max[0] : S.min[0];
-          if (Math.abs(edge - face) > 0.6) return;
+          if (Math.abs(edge - face) > 0.6 || bz < S.min[2] - 0.6 || bz > S.max[2] + 0.6) return;
           joint(dBack, S, 0, left ? -1 : 1, 1, dBack.min[1], dBack.max[1], 2, -1, out);
         });
-        if (Math.abs(dBack.max[1] - dTop.min[1]) <= 0.6) joint(dBack, dTop, 1, 1, 0, dBack.min[0], dBack.max[0], 2, -1, out);
+        var BT = topOf(dBack);
+        if (BT && Math.abs(dBack.max[1] - BT.min[1]) <= 0.6) joint(dBack, BT, 1, 1, 0, dBack.min[0], dBack.max[0], 2, -1, out);
       });
+      /* retur lipit (D-123): muchia din spate a returului vine pe fața din față a blatului principal; îmbinarea aleasă în proiect, cupa pe dedesubt */
+      if (dRetTop && Math.abs(dRetTop.min[2] - dTop.max[2]) <= 0.6)
+        joint(dRetTop, dTop, 2, -1, 0, dRetTop.min[0], dRetTop.max[0], 1, -1, out);
       /* trecere de cabluri (D-118): gaură Ø60 prin blat, cu burghiul; poziția vine din piesă */
       (dTop.cab || []).forEach(function (c) {
         hole(dTop, 1, 1, [c.x, dTop.max[1], c.z], c.d, 0, null, "trecere cabluri", true);

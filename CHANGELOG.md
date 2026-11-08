@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.35.0 — 8 noiembrie 2026
+
+**Birou în L: retur lipit (D-123).** La Birou, câmpul nou „Retur lipit" (stânga sau dreapta) adaugă un al doilea blat, lipit cu muchia lui din spate de muchia din față a blatului principal, la capătul ales, întins spre utilizator: lungime 400–2000 mm (implicit 1000), lățime 400–800 mm (implicit 600, cu cel puțin 300 mm mai mică decât blatul principal). Îl susțin **lateralul de pe acea parte, prelungit pe toată lungimea**, și un **panou de capăt** sub marginea liberă a returului. Lipirea folosește îmbinarea aleasă în proiect (implicit Minifix + diblu, cupa pe dedesubt) și are găuri pe muchia returului și pe muchia din față a blatului principal. Blatul returului are cant pe trei laturi (nu pe cea lipită). Distincta, 3D-ul, găurirea și devizul vin din piese.
+- Pe latura returului nu poate sta corp cu sertare (eroare); pe cealaltă latură poate.
+- Lateralul, spatele și panourile se prind acum de **fiecare** blat pe care îl ating, pe porțiunea comună.
+- Un birou fără retur dă distinta de dinainte, identică. `fuzz-desk.js` acoperă și returul (3000 de configurații, 0 căderi).
+- **Neacoperit:** fixarea panoului de capăt de podea; returul fără lateral prelungit (cu picior sau cavalet); unghi tăiat în colț.
+
 ## 5.34.0 — 8 noiembrie 2026
 
 **Birou: sertar sub blat și panou frontal (D-122).**

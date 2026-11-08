@@ -1782,6 +1782,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
             <div class="f"><label data-i="fDeskPedW">Lățime corp (mm)</label><input id="bDeskPedW" type="number" inputmode="numeric" min="300" max="800" placeholder="450"></div>
             <div class="f"><label data-i="fDeskPedDr">Sertare în corp</label><input id="bDeskPedDr" type="number" inputmode="numeric" min="1" max="6" placeholder="3"></div>
           </div>
+          <div class="f" id="rowDeskRet" style="display:none"><label data-i="fDeskRet">Retur lipit</label>
+            <select id="bDeskRet"><option value="" data-i="deskKbNone">Fără</option><option value="sx" data-i="deskPedSx">Stânga</option><option value="dx" data-i="deskPedDx">Dreapta</option></select></div>
+          <div class="f2" id="rowDeskRetN" style="display:none">
+            <div class="f"><label data-i="fDeskRetL">Lungime retur (mm)</label><input id="bDeskRetL" type="number" inputmode="numeric" min="400" max="2000" placeholder="1000"></div>
+            <div class="f"><label data-i="fDeskRetW">Lățime retur (mm)</label><input id="bDeskRetW" type="number" inputmode="numeric" min="400" max="800" placeholder="600"></div>
+          </div>
           <div class="f2" id="rowDeskDm" style="display:none">
             <div class="f"><label data-i="fDeskDrw">Sertar sub blat</label>
               <select id="bDeskDrw"><option value="" data-i="deskKbNone">Fără</option><option value="1" data-i="deskYes">Da</option></select></div>
@@ -3604,6 +3610,13 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{fDeskRet:"Ritorno incollato",fDeskRetL:"Lunghezza ritorno (mm)",fDeskRetW:"Larghezza ritorno (mm)"});
+Object.assign(I18N.ro,{fDeskRet:"Retur lipit",fDeskRetL:"Lungime retur (mm)",fDeskRetW:"Lățime retur (mm)"});
+Object.assign(I18N.en,{fDeskRet:"Butt-jointed return",fDeskRetL:"Return length (mm)",fDeskRetW:"Return width (mm)"});
+Object.assign(I18N.fr,{fDeskRet:"Retour assemblé",fDeskRetL:"Longueur du retour (mm)",fDeskRetW:"Largeur du retour (mm)"});
+Object.assign(I18N.de,{fDeskRet:"Angesetzter Anbautisch",fDeskRetL:"Länge des Anbaus (mm)",fDeskRetW:"Breite des Anbaus (mm)"});
+Object.assign(I18N.pl,{fDeskRet:"Przystawka dostawiona",fDeskRetL:"Długość przystawki (mm)",fDeskRetW:"Szerokość przystawki (mm)"});
+Object.assign(I18N.es,{fDeskRet:"Ala pegada",fDeskRetL:"Longitud del ala (mm)",fDeskRetW:"Ancho del ala (mm)"});
 Object.assign(I18N.it,{fDeskDrw:"Cassetto sotto il piano",fDeskMod:"Pannello frontale",fDeskModH:"Altezza pannello frontale (mm)",deskYes:"Sì"});
 Object.assign(I18N.ro,{fDeskDrw:"Sertar sub blat",fDeskMod:"Panou frontal",fDeskModH:"Înălțime panou frontal (mm)",deskYes:"Da"});
 Object.assign(I18N.en,{fDeskDrw:"Drawer under the top",fDeskMod:"Front panel",fDeskModH:"Front panel height (mm)",deskYes:"Yes"});
@@ -8628,16 +8641,34 @@ function buildModule(cfg){
       if(bx1-bx0<500) throw new Error("Birou: între corp(uri) și laterală rămân "+Math.round(bx1-bx0)+" mm pentru genunchi, minimum 500 mm");
       if(H-t<300) throw new Error("Birou: corpul cu sertare ar fi mai scund de 300 mm");
     }
+    /* RETUR LIPIT (D-123): al doilea blat (retur), lipit cu muchia de fața blatului principal la un capăt, spre utilizator. Îl susțin lateralul
+       de pe acea parte, prelungit pe toată lungimea, și un panou de capăt sub marginea liberă. Pe latura returului nu poate sta corp cu sertare. */
+    const ret=["sx","dx"].includes(cfg.deskRet)?cfg.deskRet:null, Lr=ret?Math.round(+cfg.deskRetL||1000):0, Pr=ret?Math.round(+cfg.deskRetW||600):0;
+    if(ret){
+      if((ret==="sx"&&!hasL)||(ret==="dx"&&!hasR)) throw new Error("Birou: pe latura returului nu poate sta corp cu sertare");
+      if(Lr<400||Lr>2000) throw new Error("Birou: lungimea returului trebuie să fie între 400 și 2000 mm");
+      if(Pr<400||Pr>800||Pr>L-300) throw new Error("Birou: lățimea returului trebuie să fie între 400 și 800 mm și cu 300 mm mai mică decât blatul");
+    }
     add("Piano scrivania",L,P,1,"2L+2C",null,"cielo");
-    add("Fianco",H-t,P-50,(hasL?1:0)+(hasR?1:0),"2L+2C",null,"fianco");
+    add("Fianco",H-t,P-50,(hasL?1:0)+(hasR?1:0)-(ret?1:0),"2L+2C",null,"fianco");
+    if(ret){
+      add("Fianco ritorno scrivania",H-t,P+Lr-50,1,"2L+2C",null,"fianco");
+      add("Piano ritorno scrivania",Lr,Pr,1,"2L+1C",null,"cielo"); const rr=pieces[pieces.length-1]; rr.axis_mapping={lung:"P",larg:"L",sp:"H"};
+      add("Fianco di testa ritorno",Pr-t-30,H-t,1,"1L",null,"schienale");
+    }
     const mh=Math.round(H*0.45);
     add("Pannello posteriore",bx1-bx0,mh,1,"1L",null,"schienale");
     /* ruolo e pezzo fisico su ogni scatola (D-49): senza, il viewer non puo
        selezionare, isolare ne forare, e i comandi 3D restano muti */
     let pk=0; const B=(o,role)=>{ o.kind="p"; o.role=role; o.pk=++pk; boxes.push(o); };
     B({x0:0,x1:L,y0:H-t,y1:H,z0:0,z1:P},"cielo");
-    if(hasL) B({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
-    if(hasR) B({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
+    if(hasL) B({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:ret==="sx"?P+Lr-20:P-20},"fianco");
+    if(hasR) B({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:ret==="dx"?P+Lr-20:P-20},"fianco");
+    if(ret){
+      const rx0=ret==="sx"?0:L-Pr, rx1=ret==="sx"?Pr:L;
+      B({x0:rx0,x1:rx1,y0:H-t,y1:H,z0:P,z1:P+Lr},"cielo");
+      B({x0:ret==="sx"?t:L-Pr+30,x1:ret==="sx"?Pr-30:L-t,y0:0,y1:H-t,z0:P+Lr-20-t,z1:P+Lr-20,sub:"capat"},"schienale");
+    }
     B({x0:bx0,x1:bx1,y0:H-t-mh,y1:H-t,z0:40,z1:40+t},"schienale");
     if(ped){
       const pcfg={...cfg,type:"standard",L:pw,H:H-t,P:P-50,plinth:0,tram:0,shelves:0,drawers:pn,doors:0,back:1,hang:0,
@@ -9471,6 +9502,12 @@ de:{"Anta":"Tür","Anta scorrevole":"Schiebetür","Fianco sx":"Seite links","Fia
 pl:{"Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
 es:{"Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
+Object.assign(EL_I18N.ro,{"Fianco ritorno scrivania":"Laterală retur","Piano ritorno scrivania":"Blat retur","Fianco di testa ritorno":"Laterală de capăt retur"});
+Object.assign(EL_I18N.en,{"Fianco ritorno scrivania":"Return side panel","Piano ritorno scrivania":"Return top","Fianco di testa ritorno":"Return end panel"});
+Object.assign(EL_I18N.fr,{"Fianco ritorno scrivania":"Côté du retour","Piano ritorno scrivania":"Plateau du retour","Fianco di testa ritorno":"Côté d'extrémité du retour"});
+Object.assign(EL_I18N.de,{"Fianco ritorno scrivania":"Seite des Anbaus","Piano ritorno scrivania":"Platte des Anbaus","Fianco di testa ritorno":"Stirnseite des Anbaus"});
+Object.assign(EL_I18N.pl,{"Fianco ritorno scrivania":"Bok przystawki","Piano ritorno scrivania":"Blat przystawki","Fianco di testa ritorno":"Bok czołowy przystawki"});
+Object.assign(EL_I18N.es,{"Fianco ritorno scrivania":"Lateral del ala","Piano ritorno scrivania":"Tablero del ala","Fianco di testa ritorno":"Lateral de extremo del ala"});
 Object.assign(EL_I18N.ro,{"Pannello frontale":"Panou frontal"});
 Object.assign(EL_I18N.en,{"Pannello frontale":"Front panel"});
 Object.assign(EL_I18N.fr,{"Pannello frontale":"Panneau frontal"});
@@ -10261,6 +10298,7 @@ function deskRows(){
   $("rowDeskKb").style.display=d?"":"none"; $("rowDeskCab").style.display=d?"":"none";
   $("rowDeskKbW").style.display=d&&$("bDeskKb").value?"":"none";
   $("rowTblExt").style.display=$("bTipo").value==="tavolo"?"":"none";
+  $("rowDeskRet").style.display=d?"":"none"; $("rowDeskRetN").style.display=d&&$("bDeskRet").value?"":"none";
   $("rowDeskDm").style.display=d?"":"none"; $("rowDeskModH").style.display=d&&$("bDeskMod").value?"":"none";
   const bd=$("bTipo").value==="letto";
   $("rowBedStor").style.display=bd?"":"none"; $("rowBedBox").style.display=bd&&$("bBedStor").value?"":"none";
@@ -10312,6 +10350,9 @@ function cfgFromForm(){
     bedStor:$("bTipo").value==="letto"&&["boxes","drawers"].includes($("bBedStor").value)?$("bBedStor").value:null,
     bedBox:$("bTipo").value==="letto"&&$("bBedStor").value&&["sx","dx","both"].includes($("bBedBox").value)?$("bBedBox").value:null,
     bedBoxN:$("bTipo").value==="letto"&&$("bBedStor").value&&$("bBedBox").value?Math.max(1,Math.min(3,v("bBedBoxN",2))):null,
+    deskRet:$("bTipo").value==="scrivania"&&["sx","dx"].includes($("bDeskRet").value)?$("bDeskRet").value:null,
+    deskRetL:$("bTipo").value==="scrivania"&&$("bDeskRet").value&&v("bDeskRetL",0)>0?Math.max(400,Math.min(2000,v("bDeskRetL",0))):null,
+    deskRetW:$("bTipo").value==="scrivania"&&$("bDeskRet").value&&v("bDeskRetW",0)>0?Math.max(400,Math.min(800,v("bDeskRetW",0))):null,
     deskDrw:$("bTipo").value==="scrivania"&&$("bDeskDrw").value?1:0,
     deskMod:$("bTipo").value==="scrivania"&&$("bDeskMod").value?1:0,
     deskModH:$("bTipo").value==="scrivania"&&$("bDeskMod").value&&v("bDeskModH",0)>0?Math.max(150,Math.min(900,v("bDeskModH",0))):null,
@@ -10390,6 +10431,7 @@ function syncBuildForm(){
   $("bRc").value=buildCfg.rcorner||"";
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
   $("bDeskKb").value=DESK_KB[buildCfg.deskKb]?buildCfg.deskKb:""; $("bDeskKbW").value=buildCfg.deskKbW||""; $("bDeskCab").value=String(buildCfg.deskCable|0); $("bTblExt").value=TABLE_EXT[buildCfg.tableExt]?buildCfg.tableExt:"";
+  $("bDeskRet").value=["sx","dx"].includes(buildCfg.deskRet)?buildCfg.deskRet:""; $("bDeskRetL").value=buildCfg.deskRetL||""; $("bDeskRetW").value=buildCfg.deskRetW||"";
   $("bDeskDrw").value=buildCfg.deskDrw?"1":""; $("bDeskMod").value=buildCfg.deskMod?"1":""; $("bDeskModH").value=buildCfg.deskModH||"";
   $("bBedStor").value=buildCfg.bedStor||(buildCfg.bedBox?"boxes":"");
   $("bBedBox").value=["sx","dx","both"].includes(buildCfg.bedBox)?buildCfg.bedBox:""; $("bBedBoxN").value=String(buildCfg.bedBoxN||2);
@@ -11210,7 +11252,7 @@ function renderBuild(){
   [60,350].forEach(ms=>setTimeout(()=>{ if(currentView!=="build") return; try{ if(gl3dOn()) window.GL3D.resize(); drawPreview(); }catch(e){} },ms));
   if(!buildFormReady){
     syncBuildForm();
-    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab","bDeskPed","bDeskPedW","bDeskPedDr","bTblExt","bDeskDrw","bDeskMod","bDeskModH","bBedStor","bBedBox","bBedBoxN",
+    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab","bDeskPed","bDeskPedW","bDeskPedDr","bTblExt","bDeskRet","bDeskRetL","bDeskRetW","bDeskDrw","bDeskMod","bDeskModH","bBedStor","bBedBox","bBedBoxN",
      "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos","bStepH","bStepP"]
       .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     /* il pannello cassetti si ridisegna prima dell'anteprima: cambiando sistema
@@ -11244,7 +11286,7 @@ function renderBuild(){
     $("grpHw").addEventListener("toggle",()=>{ if($("grpHw").open) renderHwSel(); });
     $("hwSelBox").addEventListener("change",()=>{ renderHwSel(); drawPreview(); });
     $("bTipo").addEventListener("change",renderAbs);
-    ["bTipo","bDeskKb","bDeskPed","bBedStor","bDeskMod"].forEach(id=>$(id).addEventListener("change",deskRows));
+    ["bTipo","bDeskKb","bDeskPed","bBedStor","bDeskMod","bDeskRet"].forEach(id=>$(id).addEventListener("change",deskRows));
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
@@ -18068,12 +18110,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.34.0"; /* APP_VER-MARKER */
+const APP_VER="5.35.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v212";
+const SW_CACHE="ebanist-v213";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
