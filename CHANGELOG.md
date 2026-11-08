@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.39.0 — 8 noiembrie 2026
+
+**Pat cu ladă ridicabilă pe pistoane cu gaz (D-126).** În Genera, la Pat, „Depozitare sub pat" are acum și **Ladă ridicabilă cu piston**: balamalele la tăblia de cap, somiera se ridică la picioare pe două pistoane. Lada are pereți și **fund propriu**; somiera are două variante, **doage pe cadru** sau **panou plin**.
+- **Meseriașul dă greutatea:** saltea (kg) și, opțional, somiera (altfel e estimată din piese). Aplicația calculează forța necesară (echilibru de momente, rezervă 10 %, 20°–45°), alege cele 2 pistoane din forțele comerciale (100–1500 N) și arată pe loc masa, forța, cursa și poziția prinderilor; avertizează dacă pistoanele ar împinge singure somiera închisă și oprește cazurile peste 1500 N.
+- Distinta, deviz, fișa de montaj și 3D au lada, somiera, balamalele grele și pistoanele; găurirea are balamalele și suporturile de piston (`balama_somiera`, `piston_pat`). Fără console de traversă și picior central la această variantă.
+- **Neverificat:** geometria prinderilor și găurile sunt `verificat:false` până la încercarea pe un pat real; nu există o fișă publică de cote pentru seturile de ridicare (calculul urmează ghidul de dimensionare al pistoanelor de pat). Prețul pistoanelor se completează în catalog.
+- `app/ebanist-lift.js` (pur, testat în `test/lift.test.js`); 7 limbi.
+
 ## 5.38.0 — 8 noiembrie 2026
 
 **Șabloane de găurire pentru printare 3D, fișiere STL (D-125, funcție Pro).** În Genera, butonul „Șabloane STL" deschide o foaie cu cinci șabloane: rând de sistem 32 (pentru rafturi), plăcuță de balama (2 găuri), mâner (la distanța dintre axe), rând liber de găuri și **colț de picior la 45°** (pentru șurubul dublu M8 montat pe diagonala colțului). Cotele implicite vin din `HW_DRILL` (sistemul 32, placa balamalei, mânerul), nu sunt scrise a doua oară. Se descarcă un STL binar, deja orientat pe masa imprimantei, pe care îl deschide orice slicer.

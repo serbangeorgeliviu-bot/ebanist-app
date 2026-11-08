@@ -158,3 +158,42 @@ test("daybed: tăbliile la H, sponda dreaptă urcă la H și devine spătar; fă
   assert.ok(!d.o.pieces.some(p => p.preflight.some(w => w.level === "error")));
   assert.equal(d.b.pieces.find(r => r.elemento === "Spalliera daybed").larg, 750 - 300);
 });
+
+/* ---------- ladă ridicabilă cu piston (D-126) ---------- */
+const LIFT = { ...BED, bedStor: "lift" };
+test("ladă ridicabilă: ambele somiere, piese, greutate și piston din date", () => {
+  for (const fr of [null, "panel"]) {
+    const { b } = gen({ ...LIFT, bedFrame: fr, bedMat: 40 });
+    assert.ok(b.liftInfo && b.liftInfo.ok !== false, "fără liftInfo");
+    const li = b.liftInfo;
+    assert.ok(li.F >= li.Freq && li.F <= 1500);
+    assert.equal(li.matKg, 40);
+    assert.ok(b.pieces.some(x => x.elemento === "Fondo cassone letto"), "ladă fără fund propriu");
+    assert.ok(b.pieces.some(x => /^Pistone a gas \d+ N$/.test(x.elemento) && x.pz === 2));
+    assert.equal(!!b.pieces.find(x => x.elemento === "Pannello rete"), fr === "panel");
+    assert.equal(b.pieces.some(x => /^Doga/.test(x.elemento)), fr !== "panel");
+  }
+});
+test("greutatea introdusă crește forța; greutatea somierei manuală se respectă", () => {
+  const a = gen({ ...LIFT, bedMat: 20 }).b.liftInfo, c = gen({ ...LIFT, bedMat: 50 }).b.liftInfo, d = gen({ ...LIFT, bedMat: 20, bedFrameKg: 55 }).b.liftInfo;
+  assert.ok(c.Freq > a.Freq && d.Freq > a.Freq);
+  assert.equal(d.frameKg, 55);
+});
+test("ladă ridicabilă: somiera nu depășește gabaritul, pistoanele stau sub somieră și în ladă", () => {
+  const { b } = gen({ ...LIFT, bedMat: 30 }), li = b.liftInfo;
+  const fr = b.boxes.filter(x => /^somiera_|^doga$/.test(x.role));
+  fr.forEach(x => { assert.ok(x.x0 >= -0.01 && x.x1 <= 1660.01 && x.z1 <= 2060 - 19 + 0.01, "somiera iese din ladă"); assert.ok(x.y1 <= li.topY + 0.01); });
+  assert.ok(li.A.z > li.hingeZ && li.B.depth > 0 && li.A.depth > 0);
+});
+test("ladă ridicabilă: găurire fără erori de pre-flight, balamale și suporturi de piston", () => {
+  for (const fr of [null, "panel"]) {
+    const { o } = gen({ ...LIFT, bedFrame: fr, bedMat: 30 });
+    assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")), JSON.stringify(o.pieces.map(p => p.preflight).flat().filter(w => w.level === "error")));
+    assert.ok(o.hw.some(h => h.type === "balama_somiera") && o.hw.some(h => h.type === "piston_pat"));
+    assert.equal(new Set(o.pieces.map(p => p.pk)).size, o.pieces.length);
+  }
+});
+test("ladă ridicabilă: erori clare (daybed, saltea prea grea)", () => {
+  assert.throws(() => gen({ ...LIFT, bedDay: 1, H: 950 }), /daybed/);
+  assert.throws(() => gen({ ...LIFT, bedFrame: "panel", bedMat: 150 }), /1500 N|pistoane/);
+});

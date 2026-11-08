@@ -111,7 +111,7 @@ function jointKind(input) {
   return JOINT_OF_ID[id] || "minifix";
 }
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "raft_sub", "cutie_fond", "cutie_front", "cutie_lat", "schienale", "zoccolo", "traversa", "traversa_spate",
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "raft_sub", "somiera_pan", "somiera_lat", "somiera_cap", "cutie_fond", "cutie_front", "cutie_lat", "schienale", "zoccolo", "traversa", "traversa_spate",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur", "filler"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
@@ -128,7 +128,7 @@ var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo:
   /* piesa cu contur liber (D-101): conturul exact e pe cutia ei (`cont`), cutiile sunt triunghiuri pentru 3D */
   contur: 1,
   /* rinforzo în spate și filler (D-103): panouri ca toate celelalte */
-  traversa_spate: 1, filler: 1, raft_tast: 1, raft_sub: 1, cutie_front: 1, cutie_lat: 1, cutie_fond: 1 };
+  traversa_spate: 1, filler: 1, raft_tast: 1, raft_sub: 1, somiera_lat: 1, somiera_cap: 1, somiera_pan: 1, cutie_front: 1, cutie_lat: 1, cutie_fond: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -153,6 +153,7 @@ function physicalPieces(boxes) {
     if (b.cont) map[k].cont = b.cont;
     if (b.kb) map[k].kb = b.kb;
     if (b.tbl) map[k].tbl = b.tbl;
+    if (b.lift) map[k].lift = b.lift;
     if (b.cab) map[k].cab = b.cab;
     if (b.dev) map[k].dev = b.dev;     /* fâșie curbă (D-117): se taie dreaptă, găurile se spun pe lungimea desfășurată */
   }
@@ -1154,7 +1155,8 @@ function generate1(input) {
         pairHw(S, bHead, 2, -1, x, 30, "beschlag_pat", "gen_bedfit", "feronerie sponda-tăblie");
         pairHw(S, bFoot, 2, 1, x, 30, "beschlag_pat", "gen_bedfit", "feronerie sponda-tăblie");
       });
-      if (bTrav && bTrav.tAx === 0) {
+      var lfRails = byRole("somiera_lat"), lfCaps = byRole("somiera_cap"), lfPan = byRole("somiera_pan")[0], liftOn = lfRails.length > 0 && !!lfRails[0].lift;
+      if (bTrav && bTrav.tAx === 0 && !liftOn) {
         pairHw(bTrav, bHead, 2, -1, bcx, 25, "consola_trav", "gen_bedtrav", "consolă traversă centrală");
         pairHw(bTrav, bFoot, 2, 1, bcx, 25, "consola_trav", "gen_bedtrav", "consolă traversă centrală");
         var nF = cfg.L >= 1400 ? 2 : 1;
@@ -1169,7 +1171,8 @@ function generate1(input) {
           out.hw.push({ id: idc, type: "suport_doga", catalog: "gen_slathold2", piece: bTrav.pk, against: null, w: [bcx, bTrav.max[1], zc2], note: "Suport de doagă (centru)" });
         });
       }
-      bSides.forEach(function (S) {
+      var slatRails = liftOn ? lfRails.filter(function (R) { return Math.abs((R.min[0] + R.max[0]) / 2 - bcx) > 5; }) : bSides;
+      slatRails.forEach(function (S) {
         var left = (S.min[0] + S.max[0]) / 2 < bcx, inw = left ? 1 : -1, face = left ? S.max[0] : S.min[0];
         bSlats.forEach(function (sl) {
           var ids = "hw_" + out.hw.length, zc3 = (sl.z0 + sl.z1) / 2, ys = sl.y0 - 10;
@@ -1178,6 +1181,74 @@ function generate1(input) {
           out.hw.push({ id: ids, type: "suport_doga", catalog: "gen_slathold", piece: S.pk, against: null, w: [face, ys, zc3], note: "Suport de doagă (sponda)" });
         });
       });
+      /* somiera ridicabilă (D-126): suporturile de doagă din mijloc stau pe traversa somierei; cadrul se îmbină cu îmbinarea aleasă în proiect; fundul ladei se
+         prinde de tăblii; balamalele la cap (câte 3 șuruburi pe somieră și pe tăblia de cap); prinderile pistoanelor pe longeron și pe peretele ladei. Cotele
+         prinderilor și ale balamalelor vin din calcul (ebanist-lift.js), șuruburile sunt generice, `verificat:false`. */
+      if (liftOn) {
+        var LI = lfRails[0].lift, bcz = bTrav;
+        if (bTrav && bTrav.tAx === 0) bSlats.forEach(function (sl) {
+          var idc = "hw_" + out.hw.length, zc2 = (sl.z0 + sl.z1) / 2;
+          [-15, 15].forEach(function (d) { hole(bTrav, 1, 1, [bcx, bTrav.max[1], zc2 + d], 3, 10, idc, "suport doagă la centru"); });
+          out.hw.push({ id: idc, type: "suport_doga", catalog: "gen_slathold2", piece: bTrav.pk, against: null, w: [bcx, bTrav.max[1], zc2], note: "Suport de doagă (centru)" });
+        });
+        var capsZ = lfCaps.slice().sort(function (a, b) { return a.min[2] - b.min[2]; }), headCap = capsZ[0], footCap = capsZ[capsZ.length - 1];
+        var sideRails = lfRails.filter(function (R) { return Math.abs((R.min[0] + R.max[0]) / 2 - bcx) > 5; });
+        capsZ.forEach(function (C) {
+          sideRails.forEach(function (R) {
+            var left = (R.min[0] + R.max[0]) / 2 < bcx, edge = left ? C.min[0] : C.max[0], face = left ? R.max[0] : R.min[0];
+            if (Math.abs(edge - face) > 0.6) return;
+            joint(C, R, 0, left ? -1 : 1, 1, C.min[1], C.max[1], 2, C === headCap ? -1 : 1, out);
+          });
+        });
+        if (bTrav && headCap && footCap) {
+          [[headCap, -1], [footCap, 1]].forEach(function (e) {
+            var C = e[0], lo = Math.max(bTrav.min[1], C.min[1]), hi = Math.min(bTrav.max[1], C.max[1]), touch = e[1] < 0 ? Math.abs(bTrav.min[2] - C.max[2]) : Math.abs(bTrav.max[2] - C.min[2]);
+            if (hi - lo >= 40 && touch <= 0.6) joint(bTrav, C, 2, e[1], 1, lo, hi, 0, 1, out);
+          });
+        }
+        /* fundul ladei de tăbliile de cap și de picioare (de lateralele ladei se ocupă îmbinarea obișnuită a bazei) */
+        var botP = byRole("base")[0];
+        if (botP && botP.tAx === 1) {
+          if (Math.abs(botP.min[2] - bHead.max[2]) <= 0.6) joint(botP, bHead, 2, -1, 0, botP.min[0], botP.max[0], 1, -1, out);
+          if (Math.abs(botP.max[2] - bFoot.min[2]) <= 0.6) joint(botP, bFoot, 2, 1, 0, botP.min[0], botP.max[0], 1, -1, out);
+        }
+        /* panoul plin se prinde de longeroane și de nervură cu șuruburi din sus, la ~250 mm */
+        if (lfPan) {
+          lfRails.forEach(function (R) {
+            var n = Math.max(2, Math.round((R.max[2] - R.min[2]) / 250)), x = (R.min[0] + R.max[0]) / 2;
+            for (var i = 0; i < n; i++) {
+              var z = R.min[2] + 25 + (R.max[2] - R.min[2] - 50) * i / (n - 1), idp = "hw_" + out.hw.length;
+              hole(lfPan, 1, 1, [x, lfPan.max[1], z], 4, 0, idp, "șurub panou somieră", true);
+              hole(R, 1, 1, [x, R.max[1], z], 3, 25, idp, "șurub panou somieră");
+              out.hw.push({ id: idp, type: "surub_somiera", catalog: "gen_screw", piece: R.pk, against: lfPan.pk, w: [x, R.max[1], z], note: "Șurub 4×40" });
+            }
+          });
+        }
+        /* balamalele: 2, la L/4 și 3L/4; frunza pe somieră (capul de sus al traversei de cap sau panoul), frunza pe fața tăbliei de cap deasupra planului somierei */
+        var hingeT = lfPan || headCap;
+        if (hingeT && bHead) {
+          [0.25, 0.75].forEach(function (f) {
+            var xh = bHead.min[0] + (bHead.max[0] - bHead.min[0]) * f, idh = "hw_" + out.hw.length, zl = lfPan ? hingeT.min[2] + 25 : (hingeT.min[2] + hingeT.max[2]) / 2;
+            [-25, 0, 25].forEach(function (dx) {
+              hole(hingeT, 1, 1, [xh + dx, hingeT.max[1], zl], 3.5, Math.min(12, hingeT.T - 6), idh, "balama somieră");
+              hole(bHead, 2, 1, [xh + dx, LI.topY + 25, bHead.max[2]], 3.5, 12, idh, "balama somieră");
+            });
+            out.hw.push({ id: idh, type: "balama_somiera", catalog: "gen_liftHinge", piece: hingeT.pk, against: bHead.pk, w: [xh, LI.topY, bHead.max[2]], note: "Balama pentru somieră" });
+          });
+        }
+        /* pistoanele: câte unul pe lateral; suport cu două șuruburi pe longeron (A) și pe peretele ladei (B), pe fața interioară */
+        var walls = byRole("fianco");
+        sideRails.forEach(function (R) {
+          var left = (R.min[0] + R.max[0]) / 2 < bcx, inw = left ? 1 : -1, face = left ? R.max[0] : R.min[0];
+          var W = walls.filter(function (q) { return ((q.min[0] + q.max[0]) / 2 < bcx) === left; })[0];
+          var zA = LI.hingeZ + LI.A.z, yA = LI.topY - LI.A.depth, zB = LI.hingeZ + LI.B.z, yB = LI.topY - LI.B.depth, ids = "hw_" + out.hw.length;
+          [-15, 15].forEach(function (d) {
+            hole(R, 0, inw, [face, yA, zA + d], 5, 12, ids, "suport piston pe somieră");
+            if (W) hole(W, 0, inw, [face, yB, zB + d], 5, 12, ids, "suport piston pe peretele ladei");
+          });
+          out.hw.push({ id: ids, type: "piston_pat", catalog: "gas_" + LI.F, piece: R.pk, against: W ? W.pk : null, w: [face, yB, zB], note: "Piston cu gaz " + LI.F + " N" });
+        });
+      }
     }
   }
 
