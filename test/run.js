@@ -2573,7 +2573,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
 
   /* U.14 — cadrul de nivelare din Releveu (D-117) */
   {
-    head("Cadru de nivelare din Releveu — corpuri pe cadru, picioare Camar 300, distinta, deviz (U.14)");
+    head("Cadru de nivelare din Releveu — corpuri pe cadru, picioare AXILO 78, distinta, deviz (U.14)");
     await pg.evaluate(() => {
       const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; p.worktops = []; p.baseFrames = [];
       p.survey = { walls: [{ id: "w1", len: 3000, angle: 90, bow: null }, { id: "w2", len: 2400, angle: 90, bow: null },
@@ -2600,7 +2600,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         r3: roomBoxes().filter(b => /Cadru/.test(b.rmMod || "")).length }; });
     ok("U.14: două segmente (câte unul pe perete), grosimea din material (18)", bf.names.length === 2 && bf.rows.length === 6 && bf.rows.every(r => r[5] === 18 || r[1] === "Piedino cadru"));
     ok("U.14: peretele 1 trece până în colț (3000), cadrul stă pe pardoseală (lift 0)", bf.rows[0][2] === 3000 && bf.lay.lift === 0 && bf.lay.wall === "w1");
-    ok("U.14: picioarele sunt Camar 300 în deviz, o singură dată (20), fără picioare pe corpuri", bf.hw.length === 1 && bf.hw[0][0] === 20 && bf.hw[0][1] === "camar_300");
+    ok("U.14: picioarele sunt Häfele AXILO 78 în deviz, o singură dată (20), fără picioare pe corpuri", bf.hw.length === 1 && bf.hw[0][0] === 20 && bf.hw[0][1] === "haf_axilo_352");
     ok("U.14: cadrul nu produce ciocniri false în Releveu și apare în camera 3D", bf.issues === 0 && bf.r3 > 20);
     await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0]; f.h = 150; persist(); renderPlan(); });
     ok("U.14: schimbi înălțimea → cadrul spune că nu mai corespunde și corpurile nu mai stau pe el", await pg.evaluate(() => /Suport|Support|Supporto|Apoyo|Unterbau|Podstawa/.test(document.getElementById("svBfList").innerText)));

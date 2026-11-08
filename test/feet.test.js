@@ -6,7 +6,7 @@
  *  - ID-uri unice; fiecare articol are nume în toate cele 7 limbi și cod;
  *  - gama de reglaj (`range`) e [min, max] cu min < max; sarcina e pozitivă;
  *  - articolele Hettich Korrekt și Häfele din ofertele de furnizor nu au preț (se completează), nu se inventează;
- *  - Camar 300 are cotele din desen, fără cod confirmat;
+ *  - AXILO 78: codurile 637.76.351/.352/.357 cu gamele din pagina Häfele și din oferte; `foot` = gama (base = minim, travel = max − min);
  *  - avertismentul de înălțime există în toate limbile.
  */
 const { test, describe } = require("node:test");
@@ -43,10 +43,17 @@ describe("catalog picioare", () => {
     ["haf_ins_63724022", "haf_ins_63724024"].forEach(id => { assert.equal(byId[id].load, 300); assert.equal(byId[id].range, undefined); assert.equal(byId[id].price, 0); });
     assert.equal(byId.haf_ins_63724022.art, "637.24.022"); assert.equal(byId.haf_ins_63724024.art, "637.24.024");
   });
-  test("Camar 300: cote din desen, cod neconfirmat", () => {
-    const c = byId.camar_300;
-    assert.equal(c.art, "—"); assert.equal(c.foot.base, 30); assert.equal(c.foot.travel, 20); assert.equal(c.foot.mount, "side");
+  test("AXILO 78: coduri, game și cotele piciorului derivate din gamă", () => {
+    const k = { haf_axilo_351: ["637.76.351", 53, 80], haf_axilo_352: ["637.76.352", 70, 100], haf_axilo_357: ["637.76.357", 190, 220] };
+    Object.keys(k).forEach(id => {
+      const x = byId[id], [art, a, b] = k[id];
+      assert.equal(x.art, art); assert.equal(x.range.join(), [a, b].join());
+      assert.equal(x.foot.base, a); assert.equal(x.foot.travel, b - a); assert.equal(x.foot.dia, 78); assert.equal(x.foot.mount, "under");
+      assert.equal(x.price, 0);
+    });
+    assert.equal(byId.haf_axilo_352.load, 80); assert.equal(byId.haf_axilo_357.load, 150); assert.equal(byId.haf_axilo_351.load, undefined);
   });
+  test("Camar nu mai e în catalog (luat din greșeală)", () => assert.equal(byId.camar_300, undefined));
   test("avertismentul de gamă există în toate limbile", () => {
     LANGS.forEach(l => assert.ok(new RegExp('Object\\.assign\\(I18N\\.' + l + ',\\{"wFootRange"').test(src), l));
   });

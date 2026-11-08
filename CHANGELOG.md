@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.30.1 — 8 noiembrie 2026
+
+**Piciorul cadrului: Häfele AXILO 78, nu Camar 300.** Camar 300 fusese luat din greșeală de pe net (nu e din catalogul Häfele pe care îl folosiți); e scos din catalog. Cadrul folosește acum piciorul AXILO 78 din pagina MB 12.109 a catalogului Häfele, cu codurile și gamele din catalog și din oferte de furnizori:
+
+- **Picioare noi în catalog** (în 7 limbi, preț gol): 637.76.351 (înălțime de montaj 60 mm, reglaj 53–80), 637.76.352 (80 mm, 70–100; până la 80 kg pe picior, 110 kg cu inserția ABS 637.76.423) și 637.76.357 (200 mm, 190–220; 150 kg pe picior). Gama e și gama de înălțime a soclului: cu suport „Piedini” apare avertismentul când soclul iese din ea.
+- **Cadrul:** în card alegi piciorul (implicit 637.76.352). Piciorul stă sub axa fiecărei șine; înălțimea șinei = înălțimea cadrului − limita de jos a gamei piciorului (ex. cadru de 120 mm cu piciorul 70–100: șină de 50 mm). Cursa piciorului = gama (30 mm la 352): o pardoseală mai denivelată decât atât rămâne eroare.
+- **Nu e în pagina primită:** plăcuța de montaj și tubul (MB 12.111), cu codurile lor; unealta de reglaj 637.76.360 (găsită în oferte, nu pusă în catalog). De adăugat când ai pagina.
+- **Cod vechi, nemodificat:** articolul generic „Piedino AXILO 78” (cod „637.79.xxx”) are un cod care pare greșit (seria AXILO e 637.76.35x); îl corectezi după ce confirmi.
+- Teste: `feet.test.js`, `baseframe.test.js`, e2e U.14 (AXILO în deviz).
+
 ## 5.30.0 — 8 noiembrie 2026
 
 **Cadrul de nivelare în Releveu și în proiect (U.14, D-117).** În Releveu apare cardul „Cadru de nivelare”, ca „Blat”: alegi corpurile de jos, materialul șinelor (PAL pe cant, grosimea din material), înălțimea cadrului, retragerea de la față, jocul la perete și, opțional, cotele pardoselii (puncte pe perete: x și z față de un reper). „Calculează cadrul” generează câte un segment pe perete.

@@ -9,7 +9,7 @@
 
    CADRUL e din PAL pe cant (confirmat de Liviu, 08.11.2026): două șine lungi,
    față și spate, cu traverse între ele, și picioare reglabile sub intersecții.
-   Picioarele sunt Camar 300 (Häfele) prinse LATERAL pe fața interioară a șinelor, nu sub intersecții. Se pune o singură dată la nivel, pe cota CEA MAI ÎNALTĂ a pardoselii din
+   Picioarele sunt Häfele AXILO 78 (alese din catalog, câmpul `foot`), sub axa șinelor; piciorul poate fi și prins lateral (`mount:"side"`). Se pune o singură dată la nivel
    zona lui; toate corpurile stau apoi pe același plan, fără picioare proprii.
 
    Convenții (aceleași ca la corpuri și blat):
@@ -36,9 +36,10 @@ var BASEFRAME_DEFAULTS = {
   min_rail_h: 30,    // o șină mai joasă nu mai e cadru
   min_len: 100,      // un segment mai scurt nu e cadru
   corner_tol: 0.5,   // grade: peste, îmbinarea dreaptă nu mai e posibilă
-  /* piciorul reglabil implicit = Camar 300 (Häfele), cum e în clipul Atelier d'Edouard: cilindru metalic cu flanșă, prins lateral pe fața
-     interioară a șinei (șurub ø4), reglaj de sus. Cotele sunt citite din desenul fișei (închis 30, cursă 20, cilindru ø38, placă 50): de confirmat. */
-  foot: { base: 30, travel: 20, dia: 38, plate: 50, screw: 4, mount: "side" }
+  /* piciorul reglabil implicit = Häfele AXILO 78, cod 637.76.352 (înălțime de montaj 80 mm, reglaj 70–100 mm; pagina MB 12.109 și oferte de
+     furnizori). `base` = înălțimea cu piciorul închis (limita de jos a gamei), `travel` = cât mai poate ieși (gama − limita de jos), `dia` = baza ø78.
+     De confirmat pe catalogul Häfele actual. */
+  foot: { base: 70, travel: 30, dia: 78, mount: "under" }
 };
 
 var LETTERS = "ABCDEFGH";
@@ -173,7 +174,7 @@ function deriveBaseFrame(spec, walls, mods, opts) {
       out.pieces.push({ id: "cadru-" + letter + "-tr" + (c + 1), role: "cadru_transv", seg: k, n: c + 1,
         L: r1(crossLen), W: r1(railH), T: r1(sp), bordo: "1L", x: r1(g.s + c * step), y: r1(wallGap + sp) });
     }
-    /* picioarele: prinse lateral, pe fața interioară a fiecărei șine, la pas ≤ `foot_pitch`, cu `foot_inset` de la capete;
+    /* picioarele: pe ambele șine, la pas ≤ `foot_pitch`, cu `foot_inset` de la capete;
        se reglează de sus înainte de a urca corpurile (clipul: întâi cadrul, apoi corpurile) */
     var nFoot = Math.max(2, Math.ceil((L - 2 * D.foot_inset) / D.foot_pitch) + 1);
     var fstep = nFoot > 1 ? (L - 2 * D.foot_inset) / (nFoot - 1) : 0;
@@ -185,9 +186,12 @@ function deriveBaseFrame(spec, walls, mods, opts) {
         var ext = zf === null ? 0 : zMax - zf;           // cât trebuie scos piciorul peste închis
         if (ext > F.travel + 1e-9) errors.push({ k: "bfFootTravel", seg: letter, x: r1(xf), ext: r1(ext), travel: F.travel });
         seg.feet++;
-        /* fața interioară a șinei: spate = y = wallGap + sp, față = y = P − sp */
+        
+        /* `side`: pe fața interioară a șinei; altfel (`under`), sub axa șinei */
+        var onSide = F.mount === "side";
+        var yAxis = side === "spate" ? wallGap + (onSide ? sp : sp / 2) : g.P - (onSide ? sp : sp / 2);
         out.feet.push({ id: "pic-" + letter + "-" + (q + 1) + (side === "spate" ? "s" : "f"), seg: k, wall: g.wall.id, side: side,
-          mount: F.mount || "side", x: r1(xf), y: side === "spate" ? r1(wallGap + sp) : r1(g.P - sp), ext: r1(ext), base: F.base, dia: F.dia });
+          mount: F.mount || "under", x: r1(xf), y: r1(yAxis), ext: r1(ext), base: F.base, dia: F.dia });
       });
     }
     out.segments.push(seg);
