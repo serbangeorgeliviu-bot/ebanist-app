@@ -436,8 +436,44 @@ function wingXform(rot) {
     perm: [2, 1, 0], sign: [sx, 1, sz]
   };
 }
+/* Corpuri compuse (D-118): un birou cu corp de sertare. Fiecare corp (cutiile cu `body` + `loc`) se calculează în cadrul LUI local,
+   cu cfg și G proprii, apoi tot ce are coordonate în lume se mută cu `off`. Restul cutiilor (blatul, laterala, spatele) merg ca
+   înainte. Fixarea corpului de blat nu e în model (nu se găurește între corpuri). */
+function generateBodies(input) {
+  var boxes0 = input.boxes, isBody = function (b) { return b && b.body && b.loc; };
+  var main = boxes0.filter(function (b) { return !isBody(b); });
+  var res = generate({ boxes: main, cfg: input.cfg, G: input.G });
+  var ids = {}, order = [];
+  boxes0.forEach(function (b) { if (isBody(b)) { if (!ids[b.body.id]) { ids[b.body.id] = []; order.push(b.body.id); } ids[b.body.id].push(b); } });
+  var shift3 = function (a, off) { return [a[0] + off[0], a[1] + off[1], a[2] + off[2]]; };
+  var is3 = function (a) { return Array.isArray(a) && a.length === 3 && a.every(function (v) { return typeof v === "number"; }); };
+  order.forEach(function (id) {
+    var bs = ids[id], body = bs[0].body, off = body.off;
+    var locals = bs.map(function (b) { var o = {}; for (var k in b.loc) o[k] = b.loc[k]; o.pk = b.pk; if (b.grp) o.grp = b.grp; return o; });
+    var G = null;
+    try { if (root.deriveCarcass && root.carcassParams) G = root.deriveCarcass(root.carcassParams(body.cfg, {})); } catch (e) { G = null; }
+    var r = generate({ boxes: locals, cfg: body.cfg, G: G });
+    var base = res.hw.length, rid = function (x) { var m = /^hw_(\d+)$/.exec(String(x || "")); return m ? "hw_" + (+m[1] + base) : x; };
+    r.hw.forEach(function (h) { h.id = rid(h.id); h.body = id; for (var k in h) if (is3(h[k])) h[k] = shift3(h[k], off); });
+    r.pieces.forEach(function (p) {
+      p.body = id; p.min = shift3(p.min, off); p.max = shift3(p.max, off);
+      p.operations.forEach(function (o) {
+        if (o.hw) o.hw = rid(o.hw);
+        if (o._w) o._w = shift3(o._w, off); if (o._lo) o._lo = shift3(o._lo, off); if (o._hi) o._hi = shift3(o._hi, off);
+      });
+    });
+    res.hw = res.hw.concat(r.hw); res.pieces = res.pieces.concat(r.pieces); res.warnings = res.warnings.concat(r.warnings);
+  });
+  res.pieces.sort(function (a, b) {
+    var ka = typeof a.pk === "number" ? a.pk : 1e9, kb = typeof b.pk === "number" ? b.pk : 1e9;
+    return (ORDER.indexOf(a.role) - ORDER.indexOf(b.role)) || (ka - kb) || (String(a.pk) < String(b.pk) ? -1 : 1);
+  });
+  res.pieces.forEach(function (p, i) { p.n = i + 1; });
+  return res;
+}
 function generate(input) {
   var boxes0 = (input && input.boxes) || [];
+  if (boxes0.some(function (b) { return b && b.body && b.loc; })) return generateBodies(input);
   if (!boxes0.some(function (b) { return b && b.wing === "B" && b.loc && b.rot; })) return generate1(input);
   var cfg0 = (input && input.cfg) || {};
   var isB = function (b) { return b && b.wing === "B" && b.loc && b.rot; };

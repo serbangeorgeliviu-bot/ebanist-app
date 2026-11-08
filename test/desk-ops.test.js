@@ -70,3 +70,31 @@ test("fără opțiuni noi = distinta de dinainte", () => {
   assert.deepEqual(a.b.pieces, c.b.pieces); assert.deepEqual(a.o, c.o);
   assert.equal(a.b.pieces.length, 3);
 });
+
+/* --- corp cu sertare (D-118) ------------------------------------------------------------------------------- */
+test("birou cu corp de sertare: stânga, dreapta, ambele; piese cu pk unic, fără erori de pre-flight", () => {
+  for (const [ped, sides, pz] of [["sx", 1, 1], ["dx", 1, 1], ["both", 0, 2]]) {
+    const { b, o } = genRaw({ ...DESK, deskPed: ped, deskPedW: 450, deskPedDr: 3 });
+    const fi = b.pieces.find(r => r.elemento === "Fianco" && !r.wing);
+    assert.equal(fi ? fi.pz : 0, sides, ped + ": laterale de birou");
+    assert.equal(b.pieces.find(r => r.elemento === "Frontale cassetto").pz, 3 * pz);
+    assert.equal(new Set(o.pieces.map(p => p.pk)).size, o.pieces.length, ped + ": pk unic");
+    assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")), ped + ": pre-flight");
+    assert.equal(o.hw.filter(h => h.type === "guida").length, 6 * pz, ped + ": glisiere (2 pe sertar)");
+    /* corpul stă pe pardoseală și sub blat: nimic nu iese din birou */
+    const top = o.pieces.find(p => p.role === "cielo" && !p.body);
+    o.pieces.filter(p => p.body).forEach(p => {
+      assert.ok(p.min[0] >= -0.01 && p.max[0] <= DESK.L + 0.01 && p.max[1] <= top.min[1] + 0.01 && p.min[1] >= -0.01, ped + ": piesă în afara biroului");
+    });
+  }
+});
+test("birou cu corp: spațiul pentru genunchi minim 500 mm, lățime corp 300–800", () => {
+  assert.throws(() => genRaw({ ...DESK, L: 1000, deskPed: "both", deskPedW: 450 }), /genunchi/);
+  assert.throws(() => genRaw({ ...DESK, deskPed: "dx", deskPedW: 200 }), /300 și 800/);
+});
+test("birou cu corp + raft + trecere: tot împreună, deterministic", () => {
+  const c = { ...DESK, deskPed: "sx", deskPedW: 400, deskPedDr: 4, deskKb: "ka400", deskCable: 2 };
+  const a = genRaw(c), d = genRaw(c);
+  assert.deepEqual(a.o, d.o);
+  assert.ok(a.o.pieces.some(p => p.role === "raft_tast")); assert.ok(!a.o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+});

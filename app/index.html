@@ -1766,6 +1766,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fDoorsN">Ante</label><input id="bDoors" type="number" inputmode="numeric" min="0" max="8"></div>
           <div class="f"><label data-i="fFront">Frontale</label>
             <select id="bFront"><option value="piena" data-i="frontFull">Pieno</option><option value="vetro" data-i="frontGlass">Telaio + vetro</option><option value="curvo" data-i="frontCurved">Bombato</option></select></div>
+          <div class="f" id="rowDeskPed" style="display:none"><label data-i="fDeskPed">Corp cu sertare</label>
+            <select id="bDeskPed"><option value="" data-i="deskKbNone">Fără</option><option value="sx" data-i="deskPedSx">Stânga</option><option value="dx" data-i="deskPedDx">Dreapta</option><option value="both" data-i="deskPedBoth">Ambele părți</option></select></div>
+          <div class="f2" id="rowDeskPedN" style="display:none">
+            <div class="f"><label data-i="fDeskPedW">Lățime corp (mm)</label><input id="bDeskPedW" type="number" inputmode="numeric" min="300" max="800" placeholder="450"></div>
+            <div class="f"><label data-i="fDeskPedDr">Sertare în corp</label><input id="bDeskPedDr" type="number" inputmode="numeric" min="1" max="6" placeholder="3"></div>
+          </div>
           <div class="f" id="rowDeskKb" style="display:none"><label data-i="fDeskKb">Raft tastatură</label>
             <select id="bDeskKb"><option value="" data-i="deskKbNone">Fără</option><option value="ka300">Hettich KA 3434 · 300 mm</option><option value="ka350">Hettich KA 3434 · 350 mm</option><option value="ka400">Hettich KA 3434 · 400 mm</option><option value="ka500">Hettich KA 3434 · 500 mm</option></select></div>
           <div class="f" id="rowDeskKbW" style="display:none"><label data-i="fDeskKbW">Lățime raft tastatură (mm)</label><input id="bDeskKbW" type="number" inputmode="numeric" min="300" max="900" placeholder="560"></div>
@@ -3581,6 +3587,13 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{fDeskPed:"Corpo con cassetti",deskPedSx:"Sinistra",deskPedDx:"Destra",deskPedBoth:"Entrambi i lati",fDeskPedW:"Larghezza corpo (mm)",fDeskPedDr:"Cassetti nel corpo"});
+Object.assign(I18N.ro,{fDeskPed:"Corp cu sertare",deskPedSx:"Stânga",deskPedDx:"Dreapta",deskPedBoth:"Ambele părți",fDeskPedW:"Lățime corp (mm)",fDeskPedDr:"Sertare în corp"});
+Object.assign(I18N.en,{fDeskPed:"Drawer unit",deskPedSx:"Left",deskPedDx:"Right",deskPedBoth:"Both sides",fDeskPedW:"Unit width (mm)",fDeskPedDr:"Drawers in the unit"});
+Object.assign(I18N.fr,{fDeskPed:"Caisson à tiroirs",deskPedSx:"Gauche",deskPedDx:"Droite",deskPedBoth:"Des deux côtés",fDeskPedW:"Largeur du caisson (mm)",fDeskPedDr:"Tiroirs dans le caisson"});
+Object.assign(I18N.de,{fDeskPed:"Schubladenkorpus",deskPedSx:"Links",deskPedDx:"Rechts",deskPedBoth:"Beidseitig",fDeskPedW:"Korpusbreite (mm)",fDeskPedDr:"Schubladen im Korpus"});
+Object.assign(I18N.pl,{fDeskPed:"Kontener z szufladami",deskPedSx:"Lewy",deskPedDx:"Prawy",deskPedBoth:"Obustronnie",fDeskPedW:"Szerokość kontenera (mm)",fDeskPedDr:"Szuflady w kontenerze"});
+Object.assign(I18N.es,{fDeskPed:"Cajonera",deskPedSx:"Izquierda",deskPedDx:"Derecha",deskPedBoth:"Ambos lados",fDeskPedW:"Ancho de la cajonera (mm)",fDeskPedDr:"Cajones en la cajonera"});
 Object.assign(I18N.it,{fDeskKb:"Ripiano tastiera",deskKbNone:"Nessuno",fDeskKbW:"Larghezza ripiano tastiera (mm)",fDeskCab:"Passacavi Ø60",hw_guida_tast:"Guida ripiano tastiera"});
 Object.assign(I18N.ro,{fDeskKb:"Raft tastatură",deskKbNone:"Fără",fDeskKbW:"Lățime raft tastatură (mm)",fDeskCab:"Treceri de cabluri Ø60",hw_guida_tast:"Glisieră raft tastatură"});
 Object.assign(I18N.en,{fDeskKb:"Keyboard tray",deskKbNone:"None",fDeskKbW:"Keyboard tray width (mm)",fDeskCab:"Cable grommets Ø60",hw_guida_tast:"Keyboard tray runner"});
@@ -8541,23 +8554,57 @@ function buildModule(cfg){
         const ax=typeof axesFor==="function"?axesFor(role):null;
         if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
       pieces.push(o); };
+    /* CORP CU SERTARE (D-118): una parte a blatului sta pe un corp obisnuit (buildCore, aceeasi carcasa si aceleasi sertare ca la
+       corpul standard), nu pe o laterala. Latura cu corp nu mai are laterala de birou; spatele se intinde pana la corp. */
+    const ped=["sx","dx","both"].includes(cfg.deskPed)?cfg.deskPed:null;
+    const pw=ped?Math.round(+cfg.deskPedW||450):0, pn=ped?Math.max(1,Math.min(6,(cfg.deskPedDr|0)||3)):0;
+    const hasL=!(ped==="sx"||ped==="both"), hasR=!(ped==="dx"||ped==="both");
+    const bx0=hasL?t:pw, bx1=hasR?L-t:L-pw;
+    if(ped){
+      if(pw<300||pw>800) throw new Error("Birou: lățimea corpului cu sertare trebuie să fie între 300 și 800 mm");
+      if(bx1-bx0<500) throw new Error("Birou: între corp(uri) și laterală rămân "+Math.round(bx1-bx0)+" mm pentru genunchi, minimum 500 mm");
+      if(H-t<300) throw new Error("Birou: corpul cu sertare ar fi mai scund de 300 mm");
+    }
     add("Piano scrivania",L,P,1,"2L+2C",null,"cielo");
-    add("Fianco",H-t,P-50,2,"2L+2C",null,"fianco");
+    add("Fianco",H-t,P-50,(hasL?1:0)+(hasR?1:0),"2L+2C",null,"fianco");
     const mh=Math.round(H*0.45);
-    add("Pannello posteriore",L-2*t,mh,1,"1L",null,"schienale");
+    add("Pannello posteriore",bx1-bx0,mh,1,"1L",null,"schienale");
     /* ruolo e pezzo fisico su ogni scatola (D-49): senza, il viewer non puo
        selezionare, isolare ne forare, e i comandi 3D restano muti */
     let pk=0; const B=(o,role)=>{ o.kind="p"; o.role=role; o.pk=++pk; boxes.push(o); };
     B({x0:0,x1:L,y0:H-t,y1:H,z0:0,z1:P},"cielo");
-    B({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
-    B({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
-    B({x0:t,x1:L-t,y0:H-t-mh,y1:H-t,z0:40,z1:40+t},"schienale");
+    if(hasL) B({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
+    if(hasR) B({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
+    B({x0:bx0,x1:bx1,y0:H-t-mh,y1:H-t,z0:40,z1:40+t},"schienale");
+    if(ped){
+      const pcfg={...cfg,type:"standard",L:pw,H:H-t,P:P-50,plinth:0,tram:0,shelves:0,drawers:pn,doors:0,back:1,hang:0,
+                  support:"zoccolo",top:"traverse",boxes:1,deskPed:null,deskKb:null,deskCable:0};
+      const PB=buildCore(pcfg), both=ped==="both";
+      PB.pieces.forEach(q=>pieces.push({...q,wing:"B",pz:both?q.pz*2:q.pz}));
+      (both?[0,L-pw]:[ped==="sx"?0:L-pw]).forEach((ox,si)=>PB.boxes.forEach(o=>{
+        const nb={...o,x0:o.x0+ox,x1:o.x1+ox,z0:o.z0+30,z1:o.z1+30,wing:"B",
+          pk:o.pk!=null?o.pk+1000*(si+1):undefined,grp:o.grp?"P"+si+o.grp:undefined,
+          body:{id:"P"+si,cfg:pcfg,off:[ox,0,30]},loc:o};
+        if(o.pc) nb.pc=o.pc.map(q=>[q[0]+ox,q[1]+30]);
+        boxes.push(nb); }));
+    }
     /* trecere de cabluri (D-118): găuri Ø60 prin blat, în spate, egal distanțate; o cotă care nu are loc e eroare */
     const nCab=Math.max(0,Math.min(3,cfg.deskCable|0));
     if(nCab){
       const cx0=[]; for(let i=1;i<=nCab;i++) cx0.push(Math.round(L*i/(nCab+1)));
-      const zc=Math.round(Math.min(P/2,70)), r=DESK_GROMMET/2;
-      if(cx0[0]-r<30||cx0[nCab-1]+r>L-30||(nCab>1&&cx0[1]-cx0[0]<DESK_GROMMET+40))
+      /* șuruburile glisierelor raftului stau sub blat, în aceeași zonă: o trecere care le-ar atinge se mută lateral, cu 12 mm de aer */
+      const kb0=cfg.deskKb&&DESK_KB[cfg.deskKb]||null;
+      if(kb0){
+        const W0=Math.max(300,Math.round(+cfg.deskKbW||560)), zc0=P-DESK_KB_BACK-kb0.nl/2;
+        const rxs=[L/2-W0/2-DESK_KB_GAP/2,L/2+W0/2+DESK_KB_GAP/2], hz=[zc0-kb0.b1/2,zc0+kb0.b1/2];
+        const rr=DESK_GROMMET/2, zq=Math.round(40+t+15+rr);
+        for(let i=0;i<cx0.length;i++) for(const rx of rxs)
+          if(hz.some(z=>Math.abs(z-zq)<rr+12)&&Math.abs(cx0[i]-rx)<rr+12) cx0[i]=Math.round(rx+(cx0[i]>=rx?1:-1)*(rr+12));
+        cx0.sort((a,b)=>a-b);
+      }
+      /* în fața spatelui (fața lui +15 mm), nu peste el: spatele se prinde sub blat cu șuruburi în exact acea zonă */
+      const r=DESK_GROMMET/2, zc=Math.round(40+t+15+r);
+      if(zc+r+30>P||cx0[0]-r<30||cx0[nCab-1]+r>L-30||(nCab>1&&cx0[1]-cx0[0]<DESK_GROMMET+40))
         throw new Error("Birou: trecerile de cabluri nu au loc pe acest blat");
       boxes[0].cab=cx0.map(x=>({x,z:zc,d:DESK_GROMMET}));
       add("Passacavi Ø60 nel piano",DESK_GROMMET,DESK_GROMMET,nCab,"","Accessorio — passacavi Ø60","accessorio");
@@ -10032,6 +10079,7 @@ function deskRows(){
   const d=$("bTipo").value==="scrivania";
   $("rowDeskKb").style.display=d?"":"none"; $("rowDeskCab").style.display=d?"":"none";
   $("rowDeskKbW").style.display=d&&$("bDeskKb").value?"":"none";
+  $("rowDeskPed").style.display=d?"":"none"; $("rowDeskPedN").style.display=d&&$("bDeskPed").value?"":"none";
 }
 function lamRows(){
   const ty=$("bTipo").value, lam=ty==="lambriu", rf=ty==="boiserie";
@@ -10077,6 +10125,9 @@ function cfgFromForm(){
     deskKb:$("bTipo").value==="scrivania"&&DESK_KB[$("bDeskKb").value]?$("bDeskKb").value:null,
     deskKbW:$("bTipo").value==="scrivania"&&DESK_KB[$("bDeskKb").value]&&v("bDeskKbW",0)>0?Math.max(300,Math.min(900,v("bDeskKbW",0))):null,
     deskCable:$("bTipo").value==="scrivania"?Math.max(0,Math.min(3,v("bDeskCab",0))):0,
+    deskPed:$("bTipo").value==="scrivania"&&["sx","dx","both"].includes($("bDeskPed").value)?$("bDeskPed").value:null,
+    deskPedW:$("bTipo").value==="scrivania"&&$("bDeskPed").value&&v("bDeskPedW",0)>0?Math.max(300,Math.min(800,v("bDeskPedW",0))):null,
+    deskPedDr:$("bTipo").value==="scrivania"&&$("bDeskPed").value?Math.max(1,Math.min(6,v("bDeskPedDr",3))):null,
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
     secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secDrawerH:cleanSecDrawerH(buildSecDrawerH), secDrawerNL:cleanSecNL(buildSecDrawerNL), secPull:cleanSecPull(buildSecPull),
     doorHinge:cleanDoorHinge(buildDoorHinge,Math.min(MAX_DOORS,v("bDoors",0))),
@@ -10147,6 +10198,7 @@ function syncBuildForm(){
   $("bRc").value=buildCfg.rcorner||"";
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
   $("bDeskKb").value=DESK_KB[buildCfg.deskKb]?buildCfg.deskKb:""; $("bDeskKbW").value=buildCfg.deskKbW||""; $("bDeskCab").value=String(buildCfg.deskCable|0);
+  $("bDeskPed").value=["sx","dx","both"].includes(buildCfg.deskPed)?buildCfg.deskPed:""; $("bDeskPedW").value=buildCfg.deskPedW||""; $("bDeskPedDr").value=buildCfg.deskPedDr||"";
   $("bName").value=buildCfg.name||""; $("bTipo").value=buildCfg.type||"standard";
   $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v"; $("bWall2").value=buildCfg.wall2?"1":"0"; $("bRfInset").value=buildCfg.rfInset?"1":"0";
   contLoad(buildCfg);
@@ -10963,7 +11015,7 @@ function renderBuild(){
   [60,350].forEach(ms=>setTimeout(()=>{ if(currentView!=="build") return; try{ if(gl3dOn()) window.GL3D.resize(); drawPreview(); }catch(e){} },ms));
   if(!buildFormReady){
     syncBuildForm();
-    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab",
+    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab","bDeskPed","bDeskPedW","bDeskPedDr",
      "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos","bStepH","bStepP"]
       .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     /* il pannello cassetti si ridisegna prima dell'anteprima: cambiando sistema
@@ -10997,7 +11049,7 @@ function renderBuild(){
     $("grpHw").addEventListener("toggle",()=>{ if($("grpHw").open) renderHwSel(); });
     $("hwSelBox").addEventListener("change",()=>{ renderHwSel(); drawPreview(); });
     $("bTipo").addEventListener("change",renderAbs);
-    ["bTipo","bDeskKb"].forEach(id=>$(id).addEventListener("change",deskRows));
+    ["bTipo","bDeskKb","bDeskPed"].forEach(id=>$(id).addEventListener("change",deskRows));
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
@@ -17810,12 +17862,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.29.0"; /* APP_VER-MARKER */
+const APP_VER="5.30.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v207";
+const SW_CACHE="ebanist-v208";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
