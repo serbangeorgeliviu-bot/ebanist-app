@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.30.0 — 8 noiembrie 2026
 
-**Birou cu corp de sertare (D-118).** Blatul poate sta pe unul sau pe două corpuri cu sertare (stânga, dreapta, ambele; lățime 300–800 mm, 1–6 sertare). Corpul e un corp obișnuit (aceeași carcasă, aceleași sertare, glisiere, mânere și găurire ca la corpul standard), cu traverse în loc de tavan. Latura cu corp nu mai are lateralã de birou, iar spatele se întinde până la corp. Distinta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpului; modelul de operații își calculează fiecare corp în cadrul lui local. Între corpurile cu sertare și blat rămân minimum 500 mm pentru genunchi; sub asta, eroare.
+**Birou cu corp de sertare (D-118).** Blatul poate sta pe unul sau pe două corpuri cu sertare (stânga, dreapta, ambele; lățime 300–800 mm, 1–6 sertare). Corpul e un corp obișnuit (aceeași carcasă, aceleași sertare, glisiere, mânere și găurire ca la corpul standard), cu traverse în loc de tavan. Latura cu corp nu mai are laterală de birou, iar spatele se întinde până la corp. Distinta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpului; modelul de operații își calculează fiecare corp în cadrul lui local. Între corpurile cu sertare și blat rămân minimum 500 mm pentru genunchi; sub asta, eroare.
 - **Neacoperit:** fixarea corpului de blat și îmbinarea spatelui de corp nu sunt găurite în model (se prind la montaj).
 - **Trecerile de cabluri** stau acum în fața spatelui (nu peste el) și se mută lateral când ar atinge un șurub al glisierelor raftului; fuzz-ul pe Birou (`test/fuzz-desk.js`, 3000 de configurații) a prins ambele coliziuni.
 - `desk-ops.test.js` și `round-ops.test.js` intră în `test:all`.
