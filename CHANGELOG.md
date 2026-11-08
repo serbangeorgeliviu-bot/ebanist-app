@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.27.3 — 8 noiembrie 2026
+
+**Notele de operații urmează limba interfeței (D-116).** Numele operațiilor din CSV-ul de găurire și din foaia piesei („locaș mâner încastrat”, „decupaj plită”, „grilă de aerisire”, „contur liber”, canalul anti-curbare, gola frezată, balamalele pliante etc.) erau un amestec român/italian; acum se scriu în limba aleasă, în toate cele 7. O gola frezată sau un canal în contur nu mai apare ca „canal spate”. Modelul rămâne neschimbat (coduri stabile), traducerea se face la emitere.
+
 ## 5.27.2 — 8 noiembrie 2026
 
 **Audit de traduceri: texte amestecate între limbi, corectate.** Un script nou (`test/i18n-audit.cjs`) compară toate dicționarele pe cele 7 limbi și semnalează limbă greșită, cuvinte din altă limbă și valori identice.
