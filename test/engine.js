@@ -73,6 +73,7 @@ function appEngine() {
   const lam = path.join(APP, "ebanist-lambriu.js");
   if (fs.existsSync(lam)) vm.runInContext(fs.readFileSync(lam, "utf8"), s, { filename: "ebanist-lambriu.js" });
   vm.runInContext(fs.readFileSync(path.join(APP, "ebanist-contour.js"), "utf8"), s, { filename: "ebanist-contour.js" });
+  { const lf = path.join(APP, "ebanist-lift.js"); if (fs.existsSync(lf)) vm.runInContext(fs.readFileSync(lf, "utf8"), s, { filename: "ebanist-lift.js" }); }
   vm.runInContext(geometryOf(fs.readFileSync(path.join(APP, "index.html"), "utf8")), s, { filename: "app/index.html" });
   return (_app = s);
 }

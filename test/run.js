@@ -324,7 +324,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const fascia = c.pieces.find(p => /Fascia/.test(p.elemento));
     const piani = c.pieces.filter(p => p.shape === "tondo");
     o.dev = fascia.lung; o.devEsatto = Math.PI * 600;
-    o.altezzaFascia = fascia.larg;                                     // H - 2t
+    o.altezzaFascia = fascia.larg;                                     // H (D-117)
     o.kerf = fascia.curve && fascia.curve.kerf;
     o.nPiani = piani.reduce((s, p) => s + p.pz, 0);                    // fondo+cielo+3 ripiani
     o.diamPiano = piani[0] && piani[0].lung;                           // Ø - 2t
@@ -355,7 +355,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   });
   ok("cerchio Ø600: sviluppo = π·D", Math.abs(rnd.dev - rnd.devEsatto) < 0.6,
      rnd.dev + " vs " + rnd.devEsatto.toFixed(1));
-  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1200 - 2 * rnd.t,
+  ok("la fascia e alta quanto il corpo, i piani stanno dentro (H, D-117)", rnd.altezzaFascia === 1200,
      rnd.altezzaFascia + " con t=" + rnd.t);
   ok("piano dei tagli entro 0,3 mm dall'arco (non solo il minimo teorico)",
      !!rnd.kerf && rnd.kerf.n > 0 && rnd.kerf.flat <= 0.31,
@@ -1979,6 +1979,30 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         vuoto: (() => { const p2 = { pieces: [], configs: {} }; return computeHardware(p2, S).every(i => i.qty === 0); })()
       };
     });
+    /* letto con cassone sollevabile a pistoni (D-126): preventivo = scheda, nessuna mensola traversa */
+    const lf = await fp.evaluate(() => {
+      closeSheets();
+      const out = {};
+      for (const fr of [null, "panel"]) {
+        const p = { pieces: [], configs: {}, name: "L" }; Object.assign(p, proj()); p.pieces = []; p.configs = {};
+        generateInto(p, { ...PRESETS.letto, name: "Lift", bedStor: "lift", bedFrame: fr, bedMat: 35 });
+        const res = computeHardware(p, state.settings, true), q = {}; res.items.forEach(i => q[i.k] = (q[i.k] || 0) + i.qty);
+        const d = document.createElement("div"); d.innerHTML = montDoc(p);
+        const sec = d.querySelector("section.m-mod");
+        const qtyOf = k => { const nm = t(k); for (const tr of sec.querySelectorAll("table.m-t")[1].querySelectorAll("tr")) { const c = tr.querySelectorAll("td"); if (c.length && c[0].textContent.trim() === nm) return +c[3].textContent.replace(/\D/g, ""); } return -1; };
+        const li = buildModule(p.configs.Lift).liftInfo;
+        out[fr || "slats"] = { q, spring: qtyOf("hwLiftSpring"), hinge: qtyOf("hwLiftHinge"), F: li.F, pulito: !/undefined|NaN|\{[a-zA-Z0-9]+\}/.test(d.textContent),
+          steps: sec.querySelectorAll(".m-steps li").length, hasF: sec.textContent.indexOf(li.F + " N") >= 0,
+          piston: res.items.some(i => i.k === "hwLiftSpring" && i.qty === 2 && i.tot > -1) };
+      }
+      return out;
+    });
+    for (const k of ["slats", "panel"]) {
+      const r = lf[k];
+      ok("letto cassone sollevabile (" + k + "): 2 pistoni e 2 cerniere in preventivo = scheda", r.q.hwLiftSpring === 2 && r.q.hwLiftHinge === 2 && r.spring === 2 && r.hinge === 2, JSON.stringify(r.q));
+      ok("letto cassone sollevabile (" + k + "): niente mensole traversa/piede centrale, scheda pulita con la forza", !r.q.hwTravFit && !r.q.hwCenterFoot && r.pulito && r.hasF, JSON.stringify(r));
+    }
+    ok("letto cassone sollevabile: portadoghe solo con le doghe", lf.slats.q.hwSlatHold > 0 && !lf.panel.q.hwSlatHold);
     await fp.close(); await fctx.close();
     ok("catalogo: le otto categorie di tavolo e letto", g.catalogo === true);
     ok("preventivo tavolo: 4 piastre, 12 squadrette, 4 feltrini", g.q.hwLeg === 4 && g.q.hwTopClip === 12 && g.q.hwFelt === 4, JSON.stringify(g.q));

@@ -5,6 +5,107 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.40.0 — 9 noiembrie 2026
+
+**Unire de ramuri.** Lucrările din 8 noiembrie (Birou, Masă, Pat, șabloane STL, ladă ridicabilă) și cele din `main` (5.27.x–5.31.1) au fost făcute în paralel și au primit aceleași numere de versiune; istoricul de mai jos le păstrează pe ambele, în ordinea: întâi ramura cu mobilier (5.27.4–5.39.0), apoi cea din `main` (5.28.0–5.31.1). Conținutul funcțional al ambelor e inclus în 5.40.0.
+
+## 5.39.0 — 8 noiembrie 2026
+
+**Pat cu ladă ridicabilă pe pistoane cu gaz (D-126).** În Genera, la Pat, „Depozitare sub pat" are acum și **Ladă ridicabilă cu piston**: balamalele la tăblia de cap, somiera se ridică la picioare pe două pistoane. Lada are pereți și **fund propriu**; somiera are două variante, **doage pe cadru** sau **panou plin**.
+- **Meseriașul dă greutatea:** saltea (kg) și, opțional, somiera (altfel e estimată din piese). Aplicația calculează forța necesară (echilibru de momente, rezervă 10 %, 20°–45°), alege cele 2 pistoane din forțele comerciale (100–1500 N) și arată pe loc masa, forța, cursa și poziția prinderilor; avertizează dacă pistoanele ar împinge singure somiera închisă și oprește cazurile peste 1500 N.
+- Distinta, deviz, fișa de montaj și 3D au lada, somiera, balamalele grele și pistoanele; găurirea are balamalele și suporturile de piston (`balama_somiera`, `piston_pat`). Fără console de traversă și picior central la această variantă.
+- **Neverificat:** geometria prinderilor și găurile sunt `verificat:false` până la încercarea pe un pat real; nu există o fișă publică de cote pentru seturile de ridicare (calculul urmează ghidul de dimensionare al pistoanelor de pat). Prețul pistoanelor se completează în catalog.
+- `app/ebanist-lift.js` (pur, testat în `test/lift.test.js`); 7 limbi.
+
+## 5.38.0 — 8 noiembrie 2026
+
+**Șabloane de găurire pentru printare 3D, fișiere STL (D-125, funcție Pro).** În Genera, butonul „Șabloane STL" deschide o foaie cu cinci șabloane: rând de sistem 32 (pentru rafturi), plăcuță de balama (2 găuri), mâner (la distanța dintre axe), rând liber de găuri și **colț de picior la 45°** (pentru șurubul dublu M8 montat pe diagonala colțului). Cotele implicite vin din `HW_DRILL` (sistemul 32, placa balamalei, mânerul), nu sunt scrise a doua oară. Se descarcă un STL binar, deja orientat pe masa imprimantei, pe care îl deschide orice slicer.
+- **Reguli:** joc de 0,2 mm (editabil), **întotdeauna bucșe metalice de ghidare** (locașul are diametrul bucșei plus joc; foaia spune ce bucșe să comanzi: Ø interior = burghiul, Ø exterior, lungime), PETG (foaia recomandă strat 0,16–0,2 mm, minimum 4 pereți, umplere ≥ 40 %).
+- **Rândul de găuri** e un singur corp etanș (placă + prag care se agață pe muchia panoului, găurile la distanța dată de muchie). **Colțul la 45°** are patru corpuri care se suprapun (capac pe capătul piciorului, două praguri pe fețele piciorului, bloc cu bucșă aliniat cu diagonala); niciunul nu intră în gaura bucșei sau în picior.
+- Geometria e scrisă în aplicație (`app/ebanist-jig.js`), fără biblioteci externe; `test/jig.test.js` verifică plase etanșe, volume, poziția găurilor și a axei diagonale, nepătrunderea în gaura bucșei și formatul STL.
+- **Neverificat pe o piesă printată:** cotele șablonului de colț (lățimea pragurilor, lungimea capacului) și adâncimea burghiului pentru șurubul dublu depind de articolul tău (lungimea filetului pentru lemn); valorile implicite (Ø6 pilot, 35 mm adâncime, bucșă 6×10×15) sunt de verificat.
+
+## 5.37.0 — 8 noiembrie 2026
+
+**Birou: raft sub blat și retur pe picior; Pat: daybed și înălțimea tăbliei de picioare (D-124).**
+- **Raft sub blat:** panou fix între laterale (sau corpuri), la înălțimea aleasă de la podea (80 mm … H−t−450: sub el rămân genunchii liberi; implicit 250). Se prinde de laterale cu îmbinarea aleasă în proiect.
+- **Retur pe picior:** la returul lipit, „Susținere retur" = „Picior (panou de capăt)": lateralul nu se mai prelungește, iar returul stă pe panoul de capăt, pe toată lățimea lui (cu 30 mm retras pe fiecare parte).
+- **Daybed:** tăblia de cap și cea de picioare la înălțimea H, iar sponda din dreapta urcă până la H și devine spătar (rând „Spalliera daybed"); cu sertare pe acea latură, spătarul stă pe corpuri. H minim 550 mm.
+- **Tăblia de picioare:** înălțime la alegere, 200–800 mm (implicit 400), în rând, 3D, fișa de montaj și poziția feroneriei.
+- Distinta de dinainte rămâne identică fără aceste opțiuni. `fuzz-desk.js` (3000 de configurații) și fuzz-ul de pat din `fixed-ops.test.js` trec fără căderi.
+
+## 5.36.0 — 8 noiembrie 2026
+
+**Găurire pe masa fixă și pe pat (D-124).** Urmează construcția din fișa de montaj și numerele din deviz:
+- **Masă fixă:** colțarele de blat (câte unul la ~350 mm de zargă, minimum 2 pe zargă, exact numărul din deviz): un șurub în fața interioară a zargii și unul în fața de jos a blatului, la 15 mm de zargă. Masa extensibilă nu are colțare (blatul stă pe glisiere).
+- **Pat:** cele 4 perechi de feronerie sponda–tăblie (câte două șuruburi pe fiecare jumătate, pe suprapunerea reală dintre sponda și tăblie), cele 2 console ale traversei centrale, piciorul/picioarele de mijloc sub traversă și suporturile de doagă (2 pe doagă pe fiecare sponda, 1 pe doagă pe traversă). Numărul fiecărei piese = cel din deviz. Dacă sponda ridicată de sertare acoperă tăblia prea puțin, feroneria nu se găurește și apare un avertisment în toate limbile.
+- **Neacoperit:** șurubul dublu M8 al plăcii de picior de la masă se montează pe **diagonala** colțului piciorului; modelul de operații cunoaște numai găuri paralele cu o axă, deci acela se face cu șablonul, la montaj. Cotele de găurire (diametre, distanțe între șuruburi) sunt generice, `verificat:false`: catalogul dă articolele, nu și cotele.
+
+## 5.35.0 — 8 noiembrie 2026
+
+**Birou în L: retur lipit (D-123).** La Birou, câmpul nou „Retur lipit" (stânga sau dreapta) adaugă un al doilea blat, lipit cu muchia lui din spate de muchia din față a blatului principal, la capătul ales, întins spre utilizator: lungime 400–2000 mm (implicit 1000), lățime 400–800 mm (implicit 600, cu cel puțin 300 mm mai mică decât blatul principal). Îl susțin **lateralul de pe acea parte, prelungit pe toată lungimea**, și un **panou de capăt** sub marginea liberă a returului. Lipirea folosește îmbinarea aleasă în proiect (implicit Minifix + diblu, cupa pe dedesubt) și are găuri pe muchia returului și pe muchia din față a blatului principal. Blatul returului are cant pe trei laturi (nu pe cea lipită). Distincta, 3D-ul, găurirea și devizul vin din piese.
+- Pe latura returului nu poate sta corp cu sertare (eroare); pe cealaltă latură poate.
+- Lateralul, spatele și panourile se prind acum de **fiecare** blat pe care îl ating, pe porțiunea comună.
+- Un birou fără retur dă distinta de dinainte, identică. `fuzz-desk.js` acoperă și returul (3000 de configurații, 0 căderi).
+- **Neacoperit:** fixarea panoului de capăt de podea; returul fără lateral prelungit (cu picior sau cavalet); unghi tăiat în colț.
+
+## 5.34.0 — 8 noiembrie 2026
+
+**Birou: sertar sub blat și panou frontal (D-122).**
+- **Sertar sub blat:** un corp mic cu un sertar (înălțime 120 mm), atârnat sub blat în mijlocul spațiului pentru genunchi: lățime până la 500 mm, fața în planul din față al lateralelor, spatele la 170 mm de marginea din spate (după trecerile de cabluri). E un corp obișnuit (carcasă, glisiere, mâner și găurire ca la corpul standard). Între laterale trebuie să rămână minimum 380 mm.
+- **Panou frontal:** panou între laterale (sau corpuri) și sub blat, în planul din față, cu înălțimea la alegere (implicit 400 mm, 150 mm până la H−t−300). Se prinde de laterale și de blat cu aceeași îmbinare ca spatele.
+- **Se exclud:** panoul frontal stă în drumul raftului de tastatură și al sertarului de sub blat (se trag spre utilizator); împreună dau eroare, nu piesă mutată.
+- Un birou fără opțiunile noi dă distinta de dinainte, identică; `fuzz-desk.js` acoperă acum și aceste opțiuni (2000 de configurații, 0 căderi).
+- **Neacoperit:** fixarea sertarului de blat nu e în modelul de găurire (ca la corpul cu sertare).
+
+## 5.33.0 — 8 noiembrie 2026
+
+**Pat: sertare laterale pe glisiere (D-121).** În câmpul „Depozitare sub pat" alegi acum și „Sertare laterale" (alături de cutiile pe rotile), pe stânga, dreapta sau ambele laturi, 1–3 elemente pe latură. Fiecare element e un corp obișnuit cu un sertar (aceeași carcasă, glisiere, mâner și găurire ca la corpul standard), **rotit cu 90°** sub sponda patului, cu frontul în planul exterior al ei; adâncimea până la 650 mm. Sponda se ridică deasupra corpurilor (rând nou „Sponda laterale sopra i cassetti", 150 mm înălțime la H=300) și nu se mai taie în două feluri pe latura cu sertare. Distincta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpurilor; fișa de montaj are un pas nou. Un sertar mai lat de 1200 mm sau un element mai îngust de 300 mm dă eroare (alegi mai multe sau mai puține sertare).
+- Modelul de operații își calculează fiecare corp în cadrul lui și îl rotește în pat (`generateBodies`, acum cu rotație ±90°). Testele verifică că fiecare piesă rotită coincide cu cutiile ei 3D și că fiecare gaură cade în piesa ei.
+- **În 3D** feroneria corpurilor rotite nu se desenează (ca la aripa B a corpului de colț, D-103: nu desen greșit); găurile din fișa piesei sunt corecte.
+- Un pat fără depozitare dă distinta de dinainte, identică.
+
+## 5.32.0 — 8 noiembrie 2026
+
+**Pat: cutii joase pe rotile sub pat (D-120).** Pe una sau pe ambele laturi, 1–3 cutii pe latură, care se scot lateral, pe sub sponda patului. Fiecare cutie: fund plin, frontal, retro și două laterale; înălțimea vine din golul de sub sponde (150 mm) minus 15 mm de joc și 35 mm de rotilă. Adâncimea: pe o latură până la 1000 mm, pe ambele jumătate din lățimea interioară minus 30 mm. Intră în distinctă (patru rânduri pe cutie și rotilele ca accesoriu), în 3D, în deviz (rotilele, categorie nouă, preț 0 până îl completezi), în fișa de montaj și în găurire: diblu între laterale și frontal/retro, confirmat de jos la fund. Cutiile folosesc roluri noi (`cutie_front`, `cutie_lat`, `cutie_fond`), ca să nu declanșeze găurirea de glisiere a sertarelor. Erori: cutii care ar fi mai scurte de 300 mm, mai puțin adânci de 250 mm sau cu pereți sub 40 mm.
+- Rotilele nu se găuresc (catalogul nu dă placa); cotele de găurire sunt generice, `verificat:false`.
+- Un pat fără cutii dă distinta de dinainte, identică.
+
+## 5.31.0 — 8 noiembrie 2026
+
+**Masă extensibilă pe glisiere Häfele (D-119).** Trei modele din catalogul Häfele DGH-M2026, pagina 9.22: 642.68.901 (800 mm, sincron cu cablu, prelungire 500), 642.68.921 (800 mm, prelungire 500) și 642.68.922 (1000 mm, prelungire 600). Cadrul (picioare + zargi) rămâne fix; blatul devine **două jumătăți** (L/2, cu cant pe toate laturile) care glisează, iar **prelungirea** se introduce la mijloc (lungimea deschisă = L + prelungire). Intră în distinctă (jumătăți, prelungire, glisierele ca accesoriu), în 3D (rostul dintre jumătăți), în deviz (o garnitură de glisiere în loc de colțarele de blat) și în fișa de montaj. Glisierele trebuie să încapă pe zarga lungă: la 800 mm masa are cel puțin 1080 mm, la 1000 mm cel puțin 1280 mm; sub asta, eroare cu lungimea minimă.
+- **Găurire:** 3 șuruburi pe zargă pentru fiecare glisieră și 3 șuruburi pe fiecare jumătate de blat, pentru unghiul de montaj. Catalogul dă lungimea de montaj și a unghiului, **nu poziția găurilor**: cele din model sunt ipoteze, `verificat:false`.
+- **Prețul** glisierelor e 0 în catalog (nu l-am găsit); se completează de utilizator.
+- O masă fără glisiere dă distinta și devizul de dinainte, identice.
+
+## 5.30.0 — 8 noiembrie 2026
+
+**Birou cu corp de sertare (D-118).** Blatul poate sta pe unul sau pe două corpuri cu sertare (stânga, dreapta, ambele; lățime 300–800 mm, 1–6 sertare). Corpul e un corp obișnuit (aceeași carcasă, aceleași sertare, glisiere, mânere și găurire ca la corpul standard), cu traverse în loc de tavan. Latura cu corp nu mai are laterală de birou, iar spatele se întinde până la corp. Distinta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpului; modelul de operații își calculează fiecare corp în cadrul lui local. Între corpurile cu sertare și blat rămân minimum 500 mm pentru genunchi; sub asta, eroare.
+- **Neacoperit:** fixarea corpului de blat și îmbinarea spatelui de corp nu sunt găurite în model (se prind la montaj).
+- **Trecerile de cabluri** stau acum în fața spatelui (nu peste el) și se mută lateral când ar atinge un șurub al glisierelor raftului; fuzz-ul pe Birou (`test/fuzz-desk.js`, 3000 de configurații) a prins ambele coliziuni.
+- `desk-ops.test.js` și `round-ops.test.js` intră în `test:all`.
+
+## 5.29.0 — 8 noiembrie 2026
+
+**Birou: raft culisant pentru tastatură și trecere de cabluri (D-118).**
+- **Raft tastatură:** glisiere Hettich KA 3434 (300 / 350 / 400 / 500 mm, 20 kg, cotele din fișele producătorului) și panoul raftului, lățime la alegere (implicit 560 mm). Intră în distinctă (panou + accesoriu pe 2 glisiere), în 3D și în găurire: două șuruburi sub blat și două pe muchia raftului, la distanța `b1` din fișă. Dacă raftul nu are loc între laterale, sau glisierele sunt prea lungi pentru adâncimea blatului, se spune eroarea, nu se mută nimic.
+- **Treceri de cabluri Ø60:** 1–3 găuri prin blat, egal distanțate, în spate; găuri trecute în model și rând de accesoriu în distinctă.
+- Un birou fără opțiunile noi dă distinta de dinainte, identică.
+- Cotele de montaj ale glisierelor (poziția găurilor pe glisieră, lățimea de 13 mm, înălțimea 70 mm sub blat) nu sunt confirmate: `verificat:false`. La 350 mm fișa nu dă `b1`; e interpolat.
+- **Corecturi:** `SW_CACHE` din `index.html` rămăsese în urmă față de `sw.js` (v201 față de v204): la „Verifică actualizări” pagina nouă se scria într-un cache pe care Service Worker-ul îl ștergea. Aliniate. Testul e2e al fâșiei rotunde (H−2t, vechi) corectat la H (D-117). Paginile site-ului regenerate cu versiunea nouă.
+
+## 5.28.0 — 8 noiembrie 2026
+
+**Găurire pe Birou, Rotund, Oval și Colțuri rotunjite (D-117).**
+- **Birou:** blatul se prinde de laterale și spatele de laterale și de blat, cu îmbinarea aleasă în proiect (implicit Minifix + diblu); cupa pe fața ascunsă.
+- **Rotund / Oval / Raccordato:** fundul, tavanul și rafturile se prind de fâșie cu aceeași îmbinare. Găurile fâșiei se dau pe lungimea ei **desfășurată** (fața 5 = fața interioară, x de la capătul din spate, y de la bază), nu pe cutia de gabarit. Rotund/oval: trei prinderi pe plan (stânga, față, dreapta; în spate e tăietura fâșiei); raccordato: pe porțiunile drepte (laterale și front). Fâșia în tronsoane nu se găurește (avertisment în toate limbile).
+- **Se schimbă distinta:** fâșia are acum înălțimea corpului (H), nu H−2t, iar fundul, tavanul și rafturile stau **în** fâșie. Înainte, planurile erau mai mici cu t și nu atingeau fâșia. Goldenurile `16-tondo`, `17-ovale` și `18-raccordato` sunt regenerate și au `validat: false` până la o verificare manuală.
+- **3D:** fâșia e un perete gol (la raccordato, cu spatele deschis), ca planurile și găurile să se vadă.
+- Cotele de găurire rămân `verificat:false` (D-48).
+
+## 5.27.4 — 8 noiembrie 2026
+
+**Generator: comenzile 3D răspund și la Rotund, Oval, Colțuri rotunjite și Birou.** La aceste patru tipuri cutiile 3D nu purtau `role` și `pk` (D-49), deci modelul de operații ieșea cu 0 piese: nu se putea selecta o piesă, nici izola, iar Cote, Feronerie și Găuri nu aveau pe ce lucra. Acum fiecare piesă fizică (fâșie, fund, tavan, rafturi; blat, laterale, spate la birou) își poartă rolul și numărul, ca la Masă și Pat. Distinta nu se schimbă. Găurile și feroneria acestor tipuri rămân în afara modelului 3D (D-48), iar lista „Piese” o spune.
 ## 5.31.1 — 9 noiembrie 2026
 
 **Catalog Häfele completat din paginile primite (MB 12.104 de pe hafele.it, FC 6.25, FC 6.74) și goldens validate.**

@@ -92,7 +92,7 @@ var PANEL_DEFAULTS = { panelL: 2800, panelW: 2070, decor_directional: false };
 var ROLES = ["fianco", "fianco_sx", "fianco_dx", "base", "cielo", "base_cielo", "traversa_cielo",
              "schienale", "ripiano", "frontale", "cassetto_fianco", "cassetto_fondo",
              "cassetto_frontale", "divisorio", "zoccolo", "traversa", "blat", "accessorio",
-             "traversa_spate", "filler"];
+             "traversa_spate", "filler", "raft_tast", "raft_sub", "somiera_lat", "somiera_cap", "somiera_pan", "cutie_front", "cutie_lat", "cutie_fond"];
 
 /* Perche esiste `fianco` accanto a `fianco_sx`/`fianco_dx`, e `base_cielo`
    accanto a `base`/`cielo`: una RIGA di distinta non e un pezzo, e un
@@ -128,6 +128,14 @@ var ROLE_AXES = {
   zoccolo:           { lung: "L", larg: "H", sp: "P" },
   traversa:          { lung: "L", larg: "H", sp: "P" },
   traversa_spate:    { lung: "L", larg: "H", sp: "P" },   /* rinforzo în spate, între laterale/despărțitoare (D-103) */
+  raft_tast:         { lung: "L", larg: "P", sp: "H" },
+  raft_sub:          { lung: "L", larg: "P", sp: "H" },
+  somiera_lat:       { lung: "P", larg: "H", sp: "L" },   /* somiera ridicabilă a patului (D-126): longeron, traversă de capăt și panou */
+  somiera_cap:       { lung: "L", larg: "H", sp: "P" },
+  somiera_pan:       { lung: "L", larg: "P", sp: "H" },   /* raftul fix de sub blatul biroului (D-124) */
+  cutie_front:       { lung: "P", larg: "H", sp: "L" },   /* scatola sotto il letto (D-120): frontale/retro, spessore pe x */
+  cutie_lat:         { lung: "L", larg: "H", sp: "P" },
+  cutie_fond:        { lung: "L", larg: "P", sp: "H" },   /* raftul culisant pentru tastatură (D-118): panou orizontal sub blat */
   filler:            { lung: "H", larg: "L", sp: "P" },   /* fâșie în planul frontului; cea de sus își poartă propriul axis_mapping */
   cassetto_fianco:   { lung: "P", larg: "H", sp: "L" },
   cassetto_fondo:    { lung: "L", larg: "P", sp: "H" },
@@ -1282,7 +1290,7 @@ var ROLE_SP_KEY = {
   base: "sp_base", cielo: "sp_cielo", base_cielo: "sp_base", traversa_cielo: "sp_cielo",
   schienale: "sp_schienale", ripiano: "sp_ripiano", divisorio: "sp_divisorio",
   zoccolo: "sp_zoccolo", frontale: "sp_frontale", traversa: "sp_frontale", blat: "sp_fianco",
-  traversa_spate: "sp_fianco", filler: "sp_frontale",
+  traversa_spate: "sp_fianco", filler: "sp_frontale", raft_tast: "sp_ripiano", raft_sub: "sp_ripiano", somiera_lat: "sp_fianco", somiera_cap: "sp_fianco", somiera_pan: "sp_ripiano", cutie_front: "sp_frontale", cutie_lat: "sp_fianco", cutie_fond: "sp_fianco",
   cassetto_frontale: "sp_frontale", cassetto_fianco: "sp_fianco",
   cassetto_fondo: "sp_fianco"
 };
@@ -1291,7 +1299,7 @@ var ROLE_MAT_OF = {
   base: "base", cielo: "cielo", base_cielo: "base", traversa_cielo: "cielo", schienale: "schienale",
   ripiano: "ripiano", divisorio: "divisorio", zoccolo: "zoccolo",
   frontale: "frontale", traversa: "frontale", cassetto_frontale: "frontale", blat: "fianco",
-  traversa_spate: "fianco", filler: "frontale",
+  traversa_spate: "fianco", filler: "frontale", raft_tast: "ripiano", raft_sub: "ripiano", somiera_lat: "fianco", somiera_cap: "fianco", somiera_pan: "ripiano", cutie_front: "frontale", cutie_lat: "fianco", cutie_fond: "fianco",
   cassetto_fianco: "fianco", cassetto_fondo: "fianco"
 };
 /* solo quelle cadute: e quello che guarda il cancello */
