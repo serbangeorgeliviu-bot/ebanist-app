@@ -1149,6 +1149,33 @@ function dimensionSpec(pieces, opts) {
    _NEVERIF cât timp HW_DRILL.verificat e false (D-48), iar fișierul are antet de
    avertizare: cotele nu merg în mașină nemarcate. Găurile pe canturi (fețele 1–4)
    nu se văd în plan: sunt numărate în antet. Cotele se rotunjesc la 0,1 mm numai aici. */
+/* Antetul fișierului DXF (comentarii 999), în limba interfeței. ASCII pur: un DXF R12
+   nu garantează diacritice. Implicit (fără limbă) = româna, ca până acum. Numele
+   straturilor rămân neschimbate: sunt identificatori pentru CAD/CAM, nu text. */
+var DXF_TXT = {
+  ro: { part: "piesa", size: "Piesa {l} x {w} x {t} mm, vazuta de pe fata 5, origine jos-stanga, cote la 0,1 mm",
+        unver: "ATENTIE: cotele de feronerie (HW_DRILL) NU sunt verificate pe o piesa reala. Straturile *_NEVERIF nu merg in masina.",
+        edge: "{n} operatii pe canturi (fetele 1-4) nu apar in plan: vezi CSV-ul de gaurire." },
+  it: { part: "pezzo", size: "Pezzo {l} x {w} x {t} mm, visto dalla faccia 5, origine in basso a sinistra, quote a 0,1 mm",
+        unver: "ATTENZIONE: le quote della ferramenta (HW_DRILL) NON sono verificate su un pezzo reale. I layer *_NEVERIF non vanno in macchina.",
+        edge: "{n} lavorazioni sui bordi (facce 1-4) non compaiono nel disegno: vedi il CSV di foratura." },
+  en: { part: "part", size: "Part {l} x {w} x {t} mm, seen from face 5, origin bottom-left, dimensions to 0.1 mm",
+        unver: "WARNING: hardware dimensions (HW_DRILL) are NOT verified on a real part. Layers *_NEVERIF must not go to the machine.",
+        edge: "{n} edge operations (faces 1-4) are not shown in the drawing: see the drilling CSV." },
+  fr: { part: "piece", size: "Piece {l} x {w} x {t} mm, vue de la face 5, origine en bas a gauche, cotes a 0,1 mm",
+        unver: "ATTENTION : les cotes de quincaillerie (HW_DRILL) ne sont PAS verifiees sur une piece reelle. Les calques *_NEVERIF ne vont pas en machine.",
+        edge: "{n} operations sur les chants (faces 1-4) ne figurent pas sur le plan : voir le CSV de percage." },
+  de: { part: "Teil", size: "Teil {l} x {w} x {t} mm, von Flaeche 5 gesehen, Ursprung unten links, Masse auf 0,1 mm",
+        unver: "ACHTUNG: Die Beschlagmasse (HW_DRILL) sind an keinem echten Teil verifiziert. Layer *_NEVERIF gehen nicht an die Maschine.",
+        edge: "{n} Kantenbearbeitungen (Flaechen 1-4) erscheinen nicht im Plan: siehe Bohr-CSV." },
+  pl: { part: "element", size: "Element {l} x {w} x {t} mm, widok od strony 5, poczatek w lewym dolnym rogu, wymiary co 0,1 mm",
+        unver: "UWAGA: wymiary okuc (HW_DRILL) NIE sa zweryfikowane na prawdziwym elemencie. Warstwy *_NEVERIF nie ida na maszyne.",
+        edge: "{n} operacji na krawedziach (strony 1-4) nie ma na rysunku: patrz CSV wiercenia." },
+  es: { part: "pieza", size: "Pieza {l} x {w} x {t} mm, vista desde la cara 5, origen abajo a la izquierda, medidas a 0,1 mm",
+        unver: "ATENCION: las medidas de herrajes (HW_DRILL) NO estan verificadas en una pieza real. Las capas *_NEVERIF no van a la maquina.",
+        edge: "{n} operaciones en los cantos (caras 1-4) no aparecen en el plano: ver el CSV de taladrado." }
+};
+
 function dxfForPiece(pc, opts) {
   opts = opts || {};
   var f = function (v) { return (Math.round(v * 10) / 10).toFixed(1); };
@@ -1191,10 +1218,11 @@ function dxfForPiece(pc, opts) {
     }
   });
 
-  var head = ["Ebanist " + (opts.ver || "") + " — " + (opts.name || ("piesa " + pc.pk)),
-    "Piesa " + f(pc.length) + " x " + f(pc.width) + " x " + f(pc.thickness) + " mm, vazuta de pe fata 5, origine jos-stanga, cote la 0,1 mm"];
-  if (unver) head.push("ATENTIE: cotele de feronerie (HW_DRILL) NU sunt verificate pe o piesa reala. Straturile *_NEVERIF nu merg in masina.");
-  if (edgeN) head.push(edgeN + " operatii pe canturi (fetele 1-4) nu apar in plan: vezi CSV-ul de gaurire.");
+  var X = DXF_TXT[opts.lang] || DXF_TXT.ro;
+  var head = ["Ebanist " + (opts.ver || "") + " — " + (opts.name || (X.part + " " + pc.pk)),
+    X.size.replace("{l}", f(pc.length)).replace("{w}", f(pc.width)).replace("{t}", f(pc.thickness))];
+  if (unver) head.push(X.unver);
+  if (edgeN) head.push(X.edge.replace("{n}", edgeN));
   head.forEach(function (h) { out.push("999", h); });
   out.push("0", "SECTION", "2", "HEADER", "9", "$ACADVER", "1", "AC1009", "9", "$INSUNITS", "70", "4", "0", "ENDSEC");
   var names = Object.keys(layers);

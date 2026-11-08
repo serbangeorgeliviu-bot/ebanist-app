@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.27.2 — 8 noiembrie 2026
+
+**Audit de traduceri: texte amestecate între limbi, corectate.** Un script nou (`test/i18n-audit.cjs`) compară toate dicționarele pe cele 7 limbi și semnalează limbă greșită, cuvinte din altă limbă și valori identice.
+
+- **Corecturi în dicționare:** italiana avea cuvinte românești (`Tavan` → „Soffitto”, `decupaje` → „ritagli”, `decupaj` → „ritaglio”, „gabarito” → „ingombro”); româna avea cuvinte italiene (`Tramezzi` → „Despărțitoare”, `setti` → „despărțitoare”, în Atelier „Sezionatrice/Bordatrice/Postazione” → „Ferăstrău format / Mașină de cantuit / Post de lucru”).
+- **Ce se printează, în limba aleasă:** antetul fișierului DXF pe piesă (înainte numai în română), antetele CSV-ului de debitare și nota din CSV-ul de găurire (înainte numai în italiană), mesajul „fără rețea pentru AR”. Numele straturilor DXF și coloanele CSV de găurire rămân neschimbate (sunt identificatori pentru CAD/CAM).
+- **Mesaje de eroare traduse:** „Cote absolute: …”, „Pantă: …”, „Blat: …”, „Spate / rinforzo / filler: …”, validările `deriveCarcass` cu text fix și erorile din formule (funcție necunoscută, cotă lipsă, paranteză lipsă) apar acum în limba interfeței.
+- **Încă netradus (rămâne pentru o versiune viitoare):** notele de operații din model („locaș mâner încastrat”, „Maniglia a incasso…”, „decupaj plită” etc.) sunt amestec român/italian și intră în CSV-ul de găurire și în foaia piesei; erorile cu text dinamic la mijloc.
+
 ## 5.27.1 — 7 noiembrie 2026
 
 **Italiană: „quote”, nu „cote”.** Un utilizator ne-a scris că în program apărea de mai multe ori „cote”, iar în italiană cotele se numesc „quote” („cote” e franceză). Corectat peste tot în textele italiene: Quote assolute, Quota di taglio meno il bordo, Quote ricalcolate, „Ho verificato quote e grossezze”, mesajele de verificare și nota din fișierul de găurire. Româna, franceza și spaniola rămân neschimbate.
