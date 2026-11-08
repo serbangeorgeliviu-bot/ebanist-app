@@ -56,7 +56,7 @@ test("pat cu cutii sub pat și masă: determinism și fără erori pe dimensiuni
   let seed = 17; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296, ri = (a, b) => Math.round(a + rnd() * (b - a));
   for (let i = 0; i < 150; i++) {
     const cs = [{ type: "tavolo", L: ri(900, 2800), H: ri(700, 780), P: ri(600, 1100) },
-                { type: "letto", L: ri(800, 2000), H: ri(700, 1200), P: ri(1700, 2300), bedStor: ["boxes", "drawers", null][ri(0, 2)], bedBox: ["sx", "dx", "both"][ri(0, 2)], bedBoxN: ri(1, 3) }];
-    cs.forEach(c => { try { const r = gen(c); assert.ok(clean(r.o), JSON.stringify(c)); assert.deepEqual(r.o, gen(c).o); } catch (e) { if (!/mai înguste|mai larg|puțin adânci|mai scurte|rămân doar/.test(e.message)) throw e; } });
+                { type: "letto", L: ri(800, 2000), H: ri(700, 1200), P: ri(1700, 2300), bedStor: ["boxes", "drawers", null][ri(0, 2)], bedBox: ["sx", "dx", "both"][ri(0, 2)], bedBoxN: ri(1, 3), bedDay: ri(0, 1), bedFootH: ri(200, 800) }];
+    cs.forEach(c => { try { const r = gen(c); assert.ok(clean(r.o), JSON.stringify(c)); assert.deepEqual(r.o, gen(c).o); } catch (e) { if (!/mai înguste|mai larg|puțin adânci|mai scurte|rămân doar|cel puțin 550/.test(e.message)) throw e; } });
   }
 });

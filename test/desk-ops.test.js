@@ -161,3 +161,25 @@ test("fără retur = biroul de dinainte", () => {
   const a = genRaw(DESK), c = genRaw({ ...DESK, deskRet: null });
   assert.deepEqual(a.b.pieces, c.b.pieces); assert.deepEqual(a.o, c.o);
 });
+
+/* --- raft sub blat și retur pe picior (D-124) ------------------------------------------------------------ */
+test("raft sub blat: între laterale, sub genunchi, prins de laterale; limite ca eroare", () => {
+  const { b, o } = genRaw({ ...DESK, deskShelf: 1, deskShelfY: 250 });
+  const sh = b.boxes.find(x => x.role === "raft_sub"), t = 18;
+  assert.equal(sh.y1, 250); assert.equal(sh.x0, t); assert.equal(sh.x1, DESK.L - t);
+  assert.ok(b.pieces.some(r => r.elemento === "Ripiano sotto piano" && r.lung === DESK.L - 2 * t));
+  assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+  const pc = o.pieces.find(p => p.role === "raft_sub");
+  assert.ok(pc.operations.filter(x => x.type === "drill").length >= 4, "raftul nu e găurit pentru laterale");
+  assert.throws(() => genRaw({ ...DESK, deskShelf: 1, deskShelfY: 400 }), /între 80 și/);
+});
+test("retur pe picior: lateralul nu se prelungește, panoul de capăt e pe toată lățimea returului", () => {
+  const { b, o } = genRaw({ ...DESK, deskRet: "dx", deskRetLeg: 1, deskRetL: 1000, deskRetW: 600 });
+  const lat = b.boxes.filter(x => x.role === "fianco");
+  assert.ok(lat.every(x => Math.abs(x.z1 - (DESK.P - 20)) < 0.01), "lateralul e prelungit");
+  assert.ok(!b.pieces.some(r => r.elemento === "Fianco ritorno scrivania"));
+  const end = b.boxes.find(x => x.sub === "capat");
+  assert.equal(end.x1 - end.x0, 600 - 60);
+  assert.equal(b.pieces.find(r => r.elemento === "Fianco").pz, 2);
+  assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+});

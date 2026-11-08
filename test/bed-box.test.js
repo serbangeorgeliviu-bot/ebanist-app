@@ -133,3 +133,28 @@ test("sertare laterale: fuzz", () => {
   }
   assert.ok(ok > 40, ok + "/" + refused);
 });
+
+/* --- tăblie de picioare și daybed (D-124) ------------------------------------------------------------------ */
+test("înălțimea tăbliei de picioare: rând și cutie, feroneria pe suprapunerea reală", () => {
+  for (const fh of [250, 400, 700]) {
+    const { b, o } = gen({ ...BED, bedFootH: fh });
+    assert.equal(b.pieces.find(r => r.elemento === "Pediera").larg, fh);
+    assert.equal(b.boxes.find(x => x.sub === "pediera").y1, fh);
+    assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")), "fh=" + fh);
+  }
+});
+test("daybed: tăbliile la H, sponda dreaptă urcă la H și devine spătar; fără H prea mic", () => {
+  const { b, o } = gen({ ...BED, H: 700, bedDay: 1 });
+  assert.equal(b.pieces.find(r => r.elemento === "Pediera").larg, 700);
+  const back = b.pieces.find(r => r.elemento === "Spalliera daybed");
+  assert.equal(back.larg, 700 - 150);
+  assert.equal(b.pieces.find(r => r.elemento === "Sponda laterale").pz, 1);
+  const rails = b.boxes.filter(x => x.role === "fianco"); assert.equal(rails.length, 2);
+  assert.equal(Math.max(...rails.map(x => x.y1)), 700);
+  assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+  assert.throws(() => gen({ ...BED, H: 500, bedDay: 1 }), /cel puțin 550/);
+  /* daybed + sertare pe latura spătarului: spătarul stă pe corpuri */
+  const d = gen({ ...BED, H: 750, bedDay: 1, bedStor: "drawers", bedBox: "both", bedBoxN: 2 });
+  assert.ok(!d.o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+  assert.equal(d.b.pieces.find(r => r.elemento === "Spalliera daybed").larg, 750 - 300);
+});

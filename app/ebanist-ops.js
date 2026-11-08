@@ -111,7 +111,7 @@ function jointKind(input) {
   return JOINT_OF_ID[id] || "minifix";
 }
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "cutie_fond", "cutie_front", "cutie_lat", "schienale", "zoccolo", "traversa", "traversa_spate",
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "raft_sub", "cutie_fond", "cutie_front", "cutie_lat", "schienale", "zoccolo", "traversa", "traversa_spate",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur", "filler"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
@@ -128,7 +128,7 @@ var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo:
   /* piesa cu contur liber (D-101): conturul exact e pe cutia ei (`cont`), cutiile sunt triunghiuri pentru 3D */
   contur: 1,
   /* rinforzo în spate și filler (D-103): panouri ca toate celelalte */
-  traversa_spate: 1, filler: 1, raft_tast: 1, cutie_front: 1, cutie_lat: 1, cutie_fond: 1 };
+  traversa_spate: 1, filler: 1, raft_tast: 1, raft_sub: 1, cutie_front: 1, cutie_lat: 1, cutie_fond: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -987,6 +987,14 @@ function generate1(input) {
         });
         var BT = topOf(dBack);
         if (BT && Math.abs(dBack.max[1] - BT.min[1]) <= 0.6) joint(dBack, BT, 1, 1, 0, dBack.min[0], dBack.max[0], 2, -1, out);
+      });
+      /* raft sub blat (D-124): între laterale, cupa pe dedesubt; la corpurile cu sertare nu se găurește spre corp (nu e în model) */
+      byRole("raft_sub").forEach(function (R) {
+        dSides.forEach(function (S) {
+          var left = (S.min[0] + S.max[0]) / 2 < xm, edge = left ? R.min[0] : R.max[0], face = left ? S.max[0] : S.min[0];
+          if (Math.abs(edge - face) > 0.6 || R.max[1] > S.max[1] + 0.6) return;
+          joint(R, S, 0, left ? -1 : 1, 2, R.min[2], R.max[2], 1, -1, out);
+        });
       });
       /* retur lipit (D-123): muchia din spate a returului vine pe fața din față a blatului principal; îmbinarea aleasă în proiect, cupa pe dedesubt */
       if (dRetTop && Math.abs(dRetTop.min[2] - dTop.max[2]) <= 0.6)

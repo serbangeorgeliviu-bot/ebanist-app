@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.37.0 — 8 noiembrie 2026
+
+**Birou: raft sub blat și retur pe picior; Pat: daybed și înălțimea tăbliei de picioare (D-124).**
+- **Raft sub blat:** panou fix între laterale (sau corpuri), la înălțimea aleasă de la podea (80 mm … H−t−450: sub el rămân genunchii liberi; implicit 250). Se prinde de laterale cu îmbinarea aleasă în proiect.
+- **Retur pe picior:** la returul lipit, „Susținere retur" = „Picior (panou de capăt)": lateralul nu se mai prelungește, iar returul stă pe panoul de capăt, pe toată lățimea lui (cu 30 mm retras pe fiecare parte).
+- **Daybed:** tăblia de cap și cea de picioare la înălțimea H, iar sponda din dreapta urcă până la H și devine spătar (rând „Spalliera daybed"); cu sertare pe acea latură, spătarul stă pe corpuri. H minim 550 mm.
+- **Tăblia de picioare:** înălțime la alegere, 200–800 mm (implicit 400), în rând, 3D, fișa de montaj și poziția feroneriei.
+- Distinta de dinainte rămâne identică fără aceste opțiuni. `fuzz-desk.js` (3000 de configurații) și fuzz-ul de pat din `fixed-ops.test.js` trec fără căderi.
+
 ## 5.36.0 — 8 noiembrie 2026
 
 **Găurire pe masa fixă și pe pat (D-124).** Urmează construcția din fișa de montaj și numerele din deviz:
