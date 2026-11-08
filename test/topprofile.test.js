@@ -219,6 +219,29 @@ describe("Închiderea prinde o piesă greșită", () => {
   });
 });
 
+describe("Poziția despărțitorului emisă la 0,1 mm nu strică închiderea (fuzz seed 42, F2495)", () => {
+  /* rândul distinctei poartă `xc` rotunjit la 0,1 mm; linia tavanului urcă cu tan θ pe mm, deci înălțimea nominală de la xc rotunjit
+     diferă de cea exactă cu până la tan θ · 0,05. Lungimea e rotunjită la întreg (±0,5). Suma depășea 0,5 + 0,05 la 53,6°. */
+  const F = { type: "standard", L: 748, H: 1679, P: 710, plinth: 0, tram: 3, shelves: 10, drawers: 6, doors: 7, back: 0, hang: 0,
+    support: "sospeso", handles: "push", topProfile: { axis: "x", h0: 1679, h1: 715 } };
+  test("corpul F2495 se închide", () => {
+    const r = build(F);
+    assert.equal(J(Array.from(r.closure(null)).filter(x => x && x.delta !== 0)), "[]");
+  });
+  test("o eroare adevărată de 1 mm tot cade", () => {
+    const r = build(F);
+    const bad = r.pieces.map(p => /Tramezzo/.test(p.elemento) ? Object.assign({}, p, { lung: p.lung + 1 }) : p);
+    assert.ok(Array.from(r.closure(bad)).some(x => /^despartitor@/.test(x.chain) && x.delta !== 0), "1 mm în plus trebuie prins");
+  });
+  test("pe pantă lină toleranța rămâne aproape de 0,5: o eroare de 0,6 mm tot cade", () => {
+    const g = Object.assign({}, F, { topProfile: { axis: "x", h0: 1679, h1: 1500 } });
+    const r = build(g);
+    assert.equal(J(Array.from(r.closure(null)).filter(x => x && x.delta !== 0)), "[]", "pe pantă lină corpul se închide");
+    const bad = r.pieces.map(p => /Tramezzo/.test(p.elemento) ? Object.assign({}, p, { lung: p.lung + 0.6 }) : p);
+    assert.ok(Array.from(r.closure(bad)).some(x => /^despartitor@/.test(x.chain) && x.delta !== 0), "+0,6 mm trebuie prins");
+  });
+});
+
 describe("Ops: piese pe pantă", () => {
   test("tavanul înclinat: marcat, fără operații, cu dimensiunile reale; avertisment opsSlope", () => {
     const r = build({ topProfile: X }), o = r.ops();

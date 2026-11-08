@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.30.2 — 8 noiembrie 2026
+
+**Piciorul cadrului: nivelatorul Häfele 637.42.950, prins pe lateralul baghetelor.** Identificat în catalogul Häfele, pagina FC 6.74 (Casters, Feet, Legs, Table Fittings — Levelers): „Heavy-duty Base Leveler, with pound-in prongs, screw mounted”, cote din pagină: placă de prindere 50, talpă ø38, înălțime 30, reglaj 20 mm, 150 kg, cheie hexagonală de 6 mm; se potrivește cu desenul din clip. Înlocuiește AXILO (care se pune pe bază, nu pe cadru).
+
+- **Catalog:** 637.42.950 (150 kg) și 637.42.905 (100 kg, talpă ø28, șurubelniță plată), cu `foot` (prindere laterală); preț gol. AXILO 78 (637.76.351/.352/.357) rămân în catalog ca picioare de soclu pentru corpuri (cu gama de înălțime și avertismentul de soclu), fără să fie oferite la cadru. 637.67.910 (pagina FC 6.74, +25 mm, 175 kg) nu e adăugat: alt desen.
+- **Cadru:** piciorul stă pe fața interioară a ambelor șine, la cel mult 600 mm și 100 mm de la capete; înălțimea șinei = înălțimea cadrului − talpa închisă (4,5 mm, din desenul trimis de Liviu: de confirmat); cursa 20 mm. În 3D placa de 50 apare pe lateralul șinei. În card alegi între 637.42.950 și 637.42.905.
+- **Defect reparat: tavan înclinat (D-86), închiderea despărțitorului.** Un corp suspendat cu tavan înclinat la 53,6° și 3 despărțitori cădea la închidere cu 0,556 mm (toleranța 0,5). Cauza: poziția despărțitorului din distinctă e rotunjită la 0,1 mm, iar linia tavanului urcă cu tan θ pe milimetru, deci înălțimea nominală se mișcă cu până la tan θ · 0,05 (≈ 0,07 mm), peste jumătatea de milimetru de la rotunjirea lungimii. Toleranța lanțului „despărțitor” include acum această rotunjire; o eroare adevărată (1 mm sau 0,6 mm pe pantă lină) tot cade. Audit: 4 seed-uri × 2500, zero cazuri de „închidere”.
+- Teste: `topprofile.test.js` (4 teste noi), `feet.test.js`, `baseframe.test.js`, e2e U.14.
+
 ## 5.30.1 — 8 noiembrie 2026
 
 **Piciorul cadrului: Häfele AXILO 78, nu Camar 300.** Camar 300 fusese luat din greșeală de pe net (nu e din catalogul Häfele pe care îl folosiți); e scos din catalog. Cadrul folosește acum piciorul AXILO 78 din pagina MB 12.109 a catalogului Häfele, cu codurile și gamele din catalog și din oferte de furnizori:

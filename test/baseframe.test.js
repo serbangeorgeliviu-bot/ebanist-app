@@ -57,16 +57,16 @@ describe("Un perete", () => {
     for (let i = 1; i < cross.length; i++) assert.ok(cross[i].x - cross[i - 1].x <= D.cross_max + 0.2);
     cross.forEach(c => assert.equal(c.L, r.segments[0].P - 2 * 18));
   });
-  test("picioare: sub axa ambelor șine, la pas ≤ foot_pitch, numărate o dată", () => {
-    assert.ok(r.feet.every(f => f.mount === "under"));
+  test("picioare: pe fața interioară a ambelor șine, la pas ≤ foot_pitch, numărate o dată", () => {
+    assert.ok(r.feet.every(f => f.mount === "side"));
     const spate = r.feet.filter(f => f.side === "spate"), fata = r.feet.filter(f => f.side === "fata");
     assert.equal(spate.length, fata.length);
     for (let i = 1; i < spate.length; i++) assert.ok(spate[i].x - spate[i - 1].x <= D.foot_pitch + 0.2);
     assert.equal(spate[0].x, D.foot_inset);
     assert.ok(Math.abs(spate[spate.length - 1].x - (3000 - D.foot_inset)) < 0.2);
-    /* axa șinei: spate = joc + jumătate din grosime; față = adâncime − jumătate din grosime */
-    assert.equal(spate[0].y, D.wall_gap + 9);
-    assert.equal(fata[0].y, r.segments[0].P + D.wall_gap - 9);
+    /* fața interioară a șinei: spate = joc + grosime; față = adâncime − grosime */
+    assert.equal(spate[0].y, D.wall_gap + 18);
+    assert.equal(fata[0].y, r.segments[0].P + D.wall_gap - 18);
     assert.equal(r.segments[0].feet, r.feet.length);
     assert.equal(r.segments[0].feet, r.feet.length);
     const ids = r.feet.map(f => f.id);
@@ -114,7 +114,7 @@ describe("Erori, nu valori inventate", () => {
     assert.ok(keys(derive({ mods: ["A"] }, null, [mod("A", "w1", 0, 900, { rot: 90 })]).errors).includes("bfModRotated"));
   });
   test("prea jos sau prea puțin adânc", () => {
-    assert.ok(keys(derive({ h: 40 }).errors).includes("bfTooLow"));
+    assert.ok(keys(derive({ h: 30 }).errors).includes("bfTooLow"));
     assert.ok(keys(derive({ setback: 500 }).errors).includes("bfTooShallow"));
   });
   test("negativ", () => assert.ok(keys(derive({ setback: -1 }).errors).includes("bfNegative")));
@@ -156,17 +156,17 @@ describe("Piciorul din catalog", () => {
     assert.ok(keys(bad.errors).includes("bfFootTravel"), "cursa 15 < denivelare 20");
   });
   test("fără `foot`, cotele din date", () => assert.equal(derive({}).railH, D.h - D.foot.base));
-  test("piciorul prins lateral (mount:\"side\") stă pe fața interioară a șinei", () => {
-    const rs = derive({ foot: { base: 30, travel: 20, dia: 38, mount: "side" } });
-    const sp = rs.feet.find(f => f.side === "spate"), fa = rs.feet.find(f => f.side === "fata");
-    assert.equal(sp.y, D.wall_gap + 18); assert.equal(fa.y, rs.segments[0].P + D.wall_gap - 18);
+  test("piciorul sub șină (mount:\"under\") stă pe axa șinei", () => {
+    const ru = derive({ foot: { base: 30, travel: 20, dia: 38, mount: "under" } });
+    const sp = ru.feet.find(f => f.side === "spate"), fa = ru.feet.find(f => f.side === "fata");
+    assert.equal(sp.y, D.wall_gap + 9); assert.equal(fa.y, ru.segments[0].P + D.wall_gap - 9);
   });
-  test("articolul implicit din catalog (AXILO 78, 637.76.352) poartă aceleași cote ca datele implicite", () => {
+  test("articolul implicit din catalog (Häfele 637.42.950) poartă aceleași cote ca datele implicite", () => {
     const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
-    const m = src.match(/id:"haf_axilo_352"[^\n]*foot:\{base:(\d+),travel:(\d+),dia:(\d+),mount:"under"\}/);
-    assert.ok(m, "haf_axilo_352 cu foot:{…} în categoria pied");
-    assert.equal(J([+m[1], +m[2], +m[3]]), J([D.foot.base, D.foot.travel, D.foot.dia]));
-    assert.equal(D.foot.mount, "under");
+    const m = src.match(/id:"haf_42950"[^\n]*foot:\{base:([\d.]+),travel:(\d+),dia:(\d+),plate:(\d+),screw:(\d+),mount:"side",bracket:(\d+)\}/);
+    assert.ok(m, "haf_42950 cu foot:{…} în categoria pied");
+    assert.equal(J([+m[1], +m[2], +m[3], +m[4], +m[5], +m[6]]), J([D.foot.base, D.foot.travel, D.foot.dia, D.foot.plate, D.foot.screw, D.foot.bracket]));
+    assert.equal(D.foot.mount, "side");
   });
 });
 
@@ -182,7 +182,7 @@ describe("Modulul de proiect (type:\"cadru\")", () => {
       assert.equal(row("Sina cadru").pz, 2); assert.equal(row("Sina cadru").lung, Math.round(sg.L));
       assert.equal(row("Traversa cadru").pz, sg.cross);
       assert.equal(row("Piedino cadru").pz, sg.feet);
-      assert.equal(row("Piedino cadru").lung, D.foot.base);
+      assert.equal(row("Piedino cadru").lung, D.foot.plate);
       assert.ok(m.pieces.every(p => p.elemento === "Piedino cadru" || p.sp === 18));
     });
   });

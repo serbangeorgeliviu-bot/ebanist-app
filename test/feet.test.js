@@ -6,7 +6,7 @@
  *  - ID-uri unice; fiecare articol are nume în toate cele 7 limbi și cod;
  *  - gama de reglaj (`range`) e [min, max] cu min < max; sarcina e pozitivă;
  *  - articolele Hettich Korrekt și Häfele din ofertele de furnizor nu au preț (se completează), nu se inventează;
- *  - AXILO 78: codurile 637.76.351/.352/.357 cu gamele din pagina Häfele și din oferte; `foot` = gama (base = minim, travel = max − min);
+ *  - Häfele 637.42.950 / 637.42.905 (pagina FC 6.74): picioarele cadrului, cu `foot` (prindere laterală); AXILO 78 (637.76.35x): picioare de soclu cu `range`, fără `foot`;
  *  - avertismentul de înălțime există în toate limbile.
  */
 const { test, describe } = require("node:test");
@@ -43,17 +43,21 @@ describe("catalog picioare", () => {
     ["haf_ins_63724022", "haf_ins_63724024"].forEach(id => { assert.equal(byId[id].load, 300); assert.equal(byId[id].range, undefined); assert.equal(byId[id].price, 0); });
     assert.equal(byId.haf_ins_63724022.art, "637.24.022"); assert.equal(byId.haf_ins_63724024.art, "637.24.024");
   });
-  test("AXILO 78: coduri, game și cotele piciorului derivate din gamă", () => {
+  test("picioarele cadrului: 637.42.950 și 637.42.905, prindere laterală, reglaj 20", () => {
+    const a = byId.haf_42950, b = byId.haf_42905;
+    assert.equal(a.art, "637.42.950"); assert.equal(a.load, 150); assert.equal(a.foot.dia, 38);
+    assert.equal(b.art, "637.42.905"); assert.equal(b.load, 100); assert.equal(b.foot.dia, 28);
+    [a, b].forEach(x => { assert.equal(x.foot.mount, "side"); assert.equal(x.foot.travel, 20); assert.equal(x.foot.plate, 50); assert.equal(x.foot.screw, 4); assert.equal(x.foot.bracket, 30); assert.equal(x.price, 0); });
+  });
+  test("AXILO 78 (soclu): coduri și game, fără `foot` (nu sunt picioare de cadru)", () => {
     const k = { haf_axilo_351: ["637.76.351", 53, 80], haf_axilo_352: ["637.76.352", 70, 100], haf_axilo_357: ["637.76.357", 190, 220] };
     Object.keys(k).forEach(id => {
       const x = byId[id], [art, a, b] = k[id];
-      assert.equal(x.art, art); assert.equal(x.range.join(), [a, b].join());
-      assert.equal(x.foot.base, a); assert.equal(x.foot.travel, b - a); assert.equal(x.foot.dia, 78); assert.equal(x.foot.mount, "under");
-      assert.equal(x.price, 0);
+      assert.equal(x.art, art); assert.equal(x.range.join(), [a, b].join()); assert.equal(x.foot, undefined); assert.equal(x.price, 0);
     });
     assert.equal(byId.haf_axilo_352.load, 80); assert.equal(byId.haf_axilo_357.load, 150); assert.equal(byId.haf_axilo_351.load, undefined);
   });
-  test("Camar nu mai e în catalog (luat din greșeală)", () => assert.equal(byId.camar_300, undefined));
+  test("Camar 300 nu e în catalog (nu e articol Häfele)", () => assert.equal(byId.camar_300, undefined));
   test("avertismentul de gamă există în toate limbile", () => {
     LANGS.forEach(l => assert.ok(new RegExp('Object\\.assign\\(I18N\\.' + l + ',\\{"wFootRange"').test(src), l));
   });

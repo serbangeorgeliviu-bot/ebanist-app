@@ -9,7 +9,7 @@
 
    CADRUL e din PAL pe cant (confirmat de Liviu, 08.11.2026): două șine lungi,
    față și spate, cu traverse între ele, și picioare reglabile sub intersecții.
-   Picioarele sunt Häfele AXILO 78 (alese din catalog, câmpul `foot`), sub axa șinelor; piciorul poate fi și prins lateral (`mount:"side"`). Se pune o singură dată la nivel
+   Picioarele sunt nivelatoare Häfele (637.42.950 / 637.42.905, pagina FC 6.74 din catalog) prinse cu șuruburi pe LATERALUL baghetelor (șinelor), reglate de sus; nu sunt picioare AXILO puse pe bază. Se pune o singură dată la nivel
    zona lui; toate corpurile stau apoi pe același plan, fără picioare proprii.
 
    Convenții (aceleași ca la corpuri și blat):
@@ -36,10 +36,9 @@ var BASEFRAME_DEFAULTS = {
   min_rail_h: 30,    // o șină mai joasă nu mai e cadru
   min_len: 100,      // un segment mai scurt nu e cadru
   corner_tol: 0.5,   // grade: peste, îmbinarea dreaptă nu mai e posibilă
-  /* piciorul reglabil implicit = Häfele AXILO 78, cod 637.76.352 (înălțime de montaj 80 mm, reglaj 70–100 mm; pagina MB 12.109 și oferte de
-     furnizori). `base` = înălțimea cu piciorul închis (limita de jos a gamei), `travel` = cât mai poate ieși (gama − limita de jos), `dia` = baza ø78.
-     De confirmat pe catalogul Häfele actual. */
-  foot: { base: 70, travel: 30, dia: 78, mount: "under" }
+  /* piciorul reglabil implicit = Häfele 637.42.950 «Heavy-duty Base Leveler» (pagina FC 6.74): placă de prindere 50, talpă ø38, înălțimea plăcii 30, reglaj 20,
+     șurub ø4, prins pe lateralul șinei. `base` = cât iese talpa sub șină la închis (4,5, din desenul trimis de Liviu: de confirmat), `travel` = reglajul. */
+  foot: { base: 4.5, travel: 20, dia: 38, plate: 50, screw: 4, bracket: 30, mount: "side" }
 };
 
 var LETTERS = "ABCDEFGH";
@@ -74,7 +73,7 @@ function floorAt(floor, wall, x) {
 function deriveBaseFrame(spec, walls, mods, opts) {
   var D = BASEFRAME_DEFAULTS, F = D.foot;
   /* piciorul ales din catalog (`spec.foot`: închis, cursă, bază) înlocuiește cotele generice; o cotă lipsă rămâne cea din date */
-  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia), mount: spec.foot.mount || F.mount };
+  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia), mount: spec.foot.mount || F.mount, plate: num(spec.foot.plate, F.plate), bracket: num(spec.foot.bracket, F.bracket) };
   if (!(F.base >= 0) || !(F.travel >= 0)) return { errors: [{ k: "bfFootData" }], warnings: [], segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
   var errors = [], warnings = [];
   var out = { errors: errors, warnings: warnings, segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
@@ -187,11 +186,11 @@ function deriveBaseFrame(spec, walls, mods, opts) {
         if (ext > F.travel + 1e-9) errors.push({ k: "bfFootTravel", seg: letter, x: r1(xf), ext: r1(ext), travel: F.travel });
         seg.feet++;
         
-        /* `side`: pe fața interioară a șinei; altfel (`under`), sub axa șinei */
+        /* `side` (implicit, nivelatoarele Häfele): pe fața interioară a șinei; altfel (`under`), sub axa ei */
         var onSide = F.mount === "side";
         var yAxis = side === "spate" ? wallGap + (onSide ? sp : sp / 2) : g.P - (onSide ? sp : sp / 2);
         out.feet.push({ id: "pic-" + letter + "-" + (q + 1) + (side === "spate" ? "s" : "f"), seg: k, wall: g.wall.id, side: side,
-          mount: F.mount || "under", x: r1(xf), y: r1(yAxis), ext: r1(ext), base: F.base, dia: F.dia });
+          mount: F.mount || "side", x: r1(xf), y: r1(yAxis), ext: r1(ext), base: F.base, dia: F.dia });
       });
     }
     out.segments.push(seg);
@@ -218,7 +217,7 @@ function baseFrameSegCfg(r, k, name) {
   var inSeg = function (p) { return p.seg === k; };
   return {
     name: name, type: "cadru", L: sg.L, P: r1(sg.P + r.wallGap), h: r.h, railH: r.railH, sp: sp,
-    foot: { base: F.base, travel: F.travel, dia: F.dia, mount: F.mount },
+    foot: { base: F.base, travel: F.travel, dia: F.dia, plate: F.plate, bracket: F.bracket, mount: F.mount },
     rails: r.pieces.filter(function (p) { return p.role === "cadru_lung" && inSeg(p); })
       .map(function (p) { return { side: p.side, y: p.y, L: p.L }; }),
     cross: r.pieces.filter(function (p) { return p.role === "cadru_transv" && inSeg(p); })
