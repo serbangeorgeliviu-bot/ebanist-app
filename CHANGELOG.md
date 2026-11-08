@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.27.4 — 8 noiembrie 2026
+
+**Generator: comenzile 3D răspund și la Rotund, Oval, Colțuri rotunjite și Birou.** La aceste patru tipuri cutiile 3D nu purtau `role` și `pk` (D-49), deci modelul de operații ieșea cu 0 piese: nu se putea selecta o piesă, nici izola, iar Cote, Feronerie și Găuri nu aveau pe ce lucra. Acum fiecare piesă fizică (fâșie, fund, tavan, rafturi; blat, laterale, spate la birou) își poartă rolul și numărul, ca la Masă și Pat. Distinta nu se schimbă. Găurile și feroneria acestor tipuri rămân în afara modelului 3D (D-48), iar lista „Piese” o spune.
+
 ## 5.27.3 — 8 noiembrie 2026
 
 **Notele de operații urmează limba interfeței (D-116).** Numele operațiilor din CSV-ul de găurire și din foaia piesei („locaș mâner încastrat”, „decupaj plită”, „grilă de aerisire”, „contur liber”, canalul anti-curbare, gola frezată, balamalele pliante etc.) erau un amestec român/italian; acum se scriu în limba aleasă, în toate cele 7. O gola frezată sau un canal în contur nu mai apare ca „canal spate”. Modelul rămâne neschimbat (coduri stabile), traducerea se face la emitere.

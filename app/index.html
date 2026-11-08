@@ -8514,10 +8514,13 @@ function buildModule(cfg){
     add("Fianco",H-t,P-50,2,"2L+2C",null,"fianco");
     const mh=Math.round(H*0.45);
     add("Pannello posteriore",L-2*t,mh,1,"1L",null,"schienale");
-    boxes.push({x0:0,x1:L,y0:H-t,y1:H,z0:0,z1:P,kind:"p"});
-    boxes.push({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20,kind:"p"});
-    boxes.push({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20,kind:"p"});
-    boxes.push({x0:t,x1:L-t,y0:H-t-mh,y1:H-t,z0:40,z1:40+t,kind:"p"});
+    /* ruolo e pezzo fisico su ogni scatola (D-49): senza, il viewer non puo
+       selezionare, isolare ne forare, e i comandi 3D restano muti */
+    let pk=0; const B=(o,role)=>{ o.kind="p"; o.role=role; o.pk=++pk; boxes.push(o); };
+    B({x0:0,x1:L,y0:H-t,y1:H,z0:0,z1:P},"cielo");
+    B({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
+    B({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
+    B({x0:t,x1:L-t,y0:H-t-mh,y1:H-t,z0:40,z1:40+t},"schienale");
     return {pieces,boxes};
   }
   if(cfg.type==="tavolo"){
@@ -8634,11 +8637,13 @@ function buildModule(cfg){
 
     /* --- 3D: la fascia e un prisma a base ellittica, i piani sono dischi --- */
     const NP=48, cx=L/2, cz=P/2;
-    boxes.push({x0:0,x1:L,y0:t,y1:H-t,z0:0,z1:P,kind:"p",pc:ellipsePC(cx,cz,L/2,P/2,NP)});
-    const disc=(y0,y1)=>boxes.push({x0:t,x1:L-t,y0,y1,z0:t,z1:P-t,kind:"p",
+    /* ruolo e pezzo fisico su ogni scatola (D-49) */
+    let pk=0;
+    boxes.push({x0:0,x1:L,y0:t,y1:H-t,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk,pc:ellipsePC(cx,cz,L/2,P/2,NP)});
+    const disc=(y0,y1,role)=>boxes.push({x0:t,x1:L-t,y0,y1,z0:t,z1:P-t,kind:"p",role,pk:++pk,
                                     pc:ellipsePC(cx,cz,inL/2,inP/2,NP)});
-    disc(0,t); disc(H-t,H);
-    for(let i=1;i<=shelves;i++){ const y=t+(H-2*t)*i/(shelves+1); disc(y-t/2,y+t/2); }
+    disc(0,t,"base"); disc(H-t,H,"cielo");
+    for(let i=1;i<=shelves;i++){ const y=t+(H-2*t)*i/(shelves+1); disc(y-t/2,y+t/2,"ripiano"); }
     return {pieces,boxes,warn};
   }
   /* ---------- corpo con angoli raccordati ----------
@@ -8705,11 +8710,13 @@ function buildModule(cfg){
         out.push([(x0+rr)+rr*Math.cos(a),cz+rr*Math.sin(a)]); }
       return out;
     };
-    boxes.push({x0:0,x1:L,y0:t,y1:H-t,z0:0,z1:P,kind:"p",pc:rcPC(0,L,0,P,r)});
-    const plate=(y0,y1)=>boxes.push({x0:t,x1:L-t,y0,y1,z0:0,z1:P-t,kind:"p",
+    /* ruolo e pezzo fisico su ogni scatola (D-49) */
+    let pk=0;
+    boxes.push({x0:0,x1:L,y0:t,y1:H-t,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk,pc:rcPC(0,L,0,P,r)});
+    const plate=(y0,y1,role)=>boxes.push({x0:t,x1:L-t,y0,y1,z0:0,z1:P-t,kind:"p",role,pk:++pk,
                                      pc:rcPC(t,L-t,0,P-t,Math.max(1,r-t))});
-    plate(0,t); plate(H-t,H);
-    for(let i=1;i<=shelves;i++){ const y=t+(H-2*t)*i/(shelves+1); plate(y-t/2,y+t/2); }
+    plate(0,t,"base"); plate(H-t,H,"cielo");
+    for(let i=1;i<=shelves;i++){ const y=t+(H-2*t)*i/(shelves+1); plate(y-t/2,y+t/2,"ripiano"); }
     return {pieces,boxes,warn};
   }
   if(cfg.type==="angolare"){
@@ -17723,7 +17730,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.27.3"; /* APP_VER-MARKER */
+const APP_VER="5.27.4"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
