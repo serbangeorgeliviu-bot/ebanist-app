@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.33.0 — 8 noiembrie 2026
+
+**Pat: sertare laterale pe glisiere (D-121).** În câmpul „Depozitare sub pat" alegi acum și „Sertare laterale" (alături de cutiile pe rotile), pe stânga, dreapta sau ambele laturi, 1–3 elemente pe latură. Fiecare element e un corp obișnuit cu un sertar (aceeași carcasă, glisiere, mâner și găurire ca la corpul standard), **rotit cu 90°** sub sponda patului, cu frontul în planul exterior al ei; adâncimea până la 650 mm. Sponda se ridică deasupra corpurilor (rând nou „Sponda laterale sopra i cassetti", 150 mm înălțime la H=300) și nu se mai taie în două feluri pe latura cu sertare. Distincta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpurilor; fișa de montaj are un pas nou. Un sertar mai lat de 1200 mm sau un element mai îngust de 300 mm dă eroare (alegi mai multe sau mai puține sertare).
+- Modelul de operații își calculează fiecare corp în cadrul lui și îl rotește în pat (`generateBodies`, acum cu rotație ±90°). Testele verifică că fiecare piesă rotită coincide cu cutiile ei 3D și că fiecare gaură cade în piesa ei.
+- **În 3D** feroneria corpurilor rotite nu se desenează (ca la aripa B a corpului de colț, D-103: nu desen greșit); găurile din fișa piesei sunt corecte.
+- Un pat fără depozitare dă distinta de dinainte, identică.
+
 ## 5.32.0 — 8 noiembrie 2026
 
 **Pat: cutii joase pe rotile sub pat (D-120).** Pe una sau pe ambele laturi, 1–3 cutii pe latură, care se scot lateral, pe sub sponda patului. Fiecare cutie: fund plin, frontal, retro și două laterale; înălțimea vine din golul de sub sponde (150 mm) minus 15 mm de joc și 35 mm de rotilă. Adâncimea: pe o latură până la 1000 mm, pe ambele jumătate din lățimea interioară minus 30 mm. Intră în distinctă (patru rânduri pe cutie și rotilele ca accesoriu), în 3D, în deviz (rotilele, categorie nouă, preț 0 până îl completezi), în fișa de montaj și în găurire: diblu între laterale și frontal/retro, confirmat de jos la fund. Cutiile folosesc roluri noi (`cutie_front`, `cutie_lat`, `cutie_fond`), ca să nu declanșeze găurirea de glisiere a sertarelor. Erori: cutii care ar fi mai scurte de 300 mm, mai puțin adânci de 250 mm sau cu pereți sub 40 mm.

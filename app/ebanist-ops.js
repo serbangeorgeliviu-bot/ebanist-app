@@ -449,18 +449,35 @@ function generateBodies(input) {
   var shift3 = function (a, off) { return [a[0] + off[0], a[1] + off[1], a[2] + off[2]]; };
   var is3 = function (a) { return Array.isArray(a) && a.length === 3 && a.every(function (v) { return typeof v === "number"; }); };
   order.forEach(function (id) {
-    var bs = ids[id], body = bs[0].body, off = body.off;
+    var bs = ids[id], body = bs[0].body, off = body.off, xf = body.xf || null;
+    /* rotire în plan cu ±90° în jurul lui y (D-121): a>0: (x,z) -> (z+ox, −x+oz); a<0: (x,z) -> (−z+ox, x+oz). Axa locală i devine
+       perm[i] în lume, cu semnul sign[i] (ca la aripa B a corpului de colț). Corpul rotit își marchează feroneria cu `wing:"B"`: viewer-ul nu o
+       desenează (nu desen greșit); găurile din fișa piesei sunt corecte. */
+    var perm = [2, 1, 0], sign = xf ? (xf.a > 0 ? [-1, 1, 1] : [1, 1, -1]) : null;
+    var pt = xf ? function (w) { return xf.a > 0 ? [w[2] + xf.ox, w[1], -w[0] + xf.oz] : [-w[2] + xf.ox, w[1], w[0] + xf.oz]; } : function (w) { return shift3(w, off); };
+    var box2 = function (lo, hi) { var A = pt(lo), B = pt(hi); return [[Math.min(A[0], B[0]), Math.min(A[1], B[1]), Math.min(A[2], B[2])], [Math.max(A[0], B[0]), Math.max(A[1], B[1]), Math.max(A[2], B[2])]]; };
     var locals = bs.map(function (b) { var o = {}; for (var k in b.loc) o[k] = b.loc[k]; o.pk = b.pk; if (b.grp) o.grp = b.grp; return o; });
     var G = null;
     try { if (root.deriveCarcass && root.carcassParams) G = root.deriveCarcass(root.carcassParams(body.cfg, {})); } catch (e) { G = null; }
     var r = generate({ boxes: locals, cfg: body.cfg, G: G });
     var base = res.hw.length, rid = function (x) { var m = /^hw_(\d+)$/.exec(String(x || "")); return m ? "hw_" + (+m[1] + base) : x; };
-    r.hw.forEach(function (h) { h.id = rid(h.id); h.body = id; for (var k in h) if (is3(h[k])) h[k] = shift3(h[k], off); });
+    r.hw.forEach(function (h) {
+      h.id = rid(h.id); h.body = id;
+      for (var k in h) if (is3(h[k])) h[k] = pt(h[k]);
+      if (xf) {
+        h.wing = "B";
+        if (h.dir) h.dir = { ax: perm[h.dir.ax], side: h.dir.side * sign[h.dir.ax] };
+        if (h.eAx != null) { var le = h.eAx; h.eAx = perm[le]; if (h.eSide != null) h.eSide = h.eSide * sign[le]; }
+        if (h.sAx != null) h.sAx = perm[h.sAx];
+        if (h.camAx != null) h.camAx = perm[h.camAx];
+      }
+    });
     r.pieces.forEach(function (p) {
-      p.body = id; p.min = shift3(p.min, off); p.max = shift3(p.max, off);
+      p.body = id; var mm = box2(p.min, p.max); p.min = mm[0]; p.max = mm[1];
       p.operations.forEach(function (o) {
         if (o.hw) o.hw = rid(o.hw);
-        if (o._w) o._w = shift3(o._w, off); if (o._lo) o._lo = shift3(o._lo, off); if (o._hi) o._hi = shift3(o._hi, off);
+        if (o._w) { o._w = pt(o._w); if (xf) { var la = o._ax; o._side = o._side * sign[la]; o._ax = perm[la]; } }
+        if (o._lo && o._hi) { var q2 = box2(o._lo, o._hi); o._lo = q2[0]; o._hi = q2[1]; }
       });
     });
     res.hw = res.hw.concat(r.hw); res.pieces = res.pieces.concat(r.pieces); res.warnings = res.warnings.concat(r.warnings);

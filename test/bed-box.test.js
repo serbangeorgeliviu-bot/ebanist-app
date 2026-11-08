@@ -67,3 +67,69 @@ test("fuzz: dimensiuni aleatoare", () => {
   }
   assert.ok(ok > 100, ok + "/" + refused);
 });
+
+/* --- sertare laterale (D-121): corpuri cu un sertar, rotite cu 90° sub sponda patului ------------------------------ */
+const DR = { ...BED, bedStor: "drawers" };
+const bbox = bs => ({ min: [0, 1, 2].map(a => Math.min(...bs.map(b => [b.x0, b.y0, b.z0][a]))), max: [0, 1, 2].map(a => Math.max(...bs.map(b => [b.x1, b.y1, b.z1][a]))) });
+
+test("sertare laterale: rânduri, piese și glisiere după latură și număr", () => {
+  for (const [bb, n, k] of [["sx", 2, 2], ["dx", 3, 3], ["both", 2, 4]]) {
+    const { b, o } = gen({ ...DR, bedBox: bb, bedBoxN: n });
+    assert.equal(b.pieces.find(r => r.elemento === "Frontale cassetto").pz, k, bb);
+    assert.equal(o.hw.filter(h => h.type === "guida").length, 2 * k, bb + ": 2 glisiere pe sertar");
+    assert.equal(o.hw.filter(h => h.type === "maniglia").length, k);
+    const sp = b.pieces.find(r => r.elemento === "Sponda laterale sopra i cassetti");
+    assert.equal(sp.pz, bb === "both" ? 2 : 1);
+    const sl = b.pieces.find(r => r.elemento === "Sponda laterale"); assert.equal(sl ? sl.pz : 0, bb === "both" ? 0 : 1);
+  }
+});
+test("sertare laterale: fața sertarului în planul exterior, corpul în patul interior, sub sponde", () => {
+  const { b } = gen({ ...DR, bedBox: "both", bedBoxN: 2 }), t = 19;
+  const groups = {}; b.boxes.filter(x => x.body).forEach(x => { (groups[x.body.id] = groups[x.body.id] || []).push(x); });
+  const ids = Object.keys(groups); assert.equal(ids.length, 4);
+  ids.forEach(id => {
+    const bb = bbox(groups[id]);
+    assert.ok(bb.min[0] >= -0.01 && bb.max[0] <= BED.L + 0.01 && bb.min[2] >= t + 19.9 && bb.max[2] <= BED.P - t - 19.9 && bb.min[1] >= -0.01 && bb.max[1] <= 300.01, id + " iese din pat");
+    assert.ok(Math.abs(bb.min[0]) < 0.01 || Math.abs(bb.max[0] - BED.L) < 0.01, id + ": fața nu e în planul exterior");
+  });
+  /* două corpuri nu se suprapun */
+  for (let i = 0; i < ids.length; i++) for (let j = i + 1; j < ids.length; j++) {
+    const a = bbox(groups[ids[i]]), c = bbox(groups[ids[j]]);
+    assert.ok(!(a.min[0] < c.max[0] - 0.01 && c.min[0] < a.max[0] - 0.01 && a.min[2] < c.max[2] - 0.01 && c.min[2] < a.max[2] - 0.01), "corpuri suprapuse");
+  }
+});
+test("sertare laterale: transformarea rotită — piesele ops = cutiile lor, găurile cad în piesă, fără erori", () => {
+  for (const bb of ["sx", "dx", "both"]) {
+    const { b, o } = gen({ ...DR, bedBox: bb, bedBoxN: 2 });
+    assert.equal(new Set(o.pieces.map(p => p.pk)).size, o.pieces.length);
+    assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")), bb + ": pre-flight");
+    o.pieces.forEach(p => {
+      const e = bbox(b.boxes.filter(x => x.pk === p.pk));
+      for (let a = 0; a < 3; a++) { assert.ok(Math.abs(p.min[a] - e.min[a]) < 0.01 && Math.abs(p.max[a] - e.max[a]) < 0.01, bb + " pk" + p.pk + " axa " + a + ": min/max ≠ cutii"); }
+      p.operations.filter(x => x.type === "drill" && x._w).forEach(x => {
+        for (let a = 0; a < 3; a++) assert.ok(x._w[a] >= p.min[a] - 0.6 && x._w[a] <= p.max[a] + 0.6, bb + " pk" + p.pk + ": gaură în afara piesei");
+      });
+    });
+  }
+});
+test("sertare laterale: erori, nu piese mutate", () => {
+  assert.throws(() => gen({ ...DR, bedBox: "dx", bedBoxN: 1 }), /mai larg de 1200/);
+  assert.throws(() => gen({ ...DR, bedBox: "sx", bedBoxN: 3, P: 900 }), /mai înguste de 300/);
+});
+test("sertare laterale: fără ele = patul de dinainte; deterministic", () => {
+  const a = gen(BED), c = gen({ ...BED, bedStor: null, bedBox: null });
+  assert.deepEqual(a.b.pieces, c.b.pieces); assert.deepEqual(a.o, c.o);
+  const d = { ...DR, bedBox: "both", bedBoxN: 2 }; assert.deepEqual(gen(d).o, gen(d).o);
+});
+test("sertare laterale: fuzz", () => {
+  let seed = 21; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296, ri = (a, b) => Math.round(a + rnd() * (b - a));
+  let ok = 0, refused = 0;
+  for (let i = 0; i < 200; i++) {
+    const c = { type: "letto", L: ri(1000, 2000), H: ri(700, 1200), P: ri(1700, 2300), bedStor: "drawers", bedBox: ["sx", "dx", "both"][ri(0, 2)], bedBoxN: ri(1, 3) };
+    try { const r = gen(c);
+      assert.ok(!r.o.pieces.some(p => p.preflight.some(w => w.level === "error")), JSON.stringify(c));
+      assert.equal(new Set(r.o.pieces.map(p => p.pk)).size, r.o.pieces.length); ok++;
+    } catch (e) { if (/mai înguste|mai larg|puțin adânci/.test(e.message)) refused++; else throw e; }
+  }
+  assert.ok(ok > 40, ok + "/" + refused);
+});
