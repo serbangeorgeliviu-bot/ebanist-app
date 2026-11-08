@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.31.0 — 8 noiembrie 2026
+
+**Masă extensibilă pe glisiere Häfele (D-119).** Trei modele din catalogul Häfele DGH-M2026, pagina 9.22: 642.68.901 (800 mm, sincron cu cablu, prelungire 500), 642.68.921 (800 mm, prelungire 500) și 642.68.922 (1000 mm, prelungire 600). Cadrul (picioare + zargi) rămâne fix; blatul devine **două jumătăți** (L/2, cu cant pe toate laturile) care glisează, iar **prelungirea** se introduce la mijloc (lungimea deschisă = L + prelungire). Intră în distinctă (jumătăți, prelungire, glisierele ca accesoriu), în 3D (rostul dintre jumătăți), în deviz (o garnitură de glisiere în loc de colțarele de blat) și în fișa de montaj. Glisierele trebuie să încapă pe zarga lungă: la 800 mm masa are cel puțin 1080 mm, la 1000 mm cel puțin 1280 mm; sub asta, eroare cu lungimea minimă.
+- **Găurire:** 3 șuruburi pe zargă pentru fiecare glisieră și 3 șuruburi pe fiecare jumătate de blat, pentru unghiul de montaj. Catalogul dă lungimea de montaj și a unghiului, **nu poziția găurilor**: cele din model sunt ipoteze, `verificat:false`.
+- **Prețul** glisierelor e 0 în catalog (nu l-am găsit); se completează de utilizator.
+- O masă fără glisiere dă distinta și devizul de dinainte, identice.
+
 ## 5.30.0 — 8 noiembrie 2026
 
 **Birou cu corp de sertare (D-118).** Blatul poate sta pe unul sau pe două corpuri cu sertare (stânga, dreapta, ambele; lățime 300–800 mm, 1–6 sertare). Corpul e un corp obișnuit (aceeași carcasă, aceleași sertare, glisiere, mânere și găurire ca la corpul standard), cu traverse în loc de tavan. Latura cu corp nu mai are laterală de birou, iar spatele se întinde până la corp. Distinta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpului; modelul de operații își calculează fiecare corp în cadrul lui local. Între corpurile cu sertare și blat rămân minimum 500 mm pentru genunchi; sub asta, eroare.

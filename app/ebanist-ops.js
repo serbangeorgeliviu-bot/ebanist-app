@@ -152,6 +152,7 @@ function physicalPieces(boxes) {
     if (b.edgeH) map[k].edgeH = b.edgeH;
     if (b.cont) map[k].cont = b.cont;
     if (b.kb) map[k].kb = b.kb;
+    if (b.tbl) map[k].tbl = b.tbl;
     if (b.cab) map[k].cab = b.cab;
     if (b.dev) map[k].dev = b.dev;     /* fâșie curbă (D-117): se taie dreaptă, găurile se spun pe lungimea desfășurată */
   }
@@ -1007,6 +1008,28 @@ function generate1(input) {
           if (sz1 - sz0 > 30) { fix(0, -1, 2, sz0, sz1); fix(0, 1, 2, sz0, sz1); }
           if (dvB.L - 2 * dvB.r > 30) fix(2, 1, 0, dvB.r, dvB.L - dvB.r);
         }
+      });
+    }
+  }
+
+  /* --- 6f. masă extensibilă (D-119): cadrul e fix, cele două jumătăți de blat glisează pe glisierele fixate de zargile lungi. Fiecare glisieră
+     se prinde de zargă cu trei șuruburi pe lungimea de montaj și de fiecare jumătate de blat printr-un unghi de montaj (trei șuruburi).
+     Catalogul Häfele (9.22) dă lungimea de montaj și a unghiului, NU poziția găurilor: tot ce e aici e ipoteză, `verificat:false`. */
+  if (cfg.type === "tavolo") {
+    var halves = byRole("cielo").filter(function (q) { return q.tbl; });
+    var longR = byRole("traversa").filter(function (q) { return q.ext[0] > q.ext[2]; });
+    if (halves.length === 2 && longR.length === 2) {
+      var X = halves[0].tbl, zmid = (halves[0].min[2] + halves[0].max[2]) / 2, r4 = 4;
+      longR.forEach(function (R) {
+        var low = (R.min[2] + R.max[2]) / 2 < zmid, innerZ = low ? R.max[2] : R.min[2], inw = low ? 1 : -1;
+        var id = "hw_" + out.hw.length, cxR = (R.min[0] + R.max[0]) / 2;
+        [-1, 0, 1].forEach(function (k) { hole(R, 2, inw, [cxR + k * (X.nl / 2 - 40), R.max[1] - 15, innerZ], r4, 10, id, "fixare glisieră masă"); });
+        halves.forEach(function (Hf) {
+          var cxH = (Hf.min[0] + Hf.max[0]) / 2, zz = innerZ + inw * 10;
+          [-1, 0, 1].forEach(function (k) { hole(Hf, 1, -1, [cxH + k * (X.ang / 2 - 30), Hf.min[1], zz], r4, 10, id, "fixare unghi glisieră masă"); });
+        });
+        out.hw.push({ id: id, type: "guida_tav", catalog: X.id, piece: R.pk, against: halves[0].pk, w: [cxR, R.max[1] - 15, innerZ],
+                      note: "Häfele " + X.id.replace(/^haf_/, "").replace(/_/g, ".") + " (lungime de montaj " + X.nl + " mm)" });
       });
     }
   }
