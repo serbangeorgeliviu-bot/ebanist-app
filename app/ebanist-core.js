@@ -931,12 +931,15 @@ function reconstructCarcass(corpo, pieces, geometry) {
        traversează se compară pe valorile exacte, cu toleranța de jumătate de milimetru, fiindcă
        rândurile distinctei sunt întregi. Celelalte lanțuri rămân la 0 mm. */
     var tolS = TOPPROFILE.tol;
-    function addTol(axa, chain, nominal, calc, piese, why) {
+    /* `extra` = ce se adaugă toleranței când lanțul compară cu o poziție emisă rotunjită: rândul distinctei poartă poziția
+       despărțitorului la 0,1 mm (±0,05), iar linia tavanului urcă cu tan θ pe milimetru, deci înălțimea nominală se mișcă cu tan θ · 0,05
+       (la 53,6° aproape 0,07 mm), peste jumătatea de milimetru de la rotunjirea lungimii la întreg. */
+    function addTol(axa, chain, nominal, calc, piese, why, extra) {
       if (calc == null) return;
-      var d = calc - nominal;
+      var d = calc - nominal, tolC = tolS + (extra || 0);
       out.push({ axa: axa, chain: chain, valoare_nominala: +nominal.toFixed(3), valoare_calculata: +calc.toFixed(3),
-                 delta: Math.abs(d) <= tolS + 0.05 ? 0 : +d.toFixed(3), piese_implicate: piese, why: why,
-                 toleranta: tolS });
+                 delta: Math.abs(d) <= tolC + 0.05 ? 0 : +d.toFixed(3), piese_implicate: piese, why: why,
+                 toleranta: +tolC.toFixed(3) });
     }
     /* lungimea tavanului pe pantă = ipotenuza: lățimea (x) sau adâncimea (z) a tavanului × sec θ */
     if (cielo && topMode !== "none") {
@@ -952,7 +955,8 @@ function reconstructCarcass(corpo, pieces, geometry) {
       var yBot = h_base + spB, lung = +r.lung || 0;
       if (SL.axis === "x" && r.xc != null) {
         addTol("H", "despartitor@" + Math.round(r.xc), topLineY(G, +r.xc, 0), yBot + lung + SL.t_vert, [r.elemento],
-          "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.");
+          "Înălțimea unui despărțitor (soclu + bază + înălțime + tavan) nu ajunge sub linia tavanului la poziția lui.",
+          Math.abs(+SL.tan || 0) * 0.05);
       } else if (SL.axis === "z") {
         /* trapez: dreptunghiul de gabarit se oprește la capătul înalt al tavanului */
         var top = Math.max(topLineY(G, 0, +(G.in.D)), topLineY(G, 0, 0));

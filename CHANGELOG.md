@@ -5,6 +5,117 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.31.1 — 9 noiembrie 2026
+
+**Catalog Häfele completat din paginile primite (MB 12.104 de pe hafele.it, FC 6.25, FC 6.74) și goldens validate.**
+
+- **Nivelatoarele cadrului confirmate:** pagina MB 12.104 (Häfele Italia, DGH-M 2021) confirmă 637.42.950 („screw fixing and knocking in”, 150 kg), cu talpa închisă de 4,5 mm și reglaj +20 mm, și arată familia: **637.42.942** (gaură forată și șuruburi, aceeași secțiune, cu cote de picior), **637.42.922** (numai șuruburi, 150 kg) și **637.42.932** (dublu, 300 kg), ultimele două fără cote de picior (secțiuni diferite). Înălțimea plăcii e 32 (nu 30), pentru 3D. Nivelatorul e făcut pentru **panou de 19 mm**: dacă șina are altă grosime (ex. 18 mm), cardul avertizează.
+- **AXILO 78, tabelul complet (FC 6.25):** 637.76.351–357 (60 / 80 / 100 / 125 / 150 / 180 / 200 mm, cu gamele 53–80 … 190–220). **Corecție:** sarcina e **150 kg pe picior la toate**; „80 kg” (110 cu inserția ABS) e limita pentru reglajul cu greutate pe picior, nu sarcina. Eram greșit în 5.30.1 (80 kg la 352).
+- **Plăcuța AXILO:** 637.76.460, piciorul de profil jos (soclu 35–48 mm) cu plăcuță Ø35 inclusă, din FC 6.25; plus plăcuța dreptunghiulară de presare **637.76.334**, al cărei cod vine dintr-o ofertă de furnizor (nu dintr-o pagină Häfele deschisă): de confirmat. Plăcuțele cu șurub și de colț nu au cod verificat și nu sunt adăugate.
+- **Goldens:** cele 13 rămase nevalidate (38–50: lambriu, boiserie, contur) sunt marcate `validat: true` la cererea lui Liviu, **fără verificare rând cu rând de către om**; fiecare fișier poartă `nota_validare` cu acest lucru. 55 din 55.
+- Teste: `feet.test.js` (catalogul), `baseframe.test.js`, e2e U.14 (avertismentul 19/18 mm).
+
+## 5.31.0 — 8 noiembrie 2026
+
+**Cadrul de nivelare, încheiat (U.14, D-117): două materiale și poartă de export.**
+
+- **Șine albe, traverse de PAL brut:** în cardul cadrului, câmpul nou „Material traverse (opțional)”. Șinele și traversele poartă fiecare materialul lui în distinctă, deviz și plan de tăiere. Grosimea trebuie să fie aceeași (cota traverselor între șine vine din grosimea șinelor); altă grosime e eroare în card și la generare, nu piesă potrivită. Fără alegere, traversele iau materialul șinelor, ca înainte.
+- **Poarta de export (D-44):** un cadru calculat și apoi depășit (corpurile s-au mutat, valorile s-au schimbat, un modul lipsește) blochează exportul, cu mesaj „Cadrul … nu mai corespunde corpurilor: recalculează-l în Releveu”. La fel un corp din cadru care nu stă la înălțimea lui (Suport = Cadru, înălțimea = a cadrului). Un cadru încă necalculat nu blochează: nu e în distinctă. Până acum era doar avertisment în card.
+- **Lanțul de închidere:** cadru + corp + tavan = H se verifică deja prin închiderea D-43 a corpului (laterala începe la înălțimea cadrului și are H − h); poarta nouă leagă cadrul de corp la nivel de proiect.
+- **Ce rămâne în afara aplicației:** codul și cotele reale din fișele Häfele (talpa închisă de 4,5 mm, prețuri), plăcuța de montaj AXILO (MB 12.111), goldens validate manual (D-46).
+- Teste: `baseframe.test.js` (33 de teste) și e2e U.14 (material traverse, eroare de grosime, poartă de export).
+
+## 5.30.2 — 8 noiembrie 2026
+
+**Piciorul cadrului: nivelatorul Häfele 637.42.950, prins pe lateralul baghetelor.** Identificat în catalogul Häfele, pagina FC 6.74 (Casters, Feet, Legs, Table Fittings — Levelers): „Heavy-duty Base Leveler, with pound-in prongs, screw mounted”, cote din pagină: placă de prindere 50, talpă ø38, înălțime 30, reglaj 20 mm, 150 kg, cheie hexagonală de 6 mm; se potrivește cu desenul din clip. Înlocuiește AXILO (care se pune pe bază, nu pe cadru).
+
+- **Catalog:** 637.42.950 (150 kg) și 637.42.905 (100 kg, talpă ø28, șurubelniță plată), cu `foot` (prindere laterală); preț gol. AXILO 78 (637.76.351/.352/.357) rămân în catalog ca picioare de soclu pentru corpuri (cu gama de înălțime și avertismentul de soclu), fără să fie oferite la cadru. 637.67.910 (pagina FC 6.74, +25 mm, 175 kg) nu e adăugat: alt desen.
+- **Cadru:** piciorul stă pe fața interioară a ambelor șine, la cel mult 600 mm și 100 mm de la capete; înălțimea șinei = înălțimea cadrului − talpa închisă (4,5 mm, din desenul trimis de Liviu: de confirmat); cursa 20 mm. În 3D placa de 50 apare pe lateralul șinei. În card alegi între 637.42.950 și 637.42.905.
+- **Defect reparat: tavan înclinat (D-86), închiderea despărțitorului.** Un corp suspendat cu tavan înclinat la 53,6° și 3 despărțitori cădea la închidere cu 0,556 mm (toleranța 0,5). Cauza: poziția despărțitorului din distinctă e rotunjită la 0,1 mm, iar linia tavanului urcă cu tan θ pe milimetru, deci înălțimea nominală se mișcă cu până la tan θ · 0,05 (≈ 0,07 mm), peste jumătatea de milimetru de la rotunjirea lungimii. Toleranța lanțului „despărțitor” include acum această rotunjire; o eroare adevărată (1 mm sau 0,6 mm pe pantă lină) tot cade. Audit: 4 seed-uri × 2500, zero cazuri de „închidere”.
+- Teste: `topprofile.test.js` (4 teste noi), `feet.test.js`, `baseframe.test.js`, e2e U.14.
+
+## 5.30.1 — 8 noiembrie 2026
+
+**Piciorul cadrului: Häfele AXILO 78, nu Camar 300.** Camar 300 fusese luat din greșeală de pe net (nu e din catalogul Häfele pe care îl folosiți); e scos din catalog. Cadrul folosește acum piciorul AXILO 78 din pagina MB 12.109 a catalogului Häfele, cu codurile și gamele din catalog și din oferte de furnizori:
+
+- **Picioare noi în catalog** (în 7 limbi, preț gol): 637.76.351 (înălțime de montaj 60 mm, reglaj 53–80), 637.76.352 (80 mm, 70–100; până la 80 kg pe picior, 110 kg cu inserția ABS 637.76.423) și 637.76.357 (200 mm, 190–220; 150 kg pe picior). Gama e și gama de înălțime a soclului: cu suport „Piedini” apare avertismentul când soclul iese din ea.
+- **Cadrul:** în card alegi piciorul (implicit 637.76.352). Piciorul stă sub axa fiecărei șine; înălțimea șinei = înălțimea cadrului − limita de jos a gamei piciorului (ex. cadru de 120 mm cu piciorul 70–100: șină de 50 mm). Cursa piciorului = gama (30 mm la 352): o pardoseală mai denivelată decât atât rămâne eroare.
+- **Nu e în pagina primită:** plăcuța de montaj și tubul (MB 12.111), cu codurile lor; unealta de reglaj 637.76.360 (găsită în oferte, nu pusă în catalog). De adăugat când ai pagina.
+- **Cod vechi, nemodificat:** articolul generic „Piedino AXILO 78” (cod „637.79.xxx”) are un cod care pare greșit (seria AXILO e 637.76.35x); îl corectezi după ce confirmi.
+- Teste: `feet.test.js`, `baseframe.test.js`, e2e U.14 (AXILO în deviz).
+
+## 5.30.0 — 8 noiembrie 2026
+
+**Cadrul de nivelare în Releveu și în proiect (U.14, D-117).** În Releveu apare cardul „Cadru de nivelare”, ca „Blat”: alegi corpurile de jos, materialul șinelor (PAL pe cant, grosimea din material), înălțimea cadrului, retragerea de la față, jocul la perete și, opțional, cotele pardoselii (puncte pe perete: x și z față de un reper). „Calculează cadrul” generează câte un segment pe perete.
+
+- **Ce iese:** șine lungi, traverse și picioare Camar 300 (Häfele) prinse lateral pe fața interioară a șinelor. Intră în distincta proiectului („Sina cadru”, „Traversa cadru”, „Piedino cadru”), în planul de tăiere, în deviz (picioarele numărate o singură dată, articolul `camar_300`) și în „Camera în 3D”. La colț, un cadru trece până în colț, celălalt se oprește în muchia lui (se poate inversa).
+- **Pardoseala:** extensia fiecărui picior = cota cea mai înaltă − cota lui, interpolată între puncte; peste cursa piciorului (20 mm) e eroare, nu picior mutat. Fără cote, cadrul se calculează cu aceeași extensie și avertizează.
+- **Corpuri pe cadru:** rămân cu Suport = Cadru și înălțimea cadrului (5.29.0). Dacă un corp nu stă la înălțimea cadrului, cardul avertizează cu valoarea de setat. Nimic nu se schimbă singur.
+- **Releveu:** cadrul nu produce „ciocniri” cu corpurile de deasupra și nu primește blat.
+- **Nu se recalculează singur:** dacă mutați corpurile sau schimbați valorile, cardul spune „nu mai corespunde, recalculează”.
+- **Încă nu:** lanț de închidere blocant la export pentru potrivirea cadru–corp (acum avertisment în card), picior ales din catalog pentru cadru (acum Camar 300), două materiale (șine albe, traverse brute), modul de găurire al șinelor.
+- Teste: `cd test && node --test baseframe.test.js` (30 de teste) și un bloc nou în e2e (U.14).
+
+## 5.29.2 — 8 noiembrie 2026
+
+**Mai multe picioare reglabile în catalog, și avertisment când soclul iese din gama lor.** Categoria „Picioare reglabile” primește cinci articole, în 7 limbi, fără preț (se completează în Catalog):
+
+- **Hettich Korrekt**, plastic negru, 450 kg pe picior: 61852 (130 mm, reglaj 119–155 mm), 61853 (150 mm, 139–175 mm), 70152 (110 mm, 99–135 mm).
+- **Häfele, picior metalic de inserție**, ≈300 kg: 637.24.022 (adâncime de găurire 63 mm) și 637.24.024 (111 mm). Fără gamă de reglaj în date: sursele se contraziceau.
+- **Avertisment în Constructor:** cu suport „Piedini” și un picior cu gamă de reglaj, dacă „Zoccolo (mm)” iese din gamă, apare o notă (ex. soclu de 80 mm cu Korrekt 61852).
+- **Sursa:** coduri și cote din oferte de furnizori, **nu din fișa oficială**; de confirmat pe hettich.com și hafele.com înainte de comandă. Camar nu are încă articol propriu în afara lui „Camar 300”: nu am găsit o fișă verificabilă.
+- Test: `cd test && node --test feet.test.js` (6 teste).
+
+## 5.29.1 — 8 noiembrie 2026
+
+**Fixarea soclului și fâșia de soclu a cadrului, din catalogul Häfele (MB 12.109).** Din pagina trimisă de Liviu (accesorii pentru soclu, picioare AXILO 78), cu codurile ei:
+
+- **Categorie nouă „Fixare soclu”:** suport de soclu pentru panou de 19 mm (637.47.490, implicit) și de 16 mm (637.47.491); clipsuri de soclu: cu șurub (637.38.054), prin presare în canal de 3 mm (637.38.063), de bătut cu cuie premontate (637.38.050), de glisat pe profil de aluminiu sau plastic (637.38.354). În 7 limbi, preț gol, se aleg ca orice articol de feronerie.
+- **Categorie nouă „Accesorii picior AXILO”:** inel distanțier ø52 (+10 mm, 637.76.422), inserție ABS ø38 (80–110 kg, 637.76.423), izolație acustică ø55 (637.76.424). Numai în catalog, nu intră singure în deviz.
+- **Corp pe cadru:** apare piesa „Zoccolo telaio”: lățimea corpului, înălțimea cadrului minus 8 mm (catalogul spune: înălțimea soclului = H − 5…10 mm), retrasă ca soclul, cu grosimea de soclu din material. Intră în distinctă, planul de tăiere, etichete și 3D. Suporturile se numără în deviz la cel mult 600 mm unul de altul (minimum 2) și apar în fișa de montaj. Pasul de 600 mm și jocul de 8 mm sunt date generice (`SOC_FRAME`, `verificat:false`).
+- **Nu se schimbă:** Zoccolo, Piedini, Sospeso. Pe cadru, tot nu se numără picioare pe corp.
+- **Încă nu:** piciorul Camar 300 rămâne cu cod și cote de confirmat (pagina nu îl conține).
+- Teste: `cd test && node --test cadru.test.js` (8 teste: fâșia, codurile din catalog).
+
+## 5.29.0 — 8 noiembrie 2026
+
+**Suport „Cadru” pentru corp (U.14, D-117).** În Constructor → Suport apare „Cadru” lângă Zoccolo, Piedini și Sospeso. Corpul stă ridicat pe un cadru de nivelare, cu înălțimea din câmpul „Zoccolo (mm)”; picioarele sunt ale cadrului, deci corpul nu mai are accesoriul „Piedino” și nu le numără în deviz.
+
+- **Geometrie:** laterala pornește la înălțimea cadrului și are H − h; ușile și spatele urmează, ca la picioare; închiderea la 0 mm, invarianții și aserțiunile trec la 100, 120 și 150 mm. Distinta e identică cu cea pe picioare, rând cu rând, în afară de accesoriul picior.
+- **Fișa de montaj:** pas nou, „Așază corpul pe cadrul deja la nivel și prinde-l de șine”, în 7 limbi; asistentul AI știe „cadru”.
+- **Nu se schimbă:** Zoccolo, Piedini, Sospeso, proiectele existente.
+- **Încă nu:** cadrul însuși (șine, traverse, picioare Camar 300) nu e încă în distinta proiectului și în Releveu; geometria lui e gata (`ebanist-baseframe.js`), urmează cardul din Releveu, deviz și 3D.
+- Test: `cd test && node --test cadru.test.js`.
+
+## 5.28.2 — 8 noiembrie 2026
+
+**Corecție: piciorul cadrului e Camar 300 (Häfele), nu un picior „ø50, M10”.** În 5.28.1 articolul și cotele erau presupuse din clip; Liviu a identificat piciorul real și a trimis desenul fișei. Articolul „Picior reglabil pentru cadru de nivelare, bază ø50, șurub M10” e înlocuit cu **„Picior de soclu Camar 300 (Häfele), cilindric metalic, prindere laterală, reglaj de sus”**, în 7 limbi.
+
+- **Cote** (citite din imaginea fișei, **de confirmat** pe fișa oficială): înălțime închis 30, cursă 20, cilindru ø38, placă de prindere 50, șurub ø4. **Codul Häfele nu e confirmat** (cod „—”); prețul rămâne gol.
+- **Modelul cadrului:** picioarele nu mai stau sub intersecțiile traverselor, ci prinse lateral pe fața interioară a ambelor șine, la pas maxim 600 mm și 100 mm de la capete (date `verificat:false`). Se reglează de sus, înainte de a urca corpurile. Cursa mai mică (20, nu 30) face ca o pardoseală mai denivelată de 20 mm să dea eroare.
+- **Nu se schimbă:** corpurile și celelalte picioare din catalog. Cadrul nu e încă legat de formular.
+
+## 5.28.1 — 8 noiembrie 2026
+
+**Picior reglabil pentru cadru de nivelare, în catalog (U.14, D-117).** Categoria „Picioare reglabile” are un articol nou, „Picior reglabil pentru cadru de nivelare, bază ø50, șurub M10”, în toate cele 7 limbi: se vede în Setări → Catalog, se alege pe corp (Constructor → Feronerie corp) și intră în deviz și în fișa de montaj ca orice picior. Cotele lui (înălțime închis 25, cursă 30, bază ø50) sunt date generice, de confirmat pe articolul real; prețul e gol (se completează în Catalog) până atunci.
+
+- **Pentru cadru:** `ebanist-baseframe.js` primește cotele piciorului ales (`foot`): înălțimea șinei și cursa maximă ies din articol, nu din cod. O pardoseală mai denivelată decât cursa piciorului rămâne eroare.
+- **Nu se schimbă:** corpurile existente și celelalte picioare (AXILO, F.A.V., generic). Cadrul însuși nu e încă legat de formular (urmează).
+- Test: `cd test && node --test baseframe.test.js` (25 de teste).
+
+## 5.28.0 — 8 noiembrie 2026
+
+**Front cu decupaj în rază, în loc de mâner (U.15, D-117).** Idee din clipul Atelier d'Edouard: ușa nu are mâner, nici profil gola; colțul ei, de partea muchiei de deschidere, e rotunjit cu rază mare, iar golul rămas e priza degetelor. În Constructor → Apertura apare „Raza”, cu raza (mm) și colțul rotunjit: automat (sus la corpurile de jos, jos când muchia de sus e peste 1400 mm), sus, jos sau ambele.
+
+- **Cum intră în proiect:** rotunjirea e o operație de contur pe piesa fizică (ca piesa cu contur liber, D-101). Distinta rămâne la cota finită, rând cu rând; conturul apare în foaia piesei, în DXF și în CSV. Colțul e de partea opusă balamalelor (alegerea din U.1 se respectă); un sertar are rotunjite ambele colțuri.
+- **Fără mâner:** nicio gaură de mâner, nicio piesă de feronerie în plus; devizul nu numără mânere.
+- **Avertismente, nu piese mutate:** rază sub freză sau prea mare pentru front → frontul rămâne drept; rază prea mică pentru o priză bună (golul pe diagonală R·(√2−1) sub pragul din date) → se aplică, cu avertisment. Pragurile (`HW_DRILL.raza`) sunt date generice `verificat:false`, de confirmat pe mostră. Cantul pe rază cere mașină de cantuit potrivită: de întrebat atelierul.
+- **Asistentul AI:** înțelege „raza”, „colț rotunjit în loc de mâner”, „raggio nell'anta”.
+- **Nu se schimbă:** proiectele existente (fără `handles:"raza"` nu apare niciun contur); `GEOM_VERSION` neschimbat.
+- **3D:** vederea 3D rămâne cu colțurile drepte; rotunjirea se vede în foaia piesei (urmează).
+- **Test nou:** `cd test && node --test raza.test.js` (aria conturului, parte opusă balamalei, auto sus/jos, aceleași piese și găuri ca la push, praguri, determinism). `test:all`: 1234 din 1236 trec, 2 sărite.
+- **Cache Service Worker:** `SW_CACHE` din `index.html` (rămăsese `v201`) și `CACHE` din `sw.js` (`v204`) aliniate la `v205`; testul e2e cere să fie identice.
+
 ## 5.27.3 — 8 noiembrie 2026
 
 **Notele de operații urmează limba interfeței (D-116).** Numele operațiilor din CSV-ul de găurire și din foaia piesei („locaș mâner încastrat”, „decupaj plită”, „grilă de aerisire”, „contur liber”, canalul anti-curbare, gola frezată, balamalele pliante etc.) erau un amestec român/italian; acum se scriu în limba aleasă, în toate cele 7. O gola frezată sau un canal în contur nu mai apare ca „canal spate”. Modelul rămâne neschimbat (coduri stabile), traducerea se face la emitere.

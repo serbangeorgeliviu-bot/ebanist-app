@@ -2571,6 +2571,61 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.3: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.14 — cadrul de nivelare din Releveu (D-117) */
+  {
+    head("Cadru de nivelare din Releveu — corpuri pe cadru, nivelatoare Häfele 637.42.950, distinta, deviz (U.14)");
+    await pg.evaluate(() => {
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; p.worktops = []; p.baseFrames = [];
+      p.survey = { walls: [{ id: "w1", len: 3000, angle: 90, bow: null }, { id: "w2", len: 2400, angle: 90, bow: null },
+                           { id: "w3", len: 3000, angle: 90, bow: null }, { id: "w4", len: 2400, angle: 90, bow: null }], heights: [2500, 2500, 2500], obstacles: [] };
+      state.settings.matAdd = (state.settings.matAdd || []).filter(m => m.id !== "pal18t").concat([{ id: "pal18t", l: { it: "PAL 18 test", ro: "PAL 18 test", en: "Chipboard 18 test", fr: "PAL 18 test" }, th: 18, price: 20, c: "#cccccc" },
+        { id: "pal18raw", l: { it: "PAL grezzo 18 test", ro: "PAL brut 18 test", en: "Raw chipboard 18 test", fr: "PAL brut 18 test" }, th: 18, price: 12, c: "#c9a779" },
+        { id: "pal16t", l: { it: "PAL 16 test", ro: "PAL 16 test", en: "Chipboard 16 test", fr: "PAL 16 test" }, th: 16, price: 10, c: "#dddddd" }]);
+      for (const [n, w, from] of [["Base1", "w1", 0], ["Base2", "w1", 800], ["Base3", "w1", 1600], ["Cass1", "w2", 600], ["Cass2", "w2", 1400]]) {
+        generateInto(p, { ...PRESETS.base, name: n, L: 800, support: "cadru", plinth: 120 }); layout()[n] = { wall: w, from, off: 0, lift: 0, rot: 0 };
+      }
+      persist(); closeSheets(); setView("survey"); renderPlan();
+    });
+    await pg.waitForTimeout(300);
+    ok("U.14: cardul Cadru compare cu un releveu așezat", await pg.evaluate(() => document.getElementById("svBfCard").style.display !== "none"));
+    await pg.click("#btnBfAdd"); await pg.waitForTimeout(250);
+    ok("U.14: «Adaugă cadru» ia cele 5 corpuri de jos", await pg.evaluate(() => proj().baseFrames.length === 1 && proj().baseFrames[0].mods.length === 5));
+    await pg.click("[data-fcalc]"); await pg.waitForTimeout(250);
+    ok("U.14: fără material → eroare, nicio piesă", await pg.evaluate(() => proj().pieces.filter(x => /cadru/i.test(x.elemento)).length === 0 && /material|Material/.test(document.getElementById("svBfList").innerText)));
+    await pg.evaluate(() => { const f = proj().baseFrames[0]; f.mat = "pal18t"; f.floor = [{ wall: "w1", x: 0, z: 0 }, { wall: "w1", x: 3000, z: 12 }]; persist(); renderPlan(); });
+    await pg.click("[data-fcalc]"); await pg.waitForTimeout(400);
+    const bf = await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0];
+      return { names: f.names, err: f.err,
+        rows: p.pieces.filter(x => /cadru/i.test(x.elemento)).map(x => [x.modulo, x.elemento, x.lung, x.larg, x.pz, x.sp]),
+        hw: computeHardware(p, state.settings, false).filter(r => r.k === "hwPied").map(r => [r.qty, r.prod && r.prod.id]),
+        lay: p.layout[f.names[0]], issues: roomLayout().issues.length,
+        r3: roomBoxes().filter(b => /Cadru/.test(b.rmMod || "")).length }; });
+    ok("U.14: două segmente (câte unul pe perete), grosimea din material (18)", bf.names.length === 2 && bf.rows.length === 6 && bf.rows.every(r => r[5] === 18 || r[1] === "Piedino cadru"));
+    ok("U.14: peretele 1 trece până în colț (3000), cadrul stă pe pardoseală (lift 0)", bf.rows[0][2] === 3000 && bf.lay.lift === 0 && bf.lay.wall === "w1");
+    ok("U.14: nivelator făcut pentru panou de 19 mm, șină de 18 mm → avertisment în card", await pg.evaluate(() => /19\s*mm[^\n]{0,60}18\s*mm/.test(document.getElementById("svBfList").innerText)));
+    ok("U.14: picioarele sunt Häfele 637.42.950 în deviz, o singură dată (20), fără picioare pe corpuri", bf.hw.length === 1 && bf.hw[0][0] === 20 && bf.hw[0][1] === "haf_42950");
+    ok("U.14: cadrul nu produce ciocniri false în Releveu și apare în camera 3D", bf.issues === 0 && bf.r3 > 20);
+    /* materialul traverselor: altă referință, aceeași grosime → traversele poartă materialul lor; altă grosime → eroare */
+    await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0]; f.matCross = "pal18raw"; persist(); renderPlan(); });
+    await pg.click("[data-fcalc]"); await pg.waitForTimeout(350);
+    const mc = await pg.evaluate(() => { const p = proj(); return { rails: p.pieces.filter(x => x.elemento === "Sina cadru").map(x => x.materiale || x.mat), cross: p.pieces.filter(x => x.elemento === "Traversa cadru").map(x => x.materiale || x.mat) }; });
+    ok("U.14: șine albe, traverse de PAL brut — fiecare cu materialul lui", mc.rails.length === 2 && mc.cross.length === 2 && mc.rails.every(m => /18 test/.test(m) && !/brut|grezzo|Raw/i.test(m)) && mc.cross.every(m => /brut|grezzo|Raw/i.test(m)));
+    await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0]; f.matCross = "pal16t"; persist(); renderPlan(); });
+    ok("U.14: traverse de altă grosime → eroare în card", await pg.evaluate(() => /16/.test(document.getElementById("svBfList").innerText) && /(grosime|thickness|spessore|épaisseur)/i.test(document.getElementById("svBfList").innerText)));
+    await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0]; f.matCross = null; persist(); renderPlan(); });
+    await pg.click("[data-fcalc]"); await pg.waitForTimeout(350);
+    /* poarta de export (D-44): cadru la zi, corpuri la înălțimea lui → nu blochează; cadru depășit sau corpuri nepotrivite → blochează */
+    const g0 = await pg.evaluate(() => assertExportable().blocking.filter(x => /^BF/.test(x.id)).map(x => x.id));
+    ok("U.14: cadru la zi, corpuri pe el → poarta de export nu e blocată de cadru", g0.length === 0, g0.join());
+    await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0]; f.h = 150; persist(); renderPlan(); });
+    const g1 = await pg.evaluate(() => assertExportable().blocking.filter(x => /^BF/.test(x.id)).map(x => x.id));
+    ok("U.14: cadru depășit și corpuri la altă înălțime → export blocat (BFSTALE + BFBODY)", g1.includes("BFSTALE") && g1.includes("BFBODY"), g1.join());
+    ok("U.14: schimbi înălțimea → cadrul spune că nu mai corespunde și corpurile nu mai stau pe el", await pg.evaluate(() => /Suport|Support|Supporto|Apoyo|Unterbau|Podstawa/.test(document.getElementById("svBfList").innerText)));
+    await pg.evaluate(() => { const p = proj(), f = p.baseFrames[0]; snapUndo(); wtRemoveModules(p, f.names); p.baseFrames.splice(0, 1); persist(); renderPlan(); });
+    ok("U.14: ștergerea scoate piesele și modulele cadrului", await pg.evaluate(() => proj().pieces.filter(x => /cadru/i.test(x.elemento)).length === 0 && !Object.keys(proj().configs).some(n => proj().configs[n].type === "cadru")));
+    ok("U.14: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.8 — blatul peste compozitie, din Releveu (D-73) */
   {
     head("Blat din Releveu — corpuri, colt drept, decupaje, distinta (U.8)");

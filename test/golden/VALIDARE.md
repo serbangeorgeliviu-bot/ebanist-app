@@ -1,6 +1,6 @@
 # Casuri golden — foaie de validare
 
-**Toate cele 37 sunt validate** (2026-09-20, Liviu — Domus Renov).
+**Toate cele 50 sunt validate** (2026-09-20, Liviu — Domus Renov).
 De aici înainte orice abatere de la cotele de mai jos e o cădere de test, nu o schimbare tăcută.
 Se rescriu doar cu `node golden/gen.js --force`, și numai după o nouă verificare manuală.
 
@@ -45,6 +45,19 @@ Se rescriu doar cu `node golden/gen.js --force`, și numai după o nouă verific
 | 35 | `colonna-19` | 600×2100×560 | 3/19 | scanalato | 6 | 12 | ✓ | ✓ | ✓ |
 | 36 | `grosimi-mixte` | 1000×2200×600 | 3/16/19/25 | scanalato | 8 | 13 | ✓ | ✓ | ✓ |
 | 37 | `sottile-16` | 800×1600×350 | 3/16 | scanalato | 5 | 10 | ✓ | ✓ | ✓ |
+| 38 | `lambriu-vert` | 2400×2600×34 | — | — | 2 | 42 | ✓ | ✓ | ✓ |
+| 39 | `lambriu-orizz` | 2700×2400×18 | — | — | 1 | 24 | ✓ | ✓ | ✓ |
+| 40 | `lambriu-prize` | 2400×2600×34 | — | — | 7 | 46 | ✓ | ✓ | ✓ |
+| 41 | `lambriu-lung` | 3000×2400×18 | — | — | 1 | 48 | ✓ | ✓ | ✓ |
+| 42 | `boiserie-2x4` | 2400×2600×34 | — | — | 3 | 19 | ✓ | ✓ | ✓ |
+| 43 | `boiserie-rest` | 2403×1103×34 | — | — | 6 | 15 | ✓ | ✓ | ✓ |
+| 44 | `lambriu-colt-int` | 2400×2600×34 | — | — | 4 | 68 | ✓ | ✓ | ✓ |
+| 45 | `boiserie-colt-ext` | 2400×1100×34 | — | — | 6 | 26 | ✓ | ✓ | ✓ |
+| 46 | `boiserie-incastrat` | 2400×2600×18 | — | — | 4 | 25 | ✓ | ✓ | ✓ |
+| 47 | `contur-scoop` | 1800×500×18 | — | — | 1 | 2 | ✓ | ✓ | ✓ |
+| 48 | `contur-rotunjit` | 600×400×18 | — | — | 1 | 1 | ✓ | ✓ | ✓ |
+| 49 | `contur-gauri` | 600×400×18 | — | — | 1 | 1 | ✓ | ✓ | ✓ |
+| 50 | `contur-doua-piese` | 600×400×18 | — | — | 2 | 3 | ✓ | ✓ | ✓ |
 
 ## Perechile 18 / 19 — gabaritul nu se mișcă, cotele interne da
 
@@ -706,4 +719,134 @@ Interior: **L 768 · H 1568 · P 337** · spate scanalato · secțiune 768
 | Ripiano mobile | ripiano | L/P/H | **766** | **317** | 3 | 16 | 1L |
 | Anta | frontale | H/L/P | **1594** | **395** | 2 | 16 | 2L+2C |
 | Schienale | schienale | H/L/P | **1584** | **784** | 1 | 3 | — |
+
+### 38-lambriu-vert
+
+`lambriu` · **2400×2600×34** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pannello supporto | schienale | H/L/P | **2600** | **1200** | 2 | — | — |
+| Lamella | lamela | H/L/P | **2600** | **40** | 40 | — | 2L |
+
+### 39-lambriu-orizz
+
+`lambriu` · **2700×2400×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Lamella | lamela | L/H/P | **2700** | **90** | 24 | — | 2L |
+
+### 40-lambriu-prize
+
+`lambriu` · **2400×2600×34** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pannello supporto | schienale | H/L/P | **2600** | **1200** | 1 | — | — |
+| Pannello supporto | schienale | H/L/P | **2600** | **1200** | 1 | — | — |
+| Lamella | lamela | H/L/P | **2600** | **40** | 36 | — | 2L |
+| Lamella tagliata | lamela | H/L/P | **2220** | **40** | 2 | — | 2L |
+| Lamella tagliata | lamela | H/L/P | **1470** | **40** | 2 | — | 2L |
+| Lamella tagliata | lamela | H/L/P | **1050** | **40** | 2 | — | 2L |
+| Lamella tagliata | lamela | H/L/P | **300** | **40** | 2 | — | 2L |
+
+### 41-lambriu-lung
+
+`lambriu` · **3000×2400×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Lamella tagliata | lamela | L/H/P | **1500** | **90** | 48 | — | 2L |
+
+### 42-boiserie-2x4
+
+`boiserie` · **2400×2600×34** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pannello supporto | schienale | H/L/P | **2600** | **1200** | 2 | — | — |
+| Montante cornice | rama_montant | H/L/P | **2600** | **60** | 5 | — | 2L |
+| Traversa cornice | rama_traversa | L/H/P | **525** | **60** | 12 | — | 2L |
+
+### 43-boiserie-rest
+
+`boiserie` · **2403×1103×34** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pannello supporto | schienale | H/L/P | **1103** | **1202** | 1 | — | — |
+| Pannello supporto | schienale | H/L/P | **1103** | **1201** | 1 | — | — |
+| Montante cornice | rama_montant | H/L/P | **1103** | **62** | 1 | — | 2L |
+| Montante cornice | rama_montant | H/L/P | **1103** | **61** | 1 | — | 2L |
+| Montante cornice | rama_montant | H/L/P | **1103** | **60** | 3 | — | 2L |
+| Traversa cornice | rama_traversa | L/H/P | **525** | **60** | 8 | — | 2L |
+
+### 44-lambriu-colt-int
+
+`lambriu` · **2400×2600×34** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pannello supporto (A) | schienale | H/L/P | **2600** | **1200** | 2 | — | — |
+| Lamella (A) | lamela | H/L/P | **2600** | **40** | 40 | — | 2L |
+| Pannello supporto (B) | schienale | H/L/P | **2600** | **1466** | 1 | — | — |
+| Lamella (B) | lamela | H/L/P | **2600** | **40** | 25 | — | 2L |
+
+### 45-boiserie-colt-ext
+
+`boiserie` · **2400×1100×34** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pannello supporto (A) | schienale | H/L/P | **1100** | **1200** | 2 | — | — |
+| Montante cornice (A) | rama_montant | H/L/P | **1100** | **60** | 5 | — | 2L |
+| Traversa cornice (A) | rama_traversa | L/H/P | **525** | **60** | 8 | — | 2L |
+| Pannello supporto (B) | schienale | H/L/P | **1100** | **1800** | 1 | — | — |
+| Montante cornice (B) | rama_montant | H/L/P | **1100** | **60** | 4 | — | 2L |
+| Traversa cornice (B) | rama_traversa | L/H/P | **520** | **60** | 6 | — | 2L |
+
+### 46-boiserie-incastrat
+
+`boiserie` · **2400×2600×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Montante cornice | rama_montant | H/L/P | **2600** | **60** | 5 | — | 2L |
+| Traversa cornice | rama_traversa | L/H/P | **525** | **60** | 12 | — | 2L |
+| Pannello campo | rama_camp | H/L/P | **1226** | **541** | 1 | — | — |
+| Pannello campo | rama_camp | H/L/P | **1226** | **541** | 7 | — | — |
+
+### 47-contur-scoop
+
+`contur` · **1800×500×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pezzo contorno | contur | H/L/P | **500** | **1800** | 2 | — | CONT |
+
+### 48-contur-rotunjit
+
+`contur` · **600×400×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pezzo contorno | contur | L/P/H | **600** | **400** | 1 | — | — |
+
+### 49-contur-gauri
+
+`contur` · **600×400×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pezzo contorno | contur | H/L/P | **400** | **600** | 1 | — | CONT |
+
+### 50-contur-doua-piese
+
+`contur` · **600×400×18** · soclu 0 · zoccolo
+
+| element | rol | axe | lung | lăț | buc | sp | cant |
+|---|---|---|---|---|---|---|---|
+| Pezzo contorno | contur | H/L/P | **400** | **600** | 2 | — | CONT |
+| Pezzo contorno | contur | L/P/H | **900** | **300** | 1 | — | — |
 
