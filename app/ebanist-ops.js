@@ -151,6 +151,7 @@ function physicalPieces(boxes) {
     if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; if (!map[k].vpPts) map[k].vpPts = b.vp.pts; }
     if (b.edgeH) map[k].edgeH = b.edgeH;
     if (b.cont) map[k].cont = b.cont;
+    if (b.dev) map[k].dev = b.dev;     /* fâșie curbă (D-117): se taie dreaptă, găurile se spun pe lungimea desfășurată */
   }
   return order.map(function (k) {
     var p = map[k], mn = [1e9, 1e9, 1e9], mx = [-1e9, -1e9, -1e9];
@@ -202,7 +203,7 @@ function boxAt(p, w) {
 function hole(p, ax, side, at, dia, depth, hw, note, through) {
   if (!p) return;
   var w = at.slice();
-  p.holes.push({ ax: ax, side: side, w: w, dia: dia, depth: through ? p.ext[ax] : depth,
+  p.holes.push({ ax: ax, side: side, w: w, dia: dia, depth: through ? (p.dev ? p.dev.t : p.ext[ax]) : depth,
                  through: !!through, hw: hw || null, note: note || "" });
 }
 
@@ -897,6 +898,60 @@ function generate1(input) {
     q.slots = rest.concat(merged);
   });
 
+  /* --- 6d. birou (D-117): blatul stă PE laterale, spatele între ele. Aceeași îmbinare ca la corp (`joint`, tipul ales de proiect),
+     nu una nouă: lateralul vine cu muchia de sus sub blat, cu cupa pe fața dinspre interior (ascunsă); spatele vine cu muchia pe
+     fața interioară a fiecărui lateral și sub blat, cupa pe fața dinspre perete. Cotele sunt ale pieselor, niciuna din text. */
+  if (cfg.type === "scrivania") {
+    var dTop = byRole("cielo")[0], dSides = byRole("fianco").filter(function (q) { return q.tAx === 0; }), dBack = byRole("schienale")[0];
+    if (dTop && dTop.tAx === 1) {
+      var xm = (dTop.min[0] + dTop.max[0]) / 2;
+      dSides.forEach(function (S) {
+        var left = (S.min[0] + S.max[0]) / 2 < xm;
+        if (Math.abs(S.max[1] - dTop.min[1]) > 0.6) return;                       // lateralul nu ajunge sub blat
+        joint(S, dTop, 1, 1, 2, S.min[2], S.max[2], 0, left ? 1 : -1, out);
+      });
+      if (dBack && dBack.tAx === 2) {
+        dSides.forEach(function (S) {
+          var left = (S.min[0] + S.max[0]) / 2 < xm, edge = left ? dBack.min[0] : dBack.max[0], face = left ? S.max[0] : S.min[0];
+          if (Math.abs(edge - face) > 0.6) return;
+          joint(dBack, S, 0, left ? -1 : 1, 1, dBack.min[1], dBack.max[1], 2, -1, out);
+        });
+        if (Math.abs(dBack.max[1] - dTop.min[1]) <= 0.6) joint(dBack, dTop, 1, 1, 0, dBack.min[0], dBack.max[0], 2, -1, out);
+      }
+    }
+  }
+
+  /* --- 6e. corpuri rotunde (D-117): rotund, oval, raccordato. Fundul, tavanul și rafturile stau în fâșie și se prind de ea cu
+     îmbinarea aleasă în proiect. Modelul de operații cunoaște numai găuri paralele cu o axă, deci prinderile cad acolo unde
+     direcția radială E o axă: rotund/oval în punctele cardinale (stânga, față, dreapta; în spate e tăietura fâșiei), iar la
+     raccordato pe porțiunile drepte (laterale și front), la distanțele obișnuite. Fâșia în tronsoane nu se găurește. */
+  if (cfg.type === "tondo" || cfg.type === "raccordato") {
+    var bandP = byRole("fianco").filter(function (q) { return q.dev; })[0];
+    if (bandP && bandP.dev.nSeg > 1) out.warnings.push({ piece: bandP.pk, k: "opsBandSeg" });
+    else if (bandP) {
+      var dvB = bandP.dev;
+      pcs.filter(function (q) { return q.tAx === 1 && (q.role === "base" || q.role === "cielo" || q.role === "ripiano"); }).forEach(function (E) {
+        var camS = E.role === "cielo" ? 1 : -1, ecx = (E.min[0] + E.max[0]) / 2, ecz = (E.min[2] + E.max[2]) / 2;
+        var fix = function (eAx, eSide, sAx, lo, hi) {
+          var n0 = bandP.holes.length;
+          joint(E, bandP, eAx, eSide, sAx, lo, hi, 1, camS, out);
+          /* confirmat/trecut: intrarea e pe fața EXTERIOARĂ a fâșiei, nu pe cea interioară (unde ajunge muchia plăcii) */
+          for (var i = n0; i < bandP.holes.length; i++) {
+            var hh = bandP.holes[i];
+            if (hh.through) hh.w[eAx] = hh.side > 0 ? bandP.max[eAx] : bandP.min[eAx];
+          }
+        };
+        if (dvB.k === "ell") {
+          fix(0, -1, 2, ecz - 1, ecz + 1); fix(0, 1, 2, ecz - 1, ecz + 1); fix(2, 1, 0, ecx - 1, ecx + 1);
+        } else {
+          var sz0 = E.min[2], sz1 = dvB.P - dvB.r;
+          if (sz1 - sz0 > 30) { fix(0, -1, 2, sz0, sz1); fix(0, 1, 2, sz0, sz1); }
+          if (dvB.L - 2 * dvB.r > 30) fix(2, 1, 0, dvB.r, dvB.L - dvB.r);
+        }
+      });
+    }
+  }
+
   /* --- 7. nel sistema del pezzo, con le regole di pre-flight -------------- */
   /* l'ordine del foglio: prima la cassa, poi l'interno, poi i frontali —
      lo stesso ordine in cui si monta. Il numero del pezzo e la sua
@@ -914,6 +969,21 @@ function generate1(input) {
    alto in macchina); a parita, quella al valore massimo. X corre lungo la
    lunghezza, Y lungo la larghezza, orientati in modo che guardando la faccia
    5 X vada a destra e Y in alto. */
+/* Fâșia curbă (D-117) se taie ca o bandă dreaptă `len` × `h` × `t`. Poziția unui punct din lume pe bandă: lungimea
+   desfășurată măsurată pe pielea exterioară, de la capătul din spate, în sensul acelor de ceasornic văzut de sus; vezi din
+   interior, x crește spre dreapta. Rotund/oval: exactă în cele patru puncte cardinale (sferturile sunt egale prin simetrie),
+   iar la cerc oriunde. Raccordato: exactă pe porțiunile drepte (laterale și front). */
+function devX(dv, w) {
+  var a = dv.L / 2, b = dv.P / 2;
+  if (dv.k === "ell") {
+    var ph = Math.atan2((w[0] - a) / a, -(w[2] - b) / b);
+    if (ph < 0) ph += 2 * Math.PI;
+    return dv.len * ph / (2 * Math.PI);
+  }
+  var zz = w[2], lim = dv.P - dv.r;
+  if (zz <= lim + 0.01) return w[0] < a ? zz : dv.side + dv.arc + dv.front + dv.arc + (lim - zz);
+  return dv.side + dv.arc + (w[0] - dv.r);
+}
 function localize(p) {
   var t = p.tAx, others = [0, 1, 2].filter(function (a) { return a !== t; });
   /* la lunghezza e la cota maggiore delle due in faccia */
@@ -931,8 +1001,10 @@ function localize(p) {
   var flipY = (cr[0] * n[0] + cr[1] * n[1] + cr[2] * n[2]) < 0;
   var Lp = p.ext[aL], Wp = p.ext[aW], T = p.ext[t];
   if (p.dim) { Lp = p.dim[0]; Wp = p.dim[1]; T = p.dim[2]; }
-  var X = function (w) { return w[aL] - p.min[aL]; };
-  var Y = function (w) { return flipY ? p.max[aW] - w[aW] : w[aW] - p.min[aW]; };
+  var dv = p.dev || null;
+  if (dv) { Lp = dv.len; Wp = dv.h; T = dv.t; }
+  var X = dv ? function (w) { return devX(dv, w); } : function (w) { return w[aL] - p.min[aL]; };
+  var Y = dv ? function (w) { return w[1] - p.min[1]; } : function (w) { return flipY ? p.max[aW] - w[aW] : w[aW] - p.min[aW]; };
   var Z6 = function (w) { return s5 > 0 ? w[t] - p.min[t] : p.max[t] - w[t]; };  // distanza dalla faccia 6
 
   /* contur pe pantă (ușa trapezoidală, D-86): punctele din planul vertical, în coordonatele feței 5 */
@@ -953,7 +1025,10 @@ function localize(p) {
   var push = function (o) { o.id = "op_" + String(++k).padStart(3, "0"); ops.push(o); };
   p.holes.forEach(function (h) {
     var o = { type: "drill", dia: h.dia, depth: R1(h.depth), through: h.through, hw: h.hw, note: h.note };
-    if (h.ax === t) {
+    if (dv) {
+      /* fâșia curbă: toate găurile se dau pe fața 5 = fața interioară, pe lungimea desfășurată */
+      o.face = 5; o.x = R1(X(h.w)); o.y = R1(Y(h.w));
+    } else if (h.ax === t) {
       o.face = h.through ? 5 : (h.side === s5 ? 5 : 6);
       o.x = R1(X(h.w)); o.y = R1(Y(h.w));
     } else {
@@ -968,7 +1043,9 @@ function localize(p) {
   });
   (p.slots || []).forEach(function (h) {
     var o = { type: "slot", len: R1(h.len), thk: R1(h.thk), depth: R1(h.depth), hw: h.hw, note: h.note };
-    if (h.ax === t) {
+    if (dv) {
+      o.face = 5; o.x = R1(X(h.w)); o.y = R1(Y(h.w)); o.ori = "Y";
+    } else if (h.ax === t) {
       o.face = h.side === s5 ? 5 : 6; o.x = R1(X(h.w)); o.y = R1(Y(h.w)); o.ori = h.la === aL ? "X" : "Y";
     } else {
       var atMax = h.side > 0;
@@ -1012,7 +1089,7 @@ function localize(p) {
   });
 
   /* il contorno: le scatole del pezzo nel sistema della faccia 5 */
-  var rects = p.boxes.map(function (b) {
+  var rects = dv ? [{ x0: 0, x1: R1(Lp), y0: 0, y1: R1(Wp) }] : p.boxes.map(function (b) {
     var lo = [b.x0, b.y0, b.z0], hi = [b.x1, b.y1, b.z1];
     var xa = X(lo), xb = X(hi), ya = Y(lo), yb = Y(hi);
     return { x0: R1(Math.min(xa, xb)), x1: R1(Math.max(xa, xb)), y0: R1(Math.min(ya, yb)), y1: R1(Math.max(ya, yb)) };

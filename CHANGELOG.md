@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.28.0 — 8 noiembrie 2026
+
+**Găurire pe Birou, Rotund, Oval și Colțuri rotunjite (D-117).**
+- **Birou:** blatul se prinde de laterale și spatele de laterale și de blat, cu îmbinarea aleasă în proiect (implicit Minifix + diblu); cupa pe fața ascunsă.
+- **Rotund / Oval / Raccordato:** fundul, tavanul și rafturile se prind de fâșie cu aceeași îmbinare. Găurile fâșiei se dau pe lungimea ei **desfășurată** (fața 5 = fața interioară, x de la capătul din spate, y de la bază), nu pe cutia de gabarit. Rotund/oval: trei prinderi pe plan (stânga, față, dreapta; în spate e tăietura fâșiei); raccordato: pe porțiunile drepte (laterale și front). Fâșia în tronsoane nu se găurește (avertisment în toate limbile).
+- **Se schimbă distinta:** fâșia are acum înălțimea corpului (H), nu H−2t, iar fundul, tavanul și rafturile stau **în** fâșie. Înainte, planurile erau mai mici cu t și nu atingeau fâșia. Goldenurile `16-tondo`, `17-ovale` și `18-raccordato` sunt regenerate și au `validat: false` până la o verificare manuală.
+- **3D:** fâșia e un perete gol (la raccordato, cu spatele deschis), ca planurile și găurile să se vadă.
+- Cotele de găurire rămân `verificat:false` (D-48).
+
 ## 5.27.4 — 8 noiembrie 2026
 
 **Generator: comenzile 3D răspund și la Rotund, Oval, Colțuri rotunjite și Birou.** La aceste patru tipuri cutiile 3D nu purtau `role` și `pk` (D-49), deci modelul de operații ieșea cu 0 piese: nu se putea selecta o piesă, nici izola, iar Cote, Feronerie și Găuri nu aveau pe ce lucra. Acum fiecare piesă fizică (fâșie, fund, tavan, rafturi; blat, laterale, spate la birou) își poartă rolul și numărul, ca la Masă și Pat. Distinta nu se schimbă. Găurile și feroneria acestor tipuri rămân în afara modelului 3D (D-48), iar lista „Piese” o spune.

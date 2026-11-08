@@ -76,6 +76,47 @@ export function buildPrism(pc, y0, y1) {
   return g;
 }
 
+/* Fâșia curbă ca PERETE, nu ca prismă plină (D-117): între conturul exterior `out` și cel interior `inn` (aceleași n puncte,
+   în aceeași ordine), între y0 și y1. `open` = capetele nu se închid (la raccordato spatele rămâne deschis): se pun capace plate.
+   Orientarea fiecărui triunghi se alege după direcția dorită a normalei (sus/jos, în afară/înăuntru), nu după sensul în care vin
+   punctele: conturul exterior și cel interior nu au garantat același sens. Formele sunt convexe, deci „în afară" = dinspre centru. */
+export function buildWall(out, inn, y0, y1, open) {
+  const n = out.length, v = [];
+  let cx = 0, cz = 0; for (const q of out) { cx += q[0]; cz += q[1]; } cx /= n; cz /= n;
+  const tri = (a, b, c, dir) => {
+    const ux = b[0] - a[0], uy = b[1] - a[1], uz = b[2] - a[2], wx = c[0] - a[0], wy = c[1] - a[1], wz = c[2] - a[2];
+    const nx = uy * wz - uz * wy, ny = uz * wx - ux * wz, nz = ux * wy - uy * wx;
+    const d = dir(a, b, c);
+    if (nx * d[0] + ny * d[1] + nz * d[2] >= 0) v.push(...a, ...b, ...c); else v.push(...a, ...c, ...b);
+  };
+  const quad = (a, b, c, d, dir) => { tri(a, b, c, dir); tri(a, c, d, dir); };
+  const up = () => [0, 1, 0], dn = () => [0, -1, 0];
+  const away = (a, b, c) => [(a[0] + b[0] + c[0]) / 3 - cx, 0, (a[2] + b[2] + c[2]) / 3 - cz];
+  const toward = (a, b, c) => { const t = away(a, b, c); return [-t[0], 0, -t[2]]; };
+  const m = open ? n - 1 : n, P = (q, y) => [q[0], y, q[1]];
+  for (let i = 0; i < m; i++) {
+    const j = (i + 1) % n;
+    quad(P(out[i], y1), P(out[j], y1), P(inn[j], y1), P(inn[i], y1), up);
+    quad(P(out[i], y0), P(out[j], y0), P(inn[j], y0), P(inn[i], y0), dn);
+    quad(P(out[i], y0), P(out[j], y0), P(out[j], y1), P(out[i], y1), away);
+    quad(P(inn[i], y0), P(inn[j], y0), P(inn[j], y1), P(inn[i], y1), toward);
+  }
+  if (open) for (const k of [0, n - 1]) {
+    /* capac plat: normala iese în sens opus tangentei care intră în perete (la ambele capete) */
+    const e = k === 0 ? 1 : n - 2, tx = out[e][0] - out[k][0], tz = out[e][1] - out[k][1], len = Math.hypot(tx, tz) || 1;
+    quad(P(out[k], y0), P(inn[k], y0), P(inn[k], y1), P(out[k], y1), () => [-tx / len, 0, -tz / len]);
+  }
+  const pos = new Float32Array(v.map((q) => q * MM));
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  g.computeVertexNormals();
+  const uv = new Float32Array((pos.length / 3) * 2);
+  for (let i = 0, k = 0; i < pos.length; i += 3, k += 2) { uv[k] = pos[i] * 2; uv[k + 1] = pos[i + 1] * 2; }
+  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  g.computeBoundingSphere();
+  return g;
+}
+
 /* Prismă cu profilul într-un PLAN VERTICAL (D-86): panourile de sub o pantă. `vp` = { ax, pts },
    unde pts sunt vârfurile convexe [u, y] (u = x când ax:"x", z când ax:"z"), extrudate pe axa
    cealaltă între e0 și e1. Sunt trapeze (laterale, despărțitoare) și paralelograme (tavanul înclinat);
@@ -166,6 +207,7 @@ export function explodeBoxes(boxes, amt) {
     else oz += sg((b.z0 + b.z1) / 2 - rz) * kk;
     const o = Object.assign({}, b, { x0: b.x0 + ox, x1: b.x1 + ox, y0: b.y0 + oy, y1: b.y1 + oy, z0: b.z0 + oz, z1: b.z1 + oz });
     if (b.pc) o.pc = b.pc.map(q => [q[0] + ox, q[1] + oz]);
+    if (b.ring) o.ring = { open: b.ring.open, out: b.ring.out.map(q => [q[0] + ox, q[1] + oz]), inn: b.ring.inn.map(q => [q[0] + ox, q[1] + oz]) };
     return o;
   });
 }

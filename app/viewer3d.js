@@ -25,7 +25,7 @@
 
 /* Percorsi diretti, NIENTE importmap: gli importmap arrivano solo con
    iOS 16.4 / Chrome 89. */
-import { THREE, MM, pcOf, isRectPC, buildPrism, buildVPrism, buildPrism3, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
+import { THREE, MM, pcOf, isRectPC, buildPrism, buildWall, buildVPrism, buildPrism3, boundsOf, matKeyOf, explodeBoxes } from "./geo3d.js";
 import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 import { rboxGeom, latheGeom, cylGeom } from "./hwmesh.js";
 
@@ -608,7 +608,11 @@ function makeMesh(b, cfg) {
     const pc = pcOf(b);
     const cx = pc.reduce((s, p) => s + p[0], 0) / pc.length, cz = pc.reduce((s, p) => s + p[1], 0) / pc.length;
     const cy = (b.y0 + b.y1) / 2;
-    mesh = new THREE.Mesh(buildPrism(pc.map(([x, z]) => [x - cx, z - cz]), b.y0 - cy, b.y1 - cy), perMesh(materialFor(key)));
+    /* fâșia rotundă / raccordată e un PERETE (D-117): goală pe dinăuntru, ca fundul, tavanul și rafturile să se vadă și să aibă
+       în ce intra găurile */
+    const sh0 = (q) => [q[0] - cx, q[1] - cz];
+    mesh = new THREE.Mesh(b.ring ? buildWall(b.ring.out.map(sh0), b.ring.inn.map(sh0), b.y0 - cy, b.y1 - cy, !!b.ring.open)
+                                 : buildPrism(pc.map(([x, z]) => [x - cx, z - cz]), b.y0 - cy, b.y1 - cy), perMesh(materialFor(key)));
     mesh.position.set(cx * MM, cy * MM, cz * MM); mesh.updateMatrix();
     mesh.userData.prism = true;
   }

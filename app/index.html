@@ -3576,6 +3576,13 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{opsBandSeg:"Fascia in più tratti: i fori di fissaggio dei piani non sono nel modello, si segnano al montaggio."});
+Object.assign(I18N.ro,{opsBandSeg:"Fâșie în mai multe tronsoane: găurile de prindere ale plăcilor nu sunt în model, se marchează la montaj."});
+Object.assign(I18N.en,{opsBandSeg:"Band in several segments: the fixing holes of the shelves and plates are not in the model, mark them at assembly."});
+Object.assign(I18N.fr,{opsBandSeg:"Bande en plusieurs tronçons : les perçages de fixation des plateaux ne sont pas dans le modèle, à tracer au montage."});
+Object.assign(I18N.de,{opsBandSeg:"Band in mehreren Teilen: Die Befestigungsbohrungen der Böden sind nicht im Modell, beim Montieren anzeichnen."});
+Object.assign(I18N.pl,{opsBandSeg:"Obrzeże w kilku odcinkach: otwory mocujące półek i den nie są w modelu, zaznacz je przy montażu."});
+Object.assign(I18N.es,{opsBandSeg:"Banda en varios tramos: los taladros de fijación de las baldas y tapas no están en el modelo, márcalos al montar."});
 Object.assign(I18N.it,{fGolaType:"Tipo di gola",golaTL:"Profilo L + C nel corpo",golaTJ:"Profilo J sul frontale",golaTF:"Gola fresata nel frontale (senza profilo)",golaHintJ:"Profilo J sulla testa di ogni anta e cassetto: sta nella fessura sopra il frontale. Niente profili nel corpo, niente tagli nei fianchi.",golaHintF:"Presa fresata a 45° sul retro del bordo superiore di ogni frontale: nessun profilo. Le quote della fresata non vanno in macchina finché non le verifichi.",hwGolaJ:"Profili gola J (m)"});
 Object.assign(I18N.ro,{fGolaType:"Tip de gola",golaTL:"Profil L + C în corp",golaTJ:"Profil J pe front",golaTF:"Gola frezată în front (fără profil)",golaHintJ:"Profil J pe muchia de sus a fiecărei uși și fiecărui sertar: stă în rostul de deasupra frontului. Fără profile în corp, fără decupări în laterale.",golaHintF:"Priză frezată la 45° pe spatele muchiei de sus a fiecărui front: fără profil. Cotele frezării nu merg în mașină până nu le verifici.",hwGolaJ:"Profile gola J (m)"});
 Object.assign(I18N.en,{fGolaType:"Gola type",golaTL:"L + C profiles in the carcass",golaTJ:"J profile on the front",golaTF:"Milled gola in the front (no profile)",golaHintJ:"J profile on the top edge of every door and drawer: it sits in the gap above the front. No profiles in the carcass, no cut-outs in the sides.",golaHintF:"45° grip milled into the back of the top edge of every front: no profile. The milling dimensions do not go to the machine until you verify them.",hwGolaJ:"J gola profiles (m)"});
@@ -8611,7 +8618,10 @@ function buildModule(cfg){
     const inL=L-2*t, inP=P-2*t;                 // luce interna: i piani stanno DENTRO la fascia
 
     /* --- fascia: uno o piu tratti, secondo quanto entra nel pannello --- */
-    const bandH=H-2*t;                          // la fascia sta fra fondo e cielo
+    /* D-117: fondo, cielo e ripiani stanno DENTRO la fascia (come in una cassa):
+       la fascia e alta quanto il corpo. Prima era H-2t con i piani piu piccoli di t:
+       non si toccavano, e non c'era dove forare. */
+    const bandH=H;
     const segMax=(bandH<=PANW)?PANL:(bandH<=PANL?PANW:0);
     let nSeg=1;
     if(!segMax) warn.bandTooTall=1;
@@ -8639,7 +8649,10 @@ function buildModule(cfg){
     const NP=48, cx=L/2, cz=P/2;
     /* ruolo e pezzo fisico su ogni scatola (D-49) */
     let pk=0;
-    boxes.push({x0:0,x1:L,y0:t,y1:H-t,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk,pc:ellipsePC(cx,cz,L/2,P/2,NP)});
+    /* `dev`: la fascia si taglia diritta, i fori si dicono sullo sviluppo (D-117) */
+    boxes.push({x0:0,x1:L,y0:0,y1:H,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk,pc:ellipsePC(cx,cz,L/2,P/2,NP),
+                ring:{open:false,out:ellipsePC(cx,cz,L/2,P/2,NP),inn:ellipsePC(cx,cz,inL/2,inP/2,NP)},
+                dev:{k:"ell",len:+dev.toFixed(2),h:H,t,nSeg,L,P}});
     const disc=(y0,y1,role)=>boxes.push({x0:t,x1:L-t,y0,y1,z0:t,z1:P-t,kind:"p",role,pk:++pk,
                                     pc:ellipsePC(cx,cz,inL/2,inP/2,NP)});
     disc(0,t,"base"); disc(H-t,H,"cielo");
@@ -8671,7 +8684,7 @@ function buildModule(cfg){
     const straightSide=P-r, straightFront=L-2*r;
     const arc=arcLen(r,90);
     const dev=2*straightSide+2*arc+straightFront;      // = L + 2P + r(π−4)
-    const bandH=H-2*t;
+    const bandH=H;                                     // D-117: i piani stanno dentro la fascia
     const segMax=(bandH<=PANW)?PANL:(bandH<=PANL?PANW:0);
     if(!segMax) warn.bandTooTall=1;
     const nSeg=segMax?Math.max(1,Math.ceil(dev/segMax)):1;
@@ -8712,7 +8725,10 @@ function buildModule(cfg){
     };
     /* ruolo e pezzo fisico su ogni scatola (D-49) */
     let pk=0;
-    boxes.push({x0:0,x1:L,y0:t,y1:H-t,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk,pc:rcPC(0,L,0,P,r)});
+    boxes.push({x0:0,x1:L,y0:0,y1:H,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk,pc:rcPC(0,L,0,P,r),
+                /* peretele: de la spatele din dreapta, în jurul frontului, până la spatele din stânga; spatele rămâne deschis */
+                ring:{open:true,out:rcPC(0,L,0,P,r).slice(1).concat([[0,0]]),inn:rcPC(t,L-t,0,P-t,Math.max(1,r-t)).slice(1).concat([[t,0]])},
+                dev:{k:"rc",len:+dev.toFixed(2),h:H,t,nSeg,L,P,r,side:straightSide,arc,front:straightFront}});
     const plate=(y0,y1,role)=>boxes.push({x0:t,x1:L-t,y0,y1,z0:0,z1:P-t,kind:"p",role,pk:++pk,
                                      pc:rcPC(t,L-t,0,P-t,Math.max(1,r-t))});
     plate(0,t,"base"); plate(H-t,H,"cielo");
@@ -11430,7 +11446,7 @@ function opsAllOf(cfg){
 }
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
-const OPS_NOTES=["opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+const OPS_NOTES=["opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -17730,7 +17746,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.27.4"; /* APP_VER-MARKER */
+const APP_VER="5.28.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
