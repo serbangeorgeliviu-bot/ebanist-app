@@ -52,7 +52,7 @@ function cmpRows(L) {
 const appHtml = fs.readFileSync(path.join(ROOT, "app/index.html"), "utf8");
 const APP_VER = (appHtml.match(/const APP_VER="([^"]+)"/) || [])[1] || "0";
 /* versiunea fișierelor site-ului (?v=): crește când se schimbă /site/*, fără să atingă versiunea aplicației */
-const SITE_REV = 2;
+const SITE_REV = 3;
 const SITE_VER = `${APP_VER}.s${SITE_REV}`;
 /* intro-ul (D-110): ACELAȘI marcaj ca în aplicație, luat din app/index.html — o singură sursă */
 const SPLASH = (() => { const a = appHtml.indexOf('<div id="splash"'), b = appHtml.indexOf("<script>", a);

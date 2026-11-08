@@ -18,7 +18,7 @@ const BASE = process.env.BASE || "http://localhost:8765";
 const LANGS = process.argv.slice(2).length ? process.argv.slice(2) : ["en", "ro", "it", "fr", "de", "pl", "es"];
 const TMP = "/tmp/ebanist-docs";
 const GL = ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"];
-const PRO = () => localStorage.setItem("ebanist_lic", JSON.stringify({ kind: "legacy", key: "EBP-TEST", valid: true, activated: true, checkedAt: Date.now() }));
+const PRO = () => localStorage.setItem("ebanist_lic", JSON.stringify({ kind: "stripe", key: "sub_capture", status: "active", activated: true, expiresAt: new Date(Date.now() + 3650 * 864e5).toISOString(), checkedAt: Date.now() }));
 
 async function project(b, lang, vp, mobile) {
   const c = await b.newContext({ viewport: vp, deviceScaleFactor: 2, isMobile: !!mobile, hasTouch: !!mobile });
@@ -49,6 +49,8 @@ async function project(b, lang, vp, mobile) {
     const docs = [["summary", "btnPdf", "distinta"], ["summary", "btnMont", "montaj"], ["summary", "btnLabels", "etichete"], ["summary", "btnQuote", "oferta"], ["build", "btnDraw", "desen"]];
     for (const [view, btn, name] of docs) {
       await p.click(`[data-view="${view}"]`); await p.waitForTimeout(600);
+      /* din 5.27 exporturile sunt pe grupe pliate (<details>) */
+      await p.evaluate(() => document.querySelectorAll("details.grp").forEach(d => { d.open = true; }));
       await p.evaluate(() => { document.getElementById("printArea").innerHTML = ""; });
       await p.click("#" + btn); await p.waitForTimeout(1300);
       if (btn === "btnPdf") { await p.check("#clOk"); await p.click("#btnClGo"); await p.waitForTimeout(1500); }
