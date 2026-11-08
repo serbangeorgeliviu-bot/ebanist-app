@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.29.2 — 8 noiembrie 2026
+
+**Mai multe picioare reglabile în catalog, și avertisment când soclul iese din gama lor.** Categoria „Picioare reglabile” primește cinci articole, în 7 limbi, fără preț (se completează în Catalog):
+
+- **Hettich Korrekt**, plastic negru, 450 kg pe picior: 61852 (130 mm, reglaj 119–155 mm), 61853 (150 mm, 139–175 mm), 70152 (110 mm, 99–135 mm).
+- **Häfele, picior metalic de inserție**, ≈300 kg: 637.24.022 (adâncime de găurire 63 mm) și 637.24.024 (111 mm). Fără gamă de reglaj în date: sursele se contraziceau.
+- **Avertisment în Constructor:** cu suport „Piedini” și un picior cu gamă de reglaj, dacă „Zoccolo (mm)” iese din gamă, apare o notă (ex. soclu de 80 mm cu Korrekt 61852).
+- **Sursa:** coduri și cote din oferte de furnizori, **nu din fișa oficială**; de confirmat pe hettich.com și hafele.com înainte de comandă. Camar nu are încă articol propriu în afara lui „Camar 300”: nu am găsit o fișă verificabilă.
+- Test: `cd test && node --test feet.test.js` (6 teste).
+
 ## 5.29.1 — 8 noiembrie 2026
 
 **Fixarea soclului și fâșia de soclu a cadrului, din catalogul Häfele (MB 12.109).** Din pagina trimisă de Liviu (accesorii pentru soclu, picioare AXILO 78), cu codurile ei:
