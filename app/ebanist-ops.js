@@ -111,7 +111,7 @@ function jointKind(input) {
   return JOINT_OF_ID[id] || "minifix";
 }
 
-var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "schienale", "zoccolo", "traversa", "traversa_spate",
+var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "schienale", "zoccolo", "traversa", "traversa_spate",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur", "filler"];
 var R1 = function (v) { return Math.round(v * 10) / 10; };   // 0,1 mm, UNA volta, in uscita
 var AX = ["x", "y", "z"];
@@ -128,7 +128,7 @@ var PANEL_ROLES = { fianco: 1, base: 1, cielo: 1, base_cielo: 1, traversa_cielo:
   /* piesa cu contur liber (D-101): conturul exact e pe cutia ei (`cont`), cutiile sunt triunghiuri pentru 3D */
   contur: 1,
   /* rinforzo în spate și filler (D-103): panouri ca toate celelalte */
-  traversa_spate: 1, filler: 1 };
+  traversa_spate: 1, filler: 1, raft_tast: 1 };
 
 function isRect(b) {
   if (!b.pc) return true;
@@ -151,6 +151,8 @@ function physicalPieces(boxes) {
     if (b.vp) { map[k].sloped = true; if (b.dim) map[k].dim = b.dim; if (!map[k].vpPts) map[k].vpPts = b.vp.pts; }
     if (b.edgeH) map[k].edgeH = b.edgeH;
     if (b.cont) map[k].cont = b.cont;
+    if (b.kb) map[k].kb = b.kb;
+    if (b.cab) map[k].cab = b.cab;
     if (b.dev) map[k].dev = b.dev;     /* fâșie curbă (D-117): se taie dreaptă, găurile se spun pe lungimea desfășurată */
   }
   return order.map(function (k) {
@@ -917,6 +919,27 @@ function generate1(input) {
           joint(dBack, S, 0, left ? -1 : 1, 1, dBack.min[1], dBack.max[1], 2, -1, out);
         });
         if (Math.abs(dBack.max[1] - dTop.min[1]) <= 0.6) joint(dBack, dTop, 1, 1, 0, dBack.min[0], dBack.max[0], 2, -1, out);
+      }
+      /* trecere de cabluri (D-118): gaură Ø60 prin blat, cu burghiul; poziția vine din piesă */
+      (dTop.cab || []).forEach(function (c) {
+        hole(dTop, 1, 1, [c.x, dTop.max[1], c.z], c.d, 0, null, "trecere cabluri", true);
+      });
+      /* raft culisant pentru tastatură (D-118): fiecare glisieră se prinde pe muchia raftului și pe fața de jos a blatului, cu două
+         șuruburi la distanța `b1` din fișa Hettich KA 3434. Diametrul, adâncimea și poziția pe glisieră NU sunt confirmate (`verificat:false`). */
+      var tray = byRole("raft_tast")[0];
+      if (tray && tray.kb) {
+        var K = tray.kb, ym = (tray.min[1] + tray.max[1]) / 2;
+        [0, 1].forEach(function (i) {
+          var x = K.xs[i], edgeX = i === 0 ? tray.min[0] : tray.max[0], id = "hw_" + out.hw.length, ws = [];
+          [-1, 1].forEach(function (sgn) {
+            var z = K.z + sgn * K.b1 / 2;
+            hole(dTop, 1, -1, [x, dTop.min[1], z], 3.5, 10, id, "fixare glisieră tastatură");
+            hole(tray, 0, i === 0 ? -1 : 1, [edgeX, ym, z], 3.5, 10, id, "fixare glisieră tastatură");
+            ws.push([x, dTop.min[1], z]);
+          });
+          out.hw.push({ id: id, type: "guida_tast", catalog: "hettich_ka3434_" + K.nl, piece: tray.pk, against: dTop.pk,
+                        w: [x, dTop.min[1], K.z], note: "Hettich KA 3434 NL" + K.nl + (K.approx ? " (b1 interpolat)" : "") });
+        });
       }
     }
   }

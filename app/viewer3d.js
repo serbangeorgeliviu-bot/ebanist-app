@@ -1356,7 +1356,7 @@ const GL3D = {
       setRoom(opts.room);
       R.cfg = cfg;
       boxes = setModel(boxes, cfg);
-      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1), keyOf(b, cfg)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig();
+      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1), keyOf(b, cfg)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig() + "|" + JSON.stringify(boxes.map(b => b.cab || b.kb || b.dev ? [b.pk, b.cab || 0, b.kb || 0] : 0).filter(Boolean));
       if (sig !== R.sig) {
         R.sig = sig;
         R.model = computeModel(cfg, boxes, built || { pieces: [] });

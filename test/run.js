@@ -324,7 +324,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const fascia = c.pieces.find(p => /Fascia/.test(p.elemento));
     const piani = c.pieces.filter(p => p.shape === "tondo");
     o.dev = fascia.lung; o.devEsatto = Math.PI * 600;
-    o.altezzaFascia = fascia.larg;                                     // H - 2t
+    o.altezzaFascia = fascia.larg;                                     // H (D-117)
     o.kerf = fascia.curve && fascia.curve.kerf;
     o.nPiani = piani.reduce((s, p) => s + p.pz, 0);                    // fondo+cielo+3 ripiani
     o.diamPiano = piani[0] && piani[0].lung;                           // Ø - 2t
@@ -355,7 +355,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   });
   ok("cerchio Ø600: sviluppo = π·D", Math.abs(rnd.dev - rnd.devEsatto) < 0.6,
      rnd.dev + " vs " + rnd.devEsatto.toFixed(1));
-  ok("la fascia sta fra fondo e cielo (H−2t)", rnd.altezzaFascia === 1200 - 2 * rnd.t,
+  ok("la fascia e alta quanto il corpo, i piani stanno dentro (H, D-117)", rnd.altezzaFascia === 1200,
      rnd.altezzaFascia + " con t=" + rnd.t);
   ok("piano dei tagli entro 0,3 mm dall'arco (non solo il minimo teorico)",
      !!rnd.kerf && rnd.kerf.n > 0 && rnd.kerf.flat <= 0.31,

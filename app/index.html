@@ -1766,6 +1766,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fDoorsN">Ante</label><input id="bDoors" type="number" inputmode="numeric" min="0" max="8"></div>
           <div class="f"><label data-i="fFront">Frontale</label>
             <select id="bFront"><option value="piena" data-i="frontFull">Pieno</option><option value="vetro" data-i="frontGlass">Telaio + vetro</option><option value="curvo" data-i="frontCurved">Bombato</option></select></div>
+          <div class="f" id="rowDeskKb" style="display:none"><label data-i="fDeskKb">Raft tastatură</label>
+            <select id="bDeskKb"><option value="" data-i="deskKbNone">Fără</option><option value="ka300">Hettich KA 3434 · 300 mm</option><option value="ka350">Hettich KA 3434 · 350 mm</option><option value="ka400">Hettich KA 3434 · 400 mm</option><option value="ka500">Hettich KA 3434 · 500 mm</option></select></div>
+          <div class="f" id="rowDeskKbW" style="display:none"><label data-i="fDeskKbW">Lățime raft tastatură (mm)</label><input id="bDeskKbW" type="number" inputmode="numeric" min="300" max="900" placeholder="560"></div>
+          <div class="f" id="rowDeskCab" style="display:none"><label data-i="fDeskCab">Treceri de cabluri Ø60</label>
+            <select id="bDeskCab"><option value="0" data-i="deskKbNone">Fără</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></div>
           <div class="f" id="rowRc" style="display:none"><label data-i="fRcorner">Raggio angolo (mm)</label><input id="bRc" type="number" inputmode="numeric" min="10" max="400" placeholder="80"></div>
           <div class="f" id="rowBow" style="display:none"><label data-i="fBow">Bombatura (mm)</label><input id="bBow" type="number" inputmode="numeric" min="0" max="200" placeholder="40"></div>
         </div>
@@ -3576,6 +3581,13 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{fDeskKb:"Ripiano tastiera",deskKbNone:"Nessuno",fDeskKbW:"Larghezza ripiano tastiera (mm)",fDeskCab:"Passacavi Ø60",hw_guida_tast:"Guida ripiano tastiera"});
+Object.assign(I18N.ro,{fDeskKb:"Raft tastatură",deskKbNone:"Fără",fDeskKbW:"Lățime raft tastatură (mm)",fDeskCab:"Treceri de cabluri Ø60",hw_guida_tast:"Glisieră raft tastatură"});
+Object.assign(I18N.en,{fDeskKb:"Keyboard tray",deskKbNone:"None",fDeskKbW:"Keyboard tray width (mm)",fDeskCab:"Cable grommets Ø60",hw_guida_tast:"Keyboard tray runner"});
+Object.assign(I18N.fr,{fDeskKb:"Tablette clavier",deskKbNone:"Aucune",fDeskKbW:"Largeur de la tablette clavier (mm)",fDeskCab:"Passe-câbles Ø60",hw_guida_tast:"Coulisse tablette clavier"});
+Object.assign(I18N.de,{fDeskKb:"Tastaturauszug",deskKbNone:"Keiner",fDeskKbW:"Breite der Tastaturplatte (mm)",fDeskCab:"Kabeldurchlässe Ø60",hw_guida_tast:"Tastaturauszug-Schiene"});
+Object.assign(I18N.pl,{fDeskKb:"Półka na klawiaturę",deskKbNone:"Brak",fDeskKbW:"Szerokość półki na klawiaturę (mm)",fDeskCab:"Przepusty kablowe Ø60",hw_guida_tast:"Prowadnica półki na klawiaturę"});
+Object.assign(I18N.es,{fDeskKb:"Bandeja de teclado",deskKbNone:"Ninguna",fDeskKbW:"Ancho de la bandeja de teclado (mm)",fDeskCab:"Pasacables Ø60",hw_guida_tast:"Guía de bandeja de teclado"});
 Object.assign(I18N.it,{opsBandSeg:"Fascia in più tratti: i fori di fissaggio dei piani non sono nel modello, si segnano al montaggio."});
 Object.assign(I18N.ro,{opsBandSeg:"Fâșie în mai multe tronsoane: găurile de prindere ale plăcilor nu sunt în model, se marchează la montaj."});
 Object.assign(I18N.en,{opsBandSeg:"Band in several segments: the fixing holes of the shelves and plates are not in the model, mark them at assembly."});
@@ -4330,6 +4342,7 @@ const ACC_I18N={
   "Accessorio — gamba legno massello 70×70":{ro:"Accesoriu — picior lemn masiv 70×70",en:"Accessory — solid wood leg 70×70",fr:"Accessoire — pied bois massif 70×70",de:"Zubehör — Massivholzbein 70×70",pl:"Akcesorium — noga z litego drewna 70×70",es:"Accesorio — pata de madera maciza 70×70"},
   "Accessorio — doga faggio curvata 68mm":{ro:"Accesoriu — șipcă fag curbată 68 mm",en:"Accessory — curved beech slat 68 mm",fr:"Accessoire — latte hêtre cintrée 68 mm",de:"Zubehör — gebogene Buchenlatte 68 mm",pl:"Akcesorium — wygięta listwa bukowa 68 mm",es:"Accesorio — lama de haya curvada 68 mm"}
 };
+Object.assign(ACC_I18N,{"Accessorio — guida ripiano tastiera Hettich KA 3434":{ro:"Accesoriu — glisieră raft tastatură Hettich KA 3434",en:"Accessory — keyboard tray runner Hettich KA 3434",fr:"Accessoire — coulisse de tablette clavier Hettich KA 3434",de:"Zubehör — Tastaturauszug Hettich KA 3434",pl:"Akcesorium — prowadnica półki na klawiaturę Hettich KA 3434",es:"Accesorio — guía de bandeja de teclado Hettich KA 3434"},"Accessorio — passacavi Ø60":{ro:"Accesoriu — trecere cabluri Ø60",en:"Accessory — cable grommet Ø60",fr:"Accessoire — passe-câbles Ø60",de:"Zubehör — Kabeldurchlass Ø60",pl:"Akcesorium — przepust kablowy Ø60",es:"Accesorio — pasacables Ø60"}});
 function matLabelUI(label){
   const L=(typeof state!=="undefined"&&state&&state.lang)||"it";
   const a=ACC_I18N[label]; if(a) return a[L]||label;
@@ -6630,6 +6643,17 @@ function carcassMaterials(cfg){
    tavolo, letto, tondo, raccordato. Stesso principio: la decide il
    materiale; la grossezza dichiarata sul corpo e solo il ripiego per i
    progetti vecchi; se non c'e nemmeno quella, e un errore. Mai 18. */
+/* RAFTUL CULISANT PENTRU TASTATURĂ (D-118). Glisierele Hettich KA 3434 (fișele de pe shop.hettich.com, 08.11.2026):
+   lungimea nominală, sarcina 20 kg, distanța `b1` între găurile extreme și `C`. La 350 mm fișa nu dă `b1`: e interpolat
+   din celelalte trei (pas 101,5 mm la 100 mm), marcat `approx`. Poziția găurilor pe glisieră, înălțimea de montaj și
+   lățimea glisierei (13 mm pe parte) nu sunt confirmate: tot ce iese de aici e `verificat:false` (D-48). */
+const DESK_KB={
+  ka300:{nl:300,b1:213,C:108,el:103,load:20,art:"77800"},
+  ka350:{nl:350,b1:263.75,C:158.5,el:null,load:20,art:"77801",approx:true},
+  ka400:{nl:400,b1:314.5,C:184,el:128,load:20,art:"77802"},
+  ka500:{nl:500,b1:416,C:260.5,el:154,load:20,art:"77804"}
+};
+const DESK_KB_GAP=13, DESK_KB_DROP=70, DESK_KB_BACK=30, DESK_GROMMET=60;
 function structTh(cfg){
   const S=(typeof state!=="undefined"&&state.settings)||{};
   if(typeof MAT_LOADED!=="undefined"&&!MAT_LOADED&&!(S.matAdd||[]).length)
@@ -6663,7 +6687,7 @@ function isFrontEl(el){ return /^(anta|frontale|montante anta|traversa anta)/i.t
 const PIECE_MAT_ROLE={
   fianco:"fianco", fianco_sx:"fianco", fianco_dx:"fianco",
   base:"base", cielo:"cielo", base_cielo:"base", traversa_cielo:"cielo", blat:"fianco",
-  schienale:"schienale", ripiano:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale", contur:"fianco",
+  schienale:"schienale", ripiano:"ripiano", raft_tast:"ripiano", divisorio:"divisorio", lamela:"fianco", rama_montant:"fianco", rama_traversa:"fianco", rama_camp:"frontale", contur:"fianco",
   zoccolo:"zoccolo", traversa:"frontale", traversa_spate:"fianco", filler:"frontale",
   frontale:"frontale", cassetto_frontale:"frontale",
   cassetto_fianco:"fianco", cassetto_fondo:"fianco"
@@ -8528,6 +8552,29 @@ function buildModule(cfg){
     B({x0:0,x1:t,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
     B({x0:L-t,x1:L,y0:0,y1:H-t,z0:30,z1:P-20},"fianco");
     B({x0:t,x1:L-t,y0:H-t-mh,y1:H-t,z0:40,z1:40+t},"schienale");
+    /* trecere de cabluri (D-118): găuri Ø60 prin blat, în spate, egal distanțate; o cotă care nu are loc e eroare */
+    const nCab=Math.max(0,Math.min(3,cfg.deskCable|0));
+    if(nCab){
+      const cx0=[]; for(let i=1;i<=nCab;i++) cx0.push(Math.round(L*i/(nCab+1)));
+      const zc=Math.round(Math.min(P/2,70)), r=DESK_GROMMET/2;
+      if(cx0[0]-r<30||cx0[nCab-1]+r>L-30||(nCab>1&&cx0[1]-cx0[0]<DESK_GROMMET+40))
+        throw new Error("Birou: trecerile de cabluri nu au loc pe acest blat");
+      boxes[0].cab=cx0.map(x=>({x,z:zc,d:DESK_GROMMET}));
+      add("Passacavi Ø60 nel piano",DESK_GROMMET,DESK_GROMMET,nCab,"","Accessorio — passacavi Ø60","accessorio");
+    }
+    /* raft culisant pentru tastatură: panou între laterale, pe o pereche de glisiere Hettich KA 3434 fixate sub blat */
+    const kb=cfg.deskKb&&DESK_KB[cfg.deskKb]||null;
+    if(kb){
+      const W=Math.max(300,Math.round(+cfg.deskKbW||560)), D=kb.nl-40, inner=L-2*t, gap=DESK_KB_GAP;
+      if(W+2*gap>inner) throw new Error("Birou: raftul de tastatură ("+W+" mm + 2×"+gap+" mm glisiere) nu are loc între laterale ("+Math.round(inner)+" mm)");
+      const zf=P-DESK_KB_BACK, zcen=zf-kb.nl/2;
+      if(zcen-D/2<40+t+10) throw new Error("Birou: glisierele de "+kb.nl+" mm sunt prea lungi pentru acest blat: raftul ar lovi spatele");
+      const yT=H-t-DESK_KB_DROP, cx=L/2;
+      add("Ripiano tastiera",W,D,1,"1L",null,"raft_tast");
+      add("Guide ripiano tastiera Hettich KA 3434 NL"+kb.nl,kb.nl,gap,2,"","Accessorio — guida ripiano tastiera Hettich KA 3434","accessorio");
+      B({x0:cx-W/2,x1:cx+W/2,y0:yT-t,y1:yT,z0:zcen-D/2,z1:zcen+D/2,
+         kb:{id:cfg.deskKb,nl:kb.nl,b1:kb.b1,xs:[cx-W/2-gap/2,cx+W/2+gap/2],z:zcen,approx:!!kb.approx}},"raft_tast");
+    }
     return {pieces,boxes};
   }
   if(cfg.type==="tavolo"){
@@ -9171,7 +9218,7 @@ function init3DControls(){
    3D disegna. */
 const HW_CAT={cerniera:"cern",guida:"guida",maniglia:"man",reggipiano:"sup",minifix:"conn"};
 const HW_JOINT_ITEM={confirmat:"gen_confirmat",biscuit:"gen_biscuit",domino:"fes_domino",clamex:"lam_clamex",tassello:"gen_dowel"};
-const HW_ORDER=["cerniera","maniglia","guida","reggipiano","minifix","confirmat","biscuit","domino","clamex","tassello"];
+const HW_ORDER=["cerniera","maniglia","guida","guida_tast","reggipiano","minifix","confirmat","biscuit","domino","clamex","tassello"];
 function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):HW_JOINT_ITEM[ty]&&ty!=="tassello"?hwItemById("conn",HW_JOINT_ITEM[ty]):null;
   return {name:t("hw_"+ty),prod:it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):(ty==="tassello"?"Ø8×35":""),art:it&&it.art&&it.art!=="—"?it.art:""}; }
 /* il nome di un pezzo fisico: la riga di distinta a cui corrisponde, con il
@@ -9220,6 +9267,12 @@ de:{"Anta":"Tür","Anta scorrevole":"Schiebetür","Fianco sx":"Seite links","Fia
 pl:{"Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
 es:{"Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
+Object.assign(EL_I18N.ro,{"Ripiano tastiera":"Raft tastatură","Passacavi Ø60 nel piano":"Trecere cabluri Ø60 în blat","Guide ripiano tastiera Hettich KA 3434 NL300":"Glisiere raft tastatură Hettich KA 3434 NL300","Guide ripiano tastiera Hettich KA 3434 NL350":"Glisiere raft tastatură Hettich KA 3434 NL350","Guide ripiano tastiera Hettich KA 3434 NL400":"Glisiere raft tastatură Hettich KA 3434 NL400","Guide ripiano tastiera Hettich KA 3434 NL500":"Glisiere raft tastatură Hettich KA 3434 NL500"});
+Object.assign(EL_I18N.en,{"Ripiano tastiera":"Keyboard tray","Passacavi Ø60 nel piano":"Cable grommet Ø60 in top","Guide ripiano tastiera Hettich KA 3434 NL300":"Keyboard tray runners Hettich KA 3434 NL300","Guide ripiano tastiera Hettich KA 3434 NL350":"Keyboard tray runners Hettich KA 3434 NL350","Guide ripiano tastiera Hettich KA 3434 NL400":"Keyboard tray runners Hettich KA 3434 NL400","Guide ripiano tastiera Hettich KA 3434 NL500":"Keyboard tray runners Hettich KA 3434 NL500"});
+Object.assign(EL_I18N.fr,{"Ripiano tastiera":"Tablette clavier","Passacavi Ø60 nel piano":"Passe-câbles Ø60 dans le plateau","Guide ripiano tastiera Hettich KA 3434 NL300":"Coulisses tablette clavier Hettich KA 3434 NL300","Guide ripiano tastiera Hettich KA 3434 NL350":"Coulisses tablette clavier Hettich KA 3434 NL350","Guide ripiano tastiera Hettich KA 3434 NL400":"Coulisses tablette clavier Hettich KA 3434 NL400","Guide ripiano tastiera Hettich KA 3434 NL500":"Coulisses tablette clavier Hettich KA 3434 NL500"});
+Object.assign(EL_I18N.de,{"Ripiano tastiera":"Tastaturauszug-Platte","Passacavi Ø60 nel piano":"Kabeldurchlass Ø60 in der Platte","Guide ripiano tastiera Hettich KA 3434 NL300":"Tastaturauszug Hettich KA 3434 NL300","Guide ripiano tastiera Hettich KA 3434 NL350":"Tastaturauszug Hettich KA 3434 NL350","Guide ripiano tastiera Hettich KA 3434 NL400":"Tastaturauszug Hettich KA 3434 NL400","Guide ripiano tastiera Hettich KA 3434 NL500":"Tastaturauszug Hettich KA 3434 NL500"});
+Object.assign(EL_I18N.pl,{"Ripiano tastiera":"Półka na klawiaturę","Passacavi Ø60 nel piano":"Przepust kablowy Ø60 w blacie","Guide ripiano tastiera Hettich KA 3434 NL300":"Prowadnice półki na klawiaturę Hettich KA 3434 NL300","Guide ripiano tastiera Hettich KA 3434 NL350":"Prowadnice półki na klawiaturę Hettich KA 3434 NL350","Guide ripiano tastiera Hettich KA 3434 NL400":"Prowadnice półki na klawiaturę Hettich KA 3434 NL400","Guide ripiano tastiera Hettich KA 3434 NL500":"Prowadnice półki na klawiaturę Hettich KA 3434 NL500"});
+Object.assign(EL_I18N.es,{"Ripiano tastiera":"Bandeja de teclado","Passacavi Ø60 nel piano":"Pasacables Ø60 en el tablero","Guide ripiano tastiera Hettich KA 3434 NL300":"Guías de bandeja de teclado Hettich KA 3434 NL300","Guide ripiano tastiera Hettich KA 3434 NL350":"Guías de bandeja de teclado Hettich KA 3434 NL350","Guide ripiano tastiera Hettich KA 3434 NL400":"Guías de bandeja de teclado Hettich KA 3434 NL400","Guide ripiano tastiera Hettich KA 3434 NL500":"Guías de bandeja de teclado Hettich KA 3434 NL500"});
 /* elementele lambriului (D-95): numele din distinta rămân italiene, se traduc numai la afișare */
 Object.assign(EL_I18N.ro,{"Griglia di aerazione": "Grilă de aerisire", "Traversa retro": "Traversă spate (rinforzo)", "Fascia di chiusura sopra": "Filler sus", "Fascia di chiusura dx": "Filler dreapta", "Fascia di chiusura sx": "Filler stânga"});
 Object.assign(EL_I18N.en,{"Griglia di aerazione": "Ventilation grille", "Traversa retro": "Back rail (stiffener)", "Fascia di chiusura sopra": "Closing strip, top", "Fascia di chiusura dx": "Closing strip, right", "Fascia di chiusura sx": "Closing strip, left"});
@@ -9973,6 +10026,12 @@ function cornerRows(){
   const ty=$("bTipo").value, two=(ty==="lambriu"||ty==="boiserie")&&$("bWall2").value==="1", ang=ty==="angolare";
   $("rowL2").style.display=(ang||two)?"":"none"; $("fCornerWrap").style.display=(ang||two)?"":"none"; $("fCornerKindWrap").style.display=(ang||two)?"":"none";
   $("rowWall2").style.display=(ty==="lambriu"||ty==="boiserie")?"":"none";
+  deskRows();
+}
+function deskRows(){
+  const d=$("bTipo").value==="scrivania";
+  $("rowDeskKb").style.display=d?"":"none"; $("rowDeskCab").style.display=d?"":"none";
+  $("rowDeskKbW").style.display=d&&$("bDeskKb").value?"":"none";
 }
 function lamRows(){
   const ty=$("bTipo").value, lam=ty==="lambriu", rf=ty==="boiserie";
@@ -10015,6 +10074,9 @@ function cfgFromForm(){
     drawerH:$("bDrawH").value||null, drawerInset:v("bDrawInset",35),
     angL:fAng("bAngL"), angR:fAng("bAngR"), obstacles:buildObst,
     bow:Math.min(200,v("bBow",0)), rcorner:Math.max(10,Math.min(400,v("bRc",60))),
+    deskKb:$("bTipo").value==="scrivania"&&DESK_KB[$("bDeskKb").value]?$("bDeskKb").value:null,
+    deskKbW:$("bTipo").value==="scrivania"&&DESK_KB[$("bDeskKb").value]&&v("bDeskKbW",0)>0?Math.max(300,Math.min(900,v("bDeskKbW",0))):null,
+    deskCable:$("bTipo").value==="scrivania"?Math.max(0,Math.min(3,v("bDeskCab",0))):0,
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
     secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secDrawerH:cleanSecDrawerH(buildSecDrawerH), secDrawerNL:cleanSecNL(buildSecDrawerNL), secPull:cleanSecPull(buildSecPull),
     doorHinge:cleanDoorHinge(buildDoorHinge,Math.min(MAX_DOORS,v("bDoors",0))),
@@ -10084,6 +10146,7 @@ function syncBuildForm(){
   $("rowBow").style.display=($("bFront").value==="curvo")?"":"none";
   $("bRc").value=buildCfg.rcorner||"";
   $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
+  $("bDeskKb").value=DESK_KB[buildCfg.deskKb]?buildCfg.deskKb:""; $("bDeskKbW").value=buildCfg.deskKbW||""; $("bDeskCab").value=String(buildCfg.deskCable|0);
   $("bName").value=buildCfg.name||""; $("bTipo").value=buildCfg.type||"standard";
   $("bLamW").value=buildCfg.lamW||""; $("bLamGap").value=buildCfg.lamGap==null?"":buildCfg.lamGap; $("bLamDir").value=buildCfg.lamDir==="o"?"o":"v"; $("bWall2").value=buildCfg.wall2?"1":"0"; $("bRfInset").value=buildCfg.rfInset?"1":"0";
   contLoad(buildCfg);
@@ -10900,7 +10963,7 @@ function renderBuild(){
   [60,350].forEach(ms=>setTimeout(()=>{ if(currentView!=="build") return; try{ if(gl3dOn()) window.GL3D.resize(); drawPreview(); }catch(e){} },ms));
   if(!buildFormReady){
     syncBuildForm();
-    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc",
+    ["bName","bTipo","bL","bL2","bH","bP","bAngL","bAngR","bMatBody","bMatFront","bMatBack","bPlinth","bTram","bShelves","bDrawers","bDoors","bBack","bHang","bFront","bSupport","bHandles","bShelfT","bBoxes","bCorner","bCornerKind","bHangGap","bShelfEven","bShelfStep","bBow","bRc","bDeskKb","bDeskKbW","bDeskCab",
      "bDrawSys","bDrawDist","bDrawFH","bDrawZone","bDrawH","bDrawInset","bDrawPos","bStepH","bStepP"]
       .forEach(id=>{ $(id).addEventListener("input",drawPreview); $(id).addEventListener("change",drawPreview); });
     /* il pannello cassetti si ridisegna prima dell'anteprima: cambiando sistema
@@ -10934,6 +10997,7 @@ function renderBuild(){
     $("grpHw").addEventListener("toggle",()=>{ if($("grpHw").open) renderHwSel(); });
     $("hwSelBox").addEventListener("change",()=>{ renderHwSel(); drawPreview(); });
     $("bTipo").addEventListener("change",renderAbs);
+    ["bTipo","bDeskKb"].forEach(id=>$(id).addEventListener("change",deskRows));
     $("bTipo").addEventListener("change",()=>{
       $("rowRc").style.display=($("bTipo").value==="raccordato")?"":"none";
       if($("bTipo").value==="raccordato"&&!$("bRc").value) $("bRc").value=80;
@@ -17746,12 +17810,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.28.0"; /* APP_VER-MARKER */
+const APP_VER="5.29.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v201";
+const SW_CACHE="ebanist-v207";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

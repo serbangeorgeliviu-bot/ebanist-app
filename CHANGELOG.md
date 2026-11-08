@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.29.0 — 8 noiembrie 2026
+
+**Birou: raft culisant pentru tastatură și trecere de cabluri (D-118).**
+- **Raft tastatură:** glisiere Hettich KA 3434 (300 / 350 / 400 / 500 mm, 20 kg, cotele din fișele producătorului) și panoul raftului, lățime la alegere (implicit 560 mm). Intră în distinctă (panou + accesoriu pe 2 glisiere), în 3D și în găurire: două șuruburi sub blat și două pe muchia raftului, la distanța `b1` din fișă. Dacă raftul nu are loc între laterale, sau glisierele sunt prea lungi pentru adâncimea blatului, se spune eroarea, nu se mută nimic.
+- **Treceri de cabluri Ø60:** 1–3 găuri prin blat, egal distanțate, în spate; găuri trecute în model și rând de accesoriu în distinctă.
+- Un birou fără opțiunile noi dă distinta de dinainte, identică.
+- Cotele de montaj ale glisierelor (poziția găurilor pe glisieră, lățimea de 13 mm, înălțimea 70 mm sub blat) nu sunt confirmate: `verificat:false`. La 350 mm fișa nu dă `b1`; e interpolat.
+- **Corecturi:** `SW_CACHE` din `index.html` rămăsese în urmă față de `sw.js` (v201 față de v204): la „Verifică actualizări” pagina nouă se scria într-un cache pe care Service Worker-ul îl ștergea. Aliniate. Testul e2e al fâșiei rotunde (H−2t, vechi) corectat la H (D-117). Paginile site-ului regenerate cu versiunea nouă.
+
 ## 5.28.0 — 8 noiembrie 2026
 
 **Găurire pe Birou, Rotund, Oval și Colțuri rotunjite (D-117).**
