@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.38.0 — 8 noiembrie 2026
+
+**Șabloane de găurire pentru printare 3D, fișiere STL (D-125, funcție Pro).** În Genera, butonul „Șabloane STL" deschide o foaie cu cinci șabloane: rând de sistem 32 (pentru rafturi), plăcuță de balama (2 găuri), mâner (la distanța dintre axe), rând liber de găuri și **colț de picior la 45°** (pentru șurubul dublu M8 montat pe diagonala colțului). Cotele implicite vin din `HW_DRILL` (sistemul 32, placa balamalei, mânerul), nu sunt scrise a doua oară. Se descarcă un STL binar, deja orientat pe masa imprimantei, pe care îl deschide orice slicer.
+- **Reguli:** joc de 0,2 mm (editabil), **întotdeauna bucșe metalice de ghidare** (locașul are diametrul bucșei plus joc; foaia spune ce bucșe să comanzi: Ø interior = burghiul, Ø exterior, lungime), PETG (foaia recomandă strat 0,16–0,2 mm, minimum 4 pereți, umplere ≥ 40 %).
+- **Rândul de găuri** e un singur corp etanș (placă + prag care se agață pe muchia panoului, găurile la distanța dată de muchie). **Colțul la 45°** are patru corpuri care se suprapun (capac pe capătul piciorului, două praguri pe fețele piciorului, bloc cu bucșă aliniat cu diagonala); niciunul nu intră în gaura bucșei sau în picior.
+- Geometria e scrisă în aplicație (`app/ebanist-jig.js`), fără biblioteci externe; `test/jig.test.js` verifică plase etanșe, volume, poziția găurilor și a axei diagonale, nepătrunderea în gaura bucșei și formatul STL.
+- **Neverificat pe o piesă printată:** cotele șablonului de colț (lățimea pragurilor, lungimea capacului) și adâncimea burghiului pentru șurubul dublu depind de articolul tău (lungimea filetului pentru lemn); valorile implicite (Ø6 pilot, 35 mm adâncime, bucșă 6×10×15) sunt de verificat.
+
 ## 5.37.0 — 8 noiembrie 2026
 
 **Birou: raft sub blat și retur pe picior; Pat: daybed și înălțimea tăbliei de picioare (D-124).**

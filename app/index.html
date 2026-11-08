@@ -1899,6 +1899,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h8M9 17h8"/></svg>
         <span data-i="dcPackBtn">Dosar tehnic A3</span>
       </button>
+      <button class="btn sm" id="btnJig">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h16v8H4z"/><circle cx="9" cy="12" r="1.8"/><circle cx="15" cy="12" r="1.8"/><path d="M4 8V5h5M20 8V5h-5"/></svg>
+        <span data-i="jigBtn">Șabloane STL</span>
+      </button>
       <button class="btn sm" id="btnRoom">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
         <span data-i="roomBtn">Nel tuo ambiente</span>
@@ -2604,6 +2608,20 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
 </div>
 
 <!-- camera in 3D -->
+<!-- Șabloane de găurire pentru printare 3D (D-125): STL, joc 0,2 mm, bucșe metalice, PETG. Pro. -->
+<div class="sheet" id="shJig" style="max-height:88vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 data-i="jigTitle">Șabloane de găurire (STL)</h3>
+  <p class="mini" data-i="jigIntro"></p>
+  <div class="f"><label data-i="jigKind">Tip de șablon</label><select id="jigKind"></select></div>
+  <div id="jigFields" style="margin-top:6px"></div>
+  <div id="jigInfo" class="mini" style="margin-top:10px"></div>
+  <div id="jigNote" class="mini" style="margin-top:8px"></div>
+  <div id="jigErr" class="mini" style="margin-top:8px;color:var(--danger)"></div>
+  <button class="btn red" id="jigDl" style="margin-top:12px" data-i="jigDl">Descarcă STL</button>
+  <button class="btn" id="jigClose" style="margin-top:8px" data-i="hsClose">Închide</button>
+</div>
+
 <div class="sheet" id="shRoom3D" style="max-height:88vh">
   <div class="sheet-grip"></div>
   <h3 id="room3dTitle">Camera in 3D</h3>
@@ -2828,6 +2846,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-slides-data.js"></script>
 <script src="./ebanist-slides.js"></script>
 <script src="./ebanist-hwgeom.js"></script>
+<script src="./ebanist-jig.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-survey.js"></script>
@@ -3622,6 +3641,13 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{"jigBtn": "Sagome STL", "jigTitle": "Sagome di foratura (STL)", "jigIntro": "Sagome di foratura per stampante 3D: qualsiasi slicer apre il file STL. Le boccole di guida sono sempre metalliche (si incollano nella sede), in PETG, gioco 0,2 mm.", "jigKind": "Tipo di sagoma", "jigK_sys32": "Fila sistema 32 (ripiani)", "jigK_hinge": "Piastrina cerniera (2 fori)", "jigK_handle": "Maniglia (interasse)", "jigK_row": "Fila di fori (libera)", "jigK_corner": "Angolo gamba 45° (vite doppia)", "jigLegW": "Larghezza gamba (mm)", "jigDrop": "Distanza del foro dall'estremità della gamba (mm)", "jigDepth": "Profondità del foro pilota nella gamba (mm)", "jigN": "Numero di fori", "jigPitch": "Passo fra i fori (mm)", "jigDist": "Distanza dal bordo (mm)", "jigBush": "Boccola di guida (Ø interno = punta)", "jigBushOd": "Ø esterno boccola (mm)", "jigBushLen": "Lunghezza boccola (mm)", "jigClear": "Gioco sede (mm)", "jigDl": "Scarica STL", "jigNoLib": "Modulo sagome non caricato", "jigInfo": "Ingombro {w}×{d}×{h} mm · sede boccola Ø{seat} mm · boccole da ordinare: {nb} pz, Ø interno {id}, Ø esterno {od}, lunghezza {len} mm.", "jigNotes": "Stampa in PETG, strato 0,16–0,2 mm, almeno 4 pareti, riempimento ≥ 40 %. Il file è già orientato sul piano. Incolla le boccole con cianoacrilato o epossidica e controlla con la punta che passi libera.", "jigNoteCorner": "Si appoggia sulla testa della gamba; le due alette stanno sulle facce della gamba. La punta entra dalla boccola lungo la diagonale dello spigolo: ferma la corsa a {stop} mm dall'estremità esterna della boccola (boccola {len} mm + foro pilota {depth} mm).", "jigNoteRow": "Appoggia l'aletta sul bordo del pannello (il piano dell'aletta è il bordo). I fori stanno a {dist} mm dal bordo e a {pitch} mm l'uno dall'altro."});
+Object.assign(I18N.ro,{"jigBtn": "Șabloane STL", "jigTitle": "Șabloane de găurire (STL)", "jigIntro": "Șabloane de găurire pentru imprimanta 3D: orice slicer deschide fișierul STL. Bucșele de ghidare sunt întotdeauna metalice (se lipesc în locaș), din PETG, joc 0,2 mm.", "jigKind": "Tip de șablon", "jigK_sys32": "Rând sistem 32 (rafturi)", "jigK_hinge": "Plăcuță de balama (2 găuri)", "jigK_handle": "Mâner (distanța dintre axe)", "jigK_row": "Rând de găuri (liber)", "jigK_corner": "Colț de picior 45° (șurub dublu)", "jigLegW": "Lățime picior (mm)", "jigDrop": "Distanța găurii de capătul piciorului (mm)", "jigDepth": "Adâncimea găurii pilot în picior (mm)", "jigN": "Număr de găuri", "jigPitch": "Pas între găuri (mm)", "jigDist": "Distanța de la muchie (mm)", "jigBush": "Bucșă de ghidare (Ø interior = burghiu)", "jigBushOd": "Ø exterior bucșă (mm)", "jigBushLen": "Lungime bucșă (mm)", "jigClear": "Joc locaș (mm)", "jigDl": "Descarcă STL", "jigNoLib": "Modulul de șabloane nu e încărcat", "jigInfo": "Gabarit {w}×{d}×{h} mm · locaș bucșă Ø{seat} mm · bucșe de comandat: {nb} buc., Ø interior {id}, Ø exterior {od}, lungime {len} mm.", "jigNotes": "Printează în PETG, strat 0,16–0,2 mm, minimum 4 pereți, umplere ≥ 40 %. Fișierul e deja orientat pe masă. Lipește bucșele cu adeziv cianoacrilat sau epoxidic și verifică cu burghiul că trece liber.", "jigNoteCorner": "Se așază pe capătul piciorului; cele două praguri stau pe fețele piciorului. Burghiul intră prin bucșă pe diagonala colțului: oprește cursa la {stop} mm de la capătul exterior al bucșei (bucșă {len} mm + gaură pilot {depth} mm).", "jigNoteRow": "Pune pragul pe muchia panoului (planul pragului e muchia). Găurile sunt la {dist} mm de muchie și la {pitch} mm una de alta."});
+Object.assign(I18N.en,{"jigBtn": "3D-print jigs", "jigTitle": "Drilling jigs (STL)", "jigIntro": "Drilling jigs for a 3D printer: any slicer opens the STL file. The guide bushings are always metal (glued into their seats), PETG, 0.2 mm clearance.", "jigKind": "Jig type", "jigK_sys32": "System 32 row (shelf pins)", "jigK_hinge": "Hinge plate (2 holes)", "jigK_handle": "Handle (centre distance)", "jigK_row": "Row of holes (custom)", "jigK_corner": "Leg corner 45° (hanger bolt)", "jigLegW": "Leg width (mm)", "jigDrop": "Hole distance from the leg end (mm)", "jigDepth": "Pilot hole depth into the leg (mm)", "jigN": "Number of holes", "jigPitch": "Hole pitch (mm)", "jigDist": "Distance from the edge (mm)", "jigBush": "Guide bushing (inner Ø = drill)", "jigBushOd": "Bushing outer Ø (mm)", "jigBushLen": "Bushing length (mm)", "jigClear": "Seat clearance (mm)", "jigDl": "Download STL", "jigNoLib": "Jig module not loaded", "jigInfo": "Size {w}×{d}×{h} mm · bushing seat Ø{seat} mm · bushings to order: {nb} pcs, inner Ø {id}, outer Ø {od}, length {len} mm.", "jigNotes": "Print in PETG, 0.16–0.2 mm layers, at least 4 walls, infill ≥ 40 %. The file is already oriented on the bed. Glue the bushings with cyanoacrylate or epoxy and check the drill passes freely.", "jigNoteCorner": "It sits on the end of the leg; the two fences lie on the leg's faces. The drill enters through the bushing along the corner's diagonal: stop it {stop} mm from the bushing's outer end (bushing {len} mm + pilot hole {depth} mm).", "jigNoteRow": "Put the fence on the panel's edge (the fence's inner plane is the edge). The holes are {dist} mm from the edge and {pitch} mm apart."});
+Object.assign(I18N.fr,{"jigBtn": "Gabarits STL", "jigTitle": "Gabarits de perçage (STL)", "jigIntro": "Gabarits de perçage pour imprimante 3D : n'importe quel slicer ouvre le fichier STL. Les bagues de guidage sont toujours métalliques (collées dans leur logement), en PETG, jeu de 0,2 mm.", "jigKind": "Type de gabarit", "jigK_sys32": "Rangée système 32 (taquets)", "jigK_hinge": "Platine de charnière (2 trous)", "jigK_handle": "Poignée (entraxe)", "jigK_row": "Rangée de trous (libre)", "jigK_corner": "Angle de pied 45° (vis double)", "jigLegW": "Largeur du pied (mm)", "jigDrop": "Distance du trou au bout du pied (mm)", "jigDepth": "Profondeur du pré-trou dans le pied (mm)", "jigN": "Nombre de trous", "jigPitch": "Pas entre les trous (mm)", "jigDist": "Distance au bord (mm)", "jigBush": "Bague de guidage (Ø intérieur = foret)", "jigBushOd": "Ø extérieur de la bague (mm)", "jigBushLen": "Longueur de la bague (mm)", "jigClear": "Jeu du logement (mm)", "jigDl": "Télécharger le STL", "jigNoLib": "Module de gabarits non chargé", "jigInfo": "Encombrement {w}×{d}×{h} mm · logement de bague Ø{seat} mm · bagues à commander : {nb} pcs, Ø intérieur {id}, Ø extérieur {od}, longueur {len} mm.", "jigNotes": "Imprimez en PETG, couches de 0,16–0,2 mm, au moins 4 parois, remplissage ≥ 40 %. Le fichier est déjà orienté sur le plateau. Collez les bagues à la cyanoacrylate ou à l'époxy et vérifiez que le foret passe librement.", "jigNoteCorner": "Il se pose sur le bout du pied ; les deux ailes reposent sur les faces du pied. Le foret entre par la bague selon la diagonale de l'angle : arrêtez-le à {stop} mm du bout extérieur de la bague (bague {len} mm + pré-trou {depth} mm).", "jigNoteRow": "Posez l'aile sur le bord du panneau (le plan de l'aile est le bord). Les trous sont à {dist} mm du bord et à {pitch} mm l'un de l'autre."});
+Object.assign(I18N.de,{"jigBtn": "3D-Druck-Schablonen", "jigTitle": "Bohrschablonen (STL)", "jigIntro": "Bohrschablonen für den 3D-Drucker: jeder Slicer öffnet die STL-Datei. Die Führungsbuchsen sind immer aus Metall (in den Sitz geklebt), PETG, 0,2 mm Spiel.", "jigKind": "Schablonentyp", "jigK_sys32": "Reihe System 32 (Bodenträger)", "jigK_hinge": "Scharnierplatte (2 Bohrungen)", "jigK_handle": "Griff (Lochabstand)", "jigK_row": "Lochreihe (frei)", "jigK_corner": "Beinecke 45° (Stockschraube)", "jigLegW": "Beinbreite (mm)", "jigDrop": "Abstand der Bohrung vom Beinende (mm)", "jigDepth": "Tiefe der Vorbohrung im Bein (mm)", "jigN": "Anzahl Bohrungen", "jigPitch": "Lochabstand (mm)", "jigDist": "Abstand vom Rand (mm)", "jigBush": "Führungsbuchse (Innen-Ø = Bohrer)", "jigBushOd": "Außen-Ø der Buchse (mm)", "jigBushLen": "Länge der Buchse (mm)", "jigClear": "Spiel des Sitzes (mm)", "jigDl": "STL herunterladen", "jigNoLib": "Schablonenmodul nicht geladen", "jigInfo": "Maße {w}×{d}×{h} mm · Buchsensitz Ø{seat} mm · zu bestellende Buchsen: {nb} Stk., Innen-Ø {id}, Außen-Ø {od}, Länge {len} mm.", "jigNotes": "In PETG drucken, Schichten 0,16–0,2 mm, mindestens 4 Wände, Füllung ≥ 40 %. Die Datei ist schon auf dem Druckbett ausgerichtet. Buchsen mit Cyanacrylat oder Epoxid einkleben und prüfen, dass der Bohrer frei durchgeht.", "jigNoteCorner": "Sie sitzt auf dem Beinende; die zwei Anschläge liegen an den Beinflächen. Der Bohrer geht durch die Buchse entlang der Diagonale der Ecke: bei {stop} mm vom äußeren Buchsenende stoppen (Buchse {len} mm + Vorbohrung {depth} mm).", "jigNoteRow": "Den Anschlag an die Plattenkante legen (die Anschlagfläche ist die Kante). Die Bohrungen liegen {dist} mm von der Kante und {pitch} mm voneinander entfernt."});
+Object.assign(I18N.pl,{"jigBtn": "Szablony 3D", "jigTitle": "Szablony do wiercenia (STL)", "jigIntro": "Szablony do wiercenia na drukarkę 3D: każdy slicer otwiera plik STL. Tuleje prowadzące są zawsze metalowe (wklejane w gniazdo), PETG, luz 0,2 mm.", "jigKind": "Rodzaj szablonu", "jigK_sys32": "Rząd systemu 32 (podpórki półek)", "jigK_hinge": "Prowadnik zawiasu (2 otwory)", "jigK_handle": "Uchwyt (rozstaw)", "jigK_row": "Rząd otworów (dowolny)", "jigK_corner": "Narożnik nogi 45° (śruba kołkowa)", "jigLegW": "Szerokość nogi (mm)", "jigDrop": "Odległość otworu od końca nogi (mm)", "jigDepth": "Głębokość otworu pilotowego w nodze (mm)", "jigN": "Liczba otworów", "jigPitch": "Rozstaw otworów (mm)", "jigDist": "Odległość od krawędzi (mm)", "jigBush": "Tuleja prowadząca (Ø wewn. = wiertło)", "jigBushOd": "Ø zewn. tulei (mm)", "jigBushLen": "Długość tulei (mm)", "jigClear": "Luz gniazda (mm)", "jigDl": "Pobierz STL", "jigNoLib": "Moduł szablonów nie załadowany", "jigInfo": "Gabaryt {w}×{d}×{h} mm · gniazdo tulei Ø{seat} mm · tuleje do zamówienia: {nb} szt., Ø wewn. {id}, Ø zewn. {od}, długość {len} mm.", "jigNotes": "Drukuj w PETG, warstwa 0,16–0,2 mm, co najmniej 4 ścianki, wypełnienie ≥ 40 %. Plik jest już ustawiony na stole. Wklej tuleje klejem cyjanoakrylowym lub epoksydowym i sprawdź, czy wiertło przechodzi swobodnie.", "jigNoteCorner": "Siada na końcu nogi; dwa prowadniki leżą na ściankach nogi. Wiertło wchodzi przez tuleję wzdłuż przekątnej narożnika: zatrzymaj je {stop} mm od zewnętrznego końca tulei (tuleja {len} mm + otwór pilotowy {depth} mm).", "jigNoteRow": "Przyłóż prowadnik do krawędzi płyty (płaszczyzna prowadnika to krawędź). Otwory są {dist} mm od krawędzi i {pitch} mm od siebie."});
+Object.assign(I18N.es,{"jigBtn": "Plantillas 3D", "jigTitle": "Plantillas de taladrado (STL)", "jigIntro": "Plantillas de taladrado para impresora 3D: cualquier slicer abre el archivo STL. Los casquillos guía son siempre metálicos (pegados en su alojamiento), PETG, holgura de 0,2 mm.", "jigKind": "Tipo de plantilla", "jigK_sys32": "Fila sistema 32 (soportes de balda)", "jigK_hinge": "Placa de bisagra (2 agujeros)", "jigK_handle": "Tirador (entreeje)", "jigK_row": "Fila de agujeros (libre)", "jigK_corner": "Esquina de pata 45° (tirafondo)", "jigLegW": "Ancho de la pata (mm)", "jigDrop": "Distancia del agujero al extremo de la pata (mm)", "jigDepth": "Profundidad del agujero piloto en la pata (mm)", "jigN": "Número de agujeros", "jigPitch": "Paso entre agujeros (mm)", "jigDist": "Distancia al borde (mm)", "jigBush": "Casquillo guía (Ø interior = broca)", "jigBushOd": "Ø exterior del casquillo (mm)", "jigBushLen": "Longitud del casquillo (mm)", "jigClear": "Holgura del alojamiento (mm)", "jigDl": "Descargar STL", "jigNoLib": "Módulo de plantillas no cargado", "jigInfo": "Tamaño {w}×{d}×{h} mm · alojamiento de casquillo Ø{seat} mm · casquillos por pedir: {nb} uds., Ø interior {id}, Ø exterior {od}, longitud {len} mm.", "jigNotes": "Imprime en PETG, capas de 0,16–0,2 mm, al menos 4 paredes, relleno ≥ 40 %. El archivo ya está orientado sobre la cama. Pega los casquillos con cianoacrilato o epoxi y comprueba que la broca pasa libre.", "jigNoteCorner": "Se apoya en el extremo de la pata; los dos topes quedan sobre las caras de la pata. La broca entra por el casquillo siguiendo la diagonal de la esquina: páralo a {stop} mm del extremo exterior del casquillo (casquillo {len} mm + agujero piloto {depth} mm).", "jigNoteRow": "Apoya el tope en el canto del panel (el plano del tope es el canto). Los agujeros están a {dist} mm del canto y a {pitch} mm entre sí."});
 Object.assign(I18N.it,{fDeskRetLeg:"Sostegno ritorno",deskRetSideLong:"Fianco lungo",deskRetSideLeg:"Gamba (pannello di testa)",fDeskShelf:"Ripiano sotto il piano",fDeskShelfY:"Altezza ripiano da terra (mm)",fBedDay:"Daybed (spalliera su un lato)",fBedFootH:"Altezza pediera (mm)"});
 Object.assign(I18N.ro,{fDeskRetLeg:"Susținere retur",deskRetSideLong:"Lateral lung",deskRetSideLeg:"Picior (panou de capăt)",fDeskShelf:"Raft sub blat",fDeskShelfY:"Înălțime raft de la podea (mm)",fBedDay:"Daybed (spătar pe o latură)",fBedFootH:"Înălțime tăblie picioare (mm)"});
 Object.assign(I18N.en,{fDeskRetLeg:"Return support",deskRetSideLong:"Long side panel",deskRetSideLeg:"Leg (end panel)",fDeskShelf:"Shelf under the top",fDeskShelfY:"Shelf height from floor (mm)",fBedDay:"Daybed (back on one side)",fBedFootH:"Footboard height (mm)"});
@@ -13540,6 +13566,74 @@ function roomRender(){
   el.style.width=ROOM.size+"px"; el.style.height=ROOM.size+"px";
   el.style.opacity=ROOM.opa;
 }
+/* ================= ȘABLOANE DE GĂURIRE PENTRU PRINTARE 3D (D-125) =================
+   Geometria e în ebanist-jig.js (pură, testată); aici sunt numai foaia, parametrii și descărcarea. Funcție Pro: orice export e Pro (D-55).
+   Cotele implicite vin din HW_DRILL (sistemul 32, placa balamalei, mânerul), nu sunt scrise a doua oară. Joc 0,2 mm, bucșe metalice, PETG. */
+const JIG_KINDS=()=>{
+  const D=(typeof HW_DRILL!=="undefined")?HW_DRILL:{sys32:{front:37,pitch:32},hinge:{plate_front:37,plate_spacing:32,plate_dia:5},handle:{dia:5,interaxis:128,from_edge:40}};
+  return {
+    corner:{f:[["legW","jigLegW",70,40,200],["drop","jigDrop",40,25,300],["depth","jigDepth",35,10,80]],bush:6},
+    sys32:{f:[["n","jigN",6,1,20],["pitch","jigPitch",D.sys32.pitch,10,400],["dist","jigDist",D.sys32.front,5,200]],bush:D.pin?D.pin.dia:5},
+    hinge:{f:[["n","jigN",2,1,4],["pitch","jigPitch",D.hinge.plate_spacing,10,400],["dist","jigDist",D.hinge.plate_front,5,200]],bush:D.hinge.plate_dia},
+    handle:{f:[["n","jigN",2,1,2],["pitch","jigPitch",D.handle.interaxis,32,600],["dist","jigDist",D.handle.from_edge,5,200]],bush:D.handle.dia},
+    row:{f:[["n","jigN",3,1,20],["pitch","jigPitch",32,10,400],["dist","jigDist",37,5,200]],bush:5}
+  };
+};
+let jigState={kind:"sys32",vals:{}};
+function jigBushFor(id){ const b=(window.EBJig&&EBJig.BUSH[id])||null; return b||EBJig.BUSH[5]; }
+function jigVals(){
+  const out={}; document.querySelectorAll("#jigFields [data-jf]").forEach(el=>{ out[el.dataset.jf]=parseFloat(String(el.value).replace(",",".")); });
+  return out;
+}
+function jigBuild(){
+  const K=JIG_KINDS()[jigState.kind], v=jigVals(), id=Math.round(v.bushId), bd=EBJig.BUSH[id]||{id:id,od:id+3,len:12};
+  const bushOD=v.bushOD>0?v.bushOD:bd.od, bushLen=v.bushLen>0?v.bushLen:bd.len, clear=isFinite(v.clear)&&v.clear>=0?v.clear:0.2;
+  if(jigState.kind==="corner") return {r:EBJig.cornerJig({legW:v.legW,drop:v.drop,bushOD,bushLen,clear}),id,bushOD,bushLen};
+  return {r:EBJig.rowJig({n:v.n,pitch:v.pitch,dist:v.dist,bushOD,bushLen,clear}),id,bushOD,bushLen};
+}
+function jigRender(keepVals){
+  const K=JIG_KINDS()[jigState.kind];
+  const sel=$("jigKind"); if(!sel.options.length){ ["sys32","hinge","handle","row","corner"].forEach(k=>{ const o=document.createElement("option"); o.value=k; o.textContent=t("jigK_"+k); sel.appendChild(o); }); }
+  sel.value=jigState.kind;
+  const bid=keepVals&&jigState.vals.bushId?jigState.vals.bushId:K.bush, bd=EBJig.BUSH[bid]||EBJig.BUSH[5];
+  const field=(id,label,val,min,max,step)=>`<div class="f"><label>${esc(label)}</label><input data-jf="${id}" type="number" inputmode="decimal" min="${min}" max="${max}" step="${step||"any"}" value="${val}"></div>`;
+  const vals=keepVals?jigState.vals:{};
+  $("jigFields").innerHTML=
+    K.f.map(([id,key,def,min,max])=>field(id,t(key),vals[id]!=null?vals[id]:def,min,max,id==="n"?1:0.5)).join("")+
+    `<div class="f"><label>${esc(t("jigBush"))}</label><select data-jf="bushId">${Object.keys(EBJig.BUSH).map(k=>`<option value="${k}"${+k===+bid?" selected":""}>Ø${k}</option>`).join("")}</select></div>
+     <div class="f2">${field("bushOD",t("jigBushOd"),vals.bushOD!=null?vals.bushOD:bd.od,3,40,0.5)}${field("bushLen",t("jigBushLen"),vals.bushLen!=null?vals.bushLen:bd.len,6,40,1)}</div>
+     ${field("clear",t("jigClear"),vals.clear!=null?vals.clear:0.2,0,1,0.05)}`;
+  document.querySelectorAll("#jigFields [data-jf]").forEach(el=>el.addEventListener(el.tagName==="SELECT"?"change":"input",ev=>{
+    if(el.dataset.jf==="bushId"){ const b=EBJig.BUSH[+el.value]; if(b){ document.querySelector('#jigFields [data-jf="bushOD"]').value=b.od; document.querySelector('#jigFields [data-jf="bushLen"]').value=b.len; } }
+    jigState.vals=jigVals(); jigInfo(); }));
+  jigState.vals=jigVals(); jigInfo();
+}
+function jigInfo(){
+  $("jigErr").textContent=""; $("jigDl").disabled=false;
+  try{
+    const {r,id,bushOD,bushLen}=jigBuild(), sh=EBJig.printOrient(r.shells), bb=EBJig.bbox(sh), I=r.info, v=jigVals();
+    $("jigInfo").textContent=t("jigInfo").replace("{w}",fmtMM(bb.size[0])).replace("{d}",fmtMM(bb.size[1])).replace("{h}",fmtMM(bb.size[2]))
+      .replace("{seat}",(Math.round(I.seat*100)/100)).replace("{id}",id).replace("{od}",bushOD).replace("{len}",bushLen).replace("{nb}",I.kind==="corner"?1:I.n);
+    $("jigNote").textContent=t("jigNotes")+" "+(I.kind==="corner"
+      ? t("jigNoteCorner").replace("{stop}",fmtMM(bushLen+(v.depth>0?v.depth:0))).replace("{len}",bushLen).replace("{depth}",v.depth>0?v.depth:0)
+      : t("jigNoteRow").replace("{dist}",fmtMM(v.dist)).replace("{pitch}",fmtMM(v.pitch)));
+  }catch(e){ $("jigInfo").textContent=""; $("jigNote").textContent=""; $("jigErr").textContent=String(e.message||e).replace(/^jig:\s*/,""); $("jigDl").disabled=true; }
+}
+function jigOpen(){
+  if(!proGate("export")) return;
+  if(!window.EBJig){ toast(t("jigNoLib")); return; }
+  jigRender(true); openSheet("shJig");
+}
+$("btnJig").addEventListener("click",jigOpen);
+$("jigKind").addEventListener("change",()=>{ jigState.kind=$("jigKind").value; jigState.vals={}; jigRender(false); });
+$("jigClose").addEventListener("click",closeSheets);
+$("jigDl").addEventListener("click",()=>{
+  if(!proGate("export")) return;
+  try{
+    const {r,id}=jigBuild(), sh=EBJig.printOrient(r.shells), stl=EBJig.toBinaryStl(sh,jigState.kind);
+    download(`sablon-${jigState.kind}-d${id}.stl`,stl,"model/stl"); haptic();
+  }catch(e){ toast(String(e.message||e).replace(/^jig:\s*/,"")); }
+});
 $("btnRoom").addEventListener("click",()=>{
   if(!proGate("room")) return;
   buildCfg=cfgFromForm();
@@ -18174,12 +18268,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.37.0"; /* APP_VER-MARKER */
+const APP_VER="5.38.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v215";
+const SW_CACHE="ebanist-v216";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
