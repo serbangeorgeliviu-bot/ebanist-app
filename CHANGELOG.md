@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.28.2 — 8 noiembrie 2026
+
+**Corecție: piciorul cadrului e Camar 300 (Häfele), nu un picior „ø50, M10”.** În 5.28.1 articolul și cotele erau presupuse din clip; Liviu a identificat piciorul real și a trimis desenul fișei. Articolul „Picior reglabil pentru cadru de nivelare, bază ø50, șurub M10” e înlocuit cu **„Picior de soclu Camar 300 (Häfele), cilindric metalic, prindere laterală, reglaj de sus”**, în 7 limbi.
+
+- **Cote** (citite din imaginea fișei, **de confirmat** pe fișa oficială): înălțime închis 30, cursă 20, cilindru ø38, placă de prindere 50, șurub ø4. **Codul Häfele nu e confirmat** (cod „—”); prețul rămâne gol.
+- **Modelul cadrului:** picioarele nu mai stau sub intersecțiile traverselor, ci prinse lateral pe fața interioară a ambelor șine, la pas maxim 600 mm și 100 mm de la capete (date `verificat:false`). Se reglează de sus, înainte de a urca corpurile. Cursa mai mică (20, nu 30) face ca o pardoseală mai denivelată de 20 mm să dea eroare.
+- **Nu se schimbă:** corpurile și celelalte picioare din catalog. Cadrul nu e încă legat de formular.
+
 ## 5.28.1 — 8 noiembrie 2026
 
 **Picior reglabil pentru cadru de nivelare, în catalog (U.14, D-117).** Categoria „Picioare reglabile” are un articol nou, „Picior reglabil pentru cadru de nivelare, bază ø50, șurub M10”, în toate cele 7 limbi: se vede în Setări → Catalog, se alege pe corp (Constructor → Feronerie corp) și intră în deviz și în fișa de montaj ca orice picior. Cotele lui (înălțime închis 25, cursă 30, bază ø50) sunt date generice, de confirmat pe articolul real; prețul e gol (se completează în Catalog) până atunci.

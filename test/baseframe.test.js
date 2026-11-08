@@ -57,8 +57,17 @@ describe("Un perete", () => {
     for (let i = 1; i < cross.length; i++) assert.ok(cross[i].x - cross[i - 1].x <= D.cross_max + 0.2);
     cross.forEach(c => assert.equal(c.L, r.segments[0].P - 2 * 18));
   });
-  test("picioare: două sub fiecare traversă, numărate o dată", () => {
-    assert.equal(r.feet.length, 2 * r.segments[0].cross);
+  test("picioare: prinse lateral pe ambele șine, la pas ≤ foot_pitch, numărate o dată", () => {
+    assert.ok(r.feet.every(f => f.mount === "side"));
+    const spate = r.feet.filter(f => f.side === "spate"), fata = r.feet.filter(f => f.side === "fata");
+    assert.equal(spate.length, fata.length);
+    for (let i = 1; i < spate.length; i++) assert.ok(spate[i].x - spate[i - 1].x <= D.foot_pitch + 0.2);
+    assert.equal(spate[0].x, D.foot_inset);
+    assert.ok(Math.abs(spate[spate.length - 1].x - (3000 - D.foot_inset)) < 0.2);
+    /* fața interioară a șinei: spate = joc + grosime; față = adâncime − grosime */
+    assert.equal(spate[0].y, D.wall_gap + 18);
+    assert.equal(fata[0].y, r.segments[0].P + D.wall_gap - 18);
+    assert.equal(r.segments[0].feet, r.feet.length);
     assert.equal(r.segments[0].feet, r.feet.length);
     const ids = r.feet.map(f => f.id);
     assert.equal(new Set(ids).size, ids.length);
@@ -147,11 +156,11 @@ describe("Piciorul din catalog", () => {
     assert.ok(keys(bad.errors).includes("bfFootTravel"), "cursa 15 < denivelare 20");
   });
   test("fără `foot`, cotele din date", () => assert.equal(derive({}).railH, D.h - D.foot.base));
-  test("articolul din catalog există și poartă aceleași cote ca datele generice", () => {
+  test("articolul Camar 300 din catalog poartă aceleași cote ca datele implicite", () => {
     const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
-    const m = src.match(/id:"gen_pied_cadru"[^\n]*foot:\{base:(\d+),travel:(\d+),dia:(\d+)\}/);
-    assert.ok(m, "gen_pied_cadru cu foot:{…} în categoria pied");
-    assert.equal(J([+m[1], +m[2], +m[3]]), J([D.foot.base, D.foot.travel, D.foot.dia]));
+    const m = src.match(/id:"camar_300"[^\n]*foot:\{base:(\d+),travel:(\d+),dia:(\d+),plate:(\d+),screw:(\d+),mount:"side"\}/);
+    assert.ok(m, "camar_300 cu foot:{…} în categoria pied");
+    assert.equal(J([+m[1], +m[2], +m[3], +m[4], +m[5]]), J([D.foot.base, D.foot.travel, D.foot.dia, D.foot.plate, D.foot.screw]));
   });
 });
 

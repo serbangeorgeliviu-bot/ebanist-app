@@ -9,7 +9,7 @@
 
    CADRUL e din PAL pe cant (confirmat de Liviu, 08.11.2026): două șine lungi,
    față și spate, cu traverse între ele, și picioare reglabile sub intersecții.
-   Se pune o singură dată la nivel, pe cota CEA MAI ÎNALTĂ a pardoselii din
+   Picioarele sunt Camar 300 (Häfele) prinse LATERAL pe fața interioară a șinelor, nu sub intersecții. Se pune o singură dată la nivel, pe cota CEA MAI ÎNALTĂ a pardoselii din
    zona lui; toate corpurile stau apoi pe același plan, fără picioare proprii.
 
    Convenții (aceleași ca la corpuri și blat):
@@ -29,13 +29,16 @@ var BASEFRAME_DEFAULTS = {
   h: 120,            // de la cota cea mai înaltă a pardoselii până la fața de sus a șinelor, mm
   setback: 50,       // retragerea cadrului de la fața corpului (soclul acoperă), mm
   wall_gap: 10,      // joc între cadru și perete, mm
-  cross_max: 600,    // pasul maxim între traverse, mm (mai mic sau egal cu pasul picioarelor)
+  cross_max: 600,    // pasul maxim între traverse, mm
+  foot_pitch: 600,   // pasul maxim între picioare pe aceeași șină, mm
+  foot_inset: 100,   // primul/ultimul picior, de la capătul șinei, mm
   min_depth: 100,    // un cadru mai puțin adânc nu mai e stabil
   min_rail_h: 30,    // o șină mai joasă nu mai e cadru
   min_len: 100,      // un segment mai scurt nu e cadru
   corner_tol: 0.5,   // grade: peste, îmbinarea dreaptă nu mai e posibilă
-  /* piciorul reglabil: înălțimea lui închis, cursa, diametrul bazei. Generice. */
-  foot: { base: 25, travel: 30, dia: 50 }
+  /* piciorul reglabil implicit = Camar 300 (Häfele), cum e în clipul Atelier d'Edouard: cilindru metalic cu flanșă, prins lateral pe fața
+     interioară a șinei (șurub ø4), reglaj de sus. Cotele sunt citite din desenul fișei (închis 30, cursă 20, cilindru ø38, placă 50): de confirmat. */
+  foot: { base: 30, travel: 20, dia: 38, plate: 50, screw: 4, mount: "side" }
 };
 
 var LETTERS = "ABCDEFGH";
@@ -70,7 +73,7 @@ function floorAt(floor, wall, x) {
 function deriveBaseFrame(spec, walls, mods, opts) {
   var D = BASEFRAME_DEFAULTS, F = D.foot;
   /* piciorul ales din catalog (`spec.foot`: închis, cursă, bază) înlocuiește cotele generice; o cotă lipsă rămâne cea din date */
-  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia) };
+  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia), mount: spec.foot.mount || F.mount };
   if (!(F.base >= 0) || !(F.travel >= 0)) return { errors: [{ k: "bfFootData" }], warnings: [], segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
   var errors = [], warnings = [];
   var out = { errors: errors, warnings: warnings, segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
@@ -167,18 +170,24 @@ function deriveBaseFrame(spec, walls, mods, opts) {
         L: r1(L), W: r1(railH), T: r1(sp), bordo: "1L", x: r1(g.s), y: side === "spate" ? r1(wallGap) : r1(g.P - sp) });
     });
     for (var c = 0; c < nCross; c++) {
-      var xc = g.s + c * step;                            // marginea din stânga a traversei
       out.pieces.push({ id: "cadru-" + letter + "-tr" + (c + 1), role: "cadru_transv", seg: k, n: c + 1,
-        L: r1(crossLen), W: r1(railH), T: r1(sp), bordo: "1L", x: r1(xc), y: r1(wallGap + sp) });
-      /* picioarele: la fiecare traversă, sub ambele șine; axa piciorului pe mijlocul traversei */
-      var xf = xc + sp / 2;
+        L: r1(crossLen), W: r1(railH), T: r1(sp), bordo: "1L", x: r1(g.s + c * step), y: r1(wallGap + sp) });
+    }
+    /* picioarele: prinse lateral, pe fața interioară a fiecărei șine, la pas ≤ `foot_pitch`, cu `foot_inset` de la capete;
+       se reglează de sus înainte de a urca corpurile (clipul: întâi cadrul, apoi corpurile) */
+    var nFoot = Math.max(2, Math.ceil((L - 2 * D.foot_inset) / D.foot_pitch) + 1);
+    var fstep = nFoot > 1 ? (L - 2 * D.foot_inset) / (nFoot - 1) : 0;
+    if (!(L > 2 * D.foot_inset)) { fstep = 0; nFoot = 2; }
+    for (var q = 0; q < nFoot; q++) {
+      var xf = L > 2 * D.foot_inset ? g.s + D.foot_inset + q * fstep : g.s + (q === 0 ? L / 4 : 3 * L / 4);
       ["spate", "fata"].forEach(function (side) {
         var zf = floorAt(floor, g.wall.id, xf);
         var ext = zf === null ? 0 : zMax - zf;           // cât trebuie scos piciorul peste închis
         if (ext > F.travel + 1e-9) errors.push({ k: "bfFootTravel", seg: letter, x: r1(xf), ext: r1(ext), travel: F.travel });
         seg.feet++;
-        out.feet.push({ id: "pic-" + letter + "-" + (c + 1) + (side === "spate" ? "s" : "f"), seg: k, wall: g.wall.id,
-          x: r1(xf), y: side === "spate" ? r1(wallGap + sp / 2) : r1(g.P - sp / 2), ext: r1(ext), base: F.base, dia: F.dia });
+        /* fața interioară a șinei: spate = y = wallGap + sp, față = y = P − sp */
+        out.feet.push({ id: "pic-" + letter + "-" + (q + 1) + (side === "spate" ? "s" : "f"), seg: k, wall: g.wall.id, side: side,
+          mount: F.mount || "side", x: r1(xf), y: side === "spate" ? r1(wallGap + sp) : r1(g.P - sp), ext: r1(ext), base: F.base, dia: F.dia });
       });
     }
     out.segments.push(seg);
