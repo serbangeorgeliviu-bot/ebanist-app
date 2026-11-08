@@ -8,7 +8,7 @@ const rd = f => fs.readFileSync(path.join(ROOT, f), "utf8");
 const dir = l => (l === cfg.DEFAULT_LANG ? "" : l + "/");
 
 test("fiecare limbă are indexul și articolul, cu hreflang către toate", () => {
-  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-63/"]) {
+  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-63/", "blog/whats-new-5-27/"]) {
     const h = rd(dir(l) + p + "index.html");
     assert.ok(h.includes(`<html lang="${l}">`), l + p);
     for (const x of cfg.LANGS) assert.ok(h.includes(`hreflang="${x}"`), `${l} ${p} → ${x}`);
@@ -38,12 +38,25 @@ test("videoclipurile din VIDEO_LANGS există; celelalte limbi folosesc engleza",
 });
 test("sitemap: indexul și articolul, în toate limbile", () => {
   const sm = rd("sitemap.xml");
-  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-63/"]) assert.ok(sm.includes(`https://ebanist.com/${dir(l)}${p}`), l + p);
+  for (const l of cfg.LANGS) for (const p of ["blog/", "blog/whats-new-4-63/", "blog/whats-new-5-27/"]) assert.ok(sm.includes(`https://ebanist.com/${dir(l)}${p}`), l + p);
 });
 test("textele articolului nu sunt copii ale englezei în limbile traduse", () => {
   const en = JSON.parse(rd("site-src/i18n/en.json"));
   for (const l of cfg.LANGS.filter(x => x !== "en")) {
     const d = JSON.parse(rd(`site-src/i18n/${l}.json`));
     for (const k of ["blog.h", "blog.lead", "blog.s1.p", "blog.s5.p", "blog.check.p", "blog.vid.h"]) assert.notEqual(d[k], en[k], `${l} ${k}`);
+  }
+});
+
+test("articolul 5.27: în toate limbile, JSON-LD valid, fără chei nerezolvate, 9 puncte", () => {
+  const en = JSON.parse(rd("site-src/i18n/en.json"));
+  for (const l of cfg.LANGS) {
+    const h = rd(dir(l) + "blog/whats-new-5-27/index.html");
+    const j = JSON.parse(h.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
+    assert.equal(j["@type"], "BlogPosting");
+    assert.equal((h.match(/class="blog-item"/g) || []).length, 9, l);
+    assert.ok(!/\{\{|b5\.[a-z]+\.[a-z]/.test(h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "")), "cheie nerezolvată în " + l);
+    if (l !== "en") { const d = JSON.parse(rd(`site-src/i18n/${l}.json`)); for (const k of ["b5.h", "b5.lead", "b5.s4.p", "b5.check.p"]) assert.notEqual(d[k], en[k], `${l} ${k}`); }
+    assert.ok(rd(dir(l) + "blog/index.html").includes("blog/whats-new-5-27/"), "index " + l);
   }
 });

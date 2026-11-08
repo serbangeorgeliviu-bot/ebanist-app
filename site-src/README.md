@@ -60,6 +60,13 @@ O limbă nouă: `i18n/<l>.json` (aceleași chei ca `en.json`), `LANGS` în
 `CASE_ASSET_LANGS` listează limbile care au capturile și etichetele paginii de
 caz; celelalte (acum `de`) folosesc imaginile din engleză, cu textul în limba lor.
 
+## Blogul
+
+Două articole: `blog/whats-new-4-63/` (șablon `blog-post.html`, chei `blog.*`, cu video) și
+`blog/whats-new-5-27/` (șablon `blog-post-5.html`, chei `b5.*`, 9 puncte generate din `b5.s1…s9`,
+fără video; imaginea cardului e captura `pc-explode`). Un articol nou: șablon + chei + o linie în `build.mjs`
+(`POST*`, lista din buclă, sitemap) + test în `blog.test.js`.
+
 ## Comenzi
 
 ```bash
