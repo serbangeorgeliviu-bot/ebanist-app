@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.34.0 — 8 noiembrie 2026
+
+**Birou: sertar sub blat și panou frontal (D-122).**
+- **Sertar sub blat:** un corp mic cu un sertar (înălțime 120 mm), atârnat sub blat în mijlocul spațiului pentru genunchi: lățime până la 500 mm, fața în planul din față al lateralelor, spatele la 170 mm de marginea din spate (după trecerile de cabluri). E un corp obișnuit (carcasă, glisiere, mâner și găurire ca la corpul standard). Între laterale trebuie să rămână minimum 380 mm.
+- **Panou frontal:** panou între laterale (sau corpuri) și sub blat, în planul din față, cu înălțimea la alegere (implicit 400 mm, 150 mm până la H−t−300). Se prinde de laterale și de blat cu aceeași îmbinare ca spatele.
+- **Se exclud:** panoul frontal stă în drumul raftului de tastatură și al sertarului de sub blat (se trag spre utilizator); împreună dau eroare, nu piesă mutată.
+- Un birou fără opțiunile noi dă distinta de dinainte, identică; `fuzz-desk.js` acoperă acum și aceste opțiuni (2000 de configurații, 0 căderi).
+- **Neacoperit:** fixarea sertarului de blat nu e în modelul de găurire (ca la corpul cu sertare).
+
 ## 5.33.0 — 8 noiembrie 2026
 
 **Pat: sertare laterale pe glisiere (D-121).** În câmpul „Depozitare sub pat" alegi acum și „Sertare laterale" (alături de cutiile pe rotile), pe stânga, dreapta sau ambele laturi, 1–3 elemente pe latură. Fiecare element e un corp obișnuit cu un sertar (aceeași carcasă, glisiere, mâner și găurire ca la corpul standard), **rotit cu 90°** sub sponda patului, cu frontul în planul exterior al ei; adâncimea până la 650 mm. Sponda se ridică deasupra corpurilor (rând nou „Sponda laterale sopra i cassetti", 150 mm înălțime la H=300) și nu se mai taie în două feluri pe latura cu sertare. Distincta, 3D-ul, glisierele, mânerele și devizul vin din piesele corpurilor; fișa de montaj are un pas nou. Un sertar mai lat de 1200 mm sau un element mai îngust de 300 mm dă eroare (alegi mai multe sau mai puține sertare).

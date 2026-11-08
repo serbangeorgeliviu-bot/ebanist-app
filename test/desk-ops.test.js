@@ -98,3 +98,33 @@ test("birou cu corp + raft + trecere: tot împreună, deterministic", () => {
   assert.deepEqual(a.o, d.o);
   assert.ok(a.o.pieces.some(p => p.role === "raft_tast")); assert.ok(!a.o.pieces.some(p => p.preflight.some(w => w.level === "error")));
 });
+
+/* --- sertar sub blat și panou frontal (D-122) ---------------------------------------------------------------- */
+test("sertar sub blat: corp mic atârnat sub blat, în spațiul pentru genunchi, în afara cablurilor", () => {
+  const { b, o } = genRaw({ ...DESK, deskDrw: 1, deskCable: 2 });
+  assert.ok(b.pieces.some(r => r.elemento === "Frontale cassetto" && r.pz === 1));
+  const top = b.boxes.find(x => x.role === "cielo" && !x.body), t = top.y1 - top.y0;
+  const dr = b.boxes.filter(x => x.body && x.body.id === "T1");
+  const bb = a => [0, 1, 2].map(i => [Math.min(...dr.map(q => [q.x0, q.y0, q.z0][i])), Math.max(...dr.map(q => [q.x1, q.y1, q.z1][i]))]);
+  const [X, Y, Z] = bb();
+  assert.ok(X[0] >= t && X[1] <= DESK.L - t, "iese din laterale");
+  assert.ok(Math.abs(Y[1] - top.y0) < 0.01, "nu atârnă de blat");
+  assert.ok(Z[1] <= DESK.P - 20 + 0.01 && Z[0] >= 169.9, "ating spatele sau trecerile de cabluri");
+  assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+  assert.equal(o.hw.filter(h => h.type === "guida").length, 2);
+});
+test("panou frontal: între laterale, sub blat, fără erori; cu raft sau sertar sub blat -> eroare", () => {
+  const { b, o } = genRaw({ ...DESK, deskMod: 1, deskModH: 350 });
+  const f = b.pieces.find(r => r.elemento === "Pannello frontale");
+  assert.equal(f.lung, DESK.L - 2 * 18); assert.equal(f.larg, 350);
+  assert.ok(!o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+  assert.throws(() => genRaw({ ...DESK, deskMod: 1, deskKb: "ka400" }), /blochează raftul/);
+  assert.throws(() => genRaw({ ...DESK, deskMod: 1, deskDrw: 1 }), /blochează sertarul/);
+  assert.throws(() => genRaw({ ...DESK, deskMod: 1, deskModH: 100 }), /între 150/);
+});
+test("sertar sub blat + corpuri laterale + raft nu: tot împreună, deterministic", () => {
+  const c = { ...DESK, deskPed: "both", deskPedW: 400, deskPedDr: 3, deskDrw: 1, deskCable: 2 };
+  const a = genRaw(c), d = genRaw(c);
+  assert.deepEqual(a.o, d.o); assert.equal(new Set(a.o.pieces.map(p => p.pk)).size, a.o.pieces.length);
+  assert.ok(!a.o.pieces.some(p => p.preflight.some(w => w.level === "error")));
+});

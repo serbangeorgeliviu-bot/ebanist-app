@@ -958,7 +958,7 @@ function generate1(input) {
      nu una nouă: lateralul vine cu muchia de sus sub blat, cu cupa pe fața dinspre interior (ascunsă); spatele vine cu muchia pe
      fața interioară a fiecărui lateral și sub blat, cupa pe fața dinspre perete. Cotele sunt ale pieselor, niciuna din text. */
   if (cfg.type === "scrivania") {
-    var dTop = byRole("cielo")[0], dSides = byRole("fianco").filter(function (q) { return q.tAx === 0; }), dBack = byRole("schienale")[0];
+    var dTop = byRole("cielo")[0], dSides = byRole("fianco").filter(function (q) { return q.tAx === 0; }), dBacks = byRole("schienale");
     if (dTop && dTop.tAx === 1) {
       var xm = (dTop.min[0] + dTop.max[0]) / 2;
       dSides.forEach(function (S) {
@@ -966,14 +966,15 @@ function generate1(input) {
         if (Math.abs(S.max[1] - dTop.min[1]) > 0.6) return;                       // lateralul nu ajunge sub blat
         joint(S, dTop, 1, 1, 2, S.min[2], S.max[2], 0, left ? 1 : -1, out);
       });
-      if (dBack && dBack.tAx === 2) {
+      /* spatele și panoul frontal (D-122): fiecare între laterale și sub blat, cupa pe fața dinspre perete / dinspre genunchi */
+      dBacks.filter(function (dBack) { return dBack.tAx === 2; }).forEach(function (dBack) {
         dSides.forEach(function (S) {
           var left = (S.min[0] + S.max[0]) / 2 < xm, edge = left ? dBack.min[0] : dBack.max[0], face = left ? S.max[0] : S.min[0];
           if (Math.abs(edge - face) > 0.6) return;
           joint(dBack, S, 0, left ? -1 : 1, 1, dBack.min[1], dBack.max[1], 2, -1, out);
         });
         if (Math.abs(dBack.max[1] - dTop.min[1]) <= 0.6) joint(dBack, dTop, 1, 1, 0, dBack.min[0], dBack.max[0], 2, -1, out);
-      }
+      });
       /* trecere de cabluri (D-118): gaură Ø60 prin blat, cu burghiul; poziția vine din piesă */
       (dTop.cab || []).forEach(function (c) {
         hole(dTop, 1, 1, [c.x, dTop.max[1], c.z], c.d, 0, null, "trecere cabluri", true);
