@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.29.1 — 8 noiembrie 2026
+
+**Fixarea soclului și fâșia de soclu a cadrului, din catalogul Häfele (MB 12.109).** Din pagina trimisă de Liviu (accesorii pentru soclu, picioare AXILO 78), cu codurile ei:
+
+- **Categorie nouă „Fixare soclu”:** suport de soclu pentru panou de 19 mm (637.47.490, implicit) și de 16 mm (637.47.491); clipsuri de soclu: cu șurub (637.38.054), prin presare în canal de 3 mm (637.38.063), de bătut cu cuie premontate (637.38.050), de glisat pe profil de aluminiu sau plastic (637.38.354). În 7 limbi, preț gol, se aleg ca orice articol de feronerie.
+- **Categorie nouă „Accesorii picior AXILO”:** inel distanțier ø52 (+10 mm, 637.76.422), inserție ABS ø38 (80–110 kg, 637.76.423), izolație acustică ø55 (637.76.424). Numai în catalog, nu intră singure în deviz.
+- **Corp pe cadru:** apare piesa „Zoccolo telaio”: lățimea corpului, înălțimea cadrului minus 8 mm (catalogul spune: înălțimea soclului = H − 5…10 mm), retrasă ca soclul, cu grosimea de soclu din material. Intră în distinctă, planul de tăiere, etichete și 3D. Suporturile se numără în deviz la cel mult 600 mm unul de altul (minimum 2) și apar în fișa de montaj. Pasul de 600 mm și jocul de 8 mm sunt date generice (`SOC_FRAME`, `verificat:false`).
+- **Nu se schimbă:** Zoccolo, Piedini, Sospeso. Pe cadru, tot nu se numără picioare pe corp.
+- **Încă nu:** piciorul Camar 300 rămâne cu cod și cote de confirmat (pagina nu îl conține).
+- Teste: `cd test && node --test cadru.test.js` (8 teste: fâșia, codurile din catalog).
+
 ## 5.29.0 — 8 noiembrie 2026
 
 **Suport „Cadru” pentru corp (U.14, D-117).** În Constructor → Suport apare „Cadru” lângă Zoccolo, Piedini și Sospeso. Corpul stă ridicat pe un cadru de nivelare, cu înălțimea din câmpul „Zoccolo (mm)”; picioarele sunt ale cadrului, deci corpul nu mai are accesoriul „Piedino” și nu le numără în deviz.

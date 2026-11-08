@@ -35,7 +35,33 @@ function build(cfg) {
     ko: () => arr(S.failedInvariants(full, pieces, G, { materials: M.mats, thicknesses: ths })).map(r => r.id),
     A: () => arr(S.checkAssertions(G, {})).map(a => a.id) };
 }
-const dims = r => r.pieces.filter(p => !/piedino/i.test(p.elemento || "")).map(p => [p.elemento, p.lung, p.larg, p.pz]);
+const dims = r => r.pieces.filter(p => !/piedino|zoccolo telaio/i.test(p.elemento || "")).map(p => [p.elemento, p.lung, p.larg, p.pz]);
+
+describe("fâșia de soclu a cadrului", () => {
+  test("o piesă „Zoccolo telaio”: lățimea corpului, înălțimea cadrului minus jocul, grosimea soclului", () => {
+    const c = build({ plinth: 120 });
+    const rows = c.pieces.filter(p => /zoccolo telaio/i.test(p.elemento || ""));
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0].lung, 800); assert.equal(rows[0].larg, 120 - 8);
+    const bx = c.b.boxes.filter(b => b.role === "zoccolo");
+    assert.equal(bx.length, 1);
+    assert.equal(bx[0].y0, 8); assert.equal(bx[0].y1, 120);
+    assert.equal(Math.round((bx[0].z1 - bx[0].z0) * 10) / 10, c.G.sp_zoccolo);
+    assert.equal(bx[0].z1, c.G.zoccolo_Z, "retrasă ca soclul");
+  });
+  test("sub 30 mm nu mai e fâșie; pe picioare și zoccolo nu apare", () => {
+    assert.ok(!build({ plinth: 36 }).pieces.some(p => /zoccolo telaio/i.test(p.elemento || "")));
+    assert.ok(!build({ support: "piedini" }).pieces.some(p => /zoccolo telaio/i.test(p.elemento || "")));
+    assert.ok(!build({ support: "zoccolo" }).pieces.some(p => /zoccolo telaio/i.test(p.elemento || "")));
+  });
+  test("catalogul Häfele: suporturile și clipsurile de soclu au codurile din MB 12.109", () => {
+    const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+    const soc = src.slice(src.indexOf(" soc:["), src.indexOf(" picacc:["));
+    ["637.47.490", "637.47.491", "637.38.054", "637.38.063", "637.38.050", "637.38.354"].forEach(c => assert.ok(soc.includes('art:"' + c + '"'), c));
+    const acc = src.slice(src.indexOf(" picacc:["), src.indexOf(" feltro:["));
+    ["637.76.422", "637.76.423", "637.76.424"].forEach(c => assert.ok(acc.includes('art:"' + c + '"'), c));
+  });
+});
 
 describe("corp pe cadru", () => {
   test("aceleași piese ca pe picioare, fără accesoriul picior", () => {
