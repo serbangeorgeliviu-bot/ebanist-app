@@ -64,10 +64,14 @@ function floorAt(floor, wall, x) {
 /* wall k: { id, i, L, angle }
    mod:    { name, wall, x0, x1, depth, rot }       (depth = adâncimea corpului)
    spec:   { name, mods:[nume], sp (grosimea șinei, din material), h, setback, wallGap,
+             foot:{ base, travel, dia } (piciorul din catalog, `pied` cu `foot`),
              through:["first"|"second", ...],
              floor:[{ wall, x, z }]   (cota pardoselii față de un reper oarecare, mm, + = mai sus) } */
 function deriveBaseFrame(spec, walls, mods, opts) {
   var D = BASEFRAME_DEFAULTS, F = D.foot;
+  /* piciorul ales din catalog (`spec.foot`: închis, cursă, bază) înlocuiește cotele generice; o cotă lipsă rămâne cea din date */
+  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia) };
+  if (!(F.base >= 0) || !(F.travel >= 0)) return { errors: [{ k: "bfFootData" }], warnings: [], segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
   var errors = [], warnings = [];
   var out = { errors: errors, warnings: warnings, segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
   var names = (spec && spec.mods) || [];

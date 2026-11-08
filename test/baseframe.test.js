@@ -138,6 +138,23 @@ describe("Colț", () => {
   });
 });
 
+describe("Piciorul din catalog", () => {
+  test("cotele piciorului ales înlocuiesc pe cele generice: înălțimea șinei și cursa", () => {
+    const r = derive({ foot: { base: 40, travel: 15, dia: 60 } });
+    assert.equal(r.railH, D.h - 40);
+    assert.ok(r.feet.every(f => f.base === 40 && f.dia === 60));
+    const bad = derive({ foot: { base: 40, travel: 15 }, floor: [{ wall: "w1", x: 0, z: 0 }, { wall: "w1", x: 3000, z: 20 }] });
+    assert.ok(keys(bad.errors).includes("bfFootTravel"), "cursa 15 < denivelare 20");
+  });
+  test("fără `foot`, cotele din date", () => assert.equal(derive({}).railH, D.h - D.foot.base));
+  test("articolul din catalog există și poartă aceleași cote ca datele generice", () => {
+    const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+    const m = src.match(/id:"gen_pied_cadru"[^\n]*foot:\{base:(\d+),travel:(\d+),dia:(\d+)\}/);
+    assert.ok(m, "gen_pied_cadru cu foot:{…} în categoria pied");
+    assert.equal(J([+m[1], +m[2], +m[3]]), J([D.foot.base, D.foot.travel, D.foot.dia]));
+  });
+});
+
 describe("Determinism și date", () => {
   test("același input, aceleași piese și ID-uri", () => {
     const fl = [{ wall: "w1", x: 0, z: 0 }, { wall: "w1", x: 3000, z: 8 }];

@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.28.1 — 8 noiembrie 2026
+
+**Picior reglabil pentru cadru de nivelare, în catalog (U.14, D-117).** Categoria „Picioare reglabile” are un articol nou, „Picior reglabil pentru cadru de nivelare, bază ø50, șurub M10”, în toate cele 7 limbi: se vede în Setări → Catalog, se alege pe corp (Constructor → Feronerie corp) și intră în deviz și în fișa de montaj ca orice picior. Cotele lui (înălțime închis 25, cursă 30, bază ø50) sunt date generice, de confirmat pe articolul real; prețul e gol (se completează în Catalog) până atunci.
+
+- **Pentru cadru:** `ebanist-baseframe.js` primește cotele piciorului ales (`foot`): înălțimea șinei și cursa maximă ies din articol, nu din cod. O pardoseală mai denivelată decât cursa piciorului rămâne eroare.
+- **Nu se schimbă:** corpurile existente și celelalte picioare (AXILO, F.A.V., generic). Cadrul însuși nu e încă legat de formular (urmează).
+- Test: `cd test && node --test baseframe.test.js` (25 de teste).
+
 ## 5.28.0 — 8 noiembrie 2026
 
 **Front cu decupaj în rază, în loc de mâner (U.15, D-117).** Idee din clipul Atelier d'Edouard: ușa nu are mâner, nici profil gola; colțul ei, de partea muchiei de deschidere, e rotunjit cu rază mare, iar golul rămas e priza degetelor. În Constructor → Apertura apare „Raza”, cu raza (mm) și colțul rotunjit: automat (sus la corpurile de jos, jos când muchia de sus e peste 1400 mm), sus, jos sau ambele.
