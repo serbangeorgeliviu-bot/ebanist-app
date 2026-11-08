@@ -43,19 +43,30 @@ describe("catalog picioare", () => {
     ["haf_ins_63724022", "haf_ins_63724024"].forEach(id => { assert.equal(byId[id].load, 300); assert.equal(byId[id].range, undefined); assert.equal(byId[id].price, 0); });
     assert.equal(byId.haf_ins_63724022.art, "637.24.022"); assert.equal(byId.haf_ins_63724024.art, "637.24.024");
   });
-  test("picioarele cadrului: 637.42.950 și 637.42.905, prindere laterală, reglaj 20", () => {
-    const a = byId.haf_42950, b = byId.haf_42905;
+  test("picioarele cadrului: 637.42.950, .942 și .905, prindere laterală, reglaj 20, panou de 19, talpa 4,5", () => {
+    const a = byId.haf_42950, c = byId.haf_42942, b = byId.haf_42905;
     assert.equal(a.art, "637.42.950"); assert.equal(a.load, 150); assert.equal(a.foot.dia, 38);
+    assert.equal(c.art, "637.42.942"); assert.equal(c.load, 150); assert.equal(c.foot.dia, 38);
     assert.equal(b.art, "637.42.905"); assert.equal(b.load, 100); assert.equal(b.foot.dia, 28);
-    [a, b].forEach(x => { assert.equal(x.foot.mount, "side"); assert.equal(x.foot.travel, 20); assert.equal(x.foot.plate, 50); assert.equal(x.foot.screw, 4); assert.equal(x.foot.bracket, 30); assert.equal(x.price, 0); });
+    [a, b, c].forEach(x => { assert.equal(x.foot.mount, "side"); assert.equal(x.foot.travel, 20); assert.equal(x.foot.base, 4.5); assert.equal(x.foot.plate, 50);
+      assert.equal(x.foot.screw, 4); assert.equal(x.foot.bracket, 32); assert.equal(x.foot.panel, 19); assert.equal(x.price, 0); });
   });
-  test("AXILO 78 (soclu): coduri și game, fără `foot` (nu sunt picioare de cadru)", () => {
-    const k = { haf_axilo_351: ["637.76.351", 53, 80], haf_axilo_352: ["637.76.352", 70, 100], haf_axilo_357: ["637.76.357", 190, 220] };
-    Object.keys(k).forEach(id => {
-      const x = byId[id], [art, a, b] = k[id];
-      assert.equal(x.art, art); assert.equal(x.range.join(), [a, b].join()); assert.equal(x.foot, undefined); assert.equal(x.price, 0);
+  test("637.42.922 (numai șuruburi) și 637.42.932 (dublu, 300 kg): în catalog, fără `foot` (secțiuni diferite)", () => {
+    assert.equal(byId.haf_42922.art, "637.42.922"); assert.equal(byId.haf_42922.load, 150); assert.equal(byId.haf_42922.foot, undefined);
+    assert.equal(byId.haf_42932.art, "637.42.932"); assert.equal(byId.haf_42932.load, 300); assert.equal(byId.haf_42932.foot, undefined);
+  });
+  test("AXILO 78 (FC 6.25): toate cele 7 coduri cu gamele din tabel, 150 kg pe picior, fără `foot`", () => {
+    const k = { 351: [53, 80], 352: [70, 100], 353: [90, 120], 354: [115, 145], 355: [140, 170], 356: [170, 200], 357: [190, 220] };
+    Object.keys(k).forEach(c => {
+      const x = byId["haf_axilo_" + c];
+      assert.ok(x, c); assert.equal(x.art, "637.76." + c); assert.equal(x.range.join(), k[c].join());
+      assert.equal(x.load, 150); assert.equal(x.foot, undefined); assert.equal(x.price, 0);
     });
-    assert.equal(byId.haf_axilo_352.load, 80); assert.equal(byId.haf_axilo_357.load, 150); assert.equal(byId.haf_axilo_351.load, undefined);
+  });
+  test("AXILO: piciorul de profil jos 637.76.460 (soclu 35–48, plăcuță Ø35 inclusă) și plăcuța 637.76.334 (cod din ofertă)", () => {
+    const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+    const pa = src.slice(src.indexOf(" picacc:["), src.indexOf(" feltro:["));
+    ["637.76.460", "637.76.334", "637.76.422", "637.76.423", "637.76.424"].forEach(c => assert.ok(pa.includes('art:"' + c + '"'), c));
   });
   test("Camar 300 nu e în catalog (nu e articol Häfele)", () => assert.equal(byId.camar_300, undefined));
   test("avertismentul de gamă există în toate limbile", () => {

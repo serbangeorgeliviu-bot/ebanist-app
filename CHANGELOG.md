@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.31.1 — 9 noiembrie 2026
+
+**Catalog Häfele completat din paginile primite (MB 12.104 de pe hafele.it, FC 6.25, FC 6.74) și goldens validate.**
+
+- **Nivelatoarele cadrului confirmate:** pagina MB 12.104 (Häfele Italia, DGH-M 2021) confirmă 637.42.950 („screw fixing and knocking in”, 150 kg), cu talpa închisă de 4,5 mm și reglaj +20 mm, și arată familia: **637.42.942** (gaură forată și șuruburi, aceeași secțiune, cu cote de picior), **637.42.922** (numai șuruburi, 150 kg) și **637.42.932** (dublu, 300 kg), ultimele două fără cote de picior (secțiuni diferite). Înălțimea plăcii e 32 (nu 30), pentru 3D. Nivelatorul e făcut pentru **panou de 19 mm**: dacă șina are altă grosime (ex. 18 mm), cardul avertizează.
+- **AXILO 78, tabelul complet (FC 6.25):** 637.76.351–357 (60 / 80 / 100 / 125 / 150 / 180 / 200 mm, cu gamele 53–80 … 190–220). **Corecție:** sarcina e **150 kg pe picior la toate**; „80 kg” (110 cu inserția ABS) e limita pentru reglajul cu greutate pe picior, nu sarcina. Eram greșit în 5.30.1 (80 kg la 352).
+- **Plăcuța AXILO:** 637.76.460, piciorul de profil jos (soclu 35–48 mm) cu plăcuță Ø35 inclusă, din FC 6.25; plus plăcuța dreptunghiulară de presare **637.76.334**, al cărei cod vine dintr-o ofertă de furnizor (nu dintr-o pagină Häfele deschisă): de confirmat. Plăcuțele cu șurub și de colț nu au cod verificat și nu sunt adăugate.
+- **Goldens:** cele 13 rămase nevalidate (38–50: lambriu, boiserie, contur) sunt marcate `validat: true` la cererea lui Liviu, **fără verificare rând cu rând de către om**; fiecare fișier poartă `nota_validare` cu acest lucru. 55 din 55.
+- Teste: `feet.test.js` (catalogul), `baseframe.test.js`, e2e U.14 (avertismentul 19/18 mm).
+
 ## 5.31.0 — 8 noiembrie 2026
 
 **Cadrul de nivelare, încheiat (U.14, D-117): două materiale și poartă de export.**

@@ -36,9 +36,9 @@ var BASEFRAME_DEFAULTS = {
   min_rail_h: 30,    // o șină mai joasă nu mai e cadru
   min_len: 100,      // un segment mai scurt nu e cadru
   corner_tol: 0.5,   // grade: peste, îmbinarea dreaptă nu mai e posibilă
-  /* piciorul reglabil implicit = Häfele 637.42.950 «Heavy-duty Base Leveler» (pagina FC 6.74): placă de prindere 50, talpă ø38, înălțimea plăcii 30, reglaj 20,
-     șurub ø4, prins pe lateralul șinei. `base` = cât iese talpa sub șină la închis (4,5, din desenul trimis de Liviu: de confirmat), `travel` = reglajul. */
-  foot: { base: 4.5, travel: 20, dia: 38, plate: 50, screw: 4, bracket: 30, mount: "side" }
+  /* piciorul reglabil implicit = Häfele 637.42.950 (MB 12.104 din catalogul Häfele Italia și FC 6.74): placă de prindere 50, talpă ø38, înălțimea plăcii 32, reglaj 20,
+     șurub ø4, pentru panou de 19 mm, prins pe lateralul șinei. `base` = cât iese talpa sub șină la închis (4,5, secțiunea din MB 12.104), `travel` = reglajul. */
+  foot: { base: 4.5, travel: 20, dia: 38, plate: 50, screw: 4, bracket: 32, panel: 19, mount: "side" }
 };
 
 var LETTERS = "ABCDEFGH";
@@ -73,7 +73,7 @@ function floorAt(floor, wall, x) {
 function deriveBaseFrame(spec, walls, mods, opts) {
   var D = BASEFRAME_DEFAULTS, F = D.foot;
   /* piciorul ales din catalog (`spec.foot`: închis, cursă, bază) înlocuiește cotele generice; o cotă lipsă rămâne cea din date */
-  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia), mount: spec.foot.mount || F.mount, plate: num(spec.foot.plate, F.plate), bracket: num(spec.foot.bracket, F.bracket) };
+  if (spec && spec.foot) F = { base: num(spec.foot.base, F.base), travel: num(spec.foot.travel, F.travel), dia: num(spec.foot.dia, F.dia), mount: spec.foot.mount || F.mount, plate: num(spec.foot.plate, F.plate), bracket: num(spec.foot.bracket, F.bracket), panel: num(spec.foot.panel, F.panel) };
   if (!(F.base >= 0) || !(F.travel >= 0)) return { errors: [{ k: "bfFootData" }], warnings: [], segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
   var errors = [], warnings = [];
   var out = { errors: errors, warnings: warnings, segments: [], joints: [], pieces: [], feet: [], modules: [], h: null, railH: null };
@@ -217,7 +217,7 @@ function baseFrameSegCfg(r, k, name) {
   var inSeg = function (p) { return p.seg === k; };
   return {
     name: name, type: "cadru", L: sg.L, P: r1(sg.P + r.wallGap), h: r.h, railH: r.railH, sp: sp,
-    foot: { base: F.base, travel: F.travel, dia: F.dia, plate: F.plate, bracket: F.bracket, mount: F.mount },
+    foot: { base: F.base, travel: F.travel, dia: F.dia, plate: F.plate, bracket: F.bracket, panel: F.panel, mount: F.mount },
     rails: r.pieces.filter(function (p) { return p.role === "cadru_lung" && inSeg(p); })
       .map(function (p) { return { side: p.side, y: p.y, L: p.L }; }),
     cross: r.pieces.filter(function (p) { return p.role === "cadru_transv" && inSeg(p); })

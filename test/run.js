@@ -2602,6 +2602,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         r3: roomBoxes().filter(b => /Cadru/.test(b.rmMod || "")).length }; });
     ok("U.14: două segmente (câte unul pe perete), grosimea din material (18)", bf.names.length === 2 && bf.rows.length === 6 && bf.rows.every(r => r[5] === 18 || r[1] === "Piedino cadru"));
     ok("U.14: peretele 1 trece până în colț (3000), cadrul stă pe pardoseală (lift 0)", bf.rows[0][2] === 3000 && bf.lay.lift === 0 && bf.lay.wall === "w1");
+    ok("U.14: nivelator făcut pentru panou de 19 mm, șină de 18 mm → avertisment în card", await pg.evaluate(() => /19\s*mm[^\n]{0,60}18\s*mm/.test(document.getElementById("svBfList").innerText)));
     ok("U.14: picioarele sunt Häfele 637.42.950 în deviz, o singură dată (20), fără picioare pe corpuri", bf.hw.length === 1 && bf.hw[0][0] === 20 && bf.hw[0][1] === "haf_42950");
     ok("U.14: cadrul nu produce ciocniri false în Releveu și apare în camera 3D", bf.issues === 0 && bf.r3 > 20);
     /* materialul traverselor: altă referință, aceeași grosime → traversele poartă materialul lor; altă grosime → eroare */

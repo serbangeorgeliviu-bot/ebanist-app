@@ -163,9 +163,9 @@ describe("Piciorul din catalog", () => {
   });
   test("articolul implicit din catalog (Häfele 637.42.950) poartă aceleași cote ca datele implicite", () => {
     const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
-    const m = src.match(/id:"haf_42950"[^\n]*foot:\{base:([\d.]+),travel:(\d+),dia:(\d+),plate:(\d+),screw:(\d+),mount:"side",bracket:(\d+)\}/);
+    const m = src.match(/id:"haf_42950"[^\n]*foot:\{base:([\d.]+),travel:(\d+),dia:(\d+),plate:(\d+),screw:(\d+),mount:"side",bracket:(\d+),panel:(\d+)\}/);
     assert.ok(m, "haf_42950 cu foot:{…} în categoria pied");
-    assert.equal(J([+m[1], +m[2], +m[3], +m[4], +m[5], +m[6]]), J([D.foot.base, D.foot.travel, D.foot.dia, D.foot.plate, D.foot.screw, D.foot.bracket]));
+    assert.equal(J([+m[1], +m[2], +m[3], +m[4], +m[5], +m[6], +m[7]]), J([D.foot.base, D.foot.travel, D.foot.dia, D.foot.plate, D.foot.screw, D.foot.bracket, D.foot.panel]));
     assert.equal(D.foot.mount, "side");
   });
 });
