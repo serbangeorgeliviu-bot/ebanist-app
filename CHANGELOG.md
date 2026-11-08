@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.31.0 — 8 noiembrie 2026
+
+**Cadrul de nivelare, încheiat (U.14, D-117): două materiale și poartă de export.**
+
+- **Șine albe, traverse de PAL brut:** în cardul cadrului, câmpul nou „Material traverse (opțional)”. Șinele și traversele poartă fiecare materialul lui în distinctă, deviz și plan de tăiere. Grosimea trebuie să fie aceeași (cota traverselor între șine vine din grosimea șinelor); altă grosime e eroare în card și la generare, nu piesă potrivită. Fără alegere, traversele iau materialul șinelor, ca înainte.
+- **Poarta de export (D-44):** un cadru calculat și apoi depășit (corpurile s-au mutat, valorile s-au schimbat, un modul lipsește) blochează exportul, cu mesaj „Cadrul … nu mai corespunde corpurilor: recalculează-l în Releveu”. La fel un corp din cadru care nu stă la înălțimea lui (Suport = Cadru, înălțimea = a cadrului). Un cadru încă necalculat nu blochează: nu e în distinctă. Până acum era doar avertisment în card.
+- **Lanțul de închidere:** cadru + corp + tavan = H se verifică deja prin închiderea D-43 a corpului (laterala începe la înălțimea cadrului și are H − h); poarta nouă leagă cadrul de corp la nivel de proiect.
+- **Ce rămâne în afara aplicației:** codul și cotele reale din fișele Häfele (talpa închisă de 4,5 mm, prețuri), plăcuța de montaj AXILO (MB 12.111), goldens validate manual (D-46).
+- Teste: `baseframe.test.js` (33 de teste) și e2e U.14 (material traverse, eroare de grosime, poartă de export).
+
 ## 5.30.2 — 8 noiembrie 2026
 
 **Piciorul cadrului: nivelatorul Häfele 637.42.950, prins pe lateralul baghetelor.** Identificat în catalogul Häfele, pagina FC 6.74 (Casters, Feet, Legs, Table Fittings — Levelers): „Heavy-duty Base Leveler, with pound-in prongs, screw mounted”, cote din pagină: placă de prindere 50, talpă ø38, înălțime 30, reglaj 20 mm, 150 kg, cheie hexagonală de 6 mm; se potrivește cu desenul din clip. Înlocuiește AXILO (care se pune pe bază, nu pe cadru).

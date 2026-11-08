@@ -172,7 +172,7 @@ describe("Piciorul din catalog", () => {
 
 describe("Modulul de proiect (type:\"cadru\")", () => {
   const MM = E.MM;
-  B.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__b", matOvr: {}, matAdd: [MM("__b", 18)], hwProd: {} };
+  B.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__b", matOvr: {}, matAdd: [MM("__b", 18), MM("__c", 18), MM("__d", 16)], hwProd: {} };
   const r = derive({ mods: ["A", "B", "C"], floor: [{ wall: "w1", x: 0, z: 0 }, { wall: "w1", x: 3000, z: 12 }] });
   const cfgOf = k => Object.assign(B.baseFrameSegCfg(r, k, "Cadru " + k), { matBody: "__b", matFront: "__b", matBack: "__b" });
   test("segmentul devine rânduri: șine, traverse, picioare, cu aceleași numere ca geometria", () => {
@@ -197,6 +197,19 @@ describe("Modulul de proiect (type:\"cadru\")", () => {
     const m = B.buildModule(cfgOf(0));
     assert.ok(m.boxes.filter(b => b.role === "cadru").length > 0);
     assert.equal(m.pieces.find(p => p.elemento === "Piedino cadru").role, "accessorio");
+  });
+  test("traverse din alt material, aceeași grosime: fiecare rând cu materialul lui", () => {
+    const m = B.buildModule(Object.assign(cfgOf(0), { matCross: "__c" }));
+    const rail = m.pieces.find(p => p.elemento === "Sina cadru"), cross = m.pieces.find(p => p.elemento === "Traversa cadru");
+    assert.equal(rail.mat, B.matById("__b").label); assert.equal(cross.mat, B.matById("__c").label);
+    assert.notEqual(rail.mat, cross.mat); assert.equal(cross.sp, 18);
+    /* fără matCross, traversele iau materialul șinelor (ca înainte) */
+    const m0 = B.buildModule(cfgOf(0));
+    assert.equal(m0.pieces.find(p => p.elemento === "Traversa cadru").mat, B.matById("__b").label);
+  });
+  test("traverse de altă grosime decât șinele: eroare, nu piesă potrivită", () => {
+    assert.throws(() => B.buildModule(Object.assign(cfgOf(0), { matCross: "__d" })), /aceeași grosime/);
+    assert.throws(() => B.buildModule(Object.assign(cfgOf(0), { matCross: "nu-exista" })), /materialul traverselor/);
   });
   test("fără material nu se generează", () => {
     assert.throws(() => B.buildModule(Object.assign(cfgOf(0), { matBody: "nu-exista" })), /Cadru/);
