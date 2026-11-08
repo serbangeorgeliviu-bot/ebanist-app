@@ -91,6 +91,11 @@ var HW_DRILL = {
   handle: { dia: 5, interaxis: 128, from_edge: 40, from_top: 60, tall_y: 1050, min_edge: 20 },
   /* gola frezată (D-89): priza pe spatele muchiei de sus a frontului, la 45°. Date generice, de verificat. */
   golaFresata: { w: 20, d: 12, ang: 45, verificat: false },
+  /* front cu decupaj în rază (D-117): colțul de la muchia de deschidere rotunjit în loc de mâner.
+     `rDef` = raza implicită, `rMin` = raza minimă a frezei, `grip` = golul minim de priză al degetului, măsurat pe diagonala colțului
+     față de un vecin în unghi drept: R·(√2−1). `autoTop` = de la ce cotă (de la pardoseală) a muchiei de sus colțul trece pe jos,
+     fiindcă sus nu se mai ajunge cu mâna. Date generice, de verificat pe mostră. */
+  raza: { rDef: 60, rMin: 10, grip: 15, autoTop: 1400, verificat: false },
   /* canalul profilului anti-curbare (U.6, D-76): pe fata dinapoi a usii, pe toata
      inaltimea, paralel cu marginea libera. Date de profil generic, de verificat
      pe un profil real inainte sa mearga in masina. */
@@ -478,8 +483,8 @@ function generate1(input) {
   var HG = H.hinge;
   if (root.hingeGeom) { var hg = root.hingeGeom(cfg); if (hg) { HG = Object.assign({}, H.hinge, hg); if (hg.noGeom) out.warnings.push({ piece: null, k: "opsHingeNoGeom" }); } }
   /* push = niente maniglia; un profilo gola scelto in catalogo, nemmeno: in
-     tutti e due i casi il frontale non ha fori di maniglia */
-  var hingeSel = (cfg.handles === "push" || cfg.handles === "gola") ? "push"
+     tutti e due i casi il frontale non ha fori di maniglia; neanche con la raza (D-117) */
+  var hingeSel = (cfg.handles === "push" || cfg.handles === "gola" || cfg.handles === "raza") ? "push"
     : (root.handleIsProfile && root.handleIsProfile(cfg)) ? "profilo" : "maniglia";
 
   /* --- 1. giunzioni della cassa: base/cielo/ripiani fissi fra i verticali -- */
@@ -627,6 +632,7 @@ function generate1(input) {
     ds.forEach(function (D, i) {
       if (D.curved) { out.warnings.push({ piece: D.pk, k: "opsCurved" }); return; }
       var hingeLeft = D.hinge === "left" ? true : D.hinge === "right" ? false : (n === 1 ? true : i < n / 2);
+      D.hingeLeft = hingeLeft;      /* o ține 4d (front cu rază): colțul rotunjit e de partea opusă balamalelor */
       var hEdge = hingeLeft ? D.min[0] : D.max[0], inw = hingeLeft ? 1 : -1;
       /* ușă trapezoidală (D-86, pasul 2): balamalele se așază pe înălțimea muchiei mai scunde, ca să rămână în contur */
       var h = D.edgeH ? Math.min(D.edgeH[0], D.edgeH[1]) : D.ext[1], topD = D.min[1] + h, nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
@@ -706,6 +712,46 @@ function generate1(input) {
       p.grooves.push({ lo: [p.min[0], p.max[1] - GF.w, p.min[2]], hi: [p.max[0], p.max[1], p.min[2] + GF.d], note: "gola fresata 45°" });
       out.hw.push({ id: "hw_" + out.hw.length, type: "gola_fresata", catalog: null, piece: p.pk,
                     w: [(p.min[0] + p.max[0]) / 2, p.max[1], p.max[2]], x0: p.min[0], x1: p.max[0], zB: p.min[2], d: GF.d, note: "Gola fresata" });
+    });
+  }
+
+  /* --- 4d. front cu decupaj în rază (D-117): colțul rotunjit ca operație de contur pe piesa fizică, nu piesă cu altă formă.
+         Distinta rămâne la cota finită; rotunjirea apare în ops, în foaia piesei, în DXF și în CSV. --- */
+  if (cfg.handles === "raza") {
+    var RZ = H.raza, rReq = +cfg.razaR > 0 ? +cfg.razaR : RZ.rDef, mode = cfg.razaCorner || "auto";
+    pcs.forEach(function (p) {
+      var isD = p.role === "frontale" && p.sub === "door", isDr = p.role === "cassetto_frontale" && p.sub === "drawer";
+      if (!(isD || isDr) || p.tAx !== 2 || p.sloped || p.curved || p.cont || p.fold) return;
+      var x0 = p.min[0], x1 = p.max[0], y0 = p.min[1], y1 = p.max[1], z = p.min[2], w = x1 - x0, h = y1 - y0;
+      if (rReq < RZ.rMin - 1e-9) { out.warnings.push({ piece: p.pk, k: "opsRazaSmall" }); return; }
+      if (rReq > Math.min(w, h) / 2 + 1e-9) { out.warnings.push({ piece: p.pk, k: "opsRazaBig" }); return; }
+      if (rReq * (Math.SQRT2 - 1) < RZ.grip - 1e-9) out.warnings.push({ piece: p.pk, k: "opsRazaGrip" });
+      /* sus sau jos: „auto” = jos când muchia de sus e prea sus ca să ajungi cu mâna */
+      var end = mode === "top" || mode === "bottom" || mode === "both" ? mode : (y1 > RZ.autoTop ? "bottom" : "top");
+      /* de partea muchiei de deschidere: opusul balamalelor; un sertar are ambele colțuri */
+      var sides = isDr || p.hingeLeft == null ? ["L", "R"] : (p.hingeLeft ? ["R"] : ["L"]);
+      var want = {};
+      sides.forEach(function (sd) {
+        if (end === "top" || end === "both") want["T" + sd] = 1;
+        if (end === "bottom" || end === "both") want["B" + sd] = 1;
+      });
+      /* conturul antiorar în planul x,y; sfert de cerc = bulge tan(22,5°) */
+      var bg = Math.tan(Math.PI / 8), r = rReq, pts = [];
+      var cor = [["BL", x0, y0], ["BR", x1, y0], ["TR", x1, y1], ["TL", x0, y1]];
+      /* ordinea antiorară BL→BR→TR→TL; la un colț rotunjit: punct de intrare cu bulge pozitiv (arc convex antiorar), apoi punct de ieșire */
+      cor.forEach(function (c) {
+        if (want[c[0]]) {
+          var inP, outP;
+          if (c[0] === "BL") { inP = [x0, y0 + r]; outP = [x0 + r, y0]; }
+          else if (c[0] === "BR") { inP = [x1 - r, y0]; outP = [x1, y0 + r]; }
+          else if (c[0] === "TR") { inP = [x1, y1 - r]; outP = [x1 - r, y1]; }
+          else { inP = [x0 + r, y1]; outP = [x0, y1 - r]; }
+          pts.push([inP[0], inP[1], z, bg]); pts.push([outP[0], outP[1], z, 0]);
+        } else pts.push([c[1], c[2], z, 0]);
+      });
+      if (!Object.keys(want).length) return;
+      p.cont = { pts: pts, ccw: true, note: "colț în rază" };
+      p.razaR = r;
     });
   }
 
@@ -1026,7 +1072,7 @@ function localize(p) {
     mp = mp.map(function (q) { return [R1(q[0]), R1(q[1]), mirrored ? -q[2] : q[2]]; });
     poly = root.EBContour.flatten(mp, 0.2).map(function (q) { return [R1(q[0]), R1(q[1])]; });
     rects = [{ x0: 0, x1: R1(Lp), y0: 0, y1: R1(Wp) }];
-    push({ type: "contour", face: 5, closed: true, pts: mp, perim: R1(root.EBContour.perimeter(mp)), note: "contur liber" });
+    push({ type: "contour", face: 5, closed: true, pts: mp, perim: R1(root.EBContour.perimeter(mp)), note: p.cont.note || "contur liber" });
     /* v2 (D-102): găurile și decupajele interioare, canalele. Un cerc de până la `drillMax` se burghiază (trecut, fața 5);
        restul se frezează ca contur interior (același sens al bulge-ului ca la exterior, oglindit împreună cu el). */
     var flipB = function (b) { return mirrored ? -(+b || 0) : (+b || 0); };

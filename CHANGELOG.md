@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.28.0 — 8 noiembrie 2026
+
+**Front cu decupaj în rază, în loc de mâner (U.15, D-117).** Idee din clipul Atelier d'Edouard: ușa nu are mâner, nici profil gola; colțul ei, de partea muchiei de deschidere, e rotunjit cu rază mare, iar golul rămas e priza degetelor. În Constructor → Apertura apare „Raza”, cu raza (mm) și colțul rotunjit: automat (sus la corpurile de jos, jos când muchia de sus e peste 1400 mm), sus, jos sau ambele.
+
+- **Cum intră în proiect:** rotunjirea e o operație de contur pe piesa fizică (ca piesa cu contur liber, D-101). Distinta rămâne la cota finită, rând cu rând; conturul apare în foaia piesei, în DXF și în CSV. Colțul e de partea opusă balamalelor (alegerea din U.1 se respectă); un sertar are rotunjite ambele colțuri.
+- **Fără mâner:** nicio gaură de mâner, nicio piesă de feronerie în plus; devizul nu numără mânere.
+- **Avertismente, nu piese mutate:** rază sub freză sau prea mare pentru front → frontul rămâne drept; rază prea mică pentru o priză bună (golul pe diagonală R·(√2−1) sub pragul din date) → se aplică, cu avertisment. Pragurile (`HW_DRILL.raza`) sunt date generice `verificat:false`, de confirmat pe mostră. Cantul pe rază cere mașină de cantuit potrivită: de întrebat atelierul.
+- **Asistentul AI:** înțelege „raza”, „colț rotunjit în loc de mâner”, „raggio nell'anta”.
+- **Nu se schimbă:** proiectele existente (fără `handles:"raza"` nu apare niciun contur); `GEOM_VERSION` neschimbat.
+- **3D:** vederea 3D rămâne cu colțurile drepte; rotunjirea se vede în foaia piesei (urmează).
+- **Test nou:** `cd test && node --test raza.test.js` (aria conturului, parte opusă balamalei, auto sus/jos, aceleași piese și găuri ca la push, praguri, determinism). `test:all`: 1234 din 1236 trec, 2 sărite.
+- **Cache Service Worker:** `SW_CACHE` din `index.html` (rămăsese `v201`) și `CACHE` din `sw.js` (`v204`) aliniate la `v205`; testul e2e cere să fie identice.
+
 ## 5.27.3 — 8 noiembrie 2026
 
 **Notele de operații urmează limba interfeței (D-116).** Numele operațiilor din CSV-ul de găurire și din foaia piesei („locaș mâner încastrat”, „decupaj plită”, „grilă de aerisire”, „contur liber”, canalul anti-curbare, gola frezată, balamalele pliante etc.) erau un amestec român/italian; acum se scriu în limba aleasă, în toate cele 7. O gola frezată sau un canal în contur nu mai apare ca „canal spate”. Modelul rămâne neschimbat (coduri stabile), traducerea se face la emitere.

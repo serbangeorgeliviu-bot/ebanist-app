@@ -1783,7 +1783,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         </div>
         <div class="f3">
           <div class="f"><label data-i="fHandles">Apertura</label>
-            <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option></select></div>
+            <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option><option value="raza" data-i="hRaza">Raza</option></select></div>
           <div class="f"><label data-i="fSupport">Supporto</label>
             <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
           <div class="f"><label data-i="fPlinth">Zoccolo (mm)</label><input id="bPlinth" type="number" inputmode="numeric"></div>
@@ -1795,6 +1795,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fGolaC">Rost gola C (mm)</label><input id="bGolaC" type="number" inputmode="numeric" min="5" max="200" placeholder="60"></div>
         </div>
         <p class="mini" id="golaHint" data-i="golaHint" style="margin:0 0 6px;display:none"></p>
+        <div class="f2" id="rowRaza" style="display:none">
+          <div class="f"><label data-i="fRazaR">Raza (mm)</label><input id="bRazaR" type="number" inputmode="numeric" min="10" max="300" placeholder="60"></div>
+          <div class="f"><label data-i="fRazaCorner">Colț rotunjit</label>
+            <select id="bRazaCorner"><option value="auto" data-i="razaAuto">Automat</option><option value="top" data-i="razaTop">Sus</option><option value="bottom" data-i="razaBottom">Jos</option><option value="both" data-i="razaBoth">Sus și jos</option></select></div>
+        </div>
+        <p class="mini" id="razaHint" data-i="razaHint" style="margin:0 0 6px;display:none"></p>
         <div class="f2" id="rowTop">
           <div class="f"><label data-i="fTop">Chiusura in alto</label>
             <select id="bTop"><option value="plin" data-i="topPlin">Cielo pieno</option><option value="traverse" data-i="topRails">Due traverse</option><option value="none" data-i="topNone">Nessuna</option></select></div>
@@ -3583,6 +3589,14 @@ Object.assign(I18N.fr,{fGolaType:"Type de gorge",golaTL:"Profilés L + C dans le
 Object.assign(I18N.de,{fGolaType:"Griffleisten-Typ",golaTL:"L- + C-Profil im Korpus",golaTJ:"J-Profil an der Front",golaTF:"Gefräste Griffmulde in der Front (ohne Profil)",golaHintJ:"J-Profil an der Oberkante jeder Tür und Schublade: es sitzt in der Fuge über der Front. Keine Profile im Korpus, keine Ausschnitte in den Seiten.",golaHintF:"45°-Griff an der Rückseite der Oberkante jeder Front gefräst: kein Profil. Die Fräsmaße gehen erst in die Maschine, wenn du sie geprüft hast.",hwGolaJ:"J-Griffprofile (m)"});
 Object.assign(I18N.pl,{fGolaType:"Typ gola",golaTL:"Profile L + C w korpusie",golaTJ:"Profil J na froncie",golaTF:"Gola frezowana we froncie (bez profilu)",golaHintJ:"Profil J na górnej krawędzi każdych drzwi i szuflady: siedzi w szczelinie nad frontem. Bez profili w korpusie, bez wycięć w bokach.",golaHintF:"Uchwyt frezowany pod kątem 45° z tyłu górnej krawędzi każdego frontu: bez profilu. Wymiary frezowania nie trafią do maszyny, dopóki ich nie sprawdzisz.",hwGolaJ:"Profile gola J (m)"});
 Object.assign(I18N.es,{fGolaType:"Tipo de gola",golaTL:"Perfiles L + C en el módulo",golaTJ:"Perfil J en el frente",golaTF:"Gola fresada en el frente (sin perfil)",golaHintJ:"Perfil J en el canto superior de cada puerta y cajón: va en la ranura sobre el frente. Sin perfiles en el módulo, sin rebajes en los laterales.",golaHintF:"Agarre fresado a 45° en la parte trasera del canto superior de cada frente: sin perfil. Las medidas del fresado no van a la máquina hasta que las verifiques.",hwGolaJ:"Perfiles gola J (m)"});
+/* U.15 — front cu decupaj în rază (D-117) */
+Object.assign(I18N.it,{"hRaza": "Raggio nell'anta", "fRazaR": "Raggio (mm)", "fRazaCorner": "Angolo arrotondato", "razaAuto": "Automatico", "razaTop": "In alto", "razaBottom": "In basso", "razaBoth": "Alto e basso", "razaHint": "Senza maniglia: l'angolo dell'anta dal lato dell'apertura è arrotondato e il vuoto che resta è la presa delle dita. Bordare un raggio richiede una bordatrice adatta: chiedi al laboratorio.", "op_razaCorner": "Angolo arrotondato (presa)", "opsRazaSmall": "Il raggio scelto è più piccolo della fresa: i frontali restano dritti.", "opsRazaBig": "Il raggio è troppo grande per questo frontale: resta dritto.", "opsRazaGrip": "Con questo raggio il vuoto per le dita è piccolo: aumenta il raggio."});
+Object.assign(I18N.ro,{"hRaza": "Rază în ușă", "fRazaR": "Raza (mm)", "fRazaCorner": "Colț rotunjit", "razaAuto": "Automat", "razaTop": "Sus", "razaBottom": "Jos", "razaBoth": "Sus și jos", "razaHint": "Fără mâner: colțul ușii, de partea de deschidere, e rotunjit, iar golul rămas e priza degetelor. Cantul pe rază cere o mașină de cantuit potrivită: întreabă atelierul.", "op_razaCorner": "Colț rotunjit (priză)", "opsRazaSmall": "Raza aleasă e mai mică decât freza: fronturile rămân drepte.", "opsRazaBig": "Raza e prea mare pentru acest front: rămâne dreaptă.", "opsRazaGrip": "Cu raza aceasta golul pentru degete e mic: mărește raza."});
+Object.assign(I18N.en,{"hRaza": "Radius cut-out", "fRazaR": "Radius (mm)", "fRazaCorner": "Rounded corner", "razaAuto": "Automatic", "razaTop": "Top", "razaBottom": "Bottom", "razaBoth": "Top and bottom", "razaHint": "No handle: the door corner on the opening side is rounded and the gap it leaves is the finger grip. Edge-banding a radius needs a suitable edge bander: ask the workshop.", "op_razaCorner": "Rounded corner (grip)", "opsRazaSmall": "The chosen radius is smaller than the router bit: the fronts stay square.", "opsRazaBig": "The radius is too large for this front: it stays square.", "opsRazaGrip": "With this radius the finger gap is small: increase the radius."});
+Object.assign(I18N.fr,{"hRaza": "Rayon dans la porte", "fRazaR": "Rayon (mm)", "fRazaCorner": "Angle arrondi", "razaAuto": "Automatique", "razaTop": "En haut", "razaBottom": "En bas", "razaBoth": "En haut et en bas", "razaHint": "Sans poignée : l'angle de la porte, côté ouverture, est arrondi et le vide qui reste sert de prise pour les doigts. Plaquer un chant sur un rayon demande une plaqueuse de chants adaptée : demandez à l'atelier.", "op_razaCorner": "Angle arrondi (prise)", "opsRazaSmall": "Le rayon choisi est plus petit que la fraise : les façades restent droites.", "opsRazaBig": "Le rayon est trop grand pour cette façade : elle reste droite.", "opsRazaGrip": "Avec ce rayon le vide pour les doigts est petit : augmentez le rayon."});
+Object.assign(I18N.de,{"hRaza": "Radius in der Tür", "fRazaR": "Radius (mm)", "fRazaCorner": "Abgerundete Ecke", "razaAuto": "Automatisch", "razaTop": "Oben", "razaBottom": "Unten", "razaBoth": "Oben und unten", "razaHint": "Ohne Griff: Die Türecke auf der Öffnungsseite ist abgerundet, die entstehende Lücke dient als Fingergriff. Das Umleimen eines Radius braucht eine geeignete Kantenanleimmaschine: Werkstatt fragen.", "op_razaCorner": "Abgerundete Ecke (Griff)", "opsRazaSmall": "Der gewählte Radius ist kleiner als der Fräser: Die Fronten bleiben gerade.", "opsRazaBig": "Der Radius ist für diese Front zu groß: Sie bleibt gerade.", "opsRazaGrip": "Mit diesem Radius ist die Fingerlücke klein: Radius vergrößern."});
+Object.assign(I18N.pl,{"hRaza": "Promień w drzwiach", "fRazaR": "Promień (mm)", "fRazaCorner": "Zaokrąglony narożnik", "razaAuto": "Automatycznie", "razaTop": "Na górze", "razaBottom": "Na dole", "razaBoth": "Góra i dół", "razaHint": "Bez uchwytu: narożnik drzwi po stronie otwierania jest zaokrąglony, a powstała szczelina służy za chwyt palców. Oklejanie promienia wymaga odpowiedniej okleiniarki: zapytaj warsztat.", "op_razaCorner": "Zaokrąglony narożnik (chwyt)", "opsRazaSmall": "Wybrany promień jest mniejszy niż frez: fronty zostają proste.", "opsRazaBig": "Promień jest za duży dla tego frontu: zostaje prosty.", "opsRazaGrip": "Przy tym promieniu szczelina na palce jest mała: zwiększ promień."});
+Object.assign(I18N.es,{"hRaza": "Radio en la puerta", "fRazaR": "Radio (mm)", "fRazaCorner": "Esquina redondeada", "razaAuto": "Automático", "razaTop": "Arriba", "razaBottom": "Abajo", "razaBoth": "Arriba y abajo", "razaHint": "Sin tirador: la esquina de la puerta, del lado de apertura, está redondeada y el hueco que queda sirve de agarre para los dedos. Canteado en un radio exige una canteadora adecuada: pregunta al taller.", "op_razaCorner": "Esquina redondeada (agarre)", "opsRazaSmall": "El radio elegido es menor que la fresa: los frentes quedan rectos.", "opsRazaBig": "El radio es demasiado grande para este frente: queda recto.", "opsRazaGrip": "Con este radio el hueco para los dedos es pequeño: aumenta el radio."});
 Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Quote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le quote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_wtBolt:"Buco per bullone blat",op_cutSink:"Taglio lavello",op_cutHob:"Taglio piano cottura",op_cutOther:"Taglio piano",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
 Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_wtBolt:"Locaș șurub blat",op_cutSink:"Decupaj chiuvetă",op_cutHob:"Decupaj plită",op_cutOther:"Decupaj blat",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
 Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_wtBolt:"Worktop bolt pocket",op_cutSink:"Sink cut-out",op_cutHob:"Hob cut-out",op_cutOther:"Worktop cut-out",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
@@ -9484,10 +9498,10 @@ function openPartSheet(M,pc,face){
   const pf=pc.preflight||[];
   const err=pf.filter(w=>w.level==="error"), wrn=pf.filter(w=>w.level==="warn"), inf=pf.filter(w=>w.rule==="V12");
   const opRow=o=>{ const edge=o.face<5;
-    const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
-    const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
+    const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:o.type==="contour"?"—":edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
+    const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:o.type==="contour"?"—":edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
     const bad=pf.some(w=>w.level==="error"&&String(w.op||"").split("/").indexOf(o.id)>=0);
-    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":o.type==="slot"?"#8a5a2b":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):o.type==="slot"?fmtMM(o.len)+"×"+fmtMM(o.thk):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
+    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":o.type==="slot"?"#8a5a2b":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):o.type==="slot"?fmtMM(o.len)+"×"+fmtMM(o.thk):o.type==="contour"?"⌒ "+fmtMM(o.perim):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":o.depth==null?"—":fmtMM(o.depth)}</td></tr>`; };
   const html=`<div class="part-head"><i class="pcs-n big">${m.n||""}</i><div><h3 style="margin:0;padding-right:44px">${esc(partName(M,pc))}</h3>`+
     `<p class="mini">${esc(row.modulo||(M.cfg&&M.cfg.name)||"")}${row.materiale||row.mat?" · "+esc(row.materiale||row.mat):""}</p></div></div>`+
     `<div class="part-kpis"><div><b>${fmtMM(pc.length)}</b><span>L</span></div><div><b>${fmtMM(pc.width)}</b><span>${esc(t("partW"))}</span></div><div><b>${fmtMM(pc.thickness)}</b><span>${esc(t("partT"))}</span></div>`+
@@ -9535,7 +9549,7 @@ function opName(o){
     "gambo minifix":"op_shank","eccentrico minifix":"op_cam","tassello":"op_dowel","reggipiano":"op_pin",
     "reggipiano (regolazione)":"op_pinAdj","guida cassetto":"op_slide","maniglia":"op_handle",
     "confirmat":"op_confirmat","pilot confirmat":"op_pilot","canal lamella":"op_slotBisc","canal domino":"op_slotDom","canal clamex":"op_slotClx","buzunar bulon blat":"op_wtBolt","decupaj chiuvetă":"op_cutSink","decupaj plită":"op_cutHob","decupaj blat":"op_cutOther",
-    "locaș mâner încastrat":"op_flushPocket","grilă de aerisire":"op_vent","decupaj spate":"op_cutBack","contur liber":"op_contour","gaură în contur":"op_contHole","decupaj interior":"op_contInner","canal în contur":"op_contSlot","canal profil anti-curbare":"op_awGroove","gola fresata 45°":"op_golaGroove","Gola fresata":"op_golaGroove","tazza cerniera pliante":"op_cupFold","basetta cerniera pliante":"op_plateFold"}[base]||(o.type==="groove"?"op_groove":null);
+    "locaș mâner încastrat":"op_flushPocket","grilă de aerisire":"op_vent","decupaj spate":"op_cutBack","contur liber":"op_contour","gaură în contur":"op_contHole","decupaj interior":"op_contInner","canal în contur":"op_contSlot","canal profil anti-curbare":"op_awGroove","gola fresata 45°":"op_golaGroove","colț în rază":"op_razaCorner","Gola fresata":"op_golaGroove","tazza cerniera pliante":"op_cupFold","basetta cerniera pliante":"op_plateFold"}[base]||(o.type==="groove"?"op_groove":null);
   return (k?t(k):note)+(/passante/.test(note)?" · "+t("partThrough"):"");
 }
 /* DXF per piesă, pe straturi de operație (2B.6, D-106): același cancello ca CSV-ul (exportAllowed → D-44) și același Pro-gate
@@ -9985,6 +9999,8 @@ function cfgFromForm(){
     golaType:$("bHandles").value==="gola"&&$("bGolaType").value!=="L"?$("bGolaType").value:null,
     golaH:$("bHandles").value==="gola"&&v("bGolaH",0)>0?Math.max(5,Math.min(200,v("bGolaH",0))):null,
     golaC:$("bHandles").value==="gola"&&v("bGolaC",0)>0?Math.max(5,Math.min(200,v("bGolaC",0))):null,
+    razaR:$("bHandles").value==="raza"&&v("bRazaR",0)>0?Math.max(10,Math.min(300,v("bRazaR",0))):null,
+    razaCorner:$("bHandles").value==="raza"&&$("bRazaCorner").value!=="auto"?$("bRazaCorner").value:null,
     boxes:parseInt($("bBoxes").value,10), corner:$("bCorner").value, cornerKind:$("bCornerKind").value,
     drawerSys:$("bDrawSys").value||"legno", drawerDist:$("bDrawDist").value||"uguali",
     drawerPos:$("bDrawPos").value||"auto",
@@ -10050,7 +10066,7 @@ function cfgCarry(src){
 function fAng(id){ const raw=$(id).value.trim(); if(!raw) return 90; const n=parseFloat(raw.replace(",",".")); return isFinite(n)?angClamp(n):90; }
 function syncBuildForm(){
   $("bFront").value=buildCfg.front||"piena"; $("bSupport").value=buildCfg.support||"zoccolo";
-  $("bHandles").value=buildCfg.handles||"maniglia"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
+  $("bHandles").value=buildCfg.handles||"maniglia"; $("bRazaR").value=buildCfg.razaR||""; $("bRazaCorner").value=buildCfg.razaCorner||"auto"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
   $("bBoxes").value=buildCfg.boxes===0||buildCfg.boxes==="0"?"0":"1";
   $("bCorner").value=buildCfg.corner||"sx";
   $("bCornerKind").value=buildCfg.cornerKind||"int";
@@ -10212,7 +10228,7 @@ function renderSecChips(){
   renderSecPull();
   renderDoorHinge();
   renderTop();
-  renderGola();
+  renderGola(); renderRaza();
   renderAbs();
 }
 /* U.12 — i ripiani di una sezione escono su guide. Si accende solo dove
@@ -10261,6 +10277,12 @@ function renderGola(){
   const gt=($("bGolaType")&&$("bGolaType").value)||"L", d=GOLA_TYPES[gt]||GOLA_TYPES.L;
   $("bGolaH").placeholder=d.h; $("bGolaC").placeholder=d.c;
   $("golaHint").textContent=t({L:"golaHint",J:"golaHintJ",fresata:"golaHintF"}[gt]||"golaHint");
+}
+/* U.15 — raza si colțul apar numai cu «Raza» (D-117) */
+function renderRaza(){
+  const on=$("bHandles").value==="raza";
+  $("rowRaza").style.display=on?"":"none"; $("razaHint").style.display=on?"":"none";
+  if(on) $("razaHint").textContent=t("razaHint");
 }
 /* U.2 — feroneria aleasa pe corp. Un selector pe categorie; «catalog» = articolul
    din Setari. Citit direct din selectoare (nu din stare paralela), la fel ca restul
@@ -10651,7 +10673,7 @@ function drawPreview(){
   if(wn.foldNarrow) notes.push("⚠︎ "+t("wFoldNarrow").replace("{w}",wn.foldNarrow).replace("{m}",FOLD.min_leaf));
   /* D-89: mânerul ales nu încape pe front */
   try{
-    if(buildCfg.handles!=="push"&&buildCfg.handles!=="gola"){
+    if(buildCfg.handles!=="push"&&buildCfg.handles!=="gola"&&buildCfg.handles!=="raza"){
       const len=m=>m?(m.t==="flushR"?m.d:(m.L||m.ia||0)):0;
       const big=(m,re)=>m&&pieces.some(x=>re.test(x.elemento||"")&&!/interno/i.test(x.elemento||"")&&Math.max(x.lung,x.larg)-40<len(m));
       if(big(handleModel(buildCfg,"door"),/^anta/i)||big(handleModel(buildCfg,"drawer"),/^frontale cassetto/i)) notes.push("⚠︎ "+t("opsHandleFit"));
@@ -10899,6 +10921,7 @@ function renderBuild(){
     ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     ["bTop","bTipo"].forEach(id=>$(id).addEventListener("change",renderTop)); renderTop();
     $("bHandles").addEventListener("change",renderGola);
+    $("bHandles").addEventListener("change",renderRaza);
     $("bGolaType").addEventListener("change",()=>{ renderGola(); drawPreview(); });
     $("bAW").addEventListener("change",renderAW);
     $("bFold").addEventListener("change",renderFold);
@@ -11423,7 +11446,7 @@ function opsAllOf(cfg){
 }
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
-const OPS_NOTES=["opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+const OPS_NOTES=["opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit","opsRazaSmall","opsRazaBig","opsRazaGrip"];
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -13804,7 +13827,7 @@ function computeHardware(p,S,byModule){
     const el=(x.elemento||"").toLowerCase(), mod=x.modulo||"—";
     const push=el.includes("push"), gola=el.includes("gola");
     /* la gola e un profil, nu un maner: nici maner, nici push */
-    const grip=(m2,n2)=>{ if(!gola) bump(m2,push?"hwPush":"hwMan",n2); };
+    const grip=(m2,n2)=>{ const cr=cfgByMod(m2); if(!gola&&!(cr&&cr.handles==="raza")) bump(m2,push?"hwPush":"hwMan",n2); };
     if(el.startsWith("sistema anta pieghevole")){ bump(mod,"hwFold",x.pz); }
     else if(el.startsWith("anta pieghevole")){
       /* între foile unui pachet: (foi − 1) balamale pe înălțime; un mâner pe pachet, pe foaia liberă */
@@ -16263,7 +16286,7 @@ const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR",de:"de-DE",pl:
 const AI_ENUM={
   type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"], lamDir:["v","o"], cShape:["rect","round","arch","scoop"], cOri:["v","o"],
   front:["piena","vetro","curvo"], support:["zoccolo","piedini","sospeso"],
-  handles:["maniglia","push","gola"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
+  handles:["maniglia","push","gola","raza"], razaCorner:["auto","top","bottom","both"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
   corner:["sx","dx"], cornerKind:["int","ext"],
   secMode:["hangShelf","hang","shelf","empty","drawers","drawerShelf"],
   drawerSys:DRAWSYS_IDS, drawerDist:["fix","uguali","cucina"], drawerPos:["auto","vista","interno"],
@@ -16346,6 +16369,7 @@ CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extr
 For all three the cut list still gets a straight rectangle at the DEVELOPED length, because the panel is cut flat and bent afterwards — do not shorten a dimension to "account for the curve", give the real outside sizes and let the engine compute the development and the kerf plan.
 
 HANDLE-LESS ("handles":"gola", "golaH", "golaC") — aluminium profile instead of a handle: an L profile along the top of the unit and a C profile in every gap between two stacked drawer fronts. The fronts get shorter: the top gap becomes golaH (default 40 mm) and the gap between stacked drawers golaC (default 60 mm). Say "gola", "handle-less", "senza maniglie" or "J-profile": use "gola" and write golaH/golaC only if he gives the profile sizes. Do not confuse with "push" (push-to-open latches, no profile).
+RADIUS GRIP ("handles":"raza", "razaR", "razaCorner") — no handle and no profile: the door corner on the opening side is cut with a large radius and the gap it leaves is the finger grip. Say "raza", "radius cut", "rounded corner instead of a handle", "colț rotunjit", "raggio nell'anta": use "raza" and write razaR only if he gives a radius.
 TOP CLOSURE ("top", "topRailW") — how the unit closes at the top. Default "plin" = one full top panel. For a unit that sits under a sink or a hob, the carpenter says "without top", "no ceiling", "two rails instead of the top" or "traverse": "none" = no top panel at all (the sides end free; the inner height grows by the top thickness), "traverse" = two rails, one front and one back, topRailW mm wide each (default 100), same material and thickness as the top. Rails are not possible on a unit with an angled wall (angL/angR): leave "top" out there. Never say "none" for a unit that has a top panel unless he asks for it.
 
 ANGLED ENDS (angL / angR) — the only oblique modifier the engine has (rectangular corner notches are customCuts, above). "angL" and "angR" are the real corner angles of the room at the left and right end of the unit, 45..135, default 90. Under 90 the unit narrows towards the front (inside corner), over 90 it widens (outside corner). L is measured at the BACK wall. The engine applies them to the trapezoidal panels (Base / Cielo, Zoccolo) and renders the oblique cut in 3D. Angles are never per panel: do not try to angle a single Fianco or shelf — emit angL/angR and let the engine decide which panels are trapezoidal.
@@ -16389,6 +16413,8 @@ function aiSchema(mode){
         topRailW:{type:"integer",minimum:30,maximum:400,description:"Width of each top rail in mm, only with top=\"traverse\". Default 100."},
         golaH:{type:"integer",minimum:5,maximum:200,description:"With handles=\"gola\": height of the top L profile in mm (replaces the top gap of the fronts). Default 40."},
         golaC:{type:"integer",minimum:5,maximum:200,description:"With handles=\"gola\": gap between two stacked fronts, where the C profile sits, mm. Default 60."},
+        razaR:{type:"integer",minimum:10,maximum:300,description:"With handles=\"raza\": radius of the rounded door corner, mm. Default 60."},
+        razaCorner:{type:"string",enum:["auto","top","bottom","both"],description:"With handles=\"raza\": which end of the opening edge is rounded. auto = top, or bottom when the front is above 1400 mm."},
         golaType:{type:"string",enum:["L","J","fresata"],description:"With handles=\"gola\": L = L profile on top + C profiles between drawers in the carcass (default); J = J profile on the top edge of every front; fresata = grip milled into the top back edge of every front, no profile."},
         corner:{type:"string",enum:AI_ENUM.corner}, cornerKind:{type:"string",enum:AI_ENUM.cornerKind},
         drawerSys:{type:"string",enum:AI_ENUM.drawerSys,description:"Drawer system. legno = wooden box on the slide chosen in the catalog."},
@@ -16491,7 +16517,7 @@ function aiContext(mode){
   if(mode==="genera"){
     const c=cfgFromForm(), keep={};
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
-     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC","golaType",
+     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC","golaType","razaR","razaCorner",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers","secDrawerH","secDrawerNL","secPull",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
      "backMode","partitions","fronts","depthProfile","customCuts","drawerBlocks","backCols","backCutouts","backRails","fillers"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
@@ -16542,14 +16568,14 @@ async function aiCall(mode,text,imgs){
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,MAX_TRAM],
   shelves:[0,10],drawers:[0,8],doors:[0,MAX_DOORS],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
   shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
-  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
+  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200],razaR:[10,300]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
   if(!raw||typeof raw!=="object") return out;
   for(const k in AI_CFG_INT){ if(raw[k]==null) continue;
     const v=aiInt(raw[k],AI_CFG_INT[k][0],AI_CFG_INT[k][1]); if(v!=null) out[k]=v; }
-  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir","cShape","cOri"]){
+  for(const k of ["type","front","support","handles","razaCorner","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir","cShape","cOri"]){
     if(raw[k]==null) continue;
     if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
   if(typeof raw.cHoles==="string"){ const r=EBContour.parseHoles(raw.cHoles); if(r.ok) out.cHoles=raw.cHoles.slice(0,2000); else warn.push("cHoles: ?"); }
@@ -16851,7 +16877,7 @@ function aiNormLayout(raw,warn,nWalls){
 function aiLbl(k){
   const map={L:t("fWidth"),L2:t("fL2"),H:t("fHeight"),P:t("fDepth"),plinth:t("fPlinth"),tram:t("fTram"),
     shelves:t("fShelvesSec"),drawers:t("fDrawersSec"),doors:t("fDoorsN"),back:t("fBack"),hang:t("fHang"),
-    front:t("fFront"),support:t("fSupport"),handles:t("fHandles"),shelfType:t("fShelfT"),type:t("fType"),top:t("fTop"),topRailW:t("fTopRail"),golaH:t("fGolaH"),golaC:t("fGolaC"),
+    front:t("fFront"),support:t("fSupport"),handles:t("fHandles"),shelfType:t("fShelfT"),type:t("fType"),top:t("fTop"),topRailW:t("fTopRail"),golaH:t("fGolaH"),golaC:t("fGolaC"),razaR:t("fRazaR"),razaCorner:t("fRazaCorner"),
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
@@ -16880,10 +16906,10 @@ function aiVal(k,v){
   if(k==="lamCuts") return Array.isArray(v)&&v.length?v.map(c=>`${c.wall==="B"?"B ":""}${c.w}×${c.h} @ ${c.x}/${c.y}`).join(" · "):"—";
   if(k==="wall2") return v?t("optYes"):t("optNo");
   if(["back","hang","boxes","shelfEven","wall2","rfInset","cEdge"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
-  if(["type","front","support","handles","shelfType","corner","cornerKind","top","lamDir","cShape","cOri"].indexOf(k)>=0){
+  if(["type","front","support","handles","razaCorner","shelfType","corner","cornerKind","top","lamDir","cShape","cOri"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
-      piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",mobile:"shMobile",
+      piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",raza:"hRaza",auto:"razaAuto",top:"razaTop",bottom:"razaBottom",both:"razaBoth",mobile:"shMobile",
       fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt",
       tondo:"typeRound",raccordato:"typeFillet",lambriu:"typeLambriu",boiserie:"typeBoiserie",contur:"typeContur",rect:"contShapeRect",round:"contShapeRound",arch:"contShapeArch",scoop:"contShapeScoop",v:"lamV",o:"lamH",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
     return m[v]?t(m[v]):v;
@@ -17723,12 +17749,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.27.3"; /* APP_VER-MARKER */
+const APP_VER="5.28.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v201";
+const SW_CACHE="ebanist-v205";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
