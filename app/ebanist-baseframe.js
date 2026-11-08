@@ -87,7 +87,7 @@ function deriveBaseFrame(spec, walls, mods, opts) {
   if (!(setback >= 0) || !(wallGap >= 0)) { errors.push({ k: "bfNegative" }); return out; }
   var railH = h - F.base;
   if (!(railH >= D.min_rail_h)) { errors.push({ k: "bfTooLow", h: r1(h), min: D.min_rail_h + F.base }); return out; }
-  out.h = r1(h); out.railH = r1(railH);
+  out.h = r1(h); out.railH = r1(railH); out.sp = r1(sp); out.wallGap = r1(wallGap); out.setback = r1(setback); out.foot = F;
 
   var byName = {};
   (mods || []).forEach(function (m) { byName[m.name] = m; });
@@ -207,7 +207,23 @@ function deriveBaseFrame(spec, walls, mods, opts) {
   return out;
 }
 
-var API = { BASEFRAME_DEFAULTS: BASEFRAME_DEFAULTS, deriveBaseFrame: deriveBaseFrame, bfFloorAt: floorAt };
+/* un segment al cadrului ca modul de proiect (`type:"cadru"`, ca blatul): coordonate locale ale modulului (x de la capătul din stânga al
+   segmentului, z de la perete), plus înălțimile. `name` = numele modulului. Fără DOM: o folosesc și testele. */
+function baseFrameSegCfg(r, k, name) {
+  var sg = r.segments[k], F = r.foot, sp = r.sp;
+  var inSeg = function (p) { return p.seg === k; };
+  return {
+    name: name, type: "cadru", L: sg.L, P: r1(sg.P + r.wallGap), h: r.h, railH: r.railH, sp: sp,
+    foot: { base: F.base, travel: F.travel, dia: F.dia, mount: F.mount },
+    rails: r.pieces.filter(function (p) { return p.role === "cadru_lung" && inSeg(p); })
+      .map(function (p) { return { side: p.side, y: p.y, L: p.L }; }),
+    cross: r.pieces.filter(function (p) { return p.role === "cadru_transv" && inSeg(p); })
+      .map(function (p) { return { x: r1(p.x - sg.from), y: p.y, L: p.L }; }),
+    feet: r.feet.filter(inSeg).map(function (f) { return { x: r1(f.x - sg.from), y: f.y, ext: f.ext, side: f.side }; })
+  };
+}
+
+var API = { BASEFRAME_DEFAULTS: BASEFRAME_DEFAULTS, deriveBaseFrame: deriveBaseFrame, bfFloorAt: floorAt, baseFrameSegCfg: baseFrameSegCfg };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 

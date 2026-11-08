@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.30.0 — 8 noiembrie 2026
+
+**Cadrul de nivelare în Releveu și în proiect (U.14, D-117).** În Releveu apare cardul „Cadru de nivelare”, ca „Blat”: alegi corpurile de jos, materialul șinelor (PAL pe cant, grosimea din material), înălțimea cadrului, retragerea de la față, jocul la perete și, opțional, cotele pardoselii (puncte pe perete: x și z față de un reper). „Calculează cadrul” generează câte un segment pe perete.
+
+- **Ce iese:** șine lungi, traverse și picioare Camar 300 (Häfele) prinse lateral pe fața interioară a șinelor. Intră în distincta proiectului („Sina cadru”, „Traversa cadru”, „Piedino cadru”), în planul de tăiere, în deviz (picioarele numărate o singură dată, articolul `camar_300`) și în „Camera în 3D”. La colț, un cadru trece până în colț, celălalt se oprește în muchia lui (se poate inversa).
+- **Pardoseala:** extensia fiecărui picior = cota cea mai înaltă − cota lui, interpolată între puncte; peste cursa piciorului (20 mm) e eroare, nu picior mutat. Fără cote, cadrul se calculează cu aceeași extensie și avertizează.
+- **Corpuri pe cadru:** rămân cu Suport = Cadru și înălțimea cadrului (5.29.0). Dacă un corp nu stă la înălțimea cadrului, cardul avertizează cu valoarea de setat. Nimic nu se schimbă singur.
+- **Releveu:** cadrul nu produce „ciocniri” cu corpurile de deasupra și nu primește blat.
+- **Nu se recalculează singur:** dacă mutați corpurile sau schimbați valorile, cardul spune „nu mai corespunde, recalculează”.
+- **Încă nu:** lanț de închidere blocant la export pentru potrivirea cadru–corp (acum avertisment în card), picior ales din catalog pentru cadru (acum Camar 300), două materiale (șine albe, traverse brute), modul de găurire al șinelor.
+- Teste: `cd test && node --test baseframe.test.js` (30 de teste) și un bloc nou în e2e (U.14).
+
 ## 5.29.2 — 8 noiembrie 2026
 
 **Mai multe picioare reglabile în catalog, și avertisment când soclul iese din gama lor.** Categoria „Picioare reglabile” primește cinci articole, în 7 limbi, fără preț (se completează în Catalog):

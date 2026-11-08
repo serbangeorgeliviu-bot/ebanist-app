@@ -164,6 +164,44 @@ describe("Piciorul din catalog", () => {
   });
 });
 
+describe("Modulul de proiect (type:\"cadru\")", () => {
+  const MM = E.MM;
+  B.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__b", matOvr: {}, matAdd: [MM("__b", 18)], hwProd: {} };
+  const r = derive({ mods: ["A", "B", "C"], floor: [{ wall: "w1", x: 0, z: 0 }, { wall: "w1", x: 3000, z: 12 }] });
+  const cfgOf = k => Object.assign(B.baseFrameSegCfg(r, k, "Cadru " + k), { matBody: "__b", matFront: "__b", matBack: "__b" });
+  test("segmentul devine rânduri: șine, traverse, picioare, cu aceleași numere ca geometria", () => {
+    [0, 1].forEach(k => {
+      const m = B.buildModule(cfgOf(k)), sg = r.segments[k];
+      const row = el => m.pieces.find(p => p.elemento === el);
+      assert.equal(row("Sina cadru").pz, 2); assert.equal(row("Sina cadru").lung, Math.round(sg.L));
+      assert.equal(row("Traversa cadru").pz, sg.cross);
+      assert.equal(row("Piedino cadru").pz, sg.feet);
+      assert.equal(row("Piedino cadru").lung, D.foot.base);
+      assert.ok(m.pieces.every(p => p.elemento === "Piedino cadru" || p.sp === 18));
+    });
+  });
+  test("cutiile 3D: de la pardoseală (picioare) până la h; șinele de la capătul picioarelor; nimic sub 0", () => {
+    const m = B.buildModule(cfgOf(0));
+    const ys = m.boxes.map(b => [b.y0, b.y1]);
+    assert.equal(Math.min(...ys.map(y => y[0])), 0); assert.equal(Math.max(...ys.map(y => y[1])), D.h);
+    m.boxes.filter(b => b.role === "cadru").forEach(b => { assert.equal(b.y0, D.foot.base); assert.equal(b.y1, D.h); });
+    m.boxes.forEach(b => assert.ok(b.x1 > b.x0 && b.z1 > b.z0));
+  });
+  test("cutiile nu sunt piese de panou (nu intră în găurire) și rolul picioarelor e accesoriu", () => {
+    const m = B.buildModule(cfgOf(0));
+    assert.ok(m.boxes.filter(b => b.role === "cadru").length > 0);
+    assert.equal(m.pieces.find(p => p.elemento === "Piedino cadru").role, "accessorio");
+  });
+  test("fără material nu se generează", () => {
+    assert.throws(() => B.buildModule(Object.assign(cfgOf(0), { matBody: "nu-exista" })), /Cadru/);
+  });
+  test("segmentul se potrivește cu geometria: x local pornește de la capătul segmentului", () => {
+    const c = B.baseFrameSegCfg(r, 1, "n");
+    assert.equal(c.cross[0].x, 0); assert.ok(c.feet.every(f => f.x >= 0 && f.x <= r.segments[1].L));
+    assert.equal(c.P, r.segments[1].P + D.wall_gap);
+  });
+});
+
 describe("Determinism și date", () => {
   test("același input, aceleași piese și ID-uri", () => {
     const fl = [{ wall: "w1", x: 0, z: 0 }, { wall: "w1", x: 3000, z: 8 }];

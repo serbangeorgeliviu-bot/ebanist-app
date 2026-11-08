@@ -1899,6 +1899,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <button class="btn sm" id="btnWtAdd" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span id="btnWtAddLbl">Aggiungi blat</span></button>
     </div>
 
+    <div class="card" id="svBfCard" style="padding:12px;display:none;margin-bottom:14px">
+      <div class="eyebrow" style="margin:0 0 4px" id="svBfLbl">Cadru</div>
+      <p class="mini" id="svBfHint" style="margin-bottom:8px"></p>
+      <div id="svBfList"></div>
+      <button class="btn sm" id="btnBfAdd" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span id="btnBfAddLbl">Adaugă cadru</span></button>
+    </div>
+
     <div class="svgap" id="svGapBar" hidden>
       <svg id="svMini" viewBox="0 0 100 100" aria-hidden="true"></svg>
       <div class="svgap-t">
@@ -2790,6 +2797,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-hwgeom.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
+<script src="./ebanist-baseframe.js"></script>
 <script src="./ebanist-survey.js"></script>
 <script src="./ebanist-sheet.js"></script>
 <script src="./ebanist-elab.js"></script>
@@ -3944,6 +3952,14 @@ Object.assign(SURVEY_I18N.fr,{svSlope:"Plafond",svSlopeNone:"Horizontal",svSlope
 Object.assign(SURVEY_I18N.de,{svSlope:"Decke",svSlopeNone:"Waagerecht",svSlopeX:"Geneigt über die Breite (Punkt 1 = links, Punkt 3 = rechts)",svSlopeZ:"Geneigt über die Tiefe (Punkt 1 = vorn, Punkt 3 = hinten)",svSlopeSuggest:"Die Punkte 1 und 3 unterscheiden sich um {d} mm: die Decke wirkt schräg (unter Treppe, Mansarde). Gefälle wählen, dann schlägt „Konfigurator ausfüllen“ es vor.",svSlopePoints:"Für das Gefälle werden die Höhen der Punkte 1 und 3 gebraucht.",svSlopeFlat:"Die Punkte 1 und 3 unterscheiden sich nur um {d} mm (Minimum {m}): der Deckel bleibt waagerecht.",svSlopeReady:"Der Konfigurator schlägt einen schrägen Deckel vor: {a} → {b} mm (gemessene Höhen minus 20 mm).",svSlopeBit:"schräger Deckel {a}→{b}",svGapLbl:"Abweichung",svHintLen:"Wand {n}: sollte {v} mm sein ({d})",svHintAngle:"Winkel nach Wand {n}: sollte {v}° sein ({d}°)",svHintsLbl:"Mögliche Ursache",svHintOr:"oder",svCloseWall:"Mit berechneter Wand schließen",svCloseNote:"Wand {n} ({len} mm) ist berechnet, nicht gemessen; der Winkel der letzten Ecke wurde neu berechnet.",svDiagTitle:"Diagonalen",svDiagHint:"Miss eine Diagonale zwischen zwei Ecken: Weicht sie vom Plan ab, weißt du, wo der Fehler liegt.",svAddDiag:"Diagonale hinzufügen",svDiagA:"Von Ecke",svDiagB:"Zu Ecke",svDiagLen:"Gemessen (mm)",svDiagPlan:"Plan {p} mm",svImportDxf:"DXF importieren",svDxfReplace:"Vorhandene Wände durch die aus der DXF ersetzen?",svDxfOk:"DXF importiert: {n} Wände",svDxfUnits:"Zeicheneinheit nicht angegeben: Millimeter angenommen.",svDxfArc:"Bögen wurden durch Geraden ersetzt.",svDxfGap:"Die Kontur der Zeichnung schließt nicht genau: Wände prüfen.",svDxfBinary:"Binäres DXF: als ASCII-DXF (Text) speichern.",svDxfNone:"Keine geschlossene Kontur (Polylinie oder verbundene Linien) in der Zeichnung.",svDxfFormat:"Die Datei sieht nicht wie eine DXF aus.",svDwg:"DWG kann hier nicht gelesen werden: im Zeichenprogramm als DXF exportieren.",svPhotoAdd:"Foto hinzufügen",svPhotoDel:"Foto löschen",svPhotoErr:"Foto nicht gespeichert: Speicher nicht verfügbar.",svPhotoMissing:"Foto auf diesem Gerät nicht verfügbar",svHeightPh:"Fotos der Punkte",svObstOnPlan:"im Plan"});
 Object.assign(SURVEY_I18N.pl,{svSlope:"Strop",svSlopeNone:"Poziomy",svSlopeX:"Nachylony na szerokość (punkt 1 = lewo, punkt 3 = prawo)",svSlopeZ:"Nachylony na głębokość (punkt 1 = przód, punkt 3 = tył)",svSlopeSuggest:"Punkty 1 i 3 różnią się o {d} mm: strop wygląda na skośny (pod schodami, poddasze). Wybierz spadek, a „Wypełnij konfigurator” go zaproponuje.",svSlopePoints:"Do spadku potrzebne są wysokości punktów 1 i 3.",svSlopeFlat:"Punkty 1 i 3 różnią się tylko o {d} mm (minimum {m}): wieniec zostaje poziomy.",svSlopeReady:"Konfigurator zaproponuje skośny wieniec: {a} → {b} mm (zmierzone wysokości minus 20 mm).",svSlopeBit:"skośny wieniec {a}→{b}",svGapLbl:"Odchyłka",svHintLen:"Ściana {n}: powinna mieć {v} mm ({d})",svHintAngle:"Kąt za ścianą {n}: powinien wynosić {v}° ({d}°)",svHintsLbl:"Możliwa przyczyna",svHintOr:"albo",svCloseWall:"Zamknij obliczoną ścianą",svCloseNote:"Ściana {n} ({len} mm) jest obliczona, nie zmierzona; kąt ostatniego narożnika przeliczono.",svDiagTitle:"Przekątne",svDiagHint:"Zmierz przekątną między dwoma narożnikami: jeśli różni się od planu, wiesz, gdzie szukać błędu.",svAddDiag:"Dodaj przekątną",svDiagA:"Z narożnika",svDiagB:"Do narożnika",svDiagLen:"Zmierzone (mm)",svDiagPlan:"plan {p} mm",svImportDxf:"Importuj DXF",svDxfReplace:"Zastąpić istniejące ściany ścianami z DXF?",svDxfOk:"Zaimportowano DXF: {n} ścian",svDxfUnits:"Jednostka rysunku nie jest zadeklarowana: przyjęto milimetry.",svDxfArc:"Łuki zastąpiono liniami prostymi.",svDxfGap:"Kontur z rysunku nie zamyka się dokładnie: sprawdź ściany.",svDxfBinary:"Binarny DXF: zapisz jako DXF ASCII (tekst).",svDxfNone:"Brak zamkniętego konturu (polilinii lub połączonych linii) w rysunku.",svDxfFormat:"Plik nie wygląda na DXF.",svDwg:"Plik DWG nie jest tu odczytywany: wyeksportuj jako DXF z programu rysunkowego.",svPhotoAdd:"Dodaj zdjęcie",svPhotoDel:"Usuń zdjęcie",svPhotoErr:"Zdjęcie nie zostało zapisane: pamięć niedostępna.",svPhotoMissing:"Zdjęcie niedostępne na tym urządzeniu",svHeightPh:"Zdjęcia punktów",svObstOnPlan:"na planie"});
 Object.assign(SURVEY_I18N.es,{svSlope:"Techo",svSlopeNone:"Horizontal",svSlopeX:"Inclinado en el ancho (punto 1 = izquierda, punto 3 = derecha)",svSlopeZ:"Inclinado en la profundidad (punto 1 = delante, punto 3 = detrás)",svSlopeSuggest:"Los puntos 1 y 3 difieren en {d} mm: el techo parece inclinado (bajo escalera, buhardilla). Elige la pendiente y «Rellenar el configurador» la propone.",svSlopePoints:"La pendiente necesita las alturas de los puntos 1 y 3.",svSlopeFlat:"Los puntos 1 y 3 difieren solo {d} mm (mínimo {m}): el techo sigue horizontal.",svSlopeReady:"El configurador propondrá un techo inclinado: {a} → {b} mm (alturas medidas menos 20 mm).",svSlopeBit:"techo inclinado {a}→{b}",svGapLbl:"Desviación",svHintLen:"Pared {n}: debería medir {v} mm ({d})",svHintAngle:"Ángulo tras la pared {n}: debería ser {v}° ({d}°)",svHintsLbl:"Posible causa",svHintOr:"o",svCloseWall:"Cerrar con una pared calculada",svCloseNote:"La pared {n} ({len} mm) está calculada, no medida; el ángulo de la última esquina se recalculó.",svDiagTitle:"Diagonales",svDiagHint:"Mide una diagonal entre dos esquinas: si no coincide con el plano, sabes dónde está el error.",svAddDiag:"Añadir diagonal",svDiagA:"Desde la esquina",svDiagB:"A la esquina",svDiagLen:"Medida (mm)",svDiagPlan:"plano {p} mm",svImportDxf:"Importar DXF",svDxfReplace:"¿Sustituir las paredes existentes por las del DXF?",svDxfOk:"DXF importado: {n} paredes",svDxfUnits:"Unidad del dibujo no declarada: se usaron milímetros.",svDxfArc:"Los arcos se sustituyeron por rectas.",svDxfGap:"El contorno del dibujo no cierra exactamente: revisa las paredes.",svDxfBinary:"DXF binario: guárdalo como DXF ASCII (texto).",svDxfNone:"No hay un contorno cerrado (polilínea o líneas unidas) en el dibujo.",svDxfFormat:"El archivo no parece un DXF.",svDwg:"El DWG no se lee aquí: exporta como DXF desde el programa de dibujo.",svPhotoAdd:"Añadir foto",svPhotoDel:"Eliminar foto",svPhotoErr:"Foto no guardada: almacenamiento no disponible.",svPhotoMissing:"Foto no disponible en este dispositivo",svHeightPh:"Fotos de los puntos",svObstOnPlan:"en el plano"});
+/* U.14 — cadrul de nivelare în Releveu (D-117) */
+Object.assign(SURVEY_I18N.it,{"bfTitle": "Telaio di livellamento", "bfHint": "Telaio in truciolare bordato sotto la composizione, con piedini Camar 300 sui correnti. Si mette in bolla una volta sola, sulla quota più alta del pavimento; i corpi poggiano sopra, senza piedini propri.", "bfAdd": "Aggiungi telaio", "bfNew": "nuovo", "bfStale": "non corrisponde più, ricalcola", "bfOk": "aggiornato", "bfMods": "Corpi sul telaio", "bfMat": "Materiale correnti e traverse", "bfPick": "Scegli il materiale", "bfH": "Altezza telaio (mm)", "bfSetback": "Arretramento dal filo (mm)", "bfGap": "Gioco dal muro (mm)", "bfFloor": "Quote del pavimento (z in mm rispetto a un riferimento, + = più alto)", "bfFloorAdd": "Punto del pavimento", "bfFloorInfo": "Dislivello del pavimento {z} mm; telaio {h} mm dalla quota più alta.", "bfSegInfo": "{c} traverse · {f} piedini", "bfFootNote": "Piedini Camar 300 (Häfele), quote da confermare. Corpi sul telaio: Supporto = Telaio, altezza = quella del telaio.", "bfCalc": "Calcola il telaio", "bfRecalc": "Ricalcola il telaio", "bfApplied": "Telaio generato: {n} segmenti", "bfNeedRoom": "Il telaio richiede il rilievo della stanza: aggiungi le pareti e posiziona i corpi.", "bfManaged": "Il telaio si calcola dal Rilievo.", "bfNoMat": "Scegli il materiale dei correnti: lo spessore viene dal materiale.", "bfNoMods": "Scegli almeno un corpo.", "bfNegative": "Arretramento e gioco non possono essere negativi.", "bfTooLow": "Un telaio di {h} mm è troppo basso per piedino e corrente: minimo {min} mm.", "bfModMissing": "Il corpo «{name}» non esiste più.", "bfModRotated": "Il corpo «{name}» è ruotato: il telaio si fa solo su corpi paralleli alla parete.", "bfNoWall": "I corpi scelti non sono su nessuna parete.", "bfWallsNotAdjacent": "Le pareti scelte non sono adiacenti.", "bfTooManyWalls": "Troppe pareti per un telaio.", "bfTooShallow": "Parete {wall}: il telaio avrebbe {depth} mm di profondità (minimo {min}).", "bfCornerAngle": "Parete {wall}: l'angolo non è di 90° ({angle}°); il giunto diritto non è possibile.", "bfTooShort": "Parete {wall}: segmento troppo corto ({len} mm).", "bfFootTravel": "Segmento {seg}, a {x} mm: il pavimento richiede {ext} mm, la corsa del piedino è {travel} mm.", "bfModOutside": "Parete {wall}: un corpo esce dal telaio.", "bfNoFloor": "Nessuna quota del pavimento: i piedini restano alla stessa estensione.", "bfBodyH": "Il corpo «{name}» non poggia sul telaio: imposta Supporto = Telaio e altezza {h} mm.", "bfFootData": "Le quote del piedino sono incomplete."});
+Object.assign(SURVEY_I18N.ro,{"bfTitle": "Cadru de nivelare", "bfHint": "Cadru de PAL pe cant sub compoziție, cu picioare Camar 300 pe șine. Se pune o singură dată la nivel, pe cota cea mai înaltă a pardoselii; corpurile stau pe el, fără picioare proprii.", "bfAdd": "Adaugă cadru", "bfNew": "nou", "bfStale": "nu mai corespunde, recalculează", "bfOk": "la zi", "bfMods": "Corpuri pe cadru", "bfMat": "Material șine și traverse", "bfPick": "Alege materialul", "bfH": "Înălțime cadru (mm)", "bfSetback": "Retragere de la față (mm)", "bfGap": "Joc la perete (mm)", "bfFloor": "Cote pardoseală (z în mm față de un reper, + = mai sus)", "bfFloorAdd": "Punct pardoseală", "bfFloorInfo": "Denivelare pardoseală {z} mm; cadru {h} mm de la cota cea mai înaltă.", "bfSegInfo": "{c} traverse · {f} picioare", "bfFootNote": "Picioare Camar 300 (Häfele), cote de confirmat. Corpurile de pe cadru: Suport = Cadru, înălțimea = a cadrului.", "bfCalc": "Calculează cadrul", "bfRecalc": "Recalculează cadrul", "bfApplied": "Cadru generat: {n} segmente", "bfNeedRoom": "Cadrul are nevoie de releveul camerei: adaugă pereții și așază corpurile.", "bfManaged": "Cadrul se calculează din Releveu.", "bfNoMat": "Alege materialul șinelor: grosimea vine din material.", "bfNoMods": "Alege cel puțin un corp.", "bfNegative": "Retragerea și jocul nu pot fi negative.", "bfTooLow": "Cadrul de {h} mm e prea jos pentru picior și șină: minimum {min} mm.", "bfModMissing": "Corpul „{name}” nu mai există.", "bfModRotated": "Corpul „{name}” e rotit: cadrul se face numai pe corpuri paralele cu peretele.", "bfNoWall": "Corpurile alese nu sunt pe niciun perete.", "bfWallsNotAdjacent": "Pereții aleși nu sunt vecini.", "bfTooManyWalls": "Prea mulți pereți pentru un cadru.", "bfTooShallow": "Peretele {wall}: cadrul ar avea {depth} mm adâncime (minimum {min}).", "bfCornerAngle": "Peretele {wall}: colțul nu e de 90° ({angle}°); îmbinarea dreaptă nu e posibilă.", "bfTooShort": "Peretele {wall}: segment prea scurt ({len} mm).", "bfFootTravel": "Segment {seg}, la {x} mm: pardoseala cere {ext} mm, cursa piciorului e {travel} mm.", "bfModOutside": "Peretele {wall}: un corp iese din cadru.", "bfNoFloor": "Nicio cotă de pardoseală: picioarele rămân la aceeași extensie.", "bfBodyH": "Corpul „{name}” nu stă pe cadru: setează Suport = Cadru și înălțimea {h} mm.", "bfFootData": "Cotele piciorului sunt incomplete."});
+Object.assign(SURVEY_I18N.en,{"bfTitle": "Levelling frame", "bfHint": "Edge-banded chipboard frame under the run, with Camar 300 feet on the rails. It is levelled once, on the highest point of the floor; the units sit on it with no feet of their own.", "bfAdd": "Add frame", "bfNew": "new", "bfStale": "out of date, recalculate", "bfOk": "up to date", "bfMods": "Units on the frame", "bfMat": "Rail and cross-member material", "bfPick": "Choose material", "bfH": "Frame height (mm)", "bfSetback": "Setback from front (mm)", "bfGap": "Gap to wall (mm)", "bfFloor": "Floor heights (z in mm from a datum, + = higher)", "bfFloorAdd": "Floor point", "bfFloorInfo": "Floor unevenness {z} mm; frame {h} mm from the highest point.", "bfSegInfo": "{c} cross-members · {f} feet", "bfFootNote": "Camar 300 feet (Häfele), dimensions to be confirmed. Units on the frame: Support = Frame, height = the frame's.", "bfCalc": "Calculate frame", "bfRecalc": "Recalculate frame", "bfApplied": "Frame generated: {n} segments", "bfNeedRoom": "The frame needs the room survey: add the walls and place the units.", "bfManaged": "The frame is calculated from the Survey.", "bfNoMat": "Choose the rail material: the thickness comes from the material.", "bfNoMods": "Choose at least one unit.", "bfNegative": "Setback and gap cannot be negative.", "bfTooLow": "A {h} mm frame is too low for a foot and rail: minimum {min} mm.", "bfModMissing": "Unit “{name}” no longer exists.", "bfModRotated": "Unit “{name}” is rotated: the frame is only built under units parallel to the wall.", "bfNoWall": "The chosen units are not on any wall.", "bfWallsNotAdjacent": "The chosen walls are not adjacent.", "bfTooManyWalls": "Too many walls for one frame.", "bfTooShallow": "Wall {wall}: the frame would be {depth} mm deep (minimum {min}).", "bfCornerAngle": "Wall {wall}: the corner is not 90° ({angle}°); a butt joint is not possible.", "bfTooShort": "Wall {wall}: segment too short ({len} mm).", "bfFootTravel": "Segment {seg}, at {x} mm: the floor needs {ext} mm, the foot travel is {travel} mm.", "bfModOutside": "Wall {wall}: a unit sticks out of the frame.", "bfNoFloor": "No floor heights: the feet stay at the same extension.", "bfBodyH": "Unit “{name}” is not on the frame: set Support = Frame and height {h} mm.", "bfFootData": "The foot dimensions are incomplete."});
+Object.assign(SURVEY_I18N.fr,{"bfTitle": "Cadre de mise à niveau", "bfHint": "Cadre en panneau de particules chanté sous la composition, avec des pieds Camar 300 sur les rails. Il se règle une seule fois, sur le point le plus haut du sol ; les meubles reposent dessus, sans pieds propres.", "bfAdd": "Ajouter un cadre", "bfNew": "nouveau", "bfStale": "n'est plus à jour, recalculez", "bfOk": "à jour", "bfMods": "Meubles sur le cadre", "bfMat": "Matériau des rails et traverses", "bfPick": "Choisir le matériau", "bfH": "Hauteur du cadre (mm)", "bfSetback": "Retrait par rapport à la façade (mm)", "bfGap": "Jeu au mur (mm)", "bfFloor": "Cotes du sol (z en mm par rapport à un repère, + = plus haut)", "bfFloorAdd": "Point du sol", "bfFloorInfo": "Dénivelé du sol {z} mm ; cadre {h} mm au-dessus du point le plus haut.", "bfSegInfo": "{c} traverses · {f} pieds", "bfFootNote": "Pieds Camar 300 (Häfele), cotes à confirmer. Meubles sur le cadre : Support = Cadre, hauteur = celle du cadre.", "bfCalc": "Calculer le cadre", "bfRecalc": "Recalculer le cadre", "bfApplied": "Cadre généré : {n} segments", "bfNeedRoom": "Le cadre demande le relevé de la pièce : ajoutez les murs et placez les meubles.", "bfManaged": "Le cadre se calcule depuis le Relevé.", "bfNoMat": "Choisissez le matériau des rails : l'épaisseur vient du matériau.", "bfNoMods": "Choisissez au moins un meuble.", "bfNegative": "Le retrait et le jeu ne peuvent pas être négatifs.", "bfTooLow": "Un cadre de {h} mm est trop bas pour un pied et un rail : minimum {min} mm.", "bfModMissing": "Le meuble « {name} » n'existe plus.", "bfModRotated": "Le meuble « {name} » est pivoté : le cadre se fait seulement sous des meubles parallèles au mur.", "bfNoWall": "Les meubles choisis ne sont sur aucun mur.", "bfWallsNotAdjacent": "Les murs choisis ne sont pas contigus.", "bfTooManyWalls": "Trop de murs pour un cadre.", "bfTooShallow": "Mur {wall} : le cadre ferait {depth} mm de profondeur (minimum {min}).", "bfCornerAngle": "Mur {wall} : l'angle n'est pas de 90° ({angle}°) ; l'assemblage droit est impossible.", "bfTooShort": "Mur {wall} : segment trop court ({len} mm).", "bfFootTravel": "Segment {seg}, à {x} mm : le sol demande {ext} mm, la course du pied est {travel} mm.", "bfModOutside": "Mur {wall} : un meuble dépasse du cadre.", "bfNoFloor": "Aucune cote de sol : les pieds restent à la même extension.", "bfBodyH": "Le meuble « {name} » ne repose pas sur le cadre : réglez Support = Cadre et hauteur {h} mm.", "bfFootData": "Les cotes du pied sont incomplètes."});
+Object.assign(SURVEY_I18N.de,{"bfTitle": "Nivellierrahmen", "bfHint": "Rahmen aus kantenbeschichteter Spanplatte unter der Zeile, mit Camar-300-Füßen an den Schienen. Er wird einmal am höchsten Punkt des Bodens ausgerichtet; die Korpusse stehen darauf, ohne eigene Füße.", "bfAdd": "Rahmen hinzufügen", "bfNew": "neu", "bfStale": "nicht mehr aktuell, neu berechnen", "bfOk": "aktuell", "bfMods": "Korpusse auf dem Rahmen", "bfMat": "Material für Schienen und Traversen", "bfPick": "Material wählen", "bfH": "Rahmenhöhe (mm)", "bfSetback": "Rücksprung von der Front (mm)", "bfGap": "Abstand zur Wand (mm)", "bfFloor": "Bodenhöhen (z in mm zu einem Bezugspunkt, + = höher)", "bfFloorAdd": "Bodenpunkt", "bfFloorInfo": "Bodenunebenheit {z} mm; Rahmen {h} mm über dem höchsten Punkt.", "bfSegInfo": "{c} Traversen · {f} Füße", "bfFootNote": "Camar-300-Füße (Häfele), Maße noch zu bestätigen. Korpusse auf dem Rahmen: Unterbau = Rahmen, Höhe = die des Rahmens.", "bfCalc": "Rahmen berechnen", "bfRecalc": "Rahmen neu berechnen", "bfApplied": "Rahmen erzeugt: {n} Segmente", "bfNeedRoom": "Der Rahmen braucht das Raumaufmaß: Wände anlegen und Korpusse platzieren.", "bfManaged": "Der Rahmen wird aus dem Aufmaß berechnet.", "bfNoMat": "Schienenmaterial wählen: Die Dicke kommt vom Material.", "bfNoMods": "Mindestens einen Korpus wählen.", "bfNegative": "Rücksprung und Abstand dürfen nicht negativ sein.", "bfTooLow": "Ein Rahmen von {h} mm ist für Fuß und Schiene zu niedrig: mindestens {min} mm.", "bfModMissing": "Korpus „{name}“ existiert nicht mehr.", "bfModRotated": "Korpus „{name}“ ist gedreht: Der Rahmen entsteht nur unter wandparallelen Korpussen.", "bfNoWall": "Die gewählten Korpusse stehen an keiner Wand.", "bfWallsNotAdjacent": "Die gewählten Wände sind nicht benachbart.", "bfTooManyWalls": "Zu viele Wände für einen Rahmen.", "bfTooShallow": "Wand {wall}: Der Rahmen wäre {depth} mm tief (mindestens {min}).", "bfCornerAngle": "Wand {wall}: Die Ecke hat nicht 90° ({angle}°); eine Stumpfverbindung ist nicht möglich.", "bfTooShort": "Wand {wall}: Segment zu kurz ({len} mm).", "bfFootTravel": "Segment {seg}, bei {x} mm: Der Boden verlangt {ext} mm, der Fußhub beträgt {travel} mm.", "bfModOutside": "Wand {wall}: Ein Korpus ragt über den Rahmen hinaus.", "bfNoFloor": "Keine Bodenhöhen: Die Füße bleiben gleich weit ausgefahren.", "bfBodyH": "Korpus „{name}“ steht nicht auf dem Rahmen: Unterbau = Rahmen und Höhe {h} mm einstellen.", "bfFootData": "Die Fußmaße sind unvollständig."});
+Object.assign(SURVEY_I18N.pl,{"bfTitle": "Rama poziomująca", "bfHint": "Rama z płyty wiórowej oklejonej pod zabudową, z nóżkami Camar 300 na szynach. Poziomuje się ją raz, na najwyższym punkcie podłogi; korpusy stoją na niej bez własnych nóżek.", "bfAdd": "Dodaj ramę", "bfNew": "nowa", "bfStale": "nieaktualna, przelicz", "bfOk": "aktualna", "bfMods": "Korpusy na ramie", "bfMat": "Materiał szyn i poprzeczek", "bfPick": "Wybierz materiał", "bfH": "Wysokość ramy (mm)", "bfSetback": "Cofnięcie od frontu (mm)", "bfGap": "Luz do ściany (mm)", "bfFloor": "Wysokości podłogi (z w mm od punktu odniesienia, + = wyżej)", "bfFloorAdd": "Punkt podłogi", "bfFloorInfo": "Nierówność podłogi {z} mm; rama {h} mm od najwyższego punktu.", "bfSegInfo": "{c} poprzeczek · {f} nóżek", "bfFootNote": "Nóżki Camar 300 (Häfele), wymiary do potwierdzenia. Korpusy na ramie: Podstawa = Rama, wysokość = wysokość ramy.", "bfCalc": "Oblicz ramę", "bfRecalc": "Przelicz ramę", "bfApplied": "Rama wygenerowana: {n} segmentów", "bfNeedRoom": "Rama wymaga pomiaru pomieszczenia: dodaj ściany i ustaw korpusy.", "bfManaged": "Rama jest liczona z Pomiaru.", "bfNoMat": "Wybierz materiał szyn: grubość wynika z materiału.", "bfNoMods": "Wybierz co najmniej jeden korpus.", "bfNegative": "Cofnięcie i luz nie mogą być ujemne.", "bfTooLow": "Rama {h} mm jest za niska dla nóżki i szyny: minimum {min} mm.", "bfModMissing": "Korpus „{name}” już nie istnieje.", "bfModRotated": "Korpus „{name}” jest obrócony: rama powstaje tylko pod korpusami równoległymi do ściany.", "bfNoWall": "Wybrane korpusy nie stoją przy żadnej ścianie.", "bfWallsNotAdjacent": "Wybrane ściany nie sąsiadują.", "bfTooManyWalls": "Za dużo ścian na jedną ramę.", "bfTooShallow": "Ściana {wall}: rama miałaby głębokość {depth} mm (minimum {min}).", "bfCornerAngle": "Ściana {wall}: narożnik nie ma 90° ({angle}°); połączenie na styk jest niemożliwe.", "bfTooShort": "Ściana {wall}: segment za krótki ({len} mm).", "bfFootTravel": "Segment {seg}, przy {x} mm: podłoga wymaga {ext} mm, skok nóżki to {travel} mm.", "bfModOutside": "Ściana {wall}: korpus wystaje poza ramę.", "bfNoFloor": "Brak wysokości podłogi: nóżki zostają na tym samym wysunięciu.", "bfBodyH": "Korpus „{name}” nie stoi na ramie: ustaw Podstawa = Rama i wysokość {h} mm.", "bfFootData": "Wymiary nóżki są niekompletne."});
+Object.assign(SURVEY_I18N.es,{"bfTitle": "Bastidor de nivelación", "bfHint": "Bastidor de aglomerado canteado bajo la composición, con patas Camar 300 en los largueros. Se nivela una sola vez, en el punto más alto del suelo; los muebles se apoyan encima, sin patas propias.", "bfAdd": "Añadir bastidor", "bfNew": "nuevo", "bfStale": "desactualizado, recalcula", "bfOk": "al día", "bfMods": "Muebles sobre el bastidor", "bfMat": "Material de largueros y travesaños", "bfPick": "Elegir material", "bfH": "Altura del bastidor (mm)", "bfSetback": "Retranqueo del frente (mm)", "bfGap": "Holgura a la pared (mm)", "bfFloor": "Cotas del suelo (z en mm respecto a una referencia, + = más alto)", "bfFloorAdd": "Punto del suelo", "bfFloorInfo": "Desnivel del suelo {z} mm; bastidor {h} mm sobre el punto más alto.", "bfSegInfo": "{c} travesaños · {f} patas", "bfFootNote": "Patas Camar 300 (Häfele), medidas por confirmar. Muebles sobre el bastidor: Apoyo = Bastidor, altura = la del bastidor.", "bfCalc": "Calcular bastidor", "bfRecalc": "Recalcular bastidor", "bfApplied": "Bastidor generado: {n} segmentos", "bfNeedRoom": "El bastidor necesita la medición de la sala: añade las paredes y coloca los muebles.", "bfManaged": "El bastidor se calcula desde la Medición.", "bfNoMat": "Elige el material de los largueros: el grosor sale del material.", "bfNoMods": "Elige al menos un mueble.", "bfNegative": "El retranqueo y la holgura no pueden ser negativos.", "bfTooLow": "Un bastidor de {h} mm es demasiado bajo para pata y larguero: mínimo {min} mm.", "bfModMissing": "El mueble «{name}» ya no existe.", "bfModRotated": "El mueble «{name}» está girado: el bastidor solo se hace bajo muebles paralelos a la pared.", "bfNoWall": "Los muebles elegidos no están en ninguna pared.", "bfWallsNotAdjacent": "Las paredes elegidas no son contiguas.", "bfTooManyWalls": "Demasiadas paredes para un bastidor.", "bfTooShallow": "Pared {wall}: el bastidor tendría {depth} mm de fondo (mínimo {min}).", "bfCornerAngle": "Pared {wall}: la esquina no es de 90° ({angle}°); la unión a tope no es posible.", "bfTooShort": "Pared {wall}: segmento demasiado corto ({len} mm).", "bfFootTravel": "Segmento {seg}, a {x} mm: el suelo pide {ext} mm, el recorrido de la pata es {travel} mm.", "bfModOutside": "Pared {wall}: un mueble sobresale del bastidor.", "bfNoFloor": "Sin cotas del suelo: las patas quedan con la misma extensión.", "bfBodyH": "El mueble «{name}» no se apoya en el bastidor: pon Apoyo = Bastidor y altura {h} mm.", "bfFootData": "Las medidas de la pata están incompletas."});
 function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
 
 AUTH_I18N.it.syncConflict="⇄ Versione più recente ricevuta da un altro dispositivo";
@@ -4377,6 +4393,7 @@ function isAccessoryMat(label){ return /^accessorio/i.test(String(label||"")); }
 const ACC_I18N={
   "Accessorio — asta appendiabiti ovale":{ro:"Accesoriu — bară umerașe ovală",en:"Accessory — oval hanging rail",fr:"Accessoire — tringle ovale",de:"Zubehör — ovale Kleiderstange",pl:"Akcesorium — owalny drążek na ubrania",es:"Accesorio — barra de colgar ovalada"},
   "Accessorio — piedino regolabile":{ro:"Accesoriu — picior reglabil",en:"Accessory — adjustable foot",fr:"Accessoire — vérin réglable",de:"Zubehör — Stellfuß",pl:"Akcesorium — nóżka regulowana",es:"Accesorio — pata regulable"},
+  "Accessorio — piedino cadru (Camar 300)":{ro:"Accesoriu — picior cadru (Camar 300)",en:"Accessory — frame foot (Camar 300)",fr:"Accessoire — pied de cadre (Camar 300)",de:"Zubehör — Rahmenfuß (Camar 300)",pl:"Akcesorium — nóżka ramy (Camar 300)",es:"Accesorio — pata de bastidor (Camar 300)"},
   "Accessorio — vetro temperato 4mm":{ro:"Accesoriu — sticlă securizată 4 mm",en:"Accessory — tempered glass 4 mm",fr:"Accessoire — verre trempé 4 mm",de:"Zubehör — Einscheibensicherheitsglas 4 mm",pl:"Akcesorium — szkło hartowane 4 mm",es:"Accesorio — vidrio templado 4 mm"},
   "Accessorio — gamba legno massello 70×70":{ro:"Accesoriu — picior lemn masiv 70×70",en:"Accessory — solid wood leg 70×70",fr:"Accessoire — pied bois massif 70×70",de:"Zubehör — Massivholzbein 70×70",pl:"Akcesorium — noga z litego drewna 70×70",es:"Accesorio — pata de madera maciza 70×70"},
   "Accessorio — doga faggio curvata 68mm":{ro:"Accesoriu — șipcă fag curbată 68 mm",en:"Accessory — curved beech slat 68 mm",fr:"Accessoire — latte hêtre cintrée 68 mm",de:"Zubehör — gebogene Buchenlatte 68 mm",pl:"Akcesorium — wygięta listwa bukowa 68 mm",es:"Accesorio — lama de haya curvada 68 mm"}
@@ -6516,6 +6533,7 @@ const MAT_AW="Accessorio — profilo anticurvatura";
 const MAT_VENT="Accessorio — griglia di aerazione";
 const MAT_FOLD="Accessorio — sistema anta pieghevole";
 const MAT_PIED="Accessorio — piedino regolabile";
+const MAT_PIED_CADRU="Accessorio — piedino cadru (Camar 300)";
 /* fâșia de soclu a cadrului (U.14, D-117): jocul față de pardoseală (Häfele MB 12.109: înălțimea soclului = H − 5…10 mm) și pasul
    suporturilor de soclu. Generice, de confirmat în atelier. */
 const SOC_FRAME={gap:8,pitch:600,verificat:false};
@@ -8568,6 +8586,25 @@ function buildModule(cfg){
     }
     return {pieces:[o],boxes};
   }
+  /* CADRUL DE NIVELARE (U.14, D-117): un segment pe perete, generat din Releveu (`bfApply`). Șinele, traversele și picioarele vin gata
+     calculate în cfg (ebanist-baseframe.js); aici se emit doar rândurile de distinctă și cutiile 3D. Grosimea vine din materialul ales
+     (D-41). Cutiile nu poartă un rol de panou: cadrul nu se găurește în Modelul de Operații. */
+  if(cfg.type==="cadru"){
+    const mB=matById(cfg.matBody);
+    if(!mB||!(+mB.th>0)) throw new Error("Cadru: alege materialul șinelor — grosimea vine din material (D-41)");
+    const L=+cfg.L, Dp=+cfg.P, h=+cfg.h, rh=+cfg.railH, sp=+cfg.sp, F=cfg.foot||{base:0,dia:0};
+    if(!(L>0&&Dp>0&&rh>0&&sp>0)) throw new Error("Cadru: lungimea, adâncimea și înălțimea trebuie să fie pozitive");
+    const rails=cfg.rails||[], cross=cfg.cross||[], feet=cfg.feet||[], pieces=[], boxes=[];
+    const edge=takesEdge(cfg,"Sina cadru","zoccolo")?"1L":"";
+    if(rails.length) pieces.push({elemento:"Sina cadru",lung:Math.round(L),larg:Math.round(rh),pz:rails.length,bordo:edge,mat:mB.label,sp});
+    if(cross.length) pieces.push({elemento:"Traversa cadru",lung:Math.round(cross[0].L),larg:Math.round(rh),pz:cross.length,bordo:"",mat:mB.label,sp});
+    if(feet.length) pieces.push({elemento:"Piedino cadru",lung:Math.round(F.base),larg:Math.round(F.dia),pz:feet.length,bordo:"",mat:MAT_PIED_CADRU,role:"accessorio"});
+    let pk=1;
+    rails.forEach(r=>boxes.push({x0:0,x1:L,y0:F.base,y1:h,z0:r.y,z1:r.y+sp,kind:"p",role:"cadru",pk:pk++}));
+    cross.forEach(c=>boxes.push({x0:c.x,x1:c.x+sp,y0:F.base,y1:h,z0:c.y,z1:c.y+c.L,kind:"p",role:"cadru",pk:pk++}));
+    feet.forEach(f=>boxes.push({x0:f.x-F.dia/2,x1:f.x+F.dia/2,y0:0,y1:F.base,z0:f.y-F.dia/2,z1:f.y+F.dia/2,kind:"p",role:"piedino",pk:pk++}));
+    return {pieces,boxes};
+  }
   if(cfg.type==="scrivania"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=structTh(cfg);
     const pieces=[],boxes=[];
@@ -9281,6 +9318,12 @@ Object.assign(EL_I18N.fr,{"Zoccolo telaio": "Socle de cadre"});
 Object.assign(EL_I18N.de,{"Zoccolo telaio": "Rahmensockel"});
 Object.assign(EL_I18N.pl,{"Zoccolo telaio": "Cokół ramy"});
 Object.assign(EL_I18N.es,{"Zoccolo telaio": "Zócalo de bastidor"});
+Object.assign(EL_I18N.ro,{"Sina cadru": "Șină cadru", "Traversa cadru": "Traversă cadru", "Piedino cadru": "Picior cadru"});
+Object.assign(EL_I18N.en,{"Sina cadru": "Frame rail", "Traversa cadru": "Frame cross-member", "Piedino cadru": "Frame foot"});
+Object.assign(EL_I18N.fr,{"Sina cadru": "Rail de cadre", "Traversa cadru": "Traverse de cadre", "Piedino cadru": "Pied de cadre"});
+Object.assign(EL_I18N.de,{"Sina cadru": "Rahmenschiene", "Traversa cadru": "Rahmentraverse", "Piedino cadru": "Rahmenfuß"});
+Object.assign(EL_I18N.pl,{"Sina cadru": "Szyna ramy", "Traversa cadru": "Poprzeczka ramy", "Piedino cadru": "Nóżka ramy"});
+Object.assign(EL_I18N.es,{"Sina cadru": "Larguero de bastidor", "Traversa cadru": "Travesaño de bastidor", "Piedino cadru": "Pata de bastidor"});
 Object.assign(EL_I18N.en,{"Fianco di chiusura sopra sx":"Side cap, top left","Fianco di chiusura sopra dx":"Side cap, top right"});
 Object.assign(EL_I18N.fr,{"Fianco di chiusura sopra sx":"Joue de fermeture haut gauche","Fianco di chiusura sopra dx":"Joue de fermeture haut droite"});
 Object.assign(EL_I18N.de,{"Fianco di chiusura sopra sx":"Seitenabschluss oben links","Fianco di chiusura sopra dx":"Seitenabschluss oben rechts"});
@@ -11162,6 +11205,7 @@ function openBuilder(mod){
   const p=proj();
   /* un blat se calculeaza din Releveu (U.8): in constructor ar deveni un corp */
   if(p&&p.configs&&p.configs[mod]&&p.configs[mod].type==="blat"){ setView("survey"); toast(ts("wtManaged")); return; }
+  if(p&&p.configs&&p.configs[mod]&&p.configs[mod].type==="cadru"){ setView("survey"); toast(ts("bfManaged")); return; }
   if(p&&p.configs&&p.configs[mod]){ buildCfg={...p.configs[mod],name:mod}; if(buildFormReady)syncBuildForm(); asmSel=mod; }
   setView("build");
 }
@@ -14305,9 +14349,10 @@ function roomLayout(){
      un pensile a 1400 non urta il piano di lavoro sotto. */
   const vOver=(a,b)=>Math.min(a.yHi,b.yHi)-Math.max(a.yLo,b.yLo)>1;
   for(let i=0;i<mods.length;i++) for(let j=i+1;j<mods.length;j++)
-    if(vOver(mods[i],mods[j])&&polyHit(mods[i].foot,mods[j].foot)) issues.push({t:"hit",a:mods[i].name,b:mods[j].name});
+    /* cadrul de nivelare (U.14) stă SUB corpuri și se îmbină cu el însuși: nu intră în ciocniri */
+    if(!bfIsFrame(p,mods[i].name)&&!bfIsFrame(p,mods[j].name)&&vOver(mods[i],mods[j])&&polyHit(mods[i].foot,mods[j].foot)) issues.push({t:"hit",a:mods[i].name,b:mods[j].name});
   mods.forEach(m=>m.swings.forEach(sw=>{
-    mods.forEach(o=>{ if(o!==m && vOver(sw,o) && polyHit(sw.poly,o.foot)) issues.push({t:sw.kind==="door"?"door":"drawer",a:m.name,b:o.name}); });
+    mods.forEach(o=>{ if(o!==m && !bfIsFrame(p,o.name) && vOver(sw,o) && polyHit(sw.poly,o.foot)) issues.push({t:sw.kind==="door"?"door":"drawer",a:m.name,b:o.name}); });
     frames.forEach(f=>{ if(f!==m.fr && segHitPoly(f.a,f.b,sw.poly)) issues.push({t:sw.kind==="door"?"doorWall":"drawerWall",a:m.name,b:String(f.i+1)}); });
   }));
   const seen={}, uniq=issues.filter(x=>{const k=x.t+x.a+(x.b||"");if(seen[k])return false;seen[k]=1;return true;});
@@ -14522,7 +14567,7 @@ function renderPlan(){
   const sv=survey(); const el=$("svgPlan"); if(!el) return;
   const walls=sv?sv.walls:[];
   $("svPlanCard").style.display=walls.length?"":"none";
-  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; renderGapBar(sv); return; }
+  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; if($("svBfCard")) $("svBfCard").style.display="none"; renderGapBar(sv); return; }
   const pts=planPoints(walls);
   const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
   const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
@@ -14594,7 +14639,7 @@ function renderPlan(){
   $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")} · ${ts("svGapLbl")} ${Math.round(gap)} mm`;
   renderGapBar(sv);
   renderRoomList(RL);
-  renderWorktops(RL);
+  renderWorktops(RL); renderFrames(RL);
   renderSelBar();
   wirePlanDrag();
 }
@@ -14613,7 +14658,7 @@ const WT_KINDS=["sink","hob","other"];
 function wtIsBlat(p,name){ const c=p&&p.configs&&p.configs[name]; return !!(c&&c.type==="blat"); }
 /* corpurile care pot purta un blat: asezate pe perete, jos, neinvartite */
 function wtEligible(p,RL){
-  return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&m.lift<400);
+  return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&!bfIsFrame(p,m.name)&&m.lift<400);
 }
 /* adancimea reala a unui corp: cel mai iesit panou SAU front, de la perete */
 function wtFront(m){
@@ -14772,6 +14817,145 @@ function renderWorktops(RL){
     const i=+b.dataset.wdel, wt=W(i); snapUndo(); wtRemoveModules(p,wt.names||[]); p.worktops.splice(i,1); persist(); renderPlan(); }));
 }
 $("btnWtAdd").addEventListener("click",wtAdd);
+
+/* ================= CADRUL DE NIVELARE (U.14, D-117) =================
+   Ca blatul: obiect al camerei. Lungimea vine din corpurile de pe perete, adâncimea din cel mai ieșit front minus retragerea; șinele și
+   traversele sunt de PAL pe cant, picioarele sunt Camar 300 (Häfele) prinse pe fața interioară a șinelor. Cotele pardoselii din Releveu dau
+   extensia fiecărui picior. Fiecare perete are modulul lui (`type:"cadru"`: intră în plan, în camera 3D, în distinctă și în deviz). Nimic
+   nu se recalculează singur: dacă se mută corpurile, cadrul spune că nu mai corespunde și așteaptă «Calculează». Corpurile de pe cadru se
+   setează de mână (Suport = Cadru, înălțimea = a cadrului) și se verifică aici. */
+function bfIsFrame(p,name){ const c=p&&p.configs&&p.configs[name]; return !!(c&&c.type==="cadru"); }
+function bfEligible(p,RL){ return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&!bfIsFrame(p,m.name)&&m.lift<50); }
+function bfFootItem(){ try{ return hwItemById("pied","camar_300"); }catch(e){ return null; } }
+function bfInput(p,RL,fr){
+  const sv=p.survey;
+  const walls=RL.frames.map((f,i)=>({id:f.id,i,L:f.L,angle:+(sv.walls[i]&&sv.walls[i].angle)||90}));
+  const mods=[];
+  (fr.mods||[]).forEach(n=>{ const m=RL.mods.find(x=>x.name===n); if(!m) return;
+    mods.push({name:n,wall:m.fr.id,x0:m.from+m.x0,x1:m.from+m.x1,depth:wtFront(m),rot:m.rot}); });
+  const mt=fr.mat?matById(fr.mat):null, it=bfFootItem();
+  return {walls,mods,spec:{name:fr.name,mods:fr.mods||[],sp:mt?+mt.th:null,h:fr.h,setback:fr.setback,wallGap:fr.wallGap,
+    through:fr.through||[],floor:fr.floor||[],foot:it&&it.foot?it.foot:undefined}};
+}
+function bfCompute(p,fr){
+  const RL=roomLayout(), none={errors:[{k:"bfNeedRoom"}],warnings:[],segments:[],joints:[],pieces:[],feet:[]};
+  if(!RL||typeof deriveBaseFrame!=="function") return none;
+  const I=bfInput(p,RL,fr), r=deriveBaseFrame(I.spec,I.walls,I.mods);
+  r.RL=RL; r.mods=I.mods; r.mat=fr.mat?matById(fr.mat):null;
+  if(!r.mat||!(+r.mat.th>0)){ r.errors=r.errors.filter(e=>e.k!=="bfNoThickness"); r.errors.push({k:"bfNoMat"}); }
+  /* corpurile de pe cadru trebuie să stea la înălțimea cadrului */
+  if(!r.errors.length) (fr.mods||[]).forEach(n=>{
+    const m=RL.mods.find(x=>x.name===n), c=m&&m.cfg;
+    if(c&&(c.support!=="cadru"||Math.abs((+c.plinth||0)-r.h)>0.05)) r.warnings.push({k:"bfBodyH",name:n,h:r.h});
+  });
+  return r;
+}
+function bfSegName(fr,r,sg){ return r.segments.length===1?fr.name:fr.name+" "+sg.letter; }
+function bfSig(fr,r){ return JSON.stringify([r.mods,fr.h,fr.setback,fr.wallGap,fr.through,fr.floor,fr.mat]); }
+function bfMsg(e){ let s=ts(e.k); for(const k in e) if(k!=="k") s=s.replace("{"+k+"}",e[k]); return s; }
+function bfApply(p,fr){
+  const r=bfCompute(p,fr);
+  if(r.errors.length){ fr.err=r.errors.map(bfMsg); persist(); return false; }
+  snapUndo();
+  const names=[];
+  wtRemoveModules(p,fr.names||[]);
+  r.segments.forEach((sg,k)=>{
+    const name=bfSegName(fr,r,sg); names.push(name);
+    const cfg=baseFrameSegCfg(r,k,name);
+    Object.assign(cfg,{matBody:fr.mat,matFront:fr.mat,matBack:fr.mat,hwSel:{pied:"camar_300"},bf:fr.id});
+    generateInto(p,cfg);
+    layout()[name]={wall:sg.wall,from:sg.from,off:0,lift:0,rot:0};
+  });
+  fr.names=names; fr.sig=bfSig(fr,r); fr.err=null;
+  persist(); return true;
+}
+function bfAdd(){
+  const p=proj(); if(!p){ toast(ts("svNoProject")); return; }
+  const RL=roomLayout(); if(!RL){ toast(ts("bfNeedRoom")); return; }
+  p.baseFrames=p.baseFrames||[];
+  let n=p.baseFrames.length+1; while(p.baseFrames.some(w=>w.name==="Cadru "+n)) n++;
+  const D=typeof BASEFRAME_DEFAULTS!=="undefined"?BASEFRAME_DEFAULTS:{h:120,setback:50,wall_gap:10};
+  p.baseFrames.push({id:"bf"+Date.now().toString(36),name:"Cadru "+n,mods:bfEligible(p,RL).map(m=>m.name),mat:null,
+    h:D.h,setback:D.setback,wallGap:D.wall_gap,through:[],floor:[],names:[],sig:null});
+  persist(); renderPlan();
+}
+function bfPickMat(fr){
+  let sel=$("bfMatSel");
+  if(!sel){ sel=document.createElement("select"); sel.id="bfMatSel"; sel.hidden=true; document.body.appendChild(sel); }
+  sel.innerHTML=matVisible().map(m=>`<option value="${m.id}">${esc(matById(m.id).label)}</option>`).join("");
+  if(fr.mat) sel.value=fr.mat;
+  matPickOpen("bfMatSel",{minTh:12,title:ts("bfMat"),onPick:id=>{ fr.mat=id; persist(); renderPlan(); }});
+}
+function renderFrames(RL){
+  const card=$("svBfCard"); if(!card) return;
+  const p=proj(); if(!p||!RL){ card.style.display="none"; return; }
+  card.style.display="";
+  const box=$("svBfList");
+  wireRefreshOnLeave(box); if(editingIn(box)) return;
+  $("svBfLbl").textContent=ts("bfTitle"); $("svBfHint").textContent=ts("bfHint"); $("btnBfAddLbl").textContent=ts("bfAdd");
+  const el=bfEligible(p,RL), list=p.baseFrames||[], walls=(p.survey&&p.survey.walls)||[];
+  box.innerHTML=list.map((fr,fi)=>{
+    const r=bfCompute(p,fr);
+    const missing=(fr.names||[]).some(n=>!(p.configs&&p.configs[n]));
+    const applied=!!(fr.names&&fr.names.length)&&!missing;
+    const stale=applied&&!r.errors.length&&bfSig(fr,r)!==fr.sig;
+    const state=!applied?ts("bfNew"):stale?ts("bfStale"):ts("bfOk");
+    const joints=r.segments.length>1?r.joints.map((j,k)=>{
+      const first=(fr.through||[])[k]!=="second", a=j.corner.split("/");
+      return `<button class="chip sm on" data-fi="${fi}" data-jt="${k}">${esc(ts("wtJoint").replace("{a}",a[0]).replace("{b}",a[1]))}: ${esc(ts("wtPasses").replace("{n}",first?a[0]:a[1]))}</button>`; }).join(""):"";
+    const floor=(fr.floor||[]).map((q,qi)=>`<div class="bf-fl" data-fi="${fi}" data-qi="${qi}" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px;margin:4px 0">
+      <select data-f="wall">${walls.map((w,i)=>`<option value="${w.id}"${q.wall===w.id?" selected":""}>${esc(ts("svWall"))} ${i+1}</option>`).join("")}</select>
+      <input data-f="x" type="number" inputmode="numeric" placeholder="x" value="${q.x==null?"":q.x}">
+      <input data-f="z" type="number" inputmode="decimal" step="0.5" placeholder="z" value="${q.z==null?"":q.z}">
+      <button class="iconbtn" data-del="1" aria-label="x">✕</button></div>`).join("");
+    const segs=r.segments.map(sg=>`<div class="mini">${esc(bfSegName(fr,r,sg))} · ${esc(ts("svWall"))} ${sg.wallIndex+1} · <b>${sg.L}×${sg.P}</b> · ${esc(ts("bfSegInfo").replace("{c}",sg.cross).replace("{f}",sg.feet))}</div>`).join("");
+    const info=r.errors.length?"":`<div class="mini">${esc(ts("bfFloorInfo").replace("{z}",r.floorSpan).replace("{h}",r.h))}</div>`;
+    const msgs=r.errors.map(e=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(bfMsg(e))}</div>`).concat(
+      r.warnings.map(e=>`<div class="mini warnline">⚠ ${esc(bfMsg(e))}</div>`),
+      (fr.err||[]).map(x=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(x)}</div>`)).join("");
+    return `<div class="bf" data-fi="${fi}" style="border-top:1px solid var(--line,#e5e2d8);padding:10px 0">
+      <div style="display:flex;align-items:center;gap:8px"><b style="flex:1">${esc(fr.name)}</b><span class="mini">${esc(state)}</span>
+        <button class="iconbtn" data-fdel="${fi}" aria-label="x">✕</button></div>
+      <div class="mini" style="margin:6px 0 2px">${esc(ts("bfMods"))}</div>
+      <div class="chips">${el.map(m=>`<button class="chip sm${(fr.mods||[]).includes(m.name)?" on":""}" data-fi="${fi}" data-fm="${esc(m.name)}">${esc(m.name)}</button>`).join("")||`<span class="mini">${esc(ts("svNoPlaced"))}</span>`}</div>
+      <div class="f2" style="margin-top:8px">
+        <div class="f"><label>${esc(ts("bfMat"))}</label><button type="button" class="matpick" data-fi="${fi}" data-fpick="1">${fr.mat&&matById(fr.mat)?esc(matById(fr.mat).label):esc(ts("bfPick"))}</button></div>
+        <div class="f"><label>${esc(ts("bfH"))}</label><input data-fi="${fi}" data-ff="h" type="number" inputmode="numeric" value="${fr.h==null?"":fr.h}"></div>
+      </div>
+      <div class="f2"><div class="f"><label>${esc(ts("bfSetback"))}</label><input data-fi="${fi}" data-ff="setback" type="number" inputmode="numeric" value="${fr.setback==null?"":fr.setback}"></div>
+        <div class="f"><label>${esc(ts("bfGap"))}</label><input data-fi="${fi}" data-ff="wallGap" type="number" inputmode="numeric" value="${fr.wallGap==null?"":fr.wallGap}"></div></div>
+      ${joints?`<div class="mini" style="margin:6px 0 2px">${esc(ts("wtCorner"))}</div><div class="chips">${joints}</div>`:""}
+      <div class="mini" style="margin:8px 0 2px">${esc(ts("bfFloor"))}</div>
+      ${floor}
+      <div class="chips" style="margin-top:4px"><button class="chip sm" data-fi="${fi}" data-fladd="1">+ ${esc(ts("bfFloorAdd"))}</button></div>
+      <div style="margin-top:8px">${segs}${info}${msgs}</div>
+      <div class="mini" style="margin-top:4px">${esc(ts("bfFootNote"))}</div>
+      <button class="btn sm" data-fcalc="${fi}" style="margin-top:6px">${esc(applied?ts("bfRecalc"):ts("bfCalc"))}</button></div>`;
+  }).join("");
+  const F=i=>(p.baseFrames||[])[i];
+  const touch=()=>{ persist(); renderPlan(); };
+  box.querySelectorAll("[data-fm]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fi), n=b.dataset.fm; fr.mods=(fr.mods||[]).includes(n)?fr.mods.filter(x=>x!==n):(fr.mods||[]).concat(n); touch(); }));
+  box.querySelectorAll("[data-jt]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fi), k=+b.dataset.jt; fr.through=(fr.through||[]).slice(); while(fr.through.length<=k) fr.through.push("first");
+    fr.through[k]=fr.through[k]==="second"?"first":"second"; touch(); }));
+  box.querySelectorAll("[data-ff]").forEach(inp=>inp.addEventListener("change",()=>{
+    const fr=F(+inp.dataset.fi), v=parseFloat(inp.value); fr[inp.dataset.ff]=isFinite(v)?v:null; touch(); }));
+  box.querySelectorAll("[data-fpick]").forEach(b=>b.addEventListener("click",()=>bfPickMat(F(+b.dataset.fi))));
+  box.querySelectorAll("[data-fladd]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fi), w0=walls[0]; fr.floor=(fr.floor||[]).concat({wall:w0?w0.id:"",x:0,z:0}); touch(); }));
+  box.querySelectorAll(".bf-fl").forEach(row=>{
+    const fr=F(+row.dataset.fi), q=fr.floor[+row.dataset.qi];
+    row.querySelectorAll("[data-f]").forEach(f=>f.addEventListener("change",()=>{
+      const k=f.dataset.f; q[k]=k==="wall"?f.value:parseFloat(f.value); if(typeof q[k]==="number"&&!isFinite(q[k])) q[k]=null; touch(); }));
+    row.querySelector("[data-del]").addEventListener("click",()=>{ fr.floor.splice(+row.dataset.qi,1); touch(); });
+  });
+  box.querySelectorAll("[data-fcalc]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fcalc); const ok=bfApply(p,fr); renderPlan(); if(ok){ toast(ts("bfApplied").replace("{n}",fr.names.length)); auditBadge(); } }));
+  box.querySelectorAll("[data-fdel]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.fdel, fr=F(i); snapUndo(); wtRemoveModules(p,fr.names||[]); p.baseFrames.splice(i,1); persist(); renderPlan(); }));
+}
+$("btnBfAdd").addEventListener("click",bfAdd);
 
 /* lista de amplasare: fiecare modul pe ce perete si la ce cota, plus problemele */
 function renderRoomList(RL){
@@ -17824,12 +18008,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.29.2"; /* APP_VER-MARKER */
+const APP_VER="5.30.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v210";
+const SW_CACHE="ebanist-v211";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
