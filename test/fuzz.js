@@ -73,12 +73,13 @@ for (let i = 0; i < N; i++) {
   if (rnd() < .5) cfg.drawers = ri(0, 8);
   if (rnd() < .5) cfg.tram = ri(0, 8);
   if (rnd() < .5) cfg.shelves = ri(0, 10);
-  if (rnd() < .3) cfg.handles = pick(["maniglia", "push", "gola"]);
+  if (rnd() < .3) cfg.handles = pick(["maniglia", "push", "gola", "raza"]);
+  if (cfg.handles === "raza" && rnd() < .6) { cfg.razaR = pick([10, 25, 40, 60, 90, 150]); cfg.razaCorner = pick(["auto", "top", "bottom", "both"]); }
   /* D-89: tipul de gola */
   if (cfg.handles === "gola" && rnd() < .6) cfg.golaType = pick(["L", "J", "fresata"]);
   if (rnd() < .2) cfg.top = pick(["traverse", "none"]);
   if (rnd() < .2) cfg.antiWarp = pick(["auto", "all"]);
-  if (rnd() < .3) cfg.support = pick(["zoccolo", "piedini", "sospeso"]);
+  if (rnd() < .3) cfg.support = pick(["zoccolo", "piedini", "cadru", "sospeso"]);
   if (rnd() < .3) cfg.drawerSys = pick(["legno", "tandembox", "legrabox", "matrix", "movento"]);
   /* D-86: tavan înclinat pe o parte din corpurile standard */
   if (t === "standard" && rnd() < .2) {

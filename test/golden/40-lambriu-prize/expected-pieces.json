@@ -1,8 +1,11 @@
 {
- "validat": false,
+ "validat": true,
  "nume": "40-lambriu-prize",
  "generat": "2026-10-27",
- "nota": "Cote generate cu codul curent. NU sunt golden până nu sunt verificate manual și `validat` nu devine true.",
+ "validat_la": "2026-11-08",
+ "validat_de": "Liviu — Domus Renov",
+ "nota_validare": "Validat la cererea lui Liviu (08.11.2026), cu codul 5.31.0, fără verificare rând cu rând de către om. Cotele sunt cele generate de cod; a fost o decizie, nu o măsurare în atelier.",
+ "nota": "Cote verificate (vezi nota_validare). De aici înainte orice abatere de la ele e o cădere de test, nu o schimbare tăcută. Se rescriu doar cu `node golden/gen.js --force`, și numai după o nouă verificare.",
  "geometrie": null,
  "chiusura_ok": true,
  "invarianti_ok": true,

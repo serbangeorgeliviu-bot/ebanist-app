@@ -1838,9 +1838,9 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         </div>
         <div class="f3">
           <div class="f"><label data-i="fHandles">Apertura</label>
-            <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option></select></div>
+            <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option><option value="raza" data-i="hRaza">Raza</option></select></div>
           <div class="f"><label data-i="fSupport">Supporto</label>
-            <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
+            <select id="bSupport"><option value="zoccolo" data-i="supPlinth">Zoccolo</option><option value="piedini" data-i="supFeet">Piedini</option><option value="cadru" data-i="supFrame">Cadru</option><option value="sospeso" data-i="supWall">Sospeso</option></select></div>
           <div class="f"><label data-i="fPlinth">Zoccolo (mm)</label><input id="bPlinth" type="number" inputmode="numeric"></div>
         </div>
         <div class="f" id="rowGolaType" style="display:none"><label data-i="fGolaType">Tipo di gola</label>
@@ -1850,6 +1850,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <div class="f"><label data-i="fGolaC">Rost gola C (mm)</label><input id="bGolaC" type="number" inputmode="numeric" min="5" max="200" placeholder="60"></div>
         </div>
         <p class="mini" id="golaHint" data-i="golaHint" style="margin:0 0 6px;display:none"></p>
+        <div class="f2" id="rowRaza" style="display:none">
+          <div class="f"><label data-i="fRazaR">Raza (mm)</label><input id="bRazaR" type="number" inputmode="numeric" min="10" max="300" placeholder="60"></div>
+          <div class="f"><label data-i="fRazaCorner">Colț rotunjit</label>
+            <select id="bRazaCorner"><option value="auto" data-i="razaAuto">Automat</option><option value="top" data-i="razaTop">Sus</option><option value="bottom" data-i="razaBottom">Jos</option><option value="both" data-i="razaBoth">Sus și jos</option></select></div>
+        </div>
+        <p class="mini" id="razaHint" data-i="razaHint" style="margin:0 0 6px;display:none"></p>
         <div class="f2" id="rowTop">
           <div class="f"><label data-i="fTop">Chiusura in alto</label>
             <select id="bTop"><option value="plin" data-i="topPlin">Cielo pieno</option><option value="traverse" data-i="topRails">Due traverse</option><option value="none" data-i="topNone">Nessuna</option></select></div>
@@ -1950,6 +1956,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <p class="mini" id="svWtHint" style="margin-bottom:8px"></p>
       <div id="svWtList"></div>
       <button class="btn sm" id="btnWtAdd" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span id="btnWtAddLbl">Aggiungi blat</span></button>
+    </div>
+
+    <div class="card" id="svBfCard" style="padding:12px;display:none;margin-bottom:14px">
+      <div class="eyebrow" style="margin:0 0 4px" id="svBfLbl">Cadru</div>
+      <p class="mini" id="svBfHint" style="margin-bottom:8px"></p>
+      <div id="svBfList"></div>
+      <button class="btn sm" id="btnBfAdd" style="margin-top:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span id="btnBfAddLbl">Adaugă cadru</span></button>
     </div>
 
     <div class="svgap" id="svGapBar" hidden>
@@ -2859,6 +2872,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-lift.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
+<script src="./ebanist-baseframe.js"></script>
 <script src="./ebanist-survey.js"></script>
 <script src="./ebanist-sheet.js"></script>
 <script src="./ebanist-elab.js"></script>
@@ -3749,6 +3763,36 @@ Object.assign(I18N.fr,{fGolaType:"Type de gorge",golaTL:"Profilés L + C dans le
 Object.assign(I18N.de,{fGolaType:"Griffleisten-Typ",golaTL:"L- + C-Profil im Korpus",golaTJ:"J-Profil an der Front",golaTF:"Gefräste Griffmulde in der Front (ohne Profil)",golaHintJ:"J-Profil an der Oberkante jeder Tür und Schublade: es sitzt in der Fuge über der Front. Keine Profile im Korpus, keine Ausschnitte in den Seiten.",golaHintF:"45°-Griff an der Rückseite der Oberkante jeder Front gefräst: kein Profil. Die Fräsmaße gehen erst in die Maschine, wenn du sie geprüft hast.",hwGolaJ:"J-Griffprofile (m)"});
 Object.assign(I18N.pl,{fGolaType:"Typ gola",golaTL:"Profile L + C w korpusie",golaTJ:"Profil J na froncie",golaTF:"Gola frezowana we froncie (bez profilu)",golaHintJ:"Profil J na górnej krawędzi każdych drzwi i szuflady: siedzi w szczelinie nad frontem. Bez profili w korpusie, bez wycięć w bokach.",golaHintF:"Uchwyt frezowany pod kątem 45° z tyłu górnej krawędzi każdego frontu: bez profilu. Wymiary frezowania nie trafią do maszyny, dopóki ich nie sprawdzisz.",hwGolaJ:"Profile gola J (m)"});
 Object.assign(I18N.es,{fGolaType:"Tipo de gola",golaTL:"Perfiles L + C en el módulo",golaTJ:"Perfil J en el frente",golaTF:"Gola fresada en el frente (sin perfil)",golaHintJ:"Perfil J en el canto superior de cada puerta y cajón: va en la ranura sobre el frente. Sin perfiles en el módulo, sin rebajes en los laterales.",golaHintF:"Agarre fresado a 45° en la parte trasera del canto superior de cada frente: sin perfil. Las medidas del fresado no van a la máquina hasta que las verifiques.",hwGolaJ:"Perfiles gola J (m)"});
+/* U.15 — front cu decupaj în rază (D-117) */
+Object.assign(I18N.it,{"hRaza": "Raggio nell'anta", "fRazaR": "Raggio (mm)", "fRazaCorner": "Angolo arrotondato", "razaAuto": "Automatico", "razaTop": "In alto", "razaBottom": "In basso", "razaBoth": "Alto e basso", "razaHint": "Senza maniglia: l'angolo dell'anta dal lato dell'apertura è arrotondato e il vuoto che resta è la presa delle dita. Bordare un raggio richiede una bordatrice adatta: chiedi al laboratorio.", "op_razaCorner": "Angolo arrotondato (presa)", "opsRazaSmall": "Il raggio scelto è più piccolo della fresa: i frontali restano dritti.", "opsRazaBig": "Il raggio è troppo grande per questo frontale: resta dritto.", "opsRazaGrip": "Con questo raggio il vuoto per le dita è piccolo: aumenta il raggio."});
+Object.assign(I18N.ro,{"hRaza": "Rază în ușă", "fRazaR": "Raza (mm)", "fRazaCorner": "Colț rotunjit", "razaAuto": "Automat", "razaTop": "Sus", "razaBottom": "Jos", "razaBoth": "Sus și jos", "razaHint": "Fără mâner: colțul ușii, de partea de deschidere, e rotunjit, iar golul rămas e priza degetelor. Cantul pe rază cere o mașină de cantuit potrivită: întreabă atelierul.", "op_razaCorner": "Colț rotunjit (priză)", "opsRazaSmall": "Raza aleasă e mai mică decât freza: fronturile rămân drepte.", "opsRazaBig": "Raza e prea mare pentru acest front: rămâne dreaptă.", "opsRazaGrip": "Cu raza aceasta golul pentru degete e mic: mărește raza."});
+Object.assign(I18N.en,{"hRaza": "Radius cut-out", "fRazaR": "Radius (mm)", "fRazaCorner": "Rounded corner", "razaAuto": "Automatic", "razaTop": "Top", "razaBottom": "Bottom", "razaBoth": "Top and bottom", "razaHint": "No handle: the door corner on the opening side is rounded and the gap it leaves is the finger grip. Edge-banding a radius needs a suitable edge bander: ask the workshop.", "op_razaCorner": "Rounded corner (grip)", "opsRazaSmall": "The chosen radius is smaller than the router bit: the fronts stay square.", "opsRazaBig": "The radius is too large for this front: it stays square.", "opsRazaGrip": "With this radius the finger gap is small: increase the radius."});
+Object.assign(I18N.fr,{"hRaza": "Rayon dans la porte", "fRazaR": "Rayon (mm)", "fRazaCorner": "Angle arrondi", "razaAuto": "Automatique", "razaTop": "En haut", "razaBottom": "En bas", "razaBoth": "En haut et en bas", "razaHint": "Sans poignée : l'angle de la porte, côté ouverture, est arrondi et le vide qui reste sert de prise pour les doigts. Plaquer un chant sur un rayon demande une plaqueuse de chants adaptée : demandez à l'atelier.", "op_razaCorner": "Angle arrondi (prise)", "opsRazaSmall": "Le rayon choisi est plus petit que la fraise : les façades restent droites.", "opsRazaBig": "Le rayon est trop grand pour cette façade : elle reste droite.", "opsRazaGrip": "Avec ce rayon le vide pour les doigts est petit : augmentez le rayon."});
+Object.assign(I18N.de,{"hRaza": "Radius in der Tür", "fRazaR": "Radius (mm)", "fRazaCorner": "Abgerundete Ecke", "razaAuto": "Automatisch", "razaTop": "Oben", "razaBottom": "Unten", "razaBoth": "Oben und unten", "razaHint": "Ohne Griff: Die Türecke auf der Öffnungsseite ist abgerundet, die entstehende Lücke dient als Fingergriff. Das Umleimen eines Radius braucht eine geeignete Kantenanleimmaschine: Werkstatt fragen.", "op_razaCorner": "Abgerundete Ecke (Griff)", "opsRazaSmall": "Der gewählte Radius ist kleiner als der Fräser: Die Fronten bleiben gerade.", "opsRazaBig": "Der Radius ist für diese Front zu groß: Sie bleibt gerade.", "opsRazaGrip": "Mit diesem Radius ist die Fingerlücke klein: Radius vergrößern."});
+Object.assign(I18N.pl,{"hRaza": "Promień w drzwiach", "fRazaR": "Promień (mm)", "fRazaCorner": "Zaokrąglony narożnik", "razaAuto": "Automatycznie", "razaTop": "Na górze", "razaBottom": "Na dole", "razaBoth": "Góra i dół", "razaHint": "Bez uchwytu: narożnik drzwi po stronie otwierania jest zaokrąglony, a powstała szczelina służy za chwyt palców. Oklejanie promienia wymaga odpowiedniej okleiniarki: zapytaj warsztat.", "op_razaCorner": "Zaokrąglony narożnik (chwyt)", "opsRazaSmall": "Wybrany promień jest mniejszy niż frez: fronty zostają proste.", "opsRazaBig": "Promień jest za duży dla tego frontu: zostaje prosty.", "opsRazaGrip": "Przy tym promieniu szczelina na palce jest mała: zwiększ promień."});
+Object.assign(I18N.es,{"hRaza": "Radio en la puerta", "fRazaR": "Radio (mm)", "fRazaCorner": "Esquina redondeada", "razaAuto": "Automático", "razaTop": "Arriba", "razaBottom": "Abajo", "razaBoth": "Arriba y abajo", "razaHint": "Sin tirador: la esquina de la puerta, del lado de apertura, está redondeada y el hueco que queda sirve de agarre para los dedos. Canteado en un radio exige una canteadora adecuada: pregunta al taller.", "op_razaCorner": "Esquina redondeada (agarre)", "opsRazaSmall": "El radio elegido es menor que la fresa: los frentes quedan rectos.", "opsRazaBig": "El radio es demasiado grande para este frente: queda recto.", "opsRazaGrip": "Con este radio el hueco para los dedos es pequeño: aumenta el radio."});
+/* U.14 — cadru de nivelare ca suport al corpului (D-117) */
+Object.assign(I18N.it,{"supFrame": "Telaio", "ms11c": "Il corpo poggia su un telaio di livellamento alto {h} mm, già messo in bolla: i piedini sono del telaio. Appoggia il corpo e fissalo ai correnti con viti.", "mFrame": "Appoggia il corpo sul telaio già in bolla (altezza {h} mm) e fissalo ai correnti con viti. I piedini sono del telaio, non del corpo."});
+Object.assign(I18N.ro,{"supFrame": "Cadru", "ms11c": "Corpul stă pe un cadru de nivelare înalt de {h} mm, deja adus la nivel: picioarele sunt ale cadrului. Așază corpul și prinde-l de șine cu șuruburi.", "mFrame": "Așază corpul pe cadrul deja la nivel (înălțime {h} mm) și prinde-l de șine cu șuruburi. Picioarele sunt ale cadrului, nu ale corpului."});
+Object.assign(I18N.en,{"supFrame": "Frame", "ms11c": "The unit sits on a levelling frame {h} mm high, already levelled: the feet belong to the frame. Set the unit down and screw it to the rails.", "mFrame": "Set the unit on the frame, already level ({h} mm high), and screw it to the rails. The feet belong to the frame, not the unit."});
+Object.assign(I18N.fr,{"supFrame": "Cadre", "ms11c": "Le meuble repose sur un cadre de mise à niveau de {h} mm, déjà réglé : les pieds sont ceux du cadre. Posez le meuble et vissez-le aux rails.", "mFrame": "Posez le meuble sur le cadre déjà à niveau (hauteur {h} mm) et vissez-le aux rails. Les pieds sont ceux du cadre, pas du meuble."});
+Object.assign(I18N.de,{"supFrame": "Rahmen", "ms11c": "Der Korpus steht auf einem Nivellierrahmen von {h} mm Höhe, bereits ausgerichtet: Die Füße gehören zum Rahmen. Korpus aufsetzen und mit den Schienen verschrauben.", "mFrame": "Korpus auf den bereits ausgerichteten Rahmen ({h} mm hoch) setzen und mit den Schienen verschrauben. Die Füße gehören zum Rahmen, nicht zum Korpus."});
+Object.assign(I18N.pl,{"supFrame": "Rama", "ms11c": "Korpus stoi na ramie poziomującej o wysokości {h} mm, już wypoziomowanej: nóżki należą do ramy. Postaw korpus i przykręć go do szyn.", "mFrame": "Postaw korpus na wypoziomowanej już ramie (wysokość {h} mm) i przykręć do szyn. Nóżki należą do ramy, nie do korpusu."});
+Object.assign(I18N.es,{"supFrame": "Bastidor", "ms11c": "El mueble se apoya en un bastidor de nivelación de {h} mm de altura, ya nivelado: las patas son del bastidor. Coloca el mueble y atorníllalo a los largueros.", "mFrame": "Coloca el mueble sobre el bastidor ya nivelado (altura {h} mm) y atorníllalo a los largueros. Las patas son del bastidor, no del mueble."});
+Object.assign(I18N.it,{"hwSoc": "Fissaggio zoccolo", "hwPicAcc": "Accessori piedino AXILO", "mSocFix": "Monta la fascia dello zoccolo ({h} mm), arretrata come lo zoccolo, con {q} × {p}."});
+Object.assign(I18N.ro,{"hwSoc": "Fixare soclu", "hwPicAcc": "Accesorii picior AXILO", "mSocFix": "Montează fâșia de soclu ({h} mm), retrasă ca soclul, cu {q} × {p}."});
+Object.assign(I18N.en,{"hwSoc": "Plinth fixings", "hwPicAcc": "AXILO foot accessories", "mSocFix": "Fit the plinth strip ({h} mm), set back like a plinth, with {q} × {p}."});
+Object.assign(I18N.fr,{"hwSoc": "Fixations de socle", "hwPicAcc": "Accessoires de pied AXILO", "mSocFix": "Montez la bande de socle ({h} mm), en retrait comme un socle, avec {q} × {p}."});
+Object.assign(I18N.de,{"hwSoc": "Sockelbefestigung", "hwPicAcc": "AXILO-Fußzubehör", "mSocFix": "Sockelleiste ({h} mm) montieren, wie ein Sockel zurückgesetzt, mit {q} × {p}."});
+Object.assign(I18N.pl,{"hwSoc": "Mocowanie cokołu", "hwPicAcc": "Akcesoria nóżki AXILO", "mSocFix": "Zamontuj listwę cokołu ({h} mm), cofniętą jak cokół, za pomocą {q} × {p}."});
+Object.assign(I18N.es,{"hwSoc": "Fijación de zócalo", "hwPicAcc": "Accesorios de pata AXILO", "mSocFix": "Monta la tira de zócalo ({h} mm), retranqueada como un zócalo, con {q} × {p}."});
+Object.assign(I18N.it,{"wFootRange": "L'altezza dello zoccolo ({h} mm) è fuori dal campo di regolazione del piedino scelto ({a}–{b} mm)."});
+Object.assign(I18N.ro,{"wFootRange": "Înălțimea soclului ({h} mm) iese din gama de reglaj a piciorului ales ({a}–{b} mm)."});
+Object.assign(I18N.en,{"wFootRange": "The plinth height ({h} mm) is outside the adjustment range of the chosen foot ({a}–{b} mm)."});
+Object.assign(I18N.fr,{"wFootRange": "La hauteur du socle ({h} mm) sort de la plage de réglage du pied choisi ({a}–{b} mm)."});
+Object.assign(I18N.de,{"wFootRange": "Die Sockelhöhe ({h} mm) liegt außerhalb des Verstellbereichs des gewählten Fußes ({a}–{b} mm)."});
+Object.assign(I18N.pl,{"wFootRange": "Wysokość cokołu ({h} mm) wykracza poza zakres regulacji wybranej nóżki ({a}–{b} mm)."});
+Object.assign(I18N.es,{"wFootRange": "La altura del zócalo ({h} mm) queda fuera del rango de regulación de la pata elegida ({a}–{b} mm)."});
 Object.assign(I18N.it,{vtOpen:"Apri",vtHw:"Ferramenta",vtHoles:"Fori",vtHint:"Trascina per ruotare · tocca un pezzo",vtPieces:"Pezzi",vtNoPieces:"Nessun pezzo: configura il mobile.",vtNeedGL:"Pezzi e fori richiedono il 3D WebGL.",vtHolesN:"fori",vtHwN:"ferramenta",vtIsolate:"Isola",vtShowAll:"Mostra tutto",vtSheet:"Scheda pezzo",hw_cerniera:"Cerniere",hw_maniglia:"Maniglie",hw_guida:"Guide cassetto",hw_reggipiano:"Reggipiani",hw_minifix:"Minifix (eccentrici)",hw_tassello:"Tasselli",hwVerify:"Quote di foratura da catalogo (Blum/Häfele), non ancora verificate su un pezzo: controlla prima di mandare in macchina.",role_fianco:"Fianco",role_divisorio:"Tramezzo",role_base:"Base",role_cielo:"Cielo",role_base_cielo:"Base / Cielo",role_ripiano:"Ripiano",role_schienale:"Schienale",role_zoccolo:"Zoccolo",role_frontale:"Anta",role_traversa:"Traversa",role_cassetto_frontale:"Frontale cassetto",role_cassetto_fianco:"Cassa cassetto",role_cassetto_fondo:"Fondo cassetto",sideL:"sinistro",sideR:"destro",partFace:"Faccia",partW:"Largh.",partT:"Spess.",partApprox:"Pezzo spezzato o sagomato: la riga di distinta e quella del suo ruolo, le quote sono quelle del pezzo intero.",partOther:"altra faccia",partThrough:"passante",pfErr:"{n} controlli di foratura non superati",pfOk:"Foratura: controlli superati",pfWarn:"{n} fori vicini al bordo",pfFlip:"fori su due facce: il pezzo si gira",opOp:"Operazione",opFace:"Faccia",opDepth:"Prof.",partNoOps:"Nessuna foratura su questo pezzo.",partAxes:"Faccia 5 = quella con piu fori, in alto in macchina. X lungo la lunghezza, Y lungo la larghezza, origine in basso a sinistra. Sui bordi: u lungo il bordo, z dalla faccia 6.",partIn3D:"Vedi in 3D",partCsv:"CSV fori",op_groove:"Cava schienale",op_cup:"Tazza cerniera Ø35",op_hdowel:"Tassello cerniera",op_plate:"Basetta cerniera",op_bolt:"Perno minifix",op_shank:"Gambo minifix",op_cam:"Eccentrico minifix",op_dowel:"Tassello Ø8",op_pin:"Reggipiano",op_pinAdj:"Reggipiano (regolazione)",op_slide:"Guida cassetto",op_wtBolt:"Buco per bullone blat",op_cutSink:"Taglio lavello",op_cutHob:"Taglio piano cottura",op_cutOther:"Taglio piano",op_handle:"Maniglia",partNotFound:"Pezzo non trovato nella configurazione del mobile",listHoles:"Fori"});
 Object.assign(I18N.ro,{vtOpen:"Deschide",vtHw:"Feronerie",vtHoles:"Găuri",vtHint:"Trage pentru a roti · atinge o piesă",vtPieces:"Piese",vtNoPieces:"Nicio piesă: configurează corpul.",vtNeedGL:"Piesele și găurile cer 3D WebGL.",vtHolesN:"găuri",vtHwN:"feronerie",vtIsolate:"Izolează",vtShowAll:"Arată tot",vtSheet:"Fișa piesei",hw_cerniera:"Balamale",hw_maniglia:"Mânere",hw_guida:"Glisiere sertar",hw_reggipiano:"Suporți poliță",hw_minifix:"Minifix (excentrice)",hw_tassello:"Dibluri",hwVerify:"Cote de găurire din catalog (Blum/Häfele), neverificate încă pe o piesă reală: verifică înainte de mașină.",role_fianco:"Laterală",role_divisorio:"Montant",role_base:"Bază",role_cielo:"Tavan",role_base_cielo:"Bază / Tavan",role_ripiano:"Poliță",role_schienale:"Spate",role_zoccolo:"Soclu",role_frontale:"Ușă",role_traversa:"Traversă",role_cassetto_frontale:"Front sertar",role_cassetto_fianco:"Cutie sertar",role_cassetto_fondo:"Fund sertar",sideL:"stânga",sideR:"dreapta",partFace:"Fața",partW:"Lăț.",partT:"Gros.",partApprox:"Piesă împărțită sau profilată: rândul din distinta e cel al rolului, cotele sunt ale piesei întregi.",partOther:"cealaltă față",partThrough:"străpuns",pfErr:"{n} verificări de găurire picate",pfOk:"Găurire: verificări trecute",pfWarn:"{n} găuri aproape de margine",pfFlip:"găuri pe două fețe: piesa se întoarce",opOp:"Operație",opFace:"Față",opDepth:"Adânc.",partNoOps:"Nicio găurire pe această piesă.",partAxes:"Fața 5 = cea cu cele mai multe găuri, sus pe mașină. X de-a lungul lungimii, Y de-a lungul lățimii, originea jos-stânga. Pe canturi: u de-a lungul cantului, z de la fața 6.",partIn3D:"Vezi în 3D",partCsv:"CSV găuri",op_groove:"Canal spate",op_cup:"Cupă balama Ø35",op_hdowel:"Diblu balama",op_plate:"Talpă balama",op_bolt:"Bolț minifix",op_shank:"Tijă minifix",op_cam:"Excentric minifix",op_dowel:"Diblu Ø8",op_pin:"Suport poliță",op_pinAdj:"Suport poliță (reglaj)",op_slide:"Glisieră sertar",op_wtBolt:"Locaș șurub blat",op_cutSink:"Decupaj chiuvetă",op_cutHob:"Decupaj plită",op_cutOther:"Decupaj blat",op_handle:"Mâner",partNotFound:"Piesa nu s-a găsit în configurația corpului",listHoles:"Găuri"});
 Object.assign(I18N.en,{vtOpen:"Open",vtHw:"Hardware",vtHoles:"Holes",vtHint:"Drag to orbit · tap a part",vtPieces:"Parts",vtNoPieces:"No parts: configure the unit.",vtNeedGL:"Parts and holes need WebGL 3D.",vtHolesN:"holes",vtHwN:"hardware",vtIsolate:"Isolate",vtShowAll:"Show all",vtSheet:"Part sheet",hw_cerniera:"Hinges",hw_maniglia:"Handles",hw_guida:"Drawer runners",hw_reggipiano:"Shelf supports",hw_minifix:"Minifix (cams)",hw_tassello:"Dowels",hwVerify:"Drilling values from the catalogue (Blum/Häfele), not yet checked on a real part: verify before sending to the machine.",role_fianco:"Side",role_divisorio:"Divider",role_base:"Bottom",role_cielo:"Top",role_base_cielo:"Bottom / Top",role_ripiano:"Shelf",role_schienale:"Back",role_zoccolo:"Plinth",role_frontale:"Door",role_traversa:"Rail",role_cassetto_frontale:"Drawer front",role_cassetto_fianco:"Drawer box",role_cassetto_fondo:"Drawer bottom",sideL:"left",sideR:"right",partFace:"Face",partW:"Width",partT:"Thick.",partApprox:"Split or shaped part: the cut-list row is the one of its role, dimensions are the whole part.",partOther:"other face",partThrough:"through",pfErr:"{n} drilling checks failed",pfOk:"Drilling: checks passed",pfWarn:"{n} holes close to the edge",pfFlip:"holes on both faces: the part is flipped",opOp:"Operation",opFace:"Face",opDepth:"Depth",partNoOps:"No drilling on this part.",partAxes:"Face 5 = the one with most holes, up on the machine. X along the length, Y along the width, origin bottom-left. On edges: u along the edge, z from face 6.",partIn3D:"Show in 3D",partCsv:"Holes CSV",op_groove:"Back groove",op_cup:"Hinge cup Ø35",op_hdowel:"Hinge dowel",op_plate:"Hinge plate",op_bolt:"Minifix bolt",op_shank:"Minifix shank",op_cam:"Minifix cam",op_dowel:"Dowel Ø8",op_pin:"Shelf support",op_pinAdj:"Shelf support (adjust)",op_slide:"Drawer runner",op_wtBolt:"Worktop bolt pocket",op_cutSink:"Sink cut-out",op_cutHob:"Hob cut-out",op_cutOther:"Worktop cut-out",op_handle:"Handle",partNotFound:"Part not found in the unit configuration",listHoles:"Holes"});
@@ -4074,6 +4118,14 @@ Object.assign(SURVEY_I18N.fr,{svSlope:"Plafond",svSlopeNone:"Horizontal",svSlope
 Object.assign(SURVEY_I18N.de,{svSlope:"Decke",svSlopeNone:"Waagerecht",svSlopeX:"Geneigt über die Breite (Punkt 1 = links, Punkt 3 = rechts)",svSlopeZ:"Geneigt über die Tiefe (Punkt 1 = vorn, Punkt 3 = hinten)",svSlopeSuggest:"Die Punkte 1 und 3 unterscheiden sich um {d} mm: die Decke wirkt schräg (unter Treppe, Mansarde). Gefälle wählen, dann schlägt „Konfigurator ausfüllen“ es vor.",svSlopePoints:"Für das Gefälle werden die Höhen der Punkte 1 und 3 gebraucht.",svSlopeFlat:"Die Punkte 1 und 3 unterscheiden sich nur um {d} mm (Minimum {m}): der Deckel bleibt waagerecht.",svSlopeReady:"Der Konfigurator schlägt einen schrägen Deckel vor: {a} → {b} mm (gemessene Höhen minus 20 mm).",svSlopeBit:"schräger Deckel {a}→{b}",svGapLbl:"Abweichung",svHintLen:"Wand {n}: sollte {v} mm sein ({d})",svHintAngle:"Winkel nach Wand {n}: sollte {v}° sein ({d}°)",svHintsLbl:"Mögliche Ursache",svHintOr:"oder",svCloseWall:"Mit berechneter Wand schließen",svCloseNote:"Wand {n} ({len} mm) ist berechnet, nicht gemessen; der Winkel der letzten Ecke wurde neu berechnet.",svDiagTitle:"Diagonalen",svDiagHint:"Miss eine Diagonale zwischen zwei Ecken: Weicht sie vom Plan ab, weißt du, wo der Fehler liegt.",svAddDiag:"Diagonale hinzufügen",svDiagA:"Von Ecke",svDiagB:"Zu Ecke",svDiagLen:"Gemessen (mm)",svDiagPlan:"Plan {p} mm",svImportDxf:"DXF importieren",svDxfReplace:"Vorhandene Wände durch die aus der DXF ersetzen?",svDxfOk:"DXF importiert: {n} Wände",svDxfUnits:"Zeicheneinheit nicht angegeben: Millimeter angenommen.",svDxfArc:"Bögen wurden durch Geraden ersetzt.",svDxfGap:"Die Kontur der Zeichnung schließt nicht genau: Wände prüfen.",svDxfBinary:"Binäres DXF: als ASCII-DXF (Text) speichern.",svDxfNone:"Keine geschlossene Kontur (Polylinie oder verbundene Linien) in der Zeichnung.",svDxfFormat:"Die Datei sieht nicht wie eine DXF aus.",svDwg:"DWG kann hier nicht gelesen werden: im Zeichenprogramm als DXF exportieren.",svPhotoAdd:"Foto hinzufügen",svPhotoDel:"Foto löschen",svPhotoErr:"Foto nicht gespeichert: Speicher nicht verfügbar.",svPhotoMissing:"Foto auf diesem Gerät nicht verfügbar",svHeightPh:"Fotos der Punkte",svObstOnPlan:"im Plan"});
 Object.assign(SURVEY_I18N.pl,{svSlope:"Strop",svSlopeNone:"Poziomy",svSlopeX:"Nachylony na szerokość (punkt 1 = lewo, punkt 3 = prawo)",svSlopeZ:"Nachylony na głębokość (punkt 1 = przód, punkt 3 = tył)",svSlopeSuggest:"Punkty 1 i 3 różnią się o {d} mm: strop wygląda na skośny (pod schodami, poddasze). Wybierz spadek, a „Wypełnij konfigurator” go zaproponuje.",svSlopePoints:"Do spadku potrzebne są wysokości punktów 1 i 3.",svSlopeFlat:"Punkty 1 i 3 różnią się tylko o {d} mm (minimum {m}): wieniec zostaje poziomy.",svSlopeReady:"Konfigurator zaproponuje skośny wieniec: {a} → {b} mm (zmierzone wysokości minus 20 mm).",svSlopeBit:"skośny wieniec {a}→{b}",svGapLbl:"Odchyłka",svHintLen:"Ściana {n}: powinna mieć {v} mm ({d})",svHintAngle:"Kąt za ścianą {n}: powinien wynosić {v}° ({d}°)",svHintsLbl:"Możliwa przyczyna",svHintOr:"albo",svCloseWall:"Zamknij obliczoną ścianą",svCloseNote:"Ściana {n} ({len} mm) jest obliczona, nie zmierzona; kąt ostatniego narożnika przeliczono.",svDiagTitle:"Przekątne",svDiagHint:"Zmierz przekątną między dwoma narożnikami: jeśli różni się od planu, wiesz, gdzie szukać błędu.",svAddDiag:"Dodaj przekątną",svDiagA:"Z narożnika",svDiagB:"Do narożnika",svDiagLen:"Zmierzone (mm)",svDiagPlan:"plan {p} mm",svImportDxf:"Importuj DXF",svDxfReplace:"Zastąpić istniejące ściany ścianami z DXF?",svDxfOk:"Zaimportowano DXF: {n} ścian",svDxfUnits:"Jednostka rysunku nie jest zadeklarowana: przyjęto milimetry.",svDxfArc:"Łuki zastąpiono liniami prostymi.",svDxfGap:"Kontur z rysunku nie zamyka się dokładnie: sprawdź ściany.",svDxfBinary:"Binarny DXF: zapisz jako DXF ASCII (tekst).",svDxfNone:"Brak zamkniętego konturu (polilinii lub połączonych linii) w rysunku.",svDxfFormat:"Plik nie wygląda na DXF.",svDwg:"Plik DWG nie jest tu odczytywany: wyeksportuj jako DXF z programu rysunkowego.",svPhotoAdd:"Dodaj zdjęcie",svPhotoDel:"Usuń zdjęcie",svPhotoErr:"Zdjęcie nie zostało zapisane: pamięć niedostępna.",svPhotoMissing:"Zdjęcie niedostępne na tym urządzeniu",svHeightPh:"Zdjęcia punktów",svObstOnPlan:"na planie"});
 Object.assign(SURVEY_I18N.es,{svSlope:"Techo",svSlopeNone:"Horizontal",svSlopeX:"Inclinado en el ancho (punto 1 = izquierda, punto 3 = derecha)",svSlopeZ:"Inclinado en la profundidad (punto 1 = delante, punto 3 = detrás)",svSlopeSuggest:"Los puntos 1 y 3 difieren en {d} mm: el techo parece inclinado (bajo escalera, buhardilla). Elige la pendiente y «Rellenar el configurador» la propone.",svSlopePoints:"La pendiente necesita las alturas de los puntos 1 y 3.",svSlopeFlat:"Los puntos 1 y 3 difieren solo {d} mm (mínimo {m}): el techo sigue horizontal.",svSlopeReady:"El configurador propondrá un techo inclinado: {a} → {b} mm (alturas medidas menos 20 mm).",svSlopeBit:"techo inclinado {a}→{b}",svGapLbl:"Desviación",svHintLen:"Pared {n}: debería medir {v} mm ({d})",svHintAngle:"Ángulo tras la pared {n}: debería ser {v}° ({d}°)",svHintsLbl:"Posible causa",svHintOr:"o",svCloseWall:"Cerrar con una pared calculada",svCloseNote:"La pared {n} ({len} mm) está calculada, no medida; el ángulo de la última esquina se recalculó.",svDiagTitle:"Diagonales",svDiagHint:"Mide una diagonal entre dos esquinas: si no coincide con el plano, sabes dónde está el error.",svAddDiag:"Añadir diagonal",svDiagA:"Desde la esquina",svDiagB:"A la esquina",svDiagLen:"Medida (mm)",svDiagPlan:"plano {p} mm",svImportDxf:"Importar DXF",svDxfReplace:"¿Sustituir las paredes existentes por las del DXF?",svDxfOk:"DXF importado: {n} paredes",svDxfUnits:"Unidad del dibujo no declarada: se usaron milímetros.",svDxfArc:"Los arcos se sustituyeron por rectas.",svDxfGap:"El contorno del dibujo no cierra exactamente: revisa las paredes.",svDxfBinary:"DXF binario: guárdalo como DXF ASCII (texto).",svDxfNone:"No hay un contorno cerrado (polilínea o líneas unidas) en el dibujo.",svDxfFormat:"El archivo no parece un DXF.",svDwg:"El DWG no se lee aquí: exporta como DXF desde el programa de dibujo.",svPhotoAdd:"Añadir foto",svPhotoDel:"Eliminar foto",svPhotoErr:"Foto no guardada: almacenamiento no disponible.",svPhotoMissing:"Foto no disponible en este dispositivo",svHeightPh:"Fotos de los puntos",svObstOnPlan:"en el plano"});
+/* U.14 — cadrul de nivelare în Releveu (D-117) */
+Object.assign(SURVEY_I18N.it,{"bfTitle": "Telaio di livellamento", "bfHint": "Telaio in truciolare bordato sotto la composizione, con livellatori Häfele fissati sul lato dei correnti. Si mette in bolla una volta sola, sulla quota più alta del pavimento; i corpi poggiano sopra, senza piedini propri.", "bfAdd": "Aggiungi telaio", "bfNew": "nuovo", "bfStale": "non corrisponde più, ricalcola", "bfOk": "aggiornato", "bfMods": "Corpi sul telaio", "bfMat": "Materiale correnti e traverse", "bfPick": "Scegli il materiale", "bfH": "Altezza telaio (mm)", "bfSetback": "Arretramento dal filo (mm)", "bfGap": "Gioco dal muro (mm)", "bfFloor": "Quote del pavimento (z in mm rispetto a un riferimento, + = più alto)", "bfFloorAdd": "Punto del pavimento", "bfFloorInfo": "Dislivello del pavimento {z} mm; telaio {h} mm dalla quota più alta.", "bfSegInfo": "{c} traverse · {f} piedini", "bfFootNote": "Livellatori Häfele 637.42.950 (pagina FC 6.74), fissati con viti ø4 sul lato dei correnti, regolati dall'alto. Corpi sul telaio: Supporto = Telaio, altezza = quella del telaio.", "bfCalc": "Calcola il telaio", "bfRecalc": "Ricalcola il telaio", "bfApplied": "Telaio generato: {n} segmenti", "bfNeedRoom": "Il telaio richiede il rilievo della stanza: aggiungi le pareti e posiziona i corpi.", "bfManaged": "Il telaio si calcola dal Rilievo.", "bfNoMat": "Scegli il materiale dei correnti: lo spessore viene dal materiale.", "bfNoMods": "Scegli almeno un corpo.", "bfNegative": "Arretramento e gioco non possono essere negativi.", "bfTooLow": "Un telaio di {h} mm è troppo basso per piedino e corrente: minimo {min} mm.", "bfModMissing": "Il corpo «{name}» non esiste più.", "bfModRotated": "Il corpo «{name}» è ruotato: il telaio si fa solo su corpi paralleli alla parete.", "bfNoWall": "I corpi scelti non sono su nessuna parete.", "bfWallsNotAdjacent": "Le pareti scelte non sono adiacenti.", "bfTooManyWalls": "Troppe pareti per un telaio.", "bfTooShallow": "Parete {wall}: il telaio avrebbe {depth} mm di profondità (minimo {min}).", "bfCornerAngle": "Parete {wall}: l'angolo non è di 90° ({angle}°); il giunto diritto non è possibile.", "bfTooShort": "Parete {wall}: segmento troppo corto ({len} mm).", "bfFootTravel": "Segmento {seg}, a {x} mm: il pavimento richiede {ext} mm, la corsa del piedino è {travel} mm.", "bfModOutside": "Parete {wall}: un corpo esce dal telaio.", "bfNoFloor": "Nessuna quota del pavimento: i piedini restano alla stessa estensione.", "bfBodyH": "Il corpo «{name}» non poggia sul telaio: imposta Supporto = Telaio e altezza {h} mm.", "bfFootData": "Le quote del piedino sono incomplete.", "bfFoot": "Livellatore (Häfele)", "bfMatCross": "Materiale traverse (facoltativo)", "bfCrossSame": "come i correnti", "bfCrossTh": "Le traverse devono avere lo stesso spessore dei correnti ({a} mm), non {b} mm.", "bfStaleBlock": "Il telaio «{name}» non corrisponde più ai corpi: ricalcolalo nel Rilievo.", "bfFootPanel": "Il livellatore scelto è fatto per un pannello da {a} mm; il corrente è da {b} mm."});
+Object.assign(SURVEY_I18N.ro,{"bfTitle": "Cadru de nivelare", "bfHint": "Cadru de PAL pe cant sub compoziție, cu nivelatoare Häfele prinse pe lateralul baghetelor. Se pune o singură dată la nivel, pe cota cea mai înaltă a pardoselii; corpurile stau pe el, fără picioare proprii.", "bfAdd": "Adaugă cadru", "bfNew": "nou", "bfStale": "nu mai corespunde, recalculează", "bfOk": "la zi", "bfMods": "Corpuri pe cadru", "bfMat": "Material șine și traverse", "bfPick": "Alege materialul", "bfH": "Înălțime cadru (mm)", "bfSetback": "Retragere de la față (mm)", "bfGap": "Joc la perete (mm)", "bfFloor": "Cote pardoseală (z în mm față de un reper, + = mai sus)", "bfFloorAdd": "Punct pardoseală", "bfFloorInfo": "Denivelare pardoseală {z} mm; cadru {h} mm de la cota cea mai înaltă.", "bfSegInfo": "{c} traverse · {f} picioare", "bfFootNote": "Nivelatoare Häfele 637.42.950 (pagina FC 6.74), prinse cu șuruburi ø4 pe lateralul șinelor, reglate din sus. Corpurile de pe cadru: Suport = Cadru, înălțimea = a cadrului.", "bfCalc": "Calculează cadrul", "bfRecalc": "Recalculează cadrul", "bfApplied": "Cadru generat: {n} segmente", "bfNeedRoom": "Cadrul are nevoie de releveul camerei: adaugă pereții și așază corpurile.", "bfManaged": "Cadrul se calculează din Releveu.", "bfNoMat": "Alege materialul șinelor: grosimea vine din material.", "bfNoMods": "Alege cel puțin un corp.", "bfNegative": "Retragerea și jocul nu pot fi negative.", "bfTooLow": "Cadrul de {h} mm e prea jos pentru picior și șină: minimum {min} mm.", "bfModMissing": "Corpul „{name}” nu mai există.", "bfModRotated": "Corpul „{name}” e rotit: cadrul se face numai pe corpuri paralele cu peretele.", "bfNoWall": "Corpurile alese nu sunt pe niciun perete.", "bfWallsNotAdjacent": "Pereții aleși nu sunt vecini.", "bfTooManyWalls": "Prea mulți pereți pentru un cadru.", "bfTooShallow": "Peretele {wall}: cadrul ar avea {depth} mm adâncime (minimum {min}).", "bfCornerAngle": "Peretele {wall}: colțul nu e de 90° ({angle}°); îmbinarea dreaptă nu e posibilă.", "bfTooShort": "Peretele {wall}: segment prea scurt ({len} mm).", "bfFootTravel": "Segment {seg}, la {x} mm: pardoseala cere {ext} mm, cursa piciorului e {travel} mm.", "bfModOutside": "Peretele {wall}: un corp iese din cadru.", "bfNoFloor": "Nicio cotă de pardoseală: picioarele rămân la aceeași extensie.", "bfBodyH": "Corpul „{name}” nu stă pe cadru: setează Suport = Cadru și înălțimea {h} mm.", "bfFootData": "Cotele piciorului sunt incomplete.", "bfFoot": "Nivelator (Häfele)", "bfMatCross": "Material traverse (opțional)", "bfCrossSame": "la fel ca șinele", "bfCrossTh": "Traversele trebuie să aibă aceeași grosime ca șinele ({a} mm), nu {b} mm.", "bfStaleBlock": "Cadrul „{name}” nu mai corespunde corpurilor: recalculează-l în Releveu.", "bfFootPanel": "Nivelatorul ales e făcut pentru un panou de {a} mm; șina are {b} mm."});
+Object.assign(SURVEY_I18N.en,{"bfTitle": "Levelling frame", "bfHint": "Edge-banded chipboard frame under the run, with Häfele levellers fixed to the sides of the rails. It is levelled once, on the highest point of the floor; the units sit on it with no feet of their own.", "bfAdd": "Add frame", "bfNew": "new", "bfStale": "out of date, recalculate", "bfOk": "up to date", "bfMods": "Units on the frame", "bfMat": "Rail and cross-member material", "bfPick": "Choose material", "bfH": "Frame height (mm)", "bfSetback": "Setback from front (mm)", "bfGap": "Gap to wall (mm)", "bfFloor": "Floor heights (z in mm from a datum, + = higher)", "bfFloorAdd": "Floor point", "bfFloorInfo": "Floor unevenness {z} mm; frame {h} mm from the highest point.", "bfSegInfo": "{c} cross-members · {f} feet", "bfFootNote": "Häfele 637.42.950 levellers (page FC 6.74), fixed with ø4 screws to the sides of the rails, adjusted from above. Units on the frame: Support = Frame, height = the frame's.", "bfCalc": "Calculate frame", "bfRecalc": "Recalculate frame", "bfApplied": "Frame generated: {n} segments", "bfNeedRoom": "The frame needs the room survey: add the walls and place the units.", "bfManaged": "The frame is calculated from the Survey.", "bfNoMat": "Choose the rail material: the thickness comes from the material.", "bfNoMods": "Choose at least one unit.", "bfNegative": "Setback and gap cannot be negative.", "bfTooLow": "A {h} mm frame is too low for a foot and rail: minimum {min} mm.", "bfModMissing": "Unit “{name}” no longer exists.", "bfModRotated": "Unit “{name}” is rotated: the frame is only built under units parallel to the wall.", "bfNoWall": "The chosen units are not on any wall.", "bfWallsNotAdjacent": "The chosen walls are not adjacent.", "bfTooManyWalls": "Too many walls for one frame.", "bfTooShallow": "Wall {wall}: the frame would be {depth} mm deep (minimum {min}).", "bfCornerAngle": "Wall {wall}: the corner is not 90° ({angle}°); a butt joint is not possible.", "bfTooShort": "Wall {wall}: segment too short ({len} mm).", "bfFootTravel": "Segment {seg}, at {x} mm: the floor needs {ext} mm, the foot travel is {travel} mm.", "bfModOutside": "Wall {wall}: a unit sticks out of the frame.", "bfNoFloor": "No floor heights: the feet stay at the same extension.", "bfBodyH": "Unit “{name}” is not on the frame: set Support = Frame and height {h} mm.", "bfFootData": "The foot dimensions are incomplete.", "bfFoot": "Leveller (Häfele)", "bfMatCross": "Cross-member material (optional)", "bfCrossSame": "same as the rails", "bfCrossTh": "The cross-members must be the same thickness as the rails ({a} mm), not {b} mm.", "bfStaleBlock": "Frame “{name}” no longer matches the units: recalculate it in the Survey.", "bfFootPanel": "The chosen leveller is made for a {a} mm panel; the rail is {b} mm."});
+Object.assign(SURVEY_I18N.fr,{"bfTitle": "Cadre de mise à niveau", "bfHint": "Cadre en panneau de particules chanté sous la composition, avec des niveleurs Häfele fixés sur le côté des rails. Il se règle une seule fois, sur le point le plus haut du sol ; les meubles reposent dessus, sans pieds propres.", "bfAdd": "Ajouter un cadre", "bfNew": "nouveau", "bfStale": "n'est plus à jour, recalculez", "bfOk": "à jour", "bfMods": "Meubles sur le cadre", "bfMat": "Matériau des rails et traverses", "bfPick": "Choisir le matériau", "bfH": "Hauteur du cadre (mm)", "bfSetback": "Retrait par rapport à la façade (mm)", "bfGap": "Jeu au mur (mm)", "bfFloor": "Cotes du sol (z en mm par rapport à un repère, + = plus haut)", "bfFloorAdd": "Point du sol", "bfFloorInfo": "Dénivelé du sol {z} mm ; cadre {h} mm au-dessus du point le plus haut.", "bfSegInfo": "{c} traverses · {f} pieds", "bfFootNote": "Niveleurs Häfele 637.42.950 (page FC 6.74), fixés par vis ø4 sur le côté des rails, réglés par le haut. Meubles sur le cadre : Support = Cadre, hauteur = celle du cadre.", "bfCalc": "Calculer le cadre", "bfRecalc": "Recalculer le cadre", "bfApplied": "Cadre généré : {n} segments", "bfNeedRoom": "Le cadre demande le relevé de la pièce : ajoutez les murs et placez les meubles.", "bfManaged": "Le cadre se calcule depuis le Relevé.", "bfNoMat": "Choisissez le matériau des rails : l'épaisseur vient du matériau.", "bfNoMods": "Choisissez au moins un meuble.", "bfNegative": "Le retrait et le jeu ne peuvent pas être négatifs.", "bfTooLow": "Un cadre de {h} mm est trop bas pour un pied et un rail : minimum {min} mm.", "bfModMissing": "Le meuble « {name} » n'existe plus.", "bfModRotated": "Le meuble « {name} » est pivoté : le cadre se fait seulement sous des meubles parallèles au mur.", "bfNoWall": "Les meubles choisis ne sont sur aucun mur.", "bfWallsNotAdjacent": "Les murs choisis ne sont pas contigus.", "bfTooManyWalls": "Trop de murs pour un cadre.", "bfTooShallow": "Mur {wall} : le cadre ferait {depth} mm de profondeur (minimum {min}).", "bfCornerAngle": "Mur {wall} : l'angle n'est pas de 90° ({angle}°) ; l'assemblage droit est impossible.", "bfTooShort": "Mur {wall} : segment trop court ({len} mm).", "bfFootTravel": "Segment {seg}, à {x} mm : le sol demande {ext} mm, la course du pied est {travel} mm.", "bfModOutside": "Mur {wall} : un meuble dépasse du cadre.", "bfNoFloor": "Aucune cote de sol : les pieds restent à la même extension.", "bfBodyH": "Le meuble « {name} » ne repose pas sur le cadre : réglez Support = Cadre et hauteur {h} mm.", "bfFootData": "Les cotes du pied sont incomplètes.", "bfFoot": "Niveleur (Häfele)", "bfMatCross": "Matériau des traverses (facultatif)", "bfCrossSame": "comme les rails", "bfCrossTh": "Les traverses doivent avoir la même épaisseur que les rails ({a} mm), pas {b} mm.", "bfStaleBlock": "Le cadre « {name} » ne correspond plus aux meubles : recalculez-le dans le Relevé.", "bfFootPanel": "Le niveleur choisi est conçu pour un panneau de {a} mm ; le rail fait {b} mm."});
+Object.assign(SURVEY_I18N.de,{"bfTitle": "Nivellierrahmen", "bfHint": "Rahmen aus kantenbeschichteter Spanplatte unter der Zeile, mit Häfele-Nivellierfüßen seitlich an den Schienen. Er wird einmal am höchsten Punkt des Bodens ausgerichtet; die Korpusse stehen darauf, ohne eigene Füße.", "bfAdd": "Rahmen hinzufügen", "bfNew": "neu", "bfStale": "nicht mehr aktuell, neu berechnen", "bfOk": "aktuell", "bfMods": "Korpusse auf dem Rahmen", "bfMat": "Material für Schienen und Traversen", "bfPick": "Material wählen", "bfH": "Rahmenhöhe (mm)", "bfSetback": "Rücksprung von der Front (mm)", "bfGap": "Abstand zur Wand (mm)", "bfFloor": "Bodenhöhen (z in mm zu einem Bezugspunkt, + = höher)", "bfFloorAdd": "Bodenpunkt", "bfFloorInfo": "Bodenunebenheit {z} mm; Rahmen {h} mm über dem höchsten Punkt.", "bfSegInfo": "{c} Traversen · {f} Füße", "bfFootNote": "Häfele-Nivellierfüße 637.42.950 (Seite FC 6.74), mit ø4-Schrauben seitlich an den Schienen befestigt, von oben verstellt. Korpusse auf dem Rahmen: Unterbau = Rahmen, Höhe = die des Rahmens.", "bfCalc": "Rahmen berechnen", "bfRecalc": "Rahmen neu berechnen", "bfApplied": "Rahmen erzeugt: {n} Segmente", "bfNeedRoom": "Der Rahmen braucht das Raumaufmaß: Wände anlegen und Korpusse platzieren.", "bfManaged": "Der Rahmen wird aus dem Aufmaß berechnet.", "bfNoMat": "Schienenmaterial wählen: Die Dicke kommt vom Material.", "bfNoMods": "Mindestens einen Korpus wählen.", "bfNegative": "Rücksprung und Abstand dürfen nicht negativ sein.", "bfTooLow": "Ein Rahmen von {h} mm ist für Fuß und Schiene zu niedrig: mindestens {min} mm.", "bfModMissing": "Korpus „{name}“ existiert nicht mehr.", "bfModRotated": "Korpus „{name}“ ist gedreht: Der Rahmen entsteht nur unter wandparallelen Korpussen.", "bfNoWall": "Die gewählten Korpusse stehen an keiner Wand.", "bfWallsNotAdjacent": "Die gewählten Wände sind nicht benachbart.", "bfTooManyWalls": "Zu viele Wände für einen Rahmen.", "bfTooShallow": "Wand {wall}: Der Rahmen wäre {depth} mm tief (mindestens {min}).", "bfCornerAngle": "Wand {wall}: Die Ecke hat nicht 90° ({angle}°); eine Stumpfverbindung ist nicht möglich.", "bfTooShort": "Wand {wall}: Segment zu kurz ({len} mm).", "bfFootTravel": "Segment {seg}, bei {x} mm: Der Boden verlangt {ext} mm, der Fußhub beträgt {travel} mm.", "bfModOutside": "Wand {wall}: Ein Korpus ragt über den Rahmen hinaus.", "bfNoFloor": "Keine Bodenhöhen: Die Füße bleiben gleich weit ausgefahren.", "bfBodyH": "Korpus „{name}“ steht nicht auf dem Rahmen: Unterbau = Rahmen und Höhe {h} mm einstellen.", "bfFootData": "Die Fußmaße sind unvollständig.", "bfFoot": "Nivellierfuß (Häfele)", "bfMatCross": "Traversenmaterial (optional)", "bfCrossSame": "wie die Schienen", "bfCrossTh": "Die Traversen müssen dieselbe Dicke wie die Schienen haben ({a} mm), nicht {b} mm.", "bfStaleBlock": "Rahmen „{name}“ passt nicht mehr zu den Korpussen: im Aufmaß neu berechnen.", "bfFootPanel": "Der gewählte Nivellierfuß ist für eine {a}-mm-Platte gemacht; die Schiene ist {b} mm dick."});
+Object.assign(SURVEY_I18N.pl,{"bfTitle": "Rama poziomująca", "bfHint": "Rama z płyty wiórowej oklejonej pod zabudową, z nóżkami poziomującymi Häfele przymocowanymi z boku szyn. Poziomuje się ją raz, na najwyższym punkcie podłogi; korpusy stoją na niej bez własnych nóżek.", "bfAdd": "Dodaj ramę", "bfNew": "nowa", "bfStale": "nieaktualna, przelicz", "bfOk": "aktualna", "bfMods": "Korpusy na ramie", "bfMat": "Materiał szyn i poprzeczek", "bfPick": "Wybierz materiał", "bfH": "Wysokość ramy (mm)", "bfSetback": "Cofnięcie od frontu (mm)", "bfGap": "Luz do ściany (mm)", "bfFloor": "Wysokości podłogi (z w mm od punktu odniesienia, + = wyżej)", "bfFloorAdd": "Punkt podłogi", "bfFloorInfo": "Nierówność podłogi {z} mm; rama {h} mm od najwyższego punktu.", "bfSegInfo": "{c} poprzeczek · {f} nóżek", "bfFootNote": "Nóżki poziomujące Häfele 637.42.950 (strona FC 6.74), mocowane wkrętami ø4 z boku szyn, regulowane od góry. Korpusy na ramie: Podstawa = Rama, wysokość = wysokość ramy.", "bfCalc": "Oblicz ramę", "bfRecalc": "Przelicz ramę", "bfApplied": "Rama wygenerowana: {n} segmentów", "bfNeedRoom": "Rama wymaga pomiaru pomieszczenia: dodaj ściany i ustaw korpusy.", "bfManaged": "Rama jest liczona z Pomiaru.", "bfNoMat": "Wybierz materiał szyn: grubość wynika z materiału.", "bfNoMods": "Wybierz co najmniej jeden korpus.", "bfNegative": "Cofnięcie i luz nie mogą być ujemne.", "bfTooLow": "Rama {h} mm jest za niska dla nóżki i szyny: minimum {min} mm.", "bfModMissing": "Korpus „{name}” już nie istnieje.", "bfModRotated": "Korpus „{name}” jest obrócony: rama powstaje tylko pod korpusami równoległymi do ściany.", "bfNoWall": "Wybrane korpusy nie stoją przy żadnej ścianie.", "bfWallsNotAdjacent": "Wybrane ściany nie sąsiadują.", "bfTooManyWalls": "Za dużo ścian na jedną ramę.", "bfTooShallow": "Ściana {wall}: rama miałaby głębokość {depth} mm (minimum {min}).", "bfCornerAngle": "Ściana {wall}: narożnik nie ma 90° ({angle}°); połączenie na styk jest niemożliwe.", "bfTooShort": "Ściana {wall}: segment za krótki ({len} mm).", "bfFootTravel": "Segment {seg}, przy {x} mm: podłoga wymaga {ext} mm, skok nóżki to {travel} mm.", "bfModOutside": "Ściana {wall}: korpus wystaje poza ramę.", "bfNoFloor": "Brak wysokości podłogi: nóżki zostają na tym samym wysunięciu.", "bfBodyH": "Korpus „{name}” nie stoi na ramie: ustaw Podstawa = Rama i wysokość {h} mm.", "bfFootData": "Wymiary nóżki są niekompletne.", "bfFoot": "Nóżka poziomująca (Häfele)", "bfMatCross": "Materiał poprzeczek (opcjonalnie)", "bfCrossSame": "jak szyny", "bfCrossTh": "Poprzeczki muszą mieć tę samą grubość co szyny ({a} mm), a nie {b} mm.", "bfStaleBlock": "Rama „{name}” nie pasuje już do korpusów: przelicz ją w Pomiarze.", "bfFootPanel": "Wybrana nóżka jest przeznaczona do płyty {a} mm; szyna ma {b} mm."});
+Object.assign(SURVEY_I18N.es,{"bfTitle": "Bastidor de nivelación", "bfHint": "Bastidor de aglomerado canteado bajo la composición, con niveladores Häfele fijados al lateral de los largueros. Se nivela una sola vez, en el punto más alto del suelo; los muebles se apoyan encima, sin patas propias.", "bfAdd": "Añadir bastidor", "bfNew": "nuevo", "bfStale": "desactualizado, recalcula", "bfOk": "al día", "bfMods": "Muebles sobre el bastidor", "bfMat": "Material de largueros y travesaños", "bfPick": "Elegir material", "bfH": "Altura del bastidor (mm)", "bfSetback": "Retranqueo del frente (mm)", "bfGap": "Holgura a la pared (mm)", "bfFloor": "Cotas del suelo (z en mm respecto a una referencia, + = más alto)", "bfFloorAdd": "Punto del suelo", "bfFloorInfo": "Desnivel del suelo {z} mm; bastidor {h} mm sobre el punto más alto.", "bfSegInfo": "{c} travesaños · {f} patas", "bfFootNote": "Niveladores Häfele 637.42.950 (página FC 6.74), fijados con tornillos ø4 al lateral de los largueros, regulados desde arriba. Muebles sobre el bastidor: Apoyo = Bastidor, altura = la del bastidor.", "bfCalc": "Calcular bastidor", "bfRecalc": "Recalcular bastidor", "bfApplied": "Bastidor generado: {n} segmentos", "bfNeedRoom": "El bastidor necesita la medición de la sala: añade las paredes y coloca los muebles.", "bfManaged": "El bastidor se calcula desde la Medición.", "bfNoMat": "Elige el material de los largueros: el grosor sale del material.", "bfNoMods": "Elige al menos un mueble.", "bfNegative": "El retranqueo y la holgura no pueden ser negativos.", "bfTooLow": "Un bastidor de {h} mm es demasiado bajo para pata y larguero: mínimo {min} mm.", "bfModMissing": "El mueble «{name}» ya no existe.", "bfModRotated": "El mueble «{name}» está girado: el bastidor solo se hace bajo muebles paralelos a la pared.", "bfNoWall": "Los muebles elegidos no están en ninguna pared.", "bfWallsNotAdjacent": "Las paredes elegidas no son contiguas.", "bfTooManyWalls": "Demasiadas paredes para un bastidor.", "bfTooShallow": "Pared {wall}: el bastidor tendría {depth} mm de fondo (mínimo {min}).", "bfCornerAngle": "Pared {wall}: la esquina no es de 90° ({angle}°); la unión a tope no es posible.", "bfTooShort": "Pared {wall}: segmento demasiado corto ({len} mm).", "bfFootTravel": "Segmento {seg}, a {x} mm: el suelo pide {ext} mm, el recorrido de la pata es {travel} mm.", "bfModOutside": "Pared {wall}: un mueble sobresale del bastidor.", "bfNoFloor": "Sin cotas del suelo: las patas quedan con la misma extensión.", "bfBodyH": "El mueble «{name}» no se apoya en el bastidor: pon Apoyo = Bastidor y altura {h} mm.", "bfFootData": "Las medidas de la pata están incompletas.", "bfFoot": "Nivelador (Häfele)", "bfMatCross": "Material de travesaños (opcional)", "bfCrossSame": "igual que los largueros", "bfCrossTh": "Los travesaños deben tener el mismo grosor que los largueros ({a} mm), no {b} mm.", "bfStaleBlock": "El bastidor «{name}» ya no coincide con los muebles: recalcúlalo en la Medición.", "bfFootPanel": "El nivelador elegido está hecho para un panel de {a} mm; el larguero tiene {b} mm."});
 function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
 
 AUTH_I18N.it.syncConflict="⇄ Versione più recente ricevuta da un altro dispositivo";
@@ -4208,7 +4260,35 @@ const HWDB={
  pied:[
   {id:"haf_axilo",brand:"Häfele",n:{it:"Piedino AXILO 78 regolabile",ro:"Picior AXILO 78 reglabil",en:"AXILO 78 adjustable foot",fr:"Pied AXILO 78 réglable",de:"Stellfuß AXILO 78",pl:"Nóżka regulowana AXILO 78",es:"Pata regulable AXILO 78"},art:"637.79.xxx",price:1.3,chk:1},
   {id:"fav_pied50",brand:"F.A.V.",n:{it:"Piedino regolabile ø50 polipropilene nero, H=27, stelo M10",ro:"Picior reglabil ø50 polipropilenă neagră, H=27, tijă M10",en:"Adjustable foot ø50 black polypropylene, H=27, M10 stem",fr:"Pied réglable ø50 polypropylène noir, H=27, tige M10",de:"Stellfuß ø50 schwarz Polypropylen, H=27, Schaft M10",pl:"Nóżka regulowana ø50 czarny polipropylen, H=27, trzpień M10",es:"Pata regulable ø50 polipropileno negro, H=27, vástago M10"},art:"06.0406P02741",price:0,chk:1},
-  {id:"gen_pied",brand:"—",n:{it:"Piedino regolabile M10",ro:"Picior reglabil M10",en:"Adjustable foot M10",fr:"Pied réglable M10",de:"Stellfuß M10",pl:"Nóżka regulowana M10",es:"Pata regulable M10"},art:"—",price:0.6}],
+  {id:"gen_pied",brand:"—",n:{it:"Piedino regolabile M10",ro:"Picior reglabil M10",en:"Adjustable foot M10",fr:"Pied réglable M10",de:"Stellfuß M10",pl:"Nóżka regulowana M10",es:"Pata regulable M10"},art:"—",price:0.6},
+  /* Hettich Korrekt (gama de reglaj = înălțimea soclului, mm; sarcina pe picior, kg) și picioare metalice Häfele: coduri și cote din oferte de furnizori,
+     fără fișa oficială — de confirmat pe hettich.com / hafele.com înainte de comandă. Preț gol până se completează. */
+  {id:"het_korrekt_61852",brand:"Hettich",n:{it:"Piedino regolabile per zoccolo Hettich Korrekt, plastica nera, 130 mm (119–155 mm)",ro:"Picior de soclu reglabil Hettich Korrekt, plastic negru, 130 mm (119–155 mm)",en:"Hettich Korrekt adjustable plinth foot, black plastic, 130 mm (119–155 mm)",fr:"Pied de socle réglable Hettich Korrekt, plastique noir, 130 mm (119–155 mm)",de:"Hettich Korrekt Sockelverstellfuß, Kunststoff schwarz, 130 mm (119–155 mm)",pl:"Nóżka cokołowa regulowana Hettich Korrekt, czarny plastik, 130 mm (119–155 mm)",es:"Pata de zócalo regulable Hettich Korrekt, plástico negro, 130 mm (119–155 mm)"},art:"61852",price:0,chk:1,load:450,range:[119,155]},
+  {id:"het_korrekt_61853",brand:"Hettich",n:{it:"Piedino regolabile per zoccolo Hettich Korrekt, plastica nera, 150 mm (139–175 mm)",ro:"Picior de soclu reglabil Hettich Korrekt, plastic negru, 150 mm (139–175 mm)",en:"Hettich Korrekt adjustable plinth foot, black plastic, 150 mm (139–175 mm)",fr:"Pied de socle réglable Hettich Korrekt, plastique noir, 150 mm (139–175 mm)",de:"Hettich Korrekt Sockelverstellfuß, Kunststoff schwarz, 150 mm (139–175 mm)",pl:"Nóżka cokołowa regulowana Hettich Korrekt, czarny plastik, 150 mm (139–175 mm)",es:"Pata de zócalo regulable Hettich Korrekt, plástico negro, 150 mm (139–175 mm)"},art:"61853",price:0,chk:1,load:450,range:[139,175]},
+  {id:"het_korrekt_70152",brand:"Hettich",n:{it:"Piedino regolabile per zoccolo Hettich Korrekt, plastica nera, 110 mm (99–135 mm)",ro:"Picior de soclu reglabil Hettich Korrekt, plastic negru, 110 mm (99–135 mm)",en:"Hettich Korrekt adjustable plinth foot, black plastic, 110 mm (99–135 mm)",fr:"Pied de socle réglable Hettich Korrekt, plastique noir, 110 mm (99–135 mm)",de:"Hettich Korrekt Sockelverstellfuß, Kunststoff schwarz, 110 mm (99–135 mm)",pl:"Nóżka cokołowa regulowana Hettich Korrekt, czarny plastik, 110 mm (99–135 mm)",es:"Pata de zócalo regulable Hettich Korrekt, plástico negro, 110 mm (99–135 mm)"},art:"70152",price:0,chk:1,load:450,range:[99,135]},
+  {id:"haf_ins_63724022",brand:"Häfele",n:{it:"Piedino a inserto in metallo Häfele, ≈300 kg, profondità foro 63 mm",ro:"Picior metalic de inserție Häfele, ≈300 kg, adâncime de găurire 63 mm",en:"Häfele metal insert leveller, approx. 300 kg, drilling depth 63 mm",fr:"Pied à insérer en métal Häfele, ≈300 kg, profondeur de perçage 63 mm",de:"Häfele Einschlag-Stellfuß aus Metall, ca. 300 kg, Bohrtiefe 63 mm",pl:"Metalowa nóżka wpuszczana Häfele, ok. 300 kg, głębokość otworu 63 mm",es:"Pata metálica de inserción Häfele, aprox. 300 kg, profundidad de taladro 63 mm"},art:"637.24.022",price:0,chk:1,load:300},
+  {id:"haf_ins_63724024",brand:"Häfele",n:{it:"Piedino a inserto in metallo Häfele, ≈300 kg, profondità foro 111 mm",ro:"Picior metalic de inserție Häfele, ≈300 kg, adâncime de găurire 111 mm",en:"Häfele metal insert leveller, approx. 300 kg, drilling depth 111 mm",fr:"Pied à insérer en métal Häfele, ≈300 kg, profondeur de perçage 111 mm",de:"Häfele Einschlag-Stellfuß aus Metall, ca. 300 kg, Bohrtiefe 111 mm",pl:"Metalowa nóżka wpuszczana Häfele, ok. 300 kg, głębokość otworu 111 mm",es:"Pata metálica de inserción Häfele, aprox. 300 kg, profundidad de taladro 111 mm"},art:"637.24.024",price:0,chk:1,load:300},
+  /* U.14 (D-117): picioarele CADRULUI de nivelare = nivelatoare Häfele prinse cu șuruburi pe lateralul baghetelor (șinelor), nu pe bază. Sursa: pagina MB 12.104 din catalogul
+     Häfele Italia (DGH-M 2021, hafele.it, «Plinth adjusters — With supporting bracket») și FC 6.74 (US): oțel zincat, parte reglabilă din aliaj de zinc și plastic, talpă fixă neagră,
+     reglaj +20 mm, cheie hexagonală SW6 de sus, pentru panou de 19 mm; placă 50, ø38, înălțime 32, talpa închisă 4,5 (secțiunea din MB 12.104). `foot` = cotele citite de
+     ebanist-baseframe.js: base = talpa închisă sub șină, travel = reglajul, bracket = înălțimea plăcii (3D), panel = grosimea de panou pentru care e făcut. Preț gol.
+     637.42.950 = fixare cu șuruburi și gheare de bătut; 637.42.942 = gaură forată și șuruburi (aceeași secțiune); 637.42.922 = numai șuruburi; 637.42.932 = dublu, 300 kg
+     (secțiuni diferite: fără `foot`). 637.42.905 e pe FC 6.74, nu pe MB 12.104: talpa de 4,5 e luată de la 950, de confirmat. */
+  {id:"haf_42950",brand:"Häfele",n:{it:"Piedino Häfele heavy-duty con griffe da battere, fissaggio a vite sul fianco, regolazione 20 mm (chiave esagonale 6 mm)",ro:"Picior de nivelare Häfele heavy-duty cu gheare de bătut, prindere cu șuruburi pe lateral, reglaj 20 mm (cheie hexagonală 6 mm)",en:"Häfele heavy-duty base leveler with pound-in prongs, side screw fixing, 20 mm adjustment (6 mm hex key)",fr:"Pied de nivellement Häfele renforcé à griffes à enfoncer, fixation latérale à vis, réglage 20 mm (clé hexagonale 6 mm)",de:"Häfele Schwerlast-Sockelversteller mit Einschlagkrallen, seitlich verschraubt, Verstellung 20 mm (Sechskantschlüssel 6 mm)",pl:"Wzmocniona nóżka poziomująca Häfele z wbijanymi kolcami, mocowanie boczne wkrętami, regulacja 20 mm (klucz imbusowy 6 mm)",es:"Nivelador reforzado Häfele con garras de golpe, fijación lateral con tornillos, regulación 20 mm (llave hexagonal 6 mm)"},art:"637.42.950",price:0,chk:1,load:150,foot:{base:4.5,travel:20,dia:38,plate:50,screw:4,mount:"side",bracket:32,panel:19}},
+  {id:"haf_42905",brand:"Häfele",n:{it:"Piedino Häfele con griffe da battere, fissaggio a vite sul fianco, regolazione 20 mm (cacciavite a taglio)",ro:"Picior de nivelare Häfele cu gheare de bătut, prindere cu șuruburi pe lateral, reglaj 20 mm (șurubelniță plată)",en:"Häfele base leveler with pound-in prongs, side screw fixing, 20 mm adjustment (flat-bladed screwdriver)",fr:"Pied de nivellement Häfele à griffes à enfoncer, fixation latérale à vis, réglage 20 mm (tournevis plat)",de:"Häfele Sockelversteller mit Einschlagkrallen, seitlich verschraubt, Verstellung 20 mm (Schlitzschraubendreher)",pl:"Nóżka poziomująca Häfele z wbijanymi kolcami, mocowanie boczne wkrętami, regulacja 20 mm (wkrętak płaski)",es:"Nivelador Häfele con garras de golpe, fijación lateral con tornillos, regulación 20 mm (destornillador plano)"},art:"637.42.905",price:0,chk:1,load:100,foot:{base:4.5,travel:20,dia:28,plate:50,screw:4,mount:"side",bracket:32,panel:19}},
+  {id:"haf_42942",brand:"Häfele",n:{it:"Livellatore Häfele con staffa, montaggio in foro e fissaggio a vite, regolazione 20 mm (150 kg)",ro:"Nivelator Häfele cu bracket, montare în gaură forată și fixare cu șuruburi, reglaj 20 mm (150 kg)",en:"Häfele plinth adjuster with supporting bracket, mounting in drilled hole and screw fixing, 20 mm adjustment (150 kg)",fr:"Régleur de socle Häfele avec équerre, montage en trou percé et fixation à vis, réglage 20 mm (150 kg)",de:"Häfele Sockelversteller mit Stützwinkel, Montage in Bohrung und Verschraubung, Verstellung 20 mm (150 kg)",pl:"Regulator cokołu Häfele z kątownikiem, montaż w nawierconym otworze i mocowanie wkrętami, regulacja 20 mm (150 kg)",es:"Regulador de zócalo Häfele con escuadra, montaje en taladro y fijación con tornillos, regulación 20 mm (150 kg)"},art:"637.42.942",price:0,chk:1,load:150,foot:{base:4.5,travel:20,dia:38,plate:50,screw:4,mount:"side",bracket:32,panel:19}},
+  {id:"haf_42922",brand:"Häfele",n:{it:"Livellatore Häfele con staffa, fissaggio a vite, regolazione 20 mm (150 kg)",ro:"Nivelator Häfele cu bracket, fixare cu șuruburi, reglaj 20 mm (150 kg)",en:"Häfele plinth adjuster with supporting bracket, screw fixing, 20 mm adjustment (150 kg)",fr:"Régleur de socle Häfele avec équerre, fixation à vis, réglage 20 mm (150 kg)",de:"Häfele Sockelversteller mit Stützwinkel, zum Anschrauben, Verstellung 20 mm (150 kg)",pl:"Regulator cokołu Häfele z kątownikiem, mocowanie wkrętami, regulacja 20 mm (150 kg)",es:"Regulador de zócalo Häfele con escuadra, fijación con tornillos, regulación 20 mm (150 kg)"},art:"637.42.922",price:0,chk:1,load:150},
+  {id:"haf_42932",brand:"Häfele",n:{it:"Livellatore doppio Häfele con staffa, fissaggio a vite, regolazione 20 mm (300 kg)",ro:"Nivelator dublu Häfele cu bracket, fixare cu șuruburi, reglaj 20 mm (300 kg)",en:"Häfele double plinth adjuster with supporting bracket, screw fixing, 20 mm adjustment (300 kg)",fr:"Régleur de socle double Häfele avec équerre, fixation à vis, réglage 20 mm (300 kg)",de:"Häfele Doppel-Sockelversteller mit Stützwinkel, zum Anschrauben, Verstellung 20 mm (300 kg)",pl:"Regulator cokołu podwójny Häfele z kątownikiem, mocowanie wkrętami, regulacja 20 mm (300 kg)",es:"Regulador de zócalo doble Häfele con escuadra, fijación con tornillos, regulación 20 mm (300 kg)"},art:"637.42.932",price:0,chk:1,load:300},
+  /* AXILO 78 (catalog Häfele US FC 6.25, tabelul «Adjustment Feet»): picioare de soclu pentru CORPURI, introduse în plăcuța de montaj (637.76.33x/.460, vezi `picacc`); `range` = gama de
+     înălțime a soclului; sarcina 150 kg pe picior; reglajul cu greutate pe picior numai sub 80 kg (110 kg cu inserția ABS 637.76.423), din lateral și de sus cu unealta AXILO 637.76.360.
+     Nu sunt picioare de cadru. */
+  {id:"haf_axilo_351",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 60 mm (regolazione 53–80 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 60 mm (reglaj 53–80 mm)",en:"Häfele AXILO 78 foot, installation height 60 mm (adjustment 53–80 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 60 mm (réglage 53–80 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 60 mm (Verstellbereich 53–80 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 60 mm (regulacja 53–80 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 60 mm (regulación 53–80 mm)"},art:"637.76.351",price:0,chk:1,range:[53,80],load:150},
+  {id:"haf_axilo_352",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 80 mm (regolazione 70–100 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 80 mm (reglaj 70–100 mm)",en:"Häfele AXILO 78 foot, installation height 80 mm (adjustment 70–100 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 80 mm (réglage 70–100 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 80 mm (Verstellbereich 70–100 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 80 mm (regulacja 70–100 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 80 mm (regulación 70–100 mm)"},art:"637.76.352",price:0,chk:1,range:[70,100],load:150},
+  {id:"haf_axilo_353",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 100 mm (regolazione 90–120 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 100 mm (reglaj 90–120 mm)",en:"Häfele AXILO 78 foot, installation height 100 mm (adjustment 90–120 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 100 mm (réglage 90–120 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 100 mm (Verstellbereich 90–120 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 100 mm (regulacja 90–120 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 100 mm (regulación 90–120 mm)"},art:"637.76.353",price:0,chk:1,range:[90,120],load:150},
+  {id:"haf_axilo_354",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 125 mm (regolazione 115–145 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 125 mm (reglaj 115–145 mm)",en:"Häfele AXILO 78 foot, installation height 125 mm (adjustment 115–145 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 125 mm (réglage 115–145 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 125 mm (Verstellbereich 115–145 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 125 mm (regulacja 115–145 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 125 mm (regulación 115–145 mm)"},art:"637.76.354",price:0,chk:1,range:[115,145],load:150},
+  {id:"haf_axilo_355",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 150 mm (regolazione 140–170 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 150 mm (reglaj 140–170 mm)",en:"Häfele AXILO 78 foot, installation height 150 mm (adjustment 140–170 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 150 mm (réglage 140–170 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 150 mm (Verstellbereich 140–170 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 150 mm (regulacja 140–170 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 150 mm (regulación 140–170 mm)"},art:"637.76.355",price:0,chk:1,range:[140,170],load:150},
+  {id:"haf_axilo_356",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 180 mm (regolazione 170–200 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 180 mm (reglaj 170–200 mm)",en:"Häfele AXILO 78 foot, installation height 180 mm (adjustment 170–200 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 180 mm (réglage 170–200 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 180 mm (Verstellbereich 170–200 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 180 mm (regulacja 170–200 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 180 mm (regulación 170–200 mm)"},art:"637.76.356",price:0,chk:1,range:[170,200],load:150},
+  {id:"haf_axilo_357",brand:"Häfele",n:{it:"Piedino AXILO 78 Häfele, altezza di montaggio 200 mm (regolazione 190–220 mm)",ro:"Picior AXILO 78 Häfele, înălțime de montaj 200 mm (reglaj 190–220 mm)",en:"Häfele AXILO 78 foot, installation height 200 mm (adjustment 190–220 mm)",fr:"Pied AXILO 78 Häfele, hauteur de montage 200 mm (réglage 190–220 mm)",de:"Häfele AXILO 78 Fuß, Einbauhöhe 200 mm (Verstellbereich 190–220 mm)",pl:"Nóżka AXILO 78 Häfele, wysokość montażowa 200 mm (regulacja 190–220 mm)",es:"Pata AXILO 78 Häfele, altura de montaje 200 mm (regulación 190–220 mm)"},art:"637.76.357",price:0,chk:1,range:[190,220],load:150}],
  bin:[
   {id:"haf_slido",brand:"Häfele",n:{it:"Slido Classic 40 (set/anta)",ro:"Slido Classic 40 (set/ușă)",en:"Slido Classic 40 (set/door)",fr:"Slido Classic 40 (kit/porte)",de:"Slido Classic 40 (Set/Tür)",pl:"Slido Classic 40 (zestaw/drzwi)",es:"Slido Classic 40 (juego/puerta)"},art:"400.51.xxx",price:29,chk:1},
   {id:"gen_sevroll",brand:"—",n:{it:"Sistema scorrevole tipo Sevroll (set/anta)",ro:"Sistem glisant tip Sevroll (set/ușă)",en:"Sevroll-type sliding system (set/door)",fr:"Système coulissant type Sevroll (kit/porte)",de:"Schiebetürsystem Typ Sevroll (Set/Tür)",pl:"System przesuwny typu Sevroll (zestaw/drzwi)",es:"Sistema corredero tipo Sevroll (juego/puerta)"},art:"—",price:38}],
@@ -4287,6 +4367,19 @@ const HWDB={
   {id:"gen_slathold",brand:"—",n:{it:"Portadoga laterale per doga 68 mm",ro:"Suport doagă lateral pentru doagă 68 mm",en:"Side slat holder for 68 mm slat",fr:"Embout latéral pour latte 68 mm",de:"Seitlicher Lattenhalter für Latte 68 mm",pl:"Boczny uchwyt listwy na listwę 68 mm",es:"Portalamas lateral para lama de 68 mm"},art:"\u2014",price:0.15,chk:1}],
  doga2:[
   {id:"gen_slathold2",brand:"—",n:{it:"Portadoga doppio per traversa centrale",ro:"Suport doagă dublu pentru traversa centrală",en:"Double slat holder for the centre rail",fr:"Embout double pour traverse centrale",de:"Doppelter Lattenhalter für den Mittelträger",pl:"Podwójny uchwyt listw na belkę środkową",es:"Portalamas doble para el travesaño central"},art:"\u2014",price:0.3,chk:1}],
+ soc:[
+  {id:"haf_soc19",brand:"Häfele",n:{it:"Supporto zoccolo per pannello 19 mm",ro:"Suport soclu pentru panou 19 mm",en:"Plinth holder for 19 mm panel",fr:"Support de socle pour panneau 19 mm",de:"Sockelhalter für 19-mm-Platte",pl:"Uchwyt cokołu do płyty 19 mm",es:"Soporte de zócalo para panel de 19 mm"},art:"637.47.490",price:0,chk:1},
+  {id:"haf_soc16",brand:"Häfele",n:{it:"Supporto zoccolo per pannello 16 mm",ro:"Suport soclu pentru panou 16 mm",en:"Plinth holder for 16 mm panel",fr:"Support de socle pour panneau 16 mm",de:"Sockelhalter für 16-mm-Platte",pl:"Uchwyt cokołu do płyty 16 mm",es:"Soporte de zócalo para panel de 16 mm"},art:"637.47.491",price:0,chk:1},
+  {id:"haf_socclip_screw",brand:"Häfele",n:{it:"Clip zoccolo, fissaggio a vite",ro:"Clips soclu, fixare cu șurub",en:"Plinth panel clip, screw fixing",fr:"Clip de socle, fixation par vis",de:"Sockelblendenclip, zum Anschrauben",pl:"Klips cokołu, mocowanie wkrętami",es:"Clip de zócalo, fijación con tornillos"},art:"637.38.054",price:0,chk:1},
+  {id:"haf_socclip_press",brand:"Häfele",n:{it:"Clip zoccolo, a pressione (cava 3 mm)",ro:"Clips soclu, prin presare (canal 3 mm)",en:"Plinth panel clip, press fitting (3 mm groove)",fr:"Clip de socle, à emboîter (rainure 3 mm)",de:"Sockelblendenclip, zum Einpressen (Nut 3 mm)",pl:"Klips cokołu, wciskany (rowek 3 mm)",es:"Clip de zócalo, a presión (ranura 3 mm)"},art:"637.38.063",price:0,chk:1},
+  {id:"haf_socclip_nail",brand:"Häfele",n:{it:"Clip zoccolo, da battere con chiodi premontati",ro:"Clips soclu, de bătut cu cuie premontate",en:"Plinth panel clip, knock-in with pre-mounted nails",fr:"Clip de socle, à enfoncer avec clous prémontés",de:"Sockelblendenclip, zum Einschlagen mit vormontierten Nägeln",pl:"Klips cokołu, wbijany z fabrycznie zamontowanymi gwoździami",es:"Clip de zócalo, para clavar con clavos premontados"},art:"637.38.050",price:0,chk:1},
+  {id:"haf_socclip_slide",brand:"Häfele",n:{it:"Clip zoccolo, per profilo alluminio/plastica",ro:"Clips soclu, pentru profil de aluminiu/plastic",en:"Plinth panel clip, for sliding onto aluminium/plastic plinth",fr:"Clip de socle, à glisser sur profilé aluminium/plastique",de:"Sockelblendenclip, zum Aufschieben auf Alu-/Kunststoffsockel",pl:"Klips cokołu, nasuwany na profil aluminiowy/plastikowy",es:"Clip de zócalo, para deslizar sobre perfil de aluminio/plástico"},art:"637.38.354",price:0,chk:1}],
+ picacc:[
+  {id:"haf_axilo_ring",brand:"Häfele",n:{it:"Anello distanziatore AXILO ø52 (+10 mm)",ro:"Inel distanțier AXILO ø52 (+10 mm)",en:"AXILO spacer ring ø52 (+10 mm)",fr:"Bague d'écartement AXILO ø52 (+10 mm)",de:"AXILO-Distanzring ø52 (+10 mm)",pl:"Pierścień dystansowy AXILO ø52 (+10 mm)",es:"Anillo distanciador AXILO ø52 (+10 mm)"},art:"637.76.422",price:0,chk:1},
+  {id:"haf_axilo_abs",brand:"Häfele",n:{it:"Inserto ABS AXILO ø38 (pavimenti sensibili, 80–110 kg)",ro:"Inserție ABS AXILO ø38 (pardoseli sensibile, 80–110 kg)",en:"AXILO ABS insert ø38 (sensitive floors, 80 to 110 kg)",fr:"Insert ABS AXILO ø38 (sols sensibles, 80 à 110 kg)",de:"AXILO-ABS-Einsatz ø38 (empfindliche Böden, 80 bis 110 kg)",pl:"Wkładka ABS AXILO ø38 (wrażliwe podłogi, 80–110 kg)",es:"Inserto ABS AXILO ø38 (suelos sensibles, 80–110 kg)"},art:"637.76.423",price:0,chk:1},
+  {id:"haf_axilo_acu",brand:"Häfele",n:{it:"Isolamento acustico AXILO ø55",ro:"Izolație acustică AXILO ø55",en:"AXILO acoustic insulation ø55",fr:"Isolation acoustique AXILO ø55",de:"AXILO-Schallisolierung ø55",pl:"Izolacja akustyczna AXILO ø55",es:"Aislamiento acústico AXILO ø55"},art:"637.76.424",price:0,chk:1},
+  {id:"haf_axilo_460",brand:"Häfele",n:{it:"Piedino AXILO 78 a pressione, profilo basso (zoccolo 35–48 mm), con piastra di montaggio Ø35",ro:"Picior AXILO 78 cu presare, profil jos (soclu 35–48 mm), cu plăcuță de montaj Ø35 inclusă",en:"AXILO 78 press-fit low-profile foot (plinth 35–48 mm), supplied with Ø35 mounting plate",fr:"Pied AXILO 78 à emboîter, profil bas (socle 35–48 mm), livré avec plaque de montage Ø35",de:"AXILO-78-Flachfuß zum Einpressen (Sockelhöhe 35–48 mm), mit Montageplatte Ø35",pl:"Nóżka AXILO 78 wciskana, niska (cokół 35–48 mm), z płytką montażową Ø35",es:"Pata AXILO 78 a presión, perfil bajo (zócalo 35–48 mm), con placa de montaje Ø35"},art:"637.76.460",price:0,chk:1,range:[35,48],load:150},
+  {id:"haf_axilo_plate334",brand:"Häfele",n:{it:"Piastra di montaggio AXILO 78 a pressione, rettangolare, nera (codice da oferta: de confermare)",ro:"Plăcuță de montaj AXILO 78 cu presare, dreptunghiulară, neagră (cod din ofertă: de confirmat)",en:"AXILO 78 press-fit mounting plate, rectangular, black (code from a retailer listing: to be confirmed)",fr:"Plaque de montage AXILO 78 à emboîter, rectangulaire, noire (référence d'une offre : à confirmer)",de:"AXILO-78-Montageplatte zum Einpressen, rechteckig, schwarz (Nummer aus einem Händlerangebot: zu bestätigen)",pl:"Płytka montażowa AXILO 78 wciskana, prostokątna, czarna (kod z oferty: do potwierdzenia)",es:"Placa de montaje AXILO 78 a presión, rectangular, negra (código de una oferta: por confirmar)"},art:"637.76.334",price:0,chk:1}],
  feltro:[
   {id:"gen_felt",brand:"—",n:{it:"Feltrino adesivo Ø 60",ro:"Pâslă adezivă Ø 60",en:"Adhesive felt pad Ø 60",fr:"Patin feutre adhésif Ø 60",de:"Selbstklebender Filzgleiter Ø 60",pl:"Samoprzylepna podkładka filcowa Ø 60",es:"Fieltro adhesivo Ø 60"},art:"\u2014",price:0.2}]
 };
@@ -4517,6 +4610,7 @@ function isAccessoryMat(label){ return /^accessorio/i.test(String(label||"")); }
 const ACC_I18N={
   "Accessorio — asta appendiabiti ovale":{ro:"Accesoriu — bară umerașe ovală",en:"Accessory — oval hanging rail",fr:"Accessoire — tringle ovale",de:"Zubehör — ovale Kleiderstange",pl:"Akcesorium — owalny drążek na ubrania",es:"Accesorio — barra de colgar ovalada"},
   "Accessorio — piedino regolabile":{ro:"Accesoriu — picior reglabil",en:"Accessory — adjustable foot",fr:"Accessoire — vérin réglable",de:"Zubehör — Stellfuß",pl:"Akcesorium — nóżka regulowana",es:"Accesorio — pata regulable"},
+  "Accessorio — piedino cadru (Häfele 637.42)":{ro:"Accesoriu — picior cadru (Häfele 637.42)",en:"Accessory — frame foot (Häfele 637.42)",fr:"Accessoire — pied de cadre (Häfele 637.42)",de:"Zubehör — Rahmenfuß (Häfele 637.42)",pl:"Akcesorium — nóżka ramy (Häfele 637.42)",es:"Accesorio — pata de bastidor (Häfele 637.42)"},
   "Accessorio — vetro temperato 4mm":{ro:"Accesoriu — sticlă securizată 4 mm",en:"Accessory — tempered glass 4 mm",fr:"Accessoire — verre trempé 4 mm",de:"Zubehör — Einscheibensicherheitsglas 4 mm",pl:"Akcesorium — szkło hartowane 4 mm",es:"Accesorio — vidrio templado 4 mm"},
   "Accessorio — gamba legno massello 70×70":{ro:"Accesoriu — picior lemn masiv 70×70",en:"Accessory — solid wood leg 70×70",fr:"Accessoire — pied bois massif 70×70",de:"Zubehör — Massivholzbein 70×70",pl:"Akcesorium — noga z litego drewna 70×70",es:"Accesorio — pata de madera maciza 70×70"},
   "Accessorio — doga faggio curvata 68mm":{ro:"Accesoriu — șipcă fag curbată 68 mm",en:"Accessory — curved beech slat 68 mm",fr:"Accessoire — latte hêtre cintrée 68 mm",de:"Zubehör — gebogene Buchenlatte 68 mm",pl:"Akcesorium — wygięta listwa bukowa 68 mm",es:"Accesorio — lama de haya curvada 68 mm"}
@@ -6660,6 +6754,10 @@ const MAT_AW="Accessorio — profilo anticurvatura";
 const MAT_VENT="Accessorio — griglia di aerazione";
 const MAT_FOLD="Accessorio — sistema anta pieghevole";
 const MAT_PIED="Accessorio — piedino regolabile";
+const MAT_PIED_CADRU="Accessorio — piedino cadru (Häfele 637.42)";
+/* fâșia de soclu a cadrului (U.14, D-117): jocul față de pardoseală (Häfele MB 12.109: înălțimea soclului = H − 5…10 mm) și pasul
+   suporturilor de soclu. Generice, de confirmat în atelier. */
+const SOC_FRAME={gap:8,pitch:600,verificat:false};
 const MAT_VETRO="Accessorio — vetro temperato 4mm";
 
 /* ================= PEZZI TRAPEZOIDALI + SPEZZATURA AUTOMATICA ================= */
@@ -7222,8 +7320,9 @@ function carcassParams(cfg,ctx){
        ogni anta porta le sue. Le regole A3/A4 non hanno niente da misurare. */
     n_ante:(sliding||hasFronts(cfg))?0:Math.max(0,cfg.doors||0),
     n_cerniere:0,          // lo decide l'altezza dell'anta, sotto
-    piedini:support==="piedini"?4:0,
-    h_picior:support==="piedini"?pl:0,
+    /* cadru de nivelare (U.14, D-117): corpul stă ridicat pe cadru ca pe picioare, dar picioarele sunt ale cadrului, nu ale corpului */
+    piedini:(support==="piedini"||support==="cadru")?4:0,
+    h_picior:(support==="piedini"||support==="cadru")?pl:0,
     /* i tramezzi: da loro esce la larghezza di una sezione, e quindi quella
        del ripiano e della cassa del cassetto. Prima si ricalcolava in
        quattro punti diversi. */
@@ -7520,7 +7619,7 @@ function buildCore(cfg){
      grossezza diversa avrebbero sbagliato tutti e due. */
   const intY0=G.in.h_base+G.sp_base, intY1=H-G.sp_top, intH=G.H_int;
   const intD=G.ripiano_D; // profondità utile: dal piano interno, meno l'arretramento del ripiano
-  const y0=support==="piedini"?pl:0;
+  const y0=(support==="piedini"||support==="cadru")?pl:0;
   /* ---- COTE ASSOLUTE ----
      Setti, ripiani, ante e decupaje alle loro cote. Il controllo gira QUI,
      prima di qualunque pezzo: una cota che non ha dove stare ferma il
@@ -7648,6 +7747,14 @@ function buildCore(cfg){
     add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel,role:"zoccolo"});
     bxRole="zoccolo";
     bx(wL(zz)+tF,L-wR(zz)-tF,0,pl,zz-tZ,zz,"p");
+  }
+  if(support==="cadru"&&pl-SOC_FRAME.gap>=30){
+    /* fâșia de soclu care acoperă cadrul (clip Atelier d'Edouard): retrasă ca soclul, sub corp, cu un joc față de pardoseală
+       (catalogul Häfele: înălțimea soclului = H − 5…10 mm) */
+    const zz=G.zoccolo_Z, hs=pl-SOC_FRAME.gap;
+    add("Zoccolo telaio",L,hs,1,"1L",null,{role:"zoccolo"});
+    bxRole="zoccolo";
+    bx(0,L,SOC_FRAME.gap,pl,zz-tZ,zz,"p");
   }
   if(support==="piedini"&&pl>=30){
     add("Piedino regolabile",pl,50,4,"",MAT_PIED,{role:"accessorio"});
@@ -8277,7 +8384,7 @@ function buildCore(cfg){
     /* decuparea laterala: x de jos pe lungimea laturii, y de la muchia din spate */
     const g0=stacks[0], fp=pieces.find(x=>x.role==="fianco");
     if(g0&&fp&&G.D_fianco>gola.depth){
-      const y00=support==="piedini"?pl:0, nt=[];
+      const y00=(support==="piedini"||support==="cadru")?pl:0, nt=[];
       for(let i=0;i+1<g0.plan.fronts.length;i++){ const a=g0.plan.fronts[i], b=g0.plan.fronts[i+1];
         const yA=a.y0+a.h; nt.push({l:Math.round(b.y0-yA),w:Math.round(gola.depth),x:Math.round(yA-y00),y:Math.round(G.D_fianco-gola.depth),forma:"R",rif:"fata",tip:"gola"}); }
       if(nt.length){ const cur=fp.scasso?(Array.isArray(fp.scasso)?fp.scasso:[fp.scasso]):[]; const all=cur.concat(nt);
@@ -8720,6 +8827,36 @@ function buildModule(cfg){
       boxes.push({x0:X[i],x1:X[i+1],y0:0,y1:th,z0:Z[j],z1:Z[j+1],kind:"p",role:"blat",pk:1});
     }
     return {pieces:[o],boxes};
+  }
+  /* CADRUL DE NIVELARE (U.14, D-117): un segment pe perete, generat din Releveu (`bfApply`). Șinele, traversele și picioarele vin gata
+     calculate în cfg (ebanist-baseframe.js); aici se emit doar rândurile de distinctă și cutiile 3D. Grosimea vine din materialul ales
+     (D-41). Cutiile nu poartă un rol de panou: cadrul nu se găurește în Modelul de Operații. */
+  if(cfg.type==="cadru"){
+    const mB=matById(cfg.matBody);
+    if(!mB||!(+mB.th>0)) throw new Error("Cadru: alege materialul șinelor — grosimea vine din material (D-41)");
+    const L=+cfg.L, Dp=+cfg.P, h=+cfg.h, rh=+cfg.railH, sp=+cfg.sp, F=cfg.foot||{base:0,dia:0};
+    if(!(L>0&&Dp>0&&rh>0&&sp>0)) throw new Error("Cadru: lungimea, adâncimea și înălțimea trebuie să fie pozitive");
+    const rails=cfg.rails||[], cross=cfg.cross||[], feet=cfg.feet||[], pieces=[], boxes=[];
+    /* traversele pot fi din alt material (șine albe, traverse de PAL brut), dar de aceeași grosime: cota lor între șine vine din grosimea șinelor */
+    let mC=mB; if(cfg.matCross){ mC=matById(cfg.matCross);
+      if(!mC||!(+mC.th>0)) throw new Error("Cadru: alege materialul traverselor — grosimea vine din material (D-41)");
+      if(Math.abs(+mC.th-sp)>0.05) throw new Error("Cadru: traversele trebuie să aibă aceeași grosime ca șinele ("+sp+" mm), nu "+mC.th); }
+    const edge=takesEdge(cfg,"Sina cadru","zoccolo")?"1L":"";
+    if(rails.length) pieces.push({elemento:"Sina cadru",lung:Math.round(L),larg:Math.round(rh),pz:rails.length,bordo:edge,mat:mB.label,sp});
+    if(cross.length) pieces.push({elemento:"Traversa cadru",lung:Math.round(cross[0].L),larg:Math.round(rh),pz:cross.length,bordo:"",mat:mC.label,sp});
+    if(feet.length) pieces.push({elemento:"Piedino cadru",lung:Math.round(F.plate||F.base),larg:Math.round(F.dia),pz:feet.length,bordo:"",mat:MAT_PIED_CADRU,role:"accessorio"});
+    let pk=1;
+    rails.forEach(r=>boxes.push({x0:0,x1:L,y0:F.base,y1:h,z0:r.y,z1:r.y+sp,kind:"p",role:"cadru",pk:pk++}));
+    cross.forEach(c=>boxes.push({x0:c.x,x1:c.x+sp,y0:F.base,y1:h,z0:c.y,z1:c.y+c.L,kind:"p",role:"cadru",pk:pk++}));
+    /* piciorul lateral: placa de 50 pe fața interioară a șinei (spate: spre față; față: spre perete), înălțimea plăcii de la sol în sus;
+       altfel (sub șină) un bloc ø × ø sub axa ei */
+    feet.forEach(f=>{
+      const side=F.mount==="side", w=side?(F.plate||F.dia):F.dia, hh=Math.min(h,F.base+(F.bracket||0)||F.base);
+      let z0=f.y-F.dia/2, z1=f.y+F.dia/2;
+      if(side){ if(f.side==="spate"){ z0=f.y; z1=f.y+F.dia; } else { z0=f.y-F.dia; z1=f.y; } }
+      boxes.push({x0:f.x-w/2,x1:f.x+w/2,y0:0,y1:hh,z0,z1,kind:"p",role:"piedino",pk:pk++});
+    });
+    return {pieces,boxes};
   }
   if(cfg.type==="scrivania"){
     const L=cfg.L,H=cfg.H,P=cfg.P,t=structTh(cfg);
@@ -9729,6 +9866,18 @@ Object.assign(EL_I18N.de,{"Griglia di aerazione": "Lüftungsgitter", "Traversa r
 Object.assign(EL_I18N.pl,{"Griglia di aerazione": "Kratka wentylacyjna", "Traversa retro": "Poprzeczka pleców (usztywnienie)", "Fascia di chiusura sopra": "Zaślepka górna", "Fascia di chiusura dx": "Zaślepka prawa", "Fascia di chiusura sx": "Zaślepka lewa"});
 Object.assign(EL_I18N.es,{"Griglia di aerazione": "Rejilla de ventilación", "Traversa retro": "Travesaño trasero (refuerzo)", "Fascia di chiusura sopra": "Cubrejuntas superior", "Fascia di chiusura dx": "Cubrejuntas derecha", "Fascia di chiusura sx": "Cubrejuntas izquierda"});
 Object.assign(EL_I18N.ro,{"Fianco di chiusura sopra sx":"Capac lateral sus stânga","Fianco di chiusura sopra dx":"Capac lateral sus dreapta"});
+Object.assign(EL_I18N.ro,{"Zoccolo telaio": "Soclu cadru"});
+Object.assign(EL_I18N.en,{"Zoccolo telaio": "Frame plinth"});
+Object.assign(EL_I18N.fr,{"Zoccolo telaio": "Socle de cadre"});
+Object.assign(EL_I18N.de,{"Zoccolo telaio": "Rahmensockel"});
+Object.assign(EL_I18N.pl,{"Zoccolo telaio": "Cokół ramy"});
+Object.assign(EL_I18N.es,{"Zoccolo telaio": "Zócalo de bastidor"});
+Object.assign(EL_I18N.ro,{"Sina cadru": "Șină cadru", "Traversa cadru": "Traversă cadru", "Piedino cadru": "Picior cadru"});
+Object.assign(EL_I18N.en,{"Sina cadru": "Frame rail", "Traversa cadru": "Frame cross-member", "Piedino cadru": "Frame foot"});
+Object.assign(EL_I18N.fr,{"Sina cadru": "Rail de cadre", "Traversa cadru": "Traverse de cadre", "Piedino cadru": "Pied de cadre"});
+Object.assign(EL_I18N.de,{"Sina cadru": "Rahmenschiene", "Traversa cadru": "Rahmentraverse", "Piedino cadru": "Rahmenfuß"});
+Object.assign(EL_I18N.pl,{"Sina cadru": "Szyna ramy", "Traversa cadru": "Poprzeczka ramy", "Piedino cadru": "Nóżka ramy"});
+Object.assign(EL_I18N.es,{"Sina cadru": "Larguero de bastidor", "Traversa cadru": "Travesaño de bastidor", "Piedino cadru": "Pata de bastidor"});
 Object.assign(EL_I18N.en,{"Fianco di chiusura sopra sx":"Side cap, top left","Fianco di chiusura sopra dx":"Side cap, top right"});
 Object.assign(EL_I18N.fr,{"Fianco di chiusura sopra sx":"Joue de fermeture haut gauche","Fianco di chiusura sopra dx":"Joue de fermeture haut droite"});
 Object.assign(EL_I18N.de,{"Fianco di chiusura sopra sx":"Seitenabschluss oben links","Fianco di chiusura sopra dx":"Seitenabschluss oben rechts"});
@@ -10008,10 +10157,10 @@ function openPartSheet(M,pc,face){
   const pf=pc.preflight||[];
   const err=pf.filter(w=>w.level==="error"), wrn=pf.filter(w=>w.level==="warn"), inf=pf.filter(w=>w.rule==="V12");
   const opRow=o=>{ const edge=o.face<5;
-    const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
-    const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
+    const pos=o.type==="groove"?`${fmtMM(o.from.x)}→${fmtMM(o.to.x)}`:o.type==="contour"?"—":edge?`u ${fmtMM(o.u)}`:fmtMM(o.x);
+    const pos2=o.type==="groove"?`${fmtMM(o.from.y)}→${fmtMM(o.to.y)}`:o.type==="contour"?"—":edge?`z ${fmtMM(o.z)}`:fmtMM(o.y);
     const bad=pf.some(w=>w.level==="error"&&String(w.op||"").split("/").indexOf(o.id)>=0);
-    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":o.type==="slot"?"#8a5a2b":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):o.type==="slot"?fmtMM(o.len)+"×"+fmtMM(o.thk):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":fmtMM(o.depth)}</td></tr>`; };
+    return `<tr${bad?' class="bad"':""}><td class="mono">${o.id.replace("op_","")}</td><td><i class="dot" style="background:${o.type==="groove"?"#8a7a60":o.type==="mill"?"#6b4f9a":o.type==="slot"?"#8a5a2b":(DIA_COL[o.dia]||"#555")}"></i>${esc(opName(o))}</td><td class="n">${o.face}</td><td class="n">${pos}</td><td class="n">${pos2}</td><td class="n">${o.type==="groove"?fmtMM(o.width):o.type==="mill"?fmtMM(o.w)+"×"+fmtMM(o.d)+(o.r?" R"+fmtMM(o.r):""):o.type==="slot"?fmtMM(o.len)+"×"+fmtMM(o.thk):o.type==="contour"?"⌒ "+fmtMM(o.perim):"Ø"+o.dia}</td><td class="n">${o.through?"⟂":o.depth==null?"—":fmtMM(o.depth)}</td></tr>`; };
   const html=`<div class="part-head"><i class="pcs-n big">${m.n||""}</i><div><h3 style="margin:0;padding-right:44px">${esc(partName(M,pc))}</h3>`+
     `<p class="mini">${esc(row.modulo||(M.cfg&&M.cfg.name)||"")}${row.materiale||row.mat?" · "+esc(row.materiale||row.mat):""}</p></div></div>`+
     `<div class="part-kpis"><div><b>${fmtMM(pc.length)}</b><span>L</span></div><div><b>${fmtMM(pc.width)}</b><span>${esc(t("partW"))}</span></div><div><b>${fmtMM(pc.thickness)}</b><span>${esc(t("partT"))}</span></div>`+
@@ -10059,7 +10208,7 @@ function opName(o){
     "gambo minifix":"op_shank","eccentrico minifix":"op_cam","tassello":"op_dowel","reggipiano":"op_pin",
     "reggipiano (regolazione)":"op_pinAdj","guida cassetto":"op_slide","maniglia":"op_handle",
     "confirmat":"op_confirmat","pilot confirmat":"op_pilot","canal lamella":"op_slotBisc","canal domino":"op_slotDom","canal clamex":"op_slotClx","buzunar bulon blat":"op_wtBolt","decupaj chiuvetă":"op_cutSink","decupaj plită":"op_cutHob","decupaj blat":"op_cutOther",
-    "locaș mâner încastrat":"op_flushPocket","grilă de aerisire":"op_vent","decupaj spate":"op_cutBack","contur liber":"op_contour","gaură în contur":"op_contHole","decupaj interior":"op_contInner","canal în contur":"op_contSlot","canal profil anti-curbare":"op_awGroove","gola fresata 45°":"op_golaGroove","Gola fresata":"op_golaGroove","tazza cerniera pliante":"op_cupFold","basetta cerniera pliante":"op_plateFold"}[base]||(o.type==="groove"?"op_groove":null);
+    "locaș mâner încastrat":"op_flushPocket","grilă de aerisire":"op_vent","decupaj spate":"op_cutBack","contur liber":"op_contour","gaură în contur":"op_contHole","decupaj interior":"op_contInner","canal în contur":"op_contSlot","canal profil anti-curbare":"op_awGroove","gola fresata 45°":"op_golaGroove","colț în rază":"op_razaCorner","Gola fresata":"op_golaGroove","tazza cerniera pliante":"op_cupFold","basetta cerniera pliante":"op_plateFold"}[base]||(o.type==="groove"?"op_groove":null);
   return (k?t(k):note)+(/passante/.test(note)?" · "+t("partThrough"):"");
 }
 /* DXF per piesă, pe straturi de operație (2B.6, D-106): același cancello ca CSV-ul (exportAllowed → D-44) și același Pro-gate
@@ -10522,6 +10671,8 @@ function cfgFromForm(){
     golaType:$("bHandles").value==="gola"&&$("bGolaType").value!=="L"?$("bGolaType").value:null,
     golaH:$("bHandles").value==="gola"&&v("bGolaH",0)>0?Math.max(5,Math.min(200,v("bGolaH",0))):null,
     golaC:$("bHandles").value==="gola"&&v("bGolaC",0)>0?Math.max(5,Math.min(200,v("bGolaC",0))):null,
+    razaR:$("bHandles").value==="raza"&&v("bRazaR",0)>0?Math.max(10,Math.min(300,v("bRazaR",0))):null,
+    razaCorner:$("bHandles").value==="raza"&&$("bRazaCorner").value!=="auto"?$("bRazaCorner").value:null,
     boxes:parseInt($("bBoxes").value,10), corner:$("bCorner").value, cornerKind:$("bCornerKind").value,
     drawerSys:$("bDrawSys").value||"legno", drawerDist:$("bDrawDist").value||"uguali",
     drawerPos:$("bDrawPos").value||"auto",
@@ -10611,7 +10762,7 @@ function cfgCarry(src){
 function fAng(id){ const raw=$(id).value.trim(); if(!raw) return 90; const n=parseFloat(raw.replace(",",".")); return isFinite(n)?angClamp(n):90; }
 function syncBuildForm(){
   $("bFront").value=buildCfg.front||"piena"; $("bSupport").value=buildCfg.support||"zoccolo";
-  $("bHandles").value=buildCfg.handles||"maniglia"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
+  $("bHandles").value=buildCfg.handles||"maniglia"; $("bRazaR").value=buildCfg.razaR||""; $("bRazaCorner").value=buildCfg.razaCorner||"auto"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
   $("bBoxes").value=buildCfg.boxes===0||buildCfg.boxes==="0"?"0":"1";
   $("bCorner").value=buildCfg.corner||"sx";
   $("bCornerKind").value=buildCfg.cornerKind||"int";
@@ -10782,7 +10933,7 @@ function renderSecChips(){
   renderSecPull();
   renderDoorHinge();
   renderTop();
-  renderGola();
+  renderGola(); renderRaza();
   renderAbs();
 }
 /* U.12 — i ripiani di una sezione escono su guide. Si accende solo dove
@@ -10831,6 +10982,12 @@ function renderGola(){
   const gt=($("bGolaType")&&$("bGolaType").value)||"L", d=GOLA_TYPES[gt]||GOLA_TYPES.L;
   $("bGolaH").placeholder=d.h; $("bGolaC").placeholder=d.c;
   $("golaHint").textContent=t({L:"golaHint",J:"golaHintJ",fresata:"golaHintF"}[gt]||"golaHint");
+}
+/* U.15 — raza si colțul apar numai cu «Raza» (D-117) */
+function renderRaza(){
+  const on=$("bHandles").value==="raza";
+  $("rowRaza").style.display=on?"":"none"; $("razaHint").style.display=on?"":"none";
+  if(on) $("razaHint").textContent=t("razaHint");
 }
 /* U.2 — feroneria aleasa pe corp. Un selector pe categorie; «catalog» = articolul
    din Setari. Citit direct din selectoare (nu din stare paralela), la fel ca restul
@@ -11226,10 +11383,18 @@ function drawPreview(){
   if(wn.doorOverlap) notes.push("⚠︎ "+t("wDoorOverDraw"));
   if(wn.doorNarrow) notes.push("⚠︎ "+t("wDoorNarrow").replace("{w}",wn.doorNarrow).replace("{m}",DOOR_NARROW));
   if(wn.slope) notes.push(t("wSlope").replace("{a}",wn.slope.deg));
+  /* U.14 (D-117): înălțimea soclului iese din gama de reglaj a piciorului ales */
+  try{
+    if(buildCfg.support==="piedini"&&+buildCfg.plinth>0){
+      const fi=hwItemFor(buildCfg,"pied");
+      if(fi&&fi.range&&(+buildCfg.plinth<fi.range[0]||+buildCfg.plinth>fi.range[1]))
+        notes.push("⚠︎ "+t("wFootRange").replace("{h}",buildCfg.plinth).replace("{a}",fi.range[0]).replace("{b}",fi.range[1]));
+    }
+  }catch(e){}
   if(wn.foldNarrow) notes.push("⚠︎ "+t("wFoldNarrow").replace("{w}",wn.foldNarrow).replace("{m}",FOLD.min_leaf));
   /* D-89: mânerul ales nu încape pe front */
   try{
-    if(buildCfg.handles!=="push"&&buildCfg.handles!=="gola"){
+    if(buildCfg.handles!=="push"&&buildCfg.handles!=="gola"&&buildCfg.handles!=="raza"){
       const len=m=>m?(m.t==="flushR"?m.d:(m.L||m.ia||0)):0;
       const big=(m,re)=>m&&pieces.some(x=>re.test(x.elemento||"")&&!/interno/i.test(x.elemento||"")&&Math.max(x.lung,x.larg)-40<len(m));
       if(big(handleModel(buildCfg,"door"),/^anta/i)||big(handleModel(buildCfg,"drawer"),/^frontale cassetto/i)) notes.push("⚠︎ "+t("opsHandleFit"));
@@ -11477,6 +11642,7 @@ function renderBuild(){
     ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     ["bTop","bTipo"].forEach(id=>$(id).addEventListener("change",renderTop)); renderTop();
     $("bHandles").addEventListener("change",renderGola);
+    $("bHandles").addEventListener("change",renderRaza);
     $("bGolaType").addEventListener("change",()=>{ renderGola(); drawPreview(); });
     $("bAW").addEventListener("change",renderAW);
     $("bFold").addEventListener("change",renderFold);
@@ -11648,6 +11814,7 @@ function openBuilder(mod){
   const p=proj();
   /* un blat se calculeaza din Releveu (U.8): in constructor ar deveni un corp */
   if(p&&p.configs&&p.configs[mod]&&p.configs[mod].type==="blat"){ setView("survey"); toast(ts("wtManaged")); return; }
+  if(p&&p.configs&&p.configs[mod]&&p.configs[mod].type==="cadru"){ setView("survey"); toast(ts("bfManaged")); return; }
   if(p&&p.configs&&p.configs[mod]){ buildCfg={...p.configs[mod],name:mod}; if(buildFormReady)syncBuildForm(); asmSel=mod; }
   setView("build");
 }
@@ -12002,7 +12169,7 @@ function opsAllOf(cfg){
 }
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
-const OPS_NOTES=["opsBedFit","opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+const OPS_NOTES=["opsBedFit","opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit","opsRazaSmall","opsRazaBig","opsRazaGrip"];
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -12327,6 +12494,20 @@ function assertExportable(project){
   for(const d of drift.warn)
     out.warn.push({id:"MAT?",severity:"warn",modulo:d.modulo,
       why:t("matStaleOne"),source:t("matStaleTitle")});
+
+  /* 2b. cadrul de nivelare (U.14, D-117): o distinctă cu un cadru depășit sau cu corpuri care nu stau la înălțimea lui se oprește aici. Un cadru
+         încă necalculat nu blochează: nu e în distinctă. */
+  try{
+    for(const fr of (p.baseFrames||[])){
+      if(!(fr.names&&fr.names.length)) continue;
+      const r=bfCompute(p,fr);
+      if(r.errors.length){ out.blocking.push({id:"BF",severity:"blocking",modulo:fr.name,why:r.errors.map(bfMsg).join(" · "),source:ts("bfTitle")}); continue; }
+      if((fr.names||[]).some(n=>!(p.configs&&p.configs[n])) || bfSig(fr,r)!==fr.sig)
+        out.blocking.push({id:"BFSTALE",severity:"blocking",modulo:fr.name,why:ts("bfStaleBlock").replace("{name}",fr.name),source:ts("bfTitle")});
+      for(const w of r.warnings) if(w.k==="bfBodyH")
+        out.blocking.push({id:"BFBODY",severity:"blocking",modulo:w.name,why:bfMsg(w),source:ts("bfTitle")});
+    }
+  }catch(e){}
 
   /* 3. corpo per corpo: la chiusura del gabarito (Fase 2) e le regole di
         coerenza (Fase 3), che `auditProject` gia mette insieme. */
@@ -12962,6 +13143,8 @@ function assemblySteps(modName,hw,cfg,items){
   add(t("mBox"),{hi:CARC,show:[]});
   if(cfg&&cfg.tram>0) add(t("mTram").replace("{q}",cfg.tram),{hi:["tram"],show:CARC});
   const sup=cfg?(cfg.support||"zoccolo"):"zoccolo";
+  if(sup==="cadru") add(t("mFrame").replace("{h}",cfg.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
+  if(sup==="cadru"&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",(cfg.plinth||0)-SOC_FRAME.gap).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini"||hw.hwPied>0) add(t("mFeet").replace("{q}",hw.hwPied).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   else if(sup==="sospeso") add(t("mWall"));
   else add(t("mPlinth"),{hi:["zocc"],show:[...CARC,"tram"]});
@@ -13089,6 +13272,8 @@ function mSteps(M,hw,items){
   add(t("ms10").replace("{d}",dg).replace("{w}",c.L).replace("{h}",Hc));
   /* 4. appoggio */
   const sup=c.support||"zoccolo";
+  if(sup==="cadru") add(t("ms11c").replace("{h}",c.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
+  if(sup==="cadru"&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",(c.plinth||0)-SOC_FRAME.gap).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini") add(t("ms11f").replace("{n}",hw.hwPied||4).replace("{h}",c.plinth||0).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   /* il pensile si appende DOPO averlo messo in piedi: il passo va dopo */
   else if((c.plinth||0)>=30) add(t("ms11z").replace("{s}",G&&G.in?G.in.setback_zoccolo:50).replace("{h}",c.plinth),{hi:["zocc"],show:[...CARC,"tram"]});
@@ -14145,7 +14330,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"]];
+  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
 const CAT_PH_MAX=240;
@@ -14451,11 +14636,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
    masculul pe filler, astfel încât să nu rămână rost între filler și corp. Distanța ≈ 500 mm, minimum 3 pe filler;
    prima și ultima la KEKU_EDGE de capete. Cotele sunt ale atelierului, nevalidate pe un set real. */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro"};
+  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTblExt","hwBoxRot","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
+    "hwLeg","hwTblExt","hwBoxRot","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -14481,7 +14666,7 @@ function computeHardware(p,S,byModule){
     const el=(x.elemento||"").toLowerCase(), mod=x.modulo||"—";
     const push=el.includes("push"), gola=el.includes("gola");
     /* la gola e un profil, nu un maner: nici maner, nici push */
-    const grip=(m2,n2)=>{ if(!gola) bump(m2,push?"hwPush":"hwMan",n2); };
+    const grip=(m2,n2)=>{ const cr=cfgByMod(m2); if(!gola&&!(cr&&cr.handles==="raza")) bump(m2,push?"hwPush":"hwMan",n2); };
     if(el.startsWith("sistema anta pieghevole")){ bump(mod,"hwFold",x.pz); }
     else if(el.startsWith("anta pieghevole")){
       /* între foile unui pachet: (foi − 1) balamale pe înălțime; un mâner pe pachet, pe foaia liberă */
@@ -14513,6 +14698,7 @@ function computeHardware(p,S,byModule){
     else if(el.startsWith("fondo ripiano estraibile")){ bumpG(x,mod,x.pz); }  // una coppia di guide per vassoio (U.12)
     else if(el.includes("ripiano mobile")||el.includes("ripiano regolabile")){ bump(mod,"hwSup",4*x.pz); }
     else if(el.includes("asta appendiabiti")){ bump(mod,"hwAsta",2*x.pz); }
+    else if(el.startsWith("zoccolo telaio")){ bump(mod,"hwSoc",Math.max(2,Math.ceil(x.lung/SOC_FRAME.pitch)+1)*x.pz); }
     else if(el.startsWith("zoccolo")){ piedMods.add(mod); }
     if(/^(base \/ cielo|tramezzo|ripiano fisso)/.test(el)) bump(mod,"hwConn",4*x.pz);
   }
@@ -14887,9 +15073,10 @@ function roomLayout(){
      un pensile a 1400 non urta il piano di lavoro sotto. */
   const vOver=(a,b)=>Math.min(a.yHi,b.yHi)-Math.max(a.yLo,b.yLo)>1;
   for(let i=0;i<mods.length;i++) for(let j=i+1;j<mods.length;j++)
-    if(vOver(mods[i],mods[j])&&polyHit(mods[i].foot,mods[j].foot)) issues.push({t:"hit",a:mods[i].name,b:mods[j].name});
+    /* cadrul de nivelare (U.14) stă SUB corpuri și se îmbină cu el însuși: nu intră în ciocniri */
+    if(!bfIsFrame(p,mods[i].name)&&!bfIsFrame(p,mods[j].name)&&vOver(mods[i],mods[j])&&polyHit(mods[i].foot,mods[j].foot)) issues.push({t:"hit",a:mods[i].name,b:mods[j].name});
   mods.forEach(m=>m.swings.forEach(sw=>{
-    mods.forEach(o=>{ if(o!==m && vOver(sw,o) && polyHit(sw.poly,o.foot)) issues.push({t:sw.kind==="door"?"door":"drawer",a:m.name,b:o.name}); });
+    mods.forEach(o=>{ if(o!==m && !bfIsFrame(p,o.name) && vOver(sw,o) && polyHit(sw.poly,o.foot)) issues.push({t:sw.kind==="door"?"door":"drawer",a:m.name,b:o.name}); });
     frames.forEach(f=>{ if(f!==m.fr && segHitPoly(f.a,f.b,sw.poly)) issues.push({t:sw.kind==="door"?"doorWall":"drawerWall",a:m.name,b:String(f.i+1)}); });
   }));
   const seen={}, uniq=issues.filter(x=>{const k=x.t+x.a+(x.b||"");if(seen[k])return false;seen[k]=1;return true;});
@@ -15104,7 +15291,7 @@ function renderPlan(){
   const sv=survey(); const el=$("svgPlan"); if(!el) return;
   const walls=sv?sv.walls:[];
   $("svPlanCard").style.display=walls.length?"":"none";
-  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; renderGapBar(sv); return; }
+  if(!walls.length){ el.innerHTML=""; $("svPlanInfo").textContent=""; if($("svWtCard")) $("svWtCard").style.display="none"; if($("svBfCard")) $("svBfCard").style.display="none"; renderGapBar(sv); return; }
   const pts=planPoints(walls);
   const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
   const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
@@ -15176,7 +15363,7 @@ function renderPlan(){
   $("svPlanInfo").textContent=`${ts("svPerimeter")}: ${(perim/1000).toFixed(2)} m · ${gap>50?ts("svNotClosed"):ts("svClosed")} · ${ts("svGapLbl")} ${Math.round(gap)} mm`;
   renderGapBar(sv);
   renderRoomList(RL);
-  renderWorktops(RL);
+  renderWorktops(RL); renderFrames(RL);
   renderSelBar();
   wirePlanDrag();
 }
@@ -15195,7 +15382,7 @@ const WT_KINDS=["sink","hob","other"];
 function wtIsBlat(p,name){ const c=p&&p.configs&&p.configs[name]; return !!(c&&c.type==="blat"); }
 /* corpurile care pot purta un blat: asezate pe perete, jos, neinvartite */
 function wtEligible(p,RL){
-  return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&m.lift<400);
+  return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&!bfIsFrame(p,m.name)&&m.lift<400);
 }
 /* adancimea reala a unui corp: cel mai iesit panou SAU front, de la perete */
 function wtFront(m){
@@ -15354,6 +15541,157 @@ function renderWorktops(RL){
     const i=+b.dataset.wdel, wt=W(i); snapUndo(); wtRemoveModules(p,wt.names||[]); p.worktops.splice(i,1); persist(); renderPlan(); }));
 }
 $("btnWtAdd").addEventListener("click",wtAdd);
+
+/* ================= CADRUL DE NIVELARE (U.14, D-117) =================
+   Ca blatul: obiect al camerei. Lungimea vine din corpurile de pe perete, adâncimea din cel mai ieșit front minus retragerea; șinele și
+   traversele sunt de PAL pe cant, picioarele sunt nivelatoare Häfele (637.42.950) prinse pe lateralul șinelor. Cotele pardoselii din Releveu dau
+   extensia fiecărui picior. Fiecare perete are modulul lui (`type:"cadru"`: intră în plan, în camera 3D, în distinctă și în deviz). Nimic
+   nu se recalculează singur: dacă se mută corpurile, cadrul spune că nu mai corespunde și așteaptă «Calculează». Corpurile de pe cadru se
+   setează de mână (Suport = Cadru, înălțimea = a cadrului) și se verifică aici. */
+function bfIsFrame(p,name){ const c=p&&p.configs&&p.configs[name]; return !!(c&&c.type==="cadru"); }
+function bfEligible(p,RL){ return (RL?RL.mods:[]).filter(m=>!wtIsBlat(p,m.name)&&!bfIsFrame(p,m.name)&&m.lift<50); }
+const BF_FOOT_DEFAULT="haf_42950";
+function bfFootList(){ try{ return hwList("pied").filter(x=>x.foot); }catch(e){ return []; } }
+function bfFootItem(fr){ try{ return hwItemById("pied",(fr&&fr.footId)||BF_FOOT_DEFAULT); }catch(e){ return null; } }
+function bfInput(p,RL,fr){
+  const sv=p.survey;
+  const walls=RL.frames.map((f,i)=>({id:f.id,i,L:f.L,angle:+(sv.walls[i]&&sv.walls[i].angle)||90}));
+  const mods=[];
+  (fr.mods||[]).forEach(n=>{ const m=RL.mods.find(x=>x.name===n); if(!m) return;
+    mods.push({name:n,wall:m.fr.id,x0:m.from+m.x0,x1:m.from+m.x1,depth:wtFront(m),rot:m.rot}); });
+  const mt=fr.mat?matById(fr.mat):null, it=bfFootItem(fr);
+  return {walls,mods,spec:{name:fr.name,mods:fr.mods||[],sp:mt?+mt.th:null,h:fr.h,setback:fr.setback,wallGap:fr.wallGap,
+    through:fr.through||[],floor:fr.floor||[],foot:it&&it.foot?it.foot:undefined}};
+}
+function bfCompute(p,fr){
+  const RL=roomLayout(), none={errors:[{k:"bfNeedRoom"}],warnings:[],segments:[],joints:[],pieces:[],feet:[]};
+  if(!RL||typeof deriveBaseFrame!=="function") return none;
+  const I=bfInput(p,RL,fr), r=deriveBaseFrame(I.spec,I.walls,I.mods);
+  r.RL=RL; r.mods=I.mods; r.mat=fr.mat?matById(fr.mat):null;
+  if(!r.mat||!(+r.mat.th>0)){ r.errors=r.errors.filter(e=>e.k!=="bfNoThickness"); r.errors.push({k:"bfNoMat"}); }
+  if(fr.matCross&&r.mat){ const mc=matById(fr.matCross);
+    if(!mc||!(+mc.th>0)) r.errors.push({k:"bfNoMat"});
+    else if(Math.abs(+mc.th-(+r.mat.th))>0.05) r.errors.push({k:"bfCrossTh",a:+r.mat.th,b:+mc.th}); }
+  /* nivelatorul Häfele e făcut pentru un panou de o anumită grosime (19 mm): o șină de altă grosime nu se prinde cum e desenat */
+  if(!r.errors.length){ const fi=bfFootItem(fr), pn=fi&&fi.foot&&fi.foot.panel;
+    if(pn&&r.mat&&Math.abs(+r.mat.th-pn)>0.05) r.warnings.push({k:"bfFootPanel",a:pn,b:+r.mat.th}); }
+  /* corpurile de pe cadru trebuie să stea la înălțimea cadrului */
+  if(!r.errors.length) (fr.mods||[]).forEach(n=>{
+    const m=RL.mods.find(x=>x.name===n), c=m&&m.cfg;
+    if(c&&(c.support!=="cadru"||Math.abs((+c.plinth||0)-r.h)>0.05)) r.warnings.push({k:"bfBodyH",name:n,h:r.h});
+  });
+  return r;
+}
+function bfSegName(fr,r,sg){ return r.segments.length===1?fr.name:fr.name+" "+sg.letter; }
+function bfSig(fr,r){ return JSON.stringify([r.mods,fr.h,fr.setback,fr.wallGap,fr.through,fr.floor,fr.mat,fr.matCross||null,fr.footId||BF_FOOT_DEFAULT]); }
+function bfMsg(e){ let s=ts(e.k); for(const k in e) if(k!=="k") s=s.replace("{"+k+"}",e[k]); return s; }
+function bfApply(p,fr){
+  const r=bfCompute(p,fr);
+  if(r.errors.length){ fr.err=r.errors.map(bfMsg); persist(); return false; }
+  snapUndo();
+  const names=[];
+  wtRemoveModules(p,fr.names||[]);
+  r.segments.forEach((sg,k)=>{
+    const name=bfSegName(fr,r,sg); names.push(name);
+    const cfg=baseFrameSegCfg(r,k,name);
+    Object.assign(cfg,{matBody:fr.mat,matFront:fr.mat,matBack:fr.mat,matCross:fr.matCross||null,hwSel:{pied:(bfFootItem(fr)||{}).id||BF_FOOT_DEFAULT},bf:fr.id});
+    generateInto(p,cfg);
+    layout()[name]={wall:sg.wall,from:sg.from,off:0,lift:0,rot:0};
+  });
+  fr.names=names; fr.sig=bfSig(fr,r); fr.err=null;
+  persist(); return true;
+}
+function bfAdd(){
+  const p=proj(); if(!p){ toast(ts("svNoProject")); return; }
+  const RL=roomLayout(); if(!RL){ toast(ts("bfNeedRoom")); return; }
+  p.baseFrames=p.baseFrames||[];
+  let n=p.baseFrames.length+1; while(p.baseFrames.some(w=>w.name==="Cadru "+n)) n++;
+  const D=typeof BASEFRAME_DEFAULTS!=="undefined"?BASEFRAME_DEFAULTS:{h:120,setback:50,wall_gap:10};
+  p.baseFrames.push({id:"bf"+Date.now().toString(36),name:"Cadru "+n,mods:bfEligible(p,RL).map(m=>m.name),mat:null,
+    h:D.h,setback:D.setback,wallGap:D.wall_gap,through:[],floor:[],names:[],sig:null});
+  persist(); renderPlan();
+}
+function bfPickMat(fr,field){
+  field=field||"mat";
+  let sel=$("bfMatSel");
+  if(!sel){ sel=document.createElement("select"); sel.id="bfMatSel"; sel.hidden=true; document.body.appendChild(sel); }
+  sel.innerHTML=matVisible().map(m=>`<option value="${m.id}">${esc(matById(m.id).label)}</option>`).join("");
+  if(fr[field]) sel.value=fr[field];
+  matPickOpen("bfMatSel",{minTh:12,title:ts(field==="mat"?"bfMat":"bfMatCross"),onPick:id=>{ fr[field]=id; persist(); renderPlan(); }});
+}
+function renderFrames(RL){
+  const card=$("svBfCard"); if(!card) return;
+  const p=proj(); if(!p||!RL){ card.style.display="none"; return; }
+  card.style.display="";
+  const box=$("svBfList");
+  wireRefreshOnLeave(box); if(editingIn(box)) return;
+  $("svBfLbl").textContent=ts("bfTitle"); $("svBfHint").textContent=ts("bfHint"); $("btnBfAddLbl").textContent=ts("bfAdd");
+  const el=bfEligible(p,RL), list=p.baseFrames||[], walls=(p.survey&&p.survey.walls)||[];
+  box.innerHTML=list.map((fr,fi)=>{
+    const r=bfCompute(p,fr);
+    const missing=(fr.names||[]).some(n=>!(p.configs&&p.configs[n]));
+    const applied=!!(fr.names&&fr.names.length)&&!missing;
+    const stale=applied&&!r.errors.length&&bfSig(fr,r)!==fr.sig;
+    const state=!applied?ts("bfNew"):stale?ts("bfStale"):ts("bfOk");
+    const joints=r.segments.length>1?r.joints.map((j,k)=>{
+      const first=(fr.through||[])[k]!=="second", a=j.corner.split("/");
+      return `<button class="chip sm on" data-fi="${fi}" data-jt="${k}">${esc(ts("wtJoint").replace("{a}",a[0]).replace("{b}",a[1]))}: ${esc(ts("wtPasses").replace("{n}",first?a[0]:a[1]))}</button>`; }).join(""):"";
+    const floor=(fr.floor||[]).map((q,qi)=>`<div class="bf-fl" data-fi="${fi}" data-qi="${qi}" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px;margin:4px 0">
+      <select data-f="wall">${walls.map((w,i)=>`<option value="${w.id}"${q.wall===w.id?" selected":""}>${esc(ts("svWall"))} ${i+1}</option>`).join("")}</select>
+      <input data-f="x" type="number" inputmode="numeric" placeholder="x" value="${q.x==null?"":q.x}">
+      <input data-f="z" type="number" inputmode="decimal" step="0.5" placeholder="z" value="${q.z==null?"":q.z}">
+      <button class="iconbtn" data-del="1" aria-label="x">✕</button></div>`).join("");
+    const segs=r.segments.map(sg=>`<div class="mini">${esc(bfSegName(fr,r,sg))} · ${esc(ts("svWall"))} ${sg.wallIndex+1} · <b>${sg.L}×${sg.P}</b> · ${esc(ts("bfSegInfo").replace("{c}",sg.cross).replace("{f}",sg.feet))}</div>`).join("");
+    const info=r.errors.length?"":`<div class="mini">${esc(ts("bfFloorInfo").replace("{z}",r.floorSpan).replace("{h}",r.h))}</div>`;
+    const msgs=r.errors.map(e=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(bfMsg(e))}</div>`).concat(
+      r.warnings.map(e=>`<div class="mini warnline">⚠ ${esc(bfMsg(e))}</div>`),
+      (fr.err||[]).map(x=>`<div class="mini" style="color:var(--danger)">⚠ ${esc(x)}</div>`)).join("");
+    return `<div class="bf" data-fi="${fi}" style="border-top:1px solid var(--line,#e5e2d8);padding:10px 0">
+      <div style="display:flex;align-items:center;gap:8px"><b style="flex:1">${esc(fr.name)}</b><span class="mini">${esc(state)}</span>
+        <button class="iconbtn" data-fdel="${fi}" aria-label="x">✕</button></div>
+      <div class="mini" style="margin:6px 0 2px">${esc(ts("bfMods"))}</div>
+      <div class="chips">${el.map(m=>`<button class="chip sm${(fr.mods||[]).includes(m.name)?" on":""}" data-fi="${fi}" data-fm="${esc(m.name)}">${esc(m.name)}</button>`).join("")||`<span class="mini">${esc(ts("svNoPlaced"))}</span>`}</div>
+      <div class="f2" style="margin-top:8px">
+        <div class="f"><label>${esc(ts("bfMat"))}</label><button type="button" class="matpick" data-fi="${fi}" data-fpick="1">${fr.mat&&matById(fr.mat)?esc(matById(fr.mat).label):esc(ts("bfPick"))}</button></div>
+        <div class="f"><label>${esc(ts("bfH"))}</label><input data-fi="${fi}" data-ff="h" type="number" inputmode="numeric" value="${fr.h==null?"":fr.h}"></div>
+      </div>
+      <div class="f"><label>${esc(ts("bfMatCross"))}</label><div style="display:flex;gap:6px"><button type="button" class="matpick" style="flex:1" data-fi="${fi}" data-fpick="matCross">${fr.matCross&&matById(fr.matCross)?esc(matById(fr.matCross).label):esc(ts("bfCrossSame"))}</button>${fr.matCross?`<button class="iconbtn" data-fi="${fi}" data-fcx="1" aria-label="x">✕</button>`:""}</div></div>
+      <div class="f"><label>${esc(ts("bfFoot"))}</label><select data-fi="${fi}" data-ff="footId">${bfFootList().map(x=>`<option value="${esc(x.id)}"${(fr.footId||BF_FOOT_DEFAULT)===x.id?" selected":""}>${esc(x.art)} · ${esc(x.n[state.lang]||x.n.it)}</option>`).join("")}</select></div>
+      <div class="f2"><div class="f"><label>${esc(ts("bfSetback"))}</label><input data-fi="${fi}" data-ff="setback" type="number" inputmode="numeric" value="${fr.setback==null?"":fr.setback}"></div>
+        <div class="f"><label>${esc(ts("bfGap"))}</label><input data-fi="${fi}" data-ff="wallGap" type="number" inputmode="numeric" value="${fr.wallGap==null?"":fr.wallGap}"></div></div>
+      ${joints?`<div class="mini" style="margin:6px 0 2px">${esc(ts("wtCorner"))}</div><div class="chips">${joints}</div>`:""}
+      <div class="mini" style="margin:8px 0 2px">${esc(ts("bfFloor"))}</div>
+      ${floor}
+      <div class="chips" style="margin-top:4px"><button class="chip sm" data-fi="${fi}" data-fladd="1">+ ${esc(ts("bfFloorAdd"))}</button></div>
+      <div style="margin-top:8px">${segs}${info}${msgs}</div>
+      <div class="mini" style="margin-top:4px">${esc(ts("bfFootNote"))}</div>
+      <button class="btn sm" data-fcalc="${fi}" style="margin-top:6px">${esc(applied?ts("bfRecalc"):ts("bfCalc"))}</button></div>`;
+  }).join("");
+  const F=i=>(p.baseFrames||[])[i];
+  const touch=()=>{ persist(); renderPlan(); };
+  box.querySelectorAll("[data-fm]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fi), n=b.dataset.fm; fr.mods=(fr.mods||[]).includes(n)?fr.mods.filter(x=>x!==n):(fr.mods||[]).concat(n); touch(); }));
+  box.querySelectorAll("[data-jt]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fi), k=+b.dataset.jt; fr.through=(fr.through||[]).slice(); while(fr.through.length<=k) fr.through.push("first");
+    fr.through[k]=fr.through[k]==="second"?"first":"second"; touch(); }));
+  box.querySelectorAll("[data-ff]").forEach(inp=>inp.addEventListener("change",()=>{
+    const fr=F(+inp.dataset.fi), v=parseFloat(inp.value); fr[inp.dataset.ff]=inp.dataset.ff==="footId"?inp.value:(isFinite(v)?v:null); touch(); }));
+  box.querySelectorAll("[data-fpick]").forEach(b=>b.addEventListener("click",()=>bfPickMat(F(+b.dataset.fi),b.dataset.fpick==="matCross"?"matCross":"mat")));
+  box.querySelectorAll("[data-fcx]").forEach(b=>b.addEventListener("click",()=>{ F(+b.dataset.fi).matCross=null; touch(); }));
+  box.querySelectorAll("[data-fladd]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fi), w0=walls[0]; fr.floor=(fr.floor||[]).concat({wall:w0?w0.id:"",x:0,z:0}); touch(); }));
+  box.querySelectorAll(".bf-fl").forEach(row=>{
+    const fr=F(+row.dataset.fi), q=fr.floor[+row.dataset.qi];
+    row.querySelectorAll("[data-f]").forEach(f=>f.addEventListener("change",()=>{
+      const k=f.dataset.f; q[k]=k==="wall"?f.value:parseFloat(f.value); if(typeof q[k]==="number"&&!isFinite(q[k])) q[k]=null; touch(); }));
+    row.querySelector("[data-del]").addEventListener("click",()=>{ fr.floor.splice(+row.dataset.qi,1); touch(); });
+  });
+  box.querySelectorAll("[data-fcalc]").forEach(b=>b.addEventListener("click",()=>{
+    const fr=F(+b.dataset.fcalc); const ok=bfApply(p,fr); renderPlan(); if(ok){ toast(ts("bfApplied").replace("{n}",fr.names.length)); auditBadge(); } }));
+  box.querySelectorAll("[data-fdel]").forEach(b=>b.addEventListener("click",()=>{
+    const i=+b.dataset.fdel, fr=F(i); snapUndo(); wtRemoveModules(p,fr.names||[]); p.baseFrames.splice(i,1); persist(); renderPlan(); }));
+}
+$("btnBfAdd").addEventListener("click",bfAdd);
 
 /* lista de amplasare: fiecare modul pe ce perete si la ce cota, plus problemele */
 function renderRoomList(RL){
@@ -16942,8 +17280,8 @@ const AI_SPEECH_LANG={it:"it-IT",ro:"ro-RO",en:"en-GB",fr:"fr-FR",de:"de-DE",pl:
    entra in AI_ENUM nello stesso commit in cui entra nell'interfaccia. */
 const AI_ENUM={
   type:["standard","angolare","scorrevole","scrivania","tavolo","letto","tondo","raccordato","lambriu","boiserie","contur"], lamDir:["v","o"], cShape:["rect","round","arch","scoop"], cOri:["v","o"],
-  front:["piena","vetro","curvo"], support:["zoccolo","piedini","sospeso"],
-  handles:["maniglia","push","gola"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
+  front:["piena","vetro","curvo"], support:["zoccolo","piedini","cadru","sospeso"],
+  handles:["maniglia","push","gola","raza"], razaCorner:["auto","top","bottom","both"], shelfType:["mobile","fisso"], top:["plin","traverse","none"],
   corner:["sx","dx"], cornerKind:["int","ext"],
   secMode:["hangShelf","hang","shelf","empty","drawers","drawerShelf"],
   drawerSys:DRAWSYS_IDS, drawerDist:["fix","uguali","cucina"], drawerPos:["auto","vista","interno"],
@@ -17026,6 +17364,7 @@ CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extr
 For all three the cut list still gets a straight rectangle at the DEVELOPED length, because the panel is cut flat and bent afterwards — do not shorten a dimension to "account for the curve", give the real outside sizes and let the engine compute the development and the kerf plan.
 
 HANDLE-LESS ("handles":"gola", "golaH", "golaC") — aluminium profile instead of a handle: an L profile along the top of the unit and a C profile in every gap between two stacked drawer fronts. The fronts get shorter: the top gap becomes golaH (default 40 mm) and the gap between stacked drawers golaC (default 60 mm). Say "gola", "handle-less", "senza maniglie" or "J-profile": use "gola" and write golaH/golaC only if he gives the profile sizes. Do not confuse with "push" (push-to-open latches, no profile).
+RADIUS GRIP ("handles":"raza", "razaR", "razaCorner") — no handle and no profile: the door corner on the opening side is cut with a large radius and the gap it leaves is the finger grip. Say "raza", "radius cut", "rounded corner instead of a handle", "colț rotunjit", "raggio nell'anta": use "raza" and write razaR only if he gives a radius.
 TOP CLOSURE ("top", "topRailW") — how the unit closes at the top. Default "plin" = one full top panel. For a unit that sits under a sink or a hob, the carpenter says "without top", "no ceiling", "two rails instead of the top" or "traverse": "none" = no top panel at all (the sides end free; the inner height grows by the top thickness), "traverse" = two rails, one front and one back, topRailW mm wide each (default 100), same material and thickness as the top. Rails are not possible on a unit with an angled wall (angL/angR): leave "top" out there. Never say "none" for a unit that has a top panel unless he asks for it.
 
 ANGLED ENDS (angL / angR) — the only oblique modifier the engine has (rectangular corner notches are customCuts, above). "angL" and "angR" are the real corner angles of the room at the left and right end of the unit, 45..135, default 90. Under 90 the unit narrows towards the front (inside corner), over 90 it widens (outside corner). L is measured at the BACK wall. The engine applies them to the trapezoidal panels (Base / Cielo, Zoccolo) and renders the oblique cut in 3D. Angles are never per panel: do not try to angle a single Fianco or shelf — emit angL/angR and let the engine decide which panels are trapezoidal.
@@ -17069,6 +17408,8 @@ function aiSchema(mode){
         topRailW:{type:"integer",minimum:30,maximum:400,description:"Width of each top rail in mm, only with top=\"traverse\". Default 100."},
         golaH:{type:"integer",minimum:5,maximum:200,description:"With handles=\"gola\": height of the top L profile in mm (replaces the top gap of the fronts). Default 40."},
         golaC:{type:"integer",minimum:5,maximum:200,description:"With handles=\"gola\": gap between two stacked fronts, where the C profile sits, mm. Default 60."},
+        razaR:{type:"integer",minimum:10,maximum:300,description:"With handles=\"raza\": radius of the rounded door corner, mm. Default 60."},
+        razaCorner:{type:"string",enum:["auto","top","bottom","both"],description:"With handles=\"raza\": which end of the opening edge is rounded. auto = top, or bottom when the front is above 1400 mm."},
         golaType:{type:"string",enum:["L","J","fresata"],description:"With handles=\"gola\": L = L profile on top + C profiles between drawers in the carcass (default); J = J profile on the top edge of every front; fresata = grip milled into the top back edge of every front, no profile."},
         corner:{type:"string",enum:AI_ENUM.corner}, cornerKind:{type:"string",enum:AI_ENUM.cornerKind},
         drawerSys:{type:"string",enum:AI_ENUM.drawerSys,description:"Drawer system. legno = wooden box on the slide chosen in the catalog."},
@@ -17171,7 +17512,7 @@ function aiContext(mode){
   if(mode==="genera"){
     const c=cfgFromForm(), keep={};
     ["name","type","L","L2","H","P","matBody","matFront","matBack","plinth","tram","shelves","drawers",
-     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC","golaType",
+     "doors","back","hang","boxes","front","support","handles","shelfType","corner","cornerKind","top","topRailW","golaH","golaC","golaType","razaR","razaCorner",
      "angL","angR","hangGap","shelfEven","shelfStep","secMode","secDrawers","secDrawerH","secDrawerNL","secPull",
      "drawerSys","drawerDist","drawerFH","drawerZone","drawerH","drawerInset","drawerPos",
      "backMode","partitions","fronts","depthProfile","customCuts","drawerBlocks","backCols","backCutouts","backRails","fillers"].forEach(k=>{ if(c[k]!=null) keep[k]=c[k]; });
@@ -17222,14 +17563,14 @@ async function aiCall(mode,text,imgs){
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,MAX_TRAM],
   shelves:[0,10],drawers:[0,8],doors:[0,MAX_DOORS],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
   shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
-  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200]};
+  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200],razaR:[10,300]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
   if(!raw||typeof raw!=="object") return out;
   for(const k in AI_CFG_INT){ if(raw[k]==null) continue;
     const v=aiInt(raw[k],AI_CFG_INT[k][0],AI_CFG_INT[k][1]); if(v!=null) out[k]=v; }
-  for(const k of ["type","front","support","handles","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir","cShape","cOri"]){
+  for(const k of ["type","front","support","handles","razaCorner","shelfType","corner","cornerKind","drawerSys","drawerDist","drawerPos","top","lamDir","cShape","cOri"]){
     if(raw[k]==null) continue;
     if(AI_ENUM[k].indexOf(raw[k])>=0) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
   if(typeof raw.cHoles==="string"){ const r=EBContour.parseHoles(raw.cHoles); if(r.ok) out.cHoles=raw.cHoles.slice(0,2000); else warn.push("cHoles: ?"); }
@@ -17531,7 +17872,7 @@ function aiNormLayout(raw,warn,nWalls){
 function aiLbl(k){
   const map={L:t("fWidth"),L2:t("fL2"),H:t("fHeight"),P:t("fDepth"),plinth:t("fPlinth"),tram:t("fTram"),
     shelves:t("fShelvesSec"),drawers:t("fDrawersSec"),doors:t("fDoorsN"),back:t("fBack"),hang:t("fHang"),
-    front:t("fFront"),support:t("fSupport"),handles:t("fHandles"),shelfType:t("fShelfT"),type:t("fType"),top:t("fTop"),topRailW:t("fTopRail"),golaH:t("fGolaH"),golaC:t("fGolaC"),
+    front:t("fFront"),support:t("fSupport"),handles:t("fHandles"),shelfType:t("fShelfT"),type:t("fType"),top:t("fTop"),topRailW:t("fTopRail"),golaH:t("fGolaH"),golaC:t("fGolaC"),razaR:t("fRazaR"),razaCorner:t("fRazaCorner"),
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
@@ -17560,10 +17901,10 @@ function aiVal(k,v){
   if(k==="lamCuts") return Array.isArray(v)&&v.length?v.map(c=>`${c.wall==="B"?"B ":""}${c.w}×${c.h} @ ${c.x}/${c.y}`).join(" · "):"—";
   if(k==="wall2") return v?t("optYes"):t("optNo");
   if(["back","hang","boxes","shelfEven","wall2","rfInset","cEdge"].indexOf(k)>=0) return v?t("optYes"):t("optNo");
-  if(["type","front","support","handles","shelfType","corner","cornerKind","top","lamDir","cShape","cOri"].indexOf(k)>=0){
+  if(["type","front","support","handles","razaCorner","shelfType","corner","cornerKind","top","lamDir","cShape","cOri"].indexOf(k)>=0){
     const m={standard:"typeStandard",angolare:"typeCorner",scorrevole:"typeSliding",scrivania:"typeDesk",
       tavolo:"typeTable",letto:"typeBed",piena:"frontFull",vetro:"frontGlass",zoccolo:"supPlinth",
-      piedini:"supFeet",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",mobile:"shMobile",
+      piedini:"supFeet",cadru:"supFrame",sospeso:"supWall",maniglia:"hManiglia",push:"hPush",gola:"hGola",raza:"hRaza",auto:"razaAuto",top:"razaTop",bottom:"razaBottom",both:"razaBoth",mobile:"shMobile",
       fisso:"shFisso",sx:"cornSx",dx:"cornDx",int:"cornInt",ext:"cornExt",
       tondo:"typeRound",raccordato:"typeFillet",lambriu:"typeLambriu",boiserie:"typeBoiserie",contur:"typeContur",rect:"contShapeRect",round:"contShapeRound",arch:"contShapeArch",scoop:"contShapeScoop",v:"lamV",o:"lamH",curvo:"frontCurved",plin:"topPlin",traverse:"topRails",none:"topNone"};
     return m[v]?t(m[v]):v;
@@ -18403,12 +18744,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.39.0"; /* APP_VER-MARKER */
+const APP_VER="5.40.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v217";
+const SW_CACHE="ebanist-v218";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
