@@ -1095,6 +1095,84 @@ function generate1(input) {
     });
   }
 
+  /* --- 6h. masa fixă (D-124): colțarele de fixare a blatului, câte unul la fiecare ~350 mm de zargă (același număr ca în deviz: max(2, rotunjit(lungime/350))).
+     Fiecare colțar are un șurub în fața interioară a zargii și unul în fața de jos a blatului, la 15 mm de zargă. Șurubul dublu M8 al plăcii de picior
+     se montează pe DIAGONALA colțului piciorului: modelul cunoaște numai găuri paralele cu o axă, deci nu e în el (se face cu șablonul, la montaj).
+     Diametrele și adâncimile sunt generice (`verificat:false`). */
+  if (cfg.type === "tavolo") {
+    var tTop = byRole("cielo").filter(function (q) { return !q.tbl; })[0], tRails = byRole("traversa");
+    if (tTop && tTop.tAx === 1 && !byRole("cielo").some(function (q) { return q.tbl; }) && tRails.length) {
+      var tcx = (tTop.min[0] + tTop.max[0]) / 2, tcz = (tTop.min[2] + tTop.max[2]) / 2, tDepth = Math.min(12, tTop.T - 8);
+      tRails.forEach(function (R) {
+        var long = R.ext[0] > R.ext[2], ax = long ? 2 : 0, along = long ? 0 : 2, len = R.ext[along];
+        var mid = long ? tcz : tcx, rc = (R.min[ax] + R.max[ax]) / 2, inw = rc < mid ? 1 : -1, face = inw > 0 ? R.max[ax] : R.min[ax];
+        var n = Math.max(2, Math.round(len / 350));
+        for (var i = 0; i < n; i++) {
+          var sPos = R.min[along] + len * (i + 0.5) / n, id = "hw_" + out.hw.length, wr = [0, R.max[1] - 15, 0], wt = [0, tTop.min[1], 0];
+          wr[ax] = face; wr[along] = sPos; wt[ax] = face + inw * 15; wt[along] = sPos;
+          hole(R, ax, inw, wr, 3.5, 15, id, "fixare colțar blat");
+          hole(tTop, 1, -1, wt, 3.5, tDepth, id, "fixare colțar blat");
+          out.hw.push({ id: id, type: "colt_blat", catalog: "gen_topclip", piece: R.pk, against: tTop.pk, w: wr.slice(), note: "Colțar 30×30 pentru blat" });
+        }
+      });
+    }
+  }
+
+  /* --- 6i. pat (D-124): feroneria din catalog și din fișa de montaj. Perechile de feronerie de pat (4): jumătatea cu fantă pe fața interioară a tăbliilor,
+     cârligul pe capătul fiecărei sponde, ambele la mijlocul înălțimii sponzii; consolele traversei centrale (2) la capetele ei; piciorul de
+     mijloc sub traversă (1 sau 2); suporturile de doagă (2 pe doagă pe sponde, 1 pe doagă pe traversă). Găurile sunt generice, `verificat:false`:
+     catalogul nu dă distanța dintre șuruburi, doar articolele. */
+  if (cfg.type === "letto") {
+    var bHead = pcs.filter(function (q) { return q.sub === "testiera"; })[0], bFoot = pcs.filter(function (q) { return q.sub === "pediera"; })[0];
+    var bSides = byRole("fianco").filter(function (q) { return q.tAx === 0; }), bTrav = byRole("traversa")[0];
+    var bSlats = boxes.filter(function (q) { return q.role === "doga"; }).sort(function (x, y2) { return x.z0 - y2.z0; });
+    var bcx = bHead ? (bHead.min[0] + bHead.max[0]) / 2 : 0;
+    if (bHead && bFoot) {
+      /* feroneria se pune pe suprapunerea dintre sponda și tăblie pe înălțime (pediera e mai joasă decât sponda ridicată de sertare): două șuruburi la
+         distanța maximă de 2×`d` în jurul mijlocului suprapunerii, unul dacă suprapunerea e prea mică */
+      var pairHw = function (E, F, eAx, eSide, xw, d0, type, catalog, note) {
+        var lo = Math.max(E.min[1], F.min[1]), hi = Math.min(E.max[1], F.max[1]), ym = (lo + hi) / 2, d = Math.min(d0, (hi - lo) / 2 - 15);
+        if (hi - lo < 30) { out.warnings.push({ piece: E.pk, k: "opsBedFit" }); return; }
+        var ys = d >= 10 ? [ym - d, ym + d] : [ym];
+        var id = "hw_" + out.hw.length, faceF = eSide < 0 ? F.max[eAx] : F.min[eAx];
+        ys.forEach(function (y) {
+          var wE = [xw, y, eSide < 0 ? E.min[eAx] : E.max[eAx]], wF = [xw, y, faceF];
+          hole(E, eAx, eSide, wE, 4, 15, id, note); hole(F, eAx, -eSide, wF, 4, 12, id, note);
+        });
+        out.hw.push({ id: id, type: type, catalog: catalog, piece: E.pk, against: F.pk, w: [xw, ym, faceF], note: note });
+      };
+      bSides.forEach(function (S) {
+        var x = (S.min[0] + S.max[0]) / 2;
+        pairHw(S, bHead, 2, -1, x, 30, "beschlag_pat", "gen_bedfit", "feronerie sponda-tăblie");
+        pairHw(S, bFoot, 2, 1, x, 30, "beschlag_pat", "gen_bedfit", "feronerie sponda-tăblie");
+      });
+      if (bTrav && bTrav.tAx === 0) {
+        pairHw(bTrav, bHead, 2, -1, bcx, 25, "consola_trav", "gen_bedtrav", "consolă traversă centrală");
+        pairHw(bTrav, bFoot, 2, 1, bcx, 25, "consola_trav", "gen_bedtrav", "consolă traversă centrală");
+        var nF = cfg.L >= 1400 ? 2 : 1;
+        for (var fi = 1; fi <= nF; fi++) {
+          var idf = "hw_" + out.hw.length, zf = bTrav.min[2] + (bTrav.max[2] - bTrav.min[2]) * fi / (nF + 1), wf = [bcx, bTrav.min[1], zf];
+          hole(bTrav, 1, -1, wf, 10, 25, idf, "piciorul de mijloc");
+          out.hw.push({ id: idf, type: "picior_pat", catalog: "gen_bedfoot", piece: bTrav.pk, against: null, w: wf, note: "Picior reglabil de mijloc" });
+        }
+        bSlats.forEach(function (sl) {
+          var idc = "hw_" + out.hw.length, zc2 = (sl.z0 + sl.z1) / 2;
+          [-15, 15].forEach(function (d) { hole(bTrav, 1, 1, [bcx, bTrav.max[1], zc2 + d], 3, 10, idc, "suport doagă la centru"); });
+          out.hw.push({ id: idc, type: "suport_doga", catalog: "gen_slathold2", piece: bTrav.pk, against: null, w: [bcx, bTrav.max[1], zc2], note: "Suport de doagă (centru)" });
+        });
+      }
+      bSides.forEach(function (S) {
+        var left = (S.min[0] + S.max[0]) / 2 < bcx, inw = left ? 1 : -1, face = left ? S.max[0] : S.min[0];
+        bSlats.forEach(function (sl) {
+          var ids = "hw_" + out.hw.length, zc3 = (sl.z0 + sl.z1) / 2, ys = sl.y0 - 10;
+          if (ys < S.min[1] + 5) return;
+          [-15, 15].forEach(function (d) { hole(S, 0, inw, [face, ys, zc3 + d], 3, 10, ids, "suport doagă lateral"); });
+          out.hw.push({ id: ids, type: "suport_doga", catalog: "gen_slathold", piece: S.pk, against: null, w: [face, ys, zc3], note: "Suport de doagă (sponda)" });
+        });
+      });
+    }
+  }
+
   /* --- 7. nel sistema del pezzo, con le regole di pre-flight -------------- */
   /* l'ordine del foglio: prima la cassa, poi l'interno, poi i frontali —
      lo stesso ordine in cui si monta. Il numero del pezzo e la sua

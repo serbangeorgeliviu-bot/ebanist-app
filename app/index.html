@@ -3610,6 +3610,20 @@ Object.assign(I18N.fr,{opsHandleFit:"La poignée choisie est plus longue que la 
 Object.assign(I18N.de,{opsHandleFit:"Der gewählte Griff ist länger als die Front: einen kürzeren wählen."});
 Object.assign(I18N.pl,{opsHandleFit:"Wybrany uchwyt jest dłuższy niż front: wybierz krótszy."});
 Object.assign(I18N.es,{opsHandleFit:"El tirador elegido es más largo que el frente: elige uno más corto."});
+Object.assign(I18N.it,{opsBedFit:"La sponda e quasi tutta sopra la pediera: la ferramenta sponda-pediera non ha dove stare e non si fora."});
+Object.assign(I18N.ro,{opsBedFit:"Sponda e aproape toată deasupra pedierei: feroneria sponda-pediera nu are loc și nu se găurește."});
+Object.assign(I18N.en,{opsBedFit:"The side rail is almost entirely above the footboard: the rail-to-footboard fitting has no room and is not drilled."});
+Object.assign(I18N.fr,{opsBedFit:"La traverse est presque entièrement au-dessus du pied de lit : la ferrure traverse-pied n'a pas de place et n'est pas percée."});
+Object.assign(I18N.de,{opsBedFit:"Die Zarge liegt fast ganz über dem Fußteil: der Zargen-Fußteil-Beschlag hat keinen Platz und wird nicht gebohrt."});
+Object.assign(I18N.pl,{opsBedFit:"Podłużnica jest prawie całkiem nad zagłówkiem nóg: okucie podłużnica-nogi nie ma miejsca i nie jest wiercone."});
+Object.assign(I18N.es,{opsBedFit:"El larguero queda casi todo por encima del piecero: el herraje larguero-piecero no tiene sitio y no se taladra."});
+Object.assign(I18N.it,{hw_colt_blat:"Squadrette del piano",hw_beschlag_pat:"Ferramenta sponda-testiera",hw_consola_trav:"Mensole traversa centrale",hw_picior_pat:"Piedino centrale",hw_suport_doga:"Reggidoghe"});
+Object.assign(I18N.ro,{hw_colt_blat:"Colțare de blat",hw_beschlag_pat:"Feronerie sponda-tăblie",hw_consola_trav:"Console traversă centrală",hw_picior_pat:"Picior de mijloc",hw_suport_doga:"Suporturi de doagă"});
+Object.assign(I18N.en,{hw_colt_blat:"Top brackets",hw_beschlag_pat:"Rail-to-headboard fittings",hw_consola_trav:"Centre rail brackets",hw_picior_pat:"Centre foot",hw_suport_doga:"Slat holders"});
+Object.assign(I18N.fr,{hw_colt_blat:"Équerres de plateau",hw_beschlag_pat:"Ferrures traverse-tête de lit",hw_consola_trav:"Consoles de traverse centrale",hw_picior_pat:"Pied central",hw_suport_doga:"Supports de lattes"});
+Object.assign(I18N.de,{hw_colt_blat:"Plattenwinkel",hw_beschlag_pat:"Zargen-Kopfteil-Beschläge",hw_consola_trav:"Konsolen der Mittelstrebe",hw_picior_pat:"Mittelfuß",hw_suport_doga:"Lattenhalter"});
+Object.assign(I18N.pl,{hw_colt_blat:"Kątowniki blatu",hw_beschlag_pat:"Okucia podłużnica-zagłówek",hw_consola_trav:"Wsporniki belki środkowej",hw_picior_pat:"Nóżka środkowa",hw_suport_doga:"Uchwyty listew"});
+Object.assign(I18N.es,{hw_colt_blat:"Escuadras del tablero",hw_beschlag_pat:"Herrajes larguero-cabecero",hw_consola_trav:"Ménsulas del travesaño central",hw_picior_pat:"Pie central",hw_suport_doga:"Soportes de lamas"});
 Object.assign(I18N.it,{fDeskRet:"Ritorno incollato",fDeskRetL:"Lunghezza ritorno (mm)",fDeskRetW:"Larghezza ritorno (mm)"});
 Object.assign(I18N.ro,{fDeskRet:"Retur lipit",fDeskRetL:"Lungime retur (mm)",fDeskRetW:"Lățime retur (mm)"});
 Object.assign(I18N.en,{fDeskRet:"Butt-jointed return",fDeskRetL:"Return length (mm)",fDeskRetW:"Return width (mm)"});
@@ -9453,7 +9467,7 @@ function init3DControls(){
    3D disegna. */
 const HW_CAT={cerniera:"cern",guida:"guida",maniglia:"man",reggipiano:"sup",minifix:"conn"};
 const HW_JOINT_ITEM={confirmat:"gen_confirmat",biscuit:"gen_biscuit",domino:"fes_domino",clamex:"lam_clamex",tassello:"gen_dowel"};
-const HW_ORDER=["cerniera","maniglia","guida","guida_tast","guida_tav","reggipiano","minifix","confirmat","biscuit","domino","clamex","tassello"];
+const HW_ORDER=["cerniera","maniglia","guida","guida_tast","guida_tav","colt_blat","beschlag_pat","consola_trav","picior_pat","suport_doga","reggipiano","minifix","confirmat","biscuit","domino","clamex","tassello"];
 function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):HW_JOINT_ITEM[ty]&&ty!=="tassello"?hwItemById("conn",HW_JOINT_ITEM[ty]):null;
   return {name:t("hw_"+ty),prod:it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):(ty==="tassello"?"Ø8×35":""),art:it&&it.art&&it.art!=="—"?it.art:""}; }
 /* il nome di un pezzo fisico: la riga di distinta a cui corrisponde, con il
@@ -11799,7 +11813,7 @@ function opsAllOf(cfg){
 }
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
-const OPS_NOTES=["opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
+const OPS_NOTES=["opsBedFit","opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit"];
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -18110,12 +18124,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.35.0"; /* APP_VER-MARKER */
+const APP_VER="5.36.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v213";
+const SW_CACHE="ebanist-v214";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

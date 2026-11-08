@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.36.0 — 8 noiembrie 2026
+
+**Găurire pe masa fixă și pe pat (D-124).** Urmează construcția din fișa de montaj și numerele din deviz:
+- **Masă fixă:** colțarele de blat (câte unul la ~350 mm de zargă, minimum 2 pe zargă, exact numărul din deviz): un șurub în fața interioară a zargii și unul în fața de jos a blatului, la 15 mm de zargă. Masa extensibilă nu are colțare (blatul stă pe glisiere).
+- **Pat:** cele 4 perechi de feronerie sponda–tăblie (câte două șuruburi pe fiecare jumătate, pe suprapunerea reală dintre sponda și tăblie), cele 2 console ale traversei centrale, piciorul/picioarele de mijloc sub traversă și suporturile de doagă (2 pe doagă pe fiecare sponda, 1 pe doagă pe traversă). Numărul fiecărei piese = cel din deviz. Dacă sponda ridicată de sertare acoperă tăblia prea puțin, feroneria nu se găurește și apare un avertisment în toate limbile.
+- **Neacoperit:** șurubul dublu M8 al plăcii de picior de la masă se montează pe **diagonala** colțului piciorului; modelul de operații cunoaște numai găuri paralele cu o axă, deci acela se face cu șablonul, la montaj. Cotele de găurire (diametre, distanțe între șuruburi) sunt generice, `verificat:false`: catalogul dă articolele, nu și cotele.
+
 ## 5.35.0 — 8 noiembrie 2026
 
 **Birou în L: retur lipit (D-123).** La Birou, câmpul nou „Retur lipit" (stânga sau dreapta) adaugă un al doilea blat, lipit cu muchia lui din spate de muchia din față a blatului principal, la capătul ales, întins spre utilizator: lungime 400–2000 mm (implicit 1000), lățime 400–800 mm (implicit 600, cu cel puțin 300 mm mai mică decât blatul principal). Îl susțin **lateralul de pe acea parte, prelungit pe toată lungimea**, și un **panou de capăt** sub marginea liberă a returului. Lipirea folosește îmbinarea aleasă în proiect (implicit Minifix + diblu, cupa pe dedesubt) și are găuri pe muchia returului și pe muchia din față a blatului principal. Blatul returului are cant pe trei laturi (nu pe cea lipită). Distincta, 3D-ul, găurirea și devizul vin din piese.
