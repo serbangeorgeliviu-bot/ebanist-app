@@ -5126,6 +5126,8 @@ function rvAsk(){
 /* ---- il cancello ----
    `why` decide la frase in cima allo schermo Pro: chi arriva li deve
    leggere il motivo per cui e stato fermato, non un listino. */
+/* Documentele legale există în ro/it/en/fr; de/pl/es văd versiunea engleză (audit F-02). */
+function legalHash(){ return ["ro","it","en","fr"].indexOf(state.lang)>=0?"#"+state.lang:"#en"; }
 function proGate(why){
   if(isPro()) return true;
   openPro(why);
@@ -5793,7 +5795,7 @@ function closeSheets(){ if(typeof atCamStop==="function") atCamStop(); if(typeof
     for(const m of ms){
       const el=m.target; if(!el.classList) continue;
       const on=el.classList.contains("on"), was=(m.oldValue||"").split(" ").indexOf("on")>=0;
-      if(on&&!was){ last=document.activeElement; try{ el.focus({preventScroll:true}); }catch(e){} }
+      if(on&&!was){ last=document.activeElement; if(!el.contains(document.activeElement)){ try{ el.focus({preventScroll:true}); }catch(e){} } }
       else if(!on&&was&&last&&document.contains(last)&&!document.querySelector(".sheet.on")){ try{ last.focus({preventScroll:true}); }catch(e){} last=null; }
     }
   });
