@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.41.0 — 9 noiembrie 2026
+
+**Întărire după auditul din 9.11.2026 (D-127).** Fără funcții noi; geometria și distinta nu se ating.
+- **Server:** `/api/ai` are plafon pe cod (40/oră, 200/zi) și pe IP (120/oră), răspuns 429 cu mesaj tradus în aplicație; `POST /api/orders` (1,5 MB, 20/oră/IP), `/ar` (30/oră/IP) și `/api/stats` (300/oră/IP) au limite; cheia pâlniei se citește numai din antetul `x-funnel-key`, nu din URL. Limitele sunt în `netlify/functions/_limit.js` (fail-open dacă magazia nu răspunde); `package-lock.json` în rădăcină.
+- **Securitate:** `imgSrc()` pentru orice imagine din date persistate (logo, semnătură, poze de releveu, catalog, atașamente AI): backup/import/sincronizare nu mai pot ieși din atributul `src`. Android: `allowBackup="false"` (datele din WebView nu intră în Auto Backup).
+- **Accesibilitate:** zoom permis (fără `user-scalable=no`), inel de focus vizibil, foile sunt `role="dialog"` cu focus la deschidere/închidere, toast-urile se anunță (`aria-live`), zone de atingere de 44 px fără schimbare de aspect, text discret (`--faint`) la ≥ 4,5:1 în ambele teme.
+- **Temă:** o instalare nouă pornește pe „Automat” (urmează sistemul), nu forțat dark.
+- **Texte:** `<title>` și manifestul urmează limba; mesajele de cameră în 7 limbi; codul tehnic Play de pe ecranul Pro stă într-un „ⓘ” pliat, nu în față.
+- **Documente legale:** termenii spun ce face de fapt licența (personală, nepartajată, nu se numără dispozitive), `rambursare` nu mai vorbește de cheile `EBP-`, politica se arată în engleză pentru de/pl/es (`#en`), dată actualizată.
+
 ## 5.40.0 — 9 noiembrie 2026
 
 **Unire de ramuri.** Lucrările din 8 noiembrie (Birou, Masă, Pat, șabloane STL, ladă ridicabilă) și cele din `main` (5.27.x–5.31.1) au fost făcute în paralel și au primit aceleași numere de versiune; istoricul de mai jos le păstrează pe ambele, în ordinea: întâi ramura cu mobilier (5.27.4–5.39.0), apoi cea din `main` (5.28.0–5.31.1). Conținutul funcțional al ambelor e inclus în 5.40.0.

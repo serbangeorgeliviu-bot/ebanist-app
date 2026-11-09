@@ -1,7 +1,7 @@
 {
-  "name": "Ebanist — Distinta di Taglio",
+  "name": "Ebanist",
   "short_name": "Ebanist",
-  "description": "Generator de mobilier, distinta di taglio, optimizare debitare, feronerie și oferte — ebanist.com",
+  "description": "Furniture design, cut list, hardware and quotes — ebanist.com",
   "id": "ebanist",
   "start_url": "./index.html",
   "scope": "./",
@@ -9,7 +9,7 @@
   "orientation": "portrait",
   "theme_color": "#0E3B2A",
   "background_color": "#0E3B2A",
-  "lang": "it",
+  "lang": "en",
   "categories": [
     "productivity",
     "business",

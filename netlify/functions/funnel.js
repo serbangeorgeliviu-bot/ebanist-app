@@ -2,7 +2,7 @@
    Ebanist — pâlnia de conversie
    ---------------------------------------------------------------------
      POST /api/funnel                      depune un eveniment (anonim)
-     GET  /api/funnel?days=30&key=<cheie>  rezumatul, numai cu FUNNEL_KEY
+     GET  /api/funnel?days=30  + header x-funnel-key  rezumatul, numai cu FUNNEL_KEY
 
    Ce se păstrează și ce nu: vezi _funnel.js. Fără IP, fără user agent,
    fără id de dispozitiv. GET e închis: dacă variabila FUNNEL_KEY nu e
@@ -43,7 +43,7 @@ export async function handle(req, st, env, now) {
     const want = env.FUNNEL_KEY;
     if (!want) return json({ error: "not-found" }, 404);
     const url = new URL(req.url);
-    const given = req.headers.get("x-funnel-key") || url.searchParams.get("key");
+    const given = req.headers.get("x-funnel-key");
     if (!sameKey(given, want)) return json({ error: "forbidden" }, 403);
     const days = Math.min(90, Math.max(1, parseInt(url.searchParams.get("days") || "30", 10) || 30));
     const keys = [];

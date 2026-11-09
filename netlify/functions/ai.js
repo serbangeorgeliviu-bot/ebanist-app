@@ -20,11 +20,15 @@
    ===================================================================== */
 
 import handlePro from "./pro.js";
+import { allow, clientIp, HOUR, DAY } from "./_limit.js";
 
 const ENDPOINT = "https://api.anthropic.com/v1/messages";
 export const MODELS = ["claude-opus-5", "claude-sonnet-5"];
 export const MAX_TOKENS = 4000;
 const MAX_BODY = 5_500_000;          // limita funcțiilor Netlify e 6 MB
+/* Plafoane (audit E-01): un cod partajat sau scurs nu mai poate consuma
+   bugetul fără limită. Valorile sunt peste uzul real al unui meseriaș. */
+export const LIMITS = { perIpHour: 120, perCodeHour: 40, perCodeDay: 200 };
 const FIELDS = ["model", "max_tokens", "system", "tools", "tool_choice", "messages"];
 const CODE = /^(sub_[A-Za-z0-9]{8,64}|cs_(live|test)_[A-Za-z0-9]{10,200}|comp_[A-Za-z0-9]{24,64})$/;
 
@@ -62,6 +66,11 @@ export default async (req) => {
 
   const code = String(req.headers.get("x-ebanist-license") || "");
   if (!CODE.test(code)) return err("license-missing", 401);
+
+  /* Înainte de orice apel către Stripe sau Anthropic. */
+  if (!(await allow("ai-ip", clientIp(req), LIMITS.perIpHour, HOUR))) return err("rate", 429);
+  if (!(await allow("ai-ch", code, LIMITS.perCodeHour, HOUR)) || !(await allow("ai-cd", code, LIMITS.perCodeDay, DAY)))
+    return err("rate", 429);
 
   const len = Number(req.headers.get("content-length") || 0);
   if (len > MAX_BODY) return err("too-large", 413);

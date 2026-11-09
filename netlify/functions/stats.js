@@ -16,6 +16,7 @@
    ===================================================================== */
 
 import { getStore } from "@netlify/blobs";
+import { allow, clientIp, HOUR } from "./_limit.js";
 
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -42,6 +43,7 @@ export default async (req) => {
 
   try {
     if (req.method === "POST") {
+      if (!(await allow("st", clientIp(req), 300, HOUR))) return bad("rate", 429);
       let ev;
       try { ev = await req.json(); } catch (e) { return bad("bad-json"); }
       if (!ev || EVENTS.indexOf(ev.e) < 0) return bad("bad-event");

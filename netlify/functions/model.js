@@ -19,6 +19,7 @@
 
 import { getStore } from "@netlify/blobs";
 import { uploadCheck, serveHeaders, isExpired } from "./_armodel.js";
+import { allow, clientIp, HOUR } from "./_limit.js";
 
 export const config = { path: ["/ar", "/ar/:id"] };
 
@@ -27,6 +28,8 @@ export default async (req, context) => {
   const url = new URL(req.url);
 
   if (req.method === "POST") {
+    /* Audit E-02: încărcare publică, deci cu limită pe IP. */
+    if (!(await allow("ar", clientIp(req), 30, HOUR))) return new Response("troppe richieste", { status: 429 });
     const body = new Uint8Array(await req.arrayBuffer());
     const chk = uploadCheck(req.headers.get("content-type"), req.headers.get("x-filename"), body);
     if (!chk.ok) return new Response(chk.msg, { status: chk.status });

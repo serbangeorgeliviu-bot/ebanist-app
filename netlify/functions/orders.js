@@ -34,6 +34,11 @@
 
 import { getStore } from "@netlify/blobs";
 import crypto from "node:crypto";
+import { allow, clientIp, HOUR } from "./_limit.js";
+
+/* Audit E-02 */
+export const ORDERS_PER_HOUR = 20;
+export const MAX_ORDER_BODY = 1_500_000;
 
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -146,8 +151,12 @@ export default async (req, context) => {
   try {
     /* ---------- POST /api/orders : depunere ---------- */
     if (req.method === "POST" && parts.length === 0) {
+      /* Audit E-02: fără autentificare, deci cu limită de rată și de mărime. */
+      if (!(await allow("ord", clientIp(req), ORDERS_PER_HOUR, HOUR))) return bad("rate", 429);
+      const raw = await req.text();
+      if (raw.length > MAX_ORDER_BODY) return bad("too-large", 413);
       let body;
-      try { body = await req.json(); } catch (e) { return bad("bad-json"); }
+      try { body = JSON.parse(raw); } catch (e) { return bad("bad-json"); }
       const o = body && body.order;
       if (!o || !o.id || !o.atelier) return bad("missing-order");
       if (!SLUG.test(o.atelier)) return bad("bad-slug");

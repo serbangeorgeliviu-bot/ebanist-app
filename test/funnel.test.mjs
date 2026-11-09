@@ -199,8 +199,13 @@ describe("/api/funnel", () => {
     assert.strictEqual(j.days, 7); assert.strictEqual(j.platforms.web.events.open, 1);
   });
   test("GET: days se limitează la 90", async () => {
-    const r = await handle(get("?days=9999&key=k"), memStore(), { FUNNEL_KEY: "k" }, now);
+    const r = await handle(get("?days=9999", { "x-funnel-key": "k" }), memStore(), { FUNNEL_KEY: "k" }, now);
     assert.strictEqual((await r.json()).days, 90);
+  });
+  test("cheia în query string NU mai e acceptată (E-05): ajunge în jurnale", async () => {
+    const st = memStore();
+    const env = { FUNNEL_KEY: "secret-key-1" };
+    assert.strictEqual((await handle(get("?key=secret-key-1"), st, env, now)).status, 403);
   });
   test("alte metode → 405", async () => {
     assert.strictEqual((await handle(new Request("https://ebanist.com/api/funnel", { method: "DELETE" }), memStore(), {}, now)).status, 405);

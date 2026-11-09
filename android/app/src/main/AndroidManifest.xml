@@ -9,8 +9,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
+    <!-- Audit 2026-11-09 (E-03): datele din WebView (licența Pro, cheia AI, tokenul de cont,
+             proiecte cu date de clienți) NU intră în Auto Backup / transfer între telefoane.
+             Salvarea e „Backup complet” din aplicație (D-111), cu chei criptate cu parolă. -->
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
