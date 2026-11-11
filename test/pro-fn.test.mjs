@@ -120,6 +120,16 @@ describe("/api/pro", () => {
     assert.strictEqual((await call({ sub: COMP })).status, 404);
     delete process.env.PRO_COMP_CODES_2;
   });
+  test("codice comp nella terza variabile PRO_COMP_CODES_3 → attivo; tolto → 404", async () => {
+    stripeReplies({});
+    process.env.PRO_COMP_CODES = "comp_altroCodiceAltroCodice12";
+    process.env.PRO_COMP_CODES_2 = "comp_altroCodiceAltroCodice34";
+    process.env.PRO_COMP_CODES_3 = COMP + ",";
+    assert.strictEqual((await call({ sub: COMP })).status, 200);
+    delete process.env.PRO_COMP_CODES_3;
+    assert.strictEqual((await call({ sub: COMP })).status, 404);
+    delete process.env.PRO_COMP_CODES_2;
+  });
   test("codice comp tolto dall'elenco (o elenco vuoto) → 404, la licenza si chiude", async () => {
     stripeReplies({});
     process.env.PRO_COMP_CODES = "comp_altroCodiceAltroCodice12";

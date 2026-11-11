@@ -47,16 +47,17 @@ const SUB = /^sub_[A-Za-z0-9]{8,64}$/;
 const COMP = /^comp_[A-Za-z0-9]{24,64}$/;
 
 /* Pro gratuit, pe viață (D-63): pentru autor și testeri. Codurile stau
-   numai în Netlify, în PRO_COMP_CODES și PRO_COMP_CODES_2 (separate prin
-   virgulă, spațiu sau rând nou; a doua variabilă permite adăugarea de
-   coduri fără a rescrie valoarea secretă a primei); un cod scos din liste
+   numai în Netlify, în PRO_COMP_CODES, PRO_COMP_CODES_2 și
+   PRO_COMP_CODES_3 (separate prin virgulă, spațiu sau rând nou; o
+   variabilă nouă permite adăugarea de coduri fără a rescrie valoarea
+   secretă, necitibilă, a celor dinainte); un cod scos din liste
    se închide la următoarea reverificare a aplicației. Comparația merge pe amprente de lungime fixă, ca timpul
    de răspuns să nu spună cât dintr-un cod e corect. */
 function compKnown(code) {
   const h = s => createHash("sha256").update(s).digest();
   const want = h(code);
   let hit = false;
-  const all = String(process.env.PRO_COMP_CODES || "") + "\n" + String(process.env.PRO_COMP_CODES_2 || "");
+  const all = ["PRO_COMP_CODES", "PRO_COMP_CODES_2", "PRO_COMP_CODES_3"].map(k => String(process.env[k] || "")).join("\n");
   for (const c of all.split(/[\s,;]+/)) {
     if (c && timingSafeEqual(h(c), want)) hit = true;
   }

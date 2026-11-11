@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Server — 11 noiembrie 2026
+
+- `/api/pro`: codurile Pro gratuite (`comp_…`) se citesc și din `PRO_COMP_CODES_3`. Primele două liste sunt secrete în Netlify și nu se mai pot citi, deci un cod nou s-ar fi putut adăuga numai rescriindu-le. Fără schimbări în aplicație.
+
 ## 5.40.0 — 9 noiembrie 2026
 
 **Unire de ramuri.** Lucrările din 8 noiembrie (Birou, Masă, Pat, șabloane STL, ladă ridicabilă) și cele din `main` (5.27.x–5.31.1) au fost făcute în paralel și au primit aceleași numere de versiune; istoricul de mai jos le păstrează pe ambele, în ordinea: întâi ramura cu mobilier (5.27.4–5.39.0), apoi cea din `main` (5.28.0–5.31.1). Conținutul funcțional al ambelor e inclus în 5.40.0.
