@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.42.0 — 12 noiembrie 2026
+
+**Pâlnia măsoară și „nu se poate cumpăra" (D-129).** Pe Play, 150 de sesiuni au văzut ecranul Pro în 30 de zile și nimeni n-a apăsat „cumpără", dar pâlnia nu știa dacă butoanele existau. Dacă Google Play nu dă niciun plan, ecranul arată „Google Play nu răspunde sau abonamentul nu e încă disponibil" și nu are ce vinde. Noul eveniment anonim `pw_unavail` (o dată pe sesiune, cu `code` din lista închisă `unavailable` / `error` / `empty`) se trimite numai în acea stare, iar rezumatul de pe server arată `unavail_per_shown_sessions_pct`. Fără IP, id de dispozitiv sau date din proiect, ca la celelalte evenimente.
+
 ## 5.41.0 — 12 noiembrie 2026
 
 **Cererea de recenzie în Google Play vine mai devreme (D-128).** Condițiile din D-105 erau prea stricte pentru o aplicație cu puțini utilizatori și au dus la zero recenzii. Acum se cere după cel puțin 1 zi, 2 sesiuni și 1 moment bun (un corp generat, un document ieșit, o ofertă semnată), la cel puțin 45 de zile între cereri, cel mult 4 în viață. Rămân regulile care protejează omul: nu după ecranul Pro în aceeași sesiune, nu cu o foaie deschisă, fără filtrarea „îți place?". Google decide singur dacă arată dialogul.
