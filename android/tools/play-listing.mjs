@@ -16,6 +16,7 @@
      rollout   pune userFraction pe lansarea în curs de pe production
                (PLAY_FRACTION 0.01…1; 1 = completă, cere PLAY_CONFIRM=da).
      reviews   citește recenziile recente.
+     subs      numai citire: abonamentele, planurile de bază, prețurile și ofertele din Play.
      reply     răspunde la o recenzie (PLAY_REVIEW_ID, PLAY_REPLY ≤ 350).
 
    Ce NU face: „Data safety", declarațiile de conținut, testele A/B de pagină.
@@ -163,6 +164,31 @@ export async function setRollout(c, { fraction, confirm = "" }) {
   } catch (e) { await c.drop(id); throw e; }
 }
 
+/* Numai citire: abonamentele din Play (monetizare). Fără token de cumpărător, fără date personale. */
+export async function listSubs(c) {
+  const r = await c.get("abonamente", "/subscriptions?pageSize=50");
+  return (r.subscriptions || []).map((x) => ({
+    productId: x.productId,
+    archived: !!x.archived,
+    listings: (x.listings || []).map((l) => l.languageCode + ": " + l.title),
+    basePlans: (x.basePlans || []).map((b) => ({
+      id: b.basePlanId, state: b.state, period: (b.autoRenewingBasePlanType || {}).billingPeriodDuration || (b.prepaidBasePlanType || {}).billingPeriodDuration || null,
+      prepaid: !!b.prepaidBasePlanType, regions: (b.regionalConfigs || []).length,
+      prices: (b.regionalConfigs || []).filter((g) => ["RO", "IT", "FR", "DE", "ES", "PL", "GB", "US"].includes(g.regionCode)).map((g) => g.regionCode + " " + (g.price ? (g.price.units || "0") + "." + String(Math.round((g.price.nanos || 0) / 1e7)).padStart(2, "0") + " " + g.price.currencyCode : "?")),
+      offerTags: (b.offerTags || []).map((t) => t.tag)
+    }))
+  }));
+}
+
+export async function listOffers(c, productId, basePlanId) {
+  const r = await c.get("oferte", "/subscriptions/" + productId + "/basePlans/" + basePlanId + "/offers?pageSize=50");
+  return (r.subscriptionOffers || []).map((o) => ({
+    id: o.offerId, state: o.state,
+    phases: (o.phases || []).map((ph) => ({ duration: ph.duration, recurrences: ph.recurrenceCount, free: !!(ph.regionalConfigs || []).some((g) => g.free) })),
+    targeting: o.targeting ? Object.keys(o.targeting) : []
+  }));
+}
+
 export async function listReviews(c, max = 50) {
   const r = await c.get("recenzii", "/reviews?maxResults=" + max + "&translationLanguage=ro");
   return (r.reviews || []).map((x) => {
@@ -193,6 +219,11 @@ async function main() {
   else if (cmd === "listing") out = await syncListing(c, await readStore(dir), { images: e.PLAY_IMAGES === "da", dryRun: e.PLAY_DRY === "da" });
   else if (cmd === "rollout") out = await setRollout(c, { fraction: e.PLAY_FRACTION, confirm: e.PLAY_CONFIRM || "" });
   else if (cmd === "reviews") out = await listReviews(c);
+  else if (cmd === "subs") {
+    const subs = await listSubs(c);
+    for (const sb of subs) for (const b of sb.basePlans) { try { b.offers = await listOffers(c, sb.productId, b.id); } catch (e) { b.offers = "eroare: " + e.message.slice(0, 160); } }
+    out = subs;
+  }
   else if (cmd === "reply") out = await replyReview(c, { reviewId: e.PLAY_REVIEW_ID, text: e.PLAY_REPLY });
   else throw new Error("comandă necunoscută: " + cmd);
   console.log(JSON.stringify(out, null, 2));
