@@ -1,0 +1,54 @@
+Ebanist es una app de diseño de muebles a medida y lista de despiece para carpinteros, ebanistas y montadores de cocinas y armarios. Diseñas el mueble en el móvil, directamente en la obra, y obtienes la lista de despiece, las etiquetas de las piezas, la hoja de montaje y el presupuesto del mismo modelo, el mismo día.
+
+Nacida en un taller real de reformas y mobiliario. Cada regla de la app fue antes un error que hubo que evitar en un trabajo real.
+
+QUÉ HACE EBANIST
+• 19 tipologías paramétricas: armario, vestidor, mueble bajo, mueble bajo con cajones, mueble alto, columna, librería, cómoda, muebles de esquina, puertas correderas, mueble de TV, escritorio, mesa, cama y otras
+• Escribes ancho, alto y fondo: el cuerpo, las divisiones, las baldas, las puertas y los cajones se ajustan solos
+• Lista de despiece con medidas finales a 0,1 mm, con canto y material de cada pieza
+• Herrajes del catálogo Blum y Häfele con referencias reales, contados una sola vez, para que el presupuesto y la hoja de montaje digan siempre lo mismo
+• 17 tableros y acabados Egger; el grosor viene siempre del material
+• 3D con el color y la veta reales del material, y vista despiezada
+• «En tu habitación»: pones el mueble sobre la foto de la habitación del cliente y exportas un JPG para WhatsApp
+• Precios fijados por ti por material, mano de obra y margen
+• Los taladros de cada pieza: filas del sistema 32 y huecos de bisagra
+
+POR QUÉ TE AHORRA TIEMPO
+• Se acabaron las listas de despiece sumadas a mano por la noche
+• Una comprobación del cuerpo antes de cada exportación: si las piezas no dan exactamente la medida pedida, el PDF no sale, y un fondo equivocado se descubre en la oficina, no en la obra
+• Un solo modelo para todos los documentos: nada se copia dos veces y nada se desajusta
+
+DOCUMENTOS PARA EL TALLER (PRO)
+• Lista de despiece en PDF y CSV, para el proveedor de tableros o el centro de corte
+• Etiquetas A4 para las piezas, 24 por hoja, con el esquema de cantos
+• Hoja de montaje con todas las medidas tomadas del modelo
+• Dibujo técnico 2D acotado
+• Planes de corte que guardan los recortes en el almacén
+• Presupuesto con tu logotipo y los datos de tu empresa
+• Paquete de taller (JSON, sin precios) para el centro de corte
+
+MODO CLIENTE (PRO)
+Muestras el mueble en 3D en la tableta, cambias los acabados, ves el precio actualizado y recoges la firma del cliente antes de irte.
+
+CÓMO VA UN TRABAJO
+1. Mides en la obra y eliges la tipología
+2. Introduces las medidas y eliges puertas, cajones y materiales
+3. Compruebas el 3D y la lista de piezas
+4. Envías la lista de despiece al proveedor e imprimes las etiquetas y la hoja de montaje para el montador
+
+FUNCIONA SIN CONEXIÓN, TUS DATOS SON TUYOS
+Tras el primer inicio todo funciona sin red: diseño, 3D, lista de despiece y documentos. Sin cuenta, sin publicidad, sin seguimiento. Los proyectos se quedan en tu dispositivo y una copia de seguridad completa es un solo archivo que exportas cuando quieras, gratis.
+
+GRATIS Y PRO
+Gratis, sin límite de tiempo: 1 proyecto, todas las tipologías, el 3D con piezas y taladros, la lista de despiece y el presupuesto en pantalla.
+Pro (suscripción mensual o anual a través de Google Play): proyectos ilimitados y todos los documentos y exportaciones indicados arriba. Cancelas cuando quieras; tus proyectos se quedan en tu dispositivo.
+
+IDIOMAS
+7 idiomas: ES, EN, IT, RO, FR, DE, PL.
+
+PARA QUIÉN
+Para cocinas, vestidores y armarios empotrados, librerías, muebles de TV, escritorios, mesas y camas en tablero melaminado, MDF y HDF (acabados Egger). Carpinteros autónomos, pequeños talleres de mobiliario, montadores de cocinas y armarios y empresas de reformas que quieren un diseño de muebles rápido y una lista de despiece exacta, sin un programa CAD de oficina.
+
+Preguntas o sugerencias: feedback@ebanist.com
+
+Ebanist · un producto de Domus Renov

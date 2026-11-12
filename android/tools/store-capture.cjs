@@ -16,7 +16,7 @@ const BASE = process.env.BASE || "http://localhost:8765";
 const GL = ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"];
 /* Fixture local, numai în browserul de captură: arată ecranele Pro așa cum le vede un abonat. */
 const PRO = () => localStorage.setItem("ebanist_lic", JSON.stringify({ kind: "play", key: "capture-fixture", status: "active", activated: true, checkedAt: Date.now() }));
-const APPLANG = { "en-US": "en", ro: "ro", "it-IT": "it", "fr-FR": "fr" };
+const APPLANG = { "en-US": "en", ro: "ro", "it-IT": "it", "fr-FR": "fr", "de-DE": "de", "es-ES": "es", "pl-PL": "pl" };
 const LANGS = process.argv.slice(2).length ? process.argv.slice(2) : Object.keys(APPLANG);
 
 /* titluri pe ecran: fiecare spune ce primește omul, nu numele ecranului */
@@ -24,13 +24,19 @@ const T = {
   "en-US": ["Enter the size. The carcass builds itself.", "Live 3D with real Egger decors", "Cut list to 0.1 mm, edging per part", "Cutting plans that keep your offcuts", "Materials, edging and price, instantly", "Hardware and costs counted for you", "Client Mode: finishes, price, signature"],
   ro: ["Scrii cotele. Carcasa se face singură.", "3D live cu decoruri Egger reale", "Listă de debitare la 0,1 mm, cant pe piesă", "Planuri de debitare care țin resturile", "Materiale, cant și preț, pe loc", "Feroneria și costurile, numărate pentru tine", "Mod Client: finisaje, preț, semnătură"],
   "it-IT": ["Inserisci le misure. La struttura si fa da sola.", "3D dal vivo con decori Egger reali", "Distinta di taglio a 0,1 mm, bordo per pezzo", "Piani di taglio che tengono gli sfridi", "Materiali, bordi e prezzo, subito", "Ferramenta e costi, contati per te", "Modalità Cliente: finiture, prezzo, firma"],
-  "fr-FR": ["Saisissez les cotes. Le caisson se fait seul.", "3D en direct avec de vrais décors Egger", "Fiche de débit au 0,1 mm, chant par pièce", "Plans de débit qui gardent les chutes", "Matériaux, chants et prix, en un clin d'œil", "Quincaillerie et coûts comptés pour vous", "Mode Client : finitions, prix, signature"]
+  "fr-FR": ["Saisissez les cotes. Le caisson se fait seul.", "3D en direct avec de vrais décors Egger", "Fiche de débit au 0,1 mm, chant par pièce", "Plans de débit qui gardent les chutes", "Matériaux, chants et prix, en un clin d'œil", "Quincaillerie et coûts comptés pour vous", "Mode Client : finitions, prix, signature"],
+  "de-DE": ["Maße eingeben. Der Korpus entsteht von selbst.", "3D live mit echten Egger-Dekoren", "Zuschnittliste auf 0,1 mm, Kante pro Teil", "Aufteilungspläne, die Reststücke behalten", "Material, Kanten und Preis auf einen Blick", "Beschläge und Kosten automatisch gezählt", "Kundenmodus: Oberflächen, Preis, Unterschrift"],
+  "es-ES": ["Introduce las medidas. El cuerpo se hace solo.", "3D en vivo con acabados Egger reales", "Despiece a 0,1 mm, canto por pieza", "Planes de corte que guardan los recortes", "Materiales, cantos y precio al instante", "Herrajes y costes contados por ti", "Modo Cliente: acabados, precio, firma"],
+  "pl-PL": ["Wpisz wymiary. Korpus powstaje sam.", "3D na żywo z prawdziwymi dekorami Egger", "Lista formatek co do 0,1 mm, obrzeże na element", "Plany rozkroju, które zachowują resztki", "Materiały, obrzeża i cena od ręki", "Okucia i koszty policzone za Ciebie", "Tryb klienta: wykończenia, cena, podpis"]
 };
 const TAG = {
   "en-US": ["Furniture design for cabinetmakers", "Cut lists, part labels, quotes. Offline."],
   ro: ["Proiectare mobilier pentru tâmplari", "Liste de debitare, etichete, oferte. Offline."],
   "it-IT": ["Progettazione mobili per falegnami", "Distinte, etichette, preventivi. Offline."],
-  "fr-FR": ["Conception de meubles pour ébénistes", "Fiches de débit, étiquettes, devis. Hors ligne."]
+  "fr-FR": ["Conception de meubles pour ébénistes", "Fiches de débit, étiquettes, devis. Hors ligne."],
+  "de-DE": ["Möbelplanung für Tischler", "Zuschnittlisten, Etiketten, Angebote. Offline."],
+  "es-ES": ["Diseño de muebles para carpinteros", "Despieces, etiquetas, presupuestos. Sin conexión."],
+  "pl-PL": ["Projektowanie mebli dla stolarzy", "Listy formatek, etykiety, oferty. Offline."]
 };
 const FONT = "system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
 

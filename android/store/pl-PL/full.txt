@@ -1,0 +1,54 @@
+Ebanist to aplikacja do projektowania mebli na wymiar i listy formatek dla stolarzy, meblarzy i monterów kuchni oraz szaf. Projektujesz mebel w telefonie, wprost na budowie, i dostajesz z jednego modelu listę formatek, etykiety elementów, instrukcję montażu i ofertę, jeszcze tego samego dnia.
+
+Powstała w prawdziwym warsztacie remontów i mebli. Każda reguła w aplikacji była najpierw błędem, którego trzeba było uniknąć przy prawdziwej pracy.
+
+CO ROBI EBANIST
+• 19 parametrycznych typów mebli: szafa, garderoba, szafka dolna, szafka z szufladami, szafka wisząca, słupek, regał, komoda, szafki narożne, drzwi przesuwne, szafka RTV, biurko, stół, łóżko i inne
+• Wpisujesz szerokość, wysokość i głębokość: korpus, przegrody, półki, drzwi i szuflady dopasowują się same
+• Lista formatek z wymiarami gotowymi co do 0,1 mm, z obrzeżem i materiałem dla każdego elementu
+• Okucia z katalogu Blum i Häfele z prawdziwymi numerami artykułów, liczone tylko raz, aby oferta i instrukcja montażu zawsze mówiły to samo
+• 17 płyt i dekorów Egger; grubość zawsze pochodzi z materiału
+• 3D z prawdziwym kolorem i usłojeniem materiału oraz widokiem rozstrzelonym
+• „W Twoim pokoju”: nakładasz mebel na zdjęcie pokoju klienta i eksportujesz JPG na WhatsApp
+• Ceny ustalane przez Ciebie według materiału, robocizny i marży
+• Otwory w każdym elemencie: rzędy systemu 32 i puszki zawiasów
+
+DLACZEGO OSZCZĘDZASZ CZAS
+• Koniec z listami formatek dodawanymi ręcznie wieczorem
+• Kontrola korpusu przed każdym eksportem: jeśli elementy nie dają dokładnie zamówionego wymiaru, PDF się nie wygeneruje, a błędną głębokość wychwycisz w biurze, nie na budowie
+• Jeden model dla wszystkich dokumentów: nic nie jest przepisywane dwa razy i nic się nie rozjeżdża
+
+DOKUMENTY DLA WARSZTATU (PRO)
+• Lista formatek w PDF i CSV, dla dostawcy płyt lub centrum cięcia
+• Etykiety A4 dla elementów, 24 na arkusz, ze schematem obrzeży
+• Instrukcja montażu ze wszystkimi wymiarami wziętymi z modelu
+• Wymiarowany rysunek techniczny 2D
+• Plany rozkroju, które zachowują resztki w magazynie
+• Oferta z Twoim logo i danymi firmy
+• Pakiet warsztatowy (JSON, bez cen) dla centrum cięcia
+
+TRYB KLIENTA (PRO)
+Pokazujesz mebel w 3D na tablecie, zmieniasz wykończenia, widzisz zaktualizowaną cenę i bierzesz podpis klienta, zanim wyjdziesz.
+
+JAK PRZEBIEGA ZLECENIE
+1. Mierzysz na miejscu i wybierasz typ mebla
+2. Wpisujesz wymiary i wybierasz drzwi, szuflady i materiały
+3. Sprawdzasz 3D i listę elementów
+4. Wysyłasz listę formatek dostawcy i drukujesz etykiety oraz instrukcję montażu dla montera
+
+DZIAŁA OFFLINE, TWOJE DANE ZOSTAJĄ U CIEBIE
+Po pierwszym uruchomieniu wszystko działa bez sieci: projektowanie, 3D, lista formatek i dokumenty. Bez konta, bez reklam, bez śledzenia. Projekty zostają na Twoim urządzeniu, a pełna kopia zapasowa to jeden plik, który eksportujesz kiedy chcesz, za darmo.
+
+DARMOWA WERSJA I PRO
+Za darmo, bez limitu czasu: 1 projekt, wszystkie typy mebli, 3D z elementami i otworami, lista formatek i oferta na ekranie.
+Pro (subskrypcja miesięczna lub roczna przez Google Play): nielimitowane projekty oraz wszystkie dokumenty i eksporty wymienione wyżej. Rezygnujesz kiedy chcesz; projekty zostają na Twoim urządzeniu.
+
+JĘZYKI
+7 języków: PL, EN, IT, RO, FR, DE, ES.
+
+DLA KOGO
+Do kuchni, garderób i szaf wnękowych, regałów, szafek RTV, biurek, stołów i łóżek z płyty melaminowanej, MDF i HDF (dekory Egger). Niezależni stolarze, małe warsztaty meblowe, monterzy kuchni i szaf oraz firmy remontowe, które chcą szybkiego projektowania mebli i dokładnej listy formatek, bez biurowego programu CAD.
+
+Pytania lub sugestie: feedback@ebanist.com
+
+Ebanist · produkt Domus Renov
