@@ -1,4 +1,4 @@
-Ebanist turns your phone into a complete tool for custom furniture design and production. Built by a tradesman for tradesmen, it creates workshop-ready documents from a single model, saving you hours of paperwork and preventing costly errors from manual calculations.
+Ebanist is a cabinet design and cut list app for cabinetmakers, joiners, and kitchen and wardrobe fitters. It turns your phone into a complete tool for custom furniture design and production. Built by a tradesman for tradesmen, it creates workshop-ready documents from a single model.
 
 Fast Furniture Design: Site to Workshop
 • Choose from 19 furniture types, including standard and corner base units, wardrobes with sliding doors, desks, tables, and beds.
@@ -29,10 +29,8 @@ Your Workshop, Your Data
 • Works completely offline after the first launch, so you can design and quote on a job site or in a workshop with no internet connection.
 • Requires no account, displays no ads, and performs absolutely no user tracking. Your business data and client information are your own.
 • All your project data stays securely on your device. Nothing is uploaded to the cloud, giving you full control and privacy.
-• Create a full backup of all your work to a single file for easy transfer to a new device or for simple, secure safekeeping.
+• Back up all your work to a single file and move it to a new device.
 
 Available in English, Romanian, Italian and French.
 
-Ebanist is built for independent cabinetmakers, small furniture workshops, kitchen fitters, and renovation contractors who need a fast, reliable furniture design process without the complexity of desktop CAD.
-
-Design, calculate, and build better furniture with a tool made for the trade.
+Use it for kitchen cabinets, wardrobes and built-in closets, bookcases, TV units, desks, tables and beds in melamine chipboard, MDF and HDF panels (Egger decors). Built for independent cabinetmakers, small furniture workshops, kitchen fitters and renovation contractors who want fast cabinet design and an exact cutting list without desktop CAD.

@@ -1,1 +1,1 @@
-Furniture design for cabinetmakers: cut lists, part labels and PDF quotes.
+Cabinet design & cut list app: panels, edging, labels, quotes. Works offline.

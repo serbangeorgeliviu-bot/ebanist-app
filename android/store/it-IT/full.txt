@@ -1,4 +1,4 @@
-Ebanist è un'app di progettazione mobili per falegnami, ebanisti e montatori. Progetti il mobile sul telefono, direttamente in cantiere, e ottieni distinta di taglio, etichette dei pezzi, scheda di montaggio e preventivo dallo stesso modello, nello stesso giorno.
+Ebanist è un'app di progettazione mobili su misura e distinta di taglio per falegnami, ebanisti e montatori di cucine e armadi. Progetti il mobile sul telefono, direttamente in cantiere, e ottieni distinta di taglio, etichette dei pezzi, scheda di montaggio e preventivo dallo stesso modello, nello stesso giorno.
 
 Nata in un vero laboratorio di ristrutturazioni e arredamento. Ogni regola dell'app è stata prima un errore da evitare su un lavoro vero.
 
@@ -47,7 +47,7 @@ LINGUE
 Italiano, inglese, rumeno e francese.
 
 PER CHI È
-Falegnami indipendenti, piccoli laboratori di arredamento, montatori di cucine e armadi e imprese di ristrutturazione che vogliono una progettazione mobili veloce e una distinta di taglio esatta, senza un programma CAD da ufficio.
+Per cucine, armadi e cabine armadio, librerie, mobili TV, scrivanie, tavoli e letti in nobilitato, MDF e HDF (decori Egger). Falegnami indipendenti, piccoli laboratori di arredamento, montatori di cucine e armadi e imprese di ristrutturazione che vogliono una progettazione mobili veloce e una distinta di taglio esatta, senza un programma CAD da ufficio.
 
 Domande o suggerimenti: feedback@ebanist.com
 
