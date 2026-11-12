@@ -219,6 +219,7 @@ async function main() {
   else if (cmd === "listing") out = await syncListing(c, await readStore(dir), { images: e.PLAY_IMAGES === "da", dryRun: e.PLAY_DRY === "da" });
   else if (cmd === "rollout") out = await setRollout(c, { fraction: e.PLAY_FRACTION, confirm: e.PLAY_CONFIRM || "" });
   else if (cmd === "reviews") out = await listReviews(c);
+  else if (cmd === "subs-raw") out = await c.get("abonament brut", "/subscriptions/" + (e.PLAY_PRODUCT || "ebanist_pro"));
   else if (cmd === "subs") {
     const subs = await listSubs(c);
     for (const sb of subs) for (const b of sb.basePlans) { try { b.offers = await listOffers(c, sb.productId, b.id); } catch (e) { b.offers = "eroare: " + e.message.slice(0, 160); } }
