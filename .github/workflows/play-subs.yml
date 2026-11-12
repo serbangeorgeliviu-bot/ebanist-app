@@ -1,0 +1,56 @@
+# Ebanist — planuri cu reînnoire și probă gratuită în Google Play (D-132).
+#
+# Pornit de mână (Actions → «play-subs» → Run workflow).
+#   apply = nu (implicit): numai citire; salvează copia de siguranță a abonamentului ca artefact
+#           (`subs-backup`, 90 de zile) și arată ce s-ar adăuga.
+#   apply = da: adaugă planurile monthly-auto și yearly-auto (aceleași prețuri ca prepaid) și
+#           oferta de probă trial7 (7 zile gratuit, numai pentru cei noi la abonament). Planurile
+#           prepaid rămân neatinse. Același secret ca play-listing: PLAY_SERVICE_ACCOUNT_JSON.
+# Anulare: planurile și ofertele noi se dezactivează în Play Console (Monetizare → Abonamente);
+# copia de siguranță are configurația dinainte.
+
+name: play-subs
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "da = scrie în Play; nu = numai citire și copie de siguranță"
+        type: string
+        default: "nu"
+
+permissions:
+  contents: read
+
+jobs:
+  subs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Play
+        env:
+          SA_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          PLAY_APPLY: ${{ inputs.apply }}
+          PLAY_BACKUP_FILE: ${{ runner.temp }}/subs-backup.json
+        run: |
+          if [ -z "$SA_JSON" ]; then
+            echo "::error::Lipsește secretul PLAY_SERVICE_ACCOUNT_JSON."
+            exit 1
+          fi
+          umask 077
+          printf '%s' "$SA_JSON" > "$RUNNER_TEMP/play-sa.json"
+          PLAY_SA_FILE="$RUNNER_TEMP/play-sa.json" node android/tools/play-subs.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: subs-backup
+          path: ${{ runner.temp }}/subs-backup.json
+          retention-days: 90
+          if-no-files-found: ignore
+      - name: Șterge cheia
+        if: always()
+        run: rm -f "$RUNNER_TEMP/play-sa.json"
