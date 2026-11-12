@@ -1,7 +1,7 @@
 /* =====================================================================
    Ebanist — pâlnia de conversie (D-nn)
    ---------------------------------------------------------------------
-   Cinci evenimente anonime, ca să știm unde se pierde omul între
+   Șase evenimente anonime, ca să știm unde se pierde omul între
    „a deschis aplicația" și „a plătit":
 
      open      aplicația s-a deschis (o dată pe încărcare)
@@ -9,6 +9,8 @@
      pw_buy    a apăsat „cumpără"            { why, plan }
      pro_on    plata a trecut, Pro e activ   { why, plan, kind }
      rv_ask    am cerut recenzia în Google Play
+     pw_unavail  ecranul Pro n-a avut ce vinde: Google Play n-a dat planuri { code }
+               (D-129: 0 apăsări pe „cumpără" putea însemna și „nu se poate cumpăra")
 
    Ce NU pleacă niciodată: IP, user agent, id de dispozitiv, e-mail,
    cheia de licență, numele proiectului, nicio cifră din proiect. Singurul
@@ -25,11 +27,12 @@
 (function (global) {
   "use strict";
 
-  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask"];
+  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail"];
   var WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
   var PLAT = ["play", "web"];
   var PLAN = ["monthly", "yearly", "founders"];
   var KIND = ["play", "stripe"];
+  var CODE = ["unavailable", "error", "empty"];   // pw_unavail: Play indisponibil / eroare / răspuns fără planuri
   var LAST_KEY = "ebanist_pw_last";
   var LAST_TTL = 864e5;               // 24 h: de la „cumpără" până la întoarcerea din checkout
 
@@ -51,6 +54,7 @@
     if (name === "pw_shown" || name === "pw_buy" || name === "pro_on") rec.why = pick(WHY, x.why) || "plain";
     if (name === "pw_buy" || name === "pro_on") { var p = pick(PLAN, x.plan); if (p) rec.plan = p; }
     if (name === "pro_on") { var k = pick(KIND, x.kind); if (k) rec.kind = k; }
+    if (name === "pw_unavail") rec.code = pick(CODE, x.code) || "empty";
     return rec;
   }
 
@@ -107,5 +111,5 @@
     } catch (e) { return false; }
   }
 
-  global.EBFunnel = { EVENTS: EVENTS, WHY: WHY, PLAT: PLAT, PLAN: PLAN, KIND: KIND, clean: clean, send: send };
+  global.EBFunnel = { EVENTS: EVENTS, WHY: WHY, PLAT: PLAT, PLAN: PLAN, KIND: KIND, CODE: CODE, clean: clean, send: send };
 })(typeof globalThis !== "undefined" ? globalThis : this);

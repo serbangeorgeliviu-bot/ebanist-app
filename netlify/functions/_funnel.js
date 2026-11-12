@@ -12,11 +12,12 @@
    aplicației; nu se combină cu nimic altceva.
    ===================================================================== */
 
-export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask"];
+export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail"];
 export const WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
 export const PLAT = ["play", "web"];
 export const PLAN = ["monthly", "yearly", "founders"];
 export const KIND = ["play", "stripe"];
+export const CODE = ["unavailable", "error", "empty"];
 export const MAX_BODY = 400;                 // un eveniment are sub 120 de octeți
 
 const has = (list, v) => list.indexOf(v) >= 0;
@@ -33,6 +34,7 @@ export function clean(ev) {
   if (ev.e === "pw_shown" || ev.e === "pw_buy" || ev.e === "pro_on") rec.why = has(WHY, ev.why) ? ev.why : "plain";
   if ((ev.e === "pw_buy" || ev.e === "pro_on") && has(PLAN, ev.plan)) rec.plan = ev.plan;
   if (ev.e === "pro_on" && has(KIND, ev.kind)) rec.kind = ev.kind;
+  if (ev.e === "pw_unavail") rec.code = has(CODE, ev.code) ? ev.code : "empty";
   return rec;
 }
 
@@ -40,7 +42,7 @@ export const dayOf = (ms) => new Date(ms).toISOString().slice(0, 10);
 
 /* d/<zi>/<eveniment>/<plat>/<motiv|->/<plan|kind|->/<sesiune>.<rand> */
 export function keyOf(rec, now, rand) {
-  const extra = rec.plan || rec.kind || "-";
+  const extra = rec.plan || rec.kind || rec.code || "-";
   return ["d", dayOf(now), rec.e, rec.plat, rec.why || "-", extra, rec.s + "." + rand].join("/");
 }
 
@@ -90,7 +92,8 @@ export function summarize(keys) {
       shown_per_open_sessions_pct: pct(ss.pw_shown || 0, ss.open || 0),
       buy_per_shown_events_pct: pct(ev.pw_buy || 0, ev.pw_shown || 0),
       pro_per_buy_events_pct: pct(ev.pro_on || 0, ev.pw_buy || 0),
-      pro_per_open_sessions_pct: pct(ev.pro_on || 0, ss.open || 0)
+      pro_per_open_sessions_pct: pct(ev.pro_on || 0, ss.open || 0),
+      unavail_per_shown_sessions_pct: pct(ss.pw_unavail || 0, ss.pw_shown || 0)
     };
   }
   for (const w of Object.keys(out.byWhy)) {

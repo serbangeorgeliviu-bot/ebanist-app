@@ -22,7 +22,7 @@ function client(globals = {}) {
 
 describe("listele clientului = listele serverului", () => {
   const C = client().EBFunnel;
-  for (const n of ["EVENTS", "WHY", "PLAT", "PLAN", "KIND"])
+  for (const n of ["EVENTS", "WHY", "PLAT", "PLAN", "KIND", "CODE"])
     test(n, () => assert.deepStrictEqual(C[n], F[n]));
   test("fiecare motiv din PRO_WHY al aplicației e în listă", () => {
     const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
@@ -204,5 +204,45 @@ describe("/api/funnel", () => {
   });
   test("alte metode → 405", async () => {
     assert.strictEqual((await handle(new Request("https://ebanist.com/api/funnel", { method: "DELETE" }), memStore(), {}, now)).status, 405);
+  });
+});
+
+describe("pw_unavail (D-129): ecranul Pro fără planuri de vândut", () => {
+  const C = client().EBFunnel;
+  const now = Date.parse("2026-11-01T12:00:00Z");
+  test("client: poartă numai `code` din listă, fără motiv; străin → empty", () => {
+    assert.deepStrictEqual(C.clean("pw_unavail", { plat: "play", code: "error" }), { e: "pw_unavail", plat: "play", code: "error" });
+    assert.strictEqual(C.clean("pw_unavail", { code: "<script>" }).code, "empty");
+    assert.strictEqual(C.clean("pw_unavail", {}).code, "empty");
+    assert.strictEqual("why" in C.clean("pw_unavail", { why: "pdf", code: "unavailable" }), false);
+  });
+  test("server: același lucru, cu sesiunea; codul stă în cheie", () => {
+    const rec = F.clean({ e: "pw_unavail", s: "ab12", plat: "play", code: "unavailable" });
+    assert.deepStrictEqual(rec, { e: "pw_unavail", plat: "play", s: "ab12", code: "unavailable" });
+    assert.strictEqual(F.clean({ e: "pw_unavail", s: "ab12", code: "x" }).code, "empty");
+    const k = F.keyOf(rec, now, "r1");
+    assert.match(k, /^d\/2026-11-01\/pw_unavail\/play\/-\/unavailable\/ab12\.r1$/);
+    assert.strictEqual(F.parseKey(k).extra, "unavailable");
+  });
+  test("rezumat: sesiuni cu pw_unavail din cele care au văzut ecranul Pro", () => {
+    const mk = (o) => F.keyOf(F.clean(o), now, Math.random().toString(36).slice(2, 6));
+    const r = F.summarize([
+      mk({ e: "pw_shown", s: "a1", plat: "play", why: "pdf" }), mk({ e: "pw_shown", s: "a2", plat: "play", why: "room" }),
+      mk({ e: "pw_shown", s: "a3", plat: "play", why: "room" }), mk({ e: "pw_shown", s: "a4", plat: "play", why: "doc" }),
+      mk({ e: "pw_unavail", s: "a1", plat: "play", code: "empty" }), mk({ e: "pw_unavail", s: "a2", plat: "play", code: "empty" }),
+      mk({ e: "pw_unavail", s: "a2", plat: "play", code: "empty" })
+    ]);
+    assert.strictEqual(r.platforms.play.events.pw_unavail, 3);
+    assert.strictEqual(r.platforms.play.sessions.pw_unavail, 2);
+    assert.strictEqual(r.platforms.play.rates.unavail_per_shown_sessions_pct, 50);
+  });
+  test("aplicația trimite pw_unavail o singură dată pe sesiune, doar când nu sunt planuri", () => {
+    const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
+    const i = html.indexOf('EBFunnel.send("pw_unavail"');
+    assert.ok(i > 0);
+    const around = html.slice(i - 160, i + 40);
+    assert.match(around, /!PLAY\.plans\.length/);
+    assert.match(around, /PLAY\.unSent/);
+    assert.strictEqual(html.split('EBFunnel.send("pw_unavail"').length - 1, 1);
   });
 });
