@@ -7,7 +7,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { generateKeyPairSync } from "node:crypto";
-import { readStore, makeClient, status, syncListing, setRollout, checkRollout, listReviews, replyReview } from "../android/tools/play-listing.mjs";
+import { readStore, makeClient, status, syncListing, setRollout, checkRollout, listReviews, replyReview, listSubs, listOffers } from "../android/tools/play-listing.mjs";
 
 const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs8", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
 const SA = { client_email: "ci@p.iam.gserviceaccount.com", private_key: privateKey, token_uri: "https://oauth2.googleapis.com/token" };
@@ -140,5 +140,22 @@ describe("recenzii", () => {
     const c = f.calls.find((x) => x.url.endsWith("/reviews/r1:reply"));
     assert.equal(JSON.parse(c.body).replyText, "Mulțumim!");
     await assert.rejects(replyReview(client(f), { reviewId: "r1", text: "a".repeat(351) }), /351/);
+  });
+});
+
+describe("abonamente (numai citire)", () => {
+  test("listSubs: planuri, perioade, prețuri pe țări; nicio scriere", async () => {
+    const f = fake({ "$/subscriptions?pageSize=50": ok({ subscriptions: [{ productId: "ebanist_pro", basePlans: [
+      { basePlanId: "monthly", state: "ACTIVE", autoRenewingBasePlanType: { billingPeriodDuration: "P1M" }, regionalConfigs: [{ regionCode: "RO", price: { currencyCode: "RON", units: "49", nanos: 900000000 } }, { regionCode: "JP", price: { currencyCode: "JPY", units: "1" } }] }] }] }) });
+    const r = await listSubs(client(f));
+    assert.equal(r[0].basePlans[0].period, "P1M");
+    assert.deepEqual(r[0].basePlans[0].prices, ["RO 49.90 RON"]);
+    assert.ok(f.calls.every((c) => c.method === "GET" || c.url.includes("oauth2")));
+  });
+  test("listOffers: faze, perioadă gratuită", async () => {
+    const f = fake({ "/offers?": ok({ subscriptionOffers: [{ offerId: "trial7", state: "ACTIVE", phases: [{ duration: "P7D", recurrenceCount: 1, regionalConfigs: [{ regionCode: "RO", free: {} }] }] }] }) });
+    const r = await listOffers(client(f), "ebanist_pro", "monthly");
+    assert.equal(r[0].id, "trial7");
+    assert.equal(r[0].phases[0].duration, "P7D");
   });
 });

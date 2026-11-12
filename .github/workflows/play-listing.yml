@@ -11,6 +11,7 @@
 #   rollout  fracția lansării în curs de pe production (fraction 0.01…1;
 #            1 = 100%, cere confirm=da)
 #   reviews  recenziile recente
+#   subs     numai citire: abonamentele, prețurile și ofertele din Play
 #   reply    răspunde la o recenzie (review_id + reply, ≤ 350 caractere)
 # Nu atinge «Data safety», declarațiile de conținut, abonamentele.
 
@@ -22,7 +23,7 @@ on:
       cmd:
         description: "Ce face"
         type: choice
-        options: [status, listing, rollout, reviews, reply]
+        options: [status, listing, rollout, reviews, subs, reply]
         default: status
       images:
         description: "listing: scrie și imaginile (da/nu)"
