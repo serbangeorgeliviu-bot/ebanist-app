@@ -1,0 +1,84 @@
+# Ebanist — pagina din Google Play, din repo (D-127).
+#
+# Pornit de mână (Actions → «play-listing» → Run workflow) sau prin API.
+# Textele și imaginile stau în android/store/<limbă>/ (vezi
+# android/tools/play-listing.mjs). Folosește același secret ca android-aab:
+#   PLAY_SERVICE_ACCOUNT_JSON
+# `cmd`:
+#   status   numai citire (implicit): ce e acum în Play, nu schimbă nimic
+#   listing  scrie textele din android/store (images=da: și imaginile);
+#            dry=da validează fără să confirme
+#   rollout  fracția lansării în curs de pe production (fraction 0.01…1;
+#            1 = 100%, cere confirm=da)
+#   reviews  recenziile recente
+#   reply    răspunde la o recenzie (review_id + reply, ≤ 350 caractere)
+# Nu atinge «Data safety», declarațiile de conținut, abonamentele.
+
+name: play-listing
+
+on:
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: "Ce face"
+        type: choice
+        options: [status, listing, rollout, reviews, reply]
+        default: status
+      images:
+        description: "listing: scrie și imaginile (da/nu)"
+        type: string
+        default: "nu"
+      dry:
+        description: "listing: da = validează, nu confirmă"
+        type: string
+        default: "nu"
+      fraction:
+        description: "rollout: 0.01 … 1"
+        type: string
+        default: ""
+      confirm:
+        description: "rollout 1 (100%): scrie «da»"
+        type: string
+        default: ""
+      review_id:
+        description: "reply: id-ul recenziei"
+        type: string
+        default: ""
+      reply:
+        description: "reply: textul (≤ 350)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  play:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Play
+        env:
+          SA_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          PLAY_CMD: ${{ inputs.cmd }}
+          PLAY_IMAGES: ${{ inputs.images }}
+          PLAY_DRY: ${{ inputs.dry }}
+          PLAY_FRACTION: ${{ inputs.fraction }}
+          PLAY_CONFIRM: ${{ inputs.confirm }}
+          PLAY_REVIEW_ID: ${{ inputs.review_id }}
+          PLAY_REPLY: ${{ inputs.reply }}
+        run: |
+          if [ -z "$SA_JSON" ]; then
+            echo "::error::Lipsește secretul PLAY_SERVICE_ACCOUNT_JSON."
+            exit 1
+          fi
+          umask 077
+          printf '%s' "$SA_JSON" > "$RUNNER_TEMP/play-sa.json"
+          PLAY_SA_FILE="$RUNNER_TEMP/play-sa.json" node android/tools/play-listing.mjs
+      - name: Șterge cheia
+        if: always()
+        run: rm -f "$RUNNER_TEMP/play-sa.json"
