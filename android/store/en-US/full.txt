@@ -1,0 +1,38 @@
+Ebanist turns your phone into a complete tool for custom furniture design and production. Built by a tradesman for tradesmen, it creates workshop-ready documents from a single model, saving you hours of paperwork and preventing costly errors from manual calculations.
+
+Fast Furniture Design: Site to Workshop
+• Choose from 19 furniture types, including standard and corner base units, wardrobes with sliding doors, desks, tables, and beds.
+• Enter the main width, height, and depth; the app parametrically calculates every carcass, door, drawer, and shelf part for you.
+• Show clients a live 3D model with real Egger decors and get instant sign-off using Client Mode on a tablet, where they can watch the price update in real time.
+• Generate a complete workshop package from one consistent model: cut lists, part labels, cutting plans, and assembly sheets, ensuring all documents match perfectly.
+
+Professional Documents, Instantly
+• Get accurate cut lists with finished sizes to 0.1 mm, edge banding details, and material specified for every part.
+• Print A4 sheets of part labels (24 per sheet), each with an edge banding diagram for clear workshop organization and error-free assembly.
+• Create assembly sheets with every dimension taken from the model for fast and accurate fitting on site, even for complex units.
+• Export cutting plans that arrange pieces on panels to reduce waste and automatically keep track of usable offcuts in your stock for future jobs.
+• Generate professional PDF quotes with your company logo and configurable pricing, ready to send to your client for approval.
+
+Powerful Design Tools
+• Visualize your furniture design in 3D with true-to-life material colors, textures, and grain direction, including an exploded view to inspect every component.
+• Use the "In your room" feature to place a 3D model over a photo of the client's actual space and export it as a JPG, perfect for sharing over WhatsApp.
+• Select hardware from integrated Blum and Häfele catalogs with real article codes to ensure accurate ordering and quoting every time.
+• Set your own custom prices for board materials, labor, and profit margin to ensure every quote is profitable and reflects your business costs.
+• Rely on the automatic carcass check, which blocks PDF export if internal parts do not add up to the overall dimensions, preventing material waste.
+
+Free & Pro Versions
+• Free Version: Manage one project with no time limit. Access all 19 furniture types, view the full 3D model with parts and holes, and see the cut list and quote on your screen.
+• Pro Subscription: Unlock unlimited projects (monthly or yearly through Google Play) and all document exports. Get PDF and CSV cut lists for your panel supplier, printable part labels, assembly sheets, dimensioned 2D drawings, cutting plans, and professional quotes with your logo.
+• Pro also includes Client Mode, a tablet-friendly presentation view for your furniture design projects. Let clients switch finishes, see the price update live, and provide a digital signature on the spot to close the deal faster.
+
+Your Workshop, Your Data
+• Works completely offline after the first launch, so you can design and quote on a job site or in a workshop with no internet connection.
+• Requires no account, displays no ads, and performs absolutely no user tracking. Your business data and client information are your own.
+• All your project data stays securely on your device. Nothing is uploaded to the cloud, giving you full control and privacy.
+• Create a full backup of all your work to a single file for easy transfer to a new device or for simple, secure safekeeping.
+
+Available in English, Romanian, Italian and French.
+
+Ebanist is built for independent cabinetmakers, small furniture workshops, kitchen fitters, and renovation contractors who need a fast, reliable furniture design process without the complexity of desktop CAD.
+
+Design, calculate, and build better furniture with a tool made for the trade.

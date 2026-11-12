@@ -1,0 +1,54 @@
+Ebanist est une application de conception de meubles pour ébénistes, menuisiers et poseurs. Vous concevez le meuble sur votre téléphone, directement sur le chantier, et vous obtenez la fiche de débit, les étiquettes des pièces, la fiche de montage et le devis à partir du même modèle, le jour même.
+
+Née dans un vrai atelier de rénovation et d'agencement. Chaque règle de l'application a d'abord été une erreur à éviter sur un vrai chantier.
+
+CE QUE FAIT EBANIST
+• 19 types de meubles paramétriques : armoire, dressing, meuble bas, meuble à tiroirs, meuble haut, colonne, bibliothèque, commode, meubles d'angle, portes coulissantes, meuble TV, bureau, table, lit et d'autres
+• Vous saisissez largeur, hauteur et profondeur : caisson, séparations, étagères, portes et tiroirs suivent seuls
+• Fiche de débit en cotes finies au 0.1 mm, avec chant et matériau pour chaque pièce
+• Quincaillerie du catalogue Blum et Häfele avec de vraies références, comptée une seule fois, pour que le devis et la fiche de montage disent toujours la même chose
+• 17 panneaux et décors Egger ; l'épaisseur vient toujours du matériau
+• 3D avec la couleur et le fil réels du matériau, et vue éclatée
+• « Dans votre pièce » : placez le meuble sur la photo de la pièce du client et exportez un JPG pour WhatsApp
+• Prix fixés par vous au matériau, à la main-d'œuvre et à la marge
+• Les perçages sur chaque pièce : rangées système 32 et cuvettes de charnières
+
+POURQUOI VOUS GAGNEZ DU TEMPS
+• Fini les fiches de débit additionnées à la main le soir
+• Un contrôle du caisson avant chaque export : si les pièces ne redonnent pas la cote commandée, le PDF ne sort pas, et une mauvaise profondeur se voit au bureau, pas sur le chantier
+• Un seul modèle pour tous les documents : rien n'est recopié et rien ne se décale
+
+DOCUMENTS POUR L'ATELIER (PRO)
+• Fiche de débit en PDF et CSV, pour votre fournisseur de panneaux ou votre centre de débit
+• Étiquettes A4 pour les pièces, 24 par feuille, avec le schéma des chants
+• Fiche de montage avec toutes les cotes tirées du modèle
+• Dessin technique 2D coté
+• Plans de débit qui gardent les chutes en stock
+• Devis avec votre logo et les coordonnées de votre entreprise
+• Paquet atelier (JSON, sans prix) pour le centre de débit
+
+MODE CLIENT (PRO)
+Montrez le meuble en 3D sur une tablette, changez les finitions, voyez le prix se mettre à jour et faites signer le client avant de partir.
+
+COMMENT SE PASSE UN CHANTIER
+1. Vous mesurez sur place et choisissez le type de meuble
+2. Vous saisissez les cotes et choisissez portes, tiroirs et matériaux
+3. Vous vérifiez la 3D et la liste des pièces
+4. Vous envoyez la fiche de débit au fournisseur et imprimez les étiquettes et la fiche de montage pour le poseur
+
+FONCTIONNE HORS LIGNE, VOS DONNÉES RESTENT À VOUS
+Après le premier lancement, tout fonctionne sans réseau : conception, 3D, fiche de débit et documents. Pas de compte, pas de publicité, pas de pistage. Les projets restent sur votre appareil, et une sauvegarde complète tient dans un seul fichier que vous exportez quand vous voulez, gratuitement.
+
+GRATUIT ET PRO
+Gratuit, sans limite de durée : 1 projet, tous les types de meubles, la 3D avec pièces et perçages, la fiche de débit et le devis à l'écran.
+Pro (abonnement mensuel ou annuel via Google Play) : projets illimités et tous les documents et exports ci-dessus. Résiliable à tout moment ; vos projets restent sur votre appareil.
+
+LANGUES
+Français, anglais, italien et roumain.
+
+POUR QUI
+Ébénistes et menuisiers indépendants, petits ateliers d'agencement, poseurs de cuisines et de placards et entreprises de rénovation qui veulent une conception de meubles rapide et une fiche de débit exacte, sans logiciel de CAO de bureau.
+
+Questions ou suggestions : feedback@ebanist.com
+
+Ebanist · un produit Domus Renov
