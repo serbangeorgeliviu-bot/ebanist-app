@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.44.0 — 12 noiembrie 2026
+
+**Porți Pro mutate de la intrare la ieșire (D-131).** Pe Play, 53 % din apariţiile ecranului Pro veneau de la două porți puse la primul click, înainte ca omul să vadă ce primește, și n-au convertit niciodată (0 din ~330). Acum **„În camera ta” se poate folosi gratuit** (poza camerei cu mobila peste ea), iar **fișa piesei se vede gratuit pe ecran**. Rămân Pro: exportul JPG și AR la „În camera ta”, respectiv A3, DXF și CSV la fișa piesei (fiecare cu poarta lui, verificată în `exportgate.test.js`). Tabelul Gratuit vs Pro și textele ecranului Pro spun exact asta, în ro, it, en, fr.
+
 ## 5.43.0 — 12 noiembrie 2026
 
 **Recenzia: orice corp generat fără blocaje e un „moment bun" (D-130).** Înainte conta numai un corp generat fără niciun avertisment de găurire; un utilizator gratuit rar ajungea acolo (documentele și oferta semnată sunt Pro), iar cererea de recenzie nu s-a declanșat niciodată. Acum se numără și corpurile cu avertismente; dacă foaia de avertismente e deschisă, cererea așteaptă următorul moment. Regulile care protejează omul rămân neschimbate.
