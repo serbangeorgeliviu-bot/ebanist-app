@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — cererea de recenzie în Google Play (D-nn)
+   Ebanist — cererea de recenzie în Google Play (D-105, condiții relaxate în D-128)
    ---------------------------------------------------------------------
    Numai pe Android, numai prin API-ul Play In-App Review (în aplicație
    nativă: MainActivity.Bridge.requestReview). Aici stă DECIZIA „e momentul
@@ -8,11 +8,12 @@
    Regula, pe scurt: cerem după ce omul a reușit ceva, nu cât timp e
    blocat. Toate condițiile trebuie să fie adevărate deodată:
 
-     • au trecut cel puțin 7 zile de la prima pornire cu versiunea asta;
-     • cel puțin 3 sesiuni (a revenit, nu a trecut o dată);
-     • cel puțin 3 „momente bune" de la ultima cerere (un corp generat,
+     • a trecut cel puțin o zi de la prima pornire (nu în prima sesiune);
+     • cel puțin 2 sesiuni (a revenit, nu a trecut o dată);
+     • cel puțin 1 „moment bun" de la ultima cerere (un corp generat,
        un document ieșit, o ofertă semnată);
-     • cel puțin 90 de zile de la ultima cerere, cel mult 3 cereri în viață;
+     • cel puțin 45 de zile de la ultima cerere, cel mult 4 cereri în viață
+       (Google oricum limitează singur cât de des arată dialogul);
      • în sesiunea asta n-a văzut ecranul Pro (nu cerem 5 stele cuiva pe
        care tocmai l-am oprit din lucru);
      • nu e nicio foaie deschisă și aplicația e în față.
@@ -30,7 +31,7 @@
 
   var KEY = "ebanist_review";
   var DAY = 864e5;
-  var CFG = { minDays: 7, minSessions: 3, minGood: 3, gapDays: 90, maxAsks: 3, delayMs: 2500 };
+  var CFG = { minDays: 1, minSessions: 2, minGood: 1, gapDays: 45, maxAsks: 4, delayMs: 2500 };
 
   function num(v) { v = Number(v); return isFinite(v) && v >= 0 ? v : 0; }
 

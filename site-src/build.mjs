@@ -278,7 +278,7 @@ function helpJsonld(L) {
 function render(L, tplSrc = tpl, mode = null) {
   const isCase = mode === true || mode === "case";
   const blocks = {
-    css: CSS, logo: LOGO, splash: SPLASH, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: SITE_VER,
+    css: CSS, logo: LOGO, splash: SPLASH, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}&referrer=utm_source%3Debanist-site%26utm_medium%3Dweb%26utm_campaign%3Dsite-${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: SITE_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), helpIdx: helpHome(L), postUrl: postHome(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))

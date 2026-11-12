@@ -5,6 +5,11 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.41.0 — 12 noiembrie 2026
+
+**Cererea de recenzie în Google Play vine mai devreme (D-128).** Condițiile din D-105 erau prea stricte pentru o aplicație cu puțini utilizatori și au dus la zero recenzii. Acum se cere după cel puțin 1 zi, 2 sesiuni și 1 moment bun (un corp generat, un document ieșit, o ofertă semnată), la cel puțin 45 de zile între cereri, cel mult 4 în viață. Rămân regulile care protejează omul: nu după ecranul Pro în aceeași sesiune, nu cu o foaie deschisă, fără filtrarea „îți place?". Google decide singur dacă arată dialogul.
+- **Site:** butoanele „Get it on Google Play" poartă acum `referrer` cu sursa `ebanist-site` și limba paginii, ca Play Console să arate câte instalări vin de pe site.
+
 ## 5.40.0 — 9 noiembrie 2026
 
 **Unire de ramuri.** Lucrările din 8 noiembrie (Birou, Masă, Pat, șabloane STL, ladă ridicabilă) și cele din `main` (5.27.x–5.31.1) au fost făcute în paralel și au primit aceleași numere de versiune; istoricul de mai jos le păstrează pe ambele, în ordinea: întâi ramura cu mobilier (5.27.4–5.39.0), apoi cea din `main` (5.28.0–5.31.1). Conținutul funcțional al ambelor e inclus în 5.40.0.
