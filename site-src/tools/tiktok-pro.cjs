@@ -99,18 +99,26 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  const hook=await jpg("card-hook",card(T.h1,T.h2,T.h3));
  const price=await jpg("card-price",card(T.p1,T.p2,T.p3,"PRO"));
  const end=await jpg("card-end",card(T.e1,"",T.e2).replace('</div></div>',`</div><div style="margin-top:24px;font-weight:700;font-size:60px;color:#d9c9a3">${T.e3}</div></div>`));
+ await shot(path.join(OV,"hook-text.png"),`<div style="${F}position:fixed;left:0;right:0;bottom:0;height:900px;background:linear-gradient(to top,rgba(14,59,42,.92),rgba(14,59,42,0));display:flex;flex-direction:column;justify-content:flex-end;gap:18px;padding:0 70px 230px;text-align:center;color:#fff"><div style="font-weight:800;font-size:104px;line-height:1.05;text-shadow:0 4px 24px rgba(0,0,0,.45)">${T.h1}</div><div style="font-weight:800;font-size:84px;line-height:1.1;color:#d9c9a3;text-shadow:0 4px 24px rgba(0,0,0,.45)">${T.h2}</div><div style="font-weight:500;font-size:48px;opacity:.95;margin-top:10px">${T.h3}</div></div>`);
  for(const k of ["c1","c2","c3","c4","c5","c6"]) await shot(path.join(OV,"cap-"+k+".png"),`<div style="${F}position:fixed;left:50px;right:50px;${k==="c3"?"top:150px":"bottom:200px"};padding:30px 38px;border-radius:34px;background:rgba(14,59,42,.93);color:#fff;font-weight:700;font-size:62px;line-height:1.15;text-align:center;box-shadow:0 14px 50px rgba(0,0,0,.4)">${T[k]}</div>`);
  for(const [k,bg,fg] of [["free","#ffffff","#0e3b2a"],["pro","#d9c9a3","#0e3b2a"]]) await shot(path.join(OV,"badge-"+k+".png"),`<div style="${F}position:fixed;right:50px;top:70px;padding:16px 40px;border-radius:70px;background:${bg};color:${fg};font-weight:800;font-size:54px;letter-spacing:6px;box-shadow:0 10px 36px rgba(0,0,0,.28)">${T[k]}</div>`);
  for(const k of Object.keys(swatches)) await shot(path.join(OV,"sw-"+k+".png"),`<div style="${F}position:fixed;left:50px;top:70px;display:flex;align-items:center;gap:22px;padding:18px 34px;border-radius:70px;background:rgba(255,255,255,.94);font-weight:700;font-size:50px;color:#0e3b2a;box-shadow:0 10px 36px rgba(0,0,0,.28)"><span style="width:56px;height:56px;border-radius:50%;background:${swatches[k]};border:4px solid rgba(0,0,0,.15)"></span>${T[k]}</div>`);
  await b.close();srv.close();
  /* ---- secvența finală: hook + corp + preț + final; marcajele se mută după hook ---- */
- const pre=Math.round(2.4*FPS), post=[[price,Math.round(3.0*FPS)],[end,Math.round(2.8*FPS)]];
+ /* hook video opțional: vid-pro/hook-<lang>.mp4 (fără text în el); primele 4 s, textul se pune deasupra */
+ const HOOKV=path.join(BASE,"hook-"+L+".mp4"), HS=path.join(D,"hookseq"); let hookN=0;
+ if(fs.existsSync(HOOKV)){ fs.rmSync(HS,{recursive:true,force:true});fs.mkdirSync(HS);
+   cp.execFileSync("ffmpeg",["-loglevel","error","-y","-t","4","-i",HOOKV,"-an","-vf",`scale=${W}:${H}:force_original_aspect_ratio=increase:flags=lanczos,crop=${W}:${H},fps=${FPS}`,"-q:v","2",path.join(HS,"h_%05d.jpg")]);
+   hookN=fs.readdirSync(HS).length; }
+ const pre=hookN||Math.round(2.4*FPS), post=[[price,Math.round(3.0*FPS)],[end,Math.round(2.8*FPS)]];
  const tmp=BODY;
  let k2=0;const put=src=>fs.copyFileSync(src,path.join(SEQ,"s_"+String(++k2).padStart(5,"0")+".jpg"));
- for(let i=0;i<pre;i++) put(hook);
+ if(hookN) for(let i=1;i<=hookN;i++) put(path.join(HS,"h_"+String(i).padStart(5,"0")+".jpg")); else for(let i=0;i<pre;i++) put(hook);
  for(let i=1;i<=n;i++) put(path.join(tmp,"s_"+String(i).padStart(5,"0")+".jpg"));
  for(const [f,c] of post) for(let i=0;i<c;i++) put(f);
- const ovs=[];marks.forEach(m=>{const a=(m.from-1+pre)/FPS,bb=(m.to+pre)/FPS;
+ const ovs=[];
+ if(hookN){ ovs.push({f:path.join(OV,"hook-text.png"),a:0.15,b:hookN/FPS}); }
+ marks.forEach(m=>{const a=(m.from-1+pre)/FPS,bb=(m.to+pre)/FPS;
    if(m.cap)ovs.push({f:path.join(OV,"cap-"+m.cap+".png"),a,b:bb});
    if(m.badge)ovs.push({f:path.join(OV,"badge-"+m.badge+".png"),a,b:bb});
    if(m.sw)ovs.push({f:path.join(OV,"sw-"+m.sw+".png"),a,b:bb});});
