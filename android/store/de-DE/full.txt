@@ -1,0 +1,54 @@
+Ebanist ist eine Möbelplaner-App mit Zuschnittliste für Tischler, Schreiner und Monteure von Küchen und Schränken. Sie planen das Möbel auf dem Telefon, direkt auf der Baustelle, und erhalten Zuschnittliste, Teileetiketten, Montageanleitung und Angebot aus demselben Modell, noch am selben Tag.
+
+Entstanden in einer echten Werkstatt für Renovierung und Möbelbau. Jede Regel der App war zuerst ein Fehler, den wir bei einem echten Auftrag vermeiden mussten.
+
+WAS EBANIST KANN
+• 19 parametrische Möbeltypen: Schrank, Ankleide, Unterschrank, Schubladenunterschrank, Hängeschrank, Hochschrank, Bücherregal, Kommode, Eckschränke, Schiebetüren, TV-Möbel, Schreibtisch, Tisch, Bett und weitere
+• Sie geben Breite, Höhe und Tiefe ein: Korpus, Trennwände, Einlegeböden, Türen und Schubladen folgen von selbst
+• Zuschnittliste mit Fertigmaßen auf 0,1 mm, mit Kante und Material für jedes Teil
+• Beschläge aus dem Blum- und Häfele-Katalog mit echten Artikelnummern, nur einmal gezählt, damit Angebot und Montageanleitung immer dasselbe sagen
+• 17 Plattenwerkstoffe und Egger-Dekore; die Stärke kommt immer vom Material
+• 3D mit echter Farbe und Maserung des Materials, dazu Explosionsansicht
+• „In Ihrem Raum“: das Möbel auf das Foto des Kundenraums setzen und ein JPG für WhatsApp exportieren
+• Preise, die Sie selbst festlegen, nach Material, Arbeitszeit und Marge
+• Die Bohrungen an jedem Teil: System-32-Reihen und Topfbänder
+
+WARUM SIE ZEIT SPAREN
+• Schluss mit abends von Hand addierten Zuschnittlisten
+• Eine Korpusprüfung vor jedem Export: ergeben die Teile nicht exakt das bestellte Maß, wird das PDF nicht ausgegeben, und eine falsche Tiefe fällt im Büro auf, nicht auf der Baustelle
+• Ein einziges Modell für alle Dokumente: nichts wird zweimal abgeschrieben und nichts verschiebt sich
+
+DOKUMENTE FÜR DIE WERKSTATT (PRO)
+• Zuschnittliste als PDF und CSV, für Plattenlieferant oder Zuschnittcenter
+• A4-Etiketten für die Teile, 24 pro Blatt, mit Kantenschema
+• Montageanleitung mit allen Maßen aus dem Modell
+• Bemaßte technische 2D-Zeichnung
+• Aufteilungspläne, die Reststücke im Lager behalten
+• Angebot mit Ihrem Logo und den Firmendaten
+• Werkstattpaket (JSON, ohne Preise) für das Zuschnittcenter
+
+KUNDENMODUS (PRO)
+Sie zeigen das Möbel auf dem Tablet in 3D, wechseln die Oberflächen, sehen den aktualisierten Preis und holen die Unterschrift des Kunden ein, bevor Sie gehen.
+
+SO LÄUFT EIN AUFTRAG
+1. Sie messen vor Ort und wählen den Möbeltyp
+2. Sie geben die Maße ein und wählen Türen, Schubladen und Materialien
+3. Sie prüfen das 3D und die Teileliste
+4. Sie schicken die Zuschnittliste an den Lieferanten und drucken Etiketten und Montageanleitung für den Monteur
+
+FUNKTIONIERT OFFLINE, IHRE DATEN BLEIBEN IHRE
+Nach dem ersten Start funktioniert alles ohne Netz: Planung, 3D, Zuschnittliste und Dokumente. Kein Konto, keine Werbung, kein Tracking. Die Projekte bleiben auf Ihrem Gerät, und ein vollständiges Backup ist eine einzige Datei, die Sie jederzeit kostenlos exportieren.
+
+KOSTENLOS UND PRO
+Kostenlos, ohne Zeitlimit: 1 Projekt, alle Möbeltypen, 3D mit Teilen und Bohrungen, Zuschnittliste und Angebot auf dem Bildschirm.
+Pro (Monats- oder Jahresabo über Google Play): unbegrenzte Projekte und alle oben genannten Dokumente und Exporte. Jederzeit kündbar; Ihre Projekte bleiben auf Ihrem Gerät.
+
+SPRACHEN
+7 Sprachen: DE, EN, IT, RO, FR, ES, PL.
+
+FÜR WEN
+Für Küchen, Ankleiden und Einbauschränke, Bücherregale, TV-Möbel, Schreibtische, Tische und Betten aus melaminbeschichteten Platten, MDF und HDF (Egger-Dekore). Selbstständige Tischler, kleine Möbelwerkstätten, Küchen- und Schrankmonteure und Renovierungsbetriebe, die schnelle Möbelplanung und eine exakte Zuschnittliste wollen, ohne ein CAD-Programm fürs Büro.
+
+Fragen oder Vorschläge: feedback@ebanist.com
+
+Ebanist · ein Produkt von Domus Renov
