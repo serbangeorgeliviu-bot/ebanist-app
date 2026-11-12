@@ -3527,6 +3527,13 @@ Object.assign(I18N.fr,{proSubProjects:"La version gratuite a un projet. Le vôtr
  proSubDoc:"Les documents d'atelier — débit, étiquettes, fiche de montage, dessin technique — sont dans Pro. Votre projet reste ici, complet.",proSubOffer:"L'offre PDF pour le client est dans Pro.",proSubClient:"Le mode Client — finitions, prix et signature sur tablette — est dans Pro.",proSubPart:"Les exports de la fiche de la pièce — A3, DXF et CSV — sont dans Pro. La fiche se voit à l'écran dans la version gratuite aussi.",proSubNest:"Vous voyez combien de panneaux il faut. Plans de découpe, ordre des coupes et chutes en stock sont dans Pro.",proSubExport:"L'export pour la découpe (CSV, dossier) est dans Pro.",proSubRoom:"L'AR et l'export JPG de la photo de la pièce sont dans Pro. L'aperçu est gratuit.",
  nestLocked:"Les plans de découpe de chaque panneau, l'ordre des coupes et les chutes en stock sont dans Ebanist Pro."});
 /* ---- 4.35.3: planuri Google Play cu plată în avans ---- */
+Object.assign(I18N.it,{playTrialM:"Prova 7 giorni gratis, poi {p}/mese",playTrialY:"Prova 7 giorni gratis, poi {p}/anno",playBuyYA:"Pro annuale — {p}/anno"});
+Object.assign(I18N.ro,{playTrialM:"Încearcă 7 zile gratuit, apoi {p}/lună",playTrialY:"Încearcă 7 zile gratuit, apoi {p}/an",playBuyYA:"Pro anual — {p}/an"});
+Object.assign(I18N.en,{playTrialM:"Try 7 days free, then {p}/month",playTrialY:"Try 7 days free, then {p}/year",playBuyYA:"Pro yearly — {p}/year"});
+Object.assign(I18N.fr,{playTrialM:"Essai gratuit 7 jours, puis {p}/mois",playTrialY:"Essai gratuit 7 jours, puis {p}/an",playBuyYA:"Pro annuel — {p}/an"});
+Object.assign(I18N.de,{playTrialM:"7 Tage gratis testen, dann {p}/Monat",playTrialY:"7 Tage gratis testen, dann {p}/Jahr",playBuyYA:"Pro jährlich — {p}/Jahr"});
+Object.assign(I18N.es,{playTrialM:"Prueba 7 días gratis, luego {p}/mes",playTrialY:"Prueba 7 días gratis, luego {p}/año",playBuyYA:"Pro anual — {p}/año"});
+Object.assign(I18N.pl,{playTrialM:"7 dni za darmo, potem {p}/mies.",playTrialY:"7 dni za darmo, potem {p}/rok",playBuyYA:"Pro roczne — {p}/rok"});
 Object.assign(I18N.it,{playBuyM1:"Un mese di Pro — {p}",playTermsPre:"Pagamento unico tramite Google Play per un mese o un anno, senza rinnovo automatico. Alla scadenza il Pro si ferma; lo prolunghi da Ebanist o da Google Play → Abbonamenti.",playPrepaidNote:"prepagato, senza rinnovo automatico"});
 Object.assign(I18N.ro,{playBuyM1:"O lună de Pro — {p}",playTermsPre:"Plată unică prin Google Play pentru o lună sau un an, fără reînnoire automată. La final Pro se oprește; îl prelungești din Ebanist sau din Google Play → Abonamente.",playPrepaidNote:"plată în avans, fără reînnoire automată"});
 Object.assign(I18N.en,{playBuyM1:"One month of Pro — {p}",playTermsPre:"One-off payment via Google Play for one month or one year, no automatic renewal. When it ends, Pro stops; extend it from Ebanist or Google Play → Subscriptions.",playPrepaidNote:"prepaid, no automatic renewal"});
@@ -5022,7 +5029,9 @@ const PLAY_PRODUCT="ebanist_pro";
    automată): textele de pe ecranul Pro și din Setări trebuie să spună
    exact asta — Google cere ca ce scrie în aplicație să fie ce cumpără
    clientul. Când planurile devin cu reînnoire automată, false aici. */
-const PLAY_PREPAID=true;
+/* D-132: din 1.4.0 partea nativă întoarce planurile cu reînnoire (`auto`) când există, cu proba gratuită
+   (`trialDays`) dacă Play o dă acestui utilizator; altfel cele prepaid. Textele se aleg după ce se vinde de fapt. */
+function playAuto(){ return (PLAY.plans||[]).some(p=>p.auto); }
 const PLAY={plans:null,err:null,busy:false,why:null};
 function playOn(){
   try{ return !!(window.EbanistAndroid&&EbanistAndroid.billingAvailable&&EbanistAndroid.billingAvailable()==="1"); }
@@ -5556,9 +5565,11 @@ function renderPro(why){
          alt nume. Întâi cel cu ID-ul așteptat, apoi oricare cu perioada lui. */
       const by=(k,per)=>PLAY.plans.find(p=>p.plan===k)||PLAY.plans.find(p=>p.period===per);
       const m=by("monthly","P1M"), y=by("yearly","P1Y"), dis=PLAY.busy?" disabled":"";
-      if(m) buy+=`<button class="btn red" data-play="${esc(m.plan)}"${dis}>${esc(t(PLAY_PREPAID?"playBuyM1":"proBuyM").replace("{p}",m.price))}</button>`;
-      if(y) buy+=`<button class="btn" data-play="${esc(y.plan)}" style="margin-top:8px"${dis}>${esc(t("playBuyY").replace("{p}",y.price))}</button>`;
-      buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t(PLAY_PREPAID?"playTermsPre":"playTerms"))}</p>`;
+      const AU=playAuto();
+      const lab=(x,tk,ak,pk)=>(AU?(x.trialDays>0?t(tk).replace("{d}",x.trialDays):t(ak)):t(pk)).replace("{p}",x.price);
+      if(m) buy+=`<button class="btn red" data-play="${esc(m.plan)}"${dis}>${esc(lab(m,"playTrialM","proBuyM","playBuyM1"))}</button>`;
+      if(y) buy+=`<button class="btn" data-play="${esc(y.plan)}" style="margin-top:8px"${dis}>${esc(lab(y,"playTrialY","playBuyYA","playBuyY"))}</button>`;
+      buy+=`<p class="mini" style="margin-top:10px;line-height:1.45">${esc(t(AU?"playTerms":"playTermsPre"))}</p>`;
     }
   }else if(BILLING.configured){
     buy+=`<div class="pro-plans"><b>${esc(t("cmp_plans"))}</b>`+
@@ -6401,7 +6412,7 @@ function renderProSettings(){
     if(PRO_REASON==="lapsed"||PRO_REASON==="expired") pl.textContent=t("proLapsed");
     if(PRO_REASON==="disabled") pl.textContent=t("proDisabledMsg");
   }else if(LIC&&LIC.kind==="play"){
-    pl.textContent=t("proStatePlay")+(PLAY_PREPAID?" · "+t("playPrepaidNote"):(LIC.autoRenewing===false?" · "+t("playNoRenew"):""));
+    pl.textContent=t("proStatePlay")+(LIC.autoRenewing===true?"":" · "+t(playAuto()?"playNoRenew":"playPrepaidNote"));
   }else{
     let txt=t("proStatePro");
     if(LIC&&LIC.expiresAt){
@@ -18749,12 +18760,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.44.0"; /* APP_VER-MARKER */
+const APP_VER="5.45.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v222";
+const SW_CACHE="ebanist-v223";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

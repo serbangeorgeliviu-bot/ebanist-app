@@ -22,8 +22,9 @@ import java.util.List;
 /**
  * Abonamentul Ebanist Pro prin Google Play.
  *
- * Un singur abonament, {@link #PRODUCT_ID}, cu două planuri de bază
- * ({@code monthly}, {@code yearly}) create în Play Console. Prețul afișat
+ * Un singur abonament, {@link #PRODUCT_ID}. Planuri de bază: {@code monthly} și
+ * {@code yearly} (prepaid, versiunile până la 1.3.x) și {@code monthly-auto} și
+ * {@code yearly-auto} (cu reînnoire, cu oferta de probă {@code trial7}, D-132). Prețul afișat
  * vine de la Play, în moneda utilizatorului — nu e scris nicăieri în cod.
  *
  * Ce știe aplicația web: numai ce îi spune clasa asta, prin
@@ -85,20 +86,29 @@ final class PlayBilling {
                 JSONArray plans = new JSONArray();
                 try {
                     if (details != null && details.getSubscriptionOfferDetails() != null) {
+                        /* Planul de bază (offerId null) dă prețul; o ofertă cu prima fază gratuită
+                           (probă) dă `trialDays`. Play întoarce oferta de probă numai celui
+                           eligibil, deci cine a avut deja abonamentul nu vede proba. Planurile cu
+                           reînnoire (faza recurentă INFINITE) se arată în locul celor prepaid (faza
+                           NON_RECURRING); dacă nu există niciunul, cad înapoi pe prepaid, ca versiunea
+                           1.3.x să nu rămână fără ce vinde. */
+                        JSONArray auto = new JSONArray(), prepaid = new JSONArray();
                         for (ProductDetails.SubscriptionOfferDetails o : details.getSubscriptionOfferDetails()) {
-                            /* numai planul de bază: ofertele promoționale se aleg
-                               în Play Console, nu se ghicesc aici */
                             if (o.getOfferId() != null) continue;
                             List<ProductDetails.PricingPhase> ph = o.getPricingPhases().getPricingPhaseList();
                             ProductDetails.PricingPhase last = ph.get(ph.size() - 1);
+                            boolean renews = last.getRecurrenceMode() != ProductDetails.RecurrenceMode.NON_RECURRING;
                             JSONObject j = new JSONObject();
                             j.put("plan", o.getBasePlanId());
                             j.put("price", last.getFormattedPrice());
                             j.put("period", last.getBillingPeriod());
                             j.put("micros", last.getPriceAmountMicros());
                             j.put("currency", last.getPriceCurrencyCode());
-                            plans.put(j);
+                            j.put("auto", renews);
+                            j.put("trialDays", trialDays(o.getBasePlanId()));
+                            (renews ? auto : prepaid).put(j);
                         }
+                        plans = auto.length() > 0 ? auto : prepaid;
                     }
                     out.put("ok", true);
                     out.put("plans", plans);
@@ -108,15 +118,47 @@ final class PlayBilling {
         });
     }
 
+
+    /* Zilele probei gratuite pe care Play o oferă ACESTUI utilizator pentru un plan (0 = nicio probă). */
+    private int trialDays(String basePlanId) {
+        if (details == null || details.getSubscriptionOfferDetails() == null) return 0;
+        for (ProductDetails.SubscriptionOfferDetails o : details.getSubscriptionOfferDetails()) {
+            if (o.getOfferId() == null || !o.getBasePlanId().equals(basePlanId)) continue;
+            List<ProductDetails.PricingPhase> ph = o.getPricingPhases().getPricingPhaseList();
+            if (ph.isEmpty() || ph.get(0).getPriceAmountMicros() != 0) continue;
+            return isoDays(ph.get(0).getBillingPeriod());
+        }
+        return 0;
+    }
+
+    /* P7D → 7, P1W → 7, P1M → 30 (aproximativ; textul din aplicație spune „zile"). */
+    static int isoDays(String iso) {
+        if (iso == null || !iso.startsWith("P")) return 0;
+        int n = 0, num = 0;
+        for (int i = 1; i < iso.length(); i++) {
+            char c = iso.charAt(i);
+            if (Character.isDigit(c)) { num = num * 10 + (c - '0'); continue; }
+            if (c == 'D') n += num; else if (c == 'W') n += 7 * num; else if (c == 'M') n += 30 * num; else if (c == 'Y') n += 365 * num;
+            num = 0;
+        }
+        return n;
+    }
+
     /* ---- cumpărarea ---- */
     void buy(String plan) {
         whenReady(() -> {
             if (details == null || details.getSubscriptionOfferDetails() == null) {
                 fail("purchases", "unavailable", null, "buy"); return;
             }
-            String token = null;
-            for (ProductDetails.SubscriptionOfferDetails o : details.getSubscriptionOfferDetails())
-                if (o.getOfferId() == null && o.getBasePlanId().equals(plan)) token = o.getOfferToken();
+            /* Oferta de probă, dacă Play o dă acestui utilizator; altfel planul de bază. */
+            String token = null, trialToken = null;
+            for (ProductDetails.SubscriptionOfferDetails o : details.getSubscriptionOfferDetails()) {
+                if (!o.getBasePlanId().equals(plan)) continue;
+                if (o.getOfferId() == null) { token = o.getOfferToken(); continue; }
+                List<ProductDetails.PricingPhase> ph = o.getPricingPhases().getPricingPhaseList();
+                if (!ph.isEmpty() && ph.get(0).getPriceAmountMicros() == 0) trialToken = o.getOfferToken();
+            }
+            if (trialToken != null) token = trialToken;
             if (token == null) { fail("purchases", "unavailable", null, "buy"); return; }
             BillingFlowParams fp = BillingFlowParams.newBuilder()
                     .setProductDetailsParamsList(Collections.singletonList(

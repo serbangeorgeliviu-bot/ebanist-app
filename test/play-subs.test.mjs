@@ -4,7 +4,7 @@
 import { test, describe } from "node:test";
 import assert from "node:assert";
 import { generateKeyPairSync } from "node:crypto";
-import { autoPlanFrom, trialOffer, plan, run, AUTO, OFFER, TRIAL } from "../android/tools/play-subs.mjs";
+import { autoPlanFrom, trialOffer, plan, run, regionsVersion, AUTO, OFFER, TRIAL } from "../android/tools/play-subs.mjs";
 
 const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs8", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
 const SA = { client_email: "ci@p.iam.gserviceaccount.com", private_key: privateKey, token_uri: "https://oauth2.googleapis.com/token" };
@@ -22,6 +22,7 @@ function fake(sub = SUB) {
     const m = opt.method || "GET";
     calls.push({ url, method: m, body: opt.body });
     if (url.includes("oauth2")) return ok({ access_token: "t" });
+    if (m === "POST" && url.endsWith("/pricing:convertRegionPrices")) return ok({ regionVersion: { version: "2025/03" } });
     if (m === "PATCH") { current = JSON.parse(opt.body); current.basePlans = current.basePlans.map((b) => ({ ...b, state: b.state || "DRAFT" })); return ok(current); }
     if (m === "GET" && /\/subscriptions\/ebanist_pro$/.test(url)) return ok(current);
     if (m === "GET" && url.includes("/offers?")) return ok({ subscriptionOffers: offers[url.split("/basePlans/")[1].split("/")[0]] || [] });
@@ -72,7 +73,8 @@ describe("run", () => {
     const r = await run({ sa: SA, pkg: "com.x", apply: true, fetchFn: f.fn });
     assert.equal(r.applied, true);
     const patch = f.calls.find((c) => c.method === "PATCH");
-    assert.match(patch.url, /updateMask=basePlans/); assert.match(patch.url, /regionsVersion\.version=/);
+    assert.match(patch.url, /updateMask=basePlans/); assert.match(patch.url, /regionsVersion\.version=2025%2F03/);
+    assert.equal(r.regionsVersion, "2025/03");
     const body = JSON.parse(patch.body);
     assert.deepEqual(body.basePlans.map((b) => b.basePlanId), ["monthly", "yearly", "monthly-auto", "yearly-auto"]);
     assert.deepEqual(body.basePlans[0].prepaidBasePlanType, SUB.basePlans[0].prepaidBasePlanType);
@@ -86,12 +88,27 @@ describe("run", () => {
     await run({ sa: SA, pkg: "com.x", apply: true, fetchFn: f.fn });
     const n = f.calls.length;
     await run({ sa: SA, pkg: "com.x", apply: true, fetchFn: f.fn });
-    assert.equal(f.calls.slice(n).filter((c) => c.method !== "GET" && !c.url.includes("oauth2")).length, 0);
+    assert.equal(f.calls.slice(n).filter((c) => c.method !== "GET" && !c.url.includes("oauth2") && !c.url.endsWith("/pricing:convertRegionPrices")).length, 0);
   });
   test("eroare la patch: nimic activat, eroarea ajunge la om", async () => {
     const f = fake(); const inner = f.fn;
     const fn = async (u, o = {}) => (o.method === "PATCH" ? new Response("regionsVersion invalid", { status: 400 }) : inner(u, o));
     await assert.rejects(run({ sa: SA, pkg: "com.x", apply: true, fetchFn: fn }), /HTTP 400.*regionsVersion/);
     assert.ok(!f.calls.some((c) => c.url.endsWith(":activate")));
+  });
+});
+
+describe("versiunea de regiuni", () => {
+  test("vine de la Play (convertRegionPrices), nu e scrisă în cod", async () => {
+    const f = fake();
+    const { makeApi } = await import("../android/tools/play-subs.mjs");
+    const v = await regionsVersion(makeApi({ sa: SA, pkg: "com.x", fetchFn: f.fn }), {});
+    assert.equal(v, "2025/03");
+  });
+  test("PLAY_REGIONS_VERSION din mediu are întâietate; răspuns fără versiune = eroare", async () => {
+    assert.equal(await regionsVersion(null, { PLAY_REGIONS_VERSION: "2024/01" }), "2024/01");
+    const { makeApi } = await import("../android/tools/play-subs.mjs");
+    const fn = async (u, o = {}) => (u.includes("oauth2") ? ok({ access_token: "t" }) : ok({}));
+    await assert.rejects(regionsVersion(makeApi({ sa: SA, pkg: "com.x", fetchFn: fn }), {}), /regionVersion/);
   });
 });
