@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.43.0 — 12 noiembrie 2026
+
+**Recenzia: orice corp generat fără blocaje e un „moment bun" (D-130).** Înainte conta numai un corp generat fără niciun avertisment de găurire; un utilizator gratuit rar ajungea acolo (documentele și oferta semnată sunt Pro), iar cererea de recenzie nu s-a declanșat niciodată. Acum se numără și corpurile cu avertismente; dacă foaia de avertismente e deschisă, cererea așteaptă următorul moment. Regulile care protejează omul rămân neschimbate.
+
 ## 5.42.0 — 12 noiembrie 2026
 
 **Pâlnia măsoară și „nu se poate cumpăra" (D-129).** Pe Play, 150 de sesiuni au văzut ecranul Pro în 30 de zile și nimeni n-a apăsat „cumpără", dar pâlnia nu știa dacă butoanele existau. Dacă Google Play nu dă niciun plan, ecranul arată „Google Play nu răspunde sau abonamentul nu e încă disponibil" și nu are ce vinde. Noul eveniment anonim `pw_unavail` (o dată pe sesiune, cu `code` din lista închisă `unavailable` / `error` / `empty`) se trimite numai în acea stare, iar rezumatul de pe server arată `unavail_per_shown_sessions_pct`. Fără IP, id de dispozitiv sau date din proiect, ca la celelalte evenimente.
