@@ -1,0 +1,54 @@
+Ebanist este o aplicație de proiectare mobilier pentru tâmplari, ebeniști și montatori. Proiectezi corpul pe telefon, direct în șantier, și obții lista de debitare, etichetele pieselor, fișa de montaj și oferta din același model, în aceeași zi.
+
+Făcută într-un atelier real de renovări și mobilier. Fiecare regulă din aplicație a fost întâi o greșeală pe care a trebuit s-o evităm pe o lucrare reală.
+
+CE FACE EBANIST
+• 19 tipologii parametrice: dulap, dressing, corp bază, corp cu sertare, corp suspendat, coloană, bibliotecă, comodă, colțare, uși glisante, comodă TV, birou, masă, pat și altele
+• Scrii lățimea, înălțimea și adâncimea: carcasa, despărțitorii, polițele, ușile și sertarele urmează singure
+• Listă de debitare cu cote finite la 0.1 mm, cant și material pentru fiecare piesă
+• Feronerie din catalogul Blum și Häfele, cu coduri reale, numărată o singură dată, ca oferta și fișa de montaj să spună mereu același lucru
+• 17 materiale de placă și decoruri Egger; grosimea vine întotdeauna din material
+• 3D cu culoarea și fibra reală a materialului, plus vedere explodată
+• „În camera ta”: pui mobilierul peste poza camerei clientului și exporți un JPG pentru WhatsApp
+• Prețuri stabilite de tine pe material, manoperă și marjă
+• Găurile pe fiecare piesă: rândurile sistem 32 și oalele de balama
+
+DE CE ÎȚI ECONOMISEȘTE TIMP
+• Gata cu listele de debitare adunate de mână seara
+• O verificare a carcasei înainte de orice export: dacă piesele nu dau exact gabaritul comandat, PDF-ul nu se tipărește, așa că o adâncime greșită se prinde la birou, nu în șantier
+• Un singur model pentru toate documentele: nimic nu se copiază de două ori și nimic nu rămâne nealiniat
+
+DOCUMENTE PENTRU ATELIER (PRO)
+• Lista de debitare în PDF și CSV, pentru furnizorul de plăci sau centrul de debitare
+• Etichete A4 pentru piese, 24 pe coală, cu schema de cant
+• Fișă de montaj cu toate cotele luate din model
+• Desen tehnic 2D cotat
+• Planuri de debitare care păstrează resturile în stoc
+• Ofertă cu logo-ul și datele firmei tale
+• Pachet pentru atelier (JSON, fără prețuri) pentru centrul de debitare
+
+MODUL CLIENT (PRO)
+Arăți corpul în 3D pe tabletă, schimbi finisajele, vezi prețul actualizat și iei semnătura clientului înainte să pleci.
+
+CUM MERGE O LUCRARE
+1. Măsori în șantier și alegi tipologia
+2. Introduci cotele și alegi ușile, sertarele și materialele
+3. Verifici 3D-ul și lista de piese
+4. Trimiți lista de debitare furnizorului și tipărești etichetele și fișa de montaj pentru montator
+
+MERGE OFFLINE, DATELE RĂMÂN ALE TALE
+După prima pornire totul merge fără internet: proiectare, 3D, listă de debitare și documente. Fără cont, fără reclame, fără urmărire. Proiectele rămân pe dispozitivul tău, iar un backup complet e un singur fișier pe care îl exporți oricând, gratuit.
+
+GRATUIT ȘI PRO
+Gratuit, fără limită de timp: 1 proiect, toate tipologiile, 3D cu piese și găuri, lista de debitare și oferta pe ecran.
+Pro (abonament lunar sau anual prin Google Play): proiecte nelimitate și toate documentele și exporturile de mai sus. Anulezi oricând; proiectele rămân pe dispozitivul tău.
+
+LIMBI
+Română, engleză, italiană și franceză.
+
+PENTRU CINE E
+Tâmplari independenți, ateliere mici de mobilier, montatori de bucătării și dulapuri și firme de renovări care vor proiectare de mobilier rapidă și o listă de debitare exactă, fără un program CAD de birou.
+
+Întrebări sau sugestii: feedback@ebanist.com
+
+Ebanist · un produs Domus Renov

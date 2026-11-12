@@ -1,0 +1,54 @@
+Ebanist è un'app di progettazione mobili per falegnami, ebanisti e montatori. Progetti il mobile sul telefono, direttamente in cantiere, e ottieni distinta di taglio, etichette dei pezzi, scheda di montaggio e preventivo dallo stesso modello, nello stesso giorno.
+
+Nata in un vero laboratorio di ristrutturazioni e arredamento. Ogni regola dell'app è stata prima un errore da evitare su un lavoro vero.
+
+COSA FA EBANIST
+• 19 tipologie parametriche: armadio, cabina armadio, base, base a cassetti, pensile, colonna, libreria, cassettiera, angolari, ante scorrevoli, mobile TV, scrivania, tavolo, letto e altre
+• Inserisci larghezza, altezza e profondità: struttura, divisori, ripiani, ante e cassetti seguono da soli
+• Distinta di taglio con misure finite a 0.1 mm, bordo e materiale per ogni pezzo
+• Ferramenta dal catalogo Blum e Häfele con codici reali, contata una sola volta, così preventivo e scheda di montaggio dicono sempre la stessa cosa
+• 17 materiali in pannello e decori Egger; lo spessore viene sempre dal materiale
+• 3D con il colore e la venatura reali del materiale, più la vista esplosa
+• «Nel tuo ambiente»: metti il mobile sulla foto della stanza del cliente ed esporti un JPG per WhatsApp
+• Prezzi decisi da te per materiale, manodopera e margine
+• Le forature su ogni pezzo: file sistema 32 e tazze delle cerniere
+
+PERCHÉ TI FA RISPARMIARE TEMPO
+• Basta distinte sommate a mano la sera
+• Un controllo della struttura prima di ogni esportazione: se i pezzi non ridanno la misura ordinata, il PDF non esce, così una profondità sbagliata si scopre in ufficio e non in cantiere
+• Un solo modello per tutti i documenti: niente si copia due volte e niente resta disallineato
+
+DOCUMENTI PER IL LABORATORIO (PRO)
+• Distinta di taglio in PDF e CSV, per il fornitore di pannelli o il centro di taglio
+• Etichette A4 per i pezzi, 24 per foglio, con lo schema dei bordi
+• Scheda di montaggio con tutte le misure prese dal modello
+• Disegno tecnico 2D quotato
+• Piani di taglio che tengono gli sfridi in magazzino
+• Preventivo con il logo e i dati della tua azienda
+• Pacchetto laboratorio (JSON, senza prezzi) per il centro di taglio
+
+MODALITÀ CLIENTE (PRO)
+Mostri il mobile in 3D sul tablet, cambi le finiture, vedi il prezzo aggiornato e raccogli la firma del cliente prima di andare via.
+
+COME VA UN LAVORO
+1. Misuri in cantiere e scegli la tipologia
+2. Inserisci le misure e scegli ante, cassetti e materiali
+3. Controlli il 3D e l'elenco dei pezzi
+4. Mandi la distinta al fornitore e stampi etichette e scheda di montaggio per il montatore
+
+FUNZIONA OFFLINE, I DATI RESTANO TUOI
+Dopo il primo avvio tutto funziona senza rete: progettazione, 3D, distinta e documenti. Nessun account, nessuna pubblicità, nessun tracciamento. I progetti restano sul tuo dispositivo e un backup completo è un solo file che esporti quando vuoi, gratis.
+
+GRATIS E PRO
+Gratis, senza limiti di tempo: 1 progetto, tutte le tipologie, il 3D con pezzi e fori, distinta e preventivo a schermo.
+Pro (abbonamento mensile o annuale tramite Google Play): progetti illimitati e tutti i documenti ed esportazioni elencati sopra. Disdici quando vuoi; i progetti restano sul tuo dispositivo.
+
+LINGUE
+Italiano, inglese, rumeno e francese.
+
+PER CHI È
+Falegnami indipendenti, piccoli laboratori di arredamento, montatori di cucine e armadi e imprese di ristrutturazione che vogliono una progettazione mobili veloce e una distinta di taglio esatta, senza un programma CAD da ufficio.
+
+Domande o suggerimenti: feedback@ebanist.com
+
+Ebanist · un prodotto Domus Renov
