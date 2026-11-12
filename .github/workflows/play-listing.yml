@@ -23,7 +23,7 @@ on:
       cmd:
         description: "Ce face"
         type: choice
-        options: [status, listing, rollout, reviews, subs, reply]
+        options: [status, listing, rollout, reviews, subs, subs-raw, reply]
         default: status
       images:
         description: "listing: scrie și imaginile (da/nu)"
