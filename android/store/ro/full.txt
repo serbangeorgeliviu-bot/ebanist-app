@@ -1,4 +1,4 @@
-Ebanist este o aplicație de proiectare mobilier pentru tâmplari, ebeniști și montatori. Proiectezi corpul pe telefon, direct în șantier, și obții lista de debitare, etichetele pieselor, fișa de montaj și oferta din același model, în aceeași zi.
+Ebanist este o aplicație de proiectare mobilă la comandă și listă de debitare pentru tâmplari, ebeniști și montatori de bucătării și dressinguri. Proiectezi corpul pe telefon, direct în șantier, și obții lista de debitare, etichetele pieselor, fișa de montaj și oferta din același model, în aceeași zi.
 
 Făcută într-un atelier real de renovări și mobilier. Fiecare regulă din aplicație a fost întâi o greșeală pe care a trebuit s-o evităm pe o lucrare reală.
 
@@ -47,7 +47,7 @@ LIMBI
 Română, engleză, italiană și franceză.
 
 PENTRU CINE E
-Tâmplari independenți, ateliere mici de mobilier, montatori de bucătării și dulapuri și firme de renovări care vor proiectare de mobilier rapidă și o listă de debitare exactă, fără un program CAD de birou.
+Pentru bucătării, dressinguri și dulapuri încastrate, biblioteci, comode TV, birouri, mese și paturi din PAL melaminat, MDF și HDF (decoruri Egger). Tâmplari independenți, ateliere mici de mobilier, montatori de bucătării și dulapuri și firme de renovări care vor proiectare de mobilier rapidă și o listă de debitare exactă, fără un program CAD de birou.
 
 Întrebări sau sugestii: feedback@ebanist.com
 

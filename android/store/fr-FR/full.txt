@@ -1,4 +1,4 @@
-Ebanist est une application de conception de meubles pour ébénistes, menuisiers et poseurs. Vous concevez le meuble sur votre téléphone, directement sur le chantier, et vous obtenez la fiche de débit, les étiquettes des pièces, la fiche de montage et le devis à partir du même modèle, le jour même.
+Ebanist est une application de conception de meubles sur mesure et de fiche de débit pour ébénistes, menuisiers agenceurs et poseurs de cuisines et de dressings. Vous concevez le meuble sur votre téléphone, directement sur le chantier, et vous obtenez la fiche de débit, les étiquettes des pièces, la fiche de montage et le devis à partir du même modèle, le jour même.
 
 Née dans un vrai atelier de rénovation et d'agencement. Chaque règle de l'application a d'abord été une erreur à éviter sur un vrai chantier.
 
@@ -47,7 +47,7 @@ LANGUES
 Français, anglais, italien et roumain.
 
 POUR QUI
-Ébénistes et menuisiers indépendants, petits ateliers d'agencement, poseurs de cuisines et de placards et entreprises de rénovation qui veulent une conception de meubles rapide et une fiche de débit exacte, sans logiciel de CAO de bureau.
+Pour cuisines, dressings et placards, bibliothèques, meubles TV, bureaux, tables et lits en mélaminé, MDF et HDF (décors Egger). Ébénistes et menuisiers indépendants, petits ateliers d'agencement, poseurs de cuisines et de placards et entreprises de rénovation qui veulent une conception de meubles rapide et une fiche de débit exacte, sans logiciel de CAO de bureau.
 
 Questions ou suggestions : feedback@ebanist.com
 
