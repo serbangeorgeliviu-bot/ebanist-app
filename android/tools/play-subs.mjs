@@ -22,7 +22,15 @@ export const PRODUCT = "ebanist_pro";
 export const AUTO = { monthly: "monthly-auto", yearly: "yearly-auto" };
 export const OFFER = "trial7";
 export const TRIAL = "P7D";
-const REGIONS_VERSION = process.env.PLAY_REGIONS_VERSION || "2022/02";
+/* Versiunea de regiuni se cere de la Play (convertRegionPrices o întoarce pe cea curentă): una veche
+   respinge monedele locale ale planurilor existente (ex. AR: «Expected USD but got ARS»). */
+export async function regionsVersion(api, env = process.env) {
+  if (env.PLAY_REGIONS_VERSION) return env.PLAY_REGIONS_VERSION;
+  const r = await api.call("versiunea de regiuni", "POST", "/pricing:convertRegionPrices", { price: { currencyCode: "EUR", units: "10" } });
+  const v = r && r.regionVersion && r.regionVersion.version;
+  if (!v) throw new Error("Play n-a întors regionVersion");
+  return v;
+}
 
 async function failure(what, res) {
   let body = "";
@@ -90,7 +98,8 @@ export async function run({ sa, pkg, apply = false, fetchFn = fetch, backup }) {
   const sub = await api.call("citește abonamentul", "GET", "/subscriptions/" + PRODUCT);
   if (backup) await backup(sub);
   const p = plan(sub);
-  const out = { productId: PRODUCT, existing: (sub.basePlans || []).map((b) => b.basePlanId + ":" + b.state), toAdd: p.add.map((b) => b.basePlanId + " " + b.autoRenewingBasePlanType.billingPeriodDuration + " (" + b.regionalConfigs.length + " regiuni)"), already: p.already, applied: false };
+  const REGIONS_VERSION = apply ? await regionsVersion(api) : null;
+  const out = { regionsVersion: REGIONS_VERSION, productId: PRODUCT, existing: (sub.basePlans || []).map((b) => b.basePlanId + ":" + b.state), toAdd: p.add.map((b) => b.basePlanId + " " + b.autoRenewingBasePlanType.billingPeriodDuration + " (" + b.regionalConfigs.length + " regiuni)"), already: p.already, applied: false };
   if (!apply) return out;
   if (p.add.length) {
     /* Planurile vechi pleacă exact cum au venit (fără câmpurile numai-citire); cele noi se adaugă. */

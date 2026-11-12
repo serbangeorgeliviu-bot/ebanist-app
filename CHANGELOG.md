@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.45.0 — 12 noiembrie 2026
+
+**Probă gratuită de 7 zile și plan cu reînnoire pe Google Play (D-132).** Până acum Pro pe Play era „cu plată în avans" (10,99 € pentru o lună, fără reînnoire și fără probă): omul plătea înainte să vadă valoarea. Ecranul Pro știe acum să vândă planuri cu reînnoire automată și, când Play o dă acestui utilizator, **7 zile gratuit** („Încearcă 7 zile gratuit, apoi {preț}/lună" sau „/an"); cine a avut deja abonamentul nu vede proba. Textele se aleg după ce se vinde de fapt (reînnoire automată sau plată în avans) și există în cele 7 limbi. Cu partea nativă veche (1.3.x) nimic nu se schimbă: primește tot planurile prepaid. Partea nativă nouă (1.4.0, versionCode 9) alege planurile și oferta de probă; planurile prepaid rămân în Play pentru cei care le-au cumpărat.
+
 ## 5.44.0 — 12 noiembrie 2026
 
 **Porți Pro mutate de la intrare la ieșire (D-131).** Pe Play, 53 % din apariţiile ecranului Pro veneau de la două porți puse la primul click, înainte ca omul să vadă ce primește, și n-au convertit niciodată (0 din ~330). Acum **„În camera ta” se poate folosi gratuit** (poza camerei cu mobila peste ea), iar **fișa piesei se vede gratuit pe ecran**. Rămân Pro: exportul JPG și AR la „În camera ta”, respectiv A3, DXF și CSV la fișa piesei (fiecare cu poarta lui, verificată în `exportgate.test.js`). Tabelul Gratuit vs Pro și textele ecranului Pro spun exact asta, în ro, it, en, fr.
