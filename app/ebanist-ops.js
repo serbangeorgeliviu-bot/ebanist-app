@@ -81,6 +81,11 @@ var HW_DRILL = {
     /* Lamello Cabineo (D-140), din broșura Lamello Drilling System, „Technical information – Machining Cabineo” (p. 32): buzunar de trei găuri Ø 15 suprapuse la 11,2 mm
        în fața piesei E (adâncime 11 mm, la 3,6 mm de capătul ei), șurub Ø 5 care intră în fața piesei F pe lungimea X (8 la Cabineo 8, 12 la Cabineo 12), cu axa la 5 mm de
        fața lui E; elementul 33,8 × 16,5 × 10,8. Poziția pe piesă (capăt, pas) nu e din broșură: `verificat:false`. */
+    /* Lamello Divario P-18 (D-141), din broșura P-System, „Technical information – Overview of connectors + grooves (1:1)”, p. 74: canal P-System de ~78 mm lungime și 8 mm
+       adâncime în fața piesei F (grosime ≥ 18 mm), două găuri Ø 8 la 32 mm una de alta, adânci de 10 mm, în muchia piesei E (introdusă prin culisare). Elementele: în canal 58 × 16 × 9,7,
+       cu găuri 72 × 17 × 8. Canalul trebuie să iasă la muchia din față a lui F ca să culiseze E: poziția pe piesă nu e din broșură și NU e impusă aici (`verificat:false`). */
+    divario:   { len: 78, thk: 9.8, depth: 8, hole_dia: 8, hole_depth: 10, hole_pitch: 32, body: { l: 58, w: 16, h: 9.7 }, end: 60, pitch: 300,
+                 src: "Lamello P-System brochure p. 74, Divario P-18", note: "Lamello Divario P-18", verificat: false },
     cabineo:   { dia: 15, depth: 11, n: 3, step: 11.2, from_end: 3.6, scr_dia: 5, scr_depth: 8, axis: 5, body: { l: 33.8, w: 16.5, h: 10.8 }, end: 50, pitch: 250,
                  src: "Lamello Drilling System brochure, Technical information – Cabineo", note: "Lamello Cabineo 8", verificat: false },
     /* Lamello Invis Mx2 (D-140), același document, „Machining Invis Mx2” (p. 46): două găuri Ø 12 pe aceeași axă: 37 mm în muchia piesei E (conectorul Ø 12 × 35), 32 mm în F la
@@ -90,6 +95,7 @@ var HW_DRILL = {
     kv:        { len: 22, thk: 8, face_depth: 15, edge_depth: 28, bore_dia: 15, bore_depth: 15.8, bore_x: 18.8, end: 50, pitch: 128, t_min: 18, t_max: 28,
                  src: "Festool 203166 KV D8/50, STEP 2019-05-20", note: "Festool KV D8/50", verificat: false },
     variants: {
+      lam_divario_p18:    { note: "Lamello Divario P-18" },
       lam_cabineo_8:      { scr_depth: 8,  note: "Lamello Cabineo 8" },
       lam_cabineo_12:     { scr_depth: 12, note: "Lamello Cabineo 12" },
       lam_invis_mx2_30:   { f_depth: 32, stud: 30, note: "Lamello Invis Mx2 (știft 30)" },
@@ -171,6 +177,7 @@ var HW_DRILL = {
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
 var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
                     gen_dowel: "dowel", gen_biscuit: "biscuit", lam_biscuit_0: "biscuit", lam_biscuit_10: "biscuit", fes_domino: "domino", lam_clamex: "clamex",
+                    lam_divario_p18: "divario",
                     lam_cabineo_8: "cabineo", lam_cabineo_12: "cabineo", lam_invis_mx2_30: "invis", lam_invis_mx2_14: "invis",
                     fes_kv_d8_50: "kv", fes_msv_d8_25: "kv",
                     fes_domino_4x20: "domino", fes_domino_5x30: "domino", fes_domino_6x40: "domino", fes_domino_8x50: "domino", fes_domino_10x50: "domino",
@@ -493,6 +500,11 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       hole(F, eAx, -eSide, p.slice(), J.dia, J.face_depth, id, "tassello");
       hole(E, eAx, eSide, p.slice(), J.dia, J.len - J.face_depth, id, "tassello");
       out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
+    } else if (kind === "divario") {
+      /* canalul P-System în fața lui F și două găuri Ø 8 la 32 mm în muchia lui E, la mijlocul grosimii lui E (D-141) */
+      slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, J.depth, id, "canal divario");
+      [-1, 1].forEach(function (k) { var hp = p.slice(); hp[sAx] = p[sAx] + k * J.hole_pitch / 2; hole(E, eAx, eSide, hp, J.hole_dia, J.hole_depth, id, "foro divario"); });
+      out.hw.push({ id: id, type: "divario", catalog: out.jointId || "lam_divario_p18", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx, note: J.note });
     } else if (kind === "cabineo") {
       /* buzunarul în fața lui E (trei găuri Ø 15 la 11,2 mm, prima la 3,6 mm de capăt) și șurubul Ø 5 în fața lui F, cu axa la 5 mm de fața lui E (D-140) */
       var face = E.min[camAx];

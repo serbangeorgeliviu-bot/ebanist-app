@@ -228,3 +228,13 @@ describe("Lamello Cabineo și Invis Mx2: forme legate de operații (D-140)", () 
       }
     });
 });
+
+test("Divario P-18: elementul din canal și cei doi știfturi, legate de operații (D-141)", () => {
+  const o = gen({ ...ARM, hwSel: { conn: "lam_divario_p18" } }, 19), by = G.opsByHw(o.pieces), hs = o.hw.filter(h => h.type === "divario");
+  assert.ok(hs.length > 0);
+  for (const h of hs) {
+    const sh = G.connectorShapes(h, by[h.id], HD, { thickF: 19 });
+    assert.equal(JSON.stringify(sh.map(x => x.role).sort()), JSON.stringify(["grooveEl", "peg", "peg"]));
+    sh.forEach(x => assert.ok(x.src.length > 0));
+  }
+});

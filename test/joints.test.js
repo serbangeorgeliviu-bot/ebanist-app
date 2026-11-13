@@ -149,3 +149,15 @@ for (const [id, fd] of [["lam_invis_mx2_30", 32], ["lam_invis_mx2_14", 14]]) {
     }
   });
 }
+
+/* Lamello Divario P-18 (D-141): canal P-System de 78 × 9,8 × 8 în F, două găuri Ø 8 × 10 la 32 mm în muchia lui E */
+test("lam_divario_p18: canal 78 × 9,8 × 8 în F și două găuri Ø8 × 10 la 32 mm în E", () => {
+  const o = gen("lam_divario_p18"); assert.equal(o.joint, "divario");
+  const hws = o.hw.filter(h => h.type === "divario"); assert.ok(hws.length > 0 && hws.every(h => h.catalog === "lam_divario_p18"));
+  for (const h of hws) {
+    const all = ops(o).filter(x => x.hw === h.id), sl = all.filter(x => x.type === "slot"), dr = all.filter(x => x.type === "drill");
+    assert.equal(sl.length, 1); assert.equal(sl[0].len, 78); assert.equal(sl[0].thk, 9.8); assert.equal(sl[0].depth, 8); assert.equal(sl[0].note, "canal divario");
+    assert.equal(dr.length, 2); dr.forEach(x => { assert.equal(x.dia, 8); assert.equal(x.depth, 10); });
+    assert.ok(Math.abs(Math.abs(dr[0]._w[h.sAx] - dr[1]._w[h.sAx]) - 32) < 0.11, "găurile nu sunt la 32 mm");
+  }
+});
