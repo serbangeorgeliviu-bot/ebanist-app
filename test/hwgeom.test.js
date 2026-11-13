@@ -149,3 +149,34 @@ describe("mânere: picioarele stau în găurile din fișa piesei", () => {
     assert.ok(n > 0, "niciun mâner cu două găuri în configurațiile de test");
   });
 });
+
+describe("balamaua CLIP: brațul în U și patrulaterul (5.46.0)", () => {
+  const near = (a, b, m, e = 1e-6) => assert.ok(Math.abs(a - b) < e, `${m}: ${a} ≠ ${b}`);
+  test("brațul: profil închis, capacul are grosimea cerută, mai înalt la balamaua pentru ușă încastrată", () => {
+    for (const inset of [false, true]) {
+      const A = G.hingeArm(584, inset, 1.3);
+      assert.equal(A.outer.length, 6); assert.equal(A.skin.length, 8);
+      near(A.zFar, 584 - 56, "zFar");
+      const top = Math.max(...A.outer.map(q => q[1])); near(top, inset ? 27 : 23, "înălțime");
+      for (const q of A.outer) assert.ok(q[0] >= A.zFar - 1e-9 && q[0] <= 584 + 1e-9 && q[1] >= 3 - 1e-9, "punct în afara brațului");
+      /* capacul: fața de sus = marginea de sus a pereților, fața de jos cu t mai jos */
+      near(A.skin[0][1] - A.skin[7][1], 1.3, "grosimea capacului");
+      near(A.skin[3][1] - A.skin[4][1], 1.3, "grosimea capacului la capăt");
+    }
+  });
+  test("legăturile: două, cu capetele în cupă (a) și în braț (b); niciuna nu are lungime zero; ușa închisă le ține în față", () => {
+    for (const sd of [1, -1]) {
+      const L = G.hingeLinks([24.5, 183, 600], sd, 584, 19, 600);
+      assert.equal(L.a.length, 2); assert.equal(L.b.length, 2);
+      L.a.forEach((a, i) => {
+        const b = L.b[i], len = Math.hypot(a[0] - b[0], a[2] - b[2]);
+        assert.ok(len > 8 && len < 40, `legătura ${i}: ${len} mm`);
+        near(a[1], 183, "y cupă"); near(b[1], 183, "y braț");
+        assert.ok(a[2] < 600 && a[2] > 584, "articulația cupei stă între ușă și braț");
+        assert.ok(b[2] < 584, "articulația brațului stă în braț");
+      });
+      /* pe partea balamalei (sd) articulațiile brațului sunt în interiorul corpului, nu în lateral */
+      L.b.forEach(b => assert.ok((b[0] - 19) * sd > 3, "articulația brațului intră în corp"));
+    }
+  });
+});
