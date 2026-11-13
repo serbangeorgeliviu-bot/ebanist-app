@@ -754,8 +754,37 @@ function box(mat, lo, hi, r) {
   m.castShadow = true; m.userData.own = true;
   return m;
 }
+/* piesele conectorului Festool D8 (EBFestoolD8, din STEP-ul oficial): geometrie fără indici, cu normale pe față (aspect plat al fețelor plane), în scena MM.
+   Dacă transformarea e în oglindă (determinant negativ), triunghiurile se întorc, ca fața din față să rămână fața din față. Cache pe piesă și pe semnul determinantului. */
+const D8G = new Map(), D8M = new Map();
+function d8Geom(part, mirror) {
+  const key = part + (mirror ? "m" : "p"); let g = D8G.get(key); if (g) return g;
+  const d = window.EBFestoolD8 && window.EBFestoolD8.parts[part]; if (!d) return null;
+  const pos = new Float32Array(d.t.length * 3), nor = new Float32Array(d.t.length * 3), A = new THREE.Vector3(), B = new THREE.Vector3(), C = new THREE.Vector3(), n = new THREE.Vector3();
+  const vp = (i, V) => V.set(d.v[3 * i] / 100 * MM, d.v[3 * i + 1] / 100 * MM, d.v[3 * i + 2] / 100 * MM);
+  for (let k = 0; k < d.t.length; k += 3) {
+    vp(d.t[k], A); vp(d.t[k + 1], B); vp(d.t[k + 2], C);
+    n.copy(B).sub(A).cross(C.clone().sub(A)).normalize();
+    const tri = mirror ? [A, C, B] : [A, B, C];
+    tri.forEach((P, j) => { pos.set([P.x, P.y, P.z], (k + j) * 3); nor.set([n.x, n.y, n.z], (k + j) * 3); });
+  }
+  g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setAttribute("normal", new THREE.BufferAttribute(nor, 3));
+  D8G.set(key, g); return g;
+}
+function d8Mesh(sh) {
+  const ex = new THREE.Vector3(...sh.ex), ey = new THREE.Vector3(...sh.ey), ez = new THREE.Vector3(...sh.ez);
+  const mirror = ex.clone().cross(ey).dot(ez) < 0, g = d8Geom(sh.part, mirror); if (!g) return new THREE.Group();
+  /* materialul se ia fără normale inversate: fețele au fost orientate mai sus, deci material cu o singură față ar merge, dar DoubleSide acoperă și fețele interioare tăiate */
+  let m = D8M.get(sh.mat); if (!m) { m = materialFor(sh.mat).clone(); m.side = THREE.DoubleSide; D8M.set(sh.mat, m); }
+  const mesh = new THREE.Mesh(g, m);
+  const o = new THREE.Vector3(sh.o[0] * MM, sh.o[1] * MM, sh.o[2] * MM).addScaledVector(ez, (sh.dz || 0) * MM);
+  mesh.matrixAutoUpdate = false; mesh.matrix.makeBasis(ex, ey, ez); mesh.matrix.setPosition(o); mesh.matrixWorldNeedsUpdate = true;
+  mesh.castShadow = true; mesh.userData.own = false;
+  return mesh;
+}
 /* o primitivă din ebanist-hwgeom.js (cyl / box / lathe) */
 function shapeMesh(sh) {
+  if (sh.t === "mesh") return d8Mesh(sh);
   if (sh.t === "cyl") return cyl(sh.mat, sh.a, sh.b, sh.d, sh.ch);
   if (sh.t === "lathe") return lathe(sh.mat, sh.a, sh.b, sh.profile, sh.seg);
   return box(sh.mat, sh.lo, sh.hi, sh.r);

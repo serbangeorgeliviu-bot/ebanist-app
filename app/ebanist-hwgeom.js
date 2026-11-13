@@ -107,6 +107,16 @@
       /* de la capul exterior (y=0) la vârf: cap Ø10,5 × 3,5, tijă Ø7 cu filet pe ultimii 38 mm, vârf conic */
       out.push(lathe("__brass", top, tip, screwProfile({ len: J.head_h + L, shaft: J.through_dia, head: J.head_dia, headH: J.head_h, cone: 2, thread: { pitch: 2.6, from: J.head_h + 12, to: J.head_h + L, depth: 0.7 }, tip: 3 }), J.through_dia, "screw", src));
       var sk = cyl("__flushdark", along(top, h.eAx, h.eSide * 0.03), along(top, h.eAx, -h.eSide * 1.2), 4.4, "socket", src); sk.ch = 0; out.push(sk);   // locașul hexagonal (aici rotund)
+    } else if (h.type === "kv") {
+      /* conector Festool D8: cele cinci piese din STEP-ul oficial (EBFestoolD8), puse în cadrul conectorului: x spre piesa de bază (în E), y pe axa canalului, z spre fața bușonului.
+         Ancora transversală și capacul urmăresc fața lui E: capul la nivelul feței, oricare ar fi grosimea (18–28 mm). */
+      var ax = function (i, sgn) { var v = [0, 0, 0]; v[i] = sgn; return v; };
+      var ex = ax(h.eAx, -h.eSide), ey = ax(h.sAx, 1), ez = ax(h.camAx, h.camSide || 1);
+      var dzFace = (h.T || 19) / 2 - 9.1;
+      var src = ops.map(function (x) { return x.op.id; });
+      [["anchor", "__nylongrey", 0], ["bolt", "__zinc", 0], ["tray", "__nylongrey", 0], ["cross", "__zinc", dzFace], ["cap", "__nylon", dzFace]].forEach(function (q) {
+        out.push({ t: "mesh", part: q[0], mat: q[1], o: w.slice(), ex: ex, ey: ey, ez: ez, dz: q[2], role: q[0], src: src });
+      });
     } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex" || h.type === "tenso" || h.type === "bisco") {
       /* conector în două canale: cel din F (adâncimea lui) și cel din E; lungimea, grosimea și înălțimea elementelor din HW_DRILL.joints
          (familia + varianta din catalog, D-134): fiecare element are cotele lui din broșura producătorului */
@@ -209,5 +219,5 @@
     return map;
   }
 
-  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "reggipiano"] };
+  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "reggipiano"] };
 });

@@ -188,3 +188,30 @@ describe("balamaua CLIP după desenul Blum: braț masiv și gât îndoit (5.48.0
     }
   });
 });
+
+describe("Festool KV/MSV D8: piesele din STEP-ul oficial (D-139)", () => {
+  for (const id of ["fes_kv_d8_50", "fes_msv_d8_25"]) test(`${id}: cinci piese, baza ortonormată, legate de operații`, () => {
+    const o = gen({ ...ARM, hwSel: { conn: id } }, 19), by = G.opsByHw(o.pieces), hs = o.hw.filter(h => h.type === "kv");
+    assert.ok(hs.length > 0);
+    for (const h of hs) {
+      const sh = G.connectorShapes(h, by[h.id], HD, { thickF: 19 });
+      assert.equal(JSON.stringify(sh.map(x => x.part).sort()), JSON.stringify(["anchor", "bolt", "cap", "cross", "tray"]));
+      sh.forEach(x => { assert.equal(x.t, "mesh"); assert.ok(x.src.length > 0, "nu leagă nicio operație");
+        const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+        assert.ok(Math.abs(dot(x.ex, x.ey)) < 1e-9 && Math.abs(dot(x.ex, x.ez)) < 1e-9 && Math.abs(dot(x.ey, x.ez)) < 1e-9, "axe neortogonale");
+        [x.ex, x.ey, x.ez].forEach(v => assert.ok(Math.abs(dot(v, v) - 1) < 1e-9)); });
+      /* ancora transversală și capacul: capul la fața lui E (grosime 19 → +9,5; în STEP capul e la +9,1) */
+      assert.ok(Math.abs(sh.find(x => x.part === "cross").dz - (19 / 2 - 9.1)) < 1e-9);
+      assert.equal(sh.find(x => x.part === "bolt").dz, 0);
+    }
+  });
+  test("datele STEP: cinci piese, indici valizi, cotele din fișier (bolț ~42 lung, tavă 26 × 21,6 × 8,2, ancoră Ø15,2, capac Ø19)", () => {
+    const SD = vm.createContext({}); vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-festool-d8.js"), "utf8"), SD);
+    const P = vm.runInContext("EBFestoolD8", SD).parts;
+    const bb = n => { const v = P[n].v, m = [1e9, 1e9, 1e9], M = [-1e9, -1e9, -1e9]; for (let i = 0; i < v.length; i += 3) for (let k = 0; k < 3; k++) { m[k] = Math.min(m[k], v[i + k] / 100); M[k] = Math.max(M[k], v[i + k] / 100); } return M.map((x, k) => x - m[k]); };
+    for (const n of Object.keys(P)) { const nv = P[n].v.length / 3; assert.ok(P[n].t.every(i => i >= 0 && i < nv), n + ": indice în afara vârfurilor"); assert.equal(P[n].t.length % 3, 0); }
+    const near = (a, b, e, m) => assert.ok(Math.abs(a - b) <= e, `${m}: ${a} ≠ ${b}`);
+    near(bb("bolt")[0], 41.8, 0.3, "bolț"); near(bb("tray")[0], 26, 0.8, "tavă x"); near(bb("tray")[1], 21.6, 0.8, "tavă y"); near(bb("tray")[2], 8.2, 0.6, "tavă z");
+    near(Math.max(bb("cross")[0], bb("cross")[1]), 15.2, 0.4, "ancoră Ø (cea mai mare latură în plan)"); near(bb("cap")[0], 19, 0.3, "capac Ø"); near(bb("anchor")[0], 41.8, 0.6, "ancora despicată (manșonul) pe toată lungimea bolțului");
+  });
+});

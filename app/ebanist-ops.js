@@ -75,6 +75,11 @@ var HW_DRILL = {
                  body: { len: 66, thk: 9.7, h: 13.5 }, note: "Lamello Tenso P-14", verificat: false },
     bisco:     { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello P-System brochure: Bisco P-14 65×27×7",
                  body: { len: 65, thk: 7, h: 13.5 }, note: "Lamello Bisco P-14", verificat: false },
+    /* Festool conectori D8 (D-139): KV D8/50 (colț) și MSV D8/25 (panou central). Date din fișele Festool 203166/203167 (adâncime de frezare în piesa laterală 15 mm,
+       în piesa de bază 28 mm, bușon Ø 15 în piesa de bază, panou 18–28 mm) și din fișierul STEP oficial (ancora transversală la 18,8 mm de muchia piesei de bază,
+       lungimea ei 15,4 mm; capul ei la nivelul feței). Canalele sunt cele ale tenonului D8 (grosime 8, lățime 22). Adâncimea bușonului (15,8) e din STEP, nu din fișă. */
+    kv:        { len: 22, thk: 8, face_depth: 15, edge_depth: 28, bore_dia: 15, bore_depth: 15.8, bore_x: 18.8, end: 50, pitch: 128, t_min: 18, t_max: 28,
+                 src: "Festool 203166 KV D8/50, STEP 2019-05-20", note: "Festool KV D8/50", verificat: false },
     variants: {
       /* Festool DOMINO (D-138): tenoane din manualul Festool (grosime × lungime; codurile din lista de piese a manualului) și din fișele de produs
          (lățimea: 4 → 17, 5 → 18,8, 8 → 22, 10 → 23,9, XL 14 → 27,9 mm; celelalte lățimi sunt interpolate: `verificat:false`). Canalul are lățimea
@@ -83,6 +88,8 @@ var HW_DRILL = {
       /* lamele clasice Lamello (cotele publice: #0 47×15, #10 53×19, #20 56×23, grosime 4); adâncimea canalului = jumătate din lățimea lamelei + 1 mm, ca la #20 */
       lam_biscuit_0:      { len: 47, thk: 4, depth: 8.5, depth_face: 8.5, body: { len: 47, thk: 4 }, note: "Lamello #0", verificat: false },
       lam_biscuit_10:     { len: 53, thk: 4, depth: 10.5, depth_face: 10.5, body: { len: 53, thk: 4 }, note: "Lamello #10", verificat: false },
+      fes_kv_d8_50:       { note: "Festool KV D8/50" },
+      fes_msv_d8_25:      { note: "Festool MSV D8/25" },
       fes_domino_4x20:    { len: 17,   thk: 4,  tenon_len: 20,  body: { len: 17,   thk: 4 },  note: "Festool Domino 4×20", verificat: false },
       fes_domino_5x30:    { len: 18.8, thk: 5,  tenon_len: 30,  body: { len: 18.8, thk: 5 },  note: "Festool Domino 5×30" },
       fes_domino_6x40:    { len: 20,   thk: 6,  tenon_len: 40,  body: { len: 20,   thk: 6 },  note: "Festool Domino 6×40", verificat: false },
@@ -151,6 +158,7 @@ var HW_DRILL = {
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
 var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
                     gen_dowel: "dowel", gen_biscuit: "biscuit", lam_biscuit_0: "biscuit", lam_biscuit_10: "biscuit", fes_domino: "domino", lam_clamex: "clamex",
+                    fes_kv_d8_50: "kv", fes_msv_d8_25: "kv",
                     fes_domino_4x20: "domino", fes_domino_5x30: "domino", fes_domino_6x40: "domino", fes_domino_8x50: "domino", fes_domino_10x50: "domino",
                     fes_domino_xl_8x80: "domino", fes_domino_xl_10x80: "domino", fes_domino_xl_12x100: "domino", fes_domino_xl_14x100: "domino", fes_domino_xl_14x140: "domino",
                     lam_clamex_p10: "clamex", lam_clamex_medius: "clamex", lam_clamex_flexus: "clamex", lam_clamex_cnc: "clamex",
@@ -471,6 +479,16 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       hole(F, eAx, -eSide, p.slice(), J.dia, J.face_depth, id, "tassello");
       hole(E, eAx, eSide, p.slice(), J.dia, J.len - J.face_depth, id, "tassello");
       out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
+    } else if (kind === "kv") {
+      /* conector Festool D8: canal de tenon D8 în fața lui F (15 mm), canal în muchia lui E (28 mm) și bușon Ø 15 în fața lui E, la bore_x de muchie (D-139) */
+      var T = E.T || 19;
+      if (T < J.t_min - 0.01 || T > J.t_max + 0.01) out.warnings.push({ piece: E.pk, k: "opsKvThick" });
+      slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, J.face_depth, id, "canal domino");
+      slot(E, eAx, eSide, p.slice(), sAx, J.len, J.thk, J.edge_depth, id, "canal domino");
+      var bp = p.slice(); bp[eAx] = edge - eSide * J.bore_x; bp[camAx] = E.min[camAx];      // fața lui E cu valoare mică pe axa grosimii
+      hole(E, camAx, -1, bp, J.bore_dia, J.bore_depth, id, "foro connettore");
+      out.hw.push({ id: id, type: "kv", catalog: out.jointId || "fes_kv_d8_50", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx, camSide: -1, T: T,
+                    note: J.note });
     } else {
       var nm = { biscuit: "lamella", clamex: "clamex", tenso: "tenso", bisco: "bisco" }[kind] || "domino";
       var cat = kind === "biscuit" ? (out.jointId || "gen_biscuit") : kind === "domino" ? (out.jointId || "fes_domino") : (out.jointId || "lam_clamex");
