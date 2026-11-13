@@ -104,3 +104,21 @@ test("lamele clasice Lamello #0 și #10: lungimea canalului = lamela, adâncime 
     assert.ok(o.hw.filter(h => h.type === "biscuit").every(h => h.catalog === id));
   }
 });
+
+/* Festool conectori D8 (D-139): KV D8/50 și MSV D8/25 — 15 mm în fața lui F, 28 mm în muchia lui E, bușon Ø 15 în fața lui E la 18,8 mm de muchie */
+for (const id of ["fes_kv_d8_50", "fes_msv_d8_25"]) {
+  test(`${id}: canale 15/28, bușon Ø15, hw „kv” cu articolul din catalog`, () => {
+    const o = gen(id);
+    assert.equal(o.joint, "kv"); assert.equal(o.jointId, id);
+    const hws = o.hw.filter(h => h.type === "kv"); assert.ok(hws.length > 0 && hws.every(h => h.catalog === id));
+    for (const h of hws) {
+      const all = ops(o).filter(x => x.hw === h.id), sl = all.filter(x => x.type === "slot"), dr = all.filter(x => x.type === "drill");
+      assert.equal(sl.length, 2); assert.deepEqual(sl.map(x => x.depth).sort((a, b) => a - b), [15, 28]);
+      sl.forEach(x => { assert.equal(x.len, 22); assert.equal(x.thk, 8); });
+      assert.equal(dr.length, 1); assert.equal(dr[0].dia, 15); assert.equal(dr[0].depth, 15.8);
+      assert.equal(dr[0].note, "foro connettore");
+      /* bușonul stă la 18,8 mm de muchia lui E, pe axa muchiei */
+      const edge = h.w[h.eAx]; assert.ok(Math.abs(Math.abs(dr[0]._w[h.eAx] - edge) - 18.8) < 0.11, `distanța ${Math.abs(dr[0]._w[h.eAx] - edge)}`);
+    }
+  });
+}
