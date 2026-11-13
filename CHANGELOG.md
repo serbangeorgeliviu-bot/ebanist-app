@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.48.0 — 13 noiembrie 2026
+
+**Balamaua din 3D refăcută după desenul și fotografia din broșura Blum (CLIP top BLUMOTION 110°).** Versiunea 5.46.0 desena benzi subțiri între ușă și lateral, ceea ce nu seamănă cu balamaua adevărată. Acum: brațul e un **corp masiv, lat de 21 mm, lung de 66,5 mm măsurat de la fața ușii** (cota din desenul Blum), mai gros spre ușă și îngustat spre capăt, cu muchii rotunjite, cu fanta capacului și șuruburile de reglaj; între cupă și braț e **un gât îndoit gros** (17 mm pe înălțime), nu două benzi; flanșa din ușă rămâne plăcuța rotunjită cu guler, iar placa de montaj are nervură și șuruburi în cruce. Cotele de găurire, distinta, devizul și fișa de montaj nu s-au schimbat. Rămâne o simplificare: ușa se rotește în jurul muchiei ei, nu după cinematica reală a patrulaterului din balama, deci gâtul se întinde când ușa e deschisă larg.
+
 ## 5.47.0 — 13 noiembrie 2026
 
 **Familia Lamello P-System în catalog, în găurire și în 3D (D-134).** Nou în Constructor → Feronerie corp → Îmbinare: **Clamex P-10, Clamex P-14/10 Medius, Clamex P-14/10 Flexus, Clamex P-14 CNC, Tenso P-14, Tenso P-10, Bisco P-14, Bisco P-10** (Clamex P-14 rămâne, cu codul 145334). Cotele vin din broșura oficială Lamello P-System: elementele (ex. 64 × 13,5 × 9,7 și 52 × 7,5 × 9,7 la Medius și Flexus), grosimea minimă a panoului și adâncimea canalului (14 sau 10 mm). Canalul se frezează cu aceeași freză Ø 100,4 × 7 × Ø 22; lungimea lui e coarda frezei la adâncimea aleasă (69,6 mm la 14, 60,1 mm la 10), pe față și pe muchie cu adâncimi diferite la Medius și Flexus. În 3D, fiecare element are cotele lui; Clamex are pârghie, Tenso are arc, Bisco e o piesă. Devizul numără pe articol (cu cod unde îl știm). Poziția canalelor pe piesă (distanța de la capăt, pasul) nu e din broșură: `verificat:false`. Nu s-a schimbat nimic la proiectele care folosesc alte îmbinări. Nu sunt încă: Divario P-18, LC P-16, Cabineo, Invis, lamelele clasice 0/10/20 (în lucru), Festool.

@@ -168,24 +168,22 @@
   }
 
 
-  /* Brațul balamalei Blum CLIP top, ca tablă îndoită în U (fișa 71B3590, forma neverificată pe piesă).
-     Profilul e în planul (z, xo): xo = distanța de la fața lateralului. `outer` = pereții laterali (două plăci subțiri),
-     `skin` = capacul de sus (bandă de grosime `t`). Fără THREE: viewer3d.js le extrudează. */
+  /* Brațul balamalei Blum CLIP top BLUMOTION 110°, după desenul din broșura Blum (p. 4): corp masiv lung de 66,5 mm măsurat de la fața
+     ușii (deci 50,5 mm de la începutul brațului), mai gros spre ușă și îngustat spre capăt, lat de 21 mm. Profilul e în planul (z, xo):
+     xo = distanța de la fața lateralului. Fără THREE: viewer3d.js îl extrudează pe lățime. Forma exactă a brațului nu e în desen. */
   function hingeArm(zNear, inset, t) {
-    t = t == null ? 1.3 : t;
-    var top = inset ? 27 : 23, zFar = zNear - 56;
-    var up = [[zNear, top - 3], [zNear - 3, top], [zFar + 18, 16], [zFar, 13]];
+    var top = inset ? 27 : 23, zFar = zNear - 50.5;
+    var up = [[zNear, top - 3], [zNear - 3, top], [zFar + 16, 15.5], [zFar, 13]];
     var outer = [[zFar, 3], [zNear, 3]].concat(up);
-    var skin = up.concat(up.slice().reverse().map(function (q) { return [q[0], q[1] - t]; }));
-    return { outer: outer, skin: skin, zFar: zFar, t: t };
+    var skin = up.concat(up.slice().reverse().map(function (q) { return [q[0], q[1] - (t == null ? 1.3 : t)]; }));
+    return { outer: outer, skin: skin, zFar: zFar, width: 21, t: t == null ? 1.3 : t };
   }
 
-  /* Cele patru articulații ale patrulaterului balamalei (două legături). a = pe cupa din ușă (se rotește cu ea),
-     b = pe braț (rămân pe lateral). xo(d) = fața lateralului + sd·d. Coordonatele în mm, ca restul. */
+  /* Gâtul îndoit dintre cupă (în ușă) și braț: o singură piesă groasă (17 mm pe înălțime, 5 mm în plan), cu articulația a pe cupă (se rotește cu ea) și b
+     pe braț (rămâne pe lateral). xo(d) = fața lateralului + sd·d. Coordonatele în mm. */
   function hingeLinks(w, sd, zNear, p0, z0) {
     var y = w[1], xo = function (d) { return p0 + sd * d; };
-    return { a: [[w[0] - sd * 2, y, z0 - 5], [w[0] + sd * 6, y, z0 - 10]],
-             b: [[xo(14), y, zNear - 1], [xo(10), y, zNear - 9]], h: 9.5, th: 1.6 };
+    return { a: [[w[0] + sd * 0.5, y, z0 - 11]], b: [[xo(14), y, zNear - 2]], h: 17, th: 5 };
   }
 
   /* șuruburile glisierei: câte unul în fiecare gaură «guida cassetto» din fișa piesei (poziții din fișele Blum, Ø și adâncime din operație).

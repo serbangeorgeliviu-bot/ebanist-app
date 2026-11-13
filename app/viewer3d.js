@@ -914,41 +914,31 @@ function buildHardware(model) {
           A.hw.add(tag(box("__blackmetal", [xo(4.3), sy - 0.5, zp + 13 - 2.4], [xo(4.7), sy + 0.5, zp + 13 + 2.4], 0.1)));
           A.hw.add(tag(box("__blackmetal", [xo(4.3), sy - 2.4, zp + 13 - 0.5], [xo(4.7), sy + 2.4, zp + 13 + 0.5], 0.1)));
         });
-        /* — brațul: tablă îndoită în U (pereți laterali + capac), mai înalt spre ușă — */
+        /* — brațul după desenul Blum (CLIP top BLUMOTION 110°, broșura Blum, p. 4): corp lung de 66,5 mm de la fața ușii, masiv,
+           cu muchii rotunjite, ușor îngustat spre capăt (nu tablă subțire), așezat pe placă — */
         const zNear = z0 - 16, AR = EBHwGeom.hingeArm(zNear, inset, 1.3);
         const armM = [[0, sd, 0, p[0]], [0, 0, 1, p[1]], [1, 0, 0, 0]];
-        [-1, 1].forEach(k => A.hw.add(tag(extrudeMesh(HM, polyShape(AR.outer), 1.2, armM, 0.2, k * 11 - (k > 0 ? 1.2 : 0)))));
-        A.hw.add(tag(extrudeMesh(HM, polyShape(AR.skin), 22, armM, 0.2, -11)));
-        /* amortizor BLUMOTION: cilindru negru pe braț, cu capac */
-        if (damper) {
-          A.hw.add(tag(cyl("__blackmetal", [xo(4.2), p[1], zNear - 14], [xo(11.5), p[1], zNear - 14], 9.5, 1)));
-          A.hw.add(tag(box("__blackmetal", [xo(4.2), p[1] - 4.5, zNear - 22], [xo(11), p[1] + 4.5, zNear - 6], 1.2)));
-        }
-        /* șuruburile de reglaj ale brațului (adâncime și lateral) */
+        A.hw.add(tag(extrudeMesh(HM, polyShape(AR.outer), AR.width, armM, 1.8, -AR.width / 2)));
+        /* fanta capacului de pe partea de sus, spre capătul brațului (clema de prindere pe placă) */
         const zFar = AR.zFar;
-        [[zFar + 9, 13.2], [zFar + 31, 18]].forEach(([zz, hh]) => {
+        A.hw.add(tag(box("__blackmetal", [xo(12.6), p[1] - 6.5, zFar + 6], [xo(13.4), p[1] + 6.5, zFar + 22], 0.2)));
+        /* șuruburile de reglaj ale brațului (adâncime și lateral) */
+        [[zFar + 28, 15.2], [zFar + 40, 19]].forEach(([zz, hh]) => {
           A.hw.add(tag(cyl("__inox", [xo(hh), p[1], zz], [xo(hh + 1.6), p[1], zz], 7.5)));
           A.hw.add(tag(box("__blackmetal", [xo(hh + 1.6), p[1] - 0.6, zz - 2.8], [xo(hh + 1.9), p[1] + 0.6, zz + 2.8])));
           A.hw.add(tag(box("__blackmetal", [xo(hh + 1.6), p[1] - 2.8, zz - 0.6], [xo(hh + 1.9), p[1] + 2.8, zz + 0.6])));
         });
-        A.hw.add(tag(box("__blackmetal", [xo(12), p[1] - 3, zFar + 16], [xo(17.6), p[1] + 3, zFar + 26])));  // fanta de reglaj
-        /* — patrulaterul articulat: două legături între cupă (în ușă) și braț. Capătul din ușă se mișcă odată cu ușa,
-           cel din braț rămâne pe lateral: fiecare legătură se recalculează la fiecare cadru (updateLinks) — */
+        /* — gâtul îndoit dintre cupă și braț (în fotografia Blum: o piesă groasă, nu două benzi): partea de pe cupă se mișcă cu ușa,
+           legătura până la braț se recalculează la fiecare cadru (updateLinks) — */
         const LK = EBHwGeom.hingeLinks(w, sd, zNear, p[0], z0);
-        /* corpul cupei: două obraji și un perete, între care stau legăturile */
-        P.hw.add(tag(box(HM, [w[0] - sd * 8, y - 7.4, z0 - 12.5], [w[0] + sd * 12, y - 5.6, z0 - 1.6], 0.6)));
-        P.hw.add(tag(box(HM, [w[0] - sd * 8, y + 5.6, z0 - 12.5], [w[0] + sd * 12, y + 7.4, z0 - 1.6], 0.6)));
-        P.hw.add(tag(box(HM, [w[0] - sd * 8, y - 7.4, z0 - 3.2], [w[0] - sd * 6, y + 7.4, z0 - 1.6], 0.4)));
+        P.hw.add(tag(box(HM, [w[0] - sd * 7, y - LK.h / 2, z0 - 13.5], [w[0] + sd * 8, y + LK.h / 2, z0 - 1.6], 2)));
         if (!R.linkG) { R.linkG = new THREE.Group(); R.root.add(R.linkG); }
         LK.a.forEach((a, i) => {
           const b = LK.b[i], lk = new THREE.Mesh(UNIT, materialFor(HM));
           lk.castShadow = true; tag(lk); lk.userData.own = true; R.linkG.add(lk);
-          const ends = [a, b].map((pt, j) => { const r = cyl("__inox", [0, -(LK.h / 2 + 1.4), 0], [0, LK.h / 2 + 1.4, 0], 4.6, 0.8); tag(r); r.userData.own = true; R.linkG.add(r); return r; });
+          const ends = [a, b].map(() => { const r = cyl("__inox", [0, 0, 0], [0, LK.h + 2, 0], 5.6, 0.8); tag(r); r.userData.own = true; R.linkG.add(r); return r; });
           R.links.push({ m: lk, P, A, a, b, rel: lk.userData.rel, th: LK.th, hh: LK.h, ends });
         });
-        /* nituri pe obrajii cupei (vizibile și când legăturile se mișcă) */
-        LK.a.forEach(a => P.hw.add(tag(cyl("__inox", [a[0], y - 8.2, a[2]], [a[0], y + 8.2, a[2]], 4.2, 0.5))));
-        LK.b.forEach(b => A.hw.add(tag(cyl("__inox", [b[0], p[1] - 11.7, b[2]], [b[0], p[1] + 11.7, b[2]], 4.2, 0.5))));
       } else {
         P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
       }
@@ -1284,7 +1274,7 @@ function updateLinks() {
     const len = Math.max(VLA.distanceTo(VLB), 1e-5);
     L.m.position.copy(VLA).add(VLB).multiplyScalar(0.5);
     L.m.scale.set((L.th || 3.2) * MM, (L.hh || 17) * MM, len);    L.m.rotation.set(0, Math.atan2(VLB.x - VLA.x, VLB.z - VLA.z), 0);
-    if (L.ends) { const dy = ((L.hh || 17) / 2 + 1.4) * MM; L.ends[0].position.set(VLA.x, VLA.y - dy, VLA.z); L.ends[1].position.set(VLB.x, VLB.y - dy, VLB.z); }
+    if (L.ends) { const dy = ((L.hh || 17) / 2 + 1) * MM; L.ends[0].position.set(VLA.x, VLA.y - dy, VLA.z); L.ends[1].position.set(VLB.x, VLB.y - dy, VLB.z); }
   }
 }
 
