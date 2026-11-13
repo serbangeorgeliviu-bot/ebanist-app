@@ -77,3 +77,30 @@ for (const [id, [fam, dE, dF, note]] of Object.entries(LAM)) {
     assert.ok(slots.some(x => x.depth === dE) && slots.some(x => x.depth === dF), "ambele adâncimi (muchie și față) apar");
   });
 }
+
+/* Festool DOMINO (D-138): canalul are lățimea și grosimea tenonului, adâncimea totală = lungimea lui, în fața lui F cel mult grosimea ei − 4 */
+const DOM = { fes_domino: [22, 8, 40], fes_domino_4x20: [17, 4, 20], fes_domino_5x30: [18.8, 5, 30], fes_domino_6x40: [20, 6, 40], fes_domino_8x50: [22, 8, 50], fes_domino_10x50: [23.9, 10, 50],
+  fes_domino_xl_8x80: [22, 8, 80], fes_domino_xl_10x80: [23.9, 10, 80], fes_domino_xl_12x100: [26, 12, 100], fes_domino_xl_14x100: [27.9, 14, 100], fes_domino_xl_14x140: [27.9, 14, 140] };
+for (const [id, [wd, th, ln]] of Object.entries(DOM)) {
+  test(`DOMINO · ${id}: canal ${wd} × ${th}, adâncime totală ${ln}`, () => {
+    const o = gen(id), slots = ops(o).filter(x => x.type === "slot");
+    assert.equal(o.joint, "domino"); assert.ok(slots.length > 0);
+    const hws = o.hw.filter(h => h.type === "domino"); assert.ok(hws.length > 0 && hws.every(h => h.catalog === id));
+    for (const h of hws) {
+      const sl = slots.filter(x => x.hw === h.id), tot = sl.reduce((q, x) => q + x.depth, 0);
+      assert.equal(sl.length, 2, "un canal în fiecare piesă");
+      sl.forEach(x => { assert.ok(Math.abs(x.len - wd) < 0.11, `lățime ${x.len}`); assert.ok(Math.abs(x.thk - th) < 0.01, `grosime ${x.thk}`); });
+      assert.ok(Math.abs(tot - ln) < 0.11, `adâncime totală ${tot} ≠ ${ln}`);
+      assert.ok(sl.every(x => x.depth <= ln - 8 + 0.01), "ambele părți au cel puțin 8 mm");
+    }
+  });
+}
+
+test("lamele clasice Lamello #0 și #10: lungimea canalului = lamela, adâncime din lățime", () => {
+  for (const [id, len, d] of [["lam_biscuit_0", 47, 8.5], ["lam_biscuit_10", 53, 10.5]]) {
+    const o = gen(id), slots = ops(o).filter(x => x.type === "slot");
+    assert.equal(o.joint, "biscuit"); assert.ok(slots.length > 0);
+    slots.forEach(x => { assert.equal(x.len, len); assert.equal(x.depth, d); });
+    assert.ok(o.hw.filter(h => h.type === "biscuit").every(h => h.catalog === id));
+  }
+});

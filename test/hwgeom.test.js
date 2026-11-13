@@ -31,7 +31,7 @@ const CFG = {
   "libreria": { ...ARM, L: 1200, H: 1800, P: 350, doors: 0, shelfType: "fisso" },
   "bagno con gradino": { ...ARM, L: 800, H: 850, P: 460, plinth: 100, tram: 0, shelves: 1, stepH: 300, stepP: 80 }
 };
-const KINDS = { minifix: "haf_minifix", confirmat: "gen_confirmat", dowel: "gen_dowel", biscuit: "gen_biscuit", domino: "fes_domino", clamex: "lam_clamex", clamex_p10: "lam_clamex_p10", clamex_medius: "lam_clamex_medius", clamex_flexus: "lam_clamex_flexus", clamex_cnc: "lam_clamex_cnc", tenso_p14: "lam_tenso_p14", tenso_p10: "lam_tenso_p10", bisco_p14: "lam_bisco_p14", bisco_p10: "lam_bisco_p10" };
+const KINDS = { minifix: "haf_minifix", confirmat: "gen_confirmat", dowel: "gen_dowel", biscuit: "gen_biscuit", domino: "fes_domino", clamex: "lam_clamex", clamex_p10: "lam_clamex_p10", clamex_medius: "lam_clamex_medius", clamex_flexus: "lam_clamex_flexus", clamex_cnc: "lam_clamex_cnc", tenso_p14: "lam_tenso_p14", tenso_p10: "lam_tenso_p10", bisco_p14: "lam_bisco_p14", bisco_p10: "lam_bisco_p10", dom5: "fes_domino_5x30", dom10: "fes_domino_10x50", domxl: "fes_domino_xl_14x100" };
 const len = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 const near = (a, b, m) => assert.ok(Math.abs(a - b) < 0.05, `${m}: ${a} ≠ ${b}`);
 
@@ -85,7 +85,7 @@ describe("conectori: 3D = operațiile din fișa piesei", () => {
             near(dim(f, h.eAx) + dim(e, h.eAx), (bF.h || K.depth_face) + (bE.h || K.depth) , "înălțimea celor două elemente (broșura: ex. 13,5 + 13,5 = 27)");
           } else {
             bs.forEach(b => { near(dim(b, h.sAx), K.body.len, "lungimea corpului"); near(dim(b, h.camAx), K.body.thk, "grosimea corpului"); });
-            near(bs.reduce((q, b) => q + dim(b, h.eAx), 0), K.depth + K.depth_face, "adâncimea totală (canal F + canal E)");
+            near(bs.reduce((q, b) => q + dim(b, h.eAx), 0), K.tenon_len || (K.depth + K.depth_face), "adâncimea totală (canal F + canal E) = lungimea tenonului");
           }
           assert.equal(bs.length, two ? 2 : 1, "Clamex și Tenso = două elemente, restul o singură piesă");
           assert.ok(Math.max(bE.len, bF.len) <= Math.max(K.len, K.len_face || 0) && Math.max(bE.thk, bF.thk) <= K.thk, "elementul trebuie să încapă în canal");

@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.53.0 — 13 noiembrie 2026
+
+**Festool DOMINO în catalog, în găurire și în 3D (D-138), plus lamelele clasice Lamello.** Nou în Îmbinare: tenoane **DOMINO** 4×20, 5×30, 6×40, 8×50, 10×50 (DF 500) și **DOMINO XL** 8×80, 10×80, 12×100, 14×100, 14×140 (DF 700), lângă 8×40 care exista; lamelele **Lamello #0 și #10** lângă #20. Codurile sunt din lista de piese a manualului Festool (494938–494942, 498212–498219). Canalul are lățimea și grosimea tenonului (diametrul frezei); adâncimea totală e lungimea tenonului, iar în fața piesei F intră cel mult grosimea ei minus 4 mm (la 8×40 în 19 mm: 15 + 25, ca înainte; la XL, restul în muchie). În 3D, tenonul e un oval plat cu capetele late rotunjite, la cotele lui. **Lățimile** vin din fișele Festool pentru 5 (18,8), 10 (23,9) și XL 14 (27,9 mm); la 4, 6, 8 XL și 12 XL sunt interpolate, la fel adâncimile lamelelor #0/#10 (`verificat:false`). Prețurile noi sunt 0. Nu sunt încă: conectorii Festool (colț, plat, KV D8, MSV D8): dimensiunile pieselor lor nu sunt într-o sursă citibilă.
+
 ## 5.52.0 — 13 noiembrie 2026
 
 **Glisierele laterale cu bile (Blum 230M, Häfele) în 3D, în trei piese.** Șina corpului, șina intermediară (merge cu jumătate din cursa sertarului), șina sertarului, cu rânduri de bile între ele și găuri ovale pe șina sertarului. Numai desen; nimic din găurire, distinctă, deviz sau fișa de montaj nu s-a schimbat. Rămâne: profilul exact C al șinelor, TIP-ON.

@@ -76,6 +76,23 @@ var HW_DRILL = {
     bisco:     { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello P-System brochure: Bisco P-14 65×27×7",
                  body: { len: 65, thk: 7, h: 13.5 }, note: "Lamello Bisco P-14", verificat: false },
     variants: {
+      /* Festool DOMINO (D-138): tenoane din manualul Festool (grosime × lungime; codurile din lista de piese a manualului) și din fișele de produs
+         (lățimea: 4 → 17, 5 → 18,8, 8 → 22, 10 → 23,9, XL 14 → 27,9 mm; celelalte lățimi sunt interpolate: `verificat:false`). Canalul are lățimea
+         tenonului (setarea „strâns”) și grosimea tenonului (diametrul frezei); adâncimea totală = lungimea tenonului, cu cât intră în fața piesei F limitat
+         la grosimea ei minus 4 mm (la 8×40 în 19 mm: 15 + 25, ca până acum). */
+      /* lamele clasice Lamello (cotele publice: #0 47×15, #10 53×19, #20 56×23, grosime 4); adâncimea canalului = jumătate din lățimea lamelei + 1 mm, ca la #20 */
+      lam_biscuit_0:      { len: 47, thk: 4, depth: 8.5, depth_face: 8.5, body: { len: 47, thk: 4 }, note: "Lamello #0", verificat: false },
+      lam_biscuit_10:     { len: 53, thk: 4, depth: 10.5, depth_face: 10.5, body: { len: 53, thk: 4 }, note: "Lamello #10", verificat: false },
+      fes_domino_4x20:    { len: 17,   thk: 4,  tenon_len: 20,  body: { len: 17,   thk: 4 },  note: "Festool Domino 4×20", verificat: false },
+      fes_domino_5x30:    { len: 18.8, thk: 5,  tenon_len: 30,  body: { len: 18.8, thk: 5 },  note: "Festool Domino 5×30" },
+      fes_domino_6x40:    { len: 20,   thk: 6,  tenon_len: 40,  body: { len: 20,   thk: 6 },  note: "Festool Domino 6×40", verificat: false },
+      fes_domino_8x50:    { len: 22,   thk: 8,  tenon_len: 50,  body: { len: 22,   thk: 8 },  note: "Festool Domino 8×50" },
+      fes_domino_10x50:   { len: 23.9, thk: 10, tenon_len: 50,  body: { len: 23.9, thk: 10 }, note: "Festool Domino 10×50" },
+      fes_domino_xl_8x80:   { len: 22,   thk: 8,  tenon_len: 80,  body: { len: 22,   thk: 8 },  note: "Festool Domino XL 8×80", verificat: false },
+      fes_domino_xl_10x80:  { len: 23.9, thk: 10, tenon_len: 80,  body: { len: 23.9, thk: 10 }, note: "Festool Domino XL 10×80" },
+      fes_domino_xl_12x100: { len: 26,   thk: 12, tenon_len: 100, body: { len: 26,   thk: 12 }, note: "Festool Domino XL 12×100", verificat: false },
+      fes_domino_xl_14x100: { len: 27.9, thk: 14, tenon_len: 100, body: { len: 27.9, thk: 14 }, note: "Festool Domino XL 14×100" },
+      fes_domino_xl_14x140: { len: 27.9, thk: 14, tenon_len: 140, body: { len: 27.9, thk: 14 }, note: "Festool Domino XL 14×140" },
       lam_clamex:         { note: "Lamello Clamex P-14", body: { len: 64, thk: 9.7, h: 13.5 } },
       lam_clamex_p10:     { len: 60.1, depth: 10, depth_face: 10, end: 40, src: "Lamello P-System brochure: Clamex P-10 52×19×9.7", note: "Lamello Clamex P-10",
                             body: { len: 52, thk: 9.7, h: 9.5 }, verificat: false },
@@ -133,7 +150,9 @@ var HW_DRILL = {
 /* tipul de imbinare al corpului: din articolul `conn` ales pe corp (cfg.hwSel.conn),
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
 var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
-                    gen_dowel: "dowel", gen_biscuit: "biscuit", fes_domino: "domino", lam_clamex: "clamex",
+                    gen_dowel: "dowel", gen_biscuit: "biscuit", lam_biscuit_0: "biscuit", lam_biscuit_10: "biscuit", fes_domino: "domino", lam_clamex: "clamex",
+                    fes_domino_4x20: "domino", fes_domino_5x30: "domino", fes_domino_6x40: "domino", fes_domino_8x50: "domino", fes_domino_10x50: "domino",
+                    fes_domino_xl_8x80: "domino", fes_domino_xl_10x80: "domino", fes_domino_xl_12x100: "domino", fes_domino_xl_14x100: "domino", fes_domino_xl_14x140: "domino",
                     lam_clamex_p10: "clamex", lam_clamex_medius: "clamex", lam_clamex_flexus: "clamex", lam_clamex_cnc: "clamex",
                     lam_tenso_p14: "tenso", lam_tenso_p10: "tenso", lam_bisco_p14: "bisco", lam_bisco_p10: "bisco" };
 /* datele unei îmbinări, cu varianta ei (după articolul din catalog) peste cele ale familiei */
@@ -435,6 +454,10 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
    muchia pe fata lui F), alt fel de legatura. Pozitia pe grosimea lui E: la mijloc. */
 function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
   var J = jointData(kind, out.jointId), edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
+  if (J.tenon_len) {   /* tenon cu lungime dată: în fața piesei F intră cel mult grosimea ei minus 4 mm (și cel mult jumătate), restul în muchia lui E */
+    var df = Math.min(J.tenon_len / 2, Math.max(8, Math.floor((F.T || 19) - 4)));
+    J = Object.assign({}, J, { depth_face: df, depth: J.tenon_len - df });
+  }
   var mid = (E.min[camAx] + E.max[camAx]) / 2;
   var pos = kind === "confirmat" ? jointPositions2(lo, hi, J.end, J.mid_over) : evenPositions(lo, hi, J.end, J.pitch, kind === "dowel" ? 30 : Math.max(J.len, J.len_face || 0));
   pos.forEach(function (s) {
@@ -450,7 +473,7 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
     } else {
       var nm = { biscuit: "lamella", clamex: "clamex", tenso: "tenso", bisco: "bisco" }[kind] || "domino";
-      var cat = kind === "biscuit" ? "gen_biscuit" : kind === "domino" ? "fes_domino" : (out.jointId || "lam_clamex");
+      var cat = kind === "biscuit" ? (out.jointId || "gen_biscuit") : kind === "domino" ? (out.jointId || "fes_domino") : (out.jointId || "lam_clamex");
       slot(F, eAx, -eSide, p.slice(), sAx, J.len_face || J.len, J.thk, J.depth_face, id, "canal " + nm);
       slot(E, eAx, eSide, p.slice(), sAx, J.len, J.thk, J.depth, id, "canal " + nm);
       out.hw.push({ id: id, type: kind, catalog: cat, piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx,
