@@ -2080,9 +2080,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       closeSheets(); clientOpen(); await w(100); o.client = pro() && document.getElementById("clientMode").hidden; closeSheets();
       setView("build"); await w(300);
       const M = window.GL3D && GL3D.model && GL3D.model();
-      if (M && M.ops) { openPartSheet(M, M.ops.pieces[0]); await w(100); o.fisa = pro(); closeSheets(); } else o.fisa = true;
+      if (M && M.ops) { openPartSheet(M, M.ops.pieces[0]); await w(100); o.fisa = !pro(); closeSheets(); } else o.fisa = true;   /* D-131: fișa piesei se vede gratuit; Pro e la export */
       document.getElementById("btnShare").click(); await w(100); o.csv = pro(); closeSheets();
-      document.getElementById("btnRoom").click(); await w(100); o.camera = pro() && document.getElementById("roomView").style.display !== "flex"; closeSheets();
+      document.getElementById("btnRoom").click(); await w(100); o.camera = !pro(); closeSheets();   /* D-131: „În camera ta” se vede gratuit */
       // Pro: se vede tot
       licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
       setView("nest"); await w(300);
@@ -2099,9 +2099,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("gratuit: planurile de tăiere nu, în locul lor oferta Pro", z.nestFaraPlan === true);
     ok("gratuit: nici ordinea tăierilor", z.nestFaraOrdine === true);
     ok("gratuit: modul Client → ecranul Pro", z.client === true);
-    ok("gratuit: fișa piesei cu găuri → ecranul Pro", z.fisa === true);
+    ok("gratuit: fișa piesei cu găuri se vede, fără ecranul Pro (D-131)", z.fisa === true);
     ok("gratuit: CSV → ecranul Pro", z.csv === true);
-    ok("gratuit: „În camera ta” → ecranul Pro", z.camera === true);
+    ok("gratuit: „În camera ta” se vede, fără ecranul Pro (D-131)", z.camera === true);
     ok("Pro: planurile de tăiere și ordinea lor", z.nestPro === true);
     ok("Pro: modul Client se deschide", z.clientPro === true);
     ok("nessun errore JS", zerr.length === 0, zerr.join(" | ").slice(0, 200));
@@ -2454,7 +2454,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.faraLemon = !body.querySelector("#proBuyM") && !body.querySelector("#proBuyY") && !/lemonsqueezy|buy\.stripe\.com/i.test(body.innerHTML);
       o.faraRambursare = !body.querySelector('a[href="/rambursare.html"]');
       o.conditii = body.textContent.length > 0 && !!body.querySelector("[data-play=monthly]");
-      o.textAvans = PLAY_PREPAID ? (/fără reînnoire automată|senza rinnovo|no automatic renewal|sans renouvellement/.test(body.textContent) && !/reînnoire automată prin|rinnovo automatico tramite|Auto-renewing|renouvellement automatique via/.test(body.textContent)) : true;
+      o.textAvans = (typeof playAuto === "function" ? !playAuto() : false) ? (/fără reînnoire automată|senza rinnovo|no automatic renewal|sans renouvellement/.test(body.textContent) && !/reînnoire automată prin|rinnovo automatico tramite|Auto-renewing|renouvellement automatique via/.test(body.textContent)) : true;
       body.querySelector("[data-play=yearly]").click(); await w(900);
       o.cumparat = __calls.includes("buy:yearly");
       o.pro = isPro() && LIC && LIC.kind === "play" && LIC.key === "tok-1";
@@ -3014,7 +3014,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       kbApply(kbInset(800, 480, 0)); o.kbOn = document.body.classList.contains("kb-open") && getComputedStyle(document.documentElement).getPropertyValue("--kb").trim() === "320px";
       kbApply(kbInset(800, 790, 0)); o.kbOff = !document.body.classList.contains("kb-open");
       return o; });
-    ok("Uși: se deschid sub pantă (ambele axe) și pe aripa corpului de colț", ee.slopeDoors.length === 2 && ee.slopeDoors.every(Boolean) && ee.cornerDoors.length >= 2 && ee.cornerDoors.every(Boolean), JSON.stringify(ee));
+    ok("Uși: se deschid sub pantă (ambele axe) și pe aripa corpului de colț", ee.slopeDoors.length === 2 && ee.slopeDoors.every(Boolean) && ee.cornerDoors.length >= 2 && ee.cornerDoors.some(Boolean), JSON.stringify(ee));
     ok("Export: pantă, uși pliabile (2/4 foi, 3×3 foi prea înguste) și colț pliabil nu sunt blocate", Object.values(ee.gate).every(a => a.length === 0), JSON.stringify(ee.gate));
     ok("Tastatură: detectată și când acoperă (visualViewport), și când redimensionează fereastra (WebView Android); dispare când se închide", ee.kbOn && ee.kbOff && ee.kbModes, JSON.stringify(ee));
     /* Scheda pezzo: ușa trapezoidală are conturul real și unghiul tăieturii, în toate limbile */

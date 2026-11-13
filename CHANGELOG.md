@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.50.0 — 13 noiembrie 2026
+
+**Explozie, deschidere de uși și sertare verificate pe toate corpurile; fără piese care trec una prin alta (D-136).** Am verificat în browser 21 de tipologii, cu aproape 130 de configurații aleatoare (dimensiuni, număr de uși și sertare, mânere, sisteme de sertar), în stările: deschis, explodat (0,5 și 1) și deschis + explodat, față de starea închisă. Ce era greșit și s-a reparat:
+- **Explozia** muta fiecare piesă pe axa ei subțire, fără să țină seama de vecine: despărțitoarele intrau în rafturi, sertarele în lateralele și în fronturile vecine. Acum fiecare piesă (sau sertar) se mută cu un câmp liniar în jurul centrului, deci piesele care se ating se depărtează, indiferent câte sunt. Sertarele din spatele unei uși ies mai puțin decât ușa.
+- **Uși care se bat:** la 5, 7 uși, două uși cu balamale pe aceeași muchie se apleacă una peste alta la 98°; acum se deschid mai puțin (90°, 80°, 70°), iar la corpul de colț, dacă tot se ating, a doua rămâne închisă.
+- **Sertar prin ușa deschisă:** un sertar rămâne închis dacă drumul lui taie o ușă deschisă sau orice altă piesă (de exemplu aripa B a corpului de colț, care stă în fața unei părți din aripa A). Ușile se deschid doar cât au loc, pe tot arcul.
+- **Corpul de colț:** sertarele aripii B ieșeau pe direcția greșită (+z, prin peretele vecin), iar ușile ei se roteau spre interior când aripa stă în dreapta; acum ies și se rotesc spre față.
+- **Uși glisante:** două uși din față puteau alege aceeași ușă din spate și se suprapuneau; acum fiecare se așază în fața alteia. Explozia pornește din poziția deschisă.
+Testul `explode.test.js` păzește explozia; auditul de browser (stările deschis/explodat pe toate presetările) a fost făcut cu un script, nu e încă în suită. Limite: la corpul de colț, cu explozie + deschidere împreună, mai rămân atingeri mici (sub 1 mm); un pat cu dimensiuni absurde (600 × 450 mm) are doage care se suprapun; cele rotunde (Rotund, Oval, Raccordato) arată „suprapuneri” în audit fiindcă fâșia lor curbă are plăcile în interior, prin construcție.
+
+**Repară și două legături uitate din versiunile 5.46–5.49:** `SW_CACHE` din `index.html` nu urmărea numele cache-ului din `sw.js` (butonul „Verifică actualizări” căuta în cache-ul vechi), iar paginile site-ului nu fuseseră regenerate. Testul e2e, care le prinde, nu rulase.
+
 ## 5.49.0 — 13 noiembrie 2026
 
 **Balamaua Blum din 3D, cu detaliile din fotografia producătorului.** Brațul are acum capacul ridicat de pe partea de sus, cu șine negre pe laterale, rostul în treaptă dintre cele două corpuri și cele două fante ale clemei de la capăt; articulațiile sunt butuci cu nervuri (ca în fotografia Blum), nu cilindri netezi; cupa are discul bombat, care depășește placa spre dulap, cu plăcuța neagră a mecanismului BLUMOTION și semnul verde; gâtul e mai gros. Nimic din găurire, distinctă, deviz sau fișa de montaj nu s-a schimbat. Rămâne o simplificare: ușa se rotește în jurul muchiei ei, nu după patrulaterul real, deci gâtul se alungește când ușa e deschisă larg.
