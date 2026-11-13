@@ -1168,32 +1168,51 @@ function slideOpenX(boxes) {
   const zMax = Math.max(...ds.map(d => d.z));
   const front = ds.filter(d => d.z > zMax - 1), back = ds.filter(d => d.z <= zMax - 1);
   if (!back.length) return out;
-  front.forEach(f => {
+  /* fiecare ușă din față se așază în fața unei uși din spate DIFERITE (D-136): înainte două uși din față puteau alege aceeași ușă din spate și se suprapuneau;
+     cele care nu mai au loc rămân pe loc */
+  const used = new Set();
+  front.slice().sort((a, b) => (a.x0 + a.x1) - (b.x0 + b.x1)).forEach(f => {
     const cf = (f.x0 + f.x1) / 2;
     let best = null;
-    back.forEach(k => { const c = (k.x0 + k.x1) / 2; if (!best || Math.abs(c - cf) < Math.abs((best.x0 + best.x1) / 2 - cf)) best = k; });
-    out[f.pk] = best.x0 - f.x0;
+    back.forEach(k => { if (used.has(k.pk)) return; const c = (k.x0 + k.x1) / 2; if (!best || Math.abs(c - cf) < Math.abs((best.x0 + best.x1) / 2 - cf)) best = k; });
+    if (best) { used.add(best.pk); out[f.pk] = best.x0 - f.x0; }
   });
   return out;
 }
 
+/* direcția în care iese un sertar, în lume: [x, z]. La aripa B a corpului de colț, sertarul iese pe direcția „înainte” a aripii (axa locală z), care în lume e ±x
+   (D-136; înainte ieșea mereu pe +z, adică prin peretele vecin). Formulele sunt cele ale lui mapB din index.html. */
+function slideDir(b) {
+  const r = b && b.rot; if (!r) return [0, 1];
+  const int = r.k !== "ext", dx = !!r.dx;
+  return [int ? (dx ? -1 : 1) : (dx ? 1 : -1), 0];
+}
 /* bersagli di esplosione e apertura, per pezzo */
 function setTargets(boxesOrig) {
-  const ex = explodeBoxes(boxesOrig, R.st.explode || 0);
+  const slideX = slideOpenX(boxesOrig);
+  /* ușile glisante deschise se așază întâi, abia apoi se calculează explozia: altfel explozia pornește de la poziția lor închisă și două uși care s-au
+     așezat în aceeași zonă ajung să se suprapună (D-136) */
+  const sh = R.st.open ? boxesOrig.map(b => { const dx = b.sub === "slide" ? (slideX[String(b.pk)] || 0) : 0; if (!dx) return b;
+    const o = Object.assign({}, b, { x0: b.x0 + dx, x1: b.x1 + dx }); if (b.pc) o.pc = b.pc.map(q => [q[0] + dx, q[1]]); return o; }) : boxesOrig;
+  const ex = explodeBoxes(sh, R.st.explode || 0);
   const first = new Map();
   boxesOrig.forEach((b, i) => { const k = String(b.pk); if (!first.has(k)) first.set(k, i); });
   /* profondità di ogni cassetto: sertarul iese cât jumătate din el */
   const grpD = {};
-  boxesOrig.forEach(b => { if (b.grp && b.sub === "dbox") grpD[b.grp] = Math.max(grpD[b.grp] || 0, b.z1 - b.z0); });
-  const slideX = slideOpenX(boxesOrig);
+  boxesOrig.forEach(b => { if (b.grp && b.sub === "dbox") grpD[b.grp] = Math.max(grpD[b.grp] || 0, slideDir(b)[0] ? b.x1 - b.x0 : b.z1 - b.z0); });
   for (const P of R.pieces.values()) {
     const i = first.get(P.pk); if (i == null) continue;
     const a = boxesOrig[i], b = ex[i];
-    P.tgt.ex = ((b.x0 - a.x0) + (R.st.open ? (slideX[P.pk] || 0) : 0)) * MM; P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
+    P.tgt.ex = (b.x0 - a.x0) * MM;   // `ex` pornește din boxesOrig deplasat: include deja ușa glisantă P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
     const open = R.st.open ? 1 : 0;
     /* ușa trapezoidală (pantă) nu are balamale în lista de feronerie: pivotul vine din partea balamalei a cutiei */
     if (P.sub === "door" && !P.pivot) {
-      if (a.z1 - a.z0 > a.x1 - a.x0) P.pivot = { x: a.x1, z: a.z0, left: false };   // ușa de pe aripa corpului de colț: stă în planul x, balamaua la capătul dinspre perete
+      if (a.z1 - a.z0 > a.x1 - a.x0) {   // ușa de pe aripa corpului de colț: stă în planul x, balamaua la capătul dinspre peretele aripii A
+        /* se deschide spre „înainte” a aripii (±x în lume, după rotația aripii B), cu balamaua pe fața ei din față: înainte (D-136) se rotea mereu spre +x,
+           adică prin corp când aripa B stă la dreapta */
+        const fd = slideDir(a)[0] || 1;
+        P.pivot = { x: fd > 0 ? a.x1 : a.x0, z: a.z0, left: fd < 0 };
+      }
       else if (a.hinge === "left" || a.hinge === "right") P.pivot = { x: a.hinge === "left" ? a.x0 : a.x1, z: a.z1, left: a.hinge === "left" };
     }
     P.tgt.ang = (open && P.pivot && P.sub === "door") ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
@@ -1208,6 +1227,95 @@ function setTargets(boxesOrig) {
       P.tgt.ex += open ? (stack - px) * MM : 0;
     }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
+    P.slDir = slideDir(a);
+  }
+  /* un sertar nu iese prin ușa deschisă din fața lui (D-136): dacă ușa deschisă, în poziția ei de la sfârșitul animației, stă pe drumul lui, sertarul rămâne
+     închis. Testul e cel din audit: poligonul foii ușii (rotit în jurul pivotului) față de dreptunghiul sertarului în planul x–z, și suprapunere pe înălțime. */
+  if (R.st.open) {
+    const doors = [], groups = {};
+    for (const P of R.pieces.values()) {
+      const i = first.get(P.pk); if (i == null) continue;
+      if (P.sub === "door" && P.tgt.ang && P.pivot) doors.push({ P, a: boxesOrig[i] });
+      if (P.grp && P.tgt.sl) (groups[P.grp] = groups[P.grp] || []).push({ P, a: boxesOrig[i] });
+    }
+    const leaf = ({ P, a }) => {
+      const c = Math.cos(P.tgt.ang), sn = Math.sin(P.tgt.ang), px = P.pivot.x, pz = P.pivot.z, ex = P.tgt.ex / MM, ez = P.tgt.ez / MM;
+      return [[a.x0, a.z0], [a.x1, a.z0], [a.x1, a.z1], [a.x0, a.z1]].map(([x, z]) => [px + (x - px) * c + (z - pz) * sn + ex, pz - (x - px) * sn + (z - pz) * c + ez]);
+    };
+    const hit = (A, B, tol = 0.5) => { for (const Q of [A, B]) for (let i = 0; i < Q.length; i++) { const p = Q[i], q = Q[(i + 1) % Q.length]; let nx = -(q[1] - p[1]), nz = q[0] - p[0]; const l = Math.hypot(nx, nz) || 1; nx /= l; nz /= l;
+      let a0 = 1e9, a1 = -1e9, b0 = 1e9, b1 = -1e9; for (const v of A) { const d = v[0] * nx + v[1] * nz; a0 = Math.min(a0, d); a1 = Math.max(a1, d); } for (const v of B) { const d = v[0] * nx + v[1] * nz; b0 = Math.min(b0, d); b1 = Math.max(b1, d); }
+      if (Math.min(a1, b1) - Math.max(a0, b0) <= tol) return false; } return true; };
+    /* două uși care se bat în unghi (balamale pe aceeași muchie: foile se apleacă una spre alta peste 90°) se deschid mai puțin: 98° → 90° → 80° → 70° */
+    for (const ang of [Math.PI / 2, 1.4, 1.22]) {
+      let any = false;
+      for (let i = 0; i < doors.length; i++) for (let j = i + 1; j < doors.length; j++) {
+        const A = doors[i], B = doors[j];
+        if (Math.min(A.a.y1 + A.P.tgt.ey / MM, B.a.y1 + B.P.tgt.ey / MM) - Math.max(A.a.y0 + A.P.tgt.ey / MM, B.a.y0 + B.P.tgt.ey / MM) <= 1) continue;
+        if (hit(leaf(A), leaf(B))) { any = true; A.P.tgt.ang = Math.sign(A.P.tgt.ang) * Math.min(Math.abs(A.P.tgt.ang), ang); B.P.tgt.ang = Math.sign(B.P.tgt.ang) * Math.min(Math.abs(B.P.tgt.ang), ang); }
+      }
+      if (!any) break;
+    }
+    /* ce se mai atinge și la 70° (la corpul de colț, ușile celor două aripi se deschid în același colț): cea de-a doua rămâne închisă */
+    for (let i = 0; i < doors.length; i++) for (let j = i + 1; j < doors.length; j++) {
+      const A = doors[i], B = doors[j];
+      if (!A.P.tgt.ang || !B.P.tgt.ang) continue;
+      if (Math.min(A.a.y1 + A.P.tgt.ey / MM, B.a.y1 + B.P.tgt.ey / MM) - Math.max(A.a.y0 + A.P.tgt.ey / MM, B.a.y0 + B.P.tgt.ey / MM) <= 1) continue;
+      if (hit(leaf(A), leaf(B))) B.P.tgt.ang = 0;
+    }
+    /* sertarul rămâne închis dacă drumul lui (de la poziția închisă la cea deschisă) taie orice altă piesă (D-136): ușa deschisă din fața lui, dar și
+       corpul vecin la corpul de colț (aripa B stă în fața unei părți din aripa A). Piesele altor sertare se verifică mai jos, între perechi. */
+    const pk2boxes = new Map();
+    boxesOrig.forEach(b => { const k = String(b.pk); (pk2boxes.get(k) || pk2boxes.set(k, []).get(k)).push(b); });
+    const doorOf = new Map(doors.map(D => [String(D.P.pk), D]));
+    const footprints = (P) => {
+      const D = doorOf.get(String(P.pk)), ex = P.tgt.ex / MM, ez = P.tgt.ez / MM, ey = P.tgt.ey / MM;
+      return (pk2boxes.get(String(P.pk)) || []).map(b => {
+        let poly;
+        if (D) { const c = Math.cos(P.tgt.ang), sn = Math.sin(P.tgt.ang), px = P.pivot.x, pz = P.pivot.z; poly = pcOf(b).map(([x, z]) => [px + (x - px) * c + (z - pz) * sn + ex, pz - (x - px) * sn + (z - pz) * c + ez]); }
+        else poly = pcOf(b).map(([x, z]) => [x + ex, z + ez]);
+        return { poly, y0: b.y0 + ey, y1: b.y1 + ey };
+      });
+    };
+    const buildOthers = (skipDoors) => [...R.pieces.values()].filter(Q => !Q.grp && !(skipDoors && doorOf.has(String(Q.pk)))).map(Q => ({ Q, fp: footprints(Q) }));
+    let others = buildOthers(true);   // pentru ușile însele: numai piesele fixe (ușile se verifică între ele mai sus)
+    /* o ușă se deschide doar cât poate: pe tot arcul ei (din 5° în 5°), foaia nu taie nicio piesă fixă; altfel unghiul scade (D-136). La corpul de colț, ușile
+       aripii A din spatele aripii B nu au loc deloc și rămân închise. */
+    for (const D of doors) {
+      const P = D.P, sg = Math.sign(P.tgt.ang), full = Math.abs(P.tgt.ang), bs = pk2boxes.get(String(P.pk)) || [];
+      const ex = P.tgt.ex / MM, ez = P.tgt.ez / MM, ey = P.tgt.ey / MM;
+      /* obstacole: piesele fixe și celelalte uși, la unghiul lor de acum (o ușă închisă de mai sus stă pe loc) */
+      const obst = others.concat(doors.filter(D2 => D2 !== D).map(D2 => ({ Q: D2.P, fp: footprints(D2.P) })));
+      const clear = (ang) => {
+        const c = Math.cos(sg * ang), sn = Math.sin(sg * ang), px = P.pivot.x, pz = P.pivot.z;
+        return !bs.some(b => { const poly = pcOf(b).map(([x, z]) => [px + (x - px) * c + (z - pz) * sn + ex, pz - (x - px) * sn + (z - pz) * c + ez]);
+          return obst.some(({ fp }) => fp.some(f => Math.min(f.y1, b.y1 + ey) - Math.max(f.y0, b.y0 + ey) > 1 && hit(f.poly, poly, 2.5))); });
+      };
+      let ang = full;
+      const ok = (a) => { for (let t = 0.09; t < a; t += 0.09) if (!clear(t)) return false; return clear(a); };
+      while (ang > 0.01 && !ok(ang)) ang -= 0.09;
+      P.tgt.ang = ang > 0.01 ? sg * ang : 0;
+    }
+    others = buildOthers(false);   // pentru sertare: și ușile, la unghiul lor final
+    for (const g in groups) {
+      const blocked = groups[g].some(({ P, a }) => {
+        const sd = P.slDir || [0, 1], ex = P.tgt.ex / MM, ez = P.tgt.ez / MM, ey = P.tgt.ey / MM, s = P.tgt.sl / MM;
+        /* dreptunghiul măturat: de la poziția închisă la cea deschisă */
+        const sx0 = Math.min(a.x0, a.x0 + sd[0] * s) + ex, sx1 = Math.max(a.x1, a.x1 + sd[0] * s) + ex, sz0 = Math.min(a.z0, a.z0 + sd[1] * s) + ez, sz1 = Math.max(a.z1, a.z1 + sd[1] * s) + ez;
+        const sweep = [[sx0, sz0], [sx1, sz0], [sx1, sz1], [sx0, sz1]];
+        return others.some(({ fp }) => fp.some(f => Math.min(f.y1, a.y1 + ey) - Math.max(f.y0, a.y0 + ey) > 1 && hit(f.poly, sweep, 2.5)));
+      });
+      if (blocked) groups[g].forEach(({ P }) => { P.tgt.sl = 0; });
+    }
+    /* două sertare care ar ieși unul prin celălalt (la corpul de colț, sertarele celor două aripi ies în același colț): cel al aripii B, sau cel de după, rămâne închis */
+    const rects = (g) => groups[g].map(({ P, a }) => { const sd = P.slDir || [0, 1], dx = P.tgt.ex / MM + sd[0] * P.tgt.sl / MM, dz = P.tgt.ez / MM + sd[1] * P.tgt.sl / MM, dy = P.tgt.ey / MM;
+      return { x0: a.x0 + dx, x1: a.x1 + dx, z0: a.z0 + dz, z1: a.z1 + dz, y0: a.y0 + dy, y1: a.y1 + dy }; });
+    const gs = Object.keys(groups).filter(g => groups[g][0].P.tgt.sl);
+    for (let i = 0; i < gs.length; i++) for (let j = i + 1; j < gs.length; j++) {
+      const Gi = gs[i], Gj = gs[j]; if (!groups[Gi][0].P.tgt.sl || !groups[Gj][0].P.tgt.sl) continue;
+      const Ri = rects(Gi), Rj = rects(Gj);
+      const clash = Ri.some(A => Rj.some(B => Math.min(A.x1, B.x1) - Math.max(A.x0, B.x0) > 1 && Math.min(A.z1, B.z1) - Math.max(A.z0, B.z0) > 1 && Math.min(A.y1, B.y1) - Math.max(A.y0, B.y0) > 1));
+      if (clash) { const lose = (groups[Gj][0].P.slDir || [0, 1])[0] !== 0 ? Gj : ((groups[Gi][0].P.slDir || [0, 1])[0] !== 0 ? Gi : Gj); groups[lose].forEach(({ P }) => { P.tgt.sl = 0; }); }
+    }
   }
 }
 
@@ -1268,7 +1376,7 @@ function step() {
     for (const k of ["ex", "ey", "ez", "ang", "sl"]) f(P.cur, P.tgt, k);
     /* T(esplosione) · T(perno) · R(y) · T(−perno) · T(uscita cassetto) */
     const c = P.cur;
-    M4.makeTranslation(c.ex, c.ey, c.ez + c.sl);
+    { const sd = P.slDir || [0, 1]; M4.makeTranslation(c.ex + sd[0] * c.sl, c.ey, c.ez + sd[1] * c.sl); }
     if (c.ang && P.pivot) {
       const px = P.pivot.x * MM, pz = P.pivot.z * MM;
       M4b.makeTranslation(px, 0, pz); M4.multiply(M4b);
@@ -1516,6 +1624,35 @@ const GL3D = {
   /* apropie camera de o piesă: pk, raza vizată (mm) și o deplasare (mm) față de centrul piesei;
      focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
   focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
+  /* pentru audit (teste și capturi): cutiile fiecărei piese în coordonate de lume (mm), în starea cerută: {open, explode}. Animațiile se
+     închid pe loc, ca la capture(); starea de dinainte se reface. Întoarce [{pk, role, sub, grp, boxes:[8 colțuri × 3]}]. */
+  worldBoxes(st) {
+    if (!this.ok || !R.model) return null;
+    st = st || {};
+    const prev = Object.assign({}, R.st);
+    try {
+      Object.assign(R.st, { open: st.open ? 1 : 0, explode: st.explode || 0 });
+      setTargets(R.boxes);
+      for (const P of R.pieces.values()) Object.assign(P.cur, P.tgt);
+      step();
+      R.scene.updateMatrixWorld(true);
+      const out = [], v = new THREE.Vector3();
+      for (const P of R.pieces.values()) {
+        const boxes = P.boxes.map(b => {
+          const c = [];
+          /* conturul în plan al cutiei (pcOf: ține seama de rotația aripii B și de formele neregulate), la cele două înălțimi */
+          for (const [x, z] of pcOf(b)) for (const y of [b.y0, b.y1]) { v.set(x * MM, y * MM, z * MM).applyMatrix4(P.g.matrix); c.push([v.x / MM, v.y / MM, v.z / MM]); }
+          return c;
+        });
+        out.push({ pk: P.pk, role: P.role, sub: P.sub || null, grp: P.grp || null, boxes });
+      }
+      return out;
+    } finally {
+      Object.assign(R.st, prev); setTargets(R.boxes);
+      for (const P of R.pieces.values()) Object.assign(P.cur, P.tgt);
+      step(); R.need = true; kick();
+    }
+  },
   /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
   /* ținta de mișcare a unei piese (pentru teste): translația și unghiul la deschidere/explozie */
   tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sub: P.sub, pivot: P.pivot ? { ...P.pivot } : null } : null; },

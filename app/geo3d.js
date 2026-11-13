@@ -188,23 +188,28 @@ export function explodeBoxes(boxes, amt) {
   boxes.forEach(b => { pcOf(b).forEach(([x, z]) => { X0 = Math.min(X0, x); X1 = Math.max(X1, x); Z0 = Math.min(Z0, z); Z1 = Math.max(Z1, z); });
     Y0 = Math.min(Y0, b.y0); Y1 = Math.max(Y1, b.y1); });
   if (X1 < X0) return boxes;
+  /* Explozia (D-136): un câmp liniar în jurul centrului, nu „mută fiecare piesă pe axa ei subțire”. Fiecare piesă (sau sertar, `grp`) se deplasează cu
+     k·(centru − C)/semi-extindere, pe fiecare axă. Două piese care se ating pe o față ajung departe una de alta pe axa acelei fețe (centrele lor sunt de
+     o parte și de alta a ei, deci câmpul le depărtează), deci nimic nu se suprapune după explozie, oricâte despărțitoare, rafturi și sertare ar fi. Sertarul
+     iese în plus în față. Piesa se mișcă rigid: toate cutiile cu același `pk` primesc aceeași deplasare. */
   const CX = (X0 + X1) / 2, CY = (Y0 + Y1) / 2, CZ = (Z0 + Z1) / 2;
-  const k = Math.max(X1 - X0, Y1 - Y0, Z1 - Z0) * 0.32 * amt, sg = v => v < -0.5 ? -1 : 1;
-  /* i pezzi di uno stesso cassetto (`grp`) escono in avanti tutti insieme e si
-     aprono attorno al proprio centro: stessa regola di render3D in index.html. */
-  const gc = {};
-  for (const b of boxes) { if (!b.grp) continue;
-    const g = gc[b.grp] || (gc[b.grp] = { x: 0, y: 0, z: 0, n: 0 });
-    g.x += (b.x0 + b.x1) / 2; g.y += (b.y0 + b.y1) / 2; g.z += (b.z0 + b.z1) / 2; g.n++; }
-  for (const id in gc) { const g = gc[id]; g.x /= g.n; g.y /= g.n; g.z /= g.n; }
-  return boxes.map(b => {
-    const dx = b.x1 - b.x0, dy = b.y1 - b.y0, dz = b.z1 - b.z0, mn = Math.min(dx, dy, dz);
-    const g = b.grp && gc[b.grp], kk = g ? k * 0.45 : k;
-    const rx = g ? g.x : CX, ry = g ? g.y : CY, rz = g ? g.z : CZ;
-    let ox = 0, oy = 0, oz = g ? k * 1.35 : 0;
-    if (mn === dx) ox = sg((b.x0 + b.x1) / 2 - rx) * kk;
-    else if (mn === dy) oy = sg((b.y0 + b.y1) / 2 - ry) * kk;
-    else oz += sg((b.z0 + b.z1) / 2 - rz) * kk;
+  const HX = Math.max((X1 - X0) / 2, 1), HY = Math.max((Y1 - Y0) / 2, 1), HZ = Math.max((Z1 - Z0) / 2, 1);
+  const k = Math.max(X1 - X0, Y1 - Y0, Z1 - Z0) * 0.32 * amt;
+  const keyOf = (b, i) => b.grp ? "g" + b.grp : (b.pk != null ? "p" + b.pk : "i" + i);
+  const gdir = {};   /* direcția „înainte” a sertarului: aripa B a corpului de colț îl scoate pe ±x, nu pe +z */
+  boxes.forEach(b => { if (b.grp && b.rot) { const r = b.rot, int = r.k !== "ext", dx = !!r.dx; gdir["g" + b.grp] = [int ? (dx ? -1 : 1) : (dx ? 1 : -1), 0]; } });
+  const inner = {};   /* sertar în spatele unei uși (`drawerIn`): iese în față mai puțin decât ușa, ca să rămână în spatele ei */
+  boxes.forEach(b => { if (b.grp && b.sub === "drawerIn") inner["g" + b.grp] = true; });
+  const ext = {};
+  boxes.forEach((b, i) => { const kk = keyOf(b, i), e = ext[kk] || (ext[kk] = { x0: 1e9, x1: -1e9, y0: 1e9, y1: -1e9, z0: 1e9, z1: -1e9 });
+    pcOf(b).forEach(([x, z]) => { e.x0 = Math.min(e.x0, x); e.x1 = Math.max(e.x1, x); e.z0 = Math.min(e.z0, z); e.z1 = Math.max(e.z1, z); });
+    e.y0 = Math.min(e.y0, b.y0); e.y1 = Math.max(e.y1, b.y1); });
+  const off = {};
+  for (const kk in ext) { const e = ext[kk], isG = kk[0] === "g";
+    const fw = isG ? k * (inner[kk] ? 0.15 : 1.35) : 0, dr = gdir[kk] || [0, 1];
+    off[kk] = [k * ((e.x0 + e.x1) / 2 - CX) / HX + fw * dr[0], k * ((e.y0 + e.y1) / 2 - CY) / HY, k * ((e.z0 + e.z1) / 2 - CZ) / HZ + fw * dr[1]]; }
+  return boxes.map((b, i) => {
+    const [ox, oy, oz] = off[keyOf(b, i)];
     const o = Object.assign({}, b, { x0: b.x0 + ox, x1: b.x1 + ox, y0: b.y0 + oy, y1: b.y1 + oy, z0: b.z0 + oz, z1: b.z1 + oz });
     if (b.pc) o.pc = b.pc.map(q => [q[0] + ox, q[1] + oz]);
     if (b.ring) o.ring = { open: b.ring.open, out: b.ring.out.map(q => [q[0] + ox, q[1] + oz]), inn: b.ring.inn.map(q => [q[0] + ox, q[1] + oz]) };
