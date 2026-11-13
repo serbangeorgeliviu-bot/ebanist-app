@@ -183,7 +183,7 @@
      pe braț (rămâne pe lateral). xo(d) = fața lateralului + sd·d. Coordonatele în mm. */
   function hingeLinks(w, sd, zNear, p0, z0) {
     var y = w[1], xo = function (d) { return p0 + sd * d; };
-    return { a: [[w[0] + sd * 0.5, y, z0 - 11]], b: [[xo(14), y, zNear - 2]], h: 17, th: 5 };
+    return { a: [[w[0] + sd * 0.5, y, z0 - 11]], b: [[xo(14), y, zNear - 2]], h: 17, th: 8 };
   }
 
   /* șuruburile glisierei: câte unul în fiecare gaură «guida cassetto» din fișa piesei (poziții din fișele Blum, Ø și adâncime din operație).

@@ -175,7 +175,7 @@ describe("balamaua CLIP după desenul Blum: braț masiv și gât îndoit (5.48.0
   test("gâtul îndoit: o piesă groasă, cu capetele în cupă (a) și în braț (b); niciuna nu are lungime zero; ușa închisă le ține în față", () => {
     for (const sd of [1, -1]) {
       const L = G.hingeLinks([24.5, 183, 600], sd, 584, 19, 600);
-      assert.equal(L.a.length, 1); assert.equal(L.b.length, 1); near(L.h, 17, "înălțimea gâtului"); near(L.th, 5, "grosimea gâtului");
+      assert.equal(L.a.length, 1); assert.equal(L.b.length, 1); near(L.h, 17, "înălțimea gâtului"); near(L.th, 8, "grosimea gâtului");
       L.a.forEach((a, i) => {
         const b = L.b[i], len = Math.hypot(a[0] - b[0], a[2] - b[2]);
         assert.ok(len > 8 && len < 40, `legătura ${i}: ${len} mm`);
