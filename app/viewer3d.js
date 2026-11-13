@@ -875,6 +875,7 @@ function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (R.linkG) clearGroup(R.linkG);
   R.links = [];
+  R.halves = [];
   if (!model || !model.ops) return;
   const O = model.ops;
   /* conectori: forma 3D iese din aceleași operații (găuri și canale) ca fișa piesei (ebanist-hwgeom.js) */
@@ -1010,6 +1011,29 @@ function buildHardware(model) {
       gb("__zinc", 2.2, 4, -8.6, 18, zf + 22, zf + 30);           // cârligul din spate
       gb(movento ? "__blackmetal" : "__nylongrey", 2.2, 12.5, -8.6, 16, z1 - 40, z1 - 8);    // clema de fixare din față
       gb("__nylon", 8, 12.5, 16, 19, z1 - 40, z1 - 24);           // pârghia de eliberare
+      /* — detaliile șinei Blum (D-137), după desenul exploadat și fotografiile din catalogul Blum KA-140: șina intermediară (merge cu jumătate din cursa
+         sertarului), rolele de nylon, unitatea BLUMOTION din spatele șinei corpului, rândul de găuri și cremaliera de sincronizare — */
+      if (!side) {
+        const sl2 = (m, xa, xb, ya, yb, za, zb, r) => { const x = X(xa, xb), q = tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb], r)); P.hw.add(q); return q; };
+        /* găurile șinei corpului: două rânduri la 32 mm */
+        for (let zz = zf + 40; zz < z1 - 40; zz += 32) [-1, 14].forEach(yy => sl2("__blackmetal", 1.7, 2.0, yy + 1.5, yy + 5.5, zz - 2.2, zz + 2.2, 0.1));
+        /* unitatea BLUMOTION: cilindru în spatele șinei, cu capac de inox */
+        P.hw.add(tag(cyl("__blackmetal", [w[0] + s * 6.2, y + 8, zf + 12], [w[0] + s * 6.2, y + 8, zf + 62], 11, 1)));
+        P.hw.add(tag(cyl("__inox", [w[0] + s * 6.2, y + 8, zf + 62], [w[0] + s * 6.2, y + 8, zf + 66], 8.4, 0.8)));
+        /* rolele fixe din fața șinei corpului */
+        [z1 - 32, z1 - 52].forEach(zz => [-3, 11].forEach(yy => P.hw.add(tag(cyl("__nylon", [w[0] + s * 1.8, y + yy, zz], [w[0] + s * 5.2, y + yy, zz], 9, 0.5)))));
+        /* șina intermediară: se mută cu jumătate din cursa sertarului (R.halves); o primește sertarul ca părinte și o trage înapoi cu jumătate */
+        const mid = tag(box("__inox", (() => { const x = X(3.2, 8.4); return [x[0], y - 3, zf + 14]; })(), (() => { const x = X(3.2, 8.4); return [x[1], y + 21, z1 - 36]; })(), 0.9));
+        const base = new THREE.Vector3().copy(mid.position);
+        G.add(mid); mid.userData.always = false; if (rel) mid.userData.rel = rel;
+        R.halves.push({ m: mid, P: D || P, base, hasD: !!D });
+        /* rola intermediară din spate */
+        const rm = tag(cyl("__nylon", [w[0] + s * 8.4, y + 9, zf + 20], [w[0] + s * 11, y + 9, zf + 20], 9, 0.5)); G.add(rm); if (rel) rm.userData.rel = rel;
+        R.halves.push({ m: rm, P: D || P, base: new THREE.Vector3().copy(rm.position), hasD: !!D });
+        /* cremaliera de sincronizare pe șina sertarului: bandă și dinți */
+        gb("__blackmetal", 3, 10.4, 14.6, 15.6, zf + 30, z1 - 46);
+        for (let zz = zf + 32; zz < z1 - 48; zz += 5) gb("__zinc", 3, 10.4, 15.6, 17.2, zz, zz + 2.4);
+      }
     } else if (h.type === "maniglia") {
       drawHandle(P, h, tag);
     } else if (h.type === "gola_fresata") {
@@ -1017,6 +1041,22 @@ function buildHardware(model) {
       P.hw.add(tag(box("__flushdark", [h.x0 + 1, h.w[1] - 0.2, h.zB], [h.x1 - 1, h.w[1] + 0.3, h.zB + h.d]), true));
     }
   });
+  /* laterala sertarelor metalice (LEGRABOX, TANDEMBOX): marginea de sus rotunjită, canalul de jos și capetele, după fotografiile din broșura Blum (D-137) */
+  try {
+    const sys = typeof drawSys === "function" && R.cfg ? drawSys(R.cfg.drawerSys || "legno") : null;
+    if (sys && sys.metal) for (const P of R.pieces.values()) {
+      if ((P.role !== "cassetto_fianco" && P.role !== "cassetto_metallo") || !P.boxes.length || P.wingDone) continue;
+      const B = P.boxes[0], dx = B.x1 - B.x0, dz = B.z1 - B.z0; if (dx > 30 || dz < 100) continue;
+      const add = (m, lo, hi, r, mat) => { const q = box(mat || "__inox", lo, hi, r); q.userData.hw = "boxside"; q.userData.always = true; q.userData.rel = [String(P.pk), String(P.pk)]; P.hw.add(q); };
+      const ex = 0.35;
+      add(null, [B.x0 - ex, B.y1 - 4.2, B.z0], [B.x1 + ex, B.y1 + 0.3, B.z1], 1.3);                  // marginea de sus, rotunjită
+      add(null, [B.x0 - ex, B.y0 - 0.2, B.z0 + 6], [B.x1 + ex, B.y0 + 3.2, B.z1 - 3], 0.9);          // canalul de jos
+      add(null, [B.x0 - ex, B.y0, B.z1 - 7], [B.x1 + ex, B.y1, B.z1], 0.8);                           // capătul din față, unde se prinde frontul
+      add(null, [B.x0 - ex, B.y0, B.z0], [B.x1 + ex, B.y1, B.z0 + 5], 0.8, "__blackmetal");          // capătul din spate
+      add(null, [B.x0 - ex - 0.05, B.y0 + (B.y1 - B.y0) * 0.35, B.z1 - 34], [B.x1 + ex + 0.05, B.y0 + (B.y1 - B.y0) * 0.35 + 3.2, B.z1 - 14], 0.3, "__blackmetal");   // plăcuța cu marca
+      P.wingDone = true;
+    }
+  } catch (e) { /* fără sistem de sertar în acest context */ }
   /* fori e cave: dischi scuri sulla superficie, un InstancedMesh per pezzo */
   O.pieces.forEach(pc => {
     const P = R.pieces.get(String(pc.pk)); if (!P) return;
@@ -1386,7 +1426,14 @@ function step() {
     P.g.matrix.copy(M4); P.g.matrixWorldNeedsUpdate = true;
   }
   updateLinks();
+  updateHalves();
   return moving;
+}
+
+/* șina intermediară a glisierei merge cu jumătate din cursa sertarului: e copilul sertarului (care merge cu toată cursa), deci i se scade jumătate */
+function updateHalves() {
+  if (!R.halves) return;
+  for (const H of R.halves) { const sd = H.P.slDir || [0, 1], k = H.hasD ? -0.5 * H.P.cur.sl : 0; H.m.position.set(H.base.x + sd[0] * k, H.base.y, H.base.z + sd[1] * k); }
 }
 
 /* legăturile balamalelor: între un punct al ușii (care se rotește) și unul al lateralului */
@@ -1655,7 +1702,7 @@ const GL3D = {
   },
   /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
   /* ținta de mișcare a unei piese (pentru teste): translația și unghiul la deschidere/explozie */
-  tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sub: P.sub, pivot: P.pivot ? { ...P.pivot } : null } : null; },
+  tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sl: P.tgt.sl / MM, sub: P.sub, grp: P.grp, pivot: P.pivot ? { ...P.pivot } : null } : null; },
   /* pentru teste: ce fel de plasă are fiecare piesă (prismă = contur propriu, altfel cutie unitate scalată) */
   meshKinds() { const o = []; if (R) for (const P of R.pieces.values()) o.push({ pk: P.pk, role: P.role, prism: P.meshes.map(m => !!m.userData.prism) }); return o; },
   hwCount() { let n = 0; if (R) for (const P of R.pieces.values()) n += P.hw.children.length; return n; },

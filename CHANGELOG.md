@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.51.0 — 13 noiembrie 2026
+
+**Glisierele Blum din 3D, mai aproape de realitate (prima etapă, D-137).** Sursele: catalogul Blum KA-140 (desenul exploadat al glisierei MOVENTO, desenele de montaj LEGRABOX) și broșura LEGRABOX. La glisierele ascunse (MOVENTO, TANDEM): **șina intermediară** care merge cu jumătate din cursa sertarului (se vede cum se telescopează), rolele de nylon, **unitatea BLUMOTION** (cilindru negru cu capac) în spatele șinei, rândurile de găuri la 32 mm și **cremaliera de sincronizare** de pe șina sertarului. La laterala sertarelor metalice (LEGRABOX, TANDEMBOX): marginea de sus rotunjită, canalul de jos, capetele (cel din față, de prindere a frontului, și cel din spate, negru) și plăcuța cu marca. Găurirea, distinta, devizul și fișa de montaj nu s-au schimbat. Nu e încă: forma exactă a profilului laterală, profilul cu gard (TANDEMBOX), glisierele laterale cu bile (230M, Häfele), TIP-ON.
+
 ## 5.50.0 — 13 noiembrie 2026
 
 **Explozie, deschidere de uși și sertare verificate pe toate corpurile; fără piese care trec una prin alta (D-136).** Am verificat în browser 21 de tipologii, cu aproape 130 de configurații aleatoare (dimensiuni, număr de uși și sertare, mânere, sisteme de sertar), în stările: deschis, explodat (0,5 și 1) și deschis + explodat, față de starea închisă. Ce era greșit și s-a reparat:
