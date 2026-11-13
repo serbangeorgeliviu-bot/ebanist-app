@@ -66,7 +66,31 @@ var HW_DRILL = {
        Ø100.4×7×22, canal de 14 mm adancime, 9.8 mm inalt, ~69.6 mm lung (coarda); conector
        64×13.5×9.7; de la capat min. 37 mm, pas max. 300 mm; panou min. 18 mm. */
     clamex:    { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello Clamex P-14/10 Flexus, 02/22",
-                 body: { len: 64, thk: 9.7 } }            // conectorul 64×13,5×9,7; canalul îl depășește cu jocul de montaj
+                 body: { len: 64, thk: 9.7 } },           // conectorul 64×13,5×9,7; canalul îl depășește cu jocul de montaj
+    /* Familia Lamello P-System (D-134): aceeași freză Ø 100,4 × 7 × Ø 22, deci aceeași formă de canal; lungimea canalului e coarda frezei la adâncimea ei,
+       2·√(d·(100,4−d)): 14 mm → 69,6; 10 mm → 60,1. Cotele elementelor: Lamello P-System brochure (EN), „Technical data". `depth` = în muchia piesei E,
+       `depth_face` = în fața piesei F; `len_face` = coarda de pe față (altfel `len`). `body` = elementul din E, `body_f` = cel din F (altfel același).
+       `h` = înălțimea elementului pe axa îmbinării. Poziția canalelor pe piesă (capăt, pas) nu e din broșură: `verificat:false`. */
+    tenso:     { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello P-System brochure: Tenso P-14 66×27×9.7",
+                 body: { len: 66, thk: 9.7, h: 13.5 }, note: "Lamello Tenso P-14", verificat: false },
+    bisco:     { len: 69.6, thk: 9.8, depth: 14, depth_face: 14, end: 50, pitch: 300, src: "Lamello P-System brochure: Bisco P-14 65×27×7",
+                 body: { len: 65, thk: 7, h: 13.5 }, note: "Lamello Bisco P-14", verificat: false },
+    variants: {
+      lam_clamex:         { note: "Lamello Clamex P-14", body: { len: 64, thk: 9.7, h: 13.5 } },
+      lam_clamex_p10:     { len: 60.1, depth: 10, depth_face: 10, end: 40, src: "Lamello P-System brochure: Clamex P-10 52×19×9.7", note: "Lamello Clamex P-10",
+                            body: { len: 52, thk: 9.7, h: 9.5 }, verificat: false },
+      lam_clamex_medius:  { len: 69.6, len_face: 60.1, depth: 14, depth_face: 10, src: "Lamello P-System brochure: Clamex P-14/10 Medius 64×13.5 + 52×7.5", note: "Lamello Clamex P-14/10 Medius",
+                            body: { len: 64, thk: 9.7, h: 13.5 }, body_f: { len: 52, thk: 9.7, h: 7.5 }, verificat: false },
+      lam_clamex_flexus:  { len: 69.6, len_face: 60.1, depth: 14, depth_face: 10, src: "Lamello P-System brochure: Clamex P-14/10 Flexus 64×13.5 + 52×7.5", note: "Lamello Clamex P-14/10 Flexus",
+                            body: { len: 64, thk: 9.7, h: 13.5 }, body_f: { len: 52, thk: 9.7, h: 7.5 }, verificat: false },
+      lam_clamex_cnc:     { src: "Lamello P-System brochure: Clamex P-14 CNC 64×13.5×9.7", note: "Lamello Clamex P-14 CNC", body: { len: 64, thk: 9.7, h: 13.5 }, verificat: false },
+      lam_tenso_p14:      { note: "Lamello Tenso P-14" },
+      lam_tenso_p10:      { len: 60.1, depth: 10, depth_face: 10, end: 40, src: "Lamello P-System brochure: Tenso P-10 52×19×9.7", note: "Lamello Tenso P-10",
+                            body: { len: 52, thk: 9.7, h: 9.5 } },
+      lam_bisco_p14:      { note: "Lamello Bisco P-14" },
+      lam_bisco_p10:      { len: 60.1, depth: 10, depth_face: 10, end: 40, src: "Lamello P-System brochure: Bisco P-10 52×19×7", note: "Lamello Bisco P-10",
+                            body: { len: 52, thk: 7, h: 9.5 } }
+    }
   },
   pin: { dia: 5, depth: 12, drop: 6, extra: 1,            // reggipiano: +-1 foro di regolazione
          out: 9,                                          // cât iese tija în afara feței panoului (3D)
@@ -109,12 +133,22 @@ var HW_DRILL = {
 /* tipul de imbinare al corpului: din articolul `conn` ales pe corp (cfg.hwSel.conn),
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
 var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
-                    gen_dowel: "dowel", gen_biscuit: "biscuit", fes_domino: "domino", lam_clamex: "clamex" };
-function jointKind(input) {
+                    gen_dowel: "dowel", gen_biscuit: "biscuit", fes_domino: "domino", lam_clamex: "clamex",
+                    lam_clamex_p10: "clamex", lam_clamex_medius: "clamex", lam_clamex_flexus: "clamex", lam_clamex_cnc: "clamex",
+                    lam_tenso_p14: "tenso", lam_tenso_p10: "tenso", lam_bisco_p14: "bisco", lam_bisco_p10: "bisco" };
+/* datele unei îmbinări, cu varianta ei (după articolul din catalog) peste cele ale familiei */
+function jointData(kind, id) {
+  var base = HW_DRILL.joints[kind], v = HW_DRILL.joints.variants && HW_DRILL.joints.variants[id], o = {}, k;
+  for (k in base) o[k] = base[k];
+  if (v) for (k in v) o[k] = v[k];
+  return o;
+}
+function jointId(input) {
   var cfg = (input && input.cfg) || {}, id = cfg.hwSel && cfg.hwSel.conn;
   if (!id && typeof root.jointDefaultId === "function") id = root.jointDefaultId();
-  return JOINT_OF_ID[id] || "minifix";
+  return id;
 }
+function jointKind(input) { return JOINT_OF_ID[jointId(input)] || "minifix"; }
 
 var ORDER = ["fianco", "divisorio", "base", "cielo", "base_cielo", "traversa_cielo", "blat", "ripiano", "raft_tast", "raft_sub", "somiera_pan", "somiera_lat", "somiera_cap", "cutie_fond", "cutie_front", "cutie_lat", "schienale", "zoccolo", "traversa", "traversa_spate",
   "frontale", "cassetto_frontale", "cassetto_fianco", "cassetto_fondo", "rama_montant", "rama_traversa", "rama_camp", "contur", "filler"];
@@ -400,9 +434,9 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
 /* confirmat / tasel / lamelle / domino: aceeasi geometrie de capat (E vine cu
    muchia pe fata lui F), alt fel de legatura. Pozitia pe grosimea lui E: la mijloc. */
 function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
-  var J = HW_DRILL.joints[kind], edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
+  var J = jointData(kind, out.jointId), edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
   var mid = (E.min[camAx] + E.max[camAx]) / 2;
-  var pos = kind === "confirmat" ? jointPositions2(lo, hi, J.end, J.mid_over) : evenPositions(lo, hi, J.end, J.pitch, kind === "dowel" ? 30 : J.len);
+  var pos = kind === "confirmat" ? jointPositions2(lo, hi, J.end, J.mid_over) : evenPositions(lo, hi, J.end, J.pitch, kind === "dowel" ? 30 : Math.max(J.len, J.len_face || 0));
   pos.forEach(function (s) {
     var id = "hw_" + out.hw.length, p = [0, 0, 0]; p[eAx] = edge; p[camAx] = mid; p[sAx] = s;
     if (kind === "confirmat") {
@@ -415,11 +449,12 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       hole(E, eAx, eSide, p.slice(), J.dia, J.len - J.face_depth, id, "tassello");
       out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
     } else {
-      var nm = kind === "biscuit" ? "lamella" : kind === "clamex" ? "clamex" : "domino";
-      slot(F, eAx, -eSide, p.slice(), sAx, J.len, J.thk, J.depth_face, id, "canal " + nm);
+      var nm = { biscuit: "lamella", clamex: "clamex", tenso: "tenso", bisco: "bisco" }[kind] || "domino";
+      var cat = kind === "biscuit" ? "gen_biscuit" : kind === "domino" ? "fes_domino" : (out.jointId || "lam_clamex");
+      slot(F, eAx, -eSide, p.slice(), sAx, J.len_face || J.len, J.thk, J.depth_face, id, "canal " + nm);
       slot(E, eAx, eSide, p.slice(), sAx, J.len, J.thk, J.depth, id, "canal " + nm);
-      out.hw.push({ id: id, type: kind, catalog: kind === "biscuit" ? "gen_biscuit" : kind === "clamex" ? "lam_clamex" : "fes_domino", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx,
-                    note: kind === "biscuit" ? "Lamello #20" : kind === "clamex" ? "Lamello Clamex P-14" : "Festool Domino 8×40" });
+      out.hw.push({ id: id, type: kind, catalog: cat, piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx,
+                    note: J.note || (kind === "biscuit" ? "Lamello #20" : "Festool Domino 8×40") });
     }
   });
 }
@@ -520,7 +555,7 @@ function generate(input) {
       if (o._lo && o._hi) { var l2 = X.pt(o._lo), h2 = X.pt(o._hi); o._lo = [Math.min(l2[0], h2[0]), Math.min(l2[1], h2[1]), Math.min(l2[2], h2[2])]; o._hi = [Math.max(l2[0], h2[0]), Math.max(l2[1], h2[1]), Math.max(l2[2], h2[2])]; }
     });
   });
-  var out = { schema_version: ra.schema_version, units: ra.units, verificat: ra.verificat, joint: ra.joint,
+  var out = { schema_version: ra.schema_version, units: ra.units, verificat: ra.verificat, joint: ra.joint, jointId: ra.jointId,
               pieces: ra.pieces.concat(rb.pieces), hw: ra.hw.concat(rb.hw), warnings: ra.warnings.concat(rb.warnings) };
   out.pieces.sort(function (a, b) {
     var ka = typeof a.pk === "number" ? a.pk : 1e9, kb = typeof b.pk === "number" ? b.pk : 1e9;
@@ -532,7 +567,7 @@ function generate(input) {
 function generate1(input) {
   var boxes = (input && input.boxes) || [], cfg = (input && input.cfg) || {}, G = input && input.G;
   var out = { schema_version: "1.0", units: "mm", verificat: HW_DRILL.verificat,
-              pieces: [], hw: [], warnings: [], joint: jointKind(input) };
+              pieces: [], hw: [], warnings: [], joint: jointKind(input), jointId: JOINT_OF_ID[jointId(input)] ? jointId(input) : null };
   var pcs = physicalPieces(boxes);
   if (!pcs.length) return out;
   var byRole = function (r) { return pcs.filter(function (p) { return p.role === r; }); };

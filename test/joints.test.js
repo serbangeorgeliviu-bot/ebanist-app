@@ -55,3 +55,25 @@ test("determinism: acelasi corp, aceleasi operatii", () => {
     assert.deepEqual(JSON.stringify(gen(id)), JSON.stringify(gen(id)));
 });
 test("id necunoscut → minifix", () => assert.equal(gen("zzz").joint, "minifix"));
+
+/* Familia Lamello P-System (D-134): articolul din catalog alege varianta; cotele din broșura Lamello */
+const LAM = { lam_clamex: ["clamex", 14, 14, "Lamello Clamex P-14"], lam_clamex_p10: ["clamex", 10, 10, "Lamello Clamex P-10"], lam_clamex_medius: ["clamex", 14, 10, "Lamello Clamex P-14/10 Medius"],
+  lam_clamex_flexus: ["clamex", 14, 10, "Lamello Clamex P-14/10 Flexus"], lam_clamex_cnc: ["clamex", 14, 14, "Lamello Clamex P-14 CNC"],
+  lam_tenso_p14: ["tenso", 14, 14, "Lamello Tenso P-14"], lam_tenso_p10: ["tenso", 10, 10, "Lamello Tenso P-10"], lam_bisco_p14: ["bisco", 14, 14, "Lamello Bisco P-14"], lam_bisco_p10: ["bisco", 10, 10, "Lamello Bisco P-10"] };
+const chord = d => 2 * Math.sqrt(d * (100.4 - d));   // coarda frezei P-System Ø 100,4 la adâncimea d
+for (const [id, [fam, dE, dF, note]] of Object.entries(LAM)) {
+  test(`P-System · ${id}: canale, adâncimi, coardă, catalog`, () => {
+    const o = gen(id);
+    assert.equal(o.joint, fam); assert.equal(o.jointId, id);
+    const slots = ops(o).filter(x => x.type === "slot");
+    assert.ok(slots.length > 0, "fără canale");
+    const hws = o.hw.filter(h => h.type === fam);
+    assert.ok(hws.length > 0 && hws.every(h => h.catalog === id && h.note === note), "conectorul poartă articolul și numele din catalog");
+    for (const x of slots) {
+      assert.ok(x.depth === dE || x.depth === dF, `adâncime ${x.depth}`);
+      const d = x.depth; assert.ok(Math.abs(x.len - chord(d)) < 0.12, `coarda canalului ${x.len} ≠ ${chord(d).toFixed(1)} la adâncimea ${d}`);
+      assert.equal(x.note, "canal " + fam);
+    }
+    assert.ok(slots.some(x => x.depth === dE) && slots.some(x => x.depth === dF), "ambele adâncimi (muchie și față) apar");
+  });
+}
