@@ -988,7 +988,7 @@ function buildHardware(model) {
       P.hw.add(tag(cyl("__nylon", rl, [x0 + s * 7, rl[1], rl[2]], 13)));
       if (side) {
         /* culisantă laterală: șina corpului e vizibilă, cu role sau bile */
-        bx("__zinc", 1.8, 7.5, -4, 30, zf + 8, z1 - 8);
+        bx("__zinc", 1.8, 5, -4, 30, zf + 8, z1 - 8);
         const nb = gid === "haf_ball" ? 7 : 3;
         for (let k = 0; k < nb; k++) {
           const zz = zf + 22 + k * ((h.len - 44) / Math.max(nb - 1, 1)), c = [w[0] + s * 7.5, y + 13, zz];
@@ -1006,7 +1006,17 @@ function buildHardware(model) {
       }
       const G = D ? D.hw : P.hw, rel = D ? [String(D.pk), String(h.piece)] : null;
       const gb = (m, xa, xb, ya, yb, za, zb) => { const x = X(xa, xb); const q = tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb])); if (rel) q.userData.rel = rel; G.add(q); };
-      if (side) gb("__zinc", 7.5, 12.7, -4, 30, zf + 8, z1 - 8);   // șina sertarului
+      if (side) {
+        /* culisantă laterală cu bile în trei piese (Blum 230M, Häfele): șina corpului, cea intermediară (la jumătate de cursă) și șina sertarului, cu rânduri de bile între ele */
+        gb("__zinc", 8.8, 12.7, -4, 30, zf + 8, z1 - 8);   // șina sertarului
+        for (let zz = zf + 40; zz < z1 - 40; zz += 32) gb("__blackmetal", 12.7, 12.95, 6, 20, zz - 2, zz + 2);   // găurile ovale ale șinei sertarului
+        const xm = X(5.2, 8.6), mid = tag(box("__inox", [xm[0], y - 3, zf + 14], [xm[1], y + 29, z1 - 14], 0.8));
+        G.add(mid); if (rel) mid.userData.rel = rel;
+        R.halves.push({ m: mid, P: D || P, base: new THREE.Vector3().copy(mid.position), hasD: !!D });
+        [5.1, 8.7].forEach(xb => [3, 24].forEach(yb => { for (let zz = zf + 26; zz < z1 - 26; zz += 24) {
+          const bl = tag(sph("__inox", [w[0] + s * xb, y + yb, zz], 3.6)); G.add(bl); if (rel) bl.userData.rel = rel;
+          R.halves.push({ m: bl, P: D || P, base: new THREE.Vector3().copy(bl.position), hasD: !!D }); } }));
+      }
       else gb("__zinc", 2.2, 12, -8.6, -4.6, zf + 22, z1 - 14);    // alergătorul de jos
       gb("__zinc", 2.2, 4, -8.6, 18, zf + 22, zf + 30);           // cârligul din spate
       gb(movento ? "__blackmetal" : "__nylongrey", 2.2, 12.5, -8.6, 16, z1 - 40, z1 - 8);    // clema de fixare din față
