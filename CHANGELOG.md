@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.55.0 — 13 noiembrie 2026
+
+**Lamello Cabineo și Invis Mx2 în catalog, în găurire și în 3D, după desenele tehnice din broșura Lamello Drilling System (D-140).** Nou în Îmbinare: **Cabineo 8** (186310), **Cabineo 12** (186320), **Invis Mx2 cu știft de 30 mm** (6012301) și **cu știft de 14 mm** (6012300).
+- **Cabineo:** buzunar din trei găuri Ø 15 suprapuse la 11,2 mm, adânc de 11 mm, în fața piesei, prima la 3,6 mm de capăt; șurub Ø 5 în fața piesei vecine, adânc de 8 mm (Cabineo 8) sau 12 mm (Cabineo 12), cu axa la 5 mm de fața cu buzunar. În 3D: elementul de 33,8 × 16,5 × 10,8 mm în buzunar, cu șurubul care iese prin capăt.
+- **Invis Mx2:** două găuri Ø 12 coaxiale: 37 mm în muchia piesei (conectorul Ø 12 × 35) și 32 mm (știft 30) sau 14 mm (știft 14) în fața celeilalte, cu axa la 9–15 mm de fața vizibilă (mijlocul panoului, limitat la acest interval). În 3D: conectorul și știftul, coaxiale.
+Poziția pe piesă (distanța de la capăt, pasul) nu e din broșură: `verificat:false`. Nu sunt încă: Cabineo 8 M6, insertul M6, Cabineo X (suport de raft), Invis Mx2 la panou central, montajul „flush” cu capac. Prețurile noi sunt 0.
+
 ## 5.54.0 — 13 noiembrie 2026
 
 **Conectorii Festool D8 (KV D8/50 colț, MSV D8/25 panou central), cu piesele din fișierul STEP oficial Festool (D-139).** Nou în Îmbinare: **Festool KV D8/50** (203166) și **MSV D8/25** (203167). Găurire după fișele Festool: canal de tenon D8 (8 × 22 mm) de **15 mm în fața piesei laterale** și de **28 mm în muchia piesei de bază**, plus **bușon Ø 15** în fața piesei de bază, la 18,8 mm de muchie (poziția și adâncimea de 15,8 mm din STEP); avertisment dacă panoul e în afara intervalului 18–28 mm. În 3D se văd cele **cinci piese reale** ale conectorului (manșonul despicat, bolțul, tava de plastic, ancora transversală Ø 15 și capacul), teselate și simplificate din STEP-ul oficial (~3,8 mii de triunghiuri pe conector, în `ebanist-festool-d8.js`); ancora și capacul urmăresc fața piesei, oricare ar fi grosimea. Devizul numără pe articol; textele sunt în 7 limbi. **Neverificat:** adâncimea bușonului (din STEP, nu din fișă), poziția pe piesă (capăt, pas: ca la celelalte îmbinări, `verificat:false`), felul în care se montează MSV față de KV (aceleași date de frezare în fișe); prețurile sunt 0. **Fișierul STEP e oferit de Festool pe pagina produsului pentru planificare; condițiile lui de redistribuire nu sunt verificate.** Nu sunt încă: variantele LR32 (203168, 203169), conectorii DOMINO XL (colț și plat).

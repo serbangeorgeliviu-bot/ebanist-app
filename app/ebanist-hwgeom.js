@@ -107,6 +107,25 @@
       /* de la capul exterior (y=0) la vârf: cap Ø10,5 × 3,5, tijă Ø7 cu filet pe ultimii 38 mm, vârf conic */
       out.push(lathe("__brass", top, tip, screwProfile({ len: J.head_h + L, shaft: J.through_dia, head: J.head_dia, headH: J.head_h, cone: 2, thread: { pitch: 2.6, from: J.head_h + 12, to: J.head_h + L, depth: 0.7 }, tip: 3 }), J.through_dia, "screw", src));
       var sk = cyl("__flushdark", along(top, h.eAx, h.eSide * 0.03), along(top, h.eAx, -h.eSide * 1.2), 4.4, "socket", src); sk.ch = 0; out.push(sk);   // locașul hexagonal (aici rotund)
+    } else if (h.type === "cabineo") {
+      /* Cabineo: elementul 33,8 × 16,5 × 10,8 în buzunar (la 5,4 mm de capătul lui E, adică centrat în cele trei găuri Ø 15) și șurubul Ø 5 care iese prin capăt în F */
+      var K2 = jointK(D, h), L = K2.body.l, W = K2.body.w, H2 = K2.body.h, off0 = K2.from_end + (K2.dia + (K2.n - 1) * K2.step - L) / 2;
+      var edgeE = w[h.eAx], dir = -h.eSide, lo2 = w.slice(), hi2 = w.slice();
+      var a0 = edgeE + dir * off0, a1 = edgeE + dir * (off0 + L);
+      lo2[h.eAx] = Math.min(a0, a1); hi2[h.eAx] = Math.max(a0, a1);
+      lo2[h.sAx] = w[h.sAx] - W / 2; hi2[h.sAx] = w[h.sAx] + W / 2;
+      lo2[h.camAx] = h.face; hi2[h.camAx] = h.face + H2;
+      var srcC = ops.map(function (x) { return x.op.id; });
+      var housing = box("__nylon", lo2, hi2, "body", srcC); housing.r = 1.6; out.push(housing);
+      var sa = w.slice(), sb = w.slice(); sa[h.camAx] = sb[h.camAx] = h.face + K2.axis; sa[h.eAx] = edgeE + dir * off0; sb[h.eAx] = edgeE - dir * K2.scr_depth;
+      out.push(cyl("__blackmetal", sa, sb, K2.scr_dia, "screw", srcC));
+    } else if (h.type === "invis") {
+      /* Invis Mx2: conectorul Ø 12 × 35 în muchia lui E și știftul Ø 12 × 30/14 în fața lui F, coaxiale */
+      var K3 = jointK(D, h), srcI = ops.map(function (x) { return x.op.id; }), e0 = w[h.eAx], d3 = -h.eSide, ia = w.slice(), ib = w.slice(), ic = w.slice();
+      ia[h.eAx] = e0 - d3 * 0.1; ib[h.eAx] = e0 + d3 * K3.e_len;
+      out.push(cyl("__zinc", ia, ib, K3.dia - 0.4, "connector", srcI));
+      ic[h.eAx] = e0 + d3 * 0.1; var id3 = w.slice(); id3[h.eAx] = e0 - d3 * K3.stud;
+      out.push(cyl("__inox", ic, id3, K3.dia - 0.4, "stud", srcI));
     } else if (h.type === "kv") {
       /* conector Festool D8: cele cinci piese din STEP-ul oficial (EBFestoolD8), puse în cadrul conectorului: x spre piesa de bază (în E), y pe axa canalului, z spre fața bușonului.
          Ancora transversală și capacul urmăresc fața lui E: capul la nivelul feței, oricare ar fi grosimea (18–28 mm). */
@@ -219,5 +238,5 @@
     return map;
   }
 
-  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "reggipiano"] };
+  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "cabineo", "invis", "reggipiano"] };
 });
