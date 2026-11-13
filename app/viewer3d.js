@@ -329,6 +329,8 @@ function materialFor(key) {
     m = new THREE.MeshStandardMaterial({ color: 0x3a3d40, roughness: .35, metalness: .9, envMapIntensity: 1.1 });
   } else if (key === "__inox") {
     m = new THREE.MeshStandardMaterial({ color: 0xc9ccd0, roughness: .27, metalness: 1, envMapIntensity: 1.3 });
+  } else if (key === "__green") {
+    m = new THREE.MeshStandardMaterial({ color: 0x3fa34d, roughness: .5, metalness: .1 });
   } else if (key === "__blackmetal") {
     m = new THREE.MeshStandardMaterial({ color: 0x2c2e33, roughness: .38, metalness: .85, envMapIntensity: 1.1 });
   } else if (key === "__zinc") {
@@ -896,7 +898,11 @@ function buildHardware(model) {
       /* flanșa: plăcuță presată cu colțuri rotunjite (nu cutie), cu un guler în jurul cupei */
       const fcx = w[0] + sd * 0.25;
       P.hw.add(tag(extrudeMesh(HM, rrectShape(27.5, 57, 5.5), 1.6, [[1, 0, 0, fcx], [0, 1, 0, y], [0, 0, 1, z0 - 1.7]], 0.25)));
-      P.hw.add(tag(lathe(HM, [w[0], y, z0 - 1.7], [w[0], y, z0 - 3.9], [[0, 0], [14.2, 0], [14.2, 0.4], [12.4, 1.2], [12.4, 2.2], [0, 2.2]], 28)));
+      /* discul cupei (în fotografia Blum depășește placa spre dulap): inel Ø 42 cu bombare, peste placă */
+      P.hw.add(tag(lathe(HM, [w[0], y, z0 - 1.7], [w[0], y, z0 - 5.1], [[0, 0], [21, 0], [21, 0.5], [19.2, 1.1], [15.6, 1.9], [13.2, 2.7], [13.2, 3.4], [0, 3.4]], 40)));
+      /* mecanismul BLUMOTION din cupă, vizibil pe disc: plăcuță neagră și semnul verde */
+      P.hw.add(tag(box("__blackmetal", [w[0] - sd * 6, y - 19.5, z0 - 5.6], [w[0] + sd * 10, y - 10, z0 - 4.6], 0.5)));
+      P.hw.add(tag(box("__green", [w[0] + sd * 6, y - 16.4, z0 - 5.9], [w[0] + sd * 8.4, y - 14, z0 - 5.4], 0.2)));
       [-1, 1].forEach(k => {
         const c = [w[0] + sd * HX.dowelOffset, y + k * HX.dowelHalf, z0 - 1.7];   // pe tasealele din fișa de găurire
         P.hw.add(tag(cyl("__blackmetal", c, [c[0], c[1], c[2] - 0.15], 8.4)));
@@ -919,9 +925,19 @@ function buildHardware(model) {
         const zNear = z0 - 16, AR = EBHwGeom.hingeArm(zNear, inset, 1.3);
         const armM = [[0, sd, 0, p[0]], [0, 0, 1, p[1]], [1, 0, 0, 0]];
         A.hw.add(tag(extrudeMesh(HM, polyShape(AR.outer), AR.width, armM, 1.8, -AR.width / 2)));
-        /* fanta capacului de pe partea de sus, spre capătul brațului (clema de prindere pe placă) */
         const zFar = AR.zFar;
-        A.hw.add(tag(box("__blackmetal", [xo(12.6), p[1] - 6.5, zFar + 6], [xo(13.4), p[1] + 6.5, zFar + 22], 0.2)));
+        /* înălțimea feței de sus a brațului la cota z (interpolare pe profilul din hingeArm) */
+        const hTop = (z) => { const U = AR.outer.slice(2).reverse(); for (let i = 0; i < U.length - 1; i++) { const a = U[i], b = U[i + 1]; if (z >= a[0] && z <= b[0]) return a[1] + (b[1] - a[1]) * (z - a[0]) / (b[0] - a[0]); } return U[U.length - 1][1]; };
+        /* capacul ridicat de pe partea de sus (în fotografie: placă mai îngustă, în trepte, cu șine pe laterale) */
+        { const z1 = zFar + 3, z2 = zFar + 44;
+          A.hw.add(tag(extrudeMesh(HM, polyShape([[z1, hTop(z1) - 0.3], [z2, hTop(z2) - 0.3], [z2, hTop(z2) + 2.6], [z1, hTop(z1) + 2.6]]), 13.4, armM, 0.5, -6.7)));
+          [-1, 1].forEach(k => A.hw.add(tag(extrudeMesh("__blackmetal", polyShape([[z1 + 1, hTop(z1 + 1) + 2.5], [z2 - 1, hTop(z2 - 1) + 2.5], [z2 - 1, hTop(z2 - 1) + 2.9], [z1 + 1, hTop(z1 + 1) + 2.9]]), 0.8, armM, 0.1, k * 4.3 - 0.4))));
+        }
+        /* rostul dintre cele două corpuri ale brațului (în fotografie: o treaptă verticală) */
+        { const zs = zNear - 24; A.hw.add(tag(extrudeMesh("__blackmetal", polyShape([[zs, 3.2], [zs + 1, 3.2], [zs + 1, hTop(zs + 1) + 0.12], [zs, hTop(zs) + 0.12]]), AR.width + 0.3, armM, 0.05, -AR.width / 2 - 0.15)));
+          A.hw.add(tag(extrudeMesh(HM, polyShape([[zNear - 23, 3], [zNear, 3], [zNear, hTop(zNear)], [zNear - 3, hTop(zNear - 3)], [zNear - 23, hTop(zNear - 23)]]), AR.width + 0.5, armM, 0.6, -AR.width / 2 - 0.25))); }
+        /* capătul brațului: două fante verticale ale clemei de prindere pe placă */
+        [-1, 1].forEach(k => A.hw.add(tag(box("__blackmetal", [xo(4.5), p[1] + k * 4.8 - 1, zFar - 0.1], [xo(hTop(zFar) - 2.5), p[1] + k * 4.8 + 1, zFar + 0.45], 0.2))));
         /* șuruburile de reglaj ale brațului (adâncime și lateral) */
         [[zFar + 28, 15.2], [zFar + 40, 19]].forEach(([zz, hh]) => {
           A.hw.add(tag(cyl("__inox", [xo(hh), p[1], zz], [xo(hh + 1.6), p[1], zz], 7.5)));
@@ -936,7 +952,8 @@ function buildHardware(model) {
         LK.a.forEach((a, i) => {
           const b = LK.b[i], lk = new THREE.Mesh(UNIT, materialFor(HM));
           lk.castShadow = true; tag(lk); lk.userData.own = true; R.linkG.add(lk);
-          const ends = [a, b].map(() => { const r = cyl("__inox", [0, 0, 0], [0, LK.h + 2, 0], 5.6, 0.8); tag(r); r.userData.own = true; R.linkG.add(r); return r; });
+          const rib = []; { const n = 7, L = LK.h + 2; rib.push([0, 0]); for (let k = 0; k < n; k++) { const y0 = L * k / n, y1 = L * (k + 1) / n; rib.push([2.2, y0 + 0.05], [3.1, y0 + 0.35], [3.1, y1 - 0.35], [2.2, y1 - 0.05]); } rib.push([0, L]); }
+          const ends = [a, b].map(() => { const r = lathe("__inox", [0, 0, 0], [0, LK.h + 2, 0], rib, 16); tag(r); r.userData.own = true; R.linkG.add(r); return r; });
           R.links.push({ m: lk, P, A, a, b, rel: lk.userData.rel, th: LK.th, hh: LK.h, ends });
         });
       } else {

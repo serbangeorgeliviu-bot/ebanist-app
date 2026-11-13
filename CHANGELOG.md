@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.49.0 — 13 noiembrie 2026
+
+**Balamaua Blum din 3D, cu detaliile din fotografia producătorului.** Brațul are acum capacul ridicat de pe partea de sus, cu șine negre pe laterale, rostul în treaptă dintre cele două corpuri și cele două fante ale clemei de la capăt; articulațiile sunt butuci cu nervuri (ca în fotografia Blum), nu cilindri netezi; cupa are discul bombat, care depășește placa spre dulap, cu plăcuța neagră a mecanismului BLUMOTION și semnul verde; gâtul e mai gros. Nimic din găurire, distinctă, deviz sau fișa de montaj nu s-a schimbat. Rămâne o simplificare: ușa se rotește în jurul muchiei ei, nu după patrulaterul real, deci gâtul se alungește când ușa e deschisă larg.
+
 ## 5.48.0 — 13 noiembrie 2026
 
 **Balamaua din 3D refăcută după desenul și fotografia din broșura Blum (CLIP top BLUMOTION 110°).** Versiunea 5.46.0 desena benzi subțiri între ușă și lateral, ceea ce nu seamănă cu balamaua adevărată. Acum: brațul e un **corp masiv, lat de 21 mm, lung de 66,5 mm măsurat de la fața ușii** (cota din desenul Blum), mai gros spre ușă și îngustat spre capăt, cu muchii rotunjite, cu fanta capacului și șuruburile de reglaj; între cupă și braț e **un gât îndoit gros** (17 mm pe înălțime), nu două benzi; flanșa din ușă rămâne plăcuța rotunjită cu guler, iar placa de montaj are nervură și șuruburi în cruce. Cotele de găurire, distinta, devizul și fișa de montaj nu s-au schimbat. Rămâne o simplificare: ușa se rotește în jurul muchiei ei, nu după cinematica reală a patrulaterului din balama, deci gâtul se întinde când ușa e deschisă larg.
