@@ -149,7 +149,7 @@
           lo[h.camAx] = w[h.camAx] - K.body.thk / 2; hi[h.camAx] = w[h.camAx] + K.body.thk / 2;
           var mat = { biscuit: "__wooddowel", domino: "__domino", bisco: "__nylon" }[h.type];
           var bd = box(mat, lo, hi, "body", [sF.op.id, sE.op.id]);
-          bd.r = h.type === "biscuit" ? K.body.thk * 0.45 : h.type === "bisco" ? 1.3 : 1.2;    // lamela e aproape un oval, Domino și Bisco au muchii rotunjite
+          bd.r = h.type === "biscuit" ? K.body.thk * 0.45 : h.type === "bisco" ? 1.3 : h.type === "domino" ? Math.min(K.body.thk * 0.48, 6) : 1.2;   // tenonul Domino e un oval plat: capetele late sunt semicirculare    // lamela e aproape un oval, Domino și Bisco au muchii rotunjite
           out.push(bd);
         }
       }
