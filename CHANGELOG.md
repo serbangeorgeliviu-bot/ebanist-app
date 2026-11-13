@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.56.0 — 13 noiembrie 2026
+
+**Lamello Divario P-18 în catalog, găurire și 3D (D-141).** Din desenul tehnic al broșurii Lamello P-System (p. 74): **canal P-System de ~78 mm lungime, 9,8 mm lat și 8 mm adânc** în fața piesei fixe (grosime de la 18 mm) și **două găuri Ø 8, adânci de 10 mm, la 32 mm una de alta**, în muchia piesei care se introduce prin culisare (cod 145550). În 3D: elementul din canal (58 × 16 × 9,7) și cei doi știfturi. **Neverificat:** canalul trebuie să iasă la muchia din față a piesei fixe, ca piesa să culiseze înăuntru; poziția pe piesă (capăt, pas) nu e din broșură și **nu e impusă** (`verificat:false`). Prețul e 0. Nu sunt încă: LC P-16 (plăci ușoare, cu geometrie de inserție proprie) și variantele LR32 ale conectorilor Festool.
+
 ## 5.55.0 — 13 noiembrie 2026
 
 **Lamello Cabineo și Invis Mx2 în catalog, în găurire și în 3D, după desenele tehnice din broșura Lamello Drilling System (D-140).** Nou în Îmbinare: **Cabineo 8** (186310), **Cabineo 12** (186320), **Invis Mx2 cu știft de 30 mm** (6012301) și **cu știft de 14 mm** (6012300).

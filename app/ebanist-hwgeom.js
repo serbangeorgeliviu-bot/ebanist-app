@@ -107,6 +107,15 @@
       /* de la capul exterior (y=0) la vârf: cap Ø10,5 × 3,5, tijă Ø7 cu filet pe ultimii 38 mm, vârf conic */
       out.push(lathe("__brass", top, tip, screwProfile({ len: J.head_h + L, shaft: J.through_dia, head: J.head_dia, headH: J.head_h, cone: 2, thread: { pitch: 2.6, from: J.head_h + 12, to: J.head_h + L, depth: 0.7 }, tip: 3 }), J.through_dia, "screw", src));
       var sk = cyl("__flushdark", along(top, h.eAx, h.eSide * 0.03), along(top, h.eAx, -h.eSide * 1.2), 4.4, "socket", src); sk.ch = 0; out.push(sk);   // locașul hexagonal (aici rotund)
+    } else if (h.type === "divario") {
+      /* Divario P-18: elementul din canalul lui F (58 × 16 × 9,7: 8 mm în F, 8 mm în afara feței) și cei doi știfturi Ø 8 din găurile din muchia lui E */
+      var KD = jointK(D, h), srcD = ops.map(function (x) { return x.op.id; }), dd = -h.eSide, edgeD = w[h.eAx];
+      var lo4 = w.slice(), hi4 = w.slice(), f0 = edgeD - dd * KD.depth, f1 = edgeD + dd * (KD.body.w - KD.depth);
+      lo4[h.eAx] = Math.min(f0, f1); hi4[h.eAx] = Math.max(f0, f1);
+      lo4[h.sAx] = w[h.sAx] - KD.body.l / 2; hi4[h.sAx] = w[h.sAx] + KD.body.l / 2;
+      lo4[h.camAx] = w[h.camAx] - KD.body.h / 2; hi4[h.camAx] = w[h.camAx] + KD.body.h / 2;
+      var gb = box("__nylongrey", lo4, hi4, "grooveEl", srcD); gb.r = 1.2; out.push(gb);
+      [-1, 1].forEach(function (k) { var pa = w.slice(), pb = w.slice(); pa[h.sAx] = pb[h.sAx] = w[h.sAx] + k * KD.hole_pitch / 2; pa[h.eAx] = edgeD + dd * 0.1; pb[h.eAx] = edgeD + dd * KD.hole_depth; out.push(cyl("__nylon", pa, pb, KD.hole_dia - 0.2, "peg", srcD)); });
     } else if (h.type === "cabineo") {
       /* Cabineo: elementul 33,8 × 16,5 × 10,8 în buzunar (la 5,4 mm de capătul lui E, adică centrat în cele trei găuri Ø 15) și șurubul Ø 5 care iese prin capăt în F */
       var K2 = jointK(D, h), L = K2.body.l, W = K2.body.w, H2 = K2.body.h, off0 = K2.from_end + (K2.dia + (K2.n - 1) * K2.step - L) / 2;
@@ -238,5 +247,5 @@
     return map;
   }
 
-  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "cabineo", "invis", "reggipiano"] };
+  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "cabineo", "invis", "divario", "reggipiano"] };
 });
