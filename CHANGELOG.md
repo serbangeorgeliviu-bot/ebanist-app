@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.46.0 — 13 noiembrie 2026
+
+**Balamaua din 3D seamănă cu una adevărată (prima etapă).** Înainte era o placă dreaptă și o bară. Acum, la Blum CLIP top și la cele Häfele: flanșa din ușă e o plăcuță presată cu colțuri rotunjite și guler în jurul cupei, între doi obraji cu nituri; brațul e tablă îndoită în U (pereți laterali și capac, nu bloc plin); între ușă și braț lucrează **două legături** cu nituri la capete, care urmăresc ușa când se deschide; placa de montaj are colțuri rotunjite, nervură și șuruburi cu cap în cruce; amortizorul BLUMOTION e un cilindru cu carcasă. Forma rămâne neverificată pe piesă (ca înainte): cotele de găurire și găurile nu s-au schimbat, nici distinta, devizul sau fișa de montaj. Geometria brațului și a legăturilor e în `ebanist-hwgeom.js` (pură, cu teste). Urmează glisierele (Movento, Legrabox, Tandembox).
+
 ## 5.45.0 — 12 noiembrie 2026
 
 **Probă gratuită de 7 zile și plan cu reînnoire pe Google Play (D-132).** Până acum Pro pe Play era „cu plată în avans" (10,99 € pentru o lună, fără reînnoire și fără probă): omul plătea înainte să vadă valoarea. Ecranul Pro știe acum să vândă planuri cu reînnoire automată și, când Play o dă acestui utilizator, **7 zile gratuit** („Încearcă 7 zile gratuit, apoi {preț}/lună" sau „/an"); cine a avut deja abonamentul nu vede proba. Textele se aleg după ce se vinde de fapt (reînnoire automată sau plată în avans) și există în cele 7 limbi. Cu partea nativă veche (1.3.x) nimic nu se schimbă: primește tot planurile prepaid. Partea nativă nouă (1.4.0, versionCode 9) alege planurile și oferta de probă; planurile prepaid rămân în Play pentru cei care le-au cumpărat.
