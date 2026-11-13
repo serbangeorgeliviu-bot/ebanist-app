@@ -78,9 +78,22 @@ var HW_DRILL = {
     /* Festool conectori D8 (D-139): KV D8/50 (colț) și MSV D8/25 (panou central). Date din fișele Festool 203166/203167 (adâncime de frezare în piesa laterală 15 mm,
        în piesa de bază 28 mm, bușon Ø 15 în piesa de bază, panou 18–28 mm) și din fișierul STEP oficial (ancora transversală la 18,8 mm de muchia piesei de bază,
        lungimea ei 15,4 mm; capul ei la nivelul feței). Canalele sunt cele ale tenonului D8 (grosime 8, lățime 22). Adâncimea bușonului (15,8) e din STEP, nu din fișă. */
+    /* Lamello Cabineo (D-140), din broșura Lamello Drilling System, „Technical information – Machining Cabineo” (p. 32): buzunar de trei găuri Ø 15 suprapuse la 11,2 mm
+       în fața piesei E (adâncime 11 mm, la 3,6 mm de capătul ei), șurub Ø 5 care intră în fața piesei F pe lungimea X (8 la Cabineo 8, 12 la Cabineo 12), cu axa la 5 mm de
+       fața lui E; elementul 33,8 × 16,5 × 10,8. Poziția pe piesă (capăt, pas) nu e din broșură: `verificat:false`. */
+    cabineo:   { dia: 15, depth: 11, n: 3, step: 11.2, from_end: 3.6, scr_dia: 5, scr_depth: 8, axis: 5, body: { l: 33.8, w: 16.5, h: 10.8 }, end: 50, pitch: 250,
+                 src: "Lamello Drilling System brochure, Technical information – Cabineo", note: "Lamello Cabineo 8", verificat: false },
+    /* Lamello Invis Mx2 (D-140), același document, „Machining Invis Mx2” (p. 46): două găuri Ø 12 pe aceeași axă: 37 mm în muchia piesei E (conectorul Ø 12 × 35), 32 mm în F la
+       știftul de 30 mm și 14 mm la știftul de 14 mm; axa la 9–15 mm de fața vizibilă (mijlocul panoului, limitat la acest interval). */
+    invis:     { dia: 12, e_depth: 37, f_depth: 32, e_len: 35, stud: 30, axis_min: 9, axis_max: 15, end: 50, pitch: 250,
+                 src: "Lamello Drilling System brochure, Technical information – Invis Mx2", note: "Lamello Invis Mx2 (știft 30)", verificat: false },
     kv:        { len: 22, thk: 8, face_depth: 15, edge_depth: 28, bore_dia: 15, bore_depth: 15.8, bore_x: 18.8, end: 50, pitch: 128, t_min: 18, t_max: 28,
                  src: "Festool 203166 KV D8/50, STEP 2019-05-20", note: "Festool KV D8/50", verificat: false },
     variants: {
+      lam_cabineo_8:      { scr_depth: 8,  note: "Lamello Cabineo 8" },
+      lam_cabineo_12:     { scr_depth: 12, note: "Lamello Cabineo 12" },
+      lam_invis_mx2_30:   { f_depth: 32, stud: 30, note: "Lamello Invis Mx2 (știft 30)" },
+      lam_invis_mx2_14:   { f_depth: 14, stud: 14, note: "Lamello Invis Mx2 (știft 14)" },
       /* Festool DOMINO (D-138): tenoane din manualul Festool (grosime × lungime; codurile din lista de piese a manualului) și din fișele de produs
          (lățimea: 4 → 17, 5 → 18,8, 8 → 22, 10 → 23,9, XL 14 → 27,9 mm; celelalte lățimi sunt interpolate: `verificat:false`). Canalul are lățimea
          tenonului (setarea „strâns”) și grosimea tenonului (diametrul frezei); adâncimea totală = lungimea tenonului, cu cât intră în fața piesei F limitat
@@ -158,6 +171,7 @@ var HW_DRILL = {
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
 var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
                     gen_dowel: "dowel", gen_biscuit: "biscuit", lam_biscuit_0: "biscuit", lam_biscuit_10: "biscuit", fes_domino: "domino", lam_clamex: "clamex",
+                    lam_cabineo_8: "cabineo", lam_cabineo_12: "cabineo", lam_invis_mx2_30: "invis", lam_invis_mx2_14: "invis",
                     fes_kv_d8_50: "kv", fes_msv_d8_25: "kv",
                     fes_domino_4x20: "domino", fes_domino_5x30: "domino", fes_domino_6x40: "domino", fes_domino_8x50: "domino", fes_domino_10x50: "domino",
                     fes_domino_xl_8x80: "domino", fes_domino_xl_10x80: "domino", fes_domino_xl_12x100: "domino", fes_domino_xl_14x100: "domino", fes_domino_xl_14x140: "domino",
@@ -479,6 +493,19 @@ function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
       hole(F, eAx, -eSide, p.slice(), J.dia, J.face_depth, id, "tassello");
       hole(E, eAx, eSide, p.slice(), J.dia, J.len - J.face_depth, id, "tassello");
       out.hw.push({ id: id, type: "tassello", catalog: "gen_dowel", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, note: "Tassello Ø8×35" });
+    } else if (kind === "cabineo") {
+      /* buzunarul în fața lui E (trei găuri Ø 15 la 11,2 mm, prima la 3,6 mm de capăt) și șurubul Ø 5 în fața lui F, cu axa la 5 mm de fața lui E (D-140) */
+      var face = E.min[camAx];
+      for (var q = 0; q < J.n; q++) { var cp = p.slice(); cp[eAx] = edge - eSide * (J.from_end + J.dia / 2 + q * J.step); cp[camAx] = face; hole(E, camAx, -1, cp, J.dia, J.depth, id, "foro connettore"); }
+      var sp = p.slice(); sp[camAx] = face + J.axis;
+      hole(F, eAx, -eSide, sp, J.scr_dia, J.scr_depth, id, "foro vite");
+      out.hw.push({ id: id, type: "cabineo", catalog: out.jointId || "lam_cabineo_8", piece: E.pk, against: F.pk, w: p.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx, camSide: -1, face: face, note: J.note });
+    } else if (kind === "invis") {
+      /* două găuri Ø 12 pe aceeași axă: 37 mm în muchia lui E, 32/14 mm în fața lui F; axa la 9–15 mm de fața lui E (D-140) */
+      var ip = p.slice(); ip[camAx] = E.min[camAx] + Math.max(J.axis_min, Math.min(J.axis_max, (E.T || 19) / 2));
+      hole(E, eAx, eSide, ip.slice(), J.dia, J.e_depth, id, "foro invis");
+      hole(F, eAx, -eSide, ip.slice(), J.dia, J.f_depth, id, "foro invis");
+      out.hw.push({ id: id, type: "invis", catalog: out.jointId || "lam_invis_mx2_30", piece: E.pk, against: F.pk, w: ip.slice(), eAx: eAx, eSide: eSide, sAx: sAx, camAx: camAx, stud: J.stud, note: J.note });
     } else if (kind === "kv") {
       /* conector Festool D8: canal de tenon D8 în fața lui F (15 mm), canal în muchia lui E (28 mm) și bușon Ø 15 în fața lui E, la bore_x de muchie (D-139) */
       var T = E.T || 19;

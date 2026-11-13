@@ -122,3 +122,30 @@ for (const id of ["fes_kv_d8_50", "fes_msv_d8_25"]) {
     }
   });
 }
+
+/* Lamello Cabineo și Invis Mx2 (D-140), cotele din broșura Lamello Drilling System, „Technical information” */
+for (const [id, scr] of [["lam_cabineo_8", 8], ["lam_cabineo_12", 12]]) {
+  test(`${id}: buzunar din trei găuri Ø15×11 la 11,2 mm, șurub Ø5×${scr} în F la 5 mm de fața lui E`, () => {
+    const o = gen(id); assert.equal(o.joint, "cabineo");
+    const hws = o.hw.filter(h => h.type === "cabineo"); assert.ok(hws.length > 0 && hws.every(h => h.catalog === id));
+    for (const h of hws) {
+      const all = ops(o).filter(x => x.hw === h.id), pk = all.filter(x => x.dia === 15), sc = all.filter(x => x.dia === 5);
+      assert.equal(pk.length, 3); pk.forEach(x => assert.equal(x.depth, 11));
+      const d = pk.map(x => Math.abs(x._w[h.eAx] - h.w[h.eAx])).sort((a, b) => a - b);
+      [11.1, 22.3, 33.5].forEach((v, i) => assert.ok(Math.abs(d[i] - v) < 0.11, `centrul ${i}: ${d[i]} ≠ ${v}`));
+      assert.equal(sc.length, 1); assert.equal(sc[0].depth, scr);
+      assert.ok(Math.abs(Math.abs(sc[0]._w[h.camAx] - pk[0]._w[h.camAx]) - 5) < 0.11, "axa șurubului la 5 mm de fața cu buzunar");
+    }
+  });
+}
+for (const [id, fd] of [["lam_invis_mx2_30", 32], ["lam_invis_mx2_14", 14]]) {
+  test(`${id}: două găuri Ø12 coaxiale, 37 mm în E și ${fd} mm în F, axa la 9–15 mm de fața lui E`, () => {
+    const o = gen(id); assert.equal(o.joint, "invis");
+    const hws = o.hw.filter(h => h.type === "invis"); assert.ok(hws.length > 0 && hws.every(h => h.catalog === id));
+    for (const h of hws) {
+      const all = ops(o).filter(x => x.hw === h.id); assert.equal(all.length, 2); all.forEach(x => assert.equal(x.dia, 12));
+      assert.deepEqual(all.map(x => x.depth).sort((a, b) => a - b), [fd, 37].sort((a, b) => a - b));
+      assert.ok(Math.abs(all[0]._w[h.camAx] - all[1]._w[h.camAx]) < 0.01 && Math.abs(all[0]._w[h.sAx] - all[1]._w[h.sAx]) < 0.01, "găurile nu sunt coaxiale");
+    }
+  });
+}

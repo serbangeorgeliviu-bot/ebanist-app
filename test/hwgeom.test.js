@@ -215,3 +215,16 @@ describe("Festool KV/MSV D8: piesele din STEP-ul oficial (D-139)", () => {
     near(Math.max(bb("cross")[0], bb("cross")[1]), 15.2, 0.4, "ancoră Ø (cea mai mare latură în plan)"); near(bb("cap")[0], 19, 0.3, "capac Ø"); near(bb("anchor")[0], 41.8, 0.6, "ancora despicată (manșonul) pe toată lungimea bolțului");
   });
 });
+
+describe("Lamello Cabineo și Invis Mx2: forme legate de operații (D-140)", () => {
+  for (const [id, type, roles] of [["lam_cabineo_8", "cabineo", ["body", "screw"]], ["lam_cabineo_12", "cabineo", ["body", "screw"]], ["lam_invis_mx2_30", "invis", ["connector", "stud"]], ["lam_invis_mx2_14", "invis", ["connector", "stud"]]])
+    test(`${id}: ${roles.join(" + ")}, legate de operațiile din fișă`, () => {
+      const o = gen({ ...ARM, hwSel: { conn: id } }, 19), by = G.opsByHw(o.pieces), hs = o.hw.filter(h => h.type === type);
+      assert.ok(hs.length > 0);
+      for (const h of hs) {
+        const sh = G.connectorShapes(h, by[h.id], HD, { thickF: 19 });
+        assert.equal(JSON.stringify(sh.map(x => x.role).sort()), JSON.stringify(roles.slice().sort()));
+        sh.forEach(x => assert.ok(x.src.length > 0, "nu leagă nicio operație"));
+      }
+    });
+});
