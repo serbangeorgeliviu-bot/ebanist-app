@@ -46,6 +46,14 @@
      trecută; adâncimea ei e grosimea plăcii, nu cât intră fiecare piesă. Atunci forma ia adâncimea din date. */
   function seat(op, catalogDepth) { return op.through ? catalogDepth : op.depth; }
 
+  /* datele unui conector: familia (HW_DRILL.joints[tip]) cu varianta din catalog peste ea (D-134) */
+  function jointK(D, h) {
+    var base = D.joints[h.type] || {}, v = (D.joints.variants || {})[h.catalog] || {}, o = {}, k;
+    for (k in base) o[k] = base[k];
+    for (k in v) o[k] = v[k];
+    return o;
+  }
+
   /* ops: [{ pk, op }] — operațiile conectorului (după `hw`), cu piesa în care stau.
      ctx: { thickF } — grosimea piesei F pe direcția conectorului (pentru Confirmat). */
   function connectorShapes(h, ops, D, ctx) {
@@ -99,27 +107,49 @@
       /* de la capul exterior (y=0) la vârf: cap Ø10,5 × 3,5, tijă Ø7 cu filet pe ultimii 38 mm, vârf conic */
       out.push(lathe("__brass", top, tip, screwProfile({ len: J.head_h + L, shaft: J.through_dia, head: J.head_dia, headH: J.head_h, cone: 2, thread: { pitch: 2.6, from: J.head_h + 12, to: J.head_h + L, depth: 0.7 }, tip: 3 }), J.through_dia, "screw", src));
       var sk = cyl("__flushdark", along(top, h.eAx, h.eSide * 0.03), along(top, h.eAx, -h.eSide * 1.2), 4.4, "socket", src); sk.ch = 0; out.push(sk);   // locașul hexagonal (aici rotund)
-    } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex") {
-      /* conector în două canale: cel din F (adâncimea lui) și cel din E; lungimea și grosimea corpului din HW_DRILL.joints[..].body */
-      var K = D.joints[h.type], slots = ops.filter(function (x) { return x.op.type === "slot"; });
+    } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex" || h.type === "tenso" || h.type === "bisco") {
+      /* conector în două canale: cel din F (adâncimea lui) și cel din E; lungimea, grosimea și înălțimea elementelor din HW_DRILL.joints
+         (familia + varianta din catalog, D-134): fiecare element are cotele lui din broșura producătorului */
+      var K = jointK(D, h), slots = ops.filter(function (x) { return x.op.type === "slot"; });
       var sF = slots.filter(function (x) { return String(x.pk) === String(h.against); })[0], sE = slots.filter(function (x) { return String(x.pk) === String(h.piece); })[0];
       if (sF && sE) {
-        var lo = w.slice(), hi = w.slice();
-        var e0 = w[h.eAx] + h.eSide * sF.op.depth, e1 = w[h.eAx] - h.eSide * sE.op.depth;
-        lo[h.eAx] = Math.min(e0, e1); hi[h.eAx] = Math.max(e0, e1);
-        lo[h.sAx] = w[h.sAx] - K.body.len / 2; hi[h.sAx] = w[h.sAx] + K.body.len / 2;
-        lo[h.camAx] = w[h.camAx] - K.body.thk / 2; hi[h.camAx] = w[h.camAx] + K.body.thk / 2;
-        var mat = { biscuit: "__wooddowel", domino: "__domino", clamex: "__nylongrey" }[h.type];
-        if (h.type === "clamex") {
-          /* Clamex P-14: două părți (cea din F și cea din E) cu un joc de 0,3 mm la planul îmbinării, muchii rotunjite */
-          var mid = w[h.eAx], lo1 = lo.slice(), hi1 = hi.slice(), lo2 = lo.slice(), hi2 = hi.slice();
-          if (h.eSide > 0) { lo1[h.eAx] = mid + 0.15; hi1[h.eAx] = hi[h.eAx]; lo2[h.eAx] = lo[h.eAx]; hi2[h.eAx] = mid - 0.15; }
-          else { lo1[h.eAx] = lo[h.eAx]; hi1[h.eAx] = mid - 0.15; lo2[h.eAx] = mid + 0.15; hi2[h.eAx] = hi[h.eAx]; }
-          var pa = box("__nylongrey", lo1, hi1, "bodyF", [sF.op.id]), pb = box("__nylon", lo2, hi2, "bodyE", [sE.op.id]);
-          pa.r = 1.1; pb.r = 1.1; out.push(pa, pb);
+        var mid = w[h.eAx], dF = sF.op.depth, dE = sE.op.depth, S = h.eSide;
+        /* un element: de la planul îmbinării (cu jocul g) spre piesa lui, cu înălțimea hh pe axa îmbinării */
+        var elem = function (mat, dir, depth, hh, len, thk, g, role, src) {
+          var e0 = mid + dir * g, e1 = mid + dir * Math.min(g + hh, depth), lo = w.slice(), hi = w.slice();
+          lo[h.eAx] = Math.min(e0, e1); hi[h.eAx] = Math.max(e0, e1);
+          lo[h.sAx] = w[h.sAx] - len / 2; hi[h.sAx] = w[h.sAx] + len / 2;
+          lo[h.camAx] = w[h.camAx] - thk / 2; hi[h.camAx] = w[h.camAx] + thk / 2;
+          var bx = box(mat, lo, hi, role, src); bx.r = Math.min(1.1, thk * 0.2, hh * 0.2); return bx;
+        };
+        var bE = K.body, bF = K.body_f || K.body;
+        if (h.type === "clamex" || h.type === "tenso") {
+          /* două elemente cu un joc de 0,3 mm la planul îmbinării: cel din F și cel din E */
+          var hE = bE.h || dE, hF = bF.h || dF;
+          out.push(elem("__nylongrey", S, dF, hF, bF.len, bF.thk, 0.15, "bodyF", [sF.op.id]));
+          out.push(elem("__nylon", -S, dE, hE, bE.len, bE.thk, 0.15, "bodyE", [sE.op.id]));
+          if (h.type === "clamex") {
+            /* pârghia de zinc a elementului din E (se vede prin orificiul Ø 6 de pe fața piesei) */
+            var lc = w.slice(), lc2 = w.slice(); lc[h.eAx] = lc2[h.eAx] = mid - S * (0.15 + hE * 0.55);
+            lc[h.camAx] = w[h.camAx] - bE.thk / 2 - 0.2; lc2[h.camAx] = w[h.camAx] + bE.thk / 2 + 0.2;
+            lc[h.sAx] = lc2[h.sAx] = w[h.sAx] + bE.len * 0.28;
+            out.push(cyl("__zinc", lc, lc2, 6.2, "lever", [sE.op.id]));
+          } else {
+            /* arcul de oțel al elementului Tenso (cel „cu arc"), pe fața dinspre canalul din F */
+            var sp0 = w.slice(), sp1 = w.slice();
+            sp0[h.eAx] = mid + S * 0.2; sp1[h.eAx] = mid + S * 0.6;
+            sp0[h.sAx] = w[h.sAx] - bF.len * 0.3; sp1[h.sAx] = w[h.sAx] + bF.len * 0.3;
+            sp0[h.camAx] = w[h.camAx] - bF.thk * 0.3; sp1[h.camAx] = w[h.camAx] + bF.thk * 0.3;
+            out.push(box("__zinc", [0, 1, 2].map(function (i) { return Math.min(sp0[i], sp1[i]); }), [0, 1, 2].map(function (i) { return Math.max(sp0[i], sp1[i]); }), "spring", [sF.op.id]));
+          }
         } else {
+          var lo = w.slice(), hi = w.slice();
+          lo[h.eAx] = Math.min(mid + S * dF, mid - S * dE); hi[h.eAx] = Math.max(mid + S * dF, mid - S * dE);
+          lo[h.sAx] = w[h.sAx] - K.body.len / 2; hi[h.sAx] = w[h.sAx] + K.body.len / 2;
+          lo[h.camAx] = w[h.camAx] - K.body.thk / 2; hi[h.camAx] = w[h.camAx] + K.body.thk / 2;
+          var mat = { biscuit: "__wooddowel", domino: "__domino", bisco: "__nylon" }[h.type];
           var bd = box(mat, lo, hi, "body", [sF.op.id, sE.op.id]);
-          bd.r = h.type === "biscuit" ? K.body.thk * 0.45 : 1.2;    // lamela e aproape un oval, Domino are muchii rotunjite
+          bd.r = h.type === "biscuit" ? K.body.thk * 0.45 : h.type === "bisco" ? 1.3 : 1.2;    // lamela e aproape un oval, Domino și Bisco au muchii rotunjite
           out.push(bd);
         }
       }
@@ -181,5 +211,5 @@
     return map;
   }
 
-  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "reggipiano"] };
+  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "reggipiano"] };
 });

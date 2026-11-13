@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.47.0 — 13 noiembrie 2026
+
+**Familia Lamello P-System în catalog, în găurire și în 3D (D-134).** Nou în Constructor → Feronerie corp → Îmbinare: **Clamex P-10, Clamex P-14/10 Medius, Clamex P-14/10 Flexus, Clamex P-14 CNC, Tenso P-14, Tenso P-10, Bisco P-14, Bisco P-10** (Clamex P-14 rămâne, cu codul 145334). Cotele vin din broșura oficială Lamello P-System: elementele (ex. 64 × 13,5 × 9,7 și 52 × 7,5 × 9,7 la Medius și Flexus), grosimea minimă a panoului și adâncimea canalului (14 sau 10 mm). Canalul se frezează cu aceeași freză Ø 100,4 × 7 × Ø 22; lungimea lui e coarda frezei la adâncimea aleasă (69,6 mm la 14, 60,1 mm la 10), pe față și pe muchie cu adâncimi diferite la Medius și Flexus. În 3D, fiecare element are cotele lui; Clamex are pârghie, Tenso are arc, Bisco e o piesă. Devizul numără pe articol (cu cod unde îl știm). Poziția canalelor pe piesă (distanța de la capăt, pasul) nu e din broșură: `verificat:false`. Nu s-a schimbat nimic la proiectele care folosesc alte îmbinări. Nu sunt încă: Divario P-18, LC P-16, Cabineo, Invis, lamelele clasice 0/10/20 (în lucru), Festool.
+
 ## 5.46.0 — 13 noiembrie 2026
 
 **Balamaua din 3D seamănă cu una adevărată (prima etapă).** Înainte era o placă dreaptă și o bară. Acum, la Blum CLIP top și la cele Häfele: flanșa din ușă e o plăcuță presată cu colțuri rotunjite și guler în jurul cupei, între doi obraji cu nituri; brațul e tablă îndoită în U (pereți laterali și capac, nu bloc plin); între ușă și braț lucrează **două legături** cu nituri la capete, care urmăresc ușa când se deschide; placa de montaj are colțuri rotunjite, nervură și șuruburi cu cap în cruce; amortizorul BLUMOTION e un cilindru cu carcasă. Forma rămâne neverificată pe piesă (ca înainte): cotele de găurire și găurile nu s-au schimbat, nici distinta, devizul sau fișa de montaj. Geometria brațului și a legăturilor e în `ebanist-hwgeom.js` (pură, cu teste). Urmează glisierele (Movento, Legrabox, Tandembox).

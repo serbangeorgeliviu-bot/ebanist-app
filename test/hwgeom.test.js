@@ -31,7 +31,7 @@ const CFG = {
   "libreria": { ...ARM, L: 1200, H: 1800, P: 350, doors: 0, shelfType: "fisso" },
   "bagno con gradino": { ...ARM, L: 800, H: 850, P: 460, plinth: 100, tram: 0, shelves: 1, stepH: 300, stepP: 80 }
 };
-const KINDS = { minifix: "haf_minifix", confirmat: "gen_confirmat", dowel: "gen_dowel", biscuit: "gen_biscuit", domino: "fes_domino", clamex: "lam_clamex" };
+const KINDS = { minifix: "haf_minifix", confirmat: "gen_confirmat", dowel: "gen_dowel", biscuit: "gen_biscuit", domino: "fes_domino", clamex: "lam_clamex", clamex_p10: "lam_clamex_p10", clamex_medius: "lam_clamex_medius", clamex_flexus: "lam_clamex_flexus", clamex_cnc: "lam_clamex_cnc", tenso_p14: "lam_tenso_p14", tenso_p10: "lam_tenso_p10", bisco_p14: "lam_bisco_p14", bisco_p10: "lam_bisco_p10" };
 const len = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 const near = (a, b, m) => assert.ok(Math.abs(a - b) < 0.05, `${m}: ${a} ≠ ${b}`);
 
@@ -75,12 +75,20 @@ describe("conectori: 3D = operațiile din fișa piesei", () => {
           assert.ok(p0, "suportul stă într-o gaură care există în fișa piesei");
           assert.ok(plate.hi[1] - plate.lo[1] > 0 && plate.hi[0] - plate.lo[0] > 0, "plăcuța are volum");
         } else {
-          const K = HD.joints[h.type], bs = sh.filter(x => x.t === "box"), dim = (b, i) => b.hi[i] - b.lo[i];
-          bs.forEach(b => { near(dim(b, h.sAx), K.body.len, "lungimea corpului"); near(dim(b, h.camAx), K.body.thk, "grosimea corpului"); });
-          const total = bs.reduce((s, b) => s + dim(b, h.eAx), 0);
-          near(total, K.depth + K.depth_face - (h.type === "clamex" ? 0.3 : 0), "adâncimea totală (canal F + canal E; Clamex cu jocul de 0,3 mm între cele două părți)");
-          assert.equal(bs.length, h.type === "clamex" ? 2 : 1, "Clamex = două părți, restul o singură piesă");
-          assert.ok(K.body.len <= K.len && K.body.thk <= K.thk, "corpul trebuie să încapă în canal");
+          /* varianta din catalog (D-134): fiecare element are cotele lui din broșura producătorului */
+          const K = G.jointK(HD, h), two = h.type === "clamex" || h.type === "tenso", bs = sh.filter(x => x.t === "box" && /^body/.test(x.role)), dim = (b, i) => b.hi[i] - b.lo[i];
+          const bF = K.body_f || K.body, bE = K.body;
+          if (two) {
+            const f = bs.find(b => b.role === "bodyF"), e = bs.find(b => b.role === "bodyE");
+            near(dim(f, h.sAx), bF.len, "lungimea elementului din F"); near(dim(e, h.sAx), bE.len, "lungimea elementului din E");
+            near(dim(f, h.camAx), bF.thk, "grosimea elementului din F"); near(dim(e, h.camAx), bE.thk, "grosimea elementului din E");
+            near(dim(f, h.eAx) + dim(e, h.eAx), (bF.h || K.depth_face) + (bE.h || K.depth) , "înălțimea celor două elemente (broșura: ex. 13,5 + 13,5 = 27)");
+          } else {
+            bs.forEach(b => { near(dim(b, h.sAx), K.body.len, "lungimea corpului"); near(dim(b, h.camAx), K.body.thk, "grosimea corpului"); });
+            near(bs.reduce((q, b) => q + dim(b, h.eAx), 0), K.depth + K.depth_face, "adâncimea totală (canal F + canal E)");
+          }
+          assert.equal(bs.length, two ? 2 : 1, "Clamex și Tenso = două elemente, restul o singură piesă");
+          assert.ok(Math.max(bE.len, bF.len) <= Math.max(K.len, K.len_face || 0) && Math.max(bE.thk, bF.thk) <= K.thk, "elementul trebuie să încapă în canal");
         }
       }
     });
