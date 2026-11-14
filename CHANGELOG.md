@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.57.0 — 14 noiembrie 2026
+
+**Verificare după 11 versiuni 3D: auditul de browser intră în repo (`test/audit3d.cjs`, `npm run audit3d`) și prinde o ultimă suprapunere.** Auditul rulat pe 236 de configurații (21 de tipologii, variante fixe și aleatoare) a găsit un caz: la 3 uși într-un corp lat, două uși se atingeau cu 2 mm după ce li se limitase unghiul de deschidere, fiindcă ușile se verificau între ele cu toleranța de 2,5 mm de la piesele fixe. Acum ușile între ele au 0,5 mm; piesele fixe rămân la 2,5 mm. Verificat și vizual, în modul normal, pe șase corpuri (sertare LEGRABOX, bază cu uși, scorrevole, pensile, bibliotecă, dulap cu 4 uși și sertare), în stările închis, deschis, explodat și deschis + explodat: nimic nu trece prin altceva. Devizul numără corect articolele noi (cantitate din model), cu prețul 0 până îl completezi.
+
 ## 5.56.0 — 13 noiembrie 2026
 
 **Lamello Divario P-18 în catalog, găurire și 3D (D-141).** Din desenul tehnic al broșurii Lamello P-System (p. 74): **canal P-System de ~78 mm lungime, 9,8 mm lat și 8 mm adânc** în fața piesei fixe (grosime de la 18 mm) și **două găuri Ø 8, adânci de 10 mm, la 32 mm una de alta**, în muchia piesei care se introduce prin culisare (cod 145550). În 3D: elementul din canal (58 × 16 × 9,7) și cei doi știfturi. **Neverificat:** canalul trebuie să iasă la muchia din față a piesei fixe, ca piesa să culiseze înăuntru; poziția pe piesă (capăt, pas) nu e din broșură și **nu e impusă** (`verificat:false`). Prețul e 0. Nu sunt încă: LC P-16 (plăci ușoare, cu geometrie de inserție proprie) și variantele LR32 ale conectorilor Festool.

@@ -24,7 +24,8 @@
     "golden:gen": "node golden/gen.js",
     "golden:report": "node golden/report.js",
     "test:full": "npm run test:all && npm run test:golden",
-    "audit": "DOCS=1 node audit.js"
+    "audit": "DOCS=1 node audit.js",
+    "audit3d": "node audit3d.cjs && node audit3d.cjs armadio,cassettiera,libreria,pensile,base,basecass,colonna,vetrina,tv,dressing,bagno,scorrevole,scrivania,letto,tavolo,boiserie,lambriu,tondo,ovale,raccordato,contur 6 33"
   },
   "devDependencies": {
     "playwright": "^1.49.0"

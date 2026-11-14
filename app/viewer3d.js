@@ -1363,11 +1363,11 @@ function setTargets(boxesOrig) {
       const P = D.P, sg = Math.sign(P.tgt.ang), full = Math.abs(P.tgt.ang), bs = pk2boxes.get(String(P.pk)) || [];
       const ex = P.tgt.ex / MM, ez = P.tgt.ez / MM, ey = P.tgt.ey / MM;
       /* obstacole: piesele fixe și celelalte uși, la unghiul lor de acum (o ușă închisă de mai sus stă pe loc) */
-      const obst = others.concat(doors.filter(D2 => D2 !== D).map(D2 => ({ Q: D2.P, fp: footprints(D2.P) })));
+      const obst = others.map(o => ({ fp: o.fp, tol: 2.5 })).concat(doors.filter(D2 => D2 !== D).map(D2 => ({ fp: footprints(D2.P), tol: 0.5 })));   // piesele fixe cu toleranța de montaj de 2,5 mm, ușile între ele cu 0,5
       const clear = (ang) => {
         const c = Math.cos(sg * ang), sn = Math.sin(sg * ang), px = P.pivot.x, pz = P.pivot.z;
         return !bs.some(b => { const poly = pcOf(b).map(([x, z]) => [px + (x - px) * c + (z - pz) * sn + ex, pz - (x - px) * sn + (z - pz) * c + ez]);
-          return obst.some(({ fp }) => fp.some(f => Math.min(f.y1, b.y1 + ey) - Math.max(f.y0, b.y0 + ey) > 1 && hit(f.poly, poly, 2.5))); });
+          return obst.some(({ fp, tol }) => fp.some(f => Math.min(f.y1, b.y1 + ey) - Math.max(f.y0, b.y0 + ey) > 1 && hit(f.poly, poly, tol))); });
       };
       let ang = full;
       const ok = (a) => { for (let t = 0.09; t < a; t += 0.09) if (!clear(t)) return false; return clear(a); };
