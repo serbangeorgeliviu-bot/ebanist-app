@@ -6,11 +6,11 @@
      node site-src/tools/kitchen-clip.cjs mux      vocea (Kokoro) + ffmpeg → ebanist-cucina-it.mp4
    Un singur cadru pe scenă, pentru verificare: `frames 1`.
    Cadrele randate se întind pe durata scenei (framerate de intrare = cadre / secunde), deci durata unei scene se schimbă fără re-randare.
-   Voce: KOKORO_DIR (implicit /tmp/tts/kokoro, cu kokoro-v1.0.onnx și voices-v1.0.bin), voce if_sara. */
+   Voce: KOKORO_DIR (implicit /tmp/tts/kokoro, cu kokoro-v1.0.onnx și voices-v1.0.bin), voce im_nicola (D-145: vocea fixă a clipurilor Ebanist). */
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const http=require("http"),fs=require("fs"),path=require("path"),cp=require("child_process");
 const MODE=process.argv[2]||"frames", ONE=process.argv[3]==="1", root=path.resolve(__dirname,"../.."), OUT=path.join(root,"vid-kitchen");
-const FPS=24, KOKORO=process.env.KOKORO_DIR||"/tmp/tts/kokoro", VOICE=process.env.KOKORO_VOICE||"if_sara";
+const FPS=24, KOKORO=process.env.KOKORO_DIR||"/tmp/tts/kokoro", VOICE=process.env.KOKORO_VOICE||"im_nicola";
 const BASE="blue_avio_23196mn_19", WALL="rovere_wood_lime_classic_k2414ah_19", BODY="antracite_storm_grey_19";
 const T={ hook1:"Novità",hook2:"la Cucina",
   s1:"Cucina a U · 27 moduli",s1b:"172 pezzi, tutti calcolati",
@@ -21,20 +21,20 @@ const T={ hook1:"Novità",hook2:"la Cucina",
   m1:"Blue Avio",m2:"Rovere Wood Lime" };
 /* vocea: [secundă de început, secunde disponibile, text] */
 const CUES=[
- [0.15,2.1,"Novità in Ebanist: la cucina."],
- [2.40,3.7,"Una cucina a U, ventisette moduli, centosettantadue pezzi."],
- [7.20,3.5,"Basi, pensili, cappa e lavello: ogni modulo ha la sua misura."],
- [11.20,3.9,"Il top si taglia a quarantacinque gradi, con i fori per lavello e piano."],
- [15.55,2.1,"Distinta, disegni e montaggio."],
- [17.70,2.3,"Provalo gratis su ebanist punto com."]];
+ [0.10,2.2,"Novità Ebanist: la cucina."],
+ [2.50,3.9,"Cucina a U, ventisette moduli, centosettantadue pezzi."],
+ [6.70,3.4,"Basi, pensili, cappa e lavello, tutto su misura."],
+ [10.40,3.9,"Top a quarantacinque gradi, con i tagli per lavello e piano."],
+ [14.60,2.6,"Distinta, disegni e montaggio."],
+ [17.25,2.7,"Provalo gratis su ebanist punto com."]];
 /* scene: sec; cam = [yaw,pitch,zoom] la început și la sfârșit; card / cap / sw / sheet */
 const SEGS=[
- {name:"hook",sec:2.3,card:[T.hook1,T.hook2]},
- {name:"tour",sec:4.8,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
- {name:"front",sec:4.0,cam:[.35,.5,1.25,-.15,.4,1.5],cap:[T.s2,T.s2b]},
- {name:"top",sec:4.4,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
- {name:"sheet",sec:2.0,sheet:true,cap:[T.s4,T.s4b]},
- {name:"end",sec:2.5,card:[T.end1,T.end2]}];
+ {name:"hook",sec:2.4,card:[T.hook1,T.hook2]},
+ {name:"tour",sec:4.2,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
+ {name:"front",sec:3.7,cam:[.35,.5,1.25,-.15,.4,1.5],cap:[T.s2,T.s2b]},
+ {name:"top",sec:4.2,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
+ {name:"sheet",sec:2.7,sheet:true,cap:[T.s4,T.s4b]},
+ {name:"end",sec:2.75,card:[T.end1,T.end2]}];
 const total=SEGS.reduce((a,s)=>a+s.sec,0);
 if(total>20) throw new Error("clipul depășește 20 s: "+total);
 const sm=k=>k*k*(3-2*k), nfOf=s=>Math.round(s.sec*FPS);
