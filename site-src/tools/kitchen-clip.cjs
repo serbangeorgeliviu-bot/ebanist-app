@@ -11,7 +11,7 @@ const FPS=24, KOKORO=process.env.KOKORO_DIR||"/tmp/tts/kokoro", VOICE=process.en
 const BASE="blue_avio_23196mn_19", WALL="rovere_wood_lime_classic_k2414ah_19", BODY="antracite_storm_grey_19";
 const T={ hook1:"Novità",hook2:"la Cucina",
   s1:"Cucina a U · 27 moduli",s1b:"172 pezzi, tutti calcolati",
-  s2:"Frigo, forno, lavastoviglie",s2b:"ogni nicchia su misura",
+  s2:"Basi, pensili, cappa, lavello",s2b:"ogni modulo su misura",
   s3:"Top a 45°",s3b:"con i tagli per lavello e piano",
   s4:"Distinta, disegni, montaggio",s4b:"tutto in un clic",
   end1:"Ebanist",end2:"Provalo gratis su ebanist.com",
@@ -20,7 +20,7 @@ const T={ hook1:"Novità",hook2:"la Cucina",
 const CUES=[
  [0.30,1.6,"Novità in Ebanist: la cucina."],
  [1.95,5.6,"Una cucina a U, ventisette moduli, centosettantadue pezzi."],
- [7.95,4.2,"Frigo, forno, lavastoviglie: ogni nicchia ha la sua misura."],
+ [7.95,4.2,"Basi, pensili, cappa e lavello: ogni modulo ha la sua misura."],
  [12.45,3.2,"Il top si taglia a quarantacinque gradi, con i fori per lavello e piano."],
  [15.95,2.0,"Distinta, disegni e montaggio."],
  [18.1,1.7,"Provalo gratis su ebanist punto com."]];
