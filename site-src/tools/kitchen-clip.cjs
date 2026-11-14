@@ -12,7 +12,7 @@ const BASE="blue_avio_23196mn_19", WALL="rovere_wood_lime_classic_k2414ah_19", B
 const T={ hook1:"Novità",hook2:"la Cucina",
   s1:"Cucina a U · 27 moduli",s1b:"172 pezzi, tutti calcolati",
   s2:"Frigo, forno, lavastoviglie",s2b:"ogni nicchia su misura",
-  s3:"Top a 45°",s3b:"giunto d'angolo calcolato",
+  s3:"Top a 45°",s3b:"con i tagli per lavello e piano",
   s4:"Distinta, disegni, montaggio",s4b:"tutto in un clic",
   end1:"Ebanist",end2:"Provalo gratis su ebanist.com",
   m1:"Blue Avio",m2:"Rovere Wood Lime" };
@@ -21,14 +21,14 @@ const CUES=[
  [0.30,1.6,"Novità in Ebanist: la cucina."],
  [1.95,5.6,"Una cucina a U, ventisette moduli, centosettantadue pezzi."],
  [7.95,4.2,"Frigo, forno, lavastoviglie: ogni nicchia ha la sua misura."],
- [12.45,3.2,"Il top si taglia a quarantacinque gradi."],
+ [12.45,3.2,"Il top si taglia a quarantacinque gradi, con i fori per lavello e piano."],
  [15.95,2.0,"Distinta, disegni e montaggio."],
  [18.1,1.7,"Provalo gratis su ebanist punto com."]];
 /* scene: sec, cam [yaw0,pitch0,zoom0,yaw1,pitch1,zoom1], open, overlay */
 const SEGS=[
  {name:"hook",sec:1.8,card:[T.hook1,T.hook2],cam:[.5,.95,1.05,.2,.95,1.15]},
  {name:"tour",sec:6.0,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
- {name:"open",sec:4.5,cam:[.9,.85,1.2,.15,.6,1.4],open:true,cap:[T.s2,T.s2b]},
+ {name:"front",sec:4.5,cam:[.35,.5,1.25,-.15,.4,1.5],cap:[T.s2,T.s2b]},
  {name:"top",sec:3.5,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
  {name:"sheet",sec:2.2,sheet:true,cap:[T.s4,T.s4b]},
  {name:"end",sec:1.8,card:[T.end1,T.end2]}];
@@ -109,7 +109,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
   for(let i=0;i<nf;i++){
    if(STILLS&&i!==Math.floor(nf*0.6)) continue;
    const k=nf>1?sm(i/(nf-1)):0;
-   if(s.sheet){await sheet(sheets[i<nf/2?0:2],i<nf/2?1+0.35*sm(i/(nf/2)):1+0.35*sm((i-nf/2)/(nf/2)),i<nf/2?[40,35]:[45,40])}
+   if(s.sheet){await sheet(sheets[i<nf/2?0:2],i<nf/2?1+0.7*sm(i/(nf/2)):1+0.7*sm((i-nf/2)/(nf/2)),i<nf/2?[40,35]:[45,40])}
    else if(s.cam){const c=s.cam;await frame3d(c[0]+(c[3]-c[0])*k,c[1]+(c[4]-c[1])*k,c[2]+(c[5]-c[2])*k,!!s.open&&i>=6)}
    n++;
    const f=STILLS?path.join(OUT,"stills",String(si+1).padStart(2,"0")+"-"+s.name+".jpg"):path.join(OUT,"seq","s_"+String(n).padStart(5,"0")+".jpg");
