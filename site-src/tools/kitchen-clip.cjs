@@ -61,17 +61,20 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  await pg.goto("http://localhost:8802/app/index.html?lang=it");await pg.waitForFunction(()=>window.MAT_LOADED===true);await pg.waitForTimeout(3000);
  await pg.locator('#btnIntroGo').click({timeout:1500}).catch(()=>{});
  /* proiectul demo, două culori: baza și coloanele Blue Avio, pensilele Rovere */
- const info=await pg.evaluate(([D,BASE,WALL,BODY])=>{
-  closeSheets();state.projects.push(D);state.activeId=D.id;const p=proj(),S=state.settings;
-  S.matBody=BODY;S.matFront=BASE;S.matBack=BODY;
+ const CACHE=path.join(OUT,"proj.json"), cached=fs.existsSync(CACHE)?JSON.parse(fs.readFileSync(CACHE,"utf8")):null;
+ const info=await pg.evaluate(([D,BASE,WALL,BODY,cached])=>{
+  closeSheets();const S=state.settings;S.matBody=BODY;S.matFront=BASE;S.matBack=BODY;
+  if(cached){state.projects.push(cached);state.activeId=cached.id;return {ok:true,err:"",pieces:proj().pieces.length,cached:true}}
+  state.projects.push(D);state.activeId=D.id;const p=proj();
   const ok=EBKitchenUI.apply(p);
   for(const name of Object.keys(p.configs)) if(/↑$/.test(name)){const c=JSON.parse(JSON.stringify(p.configs[name]));c.matFront=WALL;generateInto(p,c)}
   persist();return {ok,err:(EBKitchenUI.kit(p).err||[]).join("|"),pieces:p.pieces.length};
- },[DEMO,BASE,WALL,BODY]);
+ },[DEMO,BASE,WALL,BODY,cached]);
  console.log("proiect",JSON.stringify(info));
+ if(!cached) fs.writeFileSync(CACHE,JSON.stringify(await pg.evaluate(()=>proj())));
  if(!info.ok) throw new Error("bucătăria nu s-a aplicat: "+info.err);
  const sheets=await pg.evaluate(()=>{closeSheets();return packBuild(proj(),{cover:true,client:false,report:false,elev:true,asm:true,parts:false})});
- console.log("foi A3:",sheets.length);
+ console.log("foi A3:",sheets.length,JSON.stringify(sheets.map((x,i)=>i+":"+((x.match(/<text[^>]*>([^<]{3,40})</g)||[]).slice(0,3).join("|").replace(/<text[^>]*>/g,"")))).slice(0,1800));
  await pg.evaluate(()=>{
    setView("build");document.body.classList.add("vp-full");$("bldView").classList.add("full");
    const st=document.createElement("style");st.textContent="#bldView .vbtns,#bldView button,#bldView .vctl,.vp-full .topbar,.vp-full header,.vp-full nav,.vp-full .tabbar,.vp-full .bnav,#buildInfo{display:none!important}";document.head.appendChild(st);
@@ -83,7 +86,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  });
  await pg.waitForTimeout(2500);
  const FF="font-family:Barlow,system-ui,sans-serif;";
- const ov=async(id,html,css)=>pg.evaluate(([id,html,css])=>{let d=document.getElementById(id);if(!d){d=document.createElement("div");d.id=id;d.style.cssText=css;document.body.appendChild(d)}d.innerHTML=html;d.style.display=html?"":"none"},[id,html,css]);
+ const ov=async(id,html,css)=>pg.evaluate(([id,html,css])=>{let d=document.getElementById(id);if(!d){d=document.createElement("div");d.id=id;d.style.cssText=css;document.body.appendChild(d)}d.innerHTML=html;d.style.visibility=html?"visible":"hidden"},[id,html,css]);
  const card=(a,c)=>ov("vcard",a?`<div style="font:700 26px Barlow;letter-spacing:10px;opacity:.8">EBANIST</div><div style="font:800 62px/1.05 Barlow">${a}</div><div style="font:600 34px/1.2 Barlow;opacity:.95">${c||""}</div>`:"","position:fixed;inset:0;z-index:2147483646;background:#0e3b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:40px;"+FF);
  const cap=(a,c)=>ov("vcap",a?a+(c?`<div style="font:500 18px Barlow;opacity:.88;margin-top:4px">${c}</div>`:""):"","position:fixed;left:14px;right:14px;bottom:88px;z-index:2147483647;padding:12px 16px;border-radius:14px;background:rgba(14,59,42,.93);color:#fff;font:700 26px/1.2 Barlow,system-ui,sans-serif;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.35)");
  const sw=(on)=>ov("vsw",on?`<span style="display:flex;align-items:center;gap:8px"><span style="width:20px;height:20px;border-radius:50%;background:#5C7A99;border:2px solid rgba(0,0,0,.15)"></span>${T.m1}</span><span style="display:flex;align-items:center;gap:8px"><span style="width:20px;height:20px;border-radius:50%;background:#D8C39C;border:2px solid rgba(0,0,0,.15)"></span>${T.m2}</span>`:"","position:fixed;left:14px;top:16px;z-index:2147483647;display:flex;flex-direction:column;gap:8px;padding:10px 16px;border-radius:22px;background:rgba(255,255,255,.93);font:700 19px Barlow,system-ui,sans-serif;color:#0e3b2a;box-shadow:0 4px 16px rgba(0,0,0,.25)");
@@ -106,6 +109,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
    else if(s.cam){const c=s.cam;await pg.evaluate(([y,p,z])=>{Object.assign(VIEW,{yaw:y,pitch:p,zoom:z});GL3D.touch()},[c[0]+(c[3]-c[0])*k,c[1]+(c[4]-c[1])*k,c[2]+(c[5]-c[2])*k]);
      await pg.waitForTimeout(STILLS?1500:s.open&&i<6?10:70)}
    n++;
+   if(STILLS&&s.cam) console.log(s.name,"VIEW",JSON.stringify(await pg.evaluate(()=>({y:VIEW.yaw,p:VIEW.pitch,z:VIEW.zoom,free:VIEW.free}))));
    const f=STILLS?path.join(OUT,"stills",String(si+1).padStart(2,"0")+"-"+s.name+".jpg"):path.join(OUT,"seq","s_"+String(n).padStart(5,"0")+".jpg");
    await pg.screenshot({path:f,type:"jpeg",quality:92});
   }
