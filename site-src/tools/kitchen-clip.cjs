@@ -26,10 +26,10 @@ const CUES=[
  [18.1,1.7,"Provalo gratis su ebanist punto com."]];
 /* scene: sec, cam [yaw0,pitch0,zoom0,yaw1,pitch1,zoom1], open, overlay */
 const SEGS=[
- {name:"hook",sec:1.8,card:[T.hook1,T.hook2],cam:[.5,.8,1.2,.2,.8,1.3]},
- {name:"tour",sec:6.0,cam:[-.55,.85,1.45,.85,.6,1.6],cap:[T.s1,T.s1b],sw:true},
- {name:"open",sec:4.5,cam:[.9,.65,1.6,.1,.5,1.85],open:true,cap:[T.s2,T.s2b]},
- {name:"top",sec:3.5,cam:[.3,1.35,1.5,-.2,1.2,1.75],cap:[T.s3,T.s3b]},
+ {name:"hook",sec:1.8,card:[T.hook1,T.hook2],cam:[.5,.95,1.05,.2,.95,1.15]},
+ {name:"tour",sec:6.0,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
+ {name:"open",sec:4.5,cam:[.9,.85,1.2,.15,.6,1.4],open:true,cap:[T.s2,T.s2b]},
+ {name:"top",sec:3.5,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
  {name:"sheet",sec:2.2,sheet:true,cap:[T.s4,T.s4b]},
  {name:"end",sec:1.8,card:[T.end1,T.end2]}];
 const total=SEGS.reduce((a,s)=>a+s.sec,0);
@@ -82,9 +82,15 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
    const bx=roomBoxes(),RL=roomLayout(),floor=RL.frames.map(f=>{const q=toRoom(f,0,0,0);return [q.x,q.y]});
    GL3D.set({mode:"real",hw:false,holes:false,dims:false,edges:false,open:false,explode:0});
    GL3D.render({matBody:state.settings.matBody,matFront:state.settings.matFront},{boxes:bx,room:{floor}});
-   Object.assign(VIEW,{yaw:.5,pitch:.8,zoom:1.2});GL3D.touch();
+   /* capture() randează un singur cadru, cu camera fixată pe loc; îl învățăm să primească camera (cutii + podea) */
+   const BX=bx,FL=floor,r0=GL3D.render;
+   GL3D.render=function(cfg,o){return r0.call(this,cfg,Object.assign({},o,{boxes:BX,room:{floor:FL}}))};
+   const im=document.createElement("img");im.id="vimg";im.style.cssText="position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;z-index:2147483000";document.body.appendChild(im);
  });
- await pg.waitForTimeout(2500);
+ await pg.waitForTimeout(1500);
+ const CFG={matBody:BODY,matFront:BASE};
+ const frame3d=async(yaw,pitch,zoom,open)=>{const src=await pg.evaluate(([cfg,yaw,pitch,zoom,open])=>GL3D.capture(cfg,{w:1080,h:1920,yaw,pitch,zoom,open,hw:false,edges:false}).img,[CFG,yaw,pitch,zoom,open]);
+   await pg.evaluate(src=>new Promise(r=>{const i=document.getElementById("vimg");i.onload=r;i.src=src}),src)};
  const FF="font-family:Barlow,system-ui,sans-serif;";
  const ov=async(id,html,css)=>pg.evaluate(([id,html,css])=>{let d=document.getElementById(id);if(!d){d=document.createElement("div");d.id=id;d.style.cssText=css;document.body.appendChild(d)}d.innerHTML=html;d.style.visibility=html?"visible":"hidden"},[id,html,css]);
  const card=(a,c)=>ov("vcard",a?`<div style="font:700 26px Barlow;letter-spacing:10px;opacity:.8">EBANIST</div><div style="font:800 62px/1.05 Barlow">${a}</div><div style="font:600 34px/1.2 Barlow;opacity:.95">${c||""}</div>`:"","position:fixed;inset:0;z-index:2147483646;background:#0e3b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:40px;"+FF);
@@ -100,16 +106,12 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
   await card(s.card?s.card[0]:"",s.card?s.card[1]:"");
   await cap(s.cap?s.cap[0]:"",s.cap?s.cap[1]:"");await sw(!!s.sw);
   if(!s.sheet) await sheet(null);
-  if(!s.card&&!s.sheet) await pg.evaluate(o=>{GL3D.set({open:false});},0);
-  if(s.open) await pg.evaluate(()=>GL3D.set({open:true}));
   for(let i=0;i<nf;i++){
    if(STILLS&&i!==Math.floor(nf*0.6)) continue;
    const k=nf>1?sm(i/(nf-1)):0;
-   if(s.sheet){await sheet(sheets[Math.min(1,sheets.length-1)],1+0.9*k,[30,45])}
-   else if(s.cam){const c=s.cam;await pg.evaluate(([y,p,z])=>{Object.assign(VIEW,{yaw:y,pitch:p,zoom:z});GL3D.touch()},[c[0]+(c[3]-c[0])*k,c[1]+(c[4]-c[1])*k,c[2]+(c[5]-c[2])*k]);
-     await pg.waitForTimeout(STILLS?1500:s.open&&i<6?10:70)}
+   if(s.sheet){await sheet(sheets[i<nf/2?0:2],i<nf/2?1+0.35*sm(i/(nf/2)):1+0.35*sm((i-nf/2)/(nf/2)),i<nf/2?[40,35]:[45,40])}
+   else if(s.cam){const c=s.cam;await frame3d(c[0]+(c[3]-c[0])*k,c[1]+(c[4]-c[1])*k,c[2]+(c[5]-c[2])*k,!!s.open&&i>=6)}
    n++;
-   if(STILLS&&s.cam) console.log(s.name,"VIEW",JSON.stringify(await pg.evaluate(()=>({y:VIEW.yaw,p:VIEW.pitch,z:VIEW.zoom,free:VIEW.free}))));
    const f=STILLS?path.join(OUT,"stills",String(si+1).padStart(2,"0")+"-"+s.name+".jpg"):path.join(OUT,"seq","s_"+String(n).padStart(5,"0")+".jpg");
    await pg.screenshot({path:f,type:"jpeg",quality:92});
   }
