@@ -445,3 +445,24 @@ describe("Texte: toate cheile în toate cele 7 limbi", () => {
     for (const n of notes) assert.ok(raw[n], n);
   });
 });
+
+describe("Lățime liberă și „Completează peretele”", () => {
+  test("orice lățime e acceptată fără avertisment de listă; doar intervalul se verifică", () => {
+    const r = build("b_door", { w: 537 });
+    eq(r.errors, []); assert.equal(r.warnings.some(w => w.k === "kuWidthRange"), false);
+    assert.equal(build("b_door", { w: 90 }).warnings.some(w => w.k === "kuWidthRange"), true);
+    const c = check("odd", r.cfg); eq(c.close, []); eq(c.layout, []);
+  });
+  test("restul se împarte între coloanele libere; nișele de aparat rămân fixe", () => {
+    const cols = [{ type: "n_dw", w: 600 }, { type: "b_door", w: 600 }, { type: "b_drawers", w: 600 }];
+    const r = S.fitWidths(cols, 301);
+    eq(r.widths, [600, 750, 751]); assert.equal(r.changed, true);
+  });
+  test("fără coloane libere sau fără rest: nimic nu se schimbă", () => {
+    eq(S.fitWidths([{ type: "n_dw", w: 600 }], 200).widths, [600]);
+    assert.equal(S.fitWidths([{ type: "b_door", w: 600 }], 0).changed, false);
+  });
+  test("rest negativ (depășire): coloanele libere se strâng", () => {
+    eq(S.fitWidths([{ type: "b_door", w: 800 }, { type: "b_door", w: 800 }], -100).widths, [750, 750]);
+  });
+});

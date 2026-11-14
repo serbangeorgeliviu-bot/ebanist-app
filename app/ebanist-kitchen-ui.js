@@ -299,8 +299,8 @@ function colEditor(ev, wi, ci, up) {
     var fixedW = built && u.nisa && u.slots && u.slots.length && type !== "n_range" && !up;
     if (fixedW) html.push(field(kt("kWidth"), '<div class="mini" style="padding:10px 0">' + E((built && built.w) || c.w) + " mm</div>"));
     else if (up) html.push(field(kt("kWidth"), '<div class="mini" style="padding:10px 0">' + E(c.w) + " mm</div>"));
-    else if (u.ws && u.ws.length) html.push(field(kt("kWidth"), '<select data-kw="1">' + selOptions(u.ws.concat(u.ws.indexOf(+c.w) < 0 ? [c.w] : []).sort(function (a, b) { return a - b; }), c.w) + "</select>"));
-    else html.push(field(kt("kWidth"), numInput("w", c.w, ' data-kw="1" min="20" max="2000"')));
+    else if (u.nisa && type === "n_range") html.push(field(kt("kWidth"), '<select data-kw="1">' + selOptions(u.ws, c.w) + "</select>"));
+    else html.push(field(kt("kWidth"), '<input type="number" inputmode="numeric" step="1" data-kw="1" list="kWlist" min="20" max="2000" value="' + c.w + '"><datalist id="kWlist">' + (u.ws || []).map(function (v) { return '<option value="' + v + '">'; }).join("") + "</datalist>"));
   }
   html.push("</div>");
   if (u) {
@@ -340,7 +340,7 @@ function renderKitchen() {
   k = kit(p);
   var walls = surveyWalls(p), ev = evaluate(p), K = ev.K, h = ev.plan.heights;
   var h1 = [];
-  h1.push('<p class="mini">' + E(kt("kHint")) + "</p>");
+  h1.push('<p class="mini">' + E(kt("kHint")) + " " + E(kt("kWidthFree")) + "</p>");
   /* setări */
   var topOpts = (window.WORKTOP_THICKS || [38]).map(function (v) { return '<option value="' + v + '"' + (+k.K.topT === v ? " selected" : "") + ">" + v + " mm</option>"; }).join("");
   var wm = k.wtMat ? matById(k.wtMat) : null;
@@ -366,7 +366,7 @@ function renderKitchen() {
       var wo = ev.plan.walls[wi];
       h1.push('<div class="kwall" style="padding:8px 0;border-top:' + (wi ? "1px solid var(--line,#e5e2d8)" : "0") + '">' +
         '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b style="flex:1">' + E(kt("kWallN", { n: wi + 1 })) + " · " + (+w.len > 0 ? w.len + " mm" : "—") + '</b><span class="mini">' + (wo && wo.rest != null && (k.walls[w.id] || {}).cols && k.walls[w.id].cols.length ? E(kt("kRest", { mm: Math.round(wo.rest) })) : "") + "</span>" +
-        '<button class="btn sm" data-kadd="' + wi + '">+ ' + E(kt("kAdd")) + "</button></div>" +
+        '<button class="btn sm" data-kfit="' + wi + '">' + E(kt("kFit")) + '</button><button class="btn sm" data-kadd="' + wi + '">+ ' + E(kt("kAdd")) + "</button></div>" +
         (wallCols(k, w.id).length ? elevation(ev, wi) : '<p class="mini">' + E(kt("kEmptyWall")) + "</p>") + "</div>");
       if (wi + 1 < walls.length) {
         var cn = ev.spec.corners[wi] || {};
@@ -450,6 +450,12 @@ function wireKitchen(p, k, ev) {
       var sv = survey(); if (!sv) return; snapUndo(); sv.walls = [];
       box.querySelectorAll("[data-klen]").forEach(function (inp, i) { sv.walls.push({ id: uidk(), len: parseFloat(inp.value) || null, angle: 90, bow: null }); });
       touch(); });
+  }); });
+  body.querySelectorAll("[data-kfit]").forEach(function (b) { b.addEventListener("click", function () {
+    var wi = +b.dataset.kfit, w = walls[wi], cols = wallCols(k, w.id), wo = ev.plan.walls[wi];
+    var r = fitWidths(cols.map(function (c) { return { type: c.type, w: c.w }; }), wo ? wo.rest : 0);
+    if (!r.flex) { toast(kt("kFitNone")); return; }
+    if (r.changed) { snapUndo(); cols.forEach(function (c, i) { c.w = r.widths[i]; }); touch(); }
   }); });
   body.querySelectorAll("[data-kadd]").forEach(function (b) { b.addEventListener("click", function () { addOpen = +b.dataset.kadd; renderKitchen(); }); });
   var cl = body.querySelector("[data-kclose]"); if (cl) cl.addEventListener("click", function () { addOpen = false; renderKitchen(); });

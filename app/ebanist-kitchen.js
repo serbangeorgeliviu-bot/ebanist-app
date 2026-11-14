@@ -373,7 +373,8 @@ function buildUnit(Kin, type, opts) {
   var errors = h.errors.slice(), warnings = h.warnings.slice();
   if (!u) { errors.push({ k: "kuUnknown", id: type }); return { errors: errors, warnings: warnings }; }
   var w = num(o.w, u.w0);
-  if (u.ws && u.ws.indexOf(w) < 0 && !o.freeWidth) warnings.push({ k: "kuOddWidth", w: w });
+  /* module la ORICE lățime (le facem noi); doar aparatele cer nișa lor. Un interval rezonabil, nu o listă. */
+  if (u.cat !== "tall" ? (w < 150 || w > 1500) : (w < 250 || w > 1200)) warnings.push({ k: "kuWidthRange", w: w });
   if (!(w > 0)) { errors.push({ k: "kuBadDims" }); return { errors: errors, warnings: warnings }; }
   var oo = {}; for (var k in o) oo[k] = o[k]; oo.w = w;
   var r = u.build(K, h, oo);
@@ -555,6 +556,22 @@ function applianceList(wallsOut) {
   return order.map(function (k) { return cnt[k]; });
 }
 
+/* Completează un perete: restul se împarte egal între coloanele care pot fi la orice lățime (fără nișe de aparat,
+   fără colț în L, fără panou de capăt); mm întregi, diferența de rotunjire la ultima. Fără coloane libere: nu schimbă nimic. */
+function fitWidths(cols, rest) {
+  var flex = [];
+  cols.forEach(function (c, i) {
+    var u = UNITS[c.type]; if (!u) return;
+    var fixed = (u.nisa && u.slots && u.slots.length && c.type !== "n_range") || c.type === "c_l" || c.type === "x_end" || c.type === "n_range";
+    if (!fixed) flex.push(i);
+  });
+  var out = cols.map(function (c) { return num(c.w, 0); });
+  if (!flex.length || !isFinite(rest) || Math.abs(rest) < 0.5) return { widths: out, changed: false, flex: flex.length };
+  var per = Math.floor(rest / flex.length);
+  flex.forEach(function (i, k) { out[i] += per + (k === flex.length - 1 ? Math.round(rest - per * flex.length) : 0); });
+  return { widths: out, changed: true, flex: flex.length };
+}
+
 /* =====================================================================
    BLATUL bucătăriei: spec-urile de blat din rânduri
    ---------------------------------------------------------------------
@@ -610,7 +627,7 @@ function mitreGeometry(Pa, Pb) {
 }
 
 var API = { K_DEFAULTS: K_DEFAULTS, KITCHEN_UNITS: UNITS, kitchenHeights: heights, composeBays: compose, buildUnit: buildUnit,
-            planKitchen: planKitchen, worktopSpecs: worktopSpecs, kitchenApplById: applById, kitchenApplList: applList,
+            planKitchen: planKitchen, fitWidths: fitWidths, worktopSpecs: worktopSpecs, kitchenApplById: applById, kitchenApplList: applList,
             mitreGeometry: mitreGeometry, kitchenMerge: mergeK };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
