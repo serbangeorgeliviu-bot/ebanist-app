@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.62.0 — 14 noiembrie 2026
+
+**Bucătărie: reparații găsite cu o bucătărie în U complexă (D-143).** Aripa B a unui colț în L stă pe celălalt perete și nu mai dă adâncimea blatului primului (înainte blatul ieșea de ~1500 mm); la colțul în L îmbinarea blatului e mereu dreaptă; ciocnirile din plan (uși care lovesc vecinii) apar în „Verificări”; „Completează peretele” nu mai strânge coloanele cu aparat (cuptor, frigider, mașină de spălat). Demo: `test/golden/bucatarie-U-demo.json` (proiect de importat). Limită: o coloană între colț și blat acoperă blatul peste ea; coloanele se pun la capetele libere.
+
+---
+
 ## 5.61.0 — 14 noiembrie 2026
 
 **Verificarea documentelor dosarului (audit-docs).** Cu aceeași metodă ca la foile A3: am generat copertă, prezentare client, raport tehnic, elevații și montaj A3, plus fișa de montaj, pe toate tipologiile (110 + 66 de configurații, ~700 de foi). Verificări: SVG bine format, fără „undefined/NaN/null" sau chei de traducere brute, tot ce se desenează în foaia de 420 × 297 mm, cotele și piesele foii de montaj = modelul, titlul fiecărui corp din fișa de montaj cu cotele lui.
