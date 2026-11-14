@@ -80,12 +80,45 @@
       var dc = h.decor ? h.decor(x) : ""; if (dc) o.decor = s(dc, 60);
       if (x.bordo) o.bordo = s(x.bordo, 40);
       var n = h.note ? h.note(x) : ""; if (n) o.note = s(n, 200);
+      var pt = h.part ? trimPart(h.part(x, i)) : null; if (pt) o.part = pt;
       return o;
     });
+    /* fișa piesei (cote, găuri) e partea grea: dacă instantaneul s-ar apropia de plafonul serverului (2 MB),
+       comanda se creează fără ea, nu eșuează */
+    if (JSON.stringify(pieces).length > PART_BUDGET) pieces.forEach(function (o) { delete o.part; });
     var meta = { units: "mm" };
     if (h.appVer) meta.app_ver = s(h.appVer, 20);
     if (p.name) meta.project_name = s(p.name, 120);
     return { pieces: pieces, meta: meta };
+  }
+
+  /* Fișa piesei în instantaneu (D-145): piesa fizică din Modelul de Operații, fără câmpurile de lucru
+     (`_w`, `_ax`, `_side`, min/max): rămân cotele, conturul, găurile și verificările. Telefonul din atelier
+     n-are proiectul; cu asta redeschide fișa piesei ca pe PC. Cotele nu se recalculează la scanare. */
+  var PART_BUDGET = 1700000, PART_MAX = 40000;
+  function trimPart(pc) {
+    if (!pc || typeof pc !== "object" || !Array.isArray(pc.operations)) return null;
+    function clean(v) {
+      if (Array.isArray(v)) return v.map(clean);
+      if (v && typeof v === "object") {
+        var o = {};
+        Object.keys(v).forEach(function (k) { if (k.charAt(0) !== "_") o[k] = clean(v[k]); });
+        return o;
+      }
+      return v;
+    }
+    var o = clean(pc);
+    delete o.min; delete o.max;
+    return JSON.stringify(o).length > PART_MAX ? null : o;
+  }
+  /* de la piesa din instantaneu la ce așteaptă `openPartSheet(M, pc)`; null dacă comanda e veche (fără `part`) */
+  function scanModel(piece) {
+    var pc = piece && piece.part;
+    if (!pc || !Array.isArray(pc.operations)) return null;
+    var row = { modulo: piece.modulo || "", elemento: piece.elemento || "", role: pc.role, lung: piece.lung, larg: piece.larg,
+      pz: piece.pz || 1, materiale: piece.material || "", bordo: piece.bordo || "" };
+    var meta = {}; meta[String(pc.pk)] = { n: pc.n || null, row: row, exact: true };
+    return { M: { cfg: null, rows: [row], ops: { pieces: [pc] }, meta: meta }, pc: pc };
   }
 
   /* — E2: cod QR pe etichetă, scanare, coadă offline — */
@@ -491,43 +524,43 @@
   };
   /* — texte E2 — */
   var SCAN_TXT = {
-    it: { scanBtn: "Scansiona etichetta", scanTitle: "Pezzo", scanPaste: "Incolla il codice dell'etichetta", scanGo: "Apri",
+    it: { scanDetails: "Dettagli pezzo e fori", scanBtn: "Scansiona etichetta", scanTitle: "Pezzo", scanPaste: "Incolla il codice dell'etichetta", scanGo: "Apri",
       scanNoCam: "Fotocamera non disponibile: usa la fotocamera del telefono sull'etichetta, oppure incolla il codice.",
       scanBad: "Codice non riconosciuto.", scanNotFound: "Commessa o pezzo non trovati (o la commessa non è aperta).",
       scanStation: "Postazione", scanNoStation: "Nessuna postazione assegnata.", scanDoneAt: "già fatto",
       evQueued: "Salvato offline: parte appena torna la connessione.", qPending: "in attesa di invio", qSent: "Inviati",
       scanLogin: "Accedi per registrare i pezzi." },
-    ro: { scanBtn: "Scanează eticheta", scanTitle: "Piesă", scanPaste: "Lipește codul de pe etichetă", scanGo: "Deschide",
+    ro: { scanDetails: "Detalii piesă și găuri", scanBtn: "Scanează eticheta", scanTitle: "Piesă", scanPaste: "Lipește codul de pe etichetă", scanGo: "Deschide",
       scanNoCam: "Camera nu e disponibilă: folosește camera telefonului pe etichetă sau lipește codul.",
       scanBad: "Cod nerecunoscut.", scanNotFound: "Comanda sau piesa nu s-au găsit (sau comanda nu e deschisă).",
       scanStation: "Post de lucru", scanNoStation: "Nicio postazione atribuită.", scanDoneAt: "deja gata",
       evQueued: "Salvat offline: pleacă imediat ce revine conexiunea.", qPending: "în așteptare", qSent: "Trimise",
       scanLogin: "Conectează-te ca să înregistrezi piesele." },
-    en: { scanBtn: "Scan label", scanTitle: "Piece", scanPaste: "Paste the label code", scanGo: "Open",
+    en: { scanDetails: "Piece details and holes", scanBtn: "Scan label", scanTitle: "Piece", scanPaste: "Paste the label code", scanGo: "Open",
       scanNoCam: "Camera not available: point the phone camera at the label, or paste the code.",
       scanBad: "Code not recognised.", scanNotFound: "Job or piece not found (or the job is not open).",
       scanStation: "Station", scanNoStation: "No station assigned.", scanDoneAt: "already done",
       evQueued: "Saved offline: it will be sent when the connection returns.", qPending: "waiting to send", qSent: "Sent",
       scanLogin: "Sign in to record pieces." },
-    fr: { scanBtn: "Scanner l'étiquette", scanTitle: "Pièce", scanPaste: "Collez le code de l'étiquette", scanGo: "Ouvrir",
+    fr: { scanDetails: "Détails de la pièce et perçages", scanBtn: "Scanner l'étiquette", scanTitle: "Pièce", scanPaste: "Collez le code de l'étiquette", scanGo: "Ouvrir",
       scanNoCam: "Caméra indisponible : pointez l'appareil photo du téléphone sur l'étiquette, ou collez le code.",
       scanBad: "Code non reconnu.", scanNotFound: "Commande ou pièce introuvable (ou commande non ouverte).",
       scanStation: "Poste", scanNoStation: "Aucun poste attribué.", scanDoneAt: "déjà fait",
       evQueued: "Enregistré hors ligne : envoi dès le retour de la connexion.", qPending: "en attente d'envoi", qSent: "Envoyés",
       scanLogin: "Connectez-vous pour enregistrer les pièces." },
-    de: { scanBtn: "Etikett scannen", scanTitle: "Teil", scanPaste: "Etikett-Code einfügen", scanGo: "Öffnen",
+    de: { scanDetails: "Teildetails und Bohrungen", scanBtn: "Etikett scannen", scanTitle: "Teil", scanPaste: "Etikett-Code einfügen", scanGo: "Öffnen",
       scanNoCam: "Kamera nicht verfügbar: Handykamera auf das Etikett richten oder den Code einfügen.",
       scanBad: "Code nicht erkannt.", scanNotFound: "Auftrag oder Teil nicht gefunden (oder Auftrag nicht offen).",
       scanStation: "Station", scanNoStation: "Keine Station zugewiesen.", scanDoneAt: "schon erledigt",
       evQueued: "Offline gespeichert: wird gesendet, sobald die Verbindung zurück ist.", qPending: "wartet auf Versand", qSent: "Gesendet",
       scanLogin: "Melde dich an, um Teile zu erfassen." },
-    pl: { scanBtn: "Skanuj etykietę", scanTitle: "Element", scanPaste: "Wklej kod z etykiety", scanGo: "Otwórz",
+    pl: { scanDetails: "Szczegóły części i otwory", scanBtn: "Skanuj etykietę", scanTitle: "Element", scanPaste: "Wklej kod z etykiety", scanGo: "Otwórz",
       scanNoCam: "Kamera niedostępna: skieruj aparat telefonu na etykietę lub wklej kod.",
       scanBad: "Nierozpoznany kod.", scanNotFound: "Nie znaleziono zlecenia lub elementu (albo zlecenie nie jest otwarte).",
       scanStation: "Stanowisko", scanNoStation: "Brak przypisanego stanowiska.", scanDoneAt: "już zrobione",
       evQueued: "Zapisano offline: zostanie wysłane po powrocie połączenia.", qPending: "czeka na wysłanie", qSent: "Wysłano",
       scanLogin: "Zaloguj się, aby rejestrować elementy." },
-    es: { scanBtn: "Escanear etiqueta", scanTitle: "Pieza", scanPaste: "Pega el código de la etiqueta", scanGo: "Abrir",
+    es: { scanDetails: "Detalles de la pieza y taladros", scanBtn: "Escanear etiqueta", scanTitle: "Pieza", scanPaste: "Pega el código de la etiqueta", scanGo: "Abrir",
       scanNoCam: "Cámara no disponible: apunta la cámara del móvil a la etiqueta o pega el código.",
       scanBad: "Código no reconocido.", scanNotFound: "Pedido o pieza no encontrados (o el pedido no está abierto).",
       scanStation: "Puesto", scanNoStation: "Ningún puesto asignado.", scanDoneAt: "ya hecho",
@@ -746,7 +779,7 @@
     } catch (e) { return false; }
   }
 
-  return { boardModel: boardModel, snapshotRows: snapshotRows, setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
+  return { trimPart: trimPart, scanModel: scanModel, boardModel: boardModel, snapshotRows: snapshotRows, setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
            JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
            ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };

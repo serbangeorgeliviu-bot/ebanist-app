@@ -3691,11 +3691,29 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.ignorat = !document.getElementById("shAtelier").classList.contains("on");
       history.replaceState(null, "", location.pathname + location.search);
 
+      /* — fișa piesei din cod (D-145): cote, canturi, material și găuri vin din instantaneu, fără proiect pe telefon — */
+      const pp = { id: "w3", name: "Fisa", client: "", date: "2026-11-14", pieces: [], configs: {}, layout: {} };
+      generateInto(pp, { ...PRESETS.armadio, name: "Arm", L: 1000, H: 2200, P: 600 });
+      const parts = atSnapParts(pp);
+      const snap = EBAtelier.buildSnapshot(pp, { appVer: "t", material: x => x.materiale || "", part: x => parts.get(x) || null });
+      const fi = snap.pieces.findIndex(x => x.part && x.part.role === "fianco");
+      o.fisaInSnap = fi >= 0 && snap.pieces[fi].part.operations.length > 0 && JSON.stringify(snap).indexOf('"_w"') < 0 && JSON.stringify(snap).length < 1700000;
+      jobRow.snapshot = snap; mode = "ok"; mine = mk("operator", ["cnc"]); closeSheets(); atPending = null;
+      history.replaceState(null, "", location.pathname + location.search + "#e=" + JOB + ".r" + (fi + 1)); atBoot(); await w(700);
+      const pb = document.getElementById("partBody");
+      o.fisaDeschisa = document.getElementById("shPart").classList.contains("on") && pb.querySelectorAll("table.ops tbody tr").length === snap.pieces[fi].part.operations.length
+        && pb.textContent.indexOf(String(snap.pieces[fi].part.length)) >= 0;
+      o.fisaButon = !!body().querySelector("[data-at=partsheet]") && !!body().querySelector("[data-at=scanev]");
+      closeSheets(); body().querySelector("[data-at=partsheet]") || await atRender(); atScanSm && openPartSheet(atScanSm.M, atScanSm.pc);
+      o.fisaReDeschisa = document.getElementById("shPart").classList.contains("on");
+      history.replaceState(null, "", location.pathname + location.search);
+
       closeSheets(); window.print = realPrint; sb = wasSb; acctSession = wasSess; state.projects = keepP; state.activeId = keepA; licWrite(keepL);
       localStorage.removeItem("ebAtelier"); localStorage.removeItem("ebAtelierJobs"); localStorage.removeItem("ebAtelierQ"); localStorage.removeItem("ebAtelierSt"); atPending = null;
       renderAccount();
       return o;
     });
+    ok("Atelier D-145: scanarea QR deschide fișa piesei (cote, găuri) din instantaneu, fără proiect; butonul o redeschide", r.fisaInSnap === true && r.fisaDeschisa === true && r.fisaButon === true && r.fisaReDeschisa === true, JSON.stringify([r.fisaInSnap, r.fisaDeschisa, r.fisaButon, r.fisaReDeschisa]));
     ok("Atelier E2: fără comandă legată, fiecare etichetă are un QR propriu (diferit pe etichetă, nu cel al comenzii)", r.faraComanda === true);
     ok("Atelier E2: cu comandă legată, fiecare etichetă are QR; cele ale aceluiași rând poartă același cod", r.cinciQr === true && r.codPePiesa === true);
     ok("Atelier E2: dacă proiectul s-a schimbat după comandă, QR-ul comenzii dispare (rămâne cel propriu); revine când rândurile sunt iar la fel", r.piesaSchimbata === true && r.revineLaFel === true);
