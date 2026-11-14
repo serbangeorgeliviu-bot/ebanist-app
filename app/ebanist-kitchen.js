@@ -562,7 +562,9 @@ function fitWidths(cols, rest) {
   var flex = [];
   cols.forEach(function (c, i) {
     var u = UNITS[c.type]; if (!u) return;
-    var fixed = (u.nisa && u.slots && u.slots.length && c.type !== "n_range") || c.type === "c_l" || c.type === "x_end" || c.type === "n_range";
+    /* lățime fixă: nișe de aparat (și coloanele care au o nișă de aparat), colțul în L, panoul de capăt, aragazul; hobul cere cel puțin decupajul */
+    var fixed = (u.nisa && u.slots && u.slots.length && c.type !== "n_range") || c.type === "c_l" || c.type === "x_end" || c.type === "n_range" ||
+                c.type === "t_oven" || c.type === "t_fridge" || c.type === "t_fridgefz" || c.type === "t_washer" || c.type === "b_hoboven" || c.type === "b_oven";
     if (!fixed) flex.push(i);
   });
   var out = cols.map(function (c) { return num(c.w, 0); });
@@ -584,12 +586,13 @@ function worktopSpecs(Kin, spec, plan, names) {
   var K = mergeK(Kin), out = [], run = null;
   var walls = plan.walls;
   function flush() { if (run && run.mods.length) out.push(run); run = null; }
-  function start() { return { mods: [], cutouts: [], walls: [], through: [], joint: (spec && spec.wtJoint) === "mitre" ? "mitre" : "butt", thick: K.topT }; }
+  function start() { return { mods: [], cutouts: [], walls: [], through: [], joints: [], joint: (spec && spec.wtJoint) === "mitre" ? "mitre" : "butt", thick: K.topT }; }
   walls.forEach(function (wo, wi) {
     var corner = wi > 0 ? ((spec.corners || [])[wi - 1] || {}) : null;
     if (wi > 0 && run) {
-      /* între pereți: continuă dacă ambele au corpuri jos */
+      /* între pereți: continuă dacă ambele au corpuri jos; la un colț în L îmbinarea e dreaptă (aripa B nu e un blat egal în adâncime) */
       run.through.push((corner && corner.through === "second") ? "second" : "first");
+      run.joints.push(corner && corner.kind === "l" ? "butt" : run.joint);
     } else if (wi > 0) { run = null; }
     wo.items.forEach(function (it) {
       var u = it.unit, name = names && names[it.id];

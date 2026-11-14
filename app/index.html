@@ -15528,7 +15528,8 @@ function wtEligible(p,RL){
 }
 /* adancimea reala a unui corp: cel mai iesit panou SAU front, de la perete */
 function wtFront(m){
-  let z=0; try{ buildModule(m.cfg).boxes.forEach(b=>{ if(b.kind==="p"||b.kind==="f") z=Math.max(z,b.z1); }); }catch(e){}
+  /* aripa B a unui colț în L stă pe celălalt perete: nu dă adâncimea blatului acestui perete (D-143) */
+  let z=0; try{ buildModule(m.cfg).boxes.forEach(b=>{ if((b.kind==="p"||b.kind==="f")&&b.wing!=="B") z=Math.max(z,b.z1); }); }catch(e){}
   return z+(+m.off||0);
 }
 function wtInput(p,RL,wt){

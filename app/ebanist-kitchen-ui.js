@@ -205,7 +205,7 @@ function apply(p) {
       return { kind: c.kind, seg: Math.max(0, sp.walls.indexOf(c.wall)), x: c.x, y: d.y, w: c.w, d: c.d, r: c.r };
     });
     var wt = { id: "wt" + uidk(), name: kt("kWtTitle") + " " + wn, mods: sp.mods, mat: k.wtMat, ovF: WORKTOP_DEFAULTS.ov_front, ovS: 0,
-               through: sp.through, joint: sp.joint, cutouts: cuts, names: [], sig: null, kitchen: true };
+               through: sp.through, joint: sp.joint, joints: sp.joints, cutouts: cuts, names: [], sig: null, kitchen: true };
     p.worktops.push(wt);
     if (k.wtMat) wtApply(p, wt);
   });
@@ -391,6 +391,10 @@ function renderKitchen() {
   ev.plan.errors.forEach(function (w) { all.push(["e", wtMsg(w)]); });
   (ev.plan.hoods || []).forEach(function (hc) { if (hc.warn2) all.push(["w", wtMsg(hc.warn2)]); });
   (k.err || []).forEach(function (m) { all.push(["e", m]); });
+  /* ciocniri din plan: uși care lovesc vecinii (doar după ce bucătăria e calculată) */
+  try { var RLx = (k.names || []).length ? roomLayout() : null; if (RLx) RLx.issues.filter(function (i) { return (k.names || []).indexOf(i.a) >= 0; }).forEach(function (i) {
+    var key = { hit: "svIssHit", door: "svIssDoor", drawer: "svIssDrawer", doorWall: "svIssDoorWall", drawerWall: "svIssDrawerWall", over: "svIssOver", before: "svIssBefore" }[i.t];
+    if (key) all.push(["w", ts(key).replace("{a}", i.a).replace("{b}", i.b || "").replace("{mm}", i.mm || "")]); }); } catch (e) {}
   h1.push('<div class="card" style="padding:12px"><div class="eyebrow" style="margin:0 0 6px">' + E(kt("kChecks")) + "</div>" +
     (all.length ? all.map(function (m) { return '<div class="mini' + (m[0] === "e" ? "\" style=\"color:var(--danger)" : " warnline") + '">⚠ ' + E(m[1]) + "</div>"; }).join("") : '<div class="mini">' + E(kt("kNoChecks")) + "</div>") + "</div>");
   if (ev.plan.appliances.length) {
