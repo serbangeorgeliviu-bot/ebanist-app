@@ -25,6 +25,7 @@
     "golden:report": "node golden/report.js",
     "test:full": "npm run test:all && npm run test:golden",
     "audit": "DOCS=1 node audit.js",
+    "audit-a3": "node audit-a3.cjs && node audit-a3.cjs armadio,cassettiera,libreria,pensile,base,basecass,colonna,vetrina,tv,dressing,bagno,scorrevole,scrivania,letto,tavolo,boiserie,lambriu,tondo,ovale,raccordato,contur 6 41",
     "audit3d": "node audit3d.cjs && node audit3d.cjs armadio,cassettiera,libreria,pensile,base,basecass,colonna,vetrina,tv,dressing,bagno,scorrevole,scrivania,letto,tavolo,boiserie,lambriu,tondo,ovale,raccordato,contur 6 33"
   },
   "devDependencies": {
