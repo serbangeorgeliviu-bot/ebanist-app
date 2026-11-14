@@ -5,13 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.62.0 — 14 noiembrie 2026
+## 5.63.0 — 14 noiembrie 2026
 
 **Codul QR al piesei deschide fișa ei, cu găuri (Atelier, D-145).** Scanezi eticheta cu camera telefonului → se deschide Ebanist și, imediat, **fișa piesei**: cote, material, canturi, desenul cu găurile (fața 5/6) și tabelul operațiilor, ca pe PC. Dedesubt rămân cardul piesei și butoanele „Gata / Start / Problemă”. Butonul „Detalii piesă și găuri” o redeschide.
 - **De unde vin datele:** la „Creează comanda” instantaneul poartă acum, pentru fiecare rând care vine dintr-un corp, fișa piesei din Modelul de Operații (fără câmpurile de lucru). Telefonul din atelier n-are proiectul și nu recalculează nimic. Rândurile adăugate de mână rămân fără găuri; comenzile vechi arată cardul de dinainte.
 - **Server:** migrare aditivă `supabase/migrations/20261114_job_snapshot_part.sql` (lista albă `job_snapshot_ok` primește `part`, max. 40 KB pe piesă). Dacă instantaneul se apropie de 1,7 MB, comanda se creează fără fișe, nu eșuează.
-- **Rămâne:** etichetele fără comandă Atelier au tot codul propriu (text, nu link): găurile apar numai pentru piesele unei comenzi create după 5.62.0; scanarea cere cont de membru Atelier; găurile `verificat:false` rămân așa (2B.0).
+- **Rămâne:** etichetele fără comandă Atelier au tot codul propriu (text, nu link): găurile apar numai pentru piesele unei comenzi create după 5.63.0; scanarea cere cont de membru Atelier; găurile `verificat:false` rămân așa (2B.0).
 - Teste: `atelier.test.js` (5 noi), e2e „Atelier D-145”. `cd test && node --test atelier.test.js qr.test.js`.
+
+---
+
+## 5.62.0 — 14 noiembrie 2026
+
+**Bucătărie: reparații găsite cu o bucătărie în U complexă (D-143).** Aripa B a unui colț în L stă pe celălalt perete și nu mai dă adâncimea blatului primului (înainte blatul ieșea de ~1500 mm); la colțul în L îmbinarea blatului e mereu dreaptă; ciocnirile din plan (uși care lovesc vecinii) apar în „Verificări”; „Completează peretele” nu mai strânge coloanele cu aparat (cuptor, frigider, mașină de spălat). Demo: `test/golden/bucatarie-U-demo.json` (proiect de importat). Limită: o coloană între colț și blat acoperă blatul peste ea; coloanele se pun la capetele libere.
 
 ---
 
