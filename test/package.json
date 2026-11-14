@@ -27,6 +27,7 @@
     "audit": "DOCS=1 node audit.js",
     "audit-docs": "node audit-docs.cjs && node audit-docs.cjs \"\" 3 7",
     "audit-a3": "node audit-a3.cjs && node audit-a3.cjs armadio,cassettiera,libreria,pensile,base,basecass,colonna,vetrina,tv,dressing,bagno,scorrevole,scrivania,letto,tavolo,boiserie,lambriu,tondo,ovale,raccordato,contur 6 41",
+    "audit-kitchen": "node audit-kitchen.cjs",
     "audit3d": "node audit3d.cjs && node audit3d.cjs armadio,cassettiera,libreria,pensile,base,basecass,colonna,vetrina,tv,dressing,bagno,scorrevole,scrivania,letto,tavolo,boiserie,lambriu,tondo,ovale,raccordato,contur 6 33"
   },
   "devDependencies": {
