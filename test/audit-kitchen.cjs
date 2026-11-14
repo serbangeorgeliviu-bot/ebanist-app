@@ -1,5 +1,5 @@
 /* Ebanist — audit de browser al bucătăriei (D-143): fiecare tip de modul, la lățimea minimă / implicită / maximă, trece prin tot ce face aplicația cu un corp:
- * 3D (închis / deschis / explodat / feronerie / găuri / cote / selectare+izolare pe fiecare piesă), foile A3, foaia de montaj, etichete, distinctă, deviz, găurire;
+ * 3D (închis / deschis / explodat / feronerie / găuri / cote / selectare+izolare pe fiecare piesă), foile piesei, foaia de montaj, etichete, distinctă, deviz, găurire;
  * apoi bucătăria demo întreagă (camera 3D, plan, blat). Orice excepție, NaN/undefined în texte sau suprapunere nouă între piese e abatere (cod de ieșire 1).
  *   node audit-kitchen.cjs        (cere Chromium; nu intră în test:full)
  */
@@ -51,13 +51,13 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
         for (const [name, M] of asmModules(q)) for (const pc of M.ops.pieces) {
           const row = (M.meta[String(pc.pk)] || {}).row || {}; const wk = who + "/" + name + "/" + pc.role + "#" + pc.n;
           const has6 = pc.operations.some(o => o.face === 6);
-          for (const face of (has6 ? [5, 6] : [5])) { stat.sheets++; let svg; try { svg = partA3Svg(M, pc, face, 1, 1); } catch (e) { B(wk, "A3: " + String(e).slice(0, 80)); continue; }
-            const doc = new DOMParser().parseFromString(svg, "image/svg+xml"); if (doc.querySelector("parsererror")) { B(wk, "A3 SVG prost"); continue; }
+          for (const face of (has6 ? [5, 6] : [5])) { stat.sheets++; let svg; try { svg = partSheetSvg(M, pc, face, 1, 1); } catch (e) { B(wk, "fișă: " + String(e).slice(0, 80)); continue; }
+            const doc = new DOMParser().parseFromString(svg, "image/svg+xml"); if (doc.querySelector("parsererror")) { B(wk, "fișă SVG prost"); continue; }
             const texts = [...doc.querySelectorAll("text")].map(t => t.textContent); clean(wk, texts.join("|"));
             if (!texts.includes(f1(pc.length)) || !texts.includes(f1(pc.width))) B(wk, "cotele " + f1(pc.length) + "×" + f1(pc.width) + " nu apar pe foaie"); }
           for (const o of pc.operations) { if (o.type === "drill" && !(o.dia > 0)) B(wk, "gaură Ø " + o.dia); if (o.face >= 5 && o.x != null && (o.x < -.05 || o.x > pc.length + .05 || o.y < -.05 || o.y > pc.width + .05) && !/maniglia|cerniera/.test(o.note || "")) B(wk, "operație în afara piesei «" + o.note + "»"); }
         }
-      } catch (e) { B(who, "foi A3: " + String(e).slice(0, 100)); }
+      } catch (e) { B(who, "foi fișă: " + String(e).slice(0, 100)); }
       try { const rows = cutRows(q); clean(who + " distinctă", JSON.stringify(rows)); const csv = buildCsv(q); clean(who + " CSV", csv); } catch (e) { B(who, "distinctă/CSV: " + String(e).slice(0, 100)); }
       try { const hw = computeHardware(q); clean(who + " feronerie", JSON.stringify(hw.map(h => [h.k, h.qty, h.tot]))); const pc = projectCosts(q); if (!isFinite(pc.netto)) B(who, "deviz nu e număr"); } catch (e) { B(who, "feronerie/deviz: " + String(e).slice(0, 100)); }
       try { const au = [...(q.pieces.length ? Object.keys(q.configs) : [])].flatMap(n => auditModule(q.configs[n], q.pieces.filter(x => x.gen === n || x.modulo === n)).filter(a => a.blocking || a.level === "error")); if (au.length) B(who, "audit blocant: " + au.map(a => a.k || a.id || a.msg).join(",")); } catch (e) { B(who, "auditModule: " + String(e).slice(0, 100)); }
