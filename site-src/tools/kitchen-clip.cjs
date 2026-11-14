@@ -25,15 +25,15 @@ const CUES=[
  [7.95,4.2,"Basi, pensili, cappa e lavello: ogni modulo ha la sua misura."],
  [12.45,3.2,"Il top si taglia a quarantacinque gradi, con i fori per lavello e piano."],
  [15.95,2.0,"Distinta, disegni e montaggio."],
- [18.1,1.7,"Provalo gratis su ebanist punto com."]];
+ [17.9,2.1,"Provalo gratis su ebanist punto com."]];
 /* scene: sec; cam = [yaw,pitch,zoom] la început și la sfârșit; card / cap / sw / sheet */
 const SEGS=[
  {name:"hook",sec:1.8,card:[T.hook1,T.hook2]},
  {name:"tour",sec:6.0,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
  {name:"front",sec:4.5,cam:[.35,.5,1.25,-.15,.4,1.5],cap:[T.s2,T.s2b]},
  {name:"top",sec:3.5,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
- {name:"sheet",sec:2.2,sheet:true,cap:[T.s4,T.s4b]},
- {name:"end",sec:1.8,card:[T.end1,T.end2]}];
+ {name:"sheet",sec:2.0,sheet:true,cap:[T.s4,T.s4b]},
+ {name:"end",sec:2.2,card:[T.end1,T.end2]}];
 const total=SEGS.reduce((a,s)=>a+s.sec,0);
 if(total>20) throw new Error("clipul depășește 20 s: "+total);
 const sm=k=>k*k*(3-2*k), nfOf=s=>Math.round(s.sec*FPS);
