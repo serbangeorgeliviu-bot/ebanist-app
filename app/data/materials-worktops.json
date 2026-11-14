@@ -1,0 +1,404 @@
+{
+ "schema": 1,
+ "fornitore": "(blaturi generice)",
+ "aggiornato": "2026-11-14",
+ "_nota": "Blaturi generice pentru bucătărie, în grosimile uzuale (12, 20, 27, 28, 30, 38, 40, 50 mm). Nu sunt referințe ale unui furnizor: formatul plăcii și prețul se completează din catalogul furnizorului ales (D-143). Prețul lipsește aici înadins: se pune în Catalog, ca la celelalte materiale.",
+ "materiali": [
+  {
+   "id": "blat_lam_28",
+   "nome": "Top laminato 28 mm",
+   "nome_i18n": {
+    "it": "Top laminato 28 mm",
+    "ro": "Blat laminat 28 mm",
+    "en": "Laminate worktop 28 mm",
+    "fr": "Plan stratifié 28 mm",
+    "de": "Laminat-Arbeitsplatte 28 mm",
+    "pl": "Blat laminowany 28 mm",
+    "es": "Encimera laminada 28 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 28,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#d9d2c4",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 4100,
+    "l": 600
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_lam_30",
+   "nome": "Top laminato 30 mm",
+   "nome_i18n": {
+    "it": "Top laminato 30 mm",
+    "ro": "Blat laminat 30 mm",
+    "en": "Laminate worktop 30 mm",
+    "fr": "Plan stratifié 30 mm",
+    "de": "Laminat-Arbeitsplatte 30 mm",
+    "pl": "Blat laminowany 30 mm",
+    "es": "Encimera laminada 30 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 30,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#d9d2c4",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 4100,
+    "l": 600
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_lam_38",
+   "nome": "Top laminato 38 mm",
+   "nome_i18n": {
+    "it": "Top laminato 38 mm",
+    "ro": "Blat laminat 38 mm",
+    "en": "Laminate worktop 38 mm",
+    "fr": "Plan stratifié 38 mm",
+    "de": "Laminat-Arbeitsplatte 38 mm",
+    "pl": "Blat laminowany 38 mm",
+    "es": "Encimera laminada 38 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 38,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#cfc6b4",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 4100,
+    "l": 600
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_lam_40",
+   "nome": "Top postformato 40 mm",
+   "nome_i18n": {
+    "it": "Top postformato 40 mm",
+    "ro": "Blat postformat 40 mm",
+    "en": "Post-formed worktop 40 mm",
+    "fr": "Plan postformé 40 mm",
+    "de": "Postforming-Arbeitsplatte 40 mm",
+    "pl": "Blat postforming 40 mm",
+    "es": "Encimera postformada 40 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 40,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#cfc6b4",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 4100,
+    "l": 600
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_hpl_12",
+   "nome": "Top HPL compatto 12 mm",
+   "nome_i18n": {
+    "it": "Top HPL compatto 12 mm",
+    "ro": "Blat HPL compact 12 mm",
+    "en": "Compact HPL worktop 12 mm",
+    "fr": "Plan HPL compact 12 mm",
+    "de": "Kompakt-HPL-Arbeitsplatte 12 mm",
+    "pl": "Blat HPL kompaktowy 12 mm",
+    "es": "Encimera HPL compacta 12 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 12,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#8d8f91",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 4100,
+    "l": 1300
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_quartz_20",
+   "nome": "Top quarzo 20 mm",
+   "nome_i18n": {
+    "it": "Top quarzo 20 mm",
+    "ro": "Blat cuarț 20 mm",
+    "en": "Quartz worktop 20 mm",
+    "fr": "Plan quartz 20 mm",
+    "de": "Quarz-Arbeitsplatte 20 mm",
+    "pl": "Blat kwarcowy 20 mm",
+    "es": "Encimera de cuarzo 20 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 20,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#e6e3dd",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 3050,
+    "l": 1400
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_ceram_12",
+   "nome": "Top ceramica sinterizzata 12 mm",
+   "nome_i18n": {
+    "it": "Top ceramica sinterizzata 12 mm",
+    "ro": "Blat ceramică sinterizată 12 mm",
+    "en": "Sintered ceramic worktop 12 mm",
+    "fr": "Plan céramique frittée 12 mm",
+    "de": "Sinterkeramik-Arbeitsplatte 12 mm",
+    "pl": "Blat ze spieku ceramicznego 12 mm",
+    "es": "Encimera de cerámica sinterizada 12 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 12,
+   "famiglia": "cemento",
+   "finitura": "melaminico",
+   "colore_hex": "#d8d6d1",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 3200,
+    "l": 1440
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_ceram_20",
+   "nome": "Top ceramica sinterizzata 20 mm",
+   "nome_i18n": {
+    "it": "Top ceramica sinterizzata 20 mm",
+    "ro": "Blat ceramică sinterizată 20 mm",
+    "en": "Sintered ceramic worktop 20 mm",
+    "fr": "Plan céramique frittée 20 mm",
+    "de": "Sinterkeramik-Arbeitsplatte 20 mm",
+    "pl": "Blat ze spieku ceramicznego 20 mm",
+    "es": "Encimera de cerámica sinterizada 20 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 20,
+   "famiglia": "cemento",
+   "finitura": "melaminico",
+   "colore_hex": "#d8d6d1",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 3200,
+    "l": 1440
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_stejar_40",
+   "nome": "Top rovere massello 40 mm",
+   "nome_i18n": {
+    "it": "Top rovere massello 40 mm",
+    "ro": "Blat stejar masiv 40 mm",
+    "en": "Solid oak worktop 40 mm",
+    "fr": "Plan chêne massif 40 mm",
+    "de": "Massivholz-Arbeitsplatte Eiche 40 mm",
+    "pl": "Blat z litego dębu 40 mm",
+    "es": "Encimera de roble macizo 40 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 40,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#b98f5e",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 2500,
+    "l": 640
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_stejar_27",
+   "nome": "Top rovere massello 27 mm",
+   "nome_i18n": {
+    "it": "Top rovere massello 27 mm",
+    "ro": "Blat stejar masiv 27 mm",
+    "en": "Solid oak worktop 27 mm",
+    "fr": "Plan chêne massif 27 mm",
+    "de": "Massivholz-Arbeitsplatte Eiche 27 mm",
+    "pl": "Blat z litego dębu 27 mm",
+    "es": "Encimera de roble macizo 27 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 27,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#b98f5e",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 2500,
+    "l": 640
+   },
+   "texture": "solid"
+  },
+  {
+   "id": "blat_stejar_50",
+   "nome": "Top rovere massello 50 mm",
+   "nome_i18n": {
+    "it": "Top rovere massello 50 mm",
+    "ro": "Blat stejar masiv 50 mm",
+    "en": "Solid oak worktop 50 mm",
+    "fr": "Plan chêne massif 50 mm",
+    "de": "Massivholz-Arbeitsplatte Eiche 50 mm",
+    "pl": "Blat z litego dębu 50 mm",
+    "es": "Encimera de roble macizo 50 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 50,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#b98f5e",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     1,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 2500,
+    "l": 640
+   },
+   "texture": "solid"
+  }
+ ]
+}
