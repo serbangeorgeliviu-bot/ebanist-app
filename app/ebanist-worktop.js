@@ -7,8 +7,11 @@
    DOM-ul și nimic nu scrie în proiect: `index.html` face asta, iar testele
    rulează funcția goală.
 
-   ÎMBINAREA DE COLȚ e dreaptă, cap la cap (nu la 45°): un blat trece până în
-   colț, celălalt se oprește în muchia lui lungă, din față. Pe dedesubt, la
+   ÎMBINAREA DE COLȚ e, implicit, dreaptă, cap la cap: un blat trece până în
+   colț, celălalt se oprește în muchia lui lungă, din față. A doua variantă (D-142)
+   e „la 45° cu freza”: ambele piese ajung în colț și se termină înclinat, cu
+   lungimea măsurată pe muchia din spate; pe dedesubt, locașurile pentru șuruburile
+   de îmbinare sunt rotite perpendicular pe linia tăieturii. Cere adâncimi egale. Pe dedesubt, la
    freză, se fac locașurile pentru șuruburile de îmbinare ale blatului, în
    AMBELE piese. Cotele locașurilor (`bolt`) sunt DATE, marcate
    `verificat:false`: se iau din dima și din șuruburile folosite în atelier,
@@ -47,7 +50,9 @@ var WORKTOP_DEFAULTS = {
     from_joint: 45,    // centrul locașului, de la muchia îmbinării, mm
     edge: 80,          // primul/ultimul locaș, de la muchiile lungi ale îmbinării
     mid_over: 800      // peste această lungime a îmbinării, se adaugă unul la mijloc
-  }
+  },
+  mitre_depth_tol: 1,  // mm: adâncimile celor două piese la o îmbinare la 45°
+  mitre_cut_margin: 30 // un decupaj nu se apropie mai mult de linia tăieturii înclinate, mm
 };
 
 var KINDS = ["sink", "hob", "other"];
@@ -103,11 +108,18 @@ function deriveWorktop(spec, walls, mods, opts) {
   });
 
   /* colțurile: unghi drept, și care piesă trece */
-  var through = spec.through || [];
+  var through = spec.through || [], joints = spec.joints || [];
   for (i = 0; i + 1 < order.length; i++) {
     var ang = num(order[i].wall.angle, 90);
     if (Math.abs(ang - 90) > D.corner_tol) { errors.push({ k: "wtCornerAngle", wall: order[i].wall.i + 1, angle: ang }); return out; }
     order[i].corner = through[i] === "second" ? "second" : "first";
+    var jt = joints[i] != null ? joints[i] : spec.joint;
+    order[i].mitre = jt === "mitre";
+    if (order[i].mitre && Math.abs(order[i].depth - order[i + 1].depth) > D.mitre_depth_tol + 1e-6) {
+      errors.push({ k: "wtMitreDepth", a: order[i].wall.i + 1, b: order[i + 1].wall.i + 1,
+                    pa: r1(order[i].depth), pb: r1(order[i + 1].depth) });
+      return out;
+    }
   }
 
   /* capetele fiecărui segment, pe peretele lui */
@@ -116,22 +128,24 @@ function deriveWorktop(spec, walls, mods, opts) {
     var L = num(g.wall.L, 0);
     var s, e, sKind, eKind;
     if (prev) {
-      /* începe în colț: dacă trece piesa dinainte, ne oprim în muchia ei */
-      if (prev.corner === "first") { s = prev.depth; sKind = "butt"; } else { s = 0; sKind = "corner"; }
+      /* începe în colț: dacă trece piesa dinainte, ne oprim în muchia ei; la 45°, pornim din colț */
+      if (prev.mitre) { s = 0; sKind = "mitre"; }
+      else if (prev.corner === "first") { s = prev.depth; sKind = "butt"; } else { s = 0; sKind = "corner"; }
     } else { s = Math.max(0, g.x0 - ovS); sKind = "free"; }
     if (next) {
-      if (g.corner === "first") { e = L; eKind = "corner"; } else { e = L - next.depth; eKind = "butt"; }
+      if (g.mitre) { e = L; eKind = "mitre"; }
+      else if (g.corner === "first") { e = L; eKind = "corner"; } else { e = L - next.depth; eKind = "butt"; }
     } else { e = Math.min(L, g.x1 + ovS); eKind = "free"; }
     g.s = s; g.e = e; g.sKind = sKind; g.eKind = eKind;
     /* un corp care iese din blat; pe un capăt „butt” e normal: colțul îl
        acoperă piesa care trece */
-    if ((sKind !== "butt" && g.x0 < s - 0.5) || (eKind !== "butt" && g.x1 > e + 0.5))
+    if ((sKind !== "butt" && sKind !== "mitre" && g.x0 < s - 0.5) || (eKind !== "butt" && eKind !== "mitre" && g.x1 > e + 0.5))
       warnings.push({ k: "wtModOutside", wall: g.wall.i + 1 });
     if (e - s < D.min_len) errors.push({ k: "wtTooShort", wall: g.wall.i + 1, len: r1(e - s) });
     /* colțul rămas fără corp sub blat: blatul ar sta în gol */
-    if (next && g.corner === "first" && L - g.x1 > next.depth + 5)
+    if (next && !g.mitre && g.corner === "first" && L - g.x1 > next.depth + 5)
       warnings.push({ k: "wtGapCorner", wall: g.wall.i + 1, mm: r1(L - g.x1 - next.depth) });
-    if (prev && prev.corner === "first" && g.x0 - prev.depth > 5)
+    if (prev && !prev.mitre && prev.corner === "first" && g.x0 - prev.depth > 5)
       warnings.push({ k: "wtGapStart", wall: g.wall.i + 1, mm: r1(g.x0 - prev.depth) });
   });
   if (errors.length) return out;
@@ -148,6 +162,7 @@ function deriveWorktop(spec, walls, mods, opts) {
       n: k, letter: LETTERS.charAt(k), wall: g.wall.id, wallIndex: g.idx, from: r1(g.s), to: r1(g.e),
       L: r1(g.e - g.s), P: r1(g.depth), y: yTop,
       start: g.sKind, end: g.eKind,
+      mitre: { start: g.sKind === "mitre", end: g.eKind === "mitre" },
       /* cantul se pune în față și la capetele libere; în colț și pe muchia
          îmbinării nu se vede */
       bordo: ends ? "1L+" + ends + "C" : "1L",
@@ -160,6 +175,21 @@ function deriveWorktop(spec, walls, mods, opts) {
   var B = D.bolt;
   for (i = 0; i + 1 < order.length; i++) {
     var a = order[i], b = order[i + 1], sa = out.segments[i], sb = out.segments[i + 1];
+    if (a.mitre) {
+      /* 45°: linia tăieturii pornește din vârful din spate al colțului și coboară spre față; locașurile stau pe o paralelă la `from_joint`
+         spre interiorul piesei, rotite perpendicular pe linie (`ang`). Coordonate de piesă: x de la capătul din stânga, y de la muchia din față. */
+      var Pm = sa.P, el = Pm * Math.SQRT2, ss = [B.edge, el - B.edge];
+      if (el > B.mid_over) ss.splice(1, 0, el / 2);
+      if (!(el > 2 * B.edge)) ss = [el / 2];
+      var q2 = Math.SQRT1_2, f = B.from_joint;
+      ss.forEach(function (sv) {
+        sa.pockets.push({ x: r1(sa.L - (sv + f) * q2), y: r1(Pm - (sv - f) * q2), dia: B.dia, rest: B.rest, joint: i, ang: 45 });
+        sb.pockets.push({ x: r1((sv + f) * q2), y: r1(Pm - (sv - f) * q2), dia: B.dia, rest: B.rest, joint: i, ang: 135 });
+      });
+      out.joints.push({ n: i, corner: a.wall.i + 1 + "/" + (b.wall.i + 1), type: "mitre", passing: null, butting: null,
+                        length: r1(el), bolts: ss.length, angle: 45 });
+      continue;
+    }
     var passing = a.corner === "first" ? sa : sb, butting = a.corner === "first" ? sb : sa;
     /* linia îmbinării: muchia din față a piesei care trece, pe lungimea
        adâncimii piesei care se oprește */
@@ -200,8 +230,11 @@ function deriveWorktop(spec, walls, mods, opts) {
     var xl = xc - w / 2 - seg.from;   // de la capătul din stânga al piesei
     var yb = seg.P - yf - d;          // de la muchia din spate (perete), ca la `scasso`
     var m = D.cut_margin;
-    if (xl < m - 1e-6 || xl + w > seg.L - m + 1e-6 || yf < m - 1e-6 || yb < m - 1e-6)
-      errors.push({ k: "wtCutOutside", n: ci + 1, seg: seg.letter });
+    var outside = xl < m - 1e-6 || xl + w > seg.L - m + 1e-6 || yf < m - 1e-6 || yb < m - 1e-6;
+    /* la un capăt tăiat la 45°, marginea piesei e diagonala: la y de la față, piesa începe la P − y (stânga) / se termină la L − P + y (dreapta) */
+    if (!outside && seg.mitre && seg.mitre.start && xl < seg.P - yf + D.mitre_cut_margin - 1e-6) outside = true;
+    if (!outside && seg.mitre && seg.mitre.end && xl + w > seg.L - seg.P + yf - D.mitre_cut_margin + 1e-6) outside = true;
+    if (outside) errors.push({ k: "wtCutOutside", n: ci + 1, seg: seg.letter });
     seg.cutouts.push({ kind: kind, n: ci + 1, x: r1(xl), y: r1(yf), w: r1(w), d: r1(d), r: r1(r), yBack: r1(yb) });
   });
   out.segments.forEach(function (sg) {
