@@ -404,3 +404,49 @@ test("Panou: intrări goale sau stricate nu aruncă", () => {
   const m = A.boardModel([{ id: "a", title: "A", state: "confirmed", due_date: "nu-e-dată" }], { a: [{ station: "cnc", total_pieces: 0, done_pieces: 3, station_done: false }, { station: "ceva-necunoscut" }] }, NOW);
   assert.equal(m.rows.length, 1); assert.equal(m.rows[0].cells.find(c => c.station === "cnc").pct, 0);
 });
+
+/* D-145: fișa piesei în instantaneu, redeschisă la scanarea QR */
+const PC = { pk: 2, role: "fianco", length: 2200, width: 600, thickness: 18, n: 3, axes: { lung: "y" }, min: [0, 0, 0], max: [1, 1, 1],
+  outline: [{ x0: 0, x1: 2200, y0: 0, y1: 600 }], preflight: [],
+  operations: [{ id: "op_001", type: "drill", dia: 5, depth: 11, face: 5, x: 89, y: 50, hw: "hw_4", _w: [1, 2, 3], _ax: 0, _side: -1 }] };
+const PROJ2 = { name: "P", pieces: [{ modulo: "A", elemento: "Fianco", role: "fianco", lung: 2200, larg: 600, pz: 2, materiale: "Egger W1000", bordo: "1L" }] };
+
+test("D-145: trimPart scoate câmpurile de lucru și păstrează găurile", () => {
+  const t = A.trimPart(PC);
+  assert.equal(t.operations.length, 1);
+  assert.deepEqual(Object.keys(t.operations[0]).filter(k => k[0] === "_"), []);
+  assert.equal(t.min, undefined); assert.equal(t.max, undefined);
+  assert.equal(t.operations[0].x, 89); assert.equal(t.length, 2200);
+  assert.equal(PC.operations[0]._w.length, 3, "originalul nu se modifică");
+  assert.equal(A.trimPart(null), null); assert.equal(A.trimPart({}), null);
+});
+
+test("D-145: buildSnapshot pune `part` numai când h.part dă o piesă; fără h.part, ca înainte", () => {
+  const s = A.buildSnapshot(PROJ2, { part: () => PC });
+  assert.equal(s.pieces[0].part.operations[0].dia, 5);
+  assert.equal(A.buildSnapshot(PROJ2).pieces[0].part, undefined);
+  assert.equal(A.buildSnapshot(PROJ2, { part: () => null }).pieces[0].part, undefined);
+});
+
+test("D-145: peste buget, comanda se creează fără fișe de piesă, nu eșuează", () => {
+  const big = { name: "B", pieces: Array.from({ length: 400 }, (_, i) => ({ modulo: "A", elemento: "P" + i, lung: 500, larg: 300, pz: 1 })) };
+  const fat = Object.assign({}, PC, { operations: Array.from({ length: 300 }, (_, i) => ({ id: "op_" + i, type: "drill", dia: 8, depth: 12, face: 5, x: i, y: i, note: "tassello" })) });
+  const s = A.buildSnapshot(big, { part: () => fat });
+  assert.equal(s.pieces.length, 400);
+  assert.ok(s.pieces.every(p => p.part === undefined));
+  assert.ok(JSON.stringify(s).length < 2000000);
+});
+
+test("D-145: scanModel dă ce așteaptă openPartSheet; comandă veche → null", () => {
+  const s = A.buildSnapshot(PROJ2, { part: () => PC }), pe = s.pieces[0];
+  const m = A.scanModel(pe);
+  assert.equal(m.pc.pk, 2);
+  const meta = m.M.meta["2"];
+  assert.equal(meta.row.bordo, "1L"); assert.equal(meta.row.materiale, "Egger W1000"); assert.equal(meta.row.pz, 2);
+  assert.equal(meta.n, 3); assert.equal(m.M.cfg, null);
+  assert.equal(A.scanModel({ pk: "r1", lung: 1, larg: 1 }), null);
+});
+
+test("D-145: scanDetails există în toate cele 7 limbi", () => {
+  for (const l of LANGS) assert.ok(A.I18N[l].scanDetails && A.I18N[l].scanDetails.length > 3, l);
+});

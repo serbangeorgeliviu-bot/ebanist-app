@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.62.0 — 14 noiembrie 2026
+
+**Codul QR al piesei deschide fișa ei, cu găuri (Atelier, D-145).** Scanezi eticheta cu camera telefonului → se deschide Ebanist și, imediat, **fișa piesei**: cote, material, canturi, desenul cu găurile (fața 5/6) și tabelul operațiilor, ca pe PC. Dedesubt rămân cardul piesei și butoanele „Gata / Start / Problemă”. Butonul „Detalii piesă și găuri” o redeschide.
+- **De unde vin datele:** la „Creează comanda” instantaneul poartă acum, pentru fiecare rând care vine dintr-un corp, fișa piesei din Modelul de Operații (fără câmpurile de lucru). Telefonul din atelier n-are proiectul și nu recalculează nimic. Rândurile adăugate de mână rămân fără găuri; comenzile vechi arată cardul de dinainte.
+- **Server:** migrare aditivă `supabase/migrations/20261114_job_snapshot_part.sql` (lista albă `job_snapshot_ok` primește `part`, max. 40 KB pe piesă). Dacă instantaneul se apropie de 1,7 MB, comanda se creează fără fișe, nu eșuează.
+- **Rămâne:** etichetele fără comandă Atelier au tot codul propriu (text, nu link): găurile apar numai pentru piesele unei comenzi create după 5.62.0; scanarea cere cont de membru Atelier; găurile `verificat:false` rămân așa (2B.0).
+- Teste: `atelier.test.js` (5 noi), e2e „Atelier D-145”. `cd test && node --test atelier.test.js qr.test.js`.
+
+---
+
 ## 5.61.0 — 14 noiembrie 2026
 
 **Verificarea documentelor dosarului (audit-docs).** Cu aceeași metodă ca la foile A3: am generat copertă, prezentare client, raport tehnic, elevații și montaj A3, plus fișa de montaj, pe toate tipologiile (110 + 66 de configurații, ~700 de foi). Verificări: SVG bine format, fără „undefined/NaN/null" sau chei de traducere brute, tot ce se desenează în foaia de 420 × 297 mm, cotele și piesele foii de montaj = modelul, titlul fiecărui corp din fișa de montaj cu cotele lui.
