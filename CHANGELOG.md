@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.58.0 — 14 noiembrie 2026
+
+**Prețurile articolelor de prindere Lamello și Festool, din magazine online (cu TVA, pe îmbinare).** Cele 30 de articole adăugate în 5.47–5.56 aveau preț 0 (deviz cu 0 la aceste îmbinări); acum au prețul de raft găsit (ex. KV D8/50: 2,50 €; Cabineo 12: 0,31 €; Invis Mx2: 5,00 €; DOMINO 8×50: 0,19 €; XL 14×100: 0,62 €). **Corecturi la articolele vechi:** DOMINO 8×40 de la 0,45 la **0,14 €** (era de trei ori peste piață), lamela #20 de la 0,12 la **0,04 €**, Clamex P-14 de la 1,20 la **1,40 €**. **13 articole fără preț găsit au o estimare marcată** (`est:1`): în Catalog apare „preț estimat” lângă articol, în 7 limbi (Clamex P-10, Medius, Flexus, CNC; Tenso P-14 și P-10; Bisco P-10; Cabineo 8; Invis cu știft de 30; Divario; DOMINO 4×20 și XL 14×140; MSV D8/25). Prețurile sunt momentane și diferă de la un distribuitor la altul: se pot suprascrie din Catalog. Sursele și intervalele: `01-arhitectura/Ebanist-Preturi-Referinta-Prindere-v1.md` din EBANIST-HQ. Test nou: `price-prindere.test.js`.
+
 ## 5.57.0 — 14 noiembrie 2026
 
 **Verificare după 11 versiuni 3D: auditul de browser intră în repo (`test/audit3d.cjs`, `npm run audit3d`) și prinde o ultimă suprapunere.** Auditul rulat pe 236 de configurații (21 de tipologii, variante fixe și aleatoare) a găsit un caz: la 3 uși într-un corp lat, două uși se atingeau cu 2 mm după ce li se limitase unghiul de deschidere, fiindcă ușile se verificau între ele cu toleranța de 2,5 mm de la piesele fixe. Acum ușile între ele au 0,5 mm; piesele fixe rămân la 2,5 mm. Verificat și vizual, în modul normal, pe șase corpuri (sertare LEGRABOX, bază cu uși, scorrevole, pensile, bibliotecă, dulap cu 4 uși și sertare), în stările închis, deschis, explodat și deschis + explodat: nimic nu trece prin altceva. Devizul numără corect articolele noi (cantitate din model), cu prețul 0 până îl completezi.
