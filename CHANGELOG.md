@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.61.0 — 14 noiembrie 2026
+
+**Verificarea documentelor dosarului (audit-docs).** Cu aceeași metodă ca la foile A3: am generat copertă, prezentare client, raport tehnic, elevații și montaj A3, plus fișa de montaj, pe toate tipologiile (110 + 66 de configurații, ~700 de foi). Verificări: SVG bine format, fără „undefined/NaN/null" sau chei de traducere brute, tot ce se desenează în foaia de 420 × 297 mm, cotele și piesele foii de montaj = modelul, titlul fiecărui corp din fișa de montaj cu cotele lui.
+- **Foaia de montaj cu foarte multe piese:** la 92 de piese (librărie/dressing cu 5 sertare și 4 uși) tabelul de piese ieșea 3 mm sub marginea foii. Rândurile se strâng acum până la 2,4 mm, iar ce nu încape se trece ca „… +N" (piesele rămân numerotate pe desen și în distinta completă).
+- Restul documentelor: nicio abatere.
+- Nou: `cd test && npm run audit-docs` (cere Chromium; nu intră în `test:full`).
+
+---
+
 ## 5.60.0 — 14 noiembrie 2026
 
 **Secțiune nouă: Bucătărie (D-143).** Tab nou „Bucătărie”: alegi forma (dreaptă / L / U) sau folosești pereții din Releveu, adaugi **module unul lângă altul** pe fiecare perete (baze, colțuri, coloane, nișe de aparate, pensile, panouri de completare), alegi aparatele și „Calculează bucătăria”: fiecare modul devine un corp obișnuit (distinctă, găurire, 3D, plan cu coliziuni), așezat pe perete, cu blatul deasupra.
