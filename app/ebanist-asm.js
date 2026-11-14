@@ -95,18 +95,21 @@
     /* lista de piese pe poziții, coloana din dreapta */
     var ty = top + 5, cw = PW - M - 3 - COL_X;
     svg += tx(COL_X, ty, tr("mParts"), 4, { bold: true }); ty += 2.4;
-    var cols = [0, 7, 52, 65, 78, 90], rowH = Math.min(4.4, Math.max(2.9, (TB_Y - 12 - ty - 6) / Math.max(1, (d.parts || []).length + 1)));
+    var cols = [0, 7, 52, 65, 78, 90], availP = TB_Y - 12 - ty - 6, rowH = Math.min(4.4, Math.max(2.4, availP / Math.max(1, (d.parts || []).length + 1)));
+    var partsAll = d.parts || [], cap = Math.max(1, Math.floor(availP / rowH) - 1), moreN = 0;
+    if (partsAll.length > cap) { moreN = partsAll.length - (cap - 1); partsAll = partsAll.slice(0, cap - 1); }
     svg += '<rect x="' + COL_X + '" y="' + r1(ty) + '" width="' + cw + '" height="' + r1(rowH) + '" fill="#e8e8e8" stroke="' + INK + '" stroke-width=".15"/>';
     [[0, "#"], [1, tr("fElement")], [2, "L"], [3, tr("partW")], [4, tr("partT")], [5, tr("partEdge")]].forEach(function (c) { svg += tx(COL_X + cols[c[0]] + 1, ty + rowH * 0.72, c[1], Math.min(2.4, rowH * 0.6), { bold: true }); });
     ty += rowH;
     var pfs = Math.min(2.6, rowH * 0.62);
-    (d.parts || []).forEach(function (r) {
+    partsAll.forEach(function (r) {
       svg += '<rect x="' + COL_X + '" y="' + r1(ty) + '" width="' + cw + '" height="' + r1(rowH) + '" fill="none" stroke="' + INK + '" stroke-width=".12"/>' +
         tx(COL_X + 1, ty + rowH * 0.72, String(r[0]), pfs, { bold: true }) + tx(COL_X + cols[1] + 1, ty + rowH * 0.72, clip(r[1], 24), pfs) +
         tx(COL_X + cols[2] + 1, ty + rowH * 0.72, String(r[2]), pfs) + tx(COL_X + cols[3] + 1, ty + rowH * 0.72, String(r[3]), pfs) +
         tx(COL_X + cols[4] + 1, ty + rowH * 0.72, String(r[4]), pfs) + tx(COL_X + cols[5] + 1, ty + rowH * 0.72, clip(r[5], 8), pfs);
       ty += rowH;
     });
+    if (moreN) { svg += tx(COL_X + 1, ty + rowH * 0.72, "… +" + moreN + " (" + tr("mParts") + ")", pfs, { fill: "#555" }); ty += rowH; }
     if (d.tools && d.tools.length) {
       var ky = Math.min(ty + 5, TB_Y - 5 - Math.ceil(d.tools.join(", ").length / 60) * 3.4 - 5);
       svg += tx(COL_X, ky, tr("mTools"), 3.2, { bold: true }); ky += 3.8;
