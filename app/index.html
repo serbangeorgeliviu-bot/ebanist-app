@@ -1518,6 +1518,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   </section>
 
   <!-- ============ BUILDER ============ -->
+  <section class="view" id="v-kitchen">
+    <h2 class="vtitle" id="kTitle">Bucătărie</h2>
+    <p class="vsub" id="kSub"></p>
+    <div id="kBody"></div>
+  </section>
+
   <section class="view" id="v-build">
     <div class="vhead">
       <div><h2 class="vtitle" data-i="buildTitle">Generatore mobili</h2>
@@ -2159,6 +2165,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button data-view="survey">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M3 21h18M9 21v-6h6v6"/></svg>
     <span id="navSurveyLbl">Rilievo</span>
+  </button>
+  <button data-view="kitchen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V9h16v12"/><path d="M4 13h16M9 9V5h6v4"/><circle cx="8.5" cy="17" r=".6"/><circle cx="15.5" cy="17" r=".6"/></svg>
+    <span data-i="navKitchen">Bucătărie</span>
   </button>
   <button data-view="build">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.3 12 12l8.7-4.7M12 22V12"/></svg>
@@ -2874,6 +2884,9 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-baseframe.js"></script>
+<script src="./ebanist-kitchen-data.js"></script>
+<script src="./ebanist-kitchen.js"></script>
+<script src="./ebanist-kitchen-i18n.js"></script>
 <script src="./ebanist-survey.js"></script>
 <script src="./ebanist-sheet.js"></script>
 <script src="./ebanist-elab.js"></script>
@@ -4134,7 +4147,9 @@ Object.assign(SURVEY_I18N.fr,{"bfTitle": "Cadre de mise à niveau", "bfHint": "C
 Object.assign(SURVEY_I18N.de,{"bfTitle": "Nivellierrahmen", "bfHint": "Rahmen aus kantenbeschichteter Spanplatte unter der Zeile, mit Häfele-Nivellierfüßen seitlich an den Schienen. Er wird einmal am höchsten Punkt des Bodens ausgerichtet; die Korpusse stehen darauf, ohne eigene Füße.", "bfAdd": "Rahmen hinzufügen", "bfNew": "neu", "bfStale": "nicht mehr aktuell, neu berechnen", "bfOk": "aktuell", "bfMods": "Korpusse auf dem Rahmen", "bfMat": "Material für Schienen und Traversen", "bfPick": "Material wählen", "bfH": "Rahmenhöhe (mm)", "bfSetback": "Rücksprung von der Front (mm)", "bfGap": "Abstand zur Wand (mm)", "bfFloor": "Bodenhöhen (z in mm zu einem Bezugspunkt, + = höher)", "bfFloorAdd": "Bodenpunkt", "bfFloorInfo": "Bodenunebenheit {z} mm; Rahmen {h} mm über dem höchsten Punkt.", "bfSegInfo": "{c} Traversen · {f} Füße", "bfFootNote": "Häfele-Nivellierfüße 637.42.950 (Seite FC 6.74), mit ø4-Schrauben seitlich an den Schienen befestigt, von oben verstellt. Korpusse auf dem Rahmen: Unterbau = Rahmen, Höhe = die des Rahmens.", "bfCalc": "Rahmen berechnen", "bfRecalc": "Rahmen neu berechnen", "bfApplied": "Rahmen erzeugt: {n} Segmente", "bfNeedRoom": "Der Rahmen braucht das Raumaufmaß: Wände anlegen und Korpusse platzieren.", "bfManaged": "Der Rahmen wird aus dem Aufmaß berechnet.", "bfNoMat": "Schienenmaterial wählen: Die Dicke kommt vom Material.", "bfNoMods": "Mindestens einen Korpus wählen.", "bfNegative": "Rücksprung und Abstand dürfen nicht negativ sein.", "bfTooLow": "Ein Rahmen von {h} mm ist für Fuß und Schiene zu niedrig: mindestens {min} mm.", "bfModMissing": "Korpus „{name}“ existiert nicht mehr.", "bfModRotated": "Korpus „{name}“ ist gedreht: Der Rahmen entsteht nur unter wandparallelen Korpussen.", "bfNoWall": "Die gewählten Korpusse stehen an keiner Wand.", "bfWallsNotAdjacent": "Die gewählten Wände sind nicht benachbart.", "bfTooManyWalls": "Zu viele Wände für einen Rahmen.", "bfTooShallow": "Wand {wall}: Der Rahmen wäre {depth} mm tief (mindestens {min}).", "bfCornerAngle": "Wand {wall}: Die Ecke hat nicht 90° ({angle}°); eine Stumpfverbindung ist nicht möglich.", "bfTooShort": "Wand {wall}: Segment zu kurz ({len} mm).", "bfFootTravel": "Segment {seg}, bei {x} mm: Der Boden verlangt {ext} mm, der Fußhub beträgt {travel} mm.", "bfModOutside": "Wand {wall}: Ein Korpus ragt über den Rahmen hinaus.", "bfNoFloor": "Keine Bodenhöhen: Die Füße bleiben gleich weit ausgefahren.", "bfBodyH": "Korpus „{name}“ steht nicht auf dem Rahmen: Unterbau = Rahmen und Höhe {h} mm einstellen.", "bfFootData": "Die Fußmaße sind unvollständig.", "bfFoot": "Nivellierfuß (Häfele)", "bfMatCross": "Traversenmaterial (optional)", "bfCrossSame": "wie die Schienen", "bfCrossTh": "Die Traversen müssen dieselbe Dicke wie die Schienen haben ({a} mm), nicht {b} mm.", "bfStaleBlock": "Rahmen „{name}“ passt nicht mehr zu den Korpussen: im Aufmaß neu berechnen.", "bfFootPanel": "Der gewählte Nivellierfuß ist für eine {a}-mm-Platte gemacht; die Schiene ist {b} mm dick."});
 Object.assign(SURVEY_I18N.pl,{"bfTitle": "Rama poziomująca", "bfHint": "Rama z płyty wiórowej oklejonej pod zabudową, z nóżkami poziomującymi Häfele przymocowanymi z boku szyn. Poziomuje się ją raz, na najwyższym punkcie podłogi; korpusy stoją na niej bez własnych nóżek.", "bfAdd": "Dodaj ramę", "bfNew": "nowa", "bfStale": "nieaktualna, przelicz", "bfOk": "aktualna", "bfMods": "Korpusy na ramie", "bfMat": "Materiał szyn i poprzeczek", "bfPick": "Wybierz materiał", "bfH": "Wysokość ramy (mm)", "bfSetback": "Cofnięcie od frontu (mm)", "bfGap": "Luz do ściany (mm)", "bfFloor": "Wysokości podłogi (z w mm od punktu odniesienia, + = wyżej)", "bfFloorAdd": "Punkt podłogi", "bfFloorInfo": "Nierówność podłogi {z} mm; rama {h} mm od najwyższego punktu.", "bfSegInfo": "{c} poprzeczek · {f} nóżek", "bfFootNote": "Nóżki poziomujące Häfele 637.42.950 (strona FC 6.74), mocowane wkrętami ø4 z boku szyn, regulowane od góry. Korpusy na ramie: Podstawa = Rama, wysokość = wysokość ramy.", "bfCalc": "Oblicz ramę", "bfRecalc": "Przelicz ramę", "bfApplied": "Rama wygenerowana: {n} segmentów", "bfNeedRoom": "Rama wymaga pomiaru pomieszczenia: dodaj ściany i ustaw korpusy.", "bfManaged": "Rama jest liczona z Pomiaru.", "bfNoMat": "Wybierz materiał szyn: grubość wynika z materiału.", "bfNoMods": "Wybierz co najmniej jeden korpus.", "bfNegative": "Cofnięcie i luz nie mogą być ujemne.", "bfTooLow": "Rama {h} mm jest za niska dla nóżki i szyny: minimum {min} mm.", "bfModMissing": "Korpus „{name}” już nie istnieje.", "bfModRotated": "Korpus „{name}” jest obrócony: rama powstaje tylko pod korpusami równoległymi do ściany.", "bfNoWall": "Wybrane korpusy nie stoją przy żadnej ścianie.", "bfWallsNotAdjacent": "Wybrane ściany nie sąsiadują.", "bfTooManyWalls": "Za dużo ścian na jedną ramę.", "bfTooShallow": "Ściana {wall}: rama miałaby głębokość {depth} mm (minimum {min}).", "bfCornerAngle": "Ściana {wall}: narożnik nie ma 90° ({angle}°); połączenie na styk jest niemożliwe.", "bfTooShort": "Ściana {wall}: segment za krótki ({len} mm).", "bfFootTravel": "Segment {seg}, przy {x} mm: podłoga wymaga {ext} mm, skok nóżki to {travel} mm.", "bfModOutside": "Ściana {wall}: korpus wystaje poza ramę.", "bfNoFloor": "Brak wysokości podłogi: nóżki zostają na tym samym wysunięciu.", "bfBodyH": "Korpus „{name}” nie stoi na ramie: ustaw Podstawa = Rama i wysokość {h} mm.", "bfFootData": "Wymiary nóżki są niekompletne.", "bfFoot": "Nóżka poziomująca (Häfele)", "bfMatCross": "Materiał poprzeczek (opcjonalnie)", "bfCrossSame": "jak szyny", "bfCrossTh": "Poprzeczki muszą mieć tę samą grubość co szyny ({a} mm), a nie {b} mm.", "bfStaleBlock": "Rama „{name}” nie pasuje już do korpusów: przelicz ją w Pomiarze.", "bfFootPanel": "Wybrana nóżka jest przeznaczona do płyty {a} mm; szyna ma {b} mm."});
 Object.assign(SURVEY_I18N.es,{"bfTitle": "Bastidor de nivelación", "bfHint": "Bastidor de aglomerado canteado bajo la composición, con niveladores Häfele fijados al lateral de los largueros. Se nivela una sola vez, en el punto más alto del suelo; los muebles se apoyan encima, sin patas propias.", "bfAdd": "Añadir bastidor", "bfNew": "nuevo", "bfStale": "desactualizado, recalcula", "bfOk": "al día", "bfMods": "Muebles sobre el bastidor", "bfMat": "Material de largueros y travesaños", "bfPick": "Elegir material", "bfH": "Altura del bastidor (mm)", "bfSetback": "Retranqueo del frente (mm)", "bfGap": "Holgura a la pared (mm)", "bfFloor": "Cotas del suelo (z en mm respecto a una referencia, + = más alto)", "bfFloorAdd": "Punto del suelo", "bfFloorInfo": "Desnivel del suelo {z} mm; bastidor {h} mm sobre el punto más alto.", "bfSegInfo": "{c} travesaños · {f} patas", "bfFootNote": "Niveladores Häfele 637.42.950 (página FC 6.74), fijados con tornillos ø4 al lateral de los largueros, regulados desde arriba. Muebles sobre el bastidor: Apoyo = Bastidor, altura = la del bastidor.", "bfCalc": "Calcular bastidor", "bfRecalc": "Recalcular bastidor", "bfApplied": "Bastidor generado: {n} segmentos", "bfNeedRoom": "El bastidor necesita la medición de la sala: añade las paredes y coloca los muebles.", "bfManaged": "El bastidor se calcula desde la Medición.", "bfNoMat": "Elige el material de los largueros: el grosor sale del material.", "bfNoMods": "Elige al menos un mueble.", "bfNegative": "El retranqueo y la holgura no pueden ser negativos.", "bfTooLow": "Un bastidor de {h} mm es demasiado bajo para pata y larguero: mínimo {min} mm.", "bfModMissing": "El mueble «{name}» ya no existe.", "bfModRotated": "El mueble «{name}» está girado: el bastidor solo se hace bajo muebles paralelos a la pared.", "bfNoWall": "Los muebles elegidos no están en ninguna pared.", "bfWallsNotAdjacent": "Las paredes elegidas no son contiguas.", "bfTooManyWalls": "Demasiadas paredes para un bastidor.", "bfTooShallow": "Pared {wall}: el bastidor tendría {depth} mm de fondo (mínimo {min}).", "bfCornerAngle": "Pared {wall}: la esquina no es de 90° ({angle}°); la unión a tope no es posible.", "bfTooShort": "Pared {wall}: segmento demasiado corto ({len} mm).", "bfFootTravel": "Segmento {seg}, a {x} mm: el suelo pide {ext} mm, el recorrido de la pata es {travel} mm.", "bfModOutside": "Pared {wall}: un mueble sobresale del bastidor.", "bfNoFloor": "Sin cotas del suelo: las patas quedan con la misma extensión.", "bfBodyH": "El mueble «{name}» no se apoya en el bastidor: pon Apoyo = Bastidor y altura {h} mm.", "bfFootData": "Las medidas de la pata están incompletas.", "bfFoot": "Nivelador (Häfele)", "bfMatCross": "Material de travesaños (opcional)", "bfCrossSame": "igual que los largueros", "bfCrossTh": "Los travesaños deben tener el mismo grosor que los largueros ({a} mm), no {b} mm.", "bfStaleBlock": "El bastidor «{name}» ya no coincide con los muebles: recalcúlalo en la Medición.", "bfFootPanel": "El nivelador elegido está hecho para un panel de {a} mm; el larguero tiene {b} mm."});
-function ts(key){ return (SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]||key; }
+function ts(key){ const v=(SURVEY_I18N[state.lang]||SURVEY_I18N.it)[key]; if(v!=null&&v!=="") return v;
+  /* bucătăria (D-143) își ține textele în `ebanist-kitchen-i18n.js` */
+  const K=(typeof KITCHEN_I18N!=="undefined")?(KITCHEN_I18N[state.lang]||KITCHEN_I18N.it||{}):{}; return K[key]||key; }
 
 AUTH_I18N.it.syncConflict="⇄ Versione più recente ricevuta da un altro dispositivo";
 AUTH_I18N.ro.syncConflict="⇄ Versiune mai recentă primită de pe alt dispozitiv";
@@ -4501,7 +4516,7 @@ function handleIsKnob(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(
  * un'altra forma (th, price, c, tx, pw, ph, label). L'adattatore qui sotto e
  * l'UNICO posto dove si passa dall'una all'altra: due schemi, una conversione.
  */
-const MAT_SOURCES=["./data/materials-centro-legno.json","./data/materials-legacy.json"];
+const MAT_SOURCES=["./data/materials-centro-legno.json","./data/materials-legacy.json","./data/materials-worktops.json"];
 /* `var` e non `let`: questi devono essere PROPRIETA del globale, perche il
    banco di prova valuta questo stesso blocco in un contesto suo e li legge
    da li. Un `let` resterebbe chiuso nello scope dello script, e la prova
@@ -5836,7 +5851,7 @@ document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()
    nessuna parte si lascia il testo gia scritto nell'HTML, che e sempre meglio
    del nome della chiave davanti al cliente. */
 function tAny(k){
-  for(const D of [I18N,SURVEY_I18N,AUTH_I18N,AI_I18N]){
+  for(const D of [I18N,SURVEY_I18N,AUTH_I18N,AI_I18N,(typeof KITCHEN_I18N!=="undefined"?KITCHEN_I18N:{})]){
     const v=(D[state.lang]||{})[k]; if(v!==undefined) return v;
     const f=(D.it||{})[k];          if(f!==undefined) return f;
   }
@@ -5869,6 +5884,7 @@ function render(){
   $("hProject").textContent = p ? p.name + (p.client? " · "+p.client : "") : t("selectProject");
   if(currentView==="projects") renderProjects();
   if(currentView==="survey") renderSurvey();
+  if(currentView==="kitchen"&&typeof renderKitchen==="function") renderKitchen();
   if(currentView==="list") renderList();
   if(currentView==="build") renderBuild();
   if(currentView==="nest") renderNest();
@@ -8828,7 +8844,16 @@ function mergeBodyWarn(a,b){
   return o;
 }
 /* --- dispatch: standard / scorrevole / angolare (due ali a L) --- */
+/* APARATELE din nișe (D-143): `cfg.appliances` = [{id,kind,mount,x,y,z,w,h,d}] în coordonatele locale ale corpului. Se desenează ca cutii
+   de metal (`kind:"m"`, rol `aparat`) — numai 3D și plan, nu piese: aparatul nu se taie, se cumpără. Tipul `nisa` le emite singur. */
 function buildModule(cfg){
+  const r=buildModuleCore(cfg);
+  if(cfg&&cfg.type!=="nisa"&&Array.isArray(cfg.appliances)&&cfg.appliances.length&&r&&r.boxes){
+    cfg.appliances.forEach((a,i)=>{ r.boxes.push({x0:a.x,x1:a.x+a.w,y0:a.y,y1:a.y+a.h,z0:a.z||0,z1:(a.z||0)+a.d,kind:"m",role:"aparat",pk:9000+i}); });
+  }
+  return r;
+}
+function buildModuleCore(cfg){
   if(cfg.topProfile&&(cfg.type||"standard")!=="standard")
     throw new Error("Pantă: este suportată doar pe tipologia standard, nu pe '"+cfg.type+"'");
   /* le cote assolute le legge solo la cassa standard: su un'altra tipologia
@@ -8853,6 +8878,10 @@ function buildModule(cfg){
       bordo:(cfg.bordo&&takesEdge(cfg,"Blat","blat"))?cfg.bordo:"",
       mat:mB.label,role:"blat",axis_mapping:{lung:"L",larg:"P",sp:"H"},sp:th};
     if(sc.length) o.scasso=sc.length===1?sc[0]:sc;
+    /* îmbinare la 45° (D-143): capătul tăiat înclinat; lungimea rămâne cea de pe muchia din spate, unghiul merge în rând ca la piesele trapezoidale */
+    const mt=cfg.mitre||{};
+    if(mt.start) o.angL=45;
+    if(mt.end) o.angR=45;
     const boxes=[];
     /* 3D: placa minus decupajele, pe o grila taiata de dreptunghiurile lor; toate
        cutiile sunt ACEEASI piesa fizica (pk 1) */
@@ -8864,6 +8893,20 @@ function buildModule(cfg){
     for(let i=0;i+1<X.length;i++) for(let j=0;j+1<Z.length;j++){
       if(X[i+1]-X[i]<0.05||Z[j+1]-Z[j]<0.05) continue;
       if(inCut((X[i]+X[i+1])/2,(Z[j]+Z[j+1])/2)) continue;
+      if(mt.start||mt.end){
+        /* celula tăiată de diagonalele capetelor la 45°: start x ≥ z, sfârșit x ≤ L − z (z de la perete spre față) */
+        let poly=[[X[i],Z[j]],[X[i+1],Z[j]],[X[i+1],Z[j+1]],[X[i],Z[j+1]]];
+        const hp=(pl,a,b,c)=>{ const r=[]; for(let k=0;k<pl.length;k++){ const A=pl[k],B=pl[(k+1)%pl.length], fa=a*A[0]+b*A[1]+c, fb=a*B[0]+b*B[1]+c;
+          if(fa>=0) r.push(A); if((fa>=0)!==(fb>=0)){ const u=fa/(fa-fb); r.push([A[0]+u*(B[0]-A[0]),A[1]+u*(B[1]-A[1])]); } } return r; };
+        if(mt.start) poly=hp(poly,1,-1,0);
+        if(mt.end) poly=hp(poly,-1,-1,L);
+        if(poly.length<3) continue;
+        const xs=poly.map(q=>q[0]), zs=poly.map(q=>q[1]);
+        const ar=Math.abs(poly.reduce((a,q,k)=>{ const n=poly[(k+1)%poly.length]; return a+(q[0]*n[1]-n[0]*q[1]); },0))/2;
+        if(ar<1) continue;
+        boxes.push({x0:Math.min(...xs),x1:Math.max(...xs),y0:0,y1:th,z0:Math.min(...zs),z1:Math.max(...zs),kind:"p",role:"blat",pk:1,pc:poly});
+        continue;
+      }
       boxes.push({x0:X[i],x1:X[i+1],y0:0,y1:th,z0:Z[j],z1:Z[j+1],kind:"p",role:"blat",pk:1});
     }
     return {pieces:[o],boxes};
@@ -8896,6 +8939,53 @@ function buildModule(cfg){
       if(side){ if(f.side==="spate"){ z0=f.y; z1=f.y+F.dia; } else { z0=f.y-F.dia; z1=f.y; } }
       boxes.push({x0:f.x-w/2,x1:f.x+w/2,y0:0,y1:hh,z0,z1,kind:"p",role:"piedino",pk:pk++});
     });
+    return {pieces,boxes};
+  }
+  /* NIȘA (D-143): loc pentru un aparat sau o completare, fără corp. Mașina de spălat vase, cea de rufe, frigiderul sub blat n-au
+     nevoie de bază: vecinii îi sunt pereții. Rămân două traverse sub blat, soclul și — dacă aparatul e „integrat” — frontul. `range`
+     (aragaz liber) și `hood` (golul hotei) n-au piese: doar locul, și aparatul desenat. Lățimea L e golul LIBER între vecini. */
+  if(cfg.type==="nisa"){
+    const L=+cfg.L,H=+cfg.H,P=+cfg.P,mode=cfg.mode||"app",pl=Math.max(0,+cfg.plinth||0);
+    if(!(L>0&&H>0&&P>0)) throw new Error("Nișă: lățimea, înălțimea și adâncimea trebuie să fie pozitive");
+    const gO=+cfg.gapOut||2,gI=+cfg.gapIn||3,rw=+cfg.railW||100;
+    const pieces=[],boxes=[]; let pk=0;
+    const add=(el,lu,la,pz,bo,role)=>{ if(!(pz>0&&lu>0&&la>0)) return;
+      if(bo&&!takesEdge(cfg,el,role)) bo="";
+      const o={elemento:el,lung:Math.round(lu),larg:Math.round(la),pz,bordo:bo,mat:null};
+      if(role){ o.role=role; const ax=typeof axesFor==="function"?axesFor(role):null; if(ax) o.axis_mapping={lung:ax.lung,larg:ax.larg,sp:ax.sp}; }
+      pieces.push(o); };
+    if(mode==="app"){
+      const t=structTh(cfg), tF=(matById(cfg.matFront)&&+matById(cfg.matFront).th)||t;
+      const rl=Math.max(1,L-2);                                   // traversa intră între vecini cu 1 mm joc pe parte
+      add("Traversa cielo",rl,rw,2,"1L","traversa_cielo");
+      boxes.push({x0:1,x1:L-1,y0:H-t,y1:H,z0:0,z1:rw,kind:"p",role:"traversa_cielo",pk:++pk});
+      boxes.push({x0:1,x1:L-1,y0:H-t,y1:H,z0:P-rw,z1:P,kind:"p",role:"traversa_cielo",pk:++pk});
+      if(pl>0){ add("Zoccolo",rl,pl,1,"1L","zoccolo");
+        boxes.push({x0:1,x1:L-1,y0:0,y1:pl,z0:P-50-t,z1:P-50,kind:"p",role:"zoccolo",pk:++pk}); }
+      if(cfg.mount==="scomparsa"||cfg.mount==="semi"){
+        const ctrl=cfg.mount==="semi"?Math.max(0,+cfg.ctrlH||0):0;
+        const fh=H-pl-gI-gO-ctrl, fw=L-2*(gI-gO);
+        if(fh>0&&fw>0){
+          add("Anta",fh,fw,1,"2L+2C","frontale");
+          boxes.push({x0:gI-gO,x1:gI-gO+fw,y0:pl+gI,y1:pl+gI+fh,z0:P,z1:P+tF,kind:"f",role:"frontale",pk:++pk,sub:"door",hinge:cfg.hinge==="right"?"right":"left"});
+        }
+      }
+    }else if(mode==="filler"){
+      const tF=(matById(cfg.matFront)&&+matById(cfg.matFront).th)||structTh(cfg);
+      const fh=H-pl-gI-gO, fw=L-2*(gI-gO);
+      add("Panou de completare",fh,fw,1,"2L","frontale");
+      boxes.push({x0:gI-gO,x1:gI-gO+fw,y0:pl+gI,y1:pl+gI+fh,z0:P,z1:P+tF,kind:"p",role:"frontale",pk:++pk});
+      if(pl>0){ const t=structTh(cfg); add("Zoccolo",L,pl,1,"1L","zoccolo");
+        boxes.push({x0:0,x1:L,y0:0,y1:pl,z0:P-50-t,z1:P-50,kind:"p",role:"zoccolo",pk:++pk}); }
+    }else if(mode==="end"){
+      const t=structTh(cfg);
+      add("Fianco",H,P,1,"2L+2C","fianco");
+      boxes.push({x0:0,x1:t,y0:0,y1:H,z0:0,z1:P,kind:"p",role:"fianco",pk:++pk});
+    }else{
+      /* range / hood: un strat subțire în planul locului, ca să existe urma în plan; nu e piesă */
+      boxes.push({x0:0,x1:L,y0:0,y1:2,z0:0,z1:P,kind:"p",role:"spatiu",pk:++pk});
+    }
+    (cfg.appliances||[]).forEach((a,i)=>boxes.push({x0:a.x,x1:a.x+a.w,y0:a.y,y1:a.y+a.h,z0:a.z||0,z1:(a.z||0)+a.d,kind:"m",role:"aparat",pk:9000+i}));
     return {pieces,boxes};
   }
   if(cfg.type==="scrivania"){
@@ -15448,7 +15538,7 @@ function wtInput(p,RL,wt){
   const mods=[];
   (wt.mods||[]).forEach(n=>{ const m=RL.mods.find(x=>x.name===n); if(!m) return;
     mods.push({name:n,wall:m.fr.id,x0:m.from+m.x0,x1:m.from+m.x1,front:wtFront(m),yTop:m.yHi,rot:m.rot}); });
-  return {walls,mods,spec:{name:wt.name,mods:wt.mods||[],ovF:wt.ovF,ovS:wt.ovS,through:wt.through||[],cutouts:wt.cutouts||[]}};
+  return {walls,mods,spec:{name:wt.name,mods:wt.mods||[],ovF:wt.ovF,ovS:wt.ovS,through:wt.through||[],cutouts:wt.cutouts||[],joint:wt.joint||"butt",joints:wt.joints||[]}};
 }
 function wtCompute(p,wt){
   const RL=roomLayout();
@@ -15464,7 +15554,7 @@ function wtCompute(p,wt){
 function wtSegName(wt,r,sg){ return r.segments.length===1?wt.name:wt.name+" "+sg.letter; }
 /* impronta a ce a fost calculat: corpuri (cote), parametri, decupaje, material */
 function wtSig(wt,r){
-  return JSON.stringify([r.mods,wt.ovF,wt.ovS,wt.through,wt.cutouts,wt.mat]);
+  return JSON.stringify([r.mods,wt.ovF,wt.ovS,wt.through,wt.cutouts,wt.mat,wt.joint||"butt",wt.joints||[]]);
 }
 function wtMsg(e){
   let s=ts(e.k); for(const k in e) if(k!=="k") s=s.replace("{"+k+"}",e[k]); return s;
@@ -15486,7 +15576,7 @@ function wtApply(p,wt){
   r.segments.forEach(sg=>{
     const name=wtSegName(wt,r,sg); names.push(name);
     const cfg={name,type:"blat",L:sg.L,P:sg.P,matBody:wt.mat,matFront:wt.mat,matBack:wt.mat,
-      bordo:sg.bordo,cutouts:sg.cutouts,pockets:sg.pockets,wt:wt.id};
+      bordo:sg.bordo,cutouts:sg.cutouts,pockets:sg.pockets,mitre:sg.mitre,wt:wt.id};
     generateInto(p,cfg);
     layout()[name]={wall:sg.wall,from:sg.from,off:0,lift:sg.y,rot:0};
   });
@@ -15558,7 +15648,7 @@ function renderWorktops(RL){
         <div class="f"><label>${esc(ts("wtOvF"))}</label><input data-wi="${wi}" data-wf="ovF" type="number" inputmode="numeric" value="${wt.ovF==null?"":wt.ovF}"></div>
       </div>
       <div class="f"><label>${esc(ts("wtOvS"))}</label><input data-wi="${wi}" data-wf="ovS" type="number" inputmode="numeric" value="${wt.ovS==null?"":wt.ovS}"></div>
-      ${joints?`<div class="mini" style="margin:6px 0 2px">${esc(ts("wtCorner"))}</div><div class="chips">${joints}</div>`:""}
+      ${joints?`<div class="mini" style="margin:6px 0 2px">${esc(ts("wtCorner"))}</div><div class="chips">${joints}</div><div class="f" style="margin-top:6px"><label>${esc(ts("wtJointType"))}</label><select data-wi="${wi}" data-wj="1"><option value="butt"${wt.joint!=="mitre"?" selected":""}>${esc(ts("wtJointButt"))}</option><option value="mitre"${wt.joint==="mitre"?" selected":""}>${esc(ts("wtJointMitre"))}</option></select></div>`:""}
       <div class="mini" style="margin:8px 0 2px">${esc(ts("wtCutouts"))}</div>
       ${cuts}
       <div class="chips" style="margin-top:4px">${WT_KINDS.map(k=>`<button class="chip sm" data-wi="${wi}" data-wadd="${k}">+ ${esc(ts("wtK_"+k))}</button>`).join("")}</div>
@@ -15573,6 +15663,7 @@ function renderWorktops(RL){
   box.querySelectorAll("[data-jt]").forEach(b=>b.addEventListener("click",()=>{
     const wt=W(+b.dataset.wi), k=+b.dataset.jt; wt.through=(wt.through||[]).slice(); while(wt.through.length<=k) wt.through.push("first");
     wt.through[k]=wt.through[k]==="second"?"first":"second"; touch(); }));
+  box.querySelectorAll("[data-wj]").forEach(sl=>sl.addEventListener("change",()=>{ const wt=W(+sl.dataset.wi); wt.joint=sl.value; wt.joints=[]; touch(); }));
   box.querySelectorAll("[data-wf]").forEach(inp=>inp.addEventListener("change",()=>{
     const wt=W(+inp.dataset.wi), v=parseFloat(inp.value); wt[inp.dataset.wf]=isFinite(v)?v:null; touch(); }));
   box.querySelectorAll("[data-wpick]").forEach(b=>b.addEventListener("click",()=>wtPickMat(W(+b.dataset.wi))));
@@ -18796,12 +18887,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.59.0"; /* APP_VER-MARKER */
+const APP_VER="5.60.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v237";
+const SW_CACHE="ebanist-v238";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
@@ -18982,6 +19073,7 @@ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==
      senza rete. Nessun importmap: i percorsi sono diretti, cosi parte anche
      sui telefoni piu vecchi. Se il modulo non parte, non succede niente:
      resta l'SVG, che e sempre presente sotto. -->
+<script src="./ebanist-kitchen-ui.js"></script>
 <script type="module" src="./viewer3d.js"></script>
 </body>
 </html>

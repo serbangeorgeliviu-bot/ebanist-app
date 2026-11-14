@@ -19,6 +19,7 @@ const path = require("path");
 const APP = path.resolve(__dirname, "..", "app");
 const CL = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-centro-legno.json"), "utf8"));
 const LEG = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-legacy.json"), "utf8"));
+const WTP = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-worktops.json"), "utf8"));   // blaturi generice (D-142)
 
 /* Il banco: lo stesso index.html, con un `fetch` che legge dal disco. */
 function sandbox() {
@@ -83,10 +84,10 @@ describe("I file del catalogo", () => {
 
 describe("Il caricamento nell'app", () => {
   const S = sandbox();
-  test("carica tutte e due le sorgenti", async () => {
+  test("carica tutte le sorgenti", async () => {
     await S.MAT_READY;
     assert.equal(S.MAT_LOADED, true);
-    assert.equal(S.MATDB.length, CL.materiali.length + LEG.materiali.length);
+    assert.equal(S.MATDB.length, CL.materiali.length + LEG.materiali.length + WTP.materiali.length);
   });
   test("lo spessore arriva intero fino a matById", async () => {
     await S.MAT_READY;
