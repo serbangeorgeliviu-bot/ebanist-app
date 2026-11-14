@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.64.0 — 14 noiembrie 2026
+
+**Fișa piesei pe A4, nu pe A3 (D-146).** „Fișă de fabricație” se tipărește acum pe **A4 landscape** (297 × 210 mm), cum tipărește toată lumea în atelier: aceleași cote, găuri, detalii la scară mare, tabel de operații și cartuș cu QR, reașezate pe foaia mai mică. Butonul din fișa piesei se numește „… A4” în toate cele 7 limbi.
+- **Ce s-a schimbat în foaie:** coloana cu tabelul e mai îngustă (nume de operație și liste de poziții se taie mai scurt), cartușul are celule mai mici cu valori tăiate la lățimea celulei (nu mai ies din chenar), fonturile sunt de ~2,8 mm, la mărimea la care se și tipăresc. Scara se alege singură (piesă de 2200 mm → 1:15).
+- **A3 rămâne** numai în „Dosar tehnic A3” (acolo foile sunt toate A3, ca să nu se amestece formatele); Elaborat și Montaj A3 neschimbate.
+- Audit: `cd test && npm run audit-a3` verifică acum limitele A4 (110 configurații, 1366 de piese, 1506 foi: 0 abateri). Teste noi în `sheet.test.js` (A4 implicit, text în foaie, opțiunea A3).
+
+---
+
 ## 5.63.0 — 14 noiembrie 2026
 
 **Codul QR al piesei deschide fișa ei, cu găuri (Atelier, D-145).** Scanezi eticheta cu camera telefonului → se deschide Ebanist și, imediat, **fișa piesei**: cote, material, canturi, desenul cu găurile (fața 5/6) și tabelul operațiilor, ca pe PC. Dedesubt rămân cardul piesei și butoanele „Gata / Start / Problemă”. Butonul „Detalii piesă și găuri” o redeschide.

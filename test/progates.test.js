@@ -27,7 +27,7 @@ describe("„În camera ta”: se deschide gratuit, iese numai cu Pro", () => {
 
 describe("fișa piesei: se vede gratuit, iese numai cu Pro", () => {
   test("deschiderea foii nu are poartă", () => assert.ok(!/proGate\(/.test(after("function openPartSheet(M,pc,face){", 220))));
-  for (const fn of ["partA3(M,pc,face)", "partDxf(M,pc)", "partCsv(M,pc)"])
+  for (const fn of ["partSheetPrint(M,pc,face)", "partDxf(M,pc)", "partCsv(M,pc)"])
     test("function " + fn + " are poarta „part” la început", () => assert.ok(gated(after("function " + fn + "{", 140), "part")));
 });
 

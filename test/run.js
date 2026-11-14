@@ -2394,15 +2394,15 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.packRaw = pk.flatMap(sv => (sv.match(/<text[^>]*>([^<]*)<\/text>/g) || []).map(q => q.replace(/<[^>]+>/g, ""))).filter(q => /^(dc[A-Z]\w*|rp[A-Z0-9]\w*|as[A-Z]\w*|ea[A-Z]\w*|sh[A-Z]\w*)$/.test(q));
       o.packClient = /Presentazione cliente/.test(pk[1]) && /data:image\/jpeg/.test(pk[1]);
       state.lang = "fr"; applyLang();
-      PRINT_CAPTURE = []; partA3(M, pc, 5); const cap = PRINT_CAPTURE; PRINT_CAPTURE = null;
+      PRINT_CAPTURE = []; partSheetPrint(M, pc, 5); const cap = PRINT_CAPTURE; PRINT_CAPTURE = null;
       o.cap = cap.length === 1 && /sh-svg/.test(cap[0]) && /@page/.test(cap[0]) && /Fiche de fabrication/.test(cap[0]);
       state.lang = lang0; applyLang(); closeSheets(); setView("projects");
       return o;
     });
     await sp.close(); await sctx.close();
-    ok("foaia A3: nicio cheie netradusă în nicio limbă", sh.raw.length === 0, sh.raw.slice(0, 5).join(","));
-    ok("foaia A3: titlul diferă pe limbi", new Set(Object.values(sh.titles).map(a => a.join("|"))).size === 7);
-    ok("foaia A3 trece prin printOut, în limba aleasă", sh.cap === true);
+    ok("foaia A4: nicio cheie netradusă în nicio limbă", sh.raw.length === 0, sh.raw.slice(0, 5).join(","));
+    ok("foaia A4: titlul diferă pe limbi", new Set(Object.values(sh.titles).map(a => a.join("|"))).size === 7);
+    ok("foaia A4 trece prin printOut, în limba aleasă", sh.cap === true);
     ok("prospecte A3: nicio cheie netradusă în nicio limbă", sh.elabRaw.length === 0, sh.elabRaw.slice(0, 5).join(","));
     ok("prospecte A3: textele diferă pe limbi", sh.elabDiff === true);
     ok("prospecte A3: butonul trece prin printOut, în limba aleasă", sh.elabCap === true);
@@ -3033,7 +3033,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.h = q.cut.h0 > q.cut.h1 && q.cut.deg > 0 && q.cut.deg < 90 && Math.abs(q.cut.deg + q.cut.degSide - 90) < 0.2;
       o.i18n = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].partCutAng && I18N[l].partCutH);
       o.onDrawing = /\d+[,.]\d°/.test(Array.from(svg.querySelectorAll("text")).map(x => x.textContent).join(" "));
-      const a3 = partA3Svg({ cfg: cf, rows: built.pieces, ops, meta }, q, 5, 1, 1); o.a3 = a3.includes("<polygon") && /\d+,\d°/.test(a3);
+      const a3 = partSheetSvg({ cfg: cf, rows: built.pieces, ops, meta }, q, 5, 1, 1); o.a3 = a3.includes("<polygon") && /\d+,\d°/.test(a3);
       closeSheets(); persist(); return o; });
     ok("Scheda pezzo: ușa trapezoidală se desenează cu conturul real și arată unghiul tăieturii", sc.poly && sc.cut && sc.h && sc.i18n && sc.onDrawing && sc.a3, JSON.stringify(sc));
     ok("Ripara l'app: buton și texte în toate limbile", await pg.evaluate(() => !!document.getElementById("btnRepair") && typeof repairApp === "function" && ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].updRepair && I18N[l].updRepairHint && I18N[l].updRepairing)));
@@ -3924,7 +3924,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
-  head("Atelier E5 — QR pe foaia A3 (CNC) și plan de tăiere tipăribil cu coduri și QR");
+  head("Atelier E5 — QR pe foaia A4 a piesei (CNC) și plan de tăiere tipăribil cu coduri și QR");
   {
     const r = await pg.evaluate(async () => {
       const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
@@ -3942,7 +3942,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       /* — foaia A3 (CNC): QR doar cu comandă legată și neschimbată — */
       const pc = { pk: 5, role: "fianco", length: 600, width: 400, thickness: 18, outline: [{ x0: 0, x1: 600, y0: 0, y1: 400 }], operations: [] };
       const M = { meta: { "5": { row: p.pieces[1], n: 2 } }, ops: { pieces: [pc] } };
-      const a3 = () => { try { return partA3Svg(M, pc, 5); } catch (e) { return "ERR " + e; } };
+      const a3 = () => { try { return partSheetSvg(M, pc, 5); } catch (e) { return "ERR " + e; } };
       o.a3fara = !a3().includes("<svg x=") && !a3().startsWith("ERR");
       atJobMapSet("w5", { job: JOB, atelier: "at1", sig: EBAtelier.rowSig(p.pieces) });
       const withQ = a3();
@@ -3992,7 +3992,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       localStorage.removeItem("ebAtelier"); localStorage.removeItem("ebAtelierJobs"); renderAccount();
       return o;
     });
-    ok("Atelier E5: foaia A3 are QR-ul piesei (același cu al etichetei) doar cu comandă legată și neschimbată", r.a3fara === true && r.a3cu === true && r.a3schimbat === true && r.a3faraFlag === true, JSON.stringify({ f: r.a3fara, c: r.a3cu, s: r.a3schimbat, g: r.a3faraFlag }));
+    ok("Atelier E5: foaia A4 are QR-ul piesei (același cu al etichetei) doar cu comandă legată și neschimbată", r.a3fara === true && r.a3cu === true && r.a3schimbat === true && r.a3faraFlag === true, JSON.stringify({ f: r.a3fara, c: r.a3cu, s: r.a3schimbat, g: r.a3faraFlag }));
     ok("Atelier E5: butonul „Plan sezionatrice” e în Atelier; fără Pro se deschide ecranul Pro și nu se tipărește nimic", r.buton === true && r.gratis === true);
     ok("Atelier E5: planul de tăiere se tipărește cu codurile pieselor în dreptunghiuri și ordinea tăierilor", r.tipar === true && r.coduriInPlan === true && r.ordineTaieturi === true);
     ok("Atelier E5: sub fiecare panou, QR-ul fiecărei piese; cele din plan sunt exact cele din comandă (r1, r2)", r.qrPePiese === true && r.faraAvertisment === true);

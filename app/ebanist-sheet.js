@@ -1,7 +1,7 @@
-/* ebanist-sheet.js — foaia tehnică A3 a unei piese, pentru cine o fabrică.
+/* ebanist-sheet.js — foaia tehnică a unei piese (A4 landscape; A3 numai în dosarul tehnic), pentru cine o fabrică.
  *
  * Funcție pură: primește piesa din Modelul de Operații (ebanist-ops.js) și
- * întoarce un SVG de 420 × 297 mm. Nu citește DOM-ul, nu citește starea
+ * întoarce un SVG de 297 × 210 mm (A4) sau, cu `o.size = "A3"`, de 420 × 297 mm. Nu citește DOM-ul, nu citește starea
  * aplicației: textele vin prin `o.tr(cheie)`, deci limba e a meniului.
  *
  * Reguli:
@@ -17,6 +17,13 @@
   var PW = 420, PH = 297, M = 10;                  /* foaia și chenarul, mm */
   var TB_H = 30, TB_Y = PH - M - TB_H;              /* cartușul */
   var COL_X = 304;                                   /* coloana tabelului */
+  /* geometria foii piesei: A4 landscape (implicit, cum se tipărește în atelier) sau A3 (dosarul tehnic A3) */
+  var GEO = {
+    A3: { PW: 420, PH: 297, M: 10, TB_H: 30, COL_X: 304, padL: 30, padT: 24, fs: 3.2, cols: [0, 7, 38, 52, 66, 80], nm: 20, line: 60,
+          row1: [70, 100, 80, 150], row2: [90, 30, 30, 50, 30, 40, 30, 100], cfs: 4.2, pfs: 5.2, note: 70 },
+    A4: { PW: 297, PH: 210, M: 7, TB_H: 22, COL_X: 213, padL: 24, padT: 20, fs: 2.8, cols: [0, 6, 31, 43, 53, 63], nm: 15, line: 42,
+          row1: [50, 70, 53, 110], row2: [58, 20, 18, 32, 20, 28, 18, 89], cfs: 3.6, pfs: 4.2, note: 50 }
+  };
   var SCALES = [1, 2, 2.5, 4, 5, 8, 10, 15, 20, 25, 30, 40, 50, 75, 100];
   var INK = "#111", THIN = "#777";
 
@@ -121,10 +128,13 @@
   }
 
 
-  function cell(x, y, w, h, label, value, fs) {
+  /* valoarea se taie după lățimea celulei (nu iese din chenar); `reserve` = loc rezervat în dreapta (ex. codul QR) */
+  function cell(x, y, w, h, label, value, fs, reserve) {
+    var v = String(value == null ? "" : value), f0 = fs || 4.4, mx = Math.max(3, Math.floor((w - 2.8 - (reserve || 0)) / (f0 * 0.55)));
+    if (v.length > mx) v = v.slice(0, mx - 1) + "…";
     return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="none" stroke="' + INK + '" stroke-width="0.25"/>' +
       tx(x + 1.4, y + 3.3, label, 2.3, { fill: "#555" }) +
-      tx(x + 1.4, y + h - 3.2, value, fs || 4.4, { bold: true });
+      tx(x + 1.4, y + h - 3.2, v, f0, { bold: true });
   }
 
   /**
@@ -133,6 +143,9 @@
    */
   function partSheetSVG(pc, o) {
     var tr = o.tr, face = o.face || 5, meta = o.meta || {};
+    var gm = GEO[o.size] || GEO.A4;
+    /* constantele foii: aceleași nume ca ale modulului, dar ale formatului ales */
+    var PW = gm.PW, PH = gm.PH, M = gm.M, TB_H = gm.TB_H, TB_Y = PH - M - TB_H, COL_X = gm.COL_X;
     var L = pc.length, W = pc.width;
     var ops = pc.operations || [];
     var faceOps = ops.filter(function (x) { return x.face >= 5; });
@@ -143,10 +156,10 @@
     var tagOf = {}; groups.forEach(function (g) { g.ops.forEach(function (x) { tagOf[x.id] = g.tag; }); });
 
     var nView = views.length, areaH = TB_Y - M - 6, regH = areaH / nView;
-    var padL = 30, padT = 24, areaW = COL_X - M - 6;
+    var padL = gm.padL, padT = gm.padT, areaW = COL_X - M - 6;
     var fitW = areaW - padL - 6, fitH = regH - padT - 8;
     var den = pickScale(fitW, fitH, L, W), s = 1 / den;
-    var fs = 3.2;
+    var fs = gm.fs;
 
     var svg = '<svg class="sh-svg" viewBox="0 0 ' + PW + " " + PH + '" width="' + PW + 'mm" height="' + PH + 'mm" ' +
       'xmlns="http://www.w3.org/2000/svg" font-family="Barlow,Arial,sans-serif" fill="' + INK + '">' +
@@ -311,7 +324,7 @@
     svg += tx(COL_X, ty + 3.6, tr("shTable"), 3.6, { bold: true });
     ty += 6;
     svg += '<rect x="' + COL_X + '" y="' + ty + '" width="' + (PW - M - 3 - COL_X) + '" height="' + rowH + '" fill="#e8e8e8" stroke="' + INK + '" stroke-width="0.2"/>';
-    var cols = [0, 7, 38, 52, 66, 80];                 /* x relativ: rif, operație, Ø, adânc., × */
+    var cols = gm.cols;                                 /* x relativ: rif, operație, Ø, adânc., fața, × */
     [[0, "shRef"], [1, "opOp"], [2, "shDia"], [3, "opDepth"], [4, "opFace"], [5, "shQty"]].forEach(function (c) {
       svg += tx(COL_X + cols[c[0]] + 1, ty + 3.6, tr(c[1]), 2.4, { bold: true });
     });
@@ -322,7 +335,7 @@
       var x = g.o, dia = x.type === "drill" ? "Ø" + f(x.dia) : x.type === "groove" ? f(x.width) : x.type === "slot" ? f(x.len) + "×" + f(x.thk) : f(x.w) + "×" + f(x.d);
       svg += '<rect x="' + COL_X + '" y="' + ty + '" width="' + (PW - M - 3 - COL_X) + '" height="' + rowH + '" fill="none" stroke="' + INK + '" stroke-width="0.15"/>';
       svg += tx(COL_X + 1, ty + 3.7, g.tag, 3, { bold: true });
-      var nm = g.name; if (nm.length > 20) nm = nm.slice(0, 19) + "…";
+      var nm = g.name; if (nm.length > gm.nm) nm = nm.slice(0, gm.nm - 1) + "…";
       svg += tx(COL_X + cols[1] + 1, ty + 3.6, nm, 2.6);
       svg += tx(COL_X + cols[2] + 1, ty + 3.6, dia, 2.6);
       svg += tx(COL_X + cols[3] + 1, ty + 3.6, x.through ? tr("partThrough") : f(x.depth), 2.6);
@@ -341,9 +354,9 @@
           return x.type === "groove" ? f(x.from.x) + "," + f(x.from.y) + "→" + f(x.to.x) + "," + f(x.to.y) : f(x.x) + ";" + f(x.y); });
         if (!items.length) return;
         var line = g.tag + "  ", out = [];
-        items.forEach(function (it) { if ((line + it).length > 60) { out.push(line); line = "     "; } line += it + "  "; });
+        items.forEach(function (it) { if ((line + it).length > gm.line) { out.push(line); line = "     "; } line += it + "  "; });
         out.push(line);
-        out.forEach(function (l, i) { if (py2 < TB_Y - 24) { svg += tx(COL_X + 1, py2 + 2.6, l.length > 66 ? l.slice(0, 65) + "…" : l, 2.4, i === 0 ? { bold: false } : {}); py2 += 3.6; } });
+        out.forEach(function (l, i) { if (py2 < TB_Y - 24) { svg += tx(COL_X + 1, py2 + 2.6, l.length > gm.line + 6 ? l.slice(0, gm.line + 5) + "…" : l, 2.4, i === 0 ? { bold: false } : {}); py2 += 3.6; } });
         py2 += 1.2;
       });
     }
@@ -360,22 +373,24 @@
     }
     /* note */
     var ny = TB_Y - 14;
-    svg += tx(COL_X, ny, tr("shNote1"), 2.5, { fill: "#333" });
-    svg += tx(COL_X, ny + 3.6, tr("hwVerify").length > 70 ? tr("hwVerify").slice(0, 69) + "…" : tr("hwVerify"), 2.2, { fill: "#a33" });
+    svg += tx(COL_X, ny, tr("shNote1").length > gm.note ? tr("shNote1").slice(0, gm.note - 1) + "…" : tr("shNote1"), 2.5, { fill: "#333" });
+    svg += tx(COL_X, ny + 3.6, tr("hwVerify").length > gm.note ? tr("hwVerify").slice(0, gm.note - 1) + "…" : tr("hwVerify"), 2.2, { fill: "#a33" });
 
     /* cartuș */
     var X0 = M, Y0 = TB_Y, h = TB_H / 2;
-    var row1 = [[70, "shCompany", meta.company], [100, "shProject", meta.project], [80, "shClient", meta.client], [150, tr("shTitle"), meta.name]];
+    var qrOn = !!(o.qr && o.qr.svg), qsz = TB_H - 4, qres = qrOn ? qsz + 14 : 0;
+    var r1w = gm.row1, r2w = gm.row2;
+    var row1 = [[r1w[0], "shCompany", meta.company], [r1w[1], "shProject", meta.project], [r1w[2], "shClient", meta.client], [r1w[3], tr("shTitle"), meta.name]];
     var xx = X0;
-    row1.forEach(function (c, i) { svg += cell(xx, Y0, c[0], h, i === 3 ? tr("shPiece") : tr(c[1]), i === 3 ? (meta.n ? "#" + meta.n + "  " : "") + (c[2] || "") : c[2] || "", i === 3 ? 5.2 : 4.2); xx += c[0]; });
-    var row2 = [[90, "shMat", meta.material], [30, "shThk", f(pc.thickness) + " mm"], [30, "shQty", meta.qty == null ? "" : String(meta.qty)],
-      [50, "shEdge", meta.edge || "—"], [30, "shScale", "1:" + den], [40, "shDate", meta.date], [30, "shSheet", (o.sheetNo || 1) + "/" + (o.sheetTot || 1)], [100, "shGen", "Ebanist " + (meta.ver || "")]];
+    row1.forEach(function (c, i) { svg += cell(xx, Y0, c[0], h, i === 3 ? tr("shPiece") : tr(c[1]), i === 3 ? (meta.n ? "#" + meta.n + "  " : "") + (c[2] || "") : c[2] || "", i === 3 ? gm.pfs : gm.cfs, i === 3 ? qres : 0); xx += c[0]; });
+    var row2 = [[r2w[0], "shMat", meta.material], [r2w[1], "shThk", f(pc.thickness) + " mm"], [r2w[2], "shQty", meta.qty == null ? "" : String(meta.qty)],
+      [r2w[3], "shEdge", meta.edge || "—"], [r2w[4], "shScale", "1:" + den], [r2w[5], "shDate", meta.date], [r2w[6], "shSheet", (o.sheetNo || 1) + "/" + (o.sheetTot || 1)], [r2w[7], "shGen", "Ebanist " + (meta.ver || "")]];
     xx = X0;
-    row2.forEach(function (c) { svg += cell(xx, Y0 + h, c[0], h, tr(c[1]), c[2] || "", 4.2); xx += c[0]; });
+    row2.forEach(function (c, i) { svg += cell(xx, Y0 + h, c[0], h, tr(c[1]), c[2] || "", gm.cfs, i === 7 ? qres : 0); xx += c[0]; });
     /* Atelier E2/E5: cod QR al piesei (SVG gata făcut) în colțul din dreapta-jos al cartușului, cu codul scris alături.
        Fără `o.qr` foaia rămâne exact cum era. */
     if (o.qr && o.qr.svg) {
-      var qs = TB_H - 4, qx = PW - M - qs - 2, qy = TB_Y + 2;
+      var qs = qsz, qx = PW - M - qs - 2, qy = TB_Y + 2;
       svg += o.qr.svg.replace("<svg ", '<svg x="' + qx + '" y="' + qy + '" width="' + qs + '" height="' + qs + '" ');
       if (o.qr.code) svg += tx(qx - 1.5, TB_Y + TB_H - 3, o.qr.code, 4.2, { anchor: "end", bold: true });
     }
