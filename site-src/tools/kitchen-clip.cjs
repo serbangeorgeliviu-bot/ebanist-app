@@ -5,6 +5,7 @@
      node site-src/tools/kitchen-clip.cjs extras   carduri, texte (PNG transparent), foile A3 animate → ov/, sheet/
      node site-src/tools/kitchen-clip.cjs mux      vocea (Kokoro) + ffmpeg → ebanist-cucina-it.mp4
    Un singur cadru pe scenă, pentru verificare: `frames 1`.
+   Cadrele randate se întind pe durata scenei (framerate de intrare = cadre / secunde), deci durata unei scene se schimbă fără re-randare.
    Voce: KOKORO_DIR (implicit /tmp/tts/kokoro, cu kokoro-v1.0.onnx și voices-v1.0.bin), voce if_sara. */
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const http=require("http"),fs=require("fs"),path=require("path"),cp=require("child_process");
@@ -20,20 +21,20 @@ const T={ hook1:"Novità",hook2:"la Cucina",
   m1:"Blue Avio",m2:"Rovere Wood Lime" };
 /* vocea: [secundă de început, secunde disponibile, text] */
 const CUES=[
- [0.30,1.6,"Novità in Ebanist: la cucina."],
- [1.95,5.6,"Una cucina a U, ventisette moduli, centosettantadue pezzi."],
- [7.95,4.2,"Basi, pensili, cappa e lavello: ogni modulo ha la sua misura."],
- [12.45,3.2,"Il top si taglia a quarantacinque gradi, con i fori per lavello e piano."],
- [15.95,2.0,"Distinta, disegni e montaggio."],
- [17.9,2.1,"Provalo gratis su ebanist punto com."]];
+ [0.15,2.1,"Novità in Ebanist: la cucina."],
+ [2.40,3.7,"Una cucina a U, ventisette moduli, centosettantadue pezzi."],
+ [7.20,3.5,"Basi, pensili, cappa e lavello: ogni modulo ha la sua misura."],
+ [11.20,3.9,"Il top si taglia a quarantacinque gradi, con i fori per lavello e piano."],
+ [15.55,2.1,"Distinta, disegni e montaggio."],
+ [17.70,2.3,"Provalo gratis su ebanist punto com."]];
 /* scene: sec; cam = [yaw,pitch,zoom] la început și la sfârșit; card / cap / sw / sheet */
 const SEGS=[
- {name:"hook",sec:1.8,card:[T.hook1,T.hook2]},
- {name:"tour",sec:6.0,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
- {name:"front",sec:4.5,cam:[.35,.5,1.25,-.15,.4,1.5],cap:[T.s2,T.s2b]},
- {name:"top",sec:3.5,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
+ {name:"hook",sec:2.3,card:[T.hook1,T.hook2]},
+ {name:"tour",sec:4.8,cam:[-.6,1.0,1.1,.7,.75,1.25],cap:[T.s1,T.s1b],sw:true},
+ {name:"front",sec:4.0,cam:[.35,.5,1.25,-.15,.4,1.5],cap:[T.s2,T.s2b]},
+ {name:"top",sec:4.4,cam:[.4,1.4,1.3,-.1,1.15,1.7],cap:[T.s3,T.s3b]},
  {name:"sheet",sec:2.0,sheet:true,cap:[T.s4,T.s4b]},
- {name:"end",sec:2.2,card:[T.end1,T.end2]}];
+ {name:"end",sec:2.5,card:[T.end1,T.end2]}];
 const total=SEGS.reduce((a,s)=>a+s.sec,0);
 if(total>20) throw new Error("clipul depășește 20 s: "+total);
 const sm=k=>k*k*(3-2*k), nfOf=s=>Math.round(s.sec*FPS);
@@ -51,8 +52,8 @@ if(MODE==="mux"){
     const n=nfOf(s), pf=path.join(OUT,"part-"+i+".mp4"), a=["-loglevel","error","-y"];
     const fc=[]; let last="0:v", k=1;
     if(s.card) a.push("-loop","1","-framerate",String(FPS),"-i",path.join(OUT,"ov","card-"+s.name+".png"));
-    else if(s.sheet) a.push("-framerate",String(FPS),"-i",path.join(OUT,"sheet","f_%04d.jpg"));
-    else a.push("-framerate",String(FPS),"-i",path.join(OUT,"seq",s.name,"f_%04d.jpg"));
+    else if(s.sheet) a.push("-framerate",String(Math.min(FPS*2,fs.readdirSync(path.join(OUT,"sheet")).length/s.sec)),"-i",path.join(OUT,"sheet","f_%04d.jpg"));
+    else a.push("-framerate",String(fs.readdirSync(path.join(OUT,"seq",s.name)).length/s.sec),"-i",path.join(OUT,"seq",s.name,"f_%04d.jpg"));
     const ovs=[]; if(s.cap) ovs.push("cap-"+s.name); if(s.sw) ovs.push("sw");
     ovs.forEach(o=>{a.push("-loop","1","-framerate",String(FPS),"-i",path.join(OUT,"ov",o+".png"));fc.push(`[${last}][${k}:v]overlay=0:0:shortest=1[o${k}]`);last="o"+k;k++});
     if(fc.length) a.push("-filter_complex",fc.join(";"),"-map","["+last+"]");
