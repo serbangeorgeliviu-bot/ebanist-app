@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.59.0 — 14 noiembrie 2026
+
+**Verificarea foilor A3 ale pieselor, pentru fiecare tipologie (audit-a3).** Am generat foaia A3 a fiecărei piese, pe fețele 5 și 6, pentru 21 de tipologii cu 236 de configurații (variante fixe și aleatoare): 2865 de foi. Verificări: SVG bine format; niciun „undefined/NaN/null” și nicio cheie de traducere rămasă brută; cotele piesei apar pe foaie și coincid cu rândul din distinta; operațiile sunt în piesă (x, y în limite, adâncimea sub grosime, Ø pozitiv, fără duplicate, găuri care nu se taie); tot ce se desenează (text, trasee, cercuri, după transformări) e în foaia de 420 × 297 mm; numărul de cercuri acoperă găurile feței. Au ieșit trei abateri reale, reparate:
+- **Spatele tăiat în bucăți:** când spatele depășește placa (ex. 2098 mm la 1800 de lățime), distinta îl are în 3 rânduri (702 + 694 + 702), dar foaia A3 arăta o singură piesă de 2098 mm, care nu se taie dintr-o placă de 2070. Acum foaia desenează tăieturile punctate, mărimea fiecărei bucăți și o notă „tăiată în 3 bucăți: 702 + 694 + 702 mm”.
+- **Ușa cu sticlă:** foaia ușii cu sticlă se numea „Montant ușă sticlă” (rândul distinctei, 1714 × 70) deși arăta ușa întreagă de 1714 × 445 mm cu găurile balamalelor. Acum se numește „Ușă cu sticlă (cadru montat)”.
+- **Ușă prea joasă pentru balamale:** la o ușă de 83 mm (ex. baza cu sertare, cu o ușă sus) cupa și tasealele balamalei ieșeau din piesă, iar cele două balamale se tăiau între ele, fără nicio avertizare. Acum apare avertismentul „Ușă prea joasă pentru balamale: găurile balamalei ies din piesă” (7 limbi). Geometria nu se mută.
+Rămân, deja avertizate: mânerul cu interax peste înălțimea frontului (`opsHandleFit`). Rularea: `npm run audit-a3` (cere browser, nu intră în `test:full`).
+
 ## 5.58.0 — 14 noiembrie 2026
 
 **Prețurile articolelor de prindere Lamello și Festool, din magazine online (cu TVA, pe îmbinare).** Cele 30 de articole adăugate în 5.47–5.56 aveau preț 0 (deviz cu 0 la aceste îmbinări); acum au prețul de raft găsit (ex. KV D8/50: 2,50 €; Cabineo 12: 0,31 €; Invis Mx2: 5,00 €; DOMINO 8×50: 0,19 €; XL 14×100: 0,62 €). **Corecturi la articolele vechi:** DOMINO 8×40 de la 0,45 la **0,14 €** (era de trei ori peste piață), lamela #20 de la 0,12 la **0,04 €**, Clamex P-14 de la 1,20 la **1,40 €**. **13 articole fără preț găsit au o estimare marcată** (`est:1`): în Catalog apare „preț estimat” lângă articol, în 7 limbi (Clamex P-10, Medius, Flexus, CNC; Tenso P-14 și P-10; Bisco P-10; Cabineo 8; Invis cu știft de 30; Divario; DOMINO 4×20 și XL 14×140; MSV D8/25). Prețurile sunt momentane și diferă de la un distribuitor la altul: se pot suprascrie din Catalog. Sursele și intervalele: `01-arhitectura/Ebanist-Preturi-Referinta-Prindere-v1.md` din EBANIST-HQ. Test nou: `price-prindere.test.js`.

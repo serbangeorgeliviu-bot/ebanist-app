@@ -51,3 +51,15 @@ test("foaia: cod QR opțional în cartuș — fără `qr` foaia e neschimbată, 
   const withoutCode = S.partSheetSVG(pc, Object.assign({}, base, { qr: { svg: '<svg viewBox="0 0 1 1"></svg>' } }));
   assert.ok(withoutCode.includes("<svg x="));
 });
+
+test("foaia: piesă tăiată în bucăți — tăieturile punctate, mărimile bucăților și nota (A3 audit 14.11)", () => {
+  const pc = { length: 2098, width: 1778, thickness: 3, outline: [{ x0: 0, x1: 2098, y0: 0, y1: 1778 }], operations: [] };
+  const o = { face: 5, tr: k => k === "shSegNote" ? "Cut {n}: {sizes} mm" : k, opName: x => x.note, meta: {} };
+  const plain = S.partSheetSVG(pc, o), cut = S.partSheetSVG(pc, Object.assign({}, o, { segs: { axis: "L", sizes: [702, 694, 702] } }));
+  assert.ok(!plain.includes("Cut 3"), "fără segs nimic nu se adaugă");
+  assert.ok(cut.includes("Cut 3: 702 + 694 + 702 mm"), "nota cu bucățile");
+  assert.equal((cut.match(/stroke-dasharray="3 1.5"/g) || []).length, 2, "două tăieturi pentru trei bucăți");
+  assert.ok(cut.includes(">694<") && cut.includes(">702<"), "mărimile bucăților");
+  const one = S.partSheetSVG(pc, Object.assign({}, o, { segs: { axis: "L", sizes: [2098] } }));
+  assert.equal(one, plain, "o singură bucată = foaia obișnuită");
+});

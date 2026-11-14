@@ -161,3 +161,11 @@ test("lam_divario_p18: canal 78 × 9,8 × 8 în F și două găuri Ø8 × 10 la 
     assert.ok(Math.abs(Math.abs(dr[0]._w[h.sAx] - dr[1]._w[h.sAx]) - 32) < 0.11, "găurile nu sunt la 32 mm");
   }
 });
+
+/* A3 audit 14.11: o ușă prea joasă pentru balamale (83 mm) are cupa și tasealele în afara piesei: se spune (opsHingeShort); o ușă normală nu are avertismentul */
+test("balamale: ușă de 83 mm → opsHingeShort; ușă normală → fără", () => {
+  const short = gen(null, { L: 600, H: 1000, P: 450, plinth: 100, tram: 0, shelves: 0, drawers: 4, doors: 1, back: 1, hang: 0, drawerSys: "legrabox", drawerDist: "cucina" });
+  assert.ok(short.warnings.some(w => w.k === "opsHingeShort"), "ușa joasă trebuie să avertizeze: " + JSON.stringify(short.warnings));
+  const ok = gen(null, {});
+  assert.ok(!ok.warnings.some(w => w.k === "opsHingeShort"), "ușa normală nu avertizează");
+});

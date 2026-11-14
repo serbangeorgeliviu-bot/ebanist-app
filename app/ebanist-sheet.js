@@ -175,6 +175,17 @@
         svg += '<rect x="' + r1(ox + r.x0 * s) + '" y="' + r1(oy + (W - r.y1) * s) + '" width="' + r1((r.x1 - r.x0) * s) +
           '" height="' + r1((r.y1 - r.y0) * s) + '" fill="#f3efe6" stroke="' + INK + '" stroke-width="0.5"/>';
       });
+      /* piesa se taie în mai multe bucăți (spatele peste lățimea plăcii): linii punctate la tăieturi, mărimile bucăților și o notă (A3 audit 14.11) */
+      if (o.segs && o.segs.sizes && o.segs.sizes.length > 1) {
+        var acc = 0, hz = o.segs.axis !== "W";
+        o.segs.sizes.forEach(function (sz, si) {
+          var a0 = acc, a1 = acc + sz; acc = a1;
+          var mx = hz ? (PX(a0) + PX(a1)) / 2 : ox + L * s / 2, my = hz ? oy + W * s / 2 : (PY(a0) + PY(a1)) / 2;
+          svg += '<text x="' + r1(mx) + '" y="' + r1(my) + '" font-size="' + r1(fs * 1.4) + '" text-anchor="middle" fill="#8a6d1f">' + f(sz) + "</text>";
+          if (si < o.segs.sizes.length - 1) svg += hz ? ln(PX(a1), oy - 3, PX(a1), oy + W * s + 3, 0.35, "#b03a2e", "3 1.5") : ln(ox - 3, PY(a1), ox + L * s + 3, PY(a1), 0.35, "#b03a2e", "3 1.5");
+        });
+        svg += tx(ox, oy + W * s + 8, tr("shSegNote").replace("{n}", o.segs.sizes.length).replace("{sizes}", o.segs.sizes.map(f).join(" + ")), fs, { fill: "#b03a2e" });
+      }
       /* cotele: coordonate distincte ale găurilor de pe față */
       var onFace = faceOps.filter(function (x) { return x.face === vf || (x.through && (vf === 5 || vf === 6)); });
       var xs = [], ys = [], extX = {}, extY = {};
