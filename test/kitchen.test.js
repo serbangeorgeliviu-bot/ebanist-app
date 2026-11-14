@@ -466,3 +466,19 @@ describe("Lățime liberă și „Completează peretele”", () => {
     eq(S.fitWidths([{ type: "b_door", w: 800 }, { type: "b_door", w: 800 }], -100).widths, [750, 750]);
   });
 });
+
+describe("Corectări găsite cu bucătăria U complexă", () => {
+  test("coloanele cu aparat nu se strâng la „Completează peretele”", () => {
+    const r = S.fitWidths([{ type: "t_oven", w: 600 }, { type: "t_fridge", w: 600 }, { type: "b_door", w: 600 }], -100);
+    eq(r.widths, [600, 600, 500]);
+  });
+  test("la un colț în L îmbinarea blatului e dreaptă chiar dacă restul e la 45°", () => {
+    const cols = [{ id: "a", type: "b_door", w: 600 }];
+    const built = { a: build("b_door", { w: 600 }) };
+    const spec = { walls: [{ id: "w1", L: 3000, cols }, { id: "w2", L: 3000, cols: [{ id: "b", type: "b_door", w: 600 }] }], corners: [{ kind: "l", through: "first", reach: 1479 }], wtJoint: "mitre" };
+    built.b = build("b_door", { w: 600 });
+    const pl = S.planKitchen(K0, spec, built);
+    const w = S.worktopSpecs(K0, spec, pl, { a: "A", b: "B" });
+    eq(w[0].joints, ["butt"]);
+  });
+});
