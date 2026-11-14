@@ -17,12 +17,13 @@ test("scara: cea mai mare standard la care încape", () => {
   assert.strictEqual(S.pickScale(290, 200, 2200, 600), 8);
   assert.strictEqual(S.pickScale(290, 200, 200, 100), 1);
 });
-test("foaia: SVG A3, cote și etichete din piesă, texte prin tr()", () => {
+test("foaia: SVG A4 landscape (implicit), cote și etichete din piesă, texte prin tr()", () => {
   const pc = { length: 800, width: 400, thickness: 19, outline: [{ x0: 0, x1: 800, y0: 0, y1: 400 }],
     operations: [{ id: "op_001", type: "drill", face: 5, x: 37, y: 32, dia: 5, depth: 13, through: false, note: "x" },
                  { id: "op_002", type: "drill", face: 5, x: 37, y: 64, dia: 5, depth: 13, through: false, note: "x" }] };
   const svg = S.partSheetSVG(pc, { face: 5, tr: k => "«" + k + "»", opName: o => o.note, meta: { project: "<b>", name: "N", date: "d", ver: "v" } });
-  assert.match(svg, /viewBox="0 0 420 297"/);
+  assert.match(svg, /viewBox="0 0 297 210"/);
+  assert.match(svg, /width="297mm" height="210mm"/);
   assert.ok(svg.includes("«shTitle»") && svg.includes("«shMat»"));
   assert.ok(!svg.includes("<b>"), "textul utilizatorului e scăpat");
   assert.ok(svg.includes(">800<") && svg.includes(">400<") && svg.includes(">37<") && svg.includes(">32<"));
@@ -45,7 +46,7 @@ test("foaia: cod QR opțional în cartuș — fără `qr` foaia e neschimbată, 
   const plain = S.partSheetSVG(pc, base);
   assert.ok(!plain.includes("<svg x="), "fără qr nu se adaugă nimic");
   const withQr = S.partSheetSVG(pc, Object.assign({}, base, { qr: { svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><path d="M0 0h1v1z"/></svg>', code: "r12" } }));
-  assert.match(withQr, /<svg x="\d+(\.\d+)?" y="\d+(\.\d+)?" width="26" height="26" xmlns/);
+  assert.match(withQr, /<svg x="\d+(\.\d+)?" y="\d+(\.\d+)?" width="18" height="18" xmlns/);
   assert.ok(withQr.includes(">r12<"), "codul scris alături");
   assert.equal(withQr.replace(/<svg x=[^>]*>.*?<\/svg>/s, "").replace(/<text[^>]*>r12<\/text>/, ""), plain, "în rest foaia e identică");
   const withoutCode = S.partSheetSVG(pc, Object.assign({}, base, { qr: { svg: '<svg viewBox="0 0 1 1"></svg>' } }));
@@ -62,4 +63,25 @@ test("foaia: piesă tăiată în bucăți — tăieturile punctate, mărimile bu
   assert.ok(cut.includes(">694<") && cut.includes(">702<"), "mărimile bucăților");
   const one = S.partSheetSVG(pc, Object.assign({}, o, { segs: { axis: "L", sizes: [2098] } }));
   assert.equal(one, plain, "o singură bucată = foaia obișnuită");
+});
+
+test("foaia: A4 încape — nimic din text nu iese din foaie, nici cu nume lungi și 2 fețe", () => {
+  const ops = [];
+  for (let i = 0; i < 14; i++) ops.push({ id: "op_a" + i, type: "drill", face: 5, x: 37 + i * 32, y: 32, dia: 5, depth: 13, through: false, note: "perno minifix cu un nume foarte lung" });
+  ops.push({ id: "op_b", type: "drill", face: 6, x: 100, y: 100, dia: 8, depth: 12, through: false, note: "tassello" });
+  const pc = { length: 2200, width: 600, thickness: 18, outline: [{ x0: 0, x1: 2200, y0: 0, y1: 600 }], operations: ops };
+  const svg = S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => o.note, meta: { project: "Proiect cu un nume extrem de lung ca să încerce să iasă din celulă", name: "Fianco stânga cu un nume la fel de lung", material: "Egger W1000 ST9 Alb Premium extra lung", client: "Client Foarte Lung SRL", date: "2026-11-14", ver: "5.63.0" }, qr: { svg: '<svg viewBox="0 0 1 1"></svg>', code: "r1" } });
+  const top = svg.replace(/<g [^>]*>.*?<\/g>/gs, ""); /* grupurile rotite au coordonate locale */
+  const xs = [...top.matchAll(/<text x="([\d.]+)"/g)].map(m => +m[1]);
+  assert.ok(xs.every(x => x >= 0 && x <= 297), "text în afara foii");
+  const ys = [...top.matchAll(/<text x="[\d.-]+" y="([\d.-]+)"/g)].map(m => +m[1]);
+  assert.ok(ys.every(y => y >= 0 && y <= 210), "text sub foaie");
+  assert.ok(!svg.includes("extrem de lung ca să încerce să iasă din celulă"), "valorile lungi se taie în celulă");
+});
+
+test("foaia: cu size A3 rămâne foaia de 420 × 297 (dosarul tehnic A3)", () => {
+  const pc = { length: 800, width: 400, thickness: 19, outline: [{ x0: 0, x1: 800, y0: 0, y1: 400 }], operations: [] };
+  const a3 = S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => o.note, meta: {}, size: "A3" });
+  assert.match(a3, /viewBox="0 0 420 297"/);
+  assert.match(S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => o.note, meta: {}, size: "A4" }), /viewBox="0 0 297 210"/);
 });

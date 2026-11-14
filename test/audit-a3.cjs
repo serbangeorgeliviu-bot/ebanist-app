@@ -1,4 +1,4 @@
-/* Ebanist — audit al foilor A3 ale pieselor (partA3Svg), pentru fiecare tipologie și variantă.
+/* Ebanist — audit al foilor A3 ale pieselor (partSheetSvg), pentru fiecare tipologie și variantă.
  *
  *   node audit-a3.cjs [tipologii separate prin virgulă] [nr. variante aleatoare] [seed]
  *
@@ -7,7 +7,7 @@
  *   D  cotele piesei (lungime, lățime) apar pe foaie, iar piesa e aceeași cu rândul din distinta (lung × larg);
  *   O  operațiile: în piesă (x în [0, L], y în [0, W]), adâncimea sub grosime, Ø pozitiv, fără duplicate, găuri care nu se taie între ele pe aceeași față;
  *   C  pe foaie se desenează cel puțin atâtea cercuri câte găuri are fața (cele trecute pe ambele fețe);
- *   B  tot ce se desenează (text, trasee, cercuri, după transformări) e în interiorul foii de 420 × 297 mm.
+ *   B  tot ce se desenează (text, trasee, cercuri, după transformări) e în interiorul foii de 297 × 210 mm (A4).
  * Cere un browser (Playwright); nu intră în `test:full`. Cod de ieșire 1 la orice abatere.
  */
 let chromium; try { ({ chromium } = require("playwright")); } catch (e) { ({ chromium } = require("/opt/node22/lib/node_modules/playwright")); }
@@ -43,7 +43,7 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
           const has6 = pc.operations.some(o => o.face === 6);
           for (const face of (has6 ? [5, 6] : [5])) {
             info.sheets++;
-            let svg; try { svg = partA3Svg(M, pc, face, 1, 1); } catch (e) { bad(acc, "X", who + ": " + String(e).slice(0, 80)); continue; }
+            let svg; try { svg = partSheetSvg(M, pc, face, 1, 1); } catch (e) { bad(acc, "X", who + ": " + String(e).slice(0, 80)); continue; }
             const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
             if (doc.querySelector("parsererror")) { bad(acc, "X", who + ": SVG prost format"); continue; }
             const texts = [...doc.querySelectorAll("text")].map(t => t.textContent);
@@ -73,11 +73,11 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
                 for (let i = 0; i < dr.length; i++) for (let j = i + 1; j < dr.length; j++) { const a = dr[i], c = dr[j], d = Math.hypot(a.x - c.x, a.y - c.y);
                   if (d < (a.dia + c.dia) / 2 - 0.3 && d > 0.01 && !(wk.has("opsHingeShort") && /cerniera/.test((a.note || "") + (c.note || "")))) bad(acc, "O", `${who}: găurile «${a.note}» Ø${a.dia} și «${c.note}» Ø${c.dia} se taie (${f1(d)} mm între centre) pe fața ${fc}`); } }
             }
-            { const host = document.createElement("div"); host.style.cssText = "position:fixed;left:0;top:0;width:420px;height:297px;opacity:0;pointer-events:none"; host.innerHTML = svg.replace(/width="420mm" height="297mm"/, 'width="420" height="297"'); document.body.appendChild(host);
+            { const host = document.createElement("div"); host.style.cssText = "position:fixed;left:0;top:0;width:297px;height:210px;opacity:0;pointer-events:none"; host.innerHTML = svg.replace(/width="297mm" height="210mm"/, 'width="297" height="210"'); document.body.appendChild(host);
               const sv = host.querySelector("svg"), R0 = sv.getBoundingClientRect(); let out1 = null;
               for (const el of sv.querySelectorAll("text,path,circle,rect,line,polyline,polygon")) { const r = el.getBoundingClientRect(); if (!r.width && !r.height) continue;
                 const x0 = r.left - R0.left, y0 = r.top - R0.top, x1 = r.right - R0.left, y1 = r.bottom - R0.top;
-                if (x0 < -0.6 || y0 < -0.6 || x1 > 420.6 || y1 > 297.6) { out1 = `${el.tagName}${el.tagName === "text" ? " «" + el.textContent.slice(0, 24) + "»" : ""} la (${f1(x0)}, ${f1(y0)})–(${f1(x1)}, ${f1(y1)})`; break; } }
+                if (x0 < -0.6 || y0 < -0.6 || x1 > 297.6 || y1 > 210.6) { out1 = `${el.tagName}${el.tagName === "text" ? " «" + el.textContent.slice(0, 24) + "»" : ""} la (${f1(x0)}, ${f1(y0)})–(${f1(x1)}, ${f1(y1)})`; break; } }
               host.remove(); if (out1) bad(acc, "B", `${who} fața ${face}: ${out1} în afara foii`); }
           }
         }
