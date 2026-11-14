@@ -813,6 +813,9 @@ function generate1(input) {
       var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
       var distCant = (G && G.foratura && G.foratura.dist_cant) || 5, cupD = (G && G.foratura && G.foratura.prof) || 12.5;
       if (distCant < HG.tb[0] || distCant > HG.tb[1]) out.warnings.push({ piece: D.pk, k: "opsHingeTB", tb: distCant });
+      /* ușă prea joasă: cupa și tasealele balamalei ies din piesă (A3 audit 14.11): se spune, nu se mută nimic */
+      var hreach = Math.max(HG.cup_dia / 2, HG.dowels === false ? 0 : HG.dowel_spacing / 2);
+      if (ys.some(function (yy) { return yy - hreach < -0.01 || yy + hreach > h + 0.01; })) out.warnings.push({ piece: D.pk, k: "opsHingeShort" });
       var cx = hEdge + inw * (distCant + HG.cup_dia / 2), zIn = D.min[2];
       var P = panelBeside(pcs, hEdge + inw * 1, hingeLeft ? -1 : 1, D.min[1] + h / 2, zIn - 30, 30);
       if (!P) out.warnings.push({ piece: D.pk, k: "opsNoHingePanel" });

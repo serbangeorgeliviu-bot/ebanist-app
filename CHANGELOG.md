@@ -5,9 +5,9 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.59.0 — 14 noiembrie 2026
+## 5.60.0 — 14 noiembrie 2026
 
-**Secțiune nouă: Bucătărie (D-142).** Tab nou „Bucătărie”: alegi forma (dreaptă / L / U) sau folosești pereții din Releveu, adaugi **module unul lângă altul** pe fiecare perete (baze, colțuri, coloane, nișe de aparate, pensile, panouri de completare), alegi aparatele și „Calculează bucătăria”: fiecare modul devine un corp obișnuit (distinctă, găurire, 3D, plan cu coliziuni), așezat pe perete, cu blatul deasupra.
+**Secțiune nouă: Bucătărie (D-143).** Tab nou „Bucătărie”: alegi forma (dreaptă / L / U) sau folosești pereții din Releveu, adaugi **module unul lângă altul** pe fiecare perete (baze, colțuri, coloane, nișe de aparate, pensile, panouri de completare), alegi aparatele și „Calculează bucătăria”: fiecare modul devine un corp obișnuit (distinctă, găurire, 3D, plan cu coliziuni), așezat pe perete, cu blatul deasupra.
 - **~40 de tipuri de module:** baze cu uși / sertare / sertar + uși / coș de deșeuri / cargo / deschise, **bază chiuvetă**, **bază plită** (cu sertare sau cu cuptor), **nișă mașină de spălat vase / rufe / frigider sub blat** (fără corp: vecinii sunt pereții; două traverse, soclu și, la aparatele integrate, ușa), spațiu pentru aragaz liber, **colț orb** (Le Mans / Magic Corner) și **colț în L cu carusel 3/4**, coloane (cămară, cămară extractibilă, **cuptor + microunde**, **frigider integrat**, frigider + congelator, mașină de spălat + uscător), pensile (uși, deschise, vitrină, colț orb, **pensilă pentru hotă telescopică**, **spațiu de hotă cu coș**).
 - **Catalog de aparate standard** (~55, cote generice de 60/45 cm, nu ale unui producător, toate `verificat:false`): cuptoare, microunde, aparate de cafea, sertare de încălzit, plite pe inducție / gaz / vitroceramice (cu decupajul din blat), hote, mașini de spălat vase, frigidere, congelatoare, răcitor de vin, mașini de spălat rufe, uscătoare, aragazuri libere, chiuvete. Montaj: **incasso** (încastrat), **parțial integrat**, **a scomparsa** (integrat total, ușa aparatului poartă frontul), **liber**. Aparatele apar în nișe (3D și desen) și într-o listă de comandat; nu intră în distinctă.
 - **Blat:** grosimi de 12 / 20 / 27–30 / 38 / 40 / 50 mm (catalog nou de blaturi generice, fără preț); decupajele pentru plită și chiuvetă se pun singure la centrul coloanei; aragazul liber desparte blatul în două; coloanele nu poartă blat.
@@ -18,6 +18,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 Nu se rescrie nimic din motor: unitățile sunt corpuri `standard` cu cote absolute (D-56) sau tipul nou `nisa`; golden-urile și testele vechi neatinse. Limite: colțul în L e două aripi separate (pentru carusel se scot în atelier panourile dintre ele); mecanismele de colț și sistemele de coș nu se desenează; aparatele nu au preț în deviz. `cd test && node --test kitchen.test.js`.
 
 ---
+
+## 5.59.0 — 14 noiembrie 2026
+
+**Verificarea foilor A3 ale pieselor, pentru fiecare tipologie (audit-a3).** Am generat foaia A3 a fiecărei piese, pe fețele 5 și 6, pentru 21 de tipologii cu 236 de configurații (variante fixe și aleatoare): 2865 de foi. Verificări: SVG bine format; niciun „undefined/NaN/null” și nicio cheie de traducere rămasă brută; cotele piesei apar pe foaie și coincid cu rândul din distinta; operațiile sunt în piesă (x, y în limite, adâncimea sub grosime, Ø pozitiv, fără duplicate, găuri care nu se taie); tot ce se desenează (text, trasee, cercuri, după transformări) e în foaia de 420 × 297 mm; numărul de cercuri acoperă găurile feței. Au ieșit trei abateri reale, reparate:
+- **Spatele tăiat în bucăți:** când spatele depășește placa (ex. 2098 mm la 1800 de lățime), distinta îl are în 3 rânduri (702 + 694 + 702), dar foaia A3 arăta o singură piesă de 2098 mm, care nu se taie dintr-o placă de 2070. Acum foaia desenează tăieturile punctate, mărimea fiecărei bucăți și o notă „tăiată în 3 bucăți: 702 + 694 + 702 mm”.
+- **Ușa cu sticlă:** foaia ușii cu sticlă se numea „Montant ușă sticlă” (rândul distinctei, 1714 × 70) deși arăta ușa întreagă de 1714 × 445 mm cu găurile balamalelor. Acum se numește „Ușă cu sticlă (cadru montat)”.
+- **Ușă prea joasă pentru balamale:** la o ușă de 83 mm (ex. baza cu sertare, cu o ușă sus) cupa și tasealele balamalei ieșeau din piesă, iar cele două balamale se tăiau între ele, fără nicio avertizare. Acum apare avertismentul „Ușă prea joasă pentru balamale: găurile balamalei ies din piesă” (7 limbi). Geometria nu se mută.
+Rămân, deja avertizate: mânerul cu interax peste înălțimea frontului (`opsHandleFit`). Rularea: `npm run audit-a3` (cere browser, nu intră în `test:full`).
 
 ## 5.58.0 — 14 noiembrie 2026
 

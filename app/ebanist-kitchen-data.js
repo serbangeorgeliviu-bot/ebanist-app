@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — Bucătărie: catalogul de aparate și grosimile de blat (D-142)
+   Ebanist — Bucătărie: catalogul de aparate și grosimile de blat (D-143)
    ---------------------------------------------------------------------
    DATE, nu cod (ca `ebanist-hinges-data.js`). Fiecare aparat poartă cotele de
    NIȘĂ (cât loc cere în mobil) și ale corpului lui, în mm. Cotele sunt cele
@@ -118,7 +118,7 @@ sink("sink_round", "round", 480,  480, 440,  440, 220, 1);
 var KINDS = ["oven", "micro", "coffee", "warm", "hob", "hood", "dw", "fridge", "freezer", "wine", "washer", "dryer", "washdry", "range", "sink"];
 var MOUNTS = ["incasso", "semi", "scomparsa", "libera"];
 
-/* grosimile de blat uzuale, mm (D-142): 12 ceramică/inox/compact, 20 cuarț/ceramică, 28–30 laminat subțire,
+/* grosimile de blat uzuale, mm (D-143): 12 ceramică/inox/compact, 20 cuarț/ceramică, 28–30 laminat subțire,
    38–40 laminat/postformat, 50 lemn masiv. Materialul vine din catalog (`materials-worktops.json`). */
 var WORKTOP_THICKS = [12, 20, 28, 30, 38, 40, 50];
 

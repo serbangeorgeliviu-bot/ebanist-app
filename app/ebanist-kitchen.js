@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — Bucătărie: unități, rânduri, aparate, blat (D-142)
+   Ebanist — Bucătărie: unități, rânduri, aparate, blat (D-143)
    ---------------------------------------------------------------------
    Funcții PURE. Intră setările bucătăriei (`K`), tipul unității și opțiunile ei;
    ies configurații `cfg` pentru motorul EXISTENT (`generateInto` / `buildModule`),
@@ -609,7 +609,7 @@ function worktopSpecs(Kin, spec, plan, names) {
 }
 
 /* =====================================================================
-   Îmbinarea de colț „la 45° cu freza” (D-142)
+   Îmbinarea de colț „la 45° cu freza” (D-143)
    ---------------------------------------------------------------------
    Pe lângă îmbinarea dreaptă (D-73), blatul poate fi tăiat la 45° în colț:
    fiecare piesă se termină cu un capăt înclinat, lungimea măsurată pe muchia

@@ -1,4 +1,4 @@
-/* Ebanist — Bucătărie: texte în cele 7 limbi (D-142).
+/* Ebanist — Bucătărie: texte în cele 7 limbi (D-143).
    Un singur tabel: cheie → [it, ro, en, fr, de, pl, es]. Se desface în `KITCHEN_I18N[lang][cheie]`;
    `ts()` din index.html cade aici când cheia nu e în SURVEY_I18N, iar `data-i` o găsește prin `tAny`.
    Testul `kitchen-i18n` păzește: fiecare cheie are toate cele 7 limbi, același set de {substituții}. */

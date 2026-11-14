@@ -1,4 +1,4 @@
-/* Ebanist — Bucătărie (D-142): unități, aparate, rânduri, blat.
+/* Ebanist — Bucătărie (D-143): unități, aparate, rânduri, blat.
  *
  *   node --test test/kitchen.test.js
  *

@@ -8,7 +8,7 @@
    rulează funcția goală.
 
    ÎMBINAREA DE COLȚ e, implicit, dreaptă, cap la cap: un blat trece până în
-   colț, celălalt se oprește în muchia lui lungă, din față. A doua variantă (D-142)
+   colț, celălalt se oprește în muchia lui lungă, din față. A doua variantă (D-143)
    e „la 45° cu freza”: ambele piese ajung în colț și se termină înclinat, cu
    lungimea măsurată pe muchia din spate; pe dedesubt, locașurile pentru șuruburile
    de îmbinare sunt rotite perpendicular pe linia tăieturii. Cere adâncimi egale. Pe dedesubt, la

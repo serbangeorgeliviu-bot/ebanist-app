@@ -1,5 +1,5 @@
 /* =====================================================================
-   Ebanist — Bucătărie: ecranul (D-142)
+   Ebanist — Bucătărie: ecranul (D-143)
    ---------------------------------------------------------------------
    Se încarcă DUPĂ scriptul principal: folosește funcțiile lui (`proj`, `persist`,
    `generateInto`, `layout`, `wtApply`…) și motorul pur din `ebanist-kitchen.js`.
