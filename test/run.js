@@ -3211,7 +3211,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       window.prompt = () => "99999"; const before = JSON.stringify(buildCfg.partitions);
       editGapFromTap(g2); await w(200);
       o.respins = JSON.stringify(buildCfg.partitions) === before;
-      window.prompt = keep;
+      window.prompt = keep; GL3D.set({ dims: false }); studioSync();
       return o;
     });
     if (d.fara_gl) ok("cotă liberă din 3D: sărit (fără WebGL)", true);
