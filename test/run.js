@@ -4483,6 +4483,62 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); });
   }
 
+  head("Controale de coerență: caseta cu variante (raft fix / mobil), bucătăria demo verde");
+  {
+    const demoTxt = fs.readFileSync(path.join(__dirname, "golden", "bucatarie-U-demo.json"), "utf8");
+    const r = await pg.evaluate(async (demoTxt) => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      closeSheets();
+      /* 1. bucătăria demo: rafturile fixe dintre nișe nu mai cad la I7 */
+      importJson(demoTxt); await w(500);
+      const pd = proj(); const fd = auditProject(pd);
+      o.demoI7 = fd.filter(a => a.id === "I7").length;
+      o.demoRosu = blocking(fd).length;
+      auditBadge(); o.demoVerde = document.getElementById("auditBadge").dataset.state === "green";
+      /* 2. un I7 adevărat: configurația spune «mobil», piesele au rămas la lățime fixă */
+      state.projects = [{ id: "fx1", name: "T", pieces: [], configs: {} }]; state.activeId = "fx1";
+      generateInto(proj(), { ...PRESETS.armadio, name: "Rf", L: 600, H: 720, P: 560, shelves: 0, partitions: [{ type: "ripiano", y: 400, span: "full" }], doors: 0, drawers: 0, hang: 0, tram: 0, shelfType: "fisso", support: "zoccolo", plinth: 100 });
+      o.okInit = blocking(auditProject(proj())).length === 0;
+      proj().configs["Rf"].shelfType = "mobile";
+      const f1 = auditProject(proj()).filter(a => a.id === "I7");
+      o.rosu = f1.length === 1 && f1[0].severity === "blocking";
+      o.arePatch = !!(f1[0] && f1[0].fix && f1[0].fix.opts.length === 2);
+      auditBadge(); o.badgeRosu = document.getElementById("auditBadge").dataset.state === "red";
+      document.getElementById("auditBadge").click(); await w(300);
+      const btn = document.querySelector("#auditBody [data-fx]");
+      o.buton = !!btn;
+      btn.click(); await w(400);
+      o.sheet = document.getElementById("fxSheet").classList.contains("on");
+      o.radii = document.querySelectorAll('#fxBody input[name="fxPick"]').length;
+      /* alege «mobil, cu joc»: distinta se rescrie cu lățime − joc și controlul se închide */
+      const mob = document.querySelector('#fxBody input[value="mobile"]'); mob.checked = true; mob.dispatchEvent(new Event("change", { bubbles: true }));
+      document.getElementById("fxApply").click(); await w(1200);
+      const rip1 = proj().pieces.find(x => x.role === "ripiano");
+      o.mobil = proj().configs["Rf"].shelfType === "mobile" && rip1 && Math.round(rip1.lung) === 560;
+      o.verde1 = blocking(auditProject(proj())).length === 0 && document.getElementById("auditBadge").dataset.state === "green";
+      /* 3. aceeași stare, dar se alege varianta fixă */
+      proj().configs["Rf"].shelfType = "fisso";
+      const f2 = auditProject(proj()).filter(a => a.id === "I7");
+      o.rosu2 = f2.length === 1;
+      fixSheet("Rf", f2[0].fix); await w(300);
+      const fi = document.querySelector('#fxBody input[value="fisso"]'); fi.checked = true; fi.dispatchEvent(new Event("change", { bubbles: true }));
+      document.getElementById("fxApply").click(); await w(1200);
+      const rip2 = proj().pieces.find(x => x.role === "ripiano");
+      o.fix = proj().configs["Rf"].shelfType === "fisso" && rip2 && Math.round(rip2.lung) === 562;
+      o.verde2 = blocking(auditProject(proj())).length === 0;
+      closeSheets();
+      state.projects = keepP; state.activeId = keepA; auditBadge();
+      return o;
+    }, demoTxt);
+    ok("Demo bucătărie: rafturile fixe dintre nișe nu mai cad la I7 — nimic roșu, insigna verde", r.demoI7 === 0 && r.demoRosu === 0 && r.demoVerde === true);
+    ok("Control I7 real: roșu, cu două variante (mobil / fix) și buton «Alege varianta corectă» în listă", r.okInit === true && r.rosu === true && r.arePatch === true && r.badgeRosu === true && r.buton === true);
+    ok("Caseta de variante se deschide cu două opțiuni", r.sheet === true && r.radii === 2);
+    ok("Varianta «mobil» rescrie distinta (560 = 562 − 2) și controlul devine verde", r.mobil === true && r.verde1 === true);
+    ok("Varianta «fix» rescrie distinta (562, fără joc) și controlul devine verde", r.rosu2 === true && r.fix === true && r.verde2 === true);
+    await pg.evaluate(() => { closeSheets(); });
+  }
+
   head("Boiserie cu panou încastrat în ramă — formular, panouri, canale în rame, gaură de priză, montaj");
   {
     const r = await pg.evaluate(async () => {
