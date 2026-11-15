@@ -1546,6 +1546,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <button class="vtb" id="btnOpen3d" title="Ante aperte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h9v18H4z"/><path d="M13 5l7-2v18l-7-2"/></svg><span data-i="vtOpen">Apri</span></button>
           <button class="vtb" id="btnHw3d" title="Ferramenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span data-i="vtHw">Ferramenta</span></button>
           <button class="vtb" id="btnHoles3d" title="Fori"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="3.4"/></svg><span data-i="vtHoles">Fori</span></button>
+          <button class="vtb" id="btnWarm3d" data-ti="vtWarm" title="Luce calda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></button>
           <button class="vtb" id="btnDims3d" title="Quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10M20 7v10M4 12h16M7 9l-3 3 3 3M17 9l3 3-3 3"/></svg><span data-i="vtDims">Quote</span></button>
           <button class="vtb" id="btnCoh3d" title="Coerenza" hidden style="--coh:#c02f2f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4.5M12 17.5v.01"/></svg><span id="cohN"></span></button>
         </div>
@@ -4096,6 +4097,20 @@ Object.assign(I18N.fr,{"sumTitle": "Résumé du projet", "sumBtn": "Résumé du 
 Object.assign(I18N.de,{"sumTitle": "Projektübersicht", "sumBtn": "Projektübersicht", "sumPcs": "Stk.", "sumTotal": "Gesamt inkl. MwSt.", "sumEmpty": "Noch kein Möbel im Projekt: erzeuge das erste im Generator.", "sumAcc": "ohne Zubehör"});
 Object.assign(I18N.pl,{"sumTitle": "Podsumowanie projektu", "sumBtn": "Podsumowanie projektu", "sumPcs": "szt.", "sumTotal": "Razem z VAT", "sumEmpty": "Brak mebli w projekcie: wygeneruj pierwszy w Generatorze.", "sumAcc": "bez akcesoriów"});
 Object.assign(I18N.es,{"sumTitle": "Resumen del proyecto", "sumBtn": "Resumen del proyecto", "sumPcs": "uds.", "sumTotal": "Total con IVA", "sumEmpty": "Ningún mueble en el proyecto: genera el primero desde el Generador.", "sumAcc": "accesorios excluidos"});
+Object.assign(I18N.it,{"vtWarm": "Luce calda (sera / LED)"});
+Object.assign(I18N.ro,{"vtWarm": "Lumină caldă (seară / LED)"});
+Object.assign(I18N.en,{"vtWarm": "Warm light (evening / LED)"});
+Object.assign(I18N.fr,{"vtWarm": "Lumière chaude (soir / LED)"});
+Object.assign(I18N.de,{"vtWarm": "Warmes Licht (Abend / LED)"});
+Object.assign(I18N.pl,{"vtWarm": "Ciepłe światło (wieczór / LED)"});
+Object.assign(I18N.es,{"vtWarm": "Luz cálida (noche / LED)"});
+Object.assign(I18N.it,{"gapAsk": "Nuova quota libera (mm)", "gapNoAbs": "Questa configurazione non ha quote assolute: la quota libera si modifica solo con i ripiani a quota.", "gapNoShelf": "Nessun ripiano a quota delimita questo vano.", "gapBad": "Misura non valida.", "gapOk": "Quota libera aggiornata: genera la distinta per salvarla."});
+Object.assign(I18N.ro,{"gapAsk": "Cota liberă nouă (mm)", "gapNoAbs": "Configurația nu are cote absolute: cota liberă se schimbă numai la rafturile cu cotă.", "gapNoShelf": "Niciun raft cu cotă nu delimitează acest gol.", "gapBad": "Cotă invalidă.", "gapOk": "Cota liberă s-a schimbat: generează distinta ca s-o salvezi."});
+Object.assign(I18N.en,{"gapAsk": "New free dimension (mm)", "gapNoAbs": "This setup has no absolute dimensions: a free gap can only be edited on shelves set by height.", "gapNoShelf": "No height-set shelf bounds this gap.", "gapBad": "Invalid value.", "gapOk": "Free gap updated: generate the cut list to save it."});
+Object.assign(I18N.fr,{"gapAsk": "Nouvelle cote libre (mm)", "gapNoAbs": "Cette configuration n'a pas de cotes absolues : la cote libre ne se modifie que sur des étagères à hauteur fixée.", "gapNoShelf": "Aucune étagère à hauteur fixée ne borne ce vide.", "gapBad": "Valeur invalide.", "gapOk": "Cote libre mise à jour : génère la liste de débit pour l'enregistrer."});
+Object.assign(I18N.de,{"gapAsk": "Neues freies Maß (mm)", "gapNoAbs": "Diese Konfiguration hat keine absoluten Maße: ein freies Maß lässt sich nur bei Böden mit Höhenangabe ändern.", "gapNoShelf": "Kein Boden mit Höhenangabe begrenzt dieses Fach.", "gapBad": "Ungültiger Wert.", "gapOk": "Freies Maß geändert: Zuschnittliste erzeugen, um es zu speichern."});
+Object.assign(I18N.pl,{"gapAsk": "Nowy wymiar w świetle (mm)", "gapNoAbs": "Ta konfiguracja nie ma wymiarów bezwzględnych: wymiar w świetle zmienisz tylko przy półkach z podaną wysokością.", "gapNoShelf": "Żadna półka z podaną wysokością nie ogranicza tej przestrzeni.", "gapBad": "Nieprawidłowa wartość.", "gapOk": "Wymiar zmieniony: wygeneruj listę cięcia, aby go zapisać."});
+Object.assign(I18N.es,{"gapAsk": "Nueva cota libre (mm)", "gapNoAbs": "Esta configuración no tiene cotas absolutas: la cota libre solo se edita en baldas con altura fijada.", "gapNoShelf": "Ninguna balda con altura fijada limita este hueco.", "gapBad": "Valor no válido.", "gapOk": "Cota libre actualizada: genera el despiece para guardarla."});
 Object.assign(I18N.it,{"opsSrc": "Foratura (modello di operazioni)", "opsNoHingePanel": "Accanto alla cerniera di un'anta non c'è un fianco o un setto: la basetta non si fora.", "opsPinMoved": "Il foro del reggipiano cade su un altro foro (basetta o guida): il ripiano poggia sul foro di regolazione.", "opsSlope": "Cielo inclinato: le forature sul bordo obliquo non sono generate; controlla sul primo pezzo.", "opsCurved": "Anta curva: le cerniere non sono generate.", "opsAwThin": "Anta troppo sottile per la cava del profilo anti-imbarcamento: la cava non è generata.", "opsHingeTB": "La distanza di foratura della tazza è {tb} mm, fuori dall'intervallo Blum 3–7 mm.", "hsBtn": "Scheda tecnica", "hsClose": "Chiudi"});
 Object.assign(I18N.ro,{"opsSrc": "Găurire (modelul de operații)", "opsNoHingePanel": "Lângă balamaua unei uși nu e laterală sau despărțitor: plăcuța nu se poate găuri.", "opsPinMoved": "Gaura suportului de raft cade peste altă gaură (plăcuță sau glisieră): raftul stă pe gaura de reglare.", "opsSlope": "Tavan înclinat: găurile de pe muchia oblică nu sunt generate; verifică pe prima piesă.", "opsCurved": "Ușă curbă: balamalele nu sunt generate.", "opsAwThin": "Ușă prea subțire pentru canalul profilului anti-curbare: canalul nu e generat.", "opsHingeTB": "Distanța de găurire a cupei e {tb} mm, în afara intervalului Blum 3–7 mm.", "hsBtn": "Fișă tehnică", "hsClose": "Închide"});
 Object.assign(I18N.en,{"opsSrc": "Drilling (operations model)", "opsNoHingePanel": "There is no side or divider next to a door's hinge: the plate cannot be drilled.", "opsPinMoved": "The shelf-pin hole falls on another hole (plate or slide): the shelf rests on the adjustment hole.", "opsSlope": "Sloped top: holes on the oblique edge are not generated; check the first piece.", "opsCurved": "Curved door: hinges are not generated.", "opsAwThin": "Door too thin for the anti-warp profile groove: the groove is not generated.", "opsHingeTB": "The cup drilling distance is {tb} mm, outside Blum's 3–7 mm range.", "hsBtn": "Data sheet", "hsClose": "Close"});
@@ -9902,6 +9917,8 @@ function init3DControls(){
   const up=e=>{
     /* un tocco fermo e breve e una SCELTA, non un giro: seleziona il pezzo */
     if(GL&&!ROOM_GL&&!document.body.classList.contains("client-on")&&down&&ptrs.size===1&&down.moved<7&&Date.now()-down.t<350&&window.GL3D.pick){
+      const gp=window.GL3D.state.dims&&window.GL3D.pickGap?window.GL3D.pickGap(e.clientX,e.clientY):null;
+      if(gp){ ptrs.delete(e.pointerId);pinchD=0;down=null; editGapFromTap(gp); return; }
       const pk=window.GL3D.pick(e.clientX,e.clientY), cur=window.GL3D.state.sel;
       if(pk==null){ if(cur!=null&&!window.GL3D.state.iso) window.GL3D.select(null); }
       else window.GL3D.select(pk,window.GL3D.state.iso&&String(cur)===String(pk));
@@ -9910,6 +9927,21 @@ function init3DControls(){
   el.addEventListener("pointerup",up); el.addEventListener("pointercancel",e=>{ptrs.delete(e.pointerId);pinchD=0;down=null;});
   el.addEventListener("wheel",e=>{e.preventDefault();
     VIEW.zoom=Math.min(lim.z1,Math.max(lim.z0,VIEW.zoom*(e.deltaY<0?1.1:0.9))); redrawCam();},{passive:false});
+}
+
+/* cota liberă editată din 3D (D-148): atingi eticheta, scrii cota, raftul se mută
+   pe `partitions`, validateLayout decide; nimic nu se scrie dacă nu închide. */
+function editGapFromTap(g){
+  const cfg=buildCfg;
+  if(!cfg||!Array.isArray(cfg.partitions)||!cfg.partitions.length){ toast(t("gapNoAbs")); return; }
+  const raw=window.prompt(t("gapAsk")+" ("+g.h+" mm)",String(g.h)); if(raw==null) return;
+  const v=parseFloat(String(raw).replace(",","."));
+  let G; try{ G=auditGeom(cfg).G; }catch(e){ toast(t("gapBad")); return; }
+  const r=retargetGap(cfg.partitions,g,v,G.sp.ripiano);
+  if(r.error){ toast(t(r.error==="noShelf"?"gapNoShelf":"gapBad")); return; }
+  const c2=Object.assign({},cfg,{partitions:r.partitions});
+  const vl=validateLayout(c2,G); if(vl.errors.length){ toast(auT(String(vl.errors[0]))); return; }
+  buildCfg=c2; syncBuildForm(); draw3D(); toast(t("gapOk"));
 }
 
 /* ================= STUDIO 3D: pezzi, fori, ferramenta =================
@@ -10130,7 +10162,8 @@ function studioSync(){
   $("btnHw3d").classList.toggle("on",st.mode==="hw");
   $("btnHoles3d").classList.toggle("on",!!st.holes);
   $("btnDims3d").classList.toggle("on",!!st.dims);
-  ["btnOpen3d","btnHw3d","btnHoles3d","btnDims3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
+  $("btnWarm3d").classList.toggle("on",!!st.warm);
+  ["btnOpen3d","btnHw3d","btnHoles3d","btnDims3d","btnWarm3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
   cohSync(M);
   const box=$("pcsList"); if(!box) return;
   if(!M||!M.ops||!M.ops.pieces.length){
@@ -10190,6 +10223,7 @@ function studioInit(){
     if(on) $("grpPieces").open=true; studioSync(); });
   $("btnHoles3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({holes:!window.GL3D.state.holes}); studioSync(); });
   $("btnDims3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({dims:!window.GL3D.state.dims}); studioSync(); });
+  $("btnWarm3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({warm:!window.GL3D.state.warm}); studioSync(); });
   $("btnCoh3d").addEventListener("click",()=>{ if(!gl3dOn())return; cohOn=!cohOn; studioSync();
     if(cohOn){ const iss=cohIssues(window.GL3D.model()); if(iss.length) toast(iss[0].why); } });
   document.querySelectorAll("[data-view3d]").forEach(b=>b.addEventListener("click",()=>{

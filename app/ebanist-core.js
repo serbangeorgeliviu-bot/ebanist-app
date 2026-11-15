@@ -1659,6 +1659,26 @@ function deriveDrawerBlocks(G, blocks, parts) {
        («20 + 19 + 1500 + 19 + 342 + 19 + 342 + 19 = 2280»);
      - le partizioni, le ante e i decupaje gia risolti in cote di pezzo.
    `G` e l'uscita di deriveCarcass sullo stesso corpo. */
+/* Cota liberă dintre două rafturi, editată ca număr (D-148). Mută UN raft de
+   pe `partitions` (cote absolute): cel de deasupra golului, iar dacă golul se
+   oprește în tavan, cel de dedesubt. `gap` = {y0,y1} din dimensionSpec (mm de la
+   pardoseală), `tR` = grosimea raftului. Nu valideză nimic: apelantul trece
+   rezultatul prin validateLayout. */
+function retargetGap(partitions, gap, newH, tR) {
+  var list = Array.isArray(partitions) ? partitions : [];
+  var h = Math.round(+newH * 10) / 10;
+  if (!(h > 0) || !isFinite(h)) return { error: "bad" };
+  var full = function (q) { return q && q.type === "ripiano" && (q.span == null || q.span === "full") && isFinite(+q.y); };
+  var up = -1, lo = -1, i;
+  for (i = 0; i < list.length; i++) if (full(list[i]) && Math.abs(+list[i].y - gap.y1) < 0.6) up = i;
+  for (i = 0; i < list.length; i++) if (full(list[i]) && Math.abs(+list[i].y + tR - gap.y0) < 0.6) lo = i;
+  var idx = up >= 0 ? up : lo;
+  if (idx < 0) return { error: "noShelf" };
+  var y = up >= 0 ? gap.y0 + h : gap.y1 - h - tR;
+  var out = list.map(function (q, k) { return k === idx ? Object.assign({}, q, { y: Math.round(y * 10) / 10 }) : q; });
+  return { partitions: out, moved: idx };
+}
+
 function validateLayout(cfg, G, opts) {
   var c = cfg || {}, o = opts || {}, errors = [], warnings = [];
   var hasP = Array.isArray(c.partitions) && c.partitions.length > 0;
@@ -2401,6 +2421,7 @@ var API = {
   derivePartitions: derivePartitions,
   validateFronts: validateFronts,
   validateLayout: validateLayout,
+  retargetGap: retargetGap,
   FIT: FIT,
   bodyColumns: bodyColumns,
   backRuns: backRuns,

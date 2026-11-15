@@ -3167,6 +3167,60 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("lista: 2L+2C desenează cele patru laturi", e.patru === true);
   }
 
+  /* lumină caldă (5.66.0): doar atmosfera; documentele (capture) rămân neutre */
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build"); buildCfg = { ...PRESETS.armadio, doors: 0 }; syncBuildForm(); draw3D(); await w(400); studioSync();
+      const btn = document.getElementById("btnWarm3d");
+      const n = GL3D.moodInfo();
+      o.implicit = n.warm === false && n.key === 0xfff1e0;
+      btn.click(); await w(150); const c = GL3D.moodInfo();
+      o.cald = c.warm === true && c.key === 0xffbf80 && c.exposure < n.exposure && btn.classList.contains("on");
+      GL3D.capture({ ...buildCfg }, { w: 200, h: 150 });
+      const dupa = GL3D.moodInfo();
+      o.revine = dupa.warm === true && dupa.key === 0xffbf80;
+      btn.click(); await w(150); o.stins = GL3D.moodInfo().key === 0xfff1e0;
+      return o;
+    });
+    if (d.fara_gl) ok("lumină caldă: sărit (fără WebGL)", true);
+    else {
+      ok("lumină caldă: implicit neutră; butonul trece pe lumini calde și înapoi", d.implicit && d.cald && d.stins, JSON.stringify(d));
+      ok("lumină caldă: o captură de document nu rămâne caldă, iar atmosfera se reface după ea", d.revine, JSON.stringify(d));
+    }
+  }
+
+  /* cotă liberă editată din 3D (5.66.0): atingi eticheta, raftul se mută, validateLayout decide */
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build");
+      buildCfg = { ...PRESETS.armadio, name: "Gp", L: 800, H: 2000, P: 560, shelves: 0, partitions: [{ type: "ripiano", y: 600, span: "full" }, { type: "ripiano", y: 1200, span: "full" }], doors: 0, drawers: 0, hang: 0, tram: 0 };
+      syncBuildForm(); draw3D(); await w(400); studioSync();
+      if (!GL3D.state.dims) document.getElementById("btnDims3d").click(); await w(200);
+      const g = GL3D.dimsInfo().spec.gaps.find(x => Math.abs(x.y1 - 1200) < 1);
+      o.gasit = !!g;
+      const keep = window.prompt; window.prompt = () => "300";
+      editGapFromTap(g); await w(400);
+      const ys = (buildCfg.partitions || []).map(q => q.y).sort((a, b) => a - b);
+      o.mutat = ys.length === 2 && Math.abs(ys[1] - (g.y0 + 300)) < 0.2;
+      const g2 = GL3D.dimsInfo().spec.gaps.find(x => Math.abs(x.y0 - g.y0) < 1);
+      o.nou = !!g2 && Math.abs(g2.h - 300) < 0.2;
+      window.prompt = () => "99999"; const before = JSON.stringify(buildCfg.partitions);
+      editGapFromTap(g2); await w(200);
+      o.respins = JSON.stringify(buildCfg.partitions) === before;
+      window.prompt = keep;
+      return o;
+    });
+    if (d.fara_gl) ok("cotă liberă din 3D: sărit (fără WebGL)", true);
+    else {
+      ok("cotă liberă din 3D: eticheta se găsește, raftul se mută și golul devine cota scrisă", d.gasit && d.mutat && d.nou, JSON.stringify(d));
+      ok("cotă liberă din 3D: o cotă care nu are loc e refuzată, fără nicio modificare", d.respins, JSON.stringify(d));
+    }
+  }
+
   /* cote de lumină pe 3D: dimensionSpec desenat în viewer */
   {
     const d = await pg.evaluate(async () => {
