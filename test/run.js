@@ -4915,7 +4915,6 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.gol = projectSummaryHtml(proj()).includes(t("sumEmpty"));
       generateInto(proj(), { ...PRESETS.armadio, name: "Sm A", L: 800, H: 2000, P: 560 });
       generateInto(proj(), { ...PRESETS.base, name: "Sm B", L: 600, H: 720, P: 560 });
-      setView("project"); await w(200);
       const b = document.getElementById("btnSummary"); o.buton = !!b;
       b.click(); await w(200);
       const body = document.getElementById("sumBody");
