@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.65.0 — 15 noiembrie 2026
+
+**Controale de coerență: din roșu în verde printr-o casetă de dialog (D-147).** Până acum, un control roșu rămânea o listă fără nicio acțiune: se vedea problema, nu se putea alege nimic.
+- **Fals roșu rezolvat:** în „Bucătărie U — demo", trei corpuri (coloana frigider, baza cu sertar și uși, coloana cuptor) cădeau la „Raftul nu are jocul declarat". Rafturile fixe dintre nișe se taie la măsură, fără joc, dar regula cerea jocul de 2 mm ca la un raft mobil. Acum regula ține cont de tipul raftului: demo-ul e verde, fără să schimbi nimic.
+- **Caseta „Alege varianta corectă":** când un control I7 cade cu adevărat (de exemplu un proiect salvat cu tipul raftului schimbat după generare), foaia de controale are butonul **Alege varianta corectă**; caseta oferă „raft mobil, cu joc → 598 mm" și „raft fix, fără joc → 600 mm" (cu cota rezultată), cu varianta cea mai apropiată de starea curentă preselectată. **Aplică varianta:** backup complet, distinta corpului se rescrie, controalele pornesc singure și se trece la următorul corp cu variante; la final, insigna e verde. Dacă varianta nu închide controlul, te întoarce la listă, fără bucle.
+- După „Generează distinta" cu un I7 căzut, caseta se deschide direct, ca la rafturile care lovesc balamalele.
+- Textele, în toate cele 7 limbi (`fx*`). Teste noi: `invariants.test.js` (raft fix vs. mobil) și e2e (demo verde; ambele variante închid controlul).
+- **Nu s-a schimbat:** avertismentele galbene (mâner mai lung decât frontul, balama fără lateral) rămân informative; celelalte controale roșii nu au încă variante.
+
+---
+
 ## 5.64.0 — 14 noiembrie 2026
 
 **Fișa piesei pe A4, nu pe A3 (D-146).** „Fișă de fabricație” se tipărește acum pe **A4 landscape** (297 × 210 mm), cum tipărește toată lumea în atelier: aceleași cote, găuri, detalii la scară mare, tabel de operații și cartuș cu QR, reașezate pe foaia mai mică. Butonul din fișa piesei se numește „… A4” în toate cele 7 limbi.

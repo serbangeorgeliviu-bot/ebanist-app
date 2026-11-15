@@ -105,6 +105,19 @@ describe("Ogni regola prende quello che sorveglia", () => {
   test("I7 — il ripiano senza il suo gioco", () => {
     assert.ok(rompi(BASE, p => p.role === "ripiano" ? { ...p, lung: p.lung + 2 } : p).includes("I7"));
   });
+
+  test("I7 — un ripiano FISSO sta a misura: senza gioco passa, col gioco cade", () => {
+    const B = build({ type: "standard", L: 600, H: 720, P: 560, shelves: 1, shelfType: "fisso", plinth: 100, doors: 0, drawers: 0, back: 1 });
+    const rip = B.pieces.find(p => p.role === "ripiano");
+    assert.ok(rip, "il corpo ha un ripiano");
+    assert.ok(!B.ko().includes("I7"), "ripiano fisso a luce piena non e un errore");
+    assert.ok(B.ko(B.pieces.map(p => p.role === "ripiano" ? { ...p, lung: p.lung - 2 } : p)).includes("I7"),
+      "un ripiano fisso col gioco da mobile non e quello dichiarato");
+    const M = build({ type: "standard", L: 600, H: 720, P: 560, shelves: 1, shelfType: "mobile", plinth: 100, doors: 0, drawers: 0, back: 1 });
+    assert.ok(!M.ko().includes("I7"), "il ripiano mobile col suo gioco passa");
+    assert.ok(M.ko(M.pieces.map(p => p.role === "ripiano" ? { ...p, lung: p.lung + 2 } : p)).includes("I7"),
+      "un ripiano mobile a luce piena cade");
+  });
   test("I8 — una cota negativa, e una piu grande della lastra", () => {
     assert.ok(rompi(BASE, p => p.role === "ripiano" ? { ...p, lung: 0 } : p).includes("I8"));
     assert.ok(rompi(BASE, p => p.role === "fianco" ? { ...p, lung: 3200 } : p).includes("I8"));

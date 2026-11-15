@@ -1225,14 +1225,21 @@ function validateInvariants(corpo, pieces, geometry, opts) {
         ripAny.nomi);
     /* su un corpo con tramezzi il ripiano e largo una SEZIONE, non tutta la
        luce interna: la regola si applica alla cota giusta. */
-    var attesa = (inp.n_divisorio > 0 ? +G.sectiune_W : +G.L_int) - (+(G.jocuri && G.jocuri.joc_ripiano) || 0);
+    /* un ripiano FISSO (`shelfType:"fisso"`, quello che la cucina mette fra le nicchie)
+       sta incastrato a misura: il gioco dichiarato e 0, come in `derivePartitions`
+       (`play`) e in `buildModule`. Pretendere `L_int - joc` su di lui segnava rosso
+       un corpo giusto, senza che l'utente avesse niente da correggere. */
+    var fixSh = c.shelfType === "fisso";
+    var jocR = fixSh ? 0 : (+(G.jocuri && G.jocuri.joc_ripiano) || 0);
+    var attesa = (inp.n_divisorio > 0 ? +G.sectiune_W : +G.L_int) - jocR;
     if (Lr != null)
       rule("I7", inp.n_divisorio > 0 ? "L_ripiano == sectiune_W - joc_ripiano"
                                      : "L_ripiano == L_int - joc_ripiano",
         Math.abs(Lr - attesa) <= 1,
         { L_ripiano: Lr, asteptat: Math.round(attesa),
           L_int: G.L_int, sectiune_W: G.sectiune_W,
-          joc_ripiano: G.jocuri && G.jocuri.joc_ripiano },
+          joc_ripiano: jocR, ripiano_fisso: fixSh,
+          joc_mobil: G.jocuri && G.jocuri.joc_ripiano },
         "Polița nu are jocul declarat: fie freacă în laterale, fie joacă în gol.",
         ripAny.nomi);
   }
