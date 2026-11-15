@@ -4905,6 +4905,33 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await ctx.close();
   }
 
+  head("Rezumat proiect (5.66.0) — un card per corp, totalul, în 7 limbi");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      closeSheets();
+      state.projects = [{ id: "sm1", name: "S", pieces: [], configs: {} }]; state.activeId = "sm1";
+      o.gol = projectSummaryHtml(proj()).includes(t("sumEmpty"));
+      generateInto(proj(), { ...PRESETS.armadio, name: "Sm A", L: 800, H: 2000, P: 560 });
+      generateInto(proj(), { ...PRESETS.base, name: "Sm B", L: 600, H: 720, P: 560 });
+      setView("project"); await w(200);
+      const b = document.getElementById("btnSummary"); o.buton = !!b;
+      b.click(); await w(200);
+      const body = document.getElementById("sumBody");
+      o.sheet = document.getElementById("shSummary").classList.contains("on");
+      o.carduri = /Sm A/.test(body.innerText) && /Sm B/.test(body.innerText);
+      o.cote = /800 × 2000 × 560 mm/.test(body.innerText) && /600 × 720 × 560 mm/.test(body.innerText);
+      o.total = /€\s*\d/.test(body.innerText);
+      o.limbi = ["it","ro","en","fr","de","pl","es"].every(l => ["sumTitle","sumBtn","sumPcs","sumTotal","sumEmpty","sumAcc"].every(k => I18N[l][k]));
+      closeSheets(); state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Rezumat: proiect gol → mesaj; butonul din proiect deschide foaia", r.gol && r.buton && r.sheet, JSON.stringify(r));
+    ok("Rezumat: câte un card per corp, cu cotele LxHxP din config și totalul în €", r.carduri && r.cote && r.total, JSON.stringify(r));
+    ok("Rezumat: textele există în toate cele 7 limbi", r.limbi, JSON.stringify(r));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
