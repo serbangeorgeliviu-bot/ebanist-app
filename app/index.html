@@ -1546,6 +1546,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <button class="vtb" id="btnOpen3d" title="Ante aperte"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h9v18H4z"/><path d="M13 5l7-2v18l-7-2"/></svg><span data-i="vtOpen">Apri</span></button>
           <button class="vtb" id="btnHw3d" title="Ferramenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span data-i="vtHw">Ferramenta</span></button>
           <button class="vtb" id="btnHoles3d" title="Fori"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="7" r="2.2"/><circle cx="7" cy="17" r="2.2"/><circle cx="17" cy="17" r="3.4"/></svg><span data-i="vtHoles">Fori</span></button>
+          <button class="vtb" id="btnWarm3d" data-ti="vtWarm" title="Luce calda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></button>
           <button class="vtb" id="btnDims3d" title="Quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10M20 7v10M4 12h16M7 9l-3 3 3 3M17 9l3 3-3 3"/></svg><span data-i="vtDims">Quote</span></button>
           <button class="vtb" id="btnCoh3d" title="Coerenza" hidden style="--coh:#c02f2f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4.5M12 17.5v.01"/></svg><span id="cohN"></span></button>
         </div>
@@ -2079,6 +2080,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       </div>
     </details>
     <div id="offerList" hidden></div>
+    <button class="btn" id="btnSummary" style="margin-bottom:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span data-i="sumBtn">Riepilogo progetto</span></button>
     <div class="eyebrow" data-i="export">Esporta</div>
     <details class="grp sg" id="sgExp_expClient" data-ic="send">
       <summary><span data-i="expClient">Per il cliente</span></summary>
@@ -2719,6 +2721,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="sheet-grip"></div>
   <h3 data-i="statsTitle">Statistiche</h3>
   <div id="statsBody"></div>
+</div>
+
+<div class="sheet" id="shSummary" style="max-height:86vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 data-i="sumTitle">Riepilogo progetto</h3>
+  <div id="sumBody"></div>
 </div>
 
 <div class="sheet" id="shCatalog" style="max-height:86vh;overflow-y:auto">
@@ -4082,6 +4090,27 @@ Object.assign(I18N.fr,{"fxTitle": "Choisir les solutions", "fxBtn": "Choisir la 
 Object.assign(I18N.de,{"fxTitle": "Lösungen wählen", "fxBtn": "Lösung wählen", "fxApply": "Lösungen übernehmen", "fxHead": "jede rote Prüfung bietet bereits erprobte Lösungen an: Mit der gewählten schließt sich die Prüfung. Sie können mehrere wählen.", "fxNote": "Zuerst wird eine vollständige Sicherung gemacht, dann wird die Stückliste des Korpus neu berechnet und die Konsistenzprüfungen laufen von selbst erneut.", "fxDone": "Lösungen übernommen: Prüfungen wiederholt, alles grün.", "fxStill": "Die Prüfung ist noch nicht in Ordnung: siehe Liste.", "fxShelfMobile": "Beweglicher Fachboden, Spiel {j} mm → {l} mm", "fxShelfFixed": "Fester Fachboden, auf Maß, ohne Spiel → {l} mm", "fxcRegen": "Stückliste aus der aktuellen Konfiguration neu berechnen", "fxcGeom": "Montagespiele auf die Standardwerte zurücksetzen", "fxcGapMin": "Spiele auf das Montageminimum anheben (Fuge ≥ 3 mm, oben/unten ≥ 2 mm)", "fxcGapStd": "Standardspiele: 4 mm zwischen den Türen, 3 mm oben und unten", "fxcOverlay": "Türüberlappung aus der Seitenwand berechnet", "fxcBack": "Rückwand: {m}", "fxcDoors": "Türen: {n}", "fxcSupport": "Unterbau: {s}", "fxcPlinth": "Sockel: {v} mm", "fxcTram": "Trennwände: {n}", "fxcDimL": "Korpusbreite: {v} mm", "fxcDimH": "Korpushöhe: {v} mm", "fxcDimP": "Korpustiefe: {v} mm", "fxcMat": "Strukturmaterial: {m}", "fxcNone": "Keine erprobte automatische Lösung für diese Prüfung. Öffnen Sie den Korpus im Generator und ändern Sie Maß oder Material.", "fxcOpen": "Im Generator öffnen", "fxPickOne": "Wählen Sie mindestens eine Lösung.", "fxCombo": "Die gewählte Kombination schließt die Prüfungen nicht: eine der Lösungen ändern."});
 Object.assign(I18N.pl,{"fxTitle": "Wybierz rozwiązania", "fxBtn": "Wybierz rozwiązanie", "fxApply": "Zastosuj rozwiązania", "fxHead": "każda czerwona kontrola proponuje rozwiązania już sprawdzone: po wybraniu kontrola się zamyka. Możesz wybrać kilka.", "fxNote": "Najpierw powstaje pełna kopia zapasowa, potem rozkrój korpusu liczy się od nowa, a kontrole spójności uruchamiają się same.", "fxDone": "Rozwiązania zastosowane: kontrole powtórzone, wszystko zielone.", "fxStill": "Kontrola nadal nie jest w porządku: zobacz listę.", "fxShelfMobile": "Półka ruchoma, luz {j} mm → {l} mm", "fxShelfFixed": "Półka stała, na wymiar, bez luzu → {l} mm", "fxcRegen": "Przelicz rozkrój z obecnej konfiguracji", "fxcGeom": "Przywróć standardowe luzy montażowe", "fxcGapMin": "Podnieś luzy do minimum montażowego (szczelina ≥ 3 mm, góra/dół ≥ 2 mm)", "fxcGapStd": "Luzy standardowe: 4 mm między drzwiami, 3 mm u góry i u dołu", "fxcOverlay": "Nakładanie drzwi liczone od boku", "fxcBack": "Plecy: {m}", "fxcDoors": "Drzwi: {n}", "fxcSupport": "Podstawa: {s}", "fxcPlinth": "Cokół: {v} mm", "fxcTram": "Przegrody: {n}", "fxcDimL": "Szerokość korpusu: {v} mm", "fxcDimH": "Wysokość korpusu: {v} mm", "fxcDimP": "Głębokość korpusu: {v} mm", "fxcMat": "Materiał konstrukcji: {m}", "fxcNone": "Brak sprawdzonego rozwiązania automatycznego dla tej kontroli. Otwórz korpus w Generatorze i zmień wymiar lub materiał.", "fxcOpen": "Otwórz w Generatorze", "fxPickOne": "Wybierz co najmniej jedno rozwiązanie.", "fxCombo": "Wybrana kombinacja nie zamyka kontroli: zmień jedno z rozwiązań."});
 Object.assign(I18N.es,{"fxTitle": "Elige las soluciones", "fxBtn": "Elige la solución", "fxApply": "Aplicar las soluciones", "fxHead": "cada control rojo propone soluciones ya probadas: con la elegida, el control se cierra. Puedes elegir más de una.", "fxNote": "Primero se hace una copia de seguridad completa y luego se recalcula el despiece del cuerpo; los controles de coherencia se repiten solos.", "fxDone": "Soluciones aplicadas: controles rehechos, todo en verde.", "fxStill": "El control todavía no está en orden: mira la lista.", "fxShelfMobile": "Balda móvil, holgura {j} mm → {l} mm", "fxShelfFixed": "Balda fija, a medida, sin holgura → {l} mm", "fxcRegen": "Recalcular el despiece desde la configuración actual", "fxcGeom": "Devolver las holguras de montaje a los valores estándar", "fxcGapMin": "Subir las holguras al mínimo de montaje (junta ≥ 3 mm, arriba/abajo ≥ 2 mm)", "fxcGapStd": "Holguras estándar: 4 mm entre puertas, 3 mm arriba y abajo", "fxcOverlay": "Solape de la puerta calculado desde el lateral", "fxcBack": "Trasera: {m}", "fxcDoors": "Puertas: {n}", "fxcSupport": "Apoyo: {s}", "fxcPlinth": "Zócalo: {v} mm", "fxcTram": "Divisiones: {n}", "fxcDimL": "Ancho del cuerpo: {v} mm", "fxcDimH": "Alto del cuerpo: {v} mm", "fxcDimP": "Fondo del cuerpo: {v} mm", "fxcMat": "Material de estructura: {m}", "fxcNone": "Ninguna solución automática probada para este control. Abre el cuerpo en el Generador y cambia la medida o el material.", "fxcOpen": "Abrir en el Generador", "fxPickOne": "Elige al menos una solución.", "fxCombo": "La combinación elegida no cierra los controles: cambia una de las soluciones."});
+Object.assign(I18N.it,{"sumTitle": "Riepilogo progetto", "sumBtn": "Riepilogo progetto", "sumPcs": "pz", "sumTotal": "Totale con IVA", "sumEmpty": "Nessun mobile nel progetto: genera il primo dal Generatore.", "sumAcc": "accessori esclusi"});
+Object.assign(I18N.ro,{"sumTitle": "Rezumat proiect", "sumBtn": "Rezumat proiect", "sumPcs": "buc.", "sumTotal": "Total cu TVA", "sumEmpty": "Niciun corp în proiect: generează primul din Generator.", "sumAcc": "accesoriile nu intră"});
+Object.assign(I18N.en,{"sumTitle": "Project summary", "sumBtn": "Project summary", "sumPcs": "pcs", "sumTotal": "Total incl. VAT", "sumEmpty": "No furniture in this project yet: generate the first from the Generator.", "sumAcc": "accessories excluded"});
+Object.assign(I18N.fr,{"sumTitle": "Résumé du projet", "sumBtn": "Résumé du projet", "sumPcs": "pcs", "sumTotal": "Total TTC", "sumEmpty": "Aucun meuble dans le projet : génère le premier depuis le Générateur.", "sumAcc": "accessoires exclus"});
+Object.assign(I18N.de,{"sumTitle": "Projektübersicht", "sumBtn": "Projektübersicht", "sumPcs": "Stk.", "sumTotal": "Gesamt inkl. MwSt.", "sumEmpty": "Noch kein Möbel im Projekt: erzeuge das erste im Generator.", "sumAcc": "ohne Zubehör"});
+Object.assign(I18N.pl,{"sumTitle": "Podsumowanie projektu", "sumBtn": "Podsumowanie projektu", "sumPcs": "szt.", "sumTotal": "Razem z VAT", "sumEmpty": "Brak mebli w projekcie: wygeneruj pierwszy w Generatorze.", "sumAcc": "bez akcesoriów"});
+Object.assign(I18N.es,{"sumTitle": "Resumen del proyecto", "sumBtn": "Resumen del proyecto", "sumPcs": "uds.", "sumTotal": "Total con IVA", "sumEmpty": "Ningún mueble en el proyecto: genera el primero desde el Generador.", "sumAcc": "accesorios excluidos"});
+Object.assign(I18N.it,{"vtWarm": "Luce calda (sera / LED)"});
+Object.assign(I18N.ro,{"vtWarm": "Lumină caldă (seară / LED)"});
+Object.assign(I18N.en,{"vtWarm": "Warm light (evening / LED)"});
+Object.assign(I18N.fr,{"vtWarm": "Lumière chaude (soir / LED)"});
+Object.assign(I18N.de,{"vtWarm": "Warmes Licht (Abend / LED)"});
+Object.assign(I18N.pl,{"vtWarm": "Ciepłe światło (wieczór / LED)"});
+Object.assign(I18N.es,{"vtWarm": "Luz cálida (noche / LED)"});
+Object.assign(I18N.it,{"gapAsk": "Nuova quota libera (mm)", "gapNoAbs": "Questa configurazione non ha quote assolute: la quota libera si modifica solo con i ripiani a quota.", "gapNoShelf": "Nessun ripiano a quota delimita questo vano.", "gapBad": "Misura non valida.", "gapOk": "Quota libera aggiornata: genera la distinta per salvarla."});
+Object.assign(I18N.ro,{"gapAsk": "Cota liberă nouă (mm)", "gapNoAbs": "Configurația nu are cote absolute: cota liberă se schimbă numai la rafturile cu cotă.", "gapNoShelf": "Niciun raft cu cotă nu delimitează acest gol.", "gapBad": "Cotă invalidă.", "gapOk": "Cota liberă s-a schimbat: generează distinta ca s-o salvezi."});
+Object.assign(I18N.en,{"gapAsk": "New free dimension (mm)", "gapNoAbs": "This setup has no absolute dimensions: a free gap can only be edited on shelves set by height.", "gapNoShelf": "No height-set shelf bounds this gap.", "gapBad": "Invalid value.", "gapOk": "Free gap updated: generate the cut list to save it."});
+Object.assign(I18N.fr,{"gapAsk": "Nouvelle cote libre (mm)", "gapNoAbs": "Cette configuration n'a pas de cotes absolues : la cote libre ne se modifie que sur des étagères à hauteur fixée.", "gapNoShelf": "Aucune étagère à hauteur fixée ne borne ce vide.", "gapBad": "Valeur invalide.", "gapOk": "Cote libre mise à jour : génère la liste de débit pour l'enregistrer."});
+Object.assign(I18N.de,{"gapAsk": "Neues freies Maß (mm)", "gapNoAbs": "Diese Konfiguration hat keine absoluten Maße: ein freies Maß lässt sich nur bei Böden mit Höhenangabe ändern.", "gapNoShelf": "Kein Boden mit Höhenangabe begrenzt dieses Fach.", "gapBad": "Ungültiger Wert.", "gapOk": "Freies Maß geändert: Zuschnittliste erzeugen, um es zu speichern."});
+Object.assign(I18N.pl,{"gapAsk": "Nowy wymiar w świetle (mm)", "gapNoAbs": "Ta konfiguracja nie ma wymiarów bezwzględnych: wymiar w świetle zmienisz tylko przy półkach z podaną wysokością.", "gapNoShelf": "Żadna półka z podaną wysokością nie ogranicza tej przestrzeni.", "gapBad": "Nieprawidłowa wartość.", "gapOk": "Wymiar zmieniony: wygeneruj listę cięcia, aby go zapisać."});
+Object.assign(I18N.es,{"gapAsk": "Nueva cota libre (mm)", "gapNoAbs": "Esta configuración no tiene cotas absolutas: la cota libre solo se edita en baldas con altura fijada.", "gapNoShelf": "Ninguna balda con altura fijada limita este hueco.", "gapBad": "Valor no válido.", "gapOk": "Cota libre actualizada: genera el despiece para guardarla."});
 Object.assign(I18N.it,{"opsSrc": "Foratura (modello di operazioni)", "opsNoHingePanel": "Accanto alla cerniera di un'anta non c'è un fianco o un setto: la basetta non si fora.", "opsPinMoved": "Il foro del reggipiano cade su un altro foro (basetta o guida): il ripiano poggia sul foro di regolazione.", "opsSlope": "Cielo inclinato: le forature sul bordo obliquo non sono generate; controlla sul primo pezzo.", "opsCurved": "Anta curva: le cerniere non sono generate.", "opsAwThin": "Anta troppo sottile per la cava del profilo anti-imbarcamento: la cava non è generata.", "opsHingeTB": "La distanza di foratura della tazza è {tb} mm, fuori dall'intervallo Blum 3–7 mm.", "hsBtn": "Scheda tecnica", "hsClose": "Chiudi"});
 Object.assign(I18N.ro,{"opsSrc": "Găurire (modelul de operații)", "opsNoHingePanel": "Lângă balamaua unei uși nu e laterală sau despărțitor: plăcuța nu se poate găuri.", "opsPinMoved": "Gaura suportului de raft cade peste altă gaură (plăcuță sau glisieră): raftul stă pe gaura de reglare.", "opsSlope": "Tavan înclinat: găurile de pe muchia oblică nu sunt generate; verifică pe prima piesă.", "opsCurved": "Ușă curbă: balamalele nu sunt generate.", "opsAwThin": "Ușă prea subțire pentru canalul profilului anti-curbare: canalul nu e generat.", "opsHingeTB": "Distanța de găurire a cupei e {tb} mm, în afara intervalului Blum 3–7 mm.", "hsBtn": "Fișă tehnică", "hsClose": "Închide"});
 Object.assign(I18N.en,{"opsSrc": "Drilling (operations model)", "opsNoHingePanel": "There is no side or divider next to a door's hinge: the plate cannot be drilled.", "opsPinMoved": "The shelf-pin hole falls on another hole (plate or slide): the shelf rests on the adjustment hole.", "opsSlope": "Sloped top: holes on the oblique edge are not generated; check the first piece.", "opsCurved": "Curved door: hinges are not generated.", "opsAwThin": "Door too thin for the anti-warp profile groove: the groove is not generated.", "opsHingeTB": "The cup drilling distance is {tb} mm, outside Blum's 3–7 mm range.", "hsBtn": "Data sheet", "hsClose": "Close"});
@@ -9888,6 +9917,8 @@ function init3DControls(){
   const up=e=>{
     /* un tocco fermo e breve e una SCELTA, non un giro: seleziona il pezzo */
     if(GL&&!ROOM_GL&&!document.body.classList.contains("client-on")&&down&&ptrs.size===1&&down.moved<7&&Date.now()-down.t<350&&window.GL3D.pick){
+      const gp=window.GL3D.state.dims&&window.GL3D.pickGap?window.GL3D.pickGap(e.clientX,e.clientY):null;
+      if(gp){ ptrs.delete(e.pointerId);pinchD=0;down=null; editGapFromTap(gp); return; }
       const pk=window.GL3D.pick(e.clientX,e.clientY), cur=window.GL3D.state.sel;
       if(pk==null){ if(cur!=null&&!window.GL3D.state.iso) window.GL3D.select(null); }
       else window.GL3D.select(pk,window.GL3D.state.iso&&String(cur)===String(pk));
@@ -9896,6 +9927,21 @@ function init3DControls(){
   el.addEventListener("pointerup",up); el.addEventListener("pointercancel",e=>{ptrs.delete(e.pointerId);pinchD=0;down=null;});
   el.addEventListener("wheel",e=>{e.preventDefault();
     VIEW.zoom=Math.min(lim.z1,Math.max(lim.z0,VIEW.zoom*(e.deltaY<0?1.1:0.9))); redrawCam();},{passive:false});
+}
+
+/* cota liberă editată din 3D (D-148): atingi eticheta, scrii cota, raftul se mută
+   pe `partitions`, validateLayout decide; nimic nu se scrie dacă nu închide. */
+function editGapFromTap(g){
+  const cfg=buildCfg;
+  if(!cfg||!Array.isArray(cfg.partitions)||!cfg.partitions.length){ toast(t("gapNoAbs")); return; }
+  const raw=window.prompt(t("gapAsk")+" ("+g.h+" mm)",String(g.h)); if(raw==null) return;
+  const v=parseFloat(String(raw).replace(",","."));
+  let G; try{ G=auditGeom(cfg).G; }catch(e){ toast(t("gapBad")); return; }
+  const r=retargetGap(cfg.partitions,g,v,G.sp.ripiano);
+  if(r.error){ toast(t(r.error==="noShelf"?"gapNoShelf":"gapBad")); return; }
+  const c2=Object.assign({},cfg,{partitions:r.partitions});
+  const vl=validateLayout(c2,G); if(vl.errors.length){ toast(auT(String(vl.errors[0]))); return; }
+  buildCfg=c2; syncBuildForm(); draw3D(); toast(t("gapOk"));
 }
 
 /* ================= STUDIO 3D: pezzi, fori, ferramenta =================
@@ -10116,7 +10162,8 @@ function studioSync(){
   $("btnHw3d").classList.toggle("on",st.mode==="hw");
   $("btnHoles3d").classList.toggle("on",!!st.holes);
   $("btnDims3d").classList.toggle("on",!!st.dims);
-  ["btnOpen3d","btnHw3d","btnHoles3d","btnDims3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
+  $("btnWarm3d").classList.toggle("on",!!st.warm);
+  ["btnOpen3d","btnHw3d","btnHoles3d","btnDims3d","btnWarm3d"].forEach(id=>{ $(id).disabled=!gl3dOn(); });
   cohSync(M);
   const box=$("pcsList"); if(!box) return;
   if(!M||!M.ops||!M.ops.pieces.length){
@@ -10176,6 +10223,7 @@ function studioInit(){
     if(on) $("grpPieces").open=true; studioSync(); });
   $("btnHoles3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({holes:!window.GL3D.state.holes}); studioSync(); });
   $("btnDims3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({dims:!window.GL3D.state.dims}); studioSync(); });
+  $("btnWarm3d").addEventListener("click",()=>{ if(!gl3dOn())return; window.GL3D.set({warm:!window.GL3D.state.warm}); studioSync(); });
   $("btnCoh3d").addEventListener("click",()=>{ if(!gl3dOn())return; cohOn=!cohOn; studioSync();
     if(cohOn){ const iss=cohIssues(window.GL3D.model()); if(iss.length) toast(iss[0].why); } });
   document.querySelectorAll("[data-view3d]").forEach(b=>b.addEventListener("click",()=>{
@@ -13313,6 +13361,34 @@ $("btnPackGo").addEventListener("click",()=>{
   if(!Object.values(opt).some(Boolean)) return;
   closeSheets();
   setTimeout(()=>{ try{ printSheetsA3(packBuild(p,opt)); }catch(e){ console.warn(e); toast(auT(String(e&&e.message||e))); } },80);
+});
+
+
+/* ================= RIEPILOGO PROGETTO ================= */
+/* una pagina: un riquadro per mobile (misure dal config salvato, pezzi e
+   superficie dalla distinta), poi il totale. Solo lettura — niente da bloccare. */
+function projectSummaryHtml(p){
+  const groups=new Map();
+  for(const x of p.pieces){ const k=x.gen||x.modulo||""; if(!groups.has(k)) groups.set(k,[]); groups.get(k).push(x); }
+  if(!groups.size) return `<div class="mini" style="padding:14px 0">${esc(t("sumEmpty"))}</div>`;
+  const cards=[...groups].map(([name,rows])=>{
+    const cfg=(p.configs&&p.configs[name])||null, pt=panelTotals(rows);
+    const dims=cfg&&cfg.L>0&&cfg.H>0&&cfg.P>0?`${Math.round(cfg.L)} × ${Math.round(cfg.H)} × ${Math.round(cfg.P)} mm`:"";
+    const mats=[...new Set(rows.filter(x=>!isAccPiece(x)).map(x=>x.materiale).filter(Boolean))];
+    return `<div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;gap:8px"><b style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(name)}</b><span class="mini">${pt.pcs} ${esc(t("sumPcs"))} · ${fmt(pt.area,2)} m²</span></div>
+      ${dims?`<div style="font-size:15px;margin-top:2px">${esc(dims)}</div>`:""}
+      ${mats.length?`<div class="mini" style="margin-top:3px">${mats.map(esc).join(" · ")}</div>`:""}</div>`;
+  }).join("");
+  const C=projectCosts(p), tt=C.tot;
+  return cards+`<div style="display:flex;justify-content:space-between;gap:8px;padding:10px 2px;border-top:2px solid var(--line);margin-top:4px">
+      <span>${tt.panelPcs} ${esc(t("sumPcs"))} · ${fmt(tt.panelArea,2)} m² <span class="mini">(${esc(t("sumAcc"))})</span></span>
+      <b>${esc(t("sumTotal"))}: € ${fmt(C.prezzo+C.ivaAmt,0)}</b></div>`;
+}
+$("btnSummary").addEventListener("click",()=>{
+  const p=proj(); if(!p){toast(t("selectProject"));return;}
+  $("sumBody").innerHTML=projectSummaryHtml(p);
+  closeSheets(); openSheet("shSummary");
 });
 
 /* ================= STATISTICHE ================= */
@@ -19128,12 +19204,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.65.0"; /* APP_VER-MARKER */
+const APP_VER="5.66.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v243";
+const SW_CACHE="ebanist-v244";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

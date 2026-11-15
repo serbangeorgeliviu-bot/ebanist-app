@@ -3167,6 +3167,60 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("lista: 2L+2C desenează cele patru laturi", e.patru === true);
   }
 
+  /* lumină caldă (5.66.0): doar atmosfera; documentele (capture) rămân neutre */
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build"); buildCfg = { ...PRESETS.armadio, doors: 0 }; syncBuildForm(); draw3D(); await w(400); studioSync();
+      const btn = document.getElementById("btnWarm3d");
+      const n = GL3D.moodInfo();
+      o.implicit = n.warm === false && n.key === 0xfff1e0;
+      btn.click(); await w(150); const c = GL3D.moodInfo();
+      o.cald = c.warm === true && c.key === 0xffbf80 && c.exposure < n.exposure && btn.classList.contains("on");
+      GL3D.capture({ ...buildCfg }, { w: 200, h: 150 });
+      const dupa = GL3D.moodInfo();
+      o.revine = dupa.warm === true && dupa.key === 0xffbf80;
+      btn.click(); await w(150); o.stins = GL3D.moodInfo().key === 0xfff1e0;
+      return o;
+    });
+    if (d.fara_gl) ok("lumină caldă: sărit (fără WebGL)", true);
+    else {
+      ok("lumină caldă: implicit neutră; butonul trece pe lumini calde și înapoi", d.implicit && d.cald && d.stins, JSON.stringify(d));
+      ok("lumină caldă: o captură de document nu rămâne caldă, iar atmosfera se reface după ea", d.revine, JSON.stringify(d));
+    }
+  }
+
+  /* cotă liberă editată din 3D (5.66.0): atingi eticheta, raftul se mută, validateLayout decide */
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      setView("build");
+      buildCfg = { ...PRESETS.armadio, name: "Gp", L: 800, H: 2000, P: 560, shelves: 0, partitions: [{ type: "ripiano", y: 600, span: "full" }, { type: "ripiano", y: 1200, span: "full" }], doors: 0, drawers: 0, hang: 0, tram: 0 };
+      syncBuildForm(); draw3D(); await w(400); studioSync();
+      if (!GL3D.state.dims) document.getElementById("btnDims3d").click(); await w(200);
+      const g = GL3D.dimsInfo().spec.gaps.find(x => Math.abs(x.y1 - 1200) < 1);
+      o.gasit = !!g;
+      const keep = window.prompt; window.prompt = () => "300";
+      editGapFromTap(g); await w(400);
+      const ys = (buildCfg.partitions || []).map(q => q.y).sort((a, b) => a - b);
+      o.mutat = ys.length === 2 && Math.abs(ys[1] - (g.y0 + 300)) < 0.2;
+      const g2 = GL3D.dimsInfo().spec.gaps.find(x => Math.abs(x.y0 - g.y0) < 1);
+      o.nou = !!g2 && Math.abs(g2.h - 300) < 0.2;
+      window.prompt = () => "99999"; const before = JSON.stringify(buildCfg.partitions);
+      editGapFromTap(g2); await w(200);
+      o.respins = JSON.stringify(buildCfg.partitions) === before;
+      window.prompt = keep; GL3D.set({ dims: false }); studioSync();
+      return o;
+    });
+    if (d.fara_gl) ok("cotă liberă din 3D: sărit (fără WebGL)", true);
+    else {
+      ok("cotă liberă din 3D: eticheta se găsește, raftul se mută și golul devine cota scrisă", d.gasit && d.mutat && d.nou, JSON.stringify(d));
+      ok("cotă liberă din 3D: o cotă care nu are loc e refuzată, fără nicio modificare", d.respins, JSON.stringify(d));
+    }
+  }
+
   /* cote de lumină pe 3D: dimensionSpec desenat în viewer */
   {
     const d = await pg.evaluate(async () => {
@@ -4903,6 +4957,32 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Glisiere Blum: TANDEM 19 mm taie sertarul din lemn cu 49 mm, MOVENTO cu 42; lista de glisiere are seriile noi", r.ded19 === 49 && r.ded42 === 42 && r.guidaN >= 12, JSON.stringify(r));
     ok("Glisiere Blum: nicio eroare JS", eErrs.length === 0, eErrs[0] || "nessuno");
     await ctx.close();
+  }
+
+  head("Rezumat proiect (5.66.0) — un card per corp, totalul, în 7 limbi");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId;
+      closeSheets();
+      state.projects = [{ id: "sm1", name: "S", pieces: [], configs: {} }]; state.activeId = "sm1";
+      o.gol = projectSummaryHtml(proj()).includes(t("sumEmpty"));
+      generateInto(proj(), { ...PRESETS.armadio, name: "Sm A", L: 800, H: 2000, P: 560 });
+      generateInto(proj(), { ...PRESETS.base, name: "Sm B", L: 600, H: 720, P: 560 });
+      const b = document.getElementById("btnSummary"); o.buton = !!b;
+      b.click(); await w(200);
+      const body = document.getElementById("sumBody");
+      o.sheet = document.getElementById("shSummary").classList.contains("on");
+      o.carduri = /Sm A/.test(body.innerText) && /Sm B/.test(body.innerText);
+      o.cote = /800 × 2000 × 560 mm/.test(body.innerText) && /600 × 720 × 560 mm/.test(body.innerText);
+      o.total = /€\s*\d/.test(body.innerText);
+      o.limbi = ["it","ro","en","fr","de","pl","es"].every(l => ["sumTitle","sumBtn","sumPcs","sumTotal","sumEmpty","sumAcc"].every(k => I18N[l][k]));
+      closeSheets(); state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Rezumat: proiect gol → mesaj; butonul din proiect deschide foaia", r.gol && r.buton && r.sheet, JSON.stringify(r));
+    ok("Rezumat: câte un card per corp, cu cotele LxHxP din config și totalul în €", r.carduri && r.cote && r.total, JSON.stringify(r));
+    ok("Rezumat: textele există în toate cele 7 limbi", r.limbi, JSON.stringify(r));
   }
 
   const bad = results.filter(r => !r.cond).length;

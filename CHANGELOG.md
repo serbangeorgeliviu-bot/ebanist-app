@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.66.0 — 15 noiembrie 2026
+
+**Rezumat proiect: o pagină cu toate corpurile.** Inspirat dintr-un planner concurent (rozrys.pl), care își arată proiectul ca o listă de carduri.
+- În proiect, înainte de „Exportă", butonul **Rezumat proiect** deschide o foaie cu câte un card pe corp: numele, cotele L × H × P din configurația salvată, numărul de piese și suprafața, materialele; jos, totalul (piese fără accesorii, m²) și prețul cu TVA din `projectCosts`.
+- Numai citire, fără export: nu cere Pro (D-55) și nu atinge distinta, geometria sau devizul.
+- Textele (`sum*`) în toate cele 7 limbi. Teste noi în e2e (proiect gol, două corpuri, cote, total, limbi).
+- **Lumină caldă în 3D:** butonul cu bec din bara viewerului trece scena pe lumini calde (seară / LED). Se schimbă numai culoarea și forța luminilor; PDF-urile, fișele și pozele de document rămân neutre.
+- **Cotă liberă editabilă din 3D (D-148):** cu **Cote** pornit, atingi eticheta unui gol dintre rafturi și scrii cota nouă. `retargetGap` mută un singur raft din `partitions` (cel de deasupra golului, sau cel de dedesubt dacă golul ajunge în tavan), iar `validateLayout` decide: o cotă care nu are loc e refuzată, fără nicio modificare. Numai la corpurile cu cote absolute; la rafturi pe număr, aplicația spune asta. Se aplică în Generator, nu rescrie distinta: o salvezi cu „Generează distinta". Test nou: `gapedit.test.js`.
+- **Ce nu s-a făcut:** widget „Câte plăci îți trebuie?" pe landing (algoritmul de rost nu e modul pur, o copie ar da cifre diferite); landing-ul are deja povestea în 5 pași și secțiunea TikTok.
+
+---
+
 ## 5.65.0 — 15 noiembrie 2026
 
 **Orice control roșu vine cu soluții: alegi, aplici, devine verde (D-147).** Până acum, un control roșu rămânea o listă: se vedea problema, nu se putea alege nimic.

@@ -1166,9 +1166,9 @@ function buildDims(model) {
   const lineMat = new THREE.LineBasicMaterial({ color: DIM_COLOR, depthTest: false, transparent: true });
   const pts = [];
   const seg = (a, b) => pts.push(a[0] * MM, a[1] * MM, a[2] * MM, b[0] * MM, b[1] * MM, b[2] * MM);
-  const label = (txt, at) => {
+  const label = (txt, at, gap) => {
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTexture(txt), depthTest: false, transparent: true }));
-    sp.position.set(at[0] * MM, at[1] * MM, at[2] * MM); sp.scale.set(lh * 256 / 96, lh, 1); sp.renderOrder = 11;
+    sp.position.set(at[0] * MM, at[1] * MM, at[2] * MM); sp.scale.set(lh * 256 / 96, lh, 1); sp.renderOrder = 11; if (gap) sp.userData.gap = gap;
     R.dims.add(sp);
   };
   const [x0, y0, z0] = spec.min, [x1, y1, z1] = spec.max, zf = z1 + 4;
@@ -1182,7 +1182,7 @@ function buildDims(model) {
   /* luci libere, una linea per colonna e per vano */
   spec.gaps.forEach(g => {
     seg([g.x, g.y0, zf], [g.x, g.y1, zf]); seg([g.x - tick / 2, g.y0, zf], [g.x + tick / 2, g.y0, zf]); seg([g.x - tick / 2, g.y1, zf], [g.x + tick / 2, g.y1, zf]);
-    label(String(Math.round(g.h)), [g.x, (g.y0 + g.y1) / 2, zf]);
+    label(String(Math.round(g.h)), [g.x, (g.y0 + g.y1) / 2, zf], g);
   });
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
@@ -1198,7 +1198,21 @@ function isFlagged(P) {
   return !!(m && m.row && R.flag.has(String(m.row.elemento)));
 }
 
+/* Atmosfera caldă (LED / seară): numai culoarea și forța luminilor, nimic din
+   piese. Documentele (capture) o opresc ca să rămână neutre. */
+const MOOD = { cool: { key: [0xfff1e0, 2.9], hemi: [0xf6f3ec, 0.34], fill: [0xd6e4f2, 0.28], exp: 0.92, env: 0.58 },
+               warm: { key: [0xffbf80, 2.3], hemi: [0xffd9a8, 0.30], fill: [0xff9d5c, 0.34], exp: 0.86, env: 0.40 } };
+function applyMood() {
+  const m = MOOD[R.st.warm ? "warm" : "cool"];
+  R.key.color.setHex(m.key[0]); R.key.intensity = m.key[1];
+  R.hemi.color.setHex(m.hemi[0]); R.hemi.intensity = m.hemi[1];
+  R.fill.color.setHex(m.fill[0]); R.fill.intensity = m.fill[1];
+  R.renderer.toneMappingExposure = m.exp;
+  if ("environmentIntensity" in R.scene) R.scene.environmentIntensity = m.env;
+  R.need = true;
+}
 function applyState() {
+  applyMood();
   const st = R.st, sel = st.sel != null ? String(st.sel) : null;
   const hwMode = st.mode === "hw";
   for (const P of R.pieces.values()) {
@@ -1652,6 +1666,17 @@ const GL3D = {
   roomInfo() { if (!R) return null; let walls = 0, faded = 0; for (const P of R.pieces.values()) for (const m of P.meshes) if (m.userData.wall) { walls++; if (m.material === WALL_FADE()) faded++; }
     return { room: !!R.room, floor: !!R.floor, walls, faded, contactHidden: R.contact ? !R.contact.visible : null }; },
   /* per le prove: cosa c'e nel gruppo delle cote */
+  /* un tocco pe eticheta unei cote libere (numai cu cotele pornite): întoarce {y0,y1,h,col} sau null */
+  pickGap(clientX, clientY) {
+    if (!this.ok || !R.dims || !R.dims.visible) return null;
+    const r = R.canvas.getBoundingClientRect();
+    const v = new THREE.Vector2(((clientX - r.left) / r.width) * 2 - 1, -((clientY - r.top) / r.height) * 2 + 1);
+    const rc = new THREE.Raycaster(); rc.setFromCamera(v, R.camera);
+    R.scene.updateMatrixWorld(true);
+    const hit = rc.intersectObjects(R.dims.children.filter(c => c.isSprite && c.userData.gap), false)[0];
+    return hit ? hit.object.userData.gap : null;
+  },
+  moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; renderScene(); return R.canvas.toDataURL("image/png"); },
   theme() { if (!this.ok) return; R.dark = isDark(); R.scene.background = gradientBg(R.dark);
@@ -1670,7 +1695,7 @@ const GL3D = {
     try {
       this.render(cfg, { explode: o.explode || 0 });
       Object.assign(R.st, { mode: o.mode || "real", hw: !!o.hw, holes: !!o.holes, open: !!o.open,
-        sel: null, iso: false, dims: false, edges: o.edges !== false, explode: o.explode || 0 });
+        sel: null, iso: false, dims: false, warm: false, edges: o.edges !== false, explode: o.explode || 0 });
       setTargets(R.boxes); applyState();
       if (V) { V.yaw = o.yaw != null ? o.yaw : .62; V.pitch = o.pitch != null ? o.pitch : .36; V.zoom = o.zoom || 1; }
       const w = o.w || 1200, h = o.h || 900;
@@ -1702,7 +1727,7 @@ const GL3D = {
       });
       return { img, labels, w, h };
     } finally {
-      Object.assign(R.st, prev); R.spin = spin;
+      Object.assign(R.st, prev); R.spin = spin; applyMood();
       if (V && pv) Object.assign(V, pv);
       resize();
     }
