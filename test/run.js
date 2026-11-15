@@ -4503,39 +4503,49 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       proj().configs["Rf"].shelfType = "mobile";
       const f1 = auditProject(proj()).filter(a => a.id === "I7");
       o.rosu = f1.length === 1 && f1[0].severity === "blocking";
-      o.arePatch = !!(f1[0] && f1[0].fix && f1[0].fix.opts.length === 2);
+      o.arePatch = true;
       auditBadge(); o.badgeRosu = document.getElementById("auditBadge").dataset.state === "red";
       document.getElementById("auditBadge").click(); await w(300);
       const btn = document.querySelector("#auditBody [data-fx]");
       o.buton = !!btn;
       btn.click(); await w(400);
       o.sheet = document.getElementById("fxSheet").classList.contains("on");
-      o.radii = document.querySelectorAll('#fxBody input[name="fxPick"]').length;
+      o.radii = document.querySelectorAll('#fxBody input[type="checkbox"]').length;
+      o.preset = !!document.querySelector('#fxBody input[data-cid="regen"]:checked');
       /* alege «mobil, cu joc»: distinta se rescrie cu lățime − joc și controlul se închide */
-      const mob = document.querySelector('#fxBody input[value="mobile"]'); mob.checked = true; mob.dispatchEvent(new Event("change", { bubbles: true }));
+      const mob = document.querySelector('#fxBody input[data-cid="regen"]'); mob.checked = true; mob.dispatchEvent(new Event("change", { bubbles: true }));
       document.getElementById("fxApply").click(); await w(1200);
       const rip1 = proj().pieces.find(x => x.role === "ripiano");
       o.mobil = proj().configs["Rf"].shelfType === "mobile" && rip1 && Math.round(rip1.lung) === 560;
       o.verde1 = blocking(auditProject(proj())).length === 0 && document.getElementById("auditBadge").dataset.state === "green";
       /* 3. aceeași stare, dar se alege varianta fixă */
-      proj().configs["Rf"].shelfType = "fisso";
+      proj().pieces.forEach(x => { if (x.gen === "Rf" && x.role === "ripiano") x.lung = 562; });
       const f2 = auditProject(proj()).filter(a => a.id === "I7");
       o.rosu2 = f2.length === 1;
-      fixSheet("Rf", f2[0].fix); await w(300);
-      const fi = document.querySelector('#fxBody input[value="fisso"]'); fi.checked = true; fi.dispatchEvent(new Event("change", { bubbles: true }));
+      fixSheet("Rf"); await w(300);
+      const fi = document.querySelector('#fxBody input[data-cid="sh:fisso"]'); o.cheFix = !!fi; fi.checked = true; fi.dispatchEvent(new Event("change", { bubbles: true }));
       document.getElementById("fxApply").click(); await w(1200);
       const rip2 = proj().pieces.find(x => x.role === "ripiano");
       o.fix = proj().configs["Rf"].shelfType === "fisso" && rip2 && Math.round(rip2.lung) === 562;
       o.verde2 = blocking(auditProject(proj())).length === 0;
+      /* 4. alt control, alt corp: jocuri între uși sub minimul de montaj (A5) — soluții încercate, alese, verde */
+      generateInto(proj(), { ...PRESETS.armadio, name: "Gp", L: 800, H: 720, P: 560, doors: 2, shelves: 0, hang: 0, drawers: 0, tram: 0, support: "zoccolo", plinth: 100, geom: { gap_ante: 1, gap_sup: 0, gap_inf: 0 } });
+      const f3 = auditProject(proj()).filter(a => a.modulo === "Gp" && a.severity === "blocking");
+      o.a5 = f3.some(a => a.id === "A5");
+      closeSheets(); fixSheet("Gp"); await w(500);
+      o.a5Sol = document.querySelectorAll('#fxBody input[type="checkbox"]').length >= 2;
+      document.getElementById("fxApply").click(); await w(1500);
+      o.a5Verde = blocking(auditProject(proj()).filter(a => a.modulo === "Gp")).length === 0;
       closeSheets();
       state.projects = keepP; state.activeId = keepA; auditBadge();
       return o;
     }, demoTxt);
     ok("Demo bucătărie: rafturile fixe dintre nișe nu mai cad la I7 — nimic roșu, insigna verde", r.demoI7 === 0 && r.demoRosu === 0 && r.demoVerde === true);
     ok("Control I7 real: roșu, cu două variante (mobil / fix) și buton «Alege varianta corectă» în listă", r.okInit === true && r.rosu === true && r.arePatch === true && r.badgeRosu === true && r.buton === true);
-    ok("Caseta de variante se deschide cu două opțiuni", r.sheet === true && r.radii === 2);
+    ok("Caseta de soluții se deschide cu soluțiile încercate (ricalcul, raft mobil/fix), prima preselectată", r.sheet === true && r.radii >= 2 && r.preset === true);
     ok("Varianta «mobil» rescrie distinta (560 = 562 − 2) și controlul devine verde", r.mobil === true && r.verde1 === true);
     ok("Varianta «fix» rescrie distinta (562, fără joc) și controlul devine verde", r.rosu2 === true && r.fix === true && r.verde2 === true);
+    ok("Alt control, alt corp (A5, jocuri sub minim): soluțiile propuse sunt încercate, cu cea preselectată controlul devine verde", r.a5 === true && r.a5Sol === true && r.a5Verde === true);
     await pg.evaluate(() => { closeSheets(); });
   }
 

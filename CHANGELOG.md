@@ -7,12 +7,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.65.0 — 15 noiembrie 2026
 
-**Controale de coerență: din roșu în verde printr-o casetă de dialog (D-147).** Până acum, un control roșu rămânea o listă fără nicio acțiune: se vedea problema, nu se putea alege nimic.
-- **Fals roșu rezolvat:** în „Bucătărie U — demo", trei corpuri (coloana frigider, baza cu sertar și uși, coloana cuptor) cădeau la „Raftul nu are jocul declarat". Rafturile fixe dintre nișe se taie la măsură, fără joc, dar regula cerea jocul de 2 mm ca la un raft mobil. Acum regula ține cont de tipul raftului: demo-ul e verde, fără să schimbi nimic.
-- **Caseta „Alege varianta corectă":** când un control I7 cade cu adevărat (de exemplu un proiect salvat cu tipul raftului schimbat după generare), foaia de controale are butonul **Alege varianta corectă**; caseta oferă „raft mobil, cu joc → 598 mm" și „raft fix, fără joc → 600 mm" (cu cota rezultată), cu varianta cea mai apropiată de starea curentă preselectată. **Aplică varianta:** backup complet, distinta corpului se rescrie, controalele pornesc singure și se trece la următorul corp cu variante; la final, insigna e verde. Dacă varianta nu închide controlul, te întoarce la listă, fără bucle.
-- După „Generează distinta" cu un I7 căzut, caseta se deschide direct, ca la rafturile care lovesc balamalele.
-- Textele, în toate cele 7 limbi (`fx*`). Teste noi: `invariants.test.js` (raft fix vs. mobil) și e2e (demo verde; ambele variante închid controlul).
-- **Nu s-a schimbat:** avertismentele galbene (mâner mai lung decât frontul, balama fără lateral) rămân informative; celelalte controale roșii nu au încă variante.
+**Orice control roșu vine cu soluții: alegi, aplici, devine verde (D-147).** Până acum, un control roșu rămânea o listă: se vedea problema, nu se putea alege nimic.
+- **Fals roșu rezolvat:** în „Bucătărie U — demo", trei corpuri cădeau la „Raftul nu are jocul declarat". Rafturile fixe dintre nișe se taie la măsură, fără joc, dar regula cerea 2 mm de joc ca la un raft mobil. Acum regula ține cont de tipul raftului: demo-ul e verde fără să schimbi nimic.
+- **Casetă „Alege soluția" pentru orice corp și orice control blocant:** în foaia de controale, fiecare rând roșu are butonul **Alege soluția**; după „Generează distinta", caseta se deschide singură. Caseta arată toate rândurile roșii ale corpului, fiecare cu soluțiile lui.
+- **Soluțiile sunt încercate, nu presupuse:** fiecare soluție se aplică întâi pe o copie a corpului, se recalculează distinta și se refac controalele; se oferă numai ce închide controlul fără să deschidă altul. Alese: ricalcul din configurația actuală, jocuri standard / la minimul de montaj, suprapunerea ușii, modul spatelui, numărul de uși sau despărțitori, suportul și soclul, lățimea / înălțimea / adâncimea corpului (cea mai mică schimbare care închide controlul), materialul de structură, raft mobil / fix.
+- **Una sau mai multe soluții:** bifezi ce vrei; două soluții care ating același câmp se exclud între ele, iar combinația se încearcă încă o dată înainte de scriere. Prima soluție e preselectată: un singur tap pe **Aplică soluțiile**.
+- **Aplicare:** backup complet, distinta corpului se rescrie (`generateInto`), controalele pornesc singure și caseta trece la următorul corp roșu, până devine totul verde. Dacă nicio soluție nu închide controlul, rândul spune asta și are butonul „Deschide în Generator" — niciodată un punct mort.
+- Textele, în toate cele 7 limbi (`fx*`). Teste noi: `invariants.test.js` (raft fix vs. mobil) și e2e (demo verde; raft mobil/fix; jocuri A5 pe alt corp).
+- **Nu s-a schimbat:** avertismentele galbene (mâner mai lung decât frontul, balama fără lateral) rămân informative; raftul care lovește balama își păstrează caseta cu cota nouă.
 
 ---
 
