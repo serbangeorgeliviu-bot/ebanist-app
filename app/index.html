@@ -2288,6 +2288,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <button class="vtb" id="cmOpen"><span data-i="vtOpen">Apri</span></button>
         <button class="vtb" data-cmview="front"><span data-i="cmFrontView">Fronte</span></button>
         <button class="vtb" data-cmview="iso"><span data-i="cmIso">3/4</span></button>
+        <button class="vtb" id="cmAsm"><span data-i="cmAsm">Montaj</span></button>
       </div>
     </div>
     <div class="cm-panel" id="cmPanel"></div>
@@ -4155,6 +4156,13 @@ Object.assign(I18N.fr,{"vtAsm": "Montage animé", "vtRec": "Enregistrer la vidé
 Object.assign(I18N.de,{"vtAsm": "Animierte Montage", "vtRec": "Montagevideo speichern (Pro)", "vidRec": "Video wird aufgenommen…", "vidNo": "Dieses Gerät kann kein Video aufnehmen.", "vidDone": "Video gespeichert."});
 Object.assign(I18N.pl,{"vtAsm": "Animowany montaż", "vtRec": "Zapisz film z montażu (Pro)", "vidRec": "Nagrywanie filmu…", "vidNo": "To urządzenie nie może nagrywać filmów.", "vidDone": "Film zapisany."});
 Object.assign(I18N.es,{"vtAsm": "Montaje animado", "vtRec": "Guardar vídeo del montaje (Pro)", "vidRec": "Grabando vídeo…", "vidNo": "Este dispositivo no puede grabar vídeo.", "vidDone": "Vídeo guardado."});
+Object.assign(I18N.it,{"cmAsm": "Montaggio"});
+Object.assign(I18N.ro,{"cmAsm": "Montaj"});
+Object.assign(I18N.en,{"cmAsm": "Assembly"});
+Object.assign(I18N.fr,{"cmAsm": "Montage"});
+Object.assign(I18N.de,{"cmAsm": "Montage"});
+Object.assign(I18N.pl,{"cmAsm": "Montaż"});
+Object.assign(I18N.es,{"cmAsm": "Montaje"});
 Object.assign(I18N.it,{"proPrevTitle": "Così sarà la tua distinta", "proPrevMore": "e altri {n} pezzi, con Pro"});
 Object.assign(I18N.ro,{"proPrevTitle": "Așa arată distinta ta", "proPrevMore": "și încă {n} piese, cu Pro"});
 Object.assign(I18N.en,{"proPrevTitle": "This is your cut list", "proPrevMore": "and {n} more parts, with Pro"});
@@ -10348,7 +10356,7 @@ function studioInit(){
   $("btnRec3d").addEventListener("click",async()=>{ if(!gl3dOn())return;
     if(!proGate("export")) return;
     const veil=$("aiVeilBuild"), txt=$("aiVeilTxtBuild"); veil.classList.add("on"); if(txt) txt.textContent=t("vidRec");
-    let r=null; try{ r=await window.GL3D.record({ms:9000}); }catch(e){ console.warn(e); }
+    let r=null; try{ r=await window.GL3D.record({ms:9000,title:buildCfg&&buildCfg.name,sub:buildCfg&&buildCfg.L?`${Math.round(buildCfg.L)} × ${Math.round(buildCfg.H)} × ${Math.round(buildCfg.P)} mm`:"",brand:(typeof prCoName==="function"&&prCoName())||"Ebanist",bg:"light"}); }catch(e){ console.warn(e); }
     veil.classList.remove("on"); if(txt) txt.textContent="";
     if(!r){ toast(t("vidNo")); return; }
     const ext=r.mime==="video/mp4"?"mp4":"webm", fname=`${slug(buildCfg&&buildCfg.name||"ebanist")}-montaj.${ext}`;
@@ -10837,6 +10845,12 @@ function clientInit(){
   x.addEventListener("pointerdown",start); ["pointerup","pointerleave","pointercancel"].forEach(ev=>x.addEventListener(ev,stop));
   x.addEventListener("click",()=>toast(t("cmHoldExit")));
   $("cmOpen").addEventListener("click",()=>{ CM.open=!CM.open; $("cmOpen").classList.toggle("on",CM.open); if(gl3dOn()) window.GL3D.set({open:CM.open}); });
+  /* clientul vede cum se montează mobila: aceeași animație ca în generator, fără alte controale */
+  $("cmAsm").addEventListener("click",async()=>{ if(!gl3dOn()) return;
+    if(window.GL3D.asmInfo()){ window.GL3D.stopAssemble(); $("cmAsm").classList.remove("on"); return; }
+    CM.open=false; $("cmOpen").classList.remove("on"); $("cmAsm").classList.add("on");
+    await window.GL3D.assemble({ms:8000}); $("cmAsm").classList.remove("on");
+    if(CM.on&&CM.spin) window.GL3D.spin(true); });
   $("cmSpin").addEventListener("click",()=>{ CM.spin=!CM.spin; $("cmSpin").classList.toggle("on",CM.spin); if(gl3dOn()) window.GL3D.spin(CM.spin); });
   document.querySelectorAll("[data-cmview]").forEach(b=>b.addEventListener("click",()=>{ CM.spin=false; $("cmSpin").classList.remove("on");
     if(gl3dOn()){ window.GL3D.spin(false); window.GL3D.view(b.dataset.cmview); } else cmDraw(); }));
@@ -19394,12 +19408,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.69.0"; /* APP_VER-MARKER */
+const APP_VER="5.70.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v247";
+const SW_CACHE="ebanist-v248";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

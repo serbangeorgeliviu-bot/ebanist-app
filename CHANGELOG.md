@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.70.0 — 17 noiembrie 2026
+
+**Video-ul montajului iese gata de postat, iar clientul poate vedea montajul.**
+- **Video cu titlu și firmă:** peste cadrul 3D se compun numele corpului și dimensiunile sus, iar jos numele firmei tale (din Setări; „Ebanist" dacă nu e setat) și `ebanist.com`. Fundalul e de studio, deschis, doar pe durata video-ului; apoi aplicația revine la tema ei.
+- **Montaj în modul Client:** butonul **Montaj** lângă Gira / Apri / Fronte / 3/4. Clientul vede cum se montează mobila, în 8 secunde; al doilea tap îl oprește.
+- Testul previzualizării Pro (5.69.0) nu mai e sărit în mediul de test: se verifică direct `renderPro`. Teste noi pentru modul Client și video cu titlu.
+
+---
+
 ## 5.69.0 — 17 noiembrie 2026
 
 **Trei lucruri pentru primele minute în aplicație și pentru decizia de a lua Pro.**

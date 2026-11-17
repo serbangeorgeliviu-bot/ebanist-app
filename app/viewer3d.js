@@ -1780,20 +1780,50 @@ const GL3D = {
     const mime = ["video/mp4;codecs=avc1.42E01E", "video/mp4", "video/webm;codecs=vp9", "video/webm"].find(m => { try { return MediaRecorder.isTypeSupported(m); } catch (e) { return false; } });
     if (!mime) return null;
     const W = o.w || 720, H = o.h || 1280;
+    /* fundal de studio (deschis) sau întunecat doar pe durata video-ului; apoi se revine la tema aplicației */
+    if (o.bg === "light" || o.bg === "dark") {
+      R.dark = o.bg === "dark"; R.scene.background = gradientBg(R.dark);
+      R.ground.material.opacity = R.dark ? .34 : .16; R.contact.material.opacity = R.dark ? .8 : .5; R.need = true;
+    }
     R.renderer.setPixelRatio(1); R.renderer.setSize(W, H, false);
     R.camera.aspect = W / H; R.camera.updateProjectionMatrix(); R.need = true; kick();
-    let rec, chunks = [];
+    let rec, chunks = [], run = true, raf = 0;
     try {
-      rec = new MediaRecorder(R.canvas.captureStream(30), { mimeType: mime, videoBitsPerSecond: 5000000 });
+      /* video cu titlu: se compune pe un canvas 2D (cadrul 3D + titlul sus, firma jos), care e ce se înregistrează */
+      const out = document.createElement("canvas"); out.width = W; out.height = H;
+      const g = out.getContext("2d");
+      const font = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+      const lite = o.bg === "light", ink = lite ? "#14181d" : "#fff", shade = lite ? "255,255,255" : "0,0,0";
+      const paint = () => {
+        if (!run) return;
+        g.drawImage(R.canvas, 0, 0, W, H);
+        if (o.title || o.sub) {
+          const gr = g.createLinearGradient(0, 0, 0, H * 0.17); gr.addColorStop(0, "rgba(" + shade + ",.7)"); gr.addColorStop(1, "rgba(" + shade + ",0)");
+          g.fillStyle = gr; g.fillRect(0, 0, W, H * 0.17);
+          g.fillStyle = ink; g.textAlign = "center"; g.textBaseline = "alphabetic";
+          if (o.title) { g.font = "700 " + Math.round(W * 0.07) + "px " + font; g.fillText(String(o.title).slice(0, 34), W / 2, H * 0.068); }
+          if (o.sub) { g.font = "500 " + Math.round(W * 0.042) + "px " + font; g.globalAlpha = 0.85; g.fillText(String(o.sub).slice(0, 48), W / 2, H * 0.105); g.globalAlpha = 1; }
+        }
+        if (o.brand) {
+          const gb = g.createLinearGradient(0, H * 0.88, 0, H); gb.addColorStop(0, "rgba(" + shade + ",0)"); gb.addColorStop(1, "rgba(" + shade + ",.75)");
+          g.fillStyle = gb; g.fillRect(0, H * 0.88, W, H * 0.12);
+          g.fillStyle = ink; g.textAlign = "center"; g.font = "700 " + Math.round(W * 0.052) + "px " + font;
+          g.fillText(String(o.brand).slice(0, 30), W / 2, H * 0.953);
+          g.globalAlpha = 0.75; g.font = "500 " + Math.round(W * 0.036) + "px " + font; g.fillText("ebanist.com", W / 2, H * 0.982); g.globalAlpha = 1;
+        }
+        raf = requestAnimationFrame(paint);
+      };
+      paint();
+      rec = new MediaRecorder(out.captureStream(30), { mimeType: mime, videoBitsPerSecond: 5000000 });
       rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
       const stopped = new Promise(r => { rec.onstop = r; });
       rec.start(250);
       await new Promise(r => setTimeout(r, 300));
       const ok = await this.assemble({ ms: o.ms || 9000 });
       await new Promise(r => setTimeout(r, 700));
-      rec.stop(); await stopped;
+      rec.stop(); await stopped; run = false; cancelAnimationFrame(raf);
       return ok ? { blob: new Blob(chunks, { type: mime.split(";")[0] }), mime: mime.split(";")[0], w: W, h: H } : null;
-    } finally { resize(); }
+    } finally { run = false; cancelAnimationFrame(raf); if (o.bg) this.theme(); resize(); }
   },
   focusInfo() { return R && R.focusOv ? { pk: R.focusOv.pk, rad: R.focusOv.rad, off: R.focusOv.off } : null; },
   moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
