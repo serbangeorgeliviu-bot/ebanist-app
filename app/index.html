@@ -443,6 +443,9 @@ body.kb-open .sheet.on{bottom:var(--kb,0px);max-height:calc(100vh - var(--kb,0px
 .previewbox{position:sticky;top:58px;z-index:20;box-shadow:var(--sh-2)}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .bld-steps{display:none}
+.histbar{display:flex;gap:6px;margin-left:auto;align-self:flex-start}
+.histbar .vtb[disabled]{opacity:.35}
+#v-build .vhead{display:flex;align-items:flex-start;gap:10px}
 .chip{padding:8px 13px;border-radius:99px;border:1px solid var(--line);background:var(--field);
   font-size:13px;font-weight:600;color:var(--muted);transition:transform .12s,background .12s,border-color .12s}
 .chip:active{transform:scale(.95)}
@@ -572,6 +575,9 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 /* ---------- AI magic input ---------- */
 .aibar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px;margin-bottom:10px}
 .aibar textarea{min-height:62px;resize:vertical}
+.aichips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.aichips .chip{font-size:12.5px;padding:6px 10px;text-align:left}
+
 .airow{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap}
 .aibtn{flex:none;width:46px;height:46px;border-radius:12px;border:1px solid var(--line);background:var(--field);display:grid;place-items:center}
 .aibtn svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -663,6 +669,14 @@ hr.sep{border:none;border-top:1px solid var(--line);margin:16px 0}
 .pro-feats li{position:relative;padding:7px 0 7px 26px;line-height:1.4;border-bottom:1px solid var(--line)}
 .pro-feats li:last-child{border-bottom:0}
 .pro-feats li::before{content:"✓";position:absolute;left:2px;top:7px;color:var(--grn);font-weight:700}
+.pro-prev{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0 0 14px;background:var(--field);position:relative;overflow:hidden}
+.pro-prev-h{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75;font-weight:700;margin-bottom:6px}
+.pro-prev table{width:100%;border-collapse:collapse;font-size:12.5px}
+.pro-prev th{font-size:10.5px;text-align:left;opacity:.6;font-weight:600;padding:2px 4px}
+.pro-prev td{padding:3px 4px;border-top:1px solid var(--line-soft)}
+.pro-prev .n{text-align:right;font-variant-numeric:tabular-nums}
+.pro-prev .blur{filter:blur(3.5px);opacity:.7;user-select:none;pointer-events:none}
+.pro-prev-more{font-size:12px;text-align:center;margin-top:6px;color:var(--muted)}
 .pro-cmp{width:100%;border-collapse:collapse;font-size:14px;line-height:1.35}
 .pro-cmp th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.7;font-weight:600;padding:0 0 8px;text-align:center}
 .pro-cmp th:first-child{text-align:left}
@@ -1544,6 +1558,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <div class="vhead">
       <div><h2 class="vtitle" data-i="buildTitle">Generatore mobili</h2>
       <p class="vsub" data-i="buildSub">Configura il modulo e genera la distinta</p></div>
+      <div class="histbar" role="group"><button class="vtb ic" id="btnUndoCfg" data-ti="undoCfg" title="Anulează" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button class="vtb ic" id="btnRedoCfg" data-ti="redoCfg" title="Reface" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button></div>
     </div>
     <!-- i passi del banco (stile planner): gli stessi gruppi del modulo, in ordine; solo da tablet in su -->
     <div class="bld-steps" id="bldSteps" role="tablist" aria-label="steps"></div>
@@ -4138,6 +4153,20 @@ Object.assign(I18N.fr,{"vtAsm": "Montage animé", "vtRec": "Enregistrer la vidé
 Object.assign(I18N.de,{"vtAsm": "Animierte Montage", "vtRec": "Montagevideo speichern (Pro)", "vidRec": "Video wird aufgenommen…", "vidNo": "Dieses Gerät kann kein Video aufnehmen.", "vidDone": "Video gespeichert."});
 Object.assign(I18N.pl,{"vtAsm": "Animowany montaż", "vtRec": "Zapisz film z montażu (Pro)", "vidRec": "Nagrywanie filmu…", "vidNo": "To urządzenie nie może nagrywać filmów.", "vidDone": "Film zapisany."});
 Object.assign(I18N.es,{"vtAsm": "Montaje animado", "vtRec": "Guardar vídeo del montaje (Pro)", "vidRec": "Grabando vídeo…", "vidNo": "Este dispositivo no puede grabar vídeo.", "vidDone": "Vídeo guardado."});
+Object.assign(I18N.it,{"proPrevTitle": "Così sarà la tua distinta", "proPrevMore": "e altri {n} pezzi, con Pro"});
+Object.assign(I18N.ro,{"proPrevTitle": "Așa arată distinta ta", "proPrevMore": "și încă {n} piese, cu Pro"});
+Object.assign(I18N.en,{"proPrevTitle": "This is your cut list", "proPrevMore": "and {n} more parts, with Pro"});
+Object.assign(I18N.fr,{"proPrevTitle": "Voilà votre liste de débit", "proPrevMore": "et {n} pièces de plus, avec Pro"});
+Object.assign(I18N.de,{"proPrevTitle": "So sieht Ihre Zuschnittliste aus", "proPrevMore": "und {n} weitere Teile, mit Pro"});
+Object.assign(I18N.pl,{"proPrevTitle": "Tak wygląda Twoja lista cięcia", "proPrevMore": "i jeszcze {n} części, z Pro"});
+Object.assign(I18N.es,{"proPrevTitle": "Así será tu despiece", "proPrevMore": "y {n} piezas más, con Pro"});
+Object.assign(I18N.it,{"undoCfg": "Annulla", "redoCfg": "Ripeti"});
+Object.assign(I18N.ro,{"undoCfg": "Anulează", "redoCfg": "Reface"});
+Object.assign(I18N.en,{"undoCfg": "Undo", "redoCfg": "Redo"});
+Object.assign(I18N.fr,{"undoCfg": "Annuler", "redoCfg": "Rétablir"});
+Object.assign(I18N.de,{"undoCfg": "Rückgängig", "redoCfg": "Wiederholen"});
+Object.assign(I18N.pl,{"undoCfg": "Cofnij", "redoCfg": "Ponów"});
+Object.assign(I18N.es,{"undoCfg": "Deshacer", "redoCfg": "Rehacer"});
 Object.assign(I18N.it,{"opsSrc": "Foratura (modello di operazioni)", "opsNoHingePanel": "Accanto alla cerniera di un'anta non c'è un fianco o un setto: la basetta non si fora.", "opsPinMoved": "Il foro del reggipiano cade su un altro foro (basetta o guida): il ripiano poggia sul foro di regolazione.", "opsSlope": "Cielo inclinato: le forature sul bordo obliquo non sono generate; controlla sul primo pezzo.", "opsCurved": "Anta curva: le cerniere non sono generate.", "opsAwThin": "Anta troppo sottile per la cava del profilo anti-imbarcamento: la cava non è generata.", "opsHingeTB": "La distanza di foratura della tazza è {tb} mm, fuori dall'intervallo Blum 3–7 mm.", "hsBtn": "Scheda tecnica", "hsClose": "Chiudi"});
 Object.assign(I18N.ro,{"opsSrc": "Găurire (modelul de operații)", "opsNoHingePanel": "Lângă balamaua unei uși nu e laterală sau despărțitor: plăcuța nu se poate găuri.", "opsPinMoved": "Gaura suportului de raft cade peste altă gaură (plăcuță sau glisieră): raftul stă pe gaura de reglare.", "opsSlope": "Tavan înclinat: găurile de pe muchia oblică nu sunt generate; verifică pe prima piesă.", "opsCurved": "Ușă curbă: balamalele nu sunt generate.", "opsAwThin": "Ușă prea subțire pentru canalul profilului anti-curbare: canalul nu e generat.", "opsHingeTB": "Distanța de găurire a cupei e {tb} mm, în afara intervalului Blum 3–7 mm.", "hsBtn": "Fișă tehnică", "hsClose": "Închide"});
 Object.assign(I18N.en,{"opsSrc": "Drilling (operations model)", "opsNoHingePanel": "There is no side or divider next to a door's hinge: the plate cannot be drilled.", "opsPinMoved": "The shelf-pin hole falls on another hole (plate or slide): the shelf rests on the adjustment hole.", "opsSlope": "Sloped top: holes on the oblique edge are not generated; check the first piece.", "opsCurved": "Curved door: hinges are not generated.", "opsAwThin": "Door too thin for the anti-warp profile groove: the groove is not generated.", "opsHingeTB": "The cup drilling distance is {tb} mm, outside Blum's 3–7 mm range.", "hsBtn": "Data sheet", "hsClose": "Close"});
@@ -5643,6 +5672,21 @@ function openPro(why){
   EBFunnel.send("pw_shown",{why:why});
   renderPro(why); closeSheets(); openSheet("shPro");
 }
+/* Previzualizare înainte de plată (5.68.0): pe ecranul Pro, la o ieșire cu distinta, utilizatorul vede
+   PRIMELE rânduri din distinta LUI (nu un exemplu), restul estompat. Numai citire: nimic nu iese din aplicație. */
+function proPreviewHtml(why){
+  if(why!=="pdf"&&why!=="export"&&why!=="doc") return "";
+  const p=(typeof proj==="function")?proj():null; if(!p||!p.pieces||!p.pieces.length) return "";
+  let rows; try{ rows=cutRows(p).filter(x=>!isAccPiece(x)); }catch(e){ return ""; }
+  if(!rows.length) return "";
+  const show=rows.slice(0,5), more=rows.length-show.length;
+  const tr=x=>`<tr><td>${esc(elName(x.elemento))}</td><td class="n">${esc(String(x.lung))}</td><td class="n">${esc(String(x.larg))}</td><td class="n">${esc(String(x.pz))}</td><td>${esc(x.bordo||"—")}</td></tr>`;
+  const ghost=rows.slice(5,8).map(tr).join("");
+  return `<div class="pro-prev"><div class="pro-prev-h">${esc(t("proPrevTitle"))}</div>
+    <table><tr><th>${esc(t("fElement"))}</th><th class="n">${esc(t("fLength"))}</th><th class="n">${esc(t("fWidth"))}</th><th class="n">${esc(t("fQty"))}</th><th>${esc(t("fBanding"))}</th></tr>${show.map(tr).join("")}
+    <tbody class="blur">${ghost}</tbody></table>
+    ${more>0?`<div class="pro-prev-more">${esc(t("proPrevMore").replace("{n}",more))}</div>`:""}</div>`;
+}
 function renderPro(why){
   const sub=(PRO_WHY[why]?t(PRO_WHY[why]):t("proSubPlain"))
     /* Il numero del progetto non puo mai leggersi piu piccolo del limite:
@@ -5701,6 +5745,7 @@ function renderPro(why){
   }
   $("proBody").innerHTML=
     `<p style="margin-bottom:12px;line-height:1.45">${esc(sub)}</p>`+
+    proPreviewHtml(why)+
     feats+
     `<div style="margin-top:16px">${buy}</div>`+
     `<div class="eyebrow" style="margin-top:20px">${esc(t("proHaveKey"))}</div>`+
@@ -11617,9 +11662,53 @@ function liftInfoShow(built){
     .replace("{st}",li.strokeStd).replace("{Lc}",Math.round(li.Lc)).replace("{az}",Math.round(li.A.z)).replace("{bz}",Math.round(li.B.z)).replace("{bd}",Math.round(li.B.depth))
     +(li.closedPush?" — "+t("liftPush"):"");
 }
+/* ================= ANULEAZĂ / REFĂ în generator (5.69.0) =================
+   Fiecare stare a formularului (după ce te oprești din modificat) e un pas. Istoricul se golește când se
+   schimbă corpul (alt nume): anularea nu te duce într-un alt mobil. Ctrl+Z / Ctrl+Y pe PC, în afara câmpurilor de text. */
+const HIST={undo:[],redo:[],cur:null,name:null,applying:false,timer:0};
+function histClone(c){ return JSON.parse(JSON.stringify(c)); }
+function histSync(){
+  const u=$("btnUndoCfg"), r=$("btnRedoCfg"); if(!u||!r) return;
+  u.disabled=!HIST.undo.length; r.disabled=!HIST.redo.length;
+}
+function histPush(cfg){
+  if(HIST.applying||!cfg) return;
+  if(HIST.name!==cfg.name){ HIST.undo=[]; HIST.redo=[]; HIST.cur=null; HIST.name=cfg.name; histSync(); }
+  clearTimeout(HIST.timer);
+  HIST.timer=setTimeout(()=>{
+    const snap=histClone(cfg);
+    if(!HIST.cur){ HIST.cur=snap; return; }   /* prima stare a corpului = punctul de plecare, nu un pas */
+    if(JSON.stringify(HIST.cur)===JSON.stringify(snap)) return;
+    HIST.undo.push(HIST.cur);
+    if(HIST.undo.length>60) HIST.undo.shift();
+    HIST.cur=snap; HIST.redo=[]; histSync();
+  },500);
+}
+function histApply(snap){
+  HIST.applying=true;
+  try{ buildCfg=histClone(snap); syncBuildForm(); drawPreview(); }
+  finally{ HIST.applying=false; }
+  histSync();
+}
+function histUndo(){ clearTimeout(HIST.timer); if(!HIST.undo.length) return false;
+  HIST.redo.push(HIST.cur); HIST.cur=HIST.undo.pop(); histApply(HIST.cur); return true; }
+function histRedo(){ clearTimeout(HIST.timer); if(!HIST.redo.length) return false;
+  HIST.undo.push(HIST.cur); HIST.cur=HIST.redo.pop(); histApply(HIST.cur); return true; }
+document.addEventListener("click",e=>{
+  const b=e.target.closest&&e.target.closest("#btnUndoCfg,#btnRedoCfg"); if(!b||b.disabled) return;
+  if(b.id==="btnUndoCfg") histUndo(); else histRedo();
+});
+document.addEventListener("keydown",e=>{
+  if(!(e.ctrlKey||e.metaKey)||currentView!=="build") return;
+  const tg=e.target&&e.target.tagName; if(tg==="INPUT"||tg==="TEXTAREA"||tg==="SELECT"||(e.target&&e.target.isContentEditable)) return;
+  const k=(e.key||"").toLowerCase();
+  if(k==="z"&&!e.shiftKey){ if(histUndo()) e.preventDefault(); }
+  else if(k==="y"||(k==="z"&&e.shiftKey)){ if(histRedo()) e.preventDefault(); }
+});
 function drawPreview(){
   if($("bTipo").value==="contur") contSync(false);
   buildCfg=cfgFromForm();
+  histPush(buildCfg);
   cornerRows();
   draw3D();
   /* Senza materiale non c'e grossezza, e senza grossezza non c'e geometria:
@@ -17764,6 +17853,13 @@ de:{"aiKeyWarn":"⚠ Der Schlüssel bleibt auf diesem Handy und geht direkt vom 
 pl:{"aiKeyWarn":"⚠ Klucz zostaje na tym telefonie i trafia prosto z przeglądarki do Anthropic. Użyj osobnego klucza, który możesz unieważnić niezależnie, i usuń go, jeśli telefon zmieni właściciela.","aiKeyBad":"To nie wygląda na klucz Anthropic (zaczyna się od sk-ant-).","aiKeyDel":"Usuń klucz","aiKeyDelAsk":"Usunąć klucz API z tego telefonu?","aiKeyGone":"Klucz usunięty ✓","aiKeyOk":"Klucz zapisany ({k})","aiKeyFail":"Klucz NIE został zapisany — ten telefon blokuje pamięć lokalną (tryb prywatny?)","aiPh":"Opisz mebel głosowo lub pisemnie…","aiPhSv":"Podyktuj wymiary ścian, gniazdka, rury…","aiSend":"Generuj z AI","aiThinking":"Czytam…","aiMic":"Dyktuj","aiCam":"Zdjęcie","aiGal":"Galeria","aiNoKey":"Brak klucza API — Ustawienia → Asystent AI","aiNoSpeech":"Dyktowanie nie jest dostępne w tej przeglądarce — użyj mikrofonu klawiatury","aiErr":"Asystent nie odpowiedział: {e}","aiNoChange":"Nic do zmiany","aiTitle":"Propozycja asystenta","aiApply":"Zastosuj","aiCancel":"Anuluj","aiApplied":"Zastosowano","aiAsk":"Pytania","aiWarnHdr":"Uwaga","aiSet":"Asystent AI","aiKeyLbl":"Klucz API Anthropic","aiKeyHint":"Zostaje na tym telefonie; nie trafia do synchronizacji. Do pełnej kopii tylko na życzenie, zaszyfrowany hasłem.","aiKeyPro":"Z Pro asystent AI działa bez klucza (przez serwer Ebanist).","aiModelLbl":"Model","aiProxyLbl":"Własny punkt końcowy (opcjonalnie)","aiProxyHint":"Jeśli ustawiony, wywołanie idzie przez niego i klucz nie jest potrzebny.","aiImgOnly":"Dodaj także opis lub zdjęcie","aiCtxCfg":"Bieżący mebel","aiCtxSv":"Bieżący pomiar","aiBoundNote":"Cięcie pod kątem: fabryka tnie prosto. Lista formatek eksportuje prostokąt otaczający; kąt zostaje w 3D i na rysunku.","aiLayNote":"Pozycje bezwzględne: przegrody, półki i drzwi na podanych wysokościach; równe sekcje i półki z formularza ustawiane są na zero.","aiBlkUnused":"Wymiary niezinterpretowane — mebel NIE jest generowany. Każdy wymiar z tekstu musi trafić do pola:","aiBlkUnchecked":"Wymiary jeszcze niesprawdzone: nie udało się wygenerować elementów (zobacz błędy poniżej), więc nie można ich porównać z oczekiwaną listą formatek:","aiBlkErr":"Nie można wygenerować propozycji:","aiBlkCount":"elementy zadeklarowane przez konfigurację ≠ elementy wygenerowane","aiTbl":"Elementy trafiające na listę formatek","aiColPc":"Element","aiColDim":"Wymiar","aiColPz":"Szt.","aiColPos":"Wysokość","aiColCut":"Wycięcie","aiTot":"{n} elementów · {m2} m² · {ml} m obrzeża","aiChV":"Pionowo, kolumna {c}","aiChH":"Poziomo, {a}–{b}","layBar":"Aktywne pozycje bezwzględne: {s}. Przegrody, półki i drzwi z formularza nie liczą się, dopóki one istnieją.","layClear":"Usuń pozycje bezwzględne","layCleared":"Pozycje bezwzględne usunięte","layCut":"wycięcie","aiSecNote":"Podziały wewnętrzne stają się przegrodami + zawartością sekcji: żadnych dodatkowych mebli."},
 es:{"aiKeyWarn":"⚠ La clave se queda en este móvil y va directamente del navegador a Anthropic. Usa una clave propia que puedas revocar por separado y bórrala si el móvil cambia de manos.","aiKeyBad":"Eso no parece una clave de Anthropic (empieza por sk-ant-).","aiKeyDel":"Borrar la clave","aiKeyDelAsk":"¿Borrar la clave de API de este móvil?","aiKeyGone":"Clave borrada ✓","aiKeyOk":"Clave guardada ({k})","aiKeyFail":"Clave NO guardada — este móvil bloquea el almacenamiento local (¿modo privado?)","aiPh":"Describe el mueble por voz o por escrito…","aiPhSv":"Dicta medidas de paredes, enchufes, tuberías…","aiSend":"Generar con IA","aiThinking":"Leyendo…","aiMic":"Dictar","aiCam":"Foto","aiGal":"Galería","aiNoKey":"Falta la clave de API — Ajustes → Asistente de IA","aiNoSpeech":"El dictado no está disponible en este navegador — usa el micrófono del teclado","aiErr":"El asistente no respondió: {e}","aiNoChange":"Nada que cambiar","aiTitle":"Propuesta del asistente","aiApply":"Aplicar","aiCancel":"Cancelar","aiApplied":"Aplicado","aiAsk":"Preguntas","aiWarnHdr":"Atención","aiSet":"Asistente de IA","aiKeyLbl":"Clave de API de Anthropic","aiKeyHint":"Se queda en este móvil; nunca entra en la sincronización. En la copia completa solo si lo eliges, cifrada con contraseña.","aiKeyPro":"Con Pro el asistente de IA funciona sin clave (a través del servidor de Ebanist).","aiModelLbl":"Modelo","aiProxyLbl":"Endpoint propio (opcional)","aiProxyHint":"Si se define, la llamada pasa por él y no hace falta clave.","aiImgOnly":"Añade también una descripción o una foto","aiCtxCfg":"Mueble actual","aiCtxSv":"Medición actual","aiBoundNote":"Corte en ángulo: la fábrica corta a escuadra. El despiece exporta el rectángulo envolvente; el ángulo se queda en el 3D y en el plano.","aiLayNote":"Posiciones absolutas: divisores, baldas y puertas a las alturas indicadas; las secciones y baldas iguales del formulario se ponen a cero.","aiBlkUnused":"Medidas sin interpretar — el mueble NO se genera. Cada medida del texto debe caer en un campo:","aiBlkUnchecked":"Medidas aún sin comprobar: no se pudieron generar las piezas (mira los errores de abajo), así que no se pueden comparar con el despiece esperado:","aiBlkErr":"No se puede generar la propuesta:","aiBlkCount":"piezas declaradas por la configuración ≠ piezas generadas","aiTbl":"Piezas que irán al despiece","aiColPc":"Pieza","aiColDim":"Medida","aiColPz":"Uds.","aiColPos":"Altura","aiColCut":"Muesca","aiTot":"{n} piezas · {m2} m² · {ml} m de canto","aiChV":"Vertical, columna {c}","aiChH":"Horizontal, {a}–{b}","layBar":"Posiciones absolutas activas: {s}. Los divisores, baldas y puertas del formulario no cuentan mientras existan.","layClear":"Quitar las posiciones absolutas","layCleared":"Posiciones absolutas eliminadas","layCut":"muesca","aiSecNote":"Las divisiones internas pasan a ser divisores + contenido por sección: ningún mueble extra."}
 };
+Object.assign(AI_I18N.it,{"aiEx1": "Armadio 2 ante 1000×2200×600 con 3 cassetti", "aiEx2": "Base cucina 800×720×560 con 3 cassetti", "aiEx3": "Libreria 800×2000×300 con 5 ripiani", "aiTry": "Prova:"});
+Object.assign(AI_I18N.ro,{"aiEx1": "Dulap cu 2 uși 1000×2200×600 și 3 sertare", "aiEx2": "Bază bucătărie 800×720×560 cu 3 sertare", "aiEx3": "Bibliotecă 800×2000×300 cu 5 rafturi", "aiTry": "Încearcă:"});
+Object.assign(AI_I18N.en,{"aiEx1": "Wardrobe with 2 doors 1000×2200×600 and 3 drawers", "aiEx2": "Kitchen base unit 800×720×560 with 3 drawers", "aiEx3": "Bookcase 800×2000×300 with 5 shelves", "aiTry": "Try:"});
+Object.assign(AI_I18N.fr,{"aiEx1": "Armoire 2 portes 1000×2200×600 avec 3 tiroirs", "aiEx2": "Meuble bas de cuisine 800×720×560 avec 3 tiroirs", "aiEx3": "Bibliothèque 800×2000×300 avec 5 étagères", "aiTry": "Essayer :"});
+Object.assign(AI_I18N.de,{"aiEx1": "Kleiderschrank 2 Türen 1000×2200×600 mit 3 Schubladen", "aiEx2": "Küchenunterschrank 800×720×560 mit 3 Schubladen", "aiEx3": "Bücherregal 800×2000×300 mit 5 Böden", "aiTry": "Probier:"});
+Object.assign(AI_I18N.pl,{"aiEx1": "Szafa 2 drzwi 1000×2200×600 z 3 szufladami", "aiEx2": "Szafka kuchenna dolna 800×720×560 z 3 szufladami", "aiEx3": "Regał 800×2000×300 z 5 półkami", "aiTry": "Spróbuj:"});
+Object.assign(AI_I18N.es,{"aiEx1": "Armario de 2 puertas 1000×2200×600 con 3 cajones", "aiEx2": "Mueble bajo de cocina 800×720×560 con 3 cajones", "aiEx3": "Estantería 800×2000×300 con 5 baldas", "aiTry": "Prueba:"});
 function tia(k){ return (AI_I18N[state.lang]||AI_I18N.it)[k]||k; }
 
 /* la chiave sta fuori da `state`: i backup e la sincronizzazione Supabase
@@ -18464,6 +18560,7 @@ function aiBarHTML(mode){
       <button class="aisend" id="aiGo${mode}">${esc(tia("aiSend"))}</button>
     </div>
     <div class="airow" id="aiThumbs${mode}" style="display:none"></div>
+    ${mode==="genera"?`<div class="aichips" id="aiChips${mode}"><span class="mini">${esc(tia("aiTry"))}</span>${[1,2,3].map(i=>`<button type="button" class="chip sm" data-aiex="${i}">${esc(tia("aiEx"+i))}</button>`).join("")}</div>`:""}
   </div>`;
 }
 
@@ -18784,6 +18881,9 @@ function aiMount(){
       aiRenderThumbs(mode); e.target.value="";
     }));
     $("aiTxt"+mode).addEventListener("focus",()=>{ aiMode=mode; });
+    /* exemple dintr-un tap: textul intră în câmp și pornește generarea, ca primul rezultat să apară în câteva secunde */
+    host.querySelectorAll("[data-aiex]").forEach(b=>b.addEventListener("click",()=>{
+      $("aiTxt"+mode).value=b.textContent; aiMode=mode; aiRun(mode); }));
   });
   aiRenderThumbs("genera"); aiRenderThumbs("rilievo");
   if(aiMounted) return;              // al cambio lingua si rifanno solo le barre
@@ -19271,12 +19371,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.68.0"; /* APP_VER-MARKER */
+const APP_VER="5.69.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v246";
+const SW_CACHE="ebanist-v247";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

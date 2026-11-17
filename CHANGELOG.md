@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.69.0 — 17 noiembrie 2026
+
+**Trei lucruri pentru primele minute în aplicație și pentru decizia de a lua Pro.**
+- **Previzualizare înainte de plată:** pe ecranul Pro, când o ieșire cu distinta e blocată (PDF, export, documente), apar primele 5 rânduri din distinta TA (nu un exemplu), restul estompat, cu „și încă N piese, cu Pro". Numai citire: nimic nu iese din aplicație; nu schimbă ce e gratuit și ce e Pro.
+- **Exemple dintr-un tap la generarea cu AI:** trei fraze gata scrise sub câmpul de text din Genera (dulap, bază de bucătărie, bibliotecă), în cele 7 limbi. Un tap pune fraza în câmp și pornește generarea: primul rezultat apare în câteva secunde.
+- **Anulează / Refă în generator:** două butoane în antet (și Ctrl+Z / Ctrl+Y pe PC, în afara câmpurilor de text). Fiecare stare a formularului, după ce te oprești din modificat, e un pas (60 la număr); istoricul se golește când treci pe alt mobil, deci anularea nu te duce într-un alt corp.
+- Teste noi în e2e (previzualizare, exemple AI, anulează/refă, limbi).
+
+---
+
 ## 5.68.0 — 17 noiembrie 2026
 
 **Mobila se montează singură, piesă cu piesă — și se poate salva ca video.**
