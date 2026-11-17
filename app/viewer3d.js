@@ -938,7 +938,7 @@ function clearLed() {
 }
 function buildLed(O) {
   clearLed();
-  const strip = O.hw.find(h => h.type === "led"), dim = O.hw.find(h => h.type === "leddim");
+  const strip = O.hw.find(h => h.type === "led"), dim = O.hw.find(h => h.type === "leddim"), door = O.hw.find(h => h.type === "leddoor");
   if (!strip) return;
   const PS = R.pieces.get(String(strip.piece)); if (!PS) return;
   const tag = (m, kind, piece) => { m.userData.hw = kind; m.userData.always = true; m.userData.rel = [String(piece)]; m.castShadow = false; return m; };
@@ -969,18 +969,29 @@ function buildLed(O) {
       }
     }
   }
+  if (door) {
+    /* senzor pe ușă (833.89.059): corp Ø13 îngropat în muchia din față a lateralului, cu butonul mecanic care iese 2 mm; ușa închisă îl apasă */
+    const PK = R.pieces.get(String(door.piece));
+    if (PK) {
+      const [qx, qy, qz] = door.w;
+      const ring = cyl("__hwdark", [qx, qy, qz - 1], [qx, qy, qz + 0.4], door.dia || 13, 0.5);
+      const btn = cyl("__swdisc", [qx, qy, qz + 0.3], [qx, qy, qz + 2.5], (door.dia || 13) * 0.55, 0.5);
+      [ring, btn].forEach(m => { tag(m, "leddim", door.piece); m.userData.sw = true; PK.hw.add(m); });
+      L.dim = btn;
+    }
+  }
   /* lumina: trei puncte pe lungimea benzii, sub tavan */
   const grp = new THREE.Group();
   [0.15, 0.5, 0.85].forEach(k => {
     const pl = new THREE.PointLight(0xffb470, 0.0, 1.6, 2); pl.position.set((x0 + (x1 - x0) * k) * MM, (y - 25) * MM, (zc - 20) * MM); pl.castShadow = false; grp.add(pl); L.lights.push(pl);
   });
-  R.ledG = grp; R.root.add(grp); R.led = L; R.ledMount = dim ? dim.mount : null;
+  R.ledG = grp; R.root.add(grp); R.led = L; R.ledMount = door ? "door" : (dim ? dim.mount : null);
   updateLed();
 }
 const LED_LIGHT_I = 0.55;
 function updateLed() {
   const L = R.led; if (!L) return;
-  const on = !!R.st.ledOn;
+  const on = !!R.st.ledOn && (R.ledMount !== "door" || !!R.st.open);   /* cu senzor pe ușă lumina urmează ușa deschisă */
   L.strip.forEach(m => { m.material = materialFor(on ? "__ledon" : "__ledoff"); });
   if (L.glow) L.glow.visible = on;
   const lit = on && !(R.st.explode > 0.01);
@@ -999,7 +1010,7 @@ function buildHardware(model) {
   buildLed(O);
   /* cerniere: dicono anche da che parte si apre l'anta */
   O.hw.forEach(h => {
-    if (h.type === "led" || h.type === "leddim") return;   /* se desenează în buildLed (D-157) */
+    if (h.type === "led" || h.type === "leddim" || h.type === "leddoor") return;   /* se desenează în buildLed (D-157) */
     if (h.wing === "B") return;   /* aripa B a corpului de colț: balamalele, glisierele și mânerele se desenează presupunând fața pe +z (D-103); fără desen, nu desen greșit */
     const P = R.pieces.get(String(h.piece)); if (!P) return;
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;

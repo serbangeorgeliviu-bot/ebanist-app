@@ -1926,7 +1926,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <select id="bLed"><option value="" data-i="ledNone">Fără</option><option value="top" data-i="ledTop">Sub plafon (lățimea interioară)</option><option value="manual" data-i="ledManual">Lungime introdusă</option></select></div>
         <div class="f" id="rowLedLen" style="display:none"><label data-i="fLedLen">Lungime bandă (mm)</label><input id="bLedLen" type="number" inputmode="numeric" min="50" max="20000" placeholder="1000"></div>
         <div class="f" id="rowLedSw" style="display:none"><label data-i="fLedSw">Întrerupător LED</label>
-          <select id="bLedSw"><option value="visible" data-i="ledSwVis">Dimmer la vedere (disc pe lateral)</option><option value="hidden" data-i="ledSwHid">Îngropat în lemn (se vede doar semnul)</option></select></div>
+          <select id="bLedSw"><option value="visible" data-i="ledSwVis">Dimmer la vedere (disc pe lateral)</option><option value="hidden" data-i="ledSwHid">Îngropat în lemn (se vede doar semnul)</option><option value="door" data-i="ledSwDoor">Senzor pe ușă (se aprinde la deschidere)</option></select></div>
         <p class="mini" id="ledHint" style="margin:0 0 8px;display:none"></p>
         <p class="mini" data-i="hwSelHint" style="margin:0 0 8px"></p>
         <div id="hwSelBox"></div>
@@ -4177,13 +4177,13 @@ Object.assign(I18N.fr,{"hwLedStrip": "Ruban LED (rouleaux)", "hwLedDrv": "Transf
 Object.assign(I18N.de,{"hwLedStrip": "LED-Band (Rollen)", "hwLedDrv": "LED-Netzteil (Stk.)", "hwLedDim": "LED-Dimmer (Stk.)", "hwLedSw": "LED-Schalterzuleitung (Stk.)", "hwLedMains": "LED-Netzkabel (Stk.)"});
 Object.assign(I18N.pl,{"hwLedStrip": "Taśma LED (rolki)", "hwLedDrv": "Zasilacz LED (szt.)", "hwLedDim": "Ściemniacz LED (szt.)", "hwLedSw": "Przewód włącznika LED (szt.)", "hwLedMains": "Przewód sieciowy LED (szt.)"});
 Object.assign(I18N.es,{"hwLedStrip": "Tira LED (rollos)", "hwLedDrv": "Transformador LED (uds.)", "hwLedDim": "Regulador LED (uds.)", "hwLedSw": "Cable de interruptor LED (uds.)", "hwLedMains": "Cable de red LED (uds.)"});
-Object.assign(I18N.it,{"fLedSw": "Interruttore LED", "ledSwVis": "Dimmer a vista (disco sul fianco)", "ledSwHid": "Annegato nel legno (si vede solo il segno)", "vtLed": "Luce LED", "hw_leddim": "Dimmer LED Häfele Loox", "hw_led": "Striscia LED"});
-Object.assign(I18N.ro,{"fLedSw": "Întrerupător LED", "ledSwVis": "Dimmer la vedere (disc pe lateral)", "ledSwHid": "Îngropat în lemn (se vede doar semnul)", "vtLed": "Lumină LED", "hw_leddim": "Dimmer LED Häfele Loox", "hw_led": "Bandă LED"});
-Object.assign(I18N.en,{"fLedSw": "LED switch", "ledSwVis": "Visible dimmer (disc on the side)", "ledSwHid": "Recessed in the wood (only the mark shows)", "vtLed": "LED light", "hw_leddim": "Häfele Loox LED dimmer", "hw_led": "LED strip"});
-Object.assign(I18N.fr,{"fLedSw": "Interrupteur LED", "ledSwVis": "Variateur apparent (disque sur le côté)", "ledSwHid": "Encastré dans le bois (seul le signe se voit)", "vtLed": "Lumière LED", "hw_leddim": "Variateur LED Häfele Loox", "hw_led": "Ruban LED"});
-Object.assign(I18N.de,{"fLedSw": "LED-Schalter", "ledSwVis": "Sichtbarer Dimmer (Scheibe an der Seite)", "ledSwHid": "Im Holz versenkt (nur das Zeichen sichtbar)", "vtLed": "LED-Licht", "hw_leddim": "Häfele Loox LED-Dimmer", "hw_led": "LED-Band"});
-Object.assign(I18N.pl,{"fLedSw": "Włącznik LED", "ledSwVis": "Ściemniacz widoczny (krążek na boku)", "ledSwHid": "Wpuszczony w drewno (widać tylko znak)", "vtLed": "Światło LED", "hw_leddim": "Ściemniacz LED Häfele Loox", "hw_led": "Taśma LED"});
-Object.assign(I18N.es,{"fLedSw": "Interruptor LED", "ledSwVis": "Regulador visible (disco en el lateral)", "ledSwHid": "Empotrado en la madera (solo se ve la marca)", "vtLed": "Luz LED", "hw_leddim": "Regulador LED Häfele Loox", "hw_led": "Tira LED"});
+Object.assign(I18N.it,{"ledSwDoor": "Sensore sulla porta (si accende all'apertura)", "fLedSw": "Interruttore LED", "ledSwVis": "Dimmer a vista (disco sul fianco)", "ledSwHid": "Annegato nel legno (si vede solo il segno)", "vtLed": "Luce LED", "hw_leddim": "Dimmer LED Häfele Loox", "hw_led": "Striscia LED"});
+Object.assign(I18N.ro,{"ledSwDoor": "Senzor pe ușă (se aprinde la deschidere)", "fLedSw": "Întrerupător LED", "ledSwVis": "Dimmer la vedere (disc pe lateral)", "ledSwHid": "Îngropat în lemn (se vede doar semnul)", "vtLed": "Lumină LED", "hw_leddim": "Dimmer LED Häfele Loox", "hw_led": "Bandă LED"});
+Object.assign(I18N.en,{"ledSwDoor": "Door sensor (lights up when opened)", "fLedSw": "LED switch", "ledSwVis": "Visible dimmer (disc on the side)", "ledSwHid": "Recessed in the wood (only the mark shows)", "vtLed": "LED light", "hw_leddim": "Häfele Loox LED dimmer", "hw_led": "LED strip"});
+Object.assign(I18N.fr,{"ledSwDoor": "Contacteur de porte (s'allume à l'ouverture)", "fLedSw": "Interrupteur LED", "ledSwVis": "Variateur apparent (disque sur le côté)", "ledSwHid": "Encastré dans le bois (seul le signe se voit)", "vtLed": "Lumière LED", "hw_leddim": "Variateur LED Häfele Loox", "hw_led": "Ruban LED"});
+Object.assign(I18N.de,{"ledSwDoor": "Türkontakt (Licht an beim Öffnen)", "fLedSw": "LED-Schalter", "ledSwVis": "Sichtbarer Dimmer (Scheibe an der Seite)", "ledSwHid": "Im Holz versenkt (nur das Zeichen sichtbar)", "vtLed": "LED-Licht", "hw_leddim": "Häfele Loox LED-Dimmer", "hw_led": "LED-Band"});
+Object.assign(I18N.pl,{"ledSwDoor": "Wyłącznik drzwiowy (świeci po otwarciu)", "fLedSw": "Włącznik LED", "ledSwVis": "Ściemniacz widoczny (krążek na boku)", "ledSwHid": "Wpuszczony w drewno (widać tylko znak)", "vtLed": "Światło LED", "hw_leddim": "Ściemniacz LED Häfele Loox", "hw_led": "Taśma LED"});
+Object.assign(I18N.es,{"ledSwDoor": "Sensor de puerta (se enciende al abrir)", "fLedSw": "Interruptor LED", "ledSwVis": "Regulador visible (disco en el lateral)", "ledSwHid": "Empotrado en la madera (solo se ve la marca)", "vtLed": "Luz LED", "hw_leddim": "Regulador LED Häfele Loox", "hw_led": "Tira LED"});
 Object.assign(I18N.it,{"fLed": "Illuminazione LED", "ledNone": "Nessuna", "ledTop": "Sotto il cielo (larghezza interna)", "ledManual": "Lunghezza inserita", "fLedLen": "Lunghezza striscia (mm)", "ledHint": "Striscia {m} m · {w} W · {r} rotolo/i da 3,024 m · {n} trasformatore/i (20 W, margine 20 %); dimmer e cavi inclusi."});
 Object.assign(I18N.ro,{"fLed": "Iluminat LED", "ledNone": "Fără", "ledTop": "Sub plafon (lățimea interioară)", "ledManual": "Lungime introdusă", "fLedLen": "Lungime bandă (mm)", "ledHint": "Bandă {m} m · {w} W · {r} rolă/role de 3,024 m · {n} transformator(oare) (20 W, marjă 20 %); dimmer și cabluri incluse."});
 Object.assign(I18N.en,{"fLed": "LED lighting", "ledNone": "None", "ledTop": "Under the top (inner width)", "ledManual": "Entered length", "fLedLen": "Strip length (mm)", "ledHint": "Strip {m} m · {w} W · {r} roll(s) of 3.024 m · {n} driver(s) (20 W, 20 % margin); dimmer and cables included."});
@@ -4582,7 +4582,8 @@ const HWDB={
  leddrv:[
   {id:"haf_833_75_933",brand:"Häfele",n:{"it": "Trasformatore Häfele Loox5 ECO 24 V / 20 W, con cavo per interruttore", "ro": "Transformator Häfele Loox5 ECO 24 V / 20 W, cu cablu pentru întrerupător", "en": "Häfele Loox5 ECO driver 24 V / 20 W, with switch lead", "fr": "Transformateur Häfele Loox5 ECO 24 V / 20 W, avec câble d'interrupteur", "de": "Häfele Loox5 ECO Netzteil 24 V / 20 W, mit Schalterzuleitung", "pl": "Zasilacz Häfele Loox5 ECO 24 V / 20 W, z przewodem do włącznika", "es": "Transformador Häfele Loox5 ECO 24 V / 20 W, con cable de interruptor"},art:"833.75.933",price:26,est:1,w:20,v:24}],
  leddim:[
-  {id:"haf_833_89_133",brand:"Häfele",n:{"it": "Dimmer Häfele Loox rotondo (sistemi 12 V, 24 V, 350 mA)", "ro": "Dimmer Häfele Loox rotund (sisteme 12 V, 24 V, 350 mA)", "en": "Häfele Loox round dimmer (12 V, 24 V, 350 mA systems)", "fr": "Variateur Häfele Loox rond (systèmes 12 V, 24 V, 350 mA)", "de": "Häfele Loox Dimmer rund (12-V-, 24-V-, 350-mA-Systeme)", "pl": "Ściemniacz Häfele Loox okrągły (systemy 12 V, 24 V, 350 mA)", "es": "Regulador Häfele Loox redondo (sistemas 12 V, 24 V, 350 mA)"},art:"833.89.133",price:22,est:1}],
+  {id:"haf_833_89_133",brand:"Häfele",n:{"it": "Dimmer Häfele Loox rotondo (sistemi 12 V, 24 V, 350 mA)", "ro": "Dimmer Häfele Loox rotund (sisteme 12 V, 24 V, 350 mA)", "en": "Häfele Loox round dimmer (12 V, 24 V, 350 mA systems)", "fr": "Variateur Häfele Loox rond (systèmes 12 V, 24 V, 350 mA)", "de": "Häfele Loox Dimmer rund (12-V-, 24-V-, 350-mA-Systeme)", "pl": "Ściemniacz Häfele Loox okrągły (systemy 12 V, 24 V, 350 mA)", "es": "Regulador Häfele Loox redondo (sistemas 12 V, 24 V, 350 mA)"},art:"833.89.133",price:22,est:1},
+  {id:"haf_833_89_059",brand:"Häfele",n:{"it": "Interruttore a contatto porta Häfele Loox, a incasso Ø 13 mm, con cavo 2 m (12/24 V)", "ro": "Întrerupător cu contact pe ușă Häfele Loox, îngropat Ø 13 mm, cu cablu 2 m (12/24 V)", "en": "Häfele Loox door contact switch, recessed Ø 13 mm, with 2 m lead (12/24 V)", "fr": "Interrupteur de porte Häfele Loox, encastré Ø 13 mm, câble 2 m (12/24 V)", "de": "Häfele Loox Türkontaktschalter, Einbau Ø 13 mm, mit 2 m Kabel (12/24 V)", "pl": "Wyłącznik drzwiowy Häfele Loox, wpuszczany Ø 13 mm, z przewodem 2 m (12/24 V)", "es": "Interruptor de contacto de puerta Häfele Loox, empotrado Ø 13 mm, cable 2 m (12/24 V)"},art:"833.89.059",price:9,est:1}],
  ledsw:[
   {id:"haf_833_89_142",brand:"Häfele",n:{"it": "Cavo per interruttore Häfele Loox, modulare a scatto, nero, 2,0 m", "ro": "Cablu pentru întrerupător Häfele Loox, modular snap, negru, 2,0 m", "en": "Häfele Loox switch lead, modular snap, black, 2.0 m", "fr": "Câble d'interrupteur Häfele Loox, modulaire à clipser, noir, 2,0 m", "de": "Häfele Loox Schalterzuleitung, modular Snap, schwarz, 2,0 m", "pl": "Przewód do włącznika Häfele Loox, modułowy snap, czarny, 2,0 m", "es": "Cable de interruptor Häfele Loox, modular snap, negro, 2,0 m"},art:"833.89.142",price:7,est:1}],
  ledmains:[
@@ -11087,7 +11088,7 @@ function cfgFromForm(){
     back:parseInt($("bBack").value,10)?1:0, hang:parseInt($("bHang").value,10)?1:0,
     front:$("bFront").value, support:$("bSupport").value,
     handles:$("bHandles").value, shelfType:$("bShelfT").value,
-    led:$("bLed").value||"", ledLen:parseInt($("bLedLen").value,10)||0, ledSw:$("bLedSw").value==="hidden"?"hidden":"visible",
+    led:$("bLed").value||"", ledLen:parseInt($("bLedLen").value,10)||0, ledSw:["hidden","door"].includes($("bLedSw").value)?$("bLedSw").value:"visible",
     golaType:$("bHandles").value==="gola"&&$("bGolaType").value!=="L"?$("bGolaType").value:null,
     golaH:$("bHandles").value==="gola"&&v("bGolaH",0)>0?Math.max(5,Math.min(200,v("bGolaH",0))):null,
     golaC:$("bHandles").value==="gola"&&v("bGolaC",0)>0?Math.max(5,Math.min(200,v("bGolaC",0))):null,
@@ -11194,7 +11195,7 @@ function syncBuildForm(){
   $("bFront").value=buildCfg.front||"piena"; $("bSupport").value=buildCfg.support||"zoccolo";
   $("bHandles").value=buildCfg.handles||"maniglia"; $("bRazaR").value=buildCfg.razaR||""; $("bRazaCorner").value=buildCfg.razaCorner||"auto"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
   $("bBoxes").value=buildCfg.boxes===0||buildCfg.boxes==="0"?"0":"1";
-  $("bLed").value=ledMode(buildCfg); $("bLedLen").value=buildCfg.ledLen>0?buildCfg.ledLen:""; $("bLedSw").value=buildCfg.ledSw==="hidden"?"hidden":"visible"; ledRows();
+  $("bLed").value=ledMode(buildCfg); $("bLedLen").value=buildCfg.ledLen>0?buildCfg.ledLen:""; $("bLedSw").value=["hidden","door"].includes(buildCfg.ledSw)?buildCfg.ledSw:"visible"; ledRows();
   $("bCorner").value=buildCfg.corner||"sx";
   $("bCornerKind").value=buildCfg.cornerKind||"int";
   cornerRows();
@@ -15421,7 +15422,11 @@ function computeHardware(p,S,byModule){
   /* LED (D-157): transformatoarele din puterea benzii; dimmerul, cablul de întrerupător și cel de rețea, câte unul pe transformator */
   for(const mod of Object.keys(ledLen)){ const k=ledKit(ledLen[mod]);
     bump(mod,"hwLedStrip",k.rolls);   // bandă: rolele întregi de 3,024 m (cu rest nefolosit)
-    bump(mod,"hwLedDrv",k.drv); bump(mod,"hwLedDim",k.drv); bump(mod,"hwLedSw",k.drv); bump(mod,"hwLedMains",k.drv); }
+    bump(mod,"hwLedDrv",k.drv); bump(mod,"hwLedMains",k.drv);
+    /* cu senzor pe ușă (833.89.059, cu cablu propriu) dispar dimmerul și cablul de întrerupător */
+    const lc=p.configs&&p.configs[mod];
+    if(lc&&lc.ledSw==="door"){ bump(mod,"hwLedDim",k.drv); const o=(selBy.hwLedDim=selBy.hwLedDim||{}); o.haf_833_89_059=(o.haf_833_89_059||0)+k.drv; }
+    else { bump(mod,"hwLedDim",k.drv); bump(mod,"hwLedSw",k.drv); } }
   for(const m of binMods) bump(m,"hwBin",1);
   for(const m of piedMods) bump(m,"hwPied",4);
   const CAT=HW_CAT_OF;
@@ -19498,12 +19503,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.75.0"; /* APP_VER-MARKER */
+const APP_VER="5.76.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v253";
+const SW_CACHE="ebanist-v254";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

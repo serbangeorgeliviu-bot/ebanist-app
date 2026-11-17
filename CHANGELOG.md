@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.76.0 — 17 noiembrie 2026
+
+**Al treilea întrerupător LED: senzor pe ușă (Häfele Loox 833.89.059).**
+- În „Feronerie corp" apare opțiunea **Senzor pe ușă**: lumina se aprinde la deschiderea ușii și se stinge la închidere. În 3D, butonul mecanic Ø13 se vede în muchia din față a lateralului, iar lumina urmează butonul „Deschis".
+- **Deviz și listă:** senzorul (cu cablul lui de 2 m) înlocuiește dimmerul și cablul de întrerupător. Preț estimat de pe net (9 €, `est`), cote din fișa Häfele (gaură Ø13 × 28 adânc, 12/24 V, contact 0–75 W).
+- Poziția pe lateral (60 mm sub tavan) e aleasă, nu a producătorului: `verificat:false`, fără operație de găurire până la măsurare.
+
+---
+
 ## 5.75.0 — 17 noiembrie 2026
 
 **LED-ul se vede în 3D: aprins, stins, cu dimmerul la vedere sau îngropat în lemn.**
