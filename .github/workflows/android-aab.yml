@@ -23,7 +23,9 @@
 #               (android/tools/play-upload.mjs, fără acțiuni terțe).
 # `status` = draft (implicit: apare în Play Console ca ciornă, nu pleacă la
 # nimeni până nu o trimiți tu) sau completed. production + completed pleacă
-# la toți utilizatorii și cere `confirm` = da.
+# la toți utilizatorii și cere `confirm` = da. `inProgress` + `fraction` (0.01…0.99)
+# = lansare treptată; pe production cere și el `confirm` = da; fracția se
+# ridică apoi cu workflow-ul play-listing (`rollout`).
 # Mai cere un secret al repo-ului:
 #   PLAY_SERVICE_ACCOUNT_JSON  cheia JSON a contului de serviciu din Google
 #                              Cloud, invitat în Play Console cu drept de
@@ -42,12 +44,16 @@ on:
         options: [none, internal, alpha, beta, production]
         default: none
       status:
-        description: "draft = ciornă în Play Console; completed = lansează pe track"
+        description: "draft = ciornă în Play Console; completed = lansează pe track; inProgress = lansare treptată (cere fraction)"
         type: choice
-        options: [draft, completed]
+        options: [draft, completed, inProgress]
         default: draft
       notes:
         description: "Note de lansare, ro-RO, max 500 de caractere (opțional)"
+        type: string
+        default: ""
+      fraction:
+        description: "Numai pentru inProgress: fracția utilizatorilor, strict între 0 și 1 (de ex. 0.2)"
         type: string
         default: ""
       confirm:
@@ -182,6 +188,7 @@ jobs:
           PLAY_STATUS: ${{ inputs.status }}
           PLAY_NOTES: ${{ inputs.notes }}
           PLAY_CONFIRM: ${{ inputs.confirm }}
+          PLAY_FRACTION: ${{ inputs.fraction }}
         run: |
           # Valorile intrărilor vin prin mediu, nu lipite în script (nicio injecție).
           if [ -z "$SA_JSON" ]; then

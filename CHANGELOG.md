@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Android 1.4.0 (versionCode 10) — 17 noiembrie 2026
+
+**Android 1.4.0 (proba gratuită de 7 zile, D-132) pleacă în producție, treptat.**
+- Același conținut ca versionCode 9 (pe canalul intern): un .aab reconstruit nu poate refolosi codul 9, deci pleacă cu 10.
+- `android-aab` știe acum lansarea treptată: `status` = `inProgress` + `fraction` (strict între 0 și 1); pe production cere `confirm` = da. Fracția se ridică apoi cu `play-listing` → `rollout`.
+
+---
+
 ## Site — 17 noiembrie 2026 (fără schimbare de versiune a aplicației)
 
 **Site-ul ebanist.com corespunde acum aplicației (7 limbi).**

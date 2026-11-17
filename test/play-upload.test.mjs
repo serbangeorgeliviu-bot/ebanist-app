@@ -54,7 +54,7 @@ describe("JWT și token", () => {
 describe("intrări", () => {
   test("track și status necunoscute se refuză", () => {
     assert.throws(() => checkInputs({ track: "prod", status: "draft" }), /track necunoscut/);
-    assert.throws(() => checkInputs({ track: "internal", status: "inProgress" }), /status necunoscut/);
+    assert.throws(() => checkInputs({ track: "internal", status: "halted" }), /status necunoscut/);
   });
   test("production + completed cere confirm=da", () => {
     assert.throws(() => checkInputs({ track: "production", status: "completed", confirm: "" }), /confirm=da/);
@@ -91,6 +91,19 @@ describe("publish", () => {
     const rel = JSON.parse(calls.find((c) => c.method === "PUT").body).releases[0];
     assert.strictEqual(rel.releaseNotes[0].language, "ro-RO");
     assert.strictEqual(rel.releaseNotes[0].text.length, 500);
+  });
+
+  test("lansare treptată: inProgress cere fracția și, pe production, confirm=da; userFraction în lansare", async () => {
+    assert.throws(() => checkInputs({ track: "internal", status: "inProgress" }), /fraction/);
+    assert.throws(() => checkInputs({ track: "internal", status: "inProgress", fraction: "1" }), /fraction/);
+    assert.throws(() => checkInputs({ track: "internal", status: "inProgress", fraction: "0" }), /fraction/);
+    assert.throws(() => checkInputs({ track: "production", status: "inProgress", fraction: "0.2" }), /confirm=da/);
+    assert.throws(() => checkInputs({ track: "internal", status: "draft", fraction: "0.2" }), /numai cu status inProgress/);
+    const { fn, calls } = fake();
+    const r = await publish({ ...base, track: "production", status: "inProgress", fraction: "0.2", confirm: "da", fetchFn: fn });
+    assert.deepStrictEqual(r, { versionCode: 7, track: "production", status: "inProgress", fraction: 0.2 });
+    const put = JSON.parse(calls.find((c) => c.method === "PUT").body);
+    assert.deepStrictEqual(put, { track: "production", releases: [{ name: "7", versionCodes: ["7"], status: "inProgress", userFraction: 0.2 }] });
   });
 
   test("production completed fără confirmare: nu se apelează nimic", async () => {
