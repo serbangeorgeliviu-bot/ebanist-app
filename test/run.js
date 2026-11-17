@@ -5041,6 +5041,33 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  head("Montaj animat (5.68.0): ordine din roluri, sfârșit curat, întrerupere, video");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build"); buildCfg = { ...PRESETS.armadio }; syncBuildForm(); draw3D(); await w(500); studioSync();
+      const p = GL3D.assemble({ ms: 1500 }); await w(250); const mid = GL3D.asmInfo();
+      o.activ = !!mid && mid.items >= 8;
+      o.ordine = !!mid && mid.order.every((v, i, a) => i === 0 || a[i - 1] <= v);
+      o.prima = !!mid && mid.order[0] === 0 && mid.order[mid.order.length - 1] >= 9;
+      const ok = await p; o.final = ok === true && GL3D.asmInfo() === null && GL3D.state.explode === 0;
+      const p2 = GL3D.assemble({ ms: 3000 }); await w(120); GL3D.set({ explode: 0 }); o.intrerupt = (await p2) === false && GL3D.asmInfo() === null;
+      const btn = document.getElementById("btnAsm3d"); o.buton = !!btn && !btn.disabled;
+      const rec = await GL3D.record({ ms: 1500, w: 180, h: 320 });
+      o.video = rec === null || (rec.blob.size > 500 && /^video\//.test(rec.mime) && rec.w === 180);
+      o.dupa = GL3D.asmInfo() === null && GL3D.qualityInfo() != null;
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["vtAsm", "vtRec", "vidRec", "vidNo", "vidDone"].every(k => I18N[l][k]));
+      return o;
+    });
+    if (d.fara_gl) ok("montaj animat: sărit (fără WebGL)", true);
+    else {
+      ok("montaj animat: pornește, piesele vin în ordinea rolurilor (bază → uși) și se termină curat", d.activ && d.ordine && d.prima && d.final, JSON.stringify(d));
+      ok("montaj animat: o schimbare de stare îl întrerupe; butonul există", d.intrerupt && d.buton, JSON.stringify(d));
+      ok("montaj animat: video-ul se înregistrează (sau dispozitivul spune clar că nu poate); textele în 7 limbi", d.video && d.dupa && d.limbi, JSON.stringify(d));
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

@@ -22,6 +22,7 @@ const gated = (head, why) => new RegExp('proGate\\("' + why + '"\\)').test(head)
 describe("„În camera ta”: se deschide gratuit, iese numai cu Pro", () => {
   test("butonul care deschide previzualizarea nu are poartă", () => assert.ok(!/proGate\(/.test(after('$("btnRoom").addEventListener("click"', 160))));
   test("exportul JPG are poarta „jpg”", () => assert.ok(gated(after('$("roomExport").addEventListener("click"', 120), "jpg")));
+  test("video-ul montajului are poarta „export”", () => assert.ok(gated(after('$("btnRec3d").addEventListener("click"', 160), "export")));
   test("AR are poarta „room”", () => assert.ok(gated(after('$("btnAR").addEventListener("click"', 120), "room")));
 });
 

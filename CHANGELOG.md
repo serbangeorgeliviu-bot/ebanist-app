@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.68.0 — 17 noiembrie 2026
+
+**Mobila se montează singură, piesă cu piesă — și se poate salva ca video.**
+- **Montaj animat (gratuit):** butonul cu săgeată din bara viewerului. Piesele vin una câte una în ordinea de montaj (bază, laterale, despărțitoare, rafturi, spate, sertare, uși), din aceleași date ca distinta; camera se rotește încet. Orice atingere (piesă, explodat, altă vedere) îl oprește.
+- **Video cu montajul (Pro, e un export):** butonul cu cameră înregistrează animația ca video vertical 720×1280, bun pentru TikTok și WhatsApp. Pe telefon se deschide foaia de partajare; altfel se descarcă (`.mp4` unde browserul poate, altfel `.webm`). Un dispozitiv care nu poate înregistra spune asta clar.
+- Nu schimbă geometria, distinta sau găurile: doar cât de departe e fiecare piesă la momentul t. Teste noi (ordine, final curat, întrerupere, video, 7 limbi, poarta Pro).
+
+---
+
 ## 5.67.0 — 17 noiembrie 2026
 
 **Generatorul seamănă cu un planner pe ecran mare; modul Client nu mai e acoperit pe telefon.** Inspirat tot din rozrys.pl.
