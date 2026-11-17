@@ -351,6 +351,8 @@ transition:border-color .4s,transform .6s var(--ease),background-color .4s;conta
 .c-room{grid-column:span 3}
 .c-lab{grid-column:span 3}
 .c-off{grid-column:span 2}
+.news{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px;margin-top:clamp(32px,5vw,64px)}
+.news .card p{max-width:none}
 .types{list-style:none;margin-top:18px;display:grid;gap:2px;font-size:12.5px}
 .types li{display:grid;grid-template-columns:22px 26px 1fr;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);color:var(--txt2);transition:color .3s,padding .4s var(--ease)}
 .types svg{width:18px;height:18px;fill:none;stroke:var(--green);stroke-width:1.3}
@@ -972,7 +974,7 @@ c66 -3 133 -12 160 -22z"/>
         <a class="btn btn-laser" id="ctaHero" href="/app/?lang=es" data-goatcounter-click="cta-hero">Abrir Ebanist — gratis <span aria-hidden="true">→</span></a>
         <a class="btn btn-line" href="#story">Ver cómo funciona</a>
       </div>
-      <p class="proof mono">15 tipos de mueble · Blum &amp; Häfele · decorados Egger · documentos PDF</p>
+      <p class="proof mono">22 tipos de mueble · Blum &amp; Häfele · decorados Egger · documentos PDF</p>
       <div class="chips">
         <a class="chip chip-play" href="https://play.google.com/store/apps/details?id=com.domusrenov.ebanist&hl=es&referrer=utm_source%3Debanist-site%26utm_medium%3Dweb%26utm_campaign%3Dsite-es" rel="noopener" target="_blank" data-goatcounter-click="play-hero"><svg class="gp-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8v18.4c0 .6.7 1 1.2.6L21 12.6c.5-.3.5-1 0-1.3L5.2 2.2C4.7 1.9 4 2.2 4 2.8z"/></svg>Disponible en Google Play</a>
         <a class="chip chip-tt" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" data-goatcounter-click="tiktok-hero"><svg class="tt-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.8 5.8 0 1 0 4.9 5.7V9.1a7.4 7.4 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.2-1.6z"/></svg>@ebanist.app</a>
@@ -1070,8 +1072,8 @@ c66 -3 133 -12 160 -22z"/>
     <h2 class="h2 split">Todo lo que el taller <em>escribía antes a mano.</em></h2>
     <div class="bento">
       <article class="card c-types rv" tabindex="0">
-        <h3>15 tipos de mueble</h3><p>Todos paramétricos. Cambia una medida y cada pieza la sigue.</p>
-        <ol class="types mono"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM12 2v20"/></svg><span>01</span>Armario</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2h20v20H2zM12 2v20M2 12h10"/></svg><span>02</span>Vestidor</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v12H3zM3 8l2-3h14l2 3"/></svg><span>03</span>Mueble bajo</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v15H3zM3 10h18M3 15h18"/></svg><span>04</span>Mueble bajo con cajones</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v10H3z"/></svg><span>05</span>Mueble alto de pared</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 1h10v22H7zM7 12h10"/></svg><span>06</span>Columna</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM4 8h16M4 14h16"/></svg><span>07</span>Librería</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M3 14h18"/></svg><span>08</span>Cajonera</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h12v18H2zM14 11h8v10h-8"/></svg><span>09</span>Mueble esquinero · I</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h12v18H10zM2 11h8v10H2"/></svg><span>10</span>Mueble esquinero · D</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2zM12 4v16M2 20h20"/></svg><span>11</span>Puertas correderas</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 10h20v8H2zM6 18v2M18 18v2"/></svg><span>12</span>Mueble de TV</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8h20M4 8v12M20 8v12M4 13h7"/></svg><span>13</span>Escritorio</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9h20M5 9v11M19 9v11"/></svg><span>14</span>Mesa</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20v6H2zM2 8h5v4"/></svg><span>15</span>Cama</li></ol>
+        <h3>22 tipos de mueble</h3><p>Todos paramétricos. Cambia una medida y cada pieza la sigue.</p>
+        <ol class="types mono"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM12 2v20"/></svg><span>01</span>Armario</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2h20v20H2zM12 2v20M2 12h10"/></svg><span>02</span>Vestidor</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v12H3zM3 8l2-3h14l2 3"/></svg><span>03</span>Mueble bajo</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v15H3zM3 10h18M3 15h18"/></svg><span>04</span>Mueble bajo con cajones</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v10H3z"/></svg><span>05</span>Mueble alto de pared</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 1h10v22H7zM7 12h10"/></svg><span>06</span>Columna</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM4 8h16M4 14h16"/></svg><span>07</span>Librería</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M3 14h18"/></svg><span>08</span>Cajonera</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h12v18H2zM14 11h8v10h-8"/></svg><span>09</span>Mueble esquinero</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h20v16H2zM12 4v16M2 20h20"/></svg><span>10</span>Corredera</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 10h20v8H2zM6 18v2M18 18v2"/></svg><span>11</span>Mueble de TV</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18v10H3zM6 10V6a3 3 0 0 1 6 0"/></svg><span>12</span>Baño</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2h16v20H4zM8 6h8v12H8z"/></svg><span>13</span>Vitrina</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8h20M4 8v12M20 8v12M4 13h7"/></svg><span>14</span>Escritorio</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9h20M5 9v11M19 9v11"/></svg><span>15</span>Mesa</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20v6H2zM2 8h5v4"/></svg><span>16</span>Cama</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/></svg><span>17</span>Redondo</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 3 9 7s-4 7-9 7-9-3-9-7 4-7 9-7z"/></svg><span>18</span>Ovalado</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z"/></svg><span>19</span>Redondeada</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2v20M8 2v20M12 2v20M16 2v20M20 2v20"/></svg><span>20</span>Lamas</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v18H3zM6 6h5v12H6zM13 6h5v12h-5z"/></svg><span>21</span>Marcos</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18c0-8 4-14 10-14 4 0 6 3 6 6 0 5-6 3-6 8z"/></svg><span>22</span>Contorno</li></ol>
       </article>
       <article class="card c-hw rv" tabindex="0">
         <h3>Catálogo Blum &amp; Häfele</h3><p>Números de artículo reales, editables. Contados una sola vez — el presupuesto y la hoja de montaje siempre coinciden.</p>
@@ -1117,6 +1119,23 @@ c66 -3 133 -12 160 -22z"/>
         <h3>Sin conexión, local, tuyo</h3><p>Los proyectos se quedan en tu dispositivo. Copia completa en un solo archivo, cuando quieras.</p>
         <dl class="off mono"><div><dt>red</dt><dd>0 KB</dd></div><div><dt>cuenta</dt><dd>—</dd></div><div><dt>copia</dt><dd>.json</dd></div></dl>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec news-sec" id="news">
+  <div class="wrap">
+    <p class="kicker mono rv">Novedades</p>
+    <h2 class="h2 split">Ebanist <em>sigue creciendo.</em></h2>
+    <div class="news">
+      <article class="card rv" tabindex="0"><h3>Cocinas con nichos para electrodomésticos</h3><p>Muebles bajos con cotas absolutas, nichos para aparatos y encimera con unión recta o a 45°.</p></article>
+      <article class="card rv" tabindex="0"><h3>Iluminación LED en el presupuesto</h3><p>Tira de silicona en un canal de 6×6 mm, fuente, regulador o sensor de puerta (Häfele Loox): el canal en la ficha de la pieza, los artículos en el despiece y el presupuesto, y la luz se enciende en 3D.</p></article>
+      <article class="card rv" tabindex="0"><h3>3D que muestra los herrajes</h3><p>Bisagras, guías Blum, conectores Lamello y Festool dibujados con los datos del fabricante, veta real de la madera, modos de calidad para cualquier móvil.</p></article>
+      <article class="card rv" tabindex="0"><h3>Animación de montaje</h3><p>Mira cómo se monta el mueble por orden y grábalo como vídeo para el cliente.</p></article>
+      <article class="card rv" tabindex="0"><h3>Controles rojos con soluciones</h3><p>Cuando un control bloquea la exportación, «Elegir la solución» ofrece solo arreglos que de verdad lo cierran. No hay botón «ignorar».</p></article>
+      <article class="card rv" tabindex="0"><h3>QR en cada etiqueta</h3><p>Escaneas la etiqueta en el taller y se abre la ficha de la pieza con cotas y taladros. Pedidos y estados para el equipo.</p></article>
+      <article class="card rv" tabindex="0"><h3>Plantillas de taladrado STL</h3><p>Imprime plantillas para tus taladros (holgura 0,2 mm, casquillos metálicos) desde el mismo modelo que el despiece. Pro.</p></article>
+      <article class="card rv" tabindex="0"><h3>Escritorios, mesas, camas, formas redondas y lamas</h3><p>Bandeja de teclado, pasacables, mesa extensible, camas con arcón o cajones, esquinas redondeadas, lamas y marcos.</p></article>
     </div>
   </div>
 </section>
@@ -1249,7 +1268,7 @@ c66 -3 133 -12 160 -22z"/>
       <details><summary>¿Funciona en iPhone?</summary><p>Sí — en Safari en iPhone y iPad, igual que en móviles Android, tabletas y cualquier PC.</p></details>
       <details><summary>¿Dónde están mis datos?</summary><p>En tu dispositivo, en el almacenamiento del navegador. No hay cuenta y no se sube nada. Una copia completa es un archivo JSON que puedes exportar cuando quieras, gratis.</p></details>
       <details><summary>¿Funciona sin conexión?</summary><p>Sí. Tras el primer arranque, toda la app — medición, diseño, 3D, despiece — funciona sin red.</p></details>
-      <details><summary>¿Qué fábricas aceptan los archivos?</summary><p>Cualquier servicio de corte que lea un despiece en PDF o CSV. El paquete de taller (JSON, sin precios) lleva cada pieza con sus cantos. Los archivos nativos de máquina (Biesse, SCM, Homag) están en desarrollo con un socio y aún no están disponibles.</p></details>
+      <details><summary>¿Qué fábricas aceptan los archivos?</summary><p>Cualquier servicio de corte que lea un despiece en PDF o CSV. El paquete de taller (JSON, sin precios) lleva cada pieza con sus cantos. Los archivos nativos de máquina (Biesse, SCM, Homag) llegarán cuando tengamos un CNC para verificarlos; por ahora son PDF, CSV y JSON.</p></details>
       <details><summary>¿Puedo poner mi propio logo en los PDF?</summary><p>Sí, con Pro: Ajustes → Logo en los PDF. El nombre y los datos de tu empresa salen en cada documento.</p></details>
     </div>
   </div>

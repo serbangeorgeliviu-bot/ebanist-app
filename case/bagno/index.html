@@ -351,6 +351,8 @@ transition:border-color .4s,transform .6s var(--ease),background-color .4s;conta
 .c-room{grid-column:span 3}
 .c-lab{grid-column:span 3}
 .c-off{grid-column:span 2}
+.news{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px;margin-top:clamp(32px,5vw,64px)}
+.news .card p{max-width:none}
 .types{list-style:none;margin-top:18px;display:grid;gap:2px;font-size:12.5px}
 .types li{display:grid;grid-template-columns:22px 26px 1fr;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);color:var(--txt2);transition:color .3s,padding .4s var(--ease)}
 .types svg{width:18px;height:18px;fill:none;stroke:var(--green);stroke-width:1.3}

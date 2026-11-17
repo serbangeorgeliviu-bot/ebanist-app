@@ -151,7 +151,7 @@ function assembly(L) {
 </svg>`;
 }
 
-const typeGlyphs = ["M4 2h16v20H4zM12 2v20", "M2 2h20v20H2zM12 2v20M2 12h10", "M3 8h18v12H3zM3 8l2-3h14l2 3", "M3 5h18v15H3zM3 10h18M3 15h18", "M3 4h18v10H3z", "M7 1h10v22H7zM7 12h10", "M4 2h16v20H4zM4 8h16M4 14h16", "M3 4h18v16H3zM3 9h18M3 14h18", "M2 3h12v18H2zM14 11h8v10h-8", "M10 3h12v18H10zM2 11h8v10H2", "M2 4h20v16H2zM12 4v16M2 20h20", "M2 10h20v8H2zM6 18v2M18 18v2", "M2 8h20M4 8v12M20 8v12M4 13h7", "M2 9h20M5 9v11M19 9v11", "M2 12h20v6H2zM2 8h5v4"];
+const typeGlyphs = ["M4 2h16v20H4zM12 2v20", "M2 2h20v20H2zM12 2v20M2 12h10", "M3 8h18v12H3zM3 8l2-3h14l2 3", "M3 5h18v15H3zM3 10h18M3 15h18", "M3 4h18v10H3z", "M7 1h10v22H7zM7 12h10", "M4 2h16v20H4zM4 8h16M4 14h16", "M3 4h18v16H3zM3 9h18M3 14h18", "M2 3h12v18H2zM14 11h8v10h-8", "M2 4h20v16H2zM12 4v16M2 20h20", "M2 10h20v8H2zM6 18v2M18 18v2", "M3 10h18v10H3zM6 10V6a3 3 0 0 1 6 0", "M4 2h16v20H4zM8 6h8v12H8z", "M2 8h20M4 8v12M20 8v12M4 13h7", "M2 9h20M5 9v11M19 9v11", "M2 12h20v6H2zM2 8h5v4", "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z", "M12 5c5 0 9 3 9 7s-4 7-9 7-9-3-9-7 4-7 9-7z", "M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z", "M4 2v20M8 2v20M12 2v20M16 2v20M20 2v20", "M3 3h18v18H3zM6 6h5v12H6zM13 6h5v12h-5z", "M4 18c0-8 4-14 10-14 4 0 6 3 6 6 0 5-6 3-6 8z"];
 function types(L) {
   return t(L, "bento.types.list").map((n, i) => `<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${typeGlyphs[i] || typeGlyphs[0]}"/></svg><span>${String(i + 1).padStart(2, "0")}</span>${esc(n)}</li>`).join("");
 }
