@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Site — 17 noiembrie 2026 (articol 5.x, tabel Gratuit/Pro)
+
+- **Articol nou de blog:** „Noutăți în Ebanist 5.46–5.78" (7 limbi) la `/blog/whats-new-5-78/`: feronerie în 3D, controale cu soluții, bucătării, QR pe etichete, rezumat și anulează/refă, montaj animat, LED, lemn din poze reale. Apare primul în index, în sitemap și în JSON-LD.
+- **Tabelul Gratuit/Pro urmează D-131:** „Previzualizarea «În camera ta» și fișa piesei" e gratuită (rând nou), „Export JPG și AR" e Pro, iar animația de montaj ca video și șabloanele STL sunt rânduri noi, Pro.
+
+---
+
 ## Android 1.4.0 (versionCode 10) — 17 noiembrie 2026
 
 **Android 1.4.0 (proba gratuită de 7 zile, D-132) pleacă în producție, treptat.**
