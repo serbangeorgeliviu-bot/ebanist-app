@@ -10570,6 +10570,7 @@ function clientOpen(){
     window.GL3D.select(null);
     window.GL3D.set({mode:"real",hw:false,holes:false,edges:false,open:false,explode:0});
     window.GL3D.spin(true);
+    window.GL3D.quality("hi");                 // prezentare: rezoluția ecranului, umbre 2048
     setTimeout(()=>window.GL3D.resize(),40);
   }
   cmPaint(); cmDraw(); navSync(); haptic();
@@ -10580,6 +10581,7 @@ function clientClose(){
   $("cmSign").hidden=true; $("cmDone").hidden=true;
   if(gl3dOn()){
     window.GL3D.spin(false);
+    window.GL3D.quality("std");
     const cv=$("gl3d"); $("vp3d").insertBefore(cv,$("vp3d").firstChild);
     window.GL3D.set(Object.assign({edges:true},CM.saved||{},{sel:null,iso:false}));
     setTimeout(()=>{ window.GL3D.resize(); if(typeof drawPreview==="function"&&currentView==="build") drawPreview(); },40);

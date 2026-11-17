@@ -5013,6 +5013,34 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Client pe telefon: antet îngust, prețul sub 40% din panou, rândurile detaliate ascunse", r.pret && r.antet && r.rows, JSON.stringify(r));
   }
 
+  head("Calitate de prezentare 3D (5.67.0): modul Client randează la rezoluția ecranului");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets();
+      const s0 = GL3D.qualityInfo();
+      o.std = s0.q === "std" && s0.aniso >= 4;
+      GL3D.quality("hi"); const h = GL3D.qualityInfo();
+      o.hi = h.q === "hi" && h.shadow === 2048 && h.dpr >= s0.dpr;
+      GL3D.quality("std"); o.inapoi = GL3D.qualityInfo().q === "std";
+      const keepP = state.projects, keepA = state.activeId, keepGate = window.proGate;
+      state.projects = [{ id: "ql1", name: "T", pieces: [], configs: {}, geomVersion: GEOM_VERSION }]; state.activeId = "ql1";
+      generateInto(proj(), { ...PRESETS.armadio, name: "Ql", L: 800, H: 900, P: 400 });
+      window.proGate = () => true; clientOpen(); await w(300);
+      o.client = GL3D.qualityInfo().q === "hi";
+      clientClose(); await w(100);
+      o.iese = GL3D.qualityInfo().q === "std";
+      window.proGate = keepGate; state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    if (d.fara_gl) ok("calitate 3D: sărit (fără WebGL)", true);
+    else {
+      ok("calitate 3D: standard în lucru, «hi» (umbre 2048, rezoluția ecranului) la cerere", d.std && d.hi && d.inapoi, JSON.stringify(d));
+      ok("calitate 3D: modul Client trece pe «hi» și revine la ieșire", d.client && d.iese, JSON.stringify(d));
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
