@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.73.0 — 17 noiembrie 2026
+
+**Iluminat LED în distinctă, în deviz și în catalog (D-157).** Pornit de la lucrarea Nick Cetinic (nișă luminată); articolele sunt cele de pe etichetele fotografiate.
+- **Opțiune pe corp, în „Feronerie corp":** *Iluminat LED* = Fără / Sub plafon (lățimea interioară a corpului) / Lungime introdusă (mm). Sub formular apare rezumatul: metri, puterea în W, câte transformatoare.
+- **Banda e rând de accesorii în distinctă** (*Striscia LED*, 6 mm lățime, la metru), nu panou: nu intră în piese și în m². Fără opțiune, distinta e exact cea de dinainte.
+- **Transformatorul, dimmerul și cablurile se calculează singure din puterea benzii** (7,2 W/m): un transformator de 20 W poartă cel mult 80 % (16 W, adică 2,2 m de bandă); peste, se adaugă transformatoare. Pe fiecare transformator: un dimmer, un cablu de întrerupător și un cablu de rețea. Toate intră în deviz.
+- **Cinci categorii noi în Catalog** (bandă, transformator, dimmer, cablu de întrerupător, cablu de rețea), în 7 limbi, cu articolele de pe etichete: Emuca 5220220 (neon flex 6×6, 7,2 W/m, 24 V), Häfele 833.75.933 (Loox5 ECO 24 V / 20 W), 833.89.133 (dimmer Loox), 833.89.142 și 833.89.009 (cabluri, 2 m). **Prețurile sunt 0 și marcate „de verificat" până le completezi tu** (la bandă: dacă e pe metru sau pe rolă).
+- **Ce nu s-a făcut încă:** canalul frezat și gaura dimmerului (cotele de la Cetinic nu sunt încă măsurate; rămân `verificat:false`), banda în 3D, pasul de montaj în fișă, alegerea articolului pe corp. Teste noi: `led.test.js` (14) și e2e.
+
+---
+
 ## 5.72.0 — 17 noiembrie 2026
 
 **Pagina ebanist.com arată aplicația în mișcare.** În secțiunea TikTok, telefonul din dreapta nu mai e o poză: rulează clipul de montaj (dulap din stejar, piesele vin una câte una, ușile se montează și se deschid), mut, în buclă, 13 secunde.

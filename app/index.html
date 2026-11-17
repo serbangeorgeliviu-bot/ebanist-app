@@ -1921,6 +1921,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <details class="grp" id="grpHw" data-ic="wrench">
       <summary><span data-i="grpHw">Feronerie corp</span><i class="grp-sum" id="sumHw"></i></summary>
       <div class="grp-body">
+        <div class="f"><label data-i="fLed">Iluminat LED</label>
+          <select id="bLed"><option value="" data-i="ledNone">Fără</option><option value="top" data-i="ledTop">Sub plafon (lățimea interioară)</option><option value="manual" data-i="ledManual">Lungime introdusă</option></select></div>
+        <div class="f" id="rowLedLen" style="display:none"><label data-i="fLedLen">Lungime bandă (mm)</label><input id="bLedLen" type="number" inputmode="numeric" min="50" max="20000" placeholder="1000"></div>
+        <p class="mini" id="ledHint" style="margin:0 0 8px;display:none"></p>
         <p class="mini" data-i="hwSelHint" style="margin:0 0 8px"></p>
         <div id="hwSelBox"></div>
       </div>
@@ -4163,6 +4167,20 @@ Object.assign(I18N.fr,{"cmAsm": "Montage"});
 Object.assign(I18N.de,{"cmAsm": "Montage"});
 Object.assign(I18N.pl,{"cmAsm": "Montaż"});
 Object.assign(I18N.es,{"cmAsm": "Montaje"});
+Object.assign(I18N.it,{"hwLedStrip": "Striscia LED (m)", "hwLedDrv": "Trasformatore LED (pz)", "hwLedDim": "Dimmer LED (pz)", "hwLedSw": "Cavo interruttore LED (pz)", "hwLedMains": "Cavo di rete LED (pz)"});
+Object.assign(I18N.ro,{"hwLedStrip": "Bandă LED (m)", "hwLedDrv": "Transformator LED (buc.)", "hwLedDim": "Dimmer LED (buc.)", "hwLedSw": "Cablu întrerupător LED (buc.)", "hwLedMains": "Cablu rețea LED (buc.)"});
+Object.assign(I18N.en,{"hwLedStrip": "LED strip (m)", "hwLedDrv": "LED driver (pcs)", "hwLedDim": "LED dimmer (pcs)", "hwLedSw": "LED switch lead (pcs)", "hwLedMains": "LED mains cable (pcs)"});
+Object.assign(I18N.fr,{"hwLedStrip": "Ruban LED (m)", "hwLedDrv": "Transformateur LED (pcs)", "hwLedDim": "Variateur LED (pcs)", "hwLedSw": "Câble d'interrupteur LED (pcs)", "hwLedMains": "Câble secteur LED (pcs)"});
+Object.assign(I18N.de,{"hwLedStrip": "LED-Band (m)", "hwLedDrv": "LED-Netzteil (Stk.)", "hwLedDim": "LED-Dimmer (Stk.)", "hwLedSw": "LED-Schalterzuleitung (Stk.)", "hwLedMains": "LED-Netzkabel (Stk.)"});
+Object.assign(I18N.pl,{"hwLedStrip": "Taśma LED (m)", "hwLedDrv": "Zasilacz LED (szt.)", "hwLedDim": "Ściemniacz LED (szt.)", "hwLedSw": "Przewód włącznika LED (szt.)", "hwLedMains": "Przewód sieciowy LED (szt.)"});
+Object.assign(I18N.es,{"hwLedStrip": "Tira LED (m)", "hwLedDrv": "Transformador LED (uds.)", "hwLedDim": "Regulador LED (uds.)", "hwLedSw": "Cable de interruptor LED (uds.)", "hwLedMains": "Cable de red LED (uds.)"});
+Object.assign(I18N.it,{"fLed": "Illuminazione LED", "ledNone": "Nessuna", "ledTop": "Sotto il cielo (larghezza interna)", "ledManual": "Lunghezza inserita", "fLedLen": "Lunghezza striscia (mm)", "ledHint": "Striscia {m} m · {w} W · {n} trasformatore/i (20 W, margine 20 %); dimmer e cavi inclusi."});
+Object.assign(I18N.ro,{"fLed": "Iluminat LED", "ledNone": "Fără", "ledTop": "Sub plafon (lățimea interioară)", "ledManual": "Lungime introdusă", "fLedLen": "Lungime bandă (mm)", "ledHint": "Bandă {m} m · {w} W · {n} transformator(oare) (20 W, marjă 20 %); dimmer și cabluri incluse."});
+Object.assign(I18N.en,{"fLed": "LED lighting", "ledNone": "None", "ledTop": "Under the top (inner width)", "ledManual": "Entered length", "fLedLen": "Strip length (mm)", "ledHint": "Strip {m} m · {w} W · {n} driver(s) (20 W, 20 % margin); dimmer and cables included."});
+Object.assign(I18N.fr,{"fLed": "Éclairage LED", "ledNone": "Aucun", "ledTop": "Sous le dessus (largeur intérieure)", "ledManual": "Longueur saisie", "fLedLen": "Longueur du ruban (mm)", "ledHint": "Ruban {m} m · {w} W · {n} transformateur(s) (20 W, marge 20 %) ; variateur et câbles inclus."});
+Object.assign(I18N.de,{"fLed": "LED-Beleuchtung", "ledNone": "Keine", "ledTop": "Unter der Decke (Innenbreite)", "ledManual": "Eingegebene Länge", "fLedLen": "Bandlänge (mm)", "ledHint": "Band {m} m · {w} W · {n} Netzteil(e) (20 W, 20 % Reserve); Dimmer und Kabel inklusive."});
+Object.assign(I18N.pl,{"fLed": "Oświetlenie LED", "ledNone": "Brak", "ledTop": "Pod blatem górnym (szerokość wewnętrzna)", "ledManual": "Wpisana długość", "fLedLen": "Długość taśmy (mm)", "ledHint": "Taśma {m} m · {w} W · {n} zasilacz(e) (20 W, zapas 20 %); ściemniacz i przewody wliczone."});
+Object.assign(I18N.es,{"fLed": "Iluminación LED", "ledNone": "Ninguna", "ledTop": "Bajo el techo (ancho interior)", "ledManual": "Longitud introducida", "fLedLen": "Longitud de la tira (mm)", "ledHint": "Tira {m} m · {w} W · {n} transformador(es) (20 W, margen 20 %); regulador y cables incluidos."});
 Object.assign(I18N.it,{"proPrevTitle": "Così sarà la tua distinta", "proPrevMore": "e altri {n} pezzi, con Pro"});
 Object.assign(I18N.ro,{"proPrevTitle": "Așa arată distinta ta", "proPrevMore": "și încă {n} piese, cu Pro"});
 Object.assign(I18N.en,{"proPrevTitle": "This is your cut list", "proPrevMore": "and {n} more parts, with Pro"});
@@ -4541,7 +4559,17 @@ const HWDB={
   {id:"haf_axilo_460",brand:"Häfele",n:{it:"Piedino AXILO 78 a pressione, profilo basso (zoccolo 35–48 mm), con piastra di montaggio Ø35",ro:"Picior AXILO 78 cu presare, profil jos (soclu 35–48 mm), cu plăcuță de montaj Ø35 inclusă",en:"AXILO 78 press-fit low-profile foot (plinth 35–48 mm), supplied with Ø35 mounting plate",fr:"Pied AXILO 78 à emboîter, profil bas (socle 35–48 mm), livré avec plaque de montage Ø35",de:"AXILO-78-Flachfuß zum Einpressen (Sockelhöhe 35–48 mm), mit Montageplatte Ø35",pl:"Nóżka AXILO 78 wciskana, niska (cokół 35–48 mm), z płytką montażową Ø35",es:"Pata AXILO 78 a presión, perfil bajo (zócalo 35–48 mm), con placa de montaje Ø35"},art:"637.76.460",price:0,chk:1,range:[35,48],load:150},
   {id:"haf_axilo_plate334",brand:"Häfele",n:{it:"Piastra di montaggio AXILO 78 a pressione, rettangolare, nera (codice da oferta: de confermare)",ro:"Plăcuță de montaj AXILO 78 cu presare, dreptunghiulară, neagră (cod din ofertă: de confirmat)",en:"AXILO 78 press-fit mounting plate, rectangular, black (code from a retailer listing: to be confirmed)",fr:"Plaque de montage AXILO 78 à emboîter, rectangulaire, noire (référence d'une offre : à confirmer)",de:"AXILO-78-Montageplatte zum Einpressen, rechteckig, schwarz (Nummer aus einem Händlerangebot: zu bestätigen)",pl:"Płytka montażowa AXILO 78 wciskana, prostokątna, czarna (kod z oferty: do potwierdzenia)",es:"Placa de montaje AXILO 78 a presión, rectangular, negra (código de una oferta: por confirmar)"},art:"637.76.334",price:0,chk:1}],
  feltro:[
-  {id:"gen_felt",brand:"—",n:{it:"Feltrino adesivo Ø 60",ro:"Pâslă adezivă Ø 60",en:"Adhesive felt pad Ø 60",fr:"Patin feutre adhésif Ø 60",de:"Selbstklebender Filzgleiter Ø 60",pl:"Samoprzylepna podkładka filcowa Ø 60",es:"Fieltro adhesivo Ø 60"},art:"\u2014",price:0.2}]
+  {id:"gen_felt",brand:"—",n:{it:"Feltrino adesivo Ø 60",ro:"Pâslă adezivă Ø 60",en:"Adhesive felt pad Ø 60",fr:"Patin feutre adhésif Ø 60",de:"Selbstklebender Filzgleiter Ø 60",pl:"Samoprzylepna podkładka filcowa Ø 60",es:"Fieltro adhesivo Ø 60"},art:"\u2014",price:0.2}],
+ ledstrip:[
+  {id:"emu_5220220",brand:"Emuca",n:{"it": "Striscia LED neon flex 6×6 mm, 7,2 W/m, 24 V (Emuca STR3 NEONLYNX-H, al metro)", "ro": "Bandă LED neon flex 6×6 mm, 7,2 W/m, 24 V (Emuca STR3 NEONLYNX-H, la metru)", "en": "LED neon flex strip 6×6 mm, 7.2 W/m, 24 V (Emuca STR3 NEONLYNX-H, per metre)", "fr": "Ruban LED néon flex 6×6 mm, 7,2 W/m, 24 V (Emuca STR3 NEONLYNX-H, au mètre)", "de": "LED-Neonflex-Band 6×6 mm, 7,2 W/m, 24 V (Emuca STR3 NEONLYNX-H, pro Meter)", "pl": "Taśma LED neon flex 6×6 mm, 7,2 W/m, 24 V (Emuca STR3 NEONLYNX-H, za metr)", "es": "Tira LED neón flex 6×6 mm, 7,2 W/m, 24 V (Emuca STR3 NEONLYNX-H, por metro)"},art:"5220220",price:0,chk:1,wpm:7.2,v:24}],
+ leddrv:[
+  {id:"haf_833_75_933",brand:"Häfele",n:{"it": "Trasformatore Häfele Loox5 ECO 24 V / 20 W, con cavo per interruttore", "ro": "Transformator Häfele Loox5 ECO 24 V / 20 W, cu cablu pentru întrerupător", "en": "Häfele Loox5 ECO driver 24 V / 20 W, with switch lead", "fr": "Transformateur Häfele Loox5 ECO 24 V / 20 W, avec câble d'interrupteur", "de": "Häfele Loox5 ECO Netzteil 24 V / 20 W, mit Schalterzuleitung", "pl": "Zasilacz Häfele Loox5 ECO 24 V / 20 W, z przewodem do włącznika", "es": "Transformador Häfele Loox5 ECO 24 V / 20 W, con cable de interruptor"},art:"833.75.933",price:0,chk:1,w:20,v:24}],
+ leddim:[
+  {id:"haf_833_89_133",brand:"Häfele",n:{"it": "Dimmer Häfele Loox rotondo (sistemi 12 V, 24 V, 350 mA)", "ro": "Dimmer Häfele Loox rotund (sisteme 12 V, 24 V, 350 mA)", "en": "Häfele Loox round dimmer (12 V, 24 V, 350 mA systems)", "fr": "Variateur Häfele Loox rond (systèmes 12 V, 24 V, 350 mA)", "de": "Häfele Loox Dimmer rund (12-V-, 24-V-, 350-mA-Systeme)", "pl": "Ściemniacz Häfele Loox okrągły (systemy 12 V, 24 V, 350 mA)", "es": "Regulador Häfele Loox redondo (sistemas 12 V, 24 V, 350 mA)"},art:"833.89.133",price:0,chk:1}],
+ ledsw:[
+  {id:"haf_833_89_142",brand:"Häfele",n:{"it": "Cavo per interruttore Häfele Loox, modulare a scatto, nero, 2,0 m", "ro": "Cablu pentru întrerupător Häfele Loox, modular snap, negru, 2,0 m", "en": "Häfele Loox switch lead, modular snap, black, 2.0 m", "fr": "Câble d'interrupteur Häfele Loox, modulaire à clipser, noir, 2,0 m", "de": "Häfele Loox Schalterzuleitung, modular Snap, schwarz, 2,0 m", "pl": "Przewód do włącznika Häfele Loox, modułowy snap, czarny, 2,0 m", "es": "Cable de interruptor Häfele Loox, modular snap, negro, 2,0 m"},art:"833.89.142",price:0,chk:1}],
+ ledmains:[
+  {id:"haf_833_89_009",brand:"Häfele",n:{"it": "Cavo di rete Häfele Lighting, capi liberi, EU, nero, 2 m", "ro": "Cablu de rețea Häfele Lighting, capete libere, EU, negru, 2 m", "en": "Häfele Lighting mains cable, bare end, EU, black, 2 m", "fr": "Câble secteur Häfele Lighting, extrémités libres, EU, noir, 2 m", "de": "Häfele Lighting Primärleitung, Litze, EU, schwarz, 2 m", "pl": "Przewód sieciowy Häfele Lighting, wolne końce, EU, czarny, 2 m", "es": "Cable de red Häfele Lighting, extremos libres, EU, negro, 2 m"},art:"833.89.009",price:0,chk:1}],
 };
 /* D-114: toate codurile de comandă Blum din catalogul 2022/23 (ebanist-hinges-data.js) intră în lista de balamale; cele deja scrise mai sus rămân. */
 if(window.EBHinges) HWDB.cern.push(...EBHinges.catalogEntries(HWDB.cern.map(x=>x.id)));
@@ -4779,6 +4807,7 @@ Object.assign(ACC_I18N,{"Accessorio — pistone a gas":{ro:"Accesoriu — piston
 Object.assign(ACC_I18N,{"Accessorio — rotella scatola sotto letto":{ro:"Accesoriu — rotilă cutie sub pat",en:"Accessory — under-bed box castor",fr:"Accessoire — roulette de caisse sous lit",de:"Zubehör — Rolle für Bettkasten",pl:"Akcesorium — kółko szuflady pod łóżko",es:"Accesorio — rueda de caja bajo cama"}});
 Object.assign(ACC_I18N,{"Accessorio — guide tavolo estensibile Häfele":{ro:"Accesoriu — glisiere masă extensibilă Häfele",en:"Accessory — Häfele table extension slides",fr:"Accessoire — coulisses de table à rallonge Häfele",de:"Zubehör — Häfele Auszugstischbeschlag",pl:"Akcesorium — prowadnice stołu rozkładanego Häfele",es:"Accesorio — guías de mesa extensible Häfele"}});
 Object.assign(ACC_I18N,{"Accessorio — guida ripiano tastiera Hettich KA 3434":{ro:"Accesoriu — glisieră raft tastatură Hettich KA 3434",en:"Accessory — keyboard tray runner Hettich KA 3434",fr:"Accessoire — coulisse de tablette clavier Hettich KA 3434",de:"Zubehör — Tastaturauszug Hettich KA 3434",pl:"Akcesorium — prowadnica półki na klawiaturę Hettich KA 3434",es:"Accesorio — guía de bandeja de teclado Hettich KA 3434"},"Accessorio — passacavi Ø60":{ro:"Accesoriu — trecere cabluri Ø60",en:"Accessory — cable grommet Ø60",fr:"Accessoire — passe-câbles Ø60",de:"Zubehör — Kabeldurchlass Ø60",pl:"Akcesorium — przepust kablowy Ø60",es:"Accesorio — pasacables Ø60"}});
+Object.assign(ACC_I18N,{"Accessorio — striscia LED neon flex 6×6": {"ro": "Accesoriu — bandă LED neon flex 6×6", "en": "Accessory — LED neon flex strip 6×6", "fr": "Accessoire — ruban LED néon flex 6×6", "de": "Zubehör — LED-Neonflex-Band 6×6", "pl": "Akcesorium — taśma LED neon flex 6×6", "es": "Accesorio — tira LED neón flex 6×6"}});
 function matLabelUI(label){
   const L=(typeof state!=="undefined"&&state&&state.lang)||"it";
   const a=ACC_I18N[label]; if(a) return a[L]||label;
@@ -6934,6 +6963,18 @@ const GOLA_TYPES={L:{h:40,c:60},J:{h:30,c:30},fresata:{h:25,c:25}};
 const GOLA_J={verificat:false,h:25};
 function golaType(cfg){ const t=cfg&&cfg.golaType; return GOLA_TYPES[t]?t:"L"; }
 const MAT_AW="Accessorio — profilo anticurvatura";
+/* D-157 — iluminat LED: bandă neon flex 6×6 în canal frezat + transformator + dimmer + cabluri (date de pe etichete, Cetinic).
+   Numai banda e rând de distinctă (accesoriu la metru); transformatorul, dimmerul și cablurile se numără în computeHardware
+   din lungimea ei. Fără opțiunea `led` pe corp = distinta de dinainte. */
+const MAT_LED="Accessorio — striscia LED neon flex 6×6";
+const LED={sect:6,wpm:7.2,v:24,drvW:20,margin:0.8,maxLen:20000};
+function ledMode(cfg){ const m=cfg&&cfg.led; return m==="top"||m==="manual"?m:""; }
+function ledLength(cfg,Lint){ const m=ledMode(cfg);
+  if(m==="top") return Math.round((+Lint||0)*10)/10;
+  if(m==="manual"){ const v=+cfg.ledLen; return v>0&&v<=LED.maxLen?Math.round(v*10)/10:0; }
+  return 0; }
+/* câte transformatoare: puterea benzii împărțită la ce poate purta unul (20 W × marja 0,8), rotunjit în sus */
+function ledKit(lenMm){ const m=lenMm/1000, w=m*LED.wpm, drv=Math.max(1,Math.ceil(w/(LED.drvW*LED.margin)-1e-9)); return {m,w,drv}; }
 const MAT_VENT="Accessorio — griglia di aerazione";
 const MAT_FOLD="Accessorio — sistema anta pieghevole";
 const MAT_PIED="Accessorio — piedino regolabile";
@@ -8574,6 +8615,8 @@ function buildCore(cfg){
         fp.scasso=all.length===1?all[0]:all; }
     }
   }
+  /* LED (D-157): banda e un accesoriu la metru, pe lățimea interioară („sub plafon”) sau pe cota introdusă */
+  { const ln=ledLength(cfg,G.L_int); if(ln>0) add("Striscia LED",ln,LED.sect,1,"",MAT_LED,{role:"accessorio"}); }
   if(cfg.back){
     // cava fresata: lo schienale entra di NUT_D per lato — tra i fianchi: pannello pieno tra i due fianchi
     const bw=G.back_W;
@@ -10204,6 +10247,12 @@ Object.assign(EL_I18N.fr,{"Lamella":"Lamelle","Pannello supporto":"Panneau suppo
 Object.assign(EL_I18N.de,{"Lamella":"Lamelle","Pannello supporto":"Trägerplatte"});
 Object.assign(EL_I18N.pl,{"Lamella":"Lamelka","Pannello supporto":"Płyta podkładu"});
 Object.assign(EL_I18N.es,{"Lamella":"Lama","Pannello supporto":"Panel soporte"});
+Object.assign(EL_I18N.ro,{"Striscia LED":"Bandă LED"});
+Object.assign(EL_I18N.en,{"Striscia LED":"LED strip"});
+Object.assign(EL_I18N.fr,{"Striscia LED":"Ruban LED"});
+Object.assign(EL_I18N.de,{"Striscia LED":"LED-Band"});
+Object.assign(EL_I18N.pl,{"Striscia LED":"Taśma LED"});
+Object.assign(EL_I18N.es,{"Striscia LED":"Tira LED"});
 function elName(s){
   if(s==null) return s;
   const D=EL_I18N[state&&state.lang]; if(!D) return s;
@@ -11018,6 +11067,7 @@ function cfgFromForm(){
     back:parseInt($("bBack").value,10)?1:0, hang:parseInt($("bHang").value,10)?1:0,
     front:$("bFront").value, support:$("bSupport").value,
     handles:$("bHandles").value, shelfType:$("bShelfT").value,
+    led:$("bLed").value||"", ledLen:parseInt($("bLedLen").value,10)||0,
     golaType:$("bHandles").value==="gola"&&$("bGolaType").value!=="L"?$("bGolaType").value:null,
     golaH:$("bHandles").value==="gola"&&v("bGolaH",0)>0?Math.max(5,Math.min(200,v("bGolaH",0))):null,
     golaC:$("bHandles").value==="gola"&&v("bGolaC",0)>0?Math.max(5,Math.min(200,v("bGolaC",0))):null,
@@ -11110,10 +11160,20 @@ function cfgCarry(src){
   return o;
 }
 function fAng(id){ const raw=$(id).value.trim(); if(!raw) return 90; const n=parseFloat(raw.replace(",",".")); return isFinite(n)?angClamp(n):90; }
+/* LED (D-157): lungimea se cere numai la „lungime introdusă”; sub formular, cât iese din cote */
+function ledRows(){
+  const m=$("bLed").value, row=$("rowLedLen"), h=$("ledHint"); if(!row||!h) return;
+  row.style.display=m==="manual"?"":"none";
+  let txt="";
+  try{ const r=buildModule(cfgFromForm()).pieces.find(x=>x.elemento==="Striscia LED"), len=r?r.lung:0;
+    if(len>0){ const k=ledKit(len); txt=t("ledHint").replace("{m}",(len/1000).toFixed(2)).replace("{w}",k.w.toFixed(1)).replace("{n}",k.drv); } }catch(e){}
+  h.textContent=txt; h.style.display=txt?"":"none";
+}
 function syncBuildForm(){
   $("bFront").value=buildCfg.front||"piena"; $("bSupport").value=buildCfg.support||"zoccolo";
   $("bHandles").value=buildCfg.handles||"maniglia"; $("bRazaR").value=buildCfg.razaR||""; $("bRazaCorner").value=buildCfg.razaCorner||"auto"; $("bGolaH").value=buildCfg.golaH||""; $("bGolaType").value=golaType(buildCfg); $("bGolaC").value=buildCfg.golaC||""; $("bShelfT").value=buildCfg.shelfType||"mobile";
   $("bBoxes").value=buildCfg.boxes===0||buildCfg.boxes==="0"?"0":"1";
+  $("bLed").value=ledMode(buildCfg); $("bLedLen").value=buildCfg.ledLen>0?buildCfg.ledLen:""; ledRows();
   $("bCorner").value=buildCfg.corner||"sx";
   $("bCornerKind").value=buildCfg.cornerKind||"int";
   cornerRows();
@@ -12036,7 +12096,9 @@ function renderBuild(){
     $("bDrawers").addEventListener("input",()=>{ renderDrawUI($("bDrawSys").value,$("bDrawH").value); renderSecDrawers(); });
     ["bDoors","bFront","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderDoorHinge); $(id).addEventListener("change",renderDoorHinge); });
     ["bTop","bTipo"].forEach(id=>$(id).addEventListener("change",renderTop)); renderTop();
-    $("bHandles").addEventListener("change",renderGola);
+    $("bLed").addEventListener("change",()=>{ ledRows(); drawPreview(); });
+  $("bLedLen").addEventListener("input",()=>{ ledRows(); drawPreview(); });
+  $("bHandles").addEventListener("change",renderGola);
     $("bHandles").addEventListener("change",renderRaza);
     $("bGolaType").addEventListener("change",()=>{ renderGola(); drawPreview(); });
     $("bAW").addEventListener("change",renderAW);
@@ -14948,7 +15010,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
+  ["aw","hwAW"],["fold","hwFold"],["ledstrip","hwLedStrip"],["leddrv","hwLedDrv"],["leddim","hwLedDim"],["ledsw","hwLedSw"],["ledmains","hwLedMains"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
 const CAT_PH_MAX=240;
@@ -15254,11 +15316,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
    masculul pe filler, astfel încât să nu rămână rost între filler și corp. Distanța ≈ 500 mm, minimum 3 pe filler;
    prima și ultima la KEKU_EDGE de capete. Cotele sunt ale atelierului, nevalidate pe un set real. */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
+  hwAW:"aw",hwFold:"fold",hwLedStrip:"ledstrip",hwLedDrv:"leddrv",hwLedDim:"leddim",hwLedSw:"ledsw",hwLedMains:"ledmains",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTblExt","hwBoxRot","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
+    "hwLeg","hwTblExt","hwBoxRot","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwLedStrip","hwLedDrv","hwLedDim","hwLedSw","hwLedMains","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -15278,6 +15340,7 @@ function computeHardware(p,S,byModule){
     const lat=drawSys((c&&c.drawerSys)||"legno").lat;
     if(lat){ bump(mod,"hwZarga",n); zBy[lat]=(zBy[lat]||0)+n; } };
   /* U.9 — câte pachete pliante are fiecare corp: din rândurile «Sistema anta pieghevole» */
+  const ledLen={};   // D-157: lungimea benzii LED pe corp (mm)
   const foldSys={};
   for(const x of p.pieces) if((x.elemento||"").toLowerCase().startsWith("sistema anta pieghevole")){ const m=x.modulo||"—"; foldSys[m]=(foldSys[m]||0)+x.pz; }
   for(const x of p.pieces){
@@ -15292,6 +15355,7 @@ function computeHardware(p,S,byModule){
       if(joints>0) bump(mod,"hwCern",joints*hingeCount(Math.max(x.lung,x.larg)));
       grip(mod,packs||x.pz); }
     else if(el.startsWith("profilo anticurvatura")){ bump(mod,"hwAW",x.pz); }
+    else if(el.startsWith("striscia led")){ bump(mod,"hwLedStrip",Math.round(x.lung*x.pz/10)/100); ledLen[mod]=(ledLen[mod]||0)+x.lung*x.pz; }
     else if(el.startsWith("profilo gola l")){ bump(mod,"hwGolaL",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola j")){ bump(mod,"hwGolaJ",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola c")){ bump(mod,"hwGolaC",Math.round(x.lung*x.pz/10)/100); }
@@ -15332,6 +15396,9 @@ function computeHardware(p,S,byModule){
     if(fc&&fc.q.hwLiftSpring&&fc.info&&fc.info.liftN){ const o=(selBy.hwLiftSpring=selBy.hwLiftSpring||{}); o["gas_"+fc.info.liftN]=(o["gas_"+fc.info.liftN]||0)+fc.q.hwLiftSpring; }
     if(fc&&c.tableExt&&fc.q.hwTblExt){ const o=(selBy.hwTblExt=selBy.hwTblExt||{}); o[c.tableExt]=(o[c.tableExt]||0)+fc.q.hwTblExt; }
   }
+  /* LED (D-157): transformatoarele din puterea benzii; dimmerul, cablul de întrerupător și cel de rețea, câte unul pe transformator */
+  for(const mod of Object.keys(ledLen)){ const k=ledKit(ledLen[mod]);
+    bump(mod,"hwLedDrv",k.drv); bump(mod,"hwLedDim",k.drv); bump(mod,"hwLedSw",k.drv); bump(mod,"hwLedMains",k.drv); }
   for(const m of binMods) bump(m,"hwBin",1);
   for(const m of piedMods) bump(m,"hwPied",4);
   const CAT=HW_CAT_OF;
@@ -19408,12 +19475,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.72.0"; /* APP_VER-MARKER */
+const APP_VER="5.73.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v250";
+const SW_CACHE="ebanist-v251";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
