@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.71.0 — 17 noiembrie 2026
+
+**Montajul animat nu mai ajunge cu camera pe spatele mobilei; video-ul se încheie cu ușile deschise.**
+- **Camera, mai încet:** în timpul montajului camera se rotește de 2,5× mai încet. Înainte, în 9 secunde făcea peste 100° și mobila se termina văzută din spate.
+- **Video:** pornește din stânga-față și ajunge în 3/4 dreapta; la sfârșit ușile și sertarele se deschid (2 secunde), apoi revine totul la starea de dinainte (unghiul camerei, fundalul).
+- **Randare cadru cu cadru (`GL3D.offlineBegin / offlineFrame / offlineEnd`):** ceas virtual, pentru clipuri fluide pe mașini fără GPU (de pildă pentru clipurile TikTok făcute din scripturi). Aplicația continuă să înregistreze în timp real cu `record()`; pe un telefon cu GPU iese fluid, pe o mașină fără GPU ar ieși cu salturi.
+- Teste noi în e2e (randarea offline, rotirea mai lentă, revenirea stării).
+
+---
+
 ## 5.70.0 — 17 noiembrie 2026
 
 **Video-ul montajului iese gata de postat, iar clientul poate vedea montajul.**

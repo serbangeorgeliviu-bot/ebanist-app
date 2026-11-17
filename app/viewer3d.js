@@ -1579,6 +1579,24 @@ function resize() {
    geometria, doar cât de departe e fiecare piesă în momentul t. */
 const ASM_RANK = { base: 0, piedino: 1, gamba: 1, zoccolo: 1, fianco: 2, divisorio: 3, traversa: 4, traversa_cielo: 4, cielo: 5, ripiano: 6, asta: 6,
                    doga: 6, schienale: 7, cassetto_fondo: 8, cassetto_fianco: 8, cassetto_metallo: 8, cassetto_frontale: 9, frontale: 10, vetro: 10 };
+function paintOverlay(g, W, H, o) {
+  const font = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const lite = o.bg === "light", ink = lite ? "#14181d" : "#fff", shade = lite ? "255,255,255" : "0,0,0";
+  if (o.title || o.sub) {
+    const gr = g.createLinearGradient(0, 0, 0, H * 0.17); gr.addColorStop(0, "rgba(" + shade + ",.7)"); gr.addColorStop(1, "rgba(" + shade + ",0)");
+    g.fillStyle = gr; g.fillRect(0, 0, W, H * 0.17);
+    g.fillStyle = ink; g.textAlign = "center"; g.textBaseline = "alphabetic";
+    if (o.title) { g.font = "700 " + Math.round(W * 0.07) + "px " + font; g.fillText(String(o.title).slice(0, 34), W / 2, H * 0.068); }
+    if (o.sub) { g.font = "500 " + Math.round(W * 0.042) + "px " + font; g.globalAlpha = 0.85; g.fillText(String(o.sub).slice(0, 48), W / 2, H * 0.105); g.globalAlpha = 1; }
+  }
+  if (o.brand) {
+    const gb = g.createLinearGradient(0, H * 0.88, 0, H); gb.addColorStop(0, "rgba(" + shade + ",0)"); gb.addColorStop(1, "rgba(" + shade + ",.75)");
+    g.fillStyle = gb; g.fillRect(0, H * 0.88, W, H * 0.12);
+    g.fillStyle = ink; g.textAlign = "center"; g.font = "700 " + Math.round(W * 0.052) + "px " + font;
+    g.fillText(String(o.brand).slice(0, 30), W / 2, H * 0.953);
+    g.globalAlpha = 0.75; g.font = "500 " + Math.round(W * 0.036) + "px " + font; g.fillText("ebanist.com", W / 2, H * 0.982); g.globalAlpha = 1;
+  }
+}
 function asmItems(total) {
   const boxes = R.boxes || [], ex = explodeBoxes(boxes, 1), first = new Map();
   boxes.forEach((b, i) => { const k = String(b.pk); if (!first.has(k)) first.set(k, i); });
@@ -1596,8 +1614,10 @@ function asmItems(total) {
   list.forEach((it, k) => { it.s = k * stag; it.d = dur; });
   return list;
 }
+/* ceasul animației: timpul real, sau unul virtual când se randează cadru cu cadru (offline) */
+function nowT() { return R.manual ? R.vt : performance.now(); }
 function asmTick() {
-  const A = R.asm, t = performance.now() - A.t0;
+  const A = R.asm, t = nowT() - A.t0;
   for (const it of A.items) {
     const p = Math.min(1, Math.max(0, (t - it.s) / it.d)), e = 1 - Math.pow(1 - p, 3), k = (1 - e) * 1.25, P = it.P;
     P.g.visible = p > 0;
@@ -1617,8 +1637,9 @@ function finishAsm(done) {
 
 function frame() {
   R.raf = 0;
+  if (R.manual) return;      /* randare cadru cu cadru: ceasul și desenul le conduce scriptul */
   /* giro lento, per il modo cliente: il mobile si presenta da solo */
-  if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035;
+  if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035 * (R.asm ? 0.4 : 1);   /* în timpul montajului camera se rotește de 2,5× mai încet: nu ajunge pe spatele mobilei */
   if (R.asm) asmTick();
   const a = step(), b = stepCamera() || !!R.spin || !!R.asm;
   watchFrameTime();
@@ -1767,7 +1788,7 @@ const GL3D = {
     Object.assign(R.st, { explode: 0, open: 0, sel: null, iso: false });
     setTargets(R.boxes);
     let resolve; const promise = new Promise(r => { resolve = r; });
-    R.asm = { t0: performance.now(), total, items: asmItems(total), prev, resolve, promise };
+    R.asm = { t0: nowT(), total, items: asmItems(total), prev, resolve, promise };
     R.spin = true; R.need = true; kick();
     return promise;
   },
@@ -1788,29 +1809,16 @@ const GL3D = {
     R.renderer.setPixelRatio(1); R.renderer.setSize(W, H, false);
     R.camera.aspect = W / H; R.camera.updateProjectionMatrix(); R.need = true; kick();
     let rec, chunks = [], run = true, raf = 0;
+    const yaw0 = (typeof VIEW === "object") ? VIEW.yaw : null;
+    if (yaw0 != null) VIEW.yaw = o.yaw != null ? o.yaw : -0.3;   /* pornește din stânga-față: până la sfârșit ajunge în 3/4 dreapta */
     try {
       /* video cu titlu: se compune pe un canvas 2D (cadrul 3D + titlul sus, firma jos), care e ce se înregistrează */
       const out = document.createElement("canvas"); out.width = W; out.height = H;
       const g = out.getContext("2d");
-      const font = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
-      const lite = o.bg === "light", ink = lite ? "#14181d" : "#fff", shade = lite ? "255,255,255" : "0,0,0";
       const paint = () => {
         if (!run) return;
         g.drawImage(R.canvas, 0, 0, W, H);
-        if (o.title || o.sub) {
-          const gr = g.createLinearGradient(0, 0, 0, H * 0.17); gr.addColorStop(0, "rgba(" + shade + ",.7)"); gr.addColorStop(1, "rgba(" + shade + ",0)");
-          g.fillStyle = gr; g.fillRect(0, 0, W, H * 0.17);
-          g.fillStyle = ink; g.textAlign = "center"; g.textBaseline = "alphabetic";
-          if (o.title) { g.font = "700 " + Math.round(W * 0.07) + "px " + font; g.fillText(String(o.title).slice(0, 34), W / 2, H * 0.068); }
-          if (o.sub) { g.font = "500 " + Math.round(W * 0.042) + "px " + font; g.globalAlpha = 0.85; g.fillText(String(o.sub).slice(0, 48), W / 2, H * 0.105); g.globalAlpha = 1; }
-        }
-        if (o.brand) {
-          const gb = g.createLinearGradient(0, H * 0.88, 0, H); gb.addColorStop(0, "rgba(" + shade + ",0)"); gb.addColorStop(1, "rgba(" + shade + ",.75)");
-          g.fillStyle = gb; g.fillRect(0, H * 0.88, W, H * 0.12);
-          g.fillStyle = ink; g.textAlign = "center"; g.font = "700 " + Math.round(W * 0.052) + "px " + font;
-          g.fillText(String(o.brand).slice(0, 30), W / 2, H * 0.953);
-          g.globalAlpha = 0.75; g.font = "500 " + Math.round(W * 0.036) + "px " + font; g.fillText("ebanist.com", W / 2, H * 0.982); g.globalAlpha = 1;
-        }
+        paintOverlay(g, W, H, o);
         raf = requestAnimationFrame(paint);
       };
       paint();
@@ -1820,12 +1828,42 @@ const GL3D = {
       rec.start(250);
       await new Promise(r => setTimeout(r, 300));
       const ok = await this.assemble({ ms: o.ms || 9000 });
+      if (ok && o.openEnd) { this.set({ open: true }); await new Promise(r => setTimeout(r, 2200)); }   /* cadrul de încheiere: ușile și sertarele se deschid */
       await new Promise(r => setTimeout(r, 700));
       rec.stop(); await stopped; run = false; cancelAnimationFrame(raf);
       return ok ? { blob: new Blob(chunks, { type: mime.split(";")[0] }), mime: mime.split(";")[0], w: W, h: H } : null;
-    } finally { run = false; cancelAnimationFrame(raf); if (o.bg) this.theme(); resize(); }
+    } finally { run = false; cancelAnimationFrame(raf); if (yaw0 != null) VIEW.yaw = yaw0; if (o.bg) this.theme(); resize(); }
   },
   focusInfo() { return R && R.focusOv ? { pk: R.focusOv.pk, rad: R.focusOv.rad, off: R.focusOv.off } : null; },
+  /* Randare cadru cu cadru, cu ceas virtual (pentru clipuri fluide și pe mașini fără GPU): offlineBegin → offlineFrame × N → offlineEnd.
+     Folosit de scripturile de clipuri; aplicația înregistrează în timp real cu record(). */
+  offlineBegin(o) {
+    o = o || {};
+    const W = o.w || 1080, H = o.h || 1920;
+    R.manual = true; R.vt = 0; R.off = { W, H, o, fps: o.fps || 30, n: 0 };
+    R.renderer.setPixelRatio(1); R.renderer.setSize(W, H, false);
+    R.camera.aspect = W / H; R.camera.updateProjectionMatrix();
+    if (o.bg === "light" || o.bg === "dark") { R.dark = o.bg === "dark"; R.scene.background = gradientBg(R.dark);
+      R.ground.material.opacity = R.dark ? .34 : .16; R.contact.material.opacity = R.dark ? .8 : .5; }
+    if (typeof VIEW === "object") { R.off.yaw0 = VIEW.yaw; VIEW.yaw = o.yaw != null ? o.yaw : -0.3; }
+    R.off.out = document.createElement("canvas"); R.off.out.width = W; R.off.out.height = H;
+    this.assemble({ ms: o.ms || 9000 });
+    return { W, H };
+  },
+  offlineFrame(openNow) {
+    const D = R.off; if (!D) return null;
+    if (openNow && !R.st.open) { R.st.open = 1; setTargets(R.boxes); }
+    R.vt += 1000 / D.fps; D.n++;
+    if (R.asm) asmTick();
+    step();
+    if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035 * 0.4 * (1000 / D.fps) / 16.67;
+    stepCamera(); renderScene();
+    const g = D.out.getContext("2d"), W = D.W, H = D.H, o = D.o;
+    g.drawImage(R.canvas, 0, 0, W, H);
+    paintOverlay(g, W, H, o);
+    return { data: D.out.toDataURL("image/jpeg", 0.93), assembling: !!R.asm, t: R.vt };
+  },
+  offlineEnd() { if (!R || !R.off) return; const o = R.off.o; if (R.off.yaw0 != null && typeof VIEW === "object") VIEW.yaw = R.off.yaw0; R.manual = false; R.off = null; this.stopAssemble(); if (o && o.bg) this.theme(); resize(); },
   moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; renderScene(); return R.canvas.toDataURL("image/png"); },

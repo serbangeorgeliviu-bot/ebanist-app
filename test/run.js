@@ -5187,6 +5187,31 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     else ok("montaj în modul Client: butonul pornește animația, al doilea tap o oprește; textul în 7 limbi", d.buton && d.activ && d.oprit && d.limbi, JSON.stringify(d));
   }
 
+  head("Randare cadru cu cadru și camera la montaj (5.71.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build"); buildCfg = { ...PRESETS.armadio }; syncBuildForm(); draw3D(); await w(500);
+      const yaw0 = VIEW.yaw;
+      GL3D.offlineBegin({ w: 90, h: 160, fps: 20, ms: 1500, title: "T", sub: "S", brand: "B", bg: "light" });
+      o.pornit = GL3D.asmInfo() != null && Math.abs(VIEW.yaw - (-0.3)) < 1e-6;
+      let n = 0, last = null, yawPrev = VIEW.yaw, maxStep = 0;
+      while (n < 80) { last = GL3D.offlineFrame(n > 40); n++; maxStep = Math.max(maxStep, Math.abs(VIEW.yaw - yawPrev)); yawPrev = VIEW.yaw; if (!last.assembling && n > 45) break; }
+      o.cadre = n >= 30 && last && /^data:image\/jpeg/.test(last.data) && last.data.length > 800;
+      o.final = last && last.assembling === false && last.t > 1500;
+      o.lent = maxStep <= 0.0035 * 0.4 * (50 / 16.67) + 1e-6;
+      GL3D.offlineEnd(); await w(100);
+      o.curat = GL3D.asmInfo() === null && Math.abs(VIEW.yaw - yaw0) < 1e-6 && GL3D.offlineFrame() === null;
+      return o;
+    });
+    if (d.fara_gl) ok("randare cadru cu cadru: sărit (fără WebGL)", true);
+    else {
+      ok("randare cadru cu cadru: pornește, produce cadre JPEG cu ceas virtual, montajul se termină", d.pornit && d.cadre && d.final, JSON.stringify(d));
+      ok("randare cadru cu cadru: camera se rotește lent în montaj și se reface unghiul la sfârșit", d.lent && d.curat, JSON.stringify(d));
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
