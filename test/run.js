@@ -5068,6 +5068,106 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  head("Previzualizare înainte de plată (5.69.0): distinta utilizatorului, primele rânduri, restul estompat");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets();
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "pv1", name: "T", pieces: [], configs: {}, geomVersion: GEOM_VERSION }]; state.activeId = "pv1";
+      o.gol = proPreviewHtml("pdf") === "";
+      generateInto(proj(), { ...PRESETS.armadio, name: "Pv", L: 900, H: 2000, P: 400 });
+      if (isPro()) { o.pro = true; return o; }
+      openPro("pdf"); await w(200);
+      const box = document.querySelector("#proBody .pro-prev");
+      o.are = !!box && box.querySelectorAll("tr").length >= 6;
+      o.estompat = !!box && !!box.querySelector(".blur") && /\d/.test(box.querySelector(".pro-prev-more") ? box.querySelector(".pro-prev-more").textContent : "");
+      o.date = !!box && box.textContent.includes("2000") && box.textContent.includes("400");
+      o.alt = proPreviewHtml("lab") === "" && proPreviewHtml("projects") === "";
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].proPrevTitle && I18N[l].proPrevMore.includes("{n}"));
+      closeSheets(); state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    if (d.pro) ok("previzualizare Pro: sărit (utilizator Pro)", true);
+    else {
+      ok("previzualizare Pro: pe ecranul Pro apar rândurile distinctei utilizatorului, restul estompat, cu numărul de piese rămase", d.gol && d.are && d.estompat && d.date, JSON.stringify(d));
+      ok("previzualizare Pro: numai pentru ieșirile cu distinta; textele în 7 limbi", d.alt && d.limbi, JSON.stringify(d));
+    }
+  }
+
+  head("Exemple dintr-un tap la generarea cu AI (5.69.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); setView("build"); await w(200);
+      const ch = [...document.querySelectorAll("#aiBarBuild [data-aiex]")];
+      o.trei = ch.length === 3 && ch.every(c => c.textContent.length > 12);
+      o.fara = document.querySelectorAll("#aiBarSurvey [data-aiex]").length === 0;
+      const keep = window.aiRun; let called = null; window.aiRun = m => { called = m; };
+      ch[1].click();
+      o.text = document.getElementById("aiTxtgenera").value === ch[1].textContent;
+      o.porneste = called === "genera";
+      window.aiRun = keep;
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["aiEx1", "aiEx2", "aiEx3", "aiTry"].every(k => AI_I18N[l][k]));
+      return o;
+    });
+    ok("AI: trei exemple sub câmpul de text; un tap umple câmpul și pornește generarea (numai în Genera)", d.trei && d.fara && d.text && d.porneste, JSON.stringify(d));
+    ok("AI: exemplele există în toate cele 7 limbi", d.limbi, JSON.stringify(d));
+  }
+
+  head("Anulează / Refă în generator (5.69.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); setView("build"); await w(300);
+      buildCfg = { ...PRESETS.armadio, name: "Hist A" }; syncBuildForm(); drawPreview(); await w(700);
+      const u = document.getElementById("btnUndoCfg"), r = document.getElementById("btnRedoCfg");
+      o.initial = u.disabled === true && r.disabled === true;
+      const set = async v => { const e = document.getElementById("bL"); e.value = String(v); e.dispatchEvent(new Event("input", { bubbles: true })); e.dispatchEvent(new Event("change", { bubbles: true })); await w(750); };
+      const L0 = +document.getElementById("bL").value;
+      await set(900); await set(1100);
+      o.activ = u.disabled === false;
+      u.click(); await w(200); o.undo1 = +document.getElementById("bL").value === 900;
+      u.click(); await w(200); o.undo2 = +document.getElementById("bL").value === L0;
+      o.redoOn = r.disabled === false;
+      r.click(); await w(200); o.redo1 = +document.getElementById("bL").value === 900;
+      await set(850); o.taieRedo = r.disabled === true;
+      buildCfg = { ...PRESETS.armadio, name: "Hist B" }; syncBuildForm(); drawPreview(); await w(300);
+      o.golit = u.disabled === true;
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].undoCfg && I18N[l].redoCfg);
+      return o;
+    });
+    ok("Anulează/Refă: butoanele pornesc oprite; o modificare le activează, undo/redo refac cota L", d.initial && d.activ && d.undo1 && d.undo2 && d.redoOn && d.redo1, JSON.stringify(d));
+    ok("Anulează/Refă: o modificare nouă taie «Refă», alt mobil golește istoricul; texte în 7 limbi", d.taieRedo && d.golit && d.limbi, JSON.stringify(d));
+  }
+
+  head("Privire de aproape pe feronerie din listă (5.69.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build"); buildCfg = { ...PRESETS.armadio }; syncBuildForm(); draw3D(); await w(500);
+      document.getElementById("grpPieces").open = true;
+      document.getElementById("btnHw3d").click(); await w(300);
+      const row = () => document.querySelector('[data-hwk="cerniera"]');
+      o.rand = !!row();
+      const M = GL3D.model(), hing = M.ops.hw.filter(h => h.type === "cerniera");
+      row().click(); await w(150);
+      const f1 = GL3D.focusInfo();
+      o.prima = !!f1 && String(f1.pk) === String(hing[0].piece) && f1.rad < 150 && /^1\//.test(row().querySelector(".hw-q").textContent);
+      row().click(); await w(100); o.a2a = /^2\//.test(row().querySelector(".hw-q").textContent) && GL3D.focusInfo() != null;
+      for (let i = 2; i < hing.length; i++) { row().click(); await w(30); }
+      row().click(); await w(100);
+      o.revine = GL3D.focusInfo() === null && /^×/.test(row().querySelector(".hw-q").textContent);
+      row().click(); await w(100); const had = GL3D.focusInfo() != null;
+      document.querySelector('[data-tab="pcs"]').click(); await w(150);
+      o.curat = had && GL3D.focusInfo() === null;
+      return o;
+    });
+    if (d.fara_gl) ok("privire pe feronerie: sărit (fără WebGL)", true);
+    else ok("privire pe feronerie: un tap duce camera la prima piesă, următoarele la celelalte, după ultima revine; la schimbarea tabului se curăță", d.rand && d.prima && d.a2a && d.revine && d.curat, JSON.stringify(d));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

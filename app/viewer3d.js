@@ -1795,6 +1795,7 @@ const GL3D = {
       return ok ? { blob: new Blob(chunks, { type: mime.split(";")[0] }), mime: mime.split(";")[0], w: W, h: H } : null;
     } finally { resize(); }
   },
+  focusInfo() { return R && R.focusOv ? { pk: R.focusOv.pk, rad: R.focusOv.rad, off: R.focusOv.off } : null; },
   moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; renderScene(); return R.canvas.toDataURL("image/png"); },
