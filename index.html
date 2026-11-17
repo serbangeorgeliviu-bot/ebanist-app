@@ -680,6 +680,33 @@ html.xh input,html.xh textarea{cursor:text}
 .help-cta a:not(.btn){color:var(--green);font-weight:600}
 @media (max-width:760px){.help-sec{grid-template-columns:1fr}.help-fig-col{position:static}.help .hp-fig img{margin:0 auto}}
 .blog-card,.blog-card *{text-decoration:none}
+.sheets-sec{background:var(--paper)}
+.sheets-in{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:start}
+.sh-form{margin-top:28px;display:grid;gap:8px;max-width:460px}
+.sh-row{display:grid;grid-template-columns:1fr 1fr .7fr 36px;gap:8px;align-items:center}
+.sh-head{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3)}
+.sh-row input{width:100%;min-height:44px;padding:0 12px;border:1px solid var(--line2);border-radius:10px;background:#fff;color:var(--txt);font:500 16px var(--mono)}
+.sh-row input:focus-visible{outline:2px solid var(--green);outline-offset:1px}
+.sh-x{width:36px;height:36px;border:0;border-radius:50%;background:transparent;color:var(--txt3);font-size:22px;cursor:pointer}
+.sh-x:hover{background:var(--paper2);color:var(--txt)}
+.sh-add{justify-self:start;min-height:44px;margin-top:4px;font-size:14px}
+.sh-board{display:grid;gap:6px;margin-top:12px;font-size:12px;color:var(--txt3)}
+.sh-board select{min-height:44px;padding:0 12px;border:1px solid var(--line2);border-radius:10px;background:#fff;color:var(--txt);font:500 16px var(--mono);max-width:240px}
+.sh-out{display:grid;gap:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,32px)}
+.sh-res{display:grid;gap:4px;min-height:3.2em}
+.sh-res b{font:600 clamp(26px,4vw,40px)/1.1 var(--serif);color:var(--green)}
+.sh-res span{font-size:14px;color:var(--txt2)}
+.sh-res.bad{color:#9a2a1a;font-weight:500}
+.sh-svgs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.sh-svgs figure{margin:0}
+.sh-svgs figcaption{font-size:11px;color:var(--txt3);margin-bottom:4px}
+.sh-svgs svg{display:block;width:100%;height:auto}
+.sh-svgs .b{fill:#f3efe2;stroke:var(--line2);stroke-width:1}
+.sh-svgs .p{fill:rgba(14,59,42,.22);stroke:var(--green);stroke-width:.8}
+.sh-note{font-size:13px;line-height:1.5;color:var(--txt2);margin:0}
+.sh-out .btn{justify-self:start;white-space:normal;text-align:center;min-height:48px;padding:12px 22px}
+@media (max-width:860px){.sheets-in{grid-template-columns:1fr}}
+.sh-svgs figure:only-child{grid-column:1/-1}
 </style>
 <link rel="preload" as="image" href="/site/img/hero-carcass-900.avif" type="image/avif" media="(max-width:900px)" fetchpriority="high">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ebanist","applicationCategory":"DesignApplication","operatingSystem":"Web, Android","url":"https://ebanist.com/","inLanguage":"en","installUrl":"https://play.google.com/store/apps/details?id=com.domusrenov.ebanist","description":"Cabinet design app: cut list, part labels, assembly sheet and quotes from your phone. Works offline. Free for 1 project.","offers":[{"@type":"Offer","name":"Free","price":"0","priceCurrency":"EUR"},{"@type":"Offer","name":"Pro","price":"9","priceCurrency":"EUR","priceSpecification":{"@type":"UnitPriceSpecification","price":"9","priceCurrency":"EUR","unitCode":"MON"}},{"@type":"Offer","name":"Founders","price":"149","priceCurrency":"EUR"}],"publisher":{"@type":"Organization","name":"Domus Renov SRL","email":"info@ebanist.com","sameAs":["https://www.tiktok.com/@ebanist.app","https://play.google.com/store/apps/details?id=com.domusrenov.ebanist"]}}</script>
@@ -1221,6 +1248,30 @@ c66 -3 133 -12 160 -22z"/>
   </div>
 </section>
 
+<!-- ======================= 6d · CÂTE PLĂCI ======================= -->
+<section class="sec sheets-sec" id="sheets" data-res="{n} boards of {b}" data-res1="1 board of {b}" data-use="{u}% used · {w}% offcut" data-pcs="{p} pieces on {n} {bw}" data-err="A piece is larger than the board, check the sizes." data-empty="Add at least one piece." data-board1="board" data-boards="boards" data-lbl="Board {i}" data-rm="Remove">
+  <div class="wrap sheets-in">
+    <div class="sh-intro">
+      <p class="kicker mono rv">Free tool</p>
+      <h2 class="h2 split">How many boards <em>do you need?</em></h2>
+      <p class="sub rv">Type the finished sizes of your pieces. Ebanist runs the same cutting optimiser as the app and tells you how many boards to buy and how much is left over.</p>
+      <form class="sh-form rv" id="shForm" autocomplete="off" onsubmit="return false">
+        <div class="sh-row sh-head mono" aria-hidden="true"><span>Length mm</span><span>Width mm</span><span>Qty</span><span></span></div>
+        <div id="shRows"></div>
+        <button class="btn btn-line sh-add" type="button" id="shAdd">+ Add a piece</button>
+        <label class="sh-board mono"><span>Board size</span>
+          <select id="shBoard"><option value="2800x2070">2800 × 2070</option><option value="2750x1830">2750 × 1830</option><option value="2440x1220">2440 × 1220</option></select></label>
+      </form>
+    </div>
+    <div class="sh-out rv" id="shOut" aria-live="polite">
+      <div class="sh-res" id="shRes"></div>
+      <div class="sh-svgs" id="shSvgs"></div>
+      <p class="sh-note">Finished sizes, 4 mm saw kerf, grain ignored. In the app you also get edge banding, cutting-size compensation, labels and the full cutting plan.</p>
+      <a class="btn btn-laser" href="/app/?lang=en" data-goatcounter-click="sheets-cta">Do it for your real project in Ebanist</a>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= 7 · PRICING ======================= -->
 <section class="sec pricing" id="pricing">
   <div class="wrap">
@@ -1317,7 +1368,8 @@ c66 -3 133 -12 160 -22z"/>
 <div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
 
 <script src="/app/config/billing.js"></script>
-<script>window.EB={"lang":"en","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Or {y} a year — two months free","pieces":["SIDE L","SIDE R","DIVIDER","SHELF","SHELF","PLINTH","DRAWER SIDE","DRAWER SIDE","DRAWER SIDE"],"app":"/app/?lang=en","ver":"5.79.0.s2"};</script>
-<script src="/site/js/main.js?v=5.79.0.s2" defer></script>
+<script>window.EB={"lang":"en","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Or {y} a year — two months free","pieces":["SIDE L","SIDE R","DIVIDER","SHELF","SHELF","PLINTH","DRAWER SIDE","DRAWER SIDE","DRAWER SIDE"],"app":"/app/?lang=en","ver":"5.79.0.s3"};</script>
+<script src="/site/js/main.js?v=5.79.0.s3" defer></script>
+<script src="/site/js/sheets.js?v=5.79.0.s3" defer></script>
 </body>
 </html>

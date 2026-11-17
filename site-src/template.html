@@ -315,6 +315,30 @@
   </div>
 </section>
 
+<!-- ======================= 6d · CÂTE PLĂCI ======================= -->
+<section class="sec sheets-sec" id="sheets" data-res="{{sheets.res}}" data-res1="{{sheets.res1}}" data-use="{{sheets.use}}" data-pcs="{{sheets.pcs}}" data-err="{{sheets.err}}" data-empty="{{sheets.empty}}" data-board1="{{sheets.board1}}" data-boards="{{sheets.boards}}" data-lbl="{{sheets.lbl}}" data-rm="{{sheets.rm}}">
+  <div class="wrap sheets-in">
+    <div class="sh-intro">
+      <p class="kicker mono rv">{{sheets.kicker}}</p>
+      <h2 class="h2 split">{{sheets.h}}</h2>
+      <p class="sub rv">{{sheets.d}}</p>
+      <form class="sh-form rv" id="shForm" autocomplete="off" onsubmit="return false">
+        <div class="sh-row sh-head mono" aria-hidden="true"><span>{{sheets.len}}</span><span>{{sheets.wid}}</span><span>{{sheets.qty}}</span><span></span></div>
+        <div id="shRows"></div>
+        <button class="btn btn-line sh-add" type="button" id="shAdd">+ {{sheets.add}}</button>
+        <label class="sh-board mono"><span>{{sheets.board}}</span>
+          <select id="shBoard"><option value="2800x2070">2800 × 2070</option><option value="2750x1830">2750 × 1830</option><option value="2440x1220">2440 × 1220</option></select></label>
+      </form>
+    </div>
+    <div class="sh-out rv" id="shOut" aria-live="polite">
+      <div class="sh-res" id="shRes"></div>
+      <div class="sh-svgs" id="shSvgs"></div>
+      <p class="sh-note">{{sheets.note}}</p>
+      <a class="btn btn-laser" href="{{@app}}" data-goatcounter-click="sheets-cta">{{sheets.cta}}</a>
+    </div>
+  </div>
+</section>
+
 <!-- ======================= 7 · PRICING ======================= -->
 <section class="sec pricing" id="pricing">
   <div class="wrap">
@@ -413,5 +437,6 @@
 <script src="/app/config/billing.js"></script>
 <script>window.EB={{@runtime}};</script>
 <script src="/site/js/main.js?v={{@ver}}" defer></script>
+<script src="/site/js/sheets.js?v={{@ver}}" defer></script>
 </body>
 </html>

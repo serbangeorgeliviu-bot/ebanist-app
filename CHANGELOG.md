@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Site — 17 noiembrie 2026 (widgetul „Câte plăci îți trebuie?")
+
+**Secțiune nouă pe ebanist.com, în toate cele 7 limbi: introduci cotele finite ale pieselor și primești câte plăci cumperi.** Folosește `ebanist-nest.js`, același optimizator ca în aplicație, deci cifrele coincid cu planul de tăiere din Ebanist.
+- Trei piese de exemplu, adaugi sau ștergi rânduri (până la 30), alegi placa (2800×2070, 2750×1830, 2440×1220); lama de 4 mm.
+- Rezultat: număr de plăci, % folosit și % rest, planul primelor 4 plăci; mesaj dacă o piesă e mai mare decât placa. Butonul duce în aplicație.
+- Se încarcă numai când secțiunea apare pe ecran (`sheets.js` + `ebanist-nest.js`). Cota afișată e cea finită; compensarea de cant rămâne în aplicație (D-69).
+- Test: `landing-sheets.test.js` (chei identice în 7 limbi, secțiunea în toate paginile, cifrele).
+
+---
+
 ## 5.79.0 — 17 noiembrie 2026
 
 **Optimizarea tăierii (nesting) e acum un modul pur, `ebanist-nest.js`.** Nicio schimbare pentru utilizator: planurile de tăiere sunt aceleași (verificat pe 300 de liste aleatoare, în raport cu codul vechi: zero diferențe). Modulul nu depinde de DOM, deci îl pot folosi și site-ul și testele; asta deblochează widgetul „Câte plăci îți trebuie?" de pe landing (D-156: cifrele trebuie să iasă din același cod ca în aplicație).
