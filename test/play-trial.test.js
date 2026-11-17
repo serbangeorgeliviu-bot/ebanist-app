@@ -48,7 +48,7 @@ describe("partea nativă (sursa Java)", () => {
     assert.match(JAVA, /PRODUCT_ID = "ebanist_pro"/);
     assert.match(JAVA, /acknowledgePurchase/);
   });
-  test("versiunea Android: versionCode 9, 1.4.0", () => { assert.match(GRADLE, /versionCode 9/); assert.match(GRADLE, /versionName "1\.4\.0"/); });
+  test("versiunea Android: versionCode 10, 1.4.0 (9 a fost pe canalul intern)", () => { assert.match(GRADLE, /versionCode 10\n/); assert.match(GRADLE, /versionName "1\.4\.0"/); });
 });
 
 describe("isoDays (oglinda JS a funcției Java)", () => {

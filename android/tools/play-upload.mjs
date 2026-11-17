@@ -24,7 +24,7 @@ import { createSign } from "node:crypto";
 import { readFile } from "node:fs/promises";
 
 export const TRACKS = ["internal", "alpha", "beta", "production"];
-export const STATUSES = ["draft", "completed"];
+export const STATUSES = ["draft", "completed", "inProgress"];
 const API = "https://androidpublisher.googleapis.com/androidpublisher/v3/applications";
 const UPLOAD = "https://androidpublisher.googleapis.com/upload/androidpublisher/v3/applications";
 const SCOPE = "https://www.googleapis.com/auth/androidpublisher";
@@ -63,15 +63,24 @@ export async function accessToken(sa, fetchFn = fetch, now = Date.now()) {
   return j.access_token;
 }
 
-export function checkInputs({ track, status, confirm }) {
+export function checkInputs({ track, status, confirm, fraction }) {
   if (!TRACKS.includes(track)) throw new Error("track necunoscut: " + track + " (permise: " + TRACKS.join(", ") + ")");
   if (!STATUSES.includes(status)) throw new Error("status necunoscut: " + status + " (permise: " + STATUSES.join(", ") + ")");
   if (track === "production" && status === "completed" && confirm !== "da")
     throw new Error("production + completed pleacă la toți utilizatorii: cere confirm=da în workflow");
+  /* lansare treptată (inProgress): fracția e obligatorie, strict între 0 și 1; pe production cere și confirm=da (pleacă la o parte din utilizatori) */
+  if (status === "inProgress") {
+    const f = Number(fraction);
+    if (!(f > 0 && f < 1)) throw new Error("inProgress cere fraction strict între 0 și 1 (de ex. 0.2)");
+    if (track === "production" && confirm !== "da")
+      throw new Error("production + inProgress pleacă la o parte din utilizatori: cere confirm=da în workflow");
+  } else if (fraction !== undefined && fraction !== "" && fraction !== null) {
+    throw new Error("fraction se folosește numai cu status inProgress");
+  }
 }
 
-export async function publish({ sa, pkg, aab, track, status = "draft", notes = "", notesLang = "ro-RO", confirm = "", fetchFn = fetch }) {
-  checkInputs({ track, status, confirm });
+export async function publish({ sa, pkg, aab, track, status = "draft", notes = "", notesLang = "ro-RO", confirm = "", fraction, fetchFn = fetch }) {
+  checkInputs({ track, status, confirm, fraction });
   const token = await accessToken(sa, fetchFn);
   const auth = { Authorization: "Bearer " + token };
   const json = { ...auth, "Content-Type": "application/json" };
@@ -91,6 +100,7 @@ export async function publish({ sa, pkg, aab, track, status = "draft", notes = "
     if (!versionCode) throw new Error("Play n-a întors versionCode");
 
     const release = { name: String(versionCode), versionCodes: [String(versionCode)], status };
+    if (status === "inProgress") release.userFraction = Number(fraction);
     if (notes) release.releaseNotes = [{ language: notesLang, text: String(notes).slice(0, 500) }];
     res = await fetchFn(base + "/edits/" + editId + "/tracks/" + track, {
       method: "PUT", headers: json, body: JSON.stringify({ track, releases: [release] })
@@ -101,7 +111,7 @@ export async function publish({ sa, pkg, aab, track, status = "draft", notes = "
     if (!res.ok) throw await failure("validează", res);
     res = await fetchFn(base + "/edits/" + editId + ":commit", { method: "POST", headers: auth });
     if (!res.ok) throw await failure("confirmă editarea", res);
-    return { versionCode: Number(versionCode), track, status };
+    return status === "inProgress" ? { versionCode: Number(versionCode), track, status, fraction: Number(fraction) } : { versionCode: Number(versionCode), track, status };
   } catch (e) {
     /* Editarea rămasă deschisă expiră singură; o ștergem ca să nu blocheze. */
     try { await fetchFn(base + "/edits/" + editId, { method: "DELETE", headers: auth }); } catch (_) { /* best effort */ }
@@ -111,7 +121,7 @@ export async function publish({ sa, pkg, aab, track, status = "draft", notes = "
 
 /* CLI: node play-upload.mjs <fișier.aab>
    Mediu: PLAY_SA_FILE (calea JSON-ului), PLAY_TRACK, PLAY_STATUS, PLAY_NOTES,
-          PLAY_NOTES_LANG, PLAY_CONFIRM, PLAY_PACKAGE. */
+          PLAY_NOTES_LANG, PLAY_CONFIRM, PLAY_FRACTION, PLAY_PACKAGE. */
 async function main() {
   const e = process.env;
   const sa = JSON.parse(await readFile(e.PLAY_SA_FILE, "utf8"));
@@ -119,10 +129,10 @@ async function main() {
   const aab = await readFile(process.argv[2]);
   const out = await publish({
     sa, aab, pkg: e.PLAY_PACKAGE || "com.domusrenov.ebanist",
-    track: e.PLAY_TRACK, status: e.PLAY_STATUS || "draft",
+    track: e.PLAY_TRACK, status: e.PLAY_STATUS || "draft", fraction: e.PLAY_FRACTION || undefined,
     notes: e.PLAY_NOTES || "", notesLang: e.PLAY_NOTES_LANG || "ro-RO", confirm: e.PLAY_CONFIRM || ""
   });
-  console.log("Urcat: versionCode " + out.versionCode + " → " + out.track + " (" + out.status + ")");
+  console.log("Urcat: versionCode " + out.versionCode + " → " + out.track + " (" + out.status + (out.fraction ? " " + Math.round(out.fraction * 100) + "%" : "") + ")");
 }
 
 if (import.meta.url === "file://" + process.argv[1]) {
