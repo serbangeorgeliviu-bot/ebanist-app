@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.77.0 — 17 noiembrie 2026
+
+**Lemnul din 3D are fibră din poze reale.**
+- Materialele cu lemn folosesc acum fibra a trei furnire fotografiate (frasin, stejar, nuc; Poly Haven, **CC0**, folosibile liber), alese după tonul mostrei. Culoarea rămâne cea din catalog: poza dă doar desenul fibrei, nu culoarea.
+- Se încarcă la nevoie (circa 190 KB fiecare); până sosesc, sau fără rețea, rămâne fibra procedurală de dinainte.
+- Pozele Egger nu sunt folosite: drepturile lor nu permit includerea în aplicație.
+
+---
+
 ## 5.76.0 — 17 noiembrie 2026
 
 **Al treilea întrerupător LED: senzor pe ușă (Häfele Loox 833.89.059).**

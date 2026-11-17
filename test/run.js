@@ -5300,6 +5300,20 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  head("Fibră din poze reale CC0 pe materialele cu lemn (5.77.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build");
+      buildCfg = { ...PRESETS.armadio, name: "Fibra", L: 900, H: 2000, P: 400, doors: 1, drawers: 0, shelves: 2, support: "zoccolo", matBody: "pal18_rovere", matFront: "pal18_rovere", matBack: "pfl3" }; syncBuildForm(); draw3D(); await w(1800);
+      return { g: GL3D.grainInfo() };
+    });
+    if (d.fara_gl) ok("Fibră din poze: sărit (fără WebGL)", true);
+    else ok("Fibră din poze: cel puțin o variantă cerută și încărcată din img/grain/", Object.values(d.g).some(v => v === true), JSON.stringify(d));
+    if (process.env.SHOT) await pg.screenshot({ path: process.env.SHOT });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
