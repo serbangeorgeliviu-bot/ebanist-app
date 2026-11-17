@@ -3562,7 +3562,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.creat = !!cr && cr[1].p_atelier === "at1" && cr[1].p_title === "Comanda Jacquin" && cr[1].p_client_label === "Jacquin" && cr[1].p_due === "2026-12-15";
       const snap = cr && cr[1].p_snapshot, sj = JSON.stringify(snap || {});
       o.snapOk = !!snap && snap.pieces.length === 2 && snap.pieces[0].pk === "r1" && snap.pieces[1].pk === "r2" && snap.pieces[0].pz === 2 && snap.meta.app_ver === APP_VER;
-      o.faraPreturi = !/77|prezzo|Secret|\+3360/.test(sj) && snap.pieces.every(x => Object.keys(x).every(k => ["pk","modulo","elemento","role","lung","larg","sp","pz","material","decor","bordo","grain","note"].includes(k)));
+      o.faraPreturi = !/77|prezzo|Secret|\+3360/.test(JSON.stringify({ ...snap, meta: { ...snap.meta, app_ver: "" } })) && snap.pieces.every(x => Object.keys(x).every(k => ["pk","modulo","elemento","role","lung","larg","sp","pz","material","decor","bordo","grain","note"].includes(k)));
       /* stare: anulare cere confirmare */
       await openAs("responsabil");
       let sel = body().querySelector('select[data-at=jobstate][data-id=j2]');
