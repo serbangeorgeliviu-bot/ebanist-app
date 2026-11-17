@@ -5054,7 +5054,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const ok = await p; o.final = ok === true && GL3D.asmInfo() === null && GL3D.state.explode === 0;
       const p2 = GL3D.assemble({ ms: 3000 }); await w(120); GL3D.set({ explode: 0 }); o.intrerupt = (await p2) === false && GL3D.asmInfo() === null;
       const btn = document.getElementById("btnAsm3d"); o.buton = !!btn && !btn.disabled;
-      const rec = await GL3D.record({ ms: 1500, w: 180, h: 320 });
+      const rec = await GL3D.record({ ms: 1500, w: 180, h: 320, title: "Test", sub: "1000 × 2200 × 600 mm", brand: "Ebanist" });
       o.video = rec === null || (rec.blob.size > 500 && /^video\//.test(rec.mime) && rec.w === 180);
       o.dupa = GL3D.asmInfo() === null && GL3D.qualityInfo() != null;
       o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["vtAsm", "vtRec", "vidRec", "vidNo", "vidDone"].every(k => I18N[l][k]));
@@ -5077,8 +5077,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       state.projects = [{ id: "pv1", name: "T", pieces: [], configs: {}, geomVersion: GEOM_VERSION }]; state.activeId = "pv1";
       o.gol = proPreviewHtml("pdf") === "";
       generateInto(proj(), { ...PRESETS.armadio, name: "Pv", L: 900, H: 2000, P: 400 });
-      if (isPro()) { o.pro = true; return o; }
-      openPro("pdf"); await w(200);
+      renderPro("pdf"); await w(100);   /* renderPro nu depinde de Pro: se poate verifica și în mediul de test, unde utilizatorul e Pro */
       const box = document.querySelector("#proBody .pro-prev");
       o.are = !!box && box.querySelectorAll("tr").length >= 6;
       o.estompat = !!box && !!box.querySelector(".blur") && /\d/.test(box.querySelector(".pro-prev-more") ? box.querySelector(".pro-prev-more").textContent : "");
@@ -5088,8 +5087,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       closeSheets(); state.projects = keepP; state.activeId = keepA;
       return o;
     });
-    if (d.pro) ok("previzualizare Pro: sărit (utilizator Pro)", true);
-    else {
+    {
       ok("previzualizare Pro: pe ecranul Pro apar rândurile distinctei utilizatorului, restul estompat, cu numărul de piese rămase", d.gol && d.are && d.estompat && d.date, JSON.stringify(d));
       ok("previzualizare Pro: numai pentru ieșirile cu distinta; textele în 7 limbi", d.alt && d.limbi, JSON.stringify(d));
     }
@@ -5166,6 +5164,27 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     });
     if (d.fara_gl) ok("privire pe feronerie: sărit (fără WebGL)", true);
     else ok("privire pe feronerie: un tap duce camera la prima piesă, următoarele la celelalte, după ultima revine; la schimbarea tabului se curăță", d.rand && d.prima && d.a2a && d.revine && d.curat, JSON.stringify(d));
+  }
+
+  head("Montaj în modul Client (5.70.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets();
+      const keepP = state.projects, keepA = state.activeId, keepGate = window.proGate;
+      state.projects = [{ id: "cm9", name: "T", pieces: [], configs: {}, geomVersion: GEOM_VERSION }]; state.activeId = "cm9";
+      generateInto(proj(), { ...PRESETS.armadio, name: "Cm9", L: 800, H: 900, P: 400 });
+      window.proGate = () => true; clientOpen(); await w(500);
+      const b = document.getElementById("cmAsm"); o.buton = !!b;
+      b.click(); await w(300); o.activ = GL3D.asmInfo() != null && b.classList.contains("on");
+      b.click(); await w(200); o.oprit = GL3D.asmInfo() === null && !b.classList.contains("on");
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].cmAsm);
+      clientClose(); window.proGate = keepGate; state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    if (d.fara_gl) ok("montaj în modul Client: sărit (fără WebGL)", true);
+    else ok("montaj în modul Client: butonul pornește animația, al doilea tap o oprește; textul în 7 limbi", d.buton && d.activ && d.oprit && d.limbi, JSON.stringify(d));
   }
 
   const bad = results.filter(r => !r.cond).length;
