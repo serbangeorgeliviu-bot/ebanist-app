@@ -442,6 +442,7 @@ body.kb-open .sheet.on{bottom:var(--kb,0px);max-height:calc(100vh - var(--kb,0px
 /* anteprima 3D appiccicata sotto l'intestazione */
 .previewbox{position:sticky;top:58px;z-index:20;box-shadow:var(--sh-2)}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
+.bld-steps{display:none}
 .chip{padding:8px 13px;border-radius:99px;border:1px solid var(--line);background:var(--field);
   font-size:13px;font-weight:600;color:var(--muted);transition:transform .12s,background .12s,border-color .12s}
 .chip:active{transform:scale(.95)}
@@ -906,6 +907,11 @@ table.ops tr.bad td{background:rgba(192,47,47,.08);color:var(--danger)}
   /* il generatore diventa un banco a pannelli: parametri a sinistra, vista
      al centro, pezzi sotto o a destra. Ogni pannello scorre per conto suo. */
   main:has(#v-build.on){max-width:none}
+  .bld-steps{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding-bottom:2px}
+  .bld-steps::-webkit-scrollbar{display:none}
+  .bld-steps .chip{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;flex:0 0 auto}
+  .bld-steps .chip i{font-style:normal;font-size:11px;opacity:.65;font-variant-numeric:tabular-nums}
+  .bld-steps .chip.on{border-color:var(--accent,#d9a441);color:var(--accent,#d9a441)}
   .bld{display:grid;grid-template-columns:minmax(340px,390px) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;
     grid-template-areas:"form view" "form side";gap:16px;height:calc(100dvh - 150px);min-height:560px}
   .bld-form{grid-area:form;overflow-y:auto;padding:2px 8px 24px 2px;scrollbar-width:thin}
@@ -1033,9 +1039,19 @@ body.client-on{overflow:hidden}
   #v-build #btnGenerate{position:sticky;bottom:calc(var(--nav-h) + 10px + env(safe-area-inset-bottom));z-index:30;box-shadow:var(--sh-2)}
 }
 @media (max-width:900px), (orientation:portrait){
-  .cm-body{grid-template-columns:1fr;grid-template-rows:minmax(260px,46%) minmax(0,1fr)}
+  .cm-body{grid-template-columns:1fr;grid-template-rows:minmax(220px,38%) minmax(0,1fr)}
   .cm-panel{border-left:none;border-top:1px solid var(--line)}
-  .cm-price{bottom:-28px}
+  /* pe telefon firma și prețul nu mai acoperă finisajele: antet îngust, preț pe puține rânduri;
+     detaliul pe corpuri rămâne în PDF-ul ofertei și pe cardurile corpurilor */
+  .cm-top{padding:7px 14px;gap:10px}
+  .cm-co{font-size:13px;gap:8px}
+  .cm-co img{height:22px!important}
+  .cm-exit{width:34px;height:34px}
+  .cm-price{bottom:-28px;padding:9px 20px 12px;gap:1px}
+  .cm-ptot{font-size:26px}
+  .cm-pvat{font-size:11.5px}
+  .cm-prows{display:none}
+  .cm-accept{margin-top:6px;padding:12px;font-size:15px}
 }
 
 /* ---- scheda di montaggio 4.31 ---- */
@@ -1529,6 +1545,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <div><h2 class="vtitle" data-i="buildTitle">Generatore mobili</h2>
       <p class="vsub" data-i="buildSub">Configura il modulo e genera la distinta</p></div>
     </div>
+    <!-- i passi del banco (stile planner): gli stessi gruppi del modulo, in ordine; solo da tablet in su -->
+    <div class="bld-steps" id="bldSteps" role="tablist" aria-label="steps"></div>
     <!-- Il banco di lavoro: vista 3D, pezzi, parametri. Sul telefono una
          colonna; sul PC tre pannelli affiancati, con la vista che resta ferma
          mentre si scorrono i parametri. -->
@@ -5920,6 +5938,7 @@ function applyLang(){
   if($("sPayLbl")&&window.EBCommerce){ $("sPayLbl").textContent=EBCommerce.t(state.lang,"payLbl"); $("sPayHint").textContent=EBCommerce.t(state.lang,"payHint"); $("hoBtnLbl").textContent=EBCommerce.t(state.lang,"hoBtn"); }
   if(typeof helpApply==="function") helpApply();
   if(typeof aiMount==="function") aiMount();
+  if(typeof bldStepsSync==="function") bldStepsSync();
 }
 
 /* ================= RENDER ================= */
@@ -9784,6 +9803,8 @@ window.__gl3dReady=function(){
   window.GL3D.resize();
   if(typeof buildCfg==="object"&&buildCfg) draw3D();
   init3DControls();                            // i gesti vanno sul canvas
+  /* sul PC le cote libere si vedono subito, come in un planner; sul telefono restano al bottone */
+  if(window.innerWidth>=1024){ try{ window.GL3D.set({dims:true}); if(typeof studioSync==="function") studioSync(); }catch(e){} }
   if(window.ResizeObserver) new ResizeObserver(()=>window.GL3D.resize()).observe(cv);
 };
 /* ================= INTRO ================= */
@@ -9943,6 +9964,26 @@ function editGapFromTap(g){
   const vl=validateLayout(c2,G); if(vl.errors.length){ toast(auT(String(vl.errors[0]))); return; }
   buildCfg=c2; syncBuildForm(); draw3D(); toast(t("gapOk"));
 }
+
+
+/* ================= PASI BANCO (stile planner) ================= */
+/* Un rand de pastiglie numerate sopra il banco: ognuna apre il suo gruppo e
+   lo porta in vista. Le etichette sono quelle dei gruppi (gia tradotte):
+   nessun testo nuovo, nessuna lingua da aggiungere. */
+const BLD_STEPS=["grpBase","grpMat","grpIn","grpFr","grpHw","grpAbs","grpPieces"];
+function bldStepsSync(){
+  const nav=$("bldSteps"); if(!nav) return;
+  const items=BLD_STEPS.map(id=>{
+    const g=$(id), sp=g&&g.querySelector("summary>span"); return g&&sp?{id,txt:sp.textContent.trim()}:null;
+  }).filter(Boolean);
+  nav.innerHTML=items.map((it,i)=>`<button type="button" role="tab" class="chip" data-step="${it.id}"><i>${String(i+1).padStart(2,"0")}</i>${esc(it.txt)}</button>`).join("");
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest&&e.target.closest("#bldSteps [data-step]"); if(!b) return;
+  const g=$(b.dataset.step); if(!g) return;
+  g.open=true; g.scrollIntoView({behavior:"smooth",block:"start"});
+  document.querySelectorAll("#bldSteps .chip").forEach(c=>c.classList.toggle("on",c===b));
+});
 
 /* ================= STUDIO 3D: pezzi, fori, ferramenta =================
    La vista 3D del generatore e anche il banco di controllo del mobile:
@@ -10529,6 +10570,7 @@ function clientOpen(){
     window.GL3D.select(null);
     window.GL3D.set({mode:"real",hw:false,holes:false,edges:false,open:false,explode:0});
     window.GL3D.spin(true);
+    window.GL3D.quality("hi");                 // prezentare: rezoluția ecranului, umbre 2048
     setTimeout(()=>window.GL3D.resize(),40);
   }
   cmPaint(); cmDraw(); navSync(); haptic();
@@ -10539,6 +10581,7 @@ function clientClose(){
   $("cmSign").hidden=true; $("cmDone").hidden=true;
   if(gl3dOn()){
     window.GL3D.spin(false);
+    window.GL3D.quality("std");
     const cv=$("gl3d"); $("vp3d").insertBefore(cv,$("vp3d").firstChild);
     window.GL3D.set(Object.assign({edges:true},CM.saved||{},{sel:null,iso:false}));
     setTimeout(()=>{ window.GL3D.resize(); if(typeof drawPreview==="function"&&currentView==="build") drawPreview(); },40);
@@ -19204,12 +19247,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.66.0"; /* APP_VER-MARKER */
+const APP_VER="5.67.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v244";
+const SW_CACHE="ebanist-v245";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

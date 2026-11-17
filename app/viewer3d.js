@@ -33,6 +33,8 @@ import { rboxGeom, latheGeom, cylGeom } from "./hwmesh.js";
 /* Un factor de luminanță în jurul lui 1, nu o culoare: culoarea o dă
    materialul. Așa aceeași textură servește stejarul și nucul. Fibra
    curge pe verticală (axa v a texturii). */
+/* anizotropia: citită din placa video la boot (max 8); texturile apar mai clare de la unghi mic */
+let ANISO = 4;
 function makeWoodTexture(seed = 1, size = 1024) {
   const cv = document.createElement("canvas"); cv.width = cv.height = size;
   const g = cv.getContext("2d");
@@ -75,7 +77,7 @@ function makeWoodTexture(seed = 1, size = 1024) {
   const tex = new THREE.CanvasTexture(cv);
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
   tex.colorSpace = THREE.NoColorSpace;
-  tex.anisotropy = 4;
+  tex.anisotropy = ANISO;
   return tex;
 }
 
@@ -99,7 +101,7 @@ function makeFineTexture(seed = 3, size = 256) {
   }
   g.putImageData(img, 0, 0);
   const tex = new THREE.CanvasTexture(cv);
-  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.colorSpace = THREE.NoColorSpace; tex.anisotropy = 4;
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.colorSpace = THREE.NoColorSpace; tex.anisotropy = ANISO;
   return tex;
 }
 
@@ -434,7 +436,7 @@ function tileTexture() {
     g.strokeStyle = "rgba(255,255,255,.18)"; g.lineWidth = 1.5; g.strokeRect(x0 + 6, y0 + 6, T - 12, T - 12);
   }
   TILE = new THREE.CanvasTexture(cv);
-  TILE.wrapS = TILE.wrapT = THREE.RepeatWrapping; TILE.colorSpace = THREE.SRGBColorSpace; TILE.anisotropy = 8;
+  TILE.wrapS = TILE.wrapT = THREE.RepeatWrapping; TILE.colorSpace = THREE.SRGBColorSpace; TILE.anisotropy = Math.max(ANISO, 8);
   return TILE;
 }
 /* podeaua camerei: poligonul pereților, plăci de 600 mm (se vede scara) */
@@ -525,6 +527,7 @@ function boot(canvas) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  try { ANISO = Math.max(4, Math.min(8, renderer.capabilities.getMaxAnisotropy())); } catch (e) {}
 
   const scene = new THREE.Scene();
   const dark = isDark();
@@ -1530,12 +1533,39 @@ function stepCamera() {
   return moving;
 }
 
+/* Calitatea de prezentare (modul Client): pe un telefon cu ≤ 4 GB limita de 1,25× făcea marginile
+   zimțate și texturile moi tocmai unde le vede clientul. Aici se ridică la rezoluția ecranului (max 2×),
+   cu umbre de 2048, iar dacă dispozitivul nu ține pasul (cadre > 36 ms în medie, 60 de cadre)
+   se coboară singură: hi → mid (1,5×) → std. */
+function dprCap() {
+  const dev = window.devicePixelRatio || 1;
+  if (R && R.q === "hi") return Math.min(dev, 2);
+  if (R && R.q === "mid") return Math.min(dev, 1.5);
+  return Math.min(dev, (navigator.deviceMemory && navigator.deviceMemory <= 4) ? 1.25 : 2);
+}
+function applyShadowRes() {
+  const lowMem = navigator.deviceMemory && navigator.deviceMemory <= 4;
+  const n = (R.q === "hi" || R.q === "mid") ? 2048 : (lowMem ? 1024 : 2048);
+  if (R.key.shadow.mapSize.x === n) return;
+  R.key.shadow.mapSize.set(n, n);
+  if (R.key.shadow.map) { R.key.shadow.map.dispose(); R.key.shadow.map = null; }
+}
+function watchFrameTime() {
+  if (R.q !== "hi" && R.q !== "mid") { R.lastT = 0; return; }
+  const t = performance.now();
+  if (R.lastT) {
+    const dt = t - R.lastT;
+    if (dt < 200) {
+      R.dtAvg = R.dtAvg ? R.dtAvg * 0.9 + dt * 0.1 : dt; R.dtN = (R.dtN || 0) + 1;
+      if (R.dtN > 60 && R.dtAvg > 36) { R.q = R.q === "hi" ? "mid" : "std"; R.dtN = 0; R.dtAvg = 0; applyShadowRes(); resize(); }
+    }
+  }
+  R.lastT = t;
+}
 function resize() {
   if (!R) return;
   const el = R.canvas, w = el.clientWidth || 1, h = el.clientHeight || 1;
-  const dpr = Math.min(window.devicePixelRatio || 1,
-    (navigator.deviceMemory && navigator.deviceMemory <= 4) ? 1.25 : 2);
-  R.renderer.setPixelRatio(dpr);
+  R.renderer.setPixelRatio(dprCap());
   R.renderer.setSize(w, h, false);
   R.camera.aspect = w / h;
   R.camera.updateProjectionMatrix();
@@ -1547,6 +1577,7 @@ function frame() {
   /* giro lento, per il modo cliente: il mobile si presenta da solo */
   if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035;
   const a = step(), b = stepCamera() || !!R.spin;
+  watchFrameTime();
   renderScene();
   R.need = false;
   if (a || b) kick();
@@ -1676,6 +1707,9 @@ const GL3D = {
     const hit = rc.intersectObjects(R.dims.children.filter(c => c.isSprite && c.userData.gap), false)[0];
     return hit ? hit.object.userData.gap : null;
   },
+  /* "hi" = prezentare (modul Client), "std" = lucru; vezi dprCap() */
+  quality(q) { if (!this.ok) return; R.q = q === "hi" ? "hi" : "std"; R.dtN = 0; R.dtAvg = 0; R.lastT = 0; applyShadowRes(); resize(); },
+  qualityInfo() { return R ? { q: R.q || "std", dpr: R.renderer.getPixelRatio(), shadow: R.key.shadow.mapSize.x, aniso: ANISO } : null; },
   moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; renderScene(); return R.canvas.toDataURL("image/png"); },
