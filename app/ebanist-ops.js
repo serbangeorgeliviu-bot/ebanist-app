@@ -176,7 +176,11 @@ var HW_DRILL = {
          sw: { from_front: 40, below_top: 60, dia: 20, verificat: false },
          /* senzor pe ușă Häfele 833.89.059: „recess mounted, Ø 13 mm × 28 mm adânc” (fișa Häfele via hardwarehut); stă în muchia din față a
             lateralului, la `below_top` de tavan. Poziția e aleasă, nu din producător → verificat:false; fără operație de găurire până la măsurare. */
-         door: { dia: 13, depth: 28, below_top: 60, verificat: false } },
+         door: { dia: 13, depth: 28, below_top: 60, verificat: false },
+         /* piciorul lateral al canalului în L (5.78.0): pe fața dinăuntru a lateralului din dreapta, vertical, de la tavan până la întrerupător
+            (`below_top` + jumătate din Ø întrerupătorului + `past`), pentru cablul întrerupătorului. Producătorii (Häfele, Emuca) nu dau
+            nicio distanță de la muchie; 30 mm = alegerea mea de practică, în spatele ușii. Nemăsurat: verificat:false. */
+         side: { from_front: 30, past: 10, verificat: false } },
   /* balamaua dintre două foi ale unui pachet pliant (U.9, D-87): cupa pe fața dinapoi a
      foii din stânga, la marginea ei din dreapta; placa pe fața dinapoi a foii vecine, la
      `plate_from_edge` de margine. Date de catalog generice, de verificat pe un sistem real. */
@@ -873,6 +877,13 @@ function generate1(input) {
                     w: [(ledTop.min[0] + ledTop.max[0]) / 2, ledTop.min[1], zHi - LG.w / 2], x0: ledTop.min[0], x1: ledTop.max[0],
                     len: ledTop.max[0] - ledTop.min[0], note: "Bandă LED 6×6" });
       var ledSide = pcs.filter(function (q) { return q.role === "fianco" && q.tAx === 0; }).sort(function (a, b) { return b.min[0] - a.min[0]; })[0];
+      /* piciorul lateral al L-ului: canal vertical pe fața dinăuntru a lateralului, de la tavan până sub întrerupător */
+      if (ledSide && ledSide.T > LG.d + 3) {
+        var swR = (cfg.ledSw === "door" ? LG.door.dia : LG.sw.dia) / 2, sideZ = ledSide.max[2] - LG.side.from_front;
+        var yTop = ledTop.min[1], yBot = yTop - LG.sw.below_top - swR - LG.side.past;
+        ledSide.grooves.push({ lo: [ledSide.min[0], yBot, sideZ - LG.w], hi: [ledSide.min[0] + LG.d, yTop, sideZ],
+                               note: "canal bandă LED lateral 6×6" });
+      }
       if (ledSide && cfg.ledSw === "door") out.hw.push({ id: "hw_" + out.hw.length, type: "leddoor", catalog: "haf_833_89_059", piece: ledSide.pk,
                     w: [(ledSide.min[0] + ledSide.max[0]) / 2, ledTop.min[1] - LG.door.below_top, ledSide.max[2]], dia: LG.door.dia, depth: LG.door.depth, note: "Senzor pe ușă Loox" });
       else if (ledSide) out.hw.push({ id: "hw_" + out.hw.length, type: "leddim", catalog: "haf_833_89_133", piece: ledSide.pk,
