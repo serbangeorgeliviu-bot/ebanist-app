@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.80.0 — 17 noiembrie 2026
+
+**Lista de feronerie pentru furnizor și sigla firmei pe foile pieselor.**
+- **„Trimite lista de feronerie"** (Pro, lângă „Comandă furnizor"): lista din proiect, grupată pe mărci (Blum, Häfele, Lamello, Festool…), cu cod, denumire și cantitate, fără prețuri (D-109). Pe telefon se deschide foaia de partajare cu un fișier CSV și textul (e-mail, WhatsApp); fără partajare, textul se copiază, iar dacă nici asta nu merge se descarcă CSV-ul. Un articol fără cod apare fără cod, nu cu unul presupus. Modul pur `ebanist-order.js`, test `order.test.js`.
+- **Sigla firmei pe foile pieselor** (A4 și A3): în celula „Firmă" a cartușului, când există un logo în Setări (în mod atelier, logo-ul atelierului). Fără logo, cartușul rămâne ca înainte. Până acum sigla era pe ofertă, distintă, deviz, comandă și celelalte documente, dar nu pe foile pieselor.
+- **Manopera** (ore × tarif pe oră + procent) și logo-ul existau deja; n-am schimbat nimic acolo.
+
+---
+
 ## Site — 17 noiembrie 2026 (widgetul „Câte plăci îți trebuie?")
 
 **Secțiune nouă pe ebanist.com, în toate cele 7 limbi: introduci cotele finite ale pieselor și primești câte plăci cumperi.** Folosește `ebanist-nest.js`, același optimizator ca în aplicație, deci cifrele coincid cu planul de tăiere din Ebanist.

@@ -382,7 +382,13 @@
     var r1w = gm.row1, r2w = gm.row2;
     var row1 = [[r1w[0], "shCompany", meta.company], [r1w[1], "shProject", meta.project], [r1w[2], "shClient", meta.client], [r1w[3], tr("shTitle"), meta.name]];
     var xx = X0;
-    row1.forEach(function (c, i) { svg += cell(xx, Y0, c[0], h, i === 3 ? tr("shPiece") : tr(c[1]), i === 3 ? (meta.n ? "#" + meta.n + "  " : "") + (c[2] || "") : c[2] || "", i === 3 ? gm.pfs : gm.cfs, i === 3 ? qres : 0); xx += c[0]; });
+    /* sigla firmei (5.80.0): în celula „Firmă", la dreapta; textul firmei își rezervă loc. Fără `meta.logo` cartușul rămâne ca înainte. */
+    var logoW = meta.logo ? Math.min(26, Math.round(r1w[0] * 0.4)) : 0;
+    row1.forEach(function (c, i) {
+      svg += cell(xx, Y0, c[0], h, i === 3 ? tr("shPiece") : tr(c[1]), i === 3 ? (meta.n ? "#" + meta.n + "  " : "") + (c[2] || "") : c[2] || "", i === 3 ? gm.pfs : gm.cfs, i === 3 ? qres : (i === 0 ? logoW : 0));
+      if (i === 0 && logoW) svg += '<image href="' + esc(meta.logo) + '" x="' + r1(xx + c[0] - logoW - 1) + '" y="' + r1(Y0 + 1.2) + '" width="' + logoW + '" height="' + r1(h - 2.4) + '" preserveAspectRatio="xMaxYMid meet"/>';
+      xx += c[0];
+    });
     var row2 = [[r2w[0], "shMat", meta.material], [r2w[1], "shThk", f(pc.thickness) + " mm"], [r2w[2], "shQty", meta.qty == null ? "" : String(meta.qty)],
       [r2w[3], "shEdge", meta.edge || "—"], [r2w[4], "shScale", "1:" + den], [r2w[5], "shDate", meta.date], [r2w[6], "shSheet", (o.sheetNo || 1) + "/" + (o.sheetTot || 1)], [r2w[7], "shGen", "Ebanist " + (meta.ver || "")]];
     xx = X0;

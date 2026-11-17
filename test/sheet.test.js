@@ -85,3 +85,12 @@ test("foaia: cu size A3 rămâne foaia de 420 × 297 (dosarul tehnic A3)", () =>
   assert.match(a3, /viewBox="0 0 420 297"/);
   assert.match(S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => o.note, meta: {}, size: "A4" }), /viewBox="0 0 297 210"/);
 });
+
+test("sigla firmei: în celula Firmă când există, absentă când nu (5.80.0)", () => {
+  const pc = { length: 800, width: 400, thickness: 19, outline: [{ x0: 0, x1: 800, y0: 0, y1: 400 }], operations: [] };
+  const mk = logo => S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => "", meta: { company: "Domus", logo, project: "P", name: "N", date: "d", ver: "v" } });
+  const a = mk("data:image/png;base64,AAAA"), b = mk("");
+  assert.match(a, /<image href="data:image\/png;base64,AAAA"/);
+  assert.ok(!/<image href="data:image\/png/.test(b));
+  assert.ok(!/<image /.test(S.partSheetSVG(pc, { face: 5, tr: k => k, opName: o => "", meta: { company: "Domus", project: "P", name: "N", date: "d", ver: "v" } })));
+});

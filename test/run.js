@@ -3262,8 +3262,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     });
     const all = [].concat(...Object.values(x));
     ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
-    ok("export: fiecare dintre cele 10 butoane e într-o grupă, o singură dată",
-      all.length === 11 && new Set(all).size === 11 && ["btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+    ok("export: fiecare dintre cele 12 butoane e într-o grupă, o singură dată",
+      all.length === 12 && new Set(all).size === 12 && ["btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnOrderSend","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
     ok("export: oferta și pașaportul sunt la client, montajul la atelier", x.expClient.join() === "btnQuote,btnPassport" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
   }
 

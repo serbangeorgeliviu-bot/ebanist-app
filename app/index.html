@@ -2161,6 +2161,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
         <span data-i="orderBtn">Comandă furnizor</span>
       </button>
+      <button class="btn" id="btnOrderSend">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+        <span data-i="orderSendBtn">Trimite lista de feronerie</span>
+      </button>
       <button class="btn" id="btnCsv">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5-5 5 5M12 5v12" transform="rotate(180 12 12)"/></svg>
         <span>CSV</span>
@@ -2943,6 +2947,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-jig.js"></script>
 <script src="./ebanist-lift.js"></script>
 <script src="./ebanist-suppliers.js"></script>
+<script src="./ebanist-order.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-baseframe.js"></script>
 <script src="./ebanist-kitchen-data.js"></script>
@@ -3964,6 +3969,13 @@ Object.assign(I18N.es,{vtDims:"Cotas"});
 Object.assign(I18N.it,{expClient:"Per il cliente",expShop:"Taglio e fornitore",expSite:"Officina e cantiere"});
 Object.assign(I18N.ro,{expClient:"Pentru client",expShop:"Debitare și furnizor",expSite:"Atelier și șantier"});
 Object.assign(I18N.en,{expClient:"For the client",expShop:"Cutting and supplier",expSite:"Workshop and site"});
+Object.assign(I18N.ro,{"orderSendBtn": "Trimite lista de feronerie", "orderSendHdr": "Comandă feronerie", "orderSendCopied": "Lista e copiată: lipește-o în e-mail sau mesaj", "orderSendEmpty": "Nu e nicio feronerie în proiect", "orderSendBrand": "Marcă"});
+Object.assign(I18N.en,{"orderSendBtn": "Send hardware list", "orderSendHdr": "Hardware order", "orderSendCopied": "List copied: paste it into an e-mail or message", "orderSendEmpty": "No hardware in this project", "orderSendBrand": "Brand"});
+Object.assign(I18N.it,{"orderSendBtn": "Invia lista ferramenta", "orderSendHdr": "Ordine ferramenta", "orderSendCopied": "Lista copiata: incollala in un'e-mail o in un messaggio", "orderSendEmpty": "Nessuna ferramenta nel progetto", "orderSendBrand": "Marca"});
+Object.assign(I18N.fr,{"orderSendBtn": "Envoyer la liste de quincaillerie", "orderSendHdr": "Commande de quincaillerie", "orderSendCopied": "Liste copiée : collez-la dans un e-mail ou un message", "orderSendEmpty": "Aucune quincaillerie dans le projet", "orderSendBrand": "Marque"});
+Object.assign(I18N.de,{"orderSendBtn": "Beschlagliste senden", "orderSendHdr": "Beschlagbestellung", "orderSendCopied": "Liste kopiert: in E-Mail oder Nachricht einfügen", "orderSendEmpty": "Keine Beschläge im Projekt", "orderSendBrand": "Marke"});
+Object.assign(I18N.pl,{"orderSendBtn": "Wyślij listę okuć", "orderSendHdr": "Zamówienie okuć", "orderSendCopied": "Lista skopiowana: wklej ją do e-maila lub wiadomości", "orderSendEmpty": "Brak okuć w projekcie", "orderSendBrand": "Marka"});
+Object.assign(I18N.es,{"orderSendBtn": "Enviar la lista de herrajes", "orderSendHdr": "Pedido de herrajes", "orderSendCopied": "Lista copiada: pégala en un correo o mensaje", "orderSendEmpty": "No hay herrajes en el proyecto", "orderSendBrand": "Marca"});
 Object.assign(I18N.fr,{expClient:"Pour le client",expShop:"Débit et fournisseur",expSite:"Atelier et chantier"});
 Object.assign(I18N.de,{expClient:"Für den Kunden",expShop:"Zuschnitt und Lieferant",expSite:"Werkstatt und Baustelle"});
 Object.assign(I18N.pl,{expClient:"Dla klienta",expShop:"Cięcie i dostawca",expSite:"Warsztat i budowa"});
@@ -10460,7 +10472,7 @@ function partSheetSvg(M,pc,face,no,tot,size){
     if(sib.length===row.seg.n){ const SL=sib.map(r=>+r.lung), SW=sib.map(r=>+r.larg), sum=a=>a.reduce((x,y)=>x+y,0);
       if(Math.abs(sum(SL)-pc.length)<=1.5) segs={axis:"L",sizes:SL}; else if(Math.abs(sum(SW)-pc.width)<=1.5) segs={axis:"W",sizes:SW}; } } }catch(e){}
   return EBSheet.partSheetSVG(pc,{face,size:size||"A4",tr:t,opName,segs,sheetNo:no||1,sheetTot:tot||1,qr,meta:{
-    company:prCoName()||"",project:p?p.name:"",client:p&&p.client||"",name:partName(M,pc),n:m.n,
+    company:prCoName()||"",logo:prLogoSrc(),project:p?p.name:"",client:p&&p.client||"",name:partName(M,pc),n:m.n,
     material:row.materiale||row.mat||"",qty:row.pz,edge:row.bordo,date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
 function partSheetPrint(M,pc,face){
@@ -13343,7 +13355,7 @@ function elabSvgFor(cfg,boxes,p,no,tot){
   const mt=id=>{ try{ const m=id?matById(id):null; return m?{n:m.label,t:m.spessore}:{n:"",t:""}; }catch(e){ return {n:"",t:""}; } };
   const b=mt(cfg.matBody||S.matBody), fr=mt(cfg.matFront||S.matFront), bk=mt(cfg.matBack||S.matBack);
   return EBElab.elevationsSheetSVG(boxes,{tr:t,sheetNo:no,sheetTot:tot,meta:{
-    company:prCoName()||"",project:p?p.name:"",client:p&&p.client||"",name:cfg.name||"",
+    company:prCoName()||"",logo:prLogoSrc(),project:p?p.name:"",client:p&&p.client||"",name:cfg.name||"",
     matBody:b.n,matFront:fr.n,matBack:bk.n,tBody:b.t,tBack:bk.t,date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
 /* foile A3 se tipăresc pe pagini de 420×297 mm, câte una pe pagină */
@@ -14368,6 +14380,25 @@ $("btnOrder").addEventListener("click",()=>{
   printOut();
 });
 
+/* lista de feronerie pentru furnizor, pe mărci, ca text (e-mail/WhatsApp) + CSV (5.80.0, ebanist-order.js). Fără prețuri. Pro, ca „Comandă furnizor" (doc). */
+$("btnOrderSend").addEventListener("click",async()=>{
+  const p=proj(); if(!p){toast(t("selectProject"));return;}
+  if(!proGate("doc")) return;
+  const groups=EBOrder.group(computeHardware(p).filter(x=>x.qty>0),r=>t("hw"+r.k.slice(2,3).toUpperCase()+r.k.slice(3)));
+  if(!groups.length){ toast(t("orderSendEmpty")); return; }
+  const date=new Date().toISOString().slice(0,10);
+  const txt=EBOrder.text(groups,{header:t("orderSendHdr"),project:p.name,company:prCoName()||"",date,note:t("orderCheck")});
+  const csv="\uFEFF"+EBOrder.csv(groups,[t("orderSendBrand"),t("catArt"),t("catProd"),t("orderQty")]);
+  const fname=("feronerie-"+(p.name||"proiect")).replace(/[^\w\-]+/g,"_")+".csv";
+  try{
+    const file=new File([csv],fname,{type:"text/csv"});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:t("orderSendHdr")+" — "+p.name,text:txt}); return; }
+    if(navigator.share){ await navigator.share({title:t("orderSendHdr")+" — "+p.name,text:txt}); return; }
+  }catch(e){ if(e&&e.name==="AbortError") return; }
+  try{ await navigator.clipboard.writeText(txt); toast(t("orderSendCopied")); }
+  catch(e){ download(fname,csv,"text/csv"); }
+});
+
 $("btnStock").addEventListener("click",()=>{ renderStock(); openSheet("shStock"); });
 $("btnStockAdd").addEventListener("click",()=>{
   stockAdd($("stMat").value, parseInt($("stL").value,10)||0, parseInt($("stW").value,10)||0,
@@ -14851,6 +14882,10 @@ $("btnFeedback").addEventListener("click",()=>{
 });
 
 /* ================= LOGO AZIENDALE ================= */
+/* sigla ca adresă de imagine (aceeași alegere ca în prLogo: a atelierului în mod atelier, altfel a utilizatorului) */
+function prLogoSrc(){ const S=state.settings;
+  if(atelierMode()&&OrderRail.cfg&&OrderRail.cfg.logo) return String(OrderRail.cfg.logo);
+  return S.logo?String(S.logo):""; }
 function prLogo(){ const S=state.settings;
   /* În mod atelier antetul e al atelierului, nu al utilizatorului: el e
      cel care primește comanda și el o dă mai departe clientului. */
@@ -19358,12 +19393,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.79.0"; /* APP_VER-MARKER */
+const APP_VER="5.80.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v257";
+const SW_CACHE="ebanist-v258";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
