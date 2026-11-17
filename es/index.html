@@ -469,6 +469,9 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .tt-phone:hover{transform:translateY(-6px) rotate(-1deg)}
 .tt-phone .scr{position:relative;display:block;aspect-ratio:390/844;border-radius:31px;overflow:hidden}
 .tt-phone img{width:100%;height:100%;object-fit:cover}
+.tt-phone .tt-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+.tt-phone .tt-vid.on{opacity:1}
+.tt-phone .tt-vid.on~.tt-ov .tt-play{opacity:0}
 .tt-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))}
 .tt-play{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);color:#fff;font-size:24px;padding-left:4px}
 .tt-meta{color:#fff;font-size:13px;line-height:1.35}
@@ -1191,6 +1194,7 @@ c66 -3 133 -12 160 -22z"/>
     </div>
     <a class="tt-phone rv" href="https://www.tiktok.com/@ebanist.app" rel="noopener" target="_blank" aria-label="Ver en TikTok" data-goatcounter-click="tiktok-phone">
       <span class="scr"><picture><source type="image/avif" srcset="/site/screens/es/phone-build-780.avif"><img src="/site/screens/es/phone-build-780.webp" width="780" height="1688" alt="Ebanist en un móvil: el armario 3D en el generador" loading="lazy"></picture>
+        <video class="tt-vid" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" data-src="/site/video/ebanist-montaj.mp4"></video>
         <span class="tt-ov"><span class="tt-play" aria-hidden="true">▶</span><span class="tt-meta"><b>@ebanist.app</b><span>De la medición al despiece — en un móvil, en obra.</span></span></span></span>
     </a>
   </div>
@@ -1292,7 +1296,7 @@ c66 -3 133 -12 160 -22z"/>
 <div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
 
 <script src="/app/config/billing.js"></script>
-<script>window.EB={"lang":"es","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"O {y} al año — dos meses gratis","pieces":["LATERAL I","LATERAL D","DIVISOR","BALDA","BALDA","ZÓCALO","COSTADO CAJÓN","COSTADO CAJÓN","COSTADO CAJÓN"],"app":"/app/?lang=es","ver":"5.71.0.s2"};</script>
-<script src="/site/js/main.js?v=5.71.0.s2" defer></script>
+<script>window.EB={"lang":"es","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"O {y} al año — dos meses gratis","pieces":["LATERAL I","LATERAL D","DIVISOR","BALDA","BALDA","ZÓCALO","COSTADO CAJÓN","COSTADO CAJÓN","COSTADO CAJÓN"],"app":"/app/?lang=es","ver":"5.72.0.s2"};</script>
+<script src="/site/js/main.js?v=5.72.0.s2" defer></script>
 </body>
 </html>

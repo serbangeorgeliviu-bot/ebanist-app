@@ -283,3 +283,21 @@
   }
   if (doc.readyState === "complete") afterFirstPaint(); else addEventListener("load", afterFirstPaint);
 })();
+
+/* Clipul de montaj din secțiunea TikTok: se încarcă și pornește numai când secțiunea apare pe ecran, fără sunet, în buclă;
+   cu „reduce motion" sau fără IntersectionObserver rămâne poza. */
+(function () {
+  var v = document.querySelector(".tt-vid");
+  if (!v || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var started = false;
+  new IntersectionObserver(function (es, o) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting || started) return;
+      started = true; o.disconnect();
+      v.src = v.getAttribute("data-src");
+      v.addEventListener("playing", function () { v.classList.add("on"); }, { once: true });
+      var p = v.play(); if (p && p.catch) p.catch(function () { v.removeAttribute("src"); v.load(); });
+    });
+  }, { rootMargin: "120px" }).observe(v);
+})();
