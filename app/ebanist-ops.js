@@ -167,6 +167,10 @@ var HW_DRILL = {
      inaltimea, paralel cu marginea libera. Date de profil generic, de verificat
      pe un profil real inainte sa mearga in masina. */
   antiwarp: { groove_w: 10, groove_d: 9, from_free_edge: 45, end_margin: 30 },
+  /* canalul benzii LED neon flex 6×6 (D-157): pe fața de dedesubt a tavanului, paralel cu muchia din față. Lățimea și adâncimea sunt ale
+     benzii (Emuca 5220220: „groove 6 mm wide × 6 mm deep”); `from_front` = distanța de la fața din față a panoului până la muchia
+     canalului, „la vreo 4 cm” după Liviu (lucrarea Cetinic). Nemăsurat pe piesă: verificat rămâne false. */
+  led: { w: 6, d: 6, from_front: 40, verificat: false },
   /* balamaua dintre două foi ale unui pachet pliant (U.9, D-87): cupa pe fața dinapoi a
      foii din stânga, la marginea ei din dreapta; placa pe fața dinapoi a foii vecine, la
      `plate_from_edge` de margine. Date de catalog generice, de verificat pe un sistem real. */
@@ -849,6 +853,17 @@ function generate1(input) {
       if (hingeSel === "maniglia") doorHandle(out, D, handleOf(cfg, "door"), hingeLeft, topD);
     });
   });
+
+  /* --- 4a. LED (D-157): canal 6×6 sub tavan, pe toată lățimea lui. Numai la „sub plafon”: la lungimea introdusă nu știm pe ce panou
+         stă banda, deci nu se emite nimic (nu se ghicește). Tavanul de tip traversă nu are față de dedesubt întreagă: avertisment. */
+  if (cfg && cfg.led === "top") {
+    var LG = H.led, ledTop = pcs.filter(function (q) { return q.role === "cielo" && q.tAx === 1 && !q.tbl && !q.sloped && !q.curved; })[0];
+    if (ledTop && ledTop.T > LG.d + 3) {
+      var zHi = ledTop.max[2] - LG.from_front;
+      ledTop.grooves.push({ lo: [ledTop.min[0], ledTop.min[1], zHi - LG.w], hi: [ledTop.max[0], ledTop.min[1] + LG.d, zHi],
+                            note: "canal bandă LED 6×6" });
+    } else out.warnings.push({ piece: ledTop ? ledTop.pk : null, k: "opsLedNoTop" });
+  }
 
   /* --- 4b. pachete pliante (U.9, D-87): balamale între foi și mâner pe foaia liberă.
          Foile nu se prind de lateral: atârnă pe șină, deci nu au bază pe flanc. */

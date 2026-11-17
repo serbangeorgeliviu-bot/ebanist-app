@@ -5212,6 +5212,48 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     }
   }
 
+  head("Iluminat LED în generator, distinctă, deviz și catalog (5.73.0, D-157)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); setView("build"); await w(300);
+      const keepP = state.projects, keepA = state.activeId;
+      state.projects = [{ id: "ld1", name: "T", pieces: [], configs: {}, geomVersion: GEOM_VERSION }]; state.activeId = "ld1";
+      buildCfg = { ...PRESETS.armadio, name: "Led A", L: 900, H: 2000, P: 400, doors: 0, drawers: 0, hang: 0, tram: 0, shelves: 2 };
+      syncBuildForm(); drawPreview(); await w(300);
+      o.camp = !!document.getElementById("bLed") && document.getElementById("bLed").options.length === 3;
+      o.ascuns = document.getElementById("rowLedLen").style.display === "none";
+      const sel = document.getElementById("bLed"); sel.value = "manual"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(200);
+      o.lungime = document.getElementById("rowLedLen").style.display !== "none";
+      const len = document.getElementById("bLedLen"); len.value = "3000"; len.dispatchEvent(new Event("input", { bubbles: true })); await w(300);
+      o.hint = /3[.,]00/.test(document.getElementById("ledHint").textContent) && /21[.,]6/.test(document.getElementById("ledHint").textContent) && document.getElementById("ledHint").style.display !== "none";
+      o.cfg = buildCfg.led === "manual" && buildCfg.ledLen === 3000;
+      generateInto(proj(), buildCfg);
+      const p = proj(), row = p.pieces.find(x => x.elemento === "Striscia LED");
+      o.rand = !!row && row.lung === 3000 && row.pz === 1 && /^accessorio/i.test(row.materiale || "");
+      o.nuPanou = panelTotals(p.pieces).pcs === p.pieces.filter(x => !isAccPiece(x)).reduce((a, x) => a + x.pz, 0);
+      const hw = computeHardware(p, state.settings), by = {}; hw.forEach(i => { by[i.k] = i; });
+      o.hw = by.hwLedStrip.qty === 1 && by.hwLedDrv.qty === 2 && by.hwLedDim.qty === 2 && by.hwLedSw.qty === 2 && by.hwLedMains.qty === 2;
+      o.coduri = by.hwLedDrv.prod.art === "833.75.933" && by.hwLedSw.prod.art === "833.89.142" && by.hwLedMains.prod.art === "833.89.009" && by.hwLedDim.prod.art === "833.89.133" && by.hwLedStrip.prod.art === "5220220";
+      o.deviz = projectCosts(p).hw.some(i => i.k === "hwLedDrv" && i.qty === 2);
+      o.nume = matLabelUI(row.materiale) !== row.materiale || state.lang === "it";
+      renderCatalog();
+      o.catalog = ["ledstrip", "leddrv", "leddim", "ledsw", "ledmains"].every(c => document.querySelector('#catHwWrap select[data-cat="' + c + '"]'));
+      o.chk = document.querySelector('#catHwWrap select[data-cat="leddrv"]').closest(".f").innerText.length > 0;
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["fLed", "ledNone", "ledTop", "ledManual", "fLedLen", "ledHint", "hwLedStrip", "hwLedDrv", "hwLedDim", "hwLedSw", "hwLedMains"].every(k => I18N[l][k]));
+      o.elLimbi = ["ro", "en", "fr", "de", "pl", "es"].every(l => EL_I18N[l]["Striscia LED"]) && ["ro", "en", "fr", "de", "pl", "es"].every(l => ACC_I18N["Accessorio — striscia LED neon flex 6×6"][l]);
+      /* fără LED: aceeași distinctă, fără rând și fără feronerie de iluminat */
+      buildCfg = { ...buildCfg, led: "", ledLen: 0 }; generateInto(proj(), buildCfg);
+      o.golit = !proj().pieces.some(x => x.elemento === "Striscia LED") && computeHardware(proj(), state.settings).filter(i => /^hwLed/.test(i.k)).every(i => i.qty === 0);
+      closeSheets(); state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("LED: câmpul din generator, lungimea manuală și rezumatul (m, W, transformatoare)", d.camp && d.ascuns && d.lungime && d.hint && d.cfg, JSON.stringify(d));
+    ok("LED: banda e rând de accesorii în distinctă, nu panou", d.rand && d.nuPanou && d.nume, JSON.stringify(d));
+    ok("LED: transformatoare, dimmere și cabluri numărate din putere, cu codurile Häfele/Emuca, în deviz", d.hw && d.coduri && d.deviz, JSON.stringify(d));
+    ok("LED: cele 5 categorii în catalog; textele în 7 limbi; fără LED nu rămâne nimic", d.catalog && d.chk && d.limbi && d.elLimbi && d.golit, JSON.stringify(d));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
