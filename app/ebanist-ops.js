@@ -170,7 +170,10 @@ var HW_DRILL = {
   /* canalul benzii LED neon flex 6×6 (D-157): pe fața de dedesubt a tavanului, paralel cu muchia din față. Lățimea și adâncimea sunt ale
      benzii (Emuca 5220220: „groove 6 mm wide × 6 mm deep”); `from_front` = distanța de la fața din față a panoului până la muchia
      canalului, „la vreo 4 cm” după Liviu (lucrarea Cetinic). Nemăsurat pe piesă: verificat rămâne false. */
-  led: { w: 6, d: 6, from_front: 40, verificat: false },
+  led: { w: 6, d: 6, from_front: 40, verificat: false,
+         /* dimmerul Loox (833.89.133) pe lateralul din dreapta, în nișă: 40 mm de față, 60 mm sub tavan, Ø 20 — DOAR pentru desenul 3D
+            (poziția după fotografiile de la Cetinic, Ø nemăsurat); nu produce gaură în operații până nu se măsoară */
+         sw: { from_front: 40, below_top: 60, dia: 20, verificat: false } },
   /* balamaua dintre două foi ale unui pachet pliant (U.9, D-87): cupa pe fața dinapoi a
      foii din stânga, la marginea ei din dreapta; placa pe fața dinapoi a foii vecine, la
      `plate_from_edge` de margine. Date de catalog generice, de verificat pe un sistem real. */
@@ -862,6 +865,14 @@ function generate1(input) {
       var zHi = ledTop.max[2] - LG.from_front;
       ledTop.grooves.push({ lo: [ledTop.min[0], ledTop.min[1], zHi - LG.w], hi: [ledTop.max[0], ledTop.min[1] + LG.d, zHi],
                             note: "canal bandă LED 6×6" });
+      /* instanțele din spațiu, pentru 3D (banda aprinsă/stinsă) și pentru lista de feronerie */
+      out.hw.push({ id: "hw_" + out.hw.length, type: "led", catalog: "emu_5220220", piece: ledTop.pk,
+                    w: [(ledTop.min[0] + ledTop.max[0]) / 2, ledTop.min[1], zHi - LG.w / 2], x0: ledTop.min[0], x1: ledTop.max[0],
+                    len: ledTop.max[0] - ledTop.min[0], note: "Bandă LED 6×6" });
+      var ledSide = pcs.filter(function (q) { return q.role === "fianco" && q.tAx === 0; }).sort(function (a, b) { return b.min[0] - a.min[0]; })[0];
+      if (ledSide) out.hw.push({ id: "hw_" + out.hw.length, type: "leddim", catalog: "haf_833_89_133", piece: ledSide.pk,
+                    w: [ledSide.min[0], ledTop.min[1] - LG.sw.below_top, ledTop.max[2] - LG.sw.from_front], dir: -1,
+                    dia: LG.sw.dia, mount: cfg.ledSw === "hidden" ? "hidden" : "visible", note: "Dimmer Loox" });
     } else out.warnings.push({ piece: ledTop ? ledTop.pk : null, k: "opsLedNoTop" });
   }
 

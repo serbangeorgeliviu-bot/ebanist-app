@@ -325,7 +325,13 @@ function perMesh(m) {
 function materialFor(key) {
   if (MAT_CACHE.has(key)) return MAT_CACHE.get(key);
   let m;
-  if (key === "__hw") {
+  if (key === "__ledon") {
+    m = new THREE.MeshStandardMaterial({ color: 0xfff1da, emissive: 0xffb25e, emissiveIntensity: 3.2, roughness: .45, metalness: 0 });
+  } else if (key === "__ledoff") {
+    m = new THREE.MeshStandardMaterial({ color: 0xe6e0d4, roughness: .55, metalness: 0 });
+  } else if (key === "__swdisc") {
+    m = new THREE.MeshStandardMaterial({ color: 0xd9dadb, roughness: .45, metalness: .25, envMapIntensity: .9 });
+  } else if (key === "__hw") {
     m = new THREE.MeshStandardMaterial({ color: 0xc4c8cc, roughness: .3, metalness: 1, envMapIntensity: 1.2 });
   } else if (key === "__hwdark") {
     m = new THREE.MeshStandardMaterial({ color: 0x3a3d40, roughness: .35, metalness: .9, envMapIntensity: 1.1 });
@@ -566,7 +572,7 @@ function boot(canvas) {
 
   R = { renderer, scene, camera, key, fill, rim, hemi, ground, contact, root, canvas, dark,
         pieces: new Map(), model: null, sig: "", need: true, raf: 0,
-        st: { explode: 0, open: 0, mode: "real", hw: false, holes: false, dims: false, sel: null, iso: false, edges: true },
+        st: { explode: 0, open: 0, mode: "real", hw: false, holes: false, dims: false, sel: null, iso: false, edges: true, ledOn: true },
         cam: { yaw: .46, pitch: .30, zoom: 1, cx: 0, cy: 0, cz: 0, rad: 1 }, bounds: null, full: null };
   return R;
 }
@@ -903,6 +909,84 @@ function drawHandle(P, h, tag) {
   }
 }
 
+/* ============ ILUMINAT LED (D-157): banda aprinsă/stinsă, dimmerul, lumina ============
+   Banda (neon flex 6×6 în canalul de sub tavan) e o bilă emisivă la nivelul feței de dedesubt; când e aprinsă, trei lumini punctuale calde
+   (2700 K) cad pe nișă și un halou aditiv pe fața tavanului. Dimmerul Loox: disc la vedere, sau îngropat în lemn cu doar semnul. Atingerea
+   dimmerului aprinde/stinge (GL3D.pickHw). Lumina nu atinge geometria și nu intră în documente (capture). */
+let LED_ICON = null;
+function ledIconTexture() {
+  if (LED_ICON) return LED_ICON;
+  const cv = document.createElement("canvas"); cv.width = cv.height = 128;
+  const g = cv.getContext("2d"); g.clearRect(0, 0, 128, 128);
+  g.strokeStyle = "#2a2a2a"; g.lineWidth = 9; g.lineCap = "round";
+  g.beginPath(); g.arc(64, 78, 46, Math.PI * 1.08, Math.PI * 1.92); g.stroke();            /* arcul dimmerului */
+  g.lineWidth = 8; g.beginPath(); g.arc(64, 84, 17, -Math.PI * 0.35, Math.PI * 1.35); g.stroke();   /* cercul „power” */
+  g.beginPath(); g.moveTo(64, 56); g.lineTo(64, 82); g.stroke();
+  LED_ICON = new THREE.CanvasTexture(cv); LED_ICON.colorSpace = THREE.SRGBColorSpace; LED_ICON.anisotropy = 4;
+  return LED_ICON;
+}
+function glowTexture() {
+  const cv = document.createElement("canvas"); cv.width = 16; cv.height = 64;
+  const g = cv.getContext("2d"), gr = g.createLinearGradient(0, 0, 0, 64);
+  gr.addColorStop(0, "rgba(255,190,110,.95)"); gr.addColorStop(.35, "rgba(255,170,90,.35)"); gr.addColorStop(1, "rgba(255,160,80,0)");
+  g.fillStyle = gr; g.fillRect(0, 0, 16, 64);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+function clearLed() {
+  if (R.ledG) { R.root.remove(R.ledG); R.ledG.traverse(o => { if (o.material && o.material.userData && o.material.userData.own) o.material.dispose(); if (o.geometry) o.geometry.dispose(); }); }
+  R.ledG = null; R.led = null;
+}
+function buildLed(O) {
+  clearLed();
+  const strip = O.hw.find(h => h.type === "led"), dim = O.hw.find(h => h.type === "leddim");
+  if (!strip) return;
+  const PS = R.pieces.get(String(strip.piece)); if (!PS) return;
+  const tag = (m, kind, piece) => { m.userData.hw = kind; m.userData.always = true; m.userData.rel = [String(piece)]; m.castShadow = false; return m; };
+  const L = { strip: [], glow: null, lights: [], dim: null };
+  const [cx, y, zc] = strip.w, x0 = strip.x0, x1 = strip.x1;
+  const bead = box("__ledoff", [x0 + 0.5, y - 0.8, zc - 2.6], [x1 - 0.5, y + 0.2, zc + 2.6], 0.2);
+  tag(bead, "led", strip.piece); L.strip.push(bead); PS.hw.add(bead);
+  /* haloul pe fața de dedesubt a tavanului */
+  const glow = new THREE.Mesh(new THREE.PlaneGeometry((x1 - x0) * MM, 70 * MM), new THREE.MeshBasicMaterial({ map: glowTexture(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .9 }));
+  glow.material.userData.own = true;
+  glow.rotation.x = Math.PI / 2; glow.position.set(cx * MM, (y - 1.1) * MM, (zc - 35 + 2.6) * MM); glow.renderOrder = 4; glow.userData.hw = "led"; glow.userData.always = true; glow.userData.rel = [String(strip.piece)];
+  PS.hw.add(glow); L.glow = glow;
+  if (dim) {
+    const PD = R.pieces.get(String(dim.piece));
+    if (PD) {
+      const [dx, dy, dz] = dim.w, dr = dim.dir || -1, dia = dim.dia || 20;
+      const decal = (size, x, mat) => { const p = new THREE.Mesh(new THREE.PlaneGeometry(size * MM, size * MM), mat); p.position.set(x * MM, dy * MM, dz * MM); p.rotation.y = dr < 0 ? -Math.PI / 2 : Math.PI / 2; p.renderOrder = 6; tag(p, "leddim", dim.piece); p.userData.sw = true; return p; };
+      const iconMat = new THREE.MeshBasicMaterial({ map: ledIconTexture(), transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+      iconMat.userData.own = true;
+      if (dim.mount === "hidden") {
+        /* îngropat în lemn: se vede doar semnul, aproape de culoarea fibrei */
+        iconMat.opacity = .55;
+        const ic = decal(dia * 0.8, dx + dr * 0.08, iconMat); PD.hw.add(ic); L.dim = ic;
+      } else {
+        const disc = cyl("__swdisc", [dx, dy, dz], [dx + dr * 2.2, dy, dz], dia, 0.5);
+        tag(disc, "leddim", dim.piece); disc.userData.sw = true; PD.hw.add(disc); L.dim = disc;
+        PD.hw.add(decal(dia * 0.78, dx + dr * 2.3, iconMat));
+      }
+    }
+  }
+  /* lumina: trei puncte pe lungimea benzii, sub tavan */
+  const grp = new THREE.Group();
+  [0.15, 0.5, 0.85].forEach(k => {
+    const pl = new THREE.PointLight(0xffb470, 0.0, 1.6, 2); pl.position.set((x0 + (x1 - x0) * k) * MM, (y - 25) * MM, (zc - 20) * MM); pl.castShadow = false; grp.add(pl); L.lights.push(pl);
+  });
+  R.ledG = grp; R.root.add(grp); R.led = L; R.ledMount = dim ? dim.mount : null;
+  updateLed();
+}
+const LED_LIGHT_I = 0.55;
+function updateLed() {
+  const L = R.led; if (!L) return;
+  const on = !!R.st.ledOn;
+  L.strip.forEach(m => { m.material = materialFor(on ? "__ledon" : "__ledoff"); });
+  if (L.glow) L.glow.visible = on;
+  const lit = on && !(R.st.explode > 0.01);
+  L.lights.forEach(pl => { pl.intensity = lit ? LED_LIGHT_I : 0; pl.visible = lit; });
+  R.need = true;
+}
 function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (R.linkG) clearGroup(R.linkG);
@@ -912,8 +996,10 @@ function buildHardware(model) {
   const O = model.ops;
   /* conectori: forma 3D iese din aceleași operații (găuri și canale) ca fișa piesei (ebanist-hwgeom.js) */
   const OPS = EBHwGeom.opsByHw(O.pieces);
+  buildLed(O);
   /* cerniere: dicono anche da che parte si apre l'anta */
   O.hw.forEach(h => {
+    if (h.type === "led" || h.type === "leddim") return;   /* se desenează în buildLed (D-157) */
     if (h.wing === "B") return;   /* aripa B a corpului de colț: balamalele, glisierele și mânerele se desenează presupunând fața pe +z (D-103); fără desen, nu desen greșit */
     const P = R.pieces.get(String(h.piece)); if (!P) return;
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;
@@ -1246,6 +1332,7 @@ function applyState() {
   (R.links || []).forEach(L => { L.m.visible = (st.hw || hwMode || (!!sel && L.rel.indexOf(sel) >= 0)) && L.P.g.visible && L.A.g.visible; if (L.ends) L.ends.forEach(e => { e.visible = L.m.visible; }); });
   if (R.dims) R.dims.visible = !!st.dims && !(st.explode > 0.01) && !(st.iso && sel);
   fadeWalls();
+  updateLed();
   R.need = true; kick();
 }
 
@@ -1702,7 +1789,7 @@ const GL3D = {
       setRoom(opts.room);
       R.cfg = cfg;
       boxes = setModel(boxes, cfg);
-      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1), keyOf(b, cfg)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + hwProdSig() + "|" + JSON.stringify(boxes.map(b => b.cab || b.kb || b.dev ? [b.pk, b.cab || 0, b.kb || 0] : 0).filter(Boolean));
+      const sig = JSON.stringify(boxes.map(b => [b.pk, b.role, Math.round(b.x0), Math.round(b.x1), Math.round(b.y0), Math.round(b.y1), Math.round(b.z0), Math.round(b.z1), keyOf(b, cfg)])) + "|" + cfg.handles + "|" + cfg.shelfType + "|" + JSON.stringify(cfg.hwSel || null) + "|" + (cfg.antiWarp || "") + "|" + (cfg.led || "") + (cfg.ledLen || "") + (cfg.ledSw || "") + "|" + hwProdSig() + "|" + JSON.stringify(boxes.map(b => b.cab || b.kb || b.dev ? [b.pk, b.cab || 0, b.kb || 0] : 0).filter(Boolean));
       if (sig !== R.sig) {
         R.sig = sig;
         R.model = computeModel(cfg, boxes, built || { pieces: [] });
@@ -1864,6 +1951,18 @@ const GL3D = {
     return { data: D.out.toDataURL("image/jpeg", 0.93), assembling: !!R.asm, t: R.vt };
   },
   offlineEnd() { if (!R || !R.off) return; const o = R.off.o; if (R.off.yaw0 != null && typeof VIEW === "object") VIEW.yaw = R.off.yaw0; R.manual = false; R.off = null; this.stopAssemble(); if (o && o.bg) this.theme(); resize(); },
+  /* LED (D-157): starea lămpii și atingerea dimmerului */
+  ledInfo() { return R && R.led ? { on: !!R.st.ledOn, lights: R.led.lights.length, lit: R.led.lights.filter(l => l.visible && l.intensity > 0).length, mount: R.ledMount || null, strip: R.led.strip.length } : null; },
+  pickHw(clientX, clientY) {
+    if (!this.ok || !R.led || !R.led.dim) return null;
+    const r = R.canvas.getBoundingClientRect();
+    const v = new THREE.Vector2(((clientX - r.left) / r.width) * 2 - 1, -((clientY - r.top) / r.height) * 2 + 1);
+    const rc = new THREE.Raycaster(); rc.setFromCamera(v, R.camera);
+    const list = []; R.led.dim.parent && R.led.dim.parent.children.forEach(m => { if (m.userData.sw && m.visible) list.push(m); });
+    R.scene.updateMatrixWorld(true);
+    const hit = rc.intersectObjects(list, false)[0];
+    return hit ? "leddim" : null;
+  },
   moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; renderScene(); return R.canvas.toDataURL("image/png"); },
