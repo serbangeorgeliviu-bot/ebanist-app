@@ -469,6 +469,9 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .tt-phone:hover{transform:translateY(-6px) rotate(-1deg)}
 .tt-phone .scr{position:relative;display:block;aspect-ratio:390/844;border-radius:31px;overflow:hidden}
 .tt-phone img{width:100%;height:100%;object-fit:cover}
+.tt-phone .tt-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+.tt-phone .tt-vid.on{opacity:1}
+.tt-phone .tt-vid.on~.tt-ov .tt-play{opacity:0}
 .tt-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72))}
 .tt-play{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.45);color:#fff;font-size:24px;padding-left:4px}
 .tt-meta{color:#fff;font-size:13px;line-height:1.35}

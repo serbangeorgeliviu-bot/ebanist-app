@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.72.0 — 17 noiembrie 2026
+
+**Pagina ebanist.com arată aplicația în mișcare.** În secțiunea TikTok, telefonul din dreapta nu mai e o poză: rulează clipul de montaj (dulap din stejar, piesele vin una câte una, ușile se montează și se deschid), mut, în buclă, 13 secunde.
+- **Se încarcă numai când ajunge pe ecran** (`IntersectionObserver`, `preload="none"`, fără `src` static) și rămâne poza dacă utilizatorul are „reduce motion" sau browserul nu poate. Clipul are 225 KB, deci pagina nu se îngreunează.
+- Clipul n-are text în el, deci e la fel în toate cele 7 limbi; titlul și legenda rămân cele ale paginii.
+- Făcut din aplicație, cu randarea cadru cu cadru din 5.71.0. Test nou `landing-video.test.js` (7 pagini, încărcare leneșă, dimensiune, `media-src`).
+
+---
+
 ## 5.71.0 — 17 noiembrie 2026
 
 **Montajul animat nu mai ajunge cu camera pe spatele mobilei; video-ul se încheie cu ușile deschise.**
