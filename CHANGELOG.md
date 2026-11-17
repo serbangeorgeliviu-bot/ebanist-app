@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.79.0 — 17 noiembrie 2026
+
+**Optimizarea tăierii (nesting) e acum un modul pur, `ebanist-nest.js`.** Nicio schimbare pentru utilizator: planurile de tăiere sunt aceleași (verificat pe 300 de liste aleatoare, în raport cu codul vechi: zero diferențe). Modulul nu depinde de DOM, deci îl pot folosi și site-ul și testele; asta deblochează widgetul „Câte plăci îți trebuie?" de pe landing (D-156: cifrele trebuie să iasă din același cod ca în aplicație).
+- `nest(piese, L, l, lamă, stoc, cutLW)`: cota de tăiere o dă funcția primită (aplicația îi dă `cutLW`, D-69).
+- Test nou: `nest.test.js` (fără suprapuneri, fără ieșiri din placă, determinism, stoc, piese prea mari).
+
+---
+
 ## Site — 17 noiembrie 2026 (articol 5.x, tabel Gratuit/Pro)
 
 - **Articol nou de blog:** „Noutăți în Ebanist 5.46–5.78" (7 limbi) la `/blog/whats-new-5-78/`: feronerie în 3D, controale cu soluții, bucătării, QR pe etichete, rezumat și anulează/refă, montaj animat, LED, lemn din poze reale. Apare primul în index, în sitemap și în JSON-LD.
