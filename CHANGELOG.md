@@ -11,7 +11,8 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - **Previzualizare înainte de plată:** pe ecranul Pro, când o ieșire cu distinta e blocată (PDF, export, documente), apar primele 5 rânduri din distinta TA (nu un exemplu), restul estompat, cu „și încă N piese, cu Pro". Numai citire: nimic nu iese din aplicație; nu schimbă ce e gratuit și ce e Pro.
 - **Exemple dintr-un tap la generarea cu AI:** trei fraze gata scrise sub câmpul de text din Genera (dulap, bază de bucătărie, bibliotecă), în cele 7 limbi. Un tap pune fraza în câmp și pornește generarea: primul rezultat apare în câteva secunde.
 - **Anulează / Refă în generator:** două butoane în antet (și Ctrl+Z / Ctrl+Y pe PC, în afara câmpurilor de text). Fiecare stare a formularului, după ce te oprești din modificat, e un pas (60 la număr); istoricul se golește când treci pe alt mobil, deci anularea nu te duce într-un alt corp.
-- Teste noi în e2e (previzualizare, exemple AI, anulează/refă, limbi).
+- **Privire de aproape pe feronerie:** în fila „Feronerie” din bancul 3D, un tap pe un rând (balamale, glisiere, conectori, mânere, suporți de raft) duce camera la prima piesă de acel fel, următorul tap la a doua etc.; după ultima, camera revine la corpul întreg. Contorul din rând arată „2/10". Bun pentru clipuri și pentru a explica clientului sau ucenicului unde se montează fiecare piesă.
+- Teste noi în e2e (previzualizare, exemple AI, anulează/refă, privire pe feronerie, limbi).
 
 ---
 

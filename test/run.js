@@ -5141,6 +5141,33 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Anulează/Refă: o modificare nouă taie «Refă», alt mobil golește istoricul; texte în 7 limbi", d.taieRedo && d.golit && d.limbi, JSON.stringify(d));
   }
 
+  head("Privire de aproape pe feronerie din listă (5.69.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build"); buildCfg = { ...PRESETS.armadio }; syncBuildForm(); draw3D(); await w(500);
+      document.getElementById("grpPieces").open = true;
+      document.getElementById("btnHw3d").click(); await w(300);
+      const row = () => document.querySelector('[data-hwk="cerniera"]');
+      o.rand = !!row();
+      const M = GL3D.model(), hing = M.ops.hw.filter(h => h.type === "cerniera");
+      row().click(); await w(150);
+      const f1 = GL3D.focusInfo();
+      o.prima = !!f1 && String(f1.pk) === String(hing[0].piece) && f1.rad < 150 && /^1\//.test(row().querySelector(".hw-q").textContent);
+      row().click(); await w(100); o.a2a = /^2\//.test(row().querySelector(".hw-q").textContent) && GL3D.focusInfo() != null;
+      for (let i = 2; i < hing.length; i++) { row().click(); await w(30); }
+      row().click(); await w(100);
+      o.revine = GL3D.focusInfo() === null && /^×/.test(row().querySelector(".hw-q").textContent);
+      row().click(); await w(100); const had = GL3D.focusInfo() != null;
+      document.querySelector('[data-tab="pcs"]').click(); await w(150);
+      o.curat = had && GL3D.focusInfo() === null;
+      return o;
+    });
+    if (d.fara_gl) ok("privire pe feronerie: sărit (fără WebGL)", true);
+    else ok("privire pe feronerie: un tap duce camera la prima piesă, următoarele la celelalte, după ultima revine; la schimbarea tabului se curăță", d.rand && d.prima && d.a2a && d.revine && d.curat, JSON.stringify(d));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
