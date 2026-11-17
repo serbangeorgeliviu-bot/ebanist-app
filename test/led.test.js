@@ -153,6 +153,18 @@ describe("Instanțele din spațiu (3D și lista de feronerie)", () => {
     assert.equal(ops({ led: "top", ledSw: "hidden" }).hw.find(h => h.type === "leddim").mount, "hidden");
     assert.equal(ops({ led: "top", ledSw: "orice" }).hw.find(h => h.type === "leddim").mount, "visible");
   });
+  test("«door»: senzor pe ușă 833.89.059 în muchia din față a lateralului, fără dimmer; Ø13×28 din fișa Häfele", () => {
+    const o = ops({ led: "top", ledSw: "door" }), d = o.hw.filter(h => h.type === "leddoor");
+    assert.equal(d.length, 1); assert.equal(o.hw.filter(h => h.type === "leddim").length, 0);
+    assert.equal(d[0].catalog, "haf_833_89_059"); assert.equal(d[0].dia, 13); assert.equal(d[0].depth, 28);
+    const side = o.pieces.find(p => String(p.pk) === String(d[0].piece));
+    assert.equal(side.role, "fianco"); assert.ok(Math.abs(d[0].w[2] - side.max[2]) < 0.01, "pe muchia din față");
+    const HD = vm.runInContext("HW_DRILL", S); assert.equal(HD.led.door.dia, 13); assert.equal(HD.led.door.verificat, false);
+  });
+  test("catalog: 833.89.059 e în categoria leddim, cu preț estimat", () => {
+    const src = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+    assert.match(src, /\{id:"haf_833_89_059",brand:"Häfele"[^\n]*art:"833\.89\.059",price:9,est:1\}/);
+  });
   test("fără LED sau «manual»: nicio instanță; feroneria de dinainte rămâne aceeași", () => {
     for (const c of [{}, { led: "manual", ledLen: 2000 }]) assert.equal(ops(c).hw.filter(h => /^led/.test(h.type)).length, 0);
     assert.equal(ops({}).hw.length, ops({ led: "top" }).hw.length - 2);

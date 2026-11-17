@@ -3562,7 +3562,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.creat = !!cr && cr[1].p_atelier === "at1" && cr[1].p_title === "Comanda Jacquin" && cr[1].p_client_label === "Jacquin" && cr[1].p_due === "2026-12-15";
       const snap = cr && cr[1].p_snapshot, sj = JSON.stringify(snap || {});
       o.snapOk = !!snap && snap.pieces.length === 2 && snap.pieces[0].pk === "r1" && snap.pieces[1].pk === "r2" && snap.pieces[0].pz === 2 && snap.meta.app_ver === APP_VER;
-      o.faraPreturi = !/77|prezzo|Secret|\+3360/.test(sj) && snap.pieces.every(x => Object.keys(x).every(k => ["pk","modulo","elemento","role","lung","larg","sp","pz","material","decor","bordo","grain","note"].includes(k)));
+      o.faraPreturi = !/77|prezzo|Secret|\+3360/.test(JSON.stringify({ ...snap, meta: { ...snap.meta, app_ver: "" } })) && snap.pieces.every(x => Object.keys(x).every(k => ["pk","modulo","elemento","role","lung","larg","sp","pz","material","decor","bordo","grain","note"].includes(k)));
       /* stare: anulare cere confirmare */
       await openAs("responsabil");
       let sel = body().querySelector('select[data-at=jobstate][data-id=j2]');
@@ -5298,6 +5298,20 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       ok("LED în 3D: dimmer la vedere sau îngropat în lemn, schimbat din formular; atingerea lui se prinde", d.ingropat && d.vedere && d.atingere, JSON.stringify(d));
       ok("LED în 3D: bandă și dimmer în lista de feronerie, cu articolul din catalog și privire de aproape; fără LED dispar; 7 limbi", d.lista && d.focus && d.golit && d.limbi, JSON.stringify(d));
     }
+  }
+
+  head("Fibră din poze reale CC0 pe materialele cu lemn (5.77.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build");
+      buildCfg = { ...PRESETS.armadio, name: "Fibra", L: 900, H: 2000, P: 400, doors: 1, drawers: 0, shelves: 2, support: "zoccolo", matBody: "pal18_rovere", matFront: "pal18_rovere", matBack: "pfl3" }; syncBuildForm(); draw3D(); await w(1800);
+      return { g: GL3D.grainInfo() };
+    });
+    if (d.fara_gl) ok("Fibră din poze: sărit (fără WebGL)", true);
+    else ok("Fibră din poze: cel puțin o variantă cerută și încărcată din img/grain/", Object.values(d.g).some(v => v === true), JSON.stringify(d));
+    if (process.env.SHOT) await pg.screenshot({ path: process.env.SHOT });
   }
 
   const bad = results.filter(r => !r.cond).length;
