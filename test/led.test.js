@@ -107,7 +107,7 @@ function ops(cfg) {
   const G = S.deriveCarcass(S.carcassParams(full, {}));
   return JSON.parse(J(S.generateOperations({ boxes: b.boxes, cfg: full, G })));
 }
-const ledGrooves = o => o.pieces.flatMap(p => (p.operations || []).filter(op => op.type === "groove" && /LED/.test(op.note || "")).map(op => ({ p, op })));
+const ledGrooves = o => o.pieces.flatMap(p => (p.operations || []).filter(op => op.type === "groove" && /LED/.test(op.note || "") && !/lateral/.test(op.note || "")).map(op => ({ p, op })));
 describe("Canalul 6×6 în operații", () => {
   const HD = vm.runInContext("HW_DRILL", S);
   test("datele canalului: 6×6 mm, 40 mm de la față, nemăsurat (verificat:false)", () => {
@@ -127,6 +127,19 @@ describe("Canalul 6×6 în operații", () => {
     const top = g.p, T = top.thickness;
     assert.ok(T > 6 + 3);
     assert.ok(g.op.face === 5 || g.op.face === 6);
+  });
+  test("piciorul lateral al L-ului: canal vertical 6×6 pe lateralul din dreapta, de la tavan până sub întrerupător, la 30 mm de față", () => {
+    const side = o => o.pieces.flatMap(p => (p.operations || []).filter(op => op.type === "groove" && /lateral/.test(op.note || "")).map(op => ({ p, op })));
+    for (const sw of ["visible", "hidden", "door"]) {
+      const g = side(ops({ led: "top", ledSw: sw }));
+      assert.equal(g.length, 1, sw); assert.equal(g[0].p.role, "fianco");
+      assert.equal(g[0].op.width, 6); assert.equal(g[0].op.depth, 6);
+      const len = Math.hypot(g[0].op.to.x - g[0].op.from.x, g[0].op.to.y - g[0].op.from.y);
+      const r = (sw === "door" ? 13 : 20) / 2;
+      assert.ok(Math.abs(len - (60 + r + 10)) < 0.6, sw + ": lungime " + len);
+    }
+    assert.equal(side(ops({})).length, 0); assert.equal(side(ops({ led: "manual", ledLen: 2000 })).length, 0);
+    const HD = vm.runInContext("HW_DRILL", S); assert.equal(HD.led.side.from_front, 30); assert.equal(HD.led.side.verificat, false);
   });
   test("fără LED sau «manual»: nicio operație de canal; restul operațiilor nu se schimbă", () => {
     assert.equal(ledGrooves(ops({})).length, 0); assert.equal(ledGrooves(ops({ led: "manual", ledLen: 2000 })).length, 0);

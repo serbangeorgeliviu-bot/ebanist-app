@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.78.0 — 17 noiembrie 2026
+
+**Canalul LED în L: piciorul lateral pentru cablul întrerupătorului.**
+- La „sub plafon", pe lateralul din dreapta apare în operații un canal vertical 6×6, de la tavan până sub întrerupător (dimmer sau senzor pe ușă), pe fața dinăuntru, la 30 mm de față.
+- Producătorii (Häfele, Emuca) nu dau nicio distanță de la muchie: cei 30 mm sunt alegerea de practică (în spatele ușii), `verificat:false` până se măsoară pe piesă.
+
+---
+
 ## 5.77.0 — 17 noiembrie 2026
 
 **Lemnul din 3D are fibră din poze reale.**
