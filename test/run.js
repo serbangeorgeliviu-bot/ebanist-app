@@ -5254,6 +5254,52 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("LED: cele 5 categorii în catalog; textele în 7 limbi; fără LED nu rămâne nimic", d.catalog && d.chk && d.limbi && d.elLimbi && d.golit, JSON.stringify(d));
   }
 
+  head("LED în 3D: aprins/stins, dimmer la vedere sau îngropat, atingerea lui, lista de feronerie (5.75.0)");
+  {
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      if (!(window.GL3D && GL3D.ok)) return { fara_gl: true };
+      closeSheets(); setView("build");
+      const mk = sw => { buildCfg = { ...PRESETS.armadio, name: "Nisa " + sw, L: 900, H: 450, P: 400, doors: 0, drawers: 0, hang: 0, tram: 0, shelves: 0, support: "sospeso", plinth: 0, led: "top", ledSw: sw }; syncBuildForm(); draw3D(); };
+      mk("visible"); await w(700); studioSync();
+      let li = GL3D.ledInfo();
+      o.aprins = !!li && li.on === true && li.lights === 3 && li.lit === 3 && li.strip === 1 && li.mount === "visible";
+      o.buton = document.getElementById("btnLed3d").hidden === false && document.getElementById("btnLed3d").classList.contains("on");
+      document.getElementById("btnLed3d").click(); await w(100);
+      li = GL3D.ledInfo(); o.stins = li.on === false && li.lit === 0 && !document.getElementById("btnLed3d").classList.contains("on");
+      GL3D.set({ ledOn: true }); GL3D.set({ explode: 1 }); await w(80); o.explodat = GL3D.ledInfo().lit === 0;
+      GL3D.set({ explode: 0 }); await w(80); o.revine = GL3D.ledInfo().lit === 3;
+      /* îngropat în lemn */
+      const sel = document.getElementById("bLedSw"); sel.value = "hidden"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(500);
+      o.ingropat = GL3D.ledInfo().mount === "hidden";
+      sel.value = "visible"; sel.dispatchEvent(new Event("change", { bubbles: true })); await w(500); o.vedere = GL3D.ledInfo().mount === "visible";
+      /* atingerea dimmerului aprinde/stinge */
+      const M = GL3D.model(), h = M.ops.hw.find(x => x.type === "leddim"), pc = M.ops.pieces.find(p => String(p.pk) === String(h.piece));
+      const c = [0, 1, 2].map(a => (pc.min[a] + pc.max[a]) / 2); VIEW.yaw = -0.9; VIEW.pitch = 0.05; GL3D.focusOn(h.piece, 70, [h.w[0] - c[0], h.w[1] - c[1], h.w[2] - c[2]]); await w(1300);
+      const cv = document.getElementById("gl3d").getBoundingClientRect(); let hit = null;
+      for (let y = cv.top + 10; y < cv.bottom - 10 && !hit; y += 5) for (let x = cv.left + 10; x < cv.right - 10 && !hit; x += 5) if (GL3D.pickHw(x, y)) hit = [x, y];
+      o.atingere = !!hit && GL3D.pickHw(hit[0], hit[1]) === "leddim";
+      GL3D.focusOn(null);
+      /* lista de feronerie: bandă și dimmer, cu produsul din catalog */
+      document.getElementById("grpPieces").open = true; document.getElementById("btnHw3d").click(); await w(300);
+      const rows = ["led", "leddim"].map(k => document.querySelector('[data-hwk="' + k + '"]'));
+      o.lista = rows.every(Boolean) && /5220220/.test(rows[0].innerText) && /833\.89\.133/.test(rows[1].innerText);
+      rows[1].click(); await w(150); const f = GL3D.focusInfo(); o.focus = !!f && String(f.pk) === String(h.piece);
+      document.querySelector('[data-tab="pcs"]').click(); await w(100);
+      /* fără LED: nimic */
+      buildCfg = { ...buildCfg, led: "" }; syncBuildForm(); draw3D(); await w(500); studioSync();
+      o.golit = GL3D.ledInfo() === null && document.getElementById("btnLed3d").hidden === true;
+      o.limbi = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => ["fLedSw", "ledSwVis", "ledSwHid", "vtLed", "hw_led", "hw_leddim"].every(k => I18N[l][k]));
+      return o;
+    });
+    if (d.fara_gl) ok("LED în 3D: sărit (fără WebGL)", true);
+    else {
+      ok("LED în 3D: aprins implicit (3 lumini), butonul din bară îl stinge, explodat stinge lumina", d.aprins && d.buton && d.stins && d.explodat && d.revine, JSON.stringify(d));
+      ok("LED în 3D: dimmer la vedere sau îngropat în lemn, schimbat din formular; atingerea lui se prinde", d.ingropat && d.vedere && d.atingere, JSON.stringify(d));
+      ok("LED în 3D: bandă și dimmer în lista de feronerie, cu articolul din catalog și privire de aproape; fără LED dispar; 7 limbi", d.lista && d.focus && d.golit && d.limbi, JSON.stringify(d));
+    }
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

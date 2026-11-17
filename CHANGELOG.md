@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.75.0 — 17 noiembrie 2026
+
+**LED-ul se vede în 3D: aprins, stins, cu dimmerul la vedere sau îngropat în lemn.**
+- **Banda aprinsă/stinsă:** la „sub plafon", banda apare în 3D ca o linie emisivă pe fața de dedesubt a tavanului. Aprinsă: trei lumini calde (2700 K) cad pe nișă și un halou pe tavan; stinsă: nimic. Butonul nou din bara viewerului o aprinde/stinge; în explodat lumina se oprește.
+- **Dimmerul Loox 833.89.133 în nișă, pe lateralul din dreapta**, în două feluri (alegi în „Feronerie corp"): **la vedere** (disc cu semnul) sau **îngropat în lemn** (se vede doar semnul, ca la Cetinic). **Atingi dimmerul în 3D și lumina se aprinde/stinge**, ca în realitate.
+- **Banda și dimmerul în lista de feronerie** (fila „Feronerie"), cu articolul din catalog; un tap pe rând duce camera la ele, de aproape (zoom pe detaliu).
+- Poziția dimmerului (40 mm de față, 60 mm sub tavan, Ø 20 mm) e **doar pentru desen**, după fotografiile de la Cetinic, și nu produce gaură în operații până nu se măsoară (`verificat:false`).
+- **Nu s-a făcut:** întrerupătorul cu senzor pe ușă (n-avem articolul în catalog), texturile din mostrele Egger (poze cu drepturi de autor), canalul în L din panoul lateral. Teste noi: `led.test.js` (24), e2e.
+
+---
+
 ## 5.74.0 — 17 noiembrie 2026
 
 **LED: canalul frezat 6×6, rola de 3,024 m și prețuri estimate.** Corecții și completări după ce am avut toate etichetele și instalația de la Cetinic.

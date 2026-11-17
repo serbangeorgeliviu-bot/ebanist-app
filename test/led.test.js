@@ -136,3 +136,29 @@ describe("Canalul 6×6 în operații", () => {
   });
 });
 function strip_(r) { return r.pieces.find(p => p.elemento === "Striscia LED").lung; }
+
+describe("Instanțele din spațiu (3D și lista de feronerie)", () => {
+  test("«top»: o bandă pe tavan și un dimmer pe lateralul din dreapta, la vedere implicit", () => {
+    const o = ops({ led: "top" });
+    const strip = o.hw.filter(h => h.type === "led"), dim = o.hw.filter(h => h.type === "leddim");
+    assert.equal(strip.length, 1); assert.equal(dim.length, 1);
+    const top = o.pieces.find(p => p.role === "cielo"), side = o.pieces.find(p => String(p.pk) === String(dim[0].piece));
+    assert.equal(String(strip[0].piece), String(top.pk));
+    assert.equal(side.role, "fianco");
+    assert.ok(side.min[0] > (top.min[0] + top.max[0]) / 2, "pe lateralul din dreapta");
+    assert.equal(dim[0].mount, "visible"); assert.equal(dim[0].dir, -1);
+    assert.ok(Math.abs(strip[0].len - 862) < 0.6);
+  });
+  test("«hidden»: același dimmer, îngropat în lemn", () => {
+    assert.equal(ops({ led: "top", ledSw: "hidden" }).hw.find(h => h.type === "leddim").mount, "hidden");
+    assert.equal(ops({ led: "top", ledSw: "orice" }).hw.find(h => h.type === "leddim").mount, "visible");
+  });
+  test("fără LED sau «manual»: nicio instanță; feroneria de dinainte rămâne aceeași", () => {
+    for (const c of [{}, { led: "manual", ledLen: 2000 }]) assert.equal(ops(c).hw.filter(h => /^led/.test(h.type)).length, 0);
+    assert.equal(ops({}).hw.length, ops({ led: "top" }).hw.length - 2);
+  });
+  test("dimmerul stă la 40 mm de față și 60 mm sub tavan (poziție de desen, nemăsurată)", () => {
+    const HD = vm.runInContext("HW_DRILL", S);
+    assert.equal(HD.led.sw.from_front, 40); assert.equal(HD.led.sw.below_top, 60); assert.equal(HD.led.sw.verificat, false);
+  });
+});
