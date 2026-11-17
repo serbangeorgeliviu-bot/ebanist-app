@@ -68,6 +68,10 @@ describe("Transformatoare (20 W × 0,8 = 16 W pe unul; 7,2 W/m)", () => {
     assert.equal(kit(4400).drv, 2);          // 31,7 W
     assert.equal(kit(4500).drv, 3);
   });
+  test("role de 3,024 m (Emuca 5220220): se cumpără rolele întregi, cel puțin una", () => {
+    assert.equal(kit(862).rolls, 1); assert.equal(kit(3000).rolls, 1); assert.equal(kit(3024).rolls, 1);
+    assert.equal(kit(3025).rolls, 2); assert.equal(kit(6048).rolls, 2); assert.equal(kit(6049).rolls, 3);
+  });
   test("cel puțin unul, chiar la o bandă foarte scurtă; puterea e lungime × W/m", () => {
     assert.equal(kit(50).drv, 1);
     assert.ok(Math.abs(kit(3000).w - 21.6) < 1e-9);
@@ -85,8 +89,50 @@ describe("Catalogul: codurile de pe etichete", () => {
     assert.equal(LED.wpm, 7.2); assert.equal(LED.v, 24); assert.equal(LED.drvW, 20); assert.equal(LED.sect, 6);
     assert.match(src, /emu_5220220[^\n]*wpm:7\.2,v:24/); assert.match(src, /haf_833_75_933[^\n]*w:20,v:24/);
   });
-  test("articolele fără preț confirmat sunt marcate de verificat (chk) și au preț 0", () => {
-    for (const id of ["emu_5220220", "haf_833_75_933", "haf_833_89_133", "haf_833_89_142", "haf_833_89_009"])
-      assert.match(src, new RegExp("id:\"" + id + "\"[^\\n]*price:0,chk:1"));
+  test("prețurile sunt estimări de pe net (est:1), nu prețuri confirmate; codurile sunt cele de pe etichete (fără chk)", () => {
+    for (const [id, pr] of [["emu_5220220", 35], ["haf_833_75_933", 26], ["haf_833_89_133", 22], ["haf_833_89_142", 7], ["haf_833_89_009", 9]])
+      assert.match(src, new RegExp("id:\"" + id + "\"[^\\n]*price:" + pr + ",est:1"));
+  });
+  test("banda: rolă de 3,024 m, la fel în constantă și în catalog", () => {
+    assert.equal(LED.roll, 3024); assert.match(src, /emu_5220220[^\n]*roll:3024/);
   });
 });
+
+/* ---- canalul din operații (D-157) ---- */
+vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-ops.js"), "utf8"), S, { filename: "ebanist-ops.js" });
+function ops(cfg) {
+  const { b } = build(cfg);
+  const full = Object.assign({ name: "B", type: "standard", L: 900, H: 2000, P: 400, plinth: 80, tram: 0, shelves: 2, drawers: 0, doors: 0, back: 1,
+    hang: 0, support: "zoccolo", matBody: "__b", matFront: "__b", matBack: "__b", drawerSys: "legno" }, cfg);
+  const G = S.deriveCarcass(S.carcassParams(full, {}));
+  return JSON.parse(J(S.generateOperations({ boxes: b.boxes, cfg: full, G })));
+}
+const ledGrooves = o => o.pieces.flatMap(p => (p.operations || []).filter(op => op.type === "groove" && /LED/.test(op.note || "")).map(op => ({ p, op })));
+describe("Canalul 6×6 în operații", () => {
+  const HD = vm.runInContext("HW_DRILL", S);
+  test("datele canalului: 6×6 mm, 40 mm de la față, nemăsurat (verificat:false)", () => {
+    assert.equal(HD.led.w, 6); assert.equal(HD.led.d, 6); assert.equal(HD.led.from_front, 40); assert.equal(HD.led.verificat, false);
+  });
+  test("«top»: un canal pe tavan, 6 × 6, pe toată lățimea panoului", () => {
+    const g = ledGrooves(ops({ led: "top" }));
+    assert.equal(g.length, 1);
+    assert.equal(g[0].p.role, "cielo"); assert.equal(g[0].op.width, 6); assert.equal(g[0].op.depth, 6);
+    assert.ok(Math.abs(g[0].op.from.y - g[0].op.to.y) < 0.2 || Math.abs(g[0].op.from.x - g[0].op.to.x) < 0.2, "paralel cu o muchie");
+    const len = Math.hypot(g[0].op.to.x - g[0].op.from.x, g[0].op.to.y - g[0].op.from.y);
+    const strip = strip_(build({ led: "top" }));
+    assert.ok(Math.abs(len - strip) <= 0.6, "lungimea canalului = a benzii (" + len + " vs " + strip + ")");
+  });
+  test("la 40 mm de muchia din față, pe fața de dedesubt", () => {
+    const g = ledGrooves(ops({ led: "top" }))[0];
+    const top = g.p, T = top.thickness;
+    assert.ok(T > 6 + 3);
+    assert.ok(g.op.face === 5 || g.op.face === 6);
+  });
+  test("fără LED sau «manual»: nicio operație de canal; restul operațiilor nu se schimbă", () => {
+    assert.equal(ledGrooves(ops({})).length, 0); assert.equal(ledGrooves(ops({ led: "manual", ledLen: 2000 })).length, 0);
+    const a = ops({}), b = ops({ led: "top" });
+    const strip = o => J(o.pieces.map(p => [p.role, (p.operations || []).filter(x => !/LED/.test(x.note || "")).length]));
+    assert.equal(strip(a), strip(b));
+  });
+});
+function strip_(r) { return r.pieces.find(p => p.elemento === "Striscia LED").lung; }

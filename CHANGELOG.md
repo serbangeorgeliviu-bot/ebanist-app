@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.74.0 — 17 noiembrie 2026
+
+**LED: canalul frezat 6×6, rola de 3,024 m și prețuri estimate.** Corecții și completări după ce am avut toate etichetele și instalația de la Cetinic.
+- **Canalul benzii în operații:** pentru „sub plafon", pe fața de dedesubt a tavanului, **6 × 6 mm** (canalul benzii neon flex Emuca, scris pe pagina producătorului), pe toată lățimea panoului, la **40 mm de muchia din față**. Distanța de 40 mm e din amintirea lui Liviu („la vreo 4 cm"): **`verificat:false`** până se măsoară pe o piesă. La „lungime introdusă" nu se emite nimic (nu se ghicește pe ce panou stă). Tavan de tip traversă: avertisment.
+- **Banda se cumpără pe role:** Emuca 5220220 e o **rolă de 3,024 m**, alb cald 2700 K (de pe pagina producătorului). Distinta rămâne în mm pe corp; în deviz banda e **bucăți-role întregi**, cel puțin una. Rezumatul din formular spune și câte role.
+- **Prețuri estimate de pe net (marcate `est`, cu TVA):** transformator Häfele 833.75.933 ≈ 26 €, dimmer 833.89.133 ≈ 22 €, cablu 833.89.142 ≈ 7 €, cablu 833.89.009 ≈ 9 € (de la magazine UK/US, convertite). **Banda Emuca: nu am găsit niciun preț online; 35 € e o estimare fără sursă, de înlocuit cu cel real.** Codurile sunt cele de pe etichete, deci nu mai sunt marcate „de confirmat".
+- Teste: `led.test.js` (20), e2e. Nu s-a făcut: gaura pentru dimmer și canalul în L din panoul lateral (cotele nu sunt măsurate).
+
+---
+
 ## 5.73.0 — 17 noiembrie 2026
 
 **Iluminat LED în distinctă, în deviz și în catalog (D-157).** Pornit de la lucrarea Nick Cetinic (nișă luminată); articolele sunt cele de pe etichetele fotografiate.

@@ -5233,7 +5233,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.rand = !!row && row.lung === 3000 && row.pz === 1 && /^accessorio/i.test(row.materiale || "");
       o.nuPanou = panelTotals(p.pieces).pcs === p.pieces.filter(x => !isAccPiece(x)).reduce((a, x) => a + x.pz, 0);
       const hw = computeHardware(p, state.settings), by = {}; hw.forEach(i => { by[i.k] = i; });
-      o.hw = by.hwLedStrip.qty === 3 && by.hwLedDrv.qty === 2 && by.hwLedDim.qty === 2 && by.hwLedSw.qty === 2 && by.hwLedMains.qty === 2;
+      o.hw = by.hwLedStrip.qty === 1 && by.hwLedDrv.qty === 2 && by.hwLedDim.qty === 2 && by.hwLedSw.qty === 2 && by.hwLedMains.qty === 2;
       o.coduri = by.hwLedDrv.prod.art === "833.75.933" && by.hwLedSw.prod.art === "833.89.142" && by.hwLedMains.prod.art === "833.89.009" && by.hwLedDim.prod.art === "833.89.133" && by.hwLedStrip.prod.art === "5220220";
       o.deviz = projectCosts(p).hw.some(i => i.k === "hwLedDrv" && i.qty === 2);
       o.nume = matLabelUI(row.materiale) !== row.materiale || state.lang === "it";
