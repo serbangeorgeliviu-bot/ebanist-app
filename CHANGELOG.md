@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## Site — 17 noiembrie 2026 (fără schimbare de versiune a aplicației)
+
+**Site-ul ebanist.com corespunde acum aplicației (7 limbi).**
+- Lista de tipuri arată cele **22** de tipuri reale din aplicație (în loc de 15), cu numele din aplicație și pictograme noi pentru baie, vitrină, rotund, oval, colțuri rotunjite, lamele, rame și contur liber.
+- Secțiune nouă „Noutăți" cu opt carduri: bucătării, iluminat LED, 3D cu feronerie, animație de montaj, controale roșii cu soluții, QR pe etichete, șabloane STL, birouri/mese/paturi/forme rotunde.
+- Răspunsul despre fișierele pentru mașini nu mai vorbește despre un partener: fișierele native vin când există un CNC pe care să fie verificate; deocamdată PDF, CSV și JSON.
+
+---
+
 ## 5.78.0 — 17 noiembrie 2026
 
 **Canalul LED în L: piciorul lateral pentru cablul întrerupătorului.**
