@@ -1572,11 +1572,55 @@ function resize() {
   R.need = true; kick();
 }
 
+/* ============ MONTAJ ANIMAT (5.68.0) ==================================
+   Mobila se montează singură, piesă cu piesă, din aceleași date ca distinta:
+   ordinea vine din rolul piesei (bază, laterale, despărțitoare, rafturi, spate,
+   sertare, uși), poziția de plecare din câmpul exploziei (D-136). Nu schimbă
+   geometria, doar cât de departe e fiecare piesă în momentul t. */
+const ASM_RANK = { base: 0, piedino: 1, gamba: 1, zoccolo: 1, fianco: 2, divisorio: 3, traversa: 4, traversa_cielo: 4, cielo: 5, ripiano: 6, asta: 6,
+                   doga: 6, schienale: 7, cassetto_fondo: 8, cassetto_fianco: 8, cassetto_metallo: 8, cassetto_frontale: 9, frontale: 10, vetro: 10 };
+function asmItems(total) {
+  const boxes = R.boxes || [], ex = explodeBoxes(boxes, 1), first = new Map();
+  boxes.forEach((b, i) => { const k = String(b.pk); if (!first.has(k)) first.set(k, i); });
+  const role = new Map();
+  if (R.model && R.model.ops) R.model.ops.pieces.forEach(pc => role.set(String(pc.pk), pc.role));
+  const list = [];
+  for (const P of R.pieces.values()) {
+    const i = first.get(P.pk); if (i == null) continue;
+    const a = boxes[i], b = ex[i], r = role.get(P.pk) || a.role || "";
+    const rank = ASM_RANK[r] != null ? ASM_RANK[r] : 5.5;
+    list.push({ P, off: [(b.x0 - a.x0) * MM, (b.y0 - a.y0) * MM, (b.z0 - a.z0) * MM], rank, y: a.y0, x: a.x0, grp: a.grp || "" });
+  }
+  list.sort((p, q) => p.rank - q.rank || p.y - q.y || p.x - q.x);
+  const n = Math.max(1, list.length), dur = Math.max(500, total * 0.32), stag = n > 1 ? (total - dur) / (n - 1) : 0;
+  list.forEach((it, k) => { it.s = k * stag; it.d = dur; });
+  return list;
+}
+function asmTick() {
+  const A = R.asm, t = performance.now() - A.t0;
+  for (const it of A.items) {
+    const p = Math.min(1, Math.max(0, (t - it.s) / it.d)), e = 1 - Math.pow(1 - p, 3), k = (1 - e) * 1.25, P = it.P;
+    P.g.visible = p > 0;
+    P.cur.ex = P.tgt.ex = it.off[0] * k; P.cur.ey = P.tgt.ey = it.off[1] * k; P.cur.ez = P.tgt.ez = it.off[2] * k;
+  }
+  if (t >= A.total + 200) finishAsm(true);
+}
+function finishAsm(done) {
+  const A = R.asm; if (!A) return;
+  R.asm = null;
+  Object.assign(R.st, A.prev.st); R.spin = A.prev.spin;
+  setTargets(R.boxes);
+  for (const P of R.pieces.values()) { P.cur.ex = P.cur.ey = P.cur.ez = 0; }
+  applyState(); R.need = true; kick();
+  A.resolve(!!done);
+}
+
 function frame() {
   R.raf = 0;
   /* giro lento, per il modo cliente: il mobile si presenta da solo */
   if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035;
-  const a = step(), b = stepCamera() || !!R.spin;
+  if (R.asm) asmTick();
+  const a = step(), b = stepCamera() || !!R.spin || !!R.asm;
   watchFrameTime();
   renderScene();
   R.need = false;
@@ -1628,6 +1672,7 @@ const GL3D = {
   },
   render(cfg, opts) {
     if (!this.ok) return;
+    if (R.asm) finishAsm(false);
     try {
       opts = opts || {};
       let built = null;
@@ -1654,6 +1699,7 @@ const GL3D = {
   /* stato di visualizzazione: { explode, open, mode:'real'|'hw', hw, holes, edges } */
   set(p) {
     if (!this.ok) return;
+    if (R.asm && !(p && Object.keys(p).every(k => k === "warm"))) finishAsm(false);
     Object.assign(R.st, p || {});
     if (R.boxes) setTargets(R.boxes);
     applyState();
@@ -1667,6 +1713,7 @@ const GL3D = {
   },
   select(pk, iso) {
     if (!this.ok) return;
+    if (R.asm) finishAsm(false);
     R.st.sel = pk == null ? null : String(pk);
     R.st.iso = !!(iso && pk != null);
     applyState();
@@ -1710,6 +1757,44 @@ const GL3D = {
   /* "hi" = prezentare (modul Client), "std" = lucru; vezi dprCap() */
   quality(q) { if (!this.ok) return; R.q = q === "hi" ? "hi" : "std"; R.dtN = 0; R.dtAvg = 0; R.lastT = 0; applyShadowRes(); resize(); },
   qualityInfo() { return R ? { q: R.q || "std", dpr: R.renderer.getPixelRatio(), shadow: R.key.shadow.mapSize.x, aniso: ANISO } : null; },
+  /* montajul animat; întoarce o promisiune (true = a ajuns la capăt, false = întreruptă) */
+  assemble(o) {
+    if (!this.ok || !R.model || !R.boxes) return Promise.resolve(false);
+    if (R.asm) return R.asm.promise;
+    o = o || {};
+    const total = Math.max(1200, o.ms || 9000);
+    const prev = { st: { explode: R.st.explode, open: R.st.open, sel: R.st.sel, iso: R.st.iso }, spin: R.spin };
+    Object.assign(R.st, { explode: 0, open: 0, sel: null, iso: false });
+    setTargets(R.boxes);
+    let resolve; const promise = new Promise(r => { resolve = r; });
+    R.asm = { t0: performance.now(), total, items: asmItems(total), prev, resolve, promise };
+    R.spin = true; R.need = true; kick();
+    return promise;
+  },
+  stopAssemble() { if (R && R.asm) finishAsm(false); },
+  asmInfo() { return R && R.asm ? { items: R.asm.items.length, order: R.asm.items.map(i => i.rank) } : null; },
+  /* înregistrează montajul ca video vertical 720×1280 (MediaRecorder); întoarce {blob, mime, w, h} sau null dacă dispozitivul nu poate */
+  async record(o) {
+    o = o || {};
+    if (!this.ok || typeof MediaRecorder === "undefined" || !R.canvas.captureStream) return null;
+    const mime = ["video/mp4;codecs=avc1.42E01E", "video/mp4", "video/webm;codecs=vp9", "video/webm"].find(m => { try { return MediaRecorder.isTypeSupported(m); } catch (e) { return false; } });
+    if (!mime) return null;
+    const W = o.w || 720, H = o.h || 1280;
+    R.renderer.setPixelRatio(1); R.renderer.setSize(W, H, false);
+    R.camera.aspect = W / H; R.camera.updateProjectionMatrix(); R.need = true; kick();
+    let rec, chunks = [];
+    try {
+      rec = new MediaRecorder(R.canvas.captureStream(30), { mimeType: mime, videoBitsPerSecond: 5000000 });
+      rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      const stopped = new Promise(r => { rec.onstop = r; });
+      rec.start(250);
+      await new Promise(r => setTimeout(r, 300));
+      const ok = await this.assemble({ ms: o.ms || 9000 });
+      await new Promise(r => setTimeout(r, 700));
+      rec.stop(); await stopped;
+      return ok ? { blob: new Blob(chunks, { type: mime.split(";")[0] }), mime: mime.split(";")[0], w: W, h: H } : null;
+    } finally { resize(); }
+  },
   moodInfo() { return R ? { warm: !!R.st.warm, key: R.key.color.getHex(), exposure: R.renderer.toneMappingExposure } : null; },
   dimsInfo() { return R && R.dims ? { visible: R.dims.visible, labels: R.dims.children.filter(c => c.isSprite).length, spec: R.dimSpec } : null; },
   snapshot() { if (!this.ok) return null; renderScene(); return R.canvas.toDataURL("image/png"); },
