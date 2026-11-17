@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.67.0 — 17 noiembrie 2026
+
+**Generatorul seamănă cu un planner pe ecran mare; modul Client nu mai e acoperit pe telefon.** Inspirat tot din rozrys.pl.
+- **Bară de pași deasupra generatorului (tabletă și PC, ≥ 1024 px):** pastile numerotate — Corp și măsuri, Materiale, Interior, Fronturi, Feronerie corp, Cote la cotă, Piese. Fiecare deschide grupul lui și îl aduce în vedere. Etichetele sunt cele ale grupurilor, deci în toate limbile, fără texte noi.
+- **Cotele pornesc singure pe PC:** de la 1024 px, vederea 3D se deschide cu cotele libere afișate (pe telefon rămân la buton).
+- **Modul Client pe telefon:** antetul cu firma e mai îngust, vederea 3D ocupă 38% (nu 46%), iar prețul e pe puține rânduri; rândurile pe corpuri nu se mai văd lângă preț (rămân în PDF-ul ofertei). Înainte, blocul de preț lua 76% din panou și acoperea finisajele.
+- Teste noi în e2e (pași, limbi, mod Client pe telefon).
+
+---
+
 ## 5.66.0 — 15 noiembrie 2026
 
 **Rezumat proiect: o pagină cu toate corpurile.** Inspirat dintr-un planner concurent (rozrys.pl), care își arată proiectul ca o listă de carduri.

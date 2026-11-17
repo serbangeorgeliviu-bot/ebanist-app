@@ -4985,6 +4985,34 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Rezumat: textele există în toate cele 7 limbi", r.limbi, JSON.stringify(r));
   }
 
+  head("Banc ca planner + mod Client pe telefon (5.67.0)");
+  {
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      closeSheets(); setView("build"); await w(300);
+      const chips = [...document.querySelectorAll("#bldSteps [data-step]")];
+      o.pasi = chips.length >= 6 && chips.every(c => c.textContent.trim().length > 3);
+      const g = document.getElementById("grpFr"); g.open = false;
+      chips.find(c => c.dataset.step === "grpFr").click(); await w(100);
+      o.deschide = g.open === true;
+      o.limba = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => I18N[l].grpBase && I18N[l].grpHw);
+      /* mod Client pe telefon: prețul nu acoperă finisajele */
+      const keepP = state.projects, keepA = state.activeId, keepGate = window.proGate;
+      state.projects = [{ id: "cl1", name: "T", pieces: [], configs: {}, geomVersion: GEOM_VERSION }]; state.activeId = "cl1";
+      for (const n of ["A", "B", "C"]) generateInto(proj(), { ...PRESETS.armadio, name: "Cm " + n, L: 800, H: 900, P: 400 });
+      window.proGate = () => true; clientOpen(); await w(500);
+      const panel = document.querySelector(".cm-panel").getBoundingClientRect(), pr = document.querySelector(".cm-price").getBoundingClientRect();
+      o.pret = pr.height / panel.height < 0.4;
+      o.antet = document.querySelector(".cm-top").getBoundingClientRect().height <= 56;
+      o.rows = getComputedStyle(document.querySelector(".cm-prows")).display === "none";
+      clientClose(); window.proGate = keepGate; state.projects = keepP; state.activeId = keepA;
+      return o;
+    });
+    ok("Banc: bara de pași are câte o pastilă per grup și o apasă deschide grupul", r.pasi && r.deschide, JSON.stringify(r));
+    ok("Banc: etichetele pașilor există în toate limbile (sunt cele ale grupurilor)", r.limba, JSON.stringify(r));
+    ok("Client pe telefon: antet îngust, prețul sub 40% din panou, rândurile detaliate ascunse", r.pret && r.antet && r.rows, JSON.stringify(r));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
