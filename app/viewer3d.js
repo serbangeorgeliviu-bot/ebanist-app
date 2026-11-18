@@ -741,7 +741,7 @@ function setModel(boxes, cfg) {
       P = pieceGroup(pk);
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
-    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null; P.lift = bs[0].lift || null; P.cu = bs[0].cu || null;
+    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null; P.lift = bs[0].lift || null; P.cu = bs[0].cu || null; P.pocket = bs[0].pocket || null;
   }
   return boxes;
 }
@@ -1086,6 +1086,70 @@ function buildMoreHinge(h, P, A, tag, ops) {
     });
   } else P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
 }
+
+/* U.17 — sisteme glisante / escamotabile / aripă din catalog, SCHEMATIC: șina (sus sau jos, cu ghidajul opus), cărucioarele pe ușă, șinele buzunarului și suporturile de balama.
+   Pozițiile pe y (jocurile) și lungimile vin din plan (EBSliding); SECȚIUNILE profilelor și mărimea cărucioarelor NU sunt din documente (producătorii nu le dau ca cotă
+   citibilă): sunt locuri, nu piese. Găurile NU sunt generate (ops: opsSlideNoDrill). */
+const SLH = { track: 16, guide: 5, hang: [30, 14, 8], bracket: [22, 40, 4] };
+/* poziția finală (închisă → deschisă) a unei uși escamotabile: x-ul de început al ușii, după ce a intrat în buzunar; același calcul pentru mișcare și pentru șinele buzunarului */
+function pocketFinal(a, K, boxes) {
+  const cx = (a.x0 + a.x1) / 2; let li = -1e9, ri = 1e9;     /* laterala cea mai apropiată de fiecare parte a ușii (din cutiile corpului, în sistemul scenei) */
+  boxes.forEach(b => { if (b.role !== "fianco" || b.kind === "w") return; if (b.x1 <= cx + 1) li = Math.max(li, b.x1); if (b.x0 >= cx - 1) ri = Math.min(ri, b.x0); });
+  if (li < -1e8) li = a.x0 - 2; if (ri > 1e8) ri = a.x1 + 2;
+  const th = a.z1 - a.z0, left = K.side !== "R", gap = 2, stack = (K.i || 0) * ((K.open && K.open.stack) || th + gap);
+  const xl = left ? li + gap + stack : ri - gap - stack - th;
+  return { li, ri, xl, th, left, dx: left ? xl - a.x0 : xl - (a.x1 - th) };
+}
+function buildSlideHw() {
+  const all = []; for (const P of R.pieces.values()) P.boxes.forEach(b => all.push({ b, P }));
+  const doors = all.filter(x => (x.b.sub === "slide" && x.b.slide) || (x.b.sub === "pocket" && x.b.pocket) || (x.b.sub === "fold" && x.b.fold && x.b.fold.wing));
+  if (!doors.length) return;
+  const sup = all.filter(x => x.b.role === "fianco" && x.b.kind !== "w");
+  if (!sup.length) return;
+  const rel = (DP, SP) => [String(DP.pk), String(SP.pk)];
+  const tag = (m, DP, SP) => { m.userData.hw = "slide"; m.userData.always = false; m.userData.rel = rel(DP, SP); return m; };
+  const SP = sup[0].P, allB = all.map(x => x.b);
+  const inner = (cx) => { let li = -1e9, ri = 1e9; sup.forEach(x => { if (x.b.x1 <= cx + 1) li = Math.max(li, x.b.x1); if (x.b.x0 >= cx - 1) ri = Math.min(ri, x.b.x0); }); return [li, ri]; };
+  /* --- glisante pe șină: o șină pentru toate ușile, cărucioare pe fiecare ușă --- */
+  const sl = doors.filter(x => x.b.sub === "slide");
+  if (sl.length) {
+    const S0 = sl[0].b.slide, zmin = Math.min.apply(null, sl.map(x => x.b.z0)), zmax = Math.max.apply(null, sl.map(x => x.b.z1));
+    const yt = Math.max.apply(null, sl.map(x => x.b.y1)), yb = Math.min.apply(null, sl.map(x => x.b.y0));
+    const cx = (Math.min.apply(null, sl.map(x => x.b.x0)) + Math.max.apply(null, sl.map(x => x.b.x1))) / 2, [li, ri] = inner(cx);
+    const top = S0.run !== "bottom";
+    SP.hw.add(tag(box("__zinc", [li, top ? yt + 2 : yb - SLH.track, zmin - 1], [ri, top ? yt + 2 + SLH.track : yb - 1, zmax + 1], 1), sl[0].P, SP));
+    SP.hw.add(tag(box("__zinc", [li, top ? yb - 1 - SLH.guide : yt + 2, zmin], [ri, top ? yb - 1 : yt + 2 + SLH.guide, zmax]), sl[0].P, SP));
+    sl.forEach(({ b: d, P: DP }) => {
+      [d.x0 + 60, d.x1 - 60].forEach(x => {
+        const y0 = top ? d.y1 - 2 : d.y0 - SLH.hang[1] + 2, y1 = top ? d.y1 + SLH.hang[1] : d.y0 + 2;
+        DP.hw.add(tag(box("__blackmetal", [x - SLH.hang[0] / 2, y0, (d.z0 + d.z1) / 2 - SLH.hang[2] / 2], [x + SLH.hang[0] / 2, y1, (d.z0 + d.z1) / 2 + SLH.hang[2] / 2], 1), DP, SP));
+      });
+    });
+  }
+  /* --- foi pe șină (wing): șina sus, deasupra pachetelor; un cărucior pe prima foaie a fiecărui pachet --- */
+  const wg = doors.filter(x => x.b.sub === "fold");
+  if (wg.length) {
+    const zmin = Math.min.apply(null, wg.map(x => x.b.z0)), zmax = Math.max.apply(null, wg.map(x => x.b.z1)), yt = Math.max.apply(null, wg.map(x => x.b.y1));
+    const cx = (Math.min.apply(null, wg.map(x => x.b.x0)) + Math.max.apply(null, wg.map(x => x.b.x1))) / 2, [li, ri] = inner(cx);
+    SP.hw.add(tag(box("__zinc", [li, yt + 2, zmin - 1], [ri, yt + 2 + SLH.track, zmax + 1], 1), wg[0].P, SP));
+    wg.filter(x => x.b.fold.k === 0).forEach(({ b: d, P: DP }) => {
+      const x = d.hinge === "right" ? d.x1 - 40 : d.x0 + 40;
+      DP.hw.add(tag(box("__blackmetal", [x - SLH.hang[0] / 2, d.y1 - 2, d.z0 + 2], [x + SLH.hang[0] / 2, d.y1 + SLH.hang[1], d.z1 - 2], 1), DP, SP));
+    });
+  }
+  /* --- escamotabile: șinele buzunarului (sus și jos, pe traseul de retragere) și suportul de balama de pe ușă --- */
+  doors.filter(x => x.b.sub === "pocket").forEach(({ b: d, P: DP }) => {
+    const K = d.pocket, o = K.open || {}, F = pocketFinal(d, K, allB), zA = d.z1 - (o.E != null ? o.E : (o.dz || 0)), zB = d.z1 + (o.M || 0);
+    const xl = o.t === "pivot" ? F.xl : (d.x0 + (o.dx || 0)), th = F.th;
+    if (o.t === "pivot" || o.t === "slide") {
+      const xr0 = o.t === "pivot" ? xl : d.x0, xr1 = o.t === "pivot" ? xl + th : d.x1;
+      SP.hw.add(tag(box("__zinc", [xr0 - 2, d.y1 + 1, Math.min(zA, zB)], [xr1 + 2, d.y1 + 1 + SLH.track * 0.75, Math.max(zA, zB, d.z1)], 1), DP, SP));
+      SP.hw.add(tag(box("__zinc", [xr0 - 2, d.y0 - 1 - SLH.track * 0.75, Math.min(zA, zB)], [xr1 + 2, d.y0 - 1, Math.max(zA, zB, d.z1)], 1), DP, SP));
+    }
+    const px = K.side === "R" ? d.x1 - SLH.bracket[0] - 6 : d.x0 + 6;
+    [d.y1 - 120, d.y0 + 80].forEach(y => DP.hw.add(tag(box("__blackmetal", [px, y, d.z0 - SLH.bracket[2]], [px + SLH.bracket[0], y + SLH.bracket[1], d.z0], 1), DP, SP)));
+  });
+}
 function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (R.linkG) clearGroup(R.linkG);
@@ -1094,6 +1158,7 @@ function buildHardware(model) {
   if (!model || !model.ops) return;
   const O = model.ops;
   buildLiftHw();
+  buildSlideHw();
   /* conectori: forma 3D iese din aceleași operații (găuri și canale) ca fișa piesei (ebanist-hwgeom.js) */
   const OPS = EBHwGeom.opsByHw(O.pieces);
   buildLed(O);
@@ -1541,6 +1606,16 @@ function setTargets(boxesOrig) {
         P.tgt.ang = open ? th : 0;
       }
     }
+    /* U.17 — ușă escamotabilă (pocket): `ang` e PROGRESUL 0 → 1; în step() ușa se rotește mai întâi 90° pe muchia dinspre buzunar (ca o ușă obișnuită, în față),
+       apoi se mută lateral în buzunar și în sfârșit alunecă înapoi cu E (retragerea) — poziția finală e cea din formulele producătorului, traseul e o schemă. */
+    P.pkt = null;
+    if (P.sub === "pocket" && P.pocket) {
+      const K = P.pocket, o = K.open || {}, F = pocketFinal(a, K, boxesOrig);
+      if (o.t === "pivot") P.pkt = { t: "pivot", px: F.left ? a.x0 : a.x1, pz: a.z1, left: F.left, dx: F.dx * MM, E: (o.E || 0) * MM };
+      else if (o.t === "slide") P.pkt = { t: "slide", dz: (o.dz || 0) * MM };
+      else if (o.t === "straight") P.pkt = { t: "straight", dx: (F.left ? -1 : 1) * (a.x1 - a.x0) * MM };
+      P.pivot = null; P.tgt.ang = (open && P.pkt) ? 1 : 0;
+    }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
     P.slDir = slideDir(a);
     /* U.17 — unități de colț / scoase / mecanisme: mișcarea vine din model (`cu.an`): { dz } glisare înainte, { dy } coborâre, { rot } rotire în jurul unei axe
@@ -1723,7 +1798,20 @@ function step() {
       liftAng = u * Lf.th;
       liftY = (u === 0 ? Math.min(1, 2 * p) * (Lf.g + Lf.h) : Lf.g + Lf.h * Math.max(0, Math.cos(liftAng))) * MM;
     }
-    { const sd = P.slDir || [0, 1]; M4.makeTranslation(c.ex + sd[0] * c.sl, c.ey + liftY, c.ez + sd[1] * c.sl); }
+    let pkX = 0, pkZ = 0, pkAng = 0;
+    if (P.pkt) {      /* U.17: ușa escamotabilă: faza 1 rotire (0–0,4), faza 2 mutare laterală (0,4–0,55), faza 3 retragere (0,55–1) */
+      const K = P.pkt, p = Math.min(1, Math.max(0, c.ang));
+      if (K.t === "pivot") { pkAng = (K.left ? -1 : 1) * Math.PI / 2 * Math.min(1, p / 0.4); pkX = K.dx * Math.min(1, Math.max(0, (p - 0.4) / 0.15)); pkZ = -K.E * Math.min(1, Math.max(0, (p - 0.55) / 0.45)); }
+      else if (K.t === "slide") pkZ = -K.dz * p;
+      else pkX = K.dx * p;
+    }
+    { const sd = P.slDir || [0, 1]; M4.makeTranslation(c.ex + sd[0] * c.sl + pkX, c.ey + liftY, c.ez + sd[1] * c.sl + pkZ); }
+    if (pkAng && P.pkt) {
+      const px = P.pkt.px * MM, pz = P.pkt.pz * MM;
+      M4b.makeTranslation(px, 0, pz); M4.multiply(M4b);
+      M4b.makeRotationY(pkAng); M4.multiply(M4b);
+      M4b.makeTranslation(-px, 0, -pz); M4.multiply(M4b);
+    } else
     if (liftAng && P.pivot && P.pivot.axis === "x") {      /* U.16: ușă basculantă — axa orizontală pe muchia de sus */
       const py = P.pivot.y * MM, pz = P.pivot.z * MM;
       M4b.makeTranslation(0, py, pz); M4.multiply(M4b);

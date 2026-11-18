@@ -253,7 +253,7 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, curved: false, sloped: false, dim: null, edgeH: null }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, slideSys: (b.slide && b.slide.sys) || (b.pocket && b.pocket.sys) || (b.fold && b.fold.wing) || null, curved: false, sloped: false, dim: null, edgeH: null }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
     /* panou pe pantă (D-86): conturul în planul vertical și, la tavanul înclinat, dimensiunile reale
@@ -832,6 +832,9 @@ function generate1(input) {
   /* U.17: unități de colț / scoase / mecanisme de mișcare (cfg.cu): găurile mecanismelor, ale cărucioarelor și ale frontului legat NU se generează
      (sursele nu dau cota și muchia de referință complete); cufront / flap nu primesc nici cupe de balama, nici mâner */
   if (cfg && cfg.cu) out.warnings.push({ piece: null, k: "opsCornerNoDrill" });
+  /* U.17: sisteme glisante / escamotabile / aripă din catalog — găurile de carucioare, ghidaje și balamale NU se generează: cotele din documentele producătorilor
+     sunt citite din desene, fără reper confirmat al muchiei. Se spune, nu se inventează. */
+  pcs.forEach(function (p) { if (p.role === "frontale" && p.slideSys) out.warnings.push({ piece: p.pk, k: "opsSlideNoDrill" }); });
   var doors = pcs.filter(function (p) { return p.role === "frontale" && p.sub === "door" && p.tAx === 2; });
   var rows = {};
   doors.forEach(function (d) { var k = Math.round(d.min[1]) + "|" + Math.round(d.max[1]); (rows[k] = rows[k] || []).push(d); });
@@ -937,7 +940,7 @@ function generate1(input) {
   Object.keys(packs).sort(function (a, b) { return a - b; }).forEach(function (pi) {
     var ls = packs[pi].slice().sort(function (a, b) { return a.min[0] - b.min[0]; });
     var F = H.fold, eo = (G && G.in && G.in.edge_offset) || 100;
-    for (var j = 0; j < ls.length - 1; j++) {
+    for (var j = 0; j < ls.length - 1 && !ls[0].fold.wing; j++) {   /* U.17: la sistemele „wing” balamalele centrale sunt ale sistemului (nu se găuresc cupe generice) */
       var A = ls[j], B = ls[j + 1];
       var h = A.ext[1], nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
       var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
