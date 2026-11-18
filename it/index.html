@@ -487,7 +487,8 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .tier-pro .name{color:var(--gold-soft)!important}
 .tier-pro .btn-laser{background:var(--gold);color:#1d221b}
 .tier-pro .btn-laser:hover{background:var(--gold-soft)}
-.tier-pro .yearly a{color:var(--gold-soft)}
+.tier-pro .btn-yearly{border-color:var(--gold);color:var(--gold-soft)}
+.tier-pro .btn-yearly:hover{background:rgba(255,255,255,.08)}
 .tier .name{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold-ink)}
 .tier .amt{font:400 clamp(3rem,6vw,4.6rem)/1 var(--serif);margin-top:16px;letter-spacing:-.02em}
 .tier .per{color:var(--txt3);font-size:14px;margin-top:8px}
@@ -496,8 +497,7 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .tier li::before{content:"";height:2px;background:var(--gold);margin-top:.7em}
 .tier-pro li::before{background:var(--gold)}
 .tier .btn{align-self:flex-start}
-.yearly{margin-top:14px;font-size:14px}
-.yearly a{color:var(--green)}
+.btn-yearly{margin-top:12px;white-space:normal;text-align:center;line-height:1.25;padding:12px 24px}
 .vat{margin-top:22px;color:var(--txt3);font-size:14px;max-width:70ch}
 .tier-fd{border-color:var(--gold);background:linear-gradient(180deg,#fffaf0,var(--char2))}
 .tier-fd .name{color:var(--gold-ink)}
@@ -1240,7 +1240,7 @@ c66 -3 133 -12 160 -22z"/>
         <p class="per">al mese, IVA inclusa</p>
         <ul><li>Progetti illimitati</li><li>Distinta PDF e CSV, etichette, scheda di montaggio, disegno 2D</li><li>Il tuo logo su ogni PDF · modalità Cliente</li><li>Piani di taglio con i ritagli in magazzino</li></ul>
         <a class="btn btn-laser" id="buyM" href="/app/?lang=it&amp;activate=1" data-goatcounter-click="cta-price-pro">Passa a Pro</a>
-        <p class="yearly"><a id="buyY" href="/app/?lang=it&amp;activate=1" data-goatcounter-click="cta-price-yearly">Oppure 79 € all'anno — due mesi in regalo</a></p>
+        <a class="btn btn-yearly" id="buyY" href="/app/?lang=it&amp;activate=1" data-goatcounter-click="cta-price-yearly">Annuale — 79 € · due mesi in regalo</a>
       </article>
       <article class="tier tier-fd rv">
         <span class="mono name">Founders</span>
@@ -1317,7 +1317,7 @@ c66 -3 133 -12 160 -22z"/>
 <div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
 
 <script src="/app/config/billing.js"></script>
-<script>window.EB={"lang":"it","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Oppure {y} all'anno — due mesi in regalo","pieces":["FIANCO SX","FIANCO DX","TRAMEZZO","RIPIANO","RIPIANO","ZOCCOLO","FIANCO CASS.","FIANCO CASS.","FIANCO CASS."],"app":"/app/?lang=it","ver":"5.78.0.s2"};</script>
+<script>window.EB={"lang":"it","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Annuale — {y} · due mesi in regalo","pieces":["FIANCO SX","FIANCO DX","TRAMEZZO","RIPIANO","RIPIANO","ZOCCOLO","FIANCO CASS.","FIANCO CASS.","FIANCO CASS."],"app":"/app/?lang=it","ver":"5.78.0.s2"};</script>
 <script src="/site/js/main.js?v=5.78.0.s2" defer></script>
 </body>
 </html>
