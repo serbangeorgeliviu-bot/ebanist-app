@@ -150,6 +150,8 @@ describe("Găurirea: ce se generează și ce nu", () => {
     eq([g.cup_dia, g.tb, g.plate_front, g.plate_spacing, g.plateHoles, g.dowels], [35, [3, 7], 37, 32, true, false]);
     assert.equal(M.geomOf("blum_75B2580").dowelOpen, true); assert.equal(M.geomOf("blum_75B258E").dowelOpen, true);
     assert.equal(M.geomOf("blum_75B2550", "175H31").plate.kind, "horizontal");
+    assert.equal(M.geomOf("blum_75B2550", "hetp_9071595").plate_front, 37, "o placuță Hettich din setări nu strică alegerea Blum");
+    assert.ok(!Object.values(M.geomOf("blum_75B2550", "hetp_9071595")).some(v => v === undefined), "nicio valoare undefined care să acopere setările implicite din ops");
   });
   test("necunoscut → null (rămâne Blum / catalogul general)", () => { assert.equal(M.geomOf("blum_71b3550"), null); assert.equal(M.geomOf("nu_exista"), null); });
 });

@@ -114,11 +114,12 @@
     g.dowelOpen = needs && !okD;
     /* placuța */
     var pl = null, blum = fam.plates === "blum-clip", bg = null;
-    if (blum && root.EBHinges) { bg = root.EBHinges.geomOf(BLUM_REF, plateId); }
+    var bpid = null;
+    if (blum && root.EBHinges) { bpid = plateId && blumPlates().some(function (q) { return q.id === plateId; }) ? plateId : null; bg = root.EBHinges.geomOf(BLUM_REF, bpid); }   /* o placuță de altă marcă din setări nu se aplică aici */
     else if (Array.isArray(fam.plates) && fam.plates.length) pl = PLATE[plateId] && fam.plates.indexOf(plateId) >= 0 ? PLATE[plateId] : PLATE[fam.plates[0]];
     var lineKnown = false;
-    if (bg) {
-      g.plate_front = bg.plate_front; g.plate_spacing = bg.plate_spacing; g.plate = bg.plate; g.plateHoles = true; lineKnown = true; g.plateId = plateId || null;
+    if (bg && bg.plate_front > 0) {
+      g.plate_front = bg.plate_front; g.plate_spacing = bg.plate_spacing; g.plate = bg.plate; g.plateHoles = true; lineKnown = true; g.plateId = bpid;
     } else if (pl) {
       g.plateId = pl.id;
       if (pl.line > 0 && pl.pitch > 0) { g.plate_front = pl.line; g.plate_spacing = pl.pitch; lineKnown = true; }
