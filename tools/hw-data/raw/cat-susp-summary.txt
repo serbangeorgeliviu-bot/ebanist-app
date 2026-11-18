@@ -1,0 +1,5 @@
+cat-susp.json summary
+COMPLETE (official source): Hettich SAH 500 loads/adjust/rear panel/drilling pattern (drawing); SAH 215/216/130/15/116/305 loads+adjust+codes; rails L/B loads; Hettich Rastex 15 full drilling table + codes, Rastex 25 (partial), VB20/21, VB54, VB135, Alfa/Beta; Hafele hangers 290.03.9xx, Libra H1-H3 (2014 catalogue), Rafix-20, Rafix TAB, TAB18, TAB, TAB15, Tofix, OneFix, turn fastener, RV clip, Maxifix; Knapp DUO35, DUO30, UNO30 with loads; Camar 806 14/22, 821, 818, 801, rails loads.
+NULL/PARTIAL: Camar 811 (no document), Camar 816 load (no certificate), Camar adjustment mapping for 821/806 icons, Hettich SAH 500 left body element code, drilling-role mapping for SAH 215/130/15/116 and Hafele hanger drawings, Rastex 25 thickness/dowel data, rails A/H/M, all Hafele/Camar/Knapp CAD URLs, tensile loads for all Hettich/Hafele connectors, Knapp Z-Tab/Hanger/Wedge (do not exist), Hafele Prima/Dispenza/Tube (not found), French cleats (none), Hettich Sorinos (not checked).
+CONFLICTS: see notes in JSON (Rafix TAB 14.2 vs retailer 14.5; Camar 816 retailer 65 kg not used).
+Downloads: dl-susp/

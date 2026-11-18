@@ -198,6 +198,15 @@ var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat:
                     fes_domino_xl_8x80: "domino", fes_domino_xl_10x80: "domino", fes_domino_xl_12x100: "domino", fes_domino_xl_14x100: "domino", fes_domino_xl_14x140: "domino",
                     lam_clamex_p10: "clamex", lam_clamex_medius: "clamex", lam_clamex_flexus: "clamex", lam_clamex_cnc: "clamex",
                     lam_tenso_p14: "tenso", lam_tenso_p10: "tenso", lam_bisco_p14: "bisco", lam_bisco_p10: "bisco" };
+/* familia «îmbinări demontabile / fără unealtă» (ebanist-open.js, date din documente oficiale): tipurile housing / plug / nodrill și variantele pe articol;
+   haf_rafix primește geometria din sursă (Ø20, adâncimea X și axa A după grosime) în locul aproximării cu Minifix. Fără EBOpen încărcat, rămâne ca înainte. */
+var OPEN_KINDS = {};
+if (root.EBOpen && root.EBOpen.joints && root.EBOpenData) {
+  var xj = root.EBOpen.joints(), xk;
+  for (xk in xj.kinds) { HW_DRILL.joints[xk] = xj.kinds[xk]; OPEN_KINDS[xk] = 1; }
+  for (xk in xj.variants) HW_DRILL.joints.variants[xk] = xj.variants[xk];
+  for (xk in xj.ofId) JOINT_OF_ID[xk] = xj.ofId[xk];
+}
 /* datele unei îmbinări, cu varianta ei (după articolul din catalog) peste cele ale familiei */
 function jointData(kind, id) {
   var base = HW_DRILL.joints[kind], v = HW_DRILL.joints.variants && HW_DRILL.joints.variants[id], o = {}, k;
@@ -460,7 +469,7 @@ function slot(p, ax, side, at, la, len, thk, depth, hw, note) {
    camAx/camSide = la faccia di E dove sta la tazza dell'eccentrico. */
 function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
   var kind = out.joint || "minifix";
-  if (kind !== "minifix") return jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out);
+  if (kind !== "minifix") return jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out, camSide);
   var M = HW_DRILL.minifix, D = HW_DRILL.dowel;
   var edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
   var mid = (E.min[camAx] + E.max[camAx]) / 2;          // meta grossezza di E
@@ -495,8 +504,10 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
 
 /* confirmat / tasel / lamelle / domino: aceeasi geometrie de capat (E vine cu
    muchia pe fata lui F), alt fel de legatura. Pozitia pe grosimea lui E: la mijloc. */
-function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out) {
+function jointOther(kind, E, F, eAx, eSide, sAx, lo, hi, camAx, out, camSide) {
   var J = jointData(kind, out.jointId), edge = eSide > 0 ? E.max[eAx] : E.min[eAx];
+  if (OPEN_KINDS[kind]) return root.EBOpen.opsJoint(kind, J, { E: E, F: F, eAx: eAx, eSide: eSide, sAx: sAx, lo: lo, hi: hi, camAx: camAx, camSide: camSide, out: out, hole: hole, even: evenPositions,
+    pos: jointPositions2, legacyB: HW_DRILL.minifix.cam_dist });
   if (J.tenon_len) {   /* tenon cu lungime dată: în fața piesei F intră cel mult grosimea ei minus 4 mm (și cel mult jumătate), restul în muchia lui E */
     var df = Math.min(J.tenon_len / 2, Math.max(8, Math.floor((F.T || 19) - 4)));
     J = Object.assign({}, J, { depth_face: df, depth: J.tenon_len - df });
@@ -814,6 +825,8 @@ function generate1(input) {
   /* U.16: ușa basculantă nu are cupă de balama, iar găurile mecanismului (pe lateral și pe ușă) NU se generează: cotele din desenele
      producătorilor nu sunt încă confruntate cu un produs real (sensul unor cote a fost citit din imagine). Se spune, nu se inventează. */
   pcs.forEach(function (p) { if (p.role === "frontale" && p.sub === "lift") out.warnings.push({ piece: p.pk, k: "opsLiftNoDrill" }); });
+  /* push / acționare electrică / suspendare alese explicit pe corp (ebanist-open.js): instanțe pentru 3D, găurile TIP-ON și Tipmatic, avertismente */
+  if (root.EBOpen && root.EBOpen.opsDevices && cfg.hwSel && (cfg.hwSel.push || cfg.hwSel.pushd || cfg.hwSel.susp)) root.EBOpen.opsDevices(out, { pcs: pcs, cfg: cfg, hole: hole, HW_DRILL: H });
   var doors = pcs.filter(function (p) { return p.role === "frontale" && p.sub === "door" && p.tAx === 2; });
   var rows = {};
   doors.forEach(function (d) { var k = Math.round(d.min[1]) + "|" + Math.round(d.max[1]); (rows[k] = rows[k] || []).push(d); });

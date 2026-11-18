@@ -2910,6 +2910,68 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.16: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.17 — deschidere push, suspendare, îmbinări demontabile / fără unealtă (ebanist-open.js) */
+  {
+    head("Deschidere push, suspendare, îmbinări fără unealtă (U.17)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpHw").open = true;
+      buildCfg = { ...PRESETS.pensile, name: "Op1", L: 900, H: 600, P: 330, doors: 2, drawers: 0, hang: 0, support: "sospeso", handles: "push" }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.17: catalog — push, sertare, suspendare, șine, alimentatoare, îmbinări noi, toate cu nume în cele 7 limbi", await pg.evaluate(() => {
+      const L = ["it", "ro", "en", "fr", "de", "pl", "es"], cats = ["push", "pushd", "pushpsu", "susp", "suprail", "conn"];
+      return cats.every(c => HWDB[c].length > 0) && HWDB.push.length >= 20 && HWDB.susp.length >= 20 && HWDB.pushd.length >= 20 && HWDB.conn.length >= 55 &&
+        cats.every(c => HWDB[c].filter(x => x.open).every(x => L.every(l => x.n[l] && x.n[l].length > 4) && x.price === 0)) &&
+        HWDB.conn.some(x => x.id === "het_rastex15_b24") && HWDB.conn.some(x => x.id === "haf_tab18_plug") && HWDB.conn.some(x => x.id === "kn_duo35_ml");
+    }));
+    ok("U.17: nimic dublat cu catalogul de dinainte (ids unice pe categorie); articolele vechi rămân", await pg.evaluate(() =>
+      ["push", "conn", "pushd", "susp", "suprail", "pushpsu"].every(c => new Set(HWDB[c].map(x => x.id)).size === HWDB[c].length) && HWDB.push.some(x => x.id === "blum_tipon_a") && HWDB.push.some(x => x.id === "haf_onetouch") && HWDB.conn.some(x => x.id === "haf_rafix")));
+    ok("U.17: selectoare pe corp pentru sertare, suspendare, șină — fără articol implicit («niciunul»), nu schimbă nimic", await pg.evaluate(() => {
+      renderHwSel(); const s = c => document.querySelector('#hwSelBox select[data-cat="' + c + '"]');
+      return ["pushd", "susp", "suprail"].every(c => s(c) && s(c).value === "" && s(c).options[0].textContent.includes("—")) && cfgFromForm().hwSel === null && cfgFromForm().suspKg === null; }));
+    ok("U.17: sarcina conținutului apare numai când e aleasă o suspendare", await pg.evaluate(() => $("rowSuspKg").style.display === "none"));
+    await pg.selectOption('#hwSelBox select[data-cat="susp"]', "het_sah215"); await pg.waitForTimeout(150);
+    await pg.fill("#bSuspKg", "35"); await pg.waitForTimeout(100);
+    ok("U.17: alegerea ajunge în cfg (hwSel.susp, suspKg) și rândul de sarcină se vede", await pg.evaluate(() => { const c = cfgFromForm(); return c.hwSel && c.hwSel.susp === "het_sah215" && c.suspKg === 35 && $("rowSuspKg").style.display !== "none" && $("suspHint").textContent.length > 20; }));
+    const sh = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Op1" });
+      const it = computeHardware(p, state.settings), g = k => (it.find(i => i.k === k) || {}).qty || 0, id = k => ((it.find(i => i.k === k) || {}).prod || {}).id;
+      let mont = false; try { mont = montDoc(p).includes(t("mOpenSusp").split("{p}")[0].trim().slice(0, 14)); } catch (e) {}
+      return { susp: g("hwSusp"), rail: g("hwSuspRail"), sid: id("hwSusp"), rid: id("hwSuspRail"), cern: g("hwCern"), mont }; });
+    ok("U.17: deviz — o pereche de cleme și o șină pe corp (șina implicită a articolului), balamalele rămân", sh.susp === 1 && sh.rail === 1 && sh.sid === "het_sah215" && sh.rid === "het_rail_b" && sh.cern > 0, JSON.stringify(sh));
+    ok("U.17: fișa de montaj are pasul de suspendare", sh.mont === true);
+    const wn = await pg.evaluate(() => { const c = { ...cfgFromForm(), suspKg: 140 }; const b = buildModule(c); return (b.warn.openWarn || []).map(w => EBOpen.msg(w, t)); });
+    ok("U.17: sarcină peste portanță: avertisment cu valorile (90 kg = 2 × 45), în limba aplicației", wn.some(m => /90/.test(m) && /45/.test(m)) && wn.every(m => !/\{\w+\}/.test(m)), JSON.stringify(wn));
+    ok("U.17: fără alegere explicită, buildModule nu are openWarn", await pg.evaluate(() => { const c = { ...cfgFromForm(), hwSel: null, suspKg: null }; return buildModule(c).warn.openWarn == null; }));
+    /* deviz identic fără alegere */
+    ok("U.17: deviz — implicit identic: cu sau fără hwSel gol aceleași rânduri (D-39)", await pg.evaluate(() => {
+      const mk = hs => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...PRESETS.armadio, name: "Q", hwSel: hs, doors: 2, drawers: 2, handles: "push" }); return JSON.stringify(computeHardware(p, state.settings).map(i => [i.k, i.qty, i.prod && i.prod.id])); };
+      const a = mk(null), b = mk({}), c = mk({ cern: "blum_71b3550" });
+      return a === b && !/hwPushD|hwSusp|hwPushPsu/.test(a.replace(/"hwPushD",0|"hwSusp",0|"hwSuspRail",0|"hwPushPsu",0/g, "")) && JSON.parse(a).filter(r => r[0] === "hwPush")[0][1] === 4 && c.length > 0; }));
+    /* sertare: dispozitiv ales pe corp */
+    const pd = await pg.evaluate(() => { const mk = hs => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...PRESETS.cassettiera, name: "Q2", hwSel: hs, handles: "push", drawers: 3, doors: 0, drawerSys: "legrabox" });
+        const it = computeHardware(p, state.settings), g = k => (it.find(i => i.k === k) || {}).qty || 0; return { push: g("hwPush"), pd: g("hwPushD"), psu: g("hwPushPsu"), man: g("hwMan") }; };
+      return { none: mk(null), tob: mk({ pushd: "blum_tobm_lbx_l3" }), easys: mk({ pushd: "het_easys_9078139" }), servo: mk({ pushd: "blum_servo_drawer" }) }; });
+    ok("U.17: sertare — fără alegere hwPush ca înainte; cu dispozitiv ales: hwPushD pe sertar, fără hwPush", pd.none.push === 3 && pd.none.pd === 0 && pd.tob.pd === 3 && pd.tob.push === 0 && pd.tob.psu === 0, JSON.stringify(pd));
+    ok("U.17: alimentator: Easys și SERVO-DRIVE au unul pe corp (27 de unități / limita nu e în sursă)", pd.easys.psu === 1 && pd.servo.psu === 1 && pd.easys.pd === 3, JSON.stringify(pd));
+    const dq = await pg.evaluate(() => { const mk = (H, hs) => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...PRESETS.armadio, name: "Q3", hwSel: hs, handles: "push", doors: 2, H, drawers: 0, tram: 0 });
+        const it = computeHardware(p, state.settings); return (it.find(i => i.k === "hwPush") || {}).qty || 0; };
+      return { lo: mk(1500, { push: "sal_push_dp4" }), hi: mk(2000, { push: "sal_push_dp4" }), one: mk(2000, { push: "blum_tipon_short" }) }; });
+    ok("U.17: Salice: 1 dispozitiv pe ușă sub 1600 mm, 2 peste (din sursă); celelalte 1 pe ușă", dq.lo === 2 && dq.hi === 4 && dq.one === 2, JSON.stringify(dq));
+    /* ops + 3D */
+    const o3 = await pg.evaluate(() => { const c = { ...PRESETS.pensile, name: "Op2", L: 900, H: 600, P: 330, doors: 2, drawers: 0, hang: 0, support: "sospeso", handles: "push", hwSel: { push: "blum_tipon_short", susp: "het_sah500", suprail: "het_rail_b", conn: "het_rastex15_b24" } };
+      const bm = buildModule(c), G = deriveCarcass(carcassParams(c, {})), O = generateOperations({ boxes: bm.boxes, cfg: c, G });
+      const types = [...new Set(O.hw.map(h => h.type))];
+      let img = false, err = null; try { GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 220, h: 160 }); img = !!(r && r.img); } catch (e) { err = String(e); }
+      return { types, img, err, warn: O.warnings.map(w => w.k) }; });
+    ok("U.17: ops — TIP-ON, SAH 500, șină și Rastex produc instanțe; avertismente de găurire", ["pushunit", "susphang", "suprail", "housing"].every(x => o3.types.includes(x)) && o3.warn.includes("opsOpenPlace") && o3.warn.includes("wOpenSuspNoDrill"), JSON.stringify(o3));
+    ok("U.17: 3D — se desenează fără eroare (uși deschise, feronerie)", o3.img && !o3.err, o3.err || "");
+    ok("U.17: textele sunt traduse în toate limbile (etichete, avertismente, pași de montaj)", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
+      const ks = ["hwPushD", "hwSusp", "hwSuspRail", "hwPushPsu", "fSuspKg", "suspHint", "wOpenRange", "wOpenSuspLoad", "mOpenSusp", "mOpenPush", "opsOpenNoDrill", "hwSelNone", "hw_housing"];
+      const k = L.every(l => { state.lang = l; return ks.every(x => t(x) !== x); }); state.lang = keep; return k; }));
+    ok("U.17: avertismentele de operații apar în «Controale» cu text, nu cu cheia", await pg.evaluate(() => { const c = { ...PRESETS.pensile, name: "Op3", L: 900, H: 600, P: 330, doors: 2, hang: 0, support: "sospeso", handles: "push", hwSel: { susp: "het_sah215" } };
+      const w = opsNotesOf(c); return w.length > 0 && w.every(x => { const m = EBOpen.msg(x, t); return m && !/\{\w+\}/.test(m) && m !== x.k; }); }));
+    ok("U.17: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");

@@ -1,0 +1,1755 @@
+{
+ "sources": [
+  {
+   "id": "HAF-229",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-229.pdf",
+   "title": "Haefele UK Furniture Fittings Technology 2023, Section 9 p.229, E-drive Free flap / Free fold-up-swing, driver, mains leads (page amended 29.09.23)",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-FREE19",
+   "url": "https://htdocs.kirz.com/HTHMKT/Catalogue/FF/new-freedom-in-motion-free.pdf",
+   "title": "Haefele 'Free Flap 2019' catalogue (Free E-Drive pp.39-44; text partly font-garbled, English parts readable)",
+   "pages": "39-44"
+  },
+  {
+   "id": "HAF-216",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-216.pdf",
+   "title": "Haefele UK 23T9 p.216-217 Free up (cutting dim. -88 mm / -113 mm with electric)",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-218",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-218.pdf",
+   "title": "Haefele UK 23T9 p.218-219 Free swing",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-124",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-124.pdf",
+   "title": "Haefele UK 23T9 p.124 Push to open soft close mechanism for concealed hinges (amended 16.02.26)",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-78",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-78.pdf",
+   "title": "Haefele UK 23T9 p.78-79 Grass Tipmatic accessories (amended 18.10.24)",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-241",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-241.pdf",
+   "title": "Haefele UK 23T9 p.241 Push magnetic door catch for concealed fixing (Maxi Touch)",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-154",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T8-154.pdf",
+   "title": "Haefele UK 23T8 p.154 Pressure catches (amended 14.09.23)",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-165",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T8-165.pdf",
+   "title": "Haefele UK 23T8 p.165 Flexa-Touch drawer latch",
+   "pages": "1"
+  },
+  {
+   "id": "BLUM-TIPON-DOORS",
+   "url": "https://www.ldlonline.co.uk/media/wysiwyg/others/media/tip-on-for-doors.pdf",
+   "title": "Blum brochure 'TIP-ON for doors' EP-234/4 EN-GB/07.19-1 (distributor copy)",
+   "pages": "10,11,13"
+  },
+  {
+   "id": "BLUM-CAT24",
+   "url": "https://publications.blum.com/2024/catalogue/en/{page}/",
+   "title": "Blum Catalogue and technical manual 2024-2025 (web edition, one URL per catalogue page; pages used: 14,16,50,51,52,102,364,365,366,388,394,396,397,398,400,404-407,504,505,676,698)",
+   "pages": "see items"
+  },
+  {
+   "id": "BLUM-TOB",
+   "url": "https://d2.blum.com/services/BEC003/tob0010-ep-412_ep_dok_bau_$sen_$aof_$v3.pdf",
+   "title": "Blum brochure 'TIP-ON BLUMOTION for LEGRABOX and MOVENTO' EP-412/3 EN-AL/07.23",
+   "pages": "13,24,25"
+  },
+  {
+   "id": "BLUM-UNO",
+   "url": "https://cdn.shopify.com/s/files/1/1588/9599/files/Servo_Drive_Uno_Instructions.pdf",
+   "title": "Blum SERVO-DRIVE uno Instruction leaflet (older TANDEM/TANDEMBOX uno; distributor copy; undated)",
+   "pages": "4,10,11"
+  },
+  {
+   "id": "BLUM-KA160",
+   "url": "https://d2.blum.com/services/BEC003/ka160-kp-007_ka_dok_bau_%24sen_%24aof_%24v6.pdf",
+   "title": "Blum Catalogue 2024/2025 extract 'Motion technologies' (catalogue pp.570-582 incl. SERVO-DRIVE flex)",
+   "pages": "5-7 of PDF = cat. 573-576"
+  },
+  {
+   "id": "HET-BK111",
+   "url": "https://catalog.hettich.com/General/TA_2025/de_DE/catalogs/TA_2025_de_DE/pdf/save/bk_113.pdf",
+   "title": "Hettich Technik und Anwendung 2025, p.111 Push to open Silent fuer Drehtueren (DE; EN version bk_113 under /en_DE/)",
+   "pages": "1"
+  },
+  {
+   "id": "HET-MTA-PTOS",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_907736302_PTO_Silent_fuer_Scharniere.pdf",
+   "title": "Hettich MTA 9 077 363 02 (04.06.2024) Push to open Silent for hinged doors, assembly instruction",
+   "pages": "1"
+  },
+  {
+   "id": "HET-ANZ",
+   "url": "https://web2.hettich.com/hbh/addon/montage/309095_Anzahl_PushtoOpenSilent_DE.pdf",
+   "title": "Hettich 309095 Anzahl Push to open Silent je Drehtuer",
+   "pages": "1"
+  },
+  {
+   "id": "HET-MTA-PTO",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_939336401_PTO_Scharniere.pdf",
+   "title": "Hettich MTA 9 393 364 01 (21.05.2026) Push to open (Magnet/Lock) for handleless fronts",
+   "pages": "1"
+  },
+  {
+   "id": "HET-SHOP",
+   "url": "https://shop.hettich.com/gb_EN/p/{order_no}",
+   "title": "Hettich eShop product pages (orders 9239087, 9375985, 9381335, 9381496, 9241049, 9257890-93, 9078139, 9082363)",
+   "pages": "web"
+  },
+  {
+   "id": "HET-BK262",
+   "url": "https://catalog.hettich.com/General/TA_2025/en_DE/catalogs/TA_2025_en_DE/pdf/save/bk_264.pdf",
+   "title": "Hettich TA 2025 p.262 Push to open Silent for Actro YOU (AvanTech YOU)",
+   "pages": "1"
+  },
+  {
+   "id": "HET-BK310",
+   "url": "https://catalog.hettich.com/General/TA_2025/en_DE/catalogs/TA_2025_en_DE/pdf/save/bk_310.pdf",
+   "title": "Hettich TA 2025 Push to open Silent for ArciTech",
+   "pages": "1"
+  },
+  {
+   "id": "HET-MTA-ARCI",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_923932301_AT_PTO_Silent.pdf",
+   "title": "Hettich MTA 9 239 323 01 (20.10.2022) ArciTech Push to open Silent assembly",
+   "pages": "1-2"
+  },
+  {
+   "id": "HET-BK345",
+   "url": "https://catalog.hettich.com/General/TA_2025/en_DE/catalogs/TA_2025_en_DE/pdf/save/bk_347.pdf",
+   "title": "Hettich TA 2025 p.345 Easys drive unit, mounting bracket",
+   "pages": "1"
+  },
+  {
+   "id": "HET-BK347",
+   "url": "https://catalog.hettich.com/General/TA_2025/en_DE/catalogs/TA_2025_en_DE/pdf/save/bk_349.pdf",
+   "title": "Hettich TA 2025 p.347 Easys power supply unit, holder, power cable",
+   "pages": "1"
+  },
+  {
+   "id": "HET-EASYS-MTA",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_930497203_en_Easys_AVT_YOU_AT_IA.pdf",
+   "title": "Hettich MTA 9 304 972 03 Easys 100 installation/operating manual (2023)",
+   "pages": "10,19-20"
+  },
+  {
+   "id": "HET-EASYS-PSU",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_934540100_en_Easys_Netzteil_Sicherh-AW.pdf",
+   "title": "Hettich MTA 9 345 401 00 (13.11.2023) Easys power supply unit safety/instructions",
+   "pages": "2-3"
+  },
+  {
+   "id": "HET-EASYS-DU",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_938419100_Easys_DriveUnit.pdf",
+   "title": "Hettich MTA 9 384 191 00 Easys DriveUnit installation (drawing only)",
+   "pages": "1-2"
+  },
+  {
+   "id": "GRASS-09",
+   "url": "https://res.cloudinary.com/amerhart/image/upload/Documents/Product/Grass_641.000.09.9862_BRO.pdf",
+   "title": "Grass brochure 'TIPMATIC' (2009, chapter 6, distributor copy)",
+   "pages": "2,6,7,14,15 (6.6,6.7,6.14,6.15)"
+  },
+  {
+   "id": "GRASS-18",
+   "url": "https://res.cloudinary.com/amerhart/image/upload/Documents/Product/Grass_F046140360213_CAT.pdf",
+   "title": "Grass Tiomos catalogue (Jun 2018) incl. Tiomos 110 Tipmatic Plus and Tipmatic pin",
+   "pages": "3-6"
+  },
+  {
+   "id": "SAL-PUSH",
+   "url": "https://www.salice.com/media/Catalog/hinges/push/Salice_PUSH_D0CASA005ENG.pdf",
+   "title": "Salice PUSH catalogue D0CASA005ENG",
+   "pages": "6,7,8,9,10,12,14,15,16"
+  },
+  {
+   "id": "SAL-MECH",
+   "url": "https://www.salice.com/downloads/2817/2190/Salice-Mechanical-Push-with-adjustment-ENG.pdf",
+   "title": "Salice Mechanical Push with adjustment (ENG)",
+   "pages": "1-3"
+  },
+  {
+   "id": "SAL-AIR",
+   "url": "https://www.salice.com/media/Catalog/hinges/air/Salice_AIR_D0CASA014ENG.pdf",
+   "title": "Salice AIR D0CASA014ENG (Push-to-open hinge + Magnetic Push)",
+   "pages": "3,4,25-29"
+  },
+  {
+   "id": "SAL-MAG",
+   "url": "https://www.salice.com/downloads/2853/2136/Salice-Magnetic-Push-release-devices-and-retaining-catches-ENG.pdf",
+   "title": "Salice Magnetic Push release devices and retaining catches (ENG)",
+   "pages": "1"
+  }
+ ],
+ "items": [
+  {
+   "id": "haefele-edrive-free-flap",
+   "brand": "Haefele",
+   "name": "E-drive supplementary set for Free flap 1.7 / 3.15 (Free flap E)",
+   "kind": "electric",
+   "pairs_with": [
+    "Haefele Free flap 1.7 (mechanical, left fitting)",
+    "Haefele Free flap 3.15 (mechanical, left fitting)"
+   ],
+   "limits": {
+    "flap_weight_note": "E-drive adds to the mechanical fitting; same application range as mechanical fittings (weight table of the basic fitting applies)",
+    "only_for_fittings_produced_after": "11.05.2015",
+    "front_panel_cut_dimension": "cross bar cutting dimension = internal cabinet width - 113 mm (with electric) vs -88 mm mechanical",
+    "max_flap_weight_kg": null,
+    "src": "HAF-229 p1; HAF-216 p1 (cutting dim.); HAF-FREE19 p42-44"
+   },
+   "gaps": {
+    "min_gap_front_carcass_mm": null,
+    "src": "not stated in HAF-229/HAF-FREE19 (reason: Free E uses unchanged drilling/gap of the mechanical fitting)"
+   },
+   "drilling": {
+    "statement": "Drilling patterns on side panel and front panel remain unchanged vs mechanical Free fittings",
+    "push_button_sender_recess_hole_dia_mm": 35,
+    "sender_hole_depth_mm": null,
+    "sender_position_mm": null,
+    "drive_unit_mounting": "screw-fixed onto the LEFT Free fitting (drive unit sits on left-hand fitting); push button sender recessed in side panel via drilling template supplied",
+    "src": "HAF-229 p1; HAF-FREE19 p40,42 (sender hole dia 35 mm)"
+   },
+   "electrical": {
+    "nominal_voltage": "24 V DC / 2.5 A",
+    "radio": "2.4 GHz",
+    "protection_class": "III",
+    "wattage_W": 60,
+    "wattage_src": "HAF-FREE19 p42 (2019 catalogue)",
+    "sender_battery": "CR2032 (2 senders supplied)",
+    "units_per_driver_UK2023": 1,
+    "units_per_driver_2019_catalogue": "parallel connection for up to three drive units",
+    "supply": "Loox driver 24V/90W (see driver item)",
+    "machinery_directive": "Furniture with Free E subject to EU Machinery Directive 2006/42/EC",
+    "src": "HAF-229 p1; HAF-FREE19 p40,42"
+   },
+   "codes": [
+    {
+     "code": "372.91.099",
+     "desc": "E-drive supplementary set Free flap 1.7/3.15 (1 drive unit, 2 push button senders, front fixing bracket, drilling template, instructions)",
+     "src": "HAF-229 p1"
+    },
+    {
+     "code": "372.91.097",
+     "desc": "Push button sender (CR2032) replacement",
+     "src": "HAF-FREE19 p44"
+    },
+    {
+     "code": "372.91.444/445/447",
+     "desc": "Free flap 1.7 E cover cap sets grey/white/anthracite",
+     "src": "HAF-FREE19 p43"
+    },
+    {
+     "code": "372.91.080/085/086",
+     "desc": "Free flap 3.15 E cover cap sets grey/white/anthracite",
+     "src": "HAF-FREE19 p43"
+    },
+    {
+     "code": "372.33.689 / .688 / .687",
+     "desc": "E-drive cross bar for cabinet height 600/900/1200 (len 449/749/1049 mm) - Free flap E",
+     "src": "HAF-FREE19 p44"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "no CAD URL found for Free E in collected documents"
+   },
+   "unreadable": [
+    "Opening time / travel speed and drive force: only in Haefele Free flap E operating instructions (manualslib copy, not retrieved)",
+    "2019 catalogue text partially font-garbled; numbers read from English layer only"
+   ]
+  },
+  {
+   "id": "haefele-edrive-free-fold-up-swing",
+   "brand": "Haefele",
+   "name": "E-drive supplementary set for Free fold / Free up / Free swing (Free E)",
+   "kind": "electric",
+   "pairs_with": [
+    "Haefele Free fold (left fitting)",
+    "Haefele Free up (left fitting; lever arm replacement required)",
+    "Haefele Free swing (left fitting; lever arm replacement required)"
+   ],
+   "limits": {
+    "weight": "as mechanical basic fitting; Free up weight classes 1.6-19.6 kg by model/cabinet height (HAF-216), Free swing S1-S9 1.8-17.1 kg (HAF-218)",
+    "e_drive_specific_weight_limit_kg": null,
+    "note": "Free up/Free swing E needs replacement lever arms + E-drive cross bar (cut = internal width - 113 mm)",
+    "src": "HAF-229 p1; HAF-216 p2; HAF-218 p2; HAF-FREE19 p43-44"
+   },
+   "gaps": {
+    "min_gap_front_carcass_mm": null,
+    "src": "not given"
+   },
+   "drilling": {
+    "statement": "Drilling patterns unchanged vs mechanical; sender recess hole dia 35 mm",
+    "push_button_sender_recess_hole_dia_mm": 35,
+    "src": "HAF-229 p1"
+   },
+   "electrical": {
+    "nominal_voltage": "24 V DC / 2.5 A",
+    "radio": "2.4 GHz",
+    "protection_class": "III",
+    "wattage_W": 60,
+    "wattage_src": "HAF-FREE19 p42",
+    "units_per_driver_UK2023": 1,
+    "units_per_driver_2019_catalogue": "up to three drive units in parallel",
+    "also": "24V interior lighting from Loox range can be switched with drive unit (HAF-FREE19 p40)",
+    "src": "HAF-229 p1; HAF-FREE19 p40-42"
+   },
+   "codes": [
+    {
+     "code": "372.37.099",
+     "desc": "E-drive supplementary set Free fold/up/swing",
+     "src": "HAF-229 p1"
+    },
+    {
+     "code": "372.37.080/085/086",
+     "desc": "Free fold E cover cap sets grey/white/anthracite",
+     "src": "HAF-FREE19 p43"
+    },
+    {
+     "code": "372.37.090",
+     "desc": "Screw-on adapter for push button sender (light grey RAL 7035)",
+     "src": "HAF-FREE19 p44"
+    },
+    {
+     "code": "002.99.032",
+     "desc": "CR2032 button cell for sender",
+     "src": "HAF-FREE19 p44"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "none collected"
+   },
+   "unreadable": [
+    "lever arm / cross bar codes for Free up E & Swing E: garbled in HAF-FREE19 p43-44 (cross bars 372.33.687/688/689 readable)"
+   ]
+  },
+  {
+   "id": "haefele-edrive-driver",
+   "brand": "Haefele",
+   "name": "Power supply (driver) for Free E-drive + mains leads",
+   "kind": "electric",
+   "pairs_with": [
+    "Free E drive unit (one per driver per UK 2023 catalogue)"
+   ],
+   "limits": {
+    "units_per_driver": 1,
+    "units_per_driver_conflict": "HAF-FREE19 p40 (2019): 'Parallel connection for up to three drive units'; HAF-229 (2023 UK): 'Only one Free E drive unit can be connected to the driver'. Use newest (1) unless Haefele confirms",
+    "src": "HAF-229 p1; HAF-FREE19 p40"
+   },
+   "gaps": {},
+   "drilling": {},
+   "electrical": {
+    "input_voltage": "100-240 V AC, 50-60 Hz",
+    "input_current_2019": "3.5 A",
+    "output_power_W_table": "90 W / 3.75 A (372.91.110, 316 x 70 x 16 mm)",
+    "heading_conflict": "HAF-229 heading says 'Driver, 24W' while table row says 90 W / 3.75 A; HAF-FREE19 p44: 'Loox driver 24V/90W', output power 0-90 W",
+    "standby_W": "<=0.3",
+    "protection": "IP20 (HAF-229); 'degree of protection III' (HAF-FREE19)",
+    "overload_protection": true,
+    "mains_leads": "UK moulded plug 2000 mm 833.89.000, 5000 mm 833.89.080; bare ended 2000 mm 833.89.009 (bare end must be fitted by qualified electrician)",
+    "src": "HAF-229 p1; HAF-FREE19 p44"
+   },
+   "codes": [
+    {
+     "code": "372.91.110",
+     "desc": "Driver with Haefele Loox5 and Free E lead (replaces 372.91.100)",
+     "src": "HAF-229 p1"
+    },
+    {
+     "code": "833.71.838",
+     "desc": "Driver set (2019 catalogue, Loox 24V/90W incl. lead + EU plug)",
+     "src": "HAF-FREE19 p43-44"
+    },
+    {
+     "code": "833.89.000 / 833.89.080 / 833.89.009",
+     "desc": "mains leads UK",
+     "src": "HAF-229 p1"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "none"
+   },
+   "unreadable": [
+    "'24W' vs '90W' heading/table conflict unresolved from sources"
+   ]
+  },
+  {
+   "id": "haefele-push-soft-close-315.11",
+   "brand": "Haefele",
+   "name": "Push to open soft close mechanism for concealed hinges (mechanical, 'one touch')",
+   "kind": "push",
+   "pairs_with": [
+    "concealed hinges WITHOUT closing spring (unsprung hinges, Haefele p.9.77)"
+   ],
+   "limits": {
+    "door_weight_kg": {
+     "315.11.400": 7.5,
+     "315.11.401": 20,
+     "315.11.411": 25
+    },
+    "max_door_height_mm": {
+     "315.11.400": 700,
+     "315.11.401": 2700,
+     "315.11.411": 2700
+    },
+    "door_width_max_mm": 600,
+    "opening_angle_max_deg": 110,
+    "dimensions_WxDxH_mm": "202 x 18 x 72",
+    "cycles_tested": 50000,
+    "push_stroke_mm": null,
+    "src": "HAF-124 p1"
+   },
+   "gaps": {
+    "min_gap_mm": null,
+    "src": "not stated"
+   },
+   "drilling": {
+    "statement": "No drilling dimensions in catalogue page; fixings included",
+    "src": "HAF-124 p1",
+    "values": null
+   },
+   "electrical": {
+    "powered": false,
+    "note": "fully mechanical, no electric power",
+    "src": "HAF-124 p1"
+   },
+   "codes": [
+    {
+     "code": "315.11.400",
+     "desc": "max 7.5 kg, door H<=700 mm",
+     "src": "HAF-124 p1"
+    },
+    {
+     "code": "315.11.401",
+     "desc": "max 20 kg, door H<=2700 mm",
+     "src": "HAF-124 p1"
+    },
+    {
+     "code": "315.11.411",
+     "desc": "max 25 kg, door H<=2700 mm",
+     "src": "HAF-124 p1"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "none"
+   },
+   "unreadable": [
+    "drilling pattern not in catalogue page; see product instruction"
+   ]
+  },
+  {
+   "id": "haefele-tipmatic-pin",
+   "brand": "Haefele (Grass Tipmatic)",
+   "name": "Grass Tipmatic pin + adapters, Haefele listing",
+   "kind": "push",
+   "pairs_with": [
+    "Grass Tiomos Tipmatic Plus hinges",
+    "Grass Tipmatic hinge systems (Nexis/Tiomos hinges without closing spring)"
+   ],
+   "limits": {
+    "front_gap_adjust_mm": "2.5-5.5",
+    "door_types": "wood, aluminium frame, glass/mirror (self-adhesive plate for glass)",
+    "note": "Sheet entry 'pin for Tiomos Tipmatic Plus hinges' states: not suitable for hinges without automatic closing spring (i.e. pairs with Tipmatic Plus sprung-assist hinge); Grass sheets say Tipmatic pin also works with hinges without closing mechanism (GRASS-09 p3)",
+    "door_weight_kg": null,
+    "src": "HAF-78 p1"
+   },
+   "gaps": {
+    "front_gap_mm": "2.5-5.5 (toolless depth adjustment)",
+    "src": "HAF-78 p1"
+   },
+   "drilling": {
+    "pin_hole_dia_mm": 10,
+    "pin_hole_tolerance": "+0.2/-0.1 (drawing)",
+    "pin_hole_depth_min_mm": 60,
+    "pin_hole_position": "in cabinet front edge; 10+F from cabinet inner side (F=gap) (drawing, full overlay wood door); counterplate hole dia 15 in door (drawing: Ø15, depth per drawing <2 (S16)/<3.5 (S19))",
+    "adapter_housing": "with adapter housing: pin hole dia 10; drilling dia 20 x >1 for glass/mirror? (drawing)",
+    "stop_ring_and_bits": "pilot drill 001.42.030, brad point 001.20.410 (dia 10), stop ring dia 10 001.42.693",
+    "src": "HAF-78 p1-2 (drawing read at 80 dpi, approximate)"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "356.03.520",
+     "desc": "Tipmatic pin for Tiomos Tipmatic Plus, light grey RAL 7036",
+     "src": "HAF-78 p1"
+    },
+    {
+     "code": "356.03.503",
+     "desc": "Tipmatic pin, Tiomos Night anthracite",
+     "src": "HAF-78 p1"
+    },
+    {
+     "code": "356.13.520",
+     "desc": "adapter housing for Tipmatic, with positioning aid, light grey RAL 7035",
+     "src": "HAF-78 p2"
+    },
+    {
+     "code": "356.13.531 / 356.03.504",
+     "desc": "adapter housing linear, light grey / Tiomos Night",
+     "src": "HAF-78 p2"
+    },
+    {
+     "code": "001.42.030 / 001.20.410 / 001.42.693",
+     "desc": "pilot drill / dowel bit dia10 / stop ring",
+     "src": "HAF-78 p2"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "none"
+   },
+   "unreadable": [
+    "drawing dimensions at 80 dpi; verify against Grass brochure (GRASS-09 p6.15)"
+   ]
+  },
+  {
+   "id": "haefele-push-catch-356.06",
+   "brand": "Haefele (Grass-type)",
+   "name": "Push magnetic door catch for concealed fixing (Maxi Touch / touch opening application)",
+   "kind": "catch",
+   "pairs_with": [
+    "Maxi Touch push-to-open / touch opening applications (Haefele pp.210-211, not retrieved)"
+   ],
+   "limits": {
+    "holding": "magnet holds closed; additional catch for door fronts >1200 mm or >=3 push hinges",
+    "src": "HAF-241 p1"
+   },
+   "gaps": {
+    "src": "HAF-241",
+    "values": null,
+    "reason": "not stated"
+   },
+   "drilling": {
+    "hole_dia_mm": "10 (also 11.5 shown for counterplate); drawing values: dia 10, dia 11.5, 0.5, 0.8",
+    "mount": "in drilled hole in cabinet base, or cruciform adapter housing screwed to top/base (356.06.420 without / with positioning aid, edge distance 37 mm)",
+    "src": "HAF-241 p1 (raw text; drawing not rendered in detail)"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "356.06.460",
+     "desc": "catch with counterplate for knocking in",
+     "src": "HAF-241 p1"
+    },
+    {
+     "code": "356.06.461",
+     "desc": "catch with counterplate for glue fixing",
+     "src": "HAF-241 p1"
+    },
+    {
+     "code": "356.06.471",
+     "desc": "additional catch (no eject pin)",
+     "src": "HAF-241 p1"
+    },
+    {
+     "code": "356.06.420",
+     "desc": "cruciform adapter housing without positioning aid",
+     "src": "HAF-241 p1"
+    },
+    {
+     "code": "246.08.911",
+     "desc": "counterplate knock-in",
+     "src": "HAF-241 p1"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "none"
+   },
+   "unreadable": [
+    "drilling depth not legible"
+   ]
+  },
+  {
+   "id": "haefele-pressure-catches",
+   "brand": "Haefele",
+   "name": "Pressure catches 245.50.301 / 245.50.310 and Flexa-Touch drawer latch 245.52.403",
+   "kind": "catch",
+   "pairs_with": [
+    "doors (pressure catch push to open/close)",
+    "drawers (Flexa-Touch)"
+   ],
+   "limits": {
+    "pull_force_kg": {
+     "245.50.301": "approx 4",
+     "245.50.310": "approx 3"
+    },
+    "flexa_touch_adjust_mm": 20,
+    "flexa_touch_max_mm": 17,
+    "src": "HAF-154 p1; HAF-165 p1"
+   },
+   "gaps": {
+    "values": null,
+    "reason": "not stated"
+   },
+   "drilling": {
+    "245.50.301_245.50.310": "drawing values: catch 40/32/23.5/18/24/33, hole dia 10",
+    "flexa_touch_drawing": "dia 4.5, dia 16, dia 26, max 17, dia 3.0",
+    "src": "HAF-154 p1; HAF-165 p1 (raw text, drawing labels unassigned)"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "245.50.301",
+     "desc": "Pressure catch black",
+     "src": "HAF-154 p1"
+    },
+    {
+     "code": "245.50.310",
+     "desc": "Compact catch black",
+     "src": "HAF-154 p1"
+    },
+    {
+     "code": "245.52.403",
+     "desc": "Flexa-Touch drawer latch beige",
+     "src": "HAF-165 p1"
+    },
+    {
+     "code": "245.58.754",
+     "desc": "Automatic door catch (not push)",
+     "src": "HAF-165 p1"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "none"
+   },
+   "unreadable": [
+    "distances unassigned to dimensions (text-only)"
+   ]
+  },
+  {
+   "id": "blum-tipon-doors",
+   "brand": "Blum",
+   "name": "TIP-ON for doors (mechanical), short/long/bumper + adapter plates",
+   "kind": "tipon",
+   "pairs_with": [
+    "CLIP top unsprung hinges (overlay, dual, inset, blind corner, angled, 170 deg etc.)",
+    "bumper version 956A1006: sprung hinges",
+    "AVENTOS HKi/HK top/HK-S/HK-XS stay lifts"
+   ],
+   "limits": {
+    "short_956.1004": "overlay doors up to approx 1300 mm high, output path approx 17 mm, Ø10 x 50 hole",
+    "long_956A1004": "overlay doors from approx 1300 mm high or inset doors, output path approx 38 mm, Ø10 x 76",
+    "bumper_956A1006": "for sprung hinges, no catch plate, output approx 38 mm, Ø10 x 76 (trial application recommended)",
+    "gap_adjust_mm": "+4.0/-1.0 (one turn = 4 click stops = 1 mm)",
+    "fixing_position": "ideally where handle would be; may deviate +/-300 mm in height and up to 1/4 cabinet width",
+    "max_door_weight_kg": null,
+    "max_door_weight_reason": "not stated in BLUM-TIPON-DOORS or catalogue p102",
+    "src": "BLUM-TIPON-DOORS p10,11,13"
+   },
+   "gaps": {
+    "min_gap_mm": {
+     "short_and_long_glue_on_catch_plate": 2.6,
+     "short_and_long_screw_on_catch_plate": 3.1,
+     "bumper_version": 3.2
+    },
+    "src": "BLUM-TIPON-DOORS p10 (drawing: 'min 2.6 (3.1)', 'min 3.2')"
+   },
+   "drilling": {
+    "hole_dia_mm": 10,
+    "hole_dia_tolerance": "+0.1 (drawing '10 (+0.1)')",
+    "hole_depth_mm": {
+     "short": "min 50",
+     "long_and_bumper": "min 76"
+    },
+    "edge_distance_min_mm": 1.5,
+    "hole_centre_from_cabinet_inner_side_mm": 7.5,
+    "hole_centre_src": "BLUM-CAT24 p676 (drilling template 65.5010: 'Distance from cabinet inner side to centre drilling 7.5 mm')",
+    "front_face_to_pin_dim_mm": "0.6 (drawing: pin protrusion / dimension 0.6)",
+    "catch_plate_position_mm": "7.5 from door edge (glue-on and screw-on), screw-on catch plate 3 mm away from TIP-ON recommended; drawing p10 shows 7.5 and 3",
+    "adapter_plate_screws": "chipboard screws Ø3.5 or Ø4 mm or system screws",
+    "adapter_plates": {
+     "inline_short_20/17": {
+      "hole_spacing_mm": "20 x 17",
+      "height_mm": 14.5
+     },
+     "inline_long_20/32": {
+      "hole_spacing_mm": "20 x 32",
+      "height_mm": 14.5
+     },
+     "cruciform_long_37/32": {
+      "hole_spacing_mm": "37 x 32",
+      "height_mm": 14.5,
+      "unit_width_50_len_79": "drawing"
+     }
+    },
+    "templates": {
+     "65.5010": "drilling template for BLUMOTION/TIP-ON",
+     "65.5210.01": "positioning template for catch plate",
+     "65.5300": "template to pre-drill adapter plate fixing positions"
+    },
+    "src": "BLUM-TIPON-DOORS p10,11 (drawings read from render); BLUM-CAT24 p676,698"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "956.1004",
+     "desc": "TIP-ON short with magnet (SW/R7036/TS; CS for AVENTOS)",
+     "src": "BLUM-TIPON-DOORS p10; BLUM-CAT24 p14,52"
+    },
+    {
+     "code": "956A1004",
+     "desc": "TIP-ON long with magnet",
+     "src": "BLUM-TIPON-DOORS p10"
+    },
+    {
+     "code": "956A1006",
+     "desc": "TIP-ON long with bumper (for sprung hinges)",
+     "src": "BLUM-TIPON-DOORS p10; BLUM-CAT24 p102"
+    },
+    {
+     "code": "956A1006F",
+     "desc": "TIP-ON strong spring (catalogue 2024 p102)",
+     "src": "BLUM-CAT24 p102"
+    },
+    {
+     "code": "956.1201",
+     "desc": "inline adapter plate short 20/17",
+     "src": "BLUM-TIPON-DOORS p11"
+    },
+    {
+     "code": "956A1201",
+     "desc": "inline adapter plate long 20/32",
+     "src": "BLUM-TIPON-DOORS p11"
+    },
+    {
+     "code": "956A1501",
+     "desc": "cruciform adapter plate long 37/32",
+     "src": "BLUM-TIPON-DOORS p11; BLUM-CAT24 p14"
+    },
+    {
+     "code": "65.5010",
+     "desc": "drilling template",
+     "src": "BLUM-CAT24 p676"
+    },
+    {
+     "code": "65.5210.01",
+     "desc": "positioning template catch plate",
+     "src": "BLUM-CAT24 p698"
+    },
+    {
+     "code": "65.5300",
+     "desc": "adapter plate pre-drill template",
+     "src": "BLUM-TIPON-DOORS p11"
+    },
+    {
+     "code": "609.1500",
+     "desc": "chipboard screw 3.5 x 15 (in set)",
+     "src": "BLUM-CAT24 p14"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "Blum CAD/DXF is behind Product Configurator / downloads pages (not retrieved)"
+   },
+   "unreadable": [
+    "max door weight not published for TIP-ON for doors in retrieved documents"
+   ]
+  },
+  {
+   "id": "blum-tipon-aventos",
+   "brand": "Blum",
+   "name": "TIP-ON for AVENTOS HKi / HK top / HK-S / HK-XS stay lifts",
+   "kind": "tipon",
+   "pairs_with": [
+    "AVENTOS HKi",
+    "AVENTOS HK top",
+    "AVENTOS HK-S",
+    "AVENTOS HK-XS"
+   ],
+   "limits": {
+    "max_front_weight_kg": "18 kg for two lift mechanisms (HKi and HK top TIP-ON sets)",
+    "cabinet_height": "HK top: KH 205-600 mm; HKi: KH max 600; TIP-ON 956.1004 for stay lifts up to 600 mm height",
+    "cabinet_width_mm": "up to 1800",
+    "output_path_mm": 17,
+    "note": "HF/HS/HL: SERVO-DRIVE only (TIP-ON listed for HKi, HK top, HK-S, HK-XS)",
+    "src": "BLUM-CAT24 p10,14,16,50,51,52"
+   },
+   "gaps": {
+    "min_gap_MF_mm": 2,
+    "src": "BLUM-CAT24 p51 ('Minimum gap MF 2 mm'; HK top)"
+   },
+   "drilling": {
+    "unit": "956.1004 for drilling (Ø10, same as doors, 7.5 mm from inner side via template 65.5010) or with adapter plates 956.1201 / 956A1501; screw-on or self-adhesive catch plate; 3 mm offset for screw-on catch plate; not suitable for powder-coated, waxed or oiled surfaces",
+    "lift_mechanism_drilling_HK_top": "see p51: 32 mm grid, dia 5 (system screws, drilling depth 11.5), 37/64/32 distances (drawing)",
+    "src": "BLUM-CAT24 p16,51,52,676"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "22K2310T",
+     "desc": "HK top TIP-ON set LF 420-1610, system screws",
+     "src": "BLUM-CAT24 p50"
+    },
+    {
+     "code": "22K2510T",
+     "desc": "LF 930-2800",
+     "src": "BLUM-CAT24 p50"
+    },
+    {
+     "code": "22K2710T",
+     "desc": "LF 1730-5200",
+     "src": "BLUM-CAT24 p50"
+    },
+    {
+     "code": "22K2910T",
+     "desc": "LF 3200-9000",
+     "src": "BLUM-CAT24 p50"
+    },
+    {
+     "code": "22K2300T/22K2500T/22K2700T/22K2900T",
+     "desc": "HK top TIP-ON sets, chipboard screws with positioning system",
+     "src": "BLUM-CAT24 p50"
+    },
+    {
+     "code": "24K2300T/24K2500T/24K2700T/24K2800T",
+     "desc": "HKi TIP-ON lift mechanism sets (LF 420-1610/930-2800/1730-5200/2600-7800)",
+     "src": "BLUM-CAT24 p14"
+    },
+    {
+     "code": "956.1004",
+     "desc": "TIP-ON short with magnet, catch plates",
+     "src": "BLUM-CAT24 p16,52"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "not retrieved"
+   },
+   "unreadable": [
+    "HK-S / HK-XS TIP-ON sets not individually extracted (p63-67 exist in catalogue)"
+   ]
+  },
+  {
+   "id": "blum-tipon-blumotion",
+   "brand": "Blum",
+   "name": "TIP-ON BLUMOTION for LEGRABOX / MERIVOBOX / TANDEMBOX / MOVENTO",
+   "kind": "tipon",
+   "pairs_with": [
+    "LEGRABOX BLUMOTION S profile 750 (40 kg) / 753 (70 kg)",
+    "MERIVOBOX 450 (40) / 453 (70)",
+    "TANDEMBOX 578 (30) / 576 (65)",
+    "MOVENTO BLUMOTION S 760H (40) / 766H (60|70)"
+   ],
+   "limits": {
+    "units": {
+     "S0": "<=10 kg, NL 270-300 (LEGRABOX/MERIVOBOX/TANDEMBOX) / 270-320 (MOVENTO)",
+     "S1": ">10-20 kg same NL",
+     "L1": "<=20 kg, NL 350-600, 40 kg (30 kg TANDEMBOX) profile only",
+     "L3": "15-40 kg (15-30 TANDEMBOX), NL 350-600, 40 kg profile only",
+     "L5": "35-70 kg (LEGRABOX/MERIVOBOX/MOVENTO), >30-65 kg TANDEMBOX; NL 450-650 (LEGRABOX), 450-600 (MERIVOBOX), 450-650 (TANDEMBOX), 450-750 (MOVENTO set)"
+    },
+    "weight_meaning": "recommended TOTAL weight of the pull-out for optimum open/close",
+    "internal_cabinet_width_LW_min_mm": {
+     "LEGRABOX": 294,
+     "LEGRABOX_sink": 314,
+     "MERIVOBOX": 297,
+     "TANDEMBOX": 287,
+     "MOVENTO": 314
+    },
+    "sync_linkage_LW_ranges_mm": {
+     "LEGRABOX": "245-293 (round T60.1125W up to LW 1372)",
+     "MERIVOBOX": "243-296 (up to 1375)",
+     "TANDEMBOX": "238-286 (up to 1365)",
+     "MOVENTO": "265-313 (up to 1392)"
+    },
+    "trigger_range": "synchronisation recommended",
+    "src": "BLUM-CAT24 p396,398,400,504; BLUM-TOB p24-25"
+   },
+   "gaps": {
+    "front_gap_FS_min_mm": 2.5,
+    "adjustment": "four-dimensional, depth tool-free via adjustment wheel; front gap template 65.5631 (LEGRABOX|MOVENTO), 65.5627 (MERIVOBOX|TANDEMBOX)",
+    "src": "BLUM-CAT24 p396,397,398,505; BLUM-TOB p8,13"
+   },
+   "drilling": {
+    "statement": "usual LEGRABOX / MOVENTO drilling positions can be used; MOVENTO drawer assembly with drilling template T65.1000.02",
+    "space_requirement_min_mm": "min 68 (incl. 2 mm tilt adjustment) - LEGRABOX planning, see p397 drawing (unit height M)",
+    "dims": null,
+    "src": "BLUM-TOB p13; BLUM-CAT24 p397,505"
+   },
+   "electrical": {
+    "powered": false,
+    "note": "100% mechanical (BLUMOTION S runner/profile can also take SERVO-DRIVE)"
+   },
+   "codes": [
+    {
+     "code": "T60L7040",
+     "desc": "LEGRABOX/MOVENTO set S0 NL270-300(320)",
+     "src": "BLUM-CAT24 p396,504"
+    },
+    {
+     "code": "T60L7140",
+     "desc": "S1",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60L7340",
+     "desc": "L1 NL350-600",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60L7540",
+     "desc": "L3",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60L7570",
+     "desc": "L5 (70 kg profile)",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60L9340 / T60L9540",
+     "desc": "LEGRABOX sink pull-out L1 / L3",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60H4040/4140/4340/4540/4570",
+     "desc": "MERIVOBOX sets S0/S1/L1/L3/L5",
+     "src": "BLUM-CAT24 p398"
+    },
+    {
+     "code": "T60B3030/3130/3330/3530/3560",
+     "desc": "TANDEMBOX sets S0/S1/L1/L3/L5",
+     "src": "BLUM-CAT24 p400"
+    },
+    {
+     "code": "T60.1125W",
+     "desc": "sync linkage round",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60.300D",
+     "desc": "sync square (cut to size)",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T60.000D",
+     "desc": "sync adapter symmetrical (2 pcs)",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "T51.7601",
+     "desc": "MOVENTO locking device",
+     "src": "BLUM-CAT24 p504"
+    },
+    {
+     "code": "65.5631",
+     "desc": "front gap template 2.5 LEGRABOX|MOVENTO",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "65.5627",
+     "desc": "front gap template 2.5 MERIVOBOX|TANDEMBOX",
+     "src": "BLUM-CAT24 p398"
+    },
+    {
+     "code": "750.xxxxS / 753.xxxxS",
+     "desc": "LEGRABOX BLUMOTION S profiles 40/70 kg (e.g. 750.5001S)",
+     "src": "BLUM-CAT24 p396"
+    },
+    {
+     "code": "760H.....S / 766H.....S",
+     "desc": "MOVENTO BLUMOTION S runners",
+     "src": "BLUM-CAT24 p504"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "not retrieved"
+   },
+   "unreadable": [
+    "drilling distances for unit/latch are in LEGRABOX drilling pages (cat. p205, drawings) - not extracted"
+   ]
+  },
+  {
+   "id": "blum-tipon-drawers-integrated",
+   "brand": "Blum",
+   "name": "TIP-ON for LEGRABOX (integrated in cabinet profile) / TIP-ON for MOVENTO|TANDEM",
+   "kind": "tipon",
+   "pairs_with": [
+    "LEGRABOX TIP-ON profiles 750.xxxxT (40 kg) / 753.xxxxT (70 kg)",
+    "MOVENTO | TANDEM TIP-ON runners"
+   ],
+   "limits": {
+    "sync": "synchronisation recommended for cabinet widths KB >=600 mm, can be applied from 400 mm",
+    "NL": "270-600 (40 kg), 450-650 (70 kg)",
+    "src": "BLUM-CAT24 p406,407"
+   },
+   "gaps": {
+    "recommended_front_gap_FS_mm": 3.5,
+    "src": "BLUM-CAT24 p407; p506"
+   },
+   "drilling": {
+    "values": null,
+    "reason": "integrated in profile; standard LEGRABOX drilling; screw positions in p407 drawing",
+    "src": "BLUM-CAT24 p407"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "750.2701T-750.6001T / 753.4501T-753.6501T",
+     "desc": "cabinet profile TIP-ON (NL 270-650)",
+     "src": "BLUM-CAT24 p406"
+    },
+    {
+     "code": "T57.7400.01",
+     "desc": "TIP-ON synchronisation pinion set",
+     "src": "BLUM-CAT24 p406"
+    },
+    {
+     "code": "ZST.1160W",
+     "desc": "TIP-ON sync linkage aluminium",
+     "src": "BLUM-CAT24 p406"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "not retrieved"
+   },
+   "unreadable": [
+    "MOVENTO/TANDEM TIP-ON order codes (cat. p508+) not extracted"
+   ]
+  },
+  {
+   "id": "blum-servo-drive",
+   "brand": "Blum",
+   "name": "SERVO-DRIVE (system for LEGRABOX/MERIVOBOX/TANDEMBOX; uno bin; flex appliances) - brief",
+   "kind": "electric",
+   "pairs_with": [
+    "LEGRABOX / MERIVOBOX / TANDEMBOX with BLUMOTION (system)",
+    "MOVENTO | TANDEM (system, cat. p462+)",
+    "uno: waste-bin pull-outs, AVENTOS (single lift)",
+    "flex: refrigerators/freezers/dishwashers (NOT drawers)"
+   ],
+   "limits": {
+    "system_drawers": "drive unit Z10A3000.04 on bracket profile; trigger path 2 mm via Blum distance bumpers (FH <=300: 2 bumpers; >300: 4 (40|30 kg) ... 4 (70|65 kg)); front stabilisation advised FH>300",
+    "min_cabinet_width_flex_mm": "flex: min recess height 60 mm for drive unit (NH<1700)",
+    "uno_cabinet_space": "min 44 mm behind pull-out back",
+    "uno_max_units_per_Z10NA300": 2,
+    "max_drawer_weight_kg": null,
+    "src": "BLUM-CAT24 p364,366; BLUM-UNO p4,10; BLUM-KA160 p7 of PDF"
+   },
+   "gaps": {
+    "trigger_path_mm": 2,
+    "src": "BLUM-CAT24 p366"
+   },
+   "drilling": {
+    "drive_unit_drawing": "base: dia 10 holes, drilling depth BT 8, 96 mm spacing, dia 25 cable hole; cabinet profile bottom edge to drive unit: A 45 mm (LEGRABOX N/M/K/C/F), E min 61 (N) / 69; bracket profile length PL = LH - 10 mm; X = NL+19 (chipboard back) / NL+2 (steel back); Y = NL+33 / NL+16",
+    "src": "BLUM-CAT24 p366,367 (text-extracted from drawing labels)"
+   },
+   "electrical": {
+    "Z10NA300_input": "100-240 VAC 50-60 Hz, 0.3 A",
+    "output": "24 VDC",
+    "nominal_output_current": "0.5 A (max 2 drive units)",
+    "standby_W": "<0.075",
+    "IP": "IP40 (PSU)",
+    "drive_unit_uno_TANDEM": "24 VDC, rated 2.0 A, standby 0.12 W, IP20",
+    "flex_PSU_Z10NA40": "only suitable for one drive unit (cable 1120 mm, extendible to 2000 with distribution cable)",
+    "system_PSU_Z10NE04": "'required for two or more drive units'; output flex length 2 m; one PSU supplies the entire kitchen (p362); units-per-PSU numeric limit not found",
+    "src": "BLUM-UNO p11; BLUM-KA160; BLUM-CAT24 p362,365"
+   },
+   "codes": [
+    {
+     "code": "Z10A3000.04",
+     "desc": "drive unit (system)",
+     "src": "BLUM-CAT24 p364"
+    },
+    {
+     "code": "Z10NE04xx",
+     "desc": "SERVO-DRIVE power supply unit + flex (xx = market, e.g. EA Europe)",
+     "src": "BLUM-CAT24 p365"
+    },
+    {
+     "code": "Z10UB00xx",
+     "desc": "SERVO-DRIVE uno set (bottom mount waste bin)",
+     "src": "BLUM-CAT24 p388"
+    },
+    {
+     "code": "Z10C500A.01",
+     "desc": "SERVO-DRIVE flex set (refrigerators NH<1700)",
+     "src": "BLUM-KA160"
+    },
+    {
+     "code": "Z10NA40xx",
+     "desc": "plug-in PSU for flex/uno (one drive unit)",
+     "src": "BLUM-KA160"
+    },
+    {
+     "code": "993.0530 / 993.0830.01",
+     "desc": "Blum distance bumper dia 5 / dia 8",
+     "src": "BLUM-CAT24 p364"
+    },
+    {
+     "code": "Z10T650AA..Z10T800AA",
+     "desc": "bracket profile with cable",
+     "src": "BLUM-CAT24 p364"
+    },
+    {
+     "code": "23P5020",
+     "desc": "SERVO-DRIVE switch",
+     "src": "BLUM-KA160"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "not retrieved"
+   },
+   "unreadable": [
+    "max drawer weight per SERVO-DRIVE: governed by pull-out system class (not in retrieved pages)",
+    "units-per-PSU for Z10NE04 not stated in catalogue pages",
+    "uno leaflet BLUM-UNO is the older TANDEM/TANDEMBOX uno version"
+   ]
+  },
+  {
+   "id": "hettich-pto-silent-hinged",
+   "brand": "Hettich",
+   "name": "Push to open Silent for hinged doors (battery-powered, screw-on)",
+   "kind": "push",
+   "pairs_with": [
+    "damped automatic hinges (Sensys etc.) - full/half overlay and inset doors, angled applications"
+   ],
+   "limits": {
+    "release_stroke_mm": 1.4,
+    "stroke_length_mm": 45,
+    "adjustment_mm": "+4 / -2",
+    "dimensions_LxWxH_mm": "155 x 60 x 32 (22)",
+    "door_weight_height_width": "max 17.1 kg for H<=2200 (W 200-600); <=22 kg for H<=2400 (W 400-600); <=22 kg for H<=2800 (W 500-600); 1 unit with Sensys hinges; hinge count/door size/weight decisive (drawing)",
+    "operating_temp_C": "+5 to +45 (drawing)",
+    "src": "HET-BK111 p1; HET-ANZ p1; HET-MTA-PTOS p1"
+   },
+   "gaps": {
+    "front_gap_mm": null,
+    "note": "range expressed as adjustment +4/-2 mm; no minimum gap number",
+    "src": "HET-BK111"
+   },
+   "drilling": {
+    "pattern": "hole rows 32 mm apart; LR37 or LR28 version, or LR20x32 version (from front edge 28/37/20 mm)",
+    "pilot_dia_depth_mm": "dia 2 x 12 (wood screw), dia 5 x 12, dia 10 x 12 (drawing: three fixing alternatives)",
+    "screws": "dia 4 x 15 (1a) / dia 4 x 16 (1b)",
+    "tolerance_mm": "+/-3 (1a), +/-1.75 (1b)",
+    "distance_from_edge_min_mm": ">=14 (LR37/28), >=30 (LR20x32)",
+    "reference": "from front edge of cabinet panel (drawing)",
+    "src": "HET-BK111 p1 'Bohrbilder'; HET-MTA-PTOS p1 (drawing)"
+   },
+   "electrical": {
+    "powered": "4 x LR6 (AA) batteries (included)",
+    "mains": false,
+    "note": "battery operated; 'Silent' = damped closing, NOT mains-powered; 20/30 s retriggering behaviour drawing",
+    "src": "HET-BK111; HET-MTA-PTOS"
+   },
+   "codes": [
+    {
+     "code": "9239087",
+     "desc": "anthracite",
+     "src": "HET-BK111"
+    },
+    {
+     "code": "9239088",
+     "desc": "white",
+     "src": "HET-BK111"
+    },
+    {
+     "code": "9239099",
+     "desc": "grey",
+     "src": "HET-BK111"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://web2.hettich.com/hbh/addon/cad/9239087_3d.zip"
+    ],
+    "note": "pattern {order_no}_3d.zip; also Hettich CAD page",
+    "src": "HET-SHOP"
+   },
+   "unreadable": [
+    "door-weight chart read as drawing (3 door sizes) - weights 17.1/22/22 kg from drawing"
+   ]
+  },
+  {
+   "id": "hettich-pto-magnet-lock",
+   "brand": "Hettich",
+   "name": "Push to open Magnet (short/long travel) and Lock (catch) for hinged doors; 'Touch latch' equivalent",
+   "kind": "push",
+   "pairs_with": [
+    "hinges WITHOUT self-closing (Magnet)",
+    "Push to open Lock: optional magnetic stay-closed, tall/heavy doors, with Magnet"
+   ],
+   "limits": {
+    "opening_movement_mm": 1.4,
+    "adjustment_mm": 6,
+    "door_types": "Magnet drill-in: full overlay; Lock screw-on: full/half overlay/inset",
+    "door_weight_kg": null,
+    "src": "HET-SHOP 9375985, 9381335, 9381496"
+   },
+   "gaps": {
+    "min_gap_P_mm": ">=1.4 (drawing)",
+    "src": "HET-MTA-PTO p1"
+   },
+   "drilling": {
+    "drill_in_hole_dia_mm": 10,
+    "hole_depth_min_mm": {
+     "long_travel_magnet_drawing": 70,
+     "short_travel_magnet_drawing": 50,
+     "lock_drawing": 25
+    },
+    "depth_assignment": "drawing unlabelled: row 3 left >=50, right >=70, row 4 >=25; assignment to product inferred from layout",
+    "screw_on": "pilot dia 3; screw dia 3.5 x 16; positions 27.5/9.5/19 and 51/10.5/19/32 from front edge (drawing); >=8.5 from cabinet base",
+    "src": "HET-MTA-PTO p1 (drawing, 21.05.2026)"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "9375985",
+     "desc": "Magnet drill-in long travel white (prev 9089593)",
+     "src": "HET-SHOP"
+    },
+    {
+     "code": "9375969",
+     "desc": "Magnet screw-on long travel white",
+     "src": "HET-SHOP search"
+    },
+    {
+     "code": "9375982",
+     "desc": "Magnet drill-in short travel white",
+     "src": "HET-SHOP search"
+    },
+    {
+     "code": "9381335",
+     "desc": "Lock drill-in light grey (prev 9089609)",
+     "src": "HET-SHOP"
+    },
+    {
+     "code": "9381496",
+     "desc": "Lock screw-on white (prev 9089594)",
+     "src": "HET-SHOP"
+    },
+    {
+     "code": "9381498 / 9381499",
+     "desc": "Lock screw-on anthracite / light grey",
+     "src": "HET-SHOP search"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://web2.hettich.com/hbh/addon/cad/9375985_3d.zip",
+     "https://web2.hettich.com/hbh/addon/cad/9380308_3d.zip",
+     "https://web2.hettich.com/hbh/addon/cad/9381496_3d.zip"
+    ],
+    "src": "HET-SHOP"
+   },
+   "unreadable": [
+    "Hettich has no product literally named 'Touch Latch'; closest = Push to open Magnet/Lock",
+    "product-to-drawing assignment inferred"
+   ]
+  },
+  {
+   "id": "hettich-pto-silent-drawers",
+   "brand": "Hettich",
+   "name": "Push to open Silent for AvanTech YOU / Actro YOU / Actro 5D / ArciTech (mechanical)",
+   "kind": "push",
+   "pairs_with": [
+    "Actro YOU runner with Silent System (AvanTech YOU, wooden drawer Actro 5D)",
+    "ArciTech with Actro runner Silent System"
+   ],
+   "limits": {
+    "classes": [
+     {
+      "kg": "<10",
+      "load_class": "XS (10 kg)",
+      "NL_mm": "270-350",
+      "actro_you": "9257890",
+      "arci": "9241038"
+     },
+     {
+      "kg": "8-20",
+      "load_class": "L (40 kg)",
+      "NL_mm": "270-600 (Actro YOU) / 270-650 (ArciTech)",
+      "actro_you": "9257891",
+      "arci": "9241049"
+     },
+     {
+      "kg": "10-40",
+      "load_class": "L (40 kg)",
+      "NL_mm": "350-600 / 350-650",
+      "actro_you": "9257892",
+      "arci": "9241050"
+     },
+     {
+      "kg": "20-70",
+      "load_class": "XL (70 kg)",
+      "NL_mm": "450-650",
+      "actro_you": "9257893",
+      "arci": "9241051"
+     }
+    ],
+    "min_cabinet_width_mm": 275,
+    "sync": "optional synchronisation recommended",
+    "front_panel": "recommendations tables for drawers <=150 mm and pot-and-pan <=300 mm front height (19 mm chipboard)",
+    "src": "HET-BK262 p262; HET-BK310; HET-SHOP 9241049"
+   },
+   "gaps": {
+    "min_drawer_front_gap_mm": 2.5,
+    "src": "HET-BK310; HET-SHOP 9241049"
+   },
+   "drilling": {
+    "ArciTech_table_NL_b1_XA_XB_mm": [
+     [
+      270,
+      128,
+      273,
+      291
+     ],
+     [
+      300,
+      160,
+      303,
+      321
+     ],
+     [
+      350,
+      192,
+      353,
+      371
+     ],
+     [
+      400,
+      192,
+      403,
+      421
+     ],
+     [
+      450,
+      192,
+      453,
+      471
+     ],
+     [
+      500,
+      224,
+      503,
+      521
+     ],
+     [
+      550,
+      256,
+      553,
+      571
+     ],
+     [
+      650,
+      288,
+      653,
+      671
+     ]
+    ],
+    "table_meaning": "NL nominal length; b1 / X(A) / X(B) distances per MTA drawing (3 mm / 2.5-5 mm gap, 32/37 grid, dia 6.0 x 14, dia 4 x 16)",
+    "src": "HET-MTA-ARCI p1 (text extracted; drawing labels partially ambiguous)"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "9257890/9257891/9257892/9257893",
+     "desc": "Actro YOU PTO Silent <10 / 8-20 / 10-40 / 20-70 kg",
+     "src": "HET-BK262"
+    },
+    {
+     "code": "9241038/9241049/9241050/9241051",
+     "desc": "ArciTech PTO Silent same classes",
+     "src": "HET-BK310"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://web2.hettich.com/hbh/addon/cad/9257892_3d.zip",
+     "https://web2.hettich.com/hbh/addon/cad/9241049_3d.zip"
+    ],
+    "src": "HET-SHOP"
+   },
+   "unreadable": [
+    "Source conflict: shop pages list wider NL ranges (e.g. 9257891 NL 250-600) than catalogue (270-600)",
+    "Actro 5D with integrated Push to open runners (9320612 etc.) not extracted"
+   ]
+  },
+  {
+   "id": "hettich-easys",
+   "brand": "Hettich",
+   "name": "Easys 100 electromechanical opening system for drawers (AvanTech YOU, ArciTech, InnoTech/Atira, Actro YOU/5D, Quadro)",
+   "kind": "electric",
+   "pairs_with": [
+    "AvanTech YOU",
+    "ArciTech",
+    "InnoTech / InnoTech Atira",
+    "wooden drawer on Actro 5D / Quadro"
+   ],
+   "limits": {
+    "drawer_weight_kg_per_drive_unit": 40,
+    "drawer_weight_two_drive_units_kg": 70,
+    "drive_force": "infinitely adjustable (control dial)",
+    "min_cabinet_width": null,
+    "components_per_PSU": "6 distributors, 12 sets of profile mounts, 27 drive units, 10 m cable to furthest profile mount, 6 tall-front sensors, 3 collision buttons",
+    "src": "HET-EASYS-MTA p10,19; HET-EASYS-PSU p2; HET-BK345; HET-BK347"
+   },
+   "gaps": {
+    "min_gap_mm": null,
+    "note": "not stated; drive pushes drawer from behind",
+    "src": "HET-EASYS-MTA"
+   },
+   "drilling": {
+    "drive_unit_dims_mm": "170 x 68 x 46 (drawing, bk345)",
+    "clearances_drawing": "behind-drawer free depth: ArciTech >=51 / InnoTech >=72 / Actro-Quadro >=82 (drawing, HET-EASYS-DU); AvanTech X=15",
+    "PSU_front_drilling_jig_in_set": "dia 25 + dia 10 holes, 860 mm secondary cable (drawing bk347)",
+    "mounting_bracket_9082358": "215 x 66, dia 15 / dia 3.8 (drawing bk345)",
+    "src": "HET-BK345 p345; HET-BK347 p347; HET-EASYS-DU p1 (drawings only)"
+   },
+   "electrical": {
+    "PSU": "input 100-240 V~ 50-60 Hz, current max 1.5/2.2 A; output 24 V, 3.75 A / 90 W max; standby <150 mW; IP20; protection class 2; 5-40 C; PSU dims 135 x 60 x 35 or 150 x 60 x 35 mm; cable 80 cm",
+    "drive_unit_current": null,
+    "drive_unit_current_reason": "not stated in retrieved documents",
+    "units_per_supply": "max 27 drive units per PSU (system limit)",
+    "countries": "drive unit for DE, UK, ES, CZ, FR, IT, NL, AT, BE, IE, LU, MT (others on request)",
+    "src": "HET-EASYS-PSU p3; HET-EASYS-MTA p19-20; HET-BK345"
+   },
+   "codes": [
+    {
+     "code": "9078139",
+     "desc": "drive unit",
+     "src": "HET-BK345"
+    },
+    {
+     "code": "9082363",
+     "desc": "power supply unit (up to 6 distributors, 860 mm secondary cable, front drilling jig)",
+     "src": "HET-BK347"
+    },
+    {
+     "code": "9082364",
+     "desc": "PSU holder",
+     "src": "HET-BK347"
+    },
+    {
+     "code": "9079710 / 9079274",
+     "desc": "power cable Europe (type C) / UK (type G), 1800 mm",
+     "src": "HET-BK347"
+    },
+    {
+     "code": "9082358",
+     "desc": "mounting bracket for drive unit (800 mm cable)",
+     "src": "HET-BK345"
+    },
+    {
+     "code": "9079944",
+     "desc": "sensor for tall fronts",
+     "src": "HET-SHOP search"
+    },
+    {
+     "code": "9210848",
+     "desc": "Easys for refrigerators (separate product)",
+     "src": "search result"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://web2.hettich.com/hbh/addon/cad/9078139_3d.zip",
+     "https://web2.hettich.com/hbh/addon/cad/9082363_3d.zip"
+    ],
+    "src": "HET-SHOP"
+   },
+   "unreadable": [
+    "Hettich 'Silent Power' electric: NOT FOUND in any retrieved Hettich document",
+    "drive unit stroke/opening distance not numeric (defined by selected drive force)"
+   ]
+  },
+  {
+   "id": "grass-tipmatic",
+   "brand": "Grass",
+   "name": "Tipmatic pin + Tiomos 110 Tipmatic Plus hinge (push-to-open); Tipmatic Plus ejector (older Nexis)",
+   "kind": "push",
+   "pairs_with": [
+    "Tiomos 110 Tipmatic Plus hinge (spring in hinge arm assists pin)",
+    "Nexis Impresso / Click-on / Tiomos / Snap-On 3000 hinges without closing mechanism (Tipmatic pin)"
+   ],
+   "limits": {
+    "gap_range_mm": "2.5-5.5 (integrated, self-locking, tool-free)",
+    "door_types": "wood, aluminium frame, glass/mirror",
+    "weight_guidance_Tipmatic_Plus_Impresso_2009": "pins per door: 4-5 kg up to 900 mm; 6-9 kg up to 1600 mm; 10-15 kg up to 2200 mm; 16-22 kg up to 2500 mm (drawing, 2009)",
+    "heavy_door_note": "doors up to 17 kg: cabinet thickness >=22 mm recommended (Tiomos 2018 planning page, not retrieved from PDF)",
+    "src": "GRASS-09 p3,15 (6.7); GRASS-18 p6"
+   },
+   "gaps": {
+    "min_gap_mm": 2.5,
+    "max_adjust_mm": 5.5,
+    "src": "GRASS-18 p6; HAF-78"
+   },
+   "drilling": {
+    "pin_hole_dia_mm": 10,
+    "pin_hole_tolerance": "+0.2/-0.1 (GRASS-18, drawing)",
+    "pin_hole_depth_min_mm": 60,
+    "hole_in_door_for_counterplate": "drill hole dia 15 x 8 (magnet counterplate, edge cover 1 mm)",
+    "front_mount": "hole centre 10 + X from cabinet side (X = gap, max X=2 with CS16, 3.5 with CS19); min 2 from edge; min 8, min 60, min 2.5 (drawing p6.15)",
+    "adapter_plates": "line boring 28 and 37 mm / 32 mm pitch (Euro screws 6.3 x 13.5); frame adapter 9.5 x 32 mm (wood screws 3.5 x 13); linear adapter 32/17 mm (3.5 x 13)",
+    "src": "GRASS-09 p14,15 (6.14, 6.15 drawings read); GRASS-18 p6"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "68873-06",
+     "desc": "Tipmatic pin for drilling incl. magnet dia 15 x 8, RAL 7036",
+     "src": "GRASS-09 p14; GRASS-18 p4"
+    },
+    {
+     "code": "63310-40",
+     "desc": "adapter plate for line drilling (Euro screws)",
+     "src": "GRASS-09 p14"
+    },
+    {
+     "code": "63311-40",
+     "desc": "frame adapter plate (screw fixing)",
+     "src": "GRASS-09 p14"
+    },
+    {
+     "code": "63309-40",
+     "desc": "linear adapter plate",
+     "src": "GRASS-09 p14"
+    },
+    {
+     "code": "F046140360213",
+     "desc": "Tiomos 110 Tipmatic Plus overlay, TT Plus, pattern 45",
+     "src": "GRASS-18 p4"
+    },
+    {
+     "code": "F046140365213",
+     "desc": "Tiomos 110 Tipmatic Plus half overlay",
+     "src": "GRASS-18 p4"
+    },
+    {
+     "code": "F046140366213",
+     "desc": "Tiomos 110 Tipmatic Plus inset",
+     "src": "GRASS-18 p4"
+    },
+    {
+     "code": "924.275.55.0315",
+     "desc": "Tipmatic Plus Impresso set (adapter+ejector+counterplates+pin) 2009",
+     "src": "GRASS-09 p6"
+    },
+    {
+     "code": "924.275.55.0015 / 924.075.00.0075",
+     "desc": "Tipmatic Plus Impresso adapter / ejector",
+     "src": "GRASS-09 p6"
+    },
+    {
+     "code": "646.000.29.0039",
+     "desc": "magnetic pin and counterplates set",
+     "src": "GRASS-09 p6"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "not retrieved"
+   },
+   "unreadable": [
+    "'Tiomos push' / 'Tipmatic plus' newer official planning PDF (mediacenter.grass.eu hinge catalogue p171) only partly accessible as text",
+    "GRASS-09 is a 2009 brochure; GRASS-18 2018 catalogue",
+    "Grass Tiomos push to open: no separate product beyond Tipmatic Plus hinge found"
+   ]
+  },
+  {
+   "id": "salice-push-mechanical",
+   "brand": "Salice",
+   "name": "Mechanical PUSH system (release devices, adapters, retaining catches) + Air push-to-open hinge + Magnetic Push",
+   "kind": "push",
+   "pairs_with": [
+    "PUSH hinges (self-opening spring)",
+    "Salice Air hinge Push version (CELPD/CELPS/CELPX) with magnetic release devices",
+    "handleless wood and aluminium-frame doors"
+   ],
+   "limits": {
+    "door_height": "doors over 1600 mm high: use two mechanical release catches",
+    "adjustable_push": "depth adjustment -1 mm to +2.5 mm; sideways +/-2 mm",
+    "air_hinge_max_door": "25 kg; height 2700 mm, width 600 mm",
+    "magnetic_push_depth_adjust_mm": "-0.5 to +2.5",
+    "magnetic_holding_boost": "DP39 catch + DPM release increase holding strength by 30%",
+    "src": "SAL-MECH p1-3; SAL-PUSH p6; SAL-AIR p4,5 (door max), p29"
+   },
+   "gaps": {
+    "min_gap_mm": null,
+    "src": "not stated numerically (adjustable depth range only)"
+   },
+   "drilling": {
+    "retaining_catch_drilling_distance": "D + 8 (D = door overlay on side/top of cabinet), full overlay wood door; hole dia 2 x 8 pilot; catch hole 16.5/28/11.5 etc (drawing)",
+    "Y_min_mm": 8.5,
+    "adjustable_push_drawing": "D+22.5+Y; D-6.8; 35; double: 50, 24+24, 6.8, dia 2 x 6 x 8, 16, 17, 9",
+    "adapter_drillings": "DP52 single adapter 6x40 mm drilling; DP54 double adapter 6x16 mm drilling (text; units dia x pitch not specified)",
+    "magnetic_push_release_hole": "dia 10 mm x min 40 mm deep in top/side/base panel (Air: drill dia 10, min 40); retaining catch DP39: hole dia 15 x 11 mm deep in door; DP28SN9 dia 11.5; DP38XX91 adhesive 20x14",
+    "aluminium_frame_doors": "profile 17-35 mm and 35-45 mm: catch dia 5.2 hole, F = D+8, P = X-D+1.3",
+    "src": "SAL-PUSH p14,15,16; SAL-MECH p3; SAL-AIR p28-29; SAL-MAG p1"
+   },
+   "electrical": {
+    "powered": false
+   },
+   "codes": [
+    {
+     "code": "DP1SNB/G",
+     "desc": "release device with adhesive strip (beige/grey)",
+     "src": "SAL-PUSH p7"
+    },
+    {
+     "code": "DP3SNB/G; DP3SNBR/GR",
+     "desc": "screw-fixed release device with/without assembly stop",
+     "src": "SAL-PUSH p8"
+    },
+    {
+     "code": "DP4SNB/G",
+     "desc": "single adapter with depth+sideways adjustment and release device",
+     "src": "SAL-MECH p1; SAL-PUSH p9"
+    },
+    {
+     "code": "DP5SNB/G",
+     "desc": "double adapter with adjustment",
+     "src": "SAL-MECH p1"
+    },
+    {
+     "code": "DP29SNB/G",
+     "desc": "retaining catch wood door knock-in",
+     "src": "SAL-PUSH p10"
+    },
+    {
+     "code": "DP29SNBA/GA",
+     "desc": "retaining catch aluminium frame door 35-45 mm",
+     "src": "SAL-PUSH p11"
+    },
+    {
+     "code": "DP52SN_/DP54SN_",
+     "desc": "single / double adapter",
+     "src": "SAL-PUSH p12"
+    },
+    {
+     "code": "DPMSNB/G",
+     "desc": "Magnetic Push release device dia 10 x 40",
+     "src": "SAL-AIR p28; SAL-MAG p1"
+    },
+    {
+     "code": "DPASNB/G",
+     "desc": "supplementary magnetic release (with DPM)",
+     "src": "SAL-MAG p1"
+    },
+    {
+     "code": "DP39XXG",
+     "desc": "adjustable magnetic retaining catch dia 16.6",
+     "src": "SAL-MAG p1"
+    },
+    {
+     "code": "DP28SN9",
+     "desc": "retaining catch to be inserted dia 11.5",
+     "src": "SAL-MAG p1"
+    },
+    {
+     "code": "CELPD99XXI / CELPS99XXI / CELPX99XXV",
+     "desc": "Air hinge Push, nickel (box / door-set)",
+     "src": "SAL-AIR p25"
+    }
+   ],
+   "cad": {
+    "urls": null,
+    "reason": "not retrieved"
+   },
+   "unreadable": [
+    "'Easy-ride' / 'Air push' as named by requester: no Salice product with that name found; Air Push-to-Open hinge covered here",
+    "push stroke length (mm) of release device not stated in retrieved pages"
+   ]
+  },
+  {
+   "id": "titus-push-latch",
+   "brand": "Titus",
+   "name": "Titus Push Latch S2/S3 (kit)",
+   "kind": "push",
+   "pairs_with": [
+    "damped / non-damped hinges, wood doors (per search snippet, unverified)"
+   ],
+   "limits": {
+    "depth_adjustment_mm": "+4.5/-1 (retailer page, not official)",
+    "src": "NOT OFFICIAL"
+   },
+   "gaps": {},
+   "drilling": {},
+   "electrical": {
+    "powered": false
+   },
+   "codes": [],
+   "cad": {},
+   "unreadable": [
+    "Official Titus catalogue PDFs (titusplus issuu 'Push Latch S2/S3', titustekform.com.au catalogue) not downloadable/readable within this run (download returned empty / issuu viewer only) -> all values null"
+   ]
+  },
+  {
+   "id": "emuca-camar-push",
+   "brand": "Emuca / Camar",
+   "name": "Emuca push latches (Push Lite etc.), Camar push catches",
+   "kind": "catch",
+   "pairs_with": [],
+   "limits": {},
+   "gaps": {},
+   "drilling": {},
+   "electrical": {
+    "powered": false
+   },
+   "codes": [],
+   "cad": {},
+   "unreadable": [
+    "Emuca: only retailer listings found (emucaonline, furniton) - not official docs; drilling data not collected",
+    "Camar: no official catalogue found at all"
+   ]
+  }
+ ],
+ "notes": [
+  "All numbers carry src ids from 'sources'. Values marked drawing were read from rendered page images (80-110 dpi) or drawing labels in extracted text; verify before CAM/CNC use.",
+  "Blum catalogue 2024-2025 is a web edition: page N = https://publications.blum.com/2024/catalogue/en/N/ (printed page number in catalogue = N; HTML header shows N+4 as PDF page).",
+  "CONFLICT Haefele Free E: HAF-FREE19 (2019) 'parallel connection for up to three drive units' vs HAF-229 (UK 2023) 'only one Free E drive unit per driver'. Also HAF-229 heading 'Driver, 24W' vs table 90 W / 3.75 A; HAF-FREE19 drive unit 'wattage 60 W'.",
+  "CONFLICT/variant Blum TIP-ON BLUMOTION MOVENTO: BLUM-TOB p25 L5 NL 'or 750 mm (MOVENTO)' vs BLUM-CAT24 p504 L5 NL 450-750; S0/S1 MOVENTO 320 (brochure) vs 270-320 (catalogue).",
+  "CONFLICT Hettich PTO Silent drawers: shop pages list broader NL ranges than catalogue bk_264/bk_310 (e.g. 9257891 NL 250-600 on shop vs 270-600).",
+  "Premise corrections: SERVO-DRIVE flex is for refrigerators/freezers/dishwashers, not drawers (BLUM-CAT24 p574 / BLUM-KA160); SERVO-DRIVE uno for drawers = waste-bin pull-outs (and AVENTOS single lift); the drawer system is 'SERVO-DRIVE for LEGRABOX|MERIVOBOX|TANDEMBOX'. Hettich 'Silent Power' not found; Hettich 'Touch Latch' not a Hettich name (Push to open Magnet/Lock). Salice 'Easy-ride'/'Air push' not found as products (Salice Air hinge has a Push version + Magnetic Push).",
+  "Hettich Push to open Silent for HINGED doors is battery-operated (4 x AA), not mains; Easys is the mains 24 V system (drawers).",
+  "Häfele E-Drive for drawers/doors: none found; E-Drive exists only for Free flap/fold/up/swing (HAF-229).",
+  "Blum 'Z10NA300' leaflet (BLUM-UNO) is the older TANDEM/TANDEMBOX uno document; current Z10NA40x/Z10NE04 electrical data not retrieved.",
+  "Local copies: /tmp/claude-0/-home-user/39871daa-ecac-5d3e-a259-3b91d048a27e/scratchpad/dl-opening/ (PDFs + .txt) and .../scratchpad/blumcat/ (Blum catalogue pages p<N>.txt)."
+ ]
+}
