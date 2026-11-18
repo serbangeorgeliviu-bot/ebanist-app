@@ -1146,6 +1146,10 @@ function buildHardware(model) {
       const Fb = A && A.boxes && A.boxes[0], ext = Fb ? [Fb.x1 - Fb.x0, Fb.y1 - Fb.y0, Fb.z1 - Fb.z0][h.eAx] : 19;
       EBHwGeom.connectorShapes(h, OPS[h.id], HW_DRILL, { thickF: ext }).forEach(sh =>
         P.hw.add(tag(shapeMesh(sh))));
+    } else if (h.type === "pushunit" || h.type === "pushdunit" || h.type === "susphang" || h.type === "suprail") {
+      /* deschidere push / acționare electrică / suspendare, alese explicit pe corp (ebanist-open.js): primitivele vin din aceeași instanță ca fișa piesei;
+         placa de pe spatele ușii stă pe ușă (se mișcă cu ea) */
+      if (window.EBOpen) EBOpen.shapesOf(h).forEach(sh => (sh.role === "plate" && A ? A : P).hw.add(tag(shapeMesh(sh))));
     } else if (h.type === "guida") {
       /* culisantă ascunsă: șina corpului (profil C pe lateral, rolă, fixare în
          spate) rămâne pe loc; alergătorul cu clemă de față merge cu sertarul */

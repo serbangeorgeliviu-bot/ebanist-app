@@ -145,6 +145,15 @@
       [["anchor", "__nylongrey", 0], ["bolt", "__zinc", 0], ["tray", "__nylongrey", 0], ["cross", "__zinc", dzFace], ["cap", "__nylon", dzFace]].forEach(function (q) {
         out.push({ t: "mesh", part: q[0], mat: q[1], o: w.slice(), ex: ex, ey: ey, ez: ez, dz: q[2], role: q[0], src: src });
       });
+    } else if (h.type === "housing") {
+      /* locaș Ø (Rastex, Rafix, Maxifix…) în fața lui E: corpul cât gaura (Ø și adâncime din operație) + tija din muchia lui E (familia «housing», ebanist-open.js) */
+      var hc = byNote(ops, /eccentrico housing/)[0], hs = byNote(ops, /gambo housing/)[0], srcH = ops.map(function (x) { return x.op.id; });
+      if (hc) { var hb = cyl("__zinc", w, along(w, h.dir.ax, -h.dir.side * hc.op.depth), hc.op.dia - 0.3, "cam", srcH); hb.ch = 0.7; out.push(hb); }
+      if (hs && h.edge) out.push(cyl("__inox", h.edge, along(h.edge, h.eAx, -h.eSide * hs.op.depth), hs.op.dia - 1.2, "shank", srcH));
+    } else if (h.type === "plug") {
+      /* TAB: conectorul cilindric în gaura din muchia lui E */
+      var pg = byNote(ops, /foro plug/)[0];
+      if (pg) { var pb = cyl("__nylon", along(w, h.eAx, h.eSide * 0.2), along(w, h.eAx, -h.eSide * pg.op.depth), pg.op.dia - 0.4, "plug", [pg.op.id]); pb.ch = 0.8; out.push(pb); }
     } else if (h.type === "biscuit" || h.type === "domino" || h.type === "clamex" || h.type === "tenso" || h.type === "bisco") {
       /* conector în două canale: cel din F (adâncimea lui) și cel din E; lungimea, grosimea și înălțimea elementelor din HW_DRILL.joints
          (familia + varianta din catalog, D-134): fiecare element are cotele lui din broșura producătorului */
@@ -247,5 +256,5 @@
     return map;
   }
 
-  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "cabineo", "invis", "divario", "reggipiano"] };
+  return { screwProfile: screwProfile, slideScrews: slideScrews, hingeDims: hingeDims, hingeArm: hingeArm, hingeLinks: hingeLinks, connectorShapes: connectorShapes, opsByHw: opsByHw, jointK: jointK, TYPES: ["minifix", "tassello", "confirmat", "biscuit", "domino", "clamex", "tenso", "bisco", "kv", "cabineo", "invis", "divario", "reggipiano", "housing", "plug"] };
 });
