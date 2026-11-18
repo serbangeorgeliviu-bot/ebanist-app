@@ -7,7 +7,7 @@ import { mkdtemp, mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { generateKeyPairSync } from "node:crypto";
-import { readStore, makeClient, status, syncListing, setRollout, checkRollout, listReviews, replyReview, listSubs, listOffers } from "../android/tools/play-listing.mjs";
+import { readStore, makeClient, status, syncListing, setRollout, checkRollout, listReviews, replyReview, listSubs, listOffers, promote, checkPromote } from "../android/tools/play-listing.mjs";
 
 const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs8", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
 const SA = { client_email: "ci@p.iam.gserviceaccount.com", private_key: privateKey, token_uri: "https://oauth2.googleapis.com/token" };
@@ -157,5 +157,32 @@ describe("abonamente (numai citire)", () => {
     const r = await listOffers(client(f), "ebanist_pro", "monthly");
     assert.equal(r[0].id, "trial7");
     assert.equal(r[0].phases[0].duration, "P7D");
+  });
+});
+
+describe("promote (versionCode deja urcat)", () => {
+  test("production: fracție + confirm; fără ele nu pleacă nimic", () => {
+    assert.throws(() => checkPromote({ track: "production", versionCode: "11", fraction: "0.2", confirm: "" }), /confirm=da/);
+    assert.throws(() => checkPromote({ track: "production", versionCode: "x", fraction: "0.2", confirm: "da" }), /număr/);
+    assert.throws(() => checkPromote({ track: "production", versionCode: "11", fraction: "0", confirm: "da" }), /\(0, 1\]/);
+    assert.equal(checkPromote({ track: "internal", versionCode: "11", fraction: "1", confirm: "" }), 1);
+  });
+  test("scrie un singur release inProgress cu userFraction, fără să urce nimic, apoi commit", async () => {
+    const f = fake({ "$/edits/E1/tracks/production": () => ok({ releases: [{ name: "10", status: "inProgress", userFraction: 0.2 }] }) });
+    const r = await promote(client(f), { track: "production", versionCode: "11", fraction: "0.2", confirm: "da", notes: "Note" });
+    assert.deepEqual(r.before, ["10:inProgress@0.2"]);
+    const put = JSON.parse(f.calls.find((c) => c.method === "PUT").body);
+    assert.deepEqual(put.releases, [{ name: "11", versionCodes: ["11"], status: "inProgress", userFraction: 0.2, releaseNotes: [{ language: "ro-RO", text: "Note" }] }]);
+    assert.ok(!f.calls.some((c) => c.url.includes("/bundles")));
+    assert.ok(f.calls.some((c) => c.url.includes(":commit")));
+  });
+  test("fracția 1 = completed fără userFraction; eroare = editarea se șterge", async () => {
+    const f = fake();
+    await promote(client(f), { track: "internal", versionCode: "11", fraction: "1" });
+    const rel = JSON.parse(f.calls.find((c) => c.method === "PUT").body).releases[0];
+    assert.equal(rel.status, "completed"); assert.ok(!("userFraction" in rel));
+    const g = fake({ "PUT": new Response("nu", { status: 400 }) });
+    await assert.rejects(promote(client(g), { track: "internal", versionCode: "11", fraction: "0.5" }), /HTTP 400/);
+    assert.ok(g.calls.some((c) => c.method === "DELETE")); assert.ok(!g.calls.some((c) => c.url.includes(":commit")));
   });
 });
