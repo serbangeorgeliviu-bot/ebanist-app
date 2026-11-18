@@ -1,0 +1,2618 @@
+{
+ "brand": "Hettich",
+ "sources": [
+  {
+   "id": "HET-2017",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/Hinge_Catalogue_2017_HAU_HNZ_16924_en.pdf",
+   "title": "Hettich: The fast assembly concealed hinges for all applications: Intermat and Sensys (Hinge catalogue 2017, 16924)",
+   "pages": "printed p.13-67,69-96,104-110; verified PDF pages: p16->pdf18, p60->pdf62, p72->pdf72"
+  },
+  {
+   "id": "HET-UK-2020",
+   "url": "https://web.hettich.com/fileadmin/Company_website/HUK/Media/Hinges_2020_HUK.pdf",
+   "title": "Hettich UK Hinges 2020",
+   "pages": "8645i p13-14 (door 15-24), 8646i (door 10-19)"
+  },
+  {
+   "id": "HET-SENS-11309",
+   "url": "https://web.hettich.com/fileadmin/media/Sensys_Catalogue_11309_en.pdf",
+   "title": "Hettich Sensys Catalogue 11309 (older)",
+   "pages": "p17 (8645i door 15-22)"
+  },
+  {
+   "id": "HET-BROCH",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/Sensys_and_Intermat_Hinge_Brochure_WEB.pdf",
+   "title": "Hettich Fast assembly for all applications: Sensys and Intermat hinge systems (brochure, 138 pp)",
+   "pages": "8645i p.374+ (door 15-24); only cross-checked"
+  },
+  {
+   "id": "HET-AV-SHOP",
+   "url": "https://shop.hettich.com/cl_EN/Hinges/Special-hinge-Avosys/Scharniere/Avosys-hinge-for-mirror-and-glass-doors-with-drill-hole%2C-with-integrated-Silent-System%2C-opening-angle-110%C2%B0%2C-nickel-plated%2C-for-screwing-on/p/9405214",
+   "title": "Hettich eShop article 9405214 Avosys (attributes, document links)",
+   "pages": "web page"
+  },
+  {
+   "id": "HET-AV-MTA",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_941529900_Avosys_TH22_Schraubmontage.pdf",
+   "title": "Hettich MTA 9 415 299 00 Avosys for drilled glass doors (20.02.2026)",
+   "pages": "p1"
+  },
+  {
+   "id": "HET-AV-COUNT",
+   "url": "https://web2.hettich.com/hbh/addon/montage/300209_Scharnieranzahl_Avosys_EN_shop.jpg",
+   "title": "Hettich Avosys - number of hinges per door (planning image)",
+   "pages": "image"
+  },
+  {
+   "id": "HET-AV-DOOR",
+   "url": "https://web2.hettich.com/hbh/addon/montage/300209_Avosys_Tuereinsprung_EN_shop.jpg",
+   "title": "Hettich Avosys - door protrusion TE vs plate distance (image)",
+   "pages": "image"
+  },
+  {
+   "id": "HET-AV-3D",
+   "url": "https://web2.hettich.com/hbh/addon/cad/9405214_3d.zip",
+   "title": "Hettich article data 2D/3D for 9405214 (DXF/DWG; 275 KB; contents listed with unzip -l only, not opened)",
+   "pages": "zip"
+  },
+  {
+   "id": "HET-CAD",
+   "url": "https://web.hettich.com/en-ro/planning/hettich-cad",
+   "title": "Hettich CAD page (formats: DWG, DXF, PDF; >50 formats by e-mail; eShop 2D/3D; PARTcommunity https://hettich.partcommunity.com)",
+   "pages": "web page"
+  }
+ ],
+ "plates": [
+  {
+   "id": "hetp_9071575",
+   "kind": "cruciform",
+   "name": "System 8099 cross plate, screw-on, oblong-hole height adj +-3 mm",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "table",
+   "hole": null,
+   "D": [
+    0,
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "0": "9 071 575",
+    "1.5": "9 071 576",
+    "3": "9 071 577",
+    "5": "9 071 578"
+   },
+   "art": [
+    "9 071 575",
+    "9 071 576",
+    "9 071 577",
+    "9 071 578"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": null
+  },
+  {
+   "id": "hetp_9071595",
+   "kind": "cruciform",
+   "name": "System 8099 cross plate, expanding sockets (o5x12), oblong-hole +-2 mm",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "table",
+   "hole": {
+    "dia": 5,
+    "depth": 12
+   },
+   "D": [
+    0,
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "0": "9 071 595",
+    "1.5": "9 071 596",
+    "3": "9 071 597",
+    "5": "9 071 598"
+   },
+   "art": [
+    "9 071 595",
+    "9 071 596",
+    "9 071 597",
+    "9 071 598"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": null
+  },
+  {
+   "id": "hetp_9071625",
+   "kind": "cruciform",
+   "name": "System 8099 cross plate, premounted Euro screws (o5x12), oblong-hole +-3 mm",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "table",
+   "hole": {
+    "dia": 5,
+    "depth": 12
+   },
+   "D": [
+    0,
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "0": "9 071 625",
+    "1.5": "9 071 626",
+    "3": "9 071 627",
+    "5": "9 071 628"
+   },
+   "art": [
+    "9 071 625",
+    "9 071 626",
+    "9 071 627",
+    "9 071 628"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": null
+  },
+  {
+   "id": "hetp_9071655",
+   "kind": "cruciform",
+   "name": "System 8099 cross plate, expanding sockets (o5x12), eccentric cam height +-2 mm",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "table",
+   "hole": {
+    "dia": 5,
+    "depth": 12
+   },
+   "D": [
+    0,
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "0": "9 071 655",
+    "1.5": "9 071 656",
+    "3": "9 071 657",
+    "5": "9 071 658"
+   },
+   "art": [
+    "9 071 655",
+    "9 071 656",
+    "9 071 657",
+    "9 071 658"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": null
+  },
+  {
+   "id": "hetp_9071650",
+   "kind": "cruciform",
+   "name": "Hettich Direkt cross plate with locating pin (o5x7.5), half overlay, side panel >=15 mm, cam +-2 mm",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "table",
+   "hole": {
+    "dia": 5,
+    "depth": 7.5
+   },
+   "D": [
+    0,
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "0": "9 071 650",
+    "1.5": "9 071 651",
+    "3": "9 071 652",
+    "5": "9 071 653"
+   },
+   "art": [
+    "9 071 650",
+    "9 071 651",
+    "9 071 652",
+    "9 071 653"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": null
+  },
+  {
+   "id": "hetp_9075095",
+   "kind": "linear",
+   "name": "System 8099 linear plate, screw-on 3.5x16, cam +-2 mm",
+   "line": 20,
+   "pitch": 32,
+   "lineSrc": "drawing",
+   "hole": null,
+   "D": [
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "1.5": "9 075 095",
+    "3": "9 075 096",
+    "5": "9 075 097"
+   },
+   "art": [
+    "9 075 095",
+    "9 075 096",
+    "9 075 097"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": "20 and 32 read off drawing (drawing)"
+  },
+  {
+   "id": "hetp_9075098",
+   "kind": "linear",
+   "name": "System 8099 linear plate, pressing in (o10x12), cam +-2 mm",
+   "line": 20,
+   "pitch": 32,
+   "lineSrc": "drawing",
+   "hole": {
+    "dia": 10,
+    "depth": 12
+   },
+   "D": [
+    1.5,
+    3,
+    5
+   ],
+   "codes": {
+    "1.5": "9 075 098",
+    "3": "9 075 099",
+    "5": "9 075 100"
+   },
+   "art": [
+    "9 075 098",
+    "9 075 099",
+    "9 075 100"
+   ],
+   "src": "HET-2017 printed p104-106",
+   "note": null
+  }
+ ],
+ "families": [
+  {
+   "key": "het_8645i",
+   "brand": "Hettich",
+   "series": "Sensys 8645i",
+   "name": "Sensys 8645i (integrated Silent System; sister: 8645 without, 8675 without self-closing)",
+   "angle": 110,
+   "kind": "standard",
+   "doorTh": [
+    15,
+    24
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "depthMin": null,
+    "tb": [
+     3,
+     7
+    ],
+    "src": "HET-2017 printed p16 (pdf18); 52 and 5.5 read from drawing (drawing)"
+   },
+   "fix": {
+    "TH52": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH53": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    },
+    "THS55": {
+     "mode": "fix",
+     "hole": {
+      "dia": 10,
+      "depth": 6
+     },
+     "pattern": null
+    },
+    "TH58": {
+     "mode": "premount",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_9071205",
+     "art": "9 071 205",
+     "overlay": "full",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071206",
+     "art": "9 071 206",
+     "overlay": "half",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071207",
+     "art": "9 071 207",
+     "overlay": "inset",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071208",
+     "art": "9 071 208",
+     "overlay": "full",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071209",
+     "art": "9 071 209",
+     "overlay": "half",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071210",
+     "art": "9 071 210",
+     "overlay": "inset",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071220",
+     "art": "9 071 220",
+     "overlay": "full",
+     "fix": "THS55",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071221",
+     "art": "9 071 221",
+     "overlay": "half",
+     "fix": "THS55",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9071222",
+     "art": "9 071 222",
+     "overlay": "inset",
+     "fix": "THS55",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9073567",
+     "art": "9 073 567",
+     "overlay": "full",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9073568",
+     "art": "9 073 568",
+     "overlay": "half",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    },
+    {
+     "id": "het_9073569",
+     "art": "9 073 569",
+     "overlay": "inset",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p16"
+    }
+   ],
+   "adjust": {
+    "depth": [
+     -2,
+     3
+    ],
+    "overlay": [
+     -2,
+     2
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7.7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1700,
+      "kg": [
+       null,
+       13.7
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17.1
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2400,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 6,
+      "h": 2600,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 7,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "HET-2017 printed p60 (=pdf62), image read (kg icon confirmed); guide only, trial mounting recommended",
+    "minSpacing": 280,
+    "endEdge": [
+     60,
+     100
+    ]
+   },
+   "tables": [
+    {
+     "title": "min reveal (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      3.0,
+      4.0,
+      4.5,
+      5.0,
+      6.0,
+      7.0
+     ],
+     "rows": {
+      "15": [
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2
+      ],
+      "16": [
+       0.3,
+       0.3,
+       0.3,
+       0.3,
+       0.3,
+       0.3
+      ],
+      "17": [
+       0.4,
+       0.4,
+       0.4,
+       0.4,
+       0.4,
+       0.4
+      ],
+      "18": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.5
+      ],
+      "19": [
+       0.8,
+       0.8,
+       0.8,
+       0.8,
+       0.7,
+       0.7
+      ],
+      "20": [
+       1.1,
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       0.9
+      ],
+      "21": [
+       1.4,
+       1.3,
+       1.3,
+       1.3,
+       1.2,
+       1.2
+      ],
+      "22": [
+       2.2,
+       1.8,
+       1.7,
+       1.6,
+       1.6,
+       1.5
+      ],
+      "23": [
+       3.0,
+       2.6,
+       2.4,
+       2.2,
+       2.0,
+       1.9
+      ],
+      "24": [
+       3.9,
+       3.4,
+       3.2,
+       3.0,
+       2.6,
+       2.4
+      ]
+     }
+    }
+   ],
+   "protr": {
+    "full": {
+     "H": 25.0,
+     "T": 8.5
+    },
+    "half": {
+     "H": 31.0,
+     "T": 18.0
+    },
+    "inset": {
+     "H": 38.0,
+     "T": 25.0
+    }
+   },
+   "formulaD": "full/half: D = C + B - A (B 12.5 full, 3 half); inset: D = C + B + F (B -4)",
+   "open": [
+    "door_th conflict: 15-24 (HET-2017 p16, HET-UK-2020, HET-BROCH) vs 15-22 (HET-SENS-11309 p17, older)",
+    "tb_std not stated",
+    "cup/arm/plate envelope L/W/H not in text/tables"
+   ],
+   "notes": [
+    "integrated Silent System (35 deg auto-close zone; +5..+40 C)",
+    "opening angle limiter 8645i: order 9 072 540",
+    "push-to-open variants via 8675 + accessories",
+    "cover caps 9 088 249 neutral / 9 088 250 Hettich logo",
+    "cover cap hinge cup 9 088 251"
+   ],
+   "envelopeLabels": "'72' printed next to H in protrusion drawing (drawing); meaning (hinge overall length or installed depth) not stated in text; null for cup/arm/plate L x W x H",
+   "src": "HET-2017 printed p16 (pdf18); 52 and 5.5 read from drawing (drawing)",
+   "accessories": [
+    {
+     "name": "Parallel adapter +8 mm D",
+     "code": "9 072 537",
+     "codes": null
+    },
+    {
+     "name": "Angle adapter 5/10/15/20 deg (LR37 screw-on plates only)",
+     "code": null,
+     "codes": {
+      "5": "9 072 533",
+      "10": "9 072 534",
+      "15": "9 072 535",
+      "20": "9 072 536"
+     }
+    },
+    {
+     "name": "Adapter plate with premounted Euro screws (for parallel adapter)",
+     "code": null,
+     "codes": {
+      "0": "9 106 986",
+      "1.5": "9 106 987",
+      "3": "9 106 988"
+     }
+    }
+   ],
+   "conflicts": [
+    "door thickness 15-24 (HET-2017 p16, HET-UK-2020, HET-BROCH) vs 15-22 (HET-SENS-11309 p17, older)"
+   ]
+  },
+  {
+   "key": "het_8631i",
+   "brand": "Hettich",
+   "series": "Sensys 8631i",
+   "name": "Sensys 8631i thick-door hinge (8631 without Silent, 8661 without self-closing)",
+   "angle": 95,
+   "kind": "thick",
+   "doorTh": [
+    15,
+    32
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "depthMin": null,
+    "tb": [
+     3,
+     8
+    ],
+    "src": "HET-2017 printed p20; C range 3..8 from p22 reveal table header (verify)"
+   },
+   "fix": {
+    "TH52": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH53": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    },
+    "TH58": {
+     "mode": "premount",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_9090260",
+     "art": "9 090 260",
+     "overlay": "full",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090270",
+     "art": "9 090 270",
+     "overlay": "half",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090280",
+     "art": "9 090 280",
+     "overlay": "inset",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090261",
+     "art": "9 090 261",
+     "overlay": "full",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090271",
+     "art": "9 090 271",
+     "overlay": "half",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090281",
+     "art": "9 090 281",
+     "overlay": "inset",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090266",
+     "art": "9 090 266",
+     "overlay": "full",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090276",
+     "art": "9 090 276",
+     "overlay": "half",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    },
+    {
+     "id": "het_9090286",
+     "art": "9 090 286",
+     "overlay": "inset",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p20"
+    }
+   ],
+   "adjust": {
+    "depth": [
+     -2,
+     3
+    ],
+    "overlay": [
+     -2,
+     2
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7.7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1700,
+      "kg": [
+       null,
+       13.7
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17.1
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2400,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 6,
+      "h": 2600,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 7,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "HET-2017 printed p60 (=pdf62), image read (kg icon confirmed); guide only, trial mounting recommended",
+    "minSpacing": 280,
+    "endEdge": [
+     60,
+     100
+    ],
+    "via": "hettich_sensys_8645i"
+   },
+   "tables": [],
+   "protr": {
+    "full": {
+     "H": 24.0,
+     "T": 12.5
+    },
+    "half": {
+     "H": 28.3,
+     "T": 22.0
+    }
+   },
+   "formulaD": null,
+   "open": [
+    "min reveal table not transcribed",
+    "inset H/T not read"
+   ],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p20; C range 3..8 from p22 reveal table header (verify)"
+  },
+  {
+   "key": "het_8646i",
+   "brand": "Hettich",
+   "series": "Sensys 8646i",
+   "name": "Sensys 8646i thin-door hinge (8646 without Silent)",
+   "angle": 110,
+   "kind": "thin",
+   "doorTh": [
+    10,
+    16
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 7.8,
+    "depthMin": null,
+    "tb": null,
+    "src": "HET-2017 printed p26-27; note: fixing method must be suitable for door material"
+   },
+   "fix": {
+    "TH52": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH53": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 8
+     },
+     "pattern": null
+    },
+    "TH58": {
+     "mode": "premount",
+     "hole": {
+      "dia": 10,
+      "depth": 8
+     },
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_9094000",
+     "art": "9 094 000",
+     "overlay": "full",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p27"
+    },
+    {
+     "id": "het_9094001",
+     "art": "9 094 001",
+     "overlay": "full",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p27"
+    },
+    {
+     "id": "het_9094006",
+     "art": "9 094 006",
+     "overlay": "full",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p27"
+    },
+    {
+     "id": "het_9094280",
+     "art": "9 094 280",
+     "overlay": "half",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p27"
+    },
+    {
+     "id": "het_9094290",
+     "art": "9 094 290",
+     "overlay": "inset",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p27"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7.7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1700,
+      "kg": [
+       null,
+       13.7
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17.1
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2400,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 6,
+      "h": 2600,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 7,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "HET-2017 printed p60 (=pdf62), image read (kg icon confirmed); guide only, trial mounting recommended",
+    "minSpacing": 280,
+    "endEdge": [
+     60,
+     100
+    ],
+    "via": "hettich_sensys_8645i"
+   },
+   "tables": [],
+   "protr": {
+    "full": {
+     "H": 25.0,
+     "T": 8.5
+    },
+    "half": {
+     "H": 31.0,
+     "T": 18.0
+    }
+   },
+   "formulaD": null,
+   "open": [
+    "door_th conflict: 10-16 (HET-2017) vs 10-19 (HET-UK-2020)",
+    "tb range not extracted"
+   ],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p26-27; note: fixing method must be suitable for door material",
+   "conflicts": [
+    "door thickness 10-16 (HET-2017) vs 10-19 (HET-UK-2020)"
+   ]
+  },
+  {
+   "key": "het_8657i",
+   "brand": "Hettich",
+   "series": "Sensys 8657i",
+   "name": "Sensys 8657i zero-protrusion hinge (8657, 8687)",
+   "angle": 165,
+   "kind": "zero",
+   "doorTh": [
+    15,
+    32
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 11.6,
+    "depthMin": null,
+    "tb": [
+     3,
+     7
+    ],
+    "src": "HET-2017 printed p30; C 3.0-7.0 from reveal table header p33"
+   },
+   "fix": {
+    "TH52": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH53": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    },
+    "THS55": {
+     "mode": "fix",
+     "hole": {
+      "dia": 10,
+      "depth": 6
+     },
+     "pattern": null
+    },
+    "TH58": {
+     "mode": "premount",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_9099540",
+     "art": "9 099 540",
+     "overlay": "full",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099550",
+     "art": "9 099 550",
+     "overlay": "half",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099541",
+     "art": "9 099 541",
+     "overlay": "full",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099551",
+     "art": "9 099 551",
+     "overlay": "half",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099543",
+     "art": "9 099 543",
+     "overlay": "full",
+     "fix": "THS55",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099553",
+     "art": "9 099 553",
+     "overlay": "half",
+     "fix": "THS55",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099546",
+     "art": "9 099 546",
+     "overlay": "full",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    },
+    {
+     "id": "het_9099556",
+     "art": "9 099 556",
+     "overlay": "half",
+     "fix": "TH58",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p30"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7.7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1700,
+      "kg": [
+       null,
+       13.7
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17.1
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2400,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 6,
+      "h": 2600,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 7,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "HET-2017 printed p60 (=pdf62), image read (kg icon confirmed); guide only, trial mounting recommended",
+    "minSpacing": 280,
+    "endEdge": [
+     60,
+     100
+    ],
+    "via": "hettich_sensys_8645i"
+   },
+   "tables": [],
+   "protr": null,
+   "formulaD": null,
+   "open": [
+    "column assignment of the last rows of the reveal sentence not cell-verified"
+   ],
+   "notes": [
+    "opening angle limiter 105/120/135 (examples); soft opening 9 100 037 (full) / 9 100 116 (half), not combinable with limiter",
+    "cover cap 9 099 870 neutral / 9 099 871 logo (plastic anthracite)"
+   ],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p30; C 3.0-7.0 from reveal table header p33"
+  },
+  {
+   "key": "het_8639i",
+   "brand": "Hettich",
+   "series": "Sensys 8639i W",
+   "name": "Sensys 8639i W30 / W45 / W90 angle hinges (8639, 8669)",
+   "angle": 95,
+   "kind": "angle",
+   "doorTh": [
+    15,
+    28
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "depthMin": null,
+    "tb": [
+     3,
+     8
+    ],
+    "src": "HET-2017 printed p34,38,42; TB 3-8 from W30 reveal table header"
+   },
+   "fix": {
+    "TH52": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH53": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    },
+    "THS55": {
+     "mode": "fix",
+     "hole": {
+      "dia": 10,
+      "depth": 6
+     },
+     "pattern": null
+    },
+    "TH58": {
+     "mode": "premount",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_9088016",
+     "art": "9 088 016",
+     "overlay": "overlay",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W30",
+     "pattern": null,
+     "src": "HET-2017 p34"
+    },
+    {
+     "id": "het_9088017",
+     "art": "9 088 017",
+     "overlay": "inset",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W30",
+     "pattern": null,
+     "src": "HET-2017 p34"
+    },
+    {
+     "id": "het_9088034",
+     "art": "9 088 034",
+     "overlay": "overlay",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W30",
+     "pattern": null,
+     "src": "HET-2017 p34"
+    },
+    {
+     "id": "het_9088035",
+     "art": "9 088 035",
+     "overlay": "inset",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W30",
+     "pattern": null,
+     "src": "HET-2017 p34"
+    },
+    {
+     "id": "het_9088019",
+     "art": "9 088 019",
+     "overlay": "overlay",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W45",
+     "pattern": null,
+     "src": "HET-2017 p38"
+    },
+    {
+     "id": "het_9088020",
+     "art": "9 088 020",
+     "overlay": "inset",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W45",
+     "pattern": null,
+     "src": "HET-2017 p38"
+    },
+    {
+     "id": "het_9088021",
+     "art": "9 088 021",
+     "overlay": "inset",
+     "fix": "TH52",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W90",
+     "pattern": null,
+     "src": "HET-2017 p42"
+    },
+    {
+     "id": "het_9088039",
+     "art": "9 088 039",
+     "overlay": "inset",
+     "fix": "TH53",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "W90",
+     "pattern": null,
+     "src": "HET-2017 p42"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7.7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1700,
+      "kg": [
+       null,
+       13.7
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17.1
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2400,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 6,
+      "h": 2600,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 7,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "HET-2017 printed p60 (=pdf62), image read (kg icon confirmed); guide only, trial mounting recommended",
+    "minSpacing": 280,
+    "endEdge": [
+     60,
+     100
+    ],
+    "via": "hettich_sensys_8645i"
+   },
+   "tables": [],
+   "protr": null,
+   "formulaD": null,
+   "open": [
+    "full min-reveal tables not transcribed"
+   ],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p34,38,42; TB 3-8 from W30 reveal table header"
+  },
+  {
+   "key": "het_8638i",
+   "brand": "Hettich",
+   "series": "Sensys 8638i",
+   "name": "Sensys 8638i for aluminium-framed doors",
+   "angle": 95,
+   "kind": "alu",
+   "doorTh": [
+    null,
+    null
+   ],
+   "glass": false,
+   "noDrill": true,
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "depthMin": null,
+    "tb": null,
+    "src": "HET-2017 printed p46"
+   },
+   "fix": {
+    "TA32": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [],
+   "parts": [
+    {
+     "id": "het_9072524",
+     "art": "9 072 524",
+     "overlay": "full",
+     "fix": "TA32",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p46"
+    },
+    {
+     "id": "het_9072525",
+     "art": "9 072 525",
+     "overlay": "half",
+     "fix": "TA32",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p46"
+    },
+    {
+     "id": "het_9072526",
+     "art": "9 072 526",
+     "overlay": "inset",
+     "fix": "TA32",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p46"
+    }
+   ],
+   "adjust": null,
+   "count": null,
+   "tables": [],
+   "protr": null,
+   "formulaD": null,
+   "open": [
+    "door/frame thickness, TB, drilling geometry not extracted"
+   ],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p46"
+  },
+  {
+   "key": "het_9943",
+   "brand": "Hettich",
+   "series": "Intermat 9943",
+   "name": "Intermat 9943 (9973 without self-closing)",
+   "angle": 110,
+   "kind": "standard",
+   "doorTh": [
+    15,
+    25
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 11.6,
+    "depthMin": null,
+    "tb": [
+     3,
+     6
+    ],
+    "src": "HET-2017 printed p72"
+   },
+   "fix": {
+    "TH42": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH43": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    },
+    "TH45": {
+     "mode": "fix",
+     "hole": {
+      "dia": 10,
+      "depth": 6
+     },
+     "pattern": null
+    },
+    "TH48": {
+     "mode": "premount",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_1029518",
+     "art": "1 029 518",
+     "overlay": "full",
+     "fix": "TH42",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1030620",
+     "art": "1 030 620",
+     "overlay": "half",
+     "fix": "TH42",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1030922",
+     "art": "1 030 922",
+     "overlay": "inset",
+     "fix": "TH42",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1029520",
+     "art": "1 029 520",
+     "overlay": "full",
+     "fix": "TH43",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1030622",
+     "art": "1 030 622",
+     "overlay": "half",
+     "fix": "TH43",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1030924",
+     "art": "1 030 924",
+     "overlay": "inset",
+     "fix": "TH43",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1063454",
+     "art": "1 063 454",
+     "overlay": "full",
+     "fix": "TH45",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1063457",
+     "art": "1 063 457",
+     "overlay": "half",
+     "fix": "TH45",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_1063459",
+     "art": "1 063 459",
+     "overlay": "inset",
+     "fix": "TH45",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_9043640",
+     "art": "9 043 640",
+     "overlay": "full",
+     "fix": "TH48",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_9043641",
+     "art": "9 043 641",
+     "overlay": "half",
+     "fix": "TH48",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    },
+    {
+     "id": "het_9043642",
+     "art": "9 043 642",
+     "overlay": "inset",
+     "fix": "TH48",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p72"
+    }
+   ],
+   "adjust": {
+    "depth": [
+     -1.5,
+     2.5
+    ],
+    "overlay": [
+     -2,
+     2
+    ]
+   },
+   "count": null,
+   "tables": [
+    {
+     "title": "min reveal (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      3.0,
+      4.0,
+      4.5,
+      5.0,
+      6.0
+     ],
+     "rows": {
+      "15": [
+       0.4,
+       0.4,
+       0.4,
+       0.4,
+       0.4
+      ],
+      "16": [
+       0.6,
+       0.5,
+       0.5,
+       0.5,
+       0.5
+      ],
+      "17": [
+       0.8,
+       0.7,
+       0.7,
+       0.7,
+       0.7
+      ],
+      "18": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       0.9
+      ],
+      "19": [
+       1.4,
+       1.3,
+       1.3,
+       1.2,
+       1.2
+      ],
+      "20": [
+       1.7,
+       1.7,
+       1.6,
+       1.6,
+       1.5
+      ],
+      "21": [
+       2.2,
+       2.1,
+       2.0,
+       2.0,
+       1.9
+      ],
+      "22": [
+       2.9,
+       2.6,
+       2.5,
+       2.4,
+       2.3
+      ],
+      "23": [
+       3.7,
+       3.3,
+       3.2,
+       3.0,
+       2.8
+      ],
+      "24": [
+       4.5,
+       4.1,
+       3.9,
+       3.7,
+       3.4
+      ],
+      "25": [
+       5.4,
+       4.9,
+       4.7,
+       4.5,
+       4.1
+      ]
+     }
+    }
+   ],
+   "protr": {
+    "full": {
+     "H": 19.5,
+     "T": 7.5
+    },
+    "half": {
+     "H": 29.0,
+     "T": 17.0
+    },
+    "inset": {
+     "H": 35.5,
+     "T": 23.5
+    }
+   },
+   "formulaD": "full/half: D = C + B - A; inset: D = C - 3.5 + F",
+   "open": [
+    "hinge-count chart for Intermat not read separately",
+    "TB range upper limit from table header (C 3-6)"
+   ],
+   "notes": [
+    "opening angle limiter for 9943 (Intermat accessories chapter)",
+    "Silent System add-on: damper screwed onto cup 0 060 581 (TH42/43/48, full overlay); element 0 060 576 (9943/9936 full overlay, all plate distances); use two elements for doors > 13.5 kg (HET-2017 printed p114-117)"
+   ],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p72"
+  },
+  {
+   "key": "het_9936",
+   "brand": "Hettich",
+   "series": "Intermat 9936",
+   "name": "Intermat 9936 thick-door hinge (95 deg)",
+   "angle": 95,
+   "kind": "thick",
+   "doorTh": [
+    14,
+    32
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 10.5,
+    "depthMin": null,
+    "tb": [
+     3,
+     8
+    ],
+    "src": "HET-2017 printed p76"
+   },
+   "fix": {
+    "TH42": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    },
+    "TH43": {
+     "mode": "press",
+     "hole": {
+      "dia": 10,
+      "depth": 11
+     },
+     "pattern": null
+    },
+    "TH45": {
+     "mode": "fix",
+     "hole": {
+      "dia": 10,
+      "depth": 6
+     },
+     "pattern": null,
+     "cupDepth": 11.3
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_1058365",
+     "art": "1 058 365",
+     "overlay": "full",
+     "fix": "TH42",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p76"
+    },
+    {
+     "id": "het_1058371",
+     "art": "1 058 371",
+     "overlay": "full",
+     "fix": "TH43",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p76"
+    },
+    {
+     "id": "het_1063472",
+     "art": "1 063 472",
+     "overlay": "full",
+     "fix": "TH45",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p76"
+    }
+   ],
+   "adjust": null,
+   "count": null,
+   "tables": [],
+   "protr": null,
+   "formulaD": null,
+   "open": [
+    "full reveal table not transcribed"
+   ],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p76"
+  },
+  {
+   "key": "het_9935",
+   "brand": "Hettich",
+   "series": "Intermat 9935",
+   "name": "Intermat 9935 special thick-door hinge (cup 40 mm)",
+   "angle": 95,
+   "kind": "thick",
+   "doorTh": [
+    16,
+    43
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 40,
+    "depth": 13.7,
+    "depthMin": null,
+    "tb": [
+     3,
+     11
+    ],
+    "src": "HET-2017 printed p78; C 3..11 from reveal table header p81"
+   },
+   "fix": {
+    "TH22/L": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "drawing"
+     }
+    }
+   },
+   "plates": [
+    "hetp_9071595",
+    "hetp_9071625",
+    "hetp_9071655",
+    "hetp_9071650",
+    "hetp_9071575",
+    "hetp_9075095",
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_9117716",
+     "art": "9 117 716",
+     "overlay": "full",
+     "fix": "TH22/L",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p78"
+    },
+    {
+     "id": "het_9117717",
+     "art": "9 117 717",
+     "overlay": "half",
+     "fix": "TH22/L",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p78"
+    },
+    {
+     "id": "het_9117718",
+     "art": "9 117 718",
+     "overlay": "inset",
+     "fix": "TH22/L",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p78"
+    }
+   ],
+   "adjust": null,
+   "count": null,
+   "tables": [],
+   "protr": {
+    "full": {
+     "H": 20.0,
+     "T": 10.5
+    },
+    "half": {
+     "H": 30.0,
+     "T": 20.5
+    },
+    "inset": {
+     "H": 41.0,
+     "T": 31.5
+    }
+   },
+   "formulaD": null,
+   "open": [
+    "full reveal table not transcribed"
+   ],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p78; C 3..11 from reveal table header p81"
+  },
+  {
+   "key": "het_9904",
+   "brand": "Hettich",
+   "series": "Intermat 9904",
+   "name": "Intermat 9904 for glass doors",
+   "angle": 95,
+   "kind": "glass",
+   "doorTh": [
+    4.0,
+    6.5
+   ],
+   "glass": true,
+   "noDrill": true,
+   "cup": {
+    "dia": 26,
+    "depth": null,
+    "depthMin": null,
+    "tb": [
+     5.5,
+     6.0
+    ],
+    "src": "HET-2017 printed p94 (glass thickness 4.0-6.5 mm)"
+   },
+   "fix": {
+    "TU12/S": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "hetp_9075098"
+   ],
+   "parts": [
+    {
+     "id": "het_0072960",
+     "art": "0 072 960",
+     "overlay": "full",
+     "fix": "TU12/S",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p94"
+    },
+    {
+     "id": "het_0072967",
+     "art": "0 072 967",
+     "overlay": "half",
+     "fix": "TU12/S",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p94"
+    },
+    {
+     "id": "het_0072968",
+     "art": "0 072 968",
+     "overlay": "inset",
+     "fix": "TU12/S",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "HET-2017 p94"
+    }
+   ],
+   "adjust": null,
+   "count": null,
+   "tables": [],
+   "protr": {
+    "full": {
+     "H": 19.0,
+     "T": 4.0
+    },
+    "half": {
+     "H": 23.0,
+     "T": 12.5
+    },
+    "inset": {
+     "H": 29.5,
+     "T": 19.0
+    }
+   },
+   "formulaD": null,
+   "open": [
+    "cup depth not given"
+   ],
+   "notes": [
+    "decorative caps type A/B: chrome 0 040 341/0 040 495; nickel matt 0 070 712/0 070 713 (sets of 50); glass 5.5-6.5 mm needs fixing screw 9 082 429"
+   ],
+   "envelopeLabels": null,
+   "src": "HET-2017 printed p94 (glass thickness 4.0-6.5 mm)"
+  },
+  {
+   "key": "het_avosys",
+   "brand": "Hettich",
+   "series": "Avosys",
+   "name": "Avosys hinge for mirror/glass doors and thin custom materials (bonded or screwed; Silent System optional)",
+   "angle": 110,
+   "kind": "glass",
+   "doorTh": [
+    3,
+    8
+   ],
+   "glass": true,
+   "noDrill": true,
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "depthMin": null,
+    "tb": null,
+    "src": "HET-AV-SHOP, HET-AV-MTA"
+   },
+   "glassHoles": {
+    "n": 2,
+    "dia": 12,
+    "spacing": 24,
+    "src": "HET-AV-MTA p1 (drawing)"
+   },
+   "fix": {},
+   "plates": [],
+   "plateNote": "cross/linear spacing not found",
+   "parts": [
+    {
+     "id": "het_9405214",
+     "art": "9405214",
+     "overlay": "overlay",
+     "fix": "screw",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "glass-4-6",
+     "pattern": null,
+     "src": "HET-AV-SHOP"
+    },
+    {
+     "id": "het_9405208",
+     "art": "9405208",
+     "overlay": "overlay",
+     "fix": "glued",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "glass-3-8",
+     "pattern": null,
+     "src": "web search of shop listing (not fetched)"
+    },
+    {
+     "id": "het_9405209",
+     "art": "9405209",
+     "overlay": "overlay",
+     "fix": "glued",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": "obsidian",
+     "variant": "glass-3-8",
+     "pattern": null,
+     "src": "web search of shop listing (not fetched)"
+    }
+   ],
+   "adjust": {
+    "depth": [
+     -2,
+     3
+    ],
+    "overlay": [
+     -2,
+     2
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7.7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1700,
+      "kg": [
+       null,
+       13.7
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17.1
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2400,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 6,
+      "h": 2600,
+      "kg": [
+       null,
+       22
+      ]
+     },
+     {
+      "n": 7,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "HET-AV-COUNT (image read)"
+   },
+   "protr": null,
+   "avosysTE": {
+    "0": -3.4,
+    "1.5": -1.9,
+    "3": -0.4,
+    "5": 1.6,
+    "6": 2.6
+   },
+   "tables": [],
+   "open": [
+    "cup envelope, bond-plate size, drilling for bonded version not found",
+    "3D DXF could yield envelope but not parsed"
+   ],
+   "notes": [
+    "bonded (glue mounting) 3-8 mm glass/mirror: 9405208 without self-closing nickel; 9405209 with Silent System obsidian black",
+    "screw-on with o12 hole 4-6 mm: 9405214 (Silent System, nickel)",
+    "thin custom materials (Corian/HPL) screw-on: 9405234/235 (Silent) 9405238 (obsidian) 9405240/241 (without)"
+   ],
+   "src": "HET-AV-SHOP, HET-AV-MTA"
+  }
+ ],
+ "notes": [
+  "Offsets in drilling patterns: 'A/B' notation = hole spacing / offset from cup centre line (e.g. 45/9.5, 48/6, 52/5.5); Hettich 'TH 52' = 52 x 5.5.",
+  "Hettich 2017 catalogue is the main source (HAU edition). Hettich 8645i door thickness conflict 15-24 vs 15-22 (older 11309); 8646i 10-16 (2017) vs 10-19 (UK 2020).",
+  "Hettich hinge-count chart (kg values) confirmed in image; Avosys shop image has same numbers.",
+  "Hettich Avosys: no glass-drilling/bonding drawings beyond MTA 9 415 299 00 (o12 holes, 24 mm); CAD zip 9405214_3d.zip downloaded but not parsed (envelope could be taken from it).",
+  "Hettich Evisys: no technical document found.",
+  "CAD/STEP: Hettich: DWG/DXF per article (eShop), PARTcommunity, >50 formats on request; Grass: ZIP with RAW+STEP per product group at TEC Centre; Salice: none found; Haefele: none found; Blum: none found on hinge download page."
+ ]
+}

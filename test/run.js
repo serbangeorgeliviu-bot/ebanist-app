@@ -2870,6 +2870,61 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.6: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* Balamale de la alte marci (Hettich, Salice, Grass, Häfele, Blum 105°) — catalog, fișă, număr după grafic, găurire, avertismente, 3D */
+  {
+    head("Balamale Hettich / Salice / Grass / Häfele / Blum 105° — catalog, deviz, găurire, 3D (ebanist-hinges-more)");
+    const n0 = errs.length;
+    await pg.evaluate(() => { closeSheets(); renderCatalog(); openSheet("shCatalog"); });
+    await pg.waitForTimeout(300);
+    ok("Balamale+: catalogul are articolele celor 5 marci, cu prețul 0 de completat, iar Blum rămâne primul (selecția implicită)", await pg.evaluate(() => {
+      const L = HWDB.cern, br = new Set(L.map(x => x.brand)), more = L.filter(x => x.more);
+      return more.length === 214 && ["Hettich", "Salice", "Grass", "Häfele", "Blum"].every(b => br.has(b)) && more.every(x => x.price === 0 && x.art) && !L[0].more && L[0].id === "blum_71b3550"; }));
+    ok("Balamale+: același id nu apare de două ori în lista de balamale", await pg.evaluate(() => new Set(HWDB.cern.map(x => x.id)).size === HWDB.cern.length));
+    ok("Balamale+: fișa tehnică Hettich 8645i se deschide din Catalog (cu codul, graficul de numărare și nota 3D schematic)", await pg.evaluate(() => {
+      state.settings.hwProd = Object.assign({}, state.settings.hwProd, { cern: "het_9071205", plate: null }); renderCatalog();
+      const sel = $("catHwWrap").querySelector(".catPlate"), btn = $("catHwWrap").querySelector(".hsOpen[data-hw='het_9071205']");
+      if (!sel || !btn) return false; btn.click();
+      const h = $("hsBody").innerHTML; closeSheets();
+      return sel.options.length === 7 && sel.options[0].textContent.includes("9 071 595") && h.includes("9 071 205") && h.includes("13.7") && h.includes(t("hm3d").slice(0, 20)); }));
+    ok("Balamale+: o balama Blum veche își păstrează fișa și plăcuțele (nicio regresie)", await pg.evaluate(() => {
+      state.settings.hwProd = Object.assign({}, state.settings.hwProd, { cern: "blum_71b3590", plate: null }); renderCatalog();
+      const sel = $("catHwWrap").querySelector(".catPlate"); return !!sel && sel.options.length >= 3 && sel.options[0].textContent.includes("173L61"); }));
+    const hb = async (id, over) => pg.evaluate(([id, over]) => {
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      const cfg = { ...PRESETS.pensile, name: "Hm1", L: 500, H: 1700, P: 330, doors: 1, drawers: 0, hang: 0, hwSel: { cern: id }, ...over };
+      generateInto(p, cfg);
+      const items = computeHardware(p, state.settings), door = p.pieces.find(x => /^Anta/.test(x.elemento)), h = Math.max(door.lung, door.larg);
+      const b = buildModule(cfg), G = deriveCarcass(carcassParams(cfg, {})), o = generateOperations({ boxes: b.boxes, cfg, G });
+      const cups = o.pieces.flatMap(q => q.operations).filter(q => /tazza cerniera/.test(q.note || ""));
+      return { h, cern: (items.find(i => i.k === "hwCern") || {}).qty || 0, cups: cups.length, depth: cups[0] && cups[0].depth, warn: opsNotesOf(cfg).map(w => w.k), inst: o.hw.filter(x => x.type === "cerniera").length,
+               want: EBHingesMore.count(id, h, 0), gen: hingeCount(h), name: (hwItemById("cern", id) || {}).name || "" };
+    }, [id, over || {}]);
+    const a = await hb("het_9071205");
+    ok("Balamale+: deviz și găurire — numărul de balamale e cel din graficul Hettich (nu regula generală), identic în deviz și în găurire", a.cern === a.want && a.cups === a.want && a.inst === a.want && a.want === 3 && a.gen === 4, JSON.stringify(a));
+    ok("Balamale+: cupele au adâncimea 12.8 din date; fără avertismente de găurire pe TH52 cu placa Ø5 × 12", a.depth === 12.8 && !a.warn.some(k => /opsHinge(Dowel|Plate|NoDrill|Glass)/.test(k)), JSON.stringify(a));
+    const d = await hb("het_9071208");
+    ok("Balamale+: Hettich cu presare (TH53) — avertisment că dornurile nu se generează, apare în lista de verificări", d.warn.includes("opsHingeDowelOpen") && d.cups === d.want, JSON.stringify(d));
+    ok("Balamale+: avertismentul are text în fiecare limbă (cu valorile puse în loc)", await pg.evaluate(() => {
+      const keep = state.lang, L = ["it", "ro", "en", "fr", "de", "pl", "es"];
+      const r = L.every(l => { state.lang = l; return ["opsHingeDowelOpen", "opsHingePlateOpen", "opsHingeNoDrill", "opsHingeGlass", "opsHingeTh", "opsHingeH", "opsHingeW", "opsHingeKg", "hmDoorTh", "hm3d"].every(k => t(k) !== k)
+        && opsMsg({ k: "opsHingeTh", v: 12, lo: 15, hi: 24 }).includes("12") && !/\{v\}|\{lo\}|\{hi\}/.test(opsMsg({ k: "opsHingeTh", v: 12, lo: 15, hi: 24 })); });
+      state.lang = keep; return r; }));
+    const g = await hb("gra_F028138519F028138522");
+    ok("Balamale+: Grass — cupa cu cel puțin minimul 12.6 din sursă, fără găuri de placă, cu avertisment", g.depth >= 12.6 && g.warn.includes("opsHingePlateOpen") && g.cern === g.cups, JSON.stringify(g));
+    const gl = await hb("het_9405214");
+    ok("Balamale+: balama pentru sticlă — nicio cupă, avertisment, grosimea ușii față de intervalul sticlei", gl.cups === 0 && gl.warn.includes("opsHingeGlass") && gl.warn.includes("opsHingeTh"), JSON.stringify(gl));
+    const bl = await hb("blum_71b3550");
+    ok("Balamale+: balama Blum implicită neschimbată: număr după regula generală, nicio avertizare nouă", bl.cern === bl.gen && bl.cups === bl.gen && !bl.warn.some(k => /opsHinge(Dowel|Plate|NoDrill|Glass|Th|H|W|Kg)/.test(k)), JSON.stringify(bl));
+    ok("Balamale+: numele articolelor în toate cele 7 limbi", await pg.evaluate(() => { const keep = state.lang, L = ["it", "ro", "en", "fr", "de", "pl", "es"], seen = new Set();
+      const r = L.every(l => { state.lang = l; const nm = hwItemById("cern", "het_9071208").name; seen.add(nm); return nm.includes("8645i") && nm.includes("TH53"); }); state.lang = keep; return r && seen.size >= 6; }));
+    ok("Balamale+: 3D — fiecare familie se desenează fără eroare, uși deschise (cupă, fixări, placă, braț din date)", await pg.evaluate(() => {
+      try { return ["het_9071205", "het_9071208", "sal_C1P6AE9", "gra_F028138519F028138522", "haf_31104648", "blum_75B2550", "het_9405214", "sal_CEL6DE9XXI", "het_9072524"].every(id => {
+        const cfg = { ...PRESETS.pensile, name: "Hm2", L: 500, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, hwSel: { cern: id } }; const p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+        generateInto(p, cfg); GL3D.render(cfg, { explode: 0 }); const r = GL3D.capture(cfg, { open: 1, hw: true, w: 220, h: 160 }); return !!(r && r.img); }); } catch (e) { return String(e); } }));
+    ok("Balamale+: nessun errore JS", errs.length === n0, errs.slice(n0).join(" | ").slice(0, 200));
+    await pg.evaluate(() => { state.settings.hwProd = Object.assign({}, state.settings.hwProd, { cern: "blum_71b3550", plate: null }); persist(); renderCatalog(); });
+  }
+
   /* U.16 — mecanisme de ridicare pentru usi care se deschid in sus (basculante) */
   {
     head("Mecanisme de ridicare — optiune, deviz, 3D, avertismente (U.16)");

@@ -1,0 +1,1738 @@
+{
+ "brand": "Grass",
+ "sources": [
+  {
+   "id": "GRA-CAT",
+   "url": "https://cdn.shopify.com/s/files/1/1506/1908/files/grass_product_catalogues_hinge_systems.pdf",
+   "title": "GRASS Hinge systems catalogue (www.grass.eu, 376 pp; distributor copy)",
+   "pages": "Tiomos 110 p14-15, 95 p26-27, 160 p22-23, 110AL p30-31, Mirro p88-91, GL95 Mini p86-87, plates p102-111, tech info p116-120; Nexis Impresso 04 p128-129, 22 p130-131, 65 p134-135, tech info p162-165"
+  },
+  {
+   "id": "GRA-CAD",
+   "url": "https://www.grass.eu/en/tec-center/cad-data/",
+   "title": "GRASS TEC Centre CAD data (ZIP with preview, RAW and STEP per product group; iFurn library/composer)",
+   "pages": "web page"
+  }
+ ],
+ "plates": [
+  {
+   "id": "grap_F058139746",
+   "kind": "cruciform",
+   "name": "1D cross 37/32 screw-on",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "D": [
+    "0",
+    "2",
+    "3",
+    "3.5"
+   ],
+   "codes": {
+    "0": "F058139746",
+    "2": "F058139747",
+    "3": "F058139748",
+    "3.5": "F058139749"
+   },
+   "art": [
+    "F058139746",
+    "F058139747",
+    "F058139748",
+    "F058139749"
+   ],
+   "src": "GRA-CAT p102-111",
+   "note": null
+  },
+  {
+   "id": "grap_F058139756",
+   "kind": "cruciform",
+   "name": "1D cross 37/32 Euro screws",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "D": [
+    "0",
+    "2",
+    "3",
+    "3.5"
+   ],
+   "codes": {
+    "0": "F058139756",
+    "2": "F058139757",
+    "3": "F058139758",
+    "3.5": "F058139759"
+   },
+   "art": [
+    "F058139756",
+    "F058139757",
+    "F058139758",
+    "F058139759"
+   ],
+   "src": "GRA-CAT p102-111",
+   "note": null
+  },
+  {
+   "id": "grap_F058139761",
+   "kind": "cruciform",
+   "name": "1D cross 37/32 premounted Euro screws",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "D": [
+    "0",
+    "2",
+    "3",
+    "3.5"
+   ],
+   "codes": {
+    "0": "F058139761",
+    "2": "F058139762",
+    "3": "F058139763",
+    "3.5": "F058139764"
+   },
+   "art": [
+    "F058139761",
+    "F058139762",
+    "F058139763",
+    "F058139764"
+   ],
+   "src": "GRA-CAT p102-111",
+   "note": null
+  },
+  {
+   "id": "grap_F058139751",
+   "kind": "cruciform",
+   "name": "1D cross 37/32 press-in o10",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "D": [
+    "0",
+    "2",
+    "3",
+    "3.5"
+   ],
+   "codes": {
+    "0": "F058139751",
+    "2": "F058139752",
+    "3": "F058139753",
+    "3.5": "F058139754"
+   },
+   "art": [
+    "F058139751",
+    "F058139752",
+    "F058139753",
+    "F058139754"
+   ],
+   "src": "GRA-CAT p102-111",
+   "note": null
+  },
+  {
+   "id": "grap_F059139701",
+   "kind": "linear",
+   "name": "1D linear 20/32 screw-on",
+   "line": 20,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "D": [
+    "0",
+    "2",
+    "3",
+    "3.5"
+   ],
+   "codes": {
+    "0": "F059139701",
+    "2": "F059139702",
+    "3": "F059139703",
+    "3.5": "F059139704"
+   },
+   "art": [
+    "F059139701",
+    "F059139702",
+    "F059139703",
+    "F059139704"
+   ],
+   "src": "GRA-CAT p102-111",
+   "note": null
+  },
+  {
+   "id": "grap_F058139796",
+   "kind": "cruciform",
+   "name": "1D cross 28/32 screw-on",
+   "line": 28,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "D": [
+    "0",
+    "2",
+    "3",
+    "3.5"
+   ],
+   "codes": {
+    "0": "F058139796",
+    "2": "F058139797",
+    "3": "F058139798",
+    "3.5": "F058139799"
+   },
+   "art": [
+    "F058139796",
+    "F058139797",
+    "F058139798",
+    "F058139799"
+   ],
+   "src": "GRA-CAT p102-111",
+   "note": null
+  }
+ ],
+ "families": [
+  {
+   "key": "gra_tiomos110",
+   "brand": "Grass",
+   "series": "Tiomos 110",
+   "name": "Tiomos 110 (damper / no damper / no spring / self-opening)",
+   "angle": 110,
+   "kind": "standard",
+   "doorTh": [
+    null,
+    24
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depthMin": 12.6,
+    "tb": [
+     3,
+     7
+    ],
+    "src": "GRA-CAT p15"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F028138519F028138522",
+     "art": "F028138519..F028138522",
+     "overlay": "crank0_3_9.5_19",
+     "fix": "screw",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p14",
+     "note": "110 with damper, click-on screw fixing, crank 0/3/9.5/19"
+    },
+    {
+     "id": "gra_F045138457460",
+     "art": "F045138457..460",
+     "overlay": "crank0_3_9.5_19",
+     "fix": null,
+     "soft": false,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p14",
+     "note": "without damper"
+    },
+    {
+     "id": "gra_F046138579582",
+     "art": "F046138579..582",
+     "overlay": "crank0_3_9.5_19",
+     "fix": null,
+     "soft": false,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p14",
+     "note": "without damper, without spring"
+    },
+    {
+     "id": "gra_F028138523526",
+     "art": "F028138523..526",
+     "overlay": "crank0_3_9.5_19",
+     "fix": "press",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p14",
+     "note": "damper, press-fit"
+    },
+    {
+     "id": "gra_F017139329332",
+     "art": "F017139329..332",
+     "overlay": "crank0_3_9.5_19",
+     "fix": "impresso",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p14",
+     "note": "damper, Impresso"
+    }
+   ],
+   "adjust": {
+    "side": 2,
+    "height": 2,
+    "depth": [
+     -2,
+     3
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       null,
+       6
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       null,
+       10
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p116 (drawing)",
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)"
+   },
+   "protr": null,
+   "open": [
+    "door_th lower bound not stated ('up to 24 mm')",
+    "cup depth only as minimum 12.6",
+    "dowel hole depth"
+   ],
+   "notes": [
+    "Tipmatic/self-opening variant",
+    "85 deg opening reduction clip F072135751",
+    "Quick3, Impresso (tool-free), press-fit",
+    "Night (black) finish",
+    "tool-free damper adjustment 3 levels"
+   ],
+   "src": "GRA-CAT p15",
+   "tables": [
+    {
+     "title": "min gap table (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "24": [
+       1.0,
+       1.0,
+       1.0,
+       1.2,
+       2.1
+      ],
+      "22": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.5
+      ],
+      "21": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.2
+      ],
+      "20": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "19": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "18": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "17": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "16": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    {
+     "title": "min reveal table (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "24": [
+       2.4,
+       2.1,
+       2.1,
+       2.1,
+       2.0
+      ],
+      "22": [
+       1.6,
+       1.6,
+       1.6,
+       1.5,
+       1.5
+      ],
+      "21": [
+       1.4,
+       1.3,
+       1.3,
+       1.3,
+       1.3
+      ],
+      "20": [
+       1.1,
+       1.1,
+       1.1,
+       1.1,
+       1.1
+      ],
+      "19": [
+       0.9,
+       0.9,
+       0.9,
+       0.9,
+       0.9
+      ],
+      "18": [
+       0.7,
+       0.7,
+       0.7,
+       0.7,
+       0.7
+      ],
+      "17": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6
+      ],
+      "16": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6
+      ]
+     }
+    }
+   ],
+   "armLen": {
+    "v": 84.5,
+    "src": "drawing"
+   },
+   "cupPatterns": {
+    "spacing": 45,
+    "offset": 9.5,
+    "src": "drawing"
+   }
+  },
+  {
+   "key": "gra_tiomos95",
+   "brand": "Grass",
+   "series": "Tiomos 95",
+   "name": "Tiomos 95 (thick door up to 28 mm)",
+   "angle": 95,
+   "kind": "thick",
+   "doorTh": [
+    null,
+    28
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depthMin": 12.6,
+    "tb": [
+     3,
+     7
+    ],
+    "src": "GRA-CAT p27"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F028138567570",
+     "art": "F028138567..570",
+     "overlay": "crank0_3_9.5_19",
+     "fix": "screw",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p26",
+     "note": "95 damper screw-on crank 0/3/9.5/19"
+    },
+    {
+     "id": "gra_F045138505508",
+     "art": "F045138505..508",
+     "overlay": "crank0_3_9.5_19",
+     "fix": null,
+     "soft": false,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p26",
+     "note": "no damper"
+    },
+    {
+     "id": "gra_F046138627630",
+     "art": "F046138627..630",
+     "overlay": "crank0_3_9.5_19",
+     "fix": null,
+     "soft": false,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p26",
+     "note": "no damper no spring"
+    }
+   ],
+   "adjust": {
+    "depth": [
+     -2,
+     3
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       null,
+       6
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       null,
+       10
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p116 (drawing)",
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)"
+   },
+   "protr": null,
+   "open": [
+    "door lower bound",
+    "cup depth exact"
+   ],
+   "notes": [],
+   "src": "GRA-CAT p27",
+   "tables": [
+    {
+     "title": "min gap table (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [],
+     "rows": {
+      "36": [
+       1.0,
+       1.0,
+       1.0,
+       1.4,
+       2.4
+      ],
+      "28": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.7
+      ],
+      "24": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.4
+      ],
+      "20": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    {
+     "title": "min reveal table (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "36": [
+       10.6,
+       9.6,
+       8.6,
+       7.6,
+       6.7
+      ],
+      "30": [
+       4.5,
+       3.5,
+       2.5,
+       2.5,
+       1.5
+      ],
+      "28": [
+       2.0,
+       1.5,
+       1.5,
+       1.3,
+       1.3
+      ],
+      "26": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "24": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6
+      ],
+      "22": [
+       0.5,
+       0.5,
+       0.5,
+       0.5,
+       0.5
+      ],
+      "20": [
+       0.3,
+       0.3,
+       0.3,
+       0.3,
+       0.3
+      ],
+      "18": [
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2
+      ],
+      "16": [
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2
+      ]
+     }
+    }
+   ],
+   "armLen": {
+    "v": 84.5,
+    "src": "drawing"
+   }
+  },
+  {
+   "key": "gra_tiomos160",
+   "brand": "Grass",
+   "series": "Tiomos 160",
+   "name": "Tiomos 160 wide-angle (zero protrusion, inset drawers)",
+   "angle": 160,
+   "kind": "zero",
+   "doorTh": [
+    null,
+    32
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depthMin": 10,
+    "tb": [
+     3,
+     10
+    ],
+    "src": "GRA-CAT p23"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F028138561563",
+     "art": "F028138561..563",
+     "overlay": "crank0_3_9.5",
+     "fix": "screw",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p22",
+     "note": "160 damper screw-on crank 0/3/9.5"
+    },
+    {
+     "id": "gra_F045138499501",
+     "art": "F045138499..501",
+     "overlay": "crank0_3_9.5",
+     "fix": null,
+     "soft": false,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p22",
+     "note": "no damper"
+    },
+    {
+     "id": "gra_F046138621623",
+     "art": "F046138621..623",
+     "overlay": "crank0_3_9.5",
+     "fix": null,
+     "soft": false,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p22",
+     "note": "no damper no spring"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       null,
+       6
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       null,
+       10
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p116 (drawing)",
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)"
+   },
+   "protr": null,
+   "open": [
+    "cup depth only minimum 10"
+   ],
+   "notes": [
+    "mitred application needs 120 deg clip"
+   ],
+   "src": "GRA-CAT p23",
+   "tables": [],
+   "armLen": {
+    "v": 84.5,
+    "src": "drawing"
+   }
+  },
+  {
+   "key": "gra_tiomos110al",
+   "brand": "Grass",
+   "series": "Tiomos 110 AL",
+   "name": "Tiomos 110 AL (aluminium frame hinge)",
+   "angle": 110,
+   "kind": "alu",
+   "doorTh": [
+    null,
+    24
+   ],
+   "glass": false,
+   "noDrill": true,
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "depthMin": null,
+    "tb": null,
+    "src": "GRA-CAT p31"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F028138154157",
+     "art": "F028138154..157",
+     "overlay": "crank0_3_9.5_19",
+     "fix": "screw",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p30",
+     "note": "110AL damper crank 0/3/9.5/19 screw"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       null,
+       6
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       null,
+       10
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p116 (drawing)",
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)"
+   },
+   "protr": null,
+   "open": [
+    "frame cut-out dims only as drawing numbers"
+   ],
+   "notes": [
+    "unclipping protector F072135807"
+   ],
+   "src": "GRA-CAT p31",
+   "tables": [],
+   "armLen": null
+  },
+  {
+   "key": "gra_mirro",
+   "brand": "Grass",
+   "series": "Tiomos Mirro",
+   "name": "Tiomos Mirro 125° mirror/glass hinge (no glass drilling; stainless or Zamak adapter glued)",
+   "angle": 125,
+   "kind": "glass",
+   "doorTh": [
+    3,
+    8
+   ],
+   "glass": true,
+   "noDrill": true,
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "depthMin": null,
+    "tb": null,
+    "src": ""
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F029140325",
+     "art": "F029140325",
+     "overlay": "glass",
+     "fix": "glued",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p88",
+     "note": "Mirro with damper"
+    },
+    {
+     "id": "gra_F047140326",
+     "art": "F047140326",
+     "overlay": "glass",
+     "fix": "glued",
+     "soft": false,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p88",
+     "note": "without damper"
+    },
+    {
+     "id": "gra_F049140327",
+     "art": "F049140327",
+     "overlay": "glass",
+     "fix": "glued",
+     "soft": false,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p88",
+     "note": "without damper without spring"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       4,
+       6
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       7,
+       12
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       13,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2450,
+      "kg": [
+       18,
+       22
+      ]
+     }
+    ],
+    "widthMax": 500,
+    "src": "GRA-CAT p89,91 (text order; mapping inferred)"
+   },
+   "protr": null,
+   "open": [
+    "envelope labels ambiguous"
+   ],
+   "notes": [
+    "90 deg reduction clip F072135871",
+    "+5/-5 wedges",
+    "adapter stainless F069073731, Zamak F072135868"
+   ],
+   "src": "GRA-CAT",
+   "tables": [],
+   "armLen": null
+  },
+  {
+   "key": "gra_gl95mini",
+   "brand": "Grass",
+   "series": "Tiomos 95 GL Mini",
+   "name": "Tiomos 95 GL Mini 95° glass door hinge (o26 cup)",
+   "angle": 95,
+   "kind": "glass",
+   "doorTh": [
+    4,
+    6
+   ],
+   "glass": true,
+   "noDrill": true,
+   "cup": {
+    "dia": 26,
+    "depth": null,
+    "depthMin": null,
+    "tb": [
+     4,
+     6
+    ],
+    "src": "GRA-CAT p87"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F045138079",
+     "art": "F045138079",
+     "overlay": "overlay3",
+     "fix": "screw",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p86",
+     "note": "GL95 Mini without damper"
+    }
+   ],
+   "adjust": null,
+   "count": null,
+   "protr": null,
+   "open": [],
+   "notes": [],
+   "src": "GRA-CAT p87",
+   "tables": [],
+   "armLen": {
+    "v": 84.5,
+    "src": "drawing"
+   }
+  },
+  {
+   "key": "gra_nexis04",
+   "brand": "Grass",
+   "series": "Nexis Impresso 04",
+   "name": "Nexis Impresso 04 (100°)",
+   "angle": 100,
+   "kind": "standard",
+   "doorTh": [
+    null,
+    24
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 11.5,
+    "depthMin": null,
+    "tb": [
+     4,
+     6
+    ],
+    "src": "GRA-CAT p128-129"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F014072504",
+     "art": "F014072504",
+     "overlay": "full",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p128",
+     "note": "full overlay crank 0 with spring"
+    },
+    {
+     "id": "gra_F014072567",
+     "art": "F014072567",
+     "overlay": "half",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p128",
+     "note": "half overlay crank 8 with spring"
+    },
+    {
+     "id": "gra_F014072507",
+     "art": "F014072507",
+     "overlay": "inset",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p128",
+     "note": "inset crank 15 with spring (a no-spring pair F014072506/508)"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       4,
+       5
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       6,
+       9
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2000,
+      "kg": [
+       10,
+       15
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       16,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p162 (rendered image read)"
+   },
+   "protr": null,
+   "open": [
+    "door lower bound"
+   ],
+   "notes": [
+    "soft-close compatible (Soft-close Impresso set F069073728)",
+    "Tipmatic"
+   ],
+   "src": "GRA-CAT p128-129",
+   "tables": [
+    {
+     "title": "min reveal (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      4,
+      5,
+      6
+     ],
+     "rows": {
+      "16": [
+       0.6,
+       0.6,
+       0.6
+      ],
+      "18": [
+       0.9,
+       0.9,
+       0.9
+      ],
+      "19": [
+       1.1,
+       1.1,
+       1.1
+      ],
+      "20": [
+       1.4,
+       1.4,
+       1.4
+      ],
+      "22": [
+       1.9,
+       1.9,
+       1.9
+      ],
+      "24": [
+       2.5,
+       2.5,
+       2.5
+      ]
+     }
+    },
+    {
+     "title": "min gap (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [],
+     "rows": {
+      "16": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "18": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "19": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "20": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "22": [
+       0.7,
+       0.7,
+       0.8
+      ],
+      "24": [
+       0.7,
+       0.7,
+       1.1
+      ]
+     }
+    }
+   ],
+   "armLen": {
+    "v": 64,
+    "src": "drawing"
+   }
+  },
+  {
+   "key": "gra_nexis22",
+   "brand": "Grass",
+   "series": "Nexis Impresso 22",
+   "name": "Nexis Impresso 22 (110°)",
+   "angle": 110,
+   "kind": "standard",
+   "doorTh": [
+    null,
+    20
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 11.5,
+    "depthMin": null,
+    "tb": [
+     4,
+     7
+    ],
+    "src": "GRA-CAT p130-131"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F014072520",
+     "art": "F014072520",
+     "overlay": "full",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p130",
+     "note": "full / half overlay with spring"
+    },
+    {
+     "id": "gra_F014072522",
+     "art": "F014072522",
+     "overlay": "half",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p130",
+     "note": "full / half overlay with spring"
+    },
+    {
+     "id": "gra_F014072521",
+     "art": "F014072521",
+     "overlay": "full",
+     "fix": null,
+     "soft": true,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p130",
+     "note": "without spring"
+    },
+    {
+     "id": "gra_F014072523",
+     "art": "F014072523",
+     "overlay": "half",
+     "fix": null,
+     "soft": true,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p130",
+     "note": "without spring"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       4,
+       5
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       6,
+       9
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2000,
+      "kg": [
+       10,
+       15
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       16,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p162 (rendered image read)"
+   },
+   "protr": null,
+   "open": [
+    "22 mm row beyond stated 20 mm max in source (as printed)"
+   ],
+   "notes": [
+    "soft-close compatible (Soft-close Impresso set F069073728)",
+    "Tipmatic"
+   ],
+   "src": "GRA-CAT p130-131",
+   "tables": [
+    {
+     "title": "min reveal (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "16": [
+       0.5,
+       0.5,
+       0.5,
+       0.5
+      ],
+      "18": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "19": [
+       1.2,
+       1.2,
+       1.2,
+       1.2
+      ],
+      "20": [
+       1.5,
+       1.5,
+       1.5,
+       1.5
+      ],
+      "22": [
+       3.7,
+       2.8,
+       2.1,
+       2.1
+      ]
+     }
+    },
+    {
+     "title": "min gap (mm)",
+     "rowLabel": "door thickness",
+     "colLabel": "C (TB)",
+     "cols": [],
+     "rows": {
+      "16": [
+       0.7,
+       1.6,
+       2.6,
+       3.6
+      ],
+      "18": [
+       1.2,
+       2.2,
+       3.2,
+       4.2
+      ],
+      "19": [
+       1.5,
+       2.5,
+       3.5,
+       4.5
+      ],
+      "20": [
+       1.8,
+       2.8,
+       3.8,
+       4.8
+      ],
+      "22": [
+       2.4,
+       3.4,
+       4.4,
+       5.4
+      ]
+     }
+    }
+   ],
+   "armLen": {
+    "v": 64,
+    "src": "drawing"
+   }
+  },
+  {
+   "key": "gra_nexis65",
+   "brand": "Grass",
+   "series": "Nexis Impresso 65",
+   "name": "Nexis Impresso 65 (170° wide angle, zero protrusion, finger guard)",
+   "angle": 170,
+   "kind": "zero",
+   "doorTh": [
+    null,
+    26
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 11,
+    "depthMin": null,
+    "tb": [
+     4,
+     8
+    ],
+    "src": "GRA-CAT p134-135"
+   },
+   "fix": {},
+   "plates": [
+    "grap_F058139746",
+    "grap_F058139756",
+    "grap_F058139761",
+    "grap_F058139751",
+    "grap_F059139701",
+    "grap_F058139796"
+   ],
+   "parts": [
+    {
+     "id": "gra_F014072530",
+     "art": "F014072530",
+     "overlay": "full",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p134",
+     "note": "full / half overlay with spring"
+    },
+    {
+     "id": "gra_F014072532",
+     "art": "F014072532",
+     "overlay": "half",
+     "fix": null,
+     "soft": true,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p134",
+     "note": "full / half overlay with spring"
+    },
+    {
+     "id": "gra_F014072531",
+     "art": "F014072531",
+     "overlay": "full",
+     "fix": null,
+     "soft": true,
+     "spring": "unsprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "GRA-CAT p134",
+     "note": "full overlay without spring"
+    }
+   ],
+   "adjust": null,
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 900,
+      "kg": [
+       4,
+       5
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1600,
+      "kg": [
+       6,
+       9
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2000,
+      "kg": [
+       10,
+       15
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2500,
+      "kg": [
+       16,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "GRA-CAT p162 (rendered image read)"
+   },
+   "protr": null,
+   "open": [],
+   "notes": [
+    "soft-close compatible (Soft-close Impresso set F069073728)",
+    "Tipmatic"
+   ],
+   "src": "GRA-CAT p134-135",
+   "tables": [],
+   "armLen": null
+  }
+ ],
+ "notes": [
+  "Grass: official catalogue (www.grass.eu hinge systems, 376 pp, distributor-hosted copy). Tiomos cup depth only 'min' values (12.6 for 110/95; 10 for 160). Corner hinges (110/90, +30/37/45, -15/30/45), 100 refrigerator, PCC, M9, M0, Nexis Click-on etc. located (pages 32-101, 168-216) but not transcribed.",
+  "CAD/STEP: Hettich: DWG/DXF per article (eShop), PARTcommunity, >50 formats on request; Grass: ZIP with RAW+STEP per product group at TEC Centre; Salice: none found; Haefele: none found; Blum: none found on hinge download page.",
+  "Envelope dimensions (cup/arm/plate L x W x H): only drawing labels (e.g. Grass arm 84.5, Blum boss 57x37, Salice pivot 66x38x19) - no manufacturer table of envelopes exists in the documents read."
+ ]
+}
