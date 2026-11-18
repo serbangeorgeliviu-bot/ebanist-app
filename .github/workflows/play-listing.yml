@@ -10,6 +10,7 @@
 #            dry=da validează fără să confirme
 #   rollout  fracția lansării în curs de pe production (fraction 0.01…1;
 #            1 = 100%, cere confirm=da)
+#   promote  promovează un versionCode deja urcat (version_code, track, fraction, confirm=da pe production)
 #   reviews  recenziile recente
 #   subs     numai citire: abonamentele, prețurile și ofertele din Play
 #   reply    răspunde la o recenzie (review_id + reply, ≤ 350 caractere)
@@ -23,7 +24,7 @@ on:
       cmd:
         description: "Ce face"
         type: choice
-        options: [status, listing, rollout, reviews, subs, subs-raw, reply]
+        options: [status, listing, rollout, promote, reviews, subs, subs-raw, reply]
         default: status
       images:
         description: "listing: scrie și imaginile (da/nu)"
@@ -39,6 +40,18 @@ on:
         default: ""
       confirm:
         description: "rollout 1 (100%): scrie «da»"
+        type: string
+        default: ""
+      version_code:
+        description: "promote: versionCode-ul deja urcat în Play (ex. 11)"
+        type: string
+        default: ""
+      track:
+        description: "promote: internal / alpha / beta / production"
+        type: string
+        default: "production"
+      notes:
+        description: "promote: note de lansare ro-RO (≤ 500)"
         type: string
         default: ""
       review_id:
@@ -71,6 +84,9 @@ jobs:
           PLAY_FRACTION: ${{ inputs.fraction }}
           PLAY_CONFIRM: ${{ inputs.confirm }}
           PLAY_REVIEW_ID: ${{ inputs.review_id }}
+          PLAY_VERSION_CODE: ${{ inputs.version_code }}
+          PLAY_TRACK: ${{ inputs.track }}
+          PLAY_NOTES: ${{ inputs.notes }}
           PLAY_REPLY: ${{ inputs.reply }}
         run: |
           if [ -z "$SA_JSON" ]; then
