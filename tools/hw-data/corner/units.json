@@ -1,0 +1,4362 @@
+{
+ "sources": {
+  "corner": [
+   {
+    "id": "S01",
+    "url": "https://www.blum.com/file/box0034-ma-493-0_ma_dok_bau?country=eu&language=en",
+    "title": "Blum MA-493/0 SPACE CORNER with SYNCROMOTION (installation instruction, 01.14, TANDEMBOX plus/antaro/intivo)",
+    "pages": "2-5"
+   },
+   {
+    "id": "S02",
+    "url": "https://www.blum.com/file/box0036-td-082_td_dok_bau?country=is&language=en",
+    "title": "Blum TD-082/4 SPACE TOWER planning information (03.24)",
+    "pages": "2,3,5"
+   },
+   {
+    "id": "S03",
+    "url": "https://www.ldlonline.co.uk/media/wysiwyg/others/media/blum-catalogue.pdf",
+    "title": "Blum catalogue and technical manual 2020/2021 KA-140 (distributor copy; PDF page numbers, printed page = PDF page - 4)",
+    "pages": "122-123 (corner bi-fold hinge), 265/268/315 (overview incl. SPACE CORNER, SPACE TOWER kg), 300-301 (SPACE TOWER antaro), 521-530 (ORGA-LINE sets for SPACE CORNER)"
+   },
+   {
+    "id": "S04",
+    "url": "https://d2.blum.com/services/BEC003/cme120138_ma_dok_bus_$sen-us_$aof_$v1.pdf",
+    "title": "Blum Inc. MOVENTO | SPACE CORNER (US, (c)2024)",
+    "pages": "1-2"
+   },
+   {
+    "id": "S05",
+    "url": "https://shop-sg.blum.com/img/manager/4d6f714af26032a8e3fc8e82f38a8b852c9d6145.pdf",
+    "title": "Blum SPACE TWIN narrow cabinets brochure",
+    "pages": "3,8"
+   },
+   {
+    "id": "S06",
+    "url": "https://megaflis.no/globalassets/productimages/7332466029626_bld.pdf",
+    "title": "Kesseboehmer LeMans II catalogue pages 3.3-3.12 (30.08.13, distributor copy)",
+    "pages": "PDF p2,4,5,8,9"
+   },
+   {
+    "id": "S07",
+    "url": "https://merkuryam.mysky-shop.pl/upload/merkuryam/Instrukcja_montazu_LE_MANS_II-3-.pdf",
+    "title": "Kesseboehmer MA 402118 0000 (08.05.2012) LeMans II full swing corner pull-out, height-adjustable axle, 40/45/50/60",
+    "pages": "1,3,5"
+   },
+   {
+    "id": "S08",
+    "url": "https://webdata.drevotrust.cz/montazni_navody/kessebohmer/lemans_II/lemans_II_vysoka_skrin.pdf",
+    "title": "Kesseboehmer MA 402123 0000 Rev 004-2019-06-27 LeMans II Highboard (rigid axle)",
+    "pages": "1,3,4"
+   },
+   {
+    "id": "S09",
+    "url": "https://xcart.wurthlac.com/skin/common_files/files/specs/LeMans-InstallationInstruction.pdf",
+    "title": "Kesseboehmer MA 402121 0000 Rev 007-2018-02-08 LeMans II (NA version, face-frame/frameless; Wurth Baer copy)",
+    "pages": "3-5"
+   },
+   {
+    "id": "S10",
+    "url": "https://cdn.shopify.com/s/files/1/1755/7509/files/Dispensa_-_Install.pdf",
+    "title": "Kesseboehmer MA 402053 0000 Rev 006-2017-01-05 DISPENSA VVS-x with ARENA shelves",
+    "pages": "1,3,4"
+   },
+   {
+    "id": "S11",
+    "url": "https://www.demos24plus.com/content/wysiwyg/en/Dokumenty/Catalogues/Fittings%202024/K05_2024_GB.pdf",
+    "title": "Demos Trade 'Kitchen wire systems' catalogue K05 2024 (distributor catalogue of Kesseboehmer products; Demos codes + Kesseboehmer codes)",
+    "pages": "PDF p15-23 (Dispensa), 24-26 (Tandem), 27-32 (LeMans II), 33 (Magic Corner), 34-35 (carousel, Revo 90), 37-43 (base baskets), 61-62"
+   },
+   {
+    "id": "S12",
+    "url": "https://static.richelieu.com/documents/docsGr/120/769/9/1207699/1453259.pdf",
+    "title": "Peka MA 950.0523.MA Rev c (07.11.2016) Magic Corner Comfort 300.0580-0583",
+    "pages": "1,2,4"
+   },
+   {
+    "id": "S13",
+    "url": "https://static.richelieu.com/documents/docsGr/120/815/7/1208157/1458215.pdf",
+    "title": "Peka MA 950.0321.MA Rev f (08.02.2018) Magic Corner Standard 300.0826/0831/0814/0817",
+    "pages": "1,2,5"
+   },
+   {
+    "id": "S14a",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Corner-units-Magic-Corner-Comfort-peka-ENG.pdf",
+    "title": "Peka product data sheet Magic Corner Comfort 2023.06",
+    "pages": "1"
+   },
+   {
+    "id": "S14b",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Corner-units-Magic-Corner-Standard-peka-ENG.pdf",
+    "title": "Peka product data sheet Magic Corner Standard 2023.06",
+    "pages": "1"
+   },
+   {
+    "id": "S14c",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Base-units-Pinello-Cargo-peka-ENG.pdf",
+    "title": "Peka product data sheet Pinello Cargo 2025.05",
+    "pages": "1"
+   },
+   {
+    "id": "S14d",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Larder-units-Hochschrank-Standard-peka-ENG.pdf",
+    "title": "Peka product data sheet Hochschrank Standard 2024.11",
+    "pages": "1"
+   },
+   {
+    "id": "S14e",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Larder-units-Pleno-Plus-peka-ENG.pdf",
+    "title": "Peka product data sheet Pleno Plus 2023.06",
+    "pages": "1"
+   },
+   {
+    "id": "S14f",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Larder-units-Pleno-Maxi-peka-ENG.pdf",
+    "title": "Peka product data sheet Pleno Maxi 2024.11",
+    "pages": "1"
+   },
+   {
+    "id": "S14g",
+    "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Base-units-Extendo-for-uwhd-peka-ENG.pdf",
+    "title": "Peka product data sheet Extendo 2023.06",
+    "pages": "1"
+   },
+   {
+    "id": "S15",
+    "url": "https://catalog.hettich.com/Further_Products/Interior_Fittings/en_DE/catalogs/20558_Schrankinnenausstattung_Katalog_2025_EN_2008/pdf/save/bk_N.pdf",
+    "title": "Hettich Interior fittings catalogue 08/2025 (20558_Interior_Fittings_08/2025_HMV_EN), page N = bk_N.pdf",
+    "pages": "4-13 Lario/Oira/Naro, 14-16 Salso, 18-20 Orta, 22-23 Goro, 24-26 Olona, 28-30 Iseo"
+   },
+   {
+    "id": "S16",
+    "url": "https://shop.hettich.com/ie_EN/Verdere-producten/wandkastinrichting/onderkastinrichting/Hoekkastbeslag/Salso---zwenkbare-hoekkastladegeleider-voor-inbouw-achter-draaideur/Beslagset-Salso%2C-frontbreedte-600%2C-rechts%2C-zilver/p/9381054",
+    "title": "Hettich shop product page Salso 9381054 (CAD + instruction links)",
+    "pages": "web"
+   },
+   {
+    "id": "S17",
+    "url": "https://shop.hettich.com/gb_EN/system-comparison/compare/group3496754687777",
+    "title": "Hettich shop corner-unit system comparison",
+    "pages": "web"
+   },
+   {
+    "id": "S18a",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/17D1-46.PDF",
+    "title": "Hafele UK catalogue p1.46 Hafele corner unit (2017)",
+    "pages": "1"
+   },
+   {
+    "id": "S18b",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-50.pdf",
+    "title": "Hafele UK catalogue p1.50-1.53 Vauth-Sagel VS COR Flex (amended 23.07.24)",
+    "pages": "1-4"
+   },
+   {
+    "id": "S18c",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-54.pdf",
+    "title": "Hafele UK catalogue p1.54-1.57 Vauth-Sagel VS COR Fold (amended 07.02.22)",
+    "pages": "1-4"
+   },
+   {
+    "id": "S18d",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-57A.pdf",
+    "title": "Hafele UK catalogue swing-out corner unit (amended 10.01.22)",
+    "pages": "1"
+   },
+   {
+    "id": "S18e",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-49A.pdf",
+    "title": "Hafele UK catalogue Utensio Pro Inline Corner (created 17.01.25)",
+    "pages": "1-4"
+   },
+   {
+    "id": "S18f",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-59A.pdf",
+    "title": "Hafele UK catalogue Utensio Pro Glide Corner (created 17.01.25)",
+    "pages": "1-2"
+   },
+   {
+    "id": "S18g",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-62.pdf",
+    "title": "Hafele UK catalogue Vauth-Sagel Cornerstone Swing",
+    "pages": "1-2"
+   },
+   {
+    "id": "S18h",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-69.pdf",
+    "title": "Hafele UK catalogue p1.69 Vauth-Sagel VS COR Wheel Pro",
+    "pages": "1"
+   },
+   {
+    "id": "S19",
+    "url": "https://cdn.shopify.com/s/files/1/1506/1908/files/grass_product_catalogues_quaturis_corner_cabinet_system.pdf",
+    "title": "GRASS Quaturis corner cabinet systems brochure F147102902001 07/2015 (distributor copy; may be superseded)",
+    "pages": "8-12, 16-17, 36"
+   },
+   {
+    "id": "S20a",
+    "url": "https://www.vauth-sagel.com/pim/document/e91afc5a-d87d-5f52-bfc7-ad0a06f8dcdb",
+    "title": "Vauth-Sagel D7100001000-05/2025 VS COR Spin 800 assembly manual",
+    "pages": "1-2"
+   },
+   {
+    "id": "S20b",
+    "url": "https://www.vauth-sagel.com/pim/document/35142a99-601f-56fc-8dfc-4a5692b1d86e",
+    "title": "Vauth-Sagel D7100003000-05/2025 VS COR Spin 900 assembly manual",
+    "pages": "1-2"
+   },
+   {
+    "id": "S20c",
+    "url": "https://vauth-sagel.com/us/en/product/vs-cor-spin-71-lava/0f7f9d6a-34c6-534f-ad0e-6f3308e65b3d",
+    "title": "Vauth-Sagel product page VS COR Spin 71 lava",
+    "pages": "web"
+   },
+   {
+    "id": "S21",
+    "url": "https://www.kesseboehmer.com/en/storage-solutions/kitchen/larder-units/dispensa",
+    "title": "Kesseboehmer.com DISPENSA product page (teaser values)",
+    "pages": "web"
+   },
+   {
+    "id": "S22",
+    "url": "https://www.blum.com/eu/en/products/cabinet-applications/space-corner/downloads-videos/",
+    "title": "Blum SPACE CORNER downloads page (4 PDFs, no CAD files listed)",
+    "pages": "web"
+   }
+  ],
+  "motion": [
+   {
+    "id": "HET-FS-DS5",
+    "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/FurnSpin_Data_Sheets_V5_DE.pdf",
+    "title": "Hettich FurnSpin Data Sheets Version 5 (DE), 23 pp (the EN_01 URL returned 404)",
+    "pages": "6,7,8,9,10,11,12,14,19-22"
+   },
+   {
+    "id": "HET-FS-CAT",
+    "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/FurnSpin_Catalogue_171225.pdf",
+    "title": "Hettich FurnSpin catalogue (dated 17.12.25), 28 pp",
+    "pages": "12-17 order codes and ranges, 22-25 Cadro"
+   },
+   {
+    "id": "HET-FS-DIM",
+    "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/FurnSpin_20250519_PZ_00068_EN_1.00gz.pdf",
+    "title": "DIM Rosenheim test certificate no. 00068 FurnSpin S/M/XL, issued 19.05.2025, 2 pp",
+    "pages": "1-2"
+   },
+   {
+    "id": "HET-FS-IMOS",
+    "url": "https://www.hettich.com/fileadmin/Hettich_International/Planning/imos/Overview_Hettich_FurnSpin.pdf",
+    "title": "Overview Hettich FurnSpin (imos data package, 4 pp, image only: lists sample cabinet + connectors + cable management)",
+    "pages": "1-4"
+   },
+   {
+    "id": "HAF-197C",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-197C.pdf",
+    "title": "Haefele UK catalogue 9.197C Free Slim flap 1.12",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-197D",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-197D.pdf",
+    "title": "Haefele UK catalogue 9.197D Free Slim flap 1.10 push",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-204",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-204.pdf",
+    "title": "Haefele UK 9.204-205 Free Flap 1.7 / 3.15",
+    "pages": "2"
+   },
+   {
+    "id": "HAF-200",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-200.pdf",
+    "title": "Haefele UK 9.200 Free Space 1.11",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-202",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-202.pdf",
+    "title": "Haefele UK 9.202 Free Space 6.15",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-213",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-213.pdf",
+    "title": "Haefele UK 9.213 Free Fold bi-fold lift-up fitting set",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-214",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-214.pdf",
+    "title": "Haefele UK 9.214 Free Fold lift-up fittings (components)",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-216",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-216.pdf",
+    "title": "Haefele UK 9.216-217 Free Up parallel lift-up front fitting",
+    "pages": "2"
+   },
+   {
+    "id": "HAF-218",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-218.pdf",
+    "title": "Haefele UK 9.218-219 Free Swing lift-up flap fitting",
+    "pages": "2"
+   },
+   {
+    "id": "HAF-FREE-BRO",
+    "url": "https://htdocs.kirz.com/HTHMKT/Catalogue/FF/new-freedom-in-motion-free.pdf",
+    "title": "Haefele brochure 'Free - flaps for maximum freedom in motion' (distributor copy; text layer garbled, not used for numbers)",
+    "pages": "48 pp, only family overview"
+   },
+   {
+    "id": "HAF-144A",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-144A.pdf",
+    "title": "Haefele UK 1.144A Utensio Pro Easy Down pull-down wall shelf",
+    "pages": "1"
+   },
+   {
+    "id": "KES-IMOVE",
+    "url": "https://static.richelieu.com/documents/docsGr/120/057/0/1200570/1417249.pdf",
+    "title": "Kesseboehmer iMove mounting instructions MA 404352 0000 Rev 002-2016-12-12 (distributor copy, Richelieu), 11 pp",
+    "pages": "3-4"
+   },
+   {
+    "id": "HAF-25L3-35",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/25L3-35.pdf",
+    "title": "Haefele UK Lighting & Electrical 3.35 LED TV lift 700 mm travel + swivel bracket",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-17D6-54",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/17D6-54.pdf",
+    "title": "Haefele UK Media 6.54 Accuride DB Lift-0019 mechanical lift",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-20D2-25",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D2-25.pdf",
+    "title": "Haefele UK Storage 2.25 Dresscode wardrobe lift",
+    "pages": "1"
+   },
+   {
+    "id": "HET-BK905",
+    "url": "https://catalog.hettich.com/General/TA_2023/de_DE/catalogs/TA_2023_de_DE/pdf/save/bk_905.pdf",
+    "title": "Hettich catalogue TA 2023 p.873 Eckschrankdrehbeschlag mit Dreiviertelkreisdrehboeden (Arena STYLE/CLASSIC)",
+    "pages": "1"
+   },
+   {
+    "id": "HET-CS-MAN",
+    "url": "https://media.hornbach.lu/hb/installationmanual/as.151089824.pdf",
+    "title": "Hettich DIY ComfortSpin 9264627 mounting instructions (Hornbach host, drawing only)",
+    "pages": "1-2"
+   },
+   {
+    "id": "HET-CS-WEB",
+    "url": "https://www.hettich.com/en-al/products/further-products/comfortspin",
+    "title": "Hettich.com ComfortSpin product page",
+    "pages": "web"
+   },
+   {
+    "id": "HET-RS-WEB",
+    "url": "https://www.hettich.com/en-de/products/new-products/roomspin",
+    "title": "Hettich.com RoomSpin product page (no technical data on page)",
+    "pages": "web"
+   },
+   {
+    "id": "HAF-20D1-70",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-70.pdf",
+    "title": "Haefele UK 1.70 Ninka Pro(arc) three-quarter carousel set",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-20D1-57A",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-57A.pdf",
+    "title": "Haefele UK 1.57A Swing out corner unit complete set",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-20D1-59A",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-59A.pdf",
+    "title": "Haefele UK 1.59A/59B Utensio Pro Glide Corner",
+    "pages": "1-2"
+   },
+   {
+    "id": "HAF-23T7-204",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-204.pdf",
+    "title": "Haefele UK 7.204 hinged spring bracket + hinged bracket adjustable",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-23T7-205",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-205.pdf",
+    "title": "Haefele UK 7.205 light duty Hebgo folding bracket",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-23T7-206",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-206.pdf",
+    "title": "Haefele UK 7.206 heavy duty Hebgo folding bracket",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-23T7-207",
+    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-207.pdf",
+    "title": "Haefele UK 7.207 Tikla folding table / bench bracket",
+    "pages": "1"
+   },
+   {
+    "id": "HAF-US-WALLBED",
+    "url": "https://s3.amazonaws.com/s3-absupply-net/pdf/hafele/271-92-201-home-and-closet-organization-bed-fittings-s4-8b.pdf",
+    "title": "Haefele US catalogue FC 4.8B Bed Fittings (wall bed kits 271.92.200/.201/.202; distributor copy)",
+    "pages": "1"
+   }
+  ]
+ },
+ "units": [
+  {
+   "key": "blum_space_corner",
+   "raw": "blum-space-corner-syncromotion",
+   "brand": "Blum",
+   "name": "SPACE CORNER (SYNCROMOTION)",
+   "kind": "cdrawer",
+   "body": "base",
+   "hand": false,
+   "front": "unit",
+   "sizes": [
+    {
+     "id": "600",
+     "depth": 600,
+     "label": "NL 600"
+    },
+    {
+     "id": "650",
+     "depth": 650,
+     "label": "NL 650"
+    }
+   ],
+   "limits": {
+    "hiClear": {
+     "M": 33,
+     "C": 163,
+     "D": 195
+    }
+   },
+   "bands": [],
+   "load": {
+    "total": 65
+   },
+   "draw": {
+    "drawers": 2
+   },
+   "codes": [
+    {
+     "code": "ZML.0330",
+     "desc": "drilling template SPACE CORNER with SYNCROMOTION",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "65.1106 / 65.1107",
+     "desc": "add-on for SPACE CORNER (universal template)",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "ZSI.450BI3E / ZSI.500BI3E",
+     "desc": "ORGA-LINE BI3E set, NL 600 / 650",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "ZSI.450FI3 / ZSI.500FI3",
+     "desc": "ORGA-LINE FI3 set, NL 600 / 650",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "NL 600/650 = lungimi nominale ale sertarului, citite ca adâncime interioară minimă a corpului (sursa nu spune «adâncime minimă» explicit)",
+    "sertarul are fund pentagonal la 135°; reprezentat în 3D ca două sertare drepte (schematic)"
+   ],
+   "notes": [
+    "nCornerWidth"
+   ],
+   "src": "Blum MA-493/0 (S01 p2-5), catalog 2020/21 (S03 p268)",
+   "verificat": false
+  },
+  {
+   "key": "blum_movento_space_corner",
+   "raw": "blum-movento-space-corner-us",
+   "brand": "Blum",
+   "name": "MOVENTO | SPACE CORNER (US, with rigid fronts)",
+   "kind": "cdrawer",
+   "body": "base",
+   "hand": false,
+   "front": "unit",
+   "sizes": [],
+   "limits": {
+    "sideMax": 16
+   },
+   "bands": [],
+   "load": {},
+   "draw": {
+    "drawers": 2
+   },
+   "codes": [
+    {
+     "code": "769.6860S",
+     "desc": "MOVENTO runner set for SPACE CORNER, max 16 mm drawer side",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "T51.7601 R / L",
+     "desc": "locking device right / left",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "documentul american dă dimensiunile corpului în țoli (33, 36, 39, 42 in) și sarcina în lb (170); neconvertite, deci fără verificare de lățime"
+   ],
+   "notes": [
+    "nImperial"
+   ],
+   "src": "Blum Inc. MOVENTO | SPACE CORNER (S04 p1-2)",
+   "verificat": false
+  },
+  {
+   "key": "blum_space_tower",
+   "raw": "blum-space-tower",
+   "brand": "Blum",
+   "name": "SPACE TOWER",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [],
+   "limits": {
+    "cab": [
+     275,
+     1200
+    ]
+   },
+   "bands": [],
+   "load": {
+    "total": 70
+   },
+   "draw": {
+    "levels": 5,
+    "gallery": true
+   },
+   "codes": [],
+   "interp": [
+    "fiecare scoatere (LEGRABOX/MERIVOBOX/TANDEMBOX/MOVENTO/TANDEM) are greutatea totală de 70 kg (S02, ediția 2024); catalogul 2020 dă 30 sau 65 kg pentru TANDEMBOX",
+    "înălțimile scoaterilor din desen (57, 436, 756, 1108, 1428, 1684) sunt un exemplu LEGRABOX, nu o regulă"
+   ],
+   "notes": [
+    "nTowerHinge"
+   ],
+   "src": "Blum TD-082/4 (S02 p2-6), catalog 2020/21 (S03 p300-301)",
+   "verificat": false
+  },
+  {
+   "key": "blum_space_twin",
+   "raw": "blum-space-twin",
+   "brand": "Blum",
+   "name": "SPACE TWIN",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "legrabox",
+     "cab": [
+      185,
+      250
+     ],
+     "label": "LEGRABOX"
+    },
+    {
+     "id": "tandembox",
+     "cab": [
+      165,
+      250
+     ],
+     "label": "TANDEMBOX antaro"
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 20
+   },
+   "draw": {
+    "levels": 2
+   },
+   "codes": [],
+   "interp": [
+    "lățimea 185–250 / 165–250 e a corpului (cabinet width), citită ca lățime exterioară"
+   ],
+   "notes": [],
+   "src": "Blum SPACE TWIN (S05 p3,8; S03 p265/268/315)",
+   "verificat": false
+  },
+  {
+   "key": "kb_lemans2",
+   "raw": "kb-lemans2",
+   "brand": "Kesseböhmer",
+   "name": "LeMans II (Arena Classic / Style / Pure)",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "wi": [
+      764,
+      null
+     ],
+     "open": [
+      361,
+      368
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "wi": [
+      800,
+      null
+     ],
+     "open": [
+      411,
+      418
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "wi": [
+      910,
+      null
+     ],
+     "open": [
+      461,
+      468
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "wi": [
+      960,
+      null
+     ],
+     "open": [
+      561,
+      568
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500,
+    "topClear": 60,
+    "postMax": 65,
+    "doorAngleMin": 85,
+    "sideMin": 16
+   },
+   "bands": [
+    {
+     "id": "007944",
+     "hi": [
+      600,
+      750
+     ],
+     "code": "00 7944"
+    },
+    {
+     "id": "007958",
+     "hi": [
+      650,
+      800
+     ],
+     "code": "00 7958"
+    },
+    {
+     "id": "007945",
+     "hi": [
+      720,
+      900
+     ],
+     "code": "00 7945"
+    }
+   ],
+   "load": {
+    "tray": 25
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "03 7918 / 03 7919",
+     "desc": "Arena Classic set 400 R / L",
+     "size": 400,
+     "hand": null
+    },
+    {
+     "code": "03 7920 / 03 7921",
+     "desc": "Arena Classic 450 R / L",
+     "size": 450,
+     "hand": null
+    },
+    {
+     "code": "03 7922 / 03 7923",
+     "desc": "Arena Classic 500 R / L",
+     "size": 500,
+     "hand": null
+    },
+    {
+     "code": "03 7924 / 03 7925",
+     "desc": "Arena Classic 600 R / L",
+     "size": 600,
+     "hand": null
+    },
+    {
+     "code": "07 7918 / 07 7919",
+     "desc": "Arena Style 400 R / L",
+     "size": 400,
+     "hand": null
+    },
+    {
+     "code": "07 7920 / 07 7921",
+     "desc": "Arena Style 450 R / L",
+     "size": 450,
+     "hand": null
+    },
+    {
+     "code": "07 7922 / 07 7923",
+     "desc": "Arena Style 500 R / L",
+     "size": 500,
+     "hand": null
+    },
+    {
+     "code": "07 7924 / 07 7925",
+     "desc": "Arena Style 600 R / L",
+     "size": 600,
+     "hand": null
+    },
+    {
+     "code": "00 7955 / 00 7956",
+     "desc": "SoftStopp Plus (optional) R / L",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimea interioară minimă (764/800/910/960) = coloana «inner width» din MA 402118; deschiderea liberă (361–368 …) = «clear door opening»",
+    "tăvile sunt două (față, spate); dimensiunile lor nu sunt în text (doar desenul de rotire)"
+   ],
+   "notes": [
+    "nDoorOnTray"
+   ],
+   "src": "Kesseböhmer MA 402118 (S07 p3-5), catalog 2013 (S06 p4-5), Demos K05 (S11 p27-32)",
+   "verificat": false
+  },
+  {
+   "key": "kb_lemans2_highboard",
+   "raw": "kb-lemans2-highboard",
+   "brand": "Kesseböhmer",
+   "name": "LeMans II Highboard (semicolumn)",
+   "kind": "blind",
+   "body": "tall",
+   "hand": true,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "wi": [
+      764,
+      null
+     ],
+     "open": [
+      361,
+      368
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "wi": [
+      800,
+      null
+     ],
+     "open": [
+      411,
+      418
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "wi": [
+      910,
+      null
+     ],
+     "open": [
+      461,
+      468
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "wi": [
+      960,
+      null
+     ],
+     "open": [
+      561,
+      568
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500,
+    "hi": [
+     1265,
+     null
+    ]
+   },
+   "bands": [
+    {
+     "id": "007943",
+     "hi": [
+      1265,
+      null
+     ],
+     "code": "00 7943"
+    }
+   ],
+   "load": {
+    "tray": 25
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "00 7943",
+     "desc": "axle for clear height 1250 mm (2 M profiles, 2 bearing brackets)",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "00 7955 / 00 7956",
+     "desc": "SoftStopp Plus (optional) R / L",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "aceleași seturi ca LeMans II (03 79xx / 07 79xx)"
+   ],
+   "notes": [],
+   "src": "Kesseböhmer MA 402123 (S08 p1,3-5), catalog 2013 (S06 p8-9)",
+   "verificat": false
+  },
+  {
+   "key": "kb_dispensa_vvsx",
+   "raw": "kb-dispensa-vvsx",
+   "brand": "Kesseböhmer",
+   "name": "DISPENSA VVS-x (ARENA)",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "150",
+     "cab": 150,
+     "basketW": 100
+    },
+    {
+     "id": "200",
+     "cab": 200,
+     "basketW": 150
+    },
+    {
+     "id": "300",
+     "cab": 300,
+     "basketW": 250
+    },
+    {
+     "id": "400",
+     "cab": 400,
+     "basketW": 350
+    },
+    {
+     "id": "450",
+     "cab": 450,
+     "basketW": 400
+    }
+   ],
+   "limits": {
+    "depth": 500
+   },
+   "bands": [
+    {
+     "id": "b1",
+     "hi": [
+      900,
+      1300
+     ],
+     "n": 3,
+     "frame": [
+      845,
+      1245
+     ]
+    },
+    {
+     "id": "b2",
+     "hi": [
+      1200,
+      1600
+     ],
+     "n": 4,
+     "frame": [
+      1145,
+      1545
+     ]
+    },
+    {
+     "id": "b3",
+     "hi": [
+      1600,
+      2000
+     ],
+     "n": 5,
+     "frame": [
+      1545,
+      1945
+     ]
+    },
+    {
+     "id": "b4",
+     "hi": [
+      1800,
+      2200
+     ],
+     "n": 6,
+     "frame": [
+      1745,
+      2145
+     ]
+    }
+   ],
+   "load": {
+    "basket": 18,
+    "total": 120,
+    "slide": 100
+   },
+   "draw": {
+    "basketH": 94,
+    "basketD": 462
+   },
+   "codes": [
+    {
+     "code": "496375-496394",
+     "desc": "Demos sets Arena Style chrome/white, widths 150-450",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimea 150…450 = «cabinet» din tabelele Demos, citită ca lățime exterioară a corpului",
+    "rezistența glisierei 100 kg (catalog) față de 120 kg «greutate proprie + încărcătură» (MA): ambele păstrate"
+   ],
+   "notes": [
+    "nFrontOnFrame"
+   ],
+   "src": "Kesseböhmer MA 402053 (S10 p1,3-4), Demos K05 (S11 p15-23)",
+   "verificat": false
+  },
+  {
+   "key": "kb_base_basket_150",
+   "raw": "kb-dispensa-junior-comfort",
+   "brand": "Kesseböhmer",
+   "name": "Base basket 150 mm (side runner)",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "150",
+     "cab": 150,
+     "wi": [
+      112,
+      null
+     ],
+     "depth": 542
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "basket": 12
+   },
+   "draw": {
+    "levels": 2,
+    "basketW": 112,
+    "basketH": 540,
+    "basketD": 481
+   },
+   "codes": [
+    {
+     "code": "233461 / 233460",
+     "desc": "150 mm basket set with 2 shelves, Arena Style / Classic, right",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "«h540» = înălțimea ansamblului (cadru + coșuri) din text; afișată fără rotunjire"
+   ],
+   "notes": [],
+   "src": "Demos K05 (S11 p37-38)",
+   "verificat": false
+  },
+  {
+   "key": "kb_junior3",
+   "raw": "kb-dispensa-junior-comfort",
+   "brand": "Kesseböhmer",
+   "name": "Dispensa Junior III",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "300",
+     "cab": 300
+    },
+    {
+     "id": "400",
+     "cab": 400
+    },
+    {
+     "id": "450",
+     "cab": 450
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "basket": 12,
+    "total": 28
+   },
+   "draw": {
+    "levels": 2
+   },
+   "codes": [
+    {
+     "code": "245870 / 245871 / 353263",
+     "desc": "Dispensa Junior III frame 300 / 400 / 450",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Demos K05 (S11 p39)",
+   "verificat": false
+  },
+  {
+   "key": "kb_junior_slim",
+   "raw": "kb-dispensa-junior-comfort",
+   "brand": "Kesseböhmer",
+   "name": "Dispensa Junior Slim 150",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "150",
+     "cab": 150,
+     "hi": [
+      640,
+      728
+     ],
+     "depth": 490
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "basket": 12,
+    "total": 28
+   },
+   "draw": {
+    "levels": 2
+   },
+   "codes": [
+    {
+     "code": "393207 / 393208",
+     "desc": "Junior Slim frame grey / anthracite",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Demos K05 (S11 p42)",
+   "verificat": false
+  },
+  {
+   "key": "kb_comfort2",
+   "raw": "kb-dispensa-junior-comfort",
+   "brand": "Kesseböhmer",
+   "name": "Comfort II (side frame)",
+   "kind": "pullout",
+   "body": "base",
+   "hand": true,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "300",
+     "cab": [
+      190,
+      400
+     ],
+     "wi": [
+      262,
+      null
+     ]
+    },
+    {
+     "id": "400",
+     "cab": [
+      190,
+      400
+     ],
+     "wi": [
+      362,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "cab": [
+      190,
+      400
+     ],
+     "wi": [
+      412,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "hi": [
+     700,
+     null
+    ],
+    "depth": 480
+   },
+   "bands": [],
+   "load": {
+    "total": 20
+   },
+   "draw": {
+    "levels": 2
+   },
+   "codes": [
+    {
+     "code": "405930 / 405931",
+     "desc": "Comfort II side frame left / right",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "adâncimea minimă 480–496 (variază cu varianta): se folosește valoarea mică; înălțimea minimă 615/686 nu e atribuită, nefolosită"
+   ],
+   "notes": [],
+   "src": "Demos K05 (S11 p39-41)",
+   "verificat": false
+  },
+  {
+   "key": "kb_tandem_ii_side",
+   "raw": "kb-tandem-ii-side",
+   "brand": "Kesseböhmer",
+   "name": "Tandem II / Tandem Side",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "450",
+     "cab": 450
+    },
+    {
+     "id": "600",
+     "cab": 600
+    }
+   ],
+   "limits": {
+    "depth": 500,
+    "hi": [
+     600,
+     null
+    ]
+   },
+   "bands": [
+    {
+     "id": "h600",
+     "hi": [
+      600,
+      null
+     ],
+     "code": "600"
+    },
+    {
+     "id": "h800",
+     "hi": [
+      800,
+      null
+     ],
+     "code": "800"
+    },
+    {
+     "id": "h1100",
+     "hi": [
+      1100,
+      null
+     ],
+     "code": "1100"
+    },
+    {
+     "id": "h1700",
+     "hi": [
+      1700,
+      null
+     ],
+     "code": "1700"
+    }
+   ],
+   "load": {
+    "slide": 60
+   },
+   "draw": {
+    "levels": 4
+   },
+   "codes": [
+    {
+     "code": "496499-496513",
+     "desc": "Demos Tandem II complete sets 450/600 x 800/1100/1700",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "395670-395697",
+     "desc": "Tandem Side frame + door baskets 450/600 x 600/800/1100/1700",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "înălțimile 600/800/1100/1700 sunt înălțimi interioare cu glisieră; folosite ca prag minim, nu ca interval"
+   ],
+   "notes": [],
+   "src": "Demos K05 (S11 p24-26), kesseboehmer.com (S21)",
+   "verificat": false
+  },
+  {
+   "key": "kb_magic_corner",
+   "raw": "kb-magic-corner-demos",
+   "brand": "Kesseböhmer",
+   "name": "Magic Corner (soft close)",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "unit",
+   "sizes": [
+    {
+     "id": "900-1000",
+     "cab": [
+      900,
+      1000
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 525
+   },
+   "bands": [],
+   "load": {
+    "front": 7,
+    "rear": 9,
+    "pairFront": 14,
+    "pairRear": 18
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "135867",
+     "desc": "Magic Corner right (Kesseb. 260401)",
+     "size": null,
+     "hand": "R"
+    },
+    {
+     "code": "135868",
+     "desc": "Magic Corner left (Kesseb. 260402)",
+     "size": null,
+     "hand": "L"
+    },
+    {
+     "code": "135869 / 260400",
+     "desc": "Arena Style basket set",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "135916 / 260403",
+     "desc": "Arena Classic basket set",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimea ușii nu e dată: ușa se prinde de mecanism (clip, 3 reglaje)",
+    "sursă diferită față de Peka Magic Corner (7/9 kg per coș la Kesseböhmer, 8/10 la Peka): ambele păstrate"
+   ],
+   "notes": [
+    "nDoorOnTray"
+   ],
+   "src": "Demos K05 (S11 p33)",
+   "verificat": false
+  },
+  {
+   "key": "kb_carousel",
+   "raw": "kb-carousels",
+   "brand": "Kesseböhmer",
+   "name": "Carousel 270° (3/4) / 180° (1/2)",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "800",
+     "cab": 800,
+     "dia": 720,
+     "depth": 480
+    },
+    {
+     "id": "900",
+     "cab": 900,
+     "dia": 800,
+     "depth": 510
+    }
+   ],
+   "limits": {
+    "hi": [
+     655,
+     745
+    ]
+   },
+   "bands": [],
+   "load": {
+    "shelf": 25
+   },
+   "draw": {
+    "shape": "34",
+    "shelves": 2
+   },
+   "codes": [
+    {
+     "code": "353254 (Kesseb. 250052)",
+     "desc": "axle 655-745",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "353255 / 260546",
+     "desc": "Arena Style shelf, cabinet 800 dia 720",
+     "size": 800,
+     "hand": null
+    },
+    {
+     "code": "353256 / 260547",
+     "desc": "Arena Style shelf, cabinet 900 dia 800",
+     "size": 900,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "diametrul 720/800 e al rafturilor Arena Style (Demos); «depth 480/510» = adâncimea minimă a corpului, din desen",
+    "numărul de rafturi nu e dat: reprezentat cu două"
+   ],
+   "notes": [],
+   "src": "Demos K05 (S11 p34-35)",
+   "verificat": false
+  },
+  {
+   "key": "kb_revo90",
+   "raw": "kb-carousels",
+   "brand": "Kesseböhmer",
+   "name": "Revo 90° (door on mechanism)",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "unit",
+   "sizes": [
+    {
+     "id": "800",
+     "cab": 800,
+     "dia": 710
+    },
+    {
+     "id": "900",
+     "cab": 900,
+     "dia": 810
+    }
+   ],
+   "limits": {
+    "hi": [
+     660,
+     860
+    ]
+   },
+   "bands": [],
+   "load": {
+    "mechanism": 50
+   },
+   "draw": {
+    "shape": "34",
+    "shelves": 2
+   },
+   "codes": [
+    {
+     "code": "135888 / 260500",
+     "desc": "Revo 90 mechanism 660-860",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "135890 / 260503",
+     "desc": "Revo 90 Arena Style shelf 800 dia 710",
+     "size": 800,
+     "hand": null
+    },
+    {
+     "code": "135891 / 260506",
+     "desc": "Revo 90 Arena Style shelf 900 dia 810",
+     "size": 900,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "ușa e montată direct pe mecanism și se rotește cu raftul; desenul de ansamblu (p36) nu a fost interpretat"
+   ],
+   "notes": [],
+   "src": "Demos K05 (S11 p35-36)",
+   "verificat": false
+  },
+  {
+   "key": "demos_half_88449",
+   "raw": "demos-carousels-brand-unspecified",
+   "brand": "Demos (brand not stated)",
+   "name": "1/2 round pull-out rotating tray 88449",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "900",
+     "cab": 900,
+     "depth": 760
+    }
+   ],
+   "limits": {
+    "hi": [
+     645,
+     790
+    ]
+   },
+   "bands": [],
+   "load": {
+    "tray": 11
+   },
+   "draw": {
+    "shape": "12",
+    "shelves": 1,
+    "trayH": 420
+   },
+   "codes": [
+    {
+     "code": "88449",
+     "desc": "1/2 circle pull-out rotating tray chrome",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Demos K05 (S11 p61)",
+   "verificat": false
+  },
+  {
+   "key": "demos_half_88404",
+   "raw": "demos-carousels-brand-unspecified",
+   "brand": "Demos (brand not stated)",
+   "name": "1/2 round rotating tray 88404",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "800",
+     "cab": 800,
+     "depth": 760
+    }
+   ],
+   "limits": {
+    "hi": [
+     645,
+     790
+    ]
+   },
+   "bands": [],
+   "load": {},
+   "draw": {
+    "shape": "12",
+    "shelves": 1,
+    "trayH": 420
+   },
+   "codes": [
+    {
+     "code": "88404",
+     "desc": "1/2 circle rotating tray chrome",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Demos K05 (S11 p62)",
+   "verificat": false
+  },
+  {
+   "key": "demos_34_162230",
+   "raw": "demos-carousels-brand-unspecified",
+   "brand": "Demos (brand not stated)",
+   "name": "3/4 round rotating tray 162230",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "900",
+     "cab": 900,
+     "depth": 815
+    }
+   ],
+   "limits": {
+    "hi": [
+     645,
+     790
+    ]
+   },
+   "bands": [],
+   "load": {},
+   "draw": {
+    "shape": "34",
+    "shelves": 1
+   },
+   "codes": [
+    {
+     "code": "162230",
+     "desc": "3/4 circle rotating tray chrome",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Demos K05 (S11 p62)",
+   "verificat": false
+  },
+  {
+   "key": "peka_magic_corner_comfort",
+   "raw": "peka-magic-corner-comfort",
+   "brand": "Peka",
+   "name": "Magic Corner Comfort",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "450/900",
+     "door": 450,
+     "wi": [
+      862,
+      971
+     ]
+    },
+    {
+     "id": "500/900",
+     "door": 500,
+     "wi": [
+      862,
+      971
+     ]
+    },
+    {
+     "id": "550/900",
+     "door": 550,
+     "wi": [
+      950,
+      968
+     ]
+    },
+    {
+     "id": "550/1000",
+     "door": 550,
+     "wi": [
+      962,
+      1171
+     ]
+    },
+    {
+     "id": "600/900",
+     "door": 600,
+     "wi": [
+      950,
+      968
+     ]
+    },
+    {
+     "id": "600/1000",
+     "door": 600,
+     "wi": [
+      962,
+      1171
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500,
+    "hi": [
+     545,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "front": 8,
+    "rear": 10,
+    "total": 36
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "300.0580.xx",
+     "desc": "Magic Corner Comfort 900 right",
+     "size": null,
+     "hand": "R"
+    },
+    {
+     "code": "300.0581.xx",
+     "desc": "900 left",
+     "size": null,
+     "hand": "L"
+    },
+    {
+     "code": "300.0582.xx",
+     "desc": "1000 right",
+     "size": null,
+     "hand": "R"
+    },
+    {
+     "code": "300.0583.xx",
+     "desc": "1000 left",
+     "size": null,
+     "hand": "L"
+    }
+   ],
+   "interp": [
+    "«LB» (inner width) = lățimea interioară; lățimea frontului FB = lățimea ușii; tipul 900/1000 din cod = lățimea nominală a corpului",
+    "etichetele rândurilor din tabelul MA (A, LM, B1, B2) nu sunt folosite"
+   ],
+   "notes": [],
+   "src": "Peka MA 950.0523.MA (S12 p1,2,4), data sheet (S14a)",
+   "verificat": false
+  },
+  {
+   "key": "peka_magic_corner_standard",
+   "raw": "peka-magic-corner-standard",
+   "brand": "Peka",
+   "name": "Magic Corner Standard",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "unit",
+   "sizes": [
+    {
+     "id": "450/900",
+     "door": 450,
+     "wi": [
+      860,
+      971
+     ]
+    },
+    {
+     "id": "550/900",
+     "door": 550,
+     "wi": [
+      960,
+      971
+     ]
+    },
+    {
+     "id": "600/900",
+     "door": 600,
+     "wi": [
+      960,
+      971
+     ]
+    },
+    {
+     "id": "550/1000",
+     "door": 550,
+     "wi": [
+      960,
+      1071
+     ]
+    },
+    {
+     "id": "600/1000",
+     "door": 600,
+     "wi": [
+      960,
+      1071
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500,
+    "hi": [
+     540,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "front": 7,
+    "rear": 9,
+    "total": 32
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "300.0826.xx",
+     "desc": "li 900",
+     "size": null,
+     "hand": "L"
+    },
+    {
+     "code": "300.0831.xx",
+     "desc": "re 900",
+     "size": null,
+     "hand": "R"
+    },
+    {
+     "code": "300.0814.xx",
+     "desc": "li 1000",
+     "size": null,
+     "hand": "L"
+    },
+    {
+     "code": "300.0817.xx",
+     "desc": "re 1000",
+     "size": null,
+     "hand": "R"
+    },
+    {
+     "code": "950.0351.MA / 950.0352.MA",
+     "desc": "drilling template left / right",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimile 400 și 500 apar în lista FB dar nu în tabelul LB: nu sunt oferite ca mărimi",
+    "legătura FB 550/600 ↔ rândurile Y 546/596 din tabel e interpretată (Y = FB − 4)"
+   ],
+   "notes": [
+    "nDoorOnTray"
+   ],
+   "src": "Peka MA 950.0321.MA (S13 p1,2,5), data sheet (S14b)",
+   "verificat": false
+  },
+  {
+   "key": "peka_pinello_cargo",
+   "raw": "peka-pinello-cargo",
+   "brand": "Peka",
+   "name": "Pinello Cargo",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "200",
+     "cab": 200,
+     "wi": [
+      162,
+      168
+     ],
+     "depth": 506,
+     "hi": [
+      517,
+      null
+     ]
+    },
+    {
+     "id": "300",
+     "cab": 300,
+     "wi": [
+      262,
+      268
+     ],
+     "depth": 520,
+     "hi": [
+      525,
+      null
+     ]
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 30
+   },
+   "draw": {
+    "levels": 3
+   },
+   "codes": [],
+   "interp": [
+    "valorile 506/520 și 517/525 se citesc în ordinea listei, 200 apoi 300 (atribuire neconfirmată)",
+    "2–4 nivele (Blum LEGRABOX sau Grass Nova Pro)"
+   ],
+   "notes": [],
+   "src": "Peka data sheet (S14c)",
+   "verificat": false
+  },
+  {
+   "key": "peka_hochschrank",
+   "raw": "peka-hochschrank-standard",
+   "brand": "Peka",
+   "name": "Hochschrank Standard",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "150",
+     "cab": 150
+    },
+    {
+     "id": "275",
+     "cab": 275
+    },
+    {
+     "id": "300",
+     "cab": 300
+    },
+    {
+     "id": "400",
+     "cab": 400
+    },
+    {
+     "id": "450",
+     "cab": 450
+    }
+   ],
+   "limits": {
+    "wiMin": 112,
+    "depth": 505
+   },
+   "bands": [
+    {
+     "id": "b1",
+     "hi": [
+      900,
+      1300
+     ]
+    },
+    {
+     "id": "b2",
+     "hi": [
+      1200,
+      1600
+     ]
+    },
+    {
+     "id": "b3",
+     "hi": [
+      1600,
+      2000
+     ]
+    },
+    {
+     "id": "b4",
+     "hi": [
+      1805,
+      2205
+     ]
+    }
+   ],
+   "load": {
+    "total": 120,
+    "runner": 100
+   },
+   "draw": {
+    "levels": 5
+   },
+   "codes": [],
+   "interp": [
+    "lățimea interioară minimă 112 / 162 nu e atribuită pe lățimi: se folosește cea mică",
+    "al cincilea interval din text (1999) nu e atribuit, nefolosit"
+   ],
+   "notes": [],
+   "src": "Peka data sheet (S14d)",
+   "verificat": false
+  },
+  {
+   "key": "peka_pleno_plus",
+   "raw": "peka-pleno-plus-maxi",
+   "brand": "Peka",
+   "name": "Pleno Plus",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "600",
+     "cab": 600,
+     "wi": [
+      562,
+      568
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500
+   },
+   "bands": [
+    {
+     "id": "h1",
+     "hi": [
+      1300,
+      null
+     ]
+    },
+    {
+     "id": "h2",
+     "hi": [
+      1600,
+      null
+     ]
+    },
+    {
+     "id": "h3",
+     "hi": [
+      1900,
+      null
+     ]
+    }
+   ],
+   "load": {
+    "total": 97
+   },
+   "draw": {
+    "levels": 4,
+    "doorShelves": true
+   },
+   "codes": [],
+   "interp": [
+    "sarcina 0–94 / 0–97 kg: valoarea mai mare e păstrată, atribuirea pe înălțimi neconfirmată"
+   ],
+   "notes": [],
+   "src": "Peka data sheet (S14e)",
+   "verificat": false
+  },
+  {
+   "key": "peka_pleno_maxi",
+   "raw": "peka-pleno-plus-maxi",
+   "brand": "Peka",
+   "name": "Pleno Maxi",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "450",
+     "cab": 450,
+     "wi": [
+      404,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "cab": 600,
+     "wi": [
+      554,
+      null
+     ]
+    },
+    {
+     "id": "750",
+     "cab": 750,
+     "wi": [
+      704,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500
+   },
+   "bands": [
+    {
+     "id": "h1",
+     "hi": [
+      1150,
+      null
+     ]
+    },
+    {
+     "id": "h2",
+     "hi": [
+      1450,
+      null
+     ]
+    },
+    {
+     "id": "h3",
+     "hi": [
+      1800,
+      null
+     ]
+    }
+   ],
+   "load": {
+    "total": 78
+   },
+   "draw": {
+    "levels": 4,
+    "doorShelves": true
+   },
+   "codes": [],
+   "interp": [
+    "perechile lățime ↔ LB min sunt în ordine crescătoare (450/404, 600/554, 750/704)"
+   ],
+   "notes": [],
+   "src": "Peka data sheet (S14f)",
+   "verificat": false
+  },
+  {
+   "key": "peka_extendo",
+   "raw": "peka-extendo",
+   "brand": "Peka",
+   "name": "Extendo (pull-out shelf)",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "450",
+     "cab": 450,
+     "wi": [
+      412,
+      418
+     ]
+    },
+    {
+     "id": "500",
+     "cab": 500,
+     "wi": [
+      462,
+      468
+     ]
+    },
+    {
+     "id": "550",
+     "cab": 550,
+     "wi": [
+      512,
+      518
+     ]
+    },
+    {
+     "id": "600",
+     "cab": 600,
+     "wi": [
+      562,
+      568
+     ]
+    },
+    {
+     "id": "900",
+     "cab": 900,
+     "wi": [
+      862,
+      868
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 508,
+    "hi": [
+     138,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {},
+   "draw": {
+    "levels": 1
+   },
+   "codes": [],
+   "interp": [
+    "adâncimea minimă 508 / 515 / 519 nu e atribuită pe lățimi: se folosește 508 (cea mai mică)",
+    "sarcina nu e dată"
+   ],
+   "notes": [],
+   "src": "Peka data sheet (S14g)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_salso",
+   "raw": "hettich-salso",
+   "brand": "Hettich",
+   "name": "Salso",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "wi": [
+      760,
+      null
+     ],
+     "open": [
+      360,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "wi": [
+      860,
+      null
+     ],
+     "open": [
+      410,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "wi": [
+      960,
+      null
+     ],
+     "open": [
+      460,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "wi": [
+      960,
+      null
+     ],
+     "open": [
+      560,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 465,
+    "hi": [
+     620,
+     820
+    ],
+    "doorAngleMax": 85
+   },
+   "bands": [],
+   "load": {
+    "tray": 18
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "9 381 049 / 9 381 050",
+     "desc": "Salso set 400 left / right silver",
+     "size": 400,
+     "hand": null
+    },
+    {
+     "code": "9 381 051 / 9 381 052",
+     "desc": "Salso set 450/500 left / right silver",
+     "size": "450",
+     "hand": null
+    },
+    {
+     "code": "9 381 053 / 9 381 054",
+     "desc": "Salso set 600 left / right silver",
+     "size": 600,
+     "hand": null
+    },
+    {
+     "code": "9 381 077-084",
+     "desc": "shelf set 400 chrome/white",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "A, B din tabelul de planificare = lățime interioară și deschidere liberă (la fel ca în MA LeMans)",
+    "conflict de sursă: pagina de magazin dă înălțime interioară 620–780 și adâncime 460, cataloagul 620–820 și 465; cataloagul folosit"
+   ],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p14-16)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_orta",
+   "raw": "hettich-orta-goro",
+   "brand": "Hettich",
+   "name": "Orta (with pot-and-pan drawer)",
+   "kind": "blind",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "wi": [
+      725,
+      null
+     ],
+     "open": [
+      340,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "wi": [
+      755,
+      null
+     ],
+     "open": [
+      385,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "wi": [
+      795,
+      null
+     ],
+     "open": [
+      420,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "wi": [
+      945,
+      null
+     ],
+     "open": [
+      535,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 500,
+    "hi": [
+     575,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "front": 7,
+    "rear": 11
+   },
+   "draw": {
+    "levels": 2,
+    "split": true,
+    "drawer": true
+   },
+   "codes": [
+    {
+     "code": "9 381 093-096",
+     "desc": "Orta centre upright silver 400/450/500/600",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 381 109-116",
+     "desc": "Orta shelf set 400",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "al treilea rând al tabelului e tipărit «550» deși lățimile sunt 400/450/500/600: citit ca 500 (interpretat)",
+    "număr de coșuri nespus: reprezentat 2 + 2"
+   ],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p18-20)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_goro",
+   "raw": "hettich-orta-goro",
+   "brand": "Hettich",
+   "name": "Goro",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "450",
+     "door": 450,
+     "wi": [
+      860,
+      1020
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 485,
+    "hi": [
+     615,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "front": 7,
+    "rear": 9
+   },
+   "draw": {
+    "levels": 2,
+    "split": true,
+    "drawer": true
+   },
+   "codes": [
+    {
+     "code": "9 381 117 / 9 381 118 / 9 381 119 / 9 381 120",
+     "desc": "Goro centre upright 450 L/R silver/anthracite",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "intervalul 860–1020 e din desen (lățime interioară)"
+   ],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p22-23)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_olona",
+   "raw": "hettich-olona-iseo-lario",
+   "brand": "Hettich",
+   "name": "Olona",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "300",
+     "cab": 300,
+     "wi": [
+      257,
+      null
+     ]
+    },
+    {
+     "id": "400",
+     "cab": 400,
+     "wi": [
+      357,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 494,
+    "hi": [
+     1600,
+     2250
+    ]
+   },
+   "bands": [
+    {
+     "id": "a",
+     "hi": [
+      1600,
+      1950
+     ]
+    },
+    {
+     "id": "b",
+     "hi": [
+      1900,
+      2250
+     ]
+    }
+   ],
+   "load": {
+    "total": 100
+   },
+   "draw": {
+    "levels": 5
+   },
+   "codes": [
+    {
+     "code": "9 380 988-991",
+     "desc": "runners",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 380 992-999",
+     "desc": "centre upright",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "adâncimea minimă 494 (șină 9380988/989) sau 504 (9380990/991): se folosește 494; intervalele de înălțime pe lățimi nu sunt atribuite, se folosește reuniunea"
+   ],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p24-26)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_iseo",
+   "raw": "hettich-olona-iseo-lario",
+   "brand": "Hettich",
+   "name": "Iseo (swivel larder)",
+   "kind": "tall",
+   "body": "tall",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "600",
+     "cab": 600
+    }
+   ],
+   "limits": {
+    "depth": 495,
+    "hi": [
+     1695,
+     null
+    ],
+    "doorAngleMax": 115
+   },
+   "bands": [],
+   "load": {
+    "shelf": 10,
+    "doorShelf": 5,
+    "total": 85
+   },
+   "draw": {
+    "levels": 4,
+    "doorShelves": true
+   },
+   "codes": [
+    {
+     "code": "9 381 008 / 9 381 009",
+     "desc": "Iseo frame silver / other",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 381 010-012",
+     "desc": "shelves",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p28-30)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_lario",
+   "raw": "hettich-olona-iseo-lario",
+   "brand": "Hettich",
+   "name": "Lario",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "150",
+     "cab": 150,
+     "wi": [
+      112,
+      118
+     ]
+    },
+    {
+     "id": "200",
+     "cab": 200,
+     "wi": [
+      162,
+      168
+     ]
+    },
+    {
+     "id": "300",
+     "cab": 300,
+     "wi": [
+      262,
+      268
+     ]
+    },
+    {
+     "id": "400",
+     "cab": 400,
+     "wi": [
+      362,
+      368
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 480
+   },
+   "bands": [],
+   "load": {
+    "tier2": 10,
+    "tier3": 15
+   },
+   "draw": {
+    "levels": 3
+   },
+   "codes": [
+    {
+     "code": "9 381 014-033",
+     "desc": "Lario sets depending on width/finish",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "adâncimea minimă variază 480…525 cu varianta; se folosește 480",
+    "glisiera Quadro V6 NL 470 se comandă separat"
+   ],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p4-13)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_naro",
+   "raw": "hettich-olona-iseo-lario",
+   "brand": "Hettich",
+   "name": "Naro",
+   "kind": "pullout",
+   "body": "base",
+   "hand": false,
+   "front": "frame",
+   "sizes": [
+    {
+     "id": "450",
+     "cab": 450
+    },
+    {
+     "id": "600",
+     "cab": 600
+    },
+    {
+     "id": "900",
+     "cab": 900
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "tray": 15
+   },
+   "draw": {
+    "levels": 3
+   },
+   "codes": [
+    {
+     "code": "9 381 041-046",
+     "desc": "Naro",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Hettich catalog 08/2025 (S15 p4-13)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_carousel",
+   "raw": "hettich-corner-3-4-carousel",
+   "brand": "Hettich",
+   "name": "Corner carousel 3/4 (Arena Style / Classic)",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "800",
+     "cab": 800,
+     "dia": 700,
+     "axis": 360
+    },
+    {
+     "id": "900",
+     "cab": 900,
+     "dia": 820,
+     "axis": 420
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "shelf": 15
+   },
+   "draw": {
+    "shape": "34",
+    "shelves": 2
+   },
+   "codes": [
+    {
+     "code": "9 079 941 / 0 070 553",
+     "desc": "700 for 800x800, Arena Style / Classic",
+     "size": 800,
+     "hand": null
+    },
+    {
+     "code": "9 079 955 / 0 070 554",
+     "desc": "820 for 900x900, Arena Style / Classic",
+     "size": 900,
+     "hand": null
+    },
+    {
+     "code": "9 080 040",
+     "desc": "Revo 90 folding-door corner fitting",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "«pivot of shelves 360 / 420 mm from walls»: axa de rotație la 360 (800) / 420 (900) mm de ambii pereți"
+   ],
+   "notes": [],
+   "src": "Hettich catalog TA 2023 p.873 (HET-BK905)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_corner_549_42",
+   "raw": "hafele-corner-549-42",
+   "brand": "Häfele",
+   "name": "Corner pull-out shelving unit 549.42",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": null,
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "cab": [
+      800,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      900,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      1000,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "cab": [
+      1000,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 470
+   },
+   "bands": [],
+   "load": {
+    "shelf": 20,
+    "total": 40
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "549.42.341 / 549.42.340",
+     "desc": "800 cab / 400 door left / right",
+     "size": 400,
+     "hand": null
+    },
+    {
+     "code": "549.42.346 / 549.42.345",
+     "desc": "900 / 450",
+     "size": 450,
+     "hand": null
+    },
+    {
+     "code": "549.42.351 / 549.42.350",
+     "desc": "1000 / 500",
+     "size": 500,
+     "hand": null
+    },
+    {
+     "code": "549.42.361 / 549.42.360",
+     "desc": "1000 / 600",
+     "size": 600,
+     "hand": null
+    },
+    {
+     "code": "549.42.991 / 549.42.990",
+     "desc": "corner pull-out frame left / right",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "«built-in depth 470 or 480»: se folosește 470 ca minim",
+    "fixarea ușii nu e descrisă"
+   ],
+   "notes": [],
+   "src": "Häfele UK p1.46 (S18a)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_swingout_549_38",
+   "raw": "hafele-swingout-corner-549-38",
+   "brand": "Häfele",
+   "name": "Swing out corner unit 549.38 / 549.86",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": null,
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "open": [
+      360,
+      null
+     ],
+     "cab": [
+      800,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "open": [
+      410,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500
+    },
+    {
+     "id": "600",
+     "door": 600
+    }
+   ],
+   "limits": {
+    "depth": 470
+   },
+   "bands": [],
+   "load": {
+    "front": 7.5,
+    "rear": 10,
+    "total": 35
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "549.38.248 / 549.38.249",
+     "desc": "chrome wire L/R, 800 cabinet",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "549.86.194 / 549.86.195",
+     "desc": "chrome wire 900/1000 L/R",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimea minimă a corpului 800 (ușă 400) dată explicit; 900 / 1000 pentru celelalte uși nu sunt atribuite în text pentru această unitate"
+   ],
+   "notes": [],
+   "src": "Häfele UK (S18d)",
+   "verificat": false
+  },
+  {
+   "key": "vs_cor_flex",
+   "raw": "vs-cor-flex-hafele",
+   "brand": "Vauth-Sagel (Häfele)",
+   "name": "VS COR Flex",
+   "kind": "blind",
+   "body": "base",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      900,
+      null
+     ],
+     "wi": [
+      693,
+      null
+     ],
+     "open": [
+      381,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      1000,
+      null
+     ],
+     "wi": [
+      802,
+      null
+     ],
+     "open": [
+      444,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 480
+   },
+   "bands": [],
+   "load": {
+    "basket": 8,
+    "total": 32
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "548.29.343 / 548.29.344",
+     "desc": "Planero lava grey 900 / 1000",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "548.29.233 / 548.29.234",
+     "desc": "Premea white/chrome",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "ușile 450 / 500 ↔ corpurile 900 / 1000 în ordinea listei",
+    "baskets libere față de ușă: 40 mm (S18b)"
+   ],
+   "notes": [],
+   "src": "Häfele UK p1.50-1.53 (S18b)",
+   "verificat": false
+  },
+  {
+   "key": "vs_cor_fold",
+   "raw": "vs-cor-fold-hafele",
+   "brand": "Vauth-Sagel (Häfele)",
+   "name": "VS COR Fold",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "unit",
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "cab": [
+      800,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      900,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      900,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "cab": [
+      900,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 485
+   },
+   "bands": [],
+   "load": {
+    "front": 8,
+    "rear": 9.5,
+    "total": 35
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "548.13.384 / 548.13.385",
+     "desc": "Planero 800 L/R",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "548.13.386 / 548.13.387",
+     "desc": "Planero 900 L/R",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "ușa 400 pentru corp 800, 450–600 pentru corp 900 (900 utilizabil și în 1000/1200)"
+   ],
+   "notes": [
+    "nDoorOnTray"
+   ],
+   "src": "Häfele UK p1.54-1.57 (S18c)",
+   "verificat": false
+  },
+  {
+   "key": "vs_cornerstone_swing",
+   "raw": "vs-cornerstone-swing",
+   "brand": "Vauth-Sagel (Häfele)",
+   "name": "Cornerstone Swing",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": null,
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "cab": [
+      800,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      900,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      1000,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "cab": [
+      1000,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 490,
+    "hi": [
+     651,
+     690
+    ],
+    "postMax": 65,
+    "wiMin": 414
+   },
+   "bands": [],
+   "load": {
+    "shelf": 18,
+    "total": 36
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "542.05.870-873",
+     "desc": "Premea lava grey, 800/900/1000/1000 (door 400/450/500/600)",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.05.999",
+     "desc": "soft close add-on",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "«installation height 651–690» citită ca înălțime interioară; dreapta/stânga nespuse în sursă (variante L/R presupuse ca la celelalte, de confirmat)"
+   ],
+   "notes": [],
+   "src": "Häfele UK (S18g)",
+   "verificat": false
+  },
+  {
+   "key": "vs_cor_wheel_pro",
+   "raw": "vs-cor-wheel-pro",
+   "brand": "Vauth-Sagel (Häfele)",
+   "name": "VS COR Wheel Pro",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "900",
+     "cab": 900,
+     "dia": 720,
+     "depth": 815
+    }
+   ],
+   "limits": {
+    "hi": [
+     620,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "shelf": 27.5
+   },
+   "draw": {
+    "shape": "34",
+    "shelves": 2
+   },
+   "codes": [
+    {
+     "code": "542.62.812",
+     "desc": "White/Chrome",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.26.412",
+     "desc": "Lava grey",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Häfele UK p1.69 (S18h)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_ninka_arc",
+   "raw": "haefele-corner-units",
+   "brand": "Häfele",
+   "name": "Ninka Pro(arc) 3/4 carousel",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "800",
+     "cab": 800
+    },
+    {
+     "id": "900",
+     "cab": 900
+    }
+   ],
+   "limits": {
+    "hi": [
+     667,
+     713
+    ]
+   },
+   "bands": [],
+   "load": {
+    "total": 25
+   },
+   "draw": {
+    "shape": "34",
+    "shelves": 2
+   },
+   "codes": [
+    {
+     "code": "542.85.550",
+     "desc": "Ninka Pro(arc) set",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "«spindle height 667–713» citită ca înălțime interioară"
+   ],
+   "notes": [],
+   "src": "Häfele UK p1.70 (HAF-20D1-70)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_utensio_inline",
+   "raw": "hafele-utensio-inline",
+   "brand": "Häfele",
+   "name": "Utensio Pro Inline Corner",
+   "kind": "blind",
+   "body": "base",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      900,
+      null
+     ],
+     "wi": [
+      825,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      1000,
+      null
+     ],
+     "wi": [
+      875,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "cab": [
+      1200,
+      null
+     ],
+     "wi": [
+      975,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 489,
+    "hi": [
+     548,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "front": 15,
+    "rear": 10,
+    "total": 50
+   },
+   "draw": {
+    "levels": 2,
+    "split": true
+   },
+   "codes": [
+    {
+     "code": "542.35.309 / 542.35.312 / 542.35.315",
+     "desc": "folded baskets 900 / 1000 / 1200",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimile de instalare 825/875/975 citite ca lățime interioară minimă",
+    "înălțimea de instalare 548 citită ca înălțime interioară minimă"
+   ],
+   "notes": [],
+   "src": "Häfele UK (S18e)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_utensio_glide",
+   "raw": "hafele-utensio-glide",
+   "brand": "Häfele",
+   "name": "Utensio Pro Glide Corner",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": null,
+   "sizes": [
+    {
+     "id": "400",
+     "door": 400,
+     "cab": [
+      800,
+      null
+     ],
+     "wi": [
+      760,
+      null
+     ],
+     "open": [
+      380,
+      null
+     ]
+    },
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      900,
+      null
+     ],
+     "wi": [
+      860,
+      null
+     ],
+     "open": [
+      430,
+      null
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      1000,
+      null
+     ],
+     "wi": [
+      910,
+      null
+     ],
+     "open": [
+      480,
+      null
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "cab": [
+      1000,
+      null
+     ],
+     "wi": [
+      960,
+      null
+     ],
+     "open": [
+      580,
+      null
+     ]
+    }
+   ],
+   "limits": {
+    "hi": [
+     640,
+     null
+    ]
+   },
+   "bands": [],
+   "load": {
+    "shelf": 20,
+    "total": 40
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "542.35.302 / 542.35.301",
+     "desc": "800/400 L/R",
+     "size": 400,
+     "hand": null
+    },
+    {
+     "code": "542.35.304 / 542.35.303",
+     "desc": "900/450",
+     "size": 450,
+     "hand": null
+    },
+    {
+     "code": "542.35.306 / 542.35.305",
+     "desc": "1000/500",
+     "size": 500,
+     "hand": null
+    },
+    {
+     "code": "542.35.308 / 542.35.307",
+     "desc": "1000/600",
+     "size": 600,
+     "hand": null
+    },
+    {
+     "code": "542.35.339",
+     "desc": "add-on soft close",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "X1 / X2 din tabel = lățime interioară minimă / deschidere liberă minimă (ca la Salso)",
+    "«installation height 640 ± 25»: 640 ca înălțime interioară minimă; pas de reglare 25"
+   ],
+   "notes": [],
+   "src": "Häfele UK (S18f)",
+   "verificat": false
+  },
+  {
+   "key": "grass_quaturis_s",
+   "raw": "grass-quaturis-s",
+   "brand": "GRASS",
+   "name": "Quaturis S",
+   "kind": "blind",
+   "body": "base",
+   "hand": true,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "450",
+     "door": 450,
+     "cab": [
+      870,
+      null
+     ],
+     "open": [
+      412,
+      418
+     ]
+    },
+    {
+     "id": "500",
+     "door": 500,
+     "cab": [
+      920,
+      null
+     ],
+     "open": [
+      462,
+      468
+     ]
+    },
+    {
+     "id": "600",
+     "door": 600,
+     "cab": [
+      1020,
+      null
+     ],
+     "open": [
+      562,
+      568
+     ]
+    }
+   ],
+   "limits": {
+    "depth": 490,
+    "sideMin": 16,
+    "hi": [
+     600,
+     900
+    ]
+   },
+   "bands": [
+    {
+     "id": "base",
+     "hi": [
+      600,
+      900
+     ],
+     "n": 2
+    },
+    {
+     "id": "tall3",
+     "hi": [
+      900,
+      1200
+     ],
+     "n": 3
+    },
+    {
+     "id": "tall4",
+     "hi": [
+      1200,
+      1500
+     ],
+     "n": 4
+    }
+   ],
+   "load": {
+    "shelf": 20
+   },
+   "draw": {
+    "levels": 2,
+    "split": false
+   },
+   "codes": [
+    {
+     "code": "F154147594 / F154147595",
+     "desc": "fitting set left / right, KH 600-900",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "F154148027 / F154148028",
+     "desc": "tall 900-1200 L/R",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "F154148029 / F154148030",
+     "desc": "tall 1200-1500 L/R",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "lățimile corpului pe tipul 450/500/600: min 870 / 920 / 1020 cu balama standard (cu balama de colț 880 / 930 / 1030)",
+    "broșura e din 2015, poate înlocuită"
+   ],
+   "notes": [],
+   "src": "GRASS Quaturis brochure 07/2015 (S19 p8-12)",
+   "verificat": false
+  },
+  {
+   "key": "grass_quaturis_75",
+   "raw": "grass-quaturis-75-vs-cor-spin",
+   "brand": "GRASS / Vauth-Sagel",
+   "name": "Quaturis 75 / VS COR Spin (pie-cut 3/4)",
+   "kind": "carousel",
+   "body": "base",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "800",
+     "cab": 800
+    },
+    {
+     "id": "900",
+     "cab": 900
+    }
+   ],
+   "limits": {
+    "hi": [
+     690,
+     910
+    ],
+    "depth": 500
+   },
+   "bands": [],
+   "load": {},
+   "draw": {
+    "shape": "34",
+    "shelves": 2
+   },
+   "codes": [
+    {
+     "code": "F154147590-593",
+     "desc": "Quaturis 75 sets 1-4",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "F154147355 / F154145804",
+     "desc": "wood shelf set 800 / 900",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "adâncimea 500 = setul 1 (cel mai mic dintre 500/510/515/525)",
+    "sarcina pe raft nu e dată; conflict 515/525 (Quaturis) vs 512/522 (VS COR Spin): se folosește 500"
+   ],
+   "notes": [],
+   "src": "GRASS (S19 p16-17), Vauth-Sagel D7100001000 / D7100003000 (S20a/b p1)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_furnspin",
+   "raw": "hettich-furnspin",
+   "brand": "Hettich",
+   "name": "FurnSpin (rotating cabinet body)",
+   "kind": "spin",
+   "body": "any",
+   "hand": true,
+   "front": null,
+   "sizes": [
+    {
+     "id": "S",
+     "load": 80,
+     "fit": 339,
+     "fitH": 40,
+     "bbox": [
+      377,
+      450
+     ],
+     "half": 169.5,
+     "X": [
+      192,
+      207
+     ],
+     "gap": 5,
+     "gapMin": 3,
+     "gapBelow": 381,
+     "hiMax": 2000,
+     "panelKg": [
+      8,
+      15
+     ],
+     "bottomOuter": 16,
+     "bottomSpin": 19
+    },
+    {
+     "id": "M",
+     "load": 100,
+     "fit": 402,
+     "fitH": 40,
+     "bbox": [
+      440,
+      515
+     ],
+     "half": 201,
+     "X": [
+      218,
+      234
+     ],
+     "gap": 7,
+     "gapMin": 3,
+     "gapBelow": 448,
+     "hiMax": 2200,
+     "panelKg": [
+      9,
+      18
+     ],
+     "bottomOuter": 18,
+     "bottomSpin": 22
+    },
+    {
+     "id": "XL",
+     "load": 120,
+     "fit": 526,
+     "fitH": 45,
+     "bbox": [
+      564,
+      664
+     ],
+     "half": 263,
+     "X": [
+      275,
+      296
+     ],
+     "gap": 7,
+     "gapMin": 3,
+     "gapBelow": 574,
+     "hiMax": 2400,
+     "panelKg": [
+      10,
+      20
+     ],
+     "bottomOuter": 18,
+     "bottomSpin": 25
+    }
+   ],
+   "limits": {
+    "spinH": [
+     700,
+     2400
+    ],
+    "reveal": 3,
+    "topClear": 75,
+    "topOuter": 16,
+    "sideOuter": 16,
+    "backOuter": 16,
+    "topSpin": 16,
+    "panelSpin": 16,
+    "ptoSwitchH": 1800
+   },
+   "bands": [],
+   "load": {},
+   "draw": {
+    "endDeg": 180
+   },
+   "codes": [
+    {
+     "code": "9 349 281 / 9 349 282",
+     "desc": "S Silent System left / right",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 349 283-286",
+     "desc": "S PTO Silent top/bottom left/right",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 349 287 / 9 349 288",
+     "desc": "M Silent System left / right",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 349 289 / 9 349 290 / 9 349 301 / 9 349 302",
+     "desc": "M PTO Silent",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 349 303 / 9 349 304",
+     "desc": "XL Silent System left / right",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9 349 305-308",
+     "desc": "XL PTO Silent top/bottom left/right",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "rotație în jurul axei verticale prin centrul casetei de gabarit, două poziții de capăt 0° și 180°; sensul nu se inversează",
+    "modelul de găurire nu e în fișa tehnică (vine din configuratorul Hettich): fără găuri generate",
+    "poziția corpului rotativ în corpul exterior e schematică; înălțimea rotativului = înălțimea interioară minus cele două fitinguri (schematic)"
+   ],
+   "notes": [
+    "nFurnSpinNoDrill"
+   ],
+   "src": "Hettich FurnSpin data sheet V5 (HET-FS-DS5 p7-14), catalog (HET-FS-CAT p12-17), DIM certificate (HET-FS-DIM)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_easy_down",
+   "raw": "haefele-utensio-pro-easy-down",
+   "brand": "Häfele",
+   "name": "Utensio Pro Easy Down (pull-down, 3 baskets)",
+   "kind": "pulldown",
+   "body": "wall",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "500",
+     "cab": 500,
+     "wi": [
+      464,
+      null
+     ],
+     "depth": 242,
+     "hi": [
+      582,
+      null
+     ],
+     "travel": 418
+    },
+    {
+     "id": "600",
+     "cab": 600,
+     "wi": [
+      564,
+      null
+     ],
+     "depth": 242,
+     "hi": [
+      582,
+      null
+     ],
+     "travel": 418
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 8
+   },
+   "draw": {
+    "baskets": 3
+   },
+   "codes": [
+    {
+     "code": "542.35.153",
+     "desc": "folded baskets 500",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.35.154",
+     "desc": "accent 500",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.35.155",
+     "desc": "glass 500",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.35.156",
+     "desc": "folded 600",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.35.157",
+     "desc": "accent 600",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "542.35.158",
+     "desc": "glass 600",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "«installed width/depth/height» citite ca spațiu interior minim"
+   ],
+   "notes": [],
+   "src": "Häfele UK 1.144A (HAF-144A p1)",
+   "verificat": false
+  },
+  {
+   "key": "kb_imove",
+   "raw": "kessebohmer-imove",
+   "brand": "Kesseböhmer",
+   "name": "iMove (pull-down, single / double tray)",
+   "kind": "pulldown",
+   "body": "wall",
+   "hand": false,
+   "front": "hinged",
+   "sizes": [
+    {
+     "id": "single/double",
+     "depth": 279
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 8
+   },
+   "draw": {
+    "baskets": 2
+   },
+   "codes": [],
+   "interp": [
+    "cursa nu e dată în text: coborârea e schematică",
+    "adâncimea interioară minimă 279 (Y); X 57–82"
+   ],
+   "notes": [],
+   "src": "Kesseböhmer MA 404352 (KES-IMOVE p2-3)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_tv_lift",
+   "raw": "haefele-led-tv-lift-700",
+   "brand": "Häfele",
+   "name": "LED TV lift 700 mm + swivel bracket",
+   "kind": "tvlift",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "700",
+     "travel": 700
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 65,
+    "upsideDown": 29
+   },
+   "draw": {
+    "vesa": [
+     400,
+     300
+    ],
+    "swivel": 30
+   },
+   "codes": [
+    {
+     "code": "421.68.422",
+     "desc": "LED TV lift black",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "421.68.493",
+     "desc": "swivel bracket black",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "dimensiunile interioare ale corpului nu sunt în desen: fără verificare de adâncime; macara în 3 secțiuni telescopice (schematic)"
+   ],
+   "notes": [],
+   "src": "Häfele UK 3.35 (HAF-25L3-35 p1)",
+   "verificat": false
+  },
+  {
+   "key": "accuride_db_lift",
+   "raw": "accuride-db-lift-0019",
+   "brand": "Accuride (Häfele)",
+   "name": "DB Lift-0019 (mechanical, push-to-open)",
+   "kind": "tvlift",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "538",
+     "travel": 538
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 6.5
+   },
+   "draw": {
+    "swivel": 112.5,
+    "screenH": 450
+   },
+   "codes": [
+    {
+     "code": "421.68.375",
+     "desc": "lift",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "421.68.377",
+     "desc": "weight pack extension plate",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "421.68.376",
+     "desc": "weight packs",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "greutatea ecranului 2,5–6,5 kg, înălțimea ecranului ≤ 450 mm"
+   ],
+   "notes": [],
+   "src": "Häfele UK 6.54 (HAF-17D6-54 p1)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_dresscode",
+   "raw": "haefele-dresscode-wardrobe-lift",
+   "brand": "Häfele",
+   "name": "Dresscode wardrobe lift",
+   "kind": "wardlift",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "440-610",
+     "wi": [
+      440,
+      610
+     ]
+    },
+    {
+     "id": "600-1000",
+     "wi": [
+      600,
+      1000
+     ]
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "min": 10
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "805.22.560 / 805.22.760",
+     "desc": "440-610 umber grey / white",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "805.22.561 / 805.22.761",
+     "desc": "600-1000 umber grey / white",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "sarcina e «≥ 10 kg» (minim, fără maxim în pagină); cursa nu e dată: coborârea e schematică"
+   ],
+   "notes": [],
+   "src": "Häfele UK 2.25 (HAF-20D2-25 p1)",
+   "verificat": false
+  },
+  {
+   "key": "hettich_comfortspin",
+   "raw": "hettich-comfortspin",
+   "brand": "Hettich",
+   "name": "ComfortSpin (turntable 360°)",
+   "kind": "turntable",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "tray",
+     "w": 425,
+     "d": 285,
+     "h": 37,
+     "plateSide": 70
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "total": 8,
+    "offCentre": 3
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "9264627",
+     "desc": "DIY shop, transparent",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "9325328",
+     "desc": "hettich.com page, transparent",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "conflict de cod de articol 9264627 / 9325328: ambele păstrate",
+    "tava 425 × 285 × 37; spațiu necesar 425 × 285"
+   ],
+   "notes": [],
+   "src": "Hettich ComfortSpin (HET-CS-WEB, HET-CS-MAN)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_fold_hinged_spring",
+   "raw": "haefele-hebgo-folding-brackets",
+   "brand": "Häfele",
+   "name": "Folding bracket, hinged spring 287.41.906 / 915",
+   "kind": "bracket",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "pair",
+     "pairKg": 40
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "pair": 40
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "287.41.906",
+     "desc": "bracket",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.41.915",
+     "desc": "bracket",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "A/B/C 250/25/85 și 380/25/120: sensul literelor nu e dat în text"
+   ],
+   "notes": [],
+   "src": "Häfele UK 7.204 (HAF-23T7-204)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_fold_hinged_adj",
+   "raw": "haefele-hebgo-folding-brackets",
+   "brand": "Häfele",
+   "name": "Folding bracket, hinged adjustable 287.55",
+   "kind": "bracket",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "pair",
+     "pairKg": 60
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "pair": 60
+   },
+   "draw": {
+    "positions": [
+     90,
+     80,
+     70,
+     0
+    ]
+   },
+   "codes": [
+    {
+     "code": "287.55.730 / 287.55.740",
+     "desc": "white",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.55.930 / 287.55.940",
+     "desc": "galvanised",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "A/B/C 300/200/30 și 400/270/36"
+   ],
+   "notes": [],
+   "src": "Häfele UK 7.204 (HAF-23T7-204)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_hebgo_light",
+   "raw": "haefele-hebgo-folding-brackets",
+   "brand": "Häfele",
+   "name": "Hebgo light duty 287.42",
+   "kind": "bracket",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "pair",
+     "pairKg": 150
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "pair": 150
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "287.42.403",
+     "desc": "A 330",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.42.412",
+     "desc": "A 380",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.42.421",
+     "desc": "A 480",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.42.430",
+     "desc": "A 580",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "A/B 330/134, 380/134, 480/152, 580/178"
+   ],
+   "notes": [],
+   "src": "Häfele UK 7.205 (HAF-23T7-205)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_hebgo_heavy",
+   "raw": "haefele-hebgo-folding-brackets",
+   "brand": "Häfele",
+   "name": "Hebgo heavy duty 287.43",
+   "kind": "bracket",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "pair",
+     "pairKg": 500
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "pair": 500
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "287.43.400",
+     "desc": "A 420",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.43.419",
+     "desc": "A 480",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.43.428",
+     "desc": "A 580",
+     "size": null,
+     "hand": null
+    },
+    {
+     "code": "287.43.437",
+     "desc": "A 680",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [
+    "A/B 420/180, 480/180, 580/220, 680/220",
+    "grosimea blatului → rost minim: 25:17, 30:17, 35:22, 40:28"
+   ],
+   "notes": [],
+   "src": "Häfele UK 7.206 (HAF-23T7-206)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_tikla_table",
+   "raw": "haefele-hebgo-folding-brackets",
+   "brand": "Häfele",
+   "name": "Tikla table bracket 287.53.936",
+   "kind": "bracket",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "pair",
+     "pairKg": 100,
+     "len": 360
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "pair": 100
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "287.53.936",
+     "desc": "Tikla table bracket",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Häfele UK 7.207 (HAF-23T7-207)",
+   "verificat": false
+  },
+  {
+   "key": "hafele_tikla_bench",
+   "raw": "haefele-hebgo-folding-brackets",
+   "brand": "Häfele",
+   "name": "Tikla bench bracket 287.48.110",
+   "kind": "bracket",
+   "body": "any",
+   "hand": false,
+   "front": null,
+   "sizes": [
+    {
+     "id": "pair",
+     "pairKg": 400,
+     "len": 360
+    }
+   ],
+   "limits": {},
+   "bands": [],
+   "load": {
+    "pair": 400
+   },
+   "draw": {},
+   "codes": [
+    {
+     "code": "287.48.110",
+     "desc": "Tikla bench bracket",
+     "size": null,
+     "hand": null
+    }
+   ],
+   "interp": [],
+   "notes": [],
+   "src": "Häfele UK 7.207 (HAF-23T7-207)",
+   "verificat": false
+  }
+ ]
+}

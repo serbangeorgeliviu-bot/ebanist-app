@@ -741,7 +741,7 @@ function setModel(boxes, cfg) {
       P = pieceGroup(pk);
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
-    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null; P.lift = bs[0].lift || null;
+    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null; P.lift = bs[0].lift || null; P.cu = bs[0].cu || null;
   }
   return boxes;
 }
@@ -1490,6 +1490,15 @@ function setTargets(boxesOrig) {
     }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
     P.slDir = slideDir(a);
+    /* U.17 — unități de colț / scoase / mecanisme: mișcarea vine din model (`cu.an`): { dz } glisare înainte, { dy } coborâre, { rot } rotire în jurul unei axe
+       verticale, { hx } rabatare în jurul unei axe orizontale. `rot.follow` (pk-ul ușii) se rezolvă la sfârșit, după unghiul final al ușii. */
+    if (P.cu && P.cu.an) {
+      const N = P.cu.an; P.pivot = null;   /* piesa poate fi refolosită de altă unitate: pivotul vechi nu rămâne */
+      if (N.dz != null) { P.slDir = [0, 1]; P.tgt.sl = open ? N.dz * MM : 0; }
+      if (N.dy != null) P.tgt.ey = open ? N.dy * MM : 0;   /* atribuire, nu +=: `ey` nu se reface din explozie (linia de mai sus) și un += s-ar aduna la fiecare apel */
+      if (N.rot && !N.follow) { P.pivot = { x: N.rot.x, z: N.rot.z, left: N.rot.deg < 0 }; P.tgt.ang = open ? N.rot.deg * Math.PI / 180 : 0; }
+      if (N.hx) { P.pivot = { axis: "x", y: N.hx.y, z: N.hx.z }; P.tgt.ang = open ? N.hx.deg * Math.PI / 180 : 0; }
+    }
   }
   /* un sertar nu iese prin ușa deschisă din fața lui (D-136): dacă ușa deschisă, în poziția ei de la sfârșitul animației, stă pe drumul lui, sertarul rămâne
      închis. Testul e cel din audit: poligonul foii ușii (rotit în jurul pivotului) față de dreptunghiul sertarului în planul x–z, și suprapunere pe înălțime. */
@@ -1538,7 +1547,7 @@ function setTargets(boxesOrig) {
         return { poly, y0: b.y0 + ey, y1: b.y1 + ey };
       });
     };
-    const buildOthers = (skipDoors) => [...R.pieces.values()].filter(Q => !Q.grp && !(skipDoors && doorOf.has(String(Q.pk)))).map(Q => ({ Q, fp: footprints(Q) }));
+    const buildOthers = (skipDoors) => [...R.pieces.values()].filter(Q => !Q.grp && !(Q.cu && Q.cu.nm !== "front" && Q.cu.nm !== "flap") && !(skipDoors && doorOf.has(String(Q.pk)))).map(Q => ({ Q, fp: footprints(Q) }));
     let others = buildOthers(true);   // pentru ușile însele: numai piesele fixe (ușile se verifică între ele mai sus)
     /* o ușă se deschide doar cât poate: pe tot arcul ei (din 5° în 5°), foaia nu taie nicio piesă fixă; altfel unghiul scade (D-136). La corpul de colț, ușile
        aripii A din spatele aripii B nu au loc deloc și rămân închise. */
@@ -1578,6 +1587,23 @@ function setTargets(boxesOrig) {
       const clash = Ri.some(A => Rj.some(B => Math.min(A.x1, B.x1) - Math.max(A.x0, B.x0) > 1 && Math.min(A.z1, B.z1) - Math.max(A.z0, B.z0) > 1 && Math.min(A.y1, B.y1) - Math.max(A.y0, B.y0) > 1));
       if (clash) { const lose = (groups[Gj][0].P.slDir || [0, 1])[0] !== 0 ? Gj : ((groups[Gi][0].P.slDir || [0, 1])[0] !== 0 ? Gi : Gj); groups[lose].forEach(({ P }) => { P.tgt.sl = 0; }); }
     }
+    /* U.17 — glisarea unităților (scoase, sertare de colț, coșurile din spate): dacă drumul unei cutii taie o piesă fixă (de ex. aripa B a corpului de colț),
+       toată grupa unității rămâne închisă, ca sertarele (D-136) */
+    { const cg = {};
+      for (const P of R.pieces.values()) if (P.cu && P.cu.an && P.cu.an.dz && P.cu.an.dy == null && P.tgt.sl) (cg[P.cu.u] = cg[P.cu.u] || []).push(P);   /* cu {dy}: mișcare în două faze (înainte, apoi jos), nu se verifică drumul drept */
+      for (const u in cg) {
+        const blocked = cg[u].some(P => { const ex = P.tgt.ex / MM, ez = P.tgt.ez / MM, ey = P.tgt.ey / MM, s = P.tgt.sl / MM;
+          return (pk2boxes.get(String(P.pk)) || []).some(b => { const sw = [[b.x0 + ex, b.z0 + ez], [b.x1 + ex, b.z0 + ez], [b.x1 + ex, b.z1 + ez + s], [b.x0 + ex, b.z1 + ez + s]];
+            return others.some(({ fp }) => fp.some(f => Math.min(f.y1, b.y1 + ey) - Math.max(f.y0, b.y0 + ey) > 1 && hit(f.poly, sw, 2.5))); }); });
+        if (blocked) cg[u].forEach(P => { P.tgt.sl = 0; });
+      } }
+  }
+  /* U.17 — coșurile prinse de ușă merg cu ea: același pivot, același unghi final (după verificarea de coliziune a ușii) și aceeași deplasare de explozie */
+  for (const P of R.pieces.values()) {
+    const N = P.cu && P.cu.an; if (!N || !N.follow) continue;
+    const D = R.pieces.get(String(N.follow));
+    if (D) { P.tgt.ex = D.tgt.ex; P.tgt.ey = D.tgt.ey; P.tgt.ez = D.tgt.ez; }
+    if (D && D.pivot && D.tgt.ang) { P.pivot = D.pivot; P.tgt.ang = D.tgt.ang; } else { P.pivot = D ? D.pivot : null; P.tgt.ang = 0; }
   }
 }
 

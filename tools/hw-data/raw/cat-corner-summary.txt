@@ -1,0 +1,79 @@
+cat-corner.json summary (generated 2026-11-18) - 37 sources, 32 products
+
+- blum-space-corner-syncromotion | Blum SPACE CORNER with SYNCROMOTION | corner base cabinet, 2 drawers (TANDEMBOX plus/antaro/intivo) meeting at 90 deg, standard (hinged-type) fronts swing in via SYNCROMOTION
+    null/unreadable: Front overlay B value not printed; PM pairing wording ambiguous; Blum main SPACE CORNER planning sheet (cabinet width range, LW limits) not downloadable - only MA-493 found; width range 900-1200 mm only from third-party web summaries (not used as fact); SPACE CORNER with rigid fronts: listed in S03 p268 but its planning sheet was not found
+- blum-movento-space-corner-us | Blum Inc. (US) MOVENTO | SPACE CORNER | corner cabinet with MOVENTO runners (rigid fronts / own drawer construction), 33-42 in
+    null/unreadable: Metric load capacity not given (US doc)
+- blum-space-tower | Blum SPACE TOWER | tall larder unit with individually opening inner pull-outs (LEGRABOX / MERIVOBOX / TANDEMBOX / MOVENTO / TANDEM)
+    null/unreadable: No Blum 'SPACE TOWER' order codes (assembled from standard box-system parts); Cabinet depth requirement not stated (comes from the box-system NL)
+- blum-space-twin | Blum SPACE TWIN | narrow base cabinet pull-out (diagonally offset runners)
+    null/unreadable: Drilling data and depth not extracted
+- kb-lemans2 | Kesseboehmer (distributed by Hettich as 'LeMans II', Haefele, Demos) LeMans II (Arena Classic / Arena Style / Arena Pure) swing-out blind corner tray set, height-adjustable axle | blind-corner full swing-out (kidney trays), unit mounted behind hinged door, left/right
+    null/unreadable: Tray dimensions (width/depth/height) not stated in text; drawing shows only swing geometry; Pairing of catalogue letters A-K with 'inner width' vs MA letters differs (catalogue A=>=764 equals MA C) - resolved by reading drawings
+- kb-lemans2-highboard | Kesseboehmer LeMans II Highboard / semicolumna (rigid axle) | blind-corner swing-out trays for tall corner units
+    null/unreadable: Catalogue says min inner height >= 1265 (S06) and MA drawing shows 'min 1265' (S08) - consistent; Catalogue lists 'semicolumna' without separate door table
+- kb-lemans2-na | Kesseboehmer (North America) LeMans II MA 402121 (face-frame / frameless) | blind corner, same family as LeMans II
+    null/unreadable: Meaning of A/B in this MA: min clear door opening (A) / min inner cabinet width (B)
+- kb-dispensa-vvsx | Kesseboehmer (sold by Haefele and others) DISPENSA VVS-x with ARENA shelves | tall larder pull-out frame on top+bottom full-extension runners (centre upright), cabinet 150-450 mm
+    null/unreadable: Meaning of left column (250..600) vs Z in S10 p4 table not labelled in drawing (arrow from cabinet side) - listed as printed; Haefele-own Dispensa order codes not obtained (UK Haefele page not downloaded)
+- kb-dispensa-junior-comfort | Kesseboehmer Dispensa Junior III / Junior Slim / Comfort II / base baskets with side runner (150 mm) | base-unit pull-out baskets 150-450 mm (and 90 deg side frame)
+    null/unreadable: Mounting drilling coordinates not in the catalogue pages
+- kb-tandem-ii-side | Kesseboehmer Tandem II / Tandem Side larder units | tall larder with inner frame + door frame (Tandem) / side (Tandem Side)
+    null/unreadable: Mounting/drilling not on catalogue pages; Door fixing details not read
+- kb-magic-corner-demos | Kesseboehmer (listed as 'Magic Corner' in Demos catalogue) Magic Corner (soft close) 900-1000 mm | blind corner, door-attached pull-out (front baskets swivel, rear baskets follow)
+    null/unreadable: Interpretation of marks 390/485 in drawing not clear
+- kb-carousels | Kesseboehmer Carousel 270 deg (3/4) and 180 deg (1/2), Revo 90 deg (3/4 carousel with door on mechanism) | 90 deg corner carousel, 3/4 round / kidney
+    null/unreadable: Revo 90 'different cabinet construction' drawing p36 (D-C-3+V etc.) is an assembly/fronts drawing, not interpreted
+- demos-carousels-brand-unspecified | not stated in the catalogue extract (Demos catalogue, KITCHEN WIRE SYSTEMS) 1/2 and 3/4 round rotating trays | corner carousels
+    null/unreadable: Brand, door fixing, per-shelf load for 88404/162230 not stated
+- peka-magic-corner-comfort | Peka (Switzerland) Magic Corner Comfort (300.0580-0583) | blind corner, front shelves swivel out, rear shelves glide forward, hinged door, 900/1000 types, left/right
+    null/unreadable: Per-shelf dimensions (WxDxH) not on the data sheet
+- peka-magic-corner-standard | Peka Magic Corner Standard (300.0826 li900 / 300.0831 re900 / 300.0814 li1000 / 300.0817 re1000) | blind corner with attached front panel
+    null/unreadable: Y/Z table row labelling combined from drawing
+- peka-pinello-cargo | Peka Pinello Cargo | base-unit pull-out for narrow units (200/300 mm), Blum LEGRABOX / Grass Nova Pro
+    null/unreadable: Order codes not on data sheet
+- peka-hochschrank-standard | Peka Hochschrank Standard | tall larder pull-out for 150-450 mm
+    null/unreadable: Codes not stated
+- peka-pleno-plus-maxi | Peka Pleno Plus / Pleno Maxi | tall larder with door shelves + inner shelves
+    null/unreadable: Per-shelf loads not stated
+- peka-extendo | Peka Extendo pull-out shelf | base pull-out shelf behind hinged doors / on Grass or Blum LEGRABOX runners
+    null/unreadable: load not stated
+- hettich-salso | Hettich Salso swivelling corner pull-out | blind corner swing-out (two shelves), hinged door, left/right
+    null/unreadable: S16 product page conflicts with catalogue: inside height 620-780 (page technical detail) vs 620-820 (catalogue S15 p14, 16); min depth 460 (technical detail) vs 465 (catalogue). Catalogue taken as authoritative.
+- hettich-orta-goro | Hettich Orta (400-600) and Goro (450) corner pull-out systems with pot-and-pan drawer | blind corner behind hinged door with front drawer
+    null/unreadable: Door/hinge fixing of centre upright not read; Goro drawing dims (≥400, 860-1020, ≥485, 372, 300, 110+Y) not labelled in text
+- hettich-olona-iseo-lario | Hettich Olona (tall pull-out), Iseo (swivel larder), Lario/Naro (base pull-outs) | tall and base pull-outs
+    null/unreadable: Lario min. depth numbers vary by variant (480/485/490/495/500/525/910 for 3-tier); only partly decoded
+- hafele-corner-549-42 | Haefele UK Haefele corner pull-out shelving unit (549.42.xxx) | blind corner pivoting shelf pair
+    null/unreadable: Door fixing not described
+- hafele-swingout-corner-549-38 | Haefele UK Swing out corner unit (548/549.38/549.86) | blind corner swing-out
+    null/unreadable: Basket dimensions are only drawing numbers (355/335/407/435/457/230/270 ... ) not assigned
+- vs-cor-flex-hafele | Vauth-Sagel (Haefele UK) VS COR Flex | blind corner pull-out with 4 baskets, unhanded
+    null/unreadable: Basket dims in drawing: 415/375/325/280/80/75 (not assigned to W/D/H)
+- vs-cor-fold-hafele | Vauth-Sagel (Haefele UK) VS COR Fold | swing-out corner, rear baskets follow front baskets
+    null/unreadable: basket dims 336/450/370/430/230/305/84 in drawing not assigned
+- vs-cornerstone-swing | Vauth-Sagel (Haefele UK) Cornerstone Swing | blind corner swing-out, single support tube
+- vs-cor-wheel-pro | Vauth-Sagel (Haefele UK) VS COR Wheel Pro (pole-free 3/4 round) | 90 deg corner carousel, 3/4 round
+- hafele-utensio-inline | Haefele (Utensio Pro) Inline Corner | pull-out corner, 4 baskets
+- hafele-utensio-glide | Haefele (Utensio Pro) Glide Corner | swing-out 2-shelf corner
+- grass-quaturis-s | GRASS Quaturis S | blind corner swing (wood shelves) base (600-900 mm height) and tall (900-1500 mm)
+    null/unreadable: Brochure dated 07/2015, may be superseded
+- grass-quaturis-75-vs-cor-spin | GRASS Quaturis 75 / Vauth-Sagel VS COR Spin (same table values) Quaturis 75 / VS COR Spin 800-900 (pie-cut 3/4 carousel) | 90 deg carousel
+    null/unreadable: Load per shelf not given in the documents read
+
+NOTES
+* All dimensions mm unless stated. 'drawing' = read off a figure; 'S..' ids refer to sources[]; pages are PDF page numbers unless stated (Blum 2020/21 printed page = PDF page - 4).
+* Blum: the 2020/21 catalogue (S03) does NOT contain a SPACE CORNER detail page (only the overview p268 and ORGA-LINE sets); the official SPACE CORNER with SYNCROMOTION installation instruction MA-493/0 (S01) was downloaded and read incl. drawings. A planning sheet with cabinet-width limits for SPACE CORNER was not found; blum.com download page lists only 4 PDFs and no CAD (S22). No 'LEGRABOX pull-out for corner' or 'Blum CARGO' exists in the documents found.
+* Blum SPACE TOWER: official planning information TD-082/4 (S02) read; shows pull-out height positions and hinge drilling, no order codes (assembled from box-system parts).
+* Source conflict: Peka Magic Corner Comfort load 8 kg (front) / 10 kg (rear) per shelf and 36 kg total (S12, S14a) vs Kesseboehmer-branded 'Magic Corner' in the Demos catalogue 7/9 kg per basket, 14/18 kg per pair (S11 p33) - different product/era; both recorded.
+* Source conflict: Hettich shop product page Salso 9381054 (S16): inside height 620-780 and min depth 460, vs official catalogue S15 p14/16: 620-820 and 465 (catalogue used).
+* Source conflict/info: Dispensa VVS-x 120 kg 'own weight + load' and 18 kg per basket (MA 402053, S10) vs 100 kg slide/load (Demos catalogue S11 p15, kesseboehmer.com teaser S21) - not inconsistent if frame weight about 20 kg.
+* Source conflict: Grass Quaturis 75 LTK for sets 3/4 = 515/525 (S19 p16) vs Vauth-Sagel VS COR Spin 900 B = 512/522 (S20b p1); sets 1/2 identical (500/510). Symbols differ (LTK vs B).
+* Hettich Orta table prints a row '550' (S15 p20) although front widths are 400/450/500/600; recorded as printed.
+* LeMans II is marketed under the Kesseboehmer brand (also in Hettich's range per S17 and Haefele); Kesseboehmer catalogue letters A-K (S06 p4) differ from MA letters A-D (S07 p3): catalogue A (>=764) = MA C; catalogue C (361-368) = MA A; catalogue F (<=400) = MA B. Values agree.
+* The Kesseboehmer 2013 catalogue pages (S06) are old; MA 402118 is dated 2012; MA 402121 Rev 007-2018 (S09) is a different (North American) installation sheet with lower minimum widths (e.g. door 400: 355/362 mm vs 361-368 mm in the EU sheet) - recorded as a separate product entry.
+* Distributor catalogues used (not manufacturer-issued): Blum catalogue copy (ldlonline), Kesseboehmer LeMans pages (megaflis.no), Demos Trade K05 2024 (Kesseboehmer products with Demos codes; codes are Demos article numbers, Kesseboehmer code given where printed), Haefele UK catalogue pages, GRASS Quaturis brochure copy (2015). Official manufacturer PDFs: Blum MA-493, TD-082, Hettich catalogue 2025, Peka data sheets and MAs, Vauth-Sagel manuals, Kesseboehmer MAs.
+* Not found / not covered: Peka LeMans (none), Rev-A-Shelf (no document retrieved), Kesseboehmer 'Cargo'-type bottle pull-outs (only Peka Pinello Cargo and Hettich/Kesseboehmer 150 mm base baskets found), Hettich tall-unit pantry beyond Olona/Iseo, Haefele's own Dispensa order codes (only Kesseboehmer/Demos codes), Vauth-Sagel LeMans (not a VS product), VS TAL/Variant pantry (nothing retrieved), Grass SIGE (Discover 2024 PDF URL returned 404).
+* Downloaded but not extracted in detail: Kesseboehmer MA for Dispensa VVS (Richelieu handling instructions), Convoy Centro (402096), Convoy Lavido (Wurth), Comfort II (402869, Foussier), Base Pull Out II (403792), Dispensa VV (4281100_2), Peka Magic Corner I/II frame instructions (Shopify), Blum LEGRABOX ordering and planning information me77914225 (72 pp; no SPACE CORNER/TOWER content). Files are in dl-corner/ and dl-corner/p2/.
+* Front thickness / door fixing: only values stated by sources are given; where the source gives none the field is null with a reason. Blum 'FB = PM' pairing (300/450/600 -> 900/1050/1200) is reproduced as printed; interpretation uncertain.
+* Left/right: LeMans II, Magic Corner, Salso, Haefele units are handed (L/R codes); VS COR Flex, Inline Corner, Cornerstone Swing, Orta are unhanded; SPACE CORNER has left front F1 / right front F2 pieces.

@@ -1,0 +1,2444 @@
+{
+ "sources": [
+  {
+   "id": "S01",
+   "url": "https://www.blum.com/file/box0034-ma-493-0_ma_dok_bau?country=eu&language=en",
+   "title": "Blum MA-493/0 SPACE CORNER with SYNCROMOTION (installation instruction, 01.14, TANDEMBOX plus/antaro/intivo)",
+   "pages": "2-5"
+  },
+  {
+   "id": "S02",
+   "url": "https://www.blum.com/file/box0036-td-082_td_dok_bau?country=is&language=en",
+   "title": "Blum TD-082/4 SPACE TOWER planning information (03.24)",
+   "pages": "2,3,5"
+  },
+  {
+   "id": "S03",
+   "url": "https://www.ldlonline.co.uk/media/wysiwyg/others/media/blum-catalogue.pdf",
+   "title": "Blum catalogue and technical manual 2020/2021 KA-140 (distributor copy; PDF page numbers, printed page = PDF page - 4)",
+   "pages": "122-123 (corner bi-fold hinge), 265/268/315 (overview incl. SPACE CORNER, SPACE TOWER kg), 300-301 (SPACE TOWER antaro), 521-530 (ORGA-LINE sets for SPACE CORNER)"
+  },
+  {
+   "id": "S04",
+   "url": "https://d2.blum.com/services/BEC003/cme120138_ma_dok_bus_$sen-us_$aof_$v1.pdf",
+   "title": "Blum Inc. MOVENTO | SPACE CORNER (US, (c)2024)",
+   "pages": "1-2"
+  },
+  {
+   "id": "S05",
+   "url": "https://shop-sg.blum.com/img/manager/4d6f714af26032a8e3fc8e82f38a8b852c9d6145.pdf",
+   "title": "Blum SPACE TWIN narrow cabinets brochure",
+   "pages": "3,8"
+  },
+  {
+   "id": "S06",
+   "url": "https://megaflis.no/globalassets/productimages/7332466029626_bld.pdf",
+   "title": "Kesseboehmer LeMans II catalogue pages 3.3-3.12 (30.08.13, distributor copy)",
+   "pages": "PDF p2,4,5,8,9"
+  },
+  {
+   "id": "S07",
+   "url": "https://merkuryam.mysky-shop.pl/upload/merkuryam/Instrukcja_montazu_LE_MANS_II-3-.pdf",
+   "title": "Kesseboehmer MA 402118 0000 (08.05.2012) LeMans II full swing corner pull-out, height-adjustable axle, 40/45/50/60",
+   "pages": "1,3,5"
+  },
+  {
+   "id": "S08",
+   "url": "https://webdata.drevotrust.cz/montazni_navody/kessebohmer/lemans_II/lemans_II_vysoka_skrin.pdf",
+   "title": "Kesseboehmer MA 402123 0000 Rev 004-2019-06-27 LeMans II Highboard (rigid axle)",
+   "pages": "1,3,4"
+  },
+  {
+   "id": "S09",
+   "url": "https://xcart.wurthlac.com/skin/common_files/files/specs/LeMans-InstallationInstruction.pdf",
+   "title": "Kesseboehmer MA 402121 0000 Rev 007-2018-02-08 LeMans II (NA version, face-frame/frameless; Wurth Baer copy)",
+   "pages": "3-5"
+  },
+  {
+   "id": "S10",
+   "url": "https://cdn.shopify.com/s/files/1/1755/7509/files/Dispensa_-_Install.pdf",
+   "title": "Kesseboehmer MA 402053 0000 Rev 006-2017-01-05 DISPENSA VVS-x with ARENA shelves",
+   "pages": "1,3,4"
+  },
+  {
+   "id": "S11",
+   "url": "https://www.demos24plus.com/content/wysiwyg/en/Dokumenty/Catalogues/Fittings%202024/K05_2024_GB.pdf",
+   "title": "Demos Trade 'Kitchen wire systems' catalogue K05 2024 (distributor catalogue of Kesseboehmer products; Demos codes + Kesseboehmer codes)",
+   "pages": "PDF p15-23 (Dispensa), 24-26 (Tandem), 27-32 (LeMans II), 33 (Magic Corner), 34-35 (carousel, Revo 90), 37-43 (base baskets), 61-62"
+  },
+  {
+   "id": "S12",
+   "url": "https://static.richelieu.com/documents/docsGr/120/769/9/1207699/1453259.pdf",
+   "title": "Peka MA 950.0523.MA Rev c (07.11.2016) Magic Corner Comfort 300.0580-0583",
+   "pages": "1,2,4"
+  },
+  {
+   "id": "S13",
+   "url": "https://static.richelieu.com/documents/docsGr/120/815/7/1208157/1458215.pdf",
+   "title": "Peka MA 950.0321.MA Rev f (08.02.2018) Magic Corner Standard 300.0826/0831/0814/0817",
+   "pages": "1,2,5"
+  },
+  {
+   "id": "S14a",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Corner-units-Magic-Corner-Comfort-peka-ENG.pdf",
+   "title": "Peka product data sheet Magic Corner Comfort 2023.06",
+   "pages": "1"
+  },
+  {
+   "id": "S14b",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Corner-units-Magic-Corner-Standard-peka-ENG.pdf",
+   "title": "Peka product data sheet Magic Corner Standard 2023.06",
+   "pages": "1"
+  },
+  {
+   "id": "S14c",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Base-units-Pinello-Cargo-peka-ENG.pdf",
+   "title": "Peka product data sheet Pinello Cargo 2025.05",
+   "pages": "1"
+  },
+  {
+   "id": "S14d",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Larder-units-Hochschrank-Standard-peka-ENG.pdf",
+   "title": "Peka product data sheet Hochschrank Standard 2024.11",
+   "pages": "1"
+  },
+  {
+   "id": "S14e",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Larder-units-Pleno-Plus-peka-ENG.pdf",
+   "title": "Peka product data sheet Pleno Plus 2023.06",
+   "pages": "1"
+  },
+  {
+   "id": "S14f",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Larder-units-Pleno-Maxi-peka-ENG.pdf",
+   "title": "Peka product data sheet Pleno Maxi 2024.11",
+   "pages": "1"
+  },
+  {
+   "id": "S14g",
+   "url": "https://peka.com/tradepro/shopen/artikel/allgemein/Product-data-sheet-Base-units-Extendo-for-uwhd-peka-ENG.pdf",
+   "title": "Peka product data sheet Extendo 2023.06",
+   "pages": "1"
+  },
+  {
+   "id": "S15",
+   "url": "https://catalog.hettich.com/Further_Products/Interior_Fittings/en_DE/catalogs/20558_Schrankinnenausstattung_Katalog_2025_EN_2008/pdf/save/bk_N.pdf",
+   "title": "Hettich Interior fittings catalogue 08/2025 (20558_Interior_Fittings_08/2025_HMV_EN), page N = bk_N.pdf",
+   "pages": "4-13 Lario/Oira/Naro, 14-16 Salso, 18-20 Orta, 22-23 Goro, 24-26 Olona, 28-30 Iseo"
+  },
+  {
+   "id": "S16",
+   "url": "https://shop.hettich.com/ie_EN/Verdere-producten/wandkastinrichting/onderkastinrichting/Hoekkastbeslag/Salso---zwenkbare-hoekkastladegeleider-voor-inbouw-achter-draaideur/Beslagset-Salso%2C-frontbreedte-600%2C-rechts%2C-zilver/p/9381054",
+   "title": "Hettich shop product page Salso 9381054 (CAD + instruction links)",
+   "pages": "web"
+  },
+  {
+   "id": "S17",
+   "url": "https://shop.hettich.com/gb_EN/system-comparison/compare/group3496754687777",
+   "title": "Hettich shop corner-unit system comparison",
+   "pages": "web"
+  },
+  {
+   "id": "S18a",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/17D1-46.PDF",
+   "title": "Hafele UK catalogue p1.46 Hafele corner unit (2017)",
+   "pages": "1"
+  },
+  {
+   "id": "S18b",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-50.pdf",
+   "title": "Hafele UK catalogue p1.50-1.53 Vauth-Sagel VS COR Flex (amended 23.07.24)",
+   "pages": "1-4"
+  },
+  {
+   "id": "S18c",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-54.pdf",
+   "title": "Hafele UK catalogue p1.54-1.57 Vauth-Sagel VS COR Fold (amended 07.02.22)",
+   "pages": "1-4"
+  },
+  {
+   "id": "S18d",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-57A.pdf",
+   "title": "Hafele UK catalogue swing-out corner unit (amended 10.01.22)",
+   "pages": "1"
+  },
+  {
+   "id": "S18e",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-49A.pdf",
+   "title": "Hafele UK catalogue Utensio Pro Inline Corner (created 17.01.25)",
+   "pages": "1-4"
+  },
+  {
+   "id": "S18f",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-59A.pdf",
+   "title": "Hafele UK catalogue Utensio Pro Glide Corner (created 17.01.25)",
+   "pages": "1-2"
+  },
+  {
+   "id": "S18g",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-62.pdf",
+   "title": "Hafele UK catalogue Vauth-Sagel Cornerstone Swing",
+   "pages": "1-2"
+  },
+  {
+   "id": "S18h",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-69.pdf",
+   "title": "Hafele UK catalogue p1.69 Vauth-Sagel VS COR Wheel Pro",
+   "pages": "1"
+  },
+  {
+   "id": "S19",
+   "url": "https://cdn.shopify.com/s/files/1/1506/1908/files/grass_product_catalogues_quaturis_corner_cabinet_system.pdf",
+   "title": "GRASS Quaturis corner cabinet systems brochure F147102902001 07/2015 (distributor copy; may be superseded)",
+   "pages": "8-12, 16-17, 36"
+  },
+  {
+   "id": "S20a",
+   "url": "https://www.vauth-sagel.com/pim/document/e91afc5a-d87d-5f52-bfc7-ad0a06f8dcdb",
+   "title": "Vauth-Sagel D7100001000-05/2025 VS COR Spin 800 assembly manual",
+   "pages": "1-2"
+  },
+  {
+   "id": "S20b",
+   "url": "https://www.vauth-sagel.com/pim/document/35142a99-601f-56fc-8dfc-4a5692b1d86e",
+   "title": "Vauth-Sagel D7100003000-05/2025 VS COR Spin 900 assembly manual",
+   "pages": "1-2"
+  },
+  {
+   "id": "S20c",
+   "url": "https://vauth-sagel.com/us/en/product/vs-cor-spin-71-lava/0f7f9d6a-34c6-534f-ad0e-6f3308e65b3d",
+   "title": "Vauth-Sagel product page VS COR Spin 71 lava",
+   "pages": "web"
+  },
+  {
+   "id": "S21",
+   "url": "https://www.kesseboehmer.com/en/storage-solutions/kitchen/larder-units/dispensa",
+   "title": "Kesseboehmer.com DISPENSA product page (teaser values)",
+   "pages": "web"
+  },
+  {
+   "id": "S22",
+   "url": "https://www.blum.com/eu/en/products/cabinet-applications/space-corner/downloads-videos/",
+   "title": "Blum SPACE CORNER downloads page (4 PDFs, no CAD files listed)",
+   "pages": "web"
+  }
+ ],
+ "products": [
+  {
+   "id": "blum-space-corner-syncromotion",
+   "brand": "Blum",
+   "name": "SPACE CORNER with SYNCROMOTION",
+   "type": "corner base cabinet, 2 drawers (TANDEMBOX plus/antaro/intivo) meeting at 90 deg, standard (hinged-type) fronts swing in via SYNCROMOTION",
+   "cabinet": {
+    "recommended_cabinet_width_mm": "900-1200 (web summaries only, not read from Blum doc)",
+    "installation_dimension_PM_mm": "printed 'FB = PM: 300 = 900 mm; 450 = 1050 mm; 600 = 1200 mm' (FB = front width; reading of pairing uncertain)",
+    "drawer_bottom": "B = LW-75 (LW = internal carcase width); L = NL-29.5 (+L); bottom front is 135 deg mitre ((B/2)+L); holes A/B/C with Ø5/Ø10 positions per drawing",
+    "carcase_side_thickness_clearance_mm": "min 33 below drawer (all heights M, C, D)",
+    "drawer_heights": "M, C, D (TANDEMBOX heights)",
+    "space_req_height_mm": {
+     "M": "68.5 above runner, 95.5 total incl. bracket, min 33 under",
+     "C": "min 163 clear",
+     "D": "min 195 clear"
+    },
+    "hand": "not handed (corner drawer; front pieces F1 left / F2 right + optional corner post F3)",
+    "nominal_lengths_mm": "600 / 650 (carcase profile fixing drawing shows both)",
+    "src": "S01 p2-4 (drawing), S03 p268 (printed 264)"
+   },
+   "door": {
+    "fronts": "F1 (left) and F2 (right) fronts on 90 deg, optional corner post F3 (Eckblende)",
+    "front_cut_width_mm": "(0.707 x LW) - 94 from drilling-position drawing (drawing)",
+    "front_drilling_mm": "Ø10 +0.2/-0.1 holes; 22 from outer edge; hole pair 32 apart; min 47.5 from bottom; for C+D heights additional pair 64 higher and 81.5 reference (drawing)",
+    "front_overlay_B": "B = Blendenueberstand (overlay), value not printed -> null",
+    "front_thickness_mm": null,
+    "corner_post_EbB": "EbB = PM - PtA - FB - (3 x SL) - PD (PtA = depth adjacent cabinet, SL = side gap, PD = bumper thickness)",
+    "corner_post_F3_dims_mm": "24.8 wide x 13 deep, drilled 32 apart, min 15.5 from end; M height 64, C/D height 160 (drawing)",
+    "bifold_hinges": "none; SYNCROMOTION synchronizes two drawers, standard fronts remain separate",
+    "src": "S01 p2,5",
+    "front_thickness_reason": "not stated; drawing shows a 12 mm dimension near the front edge/hole depth only"
+   },
+   "baskets": {
+    "type": "two drawers, each with 135 deg pentagon bottom",
+    "drawer_back_widths": "SKRWB1 = (LW-75) x 0.707, SKRWB2 = SKRWB1 - 16",
+    "back_heights_mm": {
+     "M": 84,
+     "C": 167,
+     "D": 199
+    },
+    "connecting_piece_E1/E2_length": "(0.707 x LW) - 212; heights 69 (M), 165 (C+D); Ø8 holes 32 / 128 (drawing)",
+    "ORGA-LINE": "dedicated SPACE CORNER ORGA-LINE sets (see codes)",
+    "src": "S01 p2-3 (drawing)"
+   },
+   "load_kg": {
+    "dynamic_carrying_capacity": 65,
+    "src": "S03 p268 overview ('kg' column for SPACE CORNER with SYNCROMOTION = 65; 30/65 shown for other TANDEMBOX rows, so 65 read as the kg value)"
+   },
+   "mounting": {
+    "carcase_profile_fixing": "600 mm NL: holes 32 / 64 / 128 / 224 ... 108 from front; 650 mm: same pattern with extra 9, 50, 96, 32 (see drawing); standard TANDEMBOX carcase profiles",
+    "back_fixing_mm": "M: 20 and 32 (+9 setback); C: 39,32,32,32; D: 8,32,64,32,32 (drawing)",
+    "assembly_template": "Drilling template ZML.0330 (S03 p622 index) and 65.1106/65.1107 add-on (S03 text lines for 65.1106/65.1107)",
+    "height_adjustment": "none stated",
+    "soft_close": "BLUMOTION/SYNCROMOTION integrated (S22 summary)",
+    "src": "S01 p3-4"
+   },
+   "options": [
+    "with / without corner post (F3) - separate assembly steps in S01 p6 vs p8",
+    "TANDEMBOX plus, antaro, intivo (BOXCOVER, BOXCAP) - S01 p1,p9"
+   ],
+   "codes": [
+    {
+     "code": "ZML.0330",
+     "desc": "Drilling template for SPACE CORNER with SYNCROMOTION",
+     "range": "-",
+     "src": "S03 p622/636 index"
+    },
+    {
+     "code": "65.1106 / 65.1107",
+     "desc": "Add-on for SPACE CORNER (universal individual template) enabling SPACE CORNER assembly",
+     "range": "-",
+     "src": "S03 (text lines ~41818,42947)"
+    },
+    {
+     "code": "ZSI.450BI3E / ZSI.500BI3E",
+     "desc": "ORGA-LINE BI3E set for SPACE CORNER, NL 600 / 650",
+     "range": "NL 600/650",
+     "src": "S03 p526 (printed 522)"
+    },
+    {
+     "code": "ZSI.450FI3 / ZSI.500FI3",
+     "desc": "ORGA-LINE FI3 SPACE CORNER set NL 600 / 650",
+     "range": "NL 600/650",
+     "src": "S03 p523"
+    }
+   ],
+   "cad": {
+    "note": "No CAD files on SPACE CORNER download page (S22). CAD via Blum Product Database / CAD-CAM Data Service / configurators: https://www.blum.com/eu/en/services/industrial-production/cad-cam-dataservice/ ; product configurator https://www.blum.com/configurator"
+   },
+   "unreadable": [
+    "Front overlay B value not printed; PM pairing wording ambiguous",
+    "Blum main SPACE CORNER planning sheet (cabinet width range, LW limits) not downloadable - only MA-493 found; width range 900-1200 mm only from third-party web summaries (not used as fact)",
+    "SPACE CORNER with rigid fronts: listed in S03 p268 but its planning sheet was not found"
+   ]
+  },
+  {
+   "id": "blum-movento-space-corner-us",
+   "brand": "Blum Inc. (US)",
+   "name": "MOVENTO | SPACE CORNER",
+   "type": "corner cabinet with MOVENTO runners (rigid fronts / own drawer construction), 33-42 in",
+   "cabinet": {
+    "corner_cabinet_sizes_in": "33, 36, 39 or 42 (inch)",
+    "example": "39 in SPACE CORNER with 5/8 in material: overall 475 mm wide front V, 781 mm leg, 670 mm, 443 mm, 242.5 mm diagonal, 66 mm, 72 mm, 72 mm, 16 mm material (drawing)",
+    "src": "S04 p1-2"
+   },
+   "door": {
+    "note": "special cabinet and drawer construction required; drawer side max 16 mm (5/8 in)",
+    "src": "S04 p1"
+   },
+   "baskets": {
+    "runner": "MOVENTO 769.6860S (setback 103 mm; A 110, B 137, C 361, D 489 mm), one set per drawer",
+    "locking_device": "T51.7601 R / L, min inside drawer width 170 mm, +/-1.5 mm side adjust",
+    "src": "S04 p1-2"
+   },
+   "load_kg": {
+    "static_load_lb": 170,
+    "src": "S04 p1 ('170 lb static load capacity') - kg conversion not stated in document"
+   },
+   "mounting": {
+    "src": "S04 p2",
+    "setback_mm": 103,
+    "runner_length_marker": "9 mm",
+    "blocking_underneath_for_locking_device": "72 x 72 mm (drawing)"
+   },
+   "codes": [
+    {
+     "code": "769.6860S",
+     "desc": "MOVENTO runner set for SPACE CORNER, max 16 mm drawer side",
+     "range": "33/36/39/42 in cabinets",
+     "src": "S04 p1"
+    },
+    {
+     "code": "T51.7601 R / L",
+     "desc": "Locking device right / left",
+     "range": "per drawer",
+     "src": "S04 p1"
+    }
+   ],
+   "unreadable": [
+    "Metric load capacity not given (US doc)"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "blum-space-tower",
+   "brand": "Blum",
+   "name": "SPACE TOWER",
+   "type": "tall larder unit with individually opening inner pull-outs (LEGRABOX / MERIVOBOX / TANDEMBOX / MOVENTO / TANDEM)",
+   "cabinet": {
+    "recommended_cabinet_width_mm": "275-1200",
+    "src_width": "S03 p300 (printed 296)",
+    "front": "CLIP top 155 deg hinge without door protrusion; hinge count by front weight/height",
+    "pull-out_heights_example_mm_from_cabinet_bottom_LEGRABOX": [
+     57,
+     436,
+     756,
+     1108,
+     1428,
+     1684,
+     "(1684 = top shelf)"
+    ],
+    "profile_offsets_mm": "19 (profile setback), 38 or 57 (+1 mm if cabinet profiles are fitted before cabinet assembly) - LEGRABOX/MOVENTO 57/38, MERIVOBOX 74/54, TANDEM 56/37, TANDEMBOX 52",
+    "segment_spacings_mm_LEGRABOX": [
+     379,
+     320,
+     352,
+     320,
+     256
+    ],
+    "segment_spacings_note": "values read off drawing (S02 p3)",
+    "shelf_at_top": "recommended in high cabinets",
+    "src": "S02 p3-6 (drawing); S03 p301"
+   },
+   "door": {
+    "hinges": "CLIP top BLUMOTION 155 deg (no front protrusion)",
+    "hinge_drilling_front_mm": {
+     "variant_1_2_hinge_pattern": "80 from top, 1025 and 280 above cabinet bottom (drawing)",
+     "variant_2_3_hinge_pattern": "80 from top, 1340, 670 and 280 above cabinet bottom (drawing)"
+    },
+    "hinge_count_chart": "2 hinges 4-6 kg (front up to ~750 mm), 3 hinges 6-12 kg, 4 hinges 12-17 kg, 5 hinges 17-22 kg (front widths 600 mm) (chart, drawing)",
+    "bifold": "n/a",
+    "src": "S02 p3 (drawing); S03 p301"
+   },
+   "baskets": {
+    "types": "inner drawer M, inner pull-out gallery C / D (TANDEMBOX antaro page), ORGA-LINE cross dividers/gallery",
+    "src": "S03 p300"
+   },
+   "load_kg": {
+    "per_pull-out_total_weight_kg": 70,
+    "src_2024": "S02 p2 ('each pull-out up to total weight 70 kg')",
+    "catalogue_2020_dynamic_kg": "30 or 65 (TANDEMBOX) - S03 p265/268/315",
+    "conflict": "S02 (70 kg, 2024, LEGRABOX-type) vs S03 (30/65 kg, 2020 TANDEMBOX) - different box systems/years; not a true conflict"
+   },
+   "mounting": {
+    "fixing": "standard box-system carcase profiles; no floor rail",
+    "drilling_in_carcase": "per box system (see LEGRABOX/TANDEMBOX planning sheets - not extracted)",
+    "soft_close": "BLUMOTION; SERVO-DRIVE and TIP-ON possible (S02 p2)",
+    "src": "S02 p2"
+   },
+   "codes": [],
+   "cad": {
+    "note": "No direct files. Via Blum Product Database https://www.blum.com/is/en/services/planning-construction-product-selection/product-database/ and CAD/CAM Data Service."
+   },
+   "unreadable": [
+    "No Blum 'SPACE TOWER' order codes (assembled from standard box-system parts)",
+    "Cabinet depth requirement not stated (comes from the box-system NL)"
+   ],
+   "options": []
+  },
+  {
+   "id": "blum-space-twin",
+   "brand": "Blum",
+   "name": "SPACE TWIN",
+   "type": "narrow base cabinet pull-out (diagonally offset runners)",
+   "cabinet": {
+    "cabinet_width_mm": "185-250 (LEGRABOX), 165-250 (TANDEMBOX antaro); S03 overview text also '200 mm'",
+    "src": "S05 p8; S03 p265/268/315"
+   },
+   "load_kg": {
+    "per_cabinet": 20,
+    "src": "S05 p3"
+   },
+   "baskets": {
+    "note": "drawer from LEGRABOX / MERIVOBOX / TANDEMBOX / MOVENTO",
+    "src": "S05 p5"
+   },
+   "mounting": {
+    "src": "S05",
+    "detail": "not extracted (planning pages not read)"
+   },
+   "unreadable": [
+    "Drilling data and depth not extracted"
+   ],
+   "options": [],
+   "codes": [],
+   "cad": {}
+  },
+  {
+   "id": "kb-lemans2",
+   "brand": "Kesseboehmer (distributed by Hettich as 'LeMans II', Haefele, Demos)",
+   "name": "LeMans II (Arena Classic / Arena Style / Arena Pure) swing-out blind corner tray set, height-adjustable axle",
+   "type": "blind-corner full swing-out (kidney trays), unit mounted behind hinged door, left/right",
+   "cabinet": {
+    "door_width_mm": [
+     400,
+     450,
+     500,
+     600
+    ],
+    "inner_cabinet_width_min_mm": {
+     "400": 764,
+     "450": 800,
+     "500": 910,
+     "600": 960
+    },
+    "clear_door_opening_mm": {
+     "400": "361-368",
+     "450": "411-418",
+     "500": "461-468",
+     "600": "561-568"
+    },
+    "cabinet_widths_catalog_mm": "800 / 900 / 1000 / 1000 (door 400/450/500/600; catalogue drawings)",
+    "depth_min_mm": 500,
+    "inner_height_by_axle_mm": {
+     "axle 00 7944": "600-750",
+     "axle 00 7958": "650-800",
+     "axle 00 7945": "720-900"
+    },
+    "top_clearance_min_mm": 60,
+    "centre_post_max_mm": 65,
+    "post_to_hinge_max_mm": "70 (drawing)",
+    "other_max_mm": 25,
+    "door_opening_angle_min_deg": 85,
+    "swing_out_geometry_example_mm": {
+     "800 cab / door 400": "tray width 361-368 + 220-280 (depth 513)",
+     "900 / 450": "411-418 + 190-250 (591)",
+     "1000 / 500": "461-468 + 270-350 (671)",
+     "1000 / 600": "561-568 + 270-330 (706)"
+    },
+    "src": "S07 p3 (drawing); S06 PDF p4 (drawing, letter table A>=764.. G<=65 ..)",
+    "side_panel_thickness_mm": "16-19 (catalogue D), min 16 (MA)"
+   },
+   "door": {
+    "door_attachment": "door fixed to tray via ClickFixx fixing; door must be hinged (standard hinge, min 85 deg opening); door dowel positions: X = 426 / 476 / 526 / 626 mm (door 40/45/50/60) measured from side panel (drawing, S07 p5) and 53 mm from front edge",
+    "front_thickness_mm": null,
+    "bifold_hinge": "not used (single hinged door), centre-post stile max 65 mm",
+    "src": "S06 PDF p4; S07 p3,5",
+    "front_thickness_reason": "not stated; 'D 16-19' in the catalogue table is the cabinet side-panel thickness (MA: 'min 16' at side wall)"
+   },
+   "baskets": {
+    "count": 2,
+    "trays": "Arena Classic/Style/Pure kidney trays, height adjustable",
+    "per_tray_dims": "null (not in docs read)",
+    "src": "S06 PDF p2,5"
+   },
+   "load_kg": {
+    "per_tray": 25,
+    "total_note": "2 trays",
+    "src": "S06 PDF p2 (25 kg per tray), S07 p1 (max 25 kg), S11 p27"
+   },
+   "mounting": {
+    "fixing": "axle (top/bottom) + cabinet-side M profile: screws at 64 mm pitch, M profile 500 mm (7 holes) or 600 mm; bottom hole offset 28 from bottom; bottom axle bearing with Ø5 pilot holes 13 deep; Euro screws Ø6.3 or Ø4x16 chipboard screws",
+    "drilling_pattern_mm": "64 pitch vertical on side wall; 52 from front edge (drawing, S07 p5)",
+    "template": "paper drilling template in pack (S11 p27)",
+    "height_adjustment": "yes - axle selected by inner height; trays height-adjustable",
+    "soft_close": "optional SoftStopp Plus dampers (set of 2) 00 7955 right / 00 7956 left (S06 p5); S11 p27 'newly with soft closing'",
+    "src": "S07 p4-5"
+   },
+   "options": [
+    "Soft closing add-on (SoftStopp Plus 00 7955/00 7956; Demos code 234641/234642 'soft closing' set S11 p32)",
+    "transport safety latch 007959 (S11 p32)"
+   ],
+   "codes": [
+    {
+     "code": "03 7918 / 03 7919",
+     "desc": "Arena Classic set door 400 right / left",
+     "range": "door 400",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "03 7920 / 03 7921",
+     "desc": "Arena Classic 450 right/left",
+     "range": "450",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "03 7922 / 03 7923",
+     "desc": "Arena Classic 500 R/L",
+     "range": "500",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "03 7924 / 03 7925",
+     "desc": "Arena Classic 600 R/L",
+     "range": "600",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "07 7918 / 07 7919",
+     "desc": "Arena Style set 400 R/L",
+     "range": "400",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "07 7920 / 07 7921",
+     "desc": "Arena Style 450 R/L",
+     "range": "450",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "07 7922 / 07 7923",
+     "desc": "Arena Style 500 R/L",
+     "range": "500",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "07 7924 / 07 7925",
+     "desc": "Arena Style 600 R/L",
+     "range": "600",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "00 7944",
+     "desc": "Axle, height-adjustable",
+     "range": "inner height 600-750",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "00 7958",
+     "desc": "Axle",
+     "range": "650-800",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "00 7945",
+     "desc": "Axle",
+     "range": "720-900",
+     "src": "S06 PDF p5"
+    },
+    {
+     "code": "496514-496531",
+     "desc": "Demos sets Arena Style chrome/white (450/500/600, R/L, axle ranges 600-750, 720-900, min 1265)",
+     "range": "as table",
+     "src": "S11 p27"
+    },
+    {
+     "code": "496556-496563",
+     "desc": "Demos sets Arena Classic grey/silver",
+     "range": "400-600",
+     "src": "S11 p28"
+    },
+    {
+     "code": "496582-496599",
+     "desc": "Demos sets Arena Pure",
+     "range": "450-600",
+     "src": "S11 p28"
+    },
+    {
+     "code": "160132/315036/161012",
+     "desc": "Demos 'side attachment + bar' kit white/anthracite/grey (Kesseboehmer 007944)",
+     "range": "600-750",
+     "src": "S11 p32"
+    }
+   ],
+   "cad": {
+    "note": "Kesseboehmer CAD portal https://www.kesseboehmer.com/en/storage-solutions/eservices/cad (page path from S21, direct files not visible); Hettich CAD zip example (Salso only) in S16"
+   },
+   "unreadable": [
+    "Tray dimensions (width/depth/height) not stated in text; drawing shows only swing geometry",
+    "Pairing of catalogue letters A-K with 'inner width' vs MA letters differs (catalogue A=>=764 equals MA C) - resolved by reading drawings"
+   ]
+  },
+  {
+   "id": "kb-lemans2-highboard",
+   "brand": "Kesseboehmer",
+   "name": "LeMans II Highboard / semicolumna (rigid axle)",
+   "type": "blind-corner swing-out trays for tall corner units",
+   "cabinet": {
+    "door_width_mm": [
+     400,
+     450,
+     500,
+     600
+    ],
+    "inner_width_min_mm": {
+     "400": 764,
+     "450": 800,
+     "500": 910,
+     "600": 960
+    },
+    "clear_door_opening_mm": {
+     "400": "361-368",
+     "450": "411-418",
+     "500": "461-468",
+     "600": "561-568"
+    },
+    "inner_height_min_mm": 1265,
+    "depth_min_mm": 500,
+    "src": "S06 PDF p8 (catalogue 3.10), S08 p3"
+   },
+   "door": {
+    "door_fixing_X_mm": "426/476/526/626 for door 40/45/50/60 (drawing)",
+    "hinge_hole_pattern_mm": "16, 16, 37 and 32 spacing; 8, 8, 45 offsets; A 26/29.5/31 and B 54/57.5/59 (hinge-plate alternatives) (drawing, S08 p4)",
+    "vertical_fixing_heights_mm": "548 and 1196 (drawing, S08 p4)",
+    "src": "S08 p4"
+   },
+   "baskets": {
+    "count": "2 (set) ; axle with 4 bearing sleeves for 1250 mm clear height",
+    "src": "S06 PDF p9"
+   },
+   "load_kg": {
+    "per_tray": 25,
+    "src": "S06 PDF p8-9, S08 p1"
+   },
+   "codes": [
+    {
+     "code": "00 7943",
+     "desc": "Axle 1250 mm for clear height 1250 mm (2 M profiles, 2 bearing brackets, locking clip, connector clip, bottom bearing)",
+     "range": "1250",
+     "src": "S06 PDF p9"
+    },
+    {
+     "code": "same set numbers as LeMans II",
+     "desc": "Arena Style 07 7918-07 7925 / Arena Classic 03 7918-03 7925",
+     "range": "400-600",
+     "src": "S06 PDF p9"
+    },
+    {
+     "code": "00 7955/00 7956",
+     "desc": "SoftStopp Plus R/L",
+     "range": "",
+     "src": "S06 PDF p9"
+    }
+   ],
+   "mounting": {
+    "drilling": "64 mm pitch (9 holes) on M profile, 88 offset, 600 length (S08 p5 drawing)",
+    "src": "S08 p4-5"
+   },
+   "unreadable": [
+    "Catalogue says min inner height >= 1265 (S06) and MA drawing shows 'min 1265' (S08) - consistent",
+    "Catalogue lists 'semicolumna' without separate door table"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "kb-lemans2-na",
+   "brand": "Kesseboehmer (North America)",
+   "name": "LeMans II MA 402121 (face-frame / frameless)",
+   "type": "blind corner, same family as LeMans II",
+   "cabinet": {
+    "face_frame_no_centre_stile_mm_(A/B)": {
+     "40": "355 / 780",
+     "45": "410 / 820",
+     "50": "450 / 920",
+     "60": "540 / 965"
+    },
+    "frameless_no_centre_stile_mm": {
+     "40": "362 / 780",
+     "45": "419 / 820",
+     "50": "467 / 920",
+     "60": "565 / 965"
+    },
+    "frameless_with_centre_stile_C_max_mm": {
+     "40": 394,
+     "45": 483,
+     "50": 540,
+     "60": 635
+    },
+    "depth_min_mm": "500 (19-3/4 in)",
+    "src": "S09 p3-5 (inch with mm)"
+   },
+   "load_kg": {
+    "per_tray": 25,
+    "src": "S09 p1"
+   },
+   "unreadable": [
+    "Meaning of A/B in this MA: min clear door opening (A) / min inner cabinet width (B)"
+   ],
+   "mounting": {
+    "drilling": "7 holes at 64 mm pitch, 8x 52 mm, Ø4/Ø4.5; X positions 445/505/560/655 mm (door 40/45/50/60) (drawing S09 p3)",
+    "gauge": "installation gauge for drilling optional",
+    "src": "S09 p3-6"
+   },
+   "codes": [],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "kb-dispensa-vvsx",
+   "brand": "Kesseboehmer (sold by Haefele and others)",
+   "name": "DISPENSA VVS-x with ARENA shelves",
+   "type": "tall larder pull-out frame on top+bottom full-extension runners (centre upright), cabinet 150-450 mm",
+   "cabinet": {
+    "width_mm_range": "150, 200, 300, 400, 450 (S11 p15-19 sets)",
+    "inner_height_mm": "900-1300 / 1200-1600 / 1600-2000 / 1800-2200 (frame height 845-1245 / 1145-1545 / 1545-1945 / 1745-2145)",
+    "depth_min_mm": "500 (S11 'CD min. 500'; MA 'min. 500' S10 p3)",
+    "drawing_dimensions_mm": {
+     "top runner offsets 61 / 93 / 253": "from side panel (drawing S10 p3)",
+     "bottom runner 34 / 386 / 450 / 482 / 32": "drawing S10 p3",
+     "Z_by_cabinet_value": {
+      "250": 175,
+      "275": 200,
+      "300": 225,
+      "350": 275,
+      "400": 325,
+      "450": 375,
+      "500": 425,
+      "550": 475,
+      "600": 525
+     },
+     "Y-101.5": "frame height reference; 48.5+X bottom (drawing S10 p4)"
+    },
+    "src": "S10 p3-4 (drawing); S11 p15-20"
+   },
+   "door": {
+    "fixing": "door hangs on frame via 2 front holders (hook brackets 'top/front' with X offset) - split fronts possible with holder for split fronts (S11 p23)",
+    "front_holder_codes_Kesseboehmer": "235156 (150), 235421 (200), 232216 (300), 232217 (400), 232218 (450) (S11 p21)",
+    "front_thickness_mm": null,
+    "front_thickness_reason": "not stated in docs read",
+    "src": "S10 p4; S11 p21,23"
+   },
+   "baskets": {
+    "count_by_height": "3 / 4 / 5 / 6 baskets for the four height ranges",
+    "basket_dims_mm_Arena_Style": {
+     "150": "w100 / h94 / d462",
+     "200": "w150",
+     "300": "w250",
+     "400": "w350",
+     "450": "w400"
+    },
+    "basket_dim_note": "width = basket width (mm); height 94 and depth 462 for Style; Arena Pure height 72 depth 470 (S11 p21)",
+    "src": "S11 p15-22"
+   },
+   "load_kg": {
+    "per_basket_max": 18,
+    "frame_plus_load_max": 120,
+    "slide_load_capacity_kg": 100,
+    "src": "S10 p1 (18 kg / 120 kg 'own weight + load'), S11 p15 (slide 100 kg), S21 (up to 100 kg)",
+    "conflict": "120 kg (MA 402053: own weight + load) vs 100 kg (catalogue/web: slide / load) - consistent if 20 kg tare"
+   },
+   "mounting": {
+    "slide": "roll runner with soft close top and bottom",
+    "drilling": "top runner 61/93/253 mm from side wall (drawing), bottom 34/386/450/482 mm; screws Ø4x16, Euro Ø6.3 x 13, Ø4.5",
+    "adjustment": "height adjustment of frame via adjustment instruction; door adjustment 3D",
+    "soft_close": "yes (slide with integrated soft closing)",
+    "eTouch": "electrically operated opening possible (S11 p15)",
+    "src": "S10 p3,5-8; S11 p15"
+   },
+   "codes": [
+    {
+     "code": "496375-496378",
+     "desc": "Demos set Arena Style chrome/white, width 150",
+     "range": "900-1300..1800-2200",
+     "src": "S11 p15"
+    },
+    {
+     "code": "496379-496382",
+     "desc": "width 200",
+     "range": "same",
+     "src": "S11 p15"
+    },
+    {
+     "code": "496383-496386",
+     "desc": "width 300",
+     "range": "same",
+     "src": "S11 p15"
+    },
+    {
+     "code": "496387-496394",
+     "desc": "widths 400 / 450",
+     "range": "same",
+     "src": "S11 p15"
+    },
+    {
+     "code": "496415-496434",
+     "desc": "Demos sets Arena Style anthracite",
+     "range": "150-450",
+     "src": "S11 p16"
+    },
+    {
+     "code": "496451-496474",
+     "desc": "Demos sets all-wire chrome / grey",
+     "range": "300-450",
+     "src": "S11 p19"
+    },
+    {
+     "code": "374266/353265/166105/353266",
+     "desc": "Frame (grey) heights 900-1300/1200-1600/1600-2000/1800-2200 (Kesseboehmer 054379/054381/054382/054384)",
+     "range": "",
+     "src": "S11 p20"
+    },
+    {
+     "code": "353267/466497/353268/353269/353270",
+     "desc": "Slide with soft close width 150/200/300/400/450 (Kesseb. 235156/235421/232216/232217/232218)",
+     "range": "",
+     "src": "S11 p21"
+    }
+   ],
+   "cad": {
+    "note": "No direct CAD URL in docs; Kesseboehmer CAD portal /en/storage-solutions/eservices/cad (S21), support https://support.kesseboehmer.world/en/"
+   },
+   "unreadable": [
+    "Meaning of left column (250..600) vs Z in S10 p4 table not labelled in drawing (arrow from cabinet side) - listed as printed",
+    "Haefele-own Dispensa order codes not obtained (UK Haefele page not downloaded)"
+   ],
+   "options": []
+  },
+  {
+   "id": "kb-dispensa-junior-comfort",
+   "brand": "Kesseboehmer",
+   "name": "Dispensa Junior III / Junior Slim / Comfort II / base baskets with side runner (150 mm)",
+   "type": "base-unit pull-out baskets 150-450 mm (and 90 deg side frame)",
+   "cabinet": {
+    "base_basket_150_side_runner": {
+     "cabinet_width_mm": 150,
+     "min_inner_clearance_mm": 112,
+     "basket_dims": "w112 x h540 x d481 (S11 p38 'dimensions: width 112 mm, height 540 mm, depth 481 mm')",
+     "min_inner_depth_mm": "542 for the 150 unit",
+     "load_kg": 12
+    },
+    "junior_III_bottom_runner": {
+     "cabinet_widths_mm": [
+      300,
+      400,
+      450
+     ],
+     "load_per_basket_kg": 12,
+     "total_kg": 28,
+     "note": "frame + full extension slide with soft closing"
+    },
+    "junior_slim_150": {
+     "cabinet_width_mm": 150,
+     "load_per_basket_kg": 12,
+     "total_kg": 28,
+     "CH_mm": "640-728",
+     "min_inner_depth_mm": 490
+    },
+    "comfort_II_side_frame": {
+     "cabinet_width_mm": "190-400",
+     "min_height_mm": 700,
+     "load_kg": 20,
+     "CW_min_mm": {
+      "300": 262,
+      "400": 362,
+      "450": 412
+     },
+     "CD_min_mm": "480-496",
+     "min_CH_mm": "615/686"
+    },
+    "src": "S11 p37-42"
+   },
+   "baskets": {
+    "Arena_Style_basket_dims_mm": {
+     "width": "100/150/250/350/400 for cabinet 150/200/300/400/450",
+     "height": 94,
+     "depth": 462
+    },
+    "Arena_Pure": {
+     "height": 72,
+     "depth": 470,
+     "widths": "95/245/345/395"
+    },
+    "Comfort_II_90deg_baskets": {
+     "width": "110/160/210/295-320",
+     "height": "75 or 88",
+     "depth": 470
+    },
+    "src": "S11 p21,40"
+   },
+   "load_kg": {
+    "see_cabinet_field": true,
+    "src": "S11 p37-42"
+   },
+   "codes": [
+    {
+     "code": "233461 / 233460 (Kesseb.)",
+     "desc": "150 mm basket set with 2 shelves, Arena Style / Classic, right",
+     "range": "150",
+     "src": "S11 p37"
+    },
+    {
+     "code": "233465 / 233464",
+     "desc": "150 mm with shelf + towel hook",
+     "range": "150",
+     "src": "S11 p37"
+    },
+    {
+     "code": "245870/245871/353263 (Kesseb. 005262/005265/005268)",
+     "desc": "Dispensa Junior III frame 300/400/450",
+     "range": "",
+     "src": "S11 p39"
+    },
+    {
+     "code": "405930 / 405931 (Kesseb. 260750/260751)",
+     "desc": "Comfort II side frame left / right",
+     "range": "",
+     "src": "S11 p39"
+    },
+    {
+     "code": "393207/393208 (Kesseb. 005450)",
+     "desc": "Junior Slim frame grey/anthracite",
+     "range": "150",
+     "src": "S11 p42"
+    }
+   ],
+   "unreadable": [
+    "Mounting drilling coordinates not in the catalogue pages"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "kb-tandem-ii-side",
+   "brand": "Kesseboehmer",
+   "name": "Tandem II / Tandem Side larder units",
+   "type": "tall larder with inner frame + door frame (Tandem) / side (Tandem Side)",
+   "cabinet": {
+    "widths_mm": [
+     450,
+     600
+    ],
+    "heights_mm": "600 / 800 / 1100 / 1700 (internal height incl. slide)",
+    "min_inner_depth_Tandem_Side_mm": 500,
+    "min_inner_height_Tandem_Side_mm": 600,
+    "src": "S11 p24-26"
+   },
+   "load_kg": {
+    "Tandem_Side_slide_kg": 60,
+    "web_teaser": "TANDEM 60 kg pull-out frame and 20 kg in door shelving (S21)",
+    "src": "S11 p26; S21"
+   },
+   "baskets": {
+    "count": "2-5 per frame (e.g. 3+3, 4+4, 5+5 for Tandem II)",
+    "src": "S11 p24,26"
+   },
+   "codes": [
+    {
+     "code": "496499-496513",
+     "desc": "Tandem II complete sets 450/600, heights 800/1100/1700",
+     "range": "",
+     "src": "S11 p24"
+    },
+    {
+     "code": "395670-395697",
+     "desc": "Tandem Side frame+door baskets 450/600 x 600/800/1100/1700",
+     "range": "",
+     "src": "S11 p26"
+    }
+   ],
+   "unreadable": [
+    "Mounting/drilling not on catalogue pages",
+    "Door fixing details not read"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "kb-magic-corner-demos",
+   "brand": "Kesseboehmer (listed as 'Magic Corner' in Demos catalogue)",
+   "name": "Magic Corner (soft close) 900-1000 mm",
+   "type": "blind corner, door-attached pull-out (front baskets swivel, rear baskets follow)",
+   "cabinet": {
+    "cabinet_width_mm": "900-1000",
+    "min_depth_mm": "525 inner (drawing 'min. 525'), 390/485 mm other drawing marks",
+    "door_attachment": "door fitted with clip mechanism, 3-way adjustable",
+    "hand": "right (135867/260401) and left (135868/260402)",
+    "src": "S11 p33"
+   },
+   "load_kg": {
+    "outer_baskets_kg": 14,
+    "inner_baskets_kg": 18,
+    "per_basket_text": "7 kg per door basket / 9 kg per inner basket (same page, i.e. 14/18 kg is per pair)",
+    "src": "S11 p33"
+   },
+   "codes": [
+    {
+     "code": "135867 (Kesseb. 260401)",
+     "desc": "Magic Corner right, pull-out with the door",
+     "range": "900-1000",
+     "src": "S11 p33"
+    },
+    {
+     "code": "135868 (Kesseb. 260402)",
+     "desc": "left",
+     "range": "900-1000",
+     "src": "S11 p33"
+    },
+    {
+     "code": "135869/260400",
+     "desc": "Arena Style basket set",
+     "range": "",
+     "src": "S11 p33"
+    },
+    {
+     "code": "135916/260403",
+     "desc": "Arena Classic",
+     "range": "",
+     "src": "S11 p33"
+    }
+   ],
+   "unreadable": [
+    "Interpretation of marks 390/485 in drawing not clear"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "kb-carousels",
+   "brand": "Kesseboehmer",
+   "name": "Carousel 270 deg (3/4) and 180 deg (1/2), Revo 90 deg (3/4 carousel with door on mechanism)",
+   "type": "90 deg corner carousel, 3/4 round / kidney",
+   "cabinet": {
+    "carousel_270_180": {
+     "cabinet_leg_mm": "800 or 900 (drawing 800/900 x 800/900)",
+     "inner_height_mm": "655-745",
+     "min_depth_mm": "480 (800 cabinet) / 510 (900)",
+     "door_clear_min_mm": "475/434 (drawing)",
+     "axle_code": "353254 / Kesseb. 250052 height 655-745"
+    },
+    "revo_90": {
+     "cabinet_leg_mm": "800 or 900",
+     "inner_height_mm": "660-860",
+     "dim_545_560_mm": "shown on both legs (545-560)",
+     "mechanism_kg": 50,
+     "door": "door mounted directly on mechanism, rotates with the carousel, soft closing"
+    },
+    "src": "S11 p34-35 (drawing)"
+   },
+   "baskets": {
+    "carousel_270_shelves_mm": {
+     "cabinet_800": {
+      "diameter": 720,
+      "depth": 480
+     },
+     "cabinet_900": {
+      "diameter": 800,
+      "depth": 510
+     }
+    },
+    "revo90_shelf_diameter_mm": {
+     "800": 710,
+     "900": 810
+    },
+    "src": "S11 p34-35",
+    "kidney_shelf_900_cabinet": {
+     "diameter_mm": 800,
+     "depth_mm": 475,
+     "codes": "392989/260542 Style, 392990/260543 Classic"
+    }
+   },
+   "load_kg": {
+    "carousel_per_shelf": 25,
+    "revo90_mechanism": 50,
+    "src": "S11 p34-35"
+   },
+   "codes": [
+    {
+     "code": "353254 (Kesseb. 250052)",
+     "desc": "Axle 655-745",
+     "range": "",
+     "src": "S11 p34"
+    },
+    {
+     "code": "353255/260546",
+     "desc": "Arena Style shelf cab. 800 Ø720",
+     "range": "800",
+     "src": "S11 p34"
+    },
+    {
+     "code": "353256/260547",
+     "desc": "cab. 900 Ø800",
+     "range": "900",
+     "src": "S11 p34"
+    },
+    {
+     "code": "135888/260500",
+     "desc": "Revo 90 mechanism 660-860",
+     "range": "800-900",
+     "src": "S11 p35"
+    },
+    {
+     "code": "135890/260503; 135891/260506",
+     "desc": "Revo 90 Arena Style shelf 800 Ø710 / 900 Ø810",
+     "range": "",
+     "src": "S11 p35"
+    },
+    {
+     "code": "135923/260554; 135924/260555",
+     "desc": "Revo 90 Arena Classic shelves",
+     "range": "",
+     "src": "S11 p35"
+    }
+   ],
+   "unreadable": [
+    "Revo 90 'different cabinet construction' drawing p36 (D-C-3+V etc.) is an assembly/fronts drawing, not interpreted"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "demos-carousels-brand-unspecified",
+   "brand": "not stated in the catalogue extract (Demos catalogue, KITCHEN WIRE SYSTEMS)",
+   "name": "1/2 and 3/4 round rotating trays",
+   "type": "corner carousels",
+   "cabinet": {
+    "1/2_pull-out_rotating_88449": {
+     "cabinet_mm": 900,
+     "depth_mm": 760,
+     "height_tray_mm": 420,
+     "inner_height_mm": "645-790",
+     "load_kg": 11
+    },
+    "1/2_circle_88404": {
+     "cabinet_mm": 800,
+     "depth_mm": 760,
+     "height_mm": 420,
+     "inner_height_mm": "645-790"
+    },
+    "3/4_circle_162230": {
+     "cabinet_mm": 900,
+     "depth_mm": 815,
+     "inner_height_mm": "645-790"
+    },
+    "src": "S11 p61-62"
+   },
+   "codes": [
+    {
+     "code": "88449",
+     "desc": "1/2 circle pull-out rotating tray chrome",
+     "range": "900",
+     "src": "S11 p61"
+    },
+    {
+     "code": "88404",
+     "desc": "1/2 circle rotating tray chrome",
+     "range": "800",
+     "src": "S11 p62"
+    },
+    {
+     "code": "162230",
+     "desc": "3/4 circle rotating tray chrome",
+     "range": "900",
+     "src": "S11 p62"
+    }
+   ],
+   "unreadable": [
+    "Brand, door fixing, per-shelf load for 88404/162230 not stated"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "peka-magic-corner-comfort",
+   "brand": "Peka (Switzerland)",
+   "name": "Magic Corner Comfort (300.0580-0583)",
+   "type": "blind corner, front shelves swivel out, rear shelves glide forward, hinged door, 900/1000 types, left/right",
+   "cabinet": {
+    "type_900_inner_width_LB_mm": "862-971",
+    "type_1000_inner_width_LB_mm": "962-1171",
+    "front_width_FB_mm": "450 / 500 / 550 / 600",
+    "inner_depth_min_LT_mm": 500,
+    "inner_height_min_LH_mm": 545,
+    "cabinet_drawing_mm": {
+     "depth_485/500, 496 (480 +1/-0), 473, 39 from top/bottom": "MA p2 drawing",
+     "hole_rows_from_front_edge": [
+      32,
+      64,
+      160,
+      288,
+      416,
+      485
+     ],
+     "floor holes": "12/58/197/261 and 35/15/57/56/80"
+    },
+    "pull-out_frame_table": {
+     "450": {
+      "LM": 394,
+      "LB": "862-971",
+      "B1": "260-290",
+      "B2": 290,
+      "typ": 900,
+      "A_left_right": "9/2"
+     },
+     "500": {
+      "LM": 444,
+      "LB": "862-971",
+      "B1": "320-340",
+      "B2": 290,
+      "typ": 900,
+      "A": "3/8"
+     },
+     "550_900": {
+      "LM": 494,
+      "LB": "950-968",
+      "B1": "340-390",
+      "B2": 390,
+      "typ": 900,
+      "A": "4/7"
+     },
+     "550_1000": {
+      "LM": 494,
+      "LB": "962-1171",
+      "B1": "340-390",
+      "B2": 390,
+      "typ": 1000,
+      "A": "4/7"
+     },
+     "600_900": {
+      "LM": 494,
+      "LB": "950-968",
+      "B1": "340-390",
+      "B2": 390,
+      "typ": 900,
+      "A": "4/7"
+     },
+     "600_1000": {
+      "LM": 544,
+      "LB": "962-1171",
+      "B1": 390,
+      "B2": 390,
+      "typ": 1000,
+      "A": "3/8"
+     }
+    },
+    "pull-out_frame_depth_470, 478/500 mm": "drawing",
+    "src": "S12 p2,4; S14a"
+   },
+   "door": {
+    "fixing": "door attached to front frame (clip mechanism per Demos)",
+    "bifold": "none",
+    "front_thickness_mm": null,
+    "front_thickness_reason": "not stated in S12/S14a",
+    "src": "S12 p1-4"
+   },
+   "baskets": {
+    "count": "2 front + 2 rear shelves (4)",
+    "front_shelf_load_kg": 8,
+    "rear_load_kg": 10,
+    "note": "MA shows 8 kg and 10 kg on drawings for the pairs; data sheet total 0-36 kg",
+    "height_adjustable": true,
+    "src": "S12 p1; S14a"
+   },
+   "load_kg": {
+    "total": 36,
+    "front_each_kg": 8,
+    "rear_each_kg": 10,
+    "src": "S12 p1; S14a",
+    "conflict": "Demos S11 p33 lists the Kesseboehmer Magic Corner at 7/9 kg per basket, 14/18 kg per pair (different product/era)"
+   },
+   "mounting": {
+    "mounted": "side wall and base",
+    "softclose": "integrated",
+    "drilling": "see MA p2 hole pattern from front edge: 32, 64, 160, 288, 416, 485 (side wall), floor 35/15/57/56/80, 12/58/197/261 (drawing)",
+    "src": "S12 p2"
+   },
+   "codes": [
+    {
+     "code": "300.0580.xx",
+     "desc": "Magic Corner Comfort 900 right (re 900)",
+     "range": "type 900",
+     "src": "S12 p1"
+    },
+    {
+     "code": "300.0581.xx",
+     "desc": "900 left",
+     "range": "900",
+     "src": "S12 p1"
+    },
+    {
+     "code": "300.0582.xx",
+     "desc": "1000 right",
+     "range": "1000",
+     "src": "S12 p1"
+    },
+    {
+     "code": "300.0583.xx",
+     "desc": "1000 left",
+     "range": "1000",
+     "src": "S12 p1"
+    }
+   ],
+   "cad": {
+    "note": "none located"
+   },
+   "unreadable": [
+    "Per-shelf dimensions (WxDxH) not on the data sheet"
+   ],
+   "options": []
+  },
+  {
+   "id": "peka-magic-corner-standard",
+   "brand": "Peka",
+   "name": "Magic Corner Standard (300.0826 li900 / 300.0831 re900 / 300.0814 li1000 / 300.0817 re1000)",
+   "type": "blind corner with attached front panel",
+   "cabinet": {
+    "inner_width_LB_mm": "860-971 (900) / 960-1071 (1000)",
+    "inner_depth_min_LT_mm": 500,
+    "inner_height_min_LH_mm": 540,
+    "front_width_FB_mm": "400 / 450 / 500 / 550 / 600",
+    "table_Y_Z_F1_F2_G1_G2": {
+     "900_446": {
+      "Z": "860-971",
+      "F1": 382,
+      "F2": 318,
+      "G1": 247,
+      "G2": 223
+     },
+     "900_546/596": {
+      "Z": "960-971",
+      "F1": 405,
+      "F2": 340,
+      "G1": 244,
+      "G2": 220
+     },
+     "1000_546/596": {
+      "Z": "960-1071",
+      "F1": 405,
+      "F2": 340,
+      "G1": 244,
+      "G2": 220
+     }
+    },
+    "D_a_P": {
+     "485-500": {
+      "a": 470,
+      "P": 65
+     },
+     "500-510": {
+      "a": 485,
+      "P": 80
+     },
+     ">510": {
+      "a": 488,
+      "P": 83
+     }
+    },
+    "pull-out_frame_Y_Z_A_B": "446/860-971/280-290,380-390 etc (S13 p5)",
+    "src": "S13 p2,5; S14b"
+   },
+   "door": {
+    "fixing": "front panel attached to the mechanism with 3D adjustment (S14b)",
+    "front_thickness_mm": null,
+    "src": "S13 p3",
+    "front_thickness_reason": "drawing p3 shows 't' variable with offsets 19+t, 13, 21; value of t not given"
+   },
+   "baskets": {
+    "count": "2 front + 2 rear",
+    "load_kg": {
+     "front": 7,
+     "rear": 9
+    },
+    "src": "S13 p1"
+   },
+   "load_kg": {
+    "total": 32,
+    "front_each": 7,
+    "rear_each": 9,
+    "src": "S13 p1; S14b"
+   },
+   "mounting": {
+    "drilling_template": "950.0351.MA (left) / 950.0352.MA (right)",
+    "drilling": "holes from front edge 32/64/160/288/416, base 14/18/30/45/46/50 (drawing)",
+    "src": "S13 p2"
+   },
+   "codes": [
+    {
+     "code": "300.0826.xx",
+     "desc": "li 900",
+     "range": "900",
+     "src": "S13 p1"
+    },
+    {
+     "code": "300.0831.xx",
+     "desc": "re 900",
+     "range": "900",
+     "src": "S13 p1"
+    },
+    {
+     "code": "300.0814.xx",
+     "desc": "li 1000",
+     "range": "1000",
+     "src": "S13 p1"
+    },
+    {
+     "code": "300.0817.xx",
+     "desc": "re 1000",
+     "range": "1000",
+     "src": "S13 p1"
+    }
+   ],
+   "unreadable": [
+    "Y/Z table row labelling combined from drawing"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "peka-pinello-cargo",
+   "brand": "Peka",
+   "name": "Pinello Cargo",
+   "type": "base-unit pull-out for narrow units (200/300 mm), Blum LEGRABOX / Grass Nova Pro",
+   "cabinet": {
+    "unit_width_EB_mm": "200 / 300",
+    "inner_width_LB_mm": "162-168 / 262-268",
+    "inner_depth_min_LT_mm": "506 / 520",
+    "inner_height_min_LH_mm": "517 / 525",
+    "levels": "2 to 4",
+    "src": "S14c"
+   },
+   "load_kg": {
+    "total": "0-30",
+    "src": "S14c"
+   },
+   "mounting": {
+    "softclose": "integrated in runner",
+    "front": "3D front adjustment",
+    "src": "S14c"
+   },
+   "unreadable": [
+    "Order codes not on data sheet"
+   ],
+   "options": [],
+   "codes": [],
+   "cad": {}
+  },
+  {
+   "id": "peka-hochschrank-standard",
+   "brand": "Peka",
+   "name": "Hochschrank Standard",
+   "type": "tall larder pull-out for 150-450 mm",
+   "cabinet": {
+    "unit_width_EB_mm": "150/275/300/400/450",
+    "inner_width_LB_min_mm": "112 / 162",
+    "inner_depth_min_LT_mm": 505,
+    "inner_height_LH_mm": "900-1300 / 1200-1600 / 1600-2000 / 1805-2205 / 1999",
+    "src": "S14d"
+   },
+   "load_kg": {
+    "runner": "100 / 120",
+    "total": "0-100 / 0-120",
+    "src": "S14d"
+   },
+   "unreadable": [
+    "Codes not stated"
+   ],
+   "options": [],
+   "codes": [],
+   "cad": {}
+  },
+  {
+   "id": "peka-pleno-plus-maxi",
+   "brand": "Peka",
+   "name": "Pleno Plus / Pleno Maxi",
+   "type": "tall larder with door shelves + inner shelves",
+   "cabinet": {
+    "Pleno_Plus": {
+     "unit_width_mm": 600,
+     "LB_mm": "562-568",
+     "LT_min_mm": 500,
+     "LH_min_mm": "1300/1600/1900",
+     "load_kg": "0-94 / 0-97"
+    },
+    "Pleno_Maxi": {
+     "unit_width_min_mm": "750/450/600",
+     "LB_min_mm": "404/554/704",
+     "LT_min_mm": 500,
+     "LH_min_mm": "1150/1450/1800",
+     "load_kg": "0-78",
+     "hinge": "standard 110 deg"
+    },
+    "src": "S14e; S14f"
+   },
+   "unreadable": [
+    "Per-shelf loads not stated"
+   ],
+   "options": [],
+   "codes": [],
+   "cad": {}
+  },
+  {
+   "id": "peka-extendo",
+   "brand": "Peka",
+   "name": "Extendo pull-out shelf",
+   "type": "base pull-out shelf behind hinged doors / on Grass or Blum LEGRABOX runners",
+   "cabinet": {
+    "unit_width_EB_mm": "450/500/550/600/900",
+    "interior_width_LB_mm": "412-418/462-468/512-518/562-568/862-868",
+    "LT_min_mm": "508/515/519",
+    "LH_min_mm": "138-155",
+    "src": "S14g"
+   },
+   "unreadable": [
+    "load not stated"
+   ],
+   "options": [],
+   "codes": [],
+   "cad": {}
+  },
+  {
+   "id": "hettich-salso",
+   "brand": "Hettich",
+   "name": "Salso swivelling corner pull-out",
+   "type": "blind corner swing-out (two shelves), hinged door, left/right",
+   "cabinet": {
+    "front_widths_mm": "400, 450/500, 600 (shelf set also 450 and 500 separately)",
+    "inside_height_mm": "620-820 (column adjustable)",
+    "inside_depth_min_mm": 465,
+    "door_opening_deg": "<=85",
+    "planning_A_B_min_mm": {
+     "400": [
+      760,
+      360
+     ],
+     "450": [
+      860,
+      410
+     ],
+     "500": [
+      960,
+      460
+     ],
+     "600": [
+      960,
+      560
+     ]
+    },
+    "C_mm": {
+     "400": 338,
+     "450": 388,
+     "500": 438,
+     "600": 538
+    },
+    "X_mm": "drawing: >= X+40, X+425, <=45, <=70, <=25; (A, B inner width / opening depth)",
+    "with_face_frame": ">=75, >=465 variant (right drawing)",
+    "src": "S15 p14,16; S16 (product page: inside height 620-780, depth 460/465 -> conflict)"
+   },
+   "door": {
+    "fixing": "door attached to the pull-out arms; hinged door; 96 mm and 16 mm / 50 mm dimensions in drilling drawing",
+    "front_thickness": null,
+    "front_thickness_reason": "not stated",
+    "src": "S15 p16"
+   },
+   "baskets": {
+    "shelf_sets": "Pull-out shelf set 400 (flat wire, 16 mm panel), 300 (round railing), 200 (steel with anti-slip)",
+    "set": "2 shelves + 4 supports per set",
+    "src": "S15 p15"
+   },
+   "load_kg": {
+    "per_tray": 18,
+    "src": "S15 p15-16"
+   },
+   "mounting": {
+    "column": "revolving column fixing top/bottom; soft opening and soft closing included",
+    "height_adjustable": "620-820",
+    "src": "S15 p14,16"
+   },
+   "codes": [
+    {
+     "code": "9 381 049/050",
+     "desc": "Salso set 400 left/right silver",
+     "range": "400",
+     "src": "S15 p14"
+    },
+    {
+     "code": "9 381 055/056",
+     "desc": "anthracite 400",
+     "range": "",
+     "src": "S15 p14"
+    },
+    {
+     "code": "9 381 051/052",
+     "desc": "450/500 left/right silver",
+     "range": "",
+     "src": "S15 p14"
+    },
+    {
+     "code": "9 381 057/058",
+     "desc": "anthracite",
+     "range": "",
+     "src": "S15 p14"
+    },
+    {
+     "code": "9 381 053/054",
+     "desc": "600 left/right silver",
+     "range": "",
+     "src": "S15 p14"
+    },
+    {
+     "code": "9 381 059/060",
+     "desc": "anthracite",
+     "range": "",
+     "src": "S15 p14"
+    },
+    {
+     "code": "9 381 077-084",
+     "desc": "Shelf set 400 chrome/white 400/450/500/600 L/R",
+     "range": "",
+     "src": "S15 p15"
+    },
+    {
+     "code": "9 381 085-092",
+     "desc": "shelf set 400 anthracite",
+     "range": "",
+     "src": "S15 p15"
+    },
+    {
+     "code": "9 381 069-076",
+     "desc": "shelf set 300",
+     "range": "",
+     "src": "S15 p15"
+    },
+    {
+     "code": "9 381 061-068",
+     "desc": "shelf set 200",
+     "range": "",
+     "src": "S15 p15"
+    }
+   ],
+   "cad": {
+    "zip_3d": "https://web2.hettich.com/hbh/addon/cad/9381054_3d.zip",
+    "assembly_pdf": "https://web2.hettich.com/hbh/addon/montage/SALSO_RH_A3OISTR1274_R04.pdf",
+    "partcommunity": "https://hettich-embedded.partcommunity.com",
+    "src": "S16"
+   },
+   "unreadable": [
+    "S16 product page conflicts with catalogue: inside height 620-780 (page technical detail) vs 620-820 (catalogue S15 p14, 16); min depth 460 (technical detail) vs 465 (catalogue). Catalogue taken as authoritative."
+   ],
+   "options": []
+  },
+  {
+   "id": "hettich-orta-goro",
+   "brand": "Hettich",
+   "name": "Orta (400-600) and Goro (450) corner pull-out systems with pot-and-pan drawer",
+   "type": "blind corner behind hinged door with front drawer",
+   "cabinet": {
+    "Orta": {
+     "front_widths_mm": "400/450/500/600",
+     "inside_height_min_mm": 575,
+     "inside_depth_min_mm": 500,
+     "planning_A_B_min_mm": {
+      "400": [
+       725,
+       340
+      ],
+      "450": [
+       755,
+       385
+      ],
+      "'550' as printed": [
+       795,
+       420
+      ],
+      "600": [
+       945,
+       535
+      ]
+     },
+     "typo_note": "table prints 550 for the third row (front widths are 400/450/500/600)"
+    },
+    "Goro": {
+     "front_width_mm": 450,
+     "inside_height_min_mm": 615,
+     "inside_depth_min_mm": 485,
+     "width_range_mm": "860-1020 (drawing)",
+     "dim_372/300/110+Y": "drawing"
+    },
+    "src": "S15 p18-20,22-23; S17 (comparison)"
+   },
+   "baskets": {
+    "Orta shelf set 400": {
+     "front_kg": 7,
+     "rear_kg": 11,
+     "panel": "HDF 5 mm"
+    },
+    "Goro": {
+     "front_kg": 7,
+     "rear_kg": 9
+    },
+    "basket_set_100 chrome steel": true,
+    "src": "S15 p19,23"
+   },
+   "load_kg": {
+    "Orta_front_kg": 7,
+    "Orta_rear_kg": 11,
+    "Goro_front_kg": 7,
+    "Goro_rear_kg": 9,
+    "src": "S15 p19,23 (S17 agrees)"
+   },
+   "codes": [
+    {
+     "code": "9 381 093/094/095/096",
+     "desc": "Orta centre upright silver 400/450/500/600",
+     "range": "",
+     "src": "S15 p18"
+    },
+    {
+     "code": "9 381 097-100",
+     "desc": "anthracite",
+     "range": "",
+     "src": "S15 p18"
+    },
+    {
+     "code": "9 381 109-116",
+     "desc": "Orta shelf set 400",
+     "range": "",
+     "src": "S15 p19"
+    },
+    {
+     "code": "9 381 105-108",
+     "desc": "shelf set 200",
+     "range": "",
+     "src": "S15 p19"
+    },
+    {
+     "code": "9 381 101-104",
+     "desc": "basket set 100",
+     "range": "",
+     "src": "S15 p19"
+    },
+    {
+     "code": "9 381 117/118/119/120",
+     "desc": "Goro centre upright 450 L/R silver/anthracite",
+     "range": "450",
+     "src": "S15 p22"
+    },
+    {
+     "code": "9 381 121/122/123/124",
+     "desc": "Goro basket 100 / shelf 200 / shelf 400 (chrome, anthracite)",
+     "range": "450",
+     "src": "S15 p23"
+    }
+   ],
+   "unreadable": [
+    "Door/hinge fixing of centre upright not read",
+    "Goro drawing dims (≥400, 860-1020, ≥485, 372, 300, 110+Y) not labelled in text"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "hettich-olona-iseo-lario",
+   "brand": "Hettich",
+   "name": "Olona (tall pull-out), Iseo (swivel larder), Lario/Naro (base pull-outs)",
+   "type": "tall and base pull-outs",
+   "cabinet": {
+    "Olona": {
+     "cabinet_widths_mm": "300 / 400",
+     "min_inner_width_mm": "257 / 357",
+     "inside_height_mm": "1600-1950 / 1900-2250",
+     "min_depth_mm": "494 (runner 9380988/989) or 504 (9380990/991)",
+     "load_kg": 100,
+     "codes_centre_upright": "9 380 992-999",
+     "runners": "9 380 988-991",
+     "accessories": "clip-on shelves 400: 9 381 004-007; 200: 9 381 002-003; basket 100: 9 381 000-001"
+    },
+    "Iseo": {
+     "cabinet_width_mm": 600,
+     "min_inner_depth_mm": 495,
+     "min_inner_height_mm": 1695,
+     "load": {
+      "pull-out_shelf_kg": 10,
+      "door_shelf_kg": 5,
+      "total_kg": 85
+     },
+     "codes": "frame 9 381 008 (silver) / 9 381 009; shelves 9 381 010-012",
+     "opening_deg": "<=115 (drawing)"
+    },
+    "Lario": {
+     "widths_mm": "150, 200, 300, 400",
+     "2-tier_load_kg": 10,
+     "3-tier_load_kg": 15,
+     "inner_widths_mm": "112-118/162-168/262-268/362-368",
+     "min_depth_mm": "480-495 (150/200) or 480-500 etc.",
+     "runner": "Quadro V6 NL 470 (order separately)",
+     "codes": "9 381 014-033 depending on width/finish"
+    },
+    "Naro": {
+     "widths_mm": "450/600/900",
+     "load_per_tray_kg": 15,
+     "codes": "9 381 041-046"
+    },
+    "src": "S15 p4-13, 24-26, 28-30"
+   },
+   "load_kg": {
+    "see_cabinet_field": true,
+    "src": "S15"
+   },
+   "unreadable": [
+    "Lario min. depth numbers vary by variant (480/485/490/495/500/525/910 for 3-tier); only partly decoded"
+   ],
+   "options": [],
+   "codes": [],
+   "cad": {}
+  },
+  {
+   "id": "hafele-corner-549-42",
+   "brand": "Haefele UK",
+   "name": "Haefele corner pull-out shelving unit (549.42.xxx)",
+   "type": "blind corner pivoting shelf pair",
+   "cabinet": {
+    "installed_height_per_shelf_mm": 150,
+    "built_in_depth_mm": "470 or 480",
+    "min_cabinet_width_mm": "800 / 900 / 1000 / 1000",
+    "door_width_mm": "400 / 450 / 500 / 600",
+    "drawing_dims_mm": "760/860/960 (opening), 470/480",
+    "fixings": "guide to cabinet shelf, guide to base, pivots on sides; separate frame 549.42.990/991 if no shelf",
+    "src": "S18a"
+   },
+   "load_kg": {
+    "per_shelf": 20,
+    "per_unit": 40,
+    "src": "S18a"
+   },
+   "codes": [
+    {
+     "code": "549.42.341/340",
+     "desc": "800 cab / 400 door left/right",
+     "range": "",
+     "src": "S18a"
+    },
+    {
+     "code": "549.42.346/345",
+     "desc": "900/450",
+     "range": "",
+     "src": "S18a"
+    },
+    {
+     "code": "549.42.351/350",
+     "desc": "1000/500",
+     "range": "",
+     "src": "S18a"
+    },
+    {
+     "code": "549.42.361/360",
+     "desc": "1000/600",
+     "range": "",
+     "src": "S18a"
+    },
+    {
+     "code": "549.42.991/990",
+     "desc": "corner pull-out frame left/right",
+     "range": "",
+     "src": "S18a"
+    }
+   ],
+   "unreadable": [
+    "Door fixing not described"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "hafele-swingout-corner-549-38",
+   "brand": "Haefele UK",
+   "name": "Swing out corner unit (548/549.38/549.86)",
+   "type": "blind corner swing-out",
+   "cabinet": {
+    "installed_height_mm": 580,
+    "built_in_depth_mm": 470,
+    "min_cabinet_width_mm": "800 or 900 (800-1000 per table)",
+    "door_width_mm": "400 / 450/500/600",
+    "min_clear_opening": "Min. 360 (400 door) / 410",
+    "src": "S18d"
+   },
+   "load_kg": {
+    "total": 35,
+    "front": 7.5,
+    "rear": 10,
+    "src": "S18d"
+   },
+   "codes": [
+    {
+     "code": "549.38.248/249",
+     "desc": "chrome wire L/R, 800 cab",
+     "range": "",
+     "src": "S18d"
+    },
+    {
+     "code": "549.86.194/195",
+     "desc": "chrome wire 900/1000",
+     "range": "",
+     "src": "S18d"
+    },
+    {
+     "code": "549.38.748/749",
+     "desc": "white/chrome",
+     "range": "",
+     "src": "S18d"
+    },
+    {
+     "code": "549.86.196/197",
+     "desc": "",
+     "range": "",
+     "src": "S18d"
+    }
+   ],
+   "unreadable": [
+    "Basket dimensions are only drawing numbers (355/335/407/435/457/230/270 ... ) not assigned"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "vs-cor-flex-hafele",
+   "brand": "Vauth-Sagel (Haefele UK)",
+   "name": "VS COR Flex",
+   "type": "blind corner pull-out with 4 baskets, unhanded",
+   "cabinet": {
+    "installed_height_mm": 530,
+    "built_in_depth_mm": 480,
+    "min_cabinet_width_mm": "900 / 1000",
+    "min_inside_width_mm": {
+     "900": 693,
+     "1000": 802
+    },
+    "min_door_opening_mm": {
+     "900": 381,
+     "1000": 444
+    },
+    "clearance_basket_to_door_mm": 40,
+    "door_width_mm": "450 / 500",
+    "src": "S18b"
+   },
+   "load_kg": {
+    "total": 32,
+    "per_basket": 8,
+    "src": "S18b"
+   },
+   "codes": [
+    {
+     "code": "548.29.343/344",
+     "desc": "Planero lava grey 900/1000",
+     "range": "",
+     "src": "S18b"
+    },
+    {
+     "code": "548.29.423/424",
+     "desc": "Premea lava grey",
+     "range": "",
+     "src": "S18b"
+    },
+    {
+     "code": "548.29.233/234",
+     "desc": "Premea white/chrome",
+     "range": "",
+     "src": "S18b"
+    },
+    {
+     "code": "548.29.213/214",
+     "desc": "Saphir mesh chrome",
+     "range": "",
+     "src": "S18b"
+    },
+    {
+     "code": "548.29.753/754",
+     "desc": "Classic chrome linear",
+     "range": "",
+     "src": "S18b"
+    },
+    {
+     "code": "548.29.853/854",
+     "desc": "Classic silver linear",
+     "range": "",
+     "src": "S18b"
+    }
+   ],
+   "unreadable": [
+    "Basket dims in drawing: 415/375/325/280/80/75 (not assigned to W/D/H)"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "vs-cor-fold-hafele",
+   "brand": "Vauth-Sagel (Haefele UK)",
+   "name": "VS COR Fold",
+   "type": "swing-out corner, rear baskets follow front baskets",
+   "cabinet": {
+    "installed_height_mm": 530,
+    "built_in_depth_mm": 485,
+    "min_cabinet_width_mm": "800 or 900 (900 usable in 1000/1200)",
+    "door_width_mm": "400 (800) / 450-600 (900)",
+    "src": "S18c"
+   },
+   "door": {
+    "fixing": "door front fixing with integrated 3D adjustment and central height alignment; door frame follower; hanging plates (800 version for 400 door; 900 version for 450/500/600 doors)",
+    "src": "S18c"
+   },
+   "load_kg": {
+    "total": 35,
+    "front": 8,
+    "rear": 9.5,
+    "src": "S18c"
+   },
+   "codes": [
+    {
+     "code": "548.13.384/385 (L/R)",
+     "desc": "Planero 800",
+     "range": "800",
+     "src": "S18c"
+    },
+    {
+     "code": "548.13.386/387",
+     "desc": "Planero 900",
+     "range": "900",
+     "src": "S18c"
+    },
+    {
+     "code": "548.13.624-627",
+     "desc": "Premea",
+     "range": "",
+     "src": "S18c"
+    },
+    {
+     "code": "548.17.224/225, .234/.235",
+     "desc": "Saphir",
+     "range": "",
+     "src": "S18c"
+    },
+    {
+     "code": "548.17.000/.001/.010/.011",
+     "desc": "Classic chrome",
+     "range": "",
+     "src": "S18c"
+    },
+    {
+     "code": "548.17.800/.801/.810/.811",
+     "desc": "Classic silver",
+     "range": "",
+     "src": "S18c"
+    }
+   ],
+   "unreadable": [
+    "basket dims 336/450/370/430/230/305/84 in drawing not assigned"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "vs-cornerstone-swing",
+   "brand": "Vauth-Sagel (Haefele UK)",
+   "name": "Cornerstone Swing",
+   "type": "blind corner swing-out, single support tube",
+   "cabinet": {
+    "corner_base_cabinet_mm": "800/900/1000",
+    "min_built_in_depth_mm": 490,
+    "installation_height_mm": "651-690",
+    "door_width_mm": "400/450/500/600",
+    "centre_post_max_mm": "65/75 (drawing)",
+    "min_inner_width_mm": 414,
+    "src": "S18g"
+   },
+   "load_kg": {
+    "per_shelf": 18,
+    "total": 36,
+    "src": "S18g"
+   },
+   "codes": [
+    {
+     "code": "542.05.870-873",
+     "desc": "Premea lava grey, 800/900/1000/1000 (door 400/450/500/600)",
+     "range": "",
+     "src": "S18g"
+    },
+    {
+     "code": "542.05.290-293",
+     "desc": "white/chrome",
+     "range": "",
+     "src": "S18g"
+    },
+    {
+     "code": "542.05.999",
+     "desc": "soft close add-on",
+     "range": "",
+     "src": "S18g"
+    }
+   ],
+   "unreadable": [],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "vs-cor-wheel-pro",
+   "brand": "Vauth-Sagel (Haefele UK)",
+   "name": "VS COR Wheel Pro (pole-free 3/4 round)",
+   "type": "90 deg corner carousel, 3/4 round",
+   "cabinet": {
+    "corner_cabinet_mm": 900,
+    "shelf_diameter_mm": 720,
+    "built_in_depth_min_mm": 815,
+    "installed_height_min_mm": 620,
+    "drawing": "440, 322, 900, 815",
+    "src": "S18h"
+   },
+   "load_kg": {
+    "per_shelf": 27.5,
+    "src": "S18h"
+   },
+   "codes": [
+    {
+     "code": "542.62.812",
+     "desc": "White/Chrome",
+     "range": "900",
+     "src": "S18h"
+    },
+    {
+     "code": "542.26.412",
+     "desc": "Lava grey",
+     "range": "900",
+     "src": "S18h"
+    }
+   ],
+   "unreadable": [],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "hafele-utensio-inline",
+   "brand": "Haefele (Utensio Pro)",
+   "name": "Inline Corner",
+   "type": "pull-out corner, 4 baskets",
+   "cabinet": {
+    "min_cabinet_width_mm": "900 / 1000 / 1200",
+    "door_width_mm": "450/500/600",
+    "installation_width_mm": {
+     "450": 825,
+     "500": 875,
+     "600": 975
+    },
+    "installation_depth_mm": 489,
+    "installation_height_mm": 548,
+    "src": "S18e"
+   },
+   "load_kg": {
+    "total": 50,
+    "front_basket": 15,
+    "rear_basket": 10,
+    "src": "S18e"
+   },
+   "codes": [
+    {
+     "code": "542.35.309/312/315",
+     "desc": "Folded baskets 900/1000/1200",
+     "range": "",
+     "src": "S18e"
+    },
+    {
+     "code": "542.35.310/313/316",
+     "desc": "Accent",
+     "range": "",
+     "src": "S18e"
+    },
+    {
+     "code": "542.35.311/314/317",
+     "desc": "Glass",
+     "range": "",
+     "src": "S18e"
+    }
+   ],
+   "unreadable": [],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "hafele-utensio-glide",
+   "brand": "Haefele (Utensio Pro)",
+   "name": "Glide Corner",
+   "type": "swing-out 2-shelf corner",
+   "cabinet": {
+    "min_cabinet_width_mm": "800/900/1000/1000",
+    "door_width_mm": "400/450/500/600",
+    "installation_depths_mm": "403/438/455/457",
+    "installation_height_mm": "640 +/-25",
+    "X1_X2_min_mm": {
+     "800/400": "760/380",
+     "900/450": "860/430",
+     "1000/500": "910/480",
+     "1000/600": "960/580"
+    },
+    "height_adjust_increment_mm": 25,
+    "src": "S18f"
+   },
+   "load_kg": {
+    "per_shelf": 20,
+    "total": 40,
+    "src": "S18f"
+   },
+   "codes": [
+    {
+     "code": "542.35.302/301",
+     "desc": "800/400 L/R",
+     "range": "",
+     "src": "S18f"
+    },
+    {
+     "code": "542.35.304/303",
+     "desc": "900/450",
+     "range": "",
+     "src": "S18f"
+    },
+    {
+     "code": "542.35.306/305",
+     "desc": "1000/500",
+     "range": "",
+     "src": "S18f"
+    },
+    {
+     "code": "542.35.308/307",
+     "desc": "1000/600",
+     "range": "",
+     "src": "S18f"
+    },
+    {
+     "code": "542.35.337/338",
+     "desc": "Midi pole 1205-1255 L/R",
+     "range": "",
+     "src": "S18f"
+    },
+    {
+     "code": "542.35.339",
+     "desc": "add-on soft close",
+     "range": "",
+     "src": "S18f"
+    }
+   ],
+   "unreadable": [],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "grass-quaturis-s",
+   "brand": "GRASS",
+   "name": "Quaturis S",
+   "type": "blind corner swing (wood shelves) base (600-900 mm height) and tall (900-1500 mm)",
+   "cabinet": {
+    "KB_mm": "900 / 1000 / 1200 (TYP 450 / 500 / 600)",
+    "TAM_door_cutout_mm": {
+     "450": "412-418",
+     "500": "462-468",
+     "600": "562-568"
+    },
+    "min_KB_standard_hinge": {
+     "450": 870,
+     "500": 920,
+     "600": 1020
+    },
+    "min_inner_depth_mm": 490,
+    "inner_height_base_mm": "600-900 (2 shelves)",
+    "tall_mm": "900-1200 (3 shelves) / 1200-1500 (4)",
+    "blind_hinge": "min KB 880/930/1030, TAM 412-424 / 462-474 / 562-574, min depth 525",
+    "side_thickness_mm": "16-19",
+    "src": "S19 p8-12"
+   },
+   "door": {
+    "hinge": "110 deg standard or 110/90A blind corner hinge",
+    "hinge_mounting": "389 / 349 mm and 32, Ø2x10; door fixing via cross bar",
+    "src": "S19 p9,12"
+   },
+   "load_kg": {
+    "per_shelf": 20,
+    "src": "S19 p8"
+   },
+   "codes": [
+    {
+     "code": "F154147594",
+     "desc": "Fitting set left KH 600-900",
+     "range": "900-1200",
+     "src": "S19 p8"
+    },
+    {
+     "code": "F154147595",
+     "desc": "right",
+     "range": "",
+     "src": "S19 p8"
+    },
+    {
+     "code": "F154148027/028",
+     "desc": "tall 900-1200 L/R",
+     "range": "",
+     "src": "S19 p10"
+    },
+    {
+     "code": "F154148029/030",
+     "desc": "tall 1200-1500 L/R",
+     "range": "",
+     "src": "S19 p10"
+    },
+    {
+     "code": "F154145363-367",
+     "desc": "shelf sets",
+     "range": "",
+     "src": "S19 p8"
+    }
+   ],
+   "unreadable": [
+    "Brochure dated 07/2015, may be superseded"
+   ],
+   "options": [],
+   "cad": {}
+  },
+  {
+   "id": "grass-quaturis-75-vs-cor-spin",
+   "brand": "GRASS Quaturis 75 / Vauth-Sagel VS COR Spin (same table values)",
+   "name": "Quaturis 75 / VS COR Spin 800-900 (pie-cut 3/4 carousel)",
+   "type": "90 deg carousel",
+   "cabinet": {
+    "KB_mm": "800 / 900",
+    "inner_height_LHK_mm": "690-910",
+    "LTK_by_set_mm": {
+     "set1_240": 500,
+     "set2_250": 510,
+     "set3_340": 515,
+     "set4_350": 525
+    },
+    "VS_Spin_B_mm": {
+     "set1": 500,
+     "set2": 510,
+     "set3": 512,
+     "set4": 522
+    },
+    "conflict": "Quaturis 75 LTK for sets 3/4 = 515/525 (S19 p16) vs VS COR Spin B = 512/522 (S20b p1) - different symbol (LTK vs B) possible",
+    "side_thickness_mm": "16-19",
+    "door_thickness_TS_mm": "16-22",
+    "reveal_F_mm": "2-4 / 2-7",
+    "src": "S19 p16-17; S20a/b p1; S20c"
+   },
+   "load_kg": {
+    "per_shelf": null,
+    "reason": "not stated in S19/S20",
+    "src": "-"
+   },
+   "codes": [
+    {
+     "code": "F154147590-593",
+     "desc": "Quaturis 75 sets 1-4",
+     "range": "800/900",
+     "src": "S19 p16"
+    },
+    {
+     "code": "F154147355 / F154145804",
+     "desc": "wood shelf set 800 / 900",
+     "range": "",
+     "src": "S19 p16"
+    },
+    {
+     "code": "F154145810 / F154145814",
+     "desc": "plastic shelf sets",
+     "range": "",
+     "src": "S19 p16"
+    }
+   ],
+   "unreadable": [
+    "Load per shelf not given in the documents read"
+   ],
+   "options": [],
+   "cad": {}
+  }
+ ],
+ "notes": [
+  "All dimensions mm unless stated. 'drawing' = read off a figure; 'S..' ids refer to sources[]; pages are PDF page numbers unless stated (Blum 2020/21 printed page = PDF page - 4).",
+  "Blum: the 2020/21 catalogue (S03) does NOT contain a SPACE CORNER detail page (only the overview p268 and ORGA-LINE sets); the official SPACE CORNER with SYNCROMOTION installation instruction MA-493/0 (S01) was downloaded and read incl. drawings. A planning sheet with cabinet-width limits for SPACE CORNER was not found; blum.com download page lists only 4 PDFs and no CAD (S22). No 'LEGRABOX pull-out for corner' or 'Blum CARGO' exists in the documents found.",
+  "Blum SPACE TOWER: official planning information TD-082/4 (S02) read; shows pull-out height positions and hinge drilling, no order codes (assembled from box-system parts).",
+  "Source conflict: Peka Magic Corner Comfort load 8 kg (front) / 10 kg (rear) per shelf and 36 kg total (S12, S14a) vs Kesseboehmer-branded 'Magic Corner' in the Demos catalogue 7/9 kg per basket, 14/18 kg per pair (S11 p33) - different product/era; both recorded.",
+  "Source conflict: Hettich shop product page Salso 9381054 (S16): inside height 620-780 and min depth 460, vs official catalogue S15 p14/16: 620-820 and 465 (catalogue used).",
+  "Source conflict/info: Dispensa VVS-x 120 kg 'own weight + load' and 18 kg per basket (MA 402053, S10) vs 100 kg slide/load (Demos catalogue S11 p15, kesseboehmer.com teaser S21) - not inconsistent if frame weight about 20 kg.",
+  "Source conflict: Grass Quaturis 75 LTK for sets 3/4 = 515/525 (S19 p16) vs Vauth-Sagel VS COR Spin 900 B = 512/522 (S20b p1); sets 1/2 identical (500/510). Symbols differ (LTK vs B).",
+  "Hettich Orta table prints a row '550' (S15 p20) although front widths are 400/450/500/600; recorded as printed.",
+  "LeMans II is marketed under the Kesseboehmer brand (also in Hettich's range per S17 and Haefele); Kesseboehmer catalogue letters A-K (S06 p4) differ from MA letters A-D (S07 p3): catalogue A (>=764) = MA C; catalogue C (361-368) = MA A; catalogue F (<=400) = MA B. Values agree.",
+  "The Kesseboehmer 2013 catalogue pages (S06) are old; MA 402118 is dated 2012; MA 402121 Rev 007-2018 (S09) is a different (North American) installation sheet with lower minimum widths (e.g. door 400: 355/362 mm vs 361-368 mm in the EU sheet) - recorded as a separate product entry.",
+  "Distributor catalogues used (not manufacturer-issued): Blum catalogue copy (ldlonline), Kesseboehmer LeMans pages (megaflis.no), Demos Trade K05 2024 (Kesseboehmer products with Demos codes; codes are Demos article numbers, Kesseboehmer code given where printed), Haefele UK catalogue pages, GRASS Quaturis brochure copy (2015). Official manufacturer PDFs: Blum MA-493, TD-082, Hettich catalogue 2025, Peka data sheets and MAs, Vauth-Sagel manuals, Kesseboehmer MAs.",
+  "Not found / not covered: Peka LeMans (none), Rev-A-Shelf (no document retrieved), Kesseboehmer 'Cargo'-type bottle pull-outs (only Peka Pinello Cargo and Hettich/Kesseboehmer 150 mm base baskets found), Hettich tall-unit pantry beyond Olona/Iseo, Haefele's own Dispensa order codes (only Kesseboehmer/Demos codes), Vauth-Sagel LeMans (not a VS product), VS TAL/Variant pantry (nothing retrieved), Grass SIGE (Discover 2024 PDF URL returned 404).",
+  "Downloaded but not extracted in detail: Kesseboehmer MA for Dispensa VVS (Richelieu handling instructions), Convoy Centro (402096), Convoy Lavido (Wurth), Comfort II (402869, Foussier), Base Pull Out II (403792), Dispensa VV (4281100_2), Peka Magic Corner I/II frame instructions (Shopify), Blum LEGRABOX ordering and planning information me77914225 (72 pp; no SPACE CORNER/TOWER content). Files are in dl-corner/ and dl-corner/p2/.",
+  "Front thickness / door fixing: only values stated by sources are given; where the source gives none the field is null with a reason. Blum 'FB = PM' pairing (300/450/600 -> 900/1050/1200) is reproduced as printed; interpretation uncertain.",
+  "Left/right: LeMans II, Magic Corner, Salso, Haefele units are handed (L/R codes); VS COR Flex, Inline Corner, Cornerstone Swing, Orta are unhanded; SPACE CORNER has left front F1 / right front F2 pieces."
+ ]
+}

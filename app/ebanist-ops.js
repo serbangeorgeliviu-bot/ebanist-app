@@ -814,6 +814,9 @@ function generate1(input) {
   /* U.16: ușa basculantă nu are cupă de balama, iar găurile mecanismului (pe lateral și pe ușă) NU se generează: cotele din desenele
      producătorilor nu sunt încă confruntate cu un produs real (sensul unor cote a fost citit din imagine). Se spune, nu se inventează. */
   pcs.forEach(function (p) { if (p.role === "frontale" && p.sub === "lift") out.warnings.push({ piece: p.pk, k: "opsLiftNoDrill" }); });
+  /* U.17: unități de colț / scoase / mecanisme de mișcare (cfg.cu): găurile mecanismelor, ale cărucioarelor și ale frontului legat NU se generează
+     (sursele nu dau cota și muchia de referință complete); cufront / flap nu primesc nici cupe de balama, nici mâner */
+  if (cfg && cfg.cu) out.warnings.push({ piece: null, k: "opsCornerNoDrill" });
   var doors = pcs.filter(function (p) { return p.role === "frontale" && p.sub === "door" && p.tAx === 2; });
   var rows = {};
   doors.forEach(function (d) { var k = Math.round(d.min[1]) + "|" + Math.round(d.max[1]); (rows[k] = rows[k] || []).push(d); });
