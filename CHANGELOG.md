@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.86.1 — 19 noiembrie 2026
+
+**Deschidere electrică Blum SERVO-DRIVE pe ușile basculante AVENTOS top, și o cale de deschidere fără trecere prin corp (U.16, D-164).**
+- **SERVO-DRIVE** la HK top, HF top, HL top și HS top: câmpul „Deschidere electrică" apare numai la sistemele care o au în sursele citite (Blum TD-157/1, TD-154/1, TD-145/3, TD-144/4 și instrucțiunea BA-139/7). Ușa se deschide la atingere și se închide cu un comutator fără fir; mecanismul devine mai lat (66–67 mm) și la HK top adâncimea minimă crește de la 187 la 235 mm (261 mm cu suport de perete vizibil). Alegerea mecanismului după greutate nu se schimbă (Blum nu dă alte limite).
+- **Catalog:** unitatea de acționare (23KA000 la HK top, 23.A000 la HF top, 23.A001 la HL/HS top), alimentatorul de 72 W (Z10NE04xx) și comutatorul (23P5020); în deviz: o unitate și un comutator pe ușă, un alimentator pe corp. Prețurile sunt 0, de completat.
+- **Cota găurii pentru cablu (Ø10) e în date, dar NU se generează** (pentru HK top, HL, HS e citită din desenul HF și aplicată prin analogie). Alimentatorul: 50 de unități, una AVENTOS socotește 3 (maximum 16, calcul nu cifră tipărită).
+- **Deschiderea ușii basculante:** până acum ușa se rotea în jurul muchiei de sus și muchia de jos trecea prin lateral și rafturi. Acum urcă întâi dreaptă, apoi se răstoarnă peste corp, cu muchia de jos alunecând pe partea de sus. Poziția finală e neschimbată; deschiderea din camera 3D tot nu există.
+- **Nu e inclus:** Häfele E-Drive (24 V, pentru Free flap/up/swing) — codurile sunt în date brute, dar nu s-au citit încă cotele.
+- Teste noi în `liftdoor.test.js` (4) și în e2e (4).
+
+---
+
 ## 5.86.0 — 19 noiembrie 2026
 
 **Uși care se deschid în sus (basculante), cu mecanisme de ridicare Blum, Hettich și Häfele în catalog (U.16).** Până acum catalogul nu avea niciun mecanism de ridicare. Acum, în Constructor, câmpul „Mecanism de ridicare" alege un sistem; ușa pe balamale devine „Anta basculante", fără balamale, cu un set de mecanism pe ușă.

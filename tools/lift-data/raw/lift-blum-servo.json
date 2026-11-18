@@ -1,0 +1,1056 @@
+{
+ "brand": "Blum",
+ "sources": [
+  {
+   "id": "HKT",
+   "url": "https://d2.blum.com/services/BEC003/cme148001_td_dok_bau_$sen-au_$aof_$v1.pdf",
+   "title": "AVENTOS HK top Technical data sheet TD-157/1EN-AA (Blum d2, Australian edition)",
+   "pages": "p2-4 codes, p7 drilling/space (image), p9 bumper+switch (image), p13 power supply (image)"
+  },
+  {
+   "id": "HFT",
+   "url": "https://d2.blum.com/services/BEC003/cme148000_td_dok_bau_$sen-au_$aof_$v1.pdf",
+   "title": "AVENTOS HF top Technical data sheet TD-154/1EN-AA (Blum d2, Australian edition)",
+   "pages": "p2-3,7 codes, p8 drilling table, p9 space, p12 bumper+switch (image), p13 power supply/back cabling"
+  },
+  {
+   "id": "HLT",
+   "url": "https://d2.blum.com/services/BEC003/me55579287_td_dok_bau_$sen_$aof_$v3.pdf",
+   "title": "AVENTOS HL top Technical data sheet TD-145/3 EN/04.26 (Blum d2)",
+   "pages": "p2-4 codes, p5 planning (image), p8 bumper+switch, p9 power supply/back cabling"
+  },
+  {
+   "id": "HST",
+   "url": "https://d2.blum.com/services/BEC003/me55579283_td_dok_bau_$sen_$aof_$v4.pdf",
+   "title": "AVENTOS HS top Technical data sheet TD-144/4 EN/04.26 (Blum d2)",
+   "pages": "p2-4 codes, p5 planning (image), p7 bumper+switch (image), p8 power supply/back cabling"
+  },
+  {
+   "id": "HLC",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1538016/servo-drive-for-aventos-hl.pdf",
+   "title": "SERVO-DRIVE for AVENTOS HL (classic HL) Technical data sheet TD-036/1EN (Blum document, distributor copy; old edition)",
+   "pages": "p2-3 codes, p4-5 planning (image), p6 power/cable"
+  },
+  {
+   "id": "LEAF",
+   "url": "https://www.blum.com/file/kla0031-ba-139_ba_dok_bau?country=xk&language=en",
+   "title": "SERVO-DRIVE Instruction leaflet BA-139/7 11.25 (Blum, blum.com download, published 01-15-2026)",
+   "pages": "p3-13 safety/behaviour, p14-17 flex & drawers, p18 conformity, p20-23 Technical data"
+  },
+  {
+   "id": "MA",
+   "url": "https://www.blum.com/file/cme90761_ma_dok_bau?country=xk&language=en",
+   "title": "SERVO-DRIVE AVENTOS / SERVO-DRIVE flex installation instructions MA-1098/0ML 09.23 (wordless, pictograms)",
+   "pages": "p3 (switch drilling pictogram only)"
+  },
+  {
+   "id": "MD",
+   "url": "https://www.blum.com/file/kla0013-bz-019-0_bz_dok_bau?country=xk&language=en",
+   "title": "SERVO-DRIVE for AVENTOS Notes on machine guideline BZ-019/0EN 06.14",
+   "pages": "p1-2"
+  },
+  {
+   "id": "CAT22-39",
+   "url": "https://publications.blum.com/2022/catalogue/en/39/",
+   "title": "Blum catalogue and technical manual 2022/2023, AVENTOS HL standard/SERVO-DRIVE ordering page (web text)",
+   "pages": "cat. p39"
+  },
+  {
+   "id": "CAT22-33",
+   "url": "https://publications.blum.com/2022/catalogue/en/33/",
+   "title": "Blum catalogue and technical manual 2022/2023, AVENTOS HS standard/SERVO-DRIVE ordering page (web text)",
+   "pages": "cat. p33"
+  },
+  {
+   "id": "CAT22-34",
+   "url": "https://publications.blum.com/2022/catalogue/en/34/",
+   "title": "Blum catalogue 2022/2023, AVENTOS HS SERVO-DRIVE planning page (web text; drawings not in text)",
+   "pages": "cat. p34"
+  },
+  {
+   "id": "CAT24-31",
+   "url": "https://publications.blum.com/2024/catalogue/en/27/",
+   "title": "Blum catalogue and technical manual 2024-2025, AVENTOS HF top narrow alu / SERVO-DRIVE power supply page (web text)",
+   "pages": "cat. p31 (url suffix 27)"
+  },
+  {
+   "id": "EA",
+   "url": "http://ea.blum.com/en/servo-drive-units-per-blum-transformer/",
+   "title": "Blum EASY ASSEMBLY: SERVO-DRIVE units per Blum transformer",
+   "pages": "single page"
+  },
+  {
+   "id": "WEB",
+   "url": "https://blum.com/su/en/products/motion-technologies/servo-drive/servo-drive-aventos/programme",
+   "title": "blum.com SERVO-DRIVE for AVENTOS product page",
+   "pages": "single page"
+  },
+  {
+   "id": "US-PS",
+   "url": "https://d2.blum.com/services/BEC003/cme118480_bz_dok_bus_$sen-us_$aof_$v1.pdf",
+   "title": "SERVO-DRIVE Power Supply Set sheet (Blum Inc., US, 2024)",
+   "pages": "p1"
+  },
+  {
+   "id": "CAT24-384",
+   "url": "https://publications.blum.com/2024/catalogue/en/384/",
+   "title": "Blum catalogue 2024-2025, SERVO-DRIVE for LEGRABOX/MERIVOBOX/TANDEMBOX (web text)",
+   "pages": "cat. p384"
+  },
+  {
+   "id": "CAT24-464",
+   "url": "https://publications.blum.com/2024/catalogue/en/464/",
+   "title": "Blum catalogue 2024-2025, SERVO-DRIVE for MOVENTO | TANDEM (web text)",
+   "pages": "cat. p464"
+  },
+  {
+   "id": "CAT24-498",
+   "url": "https://publications.blum.com/2024/catalogue/en/498/",
+   "title": "Blum catalogue 2024-2025, SERVO-DRIVE uno set (web text)",
+   "pages": "cat. p498"
+  },
+  {
+   "id": "DL",
+   "url": "https://www.blum.com/xk/en/products/motion-technologies/servo-drive/servo-drive-aventos/downloads-videos/",
+   "title": "blum.com SERVO-DRIVE for AVENTOS downloads page (list of documents)",
+   "pages": "single page"
+  }
+ ],
+ "servo": {
+  "aventos": [
+   {
+    "system": "AVENTOS HK top",
+    "variant": "SERVO-DRIVE for AVENTOS HK top (compact mechanism, own drive unit and cover cap)",
+    "codes": [
+     {
+      "code": "22K2310 / 22K2510 / 22K2710 / 22K2910",
+      "desc": "Lift mechanism set (2 mechanisms), pre-mounted system screws; same codes as standard",
+      "range": "LF 420-1610 / 930-2800 / 1730-5200 / 3200-9000; OW 75-107",
+      "src": "HKT p2"
+     },
+     {
+      "code": "22K2300 / 22K2500 / 22K2700 / 22K2900",
+      "desc": "Same, chipboard screws with positioning system (+8 x 4x35)",
+      "range": "same LF",
+      "src": "HKT p2"
+     },
+     {
+      "code": "22K8000",
+      "desc": "Standard cover cap set (SW/HGR/TGR) - not for SERVO-DRIVE",
+      "range": "",
+      "src": "HKT p3"
+     },
+     {
+      "code": "23K8000",
+      "desc": "Cover cap set for SERVO-DRIVE: SERVO-DRIVE cover cap left, cover cap right, 2 branding elements, 2 x SERVO-DRIVE switch, 2 x Blum distance bumper dia 5",
+      "range": "SW/HGR/TGR nylon",
+      "src": "HKT p3"
+     },
+     {
+      "code": "23KA000",
+      "desc": "SERVO-DRIVE set: 1 drive unit, 1 distribution cable 1500 mm, 1 connecting node, 2 cable end protectors; TGR nylon. For 3+ mechanisms recommend two synchronised drive units",
+      "range": "",
+      "src": "HKT p3"
+     },
+     {
+      "code": "23KA001",
+      "desc": "Drive unit type (from conformity/technical data; set code is 23KA000)",
+      "range": "",
+      "src": "LEAF p18,p21"
+     },
+     {
+      "code": "20S4200 / 20S4200A / 20S42T1 / 20S42E1",
+      "desc": "Front fixing brackets (wooden+wide alu / narrow alu / thin fronts EXPANDO T / wooden EXPANDO)",
+      "range": "",
+      "src": "HKT p3"
+     }
+    ],
+    "power_supply_codes_ref": "see servo.power",
+    "cabinet": {
+     "height_mm": "205-600 (note: cabinet height max 600)",
+     "width_mm": "up to 1800",
+     "min_internal_depth_standard_mm": 187,
+     "min_internal_depth_servo_mm": 235,
+     "min_internal_depth_visible_wall_hanging_bracket_servo_mm": 261,
+     "mechanism_width_standard_mm": 30,
+     "mechanism_width_servo_mm": 67,
+     "min_internal_height_LH_mm": 173,
+     "gap_to_back_mm": 1.5,
+     "min_gap_MF_mm": 2,
+     "cross_stabiliser": "not part of the HK top system (none in ordering info)",
+     "src": "HKT p7 (drawing: 187/235 depth, 30/67 width, min 173 = min LH, 1.5, min 261*; text 'Cabinet height max. 600 mm', 'Min. 261 mm with visible wall hanging bracket'; min gap MF 2 mm)"
+    },
+    "limits": {
+     "power_factor": "LF = KH[mm] x front weight incl. double handle weight[kg]; ranges 420-1610, 930-2800, 1730-5200, 3200-9000",
+     "max_front_weight_two_mechanisms_kg": 18,
+     "third_mechanism": "LF +50% with a third lift mechanism",
+     "servo_specific_change": "none stated: SERVO-DRIVE uses the same 22K23xx..29xx mechanism sets and the same LF ranges",
+     "space_above": "Y = FH x 0.29 + FD - SOB; X(FD16/19/22/26/28)=68/57/47/33/27",
+     "src": "HKT p2,p7"
+    },
+    "mounting": {
+     "cable_hole": {
+      "diameter_mm": 10,
+      "x_mm": 38.5,
+      "y_mm": 82,
+      "axes": "X horizontal from inner face of side panel (left), Y vertical from underside of top panel, Ø10 through the back (back cabling) - axes taken from the HF top detail drawing HFT p13 and applied by analogy; the HK drawing shows 38.5 and 82 on the system-screw view",
+      "shown_for": "system screws view only",
+      "src": "HKT p7 (image)"
+     },
+     "mechanism_drilling_system_screws": {
+      "dia5_depth_mm": 11.5,
+      "row_offsets_mm": "36 from top; 37, 32, 64, 32 along depth (as drawn)",
+      "src": "HKT p7"
+     },
+     "mechanism_drilling_chipboard": {
+      "values_mm": "33, 28, 11, 91, 11, 42; 4 x chipboard 4x35",
+      "src": "HKT p7"
+     },
+     "drive_unit": "clips/attaches to mechanism tool-free (WEB); no separate drilling for drive unit",
+     "top_cabling": "hole in top panel for cable shown pictorially, dimensions not given",
+     "bumpers": {
+      "dia_mm": 5,
+      "offset_from_front_edge_mm": 8,
+      "offset_from_bottom_edge_mm": "8* (from cabinet bottom edge for fronts that protrude below)",
+      "count": "2 (bottom only; do not use bumpers in the upper third)",
+      "depth_min_mm": 10,
+      "src": "HKT p9 (image)"
+     },
+     "switch": {
+      "drilling": "pie-cut hole dia 35, 12 +-0.3 mm from edge, depth 11 +0.5/0, centre height min 30 - max 90 mm from cabinet bottom (image reading)",
+      "src": "HKT p9 (image)"
+     },
+     "power_supply_housing_envelope_mm": "360 x 150 x 75 incl. 30 mm air safety distance; PSU 130 x 84 x 69",
+     "src": "HKT p13"
+    },
+    "electrical": {
+     "drive_unit": "24.0 V DC, rated current 2.0 A, standby <=0.15 W (23.A001) / <=0.40 W (23KA001) front closed, duty S3 5% (max 10 motions per 10 min), <70 dB(A), IP20, protection class III",
+     "switch": "CR2032 3 V, 10 mA, standby <=1 microW, 2.404-2.452 GHz, +4 dBm",
+     "src": "LEAF p21,p23"
+    },
+    "behaviour": {
+     "open": "short touch/press on the front triggers automatic opening",
+     "close": "press SERVO-DRIVE switch (wireless, on cabinet side) -> automatic closing; BLUMOTION soft closing",
+     "manual": "can be opened/closed by hand at any time",
+     "collision_detection": "yes",
+     "lean_protection": "only a brief touch triggers",
+     "power_failure": "stays in position; touch switch to re-activate",
+     "sync": "3 or more mechanisms: recommend two synchronised drive units",
+     "src": "LEAF p10-13; HKT p3"
+    },
+    "unreadable": [
+     "Global (non-AU) edition of HK top sheet not fetched; this is TD-157/1EN-AA",
+     "Axis/reference assignment of Ø10 82/38.5 is inferred (see mounting)",
+     "Top-cabling hole dimensions not given",
+     "Cable lengths max per distribution cable not stated"
+    ]
+   },
+   {
+    "system": "AVENTOS HF top",
+    "variant": "SERVO-DRIVE for AVENTOS HF top (bi-fold; wooden fronts, wide and narrow alu frames)",
+    "codes": [
+     {
+      "code": "22F2510 / 22F2810",
+      "desc": "Lift mechanism set, system screws (same as standard)",
+      "range": "LF 2700-13500 (1 pc LF 1300-3000 for KB<=600) / 10000-19300; OW 81-116",
+      "src": "HFT p2"
+     },
+     {
+      "code": "22F2500 / 22F2800",
+      "desc": "Same with chipboard screws",
+      "range": "same",
+      "src": "HFT p2"
+     },
+     {
+      "code": "22F3200 / 22F3500 / 22F3900",
+      "desc": "Lever arm set",
+      "range": "KH 480-610 / 600-910 / 840-1200",
+      "src": "HFT p3"
+     },
+     {
+      "code": "22.8000",
+      "desc": "Standard cover cap set",
+      "range": "",
+      "src": "HFT p3"
+     },
+     {
+      "code": "23.8000",
+      "desc": "Cover cap set for SERVO-DRIVE: SERVO-DRIVE cover cap left, cover cap right, 2 branding, 2 x SERVO-DRIVE switch, 6 x Blum distance bumper dia 5",
+      "range": "SW/HGR/TGR nylon",
+      "src": "HFT p3"
+     },
+     {
+      "code": "23.A000",
+      "desc": "SERVO-DRIVE set: drive unit, distribution cable 1500 mm, connecting node, 2 cable end protectors; TGR nylon. 3+ mechanisms: two synchronised drive units; connected fronts: one drive unit per set",
+      "range": "",
+      "src": "HFT p3"
+     },
+     {
+      "code": "Z10NE04KI, Z10NG120, Z10K800AE, Z10V100E.01, Z10K0009",
+      "desc": "power supply+flex / housing / 8 m cable set / node set / cable holder",
+      "range": "",
+      "src": "HFT p7; CAT24-31 (also Z10NE04EA..ZI, Z10NA40EA..UG)"
+     }
+    ],
+    "cabinet": {
+     "height_mm": "480-1200",
+     "width_mm": "up to 1800",
+     "min_internal_depth_mm": 264,
+     "mechanism_width_standard_mm": 30,
+     "mechanism_width_servo_mm": 66,
+     "min_LH_by_lever_arm_mm": {
+      "22F3200": 443,
+      "22F3500": 512,
+      "22F3900": 632
+     },
+     "A_B_Cmin_mm": {
+      "KH480-519": [
+       66.5,
+       171.5,
+       172
+      ],
+      "KH520-1200": [
+       89.0,
+       194.0,
+       195
+      ]
+     },
+     "min_22_mm": "shown in drawing as 'min 22'",
+     "cross_stabiliser": "not listed",
+     "space_above": "Xmax = FH x 0.9 + 1.5 x FD + 35; Y by stop: 116deg FHx0.44+38, 107deg FHx0.29+35, 97deg FHx0.12+31, 88deg 28, 81deg 0",
+     "src": "HFT p2-3,p9"
+    },
+    "limits": {
+     "power_factor": "LF = KH(TKH for asymmetrical) x front weight incl. handle weight; ranges 2700-13500 and 10000-19300",
+     "third_mechanism": "+50% LF",
+     "servo_specific_change": "none stated",
+     "src": "HFT p2"
+    },
+    "mounting": {
+     "cable_hole": {
+      "diameter_mm": 10,
+      "x_mm": 38.5,
+      "y_mm": {
+       "KH480-519": 102,
+       "KH520-1200": 124
+      },
+      "axes": "X horizontal from inner face of side panel, Y vertical down from underside of top panel, hole in back panel (back cabling detail)",
+      "src": "HFT p8, p13 (image read)"
+     },
+     "mechanism_drilling_system_screws": {
+      "H_mm": {
+       "KH480-519": 93.5,
+       "KH520-1200": 116
+      },
+      "values": "64, 101, 128, min 11.5, dia5",
+      "src": "HFT p8"
+     },
+     "mechanism_drilling_chipboard": {
+      "H_mm": {
+       "KH480-519": 93,
+       "KH520-1200": 115.5
+      },
+      "values": "63, 11, 91.5, 124, 11",
+      "src": "HFT p8"
+     },
+     "bumpers": {
+      "dia_mm": 5,
+      "count": 6,
+      "positions": "8 mm from front/top/bottom edges in drawing; 8* from bottom edge for protruding fronts",
+      "src": "HFT p12 (image)"
+     },
+     "switch": {
+      "drilling": "dia 35, 12 +-0.3, depth 11 +0.5/0, centre height min 30 - max 90 mm from bottom",
+      "src": "HFT p12 (image)"
+     },
+     "power_supply": "housing on cabinet top panel; envelope 360 x 150 x 75; PSU 130 x 84 x 69; 30 mm air gap",
+     "src": "HFT p13"
+    },
+    "electrical": {
+     "drive_unit": "24.0 V DC, 2.0 A, standby <=0.15 W (23.A001), S3 5% max 10 motions/10 min, IP20",
+     "src": "LEAF p21"
+    },
+    "behaviour": {
+     "as": "same as all AVENTOS top: touch to open, switch to close, collision detection, manual operation",
+     "src": "LEAF p10-11"
+    },
+    "unreadable": [
+     "Whether front weight table changes with SERVO-DRIVE: not stated (assumed none)",
+     "Global edition not fetched; AU edition used"
+    ]
+   },
+   {
+    "system": "AVENTOS HL top",
+    "variant": "SERVO-DRIVE for AVENTOS HL top",
+    "codes": [
+     {
+      "code": "22L2211 / 22L2511",
+      "desc": "Lift mechanism (2x), system screws",
+      "range": "KH 300-389 / 390-580",
+      "src": "HLT p2"
+     },
+     {
+      "code": "22L2201 / 22L2501",
+      "desc": "Lift mechanism (2x), chipboard screws",
+      "range": "KH 300-389 / 390-580",
+      "src": "HLT p2"
+     },
+     {
+      "code": "22L3201 / 22L3501 / 22L3801 / 22L3901",
+      "desc": "Lever arm (2x) NI/ECS steel",
+      "range": "FG 1.50-9.00 / 1.75-10.00 / 2.00-12.25 / 2.50-14.00 kg; KH 300-339 / 340-389 / 390-540 / 480-580",
+      "src": "HLT p2"
+     },
+     {
+      "code": "22.8001",
+      "desc": "Cover cap right (and left) standard",
+      "range": "",
+      "src": "HLT p2"
+     },
+     {
+      "code": "23.8001",
+      "desc": "SERVO-DRIVE cover cap left, SW/HGR/TGR nylon (used with 22.8001 right cap)",
+      "range": "",
+      "src": "HLT p2"
+     },
+     {
+      "code": "23.A001",
+      "desc": "Drive unit, TGR nylon; one drive unit per set for connected fronts",
+      "range": "",
+      "src": "HLT p3"
+     },
+     {
+      "code": "23P5020",
+      "desc": "SERVO-DRIVE switch 2x incl. battery",
+      "range": "SW/HGR/TGR",
+      "src": "HLT p3"
+     },
+     {
+      "code": "993.0530 / 993.0830.01",
+      "desc": "Blum distance bumper dia 5 / dia 8 (4x)",
+      "range": "R7037",
+      "src": "HLT p3"
+     },
+     {
+      "code": "22Q449M..22Q1049M, 22Q1076U",
+      "desc": "cross stabiliser (not SERVO-specific): width 600/800/900/1000/1200",
+      "range": "recommended from internal width >=1190 or KB >=1228",
+      "src": "HLT p3"
+     }
+    ],
+    "cabinet": {
+     "height_mm": "300-580",
+     "width_mm": "up to 1800",
+     "min_internal_depth_mm": 264,
+     "mechanism_width_standard_mm": 30,
+     "mechanism_width_servo_mm": 66,
+     "min_LH_by_lever_arm_mm": {
+      "22L3201": 255,
+      "22L3501": 295,
+      "22L3801": 345,
+      "22L3901": 399
+     },
+     "min_56_mm": "drawn 'min 56'",
+     "dims_drawn": "141, 4, 36, 30, 66 SERVO-DRIVE",
+     "cross_stabiliser": "needed/recommended from internal cabinet width >=1190 mm or cabinet width >=1228 mm (independent of SERVO-DRIVE); side panel 15-19: KB/2-151, 20-25: KB/2-161",
+     "src": "HLT p3,p5,p7"
+    },
+    "limits": {
+     "front_weight": "per lever arm FG incl. handle: 22L3201 1.50-9.00, 22L3501 1.75-10.00, 22L3801 2.00-12.25, 22L3901 2.50-14.00 kg; third mechanism +50% (HS note; HL top sheet lists FG only)",
+     "servo_specific_change": "none stated",
+     "front_setting_mm": {
+      "a": [
+       112,
+       140.5,
+       176,
+       214.5
+      ],
+      "b": [
+       272.5,
+       340,
+       425,
+       517
+      ],
+      "c": [
+       155.5,
+       195,
+       245,
+       297.5
+      ],
+      "Y": [
+       272.5,
+       340,
+       425,
+       517
+      ]
+     },
+     "src": "HLT p2,p5"
+    },
+    "mounting": {
+     "cable_hole": {
+      "diameter_mm": 10,
+      "x_mm": 38.5,
+      "y_mm": 71,
+      "axes": "X from side panel inner face, Y down from top panel underside (HF p13 detail; HL drawing shows 38.5 horizontal, 71 vertical)",
+      "applies_to": "both system-screw and chipboard-screw fixing",
+      "src": "HLT p5, p9"
+     },
+     "mechanism_drilling_system_screws": {
+      "values_mm": "63 and 64 from top (127 total), 101, 128, min 11.5, dia5",
+      "src": "HLT p5"
+     },
+     "mechanism_drilling_chipboard": {
+      "values_mm": "62.5, 125.5, 63, 91.5, 124, 11, 11",
+      "src": "HLT p5"
+     },
+     "bumpers": "as HF top: dia5/dia8, 8 mm offsets (HLT p8 image not read in detail)",
+     "switch": "dia 35 pie-cut, 12+-0.3, 11+0.5/0 (same drawing as other tops; HLT p8 image not separately read) or surface mount with 23P5216",
+     "src": "HLT p9",
+     "power_supply": "360 x 150 x 75 housing, PSU 130 x 84 x 69, 30 mm air gap"
+    },
+    "electrical": {
+     "drive_unit": "24.0 V DC, 2.0 A, standby <=0.15 W, S3 5%, IP20",
+     "src": "LEAF p21"
+    },
+    "behaviour": {
+     "as": "same as all tops",
+     "src": "LEAF p10-11"
+    },
+    "unreadable": [
+     "HL top bumper/switch page p8 is image only; read by analogy with HK/HS top pages"
+    ]
+   },
+   {
+    "system": "AVENTOS HS top",
+    "variant": "SERVO-DRIVE for AVENTOS HS top",
+    "codes": [
+     {
+      "code": "22S2211 / 22S2511 / 22S2811",
+      "desc": "Lift mechanism (2x) system screws",
+      "range": "FG 2.00-11.50 (KH 350-450) 2.50-12.50 (450-540); 2.75-15.25 (KH 480-660); 3.50-18.50 (KH 650-800)",
+      "src": "HST p2"
+     },
+     {
+      "code": "22S2201 / 22S2501 / 22S2801",
+      "desc": "chipboard screws",
+      "range": "same",
+      "src": "HST p2"
+     },
+     {
+      "code": "22S3501",
+      "desc": "Lever arm (2x), NI/ECS",
+      "range": "",
+      "src": "HST p3"
+     },
+     {
+      "code": "23.8001",
+      "desc": "SERVO-DRIVE cover cap left",
+      "range": "",
+      "src": "HST p3"
+     },
+     {
+      "code": "23.A001",
+      "desc": "Drive unit, TGR nylon; 3+ mechanisms two synchronised drive units; connected fronts one per set",
+      "range": "",
+      "src": "HST p3"
+     },
+     {
+      "code": "23P5020",
+      "desc": "SERVO-DRIVE switch 2x incl. battery",
+      "range": "",
+      "src": "HST p3"
+     },
+     {
+      "code": "993.0530 / 993.0830.01",
+      "desc": "Blum distance bumper dia5 / dia8 4x",
+      "range": "",
+      "src": "HST p3"
+     }
+    ],
+    "cabinet": {
+     "height_mm": "350-800",
+     "width_mm": "up to 1800",
+     "min_internal_depth_mm": 264,
+     "mechanism_width_standard_mm": 30,
+     "mechanism_width_servo_mm": 66,
+     "min_LH_mm": 307,
+     "drawn_dims_mm": "min 232, min 25, 141, 9.5, 216, 30, 66",
+     "cross_stabiliser": "not listed in HS top ordering info",
+     "src": "HST p2,p5"
+    },
+    "limits": {
+     "front_weight_FG_kg": "see codes; third mechanism FG +50%",
+     "servo_specific_change": "none stated",
+     "src": "HST p2"
+    },
+    "mounting": {
+     "cable_hole": {
+      "diameter_mm": 10,
+      "x_mm": 38.5,
+      "y_mm": 45,
+      "axes": "as HL/HF top",
+      "src": "HST p5, p8"
+     },
+     "mechanism_drilling_system_screws": {
+      "values_mm": "63, 64 (127), 101, 128, min 11.5, dia5",
+      "src": "HST p5"
+     },
+     "mechanism_drilling_chipboard": {
+      "values_mm": "52.5, 69, 121.5, 111, 11, 104.5, 11",
+      "src": "HST p5"
+     },
+     "bumpers": {
+      "dia_mm": 5,
+      "count": 4,
+      "positions": "8 mm offsets top and bottom; 8* from bottom for protruding fronts; min 10",
+      "src": "HST p7 (image)"
+     },
+     "switch": {
+      "drilling": "dia 35, 12+-0.3, depth 11 +0.5/0, centre min 30-max 90 from bottom",
+      "src": "HST p7 (image)"
+     },
+     "power_supply": "360 x 150 x 75, PSU 130 x 84 x 69, 30 mm",
+     "src": "HST p8"
+    },
+    "electrical": {
+     "drive_unit": "24.0 V DC, 2.0 A, standby <=0.15 W, S3 5%, IP20",
+     "src": "LEAF p21"
+    },
+    "behaviour": {
+     "as": "same as all tops",
+     "src": "LEAF p10-11"
+    },
+    "unreadable": []
+   },
+   {
+    "system": "AVENTOS HL (classic, not HL top)",
+    "variant": "SERVO-DRIVE for AVENTOS HL (old edition TD-036/1EN, 100 W transformer era)",
+    "codes": [
+     {
+      "code": "20L2101.05..20L2901.05",
+      "desc": "symmetrical lift mechanism 2x",
+      "range": "FG per cabinet height 300-349/350-399/400-550/450-580: 1.25-20.00 kg (table on HLC p2)",
+      "src": "HLC p2"
+     },
+     {
+      "code": "21L3201+20L3201.05, 21L3501+20L3501.05, 21L3801+20L3801.05, 21L3901+20L3901.05",
+      "desc": "SERVO-DRIVE lever arm left + lever arm right",
+      "range": "KH 300-349/350-399/400-550/450-580",
+      "src": "HLC p2"
+     },
+     {
+      "code": "21L8001 / 20L8001",
+      "desc": "SERVO-DRIVE cover cap large left / cover plate right",
+      "range": "",
+      "src": "HLC p2"
+     },
+     {
+      "code": "21P5020",
+      "desc": "SERVO-DRIVE switch 2x",
+      "range": "",
+      "src": "HLC p2"
+     },
+     {
+      "code": "21FA001 (pre-set HF) / 21LA001 (pre-set HL)",
+      "desc": "Drive unit RAL 7037 as printed in sheet; set 21FA000 = drive unit, 1500 mm cable, node, 2 end protectors in 2022 catalogue (same drive unit usable for HF/HS/HL classic per WEB)",
+      "range": "",
+      "src": "HLC p3; CAT22-39; CAT22-33; WEB"
+     },
+     {
+      "code": "21Q407MA.. 21Q1007MA, 20Q1061UA",
+      "desc": "oval cross stabiliser rod by width 600/800/900/1000/1200 etc.",
+      "range": "",
+      "src": "HLC p3"
+     }
+    ],
+    "cabinet": {
+     "min_depth_mm": 278,
+     "min_LH_mm": {
+      "21L3201": 262,
+      "21L3501": 312,
+      "21L3801": 362,
+      "21L3901": 412
+     },
+     "y_mm": {
+      "21L3201": 264,
+      "21L3501": 352,
+      "21L3801": 440,
+      "21L3901": 529
+     },
+     "cross_stabiliser": "yes: oval rod, length KB-193 mm (and/or inner width -155) with connecting piece from 1219 mm",
+     "src": "HLC p4"
+    },
+    "limits": {
+     "front_weight": "table of FG per mechanism / cabinet height (1.25-20.00 kg)",
+     "src": "HLC p2"
+    },
+    "mounting": {
+     "cable_hole": "dia10 hole (left side only, top panel); drawing dims 88, 37, 192, 45, 5, 15, 52 - roles not unambiguous, xy left null",
+     "xy": null,
+     "src": "HLC p4 (image)",
+     "switch": "dia35, 12+-0.3, 11+0.5/0, centre min30-max90",
+     "bumpers": "dia5 (dia8), 8 mm offsets",
+     "src2": "HLC p5"
+    },
+    "electrical": {
+     "old system: 100 W Blum transformer Z10NE050.01, only 1 per distribution cable; superseded by 72 W Z10NE04xx": true,
+     "src": "HLC p6"
+    },
+    "behaviour": {
+     "as": "same principle",
+     "src": "LEAF"
+    },
+    "unreadable": [
+     "Old sheet; current data are the 'top' sheets. Classic HF and classic HS SERVO-DRIVE planning sheets not obtained: CAT22-33/34 text pages give codes only (drawings not in text)",
+     "classic HL Ø10 xy not assignable"
+    ]
+   },
+   {
+    "system": "AVENTOS HF / HS (classic)",
+    "variant": "SERVO-DRIVE for AVENTOS HF/HS classic",
+    "codes": [
+     {
+      "code": "21FA000",
+      "desc": "SERVO-DRIVE set: drive unit, distribution cable 1500 mm, connecting node, 2 cable end protectors, R7037",
+      "range": "HS classic (cat p33); HF/HS/HL use same drive unit",
+      "src": "CAT22-33 p33; WEB"
+     }
+    ],
+    "cabinet": null,
+    "limits": null,
+    "mounting": null,
+    "electrical": {
+     "drive_unit": "21FA00x: 24.0 V DC, 2.0 A, standby <=0.22 W front closed, S3 5%, IP20, radio 2.404-2.452 GHz",
+     "src": "LEAF p21"
+    },
+    "behaviour": null,
+    "unreadable": [
+     "Cabinet requirements, weight limits, drilling for classic HF and HS SERVO-DRIVE: planning drawings are images not available in text; no PDF located (d2/hpponline not found) - all null",
+     "AVENTOS HK-S, HK-XS, HKi: not listed as SERVO-DRIVE-capable in sources read (WEB lists HK top, HF/HS/HL top and classic HF/HS/HL only)"
+    ]
+   }
+  ],
+  "drawers": [
+   {
+    "system": "LEGRABOX / MERIVOBOX / TANDEMBOX / MOVENTO / TANDEM",
+    "what": "SERVO-DRIVE drive unit with eject lever: pull or press on drawer front opens it a short distance",
+    "codes": [
+     {
+      "code": "Z10A3000.04",
+      "desc": "Drive unit incl. pre-assembled lever extension, TGR nylon",
+      "range": "",
+      "src": "CAT24-384; CAT24-464"
+     },
+     {
+      "code": "Z10A3000.50",
+      "desc": "Drive unit variant (electrical data listed together with .04)",
+      "range": "",
+      "src": "LEAF p22"
+     },
+     {
+      "code": "Z10D6252",
+      "desc": "Upper attachment bracket (steel) incl. pre-mounted adapter (LEGRABOX/TANDEMBOX)",
+      "range": "",
+      "src": "CAT24-384"
+     },
+     {
+      "code": "Z10A3006",
+      "desc": "Lever cap, SZ - required for height M and LW 267-286 mm (LEGRABOX steel back)",
+      "range": "",
+      "src": "CAT24-384"
+     },
+     {
+      "code": "Z10A3H00",
+      "desc": "Trigger guidance TGR - required for LW 242-316 mm (TANDEMBOX chipboard back)",
+      "range": "",
+      "src": "CAT24-384"
+     },
+     {
+      "code": "Z10D01E0.01 / Z10D01EA.01",
+      "desc": "Bracket profile attachment (horizontal / vertical crossbar) for MOVENTO|TANDEM",
+      "range": "",
+      "src": "CAT24-464"
+     },
+     {
+      "code": "Z10T650AA, Z10T700AA, Z10T710AA, Z10T750AA, Z10T800AA, Z10T1170A",
+      "desc": "Aluminium bracket profile with cable (650..800 mm) / without cable (1170 mm); length = internal height LH - 10 mm",
+      "range": "",
+      "src": "CAT24-464"
+     },
+     {
+      "code": "993.0530 / 993.0830.01",
+      "desc": "distance bumper dia5/dia8: 2 pcs up to front height 300 mm, 4 pcs from 301 mm",
+      "range": "",
+      "src": "CAT24-464"
+     }
+    ],
+    "electrical": "24.0 V DC, 2.0 A, standby <=0.15 W, S3 5% (10 motions/10 min), <70 dB(A), IP20, max altitude 4000 m",
+    "trigger": "distance bumpers give 2 mm trigger signal path; sensitivity selector (-) for top drawer of base cabinet under flush worktop; green LED steady = position correct, flashing = realign",
+    "src": "LEAF p16-17, p22"
+   },
+   {
+    "system": "SERVO-DRIVE flex (handle-less fridge/freezer/dishwasher doors)",
+    "codes": [
+     {
+      "code": "Z10C500x (Z10C5000.01, Z10C500A.01)",
+      "desc": "SERVO-DRIVE flex drive unit; Z10C5007 = wireless receiver (radio equipment type)",
+      "range": "",
+      "src": "LEAF p18, p22"
+     }
+    ],
+    "electrical": "24.0 V DC, 2.0 A, standby <=0.15 W (<=0.35 W with wireless receiver), S3 5%, IP20",
+    "behaviour": "press front -> door opens a crack; hold-open time 2.5 s (factory) / 4 s / 8 s then closes again if untouched",
+    "src": "LEAF p14-15, p22"
+   },
+   {
+    "system": "SERVO-DRIVE uno (bottom-mount waste bin)",
+    "codes": [
+     {
+      "code": "Z10UB00EA..EF, BA, BI, KI, NH, UG, UJ",
+      "desc": "SERVO-DRIVE uno set (drive unit + plug-in power supply), market/language codes",
+      "range": "",
+      "src": "CAT24-498"
+     }
+    ],
+    "electrical": null,
+    "unreadable": [
+     "electrical/weight data of uno not read (installation instruction kla0034 is image-based)"
+    ],
+    "src": "CAT24-498"
+   }
+  ],
+  "power": {
+   "types": {
+    "Z10NE040": {
+     "desc": "72 W power supply (mains unit)",
+     "input": "100-240 V AC, 50-60 Hz, 2.5 A",
+     "output": "24.0 V DC, 3.0 A, 72.0 W",
+     "efficiency": "avg active >=88.0 %, 10% load >=80.0 %",
+     "noload_W": "<=0.15",
+     "ambient": "operation 0..+40 C, 5-80 % r.H. non condensing; storage -30..+70 C; max altitude 4000 m",
+     "protection": "IP40 with cable end protector inserted",
+     "src": "LEAF p20"
+    },
+    "Z10NA40x": {
+     "desc": "plug-in power supply (24 W), only for one drive unit",
+     "input": "100-240 V AC, 50-60 Hz, 2.0 A",
+     "output": "24.0 V DC, 1.0 A, 24.0 W",
+     "efficiency": "avg >=86.4 %, 10% >=77.0 %",
+     "noload_W": "<=0.10",
+     "protection": "IP40 with cable end protector",
+     "note": "overall cable length must not exceed 2 m (x = B,E,H,K,N,R,S,U,Z)",
+     "src": "LEAF p4, p20"
+    },
+    "connecting_node_Z10V1000.01": {
+     "voltage": "24.0 V DC",
+     "current": "10.0 A",
+     "src": "LEAF p23"
+    }
+   },
+   "units_per_supply": {
+    "rule": "Fifty SERVO-DRIVE drive units per Blum transformer; one AVENTOS drive unit counts as three (about 3x the power of a drawer unit)",
+    "derived_max_AVENTOS_only": "16 (50 / 3 = 16.7, rounded down; derived, not printed by Blum)",
+    "US_set_note": "each 72 W supply can power up to 50 drawers with <150 ft cable (US sheet)",
+    "only_one_supply_per_distribution_cable": true,
+    "src": "EA; US-PS p1; HKT p13 (info box)"
+   },
+   "cable": {
+    "set_distribution_cable_mm": 1500,
+    "flex_length": "1.5-1.8 m incl. plug (HL top sheet, 04.26); old 2022 catalogue: 2 m",
+    "plug_in_cable_mm": "1120 (max 2000 total)",
+    "max_total_distribution_cable_length": null,
+    "reason_null": "no maximum run length for distribution cable found in the documents read",
+    "src": "HLT p4; CAT22-39; LEAF p4"
+   },
+   "safety": [
+    "30 mm free air gap round power supply (overheating)",
+    "only one power supply per distribution cable",
+    "connect to switched outlet recommended; indoor dry rooms only",
+    "PSU must be accessible; no cable contact with moving parts; earthed outlet",
+    "SELV, protection class III drive units",
+    "switch coin cell CR2032 - swallowing hazard",
+    "collision avoidance function must be activated on both drive units for fronts over a corner / above each other (machine directive notes)",
+    "distance bumpers mandatory on front; 2 mm trigger path",
+    "furniture must be fixed to wall; machine directive: domestic furniture not subject to 2006/42/EC, but CE marking etc. required for office/professional use"
+   ],
+   "src": "LEAF p3-8; MD p1-2; WEB"
+  },
+  "power_codes": [
+   {
+    "code": "Z10NE04xx",
+    "desc": "SERVO-DRIVE power supply unit (type Z10NE040, 72 W) incl. flex and operating/installation instructions; xx = market + language package (E,B,H,I,K,N,R,S,T,U,Z x A..K)",
+    "range": "all AVENTOS top",
+    "src": "HLT p4; HST p4; HFT p7 (only Z10NE04KI listed); HKT p4 (only Z10NE04KI)"
+   },
+   {
+    "code": "Z10NE04EA..EF, EI",
+    "desc": "Europe, language pkg A DE/EN/FR/IT/NL; B DA/EN/FI/NO/SV; C EL/EN/HR/SR/SL/TR; D EN/ES/FR/IT/PT; E CS/HU/PL/SK; F BG/ET/LV/LT/RO/RU/UK; I EN",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04BA, Z10NE04BI",
+    "desc": "UK",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04HI",
+    "desc": "India",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04IA",
+    "desc": "Israel (IA)",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04KI",
+    "desc": "Australia, EN",
+    "range": "",
+    "src": "HLT p4; HKT p4; HFT p7"
+   },
+   {
+    "code": "Z10NE04NH",
+    "desc": "China, EN/ZH/KO",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04RH",
+    "desc": "Korea, EN/ZH/KO",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04SK",
+    "desc": "Brazil, EN/ES/PT",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04TH",
+    "desc": "Taiwan, EN/ZH/KO",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04UG, Z10NE04UJ",
+    "desc": "US|CA|JP: UG EN/ES/FR; UJ JA",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NE04ZI",
+    "desc": "South Africa, EN",
+    "range": "",
+    "src": "HLT p4"
+   },
+   {
+    "code": "Z10NG120",
+    "desc": "Power supply unit housing (panel fixing), nylon, white grey WGR",
+    "range": "",
+    "src": "HLT p4; HST p4; HKT p4; HFT p7"
+   },
+   {
+    "code": "Z10NA40xx",
+    "desc": "SERVO-DRIVE plug-in power supply unit (24 W), only for ONE drive unit, 1120 mm cable (total with distribution cable extendible to max 2000 mm); 'available on request' (marked phone symbol). Listed codes: EA,EB,EC,ED,EE (Europe pkg A-E), EF, BA, KI, NH, UG",
+    "range": "HL top, HS top (listed); not listed in HK top/HF top AU sheets",
+    "src": "HLT p4; HST p4; LEAF p4 (cable must not exceed 2 m overall)"
+   },
+   {
+    "code": "Z10K600A",
+    "desc": "SERVO-DRIVE distribution cable, black SZ, 6 m (1/10 x 6 m), for cutting to size",
+    "range": "HL top, HS top",
+    "src": "HLT p4; HST p4"
+   },
+   {
+    "code": "Z10K1HMA",
+    "desc": "SERVO-DRIVE distribution cable, black SZ, 100 m reel, for cutting to size",
+    "range": "HL top, HS top",
+    "src": "HLT p4; HST p4"
+   },
+   {
+    "code": "Z10K800AE",
+    "desc": "Distribution cable 8 m + 5 x cable end protector (set), for cutting to size; can also be distribution/bracket-profile/communication cable (drawers)",
+    "range": "HK top, HF top (+drawers)",
+    "src": "HKT p4; HFT p7; CAT24-384"
+   },
+   {
+    "code": "Z10V1000.01",
+    "desc": "Connecting node, black SZ, nylon",
+    "range": "HL top, HS top",
+    "src": "HLT p4; HST p4"
+   },
+   {
+    "code": "Z10V100E.01",
+    "desc": "Connecting node + 2 x cable end protector (set), black",
+    "range": "HK top, HF top (+drawers)",
+    "src": "HKT p4; HFT p7; CAT24-384"
+   },
+   {
+    "code": "Z10K0008",
+    "desc": "Cable end protector, RAL 7037 dust grey",
+    "range": "HL top, HS top",
+    "src": "HLT p4; HST p4"
+   },
+   {
+    "code": "Z10K0009",
+    "desc": "Cable holder, white WS, nylon (e.g. to fix distribution cable)",
+    "range": "all",
+    "src": "HLT p4; HST p4; HKT p4; HFT p7"
+   },
+   {
+    "code": "23P5216",
+    "desc": "SERVO-DRIVE switch attachment, 2x, SW/HGR/TGR, nylon: attaches switch to cabinet side WITHOUT milling",
+    "range": "HL top, HS top",
+    "src": "HLT p4; HST p4"
+   },
+   {
+    "code": "Z10NE04UG22",
+    "desc": "US power supply set: 72 W power supply, 19 ft (about 5.8 m) universal cable, wall mount bracket, 2-prong cord, INSERTA cable connector, 3 x cable end protector, 10 cable clips, template, instructions",
+    "range": "US market",
+    "src": "US-PS p1"
+   },
+   {
+    "code": "Z10NE030A..H,J",
+    "desc": "OLD 24 W SERVO-DRIVE power supply unit (no flex), language pkgs A-H,J (superseded by 72 W Z10NE04xx in 2024+ docs)",
+    "range": "2022 catalogue (classic HL/HS)",
+    "src": "CAT22-39; CAT22-33"
+   },
+   {
+    "code": "Z10M200E/C/U/J/B/D/I/K/S/S.01/N/A/H/L/T/Z, Z10M200E.OS, Z10M200U.OS",
+    "desc": "OLD flex (mains cable) 2 m incl. plug, market specific, also without plug (.OS); E=Europe C=CH U=US/CA J=JP B=UK D=DK I=IL K=AU S=BR N=CN A=AR H=IN L=CL T=TW Z=ZA",
+    "range": "2022 catalogue / classic HL sheet",
+    "src": "HLC p6; CAT22-39"
+   },
+   {
+    "code": "Z10NA30xxF (EAF,EBF,ECF,EDF,EEF,EFF,BAF,KDF,UGF)",
+    "desc": "OLD 12 W plug-in power supply, only one drive unit, cable 1120 mm (max 2000 mm with distribution cable); superseded by Z10NA40x (24 W)",
+    "range": "2022 catalogue",
+    "src": "CAT22-39"
+   },
+   {
+    "code": "Z10NG100",
+    "desc": "OLD transformer unit housing for 100 W transformer, RAL 7037",
+    "range": "classic HL sheet",
+    "src": "HLC p6"
+   },
+   {
+    "code": "Z10NE050.01",
+    "desc": "OLD Blum transformer 100 W, only 1 per distribution cable",
+    "range": "classic HL sheet",
+    "src": "HLC p6"
+   }
+  ],
+  "notes": [
+   "Mechanical limits of the SERVO-DRIVE variants use the SAME lift mechanism sets and weight/power-factor ranges as the standard AVENTOS top sheets; no SERVO-DRIVE-specific weight change is printed.",
+   "Main difference for planning: mechanism width 30 -> 66 mm (HK top 67 mm) and HK top internal depth 187 -> 235 mm (261 with visible wall hanging bracket).",
+   "HK top and HF top sheets read are Australian editions (-AA); HL top and HS top are global EN 04.26 editions; codes could differ per market.",
+   "Opening: touch/press front. Closing: SERVO-DRIVE switch (wireless 2.4 GHz, CR2032) or manual; no 'auto-close' timer for AVENTOS is documented (only flex has hold-open time).",
+   "Ø10 cable hole axes (X from side panel, Y from top underside) read from HF top detail drawing HFT p13 (image) and applied to HL/HS/HK by analogy: verify before use as machine data."
+  ]
+ }
+}

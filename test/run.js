@@ -2894,6 +2894,16 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.16: 3D — cutia usii are sub:'lift' si se deschide fara eroare", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img) && buildModule(c).boxes.some(b => b.sub === "lift"); } catch (e) { return false; } }));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
+    ok("U.16: deschiderea electrică se vede numai la sistemele cu SERVO-DRIVE (Hettich: ascunsă)", await pg.evaluate(() => $("rowLiftElec").style.display === "none"));
+    await pg.selectOption("#bLift", "blum_hk_top"); await pg.waitForTimeout(150);
+    ok("U.16: la Blum HK top apare «Electrică — SERVO-DRIVE»", await pg.evaluate(() => $("rowLiftElec").style.display !== "none"));
+    await pg.selectOption("#bLiftElec", "servo"); await pg.waitForTimeout(200);
+    const se = await pg.evaluate(() => { const c = cfgFromForm(); const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...c, name: "Lf2" });
+      const items = computeHardware(p, state.settings), g = k => (items.find(i => i.k === k) || {}).qty || 0;
+      return { elec: c.liftElec, drv: g("hwLiftDrv"), psu: g("hwLiftPsu"), sw: g("hwLiftSw"), hint: $("liftElecHint").style.display !== "none" }; });
+    ok("U.16: SERVO-DRIVE în cfg și deviz: o unitate, un comutator pe ușă, un alimentator pe corp", se.elec === "servo" && se.drv === 1 && se.sw === 1 && se.psu === 1 && se.hint, JSON.stringify(se));
+    await pg.selectOption("#bLift", "het_la_hk"); await pg.waitForTimeout(150);
+    ok("U.16: schimbat pe Hettich, opțiunea electrică dispare din cfg", await pg.evaluate(() => cfgFromForm().liftElec === null));
     await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
     ok("U.16: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }

@@ -429,7 +429,29 @@
     "bodyW": 30
    },
    "src": "Blum TD-157/1 (HK top), p2–8",
-   "verificat": false
+   "verificat": false,
+   "servo": {
+    "depthMin": 235,
+    "depthMinWallBracket": 261,
+    "bodyW": 67,
+    "drv": "blum_servo_hk",
+    "codes": {
+     "drive": "23KA000",
+     "cap": "23K8000",
+     "switch": "23P5020",
+     "psu": "Z10NE04xx (72 W, 24 V DC, 3,0 A)"
+    },
+    "cableHole": {
+     "dia": 10,
+     "x": 38.5,
+     "y": 82
+    },
+    "unitsPerSupply": 16,
+    "src": "Blum TD-157/1 (HK top), SERVO-DRIVE"
+   },
+   "notes": [
+    "SERVO-DRIVE: aceleași seturi și intervale de greutate ca la AVENTOS standard; se schimbă lățimea mecanismului (30 → 66/67 mm) și, la HK top, adâncimea minimă (187 → 235 mm). 16 unități AVENTOS pe alimentator = calcul 50/3 (Blum dă 50 de unități, una AVENTOS = 3), nu cifră tipărită."
+   ]
   },
   {
    "key": "blum_hf_top",
@@ -569,7 +591,40 @@
     "bodyW": 30
    },
    "src": "Blum TD-154/1 (HF top), p2–10",
-   "verificat": false
+   "verificat": false,
+   "servo": {
+    "depthMin": 264,
+    "depthMinWallBracket": null,
+    "bodyW": 66,
+    "drv": "blum_servo_hf",
+    "codes": {
+     "drive": "23.A000",
+     "cap": "23.8000",
+     "switch": "23P5020",
+     "psu": "Z10NE04xx (72 W, 24 V DC, 3,0 A)"
+    },
+    "cableHole": {
+     "dia": 10,
+     "x": 38.5,
+     "yByKH": [
+      [
+       480,
+       519,
+       102
+      ],
+      [
+       520,
+       1200,
+       124
+      ]
+     ]
+    },
+    "unitsPerSupply": 16,
+    "src": "Blum TD-154/1 (HF top), SERVO-DRIVE"
+   },
+   "notes": [
+    "SERVO-DRIVE: aceleași seturi și intervale de greutate ca la AVENTOS standard; se schimbă lățimea mecanismului (30 → 66/67 mm) și, la HK top, adâncimea minimă (187 → 235 mm). 16 unități AVENTOS pe alimentator = calcul 50/3 (Blum dă 50 de unități, una AVENTOS = 3), nu cifră tipărită."
+   ]
   },
   {
    "key": "blum_hl_top",
@@ -743,10 +798,30 @@
     }
    },
    "notes": [
-    "Peste lățime interioară 1190 mm (corp 1228 mm) se recomandă stabilizator transversal (S5 p3,p7)."
+    "Peste lățime interioară 1190 mm (corp 1228 mm) se recomandă stabilizator transversal (S5 p3,p7).",
+    "SERVO-DRIVE: aceleași seturi și intervale de greutate ca la AVENTOS standard; se schimbă lățimea mecanismului (30 → 66/67 mm) și, la HK top, adâncimea minimă (187 → 235 mm). 16 unități AVENTOS pe alimentator = calcul 50/3 (Blum dă 50 de unități, una AVENTOS = 3), nu cifră tipărită."
    ],
    "src": "Blum TD-145/3 (HL top), p2–7",
-   "verificat": false
+   "verificat": false,
+   "servo": {
+    "depthMin": 264,
+    "depthMinWallBracket": null,
+    "bodyW": 66,
+    "drv": "blum_servo_unit",
+    "codes": {
+     "drive": "23.A001",
+     "cap": "23.8001",
+     "switch": "23P5020",
+     "psu": "Z10NE04xx (72 W, 24 V DC, 3,0 A)"
+    },
+    "cableHole": {
+     "dia": 10,
+     "x": 38.5,
+     "y": 71
+    },
+    "unitsPerSupply": 16,
+    "src": "Blum TD-145/3 (HL top), SERVO-DRIVE"
+   }
   },
   {
    "key": "blum_hs_top",
@@ -867,7 +942,29 @@
     "bodyW": 30
    },
    "src": "Blum TD-144/4 (HS top), p2–6",
-   "verificat": false
+   "verificat": false,
+   "servo": {
+    "depthMin": 264,
+    "depthMinWallBracket": null,
+    "bodyW": 66,
+    "drv": "blum_servo_unit",
+    "codes": {
+     "drive": "23.A001",
+     "cap": "23.8001",
+     "switch": "23P5020",
+     "psu": "Z10NE04xx (72 W, 24 V DC, 3,0 A)"
+    },
+    "cableHole": {
+     "dia": 10,
+     "x": 38.5,
+     "y": 45
+    },
+    "unitsPerSupply": 16,
+    "src": "Blum TD-144/4 (HS top), SERVO-DRIVE"
+   },
+   "notes": [
+    "SERVO-DRIVE: aceleași seturi și intervale de greutate ca la AVENTOS standard; se schimbă lățimea mecanismului (30 → 66/67 mm) și, la HK top, adâncimea minimă (187 → 235 mm). 16 unități AVENTOS pe alimentator = calcul 50/3 (Blum dă 50 de unități, una AVENTOS = 3), nu cifră tipărită."
+   ]
   }
  ]
 }

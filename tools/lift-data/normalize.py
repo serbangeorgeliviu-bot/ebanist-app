@@ -158,6 +158,26 @@ het_out = {"brand": "Hettich", "sources": het["sources"], "systems": [
 for s in het_out["systems"]:
     s["notes"] = (s.get("notes") or []) + ["Prinderea în corp: găuri Ø5×12; poziția exactă (reperul cotelor) nu e confirmată în sursă."]
 
+
+# ---------------------------------------------------------------- Blum SERVO-DRIVE (electrical motion support)
+srv = raw("lift-blum-servo.json")
+SV = {a["system"].split()[1] + " " + a["system"].split()[2]: a for a in srv["servo"]["aventos"] if "top" in a["system"] and "classic" not in a["system"]}
+def servo(key, desc, drv, depth, bodyW, cap, hole, src, wall=None):
+    return {"key": key, "servo": {"depthMin": depth, "depthMinWallBracket": wall, "bodyW": bodyW, "drv": drv,
+            "codes": {"drive": desc, "cap": cap, "switch": "23P5020", "psu": "Z10NE04xx (72 W, 24 V DC, 3,0 A)"},
+            "cableHole": hole, "unitsPerSupply": 16, "src": src}}
+SERVO = [
+ servo("blum_hk_top", "23KA000", "blum_servo_hk", 235, 67, "23K8000", {"dia": 10, "x": 38.5, "y": 82}, "Blum TD-157/1 (HK top), SERVO-DRIVE", wall=261),
+ servo("blum_hf_top", "23.A000", "blum_servo_hf", 264, 66, "23.8000", {"dia": 10, "x": 38.5, "yByKH": [[480, 519, 102], [520, 1200, 124]]}, "Blum TD-154/1 (HF top), SERVO-DRIVE"),
+ servo("blum_hl_top", "23.A001", "blum_servo_unit", 264, 66, "23.8001", {"dia": 10, "x": 38.5, "y": 71}, "Blum TD-145/3 (HL top), SERVO-DRIVE"),
+ servo("blum_hs_top", "23.A001", "blum_servo_unit", 264, 66, "23.8001", {"dia": 10, "x": 38.5, "y": 45}, "Blum TD-144/4 (HS top), SERVO-DRIVE"),
+]
+for sv in SERVO:
+    for sysd in blum_out["systems"]:
+        if sysd["key"] == sv["key"]:
+            sysd["servo"] = sv["servo"]
+            sysd.setdefault("notes", []).append("SERVO-DRIVE: aceleași seturi și intervale de greutate ca la AVENTOS standard; se schimbă lățimea mecanismului (30 → 66/67 mm) și, la HK top, adâncimea minimă (187 → 235 mm). 16 unități AVENTOS pe alimentator = calcul 50/3 (Blum dă 50 de unități, una AVENTOS = 3), nu cifră tipărită.")
+
 for name, o in (("blum", blum_out), ("hettich", het_out)):
     json.dump(o, open(os.path.join(here, name + ".json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(name, [s["key"] for s in o["systems"]])

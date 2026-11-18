@@ -10,7 +10,7 @@
  *     kh   înălțimea interioară a corpului, mm (cota din tabelele producătorilor)
  *     h, w înălțimea și lățimea frontului, mm
  *     kg   greutatea frontului (cu mâner), kg
- *     wi   lățimea interioară, mm · depth adâncimea interioară, mm
+ *     wi   lățimea interioară, mm · depth adâncimea interioară, mm · servo true = cu SERVO-DRIVE (Blum)
  *   issues[] = { k: "kh"|"w"|"kg"|"hi"|"wi"|"depth", v, lo, hi }   (cele din afara limitelor citite)
  *   power    = { code, desc, kind } sau null (nicio variantă de forță nu acoperă ușa)
  */
@@ -35,7 +35,8 @@
     if (L.kg && d.kg) chk("kg", d.kg, L.kg[0], L.kg[1]);
     if (L.hiMin != null && d.kh > 0 && d.kh < L.hiMin) out.push({ k: "hi", v: d.kh, lo: L.hiMin, hi: null });
     if (L.wiMin != null && d.wi > 0 && d.wi < L.wiMin) out.push({ k: "wi", v: d.wi, lo: L.wiMin, hi: null });
-    if (L.depthMin != null && d.depth > 0 && d.depth < L.depthMin) out.push({ k: "depth", v: d.depth, lo: L.depthMin, hi: null });
+    var dmin = (d.servo && sys.servo && sys.servo.depthMin != null) ? sys.servo.depthMin : L.depthMin;   // cu SERVO-DRIVE spațiul cerut crește (Blum HK top: 187 → 235 mm)
+    if (dmin != null && d.depth > 0 && d.depth < dmin) out.push({ k: "depth", v: d.depth, lo: dmin, hi: null });
     return out;
   }
 

@@ -17,6 +17,7 @@ const E = require("./engine.js");
 const S = E.appEngine(), MM = E.MM;
 ["ebanist-lift-data.js", "ebanist-liftfit.js", "ebanist-ops.js"].forEach(f => vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", f), "utf8"), S, { filename: f }));
 const J = x => JSON.stringify(x);
+const LF = vm.runInContext("EBLiftFit", S);
 
 function build(cfg) {
   S.state.settings = { panelL: 2800, panelW: 2070, kerf: 4, matBody: "__b", matFront: "__b", matBack: "__b",
@@ -95,5 +96,28 @@ describe("Limite și avertismente", () => {
     const g = build({ lift: "blum_hk_top", fold: 2, H: 1200, L: 1200, doors: 1 });
     assert.equal(rows(g, /basculante/i).length, 0);
     assert.ok(warn(g).some(w => w.k === "front"));
+  });
+});
+
+describe("SERVO-DRIVE (Blum, deschidere electrică)", () => {
+  test("cu servo adâncimea minimă crește (HK top 187 → 235 mm): avertisment pe un corp de 220 mm adâncime", () => {
+    const base = build({ lift: "blum_hk_top", P: 230 }), el = build({ lift: "blum_hk_top", liftElec: "servo", P: 230 });
+    const dep = r => warn(r).some(w => w.k === "range" && w.what === "depth");
+    assert.equal(dep(base), false); assert.equal(dep(el), true, J(warn(el)));
+  });
+  test("3D: corpul mecanismului ia lățimea și adâncimea din fișa SERVO-DRIVE", () => {
+    const l = build({ lift: "blum_hk_top", liftElec: "servo", P: 300 }).b.boxes.find(x => x.sub === "lift").lift;
+    assert.equal(l.servo, true); assert.equal(l.bodyW, 67); assert.equal(l.depthMin, 235);
+    assert.equal(build({ lift: "blum_hk_top" }).b.boxes.find(x => x.sub === "lift").lift.servo, false);
+  });
+  test("un sistem fără SERVO-DRIVE în surse rămâne mecanic, cu avertisment", () => {
+    const r = build({ lift: "het_la_hk", liftElec: "servo" });
+    assert.ok(warn(r).some(w => w.k === "noservo")); assert.equal(r.b.boxes.find(x => x.sub === "lift").lift.servo, false);
+  });
+  test("datele: patru sisteme Blum top au servo; cota Ø10 și codurile din sursă", () => {
+    const withS = LF.list().filter(s => s.servo).map(s => s.key).sort();
+    assert.equal(J(withS), J(["blum_hf_top", "blum_hk_top", "blum_hl_top", "blum_hs_top"]));
+    assert.equal(LF.get("blum_hk_top").servo.cableHole.y, 82);
+    assert.equal(LF.get("blum_hk_top").servo.codes.drive, "23KA000");
   });
 });
