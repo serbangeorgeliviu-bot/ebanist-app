@@ -1265,8 +1265,9 @@ function buildHardware(model) {
     } else if (h.type === "guida") {
       /* culisantă ascunsă: șina corpului (profil C pe lateral, rolă, fixare în
          spate) rămâne pe loc; alergătorul cu clemă de față merge cu sertarul */
-      const w = h.w, s = h.side < 0 ? 1 : -1, y = w[1], z1 = w[2], zf = z1 - h.len, gid = hwId("guida");
-      const side = gid === "blum_230m" || gid === "haf_ball", movento = gid === "blum_movento";
+      const w = h.w, s = h.side < 0 ? 1 : -1, y = w[1], z1 = w[2], zf = z1 - h.len, gid = (typeof EBDrawersMore === "object" && EBDrawersMore && EBDrawersMore.kind(h.catalog)) ? h.catalog : hwId("guida");
+      /* glisierele laterale din ebanist-drawers-more.js (Actro, Quadro, Nova Pro, Accuride) se desenează ca șină laterală cu role; cele ascunse (Dynapro, Matrix UM) ca cele Blum — schematic, fără cote de profil din sursă */
+      const side = gid === "blum_230m" || gid === "haf_ball" || (typeof EBDrawersMore === "object" && EBDrawersMore && EBDrawersMore.kind(gid) === "side"), movento = gid === "blum_movento";
       const X = (a, b) => [w[0] + s * a, w[0] + s * b].sort((u, v) => u - v);
       const bx = (m, xa, xb, ya, yb, za, zb, G) => { const x = X(xa, xb); (G || P.hw).add(tag(box(m, [x[0], y + ya, za], [x[1], y + yb, zb]))); };
       bx("__zinc", 0, 1.8, -10, 26, zf + 6, z1 - 6);              // placa de fixare pe lateral

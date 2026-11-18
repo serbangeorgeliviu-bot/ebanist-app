@@ -3139,6 +3139,71 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.17: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* Sisteme de sertar Hettich / GRASS (ebanist-drawers-more.js) si glisiere pentru sertar din lemn */
+  {
+    const J2 = x => JSON.stringify(x);
+    head("Sisteme de sertar Hettich / GRASS — selectie, distinta, deviz, fisa, 3D, avertismente (drawers-more)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.cassettiera, name: "Dm1", L: 600, H: 720, P: 560, drawers: 3, drawerSys: "legno", plinth: 100 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("drawers-more: selectorul de sisteme are cele 5 sisteme noi, înaintea lui «nessuno»", await pg.evaluate(() => {
+      const v = [...$("bDrawSys").options].map(o => o.value); const i = v.indexOf("nessuno");
+      return ["het_avantech", "het_arcitech", "gr_nps", "gr_v8", "gr_v13"].every(k => v.indexOf(k) >= 0 && v.indexOf(k) < i) && v.indexOf("het_atira") < 0 && v[0] === "legno" && v.slice(0, 4).join() === "legno,legrabox,tandembox,matrix"; }));
+    ok("drawers-more: implicit sertarul din lemn, ca înainte (nicio cheie nouă în cfg)", await pg.evaluate(() => cfgFromForm().drawerSys === "legno" && !buildModule(cfgFromForm()).draw.mo));
+    await pg.selectOption("#bDrawSys", "het_avantech"); await pg.waitForTimeout(250);
+    ok("drawers-more: AvanTech YOU — înălțimile din sursă (fără H77), cu cota lor", await pg.evaluate(() => {
+      const o = [...$("bDrawH").options].map(x => x.value).filter(Boolean); return o.join() === "101,139,187,251" && $("rowDrawH").style.display !== "none"; }));
+    const a1 = await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), p = b.draw;
+      const f = b.pieces.find(x => /^Fondo cassetto/.test(x.elemento)), r = b.pieces.find(x => /^Retro cassetto/.test(x.elemento));
+      return { sys: c.drawerSys, ok: p.ok, nl: p.nl, h: p.hcode, fl: f.lung, fa: f.larg, rl: r.lung, rh: r.larg, side: b.pieces.filter(x => /^Fianco cassetto/.test(x.elemento)).length, LW: 600 - 2 * 19 }; });
+    ok("drawers-more: AvanTech — fund LW−24 × NL−21, spate LW−24 × înălțimea din tabel, laterale cumpărate", a1.sys === "het_avantech" && a1.ok && a1.fl === a1.LW - 24 && a1.fa === a1.nl - 21 && a1.rl === a1.LW - 24 && a1.rh === ({ 101: 54, 139: 92, 187: 141, 251: 205 })[a1.h] && a1.side === 0, JSON.stringify(a1));
+    await pg.selectOption("#bDrawSys", "het_arcitech"); await pg.waitForTimeout(200);
+    const a2 = await pg.evaluate(() => { const b = buildModule(cfgFromForm()), p = b.draw, f = b.pieces.find(x => /^Fondo cassetto/.test(x.elemento)); return { ok: p.ok, bw: p.baseW, nl: p.nl, fl: f.lung, fa: f.larg }; });
+    ok("drawers-more: ArciTech pe 19 mm — fund LW − 2·12 − 52,5 (EB după grosime), lungime NL − 24,5", a2.ok && Math.abs(a2.bw - (562 - 76.5)) < 0.05 && a2.fl === Math.round(562 - 76.5) && a2.fa === Math.round(a2.nl - 24.5), JSON.stringify(a2));
+    await pg.selectOption("#bDrawSys", "gr_nps"); await pg.waitForTimeout(200);
+    const g1 = await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), p = b.draw; return { ok: p.ok, h: p.hcode, nl: p.nl, th: p.warn.some(w => w.k === "wDrawMoreTh"), hint: $("angHint").textContent }; });
+    ok("drawers-more: Nova Pro Scala pe 19 mm — planul stă în picioare cu avertismentul «cote pentru PAL de 16 mm»", g1.ok && g1.th && /16/.test(g1.hint), JSON.stringify(g1));
+    /* Nova Pro Scala H63 există numai la NL 400–550: pe un corp puțin adânc se cere și se refuză cu avertisment */
+    await pg.evaluate(() => { buildCfg = { ...buildCfg, P: 340, drawerH: "63" }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.selectOption("#bDrawSys", "gr_nps"); await pg.selectOption("#bDrawH", "63"); await pg.waitForTimeout(250);
+    ok("drawers-more: H63 cerută la NL 300 — avertisment «nu există la NL» și altă înălțime", await pg.evaluate(() => { const p = buildModule(cfgFromForm()).draw; return p.nl === 300 && p.warn.some(w => w.k === "wDrawMoreNLH") && p.hcode !== "63" && /300/.test($("angHint").textContent); }));
+    await pg.evaluate(() => { buildCfg = { ...buildCfg, P: 560, drawerH: null }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.selectOption("#bDrawSys", "het_avantech"); await pg.waitForTimeout(250);
+    /* deviz: o pereche de glisiere si un set de laterale pe sertar, articolele lor */
+    const hw = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Dm1" });
+      const items = computeHardware(p, state.settings), g = items.filter(i => i.k === "hwGuida"), z = items.filter(i => i.k === "hwZarga");
+      const o = { g: g.map(i => [i.prod && i.prod.id, i.qty]), z: z.map(i => [i.prod && i.prod.id, i.qty]) };
+      try { o.mont = montDoc(p); } catch (e) { o.err = String(e); }
+      try { setView("summary"); o.sum = true; setView("build"); } catch (e) { o.err = String(e); }
+      return o; });
+    ok("drawers-more: deviz — 3 perechi Actro YOU și 3 seturi de laterale AvanTech (cu articolul lor)", J2(hw.g) === '[["het_actro_you",3]]' && J2(hw.z) === '[["het_avantech_zarga",3]]', J2(hw));
+    ok("drawers-more: «Montaj» — adâncimea minimă NL+3, glisiera, fixarea frontului; rezumatul fără erori", !hw.err && hw.sum === true && /503|NL \+ 3/.test(hw.mont || "") && /Actro YOU/.test(hw.mont) && /Practica 250/.test(hw.mont), (hw.err || "") + String(hw.mont).slice(0, 80));
+    ok("drawers-more: articolele noi se văd în Catalog (guide și laterale), cu «de verificat»", await pg.evaluate(() => HWDB.guida.some(x => x.id === "het_actro_you" && x.chk) && HWDB.zarga.some(x => x.id === "gr_v13_zarga" && x.chk) && HWDB.guida.length >= 9 + 3));
+    /* găurire: nicio gaură de glisieră, avertisment (nu pozițiile Blum 37/261/453) */
+    const op = await pg.evaluate(() => { const c = cfgFromForm(), n = opsNotesOf(c), b = buildModule(c); const G = deriveCarcass(carcassParams(c, {}));
+      const ops = generateOperations({ boxes: b.boxes, cfg: c, G });
+      return { notes: n.map(w => w.k), holes: ops.pieces.reduce((a, p) => a + (p.operations || []).filter(x => /guida/i.test(x.note || "")).length, 0), txt: n.length ? t(n[0].k).replace("{g}", n[0].g) : "" }; });
+    ok("drawers-more: găurire — nicio gaură de glisieră inventată, avertismentul cu numele glisierei", op.holes === 0 && op.notes.includes("opsDrawMoreNoHoles") && /Actro YOU/.test(op.txt), JSON.stringify(op));
+    /* 3D: cutiile, laterale metalice, glisiera în hardware */
+    ok("drawers-more: 3D — laterale metalice, fund și spate, glisiera Actro desenată", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 220, h: 160 }); const bs = buildModule(c).boxes;
+      return !!(r && r.img) && bs.filter(b => b.role === "cassetto_metallo").length === 6 && bs.filter(b => b.role === "cassetto_fondo" && b.sub === "dbox").length === 3; } catch (e) { return false; } }));
+    /* sertar din lemn pe glisiera Dynapro: LW−42, NL−10 */
+    await pg.selectOption("#bDrawSys", "legno"); await pg.waitForTimeout(150);
+    const wd = await pg.evaluate(() => { const keep = state.settings.hwProd.guida; state.settings.hwProd.guida = "gr_dynapro"; let o;
+      try { const b = buildModule(cfgFromForm()), p = b.draw, f = b.pieces.find(x => /^Fianco cassetto/.test(x.elemento)); o = { ok: p.ok, ded: p.ded, bw: p.boxW, nl: p.nl, sl: f && f.lung, mo: p.mo && p.mo.kind }; } finally { state.settings.hwProd.guida = keep; } return o; });
+    ok("drawers-more: sertar din lemn pe Dynapro — lățime LW−42, lungime NL−10", wd.ok && wd.ded === 42 && wd.bw === 562 - 42 && wd.sl === wd.nl - 10 && wd.mo === "wood", J2(wd));
+    const wq = await pg.evaluate(() => { const keep = state.settings.hwProd.guida; state.settings.hwProd.guida = "het_quadro_v6"; let o;
+      try { const b = buildModule(cfgFromForm()); o = { ok: b.draw.ok, k: b.draw.warn.map(w => w.k), rows: b.pieces.filter(x => /^Fianco cassetto/.test(x.elemento)).length, hint: ""}; drawPreview(); o.hint = $("angHint").textContent; } finally { state.settings.hwProd.guida = keep; } return o; });
+    ok("drawers-more: Quadro V6 pe lemn — fără formulă în sursă: avertisment, nu o cotă ghicită", wq.ok === 0 && wq.k.includes("wDrawMoreNoDed") && wq.rows === 0, J2(wq));
+    /* texte în toate limbile */
+    ok("drawers-more: textele noi în toate cele 7 limbi", await pg.evaluate(() => { const keep = state.lang, ks = ["wDrawMoreKD", "wDrawMoreMinW", "wDrawMoreMinBox", "wDrawMoreTh", "wDrawMoreNoRear", "wDrawMoreNoDed", "wDrawMoreSideTh", "wDrawMoreNLH", "opsDrawMoreNoHoles", "dwMoreDepth", "dwMoreSlide", "dwMoreSides", "dwMoreFront", "dwMoreHoles", "fx_screw", "fx_hook"];
+      const r = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => { state.lang = l; return ks.every(k => t(k) !== k && t(k).length > 3); }); state.lang = keep; return r; }));
+    /* proiectul se salvează și se reîncarcă cu sistemul ales */
+    ok("drawers-more: proiectul cu sistemul nou se reconstruiește identic din cfg salvat", await pg.evaluate(() => { const c = { ...cfgFromForm(), drawerSys: "gr_v8", name: "Dm2", drawers: 2 }; const a = JSON.stringify(buildModule(JSON.parse(JSON.stringify(c))).pieces), b = JSON.stringify(buildModule(c).pieces); return a === b && a.indexOf("Fondo cassetto") > 0; }));
+    await pg.evaluate(async () => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; buildCfg = { ...PRESETS.base }; syncBuildForm(); drawPreview(); await new Promise(r => setTimeout(r, 700)); HIST.undo = []; HIST.redo = []; HIST.cur = null; HIST.name = null; histSync(); });
+    ok("drawers-more: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");

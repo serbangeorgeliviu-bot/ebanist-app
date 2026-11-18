@@ -1013,7 +1013,7 @@ function generate1(input) {
   }
 
   /* --- 5. cassetti: frontale (maniglia) e guide sui pannelli di fianco ----- */
-  var grps = {};
+  var grps = {}, moWarned = false;
   boxes.forEach(function (b) { if (b && b.grp) (grps[b.grp] = grps[b.grp] || []).push(b); });
   Object.keys(grps).sort().forEach(function (g) {
     var bs = grps[g], fr = null, body = bs.filter(function (b) { return b.sub === "dbox"; });
@@ -1028,7 +1028,11 @@ function generate1(input) {
     var x0 = 1e9, x1 = -1e9, y0 = 1e9, z0 = 1e9, z1 = -1e9;
     body.forEach(function (b) { x0 = Math.min(x0, b.x0); x1 = Math.max(x1, b.x1); y0 = Math.min(y0, b.y0); z0 = Math.min(z0, b.z0); z1 = Math.max(z1, b.z1); });
     var y = y0 + H.slide.lift, nl = z1 - z0;
-    var spos = slidePositions(cfg, nl);
+    /* glisierele din ebanist-drawers-more.js (Hettich, GRASS, Häfele UM, Accuride): cotele găurilor sunt pe desen, fără reper în text/tabel — nu se
+       generează găuri (nici pozițiile Blum implicite), se avertizează o dată; glisiera se desenează în 3D oricum */
+    var gidM = typeof root.slideGuidaId === "function" ? root.slideGuidaId(cfg) : null, polM = root.EBDrawersMore && gidM ? root.EBDrawersMore.holePolicy(gidM) : null;
+    var spos = polM ? { list: [], src: null, approx: false } : slidePositions(cfg, nl);
+    if (polM && !moWarned) { moWarned = true; out.warnings.push({ piece: null, k: polM.key, g: polM.g }); }
     [-1, 1].forEach(function (side) {
       var P = panelBeside(pcs, side < 0 ? x0 : x1, side, y + 10, (z0 + z1) / 2, 60);
       if (!P) return;
@@ -1037,7 +1041,7 @@ function generate1(input) {
         if (d > nl - 10) return;
         hole(P, 0, side < 0 ? 1 : -1, [fx, y, P.max[2] - d], H.slide.dia, H.slide.depth, id, "guida cassetto");
       });
-      out.hw.push({ id: id, type: "guida", catalog: "blum_tandem", piece: P.pk, w: [fx, y, z1], len: nl,
+      out.hw.push({ id: id, type: "guida", catalog: polM ? gidM : "blum_tandem", piece: P.pk, w: [fx, y, z1], len: nl,
                     side: side, note: "Guida cassetto NL " + Math.round(nl), slideSrc: spos.src, slideApprox: spos.approx });
     });
   });

@@ -2984,6 +2984,9 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-hinges-more.js"></script>
 <script src="./ebanist-slides-data.js"></script>
 <script src="./ebanist-slides.js"></script>
+<script src="./ebanist-drawers-more-data.js"></script>
+<script src="./ebanist-drawers-more.js"></script>
+<script src="./ebanist-drawers-more-i18n.js"></script>
 <script src="./ebanist-festool-d8.js"></script>
 <script src="./ebanist-hwgeom.js"></script>
 <script src="./ebanist-jig.js"></script>
@@ -4715,6 +4718,8 @@ if(window.EBHinges) HWDB.cern.push(...EBHinges.catalogEntries(HWDB.cern.map(x=>x
 /* balamale Hettich / Salice / Grass / Häfele / Blum 105° (ebanist-hinges-more.js): câte un articol pe cod, preț 0 de completat */
 if(window.EBHingesMore) HWDB.cern.push(...EBHingesMore.catalogEntries(HWDB.cern.map(x=>x.id)));
 if(window.EBSlides) HWDB.guida.push(...EBSlides.catalogEntries(HWDB.guida.map(x=>x.id)));
+/* glisierele și seturile de laterale Hettich / GRASS / Häfele UM / Accuride (ebanist-drawers-more.js; prețul se completează în Catalog) */
+if(window.EBDrawersMore){ HWDB.guida.push(...EBDrawersMore.guidaEntries(HWDB.guida.map(x=>x.id))); HWDB.zarga.push(...EBDrawersMore.zargaEntries(HWDB.zarga.map(x=>x.id))); }
 /* balamaua aleasă (pe corp: cfg.hwSel.cern, altfel din setări) și placuța ei: ebanist-ops.js cere găurirea ei prin hingeGeom(cfg) */
 function hingeGeom(cfg){
   if(!window.EBHinges) return null;
@@ -5554,6 +5559,8 @@ function storageAlarm(){
   bar.querySelector("button").addEventListener("click",()=>{ $("btnFullBk").click(); });
   haptic(60);
 }
+/* textele sistemelor de sertar noi (ebanist-drawers-more-i18n.js), în aceleași 7 limbi */
+if(typeof DRAWMORE_I18N==="object") for(const _l in DRAWMORE_I18N) if(I18N[_l]) Object.assign(I18N[_l],DRAWMORE_I18N[_l]);
 const t = k => (I18N[state.lang]||I18N.it)[k] || I18N.it[k] || k;
 const proj = () => state.projects.find(p=>p.id===state.activeId) || null;
 /* L'apostrofo entra nella lista: oggi nessun attributo interpolato usa le
@@ -7398,6 +7405,10 @@ const DRAWSYS={
     nl:[], rear:0, lift:0, minFront:60}
 };
 const DRAWSYS_IDS=["legno","legrabox","tandembox","matrix","nessuno"];
+/* sisteme de sertar Hettich AvanTech YOU / ArciTech, GRASS Nova Pro Scala / Vionaro V8 / V13: din ebanist-drawers-more.js (date oficiale,
+   NL pe înălțime, deducții după grosimea corpului); ce nu are date complete (InnoTech Atira) nu e selectabil. Înaintea lui «nessuno». */
+if(typeof EBDrawersMore==="object"&&EBDrawersMore){ const _mo=EBDrawersMore.drawsys();
+  Object.keys(_mo).forEach(k=>{ DRAWSYS[k]=_mo[k]; DRAWSYS_IDS.splice(DRAWSYS_IDS.indexOf("nessuno"),0,k); }); }
 /* il vassoio estraibile in legno: frontale virtuale da 115 => sponde da 70 mm */
 const PULL_FH=115;
 function drawSys(id){ return DRAWSYS[id]||DRAWSYS.legno; }
@@ -7457,6 +7468,9 @@ function drawerPlan(cfg,g){
   const GP=(g&&+g.gap>0)?+g.gap:DRAW_GAP;
   const out={N,sys,sysId:sys.id,warn,fronts:[],inner:!!g.inner,ok:N>0,gap:GP};
   if(!N){ out.ok=0; return out; }
+  /* ebanist-drawers-more.js: sistemele Hettich/GRASS noi și sertarul din lemn pe glisierele lor. null pentru tot ce exista înainte: planul rămâne identic */
+  const MO=(typeof EBDrawersMore==="object"&&EBDrawersMore)?EBDrawersMore.planCtx(sys,cfg,t,slideIdFor(cfg)):null;
+  if(MO){ out.mo=MO; if(MO.block){ warn.push(MO.block); out.ok=0; return out; } (MO.warn||[]).forEach(w=>warn.push(w)); }
 
   /* 1. la zona: quanta altezza del fronte spetta ai cassetti */
   let zone=Math.max(0,+(cfg.drawerZone||0));
@@ -7502,8 +7516,8 @@ function drawerPlan(cfg,g){
   if(out.top>g.y0+g.frontH+1) warn.push({k:"wDrawOver",mm:Math.round(out.top-g.y0-g.frontH)});
 
   /* 3. la lunghezza nominale: la piu lunga che entra nella profondita utile */
-  const usable=g.depth-sys.rear-(out.inner?(+cfg.drawerInset||35):0);
-  const nls=(sys.nl||[]).filter(x=>x<=usable);
+  const usable=g.depth-((MO&&MO.rear!=null)?MO.rear:sys.rear)-(out.inner?(+cfg.drawerInset||35):0);
+  const nls=((MO&&MO.nl)||sys.nl||[]).filter(x=>x<=usable);
   out.nl=nls.length?nls[nls.length-1]:0;
   /* U.13: la profondita scelta a mano. Si prende la lunghezza di listino
      piu lunga che non supera quella chiesta; se chiede piu di quanto entra,
@@ -7514,12 +7528,17 @@ function drawerPlan(cfg,g){
     if(le.length) out.nl=le[le.length-1]; else out.nl=nls[0];
     if(out.nl!==want) warn.push({k:"wDrawNL",want:want,got:out.nl});
   }
-  if(!sys.none&&!out.nl){ warn.push({k:"wDrawDeep",mm:Math.round(usable),min:(sys.nl||[0])[0]}); out.ok=0; return out; }
+  if(!sys.none&&!out.nl){ warn.push({k:"wDrawDeep",mm:Math.round(usable),min:((MO&&MO.nl)||sys.nl||[0])[0]}); out.ok=0; return out; }
 
   /* 4. la larghezza: quanto si stringe la cassa dentro il vano */
   const clear=g.secW-(out.inner?8:0);   // il cassetto interno lascia gioco all'anta
   out.clear=clear;
-  if(sys.metal){
+  if(sys.metal&&MO&&MO.kind==="box"){
+    /* deducția după grosimea corpului acolo unde sursa o spune; fără rând în tabel = nicio valoare ghicită (planul spune de ce nu iese) */
+    const dm=EBDrawersMore.dims(sys.id,out.nl,clear,t);
+    if(dm.fail){ warn.push(dm.fail); out.ok=0; return out; }
+    out.baseW=dm.baseW; out.baseL=dm.baseL; out.backW=dm.backW; dm.warn.forEach(w=>warn.push(w));
+  }else if(sys.metal){
     out.baseW=Math.round(clear+sys.baseW);
     out.baseL=Math.round(out.nl+sys.baseL);
     out.backW=Math.round(clear+sys.backW);
@@ -7527,6 +7546,7 @@ function drawerPlan(cfg,g){
     out.ded=woodDed();
     out.boxW=Math.round(clear-out.ded);
     out.boxIn=out.boxW-2*t;             // fra i due fianchi della cassa
+    if(MO&&MO.kind==="wood"&&MO.minBoxW&&out.boxW<MO.minBoxW){ const rr=EBDrawersMore.runner(MO.id); warn.push({k:"wDrawMoreMinBox",sys:rr.brand+" "+rr.name,have:out.boxW,min:MO.minBoxW}); out.ok=0; return out; }
   }
   const minW=sys.metal?150:(2*t+60);
   const w=sys.metal?out.baseW:out.boxW;
@@ -7541,8 +7561,10 @@ function drawerPlan(cfg,g){
   out.availTop=isFinite(availTop)?availTop:null;
   if(sys.metal){
     const codes=Object.keys(sys.hs);
-    const want=cfg.drawerH&&sys.hs[cfg.drawerH]?cfg.drawerH:null;
-    const fits=codes.filter(c=>sys.hs[c]<=Math.min(out.minH-sys.headroom,availTop));
+    const nlOk=c=>!MO||EBDrawersMore.heightOk(sys,c,out.nl);        // înălțimea există la NL-ul ales (nlBy), numai sistemele din drawers-more
+    let want=cfg.drawerH&&sys.hs[cfg.drawerH]?cfg.drawerH:null;
+    if(want&&!nlOk(want)){ warn.push({k:"wDrawMoreNLH",h:want,nl:out.nl}); want=null; }
+    const fits=codes.filter(c=>sys.hs[c]<=Math.min(out.minH-sys.headroom,availTop)&&nlOk(c));
     const auto=fits.length?fits[fits.length-1]:null;
     out.hcode=want||auto;
     if(want&&sys.hs[want]>out.minH-sys.headroom) warn.push({k:"wDrawFront",h:want,need:Math.ceil(sys.hs[want]+sys.headroom)});
@@ -7555,7 +7577,7 @@ function drawerPlan(cfg,g){
       out.sideH=Math.floor(availTop);
       if(out.sideH<40){ warn.push({k:"wDrawRoom"}); out.ok=0; return out; }
     }
-    out.boxL=out.nl;
+    out.boxL=out.nl-((MO&&MO.skl)||0);        // SKL = NL − 10 la Actro 5D / Dynapro (din sursă); altfel cât NL, ca înainte
   }
   if(!sys.none&&out.minH<(sys.minFront||0)) warn.push({k:"wDrawFront",h:"",need:sys.minFront});
   /* U.13: con le altezze scritte a mano ogni cassa segue il SUO frontale.
@@ -7564,8 +7586,8 @@ function drawerPlan(cfg,g){
   if(own&&!sys.none) out.fronts.forEach((f,fi)=>{
     const cap=(fi===out.fronts.length-1)?availTop:Infinity;
     if(sys.metal){
-      const codes=Object.keys(sys.hs), fits=codes.filter(c=>sys.hs[c]<=Math.min(f.h-sys.headroom,cap));
-      const c=cfg.drawerH&&sys.hs[cfg.drawerH]?cfg.drawerH:(fits.length?fits[fits.length-1]:out.hcode);
+      const codes=Object.keys(sys.hs), nlOkF=c=>!MO||EBDrawersMore.heightOk(sys,c,out.nl), fits=codes.filter(c=>sys.hs[c]<=Math.min(f.h-sys.headroom,cap)&&nlOkF(c));
+      const c=cfg.drawerH&&sys.hs[cfg.drawerH]&&nlOkF(cfg.drawerH)?cfg.drawerH:(fits.length?fits[fits.length-1]:out.hcode);
       f.hcode=c; f.sideH=sys.hs[c];
       f.backH=sys.backHs?sys.backHs[c]:Math.round(sys.hs[c]-sys.backOff);
     }else{ f.sideH=Math.min(Math.max(70,Math.round(f.h-45)),Math.floor(cap)); if(f.sideH<40){ warn.push({k:"wDrawRoom"}); out.ok=0; } }
@@ -7745,9 +7767,9 @@ function drawRowMakers(sys){
   return sys.metal
     ?[(p,f)=>["Fondo cassetto",p.baseW,p.baseL,1,"",null,{role:"cassetto_fondo"}],
       (p,f)=>["Retro cassetto",p.backW,f.backH||p.backH,1,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}]]
-    :[(p,f)=>["Fianco cassetto",p.nl,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco"}],
+    :[(p,f)=>["Fianco cassetto",p.boxL||p.nl,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco"}],
       (p,f)=>["Fronte/Retro cassetto",p.boxIn,f.sideH||p.sideH,2,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}}],
-      (p,f)=>["Fondo cassetto",p.boxIn,p.nl-20,1,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"}]];
+      (p,f)=>["Fondo cassetto",p.boxIn,(p.boxL||p.nl)-20,1,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"}]];
 }
 function buildCore(cfg){
   /* tavan înclinat (D-86): tot ce e plat în interior (polițe, sertare, bară, uși) se generează la
@@ -8338,7 +8360,9 @@ function buildCore(cfg){
       if(cfg.boxes===0||cfg.boxes==="0"||sys.none) return;
       const NL=dPlan.nl, z1=zF-tA-2, z0=z1-NL;
       if(sys.metal){
-        const bw=dPlan.baseW, th=sys.sideTh, sh=f.sideH||dPlan.sideH;
+        const bw=dPlan.baseW, sh=f.sideH||dPlan.sideH;
+        /* sistemele din drawers-more: grosimea laterală sursă (V8, V13) sau schematică, oricum nu mai mare decât jocul liber din lateral */
+        const th=sys.more?Math.max(2,Math.min(sys.sideTh,Math.floor((dPlan.clear-bw)/2)-1)):sys.sideTh;
         const bx0=cx-bw/2, bx1=cx+bw/2;
         bxRole="cassetto_metallo";
         bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);            // fianco metallo sx
@@ -8347,20 +8371,22 @@ function buildCore(cfg){
         /* fondo: profondo quanto la riga di distinta (baseL), dal retro */
         bx(bx0,bx1,yB,yB+16,z0,z0+dPlan.baseL,"p",0,0,"dbox",grp);   // fondo in pannello
         bxRole="cassetto_fianco";
-        bx(cx-dPlan.backW/2,cx+dPlan.backW/2,yB+8,yB+8+(f.backH||dPlan.backH),z0,z0+t,"p",0,0,"dbox",grp); // retro
+        const bOff=sys.more?Math.max(0,Math.min(8,sh-(f.backH||dPlan.backH))):8;   // spatele nu depășește lateralul (cotele spatelui din sursă, plasarea e schematică)
+        bx(cx-dPlan.backW/2,cx+dPlan.backW/2,yB+bOff,yB+bOff+(f.backH||dPlan.backH),z0,z0+t,"p",0,0,"dbox",grp); // retro
       }else{
         const bw=dPlan.boxW, sh=f.sideH||dPlan.sideH, bt=sys.bottomTh;
         const bx0=cx-bw/2, bx1=cx+bw/2;
+        const zw0=z1-(dPlan.boxL||NL);          // lungimea casei din lemn (SKL = NL − 10 la Actro 5D / Dynapro); altfel NL
         bxRole="cassetto_fianco";
-        bx(bx0,bx0+t,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco sx
-        bx(bx1-t,bx1,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);             // fianco dx
+        bx(bx0,bx0+t,yB,yB+sh,zw0,z1,"p",0,0,"dbox",grp);            // fianco sx
+        bx(bx1-t,bx1,yB,yB+sh,zw0,z1,"p",0,0,"dbox",grp);            // fianco dx
         bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);         // fronte cassa
-        bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);         // retro cassa
+        bx(bx0+t,bx1-t,yB,yB+sh,zw0,zw0+t,"p",0,0,"dbox",grp);       // retro cassa
         bxRole="cassetto_fondo";
         /* il fondo entra nelle cave di fronte e retro: lungo quanto la riga
            di distinta (NL-20), centrato fra i due. Disegnato fra le facce
            interne (NL-2t) il 3D diceva 462 dove la distinta dice 480. */
-        const fL=NL-20, zc=(z0+z1)/2;
+        const fL=(dPlan.boxL||NL)-20, zc=(zw0+z1)/2;
         bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp); // fondo
       }
   };
@@ -8473,31 +8499,34 @@ function buildCore(cfg){
         add("Fondo ripiano estraibile",pp.baseW,pp.baseL,pullN,"",null,{role:"cassetto_fondo"});
         add("Retro ripiano estraibile",pp.backW,pp.backH,pullN,"1L",null,{role:"cassetto_fianco"});
       }else{
-        add("Fianco ripiano estraibile",pp.nl,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco"});
+        add("Fianco ripiano estraibile",pp.boxL||pp.nl,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco"});
         add("Fronte/Retro ripiano estraibile",pp.boxIn,pp.sideH,2*pullN,"1L",null,{role:"cassetto_fianco",axes:{lung:"L",larg:"H",sp:"P"}});
-        add("Fondo ripiano estraibile",pp.boxIn,pp.nl-20,pullN,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"});
+        add("Fondo ripiano estraibile",pp.boxIn,(pp.boxL||pp.nl)-20,pullN,"",matById("pfl5")?matById("pfl5").label:"HDF 5mm",{role:"cassetto_fondo"});
       }
       trays.forEach(({si,k,y})=>{
         const grp=`p${si}_${k}`, sx0=tF+si*(secW+tD), cx=sx0+secW/2;
         const zF=P-inset, NL=pp.nl, z1=zF-tA-2, z0=z1-NL, yB=y-tR/2;
         if(sys.metal){
-          const bw=pp.baseW, th=sys.sideTh, sh=pp.sideH, bx0=cx-bw/2, bx1=cx+bw/2;
+          const bw=pp.baseW, sh=pp.sideH, bx0=cx-bw/2, bx1=cx+bw/2;
+          const th=sys.more?Math.max(2,Math.min(sys.sideTh,Math.floor((pp.clear-bw)/2)-1)):sys.sideTh;
           bxRole="cassetto_metallo";
           bx(bx0-th,bx0,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);
           bx(bx1,bx1+th,yB,yB+sh,z0,z1,"m",0,0,"dbox",grp);
           bxRole="cassetto_fondo";
           bx(bx0,bx1,yB,yB+16,z0,z0+pp.baseL,"p",0,0,"dbox",grp);
           bxRole="cassetto_fianco";
-          bx(cx-pp.backW/2,cx+pp.backW/2,yB+8,yB+8+pp.backH,z0,z0+t,"p",0,0,"dbox",grp);
+          const bOff=sys.more?Math.max(0,Math.min(8,sh-pp.backH)):8;
+          bx(cx-pp.backW/2,cx+pp.backW/2,yB+bOff,yB+bOff+pp.backH,z0,z0+t,"p",0,0,"dbox",grp);
         }else{
           const bw=pp.boxW, sh=pp.sideH, bt=sys.bottomTh, bx0=cx-bw/2, bx1=cx+bw/2;
           bxRole="cassetto_fianco";
-          bx(bx0,bx0+t,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);
-          bx(bx1-t,bx1,yB,yB+sh,z0,z1,"p",0,0,"dbox",grp);
+          const zw0=z1-(pp.boxL||NL);
+          bx(bx0,bx0+t,yB,yB+sh,zw0,z1,"p",0,0,"dbox",grp);
+          bx(bx1-t,bx1,yB,yB+sh,zw0,z1,"p",0,0,"dbox",grp);
           bx(bx0+t,bx1-t,yB,yB+sh,z1-t,z1,"p",0,0,"dbox",grp);
-          bx(bx0+t,bx1-t,yB,yB+sh,z0,z0+t,"p",0,0,"dbox",grp);
+          bx(bx0+t,bx1-t,yB,yB+sh,zw0,zw0+t,"p",0,0,"dbox",grp);
           bxRole="cassetto_fondo";
-          const fL=NL-20, zc=(z0+z1)/2;
+          const fL=(pp.boxL||NL)-20, zc=(zw0+z1)/2;
           bx(bx0+t,bx1-t,yB,yB+bt,zc-fL/2,zc+fL/2,"p",0,0,"dbox",grp);
         }
       });
@@ -11485,7 +11514,9 @@ function drawSysLines(gs){
     const box=dp.sys.none?"":(dp.sys.metal
       ? t("mDrawBoxM").replace("{bw}",dp.baseW).replace("{bl}",dp.baseL).replace("{kw}",dp.backW).replace("{kh}",dp.backH)
       : t("mDrawBoxW").replace("{bw}",dp.boxW).replace("{bh}",boxHs(dp)).replace("{bl}",dp.nl));
-    out.push(pre+t("mDrawSys").replace("{s}",nm+(dp.hcode?" "+dp.hcode:"")).replace("{nl}",dp.nl).replace("{box}",box)); });
+    out.push(pre+t("mDrawSys").replace("{s}",nm+(dp.hcode?" "+dp.hcode:"")).replace("{nl}",dp.nl).replace("{box}",box));
+    /* sistemele din drawers-more: adâncime minimă, articole, prinderea frontului, tabelul de găuri al producătorului (numai informație) */
+    if(typeof EBDrawersMore==="object"&&EBDrawersMore) EBDrawersMore.sheetLines(dp,t).forEach(l=>out.push(pre+"· "+l)); });
   if(gs.length&&gs[0].plan.inner) out.push(t("mDrawInner").replace("{i}",gs[0].plan.inset));
   return out;
 }
@@ -12884,11 +12915,11 @@ function opsAllOf(cfg){
 }
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
-const OPS_NOTES=["opsBedFit","opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit","opsRazaSmall","opsRazaBig","opsRazaGrip"];
+const OPS_NOTES=["opsDrawMoreNoHoles","opsBedFit","opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit","opsRazaSmall","opsRazaBig","opsRazaGrip"];
 if(window.EBOpen) EBOpen.OPS_NOTES.forEach(k=>OPS_NOTES.push(k));
 if(typeof HINGES_MORE_OPS_KEYS!=="undefined") OPS_NOTES.push(...HINGES_MORE_OPS_KEYS);
 /* textul unui avertisment al găuririi, cu {tb} și valorile verificărilor balamalelor ({v} {lo} {hi} {n}) */
-const opsMsg=w=>["tb","v","lo","hi","n"].reduce((m,k)=>m.split("{"+k+"}").join(w[k]==null?"":w[k]),t(w.k));
+const opsMsg=w=>["tb","v","lo","hi","n","g"].reduce((m,k)=>m.split("{"+k+"}").join(w[k]==null?"":w[k]),t(w.k));
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -18554,7 +18585,7 @@ PULL-OUT SHELVES ("ripiano estraibile", "raft extractibil", "pull-out shelf", "t
   vista = on the facade, visible next to the doors. The doors then cover only the sections left over, at full height. "wardrobe with a hanging section and a visible drawer column on the right" => same fields but drawerPos="vista", doors=1. The drawer column must be at one END of the unit, not between two door sections.
   auto (default) = interno when the unit has doors, vista otherwise. Emit it explicitly whenever he says where he wants them.
 Heights: "drawerDist" decides. fix = every front "drawerFH" tall (default 200). uguali = the "drawerZone" mm are shared out equally. cucina = one shallow front on top and the rest equal — the kitchen base. With uguali/cucina always give "drawerZone" unless the drawers take the whole front.
-System: "drawerSys" — legno (wooden box, the slide comes from the hardware catalog), legrabox, tandembox, nessuno (front only, the client supplies the boxes). Only name a Blum system if he named it. tram/secMode divide the inside into EQUAL sections. If he gives a section width or any position as a measurement, do NOT approximate it with tram: use "partitions" (below). Drawers cannot be combined with partitions yet — if he asks for both, keep partitions and ask in "questions".
+System: "drawerSys" — legno (wooden box, the slide comes from the hardware catalog), legrabox, tandembox, matrix (Häfele Matrix Box P), het_avantech / het_arcitech (Hettich AvanTech YOU, ArciTech), gr_nps / gr_v8 / gr_v13 (GRASS Nova Pro Scala, Vionaro V8, V13), nessuno (front only, the client supplies the boxes). Only name a branded system if he named it. tram/secMode divide the inside into EQUAL sections. If he gives a section width or any position as a measurement, do NOT approximate it with tram: use "partitions" (below). Drawers cannot be combined with partitions yet — if he asks for both, keep partitions and ask in "questions".
 "shelves" and "drawers" are counts PER SECTION, not totals.
 
 ABSOLUTE POSITIONS — the moment he gives a height or a position as a number ("at 1539", "from 39 to 1539", "at 620, 926 and 1232", "stops at", "up to", "below", "only in the right column", "only on the left", "full width", "traversing"), use the fields below. NEVER turn an absolute measurement into a count of equal sections or a shelf count: tram / shelves / secMode divide equally and his numbers would be lost.
@@ -18641,7 +18672,7 @@ function aiSchema(mode){
         drawerDist:{type:"string",enum:AI_ENUM.drawerDist,description:"How the drawer front heights are shared out: fix = every front drawerFH tall, uguali = equal over drawerZone, cucina = one shallow front on top."},
         drawerFH:num(60,900), drawerZone:num(0,3000), drawerInset:num(0,200),
         drawerPos:{type:"string",enum:AI_ENUM.drawerPos,description:"Where the drawer fronts sit. vista = on the facade, visible. interno = behind the doors, set back. auto = behind the doors when a section is marked for drawers and the unit has doors, on the facade otherwise."},
-        drawerH:{type:"string",enum:AI_DRAWH,description:"Metal system side height code (LEGRABOX N/M/K/C/F, TANDEMBOX N/M/K/C/D). Leave out to let the engine pick the tallest that the front covers."},
+        drawerH:{type:"string",enum:AI_DRAWH,description:"Metal system side height code (LEGRABOX N/M/K/C/F, TANDEMBOX N/M/K/C/D, Matrix/Hettich/GRASS: the side height in mm, e.g. 101, 94, 90). Leave out to let the engine pick the tallest that the front covers."},
         angL:{type:"number",minimum:45,maximum:135,description:"Left corner angle, 90 = square."},
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
         bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
