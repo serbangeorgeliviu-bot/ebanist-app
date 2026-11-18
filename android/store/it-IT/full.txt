@@ -3,7 +3,7 @@ Ebanist è un'app di progettazione mobili su misura e distinta di taglio per fal
 Nata in un vero laboratorio di ristrutturazioni e arredamento. Ogni regola dell'app è stata prima un errore da evitare su un lavoro vero.
 
 COSA FA EBANIST
-• 19 tipologie parametriche: armadio, cabina armadio, base, base a cassetti, pensile, colonna, libreria, cassettiera, angolari, ante scorrevoli, mobile TV, scrivania, tavolo, letto e altre
+• 22 tipologie parametriche: armadio, cabina armadio, base, base a cassetti, pensile, colonna, libreria, cassettiera, angolari, ante scorrevoli, mobile TV, scrivania, tavolo, letto e altre
 • Inserisci larghezza, altezza e profondità: struttura, divisori, ripiani, ante e cassetti seguono da soli
 • Distinta di taglio con misure finite a 0.1 mm, bordo e materiale per ogni pezzo
 • Ferramenta dal catalogo Blum e Häfele con codici reali, contata una sola volta, così preventivo e scheda di montaggio dicono sempre la stessa cosa

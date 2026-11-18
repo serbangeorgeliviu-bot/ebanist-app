@@ -3,7 +3,7 @@ Ebanist est une application de conception de meubles sur mesure et de fiche de d
 Née dans un vrai atelier de rénovation et d'agencement. Chaque règle de l'application a d'abord été une erreur à éviter sur un vrai chantier.
 
 CE QUE FAIT EBANIST
-• 19 types de meubles paramétriques : armoire, dressing, meuble bas, meuble à tiroirs, meuble haut, colonne, bibliothèque, commode, meubles d'angle, portes coulissantes, meuble TV, bureau, table, lit et d'autres
+• 22 types de meubles paramétriques : armoire, dressing, meuble bas, meuble à tiroirs, meuble haut, colonne, bibliothèque, commode, meubles d'angle, portes coulissantes, meuble TV, bureau, table, lit et d'autres
 • Vous saisissez largeur, hauteur et profondeur : caisson, séparations, étagères, portes et tiroirs suivent seuls
 • Fiche de débit en cotes finies au 0.1 mm, avec chant et matériau pour chaque pièce
 • Quincaillerie du catalogue Blum et Häfele avec de vraies références, comptée une seule fois, pour que le devis et la fiche de montage disent toujours la même chose

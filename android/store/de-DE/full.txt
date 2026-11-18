@@ -3,7 +3,7 @@ Ebanist ist eine Möbelplaner-App mit Zuschnittliste für Tischler, Schreiner un
 Entstanden in einer echten Werkstatt für Renovierung und Möbelbau. Jede Regel der App war zuerst ein Fehler, den wir bei einem echten Auftrag vermeiden mussten.
 
 WAS EBANIST KANN
-• 19 parametrische Möbeltypen: Schrank, Ankleide, Unterschrank, Schubladenunterschrank, Hängeschrank, Hochschrank, Bücherregal, Kommode, Eckschränke, Schiebetüren, TV-Möbel, Schreibtisch, Tisch, Bett und weitere
+• 22 parametrische Möbeltypen: Schrank, Ankleide, Unterschrank, Schubladenunterschrank, Hängeschrank, Hochschrank, Bücherregal, Kommode, Eckschränke, Schiebetüren, TV-Möbel, Schreibtisch, Tisch, Bett und weitere
 • Sie geben Breite, Höhe und Tiefe ein: Korpus, Trennwände, Einlegeböden, Türen und Schubladen folgen von selbst
 • Zuschnittliste mit Fertigmaßen auf 0,1 mm, mit Kante und Material für jedes Teil
 • Beschläge aus dem Blum- und Häfele-Katalog mit echten Artikelnummern, nur einmal gezählt, damit Angebot und Montageanleitung immer dasselbe sagen

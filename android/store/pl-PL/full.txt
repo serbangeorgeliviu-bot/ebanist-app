@@ -3,7 +3,7 @@ Ebanist to aplikacja do projektowania mebli na wymiar i listy formatek dla stola
 Powstała w prawdziwym warsztacie remontów i mebli. Każda reguła w aplikacji była najpierw błędem, którego trzeba było uniknąć przy prawdziwej pracy.
 
 CO ROBI EBANIST
-• 19 parametrycznych typów mebli: szafa, garderoba, szafka dolna, szafka z szufladami, szafka wisząca, słupek, regał, komoda, szafki narożne, drzwi przesuwne, szafka RTV, biurko, stół, łóżko i inne
+• 22 parametrycznych typów mebli: szafa, garderoba, szafka dolna, szafka z szufladami, szafka wisząca, słupek, regał, komoda, szafki narożne, drzwi przesuwne, szafka RTV, biurko, stół, łóżko i inne
 • Wpisujesz szerokość, wysokość i głębokość: korpus, przegrody, półki, drzwi i szuflady dopasowują się same
 • Lista formatek z wymiarami gotowymi co do 0,1 mm, z obrzeżem i materiałem dla każdego elementu
 • Okucia z katalogu Blum i Häfele z prawdziwymi numerami artykułów, liczone tylko raz, aby oferta i instrukcja montażu zawsze mówiły to samo

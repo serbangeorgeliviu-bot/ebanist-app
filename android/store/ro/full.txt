@@ -3,7 +3,7 @@ Ebanist este o aplicație de proiectare mobilă la comandă și listă de debita
 Făcută într-un atelier real de renovări și mobilier. Fiecare regulă din aplicație a fost întâi o greșeală pe care a trebuit s-o evităm pe o lucrare reală.
 
 CE FACE EBANIST
-• 19 tipologii parametrice: dulap, dressing, corp bază, corp cu sertare, corp suspendat, coloană, bibliotecă, comodă, colțare, uși glisante, comodă TV, birou, masă, pat și altele
+• 22 tipologii parametrice: dulap, dressing, corp bază, corp cu sertare, corp suspendat, coloană, bibliotecă, comodă, colțare, uși glisante, comodă TV, birou, masă, pat și altele
 • Scrii lățimea, înălțimea și adâncimea: carcasa, despărțitorii, polițele, ușile și sertarele urmează singure
 • Listă de debitare cu cote finite la 0.1 mm, cant și material pentru fiecare piesă
 • Feronerie din catalogul Blum și Häfele, cu coduri reale, numărată o singură dată, ca oferta și fișa de montaj să spună mereu același lucru

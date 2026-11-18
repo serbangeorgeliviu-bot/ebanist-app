@@ -1,7 +1,7 @@
 Ebanist is a cabinet design and cut list app for cabinetmakers, joiners, and kitchen and wardrobe fitters. It turns your phone into a complete tool for custom furniture design and production. Built by a tradesman for tradesmen, it creates workshop-ready documents from a single model.
 
 Fast Furniture Design: Site to Workshop
-• Choose from 19 furniture types, including standard and corner base units, wardrobes with sliding doors, desks, tables, and beds.
+• Choose from 22 furniture types, including standard and corner base units, wardrobes with sliding doors, desks, tables, and beds.
 • Enter the main width, height, and depth; the app parametrically calculates every carcass, door, drawer, and shelf part for you.
 • Show clients a live 3D model with real Egger decors and get instant sign-off using Client Mode on a tablet, where they can watch the price update in real time.
 • Generate a complete workshop package from one consistent model: cut lists, part labels, cutting plans, and assembly sheets, ensuring all documents match perfectly.
@@ -21,7 +21,7 @@ Powerful Design Tools
 • Rely on the automatic carcass check, which blocks PDF export if internal parts do not add up to the overall dimensions, preventing material waste.
 
 Free & Pro Versions
-• Free Version: Manage one project with no time limit. Access all 19 furniture types, view the full 3D model with parts and holes, and see the cut list and quote on your screen.
+• Free Version: Manage one project with no time limit. Access all 22 furniture types, view the full 3D model with parts and holes, and see the cut list and quote on your screen.
 • Pro Subscription: Unlock unlimited projects (monthly or yearly through Google Play) and all document exports. Get PDF and CSV cut lists for your panel supplier, printable part labels, assembly sheets, dimensioned 2D drawings, cutting plans, and professional quotes with your logo.
 • Pro also includes Client Mode, a tablet-friendly presentation view for your furniture design projects. Let clients switch finishes, see the price update live, and provide a digital signature on the spot to close the deal faster.
 
