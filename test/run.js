@@ -2918,7 +2918,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.waitForTimeout(300);
     ok("U.17: implicit «Nessuno» — regula generică; câmpul se vede la corpul glisant", await pg.evaluate(() => $("bSlide").value === "" && cfgFromForm().slide === null && $("rowSlide").style.display !== "none"
       && !buildModule(cfgFromForm()).pieces.some(p => /Sistema ante/.test(p.elemento))));
-    ok("U.17: corpul glisant are cele 44 de sisteme pe șină, grupate pe patru mărci", await pg.evaluate(() => $("bSlide").querySelectorAll("option:not([value=''])").length === 44 && $("bSlide").querySelectorAll("optgroup").length === 4));
+    ok("U.17: corpul glisant are cele 44 de sisteme pe șină, grupate pe trei mărci (Hettich, Hawa, Häfele)", await pg.evaluate(() => $("bSlide").querySelectorAll("option:not([value=''])").length === 44 && $("bSlide").querySelectorAll("optgroup").length === 3));
     await pg.selectOption("#bSlide", "hawa_combino_35_fs"); await pg.waitForTimeout(200);
     const s1 = await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), d = b.pieces.find(p => /^Anta scorrevole/.test(p.elemento));
       const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...c, name: "Sl1" });

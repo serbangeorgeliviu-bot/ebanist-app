@@ -122,7 +122,7 @@ describe("Uși glisante: formulele producătorilor", () => {
   test("Hettich: nicio formulă publicată → regula generică a aplicației (SLIDE_OVERLAP) + avertisment, nu o formulă inventată", () => {
     ["het_topline_xl", "het_topline_l", "het_slideline_m_ov", "het_slideline_m_in", "het_slideline_55_ov", "het_topline_25_27"].forEach(k => {
       const r = E.planSlide(E.get(k), Object.assign({}, BASE, { n: 2, frontW: 1800, Lint: 1762 }));
-      assert.equal(r.ov, 40, k); assert.equal(r.aW, (1800 + 40) / 2, k); assert.ok(r.warn.some(w => w.k === "noFormula"), k); assert.equal(r.used.formula, false, k);
+      assert.equal(r.ov, 40, k); assert.equal(r.aW, ((E.get(k).mount === "inset" ? 1762 : 1800) + 40) / 2, k); assert.ok(r.warn.some(w => w.k === "noFormula"), k); assert.equal(r.used.formula, false, k);
     });
   });
   test("TopLine XL: jocurile din desen (sus ≥ 45, jos ≥ 65) dau y; se spune că sunt din desen", () => {
@@ -145,8 +145,12 @@ describe("Uși glisante: formulele producătorilor", () => {
     const r = E.planSlide(E.get("het_slideline_55_ov"), Object.assign({}, BASE, { Lint: 4200, frontW: 4238, L: 4238 }));
     assert.ok(r.warn.some(w => w.k === "track" && w.std === 4000));
   });
+  test("ușile inset fără formulă (SlideLine M inset): regula generică pe lățimea interioară, din fața interioară a lateralului", () => {
+    const r = E.planSlide(E.get("het_slideline_m_in"), Object.assign({}, BASE, { frontW: 1800, Lint: 1762, L: 1800 }));
+    assert.equal(r.aW, (1762 + 40) / 2); assert.equal(r.x0, 19);
+  });
   test("o singură ușă (TopLine 25): fără suprapunere", () => {
-    const r = E.planSlide(E.get("het_topline_25_27"), Object.assign({}, BASE, { n: 1, frontW: 1000, Lint: 962 })); assert.equal(r.n, 1); assert.equal(r.ov, 0); assert.equal(r.aW, 1000);
+    const r = E.planSlide(E.get("het_topline_25_27"), Object.assign({}, BASE, { n: 1, frontW: 1000, Lint: 962 })); assert.equal(r.n, 1); assert.equal(r.ov, 0); assert.equal(r.aW, 962);       // inset: lățimea interioară
   });
 });
 

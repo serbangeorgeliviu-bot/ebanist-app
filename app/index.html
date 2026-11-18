@@ -12459,7 +12459,7 @@ function generateInto(p,cfg){
     /* piesa cu contur liber (D-101): conturul exact, perimetrul pentru cant */
     ...(x.contour?{contour:x.contour,perim:x.perim,shape:x.shape}:{}),
     /* panta (D-86): poziția pe x, conturul și bevelul — numai când există, rândurile vechi rămân identice */
-    ...(x.xc!=null?{xc:x.xc}:{}), ...(x.poly?{poly:x.poly}:{}), ...(x.bevel?{bevel:x.bevel}:{}),
+    ...(x.xc!=null?{xc:x.xc}:{}), ...(x.poly?{poly:x.poly}:{}), ...(x.bevel?{bevel:x.bevel}:{}), ...(x.slide?{slide:x.slide}:{}),
     materiale:x.mat||labelFor(x)}));
   p.pieces=p.pieces.filter(q=>q.gen!==cfg.name&&q.modulo!==cfg.name).concat(rows);
   p.configs=p.configs||{}; p.configs[cfg.name]=Object.assign({},cfg,{matStamp:stamp});

@@ -157,7 +157,10 @@
     } else if (dw && dw.lt != null && n > 1) {
       aW = (c.frontW + (n - 1) * dw.lt) / n; ov = dw.lt; used.formula = true;
     } else {
-      ov = n > 1 ? c.ovGen : 0; aW = (c.frontW + (n - 1) * ov) / n;
+      ov = n > 1 ? c.ovGen : 0;
+      /* ușile inset stau în deschidere, nu peste laterale: aceeași regulă generică, aplicată lățimii interioare */
+      if (sys.mount === "inset") { aW = (c.Lint + (n - 1) * ov) / n; x0 = c.frontX0 + (c.frontW - c.Lint) / 2; }
+      else aW = (c.frontW + (n - 1) * ov) / n;
       if (dw && dw.tot && n > 1) warn.push({ k: "noN", sys: sys.name, n: n });
       else if (n > 1 && !(sys.info || []).some(function (i) { return i.k === "limitsOnly"; })) warn.push({ k: "noFormula", sys: sys.name });
       if ((sys.info || []).some(function (i) { return i.k === "limitsOnly"; })) warn.push({ k: "only", sys: sys.name });
