@@ -2874,7 +2874,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   {
     head("Balamale Hettich / Salice / Grass / Häfele / Blum 105° — catalog, deviz, găurire, 3D (ebanist-hinges-more)");
     const n0 = errs.length;
-    await pg.evaluate(() => { closeSheets(); setView("catalog"); });
+    await pg.evaluate(() => { closeSheets(); renderCatalog(); openSheet("shCatalog"); });
     await pg.waitForTimeout(300);
     ok("Balamale+: catalogul are articolele celor 5 marci, cu prețul 0 de completat, iar Blum rămâne primul (selecția implicită)", await pg.evaluate(() => {
       const L = HWDB.cern, br = new Set(L.map(x => x.brand)), more = L.filter(x => x.more);

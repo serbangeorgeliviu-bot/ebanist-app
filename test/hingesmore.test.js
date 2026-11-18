@@ -96,6 +96,13 @@ describe("Catalogul", () => {
     const y = E1.find(z => z.art === "C1P6AE9");
     assert.equal(y.n.en, "Silentia+ S100 105° · Full overlay · Arm 0 · Wood screw · 45/9.5 · Soft close");
   });
+  test("unghiul nu se repetă când seria îl conține deja", () => {
+    assert.equal(E1.find(x => x.art === "311.60.924" || x.id === "haf_31160924").n.en.split(" · ")[0], "Metalla 310 110°");
+    const g = E1.find(x => x.hing === "haf_310_155"); assert.equal(g.n.en.split(" · ")[0], "Metalla 310 155°");
+    assert.equal(E1.find(x => x.hing === "gra_tiomos110").n.en.split(" · ")[0], "Tiomos 110°");
+    assert.equal(E1.find(x => x.hing === "blum_clip105").n.en.split(" · ")[0], "CLIP top BLUMOTION 105°");
+    E1.forEach(x => assert.ok(!/(\d+)°? \1°/.test(x.n.en.split(" · ")[0]), x.n.en));
+  });
   test("articol fără cod transcris (Salice S300/N): art — și nota «cod de completat»", () => {
     const x = E1.find(y => y.hing === "sal_s300"); assert.equal(x.art, "—"); assert.match(x.n.en, /to be filled in/);
   });

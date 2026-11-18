@@ -43,7 +43,8 @@
   var FIXWORD = { screw: "screw", woodscrew: "woodscrew", press: "press", fix: "fix", premount: "premount", dowel: "dowel", rapido: "rapido", glued: "glued", impresso: "impresso", knockin: "press", expando: "premount" };
   function nameOf(fam, p, lang) {
     var w = function (k) { return tr(lang, "hmw_" + k); }, out = [], ov = p.overlay;
-    out.push(fam.series + (fam.angle ? " " + fam.angle + "°" : ""));
+    /* unghiul se scrie o dată: seria care îl conține deja („Tiomos 110”, „165”) primește numai semnul grade */
+    out.push(fam.angle ? (new RegExp("(^|\\s)" + fam.angle + "$").test(fam.series) ? fam.series + "°" : fam.series + " " + fam.angle + "°") : fam.series);
     if (ov) {
       if (/^crank/.test(ov)) out.push(w("crank") + " " + ov.slice(5).replace(/_/g, "/"));
       else if (/^overlay\d*$/.test(ov)) out.push(w("overlay"));
