@@ -43,5 +43,21 @@
     return c;
   }
 
-  root.EBSync = { decidePush: decidePush, decidePull: decidePull, needed: needed, conflictCopy: conflictCopy };
+  /* proiecte șterse pe alt dispozitiv: ce se scoate de aici. Se scoate numai un proiect sincronizat înainte (are metadate), absent acum de pe server
+     și NEmodificat local de la ultima sincronizare (altfel rămâne și se urcă din nou: munca ta nu se pierde). Plase de siguranță, fiindcă „absent" poate
+     însemna și o listă goală din cauza unei sesiuni expirate: lista goală sau plină până la limita paginii nu șterge nimic, iar dacă s-ar scoate mai mult de
+     jumătate din proiectele sincronizate (minimum 2) se presupune o greșeală și nu se șterge nimic. */
+  var PAGE = 1000;
+  function remoteDeletions(o) {
+    var list = o.list, projects = o.projects || [], meta = o.metaById || {};
+    if (!Array.isArray(list) || list.length === 0 || list.length >= PAGE) return [];
+    var onServer = {}; list.forEach(function (r) { if (r && r.id) onServer[r.id] = 1; });
+    var del = {}; (o.deleted || []).forEach(function (i) { del[i] = 1; });
+    var synced = projects.filter(function (p) { return meta[p.id] && meta[p.id].lastSyncedSnapshot; });
+    var gone = synced.filter(function (p) { return !onServer[p.id] && !del[p.id] && JSON.stringify(p) === meta[p.id].lastSyncedSnapshot; })
+      .map(function (p) { return p.id; });
+    return gone.length > Math.max(2, Math.floor(synced.length / 2)) ? [] : gone;
+  }
+
+  root.EBSync = { decidePush: decidePush, decidePull: decidePull, needed: needed, conflictCopy: conflictCopy, remoteDeletions: remoteDeletions };
 })(typeof globalThis !== "undefined" ? globalThis : this);

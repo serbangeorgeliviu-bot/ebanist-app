@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.81.1 — 18 noiembrie 2026
+
+**Un proiect șters pe un dispozitiv dispare și de pe celelalte.** Înainte, rămânea pe telefon după ce îl ștergeai pe PC.
+- Pe celălalt dispozitiv proiectul se scoate la următoarea sincronizare, cu mesajul „Șters de pe alt dispozitiv: Nume" și butonul **Anulează** (6 secunde, ca la ștergerea locală). Anularea îl urcă din nou pe server.
+- **Munca ta nu se pierde:** se scoate numai un proiect sincronizat înainte și **nemodificat** de atunci. Dacă l-ai modificat local, rămâne și se urcă din nou.
+- **Plase de siguranță:** „absent de pe server" poate însemna și o sesiune expirată. O listă goală sau de mărimea paginii (1000) nu șterge nimic, iar dacă s-ar scoate mai mult de jumătate din proiectele sincronizate (minimum 2) se presupune o greșeală și nu se șterge nimic.
+- Teste noi în `sync.test.js` (acum 10).
+- **Rămâne:** proiecte partajate între utilizatori (D-25, `project_members`); latența de sincronizare nemăsurată pe dispozitive reale.
+
+---
+
 ## 5.81.0 — 18 noiembrie 2026
 
 **Un proiect pe mai multe dispozitive: ce faci pe telefon apare pe PC fără repornire, iar o modificare pe două dispozitive nu mai pierde nimic.**

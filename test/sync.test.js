@@ -42,3 +42,24 @@ test("copia de conflict: alt id, sufix în nume, originalul neatins", () => {
   assert.strictEqual(c.id, "zz9"); assert.strictEqual(c.name, "Bucătărie (conflict 10:42)"); assert.strictEqual(o.name, "Bucătărie");
   c.pieces[0].lung = 1; assert.strictEqual(o.pieces[0].lung, 800);
 });
+
+test("ștergere de pe alt dispozitiv: se scoate un proiect sincronizat, absent de pe server și nemodificat local", () => {
+  const a = P("A"); a.id = "a"; const b = P("B"); b.id = "b"; const c = P("C"); c.id = "c";
+  const m = { a: meta(a, "t"), b: meta(b, "t"), c: meta(c, "t") };
+  assert.deepStrictEqual(S.remoteDeletions({ list: [{ id: "a" }, { id: "b" }], projects: [a, b, c], metaById: m, deleted: [] }), ["c"]);
+});
+test("ștergere: proiect modificat local rămâne; proiect fără metadate (nou) rămâne; ce e deja în coada de ștergeri nu se ia a doua oară", () => {
+  const a = P("A"); a.id = "a"; const b = P("B"); b.id = "b"; const n = P("N"); n.id = "n"; const d = P("D"); d.id = "d";
+  const m = { a: meta(a, "t"), b: meta(b, "t"), d: meta(d, "t") };
+  const a2 = { ...a, name: "A edited" };
+  assert.deepStrictEqual(S.remoteDeletions({ list: [{ id: "b" }], projects: [a2, b, n, d], metaById: m, deleted: ["d"] }), []);
+});
+test("ștergere: plase de siguranță — listă goală, listă de dimensiunea paginii, prea multe dintr-odată", () => {
+  const mk = i => { const p = P("P" + i); p.id = "p" + i; return p; }, ps = [1, 2, 3, 4, 5, 6].map(mk), m = {};
+  ps.forEach(p => { m[p.id] = meta(p, "t"); });
+  assert.deepStrictEqual(S.remoteDeletions({ list: [], projects: ps, metaById: m, deleted: [] }), []);
+  assert.deepStrictEqual(S.remoteDeletions({ list: Array.from({ length: 1000 }, (_, i) => ({ id: "x" + i })), projects: ps, metaById: m, deleted: [] }), []);
+  assert.deepStrictEqual(S.remoteDeletions({ list: [{ id: "p1" }], projects: ps, metaById: m, deleted: [] }), []);   // 5 din 6 absente: greșeală probabilă
+  assert.deepStrictEqual(S.remoteDeletions({ list: [{ id: "p1" }, { id: "p2" }, { id: "p3" }, { id: "p4" }], projects: ps, metaById: m, deleted: [] }), ["p5", "p6"]);
+  assert.deepStrictEqual(S.remoteDeletions({ list: null, projects: ps, metaById: m, deleted: [] }), []);
+});

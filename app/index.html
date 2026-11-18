@@ -4331,6 +4331,13 @@ AUTH_I18N.pl.syncCopyWord="konflikt";
 AUTH_I18N.pl.syncConflictCopy="⇄ Zmieniono na dwóch urządzeniach: Twoja wersja zapisana jako „{n}”";
 AUTH_I18N.es.syncCopyWord="conflicto";
 AUTH_I18N.es.syncConflictCopy="⇄ Editado en dos dispositivos: tu versión se guarda como «{n}»";
+AUTH_I18N.it.syncRemoteDeleted="🗑 Cancellato da un altro dispositivo: {n}";
+AUTH_I18N.ro.syncRemoteDeleted="🗑 Șters de pe alt dispozitiv: {n}";
+AUTH_I18N.en.syncRemoteDeleted="🗑 Deleted on another device: {n}";
+AUTH_I18N.fr.syncRemoteDeleted="🗑 Supprimé sur un autre appareil : {n}";
+AUTH_I18N.de.syncRemoteDeleted="🗑 Auf einem anderen Gerät gelöscht: {n}";
+AUTH_I18N.pl.syncRemoteDeleted="🗑 Usunięto na innym urządzeniu: {n}";
+AUTH_I18N.es.syncRemoteDeleted="🗑 Eliminado en otro dispositivo: {n}";
 function ta(key){ return (AUTH_I18N[state.lang]||AUTH_I18N.it)[key]||key; }
 const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile","Base / Cielo","Anta","Schienale","Tramezzo",
 "Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Fianco ripiano estraibile","Fronte/Retro ripiano estraibile","Fondo ripiano estraibile","Retro ripiano estraibile","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
@@ -17108,6 +17115,17 @@ async function pullAndMergeProjects(){
     await syncSettings();
     const {data:list,error:e1}=await sb.from("projects").select("id,updated_at");
     if(e1||!list) return;
+    /* șterse pe alt dispozitiv (5.81.1): se scot și de aici, cu „Anulează" ca la ștergerea locală; un proiect modificat local rămâne */
+    const gone=EBSync.remoteDeletions({list,projects:state.projects,metaById:syncMeta,deleted:syncDel});
+    if(gone.length){
+      const names=state.projects.filter(q=>gone.indexOf(q.id)>=0).map(q=>q.name||"—");
+      snapUndo();
+      state.projects=state.projects.filter(q=>gone.indexOf(q.id)<0);
+      if(gone.indexOf(state.activeId)>=0) state.activeId=state.projects[0]?state.projects[0].id:null;
+      gone.forEach(id=>{ delete syncMeta[id]; });
+      saveSyncMeta(syncMeta); persist(); render();
+      undoToast(ta("syncRemoteDeleted").replace("{n}",names.join(", ")));
+    }
     const ids=EBSync.needed(list,syncMeta,syncDel);
     if(!ids.length) return;
     const {data:rows,error:e2}=await sb.from("projects").select("*").in("id",ids);
@@ -19441,12 +19459,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.81.0"; /* APP_VER-MARKER */
+const APP_VER="5.81.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v259";
+const SW_CACHE="ebanist-v260";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
