@@ -58,7 +58,7 @@ const data = {
   sources: J.sources.map(s => ({ id: s.id, title: s.title, url: s.url })),
   runners: slim(J.runners).map(r => (r.codes = (r.codes || []).map(c => ({ code: c.code, desc: c.desc })), r)),
   boxes: slim(J.boxes).map(b => (b.codes = (b.codes || []).map(c => ({ code: c.code, desc: c.desc })), b)),
-  sides: J.sides.map(s => ({ key: s.key, brand: s.brand, box: s.box, name: s.name, art: s.art })),
+  sides: J.sides.map(s => ({ key: s.key, brand: s.brand, box: s.box, name: s.name, art: s.art, stub: !!s.stub, load_kg: s.load_kg == null ? null : s.load_kg })),
   notes: J.notes, conflicts: J.conflicts
 };
 if (!check) {

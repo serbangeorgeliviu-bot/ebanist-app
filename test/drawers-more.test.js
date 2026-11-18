@@ -315,7 +315,7 @@ describe("3D: cutiile au cotele rândurilor și nu intră în corp", () => {
 describe("Catalog: glisiere și seturi de laterale în 7 limbi", () => {
   test("fiecare glisieră și fiecare set are numele în toate cele 7 limbi, un articol, preț 0 (de completat) și chk", () => {
     const g = MO.guidaEntries([]), z = MO.zargaEntries([]);
-    assert.equal(g.length, 9); assert.equal(z.length, 6);
+    assert.equal(g.length, 9); assert.equal(z.length, 7);
     g.concat(z).forEach(x => { ["it", "ro", "en", "fr", "de", "pl", "es"].forEach(l => assert.ok(x.n[l] && x.n[l].length > 3, x.id + " " + l)); assert.equal(x.price, 0); assert.equal(x.chk, 1); assert.ok(x.art); });
     assert.equal(new Set(g.map(x => x.id)).size, 9);
   });
@@ -323,6 +323,8 @@ describe("Catalog: glisiere și seturi de laterale în 7 limbi", () => {
   test("fiecare casă selectabilă are glisiera și setul de laterale în catalog", () => {
     const g = MO.guidaEntries([]).map(x => x.id), z = MO.zargaEntries([]).map(x => x.id);
     MO.boxes().forEach(b => { assert.ok(g.includes(b.runner), b.key); assert.ok(z.includes(b.side), b.key); });
+    const pl = MO.zargaEntries([]).find(x => x.id === "blum_plicobox"); assert.ok(pl && pl.noDims === 1 && /25 kg/.test(pl.n.en), "PLICOBOX: numai 25 kg din comunicat, marcat fără dimensiuni");
+    assert.equal(MO.box("blum_plicobox"), null, "PLICOBOX nu e sistem selectabil");
   });
   test("tipul glisierei pentru 3D: laterală (Actro, Nova Pro, Quadro, Accuride) sau ascunsă (Dynapro, Matrix UM)", () => {
     ["het_actro_you", "het_actro_arcitech", "het_actro_5d", "het_quadro_v6", "gr_nova_pro", "acc_3832sc"].forEach(k => assert.equal(MO.kind(k), "side", k));

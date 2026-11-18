@@ -356,6 +356,12 @@ for box in boxes:
     sides.append({"key": box["side"], "brand": box["brand"], "box": box["key"],
                   "name": box["name"] + " — laterale (set)", "art": pattern(box["codes"]) if box["codes"] else "—", "codes": box["codes"]})
 
+# --- Blum PLICOBOX: numai ce spune comunicatul de presă (25 kg, extensii, culori); fără NL, înălțimi, deducții → nu e sistem selectabil, doar articol marcat
+b = SYS["blum-plicobox"]
+sides.append({"key": "blum_plicobox", "brand": "Blum", "box": None, "name": "PLICOBOX — laterale (set)", "art": "—", "codes": [],
+              "stub": True, "load_kg": b["load_kg"]["max"], "extension": b["extension"], "src": "B-PRESS",
+              "note": "fără dimensiuni publicate (catalogul Blum 2027/2028 nu conține PLICOBOX)"})
+
 # ====================================================================== note, conflicte
 notes = list(RAW["notes"])
 conflicts = [

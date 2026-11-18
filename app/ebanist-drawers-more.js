@@ -25,6 +25,7 @@
   var LANGS = ["it", "ro", "en", "fr", "de", "pl", "es"];
   var PAIR = { it: "cp.", ro: "per.", en: "pair", fr: "paire", de: "Paar", pl: "para", es: "par" };
   var SIDES = { it: "sponde sx/dx", ro: "laterale stânga/dreapta", en: "drawer sides L/R", fr: "côtés G/D", de: "Zargen links/rechts", pl: "boki lewy/prawy", es: "costados izq./dcha." };
+  var NODIMS = { it: "dimensioni non disponibili", ro: "dimensiuni indisponibile", en: "dimensions not available", fr: "dimensions non disponibles", de: "Maße nicht verfügbar", pl: "wymiary niedostępne", es: "dimensiones no disponibles" };
   var SIDESET = { it: "set", ro: "set", en: "set", fr: "kit", de: "Set", pl: "zestaw", es: "juego" };
   /* valori de plasare ale aplicației (NU date de producător), aceleași ca la celelalte sisteme metalice: frontul coboară `lift` sub fundul
      casei și trebuie să fie cu `headroom` mai înalt decât lateralul. `sideTh` = grosimea cu care se DESENEAZĂ lateralul când sursa nu o dă. */
@@ -111,8 +112,8 @@
   function zargaEntries(known) {
     var seen = {}; (known || []).forEach(function (i) { seen[i] = 1; });
     return D().sides.filter(function (s) { return !seen[s.key]; }).map(function (s) {
-      var n = {}; LANGS.forEach(function (l) { n[l] = s.brand + " " + s.name.replace(/ — laterale \(set\)$/, "") + ", " + SIDES[l] + " (" + SIDESET[l] + ")"; });
-      return { id: s.key, brand: s.brand, n: n, art: s.art || "—", price: 0, chk: 1, more: 1 };
+      var n = {}; LANGS.forEach(function (l) { n[l] = s.brand + " " + s.name.replace(/ — laterale \(set\)$/, "") + (s.load_kg ? " · " + s.load_kg + " kg" : "") + ", " + SIDES[l] + " (" + SIDESET[l] + ")" + (s.stub ? " — " + NODIMS[l] : ""); });
+      return { id: s.key, brand: s.brand, n: n, art: s.art || "—", price: 0, chk: 1, more: 1, noDims: s.stub ? 1 : 0 };
     });
   }
   /* rezerva din adâncime și deducția laterală, în tabelul de glisiere al nucleului (SLIDE_CATALOG). null în sursă → 0 aici; planul de sertar

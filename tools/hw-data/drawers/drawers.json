@@ -8860,6 +8860,19 @@
      "src": "G Vionaro_V13/14"
     }
    ]
+  },
+  {
+   "key": "blum_plicobox",
+   "brand": "Blum",
+   "box": null,
+   "name": "PLICOBOX — laterale (set)",
+   "art": "—",
+   "codes": [],
+   "stub": true,
+   "load_kg": 25,
+   "extension": "full, 7/8 and single extension (B-PRESS)",
+   "src": "B-PRESS",
+   "note": "fără dimensiuni publicate (catalogul Blum 2027/2028 nu conține PLICOBOX)"
   }
  ],
  "notes": [
