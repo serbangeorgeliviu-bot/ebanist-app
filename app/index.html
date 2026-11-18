@@ -2429,6 +2429,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   </div>
   <div class="f"><label data-i="fHours">Ore manodopera</label><input id="prHours" type="number" inputmode="decimal" step="0.5" min="0"></div>
   <div class="f"><label data-i="fNotes">Note</label><textarea id="prNotes" rows="2"></textarea></div>
+  <div id="prShare" style="display:none;margin:12px 0"></div>
   <div class="btnrow">
     <button class="btn" id="btnProjectCancel" data-i="cancel">Annulla</button>
     <button class="btn red" id="btnProjectSave" data-i="save">Salva</button>
@@ -2677,6 +2678,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <p class="mini"><span id="acctLoggedInLbl">Connesso come</span> <strong id="acctEmailShow"></strong></p>
     <p class="mini"><span id="acctRoleLbl">Ruolo</span>: <strong id="acctRoleShow"></strong></p>
     <button class="btn" id="btnAcctAtelier" style="margin-top:8px;display:none">Atelier</button>
+    <button class="btn" id="btnAcctJoin" style="margin-top:8px;display:none">…</button>
     <button class="btn" id="btnAcctLogout" style="margin-top:8px">Esci</button>
   </div>
 </div>
@@ -2949,6 +2951,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-order.js"></script>
 <script src="./ebanist-sync.js"></script>
+<script src="./ebanist-share.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-baseframe.js"></script>
 <script src="./ebanist-kitchen-data.js"></script>
@@ -4338,6 +4341,13 @@ AUTH_I18N.fr.syncRemoteDeleted="🗑 Supprimé sur un autre appareil : {n}";
 AUTH_I18N.de.syncRemoteDeleted="🗑 Auf einem anderen Gerät gelöscht: {n}";
 AUTH_I18N.pl.syncRemoteDeleted="🗑 Usunięto na innym urządzeniu: {n}";
 AUTH_I18N.es.syncRemoteDeleted="🗑 Eliminado en otro dispositivo: {n}";
+Object.assign(AUTH_I18N.ro,{"shTitle": "Partajare", "shRoleViewer": "Doar citire", "shRoleCommenter": "Comentează", "shRoleEditor": "Editează", "shOwner": "Proprietar", "shInvite": "Creează invitația", "shCodeHint": "Codul e valabil 7 zile și se poate folosi o singură dată. Trimite-l persoanei invitate.", "shCopy": "Trimite codul", "shCopied": "Cod copiat", "shShareText": "Cod de invitație Ebanist: {c} (Cont → Am un cod de invitație)", "shMembers": "Persoane cu acces", "shRemove": "Scoate", "shLeave": "Ieși din proiect", "shLeaveQ": "Ieși din acest proiect partajat? Proprietarul îl păstrează.", "shLeft": "Ai ieșit din proiect", "shSharedBy": "Partajat de", "shBadge": "Partajat", "shReadOnly": "Proiect cu drept de citire: modificările nu se salvează", "shJoin": "Am un cod de invitație", "shJoinPrompt": "Codul de invitație:", "shJoined": "Proiect adăugat", "shComments": "Comentarii", "shCommentPh": "Scrie un comentariu…", "shSend": "Trimite", "shNoComments": "Niciun comentariu", "shErrCode": "Cod invalid, expirat sau deja folosit", "shErrAlready": "Ai deja acces la acest proiect", "shErrAllowed": "Nu ai voie să faci asta", "shErrLogin": "Autentifică-te întâi"});
+Object.assign(AUTH_I18N.en,{"shTitle": "Sharing", "shRoleViewer": "View only", "shRoleCommenter": "Can comment", "shRoleEditor": "Can edit", "shOwner": "Owner", "shInvite": "Create invitation", "shCodeHint": "The code is valid for 7 days and works once. Send it to the person you invite.", "shCopy": "Send code", "shCopied": "Code copied", "shShareText": "Ebanist invitation code: {c} (Account → I have an invitation code)", "shMembers": "People with access", "shRemove": "Remove", "shLeave": "Leave project", "shLeaveQ": "Leave this shared project? The owner keeps it.", "shLeft": "You left the project", "shSharedBy": "Shared by", "shBadge": "Shared", "shReadOnly": "Read-only project: changes are not saved", "shJoin": "I have an invitation code", "shJoinPrompt": "Invitation code:", "shJoined": "Project added", "shComments": "Comments", "shCommentPh": "Write a comment…", "shSend": "Send", "shNoComments": "No comments", "shErrCode": "Invalid, expired or already used code", "shErrAlready": "You already have access to this project", "shErrAllowed": "You are not allowed to do that", "shErrLogin": "Sign in first"});
+Object.assign(AUTH_I18N.it,{"shTitle": "Condivisione", "shRoleViewer": "Sola lettura", "shRoleCommenter": "Può commentare", "shRoleEditor": "Può modificare", "shOwner": "Proprietario", "shInvite": "Crea invito", "shCodeHint": "Il codice vale 7 giorni e si usa una sola volta. Invialo alla persona invitata.", "shCopy": "Invia il codice", "shCopied": "Codice copiato", "shShareText": "Codice di invito Ebanist: {c} (Account → Ho un codice di invito)", "shMembers": "Persone con accesso", "shRemove": "Rimuovi", "shLeave": "Esci dal progetto", "shLeaveQ": "Uscire da questo progetto condiviso? Il proprietario lo conserva.", "shLeft": "Sei uscito dal progetto", "shSharedBy": "Condiviso da", "shBadge": "Condiviso", "shReadOnly": "Progetto in sola lettura: le modifiche non vengono salvate", "shJoin": "Ho un codice di invito", "shJoinPrompt": "Codice di invito:", "shJoined": "Progetto aggiunto", "shComments": "Commenti", "shCommentPh": "Scrivi un commento…", "shSend": "Invia", "shNoComments": "Nessun commento", "shErrCode": "Codice non valido, scaduto o già usato", "shErrAlready": "Hai già accesso a questo progetto", "shErrAllowed": "Non hai il permesso di farlo", "shErrLogin": "Accedi prima"});
+Object.assign(AUTH_I18N.fr,{"shTitle": "Partage", "shRoleViewer": "Lecture seule", "shRoleCommenter": "Peut commenter", "shRoleEditor": "Peut modifier", "shOwner": "Propriétaire", "shInvite": "Créer l'invitation", "shCodeHint": "Le code est valable 7 jours et ne sert qu'une fois. Envoyez-le à la personne invitée.", "shCopy": "Envoyer le code", "shCopied": "Code copié", "shShareText": "Code d'invitation Ebanist : {c} (Compte → J'ai un code d'invitation)", "shMembers": "Personnes ayant accès", "shRemove": "Retirer", "shLeave": "Quitter le projet", "shLeaveQ": "Quitter ce projet partagé ? Le propriétaire le conserve.", "shLeft": "Vous avez quitté le projet", "shSharedBy": "Partagé par", "shBadge": "Partagé", "shReadOnly": "Projet en lecture seule : les modifications ne sont pas enregistrées", "shJoin": "J'ai un code d'invitation", "shJoinPrompt": "Code d'invitation :", "shJoined": "Projet ajouté", "shComments": "Commentaires", "shCommentPh": "Écrire un commentaire…", "shSend": "Envoyer", "shNoComments": "Aucun commentaire", "shErrCode": "Code invalide, expiré ou déjà utilisé", "shErrAlready": "Vous avez déjà accès à ce projet", "shErrAllowed": "Vous n'avez pas le droit de faire cela", "shErrLogin": "Connectez-vous d'abord"});
+Object.assign(AUTH_I18N.de,{"shTitle": "Freigabe", "shRoleViewer": "Nur Lesen", "shRoleCommenter": "Kann kommentieren", "shRoleEditor": "Kann bearbeiten", "shOwner": "Eigentümer", "shInvite": "Einladung erstellen", "shCodeHint": "Der Code gilt 7 Tage und nur einmal. Senden Sie ihn der eingeladenen Person.", "shCopy": "Code senden", "shCopied": "Code kopiert", "shShareText": "Ebanist-Einladungscode: {c} (Konto → Ich habe einen Einladungscode)", "shMembers": "Personen mit Zugriff", "shRemove": "Entfernen", "shLeave": "Projekt verlassen", "shLeaveQ": "Dieses freigegebene Projekt verlassen? Der Eigentümer behält es.", "shLeft": "Sie haben das Projekt verlassen", "shSharedBy": "Freigegeben von", "shBadge": "Freigegeben", "shReadOnly": "Projekt nur zum Lesen: Änderungen werden nicht gespeichert", "shJoin": "Ich habe einen Einladungscode", "shJoinPrompt": "Einladungscode:", "shJoined": "Projekt hinzugefügt", "shComments": "Kommentare", "shCommentPh": "Kommentar schreiben…", "shSend": "Senden", "shNoComments": "Keine Kommentare", "shErrCode": "Code ungültig, abgelaufen oder bereits verwendet", "shErrAlready": "Sie haben bereits Zugriff auf dieses Projekt", "shErrAllowed": "Dafür fehlt die Berechtigung", "shErrLogin": "Bitte zuerst anmelden"});
+Object.assign(AUTH_I18N.pl,{"shTitle": "Udostępnianie", "shRoleViewer": "Tylko odczyt", "shRoleCommenter": "Może komentować", "shRoleEditor": "Może edytować", "shOwner": "Właściciel", "shInvite": "Utwórz zaproszenie", "shCodeHint": "Kod jest ważny 7 dni i działa raz. Wyślij go zaproszonej osobie.", "shCopy": "Wyślij kod", "shCopied": "Kod skopiowany", "shShareText": "Kod zaproszenia Ebanist: {c} (Konto → Mam kod zaproszenia)", "shMembers": "Osoby z dostępem", "shRemove": "Usuń", "shLeave": "Opuść projekt", "shLeaveQ": "Opuścić ten udostępniony projekt? Właściciel go zachowuje.", "shLeft": "Opuszczono projekt", "shSharedBy": "Udostępnił", "shBadge": "Udostępniony", "shReadOnly": "Projekt tylko do odczytu: zmiany nie są zapisywane", "shJoin": "Mam kod zaproszenia", "shJoinPrompt": "Kod zaproszenia:", "shJoined": "Dodano projekt", "shComments": "Komentarze", "shCommentPh": "Napisz komentarz…", "shSend": "Wyślij", "shNoComments": "Brak komentarzy", "shErrCode": "Kod nieprawidłowy, wygasły lub już użyty", "shErrAlready": "Masz już dostęp do tego projektu", "shErrAllowed": "Nie masz do tego uprawnień", "shErrLogin": "Najpierw się zaloguj"});
+Object.assign(AUTH_I18N.es,{"shTitle": "Compartir", "shRoleViewer": "Solo lectura", "shRoleCommenter": "Puede comentar", "shRoleEditor": "Puede editar", "shOwner": "Propietario", "shInvite": "Crear invitación", "shCodeHint": "El código vale 7 días y se usa una sola vez. Envíalo a la persona invitada.", "shCopy": "Enviar el código", "shCopied": "Código copiado", "shShareText": "Código de invitación de Ebanist: {c} (Cuenta → Tengo un código de invitación)", "shMembers": "Personas con acceso", "shRemove": "Quitar", "shLeave": "Salir del proyecto", "shLeaveQ": "¿Salir de este proyecto compartido? El propietario lo conserva.", "shLeft": "Has salido del proyecto", "shSharedBy": "Compartido por", "shBadge": "Compartido", "shReadOnly": "Proyecto de solo lectura: los cambios no se guardan", "shJoin": "Tengo un código de invitación", "shJoinPrompt": "Código de invitación:", "shJoined": "Proyecto añadido", "shComments": "Comentarios", "shCommentPh": "Escribe un comentario…", "shSend": "Enviar", "shNoComments": "Sin comentarios", "shErrCode": "Código no válido, caducado o ya usado", "shErrAlready": "Ya tienes acceso a este proyecto", "shErrAllowed": "No tienes permiso para hacerlo", "shErrLogin": "Inicia sesión primero"});
 function ta(key){ return (AUTH_I18N[state.lang]||AUTH_I18N.it)[key]||key; }
 const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile","Base / Cielo","Anta","Schienale","Tramezzo",
 "Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Fianco ripiano estraibile","Fronte/Retro ripiano estraibile","Fondo ripiano estraibile","Retro ripiano estraibile","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
@@ -4932,7 +4942,12 @@ let idbTimer=null, bkTimer=null;
    perso localStorage. */
 let idbReady=false, idbPending=false;
 
+var shareOn=false, shareMap={};
 function persist(){
+  /* proiect partajat fără drept de scriere (viewer/commenter): modificările locale se readuc la starea sincronizată (5.82.0) */
+  try{ if(shareOn&&window.EBShare){ const ro=EBShare.readOnlyChanged(state.projects,shareMap,syncMeta);
+    if(ro.length){ ro.forEach(id=>{ const i=state.projects.findIndex(x=>x.id===id); try{ state.projects[i]=JSON.parse(syncMeta[id].lastSyncedSnapshot); }catch(e){} });
+      setTimeout(()=>{ try{ toast(ta("shReadOnly")); render(); }catch(e){} },0); } } }catch(e){}
   const now=Date.now();
   let json=null;
   try{ json=JSON.stringify(state); }catch(e){ json=null; }
@@ -5981,6 +5996,7 @@ function renderProjects(){
           <div class="pj-meta">${esc(p.client||"")}${p.client?" · ":""}${esc(p.date||"")}${dl}</div>
         </div>
         ${p.id===state.activeId?`<span class="tag-active">${esc(t("active"))}</span>`:""}
+        ${shareMap[p.id]?`<span class="tag-active" style="background:#e6efe8;color:#0E3B2A">${esc(ta("shBadge"))} · ${esc(shRoleLabel(shareMap[p.id].role))}</span>`:""}
         <button class="iconbtn" data-edit><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button>
       </div>
       <div class="pj-stats">
@@ -6418,6 +6434,7 @@ function openProjectEditor(id){
   $("btnProjectDup").style.display=p?"flex":"none";
   $("btnProjectDelete").style.display=p?"flex":"none";
   openSheet("shProject");
+  try{ renderShare(p); }catch(e){}
 }
 /* Il cancello sta sul BOTTONE, non sul salvataggio: far scrivere nome,
    cliente e scadenza e poi rifiutare il progetto e il modo piu sicuro di
@@ -6449,6 +6466,15 @@ $("btnProjectSave").addEventListener("click",()=>{
 });
 $("btnProjectDelete").addEventListener("click",async()=>{
   if(!editingProjectId) return;
+  const sharedAs=shareMap[editingProjectId];
+  if(sharedAs){   // proiect al altcuiva: nu se șterge, ieși din el (proprietarul îl păstrează)
+    if(!await confirmDlg(ta("shLeaveQ"))) return;
+    try{ await shRpc("project_remove_member",{p_project:editingProjectId,p_user:acctSession.user.id}); }catch(e){ toast(shErr(e)); return; }
+    const gid=editingProjectId;
+    state.projects=state.projects.filter(q=>q.id!==gid); delete syncMeta[gid]; saveSyncMeta(syncMeta); delete shareMap[gid];
+    if(state.activeId===gid) state.activeId=state.projects[0]?state.projects[0].id:null;
+    persist(); closeSheets(); render(); toast(ta("shLeft")); return;
+  }
   if(!await confirmDlg(t("confirmDelProject"))) return;
   snapUndo();
   const goneId=editingProjectId;
@@ -16921,6 +16947,7 @@ function renderAccount(){
     $("acctEmailShow").textContent=(acctSession.user&&acctSession.user.email)||"";
     $("acctRoleShow").textContent=acctProfile?acctProfile.role:"—";
   }
+  const jb=$("btnAcctJoin"); if(jb){ jb.style.display=(loggedIn&&shareOn)?"flex":"none"; jb.textContent=ta("shJoin"); }
   const atBtn=$("btnAcctAtelier");
   if(atBtn){ atBtn.style.display=(loggedIn&&window.EBAtelier&&EBAtelier.flagOn(window))?"flex":"none"; atBtn.textContent=EBAtelier.t(state.lang,"atTitle"); }
 }
@@ -16950,7 +16977,7 @@ async function initAuth(){
       renderAccount();
       if(acctSession&&!wasLoggedIn){ atBoot(); atFlush(); }
       if(acctSession&&!wasLoggedIn){ await pullAndMergeProjects(); startLiveSync(); }
-      if(!acctSession&&wasLoggedIn) stopLiveSync();
+      if(!acctSession&&wasLoggedIn){ stopLiveSync(); shareOn=false; shareMap={}; }
     });
   }catch(e){ /* offline o Supabase non raggiungibile — l'app continua a funzionare in locale */ }
 }
@@ -17011,6 +17038,7 @@ async function runSync(){
     }
     await syncSettings();
     for(const p of state.projects){
+      if(!EBShare.pushable(p,shareMap)) continue;   // partajat cu drept de citire/comentarii: nu se trimite
       const snap=JSON.stringify(p);
       const meta=syncMeta[p.id]||{};
       if(meta.lastSyncedSnapshot===snap) continue; // neschimbat local — nimic de trimis
@@ -17113,6 +17141,7 @@ async function pullAndMergeProjects(){
   if(!sb||!acctSession) return;
   try{
     await syncSettings();
+    await refreshShares();
     const {data:list,error:e1}=await sb.from("projects").select("id,updated_at");
     if(e1||!list) return;
     /* șterse pe alt dispozitiv (5.81.1): se scot și de aici, cu „Anulează" ca la ștergerea locală; un proiect modificat local rămâne */
@@ -17147,6 +17176,103 @@ async function pullAndMergeProjects(){
 /* Un proiect pe trei dispozitive (5.81.0): ce faci pe telefon apare pe PC fără repornire.
    Declanșatoare: revenirea în aplicație, revenirea rețelei, o modificare anunțată de server (Realtime, numai ca semnal: datele se aduc cu lista ușoară)
    și, ca plasă de siguranță, la 60 s cât aplicația e vizibilă. Ordinea: întâi trimitem ce avem, apoi aducem. */
+/* ---------- proiecte partajate (5.82.0, D-159) ----------
+   Serverul decide totul (RLS + funcțiile project_*); aici doar se afișează. Dacă migrația nu e aplicată (funcția lipsește), partajarea rămâne ascunsă. */
+async function refreshShares(){
+  if(!sb||!acctSession){ shareOn=false; shareMap={}; return; }
+  try{
+    const {data,error}=await sb.rpc("project_shared_list");
+    if(error){ shareOn=false; shareMap={}; return; }
+    shareOn=true; shareMap=EBShare.shareMap(data);
+  }catch(e){ shareOn=false; shareMap={}; }
+}
+function shRoleLabel(r){ return ta(r==="owner"?"shOwner":r==="editor"?"shRoleEditor":r==="commenter"?"shRoleCommenter":"shRoleViewer"); }
+function shErr(e){ const k=EBShare.errKey(e&&(e.message||e)); return k?ta(k):((e&&e.message)||String(e)); }
+async function shRpc(fn,args){
+  const {data,error}=await sb.rpc(fn,args||{});
+  if(error) throw error;
+  return data;
+}
+async function renderShare(p){
+  const box=$("prShare"); if(!box) return;
+  if(!p||!sb||!acctSession||!shareOn){ box.style.display="none"; box.innerHTML=""; return; }
+  const sh=shareMap[p.id], role=sh?sh.role:"owner";
+  let h=`<h4 style="margin:0 0 6px">${esc(ta("shTitle"))}</h4>`;
+  if(sh){
+    h+=`<p class="mini">${esc(ta("shSharedBy"))} <b>${esc(sh.owner_name||"—")}</b> · ${esc(shRoleLabel(role))}</p>`;
+  }else{
+    h+=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <select id="shInvRole" style="flex:1;min-width:120px">${EBShare.ROLES.slice().reverse().map(r=>`<option value="${r}">${esc(shRoleLabel(r))}</option>`).join("")}</select>
+      <button class="btn" id="shInvBtn" type="button">${esc(ta("shInvite"))}</button></div>
+      <div id="shInvOut"></div><div id="shMembers"></div>`;
+  }
+  h+=`<div id="shComments" style="margin-top:10px"></div>`;
+  box.innerHTML=h; box.style.display="block"; box.dataset.pid=p.id;
+  if(!sh) loadMembers(p.id);
+  loadComments(p.id,role);
+}
+async function loadMembers(pid){
+  const el=$("shMembers"); if(!el) return;
+  try{
+    const rows=await shRpc("project_members_list",{p_project:pid});
+    if(!rows.length){ el.innerHTML=""; return; }
+    el.innerHTML=`<p class="mini" style="margin:10px 0 4px">${esc(ta("shMembers"))}</p>`+rows.map(r=>`<div style="display:flex;gap:8px;align-items:center;margin:4px 0" data-uid="${esc(r.user_id)}">
+      <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${esc(r.full_name||"—")}${r.email?` <span class="mini">${esc(r.email)}</span>`:""}</span>
+      <select data-role>${EBShare.ROLES.slice().reverse().map(x=>`<option value="${x}"${x===r.role?" selected":""}>${esc(shRoleLabel(x))}</option>`).join("")}</select>
+      <button class="iconbtn" type="button" data-rm aria-label="${esc(ta("shRemove"))}">×</button></div>`).join("");
+  }catch(e){ el.innerHTML=""; }
+}
+async function loadComments(pid,role){
+  const el=$("shComments"); if(!el) return;
+  try{
+    const {data,error}=await sb.from("project_comments").select("id,author,author_name,body,created_at").eq("project_id",pid).order("created_at");
+    if(error) throw error;
+    const me=acctSession.user.id;
+    let h=`<p class="mini" style="margin:0 0 4px">${esc(ta("shComments"))}${data.length?` (${data.length})`:""}</p>`;
+    h+=data.length?data.slice(-50).map(c=>`<div style="margin:6px 0;padding:6px 8px;background:var(--card2,#f3f3ee);border-radius:8px"><div class="mini"><b>${esc(c.author_name||"—")}</b> · ${esc(String(c.created_at||"").slice(0,16).replace("T"," "))}${c.author===me?` <a href="#" data-cdel="${esc(c.id)}" style="float:right">×</a>`:""}</div><div style="white-space:pre-wrap">${esc(c.body)}</div></div>`).join(""):`<p class="mini">${esc(ta("shNoComments"))}</p>`;
+    if(EBShare.canComment(role)) h+=`<div style="display:flex;gap:8px;margin-top:6px"><textarea id="shCmtTxt" rows="2" maxlength="2000" placeholder="${esc(ta("shCommentPh"))}" style="flex:1"></textarea><button class="btn" id="shCmtBtn" type="button">${esc(ta("shSend"))}</button></div>`;
+    el.innerHTML=h;
+  }catch(e){ el.innerHTML=""; }
+}
+document.addEventListener("click",async ev=>{
+  const box=$("prShare"); if(!box||!box.contains(ev.target)) return;
+  const pid=box.dataset.pid, tg=ev.target;
+  try{
+    if(tg.id==="shInvBtn"){
+      await runSync();                                   // proiectul trebuie să fie deja pe server
+      const code=await shRpc("project_invite",{p_project:pid,p_role:$("shInvRole").value});
+      $("shInvOut").innerHTML=`<p style="margin:10px 0 2px;font:700 22px/1.2 var(--mono,monospace);letter-spacing:.08em">${esc(code)}</p><p class="mini">${esc(ta("shCodeHint"))}</p><button class="btn" id="shCopyBtn" type="button" data-code="${esc(code)}">${esc(ta("shCopy"))}</button>`;
+    }else if(tg.id==="shCopyBtn"){
+      const code=tg.dataset.code, txt=ta("shShareText").replace("{c}",code);
+      if(navigator.share){ try{ await navigator.share({text:txt}); return; }catch(e){ if(e&&e.name==="AbortError") return; } }
+      try{ await navigator.clipboard.writeText(code); toast(ta("shCopied")); }catch(e){}
+    }else if(tg.dataset&&tg.dataset.rm!==undefined){
+      const uid2=tg.closest("[data-uid]").dataset.uid;
+      await shRpc("project_remove_member",{p_project:pid,p_user:uid2}); loadMembers(pid);
+    }else if(tg.dataset&&tg.dataset.cdel){
+      ev.preventDefault();
+      const {error}=await sb.from("project_comments").delete().eq("id",tg.dataset.cdel); if(error) throw error;
+      loadComments(pid,(shareMap[pid]||{role:"owner"}).role);
+    }else if(tg.id==="shCmtBtn"){
+      const body=$("shCmtTxt").value.trim(); if(!body) return;
+      const {error}=await sb.from("project_comments").insert({project_id:pid,body}); if(error) throw error;
+      loadComments(pid,(shareMap[pid]||{role:"owner"}).role);
+    }
+  }catch(e){ toast(shErr(e)); }
+});
+document.addEventListener("change",async ev=>{
+  const box=$("prShare"); if(!box||!box.contains(ev.target)||!ev.target.matches("select[data-role]")) return;
+  try{ await shRpc("project_set_role",{p_project:box.dataset.pid,p_user:ev.target.closest("[data-uid]").dataset.uid,p_role:ev.target.value}); }
+  catch(e){ toast(shErr(e)); loadMembers(box.dataset.pid); }
+});
+$("btnAcctJoin").addEventListener("click",async()=>{
+  if(!sb||!acctSession) return;
+  const raw=await promptDlg(ta("shJoinPrompt"),""); if(raw==null) return;
+  const code=EBShare.normCode(raw); if(!code) return;
+  try{ await shRpc("project_accept",{p_code:code}); toast(ta("shJoined")); closeSheets(); await pullAndMergeProjects(); render(); }
+  catch(e){ toast(shErr(e)); }
+});
+
 let syncNowBusy=false, syncChan=null, syncPoll=null, syncLast=0;
 async function syncNow(){
   if(!sb||!acctSession||syncNowBusy||!navigator.onLine) return;
@@ -19459,12 +19585,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.81.1"; /* APP_VER-MARKER */
+const APP_VER="5.82.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v260";
+const SW_CACHE="ebanist-v261";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

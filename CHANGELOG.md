@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.82.0 — 18 noiembrie 2026
+
+**Proiecte partajate între utilizatori: Jacquin vede, editează și comentează (D-159).** Partea din aplicație e gata, dar **rămâne ascunsă până când migrația `20261118_project_sharing.sql` e aplicată în Supabase**: aplicația verifică dacă serverul are funcția `project_shared_list`, iar dacă nu, nu arată nimic și se comportă ca înainte.
+- **Roluri:** *Doar citire*, *Comentează*, *Editează* (cel de editare le include pe celelalte). Proprietarul rămâne cel care a creat proiectul.
+- **Invitație:** în „Editează proiectul" → Partajare: alegi rolul, „Creează invitația" dă un cod valabil 7 zile, de unică folosință; „Trimite codul" îl dă prin partajarea telefonului. Cel invitat introduce codul din Cont → „Am un cod de invitație". Proprietarul vede lista persoanelor, poate schimba rolul sau scoate pe cineva; un membru poate ieși singur din proiect.
+- **Doar citire și comentarii:** modificările locale ale unui proiect fără drept de scriere nu se salvează (se readuc la starea sincronizată), iar proiectul nu se trimite pe server; serverul respinge oricum scrierea (RLS).
+- **Comentarii** pe proiect (cel mult 2000 de caractere), cu numele autorului pus de server; autorul își poate șterge comentariul, proprietarul le poate șterge pe toate.
+- Proiectele partajate au o etichetă „Partajat · rol" în listă; „Șterge" devine „Ieși din proiect" când proiectul nu e al tău.
+- Politicile din migrație au fost **testate local pe Postgres 16** cu cinci utilizatori (proprietar, editor, comentator, spectator, străin): vizibilitate, modificare, ștergere, upsert peste proiectul altcuiva, invitații expirate sau folosite, comentarii cu autor falsificat, cascadă la ștergerea proiectului. Rezultatele sunt cele așteptate.
+- **De aplicat în producție:** `supabase/migrations/20261118_project_sharing.sql` (SQL Editor din dashboard-ul Supabase). Anularea e la finalul fișierului.
+- Modul pur `ebanist-share.js`, test `share.test.js`.
+
+---
+
 ## 5.81.1 — 18 noiembrie 2026
 
 **Un proiect șters pe un dispozitiv dispare și de pe celelalte.** Înainte, rămânea pe telefon după ce îl ștergeai pe PC.
