@@ -1,0 +1,28 @@
+CAT-HINGES SUMMARY (collected 2026-11-18; JSON: cat-hinges.json; downloads: dl-hinges/)
+
+COMPLETE (numbers with source page):
+- Hettich Sensys 8645i (110): cup 35 x 12.8, door 15-24, TH52 = 52 x 5.5 (drawing), press-in o10x11, Fix o10x6, B 12.5/3/-4, order codes, min-reveal table C3-7 x door 15-24, D formulas, plates System 8099 (cross LR37/32, linear LR20/32, codes), hinge count 2..7 hinges (<=1000/1700/2200/2400/2600/2800 mm; 7.7/13.7/17.1/22/22/22 kg; X>=280), H/T protrusions. (HET-2017 p16, p19, p60, p104-106)
+- Hettich Intermat 9943 (110): cup 35 x 11.6, door 15-25, TH42/43/45/48, B 12.5/3/-3.5, min-reveal table C3-6, codes, Silent System add-on codes.
+- Hettich 8631i, 8646i, 8657i (165), 8639i W30/W45/W90, 8638i, 9936, 9935 (cup 40), 9904 glass (cup 26): cup, door range, codes, H/T; min-reveal tables NOT transcribed for most (pointer to page).
+- Hettich Avosys: glass 3-8 (glued) / 4-6 mm (o12 drilled, 2 holes 24 mm apart), 110 deg, base -2, TE vs plate distance table, hinge-count chart, CAD zip URL.
+- Salice Silentia+ S100 105, S200 94 (min 18, cup 15.5), S200 155 (min 16, cup 13.5), S700 110/120/155, S300, N: drilling 48/6, 45/9.5, 52/5.5, H formulas, A/L tables (S100, S200, S200-155, S700 110 K3), codes for arm 0/5/9/17, plate heights/letters, hinge-count charts.
+- Salice Air (105, cup 16.5, K 4-6, max 25 kg, 2700 x 600), Vetro (universal glass 110 K0-22; Series 200 glass o26 4-6 mm), pivot 270 (cup 35, R table), corner 65 deg.
+- Grass Tiomos 110/95/160/110AL/Mirro/95 GL Mini and Nexis Impresso 04/22/65: patterns 45/9.5, cup 35 (min depth 12.6/10), crank 0/3/9.5/19, plates 37/32, 28/32, 20/32 with codes, min reveal and min gap tables, hinge-count charts, codes.
+- Hafele UK: Metalla 310 110/155, 540 110, 165, 270, pie-cut: patterns 45/9.5 and 48/6, min-gap tables, codes, plates.
+- Blum CLIP top BLUMOTION 105 (TD-151/1 04.24): TB 3-7, FA vs MD vs TB tables, min gap table, boss 57x37, codes. M BLUMOTION 105: codes (.L0/.L3), preassembled plate, 35 +0.2/0 cup, 45/9.5, plate 37/32 (drawing).
+
+NULL / NOT AVAILABLE (reason):
+- Cup depth exact: Grass (only minimum), Hafele (only min 12), Blum (not stated), Salice 270/glass (not stated), Hettich 9904/Avosys.
+- Cup/arm/plate envelope L x W x H: no manufacturer table; only drawing labels (Grass arm 84.5; Blum boss 57x37 and 66/67.5; Salice pivot 66x38x19; Hettich 'H' labels 72/66/70/65 unlabelled).
+- tb_std (standard cup distance): not stated by any manufacturer (Salice Air: K fixed 4 only for aluminium-frame doors).
+- Hettich Evisys: no technical document. Hafele Metalla 510: no official doc found. Blum M BLUMOTION: no data sheet (no gap/reveal/hinge-count table).
+- STEP/CAD: Hettich DWG/DXF per article + PARTcommunity (STEP not confirmed); Grass TEC Centre ZIP with RAW+STEP; Salice/Hafele/Blum: none found.
+- Not transcribed (located only): Hettich min-reveal tables for 8631i/8646i/8657i/W-series/9936/9935; Grass corner hinges, M9, M0, Tiomos 120, Nexis Click-on; Hafele Metalla A / 300 A Mini / sets.
+
+SOURCE CONFLICTS:
+- Hettich 8645i door thickness 15-24 (HAU 2017, UK 2020, brochure) vs 15-22 (Sensys cat 11309, older).
+- Hettich 8646i 10-16 (2017) vs 10-19 (UK 2020).
+- Salice Series N cup depth 15.5 (p80) vs 13.5 (overview p11); Series 200 155 text K 3-8 vs table K 3-9; Series 700 155 codes duplicate S200 155 codes (p49).
+- Hafele hinge-count: example '1500 mm, 8-12 kg = 3 hinges' vs weight bands 6-9 for 3 hinges.
+- Salice p15/p25: two uncaptioned hinge-count charts.
+- Grass Tiomos hinge count: step 3 height (~2200) read off scale, unlabelled.

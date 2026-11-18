@@ -1,0 +1,11 @@
+cat-drawers.json - drawer systems catalogue (official docs only; every number has src; drawing-read values marked "drawing")
+Sources: Hettich TA 2023 (catalog.hettich.com, per-page bk_N.pdf), Hettich MTA 9 239 323 01 / 9 239 325 01 / 9 294 414 02, Hettich imos Informationsblatt;
+GRASS EN catalogues on mediacenter.grass.eu (Nova Pro Scala, Nova Pro One, Vionaro V8, V13, Dynapro; text layer), GRASS MA 110074-09/2018;
+Blum press release (PLICOBOX) + Blum catalogue 2027/2028 (no PLICOBOX text); Haefele UK Technology 2023 p.226-228; Accuride 3832SC datasheet.
+
+COMPLETE (NL, heights, load, deductions, cabinet rules, hole b1/b2, order codes):
+- Hettich AvanTech YOU (H77/101/139/187/251), Actro YOU runner, ArciTech (H78/94/126, Frontauszug 186-282), Actro 5D (wood), Dynapro (Grass), Nova Pro Scala, Vionaro V8/V13 (formulas, codes), Haefele Matrix Runner UM A/A50.
+PARTIAL: Quadro V6 (runner table + codes, no wood deduction formula), InnoTech Atira (NL, heights, EB, runner depth, codes from imos; no box deductions), Accuride 3832SC (table of positions, width derived 2x12.7).
+NULL / not found: Blum PLICOBOX (only 25 kg, full/7/8/single ext., 3 colours), Grass Dwada & Nova Pro Classic (not in current catalogue 2026.27), Hettich ExeoTech (no document), bottom panel thickness/groove for Hettich systems, hole depths, STEP URLs (not fetched).
+Conflicts: none contradictory; note Actro (ArciTech) b1 128..288 vs Actro YOU b1 160..416 are different systems; EB ArciTech 15/13/12 vs InnoTech Atira 12.5/10.5/9.5 (KD16/18/19); Dynapro LWS formula vs min 138 not in conflict; ArciTech H78 only NL500.
+Caveats: Grass rear-hole pairs read from MA110074 drawing (image-verified); Dynapro NL->hole mapping drawing-only; Actro-ArciTech XS/L/XL code mapping inferred from NL ranges.

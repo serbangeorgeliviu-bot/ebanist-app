@@ -1,0 +1,3286 @@
+{
+ "sources": [
+  {
+   "id": "HET-CAT21",
+   "url": "https://web.hettich.com//fileadmin/Media_Center/07_Sliding_door_systems/01_Catalogues/Sliding_folding_door_systems_2021_HAU_en.pdf",
+   "title": "Hettich Sliding and folding door systems catalogue 2021 (2104-068_Sliding_Folding_05/2021)",
+   "pages": "136 PDF pages; printed page = PDF page - 2. Cited as 'cat p.N (pdfM)'."
+  },
+  {
+   "id": "HET-TLXL-PS",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Planning/TopLine_XL_bis_100kg_EN_3105.pdf",
+   "title": "Hettich TopLine XL product specification sheet (up to 100 kg)",
+   "pages": "1"
+  },
+  {
+   "id": "HET-TLL-MTA",
+   "url": "https://www.lamodula.at/media/wysiwyg/Kaesten/Montageanleitungen/Montageanleitung_3tuerig_HettichBeschlag.pdf",
+   "title": "Hettich TopLine L 3 installation instructions MTA 9 288 579 02 (17.01.2022), distributor copy",
+   "pages": "26 (pictogram-only; only intended-use text read; no door-width formula in it)"
+  },
+  {
+   "id": "HET-TLXL-MTA",
+   "url": "https://web2.hettich.com/hbh/addon/montage/9133821_03_Montageanleitung_TopLine_XL_04_2014_DE_EN.pdf",
+   "title": "Hettich TopLine XL Montageanleitung 9133821_03 04/2014 (old edition)",
+   "pages": "32 (downloaded, only formula fragments seen; not used for numbers)"
+  },
+  {
+   "id": "HAW-ONF",
+   "url": "https://products.hawa.com/tradepro/shopen/artikel/allgemein/CAT_EN_Hawa_On_furniture_789.0525.001.pdf",
+   "title": "Hawa 'On furniture' catalogue 789.0525.001 (Combino, Clipo, Concepta III, Folding Concepta III, Concepta 40/50)",
+   "pages": "332 PDF pages; printed page = PDF page - 2. Cited as 'cat p.N (pdfM)'."
+  },
+  {
+   "id": "HAW-C3-SPE",
+   "url": "https://products.hawa.com/tradepro/shopen/artikel/allgemein/SPE_EN_Hawa_Concepta_III_25_Pull.pdf",
+   "title": "Hawa Concepta III 25 Pull product specification",
+   "pages": "2"
+  },
+  {
+   "id": "HAW-C3-EP",
+   "url": "https://products.hawa.com/tradepro/shopen/artikel/allgemein/EP_Hawa_Concepta_III_V2_25-35_Inslide_C125748.pdf",
+   "title": "Hawa Concepta III V2 25/35 Push/Pull planning drawing C125748 V02 (rev 11.09.2026); DXF with same name at same path",
+   "pages": "1 (huge sheet; formula table read from text layer)"
+  },
+  {
+   "id": "HAW-FC3-EP",
+   "url": "https://products.hawa.com/tradepro/shopen/artikel/allgemein/EP_Hawa_Folding_Concepta_III_Pull_2_doors_C126945.pdf",
+   "title": "Hawa Folding Concepta III Pull 2 doors planning drawing C126945 (3-door C127004 and 4-door C126981 same path pattern)",
+   "pages": "2"
+  },
+  {
+   "id": "HAW-WEB",
+   "url": "https://products.hawa.com/shop/en/on-furniture/hawa-concepta-lll/hawa-concepta-lll-25-pull.html",
+   "title": "Hawa product pages (concepta-lll-25-pull, folding-concepta-lll-25-pull) listing PDFs/DXF",
+   "pages": "web"
+  },
+  {
+   "id": "BLU-ORD",
+   "url": "https://www.blum.com/file/cme119122_ep_dok_bau?country=gb&language=en",
+   "title": "Blum REVEGO ordering and planning information 2025 (ordering guide)",
+   "pages": "84 (printed page = PDF page)"
+  },
+  {
+   "id": "BLU-WEB",
+   "url": "https://www.blum.com/gb/en/products/pocketsystems/revego/programme/",
+   "title": "Blum REVEGO programme page (GB; CA page identical values) - read via WebFetch",
+   "pages": "web"
+  },
+  {
+   "id": "BLU-DL",
+   "url": "https://www.blum.com/gb/en/products/pocketsystems/revego/downloads-videos/",
+   "title": "Blum REVEGO downloads page (lists installation instructions uno cme119412_md_dok_bau, duo cme119413_md_dok_bau; not read in detail)",
+   "pages": "web"
+  },
+  {
+   "id": "HAF-25S1-16",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-16.pdf",
+   "title": "Haefele UK Sliding Systems Directory 2025 p1.16-17 Slido F-Line21 12C",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-18",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-18.pdf",
+   "title": "Haefele UK SSD 2025 p1.18-19 Slido F-Line21 20C",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-20",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-20.pdf",
+   "title": "Haefele UK SSD 2025 p1.20-21 Slido F-Line21 40C",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-24",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-24.pdf",
+   "title": "Haefele UK SSD 2025 p1.24-25 Slido F-Line15 55A",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-26",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-26.pdf",
+   "title": "Haefele UK SSD 2025 p1.26-27 Slido F-Line21 20A",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-28",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-28.pdf",
+   "title": "Haefele UK SSD 2025 p1.28-29 Slido F-Line31 40A",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-30",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-30.pdf",
+   "title": "Haefele UK SSD 2025 p1.30-31 Slido F-Line31 60A",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-32",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-32.pdf",
+   "title": "Haefele UK SSD 2025 p1.32-33 Slido F-Flush52 20A",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-70",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-70.pdf",
+   "title": "Haefele UK SSD 2025 p1.70-71 Slido F-Line18 50A",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-79A",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-79A.pdf",
+   "title": "Haefele UK SSD 2025 p1.79A Hawa Frontino 40 FS (flush sliding)",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S1-122",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S1-122.pdf",
+   "title": "Haefele UK SSD 2025 p1.122-123 Slido F-Park71 25B pivot (pocket) doors",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-25S2-84",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25S2-84.pdf",
+   "title": "Haefele UK SSD 2025 p2.84 Pocket Hideaway sliding door system (interior doors)",
+   "pages": "2"
+  }
+ ],
+ "systems": [
+  {
+   "id": "het-topline-xl",
+   "brand": "Hettich",
+   "name": "TopLine XL",
+   "type": "top-hung (top running), overlay doors, 2-track, 2/3/4 doors, Silent System soft close+open standard",
+   "limits": {
+    "weight_per_door_kg_by_set": [
+     {
+      "door_thickness_mm": "18-30",
+      "max_kg": 60
+     },
+     {
+      "door_thickness_mm": "22-30",
+      "max_kg": 80
+     },
+     {
+      "door_thickness_mm": "32-40",
+      "max_kg": 100
+     }
+    ],
+    "door_height_mm": {
+     "max": 3000,
+     "max_alt_range_table": 2600,
+     "note": "CONFLICT: cat p.6 graph TH<=3000 and spec sheet 'up to 3000'; cat p.3 comparison table says 2600 max"
+    },
+    "door_width_mm": {
+     "cat_p6_graph": "TB 600-2000 / 750-1350 / 650-1000 (graph legend ambiguous, probably 2/3/4-door or weight classes)",
+     "spec_sheet": "2-door 600-1000, 3-door 750-1350, 4-door 650-1000",
+     "cat_p3_table": "600-2000",
+     "note": "CONFLICT between sources, see notes"
+    },
+    "height_rule": "TH <= 3 x TB (graph p.6)",
+    "door_thickness_mm": "18-40 (sets 18-30, 22-30, 32-40)",
+    "adjust_height_mm": "+-3 (from front when closed)",
+    "adjust_overlay_mm": "+-10",
+    "standard": "DIN EN 15706 level 3",
+    "src": "HET-CAT21 cat p.3,p.6 (pdf5,pdf8); HET-TLXL-PS"
+   },
+   "track": {
+    "tracks": 2,
+    "profile_set": "1 runner + 1 guide profile, aluminium silver anodised, clip-on, 4000 mm",
+    "standard_length_mm": 4000,
+    "cut_rule": "null (not stated in catalogue)",
+    "profile_h_x_d": "null (see drawing: 60 mm top panel recess, 120 / 152 mm dims on drawing)",
+    "cover_profile_mm": 2000,
+    "src": "HET-CAT21 cat p.9-10 (pdf11-12)"
+   },
+   "cabinet": {
+    "top_panel_lowered_mm": 60,
+    "drawing_values_mm": {
+     "top_clearance": ">=45 (drawing)",
+     "18": "drawing",
+     "120": "run. profile depth zone (drawing)",
+     "152": "drawing",
+     "bottom_clearance": ">=65 (drawing)",
+     "door_offset_between_tracks": "8 mm gap between 18-50 thick doors per drawing (drawing)",
+     "centre_support": "cabinet width >=1000: middle support fixing every 'equal' spacing, <1000 none (drawing p.7)",
+     "guide_stub": "50 / 6 / 43 / 17 / 8 (drawing)"
+    },
+    "overlay_adjust_horizontal": "25 +-10 (drawing p.7)",
+    "src": "HET-CAT21 cat p.7 (pdf9) [drawing]"
+   },
+   "doors": {
+    "overlap_formula": null,
+    "unreadable_reason": "No door-width formula in catalogue; only definitions of door reveal/protrusion/offset/overlap (cat p.128 pdf130). Overlap should be ~2x gap between front and rear door (cat p.128).",
+    "src": "HET-CAT21 pdf130"
+   },
+   "hanger_drilling": {
+    "door_drilling_mm_drawing": {
+     "hanger_rows_from_top_edge": [
+      23,
+      16,
+      16
+     ],
+     "hanger_x_from_door_edge": 65,
+     "hanger_pair_spacing": 128,
+     "hole_diam": "8x12 / 5x12 / 2x12 (6,3x14 or 4x16 screw)",
+     "bottom_rows_from_edge": [
+      32,
+      23
+     ],
+     "bottom_x": [
+      97,
+      64
+     ]
+    },
+    "screws": "6.3x14 / 4x16",
+    "src": "HET-CAT21 cat p.7 (pdf9) [drawing]"
+   },
+   "options": [
+    "Silent System soft closing + soft opening (sets 15-35 / 30-80 / 60-100 kg), 3-door centre door opens left+right, 4-door synchronisation",
+    "cover profile 2000 mm",
+    "decorative tape black/white",
+    "adjustment (anti-warp) fitting 9 252 651 (>=1 per door)",
+    "floor standing guard (guide components glide up)"
+   ],
+   "codes": [
+    {
+     "code": "9 275 796",
+     "desc": "Runner/guide set 2-door, door 18-30 mm, 60 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 275 786",
+     "desc": "set 3-door 18-30 mm 60 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 278 780",
+     "desc": "set 4-door 18-30 mm 60 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 275 794",
+     "desc": "set 2-door 22-30 mm 80 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 275 785",
+     "desc": "set 3-door 22-30 80 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 278 791",
+     "desc": "set 4-door 22-30 80 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 275 787",
+     "desc": "set 2-door 32-40 mm 100 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 275 783",
+     "desc": "set 3-door 32-40 mm 100 kg",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 276 735 / 9 276 645 / 9 278 798",
+     "desc": "Silent System 15-35 kg, 2/3/4-door",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 276 732 / 9 276 643 / 9 278 799",
+     "desc": "Silent System 30-80 kg, 2/3/4-door",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 276 737 / 9 276 646",
+     "desc": "Silent System 60-100 kg, 2/3-door",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 278 657",
+     "desc": "Profile set runner+guide 4000 mm",
+     "src": "cat p.9"
+    },
+    {
+     "code": "9 278 801",
+     "desc": "Cover profile 2000 mm",
+     "src": "cat p.10"
+    },
+    {
+     "code": "9 209 403 / 9 209 405",
+     "desc": "Decorative tape 4000 mm black / white",
+     "src": "cat p.10"
+    },
+    {
+     "code": "9 252 651",
+     "desc": "Adjustment fitting",
+     "src": "cat p.10"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/4514cb (product page, Technical Assistant: planning dimensions & installation)",
+     "https://www1.hettich.com/downloads/imos/Infosheet_Hettich_Sliding_Folding_systems_28112023_V2.pdf (imos data package info; connection reset when fetched)"
+    ],
+    "note": "no direct STEP URL verified"
+   },
+   "unreadable": [
+    "profile cross-section h x d",
+    "cut rules",
+    "door-width formula"
+   ]
+  },
+  {
+   "id": "het-topline-l",
+   "brand": "Hettich",
+   "name": "TopLine L",
+   "type": "top-hung (top running), overlay, 2-track, 2 or 3 doors, stacked clip-on runners",
+   "limits": {
+    "weight_per_door_kg": 50,
+    "door_height_mm_max": 2600,
+    "door_width_mm": "550-1500 (cat p.3/p.14); graph also shows 550-1350 (legend ambiguous)",
+    "door_thickness_mm": "10-30 (set 10-16 and set 18-30; 10-12 needs thin-door set 9 277 153)",
+    "adjust": "height +-2 mm (graph), door reveal continuously variable",
+    "silent_system_kg": "50 (and 20 kg versions)",
+    "standard": "DIN EN 15706 level 3",
+    "src": "HET-CAT21 cat p.3,p.14 (pdf5,pdf16)"
+   },
+   "track": {
+    "tracks": 2,
+    "profile_set": "1 runner profile + 1 guide profile aluminium silver anodised, 4000 mm",
+    "standard_length_mm": 4000,
+    "cover_profile_mm": 1500,
+    "cut_rule": "null",
+    "src": "HET-CAT21 cat p.17-18 (pdf19-20)"
+   },
+   "cabinet": {
+    "drawing_values_mm": {
+     "top_clearance": ">=40 (drawing)",
+     "top_panel_lowered_or_visible": "<=25 / >=60 (drawing)",
+     "runner_depth_zone": "46, 40, 16, 20.5, 10, 16.5, 32.5, 34 (drawing)",
+     "door_thickness_vs_X_Y": {
+      "EB 24": {
+       "X": "10/12",
+       "Y": "12/14"
+      },
+      "EB 29": {
+       "X": 16,
+       "Y": 13
+      },
+      "EB 32": {
+       "X": 20,
+       "Y": 12
+      },
+      "EB 36": {
+       "X": 25,
+       "Y": 11
+      },
+      "EB 42": {
+       "X": 30,
+       "Y": 12
+      }
+     },
+     "EB_meaning": "null (not defined in text; presumably cabinet side/edge dim)",
+     "front_door_offset_options": "0 mm or 34 mm (drawing)",
+     "centre_overlap_horizontal": "A<=25; <=50; 288; 24; 36.5 (offset 0) / 34 (offset 34) (drawing)"
+    },
+    "src": "HET-CAT21 cat p.15 (pdf17) [drawing]"
+   },
+   "doors": {
+    "overlap_formula": null,
+    "note": "no formula; horizontal section shows door offset 34 mm or 0 mm",
+    "src": "HET-CAT21 cat p.15"
+   },
+   "hanger_drilling": {
+    "pattern_door_offset_34_mm": {
+     "rows_from_top_and_bottom_edge": [
+      10,
+      32
+     ],
+     "x_from_door_edge": [
+      68,
+      64
+     ],
+     "opposite_side": [
+      64,
+      68
+     ],
+     "hole": "d5 x 12",
+     "third_row_offset": "16/36 (front-most door)"
+    },
+    "pattern_door_offset_0_mm": {
+     "x": [
+      68,
+      64,
+      "64,102 on one side"
+     ],
+     "rows": [
+      10,
+      32
+     ],
+     "hole": "d5 x 12"
+    },
+    "src": "HET-CAT21 cat p.15 (pdf17) [drawing]"
+   },
+   "options": [
+    "Silent System soft close, soft open, soft colliding (rear doors of 3-door)",
+    "cover profile 1500",
+    "coloured tape",
+    "adjustment fitting 9 252 651 / thin door 9 280 180 (>=1 per door)",
+    "thin-door set 9 277 153 (10-12 mm doors)"
+   ],
+   "codes": [
+    {
+     "code": "9 242 708 / 9 242 709 / 9 242 710",
+     "desc": "Runner+guide set door 10-16 mm 50 kg: 2-door left / 2-door right / 3-door",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 242 711 / 9 242 712 / 9 242 713",
+     "desc": "same, door 18-30 mm",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 242 238 / 9 242 240",
+     "desc": "Silent soft closing 50 kg 2-door / 3-door",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 277 096 / 9 277 098",
+     "desc": "soft closing 20 kg 2/3-door",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 242 227 / 9 242 228",
+     "desc": "soft opening 50 kg 2/3-door",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 277 151 / 9 277 152",
+     "desc": "soft opening 20 kg 2/3-door",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 254 630",
+     "desc": "soft colliding set for rear doors 3-door",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 277 167",
+     "desc": "Profile set (runner+guide) 4000 mm",
+     "src": "cat p.17"
+    },
+    {
+     "code": "9 277 440",
+     "desc": "Cover profile 1500 mm",
+     "src": "cat p.18"
+    },
+    {
+     "code": "9 277 153",
+     "desc": "Set for thin door 10-12 mm",
+     "src": "cat p.18"
+    },
+    {
+     "code": "9 209 271 / 9 209 273",
+     "desc": "Coloured tape black / white 4000",
+     "src": "cat p.18"
+    },
+    {
+     "code": "9 252 651",
+     "desc": "Adjustment fitting",
+     "src": "cat p.19"
+    },
+    {
+     "code": "9 280 180",
+     "desc": "Adjustment fitting thin doors",
+     "src": "cat p.19"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/f3573e (Technical Assistant)",
+     "archiup.com/.../hettich-topline-l-dwg-dxf_6836 (third-party DWG; not official)"
+    ]
+   },
+   "unreadable": [
+    "profile h x d",
+    "cut rule",
+    "door-width formula",
+    "EB definition"
+   ]
+  },
+  {
+   "id": "het-slideline-m-overlay",
+   "brand": "Hettich",
+   "name": "SlideLine M (overlay, 1-track, bottom running)",
+   "type": "bottom-running, overlay, 1 runner; doors run across each other (single-track upgrade) ; one door per set",
+   "limits": {
+    "weight_kg": 30,
+    "door_width_mm": "300-1800",
+    "door_height_mm": "300-2000 (max H <= 2 x TB)",
+    "door_thickness": "shelf thickness 15,16,18,19,22,25 mm (profile height 16/18/25); door material 16-25 mm",
+    "adjust": "height +-2 mm",
+    "min_door_width_mm": "450 with Silent (9 201 921, 9 156 338), 300 without (9 156 339)",
+    "standard": "DIN EN 15706 level 3 with Silent, level 1 without",
+    "src": "HET-CAT21 cat p.20-25,27 (pdf22-29)"
+   },
+   "track": {
+    "tracks": 1,
+    "profile_height_mm": {
+     "16": "shelf 15,16",
+     "18": "shelf 18,19",
+     "25": "shelf 25"
+    },
+    "profile_set_codes": {
+     "2 profiles": {
+      "16": "9 209 166",
+      "18": "9 209 218",
+      "25": "9 209 222"
+     },
+     "1 profile": {
+      "16": "9 209 224",
+      "18": "9 209 226",
+      "25": "9 209 231"
+     }
+    },
+    "standard_length_mm": 4000,
+    "cut_rule": "If long enough, profile can be cut in two and used as top and bottom profile",
+    "src": "cat p.27 (pdf29)"
+   },
+   "cabinet": {
+    "drawing_mm": {
+     "cabinet_width_from_fixing": "a1..a4 are variables on drawing; X1=a2+30, X2=a4+30, Y1=a1+14.5, Y2=a3+14.5",
+     "clearance": "10 / 13.5 / 14.5 / 1 / 4 (drawing)"
+    },
+    "soft_colliding_centre_reveal_F": "standard drilling gives F = 10 mm; <10 mm may collide; Hettich recommends F=10 for aluminium/glass doors",
+    "src": "cat p.23-24 (pdf25-26) [drawing]"
+   },
+   "doors": {
+    "overlap_formula": null,
+    "src": "cat p.23"
+   },
+   "hanger_drilling": {
+    "running_component_mm_drawing": {
+     "length": 152.5,
+     "hole_pitch": [
+      32,
+      32
+     ],
+     "edge_offsets": [
+      11.5,
+      35,
+      20,
+      10,
+      6,
+      46
+     ],
+     "X1/X2,Y1/Y2": "see formulas"
+    },
+    "src": "cat p.23 (pdf25) [drawing]"
+   },
+   "options": [
+    "Silent System integrated in runner: soft closing/opening/colliding",
+    "coloured sets (silver/black/white)"
+   ],
+   "codes": [
+    {
+     "code": "9 201 921",
+     "desc": "1 door set 10 kg, Silent, min door width 450",
+     "src": "cat p.27"
+    },
+    {
+     "code": "9 156 338",
+     "desc": "1 door set 30 kg Silent, min 450",
+     "src": "cat p.27"
+    },
+    {
+     "code": "9 156 339",
+     "desc": "1 door set 30 kg without Silent, min 300",
+     "src": "cat p.27"
+    },
+    {
+     "code": "9 209 268/271/273",
+     "desc": "coloured set profile 16 silver/black/white 4000",
+     "src": "cat p.27"
+    },
+    {
+     "code": "9 209 278/280/283",
+     "desc": "coloured set profile 18",
+     "src": "cat p.27"
+    },
+    {
+     "code": "9 209 400/403/405",
+     "desc": "coloured set profile 25",
+     "src": "cat p.27"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/b56580"
+    ]
+   },
+   "unreadable": [
+    "a1-a4 variable definitions",
+    "profile section h x d"
+   ]
+  },
+  {
+   "id": "het-slideline-m-inset",
+   "brand": "Hettich",
+   "name": "SlideLine M (inset, 1- or 2-track runner profile)",
+   "type": "bottom-running, inset doors; 1-3 doors",
+   "limits": {
+    "weight_kg": 30,
+    "door_width_mm": "300-1800",
+    "door_height_mm": "<=2000 and <=2xTB",
+    "door_thickness": "16-25 (shelf thickness 16,18/19,25)",
+    "adjust": "height +-2",
+    "src": "cat p.28-33 (pdf30-35)"
+   },
+   "track": {
+    "profiles": [
+     {
+      "desc": "2-track profile for screwing/gluing on",
+      "length_mm": 2500,
+      "code": "9 227 245"
+     },
+     {
+      "desc": "1-track runner profile pressing in slot",
+      "length_mm": 2500,
+      "code": "9 227 246"
+     },
+     {
+      "desc": "2-track profile with holes for screwing on",
+      "length_mm": 2500,
+      "code": "9 227 183"
+     },
+     {
+      "desc": "1-track runner profile for pressing in",
+      "length_mm": 2500,
+      "code": "9 227 188"
+     }
+    ],
+    "screw_set_by_shelf_mm": {
+     "16": "9 229 240",
+     "18-19": "9 229 241",
+     "25": "9 229 243"
+    },
+    "adhesive_tape": "9 227 006",
+    "src": "cat p.35-36 (pdf37-38) [codes partly from text, table headings garbled; column assignment low confidence]"
+   },
+   "cabinet": {
+    "drawing_mm": {
+     "2-track_profile_width": 65,
+     "track_centre_spacing_door_offset": "19/13/19",
+     "door_max_overlap_zone": "<=288 (runner reach)",
+     "min_shelf_depth_clear": ">=15",
+     "door_stop_position": "0.4 x H from top/bottom, 25 from edge, d5x12 (H<=1000) or 0.4H each side (H>1000)"
+    },
+    "src": "cat p.33 (pdf35) [drawing]"
+   },
+   "doors": {
+    "overlap_formula": null
+   },
+   "hanger_drilling": {
+    "running_comp_mm_drawing": {
+     "pitch": [
+      32,
+      32
+     ],
+     "edges": [
+      11.5,
+      35,
+      27,
+      2,
+      20
+     ],
+     "total_length": 164
+    },
+    "src": "cat p.33 [drawing]"
+   },
+   "options": [
+    "Silent system soft closing/opening/colliding",
+    "door stop/spacer"
+   ],
+   "codes": [
+    {
+     "code": "9 201 921 / 9 156 338 / 9 156 339",
+     "desc": "1-door components (same as overlay)",
+     "src": "cat p.27/35"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/b56580"
+    ]
+   },
+   "unreadable": [
+    "codes column mapping for profiles"
+   ]
+  },
+  {
+   "id": "het-slideline-55-plus",
+   "brand": "Hettich",
+   "name": "SlideLine 55 Plus",
+   "type": "bottom-running, 2 runners, overlay and inset, 1-2 doors",
+   "limits": {
+    "weight_kg": "15 with plastic profile; 30 with aluminium profile",
+    "door_width_mm": "400-2000",
+    "door_height_mm": "700-1500",
+    "door_thickness_mm": "16-19",
+    "adjust": "height +-1.5 tool-less",
+    "standard": "DIN EN 15706 level 3",
+    "src": "cat p.28,p.40 (pdf30,42)"
+   },
+   "track": {
+    "profiles": [
+     {
+      "material": "plastic",
+      "load_kg": 15,
+      "finish": "white/brown/grey",
+      "length_mm": 4000,
+      "codes": [
+       "0 025 120",
+       "0 025 121",
+       "0 061 546"
+      ]
+     },
+     {
+      "material": "aluminium",
+      "load_kg": 30,
+      "length_mm": 4000,
+      "code": "1 079 090"
+     }
+    ],
+    "src": "cat p.46-47 (pdf48-49)"
+   },
+   "cabinet": {
+    "drawing_mm": {
+     "X+Y+90.5": 111,
+     "X": 18.5,
+     "Y": 2,
+     "min_edge_distance_runner": ">=40",
+     "stay_closed_element": ">=45 from edge, 25 offset",
+     "hinge-like guide pocket": "d35 x >=9.5, 52 hole spacing, 16, 13 (drawing)"
+    },
+    "src": "cat p.41 (pdf43) [drawing]"
+   },
+   "doors": {
+    "overlap_formula": null
+   },
+   "hanger_drilling": {
+    "mm_drawing": {
+     "cup": "d35 with d5x12 fixing, hole spacing 52, edge 16 and 13",
+     "pitch": "X (18.5), 50.5, 126, 224 (cut-out length), R40"
+    },
+    "src": "cat p.41"
+   },
+   "options": [
+    "Silent System soft closing/opening (guide 9 119 584 / 9 119 585 inset)",
+    "stay-closed element 9 115 218 (4 per door)",
+    "activator 9 136 109"
+   ],
+   "codes": [
+    {
+     "code": "9 115 219",
+     "desc": "Running component inset (2 per door)",
+     "src": "cat p.45"
+    },
+    {
+     "code": "9 115 954",
+     "desc": "Running component overlay (rebated) (2 per door)",
+     "src": "cat p.45"
+    },
+    {
+     "code": "9 115 217",
+     "desc": "Guide component inset",
+     "src": "cat p.45"
+    },
+    {
+     "code": "9 115 955",
+     "desc": "Guide component overlay",
+     "src": "cat p.45"
+    },
+    {
+     "code": "9 119 584 / 9 119 585",
+     "desc": "Silent System left / right, inset",
+     "src": "cat p.45"
+    },
+    {
+     "code": "9 118 477",
+     "desc": "item 'attached by premounted nails' (probably door stop; description garbled)",
+     "src": "cat p.46"
+    },
+    {
+     "code": "9 115 218",
+     "desc": "Stay-closed element (4 per door, not needed with Silent)",
+     "src": "cat p.46"
+    },
+    {
+     "code": "9 136 109",
+     "desc": "Activator installation aid",
+     "src": "cat p.47"
+    },
+    {
+     "code": "9 115 216",
+     "desc": "Screw-on door stop/spacer: 1 for 2-door H<1000, 2 for H>1000",
+     "src": "cat p.47"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/3fd13d"
+    ]
+   },
+   "unreadable": [
+    "door-width formula",
+    "exact cabinet clearance semantics"
+   ]
+  },
+  {
+   "id": "het-topline-25-27",
+   "brand": "Hettich",
+   "name": "TopLine 25 / 27 (+STB 11 / STB 35 guides)",
+   "type": "top-hung, inset, TL25 1-track (1 door), TL27 2-track (2/3 doors)",
+   "limits": {
+    "weight_kg": "25 (20 kg with Silent set 9 323 120)",
+    "door_width_mm": "500-1750",
+    "door_height_mm": "<=2000",
+    "door_thickness_mm": "16-19",
+    "adjust": "+-2 (oblong holes +-1.5)",
+    "src": "cat p.28,p.50-53 (pdf52-55)"
+   },
+   "track": {
+    "TL25_1track_mm": 3500,
+    "TL27_2track_mm": 3500,
+    "codes": {
+     "TL25 1-track profile": "0 046 416",
+     "TL27 2-track profile": "0 046 417"
+    },
+    "STB11_guide_profile_mm": 3000,
+    "STB11_code": "0 071 117",
+    "src": "cat p.52-54 (pdf54-56)"
+   },
+   "cabinet": {
+    "drawing_mm": {
+     "runner_profile": "26 x 18, 30 depth (TL25); 54 / 43.5 / 28.5 (TL27)",
+     "STB11": "plinth recess 46 mm, plinth height >=70 mm, 72/11.5/22/20.5",
+     "drilling": "hanger 32 from edge, 21, >=30 from end, d10 x 11 (drawing)"
+    },
+    "src": "cat p.51 (pdf53) [drawing]"
+   },
+   "doors": {
+    "overlap_formula": null
+   },
+   "hanger_drilling": {
+    "mm_drawing": {
+     "hanger_x": [
+      32,
+      21
+     ],
+     "edge": ">=30",
+     "cup": "d10 x 11"
+    },
+    "src": "cat p.51"
+   },
+   "options": [
+    "Silent soft closing (TL27, 20 kg)",
+    "lift-off guard",
+    "STB 11 guide set (Plastic runner rollers with rubber)",
+    "STB 35 for grooved panel"
+   ],
+   "codes": [
+    {
+     "code": "0 026 081 / 0 026 082 / 0 026 083",
+     "desc": "All-inclusive top sets 1/2/3-door, 25 kg, height adjust at oblong holes +-1.5",
+     "src": "cat p.53 (overlapping text layers; low confidence)"
+    },
+    {
+     "code": "9 323 120",
+     "desc": "Set TopLine 27 with soft closing 2-door, max 20 kg",
+     "src": "cat p.53"
+    },
+    {
+     "code": "0 045 080 / 0 045 081",
+     "desc": "STB 11 guide set 2-door / 3-door",
+     "src": "cat p.54"
+    },
+    {
+     "code": "0 071 117",
+     "desc": "STB 11 guide profile 3000 mm",
+     "src": "cat p.54"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/21c901"
+    ]
+   },
+   "unreadable": [
+    "part descriptions partly garbled in text layer"
+   ]
+  },
+  {
+   "id": "het-ka-5740",
+   "brand": "Hettich",
+   "name": "KA 5740 retractable door system",
+   "type": "pocket / retractable door (slides into cabinet sides), overlay-style flap/door, ball bearing runner pair",
+   "limits": {
+    "weight_kg": 8,
+    "door_width_mm": "300-600",
+    "door_height_mm": "600-1500 (max 1500)",
+    "door_thickness_mm": "16-19",
+    "standard": "ANSI/BIFMA X5.5",
+    "src": "cat p.58 (pdf60)"
+   },
+   "track": {
+    "runner_lengths_nominal_mm": [
+     350,
+     400,
+     450,
+     500,
+     550,
+     600,
+     650,
+     700
+    ],
+    "B1_mm": {
+     "350": 352,
+     "400": 402,
+     "450": 452,
+     "500": 502,
+     "550": 552,
+     "600": 602,
+     "650": 652,
+     "700": 702
+    },
+    "B2": {
+     "350": 256,
+     "400": 306,
+     "450": 356,
+     "500": 406,
+     "550": 456,
+     "600": 506,
+     "650": 556,
+     "700": 606
+    },
+    "B3": {
+     "350": 304,
+     "400": 368,
+     "450": 144,
+     "500": 176,
+     "550": 208,
+     "600": 240,
+     "650": 272,
+     "700": 304
+    },
+    "B4": {
+     "450": 304,
+     "500": 336,
+     "550": 368,
+     "600": 400,
+     "650": 432,
+     "700": 464
+    },
+    "B5": {
+     "450": 400,
+     "500": 464,
+     "550": 528,
+     "600": 560,
+     "650": 624,
+     "700": 656
+    },
+    "B6": {
+     "350": 350,
+     "400": 400,
+     "450": 450,
+     "500": 500,
+     "550": 550,
+     "600": 600,
+     "650": 650,
+     "700": 700
+    },
+    "src": "cat p.59 (pdf61) table"
+   },
+   "cabinet": {
+    "formulas": {
+     "door_height_H": "H = inside cabinet height LKH - 6 mm",
+     "door_width_B": "B = inside cabinet width LKB - 7 mm",
+     "positioning_depth_Y": "Y = door thickness TD + 2 mm",
+     "min_cabinet_depth_MKT": "MKT = B1 + Y + Z (rear wall distance Z >= 3 mm)"
+    },
+    "fittings_per_door_by_height": "<=600: 2 ... 600-900 / 900-1500 groups (drawing shows 2,3,4 pairs)",
+    "hinges": "Sensys 8631i-B12.5 for full overlay doors (TD<=24); Intermat 9935/9936 B>=12.5 (TD<=32); hole line 37 mm; mounting-plate distance 0",
+    "src": "cat p.59 (pdf61)"
+   },
+   "doors": {
+    "formulas": {
+     "B": "LKB - 7",
+     "H": "LKH - 6"
+    },
+    "src": "cat p.59"
+   },
+   "hanger_drilling": {
+    "mm_drawing": {
+     "runner_plate": "11 / 64 / 91 / 48 from door edge; d4.5 and d5 holes; E>=60 from top and bottom end; 3 mm clearance",
+     "cup": "d35, 25.5 edge, 8, 3.5, 26(-0.2), 80 (hinge)",
+     "hinge_distance_G": {
+      "0": 21,
+      "1.5": 19.5,
+      "3": 18,
+      "5": 16
+     }
+    },
+    "src": "cat p.59 [drawing]"
+   },
+   "options": [
+    "Accessory set 9 079 526 (door stops, support rollers, rivets for 2 flaps)"
+   ],
+   "codes": [
+    {
+     "code": "0 041 372",
+     "desc": "Door set max door width 350 (pair)",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 373",
+     "desc": "max 400",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 374",
+     "desc": "max 450",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 375",
+     "desc": "max 500",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 376",
+     "desc": "max 550",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 377",
+     "desc": "max 600",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 378",
+     "desc": "max 650",
+     "src": "cat p.61"
+    },
+    {
+     "code": "0 041 379",
+     "desc": "max 700",
+     "src": "cat p.61"
+    },
+    {
+     "code": "9 079 526",
+     "desc": "accessories set",
+     "src": "cat p.61"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/21c901"
+    ]
+   },
+   "unreadable": [
+    "Y position of door-side drilling relative to door edge",
+    "table B1-B6 meaning is per drawing (B1 nominal runner length including; B2 runner travel)"
+   ]
+  },
+  {
+   "id": "het-wingline-l",
+   "brand": "Hettich",
+   "name": "WingLine L",
+   "type": "folding-sliding (wing), attached to the side; 2 wings; optional Pull-to-move Silent / Push-to-move",
+   "limits": {
+    "weight_per_wing_kg": "12 or 25",
+    "wing_height_mm": "500-2400 (<=2400 with 25 kg; <=1700 with 12 kg without bottom guide; 2400 with bottom guide per drawing)",
+    "wing_width_mm": "250-600",
+    "door_thickness_mm": "16-25",
+    "adjust": "+-3 / +-2 / +3,-2",
+    "cycles": 40000,
+    "hinges_recommended": {
+     "2": "<=1000 mm / <=8 kg",
+     "3": "<=1700 / <=14 kg",
+     "4": "<=2200 / <=17 kg",
+     "5": "<=2400 / <=25 kg"
+    },
+    "bottom_guide": "optional up to 12 kg wing weight, recommended from 12 kg",
+    "src": "cat p.66-67 (pdf68-69)"
+   },
+   "track": {
+    "runner_profile_mm": 2400,
+    "guide_profile_mm": 2400,
+    "codes": {
+     "runner profile silver/white": "9 237 917 / 9 244 904",
+     "guide profile silver/white": "9 237 990 / 9 244 905",
+     "mounting clip": "9 298 326"
+    },
+    "src": "cat p.76 (pdf78)"
+   },
+   "cabinet": {
+    "drawing_mm": {
+     "top": "38 / 30.5 / 23 / 2 / 25 / 40",
+     "bottom": "26 / 16 / 26.5 / >=55 / >=15 / 40",
+     "hinge_distances": "47.5, 64, 20, 27, 22.5, C=5",
+     "hinge_cup": "35 x13, d5x13",
+     "side": "111.5 / 90.5 / 52 / 5.5 / 5"
+    },
+    "influence_of_cabinet_hinges": "tables cat p.69-70: for wing width D=250/300/450/600 and door thickness 16/18-19/22/25, Sensys 8645i/8675 (100 deg) A= 31/41/73/104 (B12.5 side), F=58..; with limiter 90 deg F=89..132 etc.",
+    "src": "cat p.67-70 (pdf69-72) [drawing + tables]"
+   },
+   "doors": {
+    "wing_widths_mm": "250,300,450,600 selection steps for Pull/Push modules",
+    "src": "cat p.68,p.77"
+   },
+   "hanger_drilling": {
+    "mm_drawing": {
+     "centre hinge": "d35 x12, 52 centre-hinge side, 90.5, 5/5.5",
+     "running comp": "d35 x13 hinge cup at 47.5 / 64 / 20 / 27 / 22.5",
+     "bottom guide": "d10 x 11.5, 26/16"
+    },
+    "src": "cat p.67 [drawing]"
+   },
+   "options": [
+    "Pull to move Silent (light/medium/heavy duty)",
+    "Push to move (+ stay-closed: mechanical/standard magnetic/designer magnetic)",
+    "door damper",
+    "stay open element",
+    "door protection clip",
+    "self-closing in hinge+runner"
+   ],
+   "codes": [
+    {
+     "code": "9 277 991 / 9 278 004",
+     "desc": "Running component set with bottom guide 12 kg left/right, grey, w/o user unit",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 005 / 9 278 007",
+     "desc": "same, white",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 485 / 9 278 486",
+     "desc": "set with bottom guide 25 kg grey l/r (Pull to move Silent, self closing)",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 487 / 9 278 488",
+     "desc": "same white",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 260 / 9 278 285",
+     "desc": "12 kg grey Push to move without self closing l/r",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 571 / 9 278 580",
+     "desc": "25 kg grey Push to move l/r (row order garbled; low confidence)",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 610 / 9 278 611",
+     "desc": "Running component set WITHOUT bottom guide 12 kg grey l/r (self closing)",
+     "src": "cat p.72"
+    },
+    {
+     "code": "9 278 694 / 9 278 788",
+     "desc": "Centre hinge set 2 hinges: screw-on / press-in",
+     "src": "cat p.74"
+    },
+    {
+     "code": "9 278 742 / 9 278 787",
+     "desc": "Centre hinge set 3 hinges: screw-on / press-in",
+     "src": "cat p.74"
+    },
+    {
+     "code": "9 236 926 / 9 283 267",
+     "desc": "Door damper grey / white (1 per runner+guide)",
+     "src": "cat p.75"
+    },
+    {
+     "code": "9 237 710 / 9 237 711",
+     "desc": "Stay open element l/r grey",
+     "src": "cat p.75"
+    },
+    {
+     "code": "9 236 460",
+     "desc": "Door protection clip grey",
+     "src": "cat p.75"
+    },
+    {
+     "code": "9 238 120 / 9 238 119",
+     "desc": "Pull to move Silent all-inclusive light l/r grey",
+     "src": "cat p.77"
+    },
+    {
+     "code": "9 238 121 / 9 238 124",
+     "desc": "medium l/r grey",
+     "src": "cat p.77"
+    },
+    {
+     "code": "9 238 123 / 9 238 122",
+     "desc": "heavy l/r grey",
+     "src": "cat p.77"
+    },
+    {
+     "code": "9 266 113 / 9 266 111",
+     "desc": "Push to move basic set light l/r grey",
+     "src": "cat p.78"
+    },
+    {
+     "code": "9 265 960 / 9 266 112",
+     "desc": "medium l/r",
+     "src": "cat p.78"
+    },
+    {
+     "code": "9 265 959 / 9 265 958",
+     "desc": "heavy l/r",
+     "src": "cat p.78"
+    },
+    {
+     "code": "9 282 527",
+     "desc": "mechanical stay-closed",
+     "src": "cat p.78"
+    },
+    {
+     "code": "9 282 901",
+     "desc": "designer magnetic stay-closed (shelf set back 8 mm)",
+     "src": "cat p.78"
+    },
+    {
+     "code": "9 282 900",
+     "desc": "standard magnetic stay-closed (set back 13 mm)",
+     "src": "cat p.78"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://hettich.com/short/1b88ca",
+     "https://hettich.com/short/674f44 (Technical Assistant for assist units)"
+    ]
+   },
+   "unreadable": [
+    "some drawing dimension semantics",
+    "exact ceiling/top clearance"
+   ]
+  },
+  {
+   "id": "het-wingline-s",
+   "brand": "Hettich",
+   "name": "WingLine S",
+   "type": "folding-sliding wing, attached to side, no bottom guide",
+   "limits": {
+    "weight_per_wing_kg": 5,
+    "wing_height_mm": "<=1000",
+    "wing_width_mm": "250-450",
+    "door_thickness_mm": "16-22",
+    "cycles": 40000,
+    "note": "cat p.82/p.92 says use WingLine L for heavier/wider doors",
+    "src": "cat p.82 (pdf84)"
+   },
+   "track": null,
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [
+    "Pull/Push to move"
+   ],
+   "codes": [],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "component codes (text layer overlays several tables, illegible)",
+    "planning dimensions (drawing not read)"
+   ]
+  },
+  {
+   "id": "het-wingline-230",
+   "brand": "Hettich",
+   "name": "WingLine 230",
+   "type": "folding-sliding wing, attached to side (large/heavy doors)",
+   "limits": {
+    "weight_per_wing_kg": "20-25 (two values shown)",
+    "wing_height_mm": "<=3000",
+    "wing_width_mm": "400-600",
+    "door_thickness_mm": "16-25",
+    "cycles": 40000,
+    "src": "cat p.96 (pdf98)"
+   },
+   "track": {
+    "runner_profile_length_mm": 2400,
+    "src": "cat p.97 (pdf99)"
+   },
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [
+    "Pull to move Silent",
+    "damper for runner profile"
+   ],
+   "codes": [
+    {
+     "code": "0 010 083 / 0 010 084 / 0 079 015 / 0 079 013",
+     "desc": "codes present on p.97 but descriptions overlap in text layer (not reliable)",
+     "src": "cat p.97"
+    }
+   ],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "codes meaning",
+    "planning dimensions"
+   ]
+  },
+  {
+   "id": "het-wing-77",
+   "brand": "Hettich",
+   "name": "Wing 77 (freely moveable folding door)",
+   "type": "folding, freely movable",
+   "limits": {
+    "wing_height_mm": "1000-2400",
+    "wing_width_mm": "400-500 (graph)",
+    "weight_kg": "25 / 20 (several values, legend ambiguous)",
+    "door_thickness_mm": "16-19",
+    "adjust": "+-3",
+    "cabinet_width": "inside cabinet width of 800 mm should not be exceeded",
+    "src": "cat p.102,p.103 (pdf104-105)"
+   },
+   "track": {
+    "profile_length_mm": 3200,
+    "codes": [
+     "9 193 574",
+     "0 070 985"
+    ]
+   },
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "0 070 986 / 0 070 987",
+     "desc": "sets (cabinet width up to 800 mm), description unclear",
+     "src": "cat p.106"
+    }
+   ],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "most values ambiguous"
+   ]
+  },
+  {
+   "id": "het-inline-xl",
+   "brand": "Hettich",
+   "name": "InLine XL (flush sliding)",
+   "type": "top-running flush inset",
+   "limits": null,
+   "track": null,
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [],
+   "cad": {
+    "urls": [
+     "https://archiup.com/products/door-accessories/hettich-inline-xl-dwg-dxf_6838 (third-party)"
+    ]
+   },
+   "unreadable": [
+    "InLine XL is NOT in the 2021 catalogue; no official InLine XL document could be downloaded (www1.hettich.com infosheet connection reset). Only secondary info: search engine summary mentioned upgrade sets by width range 750-1199. All values null."
+   ]
+  },
+  {
+   "id": "hawa-combino-20-h",
+   "brand": "Hawa",
+   "name": "Hawa Combino 20 H IS / MS / FS",
+   "type": "top-running (IS inlaid, MS mixslide) and bottom-running (FS forslide/overlay), 2 doors",
+   "limits": {
+    "weight_kg": 20,
+    "door_height_mm_max": 2200,
+    "door_width_mm_max": 1200,
+    "door_thickness_mm": "19",
+    "src": "HAW-ONF cat p.12,16,20 (pdf14,18,22)"
+   },
+   "track": {
+    "standard_lengths_mm": "running track 2500 / 3500 / 6000 (single and double, pre-drilled)",
+    "clip_panel_mm": "2500 / 3500 / 6000 (aluminium)",
+    "src": "HAW-ONF cat p.12,16,20 (pdf14,18,22)"
+   },
+   "cabinet": {
+    "formulas": {
+     "IS_2_doors": "TB = (KIM + 26)/2",
+     "MS_2_doors": "TB = (KIM + 16)/2",
+     "FS_2_doors": "TB = (KAM + 16)/2",
+     "wooden_panel_TH_IS": "TH = H - 26",
+     "wooden_panel_TH_MS": "TH = H - 12",
+     "legend": "KIM/KAM not defined in catalogue; drawings show KIM inside width, KAM outside width"
+    },
+    "src": "HAW-ONF cat p.12,16,20 (pdf14,18,22) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "IS_2_doors": "TB = (KIM + 26)/2",
+     "MS_2_doors": "TB = (KIM + 16)/2",
+     "FS_2_doors": "TB = (KAM + 16)/2",
+     "wooden_panel_TH_IS": "TH = H - 26",
+     "wooden_panel_TH_MS": "TH = H - 12",
+     "legend": "KIM/KAM not defined in catalogue; drawings show KIM inside width, KAM outside width"
+    },
+    "src": "HAW-ONF cat p.12,16,20 (pdf14,18,22) [drawing]"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft close (separate soft close units 18 kg / 18-40 kg)",
+    "straightening fitting p.307",
+    "handle profiles p.310"
+   ],
+   "codes": [
+    {
+     "code": "056.3180.071",
+     "desc": "Combino 20 H IS set for 2 doors",
+     "src": "cat p.13"
+    },
+    {
+     "code": "056.3181.071",
+     "desc": "Combino 20 H MS set for 2 doors",
+     "src": "cat p.17 (text list, pdf19)"
+    },
+    {
+     "code": "056.3182.071",
+     "desc": "Combino 20 H FS set for 2 doors",
+     "src": "cat p.21"
+    },
+    {
+     "code": "056.3011.250/.350/.600",
+     "desc": "single running track 2500/3500/6000",
+     "src": "cat p.13"
+    },
+    {
+     "code": "056.3010.250/.350/.600",
+     "desc": "double running track 2500/3500/6000",
+     "src": "cat p.13"
+    },
+    {
+     "code": "056.3174.250/.350/.600",
+     "desc": "clip-on panel alu",
+     "src": "cat p.13"
+    },
+    {
+     "code": "055.3171.250/.350/.600",
+     "desc": "guide track plastic for glueing",
+     "src": "cat p.13"
+    },
+    {
+     "code": "055.3091.071",
+     "desc": "soft close up to 18 kg (2 pcs)",
+     "src": "cat p.14"
+    },
+    {
+     "code": "055.3091.073",
+     "desc": "soft close 18-40 kg",
+     "src": "cat p.14"
+    },
+    {
+     "code": "056.3039.001",
+     "desc": "clip-on component for wooden panel every 500 mm",
+     "src": "cat p.14"
+    },
+    {
+     "code": "053.3207.071",
+     "desc": "door centering for 2 doors",
+     "src": "cat p.14"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/shop/en/s/on-furniture/sliding-doors/ (product pages list EP drawings PDF/DXF)"
+    ]
+   },
+   "unreadable": [
+    "hanger hole pattern / cabinet depth need drawings not transcribed"
+   ]
+  },
+  {
+   "id": "hawa-combino-35-h",
+   "brand": "Hawa",
+   "name": "Hawa Combino 35 H IS / MS / FS",
+   "type": "top-running (IS, MS) / bottom-running (FS), 2-3 doors",
+   "limits": {
+    "weight_kg": 35,
+    "door_height_mm_max": 2200,
+    "door_width_mm_max": 1200,
+    "door_thickness_mm": "19",
+    "src": "HAW-ONF cat p.25-36 (pdf27-38)"
+   },
+   "track": {
+    "standard_lengths_mm": "running track 2500 / 3500 / 6000 (single and double, pre-drilled)",
+    "clip_panel_mm": "2500 / 3500 / 6000 (aluminium)",
+    "src": "HAW-ONF cat p.25-36 (pdf27-38)"
+   },
+   "cabinet": {
+    "formulas": {
+     "IS_2_doors": "TB = (KIM + 26)/2",
+     "IS_3_doors": "TB = (KIM + 56)/3",
+     "MS_2_doors": "TB = (KIM + 16)/2",
+     "MS_3_doors": "TB = (KIM + 36)/3",
+     "FS_2_doors": "TB = (KAM + 16)/2",
+     "FS_3_doors": "TB = (KAM + 36)/3",
+     "wooden_panel_TH_IS": "TH = H - 36"
+    },
+    "src": "HAW-ONF cat p.25-36 (pdf27-38) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "IS_2_doors": "TB = (KIM + 26)/2",
+     "IS_3_doors": "TB = (KIM + 56)/3",
+     "MS_2_doors": "TB = (KIM + 16)/2",
+     "MS_3_doors": "TB = (KIM + 36)/3",
+     "FS_2_doors": "TB = (KAM + 16)/2",
+     "FS_3_doors": "TB = (KAM + 36)/3",
+     "wooden_panel_TH_IS": "TH = H - 36"
+    },
+    "src": "HAW-ONF cat p.25-36 (pdf27-38) [drawing]"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft close (separate soft close units 18 kg / 18-40 kg)",
+    "straightening fitting p.307",
+    "handle profiles p.310"
+   ],
+   "codes": [
+    {
+     "code": "056.3180.073 / 056.3180.077",
+     "desc": "Combino 35 H IS set 2 / 3 doors",
+     "src": "cat p.26"
+    },
+    {
+     "code": "056.3181.073 / 056.3181.074",
+     "desc": "Combino 35 H MS set 2 / 3 doors",
+     "src": "cat p.29 text list"
+    },
+    {
+     "code": "056.3182.073 / 056.3182.074",
+     "desc": "Combino 35 H FS set 2 / 3 doors",
+     "src": "cat p.33 text list"
+    },
+    {
+     "code": "055.3091.073",
+     "desc": "soft close 18-40 kg with wide follower (2 doors only)",
+     "src": "cat p.26"
+    },
+    {
+     "code": "055.3043.073",
+     "desc": "adapter set for soft close",
+     "src": "cat p.27"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/shop/en/s/on-furniture/sliding-doors/ (product pages list EP drawings PDF/DXF)"
+    ]
+   },
+   "unreadable": [
+    "hanger hole pattern / cabinet depth need drawings not transcribed"
+   ]
+  },
+  {
+   "id": "hawa-combino-50-h",
+   "brand": "Hawa",
+   "name": "Hawa Combino 50 H MS / FS (with/without soft close)",
+   "type": "bottom-running wooden doors 19/25 mm (MS, FS)",
+   "limits": {
+    "weight_kg": 50,
+    "door_height_mm_max": 2400,
+    "door_width_mm_max": 1400,
+    "door_thickness_mm": "19/25",
+    "src": "HAW-ONF cat p.38-52 (pdf40-54)"
+   },
+   "track": {
+    "standard_lengths_mm": "running track 2500 / 3500 / 6000 (single and double, pre-drilled)",
+    "clip_panel_mm": "2500 / 3500 / 6000 (aluminium)",
+    "src": "HAW-ONF cat p.38-52 (pdf40-54)"
+   },
+   "cabinet": {
+    "formulas": {
+     "MS_2_doors": "TB = (KAM + 16)/2 (drawing cat p.40 pdf42; labelled KAM, not KIM)",
+     "MS_3_doors": "TB = (KAM + 36)/3 (same page)",
+     "FS": "FS pages (pdf50,55) not rendered; assume not verified"
+    },
+    "src": "HAW-ONF cat p.38-52 (pdf40-54) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "MS_2_doors": "TB = (KAM + 16)/2 (drawing cat p.40 pdf42; labelled KAM, not KIM)",
+     "MS_3_doors": "TB = (KAM + 36)/3 (same page)",
+     "FS": "FS pages (pdf50,55) not rendered; assume not verified"
+    },
+    "src": "HAW-ONF cat p.38-52 (pdf40-54) [drawing]"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft close (separate soft close units 18 kg / 18-40 kg)",
+    "straightening fitting p.307",
+    "handle profiles p.310"
+   ],
+   "codes": [
+    {
+     "code": "055.3216.071",
+     "desc": "Combino 50 H FS centre door (soft close; description truncated)",
+     "src": "HAW-ONF text list"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/shop/en/s/on-furniture/sliding-doors/ (product pages list EP drawings PDF/DXF)"
+    ]
+   },
+   "unreadable": [
+    "Combino 50 set codes not extracted (many table rows); see cat p.38-52"
+   ]
+  },
+  {
+   "id": "hawa-combino-65-h",
+   "brand": "Hawa",
+   "name": "Hawa Combino 65 H IS ol / MS ol / FS ol / FS ul",
+   "type": "top-running (ol) or bottom-running (ul), 2-3 doors, optional integrated soft close",
+   "limits": {
+    "weight_kg": 65,
+    "door_height_mm_max": 2600,
+    "door_width_mm_max": 1400,
+    "door_thickness_mm": "IS ol 25-40; MS ol 25; FS ol 19-40; FS ul 25",
+    "src": "HAW-ONF cat p.54-67 (pdf56-69)"
+   },
+   "track": {
+    "standard_lengths_mm": "running track 2500 / 3500 / 6000 (single and double, pre-drilled)",
+    "clip_panel_mm": "2500 / 3500 / 6000 (aluminium)",
+    "src": "HAW-ONF cat p.54-67 (pdf56-69)"
+   },
+   "cabinet": {
+    "formulas": {
+     "IS_2_doors": "TB = (KIM + 26)/2",
+     "IS_3_doors": "TB = (KIM + 56)/3",
+     "MS_2_doors": "TB = (KIM + 16)/2",
+     "MS_3_doors": "TB = (KIM + 36)/3",
+     "FS_ol_ul_2_doors": "TB = (KAM + 16)/2",
+     "FS_ol_ul_3_doors": "TB = (KAM + 36)/3",
+     "IS_door40mm_TH": "TH = H - 58 (drawing)"
+    },
+    "src": "HAW-ONF cat p.54-67 (pdf56-69) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "IS_2_doors": "TB = (KIM + 26)/2",
+     "IS_3_doors": "TB = (KIM + 56)/3",
+     "MS_2_doors": "TB = (KIM + 16)/2",
+     "MS_3_doors": "TB = (KIM + 36)/3",
+     "FS_ol_ul_2_doors": "TB = (KAM + 16)/2",
+     "FS_ol_ul_3_doors": "TB = (KAM + 36)/3",
+     "IS_door40mm_TH": "TH = H - 58 (drawing)"
+    },
+    "src": "HAW-ONF cat p.54-67 (pdf56-69) [drawing]"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft close (separate soft close units 18 kg / 18-40 kg)",
+    "straightening fitting p.307",
+    "handle profiles p.310"
+   ],
+   "codes": [
+    {
+     "code": "055.3208.071 / .072",
+     "desc": "Combino 65 H IS track 2500 / 4000",
+     "src": "HAW-ONF text list"
+    },
+    {
+     "code": "055.3209.071 / .072",
+     "desc": "Combino 65 H MS track 2500 / 4000",
+     "src": "HAW-ONF text list"
+    },
+    {
+     "code": "055.3204.071",
+     "desc": "Combino 65 H FS ul for 2 doors",
+     "src": "HAW-ONF text list"
+    },
+    {
+     "code": "055.3207.071",
+     "desc": "Combino 65/80 H FS ol centre door",
+     "src": "HAW-ONF text list"
+    },
+    {
+     "code": "055.3217.071",
+     "desc": "Combino 65/80 H FS centre door",
+     "src": "HAW-ONF text list"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/shop/en/s/on-furniture/sliding-doors/ (product pages list EP drawings PDF/DXF)"
+    ]
+   },
+   "unreadable": [
+    "hanger hole pattern / cabinet depth need drawings not transcribed"
+   ]
+  },
+  {
+   "id": "hawa-combino-80-h",
+   "brand": "Hawa",
+   "name": "Hawa Combino 80 H FS ol / FS ul",
+   "type": "top-running (ol) or bottom-running (ul), 2-3 doors",
+   "limits": {
+    "weight_kg": 80,
+    "door_height_mm_max": 2800,
+    "door_width_mm_max": 1600,
+    "door_thickness_mm": "FS ol 19-40; FS ul 25/40",
+    "src": "HAW-ONF cat p.69-77 (pdf71-78)"
+   },
+   "track": {
+    "standard_lengths_mm": "running track 2500 / 3500 / 6000 (single and double, pre-drilled)",
+    "clip_panel_mm": "2500 / 3500 / 6000 (aluminium)",
+    "src": "HAW-ONF cat p.69-77 (pdf71-78)"
+   },
+   "cabinet": {
+    "formulas": {
+     "FS_2_doors": "TB = (KAM + 16)/2",
+     "FS_3_doors": "TB = (KAM + 36)/3"
+    },
+    "src": "HAW-ONF cat p.69-77 (pdf71-78) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "FS_2_doors": "TB = (KAM + 16)/2",
+     "FS_3_doors": "TB = (KAM + 36)/3"
+    },
+    "src": "HAW-ONF cat p.69-77 (pdf71-78) [drawing]"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft close (separate soft close units 18 kg / 18-40 kg)",
+    "straightening fitting p.307",
+    "handle profiles p.310"
+   ],
+   "codes": [],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/shop/en/s/on-furniture/sliding-doors/ (product pages list EP drawings PDF/DXF)"
+    ]
+   },
+   "unreadable": [
+    "hanger hole pattern / cabinet depth need drawings not transcribed"
+   ]
+  },
+  {
+   "id": "hawa-combino-l-40",
+   "brand": "Hawa",
+   "name": "Hawa Combino L 40 H FS (+ Synchro)",
+   "type": "bottom-running L-shaped wooden doors, 1-3 doors; Synchro for 2 or 4 doors",
+   "limits": {
+    "weight_kg": 40,
+    "door_height_mm_max": 1500,
+    "door_width_mm_max": "1500 (800 for Synchro)",
+    "door_thickness_mm": 19,
+    "src": "HAW-ONF cat p.79-91 (pdf81-93)"
+   },
+   "track": {
+    "double_guide_track": "pre-drilled",
+    "KAM_for_synchro": "min 1910 - max 3100 mm (drawing)"
+   },
+   "cabinet": {
+    "synchro_4_doors": "TB = (KAM + 40)/4",
+    "synchro_2_doors": "TB = (KAM + 38)/4 (as read from drawing: 'TB = KAM + 38 / 4')",
+    "src": "cat p.88 (pdf90) [drawing]"
+   },
+   "doors": {
+    "width_formula": "see cabinet",
+    "src": "p.88"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "Synchro"
+   ],
+   "codes": [
+    {
+     "code": "056.3160.071 / .072 / .073",
+     "desc": "Combino L 40 H FS for 1 / 2 / 3 wooden doors",
+     "src": "HAW-ONF text list"
+    }
+   ],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "drilling"
+   ]
+  },
+  {
+   "id": "hawa-clipo-15-h",
+   "brand": "Hawa",
+   "name": "Hawa Clipo 15 H IS/MS/FS",
+   "type": "top-running wood doors, screw or groove mounted track",
+   "limits": {
+    "weight_kg": 15,
+    "door_height_mm_max": 1400,
+    "door_width_mm_max": 1000,
+    "door_thickness_mm": "IS/MS 16-19; FS 19-25",
+    "src": "HAW-ONF cat p.92-104 (pdf94-106)"
+   },
+   "track": {
+    "groove_mounted_running_track": true,
+    "src": "HAW-ONF"
+   },
+   "cabinet": {
+    "formulas": {
+     "IS_2_doors": "TB = (KIM + 16)/2 (drawing p.95)"
+    },
+    "src": "HAW-ONF cat p.92-104 (pdf94-106) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "IS_2_doors": "TB = (KIM + 16)/2 (drawing p.95)"
+    },
+    "src": "HAW-ONF"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft and self closing integrated (16/26/36)"
+   ],
+   "codes": [],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "order codes and drilling not extracted"
+   ]
+  },
+  {
+   "id": "hawa-clipo-16-h",
+   "brand": "Hawa",
+   "name": "Hawa Clipo 16 H IS/MS/FS/FS 4-point, HM IS",
+   "type": "top-running, groove-mounted track, soft+self close",
+   "limits": {
+    "weight_kg": 16,
+    "door_height_mm_max": 1400,
+    "door_width_mm_max": 1000,
+    "door_thickness_mm": "IS/MS 16-19; FS 16-25; HM IS 19-25",
+    "src": "HAW-ONF cat p.103-122 (pdf105-124)"
+   },
+   "track": {
+    "groove_mounted_running_track": true,
+    "src": "HAW-ONF"
+   },
+   "cabinet": {
+    "formulas": {
+     "HM_IS_2_doors": "TB = (KIM + 16)/2; TH = KIM - 9 (drawing p.123/125)"
+    },
+    "src": "HAW-ONF cat p.103-122 (pdf105-124) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "HM_IS_2_doors": "TB = (KIM + 16)/2; TH = KIM - 9 (drawing p.123/125)"
+    },
+    "src": "HAW-ONF"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft and self closing integrated (16/26/36)"
+   ],
+   "codes": [],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "order codes and drilling not extracted"
+   ]
+  },
+  {
+   "id": "hawa-clipo-26-h",
+   "brand": "Hawa",
+   "name": "Hawa Clipo 26 H IS/MS",
+   "type": "top-running, groove-mounted, soft+self close, 2-3 doors",
+   "limits": {
+    "weight_kg": 26,
+    "door_height_mm_max": 2200,
+    "door_width_mm_max": 1000,
+    "door_thickness_mm": "IS 19-25; MS 19",
+    "src": "HAW-ONF cat p.125-135 (pdf127-137)"
+   },
+   "track": {
+    "groove_mounted_running_track": true,
+    "src": "HAW-ONF"
+   },
+   "cabinet": {
+    "formulas": {
+     "IS_2_doors": "TB = (KIM + 26)/2 (drawing p.129)",
+     "MS_2_doors": "TB = (KAM + 16)/2",
+     "MS_3_doors": "TB = (KAM + 36)/3",
+     "groove_length_for_running_track": "KAM - 2S - 2 (S = ?; drawing p.134)"
+    },
+    "src": "HAW-ONF cat p.125-135 (pdf127-137) [drawing]"
+   },
+   "doors": {
+    "width_formula": {
+     "IS_2_doors": "TB = (KIM + 26)/2 (drawing p.129)",
+     "MS_2_doors": "TB = (KAM + 16)/2",
+     "MS_3_doors": "TB = (KAM + 36)/3",
+     "groove_length_for_running_track": "KAM - 2S - 2 (S = ?; drawing p.134)"
+    },
+    "src": "HAW-ONF"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft and self closing integrated (16/26/36)"
+   ],
+   "codes": [],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "order codes and drilling not extracted"
+   ]
+  },
+  {
+   "id": "hawa-clipo-36-h",
+   "brand": "Hawa",
+   "name": "Hawa Clipo 36 H IS/MS, 36 HM IS",
+   "type": "top-running, groove-mounted, 2-3 doors",
+   "limits": {
+    "weight_kg": 36,
+    "door_height_mm_max": "2200 (IS) / 2400 (MS, HM IS)",
+    "door_width_mm_max": 1000,
+    "door_thickness_mm": "IS 19-25; MS 25; HM IS 19-40",
+    "src": "HAW-ONF cat p.136-151 (pdf138-153)"
+   },
+   "track": {
+    "groove_mounted_running_track": true,
+    "src": "HAW-ONF"
+   },
+   "cabinet": {
+    "formulas": {},
+    "src": "HAW-ONF cat p.136-151 (pdf138-153) [drawing]"
+   },
+   "doors": {
+    "width_formula": {},
+    "src": "HAW-ONF"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "soft and self closing integrated (16/26/36)"
+   ],
+   "codes": [],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "order codes and drilling not extracted"
+   ]
+  },
+  {
+   "id": "hawa-concepta-iii",
+   "brand": "Hawa",
+   "name": "Hawa Concepta III V2 15 / 25 / 35 (Push or Pull)",
+   "type": "pocket door: pivot and lateral slide-in of wooden doors, flush/overlay or inlaid, fully opening",
+   "limits": {
+    "variants": {
+     "15": {
+      "weight_kg": "4-15",
+      "door_height_mm": "600-1400",
+      "door_width_mm": "350-700",
+      "src": "cat p.156,162 (pdf158,164)"
+     },
+     "25": {
+      "weight_kg": "6-25",
+      "door_height_mm": "1200-2200",
+      "door_width_mm": "350-750",
+      "src": "SPE, cat p.168,175"
+     },
+     "35": {
+      "weight_kg": "10-35",
+      "door_height_mm": "1900-2700",
+      "door_width_mm": "350-750",
+      "src": "cat p.182,189 (pdf184,191)"
+     }
+    },
+    "door_thickness_mm": "18-26",
+    "weight_vs_size": "max weight reduces with width/height: table (25 kg system: 25 kg up to ~TB 650 at TH 1700; at 750 mm width weight limit drops to 14 kg at TH 1200). Full table in cat p.176 (pdf177) and EN_Table_Hawa_Concepta_III_25_Push_Pull_calculation.pdf",
+    "tests": "DIN EN 15706 / EN 15570",
+    "src": "HAW-C3-SPE; HAW-ONF"
+   },
+   "track": {
+    "running_track_top_and_bottom_guide_length_mm": {
+     "15": 770,
+     "25/35": 820
+    },
+    "upright_profile_mm": "L=1974 for door height 1200-2200 (25); 2085 folding variant",
+    "connector_set_55_mm": {
+     "length_mm": 560,
+     "codes": [
+      "31005 (top+bottom)",
+      "31430 (top)"
+     ]
+    },
+    "connector_110_mm": {
+     "length_mm": 500,
+     "codes": [
+      "31006 top",
+      "31246 bottom",
+      "31007 (26 mm, in front of fixed plinth)"
+     ]
+    },
+    "src": "cat p.159-161,177-179"
+   },
+   "cabinet": {
+    "formulas_mm": {
+     "T1_hardware_depth": "T1 = TB + 92 + Z3 - M",
+     "KT1_cabinet_depth": "KT1 >= T1 + RE (RE not defined in the legend)",
+     "E1_slide_in_depth": "E1 = TB - M",
+     "M_door_projection_min": "M >= S + 3",
+     "M_door_projection_max": "M <= TB - 320",
+     "T1_min": ">= 414",
+     "S_door_thickness": "18-26",
+     "TB": "350-750",
+     "TH_III25": "1200-2200",
+     "TH_III35": "1900-2700",
+     "Z1": "3-6",
+     "Z2": "3-6",
+     "Z3": "2-5 (3 recommended; table of Z3 vs TA1: 2->29,3->28,4->27,5->26)"
+    },
+    "src": "HAW-C3-EP C125748 V02 [formula table in text layer]"
+   },
+   "doors": {
+    "width": "TB 350-750 (door width is free: no overlap, door is pocket door); gaps Z1/Z2/Z3",
+    "src": "HAW-C3-EP"
+   },
+   "hanger_drilling": {
+    "hinges": "35 mm drill holes for concealed hinges (soft-close hinges: 3 per door at 25 kg)",
+    "hardware_drilling": "drawing only (EP DXF available)",
+    "src": "HAW-C3-SPE p.2; HAW-C3-EP"
+   },
+   "options": [
+    "Push (push-to-open) / Pull (handle, integrated soft close)",
+    "connector 55/110 mm to cabinet",
+    "guide for two inlaid doors 25680",
+    "straightening fitting (056.3192.xxx)",
+    "SafetyBox (Halemeier) shut-off for electrical devices"
+   ],
+   "codes": [
+    {
+     "code": "30994 / 30995",
+     "desc": "Concepta III V2 25 Push/Pull basic set left/right, door height 1200-2200",
+     "src": "cat p.171,178"
+    },
+    {
+     "code": "30996 / 30997",
+     "desc": "Concepta III V2 basic set left/right, door height 1900-2700 (35)",
+     "src": "cat p.185"
+    },
+    {
+     "code": "30998 / 30999",
+     "desc": "25/35 Push slide-in set left/right",
+     "src": "cat p.171"
+    },
+    {
+     "code": "31000 / 31001",
+     "desc": "25/35 Pull slide-in set left/right",
+     "src": "cat p.178"
+    },
+    {
+     "code": "53520 / 53521",
+     "desc": "15 Push/Pull basic set left/right incl. upright",
+     "src": "cat p.159"
+    },
+    {
+     "code": "53522 / 53523",
+     "desc": "15 Push slide-in set left/right",
+     "src": "cat p.159"
+    },
+    {
+     "code": "53524 / 53525",
+     "desc": "15 Pull slide-in set left/right",
+     "src": "cat p.165"
+    },
+    {
+     "code": "30778",
+     "desc": "Upright profile for door height 1200-2200, L 1974",
+     "src": "cat p.177"
+    },
+    {
+     "code": "52616 / 52621 / 30686 / 30983",
+     "desc": "hinge mounting plate / soft close hinge / slot nuts / magnetic guide profile (components of basic set)",
+     "src": "cat p.177"
+    },
+    {
+     "code": "25680",
+     "desc": "Guide for two inset pivot/slide-in doors",
+     "src": "cat p.159"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/tradepro/shopen/artikel/allgemein/EP_Hawa_Concepta_III_V2_25-35_Inslide_C125748.dxf",
+     "https://products.hawa.com/tradepro/shopen/artikel/allgemein/EP_Hawa_Concepta_III_V2_25-35_Forslide_C125740.dxf",
+     "https://configurator.hawa.com/configurator/Start.html?start=anonym&LanguageWeb=en&ProjectTemplate=hawa-concepta-3&EntryPage=dialogproductversion"
+    ]
+   },
+   "unreadable": [
+    "RE undefined",
+    "hinge drilling distances (drawing)",
+    "weight/size tables for 15 and 35 kg not transcribed (only 25 kg partial)"
+   ]
+  },
+  {
+   "id": "hawa-folding-concepta-iii",
+   "brand": "Hawa",
+   "name": "Hawa Folding Concepta III V2 20 / 25 (Push or Pull)",
+   "type": "pocket door with folding wings (pivot, fold and slide-in), overlay fronts, 2/3/4 doors",
+   "limits": {
+    "variants": {
+     "20": {
+      "weight_kg": "6-20",
+      "door_height_mm": "1200-2200",
+      "door_width_mm": "350-750",
+      "src": "cat p.198,213"
+     },
+     "25": {
+      "weight_kg": "10-25",
+      "door_height_mm": "1900-2700",
+      "door_width_mm": "350-750",
+      "src": "cat p.227,242"
+     }
+    },
+    "door_thickness_mm": "18-26",
+    "src": "HAW-ONF; web page folding-concepta-lll-25-pull"
+   },
+   "track": {
+    "track_sets": "front 2/3/4 doors, composed cabinet sets (see codes)",
+    "reinforcement_profiles_mm": {
+     "2085": "52110 (3 doors)",
+     "2765": "52109 (4 doors)"
+    },
+    "src": "cat p.204-208"
+   },
+   "cabinet": {
+    "formulas_mm": {
+     "LMB": "inside clearance width (defined: 'Lichtmassbreite')",
+     "T2": "T2 = TB + 92 + Z3 - M2",
+     "KT2": "KT2 >= T2",
+     "E2": "E2 = TB - M2",
+     "M2_min": "M2 >= S + 75",
+     "M2_max": "M2 <= TB - 250",
+     "T2_min": ">= 344",
+     "3-door_M_max": "M <= TB - 320",
+     "TH_III20": "1200-2200",
+     "TH_III25": "1900-2700",
+     "Z1": "0-6",
+     "Z3": "2-5"
+    },
+    "src": "HAW-FC3-EP C126945 / C127004 / C126981 [text layer]"
+   },
+   "doors": {
+    "width": "TB 350-750; 2/3/4 door arrangement needs track sets",
+    "src": "HAW-FC3-EP"
+   },
+   "hanger_drilling": null,
+   "options": [
+    "Push / Pull",
+    "composed cabinet tracks",
+    "3-door stop set 31538"
+   ],
+   "codes": [
+    {
+     "code": "53438 / 53439",
+     "desc": "Folding Concepta III V2 20 Push set left/right",
+     "src": "cat p.204"
+    },
+    {
+     "code": "53442 / 53443",
+     "desc": "20 Pull set left/right",
+     "src": "cat p.219"
+    },
+    {
+     "code": "53440 / 53441",
+     "desc": "25 Push set left/right",
+     "src": "cat p.233"
+    },
+    {
+     "code": "53444 / 53445",
+     "desc": "25 Pull set left/right",
+     "src": "cat p.248"
+    },
+    {
+     "code": "53448 / 53449",
+     "desc": "track set cabinet composed cabinet left/right",
+     "src": "cat p.206"
+    },
+    {
+     "code": "53450 / 53451",
+     "desc": "track set front 2 doors left/right (anodised)",
+     "src": "cat p.207"
+    },
+    {
+     "code": "53452 / 53453",
+     "desc": "track set front 3 doors left/right",
+     "src": "cat p.207"
+    },
+    {
+     "code": "53454",
+     "desc": "track set front 4 doors",
+     "src": "cat p.207"
+    },
+    {
+     "code": "31519",
+     "desc": "upright set door height 1200-2200 anodised",
+     "src": "cat p.207"
+    },
+    {
+     "code": "52110",
+     "desc": "upright set front 2085 / reinforcement 2085",
+     "src": "cat p.208"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/tradepro/shopen/artikel/allgemein/EP_Hawa_Folding_Concepta_III_Pull_2_doors_C126945.pdf (and _3_doors_C127004, _4_doors_C126981; DXF variants listed on product page)"
+    ]
+   },
+   "unreadable": [
+    "hinge drilling distances"
+   ]
+  },
+  {
+   "id": "hawa-concepta-40-50",
+   "brand": "Hawa",
+   "name": "Hawa Concepta 40 / 50",
+   "type": "pocket door: pivot and slide-in with scissor mechanism, door striking top and bottom or inset",
+   "limits": {
+    "40": {
+     "weight_kg": "20-40",
+     "door_height_mm": "1851-2500",
+     "door_width_mm": "300-900",
+     "door_thickness_mm": "19-50"
+    },
+    "50": {
+     "weight_kg": "25-50",
+     "door_height_mm": "2301-2850",
+     "door_width_mm": "300-900",
+     "door_thickness_mm": "19-50"
+    },
+    "src": "cat p.258,263 (pdf260,265)"
+   },
+   "track": {
+    "running_track_mm": 896,
+    "upright_mm": 2500,
+    "scissor_action_mm": 1500,
+    "connector_mm": {
+     "55 mm": [
+      650,
+      900
+     ],
+     "110 mm": [
+      650,
+      900
+     ]
+    },
+    "src": "cat p.259-260"
+   },
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [
+    "door retractor 30/40 with damper",
+    "soft closing end position",
+    "hinges with damper"
+   ],
+   "codes": [
+    {
+     "code": "27650",
+     "desc": "Concepta 40 set for 1 door",
+     "src": "cat p.259"
+    },
+    {
+     "code": "27651",
+     "desc": "Concepta 50 set for 1 door",
+     "src": "cat p.264"
+    },
+    {
+     "code": "25438 / 23221 / 23222 / 23223 / 23224 / 23225",
+     "desc": "connectors 55/110 mm",
+     "src": "cat p.260"
+    },
+    {
+     "code": "25680",
+     "desc": "guide for two inset pivot sliding doors",
+     "src": "cat p.260"
+    },
+    {
+     "code": "22692",
+     "desc": "door handle aluminium 400 mm",
+     "src": "cat p.260"
+    }
+   ],
+   "cad": {
+    "urls": []
+   },
+   "unreadable": [
+    "planning formulas (drawings pages 261+ not read)"
+   ]
+  },
+  {
+   "id": "blum-revego",
+   "brand": "Blum",
+   "name": "REVEGO uno / duo (+ uno+uno, uno+duo, duo+duo)",
+   "type": "pocket system: full-overlay fronts slide into a narrow pocket cabinet; TIP-ON motion, BLUMOTION + BLUMATIC; with/without plinth or worktop-mounted",
+   "limits": {
+    "front_weight_kg": "up to 35 per front",
+    "front_width_mm": {
+     "uno": "442-898",
+     "duo": "442-748"
+    },
+    "front_height_mm": "1130-2980",
+    "front_thickness_mm": "18-26 (<18 trial application recommended; EXPANDO T 70T4532T for thin fronts)",
+    "worktop_mounted": "front width max 750; pocket height max 1806; front height 1130-1803 (weights per table: e.g. FH 1130-1349 at FB 450 22 kg ... FH 1650-1803 at FB 450 27 kg; FB 750 13-18 kg)",
+    "opening_force_N": "<70",
+    "src": "BLU-ORD p.10,14,20-23; BLU-WEB"
+   },
+   "track": {
+    "uno": "no track (door stabiliser runner profile 1i)",
+    "duo": "track set 802L1050DL3/DR3, 802L1200..., 802L1250..., 802L1350... by LWA double door, black anodised; can be shortened",
+    "track_length_rule": {
+     "duo": "track length X = LWA - 12",
+     "uno+duo": "X = LWA1 - 58 (single door), Y = LWA2 - 12",
+     "duo+duo": "Y = LWA2 - 12"
+    },
+    "pocket_profile_nominal_lengths_mm": {
+     "uno": [
+      450,
+      500,
+      600,
+      700,
+      800
+     ],
+     "duo": [
+      450,
+      525,
+      600,
+      675,
+      750
+     ]
+    },
+    "cut_rule": "profiles and TIP-ON unit can be cut to any NL; NL = POT - POTV - PORW; Max. NL = FB + 8",
+    "src": "BLU-ORD p.17,38-39,77,79,80"
+   },
+   "cabinet": {
+    "uno": {
+     "installation_width_EB_mm": "450-900",
+     "installation_height_EH_mm": "1155-3012",
+     "installation_depth_ET_mm": "from 573",
+     "internal_width_LWA": "up to 800 (350-800)",
+     "internal_height_LHA": "up to 2999",
+     "internal_depth_LTA": "from 518",
+     "pocket_width_POB": 100,
+     "pocket_height_POH": "1142-2999",
+     "pocket_depth_POT": "from 553"
+    },
+    "duo": {
+     "EB": "900-1500",
+     "EH": "1155-3012",
+     "ET": "from 573",
+     "LWA": "up to 1350 (750-1350)",
+     "LHA": "up to 2884",
+     "LTA": "from 483",
+     "POB": 150,
+     "POH": "1142-2999",
+     "POT": "from 553"
+    },
+    "formulas": {
+     "EB": "EB = LWA + POB (uno 100 / duo 150); with partition side SS: EB = LWA + POB + SS",
+     "ET": "ET = POT + FS(2) + FD",
+     "min_POT": "POT >= NL + POTV (>=100) + PORW (>=3)",
+     "FB_uno": "FB = EB - Fsl - Fsr",
+     "FB_duo": "FB = (EB - Fsl - Fsm - Fsr)/2",
+     "gaps": "Fsl/Fsr = 1.0-4.0; Fsm = 2.0-8.0",
+     "FU": "FU = FB - NL + 15 (min 7); Max NL = FB+8",
+     "FH": "FH = POH - Fo - Fu",
+     "EH": "EH = POH + POVH top + bottom",
+     "LTA": "LTA = POT - 35; LHA = POH",
+     "min_side_gap_Fs_by_FD": {
+      "18-20": 2,
+      "20.1-23": 2.5,
+      "23.1-26": 3,
+      "free_standing_min": 1
+     },
+     "min_distance_in_front_of_pocket": "FB + min 300 mm free",
+     "plinth_min_height_mm": 80,
+     "bottom_gap_without_plinth": ">=10 to floor; POVH 3 mm for gap 7-13",
+     "POVH": "10 mm for top gap 0-6",
+     "pocket_side_thickness_POSD_mm": "15-19 (duo 15-17 / 18-19 sets)",
+     "pocket_back_min_thickness_mm": 3,
+     "src": "BLU-ORD p.12-14,20-23,41,43,77-80"
+    },
+    "src": "BLU-ORD; BLU-WEB (GB and CA pages agree)"
+   },
+   "doors": {
+    "number_of_fronts": {
+     "uno": 1,
+     "uno+uno": 2,
+     "duo": 2,
+     "uno+duo": 3,
+     "duo+duo": 4
+    },
+    "installation_width_by_application_mm": {
+     "uno+uno": "900-1800",
+     "uno+duo": "1350-2400",
+     "duo+duo": "1800-3000"
+    },
+    "internal_width_by_application_mm": {
+     "uno+uno": "700-1600",
+     "uno+duo": "1100-2150",
+     "duo+duo": "1500-2700"
+    },
+    "front_width_FB": "see formulas",
+    "overlap_formula": "fronts full overlay on pocket; no overlap parameter",
+    "src": "BLU-ORD p.10-11"
+   },
+   "hanger_drilling": {
+    "note": "Drilling patterns, cut-to-size dimensions and detailed parts lists only via Blum Product Configurator (www.blum.com/revpc); machining needs CNC or MINIPRESS top with EASYSTICK (BXF/CAM DXF/WOP)",
+    "src": "BLU-ORD p.13"
+   },
+   "options": [
+    "TIP-ON (motion) integrated",
+    "BLUMOTION",
+    "BLUMATIC",
+    "adapter 801ZG0BS / 802ZG0CS for electrical appliance switch-off (Halemeier magnetic contact 3623011)",
+    "scuff guard 801ZA00S / 802ZA00S (front >=23 mm)",
+    "EXPANDO T thin fronts 70T4532T"
+   ],
+   "codes": [
+    {
+     "code": "801P450E.L3/R3, 801P500E, 801P600E, 801P700E, 801P800E (.L3/.R3)",
+     "desc": "uno pocket profile set with TIP-ON, NL 450/500/600/700/800 (min POT 550/600/700/800/900)",
+     "src": "BLU-ORD p.17"
+    },
+    {
+     "code": "801T1140 / 1350 / 1500 / 1650 / 1800 / 1950 / 2100 / 2250 / 2400 / 2550 / 2700 / 2850 (.L3/.R3)",
+     "desc": "uno hinge bracket sets by pocket height ranges 1142-1356 ... 2857-2999",
+     "src": "BLU-ORD p.17"
+    },
+    {
+     "code": "801V505B",
+     "desc": "uno pocket connector set with plinth (side 15-19)",
+     "src": "BLU-ORD p.18"
+    },
+    {
+     "code": "801V605B.L1/.R1",
+     "desc": "uno without plinth",
+     "src": "BLU-ORD p.18"
+    },
+    {
+     "code": "801V705B.L3/.R3",
+     "desc": "uno worktop-mounted",
+     "src": "BLU-ORD p.18"
+    },
+    {
+     "code": "802P450D/525D/600D/675D/750D (.L3/.R3)",
+     "desc": "duo pocket profile set NL 450/525/600/675/750 (min POT 550/625/700/775/850)",
+     "src": "BLU-ORD p.38"
+    },
+    {
+     "code": "802T1140..802T2850 (.L3/.R3)",
+     "desc": "duo hinge bracket sets by pocket height",
+     "src": "BLU-ORD p.38"
+    },
+    {
+     "code": "802V560B / 802V580B",
+     "desc": "duo connector with plinth, side 15-17 / 18-19",
+     "src": "BLU-ORD p.39"
+    },
+    {
+     "code": "802V660B / 802V680B (.L1/.R1)",
+     "desc": "duo without plinth",
+     "src": "BLU-ORD p.39"
+    },
+    {
+     "code": "802V760B / 802V780B (.L3/.R3)",
+     "desc": "duo worktop-mounted",
+     "src": "BLU-ORD p.39"
+    },
+    {
+     "code": "802L1050DL3/DR3, 802L1200DL3/DR3, 802L1250DL3/DR3, 802L1350DL3/DR3",
+     "desc": "duo track set by LWA",
+     "src": "BLU-ORD p.39"
+    },
+    {
+     "code": "802M0002.L2/.R2",
+     "desc": "duo assembly set (track fixing, covers, door supports)",
+     "src": "BLU-ORD p.40"
+    },
+    {
+     "code": "801V5002 / 802V5002",
+     "desc": "additional rear pocket connector (set-back plinth leg)",
+     "src": "BLU-ORD p.19,40"
+    },
+    {
+     "code": "661.1450.HG / 664.3500",
+     "desc": "system screws 6x14.5 / chipboard screws 4x35",
+     "src": "BLU-ORD p.19"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.blum.com/revpc (Product Configurator: 3D CAD, CAM DXF, WOP, BXF; login required)",
+     "installation instructions uno https://www.blum.com/file/cme119412_md_dok_bau?country=gb&language=en",
+     "duo https://www.blum.com/file/cme119413_md_dok_bau?country=gb&language=en"
+    ]
+   },
+   "unreadable": [
+    "drilling positions of hinge strip/pocket parts only in configurator",
+    "uno+uno / uno+duo / duo+duo pages (24-33, 46-75) not transcribed"
+   ]
+  },
+  {
+   "id": "haf-fline21-12c",
+   "brand": "Haefele",
+   "name": "Slido F-Line21 12C",
+   "type": "top-hung, small cabinet doors, 2 doors, groove or screw-fixed track",
+   "limits": {
+    "weight_kg": 12,
+    "door_height_mm_max": 1200,
+    "door_width_mm_max": 1000,
+    "door_thickness_mm": "16-19",
+    "adjust_mm": "+-2",
+    "min_door_width_mm": 340,
+    "min_panel_thickness": 19,
+    "src": "HAF-25S1-16 (SSD p1.16-17)"
+   },
+   "track": {
+    "tracks_m": [
+     2.5,
+     3.5
+    ],
+    "top_track_profile_h_x_d_mm": "16 x 42 (double) / 16 wide groove; screw-fix tracks 13 high (drawing)",
+    "groove_width_mm": 16,
+    "bottom_guide_track": "6 mm groove, ribbed plastic, 9.5 high",
+    "cut_rule": "null"
+   },
+   "cabinet": {
+    "drilling_mm": "holes d35: 50 (+43 with inspection support) / 64 pitch; door overlap per drawing; B = A - 10.5 (groove tracks) or B = A - 24 (screw-fix tracks)"
+   },
+   "doors": null,
+   "hanger_drilling": {
+    "hanger_to_edge_mm": "16/10/16/10 rows, d8 holes (drawing)"
+   },
+   "options": [
+    "soft+self-closing running gear",
+    "inspection support"
+   ],
+   "codes": [
+    {
+     "code": "402.33.013",
+     "desc": "Fitting set 2 doors without soft close",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.33.014",
+     "desc": "fitting set 2 doors with soft+self close",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.33.642/.643",
+     "desc": "single top track groove 2.5/3.5 m",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.33.652/.653",
+     "desc": "double top track groove",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.30.642/.643",
+     "desc": "single top track screw fix",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.30.652/.653",
+     "desc": "double top track screw fix",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.30.802/.803",
+     "desc": "single bottom guide track",
+     "src": "p1.17"
+    },
+    {
+     "code": "402.30.220",
+     "desc": "guide additional",
+     "src": "p1.17"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "haf-fline21-20c",
+   "brand": "Haefele",
+   "name": "Slido F-Line21 20C",
+   "type": "top-hung 2 doors, soft close optional",
+   "limits": {
+    "weight_kg": 20,
+    "door_height_mm_max": 1400,
+    "door_width_mm_max": 1250,
+    "door_thickness_mm": "16-19",
+    "adjust_mm": "+-2",
+    "min_door_width_mm": "360 (one soft close) / 550 (two)",
+    "src": "HAF-25S1-18 (p1.18-19)"
+   },
+   "track": {
+    "tracks_m": [
+     2.5,
+     3.5
+    ],
+    "top_track_profile_h_x_d_mm": "16 x 42 (double) / 16 wide groove; screw-fix tracks 13 high (drawing)",
+    "groove_width_mm": 16,
+    "bottom_guide_track": "6 mm groove, ribbed plastic, 9.5 high",
+    "cut_rule": "null"
+   },
+   "cabinet": {
+    "drilling_mm": "B = A - 10 (groove) / A - 23.5 (screw)"
+   },
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "402.33.018",
+     "desc": "fitting set 2 doors without soft close",
+     "src": "p1.19"
+    },
+    {
+     "code": "402.33.019",
+     "desc": "with soft close",
+     "src": "p1.19"
+    },
+    {
+     "code": "402.30.107 / .123 / .303 / .321 / .220",
+     "desc": "housing / soft-close running gear / clip-in stopper / soft-close stopper / guide (additional)",
+     "src": "p1.19"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "haf-fline21-40c",
+   "brand": "Haefele",
+   "name": "Slido F-Line21 40C",
+   "type": "top-hung 2 doors, soft close optional",
+   "limits": {
+    "weight_kg": 40,
+    "door_height_mm_max": 2200,
+    "door_width_mm_max": 1250,
+    "door_thickness_mm": "16-19",
+    "adjust_mm": "+-2",
+    "min_door_width_mm": 390,
+    "note": "Planofit door straightening system must be used on wooden doors (p1.144-147)",
+    "src": "HAF-25S1-20 (p1.20-21)"
+   },
+   "track": {
+    "tracks_m": [
+     2.5,
+     3.5
+    ],
+    "top_track_profile_h_x_d_mm": "16 x 42 (double) / 16 wide groove; screw-fix tracks 13 high (drawing)",
+    "groove_width_mm": 16,
+    "bottom_guide_track": "6 mm groove, ribbed plastic, 9.5 high",
+    "cut_rule": "null"
+   },
+   "cabinet": {
+    "drilling_mm": "B = A - 10 / A - 23.5; d35 hole 64 pitch (+43 with inspection support)"
+   },
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "402.33.026",
+     "desc": "fitting set 2 doors without soft close",
+     "src": "p1.21"
+    },
+    {
+     "code": "402.33.027",
+     "desc": "with soft close",
+     "src": "p1.21"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "haf-fline15-55a",
+   "brand": "Haefele",
+   "name": "Slido F-Line15 55A",
+   "type": "bottom-rolling, timber doors, 2 or 3 doors",
+   "limits": {
+    "weight_kg": 55,
+    "door_thickness_mm": "min 16",
+    "adjust_mm": "+-2 height",
+    "src": "HAF-25S1-24 (p1.24-25)"
+   },
+   "track": {
+    "tracks_m": [
+     2.5,
+     3.5
+    ],
+    "codes": {
+     "top guide track": "402.23.802/.803",
+     "bottom running track press fit": "402.23.602/.603",
+     "running+guide track": "402.26.622/.623"
+    }
+   },
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "402.23.002",
+     "desc": "fitting set 2 doors",
+     "src": "p1.25"
+    },
+    {
+     "code": "402.23.003",
+     "desc": "fitting set 3 doors",
+     "src": "p1.25"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": [
+    "max door height/width not stated in text"
+   ]
+  },
+  {
+   "id": "haf-fline21-20a",
+   "brand": "Haefele",
+   "name": "Slido F-Line21 20A",
+   "type": "top-hung single overlay doors (1 door per set)",
+   "limits": {
+    "weight_kg": 20,
+    "door_height_mm_max": 1400,
+    "door_width_mm_max": 1250,
+    "door_thickness_mm": "16-19",
+    "adjust_mm": "+-2",
+    "min_door_width_mm": "360 (one soft close) / 550 (two)",
+    "src": "HAF-25S1-26 (p1.26-27)"
+   },
+   "track": {
+    "tracks_m": [
+     2.5,
+     3.5
+    ],
+    "top_track": "single, groove (402.33.642/.643) or screw (402.30.642/.643)"
+   },
+   "cabinet": {
+    "drilling_mm": "door mounting plate positions 48 / 70 / 57.5 / 42.5, d5x12 and d3x12 (drawing)"
+   },
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "402.33.029",
+     "desc": "fitting set 1 door without soft close",
+     "src": "p1.27"
+    },
+    {
+     "code": "402.33.030",
+     "desc": "with soft close",
+     "src": "p1.27"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "haf-fline31-40a",
+   "brand": "Haefele",
+   "name": "Slido F-Line31 40A",
+   "type": "top-hung overlay pairs/3 doors, e-drive capable",
+   "limits": {
+    "weight_kg": 40,
+    "door_thickness_mm": "16-25",
+    "adjust_mm": "+-2",
+    "min_door_width_mm": "2 doors: 520 (soft close both sides); 3 doors: 350 one side / 820 both sides",
+    "recommended_door_overlap_LT_mm": 20,
+    "door_offset_LM_mm": 0,
+    "src": "HAF-25S1-28 (p1.28-29)"
+   },
+   "track": {
+    "tracks_m": [
+     2.5,
+     3.5
+    ],
+    "codes": {
+     "single top running track": "402.31.654/.655",
+     "single bottom guide track": "402.31.632/.633",
+     "double bottom guide": "402.31.842/.843"
+    }
+   },
+   "cabinet": {
+    "formulas": {
+     "door_height_C_groove": "C = IH + top panel + base panel thickness + 10 + 26 + Y",
+     "door_height_C_screw": "C = IH + top panel + base panel thickness + 22.5 + 38.5"
+    },
+    "src": "p1.28 [text+drawing]"
+   },
+   "doors": null,
+   "hanger_drilling": {
+    "mm_drawing": {
+     "d35x15 hole": "64 pitch, 39, 22, 50.5+G, 70+G, 38+G, 97(+Y), 33, 45, 10 (drawing p1.28)"
+    }
+   },
+   "options": [],
+   "codes": [
+    {
+     "code": "402.31.028",
+     "desc": "Set 40 VF T, 2 doors, without soft close (column mapping per p1.29)",
+     "src": "p1.29"
+    },
+    {
+     "code": "402.31.029",
+     "desc": "2 doors soft close both sides",
+     "src": "p1.29"
+    },
+    {
+     "code": "402.31.032",
+     "desc": "3 doors soft close both sides",
+     "src": "p1.29"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": [
+    "max door height/width not stated; door-width table not transcribed"
+   ]
+  },
+  {
+   "id": "haf-fline31-60a",
+   "brand": "Haefele",
+   "name": "Slido F-Line31 60A",
+   "type": "top-hung overlay timber doors up to 60 kg, e-drive optional",
+   "limits": {
+    "weight_kg": 60,
+    "door_thickness_mm": "16-25 adjustable",
+    "min_door_width_mm": "1 door 620 / 2 doors 620 / 3 doors 400 (one side soft close)",
+    "recommended_overlap_LT_mm": 20,
+    "door_offset_LM_mm": 0,
+    "src": "HAF-25S1-30 (p1.30-31)"
+   },
+   "track": {
+    "codes": {
+     "single top running track": "402.31.654/.655",
+     "double bottom guide track": "402.31.842/.843"
+    }
+   },
+   "cabinet": {
+    "formulas": {
+     "door_height_C": "C = IH + top panel thickness + cabinet base panel thickness (+ constants per variant, drawing)"
+    }
+   },
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "402.31.034 / .036 / .038",
+     "desc": "fitting sets (1/2/3 door variants, mapping per page)",
+     "src": "p1.31"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": [
+    "height/width limits"
+   ]
+  },
+  {
+   "id": "haf-fflush52-20a",
+   "brand": "Haefele",
+   "name": "Slido F-Flush52 20A",
+   "type": "bottom-rolling, 2 flush in-line timber doors (no overlap), same track top and bottom",
+   "limits": {
+    "weight_kg": 20,
+    "door_height_mm_max": 1600,
+    "door_width_mm": "450-900",
+    "door_thickness_mm": "18-22 (incl handle 45)",
+    "spacer_plates": "2 for 18 mm, 1 for 20 mm, none for 22 mm",
+    "src": "HAF-25S1-32 (p1.32-33)"
+   },
+   "track": {
+    "track_lengths_internal_mm": {
+     "908": "door 450",
+     "1208": "600",
+     "1508": "750",
+     "1808": "900"
+    },
+    "codes_black/silver": {
+     "908": "407.40.097 / 407.40.093",
+     "1208": "407.40.096 / 407.40.092",
+     "1508": "407.40.095 / 407.40.091",
+     "1808": "407.40.094 / 407.40.090"
+    }
+   },
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "407.40.090..097",
+     "desc": "track sets by internal width (see track)",
+     "src": "p1.33"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "haf-fline18-50a",
+   "brand": "Haefele",
+   "name": "Slido F-Line18 50A",
+   "type": "bottom/top running recessed (inset), 2-door medium weight, soft-self close",
+   "limits": {
+    "weight_kg": 50,
+    "door_thickness_mm": "min 16 (recess mounted)",
+    "min_door_width_mm": "380 with soft and self closing",
+    "aluminium_frames": "from 42 mm wide",
+    "src": "HAF-25S1-70 (p1.70-71)"
+   },
+   "track": {
+    "codes": {
+     "running+guide track": "401.30.609/.610",
+     "double guide track": "401.30.611/.613",
+     "double running track": "401.30.614/.615"
+    }
+   },
+   "cabinet": {
+    "formulas": {
+     "K_door_recess": "K = 20 mm - X",
+     "C_door_height": "derived from IH and K (drawing)"
+    }
+   },
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "401.30.017 / 401.30.016",
+     "desc": "fitting set with soft+self-closing on one side (mapping)",
+     "src": "p1.71"
+    },
+    {
+     "code": "401.30.341",
+     "desc": "soft and self closing mechanism",
+     "src": "p1.71"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": [
+    "max height/width"
+   ]
+  },
+  {
+   "id": "haf-hawa-frontino-40fs",
+   "brand": "Haefele",
+   "name": "Hawa Frontino 40 FS (Haefele UK p1.79A)",
+   "type": "top-hung flush (frontal) sliding doors, symmetric, no cabinet prep",
+   "limits": {
+    "weight_kg_per_door": 40,
+    "door_width_mm": "587-1194",
+    "door_height_mm_max": 2360,
+    "door_thickness_mm": 19,
+    "handle_height_max_mm": 30,
+    "lateral_door_return_L_mm": 3,
+    "src": "HAF-25S1-79A"
+   },
+   "track": {
+    "cabinet_width_models": {
+     "S": "1200-1799 (406.02.095)",
+     "M": "1800-2199 (406.02.096)",
+     "L": "2200-2400 (406.02.097)"
+    },
+    "track": "top track front 49x36 mm, track back 30x73? (text: '49 x 36 mm' and '30 x 73 mm')"
+   },
+   "cabinet": [
+    {
+     "code": "406.02.095 / .096 / .097",
+     "desc": "Frontino 40 FS sets S/M/L by cabinet width",
+     "src": "p1.79A"
+    }
+   ],
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": [
+    "door-width formula (table in order list)"
+   ]
+  },
+  {
+   "id": "haf-fpark71-25b",
+   "brand": "Haefele",
+   "name": "Slido F-Park71 25B (pivot sliding / pocket-type)",
+   "type": "pivot sliding doors (retracting into cabinet on cable guides), full overlay (Vorfront) or inset (Infront)",
+   "limits": {
+    "weight_kg": 25,
+    "door_height_mm": "1501-2300",
+    "door_width_mm_max": 700,
+    "door_thickness_mm": "16-25 Infront; 16-19 Vorfront",
+    "hinges": "1500-1800 mm: 2 soft-close + 2 plain hinges; 1801-2300: 3 soft-close + 2 plain",
+    "cup": "drilling pattern 52/7.5, depth 13 mm, 95 deg",
+    "src": "HAF-25S1-122 (p1.122-123)"
+   },
+   "track": {
+    "guide_length_mm_retraction_distance_max_mm": {
+     "340": 230,
+     "408": 294,
+     "440": 326,
+     "504": 390,
+     "536": 422,
+     "600": 486,
+     "664": 550
+    }
+   },
+   "cabinet": {
+    "formulas": {
+     "door_overlay_full": "door overlay = door width - retraction distance",
+     "door_overlay_inset": "door overlay = door width - retraction distance - door leaf thickness",
+     "guide_positions": "H1 = H/2 - 11 ; H2 = H/2 + 11"
+    }
+   },
+   "doors": null,
+   "hanger_drilling": {
+    "guide_cable_mounting": "17 screws 4x12; positions H1/H2 (drawing)"
+   },
+   "options": [
+    "door fixing sets SM quick fixing"
+   ],
+   "codes": [
+    {
+     "code": "408.25.000",
+     "desc": "1-door set guide 340 / retraction 230",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.25.001",
+     "desc": "408/294",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.25.002",
+     "desc": "440/326",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.25.003",
+     "desc": "504/390",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.25.004",
+     "desc": "536/422",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.25.005",
+     "desc": "600/486",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.25.006",
+     "desc": "664/550",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.00.404 / 408.00.405",
+     "desc": "door fixing set Infront with/without soft close",
+     "src": "p1.123"
+    },
+    {
+     "code": "408.00.406 / 408.00.412",
+     "desc": "door fixing set Vorfront with/without soft close",
+     "src": "p1.123"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "haf-pocket-hideaway",
+   "brand": "Haefele",
+   "name": "Slido Pocket Hideaway (interior pocket door)",
+   "type": "internal straight-sliding pocket door (wall pocket) - interior doors only, not furniture",
+   "limits": {
+    "weight_kg": 56,
+    "door_height_mm_max": 2032,
+    "door_width_mm_max": 915,
+    "door_thickness_mm": "28-50",
+    "src": "HAF-25S2-84 (p2.84)"
+   },
+   "track": null,
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [
+    {
+     "code": "940.58.005 / 940.58.006",
+     "desc": "frame adaptor set 35-44 mm, max door width 760 / 915",
+     "src": "p2.84"
+    },
+    {
+     "code": "940.58.020",
+     "desc": "jointing fitting set 44-50 mm",
+     "src": "p2.84"
+    },
+    {
+     "code": "940.58.030",
+     "desc": "cavity widening set",
+     "src": "p2.84"
+    }
+   ],
+   "cad": {
+    "urls": [
+     "https://www.hafele.co.uk (product pages carry CAD; none fetched)"
+    ]
+   },
+   "unreadable": []
+  },
+  {
+   "id": "grass-scenic",
+   "brand": "Grass",
+   "name": "Scenic",
+   "type": "null",
+   "limits": null,
+   "track": null,
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [],
+   "cad": {},
+   "unreadable": [
+    "No official GRASS Scenic document found by search; nothing downloaded; all null"
+   ]
+  },
+  {
+   "id": "kessebohmer-sliding",
+   "brand": "Kesseboehmer",
+   "name": "(sliding door systems)",
+   "type": "null",
+   "limits": null,
+   "track": null,
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [],
+   "cad": {},
+   "unreadable": [
+    "Search returned no Kesseboehmer sliding-door document; not covered"
+   ]
+  },
+  {
+   "id": "hawa-variotec-aprico-junior",
+   "brand": "Hawa",
+   "name": "Variotec / Aprico / Junior",
+   "type": "null",
+   "limits": null,
+   "track": null,
+   "cabinet": null,
+   "doors": null,
+   "hanger_drilling": null,
+   "options": [],
+   "codes": [],
+   "cad": {
+    "urls": [
+     "https://products.hawa.com/downloads_en/CAT_EN_Hawa_Junior_40_80_GL.pdf (downloaded, NOT read; Junior = architectural interior doors)"
+    ]
+   },
+   "unreadable": [
+    "Variotec/Aprico/Junior are building-door/sliding wall products listed under 'In building' on Hawa's site, not in the 'On furniture' catalogue; Hawa furniture lines covered instead are Combino, Clipo, Concepta III, Folding Concepta III, Concepta 40/50. Not covered: Hawa Frontino (data only via Haefele UK p1.79A), Regal, Libra, Miniroll, 220 Planfront, Creation, Frontal, Multifold, Aperto, Concepta lll 15 weight tables"
+   ]
+  }
+ ],
+ "notes": [
+  "All Hettich data are from the 2021 catalogue (HET-CAT21); 'cat p.N' = printed page, PDF page = N+2. Hawa 'cat p.N' likewise N+2 for pdf. Blum pdf page = printed page.",
+  "Values marked [drawing] were read off rendered drawing images (dimension labels); semantics of unlabelled dimensions are my reading and flagged lower confidence.",
+  "CONFLICT TopLine XL height: cat p.3 comparison table says 2600 mm max; cat p.6 performance graph and Hettich spec sheet say up to 3000 mm.",
+  "CONFLICT TopLine XL width: cat p.3 table 600-2000; spec sheet 2-door 600-1000 / 3-door 750-1350 / 4-door 650-1000; cat p.6 graph lists 600-2000 / 750-1350 / 650-1000 (graph legend ambiguous).",
+  "CONFLICT TopLine L width: cat p.3/p.14 550-1500 and graph also 550-1350 (the second range probably applies to a different condition, ambiguous).",
+  "Hawa Combino/Clipo spec-box numbers (weight, height, width, thickness) have icons only; order weight/height/width/thickness verified against Concepta SPE text and 80 H FS (2800 x 1600) but not explicitly labelled in the catalogue text layer.",
+  "Hawa Combino door formulas use KIM / KAM; legend not found in the catalogue (German abbreviations Korpus-Innenmass / Korpus-Aussenmass; drawings consistent with inside / outside cabinet width). Overlap implied: IS 2-door 26 mm total, 3-door 56; MS 16/36; FS 16/36 (i.e. TB = (W + overlap_total)/n).",
+  "Hawa Concepta III 'RE' in KT1 >= T1 + RE is not defined in the drawing legend.",
+  "Blum REVEGO: a web-search snippet claimed internal depth 553 (Canada); the official GB and CA pages and the ordering guide give internal depth from 518 (uno)/483 (duo) and pocket depth from 553 - no real conflict, snippet was wrong.",
+  "Hettich door width / overlap formulas: none in catalogue; only the definition that overlap should be about twice the gap between front and rear door, and that aluminium-frame doors often take frame width as overlap (cat p.128). Hettich TopLine L/XL installation instructions are pictogram-only.",
+  "Hettich WingLine S and 230 and Wing 77: limits only; code tables overlap in text layer and were not reliable.",
+  "Hettich InLine XL, Grass Scenic, Kesseboehmer, Hawa Variotec/Aprico/Junior: no usable official furniture document obtained -> all null.",
+  "Haefele UK pages are 'Dimensional data not binding' (stated on pages). Haefele UK directory also lists Hawa-made lines (e.g. Frontino, Clipo, Regal) alongside Slido products.",
+  "CAD: Hawa publishes DXF per planning drawing at /tradepro/shopen/artikel/allgemein/EP_*.dxf; Blum via Product Configurator www.blum.com/revpc (login); Hettich via Technical Assistant short links and imos infosheet; no STEP URLs verified.",
+  "Work dir with downloads: /tmp/claude-0/-home-user/39871daa-ecac-5d3e-a259-3b91d048a27e/scratchpad/dl-sliding/ (hettich-cat2021.pdf, hawa/onfurn.pdf, blum/cme119122_ep_dok_bau.pdf, hafele/*.pdf)."
+ ]
+}

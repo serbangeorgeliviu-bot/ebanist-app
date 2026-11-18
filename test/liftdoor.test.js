@@ -121,3 +121,21 @@ describe("SERVO-DRIVE (Blum, deschidere electrică)", () => {
     assert.equal(LF.get("blum_hk_top").servo.codes.drive, "23KA000");
   });
 });
+
+describe("E-Drive (Häfele, deschidere electrică la Free)", () => {
+  test("datele: cinci sisteme Free au edrive (flap 1.7, 3.15, fold, up, swing), Free Slim nu", () => {
+    const w = LF.list().filter(s => s.edrive).map(s => s.key).sort();
+    assert.equal(J(w), J(["haf_free_flap_17", "haf_free_flap_315", "haf_free_fold", "haf_free_swing", "haf_free_up"]));
+    assert.equal(LF.get("haf_free_flap_17").edrive.senderHoleDia, 35);
+  });
+  test("cfg.liftElec = edrive pe Free flap: marcat în 3D, fără avertisment «noservo»", () => {
+    const r = build({ lift: "haf_free_flap_17", liftElec: "edrive", H: 400 });
+    const l = r.b.boxes.find(x => x.sub === "lift").lift;
+    assert.equal(l.edrive, true); assert.equal(l.servo, false);
+    assert.equal(warn(r).some(w => w.k === "noservo"), false);
+  });
+  test("edrive pe un sistem fără el (Blum) rămâne mecanic, cu avertisment; servo pe Häfele la fel", () => {
+    assert.ok(warn(build({ lift: "blum_hk_top", liftElec: "edrive" })).some(w => w.k === "noservo"));
+    assert.ok(warn(build({ lift: "haf_free_flap_17", liftElec: "servo", H: 400 })).some(w => w.k === "noservo"));
+  });
+});

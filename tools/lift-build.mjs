@@ -30,6 +30,7 @@ for (const f of fs.readdirSync(dir).filter(x => x.endsWith(".json")).sort()) {
     ["cabH", "cabW", "kg"].forEach(k => { const r = L[k]; if (r && (r.length !== 2 || !r.every(num) || (r[0] != null && r[1] != null && r[0] > r[1]))) P("limits." + k + " invalid"); });
     ["hiMin", "wiMin", "depthMin"].forEach(k => { if (!num(L[k] === undefined ? null : L[k])) P("limits." + k + " nu e număr"); });
     const S = s.select;
+    if (s.edrive) { const v = s.edrive; if (!v.drv || !v.psu || !(v.senderHoleDia > 0)) P("edrive incomplet"); }
     if (s.servo) { const v = s.servo; if (!(v.depthMin > 0) || !(v.bodyW > 0) || !v.drv || !v.cableHole || !(v.cableHole.dia > 0)) P("servo incomplet"); }
     if (S.type === "LF") S.rows.forEach(r => { if (!(r.lo <= r.hi) || !r.code) P("LF rând invalid " + r.code); });
     if (S.type === "KHKG") S.rows.forEach(r => { if (!(r.khLo <= r.khHi && r.kgLo <= r.kgHi) || !r.code) P("KHKG rând invalid " + r.code); });

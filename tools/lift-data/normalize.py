@@ -314,3 +314,17 @@ haf_out["systems"] += [
 ]
 json.dump(haf_out, open(os.path.join(here, "hafele.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("hafele+slim", len(haf_out["systems"]))
+
+# ---------------------------------------------------------------- Häfele E-Drive (din cat-opening.json)
+opn = raw("cat-opening.json")
+OP = {x["id"]: x for x in opn["items"]}
+ED = {"haf_free_flap_17": "haf_edrive_flap", "haf_free_flap_315": "haf_edrive_flap",
+      "haf_free_fold": "haf_edrive_fold", "haf_free_up": "haf_edrive_fold", "haf_free_swing": "haf_edrive_fold"}
+for sysd in haf_out["systems"]:
+    if sysd["key"] in ED:
+        sysd["edrive"] = {"drv": ED[sysd["key"]], "psu": "haf_edrive_driver", "senderHoleDia": 35,
+                          "crossBarCutMinus": 113, "volt": "24 V DC / 2,5 A", "unitsPerDriver": 1,
+                          "src": "Häfele UK 2023 p.229, catalog «Free» 2019 p.40–44"}
+        sysd.setdefault("notes", []).append("E-Drive: aceleași găuri ca la fitingul mecanic; emițătorul cere o gaură Ø35 (șablon în set); bara transversală se taie la lățimea interioară − 113 mm (− 88 mm la mecanic); un alimentator pe unitate (catalog UK 2023; catalogul 2019 spunea până la 3).")
+json.dump(haf_out, open(os.path.join(here, "hafele.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("hafele+edrive", sum(1 for x in haf_out["systems"] if x.get("edrive")))

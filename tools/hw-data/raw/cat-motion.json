@@ -1,0 +1,1366 @@
+{
+ "sources": [
+  {
+   "id": "HET-FS-DS5",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/FurnSpin_Data_Sheets_V5_DE.pdf",
+   "title": "Hettich FurnSpin Data Sheets Version 5 (DE), 23 pp (the EN_01 URL returned 404)",
+   "pages": "6,7,8,9,10,11,12,14,19-22"
+  },
+  {
+   "id": "HET-FS-CAT",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/FurnSpin_Catalogue_171225.pdf",
+   "title": "Hettich FurnSpin catalogue (dated 17.12.25), 28 pp",
+   "pages": "12-17 order codes and ranges, 22-25 Cadro"
+  },
+  {
+   "id": "HET-FS-DIM",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/FurnSpin_20250519_PZ_00068_EN_1.00gz.pdf",
+   "title": "DIM Rosenheim test certificate no. 00068 FurnSpin S/M/XL, issued 19.05.2025, 2 pp",
+   "pages": "1-2"
+  },
+  {
+   "id": "HET-FS-IMOS",
+   "url": "https://www.hettich.com/fileadmin/Hettich_International/Planning/imos/Overview_Hettich_FurnSpin.pdf",
+   "title": "Overview Hettich FurnSpin (imos data package, 4 pp, image only: lists sample cabinet + connectors + cable management)",
+   "pages": "1-4"
+  },
+  {
+   "id": "HAF-197C",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-197C.pdf",
+   "title": "Haefele UK catalogue 9.197C Free Slim flap 1.12",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-197D",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-197D.pdf",
+   "title": "Haefele UK catalogue 9.197D Free Slim flap 1.10 push",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-204",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-204.pdf",
+   "title": "Haefele UK 9.204-205 Free Flap 1.7 / 3.15",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-200",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-200.pdf",
+   "title": "Haefele UK 9.200 Free Space 1.11",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-202",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-202.pdf",
+   "title": "Haefele UK 9.202 Free Space 6.15",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-213",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-213.pdf",
+   "title": "Haefele UK 9.213 Free Fold bi-fold lift-up fitting set",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-214",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-214.pdf",
+   "title": "Haefele UK 9.214 Free Fold lift-up fittings (components)",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-216",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-216.pdf",
+   "title": "Haefele UK 9.216-217 Free Up parallel lift-up front fitting",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-218",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-218.pdf",
+   "title": "Haefele UK 9.218-219 Free Swing lift-up flap fitting",
+   "pages": "2"
+  },
+  {
+   "id": "HAF-FREE-BRO",
+   "url": "https://htdocs.kirz.com/HTHMKT/Catalogue/FF/new-freedom-in-motion-free.pdf",
+   "title": "Haefele brochure 'Free - flaps for maximum freedom in motion' (distributor copy; text layer garbled, not used for numbers)",
+   "pages": "48 pp, only family overview"
+  },
+  {
+   "id": "HAF-144A",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-144A.pdf",
+   "title": "Haefele UK 1.144A Utensio Pro Easy Down pull-down wall shelf",
+   "pages": "1"
+  },
+  {
+   "id": "KES-IMOVE",
+   "url": "https://static.richelieu.com/documents/docsGr/120/057/0/1200570/1417249.pdf",
+   "title": "Kesseboehmer iMove mounting instructions MA 404352 0000 Rev 002-2016-12-12 (distributor copy, Richelieu), 11 pp",
+   "pages": "3-4"
+  },
+  {
+   "id": "HAF-25L3-35",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/25L3-35.pdf",
+   "title": "Haefele UK Lighting & Electrical 3.35 LED TV lift 700 mm travel + swivel bracket",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-17D6-54",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/17D6-54.pdf",
+   "title": "Haefele UK Media 6.54 Accuride DB Lift-0019 mechanical lift",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-20D2-25",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D2-25.pdf",
+   "title": "Haefele UK Storage 2.25 Dresscode wardrobe lift",
+   "pages": "1"
+  },
+  {
+   "id": "HET-BK905",
+   "url": "https://catalog.hettich.com/General/TA_2023/de_DE/catalogs/TA_2023_de_DE/pdf/save/bk_905.pdf",
+   "title": "Hettich catalogue TA 2023 p.873 Eckschrankdrehbeschlag mit Dreiviertelkreisdrehboeden (Arena STYLE/CLASSIC)",
+   "pages": "1"
+  },
+  {
+   "id": "HET-CS-MAN",
+   "url": "https://media.hornbach.lu/hb/installationmanual/as.151089824.pdf",
+   "title": "Hettich DIY ComfortSpin 9264627 mounting instructions (Hornbach host, drawing only)",
+   "pages": "1-2"
+  },
+  {
+   "id": "HET-CS-WEB",
+   "url": "https://www.hettich.com/en-al/products/further-products/comfortspin",
+   "title": "Hettich.com ComfortSpin product page",
+   "pages": "web"
+  },
+  {
+   "id": "HET-RS-WEB",
+   "url": "https://www.hettich.com/en-de/products/new-products/roomspin",
+   "title": "Hettich.com RoomSpin product page (no technical data on page)",
+   "pages": "web"
+  },
+  {
+   "id": "HAF-20D1-70",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-70.pdf",
+   "title": "Haefele UK 1.70 Ninka Pro(arc) three-quarter carousel set",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-20D1-57A",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-57A.pdf",
+   "title": "Haefele UK 1.57A Swing out corner unit complete set",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-20D1-59A",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/20D1-59A.pdf",
+   "title": "Haefele UK 1.59A/59B Utensio Pro Glide Corner",
+   "pages": "1-2"
+  },
+  {
+   "id": "HAF-23T7-204",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-204.pdf",
+   "title": "Haefele UK 7.204 hinged spring bracket + hinged bracket adjustable",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-23T7-205",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-205.pdf",
+   "title": "Haefele UK 7.205 light duty Hebgo folding bracket",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-23T7-206",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-206.pdf",
+   "title": "Haefele UK 7.206 heavy duty Hebgo folding bracket",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-23T7-207",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-207.pdf",
+   "title": "Haefele UK 7.207 Tikla folding table / bench bracket",
+   "pages": "1"
+  },
+  {
+   "id": "HAF-US-WALLBED",
+   "url": "https://s3.amazonaws.com/s3-absupply-net/pdf/hafele/271-92-201-home-and-closet-organization-bed-fittings-s4-8b.pdf",
+   "title": "Haefele US catalogue FC 4.8B Bed Fittings (wall bed kits 271.92.200/.201/.202; distributor copy)",
+   "pages": "1"
+  }
+ ],
+ "products": [
+  {
+   "id": "hettich-furnspin",
+   "brand": "Hettich",
+   "name": "FurnSpin S / M / XL",
+   "type": "turning-swivelling fitting (SpinLines): moves most of a cabinet body (Spin furniture) inside an outer carcass (fixed furniture)",
+   "motion": "rotation about vertical axis through the centre of the bounding box; two defined end positions 0 deg and 180 deg; left-hand installation = clockwise opening, right-hand = anticlockwise; opening direction cannot be reversed; one set = upper + lower fitting; Silent System damping on opening and closing always integrated",
+   "variants": [
+    {
+     "id": "S",
+     "load_kg": 80,
+     "dims": {
+      "fitting_width_mm": 339,
+      "fitting_depth_mm": 339,
+      "fitting_height_mm": 40,
+      "spin_furniture_bounding_box_mm": "377x377 to 450x450",
+      "spin_furniture_height_mm": "700-2400 (all sizes, recommended per DS; DIM cert: recommended max 2000)",
+      "load_note": "Spin furniture weight incl. load",
+      "half_fitting_clearance_mm": 169.5,
+      "movement_space_X_outside_mm": "192 (smallest 377x377) to 207 (largest 450x450)",
+      "max_front_or_side_panel_weight_kg": "8 kg at 700-800 mm height rising linearly to 15 kg at 2000 mm, then flat to 2400 (chart, per panel)"
+     },
+     "codes": {
+      "Silent System left": "9 349 281",
+      "Silent System right": "9 349 282",
+      "PTO Silent top left": "9 349 283",
+      "PTO Silent top right": "9 349 284",
+      "PTO Silent bottom left": "9 349 285",
+      "PTO Silent bottom right": "9 349 286"
+     },
+     "src": "HET-FS-DS5 p7,p10,p11,p14; HET-FS-CAT p12-13; HET-FS-DIM p2"
+    },
+    {
+     "id": "M",
+     "load_kg": 100,
+     "dims": {
+      "fitting_width_mm": 402,
+      "fitting_depth_mm": 402,
+      "fitting_height_mm": 40,
+      "spin_furniture_bounding_box_mm": "440x440 to 515x515",
+      "spin_furniture_height_mm": "700-2400 (DIM cert: recommended max 2200)",
+      "half_fitting_clearance_mm": 201,
+      "movement_space_X_outside_mm": "218 (440x440) to 234 (515x515)",
+      "max_front_or_side_panel_weight_kg": "9 kg at 700-800 mm rising linearly to 18 kg at 2000 mm, then flat (chart)"
+     },
+     "codes": {
+      "Silent System left": "9 349 287",
+      "Silent System right": "9 349 288",
+      "PTO Silent top left": "9 349 289",
+      "PTO Silent top right": "9 349 290",
+      "PTO Silent bottom left": "9 349 301",
+      "PTO Silent bottom right": "9 349 302"
+     },
+     "src": "HET-FS-DS5 p7,p10,p11,p14; HET-FS-CAT p14-15; HET-FS-DIM p2"
+    },
+    {
+     "id": "XL",
+     "load_kg": 120,
+     "dims": {
+      "fitting_width_mm": 526,
+      "fitting_depth_mm": 526,
+      "fitting_height_mm": 45,
+      "spin_furniture_bounding_box_mm": "564x564 to 664x664",
+      "spin_furniture_height_mm": "700-2400 (DIM cert: recommended max 2400)",
+      "half_fitting_clearance_mm": 263,
+      "movement_space_X_outside_mm": "275 (564x564) to 296 (664x664)",
+      "max_front_or_side_panel_weight_kg": "10 kg at 700-800 mm rising linearly to 20 kg at 2000 mm, then flat (chart)"
+     },
+     "codes": {
+      "Silent System left": "9 349 303",
+      "Silent System right": "9 349 304",
+      "PTO Silent top left": "9 349 305",
+      "PTO Silent top right": "9 349 306",
+      "PTO Silent bottom left": "9 349 307",
+      "PTO Silent bottom right": "9 349 308"
+     },
+     "src": "HET-FS-DS5 p7,p10,p11,p14; HET-FS-CAT p16-17; HET-FS-DIM p2"
+    }
+   ],
+   "cabinet": {
+    "outer_cabinet_(fixed_furniture)_min_thickness_mm": {
+     "bottom_S": 16,
+     "bottom_M": 18,
+     "bottom_XL": 18,
+     "top": 16,
+     "side": 16,
+     "back": 16,
+     "note": "higher bottom thickness recommended, function given"
+    },
+    "spin_furniture_min_thickness_mm": {
+     "bottom_S": 19,
+     "bottom_M": 22,
+     "bottom_XL": 25,
+     "top": 16,
+     "front_side_panel": 16,
+     "recommendation": "bottom in plywood (low deflection) or two panels glued/screwed"
+    },
+    "joints_gaps_mm": {
+     "reveal_min_all": 3,
+     "movement_gap_side_back_S": 5,
+     "movement_gap_side_back_M": 7,
+     "movement_gap_side_back_XL": 7,
+     "movement_gap_reduce_to": "3 if bounding box < 381 (S) / 448 (M) / 574 (XL)",
+     "front_panel_gap_PTO_only_min": 3,
+     "front_panel_gap_recommended_PTO": 4,
+     "fitting_cover_needs_gap_min": 3
+    },
+    "outer_cabinet": "level installation required; additional 5th foot or other support near centre required; must be connected to wall/adjacent furniture; removable top panel installed from above needs min 75 mm free clearance; panel material P2 chipboard, MDF or plywood; plinth recess needs detailed planning",
+    "freespace_rule": "min Spin furniture clearance (Freiraum) >= fitting size / 2 from rear and side wall: 169.5 (S) / 201 (M) / 263 (XL)",
+    "plinth_recess_max_front_side_mm_(standard bottom)": {
+     "S": "29 (smallest) to 65.5 (largest)",
+     "M": "29 to 66.5",
+     "XL": "29 to 79",
+     "min_centre_to_recess_mmr": "135 (S) / 170.5 (M) / 207 (XL)",
+     "full-area support of fitting required": true
+    },
+    "plinth_recess_with_extra_metal_sheet_(thickness>=2 mm)": {
+     "S": "53.5 to 90",
+     "M": "49.5 to 87",
+     "XL": "75 to 125",
+     "note": "sheet drawing on request from Hettich, not a sales article"
+    },
+    "wall_cabinet": "possible with reinforced bottom support (metal sheet bottom support, drawing on request); suitable cabinet hangers e.g. SAH216/SAH215",
+    "PTO_position_recommendation": "top edge of Spin furniture >= 1800 mm: PTO at bottom; < 1800 mm: PTO at top",
+    "transport": "spacers (cardboard) in all gaps; upright, open or closed position",
+    "screws": "all screws in set, chipboard screws pan-head dia 4 x 16 mm",
+    "src": "HET-FS-DS5 p8-12,14,19-22; HET-FS-CAT p12-13"
+   },
+   "mounting": {
+    "drilling": null,
+    "reason_null": "complete drilling pattern, fbm/fsm/sfm/ssm offsets (distances rear/side/front panel to midpoint) are not tabulated in the data sheet; they come from the Hettich FurnSpin configurator and system drawings (HTA). Drilling pattern must not simply be mirrored for the other hand (DS p13).",
+    "reference": "midpoint of bounding box = rotation axis = fitting midpoint",
+    "fixing": "fitting centred on bounding-box midpoint, full-area contact on bottom/top panel",
+    "src": "HET-FS-DS5 p13,p14"
+   },
+   "kinematics": {
+    "end_positions_deg": [
+     0,
+     180
+    ],
+    "rotation_about": "vertical axis at bounding-box midpoint",
+    "opening_direction": "left installation clockwise, right installation anticlockwise",
+    "movement_space_outside_outer_cabinet": "dimension X, 192-207 (S), 218-234 (M), 275-296 (XL); Hettich computes X for specific sizes",
+    "drawing_values": null,
+    "src": "HET-FS-CAT p12; HET-FS-DS5 p11"
+   },
+   "options": [
+    "Push to open Silent (top or bottom position)",
+    "Silent System always integrated",
+    "FurnSpin Cadro frame system (corner profile + fitting covers, black or white): complete set, hybrid vertical, hybrid horizontal (needs predrilling, see Cadro assembly instructions)",
+    "cable management, max 24 V DC supply through bottom or top panel of outer cabinet"
+   ],
+   "cad": {
+    "configurator": "https://www.hettich.com/short/g8i4p73",
+    "technical_assistant_system_drawings": "https://www.hettich.com/short/ftimej2",
+    "catalogue_orders": "https://catalog.hettich.com/Further_Products/FurnSpin_2025/de_DE/",
+    "imos": "https://www.hettich.com/fileadmin/Hettich_International/Planning/imos/Overview_Hettich_FurnSpin.pdf",
+    "direct_cad_file_url": null
+   },
+   "unreadable": [
+    "fitting weight (kg): not stated",
+    "drilling pattern coordinates: configurator only",
+    "Cadro item codes only partly read, see HET-FS-CAT p22-25"
+   ]
+  },
+  {
+   "id": "haefele-free-slim-flap-1.12",
+   "brand": "Haefele (Kessebohmer 'FREEslim flap')",
+   "name": "Free Slim flap 1.12 (with handle)",
+   "type": "stay flap fitting, hinge-less, one-piece flaps wood or aluminium frame",
+   "motion": "swing-up flap, opening angle 90 deg or 107 deg, U-spring mechanism (Red Dot description), integrated soft close not stated in 197C text",
+   "variants": [
+    {
+     "id": "1.12",
+     "load_kg": 21.3,
+     "dims": {
+      "cabinet_width_max_mm": 1800,
+      "cabinet_height_mm": "225-650",
+      "flap_weight_kg_by_height": "225 mm 2.1-21.3; 250 1.9-19.2; 275 1.7-17.5; 300 1.6-16.0; 325 1.5-14.8; 350 1.4-13.7; 375 1.3-12.8; 400 1.2-12.0; 425 1.1-11.3; 450 1.1-10.7; 475 1.0-10.1; 500 1.0-9.6; 525 0.9-9.1; 550 0.9-8.7; 575 0.8-8.3; 600 0.8-8.0; 625 0.8-7.7; 650 0.7-7.4",
+      "note_weight": "per set of 2; +50% with third fitting; x2 with two sets; includes handle weight",
+      "installation_depth_mm": 245
+     },
+     "codes": {
+      "screw fixing, brackets screw (white/light grey/anthracite/black)": "372.92.700/.500/.360/.300",
+      "screw fixing, pre-mounted spreading dowels dia 10": "372.92.701/.501/.361/.301",
+      "recess mounting, brackets screw": "372.92.702/.502/.362/.302",
+      "recess mounting, dowels dia 10": "372.92.703/.503/.363/.303",
+      "adapter set for 19-21 mm alu frame": "372.92.693 (nickel) / 372.92.694 (black)"
+     },
+     "src": "HAF-197C p1"
+    }
+   ],
+   "cabinet": {
+    "side_panel_fixing": "screw to inside of cabinet side or recess (groove) mounting into the external side panel; panel extensions for 18-19 mm material in set",
+    "front_panel_thickness_Y_to_distance_X_mm_(top panel K=16)": "Y16:61, 18:54, 19:51, 22:41, 24:34, 26:27, 28:20",
+    "drawing_mm": {
+     "fitting_zone_width": 22,
+     "screw_fixing_inside_projection": 10,
+     "groove_mounting_inside_width": 8,
+     "remaining_wall_8.5_(10.5_for_19mm)": "8.5(10.5)",
+     "pocket_depth_16_(19)": "16(19)",
+     "height_165_and_163_from_top_panel_underside": "165/163",
+     "max_gap_to_top_27": "<=27"
+    },
+    "src": "HAF-197C p1 (drawing, read at 300 dpi)"
+   },
+   "mounting": {
+    "drilling": null,
+    "reason_null": "no drilling table printed on the UK sheet; milling pocket via edge panels in set; only drawing envelope 245 x 165/163",
+    "src": "HAF-197C p1"
+   },
+   "kinematics": {
+    "opening_angle_deg": "90 or 107",
+    "drawing": "107 deg arc, flap lever arm; Y front thickness, X distance see table",
+    "src": "HAF-197C p1"
+   },
+   "options": [
+    "adjustment: height, side, tilting angle, holding power, opening angle",
+    "quick fixing system SM",
+    "recess mounting into external side panel (8 mm wide installation per drawing)"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "whether the 8 mm of marketing is 'installation width' or 'depth': Red Dot pages use both terms; the sheet drawing shows an 8 mm dimension in groove mounting"
+   ]
+  },
+  {
+   "id": "haefele-free-slim-flap-1.10-push",
+   "brand": "Haefele",
+   "name": "Free Slim flap 1.10 push (no handle, push-to-open)",
+   "type": "stay flap fitting",
+   "motion": "swing-up flap, 90 or 107 deg; push catch (type 3 strong) and screw-on housing ordered separately",
+   "variants": [
+    {
+     "id": "1.10 push",
+     "load_kg": 18.1,
+     "dims": {
+      "cabinet_width_max_mm": 1800,
+      "cabinet_height_mm": "225-650",
+      "flap_weight_kg_by_height": "225 mm 2.1-18.1; 250 1.9-16.3; 275 1.7-14.8; 300 1.6-13.6; 325 1.5-12.6; 350 1.4-11.7; 375 1.3-10.9; 400 1.2-10.2; 425 1.1-9.6; 450 1.1-9.1; 475 1.0-8.6; 500 1.0-8.2; 525 0.9-7.8; 550 0.9-7.4; 575 0.8-7.1; 600 0.8-6.8; 625 0.8-6.5; 650 0.7-6.3",
+      "installation_depth_mm": 245
+     },
+     "codes": {
+      "screw fixing, brackets screw (white/light grey/anthracite/black)": "372.92.704/.504/.364/.304",
+      "screw fixing, spreading dowels dia 10": "372.92.705/.505/.365/.305",
+      "recess mounting, brackets screw": "372.92.706/.506/.366/.306",
+      "recess mounting, dowels dia 10": "372.92.707/.507/.367/.307"
+     },
+     "src": "HAF-197D p1"
+    }
+   ],
+   "cabinet": {
+    "front_panel_thickness_Y_to_X_mm": "same table as 1.12: Y16:61 ... Y28:20",
+    "note": "drawing dimensions not re-read for 197D",
+    "src": "HAF-197D p1"
+   },
+   "mounting": {
+    "drilling": null,
+    "reason_null": "see 1.12",
+    "src": "HAF-197D"
+   },
+   "kinematics": {
+    "opening_angle_deg": "90 or 107",
+    "src": "HAF-197D p1"
+   },
+   "options": [
+    "push catch type 3 strong (page 9.197E, not downloaded)",
+    "adapter for 19-21 mm alu frame"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "page 9.197E (push catch + screw-on housing) not downloaded"
+   ]
+  },
+  {
+   "id": "haefele-free-flap",
+   "brand": "Haefele",
+   "name": "Free Flap 1.7 and 3.15",
+   "type": "stay flap, hinge-less",
+   "motion": "107 deg opening (limitable to 90 deg), multi-position stop, soft close",
+   "variants": [
+    {
+     "id": "1.7 A/B/C",
+     "load_kg": 14.7,
+     "dims": {
+      "flap_weight_kg_A": "200 mm 1.7-4.6 ... 450 mm 0.6-1.7",
+      "flap_weight_kg_B": "200 mm 3.6-7.9 ... 450 mm 1.4-3.2",
+      "flap_weight_kg_C": "200 mm 6.8-14.7 ... 450 mm 2.7-6.1",
+      "front_thickness_max_mm": 28,
+      "front_weight_max_kg": 15,
+      "drawing_mm": "108, 168, 24.5, 15.5, dia 5x12, 107 deg"
+     },
+     "codes": {
+      "A grey/white/anthracite": "372.91.320/.720/.370",
+      "B": "372.91.321/.721/.371",
+      "C": "372.91.322/.722/.372",
+      "opening angle restraint 107->90": "see sheet",
+      "alu adapter 20 mm": "372.91.599 nickel / 372.91.499 black"
+     },
+     "src": "HAF-204 p2"
+    },
+    {
+     "id": "3.15",
+     "load_kg": 15,
+     "dims": {
+      "front_panel_up_to_kg": 15,
+      "front_thickness_up_to_mm": 28
+     },
+     "codes": {},
+     "src": "HAF-204 p1 (3.15 codes not extracted)"
+    }
+   ],
+   "cabinet": {
+    "drilling_compatible": "series drilled holes 32/37 (both models)",
+    "src": "HAF-204 p1"
+   },
+   "mounting": {
+    "drilling": "drawing present (drilling pattern for cabinet and front panel), not transcribed",
+    "src": "HAF-204 p2"
+   },
+   "kinematics": {
+    "opening_angle_deg": "107 (90 with restraint)",
+    "src": "HAF-204"
+   },
+   "options": [
+    "Push to open catch page 9.208"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "3.15 table not extracted"
+   ]
+  },
+  {
+   "id": "haefele-free-space",
+   "brand": "Haefele",
+   "name": "Free Space 1.11 (B-F) and 6.15 (G,H)",
+   "type": "stay flap (Free family)",
+   "motion": "90 or 107 deg opening",
+   "variants": [
+    {
+     "id": "1.11",
+     "load_kg": 19.1,
+     "dims": {
+      "front_height_max_mm": 650,
+      "flap_weight_kg_B": "225 mm 2.3-4.3 ... 650 mm 0.7-1.5",
+      "flap_weight_kg_F": "225 mm 13.4-19.1 ... 650 mm 4.6-6.6",
+      "distance_X_mm_by_Y_16..28": "117,110,107,96,90,83,76"
+     },
+     "codes": {
+      "B": "372.27.700 (white) /.500 grey /.350 anthracite",
+      "F": "372.27.704/.504/.354"
+     },
+     "src": "HAF-200 p1"
+    },
+    {
+     "id": "6.15",
+     "load_kg": 25.7,
+     "dims": {
+      "cabinet_height_mm": "350-650",
+      "flap_weight_kg_G": "350 mm 11.7-18.9 ... 650 mm 6.3-10.2",
+      "flap_weight_kg_H": "350 mm 18.0-25.7 ... 650 mm 9.7-13.8",
+      "statement": "heavy applications up to 15 kg at 600 mm"
+     },
+     "codes": {
+      "G": "372.27.721 white /.521 grey /.321 anthracite /.421 black",
+      "H": "372.27.722/.522/.322/.422"
+     },
+     "src": "HAF-202 p1"
+    }
+   ],
+   "cabinet": {
+    "note": "Y/X table (K=16)",
+    "src": "HAF-200"
+   },
+   "mounting": {
+    "drilling": "paper drilling template in set, not printed numerically",
+    "src": "HAF-200"
+   },
+   "kinematics": {
+    "opening_angle_deg": "90 or 107",
+    "src": "HAF-200"
+   },
+   "options": [
+    "screw set 372.27.600 for alu frame from 45 mm"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "drawings not read"
+   ]
+  },
+  {
+   "id": "haefele-free-fold",
+   "brand": "Haefele",
+   "name": "Free Fold (bi-fold lift-up, two-piece flaps)",
+   "type": "lift-up double flap fitting",
+   "motion": "two-piece flap folds and lifts, assisted opening, soft close, multi-position stop; finger-safe connecting hinges; needs min 110 deg concealed hinges",
+   "variants": [
+    {
+     "id": "fitting by cabinet height",
+     "load_kg": 17.2,
+     "dims": {
+      "cabinet_height_mm_to_flap_weight_kg_and_code": "480-530: 4.9-10.2 (372.38.512), 9.3-15.9 (.513); 520-590: 2.4-4.8 (.520), 4.8-9.0 (.522), 7.8-15.2 (.523); 580-650: 4.0-8.5 (.532), 6.8-12.5 (.533); 650-730: 2.0-3.7 (.540), 3.7-7.4 (.542), 7.0-11.8 (.543), 10.2-17.2 (.544); 710-790: 3.6-6.2 (.552), 6.1-10.8 (.553), 8.5-14.4 (.554); 770-840: 5.1-9.8 (.563), 7.5-14.1 (.564); 840-910: 4.7-8.9 (.573), 6.9-12.2 (.574)",
+      "note": "the 214 text reads '4.9.10.2' for the first row; read as 4.9-10.2",
+      "set_213": "flap heights 720 (700-780) or 550 (540-580) mm; flap weights 2-20.3 kg; sets 372.38.000 (550, door 600/800 mm, 7.8-15.2 kg), .002 (720, 600 mm, 6.1-10.8 kg), .004 (720, 800/1000 mm, 8.5-14.4 kg)"
+     },
+     "codes": {},
+     "src": "HAF-213 p1; HAF-214 p1"
+    }
+   ],
+   "cabinet": {
+    "drilling_mm_drawing": "32 / 64 grid; dia 7.8 and 9; >270 ; B = A2 - 5.5; B min 7.0, B max 13.5; 217/185/121/57",
+    "src": "HAF-214 p1"
+   },
+   "mounting": {
+    "table_installation_dimensions_KH_vs_P_deg_Q_R_S_T_U_V_W": "present for KH 480-530 to 1000-1040 (e.g. KH 480-530: 107-96 deg, 1.1, 426, 328, 100-37, 100-55, 203-186, 328-370); meaning of letters not transcribed",
+    "src": "HAF-214 p1"
+   },
+   "kinematics": {
+    "opening_angle_deg": "107 to ~96 depending on height (table)",
+    "src": "HAF-214"
+   },
+   "options": [
+    "E-Drive (electric) set 372.37.099 (brochure, garbled)"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "letter meaning of installation table"
+   ]
+  },
+  {
+   "id": "haefele-free-up",
+   "brand": "Haefele",
+   "name": "Free Up (parallel lift-up front)",
+   "type": "parallel lift-up front fitting with cross rail",
+   "motion": "front lifts parallel and stays above, hardly any space in front, soft open/close, multi-position stop",
+   "variants": [
+    {
+     "id": "by cabinet height",
+     "load_kg": 19.6,
+     "dims": {
+      "cabinet_height_mm_to_flap_weight_kg": "320-360: 3.0-5.7 (372.33.500), 4.8-9.3 (.501); 345-420: 2.4-4.8 (.510), 7.4-14.0 (.512), 11.0-19.6 (.513); 380-500: 2.0-3.8 (.520), 3.4-6.7 (.521), 6.3-11.8 (.522), 9.3-17.4 (.523); 430-600: 1.6-3.3 (.530), 2.6-5.5 (.531), 5.0-9.7 (.532), 7.4-14.6 (.533)",
+      "installation_table": "KH 320-360: D 274.5, U=KH-HH-K, 278, 281, 128, 177; 345-420: 302.5, 328, 333, 146, 205; 380-500: 337.5, 390, 393, 168, 240; 430-600: 382.5, 470, 473, 196, 284 (column letters D U HH T V1 V2)",
+      "min_flap_height_mm": "280/308/343/388 for the four cabinet-height ranges"
+     },
+     "codes": {
+      "cross rail 600/900/1200/1800 mm cabinet width (cut length 474/774/1074/1674)": "372.33.692/.694/.696/.698"
+     },
+     "src": "HAF-216 p2"
+    }
+   ],
+   "cabinet": {
+    "side_panel_thickness_W": "16/19",
+    "min_clearance": ">=277",
+    "src": "HAF-216 p2"
+   },
+   "mounting": {
+    "drilling": null,
+    "reason_null": "quick fixing plug-in with pre-drilled sides, not tabulated",
+    "src": "HAF-216"
+   },
+   "kinematics": {
+    "drawing": null
+   },
+   "options": [
+    "E-drive",
+    "alternative mounting brackets 9.221-223"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "kinematic drawing not read"
+   ]
+  },
+  {
+   "id": "haefele-free-swing",
+   "brand": "Haefele",
+   "name": "Free Swing (swing-up flap, S1-S9)",
+   "type": "lift-up flap that swivels around cornices",
+   "motion": "swing-up with soft open/close, multi-position stop",
+   "variants": [
+    {
+     "id": "S1",
+     "load_kg": 4.0,
+     "dims": {
+      "weight_range_kg": "1.8-4.0"
+     },
+     "codes": [
+      "372.34.500"
+     ],
+     "src": "HAF-218 p2"
+    },
+    {
+     "id": "S4",
+     "load_kg": 6.5,
+     "dims": {
+      "weight_range_kg": "3.0-6.5"
+     },
+     "codes": [
+      "372.34.501"
+     ],
+     "src": "HAF-218 p2"
+    },
+    {
+     "id": "S6",
+     "load_kg": 11.3,
+     "dims": {
+      "weight_range_kg": "5.3-11.3"
+     },
+     "codes": [
+      "372.34.521"
+     ],
+     "src": "HAF-218 p2"
+    },
+    {
+     "id": "S8",
+     "load_kg": 15.9,
+     "dims": {
+      "weight_range_kg": "7.0-15.9"
+     },
+     "codes": [
+      "372.34.512"
+     ],
+     "src": "HAF-218 p2"
+    },
+    {
+     "id": "S9",
+     "load_kg": 17.1,
+     "dims": {
+      "weight_range_kg": "8.0-17.1"
+     },
+     "codes": [
+      "372.34.522"
+     ],
+     "src": "HAF-218 p2"
+    }
+   ],
+   "cabinet": {
+    "cabinet_height_ranges_mm": "370-500, 500-670, 670-800",
+    "cross_rail_cut_length": "internal cabinet width - 88 mm (electric: - 113 mm)",
+    "side_panel_thickness": "16/19",
+    "src": "HAF-218 p2"
+   },
+   "mounting": {
+    "drawing_values_mm": "unlabelled: >=273, >=2, >=40, >=100, ~211, ~305, 370, 800 (meaning not clear)",
+    "src": "HAF-218 p2"
+   },
+   "kinematics": {
+    "drawing": null
+   },
+   "options": [
+    "E-drive"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "labelled kinematic drawing"
+   ]
+  },
+  {
+   "id": "haefele-utensio-pro-easy-down",
+   "brand": "Haefele",
+   "name": "Utensio Pro Easy Down (pull-down wall unit, 3 baskets)",
+   "type": "pull-down shelf system for wall cabinets (hinged doors)",
+   "motion": "lowers top basket to the cabinet base height, travel 418 mm, soft close",
+   "variants": [
+    {
+     "id": "500",
+     "load_kg": 8,
+     "dims": {
+      "cabinet_width_mm": 500,
+      "installed_width_mm": 464,
+      "installation_depth_mm": 242,
+      "installation_height_mm": 582,
+      "travel_mm": 418
+     },
+     "codes": {
+      "folded baskets": "542.35.153",
+      "accent": "542.35.154",
+      "glass": "542.35.155"
+     },
+     "src": "HAF-144A p1"
+    },
+    {
+     "id": "600",
+     "load_kg": 8,
+     "dims": {
+      "cabinet_width_mm": 600,
+      "installed_width_mm": 564,
+      "installation_depth_mm": 242,
+      "installation_height_mm": 582,
+      "travel_mm": 418
+     },
+     "codes": {
+      "folded": "542.35.156",
+      "accent": "542.35.157",
+      "glass": "542.35.158"
+     },
+     "src": "HAF-144A p1"
+    }
+   ],
+   "cabinet": {
+    "side_mounting": true,
+    "src": "HAF-144A"
+   },
+   "mounting": {
+    "drilling": null,
+    "reason_null": "template and fixings supplied",
+    "src": "HAF-144A"
+   },
+   "kinematics": {
+    "travel_mm": 418,
+    "src": "HAF-144A"
+   },
+   "options": [
+    "soft close",
+    "anti-slip mats"
+   ],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "drawing values 776/403/558 not interpreted"
+   ]
+  },
+  {
+   "id": "kessebohmer-imove",
+   "brand": "Kesseboehmer (sold by Haefele 504.69.xxx)",
+   "name": "iMove pull-down (single/double tray)",
+   "type": "pull-down shelf for wall cabinets, frameless or face-frame",
+   "motion": "shelf swings forward and down out of the wall cabinet; load < 8 kg (< 18 lbs)",
+   "variants": [
+    {
+     "id": "single / double tray",
+     "load_kg": 8,
+     "dims": {
+      "min_inside_depth_Y_mm": 279,
+      "X_distance_mm": "57 to 82 (x = 82 if Y > 295)",
+      "Z_min_mm": 25,
+      "drawing_mm_cabinet_1a": "271, 565, 380, 570, 340, 385, 675 (labels not clear: closed/open envelope)"
+     },
+     "codes": {},
+     "src": "KES-IMOVE p3"
+    }
+   ],
+   "cabinet": {
+    "src": "KES-IMOVE p3"
+   },
+   "mounting": {
+    "screw": "dia 4.5 x 50 mm frameless; dia 4 x 16 mm",
+    "drilling": null,
+    "src": "KES-IMOVE p2"
+   },
+   "kinematics": {
+    "drawing": "open state shown in p3 1a: 675 and 570 overall vertical extent (interpretation not certain)",
+    "src": "KES-IMOVE p3"
+   },
+   "options": [],
+   "cad": {
+    "url": null
+   },
+   "unreadable": [
+    "Haefele-official 504.69 sheet not found; Haefele US codes known only from retailer pages (not used)"
+   ]
+  },
+  {
+   "id": "vauth-sagel-vs-top-down",
+   "brand": "Vauth-Sagel",
+   "name": "VS TOP Down",
+   "type": "pull-down shelf for wall cabinets (new 2025)",
+   "motion": "damped swivel; manual spring-force adjustment",
+   "variants": [],
+   "cabinet": {
+    "widths_mm": "500, 600, 800, 900 (interzum listing; not an official data sheet)"
+   },
+   "mounting": {},
+   "kinematics": {},
+   "options": [
+    "single or double shelf",
+    "silver or lava"
+   ],
+   "cad": {},
+   "unreadable": [
+    "vauth-sagel.com press page returned 404; no technical data sheet obtained; no load, depth or travel values"
+   ]
+  },
+  {
+   "id": "haefele-led-tv-lift-700",
+   "brand": "Haefele",
+   "name": "LED TV lift 700 mm travel (421.68.422) + swivel bracket 421.68.493",
+   "type": "motorised TV lift for cabinets",
+   "motion": "3-section telescopic vertical lift, travel 700 mm, upside-down use possible; swivel bracket allows manual swivel up to 30 deg when fully extended, microswitch blocks lift unless back flat",
+   "variants": [
+    {
+     "id": "421.68.422",
+     "load_kg": 65,
+     "dims": {
+      "travel_mm": 700,
+      "capacity_standard_kg": "5-65",
+      "capacity_upside_down_kg": "5-29",
+      "input": "110-240 VAC 50-60 Hz",
+      "VESA": "400x300, 400x200, 400x100, 300x300, 200x200, 200x100, 100x100",
+      "drawing_mm": "200, 272, 241, 250, 286, 273, 600-1300, 464, 400 (labels not read)"
+     },
+     "codes": {
+      "TV lift black": "421.68.422",
+      "swivel bracket black": "421.68.493"
+     },
+     "src": "HAF-25L3-35 p1"
+    }
+   ],
+   "cabinet": {},
+   "mounting": {},
+   "kinematics": {
+    "swivel_deg": 30,
+    "travel_mm": 700
+   },
+   "options": [
+    "RF remote + manual switch",
+    "automatic reverse",
+    "adjustable stroke"
+   ],
+   "cad": {},
+   "unreadable": [
+    "cabinet inside dimensions not labelled in extracted drawing"
+   ]
+  },
+  {
+   "id": "accuride-db-lift-0019",
+   "brand": "Accuride (sold by Haefele 421.68.375)",
+   "name": "DB Lift-0019 mechanical push-to-open TV lift",
+   "type": "mechanical lift with swivel",
+   "motion": "push to open mechanical lift, travel 538 mm, swivel +/-112.5 deg, rises in under 2 s",
+   "variants": [
+    {
+     "id": "421.68.375",
+     "load_kg": 6.5,
+     "dims": {
+      "screen_weight_kg": "2.5-6.5",
+      "screen_height_max_mm": 450,
+      "travel_mm": 538,
+      "swivel_deg": 112.5,
+      "drawing_mm": "195, 720"
+     },
+     "codes": {
+      "lift": "421.68.375",
+      "weight pack extension plate": "421.68.377",
+      "weight packs": "421.68.376"
+     },
+     "src": "HAF-17D6-54 p1"
+    }
+   ],
+   "cabinet": {},
+   "mounting": {},
+   "kinematics": {
+    "swivel_deg": "+/-112.5",
+    "travel_mm": 538
+   },
+   "options": [
+    "18 deg tilt or fixed VESA brackets (not included)",
+    "additional weight packs"
+   ],
+   "cad": {},
+   "unreadable": []
+  },
+  {
+   "id": "haefele-dresscode-wardrobe-lift",
+   "brand": "Haefele",
+   "name": "Dresscode wardrobe lift",
+   "type": "wardrobe rail lift (pull-down rail)",
+   "motion": "damped upwards, held when open, soft closing",
+   "variants": [
+    {
+     "id": "440-610",
+     "load_kg": 10,
+     "dims": {
+      "load_min_kg": 10,
+      "internal_cabinet_width_mm": "440-610"
+     },
+     "codes": {
+      "umber grey RAL7022": "805.22.560",
+      "traffic white RAL9016": "805.22.760"
+     },
+     "src": "HAF-20D2-25 p1"
+    },
+    {
+     "id": "600-1000",
+     "load_kg": 10,
+     "dims": {
+      "internal_cabinet_width_mm": "600-1000"
+     },
+     "codes": {
+      "umber grey": "805.22.561",
+      "white": "805.22.761"
+     },
+     "src": "HAF-20D2-25 p1"
+    }
+   ],
+   "cabinet": {
+    "mounting": "rear row of series drilled holes or centre of cabinet side; plug fitting into 5 mm holes"
+   },
+   "mounting": {},
+   "kinematics": {},
+   "options": [],
+   "cad": {},
+   "unreadable": [
+    "load is stated as '>= 10 kg' (a minimum, no maximum on this page); drilling pattern drawing not read"
+   ]
+  },
+  {
+   "id": "hettich-corner-3-4-carousel",
+   "brand": "Hettich",
+   "name": "Eckschrankdrehbeschlag Arena STYLE/CLASSIC with three-quarter-circle rotating shelves",
+   "type": "corner base cabinet carousel (3/4 round shelves)",
+   "motion": "rotation about central spindle; pivot of shelves 360 mm / 420 mm from walls",
+   "variants": [
+    {
+     "id": "700 for 800x800 cabinet",
+     "load_kg": 15,
+     "dims": {
+      "shelf_diameter_mm": 700,
+      "cabinet_mm": "800x800",
+      "clear_opening_>=_mm": "740 / 480 and <= 260 (drawing)",
+      "axis_offset_mm": "360",
+      "spindle_centre_variable_mm": "839-889 or cut to length"
+     },
+     "codes": {
+      "Arena STYLE": "9 079 941",
+      "Arena CLASSIC": "0 070 553"
+     },
+     "src": "HET-BK905 p873"
+    },
+    {
+     "id": "820 for 900x900 cabinet",
+     "load_kg": 15,
+     "dims": {
+      "shelf_diameter_mm": 820,
+      "cabinet_mm": "900x900",
+      "clear_opening_>=_mm": "860 / 510 and <= 350 (drawing)",
+      "axis_offset_mm": "420"
+     },
+     "codes": {
+      "Arena STYLE": "9 079 955",
+      "Arena CLASSIC": "0 070 554",
+      "steel chrome": "0 049 207"
+     },
+     "src": "HET-BK905 p873"
+    }
+   ],
+   "cabinet": {
+    "load_per_shelf_kg": 15,
+    "src": "HET-BK905"
+   },
+   "mounting": {
+    "hole_dia_mm": 5,
+    "angles_deg": "90 and 80.2",
+    "src": "HET-BK905 drawing"
+   },
+   "kinematics": {
+    "shelf_angle_deg": null,
+    "reason_null": "not stated on bk_905 page"
+   },
+   "options": [
+    "Revo 90 folding-door corner fitting 9 080 040 (data not extracted)"
+   ],
+   "cad": {
+    "url": "https://www.hettich.com/short/3b3ba6"
+   },
+   "unreadable": [
+    "Revo 90 deg dimensions not read"
+   ]
+  },
+  {
+   "id": "haefele-corner-units",
+   "brand": "Haefele",
+   "name": "Corner units: Ninka Pro(arc) 3/4 carousel, Swing out corner unit, Utensio Pro Glide Corner",
+   "type": "corner cabinet rotating / swing-out",
+   "motion": "carousel rotation; swing out pull-and-swing",
+   "variants": [
+    {
+     "id": "Ninka Pro(arc) 3/4 carousel 542.85.550",
+     "load_kg": 25,
+     "dims": {
+      "cabinet": "800x800 or 900x900",
+      "spindle_height_mm": "667-713",
+      "drawing_mm": "min 510, 120, 128, 710, 238"
+     },
+     "codes": {
+      "set": "542.85.550"
+     },
+     "src": "HAF-20D1-70"
+    },
+    {
+     "id": "Swing out corner unit",
+     "load_kg": 35,
+     "dims": {
+      "installed_height_mm": 580,
+      "built_in_depth_mm": 470,
+      "per_basket_kg": "rear 7.5, front 10 (sheet labels)",
+      "door_width_mm": "400 for 800 cabinet; 450/500/600 for 900/1000"
+     },
+     "codes": {
+      "chrome wire, 800 mm L/R": "549.38.248 / 549.38.249",
+      "chrome wire 900/1000 L/R": "549.86.194 / 549.86.195"
+     },
+     "src": "HAF-20D1-57A"
+    },
+    {
+     "id": "Utensio Pro Glide Corner",
+     "load_kg": null,
+     "dims": {
+      "cabinet_width_mm": "800/900/1000",
+      "door_width_X1_X2": "800: 400, X1>=760, X2>=380; 900: 450, >=860, >=430; 1000: 500 >=910 >=480; 1000: 600 >=960 >=580",
+      "drawing": "<=485, <=65, <=40, 666-705"
+     },
+     "codes": {},
+     "src": "HAF-20D1-59A"
+    }
+   ],
+   "cabinet": {},
+   "mounting": {},
+   "kinematics": {},
+   "options": [
+    "soft closing on swing-out"
+   ],
+   "cad": {},
+   "unreadable": [
+    "Glide Corner load not extracted",
+    "none"
+   ]
+  },
+  {
+   "id": "hettich-comfortspin",
+   "brand": "Hettich",
+   "name": "ComfortSpin turntable (rectangular tray, turns 360 deg)",
+   "type": "cabinet internal turntable (fridge / shelf)",
+   "motion": "360 deg rotation, one direction only unless fully in end position",
+   "variants": [
+    {
+     "id": "tray",
+     "load_kg": 8,
+     "dims": {
+      "tray_mm": "425 x 285 x 37",
+      "space_needed_mm": "425 x 285",
+      "base_plate_clearance_from_side_panel_mm": 70,
+      "off_centre_load_kg": 3,
+      "temperature_C": "0-40",
+      "mounting_temp_C": ">=20",
+      "shelf_thickness_screw_mm": ">=14"
+     },
+     "codes": {
+      "9264627": "DIY shop transparent",
+      "9325328": "hettich.com page, transparent"
+     },
+     "src": "HET-CS-WEB; HET-CS-MAN"
+    }
+   ],
+   "cabinet": {},
+   "mounting": {
+    "fixing": "suction cups, screws 4x17, or tesa PowerStrips",
+    "src": "HET-CS-MAN"
+   },
+   "kinematics": {
+    "rotation_deg": 360
+   },
+   "options": [],
+   "cad": {},
+   "unreadable": [
+    "article number conflict 9264627 vs 9325328"
+   ]
+  },
+  {
+   "id": "hettich-roomspin",
+   "brand": "Hettich",
+   "name": "RoomSpin",
+   "type": "floor-mounted rotating base for room elements (translatory rotation)",
+   "motion": "rotation",
+   "variants": [],
+   "cabinet": {},
+   "mounting": {},
+   "kinematics": {},
+   "options": [],
+   "cad": {},
+   "unreadable": [
+    "hettich.com page has no sizes/loads; data sheet not located"
+   ]
+  },
+  {
+   "id": "haefele-hebgo-folding-brackets",
+   "brand": "Haefele",
+   "name": "Folding table/bench brackets (Hebgo, Tikla, hinged)",
+   "type": "folding / drop-down table brackets",
+   "motion": "folds down against wall; locks automatically when raised",
+   "variants": [
+    {
+     "id": "hinged spring bracket 287.41.906/915",
+     "load_kg": 40,
+     "dims": {
+      "A_B_C_mm": "250/25/85 and 380/25/120",
+      "per_pair_kg": 40
+     },
+     "codes": [
+      "287.41.906",
+      "287.41.915"
+     ],
+     "src": "HAF-23T7-204"
+    },
+    {
+     "id": "hinged bracket adjustable 287.55.730/740 (white), .930/.940 galv",
+     "load_kg": 60,
+     "dims": {
+      "A_B_C_mm": "300/200/30 and 400/270/36",
+      "positions_deg": "90, 80, 70, 0"
+     },
+     "codes": [
+      "287.55.730",
+      "287.55.740",
+      "287.55.930",
+      "287.55.940"
+     ],
+     "src": "HAF-23T7-204"
+    },
+    {
+     "id": "light duty Hebgo 287.42.403/412/421/430",
+     "load_kg": 150,
+     "dims": {
+      "A_B_mm": "330/134, 380/134, 480/152, 580/178",
+      "per_pair_kg": 150
+     },
+     "codes": [
+      "287.42.403",
+      "287.42.412",
+      "287.42.421",
+      "287.42.430"
+     ],
+     "src": "HAF-23T7-205"
+    },
+    {
+     "id": "heavy duty Hebgo 287.43.400/419/428/437",
+     "load_kg": 500,
+     "dims": {
+      "A_B_mm": "420/180, 480/180, 580/220, 680/220",
+      "per_pair_kg": 500,
+      "seat_thickness_to_min_gap_mm": "25:17, 30:17, 35:22, 40:28"
+     },
+     "codes": [
+      "287.43.400",
+      "287.43.419",
+      "287.43.428",
+      "287.43.437"
+     ],
+     "src": "HAF-23T7-206"
+    },
+    {
+     "id": "Tikla table bracket 287.53.936",
+     "load_kg": 100,
+     "dims": {
+      "length_mm": 360,
+      "per_pair_kg": 100
+     },
+     "codes": [
+      "287.53.936"
+     ],
+     "src": "HAF-23T7-207"
+    },
+    {
+     "id": "Tikla bench bracket 287.48.110",
+     "load_kg": 400,
+     "dims": {
+      "length_mm": 360,
+      "per_pair_kg": 400
+     },
+     "codes": [
+      "287.48.110"
+     ],
+     "src": "HAF-23T7-207"
+    }
+   ],
+   "cabinet": {},
+   "mounting": {
+    "drilling": "present as drawing (dia 5.5/9, 6.5/9.5 etc.), not transcribed"
+   },
+   "kinematics": {},
+   "options": [],
+   "cad": {},
+   "unreadable": [
+    "heavy duty UK sheet lists code 287.47.917 for another variant; mapping uncertain"
+   ]
+  },
+  {
+   "id": "haefele-wall-bed-271.92",
+   "brand": "Haefele (US catalogue)",
+   "name": "Vertical wall bed kit twin/full/queen",
+   "type": "wall bed fitting with gas pistons",
+   "motion": "vertical folding bed, gas piston lift",
+   "variants": [
+    {
+     "id": "Twin",
+     "load_kg": 61,
+     "dims": {
+      "pistons_N": 1200,
+      "front_panel_kg": 27,
+      "mattress_kg": "14-23",
+      "slat_kg": "9-11",
+      "combined_kg": "50-61"
+     },
+     "codes": [
+      "271.92.201"
+     ],
+     "src": "HAF-US-WALLBED"
+    },
+    {
+     "id": "Double/Full",
+     "load_kg": 89,
+     "dims": {
+      "pistons_N": 1600,
+      "front_panel_kg": 36,
+      "mattress_kg": "30-25 (printed; likely 25-30)",
+      "slat_kg": "14-16",
+      "combined_kg": "75-89"
+     },
+     "codes": [
+      "271.92.202"
+     ],
+     "src": "HAF-US-WALLBED"
+    },
+    {
+     "id": "Queen",
+     "load_kg": 98,
+     "dims": {
+      "pistons_N": 1900,
+      "front_panel_kg": 45,
+      "mattress_kg": "29-39",
+      "slat_kg": "14-16",
+      "combined_kg": "89-98"
+     },
+     "codes": [
+      "271.92.200"
+     ],
+     "src": "HAF-US-WALLBED"
+    }
+   ],
+   "cabinet": {},
+   "mounting": {},
+   "kinematics": {},
+   "options": [
+    "comfort slat system 271.92.260/.261/.262",
+    "cover cap 271.92.250",
+    "piston pairs 1200-2200 N 271.92.265-.275"
+   ],
+   "cad": {},
+   "unreadable": [
+    "geometry/drilling not in this sheet; Bettlift 271.95.203/.204 already covered elsewhere"
+   ]
+  }
+ ],
+ "notes": [
+  "All values are from the listed sources; chart values (FurnSpin panel weights) are read off a diagram.",
+  "FurnSpin height: DS gives 700-2400 for all sizes, DIM certificate gives recommended max 2000/2200/2400 for S/M/XL. Both stated here.",
+  "FurnSpin EN data sheet URL (FurnSpin_Data_Sheets_V5_EN_01.pdf) and the NZ design specification returned 404; hettich.holzcom-mebel.ru mirror was blocked by the proxy.",
+  "Blum: no rotating shelf / TV lift product found with official data; not included.",
+  "Free Slim 8 mm: Red Dot web pages call it both installation width and installation depth; sheet drawing shows 8 mm in groove mounting.",
+  "ComfortSpin article numbers conflict between DIY shop manual and hettich.com page.",
+  "Retailer-only data (Haefele iMOVE, TV lifts, Hebgo load stated by retailers) not used except where an official page confirmed it."
+ ]
+}

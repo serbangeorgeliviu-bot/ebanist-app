@@ -327,10 +327,20 @@
     }
    },
    "notes": [
-    "Tabelul e pe înălțimea clapei (200–450 mm). Greutatea maximă a fronturilor cu push-to-open: vezi sursa (lățime ≤ 1200 mm)."
+    "Tabelul e pe înălțimea clapei (200–450 mm). Greutatea maximă a fronturilor cu push-to-open: vezi sursa (lățime ≤ 1200 mm).",
+    "E-Drive: aceleași găuri ca la fitingul mecanic; emițătorul cere o gaură Ø35 (șablon în set); bara transversală se taie la lățimea interioară − 113 mm (− 88 mm la mecanic); un alimentator pe unitate (catalog UK 2023; catalogul 2019 spunea până la 3)."
    ],
    "src": "Häfele catalog UK 9.204 + broșura «Free»",
-   "verificat": false
+   "verificat": false,
+   "edrive": {
+    "drv": "haf_edrive_flap",
+    "psu": "haf_edrive_driver",
+    "senderHoleDia": 35,
+    "crossBarCutMinus": 113,
+    "volt": "24 V DC / 2,5 A",
+    "unitsPerDriver": 1,
+    "src": "Häfele UK 2023 p.229, catalog «Free» 2019 p.40–44"
+   }
   },
   {
    "key": "haf_free_flap_315",
@@ -697,10 +707,20 @@
     }
    },
    "notes": [
-    "Tabelul e pe înălțimea clapei (350–650 mm)."
+    "Tabelul e pe înălțimea clapei (350–650 mm).",
+    "E-Drive: aceleași găuri ca la fitingul mecanic; emițătorul cere o gaură Ø35 (șablon în set); bara transversală se taie la lățimea interioară − 113 mm (− 88 mm la mecanic); un alimentator pe unitate (catalog UK 2023; catalogul 2019 spunea până la 3)."
    ],
    "src": "Häfele catalog UK 9.206 + broșura «Free»",
-   "verificat": false
+   "verificat": false,
+   "edrive": {
+    "drv": "haf_edrive_flap",
+    "psu": "haf_edrive_driver",
+    "senderHoleDia": 35,
+    "crossBarCutMinus": 113,
+    "volt": "24 V DC / 2,5 A",
+    "unitsPerDriver": 1,
+    "src": "Häfele UK 2023 p.229, catalog «Free» 2019 p.40–44"
+   }
   },
   {
    "key": "haf_free_swing",
@@ -1025,10 +1045,20 @@
    },
    "notes": [
     "Două seturi la fronturi de 1800 mm sau mai late; bară transversală ca la Free up (tăiată la lățimea interioară − 88 mm).",
-    "Surse în conflict: depășirea peste partea de sus a corpului «≤40» (broșură) sau «≥40» (catalog UK)."
+    "Surse în conflict: depășirea peste partea de sus a corpului «≤40» (broșură) sau «≥40» (catalog UK).",
+    "E-Drive: aceleași găuri ca la fitingul mecanic; emițătorul cere o gaură Ø35 (șablon în set); bara transversală se taie la lățimea interioară − 113 mm (− 88 mm la mecanic); un alimentator pe unitate (catalog UK 2023; catalogul 2019 spunea până la 3)."
    ],
    "src": "Häfele broșura «Free» p30–33, catalog UK 9.218",
-   "verificat": false
+   "verificat": false,
+   "edrive": {
+    "drv": "haf_edrive_fold",
+    "psu": "haf_edrive_driver",
+    "senderHoleDia": 35,
+    "crossBarCutMinus": 113,
+    "volt": "24 V DC / 2,5 A",
+    "unitsPerDriver": 1,
+    "src": "Häfele UK 2023 p.229, catalog «Free» 2019 p.40–44"
+   }
   },
   {
    "key": "haf_free_space",
@@ -1895,10 +1925,20 @@
    },
    "notes": [
     "Cod pe piață: seria 372.37 (broșură, HTH) sau 372.38 (catalog UK, alte intervale de greutate): se alege seria pieței țintă.",
-    "Adâncime minimă 288 mm (broșură, HTH) sau «>270» (desen UK)."
+    "Adâncime minimă 288 mm (broșură, HTH) sau «>270» (desen UK).",
+    "E-Drive: aceleași găuri ca la fitingul mecanic; emițătorul cere o gaură Ø35 (șablon în set); bara transversală se taie la lățimea interioară − 113 mm (− 88 mm la mecanic); un alimentator pe unitate (catalog UK 2023; catalogul 2019 spunea până la 3)."
    ],
    "src": "Häfele broșura «Free» p22–25, HTH 2022, catalog UK 9.2xx",
-   "verificat": false
+   "verificat": false,
+   "edrive": {
+    "drv": "haf_edrive_fold",
+    "psu": "haf_edrive_driver",
+    "senderHoleDia": 35,
+    "crossBarCutMinus": 113,
+    "volt": "24 V DC / 2,5 A",
+    "unitsPerDriver": 1,
+    "src": "Häfele UK 2023 p.229, catalog «Free» 2019 p.40–44"
+   }
   },
   {
    "key": "haf_free_up",
@@ -2108,10 +2148,20 @@
     }
    },
    "notes": [
-    "Surse în conflict la unele cote de geometrie (T, V1) pe intervalul 430–600 mm."
+    "Surse în conflict la unele cote de geometrie (T, V1) pe intervalul 430–600 mm.",
+    "E-Drive: aceleași găuri ca la fitingul mecanic; emițătorul cere o gaură Ø35 (șablon în set); bara transversală se taie la lățimea interioară − 113 mm (− 88 mm la mecanic); un alimentator pe unitate (catalog UK 2023; catalogul 2019 spunea până la 3)."
    ],
    "src": "Häfele broșura «Free» p26–29, HTH 2022, catalog UK 9.216",
-   "verificat": false
+   "verificat": false,
+   "edrive": {
+    "drv": "haf_edrive_fold",
+    "psu": "haf_edrive_driver",
+    "senderHoleDia": 35,
+    "crossBarCutMinus": 113,
+    "volt": "24 V DC / 2,5 A",
+    "unitsPerDriver": 1,
+    "src": "Häfele UK 2023 p.229, catalog «Free» 2019 p.40–44"
+   }
   },
   {
    "key": "haf_free_slim_112",
