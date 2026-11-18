@@ -49,10 +49,12 @@ test("la scelta a mano (cookie eb_lang) vince sempre sul browser", () => {
   assert.equal(chooseLang("RO", "it-IT"), "it", "il cookie lo scrive la pagina in minuscolo");
 });
 
-test("solo la radice, e i vecchi /?lang=xx restano a netlify.toml", () => {
+test("solo la radice; i vecchi /?lang=xx vanno a /xx/ con 301, senza il parametro", () => {
+  assert.equal(go("https://ebanist.com/?lang=de", undefined, "ro-RO"), "/de/");
+  assert.equal(go("https://ebanist.com/?lang=en&utm_source=a", undefined, "ro-RO"), "/?utm_source=a", "en torna alla radice, la query resta");
+  assert.equal(go("https://ebanist.com/?lang=xx", undefined, "ro-RO"), null, "lingua sconosciuta: non si tocca");
   assert.equal(go("https://ebanist.com/ro/", undefined, "it-IT"), null);
   assert.equal(go("https://ebanist.com/app/", undefined, "ro-RO"), null);
-  assert.equal(go("https://ebanist.com/?lang=it", undefined, "ro-RO"), null);
   assert.equal(go("https://ebanist.com/?utm_source=play", undefined, "ro-RO"), "/ro/?utm_source=play", "la query resta");
 });
 

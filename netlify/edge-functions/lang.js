@@ -12,7 +12,7 @@
    function gira prima della cache, a ogni richiesta, e legge tutti e due.
 
    Le regole, nell'ordine:
-   1. «/?lang=xx» (link vecchi) non si tocca: lo gestisce netlify.toml.
+   1. «/?lang=xx» (link vecchi): 301 a /xx/ senza il parametro (lo gestisce questa funzione, non netlify.toml). ?lang=en → «/».
    2. Il cookie eb_lang (messo SOLO da un clic su una lingua, site/js/main.js)
       vince su tutto. eb_lang=en → resta la pagina inglese.
    3. Altrimenti Accept-Language, in ordine di preferenza (q): la prima
@@ -45,7 +45,16 @@ export function chooseLang(cookie, acceptLanguage) {
    inglese statica prosegue). Il 302 non si memorizza da nessuna parte. */
 export function decide(url, cookie, acceptLanguage) {
   const u = new URL(url);
-  if (u.pathname !== "/" || u.searchParams.has("lang")) return null;
+  if (u.pathname !== "/") return null;
+  /* link vecchi «/?lang=xx»: 301 alla pagina della lingua, SENZA il parametro
+     (prima lo faceva netlify.toml e il parametro restava: /de/?lang=de). */
+  if (u.searchParams.has("lang")) {
+    const q = String(u.searchParams.get("lang") || "").toLowerCase();
+    if (!LANGS.includes(q)) return null;
+    u.searchParams.delete("lang");
+    const rest = u.searchParams.toString();
+    return { status: 301, location: `${q === DEFAULT ? "/" : `/${q}/`}${rest ? "?" + rest : ""}`, permanent: true };
+  }
   const l = chooseLang(cookie, acceptLanguage);
   if (l === DEFAULT) return null;
   return { status: 302, location: `/${l}/${u.search}` };
@@ -58,7 +67,9 @@ export default async (request, context) => {
   if (!d) return;
   return new Response(null, {
     status: d.status,
-    headers: { location: d.location, "cache-control": "private, no-store", vary: "Accept-Language, Cookie" },
+    headers: d.permanent
+      ? { location: d.location, "cache-control": "public, max-age=86400" }
+      : { location: d.location, "cache-control": "private, no-store", vary: "Accept-Language, Cookie" },
   });
 };
 
