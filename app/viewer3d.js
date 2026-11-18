@@ -1480,10 +1480,12 @@ function setTargets(boxesOrig) {
         P.pivot = null; P.tgt.ang = 0;
         P.tgt.ey += open ? (Math.max(0, topY - a.y0) + 4) * MM : 0; P.tgt.ez += open ? 25 * MM : 0;
       } else {
-        const deg = Lf.motion === "liftup" ? 95 : Math.min(110, Math.max(60, Lf.angle || 90));
-        P.pivot = { axis: "x", y: a.y1, z: a.z1 };
-        P.tgt.ang = open ? deg * Math.PI / 180 : 0;
-        P.tgt.ey += open ? Math.max(0, topY - a.y1) * MM : 0;
+        const deg = Lf.motion === "liftup" ? 95 : Math.min(110, Math.max(60, Lf.angle || 90)), th = deg * Math.PI / 180;
+        /* `ang` aici e PROGRESUL (0 → th); traseul se calculează în step(): întâi ușa urcă dreaptă în fața corpului până cu muchia de jos la nivelul
+           lui de sus, apoi se răstoarnă peste corp, cu muchia de jos alunecând pe el. O rotație simplă în jurul muchiei de sus ar trece muchia de jos prin
+           interiorul corpului (prin lateral și rafturi). */
+        P.pivot = { axis: "x", y: a.y1, z: a.z1, lift: { th, g: Math.max(0, topY - a.y1), h: a.y1 - a.y0 } };
+        P.tgt.ang = open ? th : 0;
       }
     }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
@@ -1636,13 +1638,19 @@ function step() {
     for (const k of ["ex", "ey", "ez", "ang", "sl"]) f(P.cur, P.tgt, k);
     /* T(esplosione) · T(perno) · R(y) · T(−perno) · T(uscita cassetto) */
     const c = P.cur;
-    { const sd = P.slDir || [0, 1]; M4.makeTranslation(c.ex + sd[0] * c.sl, c.ey, c.ez + sd[1] * c.sl); }
-    if (c.ang && P.pivot && P.pivot.axis === "x") {      /* U.16: ușă basculantă — axa orizontală pe muchia de sus */
+    let liftY = 0, liftAng = c.ang;
+    if (P.pivot && P.pivot.axis === "x" && P.pivot.lift) {    /* U.16: faza 1 urcă dreaptă (p 0→½), faza 2 răstoarnă (p ½→1) cu muchia de jos pe corp */
+      const Lf = P.pivot.lift, p = Math.min(1, Math.max(0, c.ang / Lf.th)), u = Math.max(0, 2 * p - 1);
+      liftAng = u * Lf.th;
+      liftY = (u === 0 ? Math.min(1, 2 * p) * (Lf.g + Lf.h) : Lf.g + Lf.h * Math.max(0, Math.cos(liftAng))) * MM;
+    }
+    { const sd = P.slDir || [0, 1]; M4.makeTranslation(c.ex + sd[0] * c.sl, c.ey + liftY, c.ez + sd[1] * c.sl); }
+    if (liftAng && P.pivot && P.pivot.axis === "x") {      /* U.16: ușă basculantă — axa orizontală pe muchia de sus */
       const py = P.pivot.y * MM, pz = P.pivot.z * MM;
       M4b.makeTranslation(0, py, pz); M4.multiply(M4b);
-      M4b.makeRotationX(c.ang); M4.multiply(M4b);
+      M4b.makeRotationX(liftAng); M4.multiply(M4b);
       M4b.makeTranslation(0, -py, -pz); M4.multiply(M4b);
-    } else if (c.ang && P.pivot) {
+    } else if (c.ang && P.pivot && P.pivot.axis !== "x") {
       const px = P.pivot.x * MM, pz = P.pivot.z * MM;
       M4b.makeTranslation(px, 0, pz); M4.multiply(M4b);
       M4b.makeRotationY(c.ang); M4.multiply(M4b);
