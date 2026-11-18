@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.81.0 — 18 noiembrie 2026
+
+**Un proiect pe mai multe dispozitive: ce faci pe telefon apare pe PC fără repornire, iar o modificare pe două dispozitive nu mai pierde nimic.**
+- **Sincronizare vie:** aplicația aduce modificările de pe celelalte dispozitive când te întorci în ea, când revine rețeaua, când serverul anunță o schimbare (Supabase Realtime, doar ca semnal) și, ca plasă, la 60 s cât e deschisă. Întâi trimite ce are, apoi aduce. Aducerea e ușoară: o listă (id + data), apoi numai proiectele mai noi.
+- **Conflict fără pierderi:** dacă același proiect s-a modificat pe două dispozitive, versiunea de pe server se aplică, iar a ta rămâne ca proiect nou, „Nume (conflict 10:42)". Înainte, versiunea locală se suprascria cu un simplu mesaj, iar mesajul putea reveni la fiecare sincronizare.
+- Nu apar conflicte false: la prima autentificare, un proiect identic pe ambele părți e doar înregistrat.
+- Baza de date: `projects` e acum în publicația Realtime (migrația `20261118_projects_realtime.sql`, aplicată în producție; RLS rămâne pe proprietar). Anulare: `alter publication supabase_realtime drop table public.projects;`. Fără Realtime aplicația merge la fel, prin cele 60 s.
+- Modul pur `ebanist-sync.js`, test `sync.test.js` (sincronizarea nu avea niciun test).
+- **Nu e încă:** proiecte partajate între utilizatori (Jacquin, client) cer `project_members` (D-25); ștergerea făcută pe un dispozitiv nu dispare încă de pe celelalte; latența „sub 5 s" nu e măsurată pe dispozitive reale.
+
+---
+
 ## 5.80.0 — 17 noiembrie 2026
 
 **Lista de feronerie pentru furnizor și sigla firmei pe foile pieselor.**

@@ -2948,6 +2948,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-lift.js"></script>
 <script src="./ebanist-suppliers.js"></script>
 <script src="./ebanist-order.js"></script>
+<script src="./ebanist-sync.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-baseframe.js"></script>
 <script src="./ebanist-kitchen-data.js"></script>
@@ -4316,6 +4317,20 @@ AUTH_I18N.fr.syncConflict="⇄ Version plus récente reçue d'un autre appareil"
 AUTH_I18N.de.syncConflict="⇄ Neuere Version von einem anderen Gerät erhalten";
 AUTH_I18N.pl.syncConflict="⇄ Otrzymano nowszą wersję z innego urządzenia";
 AUTH_I18N.es.syncConflict="⇄ Versión más reciente recibida de otro dispositivo";
+AUTH_I18N.it.syncCopyWord="conflitto";
+AUTH_I18N.it.syncConflictCopy="⇄ Hai modificato su due dispositivi: la tua versione è salvata come «{n}»";
+AUTH_I18N.ro.syncCopyWord="conflict";
+AUTH_I18N.ro.syncConflictCopy="⇄ Ai modificat pe două dispozitive: versiunea ta e salvată ca «{n}»";
+AUTH_I18N.en.syncCopyWord="conflict";
+AUTH_I18N.en.syncConflictCopy="⇄ Edited on two devices: your version is kept as “{n}”";
+AUTH_I18N.fr.syncCopyWord="conflit";
+AUTH_I18N.fr.syncConflictCopy="⇄ Modifié sur deux appareils : votre version est conservée sous « {n} »";
+AUTH_I18N.de.syncCopyWord="Konflikt";
+AUTH_I18N.de.syncConflictCopy="⇄ Auf zwei Geräten geändert: Ihre Version bleibt als „{n}“ erhalten";
+AUTH_I18N.pl.syncCopyWord="konflikt";
+AUTH_I18N.pl.syncConflictCopy="⇄ Zmieniono na dwóch urządzeniach: Twoja wersja zapisana jako „{n}”";
+AUTH_I18N.es.syncCopyWord="conflicto";
+AUTH_I18N.es.syncConflictCopy="⇄ Editado en dos dispositivos: tu versión se guarda como «{n}»";
 function ta(key){ return (AUTH_I18N[state.lang]||AUTH_I18N.it)[key]||key; }
 const ELEMENTI = ["Fianco","Ripiano fisso","Ripiano regolabile","Ripiano mobile","Base / Cielo","Anta","Schienale","Tramezzo",
 "Frontale cassetto","Fondo cassetto","Fianco cassetto","Fronte/Retro cassetto","Fianco ripiano estraibile","Fronte/Retro ripiano estraibile","Fondo ripiano estraibile","Retro ripiano estraibile","Anta scorrevole","Asta appendiabiti","Pannello Top/Mensola","Zoccolo","Cappello","Traversa"];
@@ -16919,7 +16934,7 @@ async function initAuth(){
     await loadAcctProfile();
     renderAccount();
     atBoot(); atFlush();
-    if(acctSession) await pullAndMergeProjects();
+    if(acctSession){ await pullAndMergeProjects(); startLiveSync(); }
     sb.auth.onAuthStateChange(async(_event,newSession)=>{
       if(_event==="PASSWORD_RECOVERY"){ acctSession=newSession; renderAccount(); openPwdSheet(); return; }
       const wasLoggedIn=!!acctSession;
@@ -16927,7 +16942,8 @@ async function initAuth(){
       await loadAcctProfile();
       renderAccount();
       if(acctSession&&!wasLoggedIn){ atBoot(); atFlush(); }
-      if(acctSession&&!wasLoggedIn) await pullAndMergeProjects();
+      if(acctSession&&!wasLoggedIn){ await pullAndMergeProjects(); startLiveSync(); }
+      if(!acctSession&&wasLoggedIn) stopLiveSync();
     });
   }catch(e){ /* offline o Supabase non raggiungibile — l'app continua a funzionare in locale */ }
 }
@@ -16993,10 +17009,11 @@ async function runSync(){
       if(meta.lastSyncedSnapshot===snap) continue; // neschimbat local — nimic de trimis
 
       const {data:remote}=await sb.from("projects").select("updated_at,data").eq("id",p.id).maybeSingle();
-      if(remote&&meta.lastRemoteUpdatedAt&&remote.updated_at!==meta.lastRemoteUpdatedAt&&new Date(remote.updated_at)>new Date(meta.updatedAt||0)){
-        // altcineva a salvat o versiune mai nouă între timp — o preluăm, nu suprascriem
-        applyRemoteProject(remote.data);
-        toast(ta("syncConflict"));
+      const act=EBSync.decidePush({snap,meta,remote});
+      if(act==="same"){ syncMeta[p.id]={lastSyncedSnapshot:snap,updatedAt:remote.updated_at,lastRemoteUpdatedAt:remote.updated_at}; continue; }
+      if(act==="conflict"){
+        // și altcineva a salvat o versiune mai nouă, și aici s-a modificat: a noastră rămâne ca o copie, cea de pe server se aplică (5.81.0)
+        takeRemote(p,remote);
         continue;
       }
 
@@ -17069,40 +17086,71 @@ function applyRemoteProject(data){
   persist(); render();
 }
 
+/* preia un rând de pe server; dacă și local s-a modificat de la ultima sincronizare, versiunea locală rămâne ca „copie de conflict" (proiect nou, care se urcă la rândul lui) */
+function takeRemote(local,remote,conflict){
+  if(conflict!==false&&local){
+    const copy=EBSync.conflictCopy(local,uid(),ta("syncCopyWord")+" "+new Date().toTimeString().slice(0,5));
+    state.projects.push(copy);
+    toast(ta("syncConflictCopy").replace("{n}",copy.name));
+  }
+  const idx=local?state.projects.findIndex(x=>x.id===local.id):-1;
+  if(idx>=0) state.projects[idx]=remote.data; else state.projects.push(remote.data);
+  syncMeta[remote.data.id]={lastSyncedSnapshot:JSON.stringify(remote.data),updatedAt:remote.updated_at,lastRemoteUpdatedAt:remote.updated_at};
+  saveSyncMeta(syncMeta);
+  persist(); render();
+}
+
+/* Aducerea modificărilor de pe celelalte dispozitive. Întâi o listă ușoară (id + updated_at), apoi numai proiectele mai noi ca la ultima
+   sincronizare: se poate rula des fără să coste (5.81.0). */
 async function pullAndMergeProjects(){
   if(!sb||!acctSession) return;
   try{
     await syncSettings();
-    const {data:remoteProjects}=await sb.from("projects").select("*");
-    if(!remoteProjects) return;
+    const {data:list,error:e1}=await sb.from("projects").select("id,updated_at");
+    if(e1||!list) return;
+    const ids=EBSync.needed(list,syncMeta,syncDel);
+    if(!ids.length) return;
+    const {data:rows,error:e2}=await sb.from("projects").select("*").in("id",ids);
+    if(e2||!rows) return;
     let changed=false;
-    for(const rp of remoteProjects){
+    for(const rp of rows){
       if(!rp.data) continue;
-      /* cancellato qui e non ancora sul server: non lo si ripesca, o la
-         cancellazione tornerebbe indietro a ogni avvio */
-      if(syncDel.indexOf(rp.id)>=0) continue;
-      const local=state.projects.find(p=>p.id===rp.id);
-      const meta=syncMeta[rp.id];
-      const remoteNewer=!meta||new Date(rp.updated_at)>new Date(meta.lastRemoteUpdatedAt||0);
-      if(!local){
-        if(remoteNewer){
-          state.projects.push(rp.data); changed=true;
-          syncMeta[rp.id]={lastSyncedSnapshot:JSON.stringify(rp.data),updatedAt:rp.updated_at,lastRemoteUpdatedAt:rp.updated_at};
-        }
-        continue;
-      }
-      const localChangedSinceSync=!meta||JSON.stringify(local)!==meta.lastSyncedSnapshot;
-      if(remoteNewer){
-        if(localChangedSinceSync) toast(ta("syncConflict"));
-        const idx=state.projects.findIndex(p=>p.id===rp.id);
-        state.projects[idx]=rp.data; changed=true;
-        syncMeta[rp.id]={lastSyncedSnapshot:JSON.stringify(rp.data),updatedAt:rp.updated_at,lastRemoteUpdatedAt:rp.updated_at};
-      }
+      const local=state.projects.find(p=>p.id===rp.id)||null;
+      const act=EBSync.decidePull({local,meta:syncMeta[rp.id],remote:rp});
+      if(act==="noop") continue;
+      if(act==="same"){ syncMeta[rp.id]={lastSyncedSnapshot:JSON.stringify(rp.data),updatedAt:rp.updated_at,lastRemoteUpdatedAt:rp.updated_at}; continue; }
+      takeRemote(local,rp,act==="conflict"); changed=true;
     }
     saveSyncMeta(syncMeta);
     if(changed){ persist(); render(); }
-  }catch(e){ /* offline — se ritenterà al prossimo avvio/login */ }
+  }catch(e){ /* offline — se ritenterà la următoarea pornire, la reîntoarcerea în aplicație sau la o modificare de pe alt dispozitiv */ }
 }
+
+/* Un proiect pe trei dispozitive (5.81.0): ce faci pe telefon apare pe PC fără repornire.
+   Declanșatoare: revenirea în aplicație, revenirea rețelei, o modificare anunțată de server (Realtime, numai ca semnal: datele se aduc cu lista ușoară)
+   și, ca plasă de siguranță, la 60 s cât aplicația e vizibilă. Ordinea: întâi trimitem ce avem, apoi aducem. */
+let syncNowBusy=false, syncChan=null, syncPoll=null, syncLast=0;
+async function syncNow(){
+  if(!sb||!acctSession||syncNowBusy||!navigator.onLine) return;
+  syncNowBusy=true;
+  try{ await runSync(); await pullAndMergeProjects(); syncLast=Date.now(); }finally{ syncNowBusy=false; }
+}
+let syncPing=null;
+function syncSoon(){ clearTimeout(syncPing); syncPing=setTimeout(syncNow,800); }
+function startLiveSync(){
+  if(!sb||!acctSession||syncChan) return;
+  try{
+    syncChan=sb.channel("ebanist-projects").on("postgres_changes",{event:"*",schema:"public",table:"projects"},syncSoon).subscribe();
+  }catch(e){ syncChan=null; }
+  clearInterval(syncPoll);
+  syncPoll=setInterval(()=>{ if(!document.hidden) syncNow(); },60000);
+}
+function stopLiveSync(){
+  try{ if(syncChan&&sb) sb.removeChannel(syncChan); }catch(e){}
+  syncChan=null; clearInterval(syncPoll); syncPoll=null;
+}
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&Date.now()-syncLast>5000) syncSoon(); });
+window.addEventListener("online",syncSoon);
 
 $("btnAccount").addEventListener("click",()=>{ renderAccount(); closeSheets(); openSheet("shAccount"); });
 
@@ -19393,12 +19441,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.80.0"; /* APP_VER-MARKER */
+const APP_VER="5.81.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v258";
+const SW_CACHE="ebanist-v259";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
