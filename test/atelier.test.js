@@ -193,7 +193,7 @@ test("E2: textele de scanare și de coadă există în toate limbile", () => {
 
 test("E2: qrUrl / parseScan — dus-întors, în orice formă lipită", () => {
   const u = A.qrUrl(JOB_ID.toUpperCase(), "r12");
-  assert.equal(u, "https://ebanist.com/#e=" + JOB_ID + ".r12");
+  assert.equal(u, "https://ebanist.com/app/#e=" + JOB_ID + ".r12");
   const want = { job: JOB_ID, pk: "r12" };
   assert.deepEqual({ ...A.parseScan(u) }, want);
   assert.deepEqual({ ...A.parseScan("#e=" + JOB_ID + ".r12") }, want);
@@ -449,4 +449,13 @@ test("D-145: scanModel dă ce așteaptă openPartSheet; comandă veche → null"
 
 test("D-145: scanDetails există în toate cele 7 limbi", () => {
   for (const l of LANGS) assert.ok(A.I18N[l].scanDetails && A.I18N[l].scanDetails.length > 3, l);
+});
+
+test("QR-ul duce în aplicație (/app/), iar pagina de prezentare trimite mai departe etichetele vechi", () => {
+  const fs = require("fs"), path = require("path");
+  const u = A.qrUrl(JOB_ID, "r3"); assert.ok(u.startsWith("https://ebanist.com/app/#e="), u);
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(A.parseScan(u))), { job: JOB_ID.toLowerCase(), pk: "r3" });
+  assert.deepStrictEqual(JSON.parse(JSON.stringify(A.parseScan("https://ebanist.com/#e=" + JOB_ID + ".r3"))), { job: JOB_ID.toLowerCase(), pk: "r3" });   // etichetele vechi se citesc la fel
+  const tpl = fs.readFileSync(path.join(__dirname, "../site-src/template.html"), "utf8");
+  assert.match(tpl, /location\.replace\("\/app\/"\+location\.hash\)/);
 });

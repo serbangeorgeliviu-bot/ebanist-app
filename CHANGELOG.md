@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.83.1 — 19 noiembrie 2026
+
+**Codul QR de pe etichete deschide acum aplicația, nu pagina de prezentare.** Link-ul din cod era `https://ebanist.com/#e=…`, adică pagina site-ului, care nu știe ce e `#e=`: camera telefonului deschidea site-ul în loc de piesă. Acum e `https://ebanist.com/app/#e=…`, iar aplicația deschide fișa piesei.
+- **Etichetele deja tipărite funcționează:** pagina de prezentare (în orice limbă) trimite `#e=<comandă>.<piesă>` direct în `/app/` cu tot cu fragment. Verificat în browser pe `/`, `/it/` și `/app/`.
+- Scanarea din aplicație citea deja ambele forme de link; nu s-a schimbat.
+- **Ce rămâne neschimbat și poate surprinde:** (1) codul-link apare numai pe etichetele unui proiect cu **comandă Atelier creată** și nemodificat de atunci; fără comandă, eticheta are un cod cu text (nume, cote), pe care camera îl arată ca text, nu ca link; (2) fișa piesei cu găuri cere autentificare cu un cont de **membru al atelierului** (Atelier E0/E1); fără cont, aplicația arată ecranul de autentificare și continuă după login.
+- Test nou în `atelier.test.js` (link spre `/app/`, formele vechi se citesc, redirecționarea există în șablon).
+
+---
+
 ## 5.83.0 — 18 noiembrie 2026
 
 **Ecranul Pro de pe Android nu mai spune „Google Play nu răspunde" din cauza unei curse la pornire (D-133).** Cifrele din pâlnie arătau că **87 % din sesiunile cu ecranul Pro** primeau `pw_unavail` cu codul `unavailable`. Cauza: la pornire aplicația cere deodată restaurarea achizițiilor și produsele, iar partea nativă pornea două conectări la Google Play; a doua primea „already connecting", raporta indisponibil și consuma și lucrul primei conectări, care reușea degeaba. Omul vedea „Play nu răspunde" la prima deschidere a ecranului Pro, fără butoane de cumpărare, iar restaurarea de la pornire nu rula. Acum o eroare de conectare nu mai e definitivă: produsele se cer de încă două ori (la 1,5 s și la 3 s) și până atunci ecranul spune „se încarcă". Vindecă și versiunile Android vechi, fiindcă aplicația încarcă web-ul. Partea nativă (1.4.1, versionCode 11) repară cauza: o singură conectare odată, cu coadă.

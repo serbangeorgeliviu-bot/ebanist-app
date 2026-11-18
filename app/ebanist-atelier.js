@@ -124,7 +124,7 @@
   /* — E2: cod QR pe etichetă, scanare, coadă offline — */
   /* Codul de pe etichetă e un URL: camera telefonului (și iOS, fără BarcodeDetector) îl deschide
      direct în aplicație. Fragmentul `#e=` nu pleacă niciodată spre un server. */
-  var QR_BASE = "https://ebanist.com/";
+  var QR_BASE = "https://ebanist.com/app/";   /* 5.83.1: spre aplicație, nu spre pagina de prezentare (acolo #e= nu face nimic) */
   var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   var PK_RE = /^[A-Za-z0-9_-]{1,80}$/;
   function qrUrl(jobId, pk) {
