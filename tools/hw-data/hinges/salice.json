@@ -1,0 +1,2561 @@
+{
+ "brand": "Salice",
+ "sources": [
+  {
+   "id": "SAL-SIPLUS",
+   "url": "https://www.salice.com/media/Catalog/hinges/silentia-plus/Salice_SILENTIAPLUS_D0CASA007ENG.pdf",
+   "title": "Salice Silentia+ Catalogue ENG (92 pp)",
+   "pages": "p11 overview, p15-18 S100, p25-29 S200, p38-39 S300, p44-49 S700, p80-81 SeriesN, p87-88 accessories"
+  },
+  {
+   "id": "SAL-AIR",
+   "url": "https://www.salice.com/media/Catalog/hinges/air/Salice_AIR_D0CASA014ENG.pdf",
+   "title": "Salice AIR the truly concealed hinge (32 pp)",
+   "pages": "p3,8,9,14"
+  },
+  {
+   "id": "SAL-VETRO",
+   "url": "https://www.salice.com/media/Catalog/hinges/vetro/Salice_VETRO_D0CASA009ENG.pdf",
+   "title": "Salice Vetro (glass/mirror door hinges) Ed.05 04/2025",
+   "pages": "p4-12"
+  },
+  {
+   "id": "SAL-PIVOT",
+   "url": "https://www.salice.com/media/Catalog/hinges/single-pivot-hinge-270-opening/Salice_SINGLE-PIVOT-HINGE_DCASA002ENG.pdf",
+   "title": "Salice Single pivot hinge 270°",
+   "pages": "p2-3"
+  },
+  {
+   "id": "SAL-PLATES",
+   "url": "https://www.salice.com/media/Catalog/mounting-plates/Salice_MOUNTING-PLATES_D0CASA020ENG.pdf",
+   "title": "Salice Mounting plates (24 pp)",
+   "pages": "p5-19"
+  },
+  {
+   "id": "SAL-CORNER",
+   "url": "https://www.salice.com/media/Catalog/hinges/hinge-for-corner-cabinets/Salice_HINGES-FOR-CORNER-CABINETS_eng.pdf",
+   "title": "Salice Hinges for corner cabinets",
+   "pages": "p2-3"
+  },
+  {
+   "id": "SAL-UNIV",
+   "url": "https://www.salice.com/media/Catalog/hinges/universal-hinges/Salice_UNIVERSAL-HINGES_D0CASA016ENG.pdf",
+   "title": "Salice Universal hinges (20 pp)",
+   "pages": "p3-4 (glass-door CBG hinge: 110°, hinge count)"
+  },
+  {
+   "id": "SAL-DL",
+   "url": "https://www.salice.com/ww/en/download/catalogues",
+   "title": "Salice catalogue download index (no CAD/STEP download found)",
+   "pages": "web page"
+  }
+ ],
+ "plates": [
+  {
+   "id": "salp_cross37_BAR",
+   "kind": "cruciform",
+   "name": "Cruciform 37x32 (BAR*), dowel o10x11.5",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": {
+    "dia": 10,
+    "depth": 11.5
+   },
+   "art": [
+    "BAR*"
+   ],
+   "codes": null,
+   "src": "SAL-PLATES p6-19"
+  },
+  {
+   "id": "salp_cross37_BAV",
+   "kind": "cruciform",
+   "name": "Cruciform 37x32 (BAV*), dowel o10x10",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": {
+    "dia": 10,
+    "depth": 10
+   },
+   "art": [
+    "BAV*"
+   ],
+   "codes": null,
+   "src": "SAL-PLATES p6-19"
+  },
+  {
+   "id": "salp_linear21_BAP",
+   "kind": "linear",
+   "name": "Domi snap-on straight 21+32 (BAP*), dowel o10x11.5",
+   "line": 21,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": {
+    "dia": 10,
+    "depth": 11.5
+   },
+   "art": [
+    "BAP*"
+   ],
+   "codes": null,
+   "src": "SAL-PLATES p6-19"
+  },
+  {
+   "id": "salp_cross28_S200",
+   "kind": "cruciform",
+   "name": "Traditional Series 200 cruciform 28x32",
+   "line": 28,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "art": [
+    "Series 200"
+   ],
+   "codes": null,
+   "src": "SAL-PLATES p6-19"
+  },
+  {
+   "id": "salp_cross37_S200",
+   "kind": "cruciform",
+   "name": "Traditional Series 200 cruciform 37x32",
+   "line": 37,
+   "pitch": 32,
+   "lineSrc": "text",
+   "hole": null,
+   "art": [
+    "Series 200"
+   ],
+   "codes": null,
+   "src": "SAL-PLATES p6-19"
+  }
+ ],
+ "families": [
+  {
+   "key": "sal_s100",
+   "brand": "Salice",
+   "series": "Silentia+ S100",
+   "name": "Silentia+ Series 100 (105°)",
+   "angle": 105,
+   "kind": "standard",
+   "doorTh": [
+    14,
+    null
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 12,
+    "depthMin": null,
+    "tb": [
+     3,
+     6
+    ],
+    "src": "SAL-SIPLUS p15-17"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_C1A6AE9",
+     "art": "C1A6AE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1P6AE9",
+     "art": "C1P6AE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C1U6AE9",
+     "art": "C1U6AE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1A6DE9",
+     "art": "C1A6DE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1P6DE9",
+     "art": "C1P6DE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C1U6DE9",
+     "art": "C1U6DE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1A6GE9",
+     "art": "C1A6GE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1P6GE9",
+     "art": "C1P6GE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C1U6GE9",
+     "art": "C1U6GE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1A6PE9",
+     "art": "C1A6PE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C1P6PE9",
+     "art": "C1P6PE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C1U6PE9",
+     "art": "C1U6PE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    }
+   ],
+   "adjust": {
+    "side": [
+     -1.5,
+     4.5
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1500,
+      "kg": [
+       null,
+       13
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "SAL-SIPLUS p15, p25 (drawing)",
+    "note": "page shows two charts without captions (first: 2 hinges 7 kg ... 5 hinges 22 kg; second: 3 hinges 12 kg ... 6 hinges 26 kg); heights in the first chart read from the S200 p25 render, same layout assumed (not rendered for p15)",
+    "alt": [
+     {
+      "n": 3,
+      "h_max_mm": 1000,
+      "kg_max": 12
+     },
+     {
+      "n": 4,
+      "h_max_mm": 1500,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2200,
+      "kg_max": 22
+     },
+     {
+      "n": 6,
+      "h_max_mm": 2800,
+      "kg_max": 26
+     }
+    ]
+   },
+   "armFormulas": {
+    "arm0": "H = 15 + K - D",
+    "arm5": "H = 10 + K - D",
+    "arm9": "H = 6 + K - D",
+    "arm17": "H = -2 + K + A"
+   },
+   "tables": [
+    {
+     "title": "table_A_L",
+     "rowLabel": "",
+     "colLabel": "door T (mm)",
+     "cols": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+     ],
+     "rows": {
+      "A K=3": [
+       1.0,
+       1.0,
+       1.2,
+       1.4,
+       1.6,
+       1.9
+      ],
+      "A K=4": [
+       0.9,
+       1.0,
+       1.2,
+       1.3,
+       1.5,
+       1.8
+      ],
+      "A K=5": [
+       0.9,
+       1.0,
+       1.1,
+       1.2,
+       1.5,
+       1.8
+      ],
+      "A K=6": [
+       0.9,
+       1.0,
+       1.1,
+       1.2,
+       1.4,
+       1.7
+      ],
+      "L K=3": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.1,
+       0.3
+      ],
+      "L K=4": [
+       0.4,
+       0.6,
+       0.7,
+       0.9,
+       1.1,
+       1.2
+      ],
+      "L K=5": [
+       1.0,
+       1.0,
+       1.2,
+       1.8,
+       2.0,
+       2.0
+      ],
+      "L K=6": [
+       1.6,
+       1.8,
+       2.0,
+       2.1,
+       2.3,
+       2.5
+      ]
+     }
+    }
+   ],
+   "formulaC": "C = 20.5 + K + A",
+   "protr": null,
+   "open": [],
+   "notes": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "Series 100 min door thickness 14 mm, max not stated",
+    "angled arms 15/24/30/37/45: SAL-SIPLUS p18-19"
+   ],
+   "envelopeLabels": "20.5, 37, 66 printed beside hinge drawing (drawing); assignment to length/width/height not stated",
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+  },
+  {
+   "key": "sal_s200_94",
+   "brand": "Salice",
+   "series": "Silentia+ S200",
+   "name": "Silentia+ Series 200 thick-door hinge (94°)",
+   "angle": 94,
+   "kind": "thick",
+   "doorTh": [
+    18,
+    null
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 15.5,
+    "depthMin": null,
+    "tb": [
+     3,
+     9
+    ],
+    "src": "SAL-SIPLUS p25-27"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_C2ABAE9",
+     "art": "C2ABAE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PBAE9",
+     "art": "C2PBAE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UBAE9",
+     "art": "C2UBAE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2ABDE9",
+     "art": "C2ABDE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PBDE9",
+     "art": "C2PBDE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UBDE9",
+     "art": "C2UBDE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2ABGE9",
+     "art": "C2ABGE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PBGE9",
+     "art": "C2PBGE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UBGE9",
+     "art": "C2UBGE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2ABPE9",
+     "art": "C2ABPE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PBPE9",
+     "art": "C2PBPE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UBPE9",
+     "art": "C2UBPE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    }
+   ],
+   "adjust": {
+    "side": [
+     -1.5,
+     4.5
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1500,
+      "kg": [
+       null,
+       13
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2200,
+      "kg": [
+       null,
+       17
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2800,
+      "kg": [
+       null,
+       22
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "SAL-SIPLUS p25 (drawing, rendered and read)",
+    "alt": [
+     {
+      "n": 3,
+      "h_max_mm": 1000,
+      "kg_max": 12
+     },
+     {
+      "n": 4,
+      "h_max_mm": 1500,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2200,
+      "kg_max": 22
+     },
+     {
+      "n": 6,
+      "h_max_mm": 2800,
+      "kg_max": 26
+     }
+    ]
+   },
+   "armFormulas": {
+    "arm0": "H = 15 + K - D",
+    "arm5": "H = 10 + K - D",
+    "arm9": "H = 6 + K - D",
+    "arm17": "H = -2 + K + A"
+   },
+   "tables": [
+    {
+     "title": "table_A",
+     "rowLabel": "",
+     "colLabel": "door T (mm)",
+     "cols": [
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+     ],
+     "rows": {
+      "A_K3": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.7,
+       0.8,
+       1.0,
+       1.6,
+       2.6,
+       3.5,
+       4.5,
+       5.4,
+       6.4,
+       7.4,
+       8.3,
+       9.3
+      ],
+      "A_K4": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.7,
+       0.8,
+       1.0,
+       1.2,
+       1.9,
+       2.8,
+       3.8,
+       4.7,
+       5.7,
+       6.6,
+       7.6,
+       8.6
+      ],
+      "A_K5": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.7,
+       0.8,
+       1.0,
+       1.2,
+       1.4,
+       2.2,
+       3.1,
+       4.1,
+       5.0,
+       5.9,
+       6.9,
+       7.8
+      ],
+      "A_K6": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.6,
+       0.8,
+       1.0,
+       1.2,
+       1.4,
+       1.7,
+       2.6,
+       3.5,
+       4.4,
+       5.3,
+       6.2,
+       7.2
+      ],
+      "A_K7": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.6,
+       0.8,
+       1.0,
+       1.1,
+       1.3,
+       1.6,
+       2.1,
+       3.0,
+       3.8,
+       4.7,
+       5.6,
+       6.5
+      ],
+      "A_K8": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.6,
+       0.8,
+       0.9,
+       1.1,
+       1.3,
+       1.6,
+       1.8,
+       2.5,
+       3.3,
+       4.2,
+       5.1,
+       6.0
+      ],
+      "A_K9": [
+       0.1,
+       0.2,
+       0.3,
+       0.4,
+       0.5,
+       0.6,
+       0.8,
+       0.9,
+       1.1,
+       1.3,
+       1.5,
+       1.8,
+       2.1,
+       2.9,
+       3.7,
+       4.6,
+       5.4
+      ],
+      "L_K3_9": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.3,
+       1.3
+      ]
+     }
+    }
+   ],
+   "formulaC": "C = 23 + K + A",
+   "protr": null,
+   "open": [],
+   "notes": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "min door thickness 18 mm"
+   ],
+   "envelopeLabels": "20.5, 37, 66 (drawing; assignment not stated)",
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+  },
+  {
+   "key": "sal_s200_155",
+   "brand": "Salice",
+   "series": "Silentia+ S200",
+   "name": "Silentia+ Series 200 155° (zero-protrusion, reduced operating profile)",
+   "angle": 155,
+   "kind": "zero",
+   "doorTh": [
+    16,
+    null
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 13.5,
+    "depthMin": null,
+    "tb": [
+     3,
+     8
+    ],
+    "src": "SAL-SIPLUS p28-29"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_C2AKAE9",
+     "art": "C2AKAE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PKAE9",
+     "art": "C2PKAE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UKAE9",
+     "art": "C2UKAE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2AKDE9",
+     "art": "C2AKDE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PKDE9",
+     "art": "C2PKDE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UKDE9",
+     "art": "C2UKDE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2AKGE9",
+     "art": "C2AKGE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PKGE9",
+     "art": "C2PKGE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UKGE9",
+     "art": "C2UKGE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2AKPE9",
+     "art": "C2AKPE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C2PKPE9",
+     "art": "C2PKPE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C2UKPE9",
+     "art": "C2UKPE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    }
+   ],
+   "adjust": {
+    "side": [
+     -1.5,
+     4.5
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": null,
+   "armFormulas": {
+    "arm0": "H = 15 + K - D",
+    "arm5": "H = 10 + K - D",
+    "arm9": "H = 6 + K - D",
+    "arm17": "H = -2 + K + A"
+   },
+   "tables": [
+    {
+     "title": "table_A",
+     "rowLabel": "",
+     "colLabel": "door T (mm)",
+     "cols": [
+      16,
+      18,
+      20,
+      22,
+      24,
+      25,
+      26,
+      27,
+      28
+     ],
+     "rows": {
+      "A_K3": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0.1,
+       0.4,
+       0.75,
+       1.2
+      ],
+      "A_K4": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0.15,
+       0.45,
+       0.85,
+       1.35
+      ],
+      "A_K5": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0.2,
+       0.5,
+       0.95,
+       null
+      ],
+      "A_K6": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0.25,
+       0.6,
+       1.1,
+       null
+      ],
+      "A_K7": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0.3,
+       0.7,
+       1.3,
+       null
+      ],
+      "A_K8": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0.35,
+       0.85,
+       null,
+       null
+      ],
+      "A_K9": [
+       0,
+       0,
+       0,
+       0,
+       0.15,
+       0.55,
+       1.2,
+       null,
+       null
+      ]
+     }
+    }
+   ],
+   "formulaC": null,
+   "protr": null,
+   "open": [],
+   "notes": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "min door thickness 16 mm; 120 deg limiter clip option not read"
+   ],
+   "envelopeLabels": null,
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+  },
+  {
+   "key": "sal_s700_110",
+   "brand": "Salice",
+   "series": "Silentia+ S700",
+   "name": "Silentia+ Series 700 (110°, 120°, 155°; min door 16 mm; cup depth 13.5)",
+   "angle": 110,
+   "kind": "standard",
+   "doorTh": [
+    16,
+    null
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 13.5,
+    "depthMin": null,
+    "tb": [
+     3,
+     6
+    ],
+    "src": "SAL-SIPLUS p44-49"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_C7A6AE9",
+     "art": "C7A6AE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C7P6AE9",
+     "art": "C7P6AE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": 8
+     }
+    },
+    {
+     "id": "sal_C7U6AE9",
+     "art": "C7U6AE9",
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C7A6DE9",
+     "art": "C7A6DE9",
+     "overlay": "overlay5",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm5",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C7A6GE9",
+     "art": "C7A6GE9",
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    },
+    {
+     "id": "sal_C7A6PE9",
+     "art": "C7A6PE9",
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm17",
+     "src": "SAL-SIPLUS p17",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": 10
+     }
+    }
+   ],
+   "adjust": {
+    "side": [
+     -1.5,
+     4.5
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": null,
+   "armFormulas": {
+    "arm0": "H = 15 + K - D",
+    "arm5": "H = 10 + K - D",
+    "arm9": "H = 6 + K - D",
+    "arm17": "H = -2 + K + A"
+   },
+   "tables": [
+    {
+     "title": "110deg_A_K3",
+     "rowLabel": "",
+     "colLabel": "door T (mm)",
+     "cols": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+     ],
+     "rows": {
+      "A": [
+       0.7,
+       0.9,
+       1.1,
+       1.3,
+       1.6,
+       1.9,
+       2.2,
+       2.6,
+       3.2,
+       4.4,
+       5.7
+      ],
+      "L": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.2,
+       0.4,
+       0.6,
+       0.9
+      ]
+     }
+    }
+   ],
+   "formulaC": null,
+   "protr": null,
+   "open": [],
+   "notes": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "Series 700 120° variant: K 3-6",
+    "Series 700 155° variant: K 3-9"
+   ],
+   "envelopeLabels": null,
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)",
+   "conflicts": [
+    "Series 700 155 deg: catalogue p49 lists the same codes as Series 200 155 (probable catalogue copy error): not catalogued"
+   ]
+  },
+  {
+   "key": "sal_s300",
+   "brand": "Salice",
+   "series": "Silentia+ S300",
+   "name": "Silentia+ Series 300 (94°, reduced 45 mm operating profile)",
+   "angle": 94,
+   "kind": "thick",
+   "doorTh": [
+    18,
+    null
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 15.5,
+    "depthMin": null,
+    "tb": [
+     3,
+     9
+    ],
+    "src": "SAL-SIPLUS p37-39"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_s300_arm0",
+     "art": null,
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "pattern": null,
+     "src": "SAL-SIPLUS"
+    }
+   ],
+   "adjust": {
+    "side": [
+     -1.5,
+     4.5
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": null,
+   "armFormulas": {
+    "arm0": "H = 15 + K - D",
+    "arm5": "H = 10 + K - D",
+    "arm9": "H = 6 + K - D",
+    "arm17": "H = -2 + K + A"
+   },
+   "tables": [],
+   "formulaC": null,
+   "protr": null,
+   "open": [],
+   "notes": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "operating profile 45 mm; own plates (Series 300)"
+   ],
+   "envelopeLabels": null,
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+  },
+  {
+   "key": "sal_sN",
+   "brand": "Salice",
+   "series": "Silentia+ N",
+   "name": "Silentia+ Series N (94°, profile and thicker doors)",
+   "angle": 94,
+   "kind": "thick",
+   "doorTh": [
+    null,
+    40
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 40,
+    "depth": 15.5,
+    "depthMin": null,
+    "tb": [
+     3,
+     14
+    ],
+    "src": "SAL-SIPLUS p11, p80-81"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_sN_arm0",
+     "art": null,
+     "overlay": "full",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm0",
+     "pattern": null,
+     "src": "SAL-SIPLUS"
+    },
+    {
+     "id": "sal_sN_arm9",
+     "art": null,
+     "overlay": "half",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm9",
+     "pattern": null,
+     "src": "SAL-SIPLUS"
+    },
+    {
+     "id": "sal_sN_arm22",
+     "art": null,
+     "overlay": "inset",
+     "fix": "woodscrew",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": null,
+     "variant": "arm22",
+     "pattern": null,
+     "src": "SAL-SIPLUS"
+    }
+   ],
+   "adjust": {
+    "side": [
+     -1.5,
+     4.5
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": null,
+   "armFormulas": {
+    "arm0": "H = 15 + K - D",
+    "arm5": "H = 10 + K - D",
+    "arm9": "H = 6 + K - D",
+    "arm17": "H = -2 + K + A"
+   },
+   "tables": [],
+   "formulaC": null,
+   "protr": null,
+   "open": [],
+   "notes": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "door thickness < 40 mm per overview (p11); cup dia 40 mm per overview row"
+   ],
+   "envelopeLabels": null,
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)",
+   "conflicts": [
+    "cup depth 15.5 (p80 text) vs 13.5 (p11 overview row)"
+   ]
+  },
+  {
+   "key": "sal_air",
+   "brand": "Salice",
+   "series": "Air",
+   "name": "Air - truly concealed hinge (cup in door, arm in top/bottom panel)",
+   "angle": 105,
+   "kind": "air",
+   "doorTh": [
+    18,
+    32
+   ],
+   "glass": false,
+   "noDrill": true,
+   "cup": {
+    "dia": null,
+    "depth": 16.5,
+    "depthMin": null,
+    "tb": [
+     4,
+     6
+    ],
+    "src": "SAL-AIR p8"
+   },
+   "fix": {},
+   "plates": [],
+   "adjust": null,
+   "protr": null,
+   "tables": [],
+   "open": [
+    "cup diameter not stated numerically (drawing is a custom routing)",
+    "D vs S code meaning"
+   ],
+   "notes": [
+    "soft close",
+    "Push-to-Open",
+    "unsprung",
+    "nickel/titanium",
+    "holders for cup/arm (door and panel inserts)"
+   ],
+   "src": "SAL-AIR p8,14",
+   "airMax": {
+    "kg": 25,
+    "h": 2700,
+    "w": 600,
+    "stop": 92
+   },
+   "count": null,
+   "parts": [
+    {
+     "id": "sal_CEL6DE9XXI",
+     "art": "CEL6DE9XXI",
+     "overlay": "air",
+     "fix": null,
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": "D vs S letters not labelled (likely right/left, unverified)"
+    },
+    {
+     "id": "sal_CEL6SE9XXI",
+     "art": "CEL6SE9XXI",
+     "overlay": "air",
+     "fix": null,
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": "D vs S letters not labelled (likely right/left, unverified)"
+    },
+    {
+     "id": "sal_CELPD99XXI",
+     "art": "CELPD99XXI",
+     "overlay": "air",
+     "fix": null,
+     "soft": false,
+     "spring": null,
+     "push": true,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": null
+    },
+    {
+     "id": "sal_CELPS99XXI",
+     "art": "CELPS99XXI",
+     "overlay": "air",
+     "fix": null,
+     "soft": false,
+     "spring": null,
+     "push": true,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": null
+    },
+    {
+     "id": "sal_CEL4D99XXI",
+     "art": "CEL4D99XXI",
+     "overlay": "air",
+     "fix": null,
+     "soft": false,
+     "spring": "unsprung",
+     "push": false,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": null
+    },
+    {
+     "id": "sal_CEL4S99XXI",
+     "art": "CEL4S99XXI",
+     "overlay": "air",
+     "fix": null,
+     "soft": false,
+     "spring": "unsprung",
+     "push": false,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": null
+    },
+    {
+     "id": "sal_CEL6XE9XXV",
+     "art": "CEL6XE9XXV",
+     "overlay": "air",
+     "fix": null,
+     "soft": true,
+     "spring": null,
+     "push": true,
+     "colour": null,
+     "variant": "set",
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": null
+    },
+    {
+     "id": "sal_CELPX99XXV",
+     "art": "CELPX99XXV",
+     "overlay": "air",
+     "fix": null,
+     "soft": true,
+     "spring": null,
+     "push": true,
+     "colour": null,
+     "variant": "set",
+     "pattern": null,
+     "src": "SAL-AIR p14",
+     "note": null
+    }
+   ]
+  },
+  {
+   "key": "sal_cbg",
+   "brand": "Salice",
+   "series": "Vetro CBG",
+   "name": "Vetro: Universal hinge CBG for glass/mirror doors (bonded plate BAGHR59/31, no glass drilling)",
+   "angle": 110,
+   "kind": "glass",
+   "doorTh": [
+    null,
+    null
+   ],
+   "glass": true,
+   "noDrill": true,
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "depthMin": null,
+    "tb": [
+     0,
+     22
+    ],
+    "src": "SAL-UNIV p4"
+   },
+   "fix": {},
+   "plates": [],
+   "adjust": null,
+   "protr": null,
+   "tables": [],
+   "open": [
+    "cup/arm envelope",
+    "TB std meaning",
+    "hinge count mapping inferred"
+   ],
+   "notes": [
+    "integrated soft-close",
+    "sprung",
+    "Push",
+    "unsprung"
+   ],
+   "src": "SAL-UNIV p3-4, SAL-VETRO",
+   "count": {
+    "rows": [
+     {
+      "n": 2,
+      "h": 1000,
+      "kg": [
+       null,
+       7
+      ]
+     },
+     {
+      "n": 3,
+      "h": 1500,
+      "kg": [
+       null,
+       11
+      ]
+     },
+     {
+      "n": 4,
+      "h": 2400,
+      "kg": [
+       null,
+       14
+      ]
+     },
+     {
+      "n": 5,
+      "h": 2800,
+      "kg": [
+       null,
+       18
+      ]
+     }
+    ],
+    "widthMax": 600,
+    "src": "SAL-UNIV p4 text (kg values; heights 1000/1500/2400/2800 from text order - mapping inferred, verify image)",
+    "alt": [
+     {
+      "n": 3,
+      "kg": 11
+     },
+     {
+      "n": 4,
+      "kg": 14
+     },
+     {
+      "n": 5,
+      "kg": 18
+     },
+     {
+      "n": 6,
+      "kg_max": "cut off"
+     }
+    ]
+   },
+   "parts": [
+    {
+     "id": "sal_CBG2AE9",
+     "art": "CBG2AE9",
+     "overlay": "universal",
+     "fix": "glued",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-UNIV p4"
+    },
+    {
+     "id": "sal_CBG2AE6",
+     "art": "CBG2AE6",
+     "overlay": "universal",
+     "fix": "glued",
+     "soft": true,
+     "spring": null,
+     "push": false,
+     "colour": "titanium",
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-UNIV p4"
+    }
+   ]
+  },
+  {
+   "key": "sal_glass200",
+   "brand": "Salice",
+   "series": "Vetro S200",
+   "name": "Series 200 hinge for drilled glass (cup o26, 94°)",
+   "angle": 94,
+   "kind": "glass",
+   "doorTh": [
+    4,
+    6
+   ],
+   "glass": true,
+   "noDrill": true,
+   "cup": {
+    "dia": 26,
+    "depth": null,
+    "depthMin": null,
+    "tb": [
+     5.5,
+     6.5
+    ],
+    "src": "SAL-VETRO"
+   },
+   "fix": {},
+   "plates": [],
+   "adjust": null,
+   "protr": null,
+   "tables": [],
+   "count": null,
+   "open": [
+    "cup depth",
+    "codes not extracted"
+   ],
+   "notes": [
+    "sprung only",
+    "cover caps: black, lacquered black, white, bright gold effect, gold effect, bright chrome, silver effect"
+   ],
+   "src": "SAL-VETRO p4-12",
+   "parts": [
+    {
+     "id": "sal_glass200_nocode",
+     "art": null,
+     "overlay": "glass",
+     "fix": "screw",
+     "soft": false,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": null,
+     "pattern": null,
+     "src": "SAL-VETRO"
+    }
+   ]
+  },
+  {
+   "key": "sal_pivot270",
+   "brand": "Salice",
+   "series": "Pivot 270",
+   "name": "Single pivot hinge 270° (die-cast, sprung; also 180° with door <=24 mm)",
+   "angle": 270,
+   "kind": "pivot",
+   "doorTh": [
+    18,
+    20
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depthMin": null,
+    "tb": null,
+    "src": "SAL-PIVOT p2 (drawing)"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_CM3A99",
+     "art": "CM_3A99",
+     "overlay": "inset_half",
+     "fix": "woodscrew",
+     "soft": false,
+     "spring": "sprung",
+     "push": false,
+     "colour": null,
+     "variant": "270",
+     "pattern": null,
+     "src": "SAL-PIVOT p2-3",
+     "note": "Single pivot 270; fill 3rd char (A/B/P/R/U/W)"
+    }
+   ],
+   "adjust": {
+    "side": [
+     -3,
+     3
+    ],
+    "height": 2,
+    "depthPlate200": 2.8,
+    "depthDomi": [
+     -0.5,
+     2.8
+    ]
+   },
+   "count": null,
+   "armFormulas": null,
+   "tables": [
+    {
+     "title": "R 270",
+     "rowLabel": "",
+     "colLabel": "",
+     "cols": [],
+     "rows": {
+      "side_thickness_S": [
+       18,
+       19,
+       20
+      ],
+      "door_T_18": [
+       4.25,
+       3.25,
+       2.25
+      ],
+      "door_T_19": [
+       3.25,
+       2.25,
+       1.25
+      ],
+      "door_T_20": [
+       2.25,
+       1.25,
+       0.25
+      ]
+     }
+    }
+   ],
+   "formulaC": null,
+   "protr": null,
+   "open": [
+    "cup depth",
+    "door thickness max not stated beyond 180 deg note (<=24)"
+   ],
+   "notes": [
+    "certified FIRA level 5, ANSI grade 1"
+   ],
+   "envelopeLabels": {
+    "w": 66,
+    "h": 38,
+    "d": 19
+   },
+   "src": "SAL-SIPLUS"
+  },
+  {
+   "key": "sal_corner65",
+   "brand": "Salice",
+   "series": "Corner S200",
+   "name": "Series 200 Complementary corner-cabinet hinge (first door opens 65°)",
+   "angle": 65,
+   "kind": "corner",
+   "doorTh": [
+    16,
+    25
+   ],
+   "glass": false,
+   "noDrill": false,
+   "cup": {
+    "dia": 35,
+    "depth": 11,
+    "depthMin": null,
+    "tb": [
+     3,
+     5
+    ],
+    "src": "SAL-CORNER p2"
+   },
+   "fix": {
+    "woodscrew": {
+     "mode": "screw",
+     "hole": null,
+     "pattern": null
+    },
+    "dowel": {
+     "mode": "dowel",
+     "hole": null,
+     "pattern": null
+    },
+    "rapido": {
+     "mode": "rapido",
+     "hole": null,
+     "pattern": null
+    }
+   },
+   "plates": [
+    "salp_cross37_BAR",
+    "salp_cross37_BAV",
+    "salp_linear21_BAP",
+    "salp_cross28_S200",
+    "salp_cross37_S200"
+   ],
+   "parts": [
+    {
+     "id": "sal_C2AYA99R",
+     "art": "C2AYA99R",
+     "overlay": "corner",
+     "fix": "woodscrew",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": {
+      "spacing": 48,
+      "offset": 6,
+      "src": "text",
+      "dia": null
+     },
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C2PYA99R",
+     "art": "C2PYA99R",
+     "overlay": "corner",
+     "fix": "woodscrew",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": {
+      "spacing": 45,
+      "offset": 9.5,
+      "src": "text",
+      "dia": null
+     },
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C2UYA99R",
+     "art": "C2UYA99R",
+     "overlay": "corner",
+     "fix": "woodscrew",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": {
+      "spacing": 52,
+      "offset": 5.5,
+      "src": "text",
+      "dia": null
+     },
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C2BYA99R",
+     "art": "C2BYA99R",
+     "overlay": "corner",
+     "fix": "dowel",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": null,
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C2RYA99R",
+     "art": "C2RYA99R",
+     "overlay": "corner",
+     "fix": "dowel",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": null,
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C2WYA99R",
+     "art": "C2WYA99R",
+     "overlay": "corner",
+     "fix": "dowel",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": null,
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C26YA99R",
+     "art": "C26YA99R",
+     "overlay": "corner",
+     "fix": "rapido",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": null,
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C27YA99R",
+     "art": "C27YA99R",
+     "overlay": "corner",
+     "fix": "rapido",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": null,
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "id": "sal_C22YA99R",
+     "art": "C22YA99R",
+     "overlay": "corner",
+     "fix": "rapido",
+     "soft": false,
+     "spring": null,
+     "push": false,
+     "colour": "nickel",
+     "variant": "65",
+     "pattern": null,
+     "src": "SAL-CORNER p2"
+    }
+   ],
+   "adjust": {
+    "diagonal": [
+     -5,
+     7
+    ]
+   },
+   "count": null,
+   "armFormulas": null,
+   "tables": [],
+   "formulaC": null,
+   "protr": null,
+   "open": [],
+   "notes": [],
+   "envelopeLabels": null,
+   "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)",
+   "cornerE": {
+    "H0": 37,
+    "H3": 40
+   },
+   "spaceNeeded": {
+    "Series200": {
+     "H0": 61,
+     "H3": 64
+    },
+    "Domi": {
+     "H0": 70,
+     "H3": 73
+    },
+    "Domi_back_cam": {
+     "H0": 74,
+     "H3": 77
+    }
+   }
+  }
+ ],
+ "notes": [
+  "Salice: tables read from text layer (SAL-SIPLUS p26 etc.). Series 700 155 deg codes duplicate Series 200 155 (p49) - possible source error. Salice charts: two unlabelled hinge-count charts; first = lighter weights per count.",
+  "Salice glass: Series 200 glass hinge o26 and universal CBG glued hinge (110 deg) both from Vetro Ed.05 04/2025.",
+  "CAD/STEP: Hettich: DWG/DXF per article (eShop), PARTcommunity, >50 formats on request; Grass: ZIP with RAW+STEP per product group at TEC Centre; Salice: none found; Haefele: none found; Blum: none found on hinge download page.",
+  "Envelope dimensions (cup/arm/plate L x W x H): only drawing labels (e.g. Grass arm 84.5, Blum boss 57x37, Salice pivot 66x38x19) - no manufacturer table of envelopes exists in the documents read."
+ ]
+}

@@ -667,8 +667,10 @@ function generate1(input) {
   var byRole = function (r) { return pcs.filter(function (p) { return p.role === r; }); };
   var H = HW_DRILL;
   /* găurirea balamalei alese (ebanist-hinges.js, prin `hingeGeom(cfg)` din aplicație): cupă, dornuri, placuță. Fără alegere, cea din HW_DRILL. */
-  var HG = H.hinge;
-  if (root.hingeGeom) { var hg = root.hingeGeom(cfg); if (hg) { HG = Object.assign({}, H.hinge, hg); if (hg.noGeom) out.warnings.push({ piece: null, k: "opsHingeNoGeom" }); } }
+  var HG = H.hinge, HGM = null, HGM_NOTED = {}, HGM_FIT = {};
+  if (root.hingeGeom) { var hg = root.hingeGeom(cfg); if (hg) { HG = Object.assign({}, H.hinge, hg); if (hg.noGeom) out.warnings.push({ piece: null, k: "opsHingeNoGeom" });
+    /* balamale de la alte mărci (ebanist-hinges-more.js): ce nu e în datele producătorului NU se completează cu cotele Blum — se sare și se spune */
+    if (hg.more) { HGM = hg; HG.plate = Object.assign({}, H.hinge.plate, hg.plate || {}); } } }
   /* push = niente maniglia; un profilo gola scelto in catalogo, nemmeno: in
      tutti e due i casi il frontale non ha fori di maniglia; neanche con la raza (D-117) */
   var hingeSel = (cfg.handles === "push" || cfg.handles === "gola" || cfg.handles === "raza") ? "push"
@@ -825,32 +827,47 @@ function generate1(input) {
       D.hingeLeft = hingeLeft;      /* o ține 4d (front cu rază): colțul rotunjit e de partea opusă balamalelor */
       var hEdge = hingeLeft ? D.min[0] : D.max[0], inw = hingeLeft ? 1 : -1;
       /* ușă trapezoidală (D-86, pasul 2): balamalele se așază pe înălțimea muchiei mai scunde, ca să rămână în contur */
-      var h = D.edgeH ? Math.min(D.edgeH[0], D.edgeH[1]) : D.ext[1], topD = D.min[1] + h, nH = root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
+      var h = D.edgeH ? Math.min(D.edgeH[0], D.edgeH[1]) : D.ext[1], topD = D.min[1] + h, nH = root.hingeCountFor ? root.hingeCountFor(cfg, h, D.ext[0]) : root.hingeCount ? root.hingeCount(h) : (h < 900 ? 2 : h < 1600 ? 3 : h < 2000 ? 4 : 5);
+      if (HGM && root.EBHingesMore) {
+        /* verificările producătorului: grosimea, înălțimea, lățimea și greutatea ușii față de graficele lui (greutatea din densitatea materialului, ca la mecanismele de ridicare) */
+        var dens = root.hingeDensity ? root.hingeDensity(cfg) : null, kgD = dens ? root.EBHingesMore.doorKg(h, D.ext[0], D.T, dens) : 0;
+        root.EBHingesMore.fit(HGM.hwId, { th: D.T, h: h, w: D.ext[0], kg: kgD }).forEach(function (w) {
+          var k = "opsHinge" + { th: "Th", h: "H", w: "W", kg: "Kg" }[w.k]; if (HGM_FIT[k + D.pk]) return; HGM_FIT[k + D.pk] = 1;
+          out.warnings.push({ piece: D.pk, k: k, v: w.v, lo: w.lo == null ? "—" : w.lo, hi: w.hi == null ? "—" : w.hi, n: w.n });
+        });
+      }
       var eo = (G && G.in && G.in.edge_offset) || 100;
       var ys = root.positionsHinges ? root.positionsHinges(h, nH, eo) : [eo, h - eo];
       var distCant = (G && G.foratura && G.foratura.dist_cant) || 5, cupD = (G && G.foratura && G.foratura.prof) || 12.5;
-      if (distCant < HG.tb[0] || distCant > HG.tb[1]) out.warnings.push({ piece: D.pk, k: "opsHingeTB", tb: distCant });
+      if (HG.tb && (distCant < HG.tb[0] || distCant > HG.tb[1])) out.warnings.push({ piece: D.pk, k: "opsHingeTB", tb: distCant });
+      /* adâncimea cupei: a balamalei, unde sursa o dă; unde dă numai minimul, cea mai mare dintre minim și setarea proiectului */
+      if (HGM) { if (HGM.cup_depth != null) cupD = HGM.cup_depth; else if (HGM.cup_depth_min != null) cupD = Math.max(cupD, HGM.cup_depth_min); }
       /* ușă prea joasă: cupa și tasealele balamalei ies din piesă (A3 audit 14.11): se spune, nu se mută nimic */
       var hreach = Math.max(HG.cup_dia / 2, HG.dowels === false ? 0 : HG.dowel_spacing / 2);
       if (ys.some(function (yy) { return yy - hreach < -0.01 || yy + hreach > h + 0.01; })) out.warnings.push({ piece: D.pk, k: "opsHingeShort" });
       var cx = hEdge + inw * (distCant + HG.cup_dia / 2), zIn = D.min[2];
       var P = panelBeside(pcs, hEdge + inw * 1, hingeLeft ? -1 : 1, D.min[1] + h / 2, zIn - 30, 30);
       if (!P) out.warnings.push({ piece: D.pk, k: "opsNoHingePanel" });
+      var noHoles = !!(HGM && HGM.noDrill);   /* sticlă, cadru de aluminiu, tăietură specială: nicio gaură de balama în panou */
+      if (HGM && root.EBHingesMore) root.EBHingesMore.opsNotes(HGM).forEach(function (k) { if (!HGM_NOTED[k]) { HGM_NOTED[k] = 1; out.warnings.push({ piece: D.pk, k: k }); } });
       ys.forEach(function (yy) {
         var y = D.min[1] + yy, id = "hw_" + out.hw.length;
-        hole(D, 2, -1, [cx, y, zIn], HG.cup_dia, cupD, id, "tazza cerniera");
-        if (HG.dowels !== false) {
+        if (!noHoles) hole(D, 2, -1, [cx, y, zIn], HG.cup_dia, cupD, id, "tazza cerniera");
+        if (HG.dowels !== false && !noHoles) {
           var dxw = cx + inw * HG.dowel_offset;
           hole(D, 2, -1, [dxw, y - HG.dowel_spacing / 2, zIn], HG.dowel_dia, HG.dowel_depth, id, "tassello cerniera");
           hole(D, 2, -1, [dxw, y + HG.dowel_spacing / 2, zIn], HG.dowel_dia, HG.dowel_depth, id, "tassello cerniera");
         }
         var inst = { id: id, type: "cerniera", catalog: "blum_71b3550", piece: D.pk, against: P ? P.pk : null,
                      w: [cx, y, zIn], hingeLeft: hingeLeft, note: "Cerniera + basetta" };
+        if (HGM) inst.g = Object.assign({}, HGM.d3, { plateLine: HG.plate_front, platePitch: HG.plate_spacing, plateHoles: !!HGM.plateHoles, dowels: !!(HGM.dowels && !noHoles) });   /* desenul 3D: numai cotele din date + cele efective */
         if (P) {
           var fx = hingeLeft ? P.max[0] : P.min[0], zp = P.max[2] - HG.plate_front, hor = HG.plate && HG.plate.kind === "horizontal", pd = hingeLeft ? 1 : -1;
           /* placuța cruciformă: două găuri pe verticală (y ± pas/2) la `plate_front` de față; cea orizontală: două găuri pe adâncime, la același y */
-          hole(P, 0, pd, hor ? [fx, y, zp] : [fx, y - HG.plate_spacing / 2, zp], HG.plate_dia, HG.plate_depth, id, "basetta cerniera");
-          hole(P, 0, pd, hor ? [fx, y, zp - HG.plate_spacing] : [fx, y + HG.plate_spacing / 2, zp], HG.plate_dia, HG.plate_depth, id, "basetta cerniera");
+          if (!HGM || HGM.plateHoles) {
+            hole(P, 0, pd, hor ? [fx, y, zp] : [fx, y - HG.plate_spacing / 2, zp], HG.plate_dia, HG.plate_depth, id, "basetta cerniera");
+            hole(P, 0, pd, hor ? [fx, y, zp - HG.plate_spacing] : [fx, y + HG.plate_spacing / 2, zp], HG.plate_dia, HG.plate_depth, id, "basetta cerniera");
+          }
           inst.plate = [fx, y, zp];
         }
         out.hw.push(inst);

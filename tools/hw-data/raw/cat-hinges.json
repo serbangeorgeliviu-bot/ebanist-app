@@ -1,0 +1,6372 @@
+{
+ "sources": [
+  {
+   "id": "HET-2017",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/Hinge_Catalogue_2017_HAU_HNZ_16924_en.pdf",
+   "title": "Hettich: The fast assembly concealed hinges for all applications: Intermat and Sensys (Hinge catalogue 2017, 16924)",
+   "pages": "printed p.13-67,69-96,104-110; verified PDF pages: p16->pdf18, p60->pdf62, p72->pdf72"
+  },
+  {
+   "id": "HET-UK-2020",
+   "url": "https://web.hettich.com/fileadmin/Company_website/HUK/Media/Hinges_2020_HUK.pdf",
+   "title": "Hettich UK Hinges 2020",
+   "pages": "8645i p13-14 (door 15-24), 8646i (door 10-19)"
+  },
+  {
+   "id": "HET-SENS-11309",
+   "url": "https://web.hettich.com/fileadmin/media/Sensys_Catalogue_11309_en.pdf",
+   "title": "Hettich Sensys Catalogue 11309 (older)",
+   "pages": "p17 (8645i door 15-22)"
+  },
+  {
+   "id": "HET-BROCH",
+   "url": "https://www.hettich.com/fileadmin/Media_Center/Catalogue/Sensys_and_Intermat_Hinge_Brochure_WEB.pdf",
+   "title": "Hettich Fast assembly for all applications: Sensys and Intermat hinge systems (brochure, 138 pp)",
+   "pages": "8645i p.374+ (door 15-24); only cross-checked"
+  },
+  {
+   "id": "HET-AV-SHOP",
+   "url": "https://shop.hettich.com/cl_EN/Hinges/Special-hinge-Avosys/Scharniere/Avosys-hinge-for-mirror-and-glass-doors-with-drill-hole%2C-with-integrated-Silent-System%2C-opening-angle-110%C2%B0%2C-nickel-plated%2C-for-screwing-on/p/9405214",
+   "title": "Hettich eShop article 9405214 Avosys (attributes, document links)",
+   "pages": "web page"
+  },
+  {
+   "id": "HET-AV-MTA",
+   "url": "https://web2.hettich.com/hbh/addon/montage/MTA_941529900_Avosys_TH22_Schraubmontage.pdf",
+   "title": "Hettich MTA 9 415 299 00 Avosys for drilled glass doors (20.02.2026)",
+   "pages": "p1"
+  },
+  {
+   "id": "HET-AV-COUNT",
+   "url": "https://web2.hettich.com/hbh/addon/montage/300209_Scharnieranzahl_Avosys_EN_shop.jpg",
+   "title": "Hettich Avosys - number of hinges per door (planning image)",
+   "pages": "image"
+  },
+  {
+   "id": "HET-AV-DOOR",
+   "url": "https://web2.hettich.com/hbh/addon/montage/300209_Avosys_Tuereinsprung_EN_shop.jpg",
+   "title": "Hettich Avosys - door protrusion TE vs plate distance (image)",
+   "pages": "image"
+  },
+  {
+   "id": "HET-AV-3D",
+   "url": "https://web2.hettich.com/hbh/addon/cad/9405214_3d.zip",
+   "title": "Hettich article data 2D/3D for 9405214 (DXF/DWG; 275 KB; contents listed with unzip -l only, not opened)",
+   "pages": "zip"
+  },
+  {
+   "id": "HET-CAD",
+   "url": "https://web.hettich.com/en-ro/planning/hettich-cad",
+   "title": "Hettich CAD page (formats: DWG, DXF, PDF; >50 formats by e-mail; eShop 2D/3D; PARTcommunity https://hettich.partcommunity.com)",
+   "pages": "web page"
+  },
+  {
+   "id": "SAL-SIPLUS",
+   "url": "https://www.salice.com/media/Catalog/hinges/silentia-plus/Salice_SILENTIAPLUS_D0CASA007ENG.pdf",
+   "title": "Salice Silentia+ Catalogue ENG (92 pp)",
+   "pages": "p11 overview, p15-18 S100, p25-29 S200, p38-39 S300, p44-49 S700, p80-81 SeriesN, p87-88 accessories"
+  },
+  {
+   "id": "SAL-AIR",
+   "url": "https://www.salice.com/media/Catalog/hinges/air/Salice_AIR_D0CASA014ENG.pdf",
+   "title": "Salice AIR the truly concealed hinge (32 pp)",
+   "pages": "p3,8,9,14"
+  },
+  {
+   "id": "SAL-VETRO",
+   "url": "https://www.salice.com/media/Catalog/hinges/vetro/Salice_VETRO_D0CASA009ENG.pdf",
+   "title": "Salice Vetro (glass/mirror door hinges) Ed.05 04/2025",
+   "pages": "p4-12"
+  },
+  {
+   "id": "SAL-PIVOT",
+   "url": "https://www.salice.com/media/Catalog/hinges/single-pivot-hinge-270-opening/Salice_SINGLE-PIVOT-HINGE_DCASA002ENG.pdf",
+   "title": "Salice Single pivot hinge 270°",
+   "pages": "p2-3"
+  },
+  {
+   "id": "SAL-PLATES",
+   "url": "https://www.salice.com/media/Catalog/mounting-plates/Salice_MOUNTING-PLATES_D0CASA020ENG.pdf",
+   "title": "Salice Mounting plates (24 pp)",
+   "pages": "p5-19"
+  },
+  {
+   "id": "SAL-CORNER",
+   "url": "https://www.salice.com/media/Catalog/hinges/hinge-for-corner-cabinets/Salice_HINGES-FOR-CORNER-CABINETS_eng.pdf",
+   "title": "Salice Hinges for corner cabinets",
+   "pages": "p2-3"
+  },
+  {
+   "id": "SAL-UNIV",
+   "url": "https://www.salice.com/media/Catalog/hinges/universal-hinges/Salice_UNIVERSAL-HINGES_D0CASA016ENG.pdf",
+   "title": "Salice Universal hinges (20 pp)",
+   "pages": "p3-4 (glass-door CBG hinge: 110°, hinge count)"
+  },
+  {
+   "id": "SAL-DL",
+   "url": "https://www.salice.com/ww/en/download/catalogues",
+   "title": "Salice catalogue download index (no CAD/STEP download found)",
+   "pages": "web page"
+  },
+  {
+   "id": "GRA-CAT",
+   "url": "https://cdn.shopify.com/s/files/1/1506/1908/files/grass_product_catalogues_hinge_systems.pdf",
+   "title": "GRASS Hinge systems catalogue (www.grass.eu, 376 pp; distributor copy)",
+   "pages": "Tiomos 110 p14-15, 95 p26-27, 160 p22-23, 110AL p30-31, Mirro p88-91, GL95 Mini p86-87, plates p102-111, tech info p116-120; Nexis Impresso 04 p128-129, 22 p130-131, 65 p134-135, tech info p162-165"
+  },
+  {
+   "id": "GRA-CAD",
+   "url": "https://www.grass.eu/en/tec-center/cad-data/",
+   "title": "GRASS TEC Centre CAD data (ZIP with preview, RAW and STEP per product group; iFurn library/composer)",
+   "pages": "web page"
+  },
+  {
+   "id": "HAF-UK",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-16.pdf",
+   "title": "Häfele UK catalogue pages 23T9-nn (12,13,14,15A,16,20,26,32,34,39 read; same URL pattern with -nn)",
+   "pages": "Section 9: p9.12-9.14 guide, 9.15A Metalla 540, 9.16 Metalla 310 110, 9.20 310 155, 9.26 plates, 9.32 165, 9.34 pie-cut, 9.39 270"
+  },
+  {
+   "id": "BLUM-TD151",
+   "url": "https://d2.blum.com/services/BEC003/cme101332_td_dok_bau_$sen_$aof_$v1.pdf",
+   "title": "Blum CLIP top BLUMOTION 105° technical data sheet TD-151/1 EN/04.24",
+   "pages": "p2-4"
+  },
+  {
+   "id": "BLUM-M105-FL",
+   "url": "https://www.blum.com/file/me84879325_fl_dok_bau?country=my&language=en",
+   "title": "Blum M BLUMOTION 105° flyer FL-590/2 EN-AL/01.24",
+   "pages": "p2"
+  },
+  {
+   "id": "BLUM-M105-MA",
+   "url": "https://www.blum.com/file/cme84705_ma_dok_bau?country=my&language=en",
+   "title": "Blum M BLUMOTION 105° installation instructions MA-1121/0ML 02.23",
+   "pages": "p2"
+  },
+  {
+   "id": "BLUM-M105-SPEC",
+   "url": "https://www.blum.com/file/me96163886_fl_dok_bau?country=my&language=en",
+   "title": "Blum M BLUMOTION 105° specification text",
+   "pages": "p1"
+  },
+  {
+   "id": "BLUM-DL",
+   "url": "https://www.blum.com/my/en/products/hingesystems/clip-top-blumotion/downloads-videos/",
+   "title": "Blum CLIP top BLUMOTION downloads list (no CAD/STEP/drilling template download listed)",
+   "pages": "web page"
+  }
+ ],
+ "families": [
+  {
+   "id": "hettich_sensys_8645i",
+   "brand": "Hettich",
+   "name": "Sensys 8645i (integrated Silent System; sister: 8645 without, 8675 without self-closing)",
+   "angle": 110,
+   "overlay": [
+    "full(B 12.5)",
+    "half(B 3)",
+    "inset(B -4)"
+   ],
+   "door_th": [
+    15,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "tb_values_in_tables": [
+     3.0,
+     4.0,
+     4.5,
+     5.0,
+     6.0,
+     7.0
+    ],
+    "dowel": {
+     "TH52": {
+      "fix": "screw-on",
+      "hole": null,
+      "pattern": "52 x 5.5 (hole spacing x offset from cup centre line, drawing)"
+     },
+     "TH53": {
+      "fix": "press-in",
+      "hole_dia": 10,
+      "hole_depth": 11
+     },
+     "THS55": {
+      "fix": "Fix fast",
+      "hole_dia": 10,
+      "hole_depth": 6
+     },
+     "TH58": {
+      "fix": "premounted expanding sockets",
+      "hole_dia": 10,
+      "hole_depth": 11
+     }
+    },
+    "src": "HET-2017 printed p16 (pdf18); 52 and 5.5 read from drawing (drawing)"
+   },
+   "plate": {
+    "types": [
+     {
+      "type": "cruciform",
+      "name": "System 8099 cross plate, screw-on, oblong-hole height adj +-3 mm",
+      "hole_line_LR_mm": 37,
+      "hole_spacing_mm": 32,
+      "screw": "4.5x16 countersunk",
+      "D_mm": [
+       0,
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "0": "9 071 575",
+       "1.5": "9 071 576",
+       "3": "9 071 577",
+       "5": "9 071 578"
+      }
+     },
+     {
+      "type": "cruciform",
+      "name": "System 8099 cross plate, expanding sockets (o5x12), oblong-hole +-2 mm",
+      "hole_line_LR_mm": 37,
+      "hole_spacing_mm": 32,
+      "D_mm": [
+       0,
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "0": "9 071 595",
+       "1.5": "9 071 596",
+       "3": "9 071 597",
+       "5": "9 071 598"
+      }
+     },
+     {
+      "type": "cruciform",
+      "name": "System 8099 cross plate, premounted Euro screws (o5x12), oblong-hole +-3 mm",
+      "hole_line_LR_mm": 37,
+      "hole_spacing_mm": 32,
+      "D_mm": [
+       0,
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "0": "9 071 625",
+       "1.5": "9 071 626",
+       "3": "9 071 627",
+       "5": "9 071 628"
+      }
+     },
+     {
+      "type": "cruciform",
+      "name": "System 8099 cross plate, expanding sockets (o5x12), eccentric cam height +-2 mm",
+      "hole_line_LR_mm": 37,
+      "hole_spacing_mm": 32,
+      "D_mm": [
+       0,
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "0": "9 071 655",
+       "1.5": "9 071 656",
+       "3": "9 071 657",
+       "5": "9 071 658"
+      }
+     },
+     {
+      "type": "cruciform",
+      "name": "Hettich Direkt cross plate with locating pin (o5x7.5), half overlay, side panel >=15 mm, cam +-2 mm",
+      "hole_line_LR_mm": 37,
+      "hole_spacing_mm": 32,
+      "D_mm": [
+       0,
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "0": "9 071 650",
+       "1.5": "9 071 651",
+       "3": "9 071 652",
+       "5": "9 071 653"
+      }
+     },
+     {
+      "type": "linear",
+      "name": "System 8099 linear plate, screw-on 3.5x16, cam +-2 mm",
+      "hole_line_LR_mm": 20,
+      "hole_spacing_mm": 32,
+      "D_mm": [
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "1.5": "9 075 095",
+       "3": "9 075 096",
+       "5": "9 075 097"
+      },
+      "note": "20 and 32 read off drawing (drawing)"
+     },
+     {
+      "type": "linear",
+      "name": "System 8099 linear plate, pressing in (o10x12), cam +-2 mm",
+      "hole_line_LR_mm": 20,
+      "hole_spacing_mm": 32,
+      "D_mm": [
+       1.5,
+       3,
+       5
+      ],
+      "codes": {
+       "1.5": "9 075 098",
+       "3": "9 075 099",
+       "5": "9 075 100"
+      }
+     }
+    ],
+    "adapters": [
+     {
+      "name": "Parallel adapter +8 mm D",
+      "code": "9 072 537"
+     },
+     {
+      "name": "Angle adapter 5/10/15/20 deg (LR37 screw-on plates only)",
+      "codes": {
+       "5": "9 072 533",
+       "10": "9 072 534",
+       "15": "9 072 535",
+       "20": "9 072 536"
+      }
+     },
+     {
+      "name": "Adapter plate with premounted Euro screws (for parallel adapter)",
+      "D_mm": [
+       0,
+       1.5,
+       3
+      ],
+      "codes": {
+       "0": "9 106 986",
+       "1.5": "9 106 987",
+       "3": "9 106 988"
+      }
+     }
+    ],
+    "src": "HET-2017 printed p104-106"
+   },
+   "arm": {
+    "types": [
+     "B 12.5 straight (full overlay)",
+     "B 3 (half overlay)",
+     "B -4 (inset)"
+    ],
+    "adjust_overlay_mm": [
+     -2,
+     2
+    ],
+    "adjust_depth_mm": [
+     -2,
+     3
+    ],
+    "height_adj": "at mounting plate",
+    "material": "nickel-plated steel",
+    "src": "HET-2017 printed p16"
+   },
+   "options": [
+    "integrated Silent System (35 deg auto-close zone; +5..+40 C)",
+    "opening angle limiter 8645i: order 9 072 540",
+    "push-to-open variants via 8675 + accessories",
+    "cover caps 9 088 249 neutral / 9 088 250 Hettich logo",
+    "cover cap hinge cup 9 088 251"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg_max": 7.7
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1700,
+      "kg_max": 13.7
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17.1
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2400,
+      "kg_max": 22
+     },
+     {
+      "n": 6,
+      "h_max_mm": 2600,
+      "kg_max": 22
+     },
+     {
+      "n": 7,
+      "h_max_mm": 2800,
+      "kg_max": 22
+     }
+    ],
+    "door_width_max_mm": 600,
+    "min_spacing_X_mm": 280,
+    "end_hinge_from_edge_mm": [
+     60,
+     100
+    ],
+    "unit_kg": true,
+    "src": "HET-2017 printed p60 (=pdf62), image read (kg icon confirmed); guide only, trial mounting recommended"
+   },
+   "gaps": {
+    "min_reveal_table": {
+     "unit": "mm; edge radius 1 mm; radius 0: +0.4; radius 3: -0.6",
+     "cols_C": [
+      3.0,
+      4.0,
+      4.5,
+      5.0,
+      6.0,
+      7.0
+     ],
+     "rows": {
+      "15": [
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2
+      ],
+      "16": [
+       0.3,
+       0.3,
+       0.3,
+       0.3,
+       0.3,
+       0.3
+      ],
+      "17": [
+       0.4,
+       0.4,
+       0.4,
+       0.4,
+       0.4,
+       0.4
+      ],
+      "18": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.5
+      ],
+      "19": [
+       0.8,
+       0.8,
+       0.8,
+       0.8,
+       0.7,
+       0.7
+      ],
+      "20": [
+       1.1,
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       0.9
+      ],
+      "21": [
+       1.4,
+       1.3,
+       1.3,
+       1.3,
+       1.2,
+       1.2
+      ],
+      "22": [
+       2.2,
+       1.8,
+       1.7,
+       1.6,
+       1.6,
+       1.5
+      ],
+      "23": [
+       3.0,
+       2.6,
+       2.4,
+       2.2,
+       2.0,
+       1.9
+      ],
+      "24": [
+       3.9,
+       3.4,
+       3.2,
+       3.0,
+       2.6,
+       2.4
+      ]
+     }
+    },
+    "formula_D": "full/half: D = C + B - A (B 12.5 full, 3 half); inset: D = C + B + F (B -4)",
+    "D_values_available_mm": [
+     0,
+     1.5,
+     3,
+     5
+    ],
+    "hinge_protrusion_H_door_protrusion_T_at_D0_C3": {
+     "full": {
+      "H": 25.0,
+      "T": 8.5
+     },
+     "half": {
+      "H": 31.0,
+      "T": 18.0
+     },
+     "inset": {
+      "H": 38.0,
+      "T": 25.0
+     }
+    },
+    "inset_note": "set plate back by door thickness + 1 mm (+ chosen offset) (p60)",
+    "src": "HET-2017 printed p19, p60-61"
+   },
+   "envelope": {
+    "label_H_drawing": 72,
+    "note": "'72' printed next to H in protrusion drawing (drawing); meaning (hinge overall length or installed depth) not stated in text; null for cup/arm/plate L x W x H",
+    "src": "HET-2017 printed p19"
+   },
+   "codes": [
+    {
+     "code": "9 071 205",
+     "desc": "8645i full overlay B12.5 TH52 screw-on",
+     "src": "HET-2017 p16"
+    },
+    {
+     "code": "9 071 206",
+     "desc": "half B3 TH52",
+     "src": "HET-2017 p16"
+    },
+    {
+     "code": "9 071 207",
+     "desc": "inset B-4 TH52",
+     "src": "HET-2017 p16"
+    },
+    {
+     "code": "9 071 208/209/210",
+     "desc": "full/half/inset TH53 press-in o10x11",
+     "src": "HET-2017 p16"
+    },
+    {
+     "code": "9 071 220/221/222",
+     "desc": "full/half/inset THS55 Fix o10x6",
+     "src": "HET-2017 p16"
+    },
+    {
+     "code": "9 073 567/568/569",
+     "desc": "full/half/inset TH58 premounted expanding sockets o10x11",
+     "src": "HET-2017 p16"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "note": "Hettich CAD icon on page; 2D/3D DWG/DXF via eShop (per article), >50 formats by e-mail, PARTcommunity; STEP not confirmed in any document",
+    "urls": [
+     "https://web.hettich.com/en-ro/planning/hettich-cad",
+     "https://hettich.partcommunity.com",
+     "pattern: https://web2.hettich.com/hbh/addon/cad/<articleNo>_3d.zip (seen for 9405214 only)"
+    ],
+    "src": "HET-CAD, HET-AV-3D"
+   },
+   "unreadable": [
+    "door_th conflict: 15-24 (HET-2017 p16, HET-UK-2020, HET-BROCH) vs 15-22 (HET-SENS-11309 p17, older)",
+    "tb_std not stated",
+    "cup/arm/plate envelope L/W/H not in text/tables"
+   ]
+  },
+  {
+   "id": "hettich_sensys_8631i",
+   "brand": "Hettich",
+   "name": "Sensys 8631i thick-door hinge (8631 without Silent, 8661 without self-closing)",
+   "angle": 95,
+   "overlay": [
+    "full(B 12.5)",
+    "half(B 3)",
+    "inset(B -4)"
+   ],
+   "door_th": [
+    15,
+    32
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "tb": [
+     3,
+     8
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TH52": "screw-on 52 x 5.5 (drawing)",
+     "TH53": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     },
+     "TH58": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     }
+    },
+    "src": "HET-2017 printed p20; C range 3..8 from p22 reveal table header (verify)"
+   },
+   "plate": {
+    "ref": "same System 8099 plates as hettich_sensys_8645i",
+    "src": "HET-2017 p104-105"
+   },
+   "arm": {
+    "adjust_overlay_mm": [
+     -2,
+     2
+    ],
+    "adjust_depth_mm": [
+     -2,
+     3
+    ]
+   },
+   "options": [],
+   "hinge_count": {
+    "ref": "same as 8645i (Sensys chart)",
+    "src": "HET-2017 p60"
+   },
+   "gaps": {
+    "min_reveal_table": null,
+    "reason": "table present in HET-2017 printed p22 (door 15-32) but not transcribed",
+    "H_T_at_D0_C3": {
+     "full": {
+      "H": 24.0,
+      "T": 12.5
+     },
+     "half": {
+      "H": 28.3,
+      "T": 22.0
+     }
+    },
+    "src": "HET-2017 p22 (the truncated H/T rows read; inset row not read)"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9 090 260/270/280",
+     "desc": "8631i TH52 full/half/inset",
+     "src": "HET-2017 p20"
+    },
+    {
+     "code": "9 090 261/271/281",
+     "desc": "TH53",
+     "src": "HET-2017 p20"
+    },
+    {
+     "code": "9 090 266/276/286",
+     "desc": "TH58",
+     "src": "HET-2017 p20"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "ref": "see hettich_sensys_8645i"
+   },
+   "unreadable": [
+    "min reveal table not transcribed",
+    "inset H/T not read"
+   ]
+  },
+  {
+   "id": "hettich_sensys_8646i",
+   "brand": "Hettich",
+   "name": "Sensys 8646i thin-door hinge (8646 without Silent)",
+   "angle": 110,
+   "overlay": [
+    "full(B 12.5)",
+    "half(B 3)",
+    "inset(B -4)"
+   ],
+   "door_th": [
+    10,
+    16
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 7.8,
+    "tb": null,
+    "tb_std": null,
+    "dowel": {
+     "TH52": "52 x 5.5 (HET shop listing also names pattern 'TB 45 x 9.5' for a screw-on variant - not reconciled)",
+     "TH53": {
+      "hole_dia": 10,
+      "hole_depth": 8
+     },
+     "TH58": {
+      "hole_dia": 10,
+      "hole_depth": 8
+     }
+    },
+    "src": "HET-2017 printed p26-27; note: fixing method must be suitable for door material"
+   },
+   "plate": {
+    "ref": "System 8099",
+    "src": "HET-2017 p104"
+   },
+   "arm": {},
+   "options": [],
+   "hinge_count": {
+    "ref": "Sensys chart",
+    "src": "HET-2017 p60"
+   },
+   "gaps": {
+    "min_reveal_table": null,
+    "reason": "table in HET-2017 printed p28 (door 10-16: values 0.1..1.3 at C3) not transcribed",
+    "H_T_at_D0_C3": {
+     "full": {
+      "H": 25.0,
+      "T": 8.5
+     },
+     "half": {
+      "H": 31.0,
+      "T": 18.0
+     }
+    }
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9 094 000",
+     "desc": "8646i full B12.5 TH52",
+     "src": "HET-2017 p27"
+    },
+    {
+     "code": "9 094 001",
+     "desc": "full TH53 o10x8",
+     "src": "HET-2017 p27"
+    },
+    {
+     "code": "9 094 006",
+     "desc": "full TH58",
+     "src": "HET-2017 p27"
+    },
+    {
+     "code": "9 094 280 / 9 094 290",
+     "desc": "half B3 / inset B-4 TH52 (50 pcs)",
+     "src": "HET-2017 p27"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "door_th conflict: 10-16 (HET-2017) vs 10-19 (HET-UK-2020)",
+    "tb range not extracted"
+   ]
+  },
+  {
+   "id": "hettich_sensys_8657i",
+   "brand": "Hettich",
+   "name": "Sensys 8657i zero-protrusion hinge (8657, 8687)",
+   "angle": 165,
+   "overlay": [
+    "full(B 12.5)",
+    "half(B 3)"
+   ],
+   "door_th": [
+    15,
+    32
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11.6,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TH52": "52 x 5.5 (drawing)",
+     "TH53": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     },
+     "THS55": {
+      "hole_dia": 10,
+      "hole_depth": 6
+     },
+     "TH58": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     }
+    },
+    "src": "HET-2017 printed p30; C 3.0-7.0 from reveal table header p33"
+   },
+   "plate": {
+    "ref": "System 8099 (examples show LR37 D0..D5 + angle limiter; glass door example uses D5 + adapter)",
+    "src": "HET-2017 p58-59"
+   },
+   "arm": {},
+   "options": [
+    "opening angle limiter 105/120/135 (examples); soft opening 9 100 037 (full) / 9 100 116 (half), not combinable with limiter",
+    "cover cap 9 099 870 neutral / 9 099 871 logo (plastic anthracite)"
+   ],
+   "hinge_count": {
+    "ref": "Sensys chart",
+    "src": "HET-2017 p60"
+   },
+   "gaps": {
+    "min_reveal": "0.0 for door 15-25 mm all C; 26:0.1, 27:0.1, 28: 0.2-0.3, 29*:0.4-0.6, 30**:0.7-1.1 (120deg limiter*, 105deg limiter**); 31** 1.1-1.6; 32** 1.7-2.2 (C3..C6/7)",
+    "zero_protrusion": "no door protrusion T up to D=3 (unobstructed interior)",
+    "H_T": {
+     "full": {
+      "H": 66,
+      "T": -3
+     },
+     "half": {
+      "H": 75.5,
+      "T": 6.5
+     }
+    },
+    "label_70_drawing": "hinge closed: 80 mm (drawing)",
+    "src": "HET-2017 printed p33"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9 099 540 / 9 099 550",
+     "desc": "8657i full / half TH52 (50 pcs)",
+     "src": "HET-2017 p30"
+    },
+    {
+     "code": "9 099 541/551",
+     "desc": "TH53",
+     "src": "HET-2017 p30"
+    },
+    {
+     "code": "9 099 543/553",
+     "desc": "THS55",
+     "src": "HET-2017 p30"
+    },
+    {
+     "code": "9 099 546/556",
+     "desc": "TH58",
+     "src": "HET-2017 p30"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "column assignment of the last rows of the reveal sentence not cell-verified"
+   ]
+  },
+  {
+   "id": "hettich_sensys_8639i_W30_W45_W90",
+   "brand": "Hettich",
+   "name": "Sensys 8639i W30 / W45 / W90 angle hinges (8639, 8669)",
+   "angle": 95,
+   "overlay": [
+    "W30: overlay B 2, inset B -16",
+    "W45: overlay B -2, inset B -25",
+    "W90: inset B 4"
+   ],
+   "door_th": [
+    15,
+    28
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "tb": [
+     3,
+     8
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TH52": "52 x 5.5 (drawing)",
+     "TH53": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     },
+     "THS55": {
+      "hole_dia": 10,
+      "hole_depth": 6
+     },
+     "TH58": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     }
+    },
+    "src": "HET-2017 printed p34,38,42; TB 3-8 from W30 reveal table header"
+   },
+   "plate": {
+    "ref": "System 8099 cross plate with angle adapters; W30 drawings use LR 20x32 linear plate ('(LR 20 x 32)' printed), D 0/1.5/3/5",
+    "src": "HET-2017 p35-37"
+   },
+   "arm": {
+    "material": "zinc die-cast nickel plated (W30)"
+   },
+   "options": [],
+   "hinge_count": {
+    "ref": "Sensys chart",
+    "src": "HET-2017 p60"
+   },
+   "gaps": {
+    "W30_min_reveal": "table door 15-28 x C 3..8 on printed p36 (e.g. 20 mm: 1.1/1.0/1.0/1.0/1.0/0.9/0.9 for C3..8; 28 mm: 7.5..4.9) - full table not transcribed",
+    "min_reveal_table": null
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9 088 016 / 9 088 017",
+     "desc": "8639i W30 overlay B2 / inset B-16 TH52 (50 pcs)",
+     "src": "HET-2017 p34"
+    },
+    {
+     "code": "9 088 034/035",
+     "desc": "W30 TH53",
+     "src": "HET-2017 p34"
+    },
+    {
+     "code": "9 088 019 / 9 088 020",
+     "desc": "W45 overlay B-2 / inset B-25 TH52",
+     "src": "HET-2017 p38"
+    },
+    {
+     "code": "9 088 021",
+     "desc": "W90 inset B4 TH52",
+     "src": "HET-2017 p42"
+    },
+    {
+     "code": "9 088 039",
+     "desc": "W90 TH53",
+     "src": "HET-2017 p42"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "full min-reveal tables not transcribed"
+   ]
+  },
+  {
+   "id": "hettich_sensys_8638i_alu",
+   "brand": "Hettich",
+   "name": "Sensys 8638i for aluminium-framed doors",
+   "angle": 95,
+   "overlay": [
+    "full(B 12.5)",
+    "half(B 3)",
+    "inset(B -4)"
+   ],
+   "door_th": null,
+   "cup": {
+    "dia": 35,
+    "depth": 12.8,
+    "tb": null,
+    "tb_std": null,
+    "dowel": {
+     "TA32": "screw-on, 2 fixing screws incl."
+    },
+    "src": "HET-2017 printed p46"
+   },
+   "plate": {
+    "ref": "System 8099"
+   },
+   "arm": {
+    "cup_material": "zinc die-cast nickel plated"
+   },
+   "options": [],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9 072 524/525/526",
+     "desc": "8638i full/half/inset TA32 (50 pcs)",
+     "src": "HET-2017 p46"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "door/frame thickness, TB, drilling geometry not extracted"
+   ]
+  },
+  {
+   "id": "hettich_intermat_9943",
+   "brand": "Hettich",
+   "name": "Intermat 9943 (9973 without self-closing)",
+   "angle": 110,
+   "overlay": [
+    "full(B 12.5)",
+    "half(B 3)",
+    "inset(B -3.5)"
+   ],
+   "door_th": [
+    15,
+    25
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11.6,
+    "tb": [
+     3,
+     6
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TH42": "screw-on, pattern 52 x 5.5 (drawing)",
+     "TH43": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     },
+     "TH45": {
+      "hole_dia": 10,
+      "hole_depth": 6
+     },
+     "TH48": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     }
+    },
+    "src": "HET-2017 printed p72"
+   },
+   "plate": {
+    "ref": "System 8099 (same plates as Sensys)",
+    "src": "HET-2017 p104-105"
+   },
+   "arm": {
+    "adjust_overlay_mm": [
+     -2,
+     2
+    ],
+    "adjust_depth_mm": [
+     -1.5,
+     2.5
+    ]
+   },
+   "options": [
+    "opening angle limiter for 9943 (Intermat accessories chapter)",
+    "Silent System add-on: damper screwed onto cup 0 060 581 (TH42/43/48, full overlay); element 0 060 576 (9943/9936 full overlay, all plate distances); use two elements for doors > 13.5 kg (HET-2017 printed p114-117)"
+   ],
+   "hinge_count": {
+    "ref": "HET-2017 printed p100/148 chart (Intermat) not read; Sensys chart for reference only",
+    "src": null
+   },
+   "gaps": {
+    "min_reveal_table": {
+     "cols_C": [
+      3.0,
+      4.0,
+      4.5,
+      5.0,
+      6.0
+     ],
+     "rows": {
+      "15": [
+       0.4,
+       0.4,
+       0.4,
+       0.4,
+       0.4
+      ],
+      "16": [
+       0.6,
+       0.5,
+       0.5,
+       0.5,
+       0.5
+      ],
+      "17": [
+       0.8,
+       0.7,
+       0.7,
+       0.7,
+       0.7
+      ],
+      "18": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       0.9
+      ],
+      "19": [
+       1.4,
+       1.3,
+       1.3,
+       1.2,
+       1.2
+      ],
+      "20": [
+       1.7,
+       1.7,
+       1.6,
+       1.6,
+       1.5
+      ],
+      "21": [
+       2.2,
+       2.1,
+       2.0,
+       2.0,
+       1.9
+      ],
+      "22": [
+       2.9,
+       2.6,
+       2.5,
+       2.4,
+       2.3
+      ],
+      "23": [
+       3.7,
+       3.3,
+       3.2,
+       3.0,
+       2.8
+      ],
+      "24": [
+       4.5,
+       4.1,
+       3.9,
+       3.7,
+       3.4
+      ],
+      "25": [
+       5.4,
+       4.9,
+       4.7,
+       4.5,
+       4.1
+      ]
+     }
+    },
+    "formula_D": "full/half: D = C + B - A; inset: D = C - 3.5 + F",
+    "H_T_at_D0_C3": {
+     "full": {
+      "H": 19.5,
+      "T": 7.5
+     },
+     "half": {
+      "H": 29.0,
+      "T": 17.0
+     },
+     "inset": {
+      "H": 35.5,
+      "T": 23.5
+     }
+    },
+    "label_H_drawing": 66,
+    "src": "HET-2017 printed p73 (text lines at pdf72-73)"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "1 029 518 / 1 030 620 / 1 030 922",
+     "desc": "9943 full/half/inset TH42 screw-on",
+     "src": "HET-2017 p72"
+    },
+    {
+     "code": "1 029 520 / 1 030 622 / 1 030 924",
+     "desc": "TH43",
+     "src": "HET-2017 p72"
+    },
+    {
+     "code": "1 063 454 / 1 063 457 / 1 063 459",
+     "desc": "TH45 Fix",
+     "src": "HET-2017 p72"
+    },
+    {
+     "code": "9 043 640/641/642",
+     "desc": "TH48 premounted",
+     "src": "HET-2017 p72"
+    },
+    {
+     "code": "0 060 581",
+     "desc": "Silent System damper for hinge cup, 9943 TH42/43/48 full overlay, 50 pcs",
+     "src": "HET-2017 accessories"
+    },
+    {
+     "code": "0 060 576",
+     "desc": "Silent System element 9943/9936 full overlay, 50 pcs",
+     "src": "HET-2017 accessories"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "hinge-count chart for Intermat not read separately",
+    "TB range upper limit from table header (C 3-6)"
+   ]
+  },
+  {
+   "id": "hettich_intermat_9936",
+   "brand": "Hettich",
+   "name": "Intermat 9936 thick-door hinge (95 deg)",
+   "angle": 95,
+   "overlay": [
+    "full(B 12.5)"
+   ],
+   "door_th": [
+    14,
+    32
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 10.5,
+    "depth_fix": 11.3,
+    "tb": [
+     3,
+     8
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TH42": "52 x 5.5 (drawing)",
+     "TH43": {
+      "hole_dia": 10,
+      "hole_depth": 11
+     },
+     "TH45": {
+      "hole_dia": 10,
+      "hole_depth": 6
+     }
+    },
+    "src": "HET-2017 printed p76"
+   },
+   "plate": {
+    "ref": "System 8099"
+   },
+   "arm": {},
+   "options": [],
+   "hinge_count": null,
+   "gaps": {
+    "min_reveal": "printed p77 table door 14-30+ (e.g. 20 mm: 1.1 at C3, 1.0 at C6-8); H/T full 19.5/10.0, half 29.0/19.5",
+    "min_reveal_table": null
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "1 058 365",
+     "desc": "TH42 full",
+     "src": "HET-2017 p76"
+    },
+    {
+     "code": "1 058 371",
+     "desc": "TH43",
+     "src": "HET-2017 p76"
+    },
+    {
+     "code": "1 063 472",
+     "desc": "TH45",
+     "src": "HET-2017 p76"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "full reveal table not transcribed"
+   ]
+  },
+  {
+   "id": "hettich_intermat_9935",
+   "brand": "Hettich",
+   "name": "Intermat 9935 special thick-door hinge (cup 40 mm)",
+   "angle": 95,
+   "overlay": [
+    "full(B 18)",
+    "half(B 8)",
+    "inset(B -3)"
+   ],
+   "door_th": [
+    16,
+    43
+   ],
+   "cup": {
+    "dia": 40,
+    "depth": 13.7,
+    "tb": [
+     3,
+     11
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TH22/L": "screw-on, pattern 52 x 5.5 (drawing)"
+    },
+    "src": "HET-2017 printed p78; C 3..11 from reveal table header p81"
+   },
+   "plate": {
+    "ref": "System 8099"
+   },
+   "arm": {
+    "material": "zinc die-cast nickel plated"
+   },
+   "options": [],
+   "hinge_count": null,
+   "gaps": {
+    "H_T_at_D0_C3": {
+     "full": {
+      "H": 20.0,
+      "T": 10.5
+     },
+     "half": {
+      "H": 30.0,
+      "T": 20.5
+     },
+     "inset": {
+      "H": 41.0,
+      "T": 31.5
+     }
+    },
+    "label_H_drawing": 65,
+    "min_reveal_table": null,
+    "reason": "door 26-43 mm x C3..11 table on p81 (e.g. 43 mm: 12.8 at C3 ... 7.4 at C11) not transcribed"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9 117 716/717/718",
+     "desc": "9935 full/half/inset TH22/L (10 pcs)",
+     "src": "HET-2017 p78"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "full reveal table not transcribed"
+   ]
+  },
+  {
+   "id": "hettich_intermat_9904_glass",
+   "brand": "Hettich",
+   "name": "Intermat 9904 for glass doors",
+   "angle": 95,
+   "overlay": [
+    "full(B 11)",
+    "half(B 2.5)",
+    "inset(B -4)"
+   ],
+   "door_th": [
+    4.0,
+    6.5
+   ],
+   "cup": {
+    "dia": 26,
+    "depth": null,
+    "tb": [
+     5.5,
+     6.0
+    ],
+    "tb_std": null,
+    "dowel": {
+     "TU12/S": "screw-on, cup o26 (drilled glass)"
+    },
+    "src": "HET-2017 printed p94 (glass thickness 4.0-6.5 mm)"
+   },
+   "plate": {
+    "ref": "System 8099 linear plate LR20 (printed p105: 9 075 098/099/100 pressing-in)",
+    "src": "HET-2017"
+   },
+   "arm": {
+    "material": "zinc die-cast nickel plated; cup black plastic"
+   },
+   "options": [
+    "decorative caps type A/B: chrome 0 040 341/0 040 495; nickel matt 0 070 712/0 070 713 (sets of 50); glass 5.5-6.5 mm needs fixing screw 9 082 429"
+   ],
+   "hinge_count": null,
+   "gaps": {
+    "min_reveal": "0.0 for glass 4.0-6.5 mm, C 5.5/6.0",
+    "H_T_at_D0_C5.5": {
+     "full": {
+      "H": 19.0,
+      "T": 4.0
+     },
+     "half": {
+      "H": 23.0,
+      "T": 12.5
+     },
+     "inset": {
+      "H": 29.5,
+      "T": 19.0
+     }
+    },
+    "label_H_drawing": 65,
+    "src": "HET-2017 printed p95"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "0 072 960 / 0 072 967 / 0 072 968",
+     "desc": "9904 full/half/inset (50 pcs)",
+     "src": "HET-2017 p94"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "cup depth not given"
+   ]
+  },
+  {
+   "id": "hettich_avosys",
+   "brand": "Hettich",
+   "name": "Avosys hinge for mirror/glass doors and thin custom materials (bonded or screwed; Silent System optional)",
+   "angle": 110,
+   "overlay": [
+    "overlay (base -2 mm per shop listing)"
+   ],
+   "door_th": [
+    3,
+    8
+   ],
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "tb": null,
+    "tb_std": null,
+    "dowel": {
+     "drilled glass variant 9405214 (screw-on)": {
+      "holes": 2,
+      "dia": 12,
+      "spacing_mm": 24,
+      "src": "HET-AV-MTA p1 (drawing)"
+     }
+    },
+    "src": "HET-AV-SHOP, HET-AV-MTA"
+   },
+   "plate": {
+    "types": [
+     "narrow linear plate (obsidian black available)"
+    ],
+    "note": "cross/linear spacing not found",
+    "src": "web page https://www.hettich.com/en-ae/products/hinges/avosys"
+   },
+   "arm": {
+    "adjust_overlay_mm": [
+     -2,
+     2
+    ],
+    "adjust_depth_mm": [
+     -2,
+     3
+    ],
+    "door_protrusion_TE_vs_plate_distance": {
+     "0": -3.4,
+     "1.5": -1.9,
+     "3": -0.4,
+     "5": 1.6,
+     "6": 2.6
+    },
+    "src": "HET-AV-DOOR (table at 90 deg opening)"
+   },
+   "options": [
+    "bonded (glue mounting) 3-8 mm glass/mirror: 9405208 without self-closing nickel; 9405209 with Silent System obsidian black",
+    "screw-on with o12 hole 4-6 mm: 9405214 (Silent System, nickel)",
+    "thin custom materials (Corian/HPL) screw-on: 9405234/235 (Silent) 9405238 (obsidian) 9405240/241 (without)"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg_max": 7.7
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1700,
+      "kg_max": 13.7
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17.1
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2400,
+      "kg_max": 22
+     },
+     {
+      "n": 6,
+      "h_max_mm": 2600,
+      "kg_max": 22
+     },
+     {
+      "n": 7,
+      "h_max_mm": 2800,
+      "kg_max": 22
+     }
+    ],
+    "door_width_max_mm": 600,
+    "src": "HET-AV-COUNT (image read)"
+   },
+   "gaps": null,
+   "envelope": null,
+   "codes": [
+    {
+     "code": "9405214",
+     "desc": "Avosys, drilled glass 4-6 mm, ø12 hole, Silent System, nickel, screw-on, EN 15570 level 3",
+     "src": "HET-AV-SHOP"
+    },
+    {
+     "code": "9405208",
+     "desc": "glue mounting, without self-closing, nickel, glass 3-8",
+     "src": "web search of shop listing (not fetched)"
+    },
+    {
+     "code": "9405209",
+     "desc": "glue mounting, Silent System, obsidian black, 3-8",
+     "src": "web search of shop listing (not fetched)"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "urls": [
+     "https://web2.hettich.com/hbh/addon/cad/9405214_3d.zip (DXF/DWG 2D+3D, 275 KB, downloaded; contents: 3 x 2D view DXF, 3D.dwg, 3D.dxf - not opened)",
+     "https://hettich-embedded.partcommunity.com?info=hettich%2Fhinge%2Fconcealed%5Fhinges%2Favosys%2Favosys%5Fasmtab%2Eprj&varset=%7BARTICLENO%3D9405214%7D&encoding=%25&languageIso=en"
+    ],
+    "step": "not offered in these documents"
+   },
+   "unreadable": [
+    "cup envelope, bond-plate size, drilling for bonded version not found",
+    "3D DXF could yield envelope but not parsed"
+   ]
+  },
+  {
+   "id": "hettich_evisys",
+   "brand": "Hettich",
+   "name": "Evisys (extra-tall door guiding hinge, up to 80 kg per web description)",
+   "angle": null,
+   "overlay": [],
+   "door_th": null,
+   "cup": null,
+   "plate": null,
+   "arm": null,
+   "options": [],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [],
+   "cad": null,
+   "unreadable": [
+    "No official technical document retrieved; only product-page summaries (conflicting: Norway page = tall-door/fridge guiding hinge up to 80 kg, width 750 mm; Finland page = single-joint quick-fit hinge for commercial areas). Not relevant for cabinet-door app until a datasheet is obtained."
+   ]
+  },
+  {
+   "id": "salice_silentia_s100_105",
+   "brand": "Salice",
+   "name": "Silentia+ Series 100 (105°)",
+   "angle": 105,
+   "overlay": [
+    "full (arm 0)",
+    "half (arm 9)",
+    "overlay crank arm 5",
+    "inset (arm 17)",
+    "angled arms 15/24/30/37/45 deg (Complementary)"
+   ],
+   "door_th": [
+    14,
+    null
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 12,
+    "tb": [
+     3,
+     6
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-SIPLUS p15-17"
+   },
+   "plate": {
+    "types": [
+     "Domi snap-on straight 21+32 (BAP*), cruciform 37x32 (BAR*, BAV*), cruciform 9.5x48 (BAU*)",
+     "Traditional Series 200 cruciform 37x32 and 28x32, straight 21+32, angled (cruciform for angled assembly), 9.5x32"
+    ],
+    "hole_spacing_mm": 32,
+    "hole_line_mm": [
+     37,
+     28,
+     21,
+     20
+    ],
+    "heights_H_mm": {
+     "letters": {
+      "S": -2,
+      "0": 0,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "9": 9,
+      "C": 12,
+      "V": 18,
+      "Z": 21,
+      "J": 22,
+      "Y": 24,
+      "U": 27,
+      "M": 31
+     }
+    },
+    "fixing_hole": "dowel o10x11.5 (BAP7/BAR7 types) or o10x10 (BAV7); Euro screw o5; wood screw 3.5 DIN 7983",
+    "depth_adjust_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "height_adjust_cam_mm": 2,
+    "src": "SAL-PLATES p6-19 (code composition on p6/12; drawing)"
+   },
+   "arm": {
+    "H_formulas_mm": {
+     "arm0": "H = 15 + K - D",
+     "arm5": "H = 10 + K - D",
+     "arm9": "H = 6 + K - D",
+     "arm17": "H = -2 + K + A"
+    },
+    "adjust_side_mm": [
+     -1.5,
+     4.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "codes_by_arm": {
+     "arm0": {
+      "48": "C1A6AE9",
+      "45": "C1P6AE9",
+      "52": "C1U6AE9"
+     },
+     "arm5": {
+      "48": "C1A6DE9",
+      "45": "C1P6DE9",
+      "52": "C1U6DE9"
+     },
+     "arm9": {
+      "48": "C1A6GE9",
+      "45": "C1P6GE9",
+      "52": "C1U6GE9"
+     },
+     "arm17": {
+      "48": "C1A6PE9",
+      "45": "C1P6PE9",
+      "52": "C1U6PE9"
+     },
+     "note": "codes shown for wood-screw fixing; Rapido/Dowel/Logica letters differ (SAL-SIPLUS p17)"
+    },
+    "src": "SAL-SIPLUS p15-17"
+   },
+   "options": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "Series 100 min door thickness 14 mm, max not stated",
+    "angled arms 15/24/30/37/45: SAL-SIPLUS p18-19"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg_max": 7
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg_max": 13
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2800,
+      "kg_max": 22
+     }
+    ],
+    "alt_chart_unlabelled": [
+     {
+      "n": 3,
+      "h_max_mm": 1000,
+      "kg_max": 12
+     },
+     {
+      "n": 4,
+      "h_max_mm": 1500,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2200,
+      "kg_max": 22
+     },
+     {
+      "n": 6,
+      "h_max_mm": 2800,
+      "kg_max": 26
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "page shows two charts without captions (first: 2 hinges 7 kg ... 5 hinges 22 kg; second: 3 hinges 12 kg ... 6 hinges 26 kg); heights in the first chart read from the S200 p25 render, same layout assumed (not rendered for p15)",
+    "src": "SAL-SIPLUS p15, p25 (drawing)"
+   },
+   "gaps": {
+    "table_A_L": {
+     "T": [
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+     ],
+     "A_by_K": {
+      "3": [
+       1.0,
+       1.0,
+       1.2,
+       1.4,
+       1.6,
+       1.9
+      ],
+      "4": [
+       0.9,
+       1.0,
+       1.2,
+       1.3,
+       1.5,
+       1.8
+      ],
+      "5": [
+       0.9,
+       1.0,
+       1.1,
+       1.2,
+       1.5,
+       1.8
+      ],
+      "6": [
+       0.9,
+       1.0,
+       1.1,
+       1.2,
+       1.4,
+       1.7
+      ]
+     },
+     "L_by_K": {
+      "3": [
+       0.0,
+       0.0,
+       0.0,
+       0.0,
+       0.1,
+       0.3
+      ],
+      "4": [
+       0.4,
+       0.6,
+       0.7,
+       0.9,
+       1.1,
+       1.2
+      ],
+      "5": [
+       1.0,
+       1.0,
+       1.2,
+       1.8,
+       2.0,
+       2.0
+      ],
+      "6": [
+       1.6,
+       1.8,
+       2.0,
+       2.1,
+       2.3,
+       2.5
+      ]
+     }
+    },
+    "formula_C": "C = 20.5 + K + A",
+    "overlay_drawing_dim": 7.3,
+    "note": "A = space needed beside door, L = reveal; square edges",
+    "src": "SAL-SIPLUS p16"
+   },
+   "envelope": {
+    "label_drawing_p15": "20.5, 37, 66 printed beside hinge drawing (drawing); assignment to length/width/height not stated",
+    "src": "SAL-SIPLUS p15"
+   },
+   "codes": [],
+   "cad": {
+    "available": null,
+    "note": "no Salice CAD/STEP download found; Salice technical services supply drawings on request",
+    "src": "SAL-DL"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "salice_silentia_s200_94",
+   "brand": "Salice",
+   "name": "Silentia+ Series 200 thick-door hinge (94°)",
+   "angle": 94,
+   "overlay": [
+    "full (arm 0)",
+    "half (arm 9)",
+    "overlay crank arm 5",
+    "inset (arm 17)",
+    "angled arms 15/24/30/37/45 deg (Complementary)"
+   ],
+   "door_th": [
+    18,
+    null
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 15.5,
+    "tb": [
+     3,
+     9
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-SIPLUS p25-27"
+   },
+   "plate": {
+    "types": [
+     "Domi snap-on straight 21+32 (BAP*), cruciform 37x32 (BAR*, BAV*), cruciform 9.5x48 (BAU*)",
+     "Traditional Series 200 cruciform 37x32 and 28x32, straight 21+32, angled (cruciform for angled assembly), 9.5x32"
+    ],
+    "hole_spacing_mm": 32,
+    "hole_line_mm": [
+     37,
+     28,
+     21,
+     20
+    ],
+    "heights_H_mm": {
+     "letters": {
+      "S": -2,
+      "0": 0,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "9": 9,
+      "C": 12,
+      "V": 18,
+      "Z": 21,
+      "J": 22,
+      "Y": 24,
+      "U": 27,
+      "M": 31
+     }
+    },
+    "fixing_hole": "dowel o10x11.5 (BAP7/BAR7 types) or o10x10 (BAV7); Euro screw o5; wood screw 3.5 DIN 7983",
+    "depth_adjust_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "height_adjust_cam_mm": 2,
+    "src": "SAL-PLATES p6-19 (code composition on p6/12; drawing)"
+   },
+   "arm": {
+    "H_formulas_mm": {
+     "arm0": "H = 15 + K - D",
+     "arm5": "H = 10 + K - D",
+     "arm9": "H = 6 + K - D",
+     "arm17": "H = -2 + K + A"
+    },
+    "adjust_side_mm": [
+     -1.5,
+     4.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "codes_by_arm": {
+     "arm0": {
+      "48": "C2ABAE9",
+      "45": "C2PBAE9",
+      "52": "C2UBAE9"
+     },
+     "arm5": {
+      "48": "C2ABDE9",
+      "45": "C2PBDE9",
+      "52": "C2UBDE9"
+     },
+     "arm9": {
+      "48": "C2ABGE9",
+      "45": "C2PBGE9",
+      "52": "C2UBGE9"
+     },
+     "arm17": {
+      "48": "C2ABPE9",
+      "45": "C2PBPE9",
+      "52": "C2UBPE9"
+     },
+     "note": "wood-screw fixing letters; others in SAL-SIPLUS p27"
+    },
+    "src": "SAL-SIPLUS p25-27"
+   },
+   "options": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "min door thickness 18 mm"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg_max": 7
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg_max": 13
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2800,
+      "kg_max": 22
+     }
+    ],
+    "alt_chart_unlabelled": [
+     {
+      "n": 3,
+      "h_max_mm": 1000,
+      "kg_max": 12
+     },
+     {
+      "n": 4,
+      "h_max_mm": 1500,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2200,
+      "kg_max": 22
+     },
+     {
+      "n": 6,
+      "h_max_mm": 2800,
+      "kg_max": 26
+     }
+    ],
+    "door_width_mm": 600,
+    "src": "SAL-SIPLUS p25 (drawing, rendered and read)"
+   },
+   "gaps": {
+    "table_A": {
+     "T": [
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+     ],
+     "A_K3": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      0.8,
+      1.0,
+      1.6,
+      2.6,
+      3.5,
+      4.5,
+      5.4,
+      6.4,
+      7.4,
+      8.3,
+      9.3
+     ],
+     "A_K4": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      0.8,
+      1.0,
+      1.2,
+      1.9,
+      2.8,
+      3.8,
+      4.7,
+      5.7,
+      6.6,
+      7.6,
+      8.6
+     ],
+     "A_K5": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.7,
+      0.8,
+      1.0,
+      1.2,
+      1.4,
+      2.2,
+      3.1,
+      4.1,
+      5.0,
+      5.9,
+      6.9,
+      7.8
+     ],
+     "A_K6": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8,
+      1.0,
+      1.2,
+      1.4,
+      1.7,
+      2.6,
+      3.5,
+      4.4,
+      5.3,
+      6.2,
+      7.2
+     ],
+     "A_K7": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8,
+      1.0,
+      1.1,
+      1.3,
+      1.6,
+      2.1,
+      3.0,
+      3.8,
+      4.7,
+      5.6,
+      6.5
+     ],
+     "A_K8": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8,
+      0.9,
+      1.1,
+      1.3,
+      1.6,
+      1.8,
+      2.5,
+      3.3,
+      4.2,
+      5.1,
+      6.0
+     ],
+     "A_K9": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.8,
+      0.9,
+      1.1,
+      1.3,
+      1.5,
+      1.8,
+      2.1,
+      2.9,
+      3.7,
+      4.6,
+      5.4
+     ],
+     "L_K3_9": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.3,
+      1.3
+     ]
+    },
+    "formula_C": "C = 23 + K + A",
+    "overlay_drawing_dim": 7.6,
+    "note": "L row lists values for K=3..9 (7 values) as printed",
+    "src": "SAL-SIPLUS p26"
+   },
+   "envelope": {
+    "label_drawing_p25": "20.5, 37, 66 (drawing; assignment not stated)"
+   },
+   "codes": [],
+   "cad": {
+    "available": null,
+    "note": "no Salice CAD/STEP download found; Salice technical services supply drawings on request",
+    "src": "SAL-DL"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "salice_silentia_s200_155",
+   "brand": "Salice",
+   "name": "Silentia+ Series 200 155° (zero-protrusion, reduced operating profile)",
+   "angle": 155,
+   "overlay": [
+    "full (arm 0)",
+    "half (arm 9)",
+    "overlay crank arm 5",
+    "inset (arm 17)",
+    "angled arms 15/24/30/37/45 deg (Complementary)"
+   ],
+   "door_th": [
+    16,
+    null
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 13.5,
+    "tb": [
+     3,
+     8
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-SIPLUS p28-29"
+   },
+   "plate": {
+    "types": [
+     "Domi snap-on straight 21+32 (BAP*), cruciform 37x32 (BAR*, BAV*), cruciform 9.5x48 (BAU*)",
+     "Traditional Series 200 cruciform 37x32 and 28x32, straight 21+32, angled (cruciform for angled assembly), 9.5x32"
+    ],
+    "hole_spacing_mm": 32,
+    "hole_line_mm": [
+     37,
+     28,
+     21,
+     20
+    ],
+    "heights_H_mm": {
+     "letters": {
+      "S": -2,
+      "0": 0,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "9": 9,
+      "C": 12,
+      "V": 18,
+      "Z": 21,
+      "J": 22,
+      "Y": 24,
+      "U": 27,
+      "M": 31
+     }
+    },
+    "fixing_hole": "dowel o10x11.5 (BAP7/BAR7 types) or o10x10 (BAV7); Euro screw o5; wood screw 3.5 DIN 7983",
+    "depth_adjust_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "height_adjust_cam_mm": 2,
+    "src": "SAL-PLATES p6-19 (code composition on p6/12; drawing)"
+   },
+   "arm": {
+    "H_formulas_mm": {
+     "arm0": "H = 15 + K - D",
+     "arm5": "H = 10 + K - D",
+     "arm9": "H = 6 + K - D",
+     "arm17": "H = -2 + K + A"
+    },
+    "adjust_side_mm": [
+     -1.5,
+     4.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "codes_by_arm": {
+     "arm0": {
+      "48": "C2AKAE9",
+      "45": "C2PKAE9",
+      "52": "C2UKAE9"
+     },
+     "arm5": {
+      "48": "C2AKDE9",
+      "45": "C2PKDE9",
+      "52": "C2UKDE9"
+     },
+     "arm9": {
+      "48": "C2AKGE9",
+      "45": "C2PKGE9",
+      "52": "C2UKGE9"
+     },
+     "arm17": {
+      "48": "C2AKPE9",
+      "45": "C2PKPE9",
+      "52": "C2UKPE9"
+     }
+    },
+    "src": "SAL-SIPLUS p28-29"
+   },
+   "options": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "min door thickness 16 mm; 120 deg limiter clip option not read"
+   ],
+   "hinge_count": {
+    "rows": "same two charts as S200 94 (p25)",
+    "src": "SAL-SIPLUS p25 (not separately stated for 155)"
+   },
+   "gaps": {
+    "table_A": {
+     "T": [
+      16,
+      18,
+      20,
+      22,
+      24,
+      25,
+      26,
+      27,
+      28
+     ],
+     "A_K3": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.1,
+      0.4,
+      0.75,
+      1.2
+     ],
+     "A_K4": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.15,
+      0.45,
+      0.85,
+      1.35
+     ],
+     "A_K5": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.2,
+      0.5,
+      0.95,
+      null
+     ],
+     "A_K6": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.25,
+      0.6,
+      1.1,
+      null
+     ],
+     "A_K7": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.3,
+      0.7,
+      1.3,
+      null
+     ],
+     "A_K8": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.35,
+      0.85,
+      null,
+      null
+     ],
+     "A_K9": [
+      0,
+      0,
+      0,
+      0,
+      0.15,
+      0.55,
+      1.2,
+      null,
+      null
+     ]
+    },
+    "note": "printed tab: K range stated 3-8 in text but table lists K=9 (source inconsistency); null = no printed value",
+    "src": "SAL-SIPLUS p28"
+   },
+   "envelope": null,
+   "codes": [],
+   "cad": {
+    "available": null,
+    "note": "no Salice CAD/STEP download found; Salice technical services supply drawings on request",
+    "src": "SAL-DL"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "salice_silentia_s700",
+   "brand": "Salice",
+   "name": "Silentia+ Series 700 (110°, 120°, 155°; min door 16 mm; cup depth 13.5)",
+   "angle": 110,
+   "overlay": [
+    "full (arm 0)",
+    "half (arm 9)",
+    "overlay crank arm 5",
+    "inset (arm 17)",
+    "angled arms 15/24/30/37/45 deg (Complementary)"
+   ],
+   "door_th": [
+    16,
+    null
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 13.5,
+    "tb": [
+     3,
+     6
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-SIPLUS p44-49"
+   },
+   "plate": {
+    "types": [
+     "Domi snap-on straight 21+32 (BAP*), cruciform 37x32 (BAR*, BAV*), cruciform 9.5x48 (BAU*)",
+     "Traditional Series 200 cruciform 37x32 and 28x32, straight 21+32, angled (cruciform for angled assembly), 9.5x32"
+    ],
+    "hole_spacing_mm": 32,
+    "hole_line_mm": [
+     37,
+     28,
+     21,
+     20
+    ],
+    "heights_H_mm": {
+     "letters": {
+      "S": -2,
+      "0": 0,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "9": 9,
+      "C": 12,
+      "V": 18,
+      "Z": 21,
+      "J": 22,
+      "Y": 24,
+      "U": 27,
+      "M": 31
+     }
+    },
+    "fixing_hole": "dowel o10x11.5 (BAP7/BAR7 types) or o10x10 (BAV7); Euro screw o5; wood screw 3.5 DIN 7983",
+    "depth_adjust_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "height_adjust_cam_mm": 2,
+    "src": "SAL-PLATES p6-19 (code composition on p6/12; drawing)"
+   },
+   "arm": {
+    "H_formulas_mm": {
+     "arm0": "H = 15 + K - D",
+     "arm5": "H = 10 + K - D",
+     "arm9": "H = 6 + K - D",
+     "arm17": "H = -2 + K + A"
+    },
+    "adjust_side_mm": [
+     -1.5,
+     4.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "codes_by_arm": {
+     "110deg_arm0": {
+      "48": "C7A6AE9",
+      "45": "C7P6AE9",
+      "52": "C7U6AE9"
+     },
+     "110deg_arm5": {
+      "48": "C7A6DE9"
+     },
+     "110deg_arm9": {
+      "48": "C7A6GE9"
+     },
+     "110deg_arm17": {
+      "48": "C7A6PE9"
+     },
+     "note": "700 155deg: K 3-9; its catalogue p49 lists the same codes as Series 200 155 (C2AK...) - probable catalogue copy error, verify before use"
+    },
+    "src": "SAL-SIPLUS p44-49"
+   },
+   "options": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "Series 700 120° variant: K 3-6",
+    "Series 700 155° variant: K 3-9"
+   ],
+   "hinge_count": {
+    "rows": "not read",
+    "src": "SAL-SIPLUS p43"
+   },
+   "gaps": {
+    "110deg_A_K3": {
+     "T": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+     ],
+     "A": [
+      0.7,
+      0.9,
+      1.1,
+      1.3,
+      1.6,
+      1.9,
+      2.2,
+      2.6,
+      3.2,
+      4.4,
+      5.7
+     ],
+     "L": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.9
+     ]
+    },
+    "note": "A and L for K=4,5,6 on p44; 120 deg tables p46",
+    "src": "SAL-SIPLUS p44,46"
+   },
+   "envelope": null,
+   "codes": [],
+   "cad": {
+    "available": null,
+    "note": "no Salice CAD/STEP download found; Salice technical services supply drawings on request",
+    "src": "SAL-DL"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "salice_silentia_s300",
+   "brand": "Salice",
+   "name": "Silentia+ Series 300 (94°, reduced 45 mm operating profile)",
+   "angle": 94,
+   "overlay": [
+    "full (arm 0)",
+    "half (arm 9)",
+    "overlay crank arm 5",
+    "inset (arm 17)",
+    "angled arms 15/24/30/37/45 deg (Complementary)"
+   ],
+   "door_th": [
+    18,
+    null
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 15.5,
+    "tb": [
+     3,
+     9
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-SIPLUS p37-39"
+   },
+   "plate": {
+    "types": [
+     "Domi snap-on straight 21+32 (BAP*), cruciform 37x32 (BAR*, BAV*), cruciform 9.5x48 (BAU*)",
+     "Traditional Series 200 cruciform 37x32 and 28x32, straight 21+32, angled (cruciform for angled assembly), 9.5x32"
+    ],
+    "hole_spacing_mm": 32,
+    "hole_line_mm": [
+     37,
+     28,
+     21,
+     20
+    ],
+    "heights_H_mm": {
+     "letters": {
+      "S": -2,
+      "0": 0,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "9": 9,
+      "C": 12,
+      "V": 18,
+      "Z": 21,
+      "J": 22,
+      "Y": 24,
+      "U": 27,
+      "M": 31
+     }
+    },
+    "fixing_hole": "dowel o10x11.5 (BAP7/BAR7 types) or o10x10 (BAV7); Euro screw o5; wood screw 3.5 DIN 7983",
+    "depth_adjust_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "height_adjust_cam_mm": 2,
+    "src": "SAL-PLATES p6-19 (code composition on p6/12; drawing)"
+   },
+   "arm": {
+    "H_formulas_mm": {
+     "arm0": "H = 15 + K - D",
+     "arm5": "H = 10 + K - D",
+     "arm9": "H = 6 + K - D",
+     "arm17": "H = -2 + K + A"
+    },
+    "adjust_side_mm": [
+     -1.5,
+     4.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "codes_by_arm": {
+     "arm0": "H = 13 + K - D (codes not transcribed)"
+    },
+    "src": "SAL-SIPLUS p37-39"
+   },
+   "options": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "operating profile 45 mm; own plates (Series 300)"
+   ],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [],
+   "cad": {
+    "available": null,
+    "note": "no Salice CAD/STEP download found; Salice technical services supply drawings on request",
+    "src": "SAL-DL"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "salice_silentia_N",
+   "brand": "Salice",
+   "name": "Silentia+ Series N (94°, profile and thicker doors)",
+   "angle": 94,
+   "overlay": [
+    "full (arm 0)",
+    "half (arm 9)",
+    "overlay crank arm 5",
+    "inset (arm 17)",
+    "angled arms 15/24/30/37/45 deg (Complementary)"
+   ],
+   "door_th": [
+    null,
+    40
+   ],
+   "cup": {
+    "dia": 40,
+    "depth": 15.5,
+    "tb": [
+     3,
+     14
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-SIPLUS p11, p80-81",
+    "dia_note": "overview table p11: cup o40 for Series N; others o35",
+    "depth_conflict": "p80 text 15.5 mm vs p11 overview row 13.5 mm"
+   },
+   "plate": {
+    "types": [
+     "Domi snap-on straight 21+32 (BAP*), cruciform 37x32 (BAR*, BAV*), cruciform 9.5x48 (BAU*)",
+     "Traditional Series 200 cruciform 37x32 and 28x32, straight 21+32, angled (cruciform for angled assembly), 9.5x32"
+    ],
+    "hole_spacing_mm": 32,
+    "hole_line_mm": [
+     37,
+     28,
+     21,
+     20
+    ],
+    "heights_H_mm": {
+     "letters": {
+      "S": -2,
+      "0": 0,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "6": 6,
+      "9": 9,
+      "C": 12,
+      "V": 18,
+      "Z": 21,
+      "J": 22,
+      "Y": 24,
+      "U": 27,
+      "M": 31
+     }
+    },
+    "fixing_hole": "dowel o10x11.5 (BAP7/BAR7 types) or o10x10 (BAV7); Euro screw o5; wood screw 3.5 DIN 7983",
+    "depth_adjust_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "height_adjust_cam_mm": 2,
+    "src": "SAL-PLATES p6-19 (code composition on p6/12; drawing)"
+   },
+   "arm": {
+    "H_formulas_mm": {
+     "arm0": "H = 15 + K - D",
+     "arm5": "H = 10 + K - D",
+     "arm9": "H = 6 + K - D",
+     "arm17": "H = -2 + K + A"
+    },
+    "adjust_side_mm": [
+     -1.5,
+     4.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ],
+    "codes_by_arm": {
+     "arm0": "H = 19 + K - D",
+     "arm9": "H = 10 + K - D",
+     "arm22": "H = -3 + K + A"
+    },
+    "src": "SAL-SIPLUS p11, p80-81"
+   },
+   "options": [
+    "integrated soft close (Silentia+, twin silicone dampers, switch adjustable)",
+    "Logica packing",
+    "titanium finish: replace code 9->6",
+    "door thickness < 40 mm per overview (p11); cup dia 40 mm per overview row"
+   ],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [],
+   "cad": {
+    "available": null,
+    "note": "no Salice CAD/STEP download found; Salice technical services supply drawings on request",
+    "src": "SAL-DL"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "salice_air",
+   "brand": "Salice",
+   "name": "Air - truly concealed hinge (cup in door, arm in top/bottom panel)",
+   "angle": 105,
+   "overlay": [
+    "top/bottom insertion, overlay D1 min 15"
+   ],
+   "door_th": [
+    18,
+    32
+   ],
+   "cup": {
+    "dia": null,
+    "depth": 16.5,
+    "tb": [
+     4,
+     6
+    ],
+    "tb_std": null,
+    "tb_alu_frame_fixed": 4,
+    "dowel": {
+     "note": "special routing drawing (no standard o35 cup): see SAL-AIR p8 (drawing values 10, 46, 57.5, 24.5, 35.5, R2/R4/R5, 16.5+K-D)"
+    },
+    "src": "SAL-AIR p8 (wood doors; K fixed 4 for aluminium frame doors)"
+   },
+   "plate": {
+    "types": [
+     "directly screwable plates in aluminium support profile (kit for 16/18 mm panels)",
+     "profile kits: DEN6LK417P (16 mm, 2 cabinets of 450), further sizes p17-19"
+    ],
+    "src": "SAL-AIR p17-18"
+   },
+   "arm": {
+    "L_mm": 2.5,
+    "max_door_weight_kg": 25,
+    "max_door_mm": {
+     "height": 2700,
+     "width": 600
+    },
+    "stop_device_deg": 92
+   },
+   "options": [
+    "soft close",
+    "Push-to-Open",
+    "unsprung",
+    "nickel/titanium",
+    "holders for cup/arm (door and panel inserts)"
+   ],
+   "hinge_count": {
+    "note": "max load 25 kg per door; max door 2700 x 600 mm; no count table read",
+    "src": "SAL-AIR p8"
+   },
+   "gaps": {
+    "table_A": {
+     "T": [
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32
+     ],
+     "A_K4": [
+      0,
+      0.2,
+      0.4,
+      0.8,
+      1.3,
+      3.9,
+      6.5,
+      9.0
+     ],
+     "A_K5": [
+      0,
+      0.2,
+      0.4,
+      0.8,
+      1.3,
+      2.9,
+      5.5,
+      8.0
+     ],
+     "A_K6": [
+      0,
+      0.2,
+      0.4,
+      0.8,
+      1.2,
+      1.9,
+      4.5,
+      7.0
+     ],
+     "with_92deg_stop": {
+      "T": [
+       28,
+       30,
+       32
+      ],
+      "A_K4": [
+       1.8,
+       3.2,
+       4.8
+      ],
+      "A_K5": [
+       1.7,
+       2.8,
+       4.3
+      ],
+      "A_K6": [
+       1.6,
+       2.8,
+       4.0
+      ]
+     },
+     "projection_note": "based on K=4 and overlay 17 mm; D=17, 13.5 (drawing)"
+    },
+    "src": "SAL-AIR p8"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "CEL6DE9XXI / CEL6SE9XXI",
+     "desc": "soft close, nickel, industrial pack (D vs S letters not labelled; likely right/left - unverified)",
+     "src": "SAL-AIR p14"
+    },
+    {
+     "code": "CELPD99XXI / CELPS99XXI",
+     "desc": "Push, nickel",
+     "src": "SAL-AIR p14"
+    },
+    {
+     "code": "CEL4D99XXI / CEL4S99XXI",
+     "desc": "unsprung, nickel",
+     "src": "SAL-AIR p14"
+    },
+    {
+     "code": "CEL6XE9XXV / CELPX99XXV",
+     "desc": "door-set bags (2 hinge sets) soft close / push",
+     "src": "SAL-AIR p14"
+    }
+   ],
+   "cad": {
+    "available": null,
+    "note": "none found"
+   },
+   "unreadable": [
+    "cup diameter not stated numerically (drawing is a custom routing)",
+    "D vs S code meaning"
+   ]
+  },
+  {
+   "id": "salice_vetro_universal_CBG",
+   "brand": "Salice",
+   "name": "Vetro: Universal hinge CBG for glass/mirror doors (bonded plate BAGHR59/31, no glass drilling)",
+   "angle": 110,
+   "overlay": [
+    "K 0 to 22"
+   ],
+   "door_th": null,
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "tb": [
+     0,
+     22
+    ],
+    "tb_std": 14,
+    "dowel": null,
+    "src": "SAL-VETRO p4 (assembly examples K=14, 8, 6, 1.5 drawing)"
+   },
+   "plate": {
+    "types": [
+     "BAGHR59/31 (glue to glass/mirror)",
+     "BAGHR59/32 (for series 200 glass hinge)"
+    ],
+    "note": "adhesive: plate must sustain >=160 Nm torsion in tests"
+   },
+   "arm": {},
+   "options": [
+    "integrated soft-close",
+    "sprung",
+    "Push",
+    "unsprung"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg_max": 7
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg_max": 11
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2400,
+      "kg_max": 14
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2800,
+      "kg_max": 18
+     }
+    ],
+    "alt_chart_unlabelled": [
+     {
+      "n": 3,
+      "kg": 11
+     },
+     {
+      "n": 4,
+      "kg": 14
+     },
+     {
+      "n": 5,
+      "kg": 18
+     },
+     {
+      "n": 6,
+      "kg_max": "cut off"
+     }
+    ],
+    "door_width_mm": 600,
+    "src": "SAL-UNIV p4 text (kg values; heights 1000/1500/2400/2800 from text order - mapping inferred, verify image)"
+   },
+   "gaps": null,
+   "envelope": null,
+   "codes": [
+    {
+     "code": "CBG2AE9 / CBG2AE6",
+     "desc": "universal glass hinge nickel/titanium (example given)",
+     "src": "SAL-UNIV p4"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": [
+    "cup/arm envelope",
+    "TB std meaning",
+    "hinge count mapping inferred"
+   ]
+  },
+  {
+   "id": "salice_vetro_series200_glass",
+   "brand": "Salice",
+   "name": "Series 200 hinge for drilled glass (cup o26, 94°)",
+   "angle": 94,
+   "overlay": [],
+   "door_th": [
+    4,
+    6
+   ],
+   "cup": {
+    "dia": 26,
+    "depth": null,
+    "tb": [
+     5.5,
+     6.5
+    ],
+    "tb_std": 6,
+    "src": "SAL-VETRO p6"
+   },
+   "plate": {
+    "types": [
+     "BAGHR59/32 glued to glass/mirror",
+     "Domi plates screwed to wood side"
+    ]
+   },
+   "arm": {},
+   "options": [
+    "sprung only",
+    "cover caps: black, lacquered black, white, bright gold effect, gold effect, bright chrome, silver effect"
+   ],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [],
+   "cad": {
+    "available": null
+   },
+   "unreadable": [
+    "cup depth",
+    "codes not extracted"
+   ]
+  },
+  {
+   "id": "salice_pivot_270",
+   "brand": "Salice",
+   "name": "Single pivot hinge 270° (die-cast, sprung; also 180° with door <=24 mm)",
+   "angle": 270,
+   "overlay": [
+    "inset door",
+    "half overlay door",
+    "recessed knuckle H = 18 - D",
+    "external knuckle H = 10 - D"
+   ],
+   "door_th": [
+    18,
+    20
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "tb": null,
+    "tb_std": null,
+    "dowel": {
+     "patterns": "48/6, 45/9.5, 52/5.5 as Silentia+; code CM_3A99 (third letter = fixing: A/P/U wood screw, B/R/W dowel)",
+     "dowel_dia": {
+      "48": 10,
+      "45": 8,
+      "52": 10
+     }
+    },
+    "src": "SAL-PIVOT p2 (drawing)"
+   },
+   "plate": {
+    "types": [
+     "Series 200 traditional or Domi snap-on; H=0 needed for full 270 deg"
+    ]
+   },
+   "arm": {
+    "adjust_side_mm": [
+     -3,
+     3
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_plate200_mm": 2.8,
+    "adjust_depth_Domi_mm": [
+     -0.5,
+     2.8
+    ]
+   },
+   "options": [
+    "certified FIRA level 5, ANSI grade 1"
+   ],
+   "hinge_count": null,
+   "gaps": {
+    "R_table_270": {
+     "side_thickness_S": [
+      18,
+      19,
+      20
+     ],
+     "door_T_18": [
+      4.25,
+      3.25,
+      2.25
+     ],
+     "door_T_19": [
+      3.25,
+      2.25,
+      1.25
+     ],
+     "door_T_20": [
+      2.25,
+      1.25,
+      0.25
+     ],
+     "note": "rows: S=18/19/20 ; columns T=18/19/20 as printed (table rows S=20: 2.25 1.25 0.25; S=19: 3.25 2.25 1.25; S=18: 4.25 3.25 2.25). Full 270 only if R>=0 and plate H=0."
+    },
+    "src": "SAL-PIVOT p3"
+   },
+   "envelope": {
+    "cup_view_drawing_mm": {
+     "w": 66,
+     "h": 38,
+     "d": 19
+    },
+    "note": "p2 top view printed 66 / 38 / 19 (drawing)",
+    "src": "SAL-PIVOT p2"
+   },
+   "codes": [
+    {
+     "code": "CM_3A99",
+     "desc": "Single pivot 270; fill 3rd char (A/B/P/R/U/W)",
+     "src": "SAL-PIVOT p2-3"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": [
+    "cup depth",
+    "door thickness max not stated beyond 180 deg note (<=24)"
+   ]
+  },
+  {
+   "id": "salice_corner_s200",
+   "brand": "Salice",
+   "name": "Series 200 Complementary corner-cabinet hinge (first door opens 65°)",
+   "angle": 65,
+   "overlay": [
+    "corner/folding door"
+   ],
+   "door_th": [
+    16,
+    25
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11,
+    "tb": [
+     3,
+     5
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      }
+     },
+     "dowel_dia": {
+      "48": 10,
+      "52": 10,
+      "45": 8
+     },
+     "fixings": [
+      "wood screw",
+      "Rapido",
+      "dowel",
+      "Logica (premounted dowel)"
+     ],
+     "dowel_depth": null,
+     "src": "SAL-SIPLUS p17 (drawing labels: 48/6, 45/9.5, 52/5.5; o10 for 48 and 52, o8 for 45)"
+    },
+    "src": "SAL-CORNER p2"
+   },
+   "plate": {
+    "types": [
+     "Series 200 cross H=0 or H=3, linear 32+21 / 32+24"
+    ],
+    "note": "door 16-23: K 3-5; 24-25: K 3-4; with H3 plate door 19-25",
+    "space_needed_mm": {
+     "Series200": {
+      "H0": 61,
+      "H3": 64
+     },
+     "Domi": {
+      "H0": 70,
+      "H3": 73
+     },
+     "Domi_back_cam": {
+      "H0": 74,
+      "H3": 77
+     }
+    }
+   },
+   "arm": {
+    "diagonal_adjust_mm": [
+     -5,
+     7
+    ]
+   },
+   "options": [],
+   "hinge_count": null,
+   "gaps": {
+    "E_min_cross": {
+     "H0": 37,
+     "H3": 40
+    },
+    "src": "SAL-CORNER p3 (drawing)"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "C2AYA99R / C2PYA99R / C2UYA99R",
+     "desc": "wood screw 48/45/52, nickel",
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "code": "C2BYA99R / C2RYA99R / C2WYA99R",
+     "desc": "dowel",
+     "src": "SAL-CORNER p2"
+    },
+    {
+     "code": "C26YA99R / C27YA99R / C22YA99R",
+     "desc": "Rapido",
+     "src": "SAL-CORNER p2"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": []
+  },
+  {
+   "id": "grass_tiomos_110",
+   "brand": "Grass",
+   "name": "Tiomos 110 (damper / no damper / no spring / self-opening)",
+   "angle": 110,
+   "overlay": [
+    "full (crank 0)",
+    "overlay (crank 3)",
+    "half (crank 9.5)",
+    "inset (crank 19)"
+   ],
+   "door_th": [
+    null,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depth_min": 12.6,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5,
+       "cup_dia": 35,
+       "cup_dia_tol": "+0.1",
+       "fixings": "screw-on / press-fit (dowel o8 x 8 per drawing: 8, 9, 39(40.5) values)",
+       "impresso_combination": "45/9.5 + 48/9 (Impresso: spacing 62 (64.5))"
+      }
+     },
+     "src": "GRA-CAT p15 (drawing values 3(8), 39(40.5), 9.5, 9, 8, 45, 48, 62(64.5))"
+    },
+    "src": "GRA-CAT p15"
+   },
+   "plate": {
+    "types": [
+     "1D cross 4-point 37/32 (steel; screw o3.5x15, Euro o6.3/o5, press-fit o10, expanding dowel o5 x 11/7.5)",
+     "1D cross 2-point 37/32 (Zamak/steel) heights 6/8/9/9.5/12/14/15/15.5/19/21",
+     "1D cross 28/32",
+     "1D linear 20/32 (screw / Euro / press-fit)",
+     "1D delta (frame) 9.5/32, inset beaded 10/32",
+     "ECO cross 37/32 3-point, heights -2/0/2/3/3.5",
+     "20 deg angle plate X/32",
+     "+5/-5 deg wedge F072135757/F072135758"
+    ],
+    "hole_line_mm": [
+     37,
+     28,
+     20
+    ],
+    "hole_spacing_mm": 32,
+    "heights_mm": [
+     0,
+     2,
+     3,
+     3.5
+    ],
+    "adjust": {
+     "height": 2,
+     "side": 2,
+     "depth": [
+      -2,
+      3
+     ]
+    },
+    "codes": {
+     "cross37_screw": {
+      "0": "F058139746",
+      "2": "F058139747",
+      "3": "F058139748",
+      "3.5": "F058139749"
+     },
+     "cross37_Euro_o6.3": {
+      "0": "F058139756",
+      "2": "F058139757",
+      "3": "F058139758",
+      "3.5": "F058139759"
+     },
+     "cross37_premountedEuro": {
+      "0": "F058139761",
+      "2": "F058139762",
+      "3": "F058139763",
+      "3.5": "F058139764"
+     },
+     "cross37_press_o10": {
+      "0": "F058139751",
+      "2": "F058139752",
+      "3": "F058139753",
+      "3.5": "F058139754"
+     },
+     "linear20_screw": {
+      "0": "F059139701",
+      "2": "F059139702",
+      "3": "F059139703",
+      "3.5": "F059139704"
+     },
+     "cross28_screw": {
+      "0": "F058139796",
+      "2": "F058139797",
+      "3": "F058139798",
+      "3.5": "F058139799"
+     }
+    },
+    "src": "GRA-CAT p102-111"
+   },
+   "arm": {
+    "adjust_side_mm": 2,
+    "adjust_height_mm": 2,
+    "adjust_depth_mm": [
+     -2,
+     3
+    ],
+    "arm_length_drawing_mm": 84.5,
+    "cup_protrusion_drawing": {
+     "full": [
+      12,
+      13
+     ],
+     "overlay": [
+      15,
+      10
+     ],
+     "half": [
+      21.5,
+      3.5
+     ],
+     "inset": [
+      31
+     ]
+    },
+    "door_edge_dim": {
+     "full": 24,
+     "overlay": 24,
+     "half": 31,
+     "inset": 40.5
+    },
+    "note": "drawing values 24/24/31/40.5 and 84.5/86 (hinge overall dims) as printed (drawing)",
+    "src": "GRA-CAT p15"
+   },
+   "options": [
+    "Tipmatic/self-opening variant",
+    "85 deg opening reduction clip F072135751",
+    "Quick3, Impresso (tool-free), press-fit",
+    "Night (black) finish",
+    "tool-free damper adjustment 3 levels"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg_max": 6
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg_max": 10
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg_max": 22
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)",
+    "src": "GRA-CAT p116 (drawing)"
+   },
+   "gaps": {
+    "min_gap_table": {
+     "cols_C": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "24": [
+       1.0,
+       1.0,
+       1.0,
+       1.2,
+       2.1
+      ],
+      "22": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.5
+      ],
+      "21": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.2
+      ],
+      "20": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "19": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "18": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "17": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "16": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "min_reveal_table": {
+     "cols_C": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "24": [
+       2.4,
+       2.1,
+       2.1,
+       2.1,
+       2.0
+      ],
+      "22": [
+       1.6,
+       1.6,
+       1.6,
+       1.5,
+       1.5
+      ],
+      "21": [
+       1.4,
+       1.3,
+       1.3,
+       1.3,
+       1.3
+      ],
+      "20": [
+       1.1,
+       1.1,
+       1.1,
+       1.1,
+       1.1
+      ],
+      "19": [
+       0.9,
+       0.9,
+       0.9,
+       0.9,
+       0.9
+      ],
+      "18": [
+       0.7,
+       0.7,
+       0.7,
+       0.7,
+       0.7
+      ],
+      "17": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6
+      ],
+      "16": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6
+      ]
+     }
+    },
+    "formula": "overlay A = cup overlay (factory) + cup distance TA; door reveal tables with plate height 0/2/3/3.5; inset: set plate back by door thickness + 1.5",
+    "factory_gap_mm": 1.5,
+    "src": "GRA-CAT p15, p117-119"
+   },
+   "envelope": {
+    "arm_length_mm_drawing": 84.5,
+    "src": "GRA-CAT p15"
+   },
+   "codes": [
+    {
+     "code": "F028138519..F028138522",
+     "desc": "110 with damper, click-on screw fixing, crank 0/3/9.5/19",
+     "src": "GRA-CAT p14"
+    },
+    {
+     "code": "F045138457..460",
+     "desc": "without damper",
+     "src": "GRA-CAT p14"
+    },
+    {
+     "code": "F046138579..582",
+     "desc": "without damper, without spring",
+     "src": "GRA-CAT p14"
+    },
+    {
+     "code": "F028138523..526",
+     "desc": "damper, press-fit",
+     "src": "GRA-CAT p14"
+    },
+    {
+     "code": "F017139329..332",
+     "desc": "damper, Impresso",
+     "src": "GRA-CAT p14"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "urls": [
+     "https://www.grass.eu/en/tec-center/cad-data/"
+    ],
+    "note": "ZIP per product group with RAW + STEP; iFurn library",
+    "src": "GRA-CAD"
+   },
+   "unreadable": [
+    "door_th lower bound not stated ('up to 24 mm')",
+    "cup depth only as minimum 12.6",
+    "dowel hole depth"
+   ]
+  },
+  {
+   "id": "grass_tiomos_95",
+   "brand": "Grass",
+   "name": "Tiomos 95 (thick door up to 28 mm)",
+   "angle": 95,
+   "overlay": [
+    "full 0",
+    "overlay 3",
+    "half 9.5",
+    "inset 19"
+   ],
+   "door_th": [
+    null,
+    28
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depth_min": 12.6,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5,
+       "cup_dia": 35,
+       "cup_dia_tol": "+0.1",
+       "fixings": "screw-on / press-fit (dowel o8 x 8 per drawing: 8, 9, 39(40.5) values)",
+       "impresso_combination": "45/9.5 + 48/9 (Impresso: spacing 62 (64.5))"
+      }
+     },
+     "src": "GRA-CAT p15 (drawing values 3(8), 39(40.5), 9.5, 9, 8, 45, 48, 62(64.5))"
+    },
+    "src": "GRA-CAT p27"
+   },
+   "plate": {
+    "types": [
+     "1D cross 4-point 37/32 (steel; screw o3.5x15, Euro o6.3/o5, press-fit o10, expanding dowel o5 x 11/7.5)",
+     "1D cross 2-point 37/32 (Zamak/steel) heights 6/8/9/9.5/12/14/15/15.5/19/21",
+     "1D cross 28/32",
+     "1D linear 20/32 (screw / Euro / press-fit)",
+     "1D delta (frame) 9.5/32, inset beaded 10/32",
+     "ECO cross 37/32 3-point, heights -2/0/2/3/3.5",
+     "20 deg angle plate X/32",
+     "+5/-5 deg wedge F072135757/F072135758"
+    ],
+    "hole_line_mm": [
+     37,
+     28,
+     20
+    ],
+    "hole_spacing_mm": 32,
+    "heights_mm": [
+     0,
+     2,
+     3,
+     3.5
+    ],
+    "adjust": {
+     "height": 2,
+     "side": 2,
+     "depth": [
+      -2,
+      3
+     ]
+    },
+    "codes": {
+     "cross37_screw": {
+      "0": "F058139746",
+      "2": "F058139747",
+      "3": "F058139748",
+      "3.5": "F058139749"
+     },
+     "cross37_Euro_o6.3": {
+      "0": "F058139756",
+      "2": "F058139757",
+      "3": "F058139758",
+      "3.5": "F058139759"
+     },
+     "cross37_premountedEuro": {
+      "0": "F058139761",
+      "2": "F058139762",
+      "3": "F058139763",
+      "3.5": "F058139764"
+     },
+     "cross37_press_o10": {
+      "0": "F058139751",
+      "2": "F058139752",
+      "3": "F058139753",
+      "3.5": "F058139754"
+     },
+     "linear20_screw": {
+      "0": "F059139701",
+      "2": "F059139702",
+      "3": "F059139703",
+      "3.5": "F059139704"
+     },
+     "cross28_screw": {
+      "0": "F058139796",
+      "2": "F058139797",
+      "3": "F058139798",
+      "3.5": "F058139799"
+     }
+    },
+    "src": "GRA-CAT p102-111"
+   },
+   "arm": {
+    "adjust_depth_mm": [
+     -2,
+     3
+    ]
+   },
+   "options": [],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg_max": 6
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg_max": 10
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg_max": 22
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)",
+    "src": "GRA-CAT p116 (drawing)"
+   },
+   "gaps": {
+    "min_reveal_table": {
+     "cols_C": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "36": [
+       10.6,
+       9.6,
+       8.6,
+       7.6,
+       6.7
+      ],
+      "30": [
+       4.5,
+       3.5,
+       2.5,
+       2.5,
+       1.5
+      ],
+      "28": [
+       2.0,
+       1.5,
+       1.5,
+       1.3,
+       1.3
+      ],
+      "26": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "24": [
+       0.6,
+       0.6,
+       0.6,
+       0.6,
+       0.6
+      ],
+      "22": [
+       0.5,
+       0.5,
+       0.5,
+       0.5,
+       0.5
+      ],
+      "20": [
+       0.3,
+       0.3,
+       0.3,
+       0.3,
+       0.3
+      ],
+      "18": [
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2
+      ],
+      "16": [
+       0.2,
+       0.2,
+       0.2,
+       0.2,
+       0.2
+      ]
+     }
+    },
+    "min_gap_table": {
+     "rows": {
+      "36": [
+       1.0,
+       1.0,
+       1.0,
+       1.4,
+       2.4
+      ],
+      "28": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.7
+      ],
+      "24": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.4
+      ],
+      "20": [
+       1.0,
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "src": "GRA-CAT p27"
+   },
+   "envelope": {
+    "arm_length_mm_drawing": 84.5
+   },
+   "codes": [
+    {
+     "code": "F028138567..570",
+     "desc": "95 damper screw-on crank 0/3/9.5/19",
+     "src": "GRA-CAT p26"
+    },
+    {
+     "code": "F045138505..508",
+     "desc": "no damper",
+     "src": "GRA-CAT p26"
+    },
+    {
+     "code": "F046138627..630",
+     "desc": "no damper no spring",
+     "src": "GRA-CAT p26"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "ref": "grass_tiomos_110"
+   },
+   "unreadable": [
+    "door lower bound",
+    "cup depth exact"
+   ]
+  },
+  {
+   "id": "grass_tiomos_160",
+   "brand": "Grass",
+   "name": "Tiomos 160 wide-angle (zero protrusion, inset drawers)",
+   "angle": 160,
+   "overlay": [
+    "full 0",
+    "overlay 3",
+    "half 9.5",
+    "inset (crank 0 + plate 21)"
+   ],
+   "door_th": [
+    null,
+    32
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depth_min": 10,
+    "tb": [
+     3,
+     10
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5,
+       "cup_dia": 35,
+       "cup_dia_tol": "+0.1",
+       "fixings": "screw-on / press-fit (dowel o8 x 8 per drawing: 8, 9, 39(40.5) values)",
+       "impresso_combination": "45/9.5 + 48/9 (Impresso: spacing 62 (64.5))"
+      }
+     },
+     "src": "GRA-CAT p15 (drawing values 3(8), 39(40.5), 9.5, 9, 8, 45, 48, 62(64.5))"
+    },
+    "src": "GRA-CAT p23"
+   },
+   "plate": {
+    "types": [
+     "1D cross 4-point 37/32 (steel; screw o3.5x15, Euro o6.3/o5, press-fit o10, expanding dowel o5 x 11/7.5)",
+     "1D cross 2-point 37/32 (Zamak/steel) heights 6/8/9/9.5/12/14/15/15.5/19/21",
+     "1D cross 28/32",
+     "1D linear 20/32 (screw / Euro / press-fit)",
+     "1D delta (frame) 9.5/32, inset beaded 10/32",
+     "ECO cross 37/32 3-point, heights -2/0/2/3/3.5",
+     "20 deg angle plate X/32",
+     "+5/-5 deg wedge F072135757/F072135758"
+    ],
+    "hole_line_mm": [
+     37,
+     28,
+     20
+    ],
+    "hole_spacing_mm": 32,
+    "heights_mm": [
+     0,
+     2,
+     3,
+     3.5
+    ],
+    "adjust": {
+     "height": 2,
+     "side": 2,
+     "depth": [
+      -2,
+      3
+     ]
+    },
+    "codes": {
+     "cross37_screw": {
+      "0": "F058139746",
+      "2": "F058139747",
+      "3": "F058139748",
+      "3.5": "F058139749"
+     },
+     "cross37_Euro_o6.3": {
+      "0": "F058139756",
+      "2": "F058139757",
+      "3": "F058139758",
+      "3.5": "F058139759"
+     },
+     "cross37_premountedEuro": {
+      "0": "F058139761",
+      "2": "F058139762",
+      "3": "F058139763",
+      "3.5": "F058139764"
+     },
+     "cross37_press_o10": {
+      "0": "F058139751",
+      "2": "F058139752",
+      "3": "F058139753",
+      "3.5": "F058139754"
+     },
+     "linear20_screw": {
+      "0": "F059139701",
+      "2": "F059139702",
+      "3": "F059139703",
+      "3.5": "F059139704"
+     },
+     "cross28_screw": {
+      "0": "F058139796",
+      "2": "F058139797",
+      "3": "F058139798",
+      "3.5": "F058139799"
+     }
+    },
+    "src": "GRA-CAT p102-111"
+   },
+   "arm": {
+    "reduce_clip": "120 deg opening angle reduction clip F072135753 (mitred application)"
+   },
+   "options": [
+    "mitred application needs 120 deg clip"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg_max": 6
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg_max": 10
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg_max": 22
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)",
+    "src": "GRA-CAT p116 (drawing)"
+   },
+   "gaps": {
+    "min_reveal": "0.0 for door 16-28; 29: 0.2 at C3-9; 30: 0.2, 31: 0.2 (C4-7); 32: 0.2 (C3-4) per p23 table",
+    "min_gap": "1.0 for door 16-29 (higher thickness fewer columns)",
+    "mitre_R_min": {
+     "circumferential": {
+      "19-20": 1.0,
+      "22": 2.0,
+      "24": 3.0,
+      "26": 4.2,
+      "28": 5.4,
+      "30": 6.5
+     },
+     "lateral": {
+      "19-20": 0,
+      "22": 0,
+      "24": 1.0,
+      "26": 2.5,
+      "28": 3.8,
+      "30": 5.3
+     }
+    },
+    "src": "GRA-CAT p22-23"
+   },
+   "envelope": {
+    "arm_length_mm_drawing": 84.5
+   },
+   "codes": [
+    {
+     "code": "F028138561..563",
+     "desc": "160 damper screw-on crank 0/3/9.5",
+     "src": "GRA-CAT p22"
+    },
+    {
+     "code": "F045138499..501",
+     "desc": "no damper",
+     "src": "GRA-CAT p22"
+    },
+    {
+     "code": "F046138621..623",
+     "desc": "no damper no spring",
+     "src": "GRA-CAT p22"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "ref": "grass_tiomos_110"
+   },
+   "unreadable": [
+    "cup depth only minimum 10"
+   ]
+  },
+  {
+   "id": "grass_tiomos_110_AL",
+   "brand": "Grass",
+   "name": "Tiomos 110 AL (aluminium frame hinge)",
+   "angle": 110,
+   "overlay": [
+    "full 0",
+    "overlay 3",
+    "half 9.5",
+    "inset 19"
+   ],
+   "door_th": [
+    null,
+    24
+   ],
+   "cup": {
+    "dia": null,
+    "depth": null,
+    "tb": null,
+    "dowel": {
+     "note": "drawing: o3.2 hole, M3x6 housing fixing screw, 42 +0.2, 28, 16.5, 13.5 (frame cut-out dims, drawing)"
+    },
+    "src": "GRA-CAT p31"
+   },
+   "plate": {
+    "types": [
+     "1D cross 4-point 37/32 (steel; screw o3.5x15, Euro o6.3/o5, press-fit o10, expanding dowel o5 x 11/7.5)",
+     "1D cross 2-point 37/32 (Zamak/steel) heights 6/8/9/9.5/12/14/15/15.5/19/21",
+     "1D cross 28/32",
+     "1D linear 20/32 (screw / Euro / press-fit)",
+     "1D delta (frame) 9.5/32, inset beaded 10/32",
+     "ECO cross 37/32 3-point, heights -2/0/2/3/3.5",
+     "20 deg angle plate X/32",
+     "+5/-5 deg wedge F072135757/F072135758"
+    ],
+    "hole_line_mm": [
+     37,
+     28,
+     20
+    ],
+    "hole_spacing_mm": 32,
+    "heights_mm": [
+     0,
+     2,
+     3,
+     3.5
+    ],
+    "adjust": {
+     "height": 2,
+     "side": 2,
+     "depth": [
+      -2,
+      3
+     ]
+    },
+    "codes": {
+     "cross37_screw": {
+      "0": "F058139746",
+      "2": "F058139747",
+      "3": "F058139748",
+      "3.5": "F058139749"
+     },
+     "cross37_Euro_o6.3": {
+      "0": "F058139756",
+      "2": "F058139757",
+      "3": "F058139758",
+      "3.5": "F058139759"
+     },
+     "cross37_premountedEuro": {
+      "0": "F058139761",
+      "2": "F058139762",
+      "3": "F058139763",
+      "3.5": "F058139764"
+     },
+     "cross37_press_o10": {
+      "0": "F058139751",
+      "2": "F058139752",
+      "3": "F058139753",
+      "3.5": "F058139754"
+     },
+     "linear20_screw": {
+      "0": "F059139701",
+      "2": "F059139702",
+      "3": "F059139703",
+      "3.5": "F059139704"
+     },
+     "cross28_screw": {
+      "0": "F058139796",
+      "2": "F058139797",
+      "3": "F058139798",
+      "3.5": "F058139799"
+     }
+    },
+    "src": "GRA-CAT p102-111"
+   },
+   "arm": {
+    "frame_width_mm": 22
+   },
+   "options": [
+    "unclipping protector F072135807"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg_max": 6
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg_max": 10
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg_max": 17
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg_max": 22
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "Tiomos chart p116 (read from rendered image; step 3 height top about 2200 mm read off scale, not labelled; example 2000x600/13 kg -> 4 hinges)",
+    "src": "GRA-CAT p116 (drawing)"
+   },
+   "gaps": {
+    "min_reveal": "frame thickness 16-24 x frame width 18-22: e.g. 24 mm 2.4-2.0; 20 mm 1.1; 16 mm 0.6",
+    "src": "GRA-CAT p31"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "F028138154..157",
+     "desc": "110AL damper crank 0/3/9.5/19 screw",
+     "src": "GRA-CAT p30"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "frame cut-out dims only as drawing numbers"
+   ]
+  },
+  {
+   "id": "grass_tiomos_mirro",
+   "brand": "Grass",
+   "name": "Tiomos Mirro 125° mirror/glass hinge (no glass drilling; stainless or Zamak adapter glued)",
+   "angle": 125,
+   "overlay": [
+    "overlay max 19",
+    "half",
+    "inset"
+   ],
+   "door_th": [
+    3,
+    8
+   ],
+   "cup": null,
+   "plate": {
+    "types": [
+     "ECO cross 37/32 or 28/32, plate height 0 (no cam plates)"
+    ],
+    "src": "GRA-CAT p89"
+   },
+   "arm": {
+    "gluing_dim_Z_mm": "adapter: 4..26 (steel) / 1.5..23.5 (Zamak)",
+    "overlay_A": "-3..19 for Z",
+    "door_protrusion_TES": [
+     0,
+     3
+    ],
+    "adapter_drawing": {
+     "steel": {
+      "L": 58,
+      "W": 28,
+      "extra": [
+       47,
+       93.5
+      ]
+     },
+     "zamak": {
+      "L": 58,
+      "W": 35.5,
+      "extra": [
+       56,
+       93.5
+      ]
+     }
+    }
+   },
+   "options": [
+    "90 deg reduction clip F072135871",
+    "+5/-5 wedges",
+    "adapter stainless F069073731, Zamak F072135868"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg": "4-6"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg": "7-12"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2200,
+      "kg": "13-17"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2450,
+      "kg": "18-22"
+     }
+    ],
+    "door_width_mm": 500,
+    "src": "GRA-CAT p89,91 (text order; mapping inferred)"
+   },
+   "gaps": {
+    "min_reveal_and_gap_mm": 2.0,
+    "note": "all reveals at least 1.5 mm for mirror/glass (breakage)",
+    "src": "GRA-CAT p89"
+   },
+   "envelope": {
+    "total_dim_drawing": [
+     58,
+     93.5
+    ],
+    "src": "GRA-CAT p89,91"
+   },
+   "codes": [
+    {
+     "code": "F029140325",
+     "desc": "Mirro with damper",
+     "src": "GRA-CAT p88"
+    },
+    {
+     "code": "F047140326",
+     "desc": "without damper",
+     "src": "GRA-CAT p88"
+    },
+    {
+     "code": "F049140327",
+     "desc": "without damper without spring",
+     "src": "GRA-CAT p88"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": [
+    "envelope labels ambiguous"
+   ]
+  },
+  {
+   "id": "grass_tiomos_95_GL_mini",
+   "brand": "Grass",
+   "name": "Tiomos 95 GL Mini 95° glass door hinge (o26 cup)",
+   "angle": 95,
+   "overlay": [
+    "overlay crank 3"
+   ],
+   "door_th": [
+    4,
+    6
+   ],
+   "cup": {
+    "dia": 26,
+    "depth": null,
+    "tb": [
+     4,
+     6
+    ],
+    "tb_std": null,
+    "dowel": {
+     "cup_hole": "o26 +0.1; spacing 31 (and 39) from drawing (drawing)"
+    },
+    "src": "GRA-CAT p87"
+   },
+   "plate": {
+    "types": [
+     "1D cross 4-point 37/32 (steel; screw o3.5x15, Euro o6.3/o5, press-fit o10, expanding dowel o5 x 11/7.5)",
+     "1D cross 2-point 37/32 (Zamak/steel) heights 6/8/9/9.5/12/14/15/15.5/19/21",
+     "1D cross 28/32",
+     "1D linear 20/32 (screw / Euro / press-fit)",
+     "1D delta (frame) 9.5/32, inset beaded 10/32",
+     "ECO cross 37/32 3-point, heights -2/0/2/3/3.5",
+     "20 deg angle plate X/32",
+     "+5/-5 deg wedge F072135757/F072135758"
+    ],
+    "hole_line_mm": [
+     37,
+     28,
+     20
+    ],
+    "hole_spacing_mm": 32,
+    "heights_mm": [
+     0,
+     2,
+     3,
+     3.5
+    ],
+    "adjust": {
+     "height": 2,
+     "side": 2,
+     "depth": [
+      -2,
+      3
+     ]
+    },
+    "codes": {
+     "cross37_screw": {
+      "0": "F058139746",
+      "2": "F058139747",
+      "3": "F058139748",
+      "3.5": "F058139749"
+     },
+     "cross37_Euro_o6.3": {
+      "0": "F058139756",
+      "2": "F058139757",
+      "3": "F058139758",
+      "3.5": "F058139759"
+     },
+     "cross37_premountedEuro": {
+      "0": "F058139761",
+      "2": "F058139762",
+      "3": "F058139763",
+      "3.5": "F058139764"
+     },
+     "cross37_press_o10": {
+      "0": "F058139751",
+      "2": "F058139752",
+      "3": "F058139753",
+      "3.5": "F058139754"
+     },
+     "linear20_screw": {
+      "0": "F059139701",
+      "2": "F059139702",
+      "3": "F059139703",
+      "3.5": "F059139704"
+     },
+     "cross28_screw": {
+      "0": "F058139796",
+      "2": "F058139797",
+      "3": "F058139798",
+      "3.5": "F058139799"
+     }
+    },
+    "src": "GRA-CAT p102-111"
+   },
+   "arm": {
+    "arm_length_mm_drawing": 84.5,
+    "note": "flat arm"
+   },
+   "options": [],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [
+    {
+     "code": "F045138079",
+     "desc": "GL95 Mini without damper",
+     "src": "GRA-CAT p86"
+    }
+   ],
+   "cad": {
+    "available": true
+   },
+   "unreadable": []
+  },
+  {
+   "id": "grass_nexis_impresso_04",
+   "brand": "Grass",
+   "name": "Nexis Impresso 04 (100°)",
+   "angle": 100,
+   "overlay": [
+    "full 0",
+    "half 8",
+    "inset 15"
+   ],
+   "door_th": [
+    null,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11.5,
+    "tb": [
+     4,
+     6
+    ],
+    "tb_std": null,
+    "dowel": {
+     "combination_pattern": "48/9 and 45/9.5 (Impresso)"
+    },
+    "src": "GRA-CAT p128-129"
+   },
+   "plate": {
+    "ref": "Nexis Impresso mounting plates p152-159 (not transcribed)",
+    "src": "GRA-CAT p127"
+   },
+   "arm": {},
+   "options": [
+    "soft-close compatible (Soft-close Impresso set F069073728)",
+    "Tipmatic"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg": "4-5"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "src": "GRA-CAT p162 (rendered image read)"
+   },
+   "gaps": {
+    "min_reveal": {
+     "cols_C": [
+      4,
+      5,
+      6
+     ],
+     "rows": {
+      "16": [
+       0.6,
+       0.6,
+       0.6
+      ],
+      "18": [
+       0.9,
+       0.9,
+       0.9
+      ],
+      "19": [
+       1.1,
+       1.1,
+       1.1
+      ],
+      "20": [
+       1.4,
+       1.4,
+       1.4
+      ],
+      "22": [
+       1.9,
+       1.9,
+       1.9
+      ],
+      "24": [
+       2.5,
+       2.5,
+       2.5
+      ]
+     }
+    },
+    "min_gap": {
+     "rows": {
+      "16": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "18": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "19": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "20": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "22": [
+       0.7,
+       0.7,
+       0.8
+      ],
+      "24": [
+       0.7,
+       0.7,
+       1.1
+      ]
+     }
+    },
+    "src": "GRA-CAT p129"
+   },
+   "envelope": {
+    "arm_length_drawing": 64,
+    "src": "p129"
+   },
+   "codes": [
+    {
+     "code": "F014072504",
+     "desc": "full overlay crank 0 with spring",
+     "src": "GRA-CAT p128"
+    },
+    {
+     "code": "F014072567",
+     "desc": "half overlay crank 8 with spring",
+     "src": "GRA-CAT p128"
+    },
+    {
+     "code": "F014072507",
+     "desc": "inset crank 15 with spring (a no-spring pair F014072506/508)",
+     "src": "GRA-CAT p128"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "ref": "grass_tiomos_110"
+   },
+   "unreadable": [
+    "door lower bound"
+   ]
+  },
+  {
+   "id": "grass_nexis_impresso_22",
+   "brand": "Grass",
+   "name": "Nexis Impresso 22 (110°)",
+   "angle": 110,
+   "overlay": [
+    "full 0",
+    "half 8"
+   ],
+   "door_th": [
+    null,
+    20
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11.5,
+    "tb": [
+     4,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "combination_pattern": "48/9 and 45/9.5 (Impresso)"
+    },
+    "src": "GRA-CAT p130-131"
+   },
+   "plate": {
+    "ref": "Nexis Impresso mounting plates p152-159 (not transcribed)",
+    "src": "GRA-CAT p127"
+   },
+   "arm": {},
+   "options": [
+    "soft-close compatible (Soft-close Impresso set F069073728)",
+    "Tipmatic"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg": "4-5"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "src": "GRA-CAT p162 (rendered image read)"
+   },
+   "gaps": {
+    "min_reveal": {
+     "cols_C": [
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "16": [
+       0.5,
+       0.5,
+       0.5,
+       0.5
+      ],
+      "18": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ],
+      "19": [
+       1.2,
+       1.2,
+       1.2,
+       1.2
+      ],
+      "20": [
+       1.5,
+       1.5,
+       1.5,
+       1.5
+      ],
+      "22": [
+       3.7,
+       2.8,
+       2.1,
+       2.1
+      ]
+     }
+    },
+    "min_gap": {
+     "rows": {
+      "16": [
+       0.7,
+       1.6,
+       2.6,
+       3.6
+      ],
+      "18": [
+       1.2,
+       2.2,
+       3.2,
+       4.2
+      ],
+      "19": [
+       1.5,
+       2.5,
+       3.5,
+       4.5
+      ],
+      "20": [
+       1.8,
+       2.8,
+       3.8,
+       4.8
+      ],
+      "22": [
+       2.4,
+       3.4,
+       4.4,
+       5.4
+      ]
+     }
+    },
+    "src": "GRA-CAT p131"
+   },
+   "envelope": {
+    "arm_length_drawing": 64
+   },
+   "codes": [
+    {
+     "code": "F014072520 / F014072522",
+     "desc": "full / half overlay with spring",
+     "src": "GRA-CAT p130"
+    },
+    {
+     "code": "F014072521 / F014072523",
+     "desc": "without spring",
+     "src": "GRA-CAT p130"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "ref": "grass_tiomos_110"
+   },
+   "unreadable": [
+    "22 mm row beyond stated 20 mm max in source (as printed)"
+   ]
+  },
+  {
+   "id": "grass_nexis_impresso_65",
+   "brand": "Grass",
+   "name": "Nexis Impresso 65 (170° wide angle, zero protrusion, finger guard)",
+   "angle": 170,
+   "overlay": [
+    "full 0",
+    "half 8",
+    "inset (crank 0 + plate 18)"
+   ],
+   "door_th": [
+    null,
+    26
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11,
+    "tb": [
+     4,
+     8
+    ],
+    "tb_std": null,
+    "dowel": {
+     "combination_pattern": "48/9 and 45/9.5 (Impresso)"
+    },
+    "src": "GRA-CAT p134-135"
+   },
+   "plate": {
+    "ref": "Nexis Impresso mounting plates p152-159 (not transcribed)",
+    "src": "GRA-CAT p127"
+   },
+   "arm": {},
+   "options": [
+    "soft-close compatible (Soft-close Impresso set F069073728)",
+    "Tipmatic"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 900,
+      "kg": "4-5"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1600,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "src": "GRA-CAT p162 (rendered image read)"
+   },
+   "gaps": {
+    "min_reveal": "0.0 for door 16-23; 24: 0.7/0.7/0.7/1.8/2.0; 25: 6.5..4.0; 26: 9.5..5.5 (C4..8)",
+    "min_gap": 0.7,
+    "clip": "120 deg reduction clip F069073402 for mitred/inset",
+    "src": "GRA-CAT p135"
+   },
+   "envelope": {
+    "arm_length_drawing": [
+     70,
+     71
+    ],
+    "src": "p135"
+   },
+   "codes": [
+    {
+     "code": "F014072530 / F014072532",
+     "desc": "full / half overlay with spring",
+     "src": "GRA-CAT p134"
+    },
+    {
+     "code": "F014072531",
+     "desc": "full overlay without spring",
+     "src": "GRA-CAT p134"
+    }
+   ],
+   "cad": {
+    "available": true,
+    "ref": "grass_tiomos_110"
+   },
+   "unreadable": []
+  },
+  {
+   "id": "hafele_metalla_310_110",
+   "brand": "Häfele",
+   "name": "Metalla 310 110°",
+   "angle": 110,
+   "overlay": [
+    "full",
+    "half/twin",
+    "inset"
+   ],
+   "door_th": [
+    14,
+    22
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "depth_min": 12,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": {
+      "45/9.5": {
+       "spacing": 45,
+       "offset": 9.5
+      },
+      "48/6": {
+       "spacing": 48,
+       "offset": 6
+      },
+      "52/5.5": {
+       "spacing": 52,
+       "offset": 5.5
+      },
+      "dowel": {
+       "spacing": "45 / 48 / 52 variants with o8 x 8 or similar (text numbers 8,9,40.5 only)"
+      }
+     },
+     "cup_dia": 35,
+     "cup_depth_min": 12,
+     "src": "HAF-UK 23T9-13,16"
+    },
+    "src": "HAF-UK 23T9-16"
+   },
+   "plate": {
+    "types": [
+     "Cruciform 37/32 two-part, +-2 mm height (Hospa or premounted Euro screws; heights 0/2/4 mm...)",
+     "Linear 2-hole 311.70.730 (black)/750 (nickel) H0; 3-hole 311.70.731/751 (not for post hinges)",
+     "155 inset one-part 8 mm 311.71.998",
+     "270 keyhole plate 312.56.610/312.56.600"
+    ],
+    "hole_line_mm": 37,
+    "hole_spacing_mm": 32,
+    "cruciform_H0_code": {
+     "black_Hospa": "311.70.710",
+     "black_euro": "311.70.720",
+     "nickel_Hospa": "311.70.610"
+    },
+    "src": "HAF-UK 23T9-16, 20, 26, 39"
+   },
+   "arm": {
+    "adjust_side_mm": [
+     -3,
+     3
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_mm": [
+     -2,
+     2
+    ]
+   },
+   "options": [
+    "integrated soft close",
+    "unsprung",
+    "push-to-open",
+    "black nickel/nickel"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg": "4-5 (first band)"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "same weight bands as Grass Nexis; Häfele example text: 'three hinges for 1500 mm and 8-12 kg' conflicts with the 6-9 band; heights/mapping from text order only - verify image",
+    "src": "HAF-UK 23T9-13/14 (text)"
+   },
+   "gaps": {
+    "min_gap_table": {
+     "cols_E": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "15": [
+       0.5,
+       1.2,
+       2.0,
+       3.0,
+       3.9
+      ],
+      "16": [
+       0.5,
+       1.3,
+       2.2,
+       3.2,
+       4.2
+      ],
+      "17": [
+       0.5,
+       1.4,
+       2.3,
+       3.4,
+       4.3
+      ],
+      "18": [
+       0.7,
+       1.5,
+       2.5,
+       3.5,
+       4.6
+      ],
+      "19": [
+       0.8,
+       1.7,
+       2.8,
+       3.7,
+       5.0
+      ],
+      "20": [
+       1.0,
+       1.9,
+       2.9,
+       3.8,
+       5.1
+      ],
+      "21": [
+       1.2,
+       2.2,
+       3.0,
+       4.0,
+       5.2
+      ],
+      "22": [
+       1.3,
+       2.3,
+       3.3,
+       4.2,
+       5.3
+      ]
+     }
+    },
+    "note": "the table on p16 is headed 'Minimum gap' with values that look like HAF 310 specific; overlay/plate distance combos (D 0/2/4 mm) as graphics not transcribed",
+    "src": "HAF-UK 23T9-16"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "311.04.648 / 311.04.248",
+     "desc": "110 full overlay 45/9.5 soft close black / nickel",
+     "src": "HAF-UK 23T9-16"
+    },
+    {
+     "code": "311.04.642 / 242",
+     "desc": "without soft close",
+     "src": "HAF-UK 23T9-16"
+    },
+    {
+     "code": "311.60.924",
+     "desc": "unsprung 45/9.5",
+     "src": "HAF-UK 23T9-16"
+    },
+    {
+     "code": "311.60.914",
+     "desc": "push-to-open 45/9.5",
+     "src": "HAF-UK 23T9-16"
+    },
+    {
+     "code": "311.60.918 / 311.84.506",
+     "desc": "unsprung / push 48/6",
+     "src": "HAF-UK 23T9-16"
+    },
+    {
+     "code": "311.04.651/251; 311.04.654/254",
+     "desc": "half overlay / inset soft close black/nickel",
+     "src": "HAF-UK 23T9-16"
+    }
+   ],
+   "cad": {
+    "available": null,
+    "note": "no STEP/CAD link found in Häfele catalogue pages"
+   },
+   "unreadable": [
+    "tb_std",
+    "cup depth exact",
+    "overlay/plate distance grid not transcribed (graphic)"
+   ]
+  },
+  {
+   "id": "hafele_metalla_540_110",
+   "brand": "Häfele",
+   "name": "Metalla 540 110° (SM quick fixing)",
+   "angle": 110,
+   "overlay": [
+    "full",
+    "half/twin",
+    "inset"
+   ],
+   "door_th": [
+    14,
+    25
+   ],
+   "cup": {
+    "dia": 35,
+    "depth_min": 12,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "patterns": "45/9.5",
+     "src": "HAF-UK 23T9-15A"
+    }
+   },
+   "plate": {
+    "types": [
+     "Cruciform 37/32 two-part, +-2 mm height (Hospa or premounted Euro screws; heights 0/2/4 mm...)",
+     "Linear 2-hole 311.70.730 (black)/750 (nickel) H0; 3-hole 311.70.731/751 (not for post hinges)",
+     "155 inset one-part 8 mm 311.71.998",
+     "270 keyhole plate 312.56.610/312.56.600"
+    ],
+    "hole_line_mm": 37,
+    "hole_spacing_mm": 32,
+    "cruciform_H0_code": {
+     "black_Hospa": "311.70.710",
+     "black_euro": "311.70.720",
+     "nickel_Hospa": "311.70.610"
+    },
+    "src": "HAF-UK 23T9-16, 20, 26, 39"
+   },
+   "arm": {
+    "adjust_side_mm": [
+     -3,
+     3
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_mm": [
+     -2,
+     2
+    ],
+    "drawing_dims": [
+     20,
+     71,
+     29,
+     38
+    ]
+   },
+   "options": [
+    "integrated soft close with closing spring or unsprung"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg": "4-5 (first band)"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "same weight bands as Grass Nexis; Häfele example text: 'three hinges for 1500 mm and 8-12 kg' conflicts with the 6-9 band; heights/mapping from text order only - verify image",
+    "src": "HAF-UK 23T9-13/14 (text)"
+   },
+   "gaps": {
+    "min_gap_table": {
+     "cols_E": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "16": [
+       0.8,
+       0.8,
+       0.7,
+       0.7,
+       0.7
+      ],
+      "17": [
+       1.0,
+       1.0,
+       0.9,
+       0.9,
+       0.9
+      ],
+      "18": [
+       1.3,
+       1.3,
+       1.2,
+       1.2,
+       1.1
+      ],
+      "19": [
+       1.6,
+       1.5,
+       1.5,
+       1.5,
+       1.4
+      ],
+      "20": [
+       1.9,
+       1.8,
+       1.8,
+       1.7,
+       1.7
+      ],
+      "21": [
+       2.3,
+       2.2,
+       2.1,
+       2.0,
+       2.0
+      ],
+      "22": [
+       2.7,
+       2.6,
+       2.5,
+       2.4,
+       2.4
+      ],
+      "23": [
+       3.2,
+       3.1,
+       3.0,
+       2.9,
+       2.8
+      ],
+      "24": [
+       3.8,
+       3.6,
+       3.5,
+       3.3,
+       3.2
+      ],
+      "25": [
+       4.5,
+       4.2,
+       4.0,
+       3.8,
+       3.6
+      ]
+     }
+    },
+    "src": "HAF-UK 23T9-15A"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "311.05.003 / 311.05.000",
+     "desc": "540 full, soft close+spring, black / nickel",
+     "src": "HAF-UK 23T9-15A"
+    },
+    {
+     "code": "311.05.009 / 311.05.006",
+     "desc": "unsprung no soft close",
+     "src": "HAF-UK 23T9-15A"
+    },
+    {
+     "code": "311.05.004 / 311.05.001",
+     "desc": "half overlay soft close",
+     "src": "HAF-UK 23T9-15A"
+    },
+    {
+     "code": "311.05.005",
+     "desc": "inset soft close black",
+     "src": "HAF-UK 23T9-15A"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": [
+    "inset nickel code, tb_std"
+   ]
+  },
+  {
+   "id": "hafele_metalla_310_155",
+   "brand": "Häfele",
+   "name": "Metalla 310 155° (zero protrusion)",
+   "angle": 155,
+   "overlay": [
+    "full",
+    "half/twin",
+    "inset"
+   ],
+   "door_th": [
+    14,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "depth_min": 12,
+    "tb": [
+     3,
+     7
+    ],
+    "dowel": {
+     "patterns": "45/9.5"
+    },
+    "src": "HAF-UK 23T9-20"
+   },
+   "plate": {
+    "types": [
+     "Cruciform 37/32 two-part, +-2 mm height (Hospa or premounted Euro screws; heights 0/2/4 mm...)",
+     "Linear 2-hole 311.70.730 (black)/750 (nickel) H0; 3-hole 311.70.731/751 (not for post hinges)",
+     "155 inset one-part 8 mm 311.71.998",
+     "270 keyhole plate 312.56.610/312.56.600"
+    ],
+    "hole_line_mm": 37,
+    "hole_spacing_mm": 32,
+    "cruciform_H0_code": {
+     "black_Hospa": "311.70.710",
+     "black_euro": "311.70.720",
+     "nickel_Hospa": "311.70.610"
+    },
+    "src": "HAF-UK 23T9-16, 20, 26, 39"
+   },
+   "arm": {
+    "adjust_side_mm": [
+     -2.5,
+     2.5
+    ],
+    "adjust_height_mm": 2,
+    "adjust_depth_mm": [
+     -2,
+     2
+    ]
+   },
+   "options": [
+    "soft close with/without"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg": "4-5 (first band)"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "same weight bands as Grass Nexis; Häfele example text: 'three hinges for 1500 mm and 8-12 kg' conflicts with the 6-9 band; heights/mapping from text order only - verify image",
+    "src": "HAF-UK 23T9-13/14 (text)"
+   },
+   "gaps": {
+    "min_gap_table": {
+     "cols_E": [
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "rows": {
+      "15": [
+       0.5,
+       1.2,
+       2.0,
+       3.0,
+       3.9
+      ],
+      "16": [
+       0.5,
+       1.3,
+       2.2,
+       3.2,
+       4.2
+      ],
+      "17": [
+       0.5,
+       1.4,
+       2.3,
+       3.4,
+       4.3
+      ],
+      "18": [
+       0.7,
+       1.5,
+       2.5,
+       3.5,
+       4.6
+      ],
+      "19": [
+       0.8,
+       1.7,
+       2.8,
+       3.7,
+       5.0
+      ],
+      "20": [
+       1.0,
+       1.9,
+       2.9,
+       3.8,
+       5.1
+      ],
+      "21": [
+       1.2,
+       2.2,
+       3.0,
+       4.0,
+       5.2
+      ],
+      "22": [
+       1.3,
+       2.3,
+       3.3,
+       4.2,
+       5.3
+      ],
+      "23": [
+       1.5,
+       2.4,
+       3.5,
+       4.5,
+       5.5
+      ],
+      "24": [
+       1.7,
+       2.7,
+       3.7,
+       4.8,
+       5.6
+      ]
+     }
+    },
+    "note": "first 8 rows are identical to the 310 110 table on 9.16 (as printed)",
+    "src": "HAF-UK 23T9-20"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "311.63.840 / 311.63.730",
+     "desc": "155 soft close black / nickel",
+     "src": "HAF-UK 23T9-20"
+    },
+    {
+     "code": "311.63.849 / 311.63.739",
+     "desc": "without",
+     "src": "HAF-UK 23T9-20"
+    },
+    {
+     "code": "311.63.842 / 311.63.736",
+     "desc": "inset soft close black / nickel",
+     "src": "HAF-UK 23T9-20"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": []
+  },
+  {
+   "id": "hafele_165_standard",
+   "brand": "Häfele",
+   "name": "Häfele 165° standard hinge",
+   "angle": 165,
+   "overlay": [
+    "full",
+    "half",
+    "inset (with 18 mm plate)"
+   ],
+   "door_th": [
+    null,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "depth_min": 12,
+    "tb": [
+     3,
+     7
+    ],
+    "dowel": {
+     "patterns": "45/9.5"
+    },
+    "src": "HAF-UK 23T9-32"
+   },
+   "plate": {
+    "types": [
+     "Cruciform 37/32 two-part, +-2 mm height (Hospa or premounted Euro screws; heights 0/2/4 mm...)",
+     "Linear 2-hole 311.70.730 (black)/750 (nickel) H0; 3-hole 311.70.731/751 (not for post hinges)",
+     "155 inset one-part 8 mm 311.71.998",
+     "270 keyhole plate 312.56.610/312.56.600"
+    ],
+    "hole_line_mm": 37,
+    "hole_spacing_mm": 32,
+    "cruciform_H0_code": {
+     "black_Hospa": "311.70.710",
+     "black_euro": "311.70.720",
+     "nickel_Hospa": "311.70.610"
+    },
+    "src": "HAF-UK 23T9-16, 20, 26, 39"
+   },
+   "arm": {},
+   "options": [
+    "add-on soft close 312.07.712 (165° only)"
+   ],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg": "4-5 (first band)"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "same weight bands as Grass Nexis; Häfele example text: 'three hinges for 1500 mm and 8-12 kg' conflicts with the 6-9 band; heights/mapping from text order only - verify image",
+    "src": "HAF-UK 23T9-13/14 (text)"
+   },
+   "gaps": {
+    "min_gap": "0.0 for door 16-23; 24 mm: 0.0/0.0/0.0/2.6/5.1 (E3..7)",
+    "src": "HAF-UK 23T9-32"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "312.23.550",
+     "desc": "165 hinge",
+     "src": "HAF-UK 23T9-32"
+    },
+    {
+     "code": "312.23.755",
+     "desc": "165 half overlay",
+     "src": "HAF-UK 23T9-32"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": []
+  },
+  {
+   "id": "hafele_270",
+   "brand": "Häfele",
+   "name": "Häfele 270° hinge (zinc, keyhole mounting)",
+   "angle": 270,
+   "overlay": [
+    "full overlay only"
+   ],
+   "door_th": [
+    null,
+    22
+   ],
+   "cup": {
+    "dia": 35,
+    "depth_min": 12.5,
+    "tb": [
+     3,
+     5
+    ],
+    "dowel": {
+     "patterns": "keyhole fixing; 35 / 52 / 6.5 / 11.5 values in drawing (drawing)"
+    },
+    "src": "HAF-UK 23T9-39"
+   },
+   "plate": {
+    "types": [
+     "keyhole plate 312.56.610 / 312.56.600, H0, 37/32"
+    ]
+   },
+   "arm": {
+    "min_F_mm": 0.5,
+    "side_panel_thickness_range_mm": [
+     18,
+     24
+    ]
+   },
+   "options": [],
+   "hinge_count": {
+    "rows": [
+     {
+      "n": 2,
+      "h_max_mm": 1000,
+      "kg": "4-5 (first band)"
+     },
+     {
+      "n": 3,
+      "h_max_mm": 1500,
+      "kg": "6-9"
+     },
+     {
+      "n": 4,
+      "h_max_mm": 2000,
+      "kg": "10-15"
+     },
+     {
+      "n": 5,
+      "h_max_mm": 2500,
+      "kg": "16-22"
+     }
+    ],
+    "door_width_mm": 600,
+    "note": "same weight bands as Grass Nexis; Häfele example text: 'three hinges for 1500 mm and 8-12 kg' conflicts with the 6-9 band; heights/mapping from text order only - verify image",
+    "src": "HAF-UK 23T9-13/14 (text)"
+   },
+   "gaps": {
+    "min_gap_table": {
+     "cols_E": [
+      3,
+      4,
+      5
+     ],
+     "rows": {
+      "16": [
+       1.2,
+       1.2,
+       1.1
+      ],
+      "18": [
+       1.7,
+       1.7,
+       1.6
+      ],
+      "19": [
+       2.0,
+       2.0,
+       1.9
+      ],
+      "20": [
+       2.4,
+       2.3,
+       2.2
+      ],
+      "22": [
+       3.3,
+       3.1,
+       3.0
+      ],
+      "24": [
+       4.5,
+       4.2,
+       4.0
+      ]
+     }
+    },
+    "note": "table on page covers up to 26-32 trial mounting; hinge for door up to 22 per bullet while table to 24 (as printed)",
+    "src": "HAF-UK 23T9-39"
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "312.50.600",
+     "desc": "270 hinge",
+     "src": "HAF-UK 23T9-39"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": []
+  },
+  {
+   "id": "hafele_pie_cut_90",
+   "brand": "Häfele",
+   "name": "Pie-cut corner hinge 90°",
+   "angle": 90,
+   "overlay": [
+    "corner"
+   ],
+   "door_th": [
+    null,
+    22
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": 11.5,
+    "tb": [
+     3,
+     5
+    ],
+    "dowel": {
+     "patterns": "45/9.5; diagonal adjustment +6/-2, +3/-1, +5/-1.5 (drawing)"
+    },
+    "src": "HAF-UK 23T9-34"
+   },
+   "plate": {
+    "ref": "any plate D=0; cruciform 37/32"
+   },
+   "arm": {},
+   "options": [],
+   "hinge_count": null,
+   "gaps": {
+    "min_gap_table": {
+     "cols_E": [
+      3,
+      4,
+      5
+     ],
+     "rows": {
+      "16": [
+       0.3,
+       0.3,
+       null
+      ],
+      "17": [
+       0.5,
+       0.5,
+       0.5
+      ],
+      "18": [
+       0.7,
+       0.7,
+       0.7
+      ],
+      "19": [
+       1.0,
+       0.9,
+       0.9
+      ],
+      "20": [
+       1.3,
+       1.2,
+       1.2
+      ],
+      "21": [
+       1.7,
+       1.6,
+       1.5
+      ],
+      "22": [
+       2.5,
+       2.1,
+       2.0
+      ]
+     }
+    }
+   },
+   "envelope": null,
+   "codes": [
+    {
+     "code": "312.20.755",
+     "desc": "pie-cut hinge",
+     "src": "HAF-UK 23T9-34"
+    }
+   ],
+   "cad": {
+    "available": null
+   },
+   "unreadable": [
+    "16 mm E5 value garbled in extraction"
+   ]
+  },
+  {
+   "id": "hafele_metalla_510",
+   "brand": "Häfele",
+   "name": "Metalla 510",
+   "angle": null,
+   "overlay": [],
+   "door_th": null,
+   "cup": null,
+   "plate": null,
+   "arm": null,
+   "options": [],
+   "hinge_count": null,
+   "gaps": null,
+   "envelope": null,
+   "codes": [],
+   "cad": null,
+   "unreadable": [
+    "No official Häfele document for 'Metalla 510' found (UK catalogue has 310, 540, A, 300 A Mini; search found only 'Metalla 5000 SM' on hafelethailand.com and 310/540 UK pages). Treat as not available."
+   ]
+  },
+  {
+   "id": "blum_clip_top_blumotion_105",
+   "brand": "Blum",
+   "name": "CLIP top BLUMOTION 105° (new, TD-151/1 04.24; with or without spring; also CLIP top 74T... unsprung)",
+   "angle": 105,
+   "overlay": [
+    "overlay (75B2550/75T2550)",
+    "half overlay (75B2650)",
+    "inset (75B2750)"
+   ],
+   "door_th": [
+    null,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "depth": null,
+    "tb": [
+     3,
+     7
+    ],
+    "tb_std": null,
+    "dowel": {
+     "screw_on": "o35",
+     "expando_knock_in": {
+      "dia": "35 +0.2/0",
+      "spacing": 45,
+      "offset": 9.5,
+      "dowel_dia": 8,
+      "dowel_tol": "+0.1"
+     },
+     "min_13_drawing": 13,
+     "boss_dims_mm": {
+      "w": 57,
+      "d": 37,
+      "edge": 3.2
+     },
+     "src": "BLUM-TD151 p4 (rendered image read; 'min 13' meaning not stated in text)"
+    },
+    "src": "BLUM-TD151 p4"
+   },
+   "plate": {
+    "types": [
+     "CLIP mounting plates (existing range, cruciform 37/32 etc.)"
+    ],
+    "MD_mm": [
+     0,
+     3,
+     6,
+     9
+    ],
+    "mounting_plate_drawing": "not on this sheet",
+    "src": "BLUM-TD151 p4"
+   },
+   "arm": {
+    "adjust_side": "+-2.0",
+    "adjust_depth": "+3.0/-2.0",
+    "adjust_height": "max +-3.0 (see plates)",
+    "protrusion_drawing_mm": {
+     "overlay": {
+      "offsets": [
+       21,
+       11,
+       11,
+       1.5
+      ],
+      "height": 66
+     },
+     "half": {
+      "offsets": [
+       31,
+       20.5,
+       1.5
+      ],
+      "height": 66
+     },
+     "inset": {
+      "offsets": [
+       40,
+       29,
+       7
+      ],
+      "height": 67.5
+     }
+    },
+    "src": "BLUM-TD151 p4 (drawing)"
+   },
+   "options": [
+    "spring/no spring (74T... .TL unsprung)",
+    "opening angle stop 85° (94M2553)",
+    "hinge boss cover cap 70T3504",
+    "boss spacer 1.5 mm 70T3507.21",
+    "TIP-ON for doors 956.1004 / 956A1004 / 956A1006 / 956A1006F",
+    "arm cover caps 70.1503 (overlay) / 70.1663 (half & inset)"
+   ],
+   "hinge_count": {
+    "note": "no hinge-count table on this data sheet",
+    "src": "BLUM-TD151"
+   },
+   "gaps": {
+    "TB_vs_FA_formulas": {
+     "overlay": "FA = 11 + TB - MD (TB 3-7, MD 0..9) from table (derived)",
+     "half_overlay": "FA = 1.5 + TB - MD (derived)",
+     "inset": "FA = TB - 7 - MD (derived)"
+    },
+    "MD0_overlay_FA": {
+     "3": 14,
+     "4": 15,
+     "5": 16,
+     "6": 17,
+     "7": 18
+    },
+    "min_gap_F": {
+     "cols_FD": [
+      16,
+      18,
+      19,
+      20,
+      21,
+      22,
+      24
+     ],
+     "rows_TB": {
+      "3": [
+       0.5,
+       0.8,
+       1.0,
+       1.2,
+       1.5,
+       1.8,
+       2.7
+      ],
+      "4": [
+       0.5,
+       0.8,
+       1.0,
+       1.2,
+       1.4,
+       1.7,
+       2.5
+      ],
+      "5": [
+       0.5,
+       0.8,
+       0.9,
+       1.2,
+       1.4,
+       1.7,
+       2.4
+      ],
+      "6": [
+       0.5,
+       0.8,
+       0.9,
+       1.2,
+       1.3,
+       1.6,
+       2.3
+      ],
+      "7": [
+       0.5,
+       0.8,
+       0.9,
+       1.1,
+       1.3,
+       1.6,
+       2.2
+      ]
+     },
+     "plus_for_2mm_side_adj": [
+      0.3,
+      0.3,
+      0.3,
+      0.4,
+      0.4,
+      0.4,
+      0.4
+     ]
+    },
+    "inset_note": "move back fixing position of plate by front thickness FD + 1.5 mm",
+    "src": "BLUM-TD151 p4"
+   },
+   "envelope": {
+    "boss_drawing_mm": {
+     "w": 57,
+     "d": 37
+    },
+    "height_drawing": [
+     66,
+     67.5
+    ],
+    "src": "BLUM-TD151 p4"
+   },
+   "codes": [
+    {
+     "code": "75B2550 / 75B2650 / 75B2750",
+     "desc": "CLIP top BLUMOTION 105 screw-on boss, overlay/half/inset, with spring",
+     "src": "BLUM-TD151 p2"
+    },
+    {
+     "code": "75T2550 / 75T2650 / 75T2750",
+     "desc": "CLIP top 105 with spring, no BLUMOTION",
+     "src": "BLUM-TD151 p2"
+    },
+    {
+     "code": "74T2550.TL / 74T2650.TL / 74T2750.TL",
+     "desc": "CLIP top unsprung",
+     "src": "BLUM-TD151 p2"
+    },
+    {
+     "code": "75B2580 / 75B2680 / 75B2780",
+     "desc": "BLUMOTION knock-in boss",
+     "src": "BLUM-TD151 p2"
+    },
+    {
+     "code": "75B258E / 75B268E / 75B278E",
+     "desc": "BLUMOTION EXPANDO",
+     "src": "BLUM-TD151 p2"
+    }
+   ],
+   "cad": {
+    "available": false,
+    "note": "BLUM-DL lists no CAD/STEP/drilling-template download; Blum product database mentioned but not accessed"
+   },
+   "unreadable": [
+    "door_th min",
+    "cup depth",
+    "hinge-count table (not on TD sheet)",
+    "'min 13' label"
+   ]
+  },
+  {
+   "id": "blum_m_blumotion_105",
+   "brand": "Blum",
+   "name": "M BLUMOTION 105° (plate pre-mounted on hinge; soft-close in boss)",
+   "angle": 105,
+   "overlay": [
+    "overlay",
+    "half overlay",
+    "inset"
+   ],
+   "door_th": [
+    null,
+    24
+   ],
+   "cup": {
+    "dia": 35,
+    "tolerance": "+0.2/0",
+    "depth": null,
+    "tb": null,
+    "tb_std": null,
+    "dowel": {
+     "pattern_drawing": {
+      "spacing": 45,
+      "offset": 9.5
+     },
+     "min_13_drawing": 13,
+     "note": "drawing shows the 45 / 9.5 pattern with o35; screw-on only per flyer"
+    },
+    "src": "BLUM-M105-MA p2 (drawing)"
+   },
+   "plate": {
+    "types": [
+     "pre-mounted plate; hole line 37 from front edge, spacing 32 (drawing)",
+     "optional additional plate fixing position"
+    ],
+    "MD_mm": [
+     0,
+     3
+    ],
+    "src": "BLUM-M105-MA p2, BLUM-M105-FL p2"
+   },
+   "arm": {
+    "adjust_height": "max +-3",
+    "adjust_side": "+-2",
+    "adjust_depth": "+3/-2",
+    "src": "BLUM-M105-SPEC"
+   },
+   "options": [
+    "85° opening angle stop 94M2553",
+    "TIP-ON for doors 956.1005/956A1005 (unsprung) ; 956.1307S/956A1307S",
+    "boss cover cap 70T3504",
+    "boss spacer 1.5 mm 70T3507.21"
+   ],
+   "hinge_count": {
+    "note": "not on flyer/spec",
+    "src": "BLUM-M105-FL"
+   },
+   "gaps": null,
+   "envelope": null,
+   "codes": [
+    {
+     "code": "95B2550.L0 / 95B2650.L0 / 95B2750.L0",
+     "desc": "M BLUMOTION 105 with spring, MD 0, overlay/half/inset",
+     "src": "BLUM-M105-FL p2"
+    },
+    {
+     "code": "95B2550.L3 / 95B2650.L3 / 95B2750.L3",
+     "desc": "MD 3",
+     "src": "BLUM-M105-FL p2"
+    },
+    {
+     "code": "95M2550.L0 / .L3 etc.",
+     "desc": "M 105 sprung, no BLUMOTION",
+     "src": "BLUM-M105-FL p2"
+    },
+    {
+     "code": "94M2550.L0 / .L3 etc.",
+     "desc": "M 105 unsprung",
+     "src": "BLUM-M105-FL p2"
+    }
+   ],
+   "cad": {
+    "available": false
+   },
+   "unreadable": [
+    "cup depth",
+    "door_th min",
+    "gap/reveal and drilling-distance tables (no technical data sheet for M found; only flyer + install sheet)",
+    "hinge count"
+   ]
+  }
+ ],
+ "notes": [
+  "Offsets in drilling patterns: 'A/B' notation = hole spacing / offset from cup centre line (e.g. 45/9.5, 48/6, 52/5.5); Hettich 'TH 52' = 52 x 5.5.",
+  "Hettich 2017 catalogue is the main source (HAU edition). Hettich 8645i door thickness conflict 15-24 vs 15-22 (older 11309); 8646i 10-16 (2017) vs 10-19 (UK 2020).",
+  "Hettich hinge-count chart (kg values) confirmed in image; Avosys shop image has same numbers.",
+  "Hettich Avosys: no glass-drilling/bonding drawings beyond MTA 9 415 299 00 (o12 holes, 24 mm); CAD zip 9405214_3d.zip downloaded but not parsed (envelope could be taken from it).",
+  "Hettich Evisys: no technical document found.",
+  "Salice: tables read from text layer (SAL-SIPLUS p26 etc.). Series 700 155 deg codes duplicate Series 200 155 (p49) - possible source error. Salice charts: two unlabelled hinge-count charts; first = lighter weights per count.",
+  "Salice glass: Series 200 glass hinge o26 and universal CBG glued hinge (110 deg) both from Vetro Ed.05 04/2025.",
+  "Grass: official catalogue (www.grass.eu hinge systems, 376 pp, distributor-hosted copy). Tiomos cup depth only 'min' values (12.6 for 110/95; 10 for 160). Corner hinges (110/90, +30/37/45, -15/30/45), 100 refrigerator, PCC, M9, M0, Nexis Click-on etc. located (pages 32-101, 168-216) but not transcribed.",
+  "Haefele: only UK catalogue pages (Section 9) read; hinge-count chart text-only, example text conflicts (see hafele family). Metalla 510 not found. Metalla A / 300 A Mini / hinge sets pages 23T9-18, 24B, 24D, 27 downloaded not transcribed.",
+  "Blum: new CLIP top BLUMOTION 105 data from TD-151/1 04.24; M BLUMOTION 105 has no technical data sheet (flyer + MA only). Blum site lists no CAD/STEP downloads (only product database mentioned). Blum 'A new standard' / 'Tried tested reinvented' brochures (2025) are marketing: fetched, not transcribed.",
+  "CAD/STEP: Hettich: DWG/DXF per article (eShop), PARTcommunity, >50 formats on request; Grass: ZIP with RAW+STEP per product group at TEC Centre; Salice: none found; Haefele: none found; Blum: none found on hinge download page.",
+  "Envelope dimensions (cup/arm/plate L x W x H): only drawing labels (e.g. Grass arm 84.5, Blum boss 57x37, Salice pivot 66x38x19) - no manufacturer table of envelopes exists in the documents read.",
+  "All download files are in /tmp/claude-0/-home-user/39871daa-ecac-5d3e-a259-3b91d048a27e/scratchpad/dl-hinges/ (haf/ subfolder for Haefele pages)."
+ ]
+}

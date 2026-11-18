@@ -2952,6 +2952,9 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-hinges-data.js"></script>
 <script src="./ebanist-hinges.js"></script>
+<script src="./ebanist-hinges-more-data.js"></script>
+<script src="./ebanist-hinges-more-i18n.js"></script>
+<script src="./ebanist-hinges-more.js"></script>
 <script src="./ebanist-slides-data.js"></script>
 <script src="./ebanist-slides.js"></script>
 <script src="./ebanist-festool-d8.js"></script>
@@ -4311,6 +4314,8 @@ Object.assign(I18N.fr,{"fLiftElec": "Ouverture électrique (Blum SERVO-DRIVE)", 
 Object.assign(I18N.de,{"fLiftElec": "Elektrisches Öffnen (Blum SERVO-DRIVE)", "liftElecNone": "Mechanisch", "liftElecServo": "Elektrisch — Blum SERVO-DRIVE", "liftElecHint": "Die Front öffnet auf Berührung und schließt mit einem Funkschalter; Netzteil 24 V, 72 W; das Kabel läuft durch eine Ø10-Bohrung in der Seite. Der Beschlag wird breiter (66–67 mm) und braucht mehr Tiefe.", "wLiftNoServo": "{sys}: SERVO-DRIVE kommt in den gelesenen Quellen nicht vor; die Front bleibt mechanisch.", "hwLiftDrv": "SERVO-DRIVE Antriebseinheit (Set)", "hwLiftPsu": "SERVO-DRIVE Netzteil", "hwLiftSw": "SERVO-DRIVE Funkschalter", "mLiftElec": "SERVO-DRIVE-Einheiten montieren: {p}. Kabel durch die Ø10-Bohrung führen, Netzteil 24 V anschließen und Funkschalter koppeln.","opsLiftNoDrill":"Klappfront: die Bohrungen des Beschlags (Seiten und Front) und des Griffs werden nicht erzeugt; mit Bohrschablone und Datenblatt des Herstellers bohren.","fLift": "Klappenbeschlag (Front öffnet nach oben)", "liftNone": "Keiner (Scharniere)", "liftHint": "Die Front öffnet nach oben: keine Scharniere, ein Beschlag pro Front, an beiden Seiten.", "hwLift": "Klappenbeschläge (Set)", "mLift": "Klappenbeschläge an den Seiten montieren: {p}. Front an den Armen befestigen und die Kraft nach dem Gewicht einstellen.", "wLiftFront": "Der Klappenbeschlag gilt nur für ebene Vollfronten (nicht Glas, gebogen, Falt-, Schiebe- oder Schrägfronten): die Front bleibt an Scharnieren.", "wLiftRange": "{sys}: {what} {v} außerhalb des Bereichs {lo}–{hi}.", "wLiftPower": "{sys}: keine Kraftvariante deckt diese Front ab ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: Maße noch nicht am Herstellerblatt geprüft: vor dem Bohren kontrollieren.", "liftWhat_h": "Fronthöhe (mm)", "liftWhat_w": "Frontbreite (mm)", "liftWhat_kg": "Frontgewicht (kg)", "liftWhat_th": "Frontdicke (mm)", "liftWhat_hi": "Innenhöhe (mm)", "liftWhat_depth": "Innentiefe (mm)", "liftWhat_wi": "Innenbreite (mm)"});
 Object.assign(I18N.pl,{"fLiftElec": "Otwieranie elektryczne (Blum SERVO-DRIVE)", "liftElecNone": "Mechaniczne", "liftElecServo": "Elektryczne — Blum SERVO-DRIVE", "liftElecHint": "Front otwiera się dotykiem i zamyka bezprzewodowym przełącznikiem; zasilacz 24 V, 72 W; kabel przechodzi przez otwór Ø10 w boku. Mechanizm jest szerszy (66–67 mm) i wymaga większej głębokości.", "wLiftNoServo": "{sys}: SERVO-DRIVE nie występuje w przeczytanych źródłach; front pozostaje mechaniczny.", "hwLiftDrv": "SERVO-DRIVE jednostka napędowa (zestaw)", "hwLiftPsu": "SERVO-DRIVE zasilacz", "hwLiftSw": "SERVO-DRIVE przełącznik bezprzewodowy", "mLiftElec": "Zamontuj jednostki SERVO-DRIVE: {p}. Poprowadź kabel przez otwór Ø10, podłącz zasilacz 24 V i sparuj przełącznik bezprzewodowy.","opsLiftNoDrill":"Front uchylny: otwory mechanizmu (w bokach i we froncie) oraz uchwytu nie są generowane; wierć wg szablonu i karty producenta.","fLift": "Mechanizm podnoszenia (front otwierany do góry)", "liftNone": "Brak (zawiasy)", "liftHint": "Front otwiera się do góry: bez zawiasów, jeden mechanizm na front, na obu bokach.", "hwLift": "Mechanizmy podnoszenia (zestaw)", "mLift": "Zamontuj mechanizmy podnoszenia na bokach: {p}. Przymocuj front do ramion i wyreguluj siłę do ciężaru.", "wLiftFront": "Mechanizm dotyczy tylko pełnych, prostych frontów (nie szkło, łukowe, składane, przesuwne ani skośne): front zostaje na zawiasach.", "wLiftRange": "{sys}: {what} {v} poza zakresem {lo}–{hi}.", "wLiftPower": "{sys}: żaden wariant siły nie obejmuje tego frontu ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: wymiary jeszcze niesprawdzone na karcie producenta: sprawdź przed wierceniem.", "liftWhat_h": "wysokość frontu (mm)", "liftWhat_w": "szerokość frontu (mm)", "liftWhat_kg": "ciężar frontu (kg)", "liftWhat_th": "grubość frontu (mm)", "liftWhat_hi": "wysokość wewnętrzna (mm)", "liftWhat_depth": "głębokość wewnętrzna (mm)", "liftWhat_wi": "szerokość wewnętrzna (mm)"});
 Object.assign(I18N.es,{"fLiftElec": "Apertura eléctrica (Blum SERVO-DRIVE)", "liftElecNone": "Mecánica", "liftElecServo": "Eléctrica — Blum SERVO-DRIVE", "liftElecHint": "La puerta se abre al tocarla y se cierra con un interruptor inalámbrico; fuente de 24 V y 72 W; el cable pasa por un taladro Ø10 en el lateral. El mecanismo es más ancho (66–67 mm) y pide más profundidad.", "wLiftNoServo": "{sys}: SERVO-DRIVE no aparece en las fuentes leídas; la puerta sigue siendo mecánica.", "hwLiftDrv": "SERVO-DRIVE unidad de accionamiento (juego)", "hwLiftPsu": "SERVO-DRIVE fuente de alimentación", "hwLiftSw": "SERVO-DRIVE interruptor inalámbrico", "mLiftElec": "Monta las unidades SERVO-DRIVE: {p}. Pasa el cable por el taladro Ø10, conecta la fuente de 24 V y empareja el interruptor inalámbrico.","opsLiftNoDrill":"Puerta abatible hacia arriba: los taladros del mecanismo (laterales y puerta) y del tirador no se generan; taladrar con la plantilla y la ficha del fabricante.","fLift": "Mecanismo de elevación (puerta que se abre hacia arriba)", "liftNone": "Ninguno (bisagras)", "liftHint": "La puerta se abre hacia arriba: sin bisagras, un mecanismo por puerta, en los dos laterales.", "hwLift": "Mecanismos de elevación (juego)", "mLift": "Monta los mecanismos de elevación en los laterales: {p}. Fija la puerta a los brazos y ajusta la fuerza según el peso.", "wLiftFront": "El mecanismo solo vale para puertas lisas y rectas (no vidrio, curvas, plegables, correderas ni inclinadas): la puerta queda con bisagras.", "wLiftRange": "{sys}: {what} {v} fuera del rango {lo}–{hi}.", "wLiftPower": "{sys}: ninguna variante de fuerza cubre esta puerta ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: medidas aún sin verificar en la ficha del fabricante: comprueba antes de taladrar.", "liftWhat_h": "altura de la puerta (mm)", "liftWhat_w": "anchura de la puerta (mm)", "liftWhat_kg": "peso de la puerta (kg)", "liftWhat_th": "grosor de la puerta (mm)", "liftWhat_hi": "altura interior (mm)", "liftWhat_depth": "profundidad interior (mm)", "liftWhat_wi": "anchura interior (mm)"});
+/* balamale Hettich / Salice / Grass / Häfele / Blum 105°: textele (avertismente, fișă, cuvintele din nume) vin din ebanist-hinges-more-i18n.js */
+if(typeof HINGES_MORE_I18N!=="undefined") for(const L of Object.keys(HINGES_MORE_I18N)) Object.assign(I18N[L],HINGES_MORE_I18N[L]);
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A4"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -4676,13 +4681,45 @@ const HWDB={
 };
 /* D-114: toate codurile de comandă Blum din catalogul 2022/23 (ebanist-hinges-data.js) intră în lista de balamale; cele deja scrise mai sus rămân. */
 if(window.EBHinges) HWDB.cern.push(...EBHinges.catalogEntries(HWDB.cern.map(x=>x.id)));
+/* balamale Hettich / Salice / Grass / Häfele / Blum 105° (ebanist-hinges-more.js): câte un articol pe cod, preț 0 de completat */
+if(window.EBHingesMore) HWDB.cern.push(...EBHingesMore.catalogEntries(HWDB.cern.map(x=>x.id)));
 if(window.EBSlides) HWDB.guida.push(...EBSlides.catalogEntries(HWDB.guida.map(x=>x.id)));
 /* balamaua aleasă (pe corp: cfg.hwSel.cern, altfel din setări) și placuța ei: ebanist-ops.js cere găurirea ei prin hingeGeom(cfg) */
 function hingeGeom(cfg){
   if(!window.EBHinges) return null;
   const S=(typeof state!=="undefined"&&state.settings)||{}, id=(cfg&&cfg.hwSel&&cfg.hwSel.cern)||(S.hwProd&&S.hwProd.cern)||"";
-  return EBHinges.geomOf(id,(cfg&&cfg.hwSel&&cfg.hwSel.plate)||(S.hwProd&&S.hwProd.plate)||null);
+  const pl=(cfg&&cfg.hwSel&&cfg.hwSel.plate)||(S.hwProd&&S.hwProd.plate)||null;
+  return EBHinges.geomOf(id,pl)||(window.EBHingesMore&&EBHingesMore.geomOf(id,pl))||null;
 }
+/* numărul de balamale după graficul producătorului (înălțime + greutate) pentru balamalele din ebanist-hinges-more.js; celelalte: regula generală după înălțime.
+   O singură funcție pentru deviz, fișa de montaj și găurire (cfg = corpul; w = lățimea ușii, pentru greutate). */
+function hingeCountFor(cfg,h,w){
+  const S=(typeof state!=="undefined"&&state.settings)||{}, id=(cfg&&cfg.hwSel&&cfg.hwSel.cern)||(S.hwProd&&S.hwProd.cern)||"";
+  if(window.EBHingesMore&&EBHingesMore.isMore(id)){
+    const dens=hingeDensity(cfg), th=(typeof matById==="function"&&cfg&&matById(cfg.matFront)&&+matById(cfg.matFront).th)||0;
+    const n=EBHingesMore.count(id,h,dens&&w>0&&th>0?EBHingesMore.doorKg(h,w,th,dens):0);
+    if(n!=null) return n;
+  }
+  return hingeCount(h);
+}
+/* densitatea materialului frontului (kg/m³, orientativă, ca la mecanismele de ridicare) */
+function hingeDensity(cfg){
+  const AD=(typeof window!=="undefined"&&window.EBAdvice)||null; if(!AD||!cfg||typeof matById!=="function") return null;
+  const mF=matById(cfg.matFront), fam=AD.famOf(mF&&mF.label); return (AD.DATA.density[fam])||700;
+}
+/* același număr pentru un rând din distinctă (x), cu corpul lui din proiect: pentru fișa de frezare și pașii de montaj */
+function hingeCountItem(x,h){
+  let c=null; try{ const C=(typeof proj==="function"&&proj().configs)||{}, m=x.modulo||""; c=C[x.gen]||C[m]||C[m.replace(/ [AB]$/,"")]||null; }catch(e){}
+  return c?hingeCountFor(c,h,Math.min(x.lung,x.larg)):hingeCount(h);
+}
+window.hingeCountFor=hingeCountFor; window.hingeDensity=hingeDensity;
+/* Catalog: fișa tehnică și placuțele pentru balamalele Blum (EBHinges) și pentru celelalte mărci (EBHingesMore) */
+function hingeFamHas(id){ return !!((window.EBHinges&&EBHinges.familyOfHw(id))||(window.EBHingesMore&&EBHingesMore.isMore(id))); }
+function hingePlateOpts(id){
+  if(window.EBHinges&&EBHinges.familyOfHw(id)) return (EBHinges.familyOfHw(id).plates||[]).map(pid=>{ const pl=EBHinges.plateById(pid); return pl?{id:pid,art:pl.art}:null; }).filter(Boolean);
+  return window.EBHingesMore?EBHingesMore.platesOf(id).map(q=>({id:q.id,art:q.art})):[];
+}
+function hingeSheet(id,o){ return (window.EBHinges&&EBHinges.familyOfHw(id))?EBHinges.sheetHtml(id,o):(window.EBHingesMore?EBHingesMore.sheetHtml(id,o):null); }
 /* una categoria nuova non ha ancora una scelta salvata nelle impostazioni:
    vale la prima voce del catalogo, la stessa che il selettore mostra */
 /* U.2 — articolele proprii ale utilizatorului (S.hwAdd: {id,cat,brand,n,art,price})
@@ -12692,6 +12729,9 @@ function opsAllOf(cfg){
 function shelfHingeOf(cfg){ return opsAllOf(cfg).filter(w=>w.k==="opsShelfVsHinge"&&w.blocking); }
 /* restul avertismentelor motorului de găurire (neblocante): fiecare cheie o dată, cu text în limba aplicației */
 const OPS_NOTES=["opsBedFit","opsBandSeg","opsHingeNoGeom","opsNoHingePanel","opsPinMoved","opsSlope","opsCurved","opsAwThin","opsHingeTB","opsKekuNoPanel","opsNoRailPanel","opsHandleFit","opsRazaSmall","opsRazaBig","opsRazaGrip"];
+if(typeof HINGES_MORE_OPS_KEYS!=="undefined") OPS_NOTES.push(...HINGES_MORE_OPS_KEYS);
+/* textul unui avertisment al găuririi, cu {tb} și valorile verificărilor balamalelor ({v} {lo} {hi} {n}) */
+const opsMsg=w=>["tb","v","lo","hi","n"].reduce((m,k)=>m.split("{"+k+"}").join(w[k]==null?"":w[k]),t(w.k));
 function opsNotesOf(cfg){ const seen=new Set(); return opsAllOf(cfg).filter(w=>OPS_NOTES.includes(w.k)&&!seen.has(w.k)&&seen.add(w.k)); }
 /* cota propusă numai dacă motorul o primește (corpul o ține) și raftul iese din banda balamalei */
 function shelfFixCfg(cfg,sf,y){
@@ -12992,7 +13032,7 @@ function auditModule(cfg,pieces){
         source:t("shfSrc"),shelfFix:{y:w.y,t:w.t,up:w.up,down:w.down,hy:w.hy}});
     }
     for(const w of opsNotesOf(cfg))
-      failed.push({id:"O-"+w.k,severity:"warn",confidence:"alta",why:t(w.k).replace("{tb}",w.tb==null?"":w.tb),source:t("opsSrc")});
+      failed.push({id:"O-"+w.k,severity:"warn",confidence:"alta",why:opsMsg(w),source:t("opsSrc")});
     return failed;
   }catch(e){
     return [{id:"ENV",severity:"blocking",why:t("auErr")+" "+(e&&e.message||e)}];
@@ -13807,7 +13847,7 @@ function hingeInfo(x){
   const el=(x.elemento||"").toLowerCase();
   if(!/^anta/.test(el)||el.indexOf("scorrevole")>=0||el.indexOf("basculante")>=0) return null;
   const h=Math.max(x.lung,x.larg);
-  const n=hingeCount(h);
+  const n=typeof hingeCountItem==="function"?hingeCountItem(x,h):hingeCount(h);
   return {n,h,pos:hingePositions(h,n)};
 }
 function hingeTxt(x){
@@ -13906,7 +13946,7 @@ function assemblySteps(modName,hw,cfg,items){
     if(anta){
       const dh=Math.max(anta.lung,anta.larg);
       const nDoors=Math.max(1,(items||[]).filter(x=>/^anta(?! scorrevole| basculante)/i.test(x.elemento)).reduce((s,x)=>s+x.pz,0)||Math.round(((items||[]).find(x=>/^vetro anta/i.test(x.elemento))||{pz:1}).pz));
-      const nH=hingeCount(dh);
+      const nH=typeof hingeCountFor==="function"?hingeCountFor(cfg,dh,Math.min(anta.lung,anta.larg)):hingeCount(dh);
       add(t("mHingeAt").replace("{h}",dh).replace("{list}",hingePositions(dh,nH).join(" · ")+" mm"));
     } }
   if(hw.hwBin>0) add(t("mSliding").replace("{p}",P("bin","hwBin")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
@@ -15162,8 +15202,8 @@ function renderCatalog(){
       </div>
       <div class="mini catRef" data-hw="${it.id||""}" style="margin-top:4px;line-height:1.4"></div>
       ${cat==="guida"&&slideSysOf(sel)?`<button class="btn sm slOpen" data-sys="${slideSysOf(sel)}" style="margin-top:6px">${esc(t("hsBtn"))}</button>`:""}
-      ${cat==="cern"&&window.EBHinges&&EBHinges.familyOfHw(sel)?`<div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-        <select class="catPlate" aria-label="${esc(t("hsPlate"))}" style="flex:1">${(EBHinges.familyOfHw(sel).plates||[]).map(pid=>{ const pl=EBHinges.plateById(pid); return pl?`<option value="${pid}"${(S.hwProd||{}).plate===pid?" selected":""}>${esc(t("hsPlate")+": "+pl.art.join(" / "))}</option>`:""; }).join("")}</select>
+      ${cat==="cern"&&hingeFamHas(sel)?`<div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+        <select class="catPlate" aria-label="${esc(t("hsPlate"))}" style="flex:1">${hingePlateOpts(sel).map(pl=>`<option value="${pl.id}"${(S.hwProd||{}).plate===pl.id?" selected":""}>${esc(t("hsPlate")+": "+pl.art.join(" / "))}</option>`).join("")}</select>
         <button class="btn sm hsOpen" data-hw="${sel}">${esc(t("hsBtn"))}</button></div>`:""}
       ${it.custom?`<div style="display:flex;gap:8px;margin-top:6px">
         <input class="catOwnBrand" data-id="${it.id}" placeholder="${esc(t("hwOwnBrand"))}" value="${esc(it.brand||"")}" style="flex:1">
@@ -15178,7 +15218,7 @@ function renderCatalog(){
   paintSlidesBlock();
   $("catHwWrap").querySelectorAll(".catPlate").forEach(s2=>s2.addEventListener("change",()=>{ state.settings.hwProd=state.settings.hwProd||{}; state.settings.hwProd.plate=s2.value; persist(); }));
   $("catHwWrap").querySelectorAll(".hsOpen").forEach(b2=>b2.addEventListener("click",()=>{
-    $("hsBody").innerHTML=EBHinges.sheetHtml(b2.dataset.hw,{lang:state.lang,TB:5,plate:(state.settings.hwProd||{}).plate})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
+    $("hsBody").innerHTML=hingeSheet(b2.dataset.hw,{lang:state.lang,TB:5,plate:(state.settings.hwProd||{}).plate})||""; openSheet("hsSheet"); }));   // TB 5 = distanța implicită a aplicației (dist_cant)
   const ov=state.settings.matOvr||{};
   $("catMatWrap").innerHTML=matAll().map(m=>{
     const eff=matById(m.id), hid=matHidden(m), custom=!!m.custom;
@@ -15449,7 +15489,7 @@ function computeHardware(p,S,byModule){
     else if(el.startsWith("anta pieghevole")){
       /* între foile unui pachet: (foi − 1) balamale pe înălțime; un mâner pe pachet, pe foaia liberă */
       const packs=foldSys[mod]||0, joints=packs>0?x.pz-packs:0;
-      if(joints>0) bump(mod,"hwCern",joints*hingeCount(Math.max(x.lung,x.larg)));
+      if(joints>0) bump(mod,"hwCern",joints*hingeCountFor(cfgOf(x),Math.max(x.lung,x.larg),Math.min(x.lung,x.larg)));
       grip(mod,packs||x.pz); }
     else if(el.startsWith("profilo anticurvatura")){ bump(mod,"hwAW",x.pz); }
     else if(el.startsWith("striscia led")){ ledLen[mod]=(ledLen[mod]||0)+x.lung*x.pz; }
@@ -15460,10 +15500,10 @@ function computeHardware(p,S,byModule){
     else if(el.startsWith("anta")){
       /* ușă trapezoidală (D-86, pasul 2): balamalele se numără pe înălțimea muchiei mai scunde, ca în fișa piesei */
       const hgt=(x.poly&&x.poly.length===4)?Math.min(x.poly[1][0],x.poly[2][0]):Math.max(x.lung,x.larg);
-      bump(mod,"hwCern",x.pz*hingeCount(hgt));
+      bump(mod,"hwCern",x.pz*hingeCountFor(cfgOf(x),hgt,Math.min(x.lung,x.larg)));
       grip(mod,x.pz); }
     else if(el.startsWith("montante anta vetro")){ const hgt=x.lung, nA=x.pz/2;
-      bump(mod,"hwCern",nA*hingeCount(hgt));
+      bump(mod,"hwCern",nA*hingeCountFor(cfgOf(x),hgt,Math.min(x.lung,x.larg)));
       grip(mod,nA); }
     else if(el.startsWith("piedino")){ bump(mod,"hwPied",x.pz); }
     else if(/^(fascia|fianco) di chiusura/.test(el)){ bump(mod,"hwFill",x.pz*kekuN(Math.max(x.lung,x.larg))); }   // Keku: tot ce are filler, inclusiv capacul lateral

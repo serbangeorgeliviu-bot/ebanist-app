@@ -1043,6 +1043,49 @@ function buildLiftHw() {
     });
   });
 }
+/* Balama de la altă marcă (h.g din ebanist-ops.js → ebanist-hinges-more.js). Din date: Ø și adâncimea cupei (din operație), modelul fixărilor (numai unde e cunoscut),
+   rândul de găuri și interaxul placuței, lungimea brațului (unde producătorul o etichetează), tipul suprapunerii. Forma corpului și a brațului e de REFERINȚĂ
+   (EBHingesMore.SCHEM): producătorii nu publică gabaritul. Fără cupă în lemn (sticlă, cadru de aluminiu) nu se desenează decupajul. */
+function buildMoreHinge(h, P, A, tag, ops) {
+  const g = h.g, M = window.EBHingesMore, SC = M ? M.SCHEM : { flangeW: 24, flangeT: 1.6, armW: 20, armT: 3, plateT: 3, plateW: 40 };
+  const w = h.w, sd = h.hingeLeft ? 1 : -1, HM = g.brand === "Häfele" ? "__inox" : "__zinc", y = w[1], z0 = w[2];
+  const HX = EBHwGeom.hingeDims(h, ops, HW_DRILL), inset = g.overlay === "inset" || g.overlay === "inset_half";
+  const cupDia = g.noDrill ? 35 : HX.cupDia, cupDepth = HX.cupDepth;
+  if (!g.noDrill) P.hw.add(tag(cyl(HM, along(w, 2, 0), along(w, 2, cupDepth), cupDia)));
+  /* inel în jurul cupei și flanșa dreptunghiulară, lungă cât interaxul fixărilor când el e cunoscut */
+  P.hw.add(tag(cyl(HM, along(w, 2, -SC.flangeT), along(w, 2, 0.3), cupDia + 2)));
+  const fp = g.fixPattern, flen = (fp ? fp.spacing : cupDia) + 14;
+  P.hw.add(tag(extrudeMesh(HM, rrectShape(SC.flangeW, flen, 4), SC.flangeT, [[1, 0, 0, w[0] + sd * (fp ? fp.offset / 2 : 0)], [0, 1, 0, y], [0, 0, 1, z0 - SC.flangeT]], 0.25)));
+  if (fp) [-1, 1].forEach(k => {   // fixările la interaxul și decalajul din date (cap de șurub; la dorn/Fix/premontat același semn)
+    const c = [w[0] + sd * fp.offset, y + k * fp.spacing / 2, z0 - SC.flangeT];
+    P.hw.add(tag(cyl("__blackmetal", c, [c[0], c[1], c[2] - 0.15], 8)));
+    P.hw.add(tag(cyl("__inox", [c[0], c[1], c[2] - 0.1], [c[0], c[1], c[2] - 1.6], g.fixMode === "screw" ? 5.2 : 6)));
+  });
+  if (h.plate && A) {
+    const p = h.plate, zp = p[2], xo = (d) => p[0] + sd * d, pitch = g.platePitch || 32;
+    const lin = g.plateKind === "linear";
+    /* placuța pe lateral: cruce (două găuri pe verticală, la linia din date) sau rând (două găuri pe adâncime) */
+    const sh = lin ? rrectShape(pitch + 16, 16, 3) : rrectShape(SC.plateW, pitch + 13, 4);
+    A.hw.add(tag(extrudeMesh(HM, sh, SC.plateT, [[0, 0, sd, p[0]], [0, 1, 0, p[1]], [1, 0, 0, lin ? zp - pitch / 2 : zp]], 0.3)));
+    const holes = lin ? [[p[1], zp], [p[1], zp - pitch]] : [[p[1] - pitch / 2, zp], [p[1] + pitch / 2, zp]];
+    holes.forEach(([sy, sz]) => {
+      A.hw.add(tag(cyl("__inox", [xo(SC.plateT), sy, sz], [xo(SC.plateT + 1.4), sy, sz], 6.5)));
+      A.hw.add(tag(box("__blackmetal", [xo(SC.plateT + 1.3), sy - 0.5, sz - 2.4], [xo(SC.plateT + 1.7), sy + 0.5, sz + 2.4], 0.1)));
+    });
+    /* braț: profil de referință, cu lungimea din date unde e etichetată; urcat la suprapunerea interioară */
+    const zNear = z0 - 16, AR = M ? M.armProfile(zNear, inset, g.armLen, 1.3) : EBHwGeom.hingeArm(zNear, inset, 1.3);
+    const armM = [[0, sd, 0, p[0]], [0, 0, 1, p[1]], [1, 0, 0, 0]];
+    A.hw.add(tag(extrudeMesh(HM, polyShape(AR.outer), AR.width, armM, 1.8, -AR.width / 2)));
+    const LK = EBHwGeom.hingeLinks(w, sd, zNear, p[0], z0);
+    P.hw.add(tag(box(HM, [w[0] - sd * 7, y - LK.h / 2, z0 - 13.5], [w[0] + sd * 8, y + LK.h / 2, z0 - 1.6], 2)));
+    if (!R.linkG) { R.linkG = new THREE.Group(); R.root.add(R.linkG); }
+    LK.a.forEach((a, i) => {
+      const b = LK.b[i], lk = new THREE.Mesh(UNIT, materialFor(HM));
+      lk.castShadow = true; tag(lk); lk.userData.own = true; R.linkG.add(lk);
+      R.links.push({ m: lk, P, A, a, b, rel: lk.userData.rel, th: LK.th, hh: LK.h });
+    });
+  } else P.hw.add(tag(box(HM, [w[0] - 5, y - 8, z0 - 24], [w[0] + 5, y + 8, z0 - 1.6])));
+}
 function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (R.linkG) clearGroup(R.linkG);
@@ -1061,7 +1104,11 @@ function buildHardware(model) {
     const P = R.pieces.get(String(h.piece)); if (!P) return;
     const A = h.against != null ? R.pieces.get(String(h.against)) : null;
     const tag = (m, always) => { m.userData.hw = h.type; m.userData.always = !!always; m.userData.rel = [String(h.piece), String(h.against)]; return m; };
-    if (h.type === "cerniera") {
+    if (h.type === "cerniera" && h.g) {
+      /* balamale Hettich / Salice / Grass / Häfele / Blum 105° (ebanist-hinges-more.js): desen din cotele lor, nu ale Blum */
+      buildMoreHinge(h, P, A, tag, OPS[h.id]);
+      if (!P.pivot) P.pivot = { x: h.hingeLeft ? P.boxes[0].x0 : P.boxes[0].x1, z: P.boxes[0].z1, left: h.hingeLeft };
+    } else if (h.type === "cerniera") {
       /* Blum CLIP top (fișa 71B3590/71B3550): cupă Ø35 adâncă 13, flanșă 57 × 27,5 cu două găuri la 45 mm
          (excentric 9,5 față de cupă), braț lung din tablă îndoită, pe placa de montaj de pe lateral;
          amortizorul BLUMOTION e o cutie neagră pe braț; două șuruburi de reglaj pe capătul brațului */
