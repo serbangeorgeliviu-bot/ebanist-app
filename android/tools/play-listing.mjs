@@ -16,6 +16,7 @@
      rollout   pune userFraction pe lansarea în curs de pe production
                (PLAY_FRACTION 0.01…1; 1 = completă, cere PLAY_CONFIRM=da).
      reviews   citește recenziile recente.
+     promote   promovează un versionCode deja urcat (PLAY_VERSION_CODE, PLAY_TRACK, PLAY_FRACTION, confirm=da pe production).
      subs      numai citire: abonamentele, planurile de bază, prețurile și ofertele din Play.
      reply     răspunde la o recenzie (PLAY_REVIEW_ID, PLAY_REPLY ≤ 350).
 
@@ -189,6 +190,31 @@ export async function listOffers(c, productId, basePlanId) {
   }));
 }
 
+/* Promovează un versionCode DEJA urcat în Play (ex. din `internal`) pe un track, fără să-l mai urce: Play refuză
+   același versionCode a doua oară. Pe production: confirm=da; fracția 0.01…0.99 = lansare treptată, 1 = completă. */
+export function checkPromote({ track, versionCode, fraction, confirm }) {
+  if (!["internal", "alpha", "beta", "production"].includes(track)) throw new Error("track necunoscut: " + track);
+  if (!/^\d+$/.test(String(versionCode || ""))) throw new Error("PLAY_VERSION_CODE trebuie să fie un număr: " + versionCode);
+  const f = Number(fraction);
+  if (!(f > 0 && f <= 1)) throw new Error("PLAY_FRACTION trebuie să fie în (0, 1]: " + fraction);
+  if (track === "production" && confirm !== "da") throw new Error("pe production cere confirm=da");
+  return f;
+}
+
+export async function promote(c, { track = "production", versionCode, fraction, confirm = "", notes = "", notesLang = "ro-RO" }) {
+  const f = checkPromote({ track, versionCode, fraction, confirm });
+  const id = await c.open();
+  try {
+    const before = await c.get("track " + track, "/edits/" + id + "/tracks/" + track);
+    const rel = { name: String(versionCode), versionCodes: [String(versionCode)], status: f === 1 ? "completed" : "inProgress" };
+    if (f < 1) rel.userFraction = f;
+    if (notes) rel.releaseNotes = [{ language: notesLang, text: String(notes).slice(0, 500) }];
+    await c.put("promovează " + versionCode, "/edits/" + id + "/tracks/" + track, { track, releases: [rel] });
+    await c.commit(id);
+    return { track, versionCode: String(versionCode), fraction: f, before: (before.releases || []).map((r) => r.name + ":" + r.status + (r.userFraction ? "@" + r.userFraction : "")) };
+  } catch (e) { await c.drop(id); throw e; }
+}
+
 export async function listReviews(c, max = 50) {
   const r = await c.get("recenzii", "/reviews?maxResults=" + max + "&translationLanguage=ro");
   return (r.reviews || []).map((x) => {
@@ -219,6 +245,7 @@ async function main() {
   else if (cmd === "listing") out = await syncListing(c, await readStore(dir), { images: e.PLAY_IMAGES === "da", dryRun: e.PLAY_DRY === "da" });
   else if (cmd === "rollout") out = await setRollout(c, { fraction: e.PLAY_FRACTION, confirm: e.PLAY_CONFIRM || "" });
   else if (cmd === "reviews") out = await listReviews(c);
+  else if (cmd === "promote") out = await promote(c, { track: e.PLAY_TRACK || "production", versionCode: e.PLAY_VERSION_CODE, fraction: e.PLAY_FRACTION, confirm: e.PLAY_CONFIRM || "", notes: e.PLAY_NOTES || "" });
   else if (cmd === "subs-raw") out = await c.get("abonament brut", "/subscriptions/" + (e.PLAY_PRODUCT || "ebanist_pro"));
   else if (cmd === "subs") {
     const subs = await listSubs(c);

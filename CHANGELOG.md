@@ -5,7 +5,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.83.1 — 19 noiembrie 2026
+## 5.84.1 — 19 noiembrie 2026
 
 **Codul QR de pe etichete deschide acum aplicația, nu pagina de prezentare.** Link-ul din cod era `https://ebanist.com/#e=…`, adică pagina site-ului, care nu știe ce e `#e=`: camera telefonului deschidea site-ul în loc de piesă. Acum e `https://ebanist.com/app/#e=…`, iar aplicația deschide fișa piesei.
 - **Etichetele deja tipărite funcționează:** pagina de prezentare (în orice limbă) trimite `#e=<comandă>.<piesă>` direct în `/app/` cu tot cu fragment. Verificat în browser pe `/`, `/it/` și `/app/`.
@@ -14,6 +14,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - Test nou în `atelier.test.js` (link spre `/app/`, formele vechi se citesc, redirecționarea există în șablon).
 
 ---
+
+## 5.84.0 — 18 noiembrie 2026
+
+**AR se folosește gratuit (D-134).** După 5.44.0, apariţiile ecranului Pro la poarta „room” nu au scăzut (139 în 7 zile, 0 cumpărări): le producea butonul **AR** din bara 3D, care cerea Pro la primul click. AR nu scoate un document (scena merge în vizualizatorul sistemului), deci e o privire, ca previzualizarea „În camera ta”. Rămâne Pro exportul JPG al pozei cu mobila (poarta „jpg”). Tabelul Gratuit vs Pro și textele ecranului Pro spun asta (ro, it, en, fr).
 
 ## 5.83.0 — 18 noiembrie 2026
 
