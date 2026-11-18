@@ -2972,6 +2972,60 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
   }
 
+  /* U.17 — unități de colț, scoase pentru corpuri joase și înalte, mecanisme de mișcare */
+  {
+    head("Unități de colț / scoase / mecanisme — opțiune, deviz, 3D, avertismente (U.17)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.base, name: "Cu1", L: 900, H: 800, P: 560, doors: 2, shelves: 2, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.17: implicit «Nessuna» — corp neschimbat, nicio cutie de unitate", await pg.evaluate(() => $("bCU").value === "" && cfgFromForm().cu === null && !buildModule(cfgFromForm()).boxes.some(b => b.role === "cornerhw")));
+    ok("U.17: selectorul are cele 57 de unități, grupate pe 11 feluri", await pg.evaluate(() => $("bCU").querySelectorAll("option:not([value=''])").length === 57 && $("bCU").querySelectorAll("optgroup").length === 11));
+    ok("U.17: rândul de alegere se vede pe corp standard, ascuns pe masă", await pg.evaluate(() => { const v = $("rowCU").style.display !== "none"; $("bTipo").value = "tavolo"; $("bTipo").dispatchEvent(new Event("change")); const h = $("rowCU").style.display === "none"; $("bTipo").value = "standard"; $("bTipo").dispatchEvent(new Event("change")); return v && h; }));
+    await pg.selectOption("#bCU", "kb_lemans2"); await pg.waitForTimeout(250);
+    ok("U.17: alegerea ajunge în cfg, ușa devine cea din date (rând «Anta», lățimea mărimii alese)", await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), a = b.pieces.filter(p => /^Anta/.test(p.elemento));
+      return c.cu === "kb_lemans2" && a.length === 1 && a[0].pz === 1 && [400, 450, 500, 600].includes(a[0].larg) && b.cu && b.cu.size === String(a[0].larg); }));
+    ok("U.17: mărimea (4 uși) și partea oarbă apar; indiciul se vede", await pg.evaluate(() => $("rowCUSize").style.display !== "none" && $("bCUSize").options.length === 5 && $("rowCUHand").style.display !== "none" && $("cuHint").style.display !== "none" && $("cuHint").textContent.length > 40));
+    await pg.selectOption("#bCUSize", "500"); await pg.selectOption("#bCUHand", "dx"); await pg.waitForTimeout(200);
+    ok("U.17: mărimea și partea oarbă ajung în cfg și în ușă (500 mm, balamale la dreapta)", await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), d = b.boxes.find(x => x.sub === "door");
+      return c.cuSize === "500" && c.cuHand === "dx" && Math.round(d.x1 - d.x0) === 500 && d.hinge === "right"; }));
+    const ch = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Cu1" });
+      const items = computeHardware(p, state.settings), g = k => items.find(i => i.k === k) || {};
+      const o = { corner: g("hwCorner").qty, name: (g("hwCorner").prod && g("hwCorner").prod.name) || "", cern: g("hwCern").qty || 0, man: g("hwMan").qty || 0 };
+      try { o.mont = montDoc(p).includes(t("mCorner").split("{p}")[0].trim().slice(0, 12)); } catch (e) { o.err = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.err = String(e); }
+      try { const cf = p.configs.Cu1; o.cfg = cf.cu === "kb_lemans2" && cf.shelves === 2; o.audit = auditModule(cf, p.pieces.filter(x => x.gen === "Cu1")).filter(a => a.severity === "blocking").map(a => a.id).join(","); } catch (e) { o.err = String(e); }
+      return o; });
+    ok("U.17: deviz — un set pe corp, balamale pe ușa de colț (2+), un mâner", ch.corner === 1 && /LeMans/.test(ch.name) && ch.cern >= 2 && ch.man === 1, JSON.stringify(ch));
+    ok("U.17: «Montaj» are pasul unității; rezumatul fără erori; nicio eroare blocantă la audit (I4 nu cade pe ușa de colț)", ch.mont === true && ch.sum === true && !ch.err && ch.audit === "", JSON.stringify(ch));
+    ok("U.17: avertisment «cote neverificate» și interiorul eliberat, în aplicație", await pg.evaluate(() => { const b = buildModule(cfgFromForm()), w = (b.warn && b.warn.cuWarn) || [];
+      const n = EBCornerUI.notes(b.warn, b); return w.some(x => x.k === "unv") && w.some(x => x.k === "forced" && x.what === "shelves") && n.length >= 3 && n.some(s => /LeMans/.test(s)); }));
+    ok("U.17: 3D — se desenează deschis și închis; tăvile și ușa se mișcă împreună", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 });
+      const bs = buildModule(c).boxes, tray = bs.find(b => b.role === "cornerhw" && b.cu.an && b.cu.an.follow), door = bs.find(b => b.sub === "door");
+      const t1 = GL3D.tgtOf(tray.pk), t2 = GL3D.tgtOf(door.pk);
+      GL3D.worldBoxes({ open: 1 });
+      return !!(r && r.img) && Math.abs(t2.ang) > 0.5 && Math.abs(t1.ang - t2.ang) < 1e-6; } catch (e) { return String(e); } }));
+    await pg.evaluate(() => { closeSheets(); setView("build"); buildCfg = { ...PRESETS.base, name: "Cu2", L: 450, H: 2000, P: 600, doors: 2, shelves: 3, drawers: 0, hang: 0, cu: "kb_dispensa_vvsx" }; syncBuildForm(); drawPreview(); });
+    await pg.waitForTimeout(250);
+    const dh = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; const c = cfgFromForm(); generateInto(p, { ...c, name: "Cu2" });
+      const items = computeHardware(p, state.settings), g = k => (items.find(i => i.k === k) || {}).qty || 0;
+      const b = buildModule(c), f = b.pieces.find(x => /^Fronte estraibile/.test(x.elemento));
+      return { corner: g("hwCorner"), cern: g("hwCern"), man: g("hwMan"), front: !!f, anta: b.pieces.some(x => /^Anta/.test(x.elemento)), n: b.cu && b.cu.n, el: elName("Fronte estraibile") }; });
+    ok("U.17: Dispensa — front pe cadru: fără balamale, un mâner, un set; 5 coșuri la 2000 mm", dh.corner === 1 && dh.cern === 0 && dh.man === 1 && dh.front && !dh.anta && dh.n === 5, JSON.stringify(dh));
+    ok("U.17: nume și texte traduse în toate limbile", await pg.evaluate(() => { const L = ["it", "ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
+      const k = L.every(l => { state.lang = l; return t("fCU") !== "fCU" && t("opsCornerNoDrill") !== "opsCornerNoDrill" && t("hwCorner") !== "hwCorner" && t("mCorner") !== "mCorner" && t("cuw_range") !== "cuw_range" && t("cuKind_blind") !== "cuKind_blind" && (l === "it" || elName("Fronte estraibile") !== "Fronte estraibile"); });
+      state.lang = keep; return k; }));
+    ok("U.17: catalogul «Unități colț» are câte un articol pe unitate, cu preț de completat", await pg.evaluate(() => hwList("corner").length === 57 && hwList("corner").every(x => x.price === 0 && x.brand) && HW_CATS.some(c => c[0] === "corner")));
+    await pg.evaluate(() => { closeSheets(); setView("build"); buildCfg = { ...PRESETS.angolare, name: "Cu3", L: 1000, L2: 900, H: 800, corner: "dx", shelves: 2, doors: 2, cu: "hettich_salso" }; syncBuildForm(); drawPreview(); });
+    await pg.waitForTimeout(250);
+    ok("U.17: corp de colț — partea oarbă o dă colțul (rândul «lato cieco» ascuns), unitatea pe aripa A, aripa B neschimbată", await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), plain = buildModule({ ...c, cu: null });
+      const wb = x => JSON.stringify(x.pieces.filter(p => p.wing === "B"));
+      return $("rowCUHand").style.display === "none" && c.cu === "hettich_salso" && wb(b) === wb(plain) && b.pieces.filter(p => p.wing === "A" && /^Ripiano/.test(p.elemento)).length === 0 && b.cu && b.cu.hand === "dx"; }));
+    ok("U.17: copia modulului păstrează unitatea (configurația salvată)", await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Cu3" });
+      const c = p.configs.Cu3; return c.cu === "hettich_salso" && buildModule(c).boxes.some(b => b.role === "cornerhw"); }));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+    ok("U.17: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
