@@ -69,17 +69,19 @@ test("informația de format: aceleași 15 biți în ambele copii și cod BCH val
   }
 });
 
-test("capacitatea: 213 octeți la M, 271 la L; peste ea ridică qr:too_long", () => {
-  assert.equal(Q.capacity("M"), 213);
-  assert.equal(Q.capacity("L"), 271);
-  assert.doesNotThrow(() => Q.encode("a".repeat(213), "M"));
-  assert.throws(() => Q.encode("a".repeat(214), "M"), /qr:too_long/);
-  assert.throws(() => Q.encode("a".repeat(272), "L"), /qr:too_long/);
+test("capacitatea (5.85.0: până la v25): 997 octeți la M, 1273 la L; peste ea ridică qr:too_long", () => {
+  assert.equal(Q.capacity("M"), 997);
+  assert.equal(Q.capacity("L"), 1273);
+  assert.doesNotThrow(() => Q.encode("a".repeat(997), "M"));
+  assert.throws(() => Q.encode("a".repeat(998), "M"), /qr:too_long/);
+  assert.throws(() => Q.encode("a".repeat(1274), "L"), /qr:too_long/);
+  assert.equal(Q.encode("a".repeat(213), "M").version, 10);   // până la v10 rămâne ca înainte
+  assert.equal(Q.encode("a".repeat(271), "L").version, 10);
 });
 
 test("UTF-8: se numără octeții, nu caracterele", () => {
-  assert.throws(() => Q.encode("€".repeat(72), "M"), /qr:too_long/); /* 216 octeți */
-  assert.doesNotThrow(() => Q.encode("€".repeat(71), "M")); /* 213 octeți */
+  assert.throws(() => Q.encode("€".repeat(333), "M"), /qr:too_long/); /* 999 de octeți */
+  assert.doesNotThrow(() => Q.encode("€".repeat(332), "M")); /* 996 de octeți */
 });
 
 test("determinist: același text → aceeași matrice", () => {
@@ -94,7 +96,7 @@ test("svg: viewBox cu zona liniștită de 4 module, o singură cale, fără culo
   assert.match(Q.svg("x", { size: 80 }), /width="80" height="80"/);
 });
 
-test("citire înapoi cu jsQR (dacă e instalat): fiecare versiune 1–10, la capacitate maximă, ambele niveluri", { skip: !jsQR }, () => {
+test("citire înapoi cu jsQR (dacă e instalat): fiecare versiune 1–25, la capacitate maximă, ambele niveluri", { skip: !jsQR }, () => {
   for (const l of ["L", "M"]) {
     const seen = new Set();
     for (let len = 1; len <= Q.capacity(l); len++) {
@@ -102,7 +104,7 @@ test("citire înapoi cu jsQR (dacă e instalat): fiecare versiune 1–10, la cap
       if (!seen.has(q.version)) { seen.add(q.version); assert.equal(decode(q), "k".repeat(len), `${l} v${q.version} len ${len}`); }
       if (len === Q.capacity(l) || Q.encode("k".repeat(len + 1), l).version !== q.version) assert.equal(decode(q), "k".repeat(len), `${l} v${q.version} plin`);
     }
-    assert.equal(seen.size, 10, "toate cele 10 versiuni");
+    assert.equal(seen.size, 25, "toate cele 25 de versiuni");
   }
 });
 
@@ -113,5 +115,30 @@ test("citire înapoi cu jsQR (dacă e instalat): toate golden-urile + 150 de și
     const lvl = i % 2 ? "L" : "M", len = 1 + Math.floor(Math.random() * Q.capacity(lvl));
     let s = ""; for (let k = 0; k < len; k++) s += al[Math.floor(Math.random() * al.length)];
     assert.equal(decode(Q.encode(s, lvl)), s, `${lvl} ${len}`);
+  }
+});
+
+/* 5.85.0: versiunile 11–25 (codul QR al piesei, ~600 de octeți). Valorile de referință sunt cele din ISO/IEC 18004: octeți de date la nivel L și M,
+   și centrele modelelor de aliniere. Un decodor independent nu e în depozit; verificarea cu o cameră reală rămâne necesară. */
+test("QR v11–25: capacitatea de date (cuvinte de cod) și modelele de aliniere sunt cele din standard", () => {
+  const L = { 11: 324, 12: 370, 13: 428, 14: 461, 15: 523, 16: 589, 17: 647, 18: 721, 19: 795, 20: 861, 21: 932, 22: 1006, 23: 1094, 24: 1174, 25: 1276 };
+  const M = { 11: 254, 12: 290, 13: 334, 14: 365, 15: 415, 16: 453, 17: 507, 18: 563, 19: 627, 20: 669, 21: 714, 22: 782, 23: 860, 24: 914, 25: 1000 };
+  for (const [lvl, tab] of [["L", L], ["M", M]]) for (const v of Object.keys(tab).map(Number)) {
+    const maxBytes = tab[v] - 3;                      // 4 biți de mod + 16 de lungime = 20 de biți ≈ 3 cuvinte (la v≥10)
+    const q = Q.encode("a".repeat(maxBytes), lvl);
+    assert.strictEqual(q.version, v, lvl + " " + v + " → v" + q.version);
+    if (v < 25) assert.strictEqual(Q.encode("a".repeat(maxBytes + 1), lvl).version > v, true, lvl + " " + v + " + 1 octet");
+    else assert.throws(() => Q.encode("a".repeat(maxBytes + 1), lvl), /qr:too_long/);
+  }
+  const ALIGN = { 14: [6, 26, 46, 66], 20: [6, 34, 62, 90], 25: [6, 32, 58, 84, 110] };
+  for (const v of Object.keys(ALIGN).map(Number)) {
+    const q = Q.encode("a".repeat({ 14: 440, 20: 800, 25: 1200 }[v]), "L"), pos = ALIGN[v], last = pos.length - 1;
+    assert.strictEqual(q.version, v);
+    pos.forEach((cy, i) => pos.forEach((cx, j) => {
+      if ((i === 0 && j === 0) || (i === 0 && j === last) || (i === last && j === 0)) return;   // locul finderelor
+      assert.strictEqual(q.modules[cy][cx], true, v + " centru " + cx + "," + cy);
+      assert.strictEqual(q.modules[cy][cx + 1], false, v + " inel interior");
+      assert.strictEqual(q.modules[cy][cx + 2], true, v + " inel exterior");
+    }));
   }
 });

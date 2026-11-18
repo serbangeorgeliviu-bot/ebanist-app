@@ -3997,14 +3997,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const pc = { pk: 5, role: "fianco", length: 600, width: 400, thickness: 18, outline: [{ x0: 0, x1: 600, y0: 0, y1: 400 }], operations: [] };
       const M = { meta: { "5": { row: p.pieces[1], n: 2 } }, ops: { pieces: [pc] } };
       const a3 = () => { try { return partSheetSvg(M, pc, 5); } catch (e) { return "ERR " + e; } };
-      o.a3fara = !a3().includes("<svg x=") && !a3().startsWith("ERR");
+      o.a3fara = !a3().includes(">r2<") && !a3().startsWith("ERR") && a3().includes(">QR<");   // 5.85.0: fără comandă, foaia poartă codul piesei (D-160), nu codul Atelier
       atJobMapSet("w5", { job: JOB, atelier: "at1", sig: EBAtelier.rowSig(p.pieces) });
       const withQ = a3();
       const d = document.createElement("div"); d.innerHTML = EBQR.svg(EBAtelier.qrUrl(JOB, "r2"), { border: 1 });
       const path = d.querySelector("path").getAttribute("d");
       o.a3cu = withQ.includes("<svg x=") && withQ.includes(path.slice(0, 80)) && withQ.includes(">r2<");
-      p.pieces[1].lung = 601; o.a3schimbat = !a3().includes("<svg x="); p.pieces[1].lung = 600;
-      localStorage.removeItem("ebAtelier"); o.a3faraFlag = !a3().includes("<svg x="); localStorage.setItem("ebAtelier", "1");
+      p.pieces[1].lung = 601; o.a3schimbat = !a3().includes(">r2<"); p.pieces[1].lung = 600;
+      localStorage.removeItem("ebAtelier"); o.a3faraFlag = !a3().includes(">r2<"); localStorage.setItem("ebAtelier", "1");
 
       /* — planul de tăiere — */
       let mine;
@@ -4046,7 +4046,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       localStorage.removeItem("ebAtelier"); localStorage.removeItem("ebAtelierJobs"); renderAccount();
       return o;
     });
-    ok("Atelier E5: foaia A4 are QR-ul piesei (același cu al etichetei) doar cu comandă legată și neschimbată", r.a3fara === true && r.a3cu === true && r.a3schimbat === true && r.a3faraFlag === true, JSON.stringify({ f: r.a3fara, c: r.a3cu, s: r.a3schimbat, g: r.a3faraFlag }));
+    ok("Atelier E5: foaia A4 are QR-ul Atelier al piesei (același cu al etichetei) doar cu comandă legată și neschimbată; altfel codul piesei (5.85.0)", r.a3fara === true && r.a3cu === true && r.a3schimbat === true && r.a3faraFlag === true, JSON.stringify({ f: r.a3fara, c: r.a3cu, s: r.a3schimbat, g: r.a3faraFlag }));
     ok("Atelier E5: butonul „Plan sezionatrice” e în Atelier; fără Pro se deschide ecranul Pro și nu se tipărește nimic", r.buton === true && r.gratis === true);
     ok("Atelier E5: planul de tăiere se tipărește cu codurile pieselor în dreptunghiuri și ordinea tăierilor", r.tipar === true && r.coduriInPlan === true && r.ordineTaieturi === true);
     ok("Atelier E5: sub fiecare panou, QR-ul fiecărei piese; cele din plan sunt exact cele din comandă (r1, r2)", r.qrPePiese === true && r.faraAvertisment === true);

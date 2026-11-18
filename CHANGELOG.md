@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.85.0 — 19 noiembrie 2026
+
+**Codul QR de pe etichetă deschide piesa și fără comandă Atelier și fără cont (D-160).** Până acum, fără comandă eticheta avea un cod cu text, pe care camera îl arăta ca text. Acum datele piesei stau chiar în cod: cote, material, cant, găuri și canale. Camera telefonului deschide `https://ebanist.com/app/#p=…` și apare fișa piesei, cu desen și tabel de operații, fără autentificare. Fragmentul `#p=` nu pleacă spre niciun server.
+- **Ce conține codul:** proiectul, corpul, elementul, materialul, cantul, numărul de bucăți, cotele și grosimea, toate găurile (pe față și pe canturi) și canalele frezate, cu 0,1 mm. Găurile cu același profil se grupează (un rând de sistem 32 = un antet și pozițiile lui).
+- **Ce nu încape:** un cod mai lung de 450 de caractere ar fi prea dens pentru o etichetă mică, așa că se scriu numai antetul (cote, material, cant) și **numărul operațiilor lăsate pe dinafară**; aplicația le arată într-un mesaj. Contururile libere, frezările și canalele de lamelă nu se scriu în cod și se numără ca „omise". Nu se inventează nimic.
+- **Fișa deschisă din cod spune că verificările de găurire nu sunt incluse** (nu se mai afișează „verificări trecute"): cotele de găurire rămân `verificat:false` până se măsoară pe piesă.
+- **Mărimea codului pe etichetă** urmează numărul de module: 0,28 mm pe modul, între 16 și 22 mm; textul etichetei se strânge ca să nu se suprapună.
+- **Prioritate pe etichetă:** codul Atelier (cu comandă) → codul piesei (nou) → textul scurt (rânduri introduse de mână, fără corp generat). Foaia A4/A3 a piesei primește același cod.
+- **Scanerul din aplicație** (Atelier → Scanează, camera sau lipire) recunoaște și el codul piesei; pagina de prezentare trimite `#p=` direct în aplicație, ca și `#e=`.
+- **Generatorul QR** merge acum până la versiunea 25 (≈1270 de octeți), față de 10; tabelele sunt cele din ISO 18004, verificate de teste pe capacitățile de date și pe modelele de aliniere. **Neverificat cu un decodor independent în depozit; verificarea cu o cameră reală rămâne necesară.**
+- Teste noi: `piececode.test.js`, plus teste pentru v11–25 în `qr.test.js`.
+
+---
+
 ## 5.84.1 — 19 noiembrie 2026
 
 **Codul QR de pe etichete deschide acum aplicația, nu pagina de prezentare.** Link-ul din cod era `https://ebanist.com/#e=…`, adică pagina site-ului, care nu știe ce e `#e=`: camera telefonului deschidea site-ul în loc de piesă. Acum e `https://ebanist.com/app/#e=…`, iar aplicația deschide fișa piesei.

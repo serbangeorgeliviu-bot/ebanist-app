@@ -2952,6 +2952,7 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-order.js"></script>
 <script src="./ebanist-sync.js"></script>
 <script src="./ebanist-share.js"></script>
+<script src="./ebanist-piececode.js"></script>
 <script src="./ebanist-worktop.js"></script>
 <script src="./ebanist-baseframe.js"></script>
 <script src="./ebanist-kitchen-data.js"></script>
@@ -3973,6 +3974,20 @@ Object.assign(I18N.es,{vtDims:"Cotas"});
 Object.assign(I18N.it,{expClient:"Per il cliente",expShop:"Taglio e fornitore",expSite:"Officina e cantiere"});
 Object.assign(I18N.ro,{expClient:"Pentru client",expShop:"Debitare și furnizor",expSite:"Atelier și șantier"});
 Object.assign(I18N.en,{expClient:"For the client",expShop:"Cutting and supplier",expSite:"Workshop and site"});
+Object.assign(I18N.ro,{pcOmitted:"{n} operații nu sunt în cod (contururi, frezări sau prea multe): vezi proiectul"});
+Object.assign(I18N.en,{pcOmitted:"{n} operations are not in the code (outlines, milling or too many): see the project"});
+Object.assign(I18N.ro,{pcFromCode:"Date din codul QR: verificările de găurire nu sunt incluse. Cotele de găurire rămân de verificat."});
+Object.assign(I18N.en,{pcFromCode:"Data from the QR code: drilling checks are not included. Drilling positions still need checking."});
+Object.assign(I18N.it,{pcFromCode:"Dati dal codice QR: i controlli di foratura non sono inclusi. Le quote di foratura vanno ancora verificate."});
+Object.assign(I18N.fr,{pcFromCode:"Données du code QR : les contrôles de perçage ne sont pas inclus. Les cotes de perçage restent à vérifier."});
+Object.assign(I18N.de,{pcFromCode:"Daten aus dem QR-Code: Bohrprüfungen sind nicht enthalten. Die Bohrmaße müssen weiterhin geprüft werden."});
+Object.assign(I18N.pl,{pcFromCode:"Dane z kodu QR: kontrole wiercenia nie są uwzględnione. Wymiary wiercenia nadal wymagają sprawdzenia."});
+Object.assign(I18N.es,{pcFromCode:"Datos del código QR: no se incluyen las comprobaciones de taladrado. Las cotas de taladrado siguen por verificar."});
+Object.assign(I18N.it,{pcOmitted:"{n} lavorazioni non sono nel codice (contorni, fresature o troppe): vedi il progetto"});
+Object.assign(I18N.fr,{pcOmitted:"{n} opérations ne sont pas dans le code (contours, fraisages ou trop nombreuses) : voir le projet"});
+Object.assign(I18N.de,{pcOmitted:"{n} Arbeitsgänge fehlen im Code (Konturen, Fräsungen oder zu viele): siehe Projekt"});
+Object.assign(I18N.pl,{pcOmitted:"{n} operacji nie ma w kodzie (kontury, frezowania lub zbyt wiele): zobacz projekt"});
+Object.assign(I18N.es,{pcOmitted:"{n} operaciones no están en el código (contornos, fresados o demasiadas): consulta el proyecto"});
 Object.assign(I18N.ro,{"orderSendBtn": "Trimite lista de feronerie", "orderSendHdr": "Comandă feronerie", "orderSendCopied": "Lista e copiată: lipește-o în e-mail sau mesaj", "orderSendEmpty": "Nu e nicio feronerie în proiect", "orderSendBrand": "Marcă"});
 Object.assign(I18N.en,{"orderSendBtn": "Send hardware list", "orderSendHdr": "Hardware order", "orderSendCopied": "List copied: paste it into an e-mail or message", "orderSendEmpty": "No hardware in this project", "orderSendBrand": "Brand"});
 Object.assign(I18N.it,{"orderSendBtn": "Invia lista ferramenta", "orderSendHdr": "Ordine ferramenta", "orderSendCopied": "Lista copiata: incollala in un'e-mail o in un messaggio", "orderSendEmpty": "Nessuna ferramenta nel progetto", "orderSendBrand": "Marca"});
@@ -10502,7 +10517,8 @@ function openPartSheet(M,pc,face){
     `<div class="seg" style="margin:10px 0 6px"><button class="${face===5?"on":""}" data-face="5">${esc(t("partFace"))} 5</button><button class="${face===6?"on":""}" data-face="6"${has6?"":" disabled"}>${esc(t("partFace"))} 6</button></div>`+
     `<div class="part-draw">${partSVG(pc,face)}</div>`+
     `<div class="part-legend"><span><i class="dot" style="background:#c0392b"></i>Ø35</span><span><i class="dot" style="background:#b7791f"></i>Ø15</span><span><i class="dot" style="background:#1f6fb2"></i>Ø8</span><span><i class="dot" style="background:#2e7d32"></i>Ø5</span><span><i class="dot ring"></i>${esc(t("partOther"))}</span><span>⟂ ${esc(t("partThrough"))}</span></div>`+
-    (err.length?`<div class="audit" data-state="red" style="cursor:default">${esc(t("pfErr").replace("{n}",err.length))}: ${err.map(w=>w.rule+" "+(w.op||"")).join(", ")}</div>`:
+    (pc.fromCode?`<div class="audit" data-state="amber" style="cursor:default;border-color:#b7791f">${esc(t("pcFromCode"))}</div>`:"")+
+    (pc.fromCode?"":err.length?`<div class="audit" data-state="red" style="cursor:default">${esc(t("pfErr").replace("{n}",err.length))}: ${err.map(w=>w.rule+" "+(w.op||"")).join(", ")}</div>`:
                 `<div class="audit" data-state="green">${esc(t("pfOk"))}${wrn.length?" · "+esc(t("pfWarn").replace("{n}",wrn.length)):""}${inf.length?" · "+esc(t("pfFlip")):""}</div>`)+
     (pc.operations.length?`<div class="tbl-wrap"><table class="t ops"><thead><tr><th>#</th><th>${esc(t("opOp"))}</th><th class="n">${esc(t("opFace"))}</th><th class="n">X</th><th class="n">Y</th><th class="n">Ø</th><th class="n">${esc(t("opDepth"))}</th></tr></thead><tbody>${pc.operations.map(opRow).join("")}</tbody></table></div>`
       :`<p class="mini">${esc(t("partNoOps"))}</p>`)+
@@ -10525,6 +10541,8 @@ function partSheetSvg(M,pc,face,no,tot,size){
   /* Atelier E2: QR-ul piesei (același cu al etichetei), dacă proiectul are o comandă neschimbată */
   let qr=null;
   try{ const lq=p&&atLabelQr(p), ri=p?p.pieces.indexOf(row):-1; const sv=lq&&ri>=0?lq(ri):null; if(sv) qr={svg:sv,code:"r"+(ri+1)}; }catch(e){}
+  /* fără comandă Atelier: codul piesei (5.85.0), din piesa fizică de pe care s-a deschis foaia */
+  if(!qr&&window.EBPieceCode&&window.EBQR&&pc.pk!=="qr"){ try{ const e=EBPieceCode.encode(row,pc,{project:p&&p.name,n:m.n}); qr={svg:EBQR.svg(e.url,{border:1,level:"L"}),code:"QR"}; }catch(e2){} }
   /* piesă tăiată în bucăți în distinta (ex. spatele peste lățimea plăcii): foaia desenează piesa întreagă și arată tăieturile și mărimile bucăților */
   let segs=null;
   try{ if(row.seg&&row.seg.n>1&&p){
@@ -14486,16 +14504,19 @@ $("btnLabels").addEventListener("click",()=>{
   p.pieces.forEach((x,ri)=>{ for(let i=1;i<=x.pz;i++) rows.push({...x,nOf:i,nTot:x.pz,_ri:ri}); });
   const N=rows.length;
   const lq=atLabelQr(p); /* Atelier E2: cod QR pe etichetă, numai dacă proiectul are o comandă neschimbată */
+  const pq=piecesQr(p);   /* 5.85.0: altfel, codul piesei (cote, găuri) scris în link, fără comandă și fără cont */
   let html=`<div class="lbl-grid">`;
   rows.forEach((x,i)=>{
     const dec=matDecorByLabel(x.materiale);
     const matShort=(matLabelUI(x.materiale||"").replace(/Truciolare Bilaminato/i,"PAL")+(dec?" · "+dec:"")).slice(0,38);
-    const qr=(lq&&lq(x._ri))||lblQrLocal(p,x,i,N);   // QR din Atelier dacă există comandă, altfel cod propriu cu datele piesei
-    html+=`<div class="lbl${qr?" hasqr":""}">${qr?`<div class="qr">${qr}</div>`:""}
-      <div class="l1">${esc(p.name)} · ${esc(x.modulo)}</div>
-      <div class="l2">${esc(elName(x.elemento))}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
-      <div class="dim">${x.lung} × ${x.larg}</div>
-      ${hingeInfo(x)?`<div class="l-hinge">⌀35: ${hingeInfo(x).pos.join(" · ")}</div>`:""}
+    const pcq=!(lq&&lq(x._ri))&&pq?pq(p.pieces[x._ri],x):null;   // codul piesei: mărimea urmează numărul de module (0,28 mm pe modul, 16–22 mm)
+    const qr=(lq&&lq(x._ri))||(pcq&&pcq.svg)||lblQrLocal(p,x,i,N);   // QR din Atelier dacă există comandă, apoi codul piesei, apoi textul scurt
+    const qmm=pcq?pcq.mm:16;
+    html+=`<div class="lbl${qr?" hasqr":""}">${qr?`<div class="qr"${qmm>16?` style="width:${qmm}mm;height:${qmm}mm"`:""}>${qr}</div>`:""}
+      <div class="l1"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${esc(p.name)} · ${esc(x.modulo)}</div>
+      <div class="l2"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${esc(elName(x.elemento))}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
+      <div class="dim"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${x.lung} × ${x.larg}</div>
+      ${hingeInfo(x)?`<div class="l-hinge"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>⌀35: ${hingeInfo(x).pos.join(" · ")}</div>`:""}
       <div class="l3"><span>${esc(matShort)}<br>#${String(i+1).padStart(3,"0")}/${N}</span>${edgeSvg(x.bordo)}</div>
     </div>`;
   });
@@ -17688,6 +17709,19 @@ function atLabelQr(p){
     return ri=>{ const u=EBAtelier.qrUrl(l.job,"r"+(ri+1)); return u?EBQR.svg(u,{border:1}):null; };
   }catch(e){ return null; }
 }
+/* Codul piesei fără comandă și fără cont (5.85.0, D-160): fabrică funcția rând → {svg, mm}; null dacă piesa nu vine dintr-un corp generat (rând introdus de mână) */
+function piecesQr(p){
+  try{
+    if(!(window.EBPieceCode&&window.EBQR)) return null;
+    const parts=atSnapParts(p);
+    return (row,lblRow)=>{
+      const pc=parts.get(row); if(!pc) return null;
+      const e=EBPieceCode.encode(row,pc,{project:p.name,n:pc.n});
+      const q=EBQR.encode(e.url,"L");
+      return {svg:EBQR.svg(e.url,{border:1,level:"L"}),mm:Math.max(16,Math.min(22,Math.ceil((q.size+2)*0.28))),version:q.version,mode:e.mode};
+    };
+  }catch(e){ return null; }
+}
 /* QR propriu pe etichetă, fără comandă Atelier: datele piesei, ca text scurt (se citește cu orice cameră), mereu cu numele italian al piesei (cel din distintă), indiferent de limba aplicației. Numele lungi se taie. */
 function lblQrLocal(p,x,i,N){
   try{
@@ -17754,6 +17788,8 @@ async function atCamStart(){
       if(cam.stop) return;
       try{
         const r=await det.detect(v);
+        const pm=r.length&&EBPieceCode.parse(r[0].rawValue);
+        if(pm){ atCamStop(); closeSheets(); openPieceCode(pm); return; }
         const t=r.length&&EBAtelier.parseScan(r[0].rawValue);
         if(t){ atCamStop(); atScreen={name:"scan",target:t,id:atScreen.id}; atRender(); return; }
       }catch(e){}
@@ -17889,6 +17925,7 @@ $("atBody").addEventListener("click",async ev=>{
   }
   if(act==="scan"){ atScreen={name:"scan",target:null}; atRender(); return; }
   if(act==="scango"){
+    const pm=EBPieceCode.parse($("atScanText").value); if(pm){ closeSheets(); openPieceCode(pm); return; }
     const t=EBAtelier.parseScan($("atScanText").value);
     if(!t){ toast(tat("scanBad")); return; }
     atScreen={name:"scan",target:t}; atRender(); return;
@@ -19586,6 +19623,20 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{ if(e.target&&e.target.id==="helpQ") helpFilter(); });
 if(location.hash==="#help") setTimeout(helpOpen,600);
+/* 5.85.0: codul QR al piesei (#p=…) deschide fișa piesei, fără autentificare și fără comandă */
+function openPieceCode(m){
+  closeSheets(); openPartSheet(m.M,m.pc);
+  if(m.omitted>0) setTimeout(()=>toast(t("pcOmitted").replace("{n}",m.omitted)),500);
+}
+function pieceFromHash(){
+  try{
+    const m=window.EBPieceCode&&EBPieceCode.parse(location.hash); if(!m) return false;
+    try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+    openPieceCode(m); return true;
+  }catch(e){ return false; }
+}
+if(/^#p=/.test(location.hash)) setTimeout(pieceFromHash,700);
+window.addEventListener("hashchange",()=>{ if(/^#p=/.test(location.hash)) pieceFromHash(); });
 applyLang();
 aiMount();
 mountSheetClosers();
@@ -19598,12 +19649,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.84.1"; /* APP_VER-MARKER */
+const APP_VER="5.85.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v264";
+const SW_CACHE="ebanist-v265";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
