@@ -2894,6 +2894,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.16: 3D — cutia usii are sub:'lift' si se deschide fara eroare", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img) && buildModule(c).boxes.some(b => b.sub === "lift"); } catch (e) { return false; } }));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
     ok("U.16: deschiderea electrică se vede numai la sistemele cu SERVO-DRIVE (Hettich: ascunsă)", await pg.evaluate(() => $("rowLiftElec").style.display === "none"));
     await pg.selectOption("#bLift", "blum_hk_top"); await pg.waitForTimeout(150);
     ok("U.16: la Blum HK top apare «Electrică — SERVO-DRIVE»", await pg.evaluate(() => $("rowLiftElec").style.display !== "none"));
