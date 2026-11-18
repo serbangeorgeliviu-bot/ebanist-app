@@ -487,7 +487,8 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .tier-pro .name{color:var(--gold-soft)!important}
 .tier-pro .btn-laser{background:var(--gold);color:#1d221b}
 .tier-pro .btn-laser:hover{background:var(--gold-soft)}
-.tier-pro .yearly a{color:var(--gold-soft)}
+.tier-pro .btn-yearly{border-color:var(--gold);color:var(--gold-soft)}
+.tier-pro .btn-yearly:hover{background:rgba(255,255,255,.08)}
 .tier .name{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold-ink)}
 .tier .amt{font:400 clamp(3rem,6vw,4.6rem)/1 var(--serif);margin-top:16px;letter-spacing:-.02em}
 .tier .per{color:var(--txt3);font-size:14px;margin-top:8px}
@@ -496,8 +497,7 @@ a.chip-dark:hover{background:rgba(255,255,255,.18)}
 .tier li::before{content:"";height:2px;background:var(--gold);margin-top:.7em}
 .tier-pro li::before{background:var(--gold)}
 .tier .btn{align-self:flex-start}
-.yearly{margin-top:14px;font-size:14px}
-.yearly a{color:var(--green)}
+.btn-yearly{margin-top:12px;white-space:normal;text-align:center;line-height:1.25;padding:12px 24px}
 .vat{margin-top:22px;color:var(--txt3);font-size:14px;max-width:70ch}
 .tier-fd{border-color:var(--gold);background:linear-gradient(180deg,#fffaf0,var(--char2))}
 .tier-fd .name{color:var(--gold-ink)}
@@ -1291,7 +1291,7 @@ c66 -3 133 -12 160 -22z"/>
         <p class="per">par mois, TVA incluse</p>
         <ul><li>Projets illimités</li><li>Liste de débit PDF et CSV, étiquettes, fiche de montage, dessin 2D</li><li>Votre logo sur chaque PDF · mode Client</li><li>Plans de découpe avec les chutes en stock</li></ul>
         <a class="btn btn-laser" id="buyM" href="/app/?lang=fr&amp;activate=1" data-goatcounter-click="cta-price-pro">Passer à Pro</a>
-        <p class="yearly"><a id="buyY" href="/app/?lang=fr&amp;activate=1" data-goatcounter-click="cta-price-yearly">Ou 79 € par an — deux mois offerts</a></p>
+        <a class="btn btn-yearly" id="buyY" href="/app/?lang=fr&amp;activate=1" data-goatcounter-click="cta-price-yearly">Annuel — 79 € · deux mois offerts</a>
       </article>
       <article class="tier tier-fd rv">
         <span class="mono name">Founders</span>
@@ -1368,7 +1368,7 @@ c66 -3 133 -12 160 -22z"/>
 <div class="xhair" id="xhair" aria-hidden="true"><i class="xh-h"></i><i class="xh-v"></i><span class="mono" id="xhairTxt"></span></div>
 
 <script src="/app/config/billing.js"></script>
-<script>window.EB={"lang":"fr","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Ou {y} par an — deux mois offerts","pieces":["CÔTÉ G","CÔTÉ D","SÉPARATION","ÉTAGÈRE","ÉTAGÈRE","SOCLE","CÔTÉ TIROIR","CÔTÉ TIROIR","CÔTÉ TIROIR"],"app":"/app/?lang=fr","ver":"5.82.0.s3"};</script>
+<script>window.EB={"lang":"fr","langs":["en","ro","it","fr","de","pl","es"],"home":{"en":"/","ro":"/ro/","it":"/it/","fr":"/fr/","de":"/de/","pl":"/pl/","es":"/es/"},"langNames":{"en":"English","ro":"română","it":"italiano","fr":"français","de":"Deutsch","pl":"Polski","es":"Español"},"suggest":{"en":{"text":"This page is also in {lang}.","go":"Switch"},"ro":{"text":"Pagina e disponibilă și în {lang}.","go":"Schimbă"},"it":{"text":"Questa pagina è disponibile anche in {lang}.","go":"Cambia"},"fr":{"text":"Cette page existe aussi en {lang}.","go":"Changer"},"de":{"text":"Diese Seite gibt es auch in dieser Sprache: {lang}.","go":"Wechseln"},"pl":{"text":"Ta strona jest dostępna także w języku: {lang}.","go":"Przełącz"},"es":{"text":"Esta página también está disponible en: {lang}.","go":"Cambiar"}},"yearly":"Annuel — {y} · deux mois offerts","pieces":["CÔTÉ G","CÔTÉ D","SÉPARATION","ÉTAGÈRE","ÉTAGÈRE","SOCLE","CÔTÉ TIROIR","CÔTÉ TIROIR","CÔTÉ TIROIR"],"app":"/app/?lang=fr","ver":"5.82.0.s3"};</script>
 <script src="/site/js/main.js?v=5.82.0.s3" defer></script>
 <script src="/site/js/sheets.js?v=5.82.0.s3" defer></script>
 </body>
