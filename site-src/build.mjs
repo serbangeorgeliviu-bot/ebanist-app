@@ -298,7 +298,7 @@ function render(L, tplSrc = tpl, mode = null) {
   if (mode === "help") Object.assign(blocks, { url: helpUrl(L), hreflang: hreflang(helpUrl), langlinks: langLinks(L, helpHome), langpick: langPick(L, helpHome), jsonld: helpJsonld(L), helptoc: helpToc(L), helpbody: helpBody(L), helpfaq: helpFaq(L),
     helpTopicsH: esc(EBHelp.ui(L).topics), helpFaqH: esc(EBHelp.ui(L).faq), helpContactH: esc(EBHelp.ui(L).contact), og: "og-" + L + ".jpg" });
   if (mode === "blogIdx") Object.assign(blocks, { url: blogUrl(L), hreflang: hreflang(blogUrl), langlinks: langLinks(L, blogHome), langpick: langPick(L, blogHome), jsonld: blogJsonld(L) });
-  return tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
+  return stripHtmlComments(tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
     if (key.startsWith("@ph:")) { const [, n, k, h] = key.split(":"); v = casePhoto(L, n, k, h === "hero"); }
     else if (key.startsWith("@lbl:")) v = caseLabelPhoto(L, key.split(":")[1]);
@@ -312,8 +312,10 @@ function render(L, tplSrc = tpl, mode = null) {
     const inComment = before.lastIndexOf("<!--") > before.lastIndexOf("-->");
     if (inTag && !inComment && !key.startsWith("@")) return esc(strip(v));
     return String(v);
-  });
+  }));
 }
+/* comentariile din șabloane (în română, pentru noi) nu se publică */
+function stripHtmlComments(h) { return h.replace(/<!--(?!\s*GENERAT)[\s\S]*?-->\s*?\n?/g, ""); }
 
 /* OUT_DIR: testul generează într-un dosar temporar și compară cu ce e comis */
 const OUT = process.env.OUT_DIR ? path.resolve(process.env.OUT_DIR) : ROOT;
@@ -336,19 +338,36 @@ for (const L of cfg.LANGS) {
 
 /* sitemap: paginile de prezentare cu alternativele lor + paginile legale */
 const today = new Date().toISOString().slice(0, 10);
-const alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${pageUrl(l)}"/>`).join("\n");
-const urls = cfg.LANGS.map(l => `  <url><loc>${pageUrl(l)}</loc><lastmod>${today}</lastmod><priority>${l === cfg.DEFAULT_LANG ? "1.0" : "0.9"}</priority>\n${alts}\n  </url>`);
-const caseAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${caseUrl(l)}"/>`).join("\n");
-for (const l of cfg.LANGS) urls.push(`  <url><loc>${caseUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${caseAlts}\n  </url>`);
-const blogAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${blogUrl(l)}"/>`).join("\n");
-const postAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${postUrl(l)}"/>`).join("\n");
-const post5Alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${post5Url(l)}"/>`).join("\n");
-const helpAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${helpUrl(l)}"/>`).join("\n");
-for (const l of cfg.LANGS) urls.push(`  <url><loc>${helpUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${helpAlts}\n  </url>`);
-for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.6</priority>\n${blogAlts}\n  </url>`);
-for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
-for (const l of cfg.LANGS) urls.push(`  <url><loc>${post5Url(l)}</loc><lastmod>${today}</lastmod><priority>0.7</priority>\n${post5Alts}\n  </url>`);
+/* lastmod = data ultimei modificări a surselor (git); fișierele modificate și necomise primesc data de azi */
+import { execSync } from "node:child_process";
+const lmod = files => {
+  let best = "";
+  for (const f of files) {
+    const rel = path.relative(ROOT, path.join(SRC, f));
+    try {
+      const dirty = execSync(`git status --porcelain -- "${rel}"`, { cwd: ROOT }).toString().trim();
+      const d = dirty ? today : execSync(`git log -1 --format=%cs -- "${rel}"`, { cwd: ROOT }).toString().trim();
+      if (d > best) best = d;
+    } catch { return today; }
+  }
+  return best || today;
+};
+const LMI = cfg.LANGS.map(l => `i18n/${l}.json`);
+const LM = { home: lmod(["template.html", ...LMI]), cse: lmod(["case-bagno.html", ...LMI]), help: lmod(["help.html", ...LMI]), blog: lmod(["blog-index.html", ...LMI]), post: lmod(["blog-post.html", ...LMI]), post5: lmod(["blog-post-5.html", ...LMI]), legal: lmod(["template.html"]) };
+const xdef = u => `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${u}"/>`;
+const alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${pageUrl(l)}"/>`).join("\n") + xdef(pageUrl(cfg.DEFAULT_LANG));
+const urls = cfg.LANGS.map(l => `  <url><loc>${pageUrl(l)}</loc><lastmod>${LM.home}</lastmod><priority>${l === cfg.DEFAULT_LANG ? "1.0" : "0.9"}</priority>\n${alts}\n  </url>`);
+const caseAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${caseUrl(l)}"/>`).join("\n") + xdef(caseUrl(cfg.DEFAULT_LANG));
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${caseUrl(l)}</loc><lastmod>${LM.cse}</lastmod><priority>0.7</priority>\n${caseAlts}\n  </url>`);
+const blogAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${blogUrl(l)}"/>`).join("\n") + xdef(blogUrl(cfg.DEFAULT_LANG));
+const postAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${postUrl(l)}"/>`).join("\n") + xdef(postUrl(cfg.DEFAULT_LANG));
+const post5Alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${post5Url(l)}"/>`).join("\n") + xdef(post5Url(cfg.DEFAULT_LANG));
+const helpAlts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${helpUrl(l)}"/>`).join("\n") + xdef(helpUrl(cfg.DEFAULT_LANG));
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${helpUrl(l)}</loc><lastmod>${LM.help}</lastmod><priority>0.7</priority>\n${helpAlts}\n  </url>`);
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${LM.blog}</lastmod><priority>0.6</priority>\n${blogAlts}\n  </url>`);
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${LM.post}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
+for (const l of cfg.LANGS) urls.push(`  <url><loc>${post5Url(l)}</loc><lastmod>${LM.post5}</lastmod><priority>0.7</priority>\n${post5Alts}\n  </url>`);
 for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/stergere-cont.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
-  urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${today}</lastmod><priority>${pr}</priority></url>`);
+  urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${LM.legal}</lastmod><priority>${pr}</priority></url>`);
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);
 console.log("✓ sitemap.xml");

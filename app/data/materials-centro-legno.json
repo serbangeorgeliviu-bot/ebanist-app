@@ -6,13 +6,13 @@
   "_nota_colori": "colore_verificato:false su tutte le voci: i colori sono approssimazioni per la visualizzazione, non letture su campione fisico. Il selettore lo segnala.",
   "_nota_bordo": "bordo_abs riporta lo standard del fornitore (0,8 e 2 mm). Da confermare per referenza, insieme ai codici.",
   "materiali": [
-    { "id": "avocado_green_22458mn_19", "nome": "Avocado Green", "codice": "22458MN", "fornitore": "Centro Legno",
+    { "id": "avocado_green_22458mn_19", "nome": "Avocado Green", "nome_i18n": { "it": "Verde avocado", "ro": "Verde avocado", "en": "Avocado green", "fr": "Vert avocat", "de": "Avocadogrün", "pl": "Zielony awokado", "es": "Verde aguacate" }, "codice": "22458MN", "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
       "colore_hex": "#A8B08A", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "blue_avio_23196mn_19", "nome": "Blue Avio", "codice": "23196MN", "fornitore": "Centro Legno",
+    { "id": "blue_avio_23196mn_19", "nome": "Blue Avio", "nome_i18n": { "it": "Blu avio", "ro": "Albastru avio", "en": "Air-force blue", "fr": "Bleu aviation", "de": "Fliegerblau", "pl": "Błękit lotniczy", "es": "Azul aviación" }, "codice": "23196MN", "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
       "colore_hex": "#5C7A99", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
@@ -24,7 +24,7 @@
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "antracite_storm_grey_19", "nome": "Antracite / Storm Grey", "codice": null, "fornitore": "Centro Legno",
+    { "id": "antracite_storm_grey_19", "nome": "Antracite / Storm Grey", "nome_i18n": { "it": "Antracite / Storm Grey", "ro": "Antracit / Storm Grey", "en": "Anthracite / Storm Grey", "fr": "Anthracite / Storm Grey", "de": "Anthrazit / Storm Grey", "pl": "Antracyt / Storm Grey", "es": "Antracita / Storm Grey" }, "codice": null, "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
       "colore_hex": "#3C4043", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
@@ -36,13 +36,13 @@
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "cemento_concrete_art_pearl_grey_4375dp_19", "nome": "Cemento / Concrete Art Pearl Grey", "codice": "4375DP", "fornitore": "Centro Legno",
+    { "id": "cemento_concrete_art_pearl_grey_4375dp_19", "nome": "Cemento / Concrete Art Pearl Grey", "nome_i18n": { "it": "Cemento / Concrete Art Pearl Grey", "ro": "Ciment / Concrete Art Pearl Grey", "en": "Concrete / Concrete Art Pearl Grey", "fr": "Béton / Concrete Art Pearl Grey", "de": "Beton / Concrete Art Pearl Grey", "pl": "Beton / Concrete Art Pearl Grey", "es": "Cemento / Concrete Art Pearl Grey" }, "codice": "4375DP", "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "cemento", "finitura": "melaminico",
       "colore_hex": "#B6B4AE", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "nogal_victoria_19", "nome": "Nogal Victoria", "codice": null, "fornitore": "Centro Legno",
+    { "id": "nogal_victoria_19", "nome": "Nogal Victoria", "nome_i18n": { "it": "Noce Victoria", "ro": "Nuc Victoria", "en": "Victoria walnut", "fr": "Noyer Victoria", "de": "Nussbaum Victoria", "pl": "Orzech Victoria", "es": "Nogal Victoria" }, "codice": null, "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "legno", "finitura": "melaminico",
       "colore_hex": "#6E4B33", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
@@ -54,19 +54,19 @@
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "bordeaux_19", "nome": "Bordeaux", "codice": null, "fornitore": "Centro Legno",
+    { "id": "bordeaux_19", "nome": "Bordeaux", "nome_i18n": { "it": "Bordeaux", "ro": "Bordo", "en": "Burgundy", "fr": "Bordeaux", "de": "Bordeaux", "pl": "Bordo", "es": "Burdeos" }, "codice": null, "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "tinta_unita", "finitura": "melaminico",
       "colore_hex": "#6B2431", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "rovere_wood_lime_classic_k2414ah_19", "nome": "Rovere Wood Lime Classic", "codice": "K2414AH", "fornitore": "Centro Legno",
+    { "id": "rovere_wood_lime_classic_k2414ah_19", "nome": "Rovere Wood Lime Classic", "nome_i18n": { "it": "Rovere Wood Lime Classic", "ro": "Stejar Wood Lime Classic", "en": "Wood Lime Classic oak", "fr": "Chêne Wood Lime Classic", "de": "Eiche Wood Lime Classic", "pl": "Dąb Wood Lime Classic", "es": "Roble Wood Lime Classic" }, "codice": "K2414AH", "fornitore": "Centro Legno",
       "spessore": 19, "famiglia": "legno", "finitura": "texture",
       "colore_hex": "#C4A87C", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
       "prezzo_mq": null, "attivo": true },
 
-    { "id": "blanc_grace_18", "nome": "Blanc Grace", "codice": null, "fornitore": "Centro Legno",
+    { "id": "blanc_grace_18", "nome": "Blanc Grace", "nome_i18n": { "it": "Bianco Grace", "ro": "Alb Grace", "en": "Grace white", "fr": "Blanc Grace", "de": "Weiß Grace", "pl": "Biały Grace", "es": "Blanco Grace" }, "codice": null, "fornitore": "Centro Legno",
       "spessore": 18, "famiglia": "tinta_unita", "finitura": "melaminico",
       "colore_hex": "#F2F1EC", "colore_verificato": false, "texture_url": null,
       "bordo_abs": { "disponibile": true, "spessori": [0.8, 2], "codice": null },
