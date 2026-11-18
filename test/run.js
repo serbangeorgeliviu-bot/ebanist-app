@@ -1485,7 +1485,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const edge = fs.readFileSync(path.join(ROOT, "netlify/edge-functions/lang.js"), "utf8");
     ok("la edge function della lingua gira solo su /", /export const config = \{ path: "\/" \}/.test(edge));
     ok("e legge lo stesso cookie che scrive la pagina (eb_lang)", /cookies\.get\("eb_lang"\)/.test(edge));
-    ok("i vecchi /?lang=xx vanno alla pagina della lingua", ["ro", "it", "fr"].every(l => new RegExp(`to = "/${l}/"[\\s\\S]{0,60}query = \\{lang = "${l}"\\}`).test(toml)));
+    { const edge = (await import("../netlify/edge-functions/lang.js")).decide; ok("i vecchi /?lang=xx vanno alla pagina della lingua (edge function, 301, senza parametro)", ["ro", "it", "fr", "de", "pl", "es"].every(l => { const d = edge("https://ebanist.com/?lang=" + l); return d && d.status === 301 && d.location === "/" + l + "/"; })); }
     /* Il dominio ufficiale e ebanist.com (D-41); ebanist.app resta solo come
        redirect. Un .app rimasto in un testo che il cliente legge — la
        filigrana, i termini, il redirect del pagamento — lo manderebbe su un
