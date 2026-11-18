@@ -1,0 +1,27 @@
+CAT-SLIDING SUMMARY (official docs only; JSON: scratchpad/cat-sliding.json; downloads: scratchpad/dl-sliding/)
+Sources: Hettich catalogue 2021 (136 p), Hawa "On furniture" catalogue 789.0525.001 (332 p) + Concepta III SPE/EP drawings, Blum REVEGO ordering guide 2025 (84 p) + blum.com pages, Haefele UK Sliding Systems Directory 2025 pages (25S1-xx).
+
+COMPLETE (limits + codes + planning formulas/drawing values):
+- Blum REVEGO uno/duo: all limits, EB/ET/FB/FU/FH/EH formulas, gaps, pocket dims, nominal lengths, track rule, order codes. Only drilling positions are configurator-only.
+- Hawa Concepta III 15/25/35: limits, T1/KT1/E1/M/Z formulas, set codes, connectors, DXF URLs.
+- Hawa Folding Concepta III 20/25: limits, T2/E2/M2 formulas, set + track codes.
+- Hettich KA 5740 (pocket): H=LKH-6, B=LKB-7, Y=TD+2, MKT=B1+Y+Z, B1-B6 table, codes.
+- Hettich TopLine XL / TopLine L / SlideLine M / 55 Plus / TopLine 25/27 / WingLine L: limits, sets, profiles (lengths), accessories, order codes; drilling and clearances as [drawing] values.
+- Haefele F-Line21 12C/20C/40C/20A, F-Line15 55A, F-Flush52 20A, F-Park71 25B (pocket pivot: overlay = door width - retraction), Pocket Hideaway: limits + codes.
+- Hawa Combino 20/35/50(MS)/65/80 and Clipo 15/16/26: limits + door-width formulas TB=(KIM or KAM + overlap_total)/n from drawings.
+
+PARTIAL / NULL:
+- Hettich door-width/overlap formulas: none published (only definitions, overlap ~2x gap) -> null.
+- Hettich profile cross-section h x d and cut rules: null (only drawings with unlabelled dims).
+- Hettich WingLine S, WingLine 230, Wing 77: limits only; code tables unreadable (overlapping text). Hettich InLine XL: no official doc obtained -> null.
+- Hawa Combino/Clipo: hanger hole patterns, cabinet depth, many set codes (Combino 50/65/80, Clipo, Combino L) not transcribed; Clipo 36 formulas not read.
+- Haefele F-Line31 40A/60A, F-Line18: door height/width max not stated in text; door width table not transcribed.
+- Grass Scenic, Kesseboehmer, Hawa Variotec/Aprico/Junior (building products): not found/not applicable -> null. Hawa Frontino/Regal/Libra/Miniroll/220 Planfront/Multifold/Aperto not covered (Frontino only via Haefele p1.79A).
+- No STEP files verified anywhere; Hawa gives DXF per planning drawing, Blum via login configurator, Hettich via Technical Assistant.
+
+SOURCE CONFLICTS:
+- TopLine XL height: 2600 (cat p.3 table) vs 3000 (cat p.6 graph, spec sheet).
+- TopLine XL width: 600-2000 (cat p.3) vs 2-door 600-1000 / 3-door 750-1350 / 4-door 650-1000 (spec sheet).
+- TopLine L width 550-1500 vs 550-1350 (graph legend ambiguous).
+- Hawa Concepta III V2: SPE gives weight min 6 kg (25), catalogue same; no conflict. Blum internal depth: search snippet said 553, official pages say 518/483 (snippet wrong).
+Caveats: Hawa Combino/Clipo spec box order (kg/height/width/thickness) inferred; KIM/KAM, Concepta "RE" not defined in docs.

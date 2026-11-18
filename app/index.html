@@ -1889,6 +1889,11 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <select id="bLiftElec"><option value="" data-i="liftElecNone">Meccanica</option><option value="servo" data-i="liftElecServo">Elettrica — Blum SERVO-DRIVE</option></select>
           <p class="mini" id="liftElecHint" style="margin-top:4px"></p>
         </div>
+        <div class="f" id="rowSlide" style="display:none"><label data-i="fSlide" for="bSlide">Sistema scorrevole / a scomparsa / ad ala</label>
+          <select id="bSlide"><option value="" data-i="slideNone">Nessuno (regola generica)</option></select>
+          <p class="mini" id="slideHint" style="margin-top:4px"></p>
+          <div class="mini" id="slideInfo" style="margin-top:4px"></div>
+        </div>
         <div class="f3">
           <div class="f"><label data-i="fHandles" for="bHandles">Apertura</label>
             <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option><option value="raza" data-i="hRaza">Raza</option></select></div>
@@ -2949,6 +2954,9 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 </script>
 <script src="./ebanist-lift-data.js"></script>
 <script src="./ebanist-liftfit.js"></script>
+<script src="./ebanist-sliding-data.js"></script>
+<script src="./ebanist-sliding-i18n.js"></script>
+<script src="./ebanist-sliding.js"></script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-hinges-data.js"></script>
 <script src="./ebanist-hinges.js"></script>
@@ -4697,6 +4705,8 @@ HWDB.liftdrv.push({id:"blum_servo_hf",brand:"Blum",n:{"it": "SERVO-DRIVE per AVE
 HWDB.liftdrv.push({id:"blum_servo_unit",brand:"Blum",n:{"it": "SERVO-DRIVE unità di azionamento (AVENTOS HL top / HS top)", "ro": "SERVO-DRIVE unitate de acționare (AVENTOS HL top / HS top)", "en": "SERVO-DRIVE drive unit (AVENTOS HL top / HS top)", "fr": "SERVO-DRIVE unité d'entraînement (AVENTOS HL top / HS top)", "de": "SERVO-DRIVE Antriebseinheit (AVENTOS HL top / HS top)", "pl": "SERVO-DRIVE jednostka napędowa (AVENTOS HL top / HS top)", "es": "SERVO-DRIVE unidad de accionamiento (AVENTOS HL top / HS top)"},art:"23.A001",price:0});
 HWDB.liftpsu.push({id:"blum_servo_psu",brand:"Blum",n:{"it": "Alimentatore SERVO-DRIVE 72 W (24 V)", "ro": "Alimentator SERVO-DRIVE 72 W (24 V)", "en": "SERVO-DRIVE power supply 72 W (24 V)", "fr": "Alimentation SERVO-DRIVE 72 W (24 V)", "de": "SERVO-DRIVE Netzteil 72 W (24 V)", "pl": "Zasilacz SERVO-DRIVE 72 W (24 V)", "es": "Fuente de alimentación SERVO-DRIVE 72 W (24 V)"},art:"Z10NE04xx",price:0});
 HWDB.liftsw.push({id:"blum_servo_sw",brand:"Blum",n:{"it": "Interruttore wireless SERVO-DRIVE (2 pz., con batteria)", "ro": "Comutator fără fir SERVO-DRIVE (2 buc., cu baterie)", "en": "SERVO-DRIVE wireless switch (2 pcs, with battery)", "fr": "Interrupteur sans fil SERVO-DRIVE (2 pcs, avec pile)", "de": "SERVO-DRIVE Funkschalter (2 Stk., mit Batterie)", "pl": "Bezprzewodowy przełącznik SERVO-DRIVE (2 szt., z baterią)", "es": "Interruptor inalámbrico SERVO-DRIVE (2 uds., con pila)"},art:"23P5020",price:0});
+/* U.17 — sisteme glisante / escamotabile / aripă: câte un articol pe cod de comandă, din EBSlidingData (nume în 7 limbi; prețul se completează în Catalog) */
+HWDB.slide=(typeof EBSliding==="object"&&EBSliding&&EBSliding.catalogEntries)?EBSliding.catalogEntries():[];
 function hwList(cat){ if(cat==="manS") cat="man"; const add=((state.settings||{}).hwAdd||[]).filter(x=>x.cat===cat);
   return add.length?(HWDB[cat]||[]).concat(add):(HWDB[cat]||[]); }
 function hwItem(cat){ const S=state.settings, id=(S.hwProd||{})[cat]||((HWDB[cat]||[])[0]||{}).id;
@@ -7628,6 +7638,11 @@ const FOLD={verificat:false,leaves:[2,3,4],gap_leaf:3,top_extra:25,min_leaf:100,
    Häfele) și limitele lor vin din EBLiftData, citite din documentele oficiale; ce nu e citit rămâne null și `verificat:false`.
    `cfg.lift` = id-ul sistemului (articolul din catalog) sau null = ușă pe balamale, ca înainte. */
 function liftSysOf(id){ return (typeof EBLiftFit==="object"&&EBLiftFit&&EBLiftFit.get)?EBLiftFit.get(id):null; }
+/* U.17 — sistemul ales pe corp (cfg.slide = cheia din EBSlidingData). Glisantele merg pe corpul «scorrevole», cele escamotabile și cu aripă pe corpul standard;
+   un id necunoscut sau pe alt tip de corp = ca fără sistem (regula generică, proiectele existente nu se schimbă). */
+function slideDoorSys(cfg){ const id=cfg&&cfg.slide; if(typeof id!=="string"||!id||typeof EBSliding!=="object"||!EBSliding) return null; const sy=EBSliding.get(id); return (sy&&EBSliding.typeOk(sy,cfg.type))?sy:null; }
+function slideDens(cfg){ const mF=matById(cfg.matFront), AD=(typeof window!=="undefined"&&window.EBAdvice)||null, fam=AD?AD.famOf(mF&&mF.label):"default"; return (AD&&AD.DATA.density[fam])||700; }
+const MAT_SLIDE="Accessorio — sistema ante scorrevoli / a scomparsa";
 function liftId(cfg){ const id=cfg&&cfg.lift; return (typeof id==="string"&&id&&liftSysOf(id))?id:null; }
 function foldN(cfg){ const n=+(cfg&&cfg.fold); return FOLD.leaves.includes(n)?n:0; }
 /* il lato scelto per l'anta i (da sinistra), o null = regola di sempre */
@@ -7768,6 +7783,7 @@ function buildCore(cfg){
       if(ex.xc!=null) o.xc=+(+ex.xc).toFixed(1);
       if(ex.poly) o.poly=ex.poly.map(q=>[+q[0].toFixed(1),+q[1].toFixed(1)]);
       if(ex.bevel) o.bevel=ex.bevel;
+      if(ex.slide) o.slide=ex.slide;      // U.17: sistemul de uși (BOM pe coduri) călătorește cu rândul de accesoriu
       const sc=scs||(joint?null:ex.scassi);
       if(sc&&sc.length) o.scasso=sc.length===1?sc[0]:sc;
       if(o.lung>0&&o.larg>0) pieces.push(o);
@@ -8083,6 +8099,7 @@ function buildCore(cfg){
      dentro il terzo cassetto. */
   const frontY0=pl, frontH_all=H-pl-(gola?Math.max(0,gola.h-2):0);
   const sliding=cfg.type==="scorrevole"&&cfg.doors>0;
+  const SSl=sliding?slideDoorSys(cfg):null, SPk=sliding?null:slideDoorSys(cfg), wingNb=(SPk&&SPk.kind==="wing")?EBSliding.wingLeaves(SPk,cfg.fold):0;   // U.17: sistem glisant / escamotabil / aripă din catalog
   const flaggedD=secIdx.filter(si=>isDrawSec(secMode(si)));
   /* QUANTI CASSETTI IN OGNI SEZIONE (U.11). `secDrawers[si]` vuoto = vale
      «Cassetti/sez.», 0 = la sezione resta senza. Un progetto che non lo ha
@@ -8210,6 +8227,7 @@ function buildCore(cfg){
   }
   // fronts
   let doorSkip=0, doorTight=0, doorOverlap=0, doorNarrow=0, foldNarrow=0, foldLY=0, foldFront=0, foldReach=0;
+  const slideWarn=[];  // U.17: [{k:"n"|"range"|"noFormula"|..., sys, ...}] (texte în EBSliding.noteText)
   const liftWarn=[];   // U.16: [{k:"front"|"range"|"power"|"unv", ...}]
   const bow=Math.max(0,Math.min(200,+(cfg.bow||0)));   // bombatura dell'anta curva
   /* ---- CASSETTI ----
@@ -8440,7 +8458,18 @@ function buildCore(cfg){
       vs.forEach(v=>{ bxSame=true; bx(v.ax,v.ax+v.w,v.ay,v.ay+v.h,P+tA/2-1,P+tA/2+1,"m",0,0,"vent"); });
     });
   }else if(cfg.doors>0){
-    if(sliding){
+    if(sliding&&SSl){
+      /* U.17 — sistem glisant din catalog (cfg.slide): lățimea, suprapunerea, jocurile și lungimea șinei vin din documentul producătorului (EBSliding.planSlide);
+         unde producătorul nu publică formula (Hettich) rămâne regula generică, cu avertisment. Cotele: verificat:false. */
+      const sp=EBSliding.planSlide(SSl,{n:Math.max(1,cfg.doors),L,H,Lint:G.L_int,P,tA,tSide:tF,sth:Math.round(tB),frontX0,frontW,dens:slideDens(cfg),
+        ovGen:SLIDE_OVERLAP,y0Gen:22,y1Gen:22+H-SLIDE_GAP_TOP,zEvenGen:P+8,zGapGen:14,side:dHinge(cfg,0)==="right"?"R":"L",plinth:support==="zoccolo"});
+      sp.warn.forEach(w=>slideWarn.push(w));
+      add("Anta scorrevole",sp.aH,sp.aW,sp.n,"2L+2C",null,{role:"frontale"});
+      add("Sistema ante scorrevoli",sp.trackLen,20,1,"",MAT_SLIDE,{role:"accessorio",slide:{sys:SSl.key,bom:sp.bom.map(b=>({id:b.id,qty:b.qty,chk:b.chk?1:0}))}});
+      bxRole="frontale";
+      for(let i=0;i<sp.n;i++){ bx(sp.xs[i],sp.xs[i]+sp.aW,sp.y0,sp.y0+sp.aH,sp.zs[i],sp.zs[i]+tA,"f",0,0,"slide");
+        boxes[boxes.length-1].slide={sys:SSl.key,i,n:sp.n,run:sp.run,mount:sp.mount,len:sp.trackLen,x0:sp.xs[0],x1:sp.xs[sp.n-1]+sp.aW,sth:Math.round(tB)}; }
+    }else if(sliding){
       const nA=Math.max(2,cfg.doors);
       const aH=H-SLIDE_GAP_TOP, aW=(frontW+(nA-1)*SLIDE_OVERLAP)/nA;
       add("Anta scorrevole",aH,aW,nA,"2L+2C",null,{role:"frontale"});
@@ -8489,9 +8518,10 @@ function buildCore(cfg){
         /* usi foarte inguste (U.5): se genereaza, dar se spune */
         if(aW<DOOR_NARROW) doorNarrow=Math.round(aW);
         /* U.9 — pachet pliant: aceeași lățime de ușă (aW), împărțită în foi cu rost între ele */
-        const fN=(front==="piena"||!front)?foldN(cfg):0, fW=fN?(aW-(fN-1)*FOLD.gap_leaf)/fN:0;
+        const fN=(front==="piena"||!front)?((SPk&&SPk.kind==="pocket")?0:(wingNb||foldN(cfg))):0, fW=fN?(aW-(fN-1)*FOLD.gap_leaf)/fN:0;
         if(fN&&fW<FOLD.min_leaf) foldNarrow=Math.round(fW);
-        if(!fN&&foldN(cfg)>0) foldFront=1;                // sticlă sau bombat: foile pliante nu se aplică
+        if(!fN&&foldN(cfg)>0&&!(SPk&&SPk.kind==="pocket")) foldFront=1;                // sticlă sau bombat: foile pliante nu se aplică
+        if(SPk&&(front==="vetro"||front==="curvo"||SL||(SPk.kind==="pocket"&&foldN(cfg)>0))) slideWarn.push({k:"front",sys:SPk.name});   // U.17
         if(liftId(cfg)&&(front==="vetro"||front==="curvo"||fN||SL)) liftWarn.push({k:"front"});
         if(front==="vetro"&&aH>300&&aW>250){
           const fr=70; // larghezza telaio
@@ -8542,7 +8572,13 @@ function buildCore(cfg){
              de șină. Sus rămâne loc pentru șină (top_extra), peste jocul obișnuit al ușii. */
           const fH=aH-FOLD.top_extra;
           add("Anta pieghevole"+hsfx,fH,fW,cfg.doors*fN,"2L+2C",null,{role:"frontale"});
-          add("Sistema anta pieghevole",aW,FOLD.sect,cfg.doors,"",MAT_FOLD,{role:"accessorio"});
+          if(SPk&&SPk.kind==="wing"){
+            /* U.17 — foi pe șină (WingLine, Folding Concepta): verificările pe foaie, balamalele centrale și codurile vin din EBSliding.planWing; fără balamale generice între foi */
+            const sidesW=[]; for(let i=0;i<cfg.doors;i++) sidesW.push((dHinge(cfg,i)||(cfg.doors===1?"left":(i<cfg.doors/2?"left":"right")))==="right"?"R":"L");
+            const wp=EBSliding.planWing(SPk,{packs:cfg.doors,leaves:fN,leafW:fW,leafH:fH,tA,Pint:G.P_int,dens:slideDens(cfg),Lint:G.L_int,sides:sidesW});
+            wp.warn.forEach(w=>slideWarn.push(w));
+            add("Sistema ante scorrevoli",G.L_int,20,cfg.doors,"",MAT_SLIDE,{role:"accessorio",slide:{sys:SPk.key,wing:1,packs:cfg.doors,bom:wp.bom.map(b=>({id:b.id,qty:b.qty,chk:b.chk?1:0}))}});
+          }else add("Sistema anta pieghevole",aW,FOLD.sect,cfg.doors,"",MAT_FOLD,{role:"accessorio"});
           bxRole="frontale";
           for(let i=0;i<cfg.doors;i++){
             const px=dX0+2+i*(aW+3);
@@ -8551,6 +8587,7 @@ function buildCore(cfg){
               const x=px+k*(fW+FOLD.gap_leaf);
               bx(x,x+fW,aY0,aY0+fH,P,P+tA,"f",0,0,"fold");
               const bb=boxes[boxes.length-1]; bb.hinge=side; bb.fold={i,k,n:fN,x0:px,x1:px+aW,w:fW};
+              if(SPk&&SPk.kind==="wing") bb.fold.wing=SPk.key;     // U.17: balamalele dintre foi sunt ale sistemului, nu cupele generice
             }
           }
           foldReach=Math.round(fW);
@@ -8570,6 +8607,19 @@ function buildCore(cfg){
             bb.hinge=dHinge(cfg,i)||(cfg.doors===1?"left":(i<cfg.doors/2?"left":"right"));
             if(awOn(cfg,hMin)) bb.aw=true;
           }
+        }else if(SPk&&SPk.kind==="pocket"&&!SL){
+          /* U.17 — ușă escamotabilă (pocket) din catalog: fără balamale de corp; lățimea, retragerea și adâncimea minimă din formulele producătorului
+             (EBSliding.planPocket). Ușa intră în corp, deci stă în deschidere (inset). 3D: ușa se rotește 90° pe muchia dinspre buzunar și se retrage; mișcarea e o schemă, cotele nu. */
+          const nP=Math.max(1,cfg.doors), sidesP=[];
+          for(let i=0;i<nP;i++) sidesP.push((dHinge(cfg,i)||(nP===1?"left":(i<nP/2?"left":"right")))==="right"?"R":"L");
+          const pk=EBSliding.planPocket(SPk,{n:nP,L,H,P,Lint:G.L_int,Hint:G.H_int,Pint:G.P_int,tA,tSide:tF,sth:Math.round(tB),yIntBot:(H-tC)-G.H_int,
+            gapSup:G.in.gap_sup,gapInf:G.in.gap_inf,reveal:G.reveal,gapAnte:G.in.gap_ante,sides:sidesP,dens:slideDens(cfg),plinth:support==="zoccolo"});
+          pk.warn.forEach(w=>slideWarn.push(w));
+          add("Anta a scomparsa"+hsfx,pk.aH,pk.ws[0],pk.n,"2L+2C",null,{role:"frontale"});
+          add("Sistema ante scorrevoli",pk.trackLen||G.L_int,20,1,"",MAT_SLIDE,{role:"accessorio",slide:{sys:SPk.key,pocket:1,hinges:pk.hingesN*pk.n,bom:pk.bom.map(b=>({id:b.id,qty:b.qty,chk:b.chk?1:0}))}});
+          bxRole="frontale";
+          for(let i=0;i<pk.n;i++){ bx(pk.xs[i],pk.xs[i]+pk.ws[i],pk.y0,pk.y0+pk.aH,pk.z0,pk.z1,"f",0,0,"pocket");
+            boxes[boxes.length-1].pocket={sys:SPk.key,i,n:pk.n,side:pk.sides[i],open:pk.open,type:pk.type,ex:pk.extra,w:pk.ws[i],x0:frontX0,x1:frontX0+frontW}; }
         }else if(liftId(cfg)&&!fN&&!SL){
           /* U.16 — ușă care se deschide în sus: fără balamale, un set de mecanism pe ușă (pe cele două laterale). Greutatea ușii
              vine din material (aceleași densități orientative ca la sfaturile tehnice); alegerea variantei de forță și limitele
@@ -8790,7 +8840,7 @@ function buildCore(cfg){
           draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan}))
             .concat(dBlockPlans.map((pl,i)=>({N:pl.N,secs:[],block:LY.drawers[i].n,plan:pl}))),
           pull:(pullPlan&&pullPlan.ok)?{plan:pullPlan,secs:pullSecs.slice(),n:pullN}:null,
-          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,liftWarn,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,
+          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,liftWarn,slideWarn,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,
           topAng:cfg.top==="traverse"&&topMode!=="traverse",
           drawWarn:dW.length?dW:null}};
 }
@@ -10176,6 +10226,8 @@ de:{"Anta basculante":"Klappfront","Meccanismo di sollevamento":"Klappenbeschlag
 pl:{"Anta basculante":"Front uchylny do góry","Meccanismo di sollevamento":"Mechanizm podnoszenia","Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
 es:{"Anta basculante":"Puerta abatible hacia arriba","Meccanismo di sollevamento":"Mecanismo de elevación","Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
+/* U.17 — sisteme glisante / escamotabile / aripă: textele (SLIDE_I18N) și numele pieselor (SLIDE_EL) vin din ebanist-sliding-i18n.js */
+if(typeof SLIDE_I18N==="object"){ for(const L in SLIDE_I18N){ if(I18N[L]) Object.assign(I18N[L],SLIDE_I18N[L]); if(typeof SLIDE_EL==="object"&&EL_I18N[L]) Object.assign(EL_I18N[L],SLIDE_EL[L]); } }
 Object.assign(EL_I18N.ro,{"Parete cassone letto": "Perete ladă pat", "Fondo cassone letto": "Fund ladă pat", "Pannello rete": "Panou somieră", "Longherone rete": "Longeron somieră", "Nervatura rete": "Nervură somieră", "Traversa rete": "Traversă somieră", "Traversa centrale": "Traversă centrală", "Cerniera pesante per rete": "Balama grea pentru somieră", "Pistone a gas 100 N": "Piston cu gaz 100 N", "Pistone a gas 150 N": "Piston cu gaz 150 N", "Pistone a gas 200 N": "Piston cu gaz 200 N", "Pistone a gas 250 N": "Piston cu gaz 250 N", "Pistone a gas 300 N": "Piston cu gaz 300 N", "Pistone a gas 350 N": "Piston cu gaz 350 N", "Pistone a gas 400 N": "Piston cu gaz 400 N", "Pistone a gas 450 N": "Piston cu gaz 450 N", "Pistone a gas 500 N": "Piston cu gaz 500 N", "Pistone a gas 550 N": "Piston cu gaz 550 N", "Pistone a gas 600 N": "Piston cu gaz 600 N", "Pistone a gas 650 N": "Piston cu gaz 650 N", "Pistone a gas 700 N": "Piston cu gaz 700 N", "Pistone a gas 750 N": "Piston cu gaz 750 N", "Pistone a gas 800 N": "Piston cu gaz 800 N", "Pistone a gas 850 N": "Piston cu gaz 850 N", "Pistone a gas 900 N": "Piston cu gaz 900 N", "Pistone a gas 950 N": "Piston cu gaz 950 N", "Pistone a gas 1000 N": "Piston cu gaz 1000 N", "Pistone a gas 1100 N": "Piston cu gaz 1100 N", "Pistone a gas 1200 N": "Piston cu gaz 1200 N", "Pistone a gas 1300 N": "Piston cu gaz 1300 N", "Pistone a gas 1500 N": "Piston cu gaz 1500 N"});
 Object.assign(EL_I18N.en,{"Parete cassone letto": "Storage box wall", "Fondo cassone letto": "Storage box bottom", "Pannello rete": "Bed base panel", "Longherone rete": "Bed base rail", "Nervatura rete": "Bed base rib", "Traversa rete": "Bed base cross piece", "Traversa centrale": "Centre cross piece", "Cerniera pesante per rete": "Heavy bed base hinge", "Pistone a gas 100 N": "Gas strut 100 N", "Pistone a gas 150 N": "Gas strut 150 N", "Pistone a gas 200 N": "Gas strut 200 N", "Pistone a gas 250 N": "Gas strut 250 N", "Pistone a gas 300 N": "Gas strut 300 N", "Pistone a gas 350 N": "Gas strut 350 N", "Pistone a gas 400 N": "Gas strut 400 N", "Pistone a gas 450 N": "Gas strut 450 N", "Pistone a gas 500 N": "Gas strut 500 N", "Pistone a gas 550 N": "Gas strut 550 N", "Pistone a gas 600 N": "Gas strut 600 N", "Pistone a gas 650 N": "Gas strut 650 N", "Pistone a gas 700 N": "Gas strut 700 N", "Pistone a gas 750 N": "Gas strut 750 N", "Pistone a gas 800 N": "Gas strut 800 N", "Pistone a gas 850 N": "Gas strut 850 N", "Pistone a gas 900 N": "Gas strut 900 N", "Pistone a gas 950 N": "Gas strut 950 N", "Pistone a gas 1000 N": "Gas strut 1000 N", "Pistone a gas 1100 N": "Gas strut 1100 N", "Pistone a gas 1200 N": "Gas strut 1200 N", "Pistone a gas 1300 N": "Gas strut 1300 N", "Pistone a gas 1500 N": "Gas strut 1500 N"});
 Object.assign(EL_I18N.fr,{"Parete cassone letto": "Paroi du coffre de lit", "Fondo cassone letto": "Fond du coffre de lit", "Pannello rete": "Panneau de sommier", "Longherone rete": "Longeron de sommier", "Nervatura rete": "Nervure de sommier", "Traversa rete": "Traverse de sommier", "Traversa centrale": "Traverse centrale", "Cerniera pesante per rete": "Charnière lourde de sommier", "Pistone a gas 100 N": "Vérin à gaz 100 N", "Pistone a gas 150 N": "Vérin à gaz 150 N", "Pistone a gas 200 N": "Vérin à gaz 200 N", "Pistone a gas 250 N": "Vérin à gaz 250 N", "Pistone a gas 300 N": "Vérin à gaz 300 N", "Pistone a gas 350 N": "Vérin à gaz 350 N", "Pistone a gas 400 N": "Vérin à gaz 400 N", "Pistone a gas 450 N": "Vérin à gaz 450 N", "Pistone a gas 500 N": "Vérin à gaz 500 N", "Pistone a gas 550 N": "Vérin à gaz 550 N", "Pistone a gas 600 N": "Vérin à gaz 600 N", "Pistone a gas 650 N": "Vérin à gaz 650 N", "Pistone a gas 700 N": "Vérin à gaz 700 N", "Pistone a gas 750 N": "Vérin à gaz 750 N", "Pistone a gas 800 N": "Vérin à gaz 800 N", "Pistone a gas 850 N": "Vérin à gaz 850 N", "Pistone a gas 900 N": "Vérin à gaz 900 N", "Pistone a gas 950 N": "Vérin à gaz 950 N", "Pistone a gas 1000 N": "Vérin à gaz 1000 N", "Pistone a gas 1100 N": "Vérin à gaz 1100 N", "Pistone a gas 1200 N": "Vérin à gaz 1200 N", "Pistone a gas 1300 N": "Vérin à gaz 1300 N", "Pistone a gas 1500 N": "Vérin à gaz 1500 N"});
@@ -11073,6 +11125,7 @@ function lamRows(){
   $("rowLam").style.display=lam?"":"none"; $("rowRf").style.display=rf?"":"none"; $("rowRfInset").style.display=rf?"":"none";
   $("rowP").style.display=(lam||rf)?"none":""; $("rowLamCuts").style.display=(lam||rf)?"":"none"; cornerRows(); contRows();
   if(lam||rf) renderLamCuts();
+  slideRows();
 }
 function cfgFromForm(){
   const v=(id,def)=>{const n=parseInt($(id).value,10);return isFinite(n)&&n>=0?n:def;};
@@ -11140,6 +11193,7 @@ function cfgFromForm(){
     secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secDrawerH:cleanSecDrawerH(buildSecDrawerH), secDrawerNL:cleanSecNL(buildSecDrawerNL), secPull:cleanSecPull(buildSecPull),
     doorHinge:cleanDoorHinge(buildDoorHinge,Math.min(MAX_DOORS,v("bDoors",0))),
     lift:($("bLift")&&liftSysOf($("bLift").value))?$("bLift").value:null,
+    slide:($("bSlide")&&window.EBSliding&&EBSliding.get($("bSlide").value)&&EBSliding.typeOk(EBSliding.get($("bSlide").value),$("bTipo").value))?$("bSlide").value:null,
     liftElec:($("bLiftElec")&&$("bLiftElec").value==="servo"&&$("bLift")&&(liftSysOf($("bLift").value)||{}).servo)?"servo":null,
     antiWarp:["auto","all"].includes($("bAW").value)?$("bAW").value:null,
     fold:FOLD.leaves.includes(+$("bFold").value)?+$("bFold").value:null,
@@ -11241,7 +11295,7 @@ function syncBuildForm(){
   $("bMatBack").value=buildCfg.matBack||S.matBack||"pfl3";
   $("bPlinth").value=buildCfg.plinth; $("bTram").value=buildCfg.tram;
   $("bShelves").value=buildCfg.shelves; $("bDrawers").value=buildCfg.drawers; $("bDoors").value=buildCfg.doors;
-  $("bAW").value=awMode(buildCfg)||""; renderAW(); $("bFold").value=foldN(buildCfg)||""; renderFold(); renderLiftOpts(); $("bLift").value=liftId(buildCfg)||""; $("bLiftElec").value=buildCfg.liftElec||""; renderLift(); syncSlope(); renderHwSel(buildCfg.hwSel||{});
+  $("bAW").value=awMode(buildCfg)||""; renderAW(); $("bFold").value=foldN(buildCfg)||""; renderFold(); renderLiftOpts(); $("bLift").value=liftId(buildCfg)||""; $("bLiftElec").value=buildCfg.liftElec||""; renderLift(); renderSlideOpts(); $("bSlide").value=slideDoorSys(buildCfg)?buildCfg.slide:""; renderSlide(); syncSlope(); renderHwSel(buildCfg.hwSel||{});
   $("bTop").value=buildCfg.top==="traverse"||buildCfg.top==="none"?buildCfg.top:"plin"; $("bTopRail").value=buildCfg.topRailW||"";
   $("bDrawDist").value=buildCfg.drawerDist||"uguali";
   $("bDrawPos").value=buildCfg.drawerPos||"auto";
@@ -11521,6 +11575,27 @@ function renderLift(){
   if(row) row.style.display=sv?"":"none";
   if(eh){ const e=sv&&$("bLiftElec").value==="servo"; eh.textContent=e?t("liftElecHint"):""; eh.style.display=e?"":"none"; }
 }
+/* U.17 — sisteme glisante / escamotabile / aripă: lista din selector se reface după tipul corpului (glisantele pe «scorrevole», celelalte pe standard) și după limbă */
+function renderSlideOpts(){
+  const sel=$("bSlide"), row=$("rowSlide"); if(!sel||!row) return;
+  const ty=$("bTipo").value, kinds=ty==="scorrevole"?["slide"]:ty==="standard"?["pocket","wing"]:[];
+  row.style.display=(kinds.length&&window.EBSliding)?"":"none";
+  const key=ty+"|"+state.lang; if(sel.dataset.ready===key||!window.EBSliding) return;
+  const cur=sel.value; sel.innerHTML=`<option value="" data-i="slideNone">${esc(t("slideNone"))}</option>`;
+  kinds.forEach(k=>{ const by={}; EBSliding.list().filter(x=>x.kind===k).forEach(x=>{ (by[x.brand]=by[x.brand]||[]).push(x); });
+    Object.keys(by).forEach(b=>{ const g=document.createElement("optgroup"); g.label=t("slideKind_"+k)+" — "+b;
+      by[b].forEach(x=>{ const o=document.createElement("option"); o.value=x.key; o.textContent=x.name; g.appendChild(o); }); sel.appendChild(g); }); });
+  sel.dataset.ready=key; sel.value=[...sel.options].some(o=>o.value===cur)?cur:"";
+}
+function renderSlide(){
+  const h=$("slideHint"), box=$("slideInfo"); if(!h||!box) return;
+  const sy=window.EBSliding&&EBSliding.get($("bSlide").value);
+  if(!sy||!EBSliding.typeOk(sy,$("bTipo").value)){ h.style.display="none"; h.textContent=""; box.innerHTML=""; return; }
+  h.style.display=""; h.textContent=t("slideHint")+" "+EBSliding.limitsText(sy,t);
+  const one=i=>["formula","rule","drawing","unverified"].includes(i.k)?`<div><b>${esc(t("slInfo_"+i.k))}:</b> ${esc(i.t)}${i.src?` <i>(${esc(i.src)})</i>`:""}</div>`:`<div>${esc(t("slInfo_"+i.k))}</div>`;
+  box.innerHTML=`<details><summary>${esc(t("slInfoTitle"))}</summary>${(sy.info||[]).map(one).join("")}<div>${esc(t("slSrc"))}: ${esc(sy.src||"")}</div></details>`;
+}
+function slideRows(){ renderSlideOpts(); renderSlide(); }
 function renderFold(){
   const h=$("foldHint"); if(!h) return;
   const on=!!+($("bFold").value||0);
@@ -11917,6 +11992,8 @@ function drawPreview(){
       else if(w.k==="unv") m=t("wLiftUnv").replace("{sys}",w.sys);
       else if(w.k==="noservo") m=t("wLiftNoServo").replace("{sys}",w.sys);
       if(m&&!seen.has(m)){ seen.add(m); notes.push("⚠︎ "+m); } }); }
+  if(wn.slideWarn&&wn.slideWarn.length&&window.EBSliding){ const seen=new Set();
+    wn.slideWarn.forEach(w=>{ const m=EBSliding.noteText(w,t); if(m&&!seen.has(m)){ seen.add(m); notes.push("⚠︎ "+m); } }); }   // U.17
   if(wn.stepHit) notes.push("⚠︎ "+t("stepHit"));
   if(wn.boxHit) notes.push("⚠︎ "+t("wBoxHit").replace("{n}",wn.boxHit.n).replace("{mm}",fmt(wn.boxHit.mm,1)));
   if(wn.topAng) notes.push("⚠︎ "+t("wTopAngled"));
@@ -12164,12 +12241,13 @@ function renderBuild(){
     $("bAW").addEventListener("change",renderAW);
     $("bFold").addEventListener("change",renderFold);
     $("bLift").addEventListener("change",renderLift);
+    $("bSlide").addEventListener("change",renderSlide);
     $("bLiftElec").addEventListener("change",renderLift);
     ["bSlope","bSlopeH0","bSlopeH1","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderSlope); $(id).addEventListener("change",renderSlope); });
     /* anteprima 3D: campi letti da cfgFromForm che prima non la ridisegnavano
        (ante pieghevoli, cielo inclinato, tetto, anti-curvatura, gola). Dopo i
        render* sopra, che completano i valori di partenza. */
-    ["bAW","bFold","bLift","bLiftElec","bGolaC","bGolaH","bTop","bTopRail","bSlope","bSlopeH0","bSlopeH1"]
+    ["bAW","bFold","bLift","bLiftElec","bSlide","bGolaC","bGolaH","bTop","bTopRail","bSlope","bSlopeH0","bSlopeH1"]
       .forEach(id=>{ const el=$(id); if(el){ el.addEventListener("input",drawPreview); el.addEventListener("change",drawPreview); } });
     $("grpHw").addEventListener("toggle",()=>{ if($("grpHw").open) renderHwSel(); });
     $("hwSelBox").addEventListener("change",()=>{ renderHwSel(); drawPreview(); });
@@ -13749,7 +13827,7 @@ function tagBox(b,cfg){
     /* il tipo di frontale ora lo dice la geometria, non l'altezza: prima un
        cassetto alto 300 diventava un'anta e spariva dal passo di montaggio. */
     if(b.sub==="drawer"||b.sub==="drawerIn") return "cass";
-    if(b.sub==="door"||b.sub==="slide"||b.sub==="fold"||b.sub==="lift") return "anta";
+    if(b.sub==="door"||b.sub==="slide"||b.sub==="fold"||b.sub==="lift"||b.sub==="pocket") return "anta";
     if(!cfg.doors) return "cass";
     if(!cfg.drawers) return "anta";
     return h<=270?"cass":"anta";
@@ -13805,7 +13883,7 @@ function isoStep(cfg,hiTags,showTags){
    Aceeasi regula ca la numararea feroneriei, ca sa nu se bata cap in cap. */
 function hingeInfo(x){
   const el=(x.elemento||"").toLowerCase();
-  if(!/^anta/.test(el)||el.indexOf("scorrevole")>=0||el.indexOf("basculante")>=0) return null;
+  if(!/^anta/.test(el)||el.indexOf("scorrevole")>=0||el.indexOf("basculante")>=0||el.indexOf("a scomparsa")>=0) return null;
   const h=Math.max(x.lung,x.larg);
   const n=hingeCount(h);
   return {n,h,pos:hingePositions(h,n)};
@@ -13901,11 +13979,11 @@ function assemblySteps(modName,hw,cfg,items){
     try{ pullSysLines(buildModule(cfg)).forEach(x=>add(x)); }catch(e){}
   }
   if(hw.hwCern>0){ add(t("mDoors").replace("{q}",hw.hwCern),{hi:["anta"],show:[...CARC,"tram","zocc","rip","cass"]});
-    const doorPieces=(items||[]).filter(x=>/^anta(?! scorrevole| basculante)/i.test(x.elemento)||/^montante anta/i.test(x.elemento));
+    const doorPieces=(items||[]).filter(x=>/^anta(?! scorrevole| basculante| a scomparsa)/i.test(x.elemento)||/^montante anta/i.test(x.elemento));
     const anta=doorPieces[0];
     if(anta){
       const dh=Math.max(anta.lung,anta.larg);
-      const nDoors=Math.max(1,(items||[]).filter(x=>/^anta(?! scorrevole| basculante)/i.test(x.elemento)).reduce((s,x)=>s+x.pz,0)||Math.round(((items||[]).find(x=>/^vetro anta/i.test(x.elemento))||{pz:1}).pz));
+      const nDoors=Math.max(1,(items||[]).filter(x=>/^anta(?! scorrevole| basculante| a scomparsa)/i.test(x.elemento)).reduce((s,x)=>s+x.pz,0)||Math.round(((items||[]).find(x=>/^vetro anta/i.test(x.elemento))||{pz:1}).pz));
       const nH=hingeCount(dh);
       add(t("mHingeAt").replace("{h}",dh).replace("{list}",hingePositions(dh,nH).join(" · ")+" mm"));
     } }
@@ -15103,7 +15181,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["lift","hwLift"],["liftdrv","hwLiftDrv"],["liftpsu","hwLiftPsu"],["liftsw","hwLiftSw"],["ledstrip","hwLedStrip"],["leddrv","hwLedDrv"],["leddim","hwLedDim"],["ledsw","hwLedSw"],["ledmains","hwLedMains"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
+  ["aw","hwAW"],["fold","hwFold"],["slide","hwSlide"],["lift","hwLift"],["liftdrv","hwLiftDrv"],["liftpsu","hwLiftPsu"],["liftsw","hwLiftSw"],["ledstrip","hwLedStrip"],["leddrv","hwLedDrv"],["leddim","hwLedDim"],["ledsw","hwLedSw"],["ledmains","hwLedMains"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
 const CAT_PH_MAX=240;
@@ -15409,11 +15487,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
    masculul pe filler, astfel încât să nu rămână rost între filler și corp. Distanța ≈ 500 mm, minimum 3 pe filler;
    prima și ultima la KEKU_EDGE de capete. Cotele sunt ale atelierului, nevalidate pe un set real. */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwLift:"lift",hwLiftDrv:"liftdrv",hwLiftPsu:"liftpsu",hwLiftSw:"liftsw",hwLedStrip:"ledstrip",hwLedDrv:"leddrv",hwLedDim:"leddim",hwLedSw:"ledsw",hwLedMains:"ledmains",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
+  hwAW:"aw",hwFold:"fold",hwSlide:"slide",hwLift:"lift",hwLiftDrv:"liftdrv",hwLiftPsu:"liftpsu",hwLiftSw:"liftsw",hwLedStrip:"ledstrip",hwLedDrv:"leddrv",hwLedDim:"leddim",hwLedSw:"ledsw",hwLedMains:"ledmains",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTblExt","hwBoxRot","hwLift","hwLiftDrv","hwLiftPsu","hwLiftSw","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwLedStrip","hwLedDrv","hwLedDim","hwLedSw","hwLedMains","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
+    "hwLeg","hwTblExt","hwBoxRot","hwSlide","hwLift","hwLiftDrv","hwLiftPsu","hwLiftSw","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwLedStrip","hwLedDrv","hwLedDim","hwLedSw","hwLedMains","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set(), psuMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -15435,20 +15513,26 @@ function computeHardware(p,S,byModule){
   /* U.9 — câte pachete pliante are fiecare corp: din rândurile «Sistema anta pieghevole» */
   const ledLen={};   // D-157: lungimea benzii LED pe corp (mm)
   const foldSys={};
-  for(const x of p.pieces) if((x.elemento||"").toLowerCase().startsWith("sistema anta pieghevole")){ const m=x.modulo||"—"; foldSys[m]=(foldSys[m]||0)+x.pz; }
+  for(const x of p.pieces) if((x.elemento||"").toLowerCase().startsWith("sistema anta pieghevole")||(x.slide&&x.slide.wing)){ const m=x.modulo||"—"; foldSys[m]=(foldSys[m]||0)+x.pz; }
+  /* U.17 — codurile sistemului (rând de accesoriu «Sistema ante scorrevoli»): o linie pe cod, cu articolul și prețul lui din catalog */
+  const bumpSl=(mod,id,n)=>{ q.hwSlide+=n; if(byModule){ (mods[mod]=mods[mod]||mk()).hwSlide+=n; } const o=(selBy.hwSlide=selBy.hwSlide||{}); o[id]=(o[id]||0)+n; };
   for(const x of p.pieces){
     const el=(x.elemento||"").toLowerCase(), mod=x.modulo||"—";
     const push=el.includes("push"), gola=el.includes("gola");
     /* la gola e un profil, nu un maner: nici maner, nici push */
     const grip=(m2,n2)=>{ const cr=cfgByMod(m2); if(!gola&&!(cr&&cr.handles==="raza")) bump(m2,push?"hwPush":"hwMan",n2); };
     if(el.startsWith("sistema anta pieghevole")){ bump(mod,"hwFold",x.pz); }
+    else if(el.startsWith("sistema ante scorrevoli")){
+      const sl=x.slide||{}; (sl.bom||[]).forEach(b=>bumpSl(mod,b.id,b.qty));
+      if(sl.hinges>0) bump(mod,"hwCern",sl.hinges); }                      // F-Park71: balamalele cu cupă (număr din tabelul producătorului) sunt balamale obișnuite din catalog
+    else if(el.startsWith("anta a scomparsa")){ grip(mod,x.pz); }          // U.17: ușă escamotabilă: fără balamale de corp (decide sistemul), cu mâner
     else if(el.startsWith("anta basculante")){ bump(mod,"hwLift",x.pz); grip(mod,x.pz);
       /* SERVO-DRIVE: o unitate și un comutator pe ușă, un alimentator pe corp (Blum: 50 de unități pe alimentator, una AVENTOS = 3) */
       const cL=cfgOf(x), LSx=cL&&liftSysOf(cL.lift);
       if(cL&&cL.liftElec&&LSx&&LSx.servo){ bump(mod,"hwLiftDrv",x.pz); bump(mod,"hwLiftSw",x.pz); if(!psuMods.has(mod)){ psuMods.add(mod); bump(mod,"hwLiftPsu",1); } } }   // U.16: un set de mecanism pe ușă, fără balamale
     else if(el.startsWith("anta pieghevole")){
       /* între foile unui pachet: (foi − 1) balamale pe înălțime; un mâner pe pachet, pe foaia liberă */
-      const packs=foldSys[mod]||0, joints=packs>0?x.pz-packs:0;
+      const cWg=cfgByMod(mod), packs=foldSys[mod]||0, joints=(packs>0&&!(cWg&&slideDoorSys(cWg)&&slideDoorSys(cWg).kind==="wing"))?x.pz-packs:0;   // wing: balamalele dintre foi sunt ale sistemului
       if(joints>0) bump(mod,"hwCern",joints*hingeCount(Math.max(x.lung,x.larg)));
       grip(mod,packs||x.pz); }
     else if(el.startsWith("profilo anticurvatura")){ bump(mod,"hwAW",x.pz); }
@@ -15456,7 +15540,7 @@ function computeHardware(p,S,byModule){
     else if(el.startsWith("profilo gola l")){ bump(mod,"hwGolaL",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola j")){ bump(mod,"hwGolaJ",Math.round(x.lung*x.pz/10)/100); }
     else if(el.startsWith("profilo gola c")){ bump(mod,"hwGolaC",Math.round(x.lung*x.pz/10)/100); }
-    else if(el.includes("anta scorrevole")){ binMods.add(mod); }
+    else if(el.includes("anta scorrevole")){ const cSl=cfgOf(x); if(!(cSl&&slideDoorSys(cSl))) binMods.add(mod); }   // cu sistem din catalog: nicio «șină generică»
     else if(el.startsWith("anta")){
       /* ușă trapezoidală (D-86, pasul 2): balamalele se numără pe înălțimea muchiei mai scunde, ca în fișa piesei */
       const hgt=(x.poly&&x.poly.length===4)?Math.min(x.poly[1][0],x.poly[2][0]):Math.max(x.lung,x.larg);
@@ -15770,7 +15854,7 @@ function placedModule(p,name,fr,pl){
     const q=planPC(b), bx0=Math.min(q[0][0],q[1][0],q[2][0],q[3][0]), bx1=Math.max(q[0][0],q[1][0],q[2][0],q[3][0]);
     const bz=Math.max(q[0][1],q[1][1],q[2][1],q[3][1]);
     const w=bx1-bx0; if(w<50) continue;
-    if(b.sub==="slide") continue;                       // scorre, non urta
+    if(b.sub==="slide"||b.sub==="pocket") continue;     // scorre / rientra nel corpo (U.17): non urta
     if(b.sub==="fold"){                                  // pacchetto: foaia deschisă iese în față cu lățimea ei
       const F=b.fold, th=b.z1-b.z0, fl=b.hinge==="left", xm=foldOpenX(F,fl,th);
       swings.push({kind:"door",w:Math.round(F.w),yLo:b.y0+lift,yHi:b.y1+lift,

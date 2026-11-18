@@ -2910,6 +2910,64 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.16: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.17 — sisteme glisante / escamotabile / cu aripă din catalog (Hettich, Hawa, Blum, Häfele) */
+  {
+    head("Sisteme glisante, escamotabile, cu aripă — selector, deviz, 3D, avertismente (U.17)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.scorrevole, name: "Sl1", L: 2400, H: 2400, P: 600, doors: 2, shelves: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.17: implicit «Nessuno» — regula generică; câmpul se vede la corpul glisant", await pg.evaluate(() => $("bSlide").value === "" && cfgFromForm().slide === null && $("rowSlide").style.display !== "none"
+      && !buildModule(cfgFromForm()).pieces.some(p => /Sistema ante/.test(p.elemento))));
+    ok("U.17: corpul glisant are cele 44 de sisteme pe șină, grupate pe patru mărci", await pg.evaluate(() => $("bSlide").querySelectorAll("option:not([value=''])").length === 44 && $("bSlide").querySelectorAll("optgroup").length === 4));
+    await pg.selectOption("#bSlide", "hawa_combino_35_fs"); await pg.waitForTimeout(200);
+    const s1 = await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), d = b.pieces.find(p => /^Anta scorrevole/.test(p.elemento));
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...c, name: "Sl1" });
+      const items = computeHardware(p, state.settings), g = k => items.filter(i => i.k === k), sl = g("hwSlide").filter(i => i.qty > 0);
+      return { slide: c.slide, larg: d && d.larg, hint: $("slideHint").style.display !== "none" && $("slideHint").textContent.length > 20, info: $("slideInfo").querySelectorAll("div").length > 2,
+        n: sl.length, art: sl.map(i => i.prod && i.prod.art).sort().join("|"), bin: (g("hwBin")[0] || {}).qty || 0, cern: (g("hwCern")[0] || {}).qty || 0 }; });
+    ok("U.17: alegerea ajunge în cfg: ușa (KAM + 16)/2, indiciul și datele producătorului se văd", s1.slide === "hawa_combino_35_fs" && s1.larg === 1208 && s1.hint && s1.info, JSON.stringify(s1));
+    ok("U.17: deviz — o linie pe cod din catalog (set, șină dublă), nicio «șină generică»", s1.n === 2 && s1.art === "056.3010.250|056.3182.073" && s1.bin === 0, JSON.stringify(s1));
+    ok("U.17: avertismente: «cote neverificate» și «mișcare schematică»", await pg.evaluate(() => { const w = buildModule(cfgFromForm()).warn.slideWarn || []; return w.some(x => x.k === "unv"); }));
+    ok("U.17: 3D — ușile glisante se deschid, șina și cărucioarele se desenează fără eroare", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img) && buildModule(c).boxes.filter(b => b.sub === "slide").length === 2; } catch (e) { return false; } }));
+    await pg.selectOption("#bSlide", "het_topline_xl"); await pg.waitForTimeout(150);
+    ok("U.17: Hettich — fără formulă publicată: regula generică + avertisment; jocurile din desen; limita de lățime", await pg.evaluate(() => { const b = buildModule(cfgFromForm()), w = b.warn.slideWarn || [], d = b.pieces.find(p => /^Anta scorrevole/.test(p.elemento));
+      return d.larg === 1220 && d.lung === 2290 && w.some(x => x.k === "noFormula") && w.some(x => x.k === "drawing") && w.some(x => x.k === "range" && x.what === "w"); }));
+    ok("U.17: avertismentele se afișează în text, în limba aplicației", await pg.evaluate(() => { const keep = state.lang, out = [];
+      for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) { state.lang = l; out.push((buildModule(cfgFromForm()).warn.slideWarn || []).map(w => EBSliding.noteText(w, t)).every(m => m && !/\{\w+\}/.test(m))); } state.lang = keep; return out.every(Boolean); }));
+    /* corp standard: escamotabile și cu aripă */
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base, name: "Sl2", L: 600, H: 2000, P: 600, doors: 1, shelves: 0, hang: 0, plinth: 80, support: "zoccolo" }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(250);
+    ok("U.17: corpul standard are cele 13 escamotabile + 8 cu aripă (nu și cele pe șină)", await pg.evaluate(() => $("bSlide").querySelectorAll("option:not([value=''])").length === 21 && !$("bSlide").querySelector("option[value='het_topline_xl']")));
+    await pg.selectOption("#bSlide", "blum_revego_uno"); await pg.waitForTimeout(200);
+    const s2 = await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...c, name: "Sl2" });
+      const items = computeHardware(p, state.settings), g = k => (items.find(i => i.k === k) || {}), sl = items.filter(i => i.k === "hwSlide" && i.qty > 0);
+      return { slide: c.slide, door: b.pieces.some(x => /^Anta a scomparsa/.test(x.elemento)), hinged: b.pieces.some(x => /^Anta(?! a scomparsa)/.test(x.elemento)), cern: g("hwCern").qty || 0, man: g("hwMan").qty || 0,
+        arts: sl.map(i => i.prod && i.prod.art).sort().join("|"), pocket: b.boxes.filter(x => x.sub === "pocket").length, w: (b.warn.slideWarn || []).map(x => x.k).join() }; });
+    ok("U.17: REVEGO uno — «Anta a scomparsa», fără balamale, un mâner, profil + suport + conector în deviz", s2.slide === "blum_revego_uno" && s2.door && !s2.hinged && s2.cern === 0 && s2.man === 1 && s2.pocket === 1
+      && /801P500E\.L3/.test(s2.arts) && /801V505B/.test(s2.arts) && /801T/.test(s2.arts), JSON.stringify(s2));
+    ok("U.17: avertismente REVEGO: zona buzunarului, interpretarea EB, cod de verificat", /pocket/.test(s2.w) && /interp/.test(s2.w) && /chk/.test(s2.w), s2.w);
+    ok("U.17: 3D — ușa escamotabilă se deschide (rotire, mutare, retragere), șinele buzunarului se desenează", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img); } catch (e) { return String(e); } }) === true);
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base, name: "Sl3", L: 900, H: 1800, P: 500, doors: 1, shelves: 0, hang: 0, plinth: 80, support: "zoccolo" }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(250);
+    await pg.selectOption("#bSlide", "het_wingline_l"); await pg.waitForTimeout(200);
+    const s3 = await pg.evaluate(() => { const c = cfgFromForm(), b = buildModule(c), p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...c, name: "Sl3" });
+      const items = computeHardware(p, state.settings), g = k => (items.find(i => i.k === k) || {}), sl = items.filter(i => i.k === "hwSlide" && i.qty > 0);
+      return { leaves: (b.pieces.find(x => /^Anta pieghevole/.test(x.elemento)) || {}).pz, genFold: g("hwFold").qty || 0, cern: g("hwCern").qty || 0, man: g("hwMan").qty || 0, arts: sl.map(i => i.prod && i.prod.art).sort().join("|"),
+        ops: generateOperations({ boxes: b.boxes, cfg: c, G: deriveCarcass(carcassParams(c, {})) }) }; });
+    ok("U.17: WingLine L — 2 foi, fără sistem pliant generic, fără balamale între foi, un mâner pe pachet, set cu balamale centrale", s3.leaves === 2 && s3.genFold === 0 && s3.cern === 0 && s3.man === 1 && /9277991/.test(s3.arts.replace(/ /g, "")) && /9278742/.test(s3.arts.replace(/ /g, "")), JSON.stringify({ ...s3, ops: 0 }));
+    ok("U.17: WingLine L — ops: fără cupe generice între foi, cu avertisment de găuri negenerate", s3.ops.hw.filter(h => h.type === "cerniera_pliante").length === 0 && s3.ops.warnings.some(w => w.k === "opsSlideNoDrill"));
+    ok("U.17: 3D — foile cu aripă se pliază la deschidere, fără eroare", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img) && buildModule(c).boxes.filter(b => b.sub === "fold" && b.fold.wing).length === 2; } catch (e) { return false; } }));
+    ok("U.17: nume traduse în toate limbile (piese, câmp, avertismente, ops, catalog)", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
+      const k = L.every(l => { state.lang = l; return elName("Anta a scomparsa") !== "Anta a scomparsa" && elName("Sistema ante scorrevoli") !== "Sistema ante scorrevoli" && t("fSlide") !== "fSlide" && t("wSlideRange") !== "wSlideRange"
+        && t("opsSlideNoDrill") !== "opsSlideNoDrill" && t("hwSlide") !== "hwSlide" && hwName(HWDB.slide[0]).length > 5 && hwName(HWDB.slide[0]) !== hwName({ n: { it: "x" } }); });
+      state.lang = keep; return k && new Set(L.map(l => HWDB.slide[0].n[l])).size > 3; }));
+    ok("U.17: catalogul de feronerie arată categoria «Sisteme glisante…» cu 388 de coduri (căutare), fără eroare", await pg.evaluate(() => { try { renderCatalog(); const sel = $("catHwWrap").querySelector("select[data-cat='slide']"); return !!sel && sel.options.length === 388 && HWDB.slide.length === 388; } catch (e) { return String(e); } }) === true);
+    ok("U.17: schimbat tipul corpului, sistemul pe șină dispare din cfg", await pg.evaluate(() => { buildCfg = { ...PRESETS.scorrevole, name: "Sl4", L: 2400, H: 2400, P: 600, doors: 2, slide: "het_topline_l" }; syncBuildForm(); const a = cfgFromForm().slide === "het_topline_l";
+      $("bTipo").value = "standard"; $("bTipo").dispatchEvent(new Event("change")); return a && cfgFromForm().slide === null; }));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+    ok("U.17: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
