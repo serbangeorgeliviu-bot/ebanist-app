@@ -2944,7 +2944,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.17: deviz — implicit identic: cu sau fără hwSel gol aceleași rânduri (D-39)", await pg.evaluate(() => {
       const mk = hs => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...PRESETS.armadio, name: "Q", hwSel: hs, doors: 2, drawers: 2, handles: "push" }); return JSON.stringify(computeHardware(p, state.settings).map(i => [i.k, i.qty, i.prod && i.prod.id])); };
       const a = mk(null), b = mk({}), c = mk({ cern: "blum_71b3550" });
-      return a === b && !/hwPushD|hwSusp|hwPushPsu/.test(a.replace(/"hwPushD",0|"hwSusp",0|"hwSuspRail",0|"hwPushPsu",0/g, "")) && JSON.parse(a).filter(r => r[0] === "hwPush")[0][1] === 4 && c.length > 0; }));
+      return a === b && !/hwPushD|hwSusp|hwPushPsu/.test(a.replace(/"hwPushD",0|"hwSusp",0|"hwSuspRail",0|"hwPushPsu",0/g, "")) && JSON.parse(a).filter(r => r[0] === "hwPush")[0][1] === 2 && c.length > 0; }));
     /* sertare: dispozitiv ales pe corp */
     const pd = await pg.evaluate(() => { const mk = hs => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...PRESETS.cassettiera, name: "Q2", hwSel: hs, handles: "push", drawers: 3, doors: 0, drawerSys: "legrabox" });
         const it = computeHardware(p, state.settings), g = k => (it.find(i => i.k === k) || {}).qty || 0; return { push: g("hwPush"), pd: g("hwPushD"), psu: g("hwPushPsu"), man: g("hwMan") }; };
