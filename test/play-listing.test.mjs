@@ -186,3 +186,10 @@ describe("promote (versionCode deja urcat)", () => {
     assert.ok(g.calls.some((c) => c.method === "DELETE")); assert.ok(!g.calls.some((c) => c.url.includes(":commit")));
   });
 });
+
+test("rollout 100%: release-ul vechi „completed” e înlocuit (Play permite unul singur)", async () => {
+  const f = fake({ "$/edits/E1/tracks/production": () => ok({ releases: [{ name: "11", status: "inProgress", userFraction: 0.2, versionCodes: ["11"] }, { name: "7", status: "completed", versionCodes: ["7"] }] }) });
+  await setRollout(client(f), { fraction: "1", confirm: "da" });
+  const put = JSON.parse(f.calls.find((c) => c.method === "PUT").body);
+  assert.deepEqual(put.releases.map((r) => r.name + ":" + r.status), ["11:completed"]);
+});
