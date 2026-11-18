@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.83.0 — 18 noiembrie 2026
+
+**Ecranul Pro de pe Android nu mai spune „Google Play nu răspunde" din cauza unei curse la pornire (D-133).** Cifrele din pâlnie arătau că **87 % din sesiunile cu ecranul Pro** primeau `pw_unavail` cu codul `unavailable`. Cauza: la pornire aplicația cere deodată restaurarea achizițiilor și produsele, iar partea nativă pornea două conectări la Google Play; a doua primea „already connecting", raporta indisponibil și consuma și lucrul primei conectări, care reușea degeaba. Omul vedea „Play nu răspunde" la prima deschidere a ecranului Pro, fără butoane de cumpărare, iar restaurarea de la pornire nu rula. Acum o eroare de conectare nu mai e definitivă: produsele se cer de încă două ori (la 1,5 s și la 3 s) și până atunci ecranul spune „se încarcă". Vindecă și versiunile Android vechi, fiindcă aplicația încarcă web-ul. Partea nativă (1.4.1, versionCode 11) repară cauza: o singură conectare odată, cu coadă.
+
 ## 5.82.0 — 18 noiembrie 2026
 
 **Proiecte partajate între utilizatori: Jacquin vede, editează și comentează (D-159).** Partea din aplicație e gata, dar **rămâne ascunsă până când migrația `20261118_project_sharing.sql` e aplicată în Supabase**: aplicația verifică dacă serverul are funcția `project_shared_list`, iar dacă nu, nu arată nimic și se comportă ca înainte.

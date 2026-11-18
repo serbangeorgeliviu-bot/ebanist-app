@@ -1,6 +1,8 @@
 package com.domusrenov.ebanist;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClient;
@@ -16,6 +18,7 @@ import com.android.billingclient.api.QueryPurchasesParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,8 +45,7 @@ final class PlayBilling {
     private final Sink sink;
     private final BillingClient client;
     private ProductDetails details;
-    private boolean ready;
-    private Runnable afterConnect;
+    private volatile boolean ready;
 
     PlayBilling(Activity activity, Sink sink) {
         this.activity = activity;
@@ -55,19 +57,54 @@ final class PlayBilling {
                 .build();
     }
 
-    /* ---- conexiunea: o dată, apoi ce era de făcut ---- */
+    /* ---- conexiunea: o singură dată odată, apoi tot ce aștepta (D-133) ----
+       Înainte, fiecare apel pornea propria conectare și ținea minte numai ultimul lucru de făcut. La
+       pornire JS cere deodată restaurarea și produsele: a doua conectare primea DEVELOPER_ERROR
+       („Client is already in the process of connecting"), raporta `unavailable` și consuma și lucrul
+       primei, care nu mai rula. Acum: o conectare în zbor, coada tuturor celor care așteaptă, iar un
+       eșec trecător (DEVELOPER_ERROR / SERVICE_*: reconectarea automată era în curs) se reia de două
+       ori, la 900 ms, înainte de a spune „indisponibil". */
+    private final List<Runnable> pending = new ArrayList<>();
+    private boolean connecting;
+    private final Handler main = new Handler(Looper.getMainLooper());
+
     private void whenReady(Runnable r) {
-        if (ready && client.isReady()) { r.run(); return; }
-        afterConnect = r;
+        synchronized (pending) {
+            if (ready && client.isReady()) { main.post(r); return; }
+            pending.add(r);
+            if (connecting) return;
+            connecting = true;
+        }
+        main.post(() -> connect(0));
+    }
+
+    private void connect(int attempt) {
+        if (client.isReady()) { finishConnect(null); return; }
         client.startConnection(new BillingClientStateListener() {
             @Override public void onBillingSetupFinished(BillingResult res) {
-                ready = res.getResponseCode() == BillingClient.BillingResponseCode.OK;
-                Runnable next = afterConnect; afterConnect = null;
-                if (!ready) { fail("products", "unavailable", res); fail("purchases", "unavailable", res); return; }
-                if (next != null) next.run();
+                int rc = res.getResponseCode();
+                if (rc == BillingClient.BillingResponseCode.OK) { finishConnect(null); return; }
+                boolean transientErr = rc == BillingClient.BillingResponseCode.DEVELOPER_ERROR
+                        || rc == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED
+                        || rc == BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE;
+                if (transientErr && attempt < 2) { main.postDelayed(() -> connect(attempt + 1), 900); return; }
+                finishConnect(res);
             }
             @Override public void onBillingServiceDisconnected() { ready = false; }
         });
+    }
+
+    /* res == null: conectat; altfel eșec definitiv, raportat o singură dată. */
+    private void finishConnect(BillingResult res) {
+        List<Runnable> run;
+        synchronized (pending) {
+            ready = res == null;
+            connecting = false;
+            run = new ArrayList<>(pending);
+            pending.clear();
+        }
+        if (res != null) { fail("products", "unavailable", res); fail("purchases", "unavailable", res); return; }
+        for (Runnable x : run) x.run();
     }
 
     /* ---- produsele: planurile cu prețul lor ---- */

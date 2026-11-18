@@ -24,8 +24,8 @@ android {
            8 = prima urcare automată prin API (workflow android-aab, D-108), același conținut ca 7.
            9 = 1.4.0: probă gratuită 7 zile pe planul cu reînnoire (D-132), pe canalul intern.
           10 = același conținut ca 9 (un .aab reconstruit nu poate refolosi codul 9), pentru producție, lansare treptată. */
-        versionCode 10
-        versionName "1.4.0"
+        versionCode 11
+        versionName "1.4.1"
     }
 
     signingConfigs {
