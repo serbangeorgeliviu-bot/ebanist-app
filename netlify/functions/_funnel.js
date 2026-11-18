@@ -69,12 +69,18 @@ const pct = (a, b) => (b ? Math.round((a / b) * 1000) / 10 : null);
    pe sesiune: pentru web se citesc rata pe evenimente, nu pe sesiuni. */
 export function summarize(keys) {
   const recs = keys.map(parseKey).filter(Boolean);
-  const out = { total: recs.length, platforms: {}, byWhy: {} };
+  const out = { total: recs.length, platforms: {}, byWhy: {}, byCode: {} };
+  const codeSess = {};
   const sess = {};
   const plat = (p) => (out.platforms[p] = out.platforms[p] || { events: {}, sessions: {} });
   for (const r of recs) {
     const P = plat(r.plat);
     P.events[r.e] = (P.events[r.e] || 0) + 1;
+    if (r.e === "pw_unavail") {                    // D-133: de ce n-a avut ecranul Pro ce vinde (codul stă în cheie)
+      const ck = r.plat + "/" + (r.extra || "empty");
+      (out.byCode[ck] = out.byCode[ck] || { events: 0, sessions: 0 }).events++;
+      (codeSess[ck] = codeSess[ck] || new Set()).add(r.s);
+    }
     const k = r.plat + "|" + r.e;
     (sess[k] = sess[k] || new Set()).add(r.s);
     if (r.why) {
@@ -82,6 +88,7 @@ export function summarize(keys) {
       W[r.e] = (W[r.e] || 0) + 1;
     }
   }
+  for (const k of Object.keys(codeSess)) out.byCode[k].sessions = codeSess[k].size;
   for (const k of Object.keys(sess)) {
     const [p, e] = k.split("|");
     plat(p).sessions[e] = sess[k].size;
