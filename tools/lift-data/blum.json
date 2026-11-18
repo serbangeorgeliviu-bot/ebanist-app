@@ -1,0 +1,873 @@
+{
+ "brand": "Blum",
+ "sources": [
+  {
+   "id": "S1",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1445903/hk-xs-technical-data-sheet.pdf",
+   "title": "AVENTOS HK-XS Technical data sheet TD-071/6 EN/12.15 (Blum document, distributor copy)",
+   "pages": "p2 order spec, p3 parts, p4 planning (drawings read as image), p5 gaps, p6 TIP-ON"
+  },
+  {
+   "id": "S2",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1446070/hk-s-tip-on-installation.pdf",
+   "title": "TIP-ON for AVENTOS HK-S Technical data sheet TD-065/5 EN/03.16 (Blum document, distributor copy)",
+   "pages": "p2-3 order spec, p4 planning (drawings read as image), p5-7 TIP-ON"
+  },
+  {
+   "id": "S3",
+   "url": "https://d2.blum.com/services/BEC003/cme148001_td_dok_bau_$sen-au_$aof_$v1.pdf",
+   "title": "AVENTOS HK top Technical data sheet TD-157/1EN-AA (Blum d2)",
+   "pages": "p2-3 codes, p5-6 TIP-ON, p7 drilling/space (image), p8 front assembly (image)"
+  },
+  {
+   "id": "S4",
+   "url": "https://d2.blum.com/services/BEC003/cme148000_td_dok_bau_$sen-au_$aof_$v1.pdf",
+   "title": "AVENTOS HF top Technical data sheet TD-154/1EN-AA (Blum d2)",
+   "pages": "p2-3 codes, p5-6 narrow alu, p8 drilling (image), p9 space/geometry (image), p10 front assembly"
+  },
+  {
+   "id": "S5",
+   "url": "https://d2.blum.com/services/BEC003/me55579287_td_dok_bau_$sen_$aof_$v3.pdf",
+   "title": "AVENTOS HL top Technical data sheet TD-145/3 EN/04.26 (Blum d2)",
+   "pages": "p2-3 codes, p5 planning (image), p6 front assembly, p7 cross stabiliser"
+  },
+  {
+   "id": "S6",
+   "url": "https://d2.blum.com/services/BEC003/me55579283_td_dok_bau_$sen_$aof_$v4.pdf",
+   "title": "AVENTOS HS top Technical data sheet TD-144/4 EN/04.26 (Blum d2)",
+   "pages": "p2-3 codes, p5 planning (image), p6 front assembly (image)"
+  },
+  {
+   "id": "S7",
+   "url": "https://cdn.shopify.com/s/files/1/0709/8495/8225/files/B10054-Aventos-HK-S-Installation.pdf",
+   "title": "AVENTOS HK-S wood/wide/narrow alu door application - Blum installation sheet, US market, third-party host (NOT official domain)",
+   "pages": "p1-3"
+  },
+  {
+   "id": "S8",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1445397/aventos-hf-technical-specification.pdf",
+   "title": "AVENTOS HF (classic) Technical data sheet TD-016/6 EN/10.11 (Blum document, distributor copy)",
+   "pages": "p2-3"
+  },
+  {
+   "id": "S9",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1538016/servo-drive-for-aventos-hl.pdf",
+   "title": "SERVO-DRIVE for AVENTOS HL (classic HL, not HL top) TD-036/1EN",
+   "pages": "p2-4 (not used for HL top values)"
+  }
+ ],
+ "systems": [
+  {
+   "key": "blum_hk_xs",
+   "brand": "Blum",
+   "name": "AVENTOS HK-XS",
+   "motion": "stay",
+   "flaps": 1,
+   "select": {
+    "type": "LF",
+    "metric": "cabinet height (mm) × front weight incl. handle (kg)",
+    "pairFactor": 2,
+    "rows": [
+     {
+      "code": "20K1101",
+      "lo": 200,
+      "hi": 1000,
+      "tipon": false
+     },
+     {
+      "code": "20K1301",
+      "lo": 500,
+      "hi": 1500,
+      "tipon": false
+     },
+     {
+      "code": "20K1501",
+      "lo": 800,
+      "hi": 1800,
+      "tipon": false
+     },
+     {
+      "code": "20K1101T",
+      "lo": 180,
+      "hi": 800,
+      "tipon": true
+     },
+     {
+      "code": "20K1301T",
+      "lo": 500,
+      "hi": 1200,
+      "tipon": true
+     },
+     {
+      "code": "20K1501T",
+      "lo": 800,
+      "hi": 1600,
+      "tipon": true
+     }
+    ],
+    "note": "LF-ul din tabel e pe o parte; cu mecanism pe ambele laterale se dublează (S1 p2)."
+   },
+   "limits": {
+    "cabH": [
+     240,
+     600
+    ],
+    "cabW": [
+     null,
+     null
+    ],
+    "kg": [
+     null,
+     null
+    ],
+    "hiMin": 200,
+    "wiMin": null,
+    "depthMin": 125
+   },
+   "open": {
+    "angle": [
+     105,
+     105
+    ],
+    "note": "limitat de balamalele cu unghi mai mic (S1 p2)"
+   },
+   "hingesNote": "3 balamale de la lățime 900 mm sau LF 1800; 4 de la 1200 mm sau LF 2700 (S1 p4)",
+   "mount": {
+    "raw": {
+     "vertical_position": {
+      "v": "H = 137 + D + K + SOB (mm) measured from top of side panel; D = mounting plate spacing, K = hinge crank (horizontal arm 0, cranked 9.5, double cranked 18), SOB = top panel thickness",
+      "src": "S1 p4"
+     },
+     "drawing_values_mm": {
+      "v": {
+       "from_front_edge_hole_1": 37,
+       "alt_special_depth100": 45,
+       "from_bottom_of_mechanism_block": 32
+      },
+      "src": "S1 p4 (read from drawing; assignment of 37/(45) to the locating pin offset and 32 to the lower fixing is from the image, moderately confident)"
+     },
+     "front_bracket": {
+      "v": {
+       "wooden_and_wide_alu": "126+D+K (special depth 132+D+K) upper from front top edge region as drawn; 32 hole pitch; 15.5 from front side edge + SFA",
+       "narrow_alu": "125.5+D+K (131.5+D+K); 32; 15.5; SFA 11-18 for frieze 19",
+       "screws": "3.5x15 mm"
+      },
+      "src": "S1 p4"
+     },
+     "narrow_alu_frame_drilling": {
+      "v": {
+       "hole_pitch_mm": [
+        31,
+        38
+       ],
+       "countersink_dia": 7,
+       "R": 4,
+       "SFA_minus": 4.5,
+       "sketch_extras": [
+        7.5,
+        4.6,
+        11.4,
+        15.5,
+        1.1
+       ]
+      },
+      "src": "S1 p4"
+     },
+     "cabinet_hole_diameters": null,
+     "src": "S1 p4"
+    },
+    "bodyW": 27
+   },
+   "src": "Blum TD-071/6 (HK-XS), p2–5",
+   "verificat": false
+  },
+  {
+   "key": "blum_hk_s",
+   "brand": "Blum",
+   "name": "AVENTOS HK-S (TIP-ON)",
+   "motion": "stay",
+   "flaps": 1,
+   "select": {
+    "type": "LF",
+    "metric": "cabinet height (mm) × front weight incl. handle (kg)",
+    "pairFactor": 1,
+    "rows": [
+     {
+      "code": "1× 20K2A01 + 1× 20K2C01T",
+      "lo": 220,
+      "hi": 500,
+      "tipon": true
+     },
+     {
+      "code": "2× 20K2C01T",
+      "lo": 400,
+      "hi": 1000,
+      "tipon": true
+     },
+     {
+      "code": "1× 20K2C01T + 1× 20K2E01T",
+      "lo": 680,
+      "hi": 1520,
+      "tipon": true
+     },
+     {
+      "code": "2× 20K2E01T",
+      "lo": 960,
+      "hi": 2215,
+      "tipon": true
+     }
+    ],
+    "note": "Numai combinațiile TIP-ON citite din fișă (TD-065/5). Codurile standard EU nu au putut fi citite: lipsesc, nu sunt inventate."
+   },
+   "limits": {
+    "cabH": [
+     150,
+     400
+    ],
+    "cabW": [
+     null,
+     null
+    ],
+    "kg": [
+     null,
+     null
+    ],
+    "hiMin": 150,
+    "wiMin": null,
+    "depthMin": 163
+   },
+   "open": {
+    "angle": [
+     75,
+     107
+    ],
+    "note": "107° fără opritor; opritoare de 100° și 75° (S2 p2–3)"
+   },
+   "mount": {
+    "raw": {
+     "pegs": {
+      "v": {
+       "from_front_edge_peg_offsets": [
+        64,
+        37
+       ],
+       "from_top_edge": 74,
+       "peg_dia": 5,
+       "peg_depth_min": 5
+      },
+      "src": "S2 p4 (peg positions drawing)"
+     },
+     "fixing_positions": {
+      "v": {
+       "from_top": [
+        37,
+        106
+       ],
+       "horizontal": [
+        125,
+        53,
+        35.5
+       ],
+       "screws": "3x dia4x35 chipboard"
+      },
+      "src": "S2 p4"
+     },
+     "front_bracket": {
+      "v": {
+       "wood_wide_alu_from_top_edge": "80-F (or 78-F); two holes pitch 32 mm; 12.5 from side edge + SFA",
+       "narrow_alu": "78-F",
+       "screws": "dia3.5x15"
+      },
+      "src": "S2 p4"
+     },
+     "narrow_alu_drilling": {
+      "v": {
+       "pitch_mm": [
+        31,
+        38
+       ],
+       "countersink_dia": 7,
+       "SFA_minus": 4.5
+      },
+      "src": "S2 p4"
+     },
+     "US_sheet_pin_position": {
+      "v": "locating pins Ø5x5 deep at 52 and 64 from front/top edges per drawing, overlay-dependent Z (37 / 35.5 / 34.5 for overlay up to 20 / 24 / 26)",
+      "src": "S7 p2"
+     },
+     "src": "S2 p4"
+    },
+    "bodyW": 29
+   },
+   "notes": [
+    "Fișa spune și «max 400 mm» (p2) și «max 600 mm» (p4): s-a păstrat 400, mai prudent."
+   ],
+   "src": "Blum TD-065/5 (HK-S TIP-ON), p2–6",
+   "verificat": false
+  },
+  {
+   "key": "blum_hk_top",
+   "brand": "Blum",
+   "name": "AVENTOS HK top",
+   "motion": "stay",
+   "flaps": 1,
+   "select": {
+    "type": "LF",
+    "metric": "cabinet height (mm) × front weight incl. handle (kg)",
+    "pairFactor": 1,
+    "rows": [
+     {
+      "code": "22K2310 / 22K2300 / 22K2300T",
+      "lo": 420,
+      "hi": 1610,
+      "tipon": false
+     },
+     {
+      "code": "22K2510 / 22K2500 / 22K2500T",
+      "lo": 930,
+      "hi": 2800,
+      "tipon": false
+     },
+     {
+      "code": "22K2710 / 22K2700 / 22K2700T",
+      "lo": 1730,
+      "hi": 5200,
+      "tipon": false
+     },
+     {
+      "code": "22K2910 / 22K2900 / 22K2900T",
+      "lo": 3200,
+      "hi": 9000,
+      "tipon": false
+     }
+    ],
+    "note": "Fiecare rând: șuruburi de sistem / șuruburi pentru PAL / varianta TIP-ON. Un al treilea mecanism crește LF cu 50% (S3 p2)."
+   },
+   "limits": {
+    "cabH": [
+     205,
+     600
+    ],
+    "cabW": [
+     null,
+     1800
+    ],
+    "kg": [
+     null,
+     18
+    ],
+    "hiMin": 173,
+    "wiMin": null,
+    "depthMin": 187
+   },
+   "open": {
+    "angle": [
+     75,
+     107
+    ],
+    "note": "reglabil continuu (S3 p2)"
+   },
+   "mount": {
+    "raw": {
+     "system_screws": {
+      "v": {
+       "from_top_edge": 36,
+       "horizontal_pitch_mm": [
+        37,
+        32,
+        64,
+        32
+       ],
+       "peg_dia": 5,
+       "peg_depth_mm": 11.5,
+       "servo_hole_dia": 10,
+       "servo_xy": [
+        38.5,
+        82
+       ]
+      },
+      "src": "S3 p7 (drawing; ordering of horizontal dims 37/32/64/32 read from image)"
+     },
+     "chipboard_screws": {
+      "v": {
+       "from_top_edge": 33,
+       "horizontal": [
+        28,
+        11,
+        91,
+        11
+       ],
+       "vertical_note": "42 shown",
+       "screws": "4x dia4x35"
+      },
+      "src": "S3 p7"
+     },
+     "front_bracket": {
+      "v": {
+       "wood_wide_alu_from_top": "62 + FAo, holes pitch 32/32/32 (as drawn), 12.5 + SFA from side",
+       "narrow_alu": "62.5 + FAo; 15.5; 64; holes 31/33/31 pitch pattern 31,33,31 -> see narrow alu drawing; pitch 38/64",
+       "narrow_alu_drill": "countersink dia7, R4, SFA-4.5"
+      },
+      "src": "S3 p8"
+     },
+     "TIP-ON": {
+      "v": {
+       "drilling_min_from": "50 (for drilling)",
+       "adapter_plate_fixing": [
+        32,
+        53,
+        14,
+        79,
+        50
+       ],
+       "min_front_gap_mm": "2.6 glue-on / 3.1 screw-on"
+      },
+      "src": "S3 p10-11 (partially read)"
+     },
+     "src": "S3 p7,p8"
+    },
+    "bodyW": 30
+   },
+   "src": "Blum TD-157/1 (HK top), p2–8",
+   "verificat": false
+  },
+  {
+   "key": "blum_hf_top",
+   "brand": "Blum",
+   "name": "AVENTOS HF top",
+   "motion": "bifold",
+   "flaps": 2,
+   "select": {
+    "type": "LF",
+    "metric": "cabinet height (mm) × front weight incl. handle (kg)",
+    "pairFactor": 1,
+    "rows": [
+     {
+      "code": "22F2510 / 22F2500",
+      "lo": 2700,
+      "hi": 13500,
+      "tipon": false
+     },
+     {
+      "code": "22F2810 / 22F2800",
+      "lo": 10000,
+      "hi": 19300,
+      "tipon": false
+     }
+    ],
+    "extra": {
+     "leverArms": [
+      {
+       "code": "22F3200",
+       "khLo": 480,
+       "khHi": 610,
+       "hiMin": 443
+      },
+      {
+       "code": "22F3500",
+       "khLo": 600,
+       "khHi": 910,
+       "hiMin": 512
+      },
+      {
+       "code": "22F3900",
+       "khLo": 840,
+       "khHi": 1200,
+       "hiMin": 632
+      }
+     ]
+    },
+    "note": "Brațul se alege după înălțimea corpului. La fronturi inegale: TKH = FHo×2 + rosturi (S4 p2,p6)."
+   },
+   "limits": {
+    "cabH": [
+     480,
+     1200
+    ],
+    "cabW": [
+     null,
+     1800
+    ],
+    "kg": [
+     null,
+     null
+    ],
+    "hiMin": 443,
+    "wiMin": null,
+    "depthMin": 264
+   },
+   "open": {
+    "angle": [
+     81,
+     116
+    ],
+    "note": "opritor în trepte (S4 p2)"
+   },
+   "hingesNote": "3 balamale de la lățime 1200 mm sau 12 kg; 4 de la 1800 mm sau 20 kg (S4 p6)",
+   "mount": {
+    "raw": {
+     "system_screws": {
+      "v": {
+       "H_by_KH": {
+        "480-519": 93.5,
+        "520-1200": 116
+       },
+       "X": 38.5,
+       "Y_by_KH": {
+        "480-519": 102,
+        "520-1200": 124
+       },
+       "horizontal_pitch_mm": [
+        101,
+        128
+       ],
+       "vertical_mm": 64,
+       "peg_dia": 5,
+       "min_depth": 11.5,
+       "servo_hole_dia": 10
+      },
+      "src": "S4 p8"
+     },
+     "chipboard_screws": {
+      "v": {
+       "H_by_KH": {
+        "480-519": 93,
+        "520-1200": 115.5
+       },
+       "vertical_mm": 63,
+       "horizontal": [
+        91.5,
+        124,
+        11,
+        11
+       ],
+       "screws": "4x dia4x35",
+       "servo_hole_dia": 10,
+       "X": 38.5,
+       "Y_by_KH": {
+        "480-519": 102,
+        "520-1200": 124
+       }
+      },
+      "src": "S4 p8"
+     },
+     "front_fixing": {
+      "v": {
+       "Z_by_KH": {
+        "480-519": 170,
+        "520-1200": 189
+       },
+       "hole_pitch_mm": 32,
+       "min_17": true,
+       "12.5_from_side_edge_plus_SFA": true,
+       "mounting_plate_spacing": "0/3/6/9"
+      },
+      "src": "S4 p10 (partially read)"
+     },
+     "src": "S4 p8,p10"
+    },
+    "bodyW": 30
+   },
+   "src": "Blum TD-154/1 (HF top), p2–10",
+   "verificat": false
+  },
+  {
+   "key": "blum_hl_top",
+   "brand": "Blum",
+   "name": "AVENTOS HL top",
+   "motion": "parallel",
+   "flaps": 1,
+   "select": {
+    "type": "KHKG",
+    "metric": "înălțime corp (mm) și greutate front (kg)",
+    "rows": [
+     {
+      "code": "22L3201",
+      "khLo": 300,
+      "khHi": 339,
+      "kgLo": 1.5,
+      "kgHi": 9.0
+     },
+     {
+      "code": "22L3501",
+      "khLo": 340,
+      "khHi": 389,
+      "kgLo": 1.75,
+      "kgHi": 10.0
+     },
+     {
+      "code": "22L3801",
+      "khLo": 390,
+      "khHi": 540,
+      "kgLo": 2.0,
+      "kgHi": 12.25
+     },
+     {
+      "code": "22L3901",
+      "khLo": 480,
+      "khHi": 580,
+      "kgLo": 2.5,
+      "kgHi": 14.0
+     }
+    ],
+    "note": "Mecanism pe înălțimi: 22L2201/2211 la 300–389, 22L2501/2511 la 390–580 (S5 p2). În zonele de suprapunere se ia cel mai puternic."
+   },
+   "limits": {
+    "cabH": [
+     300,
+     580
+    ],
+    "cabW": [
+     null,
+     1800
+    ],
+    "kg": [
+     1.5,
+     14.0
+    ],
+    "hiMin": 255,
+    "wiMin": null,
+    "depthMin": 264
+   },
+   "open": {
+    "angle": null,
+    "note": "mișcare paralelă; unghiul e doar în desen"
+   },
+   "mount": {
+    "raw": {
+     "system_screws": {
+      "v": {
+       "from_top_edge_total": 127,
+       "split": [
+        63,
+        64
+       ],
+       "horizontal": [
+        101,
+        128
+       ],
+       "peg_dia": 5,
+       "min_depth": 11.5,
+       "servo_hole_dia": 10,
+       "servo_xy": [
+        38.5,
+        71
+       ]
+      },
+      "src": "S5 p5"
+     },
+     "chipboard_screws": {
+      "v": {
+       "from_top_edge_total": 125.5,
+       "split": [
+        62.5,
+        63
+       ],
+       "horizontal": [
+        91.5,
+        124,
+        11,
+        11
+       ],
+       "screws": "dia4x35",
+       "servo_xy": [
+        38.5,
+        71
+       ]
+      },
+      "src": "S5 p5"
+     },
+     "front_Z_wood_wide_alu": {
+      "v": {
+       "22L3201": "113 + FAo",
+       "22L3501": "153 + FAo",
+       "22L3801": "203 + FAo",
+       "22L3901": "256 + FAo"
+      },
+      "src": "S5 p6"
+     },
+     "front_Z_narrow_alu": {
+      "v": {
+       "22L3201": "113.5 + FAo",
+       "22L3501": "153.5 + FAo",
+       "22L3801": "203.5 + FAo",
+       "22L3901": "256.5 + FAo"
+      },
+      "src": "S5 p6"
+     },
+     "front_holes": {
+      "v": "pitch pattern 31/33/31 (narrow alu) and 32/32 (wood); 12.5 from side + SFA",
+      "src": "S5 p6"
+     },
+     "SOB_X_table": {
+      "v": {
+       "16": 25,
+       "17": 26,
+       "18": 27,
+       "19": 28,
+       "20": 29
+      },
+      "src": "S5 p6"
+     },
+     "src": "S5 p5,p6"
+    },
+    "bodyW": 30,
+    "lever": {
+     "v": {
+      "22L3201": {
+       "a": 112,
+       "b": 272.5,
+       "c": 155.5,
+       "Y": 272.5
+      },
+      "22L3501": {
+       "a": 140.5,
+       "b": 340,
+       "c": 195,
+       "Y": 340
+      },
+      "22L3801": {
+       "a": 176,
+       "b": 425,
+       "c": 245,
+       "Y": 425
+      },
+      "22L3901": {
+       "a": 214.5,
+       "b": 517,
+       "c": 297.5,
+       "Y": 517
+      }
+     },
+     "src": "S5 p5 (a,b,c at lower gap 0; Y at top gap 0)"
+    }
+   },
+   "notes": [
+    "Peste lățime interioară 1190 mm (corp 1228 mm) se recomandă stabilizator transversal (S5 p3,p7)."
+   ],
+   "src": "Blum TD-145/3 (HL top), p2–7",
+   "verificat": false
+  },
+  {
+   "key": "blum_hs_top",
+   "brand": "Blum",
+   "name": "AVENTOS HS top",
+   "motion": "liftup",
+   "flaps": 1,
+   "select": {
+    "type": "KHKG",
+    "metric": "înălțime corp (mm) și greutate front (kg)",
+    "rows": [
+     {
+      "code": "22S2211 / 22S2201",
+      "khLo": 350,
+      "khHi": 450,
+      "kgLo": 2.0,
+      "kgHi": 11.5
+     },
+     {
+      "code": "22S2211 / 22S2201",
+      "khLo": 450,
+      "khHi": 540,
+      "kgLo": 2.5,
+      "kgHi": 12.5
+     },
+     {
+      "code": "22S2511 / 22S2501",
+      "khLo": 480,
+      "khHi": 660,
+      "kgLo": 2.75,
+      "kgHi": 15.25
+     },
+     {
+      "code": "22S2811 / 22S2801",
+      "khLo": 650,
+      "khHi": 800,
+      "kgLo": 3.5,
+      "kgHi": 18.5
+     }
+    ],
+    "note": "Un al treilea mecanism crește greutatea cu 50% (S6 p2). În suprapuneri se ia cel mai puternic."
+   },
+   "limits": {
+    "cabH": [
+     350,
+     800
+    ],
+    "cabW": [
+     null,
+     1800
+    ],
+    "kg": [
+     2.0,
+     18.5
+    ],
+    "hiMin": 307,
+    "wiMin": null,
+    "depthMin": 264
+   },
+   "open": {
+    "angle": null,
+    "note": "frontul se înclină în sus și în spate; unghiul e doar în desen"
+   },
+   "mount": {
+    "raw": {
+     "system_screws": {
+      "v": {
+       "from_top_edge_total": 127,
+       "split": [
+        63,
+        64
+       ],
+       "horizontal": [
+        101,
+        128
+       ],
+       "peg_dia": 5,
+       "min_depth": 11.5,
+       "servo_hole_dia": 10,
+       "servo_xy": [
+        38.5,
+        45
+       ]
+      },
+      "src": "S6 p5"
+     },
+     "chipboard_screws": {
+      "v": {
+       "from_top_edge_total": 121.5,
+       "split": [
+        69,
+        52.5
+       ],
+       "horizontal": [
+        104.5,
+        111,
+        11,
+        11
+       ],
+       "servo_xy": [
+        38.5,
+        45
+       ]
+      },
+      "src": "S6 p5"
+     },
+     "front_Z": {
+      "v": {
+       "wood_wide_alu": "195 + FAo",
+       "narrow_alu": "195.5 + FAo",
+       "holes_pitch": "32/32 (wood), 31/33/31 (narrow alu)",
+       "12.5_from_side_plus_SFA": true
+      },
+      "src": "S6 p6"
+     },
+     "src": "S6 p5,p6"
+    },
+    "bodyW": 30
+   },
+   "src": "Blum TD-144/4 (HS top), p2–6",
+   "verificat": false
+  }
+ ]
+}

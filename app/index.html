@@ -1881,6 +1881,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
           <select id="bFold"><option value="" data-i="foldNone">Nessuna</option><option value="2" data-i="fold2">2 ante per pacchetto</option><option value="3" data-i="fold3">3 ante per pacchetto</option><option value="4" data-i="fold4">4 ante per pacchetto</option></select>
           <p class="mini" id="foldHint" style="margin-top:4px"></p>
         </div>
+        <div class="f" id="rowLift"><label data-i="fLift" for="bLift">Sollevamento ante (ribalta verso l'alto)</label>
+          <select id="bLift"><option value="" data-i="liftNone">Nessuno (cerniere)</option></select>
+          <p class="mini" id="liftHint" style="margin-top:4px"></p>
+        </div>
         <div class="f3">
           <div class="f"><label data-i="fHandles" for="bHandles">Apertura</label>
             <select id="bHandles"><option value="maniglia" data-i="hManiglia">Maniglie</option><option value="push" data-i="hPush">Push-open</option><option value="gola" data-i="hGola">Gola (profil)</option><option value="raza" data-i="hRaza">Raza</option></select></div>
@@ -2939,6 +2943,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
 if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?rev=5.24.2"><\/script>');
 </script>
+<script src="./ebanist-lift-data.js"></script>
+<script src="./ebanist-liftfit.js"></script>
 <script src="./ebanist-ops.js"></script>
 <script src="./ebanist-hinges-data.js"></script>
 <script src="./ebanist-hinges.js"></script>
@@ -4294,6 +4300,13 @@ Object.assign(I18N.fr,{"slTitle": "Coulisses et tiroirs Blum", "slHint": "Tous l
 Object.assign(I18N.de,{"slTitle": "Blum-Auszüge und Schubkästen", "slHint": "Alle Systeme des Blum-Katalogs 2022/23 mit Bestellnummern, Zuschnittformeln und Bohrungen. Das Datenblatt öffnet sich über die Schaltfläche."});
 Object.assign(I18N.pl,{"slTitle": "Prowadnice i szuflady Blum", "slHint": "Wszystkie systemy z katalogu Blum 2022/23 z numerami, wzorami krojenia i wierceniem. Kartę techniczną otwiera przycisk."});
 Object.assign(I18N.es,{"slTitle": "Guías y cajones Blum", "slHint": "Todos los sistemas del catálogo Blum 2022/23 con referencias, fórmulas de despiece y taladrado. La ficha técnica se abre desde el botón."});
+Object.assign(I18N.it,{"opsLiftNoDrill":"Anta con sollevamento: i fori del meccanismo (sui fianchi e sull'anta) e quelli della maniglia non sono generati; si fora con la dima e la scheda del produttore.","fLift": "Sollevamento ante (ribalta verso l'alto)", "liftNone": "Nessuno (cerniere)", "liftHint": "L'anta si apre verso l'alto: niente cerniere, un meccanismo per ogni anta, sui due fianchi.", "hwLift": "Meccanismi di sollevamento (set)", "mLift": "Monta i meccanismi di sollevamento sui fianchi: {p}. Fissa l'anta ai bracci e regola la forza secondo il peso.", "wLiftFront": "Il sollevamento vale solo per ante piene e dritte (non vetro, curve, pieghevoli, scorrevoli o inclinate): l'anta resta a cerniere.", "wLiftRange": "{sys}: {what} {v} fuori dal campo {lo}–{hi}.", "wLiftPower": "{sys}: nessuna variante di forza copre quest'anta ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: misure non ancora verificate sulla scheda del produttore: controlla prima di forare.", "liftWhat_h": "altezza anta (mm)", "liftWhat_w": "larghezza anta (mm)", "liftWhat_kg": "peso anta (kg)", "liftWhat_th": "spessore anta (mm)", "liftWhat_hi": "altezza interna (mm)", "liftWhat_depth": "profondità interna (mm)", "liftWhat_wi": "larghezza interna (mm)"});
+Object.assign(I18N.ro,{"opsLiftNoDrill":"Ușă cu mecanism de ridicare: găurile mecanismului (pe laterale și pe ușă) și cele ale mânerului nu sunt generate; se găurește cu șablonul și fișa producătorului.","fLift": "Mecanism de ridicare (ușă care se deschide în sus)", "liftNone": "Niciunul (balamale)", "liftHint": "Ușa se deschide în sus: fără balamale, câte un mecanism pe ușă, pe cele două laterale.", "hwLift": "Mecanisme de ridicare (set)", "mLift": "Montează mecanismele de ridicare pe laterale: {p}. Fixează ușa pe brațe și reglează forța după greutate.", "wLiftFront": "Mecanismul de ridicare se aplică numai ușilor pline și drepte (nu sticlă, curbe, pliante, glisante sau înclinate): ușa rămâne pe balamale.", "wLiftRange": "{sys}: {what} {v} în afara domeniului {lo}–{hi}.", "wLiftPower": "{sys}: nicio variantă de forță nu acoperă ușa ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: cotele nu sunt încă verificate pe fișa producătorului: controlează înainte să găurești.", "liftWhat_h": "înălțimea ușii (mm)", "liftWhat_w": "lățimea ușii (mm)", "liftWhat_kg": "greutatea ușii (kg)", "liftWhat_th": "grosimea ușii (mm)", "liftWhat_hi": "înălțimea interioară (mm)", "liftWhat_depth": "adâncimea interioară (mm)", "liftWhat_wi": "lățimea interioară (mm)"});
+Object.assign(I18N.en,{"opsLiftNoDrill":"Lift-up door: the holes of the mechanism (in the sides and in the door) and of the handle are not generated; drill from the manufacturer's template and sheet.","fLift": "Lift-up door mechanism", "liftNone": "None (hinges)", "liftHint": "The door opens upwards: no hinges, one mechanism per door, fitted on the two sides.", "hwLift": "Lift mechanisms (set)", "mLift": "Fit the lift mechanisms on the sides: {p}. Attach the door to the arms and adjust the force to the weight.", "wLiftFront": "Lift mechanisms apply only to plain flat doors (not glass, curved, folding, sliding or sloped): the door stays on hinges.", "wLiftRange": "{sys}: {what} {v} outside the range {lo}–{hi}.", "wLiftPower": "{sys}: no force variant covers this door ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: dimensions not yet verified against the manufacturer's sheet: check before drilling.", "liftWhat_h": "door height (mm)", "liftWhat_w": "door width (mm)", "liftWhat_kg": "door weight (kg)", "liftWhat_th": "door thickness (mm)", "liftWhat_hi": "inside height (mm)", "liftWhat_depth": "inside depth (mm)", "liftWhat_wi": "inside width (mm)"});
+Object.assign(I18N.fr,{"opsLiftNoDrill":"Porte relevante : les perçages du mécanisme (côtés et porte) et de la poignée ne sont pas générés ; percer avec le gabarit et la fiche du fabricant.","fLift": "Mécanisme de relevage (porte qui s'ouvre vers le haut)", "liftNone": "Aucun (charnières)", "liftHint": "La porte s'ouvre vers le haut : pas de charnières, un mécanisme par porte, sur les deux côtés.", "hwLift": "Mécanismes de relevage (kit)", "mLift": "Monter les mécanismes de relevage sur les côtés : {p}. Fixer la porte sur les bras et régler la force selon le poids.", "wLiftFront": "Le relevage ne s'applique qu'aux portes pleines et droites (ni verre, ni courbes, pliantes, coulissantes ou inclinées) : la porte reste sur charnières.", "wLiftRange": "{sys} : {what} {v} hors de la plage {lo}–{hi}.", "wLiftPower": "{sys} : aucune variante de force ne couvre cette porte ({kg} kg, {h} mm).", "wLiftUnv": "{sys} : cotes pas encore vérifiées sur la fiche du fabricant : contrôler avant de percer.", "liftWhat_h": "hauteur de porte (mm)", "liftWhat_w": "largeur de porte (mm)", "liftWhat_kg": "poids de la porte (kg)", "liftWhat_th": "épaisseur de porte (mm)", "liftWhat_hi": "hauteur intérieure (mm)", "liftWhat_depth": "profondeur intérieure (mm)", "liftWhat_wi": "largeur intérieure (mm)"});
+Object.assign(I18N.de,{"opsLiftNoDrill":"Klappfront: die Bohrungen des Beschlags (Seiten und Front) und des Griffs werden nicht erzeugt; mit Bohrschablone und Datenblatt des Herstellers bohren.","fLift": "Klappenbeschlag (Front öffnet nach oben)", "liftNone": "Keiner (Scharniere)", "liftHint": "Die Front öffnet nach oben: keine Scharniere, ein Beschlag pro Front, an beiden Seiten.", "hwLift": "Klappenbeschläge (Set)", "mLift": "Klappenbeschläge an den Seiten montieren: {p}. Front an den Armen befestigen und die Kraft nach dem Gewicht einstellen.", "wLiftFront": "Der Klappenbeschlag gilt nur für ebene Vollfronten (nicht Glas, gebogen, Falt-, Schiebe- oder Schrägfronten): die Front bleibt an Scharnieren.", "wLiftRange": "{sys}: {what} {v} außerhalb des Bereichs {lo}–{hi}.", "wLiftPower": "{sys}: keine Kraftvariante deckt diese Front ab ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: Maße noch nicht am Herstellerblatt geprüft: vor dem Bohren kontrollieren.", "liftWhat_h": "Fronthöhe (mm)", "liftWhat_w": "Frontbreite (mm)", "liftWhat_kg": "Frontgewicht (kg)", "liftWhat_th": "Frontdicke (mm)", "liftWhat_hi": "Innenhöhe (mm)", "liftWhat_depth": "Innentiefe (mm)", "liftWhat_wi": "Innenbreite (mm)"});
+Object.assign(I18N.pl,{"opsLiftNoDrill":"Front uchylny: otwory mechanizmu (w bokach i we froncie) oraz uchwytu nie są generowane; wierć wg szablonu i karty producenta.","fLift": "Mechanizm podnoszenia (front otwierany do góry)", "liftNone": "Brak (zawiasy)", "liftHint": "Front otwiera się do góry: bez zawiasów, jeden mechanizm na front, na obu bokach.", "hwLift": "Mechanizmy podnoszenia (zestaw)", "mLift": "Zamontuj mechanizmy podnoszenia na bokach: {p}. Przymocuj front do ramion i wyreguluj siłę do ciężaru.", "wLiftFront": "Mechanizm dotyczy tylko pełnych, prostych frontów (nie szkło, łukowe, składane, przesuwne ani skośne): front zostaje na zawiasach.", "wLiftRange": "{sys}: {what} {v} poza zakresem {lo}–{hi}.", "wLiftPower": "{sys}: żaden wariant siły nie obejmuje tego frontu ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: wymiary jeszcze niesprawdzone na karcie producenta: sprawdź przed wierceniem.", "liftWhat_h": "wysokość frontu (mm)", "liftWhat_w": "szerokość frontu (mm)", "liftWhat_kg": "ciężar frontu (kg)", "liftWhat_th": "grubość frontu (mm)", "liftWhat_hi": "wysokość wewnętrzna (mm)", "liftWhat_depth": "głębokość wewnętrzna (mm)", "liftWhat_wi": "szerokość wewnętrzna (mm)"});
+Object.assign(I18N.es,{"opsLiftNoDrill":"Puerta abatible hacia arriba: los taladros del mecanismo (laterales y puerta) y del tirador no se generan; taladrar con la plantilla y la ficha del fabricante.","fLift": "Mecanismo de elevación (puerta que se abre hacia arriba)", "liftNone": "Ninguno (bisagras)", "liftHint": "La puerta se abre hacia arriba: sin bisagras, un mecanismo por puerta, en los dos laterales.", "hwLift": "Mecanismos de elevación (juego)", "mLift": "Monta los mecanismos de elevación en los laterales: {p}. Fija la puerta a los brazos y ajusta la fuerza según el peso.", "wLiftFront": "El mecanismo solo vale para puertas lisas y rectas (no vidrio, curvas, plegables, correderas ni inclinadas): la puerta queda con bisagras.", "wLiftRange": "{sys}: {what} {v} fuera del rango {lo}–{hi}.", "wLiftPower": "{sys}: ninguna variante de fuerza cubre esta puerta ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: medidas aún sin verificar en la ficha del fabricante: comprueba antes de taladrar.", "liftWhat_h": "altura de la puerta (mm)", "liftWhat_w": "anchura de la puerta (mm)", "liftWhat_kg": "peso de la puerta (kg)", "liftWhat_th": "grosor de la puerta (mm)", "liftWhat_hi": "altura interior (mm)", "liftWhat_depth": "profundidad interior (mm)", "liftWhat_wi": "anchura interior (mm)"});
 Object.assign(I18N.ro,{"shPos":"Poziții","shDetail":"Detaliu","shTitle": "Fișă de fabricație", "shCompany": "Firma", "shProject": "Proiect", "shClient": "Client", "shPiece": "Piesă", "shMat": "Material", "shThk": "Grosime", "shQty": "Cant.", "shEdge": "Cant", "shScale": "Scară", "shDate": "Data", "shSheet": "Foaia", "shGen": "Generat cu", "shTable": "Prelucrări", "shRef": "Ref.", "shDia": "Ø / mărime", "shEdgeHoles": "Găuri în cant", "shEdgeN": "Cant {n}", "shNote1": "Cote în mm, de la margine la axul găurii. Originea 0,0 în roșu.", "shBtn": "Fișă de fabricație A4"});
 const LANG_NAMES = {it:"Italiano",ro:"Română",en:"English",fr:"Français",de:"Deutsch",pl:"Polski",es:"Español"};
 
@@ -4671,6 +4684,9 @@ function hingeGeom(cfg){
 /* U.2 — articolele proprii ale utilizatorului (S.hwAdd: {id,cat,brand,n,art,price})
    stau in aceeasi lista cu cele de serie: orice cautare dupa id le gaseste. */
 function hwName(it){ const n=it.n; return typeof n==="string"?n:((n||{})[state.lang]||(n||{}).it||""); }
+/* U.16 — mecanisme de ridicare: câte un articol pe sistem, din EBLiftData (numele sunt mărci, la fel în toate limbile; prețul se completează în Catalog) */
+HWDB.lift=((typeof EBLiftData==="object"&&EBLiftData&&EBLiftData.systems)||[]).map(s=>({id:s.key,brand:s.brand,
+  n:{it:s.name,ro:s.name,en:s.name,fr:s.name,de:s.name,pl:s.name,es:s.name},art:"\u2014",price:0,lift:1}));
 function hwList(cat){ if(cat==="manS") cat="man"; const add=((state.settings||{}).hwAdd||[]).filter(x=>x.cat===cat);
   return add.length?(HWDB[cat]||[]).concat(add):(HWDB[cat]||[]); }
 function hwItem(cat){ const S=state.settings, id=(S.hwProd||{})[cat]||((HWDB[cat]||[])[0]||{}).id;
@@ -4704,6 +4720,8 @@ function guidaIdFor(cfg){
 window.slideGuidaId=cfg=>guidaIdFor(cfg);
 window.jointDefaultId=()=>{ const it=hwItem("conn"); return it&&it.id; };
 function hwItemFor(cfg,cat){
+  /* U.16 — mecanismul de ridicare: cel ales pe corp (cfg.lift) */
+  if(cat==="lift"){ const id=cfg&&cfg.lift; return id?hwItemById("lift",id):hwItem("lift"); }
   /* mânerul sertarelor (D-89): propriu dacă e ales pe corp, altfel același ca la uși */
   if(cat==="manS"){ const id=cfg&&cfg.hwSel&&cfg.hwSel.manS; return id?hwItemById("man",id):hwItemFor(cfg,"man"); }
   const id=cfg&&cfg.hwSel&&cfg.hwSel[cat]; return id?hwItemById(cat,id):hwItem(cat); }
@@ -7594,6 +7612,11 @@ function awOn(cfg,h){ const m=awMode(cfg); return m==="all"||(m==="auto"&&h>=ANT
    la un sistem real: rostul dintre foi, spațiul de șină deasupra, foaia cea mai îngustă
    care mai are sens, secțiunea șinei și spațiul dintre foile strânse. */
 const FOLD={verificat:false,leaves:[2,3,4],gap_leaf:3,top_extra:25,min_leaf:100,sect:20,open_gap:3};
+/* U.16 — mecanisme de ridicare pentru uși care se deschid în sus (basculante). Sistemele (Blum AVENTOS, Hettich Lift Advanced,
+   Häfele) și limitele lor vin din EBLiftData, citite din documentele oficiale; ce nu e citit rămâne null și `verificat:false`.
+   `cfg.lift` = id-ul sistemului (articolul din catalog) sau null = ușă pe balamale, ca înainte. */
+function liftSysOf(id){ return (typeof EBLiftFit==="object"&&EBLiftFit&&EBLiftFit.get)?EBLiftFit.get(id):null; }
+function liftId(cfg){ const id=cfg&&cfg.lift; return (typeof id==="string"&&id&&liftSysOf(id))?id:null; }
 function foldN(cfg){ const n=+(cfg&&cfg.fold); return FOLD.leaves.includes(n)?n:0; }
 /* il lato scelto per l'anta i (da sinistra), o null = regola di sempre */
 function dHinge(cfg,i){ const a=cfg&&cfg.doorHinge; const h=Array.isArray(a)?a[i]:null;
@@ -8175,6 +8198,7 @@ function buildCore(cfg){
   }
   // fronts
   let doorSkip=0, doorTight=0, doorOverlap=0, doorNarrow=0, foldNarrow=0, foldLY=0, foldFront=0, foldReach=0;
+  const liftWarn=[];   // U.16: [{k:"front"|"range"|"power"|"unv", ...}]
   const bow=Math.max(0,Math.min(200,+(cfg.bow||0)));   // bombatura dell'anta curva
   /* ---- CASSETTI ----
      Le sezioni che li ricevono le ha gia decise `dSecs` piu sopra: se almeno
@@ -8456,6 +8480,7 @@ function buildCore(cfg){
         const fN=(front==="piena"||!front)?foldN(cfg):0, fW=fN?(aW-(fN-1)*FOLD.gap_leaf)/fN:0;
         if(fN&&fW<FOLD.min_leaf) foldNarrow=Math.round(fW);
         if(!fN&&foldN(cfg)>0) foldFront=1;                // sticlă sau bombat: foile pliante nu se aplică
+        if(liftId(cfg)&&(front==="vetro"||front==="curvo"||fN||SL)) liftWarn.push({k:"front"});
         if(front==="vetro"&&aH>300&&aW>250){
           const fr=70; // larghezza telaio
           add("Montante anta vetro"+hsfx,aH,fr,2*cfg.doors,"2L+2C",null,{role:"frontale"});
@@ -8533,7 +8558,24 @@ function buildCore(cfg){
             bb.hinge=dHinge(cfg,i)||(cfg.doors===1?"left":(i<cfg.doors/2?"left":"right"));
             if(awOn(cfg,hMin)) bb.aw=true;
           }
+        }else if(liftId(cfg)&&!fN&&!SL){
+          /* U.16 — ușă care se deschide în sus: fără balamale, un set de mecanism pe ușă (pe cele două laterale). Greutatea ușii
+             vine din material (aceleași densități orientative ca la sfaturile tehnice); alegerea variantei de forță și limitele
+             sunt din tabelele producătorului (EBLiftData), toate verificat:false. */
+          const lId=liftId(cfg), LS=liftSysOf(lId), nL=cfg.doors, mF=matById(cfg.matFront);
+          const AD=(typeof window!=="undefined"&&window.EBAdvice)||null, fam=AD?AD.famOf(mF&&mF.label):"default", dens=(AD&&AD.DATA.density[fam])||700;
+          const kg=EBLiftFit.doorKg(aH,aW,tA,dens), kh=G.H_int;
+          const ft=EBLiftFit.fit(LS,{kh,h:aH,w:aW,kg,wi:G.L_int,depth:G.P_int});
+          ft.issues.forEach(i=>liftWarn.push({k:"range",sys:LS.name,what:i.k,v:i.v,lo:i.lo,hi:i.hi}));
+          if(!ft.power) liftWarn.push({k:"power",sys:LS.name,kg:Math.round(kg*10)/10,h:Math.round(aH)});
+          liftWarn.push({k:"unv",sys:LS.name});
+          add("Anta basculante"+hsfx,aH,aW,nL,"2L+2C",null,{role:"frontale"});
+          bxRole="frontale";
+          for(let i=0;i<nL;i++){ const x=dX0+2+i*(aW+3); bx(x,x+aW,aY0,aY0+aH,P,P+tA,"f",0,0,"lift");
+            boxes[boxes.length-1].lift={i,sys:lId,n:nL,kh,h:aH,kg:Math.round(kg*100)/100,power:ft.power?ft.power.code:null,motion:LS.motion,flaps:LS.flaps,
+              angle:(LS.open&&LS.open.angle)?LS.open.angle[1]:null,depthMin:LS.limits?LS.limits.depthMin:null,bodyW:(LS.mount&&LS.mount.bodyW)||null}; }
         }else{
+          if(liftId(cfg)) liftWarn.push({k:"front"});
           add("Anta"+hsfx,aH,aW,cfg.doors,"2L+2C",null,{role:"frontale"});
           if(awOn(cfg,aH)) add("Profilo anticurvatura",aH-ANTIWARP.len_margin,ANTIWARP.sect,cfg.doors,"",MAT_AW,{role:"accessorio"});
           bxRole="frontale";
@@ -8551,7 +8593,7 @@ function buildCore(cfg){
      primesc cate o decupare la fiecare profil C, dupa primul grup de sertare. */
   if(gola&&golaType(cfg)==="J"){
     /* profil J pe muchia de sus a fiecărui front (ușă, sertar): stă în rostul gola de deasupra */
-    const fr=boxes.filter(b=>(b.role==="frontale"&&(b.sub==="door"||b.sub==="fold"))||(b.role==="cassetto_frontale"&&b.sub==="drawer"&&!(b.inner)));
+    const fr=boxes.filter(b=>(b.role==="frontale"&&(b.sub==="door"||b.sub==="fold"||b.sub==="lift"))||(b.role==="cassetto_frontale"&&b.sub==="drawer"&&!(b.inner)));
     const jRows={}, jh=Math.max(5,Math.min(GOLA_J.h,Math.min(gola.h,gola.c)-3));
     fr.forEach(b=>{ const w=Math.round(b.x1-b.x0); jRows[w]=(jRows[w]||0)+1;
       bxRole="profilo"; bx(b.x0,b.x1,b.y1,b.y1+jh,b.z0,b.z1,"p"); });
@@ -8733,7 +8775,7 @@ function buildCore(cfg){
           draws:dGroups.map(g=>({N:g.N,secs:g.secs.slice(),plan:g.plan}))
             .concat(dBlockPlans.map((pl,i)=>({N:pl.N,secs:[],block:LY.drawers[i].n,plan:pl}))),
           pull:(pullPlan&&pullPlan.ok)?{plan:pullPlan,secs:pullSecs.slice(),n:pullN}:null,
-          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,
+          warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,liftWarn,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,
           topAng:cfg.top==="traverse"&&topMode!=="traverse",
           drawWarn:dW.length?dW:null}};
 }
@@ -10082,7 +10124,7 @@ function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):HW_JOINT_ITEM[ty
    ce se vede: pe ecran și pe hârtie. Un nume scris de mână, necunoscut
    dicționarului, rămâne cum l-a scris omul. */
 const EL_I18N={
- ro:{"Anta":"Ușă","Anta scorrevole":"Ușă glisantă","Fianco sx":"Laterală stânga","Fianco dx":"Laterală dreapta","Anta pieghevole":"Ușă pliantă","Sistema anta pieghevole":"Sistem ușă pliantă","Anta curva":"Ușă curbată","Asta appendiabiti":"Bară umerașe",
+ ro:{"Anta basculante":"Ușă basculantă (în sus)","Meccanismo di sollevamento":"Mecanism de ridicare","Anta":"Ușă","Anta scorrevole":"Ușă glisantă","Fianco sx":"Laterală stânga","Fianco dx":"Laterală dreapta","Anta pieghevole":"Ușă pliantă","Sistema anta pieghevole":"Sistem ușă pliantă","Anta curva":"Ușă curbată","Asta appendiabiti":"Bară umerașe",
   "Base / Cielo":"Bază / Tavan","Base":"Bază","Cielo":"Tavan","Traversa cielo":"Traversă tavan","Profilo anticurvatura":"Profil anti-curbare","Profilo gola L":"Profil gola L","Profilo gola C":"Profil gola C","Doga faggio 68mm":"Doagă fag 68 mm","Fascia":"Bandă frontală",
   "Fascia raccordata":"Bandă racordată","Fianco":"Laterală","Fianco cassetto":"Laterală sertar","Fondo / Cielo raccordato":"Fund / Tavan racordat",
   "Fondo / Cielo tondo":"Fund / Tavan rotund","Fondo cassetto":"Fund sertar","Frontale cassetto":"Front sertar","Frontale cassetto interno":"Front sertar interior",
@@ -10093,7 +10135,7 @@ const EL_I18N={
   "Schienale libreria":"Spate bibliotecă","Sponda laterale":"Laterală pat","Testiera":"Tăblie cap","Tramezzo":"Despărțitor","Setto":"Despărțitor vertical","Ripiano traversante":"Poliță traversantă","Ripiano sx":"Poliță stânga","Ripiano dx":"Poliță dreapta",
   "Traversa anta vetro":"Traversă ușă sticlă","Traversa centrale":"Traversă centrală","Traversa telaio":"Traversă ramă","Traversa telaio corta":"Traversă ramă scurtă",
   "Vetro anta":"Sticlă ușă","Zoccolo":"Soclu","Frontale scrivania":"Front birou","Frontale":"Front","Top":"Blat","Pezzo":"Piesă","_sez":"secț."},
- en:{"Anta":"Door","Anta scorrevole":"Sliding door","Fianco sx":"Left side","Fianco dx":"Right side","Anta pieghevole":"Folding door","Sistema anta pieghevole":"Folding door system","Anta curva":"Curved door","Asta appendiabiti":"Hanging rail",
+ en:{"Anta basculante":"Lift-up door","Meccanismo di sollevamento":"Lift mechanism","Anta":"Door","Anta scorrevole":"Sliding door","Fianco sx":"Left side","Fianco dx":"Right side","Anta pieghevole":"Folding door","Sistema anta pieghevole":"Folding door system","Anta curva":"Curved door","Asta appendiabiti":"Hanging rail",
   "Base / Cielo":"Bottom / Top","Base":"Bottom","Cielo":"Top","Traversa cielo":"Top rail","Profilo anticurvatura":"Anti-warp profile","Profilo gola L":"Handle-less profile L","Profilo gola C":"Handle-less profile C","Doga faggio 68mm":"Beech slat 68 mm","Fascia":"Front band",
   "Fascia raccordata":"Curved band","Fianco":"Side","Fianco cassetto":"Drawer side","Fondo / Cielo raccordato":"Bottom / Top, curved",
   "Fondo / Cielo tondo":"Bottom / Top, round","Fondo cassetto":"Drawer bottom","Frontale cassetto":"Drawer front","Frontale cassetto interno":"Inner drawer front",
@@ -10104,7 +10146,7 @@ const EL_I18N={
   "Schienale libreria":"Bookcase back","Sponda laterale":"Side rail","Testiera":"Headboard","Tramezzo":"Divider","Setto":"Vertical divider","Ripiano traversante":"Full-width shelf","Ripiano sx":"Left shelf","Ripiano dx":"Right shelf",
   "Traversa anta vetro":"Glass door rail","Traversa centrale":"Centre rail","Traversa telaio":"Frame rail","Traversa telaio corta":"Short frame rail",
   "Vetro anta":"Door glass","Zoccolo":"Plinth","Frontale scrivania":"Desk front","Frontale":"Front","Top":"Top","Pezzo":"Part","_sez":"sec."},
- fr:{"Anta":"Porte","Anta scorrevole":"Porte coulissante","Fianco sx":"Côté gauche","Fianco dx":"Côté droit","Anta pieghevole":"Porte pliante","Sistema anta pieghevole":"Système de porte pliante","Anta curva":"Porte cintrée","Asta appendiabiti":"Tringle",
+ fr:{"Anta basculante":"Porte relevante","Meccanismo di sollevamento":"Mécanisme de relevage","Anta":"Porte","Anta scorrevole":"Porte coulissante","Fianco sx":"Côté gauche","Fianco dx":"Côté droit","Anta pieghevole":"Porte pliante","Sistema anta pieghevole":"Système de porte pliante","Anta curva":"Porte cintrée","Asta appendiabiti":"Tringle",
   "Base / Cielo":"Dessous / Dessus","Base":"Dessous","Cielo":"Dessus","Traversa cielo":"Traverse du dessus","Profilo anticurvatura":"Profilé anti-voilage","Profilo gola L":"Profilé gorge L","Profilo gola C":"Profilé gorge C","Doga faggio 68mm":"Latte hêtre 68 mm","Fascia":"Bandeau",
   "Fascia raccordata":"Bandeau cintré","Fianco":"Côté","Fianco cassetto":"Côté tiroir","Fondo / Cielo raccordato":"Dessous / Dessus cintré",
   "Fondo / Cielo tondo":"Dessous / Dessus rond","Fondo cassetto":"Fond tiroir","Frontale cassetto":"Façade tiroir","Frontale cassetto interno":"Façade tiroir intérieur",
@@ -10115,9 +10157,9 @@ const EL_I18N={
   "Schienale libreria":"Fond bibliothèque","Sponda laterale":"Longeron","Testiera":"Tête de lit","Tramezzo":"Séparation","Setto":"Séparation verticale","Ripiano traversante":"Étagère traversante","Ripiano sx":"Étagère gauche","Ripiano dx":"Étagère droite",
   "Traversa anta vetro":"Traverse porte vitrée","Traversa centrale":"Traverse centrale","Traversa telaio":"Traverse cadre","Traversa telaio corta":"Traverse cadre courte",
   "Vetro anta":"Verre de porte","Zoccolo":"Socle","Frontale scrivania":"Façade bureau","Frontale":"Façade","Top":"Dessus","Pezzo":"Pièce","_sez":"sect."},
-de:{"Anta":"Tür","Anta scorrevole":"Schiebetür","Fianco sx":"Seite links","Fianco dx":"Seite rechts","Anta pieghevole":"Falttür","Sistema anta pieghevole":"Falttürsystem","Anta curva":"Gebogene Tür","Asta appendiabiti":"Kleiderstange","Base / Cielo":"Boden / Deckel","Base":"Boden","Cielo":"Deckel","Traversa cielo":"Deckelquerträger","Profilo anticurvatura":"Anti-Verzug-Profil","Profilo gola L":"Griffleistenprofil L","Profilo gola C":"Griffleistenprofil C","Doga faggio 68mm":"Buche-Federholz 68 mm","Fascia":"Blende","Fascia raccordata":"Gebogene Blende","Fianco":"Seitenwand","Fianco cassetto":"Schubladenseite","Fondo / Cielo raccordato":"Boden / Deckel, gebogen","Fondo / Cielo tondo":"Boden / Deckel, rund","Fondo cassetto":"Schubladenboden","Frontale cassetto":"Schubladenfront","Frontale cassetto interno":"Innenschubladenfront","Fronte/Retro cassetto":"Schubladenvorder-/-rückwand","Fianco ripiano estraibile":"Seite Auszugsboden","Fronte/Retro ripiano estraibile":"Vorder-/Rückwand Auszugsboden","Fondo ripiano estraibile":"Boden Auszugsboden","Retro ripiano estraibile":"Rückwand Auszugsboden","Gamba legno 70×70":"Holzfuß 70×70","Montante anta vetro":"Rahmenstiel Glastür","Pannello posteriore":"Rückwand","Pediera":"Fußteil","Piano scrivania":"Schreibtischplatte","Piano tavolo":"Tischplatte","Piedino regolabile":"Stellfuß","Retro cassetto":"Schubladenrückwand","Ripiano mobile":"Einlegeboden","Ripiano fisso":"Fester Boden","Ripiano regolabile":"Verstellbarer Boden","Ripiano raccordato":"Gebogener Boden","Ripiano tondo":"Runder Boden","Ripiano":"Boden","Schienale":"Rückwand","Schienale sopra":"Rückwand oben","Schienale sotto":"Rückwand unten","Schienale libreria":"Regalrückwand","Sponda laterale":"Seitenschiene","Testiera":"Kopfteil","Tramezzo":"Trennwand","Setto":"Senkrechte Trennwand","Ripiano traversante":"Durchgehender Boden","Ripiano sx":"Boden links","Ripiano dx":"Boden rechts","Traversa anta vetro":"Rahmenquerholz Glastür","Traversa centrale":"Mittelquerträger","Traversa telaio":"Rahmenquerträger","Traversa telaio corta":"Kurzer Rahmenquerträger","Vetro anta":"Türglas","Zoccolo":"Sockel","Frontale scrivania":"Schreibtischfront","Frontale":"Front","Top":"Platte","Pezzo":"Teil","_sez":"Fach"},
-pl:{"Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
-es:{"Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
+de:{"Anta basculante":"Klappfront","Meccanismo di sollevamento":"Klappenbeschlag","Anta":"Tür","Anta scorrevole":"Schiebetür","Fianco sx":"Seite links","Fianco dx":"Seite rechts","Anta pieghevole":"Falttür","Sistema anta pieghevole":"Falttürsystem","Anta curva":"Gebogene Tür","Asta appendiabiti":"Kleiderstange","Base / Cielo":"Boden / Deckel","Base":"Boden","Cielo":"Deckel","Traversa cielo":"Deckelquerträger","Profilo anticurvatura":"Anti-Verzug-Profil","Profilo gola L":"Griffleistenprofil L","Profilo gola C":"Griffleistenprofil C","Doga faggio 68mm":"Buche-Federholz 68 mm","Fascia":"Blende","Fascia raccordata":"Gebogene Blende","Fianco":"Seitenwand","Fianco cassetto":"Schubladenseite","Fondo / Cielo raccordato":"Boden / Deckel, gebogen","Fondo / Cielo tondo":"Boden / Deckel, rund","Fondo cassetto":"Schubladenboden","Frontale cassetto":"Schubladenfront","Frontale cassetto interno":"Innenschubladenfront","Fronte/Retro cassetto":"Schubladenvorder-/-rückwand","Fianco ripiano estraibile":"Seite Auszugsboden","Fronte/Retro ripiano estraibile":"Vorder-/Rückwand Auszugsboden","Fondo ripiano estraibile":"Boden Auszugsboden","Retro ripiano estraibile":"Rückwand Auszugsboden","Gamba legno 70×70":"Holzfuß 70×70","Montante anta vetro":"Rahmenstiel Glastür","Pannello posteriore":"Rückwand","Pediera":"Fußteil","Piano scrivania":"Schreibtischplatte","Piano tavolo":"Tischplatte","Piedino regolabile":"Stellfuß","Retro cassetto":"Schubladenrückwand","Ripiano mobile":"Einlegeboden","Ripiano fisso":"Fester Boden","Ripiano regolabile":"Verstellbarer Boden","Ripiano raccordato":"Gebogener Boden","Ripiano tondo":"Runder Boden","Ripiano":"Boden","Schienale":"Rückwand","Schienale sopra":"Rückwand oben","Schienale sotto":"Rückwand unten","Schienale libreria":"Regalrückwand","Sponda laterale":"Seitenschiene","Testiera":"Kopfteil","Tramezzo":"Trennwand","Setto":"Senkrechte Trennwand","Ripiano traversante":"Durchgehender Boden","Ripiano sx":"Boden links","Ripiano dx":"Boden rechts","Traversa anta vetro":"Rahmenquerholz Glastür","Traversa centrale":"Mittelquerträger","Traversa telaio":"Rahmenquerträger","Traversa telaio corta":"Kurzer Rahmenquerträger","Vetro anta":"Türglas","Zoccolo":"Sockel","Frontale scrivania":"Schreibtischfront","Frontale":"Front","Top":"Platte","Pezzo":"Teil","_sez":"Fach"},
+pl:{"Anta basculante":"Front uchylny do góry","Meccanismo di sollevamento":"Mechanizm podnoszenia","Anta":"Drzwi","Anta scorrevole":"Drzwi przesuwne","Fianco sx":"Bok lewy","Fianco dx":"Bok prawy","Anta pieghevole":"Drzwi składane","Sistema anta pieghevole":"System drzwi składanych","Anta curva":"Drzwi gięte","Asta appendiabiti":"Drążek na ubrania","Base / Cielo":"Dno / Wieniec górny","Base":"Dno","Cielo":"Wieniec górny","Traversa cielo":"Belka górna","Profilo anticurvatura":"Profil przeciw wypaczeniu","Profilo gola L":"Profil bezuchwytowy L","Profilo gola C":"Profil bezuchwytowy C","Doga faggio 68mm":"Listwa bukowa 68 mm","Fascia":"Opaska frontowa","Fascia raccordata":"Opaska zakrzywiona","Fianco":"Bok","Fianco cassetto":"Bok szuflady","Fondo / Cielo raccordato":"Dno / Wieniec górny, zaokrąglone","Fondo / Cielo tondo":"Dno / Wieniec górny, okrągłe","Fondo cassetto":"Dno szuflady","Frontale cassetto":"Front szuflady","Frontale cassetto interno":"Front szuflady wewnętrznej","Fronte/Retro cassetto":"Przód/tył szuflady","Fianco ripiano estraibile":"Bok półki wysuwanej","Fronte/Retro ripiano estraibile":"Przód/tył półki wysuwanej","Fondo ripiano estraibile":"Dno półki wysuwanej","Retro ripiano estraibile":"Tył półki wysuwanej","Gamba legno 70×70":"Noga drewniana 70×70","Montante anta vetro":"Stojak drzwi szklanych","Pannello posteriore":"Plecy","Pediera":"Zagłówek nóg łóżka","Piano scrivania":"Blat biurka","Piano tavolo":"Blat stołu","Piedino regolabile":"Nóżka regulowana","Retro cassetto":"Tył szuflady","Ripiano mobile":"Półka regulowana","Ripiano fisso":"Półka stała","Ripiano regolabile":"Półka regulowana","Ripiano raccordato":"Półka zakrzywiona","Ripiano tondo":"Półka okrągła","Ripiano":"Półka","Schienale":"Plecy","Schienale sopra":"Plecy górne","Schienale sotto":"Plecy dolne","Schienale libreria":"Plecy regału","Sponda laterale":"Bok łóżka","Testiera":"Wezgłowie","Tramezzo":"Przegroda","Setto":"Przegroda pionowa","Ripiano traversante":"Półka na całą szerokość","Ripiano sx":"Półka lewa","Ripiano dx":"Półka prawa","Traversa anta vetro":"Poprzeczka drzwi szklanych","Traversa centrale":"Belka środkowa","Traversa telaio":"Belka ramy","Traversa telaio corta":"Krótka belka ramy","Vetro anta":"Szkło drzwi","Zoccolo":"Cokół","Frontale scrivania":"Front biurka","Frontale":"Front","Top":"Blat","Pezzo":"Element","_sez":"sek."},
+es:{"Anta basculante":"Puerta abatible hacia arriba","Meccanismo di sollevamento":"Mecanismo de elevación","Anta":"Puerta","Anta scorrevole":"Puerta corredera","Fianco sx":"Lateral izquierdo","Fianco dx":"Lateral derecho","Anta pieghevole":"Puerta plegable","Sistema anta pieghevole":"Sistema de puerta plegable","Anta curva":"Puerta curva","Asta appendiabiti":"Barra de colgar","Base / Cielo":"Base / Techo","Base":"Base","Cielo":"Techo","Traversa cielo":"Travesaño superior","Profilo anticurvatura":"Perfil antialabeo","Profilo gola L":"Perfil sin tirador L","Profilo gola C":"Perfil sin tirador C","Doga faggio 68mm":"Lama de haya 68 mm","Fascia":"Faja frontal","Fascia raccordata":"Faja curva","Fianco":"Lateral","Fianco cassetto":"Costado de cajón","Fondo / Cielo raccordato":"Base / Techo, curvos","Fondo / Cielo tondo":"Base / Techo, redondos","Fondo cassetto":"Fondo de cajón","Frontale cassetto":"Frente de cajón","Frontale cassetto interno":"Frente de cajón interior","Fronte/Retro cassetto":"Delantero/trasero de cajón","Fianco ripiano estraibile":"Costado de balda extraíble","Fronte/Retro ripiano estraibile":"Delantero/trasero de balda extraíble","Fondo ripiano estraibile":"Fondo de balda extraíble","Retro ripiano estraibile":"Trasera de balda extraíble","Gamba legno 70×70":"Pata de madera 70×70","Montante anta vetro":"Montante de puerta de vidrio","Pannello posteriore":"Panel trasero","Pediera":"Piecero","Piano scrivania":"Tablero de escritorio","Piano tavolo":"Tablero de mesa","Piedino regolabile":"Pata regulable","Retro cassetto":"Trasera de cajón","Ripiano mobile":"Balda regulable","Ripiano fisso":"Balda fija","Ripiano regolabile":"Balda regulable","Ripiano raccordato":"Balda curva","Ripiano tondo":"Balda redonda","Ripiano":"Balda","Schienale":"Trasera","Schienale sopra":"Trasera superior","Schienale sotto":"Trasera inferior","Schienale libreria":"Trasera de librería","Sponda laterale":"Larguero lateral","Testiera":"Cabecero","Tramezzo":"Divisor","Setto":"Divisor vertical","Ripiano traversante":"Balda de ancho completo","Ripiano sx":"Balda izquierda","Ripiano dx":"Balda derecha","Traversa anta vetro":"Travesaño de puerta de vidrio","Traversa centrale":"Travesaño central","Traversa telaio":"Travesaño del bastidor","Traversa telaio corta":"Travesaño corto del bastidor","Vetro anta":"Vidrio de puerta","Zoccolo":"Zócalo","Frontale scrivania":"Frente de escritorio","Frontale":"Frente","Top":"Tablero","Pezzo":"Pieza","_sez":"sec."}
 };
 Object.assign(EL_I18N.ro,{"Parete cassone letto": "Perete ladă pat", "Fondo cassone letto": "Fund ladă pat", "Pannello rete": "Panou somieră", "Longherone rete": "Longeron somieră", "Nervatura rete": "Nervură somieră", "Traversa rete": "Traversă somieră", "Traversa centrale": "Traversă centrală", "Cerniera pesante per rete": "Balama grea pentru somieră", "Pistone a gas 100 N": "Piston cu gaz 100 N", "Pistone a gas 150 N": "Piston cu gaz 150 N", "Pistone a gas 200 N": "Piston cu gaz 200 N", "Pistone a gas 250 N": "Piston cu gaz 250 N", "Pistone a gas 300 N": "Piston cu gaz 300 N", "Pistone a gas 350 N": "Piston cu gaz 350 N", "Pistone a gas 400 N": "Piston cu gaz 400 N", "Pistone a gas 450 N": "Piston cu gaz 450 N", "Pistone a gas 500 N": "Piston cu gaz 500 N", "Pistone a gas 550 N": "Piston cu gaz 550 N", "Pistone a gas 600 N": "Piston cu gaz 600 N", "Pistone a gas 650 N": "Piston cu gaz 650 N", "Pistone a gas 700 N": "Piston cu gaz 700 N", "Pistone a gas 750 N": "Piston cu gaz 750 N", "Pistone a gas 800 N": "Piston cu gaz 800 N", "Pistone a gas 850 N": "Piston cu gaz 850 N", "Pistone a gas 900 N": "Piston cu gaz 900 N", "Pistone a gas 950 N": "Piston cu gaz 950 N", "Pistone a gas 1000 N": "Piston cu gaz 1000 N", "Pistone a gas 1100 N": "Piston cu gaz 1100 N", "Pistone a gas 1200 N": "Piston cu gaz 1200 N", "Pistone a gas 1300 N": "Piston cu gaz 1300 N", "Pistone a gas 1500 N": "Piston cu gaz 1500 N"});
 Object.assign(EL_I18N.en,{"Parete cassone letto": "Storage box wall", "Fondo cassone letto": "Storage box bottom", "Pannello rete": "Bed base panel", "Longherone rete": "Bed base rail", "Nervatura rete": "Bed base rib", "Traversa rete": "Bed base cross piece", "Traversa centrale": "Centre cross piece", "Cerniera pesante per rete": "Heavy bed base hinge", "Pistone a gas 100 N": "Gas strut 100 N", "Pistone a gas 150 N": "Gas strut 150 N", "Pistone a gas 200 N": "Gas strut 200 N", "Pistone a gas 250 N": "Gas strut 250 N", "Pistone a gas 300 N": "Gas strut 300 N", "Pistone a gas 350 N": "Gas strut 350 N", "Pistone a gas 400 N": "Gas strut 400 N", "Pistone a gas 450 N": "Gas strut 450 N", "Pistone a gas 500 N": "Gas strut 500 N", "Pistone a gas 550 N": "Gas strut 550 N", "Pistone a gas 600 N": "Gas strut 600 N", "Pistone a gas 650 N": "Gas strut 650 N", "Pistone a gas 700 N": "Gas strut 700 N", "Pistone a gas 750 N": "Gas strut 750 N", "Pistone a gas 800 N": "Gas strut 800 N", "Pistone a gas 850 N": "Gas strut 850 N", "Pistone a gas 900 N": "Gas strut 900 N", "Pistone a gas 950 N": "Gas strut 950 N", "Pistone a gas 1000 N": "Gas strut 1000 N", "Pistone a gas 1100 N": "Gas strut 1100 N", "Pistone a gas 1200 N": "Gas strut 1200 N", "Pistone a gas 1300 N": "Gas strut 1300 N", "Pistone a gas 1500 N": "Gas strut 1500 N"});
@@ -11082,6 +11124,7 @@ function cfgFromForm(){
     hangGap:v("bHangGap",1000), shelfEven:parseInt($("bShelfEven").value,10)?1:0, shelfStep:Math.max(60,v("bShelfStep",320)),
     secMode:buildSecMode, secDrawers:cleanSecDrawers(buildSecDrawers), secDrawerH:cleanSecDrawerH(buildSecDrawerH), secDrawerNL:cleanSecNL(buildSecDrawerNL), secPull:cleanSecPull(buildSecPull),
     doorHinge:cleanDoorHinge(buildDoorHinge,Math.min(MAX_DOORS,v("bDoors",0))),
+    lift:($("bLift")&&liftSysOf($("bLift").value))?$("bLift").value:null,
     antiWarp:["auto","all"].includes($("bAW").value)?$("bAW").value:null,
     fold:FOLD.leaves.includes(+$("bFold").value)?+$("bFold").value:null,
     hwSel:readHwSel(),
@@ -11182,7 +11225,7 @@ function syncBuildForm(){
   $("bMatBack").value=buildCfg.matBack||S.matBack||"pfl3";
   $("bPlinth").value=buildCfg.plinth; $("bTram").value=buildCfg.tram;
   $("bShelves").value=buildCfg.shelves; $("bDrawers").value=buildCfg.drawers; $("bDoors").value=buildCfg.doors;
-  $("bAW").value=awMode(buildCfg)||""; renderAW(); $("bFold").value=foldN(buildCfg)||""; renderFold(); syncSlope(); renderHwSel(buildCfg.hwSel||{});
+  $("bAW").value=awMode(buildCfg)||""; renderAW(); $("bFold").value=foldN(buildCfg)||""; renderFold(); renderLiftOpts(); $("bLift").value=liftId(buildCfg)||""; renderLift(); syncSlope(); renderHwSel(buildCfg.hwSel||{});
   $("bTop").value=buildCfg.top==="traverse"||buildCfg.top==="none"?buildCfg.top:"plin"; $("bTopRail").value=buildCfg.topRailW||"";
   $("bDrawDist").value=buildCfg.drawerDist||"uguali";
   $("bDrawPos").value=buildCfg.drawerPos||"auto";
@@ -11446,6 +11489,19 @@ function syncSlope(){
   renderSlope();
 }
 /* U.9 — indiciul ușilor pliante: aceeași alegere de partea pachetului ca la balamale */
+/* U.16 — lista sistemelor în selectorul din Constructor (grupate pe marcă); se reface la fiecare încărcare, fiindcă numele vin din date */
+function renderLiftOpts(){
+  const sel=$("bLift"); if(!sel||sel.dataset.ready) return;
+  const by={}; ((window.EBLiftFit&&EBLiftFit.list())||[]).forEach(x=>{ (by[x.brand]=by[x.brand]||[]).push(x); });
+  Object.keys(by).forEach(b=>{ const g=document.createElement("optgroup"); g.label=b;
+    by[b].forEach(x=>{ const o=document.createElement("option"); o.value=x.key; o.textContent=x.name; g.appendChild(o); }); sel.appendChild(g); });
+  sel.dataset.ready="1";
+}
+function renderLift(){
+  const h=$("liftHint"); if(!h) return;
+  const on=!!($("bLift").value);
+  h.textContent=on?t("liftHint"):""; h.style.display=on?"":"none";
+}
 function renderFold(){
   const h=$("foldHint"); if(!h) return;
   const on=!!+($("bFold").value||0);
@@ -11834,6 +11890,13 @@ function drawPreview(){
   if(wn.foldLY) notes.push("⚠︎ "+t("wFoldLY"));
   if(wn.foldFront) notes.push("⚠︎ "+t("wFoldFront"));
   if(wn.foldReach) notes.push(t("wFoldReach").replace("{w}",wn.foldReach));
+  if(wn.liftWarn&&wn.liftWarn.length){ const seen=new Set(), wk={kh:"hi",w:"w",kg:"kg",hi:"hi",wi:"wi",depth:"depth"};
+    wn.liftWarn.forEach(w=>{ let m=null;
+      if(w.k==="front") m=t("wLiftFront");
+      else if(w.k==="range") m=t("wLiftRange").replace("{sys}",w.sys).replace("{what}",t("liftWhat_"+(wk[w.what]||w.what))).replace("{v}",w.v).replace("{lo}",w.lo==null?"—":w.lo).replace("{hi}",w.hi==null?"—":w.hi);
+      else if(w.k==="power") m=t("wLiftPower").replace("{sys}",w.sys).replace("{kg}",w.kg).replace("{h}",w.h);
+      else if(w.k==="unv") m=t("wLiftUnv").replace("{sys}",w.sys);
+      if(m&&!seen.has(m)){ seen.add(m); notes.push("⚠︎ "+m); } }); }
   if(wn.stepHit) notes.push("⚠︎ "+t("stepHit"));
   if(wn.boxHit) notes.push("⚠︎ "+t("wBoxHit").replace("{n}",wn.boxHit.n).replace("{mm}",fmt(wn.boxHit.mm,1)));
   if(wn.topAng) notes.push("⚠︎ "+t("wTopAngled"));
@@ -12080,11 +12143,12 @@ function renderBuild(){
     $("bGolaType").addEventListener("change",()=>{ renderGola(); drawPreview(); });
     $("bAW").addEventListener("change",renderAW);
     $("bFold").addEventListener("change",renderFold);
+    $("bLift").addEventListener("change",renderLift);
     ["bSlope","bSlopeH0","bSlopeH1","bTipo"].forEach(id=>{ $(id).addEventListener("input",renderSlope); $(id).addEventListener("change",renderSlope); });
     /* anteprima 3D: campi letti da cfgFromForm che prima non la ridisegnavano
        (ante pieghevoli, cielo inclinato, tetto, anti-curvatura, gola). Dopo i
        render* sopra, che completano i valori di partenza. */
-    ["bAW","bFold","bGolaC","bGolaH","bTop","bTopRail","bSlope","bSlopeH0","bSlopeH1"]
+    ["bAW","bFold","bLift","bGolaC","bGolaH","bTop","bTopRail","bSlope","bSlopeH0","bSlopeH1"]
       .forEach(id=>{ const el=$(id); if(el){ el.addEventListener("input",drawPreview); el.addEventListener("change",drawPreview); } });
     $("grpHw").addEventListener("toggle",()=>{ if($("grpHw").open) renderHwSel(); });
     $("hwSelBox").addEventListener("change",()=>{ renderHwSel(); drawPreview(); });
@@ -13664,7 +13728,7 @@ function tagBox(b,cfg){
     /* il tipo di frontale ora lo dice la geometria, non l'altezza: prima un
        cassetto alto 300 diventava un'anta e spariva dal passo di montaggio. */
     if(b.sub==="drawer"||b.sub==="drawerIn") return "cass";
-    if(b.sub==="door"||b.sub==="slide"||b.sub==="fold") return "anta";
+    if(b.sub==="door"||b.sub==="slide"||b.sub==="fold"||b.sub==="lift") return "anta";
     if(!cfg.doors) return "cass";
     if(!cfg.drawers) return "anta";
     return h<=270?"cass":"anta";
@@ -13720,7 +13784,7 @@ function isoStep(cfg,hiTags,showTags){
    Aceeasi regula ca la numararea feroneriei, ca sa nu se bata cap in cap. */
 function hingeInfo(x){
   const el=(x.elemento||"").toLowerCase();
-  if(!/^anta/.test(el)||el.indexOf("scorrevole")>=0) return null;
+  if(!/^anta/.test(el)||el.indexOf("scorrevole")>=0||el.indexOf("basculante")>=0) return null;
   const h=Math.max(x.lung,x.larg);
   const n=hingeCount(h);
   return {n,h,pos:hingePositions(h,n)};
@@ -13816,16 +13880,17 @@ function assemblySteps(modName,hw,cfg,items){
     try{ pullSysLines(buildModule(cfg)).forEach(x=>add(x)); }catch(e){}
   }
   if(hw.hwCern>0){ add(t("mDoors").replace("{q}",hw.hwCern),{hi:["anta"],show:[...CARC,"tram","zocc","rip","cass"]});
-    const doorPieces=(items||[]).filter(x=>/^anta(?! scorrevole)/i.test(x.elemento)||/^montante anta/i.test(x.elemento));
+    const doorPieces=(items||[]).filter(x=>/^anta(?! scorrevole| basculante)/i.test(x.elemento)||/^montante anta/i.test(x.elemento));
     const anta=doorPieces[0];
     if(anta){
       const dh=Math.max(anta.lung,anta.larg);
-      const nDoors=Math.max(1,(items||[]).filter(x=>/^anta(?! scorrevole)/i.test(x.elemento)).reduce((s,x)=>s+x.pz,0)||Math.round(((items||[]).find(x=>/^vetro anta/i.test(x.elemento))||{pz:1}).pz));
+      const nDoors=Math.max(1,(items||[]).filter(x=>/^anta(?! scorrevole| basculante)/i.test(x.elemento)).reduce((s,x)=>s+x.pz,0)||Math.round(((items||[]).find(x=>/^vetro anta/i.test(x.elemento))||{pz:1}).pz));
       const nH=hingeCount(dh);
       add(t("mHingeAt").replace("{h}",dh).replace("{list}",hingePositions(dh,nH).join(" · ")+" mm"));
     } }
   if(hw.hwBin>0) add(t("mSliding").replace("{p}",P("bin","hwBin")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
   if(hw.hwFold>0) add(t("mFold").replace("{p}",P("fold","hwFold")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
+  if(hw.hwLift>0) add(t("mLift").replace("{p}",P("lift","hwLift")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
   if(hw.hwMan>0) add(t("mHandles").replace("{q}",hw.hwMan).replace("{p}",P("man","hwMan")));
   if(hw.hwPush>0) add(t("mPush").replace("{q}",hw.hwPush).replace("{p}",P("push","hwPush")));
   if(hw.hwAsta>0) add(t("mRail").replace("{q}",hw.hwAsta).replace("{p}",P("asta","hwAsta")));
@@ -13972,6 +14037,7 @@ function mSteps(M,hw,items){
   }
   if(hw.hwBin>0) add(t("mSliding").replace("{p}",P("bin","hwBin")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
   if(hw.hwFold>0) add(t("mFold").replace("{p}",P("fold","hwFold")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
+  if(hw.hwLift>0) add(t("mLift").replace("{p}",P("lift","hwLift")),{hi:["anta"],show:[...CARC,"tram","zocc","rip"]});
   /* 9. maniglie o push */
   const hd=by("maniglia");
   if(hd.length){
@@ -15014,7 +15080,7 @@ $("logoFile").addEventListener("change",e=>{
 
 /* ================= CATALOGO FERRAMENTA & MATERIALI ================= */
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
-  ["aw","hwAW"],["fold","hwFold"],["ledstrip","hwLedStrip"],["leddrv","hwLedDrv"],["leddim","hwLedDim"],["ledsw","hwLedSw"],["ledmains","hwLedMains"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
+  ["aw","hwAW"],["fold","hwFold"],["lift","hwLift"],["ledstrip","hwLedStrip"],["leddrv","hwLedDrv"],["leddim","hwLedDim"],["ledsw","hwLedSw"],["ledmains","hwLedMains"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
 const CAT_PH_MAX=240;
@@ -15320,11 +15386,11 @@ $("btnCatalogSave").addEventListener("click",()=>{
    masculul pe filler, astfel încât să nu rămână rost între filler și corp. Distanța ≈ 500 mm, minimum 3 pe filler;
    prima și ultima la KEKU_EDGE de capete. Cotele sunt ale atelierului, nevalidate pe un set real. */
 const HW_CAT_OF={hwCern:"cern",hwGuida:"guida",hwZarga:"zarga",hwMan:"man",hwManS:"manS",hwSup:"sup",hwAsta:"asta",hwPied:"pied",hwBin:"bin",hwConn:"conn",hwPush:"push",
-  hwAW:"aw",hwFold:"fold",hwLedStrip:"ledstrip",hwLedDrv:"leddrv",hwLedDim:"leddim",hwLedSw:"ledsw",hwLedMains:"ledmains",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
+  hwAW:"aw",hwFold:"fold",hwLift:"lift",hwLedStrip:"ledstrip",hwLedDrv:"leddrv",hwLedDim:"leddim",hwLedSw:"ledsw",hwLedMains:"ledmains",hwGolaL:"gola",hwGolaC:"golac",hwGolaJ:"golaj",hwLeg:"gamba",hwTblExt:"tblext",hwBoxRot:"rotbox",hwLiftSpring:"gaspist",hwLiftHinge:"lbal",hwTopClip:"fissp",hwFill:"fissf",hwBedFit:"letto",hwTravFit:"trav",hwCenterFoot:"piecent",hwSlatHold:"doga",hwSlatHold2:"doga2",hwFelt:"feltro",hwSoc:"soc",hwPicAcc:"picacc"};
 function computeHardware(p,S,byModule){
   S=S||state.settings;   // un apel fără setări (rezumatul pe materiale) citește pe cele din aplicație
   const KEYS=["hwCern","hwGuida","hwZarga","hwMan","hwManS","hwSup","hwAsta","hwPied","hwBin","hwConn","hwPush",
-    "hwLeg","hwTblExt","hwBoxRot","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwLedStrip","hwLedDrv","hwLedDim","hwLedSw","hwLedMains","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
+    "hwLeg","hwTblExt","hwBoxRot","hwLift","hwLiftSpring","hwLiftHinge","hwTopClip","hwFill","hwBedFit","hwTravFit","hwCenterFoot","hwSlatHold","hwSlatHold2","hwFelt","hwSoc","hwPicAcc","hwLedStrip","hwLedDrv","hwLedDim","hwLedSw","hwLedMains","hwGolaL","hwGolaC","hwGolaJ","hwAW","hwFold"];
   const mk=()=>{const o={};KEYS.forEach(k=>o[k]=0);return o;};
   const q=mk(), mods={}, binMods=new Set(), piedMods=new Set();
   /* U.2 — articolul ales pe corp (cfg.hwSel[cat]): cantitatile se tin separat pe
@@ -15353,6 +15419,7 @@ function computeHardware(p,S,byModule){
     /* la gola e un profil, nu un maner: nici maner, nici push */
     const grip=(m2,n2)=>{ const cr=cfgByMod(m2); if(!gola&&!(cr&&cr.handles==="raza")) bump(m2,push?"hwPush":"hwMan",n2); };
     if(el.startsWith("sistema anta pieghevole")){ bump(mod,"hwFold",x.pz); }
+    else if(el.startsWith("anta basculante")){ bump(mod,"hwLift",x.pz); grip(mod,x.pz); }   // U.16: un set de mecanism pe ușă, fără balamale
     else if(el.startsWith("anta pieghevole")){
       /* între foile unui pachet: (foi − 1) balamale pe înălțime; un mâner pe pachet, pe foaia liberă */
       const packs=foldSys[mod]||0, joints=packs>0?x.pz-packs:0;
@@ -19658,12 +19725,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.85.1"; /* APP_VER-MARKER */
+const APP_VER="5.86.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v266";
+const SW_CACHE="ebanist-v267";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

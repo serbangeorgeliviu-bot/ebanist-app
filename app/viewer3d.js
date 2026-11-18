@@ -741,7 +741,7 @@ function setModel(boxes, cfg) {
       P = pieceGroup(pk);
       bs.forEach(b => { const m = makeMesh(b, cfg); m.userData.pk = pk; m.userData.ao = aoOf(b); P.meshes.push(m); P.g.add(m); });
     }
-    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null;
+    P.boxes = bs; P.role = bs[0].role || null; P.sub = bs[0].sub || null; P.grp = bs[0].grp || null; P.fold = bs[0].fold || null; P.lift = bs[0].lift || null;
   }
   return boxes;
 }
@@ -1016,6 +1016,33 @@ function updateLed() {
   L.lights.forEach(pl => { pl.intensity = lit ? LED_LIGHT_I : 0; pl.visible = lit; });
   R.need = true;
 }
+/* U.16 — mecanismul de ridicare, SCHEMATIC: un corp pe fața interioară a fiecărui lateral (lungimea = spațiul minim cerut de producător, lățimea din fișă
+   unde există), o plăcuță pe spatele ușii și brațul dintre ele. Nu sunt cotele reale ale pieselor (sursele nu dau dimensiunile exterioare), ci spațiul și
+   locul lor; găurile NU sunt generate (ops: opsLiftNoDrill). */
+function buildLiftHw() {
+  const all = []; for (const P of R.pieces.values()) P.boxes.forEach(b => all.push({ b, P }));
+  const lifts = all.filter(x => x.b.sub === "lift" && x.b.lift); if (!lifts.length) return;
+  const sup = all.filter(x => (x.b.role === "fianco" || x.b.role === "divisorio") && x.b.kind !== "w");
+  const tops = all.filter(x => x.b.role === "cielo").map(x => x.b.y0);
+  if (!R.linkG) { R.linkG = new THREE.Group(); R.root.add(R.linkG); }
+  lifts.forEach(({ b: d, P: DP }) => {
+    const Lf = d.lift, cx = (d.x0 + d.x1) / 2, topIn = tops.length ? Math.min.apply(null, tops) : d.y1 + 12;
+    const left = sup.filter(s => s.b.x1 <= cx + 1).sort((p, q) => q.b.x1 - p.b.x1)[0];
+    const right = sup.filter(s => s.b.x0 >= cx - 1).sort((p, q) => p.b.x0 - q.b.x0)[0];
+    [[left, 1], [right, -1]].forEach(([S, sd]) => {
+      if (!S) return;
+      const tag = (m) => { m.userData.hw = "lift"; m.userData.always = false; m.userData.rel = [String(DP.pk), String(S.P.pk)]; return m; };
+      const xin = sd > 0 ? S.b.x1 : S.b.x0, zf = S.b.z1, bw = Lf.bodyW || 30;
+      const L = Math.max(60, Math.min(Lf.depthMin || 180, zf - S.b.z0 - 30));
+      S.P.hw.add(tag(box("__zinc", [Math.min(xin, xin + sd * bw), topIn - 62, zf - 12 - L], [Math.max(xin, xin + sd * bw), topIn - 2, zf - 12], 2)));
+      const xm = xin + sd * bw / 2;
+      DP.hw.add(tag(box("__blackmetal", [xm - 11, d.y1 - 112, d.z0 - 3], [xm + 11, d.y1 - 64, d.z0], 1.5)));
+      const lk = new THREE.Mesh(UNIT, materialFor("__blackmetal"));
+      lk.castShadow = true; tag(lk); lk.userData.own = true; R.linkG.add(lk);
+      R.links.push({ m: lk, P: DP, A: S.P, a: [xm, d.y1 - 88, d.z0 - 3], b: [xm, topIn - 34, zf - 18], rel: lk.userData.rel, th: 5, hh: 12, plane: "yz" });
+    });
+  });
+}
 function buildHardware(model) {
   for (const P of R.pieces.values()) { clearGroup(P.hw); clearGroup(P.holes); P.pivot = null; }
   if (R.linkG) clearGroup(R.linkG);
@@ -1023,6 +1050,7 @@ function buildHardware(model) {
   R.halves = [];
   if (!model || !model.ops) return;
   const O = model.ops;
+  buildLiftHw();
   /* conectori: forma 3D iese din aceleași operații (găuri și canale) ca fișa piesei (ebanist-hwgeom.js) */
   const OPS = EBHwGeom.opsByHw(O.pieces);
   buildLed(O);
@@ -1399,6 +1427,11 @@ function slideDir(b) {
   const int = r.k !== "ext", dx = !!r.dx;
   return [int ? (dx ? -1 : 1) : (dx ? 1 : -1), 0];
 }
+/* partea de sus a corpului (fără uși, sertare, pereții camerei): deasupra ei se așază ușa basculantă deschisă */
+function liftTopY(boxes) {
+  let m = 0; boxes.forEach(b => { if (b.role !== "frontale" && b.role !== "cassetto_frontale" && b.kind !== "w" && b.kind !== "g" && b.y1 > m) m = b.y1; });
+  return m;
+}
 /* bersagli di esplosione e apertura, per pezzo */
 function setTargets(boxesOrig) {
   const slideX = slideOpenX(boxesOrig);
@@ -1437,6 +1470,21 @@ function setTargets(boxesOrig) {
       P.pivot = { x: px, z: a.z1, left };
       P.tgt.ang = open ? (left ? -1 : 1) * Math.PI / 2 : 0;
       P.tgt.ex += open ? (stack - px) * MM : 0;
+    }
+    /* U.16 — ușă basculantă: se rotește în jurul muchiei de sus a feței din față, în sus și spre spate (aceeași cinematică din care vin formulele
+       producătorilor: la 107° muchia de jos ajunge la FH·0,29 deasupra, ca în Y = FH × 0,29 de la Blum), apoi se ridică peste corp; la mișcarea
+       paralelă (HL, Free up) urcă dreaptă și puțin înainte. Reprezentare SCHEMATICĂ: nu cinematica brațelor, ci poziția finală deschisă. */
+    if (P.sub === "lift" && P.lift) {
+      const Lf = P.lift, topY = liftTopY(boxesOrig);
+      if (Lf.motion === "parallel") {
+        P.pivot = null; P.tgt.ang = 0;
+        P.tgt.ey += open ? (Math.max(0, topY - a.y0) + 4) * MM : 0; P.tgt.ez += open ? 25 * MM : 0;
+      } else {
+        const deg = Lf.motion === "liftup" ? 95 : Math.min(110, Math.max(60, Lf.angle || 90));
+        P.pivot = { axis: "x", y: a.y1, z: a.z1 };
+        P.tgt.ang = open ? deg * Math.PI / 180 : 0;
+        P.tgt.ey += open ? Math.max(0, topY - a.y1) * MM : 0;
+      }
     }
     P.tgt.sl = (open && P.grp) ? (grpD[P.grp] || 400) * 0.55 * MM : 0;
     P.slDir = slideDir(a);
@@ -1589,7 +1637,12 @@ function step() {
     /* T(esplosione) · T(perno) · R(y) · T(−perno) · T(uscita cassetto) */
     const c = P.cur;
     { const sd = P.slDir || [0, 1]; M4.makeTranslation(c.ex + sd[0] * c.sl, c.ey, c.ez + sd[1] * c.sl); }
-    if (c.ang && P.pivot) {
+    if (c.ang && P.pivot && P.pivot.axis === "x") {      /* U.16: ușă basculantă — axa orizontală pe muchia de sus */
+      const py = P.pivot.y * MM, pz = P.pivot.z * MM;
+      M4b.makeTranslation(0, py, pz); M4.multiply(M4b);
+      M4b.makeRotationX(c.ang); M4.multiply(M4b);
+      M4b.makeTranslation(0, -py, -pz); M4.multiply(M4b);
+    } else if (c.ang && P.pivot) {
       const px = P.pivot.x * MM, pz = P.pivot.z * MM;
       M4b.makeTranslation(px, 0, pz); M4.multiply(M4b);
       M4b.makeRotationY(c.ang); M4.multiply(M4b);
@@ -1617,7 +1670,9 @@ function updateLinks() {
     VLB.set(L.b[0] * MM, L.b[1] * MM, L.b[2] * MM).applyMatrix4(L.A.g.matrix);
     const len = Math.max(VLA.distanceTo(VLB), 1e-5);
     L.m.position.copy(VLA).add(VLB).multiplyScalar(0.5);
-    L.m.scale.set((L.th || 3.2) * MM, (L.hh || 17) * MM, len);    L.m.rotation.set(0, Math.atan2(VLB.x - VLA.x, VLB.z - VLA.z), 0);
+    L.m.scale.set((L.th || 3.2) * MM, (L.hh || 17) * MM, len);
+    if (L.plane === "yz") L.m.rotation.set(Math.atan2(-(VLB.y - VLA.y), VLB.z - VLA.z), 0, 0);   /* U.16: brațul se mișcă în planul y–z */
+    else L.m.rotation.set(0, Math.atan2(VLB.x - VLA.x, VLB.z - VLA.z), 0);
     if (L.ends) { const dy = ((L.hh || 17) / 2 + 1) * MM; L.ends[0].position.set(VLA.x, VLA.y - dy, VLA.z); L.ends[1].position.set(VLB.x, VLB.y - dy, VLB.z); }
   }
 }

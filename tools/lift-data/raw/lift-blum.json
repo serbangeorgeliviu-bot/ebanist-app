@@ -1,0 +1,1674 @@
+{
+ "brand": "Blum",
+ "sources": [
+  {
+   "id": "S1",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1445903/hk-xs-technical-data-sheet.pdf",
+   "title": "AVENTOS HK-XS Technical data sheet TD-071/6 EN/12.15 (Blum document, distributor copy)",
+   "pages": "p2 order spec, p3 parts, p4 planning (drawings read as image), p5 gaps, p6 TIP-ON"
+  },
+  {
+   "id": "S2",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1446070/hk-s-tip-on-installation.pdf",
+   "title": "TIP-ON for AVENTOS HK-S Technical data sheet TD-065/5 EN/03.16 (Blum document, distributor copy)",
+   "pages": "p2-3 order spec, p4 planning (drawings read as image), p5-7 TIP-ON"
+  },
+  {
+   "id": "S3",
+   "url": "https://d2.blum.com/services/BEC003/cme148001_td_dok_bau_$sen-au_$aof_$v1.pdf",
+   "title": "AVENTOS HK top Technical data sheet TD-157/1EN-AA (Blum d2)",
+   "pages": "p2-3 codes, p5-6 TIP-ON, p7 drilling/space (image), p8 front assembly (image)"
+  },
+  {
+   "id": "S4",
+   "url": "https://d2.blum.com/services/BEC003/cme148000_td_dok_bau_$sen-au_$aof_$v1.pdf",
+   "title": "AVENTOS HF top Technical data sheet TD-154/1EN-AA (Blum d2)",
+   "pages": "p2-3 codes, p5-6 narrow alu, p8 drilling (image), p9 space/geometry (image), p10 front assembly"
+  },
+  {
+   "id": "S5",
+   "url": "https://d2.blum.com/services/BEC003/me55579287_td_dok_bau_$sen_$aof_$v3.pdf",
+   "title": "AVENTOS HL top Technical data sheet TD-145/3 EN/04.26 (Blum d2)",
+   "pages": "p2-3 codes, p5 planning (image), p6 front assembly, p7 cross stabiliser"
+  },
+  {
+   "id": "S6",
+   "url": "https://d2.blum.com/services/BEC003/me55579283_td_dok_bau_$sen_$aof_$v4.pdf",
+   "title": "AVENTOS HS top Technical data sheet TD-144/4 EN/04.26 (Blum d2)",
+   "pages": "p2-3 codes, p5 planning (image), p6 front assembly (image)"
+  },
+  {
+   "id": "S7",
+   "url": "https://cdn.shopify.com/s/files/1/0709/8495/8225/files/B10054-Aventos-HK-S-Installation.pdf",
+   "title": "AVENTOS HK-S wood/wide/narrow alu door application - Blum installation sheet, US market, third-party host (NOT official domain)",
+   "pages": "p1-3"
+  },
+  {
+   "id": "S8",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1445397/aventos-hf-technical-specification.pdf",
+   "title": "AVENTOS HF (classic) Technical data sheet TD-016/6 EN/10.11 (Blum document, distributor copy)",
+   "pages": "p2-3"
+  },
+  {
+   "id": "S9",
+   "url": "https://www.hpponline.co.uk/DocumentHandler/1538016/servo-drive-for-aventos-hl.pdf",
+   "title": "SERVO-DRIVE for AVENTOS HL (classic HL, not HL top) TD-036/1EN",
+   "pages": "p2-4 (not used for HL top values)"
+  }
+ ],
+ "systems": [
+  {
+   "id": "hk-xs",
+   "name": "AVENTOS HK-XS",
+   "motion": {
+    "v": "Stay lift (up-and-over, single front hinged at top, symmetrical mechanism usable one- or two-sided, opening angle 105 deg, limited by hinges with smaller angle; needs CLIP top hinges on front)",
+    "src": "S1 p2"
+   },
+   "door_types": {
+    "v": "wooden fronts, wide alu frames (2 chipboard screws 609.1x00 / countersunk 660.0950), narrow alu frames (20K4101A)",
+    "src": "S1 p3-4"
+   },
+   "options": [
+    {
+     "v": "BLUMOTION via CLIP top BLUMOTION hinges",
+     "src": "S1 p2"
+    },
+    {
+     "v": "TIP-ON (T versions, handle-less); glue-on catch plate NOT to be used with TIP-ON on HK-XS",
+     "src": "S1 p2,p3"
+    },
+    {
+     "v": "SERVO-DRIVE: not offered for HK-XS in this sheet",
+     "src": "S1 p2-3 (absence)"
+    }
+   ],
+   "codes": [
+    {
+     "code": "20K1101",
+     "desc": "lift mechanism one-sided, standard (LF 200-1000; two-sided doubles)",
+     "range": "LF 200-1000",
+     "src": "S1 p2"
+    },
+    {
+     "code": "20K1301",
+     "desc": "lift mechanism standard",
+     "range": "LF 500-1500",
+     "src": "S1 p2"
+    },
+    {
+     "code": "20K1501",
+     "desc": "lift mechanism standard",
+     "range": "LF 800-1800",
+     "src": "S1 p2"
+    },
+    {
+     "code": "20K1101T",
+     "desc": "lift mechanism for TIP-ON",
+     "range": "LF 180-800",
+     "src": "S1 p2"
+    },
+    {
+     "code": "20K1301T",
+     "desc": "lift mechanism for TIP-ON",
+     "range": "LF 500-1200",
+     "src": "S1 p2"
+    },
+    {
+     "code": "20K1501T",
+     "desc": "lift mechanism for TIP-ON",
+     "range": "LF 800-1600",
+     "src": "S1 p2"
+    },
+    {
+     "code": "20K5101",
+     "desc": "cabinet fixing, screws (nickel plated steel); 20K5131 knock-in; 20K51E1 EXPANDO",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "20K4101",
+     "desc": "front fixing bracket, screws; 20K4131 knock-in; 20K41E1 EXPANDO; 20K4101A narrow alu frames",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "70.1503 / 70.1503.BP",
+     "desc": "hinge arm cover cap (plain / Blum-stamped)",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "70T3504",
+     "desc": "hinge boss cover cap; 70T3507.21 hinge boss spacing (CLIP top BLUMOTION)",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "70T3553",
+     "desc": "opening angle stop 86 deg",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "71B3550/71B3580/71B3590",
+     "desc": "recommended CLIP top BLUMOTION 110 deg hinge (screw/knock-in/INSERTA), 2x per front (more by width)",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "175H3100",
+     "desc": "standard mounting plate screw-on, 0 mm (177H3100 knock-in, 177H3100E EXPANDO)",
+     "range": null,
+     "src": "S1 p3"
+    },
+    {
+     "code": "956.1002",
+     "desc": "TIP-ON short, 50 mm; 956.1201 horizontal adapter plate short; 955.1008S screw-on catch plate; 955.1008D press-in catch plate",
+     "range": null,
+     "src": "S1 p3"
+    }
+   ],
+   "selection": {
+    "rule_text": {
+     "v": "LF = cabinet height KH (mm) x front weight incl. double handle weight (kg). Power factor is doubled when used on two sides. Trial application recommended in borderline areas. Choose mechanism whose LF range contains the value.",
+     "src": "S1 p2"
+    },
+    "table": {
+     "v": [
+      {
+       "code": "20K1101",
+       "LF": "200-1000"
+      },
+      {
+       "code": "20K1301",
+       "LF": "500-1500"
+      },
+      {
+       "code": "20K1501",
+       "LF": "800-1800"
+      },
+      {
+       "code": "20K1101T",
+       "LF": "180-800"
+      },
+      {
+       "code": "20K1301T",
+       "LF": "500-1200"
+      },
+      {
+       "code": "20K1501T",
+       "LF": "800-1600"
+      }
+     ],
+     "src": "S1 p2"
+    },
+    "limits": {
+     "cabinet_height_mm": {
+      "v": "240 to 600",
+      "src": "S1 p2"
+     },
+     "max_front_weight_kg": null,
+     "front_thickness_note": {
+      "v": "front thickness FD 16/19/22/24 given for open-geometry table only",
+      "src": "S1 p4"
+     },
+     "hinges_count": {
+      "v": "3 hinges from cabinet width 900 mm and/or LF 1800; 4 hinges from width 1200 mm and/or LF 2700",
+      "src": "S1 p4"
+     },
+     "max_cabinet_width_mm": null,
+     "front_width_limits": null
+    },
+    "src": "S1 p2,p4"
+   },
+   "cabinet": {
+    "min_internal_height_LH_mm": {
+     "v": 200,
+     "src": "S1 p4"
+    },
+    "min_internal_depth_mm": {
+     "v": "125 standard drilling (optimal); 100 with special drilling positions (the bracketed values); min 200 mm LH / depth note: '* min. 200 mm with visible wall hanging bracket' (marked on the depth/LH drawing)",
+     "src": "S1 p4"
+    },
+    "mechanism_width_mm": {
+     "v": 27,
+     "src": "S1 p4 (side view dimension)"
+    },
+    "side_panel_thickness_limits": null,
+    "src": "S1 p4"
+   },
+   "mounting": {
+    "vertical_position": {
+     "v": "H = 137 + D + K + SOB (mm) measured from top of side panel; D = mounting plate spacing, K = hinge crank (horizontal arm 0, cranked 9.5, double cranked 18), SOB = top panel thickness",
+     "src": "S1 p4"
+    },
+    "drawing_values_mm": {
+     "v": {
+      "from_front_edge_hole_1": 37,
+      "alt_special_depth100": 45,
+      "from_bottom_of_mechanism_block": 32
+     },
+     "src": "S1 p4 (read from drawing; assignment of 37/(45) to the locating pin offset and 32 to the lower fixing is from the image, moderately confident)"
+    },
+    "front_bracket": {
+     "v": {
+      "wooden_and_wide_alu": "126+D+K (special depth 132+D+K) upper from front top edge region as drawn; 32 hole pitch; 15.5 from front side edge + SFA",
+      "narrow_alu": "125.5+D+K (131.5+D+K); 32; 15.5; SFA 11-18 for frieze 19",
+      "screws": "3.5x15 mm"
+     },
+     "src": "S1 p4"
+    },
+    "narrow_alu_frame_drilling": {
+     "v": {
+      "hole_pitch_mm": [
+       31,
+       38
+      ],
+      "countersink_dia": 7,
+      "R": 4,
+      "SFA_minus": 4.5,
+      "sketch_extras": [
+       7.5,
+       4.6,
+       11.4,
+       15.5,
+       1.1
+      ]
+     },
+     "src": "S1 p4"
+    },
+    "cabinet_hole_diameters": null,
+    "src": "S1 p4"
+   },
+   "geometry": {
+    "opening_angle_deg": {
+     "v": 105,
+     "src": "S1 p2"
+    },
+    "open_front_height_rule": {
+     "v": "Y = (FH - a) x 0.3 with a by front thickness FD: 16->45, 19->34, 22->23, 24->15 mm",
+     "src": "S1 p4"
+    },
+    "envelope_LxHxW_closed": null,
+    "min_gap_bottom_mm": {
+     "v": 1.5,
+     "src": "S1 p5"
+    },
+    "src": "S1 p4"
+   },
+   "unreadable": [
+    "envelope LxHxW of mechanism not stated",
+    "max front weight not stated (only via LF)",
+    "exact hole diameters of cabinet pegs not stated in text",
+    "side panel thickness limits not stated"
+   ]
+  },
+  {
+   "id": "hk-s",
+   "name": "AVENTOS HK-S",
+   "motion": {
+    "v": "Stay lift (up-and-over, symmetrical mechanism, 107 deg, no hinges on front)",
+    "src": "S2 p2, S7 p1"
+   },
+   "door_types": {
+    "v": "wooden fronts, wide alu frames, narrow alu frames (20K4A01A02)",
+    "src": "S2 p3"
+   },
+   "options": [
+    {
+     "v": "TIP-ON (T versions 20K2C01T, 20K2E01T; 20K2A01.02 spring none)",
+     "src": "S2 p2"
+    },
+    {
+     "v": "BLUMOTION/SERVO-DRIVE: not in this sheet (sheet covers TIP-ON version only)",
+     "src": "S2 (absence)"
+    }
+   ],
+   "codes": [
+    {
+     "code": "20K2A01.02",
+     "desc": "lift mechanism symmetrical, no spring (only with 20K2C01T 1+1)",
+     "range": "combo 1x20K2A01+1x20K2C01T LF 220-500",
+     "src": "S2 p2"
+    },
+    {
+     "code": "20K2C01T",
+     "desc": "lift mechanism, weak spring, TIP-ON, 107 deg",
+     "range": "2x: LF 400-1000",
+     "src": "S2 p2"
+    },
+    {
+     "code": "20K2E01T",
+     "desc": "lift mechanism, strong spring, TIP-ON, 107 deg",
+     "range": "2x: LF 960-2215; 1x C + 1x E: LF 680-1520",
+     "src": "S2 p2"
+    },
+    {
+     "code": "20K8A01",
+     "desc": "cover cap left/right, nylon light grey/silk white",
+     "range": null,
+     "src": "S2 p3"
+    },
+    {
+     "code": "175H3100",
+     "desc": "front fixing bracket (nickel steel), wooden/wide alu, 2x",
+     "range": null,
+     "src": "S2 p3"
+    },
+    {
+     "code": "20K4A01A02",
+     "desc": "front fixing bracket narrow alu frames left/right",
+     "range": null,
+     "src": "S2 p3"
+    },
+    {
+     "code": "956.1002 / 956A1002",
+     "desc": "TIP-ON short 50 mm / long 76 mm",
+     "range": null,
+     "src": "S2 p3"
+    },
+    {
+     "code": "956.1201 / 956A1201 / 956A1501",
+     "desc": "horizontal adapter plate short / long / cruciform adapter plate",
+     "range": null,
+     "src": "S2 p3"
+    },
+    {
+     "code": "20K7A41 / 20K7A11",
+     "desc": "opening angle stop 100 deg (dark grey) / 75 deg (light grey)",
+     "range": null,
+     "src": "S2 p3"
+    },
+    {
+     "code": "20K2B00.N6 / 20K2C00.N6 / 20K2E00.N6",
+     "desc": "US-market standard HK-S lift mechanism sets, 107 deg, power factor in US units 19-39 / 40-85 / 86-177 (NOT comparable to EU LF); includes mechanisms qty 2, cover plates, screws",
+     "range": "US power factor",
+     "src": "S7 p1"
+    },
+    {
+     "code": "20K4A00A02",
+     "desc": "narrow alu mounting plate (US sheet)",
+     "range": null,
+     "src": "S7 p1"
+    }
+   ],
+   "selection": {
+    "rule_text": {
+     "v": "Power factor = cabinet height KH (mm) x door weight incl. double handle weight (kg). Two-sided; combinations table. Trial application in borderline areas.",
+     "src": "S2 p2"
+    },
+    "table": {
+     "v": [
+      {
+       "combo": "1x 20K2A01 + 1x 20K2C01T",
+       "LF": "220-500"
+      },
+      {
+       "combo": "2x 20K2C01T",
+       "LF": "400-1000"
+      },
+      {
+       "combo": "1x 20K2C01T + 1x 20K2E01T",
+       "LF": "680-1520"
+      },
+      {
+       "combo": "2x 20K2E01T",
+       "LF": "960-2215"
+      },
+      {
+       "combo": "2x 20K2A01",
+       "LF": "not possible"
+      }
+     ],
+     "src": "S2 p2"
+    },
+    "limits": {
+     "cabinet_height_mm": {
+      "v": "TIP-ON sheet cover text: up to max 400 mm; space-requirement page note: cabinet height max 600 mm (sheet is internally inconsistent; 2024-25 catalogue p54 says KH max 600; HK-S TIP-ON product listing 150-400)",
+      "src": "S2 p2, p4; publications.blum.com/2024/catalogue/en/54"
+     },
+     "TIP-ON_front_height_mm": {
+      "v": "fronts up to 500 mm (TIP-ON fixing position note)",
+      "src": "S2 p6"
+     },
+     "max_front_weight_kg": null,
+     "cabinet_width": {
+      "v": "depends on power factor",
+      "src": "S2 p2"
+     }
+    },
+    "src": "S2 p2,p4"
+   },
+   "cabinet": {
+    "min_internal_height_LH_mm": {
+     "v": 150,
+     "src": "S2 p4"
+    },
+    "min_internal_depth_mm": {
+     "v": "163 shown on drawing; min 240 with visible wall hanging bracket (drawn as 'min 240')",
+     "src": "S2 p4"
+    },
+    "mechanism_width_mm": {
+     "v": 29,
+     "src": "S2 p4"
+    },
+    "SOB_max_mm": {
+     "v": 22,
+     "src": "S2 p4"
+    },
+    "src": "S2 p4"
+   },
+   "mounting": {
+    "pegs": {
+     "v": {
+      "from_front_edge_peg_offsets": [
+       64,
+       37
+      ],
+      "from_top_edge": 74,
+      "peg_dia": 5,
+      "peg_depth_min": 5
+     },
+     "src": "S2 p4 (peg positions drawing)"
+    },
+    "fixing_positions": {
+     "v": {
+      "from_top": [
+       37,
+       106
+      ],
+      "horizontal": [
+       125,
+       53,
+       35.5
+      ],
+      "screws": "3x dia4x35 chipboard"
+     },
+     "src": "S2 p4"
+    },
+    "front_bracket": {
+     "v": {
+      "wood_wide_alu_from_top_edge": "80-F (or 78-F); two holes pitch 32 mm; 12.5 from side edge + SFA",
+      "narrow_alu": "78-F",
+      "screws": "dia3.5x15"
+     },
+     "src": "S2 p4"
+    },
+    "narrow_alu_drilling": {
+     "v": {
+      "pitch_mm": [
+       31,
+       38
+      ],
+      "countersink_dia": 7,
+      "SFA_minus": 4.5
+     },
+     "src": "S2 p4"
+    },
+    "US_sheet_pin_position": {
+     "v": "locating pins Ø5x5 deep at 52 and 64 from front/top edges per drawing, overlay-dependent Z (37 / 35.5 / 34.5 for overlay up to 20 / 24 / 26)",
+     "src": "S7 p2"
+    },
+    "src": "S2 p4"
+   },
+   "geometry": {
+    "opening_angle_deg": {
+     "v": "107 (opening angle stops 100 or 75 available)",
+     "src": "S2 p2-3"
+    },
+    "open_height_rule": {
+     "v": "without stop Y = FH x 0.29 - 15 + D; OEB 100 deg Y = FH x 0.17 - 15 + D; OEB 75 deg A = FH x 0.26 + 15 - D; D front thickness: 16->X70, 19->59, 22->49, 26->35",
+     "src": "S2 p5"
+    },
+    "src": "S2 p5"
+   },
+   "unreadable": [
+    "Standard (non-TIP-ON) EU order codes and LF ranges for HK-S: only a US-market sheet (S7) readable; Blum d2 order-spec PDF returned 404/HTML and catalogue pages are image-only",
+    "weight of mechanism not stated",
+    "drilling Ø of mechanism pegs vs fixing screw pilot not separate"
+   ]
+  },
+  {
+   "id": "hk-top",
+   "name": "AVENTOS HK top",
+   "motion": {
+    "v": "Stay lift (up-and-over), symmetrical, opening angle 75-107 deg infinitely variable; no hinges required",
+    "src": "S3 p2"
+   },
+   "door_types": {
+    "v": "wooden fronts and wide alu frames (4 chipboard 609.1x00 per side / 660.0950), narrow alu frames; thin fronts EXPANDO T",
+    "src": "S3 p3"
+   },
+   "options": [
+    {
+     "v": "BLUMOTION integrated; SERVO-DRIVE (codes 22K2x10, 23K8000 cover set, 23KA000 set)",
+     "src": "S3 p2-3"
+    },
+    {
+     "v": "TIP-ON version 22K2x00T",
+     "src": "S3 p5"
+    }
+   ],
+   "codes": [
+    {
+     "code": "22K2310",
+     "desc": "lift mechanism set, system screws (2x symmetrical)",
+     "range": "LF 420-1610, 75-107 deg",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2510",
+     "desc": "idem",
+     "range": "LF 930-2800, 75-107",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2710",
+     "desc": "idem",
+     "range": "LF 1730-5200, 75-107",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2910",
+     "desc": "idem",
+     "range": "LF 3200-9000, 75-107",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2300",
+     "desc": "lift mechanism set, chipboard screws + positioning system (incl. 8x dia4x35)",
+     "range": "LF 420-1610",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2500",
+     "desc": "idem",
+     "range": "LF 930-2800",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2700",
+     "desc": "idem",
+     "range": "LF 1730-5200",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2900",
+     "desc": "idem",
+     "range": "LF 3200-9000",
+     "src": "S3 p2"
+    },
+    {
+     "code": "22K2300T",
+     "desc": "TIP-ON mechanism set",
+     "range": "LF 420-1610, 75-107",
+     "src": "S3 p5"
+    },
+    {
+     "code": "22K2500T",
+     "desc": "TIP-ON",
+     "range": "LF 930-2800, 75-107",
+     "src": "S3 p5"
+    },
+    {
+     "code": "22K2700T",
+     "desc": "TIP-ON",
+     "range": "LF 1730-5200, 75-100",
+     "src": "S3 p5"
+    },
+    {
+     "code": "22K2900T",
+     "desc": "TIP-ON",
+     "range": "LF 3200-9000, 75-100",
+     "src": "S3 p5"
+    },
+    {
+     "code": "22K8000",
+     "desc": "cover cap set (SW/HGR/TGR nylon): cap left, cap right, 2 branding elements",
+     "range": null,
+     "src": "S3 p3"
+    },
+    {
+     "code": "23K8000",
+     "desc": "cover cap set for SERVO-DRIVE incl. 2 switches, 2 distance bumpers dia5",
+     "range": null,
+     "src": "S3 p3"
+    },
+    {
+     "code": "20S4200 / 20S4200A",
+     "desc": "front fixing bracket set, screw-on; wood+wide alu / narrow alu (incl. 8 countersunk screws 660.0950)",
+     "range": null,
+     "src": "S3 p3"
+    },
+    {
+     "code": "20S42T1 / 20S42E1",
+     "desc": "front fixing bracket EXPANDO T (thin fronts) / EXPANDO (wooden)",
+     "range": null,
+     "src": "S3 p3"
+    },
+    {
+     "code": "23KA000",
+     "desc": "SERVO-DRIVE set (drive unit, 1500 mm cable, node, 2 end protectors)",
+     "range": null,
+     "src": "S3 p3"
+    },
+    {
+     "code": "956.1004",
+     "desc": "TIP-ON set short version (KH up to 600) w/ screw-on and glue-on catch plates; 956.1201 straight adapter plate short",
+     "range": null,
+     "src": "S3 p6"
+    }
+   ],
+   "selection": {
+    "rule_text": {
+     "v": "LF = KH (mm) x front weight incl. double handle weight (kg). Max front weight 18 kg using two mechanisms. A third mechanism raises LF by 50%.",
+     "src": "S3 p2"
+    },
+    "table": {
+     "v": [
+      {
+       "LF": "420-1610",
+       "sys": "22K2310",
+       "chip": "22K2300",
+       "tipon": "22K2300T"
+      },
+      {
+       "LF": "930-2800",
+       "sys": "22K2510",
+       "chip": "22K2500",
+       "tipon": "22K2500T"
+      },
+      {
+       "LF": "1730-5200",
+       "sys": "22K2710",
+       "chip": "22K2700",
+       "tipon": "22K2700T"
+      },
+      {
+       "LF": "3200-9000",
+       "sys": "22K2910",
+       "chip": "22K2900",
+       "tipon": "22K2900T"
+      }
+     ],
+     "src": "S3 p2,p5"
+    },
+    "limits": {
+     "cabinet_height_mm": {
+      "v": "205-600",
+      "src": "S3 p2"
+     },
+     "cabinet_width_max_mm": {
+      "v": 1800,
+      "src": "S3 p2"
+     },
+     "max_front_weight_kg": {
+      "v": 18,
+      "src": "S3 p2 (two mechanisms)"
+     },
+     "front_thickness_mm": {
+      "v": "16/19/22/26/28 tabulated for X",
+      "src": "S3 p7"
+     },
+     "max_upper_overlay_FAo_mm": {
+      "v": 25.4,
+      "src": "S3 p8"
+     }
+    },
+    "src": "S3 p2,p7,p8"
+   },
+   "cabinet": {
+    "min_internal_height_LH_mm": {
+     "v": 173,
+     "src": "S3 p7"
+    },
+    "min_internal_depth_mm": {
+     "v": "187 (235 with SERVO-DRIVE); min 261 with visible wall hanging bracket",
+     "src": "S3 p7"
+    },
+    "mechanism_width_mm": {
+     "v": "30 (67 with SERVO-DRIVE)",
+     "src": "S3 p7"
+    },
+    "min_gap_MF_mm": {
+     "v": 2,
+     "src": "S3 p7"
+    },
+    "side_panel_thickness_limits": null,
+    "src": "S3 p7"
+   },
+   "mounting": {
+    "system_screws": {
+     "v": {
+      "from_top_edge": 36,
+      "horizontal_pitch_mm": [
+       37,
+       32,
+       64,
+       32
+      ],
+      "peg_dia": 5,
+      "peg_depth_mm": 11.5,
+      "servo_hole_dia": 10,
+      "servo_xy": [
+       38.5,
+       82
+      ]
+     },
+     "src": "S3 p7 (drawing; ordering of horizontal dims 37/32/64/32 read from image)"
+    },
+    "chipboard_screws": {
+     "v": {
+      "from_top_edge": 33,
+      "horizontal": [
+       28,
+       11,
+       91,
+       11
+      ],
+      "vertical_note": "42 shown",
+      "screws": "4x dia4x35"
+     },
+     "src": "S3 p7"
+    },
+    "front_bracket": {
+     "v": {
+      "wood_wide_alu_from_top": "62 + FAo, holes pitch 32/32/32 (as drawn), 12.5 + SFA from side",
+      "narrow_alu": "62.5 + FAo; 15.5; 64; holes 31/33/31 pitch pattern 31,33,31 -> see narrow alu drawing; pitch 38/64",
+      "narrow_alu_drill": "countersink dia7, R4, SFA-4.5"
+     },
+     "src": "S3 p8"
+    },
+    "TIP-ON": {
+     "v": {
+      "drilling_min_from": "50 (for drilling)",
+      "adapter_plate_fixing": [
+       32,
+       53,
+       14,
+       79,
+       50
+      ],
+      "min_front_gap_mm": "2.6 glue-on / 3.1 screw-on"
+     },
+     "src": "S3 p10-11 (partially read)"
+    },
+    "src": "S3 p7,p8"
+   },
+   "geometry": {
+    "opening_angle_deg": {
+     "v": "75-107 (T 2700/2900: 75-100)",
+     "src": "S3 p2,p5"
+    },
+    "open_height_Y_max": {
+     "v": "Y = FH x 0.29 + FD - SOB",
+     "src": "S3 p7"
+    },
+    "X_by_FD": {
+     "v": {
+      "16": 68,
+      "19": 57,
+      "22": 47,
+      "26": 33,
+      "28": 27
+     },
+     "src": "S3 p7"
+    },
+    "envelope_LxHxW": null,
+    "src": "S3 p7"
+   },
+   "unreadable": [
+    "envelope length x height x width of mechanism not stated numerically",
+    "weight of mechanism not stated",
+    "side panel thickness limits not stated"
+   ]
+  },
+  {
+   "id": "hf-top",
+   "name": "AVENTOS HF top",
+   "motion": {
+    "v": "Bi-fold lift (two fronts with centre hinge), symmetrical lift mechanism with lever arm; opening angle stop 81-116 deg multi-stage",
+    "src": "S4 p2,p9"
+   },
+   "door_types": {
+    "v": "wooden fronts and wide alu frames; narrow alu frames (separate page); symmetrical and asymmetrical fronts (larger front on top)",
+    "src": "S4 p2,p5"
+   },
+   "options": [
+    {
+     "v": "BLUMOTION integrated",
+     "src": "S4 p2"
+    },
+    {
+     "v": "SERVO-DRIVE (cover cap set 23.8000, SERVO-DRIVE set 23.A000)",
+     "src": "S4 p3"
+    }
+   ],
+   "codes": [
+    {
+     "code": "22F2510",
+     "desc": "lift mechanism set, system screws (2x symmetrical)",
+     "range": "LF 2700-13500 (1 pc LF 1300-3000 up to KB 600)",
+     "src": "S4 p2"
+    },
+    {
+     "code": "22F2810",
+     "desc": "idem",
+     "range": "LF 10000-19300",
+     "src": "S4 p2"
+    },
+    {
+     "code": "22F2500",
+     "desc": "lift mechanism set, chipboard screws + positioning system (8x dia4x35)",
+     "range": "LF 2700-13500",
+     "src": "S4 p2"
+    },
+    {
+     "code": "22F2800",
+     "desc": "idem",
+     "range": "LF 10000-19300",
+     "src": "S4 p2"
+    },
+    {
+     "code": "22F3200",
+     "desc": "lever arm set (2x)",
+     "range": "KH 480-610",
+     "src": "S4 p3"
+    },
+    {
+     "code": "22F3500",
+     "desc": "lever arm set",
+     "range": "KH 600-910",
+     "src": "S4 p3"
+    },
+    {
+     "code": "22F3900",
+     "desc": "lever arm set",
+     "range": "KH 840-1200",
+     "src": "S4 p3"
+    },
+    {
+     "code": "22.8000",
+     "desc": "cover cap set (left, right, 2 branding elements embossed)",
+     "range": null,
+     "src": "S4 p3"
+    },
+    {
+     "code": "23.8000",
+     "desc": "cover cap set for SERVO-DRIVE (cap left, right, 2 branding, 2 switches, 6 distance bumpers dia5)",
+     "range": null,
+     "src": "S4 p3"
+    },
+    {
+     "code": "23.A000",
+     "desc": "SERVO-DRIVE set",
+     "range": null,
+     "src": "S4 p3"
+    },
+    {
+     "code": "78Z553ET11 / 78Z5530T11 / 78Z5500T12",
+     "desc": "hinge sets wood fronts (EXPANDO / INSERTA-knock-in-EXPANDO / screw-on): 2x CLIP top 120 unsprung, 2x centre hinge, 6x horizontal mounting plate",
+     "range": null,
+     "src": "S4 p4"
+    },
+    {
+     "code": "175H5A00 / 175H5B00",
+     "desc": "CLIP adapter plate sets for lever arm set (narrow alu)",
+     "range": null,
+     "src": "S4 p6"
+    },
+    {
+     "code": "72T550A.TL / 78Z550AT",
+     "desc": "CLIP top 120 alu frame hinge / alu centre hinge (narrow alu)",
+     "range": null,
+     "src": "S4 p6"
+    }
+   ],
+   "selection": {
+    "rule_text": {
+     "v": "LF = cabinet height KH (mm) x front weight incl. handle (kg); asymmetrical fronts use theoretical TKH = FHo x 2 + gaps (larger front on top). A third mechanism increases LF by 50%. Hinges: 3 from KB 1200 and/or 12 kg; 4 for KB 1800 and/or from 20 kg. Lever arm chosen by KH.",
+     "src": "S4 p2,p6"
+    },
+    "table": {
+     "v": {
+      "mechanisms": [
+       {
+        "LF": "2700-13500",
+        "code": "22F2510/22F2500"
+       },
+       {
+        "LF": "10000-19300",
+        "code": "22F2810/22F2800"
+       }
+      ],
+      "lever_arms": [
+       {
+        "KH": "480-610",
+        "code": "22F3200"
+       },
+       {
+        "KH": "600-910",
+        "code": "22F3500"
+       },
+       {
+        "KH": "840-1200",
+        "code": "22F3900"
+       }
+      ]
+     },
+     "src": "S4 p2-3"
+    },
+    "limits": {
+     "cabinet_height_mm": {
+      "v": "480-1200",
+      "src": "S4 p2"
+     },
+     "cabinet_width_max_mm": {
+      "v": 1800,
+      "src": "S4 p2"
+     },
+     "max_front_weight_kg": null,
+     "hinge_count_note": {
+      "v": "3 hinges from KB 1200/12 kg; 4 hinges KB 1800 / 20 kg",
+      "src": "S4 p6"
+     }
+    },
+    "src": "S4 p2,p6"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": {
+     "v": 264,
+     "src": "S4 p8,p9"
+    },
+    "min_internal_height_LH_mm": {
+     "v": {
+      "22F3200": 443,
+      "22F3500": 512,
+      "22F3900": 632
+     },
+     "src": "S4 p9"
+    },
+    "mechanism_extent": {
+     "v": {
+      "A_by_KH": {
+       "480-519": 66.5,
+       "520-1200": 89.0
+      },
+      "B": {
+       "480-519": 171.5,
+       "520-1200": 194.0
+      },
+      "C_min": {
+       "480-519": 172,
+       "520-1200": 195
+      },
+      "width_mm": 30,
+      "width_servo_mm": 66,
+      "min_clear_below": 22
+     },
+     "src": "S4 p9"
+    },
+    "side_panel_thickness_limits": null,
+    "src": "S4 p9"
+   },
+   "mounting": {
+    "system_screws": {
+     "v": {
+      "H_by_KH": {
+       "480-519": 93.5,
+       "520-1200": 116
+      },
+      "X": 38.5,
+      "Y_by_KH": {
+       "480-519": 102,
+       "520-1200": 124
+      },
+      "horizontal_pitch_mm": [
+       101,
+       128
+      ],
+      "vertical_mm": 64,
+      "peg_dia": 5,
+      "min_depth": 11.5,
+      "servo_hole_dia": 10
+     },
+     "src": "S4 p8"
+    },
+    "chipboard_screws": {
+     "v": {
+      "H_by_KH": {
+       "480-519": 93,
+       "520-1200": 115.5
+      },
+      "vertical_mm": 63,
+      "horizontal": [
+       91.5,
+       124,
+       11,
+       11
+      ],
+      "screws": "4x dia4x35",
+      "servo_hole_dia": 10,
+      "X": 38.5,
+      "Y_by_KH": {
+       "480-519": 102,
+       "520-1200": 124
+      }
+     },
+     "src": "S4 p8"
+    },
+    "front_fixing": {
+     "v": {
+      "Z_by_KH": {
+       "480-519": 170,
+       "520-1200": 189
+      },
+      "hole_pitch_mm": 32,
+      "min_17": true,
+      "12.5_from_side_edge_plus_SFA": true,
+      "mounting_plate_spacing": "0/3/6/9"
+     },
+     "src": "S4 p10 (partially read)"
+    },
+    "src": "S4 p8,p10"
+   },
+   "geometry": {
+    "opening_angle_deg": {
+     "v": "81-116 (multi-stage stop)",
+     "src": "S4 p2"
+    },
+    "X_max": {
+     "v": "X max = FH x 0.9 + 1.5 x FD + 35",
+     "src": "S4 p9"
+    },
+    "Y_by_stop": {
+     "v": {
+      "116": "FH x 0.44 + 38",
+      "107": "FH x 0.29 + 35",
+      "97": "FH x 0.12 + 31",
+      "88": 28,
+      "81": 0
+     },
+     "src": "S4 p9"
+    },
+    "KH_formula": {
+     "v": "KH = FHo x 2 + Fo + Fm + Fu",
+     "src": "S4 p9"
+    },
+    "envelope_LxHxW": null,
+    "src": "S4 p9"
+   },
+   "unreadable": [
+    "max front weight limit not stated",
+    "weight of mechanism not stated",
+    "envelope of mechanism not stated numerically",
+    "side panel thickness limits not stated"
+   ]
+  },
+  {
+   "id": "hl-top",
+   "name": "AVENTOS HL top",
+   "motion": {
+    "v": "Parallel lift (one-part front lifts up and stays parallel above cabinet), symmetrical mechanism + lever arm",
+    "src": "S5 p2"
+   },
+   "door_types": {
+    "v": "wooden and wide alu frames (4 chipboard 609.1x00 per side), narrow alu frames, thin fronts EXPANDO T",
+    "src": "S5 p3"
+   },
+   "options": [
+    {
+     "v": "BLUMOTION integrated",
+     "src": "S5 p2"
+    },
+    {
+     "v": "SERVO-DRIVE (23.8001 cap, 23.A001 drive unit, 23P5020 switches)",
+     "src": "S5 p2-3"
+    }
+   ],
+   "codes": [
+    {
+     "code": "22L2211",
+     "desc": "lift mechanism 2x, system screws",
+     "range": "KH 300-389",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L2511",
+     "desc": "idem",
+     "range": "KH 390-580",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L2201",
+     "desc": "lift mechanism 2x, chipboard screws + positioning system",
+     "range": "KH 300-389",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L2501",
+     "desc": "idem",
+     "range": "KH 390-580",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L3201",
+     "desc": "lever arm 2x (NI / ECS)",
+     "range": "KH 300-339, FG 1.50-9.00 kg",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L3501",
+     "desc": "lever arm",
+     "range": "KH 340-389, FG 1.75-10.00 kg",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L3801",
+     "desc": "lever arm",
+     "range": "KH 390-540, FG 2.00-12.25 kg",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22L3901",
+     "desc": "lever arm",
+     "range": "KH 480-580, FG 2.50-14.00 kg",
+     "src": "S5 p2"
+    },
+    {
+     "code": "22.8001",
+     "desc": "cover cap right/left, nylon SW/HGR/TGR",
+     "range": null,
+     "src": "S5 p2"
+    },
+    {
+     "code": "23.8001",
+     "desc": "SERVO-DRIVE cover cap left",
+     "range": null,
+     "src": "S5 p2"
+    },
+    {
+     "code": "20S4201 / 20S42E1 / 20S4231 / 20S4201A / 20S42T1",
+     "desc": "front fixing bracket: screw-on / EXPANDO / knock-in (wood, wide alu); narrow alu; EXPANDO T thin fronts",
+     "range": null,
+     "src": "S5 p3"
+    },
+    {
+     "code": "22Q449M..22Q1049M",
+     "desc": "cross stabiliser pre-assembled for KB 600/800/900/1000/1200 (22Q449M,22Q649M,22Q749M,22Q849M,22Q1049M)",
+     "range": "recommended from internal width >=1190 / KB >=1228",
+     "src": "S5 p3"
+    },
+    {
+     "code": "22Q1076U",
+     "desc": "cross stabiliser 1076 mm (alternative)",
+     "range": null,
+     "src": "S5 p3"
+    }
+   ],
+   "selection": {
+    "rule_text": {
+     "v": "Select by cabinet height and front weight FG (kg, incl. handle): mechanism by KH (300-389 / 390-580); lever arm by KH and FG. Third mechanism can raise FG by 50% (stated for HS top; HL top note not read in text). Trial in borderline areas.",
+     "src": "S5 p2; S6 p2"
+    },
+    "table": {
+     "v": [
+      {
+       "lever": "22L3201",
+       "KH": "300-339",
+       "FG_kg": "1.50-9.00"
+      },
+      {
+       "lever": "22L3501",
+       "KH": "340-389",
+       "FG_kg": "1.75-10.00"
+      },
+      {
+       "lever": "22L3801",
+       "KH": "390-540",
+       "FG_kg": "2.00-12.25"
+      },
+      {
+       "lever": "22L3901",
+       "KH": "480-580",
+       "FG_kg": "2.50-14.00"
+      }
+     ],
+     "src": "S5 p2"
+    },
+    "limits": {
+     "cabinet_height_mm": {
+      "v": "300-580",
+      "src": "S5 p2"
+     },
+     "cabinet_width_max_mm": {
+      "v": 1800,
+      "src": "S5 p2"
+     },
+     "cross_stabiliser_from": {
+      "v": "internal width >=1190 mm or cabinet width >=1228 mm",
+      "src": "S5 p3,p7"
+     },
+     "side_panel_thickness": {
+      "v": "cross stabiliser note: side panel 15-19 mm (KB-151) and 20-25 mm (KB-161)",
+      "src": "S5 p3"
+     },
+     "front_weight_kg_range_overall": {
+      "v": "1.50-14.00",
+      "src": "S5 p2"
+     }
+    },
+    "src": "S5 p2,p3"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": {
+     "v": 264,
+     "src": "S5 p5"
+    },
+    "min_internal_height_LH_by_lever": {
+     "v": {
+      "22L3201": 255,
+      "22L3501": 295,
+      "22L3801": 345,
+      "22L3901": 399
+     },
+     "src": "S5 p5 (lower gap 0)"
+    },
+    "width_mm": {
+     "v": "30 (66 with SERVO-DRIVE)",
+     "src": "S5 p5"
+    },
+    "mechanism_dims_drawn": {
+     "v": {
+      "141": true,
+      "36": true,
+      "min_56": true,
+      "4": true
+     },
+     "src": "S5 p5"
+    },
+    "src": "S5 p5"
+   },
+   "mounting": {
+    "system_screws": {
+     "v": {
+      "from_top_edge_total": 127,
+      "split": [
+       63,
+       64
+      ],
+      "horizontal": [
+       101,
+       128
+      ],
+      "peg_dia": 5,
+      "min_depth": 11.5,
+      "servo_hole_dia": 10,
+      "servo_xy": [
+       38.5,
+       71
+      ]
+     },
+     "src": "S5 p5"
+    },
+    "chipboard_screws": {
+     "v": {
+      "from_top_edge_total": 125.5,
+      "split": [
+       62.5,
+       63
+      ],
+      "horizontal": [
+       91.5,
+       124,
+       11,
+       11
+      ],
+      "screws": "dia4x35",
+      "servo_xy": [
+       38.5,
+       71
+      ]
+     },
+     "src": "S5 p5"
+    },
+    "front_Z_wood_wide_alu": {
+     "v": {
+      "22L3201": "113 + FAo",
+      "22L3501": "153 + FAo",
+      "22L3801": "203 + FAo",
+      "22L3901": "256 + FAo"
+     },
+     "src": "S5 p6"
+    },
+    "front_Z_narrow_alu": {
+     "v": {
+      "22L3201": "113.5 + FAo",
+      "22L3501": "153.5 + FAo",
+      "22L3801": "203.5 + FAo",
+      "22L3901": "256.5 + FAo"
+     },
+     "src": "S5 p6"
+    },
+    "front_holes": {
+     "v": "pitch pattern 31/33/31 (narrow alu) and 32/32 (wood); 12.5 from side + SFA",
+     "src": "S5 p6"
+    },
+    "SOB_X_table": {
+     "v": {
+      "16": 25,
+      "17": 26,
+      "18": 27,
+      "19": 28,
+      "20": 29
+     },
+     "src": "S5 p6"
+    },
+    "src": "S5 p5,p6"
+   },
+   "geometry": {
+    "lever_arm_a_b_c_Y_mm": {
+     "v": {
+      "22L3201": {
+       "a": 112,
+       "b": 272.5,
+       "c": 155.5,
+       "Y": 272.5
+      },
+      "22L3501": {
+       "a": 140.5,
+       "b": 340,
+       "c": 195,
+       "Y": 340
+      },
+      "22L3801": {
+       "a": 176,
+       "b": 425,
+       "c": 245,
+       "Y": 425
+      },
+      "22L3901": {
+       "a": 214.5,
+       "b": 517,
+       "c": 297.5,
+       "Y": 517
+      }
+     },
+     "src": "S5 p5 (a,b,c at lower gap 0; Y at top gap 0)"
+    },
+    "opening_angle_deg": null,
+    "envelope_LxHxW": null,
+    "src": "S5 p5"
+   },
+   "unreadable": [
+    "opening angle of HL top not stated numerically",
+    "weight of mechanism not stated",
+    "max overall front width/weight limits beyond table not stated"
+   ]
+  },
+  {
+   "id": "hs-top",
+   "name": "AVENTOS HS top",
+   "motion": {
+    "v": "Swing-up (front tilts up and back over the cabinet, one-part large front)",
+    "src": "S6 p2"
+   },
+   "door_types": {
+    "v": "wooden and wide alu frames (4 chipboard screws per side), narrow alu frames, thin fronts",
+    "src": "S6 p3"
+   },
+   "options": [
+    {
+     "v": "BLUMOTION integrated",
+     "src": "S6 p2"
+    },
+    {
+     "v": "SERVO-DRIVE (22S2x11 etc. + 23.8001 cap, 23.A001 drive unit)",
+     "src": "S6 p2-3"
+    }
+   ],
+   "codes": [
+    {
+     "code": "22S2211",
+     "desc": "lift mechanism 2x, system screws",
+     "range": "KH 350-450 FG 2.00-11.50 kg; KH 450-540 FG 2.50-12.50",
+     "src": "S6 p2"
+    },
+    {
+     "code": "22S2511",
+     "desc": "idem",
+     "range": "KH 480-660, FG 2.75-15.25 kg",
+     "src": "S6 p2"
+    },
+    {
+     "code": "22S2811",
+     "desc": "idem",
+     "range": "KH 650-800, FG 3.50-18.50 kg",
+     "src": "S6 p2"
+    },
+    {
+     "code": "22S2201",
+     "desc": "lift mechanism 2x, chipboard screws + positioning system",
+     "range": "KH 350-450 / 450-540 as above",
+     "src": "S6 p2"
+    },
+    {
+     "code": "22S2501",
+     "desc": "idem",
+     "range": "KH 480-660",
+     "src": "S6 p2"
+    },
+    {
+     "code": "22S2801",
+     "desc": "idem",
+     "range": "KH 650-800",
+     "src": "S6 p2"
+    },
+    {
+     "code": "22S3501",
+     "desc": "lever arm, steel NI/ECS, 2x",
+     "range": null,
+     "src": "S6 p3"
+    },
+    {
+     "code": "22.8001",
+     "desc": "cover cap left/right",
+     "range": null,
+     "src": "S6 p3"
+    },
+    {
+     "code": "20S4201 / 20S42E1 / 20S4231 / 20S4201A / 20S42T1",
+     "desc": "front fixing bracket screw-on / EXPANDO / knock-in / narrow alu / thin fronts",
+     "range": null,
+     "src": "S6 p3"
+    }
+   ],
+   "selection": {
+    "rule_text": {
+     "v": "Select by cabinet height KH and front weight FG (kg incl. handle): table below. FG can be increased 50% with a third mechanism. Use the more powerful one in overlaps; trial application at borders.",
+     "src": "S6 p2"
+    },
+    "table": {
+     "v": [
+      {
+       "KH": "350-450",
+       "FG_kg": "2.00-11.50",
+       "code_sys": "22S2211",
+       "code_chip": "22S2201"
+      },
+      {
+       "KH": "450-540",
+       "FG_kg": "2.50-12.50",
+       "code_sys": "22S2211",
+       "code_chip": "22S2201"
+      },
+      {
+       "KH": "480-660",
+       "FG_kg": "2.75-15.25",
+       "code_sys": "22S2511",
+       "code_chip": "22S2501"
+      },
+      {
+       "KH": "650-800",
+       "FG_kg": "3.50-18.50",
+       "code_sys": "22S2811",
+       "code_chip": "22S2801"
+      }
+     ],
+     "src": "S6 p2"
+    },
+    "limits": {
+     "cabinet_height_mm": {
+      "v": "350-800",
+      "src": "S6 p2"
+     },
+     "cabinet_width_max_mm": {
+      "v": 1800,
+      "src": "S6 p2"
+     },
+     "front_weight_kg_overall": {
+      "v": "2.00-18.50",
+      "src": "S6 p2"
+     }
+    },
+    "src": "S6 p2"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": {
+     "v": 264,
+     "src": "S6 p5"
+    },
+    "min_internal_height_LH_mm": {
+     "v": 307,
+     "src": "S6 p5"
+    },
+    "drawn": {
+     "v": {
+      "232": true,
+      "141": true,
+      "216": true,
+      "9.5": true,
+      "min_25": true,
+      "width_30": true,
+      "width_servo_66": true
+     },
+     "src": "S6 p5"
+    },
+    "side_panel_thickness_limits": null,
+    "src": "S6 p5"
+   },
+   "mounting": {
+    "system_screws": {
+     "v": {
+      "from_top_edge_total": 127,
+      "split": [
+       63,
+       64
+      ],
+      "horizontal": [
+       101,
+       128
+      ],
+      "peg_dia": 5,
+      "min_depth": 11.5,
+      "servo_hole_dia": 10,
+      "servo_xy": [
+       38.5,
+       45
+      ]
+     },
+     "src": "S6 p5"
+    },
+    "chipboard_screws": {
+     "v": {
+      "from_top_edge_total": 121.5,
+      "split": [
+       69,
+       52.5
+      ],
+      "horizontal": [
+       104.5,
+       111,
+       11,
+       11
+      ],
+      "servo_xy": [
+       38.5,
+       45
+      ]
+     },
+     "src": "S6 p5"
+    },
+    "front_Z": {
+     "v": {
+      "wood_wide_alu": "195 + FAo",
+      "narrow_alu": "195.5 + FAo",
+      "holes_pitch": "32/32 (wood), 31/33/31 (narrow alu)",
+      "12.5_from_side_plus_SFA": true
+     },
+     "src": "S6 p6"
+    },
+    "src": "S6 p5,p6"
+   },
+   "geometry": {
+    "front_setting_drawn_mm": {
+     "v": {
+      "FH_options_drawn": [
+       350,
+       600,
+       800
+      ],
+      "dims": [
+       140,
+       57,
+       36,
+       39,
+       99,
+       277,
+       516,
+       707
+      ]
+     },
+     "src": "S6 p5 (front setting drawing, depends on tilt adjustment)"
+    },
+    "cornice_clearance": {
+     "v": {
+      "F_3.0": {
+       "Xmax": 31,
+       "Ymax": 117
+      },
+      "F_2.0": {
+       "Xmax": 29,
+       "Ymax": 118
+      },
+      "F_1.5": {
+       "Xmax": 27,
+       "Ymax": 119
+      }
+     },
+     "src": "S6 p6"
+    },
+    "envelope_LxHxW": null,
+    "src": "S6 p5"
+   },
+   "unreadable": [
+    "opening angle of HS top not stated numerically (drawn only)",
+    "weight of mechanism not stated",
+    "meaning of each dimension in Front setting drawing (140,57,36,39,99,277,516,707) is as drawn but not labelled in text"
+   ]
+  }
+ ],
+ "notes": [
+  "All figures from Blum technical data sheets (PDF text + drawings read as page images). Where a number was read off a drawing (not a table) it is flagged 'drawing'.",
+  "Sources S1/S2/S8/S9 are Blum documents hosted by distributor hpponline.co.uk; S3-S6 are on d2.blum.com; S7 is a US Blum installation sheet on a third-party CDN.",
+  "Weight of mechanism / hardware set: NOT given in any datasheet read, so null for all systems.",
+  "Envelope L x H x W of each mechanism is not given numerically; only drawn clearances (min internal height/depth/width) are available.",
+  "HK-S: standard (non-TIP-ON) EU order codes/LF ranges not retrievable (d2 order spec returned HTML 404; publications.blum.com catalogue pages are image-only). TIP-ON HK-S data from TD-065/5 (2016).",
+  "HK-S TIP-ON sheet is internally inconsistent about max cabinet height (400 vs 600).",
+  "HK top sheet S3 p7-p8 hole dimension ordering was read from a rendered image; verify horizontal pitch order 37/32/64/32 before drilling.",
+  "Side-panel thickness limits are only given for HL top cross stabiliser (15-19 / 20-25 mm); otherwise null.",
+  "Mechanism horizontal datum: dimensions in drawings are from front edge of side panel and from top edge; 'H','X','Y' for top systems as labelled in drawing.",
+  "Classic AVENTOS HF (TD-016/6, S8) codes: 20F2201.05 LF 2600-5500, 20F2501.05 LF 5350-10150, 20F2801.05 LF 9000-17250; telescopic arms 20F3201 KH480-570, 20F3501 560-710, 20F3801 700-900, 20F3901 760-1040 - for reference only, not HF top.",
+  "Old HL SERVO-DRIVE sheet (S9) is classic HL, not HL top: not used."
+ ]
+}

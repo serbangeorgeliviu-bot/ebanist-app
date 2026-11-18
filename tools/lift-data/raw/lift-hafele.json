@@ -1,0 +1,1958 @@
+{
+ "brand": "Häfele",
+ "sources": [
+  {
+   "id": "BRO",
+   "url": "https://htdocs.kirz.com/HTHMKT/Catalogue/FF/new-freedom-in-motion-free.pdf",
+   "title": "Haefele 'Free - freedom in motion' brochure (48 pp, EN+TH, Haefele Thailand edition)",
+   "pages": "printed pages = PDF pages: 14-20 flap, 22-25 fold, 26-29 up, 30-33 swing, 34-39 H1.5, 40+ E-drive"
+  },
+  {
+   "id": "UK204",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-204.pdf",
+   "title": "Haefele UK catalogue s9 p9.204-9.205 Free flap overview + Free flap 1.7 set",
+   "pages": "pdf p1-2"
+  },
+  {
+   "id": "UK206",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-206.pdf",
+   "title": "Haefele UK catalogue s9 p9.206 Free flap 3.15 set",
+   "pages": "1"
+  },
+  {
+   "id": "UK213",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-213.pdf",
+   "title": "Haefele UK catalogue s9 p9.213 Free Fold bi-fold (piston-arm, 372.38.00x)",
+   "pages": "1"
+  },
+  {
+   "id": "UK214",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-214.pdf",
+   "title": "Haefele UK catalogue s9 p9.214 Free Fold lift up flap fittings (372.38.5xx)",
+   "pages": "1"
+  },
+  {
+   "id": "UK215",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-215.pdf",
+   "title": "Haefele UK catalogue s9 p9.215 Free Fold connecting hinge, angle restraint, adapter",
+   "pages": "1"
+  },
+  {
+   "id": "UK216",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-216.pdf",
+   "title": "Haefele UK catalogue s9 p9.216-9.217 Free Up + cross rail",
+   "pages": "pdf p2 = printed 9.217"
+  },
+  {
+   "id": "UK218",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T9-218.pdf",
+   "title": "Haefele UK catalogue s9 p9.218-9.219 Free Swing + cross rail",
+   "pages": "pdf p2 = printed 9.219"
+  },
+  {
+   "id": "HTH22",
+   "url": "https://htdocs.kirz.com/HTHMKT/Catalogue/FF/kt-03-hanging-cabinet-accessories.pdf",
+   "title": "HTH Design Kitchen Fittings Catalogue 2022, chapter 3 hanging cabinet accessories (72 pp)",
+   "pages": "printed 3.7-3.13 Free space; 3.26-3.29 H1.5; 3.43-3.47 fold (pdf 44-48); 3.49-3.51 swing (pdf 50-52); 3.52-3.55 up (pdf 53-56)"
+  },
+  {
+   "id": "FSMI",
+   "url": "https://cdn.shopify.com/s/files/1/0062/7892/files/free_space_mounting_instructions.pdf",
+   "title": "Haefele mounting instructions Free space 1.11, 733.23.205, HDE 05.08.2019 (distributor copy, official Haefele document)",
+   "pages": "12 pp; drilling p4-5, p11; dims p2"
+  }
+ ],
+ "systems": [
+  {
+   "id": "free_flap",
+   "name": "Free flap 1.7 and 3.15 (hinge-less stay flap, flap swings up and rests above)",
+   "motion": "stay-flap (hinge and lid stay in one): front pivots up about the top front edge, 107 deg opening, can be restricted to 90 deg",
+   "options": [
+    "integrated soft close",
+    "multi-position stop (holds in any position)",
+    "90/107 deg opening angle (1.7: restraint 372.91.499; 3.15: slider on fitting)",
+    "push-to-open via separate catch (catch types 1-3, 372.91.470/471/472)",
+    "electric: Free flap 1.7 E / 3.15 E with E-Drive 372.91.099",
+    "covers grey/white/anthracite",
+    "adapter 372.91.599 for 20 mm aluminium frame",
+    "glass gluing adapter 372.91.598"
+   ],
+   "codes": [
+    {
+     "code": "372.91.320 / 372.91.720 / 372.91.370",
+     "desc": "Free flap 1.7 model A, set grey/white/anthracite caps",
+     "range": "flap 200-450 mm high: A 0.6-4.6 kg (depends on height)",
+     "src": "BRO p16; UK204 pdf p2"
+    },
+    {
+     "code": "372.91.321 / .721 / .371",
+     "desc": "Free flap 1.7 model B",
+     "range": "3.6-7.9 kg at 200 mm .. 1.4-3.2 kg at 450 mm",
+     "src": "BRO p16-17; UK204 p2"
+    },
+    {
+     "code": "372.91.322 / .722 / .372",
+     "desc": "Free flap 1.7 model C",
+     "range": "6.8-14.7 kg at 200 mm .. 2.7-6.1 kg at 450 mm",
+     "src": "BRO p16-17; UK204 p2"
+    },
+    {
+     "code": "372.91.330 / .730 / .380",
+     "desc": "Free flap 3.15 model D",
+     "range": "350-650 mm: 5.2-11.0 .. 2.6-5.6 kg",
+     "src": "BRO p17; UK206"
+    },
+    {
+     "code": "372.91.331 / .731 / .381",
+     "desc": "Free flap 3.15 model E",
+     "range": "6.7-14.3 .. 3.4-7.3 kg",
+     "src": "BRO p17; UK206"
+    },
+    {
+     "code": "372.91.332 / .732 / .382",
+     "desc": "Free flap 3.15 model F",
+     "range": "10.1-21.4 .. 5.3-11.0 kg",
+     "src": "BRO p17; UK206"
+    },
+    {
+     "code": "372.91.333 / .733 / .383",
+     "desc": "Free flap 3.15 model G",
+     "range": "13.5-27.3 .. 6.9-14.0 kg",
+     "src": "BRO p17; UK206"
+    },
+    {
+     "code": "372.91.499",
+     "desc": "opening angle restraint 107->90 deg (1.7)",
+     "range": "",
+     "src": "UK204 p2; BRO p19"
+    },
+    {
+     "code": "372.91.470 / 471 / 472",
+     "desc": "push-to-open catch type 1 green 17-23 N / type 2 yellow 22-34 N / type 3 blue 26-48 N; drilled hole O10x90 or screw-on housing 372.91.479; for fronts without handle up to 1200 mm wide",
+     "range": "",
+     "src": "BRO p18-19"
+    },
+    {
+     "code": "372.91.599",
+     "desc": "adapter for 20 mm aluminium frame, M4x10 fixings incl.",
+     "range": "",
+     "src": "UK204 p2; UK206; BRO p19"
+    },
+    {
+     "code": "372.91.598",
+     "desc": "glass gluing adapter, brushed stainless, glass 6-10 mm, flap width <=900 mm",
+     "range": "",
+     "src": "BRO p19"
+    },
+    {
+     "code": "372.91.099",
+     "desc": "E-Drive set for Free flap (24 V DC 2.5 A)",
+     "range": "",
+     "src": "BRO E-Drive page"
+    }
+   ],
+   "selection": {
+    "rule_text": "Pick model from flap height (rows) vs flap weight incl. any handle (kg). Both fittings of a set are used (1 left + 1 right); table weights are per flap, for the 2-fitting set. Tables are 'sample measurements'; Haefele also gives an online weight calculator. With push-to-open catches the max weight is lower and depends on catch type (separate table).",
+    "table": {
+     "free_flap_1_7_kg_by_flap_height_mm": {
+      "columns": [
+       "flap_height_mm",
+       "A",
+       "B",
+       "C"
+      ],
+      "rows": [
+       [
+        200,
+        "1.7-4.6",
+        "3.6-7.9",
+        "6.8-14.7"
+       ],
+       [
+        225,
+        "1.5-4.1",
+        "3.1-7.1",
+        "6.0-13.1"
+       ],
+       [
+        250,
+        "1.3-3.8",
+        "2.9-6.4",
+        "5.4-11.8"
+       ],
+       [
+        275,
+        "1.2-3.3",
+        "2.5-5.7",
+        "4.8-10.6"
+       ],
+       [
+        300,
+        "1.1-3.1",
+        "2.4-5.1",
+        "4.4-9.6"
+       ],
+       [
+        325,
+        "1.0-2.8",
+        "2.1-4.6",
+        "4.0-8.8"
+       ],
+       [
+        350,
+        "0.9-2.6",
+        "2.0-4.2",
+        "3.7-8.1"
+       ],
+       [
+        375,
+        "0.9-2.3",
+        "1.9-3.8",
+        "3.5-7.5"
+       ],
+       [
+        400,
+        "0.8-2.1",
+        "1.7-3.6",
+        "3.2-7.0"
+       ],
+       [
+        425,
+        "0.7-1.9",
+        "1.5-3.4",
+        "2.9-6.5"
+       ],
+       [
+        450,
+        "0.6-1.7",
+        "1.4-3.2",
+        "2.7-6.1"
+       ]
+      ]
+     },
+     "free_flap_3_15_kg_by_flap_height_mm": {
+      "columns": [
+       "flap_height_mm",
+       "D",
+       "E",
+       "F",
+       "G"
+      ],
+      "rows": [
+       [
+        350,
+        "5.2-11.0",
+        "6.7-14.3",
+        "10.1-21.4",
+        "13.5-27.3"
+       ],
+       [
+        375,
+        "4.9-10.2",
+        "6.3-13.1",
+        "9.4-19.8",
+        "12.5-25.2"
+       ],
+       [
+        400,
+        "4.7-9.6",
+        "5.9-12.4",
+        "8.9-18.6",
+        "11.8-23.3"
+       ],
+       [
+        425,
+        "4.4-9.0",
+        "5.6-11.6",
+        "8.3-17.4",
+        "11.0-21.8"
+       ],
+       [
+        450,
+        "4.1-8.4",
+        "5.2-10.9",
+        "7.8-16.3",
+        "10.4-20.5"
+       ],
+       [
+        475,
+        "3.9-8.0",
+        "4.9-10.3 (UK206 prints 4.7-10.3)",
+        "7.4-15.4",
+        "9.8-19.3"
+       ],
+       [
+        500,
+        "3.7-7.5",
+        "4.7-9.7",
+        "7.0-14.6",
+        "9.2-18.3"
+       ],
+       [
+        525,
+        "3.5-7.1",
+        "4.4-9.2",
+        "6.6-13.9",
+        "8.8-17.3"
+       ],
+       [
+        550,
+        "3.3-6.8",
+        "4.2-8.8",
+        "6.3-13.2",
+        "8.3-16.5"
+       ],
+       [
+        575,
+        "3.2-6.5",
+        "4.0-8.4",
+        "6.0-12.5",
+        "8.0-15.6"
+       ],
+       [
+        600,
+        "3.0-6.2",
+        "3.8-8.0",
+        "5.7-12.0",
+        "7.6-15.0"
+       ],
+       [
+        625,
+        "2.8-5.9",
+        "3.6-7.6",
+        "5.4-11.5",
+        "7.2-14.4"
+       ],
+       [
+        650,
+        "2.6-5.6",
+        "3.4-7.3",
+        "5.3-11.0",
+        "6.9-14.0"
+       ]
+      ]
+     },
+     "push_to_open_catch_note": "BRO p17-19 gives per-height tables of max weight per model with 1 x type1/2/3 or 2 x type 2/3 catches (e.g. 3.15 at 350 mm: D 5.2-8.1 type2, 8.1-11.0 type3...). Not transcribed in full here."
+    },
+    "limits": {
+     "flap_height_mm": {
+      "1.7": "200-450",
+      "3.15": "350-650"
+     },
+     "flap_weight_kg_max": {
+      "1.7": 14.7,
+      "3.15": 27.3
+     },
+     "front_thickness_mm_max": 28,
+     "front_thickness_note": "up to 28 mm without collision at 90 deg opening (UK204 p1); drilling distance X depends on thickness (see mounting)",
+     "set_weight_claim": "UK catalogue text says front panel weight up to 15 kg (1.7 set) , table max 27.3 kg for 3.15 G",
+     "frame_width_for_brackets_mm_min": 45,
+     "max_flap_width_push_to_open_mm": 1200,
+     "width_rule": "use fittings in pairs; no width limit stated for plain flaps in sources read"
+    },
+    "src": "BRO p14-19; UK204 p1-2; UK206"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": 109,
+    "min_internal_depth_note": "'cabinets with depths starting at 109 mm' (BRO p14); drawing: Free flap 1.7 envelope depth 108, 3.15 depth 131 inside the cabinet",
+    "side_panel_thickness_mm": "top panel K=16 used in X table; carcase thickness shown generic",
+    "max_cabinet_width": null,
+    "src": "BRO p14,16; UK206"
+   },
+   "mounting": {
+    "side_panel_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "count": 4,
+     "pitch_mm": 32,
+     "system": "32 mm series (compatible with 32/37 series drilled holes, UK204 p1)",
+     "first_hole_below_top_inner_edge_mm": 24.5,
+     "horizontal_dim_as_drawn_mm": [
+      15.5,
+      34
+     ],
+     "horizontal_dim_note": "15.5 and 34 appear on the side-panel drawing; which edge each measures from is not machine-readable. The 3.15 and 1.7 patterns are identical (UK206, UK204 p2 drawings). Official Haefele paper template comes in the set.",
+     "src": "UK206 drawing; UK204 p2 drawing"
+    },
+    "front_panel_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "count": 4,
+     "pitch_mm": 32,
+     "first_hole_from_top_edge_mm": 38,
+     "horizontal_from_edge_mm": [
+      37,
+      64
+     ],
+     "overall_dim_mm": 166,
+     "note": "dims as drawn on the front-panel pattern: 38 / 32 / 32 / 32 vertical, 37 and 64 horizontal, 166 overall. Reference edges as drawn, not text.",
+     "src": "UK206 drawing"
+    },
+    "distance_X_by_front_thickness_Y_mm": {
+     "Y16": 83,
+     "Y19": 74,
+     "Y22": 64,
+     "Y26": 52,
+     "Y28": 46,
+     "condition": "cabinet top panel thickness K=16 mm",
+     "src": "UK206; UK204 p2"
+    },
+    "screws": "fitting has pre-mounted Euro screws into pre-drilled side panel; fixing screws ordered separately (Variantas listed); front clips onto screw-on brackets (screwed to front, frame width >=45 mm)",
+    "src": "UK206; UK204"
+   },
+   "geometry": {
+    "free_flap_1_7": {
+     "depth_inside_cabinet_mm": 108,
+     "height_inside_cabinet_mm": 168,
+     "gap_at_front_mm": 1.5,
+     "open_arm_dim_mm": 26,
+     "open_angle_deg": 107
+    },
+    "free_flap_3_15": {
+     "depth_inside_cabinet_mm": 131,
+     "height_inside_cabinet_mm": 185,
+     "gap_at_front_mm": 1.5,
+     "open_arm_dim_mm": 26,
+     "open_angle_deg": 107
+    },
+    "housing_text": "1.7: 108 mm long, 36 mm slim; 3.15: 131 mm long, 36 mm slim (BRO p9)",
+    "adjustment": "height, side, tilt angle +-1.5 mm; holding power",
+    "src": "BRO p9,16; UK204 p2; UK206"
+   },
+   "unreadable": [
+    "Per-catch push-to-open weight tables only partly transcribed",
+    "Side/front pattern reference edges for 15.5, 34, 37, 64 given as drawn only"
+   ]
+  },
+  {
+   "id": "free_flap_h15",
+   "name": "Free flap H 1.5 (plastic/metal stay flap for small flaps)",
+   "motion": "stay flap, mounted left or right, single or both sides, with separate full-overlay hinge",
+   "options": [
+    "handle (type 1)",
+    "touch opening (type 2)",
+    "push to open (type 3)",
+    "soft close via hinge or add-on"
+   ],
+   "codes": [
+    {
+     "code": "372.28.600/.601 (A right/left grey), .610/.611 (B), .620/.621 (C), .630/.631 (D); white .800/.801 .810/.811 .820/.821 .830/.831",
+     "desc": "Free flap H 1.5 models A-D, right/left",
+     "range": "weights in image tables only",
+     "src": "HTH22 p3.29 (pdf ~32)"
+    }
+   ],
+   "selection": {
+    "rule_text": "Cabinet heights 275-600 mm; up to 5.5 kg at 400 mm cabinet height per fitting, doubled with fittings on both sides; use 2 fittings if cabinet width >= 600 mm. Model-vs-weight tables exist as images only.",
+    "table": null,
+    "limits": {
+     "cabinet_height_mm": "275-600",
+     "max_load_kg_at_400mm_one_side": 5.5,
+     "max_load_kg_both_sides": 11
+    },
+    "src": "BRO p34; HTH22 p3.27-3.29"
+   },
+   "cabinet": null,
+   "mounting": null,
+   "geometry": null,
+   "unreadable": [
+    "model/weight tables are image-only in both copies",
+    "no drilling or envelope dimensions found in text"
+   ]
+  },
+  {
+   "id": "free_fold",
+   "name": "Free fold (double-flap / bi-fold lift-up, 2-piece front divided 1:1)",
+   "motion": "bi-fold: lower flap hinged to upper via connecting hinges (372.64.796/797, finger-safe); upper half lifts, fitting arm threads into front fixing bracket of lower half; ends above cabinet",
+   "options": [
+    "integrated soft open and soft close",
+    "multi-position stop",
+    "safety stop",
+    "opening angle restraint 90 deg 372.37.060 (2 pcs per set)",
+    "E-Drive 372.37.099 (Free fold E)",
+    "white/anthracite caps",
+    "adapter 372.37.044 for 20 mm aluminium frame"
+   ],
+   "codes": [
+    {
+     "code": "372.37.5xx (grey) / 372.37.7xx (white) / 372.37.3xx (anthracite)",
+     "desc": "Free fold set per cabinet-height and weight variant; full list in selection.table",
+     "range": "see table",
+     "src": "BRO p25"
+    },
+    {
+     "code": "372.38.512/513/520/522/523/532/533/540/542/543/544/552/553/554/563/564/573/574",
+     "desc": "UK-market numbering (grey) for Free Fold lift up flap fittings; ranges differ from 372.37 list (e.g. 480-530 mm: 4.9-10.2 kg=.512, 9.3-15.9 kg=.513; 520-590: 2.4-4.8=.520, 4.8-9.0=.522, 7.8-15.2=.523)",
+     "range": "UK p9.214 table (UK text has typo '4.9.10.2')",
+     "src": "UK214"
+    },
+    {
+     "code": "372.64.796 (chipboard screws) / 372.64.797 (Euro screws)",
+     "desc": "Connecting hinge, nickel zinc alloy, 3-way adjust +-2 side, -1/+2 gap, +-1.5 depth, finger protection, frame from 20 mm; quantity: up to 600 mm 2, 600-800 2/3, >800 3 (BRO: 3 hinges for widths >900)",
+     "range": "",
+     "src": "UK215; HTH22 p3.45"
+    },
+    {
+     "code": "372.37.060",
+     "desc": "angle restraint grey RAL 7040, limits to 90 deg, 2 per set",
+     "range": "",
+     "src": "UK215; BRO p25"
+    },
+    {
+     "code": "372.37.044",
+     "desc": "adapter for 20 mm aluminium frame",
+     "range": "",
+     "src": "UK215"
+    },
+    {
+     "code": "372.37.050",
+     "desc": "drilling jig side panel",
+     "range": "",
+     "src": "BRO p12"
+    },
+    {
+     "code": "372.64.893",
+     "desc": "drilling jig front panel (all Free)",
+     "range": "",
+     "src": "BRO p12"
+    },
+    {
+     "code": "372.37.099",
+     "desc": "E-Drive set Free fold/up/swing, 24 V DC",
+     "range": "",
+     "src": "BRO E-Drive page"
+    },
+    {
+     "code": "372.38.000 / 372.38.002 / 372.38.004",
+     "desc": "OLDER-GENERATION 'Free Fold' piston-arm bi-fold set still in UK catalogue p9.213: flap heights 550 (540-580) or 720 (700-780) mm, 2-20.3 kg, needs 110 deg hinges; 000: 550 mm cab., door width 600/800, 7.8-15.2 kg, 2 hinges; 002: 720 mm, 600 mm, 6.1-10.8 kg, 2 hinges; 004: 720 mm, 800/1000 mm, 8.5-14.4 kg, 3 hinges",
+     "range": "",
+     "src": "UK213"
+    }
+   ],
+   "selection": {
+    "rule_text": "KH = cabinet height (internal, between top and bottom panel as in drawing), front weight = whole 2-piece front. Choose the row where KH and weight range fit. Set contains one fitting pair; use two sets for very wide fronts is not stated. Weight can be checked with Haefele online calculator. Needs full-overlay 110 deg non-soft-close concealed hinges to hang the lower flap's lower edge, plus connecting hinges.",
+    "table": {
+     "columns": [
+      "cabinet_height_KH_mm",
+      "front_weight_kg",
+      "model",
+      "grey",
+      "white",
+      "anthracite"
+     ],
+     "rows": [
+      [
+       "480-530",
+       "2.6-5.2",
+       "C1fo",
+       "372.37.510",
+       "372.37.710",
+       "372.37.300"
+      ],
+      [
+       "480-530",
+       "5.2-10.6",
+       "C2fo",
+       "372.37.512",
+       "372.37.712",
+       "372.37.301"
+      ],
+      [
+       "480-530",
+       "7.8-15.1",
+       "C3fo",
+       "372.37.513",
+       "372.37.713",
+       "372.37.302"
+      ],
+      [
+       "520-590",
+       "2.4-4.9",
+       "D1fo",
+       "372.37.520",
+       "372.37.720",
+       "372.37.303"
+      ],
+      [
+       "520-590",
+       "4.8-9.8",
+       "D3fo",
+       "372.37.522",
+       "372.37.722",
+       "372.37.304"
+      ],
+      [
+       "520-590",
+       "7.2-14.1",
+       "D4fo",
+       "372.37.523",
+       "372.37.723",
+       "372.37.305"
+      ],
+      [
+       "580-650",
+       "2.2-4.4",
+       "E1fo",
+       "372.37.530",
+       "372.37.730",
+       "372.37.306"
+      ],
+      [
+       "580-650",
+       "4.3-8.8",
+       "E3fo",
+       "372.37.532",
+       "372.37.731",
+       "372.37.307"
+      ],
+      [
+       "580-650",
+       "6.0-12.2",
+       "E4fo",
+       "372.37.533",
+       "372.37.732",
+       "372.37.308"
+      ],
+      [
+       "580-650",
+       "10.6-20.9",
+       "E5fo",
+       "372.37.534",
+       "372.37.733",
+       "372.37.309"
+      ],
+      [
+       "650-730",
+       "3.9-7.9",
+       "F3fo",
+       "372.37.542",
+       "372.37.742",
+       "372.37.310"
+      ],
+      [
+       "650-730",
+       "5.8-11.6",
+       "F4fo",
+       "372.37.543",
+       "372.37.743",
+       "372.37.311"
+      ],
+      [
+       "650-730",
+       "9.5-18.7",
+       "F5fo",
+       "372.37.544",
+       "372.37.744",
+       "372.37.312"
+      ],
+      [
+       "710-790",
+       "3.5-7.2",
+       "G3fo",
+       "372.37.552",
+       "372.37.752",
+       "372.37.313"
+      ],
+      [
+       "710-790",
+       "5.2-10.3",
+       "G4fo",
+       "372.37.553",
+       "372.37.753",
+       "372.37.314"
+      ],
+      [
+       "710-790",
+       "8.7-17.2",
+       "G5fo",
+       "372.37.554",
+       "372.37.754",
+       "372.37.315"
+      ],
+      [
+       "770-840",
+       "4.9-9.8",
+       "H4fo",
+       "372.37.562",
+       "372.37.763",
+       "372.37.316"
+      ],
+      [
+       "770-840",
+       "8.0-15.5",
+       "H5fo",
+       "372.37.563",
+       "372.37.764",
+       "372.37.317"
+      ],
+      [
+       "770-840",
+       "12.5-20.9",
+       "H6fo",
+       "372.37.564",
+       "372.37.765",
+       "372.37.332"
+      ],
+      [
+       "840-910",
+       "4.5-9.0",
+       "I4fo",
+       "372.37.572",
+       "372.37.773",
+       "372.37.318"
+      ],
+      [
+       "840-910",
+       "7.3-14.6",
+       "I5fo",
+       "372.37.573",
+       "372.37.774",
+       "372.37.319"
+      ],
+      [
+       "840-910",
+       "10.0-20.0",
+       "I6fo",
+       "372.37.574",
+       "372.37.775",
+       "372.37.333"
+      ],
+      [
+       "910-970",
+       "4.2-8.0",
+       "J4fo",
+       "372.37.582",
+       "372.37.783",
+       "372.37.320"
+      ],
+      [
+       "910-970",
+       "6.8-13.5",
+       "J5fo",
+       "372.37.583",
+       "372.37.784",
+       "372.37.321"
+      ],
+      [
+       "910-970",
+       "9.5-17.9",
+       "J6fo",
+       "372.37.584",
+       "372.37.785",
+       "372.37.334"
+      ],
+      [
+       "960-1010",
+       "3.9-7.6",
+       "K4fo",
+       "372.37.592",
+       "372.37.793",
+       "372.37.322"
+      ],
+      [
+       "960-1010",
+       "6.5-12.8",
+       "K5fo",
+       "372.37.593",
+       "372.37.794",
+       "372.37.323"
+      ],
+      [
+       "960-1010",
+       "8.6-17.3",
+       "K6fo",
+       "372.37.594",
+       "372.37.791",
+       "372.37.335"
+      ],
+      [
+       "1000-1040",
+       "6.2-12.3",
+       "L5fo",
+       "372.37.599",
+       "372.37.799",
+       "372.37.324"
+      ],
+      [
+       "1000-1040",
+       "8.1-16.0",
+       "L6fo",
+       "372.37.596",
+       "372.37.796",
+       "372.37.336"
+      ]
+     ]
+    },
+    "limits": {
+     "cabinet_height_mm": "480-1040 (UK/HTH text: 450-1040)",
+     "front_weight_kg_max": 20.9,
+     "front_height_weight_summary": "BRO p22: fronts up to 1040 mm high and up to 12.3 kg, or up to 590 mm high and up to 23.3 kg (BRO text; table max is 20.9 kg - inconsistent, use table)",
+     "bracket_frame_width_min_mm": 45,
+     "connecting_hinge_frame_width_min_mm": 20,
+     "front_width_max_mm": null,
+     "hinges_rule": "3 connecting hinges for flap width >900 mm (HTH22/UK 'use 3 hinges widths 900 mm')"
+    },
+    "src": "BRO p22-25; UK214; UK215; HTH22 p3.43-3.45"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": 288,
+    "min_internal_depth_note": "BRO p22,24: >=288; UK214/HTH drawings show '>270' (UK) ; HTH22 p3.45 shows >=288. Use 288.",
+    "side_panel_thickness_K": "K used in formulas (generic)",
+    "shelf_note": "drawing shows a shelf 25 mm clear of front in the open state",
+    "max_cabinet_width": null,
+    "src": "BRO p22,24; UK214; HTH22 p3.45"
+   },
+   "mounting": {
+    "formulas": {
+     "X": "X = KH - Y - S - (2 x K) + A1",
+     "Y": "Y = (Q x KH) - R - K",
+     "where": "Q factor, R and S mm from geometry table; K = thickness of base/top panel; A1 = front-edge offset variable (value not given in text)",
+     "src": "HTH22 p3.45 (pdf p46)"
+    },
+    "side_panel_pattern": {
+     "hole": "5 x 12 mm",
+     "row_pitch_mm": 32,
+     "vertical_dims_as_drawn_mm": [
+      32,
+      32
+     ],
+     "horizontal_dims_from_front_edge_HTH22_mm": {
+      "cumulative": [
+       281,
+       249,
+       185,
+       121,
+       57
+      ],
+      "steps": [
+       32,
+       64,
+       64,
+       64,
+       57
+      ]
+     },
+     "horizontal_dims_UK214_mm": {
+      "cumulative": [
+       261,
+       217,
+       185,
+       121,
+       57
+      ],
+      "steps": [
+       44,
+       32,
+       64,
+       64,
+       57
+      ]
+     },
+     "conflict": "HTH22 and UK214 print different first two columns (281/249 vs 261/217). Use the paper drilling template / drilling jig 372.37.050 until resolved.",
+     "Y_note": "Y is a calculated vertical distance (variable)",
+     "src": "HTH22 p3.45; UK214 drawing"
+    },
+    "front_panel_pattern": "connecting hinges: hinge drilling pattern 49/32 horizontal, 14/30/14 vertical, 76; hinge pattern on fronts 64 / 32 / 17 / 14 / 2(1-4) as drawn (A2 = frame edge offset; B = A2-5.5, Bmin 7.0, Bmax 13.5 for aluminium-frame adapter)",
+    "bracket_position_on_front": "front fixing bracket (grey plastic) screwed to lower flap; 25.5 mm drawn offset on side view",
+    "setback_mm": null,
+    "power_adjust": "PZ2 driver, same setting both sides",
+    "src": "UK215; UK214; HTH22 p3.45",
+    "setback_note": "25.5 and 25 are drawn in side views (shelf clearance / side offset); meaning not text-legible, so not used as setback"
+   },
+   "geometry": {
+    "dimensions_by_cabinet_height": {
+     "columns": [
+      "KH_mm",
+      "opening_angle_beta_deg",
+      "Q",
+      "R_mm",
+      "S_mm",
+      "T_mm",
+      "U_mm",
+      "V_mm",
+      "W_mm"
+     ],
+     "rows": [
+      [
+       "480-530",
+       "107-96",
+       "1.1",
+       426,
+       328,
+       "100-37",
+       "100-55",
+       "203-186",
+       "328-370"
+      ],
+      [
+       "520-590",
+       "107-93",
+       "1.1",
+       466,
+       347,
+       "106-23",
+       "112-184",
+       "213-190",
+       "347-401"
+      ],
+      [
+       "580-650",
+       "108-95",
+       "1.2",
+       589,
+       377,
+       "119-40",
+       "126-197",
+       "227-207",
+       "375-430"
+      ],
+      [
+       "650-730",
+       "107-94",
+       "1.2",
+       664,
+       409,
+       "124-38",
+       "147-224",
+       "238-215",
+       "411-470"
+      ],
+      [
+       "710-790",
+       "108-95",
+       "1.2",
+       736,
+       439,
+       "136-46",
+       "161-233",
+       "250-219",
+       "439-500"
+      ],
+      [
+       "770-840",
+       "108-95",
+       "1.0",
+       644,
+       467,
+       "146-43",
+       "179-223",
+       "267-200",
+       "466-527"
+      ],
+      [
+       "840-910",
+       "108-98",
+       "1.2",
+       882,
+       501,
+       "154-70",
+       "195-248",
+       "272-231",
+       "502-559"
+      ],
+      [
+       "910-970",
+       "107-98",
+       "1.1",
+       865,
+       533,
+       "160-78",
+       "214-246",
+       "282-225",
+       "536-588"
+      ],
+      [
+       "960-1010",
+       "107-100",
+       "1.1",
+       915,
+       557,
+       "170-99",
+       "228-251",
+       "295-240",
+       "560-605"
+      ],
+      [
+       "1000-1040",
+       "107-102",
+       "1.1",
+       945,
+       567,
+       "177-120",
+       "239-256",
+       "306-256",
+       "578-616"
+      ]
+     ]
+    },
+    "meaning": "beta = open angle of upper flap range over the weight/height span; T = height above cabinet top reached by the open flap; U = vertical clearance of arm, V = horizontal reach from front of cabinet to flap, W = total reach; all from the drawing in BRO p24 (no text legend beyond letters)",
+    "housing_text": "288 mm long and 25.5 mm slim (without arm)",
+    "table_conflicts": "1000-1040 mm row: BRO shows no R/S; UK214 R=954,S=576; HTH22 R=945,S=567. 770-840 Q: UK214 1.0 R=644.",
+    "src": "BRO p24; UK214; HTH22 p3.45"
+   },
+   "unreadable": [
+    "A1 numeric value (front-edge offset) not stated in any readable source",
+    "official hafele.com 'Free Fold' installation instructions PDF not retrieved (a third-party mirror returned 503)",
+    "side-panel pattern first two columns conflict between UK214 and HTH22"
+   ]
+  },
+  {
+   "id": "free_up",
+   "name": "Free up (parallel lift-up front fitting)",
+   "motion": "parallel lift: one-piece front stays vertical and rises straight up in front of / over the cabinet; cross rail connects both fittings",
+   "options": [
+    "integrated soft open/close",
+    "multi-position stop",
+    "E-Drive (Free up E, cross bar 'internal width - 113 mm')",
+    "white/anthracite caps",
+    "adapter 20 mm aluminium frame",
+    "glass adapter (move mounting 8 mm into cabinet)"
+   ],
+   "codes": [
+    {
+     "code": "372.33.5xx grey / 372.33.7xx white / 372.33.3xx anthracite",
+     "desc": "Free up set (1 fitting pair, 2 caps, 2 clip-on front brackets) per variant; requires cross rail",
+     "range": "see selection.table",
+     "src": "BRO p29; UK216"
+    },
+    {
+     "code": "372.33.692 / .694 / .696 / .698",
+     "desc": "cross rail (anodised aluminium) for cabinet width 600 / 900 / 1200 / 1800 mm, length 474 / 774 / 1074 / 1674 mm; side panel thickness 16/19 mm; cut length = internal width - 88 mm (electric: -113 mm); can be cut, not joined",
+     "range": "",
+     "src": "BRO p29,32; UK216 p2"
+    },
+    {
+     "code": "372.33.050",
+     "desc": "drilling jig side panel",
+     "range": "",
+     "src": "BRO p12"
+    },
+    {
+     "code": "372.33.080/085/086",
+     "desc": "E-Drive cover caps (grey/white/anthracite)",
+     "range": "",
+     "src": "BRO E-Drive page"
+    }
+   ],
+   "selection": {
+    "rule_text": "Select cabinet-height band (KH), then weight range of the front. Minimum front height equals LH (280/308/343/388 mm) per band. Pair set with cross rail by internal width.",
+    "table": {
+     "columns": [
+      "KH_mm",
+      "min_flap_height_LH_mm",
+      "front_weight_kg",
+      "model",
+      "grey",
+      "white",
+      "anthracite"
+     ],
+     "rows": [
+      [
+       "320-360",
+       "280",
+       "3.0-5.7",
+       "O1us",
+       "372.33.500",
+       "372.33.700",
+       "372.33.300"
+      ],
+      [
+       "320-360",
+       "280",
+       "4.8-9.3",
+       "O2us",
+       "372.33.501",
+       "372.33.701",
+       "372.33.301"
+      ],
+      [
+       "320-360",
+       "280",
+       "8.7-16.5",
+       "O3us",
+       "372.33.502",
+       "372.33.702",
+       "372.33.302"
+      ],
+      [
+       "345-420",
+       "308",
+       "2.4-4.8",
+       "P1us",
+       "372.33.510",
+       "372.33.710",
+       "372.33.303"
+      ],
+      [
+       "345-420",
+       "308",
+       "4.1-8.0",
+       "P2us",
+       "372.33.511",
+       "372.33.711",
+       "372.33.304"
+      ],
+      [
+       "345-420",
+       "308",
+       "7.4-14.0",
+       "P3us",
+       "372.33.512",
+       "372.33.712",
+       "372.33.305"
+      ],
+      [
+       "345-420",
+       "308",
+       "11.0-19.6",
+       "P4us",
+       "372.33.513",
+       "372.33.713",
+       "372.33.306"
+      ],
+      [
+       "380-500",
+       "343",
+       "2.0-3.8",
+       "Q1us",
+       "372.33.520",
+       "372.33.720",
+       "372.33.307"
+      ],
+      [
+       "380-500",
+       "343",
+       "3.4-6.7",
+       "Q2us",
+       "372.33.521",
+       "372.33.721",
+       "372.33.308"
+      ],
+      [
+       "380-500",
+       "343",
+       "6.3-11.8",
+       "Q3us",
+       "372.33.522",
+       "372.33.722",
+       "372.33.309"
+      ],
+      [
+       "380-500",
+       "343",
+       "9.3-17.4",
+       "Q4us",
+       "372.33.523",
+       "372.33.723",
+       "372.33.310"
+      ],
+      [
+       "430-600",
+       "388",
+       "1.6-3.3",
+       "R1us",
+       "372.33.530",
+       "372.33.730",
+       "372.33.311"
+      ],
+      [
+       "430-600",
+       "388",
+       "2.6-5.5",
+       "R2us",
+       "372.33.531",
+       "372.33.731",
+       "372.33.312"
+      ],
+      [
+       "430-600",
+       "388",
+       "5.0-9.7",
+       "R3us",
+       "372.33.532",
+       "372.33.732",
+       "372.33.313"
+      ],
+      [
+       "430-600",
+       "388",
+       "7.4-14.6",
+       "R4us",
+       "372.33.533",
+       "372.33.733",
+       "372.33.314"
+      ]
+     ]
+    },
+    "limits": {
+     "cabinet_height_mm": "320-600",
+     "front_weight_kg_max": 19.6,
+     "front_height": "BRO p26: fronts up to 600 mm high and 14.6 kg, or up to 420 mm high and 19.6 kg",
+     "front_width_max_mm": "1800 per cross rail; two sets above (swing note) - not stated for up",
+     "bracket": "clip-on brackets for wood or wide aluminium frame"
+    },
+    "src": "BRO p26-29; UK216"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": 277,
+    "cabinet_top_vs_front_overhang": "front panel above/in front: gap 2 mm, overlapping part < 40 mm (drawing: '<40', '2')",
+    "side_panel_thickness_mm": "16 or 19 (cross rail)",
+    "max_cabinet_width_mm": null,
+    "internal_height_note": "LH = internal height 280/308/343/388",
+    "src": "BRO p26,28; UK216 p2; HTH22 p3.55"
+   },
+   "mounting": {
+    "side_panel_pattern": {
+     "hole": "5 x 12 mm",
+     "steps_mm": [
+      32,
+      64,
+      64,
+      64,
+      40
+     ],
+     "cumulative_from_front_mm": [
+      264,
+      232,
+      168,
+      104,
+      40
+     ],
+     "vertical_dims_as_drawn_mm": [
+      35,
+      32,
+      32,
+      32
+     ],
+     "vertical_cumulative_mm": [
+      67,
+      99,
+      131
+     ],
+     "source_note": "as drawn in HTH22 p3.55 (pdf p56); BRO/UK show the same fitting but without the pattern",
+     "src": "HTH22 p3.55"
+    },
+    "dimensions_in_cabinet_mm": {
+     "values_as_drawn": {
+      "152": "vertical dim in side view (reference edges not legible)",
+      "40": "drawn near fitting axis below top",
+      "54": "horizontal, bottom of side view",
+      "2": "gap",
+      "<40": "front panel overlap"
+     },
+     "note": "labels not text-legible; do not treat key names as verified meanings"
+    },
+    "front_panel_pattern": {
+     "vertical_dims_as_drawn_mm": [
+      "A1",
+      "X",
+      "32",
+      "32",
+      "32"
+     ],
+     "horizontal_dims_as_drawn_mm": [
+      15.5,
+      "15.5+A2"
+     ],
+     "X_by_KH_band_mm": {
+      "320-360": 157,
+      "345-420": 185,
+      "380-500": 220,
+      "430-600": 265
+     },
+     "A1_A2": "variables, value not given in text",
+     "src": "HTH22 p3.55"
+    },
+    "screws": "Euro screws pre-mounted; fixing screws ordered separately (Varianta); front clip bracket; cross rail secured with sleeves",
+    "src": "HTH22 p3.55; UK216"
+   },
+   "geometry": {
+    "dimension_table": {
+     "columns": [
+      "KH_mm",
+      "D_mm",
+      "U",
+      "HH_mm",
+      "T_mm",
+      "V1_mm",
+      "V2_mm"
+     ],
+     "rows": [
+      [
+       "320-360",
+       "274.5",
+       "KH-HH-K",
+       278,
+       281,
+       128,
+       177
+      ],
+      [
+       "345-420",
+       "302.5",
+       "KH-HH-K",
+       328,
+       333,
+       146,
+       205
+      ],
+      [
+       "380-500",
+       "337.5",
+       "KH-HH-K",
+       390,
+       393,
+       168,
+       240
+      ],
+      [
+       "430-600",
+       "382.5",
+       "KH-HH-K",
+       470,
+       "473 (UK/BRO) / 470 (HTH22)",
+       "198 (BRO) / 196 (UK, HTH22)",
+       284
+      ]
+     ]
+    },
+    "housing_text": "277 mm long and 25.5 mm slim",
+    "meaning": "D = fitting depth reference, HH = open front lower-edge height reference, T = total height reached, V1/V2 horizontal travel of front, U vertical offset; from drawing BRO p28",
+    "src": "BRO p28; UK216 p2; HTH22 p3.55"
+   },
+   "unreadable": [
+    "V1 and T of the 430-600 row differ between sources (flagged)",
+    "A1/A2 numeric values missing",
+    "official Free up installation instruction PDF from hafele.com not retrieved"
+   ]
+  },
+  {
+   "id": "free_swing",
+   "name": "Free swing (swing-up front fitting)",
+   "motion": "front swings up and back around cornice profiles / surface mounted lights; one-piece front; cross bar connects fittings",
+   "options": [
+    "integrated soft open/close",
+    "multi-position stop",
+    "E-Drive (replacement lever arm 372.34.090)",
+    "white/anthracite caps",
+    "20 mm aluminium frame adapter",
+    "glass adapter"
+   ],
+   "codes": [
+    {
+     "code": "372.34.500 / .700 / .300",
+     "desc": "S1 (grey/white/anthracite)",
+     "range": "370-500 mm: 1.8-4.0 .. 1.8-3.5 kg",
+     "src": "BRO p33; UK218"
+    },
+    {
+     "code": "372.34.510 / .710 / .303",
+     "desc": "S2",
+     "range": "500-670 mm: 2.5-5.9 .. 2.5-4.8",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.520 / .720 / .306",
+     "desc": "S3",
+     "range": "670-800 mm: 3.2-6.5 .. 2.9-5.7",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.501 / .701 / .301",
+     "desc": "S4",
+     "range": "3.4-6.5 .. 3.0-5.8",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.511 / .711 / .304",
+     "desc": "S5",
+     "range": "5.0-10.0 .. 4.5-8.8",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.521 / .721 / .307",
+     "desc": "S6",
+     "range": "5.7-11.3 .. 5.3-10.3",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.502 / .702 / .302",
+     "desc": "S7",
+     "range": "5.2-10.3 .. 4.5-8.9",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.512 / .712 / .305",
+     "desc": "S8",
+     "range": "8.2-15.9 .. 7.0-13.5",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.34.522 / .722 / .308",
+     "desc": "S9",
+     "range": "8.5-17.1 .. 8.0-15.3",
+     "src": "BRO p33"
+    },
+    {
+     "code": "372.33.692/.694/.696/.698",
+     "desc": "cross rail (same as Free up), cut = internal width - 88 mm; two swing sets for fronts >=1800 mm wide",
+     "range": "",
+     "src": "UK218 p2; HTH22 p3.51"
+    },
+    {
+     "code": "372.34.050",
+     "desc": "drilling jig side panel",
+     "range": "",
+     "src": "BRO p12"
+    },
+    {
+     "code": "372.34.090",
+     "desc": "replacement lever arm Free swing E",
+     "range": "",
+     "src": "BRO E-Drive page"
+    }
+   ],
+   "selection": {
+    "rule_text": "Cabinet height bands: 370-500 mm -> S1/S4/S7; 500-670 -> S2/S5/S8; 670-800 -> S3/S6/S9 (weight tier low/mid/high). Weight range depends on exact cabinet height (rows). UK stocks only S1,S4,S6,S8,S9.",
+    "table": {
+     "band_370_500": {
+      "columns": [
+       "KH_mm",
+       "S1",
+       "S4",
+       "S7"
+      ],
+      "rows": [
+       [
+        370,
+        "1.8-4.0",
+        "3.4-6.5",
+        "5.2-10.3"
+       ],
+       [
+        400,
+        "1.8-3.9",
+        "3.3-6.3",
+        "5.0-10.0"
+       ],
+       [
+        450,
+        "1.9-3.7 (BRO) / 1.8-3.7 (UK)",
+        "3.2-6.1",
+        "4.8-9.4"
+       ],
+       [
+        500,
+        "1.9-3.5 (BRO) / 1.8-3.5 (UK)",
+        "3.0-5.8",
+        "4.5-8.9"
+       ]
+      ]
+     },
+     "band_500_670": {
+      "columns": [
+       "KH_mm",
+       "S2",
+       "S5",
+       "S8"
+      ],
+      "rows": [
+       [
+        500,
+        "2.5-5.9",
+        "5.0-10.0",
+        "8.2-15.9"
+       ],
+       [
+        550,
+        "2.5-5.6",
+        "4.8-9.6",
+        "7.8-15.2"
+       ],
+       [
+        600,
+        "2.5-5.3",
+        "4.7-9.3",
+        "7.5-14.5"
+       ],
+       [
+        670,
+        "2.5-4.8",
+        "4.5-8.8",
+        "7.0-13.5"
+       ]
+      ]
+     },
+     "band_670_800": {
+      "columns": [
+       "KH_mm",
+       "S3",
+       "S6",
+       "S9"
+      ],
+      "rows": [
+       [
+        670,
+        "3.2-6.5",
+        "5.7-11.3",
+        "8.5-17.1"
+       ],
+       [
+        700,
+        "3.1-6.3",
+        "5.6-11.1",
+        "8.4-16.7"
+       ],
+       [
+        750,
+        "3.0-6.0",
+        "5.4-10.7",
+        "8.2-16.0"
+       ],
+       [
+        800,
+        "2.9-5.7",
+        "5.3-10.3",
+        "8.0-15.3"
+       ]
+      ]
+     }
+    },
+    "limits": {
+     "cabinet_height_mm": "370-800",
+     "front_weight_kg_max": 17.1,
+     "summary": "BRO p30: fronts up to 800 mm high and 15.3 kg, or up to 670 mm and 17.1 kg",
+     "front_width": "two sets for >=1800 mm",
+     "note": "BRO table row 800: S9 8.0-15.3; HTH22 prints 8.5-15.3 (typo)"
+    },
+    "src": "BRO p30-33; UK218 p2; HTH22 p3.50"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": 273,
+    "front_overhang_over_cabinet_top_mm": "<=40 (BRO) / >=40 (UK218) - sources conflict",
+    "cornice_height_mm_max": 100,
+    "gap_to_cornice_mm": "2 (>=2)",
+    "side_panel_thickness_mm": "16 or 19 (cross rail)",
+    "max_cabinet_width_mm": null,
+    "src": "BRO p32; UK218 p2; HTH22 p3.51"
+   },
+   "mounting": {
+    "side_panel_pattern": {
+     "hole": "5 x 12 mm",
+     "steps_mm": [
+      64,
+      64,
+      32,
+      64,
+      31
+     ],
+     "cumulative_from_front_mm": [
+      255,
+      191,
+      127,
+      95,
+      31
+     ],
+     "vertical_dims_as_drawn_mm": [
+      33,
+      32,
+      32
+     ],
+     "vertical_cumulative_mm": [
+      65,
+      97
+     ],
+     "src": "HTH22 p3.51 (pdf p52)"
+    },
+    "front_panel_pattern": {
+     "vertical_dims_as_drawn_mm": [
+      "A1",
+      202,
+      32,
+      32,
+      32
+     ],
+     "horizontal_dims_as_drawn_mm": [
+      15.5,
+      "15.5+A2"
+     ],
+     "A1_A2": "variables, not valued in text",
+     "src": "HTH22 p3.51"
+    },
+    "envelope_in_cabinet_mm": {
+     "side_view_tags": "~211 and ~305 vertical, >=273 depth, >=2 gap",
+     "src": "BRO p32; UK218 p2"
+    },
+    "src": "HTH22 p3.51; BRO p32"
+   },
+   "geometry": {
+    "housing_text": "273 mm long and 25.5 mm slim (without arm)",
+    "arm_extent_mm": {
+     "vertical_inside_cabinet": "~211 / ~305 as drawn (BRO p32)"
+    },
+    "open_geometry_table_HTH22": {
+     "columns": [
+      "M_front_height_mm?",
+      "N_mm",
+      "N1_mm",
+      "O_mm"
+     ],
+     "rows": [
+      [
+       366,
+       "40.0",
+       "-",
+       "237.4"
+      ],
+      [
+       396,
+       "2839 (print error)",
+       "-",
+       "265.3"
+      ],
+      [
+       446,
+       "10.3",
+       "-",
+       "311.7"
+      ],
+      [
+       496,
+       "-",
+       "8.3",
+       "358.1"
+      ],
+      [
+       546,
+       "-",
+       "26.9",
+       "404.6"
+      ],
+      [
+       596,
+       "-",
+       "45.74",
+       "451.0"
+      ],
+      [
+       646,
+       "-",
+       "64.0",
+       "497.4"
+      ],
+      [
+       666,
+       "-",
+       "71.4",
+       "516.0"
+      ],
+      [
+       696,
+       "-",
+       "82.6",
+       "543.8"
+      ],
+      [
+       746,
+       "-",
+       "101.2",
+       "590.2"
+      ],
+      [
+       796,
+       "-",
+       "119.7",
+       "636.7"
+      ]
+     ]
+    },
+    "meaning_note": "Column letters M/N/N1/O refer to the drawing at HTH22 p3.51 (open-front geometry: M front, N/N1 position, O arm); letters not legend-labelled in text. 3 digit values 366..796 look like flap height.",
+    "src": "HTH22 p3.51; BRO p32"
+   },
+   "unreadable": [
+    "M/N/N1/O meaning not text-legible",
+    "A1/A2 values",
+    "front overhang direction (<=40 vs >=40)",
+    "hafele.com instruction PDF not retrieved"
+   ]
+  },
+  {
+   "id": "free_space",
+   "name": "Free space 1.11 and 1.8 push (compact hinge-less stay flap, newest Free member)",
+   "motion": "stay flap, 90 or 107 deg, front slides onto four fixing screws; very small installation footprint",
+   "options": [
+    "1.11 for fronts with handle",
+    "1.8 push (PTO) with push catch for handle-free fronts",
+    "soft close integrated",
+    "multi-position stop",
+    "90/107 deg",
+    "colours white/light grey/anthracite/black",
+    "screw set 372.27.600 for aluminium frame >=45 mm",
+    "drilling jig 372.27.602"
+   ],
+   "codes": [
+    {
+     "code": "372.27.700-704 / .500-.504 / .350-.354 / .300-.304",
+     "desc": "Free space 1.11 models B-F (column headers not text-readable; by analogy with PTO list: white / light grey / anthracite / black)",
+     "range": "see table",
+     "src": "FSMI p2"
+    },
+    {
+     "code": "493.05.510-514 (white) / 493.05.520-524 (light grey)",
+     "desc": "Free space 1.11 B-F as listed in HTH 2022 catalogue (different numbering; not verified which is current)",
+     "range": "",
+     "src": "HTH22 p3.7"
+    },
+    {
+     "code": "372.27.705-708 / .505-.508 / .355-.358 / .305-.308",
+     "desc": "Free space 1.8 push models B/C/D/E PTO (white, light grey, anthracite, black)",
+     "range": "B-E columns of table",
+     "src": "HTH22 p3.10"
+    },
+    {
+     "code": "372.27.600",
+     "desc": "screw set for aluminium frames >=45 mm",
+     "range": "",
+     "src": "HTH22 p3.12"
+    },
+    {
+     "code": "372.27.602",
+     "desc": "drilling jig (side panel mark S, front mark F)",
+     "range": "",
+     "src": "HTH22 p3.13"
+    }
+   ],
+   "selection": {
+    "rule_text": "Model B-F from cabinet height (225-650 mm) and weight incl. handle. 1.8 push has B-E only. Weight calculator available online.",
+    "table": {
+     "columns": [
+      "KH_mm",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+     ],
+     "rows": [
+      [
+       225,
+       "2.3-4.3",
+       "3.8-7.1",
+       "6.4-9.3",
+       "9.2-13.4",
+       "13.4-19.1"
+      ],
+      [
+       250,
+       "1.9-3.9",
+       "3.4-6.4",
+       "5.8-9.1",
+       "8.3-12.6",
+       "12.1-17.2"
+      ],
+      [
+       275,
+       "1.9-3.5",
+       "3.1-5.8",
+       "5.3-8.2",
+       "7.5-12.0",
+       "11.0-15.6"
+      ],
+      [
+       300,
+       "1.7-3.2",
+       "2.8-5.3",
+       "4.8-7.5",
+       "6.9-11.0",
+       "10.1-14.3"
+      ],
+      [
+       325,
+       "1.6-3.0",
+       "2.6-4.9",
+       "4.4-7.0",
+       "6.4-10.2",
+       "9.3-13.2"
+      ],
+      [
+       350,
+       "1.5-2.8",
+       "2.4-4.6",
+       "4.1-6.5",
+       "5.9-9.5",
+       "8.2-12.3 (HTH22) / 8.6-12.3 (FSMI)"
+      ],
+      [
+       375,
+       "1.3-2.6",
+       "2.2-4.3",
+       "3.8-6.0",
+       "5.5-8.8",
+       "8.1-11.4"
+      ],
+      [
+       400,
+       "1.2-2.4",
+       "2.1-4.0",
+       "3.6-5.6",
+       "5.2-8.3",
+       "7.6-10.7"
+      ],
+      [
+       425,
+       "1.1-2.3",
+       "2.0-3.8",
+       "3.4-5.3",
+       "4.9-7.8",
+       "7.1-10.1"
+      ],
+      [
+       450,
+       "1.0-2.1",
+       "1.9-3.5",
+       "3.2-5.0",
+       "4.6-7.3",
+       "6.7-9.5"
+      ],
+      [
+       475,
+       "1.0-2.0",
+       "1.8-3.4",
+       "3.0-4.7",
+       "4.3-7.0",
+       "6.4-9.0"
+      ],
+      [
+       500,
+       "0.9-1.9",
+       "1.7-3.2",
+       "2.9-4.5",
+       "4.1-6.6",
+       "6.0-8.6"
+      ],
+      [
+       525,
+       "0.9-1.8",
+       "1.6-3.0",
+       "2.7-4.3",
+       "3.9-6.3",
+       "5.7-8.2"
+      ],
+      [
+       550,
+       "0.8-1.7",
+       "1.5-2.9",
+       "2.6-4.1",
+       "3.7-6.0",
+       "5.5-7.8"
+      ],
+      [
+       575,
+       "0.8-1.7",
+       "1.4-2.8",
+       "2.5-3.9",
+       "3.6-5.7",
+       "5.2-7.4"
+      ],
+      [
+       600,
+       "0.8-1.6",
+       "1.4-2.7",
+       "2.4-3.7",
+       "3.4-5.5",
+       "5.0-7.1"
+      ],
+      [
+       625,
+       "0.7-1.5",
+       "1.3-2.5",
+       "2.3-3.6",
+       "3.3-5.3",
+       "4.8-6.8"
+      ],
+      [
+       650,
+       "0.7-1.5",
+       "1.3-2.4",
+       "2.2-3.5",
+       "3.2-5.1",
+       "4.6-6.6"
+      ]
+     ]
+    },
+    "limits": {
+     "cabinet_height_mm": "225-650",
+     "front_weight_kg_max": 19.1,
+     "front_height_mm_max": 650,
+     "front_thickness_mm": "16-28 via X table",
+     "frame_width_min_mm": 45,
+     "cross_bar_note": "FSMI p3 icon: front up to <=1800 (width) , = + 2x pair",
+     "1.8push_weight_max_kg": 13.4
+    },
+    "src": "HTH22 p3.7-3.11; FSMI p3"
+   },
+   "cabinet": {
+    "min_internal_depth_mm": 63,
+    "min_internal_height_mm": 173,
+    "top_panel_K_mm": 16,
+    "front_gap_mm": 2,
+    "side_panel_thickness_mm": "K=16 assumed in X table",
+    "max_cabinet_width_mm": null,
+    "src": "HTH22 p3.7; FSMI p2"
+   },
+   "mounting": {
+    "side_panel_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "count": 3,
+     "pitch_mm": 32,
+     "from_front_edge_mm": 37,
+     "first_hole_below_top_edge_mm": 102,
+     "left_and_right_mirrored": true,
+     "src": "FSMI p5 and p11 (drawing, 1:1 template)"
+    },
+    "front_distance_X_by_thickness_Y_mm": {
+     "Y16": 117,
+     "Y18": 110,
+     "Y19": 107,
+     "Y22": 96,
+     "Y24": 90,
+     "Y26": 83,
+     "Y28": 76,
+     "condition": "cabinet top panel K=16 mm",
+     "src": "HTH22 p3.9; FSMI p2"
+    },
+    "other_dims_as_drawn_mm": [
+     36.5,
+     24.5,
+     16,
+     2
+    ],
+    "other_dims_note": "FSMI p2 side view shows 63 (depth), 173 (height), 36.5, 24.5, 16, 2 - references not text-legible",
+    "front_fixing": "4 screws, front slides on, tool-free",
+    "RB_min_aluminium_frame": "RBmin = 26 + K - F (FSMI p4)",
+    "src": "FSMI"
+   },
+   "geometry": {
+    "open_angles_deg": [
+     90,
+     107
+    ],
+    "installation_depth_mm": 63,
+    "installation_height_mm": 173,
+    "src": "HTH22 p3.7; FSMI p2,8"
+   },
+   "unreadable": [
+    "whether 372.27.7xx or 493.05.5xx numbering is current for 1.11",
+    "arm lengths in open state not given",
+    "reference edges for 36.5 / 24.5 / 16"
+   ]
+  }
+ ],
+ "notes": [
+  "Haefele product family 'Free': Free flap 1.7, 3.15, H 1.5, Free space 1.11/1.8 push (stay flaps); Free fold (bi-fold); Free up (parallel lift); Free swing (swing-up). Electric 'E' versions via E-Drive (Free flap 372.91.099; fold/up/swing 372.37.099). Free flap, fold, up, swing are in the Haefele UK 2023 catalogue and Haefele Thailand brochure/2022 catalogue; Free space is in HTH 2022 and a 2019 Haefele manual.",
+  "Regional numbering differs: UK catalogue sells Free Fold as 372.38.5xx with weight ranges that differ from 372.37.5xx in the BRO/HTH22 list. Choose one set per target market; do not mix. UK also lists only some Free swing/up variants.",
+  "A1, A2 (front-edge offsets) and K/Y are variables used in formulas; their numeric definition is on the paper drilling template / hafele.com instruction PDF, which I could not retrieve. No number was guessed.",
+  "Drill depth for all side-panel holes in the Free family drawings is Ø5 x 12 mm; first hole position relative to top edge differs per fitting (flap 24.5 mm, space 102 mm from top as drawn).",
+  "Sources are official Haefele documents or distributor-hosted copies of them (Haefele UK files.hafele.co.uk; Haefele Thailand catalogue copies; Haefele mounting instruction copy). hafele.com / .it / .ro / .de product pages were not fetched in this session.",
+  "Several BRO vs UK vs HTH22 conflicts are flagged inline (fold pattern columns, up T/V1, swing overhang, fold depth 288 vs >270).",
+  "Numbers in drawings were read from rendered page images; letters shown as variables stay variables."
+ ]
+}

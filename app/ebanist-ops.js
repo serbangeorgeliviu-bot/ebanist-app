@@ -811,6 +811,9 @@ function generate1(input) {
   /* --- 4. ante: cerniere (tazza + tasselli sull'anta, basetta sul fianco) e
          maniglie. Il lato cerniera e quello scritto sull'anta (`fronts[].hinge`);
          se non c'e, prima meta a sinistra, seconda a destra. */
+  /* U.16: ușa basculantă nu are cupă de balama, iar găurile mecanismului (pe lateral și pe ușă) NU se generează: cotele din desenele
+     producătorilor nu sunt încă confruntate cu un produs real (sensul unor cote a fost citit din imagine). Se spune, nu se inventează. */
+  pcs.forEach(function (p) { if (p.role === "frontale" && p.sub === "lift") out.warnings.push({ piece: p.pk, k: "opsLiftNoDrill" }); });
   var doors = pcs.filter(function (p) { return p.role === "frontale" && p.sub === "door" && p.tAx === 2; });
   var rows = {};
   doors.forEach(function (d) { var k = Math.round(d.min[1]) + "|" + Math.round(d.max[1]); (rows[k] = rows[k] || []).push(d); });

@@ -1,0 +1,2100 @@
+{
+ "brand": "Hettich",
+ "sources": [
+  {
+   "id": "S1",
+   "url": "https://web.hettich.com/fileadmin/Media_Center/11_General/01_Catalogues/TA_2016_01_en_DE_03_Flap_fittings.pdf",
+   "title": "Hettich Furniture Fittings catalogue 2016, Flap fittings (EN), printed pp. 319-357",
+   "pages": "printed p.320-321 (comparison), 324-325 (Lift Advanced summary), 326-327 HF, 328-329 HK, 330-331 HL, 332-333 HS, 334-355 other flap fittings. Drawings read visually from page images; tables from text layer."
+  },
+  {
+   "id": "S2",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/Lift_Advanced_Handbuch_DE_032017.pdf",
+   "title": "Technische Dokumentation Lift Advanced (Hettich Technical Assistant, 03/2017, German)",
+   "pages": "p.5-6 (hinges, alu frames, gap), p.9 (gas spring codes), p.12-14 (preparation, fitting bag, cross member). The EN file name Lift_Advanced_Handbuch_EN_032017.pdf returned 404."
+  },
+  {
+   "id": "S3",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/LA_HF_04_2012.pdf",
+   "title": "Lift Advanced HF assembly instructions 04/2012 (multilingual)",
+   "pages": "whole (28 pp.); spring tables and hinge note"
+  },
+  {
+   "id": "S4",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/LA_HK_04_2012.pdf",
+   "title": "Lift Advanced HK assembly instructions 04/2012",
+   "pages": "whole (20 pp.); hinge 95 deg note"
+  },
+  {
+   "id": "S5",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/LA_HL_HS_04_2012.pdf",
+   "title": "Lift Advanced HL/HS assembly instructions 04/2012",
+   "pages": "whole (36 pp.); cross member LBE = KB - 290 mm"
+  },
+  {
+   "id": "S6",
+   "url": "https://catalog.hettich.com/General/TA_2023/de_DE/catalogs/TA_2023_de_DE/pdf/save/bk_224.pdf",
+   "title": "Hettich Technik fuer Moebel 2023, Lift Advanced HK page (DE), printed p.206",
+   "pages": "p.206 - confirms HK range, code 9079603 and spring table unchanged in 2023 catalogue"
+  },
+  {
+   "id": "S7",
+   "url": "https://hta.hettich.com/en-de/flap-fittings/lift-advanced",
+   "title": "Hettich Technical Assistant: Lift Advanced page",
+   "pages": "web page; 4 variants; carcase drilling pattern identical for all four; links to S2-S5"
+  }
+ ],
+ "systems": [
+  {
+   "key": "het_la_hf",
+   "brand": "Hettich",
+   "name": "Lift Advanced HF",
+   "motion": "bifold",
+   "flaps": 2,
+   "select": {
+    "type": "springs",
+    "metric": "înălțime interioară corp (mm) și greutate front cu mâner (kg)",
+    "sets": [
+     {
+      "code": "9079605",
+      "hLo": 440,
+      "hHi": 550
+     },
+     {
+      "code": "9079607",
+      "hLo": 551,
+      "hHi": 610
+     },
+     {
+      "code": "9079610",
+      "hLo": 611,
+      "hHi": 700
+     },
+     {
+      "code": "9079614",
+      "hLo": 701,
+      "hHi": 770
+     },
+     {
+      "code": "9079615",
+      "hLo": 771,
+      "hHi": 925
+     }
+    ],
+    "springs": [
+     {
+      "code": "9079624",
+      "N": 300,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 4.4,
+        "kgHi": 5.8,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 4.0,
+        "kgHi": 6.0,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079626",
+      "N": 350,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 5.1,
+        "kgHi": 6.6,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 4.5,
+        "kgHi": 6.7,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 3.8,
+        "kgHi": 5.8,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 4.0,
+        "kgHi": 5.2,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079628",
+      "N": 400,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 6.0,
+        "kgHi": 8.0,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 5.3,
+        "kgHi": 7.6,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 4.6,
+        "kgHi": 7.0,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 4.6,
+        "kgHi": 5.9,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 4.0,
+        "kgHi": 5.5,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079630",
+      "N": 450,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 6.8,
+        "kgHi": 9.2,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 6.2,
+        "kgHi": 8.6,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 5.9,
+        "kgHi": 8.0,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 5.3,
+        "kgHi": 6.7,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 4.9,
+        "kgHi": 6.5,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079632",
+      "N": 500,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 7.8,
+        "kgHi": 10.2,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 7.0,
+        "kgHi": 9.3,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 6.9,
+        "kgHi": 8.9,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 5.9,
+        "kgHi": 7.4,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 5.5,
+        "kgHi": 7.0,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079635",
+      "N": 550,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 8.9,
+        "kgHi": 11.2,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 8.0,
+        "kgHi": 10.3,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 8.0,
+        "kgHi": 9.9,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 6.7,
+        "kgHi": 8.3,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 6.0,
+        "kgHi": 7.7,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079637",
+      "N": 600,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 10.5,
+        "kgHi": 12.6,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 9.1,
+        "kgHi": 11.4,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 8.8,
+        "kgHi": 10.8,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 7.8,
+        "kgHi": 9.3,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 6.9,
+        "kgHi": 8.7,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079644",
+      "N": 650,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 12.2,
+        "kgHi": 14.2,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 10.5,
+        "kgHi": 12.6,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 10.1,
+        "kgHi": 12.0,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 8.5,
+        "kgHi": 10.4,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 7.9,
+        "kgHi": 9.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079645",
+      "N": 700,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 13.2,
+        "kgHi": 15.0,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 11.7,
+        "kgHi": 13.6,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 11.1,
+        "kgHi": 12.9,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 9.4,
+        "kgHi": 11.2,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 8.7,
+        "kgHi": 10.5,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079647",
+      "N": 750,
+      "ranges": [
+       {
+        "hLo": 440,
+        "hHi": 550,
+        "kgLo": 13.8,
+        "kgHi": 15.4,
+        "star": false
+       },
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 12.3,
+        "kgHi": 14.1,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 11.6,
+        "kgHi": 13.5,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 10.0,
+        "kgHi": 11.8,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 9.3,
+        "kgHi": 11.0,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079650",
+      "N": 800,
+      "ranges": [
+       {
+        "hLo": 551,
+        "hHi": 610,
+        "kgLo": 13.3,
+        "kgHi": 14.6,
+        "star": false
+       },
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 12.6,
+        "kgHi": 14.4,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 10.8,
+        "kgHi": 12.7,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 10.1,
+        "kgHi": 11.7,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079651",
+      "N": 850,
+      "ranges": [
+       {
+        "hLo": 611,
+        "hHi": 700,
+        "kgLo": 13.4,
+        "kgHi": 15.2,
+        "star": false
+       },
+       {
+        "hLo": 701,
+        "hHi": 770,
+        "kgLo": 11.8,
+        "kgHi": 13.6,
+        "star": false
+       },
+       {
+        "hLo": 771,
+        "hHi": 925,
+        "kgLo": 10.7,
+        "kgHi": 12.6,
+        "star": false
+       }
+      ]
+     }
+    ],
+    "note": "Setul după înălțimea interioară; perechea de arcuri după înălțime și greutate exactă; dacă două arcuri se potrivesc, se ia cel mai puternic."
+   },
+   "limits": {
+    "cabH": [
+     440,
+     925
+    ],
+    "cabW": [
+     300,
+     null
+    ],
+    "kg": [
+     3.8,
+     15.4
+    ],
+    "hiMin": 440,
+    "wiMin": 300,
+    "depthMin": 182
+   },
+   "open": {
+    "angle": null,
+    "note": "bi-fold; balamale cu unghi ≥110° pentru clapa de sus, la cel puțin 90 mm de interiorul laterală"
+   },
+   "mount": {
+    "raw": {
+     "carcase_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "screws": "6x Euro screw (Pozidriv) for 5x12 holes (fitting bag, per pair)",
+      "pattern_as_drawn_mm": {
+       "118": "horizontal overall",
+       "75": "horizontal",
+       "22": "horizontal",
+       "41": "vertical",
+       "85": "vertical",
+       "other": "55 and 182 as drawn in opening dimension picture"
+      },
+      "datum_note": "Detail circle of drawing S1 p.327 gives 118, 75, 22, 41, 85 with ø5x12 holes; datum assumed front edge (horizontal) and carcase top edge (vertical) from the drawing but dimension-line origins are small and NOT verified; pattern identical for HF/HK/HL/HS (S7). Hole count in drawing: not verified.",
+      "src": "S1 p.327,329,331,333; S7; S2 p.12"
+     },
+     "flap_holes": {
+      "diameter_x_depth_mm": "10 x 12",
+      "hardware": "4x brass expansion sleeve with hex head for ø10x12, hammered flush; 4x M6 socket screws connect arm to flap",
+      "wood_position": "horizontal from flap side edge: A + 15.5 (A = side overlay); vertical per flap: W = T + B; J = U - (H - B + 3); two holes per flap spaced 70 mm (70 shown vertically); unequal: W = T + B1, J = U - (H1 - B1 + 3), H2 = IH - (H1 - B1) - 3 + B2",
+      "T_U_by_range_mm": {
+       "440-550": {
+        "T": 120,
+        "U": 351
+       },
+       "551-610": {
+        "T": 155,
+        "U": 386
+       },
+       "611-700": {
+        "T": 185,
+        "U": 416
+       },
+       "701-770": {
+        "T": 215,
+        "U": 446
+       },
+       "771-925": {
+        "T": 245,
+        "U": 476
+       }
+      },
+      "alu_frame": "A - 6 side; adapter holes ø8; ø8 x 45 deg countersink, >= ø4, >= 11 mm",
+      "alu_frame_min_hole_distance_from_frame_top_mm": 42,
+      "src": "S1 p.327; S2 p.5,12"
+     },
+     "spacers_rule": "if J of lower flap < 65 mm fit spacers (S2 p.15, step 2)",
+     "src": "S1 p.327; S2 p.12-15"
+    },
+    "geometry": {
+     "fitting_dims_by_range_mm": {
+      "440-550": {
+       "P": 61,
+       "Q": 440,
+       "V": 440
+      },
+      "551-610": {
+       "P": 69,
+       "Q": 474,
+       "V": 475
+      },
+      "611-700": {
+       "P": 76,
+       "Q": 494,
+       "V": 505
+      },
+      "701-770": {
+       "P": 84,
+       "Q": 522,
+       "V": 535
+      },
+      "771-925": {
+       "P": 92,
+       "Q": 547,
+       "V": 565
+      }
+     },
+     "drawing_constants_mm": {
+      "flap_overlay_offset_top_front": 37,
+      "handle_zone": 155,
+      "open_front_gap_depth": 55,
+      "inside_depth_ref": 182,
+      "open_tilt_deg": 12,
+      "overall_open_length_formula": "~P + J (as drawn); Q is open reach"
+     },
+     "mechanism_envelope_LxHxW": null,
+     "envelope_note": "no mechanism length x height x width stated; only the drawn open-state dimensions P, Q, V above",
+     "open_angle": "upper flap must open fully, min 110 deg (S2 p.16 step 6)",
+     "src": "S1 p.327; S2 p.16"
+    }
+   },
+   "src": "Hettich S1 p.326; S3",
+   "verificat": false,
+   "notes": [
+    "Prinderea în corp: găuri Ø5×12; poziția exactă (reperul cotelor) nu e confirmată în sursă."
+   ]
+  },
+  {
+   "key": "het_la_hk",
+   "brand": "Hettich",
+   "name": "Lift Advanced HK",
+   "motion": "swingup",
+   "flaps": 1,
+   "select": {
+    "type": "springs",
+    "metric": "înălțime interioară corp (mm) și greutate front cu mâner (kg)",
+    "sets": [
+     {
+      "code": "9079603",
+      "hLo": 276,
+      "hHi": 720
+     }
+    ],
+    "springs": [
+     {
+      "code": "9079618",
+      "N": 150,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 2.1,
+        "kgHi": 4.7,
+        "star": true
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 2.0,
+        "kgHi": 3.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079619",
+      "N": 200,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 4.1,
+        "kgHi": 7.0,
+        "star": true
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 3.3,
+        "kgHi": 5.4,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 2.4,
+        "kgHi": 4.9,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079622",
+      "N": 250,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 6.1,
+        "kgHi": 8.9,
+        "star": true
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 4.5,
+        "kgHi": 6.3,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 3.8,
+        "kgHi": 6.2,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 3.8,
+        "kgHi": 5.6,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 3.8,
+        "kgHi": 5.0,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079624",
+      "N": 300,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 7.8,
+        "kgHi": 10.7,
+        "star": true
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 5.7,
+        "kgHi": 7.9,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 5.2,
+        "kgHi": 7.6,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 4.9,
+        "kgHi": 6.7,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 4.4,
+        "kgHi": 5.9,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079626",
+      "N": 350,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 9.7,
+        "kgHi": 12.4,
+        "star": true
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 7.1,
+        "kgHi": 9.3,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 6.6,
+        "kgHi": 9.0,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 6.1,
+        "kgHi": 7.7,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 5.4,
+        "kgHi": 6.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079628",
+      "N": 400,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 11.5,
+        "kgHi": 14.3,
+        "star": false
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 8.6,
+        "kgHi": 10.7,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 8.1,
+        "kgHi": 10.3,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 7.2,
+        "kgHi": 8.8,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 6.3,
+        "kgHi": 7.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079630",
+      "N": 450,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 13.3,
+        "kgHi": 16.0,
+        "star": false
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 10.2,
+        "kgHi": 12.1,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 9.7,
+        "kgHi": 11.6,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 8.4,
+        "kgHi": 10.0,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 7.3,
+        "kgHi": 8.7,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079632",
+      "N": 500,
+      "ranges": [
+       {
+        "hLo": 276,
+        "hHi": 360,
+        "kgLo": 15.2,
+        "kgHi": 17.9,
+        "star": false
+       },
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 11.7,
+        "kgHi": 13.4,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 11.0,
+        "kgHi": 12.8,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 9.6,
+        "kgHi": 11.0,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 8.2,
+        "kgHi": 9.6,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079635",
+      "N": 550,
+      "ranges": [
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 12.9,
+        "kgHi": 14.3,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 12.4,
+        "kgHi": 14.1,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 10.7,
+        "kgHi": 12.2,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 9.1,
+        "kgHi": 10.4,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079637",
+      "N": 600,
+      "ranges": [
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 14.2,
+        "kgHi": 15.5,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 13.7,
+        "kgHi": 15.4,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 12.0,
+        "kgHi": 13.2,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 10.1,
+        "kgHi": 11.4,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079644",
+      "N": 650,
+      "ranges": [
+       {
+        "hLo": 361,
+        "hHi": 480,
+        "kgLo": 15.4,
+        "kgHi": 16.8,
+        "star": false
+       },
+       {
+        "hLo": 481,
+        "hHi": 540,
+        "kgLo": 15.0,
+        "kgHi": 16.7,
+        "star": false
+       },
+       {
+        "hLo": 541,
+        "hHi": 600,
+        "kgLo": 13.1,
+        "kgHi": 14.3,
+        "star": false
+       },
+       {
+        "hLo": 601,
+        "hHi": 720,
+        "kgLo": 11.1,
+        "kgHi": 12.4,
+        "star": false
+       }
+      ]
+     }
+    ],
+    "note": "Setul după înălțimea interioară; perechea de arcuri după înălțime și greutate exactă; dacă două arcuri se potrivesc, se ia cel mai puternic."
+   },
+   "limits": {
+    "cabH": [
+     276,
+     720
+    ],
+    "cabW": [
+     300,
+     null
+    ],
+    "kg": [
+     2.0,
+     17.9
+    ],
+    "hiMin": 276,
+    "wiMin": 300,
+    "depthMin": 182
+   },
+   "open": {
+    "angle": [
+     0,
+     85
+    ],
+    "note": "deschidere maximă 85°"
+   },
+   "mount": {
+    "raw": {
+     "carcase_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "screws": "Euro screw Pozidriv",
+      "pattern_as_drawn_mm": {
+       "118": "horizontal",
+       "75": "horizontal",
+       "22": "horizontal",
+       "41": "vertical",
+       "85": "vertical"
+      },
+      "datum_note": "as for HF: dimension origins not verified; identical pattern for all four variants (S7)",
+      "src": "S1 p.329; S7"
+     },
+     "flap_holes": {
+      "diameter_x_depth_mm": "10 x 12",
+      "wood_position": "horizontal A + 15.5 from side edge (A = side overlay); vertical B + 158 and 32 mm apart (B = top overlay) as drawn",
+      "alu_frame": "A - 4.5 side, B + 162 vertical, 24 mm spacing; adapter holes ø8, ø8 x 45 deg, >= ø4, >= 11 mm",
+      "src": "S1 p.329"
+     },
+     "src": "S1 p.329"
+    },
+    "geometry": {
+     "drawing_mm": {
+      "overlay_top_front": 37,
+      "handle_zone": 155,
+      "inside_depth_ref": 182,
+      "arm_vertical_ref": 270,
+      "bottom_clear": 60,
+      "max_open_angle_deg": 85
+     },
+     "mechanism_envelope_LxHxW": null,
+     "envelope_note": "not given",
+     "src": "S1 p.329"
+    }
+   },
+   "src": "Hettich S1 p.328; S6 p.206; S3/S4",
+   "verificat": false,
+   "notes": [
+    "Prinderea în corp: găuri Ø5×12; poziția exactă (reperul cotelor) nu e confirmată în sursă."
+   ]
+  },
+  {
+   "key": "het_la_hl",
+   "brand": "Hettich",
+   "name": "Lift Advanced HL",
+   "motion": "parallel",
+   "flaps": 1,
+   "select": {
+    "type": "springs",
+    "metric": "înălțime interioară corp (mm) și greutate front cu mâner (kg)",
+    "sets": [
+     {
+      "code": "9079595",
+      "hLo": 277,
+      "hHi": 312
+     },
+     {
+      "code": "9079597",
+      "hLo": 313,
+      "hHi": 342
+     },
+     {
+      "code": "9079598",
+      "hLo": 343,
+      "hHi": 372
+     },
+     {
+      "code": "9079599",
+      "hLo": 373,
+      "hHi": 402
+     },
+     {
+      "code": "9079600",
+      "hLo": 403,
+      "hHi": 462
+     }
+    ],
+    "springs": [
+     {
+      "code": "9079618",
+      "N": 150,
+      "ranges": [
+       {
+        "hLo": 277,
+        "hHi": 312,
+        "kgLo": 2.1,
+        "kgHi": 3.8,
+        "star": false
+       },
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 2.3,
+        "kgHi": 3.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079619",
+      "N": 200,
+      "ranges": [
+       {
+        "hLo": 277,
+        "hHi": 312,
+        "kgLo": 3.8,
+        "kgHi": 5.4,
+        "star": false
+       },
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 3.6,
+        "kgHi": 5.3,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 2.1,
+        "kgHi": 4.8,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 1.7,
+        "kgHi": 3.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079622",
+      "N": 250,
+      "ranges": [
+       {
+        "hLo": 277,
+        "hHi": 312,
+        "kgLo": 5.6,
+        "kgHi": 7.1,
+        "star": false
+       },
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 5.2,
+        "kgHi": 7.1,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 3.3,
+        "kgHi": 6.0,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 2.6,
+        "kgHi": 5.0,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 3.2,
+        "kgHi": 4.9,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079624",
+      "N": 300,
+      "ranges": [
+       {
+        "hLo": 277,
+        "hHi": 312,
+        "kgLo": 7.3,
+        "kgHi": 8.8,
+        "star": false
+       },
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 6.5,
+        "kgHi": 8.7,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 4.3,
+        "kgHi": 7.2,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 3.8,
+        "kgHi": 6.3,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 4.4,
+        "kgHi": 5.9,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079626",
+      "N": 350,
+      "ranges": [
+       {
+        "hLo": 277,
+        "hHi": 312,
+        "kgLo": 8.9,
+        "kgHi": 10.5,
+        "star": false
+       },
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 7.9,
+        "kgHi": 10.2,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 5.5,
+        "kgHi": 8.6,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 4.9,
+        "kgHi": 7.5,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 5.4,
+        "kgHi": 6.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079628",
+      "N": 400,
+      "ranges": [
+       {
+        "hLo": 277,
+        "hHi": 312,
+        "kgLo": 10.6,
+        "kgHi": 12.1,
+        "star": false
+       },
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 9.1,
+        "kgHi": 11.7,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 6.6,
+        "kgHi": 9.7,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 6.0,
+        "kgHi": 8.7,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 6.3,
+        "kgHi": 7.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079630",
+      "N": 450,
+      "ranges": [
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 10.5,
+        "kgHi": 13.2,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 7.8,
+        "kgHi": 10.9,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 7.1,
+        "kgHi": 9.9,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 7.3,
+        "kgHi": 8.7,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079632",
+      "N": 500,
+      "ranges": [
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 11.6,
+        "kgHi": 14.7,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 8.9,
+        "kgHi": 12.2,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 8.2,
+        "kgHi": 11.1,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 8.2,
+        "kgHi": 9.6,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079635",
+      "N": 550,
+      "ranges": [
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 12.8,
+        "kgHi": 16.2,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 10.0,
+        "kgHi": 13.4,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 9.3,
+        "kgHi": 12.4,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 9.1,
+        "kgHi": 10.4,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079637",
+      "N": 600,
+      "ranges": [
+       {
+        "hLo": 313,
+        "hHi": 342,
+        "kgLo": 14.2,
+        "kgHi": 17.6,
+        "star": false
+       },
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 11.2,
+        "kgHi": 14.6,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 10.5,
+        "kgHi": 13.6,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 10.1,
+        "kgHi": 11.4,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079644",
+      "N": 650,
+      "ranges": [
+       {
+        "hLo": 343,
+        "hHi": 372,
+        "kgLo": 12.5,
+        "kgHi": 15.9,
+        "star": false
+       },
+       {
+        "hLo": 373,
+        "hHi": 402,
+        "kgLo": 11.7,
+        "kgHi": 14.9,
+        "star": false
+       },
+       {
+        "hLo": 403,
+        "hHi": 462,
+        "kgLo": 11.1,
+        "kgHi": 12.4,
+        "star": false
+       }
+      ]
+     }
+    ],
+    "note": "Setul după înălțimea interioară; perechea de arcuri după înălțime și greutate exactă; dacă două arcuri se potrivesc, se ia cel mai puternic."
+   },
+   "limits": {
+    "cabH": [
+     277,
+     462
+    ],
+    "cabW": [
+     360,
+     null
+    ],
+    "kg": [
+     1.7,
+     17.6
+    ],
+    "hiMin": 277,
+    "wiMin": 360,
+    "depthMin": 182
+   },
+   "open": {
+    "angle": null,
+    "note": "mișcare paralelă"
+   },
+   "mount": {
+    "raw": {
+     "carcase_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "screws": "Euro screw Pozidriv",
+      "pattern_as_drawn_mm": {
+       "118": "horizontal",
+       "75": "horizontal",
+       "22": "horizontal",
+       "41": "vertical",
+       "85": "vertical",
+       "60": "shelf/rear clearance as drawn"
+      },
+      "datum_note": "dimension origins not verified; pattern identical for all variants",
+      "src": "S1 p.331; S7"
+     },
+     "flap_holes": {
+      "diameter_x_depth_mm": "10 x 12",
+      "wood_position": "A + 14.5 from side edge (A = side overlay); vertical B + T from top edge (B = top overlay, T by range); 70 mm hole spacing",
+      "T_by_range_mm": {
+       "277-312": 160,
+       "313-342": 195,
+       "343-372": 225,
+       "373-402": 255,
+       "403-462": 285
+      },
+      "alu_frame": "A - 7 side, B + T vertical; adapter holes ø8, 8x45 deg, >= ø4, >= 11 mm",
+      "src": "S1 p.331"
+     },
+     "src": "S1 p.331"
+    },
+    "geometry": {
+     "fitting_dims_by_range_mm": {
+      "277-312": {
+       "P": 22,
+       "Q": 126,
+       "V": 277
+      },
+      "313-342": {
+       "P": 44,
+       "Q": 155,
+       "V": 312
+      },
+      "343-372": {
+       "P": 63,
+       "Q": 179,
+       "V": 342
+      },
+      "373-402": {
+       "P": 82,
+       "Q": 203,
+       "V": 372
+      },
+      "403-462": {
+       "P": 100,
+       "Q": 227,
+       "V": 402
+      }
+     },
+     "drawing_mm": {
+      "overlay_top_front": 37,
+      "top_offset": 40,
+      "handle_zone": 155,
+      "inside_depth_ref": 182,
+      "bottom_clear": 60
+     },
+     "mechanism_envelope_LxHxW": null,
+     "open_angle": null,
+     "src": "S1 p.331"
+    }
+   },
+   "src": "Hettich S1 p.330",
+   "verificat": false,
+   "notes": [
+    "Prinderea în corp: găuri Ø5×12; poziția exactă (reperul cotelor) nu e confirmată în sursă."
+   ]
+  },
+  {
+   "key": "het_la_hs",
+   "brand": "Hettich",
+   "name": "Lift Advanced HS",
+   "motion": "liftup",
+   "flaps": 1,
+   "select": {
+    "type": "springs",
+    "metric": "înălțime interioară corp (mm) și greutate front cu mâner (kg)",
+    "sets": [
+     {
+      "code": "9079617",
+      "hLo": 372,
+      "hHi": 688
+     }
+    ],
+    "springs": [
+     {
+      "code": "9079619",
+      "N": 200,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 3.0,
+        "kgHi": 4.4,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 3.2,
+        "kgHi": 4.3,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 2.5,
+        "kgHi": 3.9,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079622",
+      "N": 250,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 4.0,
+        "kgHi": 5.4,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 4.2,
+        "kgHi": 5.4,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 3.4,
+        "kgHi": 5.2,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 3.2,
+        "kgHi": 4.8,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079624",
+      "N": 300,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 5.3,
+        "kgHi": 6.7,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 5.2,
+        "kgHi": 6.5,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 4.4,
+        "kgHi": 6.4,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 4.0,
+        "kgHi": 6.1,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079626",
+      "N": 350,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 6.3,
+        "kgHi": 7.9,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 6.3,
+        "kgHi": 7.4,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 5.4,
+        "kgHi": 7.4,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 4.9,
+        "kgHi": 7.1,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079628",
+      "N": 400,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 7.7,
+        "kgHi": 9.1,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 7.3,
+        "kgHi": 8.6,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 6.5,
+        "kgHi": 8.4,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 5.8,
+        "kgHi": 8.2,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079630",
+      "N": 450,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 8.8,
+        "kgHi": 10.3,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 8.4,
+        "kgHi": 9.9,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 7.5,
+        "kgHi": 9.5,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 6.8,
+        "kgHi": 9.1,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079632",
+      "N": 500,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 10.0,
+        "kgHi": 11.5,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 9.4,
+        "kgHi": 10.9,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 8.6,
+        "kgHi": 10.5,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 7.7,
+        "kgHi": 10.0,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079635",
+      "N": 550,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 11.0,
+        "kgHi": 12.6,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 10.5,
+        "kgHi": 12.1,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 9.6,
+        "kgHi": 11.6,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 8.6,
+        "kgHi": 11.6,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079637",
+      "N": 600,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 12.1,
+        "kgHi": 13.8,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 11.6,
+        "kgHi": 13.2,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 10.7,
+        "kgHi": 12.6,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 9.6,
+        "kgHi": 12.6,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079644",
+      "N": 650,
+      "ranges": [
+       {
+        "hLo": 372,
+        "hHi": 408,
+        "kgLo": 13.3,
+        "kgHi": 14.9,
+        "star": false
+       },
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 12.6,
+        "kgHi": 14.2,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 11.7,
+        "kgHi": 13.7,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 10.5,
+        "kgHi": 13.5,
+        "star": false
+       }
+      ]
+     },
+     {
+      "code": "9079645",
+      "N": 700,
+      "ranges": [
+       {
+        "hLo": 409,
+        "hHi": 508,
+        "kgLo": 13.6,
+        "kgHi": 15.3,
+        "star": false
+       },
+       {
+        "hLo": 509,
+        "hHi": 568,
+        "kgLo": 12.8,
+        "kgHi": 14.7,
+        "star": false
+       },
+       {
+        "hLo": 569,
+        "hHi": 688,
+        "kgLo": 11.4,
+        "kgHi": 14.3,
+        "star": false
+       }
+      ]
+     }
+    ],
+    "note": "Setul după înălțimea interioară; perechea de arcuri după înălțime și greutate exactă; dacă două arcuri se potrivesc, se ia cel mai puternic."
+   },
+   "limits": {
+    "cabH": [
+     372,
+     688
+    ],
+    "cabW": [
+     360,
+     null
+    ],
+    "kg": [
+     2.5,
+     15.3
+    ],
+    "hiMin": 372,
+    "wiMin": 360,
+    "depthMin": 182
+   },
+   "open": {
+    "angle": [
+     0,
+     40
+    ],
+    "note": "înclinare ~40°, clapa rămâne deasupra corpului"
+   },
+   "mount": {
+    "raw": {
+     "carcase_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "screws": "Euro screw Pozidriv",
+      "pattern_as_drawn_mm": {
+       "118": "horizontal",
+       "75": "horizontal",
+       "22": "horizontal",
+       "41": "vertical",
+       "85": "vertical"
+      },
+      "datum_note": "origins not verified",
+      "src": "S1 p.333; S7"
+     },
+     "flap_holes": {
+      "diameter_x_depth_mm": "10 x 12",
+      "wood_position": "A + 14.5 from side edge; vertical B + 233 from top edge; 70 mm hole spacing",
+      "alu_frame": "A - 7 side, B + 233; adapter holes ø8, 8x45 deg, >= ø4, >= 11 mm",
+      "src": "S1 p.333"
+     },
+     "src": "S1 p.333"
+    },
+    "geometry": {
+     "drawing_mm": {
+      "open_angle_deg_approx": 40,
+      "flap_projection_above": 315,
+      "arm_clearance_max": 115,
+      "horizontal_181": 181,
+      "horizontal_276": 276,
+      "overlay_top_front": 37,
+      "top_offset": 40,
+      "handle_zone": 155,
+      "bottom_clear": 60
+     },
+     "mechanism_envelope_LxHxW": null,
+     "src": "S1 p.333"
+    }
+   },
+   "src": "Hettich S1 p.332",
+   "verificat": false,
+   "notes": [
+    "Prinderea în corp: găuri Ø5×12; poziția exactă (reperul cotelor) nu e confirmată în sursă."
+   ]
+  }
+ ]
+}

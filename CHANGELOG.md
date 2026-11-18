@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.86.0 — 19 noiembrie 2026
+
+**Uși care se deschid în sus (basculante), cu mecanisme de ridicare Blum, Hettich și Häfele în catalog (U.16).** Până acum catalogul nu avea niciun mecanism de ridicare. Acum, în Constructor, câmpul „Mecanism de ridicare" alege un sistem; ușa pe balamale devine „Anta basculante", fără balamale, cu un set de mecanism pe ușă.
+- **Sisteme (16), din documente oficiale:** Blum AVENTOS HK-XS, HK-S (TIP-ON), HK top, HF top, HL top, HS top; Hettich Lift Advanced HF, HK, HL, HS; Häfele Free flap 1.7 și 3.15, Free swing, Free space 1.11, Free fold, Free up. Sursele brute sunt în `tools/lift-data/raw/`; ce nu a putut fi citit rămâne `null`, nu un număr (anvelopa mecanismului, greutatea lui, unele limite de lățime).
+- **Alegerea variantei de forță** după tabelul producătorului: Blum după LF (înălțime × greutate), Hettich după setul de înălțime și perechea de arcuri, Häfele după tabelul pe înălțimi; greutatea ușii vine din material (densități orientative). În zonele de graniță producătorii recomandă probă: răspunsul e o orientare, nu înlocuiește fișa lor.
+- **Avertismente** în Constructor: înălțime, lățime, greutate sau adâncime în afara limitelor citite; nicio variantă de forță nu acoperă ușa; front de sticlă, curb, pliant sau înclinat (ușa rămâne pe balamale); și mereu că cotele nu sunt verificate pe un produs real.
+- **3D:** ușa se rotește în jurul muchiei de sus, în sus și peste corp (la 107° muchia de jos ajunge la FH·0,29 deasupra, ca în formula Blum); la mișcarea paralelă (HL, Free up) urcă dreaptă. Mecanismul e desenat **schematic**: corp pe fiecare lateral, plăcuță pe spatele ușii și braț între ele; nu sunt cotele reale ale pieselor.
+- **Găurile NU sunt generate** pentru mecanism și pentru mânerul ușii basculante: cotele din desenele producătorilor au sensul unor dimensiuni citit din imagine și nu sunt confruntate cu un produs. Foaia piesei spune asta; se găurește cu șablonul producătorului.
+- **În camera 3D** ușa basculantă rămâne închisă (deschiderea din cameră nu o cunoaște încă).
+- Prețurile articolelor sunt 0 (de completat în Catalog). Teste noi: `liftfit.test.js`, `liftdoor.test.js`. Generatorul de date: `node tools/lift-build.mjs`.
+
+---
+
 ## 5.85.0 — 19 noiembrie 2026
 
 **Codul QR de pe etichetă deschide piesa și fără comandă Atelier și fără cont (D-160).** Până acum, fără comandă eticheta avea un cod cu text, pe care camera îl arăta ca text. Acum datele piesei stau chiar în cod: cote, material, cant, găuri și canale. Camera telefonului deschide `https://ebanist.com/app/#p=…` și apare fișa piesei, cu desen și tabel de operații, fără autentificare. Fragmentul `#p=` nu pleacă spre niciun server.

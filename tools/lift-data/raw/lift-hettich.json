@@ -1,0 +1,1698 @@
+{
+ "brand": "Hettich",
+ "sources": [
+  {
+   "id": "S1",
+   "url": "https://web.hettich.com/fileadmin/Media_Center/11_General/01_Catalogues/TA_2016_01_en_DE_03_Flap_fittings.pdf",
+   "title": "Hettich Furniture Fittings catalogue 2016, Flap fittings (EN), printed pp. 319-357",
+   "pages": "printed p.320-321 (comparison), 324-325 (Lift Advanced summary), 326-327 HF, 328-329 HK, 330-331 HL, 332-333 HS, 334-355 other flap fittings. Drawings read visually from page images; tables from text layer."
+  },
+  {
+   "id": "S2",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/Lift_Advanced_Handbuch_DE_032017.pdf",
+   "title": "Technische Dokumentation Lift Advanced (Hettich Technical Assistant, 03/2017, German)",
+   "pages": "p.5-6 (hinges, alu frames, gap), p.9 (gas spring codes), p.12-14 (preparation, fitting bag, cross member). The EN file name Lift_Advanced_Handbuch_EN_032017.pdf returned 404."
+  },
+  {
+   "id": "S3",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/LA_HF_04_2012.pdf",
+   "title": "Lift Advanced HF assembly instructions 04/2012 (multilingual)",
+   "pages": "whole (28 pp.); spring tables and hinge note"
+  },
+  {
+   "id": "S4",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/LA_HK_04_2012.pdf",
+   "title": "Lift Advanced HK assembly instructions 04/2012",
+   "pages": "whole (20 pp.); hinge 95 deg note"
+  },
+  {
+   "id": "S5",
+   "url": "https://hta.hettich.com/fileadmin/Hettich_Technical_Assistant/Documents/LA_HL_HS_04_2012.pdf",
+   "title": "Lift Advanced HL/HS assembly instructions 04/2012",
+   "pages": "whole (36 pp.); cross member LBE = KB - 290 mm"
+  },
+  {
+   "id": "S6",
+   "url": "https://catalog.hettich.com/General/TA_2023/de_DE/catalogs/TA_2023_de_DE/pdf/save/bk_224.pdf",
+   "title": "Hettich Technik fuer Moebel 2023, Lift Advanced HK page (DE), printed p.206",
+   "pages": "p.206 - confirms HK range, code 9079603 and spring table unchanged in 2023 catalogue"
+  },
+  {
+   "id": "S7",
+   "url": "https://hta.hettich.com/en-de/flap-fittings/lift-advanced",
+   "title": "Hettich Technical Assistant: Lift Advanced page",
+   "pages": "web page; 4 variants; carcase drilling pattern identical for all four; links to S2-S5"
+  }
+ ],
+ "systems": [
+  {
+   "id": "lift-advanced-hf",
+   "name": "Hettich Lift Advanced HF (folding flap fitting)",
+   "motion": "bi-fold (two flaps, folding flap, upper flap hinged with cup hinges, fitting arm bolted to upper flap)",
+   "options": [
+    "soft closing (Silent System integrated)",
+    "adjustable opening force (gas spring choice + adjustment)",
+    "no push-to-open / no electric variant in source",
+    "wood front, framed wood front or 19 mm aluminium profile frame (adapter 9079601)",
+    "unequal-height flaps possible from inside carcase height 490 mm",
+    "cross member / centre hinge not required"
+   ],
+   "codes": [
+    {
+     "code": "9079605",
+     "desc": "HF fitting set (pair L+R, cover caps, fixing material)",
+     "range": "inside carcase height 440-550 mm",
+     "src": "S1 p.326"
+    },
+    {
+     "code": "9079607",
+     "desc": "HF fitting set",
+     "range": "551-610 mm (unequal flaps: carcase 490-610)",
+     "src": "S1 p.326-327"
+    },
+    {
+     "code": "9079610",
+     "desc": "HF fitting set",
+     "range": "611-700 mm (unequal: 520-700)",
+     "src": "S1 p.326-327"
+    },
+    {
+     "code": "9079614",
+     "desc": "HF fitting set",
+     "range": "701-770 mm (unequal: 550-770)",
+     "src": "S1 p.326-327"
+    },
+    {
+     "code": "9079615",
+     "desc": "HF fitting set",
+     "range": "771-925 mm (unequal: 580-870)",
+     "src": "S1 p.326-327"
+    },
+    {
+     "code": "9079601",
+     "desc": "Adapter for 19 mm aluminium profile (plastic grey), only for inside carcase height up to 905 mm",
+     "range": "",
+     "src": "S1 p.327"
+    },
+    {
+     "code": "9079618",
+     "desc": "Gas spring set (2 pcs), 150 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "150 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079619",
+     "desc": "Gas spring set (2 pcs), 200 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "200 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079622",
+     "desc": "Gas spring set (2 pcs), 250 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "250 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079624",
+     "desc": "Gas spring set (2 pcs), 300 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "300 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079626",
+     "desc": "Gas spring set (2 pcs), 350 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "350 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079628",
+     "desc": "Gas spring set (2 pcs), 400 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "400 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079630",
+     "desc": "Gas spring set (2 pcs), 450 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "450 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079632",
+     "desc": "Gas spring set (2 pcs), 500 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "500 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079635",
+     "desc": "Gas spring set (2 pcs), 550 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "550 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079637",
+     "desc": "Gas spring set (2 pcs), 600 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "600 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079644",
+     "desc": "Gas spring set (2 pcs), 650 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "650 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079645",
+     "desc": "Gas spring set (2 pcs), 700 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "700 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079647",
+     "desc": "Gas spring set (2 pcs), 750 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "750 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079650",
+     "desc": "Gas spring set (2 pcs), 800 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "800 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079651",
+     "desc": "Gas spring set (2 pcs), 850 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "850 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    }
+   ],
+   "selection": {
+    "rule_text": "1) Pick the fitting set by inside carcase height (5 ranges, 440-925 mm). 2) Pick gas spring pair from the table by inside carcase height range and exact flap weight incl. handle (total of both flaps); if two springs fit choose the stronger. Flap weight 3.8-15.4 kg incl. handle. Hinges: cup hinges 110 deg or more (Sensys 8645i, Intermat 9943) for the upper flap, min. 90 mm from carcase side inner edge.",
+    "table": {
+     "table_kg_by_inside_carcase_height_mm_and_spring_N": {
+      "300": {
+       "code": "9079624",
+       "kg": {
+        "440-550": "4.4 - 5.8 kg",
+        "551-610": "4.0 - 6.0 kg",
+        "611-700": null,
+        "701-770": null,
+        "771-925": null
+       }
+      },
+      "350": {
+       "code": "9079626",
+       "kg": {
+        "440-550": "5.1 - 6.6 kg",
+        "551-610": "4.5 - 6.7 kg",
+        "611-700": "3.8 - 5.8 kg",
+        "701-770": "4.0 - 5.2 kg",
+        "771-925": null
+       }
+      },
+      "400": {
+       "code": "9079628",
+       "kg": {
+        "440-550": "6.0 - 8.0 kg",
+        "551-610": "5.3 - 7.6 kg",
+        "611-700": "4.6 - 7.0 kg",
+        "701-770": "4.6 - 5.9 kg",
+        "771-925": "4.0 - 5.5 kg"
+       }
+      },
+      "450": {
+       "code": "9079630",
+       "kg": {
+        "440-550": "6.8 - 9.2 kg",
+        "551-610": "6.2 - 8.6 kg",
+        "611-700": "5.9 - 8.0 kg",
+        "701-770": "5.3 - 6.7 kg",
+        "771-925": "4.9 - 6.5 kg"
+       }
+      },
+      "500": {
+       "code": "9079632",
+       "kg": {
+        "440-550": "7.8 - 10.2 kg",
+        "551-610": "7.0 - 9.3 kg",
+        "611-700": "6.9 - 8.9 kg",
+        "701-770": "5.9 - 7.4 kg",
+        "771-925": "5.5 - 7.0 kg"
+       }
+      },
+      "550": {
+       "code": "9079635",
+       "kg": {
+        "440-550": "8.9 - 11.2 kg",
+        "551-610": "8.0 - 10.3 kg",
+        "611-700": "8.0 - 9.9 kg",
+        "701-770": "6.7 - 8.3 kg",
+        "771-925": "6.0 - 7.7 kg"
+       }
+      },
+      "600": {
+       "code": "9079637",
+       "kg": {
+        "440-550": "10.5 - 12.6 kg",
+        "551-610": "9.1 - 11.4 kg",
+        "611-700": "8.8 - 10.8 kg",
+        "701-770": "7.8 - 9.3 kg",
+        "771-925": "6.9 - 8.7 kg"
+       }
+      },
+      "650": {
+       "code": "9079644",
+       "kg": {
+        "440-550": "12.2 - 14.2 kg",
+        "551-610": "10.5 - 12.6 kg",
+        "611-700": "10.1 - 12.0 kg",
+        "701-770": "8.5 - 10.4 kg",
+        "771-925": "7.9 - 9.8 kg"
+       }
+      },
+      "700": {
+       "code": "9079645",
+       "kg": {
+        "440-550": "13.2 - 15.0 kg",
+        "551-610": "11.7 - 13.6 kg",
+        "611-700": "11.1 - 12.9 kg",
+        "701-770": "9.4 - 11.2 kg",
+        "771-925": "8.7 - 10.5 kg"
+       }
+      },
+      "750": {
+       "code": "9079647",
+       "kg": {
+        "440-550": "13.8 - 15.4 kg",
+        "551-610": "12.3 - 14.1 kg",
+        "611-700": "11.6 - 13.5 kg",
+        "701-770": "10.0 - 11.8 kg",
+        "771-925": "9.3 - 11.0 kg"
+       }
+      },
+      "800": {
+       "code": "9079650",
+       "kg": {
+        "440-550": null,
+        "551-610": "13.3 - 14.6 kg",
+        "611-700": "12.6 - 14.4 kg",
+        "701-770": "10.8 - 12.7 kg",
+        "771-925": "10.1 - 11.7 kg"
+       }
+      },
+      "850": {
+       "code": "9079651",
+       "kg": {
+        "440-550": null,
+        "551-610": null,
+        "611-700": "13.4 - 15.2 kg",
+        "701-770": "11.8 - 13.6 kg",
+        "771-925": "10.7 - 12.6 kg"
+       }
+      }
+     },
+     "src": "S1 p.326; S3"
+    },
+    "limits": {
+     "inside_carcase_height_mm": [
+      440,
+      925
+     ],
+     "inside_carcase_width_min_mm": 300,
+     "inside_carcase_depth_min_mm": 182,
+     "flap_weight_kg_incl_handle": [
+      3.8,
+      15.4
+     ],
+     "front_thickness_mm": null,
+     "front_thickness_note": "not stated for HF; fronts: wood, framed wood, 19 mm wide aluminium profile; flap width max: null (not stated)",
+     "hinge_min_distance_from_side_mm": 90,
+     "opening_angle_hinge_min_deg": 110,
+     "vertical_adjust_mm": 2,
+     "side_adjust_mm": 2,
+     "tilt_depth_adjust_mm": 2
+    },
+    "src": "S1 p.324,326; S2 p.5,12"
+   },
+   "cabinet": {
+    "min_inside_height_mm": 440,
+    "max_inside_height_mm": 925,
+    "min_inside_width_mm": 300,
+    "max_inside_width_mm": null,
+    "min_inside_depth_mm": 182,
+    "side_panel_thickness_mm": null,
+    "side_thickness_note": "not stated for HF (HL/HS cross member compensates 16-19 mm, per S2 p.13)",
+    "max_front_width_mm": null,
+    "unequal_flaps_min_inside_height_mm": 490,
+    "src": "S1 p.324,326-327"
+   },
+   "mounting": {
+    "carcase_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "screws": "6x Euro screw (Pozidriv) for 5x12 holes (fitting bag, per pair)",
+     "pattern_as_drawn_mm": {
+      "118": "horizontal overall",
+      "75": "horizontal",
+      "22": "horizontal",
+      "41": "vertical",
+      "85": "vertical",
+      "other": "55 and 182 as drawn in opening dimension picture"
+     },
+     "datum_note": "Detail circle of drawing S1 p.327 gives 118, 75, 22, 41, 85 with ø5x12 holes; datum assumed front edge (horizontal) and carcase top edge (vertical) from the drawing but dimension-line origins are small and NOT verified; pattern identical for HF/HK/HL/HS (S7). Hole count in drawing: not verified.",
+     "src": "S1 p.327,329,331,333; S7; S2 p.12"
+    },
+    "flap_holes": {
+     "diameter_x_depth_mm": "10 x 12",
+     "hardware": "4x brass expansion sleeve with hex head for ø10x12, hammered flush; 4x M6 socket screws connect arm to flap",
+     "wood_position": "horizontal from flap side edge: A + 15.5 (A = side overlay); vertical per flap: W = T + B; J = U - (H - B + 3); two holes per flap spaced 70 mm (70 shown vertically); unequal: W = T + B1, J = U - (H1 - B1 + 3), H2 = IH - (H1 - B1) - 3 + B2",
+     "T_U_by_range_mm": {
+      "440-550": {
+       "T": 120,
+       "U": 351
+      },
+      "551-610": {
+       "T": 155,
+       "U": 386
+      },
+      "611-700": {
+       "T": 185,
+       "U": 416
+      },
+      "701-770": {
+       "T": 215,
+       "U": 446
+      },
+      "771-925": {
+       "T": 245,
+       "U": 476
+      }
+     },
+     "alu_frame": "A - 6 side; adapter holes ø8; ø8 x 45 deg countersink, >= ø4, >= 11 mm",
+     "alu_frame_min_hole_distance_from_frame_top_mm": 42,
+     "src": "S1 p.327; S2 p.5,12"
+    },
+    "spacers_rule": "if J of lower flap < 65 mm fit spacers (S2 p.15, step 2)",
+    "src": "S1 p.327; S2 p.12-15"
+   },
+   "geometry": {
+    "fitting_dims_by_range_mm": {
+     "440-550": {
+      "P": 61,
+      "Q": 440,
+      "V": 440
+     },
+     "551-610": {
+      "P": 69,
+      "Q": 474,
+      "V": 475
+     },
+     "611-700": {
+      "P": 76,
+      "Q": 494,
+      "V": 505
+     },
+     "701-770": {
+      "P": 84,
+      "Q": 522,
+      "V": 535
+     },
+     "771-925": {
+      "P": 92,
+      "Q": 547,
+      "V": 565
+     }
+    },
+    "drawing_constants_mm": {
+     "flap_overlay_offset_top_front": 37,
+     "handle_zone": 155,
+     "open_front_gap_depth": 55,
+     "inside_depth_ref": 182,
+     "open_tilt_deg": 12,
+     "overall_open_length_formula": "~P + J (as drawn); Q is open reach"
+    },
+    "mechanism_envelope_LxHxW": null,
+    "envelope_note": "no mechanism length x height x width stated; only the drawn open-state dimensions P, Q, V above",
+    "open_angle": "upper flap must open fully, min 110 deg (S2 p.16 step 6)",
+    "src": "S1 p.327; S2 p.16"
+   },
+   "unreadable": [
+    "Meaning of drawing dims 37, 155, 55 only inferred from the picture, not text-labelled",
+    "Mechanism envelope L x H x W not in source",
+    "Fixing torque, flap thickness limits, max flap width not stated"
+   ]
+  },
+  {
+   "id": "lift-advanced-hk",
+   "name": "Hettich Lift Advanced HK (upward opening flap fitting)",
+   "motion": "swing up (single flap, hinged at top on cup hinges, arm lifts and holds flap above carcase, <= 85 deg)",
+   "options": [
+    "soft closing (Silent System integrated)",
+    "adjustable opening force",
+    "Sensys damped hinge usable per S2 table (height 276-360: from 12.4 kg; 360-720: all weights)",
+    "wood, framed wood or 19 mm aluminium profile front (adapter 9079709, zinc die-cast)",
+    "no push-to-open / no electric variant in source"
+   ],
+   "codes": [
+    {
+     "code": "9079603",
+     "desc": "HK fitting set (pair, cover caps, fixing material)",
+     "range": "inside carcase height 276-720 mm (one set covers all)",
+     "src": "S1 p.328; S6 p.206"
+    },
+    {
+     "code": "9079709",
+     "desc": "Adapter for 19 mm aluminium profiles (zinc die-cast nickel plated)",
+     "range": "",
+     "src": "S1 p.329"
+    },
+    {
+     "code": "9079618",
+     "desc": "Gas spring set (2 pcs), 150 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "150 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079619",
+     "desc": "Gas spring set (2 pcs), 200 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "200 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079622",
+     "desc": "Gas spring set (2 pcs), 250 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "250 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079624",
+     "desc": "Gas spring set (2 pcs), 300 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "300 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079626",
+     "desc": "Gas spring set (2 pcs), 350 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "350 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079628",
+     "desc": "Gas spring set (2 pcs), 400 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "400 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079630",
+     "desc": "Gas spring set (2 pcs), 450 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "450 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079632",
+     "desc": "Gas spring set (2 pcs), 500 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "500 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079635",
+     "desc": "Gas spring set (2 pcs), 550 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "550 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079637",
+     "desc": "Gas spring set (2 pcs), 600 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "600 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079644",
+     "desc": "Gas spring set (2 pcs), 650 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "650 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079645",
+     "desc": "Gas spring set (2 pcs), 700 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "700 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079647",
+     "desc": "Gas spring set (2 pcs), 750 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "750 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079650",
+     "desc": "Gas spring set (2 pcs), 800 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "800 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079651",
+     "desc": "Gas spring set (2 pcs), 850 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "850 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    }
+   ],
+   "selection": {
+    "rule_text": "One fitting set for all heights 276-720 mm; spring (150-650 N) chosen by inside carcase height range (5 ranges) and exact flap weight incl. handle; if two fit take the stronger. * marks cases where hinge without Silent System is recommended (276-360 mm, springs 150-350 N).",
+    "table": {
+     "table_kg_by_inside_carcase_height_mm_and_spring_N": {
+      "150": {
+       "code": "9079618",
+       "kg": {
+        "276-360": "2.1 - 4.7 kg *",
+        "361-480": "2.0 - 3.8 kg",
+        "481-540": null,
+        "541-600": null,
+        "601-720": null
+       }
+      },
+      "200": {
+       "code": "9079619",
+       "kg": {
+        "276-360": "4.1 - 7.0 kg *",
+        "361-480": "3.3 - 5.4 kg",
+        "481-540": "2.4 - 4.9 kg",
+        "541-600": null,
+        "601-720": null
+       }
+      },
+      "250": {
+       "code": "9079622",
+       "kg": {
+        "276-360": "6.1 - 8.9 kg *",
+        "361-480": "4.5 - 6.3 kg",
+        "481-540": "3.8 - 6.2 kg",
+        "541-600": "3.8 - 5.6 kg",
+        "601-720": "3.8 - 5.0 kg"
+       }
+      },
+      "300": {
+       "code": "9079624",
+       "kg": {
+        "276-360": "7.8 - 10.7 kg *",
+        "361-480": "5.7 - 7.9 kg",
+        "481-540": "5.2 - 7.6 kg",
+        "541-600": "4.9 - 6.7 kg",
+        "601-720": "4.4 - 5.9 kg"
+       }
+      },
+      "350": {
+       "code": "9079626",
+       "kg": {
+        "276-360": "9.7 - 12.4 kg *",
+        "361-480": "7.1 - 9.3 kg",
+        "481-540": "6.6 - 9.0 kg",
+        "541-600": "6.1 - 7.7 kg",
+        "601-720": "5.4 - 6.8 kg"
+       }
+      },
+      "400": {
+       "code": "9079628",
+       "kg": {
+        "276-360": "11.5 - 14.3 kg",
+        "361-480": "8.6 - 10.7 kg",
+        "481-540": "8.1 - 10.3 kg",
+        "541-600": "7.2 - 8.8 kg",
+        "601-720": "6.3 - 7.8 kg"
+       }
+      },
+      "450": {
+       "code": "9079630",
+       "kg": {
+        "276-360": "13.3 - 16.0 kg",
+        "361-480": "10.2 - 12.1 kg",
+        "481-540": "9.7 - 11.6 kg",
+        "541-600": "8.4 - 10.0 kg",
+        "601-720": "7.3 - 8.7 kg"
+       }
+      },
+      "500": {
+       "code": "9079632",
+       "kg": {
+        "276-360": "15.2 - 17.9 kg",
+        "361-480": "11.7 - 13.4 kg",
+        "481-540": "11.0 - 12.8 kg",
+        "541-600": "9.6 - 11.0 kg",
+        "601-720": "8.2 - 9.6 kg"
+       }
+      },
+      "550": {
+       "code": "9079635",
+       "kg": {
+        "276-360": null,
+        "361-480": "12.9 - 14.3 kg",
+        "481-540": "12.4 - 14.1 kg",
+        "541-600": "10.7 - 12.2 kg",
+        "601-720": "9.1 - 10.4 kg"
+       }
+      },
+      "600": {
+       "code": "9079637",
+       "kg": {
+        "276-360": null,
+        "361-480": "14.2 - 15.5 kg",
+        "481-540": "13.7 - 15.4 kg",
+        "541-600": "12.0 - 13.2 kg",
+        "601-720": "10.1 - 11.4 kg"
+       }
+      },
+      "650": {
+       "code": "9079644",
+       "kg": {
+        "276-360": null,
+        "361-480": "15.4 - 16.8 kg",
+        "481-540": "15.0 - 16.7 kg",
+        "541-600": "13.1 - 14.3 kg",
+        "601-720": "11.1 - 12.4 kg"
+       }
+      }
+     },
+     "src": "S1 p.328; S6 p.206; S3/S4"
+    },
+    "limits": {
+     "inside_carcase_height_mm": [
+      276,
+      720
+     ],
+     "inside_carcase_width_min_mm": 300,
+     "inside_carcase_depth_min_mm": 182,
+     "flap_weight_kg_incl_handle": [
+      2.0,
+      17.9
+     ],
+     "max_open_angle_deg": 85,
+     "hinge_open_angle_min_deg": 95,
+     "hinge_min_distance_from_side_mm": 90,
+     "front_thickness_mm": null,
+     "alu_adapter_gap_range_mm": [
+      2.8,
+      5
+     ],
+     "alu_adapter_side_support_mm": [
+      10.8,
+      13
+     ]
+    },
+    "src": "S1 p.324,328-329; S2 p.5-6"
+   },
+   "cabinet": {
+    "min_inside_height_mm": 276,
+    "max_inside_height_mm": 720,
+    "min_inside_width_mm": 300,
+    "max_inside_width_mm": null,
+    "min_inside_depth_mm": 182,
+    "side_panel_thickness_mm": null,
+    "max_front_width_mm": null,
+    "src": "S1 p.324,328"
+   },
+   "mounting": {
+    "carcase_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "screws": "Euro screw Pozidriv",
+     "pattern_as_drawn_mm": {
+      "118": "horizontal",
+      "75": "horizontal",
+      "22": "horizontal",
+      "41": "vertical",
+      "85": "vertical"
+     },
+     "datum_note": "as for HF: dimension origins not verified; identical pattern for all four variants (S7)",
+     "src": "S1 p.329; S7"
+    },
+    "flap_holes": {
+     "diameter_x_depth_mm": "10 x 12",
+     "wood_position": "horizontal A + 15.5 from side edge (A = side overlay); vertical B + 158 and 32 mm apart (B = top overlay) as drawn",
+     "alu_frame": "A - 4.5 side, B + 162 vertical, 24 mm spacing; adapter holes ø8, ø8 x 45 deg, >= ø4, >= 11 mm",
+     "src": "S1 p.329"
+    },
+    "src": "S1 p.329"
+   },
+   "geometry": {
+    "drawing_mm": {
+     "overlay_top_front": 37,
+     "handle_zone": 155,
+     "inside_depth_ref": 182,
+     "arm_vertical_ref": 270,
+     "bottom_clear": 60,
+     "max_open_angle_deg": 85
+    },
+    "mechanism_envelope_LxHxW": null,
+    "envelope_note": "not given",
+    "src": "S1 p.329"
+   },
+   "unreadable": [
+    "Datum of hole dimensions inferred only",
+    "Envelope L x H x W not in source",
+    "Flap thickness limits not stated"
+   ]
+  },
+  {
+   "id": "lift-advanced-hl",
+   "name": "Hettich Lift Advanced HL (flap lift fitting)",
+   "motion": "parallel lift (flap lifts out and forward, flap stays parallel to front; Q = horizontal reach, P = vertical)",
+   "options": [
+    "soft closing (Silent System)",
+    "adjustable opening force",
+    "cross member 9079653/58/64 (600/1200/1800 mm)",
+    "wood, framed wood or 19 mm aluminium frame (adapter 9079601)",
+    "no push-to-open / electric in source"
+   ],
+   "codes": [
+    {
+     "code": "9079595",
+     "desc": "HL fitting set",
+     "range": "inside carcase height 277-312 mm",
+     "src": "S1 p.330"
+    },
+    {
+     "code": "9079597",
+     "desc": "HL fitting set",
+     "range": "313-342 mm",
+     "src": "S1 p.330"
+    },
+    {
+     "code": "9079598",
+     "desc": "HL fitting set",
+     "range": "343-372 mm",
+     "src": "S1 p.330"
+    },
+    {
+     "code": "9079599",
+     "desc": "HL fitting set",
+     "range": "373-402 mm",
+     "src": "S1 p.330"
+    },
+    {
+     "code": "9079600",
+     "desc": "HL fitting set",
+     "range": "403-462 mm",
+     "src": "S1 p.330"
+    },
+    {
+     "code": "9079601",
+     "desc": "Adapter for 19 mm aluminium profile",
+     "range": "",
+     "src": "S1 p.331"
+    },
+    {
+     "code": "9079653",
+     "desc": "Shortenable cross member for HL/HS, carcase width 600 mm (sides 16-19 mm compensated automatically)",
+     "range": "600 mm",
+     "src": "S1 p.331/333; S2 p.13"
+    },
+    {
+     "code": "9079658",
+     "desc": "Cross member, carcase width 1200 mm",
+     "range": "1200 mm",
+     "src": "S1 p.331/333"
+    },
+    {
+     "code": "9079664",
+     "desc": "Cross member, carcase width 1800 mm",
+     "range": "1800 mm",
+     "src": "S1 p.331/333"
+    },
+    {
+     "code": "9079618",
+     "desc": "Gas spring set (2 pcs), 150 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "150 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079619",
+     "desc": "Gas spring set (2 pcs), 200 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "200 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079622",
+     "desc": "Gas spring set (2 pcs), 250 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "250 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079624",
+     "desc": "Gas spring set (2 pcs), 300 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "300 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079626",
+     "desc": "Gas spring set (2 pcs), 350 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "350 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079628",
+     "desc": "Gas spring set (2 pcs), 400 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "400 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079630",
+     "desc": "Gas spring set (2 pcs), 450 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "450 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079632",
+     "desc": "Gas spring set (2 pcs), 500 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "500 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079635",
+     "desc": "Gas spring set (2 pcs), 550 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "550 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079637",
+     "desc": "Gas spring set (2 pcs), 600 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "600 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079644",
+     "desc": "Gas spring set (2 pcs), 650 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "650 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079645",
+     "desc": "Gas spring set (2 pcs), 700 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "700 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079647",
+     "desc": "Gas spring set (2 pcs), 750 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "750 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079650",
+     "desc": "Gas spring set (2 pcs), 800 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "800 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079651",
+     "desc": "Gas spring set (2 pcs), 850 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "850 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    }
+   ],
+   "selection": {
+    "rule_text": "Fitting set by inside carcase height (5 ranges 277-462 mm); spring pair (150-650 N) by height range and exact flap weight incl. handle, stronger spring if two fit. Cross member selected by carcase width; for other widths shorten centre piece to carcase width - 290 mm (S2 p.14; S5 LBE = KB - 290).",
+    "table": {
+     "table_kg_by_inside_carcase_height_mm_and_spring_N": {
+      "150": {
+       "code": "9079618",
+       "kg": {
+        "277-312": "2.1 - 3.8 kg",
+        "313-342": "2.3 - 3.8 kg",
+        "343-372": null,
+        "373-402": null,
+        "403-462": null
+       }
+      },
+      "200": {
+       "code": "9079619",
+       "kg": {
+        "277-312": "3.8 - 5.4 kg",
+        "313-342": "3.6 - 5.3 kg",
+        "343-372": "2.1 - 4.8 kg",
+        "373-402": "1.7 - 3.8 kg",
+        "403-462": null
+       }
+      },
+      "250": {
+       "code": "9079622",
+       "kg": {
+        "277-312": "5.6 - 7.1 kg",
+        "313-342": "5.2 - 7.1 kg",
+        "343-372": "3.3 - 6.0 kg",
+        "373-402": "2.6 - 5.0 kg",
+        "403-462": "3.2 - 4.9 kg"
+       }
+      },
+      "300": {
+       "code": "9079624",
+       "kg": {
+        "277-312": "7.3 - 8.8 kg",
+        "313-342": "6.5 - 8.7 kg",
+        "343-372": "4.3 - 7.2 kg",
+        "373-402": "3.8 - 6.3 kg",
+        "403-462": "4.4 - 5.9 kg"
+       }
+      },
+      "350": {
+       "code": "9079626",
+       "kg": {
+        "277-312": "8.9 - 10.5 kg",
+        "313-342": "7.9 - 10.2 kg",
+        "343-372": "5.5 - 8.6 kg",
+        "373-402": "4.9 - 7.5 kg",
+        "403-462": "5.4 - 6.8 kg"
+       }
+      },
+      "400": {
+       "code": "9079628",
+       "kg": {
+        "277-312": "10.6 - 12.1 kg",
+        "313-342": "9.1 - 11.7 kg",
+        "343-372": "6.6 - 9.7 kg",
+        "373-402": "6.0 - 8.7 kg",
+        "403-462": "6.3 - 7.8 kg"
+       }
+      },
+      "450": {
+       "code": "9079630",
+       "kg": {
+        "277-312": null,
+        "313-342": "10.5 - 13.2 kg",
+        "343-372": "7.8 - 10.9 kg",
+        "373-402": "7.1 - 9.9 kg",
+        "403-462": "7.3 - 8.7 kg"
+       }
+      },
+      "500": {
+       "code": "9079632",
+       "kg": {
+        "277-312": null,
+        "313-342": "11.6 - 14.7 kg",
+        "343-372": "8.9 - 12.2 kg",
+        "373-402": "8.2 - 11.1 kg",
+        "403-462": "8.2 - 9.6 kg"
+       }
+      },
+      "550": {
+       "code": "9079635",
+       "kg": {
+        "277-312": null,
+        "313-342": "12.8 - 16.2 kg",
+        "343-372": "10.0 - 13.4 kg",
+        "373-402": "9.3 - 12.4 kg",
+        "403-462": "9.1 - 10.4 kg"
+       }
+      },
+      "600": {
+       "code": "9079637",
+       "kg": {
+        "277-312": null,
+        "313-342": "14.2 - 17.6 kg",
+        "343-372": "11.2 - 14.6 kg",
+        "373-402": "10.5 - 13.6 kg",
+        "403-462": "10.1 - 11.4 kg"
+       }
+      },
+      "650": {
+       "code": "9079644",
+       "kg": {
+        "277-312": null,
+        "313-342": null,
+        "343-372": "12.5 - 15.9 kg",
+        "373-402": "11.7 - 14.9 kg",
+        "403-462": "11.1 - 12.4 kg"
+       }
+      }
+     },
+     "src": "S1 p.330"
+    },
+    "limits": {
+     "inside_carcase_height_mm": [
+      277,
+      462
+     ],
+     "inside_carcase_width_min_mm": 360,
+     "inside_carcase_depth_min_mm": 182,
+     "flap_weight_kg_incl_handle": [
+      1.7,
+      17.6
+     ],
+     "carcase_side_thickness_compensated_by_cross_member_mm": [
+      16,
+      19
+     ],
+     "vertical_adjust_mm": 2,
+     "side_adjust_mm": 2,
+     "tilt_depth_adjust_mm": 2,
+     "front_thickness_mm": null
+    },
+    "src": "S1 p.324,330-331; S2 p.13-14"
+   },
+   "cabinet": {
+    "min_inside_height_mm": 277,
+    "max_inside_height_mm": 462,
+    "min_inside_width_mm": 360,
+    "max_inside_width_mm": null,
+    "min_inside_depth_mm": 182,
+    "side_panel_thickness_mm": "16-19 (cross member compensates)",
+    "max_front_width_mm": null,
+    "src": "S1 p.324,330; S2 p.13"
+   },
+   "mounting": {
+    "carcase_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "screws": "Euro screw Pozidriv",
+     "pattern_as_drawn_mm": {
+      "118": "horizontal",
+      "75": "horizontal",
+      "22": "horizontal",
+      "41": "vertical",
+      "85": "vertical",
+      "60": "shelf/rear clearance as drawn"
+     },
+     "datum_note": "dimension origins not verified; pattern identical for all variants",
+     "src": "S1 p.331; S7"
+    },
+    "flap_holes": {
+     "diameter_x_depth_mm": "10 x 12",
+     "wood_position": "A + 14.5 from side edge (A = side overlay); vertical B + T from top edge (B = top overlay, T by range); 70 mm hole spacing",
+     "T_by_range_mm": {
+      "277-312": 160,
+      "313-342": 195,
+      "343-372": 225,
+      "373-402": 255,
+      "403-462": 285
+     },
+     "alu_frame": "A - 7 side, B + T vertical; adapter holes ø8, 8x45 deg, >= ø4, >= 11 mm",
+     "src": "S1 p.331"
+    },
+    "src": "S1 p.331"
+   },
+   "geometry": {
+    "fitting_dims_by_range_mm": {
+     "277-312": {
+      "P": 22,
+      "Q": 126,
+      "V": 277
+     },
+     "313-342": {
+      "P": 44,
+      "Q": 155,
+      "V": 312
+     },
+     "343-372": {
+      "P": 63,
+      "Q": 179,
+      "V": 342
+     },
+     "373-402": {
+      "P": 82,
+      "Q": 203,
+      "V": 372
+     },
+     "403-462": {
+      "P": 100,
+      "Q": 227,
+      "V": 402
+     }
+    },
+    "drawing_mm": {
+     "overlay_top_front": 37,
+     "top_offset": 40,
+     "handle_zone": 155,
+     "inside_depth_ref": 182,
+     "bottom_clear": 60
+    },
+    "mechanism_envelope_LxHxW": null,
+    "open_angle": null,
+    "src": "S1 p.331"
+   },
+   "unreadable": [
+    "Open angle not stated",
+    "Envelope L x H x W not in source",
+    "datum of hole dims inferred only"
+   ]
+  },
+  {
+   "id": "lift-advanced-hs",
+   "name": "Hettich Lift Advanced HS (lift up flap fitting)",
+   "motion": "stay lift / swing up and out (flap tilts ~40 deg and rests above carcase; one flap)",
+   "options": [
+    "soft closing (Silent System)",
+    "adjustable opening force",
+    "cross member 9079653/58/64",
+    "wood, framed wood or 19 mm aluminium frame (adapter 9079601)",
+    "no push-to-open / electric in source"
+   ],
+   "codes": [
+    {
+     "code": "9079617",
+     "desc": "HS fitting set",
+     "range": "inside carcase height 372-688 mm (one set)",
+     "src": "S1 p.332"
+    },
+    {
+     "code": "9079601",
+     "desc": "Adapter for 19 mm aluminium profile",
+     "range": "",
+     "src": "S1 p.333"
+    },
+    {
+     "code": "9079653",
+     "desc": "Shortenable cross member for HL/HS, carcase width 600 mm (sides 16-19 mm compensated automatically)",
+     "range": "600 mm",
+     "src": "S1 p.331/333; S2 p.13"
+    },
+    {
+     "code": "9079658",
+     "desc": "Cross member, carcase width 1200 mm",
+     "range": "1200 mm",
+     "src": "S1 p.331/333"
+    },
+    {
+     "code": "9079664",
+     "desc": "Cross member, carcase width 1800 mm",
+     "range": "1800 mm",
+     "src": "S1 p.331/333"
+    },
+    {
+     "code": "9079618",
+     "desc": "Gas spring set (2 pcs), 150 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "150 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079619",
+     "desc": "Gas spring set (2 pcs), 200 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "200 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079622",
+     "desc": "Gas spring set (2 pcs), 250 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "250 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079624",
+     "desc": "Gas spring set (2 pcs), 300 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "300 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079626",
+     "desc": "Gas spring set (2 pcs), 350 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "350 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079628",
+     "desc": "Gas spring set (2 pcs), 400 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "400 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079630",
+     "desc": "Gas spring set (2 pcs), 450 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "450 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079632",
+     "desc": "Gas spring set (2 pcs), 500 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "500 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079635",
+     "desc": "Gas spring set (2 pcs), 550 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "550 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079637",
+     "desc": "Gas spring set (2 pcs), 600 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "600 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079644",
+     "desc": "Gas spring set (2 pcs), 650 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "650 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079645",
+     "desc": "Gas spring set (2 pcs), 700 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "700 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079647",
+     "desc": "Gas spring set (2 pcs), 750 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "750 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079650",
+     "desc": "Gas spring set (2 pcs), 800 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "800 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    },
+    {
+     "code": "9079651",
+     "desc": "Gas spring set (2 pcs), 850 N (shared by HF/HK/HL/HS; which N is in range depends on variant)",
+     "range": "850 N",
+     "src": "S1 p.326/328/330/332; S2 p.9"
+    }
+   ],
+   "selection": {
+    "rule_text": "One set for 372-688 mm; spring pair (200-700 N) by height range (4 ranges) and exact flap weight incl. handle; stronger spring if two fit.",
+    "table": {
+     "table_kg_by_inside_carcase_height_mm_and_spring_N": {
+      "200": {
+       "code": "9079619",
+       "kg": {
+        "372-408": "3.0 - 4.4 kg",
+        "409-508": "3.2 - 4.3 kg",
+        "509-568": "2.5 - 3.9 kg",
+        "569-688": null
+       }
+      },
+      "250": {
+       "code": "9079622",
+       "kg": {
+        "372-408": "4.0 - 5.4 kg",
+        "409-508": "4.2 - 5.4 kg",
+        "509-568": "3.4 - 5.2 kg",
+        "569-688": "3.2 - 4.8 kg"
+       }
+      },
+      "300": {
+       "code": "9079624",
+       "kg": {
+        "372-408": "5.3 - 6.7 kg",
+        "409-508": "5.2 - 6.5 kg",
+        "509-568": "4.4 - 6.4 kg",
+        "569-688": "4.0 - 6.1 kg"
+       }
+      },
+      "350": {
+       "code": "9079626",
+       "kg": {
+        "372-408": "6.3 - 7.9 kg",
+        "409-508": "6.3 - 7.4 kg",
+        "509-568": "5.4 - 7.4 kg",
+        "569-688": "4.9 - 7.1 kg"
+       }
+      },
+      "400": {
+       "code": "9079628",
+       "kg": {
+        "372-408": "7.7 - 9.1 kg",
+        "409-508": "7.3 - 8.6 kg",
+        "509-568": "6.5 - 8.4 kg",
+        "569-688": "5.8 - 8.2 kg"
+       }
+      },
+      "450": {
+       "code": "9079630",
+       "kg": {
+        "372-408": "8.8 - 10.3 kg",
+        "409-508": "8.4 - 9.9 kg",
+        "509-568": "7.5 - 9.5 kg",
+        "569-688": "6.8 - 9.1 kg"
+       }
+      },
+      "500": {
+       "code": "9079632",
+       "kg": {
+        "372-408": "10.0 - 11.5 kg",
+        "409-508": "9.4 - 10.9 kg",
+        "509-568": "8.6 - 10.5 kg",
+        "569-688": "7.7 - 10.0 kg"
+       }
+      },
+      "550": {
+       "code": "9079635",
+       "kg": {
+        "372-408": "11.0 - 12.6 kg",
+        "409-508": "10.5 - 12.1 kg",
+        "509-568": "9.6 - 11.6 kg",
+        "569-688": "8.6 - 11.6 kg"
+       }
+      },
+      "600": {
+       "code": "9079637",
+       "kg": {
+        "372-408": "12.1 - 13.8 kg",
+        "409-508": "11.6 - 13.2 kg",
+        "509-568": "10.7 - 12.6 kg",
+        "569-688": "9.6 - 12.6 kg"
+       }
+      },
+      "650": {
+       "code": "9079644",
+       "kg": {
+        "372-408": "13.3 - 14.9 kg",
+        "409-508": "12.6 - 14.2 kg",
+        "509-568": "11.7 - 13.7 kg",
+        "569-688": "10.5 - 13.5 kg"
+       }
+      },
+      "700": {
+       "code": "9079645",
+       "kg": {
+        "372-408": null,
+        "409-508": "13.6 - 15.3 kg",
+        "509-568": "12.8 - 14.7 kg",
+        "569-688": "11.4 - 14.3 kg"
+       }
+      }
+     },
+     "src": "S1 p.332"
+    },
+    "limits": {
+     "inside_carcase_height_mm": [
+      372,
+      688
+     ],
+     "inside_carcase_width_min_mm": 360,
+     "inside_carcase_depth_min_mm": 182,
+     "flap_weight_kg_incl_handle": [
+      2.5,
+      15.3
+     ],
+     "front_thickness_mm": null
+    },
+    "src": "S1 p.324-325,332-333"
+   },
+   "cabinet": {
+    "min_inside_height_mm": 372,
+    "max_inside_height_mm": 688,
+    "min_inside_width_mm": 360,
+    "max_inside_width_mm": null,
+    "min_inside_depth_mm": 182,
+    "side_panel_thickness_mm": "16-19 (cross member)",
+    "max_front_width_mm": null,
+    "src": "S1 p.332-333; S2 p.13"
+   },
+   "mounting": {
+    "carcase_holes": {
+     "diameter_x_depth_mm": "5 x 12",
+     "screws": "Euro screw Pozidriv",
+     "pattern_as_drawn_mm": {
+      "118": "horizontal",
+      "75": "horizontal",
+      "22": "horizontal",
+      "41": "vertical",
+      "85": "vertical"
+     },
+     "datum_note": "origins not verified",
+     "src": "S1 p.333; S7"
+    },
+    "flap_holes": {
+     "diameter_x_depth_mm": "10 x 12",
+     "wood_position": "A + 14.5 from side edge; vertical B + 233 from top edge; 70 mm hole spacing",
+     "alu_frame": "A - 7 side, B + 233; adapter holes ø8, 8x45 deg, >= ø4, >= 11 mm",
+     "src": "S1 p.333"
+    },
+    "src": "S1 p.333"
+   },
+   "geometry": {
+    "drawing_mm": {
+     "open_angle_deg_approx": 40,
+     "flap_projection_above": 315,
+     "arm_clearance_max": 115,
+     "horizontal_181": 181,
+     "horizontal_276": 276,
+     "overlay_top_front": 37,
+     "top_offset": 40,
+     "handle_zone": 155,
+     "bottom_clear": 60
+    },
+    "mechanism_envelope_LxHxW": null,
+    "src": "S1 p.333"
+   },
+   "unreadable": [
+    "Meaning of 315/115/181/276 inferred from picture only",
+    "Envelope L x H x W not in source"
+   ]
+  },
+  {
+   "id": "lift-basic",
+   "name": "Hettich Lift Basic (flap stay)",
+   "motion": "stay (flap stay, flap hinged at top with cup hinges)",
+   "options": [
+    "no soft close stated"
+   ],
+   "codes": [
+    {
+     "code": "9079593",
+     "desc": "Lift Basic",
+     "range": "max 3.2 kg with 2 fittings",
+     "src": "S1 p.346 (PDF p.28)"
+    }
+   ],
+   "selection": {
+    "rule_text": "Number of fittings depends on flap dimensions, based on 19 mm chipboard 700 kg/m3",
+    "table": null,
+    "limits": {
+     "flap_height_max_mm": 400,
+     "flap_width_max_mm": 600,
+     "weight_kg_max": 3.2,
+     "inside_depth_min_mm": 50
+    },
+    "src": "S1 p.321,346"
+   },
+   "cabinet": {
+    "src": "S1 p.346",
+    "min_inside_depth_mm": 50
+   },
+   "mounting": null,
+   "geometry": null,
+   "unreadable": [
+    "drilling positions, dimensions not extracted (flap stay, not a lift mechanism)"
+   ]
+  },
+  {
+   "id": "lift-up",
+   "name": "Hettich Lift Up (up and under fitting)",
+   "motion": "up-and-under",
+   "options": [],
+   "codes": [
+    {
+     "code": "0045025",
+     "desc": "Lift Up, flap thickness 15/16 mm",
+     "range": "",
+     "src": "S1 p.339"
+    },
+    {
+     "code": "0045026",
+     "desc": "Lift Up, flap thickness 18/19 mm",
+     "range": "",
+     "src": "S1 p.339"
+    }
+   ],
+   "selection": {
+    "rule_text": "flap weight max 8 kg incl. handle",
+    "table": null,
+    "limits": {
+     "flap_height_mm": [
+      145,
+      400
+     ],
+     "flap_width_max_mm": 1200,
+     "inside_depth_min_mm": 339,
+     "weight_kg_max": 8.0
+    },
+    "src": "S1 p.321,339"
+   },
+   "cabinet": {
+    "min_inside_depth_mm": 339,
+    "src": "S1 p.321"
+   },
+   "mounting": null,
+   "geometry": null,
+   "unreadable": [
+    "drawings not extracted"
+   ]
+  },
+  {
+   "id": "lift-junior-lift-lift-alu",
+   "name": "Lift Junior / Lift / Lift Alu (small upward opening flap stays)",
+   "motion": "swing up (stay)",
+   "options": [],
+   "codes": [
+    {
+     "code": "0079397",
+     "desc": "Lift Junior 75 deg, 90 N, max 2 kg",
+     "range": "",
+     "src": "S1 p.340"
+    },
+    {
+     "code": "0040722",
+     "desc": "Lift Junior 75 deg, 140 N, max 2.5 kg",
+     "range": "",
+     "src": "S1 p.340"
+    },
+    {
+     "code": "0040721",
+     "desc": "Lift 75 deg, 80-220 N, max 4.6 kg",
+     "range": "",
+     "src": "S1 p.341"
+    },
+    {
+     "code": "0010921",
+     "desc": "Lift 90 deg, 80-220 N, max 4.6 kg",
+     "range": "",
+     "src": "S1 p.341"
+    },
+    {
+     "code": "0079389",
+     "desc": "Lift 90 deg, 180 N, max 3.3 kg",
+     "range": "",
+     "src": "S1 p.341"
+    },
+    {
+     "code": "0079390",
+     "desc": "Lift Alu 90 deg, 80-220 N, max 4.3 kg",
+     "range": "",
+     "src": "S1 p.342"
+    }
+   ],
+   "selection": {
+    "rule_text": "flaps 200-500 mm high, 300-1000 mm wide",
+    "table": null,
+    "limits": {
+     "flap_height_mm": [
+      200,
+      500
+     ],
+     "flap_width_mm": [
+      300,
+      1000
+     ],
+     "inside_depth_min_mm": 45
+    },
+    "src": "S1 p.320,340-342"
+   },
+   "cabinet": {
+    "min_inside_depth_mm": 45,
+    "src": "S1 p.320"
+   },
+   "mounting": null,
+   "geometry": null,
+   "unreadable": [
+    "drilling and geometry not extracted"
+   ]
+  },
+  {
+   "id": "ewiva-hlb",
+   "name": "Ewiva (flap lift) and HLB (flap lift, 420-870 mm wide)",
+   "motion": "parallel lift",
+   "options": [],
+   "codes": [
+    {
+     "code": "9135830",
+     "desc": "Ewiva cross member 600 mm carcase width",
+     "range": "",
+     "src": "S1 p.336"
+    },
+    {
+     "code": "9112152",
+     "desc": "Ewiva weights 2.5-4.8 kg (pair)",
+     "range": "",
+     "src": "S1 p.336"
+    },
+    {
+     "code": "9112157",
+     "desc": "Ewiva 3.3-6.6 kg",
+     "range": "",
+     "src": "S1 p.336"
+    },
+    {
+     "code": "9112159",
+     "desc": "Ewiva 5.3-8.0 kg",
+     "range": "",
+     "src": "S1 p.336"
+    },
+    {
+     "code": "0045027",
+     "desc": "HLB, side 16, inside width 567, 1 spring, 3.5 kg",
+     "range": "",
+     "src": "S1 p.338"
+    },
+    {
+     "code": "0045028",
+     "desc": "HLB side 18, width 563, 3.5 kg",
+     "range": "",
+     "src": "S1 p.338"
+    },
+    {
+     "code": "0045029",
+     "desc": "HLB side 19, width 561, 3.5 kg",
+     "range": "",
+     "src": "S1 p.338"
+    },
+    {
+     "code": "0045031",
+     "desc": "HLB sides 16-19, width 420-580, 2 springs, 4 kg",
+     "range": "",
+     "src": "S1 p.338"
+    },
+    {
+     "code": "0045032",
+     "desc": "HLB sides 16-19, width 560-870, 2 springs, 5 kg",
+     "range": "",
+     "src": "S1 p.338"
+    }
+   ],
+   "selection": {
+    "rule_text": "Ewiva: width 450-600, height min 323, depth min 275, 2.5-8 kg. HLB: width 420-870, height 330-450, depth min 215, max 5 kg",
+    "table": null,
+    "limits": {
+     "ewiva_width_mm": [
+      450,
+      600
+     ],
+     "ewiva_height_min_mm": 323,
+     "ewiva_depth_min_mm": 275,
+     "ewiva_weight_kg": [
+      2.5,
+      8.0
+     ],
+     "hlb_width_mm": [
+      420,
+      870
+     ],
+     "hlb_height_mm": [
+      330,
+      450
+     ],
+     "hlb_depth_min_mm": 215,
+     "hlb_weight_kg_max": 5.0
+    },
+    "src": "S1 p.320-321,336-338"
+   },
+   "cabinet": {
+    "src": "S1 p.320-321"
+   },
+   "mounting": null,
+   "geometry": null,
+   "unreadable": [
+    "Ewiva main fitting order codes and all drilling/geometry not extracted"
+   ]
+  }
+ ],
+ "notes": [
+  "All Lift Advanced numbers come from official Hettich documents (S1-S6). Spring tables were parsed from the PDF text layer by script and spot-checked against S3/S4 and S6 (HK identical in 2023 catalogue).",
+  "Page numbers 'S1 p.N' are printed catalogue page numbers (PDF page = N - 318).",
+  "Lift Advanced is the current lift/flap range (HF bi-fold, HK swing-up, HL parallel lift, HS lift-up); HK still in TA 2023 catalogue. The shop lists Lift Advanced HF/HK/HL/HS as available (search result). I could not confirm HF/HL/HS in 2023 catalogue pages.",
+  "Hettich has no 'Lift Premium' or 'Easys' lift in the documents found; not included.",
+  "The Furniture Fittings catalogue 2016 volume 2 (drilling jigs) was not fetched; carcase drilling datum should be checked on the jig or on page images S1 p.327.",
+  "Carcase hole pattern ø5x12: dims 118, 75, 22, 41, 85 mm as drawn; datum NOT stated in text, identical for HF/HK/HL/HS (S7).",
+  "Hinge for HF/HK/HL: min. 90 mm from carcase side inner edge (S2 p.12).",
+  "Fitting bag: 4 brass expansion sleeves hex head (hole ø10x12 in flap), 4 M6 socket screws (arm to flap), 6 Euro screws Pozidriv (carcase holes ø5x12), 2 hex keys (S2 p.12).",
+  "Spring forces have a tolerance of 15 percent and spring must be fitted with piston rod down (S2 p.7-9).",
+  "Hinge note for HK: hinges 95 or 110 deg; Sensys usable (276-360 mm only from 12.4 kg; 360-720 all weights) (S2 p.5).",
+  "Sensys vs no push-to-open or electric: no such Lift Advanced variants in the sources."
+ ]
+}

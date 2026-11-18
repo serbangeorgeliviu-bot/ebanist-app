@@ -2870,6 +2870,34 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.6: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* U.16 — mecanisme de ridicare pentru usi care se deschid in sus (basculante) */
+  {
+    head("Mecanisme de ridicare — optiune, deviz, 3D, avertismente (U.16)");
+    await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true;
+      buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
+    await pg.waitForTimeout(300);
+    ok("U.16: implicit «Nessuno» — usa ramane pe balamale", await pg.evaluate(() => $("bLift").value === "" && cfgFromForm().lift === null && !buildModule(cfgFromForm()).pieces.some(p => /basculante/.test(p.elemento))));
+    ok("U.16: selectorul are cele 16 sisteme, grupate pe trei marci", await pg.evaluate(() => $("bLift").querySelectorAll("option:not([value=''])").length === 16 && $("bLift").querySelectorAll("optgroup").length === 3));
+    await pg.selectOption("#bLift", "het_la_hk"); await pg.waitForTimeout(200);
+    ok("U.16: alegerea ajunge in cfg: usa basculanta, fara usa pe balamale", await pg.evaluate(() => { const c = cfgFromForm(), ps = buildModule(c).pieces;
+      return c.lift === "het_la_hk" && ps.some(p => /^Anta basculante/.test(p.elemento)) && !ps.some(p => /^Anta(?! basculante)/.test(p.elemento)); }));
+    ok("U.16: indiciul se vede", await pg.evaluate(() => { const h = $("liftHint"); return h.style.display !== "none" && h.textContent.length > 10; }));
+    const lh = await pg.evaluate(() => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, { ...cfgFromForm(), name: "Lf1" });
+      const items = computeHardware(p, state.settings), g = k => items.find(i => i.k === k) || {};
+      const o = { lift: g("hwLift").qty, cern: g("hwCern").qty || 0, name: (g("hwLift").name || "") };
+      try { o.mont = montDoc(p).includes(t("mLift").split("{p}")[0].trim().slice(0, 12)); } catch (e) { o.err = String(e); }
+      try { setView("summary"); o.sum = true; } catch (e) { o.err = String(e); }
+      return o; });
+    ok("U.16: deviz — un set de mecanism pe usa, nicio balama", lh.lift === 1 && lh.cern === 0, JSON.stringify(lh));
+    ok("U.16: «Montaj» are pasul cu mecanismul; rezumatul fara erori", lh.mont === true && lh.sum === true && !lh.err, JSON.stringify(lh));
+    ok("U.16: avertisment «cote neverificate» in aplicatie", await pg.evaluate(() => { const b = buildModule(cfgFromForm()); return !!(b.warn && b.warn.liftWarn && b.warn.liftWarn.some(w => w.k === "unv")); }));
+    ok("U.16: 3D — cutia usii are sub:'lift' si se deschide fara eroare", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img) && buildModule(c).boxes.some(b => b.sub === "lift"); } catch (e) { return false; } }));
+    ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
+      const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
+    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+    ok("U.16: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
