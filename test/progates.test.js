@@ -23,7 +23,7 @@ describe("„În camera ta”: se deschide gratuit, iese numai cu Pro", () => {
   test("butonul care deschide previzualizarea nu are poartă", () => assert.ok(!/proGate\(/.test(after('$("btnRoom").addEventListener("click"', 160))));
   test("exportul JPG are poarta „jpg”", () => assert.ok(gated(after('$("roomExport").addEventListener("click"', 120), "jpg")));
   test("video-ul montajului are poarta „export”", () => assert.ok(gated(after('$("btnRec3d").addEventListener("click"', 160), "export")));
-  test("AR are poarta „room”", () => assert.ok(gated(after('$("btnAR").addEventListener("click"', 120), "room")));
+  test("AR se folosește gratuit (D-134): fără poartă pe buton", () => assert.ok(!/proGate\(/.test(after('$("btnAR").addEventListener("click"', 420))));
 });
 
 describe("fișa piesei: se vede gratuit, iese numai cu Pro", () => {
@@ -36,5 +36,5 @@ describe("fiecare motiv rămas în aplicație are text în ecranul Pro", () => {
   test("proSubRoom și proSubPart există în ro, it, en, fr", () => {
     for (const k of ["proSubRoom", "proSubPart"]) assert.ok((SRC.match(new RegExp(k + ":", "g")) || []).length >= 4, k);
   });
-  test("textul „room” spune că previzualizarea e gratuită", () => assert.match(SRC, /proSubRoom:"AR and the JPG export of the room photo are in Pro\. The preview is free\."/));
+  test("textul „room” spune că previzualizarea și AR sunt gratuite", () => assert.match(SRC, /proSubRoom:"The JPG export of the room photo is in Pro\. The preview and AR are free\."/));
 });

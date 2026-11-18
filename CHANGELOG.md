@@ -5,6 +5,10 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.84.0 — 18 noiembrie 2026
+
+**AR se folosește gratuit (D-134).** După 5.44.0, apariţiile ecranului Pro la poarta „room” nu au scăzut (139 în 7 zile, 0 cumpărări): le producea butonul **AR** din bara 3D, care cerea Pro la primul click. AR nu scoate un document (scena merge în vizualizatorul sistemului), deci e o privire, ca previzualizarea „În camera ta”. Rămâne Pro exportul JPG al pozei cu mobila (poarta „jpg”). Tabelul Gratuit vs Pro și textele ecranului Pro spun asta (ro, it, en, fr).
+
 ## 5.83.0 — 18 noiembrie 2026
 
 **Ecranul Pro de pe Android nu mai spune „Google Play nu răspunde" din cauza unei curse la pornire (D-133).** Cifrele din pâlnie arătau că **87 % din sesiunile cu ecranul Pro** primeau `pw_unavail` cu codul `unavailable`. Cauza: la pornire aplicația cere deodată restaurarea achizițiilor și produsele, iar partea nativă pornea două conectări la Google Play; a doua primea „already connecting", raporta indisponibil și consuma și lucrul primei conectări, care reușea degeaba. Omul vedea „Play nu răspunde" la prima deschidere a ecranului Pro, fără butoane de cumpărare, iar restaurarea de la pornire nu rula. Acum o eroare de conectare nu mai e definitivă: produsele se cer de încă două ori (la 1,5 s și la 3 s) și până atunci ecranul spune „se încarcă". Vindecă și versiunile Android vechi, fiindcă aplicația încarcă web-ul. Partea nativă (1.4.1, versionCode 11) repară cauza: o singură conectare odată, cu coadă.
