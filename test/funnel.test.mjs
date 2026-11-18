@@ -246,3 +246,20 @@ describe("pw_unavail (D-129): ecranul Pro fără planuri de vândut", () => {
     assert.strictEqual(html.split('EBFunnel.send("pw_unavail"').length - 1, 1);
   });
 });
+
+describe("rezumat: pw_unavail pe coduri (D-133)", () => {
+  const now = Date.parse("2026-11-01T12:00:00Z");
+  test("byCode: evenimente și sesiuni distincte pe platformă/cod", () => {
+    const mk = (o) => F.keyOf(F.clean(o), now, Math.random().toString(36).slice(2, 6));
+    const r = F.summarize([
+      mk({ e: "pw_unavail", s: "a1", plat: "play", code: "unavailable" }), mk({ e: "pw_unavail", s: "a1", plat: "play", code: "unavailable" }),
+      mk({ e: "pw_unavail", s: "a2", plat: "play", code: "unavailable" }), mk({ e: "pw_unavail", s: "a3", plat: "play", code: "empty" }),
+      mk({ e: "pw_unavail", s: "w1", plat: "web", code: "error" }), mk({ e: "open", s: "a1", plat: "play" })
+    ]);
+    assert.deepEqual(r.byCode["play/unavailable"], { events: 3, sessions: 2 });
+    assert.deepEqual(r.byCode["play/empty"], { events: 1, sessions: 1 });
+    assert.deepEqual(r.byCode["web/error"], { events: 1, sessions: 1 });
+    assert.deepEqual(Object.keys(r.byCode).sort(), ["play/empty", "play/unavailable", "web/error"]);
+  });
+  test("fără pw_unavail: byCode gol", () => assert.deepEqual(F.summarize([F.keyOf(F.clean({ e: "open", s: "a", plat: "web" }), now, "x")]).byCode, {}));
+});
