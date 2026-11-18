@@ -1,4 +1,5 @@
 -- 5.82.0: proiecte partajate între utilizatori (D-25 / D-159). Trei roluri: viewer (vede), commenter (vede și comentează), editor (vede, modifică și comentează).
+-- Aplicată în producție pe 19.11.2026 (rulată din SQL Editor); verificat: 3 tabele, 8 funcții, 3 politici pe projects, 2 triggere, RLS pe cele 3 tabele, Realtime.
 -- Proprietarul rămâne cel din projects.created_by; membrii nu pot șterge proiectul, nu-i pot schimba proprietarul și nu pot partaja mai departe.
 -- Invitația e un cod de unică folosință, valabil 7 zile (ca la atelier). Anulare completă la sfârșitul fișierului.
 
