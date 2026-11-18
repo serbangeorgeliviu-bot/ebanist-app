@@ -2971,7 +2971,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const r = ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => { state.lang = l; return ks.every(k => t(k) !== k && t(k).length > 3); }); state.lang = keep; return r; }));
     /* proiectul se salvează și se reîncarcă cu sistemul ales */
     ok("drawers-more: proiectul cu sistemul nou se reconstruiește identic din cfg salvat", await pg.evaluate(() => { const c = { ...cfgFromForm(), drawerSys: "gr_v8", name: "Dm2", drawers: 2 }; const a = JSON.stringify(buildModule(JSON.parse(JSON.stringify(c))).pieces), b = JSON.stringify(buildModule(c).pieces); return a === b && a.indexOf("Fondo cassetto") > 0; }));
-    await pg.evaluate(() => { buildCfg = { ...PRESETS.base }; syncBuildForm(); });
+    await pg.evaluate(async () => { const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; buildCfg = { ...PRESETS.base }; syncBuildForm(); drawPreview(); await new Promise(r => setTimeout(r, 700)); HIST.undo = []; HIST.redo = []; HIST.cur = null; HIST.name = null; histSync(); });
     ok("drawers-more: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
