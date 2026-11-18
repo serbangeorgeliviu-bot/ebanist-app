@@ -2112,6 +2112,374 @@
    ],
    "src": "Häfele broșura «Free» p26–29, HTH 2022, catalog UK 9.216",
    "verificat": false
+  },
+  {
+   "key": "haf_free_slim_112",
+   "brand": "Häfele",
+   "name": "Free Slim 1.12",
+   "motion": "stay",
+   "flaps": 1,
+   "select": {
+    "type": "GRID",
+    "axis": "kh",
+    "overlap": "center",
+    "metric": "înălțime (mm) și greutate front cu mâner (kg), din tabelul producătorului",
+    "models": [
+     {
+      "id": "1.12",
+      "code": "372.92.700 / .500 / .360 / .300 (șuruburi); .701/.501/.361/.301 (dibluri Ø10); .702/.502/.362/.302 (în canal)",
+      "points": [
+       [
+        225.0,
+        2.1,
+        21.3
+       ],
+       [
+        250.0,
+        1.9,
+        19.2
+       ],
+       [
+        275.0,
+        1.7,
+        17.5
+       ],
+       [
+        300.0,
+        1.6,
+        16.0
+       ],
+       [
+        325.0,
+        1.5,
+        14.8
+       ],
+       [
+        350.0,
+        1.4,
+        13.7
+       ],
+       [
+        375.0,
+        1.3,
+        12.8
+       ],
+       [
+        400.0,
+        1.2,
+        12.0
+       ],
+       [
+        425.0,
+        1.1,
+        11.3
+       ],
+       [
+        450.0,
+        1.1,
+        10.7
+       ],
+       [
+        475.0,
+        1.0,
+        10.1
+       ],
+       [
+        500.0,
+        1.0,
+        9.6
+       ],
+       [
+        525.0,
+        0.9,
+        9.1
+       ],
+       [
+        550.0,
+        0.9,
+        8.7
+       ],
+       [
+        575.0,
+        0.8,
+        8.3
+       ],
+       [
+        600.0,
+        0.8,
+        8.0
+       ],
+       [
+        625.0,
+        0.8,
+        7.7
+       ],
+       [
+        650.0,
+        0.7,
+        7.4
+       ]
+      ]
+     }
+    ],
+    "note": "Între rândurile tabelului se ia intervalul cel mai îngust al celor două rânduri vecine (nu se interpolează)."
+   },
+   "limits": {
+    "cabH": [
+     225,
+     650
+    ],
+    "cabW": [
+     null,
+     1800
+    ],
+    "kg": [
+     null,
+     21.3
+    ],
+    "hiMin": null,
+    "wiMin": null,
+    "depthMin": 245
+   },
+   "open": {
+    "angle": [
+     0,
+     107
+    ],
+    "note": "90° sau 107°"
+   },
+   "mount": {
+    "raw": {
+     "side_panel_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "count": 4,
+      "pitch_mm": 32,
+      "system": "32 mm series (compatible with 32/37 series drilled holes, UK204 p1)",
+      "first_hole_below_top_inner_edge_mm": 24.5,
+      "horizontal_dim_as_drawn_mm": [
+       15.5,
+       34
+      ],
+      "horizontal_dim_note": "15.5 and 34 appear on the side-panel drawing; which edge each measures from is not machine-readable. The 3.15 and 1.7 patterns are identical (UK206, UK204 p2 drawings). Official Haefele paper template comes in the set.",
+      "src": "UK206 drawing; UK204 p2 drawing"
+     },
+     "front_panel_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "count": 4,
+      "pitch_mm": 32,
+      "first_hole_from_top_edge_mm": 38,
+      "horizontal_from_edge_mm": [
+       37,
+       64
+      ],
+      "overall_dim_mm": 166,
+      "note": "dims as drawn on the front-panel pattern: 38 / 32 / 32 / 32 vertical, 37 and 64 horizontal, 166 overall. Reference edges as drawn, not text.",
+      "src": "UK206 drawing"
+     },
+     "distance_X_by_front_thickness_Y_mm": {
+      "Y16": 83,
+      "Y19": 74,
+      "Y22": 64,
+      "Y26": 52,
+      "Y28": 46,
+      "condition": "cabinet top panel thickness K=16 mm",
+      "src": "UK206; UK204 p2"
+     },
+     "screws": "fitting has pre-mounted Euro screws into pre-drilled side panel; fixing screws ordered separately (Variantas listed); front clips onto screw-on brackets (screwed to front, frame width >=45 mm)",
+     "src": "UK206; UK204"
+    }
+   },
+   "notes": [
+    "Tabelul e pe înălțimea corpului (225–650 mm), pe setul de 2 fitinguri; cu al treilea fiting +50%.",
+    "Cele «8 mm» din reclama Häfele sunt lățimea de montaj în canal (fișa UK 9.197C): sursele folosesc și «adâncime».",
+    "Găurirea nu e tipărită în fișa UK: lipsește, nu e inventată."
+   ],
+   "src": "Häfele catalog UK 9.197C/D",
+   "verificat": false
+  },
+  {
+   "key": "haf_free_slim_110p",
+   "brand": "Häfele",
+   "name": "Free Slim 1.10 push",
+   "motion": "stay",
+   "flaps": 1,
+   "select": {
+    "type": "GRID",
+    "axis": "kh",
+    "overlap": "center",
+    "metric": "înălțime (mm) și greutate front cu mâner (kg), din tabelul producătorului",
+    "models": [
+     {
+      "id": "1.10 push",
+      "code": "372.92.704 / .504 / .364 / .304 (șuruburi); .705/.505/.365/.305 (dibluri Ø10); .706/.506/.366/.306 (în canal)",
+      "points": [
+       [
+        225.0,
+        2.1,
+        18.1
+       ],
+       [
+        250.0,
+        1.9,
+        16.3
+       ],
+       [
+        275.0,
+        1.7,
+        14.8
+       ],
+       [
+        300.0,
+        1.6,
+        13.6
+       ],
+       [
+        325.0,
+        1.5,
+        12.6
+       ],
+       [
+        350.0,
+        1.4,
+        11.7
+       ],
+       [
+        375.0,
+        1.3,
+        10.9
+       ],
+       [
+        400.0,
+        1.2,
+        10.2
+       ],
+       [
+        425.0,
+        1.1,
+        9.6
+       ],
+       [
+        450.0,
+        1.1,
+        9.1
+       ],
+       [
+        475.0,
+        1.0,
+        8.6
+       ],
+       [
+        500.0,
+        1.0,
+        8.2
+       ],
+       [
+        525.0,
+        0.9,
+        7.8
+       ],
+       [
+        550.0,
+        0.9,
+        7.4
+       ],
+       [
+        575.0,
+        0.8,
+        7.1
+       ],
+       [
+        600.0,
+        0.8,
+        6.8
+       ],
+       [
+        625.0,
+        0.8,
+        6.5
+       ],
+       [
+        650.0,
+        0.7,
+        6.3
+       ]
+      ]
+     }
+    ],
+    "note": "Între rândurile tabelului se ia intervalul cel mai îngust al celor două rânduri vecine (nu se interpolează)."
+   },
+   "limits": {
+    "cabH": [
+     225,
+     650
+    ],
+    "cabW": [
+     null,
+     1800
+    ],
+    "kg": [
+     null,
+     18.1
+    ],
+    "hiMin": null,
+    "wiMin": null,
+    "depthMin": 245
+   },
+   "open": {
+    "angle": [
+     0,
+     107
+    ],
+    "note": "90° sau 107°"
+   },
+   "mount": {
+    "raw": {
+     "side_panel_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "count": 4,
+      "pitch_mm": 32,
+      "system": "32 mm series (compatible with 32/37 series drilled holes, UK204 p1)",
+      "first_hole_below_top_inner_edge_mm": 24.5,
+      "horizontal_dim_as_drawn_mm": [
+       15.5,
+       34
+      ],
+      "horizontal_dim_note": "15.5 and 34 appear on the side-panel drawing; which edge each measures from is not machine-readable. The 3.15 and 1.7 patterns are identical (UK206, UK204 p2 drawings). Official Haefele paper template comes in the set.",
+      "src": "UK206 drawing; UK204 p2 drawing"
+     },
+     "front_panel_holes": {
+      "diameter_x_depth_mm": "5 x 12",
+      "count": 4,
+      "pitch_mm": 32,
+      "first_hole_from_top_edge_mm": 38,
+      "horizontal_from_edge_mm": [
+       37,
+       64
+      ],
+      "overall_dim_mm": 166,
+      "note": "dims as drawn on the front-panel pattern: 38 / 32 / 32 / 32 vertical, 37 and 64 horizontal, 166 overall. Reference edges as drawn, not text.",
+      "src": "UK206 drawing"
+     },
+     "distance_X_by_front_thickness_Y_mm": {
+      "Y16": 83,
+      "Y19": 74,
+      "Y22": 64,
+      "Y26": 52,
+      "Y28": 46,
+      "condition": "cabinet top panel thickness K=16 mm",
+      "src": "UK206; UK204 p2"
+     },
+     "screws": "fitting has pre-mounted Euro screws into pre-drilled side panel; fixing screws ordered separately (Variantas listed); front clips onto screw-on brackets (screwed to front, frame width >=45 mm)",
+     "src": "UK206; UK204"
+    }
+   },
+   "notes": [
+    "Tabelul e pe înălțimea corpului (225–650 mm), pe setul de 2 fitinguri; cu al treilea fiting +50%.",
+    "Cele «8 mm» din reclama Häfele sunt lățimea de montaj în canal (fișa UK 9.197C): sursele folosesc și «adâncime».",
+    "Găurirea nu e tipărită în fișa UK: lipsește, nu e inventată."
+   ],
+   "src": "Häfele catalog UK 9.197C/D",
+   "verificat": false
   }
  ]
 }

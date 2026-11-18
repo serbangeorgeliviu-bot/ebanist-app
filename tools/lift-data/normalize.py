@@ -287,3 +287,30 @@ haf_out = {"brand": "Häfele", "sources": haf["sources"], "systems": [
 ]}
 json.dump(haf_out, open(os.path.join(here, "hafele.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print("hafele", [s["key"] for s in haf_out["systems"]])
+
+# ---------------------------------------------------------------- Häfele Free Slim (din cat-motion.json)
+mot = raw("cat-motion.json")
+MP = {x["id"]: x for x in mot["products"]}
+def slim(pid, key, name, codes_text):
+    v = MP[pid]["variants"][0]
+    txt = v["dims"]["flap_weight_kg_by_height"]
+    pts = []
+    for h, lo, hi in re.findall(r"(\d{3})\s*(?:mm)?\s*(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)", txt):
+        pts.append([float(h), float(lo), float(hi)])
+    assert len(pts) == 18, (pid, len(pts))
+    return grid_sys(key, "free_flap", name, "stay", 1, "kh",
+                    [{"id": v["id"], "code": codes_text, "points": pts}],
+                    {"cabH": [225, 650], "cabW": [None, 1800], "kg": [None, v["load_kg"]], "hiMin": None, "wiMin": None, "depthMin": 245},
+                    {"angle": [0, 107], "note": "90° sau 107°"},
+                    ["Tabelul e pe înălțimea corpului (225–650 mm), pe setul de 2 fitinguri; cu al treilea fiting +50%.",
+                     "Cele «8 mm» din reclama Häfele sunt lățimea de montaj în canal (fișa UK 9.197C): sursele folosesc și «adâncime».",
+                     "Găurirea nu e tipărită în fișa UK: lipsește, nu e inventată."],
+                    "catalog UK 9.197C/D")
+haf_out["systems"] += [
+    slim("haefele-free-slim-flap-1.12", "haf_free_slim_112", "Free Slim 1.12",
+         "372.92.700 / .500 / .360 / .300 (șuruburi); .701/.501/.361/.301 (dibluri Ø10); .702/.502/.362/.302 (în canal)"),
+    slim("haefele-free-slim-flap-1.10-push", "haf_free_slim_110p", "Free Slim 1.10 push",
+         "372.92.704 / .504 / .364 / .304 (șuruburi); .705/.505/.365/.305 (dibluri Ø10); .706/.506/.366/.306 (în canal)"),
+]
+json.dump(haf_out, open(os.path.join(here, "hafele.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("hafele+slim", len(haf_out["systems"]))

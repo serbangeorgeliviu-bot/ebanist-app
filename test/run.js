@@ -2877,7 +2877,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0 }; syncBuildForm(); renderSecChips(); drawPreview(); });
     await pg.waitForTimeout(300);
     ok("U.16: implicit «Nessuno» — usa ramane pe balamale", await pg.evaluate(() => $("bLift").value === "" && cfgFromForm().lift === null && !buildModule(cfgFromForm()).pieces.some(p => /basculante/.test(p.elemento))));
-    ok("U.16: selectorul are cele 16 sisteme, grupate pe trei marci", await pg.evaluate(() => $("bLift").querySelectorAll("option:not([value=''])").length === 16 && $("bLift").querySelectorAll("optgroup").length === 3));
+    ok("U.16: selectorul are cele 18 sisteme, grupate pe trei marci", await pg.evaluate(() => $("bLift").querySelectorAll("option:not([value=''])").length === 18 && $("bLift").querySelectorAll("optgroup").length === 3));
     await pg.selectOption("#bLift", "het_la_hk"); await pg.waitForTimeout(200);
     ok("U.16: alegerea ajunge in cfg: usa basculanta, fara usa pe balamale", await pg.evaluate(() => { const c = cfgFromForm(), ps = buildModule(c).pieces;
       return c.lift === "het_la_hk" && ps.some(p => /^Anta basculante/.test(p.elemento)) && !ps.some(p => /^Anta(?! basculante)/.test(p.elemento)); }));

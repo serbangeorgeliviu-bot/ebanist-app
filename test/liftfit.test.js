@@ -17,9 +17,9 @@ const ctx = { console }; ctx.globalThis = ctx; vm.createContext(ctx);
 const LF = vm.runInContext("EBLiftFit", ctx), DATA = vm.runInContext("EBLiftData", ctx);
 
 describe("Datele", () => {
-  test("16 sisteme, trei mărci, chei unice, toate cu sursă și verificat:false", () => {
+  test("18 sisteme, trei mărci, chei unice, toate cu sursă și verificat:false", () => {
     const ks = LF.list().map(s => s.key);
-    assert.equal(ks.length, 16); assert.equal(new Set(ks).size, 16);
+    assert.equal(ks.length, 18); assert.equal(new Set(ks).size, 18);
     assert.equal(JSON.stringify([...new Set(LF.list().map(s => s.brand))].sort()), JSON.stringify(["Blum", "Hettich", "Häfele"].sort()));
     LF.list().forEach(s => { assert.ok(s.src, s.key); assert.equal(s.verificat, false, s.key); });
   });
