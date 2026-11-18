@@ -5,6 +5,21 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.87.0 — 20 noiembrie 2026
+
+**Feroneria nouă, integrată în șapte familii (D-165): balamale, sertare, uși glisante și ascunse în perete, colțuri și coloane extractibile, rotire și mișcare, push și suspendare, îmbinări fără unelte, plus Free Slim și E-Drive la basculante.** Toate datele vin din documente oficiale (Blum, Hettich, Häfele, Salice, Grass, Hawa, Kesseböhmer, Peka, Knapp, Camar), citite de agenți și verificate număr cu număr față de textul brut (`tools/hw-data/raw`). Ce nu s-a putut citi rămâne `null`; toate cotele de găurire rămân `verificat:false`. Prețurile articolelor noi sunt 0, de completat în Catalog.
+- **Balamale** (39 de familii, 214 de articole): Hettich Sensys/Intermat/Avosys/8631i–8657i/W, Salice Silentia+/Air/sticlă/270°/colț, Grass Tiomos/Nexis, Häfele Metalla, Blum CLIP top BLUMOTION 105° și M BLUMOTION 105°. Cupa, modelul de fixare, placa și brațul din date; numărul de balamale după graficul producătorului; găurile plăcii numai unde tabelul dă rândul și distanța.
+- **Sertare:** Hettich AvanTech YOU și ArciTech, Grass Nova Pro Scala, Vionaro V8 și V13; șine Actro/Quadro/Dynapro/Matrix UM/Accuride; PLICOBOX ca articol fără dimensiuni (nu există fișă). Formulele de debitare din surse; cutii de lemn pe Actro 5D și Dynapro.
+- **Uși glisante, ascunse în perete și cu aripă** (65 de sisteme, 388 de coduri): Hettich TopLine/SlideLine/WingLine/KA 5740, Hawa Combino/Clipo/Concepta III, Blum REVEGO, Häfele Slido/F-Park71. Formulele publicate (REVEGO, Concepta, F-Line31, KA 5740); unde Hettich nu publică formula de lățime, rămâne regula generică, cu avertisment.
+- **Colțuri și coloane extractibile** (57 de unități): LeMans II, Salso, Magic Corner, carusele, SPACE CORNER/TOWER, Dispensa, Pinello Cargo, plus FurnSpin, ComfortSpin, pull-down, TV lift, console pliante. Verificări de încadrare din surse; 3D cu mișcare (extras, rotit, coborât).
+- **Push, suspendare și îmbinări fără unelte:** TIP-ON, Push to open Silent/Magnet/Lock, Easys, Tipmatic, Salice PUSH; Hettich SAH 500/215/216 și șine, Häfele, Camar; Rastex, Rafix, TAB, Maxifix, Knapp DUO/UNO. Găuri pentru TIP-ON, Tipmatic, Rastex 15, Rafix-20, Maxifix, TAB 18.
+- **Basculante:** Häfele Free Slim 1.12 și 1.10 push; Häfele E-Drive (a doua deschidere electrică, lângă SERVO-DRIVE Blum); deschiderea paralelă nu mai acumulează deplasarea.
+- **Ce NU se găurește:** mecanismele de ridicare, ușile glisante, unitățile de colț, șinele noi de sertar, suspendările, balamalele de sticlă și cele cu fixare în presă, restul conectorilor: cotele din desene nu au reper confirmat; fișa piesei avertizează și se găurește cu șablonul producătorului.
+- **3D:** feroneria nouă e desenată din cotele surselor; unde producătorii nu publică gabaritul, forma e schematică și se spune. Ușa basculantă în camera 3D rămâne închisă.
+- Teste noi: 2213 unitare (2211 trec, 2 sărite) față de 1906 la 5.86.1.
+
+---
+
 ## 5.86.1 — 19 noiembrie 2026
 
 **Deschidere electrică Blum SERVO-DRIVE pe ușile basculante AVENTOS top, și o cale de deschidere fără trecere prin corp (U.16, D-164).**
