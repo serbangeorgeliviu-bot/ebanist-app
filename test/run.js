@@ -2423,7 +2423,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       window.__playActive = false;
       window.EbanistAndroid = {
         billingAvailable: () => "1",
-        billingQuery: () => { __calls.push("query"); send("products", { ok: true, plans: [
+        billingQuery: () => { __calls.push("query"); if (window.__playFail) { send("products", { ok: false, code: "unavailable", detail: "3 Billing unavailable" }); return; } send("products", { ok: true, plans: [
           { plan: "monthly", price: "9,99 €", period: "P1M" }, { plan: "yearly", price: "89,99 €", period: "P1Y" }] }); },
         billingRestore: () => { __calls.push("restore"); send("purchases", { ok: true, source: "check",
           items: __playActive ? [{ productId: "ebanist_pro", token: "tok-1", orderId: "GPA.1", state: "purchased", autoRenewing: true }] : [] }); },
@@ -2484,7 +2484,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       __ebPlay("products", JSON.stringify({ ok: true, plans: [{ plan: "lunar-auto", price: "8,99 €", period: "P1M" }] })); await w(50);
       renderPro(null); const bb = document.querySelector("#proBody [data-play]");
       o.dupaPerioada = !!bb && bb.dataset.play === "lunar-auto" && /8,99 €/.test(bb.textContent);
-      __ebPlay("products", JSON.stringify({ ok: false, code: "unavailable", detail: "3 Billing unavailable" })); await w(50);
+      /* 5.83.0 (D-133): o eroare de conectare se reîncearcă de două ori înainte să fie arătată; abia a treia se vede */
+      window.__playFail = true;
+      for (let i = 0; i < 3; i++) { __ebPlay("products", JSON.stringify({ ok: false, code: "unavailable", detail: "3 Billing unavailable" })); await w(50); }
+      PLAY.askedAt = Date.now();
       renderPro(null); o.diag = /unavailable/.test(document.getElementById("proBody").textContent);
       licWrite(null); closeSheets();
       return o;
