@@ -158,8 +158,9 @@ export async function setRollout(c, { fraction, confirm = "" }) {
     const rel = (t.releases || []).find((r) => r.status === "inProgress");
     if (!rel) throw new Error("production nu are nicio lansare inProgress; nimic de schimbat");
     const before = rel.userFraction;
-    if (f === 1) { rel.status = "completed"; delete rel.userFraction; } else rel.userFraction = f;
-    await c.put("setează fracția", "/edits/" + id + "/tracks/production", { track: "production", releases: t.releases });
+    let releases = t.releases;
+    if (f === 1) { rel.status = "completed"; delete rel.userFraction; releases = releases.filter((r) => r === rel || r.status !== "completed"); } else rel.userFraction = f; // Play: un singur release „completed"; cel vechi se înlocuiește
+    await c.put("setează fracția", "/edits/" + id + "/tracks/production", { track: "production", releases });
     await c.commit(id);
     return { release: rel.name, before, after: f };
   } catch (e) { await c.drop(id); throw e; }
