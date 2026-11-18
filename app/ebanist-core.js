@@ -1171,7 +1171,7 @@ function validateInvariants(corpo, pieces, geometry, opts) {
   } else if (c.cuPartial) {
     /* U.17: unitate de colț cu parte oarbă — ușa acoperă numai deschiderea liberă; restul frontului îl închide corpul vecin */
     rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,
-      { motiv: "unitate de colț (parte oarbă)" },
+      { motiv: "unita d angolo, parte cieca" },
       "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).",
       fronts.map(function (r) { return r.elemento; }));
   } else if (scorrevole || telaio) {

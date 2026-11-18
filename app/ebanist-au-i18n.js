@@ -61,6 +61,7 @@ it: {
     "Le ante scorrevoli si sovrappongono, non si accostano: la somma delle larghezze supera l'apertura, ed è giusto così.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
     "L'anta a telaio e vetro non esce come un pezzo: escono montanti e traversi, larghi 70 mm, non quanto l'anta.",
+  "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Unità d'angolo: l'anta copre solo l'apertura libera; il resto del fronte è la parte cieca dell'angolo (la chiude il corpo vicino).",
   "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.":
     "Frontali più giochi non coprono esattamente l'apertura: o si toccano, o lasciano un vuoto.",
   "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.":
@@ -172,6 +173,7 @@ en: {
     "Sliding doors overlap rather than meet: their widths add up to more than the opening, and that is correct.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
     "A framed glass door is not one part: it is made of stiles and rails 70 mm wide, not a door-sized panel.",
+  "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Corner unit: the door covers only the free opening; the rest of the front is the blind part of the corner (closed by the neighbouring cabinet).",
   "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.":
     "Fronts plus gaps do not cover the opening exactly: either they touch or they leave a gap.",
   "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.":
@@ -281,6 +283,7 @@ fr: {
     "Les portes coulissantes se chevauchent, elles ne se jouxtent pas : la somme des largeurs dépasse l'ouverture, et c'est normal.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
     "La porte à cadre et verre n'est pas une pièce : elle donne des montants et traverses de 70 mm de large, pas un panneau de la taille de la porte.",
+  "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Élément d'angle : la porte ne couvre que l'ouverture libre ; le reste de la façade est la partie aveugle de l'angle (fermée par le caisson voisin).",
   "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.":
     "Les façades plus les jeux ne couvrent pas exactement l'ouverture : soit elles se touchent, soit elles laissent un vide.",
   "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.":
@@ -370,6 +373,7 @@ de: {
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.": "Die Türen haben absolute Positionen (x, y, b, h): Sie werden im Layout geprüft, nicht über die Summe ihrer Breiten.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.": "Schiebetüren überlappen sich, statt aneinanderzustoßen: Ihre Breiten ergeben mehr als die Öffnung, und das ist richtig so.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.": "Eine Rahmentür mit Glas ist kein einzelnes Teil: Sie besteht aus Rahmenstielen und Querhölzern von 70 mm Breite, nicht aus einer türgroßen Platte.",
+  "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Eckeinheit: Die Tür deckt nur die freie Öffnung ab; der Rest der Front ist der blinde Teil der Ecke (vom Nachbarkorpus geschlossen).",
   "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.": "Fronten plus Fugen decken die Öffnung nicht exakt ab: Entweder berühren sie sich, oder es bleibt eine Lücke.",
   "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.": "Die Schublade ist tiefer, als der gewählte Auszug zulässt: Sie schließt nicht ganz.",
   "Polița e mai adâncă decât lasă retrasarea: ajunge la fața corpului.": "Der Einlegeboden ist tiefer, als der Rücksprung zulässt: Er reicht bis zur Vorderkante des Korpus.",
@@ -432,6 +436,7 @@ pl: {
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.": "Drzwi mają pozycje bezwzględne (x, y, sz, w): sprawdza się je w układzie, a nie sumą szerokości.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.": "Drzwi przesuwne nakładają się, nie stykają: suma ich szerokości jest większa niż otwór i tak ma być.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.": "Drzwi ramowe ze szkłem nie są jednym elementem: składają się ze stojaków i poprzeczek szerokich na 70 mm, a nie z płyty wielkości drzwi.",
+  "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Narożnik: drzwi zakrywają tylko wolny otwór; reszta frontu to ślepa część narożnika (zamyka ją sąsiedni korpus).",
   "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.": "Fronty plus szczeliny nie pokrywają dokładnie otworu: albo się stykają, albo zostawiają lukę.",
   "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.": "Szuflada jest głębsza, niż pozwala wybrana prowadnica: nie zamyka się do końca.",
   "Polița e mai adâncă decât lasă retrasarea: ajunge la fața corpului.": "Półka jest głębsza, niż pozwala cofnięcie: sięga do przedniej krawędzi korpusu.",
@@ -494,6 +499,7 @@ es: {
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.": "Las puertas tienen posiciones absolutas (x, y, an, al): se comprueban en el layout, no sumando sus anchos.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.": "Las puertas correderas se solapan en lugar de juntarse: sus anchos suman más que el hueco, y es correcto.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.": "Una puerta de marco con vidrio no es una sola pieza: se compone de montantes y travesaños de 70 mm de ancho, no de un panel del tamaño de la puerta.",
+  "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Unidad de esquina: la puerta cubre solo la abertura libre; el resto del frente es la parte ciega de la esquina (la cierra el mueble vecino).",
   "Fronturile plus jocurile nu acoperă exact deschiderea: fie se ating, fie lasă un gol.": "Frentes más juntas no cubren exactamente el hueco: o se tocan, o dejan un hueco.",
   "Sertarul e mai adânc decât lasă ghidajul ales: nu intră până la capăt.": "El cajón es más profundo de lo que permite la guía elegida: no cierra del todo.",
   "Polița e mai adâncă decât lasă retrasarea: ajunge la fața corpului.": "La balda es más profunda de lo que permite el retranqueo: llega al borde frontal del cuerpo.",
