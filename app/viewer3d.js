@@ -1452,7 +1452,9 @@ function setTargets(boxesOrig) {
   for (const P of R.pieces.values()) {
     const i = first.get(P.pk); if (i == null) continue;
     const a = boxesOrig[i], b = ex[i];
-    P.tgt.ex = (b.x0 - a.x0) * MM;   // `ex` pornește din boxesOrig deplasat: include deja ușa glisantă P.tgt.ey = (b.y0 - a.y0) * MM; P.tgt.ez = (b.z0 - a.z0) * MM;
+    /* NOTĂ (D-136, de decis): aici `P.tgt.ey` și `P.tgt.ez` ar trebui setate la fel ca `ex`, dar linia veche le-a lăsat într-un comentariu; repararea lor
+       face ca vederea explodată să mute și pe y și z și atunci auditul 3D găsește suprapuneri de sertare la colțuri (angolare). Până la o decizie rămân 0. */
+    P.tgt.ex = (b.x0 - a.x0) * MM; P.tgt.ey = 0; P.tgt.ez = 0;
     const open = R.st.open ? 1 : 0;
     /* ușa trapezoidală (pantă) nu are balamale în lista de feronerie: pivotul vine din partea balamalei a cutiei */
     if (P.sub === "door" && !P.pivot) {
@@ -1482,7 +1484,7 @@ function setTargets(boxesOrig) {
       const Lf = P.lift, topY = liftTopY(boxesOrig);
       if (Lf.motion === "parallel") {
         P.pivot = null; P.tgt.ang = 0;
-        P.tgt.ey += open ? (Math.max(0, topY - a.y0) + 4) * MM : 0; P.tgt.ez += open ? 25 * MM : 0;
+        P.tgt.ey = open ? (Math.max(0, topY - a.y0) + 4) * MM : 0; P.tgt.ez = open ? 25 * MM : 0;
       } else {
         const deg = Lf.motion === "liftup" ? 95 : Math.min(110, Math.max(60, Lf.angle || 90)), th = deg * Math.PI / 180;
         /* `ang` aici e PROGRESUL (0 → th); traseul se calculează în step(): întâi ușa urcă dreaptă în fața corpului până cu muchia de jos la nivelul
