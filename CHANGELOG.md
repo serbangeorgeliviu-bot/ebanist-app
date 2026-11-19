@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.89.0 — 20 noiembrie 2026
+
+**Selectorul de feronerie, etapele H.4 și H.5.**
+- **Catalogul (Setări):** un rând pe categorie, cu articolul implicit (marcă, nume, cod, preț) și „Schimbă", care deschide același selector în mod catalog. Preț și cod se editează pe articol; filtrul „Doar articole cu preț de completat" arată câte au preț 0; articolele proprii se creează ca până acum. Un backup făcut cu 5.87.0 se restaurează cu aceleași alegeri.
+- **Recomandări din regulile existente:** în „Recomandate" ordinea urmează potrivirea (cele mai puține balamale, cea mai mare rezervă de sarcină la suspendare), cu o linie „de ce" din date. La un slot fără alegere apare „Sugestie: …" cu „Aplică"; nu se sugerează nimic când o limită e necunoscută, iar nimic nu se aplică singur.
+- **LED pe corp:** bandă, driver, dimmer, întrerupător și cablu de rețea se aleg pe corp, în „Iluminat"; numărul și prețul urmează alegerea. Fără alegere, rezultatul e identic cu cel de dinainte.
+- **Sertare:** toate sistemele sunt alegibile, cu verificare; cele vechi, fără limite în date, stau la „Potrivite". Insigna balamalei spune ce limită e depășită.
+- **Tabletă:** selectorul e dialog centrat de la 700 px.
+- **Încă nu:** găurile dimmerului LED urmează tot articolul Loox; prețurile articolelor noi rămân de completat.
+- Teste: 2318 unitare, 1099 în browser.
+
+---
+
 ## 5.88.0 — 20 noiembrie 2026
 
 **Selectorul unic de feronerie (FAZA H, D-166).** După 5.87.0 catalogul are peste o mie de articole, iar alegerea era liste plate pe categorie, în patru locuri ale formularului. Acum, în „Feronerie corp", un singur panou are câte un rând pe funcție, iar alegerea se face dintr-un selector cu căutare.
