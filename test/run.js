@@ -3204,6 +3204,34 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("drawers-more: nessun errore JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* H.1 — indexul unic al feroneriei și căutarea (ebanist-hwindex.js) */
+  {
+    head("Indexul de feronerie — sloturi, căutare, fațete pe catalogul real (H.1)");
+    const hx = await pg.evaluate(() => {
+      const idx = hwIndex(), total = HW_CATS.reduce((s, c) => s + (HWDB[c[0]] || []).length, 0);
+      const alt = [...new Set(idx.filter(e => e.slot === "altele").map(e => e.cat))].sort();
+      const L = ["it", "ro", "en", "fr", "de", "pl", "es"];
+      return { n: idx.length, total, unknown: idx.unknownCats, alt,
+        names: idx.every(e => L.every(l => e.names[l] && e.names[l].length > 0)),
+        dupes: idx.length - new Set(idx.map(e => e.cat + "|" + e.id)).size,
+        slots: [...new Set(idx.map(e => e.slot))].sort(),
+        hafele: EBHwIndex.search(idx, "hafele").length === EBHwIndex.search(idx, "HÄFELE").length && EBHwIndex.search(idx, "hafele").length > 20,
+        code: (EBHwIndex.search(idx, "23KA000")[0] || {}).id,
+        aventos: EBHwIndex.search(idx, "aventos hk top").some(e => e.id === "blum_hk_top"),
+        hinges: EBHwIndex.search(idx, "", { slot: "balamale" }).length,
+        fac: EBHwIndex.facets(idx, { slot: "balamale" }).brand,
+        labels: EBHwIndex.SLOTS.every(s => ["it", "ro", "en", "fr", "de", "pl", "es"].every(l => { const k = state.lang; state.lang = l; const ok = t(s.key) !== s.key; state.lang = k; return ok; })) };
+    });
+    ok("H.1: indexul are câte o intrare pe articol din catalog (fără pierderi, fără dubluri)", hx.n === hx.total && hx.dupes === 0 && hx.n > 600, JSON.stringify({ n: hx.n, total: hx.total, d: hx.dupes }));
+    ok("H.1: nicio categorie necunoscută; în «altele» doar categoriile alese", hx.unknown.length === 0 && hx.alt.every(c => ["aw", "tblext", "letto", "trav", "feltro", "soc", "picacc"].includes(c)), JSON.stringify({ u: hx.unknown, a: hx.alt }));
+    ok("H.1: fiecare intrare are nume în toate cele 7 limbi", hx.names === true);
+    ok("H.1: căutarea nu ține cont de diacritice (Häfele = hafele) și găsește mult", hx.hafele === true);
+    ok("H.1: căutarea după cod (23KA000 → unitatea SERVO-DRIVE) și după nume + familie", hx.code === "blum_servo_hk" && hx.aventos === true, JSON.stringify({ c: hx.code, a: hx.aventos }));
+    ok("H.1: slotul «balamale» conține sute de articole, cu fațeta pe mărci (Hettich, Salice, Grass, Blum, Häfele)", hx.hinges > 150 && ["Hettich", "Salice", "Grass", "Blum", "Häfele"].every(b => hx.fac[b] > 0), JSON.stringify({ n: hx.hinges, f: hx.fac }));
+    ok("H.1: etichetele sloturilor sunt traduse în toate limbile", hx.labels === true);
+    ok("H.1: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
