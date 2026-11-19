@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.92.0 — 20 noiembrie 2026
+
+**Cotele de găurire din Scheda Misure, secțiunea A, sunt verificate pe piese reale (D-169).**
+- Verificate în atelier, pe proiectul mic Cetinic: balamala Blum (cupă, dornuri, placuță), Minifix, dorn Ø8, Confirmat 7×50, glisierele de sertar, mânerul cu două găuri sau buton și suportul de raft. Mobilierul s-a asamblat fără abateri.
+- **DXF, fișa pieselor și avertismentul „cote neverificate”:** pe un corp făcut numai din aceste familii, stratul DXF nu mai are sufixul `_NEVERIF`, iar antetul de avertizare dispare. Orice altceva rămâne marcat: Lamello, Festool, gola, raza, anti-curbare, LED, blat, pat, masă, balamale și glisiere alese din alte mărci, mâner încastrat sau pe muchie, canalul spatelui.
+- Fiecare operație de feronerie poartă `ver: true|false`; modelul e `verificat` numai dacă toate operațiile lui sunt verificate. `HW_DRILL.verificat` (steagul global) rămâne `false`.
+- Distinta, prețurile și 3D-ul nu se schimbă.
+
+---
+
 ## 5.91.0 — 20 noiembrie 2026
 
 **Trei proiecte demo, gata de arătat clienților (FAZA T).**

@@ -187,6 +187,19 @@ var HW_DRILL = {
   fold: { cup_dia: 35, cup_depth: 12.5, dist_cant: 5, plate_from_edge: 37, plate_spacing: 32, plate_dia: 5, plate_depth: 13 }
 };
 
+/* VERIFICAT PE PIESE REALE (20.11.2026, Liviu, proiectul mic Cetinic): toate cotele din Scheda Misure, secțiunea A (A1 balamala Blum, A2 Minifix/dorn/Confirmat,
+   A3 glisiere de sertar, A4 mâner cu 2 găuri și suport de raft) s-au potrivit pe piesele făcute în atelier, iar mobilierul s-a asamblat. Steagul global
+   `HW_DRILL.verificat` rămâne false: tot ce nu era pe fișă (Lamello, Festool, gola, raza, anti-curbare, LED, blat, pat, masă, balamale și glisiere alte mărci)
+   NU e verificat. Verificarea e pe instanța de feronerie (`hwVerified`): numai familiile de mai jos, în varianta implicită. */
+var VERIFIED_HW = { cerniera: 1, minifix: 1, tassello: 1, confirmat: 1, guida: 1, reggipiano: 1, maniglia: 1 };
+function hwVerified(h) {
+  if (!h || !VERIFIED_HW[h.type]) return false;
+  if (h.type === "cerniera") return !h.g && !h.hingeChosen;      // balamaua Blum implicită; cele alese din catalog (alte mărci/modele) rămân de verificat
+  if (h.type === "guida") return !h.slideApprox;                  // poziții din tabelul producătorului, nu aproximate
+  if (h.type === "maniglia") return !!(h.knob || (h.hm && h.hm.t === "bar") || !h.hm);   // mâner cu 2 găuri sau buton; încastrat și pe muchie nu erau pe fișă
+  return true;
+}
+
 /* tipul de imbinare al corpului: din articolul `conn` ales pe corp (cfg.hwSel.conn),
    altfel din cel implicit din setari (root.jointDefaultId); necunoscut = minifix */
 var JOINT_OF_ID = { haf_minifix: "minifix", haf_rafix: "minifix", gen_confirmat: "confirmat",
@@ -879,6 +892,7 @@ function generate1(input) {
         }
         var inst = { id: id, type: "cerniera", catalog: "blum_71b3550", piece: D.pk, against: P ? P.pk : null,
                      w: [cx, y, zIn], hingeLeft: hingeLeft, note: "Cerniera + basetta" };
+        if (hg) inst.hingeChosen = true;
         if (HGM) inst.g = Object.assign({}, HGM.d3, { plateLine: HG.plate_front, platePitch: HG.plate_spacing, plateHoles: !!HGM.plateHoles, dowels: !!(HGM.dowels && !noHoles) });   /* desenul 3D: numai cotele din date + cele efective */
         if (P) {
           var fx = hingeLeft ? P.max[0] : P.min[0], zp = P.max[2] - HG.plate_front, hor = HG.plate && HG.plate.kind === "horizontal", pd = hingeLeft ? 1 : -1;
@@ -1510,6 +1524,12 @@ function generate1(input) {
     return (ORDER.indexOf(a.role) - ORDER.indexOf(b.role)) || (ka - kb) || (String(a.pk) < String(b.pk) ? -1 : 1);
   });
   out.pieces.forEach(function (p, i) { p.n = i + 1; });
+  /* per operație: verificată numai dacă instanța ei de feronerie e din familiile verificate; modelul e `verificat` numai dacă nu are nimic neverificat */
+  var vById = {}, allV = HW_DRILL.verificat === true;
+  out.hw.forEach(function (h) { vById[h.id] = hwVerified(h); });
+  out.pieces.forEach(function (p) { (p.operations || []).forEach(function (o) { if (o.hw) o.ver = !!vById[o.hw]; }); });
+  if (!allV) out.verificat = out.hw.length > 0 &&
+    out.pieces.every(function (p) { return (p.operations || []).every(function (o) { return o.type === "contour" || o.ver === true; }); });
   return out;
 }
 
@@ -1809,7 +1829,7 @@ function dxfForPiece(pc, opts) {
   var out = [], layers = {}, body = [], edgeN = 0;
   var g = function (code, val) { body.push(String(code), String(val)); };
   var L = function (name, color) { layers[name] = color || 7; return name; };
-  var verif = function (o, base) { return L(base + (o.hw && unver ? "_NEVERIF" : ""), o.hw && unver ? 1 : 7); };
+  var verif = function (o, base) { var nv = unver && o.ver !== true && !!o.hw; return L(base + (nv ? "_NEVERIF" : ""), nv ? 1 : 7); };
   var circle = function (layer, x, y, r) { g(0, "CIRCLE"); g(8, layer); g(10, f(x)); g(20, f(y)); g(30, "0.0"); g(40, f(r)); };
   var line = function (layer, a, b) { g(0, "LINE"); g(8, layer); g(10, f(a[0])); g(20, f(a[1])); g(30, "0.0"); g(11, f(b[0])); g(21, f(b[1])); g(31, "0.0"); };
   var poly = function (layer, pts, closed) {
@@ -1847,7 +1867,7 @@ function dxfForPiece(pc, opts) {
   var X = DXF_TXT[opts.lang] || DXF_TXT.ro;
   var head = ["Ebanist " + (opts.ver || "") + " — " + (opts.name || (X.part + " " + pc.pk)),
     X.size.replace("{l}", f(pc.length)).replace("{w}", f(pc.width)).replace("{t}", f(pc.thickness))];
-  if (unver) head.push(X.unver);
+  if (unver && (pc.operations || []).some(function (o) { return o.hw && o.ver !== true; })) head.push(X.unver);
   if (edgeN) head.push(X.edge.replace("{n}", edgeN));
   head.forEach(function (h) { out.push("999", h); });
   out.push("0", "SECTION", "2", "HEADER", "9", "$ACADVER", "1", "AC1009", "9", "$INSUNITS", "70", "4", "0", "ENDSEC");

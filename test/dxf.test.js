@@ -43,24 +43,36 @@ describe("DXF per piesă", () => {
   const P = pieces(ARM);
   const side = P.find(p => p.role && /fianco|lat/i.test(p.role)) || P[0];
 
-  test("structură validă R12 și antet de avertizare", () => {
-    const t = S.dxfForPiece(side, { ver: "x", name: "n" });
+  /* 20.11.2026: familiile din Scheda Misure A (balamala Blum, Minifix/dorn/Confirmat, glisiere, mâner, suport raft) sunt verificate pe piese reale;
+     steagul global rămâne false, iar ce nu era pe fișă (aici Lamello Clamex) rămâne _NEVERIF cu antet */
+  const UNV = pieces(Object.assign({}, ARM, { hwSel: { conn: "lam_clamex" } }));
+  const sideU = UNV.find(p => p.role && /fianco|lat/i.test(p.role)) || UNV[0];
+
+  test("structură validă R12; antetul de avertizare apare numai la piese cu feronerie neverificată", () => {
+    const t = S.dxfForPiece(sideU, { ver: "x", name: "n" });
     assert.match(t, /^999\n/);
     assert.ok(t.includes("AC1009"));
     assert.ok(t.trimEnd().endsWith("EOF"));
     assert.match(t, /NU sunt verificate/);
     parse(t);
+    assert.doesNotMatch(S.dxfForPiece(side, { ver: "x", name: "n" }), /NU sunt verificate/);
   });
 
-  test("cât HW_DRILL.verificat e false, orice strat de feronerie e _NEVERIF; conturul nu", () => {
+  test("steagul global rămâne false; familiile verificate nu au _NEVERIF, cele neverificate da; conturul niciodată", () => {
     assert.equal(S.HW_DRILL.verificat, false);
     for (const pc of P) {
+      assert.ok(!/_NEVERIF/.test(S.dxfForPiece(pc)), pc.pk + ": ARM implicit e numai din familii verificate");
+      for (const o of pc.operations) if (o.hw) assert.equal(o.ver, true, pc.pk + ": operație neverificată în ARM implicit");
+    }
+    let nv = 0;
+    for (const pc of UNV) {
       const ents = parse(S.dxfForPiece(pc));
-      const hwOps = pc.operations.filter(o => o.hw && o.face >= 5 && o.type !== "contour");
+      const hwOps = pc.operations.filter(o => o.hw && o.ver !== true && o.face >= 5 && o.type !== "contour");
       const layers = new Set(ents.map(e => e.f[8][0]));
-      if (hwOps.length) assert.ok([...layers].some(l => /_NEVERIF$/.test(l)), pc.pk + ": strat _NEVERIF lipsă");
+      if (hwOps.length) { nv++; assert.ok([...layers].some(l => /_NEVERIF$/.test(l)), pc.pk + ": strat _NEVERIF lipsă"); }
       for (const e of ents) if (/^CONTUR/.test(e.f[8][0])) assert.ok(!/NEVERIF/.test(e.f[8][0]));
     }
+    assert.ok(nv > 0, "Clamex trebuie să rămână neverificat");
   });
 
   test("fiecare gaură de pe fața 5/6 devine un cerc cu cotele ei, la 0,1 mm", () => {
