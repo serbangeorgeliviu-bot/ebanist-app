@@ -3737,7 +3737,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       await P.evaluate(() => closeSheets());
       /* 6. limbi: chipul și linia «de ce» în toate limbile, fără chei pe ecran */
       await P.evaluate(SETUP, [BODY]); await waitSug();
-      const lg = await P.evaluate(async () => { const keep = state.lang, bad = []; for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) { state.lang = l; applyLang(); EBHwUI.relabel(); await new Promise(r => setTimeout(r, 1300));
+      const lg = await P.evaluate(async () => { const keep = state.lang, bad = []; for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) { state.lang = l; applyLang(); EBHwUI.relabel(); for (let w = 0; w < 60 && !document.querySelector('#hwPanel [data-hwp-sug="balamale"]'); w++) await new Promise(r => setTimeout(r, 100)); await new Promise(r => setTimeout(r, 200));
         const chip = document.querySelector('#hwPanel [data-hwp-sug="balamale"]'); const txt = chip ? chip.innerText : ""; if (!chip || /\bhx[a-zA-Z]+\b|\{\w+\}/.test(txt) || txt.length < 12) bad.push(l + ":" + txt); }
         state.lang = keep; applyLang(); EBHwUI.relabel(); return bad; });
       ok("H.5 " + label + ": chipul de sugestie în toate cele 7 limbi (recalculat la schimbarea limbii), fără chei de traducere", lg.length === 0, JSON.stringify(lg));
