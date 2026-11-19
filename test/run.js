@@ -3232,6 +3232,62 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("H.1: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* H.2 — potrivirea feroneriei cu corpul curent (ebanist-hwfit.js): secțiunile pe catalogul real, pe corpuri de probă */
+  {
+    head("Potrivirea feroneriei cu corpul — recomandate / potrivite / nu se potrivesc (H.2)");
+    const t0 = Date.now();
+    const hf = await pg.evaluate(() => {
+      const idx = hwIndex(), base = cfgFromForm();
+      const L7 = ["it", "ro", "en", "fr", "de", "pl", "es"];
+      const bodies = {
+        light: { type: "standard", L: 450, H: 500, P: 330, doors: 1, shelves: 1, drawers: 0, support: "sospeso", plinth: 0, hang: 1, front: "piena" },
+        heavy: { type: "standard", L: 900, H: 2400, P: 600, doors: 2, shelves: 1, drawers: 0, support: "zoccolo", plinth: 80, hang: 0, front: "piena" },
+        wide: { type: "standard", L: 1000, H: 2650, P: 600, doors: 1, shelves: 1, drawers: 0, support: "zoccolo", plinth: 0, hang: 0, front: "piena" },
+        deep: { type: "standard", L: 900, H: 720, P: 700, doors: 0, shelves: 0, drawers: 3, support: "zoccolo", plinth: 100, hang: 0, front: "piena" }
+      };
+      const out = { n: idx.length, bodies: {}, errs: [], fx: true };
+      Object.entries(bodies).forEach(([nm, o]) => {
+        let ctx; try { ctx = hwFitCtx(Object.assign({}, base, o)); } catch (e) { out.errs.push(nm + ": " + (e && e.message)); return; }
+        if (!ctx.fx) out.fx = false;
+        const c = { recomandat: 0, potrivit: 0, nu_se_potriveste: 0, nul: 0, cat: {} }, sample = {};
+        idx.forEach(e => {
+          let r; try { r = EBHwFit.check(e, ctx); } catch (x) { out.errs.push(nm + " " + e.cat + "/" + e.id + ": " + (x && x.message)); return; }
+          const s = EBHwFit.section(r); c[s]++; if (r.ok === null) c.nul++;
+          const k = e.cat + ":" + s; c.cat[k] = (c.cat[k] || 0) + 1;
+          if (r.ok === false && !sample[e.cat]) sample[e.cat] = { id: e.id, why: JSON.parse(JSON.stringify(r.why)) };
+          if (["blum_hk_top", "haf_free_flap_17", "het_avantech_zarga", "gr_dynapro", "het_actro_you"].includes(e.id)) sample[e.id] = { s, ok: r.ok, unk: r.unknownLimits, why: JSON.parse(JSON.stringify(r.why)) };
+        });
+        /* textele: prima încălcare a fiecărei categorii, în toate limbile (t = traducerea aplicației) */
+        let msgOk = true, msgN = 0;
+        Object.values(sample).forEach(sm => { if (!sm.why || !sm.why.length) return; L7.forEach(l => { const k0 = state.lang; state.lang = l;
+          try { EBHwFit.msg(sm.why, t).forEach(m => { msgN++; if (!m || /\{\w+\}|hfQ_|hfV_/.test(m)) msgOk = false; }); } finally { state.lang = k0; } }); });
+        out.bodies[nm] = { c, sample, msgOk, msgN, door: ctx.door && Math.round(ctx.door.h) + "x" + Math.round(ctx.door.w) + " " + Math.round(ctx.door.kg * 10) / 10 + "kg" };
+      });
+      return out;
+    });
+    const B = hf.bodies, sum = x => x.c.recomandat + x.c.potrivit + x.c.nu_se_potriveste;
+    ok("H.2: hwFitCtx(cfg) construiește contextul (fx din motor) fără erori și fiecare articol din catalog primește o secțiune",
+      hf.errs.length === 0 && hf.fx && ["light", "heavy", "wide", "deep"].every(k => B[k] && sum(B[k]) === hf.n), JSON.stringify({ n: hf.n, e: hf.errs.slice(0, 3) }));
+    ok("H.2: ușă ușoară (corp mic agățat): Recomandate nu e goală, iar blum_hk_top trece cu date complete",
+      B.light.c.recomandat > 30 && B.light.sample.blum_hk_top && B.light.sample.blum_hk_top.s === "recomandat", JSON.stringify({ r: B.light.c.recomandat, s: B.light.sample.blum_hk_top }));
+    ok("H.2: ușă înaltă și grea: mecanismele de ridicare cad cu motivul (înălțimea interioară / forța), iar blum_hk_top nu se mai potrivește",
+      B.heavy.c.cat["lift:nu_se_potriveste"] >= 12 && B.heavy.sample.lift && B.heavy.sample.lift.why.some(w => w.k === "kh" || w.k === "power") && B.heavy.sample.blum_hk_top.ok === false,
+      JSON.stringify({ lift: B.heavy.c.cat["lift:nu_se_potriveste"], w: B.heavy.sample.lift }));
+    ok("H.2: ușă lată și înaltă (1000 × 2650): mai multe balamale cad decât la ușa ușoară, cu lățimea/greutatea limitei citite",
+      (B.wide.c.cat["cern:nu_se_potriveste"] || 0) > (B.light.c.cat["cern:nu_se_potriveste"] || 0) + 20 && B.wide.sample.cern && B.wide.sample.cern.why.some(w => ["w", "kg", "h"].includes(w.k) && (w.hi != null)),
+      JSON.stringify({ wide: B.wide.c.cat["cern:nu_se_potriveste"], light: B.light.c.cat["cern:nu_se_potriveste"], s: B.wide.sample.cern }));
+    ok("H.2: totalul Recomandate scade de la corpul mic la cel înalt și greu; Nu se potrivesc crește",
+      B.light.c.recomandat > B.heavy.c.recomandat && B.light.c.nu_se_potriveste < B.heavy.c.nu_se_potriveste, JSON.stringify({ l: [B.light.c.recomandat, B.light.c.nu_se_potriveste], h: [B.heavy.c.recomandat, B.heavy.c.nu_se_potriveste] }));
+    ok("H.2: bază adâncă cu 3 sertare: sistemul din date (AvanTech) și glisiera Dynapro se verifică; Actro YOU (fără deducție în sursă) rămâne «necunoscut» = potrivit, nu recomandat",
+      B.deep.sample.het_avantech_zarga.ok === true && B.deep.sample.gr_dynapro.ok !== null && B.deep.sample.het_actro_you.ok === null && B.deep.sample.het_actro_you.s === "potrivit",
+      JSON.stringify([B.deep.sample.het_avantech_zarga, B.deep.sample.gr_dynapro, B.deep.sample.het_actro_you].map(x => x && [x.s, x.ok])));
+    ok("H.2: «necunoscut» nu se numără niciodată între Recomandate: articolele fără date au ok:null și stau în «potrivit», marcate",
+      B.light.c.nul > 100 && B.light.c.nul <= B.light.c.potrivit, JSON.stringify({ nul: B.light.c.nul, pot: B.light.c.potrivit }));
+    ok("H.2: motivele se scriu în toate cele 7 limbi, fără substituții rămase", ["light", "heavy", "wide", "deep"].every(k => B[k].msgOk && B[k].msgN > 0), JSON.stringify(["light", "heavy", "wide", "deep"].map(k => [B[k].msgN, B[k].msgOk])));
+    console.log("    \x1b[2m" + ["light", "heavy", "wide", "deep"].map(k => k + " " + B[k].door + " → R" + B[k].c.recomandat + " P" + B[k].c.potrivit + " N" + B[k].c.nu_se_potriveste + " (null " + B[k].c.nul + ")").join(" | ") + " · " + (Date.now() - t0) + " ms\x1b[0m");
+    ok("H.2: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 200));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
