@@ -1150,6 +1150,9 @@ function validateInvariants(corpo, pieces, geometry, opts) {
      nemmeno le ante normali. */
   var scorrevole = (c.type === "scorrevole" && +c.doors > 0);
   var telaio = (c.front === "vetro");
+  /* ușa ESCAMOTABILĂ (pocket, U.17): intră în corp (inset) și are lățimea din formula producătorului (deschiderea interioară minus rosturile ei), nu din
+     suma lățimilor + jocurile de ușă pe balamale: regula I4 de mai jos n-are ce măsura. Ce se verifică în schimb: nicio ușă mai lată decât deschiderea. */
+  var pocket = fronts.length > 0 && fronts.every(function (r) { return /scomparsa/i.test(String(r.elemento || "")); });
   /* ante a COTE ASSOLUTE: due in basso e due in alto non si sommano sulla
      larghezza — la somma farebbe il doppio dell'apertura. Le controlla
      `validateLayout` (dentro il gabarito, nessuna sovrapposizione). */
@@ -1173,6 +1176,13 @@ function validateInvariants(corpo, pieces, geometry, opts) {
     rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,
       { motiv: "unita d angolo, parte cieca" },
       "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).",
+      fronts.map(function (r) { return r.elemento; }));
+  } else if (pocket) {
+    var wMax = 0;
+    fronts.forEach(function (r) { var l2 = alongAxis(r, "L"); if (l2 != null && l2 > wMax) wMax = l2; });
+    rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", wMax <= +G.L_int + 0.05,
+      { motiv: "anta a scomparsa", L_usa_max: Math.round(wMax), L_int: G.L_int },
+      "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.",
       fronts.map(function (r) { return r.elemento; }));
   } else if (scorrevole || telaio) {
     rule("I4", "Σ L_fronturi + Σ jocuri == L_nom", null,

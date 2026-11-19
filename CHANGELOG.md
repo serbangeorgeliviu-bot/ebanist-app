@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.93.1 — 20 noiembrie 2026
+
+**Ușa escamotabilă pe corp standard nu mai dă controlul roșu I4.**
+- Controlul „fronturile + rosturile = deschiderea” nu se aplică ușii escamotabile (intră în corp, lățimea vine din formula producătorului). Acum se verifică altceva: nicio ușă mai lată decât deschiderea interioară. Înainte, orice corp cu ușă escamotabilă era blocat la export (D-168, neacoperit).
+
+---
+
 ## 5.93.0 — 20 noiembrie 2026
 
 **Ușa basculantă se deschide cel mult 90° și contor anonim pe articole (D-170).**

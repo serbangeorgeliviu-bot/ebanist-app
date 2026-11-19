@@ -94,6 +94,16 @@ describe("Escamotabile pe corpul standard", () => {
     const p = rows(r, /^Anta a scomparsa/)[0];
     assert.ok(p && rows(r, /^Anta(?! a scomparsa)/).length === 0); assert.equal(p.larg, Math.round(r.G.L_int - 4)); assert.equal(p.lung, Math.round(r.G.H_int - 6)); assert.equal(p.role, "frontale");
   });
+  test("D-168: ușa escamotabilă pe corp standard nu dă I4 blocant; o ușă mai lată decât deschiderea ar da", () => {
+    for (const k of ["blum_revego_uno", "het_ka_5740", "hawa_concepta_iii_15_push"]) {
+      const q = build(Object.assign({ slide: k }, POC)), M = S.carcassMaterials(q.full);
+      const ths = [...new Set(Object.values(M.sp).concat(q.pieces.map(x => x.sp)).filter(x => x > 0))], o = { materials: M.mats, thicknesses: ths };
+      const ko = Array.from(S.failedInvariants(q.full, q.pieces, q.G, o)).map(x => x.id);
+      assert.ok(!ko.includes("I4"), k + ": " + ko.join());
+      const wide = q.pieces.map(x => /^Anta a scomparsa/.test(x.elemento) ? Object.assign({}, x, { larg: q.G.L_int + 40 }) : x);
+      assert.ok(Array.from(S.failedInvariants(q.full, wide, q.G, o)).some(x => x.id === "I4"), k + ": ușa prea lată trebuie să pice");
+    }
+  });
   test("3D: o cutie sub:'pocket' cu datele de retragere (E, M) și al sistemului; nicio ușă pe balamale", () => {
     const x = r.b.boxes.filter(b => b.sub === "pocket"); assert.equal(x.length, 1); assert.equal(r.b.boxes.filter(b => b.sub === "door").length, 0);
     assert.equal(x[0].pocket.open.t, "pivot"); assert.ok(x[0].pocket.open.E > 0 && x[0].pocket.open.M >= 7 && Math.abs(x[0].pocket.open.E + x[0].pocket.open.M - x[0].pocket.w) < 0.2, J(x[0].pocket.open));   // E = FB − FU, M = FU (≥ 7) assert.equal(x[0].pocket.sys, "blum_revego_uno");

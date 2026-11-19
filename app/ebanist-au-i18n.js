@@ -57,6 +57,8 @@ it: {
     "La pila verticale — zoccolo, base, ripiani, cielo — non chiude l'altezza del corpo.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.":
     "Le ante hanno quote assolute (x, y, l, h): si verificano nella disposizione, non con la somma delle larghezze.",
+  "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.":
+    "La porta a scomparsa è più larga dell'apertura interna del corpo.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.":
     "Le ante scorrevoli si sovrappongono, non si accostano: la somma delle larghezze supera l'apertura, ed è giusto così.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
@@ -169,6 +171,8 @@ en: {
     "The vertical stack (plinth, bottom, shelves, top) does not add up to the carcass height.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.":
     "The doors have absolute positions (x, y, w, h): they are checked in the layout, not by summing their widths.",
+  "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.":
+    "The pocket door is wider than the internal opening of the unit.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.":
     "Sliding doors overlap rather than meet: their widths add up to more than the opening, and that is correct.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
@@ -279,6 +283,8 @@ fr: {
     "L'empilement vertical (socle, dessous, étagères, dessus) ne referme pas la hauteur du caisson.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.":
     "Les portes ont des cotes absolues (x, y, l, h) : elles se vérifient dans la disposition, pas par la somme des largeurs.",
+  "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.":
+    "La porte escamotable est plus large que l'ouverture intérieure du caisson.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.":
     "Les portes coulissantes se chevauchent, elles ne se jouxtent pas : la somme des largeurs dépasse l'ouverture, et c'est normal.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.":
@@ -371,6 +377,7 @@ de: {
   "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă.": "Ein Boden liegt außerhalb der Öffnung oder auf einem anderen: Eine der lichten Innenhöhen ist null oder negativ.",
   "Pila verticală — soclu, bază, polițe, tavan — nu închide înălțimea corpului.": "Der senkrechte Stapel – Sockel, Boden, Einlegeböden, Deckel – ergibt nicht die Korpushöhe.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.": "Die Türen haben absolute Positionen (x, y, b, h): Sie werden im Layout geprüft, nicht über die Summe ihrer Breiten.",
+  "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.": "Die Taschentür ist breiter als die Innenöffnung des Korpus.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.": "Schiebetüren überlappen sich, statt aneinanderzustoßen: Ihre Breiten ergeben mehr als die Öffnung, und das ist richtig so.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.": "Eine Rahmentür mit Glas ist kein einzelnes Teil: Sie besteht aus Rahmenstielen und Querhölzern von 70 mm Breite, nicht aus einer türgroßen Platte.",
   "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Eckeinheit: Die Tür deckt nur die freie Öffnung ab; der Rest der Front ist der blinde Teil der Ecke (vom Nachbarkorpus geschlossen).",
@@ -434,6 +441,7 @@ pl: {
   "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă.": "Półka wypada poza otwór lub na inną: jedno ze świateł wewnętrznych jest zerowe lub ujemne.",
   "Pila verticală — soclu, bază, polițe, tavan — nu închide înălțimea corpului.": "Stos pionowy — cokół, dno, półki, wieniec — nie daje wysokości korpusu.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.": "Drzwi mają pozycje bezwzględne (x, y, sz, w): sprawdza się je w układzie, a nie sumą szerokości.",
+  "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.": "Drzwi chowane są szersze niż wewnętrzny otwór korpusu.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.": "Drzwi przesuwne nakładają się, nie stykają: suma ich szerokości jest większa niż otwór i tak ma być.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.": "Drzwi ramowe ze szkłem nie są jednym elementem: składają się ze stojaków i poprzeczek szerokich na 70 mm, a nie z płyty wielkości drzwi.",
   "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Narożnik: drzwi zakrywają tylko wolny otwór; reszta frontu to ślepa część narożnika (zamyka ją sąsiedni korpus).",
@@ -497,6 +505,7 @@ es: {
   "O poliță cade în afara golului sau peste alta: una dintre luminile interioare e nulă sau negativă.": "Una balda cae fuera del hueco o sobre otra: una de las luces interiores es nula o negativa.",
   "Pila verticală — soclu, bază, polițe, tavan — nu închide înălțimea corpului.": "La pila vertical — zócalo, base, baldas, techo — no suma la altura del cuerpo.",
   "Ușile au cote absolute (x, y, l, h): se verifică în validateLayout, nu prin suma lățimilor.": "Las puertas tienen posiciones absolutas (x, y, an, al): se comprueban en el layout, no sumando sus anchos.",
+  "Ușa escamotabilă e mai lată decât deschiderea interioară a corpului.": "La puerta escamoteable es más ancha que el hueco interior del módulo.",
   "Ușile glisante se suprapun, nu se acostează: suma lățimilor e mai mare decât deschiderea, și e corect așa.": "Las puertas correderas se solapan en lugar de juntarse: sus anchos suman más que el hueco, y es correcto.",
   "Ușa cu ramă și sticlă nu iese ca o piesă: ies montanții și traversele, late de 70 mm, nu cât ușa.": "Una puerta de marco con vidrio no es una sola pieza: se compone de montantes y travesaños de 70 mm de ancho, no de un panel del tamaño de la puerta.",
   "Unitatea de colț: ușa acoperă numai deschiderea liberă; restul frontului e partea oarbă a colțului (o închide corpul vecin).": "Unidad de esquina: la puerta cubre solo la abertura libre; el resto del frente es la parte ciega de la esquina (la cierra el mueble vecino).",
