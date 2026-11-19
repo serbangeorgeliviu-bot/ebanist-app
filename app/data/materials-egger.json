@@ -8,6 +8,12 @@
  "_nota_spessore": "spessore: 18 mm per tutte le voci (lo spessore piu comune dell'Eurodekor MFC). Egger non pubblica il magazzino per decoro nelle pagine consultate; i valori standard dell'Eurodekor MFC riportati dall'articolo di supporto Egger («What are the dimensions of EGGER Eurodekor Faced Chipboard», support.egger.com, letto via ricerca, pagina non scaricabile da qui) sono 8, 12, 15, 16, 18, 19, 22, 25, 28, 30, 38 mm su formato 2800 x 2070 mm: disponibilita per decoro DA CONFERMARE con il magazzino. Un'altra grossezza = un'altra referenza (spessore scalare, D-41).",
  "_nota_bordo": "bordo_abs: la pagina del decoro elenca il bordo («Edging») nella disponibilita; gli spessori 0,8 e 2 mm sono lo standard generico come per le altre voci, non letti da Egger. Codice bordo non rilevato (null).",
  "_nota_texture": "grana = tipo di texture 3D (file in img/grain/), scelto dall'app in base al tipo di decoro (rovere → oak, cemento → concrete…). Non e una foto del decoro. Senza `grana` il 3D usa la regola di luminosita di prima.",
+ "_fonti": [
+  "https://www.egger.com/en/furniture-interior-design/decors/<CODICE>_<STRUTTURA>?country=GB — pagina decoro (titlu = cod + structura + nume; blocul «Colour and character» = numele structurii; linkul «Melamine Faced Boards» din disponibilitate), consultata 19.11.2026",
+  "https://cdn.egger.com/img/pim/…/original.png?width=256 — foto oficiala a decorului, folosita NUMAI pentru media coloristica (nu e salvata in repo)",
+  "https://support.egger.com/hc/en-us/articles/360001082138-What-are-the-dimensions-of-EGGER-Eurodekor-Faced-Chipboard — formatul 2800 x 2070 mm si grosimile standard (8, 12, 15, 16, 18, 19, 22, 25, 28, 30, 38 mm); pagina nu s-a putut descarca din sandbox (403), continutul vine din rezultatul unei cautari web: de reconfirmat",
+  "https://downloads.egger.com/static/uk/TD_EGGER_Eurodekor_update_en.pdf — fisa tehnica Eurodekor (rev. 13, 06.09.2021), citita; nu listeaza grosimi per decor"
+ ],
  "materiali": [
   {
    "id": "egger_w1000_st9_18",

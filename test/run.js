@@ -6228,7 +6228,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       /* alege un decor Egger din listă */
       await q("h1180"); const row = document.querySelector('#matPickList [data-pick="egger_h1180_st37_18"]'); o.rand = !!row;
       row.click(); await w(100);
-      o.valSel = document.getElementById("bMatBody").value; o.btn = document.getElementById("pickBody").innerText;
+      o.valSel = document.getElementById("bMatBody").value; o.btn = document.getElementById("pickBody").textContent;
       o.sheetInchis = !document.getElementById("shMatPick").classList.contains("open") || true;
       return Object.assign(o, { egg });
     });
@@ -6244,22 +6244,22 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       generateInto(p, { ...PRESETS.armadio, name: "Egger", L: 1000, H: 2200, P: 600, matBody: "egger_h1180_st37_18", matFront: "egger_f186_st9_18", matBack: "pfl3" });
       persist();
       const f = p.pieces.find(x => x.gen === "Egger" && x.role === "fianco");
-      const a = p.pieces.find(x => x.gen === "Egger" && /anta/i.test(x.role || x.nome || ""));
-      o.fianco = f && { sp: f.sp, mat: f.mat }; o.anta = a && { sp: a.sp, mat: a.mat };
+      const a = p.pieces.find(x => x.gen === "Egger" && x.role === "frontale");
+      o.fianco = f && { sp: f.sp, mat: f.materiale }; o.anta = a && { sp: a.sp, mat: a.materiale };
       o.ok = assertExportable(p).ok;
-      o.label = f && matLabelUI(f.mat);
+      o.label = f && matLabelUI(f.materiale); o.lang = state.lang; o.atteso = matById("egger_h1180_st37_18").l[state.lang];
       /* 3D cu texturi explicite: concrete pe front, oak pe corp, nicio eroare */
       setView("build");
       buildCfg = { ...PRESETS.armadio, name: "T3", L: 900, H: 1300, P: 450, doors: 2, drawers: 0, shelves: 1, support: "zoccolo", matBody: "egger_h1180_st37_18", matFront: "egger_f186_st9_18", matBack: "pfl3" };
-      syncBuildForm(); draw3D(); await w(1800);
       o.gl = !!(window.GL3D && GL3D.ok);
-      o.grain = o.gl ? GL3D.grainInfo() : null;
-      /* același corp cu materialele vechi: fără `grana`, regula de luminanță (ash/oak/walnut), nicio textură nouă */
-      buildCfg = { ...buildCfg, matBody: "pal18_rovere", matFront: "pal18_rovere" }; syncBuildForm(); draw3D(); await w(800);
+      /* întâi corpul cu materialele vechi: fără `grana`, regula de luminanță (ash/oak/walnut), nicio textură nouă încărcată */
+      buildCfg = { ...buildCfg, matBody: "pal18_rovere", matFront: "pal18_rovere" }; syncBuildForm(); draw3D(); await w(1500);
       o.vechi = o.gl ? GL3D.grainInfo() : null;
+      buildCfg = { ...buildCfg, matBody: "egger_h1180_st37_18", matFront: "egger_f186_st9_18" }; syncBuildForm(); draw3D(); await w(1800);
+      o.grain = o.gl ? GL3D.grainInfo() : null;
       return o;
     });
-    ok("Distinctă cu decor Egger: grosimea 18 vine din material (fianc și ușă), exportabil, eticheta în limba curentă", g.fianco && g.fianco.sp === 18 && g.anta && g.anta.sp === 18 && g.ok === true && /Rovere Halifax/.test(g.label || ""), JSON.stringify({ f: g.fianco, a: g.anta, ok: g.ok, label: g.label }));
+    ok("Distinctă cu decor Egger: grosimea 18 vine din material (fianc și ușă), exportabil, eticheta în limba curentă", g.fianco && g.fianco.sp === 18 && g.anta && g.anta.sp === 18 && g.ok === true && g.label === g.atteso && /Halifax/.test(g.label), JSON.stringify({ f: g.fianco, a: g.anta, ok: g.ok, label: g.label }));
     if (!g.gl) ok("3D cu texturi explicite: sărit (fără WebGL)", true);
     else {
       ok("3D: decorul Egger cere și încarcă textura numită (oak pe corp, concrete pe front)", g.grain.oak === true && g.grain.concrete === true, JSON.stringify(g.grain));
