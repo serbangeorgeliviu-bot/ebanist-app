@@ -303,9 +303,9 @@ describe("PARITATE: check == avertismentele Constructorului pentru același arti
   });
 
   test("balamale: pentru fiecare familie (primul și ultimul articol) × 4 corpuri (+ uși groase/subțiri), opsHinge{Th,H,W,Kg} coincid cu why", () => {
-    let n = 0, viol = 0;
+    let n = 0, viol = 0; const seen = new Set();
     const ids = HM.list().flatMap(f => [f.parts[0].id, f.parts[f.parts.length - 1].id]);
-    const bodies = Object.assign({}, BODIES, { airTall: { L: 900, H: 2650, P: 560, doors: 1, support: "pavimento", plinth: 0, hang: 0 }, thick: { L: 600, H: 720, doors: 1, matFront: "__f30" }, thin: { L: 600, H: 720, doors: 1, matFront: "__f15" } });
+    const bodies = Object.assign({}, BODIES, { airTall: { L: 900, H: 2650, P: 560, doors: 1, support: "pavimento", plinth: 0, hang: 0 }, airHigh: { L: 900, H: 2900, P: 560, doors: 1, support: "pavimento", plinth: 0, hang: 0 }, thick: { L: 600, H: 720, doors: 1, matFront: "__f30" }, thin: { L: 600, H: 720, doors: 1, matFront: "__f15" } });
     Object.entries(bodies).forEach(([nm, o]) => {
       const base = mk(o);
       ids.forEach(id => {
@@ -313,10 +313,11 @@ describe("PARITATE: check == avertismentele Constructorului pentru același arti
         const exp = w.map(x => ({ k: { opsHingeTh: "th", opsHingeH: "h", opsHingeW: "w", opsHingeKg: "kg" }[x.k], v: x.v, lo: x.lo, hi: x.hi, n: x.n }));
         const r = chk("cern", id, base.ctx);
         assert.deepEqual(normWhy(r.why), norm(exp), nm + " " + id);
-        n++; if (r.ok === false) viol++;
+        r.why.forEach(w => seen.add(w.k)); n++; if (r.ok === false) viol++;
       });
     });
     assert.ok(n >= 78 * 6 - 0 && viol > 20, n + " " + viol);
+    ["th", "h", "w", "kg"].forEach(k => assert.ok(seen.has(k), "corpurile de probă trebuie să exercite încălcarea «" + k + "»: " + [...seen]));
   });
 
   test("colț: toate cele 57 de unități × 3 corpuri, încălcările coincid cu cuWarn range (aceleași v/lo/hi)", () => {
