@@ -643,6 +643,7 @@
     var offIds = ["rowLift", "rowLiftElec", "rowCU", "rowCUSize", "rowCUHand", "rowSlide", "hwSelBox"];
     offIds.forEach(function (id) { var n = $(id); if (n) n.classList.add("hwui-off"); });
     ["bDrawSys", "bLed"].forEach(function (id) { var n = $(id), p = n && n.closest(".f"); if (p) p.classList.add("hwui-off"); });
+    var oldHint = document.querySelector('#grpHw [data-i="hwSelHint"]'); if (oldHint) oldHint.classList.add("hwui-off");   // textul vechi despre «un selector pe categorie»
     /* câmpurile ascunse nu mai sunt în ordinea tastaturii */
     var noTab = function () { document.querySelectorAll(".hwui-off select,.hwui-off input,.hwui-off button").forEach(function (n) { n.setAttribute("tabindex", "-1"); }); };
     noTab(); try { new MutationObserver(noTab).observe($("hwSelBox"), { childList: true }); } catch (e) { /* */ }

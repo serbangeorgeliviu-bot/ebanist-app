@@ -3288,6 +3288,164 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("H.2: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 200));
   }
 
+  /* H.3 — panoul «Feronerie» pe sloturi și selectorul (ebanist-hwui.js): pe telefon și pe tabletă */
+  {
+    head("Panoul «Feronerie» și selectorul — telefon și tabletă (H.3)");
+    const tabCtx = await browser.newContext({ viewport: { width: 820, height: 1180 }, hasTouch: true });
+    const tabPg = await tabCtx.newPage();
+    tabPg.on("pageerror", e => errs.push("pageerror(tab): " + e));
+    tabPg.on("console", m => { const x = m.text(); if (m.type() === "error" && !/ERR_CONNECTION|ERR_NAME|ERR_INTERNET|Failed to load resource|Content Security Policy|Refused to/.test(x)) errs.push("console(tab): " + x); });
+    await tabPg.goto(URL); await tabPg.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 }); await tabPg.waitForTimeout(3300); await tabPg.evaluate(() => closeSheets()); await tabPg.waitForTimeout(300);
+    /* instantaneu al corpului: cfg, piesele și devizul (computeHardware) — exact ce trebuie să rămână identic */
+    const SNAP = () => { const c = cfgFromForm(), b = buildModule(c), p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      generateInto(p, { ...c, name: "Hu" }); const items = computeHardware(p, state.settings);
+      const o = { cfg: c, pieces: b.pieces, hw: items.map(i => [i.k, i.qty, i.price, i.prod && i.prod.id]) };
+      p.pieces = p.pieces.filter(q => q.gen !== "Hu"); delete p.configs["Hu"]; return JSON.stringify(o); };
+    const SETUP = ([over, preset]) => { closeSheets(); setView("build"); try { localStorage.removeItem("ebanist_hwui_v1"); } catch (e) {}
+      buildCfg = { ...PRESETS[preset || "armadio"], name: "Hu", ...over }; syncBuildForm(); renderSecChips(); drawPreview(); document.getElementById("grpHw").open = true; document.getElementById("grpFr").open = true; EBHwUI.refresh(); };
+    const ARM = { L: 900, H: 2200, doors: 2, drawers: 2, support: "zoccolo", plinth: 80 };
+    for (const [label, P] of [["telefon", pg], ["tabletă", tabPg]]) {
+      const sheetsN = () => P.evaluate(() => document.querySelectorAll(".sheet.on").length);
+      const openRow = async slot => { await P.locator('[data-hwp-change="' + slot + '"]').scrollIntoViewIfNeeded(); await P.locator('[data-hwp-change="' + slot + '"]').click(); await P.waitForTimeout(350); };
+      const pickKey = key => P.evaluate(k => { document.querySelector('#hxsList [data-act="pick"][data-key="' + k + '"]').click(); }, key);
+      const clearRow = tid => P.evaluate(t0 => { document.querySelector('#hxsList [data-act="clear"][data-tid="' + t0 + '"]').click(); }, tid);
+      await P.evaluate(SETUP, [ARM]); await P.waitForTimeout(400);
+      const base = await P.evaluate(SNAP), D0 = await P.evaluate(() => navDepth());   // în Constructor adâncimea de bază e 1 (vedere ≠ proiecte)
+      /* panoul */
+      const pan = await P.evaluate(() => { const g = document.getElementById("grpHw"), rows = [...document.querySelectorAll("#hwPanel .hwp-row")].map(r => r.dataset.slot);
+        const hid = id => { const n = document.getElementById(id), r = n.getBoundingClientRect(); return !!n && r.width <= 1.5 && r.height <= 1.5; };
+        return { open: g.open, rows, sum: document.querySelector("#hwPanel .hwp-sum").textContent, hid: ["rowLift", "rowCU", "hwSelBox"].every(hid), inDom: ["bLift", "bLiftElec", "bCU", "bCUSize", "bCUHand", "bSlide", "bDrawSys", "bLed"].every(i => !!document.getElementById(i)),
+          oldCtl: document.querySelectorAll("#hwSelBox select[data-cat]").length, cls: document.documentElement.classList.contains("hwui-on") }; });
+      ok("H.3 " + label + ": panoul arată sloturile corpului (balamale, deschidere, sertare, îmbinări…) și rezumatul «alegeri: 0»", pan.rows.includes("balamale") && pan.rows.includes("sertare") && pan.rows.includes("imbinari") && pan.rows.includes("glisante") && !pan.rows.includes("suspendare") && /0/.test(pan.sum), JSON.stringify(pan));
+      ok("H.3 " + label + ": câmpurile vechi rămân în DOM (cu selectoarele hwSel), dar ascunse vizual", pan.hid && pan.inDom && pan.oldCtl >= 10 && pan.cls, JSON.stringify(pan));
+      /* balama: foaie → căutare → alegere */
+      await openRow("balamale");
+      const sh1 = await P.evaluate(() => ({ on: document.getElementById("shHw").classList.contains("on"), focus: document.activeElement && document.activeElement.id, role: document.getElementById("shHw").getAttribute("role"), modal: document.getElementById("shHw").getAttribute("aria-modal"),
+        n: document.querySelectorAll("#hxsList .hxc-main[data-act=pick]").length, secs: [...document.querySelectorAll("#hxsList [data-sec]")].map(x => x.dataset.sec), depth: navDepth() }));
+      ok("H.3 " + label + ": «Schimbă» deschide foaia (dialog), focusul e pe căutare, secțiunile Recomandate/Potrivite, adâncimea de navigare +1", sh1.on && sh1.focus === "hxsQ" && sh1.role === "dialog" && sh1.modal === "true" && sh1.n > 20 && sh1.secs.includes("recomandat") && sh1.depth === D0 + 1, JSON.stringify(sh1));
+      await P.fill("#hxsQ", "hettich"); await P.waitForTimeout(400);
+      const hs = await P.evaluate(() => { const c = [...document.querySelectorAll("#hxsList .hxc-main[data-act=pick]")]; return { n: c.length, brands: [...new Set(c.map(x => x.querySelector(".hxc-brand").textContent))], key: c[0].dataset.key, cnt: document.getElementById("hxsCount").textContent }; });
+      ok("H.3 " + label + ": căutarea «hettich» dă numai articole Hettich", hs.n > 5 && hs.brands.length === 1 && hs.brands[0] === "Hettich", JSON.stringify(hs));
+      await P.evaluate(() => document.querySelector('#hxsList .hxc-main[data-act=pick]').click()); await P.waitForTimeout(400);
+      const hid = hs.key.split("|")[1];
+      const A = await P.evaluate(() => ({ cern: (cfgFromForm().hwSel || {}).cern, on: document.getElementById("shHw").classList.contains("on"), cur: document.querySelector('#hwPanel [data-slot="balamale"] .hwp-cur').textContent, depth: navDepth() }));
+      ok("H.3 " + label + ": alegerea scrie cfg.hwSel.cern, foaia se închide, rândul arată alegerea", A.cern === hid && !A.on && A.depth === D0 && /Hettich/.test(A.cur), JSON.stringify(A));
+      const snapA = await P.evaluate(SNAP);
+      /* aceeași alegere prin selectul vechi → distinta și devizul IDENTICE */
+      await P.evaluate(() => { const s = document.querySelector('#hwSelBox select[data-cat="cern"]'); s.value = ""; s.dispatchEvent(new Event("change", { bubbles: true })); });
+      const cleared = await P.evaluate(SNAP);
+      await P.selectOption('#hwSelBox select[data-cat="cern"]', hid); await P.waitForTimeout(250);
+      const snapB = await P.evaluate(SNAP);
+      ok("H.3 " + label + ": distinta și devizul sunt IDENTICE cu alegerea aceluiași articol prin selectul vechi", snapA === snapB && snapA !== base, snapA === snapB ? "identic" : "diferit");
+      ok("H.3 " + label + ": fără nicio alegere = exact distinta de dinainte (regresie)", cleared === base);
+      /* ștergere prin panou */
+      await openRow("balamale"); await clearRow("cern"); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": «Niciuna / implicit» readuce corpul la implicit (identic cu cel fără alegere)", await P.evaluate(SNAP) === base && await P.evaluate(() => !(cfgFromForm().hwSel || {}).cern));
+      /* recente și favorite */
+      await P.evaluate(() => EBHwUI.refresh()); await openRow("balamale");
+      const rf = await P.evaluate(() => { const st = JSON.parse(localStorage.getItem("ebanist_hwui_v1") || "{}"); return { rec: (st.recent || {}).balamale, secs: [...document.querySelectorAll("#hxsList [data-sec]")].map(x => x.dataset.sec), first: document.querySelector('#hxsList [data-sec="recent"] .hxc-main').dataset.key }; });
+      ok("H.3 " + label + ": «Recente» se păstrează (localStorage per spectator, nu în proiect) și apar la redeschidere", rf.rec && rf.rec[0] === hs.key && rf.secs[0] === "recent" && rf.first === hs.key, JSON.stringify(rf));
+      await P.evaluate(() => document.querySelector('#hxsList [data-sec="recent"] [data-act="fav"]').click());
+      const fv = await P.evaluate(() => JSON.parse(localStorage.getItem("ebanist_hwui_v1")).fav);
+      ok("H.3 " + label + ": ☆ adaugă la «Favorite» (localStorage) și nu atinge cfg", fv.length === 1 && fv[0] === hs.key && await P.evaluate(() => !JSON.stringify(cfgFromForm()).includes("ebanist_hwui")));
+      await P.evaluate(() => { closeSheets(); }); await openRow("balamale");
+      ok("H.3 " + label + ": «Favorite» apare la redeschidere", await P.evaluate(() => !!document.querySelector('#hxsList [data-sec="fav"] .hxc-main')));
+      /* detalii și fișa tehnică */
+      await P.evaluate(() => document.querySelector('#hxsList [data-act="det"]').click()); await P.waitForTimeout(250);
+      const dt = await P.evaluate(() => ({ d: !!document.querySelector("#hxsList .hxd"), tech: !!document.querySelector('#hxsList [data-act="tech"]'), back: !!document.querySelector('#hxsList [data-act="back"]') }));
+      ok("H.3 " + label + ": «Detalii» arată rezumatul și butonul spre fișa tehnică a balamalei", dt.d && dt.tech && dt.back, JSON.stringify(dt));
+      await P.evaluate(() => document.querySelector('#hxsList [data-act="tech"]').click()); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": fișa tehnică se deschide DEASUPRA foii (adâncime +2)", await sheetsN() === 2 && await P.evaluate(() => navDepth()) === D0 + 2);
+      await P.goBack(); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": Înapoi închide fișa tehnică, foaia rămâne", await sheetsN() === 1 && await P.evaluate(() => document.getElementById("shHw").classList.contains("on")));
+      await P.goBack(); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": Înapoi închide foaia (adâncimea de bază), aplicația rămâne în Constructor", await sheetsN() === 0 && await P.evaluate(() => currentView === "build") && await P.evaluate(() => navDepth()) === D0);
+      /* Escape, tastatura, focus trap */
+      await openRow("balamale");
+      await P.keyboard.press("ArrowDown"); await P.waitForTimeout(100);
+      const ak = await P.evaluate(() => document.activeElement.className);
+      await P.keyboard.press("ArrowDown"); await P.keyboard.press("ArrowUp");
+      const ak2 = await P.evaluate(() => document.activeElement.className);
+      let trapped = true; for (let i = 0; i < 14; i++) { await P.keyboard.press("Tab"); if (!await P.evaluate(() => !!document.activeElement.closest("#shHw"))) trapped = false; }
+      for (let i = 0; i < 6; i++) { await P.keyboard.press("Shift+Tab"); if (!await P.evaluate(() => !!document.activeElement.closest("#shHw"))) trapped = false; }
+      ok("H.3 " + label + ": săgețile mută focusul pe carduri, Tab / Shift+Tab rămân în foaie (capcană de focus)", /hxc-main/.test(ak) && /hxc-main/.test(ak2) && trapped, JSON.stringify([ak, ak2, trapped]));
+      await P.keyboard.press("Escape"); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": Escape închide foaia", await sheetsN() === 0);
+      ok("H.3 " + label + ": focusul revine pe butonul «Schimbă» al rândului", await P.evaluate(() => document.activeElement && document.activeElement.getAttribute("data-hwp-change") === "balamale"));
+      /* ridicare: cfg.lift + deschiderea electrică din rând */
+      await openRow("ridicare"); await P.fill("#hxsQ", "hk top"); await P.waitForTimeout(350);
+      await pickKey("lift|blum_hk_top"); await P.waitForTimeout(350);
+      const lf = await P.evaluate(() => ({ lift: cfgFromForm().lift, bl: document.getElementById("bLift").value, sub: !!document.querySelector('#hwPanel [data-hwp-sub="bLiftElec"]'), cur: document.querySelector('#hwPanel [data-slot="ridicare"] .hwp-cur').textContent }));
+      ok("H.3 " + label + ": un sistem de ridicare ales → cfg.lift (și câmpul vechi), rândul arată marcă + nume", lf.lift === "blum_hk_top" && lf.bl === "blum_hk_top" && /Blum/.test(lf.cur) && /HK top/.test(lf.cur) && lf.sub, JSON.stringify(lf));
+      await P.selectOption('#hwPanel [data-hwp-sub="bLiftElec"]', "servo"); await P.waitForTimeout(250);
+      ok("H.3 " + label + ": deschiderea electrică (sub-alegere în rând) → cfg.liftElec", await P.evaluate(() => cfgFromForm().liftElec === "servo" && document.getElementById("bLiftElec").value === "servo"));
+      await openRow("ridicare"); await clearRow("lift"); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": ridicarea ștearsă → cfg.lift și liftElec revin la null, distinta ca la început", await P.evaluate(() => cfgFromForm().lift === null && cfgFromForm().liftElec === null) && await P.evaluate(SNAP) === base);
+      /* unitate de colț */
+      await openRow("colt"); await P.fill("#hxsQ", "lemans"); await P.waitForTimeout(350);
+      await pickKey("corner|kb_lemans2"); await P.waitForTimeout(350);
+      const cu = await P.evaluate(() => ({ cu: cfgFromForm().cu, sub: !!document.querySelector('#hwPanel [data-hwp-sub="bCUSize"]') }));
+      ok("H.3 " + label + ": o unitate de colț aleasă → cfg.cu, mărimea apare ca sub-alegere", cu.cu === "kb_lemans2" && cu.sub, JSON.stringify(cu));
+      await P.selectOption('#hwPanel [data-hwp-sub="bCUSize"]', "500"); await P.waitForTimeout(250);
+      ok("H.3 " + label + ": mărimea unității → cfg.cuSize", await P.evaluate(() => cfgFromForm().cuSize === "500"));
+      await openRow("colt"); await clearRow("corner"); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": colțul șters → cfg.cu null, distinta ca la început", await P.evaluate(() => cfgFromForm().cu === null && cfgFromForm().cuSize === null) && await P.evaluate(SNAP) === base);
+      /* sistem de sertar */
+      await openRow("sertare"); await P.waitForTimeout(150);
+      const dr = await P.evaluate(() => ({ chips: [...document.querySelectorAll("#hxsCats .chip")].map(x => x.dataset.val) }));
+      await pickKey("drawsys|legrabox"); await P.waitForTimeout(350);
+      ok("H.3 " + label + ": slotul «Sertare» are categoriile (sistem, glisieră, push) și alege sistemul → cfg.drawerSys", dr.chips.includes("drawsys") && dr.chips.includes("guida") && await P.evaluate(() => cfgFromForm().drawerSys === "legrabox"), JSON.stringify(dr));
+      await openRow("sertare"); await clearRow("drawsys"); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": sistemul de sertar șters → «legno» (implicit), distinta ca la început", await P.evaluate(SNAP) === base);
+      /* sisteme glisante pe un corp «scorrevole» */
+      await P.evaluate(SETUP, [{ L: 2400, H: 2400, P: 600, doors: 2, shelves: 0, hang: 0 }, "scorrevole"]); await P.waitForTimeout(400);
+      const slBase = await P.evaluate(SNAP);
+      await openRow("glisante"); await P.fill("#hxsQ", "topline"); await P.waitForTimeout(350);
+      const sl0 = await P.evaluate(() => ({ n: document.querySelectorAll('#hxsList [data-act="pick"]').length, secs: [...document.querySelectorAll("#hxsList [data-sec]")].map(x => x.dataset.sec) }));
+      await pickKey("slidesys|het_topline_xl"); await P.waitForTimeout(350);
+      const sl = await P.evaluate(() => ({ slide: cfgFromForm().slide, cur: document.querySelector('#hwPanel [data-slot="glisante"] .hwp-cur').textContent }));
+      const slPanel = await P.evaluate(SNAP);
+      ok("H.3 " + label + ": un sistem glisant pe corpul «scorrevole» → cfg.slide; rândul arată sistemul", sl.slide === "het_topline_xl" && /TopLine XL/.test(sl.cur) && sl0.n >= 1, JSON.stringify([sl, sl0]));
+      await P.evaluate(() => { const s = document.getElementById("bSlide"); s.value = ""; s.dispatchEvent(new Event("change", { bubbles: true })); }); await P.waitForTimeout(200);
+      await P.selectOption("#bSlide", "het_topline_xl"); await P.waitForTimeout(250);
+      const slOld = await P.evaluate(SNAP);
+      await openRow("glisante"); await clearRow("slidesys"); await P.waitForTimeout(300);
+      ok("H.3 " + label + ": glisantele: distinta identică cu selectul vechi; ștergere → cfg.slide null, ca la început", slPanel === slOld && await P.evaluate(() => cfgFromForm().slide === null) && await P.evaluate(SNAP) === slBase && slOld !== slBase);
+      /* secțiuni: ușă înaltă și grea vs ușă mică */
+      const sect = async over => { await P.evaluate(SETUP, [over]); await P.waitForTimeout(350); await openRow("balamale"); await P.waitForTimeout(150);
+        const r = await P.evaluate(() => ({ rec: +(document.querySelector('#hxsList [data-sec="recomandat"] .hxs-n') || { textContent: 0 }).textContent, no: +(document.querySelector("#hxsList .hxs-nofit > summary .hxs-n") || { textContent: 0 }).textContent, unkNote: !!document.querySelector('#hxsList [data-sec="potrivit"] .hxs-note') }));
+        await P.evaluate(() => closeSheets()); return r; };
+      const sLight = await sect({ L: 450, H: 500, P: 330, doors: 1, support: "sospeso", plinth: 0, hang: 1, shelves: 1, drawers: 0 });
+      const sHeavy = await sect({ L: 1000, H: 2650, P: 600, doors: 1, support: "zoccolo", plinth: 0, hang: 0, shelves: 1, drawers: 0 });
+      ok("H.3 " + label + ": secțiunile răspund ușii înalte și grele: mai puține «Recomandate», mai multe «Nu se potrivesc»", sHeavy.rec < sLight.rec && sHeavy.no > sLight.no, JSON.stringify([sLight, sHeavy]));
+      ok("H.3 " + label + ": «Potrivite» poartă nota «limite necunoscute» (ok:null nu e niciodată «Recomandat»)", sLight.unkNote === true, JSON.stringify(sLight));
+      await P.evaluate(SETUP, [{ L: 1000, H: 2650, P: 600, doors: 1, support: "zoccolo", plinth: 0, hang: 0, shelves: 1, drawers: 0 }]); await P.waitForTimeout(300);
+      await openRow("balamale");
+      const why = await P.evaluate(() => { const d = document.querySelector("#hxsList .hxs-nofit"); d.open = true; const w = d.querySelector(".hxc-why"); return w ? w.textContent : ""; });
+      ok("H.3 " + label + ": «Nu se potrivesc» (pliată) arată motivul din EBHwFit.msg pe fiecare articol", why.length > 8 && !/\{\w+\}|hfQ_|hfV_/.test(why), why);
+      await P.evaluate(() => closeSheets());
+      /* liste lungi: în incremente, nu 1000 de noduri */
+      await P.evaluate(SETUP, [ARM]); await P.waitForTimeout(300);
+      const t0 = Date.now(); await openRow("balamale");
+      const pf = await P.evaluate(() => { const l = document.getElementById("hxsList"), n0 = l.querySelectorAll(".hxc").length; const m = l.querySelector(".hxs-more"); if (m) m.click(); const n1 = document.getElementById("hxsList").querySelectorAll(".hxc").length; return { n0, n1, more: !!m }; });
+      ok("H.3 " + label + ": lista lungă (peste 300 de balamale) se randează în incremente («Arată încă N»), nu toate odată", pf.n0 < 120 && pf.more && pf.n1 > pf.n0, JSON.stringify(pf) + " · " + (Date.now() - t0) + " ms la deschidere");
+      await P.evaluate(() => closeSheets());
+      /* toate limbile: fără chei necunoscute pe ecran */
+      const lg = await P.evaluate(async () => { const keep = state.lang, bad = []; for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) { state.lang = l; applyLang(); EBHwUI.relabel(); EBHwUI.open("balamale"); await new Promise(r => setTimeout(r, 60));
+        const txt = document.getElementById("hwPanel").innerText + " " + document.getElementById("shHw").innerText; if (/\bhx[a-zA-Z]+\b|\bhf[A-Z_]\w+\b/.test(txt)) bad.push(l); closeSheets(); await new Promise(r => setTimeout(r, 40)); }
+        state.lang = keep; applyLang(); EBHwUI.relabel(); return bad; });
+      ok("H.3 " + label + ": panoul și foaia în toate cele 7 limbi, fără chei de traducere pe ecran", lg.length === 0, JSON.stringify(lg));
+      /* nimic nu iese din ecran (nicio defilare orizontală); ținte de atingere */
+      await openRow("balamale");
+      const ovf = await P.evaluate(() => { const sh = document.getElementById("shHw"), r = sh.getBoundingClientRect(); return { sw: sh.scrollWidth, cw: sh.clientWidth, left: Math.round(r.left), right: Math.round(r.right), vw: innerWidth, tiny: [...sh.querySelectorAll("button,input[type=search],label.hxs-fit")].filter(b => b.offsetParent && (b.getBoundingClientRect().height < 30)).map(b => b.className + "/" + Math.round(b.getBoundingClientRect().height)).slice(0, 5) }; });
+      ok("H.3 " + label + ": foaia nu iese din ecran și nu are defilare orizontală; ținte de atingere ≥ 30 px", ovf.sw <= ovf.cw + 1 && ovf.left >= -1 && ovf.right <= ovf.vw + 1 && ovf.tiny.length === 0, JSON.stringify(ovf));
+      await P.evaluate(() => closeSheets());
+      await P.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Hu"); delete p.configs["Hu"]; buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); try { localStorage.removeItem("ebanist_hwui_v1"); } catch (e) {} HIST.undo = []; HIST.redo = []; HIST.cur = null; histSync(); });
+    }
+    await tabCtx.close();
+    ok("H.3: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 300));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");
