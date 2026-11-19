@@ -9415,6 +9415,9 @@ function cuDoorKg(cfg,r){
   const AD=(typeof window!=="undefined"&&window.EBAdvice)||null, mF=matById(cfg.matFront), fam=AD?AD.famOf(mF&&mF.label):"default", dens=(AD&&AD.DATA.density[fam])||700;
   return row.lung*row.larg*row.sp*dens/1e9;
 }
+/* numărul de doage ale patului: 14 ca până acum, dar nu mai multe decât încap fără să se suprapună (doagă 68 mm, 40 mm de la fiecare capăt). Un pat de lungime
+   normală (peste ~1070 mm) rămâne la 14, deci distinta lui nu se schimbă; mai scurt, doagele se rărește în loc să se suprapună (fuzz D-78, `doga × doga`). */
+function bedSlatN(P,t){ const n=Math.min(14,Math.floor((P-2*t-80)/68)); if(n<2) throw new Error("Pat: lungime prea mică ("+Math.round(P)+" mm) pentru doage"); return n; }
 function buildModuleCore(cfg){
   if(cfg.topProfile&&(cfg.type||"standard")!=="standard")
     throw new Error("Pantă: este suportată doar pe tipologia standard, nu pe '"+cfg.type+"'");
@@ -9704,6 +9707,8 @@ function buildModuleCore(cfg){
       add("Piano tavolo (metà)",L/2,P,2,"2L+2C",null,"cielo"); pieces[pieces.length-1].lung=L/2;
       add("Prolunga tavolo",tx.leaf,P,1,"2L+2C",null,"cielo");
     }else add("Piano tavolo",L,P,1,"2L+2C",null,"cielo");
+    /* picioarele de 70 mm stau la `ins` de margine: dacă masa e mai mică decât cele patru picioare + zargile, se suprapun (fuzz D-78, `gamba × gamba`) */
+    if(L-2*(ins+g)-20<=0||P-2*(ins+g)-20<=0) throw new Error("Masă: prea mică ("+Math.round(L)+"×"+Math.round(P)+" mm): picioarele de "+g+" mm și zargile nu încap; minim "+(2*(ins+g)+21)+" mm pe fiecare latură");
     add("Traversa telaio",L-2*(ins+g)-20,80,2,"1L",null,"traversa");
     add("Traversa telaio corta",P-2*(ins+g)-20,80,2,"1L",null,"traversa");
     add("Gamba legno 70×70",H-t,70,4,"","Accessorio — gamba legno massello 70×70","accessorio");
@@ -9759,7 +9764,7 @@ function buildModuleCore(cfg){
       if(rimY-yb-t<150) throw new Error("Pat: ladă prea joasă ("+Math.round(rimY-yb-t)+" mm): panoul de "+t+" mm ocupă prea mult");
       add("Parete cassone letto",P-2*t,rimY-yb,2,"1L",null,"fianco");
       add("Fondo cassone letto",L-2*t,P-2*t,1,"",null,"base");
-      const NDO=14, doW=68, dTop=topY-20;
+      const doW=68, NDO=bedSlatN(P,t), dTop=topY-20;
       if(panelKind){
         add("Pannello rete",L,zf1-zf0,1,"2L+2C",null,"somiera_pan");
         add("Longherone rete",zf1-zf0,hf,2,"1L",null,"somiera_lat");
@@ -9807,7 +9812,7 @@ function buildModuleCore(cfg){
     add("Sponda laterale sopra i cassetti",P-2*t,sy+sh-Hd,nUp,"1L",null,"fianco");
     if(dayB) add("Spalliera daybed",P-2*t,H-yb0(1),1,"1L",null,"fianco");
     add("Traversa centrale",P-2*t,120,1,"",null,"traversa");
-    add("Doga faggio 68mm",L-2*t-10,68,14,"","Accessorio — doga faggio curvata 68mm","accessorio");
+    add("Doga faggio 68mm",L-2*t-10,68,bedSlatN(P,t),"","Accessorio — doga faggio curvata 68mm","accessorio");
     /* Come in distinta: la traversa centrale e alta 120 e grossa quanto il
        pannello, e sta SOTTO le doghe — prima era disegnata alta quanto la
        sponda e le doghe ci passavano attraverso. */
@@ -9819,7 +9824,7 @@ function buildModuleCore(cfg){
     const dTop=sy+sh-20;                          // faccia sotto delle doghe
     B({x0:L/2-t/2,x1:L/2+t/2,y0:dTop-120,y1:dTop,z0:t,z1:P-t},"traversa");
     /* 14 doghe come in distinta; l'ultima deve CHIUDERE a 40mm dalla pediera, non sporgere */
-    const NDO=14, doW=68, doA=t+40, doB=P-t-40-doW, doStep=NDO>1?(doB-doA)/(NDO-1):0;
+    const doW=68, NDO=bedSlatN(P,t), doA=t+40, doB=P-t-40-doW, doStep=NDO>1?(doB-doA)/(NDO-1):0;
     for(let i=0;i<NDO;i++){ const z=doA+i*doStep;
       B({x0:t+5,x1:L-t-5,y0:dTop,y1:sy+sh,z0:z,z1:z+doW},"doga"); }
     /* SCATOLE SOTTO IL LETTO (D-120): scatole basse su rotelle, si estraggono di lato, sotto la sponda. Fondo pieno (t) con i
@@ -20264,12 +20269,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.93.1"; /* APP_VER-MARKER */
+const APP_VER="5.93.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v276";
+const SW_CACHE="ebanist-v277";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

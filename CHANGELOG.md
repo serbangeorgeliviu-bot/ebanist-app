@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.93.2 — 20 noiembrie 2026
+
+**Triajul coliziunilor din auditul fuzz (D-78): două defecte reale reparate, restul erau false alarme.**
+- **Pat:** doagele erau mereu 14, de 68 mm; la un pat scurt (sub ~1070 mm) se suprapuneau. Acum sunt cel mult 14 și numai câte încap; un pat de lungime normală rămâne cu 14, deci distinta lui nu se schimbă. Sub două doage, eroare declarată.
+- **Masă:** una prea mică pentru patru picioare de 70 mm plus zarge avea picioarele suprapuse. Acum dă eroare declarată cu dimensiunea minimă.
+- **Corpuri rotunde, ovale, racordate:** cele 330 de „coliziuni” din fuzz (bază, tavan și rafturi × lateral) erau o greșeală a auditului, care compara cu dreptunghiul întreg al lateralului curb. Acum compară cu banda lui; piesele nu se suprapun (verificat și invers: o bază mărită cu 8% e prinsă).
+
+---
+
 ## 5.93.1 — 20 noiembrie 2026
 
 **Ușa escamotabilă pe corp standard nu mai dă controlul roșu I4.**
