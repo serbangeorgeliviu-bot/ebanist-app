@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.88.0 — 20 noiembrie 2026
+
+**Selectorul unic de feronerie (FAZA H, D-166).** După 5.87.0 catalogul are peste o mie de articole, iar alegerea era liste plate pe categorie, în patru locuri ale formularului. Acum, în „Feronerie corp", un singur panou are câte un rând pe funcție, iar alegerea se face dintr-un selector cu căutare.
+- **Panou pe sloturi:** balamale, deschidere, uși care se ridică, uși glisante/în perete/aripă, sertare, colț și extractibile, îmbinări, suspendare, rafturi, iluminat, altele. Fiecare rând arată alegerea curentă (marcă, nume, cod sau „implicit — …"), numărul de avertismente și „Schimbă". Rândurile care nu se aplică corpului curent sunt ascunse; sus, rezumatul „alegeri · avertismente" și lista avertismentelor.
+- **Selector** (foaie jos pe telefon, dialog pe ecran mare): căutare peste nume, cod, marcă și familie, fără diacritice și fără diferență de majuscule (Häfele = hafele); filtre pe marcă și categorie, cu numărul de rezultate; „Doar ce se potrivește corpului" (implicit pornit).
+- **Potrivit corpului:** secțiunile „Recomandate", „Potrivite" (cu nota „limite necunoscute") și „Nu se potrivesc" (pliată, cu motivul, de exemplu «ușă de 22 kg peste limita de 18 kg»). Verificările sunt cele care existau deja în module (basculante, colțuri, uși glisante, balamale, sertare, push, suspendări, conectori); o limită necunoscută nu trece niciodată drept „potrivit", iar articolele fără limite în date nu ajung la „Recomandate".
+- **Recente și Favorite:** în browser, pe utilizator (nu intră în proiect). Liste lungi se arată câte 30 odată („Arată încă N").
+- **Cărți de articol:** marcă, nume, cod, 3–4 date din sursă, insigna „verificat: nu" (toate cotele de găurire sunt neverificate), „preț de completat" la preț 0, „Detalii" cu fișa tehnică existentă.
+- **Nimic nu se schimbă în proiecte:** panoul scrie în aceleași câmpuri de până acum (`hwSel`, `lift`, `cu`, `slide`, sistemul de sertar), care rămân în pagină, ascunse. Un corp fără alegere dă aceeași distinctă și același deviz ca în 5.87.0 (testat).
+- **Încă nu:** catalogul din Setări folosește tot listele vechi (etapa H.4); recomandările pe baza regulilor (H.5).
+- Teste noi: 2296 unitare (2 sărite) față de 2213 la 5.87.0; în browser 1005 față de 919.
+
+---
+
 ## 5.87.0 — 20 noiembrie 2026
 
 **Feroneria nouă, integrată în șapte familii (D-165): balamale, sertare, uși glisante și ascunse în perete, colțuri și coloane extractibile, rotire și mișcare, push și suspendare, îmbinări fără unelte, plus Free Slim și E-Drive la basculante.** Toate datele vin din documente oficiale (Blum, Hettich, Häfele, Salice, Grass, Hawa, Kesseböhmer, Peka, Knapp, Camar), citite de agenți și verificate număr cu număr față de textul brut (`tools/hw-data/raw`). Ce nu s-a putut citi rămâne `null`; toate cotele de găurire rămân `verificat:false`. Prețurile articolelor noi sunt 0, de completat în Catalog.
