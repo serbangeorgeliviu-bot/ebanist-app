@@ -220,6 +220,25 @@ describe("Sertare din date (EBDrawersMore)", () => {
   });
 });
 
+describe("Sisteme de sertar din formular (drawsys): toate sistemele din DRAWSYS au verificare", () => {
+  const IDS = Array.from(vm.runInContext("DRAWSYS_IDS", S));
+  test("fiecare sistem din DRAWSYS dă un rezultat; cele fără limite în date (vechi) sunt ok:null → «potrivit», niciodată «recomandat»", () => {
+    const { ctx } = mk({ L: 900, H: 720, P: 560, doors: 0, drawers: 3 });
+    assert.ok(IDS.length >= 10);
+    IDS.forEach(id => {
+      const r = chk("drawsys", id, ctx), withData = !!(S.EBDrawersMoreData.sides || []).find(x => x.box === id);
+      assert.ok(r && typeof r === "object", id);
+      if (!withData) { assert.equal(r.ok, null, id); assert.equal(sec(r), "potrivit", id); assert.equal(r.unknownLimits, true, id); }
+      else assert.notEqual(r.ok, null, id);
+    });
+    ["legno", "legrabox", "tandembox", "matrix", "nessuno"].forEach(id => assert.equal(chk("drawsys", id, ctx).ok, null, id));
+  });
+  test("sistem din date pe un corp prea puțin adânc: nu se potrivește, cu «depth» și NL minim din date", () => {
+    const { ctx } = mk({ L: 900, H: 720, P: 270, doors: 0, drawers: 3 }), id = IDS.find(i => (S.EBDrawersMoreData.sides || []).some(x => x.box === i));
+    const r = chk("drawsys", id, ctx); assert.equal(r.ok, false); assert.equal(sec(r), "nu_se_potriveste"); assert.ok(ks(r).includes("depth"));
+  });
+});
+
 describe("Uși glisante / escamotabile / cu aripă (EBSliding)", () => {
   const codeOf = sysName => SL.list().filter(s => s.name === sysName).length && S.EBSlidingData.codes.find(c => c.sys.length === 1 && c.sys[0] === sysName);
   const SLD = { type: "scorrevole", L: 2400, H: 2400, P: 600, doors: 2, shelves: 0, hang: 0 };

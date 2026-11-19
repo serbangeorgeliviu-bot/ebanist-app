@@ -42,6 +42,28 @@ describe("Sloturi și ținte", () => {
   });
 });
 
+describe("Iluminat LED pe corp (cele cinci categorii din catalog)", () => {
+  const LED = ["ledstrip", "leddrv", "leddim", "ledsw", "ledmains"], HTML = fs.readFileSync(path.join(APP, "index.html"), "utf8");
+  test("fiecare categorie LED e țintă hwSel (cfg.hwSel.<cat>) în slotul «iluminat», lângă opțiunea #bLed", () => {
+    LED.forEach(c => { eq(J(U.TARGETS[c]), { via: "hwsel", cat: c, idx: c }); assert.equal(U.slotOfTarget(c), "iluminat"); assert.equal(X.slotOf(c), "iluminat"); });
+    assert.equal(U.TARGETS.led.ctl, "bLed"); assert.equal(U.SLOT_TARGETS.iluminat[0], "led");
+  });
+  test("alegerea scrie cfg.hwSel.<cat> prin același selector ca restul categoriilor; ștergerea = «»", () => {
+    LED.forEach(c => { eq(J(U.planOps(c, "x")), { via: "hwsel", cat: c, value: "x" }); assert.equal(U.planOps(c, "").value, ""); });
+  });
+  test("index.html: categoriile LED sunt în HW_BODY_CATS (selectorul vechi al corpului le scrie în cfg.hwSel)", () => {
+    const m = HTML.match(/const HW_BODY_CATS=\[([^\]]*)\]/); assert.ok(m);
+    LED.forEach(c => assert.ok(m[1].includes('"' + c + '"'), c));
+  });
+  test("computeHardware: senzorul pe ușă nu mai trece prin bump (alegerea de dimmer a corpului nu se numără și el)", () => {
+    const i = HTML.indexOf('if(lc&&lc.ledSw==="door")'); assert.ok(i > 0);
+    const seg = HTML.slice(i, i + 420);
+    assert.ok(!/bump\(mod,"hwLedDim"/.test(seg.split("else")[0]), seg);
+    assert.match(seg, /o\.haf_833_89_059=\(o\.haf_833_89_059\|\|0\)\+k\.drv/);
+    assert.match(HTML, /else \{ bump\(mod,"hwLedDim",k\.drv\); bump\(mod,"hwLedSw",k\.drv\); \}/);   // fără senzor: ca înainte, prin bump (deci cu alegerea corpului)
+  });
+});
+
 describe("Alegere și ștergere", () => {
   test("alegerea scrie valoarea în câmpul vechi; hwSel pe categoria lui", () => {
     eq(J(U.planOps("cern", "blum_71b3550")), { via: "hwsel", cat: "cern", value: "blum_71b3550" });

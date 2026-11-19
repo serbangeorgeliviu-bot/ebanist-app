@@ -3446,6 +3446,104 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("H.3: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 300));
   }
 
+  /* H.3 (limite) — selectorul ca dialog de la 700 px, LED pe corp, sertare (sisteme + laterale + glisiere), insigna balamalei cu limita încălcată */
+  {
+    head("Selectorul de feronerie — dialog, LED pe corp, sertare, insigna balamalei (H.3 limite)");
+    const tabCtx2 = await browser.newContext({ viewport: { width: 820, height: 1180 }, hasTouch: true });
+    const tabPg2 = await tabCtx2.newPage();
+    tabPg2.on("pageerror", e => errs.push("pageerror(tab2): " + e));
+    tabPg2.on("console", m => { const x = m.text(); if (m.type() === "error" && !/ERR_CONNECTION|ERR_NAME|ERR_INTERNET|Failed to load resource|Content Security Policy|Refused to/.test(x)) errs.push("console(tab2): " + x); });
+    await tabPg2.goto(URL); await tabPg2.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 }); await tabPg2.waitForTimeout(3300); await tabPg2.evaluate(() => closeSheets()); await tabPg2.waitForTimeout(300);
+    const SETUP = ([over, preset]) => { closeSheets(); setView("build"); try { localStorage.removeItem("ebanist_hwui_v1"); } catch (e) {}
+      state.settings.hwAdd = []; state.settings.hwProd = {}; state.settings.hwOvr = {};
+      buildCfg = { ...PRESETS[preset || "armadio"], name: "Hu", ...over }; syncBuildForm(); renderSecChips(); drawPreview(); document.getElementById("grpHw").open = true; document.getElementById("grpFr").open = true; EBHwUI.refresh(); };
+    /* deviz: rândurile LED ale corpului, exact ce se numără și se prețuiește (funcție în pagină: se apelează și din alte evaluate) */
+    await tabPg2.evaluate(() => {});
+    const DEFLED = () => { window.LEDHW_SAFE = () => { const c = cfgFromForm(), p = proj(); p.pieces = []; p.configs = {}; p.layout = {};
+      generateInto(p, { ...c, name: "Hu" }); const items = computeHardware(p, state.settings);
+      const out = items.filter(i => /^hwLed/.test(i.k) && i.qty > 0).map(i => [i.k, i.qty, i.price, i.prod && i.prod.id]);
+      p.pieces = p.pieces.filter(q => q.gen !== "Hu"); delete p.configs["Hu"]; return JSON.stringify(out); }; };
+    await pg.evaluate(DEFLED); await tabPg2.evaluate(DEFLED);
+    const LEDHW = () => window.LEDHW_SAFE();
+    const ARM = { L: 900, H: 2200, doors: 2, drawers: 2, support: "zoccolo", plinth: 80 };
+    for (const [label, P] of [["telefon", pg], ["tabletă", tabPg2]]) {
+      const openRow = async slot => { await P.locator('[data-hwp-change="' + slot + '"]').scrollIntoViewIfNeeded(); await P.locator('[data-hwp-change="' + slot + '"]').click(); await P.waitForTimeout(350); };
+      const pickKey = key => P.evaluate(k => { document.querySelector('#hxsList [data-act="pick"][data-key="' + k + '"]').click(); }, key);
+      const clearRow = tid => P.evaluate(t0 => { document.querySelector('#hxsList [data-act="clear"][data-tid="' + t0 + '"]').click(); }, tid);
+      /* 1. dialog de la 700 px (numai #shHw), foaie de jos pe telefon */
+      await P.evaluate(SETUP, [ARM]); await P.waitForTimeout(400);
+      await openRow("balamale");
+      const g1 = await P.evaluate(() => { const r = document.getElementById("shHw").getBoundingClientRect(); return { l: Math.round(r.left), r: Math.round(r.right), t: Math.round(r.top), b: Math.round(r.bottom), w: innerWidth, h: innerHeight, vis: getComputedStyle(document.getElementById("shHw")).visibility }; });
+      if (label === "tabletă") ok("H.3 " + label + ": de la 700 px selectorul e dialog centrat (nu foaie de jos): margini egale, nu atinge marginea de jos", g1.vis === "visible" && Math.abs(g1.l - (g1.w - g1.r)) <= 2 && g1.t > 20 && g1.b < g1.h - 20 && g1.r - g1.l <= g1.w * 0.93, JSON.stringify(g1));
+      else ok("H.3 " + label + ": sub 700 px selectorul rămâne foaie de jos pe toată lățimea", g1.l <= 1 && g1.r >= g1.w - 1 && g1.b >= g1.h - 1, JSON.stringify(g1));
+      await P.evaluate(() => closeSheets()); await P.waitForTimeout(300);
+      if (label === "tabletă") {
+        await P.evaluate(() => { openSheet("shCatalog"); }); await P.waitForTimeout(350);
+        const g2 = await P.evaluate(() => { const r = document.getElementById("shCatalog").getBoundingClientRect(); return { b: Math.round(r.bottom), h: innerHeight, l: Math.round(r.left), r: Math.round(r.right), w: innerWidth }; });
+        ok("H.3 " + label + ": celelalte foi NU se schimbă (Catalogul rămâne foaie de jos sub 1024 px)", g2.b >= g2.h - 1 && g2.l <= 1 && g2.r >= g2.w - 1, JSON.stringify(g2));
+        await P.evaluate(() => closeSheets()); await P.waitForTimeout(300);
+      }
+      /* 2. LED pe corp */
+      await P.evaluate(SETUP, [{ ...ARM, led: "top" }]); await P.waitForTimeout(400);
+      const base = await P.evaluate(LEDHW), baseRows = JSON.parse(base);
+      const dd = await P.evaluate(() => { const D = k => { const it = hwItem(k); return [it.price, it.id]; }; return { s: D("ledstrip"), d: D("leddrv"), m: D("leddim"), w: D("ledsw"), n: D("ledmains") }; });
+      const byK = k => baseRows.filter(r => r[0] === k);
+      ok("H.5 " + label + ": LED fără nicio alegere = articolele din catalog, câte unul pe rând (bandă, transformator, dimmer, cablu întrerupător, cablu rețea)",
+        byK("hwLedStrip").length === 1 && byK("hwLedStrip")[0][2] === dd.s[0] && byK("hwLedStrip")[0][3] === dd.s[1] && byK("hwLedDrv")[0][3] === dd.d[1] && byK("hwLedDim")[0][3] === dd.m[1] && byK("hwLedSw")[0][3] === dd.w[1] && byK("hwLedMains")[0][3] === dd.n[1] &&
+        byK("hwLedDrv")[0][1] === byK("hwLedMains")[0][1] && byK("hwLedDrv")[0][1] === byK("hwLedDim")[0][1], base);
+      await openRow("iluminat");
+      const chips = await P.evaluate(() => [...document.querySelectorAll("#hxsCats .chip")].map(x => x.dataset.val));
+      ok("H.5 " + label + ": slotul «Iluminat» are LED-ul (opțiunea) și cele cinci categorii alegibile pe corp", ["led", "ledstrip", "leddrv", "leddim", "ledsw", "ledmains"].every(c => chips.includes(c)), JSON.stringify(chips));
+      await P.evaluate(() => closeSheets()); await P.waitForTimeout(250);
+      await P.evaluate(() => { state.settings.hwAdd = [
+        { id: "uLedS", cat: "ledstrip", custom: 1, brand: "Mea", n: "Banda proprie", art: "BS1", price: 50 },
+        { id: "uLedD", cat: "leddim", custom: 1, brand: "Mea", n: "Dimmer propriu", art: "DM1", price: 31 }]; persist(); EBHwUI.refresh(); });
+      await openRow("iluminat"); await P.click('#hxsCats [data-val="ledstrip"]'); await P.waitForTimeout(150);
+      await pickKey("ledstrip|uLedS"); await P.waitForTimeout(350);
+      const l1 = await P.evaluate(() => ({ sel: (cfgFromForm().hwSel || {}).ledstrip, cur: document.querySelector('#hwPanel [data-slot="iluminat"] .hwp-cur').textContent, rows: JSON.parse(LEDHW_SAFE()) }));
+      ok("H.5 " + label + ": banda aleasă pe corp (cfg.hwSel.ledstrip) e cea numărată și prețuită (50 €, id propriu), restul rămân ca înainte", l1.sel === "uLedS" && /Banda proprie/.test(l1.cur) &&
+        l1.rows.filter(r => r[0] === "hwLedStrip").length === 1 && l1.rows.filter(r => r[0] === "hwLedStrip")[0][2] === 50 && l1.rows.filter(r => r[0] === "hwLedStrip")[0][3] === "uLedS" &&
+        JSON.stringify(l1.rows.filter(r => r[0] !== "hwLedStrip")) === JSON.stringify(baseRows.filter(r => r[0] !== "hwLedStrip")), JSON.stringify(l1));
+      await openRow("iluminat"); await P.click('#hxsCats [data-val="leddim"]'); await P.waitForTimeout(150);
+      await pickKey("leddim|uLedD"); await P.waitForTimeout(350);
+      const l2 = await P.evaluate(() => JSON.parse(LEDHW_SAFE()));
+      const dimRow = l2.filter(r => r[0] === "hwLedDim");
+      ok("H.5 " + label + ": dimmerul ales pe corp e numărat și prețuit (un rând, cantitatea transformatoarelor, 31 €)", dimRow.length === 1 && dimRow[0][2] === 31 && dimRow[0][3] === "uLedD" && dimRow[0][1] === baseRows.filter(r => r[0] === "hwLedDim")[0][1], JSON.stringify(l2));
+      /* senzor pe ușă: articolul fix 833.89.059; alegerea de dimmer nu se numără pe lângă el */
+      await P.evaluate(() => { const s = document.getElementById("bLedSw"); s.value = "door"; s.dispatchEvent(new Event("change", { bubbles: true })); }); await P.waitForTimeout(300);
+      const l3 = await P.evaluate(() => ({ rows: JSON.parse(LEDHW_SAFE()), hint: (document.querySelector('#hwPanel [data-slot="iluminat"] .hwp-hint') || { textContent: "" }).textContent }));
+      const dr = l3.rows.filter(r => r[0] === "hwLedDim"), drv = l3.rows.filter(r => r[0] === "hwLedDrv");
+      ok("H.5 " + label + ": cu senzor pe ușă dimmerul din corp nu se numără (numai 833.89.059, cantitate = transformatoare), fără cablu de întrerupător; panoul spune de ce",
+        dr.length === 1 && dr[0][3] === "haf_833_89_059" && dr[0][1] === drv[0][1] && l3.rows.filter(r => r[0] === "hwLedSw").length === 0 && l3.hint.length > 10, JSON.stringify(l3));
+      await P.evaluate(() => { const s = document.getElementById("bLedSw"); s.value = "visible"; s.dispatchEvent(new Event("change", { bubbles: true })); }); await P.waitForTimeout(250);
+      await openRow("iluminat"); await clearRow("ledstrip"); await P.waitForTimeout(300);
+      await openRow("iluminat"); await clearRow("leddim"); await P.waitForTimeout(300);
+      ok("H.5 " + label + ": alegerile LED șterse → devizul LED identic cu cel fără nicio alegere (regresie)", await P.evaluate(LEDHW) === base && await P.evaluate(() => !(cfgFromForm().hwSel || {}).ledstrip && !(cfgFromForm().hwSel || {}).leddim));
+      /* 3. sertare: toate sistemele din DRAWSYS alegibile, cu verificare; cele vechi (fără limite în date) → «Potrivite», niciodată «Recomandate» */
+      await P.evaluate(SETUP, [{ L: 900, H: 720, P: 560, doors: 0, drawers: 3, support: "zoccolo", plinth: 80, shelves: 0 }]); await P.waitForTimeout(400);
+      await openRow("sertare"); await P.click('#hxsCats [data-val="drawsys"]'); await P.waitForTimeout(200);
+      await P.evaluate(() => { const d = document.querySelector("#hxsList .hxs-nofit"); if (d) d.open = true; });
+      const ds = await P.evaluate(() => { const ids = DRAWSYS_IDS.slice(), out = {}; ids.forEach(id => { out[id] = ["recomandat", "potrivit", "nofit"].find(sc => !!document.querySelector('#hxsList [data-sec="' + sc + '"] [data-act="pick"][data-key="drawsys|' + id + '"]')) || null; });
+        const lbx = document.querySelector('#hxsList [data-act="pick"][data-key="drawsys|legrabox"]'); return { ids, out, lbx: lbx ? lbx.innerText : "" }; });
+      ok("H.5 " + label + ": TOATE sistemele din DRAWSYS (" + ds.ids.length + ") apar în foaie, fiecare într-o secțiune", ds.ids.every(id => !!ds.out[id]), JSON.stringify(ds.out));
+      ok("H.5 " + label + ": sistemele vechi (legno, Blum, Matrix, «solo frontale») fără limite în date stau în «Potrivite», nu în «Recomandate»", ["legno", "legrabox", "tandembox", "matrix", "nessuno"].every(id => ds.out[id] === "potrivit"), JSON.stringify(ds.out));
+      ok("H.5 " + label + ": cardul sistemului arată laterala și glisiera lui din date (Sponde/Laterale…, cod)", /blum|Blum/.test(ds.lbx) && ds.lbx.split("\n").length >= 4, ds.lbx);
+      await P.click('#hxsCats [data-val="guida"]'); await P.waitForTimeout(200);
+      ok("H.5 " + label + ": la «Glisiere» foaia spune că glisiera se alege numai pentru sertarul din lemn", await P.evaluate(() => !!document.querySelector("#hxsList .hxs-note") && document.querySelector("#hxsList .hxs-note").textContent.length > 20));
+      await P.evaluate(() => closeSheets());
+      /* 4. insigna balamalei spune limita */
+      await P.evaluate(SETUP, [{ L: 1000, H: 2650, P: 600, doors: 1, support: "zoccolo", plinth: 0, hang: 0, shelves: 1, drawers: 0 }]); await P.waitForTimeout(400);
+      await openRow("balamale");
+      const badKey = await P.evaluate(() => { const d = document.querySelector("#hxsList .hxs-nofit"); d.open = true; const c = d.querySelector(".hxc.is-bad .hxc-main"); return c ? c.dataset.key : null; });
+      await pickKey(badKey); await P.waitForTimeout(400);
+      const hb = await P.evaluate(() => { const row = document.querySelector('#hwPanel [data-slot="balamale"]'), b = row.querySelector(".hwp-badge"), wl = row.querySelector(".hwp-wl"); return { badge: b ? b.textContent : "", title: b ? b.getAttribute("title") : "", wl: wl ? wl.textContent : "" }; });
+      ok("H.5 " + label + ": o balamă care nu se potrivește → insigna are numărul, titlul și rândul de sub ea spun LIMITA încălcată (cu valoarea)", /^\d+$/.test(hb.badge) && hb.wl.length > 8 && hb.title.includes(hb.wl.split("\n")[0].slice(0, 12)) && /\d/.test(hb.wl) && !/\{\w+\}|hfQ_|hfV_/.test(hb.wl), JSON.stringify(hb));
+      await P.evaluate(() => { const p = proj(); p.pieces = p.pieces.filter(q => q.gen !== "Hu"); delete p.configs["Hu"]; buildCfg = { ...PRESETS.base }; syncBuildForm(); renderSecChips(); state.settings.hwAdd = []; try { localStorage.removeItem("ebanist_hwui_v1"); } catch (e) {} HIST.undo = []; HIST.redo = []; HIST.cur = null; histSync(); });
+    }
+    await tabCtx2.close();
+    ok("H.3/H.5 limite: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 300));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");

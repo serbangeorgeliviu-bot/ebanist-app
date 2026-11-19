@@ -1253,6 +1253,7 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .hwp-cur{font-size:14px;line-height:1.35;overflow-wrap:anywhere;margin-top:2px}
 .hwp-k{color:var(--muted);font-size:12.5px}
 .hwp-hint{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.hwp-wl{font-size:12.5px;line-height:1.4;color:var(--warn-ink);background:var(--warn-bg);border-radius:8px;padding:5px 8px;margin-top:5px;overflow-wrap:anywhere}
 .hwp-sub{display:block;margin-top:6px}
 .hwp-sub span{display:block;font-size:11.5px;color:var(--muted);margin-bottom:3px}
 .hwp-sub select{width:100%;min-height:40px}
@@ -1305,6 +1306,37 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .hxd-why{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.45;margin:8px 0}
 .hxd-act{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .hxd-act .btn{flex:1;min-width:140px}
+/* H.3 (limită): selectorul e dialog centrat de la 700 px (celelalte foi rămân de jos până la 1024 px); ce e peste 1024 px îl centrează deja regula .sheet */
+@media (min-width:700px) and (max-width:1023.98px){
+  .sheet.hxs{left:50%;right:auto;bottom:auto;top:50%;width:min(760px,92vw);border-radius:16px;border-bottom:1px solid var(--line);
+    transform:translate(-50%,-47%) scale(.98);opacity:0;visibility:hidden;max-height:88vh;padding:10px 24px 24px;
+    transition:transform .2s cubic-bezier(.3,.9,.3,1),opacity .18s,visibility 0s linear .2s}
+  .sheet.hxs.on{transform:translate(-50%,-50%);opacity:1;visibility:visible;transition:transform .2s cubic-bezier(.3,.9,.3,1),opacity .18s}
+  .sheet.hxs .sheet-grip{display:none}
+}
+/* H.4/H.5: rândurile Catalogului pe sloturi, sugestia din panou */
+.hwp-sug{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;padding:6px 8px;border:1px dashed var(--red-line);border-radius:10px;background:var(--red-soft);font-size:13px;line-height:1.35}
+.hwp-sug b{overflow-wrap:anywhere}
+.hwp-sug .btn{min-height:40px;flex:none}
+.hxc-reason{font-size:12.5px;line-height:1.4;color:var(--text);opacity:.85}
+.hxc-reason::before{content:"✓ ";color:var(--red)}
+.cth-top{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+.cth-top .chip{min-height:40px}
+.cth-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.cth-row{border:1px solid var(--line);border-radius:12px;background:var(--field);padding:10px 12px}
+.cth-h{display:flex;align-items:flex-start;gap:10px}
+.cth-txt{flex:1;min-width:0}
+.cth-cat{font-size:11.5px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--muted)}
+.cth-cur{font-size:14.5px;line-height:1.35;overflow-wrap:anywhere;margin-top:2px}
+.cth-meta{font-size:12.5px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.cth-chg{min-height:44px;min-width:84px;flex:none}
+.cth-f{display:flex;gap:8px;margin-top:8px}
+.cth-f input{min-height:44px}
+.cth-x{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.cth-x .btn{min-height:40px}
+.cth-own{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.cth-own input{min-height:44px;min-width:0}
+.cth-sel{width:100%;min-height:44px;margin-top:8px}
 </style>
 </head>
 <body>
@@ -10394,7 +10426,7 @@ document.addEventListener("click",e=>{
 const HW_CAT={cerniera:"cern",guida:"guida",maniglia:"man",reggipiano:"sup",minifix:"conn",led:"ledstrip",leddim:"leddim"};
 const HW_JOINT_ITEM={divario:"lam_divario_p18",cabineo:"lam_cabineo_8",invis:"lam_invis_mx2_30",kv:"fes_kv_d8_50",confirmat:"gen_confirmat",biscuit:"gen_biscuit",domino:"fes_domino",clamex:"lam_clamex",tenso:"lam_tenso_p14",bisco:"lam_bisco_p14",tassello:"gen_dowel"};
 const HW_ORDER=["cerniera","maniglia","guida","guida_tast","guida_tav","colt_blat","beschlag_pat","consola_trav","picior_pat","suport_doga","piston_pat","balama_somiera","surub_somiera","reggipiano","minifix","confirmat","biscuit","domino","clamex","tassello","led","leddim"];
-function hwTypeName(ty){ const it=HW_CAT[ty]?hwItem(HW_CAT[ty]):HW_JOINT_ITEM[ty]&&ty!=="tassello"?hwItemById("conn",HW_JOINT_ITEM[ty]):null;
+function hwTypeName(ty){ const it=HW_CAT[ty]?((ty==="led"||ty==="leddim")&&typeof buildCfg==="object"&&buildCfg?hwItemFor(buildCfg,HW_CAT[ty]):hwItem(HW_CAT[ty])):HW_JOINT_ITEM[ty]&&ty!=="tassello"?hwItemById("conn",HW_JOINT_ITEM[ty]):null;
   return {name:t("hw_"+ty),prod:it?((it.brand&&it.brand!=="—"?it.brand+" ":"")+it.name):(ty==="tassello"?"Ø8×35":""),art:it&&it.art&&it.art!=="—"?it.art:""}; }
 /* il nome di un pezzo fisico: la riga di distinta a cui corrisponde, con il
    lato quando le righe sono a coppie (i due fianchi sono una riga da 2 pz) */
@@ -11712,7 +11744,7 @@ function renderRaza(){
 /* U.2 — feroneria aleasa pe corp. Un selector pe categorie; «catalog» = articolul
    din Setari. Citit direct din selectoare (nu din stare paralela), la fel ca restul
    formularului. Categoriile sunt cele pe care le foloseste un corp. */
-const HW_BODY_CATS=["cern","man","manS","push","guida","sup","asta","pied","conn","aw"];
+const HW_BODY_CATS=["cern","man","manS","push","guida","sup","asta","pied","conn","aw","ledstrip","leddrv","leddim","ledsw","ledmains"];   // H.5: iluminatul LED se alege pe corp ca restul (cfg.hwSel.ledstrip …); fără alegere = articolul din catalog, ca înainte
 if(window.EBOpen) EBOpen.HW_BODY_CATS.forEach(c=>HW_BODY_CATS.push(c));   // pushd, susp, suprail: numai la alegere explicită, fără articol implicit
 function readHwSel(){ const o={}; document.querySelectorAll("#hwSelBox select[data-cat]").forEach(sl=>{ if(sl.value) o[sl.dataset.cat]=sl.value; });
   return Object.keys(o).length?o:null; }
@@ -15858,7 +15890,9 @@ function computeHardware(p,S,byModule){
     bump(mod,"hwLedDrv",k.drv); bump(mod,"hwLedMains",k.drv);
     /* cu senzor pe ușă (833.89.059, cu cablu propriu) dispar dimmerul și cablul de întrerupător */
     const lc=p.configs&&p.configs[mod];
-    if(lc&&lc.ledSw==="door"){ bump(mod,"hwLedDim",k.drv); const o=(selBy.hwLedDim=selBy.hwLedDim||{}); o.haf_833_89_059=(o.haf_833_89_059||0)+k.drv; }
+    if(lc&&lc.ledSw==="door"){   // senzorul pe ușă e articolul fix 833.89.059: alegerea de dimmer a corpului (cfg.hwSel.leddim) nu se numără pe lângă el
+      q.hwLedDim+=k.drv; if(byModule){ (mods[mod]=mods[mod]||mk()).hwLedDim+=k.drv; }
+      const o=(selBy.hwLedDim=selBy.hwLedDim||{}); o.haf_833_89_059=(o.haf_833_89_059||0)+k.drv; }
     else { bump(mod,"hwLedDim",k.drv); bump(mod,"hwLedSw",k.drv); } }
   /* alimentatoarele aperturii electrice și suspendarea corpurilor (ebanist-open.js): numai la alegere explicită pe corp */
   if(window.EBOpen){

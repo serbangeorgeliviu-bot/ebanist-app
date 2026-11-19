@@ -47,12 +47,18 @@
     slidesys: { via: "ctl", ctl: "bSlide", idx: null, clear: "" },
     corner:   { via: "ctl", ctl: "bCU", idx: "corner", clear: "" },
     drawsys:  { via: "ctl", ctl: "bDrawSys", idx: null, clear: "legno" },
-    led:      { via: "ctl", ctl: "bLed", idx: null, clear: "" }
+    led:      { via: "ctl", ctl: "bLed", idx: null, clear: "" },
+    /* LED pe corp (H.5 / D-157): articolele iluminatului ca orice categorie cu alegere pe corp (cfg.hwSel.ledstrip …); fără alegere = articolul din catalog */
+    ledstrip: { via: "hwsel", cat: "ledstrip", idx: "ledstrip" },
+    leddrv:   { via: "hwsel", cat: "leddrv", idx: "leddrv" },
+    leddim:   { via: "hwsel", cat: "leddim", idx: "leddim" },
+    ledsw:    { via: "hwsel", cat: "ledsw", idx: "ledsw" },
+    ledmains: { via: "hwsel", cat: "ledmains", idx: "ledmains" }
   };
   /* sloturile din EBHwIndex.SLOTS → țintele lor, în ordinea chipurilor */
   var SLOT_TARGETS = {
     balamale: ["cern"], deschidere: ["push", "man", "manS"], ridicare: ["lift"], glisante: ["slidesys"], sertare: ["drawsys", "guida", "pushd"],
-    colt: ["corner"], imbinari: ["conn"], suspendare: ["susp", "suprail"], rafturi: ["sup", "asta", "pied"], iluminat: ["led"], altele: ["aw"]
+    colt: ["corner"], imbinari: ["conn"], suspendare: ["susp", "suprail"], rafturi: ["sup", "asta", "pied"], iluminat: ["led", "ledstrip", "leddrv", "leddim", "ledsw", "ledmains"], altele: ["aw"]
   };
   /* sub-alegerile unui slot: câmpuri vechi (select) copiate în rând, vizibile numai când rândul lor vechi e vizibil */
   var SUBS = {
@@ -336,9 +342,16 @@
   function hintHtml(slot) {
     var out = [];
     (HINTS[slot] || []).forEach(function (id) { var p = $(id); if (p && p.style.display !== "none" && p.textContent.trim()) out.push(p.textContent.trim()); });
+    /* senzorul pe ușă (833.89.059) ține locul dimmerului și al cablului de întrerupător: alegerea lor pe corp nu se numără (D-157) */
+    if (slot === "iluminat" && $("bLedSw") && $("bLedSw").value === "door" && (isExplicit("leddim", readTarget("leddim")) || isExplicit("ledsw", readTarget("ledsw")))) out.push(T("hxpLedDoor"));
     return out.length ? '<div class="hwp-hint">' + out.map(H).join(" ") + "</div>" : "";
   }
+  /* la balamale insigna spune LIMITA încălcată (din EBHwFit, aceeași ca în selector), nu numai câte sunt */
+  function warnLineHtml(slot, warns) {
+    return slot === "balamale" && warns.length ? '<div class="hwp-wl" data-hwp-wl="' + slot + '">' + warns.map(H).join("<br>") + "</div>" : "";
+  }
 
+  function badgeTitle(warns) { return T("hxpWarnN").replace("{n}", warns.length) + " — " + warns.join("; "); }
   function paintPanel(cfg, built) {
     var box = $("hwPanel"); if (!box) return;
     ensureHwBox();
@@ -351,8 +364,8 @@
       var warns = slotWarnings(sl.id, cfg, built, ctx);
       nWarn += warns.length;
       if (warns.length) warnList.push({ label: slotLabel(sl), msgs: warns });
-      rows.push('<li class="hwp-row" data-slot="' + sl.id + '"><div class="hwp-txt"><div class="hwp-name">' + H(slotLabel(sl)) + '</div><div class="hwp-cur">' + curLinesHtml(sl.id) + "</div>" + hintHtml(sl.id) + subHtml(sl.id) + "</div>" +
-        (warns.length ? '<span class="hwp-badge" title="' + H(T("hxpWarnN").replace("{n}", warns.length)) + '" aria-label="' + H(T("hxpWarnN").replace("{n}", warns.length)) + '">' + warns.length + "</span>" : "") +
+      rows.push('<li class="hwp-row" data-slot="' + sl.id + '"><div class="hwp-txt"><div class="hwp-name">' + H(slotLabel(sl)) + '</div><div class="hwp-cur">' + curLinesHtml(sl.id) + "</div>" + warnLineHtml(sl.id, warns) + hintHtml(sl.id) + subHtml(sl.id) + "</div>" +
+        (warns.length ? '<span class="hwp-badge" title="' + H(badgeTitle(warns)) + '" aria-label="' + H(badgeTitle(warns)) + '">' + warns.length + "</span>" : "") +
         '<button type="button" class="btn sm hwp-chg" data-hwp-change="' + sl.id + '" aria-label="' + H(T("hxpChange") + ": " + slotLabel(sl)) + '">' + H(T("hxpChange")) + "</button></li>");
     });
     var sum = T("hxpSum").replace("{n}", nChoices).replace("{m}", nWarn);
@@ -435,6 +448,18 @@
     return (SH.fit[k] = r);
   }
   function entryName(e) { return (e.names && (e.names[lang()] || e.names.it)) || e.id; }
+  /* sistemul de sertar: laterala (HWDB.zarga) și glisiera lui, din datele sistemului; sertarul din lemn merge pe glisiera aleasă în Catalog / pe corp */
+  function drawSysExtra(id) {
+    var d = typeof DRAWSYS !== "undefined" ? DRAWSYS[id] : null, out = [];
+    function art(cat, aid) { var it = aid && hwList(cat).filter(function (x) { return x.id === aid; })[0]; return it ? bn(it.brand, hwName(it)) + (it.art && it.art !== "—" ? " · " + it.art : "") : ""; }
+    if (!d) return out;
+    var side = art("zarga", d.lat), run = d.metal ? art("guida", d.guida) : (function () { try { var gid = guidaIdFor(SH && SH.ctx ? SH.ctx.cfg : null); return art("guida", gid); } catch (x) { return ""; } })();
+    if (side) out.push(T("hxsSides").replace("{x}", side));
+    if (run) out.push(T("hxsRunner").replace("{x}", run));
+    return out;
+  }
+  /* marca nu se repetă când numele ei începe deja cu marca («Blum» + «Blum LEGRABOX») */
+  function brandHtml(e) { var b = e.brand || "", n = entryName(e); return b && n.toLowerCase().indexOf(b.toLowerCase()) !== 0 ? '<span class="hxc-brand">' + H(b) + "</span> " : ""; }
   function priceBadge(e) { return e.price === 0 && !e.own ? '<span class="hxb warn">' + H(T("hxbNoPrice")) + "</span>" : ""; }
 
   function cardHtml(e, r, opt) {
@@ -444,10 +469,11 @@
     var unk = r && r.ok !== false && r.fam && r.unknownLimits;
     return '<li class="hxc' + (cur ? " is-cur" : "") + (r && r.ok === false ? " is-bad" : "") + '" data-key="' + H(key) + '">' +
       '<button type="button" class="hxc-main" data-act="pick" data-key="' + H(key) + '"' + (cur ? ' aria-current="true"' : "") + ">" +
-        '<span class="hxc-t"><span class="hxc-brand">' + H(e.brand || "") + '</span> <span class="hxc-name">' + H(entryName(e)) + "</span></span>" +
+        '<span class="hxc-t">' + brandHtml(e) + '<span class="hxc-name">' + H(entryName(e)) + "</span></span>" +
         (SLOT_TARGETS[SH.slot].length > 1 ? '<span class="hxc-cat">' + H(catLabel(e.cat)) + "</span>" : "") +
         (e.art ? '<span class="hxc-art">' + H(e.art) + "</span>" : "") +
         (facts.length ? '<span class="hxc-facts">' + facts.map(H).join(" · ") + "</span>" : "") +
+        (e.cat === "drawsys" ? drawSysExtra(e.id).map(function (x) { return '<span class="hxc-facts">' + H(x) + "</span>"; }).join("") : "") +
         '<span class="hxc-badges"><span class="hxb">' + H(T("hxbUnv")) + "</span>" + priceBadge(e) + (e.chk ? '<span class="hxb warn">' + H(T("artCheck").replace(/^—\s*/, "")) + "</span>" : "") +
           (unk ? '<span class="hxb">' + H(T("hfUnknown")) + "</span>" : "") + (cur ? '<span class="hxb on">' + H(T("hxsChosen")) + "</span>" : "") + "</span>" +
         (why.length ? '<span class="hxc-why">' + why.map(H).join("<br>") + "</span>" : "") +
@@ -497,6 +523,7 @@
     $("hxsCount").textContent = T("hxsCount").replace("{n}", res.length);
 
     var html = "", P = loadPrefs(), byKey = SH.byKey;
+    if (SH.slot === "sertare" && SH.cat === "guida") html += '<p class="mini hxs-note">' + H(T("hxsRunnerNote")) + "</p>";
     /* «Niciuna / implicit»: câte un rând pentru ținta cu alegere explicită (sau pentru cea selectată în chip) */
     SLOT_TARGETS[SH.slot].forEach(function (tid) {
       if (SH.cat && SH.cat !== tid) return;
