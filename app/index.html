@@ -2966,6 +2966,8 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 </script>
 <script src="./ebanist-hwindex.js"></script>
 <script src="./ebanist-hwindex-i18n.js"></script>
+<script src="./ebanist-hwfit.js"></script>
+<script src="./ebanist-hwfit-i18n.js"></script>
 <script src="./ebanist-lift-data.js"></script>
 <script src="./ebanist-liftfit.js"></script>
 <script src="./ebanist-open-data.js"></script>
@@ -4349,6 +4351,7 @@ Object.assign(I18N.es,{"fLiftElec": "Apertura eléctrica", "liftElecEdrive": "El
 /* deschidere push / suspendare / îmbinări fără unealtă: textele stau în ebanist-open-i18n.js (aceleași chei în toate cele 7 limbi) */
 if(typeof OPEN_I18N!=="undefined") for(const L of Object.keys(OPEN_I18N)) Object.assign(I18N[L],OPEN_I18N[L]);
 if(typeof HWINDEX_I18N!=="undefined") for(const L of Object.keys(HWINDEX_I18N)) Object.assign(I18N[L],HWINDEX_I18N[L]);
+if(typeof HWFIT_I18N!=="undefined") for(const L of Object.keys(HWFIT_I18N)) Object.assign(I18N[L],HWFIT_I18N[L]);
 /* U.17 — textele unităților de colț / scoase / mecanisme: în ebanist-corner-i18n.js (7 limbi), aici doar se adaugă în I18N */
 if(typeof CORNER_I18N==="object") Object.keys(I18N).forEach(l=>Object.assign(I18N[l],CORNER_I18N[l]||CORNER_I18N.it));
 /* balamale Hettich / Salice / Grass / Häfele / Blum 105°: textele (avertismente, fișă, cuvintele din nume) vin din ebanist-hinges-more-i18n.js */
@@ -8962,7 +8965,9 @@ function buildCore(cfg){
           warn:{shMissing,shSqueeze,doorSkip,doorTight,doorOverlap,doorNarrow,foldNarrow,foldLY,foldFront,foldReach,liftWarn,slideWarn,slope:SL?{deg:+SL.deg.toFixed(1)}:0,stepHit,boxHit:boxHit?{n:boxHit,mm:Math.round(boxHitMm*10)/10}:0,
           topAng:cfg.top==="traverse"&&topMode!=="traverse",
           openWarn:openWarnOf(cfg,G,pieces,dGroups.map(g=>g.plan)),
-          drawWarn:dW.length?dW:null}};
+          drawWarn:dW.length?dW:null},
+          /* FAZA H.2 (ebanist-hwfit.js): mărimile din care corpul își calculează planurile (sertar, interior), pentru potrivirea feroneriei; nimic nou, numai ce există deja aici */
+          fx:{G,secW,depth:P-intZ0,tBox:tF,tFront:tA,inner:dInner}};
 }
 
 /* suportul (foile din materialul spatelui) al lambriului și al boiseriei: foi pe lățime, cu găuri pentru decupaje;
@@ -15348,6 +15353,13 @@ function hwIndex(){
   const add=((state.settings||{}).hwAdd||[]), n=HW_CATS.reduce((s,c)=>s+(HWDB[c[0]]||[]).length,0), key=n+"|"+add.length+"|"+add.map(x=>x.id).join(",");
   if(!_hwIdx||_hwIdxKey!==key){ _hwIdx=EBHwIndex.build(HWDB,HW_CATS,{hwAdd:add}); _hwIdxKey=key; }
   return _hwIdx;
+}
+/* FAZA H.2 — contextul corpului curent pentru potrivirea feroneriei (ebanist-hwfit.js): aceeași cale ca Constructorul (cfgFromForm + buildModule);
+   `trial` construiește același corp cu o alegere de probă, pentru sistemele al căror plan depinde de formulele lor (uși glisante) */
+function hwFitCtx(cfg){
+  cfg=cfg||cfgFromForm();
+  let built=null; try{ built=buildModule(cfg); }catch(e){ built=null; }
+  return EBHwFit.ctxOf(cfg,built,{matById,structTh,drawSys,guidaIdFor,trial:patch=>{ const b=buildModule(Object.assign({},cfg,patch)); return b&&b.warn; }});
 }
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
