@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.91.0 — 20 noiembrie 2026
+
+**Trei proiecte demo, gata de arătat clienților (FAZA T).**
+- **Proiecte → „Proiecte demo”:** Living „Noir & Noce” (perete TV, 15 corpuri), Bucătărie „Beton & Stejar” (insulă, 26 de corpuri) și Dormitor „Stejar & Textil” (dressing, pat cu ladă, birou, 11 corpuri). Se încarcă o copie, nu se atinge niciun proiect al tău, nu se numără în limita gratuită; exportul rămâne Pro. Textele sunt în 7 limbi.
+- **Construite prin motorul aplicației**, fără piese scrise de mână: uși care se ridică cu SERVO-DRIVE, E-Drive, Gola, sertare Legrabox cu TIP-ON, uși pliante și glisante, ridicător TV, 5 benzi LED, blat ceramic cu îmbinare la 45°. Zero controale blocante; distinta, găurirea și foile sunt verificate de teste.
+- **LED în Camera 3D:** bila luminoasă, halou și până la 10 lumini punctuale; senzorul de pe ușă aprinde la „Deschide”.
+- **Reparat:** ușile „ramă + sticlă” se deschid acum și sticla se vede (înainte erau placă plină).
+- **Constructor:** `node tools/showcase-build.cjs` regenerează demo-urile; fișierele sunt în `app/demo/` (cu README și scenarii de clip).
+- Neverificat/nefăcut: prețurile feroneriei noi sunt 0 în devizul demo; ușile escamotabile pe corp standard dau mereu controlul I4 (raportat, nereparat).
+
+---
+
 ## 5.90.0 — 20 noiembrie 2026
 
 **109 de decoruri Egger de PAL și 9 texturi noi.**
