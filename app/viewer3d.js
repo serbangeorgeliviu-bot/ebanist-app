@@ -1643,6 +1643,7 @@ function slideDir(b) {
   return [int ? (dx ? -1 : 1) : (dx ? 1 : -1), 0];
 }
 /* partea de sus a corpului (fără uși, sertare, pereții camerei): deasupra ei se așază ușa basculantă deschisă */
+const LIFT_MAX_DEG = 90;   /* unghiul maxim de deschidere al ușii basculante în 3D */
 function liftTopY(boxes) {
   let m = 0; boxes.forEach(b => { if (b.role !== "frontale" && b.role !== "cassetto_frontale" && b.kind !== "w" && b.kind !== "g" && b.y1 > m) m = b.y1; });
   return m;
@@ -1697,12 +1698,12 @@ function setTargets(boxesOrig) {
         P.pivot = null; P.tgt.ang = 0;
         P.tgt.ey = open ? (Math.max(0, topY - a.y0) + 4) * MM : 0; P.tgt.ez = open ? 25 * MM : 0;
       } else {
-        const deg = Lf.motion === "liftup" ? 95 : Math.min(110, Math.max(60, Lf.angle || 90)), th = deg * Math.PI / 180;
-        /* `ang` aici e PROGRESUL (0 → th); traseul se calculează în step(): întâi ușa urcă dreaptă în fața corpului până cu muchia de jos la nivelul
-           lui de sus, apoi se răstoarnă peste corp, cu muchia de jos alunecând pe el. O rotație simplă în jurul muchiei de sus ar trece muchia de jos prin
-           interiorul corpului (prin lateral și rafturi). */
-        P.pivot = { axis: "x", y: a.y1, z: a.z1, lift: { th, g: Math.max(0, topY - a.y1), h: a.y1 - a.y0 } };
-        P.tgt.ang = open ? th : 0;
+        /* O singură rotație pe muchia de sus a ușii, în sus și spre față, cel mult 90° (Liviu, 20.11: „doar 90 sau 85 de grade, nici de cum 150”). Înainte ușa urca
+           cât toată înălțimea ei și apoi se răsturna 95–110° peste corp. Spre față, ușa nu trece prin lateral, raft sau tavan. Reprezentare SCHEMATICĂ: poziția
+           finală e ușa orizontală sau aproape, deasupra deschiderii; nu cinematica brațelor. */
+        const deg = Math.min(LIFT_MAX_DEG, Math.max(60, Lf.angle || LIFT_MAX_DEG)), th = deg * Math.PI / 180;
+        P.pivot = { axis: "x", y: a.y1, z: a.z1 };
+        P.tgt.ang = open ? -th : 0;
       }
     }
     /* U.17 — ușă escamotabilă (pocket): `ang` e PROGRESUL 0 → 1; în step() ușa se rotește mai întâi 90° pe muchia dinspre buzunar (ca o ușă obișnuită, în față),
@@ -1901,12 +1902,7 @@ function step() {
     for (const k of ["ex", "ey", "ez", "ang", "sl"]) f(P.cur, P.tgt, k);
     /* T(esplosione) · T(perno) · R(y) · T(−perno) · T(uscita cassetto) */
     const c = P.cur;
-    let liftY = 0, liftAng = c.ang;
-    if (P.pivot && P.pivot.axis === "x" && P.pivot.lift) {    /* U.16: faza 1 urcă dreaptă (p 0→½), faza 2 răstoarnă (p ½→1) cu muchia de jos pe corp */
-      const Lf = P.pivot.lift, p = Math.min(1, Math.max(0, c.ang / Lf.th)), u = Math.max(0, 2 * p - 1);
-      liftAng = u * Lf.th;
-      liftY = (u === 0 ? Math.min(1, 2 * p) * (Lf.g + Lf.h) : Lf.g + Lf.h * Math.max(0, Math.cos(liftAng))) * MM;
-    }
+    const liftY = 0, liftAng = c.ang;
     let pkX = 0, pkZ = 0, pkAng = 0;
     if (P.pkt) {      /* U.17: ușa escamotabilă: faza 1 rotire (0–0,4), faza 2 mutare laterală (0,4–0,55), faza 3 retragere (0,55–1) */
       const K = P.pkt, p = Math.min(1, Math.max(0, c.ang));

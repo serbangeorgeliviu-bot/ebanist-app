@@ -2947,6 +2947,20 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("U.16: «Montaj» are pasul cu mecanismul; rezumatul fara erori", lh.mont === true && lh.sum === true && !lh.err, JSON.stringify(lh));
     ok("U.16: avertisment «cote neverificate» in aplicatie", await pg.evaluate(() => { const b = buildModule(cfgFromForm()); return !!(b.warn && b.warn.liftWarn && b.warn.liftWarn.some(w => w.k === "unv")); }));
     ok("U.16: 3D — cutia usii are sub:'lift' si se deschide fara eroare", await pg.evaluate(() => { try { const c = cfgFromForm(); GL3D.render(c, { explode: 0 }); const r = GL3D.capture(c, { open: 1, hw: true, w: 200, h: 150 }); return !!(r && r.img) && buildModule(c).boxes.some(b => b.sub === "lift"); } catch (e) { return false; } }));
+    const lfOpen = await pg.evaluate(() => { try {
+      const c = { ...PRESETS.pensile, name: "LfA", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; GL3D.render(c, { explode: 0 });
+      const d = buildModule(c).boxes.find(b => b.sub === "lift"); if (!d) return "fără ușă basculantă";
+      const t = GL3D.tgtOf(d.pk); if (!t || Math.abs(t.ang) > 0) return "închis: ang " + (t && t.ang);
+      const W = GL3D.worldBoxes({ open: 1 }), P = W.find(x => String(x.pk) === String(d.pk)); if (!P) return "fără piesă";
+      /* poziția deschisă: ușa nu coboară sub muchia ei de sus și nu intră în corp (z mai mic decât fața din față) */
+      const door = P.boxes.flat(), minY = Math.min(...door.map(q => q[1])), topClosed = d.y1;
+      const body = W.filter(x => x.role !== "frontale" && x.sub !== "lift").flatMap(x => x.boxes.flat());
+      const bodyFrontZ = Math.max(...body.map(q => q[2]));
+      /* ≤ 90°: muchia de jos nu urcă deasupra muchiei de sus (la 150° ar urca cu ~0,87·h) și nu rămâne mai jos de 0,35·h sub ea (unghiul producătorului poate fi 70–90°) */
+      const h = d.y1 - d.y0, maxY = Math.max(...door.map(q => q[1]));
+      return maxY <= topClosed + 25 && minY >= topClosed - 0.35 * h - 25 && Math.min(...door.map(q => q[2])) >= bodyFrontZ - 30 ? true : "minY " + minY + " maxY " + maxY + " topClosed " + topClosed + " h " + h + " zmin " + Math.min(...door.map(q => q[2])) + " frontZ " + bodyFrontZ;
+    } catch (e) { return String(e); } });
+    ok("U.16: 3D — ușa basculantă se deschide cel mult 90° (nu 150), fără să intre în corp", lfOpen === true, String(lfOpen));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
     await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });

@@ -22,7 +22,7 @@ function client(globals = {}) {
 
 describe("listele clientului = listele serverului", () => {
   const C = client().EBFunnel;
-  for (const n of ["EVENTS", "WHY", "PLAT", "PLAN", "KIND", "CODE"])
+  for (const n of ["EVENTS", "WHY", "PLAT", "PLAN", "KIND", "CODE", "BRAND"])
     test(n, () => assert.deepStrictEqual(C[n], F[n]));
   test("fiecare motiv din PRO_WHY al aplicației e în listă", () => {
     const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
@@ -262,4 +262,49 @@ describe("rezumat: pw_unavail pe coduri (D-133)", () => {
     assert.deepEqual(Object.keys(r.byCode).sort(), ["play/empty", "play/unavailable", "web/error"]);
   });
   test("fără pw_unavail: byCode gol", () => assert.deepEqual(F.summarize([F.keyOf(F.clean({ e: "open", s: "a", plat: "web" }), now, "x")]).byCode, {}));
+});
+
+
+describe("hw_use — ce articole de catalog s-au folosit (D-170)", () => {
+  const C = client().EBFunnel, now = Date.UTC(2026, 10, 20, 12);
+  const ev = { e: "hw_use", s: "ab12cd34", plat: "play", brand: "blum", fam: "lift", art: "blum_aventos_hk_s" };
+  test("client și server curăță la fel: marcă din listă, familie și cod doar slug", () => {
+    const a = C.clean("hw_use", ev), b = F.clean(ev);
+    assert.deepStrictEqual({ ...a, s: "ab12cd34" }, b);
+    assert.strictEqual(b.brand, "blum"); assert.strictEqual(b.art, "blum_aventos_hk_s");
+  });
+  test("marcă străină, familie sau cod cu spații/majuscule/bară → respins; nimic „reparat”", () => {
+    for (const bad of [{ brand: "acme" }, { fam: "Lift" }, { art: "a b" }, { art: "../x" }, { art: "x" }, { brand: undefined }, { fam: undefined }, { art: undefined }]) {
+      assert.strictEqual(C.clean("hw_use", { ...ev, ...bad }), null, JSON.stringify(bad));
+      assert.strictEqual(F.clean({ ...ev, ...bad }), null, JSON.stringify(bad));
+    }
+  });
+  test("câmpuri în plus (cantitate, nume proiect) nu trec", () => {
+    const r = F.clean({ ...ev, qty: 40, project: "Casa Popescu", email: "a@b.ro" });
+    assert.deepStrictEqual(Object.keys(r).sort(), ["art", "brand", "e", "fam", "plat", "s"]);
+    assert.ok(!("qty" in C.clean("hw_use", { ...ev, qty: 3 })));
+  });
+  test("cheia se citește înapoi; rezumatul numără sesiuni distincte pe marcă, familie, articol", () => {
+    const mk = (o) => F.keyOf(F.clean(o), now, Math.random().toString(36).slice(2, 6));
+    const keys = [
+      mk(ev), mk(ev),                                                         // aceeași sesiune, de două ori
+      mk({ ...ev, s: "zz99" }),
+      mk({ ...ev, s: "zz99", brand: "hafele", fam: "cern", art: "haf_cerniera" }),
+      mk({ e: "open", s: "zz99", plat: "play" })
+    ];
+    assert.deepStrictEqual(F.parseKey(keys[0]).art, "blum_aventos_hk_s");
+    const r = F.summarize(keys);
+    assert.strictEqual(r.byBrand.blum.sessions, 2);
+    assert.strictEqual(r.byBrand.blum.articles.blum_aventos_hk_s.sessions, 2);
+    assert.strictEqual(r.byBrand.blum.families.lift.sessions, 2);
+    assert.strictEqual(r.byBrand.hafele.articles.haf_cerniera.fam, "cern");
+    assert.strictEqual(r.platforms.play.events.hw_use, 4);
+  });
+  test("aplicația trimite marca, familia și codul, o singură dată pe sesiune, fără articolele proprii", () => {
+    const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
+    const m = html.match(/function hwUseReport\(\)\{[\s\S]*?\n\}?\s*function hwUseSoon/);
+    assert.ok(m, "hwUseReport există");
+    assert.match(m[0], /HWUSE_SENT/); assert.match(m[0], /own\.has\(pr\.id\)/); assert.match(m[0], /pr\.custom/);
+    assert.doesNotMatch(m[0], /qty:|name:|\.name\b/, "nicio cantitate sau nume în eveniment");
+  });
 });

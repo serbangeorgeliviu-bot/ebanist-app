@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.93.0 — 20 noiembrie 2026
+
+**Ușa basculantă se deschide cel mult 90° și contor anonim pe articole (D-170).**
+- **Ușa basculantă în 3D:** înainte urca cât toată înălțimea ei și apoi se răsturna 95–110° peste corp („se dă peste cap”). Acum face o singură rotație pe muchia de sus, în sus și spre față, **cel mult 90°** (mai puțin dacă producătorul dă un unghi mai mic), fără să treacă prin lateral, raft sau tavan. Ușile cu mișcare paralelă (HL, Free up) nu s-au schimbat. Desenul rămâne schematic.
+- **Statistică anonimă pe articole, pentru producători:** când un articol din catalog (Blum, Häfele, Hettich, Lamello, Festool …) intră într-un proiect, pleacă un singur eveniment `hw_use` cu marca, familia și codul articolului, o dată pe sesiune și articol. Fără cantități, cote, nume de proiect, fără articolele adăugate de tine și fără IP sau identificator de dispozitiv. Rezumatul pe marcă e în `/api/funnel` (`byBrand`), numai cu `FUNNEL_KEY`. Politica de confidențialitate e la zi în trei limbi.
+
+---
+
 ## 5.92.0 — 20 noiembrie 2026
 
 **Cotele de găurire din Scheda Misure, secțiunea A, sunt verificate pe piese reale (D-169).**
