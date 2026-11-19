@@ -358,7 +358,7 @@
     var sum = T("hxpSum").replace("{n}", nChoices).replace("{m}", nWarn);
     var warnBox = warnOpen ? '<div class="hwp-warns" id="hwpWarns">' + (warnList.length ? warnList.map(function (w) { return '<div class="hwp-w"><b>' + H(w.label) + "</b><ul>" + w.msgs.map(function (m) { return "<li>" + H(m) + "</li>"; }).join("") + "</ul></div>"; }).join("") : '<div class="mini">' + H(T("hxpNoWarn")) + "</div>") + "</div>" : "";
     var html = '<div class="hwp-top"><div class="hwp-sum" role="status">' + H(sum) + '</div><button type="button" class="chip sm" id="hwpWarnBtn" aria-expanded="' + (warnOpen ? "true" : "false") + '" aria-controls="hwpWarns">' + H(T(warnOpen ? "hxpHideWarn" : "hxpAllWarn")) + "</button></div>" + warnBox +
-      '<p class="mini hwp-hintp">' + H(T("hxpHint")) + '</p><ul class="hwp-list">' + rows.join("") + "</ul>";
+      '<p class="mini hwp-hintp">' + H(T("hxpHint")) + '</p><ul class="hwp-list" aria-label="' + H(T("hxpTitle")) + '">' + rows.join("") + "</ul>";
     if (html !== lastHtml) {
       var act = document.activeElement, keep = act && box.contains(act) ? (act.getAttribute("data-hwp-change") || act.getAttribute("data-hwp-sub") || act.id || "") : "";
       box.innerHTML = html; lastHtml = html;
@@ -445,6 +445,7 @@
     return '<li class="hxc' + (cur ? " is-cur" : "") + (r && r.ok === false ? " is-bad" : "") + '" data-key="' + H(key) + '">' +
       '<button type="button" class="hxc-main" data-act="pick" data-key="' + H(key) + '"' + (cur ? ' aria-current="true"' : "") + ">" +
         '<span class="hxc-t"><span class="hxc-brand">' + H(e.brand || "") + '</span> <span class="hxc-name">' + H(entryName(e)) + "</span></span>" +
+        (SLOT_TARGETS[SH.slot].length > 1 ? '<span class="hxc-cat">' + H(catLabel(e.cat)) + "</span>" : "") +
         (e.art ? '<span class="hxc-art">' + H(e.art) + "</span>" : "") +
         (facts.length ? '<span class="hxc-facts">' + facts.map(H).join(" · ") + "</span>" : "") +
         '<span class="hxc-badges"><span class="hxb">' + H(T("hxbUnv")) + "</span>" + priceBadge(e) + (e.chk ? '<span class="hxb warn">' + H(T("artCheck").replace(/^—\s*/, "")) + "</span>" : "") +
@@ -470,8 +471,8 @@
       '<input type="search" id="hxsQ" class="hxs-q" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="🔍 ' + H(T("hxsSearch")) + '" aria-label="' + H(T("hxsSearch")) + '" value="' + H(SH.q) + '">' +
       '<div class="hxs-chips" id="hxsCats" role="group" aria-label="' + H(T("hxsCats")) + '"></div>' +
       '<div class="hxs-chips" id="hxsBrands" role="group" aria-label="' + H(T("hxsBrands")) + '"></div>' +
-      '<label class="hxs-fit"><input type="checkbox" id="hxsFit"' + (SH.fitOn ? " checked" : "") + "> <span>" + H(T("hxsFit")) + '</span></label>' +
-      '<div class="mini hxs-count" id="hxsCount" aria-live="polite"></div></div><div id="hxsList"></div>';
+      '<div class="hxs-row"><label class="hxs-fit"><input type="checkbox" id="hxsFit"' + (SH.fitOn ? " checked" : "") + "> <span>" + H(T("hxsFit")) + '</span></label>' +
+      '<span class="mini hxs-count" id="hxsCount" aria-live="polite"></span></div></div><div id="hxsList"></div>';
     $("hxsQ").addEventListener("input", function () { clearTimeout(SH.deb); SH.deb = setTimeout(function () { SH.q = $("hxsQ").value; SH.lim = {}; renderAll(); }, 120); });
     $("hxsFit").addEventListener("change", function () { SH.fitOn = $("hxsFit").checked; SH.lim = {}; renderAll(); });
   }

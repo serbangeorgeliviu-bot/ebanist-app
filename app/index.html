@@ -1258,16 +1258,17 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .hwp-sub select{width:100%;min-height:40px}
 .hwp-badge{min-width:24px;height:24px;border-radius:12px;padding:0 7px;display:inline-grid;place-items:center;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);font-size:12px;font-weight:700}
 .hwp-chg{min-height:44px;min-width:84px;flex:none}
-.hxs-head{position:sticky;top:0;z-index:2;background:var(--glass-hi,var(--surface));-webkit-backdrop-filter:var(--blur,none);backdrop-filter:var(--blur,none);padding:2px 0 8px;margin:0 -2px}
+.hxs-head{position:sticky;top:0;z-index:2;background:var(--surface);padding:2px 0 8px;margin:0 -2px;box-shadow:0 1px 0 var(--line-soft)}
 .hxs-head h3{margin-bottom:10px}
 .hxs-q{width:100%;min-height:46px;font-size:16px}
 .hxs-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .hxs-chips::-webkit-scrollbar{display:none}
 .hxs-chips .chip{flex:0 0 auto;white-space:nowrap;min-height:36px}
 .hxs-n{font-size:11px;opacity:.7;font-variant-numeric:tabular-nums}
-.hxs-fit{display:flex;gap:10px;align-items:center;padding:10px 0 2px;font-size:14px;min-height:44px}
+.hxs-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hxs-fit{display:flex;gap:10px;align-items:center;padding:4px 0;font-size:14px;min-height:44px;flex:1;min-width:0}
 .hxs-fit input{width:20px;height:20px;flex:none}
-.hxs-count{margin:0 0 2px}
+.hxs-count{margin:0;flex:none;white-space:nowrap}
 .hxs-h{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
 .hxs-note{margin:-2px 0 6px}
 .hxs-ul{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:8px}
@@ -1283,6 +1284,7 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .hxc-t{font-size:15px;line-height:1.3;overflow-wrap:anywhere}
 .hxc-brand{font-weight:700;color:var(--muted)}
 .hxc-name{font-weight:600}
+.hxc-cat{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
 .hxc-art{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .hxc-facts{font-size:12.5px;color:var(--text);opacity:.85;line-height:1.4;overflow-wrap:anywhere}
 .hxc-badges{display:flex;gap:5px;flex-wrap:wrap}
