@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.90.0 — 20 noiembrie 2026
+
+**109 de decoruri Egger de PAL și 9 texturi noi.**
+- **Catalog Egger:** 45 de uni (W1000, W1100, U-urile), 38 de lemn (stejari Halifax și Bardolino, frasin, nuc, fag, mesteacăn, arțar, castan, salcâm, hickory, eucalipt, stejar termo), 9 piatră, 8 textil, 5 metal, 4 beton. Codul, structura și numele sunt cele de pe paginile oficiale egger.com (citite pe 19.11.2026), cu linkul sursei pe fiecare. Culoarea e media imaginii oficiale a mostrei și rămâne „neverificată” până la compararea cu mostra fizică. Grosime 18 mm, fără prețuri (sunt ale tale).
+- **Texturi 3D:** pin, fag, cireș, arțar, wenge, beton, piatră, in și metal periat, cu licențe CC0 (metalul e generat). Decorurile noi se văd diferit; materialele vechi se desenează exact ca până acum.
+- **Selectorul de materiale:** filtre pe furnizor și familie, căutare după cod (cu sau fără spațiu), nume în orice limbă sau numele oficial. Catalogul din Setări arată primele 40 și „Arată toate”.
+- **Nimic nu se schimbă în proiectele existente:** aceleași id-uri, același material implicit.
+- Teste: 2341 unitare, 1106 în browser.
+
+---
+
 ## 5.89.0 — 20 noiembrie 2026
 
 **Selectorul de feronerie, etapele H.4 și H.5.**
