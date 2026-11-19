@@ -2964,6 +2964,8 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
    uno con un indirizzo che nessuna cache ha mai visto, PRIMA del resto. */
 if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?rev=5.24.2"><\/script>');
 </script>
+<script src="./ebanist-hwindex.js"></script>
+<script src="./ebanist-hwindex-i18n.js"></script>
 <script src="./ebanist-lift-data.js"></script>
 <script src="./ebanist-liftfit.js"></script>
 <script src="./ebanist-open-data.js"></script>
@@ -4346,6 +4348,7 @@ Object.assign(I18N.pl,{"fLiftElec": "Otwieranie elektryczne", "liftElecEdrive": 
 Object.assign(I18N.es,{"fLiftElec": "Apertura eléctrica", "liftElecEdrive": "Eléctrica — Häfele E-Drive", "liftElecHintEd": "La puerta se abre con un pulsador inalámbrico; fuente 24 V (Loox, 90 W), una por unidad; mismos taladros que el herraje mecánico; taladro Ø35 para el emisor.", "liftElecNone": "Mecánica", "liftElecServo": "Eléctrica — Blum SERVO-DRIVE", "liftElecHint": "La puerta se abre al tocarla y se cierra con un interruptor inalámbrico; fuente de 24 V y 72 W; el cable pasa por un taladro Ø10 en el lateral. El mecanismo es más ancho (66–67 mm) y pide más profundidad.", "wLiftNoServo": "{sys}: SERVO-DRIVE no aparece en las fuentes leídas; la puerta sigue siendo mecánica.", "hwLiftDrv": "SERVO-DRIVE unidad de accionamiento (juego)", "hwLiftPsu": "SERVO-DRIVE fuente de alimentación", "hwLiftSw": "SERVO-DRIVE interruptor inalámbrico", "mLiftElec": "Monta las unidades SERVO-DRIVE: {p}. Pasa el cable por el taladro Ø10, conecta la fuente de 24 V y empareja el interruptor inalámbrico.","opsLiftNoDrill":"Puerta abatible hacia arriba: los taladros del mecanismo (laterales y puerta) y del tirador no se generan; taladrar con la plantilla y la ficha del fabricante.","fLift": "Mecanismo de elevación (puerta que se abre hacia arriba)", "liftNone": "Ninguno (bisagras)", "liftHint": "La puerta se abre hacia arriba: sin bisagras, un mecanismo por puerta, en los dos laterales.", "hwLift": "Mecanismos de elevación (juego)", "mLift": "Monta los mecanismos de elevación en los laterales: {p}. Fija la puerta a los brazos y ajusta la fuerza según el peso.", "wLiftFront": "El mecanismo solo vale para puertas lisas y rectas (no vidrio, curvas, plegables, correderas ni inclinadas): la puerta queda con bisagras.", "wLiftRange": "{sys}: {what} {v} fuera del rango {lo}–{hi}.", "wLiftPower": "{sys}: ninguna variante de fuerza cubre esta puerta ({kg} kg, {h} mm).", "wLiftUnv": "{sys}: medidas aún sin verificar en la ficha del fabricante: comprueba antes de taladrar.", "liftWhat_h": "altura de la puerta (mm)", "liftWhat_w": "anchura de la puerta (mm)", "liftWhat_kg": "peso de la puerta (kg)", "liftWhat_th": "grosor de la puerta (mm)", "liftWhat_hi": "altura interior (mm)", "liftWhat_depth": "profundidad interior (mm)", "liftWhat_wi": "anchura interior (mm)"});
 /* deschidere push / suspendare / îmbinări fără unealtă: textele stau în ebanist-open-i18n.js (aceleași chei în toate cele 7 limbi) */
 if(typeof OPEN_I18N!=="undefined") for(const L of Object.keys(OPEN_I18N)) Object.assign(I18N[L],OPEN_I18N[L]);
+if(typeof HWINDEX_I18N!=="undefined") for(const L of Object.keys(HWINDEX_I18N)) Object.assign(I18N[L],HWINDEX_I18N[L]);
 /* U.17 — textele unităților de colț / scoase / mecanisme: în ebanist-corner-i18n.js (7 limbi), aici doar se adaugă în I18N */
 if(typeof CORNER_I18N==="object") Object.keys(I18N).forEach(l=>Object.assign(I18N[l],CORNER_I18N[l]||CORNER_I18N.it));
 /* balamale Hettich / Salice / Grass / Häfele / Blum 105°: textele (avertismente, fișă, cuvintele din nume) vin din ebanist-hinges-more-i18n.js */
@@ -15339,6 +15342,13 @@ $("logoFile").addEventListener("change",e=>{
 const HW_CATS=[["cern","hwCern"],["guida","hwGuida"],["zarga","hwZarga"],["man","hwMan"],["sup","hwSup"],["asta","hwAsta"],["pied","hwPied"],["bin","hwBin"],["conn","hwConn"],["push","hwPush"],
   ["aw","hwAW"],["fold","hwFold"],["slide","hwSlide"],["lift","hwLift"],["liftdrv","hwLiftDrv"],["liftpsu","hwLiftPsu"],["liftsw","hwLiftSw"],["corner","hwCorner"],["ledstrip","hwLedStrip"],["leddrv","hwLedDrv"],["leddim","hwLedDim"],["ledsw","hwLedSw"],["ledmains","hwLedMains"],["gola","hwGolaL"],["golac","hwGolaC"],["golaj","hwGolaJ"],["gamba","hwLeg"],["tblext","hwTblExt"],["rotbox","hwBoxRot"],["gaspist","hwLiftSpring"],["lbal","hwLiftHinge"],["fissp","hwTopClip"],["fissf","hwFill"],["letto","hwBedFit"],["trav","hwTravFit"],["piecent","hwCenterFoot"],["doga","hwSlatHold"],["doga2","hwSlatHold2"],["feltro","hwFelt"],["soc","hwSoc"],["picacc","hwPicAcc"]];
 if(window.EBOpen) EBOpen.HW_CATS.forEach(c=>HW_CATS.push(c));
+/* FAZA H — indexul unic al feroneriei (căutare peste nume/cod/marcă, slot funcțional); se reface când se schimbă catalogul propriu sau numărul de articole */
+let _hwIdx=null, _hwIdxKey="";
+function hwIndex(){
+  const add=((state.settings||{}).hwAdd||[]), n=HW_CATS.reduce((s,c)=>s+(HWDB[c[0]]||[]).length,0), key=n+"|"+add.length+"|"+add.map(x=>x.id).join(",");
+  if(!_hwIdx||_hwIdxKey!==key){ _hwIdx=EBHwIndex.build(HWDB,HW_CATS,{hwAdd:add}); _hwIdxKey=key; }
+  return _hwIdx;
+}
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
 const CAT_PH_MAX=240;
