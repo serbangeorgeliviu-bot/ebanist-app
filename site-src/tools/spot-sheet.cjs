@@ -1,7 +1,7 @@
 /* Scena „A3” a spotului: foaia pieselor (partA3Svg) din proiectul demo, zoom lent. node site-src/tools/spot-sheet.cjs → vid-spot/seq/A3/ */
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const http=require("http"),fs=require("fs"),path=require("path");
-const root=path.resolve(__dirname,"../.."),OUT=path.join(root,"vid-spot","seq","A3"),N=Math.round(2.3*24),PORT=+(process.env.PORT||8821);
+const root=path.resolve(__dirname,"../.."),OUT=path.join(root,"vid-spot","seq",process.env.SHEET_DIR||"A3"),N=Math.round(2.3*24),PORT=+(process.env.PORT||8821);
 const sm=k=>k*k*(3-2*k);
 const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.url.split("?")[0]));if(fs.existsSync(f)&&fs.statSync(f).isDirectory())f=path.join(f,"index.html");
  if(!fs.existsSync(f)){r.statusCode=404;return r.end()}const ext=path.extname(f);
@@ -11,7 +11,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  const ctx=await b.newContext({viewport:{width:540,height:960},deviceScaleFactor:2});
  await ctx.addInitScript(()=>{try{localStorage.setItem("ebanist_lic",JSON.stringify({kind:"stripe",key:"comp_TESTTESTTESTTESTTESTTEST",status:"active",activated:true,checkedAt:Date.now()}))}catch(e){}});
  const pg=await ctx.newPage();pg.on("pageerror",e=>console.log("ERR",String(e).slice(0,200)));pg.setDefaultTimeout(600000);
- await pg.goto("http://localhost:"+PORT+"/app/index.html?lang=it");await pg.waitForFunction(()=>window.MAT_LOADED===true);await pg.waitForTimeout(3000);
+ await pg.goto("http://localhost:"+PORT+"/app/index.html?lang="+(process.env.LANG_UI||"it")+"");await pg.waitForFunction(()=>window.MAT_LOADED===true);await pg.waitForTimeout(3000);
  await pg.locator('#btnIntroGo').click({timeout:1500}).catch(()=>{});
  await pg.evaluate(async()=>{closeSheets();await demoLoad("bedroom")});await pg.waitForTimeout(1500);
  const svg=await pg.evaluate(()=>{const c=JSON.parse(JSON.stringify(proj().configs["W1 Sliding wardrobe"]));GL3D.render(c,{explode:0});const M=GL3D.model();
