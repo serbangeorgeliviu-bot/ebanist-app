@@ -231,7 +231,22 @@ const ID_OVR = {
 let WOOD = null, FINE = null;
 /* Fibră din poze reale (CC0, Poly Haven: ash_veneer, oak_veneer_01, walnut_veneer), trecute în luminanță relativă (medie ~0,91) ca să
    păstreze culoarea mostrei din catalog. Se încarcă la nevoie; până sosesc (sau fără rețea) rămâne fibra procedurală. */
-const GRAIN = { ash: null, oak: null, walnut: null };
+const GRAIN = { ash: null, oak: null, walnut: null, pine: null, beech: null, cherry: null, maple: null, wenge: null, concrete: null, stone: null, linen: null, metal: null };
+/* Texturi alese explicit de catalog (câmpul `grana`; fără el rămâne regula de luminanță de mai sus, adică
+   materialele vechi se desenează exact ca înainte). Pe fiecare tip: latura imaginii în metri (`m`), relief,
+   asprime și — pentru ce nu e lemn — luciul stratului de lac. Fibra imaginilor e pe verticală, ca la ash/oak/walnut. */
+const GRAIN_KINDS = {
+  ash:      { m: 0.60, bump: 0.0007, rough: 2.4 }, oak: { m: 0.60, bump: 0.0007, rough: 2.4 }, walnut: { m: 0.60, bump: 0.0007, rough: 2.4 },
+  pine:     { m: 0.70, bump: 0.0007, rough: 2.4 },
+  beech:    { m: 0.60, bump: 0.0006, rough: 2.2 },
+  cherry:   { m: 0.70, bump: 0.0006, rough: 2.2 },
+  maple:    { m: 0.90, bump: 0.0004, rough: 1.8 },
+  wenge:    { m: 0.50, bump: 0.0008, rough: 2.4 },
+  concrete: { m: 1.20, bump: 0.0010, rough: 1.6, roughness: 0.80, clearcoat: 0.02 },
+  stone:    { m: 0.50, bump: 0.0010, rough: 1.4, roughness: 0.55, clearcoat: 0.10 },
+  linen:    { m: 0.12, bump: 0.0012, rough: 1.2, roughness: 0.90, clearcoat: 0 },
+  metal:    { m: 0.60, bump: 0.0004, rough: 1.4, roughness: 0.42, clearcoat: 0.20, clearcoatRoughness: 0.30 },
+};
 function grainKind(hex) {
   const c = new THREE.Color(hex || "#c8a878"), l = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
   return l > 0.55 ? "ash" : l > 0.27 ? "oak" : "walnut";
@@ -415,7 +430,16 @@ function materialFor(key) {
       clearcoat: r.clearcoat || 0, clearcoatRoughness: r.clearcoatRoughness ?? .4,
       envMapIntensity: .85, side: THREE.FrontSide,
     });
-    if (r.grain) {
+    const GK = (info.grana && info.tx !== "gloss" && !ID_OVR[key]) ? GRAIN_KINDS[info.grana] : null;
+    if (GK) {
+      /* textură numită de catalog: aceeași proiecție triplanară, altă imagine, altă scară */
+      if (GK.roughness != null) m.roughness = GK.roughness;
+      if (GK.clearcoat != null) m.clearcoat = GK.clearcoat;
+      if (GK.clearcoatRoughness != null) m.clearcoatRoughness = GK.clearcoatRoughness;
+      m.color.multiplyScalar(1.08);
+      triplanar(m, { scale: [1 / GK.m, 1 / GK.m], bump: GK.bump, rough: GK.rough });
+      grainApply(info.grana, m);
+    } else if (r.grain) {
       if (!WOOD) WOOD = makeWoodTexture(7);
       /* la textura scade luminozitatea (~0,9 în medie): culoarea se ridică
          ca media să rămână cea a mostrei */

@@ -1,0 +1,4571 @@
+{
+ "schema": 1,
+ "fornitore": "Egger",
+ "aggiornato": "2026-11-19",
+ "_nota_fonte": "Codice, struttura e nome inglese ufficiale: titolo e testo delle pagine decoro di egger.com (https://www.egger.com/en/furniture-interior-design/decors/<CODICE>_<STRUTTURA>?country=GB), lette il 19.11.2026; si tengono solo i decori per cui la pagina elenca la disponibilita «Melamine Faced Boards» (Eurodekor MFC). Nessun codice scritto a memoria: ogni voce ha il suo URL in `fonte`.",
+ "_nota_nomi": "nome_i18n: le parole di colore e di materiale (Natural, Grey, Oak, Concrete…) sono tradotte; il nome proprio del decoro (Halifax, Bardolino, Cashmere…) resta come lo pubblica Egger. `nome_ufficiale` e il nome inglese cosi come e pubblicato. Le traduzioni sono dell'app, non di Egger.",
+ "_nota_colori": "colore_hex = media (sRGB, 80% centrale) della foto ufficiale del decoro (cdn.egger.com/img/pim/…/original.png, ridotta a 256 px solo per il calcolo; le immagini NON sono nel repo). E un riferimento a schermo: Egger stesso scrive che tutti i decori mostrati sono riproduzioni. Per questo colore_verificato resta false su ogni voce (come per Centro Legno: vera solo la lettura su campione fisico).",
+ "_nota_spessore": "spessore: 18 mm per tutte le voci (lo spessore piu comune dell'Eurodekor MFC). Egger non pubblica il magazzino per decoro nelle pagine consultate; i valori standard dell'Eurodekor MFC riportati dall'articolo di supporto Egger («What are the dimensions of EGGER Eurodekor Faced Chipboard», support.egger.com, letto via ricerca, pagina non scaricabile da qui) sono 8, 12, 15, 16, 18, 19, 22, 25, 28, 30, 38 mm su formato 2800 x 2070 mm: disponibilita per decoro DA CONFERMARE con il magazzino. Un'altra grossezza = un'altra referenza (spessore scalare, D-41).",
+ "_nota_bordo": "bordo_abs: la pagina del decoro elenca il bordo («Edging») nella disponibilita; gli spessori 0,8 e 2 mm sono lo standard generico come per le altre voci, non letti da Egger. Codice bordo non rilevato (null).",
+ "_nota_texture": "grana = tipo di texture 3D (file in img/grain/), scelto dall'app in base al tipo di decoro (rovere → oak, cemento → concrete…). Non e una foto del decoro. Senza `grana` il 3D usa la regola di luminosita di prima.",
+ "materiali": [
+  {
+   "id": "egger_w1000_st9_18",
+   "nome": "Bianco Premium",
+   "nome_i18n": {
+    "it": "Bianco Premium",
+    "ro": "Alb Premium",
+    "en": "Premium White",
+    "fr": "Blanc Premium",
+    "de": "Premium weiß",
+    "pl": "Biały Premium",
+    "es": "Blanco Premium"
+   },
+   "nome_ufficiale": "Premium White",
+   "codice": "W1000 ST9",
+   "decor": "W1000",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FAFAF2",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/W1000_9?country=GB",
+   "ral_egger": "9003****",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_w1100_st9_18",
+   "nome": "Bianco Alpine",
+   "nome_i18n": {
+    "it": "Bianco Alpine",
+    "ro": "Alb Alpine",
+    "en": "Alpine White",
+    "fr": "Blanc Alpine",
+    "de": "Alpine weiß",
+    "pl": "Biały Alpine",
+    "es": "Blanco Alpine"
+   },
+   "nome_ufficiale": "Alpine White",
+   "codice": "W1100 ST9",
+   "decor": "W1100",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FCFDF7",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/W1100_9?country=GB",
+   "ral_egger": "9003****",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_w1200_st9_18",
+   "nome": "Bianco Porcelain",
+   "nome_i18n": {
+    "it": "Bianco Porcelain",
+    "ro": "Alb Porcelain",
+    "en": "Porcelain White",
+    "fr": "Blanc Porcelain",
+    "de": "Porcelain weiß",
+    "pl": "Biały Porcelain",
+    "es": "Blanco Porcelain"
+   },
+   "nome_ufficiale": "Porcelain White",
+   "codice": "W1200 ST9",
+   "decor": "W1200",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#F6F0E4",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/W1200_9?country=GB",
+   "ral_egger": "9002***",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_w980_st7_18",
+   "nome": "Bianco Platinum",
+   "nome_i18n": {
+    "it": "Bianco Platinum",
+    "ro": "Alb Platinum",
+    "en": "Platinum White",
+    "fr": "Blanc Platinum",
+    "de": "Platinum weiß",
+    "pl": "Biały Platinum",
+    "es": "Blanco Platinum"
+   },
+   "nome_ufficiale": "Platinum White",
+   "codice": "W980 ST7",
+   "decor": "W980",
+   "struttura": "ST7",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FCF9EC",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/W980_7?country=GB",
+   "ral_egger": "9016*",
+   "struttura_nome": "Smoothtouch Fine"
+  },
+  {
+   "id": "egger_u104_st9_18",
+   "nome": "Bianco Alabaster",
+   "nome_i18n": {
+    "it": "Bianco Alabaster",
+    "ro": "Alb Alabaster",
+    "en": "Alabaster White",
+    "fr": "Blanc Alabaster",
+    "de": "Alabaster weiß",
+    "pl": "Biały Alabaster",
+    "es": "Blanco Alabaster"
+   },
+   "nome_ufficiale": "Alabaster White",
+   "codice": "U104 ST9",
+   "decor": "U104",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FDF7E1",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U104_9?country=GB",
+   "ral_egger": "1013*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u113_st9_18",
+   "nome": "Beige Cotton",
+   "nome_i18n": {
+    "it": "Beige Cotton",
+    "ro": "Bej Cotton",
+    "en": "Cotton Beige",
+    "fr": "Beige Cotton",
+    "de": "Cotton beige",
+    "pl": "Beżowy Cotton",
+    "es": "Beige Cotton"
+   },
+   "nome_ufficiale": "Cotton Beige",
+   "codice": "U113 ST9",
+   "decor": "U113",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FBECCF",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U113_9?country=GB",
+   "ral_egger": "1015**",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u156_st9_18",
+   "nome": "Beige sabbia",
+   "nome_i18n": {
+    "it": "Beige sabbia",
+    "ro": "Bej nisip",
+    "en": "Sand Beige",
+    "fr": "Beige sable",
+    "de": "Sandbeige",
+    "pl": "Piaskowobeżowy",
+    "es": "Beige arena"
+   },
+   "nome_ufficiale": "Sand Beige",
+   "codice": "U156 ST9",
+   "decor": "U156",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#E5D4C0",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U156_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u216_st9_18",
+   "nome": "Beige Camè",
+   "nome_i18n": {
+    "it": "Beige Camè",
+    "ro": "Bej Camè",
+    "en": "Camè Beige",
+    "fr": "Beige Camè",
+    "de": "Camè beige",
+    "pl": "Beżowy Camè",
+    "es": "Beige Camè"
+   },
+   "nome_ufficiale": "Camè Beige",
+   "codice": "U216 ST9",
+   "decor": "U216",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#F8EFDE",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U216_9?country=GB",
+   "ral_egger": "9001***",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u220_st9_18",
+   "nome": "Beige Soft",
+   "nome_i18n": {
+    "it": "Beige Soft",
+    "ro": "Bej Soft",
+    "en": "Soft Beige",
+    "fr": "Beige Soft",
+    "de": "Soft beige",
+    "pl": "Beżowy Soft",
+    "es": "Beige Soft"
+   },
+   "nome_ufficiale": "Soft Beige",
+   "codice": "U220 ST9",
+   "decor": "U220",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#EEE3D9",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U220_9?country=GB",
+   "ral_egger": "9001**",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u222_st9_18",
+   "nome": "Beige Crema",
+   "nome_i18n": {
+    "it": "Beige Crema",
+    "ro": "Bej Crema",
+    "en": "Crema Beige",
+    "fr": "Beige Crema",
+    "de": "Crema beige",
+    "pl": "Beżowy Crema",
+    "es": "Beige Crema"
+   },
+   "nome_ufficiale": "Crema Beige",
+   "codice": "U222 ST9",
+   "decor": "U222",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FDF1DB",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U222_9?country=GB",
+   "ral_egger": "9001*****",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u250_st9_18",
+   "nome": "Beige Caramel",
+   "nome_i18n": {
+    "it": "Beige Caramel",
+    "ro": "Bej Caramel",
+    "en": "Caramel Beige",
+    "fr": "Beige Caramel",
+    "de": "Caramel beige",
+    "pl": "Beżowy Caramel",
+    "es": "Beige Caramel"
+   },
+   "nome_ufficiale": "Caramel Beige",
+   "codice": "U250 ST9",
+   "decor": "U250",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#A6896D",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U250_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u131_st9_18",
+   "nome": "Giallo Citrus",
+   "nome_i18n": {
+    "it": "Giallo Citrus",
+    "ro": "Galben Citrus",
+    "en": "Citrus Yellow",
+    "fr": "Jaune Citrus",
+    "de": "Citrus gelb",
+    "pl": "Żółty Citrus",
+    "es": "Amarillo Citrus"
+   },
+   "nome_ufficiale": "Citrus Yellow",
+   "codice": "U131 ST9",
+   "decor": "U131",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#FDEC3A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U131_9?country=GB",
+   "ral_egger": "1016**",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u311_st9_18",
+   "nome": "Rosso Burgundy",
+   "nome_i18n": {
+    "it": "Rosso Burgundy",
+    "ro": "Roșu Burgundy",
+    "en": "Burgundy Red",
+    "fr": "Rouge Burgundy",
+    "de": "Burgundy rot",
+    "pl": "Czerwony Burgundy",
+    "es": "Rojo Burgundy"
+   },
+   "nome_ufficiale": "Burgundy Red",
+   "codice": "U311 ST9",
+   "decor": "U311",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#70090C",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U311_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u323_st9_18",
+   "nome": "Rosso Chilli",
+   "nome_i18n": {
+    "it": "Rosso Chilli",
+    "ro": "Roșu Chilli",
+    "en": "Chilli Red",
+    "fr": "Rouge Chilli",
+    "de": "Chilli rot",
+    "pl": "Czerwony Chilli",
+    "es": "Rojo Chilli"
+   },
+   "nome_ufficiale": "Chilli Red",
+   "codice": "U323 ST9",
+   "decor": "U323",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#9B091C",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U323_9?country=GB",
+   "ral_egger": "3003 *",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u332_st9_18",
+   "nome": "Arancione",
+   "nome_i18n": {
+    "it": "Arancione",
+    "ro": "Portocaliu",
+    "en": "Orange",
+    "fr": "Orange",
+    "de": "Orange",
+    "pl": "Pomarańczowy",
+    "es": "Naranja"
+   },
+   "nome_ufficiale": "Orange",
+   "codice": "U332 ST9",
+   "decor": "U332",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#EE822A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U332_9?country=GB",
+   "ral_egger": "2003*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u504_st9_18",
+   "nome": "Blu Tyrolean",
+   "nome_i18n": {
+    "it": "Blu Tyrolean",
+    "ro": "Albastru Tyrolean",
+    "en": "Tyrolean Blue",
+    "fr": "Bleu Tyrolean",
+    "de": "Tyrolean blau",
+    "pl": "Niebieski Tyrolean",
+    "es": "Azul Tyrolean"
+   },
+   "nome_ufficiale": "Tyrolean Blue",
+   "codice": "U504 ST9",
+   "decor": "U504",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#38526E",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U504_9?country=GB",
+   "ral_egger": "5000*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u525_st9_18",
+   "nome": "Blu Delft",
+   "nome_i18n": {
+    "it": "Blu Delft",
+    "ro": "Albastru Delft",
+    "en": "Delft Blue",
+    "fr": "Bleu Delft",
+    "de": "Delft blau",
+    "pl": "Niebieski Delft",
+    "es": "Azul Delft"
+   },
+   "nome_ufficiale": "Delft Blue",
+   "codice": "U525 ST9",
+   "decor": "U525",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#005AA5",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U525_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u570_st9_18",
+   "nome": "Blu Midnight",
+   "nome_i18n": {
+    "it": "Blu Midnight",
+    "ro": "Albastru Midnight",
+    "en": "Midnight Blue",
+    "fr": "Bleu Midnight",
+    "de": "Midnight blau",
+    "pl": "Niebieski Midnight",
+    "es": "Azul Midnight"
+   },
+   "nome_ufficiale": "Midnight Blue",
+   "codice": "U570 ST9",
+   "decor": "U570",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#1C2850",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U570_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u599_st9_18",
+   "nome": "Blu Indigo",
+   "nome_i18n": {
+    "it": "Blu Indigo",
+    "ro": "Albastru Indigo",
+    "en": "Indigo Blue",
+    "fr": "Bleu Indigo",
+    "de": "Indigo blau",
+    "pl": "Niebieski Indigo",
+    "es": "Azul Indigo"
+   },
+   "nome_ufficiale": "Indigo Blue",
+   "codice": "U599 ST9",
+   "decor": "U599",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#262C38",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U599_9?country=GB",
+   "ral_egger": "5004*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u604_st9_18",
+   "nome": "Verde Reed",
+   "nome_i18n": {
+    "it": "Verde Reed",
+    "ro": "Verde Reed",
+    "en": "Reed Green",
+    "fr": "Vert Reed",
+    "de": "Reed grün",
+    "pl": "Zielony Reed",
+    "es": "Verde Reed"
+   },
+   "nome_ufficiale": "Reed Green",
+   "codice": "U604 ST9",
+   "decor": "U604",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#737D72",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U604_9?country=GB",
+   "ral_egger": "7033*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u638_st9_18",
+   "nome": "Verde Sage",
+   "nome_i18n": {
+    "it": "Verde Sage",
+    "ro": "Verde Sage",
+    "en": "Sage Green",
+    "fr": "Vert Sage",
+    "de": "Sage grün",
+    "pl": "Zielony Sage",
+    "es": "Verde Sage"
+   },
+   "nome_ufficiale": "Sage Green",
+   "codice": "U638 ST9",
+   "decor": "U638",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#BFB9A1",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U638_9?country=GB",
+   "ral_egger": "7032**",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u665_st9_18",
+   "nome": "Verde Stone",
+   "nome_i18n": {
+    "it": "Verde Stone",
+    "ro": "Verde Stone",
+    "en": "Stone Green",
+    "fr": "Vert Stone",
+    "de": "Stone grün",
+    "pl": "Zielony Stone",
+    "es": "Verde Stone"
+   },
+   "nome_ufficiale": "Stone Green",
+   "codice": "U665 ST9",
+   "decor": "U665",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#50605F",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U665_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u699_st9_18",
+   "nome": "Verde Fir",
+   "nome_i18n": {
+    "it": "Verde Fir",
+    "ro": "Verde Fir",
+    "en": "Fir Green",
+    "fr": "Vert Fir",
+    "de": "Fir grün",
+    "pl": "Zielony Fir",
+    "es": "Verde Fir"
+   },
+   "nome_ufficiale": "Fir Green",
+   "codice": "U699 ST9",
+   "decor": "U699",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#1A3427",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U699_9?country=GB",
+   "ral_egger": "6012*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u201_st9_18",
+   "nome": "Grigio Pebble",
+   "nome_i18n": {
+    "it": "Grigio Pebble",
+    "ro": "Gri Pebble",
+    "en": "Pebble Grey",
+    "fr": "Gris Pebble",
+    "de": "Pebble grau",
+    "pl": "Szary Pebble",
+    "es": "Gris Pebble"
+   },
+   "nome_ufficiale": "Pebble Grey",
+   "codice": "U201 ST9",
+   "decor": "U201",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#B5AD9D",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U201_9?country=GB",
+   "ral_egger": "7044*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u702_st9_18",
+   "nome": "Grigio Cashmere",
+   "nome_i18n": {
+    "it": "Grigio Cashmere",
+    "ro": "Gri Cashmere",
+    "en": "Cashmere Grey",
+    "fr": "Gris Cashmere",
+    "de": "Cashmere grau",
+    "pl": "Szary Cashmere",
+    "es": "Gris Cashmere"
+   },
+   "nome_ufficiale": "Cashmere Grey",
+   "codice": "U702 ST9",
+   "decor": "U702",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#D6C8BB",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U702_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u705_st9_18",
+   "nome": "Grigio Angora",
+   "nome_i18n": {
+    "it": "Grigio Angora",
+    "ro": "Gri Angora",
+    "en": "Angora Grey",
+    "fr": "Gris Angora",
+    "de": "Angora grau",
+    "pl": "Szary Angora",
+    "es": "Gris Angora"
+   },
+   "nome_ufficiale": "Angora Grey",
+   "codice": "U705 ST9",
+   "decor": "U705",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#E1DBCF",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U705_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u707_st9_18",
+   "nome": "Grigio Silk",
+   "nome_i18n": {
+    "it": "Grigio Silk",
+    "ro": "Gri Silk",
+    "en": "Silk Grey",
+    "fr": "Gris Silk",
+    "de": "Silk grau",
+    "pl": "Szary Silk",
+    "es": "Gris Silk"
+   },
+   "nome_ufficiale": "Silk Grey",
+   "codice": "U707 ST9",
+   "decor": "U707",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#E3E0DB",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U707_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u708_st9_18",
+   "nome": "Grigio chiaro",
+   "nome_i18n": {
+    "it": "Grigio chiaro",
+    "ro": "Gri deschis",
+    "en": "Light Grey",
+    "fr": "Gris clair",
+    "de": "Hellgrau",
+    "pl": "Szary jasny",
+    "es": "Gris claro"
+   },
+   "nome_ufficiale": "Light Grey",
+   "codice": "U708 ST9",
+   "decor": "U708",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#D2CDC7",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U708_9?country=GB",
+   "ral_egger": "7047***",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u727_st9_18",
+   "nome": "Grigio Stone",
+   "nome_i18n": {
+    "it": "Grigio Stone",
+    "ro": "Gri Stone",
+    "en": "Stone Grey",
+    "fr": "Gris Stone",
+    "de": "Stone grau",
+    "pl": "Szary Stone",
+    "es": "Gris Stone"
+   },
+   "nome_ufficiale": "Stone Grey",
+   "codice": "U727 ST9",
+   "decor": "U727",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#A49787",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U727_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u732_st9_18",
+   "nome": "Grigio Dust",
+   "nome_i18n": {
+    "it": "Grigio Dust",
+    "ro": "Gri Dust",
+    "en": "Dust Grey",
+    "fr": "Gris Dust",
+    "de": "Dust grau",
+    "pl": "Szary Dust",
+    "es": "Gris Dust"
+   },
+   "nome_ufficiale": "Dust Grey",
+   "codice": "U732 ST9",
+   "decor": "U732",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#828481",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U732_9?country=GB",
+   "ral_egger": "7037***",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u741_st9_18",
+   "nome": "Grigio Lava",
+   "nome_i18n": {
+    "it": "Grigio Lava",
+    "ro": "Gri Lava",
+    "en": "Lava Grey",
+    "fr": "Gris Lava",
+    "de": "Lava grau",
+    "pl": "Szary Lava",
+    "es": "Gris Lava"
+   },
+   "nome_ufficiale": "Lava Grey",
+   "codice": "U741 ST9",
+   "decor": "U741",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#5D5650",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U741_9?country=GB",
+   "ral_egger": "7013*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u750_st9_18",
+   "nome": "Grigio Taupe",
+   "nome_i18n": {
+    "it": "Grigio Taupe",
+    "ro": "Gri Taupe",
+    "en": "Taupe Grey",
+    "fr": "Gris Taupe",
+    "de": "Taupe grau",
+    "pl": "Szary Taupe",
+    "es": "Gris Taupe"
+   },
+   "nome_ufficiale": "Taupe Grey",
+   "codice": "U750 ST9",
+   "decor": "U750",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#D0C7B8",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U750_9?country=GB",
+   "ral_egger": "7044***",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u755_st9_18",
+   "nome": "Grigio Havanna",
+   "nome_i18n": {
+    "it": "Grigio Havanna",
+    "ro": "Gri Havanna",
+    "en": "Havanna Grey",
+    "fr": "Gris Havanna",
+    "de": "Havanna grau",
+    "pl": "Szary Havanna",
+    "es": "Gris Havanna"
+   },
+   "nome_ufficiale": "Havanna Grey",
+   "codice": "U755 ST9",
+   "decor": "U755",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#4D4445",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U755_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u767_st9_18",
+   "nome": "Grigio Cubanit",
+   "nome_i18n": {
+    "it": "Grigio Cubanit",
+    "ro": "Gri Cubanit",
+    "en": "Cubanit Grey",
+    "fr": "Gris Cubanit",
+    "de": "Cubanit grau",
+    "pl": "Szary Cubanit",
+    "es": "Gris Cubanit"
+   },
+   "nome_ufficiale": "Cubanit Grey",
+   "codice": "U767 ST9",
+   "decor": "U767",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#877D73",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U767_9?country=GB",
+   "ral_egger": "7048*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u780_st9_18",
+   "nome": "Grigio Monument",
+   "nome_i18n": {
+    "it": "Grigio Monument",
+    "ro": "Gri Monument",
+    "en": "Monument Grey",
+    "fr": "Gris Monument",
+    "de": "Monument grau",
+    "pl": "Szary Monument",
+    "es": "Gris Monument"
+   },
+   "nome_ufficiale": "Monument Grey",
+   "codice": "U780 ST9",
+   "decor": "U780",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#747B81",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U780_9?country=GB",
+   "ral_egger": "7046***",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u960_st9_18",
+   "nome": "Grigio Onyx",
+   "nome_i18n": {
+    "it": "Grigio Onyx",
+    "ro": "Gri Onyx",
+    "en": "Onyx Grey",
+    "fr": "Gris Onyx",
+    "de": "Onyx grau",
+    "pl": "Szary Onyx",
+    "es": "Gris Onyx"
+   },
+   "nome_ufficiale": "Onyx Grey",
+   "codice": "U960 ST9",
+   "decor": "U960",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#686765",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U960_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u963_st9_18",
+   "nome": "Grigio Diamond",
+   "nome_i18n": {
+    "it": "Grigio Diamond",
+    "ro": "Gri Diamond",
+    "en": "Diamond Grey",
+    "fr": "Gris Diamond",
+    "de": "Diamond grau",
+    "pl": "Szary Diamond",
+    "es": "Gris Diamond"
+   },
+   "nome_ufficiale": "Diamond Grey",
+   "codice": "U963 ST9",
+   "decor": "U963",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#484848",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U963_9?country=GB",
+   "ral_egger": "7043*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u968_st9_18",
+   "nome": "Grigio Carbon",
+   "nome_i18n": {
+    "it": "Grigio Carbon",
+    "ro": "Gri Carbon",
+    "en": "Carbon Grey",
+    "fr": "Gris Carbon",
+    "de": "Carbon grau",
+    "pl": "Szary Carbon",
+    "es": "Gris Carbon"
+   },
+   "nome_ufficiale": "Carbon Grey",
+   "codice": "U968 ST9",
+   "decor": "U968",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#36373C",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U968_9?country=GB",
+   "ral_egger": "7024*****",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u899_st9_18",
+   "nome": "Nero Soft",
+   "nome_i18n": {
+    "it": "Nero Soft",
+    "ro": "Negru Soft",
+    "en": "Soft Black",
+    "fr": "Noir Soft",
+    "de": "Soft schwarz",
+    "pl": "Czarny Soft",
+    "es": "Negro Soft"
+   },
+   "nome_ufficiale": "Soft Black",
+   "codice": "U899 ST9",
+   "decor": "U899",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#3A3633",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U899_9?country=GB",
+   "ral_egger": "7021*",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u961_st7_18",
+   "nome": "Grigio grafite",
+   "nome_i18n": {
+    "it": "Grigio grafite",
+    "ro": "Gri grafit",
+    "en": "Graphite Grey",
+    "fr": "Gris graphite",
+    "de": "Graphit grau",
+    "pl": "Szary grafitowy",
+    "es": "Gris grafito"
+   },
+   "nome_ufficiale": "Graphite Grey",
+   "codice": "U961 ST7",
+   "decor": "U961",
+   "struttura": "ST7",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#3F3A37",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U961_7?country=GB",
+   "ral_egger": "7021*",
+   "struttura_nome": "Smoothtouch Fine"
+  },
+  {
+   "id": "egger_u989_st9_18",
+   "nome": "Nero-marrone",
+   "nome_i18n": {
+    "it": "Nero-marrone",
+    "ro": "Negru-maro",
+    "en": "Black Brown",
+    "fr": "Noir-brun",
+    "de": "Schwarzbraun",
+    "pl": "Czarno-brązowy",
+    "es": "Negro-marrón"
+   },
+   "nome_ufficiale": "Black Brown",
+   "codice": "U989 ST9",
+   "decor": "U989",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#362420",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U989_9?country=GB",
+   "ral_egger": "8019****",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_u998_st38_18",
+   "nome": "Nero Shadow",
+   "nome_i18n": {
+    "it": "Nero Shadow",
+    "ro": "Negru Shadow",
+    "en": "Shadow Black",
+    "fr": "Noir Shadow",
+    "de": "Shadow schwarz",
+    "pl": "Czarny Shadow",
+    "es": "Negro Shadow"
+   },
+   "nome_ufficiale": "Shadow Black",
+   "codice": "U998 ST38",
+   "decor": "U998",
+   "struttura": "ST38",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#020204",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U998_38?country=GB",
+   "ral_egger": "7021*****",
+   "struttura_nome": "Feelwood Pinegrain"
+  },
+  {
+   "id": "egger_u999_st19_18",
+   "nome": "Nero",
+   "nome_i18n": {
+    "it": "Nero",
+    "ro": "Negru",
+    "en": "Black",
+    "fr": "Noir",
+    "de": "Schwarz",
+    "pl": "Czarny",
+    "es": "Negro"
+   },
+   "nome_ufficiale": "Black",
+   "codice": "U999 ST19",
+   "decor": "U999",
+   "struttura": "ST19",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#020204",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U999_19?country=GB",
+   "ral_egger": "9011*****",
+   "struttura_nome": "Deepskin Excellent"
+  },
+  {
+   "id": "egger_u999_st7_18",
+   "nome": "Nero",
+   "nome_i18n": {
+    "it": "Nero",
+    "ro": "Negru",
+    "en": "Black",
+    "fr": "Noir",
+    "de": "Schwarz",
+    "pl": "Czarny",
+    "es": "Negro"
+   },
+   "nome_ufficiale": "Black",
+   "codice": "U999 ST7",
+   "decor": "U999",
+   "struttura": "ST7",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#020204",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U999_7?country=GB",
+   "ral_egger": "9011*****",
+   "struttura_nome": "Smoothtouch Fine"
+  },
+  {
+   "id": "egger_u818_st9_18",
+   "nome": "Marrone scuro",
+   "nome_i18n": {
+    "it": "Marrone scuro",
+    "ro": "Maro închis",
+    "en": "Dark Brown",
+    "fr": "Brun foncé",
+    "de": "Dunkelbraun",
+    "pl": "Brązowy ciemny",
+    "es": "Marrón oscuro"
+   },
+   "nome_ufficiale": "Dark Brown",
+   "codice": "U818 ST9",
+   "decor": "U818",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tinta_unita",
+   "finitura": "melaminico",
+   "colore_hex": "#543729",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/U818_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_h1145_st10_18",
+   "nome": "Rovere Bardolino naturale",
+   "nome_i18n": {
+    "it": "Rovere Bardolino naturale",
+    "ro": "Stejar Bardolino natural",
+    "en": "Natural Bardolino Oak",
+    "fr": "Chêne Bardolino naturel",
+    "de": "Bardolino Eiche natur",
+    "pl": "Dąb Bardolino naturalny",
+    "es": "Roble Bardolino natural"
+   },
+   "nome_ufficiale": "Natural Bardolino Oak",
+   "codice": "H1145 ST10",
+   "decor": "H1145",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#C1A385",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1145_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h1180_st37_18",
+   "nome": "Rovere Halifax naturale",
+   "nome_i18n": {
+    "it": "Rovere Halifax naturale",
+    "ro": "Stejar Halifax natural",
+    "en": "Natural Halifax Oak",
+    "fr": "Chêne Halifax naturel",
+    "de": "Halifax Eiche natur",
+    "pl": "Dąb Halifax naturalny",
+    "es": "Roble Halifax natural"
+   },
+   "nome_ufficiale": "Natural Halifax Oak",
+   "codice": "H1180 ST37",
+   "decor": "H1180",
+   "struttura": "ST37",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#B69671",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1180_37?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Rift"
+  },
+  {
+   "id": "egger_h1176_st37_18",
+   "nome": "Rovere Halifax bianco",
+   "nome_i18n": {
+    "it": "Rovere Halifax bianco",
+    "ro": "Stejar Halifax alb",
+    "en": "White Halifax Oak",
+    "fr": "Chêne Halifax blanc",
+    "de": "Halifax Eiche weiß",
+    "pl": "Dąb Halifax biały",
+    "es": "Roble Halifax blanco"
+   },
+   "nome_ufficiale": "White Halifax Oak",
+   "codice": "H1176 ST37",
+   "decor": "H1176",
+   "struttura": "ST37",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#C5B39C",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1176_37?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Rift"
+  },
+  {
+   "id": "egger_h1181_st37_18",
+   "nome": "Rovere Halifax tabacco",
+   "nome_i18n": {
+    "it": "Rovere Halifax tabacco",
+    "ro": "Stejar Halifax tutun",
+    "en": "Tobacco Halifax Oak",
+    "fr": "Chêne Halifax tabac",
+    "de": "Halifax Eiche tabak",
+    "pl": "Dąb Halifax tytoniowy",
+    "es": "Roble Halifax tabaco"
+   },
+   "nome_ufficiale": "Tobacco Halifax Oak",
+   "codice": "H1181 ST37",
+   "decor": "H1181",
+   "struttura": "ST37",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#896D51",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1181_37?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Rift"
+  },
+  {
+   "id": "egger_h3176_st37_18",
+   "nome": "Rovere Halifax peltro",
+   "nome_i18n": {
+    "it": "Rovere Halifax peltro",
+    "ro": "Stejar Halifax cositor",
+    "en": "Pewter Halifax Oak",
+    "fr": "Chêne Halifax étain",
+    "de": "Halifax Eiche zinn",
+    "pl": "Dąb Halifax cynowy",
+    "es": "Roble Halifax peltre"
+   },
+   "nome_ufficiale": "Pewter Halifax Oak",
+   "codice": "H3176 ST37",
+   "decor": "H3176",
+   "struttura": "ST37",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#81644A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3176_37?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Rift"
+  },
+  {
+   "id": "egger_h3170_st12_18",
+   "nome": "Rovere Kendal naturale",
+   "nome_i18n": {
+    "it": "Rovere Kendal naturale",
+    "ro": "Stejar Kendal natural",
+    "en": "Natural Kendal Oak",
+    "fr": "Chêne Kendal naturel",
+    "de": "Kendal Eiche natur",
+    "pl": "Dąb Kendal naturalny",
+    "es": "Roble Kendal natural"
+   },
+   "nome_ufficiale": "Natural Kendal Oak",
+   "codice": "H3170 ST12",
+   "decor": "H3170",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#BCA080",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3170_12?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h3157_st12_18",
+   "nome": "Rovere Vicenza",
+   "nome_i18n": {
+    "it": "Rovere Vicenza",
+    "ro": "Stejar Vicenza",
+    "en": "Vicenza Oak",
+    "fr": "Chêne Vicenza",
+    "de": "Vicenza Eiche",
+    "pl": "Dąb Vicenza",
+    "es": "Roble Vicenza"
+   },
+   "nome_ufficiale": "Vicenza Oak",
+   "codice": "H3157 ST12",
+   "decor": "H3157",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#D1B288",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3157_12?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h3303_st10_18",
+   "nome": "Rovere Hamilton naturale",
+   "nome_i18n": {
+    "it": "Rovere Hamilton naturale",
+    "ro": "Stejar Hamilton natural",
+    "en": "Natural Hamilton Oak",
+    "fr": "Chêne Hamilton naturel",
+    "de": "Hamilton Eiche natur",
+    "pl": "Dąb Hamilton naturalny",
+    "es": "Roble Hamilton natural"
+   },
+   "nome_ufficiale": "Natural Hamilton Oak",
+   "codice": "H3303 ST10",
+   "decor": "H3303",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#BF9D70",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3303_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h3332_st10_18",
+   "nome": "Rovere Nebraska grigio",
+   "nome_i18n": {
+    "it": "Rovere Nebraska grigio",
+    "ro": "Stejar Nebraska gri",
+    "en": "Grey Nebraska Oak",
+    "fr": "Chêne Nebraska gris",
+    "de": "Nebraska Eiche grau",
+    "pl": "Dąb Nebraska szary",
+    "es": "Roble Nebraska gris"
+   },
+   "nome_ufficiale": "Grey Nebraska Oak",
+   "codice": "H3332 ST10",
+   "decor": "H3332",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#8C7967",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3332_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h1313_st10_18",
+   "nome": "Rovere Whiteriver grigio-marrone",
+   "nome_i18n": {
+    "it": "Rovere Whiteriver grigio-marrone",
+    "ro": "Stejar Whiteriver gri-maro",
+    "en": "Grey Brown Whiteriver Oak",
+    "fr": "Chêne Whiteriver gris-brun",
+    "de": "Whiteriver Eiche graubraun",
+    "pl": "Dąb Whiteriver szaro-brązowy",
+    "es": "Roble Whiteriver gris-marrón"
+   },
+   "nome_ufficiale": "Grey Brown Whiteriver Oak",
+   "codice": "H1313 ST10",
+   "decor": "H1313",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#7E736D",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1313_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h1330_st10_18",
+   "nome": "Rovere Santa Fe vintage",
+   "nome_i18n": {
+    "it": "Rovere Santa Fe vintage",
+    "ro": "Stejar Santa Fe vintage",
+    "en": "Vintage Santa Fe Oak",
+    "fr": "Chêne Santa Fe vintage",
+    "de": "Santa Fe Eiche Vintage",
+    "pl": "Dąb Santa Fe vintage",
+    "es": "Roble Santa Fe vintage"
+   },
+   "nome_ufficiale": "Vintage Santa Fe Oak",
+   "codice": "H1330 ST10",
+   "decor": "H1330",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#79634D",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1330_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h3131_st12_18",
+   "nome": "Rovere Davos naturale",
+   "nome_i18n": {
+    "it": "Rovere Davos naturale",
+    "ro": "Stejar Davos natural",
+    "en": "Natural Davos Oak",
+    "fr": "Chêne Davos naturel",
+    "de": "Davos Eiche natur",
+    "pl": "Dąb Davos naturalny",
+    "es": "Roble Davos natural"
+   },
+   "nome_ufficiale": "Natural Davos Oak",
+   "codice": "H3131 ST12",
+   "decor": "H3131",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#C4AE8A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3131_12?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h3309_st28_18",
+   "nome": "Rovere Gladstone sabbia",
+   "nome_i18n": {
+    "it": "Rovere Gladstone sabbia",
+    "ro": "Stejar Gladstone nisip",
+    "en": "Sand Gladstone Oak",
+    "fr": "Chêne Gladstone sable",
+    "de": "Gladstone Eiche sand",
+    "pl": "Dąb Gladstone piaskowy",
+    "es": "Roble Gladstone arena"
+   },
+   "nome_ufficiale": "Sand Gladstone Oak",
+   "codice": "H3309 ST28",
+   "decor": "H3309",
+   "struttura": "ST28",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#C6AA89",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3309_28?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Nature"
+  },
+  {
+   "id": "egger_h3325_st28_18",
+   "nome": "Rovere Gladstone tabacco",
+   "nome_i18n": {
+    "it": "Rovere Gladstone tabacco",
+    "ro": "Stejar Gladstone tutun",
+    "en": "Tobacco Gladstone Oak",
+    "fr": "Chêne Gladstone tabac",
+    "de": "Gladstone Eiche tabak",
+    "pl": "Dąb Gladstone tytoniowy",
+    "es": "Roble Gladstone tabaco"
+   },
+   "nome_ufficiale": "Tobacco Gladstone Oak",
+   "codice": "H3325 ST28",
+   "decor": "H3325",
+   "struttura": "ST28",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#625043",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3325_28?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Nature"
+  },
+  {
+   "id": "egger_h2033_st10_18",
+   "nome": "Rovere Hunton scuro",
+   "nome_i18n": {
+    "it": "Rovere Hunton scuro",
+    "ro": "Stejar Hunton închis",
+    "en": "Dark Hunton Oak",
+    "fr": "Chêne Hunton foncé",
+    "de": "Hunton Eiche dunkel",
+    "pl": "Dąb Hunton ciemny",
+    "es": "Roble Hunton oscuro"
+   },
+   "nome_ufficiale": "Dark Hunton Oak",
+   "codice": "H2033 ST10",
+   "decor": "H2033",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#725235",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H2033_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h1344_st32_18",
+   "nome": "Rovere Sherman marrone cognac",
+   "nome_i18n": {
+    "it": "Rovere Sherman marrone cognac",
+    "ro": "Stejar Sherman maro coniac",
+    "en": "Cognac Brown Sherman Oak",
+    "fr": "Chêne Sherman brun cognac",
+    "de": "Sherman Eiche cognacbraun",
+    "pl": "Dąb Sherman koniakowy brąz",
+    "es": "Roble Sherman marrón coñac"
+   },
+   "nome_ufficiale": "Cognac Brown Sherman Oak",
+   "codice": "H1344 ST32",
+   "decor": "H1344",
+   "struttura": "ST32",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#936D42",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1344_32?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Vintage"
+  },
+  {
+   "id": "egger_h1142_st36_18",
+   "nome": "Rovere Sacramento marrone",
+   "nome_i18n": {
+    "it": "Rovere Sacramento marrone",
+    "ro": "Stejar Sacramento maro",
+    "en": "Brown Sacramento Oak",
+    "fr": "Chêne Sacramento brun",
+    "de": "Sacramento Eiche braun",
+    "pl": "Dąb Sacramento brązowy",
+    "es": "Roble Sacramento marrón"
+   },
+   "nome_ufficiale": "Brown Sacramento Oak",
+   "codice": "H1142 ST36",
+   "decor": "H1142",
+   "struttura": "ST36",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#BB9A75",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1142_36?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Brushed"
+  },
+  {
+   "id": "egger_h1369_st40_18",
+   "nome": "Rovere Marone Casella",
+   "nome_i18n": {
+    "it": "Rovere Marone Casella",
+    "ro": "Stejar Marone Casella",
+    "en": "Marone Casella Oak",
+    "fr": "Chêne Marone Casella",
+    "de": "Marone Casella Eiche",
+    "pl": "Dąb Marone Casella",
+    "es": "Roble Marone Casella"
+   },
+   "nome_ufficiale": "Marone Casella Oak",
+   "codice": "H1369 ST40",
+   "decor": "H1369",
+   "struttura": "ST40",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#4E3D33",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1369_40?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Feelwood Oakgrain"
+  },
+  {
+   "id": "egger_h1223_st19_18",
+   "nome": "Frassino Sevilla",
+   "nome_i18n": {
+    "it": "Frassino Sevilla",
+    "ro": "Frasin Sevilla",
+    "en": "Sevilla Ash",
+    "fr": "Frêne Sevilla",
+    "de": "Sevilla Esche",
+    "pl": "Jesion Sevilla",
+    "es": "Fresno Sevilla"
+   },
+   "nome_ufficiale": "Sevilla Ash",
+   "codice": "H1223 ST19",
+   "decor": "H1223",
+   "struttura": "ST19",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#E8DBCA",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1223_19?country=GB",
+   "grana": "ash",
+   "struttura_nome": "Deepskin Excellent"
+  },
+  {
+   "id": "egger_h1225_st12_18",
+   "nome": "Frassino Trondheim",
+   "nome_i18n": {
+    "it": "Frassino Trondheim",
+    "ro": "Frasin Trondheim",
+    "en": "Trondheim Ash",
+    "fr": "Frêne Trondheim",
+    "de": "Trondheim Esche",
+    "pl": "Jesion Trondheim",
+    "es": "Fresno Trondheim"
+   },
+   "nome_ufficiale": "Trondheim Ash",
+   "codice": "H1225 ST12",
+   "decor": "H1225",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#EFEBE7",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1225_12?country=GB",
+   "grana": "ash",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h1250_st36_18",
+   "nome": "Frassino Navarra",
+   "nome_i18n": {
+    "it": "Frassino Navarra",
+    "ro": "Frasin Navarra",
+    "en": "Navarra Ash",
+    "fr": "Frêne Navarra",
+    "de": "Navarra Esche",
+    "pl": "Jesion Navarra",
+    "es": "Fresno Navarra"
+   },
+   "nome_ufficiale": "Navarra Ash",
+   "codice": "H1250 ST36",
+   "decor": "H1250",
+   "struttura": "ST36",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#D2BCA5",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1250_36?country=GB",
+   "grana": "ash",
+   "struttura_nome": "Feelwood Brushed"
+  },
+  {
+   "id": "egger_h1714_st19_18",
+   "nome": "Noce Lincoln",
+   "nome_i18n": {
+    "it": "Noce Lincoln",
+    "ro": "Nuc Lincoln",
+    "en": "Lincoln Walnut",
+    "fr": "Noyer Lincoln",
+    "de": "Lincoln Nussbaum",
+    "pl": "Orzech Lincoln",
+    "es": "Nogal Lincoln"
+   },
+   "nome_ufficiale": "Lincoln Walnut",
+   "codice": "H1714 ST19",
+   "decor": "H1714",
+   "struttura": "ST19",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#734F34",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1714_19?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Deepskin Excellent"
+  },
+  {
+   "id": "egger_h3700_st10_18",
+   "nome": "Noce Pacific naturale",
+   "nome_i18n": {
+    "it": "Noce Pacific naturale",
+    "ro": "Nuc Pacific natural",
+    "en": "Natural Pacific Walnut",
+    "fr": "Noyer Pacific naturel",
+    "de": "Pacific Nussbaum natur",
+    "pl": "Orzech Pacific naturalny",
+    "es": "Nogal Pacific natural"
+   },
+   "nome_ufficiale": "Natural Pacific Walnut",
+   "codice": "H3700 ST10",
+   "decor": "H3700",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#B2926F",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3700_10?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h3710_st12_18",
+   "nome": "Noce Carini naturale",
+   "nome_i18n": {
+    "it": "Noce Carini naturale",
+    "ro": "Nuc Carini natural",
+    "en": "Natural Carini Walnut",
+    "fr": "Noyer Carini naturel",
+    "de": "Carini Nussbaum natur",
+    "pl": "Orzech Carini naturalny",
+    "es": "Nogal Carini natural"
+   },
+   "nome_ufficiale": "Natural Carini Walnut",
+   "codice": "H3710 ST12",
+   "decor": "H3710",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#795F48",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3710_12?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h3734_st9_18",
+   "nome": "Noce Dijon naturale",
+   "nome_i18n": {
+    "it": "Noce Dijon naturale",
+    "ro": "Nuc Dijon natural",
+    "en": "Natural Dijon Walnut",
+    "fr": "Noyer Dijon naturel",
+    "de": "Dijon Nussbaum natur",
+    "pl": "Orzech Dijon naturalny",
+    "es": "Nogal Dijon natural"
+   },
+   "nome_ufficiale": "Natural Dijon Walnut",
+   "codice": "H3734 ST9",
+   "decor": "H3734",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#8C603A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3734_9?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_h1307_st19_18",
+   "nome": "Noce Warmia marrone",
+   "nome_i18n": {
+    "it": "Noce Warmia marrone",
+    "ro": "Nuc Warmia maro",
+    "en": "Brown Warmia Walnut",
+    "fr": "Noyer Warmia brun",
+    "de": "Warmia Nussbaum braun",
+    "pl": "Orzech Warmia brązowy",
+    "es": "Nogal Warmia marrón"
+   },
+   "nome_ufficiale": "Brown Warmia Walnut",
+   "codice": "H1307 ST19",
+   "decor": "H1307",
+   "struttura": "ST19",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#60402C",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1307_19?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Deepskin Excellent"
+  },
+  {
+   "id": "egger_h7586_st17_18",
+   "nome": "Noce Alba tabacco",
+   "nome_i18n": {
+    "it": "Noce Alba tabacco",
+    "ro": "Nuc Alba tutun",
+    "en": "Tobacco Alba Walnut",
+    "fr": "Noyer Alba tabac",
+    "de": "Alba Nussbaum tabak",
+    "pl": "Orzech Alba tytoniowy",
+    "es": "Nogal Alba tabaco"
+   },
+   "nome_ufficiale": "Tobacco Alba Walnut",
+   "codice": "H7586 ST17",
+   "decor": "H7586",
+   "struttura": "ST17",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#65432E",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H7586_17?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Omnipore Oiled"
+  },
+  {
+   "id": "egger_h1910_st9_18",
+   "nome": "Faggio Willow",
+   "nome_i18n": {
+    "it": "Faggio Willow",
+    "ro": "Fag Willow",
+    "en": "Willow Beech",
+    "fr": "Hêtre Willow",
+    "de": "Willow Buche",
+    "pl": "Buk Willow",
+    "es": "Haya Willow"
+   },
+   "nome_ufficiale": "Willow Beech",
+   "codice": "H1910 ST9",
+   "decor": "H1910",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#D4A873",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1910_9?country=GB",
+   "grana": "beech",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_h1732_st9_18",
+   "nome": "Betulla sabbia",
+   "nome_i18n": {
+    "it": "Betulla sabbia",
+    "ro": "Mesteacăn nisip",
+    "en": "Sand Birch",
+    "fr": "Bouleau sable",
+    "de": "Birke sand",
+    "pl": "Brzoza piaskowa",
+    "es": "Abedul arena"
+   },
+   "nome_ufficiale": "Sand Birch",
+   "codice": "H1732 ST9",
+   "decor": "H1732",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#E7CFAF",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1732_9?country=GB",
+   "grana": "beech",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_h3860_st9_18",
+   "nome": "Acero Hard champagne",
+   "nome_i18n": {
+    "it": "Acero Hard champagne",
+    "ro": "Arțar Hard șampanie",
+    "en": "Champagne Hard Maple",
+    "fr": "Érable Hard champagne",
+    "de": "Hard Ahorn champagner",
+    "pl": "Klon Hard szampański",
+    "es": "Arce Hard champán"
+   },
+   "nome_ufficiale": "Champagne Hard Maple",
+   "codice": "H3860 ST9",
+   "decor": "H3860",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#E1CFBB",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3860_9?country=GB",
+   "grana": "maple",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_h1710_st10_18",
+   "nome": "Castagno Kentucky sabbia",
+   "nome_i18n": {
+    "it": "Castagno Kentucky sabbia",
+    "ro": "Castan Kentucky nisip",
+    "en": "Sand Kentucky Chestnut",
+    "fr": "Châtaignier Kentucky sable",
+    "de": "Kentucky Kastanie sand",
+    "pl": "Kasztan Kentucky piaskowy",
+    "es": "Castaño Kentucky arena"
+   },
+   "nome_ufficiale": "Sand Kentucky Chestnut",
+   "codice": "H1710 ST10",
+   "decor": "H1710",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#C9B298",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1710_10?country=GB",
+   "grana": "cherry",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h1242_st10_18",
+   "nome": "Acacia Sheffield naturale",
+   "nome_i18n": {
+    "it": "Acacia Sheffield naturale",
+    "ro": "Acacia Sheffield naturală",
+    "en": "Natural Sheffield Acacia",
+    "fr": "Acacia Sheffield naturelle",
+    "de": "Sheffield Akazie natur",
+    "pl": "Akacja Sheffield naturalna",
+    "es": "Acacia Sheffield natural"
+   },
+   "nome_ufficiale": "Natural Sheffield Acacia",
+   "codice": "H1242 ST10",
+   "decor": "H1242",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#CAA882",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1242_10?country=GB",
+   "grana": "beech",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h1277_st9_18",
+   "nome": "Acacia Lakeland chiara",
+   "nome_i18n": {
+    "it": "Acacia Lakeland chiara",
+    "ro": "Acacia Lakeland deschisă",
+    "en": "Light Lakeland Acacia",
+    "fr": "Acacia Lakeland claire",
+    "de": "Lakeland Akazie hell",
+    "pl": "Akacja Lakeland jasna",
+    "es": "Acacia Lakeland clara"
+   },
+   "nome_ufficiale": "Light Lakeland Acacia",
+   "codice": "H1277 ST9",
+   "decor": "H1277",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#DBC4AA",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1277_9?country=GB",
+   "grana": "beech",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_h3730_st10_18",
+   "nome": "Hickory naturale",
+   "nome_i18n": {
+    "it": "Hickory naturale",
+    "ro": "Hickory natural",
+    "en": "Natural Hickory",
+    "fr": "Hickory naturel",
+    "de": "Hickory natur",
+    "pl": "Hikora naturalna",
+    "es": "Hickory natural"
+   },
+   "nome_ufficiale": "Natural Hickory",
+   "codice": "H3730 ST10",
+   "decor": "H3730",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#C4A06F",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3730_10?country=GB",
+   "grana": "oak",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_h3043_st12_18",
+   "nome": "Eucalipto marrone scuro",
+   "nome_i18n": {
+    "it": "Eucalipto marrone scuro",
+    "ro": "Eucalipt maro închis",
+    "en": "Dark Brown Eucalyptus",
+    "fr": "Eucalyptus brun foncé",
+    "de": "Eukalyptus dunkelbraun",
+    "pl": "Eukaliptus brązowy ciemny",
+    "es": "Eucalipto marrón oscuro"
+   },
+   "nome_ufficiale": "Dark Brown Eucalyptus",
+   "codice": "H3043 ST12",
+   "decor": "H3043",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#241814",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3043_12?country=GB",
+   "grana": "wenge",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h1199_st12_18",
+   "nome": "Rovere Thermo nero-marrone",
+   "nome_i18n": {
+    "it": "Rovere Thermo nero-marrone",
+    "ro": "Stejar Thermo negru-maro",
+    "en": "Black-Brown Thermo Oak",
+    "fr": "Chêne Thermo noir-brun",
+    "de": "Thermo Eiche schwarzbraun",
+    "pl": "Dąb Thermo czarno-brązowy",
+    "es": "Roble Thermo negro-marrón"
+   },
+   "nome_ufficiale": "Black-Brown Thermo Oak",
+   "codice": "H1199 ST12",
+   "decor": "H1199",
+   "struttura": "ST12",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#2D221A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1199_12?country=GB",
+   "grana": "wenge",
+   "struttura_nome": "Omnipore Matt"
+  },
+  {
+   "id": "egger_h1247_st17_18",
+   "nome": "Acacia Sheffield grafite",
+   "nome_i18n": {
+    "it": "Acacia Sheffield grafite",
+    "ro": "Acacia Sheffield grafit",
+    "en": "Graphite Sheffield Acacia",
+    "fr": "Acacia Sheffield graphite",
+    "de": "Sheffield Akazie graphit",
+    "pl": "Akacja Sheffield grafitowa",
+    "es": "Acacia Sheffield grafito"
+   },
+   "nome_ufficiale": "Graphite Sheffield Acacia",
+   "codice": "H1247 ST17",
+   "decor": "H1247",
+   "struttura": "ST17",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#4E3D37",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H1247_17?country=GB",
+   "grana": "beech",
+   "struttura_nome": "Omnipore Oiled"
+  },
+  {
+   "id": "egger_h3787_st19_18",
+   "nome": "Legno Bolivar marrone",
+   "nome_i18n": {
+    "it": "Legno Bolivar marrone",
+    "ro": "Lemn Bolivar maro",
+    "en": "Brown Bolivar Wood",
+    "fr": "Bois Bolivar brun",
+    "de": "Bolivar Holz braun",
+    "pl": "Drewno Bolivar brązowe",
+    "es": "Madera Bolivar marrón"
+   },
+   "nome_ufficiale": "Brown Bolivar Wood",
+   "codice": "H3787 ST19",
+   "decor": "H3787",
+   "struttura": "ST19",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "legno",
+   "finitura": "melaminico",
+   "colore_hex": "#704F3B",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/H3787_19?country=GB",
+   "grana": "walnut",
+   "struttura_nome": "Deepskin Excellent"
+  },
+  {
+   "id": "egger_f037_st76_18",
+   "nome": "Travertino Taormina",
+   "nome_i18n": {
+    "it": "Travertino Taormina",
+    "ro": "Travertin Taormina",
+    "en": "Taormina Travertine",
+    "fr": "Travertin Taormina",
+    "de": "Taormina Travertin",
+    "pl": "Trawertyn Taormina",
+    "es": "Travertino Taormina"
+   },
+   "nome_ufficiale": "Taormina Travertine",
+   "codice": "F037 ST76",
+   "decor": "F037",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#DCCAB8",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F037_76?country=GB",
+   "grana": "stone",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f186_st9_18",
+   "nome": "Cemento Chicago grigio chiaro",
+   "nome_i18n": {
+    "it": "Cemento Chicago grigio chiaro",
+    "ro": "Beton Chicago gri deschis",
+    "en": "Light Grey Chicago Concrete",
+    "fr": "Béton Chicago gris clair",
+    "de": "Chicago Beton hellgrau",
+    "pl": "Beton Chicago szary jasny",
+    "es": "Hormigón Chicago gris claro"
+   },
+   "nome_ufficiale": "Light Grey Chicago Concrete",
+   "codice": "F186 ST9",
+   "decor": "F186",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "cemento",
+   "finitura": "melaminico",
+   "colore_hex": "#9B9694",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F186_9?country=GB",
+   "grana": "concrete",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_f187_st9_18",
+   "nome": "Cemento Chicago grigio scuro",
+   "nome_i18n": {
+    "it": "Cemento Chicago grigio scuro",
+    "ro": "Beton Chicago gri închis",
+    "en": "Dark Grey Chicago Concrete",
+    "fr": "Béton Chicago gris foncé",
+    "de": "Chicago Beton dunkelgrau",
+    "pl": "Beton Chicago szary ciemny",
+    "es": "Hormigón Chicago gris oscuro"
+   },
+   "nome_ufficiale": "Dark Grey Chicago Concrete",
+   "codice": "F187 ST9",
+   "decor": "F187",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "cemento",
+   "finitura": "melaminico",
+   "colore_hex": "#605548",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F187_9?country=GB",
+   "grana": "concrete",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_f206_st9_18",
+   "nome": "Pietra Grigia nera",
+   "nome_i18n": {
+    "it": "Pietra Grigia nera",
+    "ro": "Pietra Grigia neagră",
+    "en": "Black Pietra Grigia",
+    "fr": "Pietra Grigia noire",
+    "de": "Pietra Grigia schwarz",
+    "pl": "Pietra Grigia czarna",
+    "es": "Pietra Grigia negra"
+   },
+   "nome_ufficiale": "Black Pietra Grigia",
+   "codice": "F206 ST9",
+   "decor": "F206",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#322E2F",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F206_9?country=GB",
+   "grana": "stone",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_f235_st76_18",
+   "nome": "Ardesia Scivaro",
+   "nome_i18n": {
+    "it": "Ardesia Scivaro",
+    "ro": "Ardezie Scivaro",
+    "en": "Scivaro Slate",
+    "fr": "Ardoise Scivaro",
+    "de": "Scivaro Schiefer",
+    "pl": "Łupek Scivaro",
+    "es": "Pizarra Scivaro"
+   },
+   "nome_ufficiale": "Scivaro Slate",
+   "codice": "F235 ST76",
+   "decor": "F235",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#454344",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F235_76?country=GB",
+   "grana": "stone",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f237_st76_18",
+   "nome": "Ardesia Cupria",
+   "nome_i18n": {
+    "it": "Ardesia Cupria",
+    "ro": "Ardezie Cupria",
+    "en": "Cupria Slate",
+    "fr": "Ardoise Cupria",
+    "de": "Cupria Schiefer",
+    "pl": "Łupek Cupria",
+    "es": "Pizarra Cupria"
+   },
+   "nome_ufficiale": "Cupria Slate",
+   "codice": "F237 ST76",
+   "decor": "F237",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#312A28",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F237_76?country=GB",
+   "grana": "stone",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f243_st76_18",
+   "nome": "Marmo Candela grigio chiaro",
+   "nome_i18n": {
+    "it": "Marmo Candela grigio chiaro",
+    "ro": "Marmură Candela gri deschisă",
+    "en": "Light Grey Candela Marble",
+    "fr": "Marbre Candela gris clair",
+    "de": "Candela Marmor hellgrau",
+    "pl": "Marmur Candela szary jasny",
+    "es": "Mármol Candela gris claro"
+   },
+   "nome_ufficiale": "Light Grey Candela Marble",
+   "codice": "F243 ST76",
+   "decor": "F243",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#A9A4A0",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F243_76?country=GB",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f244_st76_18",
+   "nome": "Marmo Candela antracite",
+   "nome_i18n": {
+    "it": "Marmo Candela antracite",
+    "ro": "Marmură Candela antracit",
+    "en": "Anthracite Candela Marble",
+    "fr": "Marbre Candela anthracite",
+    "de": "Candela Marmor anthrazit",
+    "pl": "Marmur Candela antracytowy",
+    "es": "Mármol Candela antracita"
+   },
+   "nome_ufficiale": "Anthracite Candela Marble",
+   "codice": "F244 ST76",
+   "decor": "F244",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#5A5858",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F244_76?country=GB",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f323_st20_18",
+   "nome": "Cobra Bronze",
+   "nome_i18n": {
+    "it": "Cobra Bronze",
+    "ro": "Cobra Bronze",
+    "en": "Cobra Bronze",
+    "fr": "Cobra Bronze",
+    "de": "Cobra Bronze",
+    "pl": "Cobra Bronze",
+    "es": "Cobra Bronze"
+   },
+   "nome_ufficiale": "Cobra Bronze",
+   "codice": "F323 ST20",
+   "decor": "F323",
+   "struttura": "ST20",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "metallo",
+   "finitura": "melaminico",
+   "colore_hex": "#886C55",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F323_20?country=GB",
+   "grana": "metal",
+   "struttura_nome": "Metal Brushed"
+  },
+  {
+   "id": "egger_f416_st10_18",
+   "nome": "Tessuto beige",
+   "nome_i18n": {
+    "it": "Tessuto beige",
+    "ro": "Textil bej",
+    "en": "Beige Textile",
+    "fr": "Textile beige",
+    "de": "Textil beige",
+    "pl": "Tkanina beżowa",
+    "es": "Textil beige"
+   },
+   "nome_ufficiale": "Beige Textile",
+   "codice": "F416 ST10",
+   "decor": "F416",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#D1C2AA",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F416_10?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f417_st10_18",
+   "nome": "Tessuto grigio",
+   "nome_i18n": {
+    "it": "Tessuto grigio",
+    "ro": "Textil gri",
+    "en": "Grey Textile",
+    "fr": "Textile gris",
+    "de": "Textil grau",
+    "pl": "Tkanina szara",
+    "es": "Textil gris"
+   },
+   "nome_ufficiale": "Grey Textile",
+   "codice": "F417 ST10",
+   "decor": "F417",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#C5BCAF",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F417_10?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f422_st10_18",
+   "nome": "Lino bianco",
+   "nome_i18n": {
+    "it": "Lino bianco",
+    "ro": "In alb",
+    "en": "White Linen",
+    "fr": "Lin blanc",
+    "de": "Leinen weiß",
+    "pl": "Len biały",
+    "es": "Lino blanco"
+   },
+   "nome_ufficiale": "White Linen",
+   "codice": "F422 ST10",
+   "decor": "F422",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#F2F3EA",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F422_10?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f424_st10_18",
+   "nome": "Lino marrone",
+   "nome_i18n": {
+    "it": "Lino marrone",
+    "ro": "In maro",
+    "en": "Brown Linen",
+    "fr": "Lin brun",
+    "de": "Leinen braun",
+    "pl": "Len brązowy",
+    "es": "Lino marrón"
+   },
+   "nome_ufficiale": "Brown Linen",
+   "codice": "F424 ST10",
+   "decor": "F424",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#928879",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F424_10?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f433_st10_18",
+   "nome": "Lino antracite",
+   "nome_i18n": {
+    "it": "Lino antracite",
+    "ro": "In antracit",
+    "en": "Anthracite Linen",
+    "fr": "Lin anthracite",
+    "de": "Leinen anthrazit",
+    "pl": "Len antracytowy",
+    "es": "Lino antracita"
+   },
+   "nome_ufficiale": "Anthracite Linen",
+   "codice": "F433 ST10",
+   "decor": "F433",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#817A75",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F433_10?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f434_st20_18",
+   "nome": "Cubanite Steelbrush",
+   "nome_i18n": {
+    "it": "Cubanite Steelbrush",
+    "ro": "Cubanite Steelbrush",
+    "en": "Cubanite Steelbrush",
+    "fr": "Cubanite Steelbrush",
+    "de": "Cubanite Steelbrush",
+    "pl": "Cubanite Steelbrush",
+    "es": "Cubanite Steelbrush"
+   },
+   "nome_ufficiale": "Cubanite Steelbrush",
+   "codice": "F434 ST20",
+   "decor": "F434",
+   "struttura": "ST20",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "metallo",
+   "finitura": "melaminico",
+   "colore_hex": "#675B54",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F434_20?country=GB",
+   "grana": "metal",
+   "struttura_nome": "Metal Brushed"
+  },
+  {
+   "id": "egger_f500_st20_18",
+   "nome": "Metallic Inox",
+   "nome_i18n": {
+    "it": "Metallic Inox",
+    "ro": "Metallic Inox",
+    "en": "Metallic Inox",
+    "fr": "Metallic Inox",
+    "de": "Metallic Inox",
+    "pl": "Metallic Inox",
+    "es": "Metallic Inox"
+   },
+   "nome_ufficiale": "Metallic Inox",
+   "codice": "F500 ST20",
+   "decor": "F500",
+   "struttura": "ST20",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "metallo",
+   "finitura": "melaminico",
+   "colore_hex": "#8B8380",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F500_20?country=GB",
+   "grana": "metal",
+   "struttura_nome": "Metal Brushed"
+  },
+  {
+   "id": "egger_f527_st20_18",
+   "nome": "Metallo spazzolato dorato",
+   "nome_i18n": {
+    "it": "Metallo spazzolato dorato",
+    "ro": "Metal periat auriu",
+    "en": "Golden Brushed Metal",
+    "fr": "Métal brossé doré",
+    "de": "Metall gebürstet golden",
+    "pl": "Metal szczotkowany złoty",
+    "es": "Metal cepillado dorado"
+   },
+   "nome_ufficiale": "Golden Brushed Metal",
+   "codice": "F527 ST20",
+   "decor": "F527",
+   "struttura": "ST20",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "metallo",
+   "finitura": "melaminico",
+   "colore_hex": "#C39F6D",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F527_20?country=GB",
+   "grana": "metal"
+  },
+  {
+   "id": "egger_f528_st20_18",
+   "nome": "Metallo spazzolato bronzo",
+   "nome_i18n": {
+    "it": "Metallo spazzolato bronzo",
+    "ro": "Metal periat bronz",
+    "en": "Bronze Brushed Metal",
+    "fr": "Métal brossé bronze",
+    "de": "Metall gebürstet bronze",
+    "pl": "Metal szczotkowany brązowy",
+    "es": "Metal cepillado bronce"
+   },
+   "nome_ufficiale": "Bronze Brushed Metal",
+   "codice": "F528 ST20",
+   "decor": "F528",
+   "struttura": "ST20",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "metallo",
+   "finitura": "melaminico",
+   "colore_hex": "#6B503C",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F528_20?country=GB",
+   "grana": "metal"
+  },
+  {
+   "id": "egger_f634_st76_18",
+   "nome": "Tela grigia",
+   "nome_i18n": {
+    "it": "Tela grigia",
+    "ro": "Pânză gri",
+    "en": "Grey Canvas",
+    "fr": "Toile grise",
+    "de": "Canvas grau",
+    "pl": "Płótno szare",
+    "es": "Lona gris"
+   },
+   "nome_ufficiale": "Grey Canvas",
+   "codice": "F634 ST76",
+   "decor": "F634",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#99928D",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F634_76?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f635_st76_18",
+   "nome": "Tela antracite",
+   "nome_i18n": {
+    "it": "Tela antracite",
+    "ro": "Pânză antracit",
+    "en": "Anthracite Canvas",
+    "fr": "Toile anthracite",
+    "de": "Canvas anthrazit",
+    "pl": "Płótno antracytowe",
+    "es": "Lona antracita"
+   },
+   "nome_ufficiale": "Anthracite Canvas",
+   "codice": "F635 ST76",
+   "decor": "F635",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#6C6763",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F635_76?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f637_st10_18",
+   "nome": "Chromix bianco",
+   "nome_i18n": {
+    "it": "Chromix bianco",
+    "ro": "Chromix alb",
+    "en": "White Chromix",
+    "fr": "Chromix blanc",
+    "de": "Chromix weiß",
+    "pl": "Chromix biały",
+    "es": "Chromix blanco"
+   },
+   "nome_ufficiale": "White Chromix",
+   "codice": "F637 ST10",
+   "decor": "F637",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "cemento",
+   "finitura": "melaminico",
+   "colore_hex": "#E1D8C6",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F637_10?country=GB",
+   "grana": "concrete",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f638_st10_18",
+   "nome": "Argento Chromix",
+   "nome_i18n": {
+    "it": "Argento Chromix",
+    "ro": "Argintiu Chromix",
+    "en": "Chromix Silver",
+    "fr": "Argent Chromix",
+    "de": "Chromix silber",
+    "pl": "Srebrny Chromix",
+    "es": "Plata Chromix"
+   },
+   "nome_ufficiale": "Chromix Silver",
+   "codice": "F638 ST10",
+   "decor": "F638",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "cemento",
+   "finitura": "melaminico",
+   "colore_hex": "#A19A92",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F638_10?country=GB",
+   "grana": "concrete"
+  },
+  {
+   "id": "egger_f662_st76_18",
+   "nome": "Pietra Pebble Grey Calcit",
+   "nome_i18n": {
+    "it": "Pietra Pebble Grey Calcit",
+    "ro": "Piatră Pebble Grey Calcit",
+    "en": "Pebble Grey Calcit Stone",
+    "fr": "Pierre Pebble Grey Calcit",
+    "de": "Pebble Grey Calcit Stein",
+    "pl": "Kamień Pebble Grey Calcit",
+    "es": "Piedra Pebble Grey Calcit"
+   },
+   "nome_ufficiale": "Pebble Grey Calcit Stone",
+   "codice": "F662 ST76",
+   "decor": "F662",
+   "struttura": "ST76",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#B3A49A",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F662_76?country=GB",
+   "grana": "stone",
+   "struttura_nome": "Mineral Rough"
+  },
+  {
+   "id": "egger_f685_st10_18",
+   "nome": "Acapulco",
+   "nome_i18n": {
+    "it": "Acapulco",
+    "ro": "Acapulco",
+    "en": "Acapulco",
+    "fr": "Acapulco",
+    "de": "Acapulco",
+    "pl": "Acapulco",
+    "es": "Acapulco"
+   },
+   "nome_ufficiale": "Acapulco",
+   "codice": "F685 ST10",
+   "decor": "F685",
+   "struttura": "ST10",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "tessuto",
+   "finitura": "melaminico",
+   "colore_hex": "#BBA486",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F685_10?country=GB",
+   "grana": "linen",
+   "struttura_nome": "Deepskin Rough"
+  },
+  {
+   "id": "egger_f800_st9_18",
+   "nome": "Marmo Crystal",
+   "nome_i18n": {
+    "it": "Marmo Crystal",
+    "ro": "Marmură Crystal",
+    "en": "Crystal Marble",
+    "fr": "Marbre Crystal",
+    "de": "Crystal Marmor",
+    "pl": "Marmur Crystal",
+    "es": "Mármol Crystal"
+   },
+   "nome_ufficiale": "Crystal Marble",
+   "codice": "F800 ST9",
+   "decor": "F800",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#EEEAE5",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F800_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  },
+  {
+   "id": "egger_f812_st9_18",
+   "nome": "Marmo Levanto bianco",
+   "nome_i18n": {
+    "it": "Marmo Levanto bianco",
+    "ro": "Marmură Levanto albă",
+    "en": "White Levanto Marble",
+    "fr": "Marbre Levanto blanc",
+    "de": "Levanto Marmor weiß",
+    "pl": "Marmur Levanto biały",
+    "es": "Mármol Levanto blanco"
+   },
+   "nome_ufficiale": "White Levanto Marble",
+   "codice": "F812 ST9",
+   "decor": "F812",
+   "struttura": "ST9",
+   "fornitore": "Egger",
+   "spessore": 18,
+   "famiglia": "pietra",
+   "finitura": "melaminico",
+   "colore_hex": "#ECEAE6",
+   "colore_verificato": false,
+   "colore_fonte": "swatch_ufficiale_egger_media_pim",
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "formato": {
+    "L": 2800,
+    "l": 2070
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "fonte": "https://www.egger.com/en/furniture-interior-design/decors/F812_9?country=GB",
+   "struttura_nome": "Smoothtouch Matt"
+  }
+ ]
+}

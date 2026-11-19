@@ -1,3 +1,21 @@
-Fibra lemnului (ash.jpg, oak.jpg, walnut.jpg): derivate în tonuri de gri din texturile Poly Haven
-"Ash Veneer", "Oak Veneer 01", "Walnut Veneer" (https://polyhaven.com/textures), licență CC0 (domeniu public).
-Folosite ca factor de luminanță; culoarea vine din materialul din catalog.
+Fibra lemnului și texturi (img/grain/*.jpg): imagini în tonuri de gri (luminanță relativă, medie ~0,91, 1024×1024),
+derivate din texturile Poly Haven (https://polyhaven.com/textures), toate licență CC0 (domeniu public,
+https://polyhaven.com/license). Culoarea vine din materialul din catalog; imaginea dă numai relieful luminii.
+
+Sursă, pe fișier (slug Poly Haven · autori după API-ul Poly Haven, consultat 19.11.2026):
+  ash.jpg       Ash Veneer
+  oak.jpg       Oak Veneer 01
+  walnut.jpg    Walnut Veneer
+  pine.jpg      Teak Veneer (https://polyhaven.com/a/teak_veneer) · Jenelle van Heerden · CC0 — rotită 90° (fibra pe verticală)
+  beech.jpg     Olive Veneer (https://polyhaven.com/a/olive_veneer) · Jenelle van Heerden · CC0 — rotită 90°
+  cherry.jpg    Rosewood Veneer 02 (https://polyhaven.com/a/rosewood_veneer_02) · Jenelle van Heerden · CC0 — rotită 90°
+  maple.jpg     White Maple Veneer (https://polyhaven.com/a/white_maple_veneer) · Jenelle van Heerden · CC0 — rotită 90°, contrast ×1,4
+  wenge.jpg     Black Walnut Veneer 02 (https://polyhaven.com/a/black_walnut_veneer_02) · Jenelle van Heerden · CC0 — rotită 90°
+  concrete.jpg  Concrete Wall 007 (https://polyhaven.com/a/concrete_wall_007) · Dario Barresi, Rico Cilliers, Charlotte Baglioni · CC0
+  stone.jpg     Concrete Floor 01 (https://polyhaven.com/a/concrete_floor_01) · Rob Tuytel · CC0 — folosită pentru granit/ardezie/piatră cu granulație fină
+  linen.jpg     Rough Linen (https://polyhaven.com/a/rough_linen) · colormass, Rico Cilliers · CC0
+  metal.jpg     Oțel periat: generată procedural (zgomot periodic anizotrop, seed 20261119) — fără sursă externă, deci fără licență de terți; este periodică, deci se repetă fără cusătură.
+
+Metoda de conversie: descărcare „diffuse 1k” JPG → redimensionare 1024×1024 → luminanță (L) → normalizare la medie 0,91 și
+abatere ≈ 0,07 (× factorul de contrast de mai sus), limitat la [0,45; 1,0] → JPEG în tonuri de gri (≤ 200 KB). Același procedeu ca la primele trei.
+Imaginile eșantioanelor de culoare ale decorurilor Egger NU sunt în repo (vezi data/materials-egger.json: se folosește numai culoarea medie calculată).
