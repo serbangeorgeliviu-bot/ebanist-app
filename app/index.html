@@ -1236,6 +1236,73 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
   .sheet{border-radius:24px;border-bottom:1px solid var(--glass-line)}
 }
 }
+
+/* FAZA H.3 — panoul «Feronerie» și selectorul (ebanist-hwui.js). Câmpurile vechi rămân în DOM, ascunse vizual: ele conduc restul aplicației. */
+.hwui-on .hwui-off{position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;border:0!important;white-space:nowrap}
+.hwp{margin:0 0 12px}
+.hwp-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.hwp-sum{font-weight:700;font-size:14px}
+.hwp-hintp{margin:0 0 8px}
+.hwp-warns{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.45}
+.hwp-warns ul{margin:2px 0 6px 18px;padding:0}
+.hwp-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--field)}
+.hwp-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line-soft);min-height:56px}
+.hwp-row:last-child{border-bottom:0}
+.hwp-txt{flex:1;min-width:0}
+.hwp-name{font-size:11.5px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--muted)}
+.hwp-cur{font-size:14px;line-height:1.35;overflow-wrap:anywhere;margin-top:2px}
+.hwp-k{color:var(--muted);font-size:12.5px}
+.hwp-hint{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.hwp-sub{display:block;margin-top:6px}
+.hwp-sub span{display:block;font-size:11.5px;color:var(--muted);margin-bottom:3px}
+.hwp-sub select{width:100%;min-height:40px}
+.hwp-badge{min-width:24px;height:24px;border-radius:12px;padding:0 7px;display:inline-grid;place-items:center;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);font-size:12px;font-weight:700}
+.hwp-chg{min-height:44px;min-width:84px;flex:none}
+.hxs-head{position:sticky;top:0;z-index:2;background:var(--glass-hi,var(--surface));-webkit-backdrop-filter:var(--blur,none);backdrop-filter:var(--blur,none);padding:2px 0 8px;margin:0 -2px}
+.hxs-head h3{margin-bottom:10px}
+.hxs-q{width:100%;min-height:46px;font-size:16px}
+.hxs-chips{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hxs-chips::-webkit-scrollbar{display:none}
+.hxs-chips .chip{flex:0 0 auto;white-space:nowrap;min-height:36px}
+.hxs-n{font-size:11px;opacity:.7;font-variant-numeric:tabular-nums}
+.hxs-fit{display:flex;gap:10px;align-items:center;padding:10px 0 2px;font-size:14px;min-height:44px}
+.hxs-fit input{width:20px;height:20px;flex:none}
+.hxs-count{margin:0 0 2px}
+.hxs-h{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.hxs-note{margin:-2px 0 6px}
+.hxs-ul{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:8px}
+.hxs-nofit{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
+.hxs-nofit>summary{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}
+.hxs-more{margin:6px 0 10px;width:100%;min-height:44px}
+.hxs-none{padding:16px 0}
+.hxc{display:flex;gap:6px;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--field);overflow:hidden}
+.hxc.is-cur{border-color:var(--red-line);background:var(--red-soft)}
+.hxc.is-bad{opacity:.92}
+.hxc-main{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:11px 12px;min-height:56px;background:none;border:0;color:var(--text);font:inherit;cursor:pointer}
+.hxc-main:focus-visible,.hxc-ic:focus-visible,.hxc-det:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.hxc-t{font-size:15px;line-height:1.3;overflow-wrap:anywhere}
+.hxc-brand{font-weight:700;color:var(--muted)}
+.hxc-name{font-weight:600}
+.hxc-art{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.hxc-facts{font-size:12.5px;color:var(--text);opacity:.85;line-height:1.4;overflow-wrap:anywhere}
+.hxc-badges{display:flex;gap:5px;flex-wrap:wrap}
+.hxb{font-size:11px;line-height:1;padding:4px 7px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.hxb.warn{border-color:var(--warn-line);color:var(--warn-ink);background:var(--warn-bg)}
+.hxb.on{border-color:var(--red-line);color:var(--red);background:var(--red-soft)}
+.hxc-why{font-size:12.5px;line-height:1.4;color:var(--warn-ink);background:var(--warn-bg);border-radius:8px;padding:6px 8px;align-self:stretch}
+.hxc-side{display:flex;flex-direction:column;justify-content:center;gap:2px;padding:4px 6px 4px 0;flex:none}
+.hxc-ic,.hxc-det{min-width:44px;min-height:44px;border:0;background:none;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;border-radius:10px}
+.hxc-ic{font-size:20px}
+.hxc-ic[aria-pressed="true"]{color:var(--red)}
+.hxc-det{text-decoration:underline;text-underline-offset:3px}
+.hxd{padding:6px 0}
+.hxd-t{font-size:17px;margin:12px 0 4px}
+.hxd-dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;font-size:14px;margin:8px 0}
+.hxd-dl dt{color:var(--muted)}
+.hxd-dl dd{margin:0;overflow-wrap:anywhere}
+.hxd-why{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.45;margin:8px 0}
+.hxd-act{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.hxd-act .btn{flex:1;min-width:140px}
 </style>
 </head>
 <body>
@@ -1945,6 +2012,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
     <details class="grp" id="grpHw" data-ic="wrench">
       <summary><span data-i="grpHw">Feronerie corp</span><i class="grp-sum" id="sumHw"></i></summary>
       <div class="grp-body">
+        <div id="hwPanel" class="hwp"></div>
         <div class="f"><label data-i="fLed" for="bLed">Iluminat LED</label>
           <select id="bLed"><option value="" data-i="ledNone">Fără</option><option value="top" data-i="ledTop">Sub plafon (lățimea interioară)</option><option value="manual" data-i="ledManual">Lungime introdusă</option></select></div>
         <div class="f" id="rowLedLen" style="display:none"><label data-i="fLedLen" for="bLedLen">Lungime bandă (mm)</label><input id="bLedLen" type="number" inputmode="numeric" min="50" max="20000" placeholder="1000"></div>
@@ -2411,6 +2479,12 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <h3 data-i="gvTitle">Ricalcolo con il motore corretto</h3>
   <div id="geomBody"></div>
   <button class="btn red" id="geomApply" style="margin-top:12px" data-i="gvApply">Conferma e riscrivi</button>
+</div>
+
+<!-- FAZA H.3: selectorul de feronerie (ebanist-hwui.js); înaintea fișei tehnice, ca fișa să se deschidă deasupra lui -->
+<div class="sheet sheet-wide hxs" id="shHw" role="dialog" aria-modal="true" aria-labelledby="hxsTitle">
+  <div class="sheet-grip"></div>
+  <div id="hxsBody"></div>
 </div>
 
 <!-- Fișa tehnică a balamalei (date Blum KA-150, desen generat din cote). -->
@@ -2968,6 +3042,8 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-hwindex-i18n.js"></script>
 <script src="./ebanist-hwfit.js"></script>
 <script src="./ebanist-hwfit-i18n.js"></script>
+<script src="./ebanist-hwui-i18n.js"></script>
+<script src="./ebanist-hwui.js"></script>
 <script src="./ebanist-lift-data.js"></script>
 <script src="./ebanist-liftfit.js"></script>
 <script src="./ebanist-open-data.js"></script>
@@ -4352,6 +4428,7 @@ Object.assign(I18N.es,{"fLiftElec": "Apertura eléctrica", "liftElecEdrive": "El
 if(typeof OPEN_I18N!=="undefined") for(const L of Object.keys(OPEN_I18N)) Object.assign(I18N[L],OPEN_I18N[L]);
 if(typeof HWINDEX_I18N!=="undefined") for(const L of Object.keys(HWINDEX_I18N)) Object.assign(I18N[L],HWINDEX_I18N[L]);
 if(typeof HWFIT_I18N!=="undefined") for(const L of Object.keys(HWFIT_I18N)) Object.assign(I18N[L],HWFIT_I18N[L]);
+if(typeof HWUI_I18N!=="undefined") for(const L of Object.keys(HWUI_I18N)) Object.assign(I18N[L],HWUI_I18N[L]);
 /* U.17 — textele unităților de colț / scoase / mecanisme: în ebanist-corner-i18n.js (7 limbi), aici doar se adaugă în I18N */
 if(typeof CORNER_I18N==="object") Object.keys(I18N).forEach(l=>Object.assign(I18N[l],CORNER_I18N[l]||CORNER_I18N.it));
 /* balamale Hettich / Salice / Grass / Häfele / Blum 105°: textele (avertismente, fișă, cuvintele din nume) vin din ebanist-hinges-more-i18n.js */
@@ -6100,6 +6177,7 @@ function applyLang(){
     const v=tAny(el.dataset.i); if(v!=null) el.textContent=v;
   });
   if(typeof EBCornerUI==="object"&&EBCornerUI) EBCornerUI.render();   // U.17: lista unităților are grupe traduse
+  if(typeof EBHwUI==="object"&&EBHwUI) EBHwUI.relabel();   // H.3: panoul de feronerie își rescrie textele
   /* tooltip e nome accessibile dei bottoni a sola icona: nella lingua dell'app */
   document.querySelectorAll("[data-ti]").forEach(el=>{
     const v=tAny(el.dataset.ti); if(v!=null){ el.title=v; el.setAttribute("aria-label",v); }
@@ -12177,6 +12255,7 @@ function drawPreview(){
   renderSecChips();
   renderLayBar();
   drawInfoLine(buildCfg,built);
+  if(typeof EBHwUI==="object"&&EBHwUI) EBHwUI.refresh(buildCfg,built);   // H.3: panoul «Feronerie» citește câmpurile și avertismentele de mai sus
   $("angHint").innerHTML=notes.length?notes.map(esc).join(" · "):"";
   $("angHint").style.color=(skip.length||wn.doorSkip>0||wn.doorTight||wn.lamTight||wn.rfCutHit||(wn.drawWarn&&wn.drawWarn.length)||split.some(x=>x.joint==="visible"))?"var(--danger)":"var(--muted)";
   updGrpSums();
@@ -15356,9 +15435,9 @@ function hwIndex(){
 }
 /* FAZA H.2 — contextul corpului curent pentru potrivirea feroneriei (ebanist-hwfit.js): aceeași cale ca Constructorul (cfgFromForm + buildModule);
    `trial` construiește același corp cu o alegere de probă, pentru sistemele al căror plan depinde de formulele lor (uși glisante) */
-function hwFitCtx(cfg){
+function hwFitCtx(cfg,built0){
   cfg=cfg||cfgFromForm();
-  let built=null; try{ built=buildModule(cfg); }catch(e){ built=null; }
+  let built=built0||null; if(!built){ try{ built=buildModule(cfg); }catch(e){ built=null; } }   // H.3: panoul trece corpul deja construit de drawPreview
   return EBHwFit.ctxOf(cfg,built,{matById,structTh,drawSys,guidaIdFor,trial:patch=>{ const b=buildModule(Object.assign({},cfg,patch)); return b&&b.warn; }});
 }
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
@@ -20031,6 +20110,7 @@ window.addEventListener("hashchange",()=>{ if(/^#p=/.test(location.hash)) pieceF
 applyLang();
 aiMount();
 mountSheetClosers();
+if(typeof EBHwUI==="object"&&EBHwUI) EBHwUI.init();   // H.3
 setView("projects");
 navInit();
 clientInit();

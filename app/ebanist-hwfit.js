@@ -21,6 +21,7 @@
  *   push / pushd / susp / suprail / conn                      EBOpen.doorCheck / drawerCheck / suspCheck / railCap / connCheck
  *   zarga / guida (sertare din date)                          EBDrawersMore.drawsys / dims / runner / heightOk
  *   slide (uși glisante / escamotabile / cu aripă)            EBSliding.typeOk, apoi planul sistemului prin env.trial (aceeași construcție ca Constructorul)
+ *   slidesys / drawsys (H.3: selectorul alege sistemul din formular)  același rezultat, pe cheia sistemului (cfg.slide) / pe lateralul din date al sistemului de sertar
  * Orice altă categorie (sau articol fără limite în date) → ok:null.
  */
 (function (root, factory) {
@@ -302,8 +303,25 @@
     return finish(out);
   }
 
+  /* H.3: selectorul alege SISTEMUL (nu codul de piesă): același rezultat ca la «slide», pe sistemul cu cheia dată (cfg.slide) */
+  function checkSlideSys(e, ctx) {
+    var S = R("EBSliding"), D = R("EBSlidingData");
+    if (!S || !D) return nodata("slide");
+    var sys = (D.systems || []).filter(function (s) { return s.key === e.id; })[0];
+    if (!sys) return nodata("slide");
+    var r = slideSysResult(sys, ctx), out = newRes(); out.fam = "slide"; out.viol = r.viol.slice(); out.checks = r.checks; out.unknown = r.unknown; out.rank = r.rank;
+    return finish(out);
+  }
+  /* H.3: sistemul de sertar din formular (cfg.drawerSys) se verifică prin laterala lui din date (aceeași verificare ca «zarga»); fără lateral în date = necunoscut */
+  function checkDrawSys(e, ctx) {
+    var D = R("EBDrawersMoreData"), side = null;
+    (D && D.sides || []).forEach(function (s) { if (s.box === e.id) side = s; });
+    return side ? checkDrawBox({ id: side.key, cat: "zarga" }, ctx) : nodata("zarga");
+  }
+
   /* ===================================================================== dispecer */
-  var FAM = { cern: checkHinge, lift: checkLift, corner: checkCorner, push: checkPush, pushd: checkPushd, susp: checkSusp, suprail: checkRail, conn: checkConn, zarga: checkDrawBox, guida: checkRunner, slide: checkSlide };
+  var FAM = { cern: checkHinge, lift: checkLift, corner: checkCorner, push: checkPush, pushd: checkPushd, susp: checkSusp, suprail: checkRail, conn: checkConn, zarga: checkDrawBox, guida: checkRunner, slide: checkSlide,
+              slidesys: checkSlideSys, drawsys: checkDrawSys };
 
   function check(entry, ctx) {
     var f = entry && FAM[entry.cat];
