@@ -64,14 +64,14 @@ def font(p, s): return ImageFont.truetype(p, s)
 def text_stroke(d, xy, t, f, fill, stroke, sw, anchor="mm", spacing=10):
     d.multiline_text(xy, t, font=f, fill=fill, anchor=anchor, align="center", spacing=spacing, stroke_width=sw, stroke_fill=stroke)
 
-def mk_sub(i, text):
+def mk_sub(i, text, y=1560):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     sz = 72
     while sz > 40:
         f = font(BLACK, sz)
         if max(d.textlength(l, font=f) for l in text.split("\n")) <= 960: break
         sz -= 2
-    text_stroke(d, (W // 2, 1560), text, font(BLACK, sz), (255, 255, 255, 255), (0, 0, 0, 255), 8)
+    text_stroke(d, (W // 2, y), text, font(BLACK, sz), (255, 255, 255, 255), (0, 0, 0, 255), 8)
     p = os.path.join(OV, f"sub{i:02d}.png"); im.save(p); return p
 
 def mk_tag(name, text):
@@ -115,7 +115,7 @@ def seg_part(name, dur, idx):
     base = ["ffmpeg", "-loglevel", "error", "-y"]
     enc = ["-r", str(FPS), "-c:v", "libx264", "-crf", "20", "-preset", "medium", "-pix_fmt", "yuv420p", "-an"]
     if name in ("pA", "pB"):
-        src = os.path.join(IN, name + ".mp4")
+        src = os.path.join(IN, ("pA_ui_en.mp4" if LANG == "en" else "pA_ui.mp4") if name == "pA" else name + ".mp4")
         vf = f"scale={W}:{H}:flags=lanczos,fps={FPS},setsar=1,eq=contrast=1.05:saturation=1.08"
         run(base + ["-i", src, "-t", f"{dur}", "-vf", vf] + enc + [out])
     elif name == "END":
@@ -130,7 +130,7 @@ def main():
     mk_title(); mk_end()
     subs = []
     for i, (t, ln, a, b) in enumerate(SUB):
-        s, d = VO[ln]; subs.append((mk_sub(i, t), s + d * a, s + d * b))
+        s, d = VO[ln]; subs.append((mk_sub(i, t, 1790 if ln == 0 else 1560), s + d * a, s + d * b))
     tags = []; t0 = 0.0; parts = []
     for i, (name, dur, tag) in enumerate(SCENES):
         parts.append(seg_part(name, dur, i))
