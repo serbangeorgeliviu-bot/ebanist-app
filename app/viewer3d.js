@@ -491,6 +491,8 @@ function tileTexture() {
 function setRoom(room) {
   R.room = room || null;
   const poly = room && room.floor && room.floor.length >= 3 ? room.floor : null;
+  /* room.tone = culoarea (hex) a podelei, opțional (proiectele demo o pun mai închisă); fără el, ca înainte */
+  if (R.floor && room) R.floor.material.color.setHex(room.tone != null ? room.tone : 0xb5ac9a);
   const sig = poly ? JSON.stringify(poly.map(p => [Math.round(p[0]), Math.round(p[1])])) : "";
   if (R.floorSig === sig) return;
   R.floorSig = sig;
@@ -499,7 +501,7 @@ function setRoom(room) {
   const shape = new THREE.Shape(poly.map(p => new THREE.Vector2(p[0] * MM, -p[1] * MM)));
   const geo = new THREE.ShapeGeometry(shape); geo.rotateX(-Math.PI / 2);
   const t = tileTexture().clone(); t.needsUpdate = true; t.repeat.set(1 / 2.4, 1 / 2.4);
-  const m = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({ map: t, color: 0xb5ac9a, roughness: .42, metalness: 0, clearcoat: .35, clearcoatRoughness: .3 }));
+  const m = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({ map: t, color: room.tone != null ? room.tone : 0xb5ac9a, roughness: .42, metalness: 0, clearcoat: .35, clearcoatRoughness: .3 }));
   m.receiveShadow = true; m.renderOrder = -2; R.floor = m; R.scene.add(m);
 }
 function fadeWalls() {
@@ -1055,7 +1057,55 @@ function buildLed(O) {
   updateLed();
 }
 const LED_LIGHT_I = 0.55;
+/* LED în „Camera în 3D” / Constructor (D-157, extindere): fiecare corp cu bandă LED își desenează banda în coordonatele camerei (opts.leds = [{a:[x,z], b:[x,z], y, door}], din
+   roomLeds() din index.html): bilă emisivă + halou aditiv pe fața de dedesubt a tavanului + o lumină punctuală caldă (cel mult 10 în scenă, cele mai lungi benzi). Aprinderea
+   urmează aceeași stare ca la corpul singur (R.st.ledOn); cu senzor pe ușă, numai cu „Deschide”. Nu intră în documente (capture() o oprește ca pe celelalte). */
+function clearRoomLed() {
+  if (R.rledG) { R.root.remove(R.rledG); R.rledG.traverse(o => { if (o.material && o.material.userData && o.material.userData.own) o.material.dispose(); if (o.geometry) o.geometry.dispose(); }); }
+  R.rledG = null; R.rled = null;
+}
+function setRoomLeds(list) {
+  clearRoomLed();
+  if (!list || !list.length) return;
+  const grp = new THREE.Group(), L = { items: [] };
+  const gtex = glowTexture();
+  const byLen = list.map((q, i) => [Math.hypot(q.b[0] - q.a[0], q.b[1] - q.a[1]), i]).sort((p, q) => q[0] - p[0]).slice(0, 10).map(x => x[1]);
+  list.forEach((q, i) => {
+    const dx = q.b[0] - q.a[0], dz = q.b[1] - q.a[1], len = Math.hypot(dx, dz); if (len < 20) return;
+    const ang = -Math.atan2(dz, dx), cx = (q.a[0] + q.b[0]) / 2, cz = (q.a[1] + q.b[1]) / 2;
+    const bead = new THREE.Mesh(new THREE.BoxGeometry((len - 1) * MM, 1 * MM, 5.2 * MM), materialFor("__ledoff"));
+    bead.position.set(cx * MM, (q.y - 0.3) * MM, cz * MM); bead.rotation.y = ang; bead.castShadow = false; bead.userData.own = true;
+    const glow = new THREE.Mesh(new THREE.PlaneGeometry(len * MM, 70 * MM), new THREE.MeshBasicMaterial({ map: gtex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .9 }));
+    const nn = q.n || [Math.sin(ang), Math.cos(ang)];
+    glow.material.userData.own = true; glow.rotation.order = "YXZ"; glow.rotation.y = Math.atan2(nn[0], nn[1]); glow.rotation.x = Math.PI / 2; glow.renderOrder = 4;
+    /* planul halou pornește de la bandă și se întinde spre spatele corpului (ca la corpul singur: n = fața corpului, în planul camerei) */
+    glow.position.set((cx - nn[0] * 32.4) * MM, (q.y - 1.1) * MM, (cz - nn[1] * 32.4) * MM);
+    grp.add(bead, glow);
+    const it = { bead, glow, door: !!q.door, lights: [] };
+    if (byLen.indexOf(i) >= 0) {
+      const n = len > 900 ? 2 : 1;
+      for (let k = 0; k < n; k++) {
+        const t = n === 1 ? 0.5 : (k + 0.5) / n, pl = new THREE.PointLight(0xffb470, 0, 2.0, 2);
+        pl.position.set((q.a[0] + dx * t) * MM, (q.y - 25) * MM, (q.a[1] + dz * t) * MM); pl.castShadow = false; grp.add(pl); it.lights.push(pl);
+      }
+    }
+    L.items.push(it);
+  });
+  R.rledG = grp; R.root.add(grp); R.rled = L;
+  updateLed();
+}
+function updateRoomLed() {
+  const L = R.rled; if (!L) return;
+  const lit0 = !!R.st.ledOn && !(R.st.explode > 0.01);
+  L.items.forEach(it => {
+    const on = !!R.st.ledOn && (!it.door || !!R.st.open);
+    it.bead.material = materialFor(on ? "__ledon" : "__ledoff"); it.glow.visible = on;
+    const lit = lit0 && (!it.door || !!R.st.open);
+    it.lights.forEach(pl => { pl.intensity = lit ? LED_LIGHT_I * 1.6 : 0; pl.visible = lit; });
+  });
+}
 function updateLed() {
+  updateRoomLed();
   const L = R.led; if (!L) return;
   const on = !!R.st.ledOn && (R.ledMount !== "door" || !!R.st.open);   /* cu senzor pe ușă lumina urmează ușa deschisă */
   L.strip.forEach(m => { m.material = materialFor(on ? "__ledon" : "__ledoff"); });
@@ -2116,6 +2166,7 @@ const GL3D = {
         if (R.st.sel != null && !R.pieces.has(String(R.st.sel))) { R.st.sel = null; R.st.iso = false; }
       }
       R.boxes = boxes;
+      setRoomLeds(opts.room ? opts.leds : null);
       updateBoundsAndLights(boxes);
       setTargets(boxes);
       applyState();
@@ -2302,7 +2353,8 @@ const GL3D = {
     try {
       this.render(cfg, { explode: o.explode || 0 });
       Object.assign(R.st, { mode: o.mode || "real", hw: !!o.hw, holes: !!o.holes, open: !!o.open,
-        sel: null, iso: false, dims: false, warm: false, edges: o.edges !== false, explode: o.explode || 0 });
+        sel: null, iso: false, dims: false, warm: !!o.warm, edges: o.edges !== false, explode: o.explode || 0 });
+      if (o.led != null) R.st.ledOn = !!o.led;   /* clipuri și poze de prezentare: lumina aprinsă/stinsă și atmosfera caldă se cer explicit; documentele nu trec nimic = neschimbat */
       setTargets(R.boxes); applyState();
       if (V) { V.yaw = o.yaw != null ? o.yaw : .62; V.pitch = o.pitch != null ? o.pitch : .36; V.zoom = o.zoom || 1; }
       const w = o.w || 1200, h = o.h || 900;

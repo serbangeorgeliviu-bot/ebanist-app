@@ -23,6 +23,7 @@
     closeSheets();
     const p = newProject(spec.name, spec.survey);
     Object.assign(state.settings, spec.settings || {});
+    if (spec.floorTone != null) p.floorTone = spec.floorTone;
     const rep = { bodies: [], errors: [] };
     if (spec.kitchen) {
       const k = EBKitchenUI.kit(p);

@@ -1,6 +1,6 @@
 /* Demo 3 — DORMITOR + DRESSING „Stejar & Textil”: dulap cu uși glisante și sertare, dressing cu uși pliante, pat cu ladă ridicabilă pe pistoane, noptiere suspendate,
- * lambriu canelat, birou cu raft de tastatură și treceri de cablu, un corp oval. Materiale: gri cașmir (dulapuri), stejar Davos (lambriu, noptiere, birou), textil bej (pat). */
-const GRI = "egger_u702_st9_18", STEJAR = "egger_h3131_st12_18", TEXTIL = "egger_f416_st10_18";
+ * lambriu canelat, birou cu raft de tastatură și treceri de cablu, un corp oval. Materiale: gri lavă (dulapuri), stejar Davos (lambriu, noptiere, birou), textil bej (pat). */
+const GRI = "egger_u741_st9_18", STEJAR = "egger_h3131_st12_18", TEXTIL = "egger_f416_st10_18";
 const D = { type: "standard", matBody: GRI, matFront: GRI, matBack: GRI, tram: 0, drawers: 0, doors: 0, shelves: 0, back: 1, hang: 0, plinth: 0, support: "sospeso", handles: "push", shelfType: "fisso" };
 const spec = {
   id: "bedroom",
@@ -25,6 +25,7 @@ const spec = {
     { cfg: { name: "D2 Desk wall unit", L: 900, H: 450, P: 320, doors: 1, lift: "blum_hk_top", liftElec: "servo", matBody: GRI, matFront: GRI }, at: { wall: "w4", from: 500, lift: 1700 } },
     { cfg: { name: "D3 Oval shelf", type: "tondo", L: 900, H: 800, P: 450, shelves: 2, back: 0, matBody: STEJAR, matFront: STEJAR, matBack: STEJAR, support: "zoccolo" }, at: { wall: "w4", from: 2200 } }
   ],
+  floorTone: 5917244,
   worktops: []
 };
 module.exports = spec;

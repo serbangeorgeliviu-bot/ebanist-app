@@ -31,6 +31,7 @@ const spec = {
       w3: wall([]), w4: wall([])
     },
     recolor: [["tall unit|Pull-out", { matFront: STEJAR }],
+              ["^(Wall unit|Hood space|Open wall|Glass-door wall|Blind corner wall|Corner wall)", { matFront: BETON_L }],
               ["^Wall unit with doors (1\\.3|2\\.3)", { lift: "blum_hk_top", liftElec: "servo" }],
               ["^Glass-door wall unit", { led: "top", ledSw: "door" }],
               ["^Open wall unit", { led: "top", ledSw: "hidden" }]]
@@ -40,9 +41,10 @@ const spec = {
   bodies: [
     { cfg: { name: "Island drawers", type: "standard", L: 900, H: 862, P: 600, support: "zoccolo", plinth: 142, drawers: 3, drawerSys: "legrabox", drawerDist: "cucina", doors: 0, shelves: 0, back: 1, hang: 0, top: "traverse", handles: "gola", matBody: NEGRU, matFront: BETON, matBack: NEGRU }, at: { wall: "w3", from: 1500, off: 1870 } },
     { cfg: { name: "Island doors", type: "standard", L: 900, H: 862, P: 600, support: "zoccolo", plinth: 142, drawers: 0, doors: 2, shelves: 2, back: 1, hang: 0, top: "traverse", handles: "gola", matBody: NEGRU, matFront: BETON, matBack: NEGRU }, at: { wall: "w3", from: 2400, off: 1870 } },
-    { cfg: { name: "Island open", type: "standard", L: 900, H: 862, P: 600, support: "zoccolo", plinth: 142, drawers: 0, doors: 0, shelves: 2, back: 1, hang: 0, top: "traverse", handles: "gola", matBody: NEGRU, matFront: STEJAR, matBack: STEJAR, led: "top", ledSw: "hidden" }, at: { wall: "w3", from: 3300, off: 1870 } },
+    { cfg: { name: "Island open", type: "standard", L: 900, H: 862, P: 600, support: "zoccolo", plinth: 142, drawers: 0, doors: 0, shelves: 2, back: 1, hang: 0, top: "plin", handles: "gola", matBody: NEGRU, matFront: STEJAR, matBack: STEJAR, led: "top", ledSw: "hidden" }, at: { wall: "w3", from: 3300, off: 1870 } },
     { cfg: { name: "Island worktop", type: "blat", L: 2740, P: 1000, matBody: "blat_ceram_20", matFront: "blat_ceram_20", matBack: "blat_ceram_20", bordo: "2L+2C", cutouts: [], pockets: [], mitre: { start: false, end: false } }, at: { wall: "w3", from: 1480, off: 1490, lift: 862 } }
   ],
+  floorTone: 4934475,
   worktops: []
 };
 module.exports = spec;

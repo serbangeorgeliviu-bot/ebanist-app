@@ -1628,6 +1628,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>
         <span data-i="newProject">Nuovo progetto</span>
       </button>
+      <button class="btn" id="btnDemo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>
+        <span data-i="demoBtn">Progetti demo</span>
+      </button>
       <button class="btn" id="btnImport">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         <span data-i="import">Importa</span>
@@ -2520,6 +2524,16 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="btn red" id="geomApply" style="margin-top:12px" data-i="gvApply">Conferma e riscrivi</button>
 </div>
 
+<!-- FAZA T: proiecte demo (ebanist-demo.js). Se încarcă o COPIE; proiectele utilizatorului nu se ating. -->
+<div class="sheet" id="shDemo">
+  <div class="sheet-grip"></div>
+  <h3 data-i="demoTitle">Progetti demo</h3>
+  <p class="vsub" data-i="demoSub"></p>
+  <div id="demoBody"></div>
+  <p class="mini" style="margin-top:10px" data-i="demoNote"></p>
+  <div class="btnrow" style="margin-top:12px"><button class="btn" id="demoClose" data-i="cancel">Annulla</button></div>
+</div>
+
 <!-- Raft peste balama: cota veche, cota nouă, confirmare. Scrie numai după backup. -->
 <div class="sheet" id="shfSheet">
   <div class="sheet-grip"></div>
@@ -3087,6 +3101,8 @@ if(window.CORE_REV!=="5.24.2") document.write('<script src="./ebanist-core.js?re
 <script src="./ebanist-hwindex-i18n.js"></script>
 <script src="./ebanist-hwfit.js"></script>
 <script src="./ebanist-hwfit-i18n.js"></script>
+<script src="./ebanist-demo-i18n.js"></script>
+<script src="./ebanist-demo.js"></script>
 <script src="./ebanist-hwui-i18n.js"></script>
 <script src="./ebanist-hwui.js"></script>
 <script src="./ebanist-lift-data.js"></script>
@@ -4474,6 +4490,7 @@ if(typeof OPEN_I18N!=="undefined") for(const L of Object.keys(OPEN_I18N)) Object
 if(typeof HWINDEX_I18N!=="undefined") for(const L of Object.keys(HWINDEX_I18N)) Object.assign(I18N[L],HWINDEX_I18N[L]);
 if(typeof HWFIT_I18N!=="undefined") for(const L of Object.keys(HWFIT_I18N)) Object.assign(I18N[L],HWFIT_I18N[L]);
 if(typeof HWUI_I18N!=="undefined") for(const L of Object.keys(HWUI_I18N)) Object.assign(I18N[L],HWUI_I18N[L]);
+if(typeof DEMO_I18N!=="undefined") for(const L of Object.keys(DEMO_I18N)) Object.assign(I18N[L],DEMO_I18N[L]);   // FAZA T: «Proiecte demo»
 /* U.17 — textele unităților de colț / scoase / mecanisme: în ebanist-corner-i18n.js (7 limbi), aici doar se adaugă în I18N */
 if(typeof CORNER_I18N==="object") Object.keys(I18N).forEach(l=>Object.assign(I18N[l],CORNER_I18N[l]||CORNER_I18N.it));
 /* balamale Hettich / Salice / Grass / Häfele / Blum 105°: textele (avertismente, fișă, cuvintele din nume) vin din ebanist-hinges-more-i18n.js */
@@ -5392,7 +5409,7 @@ function isPro(){ return PRO||atelierMode(); }
    meta della quota gratuita vorrebbe dire far sbattere l'utente contro
    il muro al SECONDO progetto suo, non al terzo. Appena lo tocca (lo
    rinomina, lo duplica) smette di essere un esempio e conta. */
-function ownProjects(){ return state.projects.filter(p=>!p.demo).length; }
+function ownProjects(){ return state.projects.filter(p=>!p.demo&&!p.showcase).length; }   /* copia unui proiect demo (showcase, FAZA T) nu se numără, ca exemplul de pornire */
 
 /* L'identita del dispositivo, come compare nel cruscotto Lemon Squeezy
    (chiavi UUID storiche; gli abbonamenti Stripe non contano dispositivi).
@@ -6744,7 +6761,7 @@ $("btnProjectSave").addEventListener("click",()=>{
     /* Un progetto di esempio che viene rinominato smette di essere un
        esempio: da qui in poi conta nella quota gratuita come gli altri. */
     Object.assign(p,{name,client,deadline,phone,notes,hours});
-    delete p.demo;
+    delete p.demo; delete p.showcase;
   }
   else{
     if(!gateNewProject()) return;
@@ -6987,6 +7004,27 @@ $("btnLang").addEventListener("click",()=>{
    putea alege. Acolo se acceptă orice fișier; conținutul decide (JSON sau CSV). */
 if(window.EbanistAndroid) $("fileInput").removeAttribute("accept");
 $("btnImport").addEventListener("click",()=>$("fileInput").click());
+/* ===== PROIECTE DEMO (FAZA T, ebanist-demo.js): o COPIE a proiectului, niciodată peste proiectele utilizatorului; copia neatinsă se redeschide, nu se dublează ===== */
+function demoSheet(){
+  $("demoBody").innerHTML=EBDemo.list().map(d=>`<div class="card" data-demo="${d.id}"><div class="pj-name">${esc(t("demoN_"+d.id))}</div>
+    <p class="mini" style="margin:6px 0">${esc(t("demoD_"+d.id))}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">${d.feat.map(f=>`<span class="chip sm">${esc(f)}</span>`).join("")}</div>
+    <button class="btn red sm" data-open style="margin-top:10px">${esc(t("demoOpen"))}</button></div>`).join("");
+  $("demoBody").querySelectorAll("[data-demo]").forEach(c=>c.querySelector("[data-open]").addEventListener("click",()=>demoLoad(c.dataset.demo)));
+  openSheet("shDemo");
+}
+async function demoLoad(id){
+  const d=EBDemo.get(id); if(!d) return;
+  let p=EBDemo.existing(state.projects,id);
+  if(!p){
+    let json; try{ const r=await fetch(d.file); if(!r.ok) throw new Error("http "+r.status); json=await r.json(); }catch(e){ toast(t("demoFail")); return; }
+    p=EBDemo.prepare(json,{lang:state.lang,uid,names:state.projects.map(q=>q.name),today:new Date().toISOString().slice(0,10)});
+    state.projects.unshift(p);
+  }
+  state.activeId=p.id; persist(); closeSheets(); setView("build"); toast(t("demoDone").replace("{n}",p.name));
+}
+$("btnDemo").addEventListener("click",demoSheet);
+$("demoClose").addEventListener("click",closeSheets);
 $("btnRestoreFile").addEventListener("click",()=>{ closeSheets(); $("fileInput").click(); });
 $("fileInput").addEventListener("change",e=>{
   const f=e.target.files[0]; if(!f)return;
@@ -10206,7 +10244,7 @@ function asmDraw(){
       window.GL3D.set({mode:"real",hw:false,holes:false,dims:false,edges:false,open:false,explode:0});
     }
     const RL=roomLayout(), floor=RL.frames.map(f=>{ const q=toRoom(f,0,0,0); return [q.x,q.y]; });
-    window.GL3D.render(cfg,{boxes:bx,room:{floor}});
+    window.GL3D.render(cfg,{boxes:bx,room:{floor,tone:(proj()||{}).floorTone},leds:roomLeds()});
   } else render3D($("svg3d"),cfg,ROOM_VIEW,{boxes:bx,real:true,solidFronts:true});
   return true;
 }
@@ -16140,7 +16178,7 @@ $("btnProjectDup").addEventListener("click",()=>{
      aggirava aprendo un progetto e premendo «Duplica». */
   if(!gateNewProject()) return;
   const c=JSON.parse(JSON.stringify(src));
-  delete c.demo;
+  delete c.demo; delete c.showcase;
   c.id=uid(); c.name=src.name+" "+t("copySuffix"); c.date=new Date().toISOString().slice(0,10);
   c.pieces.forEach(x=>{x.id=uid();x.done=0;});
   state.projects.unshift(c); state.activeId=c.id;
@@ -16332,6 +16370,20 @@ function renderRoomChips(){
   el.innerHTML=[["",ts("room3dAll")]].concat(names.map(n=>[n,n]),[["__filler",ts("room3dFillers")]])
     .map(([v,l])=>`<button class="chip sm${(roomSel||"")===v?" on":""}" data-rs="${esc(v)}">${esc(l)}</button>`).join("");
   el.querySelectorAll("[data-rs]").forEach(b=>b.addEventListener("click",()=>{ roomSel=b.dataset.rs||null; drawRoom3D(); }));
+}
+/* benzile LED ale corpurilor din cameră, în coordonatele camerei (pentru GL3D.render, opts.leds): capătul A, capătul B, înălțimea, fața corpului (n), senzor pe ușă */
+function roomLeds(){
+  const RL=roomLayout(), p=proj(), out=[]; if(!RL||!p) return out;
+  RL.mods.forEach(m=>{
+    if(!m.cfg||!ledMode(m.cfg)) return;
+    let M=null; try{ M=mModel(p,m.name); }catch(e){}
+    const ops=M&&M.ops; if(!ops) return;
+    const strip=(ops.hw||[]).find(h=>h.type==="led"); if(!strip) return;
+    const zc=strip.w[2], A=toRoom(m.fr,m.from,strip.x0,zc,m.off,m.rot,m.piv), B=toRoom(m.fr,m.from,strip.x1,zc,m.off,m.rot,m.piv), F=toRoom(m.fr,m.from,strip.w[0],zc+100,m.off,m.rot,m.piv), C=toRoom(m.fr,m.from,strip.w[0],zc,m.off,m.rot,m.piv);
+    const nl=Math.hypot(F.x-C.x,F.y-C.y)||1;
+    out.push({name:m.name,a:[A.x,A.y],b:[B.x,B.y],y:strip.w[1]+m.lift,n:[(F.x-C.x)/nl,(F.y-C.y)/nl],door:(ops.hw||[]).some(h=>h.type==="leddoor")});
+  });
+  return out;
 }
 function roomBoxes(){
   const RL=roomLayout(); if(!RL||!RL.mods.length) return null;
@@ -17436,7 +17488,7 @@ function drawRoom3D(){
   const RL=roomLayout();
   if(roomGLAttach()){
     const floor=RL.frames.map(f=>{ const q=toRoom(f,0,0,0); return [q.x,q.y]; });
-    window.GL3D.render(cfg,{boxes:bx,room:{floor}});
+    window.GL3D.render(cfg,{boxes:bx,room:{floor,tone:(proj()||{}).floorTone},leds:roomLeds()});
   } else {
     el.style.display="block"; $("room3dGL").style.display="none";
     render3D(el,cfg,ROOM_VIEW,{boxes:bx,real:true,solidFronts:true});
