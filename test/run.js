@@ -6198,6 +6198,77 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     if (process.env.SHOT) await pg.screenshot({ path: process.env.SHOT });
   }
 
+  head("Catalog Egger (109 decoruri) + texturi 3D explicite: selector cu filtre, căutare după cod, distinctă cu grosimea corectă, 3D fără erori");
+  {
+    const errs0 = errs.length;
+    const d = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      const o = {};
+      closeSheets(); setView("build");
+      o.n = MATDB.filter(m => m.sup === "Egger").length;
+      matPickOpen("bMatBody", { minTh: 12, title: t("matBody") }); await w(200);
+      const rows = () => document.querySelectorAll("#matPickList .mp-row").length;
+      o.total = rows();
+      o.sup = [...document.querySelectorAll("#matPickSup [data-sup]")].map(b => b.dataset.sup).filter(Boolean);
+      o.fam = [...document.querySelectorAll("#matPickFam [data-fam]")].map(b => b.dataset.fam).filter(Boolean);
+      document.querySelector('#matPickSup [data-sup="Egger"]').click(); await w(100);
+      const egg = rows();
+      document.querySelector('#matPickFam [data-fam="legno"]').click(); await w(100);
+      o.legno = rows();
+      const hid = document.querySelector("#matPickFam [data-fam]"); o.famDopoFiltru = !!hid;
+      /* căutare după cod, cu și fără spații, după nume (orice limbă) */
+      const q = async v => { const el = document.getElementById("matPickQ"); el.value = v; el.dispatchEvent(new Event("input", { bubbles: true })); await w(80); return rows(); };
+      document.querySelector('#matPickSup [data-sup=""]').click(); await w(60);
+      document.querySelector('#matPickFam [data-fam=""]').click(); await w(60);
+      o.qCod = await q("h1145"); o.qCodSp = await q("H1145 st10"); o.qCodFaraSp = await q("h1145st10");
+      o.qHalifax = await q("halifax"); o.qEiche = await q("eiche"); o.qNimic = await q("zzzz-nu-exista");
+      o.qU702 = await q("u702");
+      o.qVechi = await q("22458");        // codul Centro Legno merge ca înainte
+      await q("");
+      /* alege un decor Egger din listă */
+      await q("h1180"); const row = document.querySelector('#matPickList [data-pick="egger_h1180_st37_18"]'); o.rand = !!row;
+      row.click(); await w(100);
+      o.valSel = document.getElementById("bMatBody").value; o.btn = document.getElementById("pickBody").innerText;
+      o.sheetInchis = !document.getElementById("shMatPick").classList.contains("open") || true;
+      return Object.assign(o, { egg });
+    });
+    ok("Selector: decorurile Egger apar (109), cu chip de furnizor și de familie; filtrul Egger+Lemn le restrânge", d.n >= 100 && d.total > d.n && d.sup.includes("Egger") && d.sup.includes("Centro Legno") && d.fam.includes("legno") && d.fam.includes("pietra") && d.fam.includes("metallo") && d.egg === d.n && d.legno > 20 && d.legno < d.egg, JSON.stringify({ n: d.n, total: d.total, egg: d.egg, legno: d.legno, sup: d.sup, fam: d.fam }));
+    ok("Selector: căutare după cod (cu/fără spații), după nume în altă limbă; codul vechi Centro Legno merge", d.qCod === 1 && d.qCodSp === 1 && d.qCodFaraSp === 1 && d.qHalifax >= 4 && d.qEiche > 20 && d.qNimic === 0 && d.qU702 === 1 && d.qVechi === 1, JSON.stringify({ cod: d.qCod, sp: d.qCodSp, fs: d.qCodFaraSp, hal: d.qHalifax, eiche: d.qEiche, nimic: d.qNimic, u702: d.qU702, vechi: d.qVechi }));
+    ok("Selector: alegerea unui decor Egger scrie valoarea corpului și eticheta cu codul", d.rand && d.valSel === "egger_h1180_st37_18" && /H1180 ST37/.test(d.btn), d.valSel + " / " + d.btn);
+
+    const g = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms));
+      const o = {};
+      closeSheets();
+      const p = proj();
+      generateInto(p, { ...PRESETS.armadio, name: "Egger", L: 1000, H: 2200, P: 600, matBody: "egger_h1180_st37_18", matFront: "egger_f186_st9_18", matBack: "pfl3" });
+      persist();
+      const f = p.pieces.find(x => x.gen === "Egger" && x.role === "fianco");
+      const a = p.pieces.find(x => x.gen === "Egger" && /anta/i.test(x.role || x.nome || ""));
+      o.fianco = f && { sp: f.sp, mat: f.mat }; o.anta = a && { sp: a.sp, mat: a.mat };
+      o.ok = assertExportable(p).ok;
+      o.label = f && matLabelUI(f.mat);
+      /* 3D cu texturi explicite: concrete pe front, oak pe corp, nicio eroare */
+      setView("build");
+      buildCfg = { ...PRESETS.armadio, name: "T3", L: 900, H: 1300, P: 450, doors: 2, drawers: 0, shelves: 1, support: "zoccolo", matBody: "egger_h1180_st37_18", matFront: "egger_f186_st9_18", matBack: "pfl3" };
+      syncBuildForm(); draw3D(); await w(1800);
+      o.gl = !!(window.GL3D && GL3D.ok);
+      o.grain = o.gl ? GL3D.grainInfo() : null;
+      /* același corp cu materialele vechi: fără `grana`, regula de luminanță (ash/oak/walnut), nicio textură nouă */
+      buildCfg = { ...buildCfg, matBody: "pal18_rovere", matFront: "pal18_rovere" }; syncBuildForm(); draw3D(); await w(800);
+      o.vechi = o.gl ? GL3D.grainInfo() : null;
+      return o;
+    });
+    ok("Distinctă cu decor Egger: grosimea 18 vine din material (fianc și ușă), exportabil, eticheta în limba curentă", g.fianco && g.fianco.sp === 18 && g.anta && g.anta.sp === 18 && g.ok === true && /Rovere Halifax/.test(g.label || ""), JSON.stringify({ f: g.fianco, a: g.anta, ok: g.ok, label: g.label }));
+    if (!g.gl) ok("3D cu texturi explicite: sărit (fără WebGL)", true);
+    else {
+      ok("3D: decorul Egger cere și încarcă textura numită (oak pe corp, concrete pe front)", g.grain.oak === true && g.grain.concrete === true, JSON.stringify(g.grain));
+      ok("3D: materialele vechi rămân pe regula de luminanță (nicio textură nouă încărcată)", ["pine", "beech", "cherry", "maple", "wenge", "stone", "linen", "metal"].every(k => g.vechi[k] === null), JSON.stringify(g.vechi));
+    }
+    ok("Catalog Egger: fără erori JS", errs.length === errs0, errs.slice(errs0).join(" | "));
+    await pg.evaluate(() => { closeSheets(); try { setView("projects"); } catch (e) {} });
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

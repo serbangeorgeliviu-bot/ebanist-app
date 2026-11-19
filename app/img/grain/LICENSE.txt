@@ -13,9 +13,9 @@ Sursă, pe fișier (slug Poly Haven · autori după API-ul Poly Haven, consultat
   wenge.jpg     Black Walnut Veneer 02 (https://polyhaven.com/a/black_walnut_veneer_02) · Jenelle van Heerden · CC0 — rotită 90°
   concrete.jpg  Concrete Wall 007 (https://polyhaven.com/a/concrete_wall_007) · Dario Barresi, Rico Cilliers, Charlotte Baglioni · CC0
   stone.jpg     Concrete Floor 01 (https://polyhaven.com/a/concrete_floor_01) · Rob Tuytel · CC0 — folosită pentru granit/ardezie/piatră cu granulație fină
-  linen.jpg     Rough Linen (https://polyhaven.com/a/rough_linen) · colormass, Rico Cilliers · CC0
+  linen.jpg     Rough Linen (https://polyhaven.com/a/rough_linen) · colormass, Rico Cilliers · CC0 — estompare gaussiană 0,8 px, contrast ×1,5
   metal.jpg     Oțel periat: generată procedural (zgomot periodic anizotrop, seed 20261119) — fără sursă externă, deci fără licență de terți; este periodică, deci se repetă fără cusătură.
 
 Metoda de conversie: descărcare „diffuse 1k” JPG → redimensionare 1024×1024 → luminanță (L) → normalizare la medie 0,91 și
-abatere ≈ 0,07 (× factorul de contrast de mai sus), limitat la [0,45; 1,0] → JPEG în tonuri de gri (≤ 200 KB). Același procedeu ca la primele trei.
+abatere ≈ 0,07 (× factorul de contrast de mai sus), limitat la [0,45; 1,0] → JPEG în tonuri de gri (≈ 200 KB). Același procedeu ca la primele trei.
 Imaginile eșantioanelor de culoare ale decorurilor Egger NU sunt în repo (vezi data/materials-egger.json: se folosește numai culoarea medie calculată).

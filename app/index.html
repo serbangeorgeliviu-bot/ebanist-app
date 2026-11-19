@@ -12418,6 +12418,7 @@ function renderMatPick(){
   const fams=FAMIGLIE.filter(f=>bySup.some(m=>(matById(m.id).famiglia||"tinta_unita")===f));
   if(MP.fam&&!fams.includes(MP.fam)) MP.fam=null;
   const list=bySup.filter(m=>!MP.fam||(matById(m.id).famiglia||"tinta_unita")===MP.fam);
+  const supOrder=[...new Set(matVisible().map(m=>m.sup||""))];   // ordinea de prima apariție în catalog
   $("matPickSup").innerHTML=sups.length>1
     ?`<button class="chip sm${!MP.sup?" on":""}" data-sup="">${esc(t("allThick"))}</button>`+
       sups.map(x=>`<button class="chip sm${MP.sup===x?" on":""}" data-sup="${esc(x)}">${esc(x)}</button>`).join(""):"";
@@ -12438,9 +12439,12 @@ function renderMatPick(){
     const rows=list.filter(m=>(matById(m.id).famiglia||"tinta_unita")===fam)
       /* dentro la famiglia: prima il listino vivo, poi quello di prima.
          Nessuna sparisce — cambia solo l'ordine in cui si incontrano. */
-      .sort((a,b)=>(matIsLegacy(a)?1:0)-(matIsLegacy(b)?1:0)
-        ||String(a.sup||"").localeCompare(String(b.sup||""))
-        ||String(a.codice||"").localeCompare(String(b.codice||""),undefined,{numeric:true}));
+      .map((m,i)=>({m,i}))
+      .sort((a,b)=>(matIsLegacy(a.m)?1:0)-(matIsLegacy(b.m)?1:0)
+        ||(supOrder.indexOf(a.m.sup||"")-supOrder.indexOf(b.m.sup||""))
+        /* il catalogo lungo (Egger) in ordine di codice; gli altri come sono sempre stati */
+        ||(a.m.sup&&a.m.sup===b.m.sup&&a.m.codice&&b.m.codice?String(a.m.codice).localeCompare(String(b.m.codice),undefined,{numeric:true}):0)
+        ||a.i-b.i).map(x=>x.m);
     if(!rows.length) continue;
     html+=`<div class="mp-fam">${esc(t("fam_"+fam))}</div>`;
     html+=rows.map(m=>{

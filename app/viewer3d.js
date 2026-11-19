@@ -244,7 +244,7 @@ const GRAIN_KINDS = {
   wenge:    { m: 0.50, bump: 0.0008, rough: 2.4 },
   concrete: { m: 1.20, bump: 0.0010, rough: 1.6, roughness: 0.80, clearcoat: 0.02 },
   stone:    { m: 0.50, bump: 0.0010, rough: 1.4, roughness: 0.55, clearcoat: 0.10 },
-  linen:    { m: 0.12, bump: 0.0012, rough: 1.2, roughness: 0.90, clearcoat: 0 },
+  linen:    { m: 0.40, bump: 0.0030, rough: 1.2, roughness: 0.90, clearcoat: 0 },
   metal:    { m: 0.60, bump: 0.0004, rough: 1.4, roughness: 0.42, clearcoat: 0.20, clearcoatRoughness: 0.30 },
 };
 function grainKind(hex) {
