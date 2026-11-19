@@ -110,6 +110,19 @@
       }
     } catch (e) { B("ops", String(e).slice(0, 120)); }
     info.sheets = sheets; info.operations = holes; info.hwTypes = hwTypes; info.opsWarn = opsWarn;
+    /* avertismentele generatorului (limite ale mecanismelor, uși glisante, unități de colț, deschidere, sertare): se numără pe familie și tip; `range` = o limită depășită → se repară în proiect */
+    const bw = {}, ranges = [];
+    for (const name of names) {
+      let m; try { m = buildModule(p.configs[name]); } catch (e) { B(name, "buildModule: " + String(e).slice(0, 80)); continue; }
+      const W = m.warn || {};
+      for (const key of Object.keys(W)) {
+        const v = W[key];
+        if (Array.isArray(v)) v.forEach(x => { const k = key + ":" + (x.k || "?"); bw[k] = (bw[k] || 0) + 1; if (x.k === "range") ranges.push(name + " " + key + " " + JSON.stringify(x)); });
+        else if (v && typeof v === "object") { const k = key; bw[k] = (bw[k] || 0) + 1; }
+        else if (v) { bw[key] = (bw[key] || 0) + 1; }
+      }
+    }
+    info.buildWarn = bw; info.buildRanges = ranges;
     /* 3. distinctă, CSV, feronerie, deviz, montaj */
     try { const rows = cutRows(p); info.cutRows = rows.length; clean("distinctă", JSON.stringify(rows)); const csv = buildCsv(p); clean("CSV", csv); info.csvLines = csv.split("\n").length;
       info.cutSig = rows.map(r => [r.modulo, r.elemento, r.lung, r.larg, r.pz, r.materiale].join("|")); } catch (e) { B("distinctă", String(e).slice(0, 120)); }

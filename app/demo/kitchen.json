@@ -1791,7 +1791,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Integrated fridge tall unit 1.1",
@@ -1813,7 +1813,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Integrated fridge tall unit 1.1",
@@ -1978,7 +1978,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Pull-out pantry 1.3",
@@ -2000,7 +2000,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Pull-out pantry 1.3",
@@ -2217,7 +2217,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Pantry tall unit 2.4",
@@ -2249,268 +2249,6 @@
    "axis_mapping": {
     "lung": "H",
     "larg": "L",
-    "sp": "P"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.4 ↑",
-   "modulo": "Wall unit with doors 1.4 ↑",
-   "elemento": "Fianco",
-   "lung": 720,
-   "larg": 320,
-   "pz": 2,
-   "bordo": "2L+2C",
-   "role": "fianco",
-   "axis_mapping": {
-    "lung": "H",
-    "larg": "P",
-    "sp": "L"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.4 ↑",
-   "modulo": "Wall unit with doors 1.4 ↑",
-   "elemento": "Base / Cielo",
-   "lung": 564,
-   "larg": 302,
-   "pz": 2,
-   "bordo": "1L",
-   "role": "base_cielo",
-   "axis_mapping": {
-    "lung": "L",
-    "larg": "P",
-    "sp": "H"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.4 ↑",
-   "modulo": "Wall unit with doors 1.4 ↑",
-   "elemento": "Ripiano mobile",
-   "lung": 562,
-   "larg": 282,
-   "pz": 2,
-   "bordo": "1L",
-   "role": "ripiano",
-   "axis_mapping": {
-    "lung": "L",
-    "larg": "P",
-    "sp": "H"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": [
-    246,
-    474
-   ],
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.4 ↑",
-   "modulo": "Wall unit with doors 1.4 ↑",
-   "elemento": "Anta gola",
-   "lung": 677,
-   "larg": 295,
-   "pz": 2,
-   "bordo": "2L+2C",
-   "role": "frontale",
-   "axis_mapping": {
-    "lung": "H",
-    "larg": "L",
-    "sp": "P"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Light Grey Chicago Concrete"
-  },
-  {
-   "gen": "Wall unit with doors 1.4 ↑",
-   "modulo": "Wall unit with doors 1.4 ↑",
-   "elemento": "Profilo gola L",
-   "lung": 600,
-   "larg": 40,
-   "pz": 1,
-   "bordo": "",
-   "role": "accessorio",
-   "axis_mapping": null,
-   "sp": null,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Accessorio — profilo gola L alluminio"
-  },
-  {
-   "gen": "Wall unit with doors 1.4 ↑",
-   "modulo": "Wall unit with doors 1.4 ↑",
-   "elemento": "Schienale",
-   "lung": 720,
-   "larg": 564,
-   "pz": 1,
-   "bordo": "",
-   "role": "schienale",
-   "axis_mapping": {
-    "lung": "H",
-    "larg": "L",
-    "sp": "P"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.6 ↑",
-   "modulo": "Wall unit with doors 1.6 ↑",
-   "elemento": "Fianco",
-   "lung": 720,
-   "larg": 320,
-   "pz": 2,
-   "bordo": "2L+2C",
-   "role": "fianco",
-   "axis_mapping": {
-    "lung": "H",
-    "larg": "P",
-    "sp": "L"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.6 ↑",
-   "modulo": "Wall unit with doors 1.6 ↑",
-   "elemento": "Base / Cielo",
-   "lung": 764,
-   "larg": 302,
-   "pz": 2,
-   "bordo": "1L",
-   "role": "base_cielo",
-   "axis_mapping": {
-    "lung": "L",
-    "larg": "P",
-    "sp": "H"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.6 ↑",
-   "modulo": "Wall unit with doors 1.6 ↑",
-   "elemento": "Ripiano mobile",
-   "lung": 762,
-   "larg": 282,
-   "pz": 2,
-   "bordo": "1L",
-   "role": "ripiano",
-   "axis_mapping": {
-    "lung": "L",
-    "larg": "P",
-    "sp": "H"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": [
-    246,
-    474
-   ],
-   "scasso": null,
-   "curve": null,
-   "materiale": "Soft Black"
-  },
-  {
-   "gen": "Wall unit with doors 1.6 ↑",
-   "modulo": "Wall unit with doors 1.6 ↑",
-   "elemento": "Anta gola",
-   "lung": 677,
-   "larg": 395,
-   "pz": 2,
-   "bordo": "2L+2C",
-   "role": "frontale",
-   "axis_mapping": {
-    "lung": "H",
-    "larg": "L",
-    "sp": "P"
-   },
-   "sp": 18,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Light Grey Chicago Concrete"
-  },
-  {
-   "gen": "Wall unit with doors 1.6 ↑",
-   "modulo": "Wall unit with doors 1.6 ↑",
-   "elemento": "Profilo gola L",
-   "lung": 800,
-   "larg": 40,
-   "pz": 1,
-   "bordo": "",
-   "role": "accessorio",
-   "axis_mapping": null,
-   "sp": null,
-   "spSrc": null,
-   "seg": null,
-   "ys": null,
-   "scasso": null,
-   "curve": null,
-   "materiale": "Accessorio — profilo gola L alluminio"
-  },
-  {
-   "gen": "Wall unit with doors 1.6 ↑",
-   "modulo": "Wall unit with doors 1.6 ↑",
-   "elemento": "Schienale",
-   "lung": 764,
-   "larg": 720,
-   "pz": 1,
-   "bordo": "",
-   "role": "schienale",
-   "axis_mapping": {
-    "lung": "L",
-    "larg": "H",
     "sp": "P"
    },
    "sp": 18,
@@ -2764,6 +2502,268 @@
   {
    "gen": "Wall unit with doors 2.1 ↑",
    "modulo": "Wall unit with doors 2.1 ↑",
+   "elemento": "Schienale",
+   "lung": 764,
+   "larg": 720,
+   "pz": 1,
+   "bordo": "",
+   "role": "schienale",
+   "axis_mapping": {
+    "lung": "L",
+    "larg": "H",
+    "sp": "P"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.4 ↑",
+   "modulo": "Wall unit with doors 1.4 ↑",
+   "elemento": "Fianco",
+   "lung": 720,
+   "larg": 320,
+   "pz": 2,
+   "bordo": "2L+2C",
+   "role": "fianco",
+   "axis_mapping": {
+    "lung": "H",
+    "larg": "P",
+    "sp": "L"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.4 ↑",
+   "modulo": "Wall unit with doors 1.4 ↑",
+   "elemento": "Base / Cielo",
+   "lung": 564,
+   "larg": 302,
+   "pz": 2,
+   "bordo": "1L",
+   "role": "base_cielo",
+   "axis_mapping": {
+    "lung": "L",
+    "larg": "P",
+    "sp": "H"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.4 ↑",
+   "modulo": "Wall unit with doors 1.4 ↑",
+   "elemento": "Ripiano mobile",
+   "lung": 562,
+   "larg": 282,
+   "pz": 2,
+   "bordo": "1L",
+   "role": "ripiano",
+   "axis_mapping": {
+    "lung": "L",
+    "larg": "P",
+    "sp": "H"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": [
+    246,
+    474
+   ],
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.4 ↑",
+   "modulo": "Wall unit with doors 1.4 ↑",
+   "elemento": "Anta basculante gola",
+   "lung": 677,
+   "larg": 295,
+   "pz": 2,
+   "bordo": "2L+2C",
+   "role": "frontale",
+   "axis_mapping": {
+    "lung": "H",
+    "larg": "L",
+    "sp": "P"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Light Grey Chicago Concrete"
+  },
+  {
+   "gen": "Wall unit with doors 1.4 ↑",
+   "modulo": "Wall unit with doors 1.4 ↑",
+   "elemento": "Profilo gola L",
+   "lung": 600,
+   "larg": 40,
+   "pz": 1,
+   "bordo": "",
+   "role": "accessorio",
+   "axis_mapping": null,
+   "sp": null,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Accessorio — profilo gola L alluminio"
+  },
+  {
+   "gen": "Wall unit with doors 1.4 ↑",
+   "modulo": "Wall unit with doors 1.4 ↑",
+   "elemento": "Schienale",
+   "lung": 720,
+   "larg": 564,
+   "pz": 1,
+   "bordo": "",
+   "role": "schienale",
+   "axis_mapping": {
+    "lung": "H",
+    "larg": "L",
+    "sp": "P"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.6 ↑",
+   "modulo": "Wall unit with doors 1.6 ↑",
+   "elemento": "Fianco",
+   "lung": 720,
+   "larg": 320,
+   "pz": 2,
+   "bordo": "2L+2C",
+   "role": "fianco",
+   "axis_mapping": {
+    "lung": "H",
+    "larg": "P",
+    "sp": "L"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.6 ↑",
+   "modulo": "Wall unit with doors 1.6 ↑",
+   "elemento": "Base / Cielo",
+   "lung": 764,
+   "larg": 302,
+   "pz": 2,
+   "bordo": "1L",
+   "role": "base_cielo",
+   "axis_mapping": {
+    "lung": "L",
+    "larg": "P",
+    "sp": "H"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.6 ↑",
+   "modulo": "Wall unit with doors 1.6 ↑",
+   "elemento": "Ripiano mobile",
+   "lung": 762,
+   "larg": 282,
+   "pz": 2,
+   "bordo": "1L",
+   "role": "ripiano",
+   "axis_mapping": {
+    "lung": "L",
+    "larg": "P",
+    "sp": "H"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": [
+    246,
+    474
+   ],
+   "scasso": null,
+   "curve": null,
+   "materiale": "Soft Black"
+  },
+  {
+   "gen": "Wall unit with doors 1.6 ↑",
+   "modulo": "Wall unit with doors 1.6 ↑",
+   "elemento": "Anta basculante gola",
+   "lung": 677,
+   "larg": 395,
+   "pz": 2,
+   "bordo": "2L+2C",
+   "role": "frontale",
+   "axis_mapping": {
+    "lung": "H",
+    "larg": "L",
+    "sp": "P"
+   },
+   "sp": 18,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Light Grey Chicago Concrete"
+  },
+  {
+   "gen": "Wall unit with doors 1.6 ↑",
+   "modulo": "Wall unit with doors 1.6 ↑",
+   "elemento": "Profilo gola L",
+   "lung": 800,
+   "larg": 40,
+   "pz": 1,
+   "bordo": "",
+   "role": "accessorio",
+   "axis_mapping": null,
+   "sp": null,
+   "spSrc": null,
+   "seg": null,
+   "ys": null,
+   "scasso": null,
+   "curve": null,
+   "materiale": "Accessorio — profilo gola L alluminio"
+  },
+  {
+   "gen": "Wall unit with doors 1.6 ↑",
+   "modulo": "Wall unit with doors 1.6 ↑",
    "elemento": "Schienale",
    "lung": 764,
    "larg": 720,
@@ -3767,7 +3767,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Island worktop",
@@ -3908,7 +3908,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Oven tall unit (+ microwave) 1.2",
@@ -3930,7 +3930,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Oven tall unit (+ microwave) 1.2",
@@ -3996,7 +3996,7 @@
    "ys": null,
    "scasso": null,
    "curve": null,
-   "materiale": "Black-Brown Thermo Oak"
+   "materiale": "Tobacco Gladstone Oak"
   },
   {
    "gen": "Oven tall unit (+ microwave) 1.2",
@@ -4122,10 +4122,10 @@
     }
    ],
    "matBody": "egger_u899_st9_18",
-   "matFront": "egger_h1199_st12_18",
+   "matFront": "egger_h3325_st28_18",
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
-   "matStamp": "39730cb4"
+   "matStamp": "9fdd56d0"
   },
   "Oven tall unit (+ microwave) 1.2": {
    "name": "Oven tall unit (+ microwave) 1.2",
@@ -4202,10 +4202,10 @@
     }
    ],
    "matBody": "egger_u899_st9_18",
-   "matFront": "egger_h1199_st12_18",
+   "matFront": "egger_h3325_st28_18",
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
-   "matStamp": "39730cb4"
+   "matStamp": "9fdd56d0"
   },
   "Pull-out pantry 1.3": {
    "name": "Pull-out pantry 1.3",
@@ -4228,10 +4228,10 @@
    "shelfType": "mobile",
    "appliances": [],
    "matBody": "egger_u899_st9_18",
-   "matFront": "egger_h1199_st12_18",
+   "matFront": "egger_h3325_st28_18",
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
-   "matStamp": "39730cb4"
+   "matStamp": "9fdd56d0"
   },
   "Dishwasher niche 1.4": {
    "name": "Dishwasher niche 1.4",
@@ -4394,7 +4394,9 @@
    "matFront": "egger_f186_st9_18",
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
-   "matStamp": "482f4b98"
+   "matStamp": "482f4b98",
+   "lift": "blum_hs_top",
+   "liftElec": "servo"
   },
   "Glass-door wall unit 1.5 ↑": {
    "name": "Glass-door wall unit 1.5 ↑",
@@ -4449,7 +4451,9 @@
    "matFront": "egger_f186_st9_18",
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
-   "matStamp": "482f4b98"
+   "matStamp": "482f4b98",
+   "lift": "blum_hs_top",
+   "liftElec": "servo"
   },
   "Hood space (chimney) 1.7 ↑": {
    "name": "Hood space (chimney) 1.7 ↑",
@@ -4644,10 +4648,10 @@
    "shelfType": "mobile",
    "appliances": [],
    "matBody": "egger_u899_st9_18",
-   "matFront": "egger_h1199_st12_18",
+   "matFront": "egger_h3325_st28_18",
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
-   "matStamp": "39730cb4"
+   "matStamp": "9fdd56d0"
   },
   "Wall unit with doors 2.1 ↑": {
    "name": "Wall unit with doors 2.1 ↑",
@@ -4728,7 +4732,7 @@
    "matBack": "egger_u899_st9_18",
    "kitchen": true,
    "matStamp": "482f4b98",
-   "lift": "blum_hk_top",
+   "lift": "blum_hs_top",
    "liftElec": "servo"
   },
   "Kitchen worktop 1 A": {
@@ -4782,7 +4786,7 @@
     "start": false,
     "end": false
    },
-   "wt": "wt1948hayyj85",
+   "wt": "wth9rmfuee74b",
    "matStamp": "11ae0598"
   },
   "Kitchen worktop 1 B": {
@@ -4815,7 +4819,7 @@
     "start": false,
     "end": false
    },
-   "wt": "wt1948hayyj85",
+   "wt": "wth9rmfuee74b",
    "matStamp": "11ae0598"
   },
   "Island drawers": {
@@ -4876,11 +4880,11 @@
    "top": "plin",
    "handles": "gola",
    "matBody": "egger_u899_st9_18",
-   "matFront": "egger_h1199_st12_18",
-   "matBack": "egger_h1199_st12_18",
+   "matFront": "egger_h3325_st28_18",
+   "matBack": "egger_h3325_st28_18",
    "led": "top",
    "ledSw": "hidden",
-   "matStamp": "729e171c"
+   "matStamp": "c8f3fd0c"
   },
   "Island worktop": {
    "name": "Island worktop",
@@ -5145,21 +5149,21 @@
        "fridge": "fridge178"
       },
       "up": null,
-      "id": "xaxtckfyj7t"
+      "id": "m13ei7re73y"
      },
      {
       "type": "t_oven",
       "w": 600,
       "opts": {},
       "up": null,
-      "id": "xtk3z4pyj7t"
+      "id": "k096esse73y"
      },
      {
       "type": "t_pull",
       "w": 450,
       "opts": {},
       "up": null,
-      "id": "n2pr3cryj7t"
+      "id": "wkhdp04e73y"
      },
      {
       "type": "n_dw",
@@ -5173,7 +5177,7 @@
         "h": 720
        }
       },
-      "id": "v5d4duwyj7t"
+      "id": "ozxz9tve73y"
      },
      {
       "type": "b_sink",
@@ -5187,7 +5191,7 @@
         "h": 720
        }
       },
-      "id": "x5plc2jyj7t"
+      "id": "r7193jge73y"
      },
      {
       "type": "b_drawers",
@@ -5201,7 +5205,7 @@
         "h": 720
        }
       },
-      "id": "fq88sb9yj7t"
+      "id": "26gzw6de73y"
      },
      {
       "type": "b_hobdr",
@@ -5216,7 +5220,7 @@
         "hood": "hood_chim90"
        }
       },
-      "id": "vcdzlj4yj7t"
+      "id": "3pps275e73y"
      },
      {
       "type": "c_l",
@@ -5230,7 +5234,7 @@
         "h": 720
        }
       },
-      "id": "mg84rkwyj7t"
+      "id": "2wgda4se73y"
      }
     ]
    },
@@ -5248,7 +5252,7 @@
         "h": 720
        }
       },
-      "id": "r60jmzyyj7t"
+      "id": "54v9p48e73y"
      },
      {
       "type": "b_drdoor",
@@ -5260,7 +5264,7 @@
         "h": 720
        }
       },
-      "id": "u0zajfayj7t"
+      "id": "1rsgbc6e73y"
      },
      {
       "type": "b_open",
@@ -5272,14 +5276,14 @@
         "h": 720
        }
       },
-      "id": "b778gl9yj7t"
+      "id": "oe98b1xe73y"
      },
      {
       "type": "t_pantry",
       "w": 600,
       "opts": {},
       "up": null,
-      "id": "s1iqgqnyj7t"
+      "id": "w9n6ui4e73y"
      }
     ]
    },
@@ -5315,12 +5319,12 @@
    "Open wall unit 2.2 ↑",
    "Wall unit with doors 2.3 ↑"
   ],
-  "sig": "[{\"workH\":900,\"bodyH\":720,\"wallBottom\":1450,\"wallH\":720,\"tallH\":2300,\"depthBase\":600,\"depthWall\":320,\"handles\":\"gola\",\"topT\":38,\"depthTall\":600},[[\"w1\",5850,90,[{\"type\":\"t_fridge\",\"w\":600,\"opts\":{\"fridge\":\"fridge178\"},\"up\":null,\"id\":\"xaxtckfyj7t\"},{\"type\":\"t_oven\",\"w\":600,\"opts\":{},\"up\":null,\"id\":\"xtk3z4pyj7t\"},{\"type\":\"t_pull\",\"w\":450,\"opts\":{},\"up\":null,\"id\":\"n2pr3cryj7t\"},{\"type\":\"n_dw\",\"w\":600,\"opts\":{\"appl\":\"dw60_total\"},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"v5d4duwyj7t\"},{\"type\":\"b_sink\",\"w\":1000,\"opts\":{\"sink\":\"sink15\"},\"up\":{\"type\":\"w_glass\",\"opts\":{\"h\":720}},\"id\":\"x5plc2jyj7t\"},{\"type\":\"b_drawers\",\"w\":800,\"opts\":{\"n\":3},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"fq88sb9yj7t\"},{\"type\":\"b_hobdr\",\"w\":900,\"opts\":{\"hob\":\"hob_ind90\",\"n\":3},\"up\":{\"type\":\"w_hoodspace\",\"opts\":{\"hood\":\"hood_chim90\"}},\"id\":\"vcdzlj4yj7t\"},{\"type\":\"c_l\",\"w\":900,\"opts\":{\"mech\":\"carousel\"},\"up\":{\"type\":\"w_corner\",\"opts\":{\"h\":720}},\"id\":\"mg84rkwyj7t\"}]],[\"w2\",4170,90,[{\"type\":\"b_drawers\",\"w\":800,\"opts\":{\"n\":3},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"r60jmzyyj7t\"},{\"type\":\"b_drdoor\",\"w\":800,\"opts\":{},\"up\":{\"type\":\"w_open\",\"opts\":{\"h\":720}},\"id\":\"u0zajfayj7t\"},{\"type\":\"b_open\",\"w\":450,\"opts\":{},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"b778gl9yj7t\"},{\"type\":\"t_pantry\",\"w\":600,\"opts\":{},\"up\":null,\"id\":\"s1iqgqnyj7t\"}]],[\"w3\",5850,90,[]],[\"w4\",4170,90,[]]],\"mitre\",\"blat_ceram_20\",[],\"egger_u899_st9_18\",\"egger_f187_st9_18\"]",
+  "sig": "[{\"workH\":900,\"bodyH\":720,\"wallBottom\":1450,\"wallH\":720,\"tallH\":2300,\"depthBase\":600,\"depthWall\":320,\"handles\":\"gola\",\"topT\":38,\"depthTall\":600},[[\"w1\",5850,90,[{\"type\":\"t_fridge\",\"w\":600,\"opts\":{\"fridge\":\"fridge178\"},\"up\":null,\"id\":\"m13ei7re73y\"},{\"type\":\"t_oven\",\"w\":600,\"opts\":{},\"up\":null,\"id\":\"k096esse73y\"},{\"type\":\"t_pull\",\"w\":450,\"opts\":{},\"up\":null,\"id\":\"wkhdp04e73y\"},{\"type\":\"n_dw\",\"w\":600,\"opts\":{\"appl\":\"dw60_total\"},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"ozxz9tve73y\"},{\"type\":\"b_sink\",\"w\":1000,\"opts\":{\"sink\":\"sink15\"},\"up\":{\"type\":\"w_glass\",\"opts\":{\"h\":720}},\"id\":\"r7193jge73y\"},{\"type\":\"b_drawers\",\"w\":800,\"opts\":{\"n\":3},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"26gzw6de73y\"},{\"type\":\"b_hobdr\",\"w\":900,\"opts\":{\"hob\":\"hob_ind90\",\"n\":3},\"up\":{\"type\":\"w_hoodspace\",\"opts\":{\"hood\":\"hood_chim90\"}},\"id\":\"3pps275e73y\"},{\"type\":\"c_l\",\"w\":900,\"opts\":{\"mech\":\"carousel\"},\"up\":{\"type\":\"w_corner\",\"opts\":{\"h\":720}},\"id\":\"2wgda4se73y\"}]],[\"w2\",4170,90,[{\"type\":\"b_drawers\",\"w\":800,\"opts\":{\"n\":3},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"54v9p48e73y\"},{\"type\":\"b_drdoor\",\"w\":800,\"opts\":{},\"up\":{\"type\":\"w_open\",\"opts\":{\"h\":720}},\"id\":\"1rsgbc6e73y\"},{\"type\":\"b_open\",\"w\":450,\"opts\":{},\"up\":{\"type\":\"w_door\",\"opts\":{\"h\":720}},\"id\":\"oe98b1xe73y\"},{\"type\":\"t_pantry\",\"w\":600,\"opts\":{},\"up\":null,\"id\":\"w9n6ui4e73y\"}]],[\"w3\",5850,90,[]],[\"w4\",4170,90,[]]],\"mitre\",\"blat_ceram_20\",[],\"egger_u899_st9_18\",\"egger_f187_st9_18\"]",
   "err": null
  },
  "worktops": [
   {
-   "id": "wt1948hayyj85",
+   "id": "wth9rmfuee74b",
    "name": "Kitchen worktop 1",
    "mods": [
     "Dishwasher niche 1.4",

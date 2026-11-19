@@ -3,7 +3,7 @@
  * Fiecare proiect: tools/showcase/specs/<id>.cjs (date) → tools/showcase/inpage.js (SC.build: generateInto, layout, wtApply, EBKitchenUI.apply)
  * → SC.check (controalele aplicației) → JSON. Cere Chromium (CHROME_PATH sau /usr/bin/google-chrome). Ieșire ≠ 0 dacă un proiect are abateri.
  * Nu se editează niciodată JSON-ul demo de mână: se schimbă specificația și se rulează din nou. */
-const http = require("http"), fs = require("fs"), path = require("path");
+const http = require("http"), fs = require("fs"), path = require("path"), crypto = require("crypto");
 let chromium; try { ({ chromium } = require("playwright")); } catch (e) { ({ chromium } = require("/opt/node-tools/node_modules/playwright")); }
 const ROOT = path.resolve(__dirname, "..");
 const args = process.argv.slice(2);
@@ -20,6 +20,14 @@ exports.serve = () => new Promise(res => {
   });
   s.listen(0, "127.0.0.1", () => res(s));
 });
+/* instantaneul de referință al unui demo: numere stabile (nu timp, nu id-uri). Testul e2e îl compară cu proiectul încărcat din aplicație; o schimbare în motor, catalog sau feronerie se vede. */
+function goldenOf(info, sig) {
+  const r2 = v => Math.round(v * 100) / 100;
+  return { bodies: info.bodies, cutRows: info.cutRows, panelPieces: info.panelPieces, operations: info.operations, sheets: info.sheets, hwLines: info.hwLines, hwQty: r2(info.hwQty), hwFree: info.hwFree,
+    netto: r2(info.netto), buildWarn: info.buildWarn, auditBlocking: info.auditBlocking, auditWarn: info.auditWarn, opsWarn: info.opsWarn, hwTypes: info.hwTypes, roomMods: info.roomMods,
+    cutHash: crypto.createHash("sha1").update(sig.join("\n")).digest("hex").slice(0, 16) };
+}
+exports.goldenOf = goldenOf;
 async function main() {
   const srv = await exports.serve();
   const exe = process.env.CHROME_PATH || ["/usr/bin/google-chrome", "/opt/pw-browsers/chromium"].find(p => fs.existsSync(p));
@@ -43,11 +51,17 @@ async function main() {
     }, spec);
     const { rep, info, project } = res;
     const bad = [].concat(rep.errors, info.bad || []); if (rep.fixes && rep.fixes.length) console.log("  corecturi raft (aplicația):", rep.fixes.join("; "));
-    const sig = info.cutSig; delete info.cutSig;
+    const sig = info.cutSig; delete info.cutSig; (info.buildRanges || []).forEach(x => console.log("  ~ limită depășită:", x));
     console.log(`\n== ${id} (${((Date.now() - t0) / 1000).toFixed(0)} s)`);
     console.log(JSON.stringify(info));
     bad.forEach(x => console.log("  ✗", x)); errs.forEach(x => console.log("  !", x));
     if (bad.length || errs.length) exit = 1;
+    const GOLD = path.join(ROOT, "test", "golden", "showcase.json");
+    if (write && !bad.length) {
+      const g = fs.existsSync(GOLD) ? JSON.parse(fs.readFileSync(GOLD, "utf8")) : {};
+      g[id] = goldenOf(info, sig);
+      fs.writeFileSync(GOLD, JSON.stringify(g, null, 1) + "\n");
+    }
     if (write && !bad.length) {
       fs.mkdirSync(outDir, { recursive: true });
       const out = JSON.parse(JSON.stringify(project));

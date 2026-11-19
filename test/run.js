@@ -6269,6 +6269,115 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     await pg.evaluate(() => { closeSheets(); try { setView("projects"); } catch (e) {} });
   }
 
+  head("Proiecte demo (FAZA T): intrarea din lista de proiecte, 3 copii, limita gratuită, distinta = golden, 3D cu LED, uși și mecanisme care se deschid");
+  {
+    const errs0 = errs.length;
+    const gold = JSON.parse(fs.readFileSync(path.join(__dirname, "golden", "showcase.json"), "utf8"));
+    await pg.goto(URL + "?lang=en"); await pg.waitForFunction(() => window.MAT_LOADED === true); await pg.waitForTimeout(1500);
+    await pg.locator("#btnIntroGo").click({ timeout: 1500 }).catch(() => {});
+    await pg.addScriptTag({ url: ORIGIN + "/tools/showcase/inpage.js" });
+    const keep = await pg.evaluate(() => { closeSheets(); return { n: state.projects.length, own: ownProjects() }; });
+    /* o copie a unui proiect demo se deschide din butonul «Demo projects»; proiectele existente rămân */
+    await pg.evaluate(() => { setView("projects"); });
+    const ui = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      o.btn = !!document.getElementById("btnDemo") && /Demo/i.test(document.getElementById("btnDemo").textContent);
+      document.getElementById("btnDemo").click(); await w(300);
+      o.cards = document.querySelectorAll("#demoBody [data-demo]").length;
+      o.chips = document.querySelectorAll("#demoBody .chip").length;
+      o.titles = [...document.querySelectorAll("#demoBody .pj-name")].map(x => x.textContent);
+      o.open = document.getElementById("shDemo").classList.contains("on");
+      return o;
+    });
+    ok("Demo: butonul din Proiecte deschide foaia cu 3 proiecte, cu etichete tehnice, în limba curentă", ui.btn && ui.open && ui.cards === 3 && ui.chips >= 15 && /Living room/.test(ui.titles[0]), JSON.stringify(ui.titles));
+    for (const id of ["living", "kitchen", "bedroom"]) {
+      const r = await pg.evaluate(async (id) => {
+        const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+        closeSheets(); document.getElementById("btnDemo").click(); await w(200);
+        const own0 = ownProjects(), n0 = state.projects.length;
+        document.querySelector('#demoBody [data-demo="' + id + '"] [data-open]').click();
+        for (let i = 0; i < 60 && !state.projects.some(p => p.showcase === id); i++) await w(100);
+        const p = state.projects.find(q => q.showcase === id); o.have = !!p;
+        if (!p) return o;
+        o.active = state.activeId === p.id; o.view = currentView; o.name = p.name; o.flag = p.showcase === id && !p.demo;
+        o.own = ownProjects() === own0; o.added = state.projects.length === n0 + 1;
+        o.noNames = p.names === undefined; o.tone = typeof p.floorTone === "number";
+        o.pieceIds = p.pieces.every(x => x.id) && new Set(p.pieces.map(x => x.id)).size === p.pieces.length;
+        /* a doua apăsare redeschide copia neatinsă, nu o dublează */
+        closeSheets(); document.getElementById("btnDemo").click(); await w(200);
+        document.querySelector('#demoBody [data-demo="' + id + '"] [data-open]').click(); await w(400);
+        o.noDup = state.projects.filter(q => q.showcase === id).length === 1;
+        return o;
+      }, id);
+      ok("Demo " + id + ": se încarcă o COPIE (steag showcase, fără demo), nu intră în limita gratuită, se redeschide fără dublare", r.have && r.active && r.flag && r.own && r.added && r.noNames && r.tone && r.pieceIds && r.noDup, JSON.stringify(r));
+    }
+    ok("Demo: proiectele deja existente nu s-au atins (același număr + 3 copii)", await pg.evaluate(n => state.projects.length === n + 3 && state.projects.filter(p => !p.showcase).length === n, keep.n));
+    /* 2 · distinta, ops, documente, deviz — controalele aplicației, comparate cu instantaneul de referință (test/golden/showcase.json) */
+    const crypto = require("crypto");
+    for (const id of ["living", "kitchen", "bedroom"]) {
+      const r = await pg.evaluate(async (id) => { const p = state.projects.find(q => q.showcase === id); return p ? await SC.check(p) : null; }, id);
+      const g = gold[id];
+      if (!r) { ok("Demo " + id + ": proiect negăsit pentru verificare", false); continue; }
+      const hash = crypto.createHash("sha1").update(r.cutSig.join("\n")).digest("hex").slice(0, 16);
+      ok("Demo " + id + ": nicio eroare blocantă, export permis, foile A4, ops, distinta, CSV, feronerie, deviz, fișa de montaj fără erori", r.bad.length === 0 && r.auditBlocking === 0 && r.exportAllowed === true && r.roomIssues.length === 0, JSON.stringify(r.bad).slice(0, 300));
+      ok("Demo " + id + ": distinta e cea din instantaneul de referință (rânduri, piese, operații, feronerie, hash)", r.cutRows === g.cutRows && r.panelPieces === g.panelPieces && r.operations === g.operations && r.hwLines === g.hwLines && Math.abs(r.hwQty - g.hwQty) < 0.01 && hash === g.cutHash && r.bodies === g.bodies, "cutRows " + r.cutRows + "/" + g.cutRows + " hash " + hash + "/" + g.cutHash);
+      ok("Demo " + id + ": deviz > 0 (feroneria nouă are preț 0: de completat în Catalog) și avertismentele sunt cele așteptate", r.netto > 0 && Math.abs(r.netto - g.netto) < 0.01 && JSON.stringify(r.opsWarn) === JSON.stringify(g.opsWarn) && JSON.stringify(r.buildWarn) === JSON.stringify(g.buildWarn), "netto " + r.netto + " · opsWarn " + JSON.stringify(r.opsWarn));
+      /* determinism: aceleași configurații → aceleași rânduri; distinta salvată = ce generează motorul acum */
+      const dt = await pg.evaluate((id) => {
+        const p = state.projects.find(q => q.showcase === id);
+        const sig = q => q.pieces.map(x => [x.modulo, x.elemento, x.lung, x.larg, x.pz, x.materiale, x.role].join("|")).sort().join("\n");
+        const sp = { pieces: [], configs: {} }, sp2 = { pieces: [], configs: {} };
+        for (const name of Object.keys(p.configs)) generateInto(sp, JSON.parse(JSON.stringify(p.configs[name])));
+        for (const name of Object.keys(p.configs)) generateInto(sp2, JSON.parse(JSON.stringify(p.configs[name])));
+        return { same: sig(sp) === sig(sp2), saved: sig(sp) === sig(p), n: sp.pieces.length, m: p.pieces.length };
+      }, id);
+      ok("Demo " + id + ": determinist (două generări identice) și distinta din fișier = distinta pe care o dă motorul acum", dt.same && dt.saved, JSON.stringify(dt));
+    }
+    /* 3 · 3D: camera cu LED aprins/stins, corpuri cu uși de sticlă, clape cu SERVO-DRIVE, deschise prin animația existentă */
+    const gl = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = { ok: !!(window.GL3D && GL3D.ok) };
+      if (!o.ok) return o;
+      const p = state.projects.find(q => q.showcase === "living"); state.activeId = p.id; closeSheets(); setView("build"); await w(1200);
+      const RL = roomLayout(), floor = RL.frames.map(f => { const q = toRoom(f, 0, 0, 0); return [q.x, q.y]; });
+      const cfg = { matBody: state.settings.matBody, matFront: state.settings.matFront };
+      GL3D.set({ mode: "real", hw: false, holes: false, open: false, explode: 0, ledOn: true });
+      GL3D.render(cfg, { boxes: roomBoxes(), room: { floor, tone: p.floorTone }, leds: roomLeds() }); await w(500);
+      o.leds = roomLeds().length; o.roomOn = GL3D.roomLedInfo();
+      GL3D.set({ ledOn: false }); o.roomOff = GL3D.roomLedInfo(); GL3D.set({ ledOn: true });
+      const cap = GL3D.capture(cfg, { w: 640, h: 360, yaw: .2, pitch: .1, warm: true, led: true }); o.cap = !!(cap && cap.img && cap.img.length > 5000);
+      /* corpuri deschise prin animația existentă: ușile și sticla, clape, uși pliante, ridicător TV, sertare */
+      const names = ["S3 Vitrină", "S4 Clapă sus", "D3 Free flap", "D2 Bar uși pliante", "C3 TV lift", "S2 Sertare"]; o.bodies = {};
+      for (const n of names) {
+        const c = JSON.parse(JSON.stringify(p.configs[n])); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
+        GL3D.set({ open: true }); await w(900);
+        const k = GL3D.meshKinds(), mv = k.map(x => ({ role: x.role, t: GL3D.tgtOf(x.pk) })).filter(x => x.t && (x.t.ang || x.t.sl || x.t.ey));
+        o.bodies[n] = { moving: mv.length, glass: mv.filter(x => x.role === "vetro").length, led: GL3D.ledInfo() };
+      }
+      GL3D.set({ open: false });
+      return o;
+    });
+    if (!gl.ok) ok("Demo 3D: sărit (fără WebGL)", true);
+    else {
+      ok("Demo 3D: camera Living are benzi LED desenate, aprinse cu lumină; stinse când LED-ul e oprit; captura randează", gl.leds >= 5 && gl.roomOn && gl.roomOn.items >= 5 && gl.roomOn.lit >= 5 && gl.roomOn.litLights >= 3 && gl.roomOff && gl.roomOff.lit === 0 && gl.roomOff.litLights === 0 && gl.cap, JSON.stringify([gl.leds, gl.roomOn, gl.roomOff]));
+      const B = gl.bodies;
+      ok("Demo 3D: vitrina cu sticlă se deschide (ușile ȘI sticla se mișcă) și LED-ul e aprins", B["S3 Vitrină"].glass >= 2 && B["S3 Vitrină"].moving >= 4 && B["S3 Vitrină"].led && B["S3 Vitrină"].led.on && B["S3 Vitrină"].led.lit >= 1, JSON.stringify(B["S3 Vitrină"]));
+      ok("Demo 3D: clapa AVENTOS cu SERVO-DRIVE, Free flap cu E-Drive, ușile pliante, ridicătorul de TV și sertarele se mișcă la «Deschide»", ["S4 Clapă sus", "D3 Free flap", "D2 Bar uși pliante", "C3 TV lift", "S2 Sertare"].every(n => B[n].moving >= 1), JSON.stringify(Object.fromEntries(Object.entries(B).map(([k, v]) => [k, v.moving]))));
+    }
+    /* limita gratuită: redenumită prin foaia aplicației, copia devine proiect propriu (steagul cade, se numără) */
+    const lim = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const own0 = ownProjects(), p = state.projects.find(q => q.showcase === "bedroom");
+      editingProjectId = p.id; setView("projects");
+      document.getElementById("prName").value = "Camera mea"; document.getElementById("btnProjectSave").click(); await w(250);
+      o.renamed = !p.showcase && ownProjects() === own0 + 1;
+      return o;
+    });
+    ok("Demo: redenumită, copia devine proiect propriu (steagul cade, se numără în limită)", lim.renamed, JSON.stringify(lim));
+    /* curățenie: ce a încărcat blocul nu rămâne pentru restul rulării */
+    await pg.evaluate(() => { closeSheets(); state.projects = state.projects.filter(p => !p.showcase && p.name !== "Camera mea"); state.activeId = state.projects[0] ? state.projects[0].id : null; try { persist(); setView("projects"); } catch (e) {} });
+    ok("Demo: fără erori JS", errs.length === errs0, errs.slice(errs0).join(" | "));
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();

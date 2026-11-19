@@ -1,6 +1,6 @@
 /* Demo 2 — BUCĂTĂRIE „Beton & Stejar negru”: L pe doi pereți + insulă. Coloanele, nișele, colțul cu carusel, blatul cu îmbinare la 45° vin din modulul Bucătărie
- * (EBKitchenUI.apply); insula e din corpuri normale + blat (wtApply). Materiale: beton Egger închis (baze), stejar negru-brun (coloane), ceramică sinterizată (blat). */
-const BETON = "egger_f187_st9_18", BETON_L = "egger_f186_st9_18", STEJAR = "egger_h1199_st12_18", NEGRU = "egger_u899_st9_18";
+ * (EBKitchenUI.apply); insula e din corpuri normale + blat (wtApply). Materiale: beton Egger închis (baze), stejar Gladstone tobacco (coloane), ceramică sinterizată (blat). */
+const BETON = "egger_f187_st9_18", BETON_L = "egger_f186_st9_18", STEJAR = "egger_h3325_st28_18", NEGRU = "egger_u899_st9_18";
 const wall = (cols) => ({ cols });
 const spec = {
   id: "kitchen",
@@ -32,7 +32,7 @@ const spec = {
     },
     recolor: [["tall unit|Pull-out", { matFront: STEJAR }],
               ["^(Wall unit|Hood space|Open wall|Glass-door wall|Blind corner wall|Corner wall)", { matFront: BETON_L }],
-              ["^Wall unit with doors (1\\.3|2\\.3)", { lift: "blum_hk_top", liftElec: "servo" }],
+              ["^Wall unit with doors (1\\.4|1\\.6|2\\.3)", { lift: "blum_hs_top", liftElec: "servo" }],
               ["^Glass-door wall unit", { led: "top", ledSw: "door" }],
               ["^Open wall unit", { led: "top", ledSw: "hidden" }]]
   },

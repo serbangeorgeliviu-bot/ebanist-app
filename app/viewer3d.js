@@ -2323,6 +2323,8 @@ const GL3D = {
   /* LED (D-157): starea lămpii și atingerea dimmerului */
   /* fibra din poze (5.77.0): care variante s-au cerut și care au sosit */
   grainInfo() { const o = {}; for (const k of Object.keys(GRAIN)) o[k] = GRAIN[k] ? !!(GRAIN[k].image && GRAIN[k].image.complete && GRAIN[k].image.naturalWidth > 0) : null; return o; },
+  /* LED în camera 3D (benzile corpurilor din cameră): câte benzi, câte aprinse acum, câte lumini punctuale */
+  roomLedInfo() { const L = R && R.rled; if (!L) return null; return { items: L.items.length, lit: L.items.filter(i => i.glow.visible).length, lights: L.items.reduce((n, i) => n + i.lights.length, 0), litLights: L.items.reduce((n, i) => n + i.lights.filter(l => l.visible && l.intensity > 0).length, 0) }; },
   ledInfo() { return R && R.led ? { on: !!R.st.ledOn, lights: R.led.lights.length, lit: R.led.lights.filter(l => l.visible && l.intensity > 0).length, mount: R.ledMount || null, strip: R.led.strip.length } : null; },
   pickHw(clientX, clientY) {
     if (!this.ok || !R.led || !R.led.dim) return null;
