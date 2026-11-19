@@ -18,6 +18,9 @@
  *   EBHwUI.openWarnSlot(w, sel, O)        slotul căruia îi aparține un avertisment al EBOpen
  *   EBHwUI.factsOf(entry, T, M)           3–4 date-cheie din datele familiei (nimic inventat)
  * DOM: EBHwUI.init(), EBHwUI.refresh(cfg, built), EBHwUI.relabel(), EBHwUI.open(slot).
+ * H.5 (recomandări, numai din regulile existente): EBHwUI.ordOf(r) ordinea în «Recomandate» (rank-ul din EBHwFit; la suspendare/șină cea mai mare rezervă de
+ *   sarcină întâi), EBHwUI.reasonOf(r, T, lang) linia «de ce» din faptele din date (r.info), EBHwUI.suggestFor(...) cel mai bun articol «Recomandat» al unui slot (null
+ *   când nu există niciunul cu toate limitele cunoscute), EBHwUI.SUGGEST_TARGETS ținta pe care o sugerează fiecare slot. Nimic nu se aplică singur.
  * H.4 (Catalogul): EBHwUI.catalogHtml() dă rândurile Catalogului (un rând pe categorie: articolul IMPLICIT settings.hwProd[cat] + «Schimbă»),
  *   EBHwUI.openCatalog(cat) deschide aceeași foaie în «mod catalog» (fără corp: fără secțiuni de potrivire, toate articolele în ordinea indexului, cu
  *   preț și cod pe card, filtrul «preț de completat», articol propriu). Formatul settings.hwProd / hwOvr / hwAdd nu se schimbă.
@@ -125,8 +128,41 @@
   function buildSections(entries, checkFn, sectionFn, hasQuery) {
     var out = { recomandat: [], potrivit: [], nu_se_potriveste: [] };
     entries.forEach(function (e, i) { var r = checkFn(e), s = sectionFn(r); (out[s] || out.potrivit).push({ e: e, r: r, i: i }); });
-    if (!hasQuery) Object.keys(out).forEach(function (k) { out[k].sort(function (a, b) { return ((a.r && a.r.rank) || 0) - ((b.r && b.r.rank) || 0) || a.i - b.i; }); });
+    if (!hasQuery) Object.keys(out).forEach(function (k) { out[k].sort(function (a, b) { return ordOf(a.r) - ordOf(b.r) || a.i - b.i; }); });
     return out;
+  }
+
+  /* ------------------------------------------------------------------ recomandări (H.5): ordine, «de ce», sugestie */
+  /* rank (EBHwFit): balamale = numărul cerut de grafic; sertare = adâncimea rămasă după NL; ridicare / push / glisante = rezerva de greutate până la limita citită
+     (cea mai mică întâi = cel mai puțin supradimensionat). La suspendare și șină regula e inversă: cea MAI MARE rezervă de sarcină întâi. */
+  var BIG_MARGIN_FIRST = { susp: 1, suprail: 1 };
+  function ordOf(r) { var k = (r && r.rank) || 0; return r && BIG_MARGIN_FIRST[r.fam] ? -k : k; }
+  /* ținta pe care o poate sugera panoul pentru fiecare slot (slotul fără ținta aici nu primește sugestie) */
+  var SUGGEST_TARGETS = { balamale: "cern", ridicare: "lift", glisante: "slidesys", sertare: "drawsys", colt: "corner", suspendare: "susp" };
+  function num1(v, lang) { var x = (Math.round(v * 10) / 10) + ""; return lang === "en" ? x : x.replace(".", ","); }
+  /* linia «de ce»: numai fapte din r.info (date + corpul); o limită necunoscută lipsește, nu se inventează. T = traducerea, lang = limba (separatorul zecimal) */
+  function reasonOf(r, T, lang) {
+    var i = r && r.info; if (!i) return "";
+    function F(k, o) { return fill(T(k), o); }
+    var out = [];
+    if (r.fam === "hinge") {
+      if (i.n != null && i.kg != null) out.push(i.cap != null ? F("hxrHinges", { n: i.n, v: num1(i.kg, lang), x: num1(i.cap, lang) }) : F("hxrHingesNoCap", { n: i.n, v: num1(i.kg, lang) }));
+      else if (i.kg != null && i.cap != null) out.push(F("hxrDoorKg", { v: num1(i.kg, lang), x: num1(i.cap, lang) }));     // familie fără grafic de numărare, cu limita ei de greutate (ex. Air)
+    }
+    else if (r.fam === "lift") { if (i.power) out.push(F("hxrPower", { x: i.power })); if (i.kg != null && i.cap != null) out.push(F("hxrDoorKg", { v: num1(i.kg, lang), x: num1(i.cap, lang) })); }
+    else if (r.fam === "push" || r.fam === "slide") { if (i.kg != null && i.cap != null) out.push(F("hxrDoorKg", { v: num1(i.kg, lang), x: num1(i.cap, lang) })); }
+    else if (r.fam === "susp" || r.fam === "suprail") { if (i.kg != null && i.cap != null) out.push(F("hxrBodyKg", { v: num1(i.kg, lang), x: num1(i.cap, lang) })); }
+    else if (r.fam === "zarga" || r.fam === "guida") { if (i.nl != null && i.usable != null) out.push(F("hxrDepth", { v: i.nl, x: i.usable })); }
+    return out.join(" · ");
+  }
+  /* cel mai bun articol «Recomandat» (toate limitele necesare cunoscute): ordOf cel mai mic, apoi ordinea din listă; null dacă nu există niciunul */
+  function suggestFor(entries, checkFn, sectionFn) {
+    var best = null;
+    entries.forEach(function (e, i) {
+      var r = checkFn(e); if (!r || sectionFn(r) !== "recomandat") return;
+      var k = ordOf(r); if (!best || k < best.k || (k === best.k && i < best.i)) best = { e: e, r: r, k: k, i: i };
+    });
+    return best;
   }
 
   /* ------------------------------------------------------------------ avertismentele EBOpen → slot */
@@ -210,7 +246,8 @@
     TARGETS: TARGETS, SLOT_TARGETS: SLOT_TARGETS, SUBS: SUBS, HINTS: HINTS, RECENT_MAX: RECENT_MAX,
     targetOf: targetOf, slotOfTarget: slotOfTarget, planOps: planOps, isExplicit: isExplicit, slotApplies: slotApplies,
     keyOf: keyOf, prefsNormalize: prefsNormalize, recentPush: recentPush, favToggle: favToggle,
-    buildSections: buildSections, openWarnSlot: openWarnSlot, factsOf: factsOf, rng: rng
+    buildSections: buildSections, openWarnSlot: openWarnSlot, factsOf: factsOf, rng: rng,
+    ordOf: ordOf, reasonOf: reasonOf, suggestFor: suggestFor, SUGGEST_TARGETS: SUGGEST_TARGETS, num1: num1
   };
 
   /* ======================================================================== DOM */
@@ -221,6 +258,7 @@
   var SH = null;                  // starea foii deschise (SH.mode: "body" = alegere pe corp, "catalog" = articol implicit din Catalog)
   var CAT = { only0: false };     // filtrul «categorii cu articolul implicit fără preț» din Catalog
   var PREFS = null;
+  var SUG = { key: "", map: {}, timer: 0, run: 0 };   // sugestiile panoului (H.5): calculate după ultima schimbare a corpului, pe cheia cfg; nimic nu se aplică singur
 
   function $(id) { return document.getElementById(id); }
   function T(k) { try { return t(k); } catch (e) { return k; } }
@@ -355,11 +393,63 @@
     return slot === "balamale" && warns.length ? '<div class="hwp-wl" data-hwp-wl="' + slot + '">' + warns.map(H).join("<br>") + "</div>" : "";
   }
 
+  /* ------------------------------------------------------------------ sugestii (H.5) */
+  function sugKey(cfg) { try { return lang() + "|" + JSON.stringify(cfg); } catch (e) { return ""; } }
+  /* slot fără nicio alegere explicită și cu cel puțin un articol «Recomandat» pe ținta lui → cel mai bine clasat; calculat după o pauză și pe felii (un slot pe tură),
+     ca desenul corpului să nu aștepte (uși glisante: fiecare sistem construiește un corp de probă) */
+  function computeSuggestions(cfg, built, key) {
+    var run = ++SUG.run, slots = Object.keys(SUGGEST_TARGETS), map = {}, ctx = null, f = flags(cfg), has = hasFn();
+    try { ctx = hwFitCtx(cfg, built); } catch (e) { ctx = null; }
+    if (!ctx) { SUG.key = key; SUG.map = {}; SUG.timer = 0; patchSug(); return; }
+    var i = 0;
+    function step() {
+      if (run !== SUG.run) return;
+      if (i >= slots.length) { SUG.key = key; SUG.map = map; SUG.timer = 0; if (lastCfg && sugKey(lastCfg) === key) patchSug(); return; }
+      var slot = slots[i++], tid = SUGGEST_TARGETS[slot];
+      try {
+        var any = SLOT_TARGETS[slot].some(function (x) { return isExplicit(x, readTarget(x)); });
+        if (!any && slotApplies(slot, f, has)) {
+          var items = slotItems(slot).filter(function (e) { return e.cat === tid; });
+          var best = suggestFor(items, function (e) { return EBHwFit.check(e, ctx); }, EBHwFit.section);
+          if (best) map[slot] = { tid: tid, key: keyOf(best.e.cat, best.e.id), id: best.e.id, name: bn(best.e.brand, entryName(best.e)), reason: reasonOf(best.r, T, lang()), e: best.e };
+        }
+      } catch (e) { /* o sugestie care nu se poate calcula lipsește, nu strică panoul */ }
+      setTimeout(step, 0);
+    }
+    step();
+  }
+  function scheduleSuggestions(cfg, built, key) {
+    if (SUG.timer) { clearTimeout(SUG.timer); SUG.timer = 0; }
+    SUG.run++;                                  // o tură în curs pentru un corp vechi se oprește
+    SUG.timer = setTimeout(function () { SUG.timer = 0; computeSuggestions(cfg, built, key); }, 300);
+  }
+  function sugSig(slot) { var g = SUG.map[slot]; return g ? g.key + "|" + g.reason + "|" + lang() : ""; }
+  /* chipurile se pun / scot pe loc în rânduri (nu fac parte din html-ul comparat la desenarea panoului): ajung după o pauză, iar un clic în curs pe «Schimbă» nu se pierde */
+  function patchSug() {
+    var box = $("hwPanel"); if (!box) return;
+    [].forEach.call(box.querySelectorAll(".hwp-row"), function (row) {
+      var slot = row.getAttribute("data-slot"), want = sugSig(slot), cur = row.querySelector(".hwp-sug"), have = cur ? cur.getAttribute("data-sig") : "";
+      if (want === have) return;
+      if (cur) cur.parentNode.removeChild(cur);
+      var txt = row.querySelector(".hwp-txt"); if (want && txt) txt.insertAdjacentHTML("beforeend", sugHtml(slot));
+    });
+  }
+  function sugHtml(slot) {
+    var g = SUG.map[slot]; if (!g) return "";
+    return '<div class="hwp-sug" data-hwp-sug="' + slot + '" data-sig="' + H(sugSig(slot)) + '"><span><span class="hwp-sug-t">' + H(T("hxrSug").replace("{x}", "").trim()) + "</span> <b>" + H(g.name) + "</b>" + (g.reason ? ' <span class="mini">' + H(g.reason) + "</span>" : "") + "</span>" +
+      '<button type="button" class="btn sm" data-hwp-apply="' + slot + '" aria-label="' + H(T("hxrApplyAria").replace("{x}", g.name)) + '">' + H(T("hxrApply")) + "</button></div>";
+  }
+  function applySuggestion(slot) {
+    var g = SUG.map[slot]; if (!g || !g.e) return false;
+    if (!commitChoice(slot, g.e)) { toast(T("hxsFail")); return false; }
+    return true;
+  }
   function badgeTitle(warns) { return T("hxpWarnN").replace("{n}", warns.length) + " — " + warns.join("; "); }
   function paintPanel(cfg, built) {
     var box = $("hwPanel"); if (!box) return;
     ensureHwBox();
     var f = flags(cfg), has = hasFn(), ctx = null;
+    var skey = sugKey(cfg); if (SUG.key !== skey) { SUG.map = {}; scheduleSuggestions(cfg, built, skey); }
     try { ctx = hwFitCtx(cfg, built); } catch (e) { ctx = null; }
     var rows = [], nChoices = 0, nWarn = 0, warnList = [];
     Object.keys(TARGETS).forEach(function (tid) { if (isExplicit(tid, readTarget(tid))) nChoices++; });
@@ -381,6 +471,7 @@
       box.innerHTML = html; lastHtml = html;
       if (keep) { var n = box.querySelector('[data-hwp-change="' + keep + '"],[data-hwp-sub="' + keep + '"],#' + keep.replace(/[^\w-]/g, "")); if (n && n.focus) { try { n.focus({ preventScroll: true }); } catch (e) { /* */ } } }
     }
+    patchSug();
     var sm = $("sumHw"); if (sm) sm.textContent = nChoices ? String(nChoices) : "";
   }
 
@@ -394,7 +485,7 @@
   }
   function relabel() {
     if (!inited) return;
-    lastHtml = ""; refresh(lastCfg, lastBuilt);
+    lastHtml = ""; SUG.key = ""; refresh(lastCfg, lastBuilt);
     if (SH && $("shHw").classList.contains("on")) {
       SH.items = SH.mode === "catalog" ? catItems(SH.cat0) : slotItems(SH.slot); SH.byKey = {}; SH.items.forEach(function (e) { SH.byKey[keyOf(e.cat, e.id)] = e; }); SH.fit = {};
       buildSkeleton(); renderAll();
@@ -471,6 +562,7 @@
     var facts = factsOf(e, T, { EBHinges: root.EBHinges, EBHingesMore: root.EBHingesMore, EBLiftFit: root.EBLiftFit, EBCornerFit: root.EBCornerFit, EBSliding: root.EBSliding, EBOpen: root.EBOpen, DRAWSYS: typeof DRAWSYS !== "undefined" ? DRAWSYS : null });
     var why = (r && r.ok === false) ? EBHwFit.msg(r.why, t) : [];
     var unk = r && r.ok !== false && r.fam && r.unknownLimits;
+    var reason = (r && r.ok === true && !r.unknownLimits) ? reasonOf(r, T, lang()) : "";
     return '<li class="hxc' + (cur ? " is-cur" : "") + (r && r.ok === false ? " is-bad" : "") + '" data-key="' + H(key) + '">' +
       '<button type="button" class="hxc-main" data-act="pick" data-key="' + H(key) + '"' + (cur ? ' aria-current="true"' : "") + ">" +
         '<span class="hxc-t">' + brandHtml(e) + '<span class="hxc-name">' + H(entryName(e)) + "</span></span>" +
@@ -481,6 +573,7 @@
         '<span class="hxc-badges"><span class="hxb">' + H(T("hxbUnv")) + "</span>" + priceBadge(e) + (e.chk ? '<span class="hxb warn">' + H(T("artCheck").replace(/^—\s*/, "")) + "</span>" : "") +
           (unk ? '<span class="hxb">' + H(T("hfUnknown")) + "</span>" : "") + (cur ? '<span class="hxb on">' + H(T("hxsChosen")) + "</span>" : "") + "</span>" +
         (why.length ? '<span class="hxc-why">' + why.map(H).join("<br>") + "</span>" : "") +
+        (reason ? '<span class="hxc-reason">' + H(reason) + "</span>" : "") +
       "</button>" +
       '<div class="hxc-side"><button type="button" class="hxc-ic" data-act="fav" data-key="' + H(key) + '" aria-pressed="' + (fav ? "true" : "false") + '" aria-label="' + H(T(fav ? "hxsFavDel" : "hxsFavAdd")) + '">' + (fav ? "★" : "☆") + "</button>" +
       '<button type="button" class="hxc-det" data-act="det" data-key="' + H(key) + '">' + H(T("hxsDetails")) + "</button></div></li>";
@@ -633,10 +726,15 @@
     if (n) { try { n.focus({ preventScroll: true }); } catch (e) { /* */ } } else if (op && op.focus) { try { op.focus(); } catch (e) { /* */ } }
   }
 
-  function choose(e) {
+  /* o alegere = scrierea în câmpul vechi + «Recente»: aceeași cale pentru gestul din foaie și pentru «Aplică» din sugestie */
+  function commitChoice(slot, e) {
     var ok = applyOp(planOps(e.cat, e.id));
-    if (!ok) { toast(T("hxsFail")); return; }
-    recentPush(loadPrefs(), SH.slot, keyOf(e.cat, e.id)); savePrefs();
+    if (!ok) return false;
+    recentPush(loadPrefs(), slot, keyOf(e.cat, e.id)); savePrefs();
+    return true;
+  }
+  function choose(e) {
+    if (!commitChoice(SH.slot, e)) { toast(T("hxsFail")); return; }
     closeSheetNow();
   }
   function clearTarget(tid) {
@@ -835,6 +933,8 @@
     $("hwPanel").addEventListener("click", function (ev) {
       var b = ev.target.closest("[data-hwp-change]");
       if (b) { open(b.getAttribute("data-hwp-change")); return; }
+      var ap = ev.target.closest("[data-hwp-apply]");
+      if (ap) { applySuggestion(ap.getAttribute("data-hwp-apply")); return; }
       if (ev.target.closest("#hwpWarnBtn")) { warnOpen = !warnOpen; lastHtml = ""; refresh(lastCfg, lastBuilt); var w = $("hwpWarnBtn"); if (w) w.focus(); }
     });
     $("hwPanel").addEventListener("change", function (ev) { var s = ev.target.closest("[data-hwp-sub]"); if (s) subWrite(s.getAttribute("data-hwp-sub"), s.value); });
@@ -854,6 +954,7 @@
     return true;
   }
 
+  api._sug = function () { return SUG; };
   api.init = init; api.refresh = refresh; api.relabel = relabel; api.open = open; api.openCatalog = openCatalog; api.catalogHtml = catalogHtml;
   api._state = function () { return SH; };
   api._readTarget = readTarget;

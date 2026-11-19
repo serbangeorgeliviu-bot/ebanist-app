@@ -14,6 +14,8 @@
  * ok = null   nicio limită din date nu se aplică (sau toate sunt null) = «necunoscut»; NICIODATĂ potrivit
  * unknownLimits = true când unele dintre limitele de care are nevoie verificarea sunt null în date (articolul nu devine «Recomandat»)
  * rank        ordinea în secțiune (mai mic = mai bun): cea mai mică rezervă suficientă (nu cel mai supradimensionat)
+ * info        (H.5) faptele din care s-a hotărât, numai cele care EXISTĂ în date / în corp: { n, kg, cap, power, nl, usable } (cap = limita citită; fără cap = necunoscut);
+ *             ebanist-hwui.js scrie din ele linia «de ce» a unui articol recomandat — niciun număr nu e adăugat acolo
  *
  * Familii (categoria articolului → modulul care hotărăște):
  *   cern (balamale Hettich/Salice/Grass/Häfele/Blum 105°)  EBHingesMore.fit / .count        · lift  EBLiftFit.fit
@@ -83,7 +85,7 @@
   }
 
   /* ===================================================================== rezultatul */
-  function newRes() { return { viol: [], checks: 0, unknown: false, rank: 0, fam: "" }; }
+  function newRes() { return { viol: [], checks: 0, unknown: false, rank: 0, fam: "", info: null }; }
   function push(res, why) {
     var key = why.k + "|" + (why.what || ""), i;
     for (i = 0; i < res.viol.length; i++) if (res.viol[i].k + "|" + (res.viol[i].what || "") === key) { if (Math.abs(why.v) > Math.abs(res.viol[i].v)) res.viol[i] = why; return; }
@@ -91,8 +93,9 @@
   }
   function finish(res) {
     var ok = res.viol.length ? false : (res.checks > 0 ? true : null);
-    return { ok: ok, why: res.viol, rank: res.rank, unknownLimits: ok !== false && (ok === null ? true : !!res.unknown), fam: res.fam };
+    return { ok: ok, why: res.viol, rank: res.rank, unknownLimits: ok !== false && (ok === null ? true : !!res.unknown), fam: res.fam, info: res.info };
   }
+  function nn(o) { var k, out = {}, any = false; for (k in o) if (o[k] != null && o[k] !== "" && !(typeof o[k] === "number" && !isFinite(o[k]))) { out[k] = o[k]; any = true; } return any ? out : null; }
   function nodata(fam) { var r = newRes(); r.fam = fam || ""; r.unknown = true; return finish(r); }
 
   /* ===================================================================== balamale */
@@ -108,6 +111,9 @@
     if (known(T)) res.checks++; else res.unknown = true;
     if (hasRows || f.airMax) res.checks++; else res.unknown = true;
     res.rank = nHing;
+    var heavy = ctx.doors.reduce(function (m, d) { return d.kg > m.kg ? d : m; }, ctx.doors[0]), rw = f.count && f.count.rows ? f.count.rows.filter(function (x) { return x.n === nHing; })[0] : null;
+    var cap = rw && rw.kg && rw.kg[1] != null ? rw.kg[1] : (f.airMax ? f.airMax.kg : null);
+    res.info = nn({ n: nHing > 0 && hasRows ? nHing : null, kg: heavy.kg > 0 ? r1(heavy.kg) : null, cap: cap });
     return finish(res);
   }
 
@@ -129,6 +135,7 @@
     if (L.hiMin != null) res.checks++; if (L.wiMin != null) res.checks++;
     if (ft.power) res.checks++;
     res.rank = (L.kg && L.kg[1] != null) ? Math.max(0, r1(L.kg[1] - d.kg)) : 500;     // cea mai mică rezervă de greutate = cel mai puțin supradimensionat
+    res.info = nn({ kg: d.kg > 0 ? r1(d.kg) : null, cap: L.kg && L.kg[1] != null ? L.kg[1] : null, power: ft.power ? ft.power.code : null });
     return finish(res);
   }
 
@@ -177,6 +184,7 @@
     if (L.sizes) res.checks++;
     if (!known(L.h) || !known(L.kg)) res.unknown = true;
     res.rank = (L.kg && L.kg[1] != null) ? Math.max(0, r1(L.kg[1] - ctx.door.kg)) : 500;
+    res.info = nn({ kg: ctx.door.kg > 0 ? r1(ctx.door.kg) : null, cap: L.kg && L.kg[1] != null ? L.kg[1] : null });
     return finish(res);
   }
   function checkPushd(e, ctx) {
@@ -197,7 +205,7 @@
     var d = { kg: ctx.bodyKg + (+ctx.cfg.suspKg || 0), H: ctx.cfg.H, T: ctx.cfg.P, sideT: ctx.sideT, backT: ctx.backT, hung: ctx.hung };
     O.suspCheck(it, rl, d).forEach(function (i) { mapOpen(res, i); });
     var cap = O.suspCap(it, d);
-    if (cap) { res.checks++; res.rank = Math.max(0, r1(cap.kg - d.kg)); } else { res.unknown = true; res.rank = 500; }
+    if (cap) { res.checks++; res.rank = Math.max(0, r1(cap.kg - d.kg)); res.info = nn({ kg: r1(d.kg), cap: r1(cap.kg) }); } else { res.unknown = true; res.rank = 500; }
     if (it.sideT != null) res.checks++;
     if (it.backT || it.backTmin != null) res.checks++;
     res.checks++;      // «agățat» (hung) se verifică întotdeauna
@@ -208,7 +216,7 @@
     if (!it || !ctx.fx || !(ctx.bodyKg > 0)) return nodata("suprail");
     var rc = O.railCap(it), kg = ctx.bodyKg + (+ctx.cfg.suspKg || 0);
     if (rc == null) { res.unknown = true; return finish(res); }
-    res.checks++; res.rank = Math.max(0, r1(rc - kg));
+    res.checks++; res.rank = Math.max(0, r1(rc - kg)); res.info = nn({ kg: r1(kg), cap: r1(rc) });
     if (kg > rc) push(res, { k: "rail", v: r1(kg), hi: rc });
     return finish(res);
   }
@@ -245,6 +253,7 @@
       if (!any) push(res, { k: "drFront", v: Math.round(ctx.dfx.minH), lo: Math.ceil(sys.hs[codes[0]] + sys.headroom) });
     }
     res.rank = r1(sp.usable - nl);
+    res.info = nn({ nl: nl, usable: Math.round(sp.usable) });
     return finish(res);
   }
   function checkRunner(e, ctx) {
@@ -263,6 +272,7 @@
     if (pc.minBoxW && ded != null) { res.checks++; var boxW = Math.round(sp.clear - ded); if (boxW < pc.minBoxW) push(res, { k: "minBox", v: boxW, lo: pc.minBoxW, hi: null }); }
     else res.unknown = true;
     res.rank = nls.length ? r1(sp.usable - nls[nls.length - 1]) : 0;
+    if (nls.length) res.info = nn({ nl: nls[nls.length - 1], usable: Math.round(sp.usable) });
     return finish(res);
   }
 
@@ -284,6 +294,7 @@
     });
     [L.kg || L.kgTh, L.h, L.w || L.wN, L.th].forEach(function (a) { if (a && (Array.isArray(a) ? known(a) : true)) res.checks++; else res.unknown = true; });
     res.rank = (L.kg && L.kg[1] != null && ctx.door) ? Math.max(0, r1(L.kg[1] - ctx.door.kg)) : 500;
+    if (ctx.door) res.info = nn({ kg: ctx.door.kg > 0 ? r1(ctx.door.kg) : null, cap: L.kg && L.kg[1] != null ? L.kg[1] : null });
     return (ctx._memo["sl:" + sys.key] = res);
   }
   function checkSlide(e, ctx) {
@@ -299,7 +310,7 @@
       var r = slideSysResult(s, ctx);
       if (!best || r.viol.length < best.viol.length || (r.viol.length === best.viol.length && r.checks > best.checks)) best = r;
     });
-    var out = newRes(); out.fam = "slide"; out.viol = best.viol.slice(); out.checks = best.checks; out.unknown = best.unknown; out.rank = best.rank;
+    var out = newRes(); out.fam = "slide"; out.viol = best.viol.slice(); out.checks = best.checks; out.unknown = best.unknown; out.rank = best.rank; out.info = best.info;
     return finish(out);
   }
 
@@ -309,7 +320,7 @@
     if (!S || !D) return nodata("slide");
     var sys = (D.systems || []).filter(function (s) { return s.key === e.id; })[0];
     if (!sys) return nodata("slide");
-    var r = slideSysResult(sys, ctx), out = newRes(); out.fam = "slide"; out.viol = r.viol.slice(); out.checks = r.checks; out.unknown = r.unknown; out.rank = r.rank;
+    var r = slideSysResult(sys, ctx), out = newRes(); out.fam = "slide"; out.viol = r.viol.slice(); out.checks = r.checks; out.unknown = r.unknown; out.rank = r.rank; out.info = r.info;
     return finish(out);
   }
   /* H.3: sistemul de sertar din formular (cfg.drawerSys) se verifică prin laterala lui din date (aceeași verificare ca «zarga»); fără lateral în date = necunoscut */

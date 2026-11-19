@@ -264,6 +264,67 @@ describe("Uși glisante / escamotabile / cu aripă (EBSliding)", () => {
   });
 });
 
+/* ================================================================ H.5 — recomandări pe corpuri construite */
+["ebanist-hwui.js", "ebanist-hwui-i18n.js"].forEach(f => vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), S, { filename: f }));
+const U = S.EBHwUI, WI18N = S.HWUI_I18N;
+describe("Recomandări (H.5): ordinea din «Recomandate» și sugestia, pe corpuri construite cu motorul real", () => {
+  const sect = (cat, ids, ctx) => U.buildSections(ids.map(id => ({ id, cat })), e => X.check(e, ctx), X.section, false);
+  const inv = (cat, ids, ctx) => { const s0 = sect(cat, ids, ctx); [...s0.recomandat].forEach(x => { assert.equal(x.r.ok, true); assert.equal(x.r.unknownLimits, false, "recomandat cu limite necunoscute: " + x.e.id); });
+    const ord = s0.recomandat.map(x => U.ordOf(x.r)); for (let i = 1; i < ord.length; i++) assert.ok(ord[i] >= ord[i - 1], "ordine " + cat + ": " + J(ord)); return s0; };
+  const parts = HM.list().flatMap(f => f.parts.map(p => p.id));
+  test("balamale: «Recomandate» ordonate după numărul cerut de grafic (cele mai puține întâi); rank = HM.count; info = n, greutatea ușii, limita rândului din date", () => {
+    const { ctx } = mk({ L: 600, H: 1900, doors: 1, support: "zoccolo" }), s0 = inv("cern", parts, ctx);
+    assert.ok(s0.recomandat.length > 3, "trebuie să existe balamale recomandate: " + s0.recomandat.length);
+    const first = s0.recomandat[0], last = s0.recomandat[s0.recomandat.length - 1];
+    assert.ok(first.r.rank <= last.r.rank);
+    s0.recomandat.forEach(x => { const n = HM.count(x.e.id, ctx.door.h, ctx.door.kg); assert.equal(x.r.rank, n == null ? 0 : n); assert.equal(x.r.info == null ? null : x.r.info.n == null ? null : x.r.info.n, n == null ? null : n); });
+    const wr = s0.recomandat.find(x => x.r.info && x.r.info.n != null); assert.ok(wr, "măcar o balama cu grafic de numărare");
+    assert.equal(wr.r.info.kg, Math.round(ctx.door.kg * 10) / 10);
+    const rows = HM.familyOfHw(wr.e.id).count.rows, rw = rows.find(x => x.n === wr.r.info.n);
+    if (rw && rw.kg && rw.kg[1] != null) assert.equal(wr.r.info.cap, rw.kg[1]);
+    assert.ok(/\d/.test(U.reasonOf(wr.r, k => WI18N.en[k], "en")));
+    const g = U.suggestFor(parts.map(id => ({ id, cat: "cern" })), e => X.check(e, ctx), X.section); assert.equal(g.e.id, s0.recomandat[0].e.id);
+  });
+  test("balamale: ușă înaltă și grea → se cer mai multe balamale (rank-urile cresc), iar «Recomandate» nu cresc", () => {
+    const a = sect("cern", parts, mk({ L: 600, H: 900, doors: 1 }).ctx), b = sect("cern", parts, mk({ L: 600, H: 2300, doors: 1, support: "zoccolo" }).ctx);
+    const sum = s0 => s0.recomandat.reduce((t, x) => t + x.r.rank, 0);
+    assert.ok(sum(b) > sum(a), sum(a) + " → " + sum(b)); assert.ok(b.recomandat.length <= a.recomandat.length);
+  });
+  test("ridicare: «Recomandate» ordonate după rezerva de greutate până la limita citită; info are forța variantei și limita kg din date", () => {
+    const { ctx } = mk(LIGHT), s0 = inv("lift", LF.list().map(x => x.key), ctx);
+    assert.ok(s0.recomandat.length >= 1);
+    s0.recomandat.forEach(x => { const L = LF.get(x.e.id).limits; assert.equal(x.r.rank, Math.max(0, Math.round((L.kg[1] - ctx.door.kg) * 10) / 10)); assert.equal(x.r.info.cap, L.kg[1]); assert.ok(x.r.info.power); });
+  });
+  test("suspendare: cea MAI MARE rezervă de sarcină întâi (inversul celorlalte familii); limita vine din date", () => {
+    const { ctx } = mk(Object.assign({}, DEEP, { support: "sospeso", plinth: 0, hang: 1 })), s0 = inv("susp", OP.all("susp").map(x => x.id), ctx);
+    if (s0.recomandat.length >= 2) { const m = s0.recomandat.map(x => x.r.rank); assert.ok(m[0] >= m[m.length - 1], J(m)); }
+    s0.recomandat.forEach(x => { assert.equal(x.r.fam, "susp"); assert.ok(x.r.info.cap > x.r.info.kg); assert.equal(Math.round((x.r.info.cap - x.r.info.kg) * 10) / 10, x.r.rank); });
+    if (s0.recomandat.length) assert.equal(U.suggestFor(OP.all("susp").map(x => ({ id: x.id, cat: "susp" })), e => X.check(e, ctx), X.section).e.id, s0.recomandat[0].e.id);
+  });
+  test("sertare: sistemul al cărui NL încape cu cea mai mică pierdere de adâncime primul; info = NL și adâncimea utilă", () => {
+    const deepCtx = mk({ L: 900, H: 720, P: 560, doors: 0, drawers: 3 }).ctx, ids = Array.from(vm.runInContext("DRAWSYS_IDS", S)), s0 = inv("drawsys", ids, deepCtx);
+    assert.ok(s0.recomandat.length >= 2);
+    s0.recomandat.forEach(x => { assert.ok(x.r.info.nl <= x.r.info.usable); assert.equal(Math.round((x.r.info.usable - x.r.info.nl) * 10) / 10, x.r.rank); });
+    assert.ok(/NL \d+ mm/.test(U.reasonOf(s0.recomandat[0].r, k => WI18N.en[k], "en")));
+    ["legno", "legrabox", "tandembox", "matrix", "nessuno"].forEach(id => assert.ok(!s0.recomandat.some(x => x.e.id === id), id));
+  });
+  test("uși glisante: pe corpul «scorrevole» niciun sistem cu limite necunoscute nu e «Recomandat»; ordinea e nedescrescătoare", () => {
+    const ctx = mk({ type: "scorrevole", L: 2400, H: 2400, P: 600, doors: 2, shelves: 0, hang: 0 }).ctx;
+    inv("slidesys", SL.list().filter(x => SL.typeOk(x, "scorrevole")).map(x => x.key), ctx);
+  });
+  test("«necunoscut» nu se sugerează: balamalele Blum vechi (fără limite în date) → nicio sugestie; corp fără uși → nicio sugestie la balamale", () => {
+    const { ctx } = mk({ L: 600, H: 1900, doors: 1, support: "zoccolo" });
+    assert.equal(U.suggestFor([{ id: "blum_71b3550", cat: "cern" }, { id: "blum_71t3550", cat: "cern" }], e => X.check(e, ctx), X.section), null);
+    const none = mk({ L: 600, H: 720, doors: 0, drawers: 0 }).ctx;
+    assert.equal(U.suggestFor(parts.map(id => ({ id, cat: "cern" })), e => X.check(e, none), X.section), null);
+  });
+  test("sugestia = primul din «Recomandate» (aceeași ordine ca în foaie), pentru fiecare familie cu recomandate", () => {
+    const { ctx } = mk(LIGHT);
+    [["lift", LF.list().map(x => x.key)], ["cern", parts]].forEach(([cat, ids]) => { const s0 = sect(cat, ids, ctx), g = U.suggestFor(ids.map(id => ({ id, cat })), e => X.check(e, ctx), X.section);
+      if (s0.recomandat.length) assert.equal(g.e.id, s0.recomandat[0].e.id, cat); else assert.equal(g, null, cat); });
+  });
+});
+
 describe("Texte: 7 limbi, aceleași chei, fără substituții rămase", () => {
   test("aceleași chei în toate limbile; toate nevide", () => {
     assert.deepEqual(Object.keys(I18N).sort(), LANGS.slice().sort());

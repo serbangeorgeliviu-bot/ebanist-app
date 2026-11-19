@@ -147,6 +147,66 @@ describe("Secțiunile (H.2) și ordinea lor", () => {
   });
 });
 
+describe("Recomandări (H.5): ordine, «de ce», sugestie — numai din reguli existente", () => {
+  const mkR = (fam, rank, ok, unk, info) => ({ ok: ok === undefined ? true : ok, unknownLimits: !!unk, rank, fam, why: [], info: info || null });
+  test("ordOf: rank-ul din EBHwFit; la suspendare și șină cea mai MARE rezervă de sarcină întâi; fără rezultat = 0", () => {
+    assert.equal(U.ordOf(mkR("hinge", 2)), 2); assert.equal(U.ordOf(mkR("lift", 3.5)), 3.5);
+    assert.equal(U.ordOf(mkR("susp", 40)), -40); assert.equal(U.ordOf(mkR("suprail", 12)), -12);
+    assert.equal(U.ordOf(null), 0); assert.equal(U.ordOf({}), 0);
+  });
+  test("în «Recomandate»: balamale cu cele mai puține primele; suspendări cu cea mai mare rezervă primele", () => {
+    const h = [["a", 3], ["b", 2], ["c", 4], ["d", 2]], sh = U.buildSections(h.map(x => ({ id: x[0] })), e => mkR("hinge", h.find(x => x[0] === e.id)[1]), F.section, false);
+    eq(sh.recomandat.map(x => x.e.id), ["b", "d", "a", "c"]);
+    const su = [["a", 10], ["b", 55], ["c", 30]], ss = U.buildSections(su.map(x => ({ id: x[0] })), e => mkR("susp", su.find(x => x[0] === e.id)[1]), F.section, false);
+    eq(ss.recomandat.map(x => x.e.id), ["b", "c", "a"]);
+  });
+  test("sugestia: numai din «Recomandate»; ok:null, «potrivit» (limite necunoscute) și ok:false nu se sugerează niciodată", () => {
+    const ents = [{ id: "n1" }, { id: "u1" }, { id: "f1" }];
+    const chk = e => ({ n1: mkR("hinge", 0, null, true), u1: mkR("hinge", 0, true, true), f1: mkR("hinge", 0, false, false) })[e.id];
+    assert.equal(U.suggestFor(ents, chk, F.section), null);
+    assert.equal(U.suggestFor([], chk, F.section), null);
+    const ents2 = ents.concat([{ id: "g1" }, { id: "g2" }]);
+    const chk2 = e => e.id === "g1" ? mkR("hinge", 3) : e.id === "g2" ? mkR("hinge", 2) : chk(e);
+    assert.equal(U.suggestFor(ents2, chk2, F.section).e.id, "g2");
+  });
+  test("sugestia: egalitate → primul din listă; suspendare → cea mai mare rezervă", () => {
+    assert.equal(U.suggestFor([{ id: "x" }, { id: "y" }], () => mkR("hinge", 1), F.section).e.id, "x");
+    const m = { a: 5, b: 50, c: 20 };
+    assert.equal(U.suggestFor(["a", "b", "c"].map(id => ({ id })), e => mkR("susp", m[e.id]), F.section).e.id, "b");
+  });
+  test("SUGGEST_TARGETS: sloturi și ținte reale (fiecare țintă în slotul ei)", () => {
+    Object.entries(U.SUGGEST_TARGETS).forEach(([slot, tid]) => { assert.ok(U.SLOT_TARGETS[slot], slot); assert.equal(U.slotOfTarget(tid), slot); });
+  });
+  test("reasonOf: numai faptele din info; o limită necunoscută nu apare; fără info = nimic", () => {
+    const T = k => I18N.en[k];
+    assert.equal(U.reasonOf(mkR("hinge", 2, true, false, { n: 2, kg: 14, cap: 17.1 }), T, "en"), "2 hinges · door 14 kg ≤ 17.1 kg");
+    assert.equal(U.reasonOf(mkR("hinge", 2, true, false, { n: 2, kg: 14 }), T, "en"), "2 hinges · door 14 kg");
+    assert.equal(U.reasonOf(mkR("hinge", 0, true, false, { kg: 9.5, cap: 12 }), T, "en"), "door 9.5 kg ≤ 12 kg");      // familie fără grafic de numărare, cu limita ei de greutate
+    assert.equal(U.reasonOf(mkR("hinge", 0, true, false, { kg: 9.5 }), T, "en"), "");
+    assert.equal(U.reasonOf(mkR("hinge", 2, true, false, { n: 2, kg: 14, cap: 17.1 }), k => I18N.ro[k], "ro"), "2 balamale · ușa 14 kg ≤ 17,1 kg");
+    assert.equal(U.reasonOf(mkR("lift", 1, true, false, { kg: 6.2, cap: 18, power: "20K2A00" }), T, "en"), "power 20K2A00 · door 6.2 kg ≤ 18 kg");
+    assert.equal(U.reasonOf(mkR("lift", 1, true, false, { kg: 6.2 }), T, "en"), "");
+    assert.equal(U.reasonOf(mkR("susp", 1, true, false, { kg: 20, cap: 60 }), T, "en"), "load 20 kg ≤ 60 kg");
+    assert.equal(U.reasonOf(mkR("zarga", 1, true, false, { nl: 500, usable: 530 }), T, "en"), "NL 500 mm · usable depth 530 mm");
+    assert.equal(U.reasonOf(mkR("hinge", 1, true, false, null), T, "en"), ""); assert.equal(U.reasonOf(null, T, "en"), ""); assert.equal(U.reasonOf(mkR("corner", 1, true, false, { kg: 1, cap: 2 }), T, "en"), "");
+  });
+  test("reasonOf în toate limbile: fără {…} rămase, fără «—» inventat, fără NaN", () => {
+    ["it", "ro", "en", "fr", "de", "pl", "es"].forEach(l => {
+      const T = k => I18N[l][k];
+      [mkR("hinge", 2, true, false, { n: 3, kg: 14.25, cap: 17.1 }), mkR("lift", 1, true, false, { kg: 6, cap: 18, power: "P1" }), mkR("push", 1, true, false, { kg: 3, cap: 5 }), mkR("slide", 1, true, false, { kg: 8, cap: 40 }),
+       mkR("susp", 1, true, false, { kg: 20, cap: 60 }), mkR("guida", 1, true, false, { nl: 450, usable: 470 })].forEach(r => { const m = U.reasonOf(r, T, l); assert.ok(m.length > 5, l + " " + r.fam); assert.ok(!/[{}]|NaN|undefined|—/.test(m), l + " " + m); });
+    });
+  });
+  test("«Aplică» scrie prin aceeași cale ca alegerea din foaie (commitChoice → planOps → câmpul vechi); nimic nu se aplică singur", () => {
+    assert.match(SRC, /function choose\(e\) \{\s*if \(!commitChoice\(SH\.slot, e\)\)/);
+    const i = SRC.indexOf("function applySuggestion(slot)"), seg = SRC.slice(i, SRC.indexOf("function badgeTitle"));
+    assert.match(seg, /commitChoice\(slot, g\.e\)/); assert.ok(!/\.value\s*=|applyOp\(/.test(seg), "nicio altă scriere în applySuggestion");
+    const k = SRC.indexOf("function commitChoice"), c = SRC.slice(k, k + 260); assert.match(c, /applyOp\(planOps\(e\.cat, e\.id\)\)/);
+    const j = SRC.indexOf("function computeSuggestions"), cs = SRC.slice(j, SRC.indexOf("function scheduleSuggestions"));
+    assert.ok(!/applyOp\(|commitChoice\(|\.value\s*=/.test(cs));
+  });
+});
+
 describe("Avertismentele EBOpen → slot", () => {
   const O = { get: id => ({ p1: { model: "TIP-ON", art: "956A" }, d1: { model: "TIP-ON BM", sysname: "LEGRABOX", art: "T60" }, s1: { model: "SAH 500", art: "9385" }, c1: { model: "Minifix", art: "262" } })[id] || null };
   const sel = { push: "p1", pushd: "d1", susp: "s1", conn: "c1" };
