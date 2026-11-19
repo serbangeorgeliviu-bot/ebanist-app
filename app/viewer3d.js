@@ -1689,6 +1689,11 @@ function setTargets(boxesOrig) {
       P.tgt.ang = open ? (left ? -1 : 1) * Math.PI / 2 : 0;
       P.tgt.ex += open ? (stack - px) * MM : 0;
     }
+    /* D-126 — pat cu ladă ridicabilă: somiera se rotește pe balamalele de la cap, la picioare urcă (rotație negativă pe X ridică capătul din +z) */
+    if (P.sub === "bedlift" && a.bedlift) {
+      const Bl = a.bedlift; P.pivot = { axis: "x", y: Bl.y, z: Bl.z };
+      P.tgt.ang = open ? -Bl.deg * Math.PI / 180 : 0;
+    }
     /* U.16 — ușă basculantă: se rotește în jurul muchiei de sus a feței din față, în sus și spre spate (aceeași cinematică din care vin formulele
        producătorilor: la 107° muchia de jos ajunge la FH·0,29 deasupra, ca în Y = FH × 0,29 de la Blum), apoi se ridică peste corp; la mișcarea
        paralelă (HL, Free up) urcă dreaptă și puțin înainte. Reprezentare SCHEMATICĂ: nu cinematica brațelor, ci poziția finală deschisă. */

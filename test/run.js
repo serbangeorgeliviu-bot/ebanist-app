@@ -2961,6 +2961,15 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       return maxY <= topClosed + 25 && minY >= topClosed - 0.35 * h - 25 && Math.min(...door.map(q => q[2])) >= bodyFrontZ - 30 ? true : "minY " + minY + " maxY " + maxY + " topClosed " + topClosed + " h " + h + " zmin " + Math.min(...door.map(q => q[2])) + " frontZ " + bodyFrontZ;
     } catch (e) { return String(e); } });
     ok("U.16: 3D — ușa basculantă se deschide cel mult 90° (nu 150), fără să intre în corp", lfOpen === true, String(lfOpen));
+    const bedOpen = await pg.evaluate(() => { try {
+      const c = { ...PRESETS.letto, name: "BedLf", L: 1660, P: 2000, H: 950, bedStor: "lift", bedFrame: "slats", bedMat: 30 }; GL3D.render(c, { explode: 0 });
+      const fr = buildModule(c).boxes.filter(b => b.sub === "bedlift"); if (!fr.length) return "fără cadru bedlift";
+      const closed = GL3D.worldBoxes({ open: 0 }), open = GL3D.worldBoxes({ open: 1 });
+      const top = W => Math.max(...W.filter(x => x.sub === "bedlift").flatMap(x => x.boxes.flat().map(q => q[1])));
+      const zmax = W => Math.max(...W.filter(x => x.sub === "bedlift").flatMap(x => x.boxes.flat().map(q => q[2])));
+      return top(open) > top(closed) + 300 && zmax(open) < zmax(closed) ? true : "closed top " + top(closed) + " open top " + top(open) + " zmax " + zmax(closed) + "→" + zmax(open);
+    } catch (e) { return String(e); } });
+    ok("pat cu ladă: «Deschide» ridică somiera la picioare (nu rămâne pe loc)", bedOpen === true, String(bedOpen));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
     await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });

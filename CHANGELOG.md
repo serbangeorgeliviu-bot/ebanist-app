@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.93.3 — 20 noiembrie 2026
+
+**Patul cu ladă ridicabilă se ridică în 3D; opțiunile de sub pat se văd.**
+- **„Deschide” ridică somiera** (cadrul cu doage sau panoul) pe balamalele de la cap, la picioare, până la unghiul pistoanelor (cel mult 45°). Înainte nu se mișca nimic.
+- **„Depozitare sub pat”** (cutii pe rotile, sertare laterale, ladă ridicabilă) stă în grupul „Fronturi și suport”; acum acel grup se deschide singur când alegi tipul Pat.
+
+---
+
 ## 5.93.2 — 20 noiembrie 2026
 
 **Triajul coliziunilor din auditul fuzz (D-78): două defecte reale reparate, restul erau false alarme.**

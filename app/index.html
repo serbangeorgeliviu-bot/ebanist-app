@@ -9802,6 +9802,8 @@ function buildModuleCore(cfg){
       if(D.warn.includes("tooHeavy")) throw new Error("Pat cu ladă: somiera și salteaua ("+Math.round(D.mass)+" kg) cer pistoane peste 1500 N; folosește doage în loc de panou plin sau o saltea mai ușoară");
       const li={...D,hingeZ,topY,rimY,panel:panelKind,frameKg,matKg,L};
       boxes.forEach(b=>{ if(b.role==="fianco"||b.role==="somiera_lat") b.lift=li; });
+      /* 3D: „Deschide” ridică somiera (cadrul cu doage sau panoul) pe balamalele de la cap, la picioare, până la unghiul pistoanelor (cel mult alphaMax, 45°) */
+      frame.forEach(b=>{ b.sub="bedlift"; b.bedlift={y:topY,z:hingeZ,deg:Math.min(60,Math.max(10,D.alphaMax||45))}; });
       add("Pistone a gas "+D.F+" N",D.Lc,20,2,"","Accessorio — pistone a gas","accessorio");
       add("Cerniera pesante per rete",120,40,2,"","Accessorio — cerniera per rete letto","accessorio");
       return {pieces,boxes,liftInfo:li};
@@ -11439,6 +11441,8 @@ function deskRows(){
   $("rowDeskShelf").style.display=d?"":"none";
   $("rowDeskDm").style.display=d?"":"none"; $("rowDeskModH").style.display=d&&$("bDeskMod").value?"":"none";
   const bd=$("bTipo").value==="letto";
+  /* „Depozitare sub pat” (cutii, sertare laterale, ladă ridicabilă) stă în grupul „Fronturi și suport”: când se alege Pat, grupul se deschide o dată, să se vadă */
+  if(bd&&!window._bedShown){ const g=$("grpFr"); if(g) g.open=true; } window._bedShown=bd;
   $("rowBedKind").style.display=bd?"":"none"; $("rowBedStor").style.display=bd?"":"none"; $("rowBedBox").style.display=bd&&["boxes","drawers"].includes($("bBedStor").value)?"":"none"; $("rowBedLift").style.display=bd&&$("bBedStor").value==="lift"?"":"none";
   $("rowDeskPed").style.display=d?"":"none"; $("rowDeskPedN").style.display=d&&$("bDeskPed").value?"":"none";
 }
@@ -20269,12 +20273,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.93.2"; /* APP_VER-MARKER */
+const APP_VER="5.93.3"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v277";
+const SW_CACHE="ebanist-v278";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
