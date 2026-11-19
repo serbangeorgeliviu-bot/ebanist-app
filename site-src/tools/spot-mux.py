@@ -44,7 +44,12 @@ def text_stroke(d, xy, t, f, fill, stroke, sw, anchor="mm", spacing=10):
 
 def mk_sub(i, text):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
-    text_stroke(d, (W // 2, 1560), text, font(BLACK, 72), (255, 255, 255, 255), (0, 0, 0, 255), 8)
+    sz = 72
+    while sz > 40:
+        f = font(BLACK, sz)
+        if max(d.textlength(l, font=f) for l in text.split("\n")) <= 960: break
+        sz -= 2
+    text_stroke(d, (W // 2, 1560), text, font(BLACK, sz), (255, 255, 255, 255), (0, 0, 0, 255), 8)
     p = os.path.join(OV, f"sub{i:02d}.png"); im.save(p); return p
 
 def mk_tag(name, text):
@@ -126,9 +131,9 @@ def main():
          "-r", str(FPS), "-c:v", "libx264", "-crf", "19", "-preset", "medium", "-pix_fmt", "yuv420p", "-t", f"{total}", comp])
     # audio: vocea normalizzata, muzica più bassă sotto voce (sidechain), fade-out
     out = os.path.join(V, "ebanist-spot-it.mp4")
-    af = (f"[1:a]loudnorm=I=-15:TP=-1.5:LRA=7,apad=pad_dur={total}[vo];"
+    af = (f"[1:a]loudnorm=I=-15:TP=-1.5:LRA=7,apad=pad_dur={total},asplit=2[vo][vsc];"
           f"[2:a]volume=0.85,atrim=0:{total},afade=t=in:d=0.5,afade=t=out:st={total-1.6:.2f}:d=1.6[mu];"
-          f"[mu][vo]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=350[duck];"
+          f"[mu][vsc]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=350[duck];"
           f"[vo][duck]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]")
     run(["ffmpeg", "-loglevel", "error", "-y", "-i", comp, "-i", os.path.join(IN, "vo.mp3"), "-i", os.path.join(IN, "music.mp3"),
          "-filter_complex", af, "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
