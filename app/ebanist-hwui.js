@@ -18,6 +18,9 @@
  *   EBHwUI.openWarnSlot(w, sel, O)        slotul căruia îi aparține un avertisment al EBOpen
  *   EBHwUI.factsOf(entry, T, M)           3–4 date-cheie din datele familiei (nimic inventat)
  * DOM: EBHwUI.init(), EBHwUI.refresh(cfg, built), EBHwUI.relabel(), EBHwUI.open(slot).
+ * H.4 (Catalogul): EBHwUI.catalogHtml() dă rândurile Catalogului (un rând pe categorie: articolul IMPLICIT settings.hwProd[cat] + «Schimbă»),
+ *   EBHwUI.openCatalog(cat) deschide aceeași foaie în «mod catalog» (fără corp: fără secțiuni de potrivire, toate articolele în ordinea indexului, cu
+ *   preț și cod pe card, filtrul «preț de completat», articol propriu). Formatul settings.hwProd / hwOvr / hwAdd nu se schimbă.
  */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory(root);
@@ -215,7 +218,8 @@
 
   var PREF_KEY = "ebanist_hwui_v1";
   var inited = false, lastHtml = "", lastCfg = null, lastBuilt = null, warnOpen = false;
-  var SH = null;                  // starea foii deschise
+  var SH = null;                  // starea foii deschise (SH.mode: "body" = alegere pe corp, "catalog" = articol implicit din Catalog)
+  var CAT = { only0: false };     // filtrul «categorii cu articolul implicit fără preț» din Catalog
   var PREFS = null;
 
   function $(id) { return document.getElementById(id); }
@@ -392,7 +396,7 @@
     if (!inited) return;
     lastHtml = ""; refresh(lastCfg, lastBuilt);
     if (SH && $("shHw").classList.contains("on")) {
-      SH.items = slotItems(SH.slot); SH.byKey = {}; SH.items.forEach(function (e) { SH.byKey[keyOf(e.cat, e.id)] = e; }); SH.fit = {};
+      SH.items = SH.mode === "catalog" ? catItems(SH.cat0) : slotItems(SH.slot); SH.byKey = {}; SH.items.forEach(function (e) { SH.byKey[keyOf(e.cat, e.id)] = e; }); SH.fit = {};
       buildSkeleton(); renderAll();
     }
   }
@@ -486,11 +490,12 @@
     if (!list.length) return "";
     var lim = SH.lim[id] || 30, shown = list.slice(0, lim), left = list.length - shown.length;
     return '<section class="hxs-sec" data-sec="' + id + '"><h4 class="hxs-h">' + H(title) + ' <span class="hxs-n">' + list.length + "</span></h4>" + (note ? '<p class="mini hxs-note">' + H(note) + "</p>" : "") +
-      '<ul class="hxs-ul">' + shown.map(function (x) { return cardHtml(x.e, x.r); }).join("") + "</ul>" +
+      '<ul class="hxs-ul">' + shown.map(function (x) { return SH.mode === "catalog" ? catCardHtml(x.e) : cardHtml(x.e, x.r); }).join("") + "</ul>" +
       (left > 0 ? '<button type="button" class="btn sm hxs-more" data-more="' + id + '">' + H(T("hxsMore").replace("{n}", Math.min(left, 40))) + "</button>" : "") + "</section>";
   }
 
   function buildSkeleton() {
+    if (SH.mode === "catalog") { buildCatalogSkeleton(); return; }
     var slot = SH.slot, sl = root.EBHwIndex.SLOTS.filter(function (x) { return x.id === slot; })[0];
     $("hxsBody").innerHTML =
       '<div class="hxs-head"><h3 id="hxsTitle">' + H(slotLabel(sl)) + "</h3>" +
@@ -510,6 +515,7 @@
   function renderAll() {
     if (!SH || !SH.items) return;
     if (SH.detail) { renderDetail(); return; }
+    if (SH.mode === "catalog") { renderCatalogAll(); return; }
     var q = SH.q, res = root.EBHwIndex.search(SH.items, q, { cat: SH.cat, brand: SH.brand });
     var fac = root.EBHwIndex.facets(SH.items, { text: q, cat: SH.cat, brand: SH.brand });
     /* chipuri: categorie (numai la sloturile cu mai multe ținte) și marcă */
@@ -589,7 +595,7 @@
       (why.length ? '<div class="hxd-why"><b>' + H(T("hxdWhy")) + ":</b><br>" + why.map(H).join("<br>") + "</div>" : "") +
       (rows.length ? '<dl class="hxd-dl">' + rows.join("") + "</dl>" : '<p class="mini">' + H(T("hxdNoData")) + "</p>") + extra +
       '<p class="mini">' + H(T("hxdUnv")) + "</p>" +
-      '<div class="hxd-act"><button type="button" class="btn red" data-act="pick" data-key="' + H(SH.detail) + '">' + H(T("hxsChoose")) + "</button> " + tech + "</div></div>";
+      '<div class="hxd-act"><button type="button" class="btn red" data-act="pick" data-key="' + H(SH.detail) + '">' + H(T(SH.mode === "catalog" ? "hxkSetDefault" : "hxsChoose")) + "</button> " + tech + "</div></div>";
     var b = $("hxsList").querySelector('[data-act="back"]'); if (b) b.focus();
   }
   function openTech(e) {
@@ -606,7 +612,7 @@
     var ctx = null; try { ctx = hwFitCtx(cfg); } catch (e) { ctx = null; }
     var items = slotItems(slot), byKey = {};
     items.forEach(function (e) { byKey[keyOf(e.cat, e.id)] = e; });
-    SH = { slot: slot, q: "", cat: "", brand: "", fitOn: true, lim: {}, fit: {}, ctx: ctx, items: items, byKey: byKey, detail: null, openNo: false, deb: 0,
+    SH = { mode: "body", slot: slot, q: "", cat: "", brand: "", fitOn: true, lim: {}, fit: {}, ctx: ctx, items: items, byKey: byKey, detail: null, openNo: false, deb: 0,
            opener: document.activeElement && document.activeElement.closest && document.activeElement.closest("[data-hwp-change]") };
     buildSkeleton(); renderAll();
     openSheet("shHw");
@@ -615,6 +621,13 @@
   }
   function closeSheetNow() { var sh = $("shHw"); if (sh.classList.contains("on")) { sh.classList.remove("on"); if (!document.querySelectorAll(".sheet.on").length) $("scrim").classList.remove("on"); if (typeof navSync === "function") navSync(); } }
   function onClosed() {
+    var sh0 = SH;
+    if (sh0 && sh0.mode === "catalog") {
+      SH = null;
+      if (sh0.dirty && typeof renderCatalog === "function") { try { renderCatalog(); } catch (e) { /* */ } }
+      var cb = document.querySelector('#catHwWrap [data-cth-change="' + sh0.cat0 + '"]'); if (cb) { try { cb.focus({ preventScroll: true }); } catch (e) { /* */ } }
+      return;
+    }
     var op = SH && SH.opener, slot = SH && SH.slot; SH = null;
     var n = slot && $("hwPanel") && $("hwPanel").querySelector('[data-hwp-change="' + slot + '"]');
     if (n) { try { n.focus({ preventScroll: true }); } catch (e) { /* */ } } else if (op && op.focus) { try { op.focus(); } catch (e) { /* */ } }
@@ -637,7 +650,9 @@
     if (b.dataset.chip) { if (b.dataset.chip === "cat") SH.cat = b.dataset.val; else SH.brand = b.dataset.val; SH.lim = {}; renderAll(); return; }
     if (b.dataset.more) { SH.lim[b.dataset.more] = (SH.lim[b.dataset.more] || 30) + 40; var y = $("shHw").scrollTop; renderAll(); $("shHw").scrollTop = y; return; }
     var act = b.dataset.act, e = SH.byKey[b.dataset.key];
-    if (act === "pick" && e) choose(e);
+    if (act === "pick" && e) { if (SH.mode === "catalog") catChoose(e); else choose(e); }
+    else if (act === "edit" && e) { SH.edit = SH.edit === b.dataset.key ? null : b.dataset.key; renderAll(); var ed = $("hxsList").querySelector('.hxc[data-key="' + b.dataset.key.replace(/"/g, "") + '"] .hxk-price'); if (SH.edit && ed) ed.focus(); }
+    else if (act === "own") catOwnAdd();
     else if (act === "clear") clearTarget(b.dataset.tid);
     else if (act === "fav" && e) { var key = b.dataset.key, on = favToggle(loadPrefs(), key); savePrefs(); b.setAttribute("aria-pressed", on ? "true" : "false"); b.textContent = on ? "★" : "☆"; b.setAttribute("aria-label", T(on ? "hxsFavDel" : "hxsFavAdd")); }
     else if (act === "det" && e) { SH.detail = b.dataset.key; SH.scroll = $("shHw").scrollTop; renderDetail(); $("shHw").scrollTop = 0; }
@@ -665,6 +680,145 @@
     }
   }
 
+
+  /* ======================================================================== H.4 — CATALOGUL */
+  function catKey(cat) { var p = (typeof HW_CATS !== "undefined" ? HW_CATS : []).filter(function (c) { return c[0] === cat; })[0]; return p ? p[1] : null; }
+  function catTitle(cat) { var k = catKey(cat); return k ? T(k) : cat; }
+  function catItems(cat) { return hwIndex().filter(function (e) { return e.cat === cat; }); }
+  /* prețul și codul de ACUM ale unui articol: corecția utilizatorului (settings.hwOvr) peste datele articolului, ca în hwItem */
+  function effOf(e) { var o = ((state.settings || {}).hwOvr || {})[e.id] || {}; return { price: o.price != null ? o.price : e.price, art: o.art != null ? o.art : e.art }; }
+  function noPrice(e) { return !(effOf(e).price > 0); }
+  function fmtPrice(v) { return (Math.round(v * 100) / 100) + " €"; }
+
+  /* un rând pe categorie: articolul implicit (brand, nume, cod, preț), «Schimbă», câmpurile de preț/cod ale lui și ce avea deja rândul (plăcuța, fișele tehnice, articole proprii).
+     Selectul vechi (.catSel, cu lista întreagă) rămâne în DOM, ascuns: Salvează, backup-ul și testele îl citesc, iar el e sincronizat cu alegerea. */
+  function catRowHtml(cat, key) {
+    var S = state.settings, sel = (S.hwProd || {})[cat] || "", it = hwItem(cat) || { price: "", art: "" }, shown = it.id ? true : false;
+    var lbl = T(key), brandName = shown ? bn(it.brand, it.name) : "";
+    var meta = [];
+    if (shown && it.art && it.art !== "—") meta.push(esc(it.art));
+    if (shown) meta.push(it.price > 0 ? esc(fmtPrice(it.price)) : '<span class="hxb warn">' + H(T("hxbNoPrice")) + "</span>");
+    return '<div class="f cth-row" data-cat="' + cat + '" data-slot="' + root.EBHwIndex.slotOf(cat) + '">' +
+      '<div class="cth-h"><div class="cth-txt"><div class="cth-cat">' + esc(lbl) + (it.chk ? ' <span class="mini" style="color:#b8860b">' + esc(t("artCheck")) + "</span>" : "") + (it.est ? ' <span class="mini" style="color:#b8860b">· ' + esc(t("priceEst")) + "</span>" : "") + "</div>" +
+        '<div class="cth-cur">' + (shown ? esc(brandName) : '<span class="mini">' + H(T("hxkNone")) + "</span>") + "</div>" + (meta.length ? '<div class="cth-meta">' + meta.join(" · ") + "</div>" : "") + "</div>" +
+        '<button type="button" class="btn sm cth-chg" data-cth-change="' + cat + '" aria-label="' + H(T("hxpChange") + ": " + lbl) + '">' + H(T("hxpChange")) + "</button></div>" +
+      '<div class="cth-f"><input class="catArt" data-cat="' + cat + '" placeholder="' + esc(t("catArt")) + '" value="' + esc(it.art || "") + '" style="flex:2" aria-label="' + esc(t("catArt") + ": " + lbl) + '">' +
+        '<input class="catPrice" data-cat="' + cat + '" type="number" step="0.01" inputmode="decimal" placeholder="€" value="' + it.price + '" style="flex:1" aria-label="' + esc(T("hxkPrice") + ": " + lbl) + '"></div>' +
+      '<div class="mini catRef" data-hw="' + (it.id || "") + '" style="margin-top:4px;line-height:1.4"></div>' +
+      (cat === "guida" && slideSysOf(it.id) ? '<button class="btn sm slOpen" data-sys="' + slideSysOf(it.id) + '" style="margin-top:6px">' + esc(t("hsBtn")) + "</button>" : "") +
+      (cat === "cern" && hingeFamHas(it.id) ? '<div style="display:flex;gap:8px;margin-top:6px;align-items:center"><select class="catPlate" aria-label="' + esc(t("hsPlate")) + '" style="flex:1">' +
+        hingePlateOpts(it.id).map(function (pl) { return '<option value="' + pl.id + '"' + ((S.hwProd || {}).plate === pl.id ? " selected" : "") + ">" + esc(t("hsPlate") + ": " + pl.art.join(" / ")) + "</option>"; }).join("") +
+        '</select><button class="btn sm hsOpen" data-hw="' + it.id + '">' + esc(t("hsBtn")) + "</button></div>" : "") +
+      (it.custom ? '<div style="display:flex;gap:8px;margin-top:6px"><input class="catOwnBrand" data-id="' + it.id + '" placeholder="' + esc(t("hwOwnBrand")) + '" value="' + esc(it.brand || "") + '" style="flex:1">' +
+        '<input class="catOwnName" data-id="' + it.id + '" placeholder="' + esc(t("hwOwnName")) + '" value="' + esc(it.name || "") + '" style="flex:2">' +
+        '<button class="iconbtn danger catOwnDel" data-id="' + it.id + '" data-cat="' + cat + '" title="' + esc(t("hwOwnDel")) + '">✕</button></div>' + catPhotoRow("hw", it.id, it.img) : "") +
+      '<button class="btn sm catOwnAdd" data-cat="' + cat + '" style="margin-top:6px">＋ ' + esc(t("hwOwnAdd")) + "</button>" +
+      '<div class="hwui-off cth-compat" aria-hidden="true"><select class="catSel" data-cat="' + cat + '" tabindex="-1">' +
+        hwList(cat).map(function (x) { return '<option value="' + x.id + '" data-art="' + esc(x.art || "") + '"' + (x.id === sel ? " selected" : "") + ">" + esc(x.brand + " — " + hwName(x)) + "</option>"; }).join("") + "</select></div></div>";
+  }
+  function catalogHtml() {
+    var cats = (typeof HW_CATS !== "undefined" ? HW_CATS : []), n0 = 0, rows = {};
+    cats.forEach(function (c) { var it = hwItem(c[0]); var z = !!(it && it.id && !(it.price > 0)); if (z) n0++; rows[c[0]] = { key: c[1], zero: z }; });
+    var out = '<p class="mini">' + H(T("hxkHint")) + '</p><div class="cth-top"><button type="button" class="chip sm' + (CAT.only0 ? " on" : "") + '" id="cthOnly0" aria-pressed="' + (CAT.only0 ? "true" : "false") + '">' + H(T("hxkNoPriceTab").replace("{n}", n0)) + "</button></div>";
+    root.EBHwIndex.SLOTS.forEach(function (sl) {
+      var mine = cats.filter(function (c) { return root.EBHwIndex.slotOf(c[0]) === sl.id && (!CAT.only0 || rows[c[0]].zero); });
+      if (!mine.length) return;
+      out += '<h4 class="hxs-h cth-slot">' + H(T(sl.key)) + "</h4>" + mine.map(function (c) { return catRowHtml(c[0], c[1]); }).join("");
+    });
+    return out;
+  }
+
+  function buildCatalogSkeleton() {
+    $("hxsBody").innerHTML =
+      '<div class="hxs-head"><h3 id="hxsTitle">' + H(T("hxkSheetTitle").replace("{x}", catTitle(SH.cat0))) + "</h3>" +
+      '<input type="search" id="hxsQ" class="hxs-q" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="🔍 ' + H(T("hxsSearch")) + '" aria-label="' + H(T("hxsSearch")) + '" value="' + H(SH.q) + '">' +
+      '<div class="hxs-chips" id="hxsBrands" role="group" aria-label="' + H(T("hxsBrands")) + '"></div>' +
+      '<div class="hxs-row"><label class="hxs-fit"><input type="checkbox" id="hxsNo0"' + (SH.only0 ? " checked" : "") + '> <span id="hxsNo0L"></span></label><span class="mini hxs-count" id="hxsCount" aria-live="polite"></span></div>' +
+      '<div class="cth-own"><button type="button" class="btn sm" data-act="own">＋ ' + H(t("hwOwnAdd")) + "</button></div></div><div id=\"hxsList\"></div>";
+    $("hxsQ").addEventListener("input", function () { clearTimeout(SH.deb); SH.deb = setTimeout(function () { SH.q = $("hxsQ").value; SH.lim = {}; renderAll(); }, 120); });
+    $("hxsNo0").addEventListener("change", function () { SH.only0 = $("hxsNo0").checked; SH.lim = {}; renderAll(); });
+  }
+
+  function catCardHtml(e) {
+    var key = keyOf(e.cat, e.id), curId = (hwItem(e.cat) || {}).id, cur = curId === e.id, ef = effOf(e), editing = SH.edit === key;
+    var facts = factsOf(e, T, { EBHinges: root.EBHinges, EBHingesMore: root.EBHingesMore, EBLiftFit: root.EBLiftFit, EBCornerFit: root.EBCornerFit, EBSliding: root.EBSliding, EBOpen: root.EBOpen, DRAWSYS: typeof DRAWSYS !== "undefined" ? DRAWSYS : null });
+    var meta = []; if (ef.art) meta.push(H(ef.art)); if (ef.price > 0) meta.push(H(fmtPrice(ef.price)));
+    var own = e.own ? ((state.settings.hwAdd || []).filter(function (x) { return x.id === e.id; })[0] || null) : null;
+    return '<li class="hxc' + (cur ? " is-cur" : "") + '" data-key="' + H(key) + '">' +
+      '<button type="button" class="hxc-main" data-act="pick" data-key="' + H(key) + '"' + (cur ? ' aria-current="true"' : "") + ' title="' + H(T("hxkSetDefault")) + '">' +
+        '<span class="hxc-t">' + brandHtml(e) + '<span class="hxc-name">' + H(entryName(e)) + "</span></span>" +
+        (meta.length ? '<span class="hxc-art">' + meta.join(" · ") + "</span>" : "") +
+        (facts.length ? '<span class="hxc-facts">' + facts.map(H).join(" · ") + "</span>" : "") +
+        '<span class="hxc-badges">' + (cur ? '<span class="hxb on">' + H(T("hxkDefaultBadge")) + "</span>" : "") + '<span class="hxb">' + H(T("hxbUnv")) + "</span>" +
+          (noPrice(e) ? '<span class="hxb warn">' + H(T("hxbNoPrice")) + "</span>" : "") + (e.chk ? '<span class="hxb warn">' + H(T("artCheck").replace(/^—\s*/, "")) + "</span>" : "") + (e.est ? '<span class="hxb">' + H(t("priceEst").replace(/^[—·]\s*/, "")) + "</span>" : "") + "</span></button>" +
+      '<div class="hxc-side"><button type="button" class="hxc-det" data-act="edit" data-key="' + H(key) + '" aria-expanded="' + (editing ? "true" : "false") + '">' + H(T("hxkEdit")) + "</button>" +
+        '<button type="button" class="hxc-det" data-act="det" data-key="' + H(key) + '">' + H(T("hxsDetails")) + "</button></div>" +
+      (editing ? '<div class="hxk-ed">' +
+        (own ? '<div class="cth-f"><input class="hxk-brand" data-id="' + H(e.id) + '" placeholder="' + esc(t("hwOwnBrand")) + '" value="' + esc(own.brand || "") + '" style="flex:1" aria-label="' + esc(t("hwOwnBrand")) + '">' +
+          '<input class="hxk-name" data-id="' + H(e.id) + '" placeholder="' + esc(t("hwOwnName")) + '" value="' + esc(typeof own.n === "string" ? own.n : "") + '" style="flex:2" aria-label="' + esc(t("hwOwnName")) + '"></div>' : "") +
+        '<div class="cth-f"><input class="hxk-art" data-id="' + H(e.id) + '" placeholder="' + esc(t("catArt")) + '" value="' + esc(ef.art || "") + '" style="flex:2" aria-label="' + esc(t("catArt")) + '">' +
+        '<input class="hxk-price" data-id="' + H(e.id) + '" type="number" step="0.01" inputmode="decimal" placeholder="€" value="' + (ef.price == null ? "" : ef.price) + '" style="flex:1" aria-label="' + esc(T("hxkPrice")) + '"></div></div>' : "") + "</li>";
+  }
+
+  function renderCatalogAll() {
+    var q = SH.q, res = root.EBHwIndex.search(SH.items, q, { brand: SH.brand });
+    var fac = root.EBHwIndex.facets(SH.items, { text: q, brand: SH.brand });
+    var brands = Object.keys(fac.brand).sort(function (a, b) { return fac.brand[b] - fac.brand[a] || a.localeCompare(b); });
+    if (SH.brand && brands.indexOf(SH.brand) < 0) brands.push(SH.brand);
+    $("hxsBrands").style.display = brands.length > 1 || SH.brand ? "" : "none";
+    $("hxsBrands").innerHTML = chipHtml("brand", "", T("hxsAll"), null, !SH.brand) + brands.map(function (b) { return chipHtml("brand", b, b, fac.brand[b] || 0, SH.brand === b); }).join("");
+    var n0 = res.filter(noPrice).length; $("hxsNo0L").textContent = T("hxkNoPrice").replace("{n}", n0);
+    if (SH.only0) res = res.filter(noPrice);
+    $("hxsCount").textContent = T("hxsCount").replace("{n}", res.length);
+    var html = "";
+    if (!SH.items.length) html = '<p class="mini hxs-none">' + H(T("hxkNone")) + "</p>";
+    else if (!res.length) html = '<p class="mini hxs-none">' + H(T("hxsNoRes")) + "</p>";
+    else html = sectionHtml("cat", T("hxsFlat"), res.map(function (e, i) { return { e: e, r: null, i: i }; }));
+    $("hxsList").innerHTML = html;
+  }
+
+  function persistSafe() { try { persist(); } catch (e) { /* */ } }
+  function catChoose(e) {
+    var S = state.settings; S.hwProd = S.hwProd || {}; S.hwProd[e.cat] = e.id; persistSafe();
+    SH.dirty = true; closeSheetNow();
+  }
+  /* articol propriu nou în categoria curentă: aceleași câmpuri ca butonul din rând (hwAdd, ales implicit), apoi se deschide pe card editorul lui */
+  function catOwnAdd() {
+    var S = state.settings, cat = SH.cat0; S.hwAdd = S.hwAdd || []; S.hwProd = S.hwProd || {};
+    var id = "u" + uid(); S.hwAdd.push({ id: id, cat: cat, custom: 1, brand: "", n: t("hwOwnNew"), art: "", price: 0 });
+    S.hwProd[cat] = id; persistSafe();
+    SH.items = catItems(cat); SH.byKey = {}; SH.items.forEach(function (x) { SH.byKey[keyOf(x.cat, x.id)] = x; });
+    SH.q = ""; SH.brand = ""; SH.only0 = false; SH.edit = keyOf(cat, id); SH.dirty = true; SH.lim = { cat: SH.items.length + 1 };
+    buildSkeleton(); renderAll();
+    var n = $("hxsList").querySelector('.hxc[data-key="' + keyOf(cat, id) + '"]'); if (n && n.scrollIntoView) n.scrollIntoView({ block: "center" });
+  }
+  function onEditInput(ev) {
+    var n = ev.target; if (!SH || SH.mode !== "catalog" || !n || !n.classList || !n.dataset || !n.dataset.id) return;
+    var S = state.settings, id = n.dataset.id, o = null;
+    function ovr() { S.hwOvr = S.hwOvr || {}; return (S.hwOvr[id] = S.hwOvr[id] || {}); }
+    if (n.classList.contains("hxk-price")) { var v = parseFloat(n.value); if (isFinite(v)) { ovr().price = v; persistSafe(); SH.dirty = true; } }
+    else if (n.classList.contains("hxk-art")) { ovr().art = n.value.trim(); persistSafe(); SH.dirty = true; }
+    else if (n.classList.contains("hxk-brand") || n.classList.contains("hxk-name")) {
+      o = (S.hwAdd || []).filter(function (x) { return x.id === id; })[0];
+      if (o) { if (n.classList.contains("hxk-brand")) o.brand = n.value; else o.n = n.value; persistSafe(); SH.dirty = true; }
+    }
+  }
+  /* după ce se termină o editare (blur), cardul și numărătoarea «preț de completat» se rescriu fără să atingă câmpul în lucru */
+  function onEditDone(ev) {
+    var n = ev.target; if (!SH || SH.mode !== "catalog" || !n || !n.classList || !/(^| )hxk-/.test(n.className || "")) return;
+    var nx = ev.relatedTarget; if (nx && nx.classList && /(^| )hxk-/.test(nx.className || "")) return;
+    SH.items = catItems(SH.cat0); SH.byKey = {}; SH.items.forEach(function (x) { SH.byKey[keyOf(x.cat, x.id)] = x; }); renderAll();
+  }
+  function openCatalog(cat, opener) {
+    if (!inited || !catKey(cat)) return false;
+    var items = catItems(cat), byKey = {}; items.forEach(function (e) { byKey[keyOf(e.cat, e.id)] = e; });
+    SH = { mode: "catalog", slot: root.EBHwIndex.slotOf(cat), cat0: cat, q: "", cat: "", brand: "", fitOn: false, only0: false, lim: {}, fit: {}, ctx: null, items: items, byKey: byKey, detail: null, edit: null, dirty: false, deb: 0, opener: opener || null };
+    buildSkeleton(); renderAll();
+    openSheet("shHw");
+    setTimeout(function () { var q = $("hxsQ"); if (q && $("shHw").classList.contains("on")) q.focus(); }, 90);
+    return true;
+  }
+
   /* ------------------------------------------------------------------ init */
   function init() {
     if (inited || !$("hwPanel") || !$("shHw") || !root.EBHwIndex || !root.EBHwFit) return false;
@@ -685,6 +839,14 @@
     });
     $("hwPanel").addEventListener("change", function (ev) { var s = ev.target.closest("[data-hwp-sub]"); if (s) subWrite(s.getAttribute("data-hwp-sub"), s.value); });
     $("hxsBody").addEventListener("click", onListClick);
+    $("hxsBody").addEventListener("input", onEditInput);
+    $("hxsBody").addEventListener("focusout", onEditDone);
+    var cw = $("catHwWrap");
+    if (cw) cw.addEventListener("click", function (ev) {
+      var b = ev.target.closest("[data-cth-change]");
+      if (b) { openCatalog(b.getAttribute("data-cth-change"), b); return; }
+      if (ev.target.closest("#cthOnly0")) { CAT.only0 = !CAT.only0; renderCatalog(); var f = $("cthOnly0"); if (f) f.focus(); }
+    });
     $("shHw").addEventListener("keydown", onKey);
     try { new MutationObserver(function () { if (SH && !$("shHw").classList.contains("on")) onClosed(); }).observe($("shHw"), { attributes: true, attributeFilter: ["class"] }); } catch (e) { /* */ }
     var g = $("grpHw"); if (g) g.addEventListener("toggle", function () { if (g.open) refresh(); });
@@ -692,7 +854,7 @@
     return true;
   }
 
-  api.init = init; api.refresh = refresh; api.relabel = relabel; api.open = open;
+  api.init = init; api.refresh = refresh; api.relabel = relabel; api.open = open; api.openCatalog = openCatalog; api.catalogHtml = catalogHtml;
   api._state = function () { return SH; };
   api._readTarget = readTarget;
   return api;

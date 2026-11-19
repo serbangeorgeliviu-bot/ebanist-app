@@ -3544,6 +3544,119 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("H.3/H.5 limite: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 300));
   }
 
+  /* H.4 — Catalogul cu același selector (mod catalog): rânduri pe categorie, preț și cod pe articol, filtrul «preț de completat», articole proprii, backup 5.87.0 */
+  {
+    head("Catalogul — rânduri pe categorie și selectorul în mod catalog, telefon și tabletă (H.4)");
+    const tabCtx3 = await browser.newContext({ viewport: { width: 820, height: 1180 }, hasTouch: true });
+    const tabPg3 = await tabCtx3.newPage();
+    tabPg3.on("pageerror", e => errs.push("pageerror(tab3): " + e));
+    tabPg3.on("console", m => { const x = m.text(); if (m.type() === "error" && !/ERR_CONNECTION|ERR_NAME|ERR_INTERNET|Failed to load resource|Content Security Policy|Refused to/.test(x)) errs.push("console(tab3): " + x); });
+    await tabPg3.goto(URL); await tabPg3.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 }); await tabPg3.waitForTimeout(3300); await tabPg3.evaluate(() => closeSheets()); await tabPg3.waitForTimeout(300);
+    const RESET = () => { closeSheets(); try { localStorage.removeItem("ebanist_hwui_v1"); } catch (e) {} state.settings.hwAdd = []; state.settings.hwProd = {}; state.settings.hwOvr = {}; persist(); };
+    for (const [label, P] of [["telefon", pg], ["tabletă", tabPg3]]) {
+      const openCat = async () => { await P.evaluate(() => { closeSheets(); renderCatalog(); openSheet("shCatalog"); }); await P.waitForTimeout(350); };
+      const change = async cat => { await P.locator('#catHwWrap [data-cth-change="' + cat + '"]').scrollIntoViewIfNeeded(); await P.locator('#catHwWrap [data-cth-change="' + cat + '"]').click(); await P.waitForTimeout(350); };
+      await P.evaluate(RESET); await openCat();
+      /* 1. rândurile */
+      const rw = await P.evaluate(() => { const rows = [...document.querySelectorAll("#catHwWrap .cth-row")], cats = HW_CATS.map(c => c[0]);
+        const hid = n => { const r = n.getBoundingClientRect(); return r.width <= 1.5 && r.height <= 1.5; };
+        return { n: rows.length, want: cats.length, sels: document.querySelectorAll("#catHwWrap select.catSel").length, selHidden: [...document.querySelectorAll("#catHwWrap select.catSel")].every(s => hid(s.closest(".cth-compat"))),
+          cern: document.querySelector('#catHwWrap .cth-row[data-cat="cern"] .cth-cur').textContent, btn: document.querySelectorAll("#catHwWrap [data-cth-change]").length,
+          heads: [...document.querySelectorAll("#catHwWrap .cth-slot")].length, inputs: !!document.querySelector('#catHwWrap .catPrice[data-cat="cern"]') && !!document.querySelector('#catHwWrap .catArt[data-cat="cern"]'),
+          ovf: (() => { const sh = document.getElementById("shCatalog"); return sh.scrollWidth <= sh.clientWidth + 1; })() }; });
+      ok("H.4 " + label + ": Catalogul are un rând pe categorie (" + rw.want + "), pe sloturi, cu articolul implicit (Blum la balamale) și butonul «Schimbă»", rw.n === rw.want && rw.btn === rw.want && rw.heads >= 6 && /Blum/.test(rw.cern) && rw.inputs, JSON.stringify(rw));
+      ok("H.4 " + label + ": selectele vechi (.catSel, lista întreagă) rămân în DOM, ascunse; catalogul nu iese din ecran", rw.sels === rw.want && rw.selHidden && rw.ovf, JSON.stringify(rw));
+      /* 2. foaia în mod catalog */
+      await change("cern");
+      const sh = await P.evaluate(() => { const S0 = EBHwUI._state(); return { mode: S0.mode, on: document.getElementById("shHw").classList.contains("on"), title: document.getElementById("hxsTitle").textContent, secs: [...document.querySelectorAll("#hxsList [data-sec]")].map(x => x.dataset.sec),
+        fitBox: !!document.getElementById("hxsFit"), recomandat: !!document.querySelector('#hxsList [data-sec="recomandat"]'), why: !!document.querySelector("#hxsList .hxc-why"), n: document.querySelectorAll("#hxsList .hxc-main[data-act=pick]").length,
+        first: [...document.querySelectorAll("#hxsList .hxc-main[data-act=pick]")].slice(0, 12).map(x => x.dataset.key.split("|")[1]), want: HWDB.cern.slice(0, 12).map(x => x.id),
+        cur: (document.querySelector("#hxsList .hxc.is-cur") || { dataset: {} }).dataset.key, focus: document.activeElement && document.activeElement.id }; });
+      ok("H.4 " + label + ": «Schimbă» deschide aceeași foaie în mod catalog: titlu cu categoria, fără secțiuni de potrivire, fără «Recomandate», fără bifa «potrivit corpului»", sh.mode === "catalog" && sh.on && /\S/.test(sh.title) && sh.secs.length === 1 && sh.secs[0] === "cat" && !sh.fitBox && !sh.recomandat && !sh.why && sh.n > 20 && sh.focus === "hxsQ", JSON.stringify(sh));
+      ok("H.4 " + label + ": articolele sunt în ordinea indexului (ca în catalog) și implicitul curent e marcat", JSON.stringify(sh.first) === JSON.stringify(sh.want) && sh.cur === "cern|" + sh.want[0], JSON.stringify([sh.first, sh.want, sh.cur]));
+      /* 3. căutare + alegere implicit */
+      await P.fill("#hxsQ", "hettich"); await P.waitForTimeout(400);
+      const hs = await P.evaluate(() => { const c = [...document.querySelectorAll("#hxsList .hxc-main[data-act=pick]")]; return { n: c.length, brands: [...new Set(c.map(x => (x.querySelector(".hxc-brand") || { textContent: "" }).textContent))], key: c[1].dataset.key }; });
+      ok("H.4 " + label + ": căutarea «hettich» în mod catalog dă numai articole Hettich", hs.n > 5 && hs.brands.length === 1 && hs.brands[0] === "Hettich", JSON.stringify(hs));
+      await P.evaluate(k => { document.querySelector('#hxsList [data-act="pick"][data-key="' + k + '"]').click(); }, hs.key); await P.waitForTimeout(400);
+      const hid = hs.key.split("|")[1];
+      const ch = await P.evaluate(hid => ({ prod: state.settings.hwProd.cern, item: hwItem("cern").id, on: document.getElementById("shHw").classList.contains("on"), sheetCat: document.getElementById("shCatalog").classList.contains("on"),
+        row: document.querySelector('#catHwWrap .cth-row[data-cat="cern"] .cth-cur').textContent, sel: document.querySelector('#catHwWrap select.catSel[data-cat="cern"]').value, hid, foc: document.activeElement && document.activeElement.getAttribute("data-cth-change") }), hid);
+      ok("H.4 " + label + ": alegerea scrie settings.hwProd.cern (același format), foaia se închide, Catalogul rămâne deschis și rândul arată articolul; selectul ascuns e sincronizat; focusul revine pe «Schimbă»",
+        ch.prod === hid && ch.item === hid && !ch.on && ch.sheetCat && /Hettich/.test(ch.row) && ch.sel === hid && ch.foc === "cern", JSON.stringify(ch));
+      /* fișa tehnică + plăcuța din rând (păstrate) */
+      const tech = await P.evaluate(() => { const r = document.querySelector('#catHwWrap .cth-row[data-cat="cern"]'); return { plate: !!r.querySelector(".catPlate"), tech: !!r.querySelector(".hsOpen") }; });
+      ok("H.4 " + label + ": rândul păstrează selectorul de plăcuță și butonul fișei tehnice la balamale", tech.plate && tech.tech, JSON.stringify(tech));
+      await P.evaluate(() => { state.settings.hwProd.guida = "blum_movento"; renderCatalog(); });
+      ok("H.4 " + label + ": rândul glisierelor păstrează butonul fișei (slOpen)", await P.evaluate(() => !!document.querySelector('#catHwWrap .cth-row[data-cat="guida"] .slOpen')));
+      /* 4. preț și cod pe articol, din card */
+      await change("cern");
+      const pk = await P.evaluate(() => { const c = [...document.querySelectorAll("#hxsList .hxc")].filter(x => !x.classList.contains("is-cur"))[3]; c.querySelector('[data-act="edit"]').click(); const k = c.dataset.key; return { k, vis: !!document.querySelector('#hxsList .hxc[data-key="' + k + '"] .hxk-price') }; });
+      await P.fill('#hxsList .hxc[data-key="' + pk.k + '"] .hxk-price', "12.5"); await P.fill('#hxsList .hxc[data-key="' + pk.k + '"] .hxk-art', "XX-77"); await P.waitForTimeout(150);
+      const pe = await P.evaluate(k => { const id = k.split("|")[1]; const it = hwItemById("cern", id); return { ovr: JSON.stringify(state.settings.hwOvr[id]), price: it.price, art: it.art, def: hwItem("cern").id }; }, pk.k);
+      ok("H.4 " + label + ": «Preț și cod» pe cardul oricărui articol scrie în settings.hwOvr (aceeași casetă pe care o citește devizul), fără să schimbe implicitul", pk.vis && pe.price === 12.5 && pe.art === "XX-77" && pe.ovr === JSON.stringify({ price: 12.5, art: "XX-77" }) && pe.def === hid, JSON.stringify([pk, pe]));
+      await P.evaluate(() => closeSheets()); await P.waitForTimeout(250);
+      /* 5. filtrul din foaie: preț de completat */
+      await openCat(); await change("cern");
+      const f1 = await P.evaluate(() => { const lab = document.getElementById("hxsNo0L").textContent, n = +(lab.match(/\((\d+)\)/) || [0, -1])[1];
+        const ov = state.settings.hwOvr || {}, exp = hwIndex().filter(e => e.cat === "cern").filter(e => !((ov[e.id] && ov[e.id].price != null ? ov[e.id].price : e.price) > 0)).length;
+        document.getElementById("hxsNo0").click(); return { n, exp, lab }; });
+      await P.waitForTimeout(250);
+      const f2 = await P.evaluate(() => { const c = [...document.querySelectorAll("#hxsList .hxc-main[data-act=pick]")]; return { shown: c.length, allBadged: c.every(x => !!x.querySelector(".hxb.warn")), count: document.getElementById("hxsCount").textContent }; });
+      ok("H.4 " + label + ": filtrul «Doar articole cu preț de completat (N)»: N = numărul articolelor cu preț 0 din categorie; lista arată numai pe ele, toate cu insigna", f1.n === f1.exp && f1.n > 100 && f2.shown === Math.min(f1.n, 30) && f2.allBadged && new RegExp("\\b" + f1.n + "\\b").test(f2.count), JSON.stringify([f1, f2]));
+      /* completez un preț → numărătoarea scade cu 1 după editare */
+      const k1 = await P.evaluate(() => { const c = document.querySelector("#hxsList .hxc"); c.querySelector('[data-act="edit"]').click(); return c.dataset.key; });
+      await P.fill('#hxsList .hxc[data-key="' + k1 + '"] .hxk-price', "9.9"); await P.evaluate(() => document.getElementById("hxsQ").focus()); await P.waitForTimeout(300);
+      const f3 = await P.evaluate(() => +(document.getElementById("hxsNo0L").textContent.match(/\((\d+)\)/) || [0, -1])[1]);
+      ok("H.4 " + label + ": după ce completezi un preț, numărătoarea «de completat» scade cu 1 și articolul iese din listă", f3 === f1.n - 1 && await P.evaluate(k => !document.querySelector('#hxsList .hxc[data-key="' + k + '"]'), k1), JSON.stringify([f3, f1.n]));
+      await P.evaluate(() => closeSheets()); await P.waitForTimeout(250);
+      /* 6. filtrul din Catalog (categorii) */
+      await openCat();
+      const t0 = await P.evaluate(() => { const b = document.getElementById("cthOnly0"), n = +(b.textContent.match(/\((\d+)\)/) || [0, -1])[1];
+        const exp = HW_CATS.filter(c => { const it = hwItem(c[0]); return it && it.id && !(it.price > 0); }).length; return { n, exp, all: document.querySelectorAll("#catHwWrap .cth-row").length }; });
+      await P.evaluate(() => document.getElementById("cthOnly0").click()); await P.waitForTimeout(250);
+      const t1 = await P.evaluate(() => ({ rows: document.querySelectorAll("#catHwWrap .cth-row").length, bad: [...document.querySelectorAll("#catHwWrap .cth-row")].filter(r => !r.querySelector(".cth-meta .hxb.warn")).length, pressed: document.getElementById("cthOnly0").getAttribute("aria-pressed") }));
+      ok("H.4 " + label + ": filtrul din Catalog «categorii cu articolul implicit fără preț (N)»: N corect; rămân numai acele categorii, toate cu insigna «preț de completat»", t0.n === t0.exp && t1.rows === t0.n && t1.bad === 0 && t1.pressed === "true" && t0.n < t0.all, JSON.stringify([t0, t1]));
+      await P.evaluate(() => document.getElementById("cthOnly0").click()); await P.waitForTimeout(200);
+      ok("H.4 " + label + ": al doilea clic readuce toate rândurile", await P.evaluate(() => document.querySelectorAll("#catHwWrap .cth-row").length) === t0.all);
+      /* 7. articol propriu din foaie */
+      await P.evaluate(RESET); await openCat(); await change("cern");
+      await P.evaluate(() => document.querySelector('#hxsBody [data-act="own"]').click()); await P.waitForTimeout(300);
+      const ow = await P.evaluate(() => ({ n: state.settings.hwAdd.length, prod: state.settings.hwProd.cern === state.settings.hwAdd[0].id, ed: !!document.querySelector("#hxsList .hxk-name"), id: state.settings.hwAdd[0].id }));
+      await P.fill("#hxsList .hxk-name", "Balama X"); await P.fill("#hxsList .hxk-brand", "Mea"); await P.fill("#hxsList .hxk-price", "3.2"); await P.evaluate(() => document.getElementById("hxsQ").focus()); await P.waitForTimeout(250);
+      await P.evaluate(() => closeSheets()); await P.waitForTimeout(250);
+      await openCat();
+      const ow2 = await P.evaluate(() => ({ it: hwItem("cern"), row: document.querySelector('#catHwWrap .cth-row[data-cat="cern"] .cth-cur').textContent, own: !!document.querySelector('#catHwWrap .cth-row[data-cat="cern"] .catOwnName'), price: document.querySelector('#catHwWrap .catPrice[data-cat="cern"]').value }));
+      ok("H.4 " + label + ": «＋ Articol propriu» din foaie creează articolul în settings.hwAdd, îl alege implicit și deschide editorul; numele, marca și prețul apar în rând și în hwItem",
+        ow.n === 1 && ow.prod && ow.ed && ow2.it.custom && ow2.it.name === "Balama X" && ow2.it.brand === "Mea" && ow2.it.price === 3.2 && /Mea Balama X/.test(ow2.row) && ow2.own && ow2.price === "3.2", JSON.stringify([ow, ow2]));
+      /* ștergerea ca până acum, din rând */
+      await P.evaluate(() => document.querySelector(".catOwnDel").click()); await P.waitForTimeout(200);
+      ok("H.4 " + label + ": ✕ din rând șterge articolul propriu, implicitul revine la primul din catalog", await P.evaluate(() => state.settings.hwAdd.length === 0 && hwItem("cern").id === HWDB.cern[0].id && !state.settings.hwProd.cern));
+      /* 8. tastatura: Escape închide foaia (Catalogul rămâne), Tab nu intră în câmpurile ascunse */
+      await change("man"); await P.keyboard.press("Escape"); await P.waitForTimeout(300);
+      const esc1 = await P.evaluate(() => ({ hw: document.getElementById("shHw").classList.contains("on"), cat: document.getElementById("shCatalog").classList.contains("on"), n: document.querySelectorAll(".sheet.on").length, depth: navDepth(), view: currentView }));
+      ok("H.4 " + label + ": Escape închide foaia de catalog, Catalogul rămâne deschis", !esc1.hw && esc1.cat, JSON.stringify(esc1));
+      ok("H.4 " + label + ": câmpurile ascunse ale selectelor vechi nu sunt în ordinea tastaturii", await P.evaluate(() => [...document.querySelectorAll("#catHwWrap .cth-compat select, #catHwWrap .cth-compat input")].every(n => n.getAttribute("tabindex") === "-1")));
+      await P.evaluate(() => closeSheets()); await P.waitForTimeout(200);
+      /* 9. backup făcut de 5.87.0: se restaurează și Catalogul arată aceleași alegeri */
+      await P.evaluate(() => { window.__keepB = { s: JSON.parse(JSON.stringify(state.settings)), a: state.activeId }; });
+      const snap = () => P.evaluate(() => { renderCatalog(); return JSON.stringify(HW_CATS.map(c => { const it = hwItem(c[0]); return [c[0], it && it.id, it && it.price, it && it.art, it && it.brand, it && it.name, (document.querySelector('#catHwWrap .cth-row[data-cat="' + c[0] + '"] .cth-cur') || { textContent: "" }).textContent]; })); });
+      await P.evaluate(() => { const S = state.settings; S.hwAdd = [{ id: "uBk1", cat: "ledstrip", custom: 1, brand: "Mea", n: "Banda B", art: "B-1", price: 0 }];
+        S.hwProd = { cern: "het_9071205", guida: "blum_movento", plate: null, ledstrip: "uBk1", man: "haf_bar128" }; S.hwOvr = { het_9071205: { price: 4.5, art: "9071205" }, uBk1: { price: 40, art: "B-1" } }; persist(); });
+      const before = await snap();
+      const pkg = await P.evaluate(() => JSON.stringify(EBBackup.build({ ver: "5.87.0", date: "2026-11-18T10:00:00.000Z", projects: state.projects, settings: state.settings, stock: state.stock })));
+      await P.evaluate(() => { state.settings.hwAdd = []; state.settings.hwProd = {}; state.settings.hwOvr = {}; persist(); });
+      const wiped = await snap();
+      await P.evaluate(p => { doRestore(JSON.parse(p)); }, pkg); await P.waitForTimeout(400);
+      const after = await snap();
+      const rs = await P.evaluate(() => ({ cern: document.querySelector('#catHwWrap .cth-row[data-cat="cern"] .cth-cur').textContent, led: document.querySelector('#catHwWrap .cth-row[data-cat="ledstrip"] .cth-cur').textContent, price: document.querySelector('#catHwWrap .catPrice[data-cat="cern"]').value }));
+      ok("H.4 " + label + ": un backup făcut de 5.87.0 se restaurează și Catalogul arată exact aceleași alegeri (implicit, prețuri, coduri, articol propriu) ca înainte de backup", before === after && before !== wiped && /Hettich/.test(rs.cern) && /Mea Banda B/.test(rs.led) && rs.price === "4.5", JSON.stringify(rs));
+      await P.evaluate(() => { const k = window.__keepB; state.settings = k.s; persist(); closeSheets(); setView("build"); HIST.undo = []; HIST.redo = []; HIST.cur = null; histSync(); });
+    }
+    await tabCtx3.close();
+    ok("H.4: nicio eroare JS", errs.length === 0, errs.join(" | ").slice(0, 300));
+  }
+
   /* U.9 — usi pliante, a pacchetto */
   {
     head("Usi pliante, a pacchetto — optiune, deviz, fisa, camera (U.9)");

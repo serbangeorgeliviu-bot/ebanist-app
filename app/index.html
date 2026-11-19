@@ -1277,7 +1277,9 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .hxs-nofit>summary{font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}
 .hxs-more{margin:6px 0 10px;width:100%;min-height:44px}
 .hxs-none{padding:16px 0}
-.hxc{display:flex;gap:6px;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--field);overflow:hidden}
+.hxc{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--field);overflow:hidden}
+.hxk-ed{flex:1 0 100%;padding:0 12px 12px}
+.cth-slot{margin:16px 0 6px}
 .hxc.is-cur{border-color:var(--red-line);background:var(--red-soft)}
 .hxc.is-bad{opacity:.92}
 .hxc-main{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:11px 12px;min-height:56px;background:none;border:0;color:var(--text);font:inherit;cursor:pointer}
@@ -2515,19 +2517,6 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <button class="btn red" id="geomApply" style="margin-top:12px" data-i="gvApply">Conferma e riscrivi</button>
 </div>
 
-<!-- FAZA H.3: selectorul de feronerie (ebanist-hwui.js); înaintea fișei tehnice, ca fișa să se deschidă deasupra lui -->
-<div class="sheet sheet-wide hxs" id="shHw" role="dialog" aria-modal="true" aria-labelledby="hxsTitle">
-  <div class="sheet-grip"></div>
-  <div id="hxsBody"></div>
-</div>
-
-<!-- Fișa tehnică a balamalei (date Blum KA-150, desen generat din cote). -->
-<div class="sheet" id="hsSheet">
-  <div class="sheet-grip"></div>
-  <div id="hsBody"></div>
-  <button class="btn" id="hsClose" style="margin-top:12px" data-i="hsClose">Închide</button>
-</div>
-
 <!-- Raft peste balama: cota veche, cota nouă, confirmare. Scrie numai după backup. -->
 <div class="sheet" id="shfSheet">
   <div class="sheet-grip"></div>
@@ -2945,6 +2934,19 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <input type="file" id="supImportFile" accept=".csv,text/csv,text/plain" hidden>
   <p class="mini" id="supMsg" role="status" style="margin-top:8px"></p>
   <p class="mini" style="margin-top:10px" data-i="catNote">Verifica i codici articolo sul catalogo attuale del fornitore.</p>
+</div>
+
+<!-- FAZA H.3/H.4: selectorul de feronerie (ebanist-hwui.js). DUPĂ foaia Catalogului (ordinea din DOM = ordinea straturilor și a lui Înapoi: se deschide și din Catalog) și ÎNAINTEA fișei tehnice, ca fișa să se deschidă deasupra lui -->
+<div class="sheet sheet-wide hxs" id="shHw" role="dialog" aria-modal="true" aria-labelledby="hxsTitle">
+  <div class="sheet-grip"></div>
+  <div id="hxsBody"></div>
+</div>
+
+<!-- Fișa tehnică a balamalei (date Blum KA-150, desen generat din cote). -->
+<div class="sheet" id="hsSheet">
+  <div class="sheet-grip"></div>
+  <div id="hsBody"></div>
+  <button class="btn" id="hsClose" style="margin-top:12px" data-i="hsClose">Închide</button>
 </div>
 
 <!-- LA FOGLIA DI CHIUSURA: l'ultimo occhio umano prima che la distinta
@@ -15463,7 +15465,7 @@ if(window.EBOpen) EBOpen.HW_CATS.forEach(c=>HW_CATS.push(c));
 /* FAZA H — indexul unic al feroneriei (căutare peste nume/cod/marcă, slot funcțional); se reface când se schimbă catalogul propriu sau numărul de articole */
 let _hwIdx=null, _hwIdxKey="";
 function hwIndex(){
-  const add=((state.settings||{}).hwAdd||[]), n=HW_CATS.reduce((s,c)=>s+(HWDB[c[0]]||[]).length,0), key=n+"|"+add.length+"|"+add.map(x=>x.id).join(",");
+  const add=((state.settings||{}).hwAdd||[]), n=HW_CATS.reduce((s,c)=>s+(HWDB[c[0]]||[]).length,0), key=n+"|"+add.length+"|"+add.map(x=>[x.id,x.cat,x.brand,typeof x.n==="string"?x.n:"",x.art].join("~")).join(",");
   if(!_hwIdx||_hwIdxKey!==key){ _hwIdx=EBHwIndex.build(HWDB,HW_CATS,{hwAdd:add}); _hwIdxKey=key; }
   return _hwIdx;
 }
@@ -15520,30 +15522,10 @@ function wireSlOpen(root){
 function renderCatalog(){
   const S=state.settings;
   renderSuppliers();
-  $("catHwWrap").innerHTML=HW_CATS.map(([cat,key])=>{
-    const sel=(S.hwProd||{})[cat]||"";
-    const it=hwItem(cat)||{price:"",art:""};
-    return `<div class="f" style="margin-bottom:10px">
-      <label>${esc(t(key))}${it.chk?` <span class="mini" style="color:#b8860b">${esc(t("artCheck"))}</span>`:""}${it.est?` <span class="mini" style="color:#b8860b">· ${esc(t("priceEst"))}</span>`:""}</label>
-      <select data-cat="${cat}" class="catSel">${hwList(cat).map(x=>`<option value="${x.id}" data-art="${esc(x.art||"")}"${x.id===sel?" selected":""}>${esc(x.brand+" — "+hwName(x))}</option>`).join("")}</select>
-      <div style="display:flex;gap:8px;margin-top:6px">
-        <input class="catArt" data-cat="${cat}" placeholder="${esc(t("catArt"))}" value="${esc(it.art||"")}" style="flex:2">
-        <input class="catPrice" data-cat="${cat}" type="number" step="0.01" inputmode="decimal" placeholder="€" value="${it.price}" style="flex:1">
-      </div>
-      <div class="mini catRef" data-hw="${it.id||""}" style="margin-top:4px;line-height:1.4"></div>
-      ${cat==="guida"&&slideSysOf(sel)?`<button class="btn sm slOpen" data-sys="${slideSysOf(sel)}" style="margin-top:6px">${esc(t("hsBtn"))}</button>`:""}
-      ${cat==="cern"&&hingeFamHas(sel)?`<div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-        <select class="catPlate" aria-label="${esc(t("hsPlate"))}" style="flex:1">${hingePlateOpts(sel).map(pl=>`<option value="${pl.id}"${(S.hwProd||{}).plate===pl.id?" selected":""}>${esc(t("hsPlate")+": "+pl.art.join(" / "))}</option>`).join("")}</select>
-        <button class="btn sm hsOpen" data-hw="${sel}">${esc(t("hsBtn"))}</button></div>`:""}
-      ${it.custom?`<div style="display:flex;gap:8px;margin-top:6px">
-        <input class="catOwnBrand" data-id="${it.id}" placeholder="${esc(t("hwOwnBrand"))}" value="${esc(it.brand||"")}" style="flex:1">
-        <input class="catOwnName" data-id="${it.id}" placeholder="${esc(t("hwOwnName"))}" value="${esc(it.name||"")}" style="flex:2">
-        <button class="iconbtn danger catOwnDel" data-id="${it.id}" data-cat="${cat}" title="${esc(t("hwOwnDel"))}">✕</button></div>${catPhotoRow("hw",it.id,it.img)}`:""}
-      <button class="btn sm catOwnAdd" data-cat="${cat}" style="margin-top:6px">＋ ${esc(t("hwOwnAdd"))}</button>
-      </div>`;
-  }).join("");
+  $("catHwWrap").innerHTML=EBHwUI.catalogHtml();   // H.4: un rând pe categorie (articolul implicit + «Schimbă» → foaia în mod catalog), ebanist-hwui.js
   paintGenericPrices();
   $("catHwWrap").querySelectorAll("select.catSel").forEach(hwSearchWire);
+  $("catHwWrap").querySelectorAll(".cth-compat input").forEach(n=>n.setAttribute("tabindex","-1"));   // câmpurile de căutare ale selectelor ascunse nu intră în ordinea tastaturii
   wireSlOpen($("catHwWrap"));
   paintSlidesBlock();
   $("catHwWrap").querySelectorAll(".catPlate").forEach(s2=>s2.addEventListener("change",()=>{ state.settings.hwProd=state.settings.hwProd||{}; state.settings.hwProd.plate=s2.value; persist(); }));
