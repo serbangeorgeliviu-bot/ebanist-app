@@ -742,10 +742,34 @@ function carcassAO(boxes) {
   };
 }
 
+/* Ușa „ramă + sticlă” (front:"vetro"): generatorul scoate rama ca o placă plină și sticla ca altă piesă, îngropată în ea, deci în 3D ușa părea plină, iar
+   sticla (piesă fixă) bloca deschiderea ușii. Numai la desen: placa devine patru fâșii (ramă) cu aceeași piesă (pk, rol, balama), prima fiind traversa de jos, pe
+   toată lățimea, ca pivotul să rămână cel al ușii; sticla primește `glassOf` = placa ușii și urmează ușa la deschidere (setTargets). Distinta, ops și
+   documentele nu se ating (cutiile din buildModule rămân cele de dinainte). Uși rotite în cameră (pc neortogonal) rămân plăci. */
+function expandGlassFrames(boxes) {
+  const glass = boxes.filter(b => b.kind === "g" && b.role === "vetro" && isRectPC(b.pc));
+  if (!glass.length) return boxes;
+  const out = [], inside = (g, b) => g.x0 >= b.x0 - 1 && g.x1 <= b.x1 + 1 && g.y0 >= b.y0 - 1 && g.y1 <= b.y1 + 1 && g.z0 >= b.z0 - 1 && g.z1 <= b.z1 + 1 && g.rmMod === b.rmMod;
+  const used = new Set();
+  boxes.forEach(b => {
+    if (b.kind === "f" && b.sub === "door" && isRectPC(b.pc) && !b.frameOf) {
+      const gs = glass.filter(g => inside(g, b));
+      if (gs.length === 1) {
+        const g = gs[0]; used.add(g);
+        const mk = (x0, x1, y0, y1) => { const o = Object.assign({}, b, { x0, x1, y0, y1, frameOf: true }); delete o.pc; if (b.pc) o.pc = [[x0, b.z0], [x1, b.z0], [x1, b.z1], [x0, b.z1]]; return o; };
+        out.push(mk(b.x0, b.x1, b.y0, g.y0), mk(b.x0, b.x1, g.y1, b.y1), mk(b.x0, g.x0, g.y0, g.y1), mk(g.x1, b.x1, g.y0, g.y1));
+        return;
+      }
+    }
+    out.push(b);
+  });
+  return out.map(g => used.has(g) ? Object.assign({}, g, { glassOf: true }) : g);
+}
 function setModel(boxes, cfg) {
   /* le cutie spinte senza `pk` (tipologie speciali, fațete de ușă curbă)
      primesc unul sintetic: se văd, dar nu se forează */
   let syn = 100000;
+  boxes = expandGlassFrames(boxes);
   boxes = boxes.map(b => (b.pk == null ? Object.assign({}, b, { pk: "s" + (syn++) }) : b));
   const aoOf = carcassAO(boxes);
   const byPk = new Map();
@@ -1700,7 +1724,7 @@ function setTargets(boxesOrig) {
         return { poly, y0: b.y0 + ey, y1: b.y1 + ey };
       });
     };
-    const buildOthers = (skipDoors) => [...R.pieces.values()].filter(Q => !Q.grp && !(Q.cu && Q.cu.nm !== "front" && Q.cu.nm !== "flap") && !(skipDoors && doorOf.has(String(Q.pk)))).map(Q => ({ Q, fp: footprints(Q) }));
+    const buildOthers = (skipDoors) => [...R.pieces.values()].filter(Q => !Q.grp && !(Q.boxes && Q.boxes[0] && Q.boxes[0].glassOf) && !(Q.cu && Q.cu.nm !== "front" && Q.cu.nm !== "flap") && !(skipDoors && doorOf.has(String(Q.pk)))).map(Q => ({ Q, fp: footprints(Q) }));
     let others = buildOthers(true);   // pentru ușile însele: numai piesele fixe (ușile se verifică între ele mai sus)
     /* o ușă se deschide doar cât poate: pe tot arcul ei (din 5° în 5°), foaia nu taie nicio piesă fixă; altfel unghiul scade (D-136). La corpul de colț, ușile
        aripii A din spatele aripii B nu au loc deloc și rămân închise. */
@@ -1751,6 +1775,16 @@ function setTargets(boxesOrig) {
         if (blocked) cg[u].forEach(P => { P.tgt.sl = 0; });
       } }
   }
+  /* sticla ușii „ramă + sticlă” merge cu ușa: același pivot, același unghi final și aceeași deplasare */
+  { const doorsP = [...R.pieces.values()].filter(Q => Q.sub === "door" && Q.boxes && Q.boxes[0] && Q.boxes[0].frameOf);
+    for (const P of R.pieces.values()) {
+      const g = P.boxes && P.boxes[0]; if (!g || !g.glassOf) continue;
+      const D = doorsP.find(Q => { const bb = Q.boxes, x0 = Math.min(...bb.map(b => b.x0)), x1 = Math.max(...bb.map(b => b.x1)), y0 = Math.min(...bb.map(b => b.y0)), y1 = Math.max(...bb.map(b => b.y1)), z0 = Math.min(...bb.map(b => b.z0)), z1 = Math.max(...bb.map(b => b.z1));
+        return g.x0 >= x0 - 1 && g.x1 <= x1 + 1 && g.y0 >= y0 - 1 && g.y1 <= y1 + 1 && g.z0 >= z0 - 1 && g.z1 <= z1 + 1 && g.rmMod === bb[0].rmMod; });
+      if (!D) continue;
+      P.tgt.ex = D.tgt.ex; P.tgt.ey = D.tgt.ey; P.tgt.ez = D.tgt.ez;
+      if (D.pivot && D.tgt.ang) { P.pivot = D.pivot; P.tgt.ang = D.tgt.ang; } else { P.pivot = D.pivot; P.tgt.ang = 0; }
+    } }
   /* U.17 — coșurile prinse de ușă merg cu ea: același pivot, același unghi final (după verificarea de coliziune a ușii) și aceeași deplasare de explozie */
   for (const P of R.pieces.values()) {
     const N = P.cu && P.cu.an; if (!N || !N.follow) continue;
