@@ -178,6 +178,14 @@ function langPick(L, href = home) {
 function hreflang(url = pageUrl) {
   return cfg.LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${url(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${url(cfg.DEFAULT_LANG)}">`;
 }
+/* BreadcrumbList: Acasă > … ; ultimul element fără url, ca în ghidul Google */
+function crumbs(L, ...trail) {
+  const items = [{ name: "Ebanist", url: pageUrl(L) }, ...trail];
+  return { "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: items.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, ...(i < items.length - 1 ? { item: c.url } : {}) })) };
+}
+const crumbJson = c => JSON.stringify(c).replace(/</g, "\\u003c");
+const crumbName = s => strip(s).split(" · ")[0];
 function jsonld(L) {
   const num = s => String(s).replace(/[^\d.,]/g, "").replace(",", ".");
   return JSON.stringify({
@@ -280,7 +288,8 @@ function helpJsonld(L) {
   const faq = EBHelp.FAQ.map(f => ({ "@type": "Question", name: EBHelp.tx(f, L).q, acceptedAnswer: { "@type": "Answer", text: EBHelp.plain(EBHelp.tx(f, L).a) } }));
   return JSON.stringify({ "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", name: strip(t(L, "help.meta.title")), description: strip(t(L, "help.meta.desc")), inLanguage: L, url: helpUrl(L), isPartOf: { "@type": "WebSite", name: "Ebanist", url: cfg.SITE_URL } },
-    { "@type": "FAQPage", inLanguage: L, mainEntity: faq }] }).replace(/</g, "\\u003c");
+    { "@type": "FAQPage", inLanguage: L, mainEntity: faq },
+    (({ "@context": _c, ...b }) => b)(crumbs(L, { name: crumbName(t(L, "help.meta.title")) }))] }).replace(/</g, "\\u003c");
 }
 
 /* ---------- randare ---------- */
@@ -292,12 +301,12 @@ function render(L, tplSrc = tpl, mode = null) {
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
     sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), helpIdx: helpHome(L), postUrl: postHome(L), post5Url: post5Home(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
-  if (isCase) Object.assign(blocks, { url: caseUrl(L), hreflang: hreflang(caseUrl), langlinks: langLinks(L, caseHome), langpick: langPick(L, caseHome), jsonld: caseJsonld(L) });
-  if (mode === "post") Object.assign(blocks, { url: postUrl(L), hreflang: hreflang(postUrl), langlinks: langLinks(L, postHome), langpick: langPick(L, postHome), jsonld: postJsonld(L) });
-  if (mode === "post5") Object.assign(blocks, { url: post5Url(L), hreflang: hreflang(post5Url), langlinks: langLinks(L, post5Home), langpick: langPick(L, post5Home), jsonld: post5Jsonld(L) });
+  if (isCase) Object.assign(blocks, { url: caseUrl(L), hreflang: hreflang(caseUrl), langlinks: langLinks(L, caseHome), langpick: langPick(L, caseHome), jsonld: caseJsonld(L), crumbs: crumbJson(crumbs(L, { name: crumbName(t(L, "case.meta.title")) })) });
+  if (mode === "post") Object.assign(blocks, { url: postUrl(L), hreflang: hreflang(postUrl), langlinks: langLinks(L, postHome), langpick: langPick(L, postHome), jsonld: postJsonld(L), crumbs: crumbJson(crumbs(L, { name: "Blog", url: blogUrl(L) }, { name: strip(t(L, "blog.meta.title")) })) });
+  if (mode === "post5") Object.assign(blocks, { url: post5Url(L), hreflang: hreflang(post5Url), langlinks: langLinks(L, post5Home), langpick: langPick(L, post5Home), jsonld: post5Jsonld(L), crumbs: crumbJson(crumbs(L, { name: "Blog", url: blogUrl(L) }, { name: strip(t(L, "blog5.meta.title")) })) });
   if (mode === "help") Object.assign(blocks, { url: helpUrl(L), hreflang: hreflang(helpUrl), langlinks: langLinks(L, helpHome), langpick: langPick(L, helpHome), jsonld: helpJsonld(L), helptoc: helpToc(L), helpbody: helpBody(L), helpfaq: helpFaq(L),
     helpTopicsH: esc(EBHelp.ui(L).topics), helpFaqH: esc(EBHelp.ui(L).faq), helpContactH: esc(EBHelp.ui(L).contact), og: "og-" + L + ".jpg" });
-  if (mode === "blogIdx") Object.assign(blocks, { url: blogUrl(L), hreflang: hreflang(blogUrl), langlinks: langLinks(L, blogHome), langpick: langPick(L, blogHome), jsonld: blogJsonld(L) });
+  if (mode === "blogIdx") Object.assign(blocks, { url: blogUrl(L), hreflang: hreflang(blogUrl), langlinks: langLinks(L, blogHome), langpick: langPick(L, blogHome), jsonld: blogJsonld(L), crumbs: crumbJson(crumbs(L, { name: "Blog" })) });
   return stripHtmlComments(tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
     if (key.startsWith("@ph:")) { const [, n, k, h] = key.split(":"); v = casePhoto(L, n, k, h === "hero"); }
@@ -367,7 +376,7 @@ for (const l of cfg.LANGS) urls.push(`  <url><loc>${helpUrl(l)}</loc><lastmod>${
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${LM.blog}</lastmod><priority>0.6</priority>\n${blogAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${LM.post}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${post5Url(l)}</loc><lastmod>${LM.post5}</lastmod><priority>0.7</priority>\n${post5Alts}\n  </url>`);
-for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/stergere-cont.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
-  urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${LM.legal}</lastmod><priority>${pr}</priority></url>`);
+/* /app/ (PWA de 2 MB, fără descriere, fără hreflang) și paginile legale (numai ro, fără OG) nu intră în sitemap:
+   Google le găsește din linkuri, iar sitemap-ul rămâne la paginile care trebuie să apară în căutări. */
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);
 console.log("✓ sitemap.xml");
