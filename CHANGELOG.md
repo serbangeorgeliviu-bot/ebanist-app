@@ -5,6 +5,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.95.0 — 20 noiembrie 2026
+
+**Modul Client: prezentarea proiectului, cu grafică și detalii (D-177).**
+- **Antet de prezentare:** „Propunere pentru {client}”, numele proiectului mare, linie aurie; sub el, 3D-ul pe același fundal cu lumină caldă (întunecat în tema întunecată). Lățime / înălțime / adâncime în trei carduri de sticlă lângă mobilier.
+- **«Cum arată»:** schemă a frontului în proiecție oblică, cu cote și adâncime, colorată cu finisajele alese (lemnul are model); se schimbă la fiecare atingere de finisaj. Schemă orientativă — spune asta pe ecran.
+- **«Ce include»:** uși, sertare, rafturi, bară de haine, mânere, LED, soclu, spate închis, ca plăci cu pictogramă; numai ce are corpul.
+- **«Ce urmează»:** confirmare → producție → montaj, fără termene promise.
+- **Prețul se numără** de la cel arătat la cel nou (0,5 s; fără animație dacă sistemul cere mișcare redusă), iar textul final e scris întâi, deci cifra e mereu cea din calcul.
+- **Fereastra de semnare** arată rezumatul pe mobile (finisaje și preț), iar confirmarea are o animație scurtă.
+- **Corectat:** dacă Studioul avea cotele pornite (PC), clientul vedea cotele interne ale pereților în 3D; acum modul Client le oprește.
+- Neschimbat: prețul (același calcul ca devizul), distinta, cotele, semnătura, ieșirea prin apăsare lungă. Fișiere noi: `ebanist-present.js` (pur) și `ebanist-present-i18n.js` (7 limbi). Test: `node --test present.test.js` + blocul «Modo cliente» din `run.js`.
+
+---
+
 ## 5.94.5 — 20 noiembrie 2026
 
 **Proiectele demo: numele corpurilor sunt în limba aplicației.**
