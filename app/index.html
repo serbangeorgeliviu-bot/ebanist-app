@@ -16546,6 +16546,22 @@ function roomBoxes(){
                   kind:"f", mat:b.mat, pc:pc.map(q=>[q.x,q.y])});
         return;
       }
+      if(roomOpen && b.kind==="f" && b.sub==="lift" && b.lift){
+        /* ușa basculantă deschisă (D-174): aceeași poziție ca în vizorul 3D al corpului — rotație pe muchia de sus a frontului, în față, cel mult 90°; la front în două piese clapa de jos
+           se pliază cu 180° pe rost peste cea de sus; la mișcare paralelă (HL, Free up) ușa urcă peste corp și iese 25 mm. Se calculează în sistemul corpului, apoi trece prin aceeași
+           mutare/rotație ca restul (perete, abatere, rotire), deci merge pe orice perete. Prismă cu 8 vârfuri, ca panourile înclinate. */
+        const Lf=b.lift, zf=b.z1, th=Math.min(90,Math.max(60,Lf.angle||90))*Math.PI/180;
+        const bodyTop=Math.max.apply(null,carc.map(x=>x.y1));
+        const rot1=(Pt,py,pz,a)=>{ const c=Math.cos(a), sn=Math.sin(a), dy=Pt[1]-py, dz=Pt[2]-pz; return [Pt[0],py+dy*c-dz*sn,pz+dy*sn+dz*c]; };
+        const fl2=Lf.flaps===2&&Lf.flap===2, topY=(Lf.flaps===2&&Lf.topY!=null)?Lf.topY:b.y1;
+        const mv=Pt=>{ if(Lf.motion==="parallel") return [Pt[0],Pt[1]+Math.max(0,bodyTop-b.y0)+4,Pt[2]+25];
+          let Q=Pt; if(fl2) Q=rot1(Q,Lf.jointY,zf,Math.PI); return rot1(Q,topY,zf,-th); };
+        const face=z=>[[b.x0,b.y0,z],[b.x1,b.y0,z],[b.x1,b.y1,z],[b.x0,b.y1,z]].map(mv).map(Pt=>{ const t=toRoom(m.fr,m.from,Pt[0],Pt[2],m.off,m.rot,m.piv); return [t.x,Pt[1]+m.lift,t.y]; });
+        const A2=face(b.z0), B2=face(b.z1), all=A2.concat(B2), mn=k=>Math.min.apply(null,all.map(q=>q[k])), mx=k=>Math.max.apply(null,all.map(q=>q[k]));
+        out.push({x0:mn(0),x1:mx(0),y0:mn(1),y1:mx(1),z0:mn(2),z1:mx(2),kind:"f",mat:b.mat,
+                  pc:[[mn(0),mn(2)],[mx(0),mn(2)],[mx(0),mx(2)],[mn(0),mx(2)]],prism3:{A:A2,B:B2}});
+        return;
+      }
       if(roomOpen && b.kind==="f" && b.sub==="door"){
         const q=planPC(b);
         const bx0=Math.min(q[0][0],q[1][0],q[2][0],q[3][0]), bx1=Math.max(q[0][0],q[1][0],q[2][0],q[3][0]);
@@ -20366,12 +20382,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.94.3"; /* APP_VER-MARKER */
+const APP_VER="5.94.4"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v282";
+const SW_CACHE="ebanist-v283";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

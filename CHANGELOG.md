@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.94.4 — 20 noiembrie 2026
+
+**Ușile basculante se deschid și în „Camera în 3D” (butonul „Ante aperte”).**
+- Până acum doar ușile pe balamale, sertarele și ușile pliante se deschideau în cameră; cele basculante rămâneau închise. Acum se deschid ca în vizorul corpului: rotație pe muchia de sus a frontului, în față, cel mult 90°; la frontul în două piese clapa de jos se pliază peste cea de sus; la mișcare paralelă (Blum HL top, Häfele Free up) ușa urcă peste corp și iese 25 mm.
+- Se calculează în sistemul corpului și apoi trece prin aceeași mutare ca restul (perete, abatere, rotire), deci merge pe orice perete, nu doar pe unul paralel cu axa X.
+- Nu s-a schimbat nimic la corpul singur sau la distinctă.
+
+---
+
 ## 5.94.3 — 20 noiembrie 2026
 
 **Fronturi în două piese la mecanismele bi-fold (D-174).**

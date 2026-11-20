@@ -3007,6 +3007,25 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       if (!(ol.z1 <= ou.z1 + 4)) return "deschis: clapa de jos iese dincolo de cea de sus (" + ol.z1 + " > " + ou.z1 + ")";
       return true; } catch (e) { return String(e); } });
     ok("Front în două piese (HF top): un mecanism pe ușă, fără balamale; «Deschide» pliază clapa de jos peste cea de sus, fără suprapunere și fără să intre în corp", hfRes === true, String(hfRes));
+    const roomLift = await pg.evaluate(() => { try {
+      const p = proj(), keepP = p.pieces, keepC = p.configs, keepL = p.layout, keepS = p.survey, keepO = roomOpen;
+      p.pieces = []; p.configs = {}; p.layout = {};
+      p.survey = { walls: [{ id: "w1", len: 3000, angle: 90, bow: null }, { id: "w2", len: 2400, angle: 90, bow: null }, { id: "w3", len: 3000, angle: 90, bow: null }, { id: "w4", len: 2400, angle: 90, bow: null }], heights: [2500, 2500, 2500], obstacles: [] };
+      const mk = (name, lift, wall, from, doors) => { const c = { ...PRESETS.pensile, name, L: 900, H: 600, P: 330, doors, drawers: 0, hang: 1, lift }; generateInto(p, c); layout()[name] = { wall, from, off: 0, lift: 1500, rot: 0 }; return c; };
+      mk("RlHf", "blum_hf_top", "w1", 300, 1); mk("RlHk", "blum_hk_top", "w2", 300, 1);
+      const out = {};
+      for (const o of [0, 1]) { roomOpen = o; out["o" + o] = roomBoxes().filter(b => b.rmMod === "RlHf" || b.rmMod === "RlHk").map(b => ({ mod: b.rmMod, prism: !!b.prism3, kind: b.kind, y0: b.y0, y1: b.y1, x0: b.x0, x1: b.x1, z0: b.z0, z1: b.z1 })); }
+      roomOpen = keepO; p.pieces = keepP; p.configs = keepC; p.layout = keepL; p.survey = keepS;
+      return out; } catch (e) { return { err: String(e) }; } });
+    ok("Camera 3D, «Ante aperte»: ușile basculante (și cele două clape HF) se deschid; închise rămân cutii", !roomLift.err && roomLift.o0.every(b => !b.prism || b.kind !== "f") && (() => {
+      const f = (arr, mod) => arr.filter(b => b.mod === mod && b.kind === "f");
+      const hf0 = f(roomLift.o0, "RlHf"), hf1 = f(roomLift.o1, "RlHf"), hk0 = f(roomLift.o0, "RlHk"), hk1 = f(roomLift.o1, "RlHk");
+      if (hf0.length !== 2 || hf1.length !== 2 || hk0.length !== 1 || hk1.length !== 1) return false;
+      if (!hf1.every(b => b.prism) || !hk1[0].prism) return false;
+      /* HF: deschis, cele două clape stau una peste alta (înălțimea comună ≈ două grosimi, nu 600 mm); HK: ușa întinsă înainte (extinderea pe verticală sub un sfert din cea închisă) */
+      const spanClosed = Math.max(...hf0.map(b => b.y1)) - Math.min(...hf0.map(b => b.y0)), spanOpen = Math.max(...hf1.map(b => b.y1)) - Math.min(...hf1.map(b => b.y0));
+      return spanOpen < spanClosed * 0.2 && (hk1[0].y1 - hk1[0].y0) < (hk0[0].y1 - hk0[0].y0) * 0.25;
+    })(), JSON.stringify(roomLift).slice(0, 700));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
     await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });
