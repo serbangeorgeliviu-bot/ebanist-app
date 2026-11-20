@@ -38,7 +38,7 @@
    "cerniera": 10
   },
   "roomMods": 15,
-  "cutHash": "cb0d564e8ed0f836"
+  "cutHash": "28a3275a67bc6417"
  },
  "kitchen": {
   "bodies": 26,
@@ -70,7 +70,7 @@
    "leddim": 2
   },
   "roomMods": 26,
-  "cutHash": "9a4a0281b81f8d1f"
+  "cutHash": "7b283711db795df6"
  },
  "bedroom": {
   "bodies": 11,
@@ -109,6 +109,6 @@
    "guida": 8
   },
   "roomMods": 11,
-  "cutHash": "ebd52f9c89af248e"
+  "cutHash": "af88df770e07430e"
  }
 }

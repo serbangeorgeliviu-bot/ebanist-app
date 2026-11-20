@@ -125,7 +125,7 @@
     info.buildWarn = bw; info.buildRanges = ranges;
     /* 3. distinctă, CSV, feronerie, deviz, montaj */
     try { const rows = cutRows(p); info.cutRows = rows.length; clean("distinctă", JSON.stringify(rows)); const csv = buildCsv(p); clean("CSV", csv); info.csvLines = csv.split("\n").length;
-      info.cutSig = rows.map(r => [r.modulo, r.elemento, r.lung, r.larg, r.pz, r.materiale].join("|")); } catch (e) { B("distinctă", String(e).slice(0, 120)); }
+      info.cutSig = rows.map(r => ["", r.elemento, r.lung, r.larg, r.pz, r.materiale].join("|")); } catch (e) { B("distinctă", String(e).slice(0, 120)); }
     try { const hw = computeHardware(p); clean("feronerie", JSON.stringify(hw.map(h => [h.k, h.qty, h.tot]))); info.hwLines = hw.length; info.hwQty = hw.reduce((s, h) => s + (+h.qty || 0), 0);
       info.hwFree = hw.filter(h => !(+h.tot > 0) && +h.qty > 0).length;
       const pc = projectCosts(p); info.netto = Math.round(pc.netto * 100) / 100; if (!isFinite(pc.netto)) B("deviz", "nu e număr"); } catch (e) { B("feronerie/deviz", String(e).slice(0, 120)); }
