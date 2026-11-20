@@ -3026,6 +3026,19 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const spanClosed = Math.max(...hf0.map(b => b.y1)) - Math.min(...hf0.map(b => b.y0)), spanOpen = Math.max(...hf1.map(b => b.y1)) - Math.min(...hf1.map(b => b.y0));
       return spanOpen < spanClosed * 0.2 && (hk1[0].y1 - hk1[0].y0) < (hk0[0].y1 - hk0[0].y0) * 0.25;
     })(), JSON.stringify(roomLift).slice(0, 700));
+    const hitRes = await pg.evaluate(() => { try {
+      const p = proj(), keepP = p.pieces, keepC = p.configs, keepL = p.layout, keepS = p.survey, keepO = roomOpen;
+      p.pieces = []; p.configs = {}; p.layout = {};
+      p.survey = { walls: [{ id: "w1", len: 3000, angle: 90, bow: null }, { id: "w2", len: 2400, angle: 90, bow: null }, { id: "w3", len: 3000, angle: 90, bow: null }, { id: "w4", len: 2400, angle: 90, bow: null }], heights: [2500, 2500, 2500], obstacles: [] };
+      const mk = (name, wall, from, off, hang) => { const c = { ...PRESETS.armadio, name, L: 800, H: 700, P: 330, doors: 1, drawers: 0, hang: 1 }; generateInto(p, c); layout()[name] = { wall, from, off, lift: 1500, rot: 0 }; };
+      mk("HtA", "w1", 200, 0); mk("HtB", "w1", 1100, 0);       // două corpuri alăturate, pe același perete: ușile nu se lovesc
+      const none = (() => { roomOpen = 1; roomBoxes(); return roomHits.slice(); })();
+      mk("HtC", "w1", 1000, 200);                              // un corp tras înainte, în fața ușii lui HtB: ușa lui HtB îl lovește
+      roomOpen = 1; roomBoxes(); const hit = roomHits.slice();
+      roomOpen = 0; roomBoxes(); const closed = roomHits.slice();
+      roomOpen = keepO; p.pieces = keepP; p.configs = keepC; p.layout = keepL; p.survey = keepS;
+      return { none, hit, closed }; } catch (e) { return { err: String(e) }; } });
+    ok("Camera 3D, «Ante aperte»: o ușă deschisă care lovește alt corp e semnalată; închis, sau fără lovitură, nu", !hitRes.err && hitRes.none.length === 0 && hitRes.hit.length >= 1 && hitRes.hit.some(h => h.hit === "HtC" || h.door === "HtC") && hitRes.closed.length === 0, JSON.stringify(hitRes).slice(0, 400));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
     await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });
@@ -6427,7 +6440,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       /* corpuri deschise prin animația existentă: ușile și sticla, clape, uși pliante, ridicător TV, sertare */
       const names = ["S3 Vitrină", "S4 Clapă sus", "D3 Free flap", "D2 Bar uși pliante", "C3 TV lift", "S2 Sertare"]; o.bodies = {};
       for (const n of names) {
-        const c = JSON.parse(JSON.stringify(p.configs[n])); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
+        /* cheile `configs` sunt în limba în care s-a încărcat copia (renameBodies): se caută numele canonic în toate limbile */
+        const key = ["ro", "it", "en", "fr", "de", "pl", "es"].map(l => EBDemo.bodyName(n, l)).find(k => p.configs[k]);
+        if (!key) { o.err = "config lipsă «" + n + "» (limba " + state.lang + "); chei: " + Object.keys(p.configs).join(" | "); break; }
+        const c = JSON.parse(JSON.stringify(p.configs[key])); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
         GL3D.set({ open: true }); await w(900);
         const k = GL3D.meshKinds(), mv = k.map(x => ({ role: x.role, t: GL3D.tgtOf(x.pk) })).filter(x => x.t && (x.t.ang || x.t.sl || x.t.ey));
         o.bodies[n] = { moving: mv.length, glass: mv.filter(x => x.role === "vetro").length, led: GL3D.ledInfo() };
@@ -6438,8 +6454,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     if (!gl.ok) ok("Demo 3D: sărit (fără WebGL)", true);
     else {
       ok("Demo 3D: camera Living are benzi LED desenate, aprinse cu lumină; stinse când LED-ul e oprit; captura randează", gl.leds >= 5 && gl.roomOn && gl.roomOn.items >= 5 && gl.roomOn.lit >= 5 && gl.roomOn.litLights >= 3 && gl.roomOff && gl.roomOff.lit === 0 && gl.roomOff.litLights === 0 && gl.cap, JSON.stringify([gl.leds, gl.roomOn, gl.roomOff]));
+      if (gl.err) ok("Demo 3D: " + gl.err, false);
       const B = gl.bodies;
-      ok("Demo 3D: vitrina cu sticlă se deschide (ușile ȘI sticla se mișcă) și LED-ul e aprins", B["S3 Vitrină"].glass >= 2 && B["S3 Vitrină"].moving >= 4 && B["S3 Vitrină"].led && B["S3 Vitrină"].led.on && B["S3 Vitrină"].led.lit >= 1, JSON.stringify(B["S3 Vitrină"]));
+      ok("Demo 3D: vitrina cu sticlă se deschide (ușile ȘI sticla se mișcă) și LED-ul e aprins", (B["S3 Vitrină"] || {}).glass >= 2 && B["S3 Vitrină"].moving >= 4 && B["S3 Vitrină"].led && B["S3 Vitrină"].led.on && B["S3 Vitrină"].led.lit >= 1, JSON.stringify(B["S3 Vitrină"]));
       ok("Demo 3D: clapa AVENTOS cu SERVO-DRIVE, Free flap cu E-Drive, ușile pliante, ridicătorul de TV și sertarele se mișcă la «Deschide»", ["S4 Clapă sus", "D3 Free flap", "D2 Bar uși pliante", "C3 TV lift", "S2 Sertare"].every(n => B[n].moving >= 1), JSON.stringify(Object.fromEntries(Object.entries(B).map(([k, v]) => [k, v.moving]))));
     }
     /* limita gratuită: redenumită prin foaia aplicației, copia devine proiect propriu (steagul cade, se numără) */

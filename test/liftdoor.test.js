@@ -192,4 +192,17 @@ describe("Front în două piese (D-174): Blum HF top, Hettich Lift Advanced HF, 
     assert.equal(rows(r, /^Anta basculante$/).length, 1); assert.equal(r.b.boxes.filter(x => x.sub === "lift").length, 2);
     assert.ok(r.b.boxes.filter(x => x.sub === "lift").every(x => x.lift.flap === undefined));
   });
+  test("clape inegale (cfg.liftUpper): clapa de sus cu înălțimea cerută, cea de jos restul minus 3 mm; avertisment; limite = eroare declarată", () => {
+    const eq = build({ lift: "blum_hf_top", doors: 1 }), tot = rows(eq, /\(1\/2\)/)[0].lung + rows(eq, /\(2\/2\)/)[0].lung + 3;
+    const u = build({ lift: "blum_hf_top", doors: 1, liftUpper: 250 }), up = rows(u, /\(1\/2\)/)[0], lo = rows(u, /\(2\/2\)/)[0];
+    assert.equal(up.lung, 250); assert.equal(lo.lung, tot - 3 - 250); assert.equal(up.lung + lo.lung + 3, tot);
+    assert.ok(warn(u).some(w => w.k === "flapsUneq" && w.up === 250 && w.lo === lo.lung));
+    const bx = u.b.boxes.filter(x => x.sub === "lift"), U = bx.find(x => x.lift.flap === 1), L = bx.find(x => x.lift.flap === 2);
+    assert.equal(U.y1 - U.y0, 250); assert.ok(Math.abs((U.y0 - L.y1) - 3) < 1e-9);
+    assert.ok(L.lift.jointY > L.y1 && L.lift.jointY < U.y0);
+    assert.throws(() => build({ lift: "blum_hf_top", liftUpper: 50 }), /clapa de sus trebuie să aibă între 100 și/);
+    assert.throws(() => build({ lift: "blum_hf_top", liftUpper: 9999 }), /clapa de sus trebuie să aibă între 100 și/);
+    assert.equal(J(build({ lift: "blum_hf_top", liftUpper: 0 }).pieces), J(eq.pieces), "0 = egale, ca înainte");
+    assert.equal(J(build({ lift: "blum_hk_top", liftUpper: 250 }).pieces), J(build({ lift: "blum_hk_top" }).pieces), "o clapă: câmpul se ignoră");
+  });
 });

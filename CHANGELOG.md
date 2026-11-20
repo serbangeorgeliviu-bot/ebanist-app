@@ -13,6 +13,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.95.0 — 20 noiembrie 2026
+
+**Trei completări.**
+- **Statistici anonime, cu comutator:** Setări → „Datele tale” → „Statistici anonime”. Implicit bifat (trimite, ca până acum); debifat, nu pleacă niciun eveniment (nici deschiderea aplicației, nici ecranul Pro, nici articolele de catalog). Se aplică pe loc și rămâne în setări și în backup. Politica de confidențialitate (RO/IT/EN) spune unde se oprește.
+- **Clape inegale la mecanismele bi-fold** (Blum HF top, Hettich Lift Advanced HF, Häfele Free fold): câmpul nou „Înălțimea clapei de sus”, vizibil numai la aceste sisteme; gol = clape egale, ca înainte. Clapa de jos primește restul, minus rostul de 3 mm. Între 100 mm și restul minus 100 mm; în afara limitelor, eroare declarată. Raportul clapelor nu e verificat pe fișa producătorului, deci apare un avertisment. Merge și în 3D, în camera 3D și în asistentul AI (`liftUpper`).
+- **Camera 3D, „Ante aperte”:** ușile, clapele sau sertarele deschise care lovesc alt corp sunt semnalate în rândul de sub cameră („Deschise, lovesc: A → B”). Comparația e pe gabarit, cu 10 mm toleranță, numai între corpuri diferite.
+
+---
+
 ## 5.94.4 — 20 noiembrie 2026
 
 **Ușile basculante se deschid și în „Camera în 3D” (butonul „Ante aperte”).**

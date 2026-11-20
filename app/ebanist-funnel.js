@@ -94,6 +94,7 @@
   function off() {
     try {
       if (global.__ebFunnelOff) return true;
+      if (global.__ebStatsOff) return true;      // omul a debifat «Statistici anonime» în Setări
       if (global.navigator && global.navigator.webdriver) return true;
       if (global.OrderRail && global.OrderRail.active && global.OrderRail.active()) return true;
     } catch (e) {}

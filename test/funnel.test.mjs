@@ -308,3 +308,25 @@ describe("hw_use — ce articole de catalog s-au folosit (D-170)", () => {
     assert.doesNotMatch(m[0], /qty:|name:|\.name\b/, "nicio cantitate sau nume în eveniment");
   });
 });
+
+
+describe("«Statistici anonime» debifat în Setări (5.95.0)", () => {
+  const sent = [];
+  const mk = (g) => client(Object.assign({ navigator: { sendBeacon: (u, b) => { sent.push(u); return true; } }, localStorage: { getItem() { return null; }, setItem() {} } }, g)).EBFunnel;
+  test("cu __ebStatsOff nu pleacă niciun eveniment (nici open, nici hw_use)", () => {
+    sent.length = 0; const F = mk({ __ebStatsOff: true });
+    assert.strictEqual(F.send("open"), false);
+    assert.strictEqual(F.send("hw_use", { brand: "blum", fam: "lift", art: "blum_hk_s" }), false);
+    assert.strictEqual(sent.length, 0);
+  });
+  test("fără steag (implicit) pleacă, ca până acum", () => {
+    sent.length = 0; const F = mk({});
+    assert.strictEqual(F.send("open"), true); assert.strictEqual(sent.length, 1);
+  });
+  test("aplicația: casetă în Setări → Datele tale, implicit bifată (trimite), cu text în 7 limbi, aplicată pe loc și la pornire", () => {
+    const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
+    assert.match(html, /id="sStatsOff"/); assert.match(html, /\$\("sStatsOff"\)\.checked=!S\.statsOff/);
+    assert.match(html, /state\.settings\.statsOff=!ev\.target\.checked; applyStatsFlag\(\); persist\(\)/); assert.match(html, /applyStatsFlag\(\); EBFunnel\.send\("open"\)/);
+    for (const l of ["ro", "it", "en", "fr", "de", "pl", "es"]) { const m = html.match(new RegExp("^" + l + ":\\{[^\\n]*", "m")); assert.ok(m, l); assert.match(m[0], /"?stStatsLbl"?:/, l); assert.match(m[0], /"?stStatsHint"?:/, l); }
+  });
+});
