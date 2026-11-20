@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.97.0 — 20 noiembrie 2026
+
+**Modul Client: poze, camera întreagă, extra la preț, propunerea trimisă (D-178).**
+- **Poze pe orice articol.** În Catalog, butonul „Foto” apare acum la **orice** material și la articolul ales în fiecare categorie de feronerie, nu doar la cele proprii (poza stă în `settings.photos`, local, intră în backup cu setările; 360 px JPEG). La client, finisajul cu poză o arată în swatch și într-o bandă mare a alegerii curente; feroneria cu poză, o miniatură.
+- **Scena întreagă.** Butonul nou din bara 3D: **„În camera ta”** când proiectul are releveu cu corpuri așezate, altfel **„Toată compoziția”** (corpurile alăturate pe un perete, într-o cameră de prezentare). Folosește aceeași construcție ca „Camera în 3D”, cu finisajele, feroneria și extra alese de client; proiectul se înlocuiește în memorie numai cât durează randarea și se pune la loc, nimic nu se salvează.
+- **Extra la preț separat:** LED, un raft în plus, un sertar în plus, ca bife cu „+ €”. Se oferă numai ce se aplică corpului, nu deschide niciun control roșu nou (încercat pe copie, ca la soluții) și costă > 0. Pe corpuri cu cote absolute / blocuri de sertare / fronturi proprii nu se oferă raft sau sertar. La semnare intră în proiect prin `generateInto` și apar pe PDF-ul ofertei.
+- **Trimiterea propunerii:** butonul „Trimite propunerea” compune o imagine (JPG, 1080 px: mobilierul în 3D, finisajele, prețurile, totalul) și o dă foii de partajare a telefonului; fără foaie, o descarcă. E o **propunere**, nu o ofertă acceptată, deci fără semnătură. Semnarea la distanță cere server și o decizie juridică și nu e în această versiune.
+- Test: `node --test present.test.js` (19) + blocul «Modo cliente» din `run.js`.
+
+---
+
 ## 5.96.0 — 20 noiembrie 2026
 
 **Modul Client: clientul alege și feroneria (D-177).**

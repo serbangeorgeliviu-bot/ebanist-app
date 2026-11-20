@@ -1123,11 +1123,17 @@ body.client-on{overflow:hidden}
 @keyframes cmHint{0%,70%{opacity:1}100%{opacity:0}}
 .cm-panel.cm-enter .cm-sec{animation:cmUp .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*80ms + 150ms)}
 @media (prefers-reduced-motion:reduce){.cm-hero,.cm-hint,.cm-ok,.cm-panel.cm-enter .cm-sec{animation:none!important}}
+.cm-send{align-self:center;margin-top:6px;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600;color:var(--muted);border:1px solid var(--line)}
+.cm-send:active{background:var(--red-soft)}
 .cm-hw-hint{font-size:12.5px;color:var(--faint);margin:-2px 0 10px}
 .cm-hwg{margin-bottom:12px}
 .cm-hwg>b{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
 .cm-hw{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border-radius:12px;background:var(--field);border:1px solid var(--line-soft);font-size:13.5px;line-height:1.3;color:var(--text)}
 .cm-hw i{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);transition:.15s}
+.cm-hw img{flex:none;width:40px;height:40px;border-radius:9px;object-fit:cover}
+.cm-fin-ph{height:132px;border-radius:16px;background-size:cover;background-position:center;margin:0 0 12px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12),0 8px 20px -12px rgba(0,0,0,.45)}
+.cm-ex span{flex:1}
+.cm-ex em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;color:var(--gold-ink,var(--muted));white-space:nowrap}
 .cm-hw.on{border-color:var(--grn);background:var(--red-soft)}
 .cm-hw.on i{border-color:var(--grn);background:radial-gradient(circle,var(--grn) 0 45%,transparent 50%)}
 /* U.6 audit — «Generează lista» ramane la indemana: pe telefon formularul e lung si butonul
@@ -2523,6 +2529,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
         <button class="vtb" data-cmview="front"><span data-i="cmFrontView">Fronte</span></button>
         <button class="vtb" data-cmview="iso"><span data-i="cmIso">3/4</span></button>
         <button class="vtb" id="cmAsm"><span data-i="cmAsm">Montaj</span></button>
+        <button class="vtb" id="cmRoom" hidden><span id="cmRoomLbl"></span></button>
       </div>
     </div>
     <div class="cm-panel" id="cmPanel"></div>
@@ -11235,13 +11242,14 @@ function openPartFromRow(cfgKey,x){
 
    Si esce tenendo premuto: un tocco distratto del cliente non deve aprire
    l'officina. Anche il tasto Indietro, qui dentro, non porta fuori. */
-const CM={on:false,p:null,mods:[],cur:null,v:{},base:null,price:null,open:false,spin:true,saved:null,sig:null,fam:{},shown:null,hwOpt:{}};
+const CM={on:false,p:null,mods:[],cur:null,v:{},base:null,price:null,open:false,spin:true,saved:null,sig:null,fam:{},shown:null,hwOpt:{},exOpt:{},scene:"body"};
 function cmCfg(name){
   const p=CM.p, cfg=(p&&p.configs&&p.configs[name])||(CM.draft&&CM.draft.name===name?CM.draft:null);
   if(!cfg) return null;
   const v=CM.v[name]||{};
   const o=Object.assign({},cfg,{name,matBody:v.matBody||cfg.matBody,matFront:v.matFront||cfg.matFront});
   if(v.hw) o.hwSel=Object.assign({},cfg.hwSel||{},v.hw);        // feroneria aleasă de client (D-177): același câmp ca în Constructor
+  if(v.ex&&typeof presentExtraCfg==="function") Object.assign(o,presentExtraCfg(cfg,v.ex),{name,matBody:o.matBody,matFront:o.matFront,hwSel:o.hwSel});   // extra bifate (D-178)
   return o;
 }
 /* Le finiture possibili per un ruolo: stessa grossezza, niente accessori,
@@ -11260,10 +11268,10 @@ function cmChoices(cfg,key){
 /* Il prezzo con le varianti: si rigenera ogni corpo su una COPIA del progetto
    e si passa dallo stesso conto del preventivo. Un solo conto dei prezzi:
    quello che il cliente vede e quello che poi esce sul PDF. */
-function cmPriceOf(withVariants){
+function cmPriceOf(withVariants,over){
   const p=CM.p, c=JSON.parse(JSON.stringify(p));
   for(const name of CM.mods){
-    const cfg=withVariants?cmCfg(name):((p.configs&&p.configs[name])||CM.draft);
+    const cfg=over&&over[name]?over[name]:withVariants?cmCfg(name):((p.configs&&p.configs[name])||CM.draft);
     if(!cfg) continue;
     try{ generateInto(c,Object.assign({},cfg,{name})); }catch(e){ return null; }
   }
@@ -11277,7 +11285,7 @@ function cmPriceOf(withVariants){
 function clientOpen(){
   const p=proj(); if(!p){ toast(t("selectProject")); setView("projects"); return; }
   if(!proGate("client")) return;
-  CM.p=p; CM.v={}; CM.fam={}; CM.hwOpt={}; CM.open=false; CM.spin=true; CM.sig=null;
+  CM.p=p; CM.v={}; CM.fam={}; CM.hwOpt={}; CM.exOpt={}; CM.scene="body"; CM.open=false; CM.spin=true; CM.sig=null;
   CM.mods=Object.keys(p.configs||{}).filter(n=>p.pieces.some(x=>x.gen===n||x.modulo===n||x.modulo===n+" A"));
   /* un mobile solo disegnato nel generatore, non ancora in distinta: si puo
      mostrare lo stesso — e una proposta */
@@ -11287,7 +11295,7 @@ function clientOpen(){
   CM.cur=CM.mods[0]||null;
   CM.base=cmPriceOf(false); CM.price=CM.base;
   CM.on=true; document.body.classList.add("client-on"); $("clientMode").hidden=false;
-  CM.shown=null; cmIntro();
+  CM.shown=null; cmIntro(); cmSceneUi();
   if(gl3dOn()){
     CM.saved=window.GL3D.state;
     const cv=$("gl3d"); $("cmStage").appendChild(cv);
@@ -11312,14 +11320,49 @@ function clientClose(){
   }
   navSync(); render();
 }
+/* scena întreagă (D-178): toate corpurile cu alegerile clientului, în camera din releveu dacă proiectul are una cu corpuri așezate,
+   altfel într-o cameră de prezentare (un perete drept, corpurile alăturate). Se lucrează pe același cod ca «Camera în 3D»: proiectul se
+   înlocuiește un moment în memorie (configs, survey, layout) și se pune la loc, în același apel, fără să se salveze nimic. */
+function cmRoomIsReal(){ const p=CM.p, sv=p&&p.survey; return !!(sv&&sv.walls&&sv.walls.length&&p.layout&&CM.mods.some(n=>p.layout[n]&&p.configs&&p.configs[n])); }
+function cmRoomRender(){
+  const p=CM.p, sv0=p.survey, lay0=p.layout, cf0=p.configs, ro0=roomOpen, rs0=roomSel;
+  try{
+    p.configs=Object.assign({},cf0||{}); CM.mods.forEach(n=>{ const c=cmCfg(n); if(c) p.configs[n]=c; });
+    if(!cmRoomIsReal()){
+      const lay={}; let x=300;
+      CM.mods.forEach(n=>{ const c=p.configs[n]; if(!c) return; lay[n]={wall:"cmw1",from:x,off:0,lift:0,rot:0}; x+=(+c.L||800)+40; });
+      const Lr=Math.max(2600,x+260-40), Dr=3400;
+      p.survey={walls:[{id:"cmw1",len:Lr,angle:90},{id:"cmw2",len:Dr,angle:90},{id:"cmw3",len:Lr,angle:90},{id:"cmw4",len:Dr,angle:90}],heights:[2600],wallH:2600,obstacles:[]};
+      p.layout=lay;
+    }
+    roomOpen=CM.open?1:0; roomSel=null;
+    const bx=roomBoxes(); if(!bx||!bx.length) return null;
+    const RL=roomLayout(), floor=RL.frames.map(f=>{ const q=toRoom(f,0,0,0); return [q.x,q.y]; });
+    return {boxes:bx,floor,tone:p.floorTone,leds:roomLeds(),n:RL.mods.length};
+  }catch(e){ console.warn(e); return null; }
+  finally{ p.configs=cf0; p.survey=sv0; p.layout=lay0; roomOpen=ro0; roomSel=rs0; }
+}
 function cmDraw(){
   const cfg=CM.cur?cmCfg(CM.cur):null; if(!cfg) return;
+  if(gl3dOn()&&CM.scene==="room"){
+    const R=cmRoomRender();
+    if(R){ window.GL3D.set({open:false}); window.GL3D.render({matBody:cfg.matBody,matFront:cfg.matFront},{boxes:R.boxes,room:{floor:R.floor,tone:R.tone},leds:R.leds}); return; }
+    CM.scene="body"; cmSceneUi();
+  }
   if(gl3dOn()){ window.GL3D.render(cfg,{explode:0}); window.GL3D.set({open:CM.open}); }
   else render3D($("cmSvg"),cfg,null,{});
 }
+function cmSceneUi(){
+  const b=$("cmRoom"); if(!b) return;
+  b.hidden=!gl3dOn()||!CM.mods.length;
+  $("cmRoomLbl").textContent=ts(cmRoomIsReal()?"prRoomReal":CM.mods.length>1?"prRoomAll":"prRoomOne");
+  b.classList.toggle("on",CM.scene==="room");
+  $("cmAsm").hidden=CM.scene==="room";
+  $("cmDims").style.visibility=CM.scene==="room"?"hidden":"";   // cotele sunt ale corpului ales, nu ale scenei
+}
 function cmSwatch(m,on){
-  const wood=m.tx==="wood", c=m.c||"#ddd";
-  const bg=wood?`repeating-linear-gradient(95deg,${c} 0 5px,${shade(c,.9)} 5px 7px,${c} 7px 12px)`:c;
+  const wood=m.tx==="wood", c=m.c||"#ddd", ph=itemPhoto("mat",m.id);
+  const bg=ph?`url(${ph}) center/cover`:wood?`repeating-linear-gradient(95deg,${c} 0 5px,${shade(c,.9)} 5px 7px,${c} 7px 12px)`:c;
   return `<button class="cm-sw${on?" on":""}" data-id="${esc(m.id)}" title="${esc(m.label)}"><i style="background:${bg}"></i><span>${esc(m.label)}</span></button>`;
 }
 /* ---- prezentarea (5.95.0): tot ce se vede e fără termeni tehnici; cotele sunt de gabarit, schema e orientativă ---- */
@@ -11398,7 +11441,7 @@ function cmHwHtml(cfg){
     if(!cmHwRelevant(cfg,cat)) continue;
     const L=cmHwOptions(CM.cur,cat); if(L.length<2) continue;
     const cur=(hwItemFor(cfg,cat)||{}).id;
-    h+=`<div class="cm-hwg"><b>${esc(t(lbl))}</b>`+L.map(o=>`<button class="cm-hw${o.id===cur?" on":""}" data-hwcat="${cat}" data-id="${esc(o.id)}"><i></i><span>${esc(o.label)}</span></button>`).join("")+`</div>`;
+    h+=`<div class="cm-hwg"><b>${esc(t(lbl))}</b>`+L.map(o=>`<button class="cm-hw${o.id===cur?" on":""}" data-hwcat="${cat}" data-id="${esc(o.id)}"><i></i>${itemPhoto("hw",o.id)?`<img src="${itemPhoto("hw",o.id)}" alt="" width="40" height="40">`:""}<span>${esc(o.label)}</span></button>`).join("")+`</div>`;
   }
   return h?`<div class="cm-sec"><h4>${esc(ts("prSecHw"))}</h4><p class="cm-hw-hint">${esc(ts("prHwHint"))}</p>${h}</div>`:"";
 }
@@ -11409,6 +11452,37 @@ function cmHwLabels(name){
     const L=cmHwOptions(name,cat); if(L.length<2) continue;
     const id=(hwItemFor(cfg,cat)||{}).id, o=L.find(x=>x.id===id); if(o) out.push(o.label); }
   return out;
+}
+/* ---- extra la preț separat (D-178) ----
+   Se oferă numai ce (1) se aplică corpului, (2) nu deschide niciun control roșu nou (încercat pe copie, ca la soluții, D-147) și
+   (3) are un preț > 0 față de propunere. Prețul arătat e față de propunerea de bază; totalul de jos se recalculează exact, cu tot ce e bifat. */
+function cmExtraOptions(name){
+  if(CM.exOpt[name]) return CM.exOpt[name];
+  let out=[];
+  try{
+    const base=((CM.p.configs&&CM.p.configs[name])||(CM.draft&&CM.draft.name===name?CM.draft:null));
+    if(base&&typeof presentExtras==="function"){
+      const b0=fixSim(name,base), baseIds=b0?blocking(b0).map(a=>a.id):[];
+      for(const e of presentExtras(base)){
+        const cx=Object.assign(presentExtraCfg(base,{[e.id]:1}),{name});
+        const f=fixSim(name,cx); if(!f) continue;
+        if(blocking(f).some(a=>baseIds.indexOf(a.id)<0)) continue;
+        const P=cmPriceOf(false,{[name]:cx}); if(!P||!CM.base) continue;
+        const d=P.total-CM.base.total; if(!(d>0.5)) continue;
+        out.push({id:e.id,key:e.key,delta:d});
+      }
+    }
+  }catch(e){ out=[]; }
+  return CM.exOpt[name]=out;
+}
+function cmExtrasHtml(cfg){
+  const L=cmExtraOptions(CM.cur); if(!L.length) return "";
+  const on=(CM.v[CM.cur]||{}).ex||{};
+  return `<div class="cm-sec"><h4>${esc(ts("prSecExtra"))}</h4><p class="cm-hw-hint">${esc(ts("prHwHint"))}</p>`+
+    L.map(o=>`<button class="cm-hw cm-ex${on[o.id]?" on":""}" data-ex="${o.id}" role="switch" aria-checked="${on[o.id]?"true":"false"}"><i></i><span>${esc(ts(o.key))}</span><em>+ € ${fmt(o.delta)}</em></button>`).join("")+`</div>`;
+}
+function cmExtraLabels(name){
+  const on=(CM.v[name]||{}).ex||{}; return cmExtraOptions(name).filter(o=>on[o.id]).map(o=>ts(o.key));
 }
 function cmStepsHtml(){
   if(typeof PRESENT_STEPS==="undefined") return "";
@@ -11456,17 +11530,19 @@ function cmPaint(){
     const f=CM.fam[key]||"";
     const shown=list.filter(m=>!f||(m.famiglia||"tinta_unita")===f);
     const cur=matById(cfg[key]);
+    const phc=cur?itemPhoto("mat",cur.id):"";
     h+=`<div class="cm-sec"><h4>${esc(t(lbl))}<em>${esc(cur?cur.label:"")}</em></h4>`+
+      (phc?`<div class="cm-fin-ph" style="background-image:url(${phc})" role="img" aria-label="${esc(cur.label)}"></div>`:"")+
       (fams.length>1?`<div class="cm-fams" data-key="${key}"><button class="${!f?"on":""}" data-fam="">${esc(t("allThick"))}</button>`+
         fams.map(x=>`<button class="${f===x?"on":""}" data-fam="${esc(x)}">${esc(t("fam_"+x))}</button>`).join("")+`</div>`:"")+
       `<div class="cm-sws" data-key="${key}">`+shown.map(m=>cmSwatch(m,m.id===cfg[key])).join("")+`</div></div>`;
   }
-  h+=cmHwHtml(cfg)+cmStepsHtml();
+  h+=cmHwHtml(cfg)+cmExtrasHtml(cfg)+cmStepsHtml();
   /* ordinea de intrare a secțiunilor (animația la deschidere) */
   let n=0; h=h.replace(/<div class="cm-sec">/g,()=>`<div class="cm-sec" style="--i:${n++}">`);
   box.innerHTML=h+cmPriceHtml();
   cmCount(box.querySelector(".cm-ptot"),CM.price?CM.price.total:0);
-  box.querySelectorAll("[data-mod]").forEach(b=>b.addEventListener("click",()=>{ CM.cur=b.dataset.mod; cmPaint(); cmDraw(); }));
+  box.querySelectorAll("[data-mod]").forEach(b=>b.addEventListener("click",()=>{ CM.cur=b.dataset.mod; CM.scene="body"; cmSceneUi(); cmPaint(); cmDraw(); }));
   box.querySelectorAll(".cm-fams").forEach(g=>g.querySelectorAll("[data-fam]").forEach(b=>b.addEventListener("click",()=>{ CM.fam[g.dataset.key]=b.dataset.fam; cmPaint(); })));
   box.querySelectorAll(".cm-sws").forEach(g=>g.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>{
     const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v[g.dataset.key]=b.dataset.id;
@@ -11474,7 +11550,61 @@ function cmPaint(){
   box.querySelectorAll(".cm-hw").forEach(b=>b.addEventListener("click",()=>{
     const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v.hw=Object.assign({},v.hw||{},{[b.dataset.hwcat]:b.dataset.id});
     CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); }));
+  const snd=box.querySelector("[data-send]"); if(snd) snd.addEventListener("click",cmSend);
+  box.querySelectorAll("[data-ex]").forEach(b=>b.addEventListener("click",()=>{
+    const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v.ex=Object.assign({},v.ex||{}); v.ex[b.dataset.ex]=!v.ex[b.dataset.ex];
+    CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); }));
   const acc=box.querySelector("[data-accept]"); if(acc) acc.addEventListener("click",cmSignOpen);
+}
+/* ---- trimiterea propunerii (D-178) ----
+   Fără server: se compune o imagine (JPG) cu mobilierul în 3D, finisajele, prețurile și totalul, și se dă foii de partajare a telefonului
+   (WhatsApp, e-mail…); fără foaie de partajare, se descarcă. E o PROPUNERE, nu o ofertă acceptată: nu poartă semnătură, iar semnarea
+   rămâne pe tabletă. Semnarea la distanță cere server (tabel de oferte, token, pagină publică) și o decizie juridică, deci nu e aici. */
+const cmLoad=src=>new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=rej; i.src=src; });
+async function cmSendCard(){
+  if(!gl3dOn()||!CM.price) return null;
+  try{ await document.fonts.ready; }catch(e){}
+  const P=CM.price, order=[CM.cur].concat(CM.mods.filter(n=>n!==CM.cur)).slice(0,4), caps=[];
+  for(const n of order){ const c=cmCfg(n); if(!c) continue;
+    const r=window.GL3D.capture(c,{w:900,h:900,yaw:.62,pitch:.3,edges:false,warm:true}); if(r&&r.img) caps.push(await cmLoad(r.img)); }
+  cmDraw();                                               // capture() lasă scena pe ultimul corp: se reface
+  const allRows=cmRows(P), rows=allRows.slice(0,6), more=allRows.length-rows.length, W=1080, M=60, cols=caps.length>1?2:1, cell=cols===2?(W-2*M-24)/2:W-2*M, ch=cols===2?cell:Math.round(cell*0.72);
+  const imgRows=Math.max(1,Math.ceil(caps.length/cols)), imgH=imgRows*ch+(imgRows-1)*24;
+  const H=300+imgH+40+rows.length*84+(more>0?56:0)+250;
+  const cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
+  const bg=g.createLinearGradient(0,0,0,H); bg.addColorStop(0,"#1b4a38"); bg.addColorStop(1,"#08150f"); g.fillStyle=bg; g.fillRect(0,0,W,H);
+  const F=(w,sz,fam)=>`${w} ${sz}px ${fam||"'Barlow Condensed','Barlow',sans-serif"}`;
+  const fit=(txt,max)=>{ let s2=String(txt); while(s2.length>3&&g.measureText(s2).width>max) s2=s2.slice(0,-2); return s2===String(txt)?s2:s2.trim()+"…"; };
+  let y=M+10; const co=prCoName()||"Ebanist", logo=prLogoSrc(), cl=(CM.p.client||"").trim();
+  if(logo&&PH_OK.test(logo)){ try{ const li=await cmLoad(logo), lh=54, lw=Math.min(240,li.width*lh/li.height); g.drawImage(li,M,y-8,lw,lh); }catch(e){} }
+  else{ g.fillStyle="#eef1ea"; g.font=F(600,30); g.fillText(co.toUpperCase(),M,y+24); }
+  y+=88; g.fillStyle="#a3ad9a"; g.font=F(600,24); g.fillText(fit((cl?ts("prEyebrow")+" "+cl:ts("prEyebrowNoClient")).toUpperCase(),W-2*M),M,y);
+  y+=70; g.fillStyle="#eef1ea"; g.font=F(600,66); g.fillText(fit(CM.p.name||"",W-2*M),M,y);
+  y+=26; g.fillStyle="#c9a24a"; g.fillRect(M,y,84,5); y+=44;
+  caps.forEach((im,i)=>{ const cx=M+(i%cols)*(cell+24), cy=y+Math.floor(i/cols)*(ch+24), s0=Math.max(cell/im.width,ch/im.height), dw=im.width*s0, dh=im.height*s0;
+    g.save(); g.beginPath(); g.roundRect(cx,cy,cell,ch,22); g.clip(); g.drawImage(im,cx+(cell-dw)/2,cy+(ch-dh)/2,dw,dh); g.restore(); });
+  y+=imgH+50; g.strokeStyle="rgba(255,255,255,.14)"; g.lineWidth=2;
+  rows.forEach(r=>{ const c=cmCfg(r.name), mf=c&&matById(c.matFront), mb=c&&matById(c.matBody), fin=[mf&&mf.label,mb&&mb.id!==(mf&&mf.id)?mb.label:""].filter(Boolean).join(" · ");
+    g.fillStyle="#eef1ea"; g.font=F(600,32,"'Barlow',sans-serif"); g.fillText(fit(r.name,W-2*M-230),M,y);
+    g.textAlign="right"; g.fillText("€ "+fmt(r.price),W-M,y); g.textAlign="left";
+    if(fin){ g.fillStyle="#a3ad9a"; g.font=F(400,24,"'Barlow',sans-serif"); g.fillText(fit(fin,W-2*M-230),M,y+30); }
+    g.beginPath(); g.moveTo(M,y+56); g.lineTo(W-M,y+56); g.stroke(); y+=84; });
+  if(more>0){ g.fillStyle="#a3ad9a"; g.font=F(400,26,"'Barlow',sans-serif"); g.fillText("+ "+more+" "+t("cmPieces").toLowerCase(),M,y); y+=56; }
+  y+=52; g.fillStyle="#a3ad9a"; g.font=F(600,26); g.fillText(t("cmTotal").toUpperCase(),M,y);
+  y+=82; g.fillStyle="#eef1ea"; g.font=F(700,96); g.fillText("€ "+fmt(P.total),M,y);
+  y+=44; g.fillStyle="#a3ad9a"; g.font=F(400,26,"'Barlow',sans-serif"); g.fillText(t("cmVatIncl").replace("{v}",P.iva).replace("{n}","€ "+fmt(P.vat)),M,y);
+  y+=36; g.fillText(t("qValidity"),M,y);
+  return cv;
+}
+async function cmSend(){
+  try{
+    const cv=await cmSendCard(); if(!cv){ toast(ts("prSendErr")); return; }
+    const blob=await new Promise(r=>cv.toBlob(r,"image/jpeg",0.9)); if(!blob){ toast(ts("prSendErr")); return; }
+    const fname=("Proposta-"+(CM.p.name||"Ebanist")).replace(/[^\w.\-]+/g,"_")+".jpg", file=new File([blob],fname,{type:"image/jpeg"});
+    const text=(CM.p.name||"")+" — "+t("cmTotal")+" € "+fmt(CM.price.total)+" ("+t("cmVatIncl").replace("{v}",CM.price.iva).replace("{n}","€ "+fmt(CM.price.vat))+"). "+t("qValidity");
+    if(navigator.canShare&&navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file],title:fname,text}); }catch(e){ if(!(e&&e.name==="AbortError")) throw e; } return; }
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  }catch(e){ console.warn(e); toast(ts("prSendErr")); }
 }
 /* le righe del prezzo: un mobile per riga, e il resto del progetto (pezzi
    singoli, lavorazioni) in una riga sola — il totale deve tornare */
@@ -11494,7 +11624,8 @@ function cmPriceHtml(){
     (Math.abs(d)>=0.5?`<span class="cm-pdelta ${d>0?"up":"down"}">${d>0?"+":"−"} € ${fmt(Math.abs(d))} ${esc(t("cmVsBase"))}</span>`:"")+
     (cmRows(P).length>1?`<div class="cm-prows">`+cmRows(P).map(r=>`<div><span>${esc(r.name)}</span><b>€ ${fmt(r.price)}</b></div>`).join("")+`</div>`:"")+
     `<button class="btn red cm-accept" data-accept>${esc(t("cmAccept"))}</button>`+
-    `<p class="cm-valid">${esc(t("qValidity"))}</p></div>`;
+    `<p class="cm-valid">${esc(t("qValidity"))}</p>`+
+    (gl3dOn()?`<button class="cm-send" data-send>${esc(ts("prSend"))}</button>`:"")+`</div>`;
 }
 /* ---- la firma ---- */
 function cmSignOpen(){
@@ -11502,7 +11633,7 @@ function cmSignOpen(){
   $("cmSignTotal").textContent="€ "+fmt(CM.price.total);
   $("cmRecap").innerHTML=(CM.mods.length?`<b class="cm-h" style="display:block;margin:0 0 2px">${esc(ts("prRecap"))}</b>`:"")+CM.mods.map(n=>{ const c=cmCfg(n); if(!c) return "";
     const mf=matById(c.matFront), mb=matById(c.matBody), fin=[mf&&mf.label,mb&&mb.label&&mb.id!==(mf&&mf.id)?mb.label:""].filter(Boolean).join(" · ");
-    return `<div>${presetIcon(c)}<span><b>${esc(n)}</b>${c.L}×${c.H}×${c.P} mm${fin?" · "+esc(fin):""}${cmHwLabels(n).length?"<br>"+esc(cmHwLabels(n).join(" · ")):""}</span><em>€ ${fmt((CM.price.per[n]||0)*(1+CM.price.iva/100))}</em></div>`; }).join("");
+    return `<div>${presetIcon(c)}<span><b>${esc(n)}</b>${c.L}×${c.H}×${c.P} mm${fin?" · "+esc(fin):""}${cmHwLabels(n).length?"<br>"+esc(cmHwLabels(n).join(" · ")):""}${cmExtraLabels(n).length?"<br>+ "+esc(cmExtraLabels(n).join(" · ")):""}</span><em>€ ${fmt((CM.price.per[n]||0)*(1+CM.price.iva/100))}</em></div>`; }).join("");
   $("cmSign").hidden=false; cmPadClear(); cmSignCheck(); navSync();
 }
 function cmPadClear(){ const c=$("cmPad"), r=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
@@ -11531,7 +11662,7 @@ function cmSignGo(){
   const p=CM.p, now=new Date();
   const mods=CM.mods.map(n=>{ const c=cmCfg(n), mb=matById(c.matBody), mf=matById(c.matFront);
     return {name:n,dims:`${c.L}×${c.H}×${c.P}`,type:c.type||"standard",body:mb?mb.label:"",front:mf?mf.label:"",
-            price:+(((CM.price.per[n]||0)*(1+CM.price.iva/100)).toFixed(2)),hw:cmHwLabels(n)}; });
+            price:+(((CM.price.per[n]||0)*(1+CM.price.iva/100)).toFixed(2)),hw:cmHwLabels(n),extras:cmExtraLabels(n)}; });
   const rest=cmRows(CM.price).filter(r=>!CM.mods.includes(r.name));
   rest.forEach(r=>mods.push({name:r.name,dims:"",type:"",body:"",front:"",price:+r.price.toFixed(2),other:1}));
   const offer={id:uid(),date:now.toISOString(),client:$("cmSignName").value.trim(),mods,
@@ -11544,7 +11675,7 @@ function cmSignGo(){
   for(const n of CM.mods){
     const v=CM.v[n]; if(!v) continue;
     const c=cmCfg(n), orig=(p.configs&&p.configs[n])||CM.draft;
-    if(!orig||(c.matBody===orig.matBody&&c.matFront===orig.matFront&&JSON.stringify(c.hwSel||{})===JSON.stringify(orig.hwSel||{}))) continue;
+    if(!orig||(c.matBody===orig.matBody&&c.matFront===orig.matFront&&JSON.stringify(c.hwSel||{})===JSON.stringify(orig.hwSel||{})&&!Object.values((v&&v.ex)||{}).some(Boolean))) continue;
     const cut=p.pieces.some(x=>(x.gen===n||x.modulo===n)&&x.done);
     if(cut){ offer.notApplied.push(n); continue; }
     if(!p.configs||!p.configs[n]) continue;                 // proposta non ancora in distinta
@@ -11567,7 +11698,7 @@ function offerPrint(p,o){
   const d=new Date(o.date);
   const rows=o.mods.map(m=>m.other?`<tr><td><b>${esc(m.name)}</b></td><td></td><td class="n">€ ${fmt(m.price)}</td></tr>`:
     `<tr><td><b>${esc(m.name)}</b><br><span style="font-size:8.5pt">${esc(m.dims)} mm</span></td>`+
-    `<td>${esc(t("cmFront"))}: ${esc(m.front)}<br>${esc(t("cmBody"))}: ${esc(m.body)}${m.hw&&m.hw.length?"<br>"+esc(ts("prSecHw"))+": "+m.hw.map(esc).join(" · "):""}</td><td class="n">€ ${fmt(m.price)}</td></tr>`).join("");
+    `<td>${esc(t("cmFront"))}: ${esc(m.front)}<br>${esc(t("cmBody"))}: ${esc(m.body)}${m.hw&&m.hw.length?"<br>"+esc(ts("prSecHw"))+": "+m.hw.map(esc).join(" · "):""}${m.extras&&m.extras.length?"<br>"+esc(ts("prSecExtra"))+": "+m.extras.map(esc).join(" · "):""}</td><td class="n">€ ${fmt(m.price)}</td></tr>`).join("");
   $("printArea").innerHTML=`<div class="pr-head"><div><h1>${esc(t("cmOfferTitle"))}</h1>
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
     <b>${esc(t("client"))}:</b> ${esc(o.client||p.client||"—")}<br>
@@ -11605,6 +11736,7 @@ function clientInit(){
     CM.open=false; $("cmOpen").classList.remove("on"); $("cmAsm").classList.add("on");
     await window.GL3D.assemble({ms:8000}); $("cmAsm").classList.remove("on");
     if(CM.on&&CM.spin) window.GL3D.spin(true); });
+  $("cmRoom").addEventListener("click",()=>{ CM.scene=CM.scene==="room"?"body":"room"; cmSceneUi(); cmDraw(); });
   $("cmSpin").addEventListener("click",()=>{ CM.spin=!CM.spin; $("cmSpin").classList.toggle("on",CM.spin); if(gl3dOn()) window.GL3D.spin(CM.spin); });
   document.querySelectorAll("[data-cmview]").forEach(b=>b.addEventListener("click",()=>{ CM.spin=false; $("cmSpin").classList.remove("on");
     if(gl3dOn()){ window.GL3D.spin(false); window.GL3D.view(b.dataset.cmview); } else cmDraw(); }));
@@ -11617,7 +11749,7 @@ function clientInit(){
   $("cmSignCancel").addEventListener("click",()=>{ $("cmSign").hidden=true; navSync(); });
   $("cmSignGo").addEventListener("click",cmSignGo);
   $("cmDonePdf").addEventListener("click",()=>{ const o=(CM.p.offers||[]).find(q=>q.id===$("cmDone").dataset.id); if(o) offerPrint(CM.p,o); });
-  $("cmDoneBack").addEventListener("click",()=>{ $("cmDone").hidden=true; CM.hwOpt={}; CM.base=cmPriceOf(false); CM.v={}; CM.price=CM.base; cmPaint(); cmDraw(); navSync(); });
+  $("cmDoneBack").addEventListener("click",()=>{ $("cmDone").hidden=true; CM.hwOpt={}; CM.exOpt={}; CM.base=cmPriceOf(false); CM.v={}; CM.price=CM.base; cmPaint(); cmDraw(); navSync(); });
 }
 /* dentro il modo cliente il tasto Indietro chiude la firma, e basta */
 function clientBack(){
@@ -15889,13 +16021,21 @@ function hwFitCtx(cfg,built0){
 }
 /* poza articolului PROPRIU (Salvatore, 01.11.2026: «fiecare articol cu poză»). Articolele din catalogul Blum/Häfele nu au
    poze: ale producătorilor au drepturi de autor. Poza stă în articol (settings.hwAdd / matAdd), 240 px JPEG ≈ 10 KB. */
-const CAT_PH_MAX=240;
+const CAT_PH_MAX=360;
 function catPhotoRow(kind,id,img){
   return `<div class="cat-ph">${img?`<img src="${img}" alt="" width="56" height="56">`:""}
     <label class="btn sm">${esc(t("hwOwnPhoto"))}<input type="file" accept="image/*" class="catPhIn" data-kind="${kind}" data-id="${id}" hidden></label>
     ${img?`<button class="iconbtn danger catPhDel" data-kind="${kind}" data-id="${id}" title="${esc(t("hwOwnPhotoDel"))}" aria-label="${esc(t("hwOwnPhotoDel"))}">✕</button>`:""}</div>`;
 }
-function catPhOwner(kind,id){ const S=state.settings; return ((kind==="hw"?S.hwAdd:S.matAdd)||[]).find(x=>x.id===id); }
+/* poza oricărui articol (D-178): al catalogului propriu stă în articol (`img`); la celelalte, în `settings.photos[kind][id]` — local, intră în backup odată cu setările */
+function catPhOwner(kind,id){ const S=state.settings, own=((kind==="hw"?S.hwAdd:S.matAdd)||[]).find(x=>x.id===id); if(own) return own;
+  const P=(S.photos=S.photos||{}), m=(P[kind]=P[kind]||{});
+  return new Proxy({},{ set(_,k,v){ if(k==="img") m[id]=v; return true; }, deleteProperty(_,k){ if(k==="img") delete m[id]; return true; } }); }
+const PH_OK=/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/;
+function itemPhoto(kind,id){
+  const S=state.settings||{}, own=((kind==="hw"?S.hwAdd:S.matAdd)||[]).find(x=>x.id===id);
+  const v=(own&&own.img)||(S.photos&&S.photos[kind]&&S.photos[kind][id])||"";
+  return PH_OK.test(v)?v:""; }
 function catPhWire(root){
   root.querySelectorAll(".catPhIn").forEach(inp=>inp.addEventListener("change",async()=>{
     const f=inp.files&&inp.files[0]; if(!f) return;
@@ -15973,7 +16113,7 @@ function renderCatalog(){
         <input class="catMatDecor" data-mid="${m.id}" placeholder="${esc(t("decorPh"))}" value="${esc(eff.decor||"")}">
         <input class="catMatPrice" data-mid="${m.id}" type="number" step="0.01" inputmode="decimal" value="${eff.price}" title="€/m²">
       </div>
-      ${custom?catPhotoRow("mat",m.id,m.img):""}
+      ${catPhotoRow("mat",m.id,itemPhoto("mat",m.id))}
       <div class="cat-mat-r3">
         <input class="catMatTh" data-mid="${m.id}" type="number" inputmode="numeric" value="${eff.th}" ${custom?"":"disabled"} title="${esc(t("fThickness"))}">
         <input class="catMatPw" data-mid="${m.id}" type="number" inputmode="numeric" value="${eff.pw||state.settings.panelL}" title="L">
@@ -20603,12 +20743,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.96.0"; /* APP_VER-MARKER */
+const APP_VER="5.97.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v286";
+const SW_CACHE="ebanist-v287";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

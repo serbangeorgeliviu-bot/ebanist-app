@@ -810,7 +810,7 @@
         '</select><button class="btn sm hsOpen" data-hw="' + it.id + '">' + esc(t("hsBtn")) + "</button></div>" : "") +
       (it.custom ? '<div style="display:flex;gap:8px;margin-top:6px"><input class="catOwnBrand" data-id="' + it.id + '" placeholder="' + esc(t("hwOwnBrand")) + '" value="' + esc(it.brand || "") + '" style="flex:1">' +
         '<input class="catOwnName" data-id="' + it.id + '" placeholder="' + esc(t("hwOwnName")) + '" value="' + esc(it.name || "") + '" style="flex:2">' +
-        '<button class="iconbtn danger catOwnDel" data-id="' + it.id + '" data-cat="' + cat + '" title="' + esc(t("hwOwnDel")) + '">✕</button></div>' + catPhotoRow("hw", it.id, it.img) : "") +
+        '<button class="iconbtn danger catOwnDel" data-id="' + it.id + '" data-cat="' + cat + '" title="' + esc(t("hwOwnDel")) + '">✕</button></div>' + catPhotoRow("hw", it.id, it.img) : (it.id ? catPhotoRow("hw", it.id, itemPhoto("hw", it.id)) : "")) +
       '<button class="btn sm catOwnAdd" data-cat="' + cat + '" style="margin-top:6px">＋ ' + esc(t("hwOwnAdd")) + "</button>" +
       '<div class="hwui-off cth-compat" aria-hidden="true"><select class="catSel" data-cat="' + cat + '" tabindex="-1">' +
         hwList(cat).map(function (x) { return '<option value="' + x.id + '" data-art="' + esc(x.art || "") + '"' + (x.id === sel ? " selected" : "") + ">" + esc(x.brand + " — " + hwName(x)) + "</option>"; }).join("") + "</select></div></div>";
