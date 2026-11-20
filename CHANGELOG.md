@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.94.1 — 20 noiembrie 2026
+
+**Ușă în deschiderea Rotundului, Ovalului și Racordatului (D-172).**
+- Câmp nou, **„Ușă în deschidere”** (Fără / Cu ușă), sub „Deschidere în față”; apare numai când deschiderea e completată.
+- **Rotund/Oval: „Anta curva”** = arcul scos din fâșie, cu aceeași rază și același unghi, piesă separată; 2 mm rost pe fiecare margine și sus/jos. Fâșia + ușa + rosturile = circumferința (verificat). Distinta spune unghiul, raza și planul de tăieturi (kerf) pentru îndoire.
+- **Racordat: „Anta (racordato)”**, ușă plată pe lățimea deschiderii, în planul frontului, cu 2 mm rost.
+- Grosimea ușii vine din materialul de front. Partea balamalei: aceeași alegere ca la ușile obișnuite („stânga/dreapta”).
+- **3D:** „Deschide” rotește ușa spre față, cu pivotul la capătul ei (nu în corp).
+- **Nu se generează balamale sau mâner** (nu există feronerie standard pe arc și nu e măsurat în atelier): ușa e o piesă de debitat și de îndoit, nu o ușă cu feronerie. Fără câmp, corpul rămâne cel din 5.94.0.
+
+---
+
 ## 5.94.0 — 20 noiembrie 2026
 
 **Rotund, Oval și Racordat cu deschidere în față (D-171).**

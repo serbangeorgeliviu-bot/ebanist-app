@@ -52,14 +52,14 @@ const coll = b => { const bx = b.boxes.filter(x => x && x.kind !== "g" && x.kind
     const pr = [a.role, c.role].sort().join("|"); if (pr === "cassetto_fianco|cassetto_fondo") continue;
     const ox = Math.min(a.x1, c.x1) - Math.max(a.x0, c.x0), oy = Math.min(a.y1, c.y1) - Math.max(a.y0, c.y0), oz = Math.min(a.z1, c.z1) - Math.max(a.z0, c.z0);
     if (ox > .6 && oy > .6 && oz > .6 && vpOverlap(a, c) === false) continue;     /* panou pe pantă: gabaritul se suprapune, piesa nu */
-    /* corp rotund/oval/racordat (D-117): lateralul e o BANDĂ între conturul exterior `out` și cel interior `inn` (închisă la rotund/oval, deschisă în față la racordat);
-       gabaritul lui e dreptunghiul întreg, deci orice piesă dinăuntru „se suprapune” cu el. Suprapunere reală = aria piesei care cade în bandă, ca sumă pe patrulaterele
-       (out[i], out[i+1], inn[i+1], inn[i]) — fiecare convex. */
-    if (ox > .6 && oy > .6 && oz > .6) { const rg = a.ring && a.ring.out && a.ring.inn && a.ring.out.length === a.ring.inn.length ? a : c.ring && c.ring.out && c.ring.inn && c.ring.out.length === c.ring.inn.length ? c : null;
-      if (rg) { const o2 = rg === a ? c : a;
-        if (!(o2.ring && o2.ring.out)) { const poly = o2.pc || [[o2.x0, o2.z0], [o2.x1, o2.z0], [o2.x1, o2.z1], [o2.x0, o2.z1]], O = rg.ring.out, I = rg.ring.inn, n = O.length;
-          let area = 0; for (let i = 0; i < (rg.ring.open ? n - 1 : n); i++) { const j = (i + 1) % n; area += polyPoly(poly, [O[i], O[j], I[j], I[i]]); }
-          if (area <= .6 * .6) continue; } } }
+    /* corp rotund/oval/racordat (D-117, D-171): lateralul și ușa din deschidere sunt BENZI între conturul exterior `out` și cel interior `inn` (închisă la rotund/oval fără
+       deschidere, deschisă altfel); gabaritul lor e dreptunghiul întreg, deci orice piesă dinăuntru „se suprapune” cu el. Suprapunere reală = aria comună a pieselor convexe în care
+       se descompun: patrulaterele (out[i], out[i+1], inn[i+1], inn[i]) ale benzii, sau poligonul piesei. */
+    if (ox > .6 && oy > .6 && oz > .6) {
+      const ringOk = q => q.ring && q.ring.out && q.ring.inn && q.ring.out.length === q.ring.inn.length;
+      const convex = q => { if (ringOk(q)) { const O = q.ring.out, I = q.ring.inn, n = O.length, m = q.ring.open ? n - 1 : n, o = []; for (let i = 0; i < m; i++) { const j = (i + 1) % n; o.push([O[i], O[j], I[j], I[i]]); } return o; }
+        return [q.pc || [[q.x0, q.z0], [q.x1, q.z0], [q.x1, q.z1], [q.x0, q.z1]]]; };
+      if (ringOk(a) || ringOk(c)) { let area = 0; for (const A of convex(a)) for (const B of convex(c)) area += polyPoly(A, B); if (area <= .6 * .6) continue; } }
     if (ox > .6 && oy > .6 && oz > .6) { const k = [a.role + (a.sub ? "/" + a.sub : ""), c.role + (c.sub ? "/" + c.sub : "")].sort().join(" × "); out[k] = 1; } }
   return Object.keys(out); };
 const span2 = (c, horiz) => horiz ? c.L : c.H;
@@ -78,7 +78,8 @@ for (let i = 0; i < N; i++) {
      o parte din valori cad voit în afara limitelor: trebuie să iasă ca eroare declarată, niciodată excepție sau piese care se ciocnesc */
   { const q = (i * 2654435761 >>> 0) % 100;
     if (t === "tondo" && q < 45) cfg.rOpen = 10 + ((i * 40503) >>> 0) % 166;
-    if (t === "raccordato" && q < 45) cfg.rOpen = 60 + ((i * 40503) >>> 0) % 760; }
+    if (t === "raccordato" && q < 45) cfg.rOpen = 60 + ((i * 40503) >>> 0) % 760;
+    if (cfg.rOpen && q % 2 === 0) cfg.rDoor = 1; if (cfg.rDoor && q % 4 === 0) cfg.doorHinge = ["right"]; }
   if (rnd() < .8) cfg.L = ri(300, +process.env.LMAX || 2700);
   if (rnd() < .7) cfg.H = ri(300, 2700);
   if (rnd() < .7) cfg.P = ri(200, 800);

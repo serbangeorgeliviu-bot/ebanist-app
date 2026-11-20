@@ -2970,6 +2970,17 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       return top(open) > top(closed) + 300 && zmax(open) < zmax(closed) ? true : "closed top " + top(closed) + " open top " + top(open) + " zmax " + zmax(closed) + "→" + zmax(open);
     } catch (e) { return String(e); } });
     ok("pat cu ladă: «Deschide» ridică somiera la picioare (nu rămâne pe loc)", bedOpen === true, String(bedOpen));
+    const rdOpen = await pg.evaluate(() => { try { const out = [];
+      for (const c of [{ ...PRESETS.tondo, name: "RdT", rOpen: 120, rDoor: 1 }, { ...PRESETS.raccordato, name: "RdR", rOpen: 400, rDoor: 1 }]) {
+        GL3D.render(c, { explode: 0 });
+        const d = buildModule(c).boxes.find(b => b.sub === "rdoor"); if (!d) return "fără rdoor la " + c.type;
+        const W = GL3D.worldBoxes({ open: 1 }), P = W.find(x => String(x.pk) === String(d.pk)); if (!P) return "fără piesă " + c.type;
+        const zs = P.boxes.flat().map(q => q[2]), pz = d.pivotAt.z;
+        /* deschisă (~98° spre față): ușa trece în fața pivotului, nu în corp */
+        if (!(Math.min(...zs) >= pz - 6 && Math.max(...zs) > pz + 150)) return c.type + ": zmin " + Math.min(...zs) + " zmax " + Math.max(...zs) + " pivot z " + pz;
+        const C = GL3D.worldBoxes({ open: 0 }).find(x => String(x.pk) === String(d.pk)); if (Math.max(...C.boxes.flat().map(q => q[2])) > Math.max(...zs)) return c.type + ": închisă mai în față decât deschisă";
+      } return true; } catch (e) { return String(e); } });
+    ok("Rotund/Racordat cu ușă în deschidere: «Deschide» o rotește spre față (pivot la capăt), nu în corp", rdOpen === true, String(rdOpen));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
     await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });

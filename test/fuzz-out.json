@@ -19,6 +19,7 @@
     "matFront": "__b",
     "matBack": "__k",
     "rOpen": 174,
+    "rDoor": 1,
     "top": "traverse",
     "antiWarp": "auto"
    },
@@ -1225,6 +1226,7 @@
     "matFront": "__b",
     "matBack": "__k",
     "rOpen": 774,
+    "rDoor": 1,
     "handles": "gola",
     "golaType": "L",
     "support": "zoccolo"

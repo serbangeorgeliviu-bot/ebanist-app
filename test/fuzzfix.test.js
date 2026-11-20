@@ -56,7 +56,7 @@ describe("masă: picioarele nu se suprapun", () => {
 describe("fuzz: coliziunea pe corpuri cu lateral curb", () => {
   const src = fs.readFileSync(path.join(__dirname, "fuzz.js"), "utf8");
   test("coll() măsoară aria piesei în banda lateralului (out/inn), nu în dreptunghiul întreg", () => {
-    assert.match(src, /ring\.out/); assert.match(src, /ring\.inn/); assert.match(src, /rg\.ring\.open \? n - 1 : n/);
+    assert.match(src, /q\.ring\.out/); assert.match(src, /q\.ring\.inn/); assert.match(src, /q\.ring\.open \? n - 1 : n/);
   });
   test("rotund și racordat: nicio piesă nu intră în bandă", () => {
     for (const cfg of [{ type: "tondo", L: 679, H: 1200, P: 427, shelves: 3 }, { type: "raccordato", L: 2021, H: 1400, P: 450, shelves: 8, rcorner: 80, back: 1 }]) {

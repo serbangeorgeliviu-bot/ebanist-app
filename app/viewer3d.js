@@ -1678,7 +1678,9 @@ function setTargets(boxesOrig) {
       }
       else if (a.hinge === "left" || a.hinge === "right") P.pivot = { x: a.hinge === "left" ? a.x0 : a.x1, z: a.z1, left: a.hinge === "left" };
     }
-    P.tgt.ang = (open && P.pivot && P.sub === "door") ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
+    /* D-171: ușa din deschiderea unui corp rotund/oval/racordat: pivotul e capătul ei (pivotAt), nu colțul gabaritului */
+    if (P.sub === "rdoor" && a.pivotAt) P.pivot = { x: a.pivotAt.x, z: a.pivotAt.z, left: a.pivotAt.left };
+    P.tgt.ang = (open && P.pivot && (P.sub === "door" || P.sub === "rdoor")) ? (P.pivot.left ? -1 : 1) * 1.72 : 0;
     /* pachet pliant (U.9): foaia se rotește 90° în jurul muchiei ei de pe partea pachetului și se așază
        lângă celelalte, perpendicular pe față — la fel ca în camera 3D și în planul de balamale */
     if (P.sub === "fold" && P.fold) {

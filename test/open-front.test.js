@@ -109,6 +109,49 @@ describe("racordat cu deschidere în față", () => {
   });
 });
 
+describe("ușă în deschidere (B, 5.94.1)", () => {
+  const door = r => r.b.boxes.find(x => x.sub === "rdoor");
+  const rows = r => r.b.pieces.filter(p => p.role === "frontale");
+  test("fără rDoor sau fără deschidere nu apare nicio ușă (corpul de dinainte)", () => {
+    assert.equal(door(build({ ...TON, rOpen: 120 })), undefined); assert.equal(rows(build({ ...TON, rOpen: 120 })).length, 0);
+    assert.equal(J(build({ ...TON, rDoor: 1 }).b.pieces), J(build(TON).b.pieces), "rDoor fără deschidere se ignoră");
+    assert.equal(J(build({ ...RAC, rDoor: 1 }).b.pieces), J(build(RAC).b.pieces));
+  });
+  test("rotund: ușa e arcul scos din fâșie — fâșia + ușa = circumferința, cu 2 mm rost pe margine", () => {
+    const o = build({ ...TON, rOpen: 120, rDoor: 1 }), full = strips(build(TON))[0].dev.len, r = rows(o);
+    assert.equal(r.length, 1); assert.match(r[0].elemento, /^Anta curva/);
+    const band = strips(o)[0].dev.len, d = r[0].curve.dev;
+    assert.ok(Math.abs(band + d + 4 - full) < 0.2, band + " + " + d + " + 4 vs " + full);
+    assert.equal(r[0].lung, Math.round(d)); assert.equal(r[0].larg, 1200 - 4); assert.equal(r[0].curve.angle, 120); assert.equal(r[0].curve.door, 1);
+    assert.equal(r[0].bordo, "2L+2C"); assert.equal(r[0].pz, 1);
+  });
+  test("rotund: cutia 3D are inel deschis, pivot la un capăt (stânga implicit), balamaua din doorHinge", () => {
+    const L = door(build({ ...TON, rOpen: 120, rDoor: 1 })), R = door(build({ ...TON, rOpen: 120, rDoor: 1, doorHinge: ["right"] }));
+    assert.equal(L.ring.open, true); assert.equal(L.ring.out.length, L.ring.inn.length);
+    assert.equal(L.pivotAt.left, true); assert.equal(R.pivotAt.left, false);
+    assert.ok(L.pivotAt.x < 300 && R.pivotAt.x > 300, "capătul stâng / drept");
+    assert.ok(Math.abs(L.pivotAt.x - 300 + (R.pivotAt.x - 300)) < 0.01, "simetrice");
+    assert.ok(L.y0 === 2 && L.y1 === 1198);
+  });
+  test("rotund: grosimea ușii vine din materialul de front", () => {
+    const d = door(build({ ...TON, rOpen: 120, rDoor: 1 })), g = d.ring.out[0], h = d.ring.inn[0];
+    assert.ok(Math.abs(Math.hypot(g[0] - 300, g[1] - 300) - Math.hypot(h[0] - 300, h[1] - 300) - 19) < 0.5, "19 mm între exterior și interior");
+  });
+  test("racordat: ușă plată cu 2 mm rost, în planul frontului, pe lățimea deschiderii", () => {
+    const o = build({ ...RAC, rOpen: 400, rDoor: 1 }), r = rows(o)[0], d = door(o);
+    assert.match(r.elemento, /^Anta \(racordato\)/); assert.equal(r.lung, 1396); assert.equal(r.larg, 396);
+    assert.equal(d.x0, 252); assert.equal(d.x1, 648); assert.equal(d.z1, 450); assert.equal(d.z0, 431); assert.equal(d.pivotAt.left, true); assert.equal(d.pivotAt.x, 252);
+    assert.equal(door(build({ ...RAC, rOpen: 400, rDoor: 1, doorHinge: ["right"] })).pivotAt.x, 648);
+  });
+  test("ușa nu produce găuri (fără balamale generate) și nu strică găurirea restului", () => {
+    for (const c of [{ ...TON, rOpen: 120 }, { ...RAC, rOpen: 400 }]) {
+      const a = build(c).ops(), b = build({ ...c, rDoor: 1 }).ops();
+      const sig = r => J(r.pieces.filter(p => p.role !== "frontale").map(p => [p.role, p.operations.length]));
+      assert.equal(sig(a), sig(b)); const f = b.pieces.find(p => p.role === "frontale"); assert.ok(f && f.operations.length === 0);
+    }
+  });
+});
+
 describe("aplicația: câmp în formular, în 7 limbi", () => {
   const html = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
   test("câmpul bOpen există, intră în configurație doar la tondo/raccordato și are etichete în toate limbile", () => {
@@ -116,6 +159,7 @@ describe("aplicația: câmp în formular, în 7 limbi", () => {
     for (const l of ["ro", "it", "en", "fr", "de", "pl", "es"]) {
       const m = html.match(new RegExp("^" + l + ":\\{[^\\n]*", "m")); assert.ok(m, l);
       assert.match(m[0], /"?fRopenDeg"?:/, l); assert.match(m[0], /"?fRopenMm"?:/, l);
+      for (const k of ["fRdoor", "rdoorNone", "rdoorYes"]) assert.match(m[0], new RegExp('"?' + k + '"?:'), l + " " + k);
     }
   });
 });
