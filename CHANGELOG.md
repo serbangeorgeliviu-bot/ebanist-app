@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.94.5 — 20 noiembrie 2026
+
+**Proiectele demo: numele corpurilor sunt în limba aplicației.**
+- Până acum chipurile din Genera («S4 Clapă sus», «C2 Console doors», «R1 Desk»…) amestecau româna cu engleza oricare ar fi fost limba. Acum se traduc la încărcarea copiei demo, în cele 7 limbi (ro, it, en, fr, de, pl, es); codul («S4», «C2») și cotele rămân.
+- Distinta, piesele și devizul sunt neschimbate; hash-ul de referință al demo-urilor nu mai ține cont de nume. Test: `node --test demo-names.test.js`.
+
+---
+
 ## 5.94.4 — 20 noiembrie 2026
 
 **Ușile basculante se deschid și în „Camera în 3D” (butonul „Ante aperte”).**
