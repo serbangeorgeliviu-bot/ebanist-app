@@ -1316,8 +1316,9 @@ function generate1(input) {
         } else if (dvB.open && bandL && bandR) {
           var sz0o = E.min[2], sz1o = dvB.P - dvB.r, cutL = dvB.L / 2 - dvB.open / 2, cutR = dvB.L / 2 + dvB.open / 2;
           if (sz1o - sz0o > 30) { fix(bandL, 0, -1, 2, sz0o, sz1o); fix(bandR, 0, 1, 2, sz0o, sz1o); }
-          if (cutL - dvB.r > 30) fix(bandL, 2, 1, 0, dvB.r, cutL);
-          if (dvB.L - dvB.r - cutR > 30) fix(bandR, 2, 1, 0, cutR, dvB.L - dvB.r);
+          /* frontul rămas e scurt (deschiderea mare): sub ~190 mm cele două îmbinări ale unei plăci ar avea dornurile la câțiva mm unul de altul (V5); fără prindere pe front, placa se ține de lateral */
+          if (cutL - dvB.r >= 190) fix(bandL, 2, 1, 0, dvB.r, cutL);
+          if (dvB.L - dvB.r - cutR >= 190) fix(bandR, 2, 1, 0, cutR, dvB.L - dvB.r);
         } else {
           var sz0 = E.min[2], sz1 = dvB.P - dvB.r;
           if (sz1 - sz0 > 30) { fix(bandP, 0, -1, 2, sz0, sz1); fix(bandP, 0, 1, 2, sz0, sz1); }

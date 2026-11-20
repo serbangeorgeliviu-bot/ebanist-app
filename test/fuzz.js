@@ -7,6 +7,8 @@ const fs = require("fs"), vm = require("vm"), path = require("path");
 const E = require("./engine.js");
 const S = E.appEngine(), MM = E.MM;
 vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", "ebanist-ops.js"), "utf8"), S, { filename: "ebanist-ops.js" });
+["ebanist-lift-data.js", "ebanist-liftfit.js"].forEach(f => vm.runInContext(fs.readFileSync(path.join(__dirname, "..", "app", f), "utf8"), S, { filename: f }));   // D-174: mecanisme basculante în fuzz
+const LIFT_IDS = vm.runInContext("EBLiftFit.list().map(x => x.key)", S), LIFT2 = vm.runInContext("EBLiftFit.list().filter(x => x.flaps === 2).map(x => x.key)", S);
 let PRESETS = null;
 { const h = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8"); const a = h.indexOf("\nconst PRESETS = {") + 1;
   let d = 0, j = h.indexOf("{", a); for (let k = j; k < h.length; k++) { if (h[k] === "{") d++; else if (h[k] === "}" && --d === 0) { PRESETS = vm.runInNewContext("(" + h.slice(j, k + 1) + ")"); break; } } }
@@ -79,7 +81,12 @@ for (let i = 0; i < N; i++) {
   { const q = (i * 2654435761 >>> 0) % 100;
     if (t === "tondo" && q < 45) cfg.rOpen = 10 + ((i * 40503) >>> 0) % 166;
     if (t === "raccordato" && q < 45) cfg.rOpen = 60 + ((i * 40503) >>> 0) % 760;
-    if (cfg.rOpen && q % 2 === 0) cfg.rDoor = 1; if (cfg.rDoor && q % 4 === 0) cfg.doorHinge = ["right"]; }
+    if (t === "raccordato" && cfg.rOpen && q % 3 === 1) { cfg.rDrawers = 1 + (i % 6); if (q % 2 === 0) cfg.shelves = 0; }   // D-176: sertare în deschidere; o parte cu rafturi rămase → eroare declarată
+    if (cfg.rOpen && q % 2 === 0 && !cfg.rDrawers) cfg.rDoor = 1; if (cfg.rDoor && q % 4 === 0) cfg.doorHinge = ["right"]; }
+  /* mecanisme basculante (D-163, D-174), derivate din i: o parte pe sistemele cu două clape, cu clapa de sus la înălțime cerută (unele valori în afara limitelor → eroare declarată) */
+  { const q = (i * 40503 >>> 0) % 100;
+    if (t === "standard" && (cfg.doors || 0) > 0 && q < 14) { cfg.lift = q < 7 ? LIFT2[(i * 7) % LIFT2.length] : LIFT_IDS[(i * 13) % LIFT_IDS.length];
+      if (LIFT2.includes(cfg.lift) && q % 3 === 0) cfg.liftUpper = 60 + ((i * 977) >>> 0) % 700; } }
   if (rnd() < .8) cfg.L = ri(300, +process.env.LMAX || 2700);
   if (rnd() < .7) cfg.H = ri(300, 2700);
   if (rnd() < .7) cfg.P = ri(200, 800);

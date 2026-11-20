@@ -13,6 +13,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.95.1 — 20 noiembrie 2026
+
+**Sertare în deschiderea corpului Racordat (D-176).**
+- Câmp nou, **„Sertare în deschidere”** (0–8), sub „Deschidere în față”, numai la Racordat cu deschidere. Un corp cu sertare **obișnuit** (aceeași carcasă, aceleași sertare, aceeași feronerie ca la corpul standard; ca la corpul cu sertare al biroului) stă în deschidere: lățimea = deschidere − 4 mm, între fund și tavan, cu fața sertarelor exact în planul frontului, la 2 mm de capetele fâșiilor.
+- Distinta primește corpul (marcat „B”) și fronturile de sertar; glisierele, mânerele și îmbinările se numără și se găuresc ca la un corp standard de aceleași cote (verificat: același număr de operații).
+- **Rafturile trebuie să fie 0** (un raft pe toată lățimea ar trece prin corpul cu sertare), iar **ușa din deschidere și sertarele nu merg împreună**; ambele ies ca erori declarate. Sub 254 mm lățime de deschidere sau sub 290 mm adâncime, tot eroare declarată.
+- La **Rotund și Oval nu există sertare** (sertar în segment de cerc, fără feronerie standard): câmpul nu apare, iar valoarea din AI se ignoră.
+- **Corectat:** la o deschidere mare de racordat, frontul rămas pe lângă colț e scurt și cele două îmbinări ale plăcii aveau dornurile la câțiva mm unul de altul (eroare de pre-flight V5). Sub 190 mm de front rămas, placa se ține numai de lateral.
+- Asistentul AI cunoaște câmpul (`rDrawers`); fuzz-ul nostru (seed 7 și 11 × 2500) acoperă acum sertarele, mecanismele basculante și clapele inegale, fără coliziuni.
+
+---
+
 ## 5.95.0 — 20 noiembrie 2026
 
 **Trei completări.**

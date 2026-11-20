@@ -21,7 +21,7 @@ function build(cfg) {
   const b = S.buildModule(full);
   return { b, full, ops: () => JSON.parse(JSON.stringify(S.generateOperations({ boxes: b.boxes, cfg: full, G: undefined }))) };
 }
-const strips = r => r.b.boxes.filter(x => x.role === "fianco");
+const strips = r => r.b.boxes.filter(x => x.role === "fianco" && x.dev);
 const J = x => JSON.stringify(x);
 const TON = { type: "tondo", L: 600, P: 600, H: 1200, shelves: 3 };
 const RAC = { type: "raccordato", L: 900, P: 450, H: 1400, shelves: 3, rcorner: 80, back: 1 };
@@ -149,6 +149,45 @@ describe("ușă în deschidere (B, 5.94.1)", () => {
       const sig = r => J(r.pieces.filter(p => p.role !== "frontale").map(p => [p.role, p.operations.length]));
       assert.equal(sig(a), sig(b)); const f = b.pieces.find(p => p.role === "frontale"); assert.ok(f && f.operations.length === 0);
     }
+  });
+});
+
+describe("sertare în deschiderea racordatului (D-176, 5.95.1)", () => {
+  const RD = { ...RAC, shelves: 0, rOpen: 400, rDrawers: 3 };
+  const wingB = r => r.b.pieces.filter(p => p.wing === "B");
+  test("fără rDrawers corpul e cel din 5.94.1 (distinctă, 3D); rDrawers pe alt tip sau fără deschidere se ignoră", () => {
+    assert.equal(J(build({ ...RAC, shelves: 0, rOpen: 400 }).b.pieces), J(build({ ...RAC, shelves: 0, rOpen: 400, rDrawers: 0 }).b.pieces));
+    assert.equal(J(build(RAC).b.pieces), J(build({ ...RAC, rDrawers: 3 }).b.pieces), "fără deschidere se ignoră");
+    assert.equal(J(build({ ...TON, rOpen: 120 }).b.pieces), J(build({ ...TON, rOpen: 120, rDrawers: 3 }).b.pieces), "la rotund se ignoră");
+  });
+  test("un corp cu sertare obișnuit în deschidere: distincta are corpul (marcat B) și N fronturi de sertar; fâșiile rămân două", () => {
+    const r = build(RD), b = wingB(r);
+    assert.equal(strips(r).length, 2);
+    const fr = b.find(p => /^Frontale cassetto/.test(p.elemento)); assert.ok(fr); assert.equal(fr.pz, 3);
+    assert.ok(b.some(p => /^Fianco$/.test(p.elemento) && p.pz === 2) && b.some(p => /^Base$/.test(p.elemento)));
+    assert.equal(r.b.boxes.filter(x => x.sub === "drawer").length, 3);
+  });
+  test("corpul cu sertare stă în deschidere: lățime = deschidere − 4, front în planul frontului, între fund și tavan, fără să atingă fâșiile", () => {
+    const r = build(RD), bb = r.b.boxes.filter(x => x.body), fr = r.b.boxes.filter(x => x.sub === "drawer");
+    const x0 = Math.min(...bb.map(x => x.x0)), x1 = Math.max(...bb.map(x => x.x1));
+    assert.equal(x1 - x0, 396); assert.ok(Math.abs((x0 + x1) / 2 - 450) < 0.01, "centrat");
+    assert.ok(x0 >= 250 + 1.9 && x1 <= 650 - 1.9, "2 mm față de capetele fâșiilor");
+    fr.forEach(f => assert.ok(Math.abs(f.z1 - 450) < 0.01, "frontul în planul frontului"));
+    assert.ok(Math.min(...bb.map(x => x.y0)) >= 19 - 0.01 && Math.max(...bb.map(x => x.y1)) <= 1400 - 19 + 0.01);
+  });
+  test("găurire și feronerie: glisiere și mânere pe sertare, îmbinările corpului; avertismentele vechi rămân", () => {
+    const o = build(RD).ops(), n = t => o.hw.filter(h => h.type === t).length;
+    assert.equal(n("guida"), 6); assert.equal(n("maniglia"), 3); assert.ok(n("minifix") > 0 || n("tassello") > 0);
+    assert.ok(o.pieces.every(p => (p.preflight || []).every(w => w.level !== "error")), "nicio eroare de pre-flight (V1, V5)");
+    const own = build(RD).ops().pieces.filter(p => p.body === "U0");
+    const solo = build({ ...RAC, type: "standard", L: 396, H: 1362, P: 410, plinth: 0, tram: 0, shelves: 0, drawers: 3, doors: 0, back: 1, hang: 0, support: "zoccolo", top: "traverse", boxes: 1, rcorner: undefined }).ops().pieces;
+    assert.equal(own.reduce((n, p) => n + p.operations.length, 0), solo.reduce((n, p) => n + p.operations.length, 0), "corpul din deschidere se găurește ca un corp standard de aceleași cote");
+  });
+  test("erori declarate: cu rafturi, cu ușă, deschidere sub 254 mm, prea multe sertare", () => {
+    assert.throws(() => build({ ...RD, shelves: 3 }), /rafturi trebuie să fie 0/);
+    assert.throws(() => build({ ...RD, rDoor: 1 }), /sertarele nu pot exista împreună/);
+    assert.throws(() => build({ ...RD, rOpen: 200 }), /cel puțin 254 mm/);
+    build({ ...RD, rDrawers: 8 });
   });
 });
 
