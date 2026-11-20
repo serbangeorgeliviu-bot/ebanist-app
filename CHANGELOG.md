@@ -13,6 +13,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.95.2 — 20 noiembrie 2026
+
+**Două defecte de găurire găsite de fuzz, corectate.**
+- **Dornuri suprapuse la îmbinările scurte:** când o îmbinare cu Minifix are între 130 și ~172 mm, cele două dornuri (câte unul lângă fiecare excentric, spre mijloc) ajungeau la câțiva mm unul de altul, deci găuri suprapuse (control V5). Acum al doilea dorn se omite dacă ar cădea peste primul.
+- **Filler prea îngust pentru Keku:** linia găurilor Keku e la 37 mm de muchie; un filler mai îngust decât 43 mm primea gaura masculului în afara piesei (control V1, 50 de cazuri la 1500 de configurații). Acum nu primește Keku, cu avertisment nou (7 limbi): se prinde altfel.
+- Distinta și 3D nu se schimbă; se schimbă numai găurile în aceste două cazuri limită.
+
+---
+
 ## 5.95.1 — 20 noiembrie 2026
 
 **Sertare în deschiderea corpului Racordat (D-176).**

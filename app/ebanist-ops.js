@@ -488,7 +488,7 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
   var mid = (E.min[camAx] + E.max[camAx]) / 2;          // meta grossezza di E
   var camD = E.T >= 19 ? M.cam_depth_19 : M.cam_depth_16;
   var inward = -eSide;
-  var pos = jointPositions(lo, hi), c = (lo + hi) / 2;
+  var pos = jointPositions(lo, hi), c = (lo + hi) / 2, dowelAt = [];   /* dowelAt: dornurile deja puse pe această îmbinare (D-176: la span 130–172 mm cele două dornuri ajungeau unul peste altul, V5) */
   pos.forEach(function (s, i) {
     var id = out.hw.length;
     var inst = { id: "hw_" + id, type: "minifix", catalog: "haf_minifix", piece: E.pk, against: F.pk,
@@ -505,6 +505,8 @@ function joint(E, F, eAx, eSide, sAx, lo, hi, camAx, camSide, out) {
     /* tassello verso il centro della giunzione */
     var sd = s + (s > c ? -D.offset : D.offset);
     if (sd <= lo + 8 || sd >= hi - 8) return;
+    if (dowelAt.some(function (z) { return Math.abs(z - sd) < D.dia + 2; })) return;
+    dowelAt.push(sd);
     var did = "hw_" + out.hw.length;
     var q = p.slice(); q[sAx] = sd;
     hole(F, eAx, -eSide, q.slice(), D.dia, D.face_depth, did, "tassello");
@@ -794,6 +796,8 @@ function generate1(input) {
     var K = root.KEKU; if (!K || !root.kekuPos) return;
     var tA = F.tAx, ax = [0, 1, 2].filter(function (a) { return a !== tA; });
     var lenAx = F.ext[ax[0]] >= F.ext[ax[1]] ? ax[0] : ax[1], widAx = lenAx === ax[0] ? ax[1] : ax[0];
+    /* filler mai îngust decât linia găurilor (37 mm de muchie + 6 mm): masculul ar cădea în afara piesei (V1); nicio prindere Keku, cu avertisment */
+    if (F.ext[widAx] < K.front + 6) { out.warnings.push({ piece: F.pk, k: "opsKekuNarrow" }); return; }
     var L = F.ext[lenAx], pos = root.kekuPos(L), half = K.hole_pitch / 2, plate = K.plate_len / 2;
     var panels = pcs.filter(function (q) { return q !== F; });
     var find = function (pred) { for (var i = 0; i < panels.length; i++) if (pred(panels[i])) return panels[i]; return null; };
