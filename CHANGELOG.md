@@ -5,12 +5,23 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.97.0 — 20 noiembrie 2026
+## 5.98.0 — 20 noiembrie 2026
 
-**Telemetrie Play: de ce nu se vede ecranul Pro sau de ce nu se termină plata (D-178).** Numai pentru noi, nu schimbă nimic pentru utilizator.
+**Telemetrie Play: de ce nu se vede ecranul Pro sau de ce nu se termină plata (D-179).** Numai pentru noi, nu schimbă nimic pentru utilizator.
 - `pw_unavail` poartă acum și **codul numeric Play** (`rc`: BillingResponseCode, listă închisă). Eveniment nou, `pw_fail`: «cumpără» n-a ajuns la plată, cu `code` (`canceled` / `error` / `unavailable`) și `rc`. Rezumatul `/api/funnel` are `byRc` și `byFail`; `byCode` rămâne cum era.
 - Unește liniile de lucru: versiunile 5.95.0–5.95.2 din această linie (comutatorul «Statistici anonime», clape inegale, lovituri în Camera 3D, sertare în Racordat, corecții de găurire din fuzz) intră pe lângă 5.95.0/5.96.0 (Modul Client), care aveau același număr.
 - Test: `node --test funnel.test.mjs`.
+
+---
+
+## 5.97.0 — 20 noiembrie 2026
+
+**Modul Client: poze, camera întreagă, extra la preț, propunerea trimisă (D-178).**
+- **Poze pe orice articol.** În Catalog, butonul „Foto” apare acum la **orice** material și la articolul ales în fiecare categorie de feronerie, nu doar la cele proprii (poza stă în `settings.photos`, local, intră în backup cu setările; 360 px JPEG). La client, finisajul cu poză o arată în swatch și într-o bandă mare a alegerii curente; feroneria cu poză, o miniatură.
+- **Scena întreagă.** Butonul nou din bara 3D: **„În camera ta”** când proiectul are releveu cu corpuri așezate, altfel **„Toată compoziția”** (corpurile alăturate pe un perete, într-o cameră de prezentare). Folosește aceeași construcție ca „Camera în 3D”, cu finisajele, feroneria și extra alese de client; proiectul se înlocuiește în memorie numai cât durează randarea și se pune la loc, nimic nu se salvează.
+- **Extra la preț separat:** LED, un raft în plus, un sertar în plus, ca bife cu „+ €”. Se oferă numai ce se aplică corpului, nu deschide niciun control roșu nou (încercat pe copie, ca la soluții) și costă > 0. Pe corpuri cu cote absolute / blocuri de sertare / fronturi proprii nu se oferă raft sau sertar. La semnare intră în proiect prin `generateInto` și apar pe PDF-ul ofertei.
+- **Trimiterea propunerii:** butonul „Trimite propunerea” compune o imagine (JPG, 1080 px: mobilierul în 3D, finisajele, prețurile, totalul) și o dă foii de partajare a telefonului; fără foaie, o descarcă. E o **propunere**, nu o ofertă acceptată, deci fără semnătură. Semnarea la distanță cere server și o decizie juridică și nu e în această versiune.
+- Test: `node --test present.test.js` (19) + blocul «Modo cliente» din `run.js`.
 
 ---
 

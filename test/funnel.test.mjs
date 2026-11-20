@@ -332,7 +332,7 @@ describe("«Statistici anonime» debifat în Setări (5.95.0)", () => {
 });
 
 
-describe("codul numeric Play pe pw_unavail și pw_fail (D-178)", () => {
+describe("codul numeric Play pe pw_unavail și pw_fail (D-179)", () => {
   const C = client().EBFunnel, now = Date.UTC(2026, 10, 20, 12);
   test("clientul transformă detail-ul Play în rc din lista închisă", () => {
     assert.strictEqual(C.clean("pw_unavail", { plat: "play", code: "unavailable", rc: "3 Billing unavailable" }).rc, "3");

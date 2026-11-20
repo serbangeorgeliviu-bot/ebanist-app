@@ -33,6 +33,14 @@ prRecap: ["Riepilogo", "Rezumat", "Summary", "Récapitulatif", "Zusammenfassung"
 prSwipe: ["Tocca e trascina per girare il mobile", "Atinge și trage ca să rotești mobilierul", "Touch and drag to turn the furniture", "Touchez et glissez pour faire tourner le meuble", "Berühren und ziehen, um das Möbel zu drehen", "Dotknij i przeciągnij, aby obrócić mebel", "Toque y arrastre para girar el mueble"],
 prSecHw: ["Ferramenta", "Feronerie", "Hardware", "Quincaillerie", "Beschläge", "Okucia", "Herrajes"],
 prHwHint: ["Scegli: il prezzo si aggiorna subito.", "Alege: prețul se actualizează pe loc.", "Choose: the price updates instantly.", "Choisissez : le prix se met à jour aussitôt.", "Wählen Sie: der Preis aktualisiert sich sofort.", "Wybierz: cena zmienia się od razu.", "Elija: el precio se actualiza al instante."],
+prRoomReal: ["Nella tua stanza", "În camera ta", "In your room", "Dans votre pièce", "In Ihrem Raum", "W Twoim pokoju", "En su habitación"],
+prRoomAll: ["Tutta la composizione", "Toată compoziția", "The whole composition", "Toute la composition", "Die ganze Zusammenstellung", "Cała zabudowa", "Toda la composición"],
+prRoomOne: ["In ambiente", "În ambient", "In a room", "En situation", "Im Raum", "W pomieszczeniu", "En un ambiente"],
+prSecExtra: ["Opzioni extra", "Opțiuni extra", "Extras", "Options en plus", "Extras", "Opcje dodatkowe", "Extras"],
+prExShelf: ["Un ripiano in più", "Un raft în plus", "One more shelf", "Une étagère de plus", "Ein zusätzlicher Einlegeboden", "Dodatkowa półka", "Una balda más"],
+prExDrawer: ["Un cassetto in più", "Un sertar în plus", "One more drawer", "Un tiroir de plus", "Eine zusätzliche Schublade", "Dodatkowa szuflada", "Un cajón más"],
+prSend: ["Invia la proposta", "Trimite propunerea", "Send the proposal", "Envoyer la proposition", "Vorschlag senden", "Wyślij propozycję", "Enviar la propuesta"],
+prSendErr: ["Non riesco a creare l'immagine della proposta", "Nu am putut crea imaginea propunerii", "Could not create the proposal image", "Impossible de créer l'image de la proposition", "Das Bild des Vorschlags konnte nicht erstellt werden", "Nie udało się utworzyć obrazu propozycji", "No se pudo crear la imagen de la propuesta"],
 prChosen: ["Scelta attuale", "Alegerea curentă", "Current choice", "Choix actuel", "Aktuelle Wahl", "Obecny wybór", "Elección actual"]
 };
 

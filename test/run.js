@@ -1810,7 +1810,21 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       document.getElementById("btnGenerate").click(); await w(300);
       const o = {};
       const p = proj(); o.offersPrima = (p.offers || []).length;
+      /* poza unui finisaj (D-178): swatch-ul și banda alegerii curente o arată */
+      const JPG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=";
+      const cfgRef = p.configs, survRef = p.survey, layRef = p.layout;
+      const fm = p.configs[Object.keys(p.configs)[0]].matFront; state.settings.photos = { mat: { [fm]: JPG } };
       clientOpen(); await w(300);
+      o.pozaBanda = !!document.querySelector("#clientMode .cm-fin-ph") && /data:image\/jpeg/.test(document.querySelector("#clientMode .cm-fin-ph").style.backgroundImage);
+      o.pozaSwatch = [...document.querySelectorAll("#clientMode .cm-sw i")].some(i => /data:image\/jpeg/.test(i.style.background));
+      delete state.settings.photos;
+      /* scena întreagă: butonul, randarea, proiectul pus la loc */
+      const rb = document.getElementById("cmRoom"); o.camBtn = !!rb && (!rb.hidden || !gl3dOn());
+      if (rb && !rb.hidden) { rb.click(); await w(900); o.camScena = CM.scene === "room"; o.camLaLoc = p.configs === cfgRef && p.survey === survRef && p.layout === layRef;
+        rb.click(); await w(300); o.camInapoi = CM.scene === "body"; } else { o.camScena = o.camLaLoc = o.camInapoi = true; }
+      /* propunerea ca imagine: se compune, are mărimea așteptată */
+      if (gl3dOn()) { const cv = await cmSendCard(); o.trimite = !!cv && cv.width === 1080 && cv.height > 1200; } else o.trimite = true;
+      cmPaint(); o.pozaDupa = !document.querySelector("#clientMode .cm-fin-ph");
       const el = document.getElementById("clientMode");
       o.aperto = !el.hidden && document.body.classList.contains("client-on");
       const txt = el.innerText;
@@ -1839,6 +1853,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.hwOferit = el.querySelectorAll(".cm-hwg").length > 0;
       const hwb = [...el.querySelectorAll(".cm-hw")].find(x => !x.classList.contains("on")), tot0 = CM.price.total;
       if (hwb) { hwb.click(); await w(300); const hs = cmCfg(CM.cur).hwSel || {}; o.hwScris = Object.values(hs).includes(hwb.dataset.id); o.hwPretNou = CM.price.total !== tot0 && el.querySelector(".cm-hw.on") != null; o.hwId = hwb.dataset.id; }
+      /* extra la preț (D-178): LED se bifează, prețul crește, cota nu se mișcă */
+      const exb = el.querySelector('.cm-ex[data-ex="led"]'); o.exOferit = !!exb;
+      if (exb) { const t1 = CM.price.total; exb.click(); await w(300); o.exPret = CM.price.total > t1; o.exCfg = cmCfg(CM.cur).led === "top"; o.exBifat = el.querySelector('.cm-ex[data-ex="led"]').classList.contains("on"); }
       o.hwFaraCod = !/\b\d{5,}\b|\b\d{2,3}[A-Z]\d{3,}\b/.test([...el.querySelectorAll(".cm-hw")].map(x => x.textContent).join(" "));
       /* il tasto Indietro non porta fuori */
       o.dentroDopoIndietro = (navCloseTop(), CM.on === true);
@@ -1851,16 +1868,19 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const ev = (t, x, y) => pad.dispatchEvent(new PointerEvent(t, { clientX: r.left + x, clientY: r.top + y, pointerId: 1, bubbles: true }));
       ev("pointerdown", 30, 60); for (let i = 0; i < 12; i++) ev("pointermove", 30 + i * 15, 60 + (i % 2) * 20); ev("pointerup", 210, 60);
       o.accesoConFirma = !document.getElementById("cmSignGo").disabled;
-      const lung0 = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",");
+      /* LED-ul bifat adaugă un rând de accesoriu (D-178); panourile nu se mișcă */
+      const lung0 = p.pieces.filter(x => x.gen === CM.cur && !/LED/i.test(x.elemento)).map(x => x.lung + "x" + x.larg).join(",");
       document.getElementById("cmSignGo").click(); await w(200);
       o.offerte = (p.offers || []).length - o.offersPrima;
       const of = p.offers[p.offers.length - 1];
       o.firmaImg = /^data:image\/png/.test(of.sig) && of.sig.length < 120000;
       o.totale = of.total > 0;
       o.applicata = p.configs[CM.cur].matFront === b.dataset.id;
+      o.exApplicat = !o.exCfg || p.configs[CM.cur].led === "top";
+      o.exInOferta = !o.exCfg || (of.mods.find(m => m.name === CM.cur) || {}).extras.length === 1;
       o.hwApplicata = !o.hwId || Object.values(p.configs[CM.cur].hwSel || {}).includes(o.hwId);
       o.hwInOferta = !o.hwId || (of.mods.find(m => m.name === CM.cur) || {}).hw.length > 0;
-      o.coteFerme = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",") === lung0;
+      o.coteFerme = p.pieces.filter(x => x.gen === CM.cur && !/LED/i.test(x.elemento)).map(x => x.lung + "x" + x.larg).join(",") === lung0;
       /* il PDF dell'offerta passa dal cancello, e porta la firma */
       window.print = () => {};
       document.getElementById("printArea").innerHTML = "";
@@ -1889,6 +1909,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("prezentare: fără cotele interne ale Studioului în 3D", c.faraCoteInterne === true);
     ok("prezentare: prețul numărat ajunge la totalul exact", c.prezzoFinale === true);
     ok("prezentare: rezumatul în fereastra de semnare", c.riepilogo === true);
+    ok("poze: finisajul cu poză o arată în swatch și în banda alegerii", c.pozaBanda === true && c.pozaSwatch === true);
+    ok("poze: fără poză, fără bandă", c.pozaDupa === true);
+    ok("scena: butonul, randarea și proiectul pus la loc", c.camBtn && c.camScena && c.camLaLoc && c.camInapoi);
+    ok("trimitere: imaginea propunerii se compune (1080 px)", c.trimite === true);
+    ok("extra: LED se oferă, prețul crește, e bifat", c.exOferit === false || (c.exPret && c.exCfg && c.exBifat));
+    ok("extra: după semnare e în proiect și în ofertă", c.exApplicat === true && c.exInOferta === true);
     ok("feronerie: se oferă alegerea", c.hwOferit === true);
     ok("feronerie: alegerea ajunge în cfg.hwSel", c.hwScris !== false);
     ok("feronerie: prețul se mișcă, o opțiune e bifată", c.hwPretNou !== false);

@@ -170,7 +170,23 @@ function presentHwPick(list, curId, cap) {
   return out;
 }
 
-var API = { presentHwSameKind: presentHwSameKind, presentHwLabel: presentHwLabel, presentHwPick: presentHwPick, presentFacts: presentFacts, presentElevation: elevation, PRESENT_STEPS: STEPS, presentTone: tone };
+/* extra la preț separat (D-178): LED, un raft, un sertar. Numai pe corpuri `standard` cu împărțire automată (fără cote absolute / blocuri de
+   sertare / fronturi proprii: acolo «un raft în plus» n-are un singur înțeles). `patch` e față de cfg-ul corpului, independent pe câmp. */
+var CUSTOM_LAYOUT = ["partitions", "depthProfile", "fronts", "customCuts", "drawerBlocks"];
+function plainLayout(cfg) { return (cfg.type || "standard") === "standard" && !CUSTOM_LAYOUT.some(function (k) { return Array.isArray(cfg[k]) ? cfg[k].length > 0 : !!cfg[k]; }); }
+var EXTRAS = [
+  { id: "led", key: "prLed", applies: function (c) { return (c.type || "standard") === "standard" && !(c.led === "top" || c.led === "manual"); }, patch: function () { return { led: "top" }; } },
+  { id: "shelf", key: "prExShelf", applies: function (c) { return plainLayout(c) && (c.shelves | 0) >= 1 && (c.shelves | 0) < 10; }, patch: function (c) { return { shelves: (c.shelves | 0) + 1 }; } },
+  { id: "drawer", key: "prExDrawer", applies: function (c) { return plainLayout(c) && (c.drawers | 0) >= 1 && (c.drawers | 0) < 8; }, patch: function (c) { return { drawers: (c.drawers | 0) + 1 }; } }
+];
+function presentExtras(cfg) { return EXTRAS.filter(function (e) { return e.applies(cfg || {}); }); }
+function presentExtraCfg(cfg, on) {
+  var out = Object.assign({}, cfg);
+  EXTRAS.forEach(function (e) { if (on && on[e.id] && e.applies(cfg)) Object.assign(out, e.patch(cfg)); });
+  return out;
+}
+
+var API = { presentExtras: presentExtras, presentExtraCfg: presentExtraCfg, presentHwSameKind: presentHwSameKind, presentHwLabel: presentHwLabel, presentHwPick: presentHwPick, presentFacts: presentFacts, presentElevation: elevation, PRESENT_STEPS: STEPS, presentTone: tone };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 })(typeof globalThis !== "undefined" ? globalThis : this);

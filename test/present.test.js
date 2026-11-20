@@ -78,6 +78,33 @@ describe("feronerie la client", () => {
   });
 });
 
+describe("extra la preț separat", () => {
+  const base = { type: "standard", L: 800, H: 800, P: 400, doors: 2, drawers: 2, shelves: 2, handles: "maniglia" };
+  test("LED, raft și sertar se oferă pe un corp obișnuit", () => {
+    assert.deepEqual(J(P.presentExtras(base).map(e => e.id)), ["led", "shelf", "drawer"]);
+  });
+  test("LED deja pornit, fără sertare sau fără rafturi → nu se mai oferă", () => {
+    assert.ok(!P.presentExtras({ ...base, led: "top" }).some(e => e.id === "led"));
+    assert.ok(!P.presentExtras({ ...base, drawers: 0 }).some(e => e.id === "drawer"));
+    assert.ok(!P.presentExtras({ ...base, shelves: 0 }).some(e => e.id === "shelf"));
+    assert.ok(!P.presentExtras({ ...base, shelves: 10 }).some(e => e.id === "shelf"));
+  });
+  test("cote absolute, blocuri de sertare sau alt tip: fără raft/sertar în plus; masa nu are LED", () => {
+    for (const k of ["partitions", "fronts", "drawerBlocks", "customCuts", "depthProfile"]) {
+      const ids = P.presentExtras({ ...base, [k]: [{}] }).map(e => e.id);
+      assert.ok(!ids.includes("shelf") && !ids.includes("drawer"), k);
+    }
+    assert.equal(P.presentExtras({ type: "tavolo", L: 1600, H: 750, P: 900 }).length, 0);
+  });
+  test("presentExtraCfg aplică numai ce e bifat și nu modifică cfg-ul de bază", () => {
+    const c = P.presentExtraCfg(base, { led: 1, drawer: 1 });
+    assert.equal(c.led, "top"); assert.equal(c.drawers, 3); assert.equal(c.shelves, 2);
+    assert.equal(base.led, undefined); assert.equal(base.drawers, 2);
+    assert.deepEqual(J(P.presentExtraCfg(base, {})), J(base));
+    assert.deepEqual(J(P.presentExtraCfg(base, { shelf: 0 })), J(base));
+  });
+});
+
 describe("texte: 7 limbi", () => {
   test("fiecare cheie are 7 texte nevide, cu aceleași {substituții}", () => {
     const ph = x => (x.match(/\{\w+\}/g) || []).sort().join();

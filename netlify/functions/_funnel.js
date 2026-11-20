@@ -18,7 +18,7 @@ export const PLAT = ["play", "web"];
 export const PLAN = ["monthly", "yearly", "founders"];
 export const KIND = ["play", "stripe"];
 export const CODE = ["unavailable", "error", "empty"];
-export const FAILCODE = ["canceled", "error", "unavailable"];     // pw_fail (D-178)
+export const FAILCODE = ["canceled", "error", "unavailable"];     // pw_fail (D-179)
 export const RC = ["m3", "m2", "m1", "1", "2", "3", "4", "5", "6", "7", "8", "12"];   // codul numeric Play (m = minus)
 export const BRAND = ["blum", "hafele", "hettich", "lamello", "festool", "grass", "salice", "wurth", "emuca", "fav", "other"];   // hw_use (D-170)
 const SLUG = /^[a-z0-9_]{2,40}$/;
@@ -53,7 +53,7 @@ export const dayOf = (ms) => new Date(ms).toISOString().slice(0, 10);
 /* d/<zi>/<eveniment>/<plat>/<motiv|->/<plan|kind|->/<sesiune>.<rand> */
 export function keyOf(rec, now, rand) {
   if (rec.e === "hw_use") return ["d", dayOf(now), rec.e, rec.plat, rec.brand, rec.fam + "~" + rec.art, rec.s + "." + rand].join("/");   // marca în locul motivului
-  const extra = rec.plan || rec.kind || (rec.code ? rec.code + (rec.rc ? "_" + rec.rc : "") : "-");   // D-178: codul Play după „_"
+  const extra = rec.plan || rec.kind || (rec.code ? rec.code + (rec.rc ? "_" + rec.rc : "") : "-");   // D-179: codul Play după „_"
   return ["d", dayOf(now), rec.e, rec.plat, rec.why || "-", extra, rec.s + "." + rand].join("/");
 }
 
@@ -99,11 +99,11 @@ export function summarize(keys) {
       const ck = r.plat + "/" + cd;
       (out.byCode[ck] = out.byCode[ck] || { events: 0, sessions: 0 }).events++;
       (codeSess[ck] = codeSess[ck] || new Set()).add(r.s);
-      const rk = ck + "/" + (rc || "na");           // D-178: codul numeric Play; „na" = trimis de o versiune fără el
+      const rk = ck + "/" + (rc || "na");           // D-179: codul numeric Play; „na" = trimis de o versiune fără el
       (out.byRc[rk] = out.byRc[rk] || { events: 0, sessions: 0 }).events++;
       (rcSess[rk] = rcSess[rk] || new Set()).add(r.s);
     }
-    if (r.e === "pw_fail") {                       // D-178: „cumpără" fără plată: renunțare / eroare / Play indisponibil + cod
+    if (r.e === "pw_fail") {                       // D-179: „cumpără" fără plată: renunțare / eroare / Play indisponibil + cod
       const [cd, rc] = String(r.extra || "error").split("_");
       const fk = r.plat + "/" + cd + "/" + (rc || "na");
       (out.byFail[fk] = out.byFail[fk] || { events: 0, sessions: 0 }).events++;
