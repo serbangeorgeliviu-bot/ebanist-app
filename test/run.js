@@ -2987,6 +2987,26 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         const C = GL3D.worldBoxes({ open: 0 }).find(x => String(x.pk) === String(d.pk)); if (Math.max(...C.boxes.flat().map(q => q[2])) > Math.max(...zs)) return c.type + ": închisă mai în față decât deschisă";
       } return true; } catch (e) { return String(e); } });
     ok("Rotund/Racordat cu ușă în deschidere: «Deschide» o rotește spre față (pivot la capăt), nu în corp", rdOpen === true, String(rdOpen));
+    const hfRes = await pg.evaluate(() => { try {
+      const c = { ...PRESETS.pensile, name: "HfT", L: 900, H: 600, P: 330, doors: 2, drawers: 0, hang: 0, lift: "blum_hf_top" };
+      const p = proj(); p.pieces = []; p.configs = {}; p.layout = {}; generateInto(p, c);
+      const items = computeHardware(p, state.settings), g = k => items.find(i => i.k === k) || {};
+      if (g("hwLift").qty !== 2) return "mecanisme: " + g("hwLift").qty + " (trebuie 2, câte unul pe ușă, nu pe clapă)";
+      if (g("hwCern").qty) return "balamale: " + g("hwCern").qty;
+      GL3D.render(c, { explode: 0 });
+      const bx = buildModule(c).boxes.filter(b => b.sub === "lift"); if (bx.length !== 4) return "cutii: " + bx.length;
+      const u = bx.find(b => b.lift.i === 0 && b.lift.flap === 1), l = bx.find(b => b.lift.i === 0 && b.lift.flap === 2);
+      const C = GL3D.worldBoxes({ open: 0 }), O = GL3D.worldBoxes({ open: 1 });
+      const ext = (W, b) => { const P = W.find(x => String(x.pk) === String(b.pk)), q = P.boxes.flat(); return { y0: Math.min(...q.map(a => a[1])), y1: Math.max(...q.map(a => a[1])), z0: Math.min(...q.map(a => a[2])), z1: Math.max(...q.map(a => a[2])) }; };
+      const cu = ext(C, u), cl = ext(C, l), ou = ext(O, u), ol = ext(O, l), pz = u.z1;
+      if (!(cu.y0 - cl.y1 > 2.5)) return "închis: clapele se ating (" + (cu.y0 - cl.y1) + ")";
+      /* deschis: clapa de jos stă peste cea de sus (se ating, nu se suprapun), amândouă în fața corpului, cel mult cât clapa de înălțime peste front */
+      if (!(ol.y0 >= ou.y1 - 1.5)) return "deschis: clapa de jos intră în cea de sus (" + ol.y0 + " < " + ou.y1 + ")";
+      if (!(Math.min(ou.z0, ol.z0) >= pz - 8)) return "deschis: o clapă intră în corp (z " + Math.min(ou.z0, ol.z0) + " < " + pz + ")";
+      if (!(ou.z1 - pz > 150 && ou.z1 - pz < (u.y1 - u.y0) + 10)) return "deschis: clapa de sus nu e întinsă înainte (" + (ou.z1 - pz) + ")";
+      if (!(ol.z1 <= ou.z1 + 4)) return "deschis: clapa de jos iese dincolo de cea de sus (" + ol.z1 + " > " + ou.z1 + ")";
+      return true; } catch (e) { return String(e); } });
+    ok("Front în două piese (HF top): un mecanism pe ușă, fără balamale; «Deschide» pliază clapa de jos peste cea de sus, fără suprapunere și fără să intre în corp", hfRes === true, String(hfRes));
     ok("U.16: nume traduse in toate limbile", await pg.evaluate(() => { const L = ["ro", "en", "fr", "de", "pl", "es"], keep = state.lang;
       const k = L.every(l => { state.lang = l; return elName("Anta basculante") !== "Anta basculante" && t("fLift") !== "fLift" && t("wLiftRange") !== "wLiftRange" && t("opsLiftNoDrill") !== "opsLiftNoDrill"; }); state.lang = keep; return k; }));
     await pg.evaluate(() => { closeSheets(); setView("build"); document.getElementById("grpFr").open = true; buildCfg = { ...PRESETS.pensile, name: "Lf1", L: 900, H: 600, P: 330, doors: 1, drawers: 0, hang: 0, lift: "het_la_hk" }; syncBuildForm(); renderSecChips(); drawPreview(); });

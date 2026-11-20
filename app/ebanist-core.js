@@ -1139,7 +1139,8 @@ function validateInvariants(corpo, pieces, geometry, opts) {
   }
 
   /* --- i frontali e la larghezza --------------------------------------- */
-  var fronts = rows.filter(function (r) { return r.role === "frontale"; });
+  /* clapa de jos a unui front în două piese («Anta basculante (2/2)», D-174) are aceeași lățime ca cea de sus: lățimea se numără o singură dată */
+  var fronts = rows.filter(function (r) { return r.role === "frontale" && !/basculante[^()]*\(2\/2\)\s*$/i.test(String(r.elemento || "")); });
   /* Due costruzioni a cui questa regola NON si applica, e si dice invece di
      farla cadere a vuoto:
        - le ante SCORREVOLI si sovrappongono, non si accostano: la somma

@@ -1119,7 +1119,7 @@ function updateLed() {
    locul lor; găurile NU sunt generate (ops: opsLiftNoDrill). */
 function buildLiftHw() {
   const all = []; for (const P of R.pieces.values()) P.boxes.forEach(b => all.push({ b, P }));
-  const lifts = all.filter(x => x.b.sub === "lift" && x.b.lift); if (!lifts.length) return;
+  const lifts = all.filter(x => x.b.sub === "lift" && x.b.lift && !(x.b.lift.flaps === 2 && x.b.lift.flap === 2)); if (!lifts.length) return;   // front în două piese: brațele se desenează o singură dată, pe clapa de sus
   const sup = all.filter(x => (x.b.role === "fianco" || x.b.role === "divisorio") && x.b.kind !== "w");
   const tops = all.filter(x => x.b.role === "cielo").map(x => x.b.y0);
   if (!R.linkG) { R.linkG = new THREE.Group(); R.root.add(R.linkG); }
@@ -1711,6 +1711,9 @@ function setTargets(boxesOrig) {
         const deg = Math.min(LIFT_MAX_DEG, Math.max(60, Lf.angle || LIFT_MAX_DEG)), th = deg * Math.PI / 180;
         P.pivot = { axis: "x", y: a.y1, z: a.z1 };
         P.tgt.ang = open ? -th : 0;
+        /* front în două piese (D-174): clapa de sus se rotește ca o ușă întreagă, pe muchia de sus a frontului; clapa de jos urmează aceeași rotație și, în plus, se pliază cu 180° pe rostul dintre
+           clape, deci ajunge întinsă peste cea de sus (cele două plăci se ating, nu se suprapun). Schematic: nu cinematica brațelor. */
+        if (Lf.flaps === 2 && Lf.flap === 2) P.pivot = { axis: "x", y: Lf.topY, z: a.z1, th, inner: { y: Lf.jointY, z: a.z1 } };
       }
     }
     /* U.17 — ușă escamotabilă (pocket): `ang` e PROGRESUL 0 → 1; în step() ușa se rotește mai întâi 90° pe muchia dinspre buzunar (ca o ușă obișnuită, în față),
@@ -1929,6 +1932,12 @@ function step() {
       M4b.makeTranslation(0, py, pz); M4.multiply(M4b);
       M4b.makeRotationX(liftAng); M4.multiply(M4b);
       M4b.makeTranslation(0, -py, -pz); M4.multiply(M4b);
+      if (P.pivot.inner) {      /* clapa de jos: plierea pe rost, aplicată ÎNTÂI punctelor (după rotația exterioară în lanțul de matrici) */
+        const iy = P.pivot.inner.y * MM, iz = P.pivot.inner.z * MM, fold = -liftAng * (Math.PI / Math.max(0.01, Math.abs(P.pivot.th || (Math.PI / 2))));
+        M4b.makeTranslation(0, iy, iz); M4.multiply(M4b);
+        M4b.makeRotationX(fold); M4.multiply(M4b);
+        M4b.makeTranslation(0, -iy, -iz); M4.multiply(M4b);
+      }
     } else if (c.ang && P.pivot && P.pivot.axis !== "x") {
       const px = P.pivot.x * MM, pz = P.pivot.z * MM;
       M4b.makeTranslation(px, 0, pz); M4.multiply(M4b);

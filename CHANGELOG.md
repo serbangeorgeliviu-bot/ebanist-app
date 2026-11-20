@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.94.3 — 20 noiembrie 2026
+
+**Fronturi în două piese la mecanismele bi-fold (D-174).**
+- **Blum AVENTOS HF top, Hettich Lift Advanced HF și Häfele Free fold** au frontul în două clape. Până acum ieșea o singură ușă; acum distinta are **«Anta basculante (1/2)»** (sus) și **«(2/2)»** (jos), aceeași lățime, înălțimi întregi, cu 3 mm rost între ele. Clapele sunt egale (sursa Häfele: «1:1»; la Blum, TKH = FHo×2 + rosturi); la rest impar, cea de jos are 1 mm în plus. Clape + rost = înălțimea frontului de dinainte.
+- **Mecanismul, mânerul și SERVO-DRIVE se numără o singură dată pe ușă**, nu pe clapă. Controlul de închidere nu numără lățimea de două ori.
+- **3D:** clapa de sus se deschide cel mult 90°, ca o ușă întreagă; clapa de jos se pliază peste ea (cele două plăci se ating, nu se suprapun) și nu intră în corp. Brațele mecanismului se desenează o singură dată.
+- **Avertisment nou:** balamalele de legătură dintre clape nu sunt în catalog și nu se numără; se adaugă după fișa producătorului.
+- Sistemele cu o singură clapă (HK, HL, HS, Free flap, swing, space, up) nu se schimbă. Clape inegale nu sunt acoperite.
+
+---
+
 ## 5.94.2 — 20 noiembrie 2026
 
 **Asistentul AI cunoaște mecanismele basculante și deschiderea corpurilor rotunde.**

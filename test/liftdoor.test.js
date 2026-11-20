@@ -139,3 +139,57 @@ describe("E-Drive (Häfele, deschidere electrică la Free)", () => {
     assert.ok(warn(build({ lift: "haf_free_flap_17", liftElec: "servo", H: 400 })).some(w => w.k === "noservo"));
   });
 });
+
+
+describe("Front în două piese (D-174): Blum HF top, Hettich Lift Advanced HF, Häfele Free fold", () => {
+  const BF = ["blum_hf_top", "het_la_hf", "haf_free_fold"];
+  test("sistemele cu două clape sunt cele din date (flaps = 2); celelalte au una", () => {
+    for (const k of BF) assert.equal(LF.get(k).flaps, 2, k);
+    for (const k of ["blum_hk_top", "blum_hl_top", "haf_free_flap_17", "het_la_hk"]) assert.equal(LF.get(k).flaps, 1, k);
+  });
+  test("două rânduri «Anta basculante (1/2)» și «(2/2)»: aceeași lățime, înălțimi întregi, suma + rostul de 3 mm = înălțimea frontului de dinainte", () => {
+    for (const k of BF) for (const doors of [1, 2]) {
+      const one = build({ lift: "blum_hk_top", doors }), r = build({ lift: k, doors });
+      const up = rows(r, /^Anta basculante \(1\/2\)$/)[0], lo = rows(r, /^Anta basculante \(2\/2\)$/)[0], full = rows(one, /^Anta basculante$/)[0];
+      assert.ok(up && lo, k + " " + doors + ": rânduri lipsă");
+      assert.equal(up.larg, full.larg, "lățimea ca la ușa întreagă"); assert.equal(lo.larg, up.larg);
+      assert.equal(up.pz, doors); assert.equal(lo.pz, doors);
+      assert.ok(Number.isInteger(up.lung) && Number.isInteger(lo.lung));
+      assert.ok(Math.abs(up.lung - lo.lung) <= 1, "clape egale (diferă cel mult 1 mm)");
+      assert.equal(up.lung + lo.lung + 3, full.lung, k + ": clape + rost = frontul întreg");
+      assert.equal(rows(r, /^Anta basculante$/).length, 0, "nu mai există rândul întreg");
+    }
+  });
+  test("3D: două cutii pe ușă (flap 1 sus, 2 jos), stivuite fără suprapunere, cu rost de 3 mm; datele mecanismului pe ambele", () => {
+    const r = build({ lift: "blum_hf_top", doors: 2 }), bx = r.b.boxes.filter(x => x.sub === "lift");
+    assert.equal(bx.length, 4);
+    for (let i = 0; i < 2; i++) {
+      const u = bx.find(x => x.lift.i === i && x.lift.flap === 1), l = bx.find(x => x.lift.i === i && x.lift.flap === 2);
+      assert.ok(u && l); assert.equal(u.x0, l.x0); assert.equal(u.x1, l.x1);
+      assert.ok(Math.abs((u.y0 - l.y1) - 3) < 1e-9, "rost de 3 mm: " + (u.y0 - l.y1));
+      assert.equal(u.lift.sys, "blum_hf_top"); assert.equal(l.lift.flaps, 2); assert.equal(u.lift.jointY, l.lift.jointY);
+      assert.ok(l.lift.jointY > l.y1 && l.lift.jointY < u.y0, "rostul între clape");
+    }
+  });
+  test("avertisment «flaps» (balamalele de legătură nu sunt în catalog) + cote neverificate; o clapă nu are avertismentul", () => {
+    assert.ok(warn(build({ lift: "blum_hf_top" })).some(w => w.k === "flaps"));
+    assert.ok(!warn(build({ lift: "blum_hk_top" })).some(w => w.k === "flaps"));
+  });
+  test("controalele de închidere nu cad (clapa de jos nu se numără a doua oară la lățime)", () => {
+    for (const k of BF) {
+      const r = build({ lift: k, doors: 2 }), M = S.carcassMaterials(r.full), ths = [...new Set(Object.values(M.sp).concat(r.pieces.map(x => x.sp)).filter(x => x > 0))];
+      const ko = Array.from(S.failedInvariants(r.full, r.pieces, r.G, { materials: M.mats, thicknesses: ths })).map(x => x.id);
+      assert.deepEqual(J(ko), "[]", k);
+    }
+  });
+  test("ops: nicio balama și nicio gaură pe cele două clape; ca la ușa dintr-o bucată", () => {
+    const o = build({ lift: "blum_hf_top", doors: 1 }).ops(), fr = o.pieces.filter(p => p.role === "frontale");
+    assert.equal(fr.length, 2); fr.forEach(p => assert.equal(p.operations.length, 0));
+    assert.ok(!o.hw.some(h => h.type === "cerniera"));
+  });
+  test("o singură clapă: nimic nu se schimbă față de 5.94.1 (rând «Anta basculante», o cutie pe ușă)", () => {
+    const r = build({ lift: "blum_hk_top", doors: 2 });
+    assert.equal(rows(r, /^Anta basculante$/).length, 1); assert.equal(r.b.boxes.filter(x => x.sub === "lift").length, 2);
+    assert.ok(r.b.boxes.filter(x => x.sub === "lift").every(x => x.lift.flap === undefined));
+  });
+});

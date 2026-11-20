@@ -322,6 +322,7 @@
       var m = null;
       if (w.k === "front") m = T("wLiftFront");
       else if (w.k === "range") m = T("wLiftRange").replace("{sys}", w.sys).replace("{what}", T("liftWhat_" + (LIFT_WK[w.what] || w.what))).replace("{v}", w.v).replace("{lo}", w.lo == null ? "—" : w.lo).replace("{hi}", w.hi == null ? "—" : w.hi);
+      else if (w.k === "flaps") m = T("wLiftFlaps").replace("{sys}", w.sys);
       else if (w.k === "power") m = T("wLiftPower").replace("{sys}", w.sys).replace("{kg}", w.kg).replace("{h}", w.h);
       else if (w.k === "unv") m = T("wLiftUnv").replace("{sys}", w.sys);
       else if (w.k === "noservo") m = T("wLiftNoServo").replace("{sys}", w.sys);
