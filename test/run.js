@@ -6444,8 +6444,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const cap = GL3D.capture(cfg, { w: 640, h: 360, yaw: .2, pitch: .1, warm: true, led: true }); o.cap = !!(cap && cap.img && cap.img.length > 5000);
       /* corpuri deschise prin animația existentă: ușile și sticla, clape, uși pliante, ridicător TV, sertare */
       const names = ["S3 Vitrină", "S4 Clapă sus", "D3 Free flap", "D2 Bar uși pliante", "C3 TV lift", "S2 Sertare"]; o.bodies = {};
+      /* numele corpurilor se traduc în limba aplicației (5.94.5): se caută după poziția din fișierul demo */
+      const orig = Object.keys((await (await fetch("demo/living.json")).json()).configs), keys = Object.keys(p.configs);
+      const cfgOf = n => p.configs[n] || p.configs[keys[orig.indexOf(n)]];
       for (const n of names) {
-        const c = JSON.parse(JSON.stringify(p.configs[n])); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
+        const c = JSON.parse(JSON.stringify(cfgOf(n))); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
         GL3D.set({ open: true }); await w(900);
         const k = GL3D.meshKinds(), mv = k.map(x => ({ role: x.role, t: GL3D.tgtOf(x.pk) })).filter(x => x.t && (x.t.ang || x.t.sl || x.t.ey));
         o.bodies[n] = { moving: mv.length, glass: mv.filter(x => x.role === "vetro").length, led: GL3D.ledInfo() };
