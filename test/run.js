@@ -1835,6 +1835,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.stessaGrossezza = matById(cfg1.matFront).th === th0;
       await w(800);                                       // numărătoarea prețului s-a încheiat
       o.prezzoFinale = el.querySelector(".cm-ptot").textContent === "€ " + fmt(CM.price.total);
+      /* feroneria la client (D-177): se oferă, se alege, prețul se mișcă, cotele nu */
+      o.hwOferit = el.querySelectorAll(".cm-hwg").length > 0;
+      const hwb = [...el.querySelectorAll(".cm-hw")].find(x => !x.classList.contains("on")), tot0 = CM.price.total;
+      if (hwb) { hwb.click(); await w(300); const hs = cmCfg(CM.cur).hwSel || {}; o.hwScris = Object.values(hs).includes(hwb.dataset.id); o.hwPretNou = CM.price.total !== tot0 && el.querySelector(".cm-hw.on") != null; o.hwId = hwb.dataset.id; }
+      o.hwFaraCod = !/\b\d{5,}\b|\b\d{2,3}[A-Z]\d{3,}\b/.test([...el.querySelectorAll(".cm-hw")].map(x => x.textContent).join(" "));
       /* il tasto Indietro non porta fuori */
       o.dentroDopoIndietro = (navCloseTop(), CM.on === true);
       /* la firma: senza tratto il bottone resta spento */
@@ -1853,6 +1858,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.firmaImg = /^data:image\/png/.test(of.sig) && of.sig.length < 120000;
       o.totale = of.total > 0;
       o.applicata = p.configs[CM.cur].matFront === b.dataset.id;
+      o.hwApplicata = !o.hwId || Object.values(p.configs[CM.cur].hwSel || {}).includes(o.hwId);
+      o.hwInOferta = !o.hwId || (of.mods.find(m => m.name === CM.cur) || {}).hw.length > 0;
       o.coteFerme = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",") === lung0;
       /* il PDF dell'offerta passa dal cancello, e porta la firma */
       window.print = () => {};
@@ -1882,6 +1889,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("prezentare: fără cotele interne ale Studioului în 3D", c.faraCoteInterne === true);
     ok("prezentare: prețul numărat ajunge la totalul exact", c.prezzoFinale === true);
     ok("prezentare: rezumatul în fereastra de semnare", c.riepilogo === true);
+    ok("feronerie: se oferă alegerea", c.hwOferit === true);
+    ok("feronerie: alegerea ajunge în cfg.hwSel", c.hwScris !== false);
+    ok("feronerie: prețul se mișcă, o opțiune e bifată", c.hwPretNou !== false);
+    ok("feronerie: niciun cod de articol în nume", c.hwFaraCod === true);
+    ok("feronerie: după semnare e în proiect și în ofertă", c.hwApplicata === true && c.hwInOferta === true);
     ok("toccare una finitura la cambia", c.cambiata === true);
     ok("stessa grossezza: le cote non si muovono", c.stessaGrossezza === true);
     ok("il tasto Indietro non porta fuori dal modo cliente", c.dentroDopoIndietro === true);

@@ -53,6 +53,31 @@ describe("presentElevation", () => {
   });
 });
 
+describe("feronerie la client", () => {
+  const L = (brand, n, art) => P.presentHwLabel({ brand, n: { it: n }, art }, "it");
+  test("eticheta = marcă + nume, fără cod", () => {
+    assert.equal(L("Blum", "CLIP top BLUMOTION 110° + basetta CLIP", "71B3550 + 173L6100"), "Blum CLIP top BLUMOTION 110° + basetta CLIP");
+    assert.equal(L("Häfele", "Metalla 510 A/SM 110° in applique + basetta", "329.17.100"), "Häfele Metalla 510 A/SM 110° in applique + basetta");
+    assert.equal(L("Blum", "MOVENTO BLUMOTION (coppia)"), "Blum MOVENTO BLUMOTION");
+  });
+  test("un nume cu cod, cu «cod/ofertă» sau prea lung nu se oferă", () => {
+    for (const n of ["Striscia LED (Emuca 5220220)", "Piastra (codice da oferta: de confermare)", "TANDEM 19 mm (560F / 550F)", "Ghidaj NL 250", "x".repeat(80)])
+      assert.equal(L("Emuca", n), null, n);
+    assert.equal(L("—", "Pomolo Ø35"), "Pomolo Ø35");
+    assert.equal(P.presentHwLabel(null, "it"), null);
+  });
+  test("ordinea: cea curentă prima, apoi potrivire și preț; etichete unice; plafon", () => {
+    const l = [{ id: "a", label: "A", price: 5, rank: 0 }, { id: "b", label: "B", price: 2, rank: 1000 }, { id: "c", label: "C", price: 1, rank: 0 }, { id: "d", label: "c", price: 9, rank: 0 }, { id: "e", label: "E", price: 3, rank: 0 }];
+    assert.deepEqual(J(P.presentHwPick(l, "b", 3).map(o => o.id)), ["b", "c", "e"]);
+    assert.deepEqual(J(P.presentHwPick(l, "zzz", 9).map(o => o.id)), ["c", "e", "a", "b"]);
+  });
+  test("balamalele încastrate nu se schimbă cu cele aplicate; restul categoriilor nu au clase", () => {
+    assert.equal(P.presentHwSameKind("cern", "Häfele Metalla 110° inset + plate", "Blum CLIP top 110°"), false);
+    assert.equal(P.presentHwSameKind("cern", "Blum CLIP top 110°", "Häfele Metalla 110° full overlay"), true);
+    assert.equal(P.presentHwSameKind("man", "inset knob", "bow handle"), true);
+  });
+});
+
 describe("texte: 7 limbi", () => {
   test("fiecare cheie are 7 texte nevide, cu aceleași {substituții}", () => {
     const ph = x => (x.match(/\{\w+\}/g) || []).sort().join();

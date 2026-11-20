@@ -1123,6 +1123,13 @@ body.client-on{overflow:hidden}
 @keyframes cmHint{0%,70%{opacity:1}100%{opacity:0}}
 .cm-panel.cm-enter .cm-sec{animation:cmUp .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*80ms + 150ms)}
 @media (prefers-reduced-motion:reduce){.cm-hero,.cm-hint,.cm-ok,.cm-panel.cm-enter .cm-sec{animation:none!important}}
+.cm-hw-hint{font-size:12.5px;color:var(--faint);margin:-2px 0 10px}
+.cm-hwg{margin-bottom:12px}
+.cm-hwg>b{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.cm-hw{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border-radius:12px;background:var(--field);border:1px solid var(--line-soft);font-size:13.5px;line-height:1.3;color:var(--text)}
+.cm-hw i{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line);transition:.15s}
+.cm-hw.on{border-color:var(--grn);background:var(--red-soft)}
+.cm-hw.on i{border-color:var(--grn);background:radial-gradient(circle,var(--grn) 0 45%,transparent 50%)}
 /* U.6 audit — «Generează lista» ramane la indemana: pe telefon formularul e lung si butonul
    statea la capat, sub grupuri. Lipit deasupra barii de jos, cu umbra, doar cand nu e pe trei coloane. */
 @media (max-width:1023px){
@@ -11228,12 +11235,14 @@ function openPartFromRow(cfgKey,x){
 
    Si esce tenendo premuto: un tocco distratto del cliente non deve aprire
    l'officina. Anche il tasto Indietro, qui dentro, non porta fuori. */
-const CM={on:false,p:null,mods:[],cur:null,v:{},base:null,price:null,open:false,spin:true,saved:null,sig:null,fam:{},shown:null};
+const CM={on:false,p:null,mods:[],cur:null,v:{},base:null,price:null,open:false,spin:true,saved:null,sig:null,fam:{},shown:null,hwOpt:{}};
 function cmCfg(name){
   const p=CM.p, cfg=(p&&p.configs&&p.configs[name])||(CM.draft&&CM.draft.name===name?CM.draft:null);
   if(!cfg) return null;
   const v=CM.v[name]||{};
-  return Object.assign({},cfg,{name,matBody:v.matBody||cfg.matBody,matFront:v.matFront||cfg.matFront});
+  const o=Object.assign({},cfg,{name,matBody:v.matBody||cfg.matBody,matFront:v.matFront||cfg.matFront});
+  if(v.hw) o.hwSel=Object.assign({},cfg.hwSel||{},v.hw);        // feroneria aleasă de client (D-177): același câmp ca în Constructor
+  return o;
 }
 /* Le finiture possibili per un ruolo: stessa grossezza, niente accessori,
    niente di quello che l'utente ha nascosto. La scelta attuale per prima. */
@@ -11268,7 +11277,7 @@ function cmPriceOf(withVariants){
 function clientOpen(){
   const p=proj(); if(!p){ toast(t("selectProject")); setView("projects"); return; }
   if(!proGate("client")) return;
-  CM.p=p; CM.v={}; CM.fam={}; CM.open=false; CM.spin=true; CM.sig=null;
+  CM.p=p; CM.v={}; CM.fam={}; CM.hwOpt={}; CM.open=false; CM.spin=true; CM.sig=null;
   CM.mods=Object.keys(p.configs||{}).filter(n=>p.pieces.some(x=>x.gen===n||x.modulo===n||x.modulo===n+" A"));
   /* un mobile solo disegnato nel generatore, non ancora in distinta: si puo
      mostrare lo stesso — e una proposta */
@@ -11346,6 +11355,61 @@ function cmIncHtml(cfg){
   };
   return `<div class="cm-sec"><h4>${esc(ts("prSecInc"))}</h4><div class="cm-inc">${F.items.map(cell).join("")}</div></div>`;
 }
+/* ---- feroneria la client (D-177) ----
+   Se oferă numai ce nu mută nicio cotă (încercat pe o copie, ca la soluțiile controalelor roșii, D-147), are preț în catalog, nu e
+   exclus de regulile de potrivire ale corpului și are un nume fără cod. Alegerea scrie în cfg.hwSel; prețul trece prin același calcul. */
+const CM_HW=[["cern","hwCern"],["guida","hwGuida"],["man","hwMan"]];
+function cmHwRelevant(cfg,cat){
+  if((cfg.type||"standard")!=="standard") return false;
+  if(cat==="cern") return cfg.doors>0&&!cfg.lift;
+  if(cat==="guida") return cfg.drawers>0&&!drawSys(cfg.drawerSys||"legno").metal;
+  if(cat==="man") return cfg.handles==="maniglia"&&(cfg.doors>0||cfg.drawers>0);
+  return false;
+}
+function cmSigFor(cfg){
+  const q={pieces:[],configs:{}}; generateInto(q,Object.assign({},cfg));
+  return q.pieces.map(x=>[x.modulo,x.elemento,x.lung,x.larg,x.pz,x.materiale,x.role].join("|")).sort().join("\n");
+}
+function cmHwOptions(name,cat){
+  const key=name+"|"+cat; if(CM.hwOpt[key]) return CM.hwOpt[key];
+  let out=[];
+  try{
+    const cfg=cmCfg(name), lang=state.lang, idx=new Map(hwIndex().map(e=>[e.id,e]));
+    let ctx=null; try{ ctx=hwFitCtx(cfg); }catch(e){}
+    const curItem=hwItemFor(cfg,cat), curId=curItem&&curItem.id, base=cmSigFor(cfg), cand=[];
+    for(const raw of hwList(cat)){
+      const it=hwItemById(cat,raw.id); if(!(it&&+it.price>0)) continue;
+      const label=presentHwLabel(it,lang); if(!label) continue;
+      let rank=0; const e=idx.get(raw.id);
+      if(e&&ctx){ try{ const r=EBHwFit.check(e,ctx); if(r.ok===false) continue; rank=(r.ok===true?0:1000)+(r.rank||0); }catch(x){} }
+      cand.push({id:raw.id,label,price:+it.price,rank});
+    }
+    if(curId&&!cand.some(o=>o.id===curId)){ const l=presentHwLabel(curItem,lang); if(l) cand.push({id:curId,label:l,price:+curItem.price||0,rank:-1}); }
+    const curLabel=(cand.find(o=>o.id===curId)||{}).label||"";
+    out=presentHwPick(cand,curId,14).filter(o=>{ if(o.id===curId) return true; if(!presentHwSameKind(cat,curLabel,o.label)) return false;
+      try{ return cmSigFor(Object.assign({},cfg,{hwSel:Object.assign({},cfg.hwSel||{},{[cat]:o.id})}))===base; }catch(e){ return false; } }).slice(0,6);
+    if(!out.some(o=>o.id===curId)) out=[];                  // fără eticheta articolului curent nu se oferă alegerea
+  }catch(e){ out=[]; }
+  return CM.hwOpt[key]=out;
+}
+function cmHwHtml(cfg){
+  let h="";
+  for(const [cat,lbl] of CM_HW){
+    if(!cmHwRelevant(cfg,cat)) continue;
+    const L=cmHwOptions(CM.cur,cat); if(L.length<2) continue;
+    const cur=(hwItemFor(cfg,cat)||{}).id;
+    h+=`<div class="cm-hwg"><b>${esc(t(lbl))}</b>`+L.map(o=>`<button class="cm-hw${o.id===cur?" on":""}" data-hwcat="${cat}" data-id="${esc(o.id)}"><i></i><span>${esc(o.label)}</span></button>`).join("")+`</div>`;
+  }
+  return h?`<div class="cm-sec"><h4>${esc(ts("prSecHw"))}</h4><p class="cm-hw-hint">${esc(ts("prHwHint"))}</p>${h}</div>`:"";
+}
+/* feroneria aleasă, pe nume, pentru PDF-ul ofertei */
+function cmHwLabels(name){
+  const cfg=cmCfg(name), out=[]; if(!cfg) return out;
+  for(const [cat] of CM_HW){ if(!cmHwRelevant(cfg,cat)) continue;
+    const L=cmHwOptions(name,cat); if(L.length<2) continue;
+    const id=(hwItemFor(cfg,cat)||{}).id, o=L.find(x=>x.id===id); if(o) out.push(o.label); }
+  return out;
+}
 function cmStepsHtml(){
   if(typeof PRESENT_STEPS==="undefined") return "";
   return `<div class="cm-sec"><h4>${esc(ts("prSecNext"))}</h4><ol class="cm-steps">`+
@@ -11397,7 +11461,7 @@ function cmPaint(){
         fams.map(x=>`<button class="${f===x?"on":""}" data-fam="${esc(x)}">${esc(t("fam_"+x))}</button>`).join("")+`</div>`:"")+
       `<div class="cm-sws" data-key="${key}">`+shown.map(m=>cmSwatch(m,m.id===cfg[key])).join("")+`</div></div>`;
   }
-  h+=cmStepsHtml();
+  h+=cmHwHtml(cfg)+cmStepsHtml();
   /* ordinea de intrare a secțiunilor (animația la deschidere) */
   let n=0; h=h.replace(/<div class="cm-sec">/g,()=>`<div class="cm-sec" style="--i:${n++}">`);
   box.innerHTML=h+cmPriceHtml();
@@ -11407,6 +11471,9 @@ function cmPaint(){
   box.querySelectorAll(".cm-sws").forEach(g=>g.querySelectorAll("[data-id]").forEach(b=>b.addEventListener("click",()=>{
     const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v[g.dataset.key]=b.dataset.id;
     CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); })));
+  box.querySelectorAll(".cm-hw").forEach(b=>b.addEventListener("click",()=>{
+    const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v.hw=Object.assign({},v.hw||{},{[b.dataset.hwcat]:b.dataset.id});
+    CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); }));
   const acc=box.querySelector("[data-accept]"); if(acc) acc.addEventListener("click",cmSignOpen);
 }
 /* le righe del prezzo: un mobile per riga, e il resto del progetto (pezzi
@@ -11435,7 +11502,7 @@ function cmSignOpen(){
   $("cmSignTotal").textContent="€ "+fmt(CM.price.total);
   $("cmRecap").innerHTML=(CM.mods.length?`<b class="cm-h" style="display:block;margin:0 0 2px">${esc(ts("prRecap"))}</b>`:"")+CM.mods.map(n=>{ const c=cmCfg(n); if(!c) return "";
     const mf=matById(c.matFront), mb=matById(c.matBody), fin=[mf&&mf.label,mb&&mb.label&&mb.id!==(mf&&mf.id)?mb.label:""].filter(Boolean).join(" · ");
-    return `<div>${presetIcon(c)}<span><b>${esc(n)}</b>${c.L}×${c.H}×${c.P} mm${fin?" · "+esc(fin):""}</span><em>€ ${fmt((CM.price.per[n]||0)*(1+CM.price.iva/100))}</em></div>`; }).join("");
+    return `<div>${presetIcon(c)}<span><b>${esc(n)}</b>${c.L}×${c.H}×${c.P} mm${fin?" · "+esc(fin):""}${cmHwLabels(n).length?"<br>"+esc(cmHwLabels(n).join(" · ")):""}</span><em>€ ${fmt((CM.price.per[n]||0)*(1+CM.price.iva/100))}</em></div>`; }).join("");
   $("cmSign").hidden=false; cmPadClear(); cmSignCheck(); navSync();
 }
 function cmPadClear(){ const c=$("cmPad"), r=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
@@ -11464,7 +11531,7 @@ function cmSignGo(){
   const p=CM.p, now=new Date();
   const mods=CM.mods.map(n=>{ const c=cmCfg(n), mb=matById(c.matBody), mf=matById(c.matFront);
     return {name:n,dims:`${c.L}×${c.H}×${c.P}`,type:c.type||"standard",body:mb?mb.label:"",front:mf?mf.label:"",
-            price:+(((CM.price.per[n]||0)*(1+CM.price.iva/100)).toFixed(2))}; });
+            price:+(((CM.price.per[n]||0)*(1+CM.price.iva/100)).toFixed(2)),hw:cmHwLabels(n)}; });
   const rest=cmRows(CM.price).filter(r=>!CM.mods.includes(r.name));
   rest.forEach(r=>mods.push({name:r.name,dims:"",type:"",body:"",front:"",price:+r.price.toFixed(2),other:1}));
   const offer={id:uid(),date:now.toISOString(),client:$("cmSignName").value.trim(),mods,
@@ -11477,7 +11544,7 @@ function cmSignGo(){
   for(const n of CM.mods){
     const v=CM.v[n]; if(!v) continue;
     const c=cmCfg(n), orig=(p.configs&&p.configs[n])||CM.draft;
-    if(!orig||(c.matBody===orig.matBody&&c.matFront===orig.matFront)) continue;
+    if(!orig||(c.matBody===orig.matBody&&c.matFront===orig.matFront&&JSON.stringify(c.hwSel||{})===JSON.stringify(orig.hwSel||{}))) continue;
     const cut=p.pieces.some(x=>(x.gen===n||x.modulo===n)&&x.done);
     if(cut){ offer.notApplied.push(n); continue; }
     if(!p.configs||!p.configs[n]) continue;                 // proposta non ancora in distinta
@@ -11500,7 +11567,7 @@ function offerPrint(p,o){
   const d=new Date(o.date);
   const rows=o.mods.map(m=>m.other?`<tr><td><b>${esc(m.name)}</b></td><td></td><td class="n">€ ${fmt(m.price)}</td></tr>`:
     `<tr><td><b>${esc(m.name)}</b><br><span style="font-size:8.5pt">${esc(m.dims)} mm</span></td>`+
-    `<td>${esc(t("cmFront"))}: ${esc(m.front)}<br>${esc(t("cmBody"))}: ${esc(m.body)}</td><td class="n">€ ${fmt(m.price)}</td></tr>`).join("");
+    `<td>${esc(t("cmFront"))}: ${esc(m.front)}<br>${esc(t("cmBody"))}: ${esc(m.body)}${m.hw&&m.hw.length?"<br>"+esc(ts("prSecHw"))+": "+m.hw.map(esc).join(" · "):""}</td><td class="n">€ ${fmt(m.price)}</td></tr>`).join("");
   $("printArea").innerHTML=`<div class="pr-head"><div><h1>${esc(t("cmOfferTitle"))}</h1>
     <div style="font-size:11pt;margin-top:2px"><b>${esc(t("printProject"))}:</b> ${esc(p.name)}<br>
     <b>${esc(t("client"))}:</b> ${esc(o.client||p.client||"—")}<br>
@@ -11550,7 +11617,7 @@ function clientInit(){
   $("cmSignCancel").addEventListener("click",()=>{ $("cmSign").hidden=true; navSync(); });
   $("cmSignGo").addEventListener("click",cmSignGo);
   $("cmDonePdf").addEventListener("click",()=>{ const o=(CM.p.offers||[]).find(q=>q.id===$("cmDone").dataset.id); if(o) offerPrint(CM.p,o); });
-  $("cmDoneBack").addEventListener("click",()=>{ $("cmDone").hidden=true; CM.base=cmPriceOf(false); CM.v={}; CM.price=CM.base; cmPaint(); cmDraw(); navSync(); });
+  $("cmDoneBack").addEventListener("click",()=>{ $("cmDone").hidden=true; CM.hwOpt={}; CM.base=cmPriceOf(false); CM.v={}; CM.price=CM.base; cmPaint(); cmDraw(); navSync(); });
 }
 /* dentro il modo cliente il tasto Indietro chiude la firma, e basta */
 function clientBack(){
@@ -20536,12 +20603,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.95.0"; /* APP_VER-MARKER */
+const APP_VER="5.96.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v285";
+const SW_CACHE="ebanist-v286";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

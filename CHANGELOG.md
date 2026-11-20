@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.96.0 — 20 noiembrie 2026
+
+**Modul Client: clientul alege și feroneria (D-177).**
+- Secțiunea **Feronerie** în prezentare: balamale, glisiere de sertare și mânere, cu marcă și nume din catalog, fără cod de articol. Alegerea scrie în `cfg.hwSel` (același câmp ca în Constructor), iar prețul se recalculează prin același `projectCosts`.
+- Se oferă numai ce **nu mută nicio cotă** (încercat pe o copie: distinta cu alegerea = distinta de dinainte), are preț în catalog, nu e exclus de regulile de potrivire ale corpului și are un nume scurt, fără cod. Balamalele încastrate nu se schimbă cu cele aplicate. Cel mult 6 opțiuni pe categorie; cu mai puțin de 2, secțiunea nu apare.
+- Feroneria aleasă apare în fereastra de semnare și pe PDF-ul ofertei; la semnare intră în proiect (un corp cu piese tăiate nu se regenerează, ca la finisaje).
+- Test: `node --test present.test.js` + blocul «Modo cliente» din `run.js`.
+
+---
+
 ## 5.95.0 — 20 noiembrie 2026
 
 **Modul Client: prezentarea proiectului, cu grafică și detalii (D-177).**

@@ -142,7 +142,35 @@ function elevation(cfg, o) {
   return g.join("");
 }
 
-var API = { presentFacts: presentFacts, presentElevation: elevation, PRESENT_STEPS: STEPS, presentTone: tone };
+/* feroneria oferită clientului. Eticheta = marca + numele din catalog, FĂRĂ cod de articol: un articol al cărui nume poartă un cod
+   (șir de 5+ cifre, 71B3550, 329.17.100, «cod», «ofertă») nu se oferă. `it` = {brand, n, art}; n = șir sau {limbă: text}. */
+var CODE = /\b\d{5,}\b|\b\d{2,3}[A-Z]\d{3,}\b|\b[A-Z]{1,3}\d{4,}[A-Z0-9]*\b|\b\d{3}\.\d{2}\.\d{2,3}\b|\b\d{3}[A-Z]\b|\bNL\s*\d|\bcod(e|ice)?\b|\bofert/i;
+function presentHwLabel(it, lang) {
+  if (!it) return null;
+  var n = it.n, name = typeof n === "string" ? n : ((n || {})[lang] || (n || {}).it || "");
+  name = String(name || "").trim().replace(/\s*\((pair|coppia|paire|paar|para|pareja|pereche|set|kit)\)$/i, "");
+  if (!name || name.length > 70 || CODE.test(name)) return null;     // nume lungi = fișe tehnice, nu ofertă pentru client
+  if (it.art && String(it.art).length > 3 && name.indexOf(String(it.art)) >= 0) return null;
+  var b = it.brand && it.brand !== "—" ? String(it.brand) : "";
+  return b && name.toLowerCase().indexOf(b.toLowerCase()) !== 0 ? b + " " + name : name;
+}
+/* o balama pentru ușă încastrată nu se schimbă cu una pentru ușă aplicată (altă construcție, nu doar alt articol): la balamale se oferă
+   numai din aceeași clasă ca cea curentă. Celelalte categorii nu au clase. */
+var INSET = /inset|incassat|încastrat|encloison|einliegend|wpuszczan|inserci/i;
+function presentHwSameKind(cat, a, b) { return cat !== "cern" || INSET.test(String(a)) === INSET.test(String(b)); }
+
+/* ordinea ofertei: cea curentă prima, apoi după potrivire (rank) și preț; etichete unice; cel mult `cap` */
+function presentHwPick(list, curId, cap) {
+  var seen = {}, out = [], cur = null;
+  (list || []).forEach(function (o) { if (o && o.id === curId && !cur) cur = o; });
+  var rest = (list || []).filter(function (o) { return o && o.id !== curId; })
+    .sort(function (a, b) { return ((a.rank || 0) - (b.rank || 0)) || ((a.price || 0) - (b.price || 0)); });
+  (cur ? [cur].concat(rest) : rest).forEach(function (o) {
+    var k = String(o.label).toLowerCase(); if (seen[k] || out.length >= (cap || 6)) return; seen[k] = 1; out.push(o); });
+  return out;
+}
+
+var API = { presentHwSameKind: presentHwSameKind, presentHwLabel: presentHwLabel, presentHwPick: presentHwPick, presentFacts: presentFacts, presentElevation: elevation, PRESENT_STEPS: STEPS, presentTone: tone };
 if (typeof module !== "undefined" && module.exports) module.exports = API;
 for (var k in API) if (Object.prototype.hasOwnProperty.call(API, k)) root[k] = API[k];
 })(typeof globalThis !== "undefined" ? globalThis : this);

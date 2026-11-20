@@ -31,6 +31,8 @@ prStep3T: ["Montaggio", "Montajul", "Installation", "Pose", "Montage", "Montaż"
 prStep3D: ["Consegna e montaggio a cura del nostro team.", "Livrare și montaj de către echipa noastră.", "Delivered and installed by our team.", "Livraison et pose par notre équipe.", "Lieferung und Montage durch unser Team.", "Dostawa i montaż przez nasz zespół.", "Entrega y montaje por nuestro equipo."],
 prRecap: ["Riepilogo", "Rezumat", "Summary", "Récapitulatif", "Zusammenfassung", "Podsumowanie", "Resumen"],
 prSwipe: ["Tocca e trascina per girare il mobile", "Atinge și trage ca să rotești mobilierul", "Touch and drag to turn the furniture", "Touchez et glissez pour faire tourner le meuble", "Berühren und ziehen, um das Möbel zu drehen", "Dotknij i przeciągnij, aby obrócić mebel", "Toque y arrastre para girar el mueble"],
+prSecHw: ["Ferramenta", "Feronerie", "Hardware", "Quincaillerie", "Beschläge", "Okucia", "Herrajes"],
+prHwHint: ["Scegli: il prezzo si aggiorna subito.", "Alege: prețul se actualizează pe loc.", "Choose: the price updates instantly.", "Choisissez : le prix se met à jour aussitôt.", "Wählen Sie: der Preis aktualisiert sich sofort.", "Wybierz: cena zmienia się od razu.", "Elija: el precio se actualiza al instante."],
 prChosen: ["Scelta attuale", "Alegerea curentă", "Current choice", "Choix actuel", "Aktuelle Wahl", "Obecny wybór", "Elección actual"]
 };
 
