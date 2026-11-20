@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.94.2 — 20 noiembrie 2026
+
+**Asistentul AI cunoaște mecanismele basculante și deschiderea corpurilor rotunde.**
+- Câmpul **`lift`** (id-ul mecanismului: Blum AVENTOS, Hettich Lift Advanced, Häfele Free) intră în schema AI, ca enum din catalog: „corp suspendat cu ușă care se deschide în sus, Aventos HK-S” ajunge direct la ușa basculantă. Un id necunoscut se respinge cu avertisment, nu se ghicește.
+- Câmpurile **`rOpen`** (deschiderea în față, 5.94.0) și **`rDoor`** (ușa din deschidere, 5.94.1) la Rotund/Oval/Racordat: schema, textul de instrucțiuni, plafoanele (`rOpen` 0–800, `rDoor` 0–1) și etichetele din fereastra de confirmare. Valorile în afara limitelor reale ale corpului ies din constructor ca eroare declarată.
+- Nu s-a schimbat nimic în geometrie sau în distinctă.
+
+---
+
 ## 5.94.1 — 20 noiembrie 2026
 
 **Ușă în deschiderea Rotundului, Ovalului și Racordatului (D-172).**

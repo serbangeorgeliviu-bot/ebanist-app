@@ -693,7 +693,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const warn = [];
     const round = aiNormCfg({ type: "tondo", rcorner: 80 }, warn);
     const curvo = aiNormCfg({ front: "curvo", bow: 40 }, warn);
-    return { missT: ui.filter(v => AI_ENUM.type.indexOf(v) < 0),
+    const w2 = [], lf = aiNormCfg({ lift: "het_la_hk" }, w2), lfBad = aiNormCfg({ lift: "nu_exista" }, w2), lfEnum = aiSchema("genera").properties.config.properties.lift;
+    const opn = aiNormCfg({ type: "tondo", rOpen: 120, rDoor: 1 }, warn), opnBig = aiNormCfg({ type: "raccordato", rOpen: 99999, rDoor: 7 }, warn);
+    return { lf, lfBad, w2, lfEnum: lfEnum && lfEnum.enum, opn, opnBig, missT: ui.filter(v => AI_ENUM.type.indexOf(v) < 0),
              missF: uf.filter(v => AI_ENUM.front.indexOf(v) < 0),
              round, curvo, warn };
   });
@@ -703,6 +705,10 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
      JSON.stringify(aiOK.round));
   ok("«bombato» passa la validazione, con la sua freccia", aiOK.curvo.front === "curvo" && aiOK.curvo.bow === 40,
      JSON.stringify(aiOK.curvo));
+  ok("D-171: «rOpen» e «rDoor» passano la validazione dell'AI (con tetto), il tipo li accetta", aiOK.opn.rOpen === 120 && aiOK.opn.rDoor === 1 && aiOK.opnBig.rOpen === 800 && aiOK.opnBig.rDoor === 1,
+     JSON.stringify([aiOK.opn, aiOK.opnBig]));
+  ok("U.16: «lift» (mecanismul basculantei) trece validarea AI doar dacă id-ul e din catalog; schema îl are ca enum", aiOK.lf.lift === "het_la_hk" && aiOK.lfBad.lift === undefined && aiOK.w2.length === 1 && Array.isArray(aiOK.lfEnum) && aiOK.lfEnum.length >= 16 && aiOK.lfEnum.includes("blum_hk_s"),
+     JSON.stringify([aiOK.lf, aiOK.lfBad, aiOK.w2, aiOK.lfEnum && aiOK.lfEnum.length]));
   ok("e nessuno dei due genera un avviso", aiOK.warn.length === 0, aiOK.warn.join(" · ") || "nessuno");
 
   head("Costi — il catalogo e il formato pannello entrano nel conto SUBITO");

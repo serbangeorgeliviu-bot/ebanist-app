@@ -154,6 +154,10 @@ describe("ușă în deschidere (B, 5.94.1)", () => {
 
 describe("aplicația: câmp în formular, în 7 limbi", () => {
   const html = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+  test("AI: schema, textul de instrucțiuni și plafoanele cunosc rOpen și rDoor", () => {
+    assert.match(html, /rOpen:\{type:"integer",minimum:0,maximum:800/); assert.match(html, /rDoor:\{type:"integer",minimum:0,maximum:1/);
+    assert.match(html, /"rOpen" — a front opening on type="tondo"/); assert.match(html, /rOpen:\[0,800\],rDoor:\[0,1\]/); assert.match(html, /rOpen:t\("fRopenDeg"\),rDoor:t\("fRdoor"\)/);
+  });
   test("câmpul bOpen există, intră în configurație doar la tondo/raccordato și are etichete în toate limbile", () => {
     assert.match(html, /id="bOpen"/); assert.match(html, /\["tondo","raccordato"\]\.includes\(\$\("bTipo"\)\.value\)&&v\("bOpen",0\)>0\?\{rOpen:v\("bOpen",0\)\}/);
     for (const l of ["ro", "it", "en", "fr", "de", "pl", "es"]) {

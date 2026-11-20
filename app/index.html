@@ -18938,6 +18938,7 @@ EVERY NUMBER MUST LAND. The app compares every measurement in his text with your
 CURVED BODIES AND DOORS. Three shapes leave the plain box, and each has ONE extra field:
   type="tondo" — a round or oval body. L and P are the OUTSIDE axes measured with a tape; equal L and P give a cylinder, different ones an oval. Shelves sit inside. No extra field.
   type="raccordato" — a rectangle with the two FRONT corners rounded; "rcorner" is the radius in mm (default 80). Give it only for this type.
+  "rOpen" — a front opening on type="tondo" (degrees of arc, 20-160, centred on the front) or type="raccordato" (millimetres, 100 up to the straight front between the corner radii); without it these bodies are closed and their shelves cannot be seen. "rDoor":1 adds a door in that opening (no hinges or handle are generated). Give them only for these two types.
   type="contur" — one board cut to a drawn outline (shaped side, leg, top): L × H is the outline's bounding box, "cShape" = rect | round (corner radius "cR") | arch (top bowed by "cRise") | scoop (bottom hollowed by "cRise", like an arched leg), "cOri" = v (standing) or o (flat), "cPz" copies, "cEdge" = 1 to edge-band the whole outline. "cHoles" = interior holes/cut-outs, one per line, centre measured from the lower-left corner of the outline, y up: "c x y d" (round hole of diameter d), "r x y w h [radius]" (rectangle), "s x y w h" (slot with round ends); "cGrooves" = milled grooves, one per line: "x1 y1 x2 y2 width depth" (add " j" for the back face). A free drawing cannot be dictated: it is imported from SVG/DXF in the form. Give these only for this type.
   type="boiserie" — wall panelling with applied frames and fields: L = wall width, H = wall height, "rfW" = frame strip width (mm), "rfTarget" = wanted field width (mm), "rfRows" = number of rows of fields; the engine fits whole fields so frames + fields fill the wall exactly. Cut-outs go in "lamCuts" (they should sit inside a field). Give rfW/rfTarget/rfRows only for this type.
   type="lambriu" — wall slat panelling (cut-outs for sockets go in "lamCuts"): L = wall width, H = wall height, "lamW" = slat width (mm), "lamGap" = wanted gap between slats (mm), "lamDir" = v (vertical) or o (horizontal); the engine spreads the slats evenly so the gaps are equal and the last slat ends exactly at the wall edge. back=1 adds a support panel. Give lamW/lamGap/lamDir only for this type.
@@ -19002,6 +19003,9 @@ function aiSchema(mode){
         angR:{type:"number",minimum:45,maximum:135,description:"Right corner angle, 90 = square."},
         bow:{type:"integer",minimum:0,maximum:200,description:"Curved door camber (mm), only with front=\"curvo\". The cut list gets the developed length, not the chord."},
         rcorner:{type:"integer",minimum:10,maximum:400,description:"Corner radius (mm), only with type=\"raccordato\"."},
+        ...((typeof EBLiftFit==="object"&&EBLiftFit&&EBLiftFit.list)?{lift:{type:"string",enum:EBLiftFit.list().map(x=>x.key),description:"Lift mechanism for a door that opens UPWARD (flap door), only on type=\"standard\": the system id (Blum AVENTOS HK-XS / HK-S / HK top / HF top / HL top / HS top, Hettich Lift Advanced, Häfele Free flap / swing / space / fold / up). The door row becomes a flap door without hinges. Omit for normal hinged doors."}}:{}),
+        rOpen:{type:"integer",minimum:0,maximum:800,description:"Front opening of a round, oval or rounded body: DEGREES of arc (20-160) for type=\"tondo\", MILLIMETRES (100 up to the straight front) for type=\"raccordato\". 0 or omitted = closed body. Only with those two types."},
+        rDoor:{type:"integer",minimum:0,maximum:1,description:"1 = a door in that opening (a curved door cut from the band for round/oval, a flat door for rounded). Needs rOpen. No hinges are generated."},
         cShape:{type:"string",enum:AI_ENUM.cShape,description:"Outline for type=\"contur\"."},
         cR:{type:"integer",minimum:0,maximum:2000,description:"Corner radius (mm), cShape=round."},
         cRise:{type:"integer",minimum:0,maximum:2000,description:"Arc rise (mm), cShape=arch or scoop."},
@@ -19144,7 +19148,7 @@ async function aiCall(mode,text,imgs){
 const AI_CFG_INT={L:[100,6000],L2:[300,6000],H:[100,3500],P:[100,1200],plinth:[0,400],tram:[0,MAX_TRAM],
   shelves:[0,10],drawers:[0,8],doors:[0,MAX_DOORS],back:[0,1],hang:[0,1],boxes:[0,1],shelfEven:[0,1],
   shelfStep:[60,900],hangGap:[0,3000],drawerFH:[60,900],drawerZone:[0,3000],drawerInset:[0,200],
-  bow:[0,200],rcorner:[10,400],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200],razaR:[10,300]};
+  bow:[0,200],rcorner:[10,400],rOpen:[0,800],rDoor:[0,1],lamW:[10,300],lamGap:[0,200],rfW:[20,200],rfTarget:[100,1500],rfRows:[1,8],wall2:[0,1],rfInset:[0,1],cR:[0,2000],cRise:[0,2000],cPz:[1,20],cEdge:[0,1],topRailW:[30,400],golaH:[5,200],golaC:[5,200],razaR:[10,300]};
 function aiInt(v,lo,hi){ const n=Math.round(parseFloat(v)); return isFinite(n)?Math.max(lo,Math.min(hi,n)):null; }
 function aiNormCfg(raw,warn){
   const out={};
@@ -19166,6 +19170,7 @@ function aiNormCfg(raw,warn){
   for(const k of ["matBody","matFront","matBack"]){
     if(raw[k]==null) continue;
     if(matById(raw[k])) out[k]=raw[k]; else warn.push(`${k}: "${raw[k]}" ?`); }
+  if(raw.lift!=null){ if(typeof raw.lift==="string"&&liftSysOf(raw.lift)) out.lift=raw.lift; else warn.push(`lift: "${raw.lift}" ?`); }
   if(typeof raw.name==="string"&&raw.name.trim()) out.name=raw.name.trim().slice(0,60);
   for(const k of ["angL","angR"]){ if(raw[k]==null) continue;
     const n=parseFloat(raw[k]); if(isFinite(n)) out[k]=angClamp(n); }
@@ -19457,7 +19462,7 @@ function aiLbl(k){
     matBody:t("matBody"),matFront:t("matFront"),matBack:t("matBack"),angL:t("fAngL"),angR:t("fAngR"),
     hangGap:t("fHangGap"),shelfEven:t("fShelfEven"),shelfStep:t("fShelfStep"),secMode:t("fSections"),
     boxes:t("fBoxes"),corner:t("fCorner"),cornerKind:t("fCornerKind"),name:t("fModule"),
-    bow:t("fBow"),rcorner:t("fRcorner"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),wall2:t("fWall2"),rfInset:t("fRfInset"),cShape:t("fContShape"),cR:t("fContR"),cRise:t("fContRise"),cOri:t("fContOri"),cPz:t("fContPz"),cEdge:t("fContEdge"),cHoles:t("fContHoles"),cGrooves:t("fContGrooves"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
+    bow:t("fBow"),rcorner:t("fRcorner"),rOpen:t("fRopenDeg"),rDoor:t("fRdoor"),lift:t("fLift"),lamW:t("fLamW"),lamGap:t("fLamGap"),lamDir:t("fLamDir"),lamCuts:t("fLamCuts"),wall2:t("fWall2"),rfInset:t("fRfInset"),cShape:t("fContShape"),cR:t("fContR"),cRise:t("fContRise"),cOri:t("fContOri"),cPz:t("fContPz"),cEdge:t("fContEdge"),cHoles:t("fContHoles"),cGrooves:t("fContGrooves"),rfW:t("fRfW"),rfTarget:t("fRfT"),rfRows:t("fRfRows"),
     partitions:elName("Setto")+" / "+elName("Ripiano"),fronts:elName("Anta"),depthProfile:t("fDepth")+" ↕",
     customCuts:tia("layCut"),drawerBlocks:t("drawBlock"),backMode:elName("Schienale"),geom:elName("Ripiano")+" ↤",
     backCols:elName("Schienale")+" ▥",backCutouts:t("absBackCut"),backRails:elName("Traversa retro"),fillers:t("absFiller")};
@@ -20344,12 +20349,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.94.1"; /* APP_VER-MARKER */
+const APP_VER="5.94.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v280";
+const SW_CACHE="ebanist-v281";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
