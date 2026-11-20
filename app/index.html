@@ -1123,8 +1123,9 @@ body.client-on{overflow:hidden}
 @keyframes cmHint{0%,70%{opacity:1}100%{opacity:0}}
 .cm-panel.cm-enter .cm-sec{animation:cmUp .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*80ms + 150ms)}
 @media (prefers-reduced-motion:reduce){.cm-hero,.cm-hint,.cm-ok,.cm-panel.cm-enter .cm-sec{animation:none!important}}
-.cm-send{align-self:center;margin-top:6px;padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600;color:var(--muted);border:1px solid var(--line)}
-.cm-send:active{background:var(--red-soft)}
+.cm-share{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;color:var(--muted)}
+.cm-share svg{width:22px;height:22px}
+.cm-share:active{background:var(--red-soft)}
 .cm-hw-hint{font-size:12.5px;color:var(--faint);margin:-2px 0 10px}
 .cm-hwg{margin-bottom:12px}
 .cm-hwg>b{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
@@ -1149,7 +1150,7 @@ body.client-on{overflow:hidden}
   .cm-top{padding:7px 14px;gap:10px}
   .cm-co{font-size:13px;gap:8px}
   .cm-co img{height:22px!important}
-  .cm-exit{width:34px;height:34px}
+  .cm-exit{width:34px;height:34px} .cm-share{width:34px;height:34px}
   .cm-price{bottom:-28px;padding:9px 20px 12px;gap:1px}
   .cm-ptot{font-size:26px}
   .cm-pvat{font-size:11.5px}
@@ -2516,6 +2517,7 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <div class="cm-top">
     <div class="cm-co" id="cmCo"></div>
     <div class="cm-proj" id="cmProj"></div>
+    <button class="cm-share" id="cmShare" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></button>
     <button class="cm-exit" id="cmExit" aria-label="Esci"><svg viewBox="0 0 36 36"><circle class="cm-ring" cx="18" cy="18" r="16"/></svg><span>✕</span></button>
   </div>
   <div class="cm-body">
@@ -11355,6 +11357,7 @@ function cmDraw(){
 function cmSceneUi(){
   const b=$("cmRoom"); if(!b) return;
   b.hidden=!gl3dOn()||!CM.mods.length;
+  const sh=$("cmShare"); if(sh){ sh.hidden=!gl3dOn()||!CM.mods.length||!CM.price; const l=ts("prSend"); sh.title=l; sh.setAttribute("aria-label",l); }
   $("cmRoomLbl").textContent=ts(cmRoomIsReal()?"prRoomReal":CM.mods.length>1?"prRoomAll":"prRoomOne");
   b.classList.toggle("on",CM.scene==="room");
   $("cmAsm").hidden=CM.scene==="room";
@@ -11550,7 +11553,6 @@ function cmPaint(){
   box.querySelectorAll(".cm-hw").forEach(b=>b.addEventListener("click",()=>{
     const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v.hw=Object.assign({},v.hw||{},{[b.dataset.hwcat]:b.dataset.id});
     CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); }));
-  const snd=box.querySelector("[data-send]"); if(snd) snd.addEventListener("click",cmSend);
   box.querySelectorAll("[data-ex]").forEach(b=>b.addEventListener("click",()=>{
     const v=CM.v[CM.cur]=CM.v[CM.cur]||{}; v.ex=Object.assign({},v.ex||{}); v.ex[b.dataset.ex]=!v.ex[b.dataset.ex];
     CM.price=cmPriceOf(true); cmPaint(); cmDraw(); haptic(8); }));
@@ -11624,8 +11626,7 @@ function cmPriceHtml(){
     (Math.abs(d)>=0.5?`<span class="cm-pdelta ${d>0?"up":"down"}">${d>0?"+":"−"} € ${fmt(Math.abs(d))} ${esc(t("cmVsBase"))}</span>`:"")+
     (cmRows(P).length>1?`<div class="cm-prows">`+cmRows(P).map(r=>`<div><span>${esc(r.name)}</span><b>€ ${fmt(r.price)}</b></div>`).join("")+`</div>`:"")+
     `<button class="btn red cm-accept" data-accept>${esc(t("cmAccept"))}</button>`+
-    `<p class="cm-valid">${esc(t("qValidity"))}</p>`+
-    (gl3dOn()?`<button class="cm-send" data-send>${esc(ts("prSend"))}</button>`:"")+`</div>`;
+    `<p class="cm-valid">${esc(t("qValidity"))}</p></div>`;
 }
 /* ---- la firma ---- */
 function cmSignOpen(){
@@ -11736,6 +11737,7 @@ function clientInit(){
     CM.open=false; $("cmOpen").classList.remove("on"); $("cmAsm").classList.add("on");
     await window.GL3D.assemble({ms:8000}); $("cmAsm").classList.remove("on");
     if(CM.on&&CM.spin) window.GL3D.spin(true); });
+  $("cmShare").addEventListener("click",cmSend);
   $("cmRoom").addEventListener("click",()=>{ CM.scene=CM.scene==="room"?"body":"room"; cmSceneUi(); cmDraw(); });
   $("cmSpin").addEventListener("click",()=>{ CM.spin=!CM.spin; $("cmSpin").classList.toggle("on",CM.spin); if(gl3dOn()) window.GL3D.spin(CM.spin); });
   document.querySelectorAll("[data-cmview]").forEach(b=>b.addEventListener("click",()=>{ CM.spin=false; $("cmSpin").classList.remove("on");

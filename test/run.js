@@ -1868,7 +1868,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const ev = (t, x, y) => pad.dispatchEvent(new PointerEvent(t, { clientX: r.left + x, clientY: r.top + y, pointerId: 1, bubbles: true }));
       ev("pointerdown", 30, 60); for (let i = 0; i < 12; i++) ev("pointermove", 30 + i * 15, 60 + (i % 2) * 20); ev("pointerup", 210, 60);
       o.accesoConFirma = !document.getElementById("cmSignGo").disabled;
-      const lung0 = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",");
+      /* LED-ul bifat adaugă un rând de accesoriu (D-178); panourile nu se mișcă */
+      const lung0 = p.pieces.filter(x => x.gen === CM.cur && !/LED/i.test(x.elemento)).map(x => x.lung + "x" + x.larg).join(",");
       document.getElementById("cmSignGo").click(); await w(200);
       o.offerte = (p.offers || []).length - o.offersPrima;
       const of = p.offers[p.offers.length - 1];
@@ -1879,7 +1880,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.exInOferta = !o.exCfg || (of.mods.find(m => m.name === CM.cur) || {}).extras.length === 1;
       o.hwApplicata = !o.hwId || Object.values(p.configs[CM.cur].hwSel || {}).includes(o.hwId);
       o.hwInOferta = !o.hwId || (of.mods.find(m => m.name === CM.cur) || {}).hw.length > 0;
-      o.coteFerme = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",") === lung0;
+      o.coteFerme = p.pieces.filter(x => x.gen === CM.cur && !/LED/i.test(x.elemento)).map(x => x.lung + "x" + x.larg).join(",") === lung0;
       /* il PDF dell'offerta passa dal cancello, e porta la firma */
       window.print = () => {};
       document.getElementById("printArea").innerHTML = "";
