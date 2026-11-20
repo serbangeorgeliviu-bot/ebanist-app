@@ -5,6 +5,39 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.97.0 — 20 noiembrie 2026
+
+**Telemetrie Play: de ce nu se vede ecranul Pro sau de ce nu se termină plata (D-178).** Numai pentru noi, nu schimbă nimic pentru utilizator.
+- `pw_unavail` poartă acum și **codul numeric Play** (`rc`: BillingResponseCode, listă închisă). Eveniment nou, `pw_fail`: «cumpără» n-a ajuns la plată, cu `code` (`canceled` / `error` / `unavailable`) și `rc`. Rezumatul `/api/funnel` are `byRc` și `byFail`; `byCode` rămâne cum era.
+- Unește liniile de lucru: versiunile 5.95.0–5.95.2 din această linie (comutatorul «Statistici anonime», clape inegale, lovituri în Camera 3D, sertare în Racordat, corecții de găurire din fuzz) intră pe lângă 5.95.0/5.96.0 (Modul Client), care aveau același număr.
+- Test: `node --test funnel.test.mjs`.
+
+---
+
+## 5.96.0 — 20 noiembrie 2026
+
+**Modul Client: clientul alege și feroneria (D-177).**
+- Secțiunea **Feronerie** în prezentare: balamale, glisiere de sertare și mânere, cu marcă și nume din catalog, fără cod de articol. Alegerea scrie în `cfg.hwSel` (același câmp ca în Constructor), iar prețul se recalculează prin același `projectCosts`.
+- Se oferă numai ce **nu mută nicio cotă** (încercat pe o copie: distinta cu alegerea = distinta de dinainte), are preț în catalog, nu e exclus de regulile de potrivire ale corpului și are un nume scurt, fără cod. Balamalele încastrate nu se schimbă cu cele aplicate. Cel mult 6 opțiuni pe categorie; cu mai puțin de 2, secțiunea nu apare.
+- Feroneria aleasă apare în fereastra de semnare și pe PDF-ul ofertei; la semnare intră în proiect (un corp cu piese tăiate nu se regenerează, ca la finisaje).
+- Test: `node --test present.test.js` + blocul «Modo cliente» din `run.js`.
+
+---
+
+## 5.95.0 — 20 noiembrie 2026
+
+**Modul Client: prezentarea proiectului, cu grafică și detalii (D-177).**
+- **Antet de prezentare:** „Propunere pentru {client}”, numele proiectului mare, linie aurie; sub el, 3D-ul pe același fundal cu lumină caldă (întunecat în tema întunecată). Lățime / înălțime / adâncime în trei carduri de sticlă lângă mobilier.
+- **«Cum arată»:** schemă a frontului în proiecție oblică, cu cote și adâncime, colorată cu finisajele alese (lemnul are model); se schimbă la fiecare atingere de finisaj. Schemă orientativă — spune asta pe ecran.
+- **«Ce include»:** uși, sertare, rafturi, bară de haine, mânere, LED, soclu, spate închis, ca plăci cu pictogramă; numai ce are corpul.
+- **«Ce urmează»:** confirmare → producție → montaj, fără termene promise.
+- **Prețul se numără** de la cel arătat la cel nou (0,5 s; fără animație dacă sistemul cere mișcare redusă), iar textul final e scris întâi, deci cifra e mereu cea din calcul.
+- **Fereastra de semnare** arată rezumatul pe mobile (finisaje și preț), iar confirmarea are o animație scurtă.
+- **Corectat:** dacă Studioul avea cotele pornite (PC), clientul vedea cotele interne ale pereților în 3D; acum modul Client le oprește.
+- Neschimbat: prețul (același calcul ca devizul), distinta, cotele, semnătura, ieșirea prin apăsare lungă. Fișiere noi: `ebanist-present.js` (pur) și `ebanist-present-i18n.js` (7 limbi). Test: `node --test present.test.js` + blocul «Modo cliente» din `run.js`.
+
+---
+
 ## 5.94.5 — 20 noiembrie 2026
 
 **Proiectele demo: numele corpurilor sunt în limba aplicației.**

@@ -11,6 +11,8 @@
      rv_ask    am cerut recenzia în Google Play
      pw_unavail  ecranul Pro n-a avut ce vinde: Google Play n-a dat planuri { code }
                (D-129: 0 apăsări pe „cumpără" putea însemna și „nu se poate cumpăra")
+     pw_fail   „cumpără" n-a ajuns la plată (numai Play)    { code, rc }
+               code: canceled (omul a renunțat) / error / unavailable; rc: codul numeric Play
      hw_use    un articol din catalogul producătorului a intrat într-un proiect (D-170)
                { brand, fam, art }: marca (listă închisă), familia (balamale, glisiere …)
                și codul articolului din catalog. O singură dată pe sesiune și articol.
@@ -31,7 +33,7 @@
 (function (global) {
   "use strict";
 
-  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "hw_use"];
+  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use"];
   var WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
   var PLAT = ["play", "web"];
   var PLAN = ["monthly", "yearly", "founders"];
@@ -39,10 +41,19 @@
   var BRAND = ["blum", "hafele", "hettich", "lamello", "festool", "grass", "salice", "wurth", "emuca", "fav", "other"];   // hw_use: marca articolului din catalog
   var SLUG = /^[a-z0-9_]{2,40}$/;            // hw_use: familia și codul articolului din catalog (nu text liber)
   var CODE = ["unavailable", "error", "empty"];   // pw_unavail: Play indisponibil / eroare / răspuns fără planuri
+  var FAILCODE = ["canceled", "error", "unavailable"];   // pw_fail: renunțare / eroare / Play indisponibil
+  var RC = ["m3", "m2", "m1", "1", "2", "3", "4", "5", "6", "7", "8", "12"];   // codul numeric BillingResponseCode (m = minus): ce a spus Play, nu text liber
   var LAST_KEY = "ebanist_pw_last";
   var LAST_TTL = 864e5;               // 24 h: de la „cumpără" până la întoarcerea din checkout
 
   function pick(list, v) { return list.indexOf(v) >= 0 ? v : undefined; }
+
+  /* „2 Service unavailable" / 2 / "-1 …" → "2" / "m1"; orice altceva → undefined. */
+  function rcOf(v) {
+    var n = typeof v === "number" ? v : parseInt(String(v == null ? "" : v), 10);
+    if (!isFinite(n)) return undefined;
+    return pick(RC, n < 0 ? "m" + (-n) : String(n));
+  }
 
   function platform() {
     try {
@@ -61,6 +72,8 @@
     if (name === "pw_buy" || name === "pro_on") { var p = pick(PLAN, x.plan); if (p) rec.plan = p; }
     if (name === "pro_on") { var k = pick(KIND, x.kind); if (k) rec.kind = k; }
     if (name === "pw_unavail") rec.code = pick(CODE, x.code) || "empty";
+    if (name === "pw_fail") rec.code = pick(FAILCODE, x.code) || "error";
+    if (name === "pw_unavail" || name === "pw_fail") { var rc = rcOf(x.rc); if (rc) rec.rc = rc; }
     if (name === "hw_use") {
       var b = pick(BRAND, x.brand), f = typeof x.fam === "string" && SLUG.test(x.fam) ? x.fam : null, a = typeof x.art === "string" && SLUG.test(x.art) ? x.art : null;
       if (!b || !f || !a) return null;
@@ -123,5 +136,5 @@
     } catch (e) { return false; }
   }
 
-  global.EBFunnel = { EVENTS: EVENTS, WHY: WHY, PLAT: PLAT, PLAN: PLAN, KIND: KIND, CODE: CODE, BRAND: BRAND, clean: clean, send: send };
+  global.EBFunnel = { EVENTS: EVENTS, WHY: WHY, PLAT: PLAT, PLAN: PLAN, KIND: KIND, CODE: CODE, FAILCODE: FAILCODE, RC: RC, BRAND: BRAND, clean: clean, send: send };
 })(typeof globalThis !== "undefined" ? globalThis : this);

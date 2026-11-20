@@ -12,12 +12,14 @@
    aplicației; nu se combină cu nimic altceva.
    ===================================================================== */
 
-export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "hw_use"];
+export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use"];
 export const WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
 export const PLAT = ["play", "web"];
 export const PLAN = ["monthly", "yearly", "founders"];
 export const KIND = ["play", "stripe"];
 export const CODE = ["unavailable", "error", "empty"];
+export const FAILCODE = ["canceled", "error", "unavailable"];     // pw_fail (D-178)
+export const RC = ["m3", "m2", "m1", "1", "2", "3", "4", "5", "6", "7", "8", "12"];   // codul numeric Play (m = minus)
 export const BRAND = ["blum", "hafele", "hettich", "lamello", "festool", "grass", "salice", "wurth", "emuca", "fav", "other"];   // hw_use (D-170)
 const SLUG = /^[a-z0-9_]{2,40}$/;
 export const MAX_BODY = 400;                 // un eveniment are sub 120 de octeți
@@ -37,6 +39,8 @@ export function clean(ev) {
   if ((ev.e === "pw_buy" || ev.e === "pro_on") && has(PLAN, ev.plan)) rec.plan = ev.plan;
   if (ev.e === "pro_on" && has(KIND, ev.kind)) rec.kind = ev.kind;
   if (ev.e === "pw_unavail") rec.code = has(CODE, ev.code) ? ev.code : "empty";
+  if (ev.e === "pw_fail") rec.code = has(FAILCODE, ev.code) ? ev.code : "error";
+  if ((ev.e === "pw_unavail" || ev.e === "pw_fail") && has(RC, ev.rc)) rec.rc = ev.rc;
   if (ev.e === "hw_use") {
     if (!has(BRAND, ev.brand) || typeof ev.fam !== "string" || !SLUG.test(ev.fam) || typeof ev.art !== "string" || !SLUG.test(ev.art)) return null;
     rec.brand = ev.brand; rec.fam = ev.fam; rec.art = ev.art;
@@ -49,7 +53,7 @@ export const dayOf = (ms) => new Date(ms).toISOString().slice(0, 10);
 /* d/<zi>/<eveniment>/<plat>/<motiv|->/<plan|kind|->/<sesiune>.<rand> */
 export function keyOf(rec, now, rand) {
   if (rec.e === "hw_use") return ["d", dayOf(now), rec.e, rec.plat, rec.brand, rec.fam + "~" + rec.art, rec.s + "." + rand].join("/");   // marca în locul motivului
-  const extra = rec.plan || rec.kind || rec.code || "-";
+  const extra = rec.plan || rec.kind || (rec.code ? rec.code + (rec.rc ? "_" + rec.rc : "") : "-");   // D-178: codul Play după „_"
   return ["d", dayOf(now), rec.e, rec.plat, rec.why || "-", extra, rec.s + "." + rand].join("/");
 }
 
@@ -81,7 +85,8 @@ const pct = (a, b) => (b ? Math.round((a / b) * 1000) / 10 : null);
    pe sesiune: pentru web se citesc rata pe evenimente, nu pe sesiuni. */
 export function summarize(keys) {
   const recs = keys.map(parseKey).filter(Boolean);
-  const out = { total: recs.length, platforms: {}, byWhy: {}, byCode: {}, byBrand: {} };
+  const out = { total: recs.length, platforms: {}, byWhy: {}, byCode: {}, byRc: {}, byFail: {}, byBrand: {} };
+  const rcSess = {};
   const brandSess = {};
   const codeSess = {};
   const sess = {};
@@ -90,9 +95,19 @@ export function summarize(keys) {
     const P = plat(r.plat);
     P.events[r.e] = (P.events[r.e] || 0) + 1;
     if (r.e === "pw_unavail") {                    // D-133: de ce n-a avut ecranul Pro ce vinde (codul stă în cheie)
-      const ck = r.plat + "/" + (r.extra || "empty");
+      const [cd, rc] = String(r.extra || "empty").split("_");
+      const ck = r.plat + "/" + cd;
       (out.byCode[ck] = out.byCode[ck] || { events: 0, sessions: 0 }).events++;
       (codeSess[ck] = codeSess[ck] || new Set()).add(r.s);
+      const rk = ck + "/" + (rc || "na");           // D-178: codul numeric Play; „na" = trimis de o versiune fără el
+      (out.byRc[rk] = out.byRc[rk] || { events: 0, sessions: 0 }).events++;
+      (rcSess[rk] = rcSess[rk] || new Set()).add(r.s);
+    }
+    if (r.e === "pw_fail") {                       // D-178: „cumpără" fără plată: renunțare / eroare / Play indisponibil + cod
+      const [cd, rc] = String(r.extra || "error").split("_");
+      const fk = r.plat + "/" + cd + "/" + (rc || "na");
+      (out.byFail[fk] = out.byFail[fk] || { events: 0, sessions: 0 }).events++;
+      (rcSess[fk] = rcSess[fk] || new Set()).add(r.s);
     }
     if (r.e === "hw_use") {                        // D-170: câte sesiuni au folosit articolul (nu de câte ori)
       const B = (out.byBrand[r.brand] = out.byBrand[r.brand] || { sessions: 0, families: {}, articles: {} });
@@ -108,6 +123,7 @@ export function summarize(keys) {
     }
   }
   for (const k of Object.keys(codeSess)) out.byCode[k].sessions = codeSess[k].size;
+  for (const k of Object.keys(rcSess)) (out.byRc[k] || out.byFail[k]).sessions = rcSess[k].size;
   for (const b of Object.keys(brandSess)) {
     out.byBrand[b].sessions = brandSess[b].b.size;
     for (const f of Object.keys(brandSess[b].f)) out.byBrand[b].families[f].sessions = brandSess[b].f[f].size;

@@ -22,7 +22,7 @@ function client(globals = {}) {
 
 describe("listele clientului = listele serverului", () => {
   const C = client().EBFunnel;
-  for (const n of ["EVENTS", "WHY", "PLAT", "PLAN", "KIND", "CODE", "BRAND"])
+  for (const n of ["EVENTS", "WHY", "PLAT", "PLAN", "KIND", "CODE", "FAILCODE", "RC", "BRAND"])
     test(n, () => assert.deepStrictEqual(C[n], F[n]));
   test("fiecare motiv din PRO_WHY al aplicației e în listă", () => {
     const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
@@ -328,5 +328,51 @@ describe("«Statistici anonime» debifat în Setări (5.95.0)", () => {
     assert.match(html, /id="sStatsOff"/); assert.match(html, /\$\("sStatsOff"\)\.checked=!S\.statsOff/);
     assert.match(html, /state\.settings\.statsOff=!ev\.target\.checked; applyStatsFlag\(\); persist\(\)/); assert.match(html, /applyStatsFlag\(\); EBFunnel\.send\("open"\)/);
     for (const l of ["ro", "it", "en", "fr", "de", "pl", "es"]) { const m = html.match(new RegExp("^" + l + ":\\{[^\\n]*", "m")); assert.ok(m, l); assert.match(m[0], /"?stStatsLbl"?:/, l); assert.match(m[0], /"?stStatsHint"?:/, l); }
+  });
+});
+
+
+describe("codul numeric Play pe pw_unavail și pw_fail (D-178)", () => {
+  const C = client().EBFunnel, now = Date.UTC(2026, 10, 20, 12);
+  test("clientul transformă detail-ul Play în rc din lista închisă", () => {
+    assert.strictEqual(C.clean("pw_unavail", { plat: "play", code: "unavailable", rc: "3 Billing unavailable" }).rc, "3");
+    assert.strictEqual(C.clean("pw_unavail", { plat: "play", code: "error", rc: "-1 Service disconnected" }).rc, "m1");
+    assert.strictEqual(C.clean("pw_unavail", { plat: "play", code: "error", rc: 12 }).rc, "12");
+    for (const bad of ["99 x", "abc", "", undefined, null, "<script>", NaN]) assert.strictEqual("rc" in C.clean("pw_unavail", { code: "error", rc: bad }), false, String(bad));
+  });
+  test("pw_fail: renunțare / eroare / indisponibil; altceva devine error; rc numai dacă e din listă", () => {
+    assert.deepStrictEqual(C.clean("pw_fail", { plat: "play", code: "canceled", rc: "1 User canceled" }), { e: "pw_fail", plat: "play", code: "canceled", rc: "1" });
+    assert.strictEqual(C.clean("pw_fail", { code: "x" }).code, "error");
+    assert.strictEqual("why" in C.clean("pw_fail", { why: "pdf", code: "error" }), false);
+  });
+  test("serverul respinge ce nu e în listă și păstrează rc în cheie", () => {
+    assert.deepStrictEqual(F.clean({ e: "pw_fail", s: "ab12", plat: "play", code: "canceled", rc: "1" }), { e: "pw_fail", plat: "play", s: "ab12", code: "canceled", rc: "1" });
+    assert.strictEqual("rc" in F.clean({ e: "pw_unavail", s: "ab12", plat: "play", code: "error", rc: "77" }), false);
+    assert.strictEqual("rc" in F.clean({ e: "pw_fail", s: "ab12", plat: "play", code: "error", rc: "1; DROP" }), false);
+    const k = F.keyOf(F.clean({ e: "pw_unavail", s: "ab12", plat: "play", code: "unavailable", rc: "3" }), now, "r1");
+    assert.match(k, /^d\/2026-11-20\/pw_unavail\/play\/-\/unavailable_3\/ab12\.r1$/);
+    assert.strictEqual(F.parseKey(k).extra, "unavailable_3");
+  });
+  test("rezumat: byCode neschimbat, byRc și byFail pe cod Play; chei vechi fără rc = na", () => {
+    const mk = (o) => F.keyOf(F.clean(o), now, Math.random().toString(36).slice(2, 6));
+    const r = F.summarize([
+      mk({ e: "pw_unavail", s: "a1", plat: "play", code: "unavailable", rc: "3" }), mk({ e: "pw_unavail", s: "a2", plat: "play", code: "unavailable", rc: "3" }),
+      mk({ e: "pw_unavail", s: "a3", plat: "play", code: "unavailable" }), mk({ e: "pw_unavail", s: "a4", plat: "play", code: "error", rc: "m1" }),
+      mk({ e: "pw_fail", s: "b1", plat: "play", code: "canceled", rc: "1" }), mk({ e: "pw_fail", s: "b1", plat: "play", code: "canceled", rc: "1" }),
+      mk({ e: "pw_fail", s: "b2", plat: "play", code: "error", rc: "6" }), mk({ e: "pw_fail", s: "b3", plat: "play", code: "error" })
+    ]);
+    assert.deepEqual(r.byCode["play/unavailable"], { events: 3, sessions: 3 });
+    assert.deepEqual(r.byRc["play/unavailable/3"], { events: 2, sessions: 2 });
+    assert.deepEqual(r.byRc["play/unavailable/na"], { events: 1, sessions: 1 });
+    assert.deepEqual(r.byRc["play/error/m1"], { events: 1, sessions: 1 });
+    assert.deepEqual(r.byFail["play/canceled/1"], { events: 2, sessions: 1 });
+    assert.deepEqual(r.byFail["play/error/6"], { events: 1, sessions: 1 });
+    assert.deepEqual(r.byFail["play/error/na"], { events: 1, sessions: 1 });
+    assert.strictEqual(r.platforms.play.events.pw_fail, 4);
+  });
+  test("aplicația trimite pw_fail numai la „cumpără” eșuat și pw_unavail cu codul Play", () => {
+    const html = fs.readFileSync(path.join(here, "..", "app", "index.html"), "utf8");
+    assert.match(html, /if\(fromBuy\) EBFunnel\.send\("pw_fail",\{code:d\.code,rc:d\.detail\}\)/);
+    assert.match(html, /EBFunnel\.send\("pw_unavail",\{[^}]*rc:PLAY\.detail\}/);
   });
 });

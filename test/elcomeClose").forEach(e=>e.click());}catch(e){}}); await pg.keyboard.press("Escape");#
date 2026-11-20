@@ -1,1 +1,0 @@
- const pg=await c.newPage();await pg.goto(O+"/app/index.html");await pg.waitForTimeout(2500); await pg.evaluate(()=>{try{document.querySelectorAll("[data-close],.modal .x,

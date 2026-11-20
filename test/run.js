@@ -1819,6 +1819,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.interni = /€\s*\/\s*m²|manodopera|margin|sfrido|pannell[oi] intero|distinta/i.test(txt);
       o.prezzo = !!el.querySelector(".cm-ptot") && /€/.test(el.querySelector(".cm-ptot").textContent);
       o.swatch = el.querySelectorAll(".cm-sws[data-key=matFront] .cm-sw").length;
+      /* prezentarea (5.95.0): titlul proiectului, schema cu cote, ce include, pașii; cotele interne ale Studioului nu se văd */
+      o.heroNume = (el.querySelector(".cm-hero h1") || {}).textContent === p.name;
+      o.schema = !!el.querySelector(".cm-look .pe-svg") && el.querySelectorAll(".cm-look .pe-door").length > 0;
+      o.include = el.querySelectorAll(".cm-inc > div").length > 0;
+      o.pasi = el.querySelectorAll(".cm-steps li").length === 3;
+      o.cotePrincipale = el.querySelectorAll(".cm-dims > div").length === 3;
+      o.faraCoteInterne = !gl3dOn() || window.GL3D.state.dims === false;
       /* la variante ha la stessa grossezza: le cote non si muovono */
       const cfg0 = cmCfg(CM.cur), th0 = matById(cfg0.matFront).th;
       const b = [...el.querySelectorAll(".cm-sws[data-key=matFront] .cm-sw")].find(x => x.dataset.id !== cfg0.matFront);
@@ -1826,11 +1833,19 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const cfg1 = cmCfg(CM.cur);
       o.cambiata = cfg1.matFront === b.dataset.id && cfg1.matFront !== cfg0.matFront;
       o.stessaGrossezza = matById(cfg1.matFront).th === th0;
+      await w(800);                                       // numărătoarea prețului s-a încheiat
+      o.prezzoFinale = el.querySelector(".cm-ptot").textContent === "€ " + fmt(CM.price.total);
+      /* feroneria la client (D-177): se oferă, se alege, prețul se mișcă, cotele nu */
+      o.hwOferit = el.querySelectorAll(".cm-hwg").length > 0;
+      const hwb = [...el.querySelectorAll(".cm-hw")].find(x => !x.classList.contains("on")), tot0 = CM.price.total;
+      if (hwb) { hwb.click(); await w(300); const hs = cmCfg(CM.cur).hwSel || {}; o.hwScris = Object.values(hs).includes(hwb.dataset.id); o.hwPretNou = CM.price.total !== tot0 && el.querySelector(".cm-hw.on") != null; o.hwId = hwb.dataset.id; }
+      o.hwFaraCod = !/\b\d{5,}\b|\b\d{2,3}[A-Z]\d{3,}\b/.test([...el.querySelectorAll(".cm-hw")].map(x => x.textContent).join(" "));
       /* il tasto Indietro non porta fuori */
       o.dentroDopoIndietro = (navCloseTop(), CM.on === true);
       /* la firma: senza tratto il bottone resta spento */
       el.querySelector("[data-accept]").click(); await w(200);
       document.getElementById("cmSignName").value = "Mario Rossi"; document.getElementById("cmSignOk").checked = true; cmSignCheck();
+      o.riepilogo = document.querySelectorAll("#cmRecap > div").length === CM.mods.length;
       o.spentoSenzaFirma = document.getElementById("cmSignGo").disabled;
       const pad = document.getElementById("cmPad"), r = pad.getBoundingClientRect();
       const ev = (t, x, y) => pad.dispatchEvent(new PointerEvent(t, { clientX: r.left + x, clientY: r.top + y, pointerId: 1, bubbles: true }));
@@ -1843,6 +1858,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.firmaImg = /^data:image\/png/.test(of.sig) && of.sig.length < 120000;
       o.totale = of.total > 0;
       o.applicata = p.configs[CM.cur].matFront === b.dataset.id;
+      o.hwApplicata = !o.hwId || Object.values(p.configs[CM.cur].hwSel || {}).includes(o.hwId);
+      o.hwInOferta = !o.hwId || (of.mods.find(m => m.name === CM.cur) || {}).hw.length > 0;
       o.coteFerme = p.pieces.filter(x => x.gen === CM.cur).map(x => x.lung + "x" + x.larg).join(",") === lung0;
       /* il PDF dell'offerta passa dal cancello, e porta la firma */
       window.print = () => {};
@@ -1864,6 +1881,19 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun costo interno, niente distinta", c.interni === false);
     ok("il prezzo finale c'e", c.prezzo === true);
     ok("finiture da scegliere", c.swatch > 1, c.swatch);
+    ok("prezentare: titlul proiectului pe ecran", c.heroNume === true);
+    ok("prezentare: schema cu cote și uși", c.schema === true);
+    ok("prezentare: ce include mobilierul", c.include === true);
+    ok("prezentare: cei trei pași după semnătură", c.pasi === true);
+    ok("prezentare: lățime, înălțime, adâncime", c.cotePrincipale === true);
+    ok("prezentare: fără cotele interne ale Studioului în 3D", c.faraCoteInterne === true);
+    ok("prezentare: prețul numărat ajunge la totalul exact", c.prezzoFinale === true);
+    ok("prezentare: rezumatul în fereastra de semnare", c.riepilogo === true);
+    ok("feronerie: se oferă alegerea", c.hwOferit === true);
+    ok("feronerie: alegerea ajunge în cfg.hwSel", c.hwScris !== false);
+    ok("feronerie: prețul se mișcă, o opțiune e bifată", c.hwPretNou !== false);
+    ok("feronerie: niciun cod de articol în nume", c.hwFaraCod === true);
+    ok("feronerie: după semnare e în proiect și în ofertă", c.hwApplicata === true && c.hwInOferta === true);
     ok("toccare una finitura la cambia", c.cambiata === true);
     ok("stessa grossezza: le cote non si muovono", c.stessaGrossezza === true);
     ok("il tasto Indietro non porta fuori dal modo cliente", c.dentroDopoIndietro === true);
@@ -6439,11 +6469,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const cap = GL3D.capture(cfg, { w: 640, h: 360, yaw: .2, pitch: .1, warm: true, led: true }); o.cap = !!(cap && cap.img && cap.img.length > 5000);
       /* corpuri deschise prin animația existentă: ușile și sticla, clape, uși pliante, ridicător TV, sertare */
       const names = ["S3 Vitrină", "S4 Clapă sus", "D3 Free flap", "D2 Bar uși pliante", "C3 TV lift", "S2 Sertare"]; o.bodies = {};
+      /* numele corpurilor se traduc în limba aplicației (5.94.5): se caută după poziția din fișierul demo */
+      const orig = Object.keys((await (await fetch("demo/living.json")).json()).configs), keys = Object.keys(p.configs);
+      const cfgOf = n => { const k = ["ro", "it", "en", "fr", "de", "pl", "es"].map(l => EBDemo.bodyName(n, l)).find(x => p.configs[x]); return p.configs[n] || (k && p.configs[k]) || p.configs[keys[orig.indexOf(n)]]; };
       for (const n of names) {
-        /* cheile `configs` sunt în limba în care s-a încărcat copia (renameBodies): se caută numele canonic în toate limbile */
-        const key = ["ro", "it", "en", "fr", "de", "pl", "es"].map(l => EBDemo.bodyName(n, l)).find(k => p.configs[k]);
-        if (!key) { o.err = "config lipsă «" + n + "» (limba " + state.lang + "); chei: " + Object.keys(p.configs).join(" | "); break; }
-        const c = JSON.parse(JSON.stringify(p.configs[key])); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
+        const c = JSON.parse(JSON.stringify(cfgOf(n))); GL3D.set({ open: false, ledOn: true }); GL3D.render(c, { explode: 0 }); await w(300);
         GL3D.set({ open: true }); await w(900);
         const k = GL3D.meshKinds(), mv = k.map(x => ({ role: x.role, t: GL3D.tgtOf(x.pk) })).filter(x => x.t && (x.t.ang || x.t.sl || x.t.ey));
         o.bodies[n] = { moving: mv.length, glass: mv.filter(x => x.role === "vetro").length, led: GL3D.ledInfo() };
