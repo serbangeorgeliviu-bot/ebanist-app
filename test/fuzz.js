@@ -74,6 +74,11 @@ for (let i = 0; i < N; i++) {
   const b = pick(base) || {};
   const cfg = Object.assign({}, b, { name: "F" + i, matBody: "__b", matFront: "__b", matBack: "__k" });
   const t = cfg.type || "standard";
+  /* D-171: deschidere în față la rotund/oval (grade) și racordat (mm), derivată din i, ca să nu consume numerele aleatoare ale restului (aceeași succesiune ca înainte);
+     o parte din valori cad voit în afara limitelor: trebuie să iasă ca eroare declarată, niciodată excepție sau piese care se ciocnesc */
+  { const q = (i * 2654435761 >>> 0) % 100;
+    if (t === "tondo" && q < 45) cfg.rOpen = 10 + ((i * 40503) >>> 0) % 166;
+    if (t === "raccordato" && q < 45) cfg.rOpen = 60 + ((i * 40503) >>> 0) % 760; }
   if (rnd() < .8) cfg.L = ri(300, +process.env.LMAX || 2700);
   if (rnd() < .7) cfg.H = ri(300, 2700);
   if (rnd() < .7) cfg.P = ri(200, 800);

@@ -1,4 +1,54 @@
 {
+ "build:eroare-declarată [tondo]": [
+  {
+   "cfg": {
+    "name": "F2",
+    "type": "tondo",
+    "L": 679,
+    "L2": 900,
+    "H": 1200,
+    "P": 427,
+    "plinth": 0,
+    "tram": 8,
+    "shelves": 3,
+    "drawers": 1,
+    "doors": 0,
+    "back": 0,
+    "hang": 1,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "rOpen": 174,
+    "top": "traverse",
+    "antiWarp": "auto"
+   },
+   "extra": "Corp rotund: deschiderea în față trebuie să fie între 20° și 160° (acum 174°): sub ea nu se vede nimic, peste ea rafturile nu mai au pe ce se sprijini"
+  },
+  {
+   "cfg": {
+    "name": "F161",
+    "type": "tondo",
+    "L": 1618,
+    "L2": 900,
+    "H": 800,
+    "P": 515,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 2,
+    "drawers": 7,
+    "doors": 0,
+    "back": 0,
+    "hang": 0,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "rOpen": 15,
+    "handles": "maniglia",
+    "support": "cadru"
+   },
+   "extra": "Corp rotund: deschiderea în față trebuie să fie între 20° și 160° (acum 15°): sub ea nu se vede nimic, peste ea rafturile nu mai au pe ce se sprijini"
+  }
+ ],
  "ops:opsHandleFit [standard]": [
   {
    "cfg": {
@@ -1129,6 +1179,57 @@
     "top": "traverse"
    },
    "extra": "deriveCarcass: două traverse de 100 mm nu încap în adâncimea 219 (rămâne sub 30 mm între ele)"
+  }
+ ],
+ "build:eroare-declarată [raccordato]": [
+  {
+   "cfg": {
+    "name": "F169",
+    "type": "raccordato",
+    "L": 372,
+    "L2": 900,
+    "H": 2700,
+    "P": 404,
+    "plinth": 0,
+    "tram": 0,
+    "shelves": 1,
+    "drawers": 2,
+    "doors": 7,
+    "back": 1,
+    "hang": 0,
+    "rcorner": 80,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "rOpen": 507
+   },
+   "extra": "Corp racordat: deschiderea în față trebuie să fie între 100 și 210 mm (frontul drept are 212 mm între raze); acum 507 mm"
+  },
+  {
+   "cfg": {
+    "name": "F678",
+    "type": "raccordato",
+    "L": 758,
+    "L2": 900,
+    "H": 1400,
+    "P": 631,
+    "plinth": 0,
+    "tram": 7,
+    "shelves": 6,
+    "drawers": 0,
+    "doors": 8,
+    "back": 1,
+    "hang": 0,
+    "rcorner": 80,
+    "matBody": "__b",
+    "matFront": "__b",
+    "matBack": "__k",
+    "rOpen": 774,
+    "handles": "gola",
+    "golaType": "L",
+    "support": "zoccolo"
+   },
+   "extra": "Corp racordat: deschiderea în față trebuie să fie între 100 și 596 mm (frontul drept are 598 mm între raze); acum 774 mm"
   }
  ],
  "ops:opsRazaGrip [standard]": [

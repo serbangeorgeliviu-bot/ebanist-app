@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.94.0 — 20 noiembrie 2026
+
+**Rotund, Oval și Racordat cu deschidere în față (D-171).**
+- Până acum erau trei corpuri complet închise: rafturile existau în distinctă, dar nu se vedeau, iar uși sau sertare nu aveau pe ce să stea. Câmp nou, **„Deschidere în față”** (grupul „Corp și dimensiuni”): la **Rotund/Oval** în grade pe arc (20–160°, centrată pe față), la **Racordat** în mm (100 până la frontul drept dintre raze). Gol sau 0 = corpul închis, exact ca înainte (distinta și 3D identice, verificat).
+- **Rotund/Oval:** fâșia devine un singur arc, cu lungimea arcului rămas (de exemplu cerc Ø600 la 120°: 1257 mm în loc de 1885). Prinderile din lateral (stânga, dreapta) rămân, cele din față dispar; pozițiile se măsoară pe arc, de la marginea deschiderii.
+- **Racordat:** fâșia se desparte în două (stânga și dreapta), fiecare de la spate, pe lateral, în jurul colțului și pe front până la margine; distinta spune „Fâșie racordată × 2”.
+- Fundul, tavanul și rafturile rămân discuri/plăci întregi. Valori în afara limitelor: eroare declarată. Eticheta câmpului e tradusă în cele 7 limbi.
+- Încă nu există: uși și sertare pe aceste corpuri (urmează uși curbe, apoi eventual sertare).
+
+---
+
 ## 5.93.3 — 20 noiembrie 2026
 
 **Patul cu ladă ridicabilă se ridică în 3D; opțiunile de sub pat se văd.**

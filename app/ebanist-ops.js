@@ -1292,27 +1292,36 @@ function generate1(input) {
      direcția radială E o axă: rotund/oval în punctele cardinale (stânga, față, dreapta; în spate e tăietura fâșiei), iar la
      raccordato pe porțiunile drepte (laterale și front), la distanțele obișnuite. Fâșia în tronsoane nu se găurește. */
   if (cfg.type === "tondo" || cfg.type === "raccordato") {
-    var bandP = byRole("fianco").filter(function (q) { return q.dev; })[0];
+    var bands = byRole("fianco").filter(function (q) { return q.dev; }), bandP = bands[0];
     if (bandP && bandP.dev.nSeg > 1) out.warnings.push({ piece: bandP.pk, k: "opsBandSeg" });
     else if (bandP) {
       var dvB = bandP.dev;
+      /* D-171: cu deschidere în față, la rotund/oval fâșia e un singur arc (frontul cade în deschidere, deci fără prindere pe față), iar la racordat sunt două fâșii,
+         L și R: fiecare prindere merge pe fâșia pe care cade */
+      var bandL = bands.filter(function (q) { return q.dev.which === "L"; })[0], bandR = bands.filter(function (q) { return q.dev.which === "R"; })[0];
       pcs.filter(function (q) { return q.tAx === 1 && (q.role === "base" || q.role === "cielo" || q.role === "ripiano"); }).forEach(function (E) {
         var camS = E.role === "cielo" ? 1 : -1, ecx = (E.min[0] + E.max[0]) / 2, ecz = (E.min[2] + E.max[2]) / 2;
-        var fix = function (eAx, eSide, sAx, lo, hi) {
-          var n0 = bandP.holes.length;
-          joint(E, bandP, eAx, eSide, sAx, lo, hi, 1, camS, out);
+        var fix = function (strip, eAx, eSide, sAx, lo, hi) {
+          var n0 = strip.holes.length;
+          joint(E, strip, eAx, eSide, sAx, lo, hi, 1, camS, out);
           /* confirmat/trecut: intrarea e pe fața EXTERIOARĂ a fâșiei, nu pe cea interioară (unde ajunge muchia plăcii) */
-          for (var i = n0; i < bandP.holes.length; i++) {
-            var hh = bandP.holes[i];
-            if (hh.through) hh.w[eAx] = hh.side > 0 ? bandP.max[eAx] : bandP.min[eAx];
+          for (var i = n0; i < strip.holes.length; i++) {
+            var hh = strip.holes[i];
+            if (hh.through) hh.w[eAx] = hh.side > 0 ? strip.max[eAx] : strip.min[eAx];
           }
         };
         if (dvB.k === "ell") {
-          fix(0, -1, 2, ecz - 1, ecz + 1); fix(0, 1, 2, ecz - 1, ecz + 1); fix(2, 1, 0, ecx - 1, ecx + 1);
+          fix(bandP, 0, -1, 2, ecz - 1, ecz + 1); fix(bandP, 0, 1, 2, ecz - 1, ecz + 1);
+          if (!dvB.open) fix(bandP, 2, 1, 0, ecx - 1, ecx + 1);
+        } else if (dvB.open && bandL && bandR) {
+          var sz0o = E.min[2], sz1o = dvB.P - dvB.r, cutL = dvB.L / 2 - dvB.open / 2, cutR = dvB.L / 2 + dvB.open / 2;
+          if (sz1o - sz0o > 30) { fix(bandL, 0, -1, 2, sz0o, sz1o); fix(bandR, 0, 1, 2, sz0o, sz1o); }
+          if (cutL - dvB.r > 30) fix(bandL, 2, 1, 0, dvB.r, cutL);
+          if (dvB.L - dvB.r - cutR > 30) fix(bandR, 2, 1, 0, cutR, dvB.L - dvB.r);
         } else {
           var sz0 = E.min[2], sz1 = dvB.P - dvB.r;
-          if (sz1 - sz0 > 30) { fix(0, -1, 2, sz0, sz1); fix(0, 1, 2, sz0, sz1); }
-          if (dvB.L - 2 * dvB.r > 30) fix(2, 1, 0, dvB.r, dvB.L - dvB.r);
+          if (sz1 - sz0 > 30) { fix(bandP, 0, -1, 2, sz0, sz1); fix(bandP, 0, 1, 2, sz0, sz1); }
+          if (dvB.L - 2 * dvB.r > 30) fix(bandP, 2, 1, 0, dvB.r, dvB.L - dvB.r);
         }
       });
     }
@@ -1542,14 +1551,29 @@ function generate1(input) {
    desfășurată măsurată pe pielea exterioară, de la capătul din spate, în sensul acelor de ceasornic văzut de sus; vezi din
    interior, x crește spre dreapta. Rotund/oval: exactă în cele patru puncte cardinale (sferturile sunt egale prin simetrie),
    iar la cerc oriunde. Raccordato: exactă pe porțiunile drepte (laterale și front). */
+/* lungimea arcului de elipsă între două faze (0 = spate, π/2 = dreapta, π = față), Simpson; aceeași formulă ca `ellArc` din index.html */
+function ellArc(a, b, u0, u1) {
+  var n = 240, h = (u1 - u0) / n, f = function (u) { return Math.sqrt(a * a * Math.cos(u) * Math.cos(u) + b * b * Math.sin(u) * Math.sin(u)); }, q = f(u0) + f(u1);
+  for (var i = 1; i < n; i++) q += f(u0 + i * h) * (i % 2 ? 4 : 2);
+  return q * h / 3;
+}
 function devX(dv, w) {
   var a = dv.L / 2, b = dv.P / 2;
   if (dv.k === "ell") {
     var ph = Math.atan2((w[0] - a) / a, -(w[2] - b) / b);
     if (ph < 0) ph += 2 * Math.PI;
+    if (dv.open) {                       // arc cu capetele la marginile deschiderii din față: se măsoară de la marginea din stânga a deschiderii (faza π + jumătate)
+      var phS = Math.PI + dv.open * Math.PI / 360, u = ph - phS;
+      if (u < 0) u += 2 * Math.PI;
+      return ellArc(a, b, phS, phS + u);
+    }
     return dv.len * ph / (2 * Math.PI);
   }
   var zz = w[2], lim = dv.P - dv.r;
+  if (dv.open) {                         // racordat cu deschidere: două fâșii, ambele măsurate de la spate pe lateral, în jurul colțului, pe front până la margine
+    if (zz <= lim + 0.01) return zz;
+    return dv.side + dv.arc + (dv.which === "L" ? (w[0] - dv.r) : (dv.L - dv.r - w[0]));
+  }
   if (zz <= lim + 0.01) return w[0] < a ? zz : dv.side + dv.arc + dv.front + dv.arc + (lim - zz);
   return dv.side + dv.arc + (w[0] - dv.r);
 }
