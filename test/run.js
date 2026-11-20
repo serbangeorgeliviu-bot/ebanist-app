@@ -1819,6 +1819,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.interni = /€\s*\/\s*m²|manodopera|margin|sfrido|pannell[oi] intero|distinta/i.test(txt);
       o.prezzo = !!el.querySelector(".cm-ptot") && /€/.test(el.querySelector(".cm-ptot").textContent);
       o.swatch = el.querySelectorAll(".cm-sws[data-key=matFront] .cm-sw").length;
+      /* prezentarea (5.95.0): titlul proiectului, schema cu cote, ce include, pașii; cotele interne ale Studioului nu se văd */
+      o.heroNume = (el.querySelector(".cm-hero h1") || {}).textContent === p.name;
+      o.schema = !!el.querySelector(".cm-look .pe-svg") && el.querySelectorAll(".cm-look .pe-door").length > 0;
+      o.include = el.querySelectorAll(".cm-inc > div").length > 0;
+      o.pasi = el.querySelectorAll(".cm-steps li").length === 3;
+      o.cotePrincipale = el.querySelectorAll(".cm-dims > div").length === 3;
+      o.faraCoteInterne = !gl3dOn() || window.GL3D.state.dims === false;
       /* la variante ha la stessa grossezza: le cote non si muovono */
       const cfg0 = cmCfg(CM.cur), th0 = matById(cfg0.matFront).th;
       const b = [...el.querySelectorAll(".cm-sws[data-key=matFront] .cm-sw")].find(x => x.dataset.id !== cfg0.matFront);
@@ -1826,11 +1833,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       const cfg1 = cmCfg(CM.cur);
       o.cambiata = cfg1.matFront === b.dataset.id && cfg1.matFront !== cfg0.matFront;
       o.stessaGrossezza = matById(cfg1.matFront).th === th0;
+      await w(800);                                       // numărătoarea prețului s-a încheiat
+      o.prezzoFinale = el.querySelector(".cm-ptot").textContent === "€ " + fmt(CM.price.total);
       /* il tasto Indietro non porta fuori */
       o.dentroDopoIndietro = (navCloseTop(), CM.on === true);
       /* la firma: senza tratto il bottone resta spento */
       el.querySelector("[data-accept]").click(); await w(200);
       document.getElementById("cmSignName").value = "Mario Rossi"; document.getElementById("cmSignOk").checked = true; cmSignCheck();
+      o.riepilogo = document.querySelectorAll("#cmRecap > div").length === CM.mods.length;
       o.spentoSenzaFirma = document.getElementById("cmSignGo").disabled;
       const pad = document.getElementById("cmPad"), r = pad.getBoundingClientRect();
       const ev = (t, x, y) => pad.dispatchEvent(new PointerEvent(t, { clientX: r.left + x, clientY: r.top + y, pointerId: 1, bubbles: true }));
@@ -1864,6 +1874,14 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun costo interno, niente distinta", c.interni === false);
     ok("il prezzo finale c'e", c.prezzo === true);
     ok("finiture da scegliere", c.swatch > 1, c.swatch);
+    ok("prezentare: titlul proiectului pe ecran", c.heroNume === true);
+    ok("prezentare: schema cu cote și uși", c.schema === true);
+    ok("prezentare: ce include mobilierul", c.include === true);
+    ok("prezentare: cei trei pași după semnătură", c.pasi === true);
+    ok("prezentare: lățime, înălțime, adâncime", c.cotePrincipale === true);
+    ok("prezentare: fără cotele interne ale Studioului în 3D", c.faraCoteInterne === true);
+    ok("prezentare: prețul numărat ajunge la totalul exact", c.prezzoFinale === true);
+    ok("prezentare: rezumatul în fereastra de semnare", c.riepilogo === true);
     ok("toccare una finitura la cambia", c.cambiata === true);
     ok("stessa grossezza: le cote non si muovono", c.stessaGrossezza === true);
     ok("il tasto Indietro non porta fuori dal modo cliente", c.dentroDopoIndietro === true);
