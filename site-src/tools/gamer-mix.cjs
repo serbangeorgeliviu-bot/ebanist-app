@@ -7,6 +7,10 @@ const OUT=path.resolve(__dirname,"../../vid-gamer"),FPS=24;
 const TX={it:{a:"GTA 6 sta arrivando.",b:"E tu giochi su QUESTO?",c:"14 cavi. 1 tazza. 0 stabilità.",d:"Il setup per GTA 6"},
           ro:{a:"GTA 6 iese.",b:"Tu joci pe masa asta?",c:"14 cabluri. 1 cană. 0 stabilitate.",d:"Setup-ul de GTA 6"},
           en:{a:"GTA 6 is coming.",b:"You’re gaming on THIS?",c:"14 cables. 1 mug. 0 stability.",d:"The GTA 6 setup"}};
+const TXW={ro:{w1:["Perete întreg de gaming","12 corpuri · rafturi LED · vitrină · nișă pentru consolă"],w2:["Jocuri, gadgeturi, colecții","rafturi cu LED"],w3:["170 de panouri, gata de debitat","proiectat în Ebanist"]},
+ en:{w1:["A full gaming wall","12 units · LED shelves · display · console niche"],w2:["Games, gadgets, collectibles","shelves with LED"],w3:["170 panels, ready to cut","designed in Ebanist"]},
+ it:{w1:["Una parete gaming completa","12 moduli · mensole LED · vetrina · nicchia console"],w2:["Giochi, gadget, collezioni","mensole con LED"],w3:["170 pannelli, pronti da tagliare","progettato con Ebanist"]}};
+const WS=[["w1",3.4],["w2",2.8],["w3",2.6]];
 const sh=(a)=>cp.execFileSync("ffmpeg",["-loglevel","error","-y",...a],{stdio:"inherit"});
 (async()=>{
  const b=await chromium.launch({args:["--no-sandbox"]});const pg=await b.newPage({viewport:{width:1080,height:1920}});
@@ -16,6 +20,10 @@ const sh=(a)=>cp.execFileSync("ffmpeg",["-loglevel","error","-y",...a],{stdio:"i
   const dir=path.join(OUT,"mix",L);fs.mkdirSync(dir,{recursive:true});
   for(const [k,html] of Object.entries({a:big(TX[L].a,300),b:big(TX[L].b,300),c:mid(TX[L].c,300),d:mid(TX[L].d,300)})){
    await pg.setContent(`<body style="margin:0;background:transparent">${html}</body>`);await pg.screenshot({path:path.join(dir,k+".png"),omitBackground:true});
+  }
+  for(const [k,[a,c]] of Object.entries(TXW[L])){
+   await pg.setContent(`<body style="margin:0;background:transparent"><div style="position:fixed;left:50px;right:50px;bottom:330px;text-align:center;padding:26px 30px;border-radius:30px;background:rgba(10,10,30,.82);border:3px solid #ff4fa3;box-shadow:0 0 36px rgba(255,79,163,.55),0 0 60px rgba(0,229,255,.25);color:#fff;font-family:Inter,system-ui,sans-serif"><div style="font-weight:800;font-size:64px;line-height:1.08">${a}</div><div style="font-weight:600;font-size:36px;color:#7ef0ff;margin-top:10px">${c}</div></div></body>`);
+   await pg.screenshot({path:path.join(dir,"cap-"+k+".png"),omitBackground:true});
   }
  }
  await b.close();
@@ -37,7 +45,10 @@ const sh=(a)=>cp.execFileSync("ffmpeg",["-loglevel","error","-y",...a],{stdio:"i
   mk("s4",["-ss","0.3","-t","4.0","-i",ai("dream"),"-loop","1","-framerate","24","-i",ov("d"),"-filter_complex",
    `[0:v]${fit},fade=t=in:st=0:d=0.15:color=white[v];[v][1:v]${over("d",0.3,4.0)}[o]`,"-map","[o]","-t","4.0"]);
   /* 5–8 partea 3D din Ebanist + card */
-  mk("s5",["-t","2.6","-i",part(3)]);mk("s6",["-t","2.4","-i",part(4)]);mk("s7",["-t","3.0","-i",part(6)]);mk("s8",["-t","3.0","-i",part(7)]);
+  for(const [k,dur] of WS){const nf=fs.readdirSync(path.join(OUT,"wseq",k)).length;
+   mk(k,["-framerate",String(nf/dur),"-i",path.join(OUT,"wseq",k,"f_%04d.jpg"),"-loop","1","-framerate","24","-i",path.join(OUT,"glow.png"),"-loop","1","-framerate","24","-i",path.join(dir,"cap-"+k+".png"),"-filter_complex",
+    `[0:v]format=rgb24[v];[1:v]format=rgb24[g];[v][g]blend=all_mode=screen:all_opacity=0.3[b];[b][2:v]overlay=0:0:enable='between(t,0.2,${dur})'[o]`,"-map","[o]","-t",String(dur)]);}
+  mk("s8",["-t","3.0","-i",part(7)]);
   const lst=path.join(dir,"list.txt");fs.writeFileSync(lst,seg.map(x=>"file '"+x+"'").join("\n"));
   sh(["-f","concat","-safe","0","-i",lst,"-c","copy","-movflags","+faststart",path.join(OUT,"ebanist-gamer-final-"+L+".mp4")]);
   console.log("gata",L);
