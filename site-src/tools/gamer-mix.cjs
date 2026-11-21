@@ -4,14 +4,15 @@
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const fs=require("fs"),path=require("path"),cp=require("child_process");
 const OUT=path.resolve(__dirname,"../../vid-gamer"),FPS=24;
-const TX={ro:{a:"GTA 6 iese.",b:"Tu joci pe masa asta?",c:"14 cabluri. 1 cană. 0 stabilitate.",d:"Setup-ul de GTA 6"},
+const TX={it:{a:"GTA 6 sta arrivando.",b:"E tu giochi su QUESTO?",c:"14 cavi. 1 tazza. 0 stabilità.",d:"Il setup per GTA 6"},
+          ro:{a:"GTA 6 iese.",b:"Tu joci pe masa asta?",c:"14 cabluri. 1 cană. 0 stabilitate.",d:"Setup-ul de GTA 6"},
           en:{a:"GTA 6 is coming.",b:"You’re gaming on THIS?",c:"14 cables. 1 mug. 0 stability.",d:"The GTA 6 setup"}};
 const sh=(a)=>cp.execFileSync("ffmpeg",["-loglevel","error","-y",...a],{stdio:"inherit"});
 (async()=>{
  const b=await chromium.launch({args:["--no-sandbox"]});const pg=await b.newPage({viewport:{width:1080,height:1920}});
  const big=(t,y)=>`<div style="position:fixed;left:40px;right:40px;top:${y}px;text-align:center;font:900 112px/1.02 'Inter',system-ui,sans-serif;color:#fff;-webkit-text-stroke:10px #000;paint-order:stroke fill;text-shadow:0 6px 30px rgba(0,0,0,.7);letter-spacing:-2px">${t}</div>`;
  const mid=(t,y)=>`<div style="position:fixed;left:40px;right:40px;top:${y}px;text-align:center;font:900 92px/1.05 'Inter',system-ui,sans-serif;color:#7ef0ff;-webkit-text-stroke:9px #000;paint-order:stroke fill;text-shadow:0 0 40px #ff4fa3,0 6px 24px rgba(0,0,0,.7)">${t}</div>`;
- for(const L of ["ro","en"]){
+ for(const L of ["ro","en","it"]){
   const dir=path.join(OUT,"mix",L);fs.mkdirSync(dir,{recursive:true});
   for(const [k,html] of Object.entries({a:big(TX[L].a,300),b:big(TX[L].b,300),c:mid(TX[L].c,300),d:mid(TX[L].d,300)})){
    await pg.setContent(`<body style="margin:0;background:transparent">${html}</body>`);await pg.screenshot({path:path.join(dir,k+".png"),omitBackground:true});
@@ -20,7 +21,7 @@ const sh=(a)=>cp.execFileSync("ffmpeg",["-loglevel","error","-y",...a],{stdio:"i
  await b.close();
  const enc=["-r",String(FPS),"-c:v","libx264","-crf","19","-preset","medium","-pix_fmt","yuv420p","-an"];
  const fit="scale=-2:1920,crop=1080:1920,eq=contrast=1.12:saturation=1.2,noise=alls=7:allf=t,vignette=PI/5";
- for(const L of ["ro","en"]){
+ for(const L of ["ro","en","it"]){
   const dir=path.join(OUT,"mix",L),ai=n=>path.join(OUT,"ai",n+".mp4"),ov=k=>path.join(dir,k+".png"),part=i=>path.join(OUT,"part-"+L+"-"+i+".mp4"),seg=[];
   const mk=(name,args)=>{const f=path.join(dir,name+".mp4");sh([...args,...enc,f]);seg.push(f)};
   const over=(k,a,b)=>`overlay=0:0:enable='between(t,${a},${b})'`;

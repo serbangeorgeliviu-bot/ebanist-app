@@ -6,16 +6,16 @@
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const http=require("http"),fs=require("fs"),path=require("path"),cp=require("child_process");
 const MODE=process.argv[2]||"frames",ONE=process.argv[3]==="1",root=path.resolve(__dirname,"../.."),OUT=path.join(root,"vid-gamer");
-const FPS=24,W=1080,H=1920,LANGS=["ro","en"],GRAF="egger_u961_st7_18",NUC="egger_h1714_st19_18";
+const FPS=24,W=1080,H=1920,LANGS=["ro","en","it"],GRAF="egger_u961_st7_18",NUC="egger_h1714_st19_18";
 const TX={
- t1:{ro:["Vice City revine în GTA 6","și tu joci pe masa bunicii…"],en:["Vice City is back in GTA 6","and you’re gaming on grandma’s table…"]},
- t2:{ro:["…cu 14 cabluri","și tastatura pe genunchi"],en:["…with 14 cables","and the keyboard on your knees"]},
- d1:{ro:["Setup nou pentru GTA 6","vibe Vice City · făcut în Ebanist"],en:["New setup for GTA 6","Vice City vibes · made in Ebanist"]},
- d2:{ro:["Raft de tastatură","la înălțimea ta"],en:["Keyboard shelf","at your height"]},
- d3:{ro:["Cabluri? Ce cabluri.","treceri Ø60 mm prin blat"],en:["Cables? What cables.","Ø60 mm cable passes in the top"]},
- d4:{ro:["Fiecare piesă, calculată","gata de debitat"],en:["Every part calculated","ready to cut"]},
- or:{ro:"Sau…",en:"Or…"},
- end:{ro:["Proiectează-ți setup-ul","ebanist.com · link în bio"],en:["Design your setup","ebanist.com · link in bio"]}};
+ t1:{it:["Vice City torna in GTA 6","e tu giochi sul tavolo della nonna…"],ro:["Vice City revine în GTA 6","și tu joci pe masa bunicii…"],en:["Vice City is back in GTA 6","and you’re gaming on grandma’s table…"]},
+ t2:{it:["…con 14 cavi","e la tastiera sulle ginocchia"],ro:["…cu 14 cabluri","și tastatura pe genunchi"],en:["…with 14 cables","and the keyboard on your knees"]},
+ d1:{it:["Nuovo setup per GTA 6","vibe Vice City · fatto con Ebanist"],ro:["Setup nou pentru GTA 6","vibe Vice City · făcut în Ebanist"],en:["New setup for GTA 6","Vice City vibes · made in Ebanist"]},
+ d2:{it:["Ripiano per la tastiera","all’altezza giusta"],ro:["Raft de tastatură","la înălțimea ta"],en:["Keyboard shelf","at your height"]},
+ d3:{it:["Cavi? Quali cavi.","passacavi Ø60 mm nel piano"],ro:["Cabluri? Ce cabluri.","treceri Ø60 mm prin blat"],en:["Cables? What cables.","Ø60 mm cable passes in the top"]},
+ d4:{it:["Ogni pezzo, calcolato","pronto da tagliare"],ro:["Fiecare piesă, calculată","gata de debitat"],en:["Every part calculated","ready to cut"]},
+ or:{it:"Oppure…",ro:"Sau…",en:"Or…"},
+ end:{it:["Progetta il tuo setup","ebanist.com · link in bio"],ro:["Proiectează-ți setup-ul","ebanist.com · link în bio"],en:["Design your setup","ebanist.com · link in bio"]}};
 const sm=k=>k*k*(3-2*k);
 const SEGS=[
  {name:"t1",kind:"mod",cfg:"table",sec:3.5,from:{yaw:.6,pitch:.3,zoom:.95},to:{yaw:.3,pitch:.35,zoom:1.05},cap:"t1"},
