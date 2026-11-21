@@ -39,7 +39,7 @@ if(MODE==="mux"){
    if(s.card||s.or) a.push("-loop","1","-framerate",String(FPS),"-i",path.join(OUT,"ov",L,s.card?"card.png":"or.png"));
    else a.push("-framerate",String(fs.readdirSync(path.join(OUT,"seq",s.name)).length/s.sec),"-i",path.join(OUT,"seq",s.name,"f_%04d.jpg"));
    if(s.neon){a.push("-loop","1","-framerate",String(FPS),"-i",path.join(OUT,"glow.png"));
-    fc.push(`[0:v]format=rgb24[v];[${k}:v]format=rgb24[g];[v][g]blend=all_mode=screen:all_opacity=0.5[b]`);last="b";k++}
+    fc.push(`[0:v]format=rgb24[v];[${k}:v]format=rgb24[g];[v][g]blend=all_mode=screen:all_opacity=0.26[b]`);last="b";k++}
    const ovs=[];
    if(s.cables) ovs.push({f:"cables",a:.8,b:d});
    if(s.cap) ovs.push({f:"cap-"+s.name,a:.15,b:d});
