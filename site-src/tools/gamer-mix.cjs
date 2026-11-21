@@ -47,7 +47,7 @@ const sh=(a)=>cp.execFileSync("ffmpeg",["-loglevel","error","-y",...a],{stdio:"i
   /* 5–8 partea 3D din Ebanist + card */
   for(const [k,dur] of WS){const nf=fs.readdirSync(path.join(OUT,"wseq",k)).length;
    mk(k,["-framerate",String(nf/dur),"-i",path.join(OUT,"wseq",k,"f_%04d.jpg"),"-loop","1","-framerate","24","-i",path.join(OUT,"glow.png"),"-loop","1","-framerate","24","-i",path.join(dir,"cap-"+k+".png"),"-filter_complex",
-    `[0:v]format=rgb24[v];[1:v]format=rgb24[g];[v][g]blend=all_mode=screen:all_opacity=0.3[b];[b][2:v]overlay=0:0:enable='between(t,0.2,${dur})'[o]`,"-map","[o]","-t",String(dur)]);}
+    `[0:v]eq=brightness=-0.24:contrast=1.3:saturation=1.1,vignette=PI/4,format=rgb24[v];[1:v]format=rgb24[g];[v][g]blend=all_mode=screen:all_opacity=0.32[b];[b][2:v]overlay=0:0:enable='between(t,0.2,${dur})'[o]`,"-map","[o]","-t",String(dur)]);}
   mk("s8",["-t","3.0","-i",part(7)]);
   const lst=path.join(dir,"list.txt");fs.writeFileSync(lst,seg.map(x=>"file '"+x+"'").join("\n"));
   sh(["-f","concat","-safe","0","-i",lst,"-c","copy","-movflags","+faststart",path.join(OUT,"ebanist-gamer-final-"+L+".mp4")]);
