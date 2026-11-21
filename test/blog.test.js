@@ -82,3 +82,24 @@ test("tabelul Gratuit/Pro: rândurile noi (fișa piesei gratuită; animația vid
     assert.equal(free(stl), 1, l + " STL doar Pro"); assert.equal(free(vid), 1, l + " video doar Pro");
   }
 });
+
+/* al treilea articol: Noutăți 5.79–5.98 */
+test("articolul 5.98 există în fiecare limbă, cu hreflang, JSON-LD și fără chei nerezolvate", () => {
+  for (const l of cfg.LANGS) {
+    const h = rd(dir(l) + "blog/whats-new-5-98/index.html");
+    assert.ok(h.includes(`<html lang="${l}">`), l);
+    for (const x of cfg.LANGS) assert.ok(h.includes(`hreflang="${x}"`), `${l} → ${x}`);
+    const j = JSON.parse(h.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
+    assert.equal(j["@type"], "BlogPosting"); assert.equal(j.datePublished, "2026-11-21");
+    assert.ok(!/\{\{|blog[56]?\.[a-z0-9]+\.[a-z]/.test(h.replace(/<script[\s\S]*?<\/script>/g, "").replace(/<style[\s\S]*?<\/style>/g, "")), "cheie nerezolvată în " + l);
+    assert.equal((h.match(/class="blog-item"/g) || []).length, 8, l);
+    const idx = rd(dir(l) + "blog/index.html");
+    assert.ok(idx.includes("whats-new-5-98/"), l);
+    assert.ok(rd("sitemap.xml").includes(`${cfg.SITE_URL}/${l === cfg.DEFAULT_LANG ? "" : l + "/"}blog/whats-new-5-98/`), l);
+  }
+  const en = JSON.parse(rd("site-src/i18n/en.json"));
+  for (const l of cfg.LANGS.filter(x => x !== "en")) {
+    const d = JSON.parse(rd(`site-src/i18n/${l}.json`));
+    for (const k of Object.keys(en).filter(k => k.startsWith("blog6.") || /^news\.[1245789]\./.test(k))) assert.notEqual(d[k], en[k], `${l} ${k}`);
+  }
+});

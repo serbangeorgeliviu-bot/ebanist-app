@@ -186,7 +186,7 @@ body::after{content:"";position:fixed;inset:-50%;z-index:90;pointer-events:none;
 #splash.out{opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility 0s .45s}
 
 /* ---------- 1 · hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:110px 0 60px;overflow:hidden}
+.hero{position:relative;min-height:min(100svh,860px);display:flex;align-items:center;padding:110px 0 60px;overflow:hidden}
 .hero-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,4vw,60px);align-items:center;position:relative}
 .hero-copy{position:relative;z-index:2}
 .hero-sub{color:var(--txt2);font-size:clamp(17px,1.35vw,19px);max-width:44ch;margin-top:26px}
