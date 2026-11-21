@@ -8,9 +8,9 @@ const http=require("http"),fs=require("fs"),path=require("path"),cp=require("chi
 const MODE=process.argv[2]||"frames",ONE=process.argv[3]==="1",root=path.resolve(__dirname,"../.."),OUT=path.join(root,"vid-gamer");
 const FPS=24,W=1080,H=1920,LANGS=["ro","en"],GRAF="egger_u961_st7_18",NUC="egger_h1714_st19_18";
 const TX={
- t1:{ro:["Gamer la 3 dimineața","pe masa bunicii…"],en:["Gaming at 3 a.m.","on grandma’s table…"]},
+ t1:{ro:["Vice City revine în GTA 6","și tu joci pe masa bunicii…"],en:["Vice City is back in GTA 6","and you’re gaming on grandma’s table…"]},
  t2:{ro:["…cu 14 cabluri","și tastatura pe genunchi"],en:["…with 14 cables","and the keyboard on your knees"]},
- d1:{ro:["Setup nou, vibe Vice City","inspirat de GTA 6 · făcut în Ebanist"],en:["New setup, Vice City vibes","inspired by GTA 6 · made in Ebanist"]},
+ d1:{ro:["Setup nou pentru GTA 6","vibe Vice City · făcut în Ebanist"],en:["New setup for GTA 6","Vice City vibes · made in Ebanist"]},
  d2:{ro:["Raft de tastatură","la înălțimea ta"],en:["Keyboard shelf","at your height"]},
  d3:{ro:["Cabluri? Ce cabluri.","treceri Ø60 mm prin blat"],en:["Cables? What cables.","Ø60 mm cable passes in the top"]},
  d4:{ro:["Fiecare piesă, calculată","gata de debitat"],en:["Every part calculated","ready to cut"]},
