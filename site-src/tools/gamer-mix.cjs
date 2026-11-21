@@ -4,9 +4,9 @@
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const fs=require("fs"),path=require("path"),cp=require("child_process");
 const OUT=path.resolve(__dirname,"../../vid-gamer"),FPS=24;
-const TX={it:{a:"GTA 6 sta arrivando.",b:"E tu giochi su QUESTO?",c:"14 cavi. 1 tazza. 0 stabilità.",d:"Il setup per GTA 6"},
-          ro:{a:"GTA 6 iese.",b:"Tu joci pe masa asta?",c:"14 cabluri. 1 cană. 0 stabilitate.",d:"Setup-ul de GTA 6"},
-          en:{a:"GTA 6 is coming.",b:"You’re gaming on THIS?",c:"14 cables. 1 mug. 0 stability.",d:"The GTA 6 setup"}};
+const TX={it:{a:"GTA 6 è uscito.",b:"E tu giochi su QUESTO?",c:"14 cavi. 1 tazza. 0 stabilità.",d:"Il setup per GTA 6"},
+          ro:{a:"GTA 6 a ieșit.",b:"Tu joci pe masa asta?",c:"14 cabluri. 1 cană. 0 stabilitate.",d:"Setup-ul de GTA 6"},
+          en:{a:"GTA 6 is out.",b:"You’re gaming on THIS?",c:"14 cables. 1 mug. 0 stability.",d:"The GTA 6 setup"}};
 const TXW={ro:{w1:["Perete întreg de gaming","12 corpuri · rafturi LED · vitrină · nișă pentru consolă"],w2:["Jocuri, gadgeturi, colecții","rafturi cu LED"],w3:["170 de panouri, gata de debitat","proiectat în Ebanist"]},
  en:{w1:["A full gaming wall","12 units · LED shelves · display · console niche"],w2:["Games, gadgets, collectibles","shelves with LED"],w3:["170 panels, ready to cut","designed in Ebanist"]},
  it:{w1:["Una parete gaming completa","12 moduli · mensole LED · vetrina · nicchia console"],w2:["Giochi, gadget, collezioni","mensole con LED"],w3:["170 pannelli, pronti da tagliare","progettato con Ebanist"]}};
