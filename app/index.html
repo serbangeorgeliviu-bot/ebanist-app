@@ -826,6 +826,12 @@ nav button{font-family:var(--font-body);text-transform:none;letter-spacing:0;fon
 @media (max-width:560px){ .vt-top{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;
   -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:22px}
   .vt-top::-webkit-scrollbar{display:none} .vt-top .vtb{flex:none} }
+/* ecranul „Bun venit”: trei rânduri cu pictogramă, nu un bloc de text */
+#shIntro .f{display:grid;gap:10px;margin:8px 0 12px}
+#shIntro .f p{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;margin:0;padding:10px 12px;
+  border:1px solid var(--line);border-radius:12px;background:var(--raised)}
+#shIntro .f p b{width:42px;height:42px;display:grid;place-items:center;border-radius:11px;font-size:20px;
+  background:rgba(212,175,55,.14);border:1px solid rgba(212,175,55,.28)}
 /* telefon îngust: antetul dă mai mult loc numelui proiectului */
 @media (max-width:420px){ header{gap:6px;padding-left:12px;padding-right:12px} .brand{gap:8px} }
 .vsel{position:absolute;left:8px;right:52px;bottom:8px;z-index:3;background:var(--veil);backdrop-filter:blur(12px);
@@ -20795,12 +20801,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.98.1"; /* APP_VER-MARKER */
+const APP_VER="5.98.2"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v289";
+const SW_CACHE="ebanist-v290";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.98.2 — 21 noiembrie 2026
+
+**Ecranul „Bun venit”: trei rânduri cu pictogramă în loc de un bloc de text.**
+- Cele trei idei (generează, documente de atelier, poza camerei) sunt carduri cu pictograma într-un chenar auriu. Textele și butoanele sunt neschimbate, în toate cele 7 limbi.
+- Numai CSS; distinta, găurirea și 3D-ul nu se schimbă.
+
+---
+
 ## 5.98.1 — 21 noiembrie 2026
 
 **Telefon: bara 3D într-un singur rând și antet cu mai mult loc pentru numele proiectului.**
