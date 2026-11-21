@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.98.1 — 21 noiembrie 2026
+
+**Telefon: bara 3D într-un singur rând și antet cu mai mult loc pentru numele proiectului.**
+- Sub 560 px, butoanele din bara de sus a 3D-ului nu mai trec pe două rânduri peste mobilier: stau într-un singur rând care se derulează, cu margine estompată. Pe ecrane mari, neschimbat.
+- Sub 420 px, antetul are marginile și golurile mai mici, deci numele proiectului se taie mai târziu.
+- Numai CSS; distinta, găurirea și 3D-ul nu se schimbă.
+
+---
+
 ## 5.98.0 — 20 noiembrie 2026
 
 **Telemetrie Play: de ce nu se vede ecranul Pro sau de ce nu se termină plata (D-179).** Numai pentru noi, nu schimbă nimic pentru utilizator.
