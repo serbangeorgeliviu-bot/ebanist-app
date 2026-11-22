@@ -17007,6 +17007,39 @@ function roomBoxes(){
       })(b0);
       for(let k=n1;k<out.length;k++){ out[k].rmMod=m.name; out[k].rmRole=b0.role||null; if(roomOpen&&b0.kind==='f'&&(b0.sub==='door'||b0.sub==='lift'||b0.sub==='fold'||b0.sub==='drawer'||b0.sub==='dbox'||b0.grp)) out[k].rmMoved=true; if((b0.kind==="p"||b0.kind==="f")&&typeof out[k].mat==="string") out[k].matId=out[k].mat; }   // materialul fiecărui corp, nu cel din setări
     });
+    /* Mânerele din catalog (D-181): bară sau buton, cu lungimea și distanța dintre găuri din model, pe fața ușii sau a sertarului. Cu «Ante aperte» ușa le duce
+       cu ea (rotite pe balama, aceeași formulă ca ușa), sertarul le scoate cu el (același 55 % din adâncime). Numai desen: distinta nu se schimbă. */
+    try{
+      const Mh=mModel(p,m.name), hws=((Mh&&Mh.ops&&Mh.ops.hw)||[]).filter(h=>h.type==="maniglia"&&h.hm&&h.w);
+      const frs=mm.boxes.filter(b=>b.kind==="f");
+      hws.forEach(h=>{
+        const hx0=h.w[0], hy0=h.w[1], hz0=h.w[2], hm=h.hm, S=28, parts=[];
+        if(hm.t==="knob"||h.knob){ const d=+hm.d||30; parts.push({x0:hx0-d/2,x1:hx0+d/2,y0:hy0-d/2,y1:hy0+d/2,z0:hz0,z1:hz0+25}); }
+        else{
+          const ia=+h.ia||+hm.ia||128, L=+hm.L||(ia+44), vert=!!h.vertical;
+          const bar=vert?{x0:hx0-5,x1:hx0+5,y0:hy0-L/2,y1:hy0+L/2}:{x0:hx0-L/2,x1:hx0+L/2,y0:hy0-5,y1:hy0+5};
+          parts.push(Object.assign({z0:hz0+S,z1:hz0+S+10},bar));
+          [-1,1].forEach(sg=>{ parts.push(vert?{x0:hx0-4,x1:hx0+4,y0:hy0+sg*ia/2-4,y1:hy0+sg*ia/2+4,z0:hz0,z1:hz0+S}:{x0:hx0+sg*ia/2-4,x1:hx0+sg*ia/2+4,y0:hy0-4,y1:hy0+4,z0:hz0,z1:hz0+S}); });
+        }
+        const fb=frs.find(b=>hx0>=b.x0-1&&hx0<=b.x1+1&&hy0>=b.y0-1&&hy0<=b.y1+1&&Math.abs(b.z1-hz0)<3);
+        let door=null, sl=0;
+        if(roomOpen&&fb&&fb.sub==="door"){
+          const q=planPC(fb), bx0=Math.min(q[0][0],q[1][0],q[2][0],q[3][0]), bx1=Math.max(q[0][0],q[1][0],q[2][0],q[3][0]), bz=Math.max(q[0][1],q[1][1],q[2][1],q[3][1]);
+          const left=fb.hinge?fb.hinge==="left":(bx0+bx1)/2<(cx0+cx1)/2;
+          door={hx:left?bx0:bx1, sgn:left?1:-1, bz};
+        } else if(roomOpen&&fb&&fb.grp&&grpD[fb.grp]) sl=(grpD[fb.grp].z1-grpD[fb.grp].z0)*0.55;
+        parts.forEach(c=>{
+          let poly=[[c.x0,c.z0],[c.x1,c.z0],[c.x1,c.z1],[c.x0,c.z1]];
+          if(door) poly=poly.map(t=>[door.hx-door.sgn*(t[1]-door.bz), door.bz+door.sgn*(t[0]-door.hx)]);
+          else if(sl) poly=poly.map(t=>[t[0],t[1]+sl]);
+          const pc=poly.map(t=>toRoom(m.fr,m.from,t[0],t[1],m.off,m.rot,m.piv));
+          out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
+                    y0:c.y0+m.lift,y1:c.y1+m.lift,
+                    z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
+                    kind:"p", role:"maniglia", matId:"__blackmetal", mat:"__blackmetal", pc:pc.map(q=>[q.x,q.y]), rmMod:m.name, rmRole:"maniglia", ...((door||sl)?{rmMoved:true}:{})});
+        });
+      });
+    }catch(e){}
   });
   /* «Ante aperte»: ce ușă, clapă sau sertar deschis lovește un alt corp? Cutiile se compară pe gabarit, cu 10 mm toleranță; doar între corpuri diferite (ușa cu corpul ei nu). */
   roomHits=[];
