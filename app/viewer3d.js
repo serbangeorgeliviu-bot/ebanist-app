@@ -558,7 +558,7 @@ const UNIT = new THREE.BoxGeometry(1, 1, 1);
 const UNIT_EDGES = new THREE.EdgesGeometry(UNIT);
 const DISC = new THREE.CircleGeometry(0.5, 24);
 const CYL = new THREE.CylinderGeometry(0.5, 0.5, 1, 20);
-const EASE = 0.2;
+let EASE = 0.2;   /* GL3D.ease(v) o încetinește pentru filme; offlineEnd o readuce */
 const SNAP = 0.00025;
 
 let R = null;
@@ -1899,6 +1899,10 @@ function updateBoundsAndLights(boxes) {
 function focusBounds() {
   const st = R.st;
   /* privire de aproape (GL3D.focusOn): centrul e un punct al piesei, cu raza dată */
+  if (R.focusOv && R.focusOv.pt) {
+    const q = R.focusOv.pt;
+    return { cx: q[0] * MM, cy: q[1] * MM, cz: q[2] * MM, rad: R.focusOv.rad * MM, size: (R.full && R.full.size) || 1 };
+  }
   if (R.focusOv) {
     const P = R.pieces.get(String(R.focusOv.pk));
     if (P) {
@@ -2349,7 +2353,7 @@ const GL3D = {
     paintOverlay(g, W, H, o);
     return { data: D.out.toDataURL("image/jpeg", 0.93), assembling: !!R.asm, t: R.vt };
   },
-  offlineEnd() { if (!R || !R.off) return; const o = R.off.o; if (R.off.yaw0 != null && typeof VIEW === "object") VIEW.yaw = R.off.yaw0; R.manual = false; R.off = null; this.stopAssemble(); if (o && o.bg) this.theme(); resize(); },
+  offlineEnd() { EASE = 0.2; if (!R || !R.off) return; const o = R.off.o; if (R.off.yaw0 != null && typeof VIEW === "object") VIEW.yaw = R.off.yaw0; R.manual = false; R.off = null; this.stopAssemble(); if (o && o.bg) this.theme(); resize(); },
   /* LED (D-157): starea lămpii și atingerea dimmerului */
   /* fibra din poze (5.77.0): care variante s-au cerut și care au sosit */
   grainInfo() { const o = {}; for (const k of Object.keys(GRAIN)) o[k] = GRAIN[k] ? !!(GRAIN[k].image && GRAIN[k].image.complete && GRAIN[k].image.naturalWidth > 0) : null; return o; },
@@ -2426,6 +2430,10 @@ const GL3D = {
   /* apropie camera de o piesă: pk, raza vizată (mm) și o deplasare (mm) față de centrul piesei;
      focusOn(null) revine la corpul întreg. Folosit la capturi și la filme. */
   focusOn(pk, radMm, off) { if (!this.ok) return; R.focusOv = pk == null ? null : { pk: String(pk), rad: radMm || 150, off: off || [0, 0, 0] }; R.need = true; kick(); },
+  /* privire cinematică pe un PUNCT al scenei (mm, în coordonatele camerei: x de-a lungul peretelui, y înălțime, z adâncime), cu raza dată; folosit la filme. focusAt(null) revine la tot. */
+  /* viteza animațiilor pieselor (uși, sertare, explozie): 0.2 implicit; mai mic = mai lent (filme cinematice). Valoare invalidă = implicit. */
+  ease(v) { EASE = (v > 0 && v <= 1) ? +v : 0.2; },
+  focusAt(x, y, z, radMm) { if (!this.ok) return; R.focusOv = x == null ? null : { pt: [+x, +y, +z], rad: radMm || 900 }; R.need = true; kick(); },
   /* pentru audit (teste și capturi): cutiile fiecărei piese în coordonate de lume (mm), în starea cerută: {open, explode}. Animațiile se
      închid pe loc, ca la capture(); starea de dinainte se reface. Întoarce [{pk, role, sub, grp, boxes:[8 colțuri × 3]}]. */
   worldBoxes(st) {

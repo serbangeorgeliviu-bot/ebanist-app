@@ -108,3 +108,17 @@ describe("Viewer 3D e service worker", () => {
     assert.ok(rd("index.html").includes('"./data/materials-scanalati.json"'));
   });
 });
+
+describe("Viewer 3D: API pentru filme cinematice", () => {
+  const V = rd("viewer3d.js");
+  test("focusAt: privire pe un punct al scenei, fără să atingă focusOn pe piesă", () => {
+    assert.match(V, /focusAt\(x, y, z, radMm\)/);
+    assert.match(V, /R\.focusOv && R\.focusOv\.pt/);
+    assert.match(V, /focusOn\(pk, radMm, off\)/);
+  });
+  test("ease: viteza animațiilor se poate încetini, implicit rămâne 0.2 și offlineEnd o readuce", () => {
+    assert.match(V, /let EASE = 0\.2;/);
+    assert.match(V, /ease\(v\) \{ EASE = \(v > 0 && v <= 1\) \? \+v : 0\.2; \}/);
+    assert.match(V, /offlineEnd\(\) \{ EASE = 0\.2;/);
+  });
+});

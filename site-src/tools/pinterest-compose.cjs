@@ -11,9 +11,12 @@ const FPS = 24, W = 1080, H = 1920;
 const SC = require("./pinterest-scene.cjs");
 const D = path.join(OUT, "compose"); fs.rmSync(D, { recursive: true, force: true }); fs.mkdirSync(path.join(D, "ov"), { recursive: true });
 
-/* durate (s) */
-const T = { hook: 5.5, s1: 3.6, s2: 4.2, s3: 3.2, sh1: 2.6, sh2: 2.6, end: 3.4 };
-const START = {}; { let t = 0; for (const k of ["hook", "s1", "s2", "s3", "sh1", "sh2", "end"]) { START[k] = t; t += T[k]; } START.total = t; }
+/* durate (s) ale segmentelor, în ordine, și tranzițiile dintre ele (tip xfade, durată). Stil cinematic: tăieturi cu dizolvare/zoom, nu hard-cut. */
+const SEGS = [["hook", 5.5], ["s1", 3.4], ["s2", 4.2], ["s3", 2.6], ["s4", 3.2], ["sh1", 2.6], ["sh2", 2.6], ["end", 3.4]];
+const TRANS = [null, ["fade", .5], ["fade", .2], ["zoomin", .3], ["fadeblack", .3], ["slideleft", .3], ["fade", .2], ["fade", .3]];
+const T = Object.fromEntries(SEGS), START = {}; {
+  let t = 0; SEGS.forEach(([k, d], i) => { const x = TRANS[i] ? TRANS[i][1] : 0; START[k] = i ? t - x : 0; t = START[k] + d; }); START.total = t;
+}
 
 const MIME = { ".html": "text/html", ".js": "text/javascript", ".json": "application/json", ".css": "text/css", ".svg": "image/svg+xml", ".woff2": "font/woff2", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg" };
 const srv = http.createServer((q, r) => {
@@ -62,7 +65,7 @@ const srv = http.createServer((q, r) => {
   await sheetSeg("sh2", sheets[SH2], T.sh2, [22, 55], 1, 2.4);
 
   /* 2. cardul final: poza lângă 3D-ul din Ebanist */
-  const last3d = path.join(IN, "seg-s1-camera", "f_00086.jpg");
+  const s1Dir = path.join(IN, "seg-s1-camera"), s1Files = fs.readdirSync(s1Dir).filter(f => /\.jpg$/.test(f)).sort(), last3d = path.join(s1Dir, s1Files[s1Files.length - 1]);
   const endBody = (s) => `<div style="position:absolute;inset:0;background:#0e3b2a;overflow:hidden">
     <div style="position:absolute;left:0;right:0;top:0;height:690px;overflow:hidden"><img src="http://localhost:8803/__photo.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 40%;transform:scale(${s});transform-origin:50% 50%"></div>
     <div style="position:absolute;left:0;right:0;top:690px;height:690px;overflow:hidden"><img src="http://localhost:8803/__s1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 55%;transform:scale(${s});transform-origin:50% 50%"></div>
@@ -85,7 +88,8 @@ const srv = http.createServer((q, r) => {
     hook: await shot(path.join(D, "ov", "hook.png"), cap("Lo voglio.", "Ma quanto costa e come si fa?", 1330)),
     s1: await shot(path.join(D, "ov", "s1.png"), cap("Parto dalla foto…", "e la disegno in Ebanist")),
     s2: await shot(path.join(D, "ov", "s2.png"), cap("Ante, cassetti, misure reali")),
-    s3: await shot(path.join(D, "ov", "s3.png"), cap("Striscia LED già nel preventivo")),
+    s3: await shot(path.join(D, "ov", "s3.png"), cap("Ante scanalate", "pannello fluted dal catalogo")),
+    s4: await shot(path.join(D, "ov", "s4.png"), cap("Striscia LED già nel preventivo")),
     sh: await shot(path.join(D, "ov", "sh.png"), cap("Distinta e schede di foratura", "con QR su ogni pezzo", 1450)),
   };
 
@@ -98,13 +102,26 @@ const srv = http.createServer((q, r) => {
   const vHook = path.join(D, "v-hook.mp4");
   run(["-i", HOOK, "-t", String(T.hook), "-vf", `scale=${W}:${H}:flags=lanczos,fps=${FPS},format=yuv420p`, "-an", "-c:v", "libx264", "-crf", "17", vHook]); segs.push(vHook);
   const fromFrames = (dir, name) => { const o = path.join(D, "v-" + name + ".mp4"); run(["-framerate", String(FPS), "-i", path.join(dir, "f_%05d.jpg"), "-vf", `scale=${W}:${H},format=yuv420p`, "-c:v", "libx264", "-crf", "17", o]); segs.push(o); };
-  fromFrames(path.join(IN, "seg-s1-camera"), "s1"); fromFrames(path.join(IN, "seg-s2-deschis"), "s2"); fromFrames(path.join(IN, "seg-s3-led"), "s3");
+  fromFrames(path.join(IN, "seg-s1-camera"), "s1"); fromFrames(path.join(IN, "seg-s2-deschis"), "s2"); fromFrames(path.join(IN, "seg-s3-macro"), "s3"); fromFrames(path.join(IN, "seg-s4-led"), "s4");
   fromFrames(path.join(D, "seg-sh1"), "sh1"); fromFrames(path.join(D, "seg-sh2"), "sh2"); fromFrames(endDir, "end");
-  const list = path.join(D, "list.txt"); fs.writeFileSync(list, segs.map(f => "file '" + f + "'").join("\n"));
-  const vAll = path.join(D, "v-all.mp4"); run(["-f", "concat", "-safe", "0", "-i", list, "-c", "copy", vAll]);
+  /* tranziții cinematice (xfade): fiecare segment intră cu dizolvare / zoom / fade prin negru / slide peste precedentul */
+  const vAll = path.join(D, "v-all.mp4");
+  {
+    const ins2 = []; segs.forEach(f => ins2.push("-i", f));
+    let fx = "", cur = "[0:v]", acc = SEGS[0][1];
+    for (let i = 1; i < segs.length; i++) {
+      const [ty, du] = TRANS[i], off = +(acc - du).toFixed(3);
+      fx += `${cur}[${i}:v]xfade=transition=${ty}:duration=${du}:offset=${off}[x${i}];`; cur = `[x${i}]`; acc = off + SEGS[i][1];
+    }
+    fx = fx.replace(/;$/, "");
+    run([...ins2, "-filter_complex", fx, "-map", cur, "-c:v", "libx264", "-crf", "17", "-pix_fmt", "yuv420p", vAll]);
+  }
+  /* grading cinematic: contrast puțin mai mare, căldură în mijlocuri, vignetă, grain fin (înaintea textelor, ca ele să rămână curate) */
+  const vGrade = path.join(D, "v-grade.mp4");
+  run(["-i", vAll, "-vf", "eq=contrast=1.06:saturation=1.07:gamma=0.97,colorbalance=rs=.025:bs=-.03:rm=.02:bm=-.025:rh=.015:bh=-.02,vignette=PI/5.5,noise=alls=5:allf=t", "-c:v", "libx264", "-crf", "16", "-pix_fmt", "yuv420p", vGrade]);
 
-  const wins = [["hook", START.hook + 2.6, START.hook + T.hook], ["s1", START.s1 + .2, START.s1 + T.s1 - .1], ["s2", START.s2 + .2, START.s2 + T.s2 - .1], ["s3", START.s3 + .3, START.s3 + T.s3 - .1], ["sh", START.sh1 + .2, START.sh2 + T.sh2 - .1]];
-  const ins = ["-i", vAll]; wins.forEach(w => ins.push("-loop", "1", "-t", String(START.total), "-i", OV[w[0]]));
+  const wins = [["hook", START.hook + 2.6, START.hook + T.hook - .2], ["s1", START.s1 + .55, START.s1 + T.s1 - .1], ["s2", START.s2 + .3, START.s2 + T.s2 - .1], ["s3", START.s3 + .4, START.s3 + T.s3 - .1], ["s4", START.s4 + .4, START.s4 + T.s4 - .1], ["sh", START.sh1 + .4, START.sh2 + T.sh2 - .1]];
+  const ins = ["-i", vGrade]; wins.forEach(w => ins.push("-loop", "1", "-t", String(START.total), "-i", OV[w[0]]));
   let fc = "", prev = "[0:v]";
   wins.forEach((w, i) => { const [, a, z] = w; fc += `[${i + 1}:v]format=rgba,fade=t=in:st=${a}:d=.25:alpha=1,fade=t=out:st=${z - .25}:d=.25:alpha=1[o${i}];${prev}[o${i}]overlay=enable='between(t,${a},${z})':format=auto[v${i}];`; prev = `[v${i}]`; });
   fc = fc.replace(/;$/, "");
