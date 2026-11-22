@@ -1583,11 +1583,13 @@ const MOOD = { cool: { key: [0xfff1e0, 2.9], hemi: [0xf6f3ec, 0.34], fill: [0xd6
                warm: { key: [0xffbf80, 2.3], hemi: [0xffd9a8, 0.30], fill: [0xff9d5c, 0.34], exp: 0.86, env: 0.40 } };
 function applyMood() {
   const m = MOOD[R.st.warm ? "warm" : "cool"];
-  R.key.color.setHex(m.key[0]); R.key.intensity = m.key[1];
-  R.hemi.color.setHex(m.hemi[0]); R.hemi.intensity = m.hemi[1];
-  R.fill.color.setHex(m.fill[0]); R.fill.intensity = m.fill[1];
-  R.renderer.toneMappingExposure = m.exp;
-  if ("environmentIntensity" in R.scene) R.scene.environmentIntensity = m.env;
+  /* `dim` (0..1, implicit 1 = neschimbat): atenuează luminile scenei, ca banda LED să lumineze camera întunecată (filme) */
+  const d = (R.st.dim > 0 && R.st.dim < 1) ? +R.st.dim : 1;
+  R.key.color.setHex(m.key[0]); R.key.intensity = m.key[1] * d;
+  R.hemi.color.setHex(m.hemi[0]); R.hemi.intensity = m.hemi[1] * d;
+  R.fill.color.setHex(m.fill[0]); R.fill.intensity = m.fill[1] * d;
+  R.renderer.toneMappingExposure = m.exp * (0.62 + 0.38 * d);
+  if ("environmentIntensity" in R.scene) R.scene.environmentIntensity = m.env * d;
   R.need = true;
 }
 function applyState() {

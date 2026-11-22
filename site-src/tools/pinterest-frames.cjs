@@ -64,7 +64,7 @@ const srv = http.createServer((q, r) => {
     if (c.drawers !== undefined) window.__setDrawers(c.drawers);
     if (c.at !== undefined) { const B = window.__bb; if (c.at) GL3D.focusAt(B.x0 + c.at.x, c.at.y, (B.z0 + B.z1) / 2 + (c.at.z || 0), c.at.rad); else GL3D.focusAt(null); }
     if (c.focus !== undefined) { if (c.focus) GL3D.focusOn(c.focus.pk, c.focus.rad, c.focus.off); else GL3D.focusOn(null); }
-    const st = {}; for (const key of ["hw", "explode", "ledOn", "holes", "open", "warm"]) if (c[key] !== undefined) st[key] = c[key];
+    const st = {}; for (const key of ["hw", "explode", "ledOn", "holes", "open", "warm", "dim"]) if (c[key] !== undefined) st[key] = c[key];
     if (Object.keys(st).length) GL3D.set(st);
     if (typeof VIEW === "object") { if (c.yaw !== undefined) VIEW.yaw = c.yaw; if (c.pitch !== undefined) VIEW.pitch = c.pitch; if (c.zoom !== undefined) VIEW.zoom = c.zoom; }
     return GL3D.offlineFrame(!!c.open).data;
@@ -108,16 +108,16 @@ const srv = http.createServer((q, r) => {
        Ancorele (mm) sunt față de colțul stâng al mobilei: dulap stâng 0–1000, birou 1000–2300, dulap drept 2300–3300 */
     const eo = k => 1 - Math.pow(1 - k, 3), ei = k => k * k * k, sh = (t, a) => Math.sin(t * 5.3) * a + Math.sin(t * 11.7 + 1.3) * a * .45;
     /* S1: dezvăluire — de la camera întreagă, rapid, cu aterizare lină pe birou */
-    await segment("s1-camera", 3.4, { bg: "light", cam: (k, t) => ({ warm: 1, yaw: lerp(.85, .14, eo(k)) + sh(t, .003), pitch: lerp(.26, .07, eo(k)) + sh(t + 3, .002), zoom: lerp(1.15, 1.95, eo(k)),
+    await segment("s1-camera", 3.4, { bg: "light", cam: (k, t) => ({ warm: 1, dim: 1, yaw: lerp(.85, .14, eo(k)) + sh(t, .003), pitch: lerp(.26, .07, eo(k)) + sh(t + 3, .002), zoom: lerp(1.15, 1.95, eo(k)),
       at: { x: 1650, y: lerp(900, 1250, eo(k)), rad: lerp(2600, 1900, eo(k)) }, ledOn: false, hw: true, drawers: 0 }) });
     /* S2: dolly lateral peste dulap, ușile și sertarele se deschid în cadru */
-    await segment("s2-deschis", 4.2, { bg: "light", cam: (k, t) => ({ warm: 1, yaw: lerp(.55, -.5, sm(k)) + sh(t, .003), pitch: lerp(.1, .16, sm(k)) + sh(t + 2, .002), zoom: lerp(1.7, 2.0, sm(k)),
+    await segment("s2-deschis", 4.2, { bg: "light", cam: (k, t) => ({ warm: 1, dim: 1, yaw: lerp(.55, -.5, sm(k)) + sh(t, .003), pitch: lerp(.1, .16, sm(k)) + sh(t + 2, .002), zoom: lerp(1.7, 2.0, sm(k)),
       at: { x: lerp(500, 2800, sm(k)), y: 1180, rad: 1700 }, ledOn: false, hw: true, drawers: t > .5 ? 1 : 0 }) });
     /* S3: macro pe striații, lumină razantă, alunecare lentă de-a lungul ușii */
-    await segment("s3-macro", 2.6, { bg: "light", cam: (k, t) => ({ warm: 1, yaw: lerp(.95, .6, sm(k)) + sh(t, .002), pitch: lerp(.04, .09, sm(k)), zoom: lerp(1.3, 1.5, sm(k)),
+    await segment("s3-macro", 2.6, { bg: "light", cam: (k, t) => ({ warm: 1, dim: 1, yaw: lerp(.95, .6, sm(k)) + sh(t, .002), pitch: lerp(.04, .09, sm(k)), zoom: lerp(1.3, 1.5, sm(k)),
       at: { x: lerp(150, 650, sm(k)), y: lerp(1500, 1250, sm(k)), z: 0, rad: 380 }, ledOn: false, hw: true, drawers: 0 }) });
     /* S4: LED-ul de sub raft, aprinde-te, travelling lateral */
-    await segment("s4-led", 3.2, { bg: "light", cam: (k, t) => ({ warm: 1, yaw: lerp(.62, -.28, sm(k)) + sh(t, .002), pitch: lerp(.1, .05, sm(k)), zoom: lerp(1.7, 2.1, eo(k)),
+    await segment("s4-led", 3.2, { bg: "light", cam: (k, t) => ({ warm: 1, dim: t > .5 ? Math.max(.16, 1 - (t - .5) * .9) : 1, yaw: lerp(.62, -.28, sm(k)) + sh(t, .002), pitch: lerp(.1, .05, sm(k)), zoom: lerp(1.7, 2.1, eo(k)),
       at: { x: lerp(1100, 1900, sm(k)), y: 1480, rad: 900 }, ledOn: t > .5, hw: true, drawers: 0 }) });
   }
   fs.writeFileSync(path.join(OUT, "timeline.json"), JSON.stringify({ fps: FPS, w: W, h: H, segs: tl }));

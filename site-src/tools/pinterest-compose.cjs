@@ -61,17 +61,24 @@ const srv = http.createServer((q, r) => {
     }
     return dir;
   };
-  await sheetSeg("sh1", sheets[SH1], T.sh1, [88, 40], 1, 2.3);
-  await sheetSeg("sh2", sheets[SH2], T.sh2, [22, 55], 1, 2.4);
+  /* REUSE=1: foile din rularea de dinainte rămân (se refac numai cardul final, textele și montajul) */
+  const prevSh = process.env.REUSE && process.env.REUSE_FROM ? process.env.REUSE_FROM : null;
+  if (prevSh && fs.existsSync(path.join(prevSh, "seg-sh1")) && fs.existsSync(path.join(prevSh, "seg-sh2"))) {
+    for (const n of ["sh1", "sh2"]) { fs.cpSync(path.join(prevSh, "seg-" + n), path.join(D, "seg-" + n), { recursive: true }); }
+  } else {
+    await sheetSeg("sh1", sheets[SH1], T.sh1, [88, 40], 1, 2.3);
+    await sheetSeg("sh2", sheets[SH2], T.sh2, [22, 55], 1, 2.4);
+  }
 
   /* 2. cardul final: poza lângă 3D-ul din Ebanist */
   const s1Dir = path.join(IN, "seg-s1-camera"), s1Files = fs.readdirSync(s1Dir).filter(f => /\.jpg$/.test(f)).sort(), last3d = path.join(s1Dir, s1Files[s1Files.length - 1]);
+  /* cardul final: poza și cadrul din Ebanist, ÎNTREGI, una lângă alta (9:16 fiecare), apoi textul */
   const endBody = (s) => `<div style="position:absolute;inset:0;background:#0e3b2a;overflow:hidden">
-    <div style="position:absolute;left:0;right:0;top:0;height:690px;overflow:hidden"><img src="http://localhost:8803/__photo.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 40%;transform:scale(${s});transform-origin:50% 50%"></div>
-    <div style="position:absolute;left:0;right:0;top:690px;height:690px;overflow:hidden"><img src="http://localhost:8803/__s1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:50% 55%;transform:scale(${s});transform-origin:50% 50%"></div>
-    <div style="position:absolute;left:40px;top:40px;padding:12px 30px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:46px">Foto</div>
-    <div style="position:absolute;left:40px;top:730px;padding:12px 30px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:46px">Ebanist</div>
-    <div style="position:absolute;left:0;right:0;top:1400px;text-align:center;color:#fff"><div style="font-weight:700;font-size:92px;line-height:1.05;margin-top:46px">Dalla foto<br>al laboratorio</div><div style="font-weight:600;font-size:56px;margin-top:34px;color:#E6C46A">Provalo gratis su ebanist.com</div></div></div>`;
+    <div style="position:absolute;left:0;top:150px;width:540px;height:960px;overflow:hidden"><img src="http://localhost:8803/__photo.jpg" style="width:100%;height:100%;object-fit:cover;transform:scale(${s});transform-origin:50% 50%"></div>
+    <div style="position:absolute;left:540px;top:150px;width:540px;height:960px;overflow:hidden"><img src="http://localhost:8803/__s1.jpg" style="width:100%;height:100%;object-fit:cover;transform:scale(${s});transform-origin:50% 50%"></div>
+    <div style="position:absolute;left:270px;top:60px;transform:translateX(-50%);padding:10px 34px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:48px">Foto</div>
+    <div style="position:absolute;left:810px;top:60px;transform:translateX(-50%);padding:10px 34px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:48px">Ebanist</div>
+    <div style="position:absolute;left:0;right:0;top:1170px;text-align:center;color:#fff"><div style="font-weight:700;font-size:100px;line-height:1.05">Dalla foto<br>al laboratorio</div><div style="font-weight:600;font-size:58px;margin-top:40px;color:#E6C46A">Provalo gratis su ebanist.com</div></div></div>`;
   fs.copyFileSync(last3d, path.join(D, "s1.jpg"));
   /* poza și un cadru 3D le servește același server prin căi fixe */
   const endDir = path.join(D, "seg-end"); fs.mkdirSync(endDir, { recursive: true });
@@ -123,13 +130,13 @@ const srv = http.createServer((q, r) => {
   const wins = [["hook", START.hook + 2.6, START.hook + T.hook - .2], ["s1", START.s1 + .55, START.s1 + T.s1 - .1], ["s2", START.s2 + .3, START.s2 + T.s2 - .1], ["s3", START.s3 + .4, START.s3 + T.s3 - .1], ["s4", START.s4 + .4, START.s4 + T.s4 - .1], ["sh", START.sh1 + .4, START.sh2 + T.sh2 - .1]];
   const ins = ["-i", vGrade]; wins.forEach(w => ins.push("-loop", "1", "-t", String(START.total), "-i", OV[w[0]]));
   let fc = "", prev = "[0:v]";
-  wins.forEach((w, i) => { const [, a, z] = w; fc += `[${i + 1}:v]format=rgba,fade=t=in:st=${a}:d=.25:alpha=1,fade=t=out:st=${z - .25}:d=.25:alpha=1[o${i}];${prev}[o${i}]overlay=enable='between(t,${a},${z})':format=auto[v${i}];`; prev = `[v${i}]`; });
+  wins.forEach((w, i) => { const [, a, z] = w; fc += `[${i + 1}:v]format=rgba,fade=t=in:st=${a}:d=0.25:alpha=1,fade=t=out:st=${z - .25}:d=0.25:alpha=1[o${i}];${prev}[o${i}]overlay=enable='between(t,${a},${z})':format=auto[v${i}];`; prev = `[v${i}]`; });
   fc = fc.replace(/;$/, "");
   const vOv = path.join(D, "v-ov.mp4"); run([...ins, "-filter_complex", fc, "-map", prev, "-c:v", "libx264", "-crf", "17", "-pix_fmt", "yuv420p", "-t", String(START.total), vOv]);
 
   const fin = path.join(OUT, "ebanist-pinterest-it.mp4");
   run(["-i", vOv, "-i", MUSIC, "-i", HOOK, "-filter_complex",
-    `[1:a]atrim=0:${START.total},afade=t=in:st=0:d=.4,afade=t=out:st=${START.total - 1.6}:d=1.6,volume=.85[m];[2:a]atrim=0:${T.hook},afade=t=out:st=${T.hook - 1}:d=1,volume=.55[h];[m][h]amix=inputs=2:duration=longest:normalize=0[a]`,
+    `[1:a]atrim=0:${START.total},afade=t=in:st=0:d=0.4,afade=t=out:st=${START.total - 1.6}:d=1.6,volume=.85[m];[2:a]atrim=0:${T.hook},afade=t=out:st=${T.hook - 1}:d=1,volume=.55[h];[m][h]amix=inputs=2:duration=longest:normalize=0[a]`,
     "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", fin]);
   console.log("GATA", fin, "durata", START.total);
 });
