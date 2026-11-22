@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.98.5 — 22 noiembrie 2026
+
+**Mânerele din catalog, în „Camera în 3D”.**
+- Bara sau butonul ales (de ex. bara neagră de 192 mm) se desenează pe fața ușii și a sertarului, cu lungimea și distanța dintre găuri din model. Cu «Ante aperte», mânerul merge cu ușa (rotit pe balama) sau cu sertarul scos.
+- Numai desen: distinta, găurirea și devizul nu se schimbă. Un corp fără mânere (push, Gola) rămâne ca înainte.
+
+---
+
 ## 5.98.4 — 22 noiembrie 2026
 
 **Uși striate (fluted): panouri scanalate în catalogul de materiale.**
