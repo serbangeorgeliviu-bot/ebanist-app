@@ -12,6 +12,7 @@
      pw_unavail  ecranul Pro n-a avut ce vinde: Google Play n-a dat planuri { code }
                (D-129: 0 apăsări pe „cumpără" putea însemna și „nu se poate cumpăra")
      pw_fail   „cumpără" n-a ajuns la plată (numai Play)    { code, rc }
+    doc_sample  documentul de probă gratuit, cu filigran, a fost tipărit (D-180)    { why }
                code: canceled (omul a renunțat) / error / unavailable; rc: codul numeric Play
      hw_use    un articol din catalogul producătorului a intrat într-un proiect (D-170)
                { brand, fam, art }: marca (listă închisă), familia (balamale, glisiere …)
@@ -33,7 +34,7 @@
 (function (global) {
   "use strict";
 
-  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use"];
+  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use", "doc_sample"];
   var WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
   var PLAT = ["play", "web"];
   var PLAN = ["monthly", "yearly", "founders"];
@@ -68,7 +69,7 @@
     if (EVENTS.indexOf(name) < 0) return null;
     var x = extra || {};
     var rec = { e: name, plat: pick(PLAT, x.plat) || "web" };
-    if (name === "pw_shown" || name === "pw_buy" || name === "pro_on") rec.why = pick(WHY, x.why) || "plain";
+    if (name === "pw_shown" || name === "pw_buy" || name === "pro_on" || name === "doc_sample") rec.why = pick(WHY, x.why) || "plain";
     if (name === "pw_buy" || name === "pro_on") { var p = pick(PLAN, x.plan); if (p) rec.plan = p; }
     if (name === "pro_on") { var k = pick(KIND, x.kind); if (k) rec.kind = k; }
     if (name === "pw_unavail") rec.code = pick(CODE, x.code) || "empty";

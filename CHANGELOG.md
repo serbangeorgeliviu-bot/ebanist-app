@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.99.0 — 22 noiembrie 2026
+
+**Un document de probă gratuit, cu filigran (D-180).**
+- Cine nu e Pro poate tipări o singură dată, pe dispozitiv, un document la alegere (distinctă PDF, fișă de montaj, elaborat tehnic, foaia de montaj A3, etichete, comandă, pașaport, proces-verbal, documentele atelierului). Iese cu filigranul „versiune gratuită", iar după tipărire se oferă Pro;
+- CSV, JPG, STL, DXF, pachetele și trimiterile rămân Pro, fiecare cu poarta lui; după probă, orice document cere Pro ca până acum;
+- Pâlnia primește evenimentul anonim `doc_sample` (motivul documentului), ca să vedem dacă proba aduce plăți.
+
+---
+
 ## 5.98.3 — 22 noiembrie 2026
 
 **Lista pieselor din Constructor, grupată pe funcție.**

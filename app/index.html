@@ -5811,6 +5811,24 @@ function proGate(why){
   openPro(why);
   return false;
 }
+/* D-180 — un document de probă, cu filigran. O singură dată pe dispozitiv, pentru ce iese pe hârtie (toate trec prin printOut(),
+   unde filigranul se pune): meseriașul vede cu ochii lui ce primește, apoi i se oferă Pro. CSV, JPG, STL, DXF, pachetele rămân
+   Pro, fiecare cu poarta lui. Fără probă consumată, nimic nu se tipărește pentru cine nu e Pro. */
+const SAMPLE={key:"ebanist_sample",armedAt:0,why:""};
+function sampleLeft(){ try{ return !localStorage.getItem(SAMPLE.key); }catch(e){ return false; } }
+function proGateSample(why){
+  if(isPro()) return true;
+  if(sampleLeft()){ SAMPLE.armedAt=Date.now(); SAMPLE.why=why; return true; }
+  openPro(why);
+  return false;
+}
+function sampleTake(){                       /* chemat de printOut(): consumă proba armată acum (cel mult 60 s) */
+  if(isPro()||!sampleLeft()||!SAMPLE.armedAt||Date.now()-SAMPLE.armedAt>60000) return false;
+  SAMPLE.armedAt=0;
+  try{ localStorage.setItem(SAMPLE.key,String(Date.now())); }catch(e){ return false; }
+  try{ EBFunnel.send("doc_sample",{why:SAMPLE.why}); }catch(e){}
+  return true;
+}
 /* Il cancello dei progetti conta PRIMA di aprire bocca: `proGate` da solo
    mostrerebbe il listino anche a chi sta creando il suo primo progetto. */
 function gateNewProject(){
@@ -7275,7 +7293,7 @@ $("btnJson").addEventListener("click",()=>{
 /* ================= PRINT / PDF ================= */
 $("btnPdf").addEventListener("click",()=>{
   const p=proj(); if(!p)return;
-  if(!proGate("pdf")) return;
+  if(!proGateSample("pdf")) return;
   /* Una regola bloccante caduta ferma QUI. Un avviso ignorabile non basta:
      e cosi che una distinta sbagliata e arrivata al debitatore. */
   /* PRIMA l'occhio umano. La foglia mostra QUALE corpo non torna; il
@@ -14105,7 +14123,7 @@ function printOut(){
   if(!exportAllowed()) return;
   /* plasa de siguranță: fiecare buton are poarta lui, ÎNAINTE de lucru;
      aici se prinde un document nou care a uitat-o */
-  if(!isPro()&&!PRINT_CAPTURE){ openPro("pdf"); return; }
+  if(!isPro()&&!PRINT_CAPTURE&&!sampleTake()){ openPro("pdf"); return; }
   const pa=$("printArea");
   pa.querySelectorAll(".wm-diag,.wm-foot").forEach(n=>n.remove());
   if(PRINT_CAPTURE){ PRINT_CAPTURE.push(pa.innerHTML); return; }
@@ -14449,7 +14467,7 @@ function angPieceSvg(p){
 }
 
 $("btnDraw").addEventListener("click",()=>{
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   buildCfg=cfgFromForm();
   const {boxes,pieces}=buildModule(buildCfg);
   const S=state.settings;
@@ -14494,7 +14512,7 @@ function printSheetsA3(svgs){
   printOut();
 }
 $("btnElab").addEventListener("click",()=>{
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   buildCfg=cfgFromForm();
   const {boxes}=buildModule(buildCfg);
   printSheetsA3([elabSvgFor(buildCfg,boxes,proj(),1,1)]);
@@ -14535,7 +14553,7 @@ function asmSvgFor(p,name,M,mods,no,tot){
     {tr:t,sheetNo:no,sheetTot:tot,meta:{company:prCoName()||"",project:p.name,client:p.client||"",date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
 $("btnAsmA3").addEventListener("click",()=>{
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   const p=proj(); if(!p) return;
   const {mods}=computeHardware(p,state.settings,true), todo=asmModules(p);
   if(!todo.length){ toast(t("selectProject")); return; }
@@ -15293,7 +15311,7 @@ function montDoc(p){
 }
 $("btnMont").addEventListener("click",()=>{
   const p=proj(); if(!p)return;
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   const html=montDoc(p);
   if(!html){ toast(t("selectProject")); return; }
   $("printArea").innerHTML=html;
@@ -15428,7 +15446,7 @@ function passportHtml(p){
 }
 $("btnPassport").addEventListener("click",()=>{
   const p=proj(); if(!p){ toast(t("selectProject")); return; }
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   $("printArea").innerHTML=passportHtml(p);
   printOut();
 });
@@ -15456,7 +15474,7 @@ function handoverHtml(p){
 }
 $("btnHandover").addEventListener("click",()=>{
   const p=proj(); if(!p){ toast(t("selectProject")); return; }
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   $("printArea").innerHTML=handoverHtml(p);
   printOut();
 });
@@ -15485,7 +15503,7 @@ function orderRows(p,opts){
 }
 $("btnOrder").addEventListener("click",()=>{
   const p=proj(); if(!p){toast(t("selectProject"));return;}
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   const S=state.settings, o=orderRows(p);
   let html=`<div class="pr-head">
     <div><h1>${esc(t("orderTitle"))}</h1>
@@ -15560,7 +15578,7 @@ $("btnCuts").addEventListener("click",()=>{
 });
 $("btnLabels").addEventListener("click",()=>{
   const p=proj(); if(!p){toast(t("selectProject"));return;}
-  if(!proGate("doc")) return;
+  if(!proGateSample("doc")) return;
   // ordina come la distinta e espandi pz → un'etichetta per pezzo fisico
   const rows=[];
   p.pieces.forEach((x,ri)=>{ for(let i=1;i<=x.pz;i++) rows.push({...x,nOf:i,nTot:x.pz,_ri:ri}); });
@@ -19072,7 +19090,7 @@ $("atBody").addEventListener("click",async ev=>{
   }
   if(act==="docedge"||act==="docpaint"||act==="docsaw"){
     const p=proj(); if(!p){ toast(t("selectProject")); return; }
-    if(!proGate("doc")) return;
+    if(!proGateSample("doc")) return;
     $("printArea").innerHTML=act==="docedge"?atDocEdge(p):act==="docsaw"?atDocSaw(p):atDocPaint(p);
     printOut(); return;
   }
@@ -20819,7 +20837,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.98.3"; /* APP_VER-MARKER */
+const APP_VER="5.99.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
