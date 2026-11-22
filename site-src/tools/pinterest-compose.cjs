@@ -9,6 +9,13 @@ const root = path.resolve(__dirname, "../.."), IN = process.env.IN, OUT = proces
 const HOOK = process.env.HOOK, PHOTO = process.env.PHOTO, MUSIC = process.env.MUSIC, STILLS = !!process.env.STILLS;
 const FPS = 24, W = 1080, H = 1920;
 const SC = require("./pinterest-scene.cjs");
+/* limba clipului: VLANG=it|en (implicit it). Textele de pe ecran + limba aplicației pentru foile A3 */
+const VL = process.env.VLANG || "it";
+const TX = {
+  it: { hook: ["Lo voglio.", "Ma quanto costa e come si fa?"], s1: ["Parto dalla foto…", "e la disegno in Ebanist"], s2: ["Ante, cassetti, misure reali"], s3: ["Ante scanalate", "pannello fluted dal catalogo"], s4: ["Striscia LED già nel preventivo"], sh: ["Distinta e schede di foratura", "con QR su ogni pezzo"], photo: "Foto", end: "Dalla foto<br>al laboratorio", cta: "Provalo gratis su ebanist.com" },
+  en: { hook: ["I want this.", "But how much, and how is it built?"], s1: ["I start from the photo…", "and design it in Ebanist"], s2: ["Doors, drawers, real dimensions"], s3: ["Fluted doors", "fluted panel from the catalog"], s4: ["LED strip already in the quote"], sh: ["Parts list and drilling sheets", "with a QR on every part"], photo: "Photo", end: "From photo<br>to workshop", cta: "Try it free at ebanist.com" },
+}[VL];
+if (!TX) throw new Error("VLANG necunoscut: " + VL);
 const D = path.join(OUT, "compose"); fs.rmSync(D, { recursive: true, force: true }); fs.mkdirSync(path.join(D, "ov"), { recursive: true });
 
 /* durate (s) ale segmentelor, în ordine, și tranzițiile dintre ele (tip xfade, durată). Stil cinematic: tăieturi cu dizolvare/zoom, nu hard-cut. */
@@ -31,7 +38,7 @@ const srv = http.createServer((q, r) => {
   const pg = await ctx.newPage(); pg.on("pageerror", e => console.log("ERR", String(e).slice(0, 200))); pg.setDefaultTimeout(120000);
 
   /* 1. foile A3 din proiect (în italiană) */
-  await pg.goto("http://localhost:8803/app/index.html?lang=it"); await pg.waitForFunction(() => window.MAT_LOADED === true); await pg.waitForTimeout(3000);
+  await pg.goto("http://localhost:8803/app/index.html?lang=" + VL); await pg.waitForFunction(() => window.MAT_LOADED === true); await pg.waitForTimeout(3000);
   await pg.locator("#btnIntroGo").click({ timeout: 1500 }).catch(() => { });
   const sheets = await pg.evaluate(async ([bodySrc, args]) => {
     const errs = (new Function("return " + bodySrc))()(args); if (errs.length) throw new Error(errs.join("|"));
@@ -71,14 +78,14 @@ const srv = http.createServer((q, r) => {
   }
 
   /* 2. cardul final: poza lângă 3D-ul din Ebanist */
-  const s1Dir = path.join(IN, "seg-s1-camera"), s1Files = fs.readdirSync(s1Dir).filter(f => /\.jpg$/.test(f)).sort(), last3d = path.join(s1Dir, s1Files[s1Files.length - 1]);
+  const s1Dir = path.join(IN, "seg-s1-camera"), s1Files = fs.readdirSync(s1Dir).filter(f => /\.jpg$/.test(f)).sort(), last3d = path.join(s1Dir, s1Files[Math.floor(s1Files.length * 0.42)]);   /* cadru mai larg: se văd ambele coloane */
   /* cardul final: poza și cadrul din Ebanist, ÎNTREGI, una lângă alta (9:16 fiecare), apoi textul */
   const endBody = (s) => `<div style="position:absolute;inset:0;background:#0e3b2a;overflow:hidden">
     <div style="position:absolute;left:0;top:150px;width:540px;height:960px;overflow:hidden"><img src="http://localhost:8803/__photo.jpg" style="width:100%;height:100%;object-fit:cover;transform:scale(${s});transform-origin:50% 50%"></div>
     <div style="position:absolute;left:540px;top:150px;width:540px;height:960px;overflow:hidden"><img src="http://localhost:8803/__s1.jpg" style="width:100%;height:100%;object-fit:cover;transform:scale(${s});transform-origin:50% 50%"></div>
-    <div style="position:absolute;left:270px;top:60px;transform:translateX(-50%);padding:10px 34px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:48px">Foto</div>
+    <div style="position:absolute;left:270px;top:60px;transform:translateX(-50%);padding:10px 34px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:48px">${TX.photo}</div>
     <div style="position:absolute;left:810px;top:60px;transform:translateX(-50%);padding:10px 34px;border-radius:50px;background:rgba(255,255,255,.93);color:#0e3b2a;font-weight:700;font-size:48px">Ebanist</div>
-    <div style="position:absolute;left:0;right:0;top:1170px;text-align:center;color:#fff"><div style="font-weight:700;font-size:100px;line-height:1.05">Dalla foto<br>al laboratorio</div><div style="font-weight:600;font-size:58px;margin-top:40px;color:#E6C46A">Provalo gratis su ebanist.com</div></div></div>`;
+    <div style="position:absolute;left:0;right:0;top:1170px;text-align:center;color:#fff"><div style="font-weight:700;font-size:100px;line-height:1.05">${TX.end}</div><div style="font-weight:600;font-size:58px;margin-top:40px;color:#E6C46A">${TX.cta}</div></div></div>`;
   fs.copyFileSync(last3d, path.join(D, "s1.jpg"));
   /* poza și un cadru 3D le servește același server prin căi fixe */
   const endDir = path.join(D, "seg-end"); fs.mkdirSync(endDir, { recursive: true });
@@ -92,12 +99,12 @@ const srv = http.createServer((q, r) => {
   /* 3. texte suprapuse (PNG transparent) */
   const cap = (txt, sub, top) => `<div style="position:absolute;left:54px;right:54px;top:${top || 1330}px;padding:30px 40px;border-radius:38px;background:rgba(14,59,42,.94);color:#fff;text-align:center;box-shadow:0 16px 50px rgba(0,0,0,.45);border:2px solid rgba(217,201,163,.35)"><div style="font-weight:700;font-size:70px;line-height:1.08">${txt}</div>${sub ? `<div style="font-weight:600;font-size:44px;margin-top:10px;opacity:.88">${sub}</div>` : ""}</div>`;
   const OV = {
-    hook: await shot(path.join(D, "ov", "hook.png"), cap("Lo voglio.", "Ma quanto costa e come si fa?", 1330)),
-    s1: await shot(path.join(D, "ov", "s1.png"), cap("Parto dalla foto…", "e la disegno in Ebanist")),
-    s2: await shot(path.join(D, "ov", "s2.png"), cap("Ante, cassetti, misure reali")),
-    s3: await shot(path.join(D, "ov", "s3.png"), cap("Ante scanalate", "pannello fluted dal catalogo")),
-    s4: await shot(path.join(D, "ov", "s4.png"), cap("Striscia LED già nel preventivo")),
-    sh: await shot(path.join(D, "ov", "sh.png"), cap("Distinta e schede di foratura", "con QR su ogni pezzo", 1450)),
+    hook: await shot(path.join(D, "ov", "hook.png"), cap(TX.hook[0], TX.hook[1], 1330)),
+    s1: await shot(path.join(D, "ov", "s1.png"), cap(TX.s1[0], TX.s1[1])),
+    s2: await shot(path.join(D, "ov", "s2.png"), cap(TX.s2[0])),
+    s3: await shot(path.join(D, "ov", "s3.png"), cap(TX.s3[0], TX.s3[1])),
+    s4: await shot(path.join(D, "ov", "s4.png"), cap(TX.s4[0])),
+    sh: await shot(path.join(D, "ov", "sh.png"), cap(TX.sh[0], TX.sh[1], 1450)),
   };
 
   await b.close(); srv.close();
@@ -134,7 +141,7 @@ const srv = http.createServer((q, r) => {
   fc = fc.replace(/;$/, "");
   const vOv = path.join(D, "v-ov.mp4"); run([...ins, "-filter_complex", fc, "-map", prev, "-c:v", "libx264", "-crf", "17", "-pix_fmt", "yuv420p", "-t", String(START.total), vOv]);
 
-  const fin = path.join(OUT, "ebanist-pinterest-it.mp4");
+  const fin = path.join(OUT, "ebanist-pinterest-" + VL + ".mp4");
   run(["-i", vOv, "-i", MUSIC, "-i", HOOK, "-filter_complex",
     `[1:a]atrim=0:${START.total},afade=t=in:st=0:d=0.4,afade=t=out:st=${START.total - 1.6}:d=1.6,volume=.85[m];[2:a]atrim=0:${T.hook},afade=t=out:st=${T.hook - 1}:d=1,volume=.55[h];[m][h]amix=inputs=2:duration=longest:normalize=0[a]`,
     "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", fin]);
