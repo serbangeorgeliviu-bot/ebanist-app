@@ -262,6 +262,19 @@ function grainApply(kind, m) {
 }
 const MAT_CACHE = new Map();
 
+/* Striații (D-180): panoul scanalat se desenează numai pe fața frontală a fronturilor. Lățimea piesei se împarte în n lamele egale
+   (n = lățimea / pas, rotunjit), canalul stă pe linia dintre lamele; deci marginile ușii cad la fel pe stânga și pe dreapta, ca la panoul real.
+   Întoarce (în canal 0..1, partea canalului ±1, banda pereților canalului 0..1). Numai desen: distinta nu se schimbă. */
+const FL_FN = `vec3 ebFl() {
+  if (uFl.z < .5 || abs(vEbN.z) < .85) return vec3(0.0);
+  float ebWd = vEbS.x, ebNs = max(1.0, floor(ebWd / uFl.x + 0.5)), ebPt = ebWd / ebNs;
+  float ebF = fract((vEbL.x + 0.5) * ebNs) * ebPt, ebD = min(ebF, ebPt - ebF), ebHg = uFl.y * 0.5;
+  float ebIn = 1.0 - smoothstep(ebHg - 0.0004, ebHg + 0.0004, ebD);
+  float ebWl = smoothstep(ebHg - 0.0008, ebHg, ebD) - smoothstep(ebHg, ebHg + 0.0008, ebD);
+  return vec3(ebIn, (ebF < ebPt * 0.5) ? 1.0 : -1.0, ebWl);
+}
+`;
+
 /* Proiecția triplanară în coordonatele de REPAUS ale piesei: `uRest` e
    matricea locală a mesh-ului (poziție × dimensiune), actualizată înainte de
    fiecare desen. Fețele laterale și frontale au fibra pe verticală, cele
@@ -278,6 +291,7 @@ function triplanar(m, o) {
     sh.uniforms.uEbLo = { value: new THREE.Vector3() };
     sh.uniforms.uEbHi = { value: new THREE.Vector3() };
     sh.uniforms.uEbOn = { value: 0 };
+    if (o.flute) sh.uniforms.uFl = { value: new THREE.Vector3(0, 0, 0) };   /* x = pas, y = canal (m), z = pornit (numai fronturile) */
     sh.uniforms.uAoTex = SSAO.U.uAoTex; sh.uniforms.uAoInv = SSAO.U.uAoInv; sh.uniforms.uAoOn = SSAO.U.uAoOn;
     this.userData.shader = sh;
     sh.vertexShader = "uniform mat4 uRest;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\nvarying vec3 vEbL;\nvarying vec3 vEbS;\nvarying vec3 vEbAx;\nvarying vec3 vEbAy;\nvarying vec3 vEbAz;\n" + sh.vertexShader.replace(
@@ -290,7 +304,7 @@ function triplanar(m, o) {
        vEbAx = normalize(mat3(modelViewMatrix) * vec3(1.,0.,0.));
        vEbAy = normalize(mat3(modelViewMatrix) * vec3(0.,1.,0.));
        vEbAz = normalize(mat3(modelViewMatrix) * vec3(0.,0.,1.));`);
-    sh.fragmentShader = "uniform vec2 uEbScale;\nuniform vec2 uEbOff;\nuniform float uEbRect;\nuniform vec3 uEbLo;\nuniform vec3 uEbHi;\nuniform float uEbOn;\nuniform sampler2D uAoTex;\nuniform vec2 uAoInv;\nuniform float uAoOn;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\nvarying vec3 vEbL;\nvarying vec3 vEbS;\nvarying vec3 vEbAx;\nvarying vec3 vEbAy;\nvarying vec3 vEbAz;\nfloat ebT = 0.9;\nfloat ebAO = 1.0;\n" + sh.fragmentShader
+    sh.fragmentShader = (o.flute ? "uniform vec3 uFl;\n" : "") + "uniform vec2 uEbScale;\nuniform vec2 uEbOff;\nuniform float uEbRect;\nuniform vec3 uEbLo;\nuniform vec3 uEbHi;\nuniform float uEbOn;\nuniform sampler2D uAoTex;\nuniform vec2 uAoInv;\nuniform float uAoOn;\nvarying vec3 vEbP;\nvarying vec3 vEbN;\nvarying vec3 vEbL;\nvarying vec3 vEbS;\nvarying vec3 vEbAx;\nvarying vec3 vEbAy;\nvarying vec3 vEbAz;\nfloat ebT = 0.9;\nfloat ebAO = 1.0;\n" + (o.flute ? FL_FN : "") + sh.fragmentShader
     .replace("#include <map_fragment>",
       `#ifdef USE_MAP
         vec3 ebA = abs(vEbN); vec2 ebUV;
@@ -301,6 +315,7 @@ function triplanar(m, o) {
         ebT = sampledDiffuseColor.r;
         diffuseColor *= sampledDiffuseColor;
         diffuseColor.rgb *= 0.955 + 0.09 * fract(uEbOff.x * 7.31 + uEbOff.y * 3.17);
+        ${o.flute ? "diffuseColor.rgb *= 1.0 - 0.42 * ebFl().x;" : ""}
       #endif`)
     .replace("#include <opaque_fragment>", "float ebSS = 1.0; if (uAoOn > .5) ebSS = texture2D(uAoTex, gl_FragCoord.xy * uAoInv).r;\noutgoingLight *= (uAoOn > .5 ? mix(1.0, ebAO, 0.4) : ebAO) * pow(ebSS, 3.0);\n#include <opaque_fragment>")
     .replace("#include <roughnessmap_fragment>",
@@ -316,6 +331,7 @@ function triplanar(m, o) {
          vec3 ebG = sign(ebDet) * (ebdH.x * ebR1 + ebdH.y * ebR2);
          normal = normalize(abs(ebDet) * normal - ebG);
        }` : ""}
+       ${o.flute ? "{ vec3 ebFv = ebFl(); normal = normalize(normal + vEbAx * ebFv.y * ebFv.z * 0.9); }" : ""}
        if (uEbOn > .5) {
          vec3 ebP = vEbP, ebNa = abs(vEbN);
          vec3 ebIn = step(uEbLo - 0.0025, ebP) * step(ebP, uEbHi + 0.0025);
@@ -339,7 +355,7 @@ function triplanar(m, o) {
          diffuseColor.rgb *= 1.0 - 0.07 * (1.0 - smoothstep(0.0, 0.0003, ebM));
        }` : ""}`);
   };
-  m.customProgramCacheKey = () => "eb-triplanar-" + sc[0].toFixed(2) + "-" + bump + "-" + rough + "-" + edge;
+  m.customProgramCacheKey = () => "eb-triplanar-" + sc[0].toFixed(2) + "-" + bump + "-" + rough + "-" + edge + (o.flute ? "-fl" : "");
 }
 
 /* Un material per mesh: three încarcă uniformele unui material numai când se
@@ -437,7 +453,7 @@ function materialFor(key) {
       if (GK.clearcoat != null) m.clearcoat = GK.clearcoat;
       if (GK.clearcoatRoughness != null) m.clearcoatRoughness = GK.clearcoatRoughness;
       m.color.multiplyScalar(1.08);
-      triplanar(m, { scale: [1 / GK.m, 1 / GK.m], bump: GK.bump, rough: GK.rough });
+      triplanar(m, { scale: [1 / GK.m, 1 / GK.m], bump: GK.bump, rough: GK.rough, flute: !!info.scan });
       grainApply(info.grana, m);
     } else if (r.grain) {
       if (!WOOD) WOOD = makeWoodTexture(7);
@@ -446,14 +462,14 @@ function materialFor(key) {
       m.color.multiplyScalar(1.08);
       m.map = WOOD;
       /* pozele sunt pătrate (nu întinse pe 0,42 × 1,9 m ca fibra procedurală): 0,6 m pe latură */
-      triplanar(m, { scale: [1 / 0.6, 1 / 0.6], bump: 0.0007, rough: 2.4 });
+      triplanar(m, { scale: [1 / 0.6, 1 / 0.6], bump: 0.0007, rough: 2.4, flute: !!info.scan });
       grainApply(grainKind(info.c), m);
     } else if (info.tx === "gloss") {
-      triplanar(m, {});
+      triplanar(m, { flute: !!info.scan });
     } else {
       if (!FINE) FINE = makeFineTexture(3);
       m.map = FINE; m.color.multiplyScalar(1.03);
-      triplanar(m, { scale: [1 / 0.16, 1 / 0.16], bump: 0.0004, rough: 1.2 });
+      triplanar(m, { scale: [1 / 0.16, 1 / 0.16], bump: 0.0004, rough: 1.2, flute: !!info.scan });
     }
   }
   MAT_CACHE.set(key, m);
@@ -679,9 +695,11 @@ function makeMesh(b, cfg) {
   mesh.castShadow = b.kind !== "g" && b.kind !== "w";   // pereții camerei nu aruncă umbră: ar întuneca toată camera
   mesh.receiveShadow = b.kind !== "g";
   mesh.userData.key = key; mesh.userData.base = mesh.material;
+  /* panou scanalat (D-180): numai fronturile (uși, fețe de sertar) poartă striațiile */
+  if (b.kind === "f") { const mi = (typeof matById === "function") && matById(key); if (mi && mi.scan) mesh.userData.flute = { p: mi.scan.pas / 1000, c: mi.scan.canal / 1000 }; }
   mesh.onBeforeRender = (r, s, c, g, mat) => {
     const sh = mat.userData && mat.userData.shader;
-    if (sh) { sh.uniforms.uRest.value.copy(mesh.matrix); sh.uniforms.uEbOff.value.set(mesh.userData.off0 || 0, mesh.userData.off1 || 0); sh.uniforms.uEbRect.value = mesh.userData.prism ? 0 : 1; const ao = mesh.userData.ao; sh.uniforms.uEbOn.value = ao ? 1 : 0; if (ao) { sh.uniforms.uEbLo.value.set(ao.lo[0], ao.lo[1], ao.lo[2]); sh.uniforms.uEbHi.value.set(ao.hi[0], ao.hi[1], ao.hi[2]); } mat.uniformsNeedUpdate = true; }
+    if (sh) { sh.uniforms.uRest.value.copy(mesh.matrix); sh.uniforms.uEbOff.value.set(mesh.userData.off0 || 0, mesh.userData.off1 || 0); sh.uniforms.uEbRect.value = mesh.userData.prism ? 0 : 1; const ao = mesh.userData.ao; sh.uniforms.uEbOn.value = ao ? 1 : 0; if (ao) { sh.uniforms.uEbLo.value.set(ao.lo[0], ao.lo[1], ao.lo[2]); sh.uniforms.uEbHi.value.set(ao.hi[0], ao.hi[1], ao.hi[2]); } if (sh.uniforms.uFl) { const fl = mesh.userData.flute; sh.uniforms.uFl.value.set(fl ? fl.p : 0, fl ? fl.c : 0, fl ? 1 : 0); } mat.uniformsNeedUpdate = true; }
   };
   return mesh;
 }

@@ -19,6 +19,7 @@ const EG = JSON.parse(rd("data/materials-egger.json"));
 const CL = JSON.parse(rd("data/materials-centro-legno.json"));
 const LEG = JSON.parse(rd("data/materials-legacy.json"));
 const WTP = JSON.parse(rd("data/materials-worktops.json"));
+const SCN = JSON.parse(rd("data/materials-scanalati.json"));   // pannelli scanalati (D-180)
 const INDEX = rd("index.html"), VIEWER = rd("viewer3d.js"), SW = rd("sw.js");
 const GOLD = JSON.parse(fs.readFileSync(path.join(__dirname, "materials-resolved.golden.json"), "utf8")).materials;
 const LANGS = ["it", "ro", "en", "fr", "de", "pl", "es"];
@@ -152,7 +153,7 @@ describe("Incarcarea in aplicatie", () => {
     assert.match(INDEX, /const MAT_SOURCES=\[[^\]]*materials-egger\.json/);
     assert.ok(SW.includes('"./data/materials-egger.json"'));
     await S.MAT_READY;
-    assert.equal(S.MATDB.length, CL.materiali.length + EG.materiali.length + LEG.materiali.length + WTP.materiali.length);
+    assert.equal(S.MATDB.length, CL.materiali.length + EG.materiali.length + LEG.materiali.length + WTP.materiali.length + SCN.materiali.length);
   });
   test("un decor Egger se rezolva cu grosime, cod, familie, grana si furnizor", async () => {
     await S.MAT_READY;

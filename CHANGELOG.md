@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.98.4 — 22 noiembrie 2026
+
+**Uși striate (fluted): panouri scanalate în catalogul de materiale.**
+- Patru panouri generice, 19 mm: Rovere, Noce, Bianco, Antracite, în cele 7 limbi. Se aleg ca orice material de față; ușile și fețele de sertar apar striate în 3D și în „Camera în 3D”.
+- Ușa rămâne o singură piesă, cu cotele finite: distinta, găurirea și devizul nu se schimbă. Panoul se cumpără gata scanalat. Fără furnizor, cod sau preț încă (devizul folosește prețul general și o semnalează); culorile sunt orientative.
+- Frezarea în atelier și lamelele aplicate nu sunt în această versiune (D-180).
+
+---
+
 ## 5.98.3 — 22 noiembrie 2026
 
 **Lista pieselor din Constructor, grupată pe funcție.**

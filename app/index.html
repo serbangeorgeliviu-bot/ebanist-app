@@ -5128,7 +5128,7 @@ function handleIsKnob(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(
  * un'altra forma (th, price, c, tx, pw, ph, label). L'adattatore qui sotto e
  * l'UNICO posto dove si passa dall'una all'altra: due schemi, una conversione.
  */
-const MAT_SOURCES=["./data/materials-centro-legno.json","./data/materials-egger.json","./data/materials-legacy.json","./data/materials-worktops.json"];
+const MAT_SOURCES=["./data/materials-centro-legno.json","./data/materials-egger.json","./data/materials-legacy.json","./data/materials-worktops.json","./data/materials-scanalati.json"];
 /* `var` e non `let`: questi devono essere PROPRIETA del globale, perche il
    banco di prova valuta questo stesso blocco in un contesto suo e li legge
    da li. Un `let` resterebbe chiuso nello scope dello script, e la prova
@@ -5168,6 +5168,8 @@ function matFromCatalog(m){
     attivo:m.attivo!==false,
     /* tipo di texture 3D scelto dal catalogo (opzionale): senza, il 3D usa la regola di prima */
     grana:m.grana||null,
+    /* pannello scanalato (D-180): pas e canale in mm, SOLO per il 3D; la distinta non cambia */
+    scan:(m.scanalat&&+m.scanalat.pas>0&&+m.scanalat.canal>0&&+m.scanalat.canal<+m.scanalat.pas)?{pas:+m.scanalat.pas,canal:+m.scanalat.canal}:null,
     nomeUfficiale:m.nome_ufficiale||null
   };
 }
@@ -5188,7 +5190,8 @@ function matToCatalog(x){
     attivo:eff.attivo!==false,
     formato:(eff.pw&&eff.ph)?{L:eff.pw,l:eff.ph}:null,
     texture:eff.tx||"solid",
-    grana:eff.grana||undefined
+    grana:eff.grana||undefined,
+    scanalat:eff.scan?{pas:eff.scan.pas,canal:eff.scan.canal}:undefined
   };
 }
 async function loadMaterials(){
@@ -20819,12 +20822,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.98.3"; /* APP_VER-MARKER */
+const APP_VER="5.98.4"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v291";
+const SW_CACHE="ebanist-v292";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -1,0 +1,152 @@
+{
+ "schema": 1,
+ "fornitore": "—",
+ "aggiornato": "2026-11-22",
+ "_nota": "Pannelli scanalati (fluted) GENERICI, da comprare già scanalati (MDF/impiallacciato). Nessun fornitore, codice, formato o prezzo: sono da compilare quando si sceglie il fornitore (prezzo_mq null = il preventivo usa il prezzo generale e lo segnala). `scanalat` (pas, canal in mm) serve SOLO al disegno 3D: la scanalatura non entra nella distinta, la porta resta un unico pezzo con le quote finite (D-180). Colori non verificati.",
+ "materiali": [
+  {
+   "id": "scan_rovere_19",
+   "nome": "Pannello scanalato Rovere 19mm",
+   "nome_i18n": {
+    "it": "Pannello scanalato Rovere 19mm",
+    "ro": "Panou scanalat Stejar 19mm",
+    "en": "Fluted panel Oak 19mm",
+    "fr": "Panneau cannelé Chêne 19mm",
+    "de": "Geriffelte Platte Eiche 19mm",
+    "pl": "Panel żłobkowany Dąb 19mm",
+    "es": "Panel acanalado Roble 19mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 19,
+   "famiglia": "legno",
+   "finitura": "scanalato",
+   "colore_hex": "#d2b283",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": null,
+   "scanalat": {
+    "pas": 24,
+    "canal": 6
+   }
+  },
+  {
+   "id": "scan_noce_19",
+   "nome": "Pannello scanalato Noce 19mm",
+   "nome_i18n": {
+    "it": "Pannello scanalato Noce 19mm",
+    "ro": "Panou scanalat Nuc 19mm",
+    "en": "Fluted panel Walnut 19mm",
+    "fr": "Panneau cannelé Noyer 19mm",
+    "de": "Geriffelte Platte Nussbaum 19mm",
+    "pl": "Panel żłobkowany Orzech 19mm",
+    "es": "Panel acanalado Nogal 19mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 19,
+   "famiglia": "legno",
+   "finitura": "scanalato",
+   "colore_hex": "#6b4a33",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": null,
+   "scanalat": {
+    "pas": 24,
+    "canal": 6
+   }
+  },
+  {
+   "id": "scan_bianco_19",
+   "nome": "Pannello scanalato Bianco 19mm",
+   "nome_i18n": {
+    "it": "Pannello scanalato Bianco 19mm",
+    "ro": "Panou scanalat Alb 19mm",
+    "en": "Fluted panel White 19mm",
+    "fr": "Panneau cannelé Blanc 19mm",
+    "de": "Geriffelte Platte Weiß 19mm",
+    "pl": "Panel żłobkowany Biały 19mm",
+    "es": "Panel acanalado Blanco 19mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 19,
+   "famiglia": "tinta_unita",
+   "finitura": "scanalato",
+   "colore_hex": "#f1efe9",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": null,
+   "scanalat": {
+    "pas": 24,
+    "canal": 6
+   }
+  },
+  {
+   "id": "scan_antracite_19",
+   "nome": "Pannello scanalato Antracite 19mm",
+   "nome_i18n": {
+    "it": "Pannello scanalato Antracite 19mm",
+    "ro": "Panou scanalat Antracit 19mm",
+    "en": "Fluted panel Anthracite 19mm",
+    "fr": "Panneau cannelé Anthracite 19mm",
+    "de": "Geriffelte Platte Anthrazit 19mm",
+    "pl": "Panel żłobkowany Antracyt 19mm",
+    "es": "Panel acanalado Antracita 19mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 19,
+   "famiglia": "tinta_unita",
+   "finitura": "scanalato",
+   "colore_hex": "#3a3d40",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": true,
+    "spessori": [
+     0.8,
+     2
+    ],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": null,
+   "scanalat": {
+    "pas": 24,
+    "canal": 6
+   }
+  }
+ ]
+}

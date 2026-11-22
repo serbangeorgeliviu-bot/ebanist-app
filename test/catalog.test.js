@@ -21,6 +21,7 @@ const CL = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-centro-legn
 const LEG = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-legacy.json"), "utf8"));
 const EGG = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-egger.json"), "utf8"));
 const WTP = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-worktops.json"), "utf8"));   // blaturi generice (D-142)
+const SCN = JSON.parse(fs.readFileSync(path.join(APP, "data/materials-scanalati.json"), "utf8"));   // pannelli scanalati (D-180)
 
 /* Il banco: lo stesso index.html, con un `fetch` che legge dal disco. */
 function sandbox() {
@@ -88,7 +89,7 @@ describe("Il caricamento nell'app", () => {
   test("carica tutte le sorgenti", async () => {
     await S.MAT_READY;
     assert.equal(S.MAT_LOADED, true);
-    assert.equal(S.MATDB.length, CL.materiali.length + EGG.materiali.length + LEG.materiali.length + WTP.materiali.length);
+    assert.equal(S.MATDB.length, CL.materiali.length + EGG.materiali.length + LEG.materiali.length + WTP.materiali.length + SCN.materiali.length);
   });
   test("lo spessore arriva intero fino a matById", async () => {
     await S.MAT_READY;
