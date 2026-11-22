@@ -12,7 +12,7 @@
    aplicației; nu se combină cu nimic altceva.
    ===================================================================== */
 
-export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use"];
+export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use", "doc_sample"];
 export const WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
 export const PLAT = ["play", "web"];
 export const PLAN = ["monthly", "yearly", "founders"];
@@ -35,7 +35,7 @@ export function clean(ev) {
   const s = String(ev.s || "").toLowerCase();
   if (!SID.test(s)) return null;
   const rec = { e: ev.e, plat: has(PLAT, ev.plat) ? ev.plat : "web", s };
-  if (ev.e === "pw_shown" || ev.e === "pw_buy" || ev.e === "pro_on") rec.why = has(WHY, ev.why) ? ev.why : "plain";
+  if (ev.e === "pw_shown" || ev.e === "pw_buy" || ev.e === "pro_on" || ev.e === "doc_sample") rec.why = has(WHY, ev.why) ? ev.why : "plain";
   if ((ev.e === "pw_buy" || ev.e === "pro_on") && has(PLAN, ev.plan)) rec.plan = ev.plan;
   if (ev.e === "pro_on" && has(KIND, ev.kind)) rec.kind = ev.kind;
   if (ev.e === "pw_unavail") rec.code = has(CODE, ev.code) ? ev.code : "empty";

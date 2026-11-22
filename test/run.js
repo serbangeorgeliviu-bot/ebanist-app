@@ -1304,7 +1304,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("da Pro il muro sparisce", g.proPassa);
   }
 
-  head("Documentele de atelier — gratuit: ecranul Pro, nimic tipărit; Pro: curate");
+  head("Documentele de atelier — gratuit: un singur document de probă cu filigran, apoi ecranul Pro; Pro: curate");
   {
     const w = await pg.evaluate(async () => {
       const out = {}, keepL = LIC, keepP = state.projects, keepA = state.activeId;
@@ -1347,6 +1347,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         return res;
       };
       licWrite(null); printOut._offered = 1;          // niente proposta: qui si guarda la carta
+      localStorage.removeItem("ebanist_sample");      // D-180: un documento di prova gratuito, una volta sola
       out.gratis = await giro();
       out.proAperto = document.getElementById("shPro").classList.contains("on"); closeSheets();
       out.testoFiligrana = (document.querySelector("#printArea .wm-foot") || {}).textContent || "";
@@ -1363,7 +1364,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     const su = stampati.filter(k => !(w.pro[k].diag === 0 && w.pro[k].foot === 0));
     const proStampati = Object.entries(w.pro).filter(([, v]) => v.stampato).map(([k]) => k);
     const suPro = proStampati.filter(k => !(w.pro[k].diag === 0 && w.pro[k].foot === 0));
-    ok("da gratuito NESSUN documento si stampa", stampati.length === 0, stampati.join(",") || "0");
+    ok("da gratuito si stampa UN SOLO documento (la prova, D-180), con la filigrana", stampati.length === 1 && giu.length === 0, stampati.join(",") || "0");
     ok("e si apre lo schermo Pro", w.proAperto === true);
     ok("da Pro stampano almeno quattro documenti", proStampati.length >= 4, proStampati.join(","));
     ok("e nessuno ha la filigrana", suPro.length === 0, suPro.join(",") || proStampati.length + "/" + proStampati.length);

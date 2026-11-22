@@ -376,3 +376,23 @@ describe("codul numeric Play pe pw_unavail și pw_fail (D-179)", () => {
     assert.match(html, /EBFunnel\.send\("pw_unavail",\{[^}]*rc:PLAY\.detail\}/);
   });
 });
+
+describe("doc_sample — documentul de probă gratuit (D-180)", () => {
+  const C = client().EBFunnel;
+  const ev = { e: "doc_sample", s: "ab12cd34", plat: "play", why: "doc" };
+  test("clientul și serverul păstrează numai motivul, la fel", () => {
+    const a = C.clean("doc_sample", ev), b = F.clean(ev);
+    assert.deepStrictEqual(a, { e: "doc_sample", plat: "play", why: "doc" });
+    assert.deepStrictEqual({ ...a, s: "ab12cd34" }, b);
+    assert.strictEqual(F.clean({ ...ev, why: "inventat" }).why, "plain");
+    assert.ok(!("plan" in b) && !("code" in b));
+  });
+  test("rezumatul îl numără pe platformă și pe motiv", () => {
+    const now = Date.UTC(2026, 10, 22);
+    const keys = [F.keyOf(F.clean(ev), now, "aaaa"), F.keyOf(F.clean({ ...ev, s: "zz9", why: "pdf" }), now, "bbbb")];
+    const r = F.summarize(keys);
+    assert.strictEqual(r.platforms.play.events.doc_sample, 2);
+    assert.strictEqual(r.byWhy.doc.doc_sample, 1);
+    assert.strictEqual(r.byWhy.pdf.doc_sample, 1);
+  });
+});
