@@ -12,7 +12,7 @@
    aplicației; nu se combină cu nimic altceva.
    ===================================================================== */
 
-export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use", "doc_sample"];
+export const EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use", "doc_sample", "rv_btn"];
 export const WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
 export const PLAT = ["play", "web"];
 export const PLAN = ["monthly", "yearly", "founders"];

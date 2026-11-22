@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.100.0 — 22 noiembrie 2026
+
+**Butonul „Evaluează Ebanist în Google Play" se vede (D-181).**
+- Exista din 5.19.0, dar stătea în grupul pliat „Abonament" din Setări; acum e în „App și aspect", lângă „Sugerează o funcție", cu o stea;
+- Apare numai în aplicația Android (are nevoie de puntea nativă `rateStore`) și deschide pagina din Play; textul spune unde se evaluează, în toate cele 7 limbi;
+- Pâlnia primește evenimentul anonim `rv_btn`, ca să vedem câți îl apasă, separat de `rv_ask` (cererea automată);
+- Numai web: aplicația Android încarcă ebanist.com, deci nu cere o versiune nouă în Play.
+
+---
+
 ## 5.99.0 — 22 noiembrie 2026
 
 **Un document de probă gratuit, cu filigran (D-180).**
