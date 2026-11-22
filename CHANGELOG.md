@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.98.3 — 22 noiembrie 2026
+
+**Lista pieselor din Constructor, grupată pe funcție.**
+- Cu 8 piese sau mai multe, lista „Piese” are antete: Corp, Rafturi și despărțitori, Uși și fronturi, Sertare, Altele, fiecare cu numărul pieselor. În grup, ordinea din distinctă rămâne; numerotarea pieselor e neschimbată. Textele sunt în 7 limbi.
+- Numai afișare în panou: distinta, găurirea, 3D-ul și exporturile nu se schimbă.
+
+---
+
 ## 5.98.2 — 21 noiembrie 2026
 
 **Ecranul „Bun venit”: trei rânduri cu pictogramă în loc de un bloc de text.**

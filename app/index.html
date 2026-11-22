@@ -862,6 +862,9 @@ body.vp-full{overflow:hidden}
 .pcs-scroll{max-height:42vh;overflow-y:auto;padding:2px 6px 8px}
 .pcs-it{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:7px 8px;border-radius:9px}
 .pcs-it:hover{background:var(--raised)}
+.pcs-gh{display:flex;align-items:center;justify-content:space-between;margin:10px 4px 2px;padding:0 4px;font-size:11px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--faint)}
+.pcs-gh:first-child{margin-top:2px}
+.pcs-gh b{font-weight:600;font-variant-numeric:tabular-nums}
 .pcs-it.on{background:var(--red-soft);box-shadow:inset 0 0 0 1px var(--red-line)}
 .pcs-n{flex:none;display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:7px;
   background:var(--raised);border:1px solid var(--line);font-style:normal;font-size:11.5px;font-weight:700;
@@ -4436,6 +4439,13 @@ Object.assign(I18N.fr,{vtCoh:"Cohérence"});
 Object.assign(I18N.de,{vtCoh:"Konsistenz"});
 Object.assign(I18N.pl,{vtCoh:"Spójność"});
 Object.assign(I18N.es,{vtCoh:"Coherencia"});
+Object.assign(I18N.en,{pgBody:"Body",pgShelves:"Shelves & dividers",pgFronts:"Doors & fronts",pgDrawers:"Drawers",pgOther:"Other"});
+Object.assign(I18N.ro,{pgBody:"Corp",pgShelves:"Rafturi și despărțitori",pgFronts:"Uși și fronturi",pgDrawers:"Sertare",pgOther:"Altele"});
+Object.assign(I18N.it,{pgBody:"Corpo",pgShelves:"Ripiani e divisori",pgFronts:"Ante e frontali",pgDrawers:"Cassetti",pgOther:"Altro"});
+Object.assign(I18N.fr,{pgBody:"Caisson",pgShelves:"Étagères et séparations",pgFronts:"Portes et façades",pgDrawers:"Tiroirs",pgOther:"Autres"});
+Object.assign(I18N.de,{pgBody:"Korpus",pgShelves:"Böden und Trenner",pgFronts:"Türen und Fronten",pgDrawers:"Schubladen",pgOther:"Sonstiges"});
+Object.assign(I18N.es,{pgBody:"Cuerpo",pgShelves:"Estantes y divisiones",pgFronts:"Puertas y frentes",pgDrawers:"Cajones",pgOther:"Otros"});
+Object.assign(I18N.pl,{pgBody:"Korpus",pgShelves:"Półki i przegrody",pgFronts:"Drzwi i fronty",pgDrawers:"Szuflady",pgOther:"Inne"});
 
 /* foaia A3 de fabricație (ebanist-sheet.js) */
 Object.assign(I18N.it,{"shPos":"Posizioni","shDetail":"Dettaglio","shTitle": "Scheda di fabbricazione", "shCompany": "Ditta", "shProject": "Progetto", "shClient": "Cliente", "shPiece": "Pezzo", "shMat": "Materiale", "shThk": "Spessore", "shQty": "Q.tà", "shEdge": "Bordo", "shScale": "Scala", "shDate": "Data", "shSheet": "Foglio", "shGen": "Generato con", "shTable": "Lavorazioni", "shRef": "Rif.", "shDia": "Ø / misura", "shEdgeHoles": "Fori sul bordo", "shEdgeN": "Bordo {n}", "shNote1": "Quote in mm, dal bordo all'asse del foro. Origine 0,0 in rosso.", "shBtn": "Foglio di fabbricazione A4"});
@@ -10969,9 +10979,17 @@ function studioSync(){
   const tabs=`<div class="seg" role="tablist"><button class="${studioTab==="pcs"?"on":""}" data-tab="pcs">${esc(t("vtPieces"))} <b>${P.length}</b></button><button class="${studioTab==="hw"?"on":""}" data-tab="hw">${esc(t("vtHw"))} <b>${M.ops.hw.length}</b></button></div>`;
   let body="";
   if(studioTab==="pcs"){
-    body=P.map(pc=>{ const m=M.meta[String(pc.pk)]||{}, sel=String(st.sel)===String(pc.pk), nd=nDrill(pc),
+    /* liste de 8+ piese: grupate pe funcție (corp, rafturi, uși, sertare), ordinea din distinctă păstrată în grup */
+    const pgOf=r=>/^(cassetto|cutie)/.test(r)?3:r==="frontale"?2:(r==="ripiano"||r==="divisorio")?1:/^(fianco|base|cielo|base_cielo|traversa_cielo|schienale|zoccolo)$/.test(r)?0:4;
+    const PG_K=["pgBody","pgShelves","pgFronts","pgDrawers","pgOther"];
+    const grp=P.length>=8&&new Set(P.map(pc=>pgOf(pc.role))).size>1;
+    const PL=grp?P.map((pc,i)=>({pc,i,g:pgOf(pc.role)})).sort((a,b)=>a.g-b.g||a.i-b.i):P.map((pc,i)=>({pc,i,g:0}));
+    const gN={}; PL.forEach(x=>{ gN[x.g]=(gN[x.g]||0)+1; });
+    let lastG=-1;
+    body=PL.map(({pc,g})=>{ const m=M.meta[String(pc.pk)]||{}, sel=String(st.sel)===String(pc.pk), nd=nDrill(pc),
         warn=pc.preflight.some(w=>w.level==="error");
-      return `<button class="pcs-it${sel?" on":""}" data-pk="${pc.pk}"><i class="pcs-n">${m.n||""}</i>`+
+      const head=grp&&g!==lastG?(lastG=g,`<p class="pcs-gh"><span>${esc(t(PG_K[g]))}</span><b>${gN[g]}</b></p>`):"";
+      return head+`<button class="pcs-it${sel?" on":""}" data-pk="${pc.pk}"><i class="pcs-n">${m.n||""}</i>`+
         `<span class="pcs-t"><b>${esc(partName(M,pc))}</b><small>${fmtMM(pc.length)} × ${fmtMM(pc.width)} × ${fmtMM(pc.thickness)}</small></span>`+
         `<span class="pcs-h${nd?"":" z"}${warn?" bad":""}" title="${esc(t("vtHoles"))}">${nd}</span></button>`; }).join("");
   }else{
@@ -20801,12 +20819,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.98.2"; /* APP_VER-MARKER */
+const APP_VER="5.98.3"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v290";
+const SW_CACHE="ebanist-v291";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
