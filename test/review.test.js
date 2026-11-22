@@ -75,3 +75,24 @@ describe("persistență", () => {
   });
   test("cheia e separată de proiecte (tagliapro)", () => assert.strictEqual(R.KEY, "ebanist_review"));
 });
+
+describe("butonul manual «Evaluează Ebanist în Google Play» (D-181, 5.100.0)", () => {
+  const fs = require("fs"), path = require("path");
+  const SRC = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+  test("stă în „App e aspetto”, lângă „Sugerează o funcție”, nu ascuns în Abonament", () => {
+    const iApp = SRC.indexOf('id="sgApp"'), iPro = SRC.indexOf('id="sgPro"'), iData = SRC.indexOf('id="sgData"');
+    const iBtn = SRC.indexOf('id="btnRate"');
+    assert.ok(iBtn > iApp, "după începutul grupului App");
+    assert.ok(!(iBtn > iPro && iBtn < iData), "nu în grupul Abonament");
+    assert.equal((SRC.match(/id="btnRate"/g) || []).length, 1);
+  });
+  test("apare numai în aplicația Android care are rateStore", () => {
+    assert.match(SRC, /\$\("btnRate"\)\.style\.display=\(rvCan\(\)&&typeof EbanistAndroid\.rateStore==="function"\)\?"flex":"none"/);
+  });
+  test("apăsarea se măsoară (rv_btn) și deschide pagina din Play", () => {
+    assert.match(SRC, /\$\("btnRate"\)\.addEventListener\("click",\(\)=>\{ try\{ EBFunnel\.send\("rv_btn"\); \}catch\(e\)\{\} try\{ EbanistAndroid\.rateStore\(\); \}catch\(e\)\{\} \}\);/);
+  });
+  test("textul spune unde se evaluează, în toate cele 7 limbi", () => {
+    for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) assert.match(SRC, new RegExp("I18N\\." + l + ",\\{rateApp:\"[^\"]*(Google Play)[^\"]*\"\\}"), l);
+  });
+});

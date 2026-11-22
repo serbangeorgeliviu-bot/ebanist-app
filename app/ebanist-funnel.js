@@ -12,6 +12,7 @@
      pw_unavail  ecranul Pro n-a avut ce vinde: Google Play n-a dat planuri { code }
                (D-129: 0 apăsări pe „cumpără" putea însemna și „nu se poate cumpăra")
      pw_fail   „cumpără" n-a ajuns la plată (numai Play)    { code, rc }
+    rv_btn    butonul „Evaluează Ebanist în Google Play" din Setări a fost apăsat (D-181)
     doc_sample  documentul de probă gratuit, cu filigran, a fost tipărit (D-180)    { why }
                code: canceled (omul a renunțat) / error / unavailable; rc: codul numeric Play
      hw_use    un articol din catalogul producătorului a intrat într-un proiect (D-170)
@@ -34,7 +35,7 @@
 (function (global) {
   "use strict";
 
-  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use", "doc_sample"];
+  var EVENTS = ["open", "pw_shown", "pw_buy", "pro_on", "rv_ask", "pw_unavail", "pw_fail", "hw_use", "doc_sample", "rv_btn"];
   var WHY = ["projects", "pdf", "lab", "jpg", "doc", "offer", "client", "part", "nest", "export", "room", "plain"];
   var PLAT = ["play", "web"];
   var PLAN = ["monthly", "yearly", "founders"];
