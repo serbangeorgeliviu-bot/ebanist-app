@@ -106,3 +106,18 @@ describe("Catalog: mânere aurii și oglindă (D-182)", () => {
     assert.match(fs.readFileSync(path.join(__dirname, "..", "app", "viewer3d.js"), "utf8"), /mirror:\s*\{/);
   });
 });
+
+describe("Camera 3D: deschide ușile și sertarele (D-183)", () => {
+  const IDX = fs.readFileSync(path.join(__dirname, "..", "app", "index.html"), "utf8");
+  test("cheia room3dOpenAll există în toate cele 7 limbi, nevidă și diferită de «Ante aperte»", () => {
+    const seen = new Set();
+    for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) {
+      const m = IDX.match(new RegExp('^' + l + ':\\{"svOpenHit"[^\\n]*?"room3dOpenAll":"([^"]+)"', "m"));
+      assert.ok(m && m[1].length > 5, l); seen.add(m[1]);
+    }
+    assert.equal(seen.size, 7);
+  });
+  test("butonul e în fereastra camerei 3D și comută aceeași stare ca butonul de la releveu", () => {
+    assert.match(IDX, /data-ro="1"[^]*?roomOpen=roomOpen\?0:1[^]*?drawRoom3D\(\)/);
+  });
+});

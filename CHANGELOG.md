@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.103.0 — 23 noiembrie 2026
+
+**„Deschide ușile și sertarele” direct în „Camera în 3D” (D-183).**
+- butonul e acum în fereastra camerei 3D (înainte exista numai sub planul de la releveu, ca „Ante aperte”); se aplică tuturor corpurilor deodată, ușilor și sertarelor, iar corpurile care se lovesc sunt semnalate ca înainte;
+- textul butonului e în toate cele 7 limbi (`room3dOpenAll`).
+
 ## 5.102.0 — 23 noiembrie 2026
 
 **„Camera în 3D” arată mânerele și conturul real al pieselor; bandă LED sub corp (D-182).**

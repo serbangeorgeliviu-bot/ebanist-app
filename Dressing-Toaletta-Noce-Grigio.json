@@ -2522,7 +2522,7 @@
     },
     "Oglinda": {
       "from": 2744,
-      "off": 0,
+      "off": 19,
       "lift": 790,
       "rot": 0,
       "wall": "w1"
