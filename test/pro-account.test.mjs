@@ -99,5 +99,15 @@ describe("legatura din aplicatie (D-185)", () => {
     assert.ok(/isPro\(\)\|\|playOn\(\)/.test(fn) && fn.includes("window.EbanistAndroid"), "nu pe Android, nu daca e deja Pro");
     for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"])
       assert.ok(new RegExp('Object\\.assign\\(I18N\\.' + l + ',\\{"proFromAcct"').test(app), "proFromAcct " + l);
+    // D-186: contul in ecranul Pro, fereastra Cont si ecranul de bun venit
+    assert.ok(app.includes("function proAcctBlock") && app.includes('id="proAcctGo"') && app.includes('id="proAcctChk"'));
+    assert.ok(/function proAcctBlock\(\)\{\s*if\(window\.EbanistAndroid\) return "";/.test(app), "blocul lipseste pe Android");
+    assert.ok(app.includes('id="acctBenefit"') && app.includes('data-i="intro4"'));
+    for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) {
+      for (const k of ["intro4", "proAcctHint", "proAcctBtn", "proAcctIn", "proAcctRecheck", "proAcctNone", "proAcctUnconf"])
+        assert.ok(new RegExp('Object\\.assign\\(I18N\\.' + l + ',\\{[^\\n]*"' + k + '"').test(app), k + " " + l);
+      for (const k of ["acctBenefit", "acctBenefitApp"])
+        assert.ok(new RegExp('Object\\.assign\\(AUTH_I18N\\.' + l + ',\\{[^\\n]*' + k + ':').test(app), k + " " + l);
+    }
   });
 });

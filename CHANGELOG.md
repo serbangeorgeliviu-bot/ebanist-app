@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.106.0 — 23 noiembrie 2026
+
+**Contul se vede: cine a plătit află că se poate regăsi cu e-mailul și parola (D-186).** Continuarea lui D-185.
+- **Ecranul Pro (numai pe web):** fără cont, un bloc „Ai plătit deja Pro? Autentifică-te…” cu butonul „Conectează-te sau creează cont” (deschide fereastra Cont); cu cont, „Conectat ca …” și „Verifică din nou din cont”, care cheamă `proFromAccount(true)` și spune ce s-a întâmplat (activat / nimic găsit / confirmă întâi e-mailul / fără rețea). Pe Android blocul nu apare;
+- **Fereastra Cont:** rând nou care spune ce aduce contul (proiecte, catalog, stoc pe orice dispozitiv; Pro pe site cu aceeași adresă; în aplicația Android, Pro îl gestionează Google Play);
+- **Ecranul „Bun venit”:** a patra linie, „Creează un cont ca să ai proiectele (și Pro) pe orice dispozitiv”;
+- textele în toate cele 7 limbi (`I18N`, `AUTH_I18N`); în Novități: intrarea 5.106.0;
+- test: `node --test pro-account.test.mjs`.
+
+---
+
 ## 5.105.0 — 23 noiembrie 2026
 
 **Pro legat de cont, pe web (D-185).** Cine intră cu e-mail și parolă nu mai copiază codul `sub_…` pe fiecare dispozitiv.
