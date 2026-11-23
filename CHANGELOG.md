@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.104.0 — 23 noiembrie 2026
+
+**Pagina „Novități” în aplicație (D-184).** La cererea unui utilizator: „Unde găsesc descrierea a ce s-a făcut la fiecare actualizare?”
+- foaie nouă, deschisă din butonul **?** (primul rând din Ajutor, „Novități · versiunea …”) sau cu `#news`; lista versiunilor 5.95.0–5.104.0, cea mai nouă deschisă, cu data scrisă în limba aplicației; la sfârșit, link spre blog pentru restul;
+- textele sunt în `app/ebanist-whatsnew.js` (pur, 7 limbi, în cuvintele utilizatorului); telemetria și reparațiile interne nu intră;
+- regulă: o versiune care schimbă ce vede sau ce poate face utilizatorul adaugă o intrare, în toate cele 7 limbi, odată cu CHANGELOG.md; `whatsnew.test.js` verifică limbile, ordinea și că fiecare intrare e în CHANGELOG;
+- test: `node --test whatsnew.test.js`.
+
+---
+
 ## 5.103.0 — 23 noiembrie 2026
 
 **„Deschide ușile și sertarele” direct în „Camera în 3D” (D-183).**
