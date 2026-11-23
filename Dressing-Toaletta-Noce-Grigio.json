@@ -10,7 +10,7 @@
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Fianco",
       "lung": 2734,
-      "larg": 347,
+      "larg": 350,
       "pz": 2,
       "bordo": "2L+2C",
       "role": "fianco",
@@ -33,7 +33,7 @@
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Base / Cielo",
       "lung": 717,
-      "larg": 347,
+      "larg": 350,
       "pz": 2,
       "bordo": "1L",
       "role": "base_cielo",
@@ -79,7 +79,7 @@
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Ripiano traversante",
       "lung": 715,
-      "larg": 327,
+      "larg": 330,
       "pz": 1,
       "bordo": "1L",
       "role": "ripiano",
@@ -106,7 +106,7 @@
       "gen": "Colonna_Sx_Nisa",
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Striscia LED",
-      "lung": 5468,
+      "lung": 2734,
       "larg": 6,
       "pz": 1,
       "bordo": "",
@@ -122,35 +122,69 @@
     },
     {
       "id": "r6",
-      "gen": "Colonna_Sx_Nisa",
-      "modulo": "Colonna_Sx_Nisa",
-      "elemento": "Schienale",
-      "lung": 2734,
-      "larg": 755,
-      "pz": 1,
-      "bordo": "",
-      "role": "schienale",
-      "axis_mapping": {
-        "lung": "H",
-        "larg": "L",
-        "sp": "P"
-      },
-      "sp": 3,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "pfl3"
-    },
-    {
-      "id": "r7",
-      "gen": "Rafturi_curbe_Sx",
-      "modulo": "Rafturi_curbe_Sx",
+      "gen": "Raft_curb_Sx_1",
+      "modulo": "Raft_curb_Sx_1",
       "elemento": "Pezzo contorno",
       "lung": 717,
       "larg": 340,
-      "pz": 6,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          170,
+          0,
+          0
+        ],
+        [
+          547,
+          0,
+          0.414214
+        ],
+        [
+          717,
+          170,
+          0.414214
+        ],
+        [
+          547,
+          340,
+          0
+        ],
+        [
+          170,
+          340,
+          0.414214
+        ],
+        [
+          0,
+          170,
+          0.414214
+        ]
+      ],
+      "perim": 1822,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r7",
+      "gen": "Raft_curb_Sx_2",
+      "modulo": "Raft_curb_Sx_2",
+      "elemento": "Pezzo contorno",
+      "lung": 717,
+      "larg": 340,
+      "pz": 1,
       "bordo": "CONT",
       "role": "contur",
       "axis_mapping": {
@@ -202,6 +236,234 @@
     },
     {
       "id": "r8",
+      "gen": "Raft_curb_Sx_3",
+      "modulo": "Raft_curb_Sx_3",
+      "elemento": "Pezzo contorno",
+      "lung": 717,
+      "larg": 340,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          170,
+          0,
+          0
+        ],
+        [
+          547,
+          0,
+          0.414214
+        ],
+        [
+          717,
+          170,
+          0.414214
+        ],
+        [
+          547,
+          340,
+          0
+        ],
+        [
+          170,
+          340,
+          0.414214
+        ],
+        [
+          0,
+          170,
+          0.414214
+        ]
+      ],
+      "perim": 1822,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r9",
+      "gen": "Raft_curb_Sx_4",
+      "modulo": "Raft_curb_Sx_4",
+      "elemento": "Pezzo contorno",
+      "lung": 717,
+      "larg": 340,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          170,
+          0,
+          0
+        ],
+        [
+          547,
+          0,
+          0.414214
+        ],
+        [
+          717,
+          170,
+          0.414214
+        ],
+        [
+          547,
+          340,
+          0
+        ],
+        [
+          170,
+          340,
+          0.414214
+        ],
+        [
+          0,
+          170,
+          0.414214
+        ]
+      ],
+      "perim": 1822,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r10",
+      "gen": "Raft_curb_Sx_5",
+      "modulo": "Raft_curb_Sx_5",
+      "elemento": "Pezzo contorno",
+      "lung": 717,
+      "larg": 340,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          170,
+          0,
+          0
+        ],
+        [
+          547,
+          0,
+          0.414214
+        ],
+        [
+          717,
+          170,
+          0.414214
+        ],
+        [
+          547,
+          340,
+          0
+        ],
+        [
+          170,
+          340,
+          0.414214
+        ],
+        [
+          0,
+          170,
+          0.414214
+        ]
+      ],
+      "perim": 1822,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r11",
+      "gen": "Raft_curb_Sx_6",
+      "modulo": "Raft_curb_Sx_6",
+      "elemento": "Pezzo contorno",
+      "lung": 717,
+      "larg": 340,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          170,
+          0,
+          0
+        ],
+        [
+          547,
+          0,
+          0.414214
+        ],
+        [
+          717,
+          170,
+          0.414214
+        ],
+        [
+          547,
+          340,
+          0
+        ],
+        [
+          170,
+          340,
+          0.414214
+        ],
+        [
+          0,
+          170,
+          0.414214
+        ]
+      ],
+      "perim": 1822,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r12",
       "gen": "Lambriu_Colonna_Sx",
       "modulo": "Lambriu_Colonna_Sx",
       "elemento": "Lamella",
@@ -224,7 +486,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r9",
+      "id": "r13",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Fianco",
@@ -247,7 +509,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r10",
+      "id": "r14",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Base / Cielo",
@@ -270,7 +532,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r11",
+      "id": "r15",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Zoccolo",
@@ -293,7 +555,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r12",
+      "id": "r16",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Setto",
@@ -316,7 +578,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r13",
+      "id": "r17",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Ripiano sx",
@@ -347,7 +609,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r14",
+      "id": "r18",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Ripiano dx",
@@ -378,7 +640,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r15",
+      "id": "r19",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Frontale cassetto",
@@ -401,7 +663,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r16",
+      "id": "r20",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Fianco cassetto",
@@ -424,7 +686,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r17",
+      "id": "r21",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Fronte/Retro cassetto",
@@ -447,7 +709,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r18",
+      "id": "r22",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Fondo cassetto",
@@ -470,7 +732,7 @@
       "materiale": "HDF 5mm"
     },
     {
-      "id": "r19",
+      "id": "r23",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Anta",
@@ -493,7 +755,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r20",
+      "id": "r24",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Anta",
@@ -516,11 +778,11 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r21",
+      "id": "r25",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Striscia LED",
-      "lung": 5468,
+      "lung": 2734,
       "larg": 6,
       "pz": 1,
       "bordo": "",
@@ -535,7 +797,7 @@
       "materiale": "Accessorio — striscia LED neon flex 6×6"
     },
     {
-      "id": "r22",
+      "id": "r26",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Schienale",
@@ -558,7 +820,7 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r23",
+      "id": "r27",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fianco",
@@ -581,7 +843,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r24",
+      "id": "r28",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Base / Cielo",
@@ -604,7 +866,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r25",
+      "id": "r29",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Zoccolo",
@@ -627,7 +889,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r26",
+      "id": "r30",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Setto",
@@ -650,7 +912,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r27",
+      "id": "r31",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Ripiano sx",
@@ -681,7 +943,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r28",
+      "id": "r32",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Ripiano dx",
@@ -712,7 +974,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r29",
+      "id": "r33",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Frontale cassetto",
@@ -732,10 +994,10 @@
       "ys": null,
       "scasso": null,
       "curve": null,
-      "materiale": "textil_grigio_19"
+      "materiale": "grigio_medio_19"
     },
     {
-      "id": "r30",
+      "id": "r34",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fianco cassetto",
@@ -758,7 +1020,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r31",
+      "id": "r35",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fronte/Retro cassetto",
@@ -781,7 +1043,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r32",
+      "id": "r36",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fondo cassetto",
@@ -804,7 +1066,7 @@
       "materiale": "HDF 5mm"
     },
     {
-      "id": "r33",
+      "id": "r37",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Anta",
@@ -824,10 +1086,10 @@
       "ys": null,
       "scasso": null,
       "curve": null,
-      "materiale": "textil_grigio_19"
+      "materiale": "grigio_medio_19"
     },
     {
-      "id": "r34",
+      "id": "r38",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Anta",
@@ -847,10 +1109,10 @@
       "ys": null,
       "scasso": null,
       "curve": null,
-      "materiale": "textil_grigio_19"
+      "materiale": "grigio_medio_19"
     },
     {
-      "id": "r35",
+      "id": "r39",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Striscia LED",
@@ -869,7 +1131,7 @@
       "materiale": "Accessorio — striscia LED neon flex 6×6"
     },
     {
-      "id": "r36",
+      "id": "r40",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Schienale",
@@ -892,7 +1154,7 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r37",
+      "id": "r41",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fianco",
@@ -915,7 +1177,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r38",
+      "id": "r42",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Base / Cielo",
@@ -938,7 +1200,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r39",
+      "id": "r43",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Setto",
@@ -961,7 +1223,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r40",
+      "id": "r44",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Frontale cassetto",
@@ -981,10 +1243,10 @@
       "ys": null,
       "scasso": null,
       "curve": null,
-      "materiale": "textil_grigio_19"
+      "materiale": "grigio_medio_19"
     },
     {
-      "id": "r41",
+      "id": "r45",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fianco cassetto",
@@ -1007,7 +1269,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r42",
+      "id": "r46",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fronte/Retro cassetto",
@@ -1030,7 +1292,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r43",
+      "id": "r47",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fondo cassetto",
@@ -1053,7 +1315,7 @@
       "materiale": "HDF 5mm"
     },
     {
-      "id": "r44",
+      "id": "r48",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Schienale",
@@ -1076,7 +1338,7 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r45",
+      "id": "r49",
       "gen": "Oglinda_sticla_atelier_sticlar",
       "modulo": "Oglinda_sticla_atelier_sticlar",
       "elemento": "Pezzo contorno",
@@ -1143,12 +1405,12 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r46",
+      "id": "r50",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Fianco",
       "lung": 1140,
-      "larg": 197,
+      "larg": 200,
       "pz": 2,
       "bordo": "2L+2C",
       "role": "fianco",
@@ -1166,12 +1428,12 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r47",
+      "id": "r51",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Base / Cielo",
       "lung": 662,
-      "larg": 197,
+      "larg": 200,
       "pz": 2,
       "bordo": "1L",
       "role": "base_cielo",
@@ -1189,12 +1451,12 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r48",
+      "id": "r52",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Setto",
       "lung": 1102,
-      "larg": 197,
+      "larg": 200,
       "pz": 1,
       "bordo": "1L",
       "role": "divisorio",
@@ -1212,12 +1474,12 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r49",
+      "id": "r53",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Ripiano dx",
       "lung": 220,
-      "larg": 177,
+      "larg": 180,
       "pz": 3,
       "bordo": "1L",
       "role": "ripiano",
@@ -1245,11 +1507,11 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r50",
+      "id": "r54",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Striscia LED",
-      "lung": 3080,
+      "lung": 1100,
       "larg": 6,
       "pz": 1,
       "bordo": "",
@@ -1262,36 +1524,13 @@
       "scasso": null,
       "curve": null,
       "materiale": "Accessorio — striscia LED neon flex 6×6"
-    },
-    {
-      "id": "r51",
-      "gen": "Nisa_Specchio",
-      "modulo": "Nisa_Specchio",
-      "elemento": "Schienale",
-      "lung": 1140,
-      "larg": 700,
-      "pz": 1,
-      "bordo": "",
-      "role": "schienale",
-      "axis_mapping": {
-        "lung": "H",
-        "larg": "L",
-        "sp": "P"
-      },
-      "sp": 3,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "pfl3"
     }
   ],
   "configs": {
     "Colonna_Sx_Nisa": {
       "plinth": 50,
       "support": "zoccolo",
-      "back": 1,
+      "back": 0,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
@@ -1309,7 +1548,7 @@
       "P": 350,
       "doors": 0,
       "led": "manual",
-      "ledLen": 5468,
+      "ledLen": 2734,
       "partitions": [
         {
           "type": "ripiano",
@@ -1318,7 +1557,7 @@
         }
       ]
     },
-    "Rafturi_curbe_Sx": {
+    "Raft_curb_Sx_1": {
       "plinth": 0,
       "support": "piedini",
       "back": 0,
@@ -1332,7 +1571,7 @@
       "matBody": "nogal_victoria_19",
       "matFront": "nogal_victoria_19",
       "matBack": "pfl3",
-      "name": "Rafturi_curbe_Sx",
+      "name": "Raft_curb_Sx_1",
       "type": "contur",
       "L": 717,
       "H": 340,
@@ -1340,7 +1579,132 @@
       "cShape": "round",
       "cR": 170,
       "cOri": "o",
-      "cPz": 6,
+      "cPz": 1,
+      "cEdge": 1
+    },
+    "Raft_curb_Sx_2": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Raft_curb_Sx_2",
+      "type": "contur",
+      "L": 717,
+      "H": 340,
+      "P": 19,
+      "cShape": "round",
+      "cR": 170,
+      "cOri": "o",
+      "cPz": 1,
+      "cEdge": 1
+    },
+    "Raft_curb_Sx_3": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Raft_curb_Sx_3",
+      "type": "contur",
+      "L": 717,
+      "H": 340,
+      "P": 19,
+      "cShape": "round",
+      "cR": 170,
+      "cOri": "o",
+      "cPz": 1,
+      "cEdge": 1
+    },
+    "Raft_curb_Sx_4": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Raft_curb_Sx_4",
+      "type": "contur",
+      "L": 717,
+      "H": 340,
+      "P": 19,
+      "cShape": "round",
+      "cR": 170,
+      "cOri": "o",
+      "cPz": 1,
+      "cEdge": 1
+    },
+    "Raft_curb_Sx_5": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Raft_curb_Sx_5",
+      "type": "contur",
+      "L": 717,
+      "H": 340,
+      "P": 19,
+      "cShape": "round",
+      "cR": 170,
+      "cOri": "o",
+      "cPz": 1,
+      "cEdge": 1
+    },
+    "Raft_curb_Sx_6": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Raft_curb_Sx_6",
+      "type": "contur",
+      "L": 717,
+      "H": 340,
+      "P": 19,
+      "cShape": "round",
+      "cR": 170,
+      "cOri": "o",
+      "cPz": 1,
       "cEdge": 1
     },
     "Lambriu_Colonna_Sx": {
@@ -1385,7 +1749,7 @@
       "H": 2734,
       "P": 600,
       "led": "manual",
-      "ledLen": 5468,
+      "ledLen": 2734,
       "partitions": [
         {
           "type": "setto",
@@ -1470,7 +1834,7 @@
       "shelves": 0,
       "drawers": 0,
       "matBody": "nogal_victoria_19",
-      "matFront": "textil_grigio_19",
+      "matFront": "grigio_medio_19",
       "matBack": "pfl3",
       "name": "Armadio_Grigio",
       "type": "standard",
@@ -1577,7 +1941,7 @@
       "shelves": 0,
       "drawers": 0,
       "matBody": "nogal_victoria_19",
-      "matFront": "textil_grigio_19",
+      "matFront": "grigio_medio_19",
       "matBack": "pfl3",
       "name": "Toaletta_Sertare",
       "type": "standard",
@@ -1634,7 +1998,7 @@
     "Nisa_Specchio": {
       "plinth": 0,
       "support": "sospeso",
-      "back": 1,
+      "back": 0,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
@@ -1651,7 +2015,7 @@
       "H": 1140,
       "P": 200,
       "led": "manual",
-      "ledLen": 3080,
+      "ledLen": 1100,
       "doors": 0,
       "partitions": [
         {
@@ -1674,6 +2038,130 @@
           "span": "right"
         }
       ]
+    }
+  },
+  "survey": {
+    "walls": [
+      {
+        "id": "w1",
+        "len": 3425,
+        "angle": 90
+      },
+      {
+        "id": "w2",
+        "len": 3400,
+        "angle": 90
+      },
+      {
+        "id": "w3",
+        "len": 3425,
+        "angle": 90
+      },
+      {
+        "id": "w4",
+        "len": 3400,
+        "angle": 90
+      }
+    ],
+    "heights": [
+      2734,
+      2734,
+      2734
+    ],
+    "wallH": 2734,
+    "obstacles": []
+  },
+  "layout": {
+    "Colonna_Sx_Nisa": {
+      "from": 0,
+      "off": 0,
+      "lift": 0,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Lambriu_Colonna_Sx": {
+      "from": 19,
+      "off": 0,
+      "lift": 69,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Raft_curb_Sx_1": {
+      "from": 19,
+      "off": 0,
+      "lift": 190,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Raft_curb_Sx_2": {
+      "from": 19,
+      "off": 0,
+      "lift": 480,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Raft_curb_Sx_3": {
+      "from": 19,
+      "off": 0,
+      "lift": 845,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Raft_curb_Sx_4": {
+      "from": 19,
+      "off": 0,
+      "lift": 1250,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Raft_curb_Sx_5": {
+      "from": 19,
+      "off": 0,
+      "lift": 1670,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Raft_curb_Sx_6": {
+      "from": 19,
+      "off": 0,
+      "lift": 2150,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Armadio_Noce": {
+      "from": 755,
+      "off": 0,
+      "lift": 0,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Armadio_Grigio": {
+      "from": 1805,
+      "off": 0,
+      "lift": 0,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Toaletta_Sertare": {
+      "from": 2725,
+      "off": 0,
+      "lift": 560,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Nisa_Specchio": {
+      "from": 2725,
+      "off": 0,
+      "lift": 760,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Oglinda_sticla_atelier_sticlar": {
+      "from": 2744,
+      "off": 0,
+      "lift": 790,
+      "rot": 0,
+      "wall": "w1"
     }
   }
 }
