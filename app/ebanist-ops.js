@@ -266,7 +266,7 @@ function physicalPieces(boxes) {
     var b = boxes[i];
     if (!b || b.pk == null || !PANEL_ROLES[b.role] || b.kind === "g" || b.kind === "m") continue;
     var k = String(b.pk);
-    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, aw: !!b.aw, fold: b.fold || null, slideSys: (b.slide && b.slide.sys) || (b.pocket && b.pocket.sys) || (b.fold && b.fold.wing) || null, curved: false, sloped: false, dim: null, edgeH: null }; order.push(k); }
+    if (!map[k]) { map[k] = { pk: b.pk, role: b.role, boxes: [], sub: b.sub || null, grp: b.grp || null, wing: b.wing || null, hinge: b.hinge || null, nohandle: !!b.nohandle, aw: !!b.aw, fold: b.fold || null, slideSys: (b.slide && b.slide.sys) || (b.pocket && b.pocket.sys) || (b.fold && b.fold.wing) || null, curved: false, sloped: false, dim: null, edgeH: null }; order.push(k); }
     map[k].boxes.push(b);
     if (!isRect(b)) map[k].curved = true;
     /* panou pe pantă (D-86): conturul în planul vertical și, la tavanul înclinat, dimensiunile reale
@@ -917,12 +917,26 @@ function generate1(input) {
                            note: "canal profil anti-curbare" });
         } else out.warnings.push({ piece: D.pk, k: "opsAwThin" });
       }
-      if (hingeSel === "maniglia") doorHandle(out, D, handleOf(cfg, "door"), hingeLeft, topD);
+      if (hingeSel === "maniglia" && !D.nohandle) doorHandle(out, D, handleOf(cfg, "door"), hingeLeft, topD);
     });
   });
 
   /* --- 4a. LED (D-157): canal 6×6 sub tavan, pe toată lățimea lui. Numai la „sub plafon”: la lungimea introdusă nu știm pe ce panou
          stă banda, deci nu se emite nimic (nu se ghicește). Tavanul de tip traversă nu are față de dedesubt întreagă: avertisment. */
+  /* benzi LED verticale pe lateralele corpului (D-182): cfg.ledRuns = [{on:"left"|"right", len?}], canal 6×6 pe fața exterioară a lateralului, lângă muchia din față;
+     lungimea implicită = lungimea lateralului − 80 mm. Pe lângă (nu în loc de) „led:top”. */
+  if (cfg && Array.isArray(cfg.ledRuns) && cfg.ledRuns.length) {
+    var LGv = H.led, sidesV = pcs.filter(function (q) { return q.role === "fianco" && q.tAx === 0; }).sort(function (a, b) { return a.min[0] - b.min[0]; });
+    cfg.ledRuns.forEach(function (r) {
+      var sd = r && r.on === "left" ? sidesV[0] : r && r.on === "right" ? sidesV[sidesV.length - 1] : null;
+      if (!sd || !(sd.T > LGv.d + 3)) return;
+      var lf = r.on === "left", y0 = sd.min[1] + 60, ln = +r.len > 0 ? +r.len : sd.max[1] - sd.min[1] - 80, y1 = y0 + ln;
+      if (!(ln > 0) || y1 > sd.max[1]) return;
+      var zHi = sd.max[2] - LGv.from_front, xa = lf ? sd.min[0] : sd.max[0] - LGv.d, xc = lf ? sd.min[0] + LGv.d / 2 : sd.max[0] - LGv.d / 2;
+      sd.grooves.push({ lo: [xa, y0, zHi - LGv.w], hi: [xa + LGv.d, y1, zHi], note: "canal bandă LED 6×6 vertical" });
+      out.hw.push({ id: "hw_" + out.hw.length, type: "ledv", catalog: "emu_5220220", piece: sd.pk, w: [xc, y0, zHi - LGv.w / 2], y0: y0, y1: y1, len: ln, side: lf ? -1 : 1, note: "Bandă LED 6×6 vertical" });
+    });
+  }
   if (cfg && cfg.led === "top") {
     var LG = H.led, ledTop = pcs.filter(function (q) { return q.role === "cielo" && q.tAx === 1 && !q.tbl && !q.sloped && !q.curved; })[0];
     if (ledTop && ledTop.T > LG.d + 3) {
@@ -975,7 +989,7 @@ function generate1(input) {
     }
     /* mânerul stă pe foaia de la capătul liber al pachetului */
     var stackLeft = ls[0].hinge === "left", D = stackLeft ? ls[ls.length - 1] : ls[0];
-    if (hingeSel === "maniglia" && D) doorHandle(out, D, handleOf(cfg, "door"), stackLeft);
+    if (hingeSel === "maniglia" && D && !D.nohandle) doorHandle(out, D, handleOf(cfg, "door"), stackLeft);
   });
 
   /* --- 4c. gola frezată (D-89): canal pe spatele muchiei de sus, pe fiecare front --- */

@@ -1536,7 +1536,7 @@ function validateFronts(fronts, W, H) {
     f = fronts[i] || {};
     var tag = "anta " + (i + 1);
     if (!finiteNum(f.x) || !finiteNum(f.y) || !finiteNum(f.w) || !finiteNum(f.h)) { errors.push(tag + ": x, y, w, h trebuie să fie numere"); continue; }
-    var o = { n: i + 1, x: +f.x, y: +f.y, w: +f.w, h: +f.h, hinge: (f.hinge === "left" || f.hinge === "right") ? f.hinge : null };
+    var o = { n: i + 1, x: +f.x, y: +f.y, w: +f.w, h: +f.h, hinge: (f.hinge === "left" || f.hinge === "right") ? f.hinge : null, handle: f.handle === "none" ? "none" : null };
     if (!(o.w >= 60 && o.h >= 60)) errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " e sub 60 mm");
     if (o.x < -LAYOUT_EPS || o.y < -LAYOUT_EPS || o.x + o.w > W + LAYOUT_EPS || o.y + o.h > H + LAYOUT_EPS)
       errors.push(tag + ": " + fmt01(o.w) + "×" + fmt01(o.h) + " la (" + fmt01(o.x) + ", " + fmt01(o.y) + ") iese din gabaritul " + W + "×" + H);

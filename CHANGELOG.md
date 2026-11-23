@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.101.0 — 23 noiembrie 2026
+
+**Benzi LED verticale, uși fără mâner, mânere aurii, oglindă (D-182).**
+- `ledRuns` pe corp: bandă LED 6×6 verticală pe lateralul stâng sau drept (canal în piesă, rând „Striscia LED” pe bandă, lumină în „Camera în 3D”), pe lângă „led: sub plafon”;
+- `fronts[].handle = "none"`: o ușă fără mâner (uși de sus cu apăsare); celelalte uși ale corpului își păstrează mânerul;
+- două mânere bară alamă/auriu (192 și 384 mm), generice, marcate estimare (`chk`, `est`), în 7 limbi;
+- oglindă argintată 4 mm ca material (`specchio_4`, fișier nou `data/materials-glass.json`), desenată în 3D cu textura `mirror`;
+- rafturile cu colț rotunjit și panourile riflate se fac cu piesele cu contur existente (contur liber și canale), fără funcții noi.
+
 ## 5.100.0 — 22 noiembrie 2026
 
 **Butonul „Evaluează Ebanist în Google Play" se vede (D-181).**
