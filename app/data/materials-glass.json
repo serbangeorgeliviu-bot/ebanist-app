@@ -1,0 +1,41 @@
+{
+ "schema": 1,
+ "fornitore": "(generic)",
+ "aggiornato": "2026-11-23",
+ "_nota": "Oglinzi și sticlă (D-182). Grosimea standard a oglinzii argintate: 4 mm; formatul și prețul se completează de la sticlar. Se comandă la sticlar, nu se taie din placă de atelier.",
+ "materiali": [
+  {
+   "id": "specchio_4",
+   "nome": "Specchio argentato 4 mm",
+   "nome_i18n": {
+    "it": "Specchio argentato 4 mm",
+    "ro": "Oglindă argintată 4 mm",
+    "en": "Silvered mirror 4 mm",
+    "fr": "Miroir argenté 4 mm",
+    "de": "Silberspiegel 4 mm",
+    "pl": "Lustro srebrzone 4 mm",
+    "es": "Espejo plateado 4 mm"
+   },
+   "codice": null,
+   "fornitore": "—",
+   "spessore": 4,
+   "famiglia": "lucido",
+   "finitura": "specchio",
+   "colore_hex": "#cfd8dc",
+   "colore_verificato": false,
+   "texture_url": null,
+   "bordo_abs": {
+    "disponibile": false,
+    "spessori": [],
+    "codice": null
+   },
+   "prezzo_mq": null,
+   "attivo": true,
+   "formato": {
+    "L": 3210,
+    "l": 2250
+   },
+   "texture": "mirror"
+  }
+ ]
+}

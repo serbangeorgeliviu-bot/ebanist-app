@@ -219,6 +219,7 @@ const TX_RULES = {
   solid: { roughness: 0.52, metalness: 0, clearcoat: 0.12, clearcoatRoughness: 0.42 },
   wood:  { roughness: 0.62, metalness: 0, clearcoat: 0.10, clearcoatRoughness: 0.48, grain: true },
   gloss: { roughness: 0.08, metalness: 0, clearcoat: 1.00, clearcoatRoughness: 0.04 },
+  mirror: { roughness: 0.02, metalness: 0.9, clearcoat: 1.00, clearcoatRoughness: 0.02 },   /* oglindă argintată (D-182) */
 };
 const ID_OVR = {
   mdf18: { roughness: .92, clearcoat: 0 }, dsp_mdf_19: { roughness: .92, clearcoat: 0 },
@@ -1069,8 +1070,21 @@ function setRoomLeds(list) {
   if (!list || !list.length) return;
   const grp = new THREE.Group(), L = { items: [] };
   const gtex = glowTexture();
-  const byLen = list.map((q, i) => [Math.hypot(q.b[0] - q.a[0], q.b[1] - q.a[1]), i]).sort((p, q) => q[0] - p[0]).slice(0, 10).map(x => x[1]);
+  const byLen = list.map((q, i) => [q.v ? q.y1 - q.y : Math.hypot(q.b[0] - q.a[0], q.b[1] - q.a[1]), i]).sort((p, q) => q[0] - p[0]).slice(0, 10).map(x => x[1]);
   list.forEach((q, i) => {
+    if (q.v) {   /* bandă verticală (D-182): bilă emisivă lungă + halou vertical spre fațadă + o lumină la mijloc dacă e printre cele mai lungi */
+      const hh = q.y1 - q.y; if (hh < 20) return;
+      const nn = q.n || [0, 1], cy = (q.y + q.y1) / 2;
+      const bead = new THREE.Mesh(new THREE.BoxGeometry(5.2 * MM, (hh - 1) * MM, 5.2 * MM), materialFor("__ledoff"));
+      bead.position.set(q.a[0] * MM, cy * MM, q.a[1] * MM); bead.castShadow = false; bead.userData.own = true;
+      const glow = new THREE.Mesh(new THREE.PlaneGeometry(70 * MM, hh * MM), new THREE.MeshBasicMaterial({ map: gtex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .9 }));
+      glow.material.userData.own = true; glow.rotation.y = Math.atan2(nn[0], nn[1]); glow.renderOrder = 4;
+      glow.position.set((q.a[0] + nn[0] * 3) * MM, cy * MM, (q.a[1] + nn[1] * 3) * MM);
+      grp.add(bead, glow);
+      const itv = { bead, glow, door: false, lights: [] };
+      if (byLen.indexOf(i) >= 0) { const pl = new THREE.PointLight(0xffb470, 0, 2.0, 2); pl.position.set((q.a[0] + nn[0] * 40) * MM, cy * MM, (q.a[1] + nn[1] * 40) * MM); pl.castShadow = false; grp.add(pl); itv.lights.push(pl); }
+      L.items.push(itv); return;
+    }
     const dx = q.b[0] - q.a[0], dz = q.b[1] - q.a[1], len = Math.hypot(dx, dz); if (len < 20) return;
     const ang = -Math.atan2(dz, dx), cx = (q.a[0] + q.b[0]) / 2, cz = (q.a[1] + q.b[1]) / 2;
     const bead = new THREE.Mesh(new THREE.BoxGeometry((len - 1) * MM, 1 * MM, 5.2 * MM), materialFor("__ledoff"));

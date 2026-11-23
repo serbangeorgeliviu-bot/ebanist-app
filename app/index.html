@@ -4798,6 +4798,8 @@ const HWDB={
   {id:"haf_profil",brand:"Häfele",n:{it:"Profilo presa Gola/L",ro:"Profil prindere Gola/L",en:"Gola/L grip profile",fr:"Profil de prise Gola/L",de:"Griffleistenprofil Gola/L",pl:"Profil uchwytowy Gola/L",es:"Perfil de agarre Gola/L"},art:"126.36.xxx",price:6.0,chk:1,profile:1},
   {id:"gen_pomo",brand:"—",n:{it:"Pomello",ro:"Buton",en:"Knob",fr:"Bouton",de:"Knopf",pl:"Gałka",es:"Pomo"},art:"—",price:2.2,knob:1,hm:{t:"knob",d:30,fin:"__blackmetal"}},
   {id:"gen_bar96_inox",brand:"—",n:{"it": "Maniglia a barra inox 96 mm", "ro": "Mâner bară inox 96 mm", "en": "Stainless bar handle 96 mm", "fr": "Poignée barre inox 96 mm", "de": "Edelstahl-Stangengriff 96 mm", "pl": "Uchwyt prętowy inox 96 mm", "es": "Tirador barra inox 96 mm"},art:"\u2014",price:4.9,chk:1,hm:{"t": "bar", "ia": 96, "fin": "__inox"}},
+  {id:"gen_bar_oro_192",brand:"—",n:{"it": "Maniglia a barra ottone/oro 192 mm", "ro": "Mâner bară alamă/auriu 192 mm", "en": "Brass/gold bar handle 192 mm", "fr": "Poignée barre laiton/or 192 mm", "de": "Stangengriff Messing/Gold 192 mm", "pl": "Uchwyt prętowy mosiądz/złoty 192 mm", "es": "Tirador barra latón/oro 192 mm"},art:"\u2014",price:9.0,chk:1,est:1,hm:{"t": "bar", "ia": 192, "fin": "__brass"}},
+  {id:"gen_bar_oro_384",brand:"—",n:{"it": "Maniglia a barra ottone/oro 384 mm (porta alta)", "ro": "Mâner bară alamă/auriu 384 mm (ușă înaltă)", "en": "Brass/gold bar handle 384 mm (tall door)", "fr": "Poignée barre laiton/or 384 mm (porte haute)", "de": "Stangengriff Messing/Gold 384 mm (hohe Tür)", "pl": "Uchwyt prętowy mosiądz/złoty 384 mm (wysokie drzwi)", "es": "Tirador barra latón/oro 384 mm (puerta alta)"},art:"\u2014",price:16.0,chk:1,est:1,hm:{"t": "bar", "ia": 384, "fin": "__brass"}},
   {id:"gen_bar160_inox",brand:"—",n:{"it": "Maniglia a barra inox 160 mm", "ro": "Mâner bară inox 160 mm", "en": "Stainless bar handle 160 mm", "fr": "Poignée barre inox 160 mm", "de": "Edelstahl-Stangengriff 160 mm", "pl": "Uchwyt prętowy inox 160 mm", "es": "Tirador barra inox 160 mm"},art:"\u2014",price:5.7,chk:1,hm:{"t": "bar", "ia": 160, "fin": "__inox"}},
   {id:"gen_bar192_black",brand:"—",n:{"it": "Maniglia a barra nera 192 mm", "ro": "Mâner bară negru 192 mm", "en": "Black bar handle 192 mm", "fr": "Poignée barre noire 192 mm", "de": "Schwarzer Stangengriff 192 mm", "pl": "Czarny uchwyt prętowy 192 mm", "es": "Tirador barra negro 192 mm"},art:"\u2014",price:5.7,chk:1,hm:{"t": "bar", "ia": 192, "fin": "__blackmetal"}},
   {id:"gen_bar320_inox",brand:"—",n:{"it": "Maniglia a barra inox 320 mm (ante alte)", "ro": "Mâner bară inox 320 mm (uși înalte)", "en": "Stainless bar handle 320 mm (tall doors)", "fr": "Poignée barre inox 320 mm (portes hautes)", "de": "Edelstahl-Stangengriff 320 mm (hohe Türen)", "pl": "Uchwyt prętowy inox 320 mm (wysokie drzwi)", "es": "Tirador barra inox 320 mm (puertas altas)"},art:"\u2014",price:12.5,chk:1,hm:{"t": "bar", "ia": 320, "fin": "__inox"}},
@@ -5131,7 +5133,7 @@ function handleIsKnob(cfg){ try{ const it=hwItemFor(cfg||null,"man"); return !!(
  * un'altra forma (th, price, c, tx, pw, ph, label). L'adattatore qui sotto e
  * l'UNICO posto dove si passa dall'una all'altra: due schemi, una conversione.
  */
-const MAT_SOURCES=["./data/materials-centro-legno.json","./data/materials-egger.json","./data/materials-legacy.json","./data/materials-worktops.json"];
+const MAT_SOURCES=["./data/materials-centro-legno.json","./data/materials-egger.json","./data/materials-legacy.json","./data/materials-worktops.json","./data/materials-glass.json"];
 /* `var` e non `let`: questi devono essere PROPRIETA del globale, perche il
    banco di prova valuta questo stesso blocco in un contesto suo e li legge
    da li. Un `let` resterebbe chiuso nello scope dello script, e la prova
@@ -8910,7 +8912,8 @@ function buildCore(cfg){
       cells.forEach((q,ci)=>{ if(ci>0) bxSame=true;
         bx(q[0],q[1],q[2],q[3],P,P+tA,"f",0,0,"door");
         if(awOn(cfg,f.h)) boxes[boxes.length-1].aw=true;
-        if(f.hinge) boxes[boxes.length-1].hinge=f.hinge; });
+        if(f.hinge) boxes[boxes.length-1].hinge=f.hinge;
+        if(f.handle==="none") boxes[boxes.length-1].nohandle=true; });   /* fără mâner pe această ușă (D-182): ușile de sus, cu apăsare */
       /* grila, ca placă subțire în gaură: se vede că e o deschidere, nu o ușă ruptă; aceeași piesă ca ușa, deci se mișcă cu ea */
       vs.forEach(v=>{ bxSame=true; bx(v.ax,v.ax+v.w,v.ay,v.ay+v.h,P+tA/2-1,P+tA/2+1,"m",0,0,"vent"); });
     });
@@ -9168,6 +9171,9 @@ function buildCore(cfg){
   }
   /* LED (D-157): banda e un accesoriu la metru, pe lățimea interioară („sub plafon”) sau pe cota introdusă */
   { const ln=ledLength(cfg,G.L_int); if(ln>0) add("Striscia LED",ln,LED.sect,1,"",MAT_LED,{role:"accessorio"}); }
+  /* benzi verticale (D-182): câte un rând pe bandă, ca fiecare să încapă în gabaritul corpului (A9) */
+  (Array.isArray(cfg.ledRuns)?cfg.ledRuns:[]).forEach(r=>{ if(!r||(r.on!=="left"&&r.on!=="right")) return;
+    const ln=+r.len>0?+r.len:Math.max(0,(+cfg.H||0)-80); if(ln>0&&ln<=LED.maxLen) add("Striscia LED",Math.round(ln*10)/10,LED.sect,1,"",MAT_LED,{role:"accessorio"}); });
   if(cfg.back){
     // cava fresata: lo schienale entra di NUT_D per lato — tra i fianchi: pannello pieno tra i due fianchi
     const bw=G.back_W;
@@ -16932,9 +16938,14 @@ function renderRoomChips(){
 function roomLeds(){
   const RL=roomLayout(), p=proj(), out=[]; if(!RL||!p) return out;
   RL.mods.forEach(m=>{
-    if(!m.cfg||!ledMode(m.cfg)) return;
+    if(!m.cfg||!(ledMode(m.cfg)||(Array.isArray(m.cfg.ledRuns)&&m.cfg.ledRuns.length))) return;
     let M=null; try{ M=mModel(p,m.name); }catch(e){}
     const ops=M&&M.ops; if(!ops) return;
+    /* benzile verticale (D-182): un punct în plan + intervalul de înălțime; n = fața corpului */
+    (ops.hw||[]).filter(h=>h.type==="ledv").forEach(h=>{
+      const A=toRoom(m.fr,m.from,h.w[0],h.w[2],m.off,m.rot,m.piv), F=toRoom(m.fr,m.from,h.w[0],h.w[2]+100,m.off,m.rot,m.piv), nl2=Math.hypot(F.x-A.x,F.y-A.y)||1;
+      out.push({name:m.name,a:[A.x,A.y],b:[A.x,A.y],y:h.y0+m.lift,y1:h.y1+m.lift,v:1,n:[(F.x-A.x)/nl2,(F.y-A.y)/nl2],door:false});
+    });
     const strip=(ops.hw||[]).find(h=>h.type==="led"); if(!strip) return;
     const zc=strip.w[2], A=toRoom(m.fr,m.from,strip.x0,zc,m.off,m.rot,m.piv), B=toRoom(m.fr,m.from,strip.x1,zc,m.off,m.rot,m.piv), F=toRoom(m.fr,m.from,strip.w[0],zc+100,m.off,m.rot,m.piv), C=toRoom(m.fr,m.from,strip.w[0],zc,m.off,m.rot,m.piv);
     const nl=Math.hypot(F.x-C.x,F.y-C.y)||1;
@@ -19539,6 +19550,7 @@ function aiSchema(mode){
         fronts:{type:"array",maxItems:12,description:"Doors at absolute positions, finished sizes. x from the outside left, y from the floor.",
           items:{type:"object",properties:{x:num(0,6000),y:num(0,3500),w:num(60,3000),h:num(60,3500),
             hinge:{type:"string",enum:AI_ENUM.hinge},
+            handle:{type:"string",enum:["none"],description:"\"none\" = no handle on this door (a push-to-open top door); omit for the unit's handle."},
             vents:{type:"array",maxItems:4,description:"Ventilation grille openings cut through this door, in door-local terms.",
               items:{type:"object",properties:{at:{type:"string",enum:AI_ENUM.ventAt,description:"Near the top or the bottom edge of the door."},
                 w:num(20,1500),h:num(20,1500),off:{type:"integer",minimum:20,maximum:1500,description:"Distance from the door's top/bottom edge to the near edge of the opening (default 40)."},
@@ -20840,7 +20852,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.100.0"; /* APP_VER-MARKER */
+const APP_VER="5.101.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
