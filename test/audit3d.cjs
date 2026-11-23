@@ -2,6 +2,7 @@
  * NOUĂ între piese, de peste PRAG mm, e eroare (cod de ieșire 1).
  *
  *   node audit3d.cjs [tipologii separate prin virgulă] [nr. variante aleatoare] [seed] [sisteme de sertar separate prin virgulă, ex. het_avantech,gr_nps]
+ *   al 7-lea argument `susp` (cu 0 1 "" "" înainte): variantele cu suspendare, fiecare articol `susp` din catalog + șina lui, ex. node audit3d.cjs pensile,base 0 1 "" "" susp
  *   (fără argumente: toate tipologiile, 5 variante fixe; `npm run audit3d` rulează și 6 variante aleatoare pe tipologiile de bază)
  *
  * Folosește GL3D.worldBoxes() (contururile pieselor în lume, în starea cerută) și un test SAT în plan + suprapunere pe înălțime. Cere un browser (Playwright). Nu intră în
@@ -20,9 +21,9 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
  const pg=await (await b.newContext({viewport:{width:540,height:700}})).newPage(); pg.on("pageerror",e=>console.log("ERR",String(e).slice(0,160))); pg.setDefaultTimeout(120000);
  await new Promise(r=>srv.listen(0,'127.0.0.1',r)); await pg.goto(`http://127.0.0.1:${srv.address().port}/app/index.html?lang=ro`);await pg.waitForFunction(()=>window.MAT_LOADED===true);await pg.waitForTimeout(2500);
  await pg.locator('#btnIntroGo').click({timeout:1500}).catch(()=>{});
- const only=process.argv[2]||"", RAND=+(process.argv[3]||0), SEED=+(process.argv[4]||1);
+ const SUSP=process.argv[7]==="susp", only=process.argv[2]||"", RAND=+(process.argv[3]||0), SEED=+(process.argv[4]||1);
   const DSYS=(process.argv[6]||"legno,tandem,legrabox,metabox").split(",");
- const res=await pg.evaluate(async([only,RAND,SEED,VAR,DSYS])=>{
+ const res=await pg.evaluate(async([only,RAND,SEED,VAR,DSYS,SUSP])=>{
   closeSheets();
   const poly=(c)=>{ /* hull xz din 8 colțuri: 4 puncte distincte */ const pts=c.map(p=>[p[0],p[2]]); const h=[]; pts.sort((a,b)=>a[0]-b[0]||a[1]-b[1]); const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
     const lo=[]; for(const p of pts){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=1e-9)lo.pop();lo.push(p)} const up=[]; for(const p of pts.slice().reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=1e-9)up.pop();up.push(p)} up.pop();lo.pop(); return lo.concat(up); };
@@ -37,6 +38,9 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
   let variants=[{},{doors:2,drawers:3},{L:600,H:1000,P:450,doors:1},{L:1400,doors:4,drawers:2},{L:900,H:2200,doors:2,drawers:0,hang:0}];
   if(RAND){ let sd=SEED*2654435761%4294967296; const rnd=()=>{sd=(sd*1664525+1013904223)%4294967296;return sd/4294967296}; const pick=(a)=>a[Math.floor(rnd()*a.length)]; const ri=(a,b)=>Math.round(a+rnd()*(b-a));
     variants=[]; for(let i=0;i<RAND;i++) variants.push({L:ri(400,1900),H:ri(500,2400),P:ri(300,700),doors:ri(0,8),drawers:ri(0,6),shelves:ri(0,6),hang:pick([0,1]),tram:pick([0,1]),drawerSys:pick(DSYS),handles:pick(["maniglie","push","gola"])}); }
+  if(SUSP){ /* D-165: suspendarea corpului e opt-in (hwSel.susp + șina ei); fiecare articol din catalog, pe fiecare tipologie, ca să nu rămână neauditat */
+    const rl=(it)=>{ const r=EBOpen.railFor(it,null); return r?r.id:undefined; };
+    variants=EBOpen.all("susp").map(it=>({hwSel:{susp:it.id,suprail:rl(it)}})); }
   if(VAR) variants=JSON.parse(VAR);   /* variante date explicit (JSON), ex. sistemele glisante U.17: node audit3d.cjs base 0 1 '[{"slide":"blum_revego_uno",...}]' */
   for(const k of keys){ for(const [vi,vr] of variants.entries()){
     const q=proj(); q.pieces=[];q.configs={};q.layout={};
@@ -56,7 +60,7 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
     out.push({k,vi,vr,pieces:base.length,info});
   }}
   return out;
- },[only,RAND,SEED,process.argv[5]||"",DSYS]);
+ },[only,RAND,SEED,process.argv[5]||"",DSYS,SUSP]);
  
  const agg={};
  for(const r of res){ if(r.err){console.log(r.k,r.vi,"EROARE",r.err);continue;} for(const [sn,bad] of Object.entries(r.info)) for(const x of bad){ const key=`${r.k} · ${sn} · ${[x.a,x.b].sort().join(" × ")}`; (agg[key]=agg[key]||{n:0,max:0}); agg[key].n++; agg[key].max=Math.max(agg[key].max,x.pen);} }
