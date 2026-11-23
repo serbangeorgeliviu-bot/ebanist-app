@@ -218,7 +218,8 @@ T('"frame_A_per_bracket":110', '"frame_B_per_bracket":80', '"frame_C_per_bracket
 S(id="het_sah500", brand="Hettich", model="SAH 500", ph="s_concealed_body", art="9385584 + 9385585", src="HET-SHOP-9385585; HET-SAH500-MTA p5-6",
   kgBracket=None, frames=[{"id": "A", "h": 1000, "t": 300, "kg": 110}, {"id": "B", "h": 600, "t": 600, "kg": 80}, {"id": "C", "h": 300, "t": 600, "kg": 50}],
   backT=[3, 8], rails=[], wall="element", adj={"h": 11, "d": [-2, 10], "side": 3}, liftOff=6.5, wallElementH=118, wallHolePitch=48,
-  drill={"holes": 4, "dia": 10, "depth": 12.5, "pitchA": 32, "pitchB": 64, "fromRear": 43.5, "ref": "unclear"})
+  drill={"holes": 4, "dia": 10, "depth": 12.5, "pitchA": 32, "pitchB": 64, "fromRear": 43.5, "cMin": 14.5, "ref": "rearEdge+topInner"})  # MTA p.5 (desen citit ca imagine): 43,5 de la muchia din spate a lateralului până la coloana din spate; 32 între coloane (pe adâncime), 64 între rânduri (pe înălțime); C ≥ 14,5 de la fața interioară a tavanului până la rândul de sus; depth 12,5 din fața interioară
+T('"reference_from_rear_edge_mm":43.5', '"C_min_mm":14.5', 'depth 12.5 +0.5/-0')
 T('"per_bracket":55', '"per_bracket":45', '"per_bracket":35', '"per_bracket":30', '"per_bracket":40', '"per_bracket":15')
 S(id="het_sah216ahs", brand="Hettich", model="SAH 216", ph="s_behind_ahs", art="9277718", src="HET-TA2025-SUSP bk_838,846; HET-SHOP-9277718",
   kgBracket=55, rails=["het_rail_b"], wall="rail", adj={"h": 8, "d": 25, "side": 3}, liftOff=7.5, drill=None)

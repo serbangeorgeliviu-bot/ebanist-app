@@ -1703,7 +1703,8 @@ var EBOpenData = {
     "pitchA": 32,
     "pitchB": 64,
     "fromRear": 43.5,
-    "ref": "unclear"
+    "cMin": 14.5,
+    "ref": "rearEdge+topInner"
    },
    "per": "body",
    "verificat": false

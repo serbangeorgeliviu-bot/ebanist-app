@@ -300,7 +300,27 @@
         out.hw.push({ id: "hw_" + out.hw.length, type: "suprail", catalog: rl ? rl.id : null, piece: sides[0].pk, against: sides[0].pk, w: [sides[0].min[0], topIn - 30, zb], x1: sides[sides.length - 1].max[0],
                       schem: true, note: rl ? rl.model : su.model });
       }
-      warnOnce(out, { piece: null, k: "wOpenSuspNoDrill", sys: su.model });
+      /* găurile din lateral: numai cu toate cotele și reperele din sursă (SAH 500, Hettich MTA 9 348 672 00 p.5): 2 × 2 Ø10 × 12,5 în fața interioară a lateralului,
+         coloana din spate la 43,5 de muchia din spate, a doua la 32 spre față; rândul de sus la C de fața interioară a tavanului (C ≥ 14,5: aici minimul, alegere a aplicației), al doilea la 64 sub el */
+      var dd = su.drill, drilled = false;
+      if (dd && dd.holes === 4 && dd.fromRear != null && dd.cMin != null && dd.pitchA && dd.pitchB && ctx.hole && sides.length) {
+        var yTop = topIn - dd.cMin, yLow = yTop - dd.pitchB, ok = true;
+        [sides[0], sides[sides.length - 1]].forEach(function (sp, i) {
+          if (!sp || (i === 1 && sides.length < 2)) return;
+          if (sp.max[0] - sp.min[0] < dd.depth + 1 || yLow - dd.dia / 2 < sp.min[1] || sp.min[2] + dd.fromRear + dd.pitchA + dd.dia / 2 > sp.max[2]) ok = false;
+        });
+        if (ok) {
+          [sides[0], sides[sides.length - 1]].forEach(function (sp, i) {
+            if (!sp || (i === 1 && sides.length < 2)) return;
+            var innerX = i === 0 ? sp.max[0] : sp.min[0], side = i === 0 ? 1 : -1;
+            [0, dd.pitchA].forEach(function (dz) { [yTop, yLow].forEach(function (y) {
+              ctx.hole(sp, 0, side, [innerX, y, sp.min[2] + dd.fromRear + dz], dd.dia, dd.depth, "hw_" + (out.hw.length - 1), "foro sospensione " + su.model);
+            }); });
+          });
+          drilled = true;
+        }
+      }
+      warnOnce(out, drilled ? { piece: null, k: "opsSuspPlace", sys: su.model } : { piece: null, k: "wOpenSuspNoDrill", sys: su.model });
     }
   }
 
@@ -390,7 +410,7 @@
       default: return rep(t(w.k), { sys: w.sys, v: w.v });          // opsOpen*, wOpenConnNoDrill, wOpenSuspNoDrill
     }
   }
-  var OPS_NOTES = ["opsOpenNoDrill", "opsOpenPlace", "opsOpenB", "opsOpenNoF", "opsOpenThick", "wOpenConnNoDrill", "wOpenSuspNoDrill"];
+  var OPS_NOTES = ["opsOpenNoDrill", "opsOpenPlace", "opsOpenB", "opsOpenNoF", "opsOpenThick", "wOpenConnNoDrill", "wOpenSuspNoDrill", "opsSuspPlace"];
 
   return { OPS_NOTES: OPS_NOTES, msg: msg, CATS: CATS, LANGS: LANGS, all: all, get: get, nameOf: nameOf, catalog: catalog, doorCheck: doorCheck, doorQty: doorQty, drawerCheck: drawerCheck, psuCount: psuCount,
            suspCap: suspCap, railCap: railCap, suspCheck: suspCheck, railFor: railFor, connCheck: connCheck, joints: joints, opsJoint: opsJoint, pushMount: pushMount,

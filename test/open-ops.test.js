@@ -132,6 +132,17 @@ describe("Sertare cu push/electric și suspendare: instanțe pentru 3D, fără g
     const b = build({ hwSel: { susp: "het_sah216" } }).ops().hw.find(w => w.type === "susphang"); assert.equal(b.schem, true);
     const c = build({ hwSel: { susp: "cam_816as" } }).ops().hw.find(w => w.type === "susphang"); assert.equal(c.h, 148); assert.equal(c.schem, false);
   });
+  test("SAH 500: 2 × 2 găuri Ø10 × 12,5 în fața interioară a ambelor laterale, la 43,5 de muchia din spate (MTA p.5), 32 între coloane, 64 între rânduri, C = 14,5 sub tavan", () => {
+    const o = build({ hwSel: { susp: "het_sah500" } }).ops(), g = ops(o, /foro sospensione/);
+    assert.equal(g.length, 8, "4 pe fiecare lateral");
+    const sides = [...new Set(g.map(x => x.pc.pk ?? x.pc.id ?? x.pc.ref))]; assert.equal(sides.length, 2, "două laterale");
+    g.forEach(x => { assert.equal(x.dia, 10); assert.equal(x.depth, 12.5); });
+    const side = g.filter(x => x.pc === g[0].pc), zs = [...new Set(side.map(x => Math.round(x.y * 10) / 10))].sort((a, b) => a - b), ys = [...new Set(side.map(x => Math.round(x.x * 10) / 10))].sort((a, b) => a - b);
+    assert.equal(side.length, 4); assert.equal(zs.length, 2); assert.equal(ys.length, 2);
+    assert.equal(zs[0], 43.5, "de la muchia din spate"); assert.equal(Math.round((zs[1] - zs[0]) * 10) / 10, 32); assert.equal(Math.round((ys[1] - ys[0]) * 10) / 10, 64);
+    assert.ok(o.warnings.some(w => w.k === "opsSuspPlace") && !o.warnings.some(w => w.k === "wOpenSuspNoDrill"));
+    ["het_sah305", "het_sah215", "cam_816as"].forEach(id => { const q = build({ hwSel: { susp: id } }).ops(); assert.equal(ops(q, /foro sospensione/).length, 0, id); assert.ok(q.warnings.some(w => w.k === "wOpenSuspNoDrill"), id); });
+  });
 });
 
 describe("Îmbinări: locaș cu adâncimea după grosime, axa A, distanța B — din sursă", () => {
