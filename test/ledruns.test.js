@@ -64,6 +64,17 @@ describe("Benzi verticale", () => {
   });
 });
 
+describe("Bandă LED sub corp (plintă)", () => {
+  test("cu soclu: un rând și o instanță ledh de L − 78, în interiorul soclului; fără soclu: nimic", () => {
+    const r = gen({ ledRuns: [{ on: "plinth" }] });
+    assert.equal(leds(r).length, 1); assert.equal(leds(r)[0].lung, 1000 - 78);
+    const h = r.o.hw.filter(x => x.type === "ledh"); assert.equal(h.length, 1); assert.ok(Math.abs(h[0].len - 922) < 1e-6);
+    const z = r.o.pieces.find(p => p.role === "zoccolo"); assert.ok(h[0].x0 >= z.min[0] - 1e-6 && h[0].x1 <= z.max[0] + 1e-6);
+    const n = gen({ ledRuns: [{ on: "plinth" }], support: "sospeso", plinth: 0 });
+    assert.equal(leds(n).length, 0); assert.equal(n.o.hw.filter(x => x.type === "ledh").length, 0);
+  });
+});
+
 describe("Ușă fără mâner (fronts[].handle = none)", () => {
   const F = (hn) => [{ x: 0, y: 60, w: 498, h: 1700, hinge: "left" }, { x: 502, y: 60, w: 498, h: 1700, hinge: "right" },
                      { x: 0, y: 1764, w: 498, h: 436, hinge: "left", ...(hn ? { handle: "none" } : {}) }, { x: 502, y: 1764, w: 498, h: 436, hinge: "right", ...(hn ? { handle: "none" } : {}) }];
