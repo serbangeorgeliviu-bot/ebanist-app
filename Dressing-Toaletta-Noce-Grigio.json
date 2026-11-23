@@ -56,7 +56,7 @@
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Zoccolo",
       "lung": 717,
-      "larg": 60,
+      "larg": 50,
       "pz": 1,
       "bordo": "1L",
       "role": "zoccolo",
@@ -77,10 +77,10 @@
       "id": "r4",
       "gen": "Colonna_Sx_Nisa",
       "modulo": "Colonna_Sx_Nisa",
-      "elemento": "Ripiano mobile",
+      "elemento": "Ripiano traversante",
       "lung": 715,
       "larg": 327,
-      "pz": 5,
+      "pz": 7,
       "bordo": "1L",
       "role": "ripiano",
       "axis_mapping": {
@@ -92,11 +92,22 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        518.3333333333333,
-        957.6666666666666,
-        1397,
-        1836.3333333333333,
-        2275.6666666666665
+        199.5,
+        489.5,
+        854.5,
+        1259.5,
+        1679.5,
+        2159.5,
+        2559.5
+      ],
+      "yInf": [
+        190,
+        480,
+        845,
+        1250,
+        1670,
+        2150,
+        2550
       ],
       "scasso": null,
       "curve": null,
@@ -177,7 +188,7 @@
       "modulo": "Armadio_Noce",
       "elemento": "Zoccolo",
       "lung": 1012,
-      "larg": 60,
+      "larg": 50,
       "pz": 1,
       "bordo": "1L",
       "role": "zoccolo",
@@ -198,9 +209,9 @@
       "id": "r9",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
-      "elemento": "Tramezzo",
-      "lung": 2636,
-      "larg": 577,
+      "elemento": "Setto",
+      "lung": 2646,
+      "larg": 597,
       "pz": 1,
       "bordo": "1L",
       "role": "divisorio",
@@ -221,10 +232,10 @@
       "id": "r10",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
-      "elemento": "Ripiano mobile",
+      "elemento": "Ripiano sx",
       "lung": 494,
       "larg": 577,
-      "pz": 4,
+      "pz": 2,
       "bordo": "1L",
       "role": "ripiano",
       "axis_mapping": {
@@ -236,9 +247,14 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        801.6666666666667,
-        1198.3333333333335
+        409.5,
+        2466.5
       ],
+      "yInf": [
+        400,
+        2457
+      ],
+      "partial": 1,
       "scasso": null,
       "curve": null,
       "materiale": "nogal_victoria_19"
@@ -247,28 +263,40 @@
       "id": "r11",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
-      "elemento": "Asta appendiabiti",
-      "lung": 492,
-      "larg": 25,
+      "elemento": "Ripiano dx",
+      "lung": 494,
+      "larg": 577,
       "pz": 2,
-      "bordo": "",
-      "role": "accessorio",
-      "axis_mapping": null,
-      "sp": null,
+      "bordo": "1L",
+      "role": "ripiano",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": 19,
       "spSrc": null,
       "seg": null,
-      "ys": null,
+      "ys": [
+        409.5,
+        2466.5
+      ],
+      "yInf": [
+        400,
+        2457
+      ],
+      "partial": 1,
       "scasso": null,
       "curve": null,
-      "materiale": "Accessorio — asta appendiabiti ovale"
+      "materiale": "nogal_victoria_19"
     },
     {
       "id": "r12",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Frontale cassetto",
-      "lung": 340,
-      "larg": 522,
+      "lung": 327,
+      "larg": 521,
       "pz": 2,
       "bordo": "2L+2C",
       "role": "cassetto_frontale",
@@ -291,7 +319,7 @@
       "modulo": "Armadio_Noce",
       "elemento": "Fianco cassetto",
       "lung": 550,
-      "larg": 295,
+      "larg": 282,
       "pz": 4,
       "bordo": "1L",
       "role": "cassetto_fianco",
@@ -314,7 +342,7 @@
       "modulo": "Armadio_Noce",
       "elemento": "Fronte/Retro cassetto",
       "lung": 417,
-      "larg": 295,
+      "larg": 282,
       "pz": 4,
       "bordo": "1L",
       "role": "cassetto_fianco",
@@ -359,8 +387,8 @@
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Anta",
-      "lung": 2326,
-      "larg": 520,
+      "lung": 2054,
+      "larg": 523,
       "pz": 2,
       "bordo": "2L+2C",
       "role": "frontale",
@@ -379,6 +407,29 @@
     },
     {
       "id": "r17",
+      "gen": "Armadio_Noce",
+      "modulo": "Armadio_Noce",
+      "elemento": "Anta",
+      "lung": 274,
+      "larg": 523,
+      "pz": 2,
+      "bordo": "2L+2C",
+      "role": "frontale",
+      "axis_mapping": {
+        "lung": "H",
+        "larg": "L",
+        "sp": "P"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r18",
       "gen": "Armadio_Noce",
       "modulo": "Armadio_Noce",
       "elemento": "Schienale",
@@ -401,7 +452,7 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r18",
+      "id": "r19",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fianco",
@@ -424,7 +475,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r19",
+      "id": "r20",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Base / Cielo",
@@ -447,12 +498,12 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r20",
+      "id": "r21",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Zoccolo",
       "lung": 882,
-      "larg": 60,
+      "larg": 50,
       "pz": 1,
       "bordo": "1L",
       "role": "zoccolo",
@@ -470,13 +521,13 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r21",
+      "id": "r22",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
-      "elemento": "Tramezzo",
-      "lung": 2636,
-      "larg": 577,
-      "pz": 2,
+      "elemento": "Setto",
+      "lung": 2646,
+      "larg": 597,
+      "pz": 1,
       "bordo": "1L",
       "role": "divisorio",
       "axis_mapping": {
@@ -493,13 +544,13 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r22",
+      "id": "r23",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
-      "elemento": "Ripiano mobile",
-      "lung": 279,
+      "elemento": "Ripiano sx",
+      "lung": 429,
       "larg": 577,
-      "pz": 6,
+      "pz": 2,
       "bordo": "1L",
       "role": "ripiano",
       "axis_mapping": {
@@ -511,40 +562,57 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        801.6666666666667,
-        1198.3333333333335
+        409.5,
+        2466.5
       ],
+      "yInf": [
+        400,
+        2457
+      ],
+      "partial": 1,
       "scasso": null,
       "curve": null,
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r23",
-      "gen": "Armadio_Grigio",
-      "modulo": "Armadio_Grigio",
-      "elemento": "Asta appendiabiti",
-      "lung": 277,
-      "larg": 25,
-      "pz": 3,
-      "bordo": "",
-      "role": "accessorio",
-      "axis_mapping": null,
-      "sp": null,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "Accessorio — asta appendiabiti ovale"
-    },
-    {
       "id": "r24",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
+      "elemento": "Ripiano dx",
+      "lung": 429,
+      "larg": 577,
+      "pz": 2,
+      "bordo": "1L",
+      "role": "ripiano",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": [
+        409.5,
+        2466.5
+      ],
+      "yInf": [
+        400,
+        2457
+      ],
+      "partial": 1,
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r25",
+      "gen": "Armadio_Grigio",
+      "modulo": "Armadio_Grigio",
       "elemento": "Frontale cassetto",
-      "lung": 340,
-      "larg": 303,
-      "pz": 3,
+      "lung": 327,
+      "larg": 456,
+      "pz": 2,
       "bordo": "2L+2C",
       "role": "cassetto_frontale",
       "axis_mapping": {
@@ -561,13 +629,13 @@
       "materiale": "textil_grigio_19"
     },
     {
-      "id": "r25",
+      "id": "r26",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fianco cassetto",
       "lung": 550,
-      "larg": 295,
-      "pz": 6,
+      "larg": 282,
+      "pz": 4,
       "bordo": "1L",
       "role": "cassetto_fianco",
       "axis_mapping": {
@@ -584,13 +652,13 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r26",
+      "id": "r27",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fronte/Retro cassetto",
-      "lung": 201,
-      "larg": 295,
-      "pz": 6,
+      "lung": 352,
+      "larg": 282,
+      "pz": 4,
       "bordo": "1L",
       "role": "cassetto_fianco",
       "axis_mapping": {
@@ -607,13 +675,13 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r27",
+      "id": "r28",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Fondo cassetto",
-      "lung": 201,
+      "lung": 352,
       "larg": 530,
-      "pz": 3,
+      "pz": 2,
       "bordo": "",
       "role": "cassetto_fondo",
       "axis_mapping": {
@@ -630,12 +698,12 @@
       "materiale": "HDF 5mm"
     },
     {
-      "id": "r28",
+      "id": "r29",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Anta",
-      "lung": 2326,
-      "larg": 302,
+      "lung": 2054,
+      "larg": 304,
       "pz": 3,
       "bordo": "2L+2C",
       "role": "frontale",
@@ -653,7 +721,30 @@
       "materiale": "textil_grigio_19"
     },
     {
-      "id": "r29",
+      "id": "r30",
+      "gen": "Armadio_Grigio",
+      "modulo": "Armadio_Grigio",
+      "elemento": "Anta",
+      "lung": 274,
+      "larg": 304,
+      "pz": 3,
+      "bordo": "2L+2C",
+      "role": "frontale",
+      "axis_mapping": {
+        "lung": "H",
+        "larg": "L",
+        "sp": "P"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "textil_grigio_19"
+    },
+    {
+      "id": "r31",
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Schienale",
@@ -676,81 +767,12 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r30",
-      "gen": "Toaletta",
-      "modulo": "Toaletta",
-      "elemento": "Piano scrivania",
-      "lung": 700,
-      "larg": 450,
-      "pz": 1,
-      "bordo": "2L+2C",
-      "role": "cielo",
-      "axis_mapping": {
-        "lung": "L",
-        "larg": "P",
-        "sp": "H"
-      },
-      "sp": null,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "nogal_victoria_19"
-    },
-    {
-      "id": "r31",
-      "gen": "Toaletta",
-      "modulo": "Toaletta",
-      "elemento": "Fianco",
-      "lung": 741,
-      "larg": 400,
-      "pz": 2,
-      "bordo": "2L+2C",
-      "role": "fianco",
-      "axis_mapping": {
-        "lung": "H",
-        "larg": "P",
-        "sp": "L"
-      },
-      "sp": null,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "nogal_victoria_19"
-    },
-    {
       "id": "r32",
-      "gen": "Toaletta",
-      "modulo": "Toaletta",
-      "elemento": "Pannello posteriore",
-      "lung": 662,
-      "larg": 342,
-      "pz": 1,
-      "bordo": "1L",
-      "role": "schienale",
-      "axis_mapping": {
-        "lung": "L",
-        "larg": "H",
-        "sp": "P"
-      },
-      "sp": null,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "nogal_victoria_19"
-    },
-    {
-      "id": "r33",
-      "gen": "Toaletta",
-      "modulo": "Toaletta B",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
       "elemento": "Fianco",
-      "lung": 120,
-      "larg": 238,
+      "lung": 200,
+      "larg": 397,
       "pz": 2,
       "bordo": "2L+2C",
       "role": "fianco",
@@ -768,12 +790,12 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r34",
-      "gen": "Toaletta",
-      "modulo": "Toaletta B",
+      "id": "r33",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
       "elemento": "Base / Cielo",
-      "lung": 462,
-      "larg": 238,
+      "lung": 662,
+      "larg": 397,
       "pz": 2,
       "bordo": "1L",
       "role": "base_cielo",
@@ -791,12 +813,127 @@
       "materiale": "nogal_victoria_19"
     },
     {
+      "id": "r34",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
+      "elemento": "Setto",
+      "lung": 162,
+      "larg": 397,
+      "pz": 1,
+      "bordo": "1L",
+      "role": "divisorio",
+      "axis_mapping": {
+        "lung": "H",
+        "larg": "P",
+        "sp": "L"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
       "id": "r35",
-      "gen": "Toaletta",
-      "modulo": "Toaletta B",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
+      "elemento": "Frontale cassetto",
+      "lung": 158,
+      "larg": 346,
+      "pz": 2,
+      "bordo": "2L+2C",
+      "role": "cassetto_frontale",
+      "axis_mapping": {
+        "lung": "H",
+        "larg": "L",
+        "sp": "P"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "textil_grigio_19"
+    },
+    {
+      "id": "r36",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
+      "elemento": "Fianco cassetto",
+      "lung": 350,
+      "larg": 113,
+      "pz": 4,
+      "bordo": "1L",
+      "role": "cassetto_fianco",
+      "axis_mapping": {
+        "lung": "P",
+        "larg": "H",
+        "sp": "L"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r37",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
+      "elemento": "Fronte/Retro cassetto",
+      "lung": 242,
+      "larg": 113,
+      "pz": 4,
+      "bordo": "1L",
+      "role": "cassetto_fianco",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "H",
+        "sp": "P"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r38",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
+      "elemento": "Fondo cassetto",
+      "lung": 242,
+      "larg": 330,
+      "pz": 2,
+      "bordo": "",
+      "role": "cassetto_fondo",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "HDF 5mm"
+    },
+    {
+      "id": "r39",
+      "gen": "Toaletta_Sertare",
+      "modulo": "Toaletta_Sertare",
       "elemento": "Schienale",
-      "lung": 500,
-      "larg": 120,
+      "lung": 700,
+      "larg": 200,
       "pz": 1,
       "bordo": "",
       "role": "schienale",
@@ -814,11 +951,11 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r36",
+      "id": "r40",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Fianco",
-      "lung": 1800,
+      "lung": 1140,
       "larg": 197,
       "pz": 2,
       "bordo": "2L+2C",
@@ -837,7 +974,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r37",
+      "id": "r41",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Base / Cielo",
@@ -860,13 +997,36 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r38",
+      "id": "r42",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
-      "elemento": "Ripiano mobile",
-      "lung": 660,
+      "elemento": "Setto",
+      "lung": 1102,
+      "larg": 197,
+      "pz": 1,
+      "bordo": "1L",
+      "role": "divisorio",
+      "axis_mapping": {
+        "lung": "H",
+        "larg": "P",
+        "sp": "L"
+      },
+      "sp": 19,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r43",
+      "gen": "Nisa_Specchio",
+      "modulo": "Nisa_Specchio",
+      "elemento": "Ripiano dx",
+      "lung": 220,
       "larg": 177,
-      "pz": 2,
+      "pz": 3,
       "bordo": "1L",
       "role": "ripiano",
       "axis_mapping": {
@@ -878,19 +1038,26 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        606.3333333333334,
-        1193.6666666666667
+        245.5,
+        502.5,
+        727.5
       ],
+      "yInf": [
+        236,
+        493,
+        718
+      ],
+      "partial": 1,
       "scasso": null,
       "curve": null,
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r39",
+      "id": "r44",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Schienale",
-      "lung": 1800,
+      "lung": 1140,
       "larg": 700,
       "pz": 1,
       "bordo": "",
@@ -911,13 +1078,16 @@
   ],
   "configs": {
     "Colonna_Sx_Nisa": {
-      "plinth": 60,
+      "plinth": 50,
       "support": "zoccolo",
       "back": 1,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
-      "handles": "maniglia",
+      "handles": "push",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
       "matBody": "nogal_victoria_19",
       "matFront": "nogal_victoria_19",
       "matBack": "pfl3",
@@ -926,22 +1096,56 @@
       "L": 755,
       "H": 2734,
       "P": 350,
-      "tram": 0,
-      "shelves": 5,
-      "drawers": 0,
       "doors": 0,
-      "secMode": [
-        "shelf"
+      "partitions": [
+        {
+          "type": "ripiano",
+          "y": 190,
+          "span": "full"
+        },
+        {
+          "type": "ripiano",
+          "y": 480,
+          "span": "full"
+        },
+        {
+          "type": "ripiano",
+          "y": 845,
+          "span": "full"
+        },
+        {
+          "type": "ripiano",
+          "y": 1250,
+          "span": "full"
+        },
+        {
+          "type": "ripiano",
+          "y": 1670,
+          "span": "full"
+        },
+        {
+          "type": "ripiano",
+          "y": 2150,
+          "span": "full"
+        },
+        {
+          "type": "ripiano",
+          "y": 2550,
+          "span": "full"
+        }
       ]
     },
     "Armadio_Noce": {
-      "plinth": 60,
+      "plinth": 50,
       "support": "zoccolo",
       "back": 1,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
       "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
       "matBody": "nogal_victoria_19",
       "matFront": "nogal_victoria_19",
       "matBack": "pfl3",
@@ -950,26 +1154,89 @@
       "L": 1050,
       "H": 2734,
       "P": 600,
-      "tram": 1,
-      "shelves": 2,
-      "drawers": 1,
-      "doors": 2,
-      "secMode": [
-        "hangShelf",
-        "hangShelf"
+      "partitions": [
+        {
+          "type": "setto",
+          "x": "center"
+        },
+        {
+          "type": "ripiano",
+          "y": 400,
+          "span": "left"
+        },
+        {
+          "type": "ripiano",
+          "y": 400,
+          "span": "right"
+        },
+        {
+          "type": "ripiano",
+          "y": 2457,
+          "span": "left"
+        },
+        {
+          "type": "ripiano",
+          "y": 2457,
+          "span": "right"
+        }
       ],
-      "drawerPos": "vista",
-      "drawerFH": 340,
-      "drawerDist": "fix"
+      "fronts": [
+        {
+          "x": 0,
+          "y": 403,
+          "w": 523,
+          "h": 2054,
+          "hinge": "left"
+        },
+        {
+          "x": 527,
+          "y": 403,
+          "w": 523,
+          "h": 2054,
+          "hinge": "right"
+        },
+        {
+          "x": 0,
+          "y": 2460,
+          "w": 523,
+          "h": 274,
+          "hinge": "left"
+        },
+        {
+          "x": 527,
+          "y": 2460,
+          "w": 523,
+          "h": 274,
+          "hinge": "right"
+        }
+      ],
+      "drawerBlocks": [
+        {
+          "col": 1,
+          "yStart": 69,
+          "yEnd": 400,
+          "n": 1
+        },
+        {
+          "col": 2,
+          "yStart": 69,
+          "yEnd": 400,
+          "n": 1
+        }
+      ],
+      "doors": 4
     },
     "Armadio_Grigio": {
-      "plinth": 60,
+      "plinth": 50,
       "support": "zoccolo",
       "back": 1,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
       "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
       "matBody": "nogal_victoria_19",
       "matFront": "textil_grigio_19",
       "matBack": "pfl3",
@@ -978,64 +1245,173 @@
       "L": 920,
       "H": 2734,
       "P": 600,
-      "tram": 2,
-      "shelves": 2,
-      "drawers": 1,
-      "doors": 3,
-      "secMode": [
-        "hangShelf",
-        "hangShelf",
-        "hangShelf"
+      "partitions": [
+        {
+          "type": "setto",
+          "x": "center"
+        },
+        {
+          "type": "ripiano",
+          "y": 400,
+          "span": "left"
+        },
+        {
+          "type": "ripiano",
+          "y": 400,
+          "span": "right"
+        },
+        {
+          "type": "ripiano",
+          "y": 2457,
+          "span": "left"
+        },
+        {
+          "type": "ripiano",
+          "y": 2457,
+          "span": "right"
+        }
       ],
-      "drawerPos": "vista",
-      "drawerFH": 340,
-      "drawerDist": "fix"
+      "fronts": [
+        {
+          "x": 0,
+          "y": 403,
+          "w": 304,
+          "h": 2054,
+          "hinge": "left"
+        },
+        {
+          "x": 308,
+          "y": 403,
+          "w": 304,
+          "h": 2054,
+          "hinge": "right"
+        },
+        {
+          "x": 616,
+          "y": 403,
+          "w": 304,
+          "h": 2054,
+          "hinge": "right"
+        },
+        {
+          "x": 0,
+          "y": 2460,
+          "w": 304,
+          "h": 274,
+          "hinge": "left"
+        },
+        {
+          "x": 308,
+          "y": 2460,
+          "w": 304,
+          "h": 274,
+          "hinge": "right"
+        },
+        {
+          "x": 616,
+          "y": 2460,
+          "w": 304,
+          "h": 274,
+          "hinge": "right"
+        }
+      ],
+      "drawerBlocks": [
+        {
+          "col": 1,
+          "yStart": 69,
+          "yEnd": 400,
+          "n": 1
+        },
+        {
+          "col": 2,
+          "yStart": 69,
+          "yEnd": 400,
+          "n": 1
+        }
+      ],
+      "doors": 6
     },
-    "Toaletta": {
+    "Toaletta_Sertare": {
       "plinth": 0,
-      "support": "piedini",
+      "support": "sospeso",
       "back": 1,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
       "handles": "maniglia",
-      "matBody": "nogal_victoria_19",
-      "matFront": "textil_grigio_19",
-      "matBack": "pfl3",
-      "name": "Toaletta",
-      "type": "scrivania",
-      "L": 700,
-      "H": 760,
-      "P": 450,
       "tram": 0,
       "shelves": 0,
       "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "textil_grigio_19",
+      "matBack": "pfl3",
+      "name": "Toaletta_Sertare",
+      "type": "standard",
+      "L": 700,
+      "H": 200,
+      "P": 400,
       "doors": 0,
-      "deskDrw": 1,
-      "deskDrwH": 120
+      "partitions": [
+        {
+          "type": "setto",
+          "x": "center"
+        }
+      ],
+      "drawerBlocks": [
+        {
+          "col": 1,
+          "yStart": 19,
+          "yEnd": 181,
+          "n": 1
+        },
+        {
+          "col": 2,
+          "yStart": 19,
+          "yEnd": 181,
+          "n": 1
+        }
+      ]
     },
     "Nisa_Specchio": {
       "plinth": 0,
-      "support": "piedini",
+      "support": "sospeso",
       "back": 1,
       "backMode": "applicato",
       "shelfType": "mobile",
       "front": "piena",
       "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
       "matBody": "nogal_victoria_19",
       "matFront": "nogal_victoria_19",
       "matBack": "pfl3",
       "name": "Nisa_Specchio",
       "type": "standard",
       "L": 700,
-      "H": 1800,
+      "H": 1140,
       "P": 200,
-      "tram": 0,
-      "shelves": 2,
-      "drawers": 0,
       "doors": 0,
-      "secMode": [
-        "shelf"
+      "partitions": [
+        {
+          "type": "setto",
+          "x": 440
+        },
+        {
+          "type": "ripiano",
+          "y": 236,
+          "span": "right"
+        },
+        {
+          "type": "ripiano",
+          "y": 493,
+          "span": "right"
+        },
+        {
+          "type": "ripiano",
+          "y": 718,
+          "span": "right"
+        }
       ]
     }
   }
