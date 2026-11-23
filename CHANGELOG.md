@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.105.0 — 23 noiembrie 2026
+
+**Pro legat de cont, pe web (D-185).** Cine intră cu e-mail și parolă nu mai copiază codul `sub_…` pe fiecare dispozitiv.
+- funcție nouă `/api/pro-account` (`netlify/functions/pro-account.js`): primește jetonul sesiunii Supabase, află de la Supabase adresa contului și caută la Stripe abonamentele active ale lui Ebanist Pro (și Founders nerambursat) plătite cu acea adresă (`codesFor`, aceeași căutare ca „Primește codul pe e-mail”);
+- **numai adresa confirmată** a contului; adresa nu vine din cerere; 6 cereri pe oră pe cont; fără tabel nou și fără nimic păstrat (abonamentul rămâne la Stripe);
+- aplicația (`proFromAccount`) o cheamă după autentificare și la fiecare pornire cu cont, numai dacă dispozitivul nu e Pro, nu e aplicația Android și e rețea; verifică fiecare cod prin `/api/pro` și activează licența ca la un cod lipit (`kind:"stripe"`), cu mesajul „Pro activat din contul tău ✓” în 7 limbi;
+- adresa contului diferită de cea a plății → nu se găsește nimic, rămâne codul lipit; pe Android decide numai Play (D-54);
+- în Novități: intrarea 5.105.0, în 7 limbi;
+- test: `node --test pro-account.test.mjs` (9).
+
+---
+
 ## 5.104.0 — 23 noiembrie 2026
 
 **Pagina „Novități” în aplicație (D-184).** La cererea unui utilizator: „Unde găsesc descrierea a ce s-a făcut la fiecare actualizare?”

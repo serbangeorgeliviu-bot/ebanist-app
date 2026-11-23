@@ -213,6 +213,24 @@
     return /^cs_/.test(String(code || "")) ? stripeCheck({ session: code }) : stripeCheck({ sub: code });
   }
 
+  /* Pro legat de cont (D-185): jetonul sesiunii Supabase; serverul află adresa
+     confirmată a contului și întoarce codurile ACTIVE plătite cu ea (`codes`,
+     poate fi goală). Fiecare cod se verifică apoi cu stripeValidate. */
+  function accountCodes(token) {
+    var ctl = null, timer = null;
+    try { ctl = new AbortController(); } catch (e) {}
+    var opt = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: token }) };
+    if (ctl) { opt.signal = ctl.signal; timer = setTimeout(function () { try { ctl.abort(); } catch (e) {} }, 15000); }
+    return fetch("/api/pro-account", opt).then(function (r) {
+      if (timer) clearTimeout(timer);
+      if (r.status >= 500) throw new Error("http-" + r.status);
+      return r.json().then(function (j) { return j || {}; }, function () { throw new Error("http-" + r.status); });
+    }, function (e) {
+      if (timer) clearTimeout(timer);
+      throw e;
+    });
+  }
+
   function shapeFromStripe(j, prev) {
     return {
       kind: "stripe",
@@ -257,6 +275,7 @@
     isStripeShape: isStripeShape,
     stripeFromSession: stripeFromSession,
     stripeValidate: stripeValidate,
+    accountCodes: accountCodes,
     shapeFromStripe: shapeFromStripe,
     keyKind: keyKind,
     proFrom: proFrom,

@@ -61,7 +61,7 @@ const MAIL = {
 const sha = s => createHash("sha256").update(s).digest("hex").slice(0, 40);
 
 /* Numără o cerere în fereastra orei curente. true = încă în limită. */
-async function allow(kind, id, max) {
+export async function allow(kind, id, max) {
   try {
     const { getStore } = await import("@netlify/blobs");
     const st = getStore({ name: "ebanist-pro-restore", consistency: "strong" });
