@@ -1021,10 +1021,10 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        2047.5
+        1817.5
       ],
       "yInf": [
-        2038
+        1808
       ],
       "partial": 1,
       "scasso": null,
@@ -1050,10 +1050,10 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        2047.5
+        1817.5
       ],
       "yInf": [
-        2038
+        1808
       ],
       "partial": 1,
       "scasso": null,
@@ -1065,7 +1065,7 @@
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Anta",
-      "lung": 2054,
+      "lung": 1824,
       "larg": 304,
       "pz": 3,
       "bordo": "2L+2C",
@@ -1088,7 +1088,7 @@
       "gen": "Armadio_Grigio",
       "modulo": "Armadio_Grigio",
       "elemento": "Anta",
-      "lung": 274,
+      "lung": 270,
       "larg": 304,
       "pz": 3,
       "bordo": "2L+2C",
@@ -1150,6 +1150,53 @@
     },
     {
       "id": "r37",
+      "gen": "Banda_gri_sus",
+      "modulo": "Banda_gri_sus",
+      "elemento": "Pezzo contorno",
+      "lung": 230,
+      "larg": 920,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "H",
+        "larg": "L",
+        "sp": "P"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          920,
+          0,
+          0
+        ],
+        [
+          920,
+          230,
+          0
+        ],
+        [
+          0,
+          230,
+          0
+        ]
+      ],
+      "perim": 2300,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "grigio_medio_19"
+    },
+    {
+      "id": "r38",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Fianco",
@@ -1172,7 +1219,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r38",
+      "id": "r39",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Base / Cielo",
@@ -1195,7 +1242,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r39",
+      "id": "r40",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Zoccolo",
@@ -1218,7 +1265,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r40",
+      "id": "r41",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Setto",
@@ -1241,7 +1288,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r41",
+      "id": "r42",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Frontale cassetto",
@@ -1264,7 +1311,7 @@
       "materiale": "grigio_medio_19"
     },
     {
-      "id": "r42",
+      "id": "r43",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Fianco cassetto",
@@ -1287,7 +1334,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r43",
+      "id": "r44",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Fronte/Retro cassetto",
@@ -1310,7 +1357,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r44",
+      "id": "r45",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Fondo cassetto",
@@ -1333,7 +1380,7 @@
       "materiale": "HDF 5mm"
     },
     {
-      "id": "r45",
+      "id": "r46",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Striscia LED",
@@ -1352,7 +1399,7 @@
       "materiale": "Accessorio — striscia LED neon flex 6×6"
     },
     {
-      "id": "r46",
+      "id": "r47",
       "gen": "Sertare_Grigio",
       "modulo": "Sertare_Grigio",
       "elemento": "Schienale",
@@ -1375,7 +1422,7 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r47",
+      "id": "r48",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fianco",
@@ -1398,7 +1445,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r48",
+      "id": "r49",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Base / Cielo",
@@ -1421,7 +1468,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r49",
+      "id": "r50",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Setto",
@@ -1444,7 +1491,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r50",
+      "id": "r51",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Frontale cassetto",
@@ -1467,7 +1514,7 @@
       "materiale": "grigio_medio_19"
     },
     {
-      "id": "r51",
+      "id": "r52",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fianco cassetto",
@@ -1490,7 +1537,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r52",
+      "id": "r53",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fronte/Retro cassetto",
@@ -1513,7 +1560,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r53",
+      "id": "r54",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Fondo cassetto",
@@ -1536,7 +1583,7 @@
       "materiale": "HDF 5mm"
     },
     {
-      "id": "r54",
+      "id": "r55",
       "gen": "Toaletta_Sertare",
       "modulo": "Toaletta_Sertare",
       "elemento": "Schienale",
@@ -1559,7 +1606,7 @@
       "materiale": "pfl3"
     },
     {
-      "id": "r55",
+      "id": "r56",
       "gen": "Oglinda",
       "modulo": "Oglinda",
       "elemento": "Pezzo contorno",
@@ -1626,7 +1673,7 @@
       "materiale": "specchio_4"
     },
     {
-      "id": "r56",
+      "id": "r57",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Fianco",
@@ -1649,7 +1696,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r57",
+      "id": "r58",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Base / Cielo",
@@ -1672,7 +1719,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r58",
+      "id": "r59",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Setto",
@@ -1695,7 +1742,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r59",
+      "id": "r60",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Ripiano dx",
@@ -1728,7 +1775,7 @@
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r60",
+      "id": "r61",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Striscia LED",
@@ -1747,7 +1794,7 @@
       "materiale": "Accessorio — striscia LED neon flex 6×6"
     },
     {
-      "id": "r61",
+      "id": "r62",
       "gen": "Nisa_Specchio",
       "modulo": "Nisa_Specchio",
       "elemento": "Striscia LED",
@@ -2183,12 +2230,12 @@
         },
         {
           "type": "ripiano",
-          "y": 2038,
+          "y": 1808,
           "span": "left"
         },
         {
           "type": "ripiano",
-          "y": 2038,
+          "y": 1808,
           "span": "right"
         }
       ],
@@ -2197,50 +2244,74 @@
           "x": 0,
           "y": 3,
           "w": 304,
-          "h": 2054,
+          "h": 1824,
           "hinge": "left"
         },
         {
           "x": 308,
           "y": 3,
           "w": 304,
-          "h": 2054,
+          "h": 1824,
           "hinge": "right"
         },
         {
           "x": 616,
           "y": 3,
           "w": 304,
-          "h": 2054,
+          "h": 1824,
           "hinge": "right",
           "handle": "none"
         },
         {
           "x": 0,
-          "y": 2060,
+          "y": 1830,
           "w": 304,
-          "h": 274,
+          "h": 270,
           "hinge": "left",
           "handle": "none"
         },
         {
           "x": 308,
-          "y": 2060,
+          "y": 1830,
           "w": 304,
-          "h": 274,
+          "h": 270,
           "hinge": "right",
           "handle": "none"
         },
         {
           "x": 616,
-          "y": 2060,
+          "y": 1830,
           "w": 304,
-          "h": 274,
+          "h": 270,
           "hinge": "right",
           "handle": "none"
         }
       ],
       "doors": 6
+    },
+    "Banda_gri_sus": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "grigio_medio_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Banda_gri_sus",
+      "type": "contur",
+      "L": 920,
+      "H": 230,
+      "P": 19,
+      "cShape": "rect",
+      "cOri": "v",
+      "cPz": 1,
+      "cEdge": 1
     },
     "Sertare_Grigio": {
       "plinth": 50,
@@ -2560,6 +2631,13 @@
       "off": 165.5,
       "lift": 38,
       "rot": 90,
+      "wall": "w1"
+    },
+    "Banda_gri_sus": {
+      "from": 1805,
+      "off": 600,
+      "lift": 2504,
+      "rot": 0,
       "wall": "w1"
     }
   }
