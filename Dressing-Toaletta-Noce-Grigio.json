@@ -9,7 +9,7 @@
       "gen": "Colonna_Sx_Nisa",
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Fianco",
-      "lung": 2734,
+      "lung": 2696,
       "larg": 350,
       "pz": 2,
       "bordo": "2L+2C",
@@ -54,29 +54,6 @@
       "id": "r3",
       "gen": "Colonna_Sx_Nisa",
       "modulo": "Colonna_Sx_Nisa",
-      "elemento": "Zoccolo",
-      "lung": 717,
-      "larg": 50,
-      "pz": 1,
-      "bordo": "1L",
-      "role": "zoccolo",
-      "axis_mapping": {
-        "lung": "L",
-        "larg": "H",
-        "sp": "P"
-      },
-      "sp": 19,
-      "spSrc": null,
-      "seg": null,
-      "ys": null,
-      "scasso": null,
-      "curve": null,
-      "materiale": "nogal_victoria_19"
-    },
-    {
-      "id": "r4",
-      "gen": "Colonna_Sx_Nisa",
-      "modulo": "Colonna_Sx_Nisa",
       "elemento": "Ripiano traversante",
       "lung": 715,
       "larg": 330,
@@ -92,21 +69,21 @@
       "spSrc": null,
       "seg": null,
       "ys": [
-        2559.5
+        2540.5
       ],
       "yInf": [
-        2550
+        2531
       ],
       "scasso": null,
       "curve": null,
       "materiale": "nogal_victoria_19"
     },
     {
-      "id": "r5",
+      "id": "r4",
       "gen": "Colonna_Sx_Nisa",
       "modulo": "Colonna_Sx_Nisa",
       "elemento": "Striscia LED",
-      "lung": 2654,
+      "lung": 2616,
       "larg": 6,
       "pz": 1,
       "bordo": "",
@@ -121,23 +98,108 @@
       "materiale": "Accessorio — striscia LED neon flex 6×6"
     },
     {
-      "id": "r6",
-      "gen": "Colonna_Sx_Nisa",
-      "modulo": "Colonna_Sx_Nisa",
-      "elemento": "Striscia LED",
-      "lung": 677,
-      "larg": 6,
+      "id": "r5",
+      "gen": "Capac_curb_Sx",
+      "modulo": "Capac_curb_Sx",
+      "elemento": "Pezzo contorno",
+      "lung": 755,
+      "larg": 350,
       "pz": 1,
-      "bordo": "",
-      "role": "accessorio",
-      "axis_mapping": null,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
       "sp": null,
       "spSrc": null,
       "seg": null,
       "ys": null,
+      "contour": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          755,
+          0,
+          0
+        ],
+        [
+          755,
+          50,
+          0.414214
+        ],
+        [
+          455,
+          350,
+          0
+        ],
+        [
+          0,
+          350,
+          0
+        ]
+      ],
+      "perim": 2081,
+      "shape": "contur",
       "scasso": null,
       "curve": null,
-      "materiale": "Accessorio — striscia LED neon flex 6×6"
+      "materiale": "nogal_victoria_19"
+    },
+    {
+      "id": "r6",
+      "gen": "Baza_curba_Sx",
+      "modulo": "Baza_curba_Sx",
+      "elemento": "Pezzo contorno",
+      "lung": 755,
+      "larg": 350,
+      "pz": 1,
+      "bordo": "CONT",
+      "role": "contur",
+      "axis_mapping": {
+        "lung": "L",
+        "larg": "P",
+        "sp": "H"
+      },
+      "sp": null,
+      "spSrc": null,
+      "seg": null,
+      "ys": null,
+      "contour": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          755,
+          0,
+          0
+        ],
+        [
+          755,
+          50,
+          0.414214
+        ],
+        [
+          455,
+          350,
+          0
+        ],
+        [
+          0,
+          350,
+          0
+        ]
+      ],
+      "perim": 2081,
+      "shape": "contur",
+      "scasso": null,
+      "curve": null,
+      "materiale": "nogal_victoria_19"
     },
     {
       "id": "r7",
@@ -456,7 +518,7 @@
       "gen": "Panou_riflat_Colonna_Sx",
       "modulo": "Panou_riflat_Colonna_Sx",
       "elemento": "Pezzo contorno",
-      "lung": 2481,
+      "lung": 2512,
       "larg": 717,
       "pz": 1,
       "bordo": "",
@@ -483,16 +545,16 @@
         ],
         [
           717,
-          2481,
+          2512,
           0
         ],
         [
           0,
-          2481,
+          2512,
           0
         ]
       ],
-      "perim": 6396,
+      "perim": 6458,
       "shape": "contur",
       "scasso": null,
       "curve": null,
@@ -1733,8 +1795,8 @@
   ],
   "configs": {
     "Colonna_Sx_Nisa": {
-      "plinth": 50,
-      "support": "zoccolo",
+      "plinth": 0,
+      "support": "piedini",
       "back": 0,
       "backMode": "applicato",
       "shelfType": "mobile",
@@ -1749,24 +1811,71 @@
       "name": "Colonna_Sx_Nisa",
       "type": "standard",
       "L": 755,
-      "H": 2734,
+      "H": 2696,
       "P": 350,
       "doors": 0,
       "ledRuns": [
         {
           "on": "right"
-        },
-        {
-          "on": "plinth"
         }
       ],
       "partitions": [
         {
           "type": "ripiano",
-          "y": 2550,
+          "y": 2531,
           "span": "full"
         }
       ]
+    },
+    "Capac_curb_Sx": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Capac_curb_Sx",
+      "type": "contur",
+      "L": 755,
+      "H": 350,
+      "P": 19,
+      "cShape": "custom",
+      "cSrc": "0,0 755,0 755,50,0.41421356 455,350 0,350",
+      "cOri": "o",
+      "cPz": 1,
+      "cEdge": 1
+    },
+    "Baza_curba_Sx": {
+      "plinth": 0,
+      "support": "piedini",
+      "back": 0,
+      "backMode": "applicato",
+      "shelfType": "mobile",
+      "front": "piena",
+      "handles": "maniglia",
+      "tram": 0,
+      "shelves": 0,
+      "drawers": 0,
+      "matBody": "nogal_victoria_19",
+      "matFront": "nogal_victoria_19",
+      "matBack": "pfl3",
+      "name": "Baza_curba_Sx",
+      "type": "contur",
+      "L": 755,
+      "H": 350,
+      "P": 19,
+      "cShape": "custom",
+      "cSrc": "0,0 755,0 755,50,0.41421356 455,350 0,350",
+      "cOri": "o",
+      "cPz": 1,
+      "cEdge": 1
     },
     "Raft_curb_Sx_1": {
       "plinth": 0,
@@ -1935,13 +2044,13 @@
       "name": "Panou_riflat_Colonna_Sx",
       "type": "contur",
       "L": 717,
-      "H": 2481,
+      "H": 2512,
       "P": 19,
       "cShape": "rect",
       "cOri": "v",
       "cPz": 1,
       "cEdge": 0,
-      "cGrooves": "27 8 27 2473 20 3\n72 8 72 2473 20 3\n117 8 117 2473 20 3\n162 8 162 2473 20 3\n207 8 207 2473 20 3\n252 8 252 2473 20 3\n297 8 297 2473 20 3\n342 8 342 2473 20 3\n387 8 387 2473 20 3\n432 8 432 2473 20 3\n477 8 477 2473 20 3\n522 8 522 2473 20 3\n567 8 567 2473 20 3\n612 8 612 2473 20 3\n657 8 657 2473 20 3"
+      "cGrooves": "27 8 27 2504 20 3\n72 8 72 2504 20 3\n117 8 117 2504 20 3\n162 8 162 2504 20 3\n207 8 207 2504 20 3\n252 8 252 2504 20 3\n297 8 297 2504 20 3\n342 8 342 2504 20 3\n387 8 387 2504 20 3\n432 8 432 2504 20 3\n477 8 477 2504 20 3\n522 8 522 2504 20 3\n567 8 567 2504 20 3\n612 8 612 2504 20 3\n657 8 657 2504 20 3"
     },
     "Panou_riflat_Nisa": {
       "plinth": 0,
@@ -2370,7 +2479,7 @@
     "Colonna_Sx_Nisa": {
       "from": 0,
       "off": 0,
-      "lift": 0,
+      "lift": 19,
       "rot": 0,
       "wall": "w1"
     },
@@ -2447,7 +2556,7 @@
     "Panou_riflat_Colonna_Sx": {
       "from": 19,
       "off": 0,
-      "lift": 69,
+      "lift": 38,
       "rot": 0,
       "wall": "w1"
     },
@@ -2467,6 +2576,20 @@
     },
     "Sertare_Grigio": {
       "from": 1805,
+      "off": 0,
+      "lift": 0,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Capac_curb_Sx": {
+      "from": 0,
+      "off": 0,
+      "lift": 2715,
+      "rot": 0,
+      "wall": "w1"
+    },
+    "Baza_curba_Sx": {
+      "from": 0,
       "off": 0,
       "lift": 0,
       "rot": 0,
