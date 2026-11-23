@@ -56,7 +56,8 @@ for(const [name,cfg0] of Object.entries(P.configs)){
     const nofr=(cfg.fronts||[]).filter(f=>f.handle==="none").length, nfr=(cfg.fronts||[]).length;
     if(nfr){ const doorsN=cfg.fronts.length, expected=doorsN-nofr, mn=o.hw.filter(h=>h.type==="maniglia"&&!/cassetto|drawer/i.test(h.piece+"")).length;
       info.push(name+": uși "+doorsN+" (fără mâner "+nofr+"), mânere totale "+o.hw.filter(h=>h.type==="maniglia").length); }
-    const leds=o.hw.filter(h=>h.type==="ledv"||h.type==="led"); if(cfg.ledRuns&&cfg.ledRuns.length!==leds.filter(h=>h.type==="ledv").length) R(name,"benzi LED verticale cerute "+cfg.ledRuns.length+", emise "+leds.filter(h=>h.type==="ledv").length);
+    const leds=o.hw.filter(h=>h.type==="ledv"||h.type==="led"); { const rv=(cfg.ledRuns||[]).filter(r=>r.on==="left"||r.on==="right").length, rp=(cfg.ledRuns||[]).filter(r=>r.on==="plinth").length, hv=o.hw.filter(h=>h.type==="ledv").length, hp=o.hw.filter(h=>h.type==="ledh").length;
+      if(rv!==hv) R(name,"benzi LED verticale cerute "+rv+", emise "+hv); if(rp!==hp) R(name,"benzi LED de plintă cerute "+rp+", emise "+hp); }
   }
 }
 console.log("corpuri:",Object.keys(P.configs).length,"· rânduri JSON:",P.pieces.length,"· piese fizice:",totPieces,"· suprafață panouri ≈",area.toFixed(2),"m²");

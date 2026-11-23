@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.102.0 — 23 noiembrie 2026
+
+**„Camera în 3D” arată mânerele și conturul real al pieselor; bandă LED sub corp (D-182).**
+- mânerele bară (cu tije) apar în camera 3D, în finisajul din catalog (alamă/auriu, inox, negru), pe uși și pe sertare;
+- piesele cu contur liber (rafturi cu colț rotunjit, panouri) se desenează cu forma lor exactă, nu cu dreptunghiul lor;
+- `ledRuns: [{on:"plinth"}]`: bandă LED orizontală sub corp, pe fața soclului (rând „Striscia LED”, lumină pe podea în 3D); fără soclu nu se emite nimic.
+
 ## 5.101.0 — 23 noiembrie 2026
 
 **Benzi LED verticale, uși fără mâner, mânere aurii, oglindă (D-182).**

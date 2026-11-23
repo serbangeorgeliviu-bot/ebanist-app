@@ -9172,8 +9172,8 @@ function buildCore(cfg){
   /* LED (D-157): banda e un accesoriu la metru, pe lățimea interioară („sub plafon”) sau pe cota introdusă */
   { const ln=ledLength(cfg,G.L_int); if(ln>0) add("Striscia LED",ln,LED.sect,1,"",MAT_LED,{role:"accessorio"}); }
   /* benzi verticale (D-182): câte un rând pe bandă, ca fiecare să încapă în gabaritul corpului (A9) */
-  (Array.isArray(cfg.ledRuns)?cfg.ledRuns:[]).forEach(r=>{ if(!r||(r.on!=="left"&&r.on!=="right")) return;
-    const ln=+r.len>0?+r.len:Math.max(0,(+cfg.H||0)-80); if(ln>0&&ln<=LED.maxLen) add("Striscia LED",Math.round(ln*10)/10,LED.sect,1,"",MAT_LED,{role:"accessorio"}); });
+  (Array.isArray(cfg.ledRuns)?cfg.ledRuns:[]).forEach(r=>{ if(!r||(r.on!=="left"&&r.on!=="right"&&!(r.on==="plinth"&&cfg.support==="zoccolo"))) return;
+    const ln=+r.len>0?+r.len:r.on==="plinth"?Math.max(0,(+cfg.L||0)-2*19-40):Math.max(0,(+cfg.H||0)-80); if(ln>0&&ln<=LED.maxLen) add("Striscia LED",Math.round(ln*10)/10,LED.sect,1,"",MAT_LED,{role:"accessorio"}); });
   if(cfg.back){
     // cava fresata: lo schienale entra di NUT_D per lato — tra i fianchi: pannello pieno tra i due fianchi
     const bw=G.back_W;
@@ -16946,6 +16946,10 @@ function roomLeds(){
       const A=toRoom(m.fr,m.from,h.w[0],h.w[2],m.off,m.rot,m.piv), F=toRoom(m.fr,m.from,h.w[0],h.w[2]+100,m.off,m.rot,m.piv), nl2=Math.hypot(F.x-A.x,F.y-A.y)||1;
       out.push({name:m.name,a:[A.x,A.y],b:[A.x,A.y],y:h.y0+m.lift,y1:h.y1+m.lift,v:1,n:[(F.x-A.x)/nl2,(F.y-A.y)/nl2],door:false});
     });
+    (ops.hw||[]).filter(h=>h.type==="ledh").forEach(h=>{   /* banda de sub corp (D-182): orizontală, pe fața soclului */
+      const A=toRoom(m.fr,m.from,h.x0,h.w[2],m.off,m.rot,m.piv), B=toRoom(m.fr,m.from,h.x1,h.w[2],m.off,m.rot,m.piv), C=toRoom(m.fr,m.from,h.w[0],h.w[2],m.off,m.rot,m.piv), F=toRoom(m.fr,m.from,h.w[0],h.w[2]+100,m.off,m.rot,m.piv), nl3=Math.hypot(F.x-C.x,F.y-C.y)||1;
+      out.push({name:m.name,a:[A.x,A.y],b:[B.x,B.y],y:h.w[1]+m.lift,n:[(F.x-C.x)/nl3,(F.y-C.y)/nl3],door:false});
+    });
     const strip=(ops.hw||[]).find(h=>h.type==="led"); if(!strip) return;
     const zc=strip.w[2], A=toRoom(m.fr,m.from,strip.x0,zc,m.off,m.rot,m.piv), B=toRoom(m.fr,m.from,strip.x1,zc,m.off,m.rot,m.piv), F=toRoom(m.fr,m.from,strip.w[0],zc+100,m.off,m.rot,m.piv), C=toRoom(m.fr,m.from,strip.w[0],zc,m.off,m.rot,m.piv);
     const nl=Math.hypot(F.x-C.x,F.y-C.y)||1;
@@ -16958,7 +16962,7 @@ function roomBoxes(){
   const p=proj(), out=[];
   const put=(fr,from,off,lift,rot,piv,b)=>{
     const pc=planPC(b).map(q=>toRoom(fr,from,q[0],q[1],off,rot,piv));
-    if(b.vp){
+    if(b.vp||(b.role==="contur"&&b.prism3)){   /* conturul liber (D-182): prisma exactă a piesei, nu gabaritul ei */
       /* panou pe pantă (D-86): vârfurile profilului trec prin aceeași mutare/rotație ca planul, deci prisma urmează peretele */
       const vf=vpFaces(b), A=vf[0], B=vf[1];
       const tr=P=>P.map(q=>{ const t=toRoom(fr,from,q[0],q[2],off,rot,piv); return [t.x,q[1]+lift,t.y]; });
@@ -16969,7 +16973,7 @@ function roomBoxes(){
     out.push({x0:Math.min.apply(null,pc.map(q=>q.x)),x1:Math.max.apply(null,pc.map(q=>q.x)),
               y0:b.y0+lift,y1:b.y1+lift,
               z0:Math.min.apply(null,pc.map(q=>q.y)),z1:Math.max.apply(null,pc.map(q=>q.y)),
-              kind:b.kind, mat:b.mat, pc:pc.map(q=>[q.x,q.y])});
+              kind:b.kind, mat:b.mat, pc:pc.map(q=>[q.x,q.y]), ...(b.matId?{matId:b.matId}:{})});
   };
   RL.mods.forEach(m=>{
     let mm; try{ mm=buildModule(m.cfg); }catch(e){ return; }
@@ -17036,6 +17040,19 @@ function roomBoxes(){
       })(b0);
       for(let k=n1;k<out.length;k++){ out[k].rmMod=m.name; out[k].rmRole=b0.role||null; if(roomOpen&&b0.kind==='f'&&(b0.sub==='door'||b0.sub==='lift'||b0.sub==='fold'||b0.sub==='drawer'||b0.sub==='dbox'||b0.grp)) out[k].rmMoved=true; if((b0.kind==="p"||b0.kind==="f")&&typeof out[k].mat==="string") out[k].matId=out[k].mat; }   // materialul fiecărui corp, nu cel din setări
     });
+    /* mânerele în „Camera în 3D” (D-182): două tije + bara, din operații (poziția și finisajul din catalog); butoanele și profilele nu se desenează aici */
+    try{
+      const Mh=mModel(p,m.name), hws=(Mh&&Mh.ops&&Mh.ops.hw)||[];
+      hws.filter(h=>h.type==="maniglia"&&h.hm&&!h.knob&&h.w).forEach((h,hi)=>{
+        const hm=h.hm, ia=hm.ia||0, Lh=hm.L||ia+44, fin=hm.fin||"__blackmetal", w=h.w, vt=!!h.vertical, zF=w[2], n1=out.length;
+        const bx=(cu,cv,lu,lv,z0,z1)=>{ const u=vt?[w[0]+cu,w[1]+cv]:[w[0]+cv,w[1]+cu];   /* cu = pe lungimea mânerului, cv = peste el */
+          const hx=vt?lv/2:lu/2, hy=vt?lu/2:lv/2;
+          put(m.fr,m.from,m.off,m.lift,m.rot,m.piv,{x0:u[0]-hx,x1:u[0]+hx,y0:u[1]-hy,y1:u[1]+hy,z0:z0,z1:z1,kind:"p",role:"maniglia",matId:fin,pk:"hd_"+m.name+"_"+hi}); };
+        bx(0,0,Lh,10,zF+30,zF+40);                       // bara
+        if(ia>0){ bx(-ia/2,0,8,8,zF,zF+30); bx(ia/2,0,8,8,zF,zF+30); }   // tijele
+        for(let k=n1;k<out.length;k++){ out[k].rmMod=m.name; out[k].rmRole="maniglia"; }
+      });
+    }catch(e){}
   });
   /* «Ante aperte»: ce ușă, clapă sau sertar deschis lovește un alt corp? Cutiile se compară pe gabarit, cu 10 mm toleranță; doar între corpuri diferite (ușa cu corpul ei nu). */
   roomHits=[];
@@ -20852,12 +20869,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.101.0"; /* APP_VER-MARKER */
+const APP_VER="5.102.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v294";
+const SW_CACHE="ebanist-v295";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

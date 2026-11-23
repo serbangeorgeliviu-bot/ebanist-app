@@ -928,6 +928,14 @@ function generate1(input) {
   if (cfg && Array.isArray(cfg.ledRuns) && cfg.ledRuns.length) {
     var LGv = H.led, sidesV = pcs.filter(function (q) { return q.role === "fianco" && q.tAx === 0; }).sort(function (a, b) { return a.min[0] - b.min[0]; });
     cfg.ledRuns.forEach(function (r) {
+      if (r && r.on === "plinth") {   /* bandă orizontală sub corp, pe fața soclului (lumina de la podea); fără canal: banda se lipește */
+        var zs = pcs.filter(function (q) { return q.role === "zoccolo"; })[0];
+        if (!zs) return;
+        var lnP = +r.len > 0 ? +r.len : zs.max[0] - zs.min[0] - 40, xm = (zs.min[0] + zs.max[0]) / 2;
+        if (!(lnP > 0) || lnP > zs.max[0] - zs.min[0] + 1e-6) return;
+        out.hw.push({ id: "hw_" + out.hw.length, type: "ledh", catalog: "emu_5220220", piece: zs.pk, w: [xm, zs.min[1] + 8, zs.max[2]], x0: xm - lnP / 2, x1: xm + lnP / 2, len: lnP, note: "Bandă LED 6×6 sub corp" });
+        return;
+      }
       var sd = r && r.on === "left" ? sidesV[0] : r && r.on === "right" ? sidesV[sidesV.length - 1] : null;
       if (!sd || !(sd.T > LGv.d + 3)) return;
       var lf = r.on === "left", y0 = sd.min[1] + 60, ln = +r.len > 0 ? +r.len : sd.max[1] - sd.min[1] - 80, y1 = y0 + ln;
