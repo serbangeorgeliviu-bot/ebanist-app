@@ -57,6 +57,17 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
       for(const [pk,pen] of M){ if((Bp.get(pk)||0)>0.5) continue; const [a,b]=pk.split("|"); bad.push({a:roleOf[a]||a,b:roleOf[b]||b,pen:Math.round(pen*10)/10}); }
       info[sn]=bad;
     }
+    if(SUSP){ /* feroneria desenată: susphang (cleme) și suprail (șina) trebuie să existe în scenă și să rămână în gabaritul corpului (± 60 mm) în toate stările */
+      const cnt=(st)=>{ const H=GL3D.hwBoxes(st)||[]; return {sh:H.filter(h=>h.kind==="susphang").length,sr:H.filter(h=>h.kind==="suprail").length,H}; };
+      const c0=cnt({open:0,explode:0}); info.susp=[];
+      const FARA=["tavolo","boiserie","lambriu","contur","ovale","raccordato"]; /* fără lateral «fianco» pe X: suspendarea (ebanist-open.js, opsDevices) se agață de laterale, deci nu se desenează — așa e prevăzut */
+      if(!FARA.includes(k)){
+      if(!c0.sh) info.susp.push({a:"susphang",b:"lipsă în 3D",pen:99});
+      const FARA_SINA=["tondo"]; /* un singur lateral: opsDevices desenează o clemă și nicio șină (sides.length>=2) — de decis dacă e corect */
+      if(vr.hwSel.suprail&&!c0.sr&&!FARA_SINA.includes(k)) info.susp.push({a:"suprail",b:"lipsă în 3D",pen:99}); }
+      const bx=base.flat(); const X0=Math.min(...bx.map(b=>b.xmin)),X1=Math.max(...bx.map(b=>b.xmax)),Y0=Math.min(...bx.map(b=>b.y0)),Y1=Math.max(...bx.map(b=>b.y1)),Z0=Math.min(...bx.map(b=>b.zmin)),Z1=Math.max(...bx.map(b=>b.zmax));
+      for(const h of c0.H.filter(h=>h.kind==="susphang"||h.kind==="suprail")){ const o=Math.max(X0-h.min[0],h.max[0]-X1,Y0-h.min[1],h.max[1]-Y1,Z0-h.min[2],h.max[2]-Z1); if(o>60) info.susp.push({a:h.kind,b:"în afara corpului",pen:Math.round(o)}); }
+    }
     out.push({k,vi,vr,pieces:base.length,info});
   }}
   return out;
@@ -65,7 +76,7 @@ const srv = http.createServer((q, r) => { let f = path.join(root, decodeURICompo
  const agg={};
  for(const r of res){ if(r.err){console.log(r.k,r.vi,"EROARE",r.err);continue;} for(const [sn,bad] of Object.entries(r.info)) for(const x of bad){ const key=`${r.k} · ${sn} · ${[x.a,x.b].sort().join(" × ")}`; (agg[key]=agg[key]||{n:0,max:0}); agg[key].n++; agg[key].max=Math.max(agg[key].max,x.pen);} }
  Object.entries(agg).sort((a,b)=>b[1].n-a[1].n).slice(0,60).forEach(([k,v])=>console.log(String(v.n).padStart(3),"max",v.max,k));
- const bad=res.filter(r=>r.err||(r.info&&["open","ex5","ex10","openex"].some(k=>(r.info[k]||[]).some(x=>x.pen>PRAG))));
- console.log("cfg:",res.length,"cu probleme (peste",PRAG,"mm):",bad.length); bad.forEach(r=>console.log("  ↳",r.k,JSON.stringify(r.vr||{}),r.err||JSON.stringify(["open","ex5","ex10","openex"].map(k=>(r.info[k]||[]).filter(x=>x.pen>PRAG)).flat()))); process.exitCode=bad.length?1:0;
+ const bad=res.filter(r=>r.err||(r.info&&["open","ex5","ex10","openex","susp"].some(k=>(r.info[k]||[]).some(x=>x.pen>PRAG))));
+ console.log("cfg:",res.length,"cu probleme (peste",PRAG,"mm):",bad.length); bad.forEach(r=>console.log("  ↳",r.k,JSON.stringify(r.vr||{}),r.err||JSON.stringify(["open","ex5","ex10","openex","susp"].map(k=>(r.info[k]||[]).filter(x=>x.pen>PRAG)).flat()))); process.exitCode=bad.length?1:0;
  await b.close();srv.close();
 })();

@@ -2451,6 +2451,29 @@ const GL3D = {
       step(); R.need = true; kick();
     }
   },
+  /* pentru audit (D-136): cutiile în lume (mm) ale feroneriei desenate, pe piesa-gazdă, în starea cerută; kind = tipul instanței (susphang, suprail, ...) */
+  hwBoxes(st) {
+    if (!this.ok || !R.model) return null;
+    st = st || {};
+    const prev = Object.assign({}, R.st);
+    try {
+      Object.assign(R.st, { open: st.open ? 1 : 0, explode: st.explode || 0 });
+      setTargets(R.boxes);
+      for (const P of R.pieces.values()) Object.assign(P.cur, P.tgt);
+      step();
+      R.scene.updateMatrixWorld(true);
+      const out = [], bb = new THREE.Box3();
+      for (const P of R.pieces.values()) for (const m of P.hw.children) {
+        bb.setFromObject(m); if (bb.isEmpty()) continue;
+        out.push({ pk: P.pk, kind: m.userData.hw || null, min: [bb.min.x / MM, bb.min.y / MM, bb.min.z / MM], max: [bb.max.x / MM, bb.max.y / MM, bb.max.z / MM] });
+      }
+      return out;
+    } finally {
+      Object.assign(R.st, prev); setTargets(R.boxes);
+      for (const P of R.pieces.values()) Object.assign(P.cur, P.tgt);
+      step(); R.need = true; kick();
+    }
+  },
   /* câte corpuri de feronerie sunt în scenă (pentru teste: schimbarea materialului nu le pierde) */
   /* ținta de mișcare a unei piese (pentru teste): translația și unghiul la deschidere/explozie */
   tgtOf(pk) { const P = R && R.pieces.get(String(pk)); return P ? { ex: P.tgt.ex / MM, ey: P.tgt.ey / MM, ez: P.tgt.ez / MM, ang: P.tgt.ang, sl: P.tgt.sl / MM, sub: P.sub, grp: P.grp, pivot: P.pivot ? { ...P.pivot } : null } : null; },
