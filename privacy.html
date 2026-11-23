@@ -24,7 +24,7 @@
 <body>
 <h1>Ebanist</h1>
 <p class="meta">Politica de confidențialitate / Informativa sulla privacy / Privacy Policy / Politique de confidentialité<br>
-Ultima actualizare: 2 noiembrie 2026 · Versiunea aplicației: 5.23.0<br>
+Ultima actualizare: 23 noiembrie 2026 · Versiunea aplicației: 5.106.0<br>
 Operator: Domus Renov SRL, CUI RO47806657, Nr. Reg. Com. J2023000458042, str. Nicolae Bălcescu nr. 12, et. 1, camera C2, modulul B227, 600051 Bacău, jud. Bacău, România — <a href="mailto:info@ebanist.com">info@ebanist.com</a> <br>
 Aplicația Android e publicată în Google Play de Serban George Liviu (persoană fizică).</p>
 
@@ -43,8 +43,8 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <tr><th>Funcția</th><th>Ce se trimite</th><th>Unde</th><th>Temei</th></tr>
 <tr>
   <td><b>Ebanist Pro</b><br>(plată și licență)</td>
-  <td>La cumpărare, plata se face <b>pe pagina de plată Stripe</b>, nu în aplicație: emailul, datele de facturare și cele de plată le primește Stripe direct, noi nu vedem datele cardului. După plată, aplicația primește de la serverul nostru <b>codul abonamentului</b> (<code>sub_…</code>), starea lui, data reînnoirii și emailul folosit la plată; le păstrează numai pe dispozitivul tău. Verificarea se repetă o dată la 7 zile. Niciun proiect și nicio cotă nu pleacă pe acest drum.</td>
-  <td>Stripe (Managed Payments) și Link, LLC, Dublin (merchant of record); Netlify pentru verificare</td>
+  <td>La cumpărare, plata se face <b>pe pagina de plată Stripe</b>, nu în aplicație: emailul, datele de facturare și cele de plată le primește Stripe direct, noi nu vedem datele cardului. După plată, aplicația primește de la serverul nostru <b>codul abonamentului</b> (<code>sub_…</code>), starea lui, data reînnoirii și emailul folosit la plată; le păstrează numai pe dispozitivul tău. Verificarea se repetă o dată la 7 zile. <b>Dacă te autentifici cu un cont</b> (opțional), aplicația poate găsi abonamentul fără cod: trimite serverului nostru jetonul sesiunii, serverul află de la Supabase adresa <b>confirmată</b> a contului și caută la Stripe abonamentele active plătite cu aceeași adresă. Nu păstrăm adresa și nu salvăm nicio legătură între cont și plată (abonamentul rămâne la Stripe); rămâne doar un contor pe oră, cu o amprentă a identificatorului contului, ca să limităm cererile. Pe Android, Pro îl decide numai Google Play și această căutare nu se face. Niciun proiect și nicio cotă nu pleacă pe acest drum.</td>
+  <td>Stripe (Managed Payments) și Link, LLC, Dublin (merchant of record); Netlify pentru verificare; Supabase pentru autentificarea contului</td>
   <td>Executarea contractului de abonament</td>
 </tr>
 <tr>
@@ -135,8 +135,8 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <tr><th>Funzione</th><th>Cosa viene inviato</th><th>Dove</th><th>Base giuridica</th></tr>
 <tr>
   <td><b>Ebanist Pro</b><br>(pagamento e licenza)</td>
-  <td>All'acquisto il pagamento avviene <b>sulla pagina di pagamento Stripe</b>, non nell'app: email, dati di fatturazione e dati di pagamento li riceve Stripe direttamente, noi non vediamo i dati della carta. Dopo il pagamento l'app riceve dal nostro server il <b>codice dell'abbonamento</b> (<code>sub_…</code>), il suo stato, la data di rinnovo e l'email usata per pagare; li conserva solo sul tuo dispositivo. Il controllo si ripete una volta ogni 7 giorni. Nessun progetto e nessuna quota passano da qui.</td>
-  <td>Stripe (Managed Payments) e Link, LLC, Dublino (merchant of record); Netlify per la verifica</td>
+  <td>All'acquisto il pagamento avviene <b>sulla pagina di pagamento Stripe</b>, non nell'app: email, dati di fatturazione e dati di pagamento li riceve Stripe direttamente, noi non vediamo i dati della carta. Dopo il pagamento l'app riceve dal nostro server il <b>codice dell'abbonamento</b> (<code>sub_…</code>), il suo stato, la data di rinnovo e l'email usata per pagare; li conserva solo sul tuo dispositivo. Il controllo si ripete una volta ogni 7 giorni. <b>Se accedi con un account</b> (facoltativo), l'app può trovare l'abbonamento senza codice: invia al nostro server il token della sessione, il server ottiene da Supabase l'indirizzo <b>confermato</b> dell'account e cerca su Stripe gli abbonamenti attivi pagati con lo stesso indirizzo. Non conserviamo l'indirizzo e non salviamo alcun collegamento fra account e pagamento (l'abbonamento resta presso Stripe); resta solo un contatore orario, con un'impronta dell'identificativo dell'account, per limitare le richieste. Su Android il Pro lo decide solo Google Play e questa ricerca non viene fatta. Nessun progetto e nessuna quota passano da qui.</td>
+  <td>Stripe (Managed Payments) e Link, LLC, Dublino (merchant of record); Netlify per la verifica; Supabase per l'autenticazione dell'account</td>
   <td>Esecuzione del contratto di abbonamento</td>
 </tr>
 <tr>
@@ -227,8 +227,8 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <tr><th>Feature</th><th>What is sent</th><th>Where</th><th>Legal basis</th></tr>
 <tr>
   <td><b>Ebanist Pro</b><br>(payment and licence)</td>
-  <td>At purchase, payment happens <b>on the Stripe checkout page</b>, not in the app: your email, billing details and payment details go to Stripe directly; we never see your card details. After payment the app receives from our server your <b>subscription code</b> (<code>sub_…</code>), its status, renewal date and the email used to pay; it keeps them only on your device. The check repeats once every 7 days. No project and no dimension travels this way.</td>
-  <td>Stripe (Managed Payments) and Link, LLC, Dublin (merchant of record); Netlify for the check</td>
+  <td>At purchase, payment happens <b>on the Stripe checkout page</b>, not in the app: your email, billing details and payment details go to Stripe directly; we never see your card details. After payment the app receives from our server your <b>subscription code</b> (<code>sub_…</code>), its status, renewal date and the email used to pay; it keeps them only on your device. The check repeats once every 7 days. <b>If you sign in with an account</b> (optional), the app can find your subscription without a code: it sends our server the session token, the server asks Supabase for the account's <b>confirmed</b> email address and looks up active subscriptions paid with that same address at Stripe. We do not keep the address and do not store any link between the account and the payment (the subscription stays with Stripe); all that remains is an hourly counter, with a fingerprint of the account identifier, to limit requests. On Android, Pro is decided only by Google Play and this lookup is not made. No project and no dimension travels this way.</td>
+  <td>Stripe (Managed Payments) and Link, LLC, Dublin (merchant of record); Netlify for the check; Supabase for account sign-in</td>
   <td>Performance of the subscription contract</td>
 </tr>
 <tr>
@@ -319,8 +319,8 @@ Aplicația Android e publicată în Google Play de Serban George Liviu (persoan�
 <tr><th>Fonction</th><th>Ce qui est envoyé</th><th>Où</th><th>Base légale</th></tr>
 <tr>
   <td><b>Ebanist Pro</b><br>(paiement et licence)</td>
-  <td>À l'achat, le paiement se fait <b>sur la page de paiement Stripe</b>, pas dans l'application : email, données de facturation et de paiement parviennent directement à Stripe ; nous ne voyons jamais les données de votre carte. Après le paiement, l'application reçoit de notre serveur le <b>code de l'abonnement</b> (<code>sub_…</code>), son état, sa date de renouvellement et l'email utilisé pour payer ; elle les conserve uniquement sur votre appareil. La vérification se répète une fois tous les 7 jours. Aucun projet ni aucune cote ne passe par ici.</td>
-  <td>Stripe (Managed Payments) et Link, LLC, Dublin (merchant of record) ; Netlify pour la vérification</td>
+  <td>À l'achat, le paiement se fait <b>sur la page de paiement Stripe</b>, pas dans l'application : email, données de facturation et de paiement parviennent directement à Stripe ; nous ne voyons jamais les données de votre carte. Après le paiement, l'application reçoit de notre serveur le <b>code de l'abonnement</b> (<code>sub_…</code>), son état, sa date de renouvellement et l'email utilisé pour payer ; elle les conserve uniquement sur votre appareil. La vérification se répète une fois tous les 7 jours. <b>Si vous vous connectez avec un compte</b> (facultatif), l'application peut retrouver l'abonnement sans code : elle envoie à notre serveur le jeton de session, le serveur demande à Supabase l'adresse e-mail <b>confirmée</b> du compte et cherche chez Stripe les abonnements actifs payés avec cette même adresse. Nous ne conservons pas l'adresse et n'enregistrons aucun lien entre le compte et le paiement (l'abonnement reste chez Stripe) ; il ne reste qu'un compteur horaire, avec une empreinte de l'identifiant du compte, pour limiter les requêtes. Sur Android, le Pro est décidé uniquement par Google Play et cette recherche n'a pas lieu. Aucun projet ni aucune cote ne passe par ici.</td>
+  <td>Stripe (Managed Payments) et Link, LLC, Dublin (merchant of record) ; Netlify pour la vérification ; Supabase pour la connexion au compte</td>
   <td>Exécution du contrat d'abonnement</td>
 </tr>
 <tr>
