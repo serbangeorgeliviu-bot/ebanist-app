@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.106.0 — 24 noiembrie 2026
+
+**Mai multe sisteme de suspendare (D-186, D-187, D-188).** Douăsprezece articole noi în catalogul de feronerie, secțiunea Suspendare, cu texte în 7 limbi, deviz și 3D; toate cotele `verificat:false`.
+- Häfele (catalogul UK 2023, pp. 212–228): Traser-6 (290.28.900/905/915/916), Traser-8 (290.32.901/902/930/931, 290.33.900), montaj rapid 290.21.900/901, Spider 290.36.910, Koala 290.36.920 și șina 290.10.970. Traser 50 kg pe cleamă; Spider și Koala 130 kg pe pereche. La 290.21.900/901 pagina dă 65 kg fără să spună baza: aplicația nu derivă capacitatea.
+- Hettich SAH 209 (20 kg pe cleamă, cârlig) și Blum 48N0510 / 48N0610 (130 kg pe pereche; ediția de catalog 2020/21, codurile de verificat în cea curentă).
+- **Găurire pentru Hettich SAH 500** din desenul MTA 9 348 672 00 p. 5: 2 × 2 găuri Ø10 × 12,5 în fața interioară a ambelor laterale, la 43,5 de muchia din spate, 32 între coloane, 64 între rânduri, rândul de sus la C = 14,5 mm (minimul) sub fața interioară a tavanului; apare avertismentul `opsSuspPlace`. Celelalte articole rămân fără găuri, cu avertisment.
+- Foaia de noutăți: în română se numește acum „Noutăți”.
+- `test/audit3d.cjs`: variante `susp` (câte unul pe articol, pe toate tipologiile) și verificarea feroneriei desenate (`GL3D.hwBoxes`); intră în `npm run audit3d`.
+
+---
+
 ## 5.105.0 — 23 noiembrie 2026
 
 **Pro legat de cont, pe web (D-185).** Cine intră cu e-mail și parolă nu mai copiază codul `sub_…` pe fiecare dispozitiv.

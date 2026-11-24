@@ -1,9 +1,9 @@
 /* =====================================================================
-   Ebanist — Novități (D-184)
+   Ebanist — Noutăți (D-184)
    ---------------------------------------------------------------------
    Ce s-a schimbat la fiecare versiune, în cuvintele utilizatorului, în
    cele 7 limbi ale aplicației. Modul pur: nu atinge DOM-ul, nu citește
-   starea. index.html doar pune în foaia „Novități” textul de la render().
+   starea. index.html doar pune în foaia „Noutăți” textul de la render().
 
    Regula (în CLAUDE.md): o versiune care schimbă ce vede sau ce poate
    face utilizatorul adaugă aici o intrare, în toate cele 7 limbi, în
@@ -20,7 +20,7 @@
 
   var UI = {
     en: { title: "What's new", version: "Version", older: "Older versions and the full story:", blog: "Ebanist blog" },
-    ro: { title: "Novități", version: "Versiunea", older: "Versiuni mai vechi și povestea completă:", blog: "blogul Ebanist" },
+    ro: { title: "Noutăți", version: "Versiunea", older: "Versiuni mai vechi și povestea completă:", blog: "blogul Ebanist" },
     it: { title: "Novità", version: "Versione", older: "Versioni precedenti e la storia completa:", blog: "blog di Ebanist" },
     fr: { title: "Nouveautés", version: "Version", older: "Versions précédentes et l'histoire complète :", blog: "blog Ebanist" },
     de: { title: "Neuigkeiten", version: "Version", older: "Frühere Versionen und die ganze Geschichte:", blog: "Ebanist-Blog" },
@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.106.0", date: "2026-11-24", t: {
+      en: { title: "More wall-hanging systems", items: ["Twelve new hangers in the hardware catalog (Hanging section): Häfele Traser-6, Traser-8, rapid-fit 290.21, Spider and Koala; Hettich SAH 209; Blum screw-on and knock-in wall hanging brackets.", "For Hettich SAH 500 the holes in the cabinet sides now come out on the part sheet and in the drilling list.", "The new hangers appear in 3D and in the estimate. For them there are no drilling holes yet: drill from the maker's sheet. Where the maker does not say whether the load is per hanger or per pair, the app asks you to check it.", "All figures come from the makers' catalogues and are still to be measured on real parts."] },
+      ro: { title: "Mai multe sisteme de suspendare", items: ["Douăsprezece suspensii noi în catalogul de feronerie (secțiunea Suspendare): Häfele Traser-6, Traser-8, montaj rapid 290.21, Spider și Koala; Hettich SAH 209; cârligele de perete Blum cu șuruburi și cu fixare prin lovire.", "La Hettich SAH 500, găurile din laterale ies acum pe fișa piesei și în lista de găurire.", "Suspensiile noi apar în 3D și în deviz. Pentru ele nu sunt încă găuri generate: se găurește după fișa producătorului. Unde producătorul nu spune dacă sarcina e pe cleamă sau pe pereche, aplicația te roagă s-o verifici.", "Toate cotele vin din cataloagele producătorilor și rămân de măsurat pe piese reale."] },
+      it: { title: "Più sistemi di sospensione", items: ["Dodici nuove sospensioni nel catalogo ferramenta (sezione Sospensione): Häfele Traser-6, Traser-8, montaggio rapido 290.21, Spider e Koala; Hettich SAH 209; le staffe a muro Blum a vite e a battere.", "Per Hettich SAH 500 i fori nei fianchi ora compaiono nella scheda del pezzo e nell'elenco di foratura.", "Le nuove sospensioni compaiono in 3D e nel preventivo. Per loro non ci sono ancora fori generati: si fora dalla scheda del produttore. Dove il produttore non dice se il carico è per staffa o per coppia, l'app ti chiede di verificarlo.", "Tutte le quote vengono dai cataloghi dei produttori e sono ancora da misurare su pezzi reali."] },
+      fr: { title: "Plus de systèmes de suspension", items: ["Douze nouvelles suspensions dans le catalogue de quincaillerie (section Suspension) : Häfele Traser-6, Traser-8, montage rapide 290.21, Spider et Koala ; Hettich SAH 209 ; les supports muraux Blum à visser et à emboîter.", "Pour Hettich SAH 500, les perçages dans les côtés figurent maintenant sur la fiche de la pièce et dans la liste de perçage.", "Les nouvelles suspensions apparaissent en 3D et dans le devis. Pour elles, aucun perçage n'est encore généré : percer d'après la fiche du fabricant. Quand le fabricant ne dit pas si la charge est par pièce ou par paire, l'application vous demande de la vérifier.", "Toutes les cotes viennent des catalogues des fabricants et restent à mesurer sur des pièces réelles."] },
+      de: { title: "Mehr Aufhängesysteme", items: ["Zwölf neue Aufhänger im Beschlagkatalog (Bereich Aufhängung): Häfele Traser-6, Traser-8, Schnellmontage 290.21, Spider und Koala; Hettich SAH 209; die Blum-Wandaufhänger zum Anschrauben und zum Einschlagen.", "Beim Hettich SAH 500 erscheinen die Bohrungen in den Seiten jetzt auf dem Teileblatt und in der Bohrliste.", "Die neuen Aufhänger erscheinen in 3D und im Kostenvoranschlag. Für sie werden noch keine Bohrungen erzeugt: nach Herstellerblatt bohren. Wo der Hersteller nicht sagt, ob die Last pro Stück oder pro Paar gilt, bittet die App um eine Prüfung.", "Alle Maße stammen aus den Herstellerkatalogen und müssen noch an echten Teilen gemessen werden."] },
+      pl: { title: "Więcej systemów zawieszania", items: ["Dwanaście nowych zawieszek w katalogu okuć (sekcja Zawieszanie): Häfele Traser-6, Traser-8, szybki montaż 290.21, Spider i Koala; Hettich SAH 209; wieszaki ścienne Blum na wkręty i wbijane.", "W Hettich SAH 500 otwory w bokach pojawiają się teraz na karcie elementu i na liście wiercenia.", "Nowe zawieszki widać w 3D i w kosztorysie. Dla nich nie są jeszcze generowane otwory: wierć według karty producenta. Tam, gdzie producent nie podaje, czy nośność jest na sztukę, czy na parę, aplikacja prosi o sprawdzenie.", "Wszystkie wymiary pochodzą z katalogów producentów i nadal wymagają pomiaru na prawdziwych elementach."] },
+      es: { title: "Más sistemas de suspensión", items: ["Doce colgadores nuevos en el catálogo de herrajes (sección Suspensión): Häfele Traser-6, Traser-8, montaje rápido 290.21, Spider y Koala; Hettich SAH 209; los colgadores de pared Blum de tornillo y de golpe.", "En Hettich SAH 500 los taladros de los laterales ahora salen en la ficha de la pieza y en la lista de taladrado.", "Los colgadores nuevos aparecen en 3D y en el presupuesto. Para ellos aún no se generan taladros: se taladra con la ficha del fabricante. Donde el fabricante no dice si la carga es por pieza o por par, la app te pide comprobarla.", "Todas las cotas vienen de los catálogos de los fabricantes y siguen pendientes de medir en piezas reales."] }
+    } },
     { v: "5.105.0", date: "2026-11-23", t: {
       en: { title: "Pro follows your account", items: ["Sign in with your e-mail and password (Account button) and, if you paid for Pro on ebanist.com with that same e-mail, Pro turns on by itself on that device: no code to copy.", "The e-mail must be confirmed. If you paid with another address, the code still works as before.", "On the Android app from Google Play, Pro is still decided only by Google Play."] },
       ro: { title: "Pro te urmează în cont", items: ["Te autentifici cu e-mail și parolă (butonul Cont) și, dacă ai plătit Pro pe ebanist.com cu aceeași adresă, Pro se activează singur pe acel dispozitiv: fără cod de copiat.", "Adresa trebuie să fie confirmată. Dacă ai plătit cu altă adresă, codul merge ca înainte.", "În aplicația Android din Google Play, Pro rămâne decis numai de Google Play."] },
@@ -40,7 +49,7 @@
     } },
     { v: "5.104.0", date: "2026-11-23", t: {
       en: { title: "“What's new” page", items: ["This page: what changed in each update, in plain words.", "Open it from the **?** button, at the top of Help."] },
-      ro: { title: "Pagina „Novități”", items: ["Pagina aceasta: ce s-a schimbat la fiecare actualizare, în cuvinte simple.", "O deschizi din butonul **?**, sus în Ajutor."] },
+      ro: { title: "Pagina „Noutăți”", items: ["Pagina aceasta: ce s-a schimbat la fiecare actualizare, în cuvinte simple.", "O deschizi din butonul **?**, sus în Ajutor."] },
       it: { title: "Pagina «Novità»", items: ["Questa pagina: cosa cambia a ogni aggiornamento, in parole semplici.", "Si apre dal pulsante **?**, in cima alla Guida."] },
       fr: { title: "Page « Nouveautés »", items: ["Cette page : ce qui change à chaque mise à jour, en mots simples.", "Ouvrez-la depuis le bouton **?**, en haut de l'Aide."] },
       de: { title: "Seite „Neuigkeiten“", items: ["Diese Seite: was sich bei jedem Update ändert, in einfachen Worten.", "Sie öffnet sich über die Taste **?**, oben in der Hilfe."] },
