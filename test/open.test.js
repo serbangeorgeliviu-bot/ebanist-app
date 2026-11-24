@@ -94,7 +94,7 @@ describe("Texte: 7 limbi, aceleași chei și aceleași substituții", () => {
     LANGS.forEach(l => push.forEach(x => assert.ok(x.n[l] && x.n[l].length > 4)));
     push.forEach(x => assert.equal(x.price, 0));
     assert.ok(O.catalog("conn", ["haf_rafix", "haf_minifix"]).every(x => x.id !== "haf_rafix"));
-    assert.ok(O.catalog("pushd", []).length >= 20 && O.catalog("susp", []).length >= 15 && O.catalog("suprail", []).length === 5 && O.catalog("pushpsu", []).length === 3);
+    assert.ok(O.catalog("pushd", []).length >= 20 && O.catalog("susp", []).length >= 15 && O.catalog("suprail", []).length === 6 && O.catalog("pushpsu", []).length === 3);
     assert.ok(O.get("blum_tipon_a") && O.get("haf_rafix"), "datele pentru articolele existente");
   });
 });
@@ -176,6 +176,11 @@ describe("Suspendare: portanța din surse, cu temeiul ei", () => {
   test("SAH 216: 55 kg pe clemă → 110 kg pe pereche; Häfele 290.03.91: 130 kg pe pereche; Libra: 150", () => {
     assert.equal(O.suspCap(O.get("het_sah216ahs"), {}).kg, 110); assert.equal(O.suspCap(O.get("haf_hang_290_03_91"), {}).kg, 130); assert.equal(O.suspCap(O.get("haf_libra_h2"), {}).kg, 150);
     assert.equal(O.suspCap(O.get("haf_hang_290_03_91"), {}).basis, "pair");
+    /* Häfele UK 2023 pp.212-228: Traser 50 kg pe cleamă; Spider/Koala 130 kg pe pereche; 290.21.900/901 nu spune baza sarcinii de 65 kg => nicio capacitate */
+    assert.equal(O.suspCap(O.get("haf_traser6_290_28_900"), {}).kg, 100); assert.equal(O.suspCap(O.get("haf_traser8_290_32_90"), {}).perKg, 50);
+    assert.equal(O.suspCap(O.get("haf_spider_290_36_910"), {}).kg, 130); assert.equal(O.suspCap(O.get("haf_koala_290_36_920"), {}).basis, "pair");
+    assert.equal(O.suspCap(O.get("haf_rapid_290_21_90"), {}), null);
+    assert.equal(O.get("haf_traser6_290_28_900").rails[0], "haf_rail_290_10_970"); assert.equal(O.get("haf_rail_290_10_970").length, 2029);
   });
   test("Camar 818: 720 N pe punct de agățare → 2 puncte, ÷9,81; Camar 816: fără portanță în sursă → «noKg», nu o valoare inventată", () => {
     const c = O.suspCap(O.get("cam_818"), {}); assert.ok(Math.abs(c.kg - 146.8) < 0.2, J(c));

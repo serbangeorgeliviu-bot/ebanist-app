@@ -254,6 +254,27 @@ S(id="haf_brk_291_04_312", brand="Häfele", model="291.04.312", ph="s_bracket_ho
   kgBracket=40, kgNote="unit", rails=[], wall="hook", outline=[45, 57] if T("45 x 57, dia 35 hole") else None, drill=None)
 S(id="haf_brk_291_04_311", brand="Häfele", model="291.04.311", ph="s_bracket_plate", art="291.04.311 + 290.08.921", src="HAF-2014-HANG 14CFC76",
   kgBracket=60, kgNote="unit", rails=[], wall="plate", outline=[45, 57] if T("45 x 57, dia 35 hole") else None, drill=None)
+# Häfele UK 2023, secțiunea 7 pp.212-228 (pagini citite ca imagine, 24.11.2026): Traser-6 / Traser-8 / rapid 290.21 / Spider / Koala. Un număr intră numai dacă e în JSON-ul brut;
+# 290.21.900/901: sarcina de 65 kg nu spune dacă e pe cleamă sau pe pereche => nicio capacitate derivată (kg null). Atlas nu e modelat (vezi notele din JSON).
+T('"per_hanger":50', '"vertical_mm":18,"horizontal_mm":18', '"height_mm":18,"front_mm":18,"side_mm":18', '"height_mm":11,"front_mm":10,"side_mm":12', '"vertical_mm":18,"horizontal_mm":16', '"per_pair":130', '"vertical_mm":11,"horizontal_mm":10,"lateral_mm":12')
+S(id="haf_traser6_290_28_900", brand="Häfele", model="Traser-6 290.28.900", ph="s_traser", art="290.28.900", src="HAF-2023-HANG 23T7-214",
+  kgBracket=50, rails=["haf_rail_290_10_970"], wall="rail", adj={"h": 18, "side": 18}, drill=None)
+S(id="haf_traser6_290_28_905", brand="Häfele", model="Traser-6 290.28.905 (siguranță activă)", ph="s_traser", art="290.28.905", src="HAF-2023-HANG 23T7-214",
+  kgBracket=50, rails=["haf_rail_290_10_970"], wall="rail", adj={"h": 18, "d": 18, "side": 18}, drill=None)
+S(id="haf_traser6_290_28_91", brand="Häfele", model="Traser-6 290.28.91 (montaj rapid)", ph="s_traser", art="290.28.916 / 290.28.915", src="HAF-2023-HANG 23T7-214",
+  kgBracket=50, rails=["haf_rail_290_10_970"], wall="rail", adj={"h": 18, "d": 18, "side": 18}, drill=None)
+S(id="haf_traser8_290_32_90", brand="Häfele", model="Traser-8 290.32.90", ph="s_traser", art="290.32.901 / 290.32.902", src="HAF-2023-HANG 23T7-215",
+  kgBracket=50, rails=["haf_rail_290_10_970"], wall="rail", adj={"h": 11, "d": 10, "side": 12}, drill=None)
+S(id="haf_traser8_290_32_93", brand="Häfele", model="Traser-8 290.32.93 (suport superior)", ph="s_traser", art="290.32.931 / 290.32.930", src="HAF-2023-HANG 23T7-215",
+  kgBracket=50, rails=["haf_rail_290_10_970"], wall="rail", adj={"h": 11, "d": 10, "side": 12}, drill=None)
+S(id="haf_traser8_290_33_900", brand="Häfele", model="Traser-8 290.33.900", ph="s_traser", art="290.33.900", src="HAF-2023-HANG 23T7-215",
+  kgBracket=50, rails=["haf_rail_290_10_970"], wall="rail", adj={"h": 11, "d": 10, "side": 12}, drill=None)
+S(id="haf_rapid_290_21_90", brand="Häfele", model="290.21.90 (montaj rapid)", ph="s_concealed", art="290.21.901 / 290.21.900", src="HAF-2023-HANG 23T7-217",
+  rails=["haf_rail_290_10_900", "haf_rail_290_09_910"], wall="rail", adj={"h": 18, "side": 16}, drill=None)
+S(id="haf_spider_290_36_910", brand="Häfele", model="Spider 290.36.910", ph="s_concealed", art="290.36.910 + 290.35.911", src="HAF-2023-HANG 23T7-226",
+  kgPair=130, rails=[], wall="plate", adj={"h": 18, "side": 17}, drill=None)
+S(id="haf_koala_290_36_920", brand="Häfele", model="Koala 290.36.920", ph="s_concealed", art="290.36.920 + 290.36.925 / 290.35.920", src="HAF-2023-HANG 23T7-227",
+  kgPair=130, rails=[], wall="plate", adj={"h": 11, "d": 10, "side": 12}, drill=None)
 T('"806 14 P2 VI":50', '"806 22 P2 IN":65', '"821 12 Z1 IN":"60 kg recommended', '"818 32 Z1 D1":"720 N per hooking point', '"801 02 Z1 IN":"850 N')
 S(id="cam_806_14", brand="Camar", model="806 14 P2 VI", ph="s_plate", art="806 14 P2 VI", src="CAM-CERT camar_806; CAM-SHEET 273-276",
   kgPair=50, kgNote="unit", rails=["cam_rail_875"], wall="rail", adj={"h": 25}, drill=None)
@@ -275,6 +296,7 @@ suprail = [
     dict(id="het_rail_b", brand="Hettich", model="Rail B", ph="r_b", art="9007651", src="HET-TA2025-SUSP bk_858", kgCab=150, length=3000, verificat=False),
     dict(id="haf_rail_290_10_900", brand="Häfele", model="290.10.900", ph="r_wall", art="290.10.900", src="HAF-2014-HANG 14CFC78", length=2032, kgCab=None, verificat=False),
     dict(id="haf_rail_290_09_910", brand="Häfele", model="290.09.910", ph="r_wall", art="290.09.910", src="HAF-2014-HANG 14CFC78B", length=1250, kgCab=None, verificat=False),
+    dict(id="haf_rail_290_10_970", brand="Häfele", model="290.10.970", ph="r_wall", art="290.10.970", src="HAF-2023-HANG 23T7-216", length=2029 if T('"length_mm":2029') else None, kgCab=None, verificat=False),
     dict(id="cam_rail_875", brand="Camar", model="875 AS Z1 00 60", ph="r_wall", art="875 AS Z1 00 60", src="CAM-CERT plech_pro_806_818", nPoint=1975, kgCab=None, verificat=False),
 ]
 

@@ -2044,6 +2044,188 @@ var EBOpenData = {
    "verificat": false
   },
   {
+   "id": "haf_traser6_290_28_900",
+   "brand": "Häfele",
+   "model": "Traser-6 290.28.900",
+   "ph": "s_traser",
+   "art": "290.28.900",
+   "src": "HAF-2023-HANG 23T7-214",
+   "kgBracket": 50,
+   "rails": [
+    "haf_rail_290_10_970"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 18,
+    "side": 18
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_traser6_290_28_905",
+   "brand": "Häfele",
+   "model": "Traser-6 290.28.905 (siguranță activă)",
+   "ph": "s_traser",
+   "art": "290.28.905",
+   "src": "HAF-2023-HANG 23T7-214",
+   "kgBracket": 50,
+   "rails": [
+    "haf_rail_290_10_970"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 18,
+    "d": 18,
+    "side": 18
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_traser6_290_28_91",
+   "brand": "Häfele",
+   "model": "Traser-6 290.28.91 (montaj rapid)",
+   "ph": "s_traser",
+   "art": "290.28.916 / 290.28.915",
+   "src": "HAF-2023-HANG 23T7-214",
+   "kgBracket": 50,
+   "rails": [
+    "haf_rail_290_10_970"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 18,
+    "d": 18,
+    "side": 18
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_traser8_290_32_90",
+   "brand": "Häfele",
+   "model": "Traser-8 290.32.90",
+   "ph": "s_traser",
+   "art": "290.32.901 / 290.32.902",
+   "src": "HAF-2023-HANG 23T7-215",
+   "kgBracket": 50,
+   "rails": [
+    "haf_rail_290_10_970"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 11,
+    "d": 10,
+    "side": 12
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_traser8_290_32_93",
+   "brand": "Häfele",
+   "model": "Traser-8 290.32.93 (suport superior)",
+   "ph": "s_traser",
+   "art": "290.32.931 / 290.32.930",
+   "src": "HAF-2023-HANG 23T7-215",
+   "kgBracket": 50,
+   "rails": [
+    "haf_rail_290_10_970"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 11,
+    "d": 10,
+    "side": 12
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_traser8_290_33_900",
+   "brand": "Häfele",
+   "model": "Traser-8 290.33.900",
+   "ph": "s_traser",
+   "art": "290.33.900",
+   "src": "HAF-2023-HANG 23T7-215",
+   "kgBracket": 50,
+   "rails": [
+    "haf_rail_290_10_970"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 11,
+    "d": 10,
+    "side": 12
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_rapid_290_21_90",
+   "brand": "Häfele",
+   "model": "290.21.90 (montaj rapid)",
+   "ph": "s_concealed",
+   "art": "290.21.901 / 290.21.900",
+   "src": "HAF-2023-HANG 23T7-217",
+   "rails": [
+    "haf_rail_290_10_900",
+    "haf_rail_290_09_910"
+   ],
+   "wall": "rail",
+   "adj": {
+    "h": 18,
+    "side": 16
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_spider_290_36_910",
+   "brand": "Häfele",
+   "model": "Spider 290.36.910",
+   "ph": "s_concealed",
+   "art": "290.36.910 + 290.35.911",
+   "src": "HAF-2023-HANG 23T7-226",
+   "kgPair": 130,
+   "rails": [],
+   "wall": "plate",
+   "adj": {
+    "h": 18,
+    "side": 17
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "haf_koala_290_36_920",
+   "brand": "Häfele",
+   "model": "Koala 290.36.920",
+   "ph": "s_concealed",
+   "art": "290.36.920 + 290.36.925 / 290.35.920",
+   "src": "HAF-2023-HANG 23T7-227",
+   "kgPair": 130,
+   "rails": [],
+   "wall": "plate",
+   "adj": {
+    "h": 11,
+    "d": 10,
+    "side": 12
+   },
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
    "id": "cam_806_14",
    "brand": "Camar",
    "model": "806 14 P2 VI",
@@ -2204,6 +2386,17 @@ var EBOpenData = {
    "art": "290.09.910",
    "src": "HAF-2014-HANG 14CFC78B",
    "length": 1250,
+   "kgCab": null,
+   "verificat": false
+  },
+  {
+   "id": "haf_rail_290_10_970",
+   "brand": "Häfele",
+   "model": "290.10.970",
+   "ph": "r_wall",
+   "art": "290.10.970",
+   "src": "HAF-2023-HANG 23T7-216",
+   "length": 2029,
    "kgCab": null,
    "verificat": false
   },
@@ -2894,6 +3087,10 @@ var EBOpenData = {
   "KNAPP-DOCS": {
    "title": "KNAPP product downloads (official): KNAPP_DUO_35_mL-oL_Instruction-1.pdf (2020/03), belastungswerte_uno30_2014.pdf, mont_uno30_de_en_fr.pdf (2020/03), knapp-belastungswerte-duo-30-de / duo-35-f1-de / duo-35-f2-de / uno-30-de .pdf (2026/01)",
    "url": "https://www.knapp-verbinder.com/downloads/produkt-downloads/"
+  },
+  "HAF-2023-HANG": {
+   "title": "Häfele UK Furniture Fittings Technology 2023, section 7 cabinet hangers (23T7-212..228; pages read as images)",
+   "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-NNN.pdf"
   }
  },
  "notes": {
@@ -2917,7 +3114,8 @@ var EBOpenData = {
    "Hettich 'Sorinos' not looked up (not in TA 2025 pages checked). Hettich 'Rafix' does not exist: Rafix is Häfele. Häfele 'Duo' = Knapp DUO. French cleats: no official catalogue entry found (Häfele hangers use rails).",
    "Values read from drawings are marked 'drawing'; many role assignments (which number is which distance) were not legible from text and are flagged as such, not guessed.",
    "CAD: Hettich zips listed; Häfele, Camar, Knapp CAD URLs not found/not searched (null).",
-   "Conflicts: Rafix TAB drilling depth 14.2 +0.2 (Häfele UK catalogue) vs a retailer 14.5 for 262.34.502 (not official, not used). SAH 500 110 kg (shop) vs 1100 N (MTA drawing): consistent. Hettich shop says Rastex 15 min panel 16 for a specific article vs catalogue range 12-29 for thickness-specific articles."
+   "Conflicts: Rafix TAB drilling depth 14.2 +0.2 (Häfele UK catalogue) vs a retailer 14.5 for 262.34.502 (not official, not used). SAH 500 110 kg (shop) vs 1100 N (MTA drawing): consistent. Hettich shop says Rastex 15 min panel 16 for a specific article vs catalogue range 12-29 for thickness-specific articles.",
+   "D-186 follow-up (24.11.2026), Häfele UK 2023 section 7 pp.212-228 read as images: added Traser-6, Traser-8, rapid-fitting 290.21.900/901, Spider, Koala and rail 290.10.970. NOT added: Atlas system (290.24.910/915/919, 290.15.940, 290.27.938: 'tested with a load of 369 kg' is a system test value, not a per-bracket capacity; lower support geometry not modelled); retailer-only articles 290.21.930, 290.02.721/290.07.721 (Grass), 290.40.901, 290.11.9xx, Z-Clip (not on pp.212-228 of the official catalogue). 290.21.900/901 load 65 kg: page does not say per hanger or per pair, so no capacity is derived (a retailer listing for a different code, 290.21.930, says 65 kg per piece / 130 kg per pair: not used)."
   ]
  }
 };
