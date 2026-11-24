@@ -2396,6 +2396,10 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
       <summary><span data-i="expShop">Taglio e fornitore</span></summary>
       <div class="grp-body">
     <div class="btnrow">
+      <button class="btn red" id="btnStations">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <span id="btnStationsLbl">Fogli per postazione</span>
+      </button>
       <button class="btn red" id="btnPdf">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
         <span data-i="exportPdf">PDF distinta</span>
@@ -3039,6 +3043,13 @@ m995 -166 c31 -19 57 -38 57 -42 0 -4 -92 -8 -205 -8 -118 0 -205 4 -205 9 0
   <label class="chk"><input type="checkbox" id="pkAsm" checked> <span data-i="asBtn"></span></label>
   <label class="chk"><input type="checkbox" id="pkParts"> <span data-i="dcPParts"></span> <small id="packParts"></small></label>
   <button class="btn red" id="btnPackGo" style="margin-top:12px"><span data-i="dcPGo">Tipărește</span></button>
+</div>
+
+<div class="sheet" id="shStations" style="max-height:86vh;overflow-y:auto">
+  <div class="sheet-grip"></div>
+  <h3 id="stTitle">Fogli per postazione</h3>
+  <p class="mini" id="stHint"></p>
+  <div id="stBody"></div>
 </div>
 
 <div class="sheet" id="shStats" style="max-height:80vh;overflow-y:auto">
@@ -6507,6 +6518,7 @@ function applyLang(){
   if($("sPayLbl")&&window.EBCommerce){ $("sPayLbl").textContent=EBCommerce.t(state.lang,"payLbl"); $("sPayHint").textContent=EBCommerce.t(state.lang,"payHint"); $("hoBtnLbl").textContent=EBCommerce.t(state.lang,"hoBtn"); }
   if(typeof helpApply==="function") helpApply();
   if(typeof aiMount==="function") aiMount();
+  if(typeof fsRelabel==="function") fsRelabel();
   if(typeof bldStepsSync==="function") bldStepsSync();
 }
 
@@ -15696,14 +15708,14 @@ $("btnLabels").addEventListener("click",()=>{
     const pc=parts.get(p.pieces[x._ri]);
     const route=EBAtelier.labelRoute({acc:isAccPiece(x),
       edge:bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)>0,
-      shape:!!(pc&&((pc.grooves&&pc.grooves.length)||(pc.mills&&pc.mills.length)||(pc.slots&&pc.slots.length))),
-      drill:!!(hingeInfo(x)||(pc&&pc.holes&&pc.holes.length))}).map(st=>tat("stl_"+st)).join(" › ");
+      shape:!!(pc&&fsHasRouter(pc)),
+      drill:!!(hingeInfo(x)||(pc&&fsHasHoles(pc)))}).map(st=>tat("stl_"+st)).join(" › ");
     html+=`<div class="lbl${qr?" hasqr":""}">${qr?`<div class="qr"${qmm>16?` style="width:${qmm}mm;height:${qmm}mm"`:""}>${qr}</div><div class="qk" style="top:${2+qmm}mm;width:${qmm}mm">${qk}</div>`:""}
       <div class="l1"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${esc(p.name)} · ${esc(x.modulo)}</div>
       <div class="l2"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${esc(elName(x.elemento))}${x.nTot>1?` (${x.nOf}/${x.nTot})`:""}${scList(x).length?` <span style="font-weight:700">✂ ${esc(scTxt(x))}</span>`:""}</div>
       <div class="dim"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${x.lung} × ${x.larg}</div>
       ${hingeInfo(x)?`<div class="l-hinge"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>⌀35: ${hingeInfo(x).pos.join(" · ")}</div>`:""}
-      <div class="l3"><span>${esc(matShort)}<br>#${String(i+1).padStart(3,"0")}/${N}${route?` · <b>${esc(route)}</b>`:""}</span>${edgeSvg(x.bordo)}</div>
+      <div class="l3"><span>${esc(matShort)}<br>#${String(i+1).padStart(3,"0")}/${N} · r${x._ri+1}${route?` · <b>${esc(route)}</b>`:""}</span>${edgeSvg(x.bordo)}</div>
     </div>`;
   });
   html+=`</div>`;
@@ -18966,7 +18978,7 @@ function atDocSaw(p){
   const S=state.settings, tot=computeTotals(p), lq=atLabelQr(p);
   const codeOf=ref=>{ const i=p.pieces.indexOf(ref); return i>=0?"r"+(i+1):""; };
   let h=atDocHead(tat("docSawTitle"),p), n=0;
-  if(!lq) h+='<p class="mini" style="border:0.3mm solid #b7791f;padding:2mm;margin:2mm 0">'+esc(tat("docSawNoLink"))+'</p>';
+  if(!lq&&EBAtelier.flagOn(window)) h+='<p class="mini" style="border:0.3mm solid #b7791f;padding:2mm;margin:2mm 0">'+esc(tat("docSawNoLink"))+'</p>';
   for(const k of Object.keys(tot.mats)){
     const m=tot.mats[k];
     if(/^accessorio/i.test(m.label)) continue;
@@ -19011,6 +19023,120 @@ function atDocPaint(p){
 }
 
 /* ---- E2: etichete cu QR, scanare, coadă offline ---- */
+
+/* =====================================================================
+   D-187 — FOI PE POSTAZIONE (hârtie întâi, fără cont și fără scanare)
+   Un singur ecran care grupează documentele existente pe locurile de lucru ale atelierului, în ordinea
+   în care trece piesa, plus două foi noi: toupie (canale, frezări) și găurire (fișa A4 pentru fiecare piesă
+   cu găuri). Codul rX e același pe foaie, pe planul de tăiere și pe etichetă. Fiecare buton trece prin
+   porțile documentului respectiv (proGateSample, cancellul de export).
+   ===================================================================== */
+const FS_STATIONS=["magazzino","sezionatrice","toupie","bordatrice","foratura","assemblaggio","spedizione"];
+function fsRows(p){
+  const out=[];
+  const names=Object.keys(p.configs||{}).filter(n=>p.pieces.some(x=>x.gen===n||x.modulo===n||x.modulo===n+" A"||x.modulo===n+" B"));
+  for(const name of names){
+    let M=null; try{ M=mModel(p,name); }catch(e){}
+    if(!M||!M.ops) continue;
+    for(const pc of M.ops.pieces){
+      const row=(M.meta[String(pc.pk)]||{}).row||null;
+      out.push({M,pc,row,ri:row?p.pieces.indexOf(row):-1,name});
+    }
+  }
+  return out;
+}
+/* operațiile piesei (ebanist-ops.js): drill = găuri; groove/slot/mill = canale și frezări (toupie, fără CNC) */
+var fsHasRouter=pc=>!!(pc&&(pc.operations||[]).some(o=>o.type==="groove"||o.type==="slot"||o.type==="mill"));
+var fsHasHoles=pc=>!!(pc&&(pc.operations||[]).some(o=>o.type==="drill"));
+/* piese fizice identice (același rând, aceleași operații) → o singură fișă; cantitatea e deja în cartuș */
+function fsDrillList(p,rows){
+  const seen=new Set(), out=[];
+  for(const r of (rows||fsRows(p))){
+    if(!fsHasHoles(r.pc)) continue;
+    const ops=(r.pc.operations||[]).map(o=>{ const c={...o}; delete c.id; delete c.hw; delete c._w; delete c._lo; delete c._hi; return c; });
+    const k=r.ri+"|"+r.name+"|"+r.pc.length+"|"+r.pc.width+"|"+JSON.stringify(ops);
+    if(seen.has(k)) continue; seen.add(k); out.push(r);
+  }
+  return out;
+}
+function fsCounts(p){
+  const c={magazzino:0,sezionatrice:0,toupie:0,bordatrice:0,foratura:0,assemblaggio:0,spedizione:0};
+  for(const x of p.pieces||[]){
+    if(isAccPiece(x)) continue;
+    const n=Math.max(1,x.pz|0); c.sezionatrice+=n;
+    if(bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)>0) c.bordatrice+=n;
+  }
+  c.magazzino=c.sezionatrice;
+  try{ const rows=fsRows(p), seenR=new Set(); for(const r of rows){ if(fsHasRouter(r.pc)&&!seenR.has(r.ri)){ seenR.add(r.ri); c.toupie++; } } c.foratura=fsDrillList(p,rows).length; }catch(e){ console.warn(e); }
+  c.assemblaggio=Object.keys(p.configs||{}).length||0;
+  c.spedizione=c.assemblaggio;
+  return c;
+}
+function fsRouterDoc(p){
+  const byRi=new Map();
+  for(const r of fsRows(p)){ if(!fsHasRouter(r.pc)) continue; const k=r.ri>=0?r.ri:"x"+r.pc.pk; (byRi.get(k)||byRi.set(k,[]).get(k)).push(r); }
+  let h=atDocHead(tat("fsRTitle"),p);
+  if(!byRi.size) return h+"<p>"+esc(tat("fsRNone"))+"</p>";
+  h+='<table style="width:100%;border-collapse:collapse;font-size:9.5pt"><tr><th style="text-align:left;width:14mm">'+esc(tat("fsRC1"))+'</th><th style="text-align:left">'+esc(tat("fsRC2"))+'</th><th style="text-align:left;width:34mm">'+esc(tat("fsRC3"))+'</th><th style="text-align:left">'+esc(tat("fsRC4"))+'</th></tr>';
+  for(const [k,rs] of byRi){
+    const first=rs[0], row=first.row, ops=[];
+    const f1=v=>fmtMm(Math.round((+v||0)*10)/10);
+    for(const r of rs) for(const o of (r.pc.operations||[])){
+      if(o.type==="slot") ops.push(esc(opName({note:o.note||"slot"}))+" "+f1(o.len)+" × "+f1(o.thk)+" × "+f1(o.depth));
+      else if(o.type==="groove") ops.push(esc(opName({note:o.note||"canal"}))+" "+f1(Math.hypot(o.to.x-o.from.x,o.to.y-o.from.y))+" × "+f1(o.width)+" × "+f1(o.depth)+" · "+esc(tat("fsFace"))+" "+o.face);
+      else if(o.type==="mill") ops.push(esc(opName({note:o.note||"frezare"}))+" "+f1(o.w)+" × "+f1(o.d)+" × "+f1(o.depth)+(o.through?" ("+esc(tat("fsThrough"))+")":""));
+    }
+    const opsU=[...new Set(ops)];
+    h+='<tr style="border-top:0.2mm solid #999;vertical-align:top"><td style="padding:1.5mm 1mm"><b>'+(row&&typeof k==="number"?"r"+(k+1):"—")+'</b>'+(rs.length>1?'<br><span style="font-size:8pt">×'+rs.length+'</span>':"")+'</td><td style="padding:1.5mm 1mm">'+(row?atDocPieceCell(row):esc(first.pc.name||""))+'</td><td style="padding:1.5mm 1mm">'+(row?esc(fmtMm(row.lung)+" × "+fmtMm(row.larg)):"")+'</td><td style="padding:1.5mm 1mm">'+opsU.join("<br>")+'</td></tr>';
+  }
+  return h+'</table><div class="pr-foot"><span>'+esc(tat("fsCodeNote"))+'</span><span>Ebanist · '+esc(prCoName())+'</span></div>';
+}
+function fsDrillPrint(p){
+  const list=fsDrillList(p);
+  if(!list.length){ toast(tat("fsDNone")); return; }
+  const pages=[];
+  for(const r of list){
+    try{ pages.push('<div class="sh-pg" style="position:relative">'+partSheetSvg(r.M,r.pc,5)+(r.ri>=0?'<div style="position:absolute;top:2mm;left:112mm;font:700 15pt Arial,sans-serif;background:#fff;border:0.4mm solid #000;padding:0.5mm 2.5mm">r'+(r.ri+1)+'</div>':'')+'</div>'); }
+    catch(e){ console.warn(e); }
+  }
+  $("printArea").innerHTML='<style>@page{size:297mm 210mm;margin:0}#printArea .sh-svg{display:block;width:297mm;height:210mm}#printArea .sh-pg{page-break-after:always}#printArea .sh-pg:last-child{page-break-after:auto}</style>'+pages.join("");
+  printOut();
+}
+function fsRelabel(){
+  const b=$("btnStationsLbl"); if(b) b.textContent=tat("fsOpen");
+}
+function fsRender(){
+  $("stTitle").textContent=tat("fsOpen"); $("stHint").textContent=tat("fsHint");
+  const p=proj(), body=$("stBody");
+  if(!p||!p.pieces||!p.pieces.length){ body.innerHTML='<p>'+esc(tat("fsNoProject"))+'</p>'; return; }
+  const c=fsCounts(p);
+  const BTN={magazzino:[["order","fsB_order"]],sezionatrice:[["saw","fsB_saw"],["labels","fsB_labels"]],toupie:[["router","fsB_router"]],
+    bordatrice:[["edge","fsB_edge"]],foratura:[["drill","fsB_drill"]],assemblaggio:[["mont","fsB_mont"]],spedizione:[["hand","fsB_hand"]]};
+  let h="";
+  FS_STATIONS.forEach((st,i)=>{
+    const n=c[st], none=(st==="toupie"||st==="foratura"||st==="bordatrice")&&n===0;
+    h+='<div style="'+AT_BOX+(none?';opacity:.6':'')+'"><div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:17px">'+(i+1)+'. '+esc(tat("st_"+st))+'</b>'+
+       '<span class="mini" style="margin-left:auto">'+esc(none?tat("fsNothing"):tat((st==="assemblaggio"||st==="spedizione")?"fsUnits":(st==="toupie"||st==="foratura")?"fsSheets":"fsPieces").replace("{n}",n))+'</span></div>'+
+       '<div class="mini" style="margin:2px 0 8px">'+esc(tat("fsDesc_"+st))+'</div><div style="display:flex;gap:8px;flex-wrap:wrap">'+
+       BTN[st].map(([a,k])=>'<button class="btn'+(a==="saw"||a==="order"?" red":"")+'" data-fs="'+a+'" style="flex:1;min-width:120px"'+(none?" disabled":"")+'>'+esc(tat(k))+'</button>').join("")+'</div></div>';
+  });
+  body.innerHTML=h;
+}
+$("btnStations").addEventListener("click",()=>{ fsRender(); openSheet("shStations"); });
+$("stBody").addEventListener("click",e=>{
+  const el=e.target.closest("[data-fs]"); if(!el||el.disabled) return;
+  const a=el.dataset.fs, p=proj(); if(!p) return;
+  const viaButton={order:"btnOrder",labels:"btnLabels",mont:"btnMont",hand:"btnHandover"};
+  closeSheets();
+  setTimeout(()=>{
+    if(viaButton[a]){ $(viaButton[a]).click(); return; }
+    if(!proGateSample("doc")) return;
+    if(a==="drill"){ fsDrillPrint(p); return; }
+    $("printArea").innerHTML=a==="saw"?atDocSaw(p):a==="edge"?atDocEdge(p):fsRouterDoc(p);
+    printOut();
+  },60);
+});
+
 function atJobMap(){ try{ return JSON.parse(localStorage.getItem("ebAtelierJobs")||"{}")||{}; }catch(e){ return {}; } }
 function atJobMapSet(pid,v){ const m=atJobMap(); if(v) m[pid]=v; else delete m[pid]; try{ localStorage.setItem("ebAtelierJobs",JSON.stringify(m)); }catch(e){} }
 /* QR numai dacă modul Atelier e pornit și proiectul are o comandă ale cărei rânduri n-au fost schimbate */
@@ -20984,12 +21110,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.107.0"; /* APP_VER-MARKER */
+const APP_VER="5.108.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v300";
+const SW_CACHE="ebanist-v301";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.108.0 — 24 noiembrie 2026
+
+**„Foi pe postazione”: hârtie întâi, fără cont și fără scanare (D-187, etapa A, punctul 2).**
+- **Buton nou „Foi pe postazione”** (în grupul „Tăiere și furnizor”): un ecran cu cele 7 postazioni în ordinea în care trece piesa — Magazie (lista de comandă), Sezionatrice (planul de tăiere și etichetele), Toupie, Bordatrice (foaia cantului), Foratură (câte o fișă A4 pentru fiecare piesă cu găuri), Asamblare (fișa de montaj), Expediție (proces-verbal de predare). Fiecare buton trece prin porțile documentului respectiv (document de probă gratuit, Pro). Postazioni fără lucru (ex. toupie când nu sunt canale) se arată „nimic de făcut aici”, fără buton.
+- **Foaia toupie** (nouă): piesele cu canale, locașuri sau frezări, cu cote (lungime × lățime × adâncime) și fața.
+- **Același cod rX** pe etichetă, pe planul de tăiere, pe foaia cantului, pe foaia toupie și pe fișele de găurire (colțul de sus), ca o piesă să se regăsească pe hârtie; înainte eticheta purta doar numărul de ordine din serie.
+- Avertismentul „nicio comandă legată” de pe planul de tăiere apare numai cu modulul Atelier activ (pe hârtie nu are sens).
+- **Paginile juridice** (`termeni.html`, `rambursare.html`): „documente de fabricație” și echivalentele, ca în aplicație.
+- Teste: `cd test && node run.js` (blocul „Foi pe postazione”) și `node --test atelier.test.js`.
+
+---
+
 ## 5.107.0 — 24 noiembrie 2026
 
 **Atelierul Dolceacqua pornește pe hârtie: etichete cu traseu, postazioni aliniate, nume clare (D-187).**
