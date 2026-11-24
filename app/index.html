@@ -4901,7 +4901,7 @@ const HWDB={
   {id:"haf_slido",brand:"Häfele",n:{it:"Slido Classic 40 (set/anta)",ro:"Slido Classic 40 (set/ușă)",en:"Slido Classic 40 (set/door)",fr:"Slido Classic 40 (kit/porte)",de:"Slido Classic 40 (Set/Tür)",pl:"Slido Classic 40 (zestaw/drzwi)",es:"Slido Classic 40 (juego/puerta)"},art:"400.51.xxx",price:29,chk:1},
   {id:"gen_sevroll",brand:"—",n:{it:"Sistema scorrevole tipo Sevroll (set/anta)",ro:"Sistem glisant tip Sevroll (set/ușă)",en:"Sevroll-type sliding system (set/door)",fr:"Système coulissant type Sevroll (kit/porte)",de:"Schiebetürsystem Typ Sevroll (Set/Tür)",pl:"System przesuwny typu Sevroll (zestaw/drzwi)",es:"Sistema corredero tipo Sevroll (juego/puerta)"},art:"—",price:38}],
  conn:[
-  {id:"haf_minifix",brand:"Häfele",n:{it:"Minifix 15 (legno ≥16mm) + perno + spina",ro:"Minifix 15 (lemn ≥16mm) + bolț + diblu",en:"Minifix 15 (wood ≥16mm) + bolt + dowel",fr:"Minifix 15 (bois ≥16mm) + boulon + tourillon",de:"Minifix 15 (Holz ≥16 mm) + Bolzen + Dübel",pl:"Minifix 15 (drewno ≥16 mm) + łącznik + kołek",es:"Minifix 15 (madera ≥16 mm) + perno + taco"},art:"262.26.033 + boulon",price:0.48,chk:1},
+  {id:"haf_minifix",brand:"Häfele",n:{it:"Minifix 15 (legno ≥16mm) + perno + spina",ro:"Minifix 15 (lemn ≥16mm) + bolț + diblu",en:"Minifix 15 (wood ≥16mm) + bolt + dowel",fr:"Minifix 15 (bois ≥16mm) + boulon + tourillon",de:"Minifix 15 (Holz ≥16 mm) + Bolzen + Dübel",pl:"Minifix 15 (drewno ≥16 mm) + łącznik + kołek",es:"Minifix 15 (madera ≥16 mm) + perno + taco"},art:"262.26.033",price:0.48,chk:1},
   {id:"gen_confirmat",brand:"—",n:{it:"Vite Confirmat 7×50",ro:"Confirmat 7×50",en:"Confirmat screw 7×50",fr:"Vis Confirmat 7×50",de:"Confirmat-Schraube 7×50",pl:"Wkręt Confirmat 7×50",es:"Tornillo Confirmat 7×50"},art:"—",price:0.07},
   {id:"haf_rafix",brand:"Häfele",n:{it:"Rafix 20 + perno + spina 8×35",ro:"Rafix 20 + bolț + diblu 8×35",en:"Rafix 20 + bolt + dowel 8×35",fr:"Rafix 20 + boulon + tourillon 8×35",de:"Rafix 20 + Bolzen + Dübel 8×35",pl:"Rafix 20 + łącznik + kołek 8×35",es:"Rafix 20 + perno + taco 8×35"},art:"263.10.xxx",price:0.55,chk:1},
   {id:"gen_dowel",brand:"—",n:{it:"Tasselli 8×35 + colla",ro:"Dibluri 8×35 + clei",en:"Dowels 8×35 + glue",fr:"Tourillons 8×35 + colle",de:"Dübel 8×35 + Leim",pl:"Kołki 8×35 + klej",es:"Tacos 8×35 + cola"},art:"—",price:0.06,chk:1},
@@ -5336,6 +5336,13 @@ function matLabelUI(label){
   const a=ACC_I18N[label]; if(a) return a[L]||label;
   const m=matRawByLabel(label);
   return (m&&m.l&&m.l[L])||label;
+}
+/* Etichetta materiale tradotta + grossezza, senza duplicarla se il nome la contiene già («HDF Bianco 3mm») */
+function matLabelTh(m){
+  if(!m) return "";
+  const l=matLabelUI(m.label), th=String(m.th);
+  const re=new RegExp("(^|[^0-9.,])"+th.replace(/[.,]/g,"[.,]")+"\\s?mm","i");
+  return re.test(l)?l:l+" "+th+" mm";
 }
 function matDecorByLabel(label){
   const m=matRawByLabel(label);
@@ -14642,7 +14649,7 @@ function asmSvgFor(p,name,M,mods,no,tot){
     render3D(sv,cfg,{yaw:0.62,pitch:0.34,zoom:1,free:true},{real:false,explode:1});
     imageSvg={viewBox:sv.getAttribute("viewBox")||"0 0 600 500",inner:sv.innerHTML}; }catch(e){} }
   return EBAsm.assemblySheetSVG({name,dims:`${cfg.type==="angolare"?cfg.L+"+"+cfg.L2:cfg.L} × ${cfg.H} × ${cfg.P} mm`,image:shots?{img:shots.x.img,labels:shots.x.labels}:null,imageSvg,
-    parts,hw:hwRowsFor(M,hw),steps:st.map(s=>s.x),tools:mTools(M,hw),kg,material:mb?mb.label+" "+mb.th+" mm":""},
+    parts,hw:hwRowsFor(M,hw),steps:st.map(s=>s.x),tools:mTools(M,hw),kg,material:matLabelTh(mb)},
     {tr:t,sheetNo:no,sheetTot:tot,meta:{company:prCoName()||"",project:p.name,client:p.client||"",date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
 $("btnAsmA3").addEventListener("click",()=>{
@@ -14693,12 +14700,12 @@ function clientSvgFor(p,name,M,mods,no,tot){
     facts:[[t("dcDims"),dims]],
     materials:mats.map(([k,r])=>{ const m=rm(r); return [t(k),m?`${m.label} · ${m.th} mm`:"—",m&&(m.c||m.colore_hex)||"#ddd"]; }),
     highlights:hwRowsFor(M,hw).slice(0,8).map(r=>`${r[3]} × ${r[1]}`),
-    material:mb?mb.label+" "+mb.th+" mm":"",thick:mb?mb.th+" mm":""},
+    material:matLabelTh(mb),thick:mb?mb.th+" mm":""},
     {tr:t,sheetNo:no,sheetTot:tot,meta:{company:prCoName()||"",project:p.name,client:p.client||"",date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
 function reportSvgFor(p,name,M,mods,no,tot){
   const cfg=M.cfg, rm=r=>{ try{ return matById(roleMatId(cfg,r)); }catch(e){ return null; } }, mb=rm("fianco");
-  return EBDoc.reportSheetSVG({unit:name+"  "+cfg.L+" × "+cfg.H+" × "+cfg.P+" mm",chapters:reportChaptersFor(p,name,M,mods),material:mb?mb.label+" "+mb.th+" mm":"",thick:mb?mb.th+" mm":""},
+  return EBDoc.reportSheetSVG({unit:name+"  "+cfg.L+" × "+cfg.H+" × "+cfg.P+" mm",chapters:reportChaptersFor(p,name,M,mods),material:matLabelTh(mb),thick:mb?mb.th+" mm":""},
     {tr:t,sheetNo:no,sheetTot:tot,meta:{company:prCoName()||"",project:p.name,client:p.client||"",date:new Date().toISOString().slice(0,10),ver:APP_VER}});
 }
 /* dosarul: o listă de foi [titlu, pentru cine, funcția care le desenează cu (nr, total)] */
@@ -15287,7 +15294,7 @@ function montFlatHtml(M,items){
   const F=mFlat(M), c=M.cfg;
   const rm=r=>{ try{ return matById(roleMatId(c,r)); }catch(e){ return null; } };
   const mb=rm("fianco");
-  let h=`<div class="m-facts"><span><b>${esc(t("cmBody"))}</b>${esc(mb?mb.label+" "+mb.th+" mm":"—")}</span><span><b>${esc(t("mWeight"))}</b>≈ ${Math.round(F.kg)} kg</span></div>`;
+  let h=`<div class="m-facts"><span><b>${esc(t("cmBody"))}</b>${esc(matLabelTh(mb)||"—")}</span><span><b>${esc(t("mWeight"))}</b>≈ ${Math.round(F.kg)} kg</span></div>`;
   const shots=mShots(c);
   if(shots) h+=`<div class="m-cover">${mImg(shots.a,t("mImgAsm"))}${mImg(shots.x,t("mImgExpl"),true)}${mImg(shots.h,t(c.type==="letto"?"fImgStruct":"mImgHw"))}</div>`;
   /* pezzi: i pannelli numerati come nell'esploso, poi gli accessori */
@@ -15347,9 +15354,9 @@ function montDoc(p){
     const shots=mShots(cfg);
     const {st,kg}=mSteps(M,hw,items);
     /* testata del corpo: materiali, peso, immagini */
-    html+=`<div class="m-facts"><span><b>${esc(t("cmBody"))}</b>${esc(mb?mb.label+" "+mb.th+" mm":"—")}</span>`+
-      `<span><b>${esc(t("cmFront"))}</b>${esc(mf?mf.label+" "+mf.th+" mm":"—")}</span>`+
-      (mk?`<span><b>${esc(t("matBack"))}</b>${esc(mk.label+" "+mk.th+" mm")}</span>`:"")+
+    html+=`<div class="m-facts"><span><b>${esc(t("cmBody"))}</b>${esc(matLabelTh(mb)||"—")}</span>`+
+      `<span><b>${esc(t("cmFront"))}</b>${esc(matLabelTh(mf)||"—")}</span>`+
+      (mk?`<span><b>${esc(t("matBack"))}</b>${esc(matLabelTh(mk))}</span>`:"")+
       `<span><b>${esc(t("mWeight"))}</b>≈ ${Math.round(kg)} kg</span></div>`;
     if(shots) html+=`<div class="m-cover">${mImg(shots.a,t("mImgAsm"))}${mImg(shots.x,t("mImgExpl"),true)}${mImg(shots.h,t("mImgHw"))}</div>`;
     /* elenco pezzi, numerati come nell'esploso */
@@ -20984,7 +20991,7 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.107.0"; /* APP_VER-MARKER */
+const APP_VER="5.107.1"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra

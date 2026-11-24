@@ -5,6 +5,14 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.107.1 — 24 noiembrie 2026
+
+**Fișa de montaj: materialele în limba documentului, fără cuvinte din altă limbă.**
+- Finisajul corpului, al frontalelor și al spatelui se afișează acum tradus (înainte rămânea în italiană în toate limbile) și fără grosimea dublată („HDF Alb 3mm 3 mm”).
+- Codul articolului Minifix nu mai conține cuvântul „boulon” (era franțuzesc într-un document italian); rămâne numai codul Häfele 262.26.033.
+
+---
+
 ## 5.107.0 — 24 noiembrie 2026
 
 **Atelierul Dolceacqua pornește pe hârtie: etichete cu traseu, postazioni aliniate, nume clare (D-187).**

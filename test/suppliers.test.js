@@ -109,7 +109,7 @@ describe("importCSV", () => {
 });
 
 describe("matchCatalog", () => {
-  const cat = [{ id: "blum_71b3550", art: "71B3550 + 173L6100" }, { id: "haf_minifix", art: "262.26.033 + boulon" }, { id: "x1", art: "999.99.001" }, { id: "x2", art: "999.99.001" }];
+  const cat = [{ id: "blum_71b3550", art: "71B3550 + 173L6100" }, { id: "haf_minifix", art: "262.26.033" }, { id: "x1", art: "999.99.001" }, { id: "x2", art: "999.99.001" }];
   test("cod simplu, cu puncte și litere mici; id explicit; ambiguu rămâne nelegat", () => {
     const items = [{ art: "71b3550" }, { art: "26226033" }, { art: "262.26.033" }, { hwId: "x1", art: "" }, { art: "999.99.001" }, { art: "nu-exista" }];
     const n = S.matchCatalog(items, cat);
