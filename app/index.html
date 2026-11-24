@@ -19045,8 +19045,8 @@ function fsRows(p){
   }
   return out;
 }
-/* operațiile piesei (ebanist-ops.js): drill = găuri; groove/slot/mill = canale și frezări (toupie, fără CNC) */
-var fsHasRouter=pc=>!!(pc&&(pc.operations||[]).some(o=>o.type==="groove"||o.type==="slot"||o.type==="mill"));
+/* operațiile piesei (ebanist-ops.js): drill = găuri; groove/slot/mill = canale și frezări, contour = piesă cu contur liber (șablon la toupie, fără CNC) */
+var fsHasRouter=pc=>!!(pc&&(pc.operations||[]).some(o=>o.type==="groove"||o.type==="slot"||o.type==="mill"||o.type==="contour"));
 var fsHasHoles=pc=>!!(pc&&(pc.operations||[]).some(o=>o.type==="drill"));
 /* piese fizice identice (același rând, aceleași operații) → o singură fișă; cantitatea e deja în cartuș */
 function fsDrillList(p,rows){
@@ -19084,6 +19084,7 @@ function fsRouterDoc(p){
     for(const r of rs) for(const o of (r.pc.operations||[])){
       if(o.type==="slot") ops.push(esc(opName({note:o.note||"slot"}))+" "+f1(o.len)+" × "+f1(o.thk)+" × "+f1(o.depth));
       else if(o.type==="groove") ops.push(esc(opName({note:o.note||"canal"}))+" "+f1(Math.hypot(o.to.x-o.from.x,o.to.y-o.from.y))+" × "+f1(o.width)+" × "+f1(o.depth)+" · "+esc(tat("fsFace"))+" "+o.face);
+      else if(o.type==="contour") ops.push(esc(opName({note:o.note||"contur liber"})));
       else if(o.type==="mill") ops.push(esc(opName({note:o.note||"frezare"}))+" "+f1(o.w)+" × "+f1(o.d)+" × "+f1(o.depth)+(o.through?" ("+esc(tat("fsThrough"))+")":""));
     }
     const opsU=[...new Set(ops)];
