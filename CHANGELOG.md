@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.107.0 — 24 noiembrie 2026
+
+**Atelierul Dolceacqua pornește pe hârtie: etichete cu traseu, postazioni aliniate, nume clare (D-187).**
+- **Eticheta** arată traseul piesei prin atelier (ex. Tăiere › Cant › Găurire › Montaj, în limba aplicației), calculat din cant, găuri și canale/frezări; accesoriile nu au traseu. Sub codul QR, o literă: **P** (fișa piesei, fără cont), **E** (comandă Atelier, cere cont), **T** (datele piesei ca text).
+- **Postazioni:** apar *toupie* și *foratura* (necesită valorile noi din `atelier_station`, migrarea `20261124_atelier_stations.sql`, aplicată în producție); *cnc* și *verniciatura* rămân valide, dar nu se mai oferă la invitații, iar în panou apar doar dacă au evenimente.
+- **Proiect schimbat după comanda Atelier:** la tipărirea etichetelor se spune că QR-urile de comandă nu se tipăresc (înainte treceau în tăcere la codul propriu).
+- **Redenumire:** „documente de atelier / workshop documents / documents d'atelier / documenti di laboratorio / Werkstattunterlagen / dokumenty warsztatowe / documentos de taller” → „documente de fabricație” și echivalentele (ro, en, fr, it, de, pl, es). Paginile juridice (`termeni`, `rambursare`) nu s-au schimbat.
+- Teste: `cd test && node --test atelier.test.js`.
+
+---
+
 ## 5.106.0 — 23 noiembrie 2026
 
 **Contul se vede: cine a plătit află că se poate regăsi cu e-mailul și parola (D-186).** Continuarea lui D-185.

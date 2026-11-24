@@ -4522,9 +4522,9 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       await atRender(); await w(250);
       const role = document.getElementById("atInvRole"); role.value = "operator"; role.dispatchEvent(new Event("change", { bubbles: true }));
       o.statiiVizibile = document.getElementById("atInvStations").style.display === "block";
-      document.querySelector('.atInvSt[value=cnc]').checked = true; document.querySelector('.atInvSt[value=bordatrice]').checked = true;
+      o.faraCnc = !document.querySelector('.atInvSt[value=cnc]') && !!document.querySelector('.atInvSt[value=toupie]') && !!document.querySelector('.atInvSt[value=foratura]'); document.querySelector('.atInvSt[value=foratura]').checked = true; document.querySelector('.atInvSt[value=bordatrice]').checked = true;
       body().querySelector('[data-at=invite]').click(); await w(400);
-      o.invitare = calls.some(c => c[0] === "atelier_invite" && c[1].p_role === "operator" && c[1].p_stations.join() === "bordatrice,cnc");
+      o.invitare = calls.some(c => c[0] === "atelier_invite" && c[1].p_role === "operator" && c[1].p_stations.join() === "bordatrice,foratura");
       o.coduArat = /ABCD-EF01-2345-6789/.test(document.getElementById("atInvOut") ? document.getElementById("atInvOut").textContent : "");
       /* ieșire: cere confirmare */
       body().querySelector('[data-at=leave]').click(); await w(200);
@@ -4543,7 +4543,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Atelier: membrii și invitațiile în așteptare apar", r.membri === true && r.invitatie === true);
     ok("Atelier: numele cu HTML nu se execută (escape)", r.xss === true);
     ok("Atelier: responsabilul poate schimba rolul altora, nu pe al lui", r.selRol === true && r.setRol === true);
-    ok("Atelier: invitație de operator cu postazioni, codul apare formatat", r.statiiVizibile === true && r.invitare === true && r.coduArat === true);
+    ok("Atelier: invitație de operator cu postazioni, codul apare formatat", r.statiiVizibile === true && r.invitare === true && r.faraCnc === true && r.coduArat === true);
     ok("Atelier: ieșirea cere confirmare și apelează serverul", r.iesire === true);
     await pg.evaluate(() => { closeSheets(); });
   }
@@ -5115,7 +5115,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       await openAs("birou");
       const rows = [...body().querySelectorAll("table tr")].slice(1);
       o.randuri = rows.length === 2 && /Bucătărie/.test(rows[0].textContent) && /Dressing/.test(rows[1].textContent); /* terminată nu apare; întârziata e prima */
-      o.celule = rows[0].querySelectorAll("td").length === 8;
+      o.celule = rows[0].querySelectorAll("td").length === 9; /* titlu + 7 postazioni active + cnc (are date), D-187 */
       const cellTxt = rows[0].textContent;
       o.stari = cellTxt.includes("✓") && cellTxt.includes("50%") && cellTxt.includes("⚠");
       o.intarziere = rows[0].innerHTML.includes("#b3261e") && cellTxt.includes(T("boardLate").replace("{n}", "5"));
@@ -5133,7 +5133,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       closeSheets(); sb = wasSb; acctSession = wasSess; localStorage.removeItem("ebAtelier"); renderAccount();
       return o;
     });
-    ok("Atelier panou: numai comenzile deschise, întârziata prima, 7 postazioni pe rând", r.randuri === true && r.celule === true, JSON.stringify({ r: r.randuri, c: r.celule }));
+    ok("Atelier panou: numai comenzile deschise, întârziata prima, 7 postazioni active + cele cu date pe rând", r.randuri === true && r.celule === true, JSON.stringify({ r: r.randuri, c: r.celule }));
     ok("Atelier panou: ✓ gata, % în lucru, ⚠ probleme, zile de întârziere în roșu, „neînceput”", r.stari === true && r.intarziere === true && r.neinceput === true);
     ok("Atelier panou: rezumat (deschise, întârziate, stagnante) și coada pe postazione", r.rezumat === true && r.coada === true && r.legenda === true);
     ok("Atelier panou: titlurile cu HTML nu se execută", r.xss === true);

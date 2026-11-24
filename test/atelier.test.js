@@ -15,7 +15,9 @@ const SERVER_ERRORS = ["not_authenticated", "slug_invalid", "name_invalid", "slu
 
 test("rolurile și postazioanele sunt cele din specificație", () => {
   assert.deepEqual([...A.ROLES], ["responsabil", "birou", "operator", "partener"]);
-  assert.deepEqual([...A.STATIONS], ["magazzino", "sezionatrice", "bordatrice", "cnc", "verniciatura", "assemblaggio", "spedizione"]);
+  assert.deepEqual([...A.STATIONS], ["magazzino", "sezionatrice", "bordatrice", "toupie", "foratura", "assemblaggio", "spedizione"]);
+  assert.deepEqual([...A.STATIONS_LATER], ["cnc", "verniciatura"]);
+  assert.equal(A.STATIONS_ALL.length, A.STATIONS.length + A.STATIONS_LATER.length);
 });
 
 test("aceleași chei de text în toate cele 7 limbi, fără valori goale", () => {
@@ -30,13 +32,13 @@ test("aceleași chei de text în toate cele 7 limbi, fără valori goale", () =>
 test("fiecare rol, postazione și cod de eroare de pe server are text", () => {
   for (const l of LANGS) {
     for (const r of A.ROLES) assert.ok(A.I18N[l]["role_" + r], `${l}: rol ${r}`);
-    for (const s of A.STATIONS) assert.ok(A.I18N[l]["st_" + s], `${l}: postazione ${s}`);
+    for (const s of A.STATIONS_ALL) assert.ok(A.I18N[l]["st_" + s], `${l}: postazione ${s}`);
     for (const e of SERVER_ERRORS) assert.ok(A.I18N[l]["err_" + e], `${l}: eroare ${e}`);
   }
 });
 
 test("textele nu sunt copii ale italienei (în afară de nume proprii și termeni identici)", () => {
-  const same = ["atTitle", "st_cnc", "atMembers"]; /* termeni care se scriu la fel în unele limbi */
+  const same = ["atTitle", "st_cnc", "st_toupie", "atMembers"]; /* termeni care se scriu la fel în unele limbi */
   for (const l of LANGS.filter(x => x !== "it")) {
     let identical = 0;
     for (const k of Object.keys(A.I18N.it)) if (A.I18N[l][k] === A.I18N.it[k] && !same.includes(k)) identical++;
@@ -377,7 +379,7 @@ test("Panou: starea fiecărei postazione, procentul, problemele și coada", () =
   assert.equal(cell(a, "sezionatrice").status, "idle", "postazione fără rând de progres");
   assert.equal(a.issues, 3);
   assert.equal(m.queue.cnc, 2); assert.equal(m.queue.verniciatura, 1); assert.equal(m.queue.bordatrice, 0, "gata nu mai e în coadă");
-  assert.equal(a.cells.length, 7);
+  assert.equal(a.cells.length, 9, "7 active + cnc și verniciatura, fiindcă au date (D-187)");
 });
 
 test("Panou: stagnare după waitHours (implicit 24), „neînceput” fără evenimente, ora ultimei mișcări din cea mai recentă postazione", () => {
@@ -458,4 +460,33 @@ test("QR-ul duce în aplicație (/app/), iar pagina de prezentare trimite mai de
   assert.deepStrictEqual(JSON.parse(JSON.stringify(A.parseScan("https://ebanist.com/#e=" + JOB_ID + ".r3"))), { job: JOB_ID.toLowerCase(), pk: "r3" });   // etichetele vechi se citesc la fel
   const tpl = fs.readFileSync(path.join(__dirname, "../site-src/template.html"), "utf8");
   assert.match(tpl, /location\.replace\("\/app\/"\+location\.hash\)/);
+});
+
+test("D-187: panoul arată cnc/verniciatura numai dacă au date; postazioni de la Dolceacqua sunt mereu", () => {
+  const job = { id: "a", title: "A", state: "confirmed", due_date: "2026-12-01" };
+  const none = A.boardModel([job], { a: [] }, Date.parse("2026-11-24T10:00:00Z"));
+  assert.deepEqual([...none.rows[0].cells.map(c => c.station)], [...A.STATIONS]);
+  const withCnc = A.boardModel([job], { a: [{ station: "cnc", total_pieces: 2, done_pieces: 1, station_done: false, issues: 0, last_at: "2026-11-24T08:00:00Z" }] }, Date.parse("2026-11-24T10:00:00Z"));
+  assert.deepEqual([...withCnc.rows[0].cells.map(c => c.station)], [...A.STATIONS, "cnc"]);
+  assert.equal(withCnc.queue.cnc, 1);
+  assert.equal(none.queue.toupie, 0); assert.equal(none.queue.foratura, 0);
+});
+
+test("D-187: traseul piesei pe etichetă, în ordinea din atelier; accesoriile n-au traseu", () => {
+  const r = f => [...A.labelRoute(f)];
+  assert.deepEqual(r({}), ["sezionatrice", "assemblaggio"]);
+  assert.deepEqual(r({ edge: true }), ["sezionatrice", "bordatrice", "assemblaggio"]);
+  assert.deepEqual(r({ edge: true, drill: true, shape: true }), ["sezionatrice", "toupie", "bordatrice", "foratura", "assemblaggio"]);
+  assert.deepEqual(r({ acc: true, edge: true }), []);
+  assert.deepEqual(r(), ["sezionatrice", "assemblaggio"]);
+});
+
+test("D-187: nume scurte de postazione și avertismentul de QR vechi, în toate cele 7 limbi", () => {
+  for (const l of LANGS) {
+    for (const s of ["sezionatrice", "toupie", "bordatrice", "foratura", "assemblaggio"]) {
+      const v = A.I18N[l]["stl_" + s];
+      assert.ok(v && v.length <= 9, `${l}: stl_${s} = «${v}» (maxim 9 caractere, încape pe etichetă)`);
+    }
+    assert.ok(A.I18N[l].atLabelStale.length > 40, l);
+  }
 });

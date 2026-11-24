@@ -19,7 +19,24 @@
   /* aceleași valori ca în enumul `atelier_role` din migrarea 1.5 */
   var ROLES = ["responsabil", "birou", "operator", "partener"];
   /* cele 7 postazioni din prezentare; E1 le folosește pentru stări */
-  var STATIONS = ["magazzino", "sezionatrice", "bordatrice", "cnc", "verniciatura", "assemblaggio", "spedizione"];
+  /* D-187: postazioni active la Dolceacqua, faza 1 (utilaje clasice). `cnc` și `verniciatura` rămân valori
+     valide pe server și în date (STATIONS_ALL), dar nu se mai oferă la invitații și în panou decât dacă
+     au deja evenimente; se activează în faza 2 (CNC în 2027). */
+  var STATIONS = ["magazzino", "sezionatrice", "bordatrice", "toupie", "foratura", "assemblaggio", "spedizione"];
+  var STATIONS_LATER = ["cnc", "verniciatura"];
+  /* D-187: traseul unei piese pe hârtie (eticheta): ce postazioni trece, în ordinea din atelier.
+     `f` = {acc, edge, shape, drill}; accesoriile nu se prelucrează (traseu gol). */
+  function labelRoute(f) {
+    f = f || {};
+    if (f.acc) return [];
+    var r = ["sezionatrice"];
+    if (f.shape) r.push("toupie");
+    if (f.edge) r.push("bordatrice");
+    if (f.drill) r.push("foratura");
+    r.push("assemblaggio");
+    return r;
+  }
+  var STATIONS_ALL = ["magazzino", "sezionatrice", "bordatrice", "toupie", "foratura", "cnc", "verniciatura", "assemblaggio", "spedizione"];
 
   /* ce poate face fiecare rol în E0. Serverul decide oricum (RLS + funcții);
      asta doar ascunde butoanele care ar eșua. */
@@ -171,7 +188,10 @@
     opts = opts || {};
     var waitH = opts.waitHours > 0 ? opts.waitHours : 24;
     var today = new Date(now).toISOString().slice(0, 10);
-    var queue = {}; STATIONS.forEach(function (st) { queue[st] = 0; });
+    var queue = {}; STATIONS_ALL.forEach(function (st) { queue[st] = 0; });
+    /* coloanele panoului: postazioni active + cele ulterioare numai dacă au date */
+    var used = {}; Object.keys(progMap || {}).forEach(function (k) { (progMap[k] || []).forEach(function (r) { used[r.station] = 1; }); });
+    var COLS = STATIONS.concat(STATIONS_LATER.filter(function (st) { return used[st]; }));
     var counts = { open: 0, overdue: 0, stagnant: 0, notStarted: 0 };
     var rows = [];
     (jobs || []).forEach(function (j) {
@@ -181,7 +201,7 @@
         byStation[r.station] = r;
         var t = r.last_at ? Date.parse(r.last_at) : 0; if (t > last) last = t;
       });
-      var cells = STATIONS.map(function (st) {
+      var cells = COLS.map(function (st) {
         var r = byStation[st], status = "idle", pct = 0, issues = 0;
         if (r) {
           issues = +r.issues || 0;
@@ -299,7 +319,7 @@
       atInviteTitle: "Invita", atInviteBtn: "Crea invito", atInviteHint: "Il codice vale 7 giorni e si usa una sola volta.",
       atStations: "Postazioni", atPending: "Inviti in sospeso", atNoPending: "Nessun invito in sospeso.",
       atCopy: "Copia", atCopied: "Codice copiato", atDone: "Fatto",
-      st_magazzino: "Magazzino", st_sezionatrice: "Sezionatrice", st_bordatrice: "Bordatrice", st_cnc: "CNC",
+      st_magazzino: "Magazzino", st_sezionatrice: "Sezionatrice", st_bordatrice: "Bordatrice", st_toupie: "Toupie", st_foratura: "Foratura", stl_sezionatrice: "Sez", stl_toupie: "Toup", stl_bordatrice: "Bord", stl_foratura: "Fori", stl_assemblaggio: "Mont", atLabelStale: "Il progetto è cambiato dopo la creazione dell'ordine: i codici QR di ordine non si stampano. Aggiorna l'ordine prima delle etichette.", st_cnc: "CNC",
       st_verniciatura: "Verniciatura", st_assemblaggio: "Assemblaggio", st_spedizione: "Spedizione",
       err_not_authenticated: "Devi accedere.", err_slug_invalid: "Indirizzo non valido: usa minuscole, cifre e trattini.",
       err_name_invalid: "Nome troppo corto.", err_slug_taken: "Questo indirizzo è già preso.",
@@ -320,7 +340,7 @@
       atInviteTitle: "Invită", atInviteBtn: "Creează invitație", atInviteHint: "Codul e valabil 7 zile și se folosește o singură dată.",
       atStations: "Posturi de lucru", atPending: "Invitații în așteptare", atNoPending: "Nicio invitație în așteptare.",
       atCopy: "Copiază", atCopied: "Cod copiat", atDone: "Gata",
-      st_magazzino: "Magazie", st_sezionatrice: "Ferăstrău format", st_bordatrice: "Mașină de cantuit", st_cnc: "CNC",
+      st_magazzino: "Magazie", st_sezionatrice: "Ferăstrău format", st_bordatrice: "Mașină de cantuit", st_toupie: "Freză de banc (toupie)", st_foratura: "Găurire", stl_sezionatrice: "Tăiere", stl_toupie: "Freză", stl_bordatrice: "Cant", stl_foratura: "Găurire", stl_assemblaggio: "Montaj", atLabelStale: "Proiectul s-a schimbat după crearea comenzii: codurile QR de comandă nu se tipăresc. Actualizează comanda înainte de etichete.", st_cnc: "CNC",
       st_verniciatura: "Vopsitorie", st_assemblaggio: "Asamblare", st_spedizione: "Expediție",
       err_not_authenticated: "Trebuie să te conectezi.", err_slug_invalid: "Adresă nevalidă: folosește litere mici, cifre și liniuțe.",
       err_name_invalid: "Nume prea scurt.", err_slug_taken: "Adresa aceasta e deja luată.",
@@ -341,7 +361,7 @@
       atInviteTitle: "Invite", atInviteBtn: "Create invite", atInviteHint: "The code is valid for 7 days and works once.",
       atStations: "Stations", atPending: "Pending invites", atNoPending: "No pending invites.",
       atCopy: "Copy", atCopied: "Code copied", atDone: "Done",
-      st_magazzino: "Warehouse", st_sezionatrice: "Panel saw", st_bordatrice: "Edge bander", st_cnc: "CNC",
+      st_magazzino: "Warehouse", st_sezionatrice: "Panel saw", st_bordatrice: "Edge bander", st_toupie: "Spindle moulder", st_foratura: "Drilling", stl_sezionatrice: "Saw", stl_toupie: "Mould", stl_bordatrice: "Edge", stl_foratura: "Drill", stl_assemblaggio: "Assy", atLabelStale: "The project changed after the order was created: order QR codes are not printed. Update the order before printing labels.", st_cnc: "CNC",
       st_verniciatura: "Paint shop", st_assemblaggio: "Assembly", st_spedizione: "Shipping",
       err_not_authenticated: "You need to sign in.", err_slug_invalid: "Invalid address: use lowercase letters, digits and hyphens.",
       err_name_invalid: "Name too short.", err_slug_taken: "That address is already taken.",
@@ -362,7 +382,7 @@
       atInviteTitle: "Inviter", atInviteBtn: "Créer l'invitation", atInviteHint: "Le code est valable 7 jours et ne sert qu'une fois.",
       atStations: "Postes", atPending: "Invitations en attente", atNoPending: "Aucune invitation en attente.",
       atCopy: "Copier", atCopied: "Code copié", atDone: "Fait",
-      st_magazzino: "Magasin", st_sezionatrice: "Scie à panneaux", st_bordatrice: "Plaqueuse de chants", st_cnc: "CNC",
+      st_magazzino: "Magasin", st_sezionatrice: "Scie à panneaux", st_bordatrice: "Plaqueuse de chants", st_toupie: "Toupie", st_foratura: "Perçage", stl_sezionatrice: "Scie", stl_toupie: "Toup.", stl_bordatrice: "Chant", stl_foratura: "Perç.", stl_assemblaggio: "Mont.", atLabelStale: "Le projet a changé depuis la création de la commande : les QR de commande ne sont pas imprimés. Mettez la commande à jour avant les étiquettes.", st_cnc: "CNC",
       st_verniciatura: "Peinture", st_assemblaggio: "Assemblage", st_spedizione: "Expédition",
       err_not_authenticated: "Vous devez vous connecter.", err_slug_invalid: "Adresse invalide : minuscules, chiffres et tirets.",
       err_name_invalid: "Nom trop court.", err_slug_taken: "Cette adresse est déjà prise.",
@@ -383,7 +403,7 @@
       atInviteTitle: "Einladen", atInviteBtn: "Einladung erstellen", atInviteHint: "Der Code gilt 7 Tage und nur einmal.",
       atStations: "Stationen", atPending: "Offene Einladungen", atNoPending: "Keine offenen Einladungen.",
       atCopy: "Kopieren", atCopied: "Code kopiert", atDone: "Fertig",
-      st_magazzino: "Lager", st_sezionatrice: "Plattensäge", st_bordatrice: "Kantenanleimmaschine", st_cnc: "CNC",
+      st_magazzino: "Lager", st_sezionatrice: "Plattensäge", st_bordatrice: "Kantenanleimmaschine", st_toupie: "Tischfräse", st_foratura: "Bohren", stl_sezionatrice: "Säge", stl_toupie: "Fräse", stl_bordatrice: "Kante", stl_foratura: "Bohren", stl_assemblaggio: "Mont.", atLabelStale: "Das Projekt wurde nach dem Auftrag geändert: Auftrags-QR-Codes werden nicht gedruckt. Aktualisieren Sie den Auftrag vor den Etiketten.", st_cnc: "CNC",
       st_verniciatura: "Lackiererei", st_assemblaggio: "Montage", st_spedizione: "Versand",
       err_not_authenticated: "Du musst dich anmelden.", err_slug_invalid: "Ungültige Adresse: Kleinbuchstaben, Ziffern und Bindestriche.",
       err_name_invalid: "Name zu kurz.", err_slug_taken: "Diese Adresse ist schon vergeben.",
@@ -404,7 +424,7 @@
       atInviteTitle: "Zaproś", atInviteBtn: "Utwórz zaproszenie", atInviteHint: "Kod jest ważny 7 dni i działa jeden raz.",
       atStations: "Stanowiska", atPending: "Oczekujące zaproszenia", atNoPending: "Brak oczekujących zaproszeń.",
       atCopy: "Kopiuj", atCopied: "Skopiowano kod", atDone: "Gotowe",
-      st_magazzino: "Magazyn", st_sezionatrice: "Piła formatowa", st_bordatrice: "Okleiniarka", st_cnc: "CNC",
+      st_magazzino: "Magazyn", st_sezionatrice: "Piła formatowa", st_bordatrice: "Okleiniarka", st_toupie: "Frezarka dolnowrzecionowa", st_foratura: "Wiercenie", stl_sezionatrice: "Cięcie", stl_toupie: "Frez.", stl_bordatrice: "Okl.", stl_foratura: "Wiercenie", stl_assemblaggio: "Mont.", atLabelStale: "Projekt zmienił się po utworzeniu zamówienia: kody QR zamówienia nie są drukowane. Zaktualizuj zamówienie przed etykietami.", st_cnc: "CNC",
       st_verniciatura: "Lakiernia", st_assemblaggio: "Montaż", st_spedizione: "Wysyłka",
       err_not_authenticated: "Musisz się zalogować.", err_slug_invalid: "Nieprawidłowy adres: małe litery, cyfry i myślniki.",
       err_name_invalid: "Nazwa zbyt krótka.", err_slug_taken: "Ten adres jest już zajęty.",
@@ -425,7 +445,7 @@
       atInviteTitle: "Invitar", atInviteBtn: "Crear invitación", atInviteHint: "El código vale 7 días y se usa una sola vez.",
       atStations: "Puestos", atPending: "Invitaciones pendientes", atNoPending: "No hay invitaciones pendientes.",
       atCopy: "Copiar", atCopied: "Código copiado", atDone: "Hecho",
-      st_magazzino: "Almacén", st_sezionatrice: "Seccionadora", st_bordatrice: "Canteadora", st_cnc: "CNC",
+      st_magazzino: "Almacén", st_sezionatrice: "Seccionadora", st_bordatrice: "Canteadora", st_toupie: "Tupí", st_foratura: "Taladrado", stl_sezionatrice: "Corte", stl_toupie: "Tupí", stl_bordatrice: "Canto", stl_foratura: "Taladro", stl_assemblaggio: "Montaje", atLabelStale: "El proyecto cambió después de crear el pedido: los QR de pedido no se imprimen. Actualiza el pedido antes de las etiquetas.", st_cnc: "CNC",
       st_verniciatura: "Pintura", st_assemblaggio: "Montaje", st_spedizione: "Expedición",
       err_not_authenticated: "Debes iniciar sesión.", err_slug_invalid: "Dirección no válida: minúsculas, cifras y guiones.",
       err_name_invalid: "Nombre demasiado corto.", err_slug_taken: "Esa dirección ya está en uso.",
@@ -781,6 +801,6 @@
 
   return { trimPart: trimPart, scanModel: scanModel, boardModel: boardModel, snapshotRows: snapshotRows, setFlag: setFlag, hasFlag: hasFlag, edgeGroups: edgeGroups, paintGroups: paintGroups, qrUrl: qrUrl, parseScan: parseScan, rowSig: rowSig, qAdd: qAdd, qFresh: qFresh, qIsPermanent: qIsPermanent,
            JOB_STATES: JOB_STATES, JOB_EVENTS: JOB_EVENTS, buildSnapshot: buildSnapshot,
-           ROLES: ROLES, STATIONS: STATIONS, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
+           ROLES: ROLES, STATIONS: STATIONS, STATIONS_ALL: STATIONS_ALL, STATIONS_LATER: STATIONS_LATER, labelRoute: labelRoute, CAPS: CAPS, can: can, isSlug: isSlug, slugify: slugify,
            normCode: normCode, fmtCode: fmtCode, errKey: errKey, I18N: I18N, t: t, flagOn: flagOn };
 });
