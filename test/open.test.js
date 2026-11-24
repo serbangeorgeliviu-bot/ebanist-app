@@ -180,6 +180,9 @@ describe("Suspendare: portanța din surse, cu temeiul ei", () => {
     assert.equal(O.suspCap(O.get("haf_traser6_290_28_900"), {}).kg, 100); assert.equal(O.suspCap(O.get("haf_traser8_290_32_90"), {}).perKg, 50);
     assert.equal(O.suspCap(O.get("haf_spider_290_36_910"), {}).kg, 130); assert.equal(O.suspCap(O.get("haf_koala_290_36_920"), {}).basis, "pair");
     assert.equal(O.suspCap(O.get("haf_rapid_290_21_90"), {}), null);
+    /* Hettich SAH 209 (shop 9045794): 20 kg pe cleamă; Blum 48N0510/48N0610 (catalog 2020/21 p.556): 130 kg pe pereche */
+    assert.equal(O.suspCap(O.get("het_sah209"), {}).kg, 40); assert.equal(O.get("het_sah209").wall, "hook");
+    assert.equal(O.suspCap(O.get("blum_hang_48n0510"), {}).kg, 130); assert.equal(O.suspCap(O.get("blum_hang_48n0610"), {}).basis, "pair");
     assert.equal(O.get("haf_traser6_290_28_900").rails[0], "haf_rail_290_10_970"); assert.equal(O.get("haf_rail_290_10_970").length, 2029);
   });
   test("Camar 818: 720 N pe punct de agățare → 2 puncte, ÷9,81; Camar 816: fără portanță în sursă → «noKg», nu o valoare inventată", () => {

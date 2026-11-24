@@ -2226,6 +2226,53 @@ var EBOpenData = {
    "verificat": false
   },
   {
+   "id": "het_sah209",
+   "brand": "Hettich",
+   "model": "SAH 209",
+   "ph": "s_behind",
+   "art": "9045794",
+   "src": "HET-SHOP-9045794",
+   "kgBracket": 20,
+   "rails": [],
+   "wall": "hook",
+   "adj": {
+    "h": 5,
+    "side": 7
+   },
+   "liftOff": 7.5,
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "blum_hang_48n0510",
+   "brand": "Blum",
+   "model": "Cârlig de perete cu șuruburi 48N0510",
+   "ph": "s_nylon",
+   "art": "48N0510.02 / 48N0510.03",
+   "src": "BLUM-CAT2021 p.556",
+   "kgPair": 130,
+   "rails": [],
+   "wall": "hook",
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
+   "id": "blum_hang_48n0610",
+   "brand": "Blum",
+   "model": "Cârlig de perete cu fixare prin lovire 48N0610",
+   "ph": "s_nylon",
+   "art": "48N0610.02 / 48N0610.03 + MZM.0078",
+   "src": "BLUM-CAT2021 p.556",
+   "kgPair": 130,
+   "rails": [],
+   "wall": "hook",
+   "drill": null,
+   "per": "body",
+   "verificat": false
+  },
+  {
    "id": "cam_806_14",
    "brand": "Camar",
    "model": "806 14 P2 VI",
@@ -3091,6 +3138,14 @@ var EBOpenData = {
   "HAF-2023-HANG": {
    "title": "Häfele UK Furniture Fittings Technology 2023, section 7 cabinet hangers (23T7-212..228; pages read as images)",
    "url": "https://files.hafele.co.uk/CatalogFiles/www/23T7-NNN.pdf"
+  },
+  "HET-SHOP-9045794": {
+   "title": "Hettich shop, SAH 209 cabinet suspension bracket behind the rear panel, 9045794 (page read in Bulgarian, numbers only)",
+   "url": "https://shop.hettich.com/ba_BG/Further-products/Cabinet-suspension-brackets-and-suspension-rails/SAH-209-cabinet-suspension-bracket%2C-behind-the-rear-panel/Cabinet-suspension-bracket-SAH-209/p/9045794"
+  },
+  "BLUM-CAT2021": {
+   "title": "Blum Catalogue and technical manual 2020/2021 (PDF copy hosted by a distributor; Blum's own edition, KA-140), p.556 Wall hanging bracket; the 2022/23 and 2024-25 editions have the same section (publications.blum.com) but their page text was not readable",
+   "url": "https://www.ldlonline.co.uk/media/wysiwyg/others/media/blum-catalogue.pdf"
   }
  },
  "notes": {
@@ -3115,7 +3170,8 @@ var EBOpenData = {
    "Values read from drawings are marked 'drawing'; many role assignments (which number is which distance) were not legible from text and are flagged as such, not guessed.",
    "CAD: Hettich zips listed; Häfele, Camar, Knapp CAD URLs not found/not searched (null).",
    "Conflicts: Rafix TAB drilling depth 14.2 +0.2 (Häfele UK catalogue) vs a retailer 14.5 for 262.34.502 (not official, not used). SAH 500 110 kg (shop) vs 1100 N (MTA drawing): consistent. Hettich shop says Rastex 15 min panel 16 for a specific article vs catalogue range 12-29 for thickness-specific articles.",
-   "D-186 follow-up (24.11.2026), Häfele UK 2023 section 7 pp.212-228 read as images: added Traser-6, Traser-8, rapid-fitting 290.21.900/901, Spider, Koala and rail 290.10.970. NOT added: Atlas system (290.24.910/915/919, 290.15.940, 290.27.938: 'tested with a load of 369 kg' is a system test value, not a per-bracket capacity; lower support geometry not modelled); retailer-only articles 290.21.930, 290.02.721/290.07.721 (Grass), 290.40.901, 290.11.9xx, Z-Clip (not on pp.212-228 of the official catalogue). 290.21.900/901 load 65 kg: page does not say per hanger or per pair, so no capacity is derived (a retailer listing for a different code, 290.21.930, says 65 kg per piece / 130 kg per pair: not used)."
+   "D-186 follow-up (24.11.2026), Häfele UK 2023 section 7 pp.212-228 read as images: added Traser-6, Traser-8, rapid-fitting 290.21.900/901, Spider, Koala and rail 290.10.970. NOT added: Atlas system (290.24.910/915/919, 290.15.940, 290.27.938: 'tested with a load of 369 kg' is a system test value, not a per-bracket capacity; lower support geometry not modelled); retailer-only articles 290.21.930, 290.02.721/290.07.721 (Grass), 290.40.901, 290.11.9xx, Z-Clip (not on pp.212-228 of the official catalogue). 290.21.900/901 load 65 kg: page does not say per hanger or per pair, so no capacity is derived (a retailer listing for a different code, 290.21.930, says 65 kg per piece / 130 kg per pair: not used).",
+   "24.11.2026: Hettich SAH 209 (shop page 9045794: 20 kg per bracket, EN 15939 frame A) and Blum wall hanging brackets 48N0510 (screw-on) / 48N0610 (knock-in), 130 kg per pair, DIN EN 15939 frame A, from Blum catalogue 2020/2021 p.556 (read as image). Older Blum edition: 2022/23 and 2024-25 hold the same section but the flipbook text is not readable; check the codes in the current edition. A distributor listing (Demos 2024) quoting adjustments of +/-7.5 mm height and +/-2.5 mm side for a concealed Blum hanger is NOT used (not Blum's own document)."
   ]
  }
 };

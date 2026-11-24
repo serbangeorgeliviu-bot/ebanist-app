@@ -275,6 +275,14 @@ S(id="haf_spider_290_36_910", brand="Häfele", model="Spider 290.36.910", ph="s_
   kgPair=130, rails=[], wall="plate", adj={"h": 18, "side": 17}, drill=None)
 S(id="haf_koala_290_36_920", brand="Häfele", model="Koala 290.36.920", ph="s_concealed", art="290.36.920 + 290.36.925 / 290.35.920", src="HAF-2023-HANG 23T7-227",
   kgPair=130, rails=[], wall="plate", adj={"h": 11, "d": 10, "side": 12}, drill=None)
+# Hettich SAH 209 (shop 9045794) și Blum cârlige de perete 48N0510 / 48N0610 (catalog Blum 2020/21 p.556, citit ca imagine; ediția veche — verifică codurile în cea curentă)
+T('"per_bracket":20', '"height_mm":5,"lateral_slide_mm":7,"lift_off_mm":7.5', '"per_pair":130')
+S(id="het_sah209", brand="Hettich", model="SAH 209", ph="s_behind", art="9045794", src="HET-SHOP-9045794",
+  kgBracket=20, rails=[], wall="hook", adj={"h": 5, "side": 7}, liftOff=7.5, drill=None)
+S(id="blum_hang_48n0510", brand="Blum", model="Cârlig de perete cu șuruburi 48N0510", ph="s_nylon", art="48N0510.02 / 48N0510.03", src="BLUM-CAT2021 p.556",
+  kgPair=130, rails=[], wall="hook", drill=None)
+S(id="blum_hang_48n0610", brand="Blum", model="Cârlig de perete cu fixare prin lovire 48N0610", ph="s_nylon", art="48N0610.02 / 48N0610.03 + MZM.0078", src="BLUM-CAT2021 p.556",
+  kgPair=130, rails=[], wall="hook", drill=None)
 T('"806 14 P2 VI":50', '"806 22 P2 IN":65', '"821 12 Z1 IN":"60 kg recommended', '"818 32 Z1 D1":"720 N per hooking point', '"801 02 Z1 IN":"850 N')
 S(id="cam_806_14", brand="Camar", model="806 14 P2 VI", ph="s_plate", art="806 14 P2 VI", src="CAM-CERT camar_806; CAM-SHEET 273-276",
   kgPair=50, kgNote="unit", rails=["cam_rail_875"], wall="rail", adj={"h": 25}, drill=None)
