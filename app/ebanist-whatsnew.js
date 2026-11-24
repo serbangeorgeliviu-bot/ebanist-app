@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.110.0", date: "2026-11-25", t: {
+      en: { title: "Print everything, and cut-outs on the spindle moulder sheet", items: ["A new “Print everything” button in “Sheets per station” prints the whole project file in one go, in workshop order (Pro).", "Cut-outs, such as sockets in the panelling support, now appear on the spindle moulder sheet and on the label route, not only on the label."] },
+      ro: { title: "Tipărește tot și decupajele la toupie", items: ["Un buton nou, „Tipărește tot”, în „Foi pe postazione”: tipărește dosarul întreg al proiectului dintr-o dată, în ordinea atelierului (Pro).", "Decupajele, de exemplu prizele din suportul lambriului, apar acum pe foaia toupie și în traseul de pe etichetă, nu doar pe etichetă."] },
+      it: { title: "Stampa tutto e scassi alla toupie", items: ["Un nuovo pulsante «Stampa tutto» in «Fogli per postazione» stampa l'intero dossier del progetto in una volta, nell'ordine del laboratorio (Pro).", "Gli scassi, per esempio le prese nel supporto della boiserie, compaiono ora sul foglio toupie e nel percorso dell'etichetta, non solo sull'etichetta."] },
+      fr: { title: "Tout imprimer et découpes à la toupie", items: ["Un nouveau bouton « Tout imprimer » dans « Fiches par poste » imprime tout le dossier du projet d'un coup, dans l'ordre de l'atelier (Pro).", "Les découpes, par exemple les prises dans le support du lambris, apparaissent maintenant sur la fiche toupie et dans le parcours de l'étiquette, pas seulement sur l'étiquette."] },
+      de: { title: "Alles drucken und Ausschnitte an der Fräse", items: ["Eine neue Schaltfläche „Alles drucken“ in „Blätter je Station“ druckt die ganze Projektmappe auf einmal, in Werkstattreihenfolge (Pro).", "Ausschnitte, etwa Steckdosen im Träger der Wandverkleidung, erscheinen jetzt auf dem Fräsblatt und im Weg auf dem Etikett, nicht nur auf dem Etikett."] },
+      pl: { title: "Drukuj wszystko i wycięcia przy frezarce", items: ["Nowy przycisk „Drukuj wszystko” w „Karty na stanowisko” drukuje całą teczkę projektu naraz, w kolejności warsztatu (Pro).", "Wycięcia, na przykład gniazdka w podłożu okładziny, pojawiają się teraz na karcie frezarki i w trasie na etykiecie, nie tylko na etykiecie."] },
+      es: { title: "Imprimir todo y recortes en el tupí", items: ["Un botón nuevo «Imprimir todo» en «Hojas por puesto» imprime todo el dossier del proyecto de una vez, en el orden del taller (Pro).", "Los recortes, por ejemplo las tomas en el soporte del revestimiento, aparecen ahora en la hoja de tupí y en el recorrido de la etiqueta, no solo en la etiqueta."] }
+    } },
     { v: "5.109.0", date: "2026-11-25", t: {
       en: { title: "Routing sheet", items: ["New in “Sheets per station”: a one-page routing sheet per project. Each station that has work gets a row to tick, date and initial when done. Print it first."] },
       ro: { title: "Fișa de parcurs", items: ["Nou în „Foi pe postazione”: fișa de parcurs, o pagină pe proiect. Fiecare postazione cu lucru primește un rând în care bifează, datează și paraphează când termină. Se tipărește prima."] },

@@ -6564,6 +6564,12 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       o.fara_avertisment = !/Nessuna commessa|Nicio comandă|No order/.test(saw);
       o.traseu = /›/.test(lab);
       o.marcaj = /class="qk"[^>]*>[PET]</.test(lab);
+      /* „Tipărește tot”: dosarul întreg într-o singură tipărire, cu găurirea pe pagină A4 peisaj numită */
+      const all = await cap("all");
+      o.tot = !!all && /class="fs-land"/.test(all) && /lbl-grid/.test(all) && (all.match(/class="fs-sec"/g) || []).length >= 6 && !/undefined|NaN/.test(all.replace(/<svg[\s\S]*?<\/svg>/g, ""));
+      /* lambriu cu priză: decupajul ajunge pe foaia toupie, nu rămâne doar pe etichetă */
+      generateInto(q, { ...F, ...PRESETS.lambriu, name: "Lam", lamCuts: [{ x: 600, y: 300, w: 80, h: 80, type: "presa" }] });
+      o.lamToupie = fsCounts(q).toupie >= 1 && /80 × 80/.test(fsRouterDoc(q));
       /* un proiect fără piese nu deschide nimic */
       state.projects = [{ id: "fs2", name: "Gol", pieces: [], configs: {}, layout: {} }]; state.activeId = "fs2"; closeSheets();
       document.getElementById("btnStations").click(); await w(400);
@@ -6576,6 +6582,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Foi pe postazione: fișa de parcurs are un rând pe postazione cu lucru, proiectul și corpurile", r.parcurs === true, JSON.stringify(r));
     ok("Foi pe postazione: o pagină A4 de găurire pe fiecare piesă cu găuri, cu codul rX", r.pagGaurire && r.codGaurire, JSON.stringify(r));
     ok("Foi pe postazione: eticheta poartă codul rX, traseul și marcajul P/E/T", r.codEticheta && r.traseu && r.marcaj, JSON.stringify(r));
+    ok("Foi pe postazione: „Tipărește tot” scoate toate documentele într-o singură tipărire", r.tot === true, JSON.stringify(r));
+    ok("Foi pe postazione: decupajele lambriului (prize) apar pe foaia toupie", r.lamToupie === true, JSON.stringify(r));
     ok("Foi pe postazione: fără piese nu apare niciun buton", r.gol, JSON.stringify(r));
     ok("Foi pe postazione: fără erori JS", errs.length === errs0, errs.slice(errs0).join(" | "));
   }

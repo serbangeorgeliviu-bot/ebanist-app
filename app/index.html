@@ -15708,7 +15708,7 @@ $("btnLabels").addEventListener("click",()=>{
     const pc=parts.get(p.pieces[x._ri]);
     const route=EBAtelier.labelRoute({acc:isAccPiece(x),
       edge:bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)>0,
-      shape:!!(pc&&fsHasRouter(pc)),
+      shape:!!((pc&&fsHasRouter(pc))||scList(x).length),
       drill:!!(hingeInfo(x)||(pc&&fsHasHoles(pc)))}).map(st=>tat("stl_"+st)).join(" › ");
     html+=`<div class="lbl${qr?" hasqr":""}">${qr?`<div class="qr"${qmm>16?` style="width:${qmm}mm;height:${qmm}mm"`:""}>${qr}</div><div class="qk" style="top:${2+qmm}mm;width:${qmm}mm">${qk}</div>`:""}
       <div class="l1"${qmm>16?` style="padding-right:${qmm+1}mm"`:""}>${esc(p.name)} · ${esc(x.modulo)}</div>
@@ -19067,40 +19067,84 @@ function fsCounts(p){
     if(bandingMm(x.bordo,x.lung,x.larg,x.angL,x.angR,x.shape,x.perim)>0) c.bordatrice+=n;
   }
   c.magazzino=c.sezionatrice;
-  try{ const rows=fsRows(p), seenR=new Set(); for(const r of rows){ if(fsHasRouter(r.pc)&&!seenR.has(r.ri)){ seenR.add(r.ri); c.toupie++; } } c.foratura=fsDrillList(p,rows).length; }catch(e){ console.warn(e); }
+  try{ const rows=fsRows(p), seenR=new Set(), opsRi=new Set(); for(const r of rows){ if(fsHasRouter(r.pc)&&!seenR.has(r.ri)){ seenR.add(r.ri); c.toupie++; } if(r.ri>=0&&(r.pc.operations||[]).some(o=>o.type==="mill"||o.type==="contour")) opsRi.add(r.ri); } c.toupie+=fsCutRows(p,opsRi).filter(x=>!seenR.has(x.ri)).length; c.foratura=fsDrillList(p,rows).length; }catch(e){ console.warn(e); }
   c.assemblaggio=Object.keys(p.configs||{}).length||0;
   c.spedizione=c.assemblaggio;
   return c;
 }
-function fsRouterDoc(p){
-  const byRi=new Map();
-  for(const r of fsRows(p)){ if(!fsHasRouter(r.pc)) continue; const k=r.ri>=0?r.ri:"x"+r.pc.pk; (byRi.get(k)||byRi.set(k,[]).get(k)).push(r); }
-  let h=atDocHead(tat("fsRTitle"),p);
-  if(!byRi.size) return h+"<p>"+esc(tat("fsRNone"))+"</p>";
-  h+='<table style="width:100%;border-collapse:collapse;font-size:9.5pt"><tr><th style="text-align:left;width:14mm">'+esc(tat("fsRC1"))+'</th><th style="text-align:left">'+esc(tat("fsRC2"))+'</th><th style="text-align:left;width:34mm">'+esc(tat("fsRC3"))+'</th><th style="text-align:left">'+esc(tat("fsRC4"))+'</th></tr>';
-  for(const [k,rs] of byRi){
-    const first=rs[0], row=first.row, ops=[];
-    const f1=v=>fmtMm(Math.round((+v||0)*10)/10);
-    for(const r of rs) for(const o of (r.pc.operations||[])){
-      if(o.type==="slot") ops.push(esc(opName({note:o.note||"slot"}))+" "+f1(o.len)+" × "+f1(o.thk)+" × "+f1(o.depth));
-      else if(o.type==="groove") ops.push(esc(opName({note:o.note||"canal"}))+" "+f1(Math.hypot(o.to.x-o.from.x,o.to.y-o.from.y))+" × "+f1(o.width)+" × "+f1(o.depth)+" · "+esc(tat("fsFace"))+" "+o.face);
-      else if(o.type==="contour") ops.push(esc(opName({note:o.note||"contur liber"})));
-      else if(o.type==="mill") ops.push(esc(opName({note:o.note||"frezare"}))+" "+f1(o.w)+" × "+f1(o.d)+" × "+f1(o.depth)+(o.through?" ("+esc(tat("fsThrough"))+")":""));
-    }
-    const opsU=[...new Set(ops)];
-    h+='<tr style="border-top:0.2mm solid #999;vertical-align:top"><td style="padding:1.5mm 1mm"><b>'+(row&&typeof k==="number"?"r"+(k+1):"—")+'</b>'+(rs.length>1?'<br><span style="font-size:8pt">×'+rs.length+'</span>':"")+'</td><td style="padding:1.5mm 1mm">'+(row?atDocPieceCell(row):esc(first.pc.name||""))+'</td><td style="padding:1.5mm 1mm">'+(row?esc(fmtMm(row.lung)+" × "+fmtMm(row.larg)):"")+'</td><td style="padding:1.5mm 1mm">'+opsU.join("<br>")+'</td></tr>';
-  }
-  return h+'</table><div class="pr-foot"><span>'+esc(tat("fsCodeNote"))+'</span><span>Ebanist · '+esc(prCoName())+'</span></div>';
+/* decupajele (scasso) ale rândurilor distinctei care nu sunt deja în operațiile piesei (mill/contour): priză în suportul de lambriu,
+   foi tăiate pentru conducte etc. Cotele sunt în sistemul piesei: l pe lungime, w pe lățime; x de la muchia `rif` pe lungime, y pe lățime. */
+function fsCutRows(p,opsRi){
+  const out=[];
+  (p.pieces||[]).forEach((row,ri)=>{ if(isAccPiece(row)||!scList(row).length||opsRi.has(ri)) return; out.push({row,ri}); });
+  return out;
 }
-function fsDrillPrint(p){
-  const list=fsDrillList(p);
-  if(!list.length){ toast(tat("fsDNone")); return; }
+function fsRouterDoc(p){
+  const items=new Map();   // ri → {row, ops:[]}
+  const opsRi=new Set();
+  const f1=v=>fmtMm(Math.round((+v||0)*10)/10);
+  for(const r of fsRows(p)){
+    if(!fsHasRouter(r.pc)) continue;
+    const k=r.ri>=0?r.ri:"x"+r.pc.pk;
+    const it=items.get(k)||items.set(k,{row:r.row,name:r.pc.name,ops:[],n:0}).get(k); it.n++;
+    if(typeof k==="number" && (r.pc.operations||[]).some(o=>o.type==="mill"||o.type==="contour")) opsRi.add(k);
+    for(const o of (r.pc.operations||[])){
+      if(o.type==="slot") it.ops.push(esc(opName({note:o.note||"slot"}))+" "+f1(o.len)+" × "+f1(o.thk)+" × "+f1(o.depth));
+      else if(o.type==="groove") it.ops.push(esc(opName({note:o.note||"canal"}))+" "+f1(Math.hypot(o.to.x-o.from.x,o.to.y-o.from.y))+" × "+f1(o.width)+" × "+f1(o.depth)+" · "+esc(tat("fsFace"))+" "+o.face);
+      else if(o.type==="contour") it.ops.push(esc(opName({note:o.note||"contur liber"})));
+      else if(o.type==="mill") it.ops.push(esc(opName({note:o.note||"frezare"}))+" "+f1(o.w)+" × "+f1(o.d)+" × "+f1(o.depth)+(o.through?" ("+esc(tat("fsThrough"))+")":""));
+    }
+  }
+  for(const c of fsCutRows(p,opsRi)){
+    const it=items.get(c.ri)||items.set(c.ri,{row:c.row,ops:[],n:Math.max(1,c.row.pz|0)}).get(c.ri);
+    scList(c.row).forEach(q=>it.ops.push(esc(tat("fsCut"))+" "+f1(q.l)+" × "+f1(q.w)+(q.forma&&q.forma!=="R"?" ("+esc(q.forma)+(q.r?" r"+f1(q.r):"")+")":"")+' <span style="font-size:8pt;color:#444">· x '+f1(q.x)+" · y "+f1(q.y)+(q.rif?" · "+esc(q.rif):"")+"</span>"));
+  }
+  let h=atDocHead(tat("fsRTitle"),p);
+  if(!items.size) return h+"<p>"+esc(tat("fsRNone"))+"</p>";
+  h+='<table style="width:100%;border-collapse:collapse;font-size:9.5pt"><tr><th style="text-align:left;width:14mm">'+esc(tat("fsRC1"))+'</th><th style="text-align:left">'+esc(tat("fsRC2"))+'</th><th style="text-align:left;width:34mm">'+esc(tat("fsRC3"))+'</th><th style="text-align:left">'+esc(tat("fsRC4"))+'</th></tr>';
+  [...items.entries()].sort((a,b)=>(typeof a[0]==="number"?a[0]:1e9)-(typeof b[0]==="number"?b[0]:1e9)).forEach(([k,it])=>{
+    const row=it.row, opsU=[...new Set(it.ops)];
+    h+='<tr style="border-top:0.2mm solid #999;vertical-align:top"><td style="padding:1.5mm 1mm"><b>'+(row&&typeof k==="number"?"r"+(k+1):"—")+'</b>'+(it.n>1?'<br><span style="font-size:8pt">×'+it.n+'</span>':"")+'</td><td style="padding:1.5mm 1mm">'+(row?atDocPieceCell(row):esc(it.name||""))+'</td><td style="padding:1.5mm 1mm">'+(row?esc(fmtMm(row.lung)+" × "+fmtMm(row.larg)):"")+'</td><td style="padding:1.5mm 1mm">'+opsU.join("<br>")+'</td></tr>';
+  });
+  return h+'</table><div class="pr-foot"><span>'+esc(tat("fsCodeNote"))+" "+esc(tat("fsCutNote"))+'</span><span>Ebanist · '+esc(prCoName())+'</span></div>';
+}
+function fsDrillPages(p,list){
   const pages=[];
   for(const r of list){
     try{ pages.push('<div class="sh-pg" style="position:relative">'+partSheetSvg(r.M,r.pc,5)+(r.ri>=0?'<div style="position:absolute;top:2mm;left:112mm;font:700 15pt Arial,sans-serif;background:#fff;border:0.4mm solid #000;padding:0.5mm 2.5mm">r'+(r.ri+1)+'</div>':'')+'</div>'); }
     catch(e){ console.warn(e); }
   }
-  $("printArea").innerHTML='<style>@page{size:297mm 210mm;margin:0}#printArea .sh-svg{display:block;width:297mm;height:210mm}#printArea .sh-pg{page-break-after:always}#printArea .sh-pg:last-child{page-break-after:auto}</style>'+pages.join("");
+  return pages.join("");
+}
+function fsDrillPrint(p){
+  const list=fsDrillList(p);
+  if(!list.length){ toast(tat("fsDNone")); return; }
+  $("printArea").innerHTML='<style>@page{size:297mm 210mm;margin:0}#printArea .sh-svg{display:block;width:297mm;height:210mm}#printArea .sh-pg{page-break-after:always}#printArea .sh-pg:last-child{page-break-after:auto}</style>'+fsDrillPages(p,list);
+  printOut();
+}
+/* „Tipărește tot”: dosarul întreg al proiectului într-o singură tipărire, în ordinea atelierului. Documentele se iau de la
+   generatoarele adevărate (ca la Order Rail), deci sunt cele pe care le tipărește fiecare buton. Numai Pro: captura ocolește
+   documentul de probă gratuit. Fișele de găurire stau pe pagini A4 peisaj (pagină numită), restul pe pagina implicită. */
+function fsPrintAll(p){
+  if(!proGate("doc")) return;
+  const c=fsCounts(p), parts=[], miss=[];
+  const keep=PRINT_CAPTURE;
+  const grab=id=>{ PRINT_CAPTURE=[]; try{ $(id).click(); }catch(e){ console.warn(e); } const h=PRINT_CAPTURE[0]; return h||""; };
+  try{
+    parts.push(fsRouteDoc(p));
+    [["btnOrder",1]].forEach(([id])=>{ const h=grab(id); if(h) parts.push(h); else miss.push(id); });
+    parts.push(atDocSaw(p));
+    { const h=grab("btnLabels"); if(h) parts.push(h); else miss.push("btnLabels"); }
+    if(c.toupie>0) parts.push(fsRouterDoc(p));
+    if(c.bordatrice>0) parts.push(atDocEdge(p));
+    const dl=fsDrillList(p);
+    if(dl.length) parts.push('<div class="fs-land">'+fsDrillPages(p,dl)+'</div>');
+    { const h=grab("btnMont"); if(h) parts.push(h); else miss.push("btnMont"); }
+    { const h=grab("btnHandover"); if(h) parts.push(h); else miss.push("btnHandover"); }
+  } finally { PRINT_CAPTURE=keep; }
+  if(miss.length){ toast(tat("fsAllBlocked")); return; }
+  const css='<style>@page fsland{size:297mm 210mm;margin:0}.fs-land{page:fsland}.fs-land .sh-svg{display:block;width:297mm;height:210mm}.fs-land .sh-pg{page-break-after:always}.fs-land .sh-pg:last-child{page-break-after:auto}.fs-sec{page-break-after:always}.fs-sec:last-child{page-break-after:auto}</style>';
+  $("printArea").innerHTML=css+parts.map(h=>/^<div class="fs-land">/.test(h)?h:'<div class="fs-sec">'+h+'</div>').join("");
   printOut();
 }
 /* Fișa de parcurs: o pagină pe proiect, cu postazioni care au de lucru; fiecare bifează, datează și paraphează (hârtie, fără cont) */
@@ -19139,7 +19183,9 @@ function fsRender(){
   const BTN={magazzino:[["order","fsB_order"]],sezionatrice:[["saw","fsB_saw"],["labels","fsB_labels"]],toupie:[["router","fsB_router"]],
     bordatrice:[["edge","fsB_edge"]],foratura:[["drill","fsB_drill"]],assemblaggio:[["mont","fsB_mont"]],spedizione:[["hand","fsB_hand"]]};
   let h='<div style="'+AT_BOX+'"><div style="font-size:17px;font-weight:700">'+esc(tat("fsB_route"))+'</div><div class="mini" style="margin:2px 0 8px">'+esc(tat("fsDesc_route"))+'</div>'+
-     '<button class="btn red" data-fs="route" style="width:100%">'+esc(tat("fsB_route"))+'</button></div>';
+     '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn red" data-fs="all" style="flex:1;min-width:140px">'+esc(tat("fsB_all"))+'</button>'+
+     '<button class="btn" data-fs="route" style="flex:1;min-width:140px">'+esc(tat("fsB_route"))+'</button></div>'+
+     '<div class="mini" style="margin-top:6px">'+esc(tat("fsDesc_all"))+'</div></div>';
   FS_STATIONS.forEach((st,i)=>{
     const n=c[st], none=(st==="toupie"||st==="foratura"||st==="bordatrice")&&n===0;
     h+='<div style="'+AT_BOX+(none?';opacity:.6':'')+'"><div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:17px">'+(i+1)+'. '+esc(tat("st_"+st))+'</b>'+
@@ -19157,6 +19203,7 @@ $("stBody").addEventListener("click",e=>{
   closeSheets();
   setTimeout(()=>{
     if(viaButton[a]){ $(viaButton[a]).click(); return; }
+    if(a==="all"){ fsPrintAll(p); return; }
     if(!proGateSample("doc")) return;
     if(a==="drill"){ fsDrillPrint(p); return; }
     $("printArea").innerHTML=a==="saw"?atDocSaw(p):a==="edge"?atDocEdge(p):a==="route"?fsRouteDoc(p):fsRouterDoc(p);
@@ -21137,12 +21184,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.109.0"; /* APP_VER-MARKER */
+const APP_VER="5.110.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v302";
+const SW_CACHE="ebanist-v303";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

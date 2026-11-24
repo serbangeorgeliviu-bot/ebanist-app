@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.110.0 — 25 noiembrie 2026
+
+**„Tipărește tot” și decupajele la toupie (D-187, etapa A).**
+- **Buton „Tipărește tot”** în „Foi pe postazione” (Pro): dosarul întreg al proiectului într-o singură tipărire, în ordinea atelierului — fișa de parcurs, comanda, planul de tăiere, etichetele, foaia toupie (dacă are lucru), foaia cantului (dacă are), fișele de găurire pe pagini A4 peisaj (pagină CSS numită, restul pe pagina implicită), fișa de montaj, procesul-verbal. Documentele se iau de la aceleași generatoare ca butoanele (mecanismul `PRINT_CAPTURE`, ca la Order Rail); un corp care nu se închide oprește tipărirea cu un mesaj. Numai Pro: captura ocolește documentul de probă gratuit.
+- **Decupajele (scasso)** — de exemplu prizele din suportul lambriului sau al boiseriei — apăreau doar pe etichetă (✂); acum sunt și pe foaia toupie (lungime × lățime, poziția x/y și muchia de referință) și în traseul etichetei. Ce e deja în operațiile piesei (frezări, contururi) nu se dublează.
+- Boiseria cu panou încastrat dădea deja canale (slot) la toupie; lambriul și boiseria fără decupaje nu au prelucrări de toupie, și foaia o spune.
+- Teste: blocul „Foi pe postazione” din `cd test && node run.js`.
+
+---
+
 ## 5.109.0 — 25 noiembrie 2026
 
 **Fișa de parcurs (D-187, etapa A).** În „Foi pe postazione”, primul card: o pagină pe proiect, cu un rând pentru fiecare postazione care are lucru (toupie, foratură și bordatrice dispar când nu au) — număr de piese sau de fișe, foile ei, și casete goale *Început / Gata / Inițiale*, plus cinci linii pentru probleme, reluări, note. Antet cu proiect, client, termen (dacă e setat), numărul de piese și corpurile cu cote. Document de probă gratuit sau Pro, ca restul.
