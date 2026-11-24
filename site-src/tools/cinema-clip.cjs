@@ -10,7 +10,7 @@
    Scenele „room” = camera 3D a livingului; „mod” = un singur corp, animat cu ceas virtual (offlineBegin/Frame): ușile se deschid, nu apar deschise. */
 const {chromium}=require("/opt/node22/lib/node_modules/playwright");
 const http=require("http"),fs=require("fs"),path=require("path"),cp=require("child_process");
-const MODE=process.argv[2]||"frames", ONE=process.argv[3]==="1", root=path.resolve(__dirname,"../.."), OUT=path.join(root,"vid-cinema");
+const MODE=process.argv[2]||"frames", ONE=process.argv[3]==="1", root=path.resolve(__dirname,"../.."), OUT=path.join(root,process.env.CLIP==="sat"?"vid-cinema-sat":"vid-cinema");
 const FPS=24, PORT=+(process.env.PORT||8810);
 const LANGS=(process.env.LANGS||"it,en,fr").split(",");
 const TX={
@@ -29,6 +29,16 @@ const SEGS=[
  {name:"asm",kind:"asm",sec:7.5,cfg:"S3 Vitrină",ms:5600,cam:[-.55,.3,1.0,.75,.26,1.0],cap:[.2,6.5,"a1","a2"]},
  {name:"fin",kind:"room",sec:4.0,cam:[-.3,.2,2.3,.4,.2,1.2],led:true,h:[.3,3.2,"f1"]},
  {name:"end",sec:2.8,card:true}];
+/* CLIP=sat: „oddly satisfying”, fără text până la card, montaje în serie (sunet generat de sat-sound.py) */
+if(process.env.CLIP==="sat"){
+ SEGS.length=0;
+ SEGS.push(
+  {name:"s1",kind:"asm",sec:4.2,cfg:"S3 Vitrină",ms:3400,cam:[-.5,.28,1.0,.6,.24,1.0]},
+  {name:"s2",kind:"asm",sec:4.2,cfg:"C4 Console drawers",ms:3400,cam:[.7,.3,1.0,-.3,.24,1.0]},
+  {name:"s3",kind:"asm",sec:4.2,cfg:"S4 Clapă sus",ms:3400,cam:[-.6,.3,1.0,.5,.22,1.0]},
+  {name:"s4",kind:"asm",sec:4.2,cfg:"D2 Bar uși pliante",ms:3400,cam:[.5,.28,1.0,-.5,.22,1.0]},
+  {name:"end",sec:2.4,card:true});
+}
 const sm=k=>k*k*(3-2*k);
 let cum=0; for(const s of SEGS){s.n=Math.round(s.sec*FPS); s.t0=cum/FPS; cum+=s.n}
 const total=cum/FPS;
@@ -36,6 +46,24 @@ fs.mkdirSync(OUT,{recursive:true});
 function sh(cmd,args){cp.execFileSync(cmd,args,{stdio:"inherit"})}
 const LOGO=path.join(root,"site/video/ebanist-logo-512.png");
 
+/* ---------- mux sat ---------- */
+if(MODE==="mux"&&process.env.CLIP==="sat"){
+ const enc=["-c:v","libx264","-crf","20","-preset","medium","-pix_fmt","yuv420p","-g",String(FPS*2)];
+ const GR="eq=contrast=1.1:brightness=0.02:saturation=1.2:gamma=1.25,vignette=PI/4.2,noise=alls=4:allf=t";
+ const parts=[];
+ SEGS.forEach((s,i)=>{
+  const pf=path.join(OUT,"part-"+i+".mp4"), a=["-loglevel","error","-y"];
+  if(s.card){const L=process.argv[3]||"it";a.push("-loop","1","-framerate",String(FPS),"-i",path.join(OUT,"card-"+L+".png"),"-frames:v",String(s.n),"-vf","fade=t=in:st=0:d=0.3",...enc,pf)}
+  else a.push("-framerate",String(FPS),"-i",path.join(OUT,"seq",s.name,"f_%04d.jpg"),"-frames:v",String(s.n),"-vf",GR,...enc,pf);
+  sh("ffmpeg",a);parts.push(pf)});
+ const lst=path.join(OUT,"parts.txt");fs.writeFileSync(lst,parts.map(x=>"file '"+x+"'").join("\n"));
+ const silent=path.join(OUT,"silent.mp4");sh("ffmpeg",["-loglevel","error","-y","-f","concat","-safe","0","-i",lst,"-c","copy",silent]);
+ const wav=path.join(OUT,"sound.wav");
+ sh("python3",[path.join(__dirname,"sat-sound.py"),wav,JSON.stringify(SEGS.filter(x=>x.kind).map(x=>[x.t0,x.ms/1000])),String(total)]);
+ const out=path.join(OUT,"ebanist-satisfying-"+(process.argv[3]||"it")+".mp4");
+ sh("ffmpeg",["-loglevel","error","-y","-i",silent,"-i",wav,"-c:v","libx264","-crf","24","-preset","slow","-maxrate","7M","-bufsize","14M","-pix_fmt","yuv420p","-c:a","aac","-b:a","160k","-movflags","+faststart","-shortest",out]);
+ console.log("gata",out,total.toFixed(1)+" s");process.exit(0);
+}
 /* ---------- mux ---------- */
 if(MODE==="mux"){
  const langs=process.argv[3]?[process.argv[3]]:LANGS;
@@ -144,6 +172,9 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
     }
    } else {
     /* mod / asm: ceas virtual, animații reale (uși, clape, sertare, montaj) */
+    /* prima randare a unui corp după camera livingului rămâne pe cameră: o randare de încălzire, apoi pauză */
+    await pg.evaluate(()=>{window.__room=null;GL3D.leaveRoom&&GL3D.leaveRoom();GL3D.render(JSON.parse(JSON.stringify(proj().configs["S1 Raft deschis"])),{explode:0})});
+    await pg.waitForTimeout(3000);   /* aplicația își re-randează camera singură la prima schimbare; așteptăm să se termine */
     await pg.evaluate(([cn,asm,ms])=>{
      window.__room=null;GL3D.leaveRoom&&GL3D.leaveRoom();
      const cfg=JSON.parse(JSON.stringify(proj().configs[cn]));
@@ -175,6 +206,11 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
   /* titlu mare, centrat jos, literă fină cu spațiere; legenda mică, sub el */
   const big=t=>`<div style="${FF}position:fixed;left:0;right:0;bottom:190px;text-align:center;color:#fff;font-weight:300;font-size:58px;letter-spacing:6px;text-shadow:0 2px 24px rgba(0,0,0,.7);padding:0 30px">${t}</div>`;
   const small=(t,t2)=>`<div style="${FF}position:fixed;left:0;right:0;bottom:170px;text-align:center;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.8)"><div style="font-weight:300;font-size:46px;letter-spacing:5px">${t}</div>${t2?`<div style="font-weight:600;font-size:46px;letter-spacing:5px;margin-top:4px;color:#ffd7a1">${t2}</div>`:""}</div>`;
+  if(process.env.CLIP==="sat"){
+   const C={it:"Link in bio",en:"Link in bio",fr:"Lien en bio"};
+   for(const L of LANGS) await shot(path.join(OUT,"card-"+L+".png"),`<div style="${FF}position:fixed;inset:0;background:radial-gradient(circle at 50% 45%,#14161c 0%,#050608 70%);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;text-align:center"><img src="${logo}" style="width:190px;height:190px;border-radius:42px;box-shadow:0 12px 50px rgba(255,190,120,.25)"><div style="font-weight:600;font-size:38px;letter-spacing:18px">EBANIST</div><div style="font-weight:300;font-size:48px;letter-spacing:6px;opacity:.9">${C[L]}</div></div>`,true);
+   console.log("extras sat gata");await b.close();srv.close();return;
+  }
   for(const L of LANGS){
    const T=TX[L]; fs.mkdirSync(path.join(OUT,"ov",L),{recursive:true});
    for(const s of SEGS){
