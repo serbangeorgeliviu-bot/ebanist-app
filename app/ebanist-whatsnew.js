@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.109.0", date: "2026-11-25", t: {
+      en: { title: "Routing sheet", items: ["New in “Sheets per station”: a one-page routing sheet per project. Each station that has work gets a row to tick, date and initial when done. Print it first."] },
+      ro: { title: "Fișa de parcurs", items: ["Nou în „Foi pe postazione”: fișa de parcurs, o pagină pe proiect. Fiecare postazione cu lucru primește un rând în care bifează, datează și paraphează când termină. Se tipărește prima."] },
+      it: { title: "Scheda di percorso", items: ["Novità in «Fogli per postazione»: la scheda di percorso, una pagina per progetto. Ogni postazione con del lavoro ha una riga dove spunta, data e firma quando ha finito. Si stampa per prima."] },
+      fr: { title: "Fiche de parcours", items: ["Nouveau dans « Fiches par poste » : la fiche de parcours, une page par projet. Chaque poste qui a du travail a une ligne où cocher, dater et parapher à la fin. À imprimer en premier."] },
+      de: { title: "Laufzettel", items: ["Neu in „Blätter je Station“: der Laufzettel, eine Seite pro Projekt. Jede Station mit Arbeit hat eine Zeile zum Abhaken, Datieren und Abzeichnen. Zuerst drucken."] },
+      pl: { title: "Karta przebiegu", items: ["Nowość w „Karty na stanowisko”: karta przebiegu, jedna strona na projekt. Każde stanowisko z pracą ma wiersz do zaznaczenia, datowania i parafowania po zakończeniu. Drukuj ją pierwszą."] },
+      es: { title: "Hoja de ruta", items: ["Novedad en «Hojas por puesto»: la hoja de ruta, una página por proyecto. Cada puesto con trabajo tiene una fila para marcar, fechar y firmar al terminar. Se imprime primero."] }
+    } },
     { v: "5.108.0", date: "2026-11-24", t: {
       en: { title: "Sheets per station", items: ["One new button, “Sheets per station”, groups the documents by workshop station in the order the piece travels: order list, cutting plan and labels, spindle moulder sheet, edge sheet, drilling sheets (one A4 per piece with holes), assembly sheet, handover record. No account or scanning needed.", "The same rX code now appears on the label, the cutting plan and the sheets, so a piece can be found on paper.", "The legal pages now say “production documents”."] },
       ro: { title: "Foi pe postazione", items: ["Un buton nou, „Foi pe postazione”, grupează documentele pe locurile de lucru ale atelierului, în ordinea în care trece piesa: lista de comandă, planul de tăiere și etichetele, foaia toupie, foaia cantului, fișele de găurire (câte o A4 pe piesă cu găuri), fișa de montaj, procesul-verbal de predare. Nu cere cont și nici scanare.", "Același cod rX apare acum pe etichetă, pe planul de tăiere și pe foi, ca să găsești o piesă pe hârtie.", "Paginile juridice spun acum „documente de fabricație”."] },

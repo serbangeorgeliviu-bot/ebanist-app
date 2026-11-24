@@ -19103,6 +19103,31 @@ function fsDrillPrint(p){
   $("printArea").innerHTML='<style>@page{size:297mm 210mm;margin:0}#printArea .sh-svg{display:block;width:297mm;height:210mm}#printArea .sh-pg{page-break-after:always}#printArea .sh-pg:last-child{page-break-after:auto}</style>'+pages.join("");
   printOut();
 }
+/* Fișa de parcurs: o pagină pe proiect, cu postazioni care au de lucru; fiecare bifează, datează și paraphează (hârtie, fără cont) */
+const FS_SHEETS={magazzino:["fsB_order"],sezionatrice:["fsB_saw","fsB_labels"],toupie:["fsB_router"],bordatrice:["fsB_edge"],foratura:["fsB_drill"],assemblaggio:["fsB_mont"],spedizione:["fsB_hand"]};
+function fsRouteDoc(p){
+  const c=fsCounts(p);
+  const mods=Object.keys(p.configs||{}).map(n=>{ const g=p.configs[n]; return esc(n)+(g&&g.L?" "+Math.round(g.L)+"×"+Math.round(g.H)+"×"+Math.round(g.P):""); });
+  let h=atDocHead(tat("fsPTitle"),p);
+  h+='<div style="font-size:10pt;margin:1mm 0 3mm">'+(p.deadline?'<b>'+esc(tat("fsPDeadline"))+':</b> '+esc(p.deadline)+' &nbsp; ':'')+
+     '<b>'+esc(tat("fsPieces").replace("{n}",c.sezionatrice))+'</b>'+(mods.length?' &nbsp; <b>'+esc(tat("fsPUnits"))+':</b> '+mods.join(" · "):'')+'</div>';
+  const cell='border:0.25mm solid #444;padding:2mm 2mm;vertical-align:top';
+  h+='<table style="width:100%;border-collapse:collapse;font-size:10pt"><tr style="background:#eee">'+
+     ["fsPC1","fsPC2","fsPC3","fsPC4","fsPC5","fsPC6"].map((k,i)=>'<th style="'+cell+';text-align:left;'+(i>=3?'width:'+(i===5?22:24)+'mm':i===1?'width:16mm':'')+'">'+esc(tat(k))+'</th>').join("")+'</tr>';
+  let k=0;
+  FS_STATIONS.forEach(st=>{
+    const n=st==="assemblaggio"||st==="spedizione"?1:c[st];
+    if(!n) return;
+    const i=k++;
+    const cnt=(st==="assemblaggio"||st==="spedizione")?"":(st==="toupie"||st==="foratura")?tat("fsSheets").replace("{n}",c[st]):String(c[st]);
+    h+='<tr style="height:15mm"><td style="'+cell+'"><b>'+(i+1)+'. '+esc(tat("st_"+st))+'</b></td><td style="'+cell+'">'+esc(cnt)+'</td><td style="'+cell+';font-size:8.5pt">'+esc(FS_SHEETS[st].map(k=>tat(k)).join(" + "))+'</td>'+
+       '<td style="'+cell+'"></td><td style="'+cell+'"></td><td style="'+cell+'"></td></tr>';
+  });
+  h+='</table><div style="margin-top:5mm;font-size:10pt"><b>'+esc(tat("fsPIssues"))+'</b></div>'+
+     [1,2,3,4,5].map(()=>'<div style="border-bottom:0.25mm solid #888;height:9mm"></div>').join("")+
+     '<div class="pr-foot"><span>'+esc(tat("fsCodeNote"))+'</span><span>Ebanist · '+esc(prCoName())+'</span></div>';
+  return h;
+}
 function fsRelabel(){
   const b=$("btnStationsLbl"); if(b) b.textContent=tat("fsOpen");
 }
@@ -19113,7 +19138,8 @@ function fsRender(){
   const c=fsCounts(p);
   const BTN={magazzino:[["order","fsB_order"]],sezionatrice:[["saw","fsB_saw"],["labels","fsB_labels"]],toupie:[["router","fsB_router"]],
     bordatrice:[["edge","fsB_edge"]],foratura:[["drill","fsB_drill"]],assemblaggio:[["mont","fsB_mont"]],spedizione:[["hand","fsB_hand"]]};
-  let h="";
+  let h='<div style="'+AT_BOX+'"><div style="font-size:17px;font-weight:700">'+esc(tat("fsB_route"))+'</div><div class="mini" style="margin:2px 0 8px">'+esc(tat("fsDesc_route"))+'</div>'+
+     '<button class="btn red" data-fs="route" style="width:100%">'+esc(tat("fsB_route"))+'</button></div>';
   FS_STATIONS.forEach((st,i)=>{
     const n=c[st], none=(st==="toupie"||st==="foratura"||st==="bordatrice")&&n===0;
     h+='<div style="'+AT_BOX+(none?';opacity:.6':'')+'"><div style="display:flex;align-items:baseline;gap:8px"><b style="font-size:17px">'+(i+1)+'. '+esc(tat("st_"+st))+'</b>'+
@@ -19133,7 +19159,7 @@ $("stBody").addEventListener("click",e=>{
     if(viaButton[a]){ $(viaButton[a]).click(); return; }
     if(!proGateSample("doc")) return;
     if(a==="drill"){ fsDrillPrint(p); return; }
-    $("printArea").innerHTML=a==="saw"?atDocSaw(p):a==="edge"?atDocEdge(p):fsRouterDoc(p);
+    $("printArea").innerHTML=a==="saw"?atDocSaw(p):a==="edge"?atDocEdge(p):a==="route"?fsRouteDoc(p):fsRouterDoc(p);
     printOut();
   },60);
 });
@@ -21111,12 +21137,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.108.0"; /* APP_VER-MARKER */
+const APP_VER="5.109.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v301";
+const SW_CACHE="ebanist-v302";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

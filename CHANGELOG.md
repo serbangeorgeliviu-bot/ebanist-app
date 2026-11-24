@@ -5,6 +5,13 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.109.0 — 25 noiembrie 2026
+
+**Fișa de parcurs (D-187, etapa A).** În „Foi pe postazione”, primul card: o pagină pe proiect, cu un rând pentru fiecare postazione care are lucru (toupie, foratură și bordatrice dispar când nu au) — număr de piese sau de fișe, foile ei, și casete goale *Început / Gata / Inițiale*, plus cinci linii pentru probleme, reluări, note. Antet cu proiect, client, termen (dacă e setat), numărul de piese și corpurile cu cote. Document de probă gratuit sau Pro, ca restul.
+- Teste: blocul „Foi pe postazione” din `cd test && node run.js`.
+
+---
+
 ## 5.108.0 — 24 noiembrie 2026
 
 **„Foi pe postazione”: hârtie întâi, fără cont și fără scanare (D-187, etapa A, punctul 2).**

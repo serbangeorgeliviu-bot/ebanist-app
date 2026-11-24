@@ -6546,12 +6546,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
       document.getElementById("btnStations").click(); await w(900);
       const sheet = document.getElementById("shStations");
       o.deschis = sheet.classList.contains("on");
-      o.sapteCarduri = [...sheet.querySelectorAll("#stBody > div")].length === 7;
+      o.sapteCarduri = [...sheet.querySelectorAll("#stBody > div")].length === 8; /* fișa de parcurs + 7 postazioni */
       o.fara = !sheet.querySelector("#stBody").innerText.match(/cnc|verniciatura/i);
       const cap = async a => { PRINT_CAPTURE = []; closeSheets(); document.getElementById("btnStations").click(); await w(300);
         const el = document.querySelector('[data-fs="' + a + '"]'); if (!el || el.disabled) { PRINT_CAPTURE = null; return null; }
         el.click(); await w(2500); const c = PRINT_CAPTURE; PRINT_CAPTURE = null; return c && c[0] || ""; };
-      const saw = await cap("saw"), edge = await cap("edge"), drill = await cap("drill"), lab = await cap("labels"), mont = await cap("mont");
+      const route = await cap("route"), saw = await cap("saw"), edge = await cap("edge"), drill = await cap("drill"), lab = await cap("labels"), mont = await cap("mont");
+      o.parcurs = !!route && /<table/.test(route) && (route.match(/<tr/g) || []).length >= 5 && /Arm/.test(route) && !/undefined|NaN/.test(route);
       o.foi = !!saw && !!edge && !!drill && !!lab && !!mont;
       const count = (h, re) => (h.match(re) || []).length;
       /* fiecare piesă cu găuri → o pagină A4, cu codul rX */
@@ -6572,6 +6573,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     });
     ok("Foi pe postazione: foaia se deschide cu 7 postazioni, fără cnc/verniciatura", r.deschis && r.sapteCarduri && r.fara, JSON.stringify(r));
     ok("Foi pe postazione: toate cele 5 documente ies fără cont", r.foi === true && r.fara_avertisment, JSON.stringify(r));
+    ok("Foi pe postazione: fișa de parcurs are un rând pe postazione cu lucru, proiectul și corpurile", r.parcurs === true, JSON.stringify(r));
     ok("Foi pe postazione: o pagină A4 de găurire pe fiecare piesă cu găuri, cu codul rX", r.pagGaurire && r.codGaurire, JSON.stringify(r));
     ok("Foi pe postazione: eticheta poartă codul rX, traseul și marcajul P/E/T", r.codEticheta && r.traseu && r.marcaj, JSON.stringify(r));
     ok("Foi pe postazione: fără piese nu apare niciun buton", r.gol, JSON.stringify(r));
