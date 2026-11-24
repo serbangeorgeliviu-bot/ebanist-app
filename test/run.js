@@ -4295,8 +4295,8 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     });
     const all = [].concat(...Object.values(x));
     ok("export: trei grupe cu titlu", Object.keys(x).join() === "expClient,expShop,expSite", Object.keys(x).join());
-    ok("export: fiecare dintre cele 12 butoane e într-o grupă, o singură dată",
-      all.length === 12 && new Set(all).size === 12 && ["btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnOrderSend","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
+    ok("export: fiecare dintre cele 13 butoane (12 + „Foi pe postazione”, D-187) e într-o grupă, o singură dată",
+      all.length === 13 && new Set(all).size === 13 && ["btnStations","btnPdf","btnQuote","btnPassport","btnHandover","btnMont","btnLabels","btnLab","btnOrder","btnOrderSend","btnTransp","btnCsv","btnShare"].every(i => all.includes(i)), all.join());
     ok("export: oferta și pașaportul sunt la client, montajul la atelier", x.expClient.join() === "btnQuote,btnPassport" && x.expSite.includes("btnMont") && x.expShop.includes("btnPdf"));
   }
 
@@ -6529,6 +6529,63 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     /* curățenie: ce a încărcat blocul nu rămâne pentru restul rulării */
     await pg.evaluate(() => { closeSheets(); state.projects = state.projects.filter(p => !p.showcase && p.name !== "Camera mea"); state.activeId = state.projects[0] ? state.projects[0].id : null; try { persist(); setView("projects"); } catch (e) {} });
     ok("Demo: fără erori JS", errs.length === errs0, errs.slice(errs0).join(" | "));
+  }
+
+  head("Foi pe postazione (D-187, 5.108.0) — fără cont, același cod rX pe etichetă, plan de tăiere, cant, găurire");
+  {
+    const errs0 = errs.length;
+    const r = await pg.evaluate(async () => {
+      const w = ms => new Promise(r => setTimeout(r, ms)), o = {};
+      const keepP = state.projects, keepA = state.activeId, keepLang = state.lang, keepL = LIC;
+      window.print = () => {}; printOut._offered = 1;
+      licWrite({ kind: "stripe", key: "comp_TESTTESTTESTTESTTESTTEST", status: "active", activated: true, checkedAt: Date.now() });
+      state.projects = [{ id: "fs1", name: "Foi", client: "C", date: "2026-11-24", pieces: [], configs: {}, layout: {} }]; state.activeId = "fs1";
+      const q = proj(), F = cfgFromForm();
+      generateInto(q, { ...F, ...PRESETS.armadio, name: "Arm", L: 1200, H: 2200, P: 550, doors: 2, drawers: 2 });
+      persist(); setView("list");
+      document.getElementById("btnStations").click(); await w(900);
+      const sheet = document.getElementById("shStations");
+      o.deschis = sheet.classList.contains("on");
+      o.sapteCarduri = [...sheet.querySelectorAll("#stBody > div")].length === 8; /* fișa de parcurs + 7 postazioni */
+      o.fara = !sheet.querySelector("#stBody").innerText.match(/cnc|verniciatura/i);
+      const cap = async a => { PRINT_CAPTURE = []; closeSheets(); document.getElementById("btnStations").click(); await w(300);
+        const el = document.querySelector('[data-fs="' + a + '"]'); if (!el || el.disabled) { PRINT_CAPTURE = null; return null; }
+        el.click(); await w(2500); const c = PRINT_CAPTURE; PRINT_CAPTURE = null; return c && c[0] || ""; };
+      const route = await cap("route"), saw = await cap("saw"), edge = await cap("edge"), drill = await cap("drill"), lab = await cap("labels"), mont = await cap("mont");
+      o.parcurs = !!route && /<table/.test(route) && (route.match(/<tr/g) || []).length >= 5 && /Arm/.test(route) && !/undefined|NaN/.test(route);
+      o.foi = !!saw && !!edge && !!drill && !!lab && !!mont;
+      const count = (h, re) => (h.match(re) || []).length;
+      /* fiecare piesă cu găuri → o pagină A4, cu codul rX */
+      const withHoles = fsDrillList(q).length;
+      o.pagGaurire = count(drill, /class="sh-pg"/g) === withHoles && withHoles > 0;
+      o.codGaurire = /r1</.test(drill);
+      /* același cod pe etichetă și pe planul de tăiere */
+      o.codEticheta = /· r1 ·/.test(lab) && />r1</.test(saw.replace(/\s+/g, "")) || /r1/.test(saw);
+      o.fara_avertisment = !/Nessuna commessa|Nicio comandă|No order/.test(saw);
+      o.traseu = /›/.test(lab);
+      o.marcaj = /class="qk"[^>]*>[PET]</.test(lab);
+      /* „Tipărește tot”: dosarul întreg într-o singură tipărire, cu găurirea pe pagină A4 peisaj numită */
+      const all = await cap("all");
+      o.tot = !!all && /class="fs-land"/.test(all) && /lbl-grid/.test(all) && (all.match(/class="fs-sec"/g) || []).length >= 6 && !/undefined|NaN/.test(all.replace(/<svg[\s\S]*?<\/svg>/g, ""));
+      /* lambriu cu priză: decupajul ajunge pe foaia toupie, nu rămâne doar pe etichetă */
+      generateInto(q, { ...F, ...PRESETS.lambriu, name: "Lam", lamCuts: [{ x: 600, y: 300, w: 80, h: 80, type: "presa" }] });
+      o.lamToupie = fsCounts(q).toupie >= 1 && /80 × 80/.test(fsRouterDoc(q));
+      /* un proiect fără piese nu deschide nimic */
+      state.projects = [{ id: "fs2", name: "Gol", pieces: [], configs: {}, layout: {} }]; state.activeId = "fs2"; closeSheets();
+      document.getElementById("btnStations").click(); await w(400);
+      o.gol = !document.querySelector("#stBody [data-fs]");
+      closeSheets(); state.projects = keepP; state.activeId = keepA; state.lang = keepLang; licWrite(keepL);
+      return o;
+    });
+    ok("Foi pe postazione: foaia se deschide cu 7 postazioni, fără cnc/verniciatura", r.deschis && r.sapteCarduri && r.fara, JSON.stringify(r));
+    ok("Foi pe postazione: toate cele 5 documente ies fără cont", r.foi === true && r.fara_avertisment, JSON.stringify(r));
+    ok("Foi pe postazione: fișa de parcurs are un rând pe postazione cu lucru, proiectul și corpurile", r.parcurs === true, JSON.stringify(r));
+    ok("Foi pe postazione: o pagină A4 de găurire pe fiecare piesă cu găuri, cu codul rX", r.pagGaurire && r.codGaurire, JSON.stringify(r));
+    ok("Foi pe postazione: eticheta poartă codul rX, traseul și marcajul P/E/T", r.codEticheta && r.traseu && r.marcaj, JSON.stringify(r));
+    ok("Foi pe postazione: „Tipărește tot” scoate toate documentele într-o singură tipărire", r.tot === true, JSON.stringify(r));
+    ok("Foi pe postazione: decupajele lambriului (prize) apar pe foaia toupie", r.lamToupie === true, JSON.stringify(r));
+    ok("Foi pe postazione: fără piese nu apare niciun buton", r.gol, JSON.stringify(r));
+    ok("Foi pe postazione: fără erori JS", errs.length === errs0, errs.slice(errs0).join(" | "));
   }
 
   const bad = results.filter(r => !r.cond).length;

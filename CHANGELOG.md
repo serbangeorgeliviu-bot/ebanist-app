@@ -5,11 +5,40 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.107.1 — 24 noiembrie 2026
+## 5.110.1 — 25 noiembrie 2026
 
 **Fișa de montaj: materialele în limba documentului, fără cuvinte din altă limbă.**
 - Finisajul corpului, al frontalelor și al spatelui se afișează acum tradus (înainte rămânea în italiană în toate limbile) și fără grosimea dublată („HDF Alb 3mm 3 mm”).
 - Codul articolului Minifix nu mai conține cuvântul „boulon” (era franțuzesc într-un document italian); rămâne numai codul Häfele 262.26.033.
+
+---
+
+## 5.110.0 — 25 noiembrie 2026
+
+**„Tipărește tot” și decupajele la toupie (D-187, etapa A).**
+- **Buton „Tipărește tot”** în „Foi pe postazione” (Pro): dosarul întreg al proiectului într-o singură tipărire, în ordinea atelierului — fișa de parcurs, comanda, planul de tăiere, etichetele, foaia toupie (dacă are lucru), foaia cantului (dacă are), fișele de găurire pe pagini A4 peisaj (pagină CSS numită, restul pe pagina implicită), fișa de montaj, procesul-verbal. Documentele se iau de la aceleași generatoare ca butoanele (mecanismul `PRINT_CAPTURE`, ca la Order Rail); un corp care nu se închide oprește tipărirea cu un mesaj. Numai Pro: captura ocolește documentul de probă gratuit.
+- **Decupajele (scasso)** — de exemplu prizele din suportul lambriului sau al boiseriei — apăreau doar pe etichetă (✂); acum sunt și pe foaia toupie (lungime × lățime, poziția x/y și muchia de referință) și în traseul etichetei. Ce e deja în operațiile piesei (frezări, contururi) nu se dublează.
+- Boiseria cu panou încastrat dădea deja canale (slot) la toupie; lambriul și boiseria fără decupaje nu au prelucrări de toupie, și foaia o spune.
+- Teste: blocul „Foi pe postazione” din `cd test && node run.js`.
+
+---
+
+## 5.109.0 — 25 noiembrie 2026
+
+**Fișa de parcurs (D-187, etapa A).** În „Foi pe postazione”, primul card: o pagină pe proiect, cu un rând pentru fiecare postazione care are lucru (toupie, foratură și bordatrice dispar când nu au) — număr de piese sau de fișe, foile ei, și casete goale *Început / Gata / Inițiale*, plus cinci linii pentru probleme, reluări, note. Antet cu proiect, client, termen (dacă e setat), numărul de piese și corpurile cu cote. Document de probă gratuit sau Pro, ca restul.
+- Teste: blocul „Foi pe postazione” din `cd test && node run.js`.
+
+---
+
+## 5.108.0 — 24 noiembrie 2026
+
+**„Foi pe postazione”: hârtie întâi, fără cont și fără scanare (D-187, etapa A, punctul 2).**
+- **Buton nou „Foi pe postazione”** (în grupul „Tăiere și furnizor”): un ecran cu cele 7 postazioni în ordinea în care trece piesa — Magazie (lista de comandă), Sezionatrice (planul de tăiere și etichetele), Toupie, Bordatrice (foaia cantului), Foratură (câte o fișă A4 pentru fiecare piesă cu găuri), Asamblare (fișa de montaj), Expediție (proces-verbal de predare). Fiecare buton trece prin porțile documentului respectiv (document de probă gratuit, Pro). Postazioni fără lucru (ex. toupie când nu sunt canale) se arată „nimic de făcut aici”, fără buton.
+- **Foaia toupie** (nouă): piesele cu canale, locașuri sau frezări, cu cote (lungime × lățime × adâncime) și fața.
+- **Același cod rX** pe etichetă, pe planul de tăiere, pe foaia cantului, pe foaia toupie și pe fișele de găurire (colțul de sus), ca o piesă să se regăsească pe hârtie; înainte eticheta purta doar numărul de ordine din serie.
+- Avertismentul „nicio comandă legată” de pe planul de tăiere apare numai cu modulul Atelier activ (pe hârtie nu are sens).
+- **Paginile juridice** (`termeni.html`, `rambursare.html`): „documente de fabricație” și echivalentele, ca în aplicație.
+- Teste: `cd test && node run.js` (blocul „Foi pe postazione”) și `node --test atelier.test.js`.
 
 ---
 
