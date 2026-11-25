@@ -210,7 +210,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/help/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/help/"/>
   </url>
-  <url><loc>https://ebanist.com/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -220,7 +220,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/"/>
   </url>
-  <url><loc>https://ebanist.com/ro/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/ro/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -230,7 +230,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/"/>
   </url>
-  <url><loc>https://ebanist.com/it/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/it/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -240,7 +240,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/"/>
   </url>
-  <url><loc>https://ebanist.com/fr/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/fr/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -250,7 +250,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/"/>
   </url>
-  <url><loc>https://ebanist.com/de/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/de/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -260,7 +260,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/"/>
   </url>
-  <url><loc>https://ebanist.com/pl/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/pl/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -270,7 +270,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/"/>
   </url>
-  <url><loc>https://ebanist.com/es/blog/</loc><lastmod>2026-11-21</lastmod><priority>0.6</priority>
+  <url><loc>https://ebanist.com/es/blog/</loc><lastmod>2026-11-25</lastmod><priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/"/>
     <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/"/>
     <xhtml:link rel="alternate" hreflang="it" href="https://ebanist.com/it/blog/"/>
@@ -489,6 +489,46 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://ebanist.com/pl/blog/whats-new-5-98/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://ebanist.com/es/blog/whats-new-5-98/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/whats-new-5-98/"/>
+  </url>
+  <url><loc>https://ebanist.com/blog/avoid-melamine-chipping/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/avoid-melamine-chipping/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/avoid-melamine-chipping/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/avoid-melamine-chipping/"/>
+  </url>
+  <url><loc>https://ebanist.com/ro/blog/avoid-melamine-chipping/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/avoid-melamine-chipping/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/avoid-melamine-chipping/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/avoid-melamine-chipping/"/>
+  </url>
+  <url><loc>https://ebanist.com/blog/cut-list-software/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/cut-list-software/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/cut-list-software/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/cut-list-software/"/>
+  </url>
+  <url><loc>https://ebanist.com/ro/blog/cut-list-software/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/cut-list-software/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/cut-list-software/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/cut-list-software/"/>
+  </url>
+  <url><loc>https://ebanist.com/blog/furniture-quote-calculator/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/furniture-quote-calculator/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/furniture-quote-calculator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/furniture-quote-calculator/"/>
+  </url>
+  <url><loc>https://ebanist.com/ro/blog/furniture-quote-calculator/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/furniture-quote-calculator/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/furniture-quote-calculator/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/furniture-quote-calculator/"/>
+  </url>
+  <url><loc>https://ebanist.com/blog/panel-labels-edge-banding/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/panel-labels-edge-banding/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/panel-labels-edge-banding/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/panel-labels-edge-banding/"/>
+  </url>
+  <url><loc>https://ebanist.com/ro/blog/panel-labels-edge-banding/</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ebanist.com/blog/panel-labels-edge-banding/"/>
+    <xhtml:link rel="alternate" hreflang="ro" href="https://ebanist.com/ro/blog/panel-labels-edge-banding/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ebanist.com/blog/panel-labels-edge-banding/"/>
   </url>
   <url><loc>https://ebanist.com/app/</loc><lastmod>2026-11-19</lastmod><priority>0.8</priority></url>
   <url><loc>https://ebanist.com/privacy.html</loc><lastmod>2026-11-19</lastmod><priority>0.3</priority></url>
