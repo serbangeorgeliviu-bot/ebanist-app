@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.113.0 — 25 noiembrie 2026
+
+**Ajutor: subiect nou „Tips & Tricks”.**
+- Ideea vine de la un utilizator: o secțiune cu sfaturi mici care economisesc timp. E ultimul subiect din foaia „Ajutor” a aplicației și, din aceeași sursă (`ebanist-help.js`, D-109), din `/help/` pe site, în toate cele 7 limbi.
+- Cinci sfaturi: duplicarea unui corp, vederea explodată pentru a verifica pozițiile din distinta de debitare, fișa piesei (cote, cant, găuri) și QR-ul de pe etichetă, „Cota de tăiere minus cantul”, „În camera ta”.
+- Nicio schimbare de calcul, de distinctă sau de preț. Etichetele de butoane din text sunt verificate de `node --test help.test.js`.
+
+---
+
 ## 5.112.0 — 25 noiembrie 2026
 
 **Bucătărie: picioare reglabile rotunde în 3D și soclu prins cu clipsuri (D-190).**

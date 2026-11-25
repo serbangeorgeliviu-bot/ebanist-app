@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.113.0", date: "2026-11-25", t: {
+      en: { title: "Tips & Tricks in Help", items: ["New topic “Tips & Tricks” at the end of Help (also on the website): five small tricks that save time, such as duplicating a unit, checking the parts in the exploded view, the part sheet with its QR code, and the cut size minus edge band."] },
+      ro: { title: "Tips & Tricks în Ajutor", items: ["Subiect nou, „Tips & Tricks”, la sfârșitul Ajutorului (și pe site): cinci trucuri mici care economisesc timp, de exemplu duplicarea unui corp, verificarea pieselor în vederea explodată, fișa piesei cu codul QR și cota de tăiere minus cantul."] },
+      it: { title: "Tips & Tricks nella Guida", items: ["Nuovo argomento «Tips & Tricks» in fondo alla Guida (anche sul sito): cinque piccoli trucchi che fanno risparmiare tempo, come duplicare un modulo, controllare i pezzi nella vista esplosa, la scheda pezzo con il QR e la quota di taglio meno il bordo."] },
+      fr: { title: "Trucs et astuces dans l'Aide", items: ["Nouveau sujet « Trucs et astuces » à la fin de l'Aide (aussi sur le site) : cinq petites astuces qui font gagner du temps, comme dupliquer un module, vérifier les pièces en vue éclatée, la fiche pièce avec son QR et la cote de coupe moins le chant."] },
+      de: { title: "Tipps und Tricks in der Hilfe", items: ["Neues Thema „Tipps und Tricks“ am Ende der Hilfe (auch auf der Website): fünf kleine Tricks, die Zeit sparen, etwa einen Korpus duplizieren, die Teile in der Explosionsansicht prüfen, das Teileblatt mit QR-Code und das Zuschnittmaß minus Kante."] },
+      pl: { title: "Porady i triki w Pomocy", items: ["Nowy temat „Porady i triki” na końcu Pomocy (także na stronie): pięć drobnych trików oszczędzających czas, na przykład duplikowanie modułu, sprawdzanie części w widoku rozstrzelonym, karta części z kodem QR i wymiar cięcia pomniejszony o okleinę."] },
+      es: { title: "Trucos y consejos en la Ayuda", items: ["Nuevo tema «Trucos y consejos» al final de la Ayuda (también en la web): cinco pequeños trucos que ahorran tiempo, como duplicar un módulo, revisar las piezas en la vista explosionada, la ficha de la pieza con su QR y la medida de corte menos el canto."] }
+    } },
     { v: "5.112.0", date: "2026-11-25", t: {
       en: { title: "Kitchen on adjustable feet, with a clip-on plinth", items: ["New kitchen setting “Plinth”: adjustable feet + clip-on plinth. The units stand on four round feet, visible in 3D behind the plinth.", "The plinth clips are added to the bill of materials and to the assembly sheet. The cut list does not change."] },
       ro: { title: "Bucătărie pe picioare reglabile, cu soclu clipsat", items: ["Setare nouă în Bucătărie, „Soclu”: picioare reglabile + soclu cu clipsuri. Corpurile stau pe patru picioare rotunde, vizibile în 3D în spatele soclului.", "Clipsurile soclului intră în deviz și în fișa de montaj. Distinta pieselor nu se schimbă."] },
