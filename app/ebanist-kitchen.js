@@ -35,7 +35,7 @@ var K_DEFAULTS = {
   gapOut: 2, gapIn: 3,   // rosturile fronturilor, ca la ușile obișnuite (2 la margine, 3 între ele)
   railW: 100,            // lățimea traversei de blat
   handles: "maniglia", drawerSys: "legrabox",
-  legs: 0,               // D-189: 1 = corpurile stau pe picioare reglabile rotunde (3D) și soclul se prinde cu clipsuri; 0 = soclul pe pardoseală, ca înainte
+  legs: 0,               // D-190: 1 = corpurile stau pe picioare reglabile rotunde (3D) și soclul se prinde cu clipsuri; 0 = soclul pe pardoseală, ca înainte
   ceiling: null          // înălțimea camerei, dacă se știe: verifică pensilele și coloanele
 };
 
@@ -176,7 +176,7 @@ function compose(Kin, o) {
     shelfType: parts.some(function (q) { return !q.inner; }) ? "fisso" : "mobile" };
   if (o.top === "plin") cfg.top = "plin";
   /* extractibil din catalog (EBCornerData, U.17): fără alegere = corpul de dinainte */
-  if (o.legs === 1) cfg.legs = 1;   /* D-189 */
+  if (o.legs === 1) cfg.legs = 1;   /* D-190 */
   if (typeof o.cu === "string" && o.cu) { cfg.cu = o.cu; if (o.cuSize) cfg.cuSize = String(o.cuSize); }
   /* un singur gol simplu (uși / sertare / rafturi): parametrii obișnuiți ai motorului, nu cote absolute —
      aceleași uși, aceleași sertare ca la orice corp făcut din Generator */

@@ -8546,7 +8546,7 @@ function buildCore(cfg){
     add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel,role:"zoccolo"});
     bxRole="zoccolo";
     bx(wL(zz)+tF,L-wR(zz)-tF,0,pl,zz-tZ,zz,"p");
-    /* D-189 (bucătărie): cu `cfg.legs` corpul stă pe picioare reglabile rotunde, ascunse în spatele soclului, iar soclul se prinde pe ele cu clipsuri.
+    /* D-190 (bucătărie): cu `cfg.legs` corpul stă pe picioare reglabile rotunde, ascunse în spatele soclului, iar soclul se prinde pe ele cu clipsuri.
        Numai desen 3D (patru cilindri ø50, ca cei patru picioare din deviz — piedMods); distinta pieselor rămâne cea de dinainte. */
     if(cfg&&cfg.legs){
       bxRole="piedino";
@@ -16634,7 +16634,7 @@ function computeHardware(p,S,byModule){
     else if(el.includes("asta appendiabiti")){ bump(mod,"hwAsta",2*x.pz); }
     else if(el.startsWith("zoccolo telaio")){ bump(mod,"hwSoc",Math.max(2,Math.ceil(x.lung/SOC_FRAME.pitch)+1)*x.pz); }
     else if(el.startsWith("zoccolo")){ piedMods.add(mod);
-      /* D-189: soclul prins cu clipsuri pe picioarele corpului (cfg.legs) — aceeași regulă de număr ca la fâșia de pe cadru (SOC_FRAME, verificat:false) */
+      /* D-190: soclul prins cu clipsuri pe picioarele corpului (cfg.legs) — aceeași regulă de număr ca la fâșia de pe cadru (SOC_FRAME, verificat:false) */
       const cLg=cfgOf(x); if(cLg&&cLg.legs&&cLg.support==="zoccolo") bump(mod,"hwSoc",Math.max(2,Math.ceil(x.lung/SOC_FRAME.pitch)+1)*x.pz); }
     if(/^(base \/ cielo|tramezzo|ripiano fisso)/.test(el)) bump(mod,"hwConn",4*x.pz);
   }

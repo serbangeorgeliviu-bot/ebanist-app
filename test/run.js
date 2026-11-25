@@ -6589,7 +6589,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
   }
 
   {
-    head("Bucătărie: picioare reglabile rotunde + soclu clipsat (D-189)");
+    head("Bucătărie: picioare reglabile rotunde + soclu clipsat (D-190)");
     const lctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const lp = await lctx.newPage(); const lerr = []; lp.on("pageerror", e => lerr.push(String(e)));
     await lp.goto(URL); await lp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });

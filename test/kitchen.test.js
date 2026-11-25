@@ -558,7 +558,7 @@ describe("Extractibil îngust din catalog pe b_cargo (U.17 în bucătărie)", ()
   });
 });
 
-describe("Picioare reglabile rotunde + soclu clipsat (D-189)", () => {
+describe("Picioare reglabile rotunde + soclu clipsat (D-190)", () => {
   const cfgOf = (type, o, K) => { const r = build(type, o, K); return r; };
   const feet = c => arr(c.b.boxes).filter(x => x.role === "piedino");
   test("implicit (K.legs lipsește sau 0): cfg fără `legs`, aceeași cfg ca înainte", () => {
