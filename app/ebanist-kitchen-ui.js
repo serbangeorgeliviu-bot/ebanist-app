@@ -16,7 +16,7 @@
 (function () {
 "use strict";
 
-var KDEF = { workH: 900, bodyH: 720, wallBottom: 1450, wallH: 720, tallH: 2150, depthBase: 560, depthWall: 320, handles: "maniglia", topT: 38 };
+var KDEF = { workH: 900, bodyH: 720, wallBottom: 1450, wallH: 720, tallH: 2150, depthBase: 560, depthWall: 320, handles: "maniglia", topT: 38, legs: 0 };
 var CATS = ["base", "niche", "corner", "tall", "wall", "fill"];
 var CAT_OF = { n_dw: "niche", n_washer: "niche", n_cool: "niche", n_range: "niche", x_filler: "fill", x_end: "fill", x_gap: "fill" };
 var sel = { wall: 0, col: 0, up: false };
@@ -379,6 +379,7 @@ function renderKitchen() {
     [["workH", "kWorkH"], ["bodyH", "kBodyH"], ["wallBottom", "kWallBottom"], ["wallH", "kWallH"], ["tallH", "kTallH"], ["depthBase", "kDepthBase"], ["depthWall", "kDepthWall"]]
       .map(function (a) { return field(kt(a[1]), '<input type="number" inputmode="numeric" data-ks="' + a[0] + '" value="' + k.K[a[0]] + '">'); }).join("") +
     field(kt("kHandles"), '<select data-ks="handles"><option value="maniglia"' + (k.K.handles === "maniglia" ? " selected" : "") + ">" + E(kt("kHandMan")) + '</option><option value="push"' + (k.K.handles === "push" ? " selected" : "") + ">" + E(kt("kHandPush")) + '</option><option value="gola"' + (k.K.handles === "gola" ? " selected" : "") + ">" + E(kt("kHandGola")) + "</option></select>") +
+    field(kt("kLegs"), '<select data-ks="legs"><option value="0"' + (+k.K.legs !== 1 ? " selected" : "") + ">" + E(kt("kLegsOff")) + '</option><option value="1"' + (+k.K.legs === 1 ? " selected" : "") + ">" + E(kt("kLegsOn")) + "</option></select>") +
     field(kt("kTopT"), '<select data-ks="topT">' + topOpts + "</select>") +
     field(kt("kTopMat"), '<button type="button" class="matpick" data-kmat="1">' + (wm ? E(wm.label) : E(kt("kPickMat"))) + "</button>") +
     field(kt("kJoint"), '<select data-kj="1"><option value="butt"' + (k.wtJoint !== "mitre" ? " selected" : "") + ">" + E(kt("kJointButt")) + '</option><option value="mitre"' + (k.wtJoint === "mitre" ? " selected" : "") + ">" + E(kt("kJointMitre")) + "</option></select>") +

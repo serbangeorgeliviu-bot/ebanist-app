@@ -8546,6 +8546,16 @@ function buildCore(cfg){
     add("Zoccolo",G.zoccolo_W-zz*(cotL+cotR),G.zoccolo_H,1,"1L",null,{cuts:tramRel,role:"zoccolo"});
     bxRole="zoccolo";
     bx(wL(zz)+tF,L-wR(zz)-tF,0,pl,zz-tZ,zz,"p");
+    /* D-189 (bucătărie): cu `cfg.legs` corpul stă pe picioare reglabile rotunde, ascunse în spatele soclului, iar soclul se prinde pe ele cu clipsuri.
+       Numai desen 3D (patru cilindri ø50, ca cei patru picioare din deviz — piedMods); distinta pieselor rămâne cea de dinainte. */
+    if(cfg.legs){
+      bxRole="piedino";
+      const R=25, fzB=30+(trOn?TR.P:0)+R, fzF=zz-tZ-R-5, zs=(fzF-fzB>=2*R)?[fzB,fzF]:[fzB];
+      for(const fx of [tF+20+R,L-tF-20-R]) for(const fz of zs){
+        const pc=Array.from({length:16},(_,i)=>{ const an=2*Math.PI*i/16; return [fx+R*Math.cos(an),fz+R*Math.sin(an)]; });
+        boxes.push({x0:fx-R,x1:fx+R,y0:0,y1:pl,z0:fz-R,z1:fz+R,kind:"p",role:"piedino",pk:++bxPk,pc});
+      }
+    }
   }
   if(support==="cadru"&&pl-SOC_FRAME.gap>=30){
     /* fâșia de soclu care acoperă cadrul (clip Atelier d'Edouard): retrasă ca soclul, sub corp, cu un joc față de pardoseală
@@ -14972,6 +14982,7 @@ function assemblySteps(modName,hw,cfg,items){
   if(cfg&&cfg.tram>0) add(t("mTram").replace("{q}",cfg.tram),{hi:["tram"],show:CARC});
   const sup=cfg?(cfg.support||"zoccolo"):"zoccolo";
   if(sup==="cadru") add(t("mFrame").replace("{h}",cfg.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
+  if(sup==="zoccolo"&&cfg.legs&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",cfg.plinth||0).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="cadru"&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",(cfg.plinth||0)-SOC_FRAME.gap).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini"||hw.hwPied>0) add(t("mFeet").replace("{q}",hw.hwPied).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   else if(sup==="sospeso") add(t("mWall"));
@@ -15106,6 +15117,7 @@ function mSteps(M,hw,items){
   /* 4. appoggio */
   const sup=c.support||"zoccolo";
   if(sup==="cadru") add(t("ms11c").replace("{h}",c.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
+  if(sup==="zoccolo"&&c.legs&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",c.plinth||0).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="cadru"&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",(c.plinth||0)-SOC_FRAME.gap).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini") add(t("ms11f").replace("{n}",hw.hwPied||4).replace("{h}",c.plinth||0).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   /* il pensile si appende DOPO averlo messo in piedi: il passo va dopo */
@@ -16621,7 +16633,9 @@ function computeHardware(p,S,byModule){
     else if(el.includes("ripiano mobile")||el.includes("ripiano regolabile")){ bump(mod,"hwSup",4*x.pz); }
     else if(el.includes("asta appendiabiti")){ bump(mod,"hwAsta",2*x.pz); }
     else if(el.startsWith("zoccolo telaio")){ bump(mod,"hwSoc",Math.max(2,Math.ceil(x.lung/SOC_FRAME.pitch)+1)*x.pz); }
-    else if(el.startsWith("zoccolo")){ piedMods.add(mod); }
+    else if(el.startsWith("zoccolo")){ piedMods.add(mod);
+      /* D-189: soclul prins cu clipsuri pe picioarele corpului (cfg.legs) — aceeași regulă de număr ca la fâșia de pe cadru (SOC_FRAME, verificat:false) */
+      const cLg=cfgOf(x); if(cLg&&cLg.legs&&cLg.support==="zoccolo") bump(mod,"hwSoc",Math.max(2,Math.ceil(x.lung/SOC_FRAME.pitch)+1)*x.pz); }
     if(/^(base \/ cielo|tramezzo|ripiano fisso)/.test(el)) bump(mod,"hwConn",4*x.pz);
   }
   /* masa e pat: la ferramenta non si legge dai nomi dei pezzi ma dalla
@@ -21191,12 +21205,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.111.0"; /* APP_VER-MARKER */
+const APP_VER="5.112.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v305";
+const SW_CACHE="ebanist-v306";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.112.0 — 25 noiembrie 2026
+
+**Bucătărie: picioare reglabile rotunde în 3D și soclu prins cu clipsuri (D-189).**
+- Setare nouă în Bucătărie, „Soclu”: „Picioare reglabile + soclu cu clipsuri”. Corpurile standard pe soclu (baze, pensile) stau pe **patru picioare rotunde ø50** desenate în 3D, ascunse în spatele soclului; soclul rămâne o fâșie continuă din PAL.
+- **Clipsurile soclului** intră în deviz (categoria „Fixare soclu”, Häfele din catalog) și în fișa de montaj, după aceeași regulă ca fâșia de pe cadrul de nivelare: lungime / 600 mm + 1, minimum 2 (`SOC_FRAME`, `verificat:false`). Cele 4 picioare erau deja în deviz; acum se și văd.
+- **Distinta pieselor nu se schimbă** (același soclu, aceleași cote); fără setare, bucătăria e cea de dinainte.
+- Teste: `cd test && node --test kitchen.test.js` (blocul „Picioare reglabile rotunde…”) și blocul e2e „Bucătărie: picioare reglabile rotunde + soclu clipsat” din `node run.js`.
+
+---
+
 ## 5.111.0 — 25 noiembrie 2026
 
 **Bucătărie: extractibil îngust cu coșuri și eroare când sertarul nu încape pe lățime.**

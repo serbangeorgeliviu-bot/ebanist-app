@@ -557,3 +557,39 @@ describe("Extractibil îngust din catalog pe b_cargo (U.17 în bucătărie)", ()
     for (const k of ["kCu", "kCuNone"]) { const l = raw.match(new RegExp("\\n" + k + ": \\[(.*)\\],\\n"))[1]; assert.equal(l.split('", "').length, 7, k); }
   });
 });
+
+describe("Picioare reglabile rotunde + soclu clipsat (D-189)", () => {
+  const cfgOf = (type, o, K) => { const r = build(type, o, K); return r; };
+  const feet = c => arr(c.b.boxes).filter(x => x.role === "piedino");
+  test("implicit (K.legs lipsește sau 0): cfg fără `legs`, aceeași cfg ca înainte", () => {
+    const a = build("b_door", { w: 600 }), b = build("b_door", { w: 600 }, { legs: 0 });
+    eq(a.cfg, b.cfg); assert.equal(a.cfg.legs, undefined);
+  });
+  test("K.legs = 1: corpurile standard pe soclu primesc `legs`; suspendatele, nișele și colțurile nu", () => {
+    assert.equal(build("b_door", { w: 600 }, { legs: 1 }).cfg.legs, 1);
+    assert.equal(build("b_drawers", { w: 600 }, { legs: 1 }).cfg.legs, 1);
+    assert.equal(build("t_pantry", { w: 600 }, { legs: 1 }).cfg.legs, 1);
+    assert.equal(build("w_door", { w: 600 }, { legs: 1 }).cfg.legs, undefined);
+  });
+  test("în motor: patru cilindri ø50 (16 laturi), în spatele soclului, în amprenta corpului; fără `legs` niciunul", () => {
+    for (const type of ["b_door", "b_drawers", "t_pantry"]) {
+      const c = check(type + "L", build(type, { w: 600 }, { legs: 1 }).cfg), zoc = arr(c.b.boxes).find(x => x.role === "zoccolo");
+      assert.equal(feet(c).length, 4, type);
+      for (const f of feet(c)) {
+        assert.equal(f.pc.length, 16); assert.ok(Math.abs(f.x1 - f.x0 - 50) < 0.5 && Math.abs(f.z1 - f.z0 - 50) < 0.5);
+        assert.ok(f.z1 <= zoc.z0 + 0.01, "în spatele soclului"); assert.ok(f.x0 >= 0 && f.x1 <= 600, "în lățimea corpului");
+        assert.ok(f.y0 === 0 && f.y1 > 0);
+      }
+      eq(c.close, []);
+      assert.equal(feet(check(type + "N", build(type, { w: 600 }).cfg)).length, 0);
+    }
+  });
+  test("distinta pieselor e identică cu și fără picioare (numai desenul 3D și clipsurile se schimbă)", () => {
+    const rows = cfg => arr(check("r", cfg).b.pieces).map(p => [p.elemento, p.lung, p.larg, p.pz].join("|"));
+    eq(rows(build("b_door", { w: 800 }).cfg), rows(build("b_door", { w: 800 }, { legs: 1 }).cfg));
+  });
+  test("etichetele noi au text în toate cele 7 limbi", () => {
+    const raw = fs.readFileSync(path.join(APP, "ebanist-kitchen-i18n.js"), "utf8");
+    for (const k of ["kLegs", "kLegsOff", "kLegsOn"]) { const l = raw.match(new RegExp("\\n" + k + ": \\[(.*)\\],\\n"))[1]; assert.equal(l.split('", "').length, 7, k); }
+  });
+});

@@ -6588,6 +6588,43 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("Foi pe postazione: fără erori JS", errs.length === errs0, errs.slice(errs0).join(" | "));
   }
 
+  {
+    head("Bucătărie: picioare reglabile rotunde + soclu clipsat (D-189)");
+    const lctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const lp = await lctx.newPage(); const lerr = []; lp.on("pageerror", e => lerr.push(String(e)));
+    await lp.goto(URL); await lp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await lp.waitForTimeout(3300);
+    const r = await lp.evaluate(() => {
+      const o = {}; closeSheets(); const p = proj(); p.pieces = []; p.configs = {};
+      const mk = (legs, name) => { const u = buildUnit({ t: 19, legs }, "b_door", { w: 1200 }), S = state.settings;
+        return Object.assign({ name }, JSON.parse(JSON.stringify(u.cfg)), { matBody: S.matBody, matFront: S.matFront || S.matBody, matBack: S.matBack || S.matBody }); };
+      const qty = k => { const it = computeHardware(p, state.settings, false).find(i => i.k === k); return it ? it.qty : 0; };
+      const rows = () => p.pieces.map(x => [x.elemento, x.lung, x.larg, x.pz].join("|")).join(";");
+      const c0 = mk(0, "L0"); generateInto(p, c0);
+      o.sansLegs = c0.legs === undefined; o.soc0 = qty("hwSoc"); o.pied0 = qty("hwPied"); const r0 = rows();
+      o.feet0 = buildModule(c0).boxes.filter(b => b.role === "piedino").length;
+      p.pieces = []; p.configs = {};
+      const c1 = mk(1, "L1"); generateInto(p, c1);
+      const bx = buildModule(c1).boxes, feet = bx.filter(b => b.role === "piedino"), zoc = bx.find(b => b.role === "zoccolo");
+      o.legs = c1.legs === 1; o.feet = feet.length;
+      o.round = feet.every(b => b.pc && b.pc.length === 16 && Math.round(b.x1 - b.x0) === 50 && Math.round(b.z1 - b.z0) === 50);
+      o.behind = !!zoc && feet.every(b => b.z1 <= zoc.z0 + 0.01);
+      o.sameRows = rows() === r0;
+      const zr = p.pieces.find(x => x.elemento === "Zoccolo");
+      o.soc1 = qty("hwSoc"); o.socExp = zr ? Math.max(2, Math.ceil(zr.lung / SOC_FRAME.pitch) + 1) * zr.pz : -1; o.pied1 = qty("hwPied");
+      const d = document.createElement("div"); d.innerHTML = montDoc(p);
+      o.mont = d.textContent.indexOf(t("mSocFix").split("{h}")[0]) >= 0;
+      state.legsOk = 1; p.pieces = []; p.configs = {};
+      return o;
+    });
+    ok("Picioare: fără `legs` corpul e cel de dinainte (fără clipsuri, fără picioare 3D, 4 picioare în deviz)", r.sansLegs && r.soc0 === 0 && r.feet0 === 0 && r.pied0 === 4, JSON.stringify(r));
+    ok("Picioare: cu `legs` patru cilindri ø50 în 3D, în spatele soclului", r.legs && r.feet === 4 && r.round && r.behind, JSON.stringify(r));
+    ok("Picioare: distinta pieselor rămâne identică; picioarele din deviz tot 4", r.sameRows && r.pied1 === 4, JSON.stringify(r));
+    ok("Picioare: clipsurile soclului în deviz după regula fâșiei (lungime/600 + 1) și în fișa de montaj", r.soc1 === r.socExp && r.soc1 >= 2 && r.mont, JSON.stringify(r));
+    ok("Picioare: fără erori JS", lerr.length === 0, lerr.join(" | ").slice(0, 200));
+    await lctx.close();
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
