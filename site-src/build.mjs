@@ -27,6 +27,11 @@ const tplPost = read("blog-post.html");
 const tplPost5 = read("blog-post-5.html");
 const tplPost6 = read("blog-post-6.html");
 const tplBlogIdx = read("blog-index.html");
+const tplGuide = read("guide.html");
+/* ghiduri (SEO): site-src/guides/<slug>.json, câte o pagină per limbă din "langs"; limbile fără ghid nu primesc pagină, link sau hreflang */
+const GUIDES = fs.readdirSync(path.join(SRC, "guides")).filter(f => f.endsWith(".json")).sort()
+  .map(f => ({ slug: f.slice(0, -5), file: `guides/${f}`, ...JSON.parse(read(`guides/${f}`)) }))
+  .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
 const tplHelp = read("help.html");
 /* ajutorul: conținutul e al aplicației (app/ebanist-help.js), nu al site-ului — o singură sursă (D-109) */
 const EBHelp = new Function(fs.readFileSync(path.join(ROOT, "app/ebanist-help.js"), "utf8") + "\nreturn globalThis.EBHelp;")();
@@ -78,6 +83,7 @@ const caseUrl = l => cfg.SITE_URL + caseHome(l);
 /* blogul: indexul și articolul, aceeași adresă sub fiecare limbă; videoclipul există în limbile din VIDEO_LANGS, restul folosesc engleza */
 const BLOG = "blog/", POST = "blog/whats-new-4-63/", POST5 = "blog/whats-new-5-78/", POST6 = "blog/whats-new-5-98/";
 const blogHome = l => home(l) + BLOG, postHome = l => home(l) + POST, post5Home = l => home(l) + POST5, post6Home = l => home(l) + POST6;
+const guideHome = (l, slug) => home(l) + BLOG + slug + "/", guideUrl = (l, slug) => cfg.SITE_URL + guideHome(l, slug);
 const blogUrl = l => cfg.SITE_URL + blogHome(l), postUrl = l => cfg.SITE_URL + postHome(l), post5Url = l => cfg.SITE_URL + post5Home(l), post6Url = l => cfg.SITE_URL + post6Home(l);
 /* pagina de ajutor: aceeași adresă sub fiecare limbă */
 const HELP = "help/";
@@ -167,17 +173,17 @@ function sheets(L) {
   return DOCS.map(([f, k], i) => `<button type="button" class="sheet-doc" data-i="${i}" data-full="/site/docs/${L}/${f}-1500.webp" data-cap="${esc(strip(t(L, k)))}" aria-label="${esc(strip(t(L, k)))}"><picture><source type="image/avif" srcset="/site/docs/${L}/${f}-720.avif"><img src="/site/docs/${L}/${f}-720.webp" width="720" height="1019" alt="${esc(strip(t(L, k)))}" loading="lazy"></picture><span class="mono tag">${String(i + 1).padStart(2, "0")} · ${esc(strip(t(L, k)))}</span></button>`).join("");
 }
 
-function langLinks(L, href = home) {
-  return cfg.LANGS.map(l => `<a href="${href(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}>${l.toUpperCase()}</a>`).join("");
+function langLinks(L, href = home, langs = cfg.LANGS) {
+  return langs.map(l => `<a href="${href(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}>${l.toUpperCase()}</a>`).join("");
 }
 /* Pe telefon cele 4 coduri nu încap în antet: un singur buton cu limba
    curentă, care deschide lista cu numele întregi (D-60). */
-function langPick(L, href = home) {
-  const items = cfg.LANGS.map(l => `<a href="${href(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}><b class="mono">${l.toUpperCase()}</b><span>${esc(I18N[l]._name)}</span></a>`).join("");
+function langPick(L, href = home, langs = cfg.LANGS) {
+  const items = langs.map(l => `<a href="${href(l)}" hreflang="${l}" lang="${l}"${l === L ? ' aria-current="page"' : ""}><b class="mono">${l.toUpperCase()}</b><span>${esc(I18N[l]._name)}</span></a>`).join("");
   return `<details class="lang-pick"><summary aria-label="${esc(t(L, "nav.langLabel"))}: ${esc(I18N[L]._name)}"><span class="mono">${L.toUpperCase()}</span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></summary><nav class="lang-menu" aria-label="${esc(t(L, "nav.langLabel"))}">${items}</nav></details>`;
 }
-function hreflang(url = pageUrl) {
-  return cfg.LANGS.map(l => `<link rel="alternate" hreflang="${l}" href="${url(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${url(cfg.DEFAULT_LANG)}">`;
+function hreflang(url = pageUrl, langs = cfg.LANGS) {
+  return langs.map(l => `<link rel="alternate" hreflang="${l}" href="${url(l)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${url(langs.includes(cfg.DEFAULT_LANG) ? cfg.DEFAULT_LANG : langs[0])}">`;
 }
 function jsonld(L) {
   const num = s => String(s).replace(/[^\d.,]/g, "").replace(",", ".");
@@ -292,14 +298,34 @@ function helpJsonld(L) {
     { "@type": "FAQPage", inLanguage: L, mainEntity: faq }] }).replace(/</g, "\\u003c");
 }
 
+/* ---------- ghiduri ---------- */
+function guideBlocks(L, g) {
+  const c = g[L], u = l => guideUrl(l, g.slug), h = l => guideHome(l, g.slug);
+  const body = c.sections.map((x, i) => `<div class="blog-item"><span class="mono">${String(i + 1).padStart(2, "0")}</span><div><h2 class="case-h2">${esc(x.h)}</h2><p>${esc(x.p)}</p></div></div>`).join("\n      ")
+    + `\n      <aside class="case-note"><h3>${esc(c.note.h)}</h3><p>${esc(c.note.p)}</p></aside>`;
+  const jsonld = JSON.stringify({ "@context": "https://schema.org", "@type": "Article", headline: c.title, description: c.desc, inLanguage: L, url: u(L),
+    image: `${cfg.SITE_URL}/site/og/blog-whats-new.jpg`, datePublished: g.date, dateModified: g.date,
+    author: { "@type": "Organization", name: "Domus Renov SRL" }, publisher: { "@type": "Organization", name: "Domus Renov SRL", email: cfg.EMAIL },
+    mainEntityOfPage: u(L) }).replace(/</g, "\\u003c");
+  return { url: u(L), hreflang: hreflang(u, g.langs), langlinks: langLinks(L, h, g.langs), langpick: langPick(L, h, g.langs), jsonld,
+    gtitle: esc(c.title), gdesc: esc(c.desc), gkicker: esc(c.kicker), gh: c.h, glead: esc(c.lead), gdate: esc(c.date), gdateiso: g.date, gbody: body,
+    gcta: esc(c.cta), gctaBtn: esc(c.ctaBtn) };
+}
+function guideCards(L) {
+  return GUIDES.filter(g => g.langs.includes(L)).map(g => `<a class="blog-card blog-card-text" href="${guideHome(L, g.slug)}" data-goatcounter-click="blog-guide-${g.slug}">
+      <div><p class="mono">${esc(g[L].date)}</p><h2 class="case-h2">${esc(g[L].title)}</h2><p>${esc(g[L].desc)}</p><span class="mono blog-read">${t(L, "blog.idx.read")} →</span></div>
+    </a>`).join("\n    ");
+}
+
 /* ---------- randare ---------- */
 function render(L, tplSrc = tpl, mode = null) {
+  const guide = typeof mode === "string" && mode.startsWith("guide:") ? GUIDES.find(g => g.slug === mode.slice(6)) : null;
   const isCase = mode === true || mode === "case";
   const blocks = {
     css: CSS, logo: LOGO, splash: SPLASH, lang: L, caseAssetLang: caseAsset(L), url: pageUrl(L), play: `${cfg.PLAY_URL}&hl=${L}&referrer=utm_source%3Debanist-site%26utm_medium%3Dweb%26utm_campaign%3Dsite-${L}`, home: home(L), app: `${cfg.APP_URL}?lang=${L}`, ver: SITE_VER,
     hreflang: hreflang(), langlinks: langLinks(L), langpick: langPick(L), jsonld: jsonld(L), runtime: runtime(L),
     cutrows: cutRows(L), labels: labels(L), assembly: assembly(L), types: types(L), swatches: swatches(),
-    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), helpIdx: helpHome(L), postUrl: postHome(L), post5Url: post5Home(L), post6Url: post6Home(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
+    sheets: sheets(L), caseUrl: caseHome(L), caserows: caseRows(L), priceMonthly: esc(PRICE_M), blogIdx: blogHome(L), helpIdx: helpHome(L), postUrl: postHome(L), post5Url: post5Home(L), post6Url: post6Home(L), video: `/site/video/ebanist-whats-new-${vidLang(L)}.mp4`, poster: `/site/video/poster-${vidLang(L)}.webp`, og: "blog-whats-new.jpg", guidecards: guideCards(L), priceFounders: esc(PRICE_F), cmp: cmpRows(L), yearly: esc(t(L, "price.yearly").replace("{y}", PRICE_Y))
   };
   if (isCase) Object.assign(blocks, { url: caseUrl(L), hreflang: hreflang(caseUrl), langlinks: langLinks(L, caseHome), langpick: langPick(L, caseHome), jsonld: caseJsonld(L) });
   if (mode === "post") Object.assign(blocks, { url: postUrl(L), hreflang: hreflang(postUrl), langlinks: langLinks(L, postHome), langpick: langPick(L, postHome), jsonld: postJsonld(L) });
@@ -307,6 +333,7 @@ function render(L, tplSrc = tpl, mode = null) {
   if (mode === "post5") Object.assign(blocks, { url: post5Url(L), hreflang: hreflang(post5Url), langlinks: langLinks(L, post5Home), langpick: langPick(L, post5Home), jsonld: post5Jsonld(L) });
   if (mode === "help") Object.assign(blocks, { url: helpUrl(L), hreflang: hreflang(helpUrl), langlinks: langLinks(L, helpHome), langpick: langPick(L, helpHome), jsonld: helpJsonld(L), helptoc: helpToc(L), helpbody: helpBody(L), helpfaq: helpFaq(L),
     helpTopicsH: esc(EBHelp.ui(L).topics), helpFaqH: esc(EBHelp.ui(L).faq), helpContactH: esc(EBHelp.ui(L).contact), og: "og-" + L + ".jpg" });
+  if (guide) Object.assign(blocks, guideBlocks(L, guide), { og: "blog-whats-new.jpg" });
   if (mode === "blogIdx") Object.assign(blocks, { url: blogUrl(L), hreflang: hreflang(blogUrl), langlinks: langLinks(L, blogHome), langpick: langPick(L, blogHome), jsonld: blogJsonld(L) });
   return stripHtmlComments(tplSrc.replace(/\{\{([@a-zA-Z0-9_.:-]+)\}\}/g, (m, key, off, src) => {
     let v;
@@ -338,6 +365,12 @@ for (const L of cfg.LANGS) {
   fs.mkdirSync(path.dirname(outCase), { recursive: true });
   fs.writeFileSync(outCase, render(L, tplCase, true));
   console.log("✓", path.relative(OUT, outCase));
+  for (const g of GUIDES.filter(g => g.langs.includes(L))) {
+    const o = path.join(OUT, guideHome(L, g.slug).slice(1), "index.html");
+    fs.mkdirSync(path.dirname(o), { recursive: true });
+    fs.writeFileSync(o, render(L, tplGuide, "guide:" + g.slug));
+    console.log("✓", path.relative(OUT, o));
+  }
   for (const [dir, src, md] of [[blogHome(L), tplBlogIdx, "blogIdx"], [postHome(L), tplPost, "post"], [post5Home(L), tplPost5, "post5"], [post6Home(L), tplPost6, "post6"], [helpHome(L), tplHelp, "help"]]) {
     const o = path.join(OUT, dir.slice(1), "index.html");
     fs.mkdirSync(path.dirname(o), { recursive: true });
@@ -363,7 +396,7 @@ const lmod = files => {
   return best || today;
 };
 const LMI = cfg.LANGS.map(l => `i18n/${l}.json`);
-const LM = { home: lmod(["template.html", ...LMI]), cse: lmod(["case-bagno.html", ...LMI]), help: lmod(["help.html", ...LMI]), blog: lmod(["blog-index.html", ...LMI]), post: lmod(["blog-post.html", ...LMI]), post5: lmod(["blog-post-5.html", ...LMI]), post6: lmod(["blog-post-6.html", ...LMI]), legal: lmod(["template.html"]) };
+const LM = { home: lmod(["template.html", ...LMI]), cse: lmod(["case-bagno.html", ...LMI]), help: lmod(["help.html", ...LMI]), blog: lmod(["blog-index.html", ...LMI, ...GUIDES.map(g => g.file)]), post: lmod(["blog-post.html", ...LMI]), post5: lmod(["blog-post-5.html", ...LMI]), post6: lmod(["blog-post-6.html", ...LMI]), legal: lmod(["template.html"]) };
 const xdef = u => `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${u}"/>`;
 const alts = cfg.LANGS.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${pageUrl(l)}"/>`).join("\n") + xdef(pageUrl(cfg.DEFAULT_LANG));
 const urls = cfg.LANGS.map(l => `  <url><loc>${pageUrl(l)}</loc><lastmod>${LM.home}</lastmod><priority>${l === cfg.DEFAULT_LANG ? "1.0" : "0.9"}</priority>\n${alts}\n  </url>`);
@@ -379,6 +412,10 @@ for (const l of cfg.LANGS) urls.push(`  <url><loc>${blogUrl(l)}</loc><lastmod>${
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${postUrl(l)}</loc><lastmod>${LM.post}</lastmod><priority>0.7</priority>\n${postAlts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${post5Url(l)}</loc><lastmod>${LM.post5}</lastmod><priority>0.7</priority>\n${post5Alts}\n  </url>`);
 for (const l of cfg.LANGS) urls.push(`  <url><loc>${post6Url(l)}</loc><lastmod>${LM.post6}</lastmod><priority>0.7</priority>\n${post6Alts}\n  </url>`);
+for (const g of GUIDES) {
+  const gl = lmod(["guide.html", g.file]), ga = g.langs.map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${guideUrl(l, g.slug)}"/>`).join("\n") + xdef(guideUrl(g.langs.includes(cfg.DEFAULT_LANG) ? cfg.DEFAULT_LANG : g.langs[0], g.slug));
+  for (const l of g.langs) urls.push(`  <url><loc>${guideUrl(l, g.slug)}</loc><lastmod>${gl}</lastmod><priority>0.8</priority>\n${ga}\n  </url>`);
+}
 for (const [p, pr] of [["/app/", "0.8"], ["/privacy.html", "0.3"], ["/stergere-cont.html", "0.3"], ["/termeni.html", "0.3"], ["/rambursare.html", "0.3"]])
   urls.push(`  <url><loc>${cfg.SITE_URL}${p}</loc><lastmod>${LM.legal}</lastmod><priority>${pr}</priority></url>`);
 fs.writeFileSync(path.join(OUT, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`);

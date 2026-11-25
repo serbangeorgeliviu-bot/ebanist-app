@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-25",
+  "langs": ["en", "ro"],
+  "en": {
+    "title": "Part labels for cabinet making: what to print on each piece",
+    "desc": "What a good part label shows: job, size, material, edge banding and position. Printable 70 × 37 mm labels and a QR code that opens the part sheet.",
+    "kicker": "Guide · Labels",
+    "date": "25 November 2026",
+    "h": "Part labels for cabinet making: <em>what goes on each piece.</em>",
+    "lead": "Twenty minutes of cutting can turn into two hours of searching if the parts are not labelled. A good label answers one question quickly: what is this, and where does it go?",
+    "sections": [
+      { "h": "1. Which piece it is", "p": "A part number that matches the cut list and the assembly sheet, plus the name of the part (left side, shelf, back). If the three documents use different numbers, the label does more harm than none." },
+      { "h": "2. Which job and which cabinet", "p": "Several cabinets can share the same shop floor. Put the job and the cabinet on the label, so a stray shelf never ends up in the wrong carcass." },
+      { "h": "3. Finished size and material", "p": "The finished size, thickness and material. Anyone can then check a part with a tape measure without opening the project." },
+      { "h": "4. Which edges are banded", "p": "Show the banded edges on a small drawing of the part rather than as a code you have to decode. In Ebanist’s 70 × 37 mm label the edges that get banding are drawn thicker on the part outline." },
+      { "h": "5. A way to the full sheet", "p": "A QR code on the label that opens the full part sheet, with the drilling and slot positions, saves a trip back to the office. In Ebanist the QR opens the part sheet in the app; without an order it carries the part data in the code itself, and no account is needed." }
+    ],
+    "note": { "h": "What is free, what is Pro", "p": "You can see every label on screen for free. Printing the label sheets is Pro." },
+    "cta": "Generate labels from your own drawing",
+    "ctaBtn": "Open Ebanist"
+  },
+  "ro": {
+    "title": "Etichete pentru piesele de mobilă: ce scrii pe fiecare piesă",
+    "desc": "Ce arată o etichetă bună de piesă: lucrarea, cota, materialul, cantul și poziția. Etichete tipărite 70 × 37 mm și un cod QR care deschide fișa piesei.",
+    "kicker": "Ghid · Etichete",
+    "date": "25 noiembrie 2026",
+    "h": "Etichete pentru piesele de mobilă: <em>ce scrii pe fiecare piesă.</em>",
+    "lead": "Douăzeci de minute de debitare se pot transforma în două ore de căutat piese dacă nu sunt etichetate. O etichetă bună răspunde repede la o singură întrebare: ce e asta și unde merge?",
+    "sections": [
+      { "h": "1. Ce piesă e", "p": "Un număr de piesă care coincide cu lista de debitare și cu fișa de montaj, plus numele piesei (lateral stânga, raft, spate). Dacă cele trei documente au numere diferite, eticheta face mai mult rău decât lipsa ei." },
+      { "h": "2. Ce lucrare și ce corp", "p": "Mai multe corpuri pot sta pe același loc în atelier. Pune lucrarea și corpul pe etichetă, ca un raft rătăcit să nu ajungă în alt corp." },
+      { "h": "3. Cota finită și materialul", "p": "Cota finită, grosimea și materialul. Oricine poate atunci verifica o piesă cu ruleta, fără să deschidă proiectul." },
+      { "h": "4. Ce canturi se lipesc", "p": "Arată canturile cu cant pe un desen mic al piesei, nu printr-un cod pe care trebuie să-l descifrezi. În eticheta Ebanist de 70 × 37 mm muchiile cu cant sunt trase mai gros pe conturul piesei." },
+      { "h": "5. Drum spre fișa întreagă", "p": "Un cod QR pe etichetă care deschide fișa completă a piesei, cu pozițiile găurilor și ale canalelor, te scutește de un drum înapoi la birou. În Ebanist QR-ul deschide fișa piesei în aplicație; fără comandă, datele piesei stau chiar în cod, iar contul nu e necesar." }
+    ],
+    "note": { "h": "Ce e gratuit, ce e Pro", "p": "Poți vedea gratuit toate etichetele pe ecran. Tipărirea foilor de etichete e în Pro." },
+    "cta": "Generează etichete din propriul tău desen",
+    "ctaBtn": "Deschide Ebanist"
+  }
+}
