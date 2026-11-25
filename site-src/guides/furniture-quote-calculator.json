@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-25",
+  "langs": ["en", "ro"],
+  "en": {
+    "title": "How to price a furniture job: a quote calculator that counts everything",
+    "desc": "How to price custom furniture without losing money: boards, offcuts, hardware, edge banding, labour and margin. A free calculator inside Ebanist.",
+    "kicker": "Guide · Quotes",
+    "date": "25 November 2026",
+    "h": "How to price a furniture job: <em>count everything once.</em>",
+    "lead": "Most underpriced jobs are not underpriced on purpose. Something was left out: the offcuts, a hinge count, an hour of installation. Here is the checklist, and how to get each number from the project instead of from memory.",
+    "sections": [
+      { "h": "1. Boards, not square metres of parts", "p": "You buy whole boards. The parts of a cabinet never fill them completely, so the cost is the number of boards from the cutting plan, not the total area of the parts. Ebanist gives the number of boards from the layout, so the quote starts from what you will really buy." },
+      { "h": "2. Edge banding by the metre", "p": "Edge banding is cheap per metre and easy to forget in a long job. It should come from the same list as the parts, with the edges marked, not from a guess." },
+      { "h": "3. Hardware counted once", "p": "Hinges, runners, handles, connectors, feet. Count them from the project, per cabinet, and use the real catalogue price. Ebanist counts hardware once and uses the same count in the quote and in the assembly sheet, so the two never disagree. You can edit prices, and add your own articles." },
+      { "h": "4. Labour in hours, by operation", "p": "Cutting, edging, drilling, assembly, delivery, installation. Estimate hours per operation from jobs you have already timed. A single lump sum hides the operation you always underestimate." },
+      { "h": "5. Margin on top, then tax", "p": "Costs first, then your margin, then VAT where it applies. Keep them as separate lines so you can see what a discount really costs you." },
+      { "h": "6. Show the client, not a spreadsheet", "p": "A clear quote with the cabinet drawn next to the price closes faster than a table. In Ebanist the offer is built from the same project; client mode lets the customer choose between variants and sign on screen." }
+    ],
+    "note": { "h": "What is free, what is Pro", "p": "Free: one project and the quote on screen. Pro: the PDF quote, client mode with variants and signature, and unlimited projects." },
+    "cta": "Price your next job from the drawing",
+    "ctaBtn": "Open Ebanist"
+  },
+  "ro": {
+    "title": "Cum prețuiești o lucrare de mobilă: un calculator de deviz care numără tot",
+    "desc": "Cum prețuiești mobilă la comandă fără să pierzi bani: plăci, resturi, feronerie, cant, manoperă și marjă. Un calculator gratuit în Ebanist.",
+    "kicker": "Ghid · Deviz",
+    "date": "25 noiembrie 2026",
+    "h": "Cum prețuiești o lucrare de mobilă: <em>numeri totul o singură dată.</em>",
+    "lead": "Cele mai multe lucrări subprețuite nu sunt subprețuite dinadins. Ceva a rămas pe dinafară: resturile, numărul de balamale, o oră de montaj. Iată lista de verificat și cum scoți fiecare număr din proiect, nu din memorie.",
+    "sections": [
+      { "h": "1. Plăci întregi, nu metri pătrați de piese", "p": "Cumperi plăci întregi. Piesele unui corp nu le umplu niciodată complet, deci costul e numărul de plăci din planul de tăiere, nu suprafața totală a pieselor. Ebanist dă numărul de plăci din vederea Debitare, așa că devizul pornește de la ce vei cumpăra de fapt." },
+      { "h": "2. Cantul, la metru", "p": "Cantul e ieftin pe metru și ușor de uitat într-o lucrare lungă. Trebuie să vină din aceeași listă ca piesele, cu canturile marcate, nu din presupuneri." },
+      { "h": "3. Feroneria, numărată o singură dată", "p": "Balamale, glisiere, mânere, conectori, picioare. Numără-le din proiect, pe corp, și folosește prețul real din catalog. Ebanist numără feroneria o singură dată și folosește același număr în deviz și în fișa de montaj, deci cele două nu se contrazic. Poți edita prețurile și adăuga articole proprii." },
+      { "h": "4. Manopera, în ore, pe operații", "p": "Debitare, cantuire, găurire, montaj în atelier, transport, montaj la client. Estimează orele pe operație din lucrări pe care le-ai cronometrat deja. O sumă globală ascunde operația pe care o subestimezi mereu." },
+      { "h": "5. Marja deasupra, apoi TVA-ul", "p": "Costurile întâi, apoi marja ta, apoi TVA unde se aplică. Ține-le pe rânduri separate ca să vezi cât te costă de fapt un discount." },
+      { "h": "6. Arată-i clientului desenul, nu un tabel", "p": "O ofertă clară, cu corpul desenat lângă preț, se închide mai repede decât un tabel. În Ebanist oferta se face din același proiect; modul Client lasă clientul să aleagă între variante și să semneze pe ecran." }
+    ],
+    "note": { "h": "Ce e gratuit, ce e Pro", "p": "Gratuit: un proiect și devizul pe ecran. Pro: oferta PDF, modul Client cu variante și semnătură, și proiecte nelimitate." },
+    "cta": "Prețuiește următoarea lucrare direct din desen",
+    "ctaBtn": "Deschide Ebanist"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-25",
+  "langs": ["en", "ro"],
+  "en": {
+    "title": "How to avoid chipping when cutting melamine and laminated boards",
+    "desc": "Chipped edges on melamine boards: which face goes up, what blade to use, scoring, tape and cutting order. Practical rules for the workshop.",
+    "kicker": "Guide · Workshop",
+    "date": "25 November 2026",
+    "h": "How to avoid chipping when cutting melamine: <em>five rules that work.</em>",
+    "lead": "Chipping happens where the teeth leave the board. Once you know where that is on your saw, most of the problem is solved before you change anything else.",
+    "sections": [
+      { "h": "1. Put the good face on the side where the teeth enter", "p": "On a table saw the teeth move down into the top face and leave through the bottom, so the good face goes up. On a hand-held circular saw the teeth move up through the bottom, so the good face goes down. Check your own saw by making one test cut and looking at both faces." },
+      { "h": "2. Use a blade made for laminates", "p": "A blade with many fine teeth and a flat or alternating-flat top grind (TCG) cuts melamine more cleanly than a general-purpose blade. A dull blade chips even when everything else is right. Replace or sharpen it before it starts to burn or chip." },
+      { "h": "3. Score first when you can", "p": "Panel saws and sliding table saws often have a scoring blade that cuts a shallow groove in the lower face before the main blade. If your saw has one, set it to just the depth of the coating. Without one, a shallow first pass or a strip of masking tape along the line helps." },
+      { "h": "4. Support the cut and do not force it", "p": "Chipping on the exit side grows when the board flexes or when you push too fast. A zero-clearance insert on a table saw supports the fibres right at the blade. Feed at an even speed." },
+      { "h": "5. Cut oversize, then trim, and band after", "p": "If a visible edge matters, leave a few millimetres and trim to the final size in a clean pass. Visible edges that will be banded hide small defects, so plan cuts so that the best edges are the ones left visible." }
+    ],
+    "note": { "h": "Where the cut list helps", "p": "A list with the finished size and, if you choose, the cutting size minus the edge banding on the same line stops the extra trims that cost you boards. Ebanist produces both numbers for every part." },
+    "cta": "Get a cut list where every size is already worked out",
+    "ctaBtn": "Open Ebanist"
+  },
+  "ro": {
+    "title": "Cum eviți ciobirea la tăierea melaminei și a plăcilor laminate",
+    "desc": "Margini ciobite la PAL melaminat: ce față merge sus, ce disc folosești, incizorul, banda adezivă și ordinea tăierilor. Reguli practice pentru atelier.",
+    "kicker": "Ghid · Atelier",
+    "date": "25 noiembrie 2026",
+    "h": "Cum eviți ciobirea la melamină: <em>cinci reguli care merg.</em>",
+    "lead": "Ciobirea apare unde dinții ies din placă. Odată ce știi unde e asta pe fierăstrăul tău, cea mai mare parte din problemă e rezolvată înainte să schimbi altceva.",
+    "sections": [
+      { "h": "1. Pune fața bună pe partea pe unde intră dinții", "p": "La un fierăstrău circular de masă dinții coboară în fața de sus și ies prin cea de jos, deci fața bună merge în sus. La un fierăstrău circular de mână dinții urcă prin fața de jos, deci fața bună merge în jos. Verifică-l pe al tău cu o tăietură de probă, privind ambele fețe." },
+      { "h": "2. Folosește un disc făcut pentru laminate", "p": "Un disc cu mulți dinți fini și geometrie plată sau alternant-plată (TCG) taie melamina mai curat decât unul de uz general. Un disc tocit ciobește chiar dacă restul e corect. Schimbă-l sau ascute-l înainte să înceapă să ardă sau să ciobească." },
+      { "h": "3. Incizează întâi, când poți", "p": "Mașinile de format și fierăstraiele cu masă mobilă au adesea un disc incizor care taie un șanț mic în fața de jos înaintea discului principal. Dacă ai unul, reglează-l la adâncimea stratului de melamină. Fără el ajută o primă trecere superficială sau o bandă adezivă lipită pe linie." },
+      { "h": "4. Sprijină tăietura și nu forța", "p": "Ciobirea pe partea de ieșire crește când placa se flexează sau când împingi prea repede. O placă de masă cu fantă îngustă (zero-clearance) la fierăstrăul de masă ține fibrele chiar lângă disc. Avansează cu viteză constantă." },
+      { "h": "5. Taie cu adaos, apoi finisează, iar cantuirea vine la urmă", "p": "Dacă o muchie vizibilă contează, lasă câțiva milimetri și taie la cota finală într-o trecere curată. Canturile lipite ascund defecte mici, deci planifică tăieturile astfel încât cele mai bune muchii să rămână vizibile." }
+    ],
+    "note": { "h": "Unde ajută lista de debitare", "p": "O listă cu cota finită și, dacă alegi, cota de tăiere minus cantul pe același rând evită retăierile care te costă plăci. Ebanist scoate ambele numere pentru fiecare piesă." },
+    "cta": "Ia o listă de debitare în care fiecare cotă e deja calculată",
+    "ctaBtn": "Deschide Ebanist"
+  }
+}
