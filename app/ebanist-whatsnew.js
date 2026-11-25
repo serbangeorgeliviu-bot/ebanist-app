@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.113.1", date: "2026-11-25", t: {
+      en: { title: "Five more tips in Help", items: ["“Tips & Tricks” grows by five: experiment on a duplicated project, red checks with fixes, hardware suggestions that never apply themselves, “Print everything”, and what the free version can do."] },
+      ro: { title: "Încă cinci sfaturi în Ajutor", items: ["„Tips & Tricks” crește cu cinci: experimentează pe un proiect duplicat, controalele roșii cu soluții, sugestiile de feronerie care nu se aplică singure, „Tipărește tot” și ce poate versiunea gratuită."] },
+      it: { title: "Altri cinque consigli nella Guida", items: ["«Tips & Tricks» cresce di cinque: sperimenta su un progetto duplicato, controlli rossi con soluzioni, suggerimenti di ferramenta che non si applicano da soli, «Stampa tutto» e cosa fa la versione gratuita."] },
+      fr: { title: "Cinq astuces de plus dans l'Aide", items: ["« Trucs et astuces » s'enrichit de cinq : expérimenter sur un projet dupliqué, contrôles rouges avec solutions, suggestions de quincaillerie jamais appliquées seules, « Tout imprimer » et ce que permet la version gratuite."] },
+      de: { title: "Fünf weitere Tipps in der Hilfe", items: ["„Tipps und Tricks“ wächst um fünf: am duplizierten Projekt testen, rote Prüfungen mit Lösungen, Beschlagvorschläge, die sich nie selbst anwenden, „Alles drucken“ und was die kostenlose Version kann."] },
+      pl: { title: "Pięć kolejnych porad w Pomocy", items: ["„Porady i triki” rosną o pięć: eksperymenty na zduplikowanym projekcie, czerwone kontrole z rozwiązaniami, podpowiedzi okuć, które nie stosują się same, „Drukuj wszystko” i co potrafi wersja darmowa."] },
+      es: { title: "Cinco consejos más en la Ayuda", items: ["«Trucos y consejos» crece en cinco: experimentar en un proyecto duplicado, controles rojos con soluciones, sugerencias de herrajes que nunca se aplican solas, «Imprimir todo» y qué permite la versión gratuita."] }
+    } },
     { v: "5.113.0", date: "2026-11-25", t: {
       en: { title: "Tips & Tricks in Help", items: ["New topic “Tips & Tricks” at the end of Help (also on the website): five small tricks that save time, such as duplicating a unit, checking the parts in the exploded view, the part sheet with its QR code, and the cut size minus edge band."] },
       ro: { title: "Tips & Tricks în Ajutor", items: ["Subiect nou, „Tips & Tricks”, la sfârșitul Ajutorului (și pe site): cinci trucuri mici care economisesc timp, de exemplu duplicarea unui corp, verificarea pieselor în vederea explodată, fișa piesei cu codul QR și cota de tăiere minus cantul."] },

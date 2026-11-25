@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.113.1 — 25 noiembrie 2026
+
+**„Tips & Tricks”: încă cinci sfaturi** (duplică proiectul înainte de o încercare riscantă, controalele roșii cu soluții, sugestiile de feronerie care nu se aplică singure, „Tipărește tot”, ce poate face versiunea gratuită), în cele 7 limbi, în aplicație și pe `/help/`. Fără schimbări de calcul.
+
+---
+
 ## 5.113.0 — 25 noiembrie 2026
 
 **Ajutor: subiect nou „Tips & Tricks”.**
