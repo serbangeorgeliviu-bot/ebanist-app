@@ -88,6 +88,7 @@ var FIELDS = {
   w_hoodspace: [["hood", "appl", function () { return idsFilter("hood", function (a) { return a.sub !== "tele"; }); }, "ka_hood"], ["bottom", "num", [900, 2200], "kHeight"]],
   w_corner: [["side", "sel", ["left", "right"], "kSide"], ["h", "sel", [720, 900], "kHeight"]],
   t_pantry: [["doors", "sel", DOORS, "kDoors"], ["sh", "num", [0, 8], "kShelves"]],
+  b_cargo:  [["cu", "cu", null, "kCu"]],
   t_pull:   [["n", "sel", [3, 4, 5, 6], "kDrawers"]],
   t_oven:   [["oven", "appl", function () { return idsOf(["oven"]); }, "ka_oven"], ["micro", "appl0", function () { return ["micro38", "micro45", "coffee45", "warm14", "warm29", "oven45"]; }, "ka_micro"]],
   t_fridge: [["fridge", "appl", function () { return ["fridge178", "fridge158", "fridge122", "fridge102", "fridge88"]; }, "ka_fridge"]],
@@ -115,6 +116,17 @@ function sideOf(wi, nW, ci, nC, type) {
   if (type === "c_l") return atEnd ? "right" : atStart ? "left" : null;
   return null;
 }
+/* Un sertar care nu încape pe lățime NU se desenează (planul de sertar dă `wDrawNarrow` ca avertisment) și corpul ar ieși fără sertar și fără
+   front, în tăcere. Pe bucătărie e eroare blocantă: se încearcă corpul în motor (minimul vine din sistemul de sertar ales, nu din cod). */
+function drawerFitCheck(r) {
+  var c = r && r.cfg, S = state.settings || {};
+  if (!c || r.errors.length || !(c.drawers > 0 || (c.drawerBlocks && c.drawerBlocks.length)) || !S.matBody) return;
+  try {
+    var m = buildModule(Object.assign({ name: "_fit", matBody: S.matBody, matFront: S.matFront || S.matBody, matBack: S.matBack || S.matBody }, JSON.parse(JSON.stringify(c))));
+    var dw = m && m.warn && m.warn.drawWarn || [];
+    if (dw.some(function (x) { return x.k === "wDrawNarrow"; })) r.errors.push({ k: "kuDrawNarrow", w: r.w });
+  } catch (e) { /* motorul decide la aplicare */ }
+}
 function buildAll(p, k) {
   var K = Kfull(k), walls = surveyWalls(p), built = {}, errs = [];
   walls.forEach(function (w, wi) {
@@ -123,10 +135,12 @@ function buildAll(p, k) {
       var o = Object.assign({}, c.opts || {}, { w: c.w });
       var sd = sideOf(wi, walls.length, ci, cols.length, c.type); if (sd) o.side = sd;
       var r = buildUnit(K, c.type, o); built[c.id] = r;
+      drawerFitCheck(r);
       if (r.errors.length) errs.push({ wall: wi + 1, col: ci + 1, errors: r.errors });
       if (c.up && c.up.type && !(KITCHEN_UNITS[c.type].cat === "tall")) {
         var ou = Object.assign({}, c.up.opts || {}, { w: r.w || c.w });
         var ru = buildUnit(K, c.up.type, ou); built[c.id + ":up"] = ru;
+        drawerFitCheck(ru);
         if (ru.errors.length) errs.push({ wall: wi + 1, col: ci + 1, up: true, errors: ru.errors });
       }
     });
@@ -267,8 +281,25 @@ function elevation(ev, wi) {
 function field(label, inner) { return '<div class="f"><label>' + E(label) + "</label>" + inner + "</div>"; }
 function numInput(f, v, extra) { return '<input type="number" inputmode="numeric" data-kf="' + f + '" value="' + (v == null ? "" : v) + '"' + (extra || "") + ">"; }
 function selOptions(vals, cur, lab) { return vals.map(function (v) { return '<option value="' + v + '"' + (String(v) === String(cur) ? " selected" : "") + ">" + E(lab ? lab(v) : v) + "</option>"; }).join(""); }
-function optField(def, o, labelOf) {
+/* extractibilele din catalogul U.17 (EBCornerData) pentru un corp jos de lățimea `w`: cele care au o mărime nominală ce o acoperă */
+function cuIds(w) {
+  var F = typeof EBCornerFit === "object" ? EBCornerFit : null; if (!F) return [];
+  return F.list().filter(function (u) {
+    return u.kind === "pullout" && u.body === "base" && (u.sizes || []).some(function (s) {
+      var c = typeof s.cab === "number" ? [s.cab, s.cab] : (Array.isArray(s.cab) ? s.cab : null);
+      return c && c[0] != null && w >= c[0] && w <= (c[1] == null ? c[0] : c[1]);
+    });
+  }).map(function (u) { return u.key; });
+}
+function cuLabel(id) { var u = typeof EBCornerFit === "object" ? EBCornerFit.get(id) : null; return u ? u.brand + " — " + u.name : id; }
+function optField(def, o, labelOf, w) {
   var key = def[0], kind = def[1], cur = o[key], lab = def[3] ? kt(def[3]) : key;
+  if (kind === "cu") {
+    var ids = cuIds(+w || 0);
+    if (!ids.length) return "";
+    return field(lab, '<select data-ko="' + key + '"><option value="">' + E(kt("kCuNone")) + "</option>" +
+      ids.map(function (id) { return '<option value="' + id + '"' + (id === cur ? " selected" : "") + ">" + E(cuLabel(id)) + "</option>"; }).join("") + "</select>");
+  }
   if (kind === "sel") {
     var vals = def[2], show = function (v) { return v === "auto" ? "auto" : v === "left" ? kt("kSideL") : v === "right" ? kt("kSideR") : v === "none" ? kt("kMechNone") : v === "lemans" ? kt("kMechLeMans") : v === "magic" ? kt("kMechMagic") : v === "carousel" ? kt("kMechCarousel") : v; };
     return field(lab, '<select data-ko="' + key + '">' + selOptions(vals, cur == null ? vals[0] : cur, show) + "</select>");
@@ -305,7 +336,7 @@ function colEditor(ev, wi, ci, up) {
   html.push("</div>");
   if (u) {
     var o = node.opts = node.opts || {};
-    var fs = (FIELDS[type] || []).map(function (d) { return optField(d, o); }).filter(Boolean);
+    var fs = (FIELDS[type] || []).map(function (d) { return optField(d, o, null, c.w); }).filter(Boolean);
     /* montaj pentru aparatele cu mai multe variante */
     var mf = (FIELDS[type] || []).filter(function (d) { return d[1] === "mount"; })[0];
     if (mf) {

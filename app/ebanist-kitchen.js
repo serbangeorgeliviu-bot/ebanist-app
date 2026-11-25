@@ -174,6 +174,8 @@ function compose(Kin, o) {
     top: o.top === "plin" ? "plin" : "traverse",
     shelfType: parts.some(function (q) { return !q.inner; }) ? "fisso" : "mobile" };
   if (o.top === "plin") cfg.top = "plin";
+  /* extractibil din catalog (EBCornerData, U.17): fără alegere = corpul de dinainte */
+  if (typeof o.cu === "string" && o.cu) { cfg.cu = o.cu; if (o.cuSize) cfg.cuSize = String(o.cuSize); }
   /* un singur gol simplu (uși / sertare / rafturi): parametrii obișnuiți ai motorului, nu cote absolute —
      aceleași uși, aceleași sertare ca la orice corp făcut din Generator */
   var b0 = bays[0];
@@ -228,8 +230,10 @@ def("b_drdoor", "base", W_BASE.slice(2), 600, function (K, h, o) {
 def("b_bin", "base", [300, 400, 450, 500, 600], 450, function (K, h, o) {
   return { c: mk(geomBase(K, h), o.w, [{ k: "drawers", n: 1 }]), notes: ["kuBinNote"] };
 });
-def("b_cargo", "base", [250, 300], 300, function (K, h, o) {
-  return { c: mk(geomBase(K, h), o.w, [{ k: "drawers", n: 1 }]), notes: ["kuCargoNote"] };
+def("b_cargo", "base", [150, 200, 250, 300], 300, function (K, h, o) {
+  /* cu `cu` (cheia unui extractibil din catalogul U.17: coșuri Kesseböhmer 150, Peka Pinello Cargo 200/300 …) corpul primește unitatea, nu sertarul */
+  var cu = typeof o.cu === "string" && o.cu ? o.cu : null;
+  return { c: mk(geomBase(K, h), o.w, [{ k: "drawers", n: 1 }], cu ? { cu: cu, cuSize: o.cuSize } : null), notes: cu ? [] : ["kuCargoNote"] };
 });
 def("b_open", "base", W_BASE, 600, function (K, h, o) {
   return { c: mk(geomBase(K, h), o.w, [{ k: "open", sh: num(o.sh, 1) }]) };

@@ -5,6 +5,16 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.111.0 — 25 noiembrie 2026
+
+**Bucătărie: extractibil îngust cu coșuri și eroare când sertarul nu încape pe lățime.**
+- **Baza extractibilă (cargo)** merge acum de la **150 mm** (înainte 250–300) și are un câmp nou, „Extractibil din catalog”: coșurile Kesseböhmer de 150 mm (side runner și Dispensa Junior Slim 150) la 150 mm, Peka Pinello Cargo la 200 și 300 mm. Corpul primește unitatea din catalogul de extractibile (coșurile se văd în 3D, nu se taie, se cumpără), cu un front pe cadru în loc de sertarul simplu. Fără alegere, corpul e cel de dinainte (sertar simplu + nota către producător).
+- **Eroare nouă, blocantă:** dacă lățimea unui corp cu sertar e prea mică pentru sertar (de exemplu 150–220 mm cu glisierele Tandem), „Aplică” se oprește cu „Lățimea … mm e prea îngustă: sertarul nu încape…”. Înainte corpul ieșea fără sertar și fără front, doar cu un avertisment pe care bucătăria nu-l arăta. Minimul vine din sistemul de sertar ales, nu dintr-un număr scris în cod.
+- Cotele extractibilelor rămân `verificat:false` (din documentele producătorilor, vezi U.17); găurile lor nu se generează.
+- Teste: `cd test && node --test kitchen.test.js` (blocurile „Sertar prea lat…” și „Extractibil îngust din catalog…”).
+
+---
+
 ## 5.110.1 — 25 noiembrie 2026
 
 **Fișa de montaj: materialele în limba documentului, fără cuvinte din altă limbă.**

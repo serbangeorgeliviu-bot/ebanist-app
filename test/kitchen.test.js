@@ -16,7 +16,7 @@ const fs = require("fs"), vm = require("vm"), path = require("path");
 const E = require("./engine.js");
 const S = E.appEngine(), MM = E.MM;
 const APP = path.join(__dirname, "..", "app");
-for (const f of ["ebanist-ops.js", "ebanist-worktop.js", "ebanist-kitchen-data.js", "ebanist-kitchen.js", "ebanist-kitchen-i18n.js"])
+for (const f of ["ebanist-corner-data.js", "ebanist-cornerfit.js", "ebanist-corner.js", "ebanist-ops.js", "ebanist-worktop.js", "ebanist-kitchen-data.js", "ebanist-kitchen.js", "ebanist-kitchen-i18n.js"])
   vm.runInContext(fs.readFileSync(path.join(APP, f), "utf8"), S, { filename: f });
 
 const J = x => JSON.parse(JSON.stringify(x));
@@ -480,5 +480,80 @@ describe("Corectări găsite cu bucătăria U complexă", () => {
     const pl = S.planKitchen(K0, spec, built);
     const w = S.worktopSpecs(K0, spec, pl, { a: "A", b: "B" });
     eq(w[0].joints, ["butt"]);
+  });
+});
+
+describe("Sertar prea lat pentru lățimea corpului (drawerFitCheck)", () => {
+  /* funcția e în ebanist-kitchen-ui.js (browser): se extrage din sursă și rulează pe motorul real, cu `state` și `buildModule` ale lui */
+  const ui = fs.readFileSync(path.join(APP, "ebanist-kitchen-ui.js"), "utf8");
+  const m = ui.match(/function drawerFitCheck\(r\) \{[\s\S]*?\n\}\n/);
+  test("funcția există în UI", () => assert.ok(m, "drawerFitCheck lipsește"));
+  const fit = r => { settings(); vm.runInContext(m[0] + "\nglobalThis.__fit = drawerFitCheck;", S); S.__fit(r); return r; };
+  const errs = r => arr(r.errors).map(e => e.k);
+  test("b_cargo sub lățimea la care încape sertarul = eroare blocantă, cu lățimea în mesaj", () => {
+    for (const w of [150, 200, 220]) {
+      const r = fit(build("b_cargo", { w }));
+      assert.deepEqual(errs(r), ["kuDrawNarrow"], "w=" + w);
+      assert.equal(r.errors[0].w, w);
+    }
+  });
+  test("la 250 și 300 mm nu apare nicio eroare (comportamentul de dinainte)", () => {
+    for (const w of [250, 300]) assert.deepEqual(errs(fit(build("b_cargo", { w }))), [], "w=" + w);
+  });
+  test("același control pentru b_drawers, iar corpurile fără sertar nu sunt atinse", () => {
+    assert.deepEqual(errs(fit(build("b_drawers", { w: 200 }))), ["kuDrawNarrow"]);
+    assert.deepEqual(errs(fit(build("b_drawers", { w: 600, n: 3 }))), []);
+    assert.deepEqual(errs(fit(build("b_door", { w: 200 }))), []);
+  });
+  test("mesajul are text în toate cele 7 limbi", () => {
+    const raw = fs.readFileSync(path.join(APP, "ebanist-kitchen-i18n.js"), "utf8");
+    const l = raw.match(/kuDrawNarrow: \[(.*)\],\n/)[1];
+    assert.equal((l.match(/\{w\}/g) || []).length, 7);
+  });
+});
+
+describe("Extractibil îngust din catalog pe b_cargo (U.17 în bucătărie)", () => {
+  const ui = fs.readFileSync(path.join(APP, "ebanist-kitchen-ui.js"), "utf8");
+  const mi = ui.match(/function cuIds\(w\) \{[\s\S]*?\n\}\n/);
+  const ids = w => { vm.runInContext(mi[0] + "\nglobalThis.__cu = cuIds;", S); return arr(S.__cu(w)); };
+  const roles = c => arr(c.b.pieces).map(p => p.role);
+  const boxesCu = c => arr(c.b.boxes).filter(x => x.role === "cornerhw").length;
+  test("lista din UI: 150 și 300 mm au extractibile, o lățime fără mărime nominală nu are", () => {
+    assert.ok(mi, "cuIds lipsește");
+    for (const k of ["kb_base_basket_150", "kb_junior_slim"]) assert.ok(ids(150).includes(k), k);
+    assert.ok(ids(200).includes("peka_pinello_cargo") && ids(300).includes("peka_pinello_cargo"));
+    eq(ids(250).includes("peka_pinello_cargo"), false);
+    eq(ids(150).filter(k => !S.EBCornerFit.get(k)), []);
+  });
+  test("lățimile b_cargo includ 150 și 200 (coșul îngust)", () => {
+    for (const w of [150, 200, 250, 300]) assert.ok(S.KITCHEN_UNITS.b_cargo.ws.includes(w), w);
+  });
+  test("fără alegere: corpul de dinainte (sertar + notă), cu `cu: null` sau gol la fel", () => {
+    const a = build("b_cargo", { w: 300 }), b = build("b_cargo", { w: 300, cu: null }), c = build("b_cargo", { w: 300, cu: "" });
+    eq(a.cfg, b.cfg); eq(a.cfg, c.cfg); eq(a.notes, ["kuCargoNote"]); assert.equal(a.cfg.cu, undefined);
+  });
+  test("cu unitate: corpul primește cfg.cu, nota de „alege coșul producătorului” dispare, nicio eroare", () => {
+    for (const [w, cu] of [[150, "kb_base_basket_150"], [150, "kb_junior_slim"], [200, "peka_pinello_cargo"], [300, "peka_pinello_cargo"]]) {
+      const r = build("b_cargo", { w, cu });
+      eq(r.errors, [], cu + w); assert.equal(r.cfg.cu, cu); eq(r.notes, []);
+    }
+  });
+  test("în motor: fără sertar, un front pe cadru, coșurile ca cutii 3D (nu piese), corpul se închide", () => {
+    for (const [w, cu] of [[150, "kb_base_basket_150"], [200, "peka_pinello_cargo"], [300, "peka_pinello_cargo"]]) {
+      const c = check("cu" + w, build("b_cargo", { w, cu }).cfg);
+      assert.equal(roles(c).some(r => /^cassetto/.test(r)), false, "fără sertar simplu");
+      assert.equal(roles(c).filter(r => r === "frontale").length, 1);
+      assert.ok(boxesCu(c) > 0, "cutiile unității"); eq(c.close, []);
+    }
+  });
+  test("același corp la 150 mm: cu unitate fără avertismentul de sertar prea îngust, fără unitate cu el", () => {
+    const dw = cfg => arr(((S.buildModule(full("x", cfg)).warn || {}).drawWarn) || []).map(x => x.k);
+    settings();
+    assert.deepEqual(dw(build("b_cargo", { w: 150, cu: "kb_base_basket_150" }).cfg), []);
+    assert.deepEqual(dw(build("b_cargo", { w: 150 }).cfg), ["wDrawNarrow"]);
+  });
+  test("etichetele noi au text în toate cele 7 limbi", () => {
+    const raw = fs.readFileSync(path.join(APP, "ebanist-kitchen-i18n.js"), "utf8");
+    for (const k of ["kCu", "kCuNone"]) { const l = raw.match(new RegExp("\\n" + k + ": \\[(.*)\\],\\n"))[1]; assert.equal(l.split('", "').length, 7, k); }
   });
 });
