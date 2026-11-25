@@ -8548,7 +8548,7 @@ function buildCore(cfg){
     bx(wL(zz)+tF,L-wR(zz)-tF,0,pl,zz-tZ,zz,"p");
     /* D-189 (bucătărie): cu `cfg.legs` corpul stă pe picioare reglabile rotunde, ascunse în spatele soclului, iar soclul se prinde pe ele cu clipsuri.
        Numai desen 3D (patru cilindri ø50, ca cei patru picioare din deviz — piedMods); distinta pieselor rămâne cea de dinainte. */
-    if(cfg.legs){
+    if(cfg&&cfg.legs){
       bxRole="piedino";
       const R=25, fzB=30+(trOn?TR.P:0)+R, fzF=zz-tZ-R-5, zs=(fzF-fzB>=2*R)?[fzB,fzF]:[fzB];
       for(const fx of [tF+20+R,L-tF-20-R]) for(const fz of zs){
@@ -14982,7 +14982,7 @@ function assemblySteps(modName,hw,cfg,items){
   if(cfg&&cfg.tram>0) add(t("mTram").replace("{q}",cfg.tram),{hi:["tram"],show:CARC});
   const sup=cfg?(cfg.support||"zoccolo"):"zoccolo";
   if(sup==="cadru") add(t("mFrame").replace("{h}",cfg.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
-  if(sup==="zoccolo"&&cfg.legs&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",cfg.plinth||0).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
+  if(sup==="zoccolo"&&cfg&&cfg.legs&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",cfg.plinth||0).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="cadru"&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",(cfg.plinth||0)-SOC_FRAME.gap).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini"||hw.hwPied>0) add(t("mFeet").replace("{q}",hw.hwPied).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   else if(sup==="sospeso") add(t("mWall"));
@@ -15117,7 +15117,7 @@ function mSteps(M,hw,items){
   /* 4. appoggio */
   const sup=c.support||"zoccolo";
   if(sup==="cadru") add(t("ms11c").replace("{h}",c.plinth||0),{hi:["zocc"],show:[...CARC,"tram"]});
-  if(sup==="zoccolo"&&c.legs&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",c.plinth||0).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
+  if(sup==="zoccolo"&&c&&c.legs&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",c.plinth||0).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="cadru"&&hw.hwSoc>0) add(t("mSocFix").replace("{h}",(c.plinth||0)-SOC_FRAME.gap).replace("{q}",hw.hwSoc).replace("{p}",P("soc","hwSoc")),{hi:["zocc"],show:[...CARC,"tram"]});
   if(sup==="piedini") add(t("ms11f").replace("{n}",hw.hwPied||4).replace("{h}",c.plinth||0).replace("{p}",P("pied","hwPied")),{hi:["zocc"],show:[...CARC,"tram"]});
   /* il pensile si appende DOPO averlo messo in piedi: il passo va dopo */
