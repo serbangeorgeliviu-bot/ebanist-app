@@ -1970,6 +1970,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         pensileDopo: (() => { const li = [...sec[1].querySelectorAll(".m-steps li")].map(x => x.textContent);
           const a = li.findIndex(x => / kg\)/.test(x)), w = li.findIndex(x => x.indexOf(t("ms11w").slice(0, 18)) >= 0);
           return a >= 0 && w > a; })(),
+        fasi: sec[0].querySelectorAll("h4.m-ph").length,
+        fasiInOrdine: (() => { const f = [...sec[0].querySelectorAll("h4.m-ph")].map(x => x.textContent); return f.length >= 4 && f[0] === t("mPhPrep"); })(),
+        passiPezzi: sec[0].querySelectorAll(".m-sp").length,
+        passiFeramenta: sec[0].querySelectorAll(".m-chip").length,
+        dueMontatori: sec[0].querySelectorAll(".m-fl-two").length,
+        numerazione: (() => { const ol = [...sec[0].querySelectorAll("ol.m-steps")]; let n = 0, ok = true;
+          ol.forEach(o => { const m = /counter-reset:\s*mst\s+(\d+)/.exec(o.getAttribute("style") || ""); if (!m || +m[1] !== n) ok = false; n += o.querySelectorAll("li").length; }); return ok; })(),
         firme: d.querySelectorAll(".m-sign div").length,
         nessunMeno: !/undefined|NaN|\{[a-z]+\}/.test(d.textContent)
       };
@@ -1983,6 +1990,11 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("la diagonale vera, in mm", m.diagonale === true);
     ok("le altezze delle basette sono quelle dei fori", m.basette === true);
     ok("lista di collaudo", m.collaudo >= 5, m.collaudo);
+    ok("pașii sunt grupați în faze (Pregătire … ), în ordine", m.fasi >= 4 && m.fasiInOrdine === true, m.fasi);
+    ok("pașii cu imagine spun ce piese (numerele din listă)", m.passiPezzi >= 3, m.passiPezzi);
+    ok("pașii spun ce feronerie le trebuie („Ai nevoie de”)", m.passiFeramenta >= 3, m.passiFeramenta);
+    ok("corpul greu: pictograma «2 persoane»", m.dueMontatori >= 1, m.dueMontatori);
+    ok("numerotarea pașilor continuă peste faze", m.numerazione === true);
     ok("il corpo alto va fissato al muro", m.muro === true);
     ok("il pensile si appende dopo averlo messo in piedi", m.pensileDopo === true);
     ok("firme di montatore e cliente", m.firme === 3);

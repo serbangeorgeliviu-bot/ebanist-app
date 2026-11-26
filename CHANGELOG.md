@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.115.0 — 26 noiembrie 2026
+
+**Fișa de montaj, pas cu pas (D-192).**
+- Pașii unui corp sunt grupați în **faze** cu titlu: Pregătire, Premontaj pe laterale, Carcasa, Așezarea la locul ei, Interior, Sertare, Uși, Mânere și finisaj. O fază fără pași nu apare. Numerotarea pașilor continuă peste faze.
+- Fiecare pas cu imagine spune **ce piese** folosește, cu numerele din lista de piese (`Piese 1, 2, 5–6`), luate din modelul de operații, nu scrise în text (D-51).
+- „**Ai nevoie de**”: cantitatea și articolul de feronerie la pașii care o folosesc (conectori, plăcuțe de balama, glisiere, suporți de raft, balamale, mânere). Cantitățile sunt cele din deviz.
+- Pictograme: **2 persoane** (corp greu), **fixează în perete** (corp înalt sau suspendat), **fără forță** (excentrici, carcasa).
+- Imagini mai mari (44 mm), cu imagine nouă la spate și la ridicarea corpului. Treisprezece chei noi în cele 7 limbi.
+- Nicio schimbare de calcul, de distinctă sau de preț. Tabelele (piese, feronerie, scule, control) rămân neschimbate.
+- Teste: blocul e2e al fișei de montaj (faze, piese, feronerie, «2 persoane», numerotare).
+
+---
+
 ## 5.114.0 — 26 noiembrie 2026
 
 **Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului.**
