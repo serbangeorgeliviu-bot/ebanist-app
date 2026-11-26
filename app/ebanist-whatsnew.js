@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.113.3", date: "2026-11-26", t: {
+      en: { title: "The 3D view clears the toolbar on phones", items: ["In the builder on a phone, the furniture no longer sits under the row of 3D buttons: the view leaves room at the top. Documents, photos and clips are unchanged."] },
+      ro: { title: "Vederea 3D lasă loc barei de butoane pe telefon", items: ["În Generator, pe telefon, mobila nu mai stă sub rândul de butoane 3D: imaginea lasă loc sus. Documentele, pozele și clipurile rămân la fel."] },
+      it: { title: "La vista 3D lascia spazio alla barra su telefono", items: ["Nel Generatore, su telefono, il mobile non sta più sotto la riga dei pulsanti 3D: la vista lascia spazio in alto. Documenti, foto e clip restano uguali."] },
+      fr: { title: "La vue 3D laisse place à la barre sur téléphone", items: ["Dans le Générateur, sur téléphone, le meuble ne passe plus sous la rangée de boutons 3D : la vue laisse de la place en haut. Documents, photos et clips restent identiques."] },
+      de: { title: "Die 3D-Ansicht lässt am Handy Platz für die Leiste", items: ["Im Konfigurator liegt das Möbel am Handy nicht mehr unter der Reihe der 3D-Tasten: die Ansicht lässt oben Platz. Dokumente, Fotos und Clips bleiben unverändert."] },
+      pl: { title: "Widok 3D zostawia miejsce na pasek w telefonie", items: ["W Konfiguratorze na telefonie mebel nie leży już pod rzędem przycisków 3D: widok zostawia miejsce u góry. Dokumenty, zdjęcia i klipy bez zmian."] },
+      es: { title: "La vista 3D deja sitio a la barra en el móvil", items: ["En el Configurador, en el móvil, el mueble ya no queda bajo la fila de botones 3D: la vista deja espacio arriba. Documentos, fotos y clips no cambian."] }
+    } },
     { v: "5.113.2", date: "2026-11-26", t: {
       en: { title: "Cleaner bottom bar on phones", items: ["The seven tabs in the bottom bar no longer touch each other on narrow screens: smaller labels, and a long word is shortened with “…” instead of running into its neighbour."] },
       ro: { title: "Bara de jos pe telefon, mai curată", items: ["Cele șapte taburi din bara de jos nu se mai ating pe ecranele înguste: etichete mai mici, iar un cuvânt prea lung se scurtează cu „…” în loc să se suprapună peste vecin."] },

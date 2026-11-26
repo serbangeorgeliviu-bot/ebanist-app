@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.113.3 — 26 noiembrie 2026
+
+**Generator pe telefon: mobila nu mai stă sub bara de butoane 3D.** Pe ecrane înguste (canvas ≤ 560 px) bara de sus acoperea vârful mobilei. Vederea 3D măsoară acum cât din partea de sus o acoperă bara, coboară imaginea și o micșorează cu atât, numai în vederea vie. Pozele pentru documente, JPG-ul, clipurile și fișa piesei nu trec prin asta și rămân neschimbate. `audit3d`: 110 + 126 de configurații, 0 suprapuneri noi peste 1 mm. Fără schimbări de calcul.
+
+---
+
 ## 5.113.2 — 26 noiembrie 2026
 
 **Bara de jos pe telefon: etichetele nu se mai ating.** Cu șapte taburi, la 390 px „Bucătărie” și „Generator” se citeau lipite. Sub 430 px, etichetele au acum 10 px (9 px sub 360 px) și, dacă un cuvânt tot nu încape (de exemplu „Konfigurator” în germană, „Podsumowanie” în poloneză), se scurtează cu „…” în loc să se suprapună peste vecin. Verificat în cele 7 limbi la 360, 390 și 430 px. Fără schimbări de calcul.

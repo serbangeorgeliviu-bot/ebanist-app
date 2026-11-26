@@ -1987,7 +1987,20 @@ function updateLinks() {
   }
 }
 
-function stepCamera() {
+/* Pe telefon (canvas ≤ 560 px) bara de butoane 3D stă peste vârful mobilei. Aici se măsoară cât din
+   partea de sus a canvasului o acoperă; stepCamera(true) coboară și micșorează imaginea cu atât,
+   numai în vederea vie. Pozele pentru documente și clipurile nu trec prin asta (D-192). */
+function measurePad() {
+  if (!R || !R.canvas) return;
+  R.padTop = 0;
+  const cv = R.canvas;
+  if ((cv.clientWidth || 0) > 560) return;
+  const bar = cv.parentElement && cv.parentElement.querySelector(".vt-top");
+  if (!bar || !bar.getClientRects().length) return;
+  const pad = bar.getBoundingClientRect().bottom - cv.getBoundingClientRect().top + 6;
+  if (pad > 0) R.padTop = pad;
+}
+function stepCamera(live) {
   const V = (typeof VIEW === "object" && VIEW) || { yaw: .46, pitch: .3, zoom: 1 };
   const c = R.cam;
   const ty = V.yaw;
@@ -2000,7 +2013,11 @@ function stepCamera() {
   c.cx = f(c.cx, B.cx, .14); c.cy = f(c.cy, B.cy, .14); c.cz = f(c.cz, B.cz, .14); c.rad = f(c.rad, B.rad || B.size, .14);
   const vf = R.camera.fov * Math.PI / 180;
   const hf = 2 * Math.atan(Math.tan(vf / 2) * R.camera.aspect);
-  const d = c.rad / Math.sin(Math.min(vf, hf) / 2) * 1.04 / c.zoom;
+  const cvH = R.canvas.clientHeight || 1, cvW = R.canvas.clientWidth || 1;
+  const pad = live ? Math.min(R.padTop || 0, cvH * 0.35) : 0;
+  const d = c.rad / Math.sin(Math.min(vf, hf) / 2) * 1.04 / c.zoom * (pad > 0 ? cvH / (cvH - pad) : 1);
+  if (pad > 0) R.camera.setViewOffset(cvW, cvH, 0, -pad / 2, cvW, cvH);
+  else if (R.camera.view && R.camera.view.enabled) R.camera.clearViewOffset();
   R.camera.position.set(
     c.cx + d * Math.sin(c.yaw) * Math.cos(c.pitch),
     c.cy + d * Math.sin(c.pitch),
@@ -2049,6 +2066,7 @@ function resize() {
   R.renderer.setPixelRatio(dprCap());
   R.renderer.setSize(w, h, false);
   R.camera.aspect = w / h;
+  measurePad();
   R.camera.updateProjectionMatrix();
   R.need = true; kick();
 }
@@ -2122,7 +2140,7 @@ function frame() {
   /* giro lento, per il modo cliente: il mobile si presenta da solo */
   if (R.spin && typeof VIEW === "object") VIEW.yaw += 0.0035 * (R.asm ? 0.4 : 1);   /* în timpul montajului camera se rotește de 2,5× mai încet: nu ajunge pe spatele mobilei */
   if (R.asm) asmTick();
-  const a = step(), b = stepCamera() || !!R.spin || !!R.asm;
+  const a = step(), b = stepCamera(true) || !!R.spin || !!R.asm;
   watchFrameTime();
   renderScene();
   R.need = false;
