@@ -1359,6 +1359,33 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
   border:1px dashed var(--line);background:transparent;color:var(--text);font:600 13px/1.3 var(--font-body);text-align:left;cursor:pointer}
 .pj-next::after{content:"→";color:var(--gold-ink,var(--red));flex:none}
 .pj-next:active{transform:scale(.99)}
+/* 5.116.0 — principii de interfață (Apple HIG): ținte de 44 px, liste grupate, miniatură pe card, glisare */
+.iconbtn,.vtb,.pc-check,.btn.sm,.pj-next{position:relative}
+.iconbtn::after,.vtb::after{content:"";position:absolute;inset:-5px}
+.pc-check::after{content:"";position:absolute;inset:-9px}
+.btn.sm,.pj-next{min-height:44px}
+#v-projects h2.vtitle{font-size:28px;line-height:1.1;font-weight:700;text-transform:none;letter-spacing:-.4px;color:var(--text);margin-bottom:2px}
+#v-projects .vsub{font-size:14px;margin-bottom:14px}
+.pj-wrap{position:relative;border-radius:var(--radius);margin-bottom:10px}
+.pj-wrap>.card{margin-bottom:0;touch-action:pan-y;transition:transform .22s cubic-bezier(.2,.8,.2,1);position:relative;z-index:1}
+.pj-wrap.pj-clip{overflow:hidden}
+.pj-act{position:absolute;right:0;top:0;bottom:0;width:168px;display:flex;border-radius:0 var(--radius) var(--radius) 0;overflow:hidden;opacity:0;visibility:hidden}
+.pj-wrap.pj-clip .pj-act,.pj-wrap.pj-open .pj-act{opacity:1;visibility:visible}
+.pj-a{flex:1;display:grid;place-items:center;color:#fff;border:0;cursor:pointer}
+.pj-a svg{width:22px;height:22px}
+.pj-a.dup{background:#3a7bd5}
+.pj-a.del{background:#d64545}
+.pj-th{flex:none;width:64px;height:64px;border-radius:14px;background:linear-gradient(#f4f4f0,#e3e5dd);display:grid;place-items:center;overflow:hidden;border:1px solid var(--line)}
+.pj-th svg{width:100%!important;height:100%;padding:5px;box-sizing:border-box}
+.pj-th.ic{background:var(--raised);color:var(--faint)}
+.pj-th.ic svg{width:30px!important;height:30px;padding:0}
+.pj-stat span svg{width:11px;height:11px;margin-right:4px;vertical-align:-1px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* liste grupate, ca în Setări: un rând pe acțiune, cu săgeată */
+#v-summary .grp-body .btnrow{flex-direction:column;flex-wrap:nowrap;gap:0;margin:4px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+#v-summary .grp-body .btnrow .btn{flex:none;width:100%;min-height:48px;justify-content:flex-start;text-align:left;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;background:transparent!important}
+#v-summary .grp-body .btnrow .btn:last-child{border-bottom:0}
+#v-summary .grp-body .btnrow .btn::after{content:"›";margin-left:auto;font-size:22px;line-height:1;color:var(--faint)}
+#v-summary .grp-body .btnrow .btn.red{font-weight:700}
 /* tabletă / PC: bara laterală, la fel de sticloasă; rândul activ poartă auriul */
 @media (min-width:1024px){
   nav{background:var(--chrome);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-right-color:var(--glass-line)}
@@ -6560,6 +6587,30 @@ function render(){
   if(typeof orRefresh==="function") orRefresh();
 }
 
+/* 5.116.0 — miniatura proiectului: desenul izometric al primului corp care se poate desena */
+const PJ_ALLTAGS=["lato","box","tram","zocc","rip","cass","anta","back","asta","trav","gamba","doga","desktop","rail","kbshelf"];
+const pjThumbCache=new Map();
+function projThumb(p){
+  for(const n of Object.keys(p.configs||{})){
+    const cfg=p.configs[n]; if(!cfg) continue;
+    let key; try{ key=n+"|"+JSON.stringify(cfg); }catch(e){ continue; }
+    if(pjThumbCache.has(key)){ const v=pjThumbCache.get(key); if(v) return v; continue; }
+    let svg=""; try{ svg=isoStep(cfg,[],PJ_ALLTAGS); }catch(e){ svg=""; }
+    if(!svg||/NaN|Infinity/.test(svg)||svg.indexOf("<polygon")<0) svg="";
+    if(pjThumbCache.size>80) pjThumbCache.clear();
+    pjThumbCache.set(key,svg); if(svg) return svg;
+  }
+  return "";
+}
+const PJ_IC={
+  cube:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg>',
+  layers:'<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>',
+  area:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>',
+  ruler:'<svg viewBox="0 0 24 24"><path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/></svg>',
+  dup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',
+  del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>'
+};
+let pjSwipedAt=0;
 /* „Pasul următor” pe cardul proiectului: numai din ce se vede deja pe card (piese, piese bifate); nu schimbă nimic singur */
 function nextStep(tot,pct){
   if(!tot.panelPcs) return {key:"nsStart",view:"build"};
@@ -6586,8 +6637,10 @@ function renderProjects(){
     }
     const div=document.createElement("div");
     div.className="card"+(p.id===state.activeId?" pj-active":"");
+    const th=projThumb(p);
     div.innerHTML=`
       <div class="row">
+        ${th?`<div class="pj-th" aria-hidden="true">${th}</div>`:`<div class="pj-th ic" aria-hidden="true">${PJ_IC.cube}</div>`}
         <div class="grow">
           <div class="pj-name">${esc(p.name)}</div>
           <div class="pj-meta">${esc(p.client||"")}${p.client?" · ":""}${esc(p.date||"")}${dl}</div>
@@ -6597,10 +6650,10 @@ function renderProjects(){
         <button class="iconbtn" data-edit title="${esc(t("editProject"))}" aria-label="${esc(t("editProject"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button>
       </div>
       <div class="pj-stats">
-        <div class="pj-stat"><b>${tot.panelPcs}</b><span>${esc(t("pieces"))}</span></div>
-        <div class="pj-stat"><b>${mods}</b><span>${esc(t("modules"))}</span></div>
-        <div class="pj-stat"><b>${fmt(tot.panelArea)}</b><span>m²</span></div>
-        <div class="pj-stat"><b>${fmt(tot.edge,1)}</b><span>ml</span></div>
+        <div class="pj-stat"><b>${tot.panelPcs}</b><span>${PJ_IC.layers}${esc(t("pieces"))}</span></div>
+        <div class="pj-stat"><b>${mods}</b><span>${PJ_IC.cube.replace(/ fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/,"")}${esc(t("modules"))}</span></div>
+        <div class="pj-stat"><b>${fmt(tot.panelArea)}</b><span>${PJ_IC.area}m²</span></div>
+        <div class="pj-stat"><b>${fmt(tot.edge,1)}</b><span>${PJ_IC.ruler}ml</span></div>
       </div>
       ${tot.panelPcs?`<div class="prog"><i style="width:${pct}%"></i></div><div class="mini" style="margin-top:4px">${donePz}/${tot.panelPcs} · ${pct}%</div>`:""}
       ${(ns=>`<button class="pj-next" data-next="${ns.view}">${esc(t(ns.key))}</button>`)(nextStep(tot,pct))}
@@ -6609,6 +6662,8 @@ function renderProjects(){
         <button class="btn sm ghost" data-addpiece>＋ ${esc(t("addPlainPiece"))}</button>
       </div>`;
     div.addEventListener("click",e=>{
+      if(Date.now()-pjSwipedAt<400) return;                       // atingerea de la sfârșitul glisării nu deschide proiectul
+      if(wrap.classList.contains("pj-open")){ closeSwipe(); return; }
       if(e.target.closest("[data-edit]")){openProjectEditor(p.id);return;}
       const act=()=>{ state.activeId=p.id; listQ=""; listMatF=""; $("listSearch").value=""; persist(); };
       const nx=e.target.closest("[data-next]");
@@ -6617,7 +6672,30 @@ function renderProjects(){
       if(e.target.closest("[data-addpiece]")){ act(); setView("list"); openPieceEditor(null); return; }
       act(); setView("list");
     });
-    box.appendChild(div);
+    /* glisare spre stânga (numai atingere): Duplică / Șterge; ștergerea trece prin același dialog și are „Anulează” */
+    const wrap=document.createElement("div"); wrap.className="pj-wrap";
+    const act=document.createElement("div"); act.className="pj-act";
+    act.innerHTML=`<button class="pj-a dup" aria-label="${esc(t("dupProject"))}" title="${esc(t("dupProject"))}">${PJ_IC.dup}</button><button class="pj-a del" aria-label="${esc(t("deleteProject"))}" title="${esc(t("deleteProject"))}">${PJ_IC.del}</button>`;
+    wrap.appendChild(act); wrap.appendChild(div);
+    const closeSwipe=()=>{ div.style.transform=""; wrap.classList.remove("pj-open"); wrap.classList.remove("pj-clip"); };
+    act.querySelector(".dup").addEventListener("click",()=>{ closeSwipe(); editingProjectId=p.id; $("btnProjectDup").click(); });
+    act.querySelector(".del").addEventListener("click",()=>{ closeSwipe(); editingProjectId=p.id; $("btnProjectDelete").click(); });
+    let sx=0,sy=0,dx=0,sw=false,pid=null;
+    div.addEventListener("pointerdown",e=>{ if(e.pointerType!=="touch"&&e.pointerType!=="pen") return; if(e.target.closest("button")&&!wrap.classList.contains("pj-open")) {} sx=e.clientX; sy=e.clientY; dx=wrap.classList.contains("pj-open")?-168:0; sw=false; pid=e.pointerId; });
+    div.addEventListener("pointermove",e=>{
+      if(pid!==e.pointerId) return;
+      const mx=e.clientX-sx, my=e.clientY-sy;
+      if(!sw&&Math.abs(mx)>12&&Math.abs(mx)>Math.abs(my)*1.5){ sw=true; wrap.classList.add("pj-clip"); try{ div.setPointerCapture(pid); }catch(_){} div.style.transition="none"; }
+      if(sw){ const base=wrap.classList.contains("pj-open")?-168:0; dx=Math.max(-168,Math.min(0,base+mx)); div.style.transform=`translateX(${dx}px)`; }
+    });
+    const endSwipe=e=>{
+      if(pid!==e.pointerId) return; pid=null;
+      if(!sw) return;
+      div.style.transition=""; pjSwipedAt=Date.now();
+      if(dx<-84){ div.style.transform="translateX(-168px)"; wrap.classList.add("pj-open"); } else closeSwipe();
+    };
+    div.addEventListener("pointerup",endSwipe); div.addEventListener("pointercancel",endSwipe);
+    box.appendChild(wrap);
   }
 }
 
@@ -21369,12 +21447,12 @@ persist();
 setTimeout(()=>{ try{ checkGeomVersion(); }catch(e){} },1200);
 </script>
 <script>
-const APP_VER="5.115.1"; /* APP_VER-MARKER */
+const APP_VER="5.116.0"; /* APP_VER-MARKER */
 /* DEVE combaciare con CACHE in sw.js. Se restano indietro l'uno rispetto
    all'altro, «Verifica aggiornamenti» scrive la pagina nuova in una cache
    che il service worker cancella appena si attiva: l'aggiornamento sembra
    riuscito e al riavvio successivo torna la versione vecchia. */
-const SW_CACHE="ebanist-v311";
+const SW_CACHE="ebanist-v312";
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }

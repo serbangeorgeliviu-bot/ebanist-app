@@ -5,6 +5,18 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.116.0 — 26 noiembrie 2026
+
+**Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-193).**
+- **Miniatura**: cardul fiecărui proiect arată desenul izometric al primului corp care se poate desena (`projThumb`, același desen ca la pașii de montaj); fără corpuri desenabile, o iconiță. Iconițe lângă piese, corpuri, m² și ml.
+- **Glisare spre stânga pe card** (numai atingere): Duplică și Șterge. Folosesc aceleași acțiuni ca din editorul proiectului: limita proiectului gratuit, dialogul de confirmare și „Anulează” rămân. Atingerea imediat după glisare nu deschide proiectul.
+- **Ținte de atingere de 44 px**: butoanele mici (iconițe, unelte 3D, „Mobilier”, „Piesă simplă”, bifa din Listă de 26 px) au zonă de atingere extinsă, fără să-și schimbe desenul. Auditul pe telefon găsise 73 de ținte sub 44 px în Generator.
+- **Rezumat**: acțiunile de export sunt o listă grupată cu săgeți (un rând pe acțiune), ca în Setările unui telefon, în loc de butoane în grilă.
+- Titlul „Proiecte” e mare (28 px); celelalte titluri rămân compacte, ca să nu mănânce din ecranul Generatorului.
+- Nicio schimbare de calcul, de distinctă, de preț sau de 3D.
+
+---
+
 ## 5.115.1 — 26 noiembrie 2026
 
 **Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-192).**

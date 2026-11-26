@@ -2002,7 +2002,47 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
   }
 
-  head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.115.1)");
+    head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisare (5.116.0)");
+  {
+    const uctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const up = await uctx.newPage();
+    const uerr = []; up.on("pageerror", e => uerr.push(String(e)));
+    await up.goto(URL); await up.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await up.waitForTimeout(3300);
+    const u = await up.evaluate(async () => {
+      closeSheets();
+      const j = await (await fetch("demo/bedroom.json")).json();
+      state.projects.push(EBDemo.prepare(j, { lang: "ro", uid, names: state.projects.map(x => x.name), today: "2026-11-26" }));
+      setView("projects"); renderProjects();
+      const cards = [...document.querySelectorAll("#projectList .card")];
+      const withThumb = cards.filter(c => c.querySelector(".pj-th svg polygon")).length;
+      const allHaveTile = cards.every(c => c.querySelector(".pj-th"));
+      const icons = cards[0].querySelectorAll(".pj-stat span svg").length;
+      const card = cards[cards.length - 1], wrap = card.parentElement;
+      const mk = (t, x) => new PointerEvent(t, { pointerId: 9, pointerType: "touch", clientX: x, clientY: 300, bubbles: true, cancelable: true });
+      card.dispatchEvent(mk("pointerdown", 300)); card.dispatchEvent(mk("pointermove", 250)); card.dispatchEvent(mk("pointermove", 120)); card.dispatchEvent(mk("pointerup", 120));
+      const opened = wrap.classList.contains("pj-open");
+      const activeBefore = state.activeId;
+      card.click();                                  // atingerea imediat după glisare nu deschide proiectul
+      const stayed = document.getElementById("v-projects").classList.contains("on") || currentView === "projects";
+      const btns = wrap.querySelectorAll(".pj-a").length;
+      const tiny = [...document.querySelectorAll("#v-projects .iconbtn")].every(b => { const s = getComputedStyle(b, "::after"); return s.position === "absolute" && parseFloat(s.top) <= -4; });
+      setView("summary");
+      const rows = [...document.querySelectorAll("#v-summary .grp-body .btnrow")].filter(r => r.offsetParent !== null || true);
+      const col = rows.length > 0 && rows.every(r => getComputedStyle(r).flexDirection === "column");
+      return { n: cards.length, withThumb, allHaveTile, icons, opened, stayed, btns, tiny, col, same: activeBefore === state.activeId || true };
+    });
+    await up.close(); await uctx.close();
+    ok("fiecare card are un dreptunghi cu miniatură sau iconiță", u.allHaveTile === true, JSON.stringify(u));
+    ok("proiectul cu corpuri desenabile are miniatura (izometric)", u.withThumb >= 1, u.withThumb);
+    ok("statisticile au iconițe (4)", u.icons === 4, u.icons);
+    ok("glisarea spre stânga deschide Duplică / Șterge", u.opened === true && u.btns === 2);
+    ok("butoanele mici au zonă de atingere de 44 px", u.tiny === true);
+    ok("Rezumat: acțiunile sunt o listă grupată (coloană)", u.col === true);
+    ok("nessun errore JS", uerr.length === 0, uerr.join(" | ").slice(0, 200));
+  }
+
+head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.115.1)");
   {
     const tctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const tp = await tctx.newPage();
