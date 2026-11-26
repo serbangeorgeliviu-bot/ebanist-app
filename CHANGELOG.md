@@ -5,6 +5,19 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.115.1 — 26 noiembrie 2026
+
+**Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-192).**
+- Fișa nouă (faze, piese numerotate, „Ai nevoie de”, pictograme) acoperă acum și **masa, patul (inclusiv ladă ridicabilă), biroul, rafturile rotunde/ovale/racordate, nișele, blaturile, lambriul, boiseria și conturul**, plus corpurile fără configurație (piese făcute de mână). Până acum aveau o listă simplă de pași, fără tabelul de feronerie și fără imagini.
+- Corpurile fără operații pe model primesc fișa completă: copertă cu imagini (unde există operații), lista pieselor numerotată, tabelul de feronerie (același cod ca la dulapuri, `mHwTable`), scule, pași, cote de control și lista de verificare.
+- **Biroul** are pași proprii: cadru, treceri de cablu, blat, corp cu sertare, raft de tastatură; blatul, traversele și raftul de tastatură au etichete proprii în imaginile pașilor.
+- Masa și patul: pașii existenți, grupați în faze (Cadrul, Blatul, Somiera și lamelele, Mecanismul de ridicare, Așezarea la locul ei), cu «2 persoane» când corpul trece de 25 kg.
+- Faza finală se numește „Finisaj și control” în toate limbile. Cinci chei de fază și cinci texte de birou, în 7 limbi.
+- Reparat: titlul blatului arăta „4199×undefined×1”; acum afișează doar cotele care există.
+- Nicio schimbare de calcul, de distinctă sau de preț.
+
+---
+
 ## 5.115.0 — 26 noiembrie 2026
 
 **Fișa de montaj, pas cu pas (D-192).**

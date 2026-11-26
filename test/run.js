@@ -2001,6 +2001,54 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("niente undefined, NaN o segnaposto rimasti", m.nessunMeno === true);
     ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
   }
+
+  head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.115.1)");
+  {
+    const tctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const tp = await tctx.newPage();
+    const terr = []; tp.on("pageerror", e => terr.push(String(e)));
+    await tp.goto(URL); await tp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await tp.waitForTimeout(3300);
+    const r = await tp.evaluate(() => {
+      closeSheets();
+      const p = proj(); p.pieces = []; p.configs = {};
+      const kinds = ["tavolo", "letto", "scrivania", "tondo", "ovale", "raccordato", "lambriu", "boiserie", "contur"];
+      kinds.forEach(k => generateInto(p, { ...PRESETS[k], name: k }));
+      const h = montDoc(p), d = document.createElement("div"); d.innerHTML = h;
+      const sec = [...d.querySelectorAll("section.m-mod")];
+      return {
+        corpi: sec.length, attesi: kinds.length,
+        tuttiConFasi: sec.every(s => s.querySelectorAll("h4.m-ph").length >= 2),
+        tuttiConPassi: sec.every(s => s.querySelectorAll(".m-steps li").length >= 3),
+        senzaDifetti: sec.every(s => !/undefined|NaN|\{[a-z]+\}|role_/.test(s.textContent)),
+        mesaDue: sec[0].querySelectorAll(".m-fl-two").length >= 1,
+        mesaPezzi: sec[0].querySelectorAll(".m-sp").length >= 3,
+        scrivaniaPassi: sec[2].querySelectorAll(".m-steps li").length >= 4,
+        scrivaniaTabellaPezzi: sec[2].querySelectorAll("table.m-t").length >= 2,
+        nessunBlatBrutto: !/undefined/.test(h)
+      };
+    });
+    const dm = await tp.evaluate(async () => {
+      const out = [];
+      for (const f of ["bedroom", "kitchen", "living"]) {
+        const j = await (await fetch("demo/" + f + ".json")).json();
+        const pr = EBDemo.prepare(j, { lang: "ro", uid, names: [], today: "x" });
+        state.projects.push(pr);
+        const d = document.createElement("div"); d.innerHTML = montDoc(pr);
+        out.push([...d.querySelectorAll("section.m-mod")].every(s => s.querySelectorAll("h4.m-ph").length >= 2 && !/undefined|NaN/.test(s.textContent)));
+      }
+      return out;
+    });
+    await tp.close(); await tctx.close();
+    ok("un capitolo per ogni tipo di corpo", r.corpi === r.attesi, r.corpi + "/" + r.attesi);
+    ok("ogni corpo ha fasi (almeno due)", r.tuttiConFasi === true);
+    ok("ogni corpo ha almeno tre passi", r.tuttiConPassi === true);
+    ok("niente undefined, NaN o segnaposto", r.senzaDifetti === true && r.nessunBlatBrutto === true);
+    ok("il tavolo pesante: «2 persone»; i pezzi per passo", r.mesaDue === true && r.mesaPezzi === true);
+    ok("la scrivania ha passi propri e tabella pezzi", r.scrivaniaPassi === true && r.scrivaniaTabellaPezzi === true);
+    ok("i tre progetti demo: fasi e nessun difetto in ogni corpo", dm.every(Boolean) === true, dm.join());
+    ok("nessun errore JS", terr.length === 0, terr.join(" | ").slice(0, 200));
+  }
   {
     /* tavolo e letto: nessun foro generato, ma le quote ci sono tutte */
     const fctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
