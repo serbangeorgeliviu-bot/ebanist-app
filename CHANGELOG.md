@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.113.2 — 26 noiembrie 2026
+
+**Bara de jos pe telefon: etichetele nu se mai ating.** Cu șapte taburi, la 390 px „Bucătărie” și „Generator” se citeau lipite. Sub 430 px, etichetele au acum 10 px (9 px sub 360 px) și, dacă un cuvânt tot nu încape (de exemplu „Konfigurator” în germană, „Podsumowanie” în poloneză), se scurtează cu „…” în loc să se suprapună peste vecin. Verificat în cele 7 limbi la 360, 390 și 430 px. Fără schimbări de calcul.
+
+---
+
 ## 5.113.1 — 25 noiembrie 2026
 
 **„Tips & Tricks”: încă cinci sfaturi** (duplică proiectul înainte de o încercare riscantă, controalele roșii cu soluții, sugestiile de feronerie care nu se aplică singure, „Tipărește tot”, ce poate face versiunea gratuită), în cele 7 limbi, în aplicație și pe `/help/`. Fără schimbări de calcul.
