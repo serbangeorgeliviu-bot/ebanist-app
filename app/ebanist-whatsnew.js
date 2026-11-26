@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.113.2", date: "2026-11-26", t: {
+      en: { title: "Cleaner bottom bar on phones", items: ["The seven tabs in the bottom bar no longer touch each other on narrow screens: smaller labels, and a long word is shortened with “…” instead of running into its neighbour."] },
+      ro: { title: "Bara de jos pe telefon, mai curată", items: ["Cele șapte taburi din bara de jos nu se mai ating pe ecranele înguste: etichete mai mici, iar un cuvânt prea lung se scurtează cu „…” în loc să se suprapună peste vecin."] },
+      it: { title: "Barra in basso più pulita sul telefono", items: ["I sette tab della barra in basso non si toccano più sugli schermi stretti: etichette più piccole e, se una parola è troppo lunga, si accorcia con «…» invece di finire addosso alla vicina."] },
+      fr: { title: "Barre du bas plus propre sur téléphone", items: ["Les sept onglets de la barre du bas ne se touchent plus sur les écrans étroits : libellés plus petits, et un mot trop long est raccourci par « … » au lieu de chevaucher son voisin."] },
+      de: { title: "Aufgeräumtere untere Leiste am Handy", items: ["Die sieben Tabs der unteren Leiste berühren sich auf schmalen Bildschirmen nicht mehr: kleinere Beschriftungen, und ein zu langes Wort wird mit „…“ gekürzt, statt in das Nachbarwort zu laufen."] },
+      pl: { title: "Czytelniejszy dolny pasek w telefonie", items: ["Siedem kart w dolnym pasku nie nachodzi już na siebie na wąskich ekranach: mniejsze etykiety, a zbyt długie słowo jest skracane znakiem „…” zamiast wchodzić na sąsiednie."] },
+      es: { title: "Barra inferior más limpia en el móvil", items: ["Las siete pestañas de la barra inferior ya no se tocan en pantallas estrechas: etiquetas más pequeñas y, si una palabra es demasiado larga, se acorta con «…» en lugar de pisar a su vecina."] }
+    } },
     { v: "5.113.1", date: "2026-11-25", t: {
       en: { title: "Five more tips in Help", items: ["“Tips & Tricks” grows by five: experiment on a duplicated project, red checks with fixes, hardware suggestions that never apply themselves, “Print everything”, and what the free version can do."] },
       ro: { title: "Încă cinci sfaturi în Ajutor", items: ["„Tips & Tricks” crește cu cinci: experimentează pe un proiect duplicat, controalele roșii cu soluții, sugestiile de feronerie care nu se aplică singure, „Tipărește tot” și ce poate versiunea gratuită."] },
