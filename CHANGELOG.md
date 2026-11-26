@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.114.0 — 26 noiembrie 2026
+
+**Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului.**
+- Pe telefoane înguste (≤ 420 px) bara de jos are font și spațiere mai mici și etichete tăiate cu „…” dacă nu încap (cele șapte file se atingeau: „Bucătărie”/„Generator”, „Debitare”/„Rezumat”).
+- Pe telefon, bara de unelte 3D se estompează la margine și are loc la capăt: arată că defilează (a opta iconiță era tăiată).
+- Cardul proiectului are un rând „Pasul următor”, calculat numai din ce se vede deja pe card (piese, piese bifate): fără piese → Generator; piese nebifate → Listă; unele bifate → Listă; toate bifate → Rezumat. Doar duce utilizatorul acolo; nu schimbă proiectul. Patru chei noi în toate cele 7 limbi (`nsStart`, `nsDocs`, `nsLeft`, `nsDone`).
+- Butonul „Trimite” din Rezumat (trimite fișierul CSV) se numește „Trimite CSV”, în toate limbile.
+- Nicio schimbare de calcul, de distinctă, de preț sau de 3D. Capturi înainte de modificare: telefon 390 px și tabletă 820 px, pe proiectul „Exemplu”.
+
+---
+
 ## 5.113.1 — 25 noiembrie 2026
 
 **„Tips & Tricks”: încă cinci sfaturi** (duplică proiectul înainte de o încercare riscantă, controalele roșii cu soluții, sugestiile de feronerie care nu se aplică singure, „Tipărește tot”, ce poate face versiunea gratuită), în cele 7 limbi, în aplicație și pe `/help/`. Fără schimbări de calcul.
