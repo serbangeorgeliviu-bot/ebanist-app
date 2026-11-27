@@ -5,6 +5,17 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.117.0 — 27 noiembrie 2026
+
+**Navigare: cinci file în loc de șapte (D-195).**
+- Bara de jos: **Proiecte, Releveu, Proiectează, Piese, Documente** (limita Apple HIG: cel mult cinci). „Proiectează” = Generator + Bucătărie; „Piese” = Listă + Debitare; „Documente” = vechiul Rezumat.
+- Bucătăria și Debitarea rămân aceleași vederi (`v-kitchen`, `v-nest`, `setView("kitchen")` etc.); se ajunge la ele printr-un **selector segmentat** în capul paginii (Generator | Bucătărie, Listă | Debitare). Fila părinte rămâne aprinsă (`NAV_TAB`). Etichetele selectorului sunt cele vechi (`navBuild`, `navKitchenSeg`, `navList`, `navNest`); trei etichete noi de filă (`navDesign`, `navParts`, `navDocs`), în 7 limbi.
+- Titlul paginii Rezumat rămâne „Rezumat”; fila se numește „Documente” (conține și exporturile).
+- Nicio funcție scoasă sau mutată în proiect. Nicio schimbare de calcul, de distinctă, de preț sau de 3D.
+- Testele de navigare din e2e merg prin `setView(...)`, deci nu depind de butoanele barei; bloc nou „Navigarea — cinci file”.
+
+---
+
 ## 5.116.1 — 27 noiembrie 2026
 
 **Română: „Noutăți”, nu „Novități”.**

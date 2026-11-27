@@ -2002,7 +2002,41 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
   }
 
-    head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisare (5.116.0)");
+      head("Navigarea — cinci file, Bucătărie și Debitare prin selector (5.117.0)");
+  {
+    const nctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const np = await nctx.newPage();
+    const nerr = []; np.on("pageerror", e => nerr.push(String(e)));
+    await np.goto(URL); await np.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await np.waitForTimeout(3300);
+    const n = await np.evaluate(async () => {
+      closeSheets();
+      const tabs = [...document.querySelectorAll("nav button")].map(b => b.dataset.view);
+      const on = () => [...document.querySelectorAll("nav button.on")].map(b => b.dataset.view).join();
+      const out = { tabs: tabs.join() };
+      setView("kitchen"); out.kitchenTab = on(); out.kitchenSeg = [...document.querySelectorAll("#v-kitchen .navseg button")].map(b => b.classList.contains("on")).join();
+      document.querySelector("#v-kitchen .navseg [data-goto=build]").click(); out.afterSeg = currentView + ":" + on();
+      setView("nest"); out.nestTab = on();
+      document.querySelector("#v-nest .navseg [data-goto=list]").click(); out.nestToList = currentView + ":" + on();
+      document.querySelector("nav button[data-view=summary]").click(); out.docs = currentView + ":" + on();
+      const w = [...document.querySelectorAll("nav button")].map(b => b.getBoundingClientRect());
+      out.noOverlap = w.every((b, i) => i === 0 || b.left >= w[i - 1].right - 1);
+      out.labels = [...document.querySelectorAll("nav button span")].map(s => s.textContent).join("|");
+      out.segLabels = [...document.querySelectorAll(".navseg button")].every(b => b.textContent.trim().length > 0);
+      return out;
+    });
+    await np.close(); await nctx.close();
+    ok("bara de jos are exact cinci file", n.tabs === "projects,survey,build,list,summary", n.tabs);
+    ok("Bucătăria ține fila «Proiectează» aprinsă", n.kitchenTab === "build", n.kitchenTab);
+    ok("selectorul arată vederea curentă", n.kitchenSeg === "false,true", n.kitchenSeg);
+    ok("selectorul trece de la Bucătărie la Generator", n.afterSeg === "build:build", n.afterSeg);
+    ok("Debitarea ține fila «Piese» aprinsă și se întoarce la Listă", n.nestTab === "list" && n.nestToList === "list:list", n.nestTab + " " + n.nestToList);
+    ok("fila «Documente» deschide Rezumatul", n.docs === "summary:summary", n.docs);
+    ok("etichetele din bară nu se suprapun, cele din selector nu sunt goale", n.noOverlap === true && n.segLabels === true, n.labels);
+    ok("nessun errore JS", nerr.length === 0, nerr.join(" | ").slice(0, 200));
+  }
+
+head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisare (5.116.0)");
   {
     const uctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const up = await uctx.newPage();
