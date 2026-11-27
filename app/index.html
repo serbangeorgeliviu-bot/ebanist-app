@@ -1342,12 +1342,20 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
   nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));height:var(--nav-h);padding:5px;
     border:1px solid var(--glass-line);border-radius:26px;background:var(--glass-hi);
     backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--glass-edge),var(--sh-3)}
-  nav button{border-radius:20px;font-family:var(--font-body)}
+  nav button{border-radius:20px;font-family:var(--font-body);min-width:0;padding:0 1px}
+  nav button span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   nav button.on{background:var(--gold-tint);color:var(--gold-ink)}
   nav button.on::before{display:none}
   .fab{bottom:calc(var(--nav-h) + 26px + env(safe-area-inset-bottom))}
   #v-build #btnGenerate{bottom:calc(var(--nav-h) + 22px + env(safe-area-inset-bottom))}
 }
+/* telefon îngust: 7 taburi nu mai încap la 11px; etichetele se micșorează în loc să se atingă */
+@media (max-width:430px){
+  nav{left:8px;right:8px;padding:4px 2px}
+  nav button{font-size:10px;letter-spacing:0;gap:2px}
+  nav button svg{width:20px;height:20px}
+}
+@media (max-width:359px){nav button{font-size:9px}}
 /* 5.114.0 — interfață: bara de jos pe telefoane înguste, bara 3D defilabilă, „Pasul următor” */
 @media (max-width:420px){
   nav{left:6px;right:6px;padding:4px 2px}
@@ -1501,6 +1509,13 @@ input,select,textarea{border-radius:12px;background:var(--field);border-color:va
 .cth-own{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 .cth-own input{min-height:44px;min-width:0}
 .cth-sel{width:100%;min-height:44px;margin-top:8px}
+/* ținte tactile ≥ 44 px pe ecran tactil, fără să mărim desenul: zona de atingere iese în afara butonului (D-191).
+   .vtb nu intră: stă într-un container derulabil, unde o zonă ieșită ar crea derulare verticală. */
+@media (pointer:coarse){
+  .hbtn,.iconbtn,.vsel-x,.cm-share{position:relative}
+  .hbtn::before,.iconbtn::before,.vsel-x::before,.cm-share::before,.sheet-x::before,.cm-exit::before{
+    content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%)}
+}
 </style>
 </head>
 <body>
@@ -12017,7 +12032,7 @@ function offerPrint(p,o){
     <div class="pr-sum" style="text-align:right">${esc(t("qNet"))}: <b>€ ${fmt(o.net)}</b><br>${esc(t("qVat"))} ${o.iva}%: <b>€ ${fmt(o.vat)}</b><br>
     <span style="font-size:13pt">${esc(t("qTotal"))}: <b>€ ${fmt(o.total)}</b></span></div>
     <div style="margin-top:18px;display:flex;justify-content:flex-end"><div style="text-align:center;font-size:9.5pt">
-      <img src="${o.sig}" style="height:70px;display:block;margin:0 auto 2px;border-bottom:1px solid #333">
+      <img alt="" src="${o.sig}" style="height:70px;display:block;margin:0 auto 2px;border-bottom:1px solid #333">
       ${esc(t("cmSignedBy").replace("{c}",o.client).replace("{d}",d.toLocaleString()))}</div></div>
     <div class="pr-foot"><span>${esc(t("qValidity"))}</span><span>Ebanist · ${esc(prCoName())}</span></div>`;
   printOut();
@@ -16437,8 +16452,8 @@ function prLogo(){ const S=state.settings;
   /* În mod atelier antetul e al atelierului, nu al utilizatorului: el e
      cel care primește comanda și el o dă mai departe clientului. */
   if(atelierMode()&&OrderRail.cfg&&OrderRail.cfg.logo)
-    return `<img src="${esc(OrderRail.cfg.logo)}" style="height:34px;display:block;margin-left:auto;margin-bottom:4px">`;
-  return S.logo?`<img src="${S.logo}" style="height:34px;display:block;margin-left:auto;margin-bottom:4px">`:""; }
+    return `<img alt="" src="${esc(OrderRail.cfg.logo)}" style="height:34px;display:block;margin-left:auto;margin-bottom:4px">`;
+  return S.logo?`<img alt="" src="${S.logo}" style="height:34px;display:block;margin-left:auto;margin-bottom:4px">`:""; }
 /* Numele care apare pe documente. Tot al atelierului în mod atelier. */
 function prCoName(){
   if(atelierMode()&&OrderRail.cfg&&OrderRail.cfg.name) return OrderRail.cfg.name;

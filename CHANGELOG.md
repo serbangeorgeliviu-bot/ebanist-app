@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.117.0 — 27 noiembrie 2026
 
-**Navigare: cinci file în loc de șapte (D-195).**
+**Navigare: cinci file în loc de șapte (D-196).**
 - Bara de jos: **Proiecte, Releveu, Proiectează, Piese, Documente** (limita Apple HIG: cel mult cinci). „Proiectează” = Generator + Bucătărie; „Piese” = Listă + Debitare; „Documente” = vechiul Rezumat.
 - Bucătăria și Debitarea rămân aceleași vederi (`v-kitchen`, `v-nest`, `setView("kitchen")` etc.); se ajunge la ele printr-un **selector segmentat** în capul paginii (Generator | Bucătărie, Listă | Debitare). Fila părinte rămâne aprinsă (`NAV_TAB`). Etichetele selectorului sunt cele vechi (`navBuild`, `navKitchenSeg`, `navList`, `navNest`); trei etichete noi de filă (`navDesign`, `navParts`, `navDocs`), în 7 limbi.
 - Titlul paginii Rezumat rămâne „Rezumat”; fila se numește „Documente” (conține și exporturile).
@@ -27,7 +27,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.116.0 — 26 noiembrie 2026
 
-**Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-193).**
+**Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-194).**
 - **Miniatura**: cardul fiecărui proiect arată desenul izometric al primului corp care se poate desena (`projThumb`, același desen ca la pașii de montaj); fără corpuri desenabile, o iconiță. Iconițe lângă piese, corpuri, m² și ml.
 - **Glisare spre stânga pe card** (numai atingere): Duplică și Șterge. Folosesc aceleași acțiuni ca din editorul proiectului: limita proiectului gratuit, dialogul de confirmare și „Anulează” rămân. Atingerea imediat după glisare nu deschide proiectul.
 - **Ținte de atingere de 44 px**: butoanele mici (iconițe, unelte 3D, „Mobilier”, „Piesă simplă”, bifa din Listă de 26 px) au zonă de atingere extinsă, fără să-și schimbe desenul. Auditul pe telefon găsise 73 de ținte sub 44 px în Generator.
@@ -39,7 +39,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.115.1 — 26 noiembrie 2026
 
-**Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-192).**
+**Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-193).**
 - Fișa nouă (faze, piese numerotate, „Ai nevoie de”, pictograme) acoperă acum și **masa, patul (inclusiv ladă ridicabilă), biroul, rafturile rotunde/ovale/racordate, nișele, blaturile, lambriul, boiseria și conturul**, plus corpurile fără configurație (piese făcute de mână). Până acum aveau o listă simplă de pași, fără tabelul de feronerie și fără imagini.
 - Corpurile fără operații pe model primesc fișa completă: copertă cu imagini (unde există operații), lista pieselor numerotată, tabelul de feronerie (același cod ca la dulapuri, `mHwTable`), scule, pași, cote de control și lista de verificare.
 - **Biroul** are pași proprii: cadru, treceri de cablu, blat, corp cu sertare, raft de tastatură; blatul, traversele și raftul de tastatură au etichete proprii în imaginile pașilor.
@@ -52,7 +52,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.115.0 — 26 noiembrie 2026
 
-**Fișa de montaj, pas cu pas (D-192).**
+**Fișa de montaj, pas cu pas (D-193).**
 - Pașii unui corp sunt grupați în **faze** cu titlu: Pregătire, Premontaj pe laterale, Carcasa, Așezarea la locul ei, Interior, Sertare, Uși, Mânere și finisaj. O fază fără pași nu apare. Numerotarea pașilor continuă peste faze.
 - Fiecare pas cu imagine spune **ce piese** folosește, cu numerele din lista de piese (`Piese 1, 2, 5–6`), luate din modelul de operații, nu scrise în text (D-51).
 - „**Ai nevoie de**”: cantitatea și articolul de feronerie la pașii care o folosesc (conectori, plăcuțe de balama, glisiere, suporți de raft, balamale, mânere). Cantitățile sunt cele din deviz.
@@ -71,6 +71,24 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - Cardul proiectului are un rând „Pasul următor”, calculat numai din ce se vede deja pe card (piese, piese bifate): fără piese → Generator; piese nebifate → Listă; unele bifate → Listă; toate bifate → Rezumat. Doar duce utilizatorul acolo; nu schimbă proiectul. Patru chei noi în toate cele 7 limbi (`nsStart`, `nsDocs`, `nsLeft`, `nsDone`).
 - Butonul „Trimite” din Rezumat (trimite fișierul CSV) se numește „Trimite CSV”, în toate limbile.
 - Nicio schimbare de calcul, de distinctă, de preț sau de 3D. Capturi înainte de modificare: telefon 390 px și tabletă 820 px, pe proiectul „Exemplu”.
+
+---
+
+## 5.113.4 — 27 noiembrie 2026
+
+**Butoane mai ușor de atins pe ecran tactil.** Butoanele din antet (Client, Ajutor, Cont, Setări), „X”-ul foilor, butoanele cu iconiță, „X”-ul din selectorul 3D și cele din modul Client au acum zonă de atingere de cel puțin 44 × 44 px pe telefon și tabletă, fără să se vadă mai mari. Butoanele barei 3D (34 px) rămân ca până acum, pentru că stau într-un container derulabil. Imaginile din documentele tipărite (semnătură, siglă) au `alt` gol, ca cititoarele de ecran să nu le citească. Fără schimbări de calcul.
+
+---
+
+## 5.113.3 — 26 noiembrie 2026
+
+**Generator pe telefon: mobila nu mai stă sub bara de butoane 3D.** Pe ecrane înguste (canvas ≤ 560 px) bara de sus acoperea vârful mobilei. Vederea 3D măsoară acum cât din partea de sus o acoperă bara, coboară imaginea și o micșorează cu atât, numai în vederea vie. Pozele pentru documente, JPG-ul, clipurile și fișa piesei nu trec prin asta și rămân neschimbate. `audit3d`: 110 + 126 de configurații, 0 suprapuneri noi peste 1 mm. Fără schimbări de calcul.
+
+---
+
+## 5.113.2 — 26 noiembrie 2026
+
+**Bara de jos pe telefon: etichetele nu se mai ating.** Cu șapte taburi, la 390 px „Bucătărie” și „Generator” se citeau lipite. Sub 430 px, etichetele au acum 10 px (9 px sub 360 px) și, dacă un cuvânt tot nu încape (de exemplu „Konfigurator” în germană, „Podsumowanie” în poloneză), se scurtează cu „…” în loc să se suprapună peste vecin. Verificat în cele 7 limbi la 360, 390 și 430 px. Fără schimbări de calcul.
 
 ---
 
