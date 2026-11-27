@@ -2002,7 +2002,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
   }
 
-      head("Navigarea — cinci file, Bucătărie și Debitare prin selector (5.117.0)");
+      head("Navigarea — cinci file, Bucătărie și Debitare prin selector (5.121.0)");
   {
     const nctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const np = await nctx.newPage();
@@ -2036,7 +2036,7 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("nessun errore JS", nerr.length === 0, nerr.join(" | ").slice(0, 200));
   }
 
-head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisare (5.116.0)");
+head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisare (5.120.0)");
   {
     const uctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const up = await uctx.newPage();
@@ -2076,7 +2076,7 @@ head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisa
     ok("nessun errore JS", uerr.length === 0, uerr.join(" | ").slice(0, 200));
   }
 
-head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.115.1)");
+head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.119.1)");
   {
     const tctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const tp = await tctx.newPage();

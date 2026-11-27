@@ -5,7 +5,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.117.0 — 27 noiembrie 2026
+## 5.121.0 — 27 noiembrie 2026
 
 **Navigare: cinci file în loc de șapte (D-197).**
 - Bara de jos: **Proiecte, Releveu, Proiectează, Piese, Documente** (limita Apple HIG: cel mult cinci). „Proiectează” = Generator + Bucătărie; „Piese” = Listă + Debitare; „Documente” = vechiul Rezumat.
@@ -16,7 +16,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.116.1 — 27 noiembrie 2026
+## 5.120.1 — 27 noiembrie 2026
 
 **Română: „Noutăți”, nu „Novități”.**
 - Titlul foii cu ce s-a schimbat la fiecare actualizare, în română, e acum „Noutăți” (la cererea lui Liviu, 27.11: cuvântul corect). Schimbat în aplicație, în comentarii, în testul `whatsnew.test.js` și în documentele programului.
@@ -25,7 +25,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.116.0 — 26 noiembrie 2026
+## 5.120.0 — 26 noiembrie 2026
 
 **Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-195).**
 - **Miniatura**: cardul fiecărui proiect arată desenul izometric al primului corp care se poate desena (`projThumb`, același desen ca la pașii de montaj); fără corpuri desenabile, o iconiță. Iconițe lângă piese, corpuri, m² și ml.
@@ -37,7 +37,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.115.1 — 26 noiembrie 2026
+## 5.119.1 — 26 noiembrie 2026
 
 **Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-194).**
 - Fișa nouă (faze, piese numerotate, „Ai nevoie de”, pictograme) acoperă acum și **masa, patul (inclusiv ladă ridicabilă), biroul, rafturile rotunde/ovale/racordate, nișele, blaturile, lambriul, boiseria și conturul**, plus corpurile fără configurație (piese făcute de mână). Până acum aveau o listă simplă de pași, fără tabelul de feronerie și fără imagini.
@@ -50,7 +50,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.115.0 — 26 noiembrie 2026
+## 5.119.0 — 26 noiembrie 2026
 
 **Fișa de montaj, pas cu pas (D-194).**
 - Pașii unui corp sunt grupați în **faze** cu titlu: Pregătire, Premontaj pe laterale, Carcasa, Așezarea la locul ei, Interior, Sertare, Uși, Mânere și finisaj. O fază fără pași nu apare. Numerotarea pașilor continuă peste faze.
@@ -63,7 +63,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.114.1 — 26 noiembrie 2026
+## 5.118.0 — 26 noiembrie 2026
 
 **Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului (D-193).**
 - Pe telefoane înguste (≤ 420 px) bara de jos are font și spațiere mai mici și etichete tăiate cu „…” dacă nu încap (cele șapte file se atingeau: „Bucătărie”/„Generator”, „Debitare”/„Rezumat”).
@@ -71,6 +71,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - Cardul proiectului are un rând „Pasul următor”, calculat numai din ce se vede deja pe card (piese, piese bifate): fără piese → Generator; piese nebifate → Listă; unele bifate → Listă; toate bifate → Rezumat. Doar duce utilizatorul acolo; nu schimbă proiectul. Patru chei noi în toate cele 7 limbi (`nsStart`, `nsDocs`, `nsLeft`, `nsDone`).
 - Butonul „Trimite” din Rezumat (trimite fișierul CSV) se numește „Trimite CSV”, în toate limbile.
 - Nicio schimbare de calcul, de distinctă, de preț sau de 3D. Capturi înainte de modificare: telefon 390 px și tabletă 820 px, pe proiectul „Exemplu”.
+
+---
+
+## 5.114.1 — 27 noiembrie 2026
+
+**Ajutor: subiect nou „Modul Șantier pe telefon”**, în cele 7 limbi, în aplicație și pe `/help/`: cum se deschide, ce face fiecare dintre cele patru intrări (Releveu, Poză, Montaj, Recepție), că o recepție cu corpuri nemontate iese ca parțială și că procesul-verbal tipărit urmează regulile Pro (o probă gratuită). Câmpurile de cotă din Releveu aveau deja tastatură numerică (`inputmode`), deci nu s-a schimbat nimic acolo. Fără schimbări de calcul.
 
 ---
 
