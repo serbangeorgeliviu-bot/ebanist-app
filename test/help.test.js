@@ -10,7 +10,7 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const read = f => fs.readFileSync(path.join(ROOT, f), "utf8");
 const H = new Function(read("app/ebanist-help.js") + "\nreturn globalThis.EBHelp;")();
-const APP = read("app/index.html");
+const APP = read("app/index.html") + read("app/ebanist-site-ui.js");   /* etichetele modulului Șantier stau în ebanist-site-ui.js (D-192) */
 const L7 = ["en", "ro", "it", "fr", "de", "pl", "es"];
 
 test("limbile sunt cele 7 ale aplicației", () => assert.deepStrictEqual(H.LANGS, L7));

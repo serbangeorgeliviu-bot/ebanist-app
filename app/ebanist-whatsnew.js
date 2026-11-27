@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.114.1", date: "2026-11-27", t: {
+      en: { title: "Help: Site mode explained", items: ["A new Help topic, “Site mode on your phone”, explains the four entries and how a partial handover works."] },
+      ro: { title: "Ajutor: Modul Șantier explicat", items: ["Un subiect nou în Ajutor, „Modul Șantier pe telefon”, explică cele patru intrări și cum funcționează o recepție parțială."] },
+      it: { title: "Guida: il modo cantiere spiegato", items: ["Un nuovo argomento nella Guida, «Modo cantiere sul telefono», spiega le quattro voci e come funziona una consegna parziale."] },
+      fr: { title: "Aide : le mode chantier expliqué", items: ["Un nouveau sujet dans l'Aide, « Mode chantier sur téléphone », explique les quatre entrées et le fonctionnement d'une réception partielle."] },
+      de: { title: "Hilfe: Baustellen-Modus erklärt", items: ["Ein neues Hilfethema, „Baustellen-Modus am Handy“, erklärt die vier Einträge und wie eine Teilabnahme funktioniert."] },
+      pl: { title: "Pomoc: tryb budowy wyjaśniony", items: ["Nowy temat w Pomocy, „Tryb budowy na telefonie”, wyjaśnia cztery wejścia i działanie odbioru częściowego."] },
+      es: { title: "Ayuda: el modo obra explicado", items: ["Un nuevo tema en la Ayuda, «Modo obra en el móvil», explica las cuatro entradas y cómo funciona una entrega parcial."] }
+    } },
     { v: "5.114.0", date: "2026-11-27", t: {
       en: { title: "Site mode for your phone", items: ["A new “Site” card at the top of Projects opens a full-screen mode with big buttons, made for gloves and low light, and it works offline.", "Four entries: Survey, Photo, Fitting (tap a unit to mark it fitted) and Handover (7 checks, defects, the client signs on the screen).", "After signing you can print the handover record. If some units are not fitted yet, it is signed as a partial handover and says so."] },
       ro: { title: "Modul Șantier pe telefon", items: ["Un card nou „Șantier” sus în Proiecte deschide un ecran complet, cu butoane mari, făcut pentru mănuși și lumină slabă, care merge fără semnal.", "Patru intrări: Releveu, Poză, Montaj (atingi un corp ca să-l marchezi montat) și Recepție (7 verificări, defecte, clientul semnează pe ecran).", "După semnare poți tipări procesul-verbal. Dacă unele corpuri nu sunt încă montate, recepția se semnează ca parțială și scrie asta."] },
