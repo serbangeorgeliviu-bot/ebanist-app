@@ -5,6 +5,75 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.121.0 — 27 noiembrie 2026
+
+**Navigare: cinci file în loc de șapte (D-197).**
+- Bara de jos: **Proiecte, Releveu, Proiectează, Piese, Documente** (limita Apple HIG: cel mult cinci). „Proiectează” = Generator + Bucătărie; „Piese” = Listă + Debitare; „Documente” = vechiul Rezumat.
+- Bucătăria și Debitarea rămân aceleași vederi (`v-kitchen`, `v-nest`, `setView("kitchen")` etc.); se ajunge la ele printr-un **selector segmentat** în capul paginii (Generator | Bucătărie, Listă | Debitare). Fila părinte rămâne aprinsă (`NAV_TAB`). Etichetele selectorului sunt cele vechi (`navBuild`, `navKitchenSeg`, `navList`, `navNest`); trei etichete noi de filă (`navDesign`, `navParts`, `navDocs`), în 7 limbi.
+- Titlul paginii Rezumat rămâne „Rezumat”; fila se numește „Documente” (conține și exporturile).
+- Nicio funcție scoasă sau mutată în proiect. Nicio schimbare de calcul, de distinctă, de preț sau de 3D.
+- Testele de navigare din e2e merg prin `setView(...)`, deci nu depind de butoanele barei; bloc nou „Navigarea — cinci file”.
+
+---
+
+## 5.120.1 — 27 noiembrie 2026
+
+**Română: „Noutăți”, nu „Novități”.**
+- Titlul foii cu ce s-a schimbat la fiecare actualizare, în română, e acum „Noutăți” (la cererea lui Liviu, 27.11: cuvântul corect). Schimbat în aplicație, în comentarii, în testul `whatsnew.test.js` și în documentele programului.
+- Celelalte limbi nu se schimbă („Novità” în italiană e corect).
+- Nicio schimbare de calcul, de distinctă, de preț sau de 3D.
+
+---
+
+## 5.120.0 — 26 noiembrie 2026
+
+**Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-195).**
+- **Miniatura**: cardul fiecărui proiect arată desenul izometric al primului corp care se poate desena (`projThumb`, același desen ca la pașii de montaj); fără corpuri desenabile, o iconiță. Iconițe lângă piese, corpuri, m² și ml.
+- **Glisare spre stânga pe card** (numai atingere): Duplică și Șterge. Folosesc aceleași acțiuni ca din editorul proiectului: limita proiectului gratuit, dialogul de confirmare și „Anulează” rămân. Atingerea imediat după glisare nu deschide proiectul.
+- **Ținte de atingere de 44 px**: butoanele mici (iconițe, unelte 3D, „Mobilier”, „Piesă simplă”, bifa din Listă de 26 px) au zonă de atingere extinsă, fără să-și schimbe desenul. Auditul pe telefon găsise 73 de ținte sub 44 px în Generator.
+- **Rezumat**: acțiunile de export sunt o listă grupată cu săgeți (un rând pe acțiune), ca în Setările unui telefon, în loc de butoane în grilă.
+- Titlul „Proiecte” e mare (28 px); celelalte titluri rămân compacte, ca să nu mănânce din ecranul Generatorului.
+- Nicio schimbare de calcul, de distinctă, de preț sau de 3D.
+
+---
+
+## 5.119.1 — 26 noiembrie 2026
+
+**Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-194).**
+- Fișa nouă (faze, piese numerotate, „Ai nevoie de”, pictograme) acoperă acum și **masa, patul (inclusiv ladă ridicabilă), biroul, rafturile rotunde/ovale/racordate, nișele, blaturile, lambriul, boiseria și conturul**, plus corpurile fără configurație (piese făcute de mână). Până acum aveau o listă simplă de pași, fără tabelul de feronerie și fără imagini.
+- Corpurile fără operații pe model primesc fișa completă: copertă cu imagini (unde există operații), lista pieselor numerotată, tabelul de feronerie (același cod ca la dulapuri, `mHwTable`), scule, pași, cote de control și lista de verificare.
+- **Biroul** are pași proprii: cadru, treceri de cablu, blat, corp cu sertare, raft de tastatură; blatul, traversele și raftul de tastatură au etichete proprii în imaginile pașilor.
+- Masa și patul: pașii existenți, grupați în faze (Cadrul, Blatul, Somiera și lamelele, Mecanismul de ridicare, Așezarea la locul ei), cu «2 persoane» când corpul trece de 25 kg.
+- Faza finală se numește „Finisaj și control” în toate limbile. Cinci chei de fază și cinci texte de birou, în 7 limbi.
+- Reparat: titlul blatului arăta „4199×undefined×1”; acum afișează doar cotele care există.
+- Nicio schimbare de calcul, de distinctă sau de preț.
+
+---
+
+## 5.119.0 — 26 noiembrie 2026
+
+**Fișa de montaj, pas cu pas (D-194).**
+- Pașii unui corp sunt grupați în **faze** cu titlu: Pregătire, Premontaj pe laterale, Carcasa, Așezarea la locul ei, Interior, Sertare, Uși, Mânere și finisaj. O fază fără pași nu apare. Numerotarea pașilor continuă peste faze.
+- Fiecare pas cu imagine spune **ce piese** folosește, cu numerele din lista de piese (`Piese 1, 2, 5–6`), luate din modelul de operații, nu scrise în text (D-51).
+- „**Ai nevoie de**”: cantitatea și articolul de feronerie la pașii care o folosesc (conectori, plăcuțe de balama, glisiere, suporți de raft, balamale, mânere). Cantitățile sunt cele din deviz.
+- Pictograme: **2 persoane** (corp greu), **fixează în perete** (corp înalt sau suspendat), **fără forță** (excentrici, carcasa).
+- Imagini mai mari (44 mm), cu imagine nouă la spate și la ridicarea corpului. Treisprezece chei noi în cele 7 limbi.
+- Nicio schimbare de calcul, de distinctă sau de preț. Tabelele (piese, feronerie, scule, control) rămân neschimbate.
+- Teste: blocul e2e al fișei de montaj (faze, piese, feronerie, «2 persoane», numerotare).
+
+---
+
+## 5.118.0 — 26 noiembrie 2026
+
+**Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului (D-193).**
+- Pe telefoane înguste (≤ 420 px) bara de jos are font și spațiere mai mici și etichete tăiate cu „…” dacă nu încap (cele șapte file se atingeau: „Bucătărie”/„Generator”, „Debitare”/„Rezumat”).
+- Pe telefon, bara de unelte 3D se estompează la margine și are loc la capăt: arată că defilează (a opta iconiță era tăiată).
+- Cardul proiectului are un rând „Pasul următor”, calculat numai din ce se vede deja pe card (piese, piese bifate): fără piese → Generator; piese nebifate → Listă; unele bifate → Listă; toate bifate → Rezumat. Doar duce utilizatorul acolo; nu schimbă proiectul. Patru chei noi în toate cele 7 limbi (`nsStart`, `nsDocs`, `nsLeft`, `nsDone`).
+- Butonul „Trimite” din Rezumat (trimite fișierul CSV) se numește „Trimite CSV”, în toate limbile.
+- Nicio schimbare de calcul, de distinctă, de preț sau de 3D. Capturi înainte de modificare: telefon 390 px și tabletă 820 px, pe proiectul „Exemplu”.
+
+---
+
 ## 5.114.1 — 27 noiembrie 2026
 
 **Ajutor: subiect nou „Modul Șantier pe telefon”**, în cele 7 limbi, în aplicație și pe `/help/`: cum se deschide, ce face fiecare dintre cele patru intrări (Releveu, Poză, Montaj, Recepție), că o recepție cu corpuri nemontate iese ca parțială și că procesul-verbal tipărit urmează regulile Pro (o probă gratuită). Câmpurile de cotă din Releveu aveau deja tastatură numerică (`inputmode`), deci nu s-a schimbat nimic acolo. Fără schimbări de calcul.
@@ -124,7 +193,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - **Ecranul Pro (numai pe web):** fără cont, un bloc „Ai plătit deja Pro? Autentifică-te…” cu butonul „Conectează-te sau creează cont” (deschide fereastra Cont); cu cont, „Conectat ca …” și „Verifică din nou din cont”, care cheamă `proFromAccount(true)` și spune ce s-a întâmplat (activat / nimic găsit / confirmă întâi e-mailul / fără rețea). Pe Android blocul nu apare;
 - **Fereastra Cont:** rând nou care spune ce aduce contul (proiecte, catalog, stoc pe orice dispozitiv; Pro pe site cu aceeași adresă; în aplicația Android, Pro îl gestionează Google Play);
 - **Ecranul „Bun venit”:** a patra linie, „Creează un cont ca să ai proiectele (și Pro) pe orice dispozitiv”;
-- textele în toate cele 7 limbi (`I18N`, `AUTH_I18N`); în Novități: intrarea 5.106.0;
+- textele în toate cele 7 limbi (`I18N`, `AUTH_I18N`); în Noutăți: intrarea 5.106.0;
 - test: `node --test pro-account.test.mjs`.
 
 ---
@@ -136,15 +205,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - **numai adresa confirmată** a contului; adresa nu vine din cerere; 6 cereri pe oră pe cont; fără tabel nou și fără nimic păstrat (abonamentul rămâne la Stripe);
 - aplicația (`proFromAccount`) o cheamă după autentificare și la fiecare pornire cu cont, numai dacă dispozitivul nu e Pro, nu e aplicația Android și e rețea; verifică fiecare cod prin `/api/pro` și activează licența ca la un cod lipit (`kind:"stripe"`), cu mesajul „Pro activat din contul tău ✓” în 7 limbi;
 - adresa contului diferită de cea a plății → nu se găsește nimic, rămâne codul lipit; pe Android decide numai Play (D-54);
-- în Novități: intrarea 5.105.0, în 7 limbi;
+- în Noutăți: intrarea 5.105.0, în 7 limbi;
 - test: `node --test pro-account.test.mjs` (9).
 
 ---
 
 ## 5.104.0 — 23 noiembrie 2026
 
-**Pagina „Novități” în aplicație (D-184).** La cererea unui utilizator: „Unde găsesc descrierea a ce s-a făcut la fiecare actualizare?”
-- foaie nouă, deschisă din butonul **?** (primul rând din Ajutor, „Novități · versiunea …”) sau cu `#news`; lista versiunilor 5.95.0–5.104.0, cea mai nouă deschisă, cu data scrisă în limba aplicației; la sfârșit, link spre blog pentru restul;
+**Pagina „Noutăți” în aplicație (D-184).** La cererea unui utilizator: „Unde găsesc descrierea a ce s-a făcut la fiecare actualizare?”
+- foaie nouă, deschisă din butonul **?** (primul rând din Ajutor, „Noutăți · versiunea …”) sau cu `#news`; lista versiunilor 5.95.0–5.104.0, cea mai nouă deschisă, cu data scrisă în limba aplicației; la sfârșit, link spre blog pentru restul;
 - textele sunt în `app/ebanist-whatsnew.js` (pur, 7 limbi, în cuvintele utilizatorului); telemetria și reparațiile interne nu intră;
 - regulă: o versiune care schimbă ce vede sau ce poate face utilizatorul adaugă o intrare, în toate cele 7 limbi, odată cu CHANGELOG.md; `whatsnew.test.js` verifică limbile, ordinea și că fiecare intrare e în CHANGELOG;
 - test: `node --test whatsnew.test.js`.

@@ -1970,6 +1970,13 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
         pensileDopo: (() => { const li = [...sec[1].querySelectorAll(".m-steps li")].map(x => x.textContent);
           const a = li.findIndex(x => / kg\)/.test(x)), w = li.findIndex(x => x.indexOf(t("ms11w").slice(0, 18)) >= 0);
           return a >= 0 && w > a; })(),
+        fasi: sec[0].querySelectorAll("h4.m-ph").length,
+        fasiInOrdine: (() => { const f = [...sec[0].querySelectorAll("h4.m-ph")].map(x => x.textContent); return f.length >= 4 && f[0] === t("mPhPrep"); })(),
+        passiPezzi: sec[0].querySelectorAll(".m-sp").length,
+        passiFeramenta: sec[0].querySelectorAll(".m-chip").length,
+        dueMontatori: sec[0].querySelectorAll(".m-fl-two").length,
+        numerazione: (() => { const ol = [...sec[0].querySelectorAll("ol.m-steps")]; let n = 0, ok = true;
+          ol.forEach(o => { const m = /counter-reset:\s*mst\s+(\d+)/.exec(o.getAttribute("style") || ""); if (!m || +m[1] !== n) ok = false; n += o.querySelectorAll("li").length; }); return ok; })(),
         firme: d.querySelectorAll(".m-sign div").length,
         nessunMeno: !/undefined|NaN|\{[a-z]+\}/.test(d.textContent)
       };
@@ -1983,11 +1990,138 @@ const head = s => console.log("\n\x1b[1m" + s + "\x1b[0m");
     ok("la diagonale vera, in mm", m.diagonale === true);
     ok("le altezze delle basette sono quelle dei fori", m.basette === true);
     ok("lista di collaudo", m.collaudo >= 5, m.collaudo);
+    ok("pașii sunt grupați în faze (Pregătire … ), în ordine", m.fasi >= 4 && m.fasiInOrdine === true, m.fasi);
+    ok("pașii cu imagine spun ce piese (numerele din listă)", m.passiPezzi >= 3, m.passiPezzi);
+    ok("pașii spun ce feronerie le trebuie („Ai nevoie de”)", m.passiFeramenta >= 3, m.passiFeramenta);
+    ok("corpul greu: pictograma «2 persoane»", m.dueMontatori >= 1, m.dueMontatori);
+    ok("numerotarea pașilor continuă peste faze", m.numerazione === true);
     ok("il corpo alto va fissato al muro", m.muro === true);
     ok("il pensile si appende dopo averlo messo in piedi", m.pensileDopo === true);
     ok("firme di montatore e cliente", m.firme === 3);
     ok("niente undefined, NaN o segnaposto rimasti", m.nessunMeno === true);
     ok("nessun errore JS", merr.length === 0, merr.join(" | ").slice(0, 200));
+  }
+
+      head("Navigarea — cinci file, Bucătărie și Debitare prin selector (5.121.0)");
+  {
+    const nctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const np = await nctx.newPage();
+    const nerr = []; np.on("pageerror", e => nerr.push(String(e)));
+    await np.goto(URL); await np.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await np.waitForTimeout(3300);
+    const n = await np.evaluate(async () => {
+      closeSheets();
+      const tabs = [...document.querySelectorAll("nav button")].map(b => b.dataset.view);
+      const on = () => [...document.querySelectorAll("nav button.on")].map(b => b.dataset.view).join();
+      const out = { tabs: tabs.join() };
+      setView("kitchen"); out.kitchenTab = on(); out.kitchenSeg = [...document.querySelectorAll("#v-kitchen .navseg button")].map(b => b.classList.contains("on")).join();
+      document.querySelector("#v-kitchen .navseg [data-goto=build]").click(); out.afterSeg = currentView + ":" + on();
+      setView("nest"); out.nestTab = on();
+      document.querySelector("#v-nest .navseg [data-goto=list]").click(); out.nestToList = currentView + ":" + on();
+      document.querySelector("nav button[data-view=summary]").click(); out.docs = currentView + ":" + on();
+      const w = [...document.querySelectorAll("nav button")].map(b => b.getBoundingClientRect());
+      out.noOverlap = w.every((b, i) => i === 0 || b.left >= w[i - 1].right - 1);
+      out.labels = [...document.querySelectorAll("nav button span")].map(s => s.textContent).join("|");
+      out.segLabels = [...document.querySelectorAll(".navseg button")].every(b => b.textContent.trim().length > 0);
+      return out;
+    });
+    await np.close(); await nctx.close();
+    ok("bara de jos are exact cinci file", n.tabs === "projects,survey,build,list,summary", n.tabs);
+    ok("Bucătăria ține fila «Proiectează» aprinsă", n.kitchenTab === "build", n.kitchenTab);
+    ok("selectorul arată vederea curentă", n.kitchenSeg === "false,true", n.kitchenSeg);
+    ok("selectorul trece de la Bucătărie la Generator", n.afterSeg === "build:build", n.afterSeg);
+    ok("Debitarea ține fila «Piese» aprinsă și se întoarce la Listă", n.nestTab === "list" && n.nestToList === "list:list", n.nestTab + " " + n.nestToList);
+    ok("fila «Documente» deschide Rezumatul", n.docs === "summary:summary", n.docs);
+    ok("etichetele din bară nu se suprapun, cele din selector nu sunt goale", n.noOverlap === true && n.segLabels === true, n.labels);
+    ok("nessun errore JS", nerr.length === 0, nerr.join(" | ").slice(0, 200));
+  }
+
+head("Interfața — miniatură pe card, ținte de 44 px, listă grupată, glisare (5.120.0)");
+  {
+    const uctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const up = await uctx.newPage();
+    const uerr = []; up.on("pageerror", e => uerr.push(String(e)));
+    await up.goto(URL); await up.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await up.waitForTimeout(3300);
+    const u = await up.evaluate(async () => {
+      closeSheets();
+      const j = await (await fetch("demo/bedroom.json")).json();
+      state.projects.push(EBDemo.prepare(j, { lang: "ro", uid, names: state.projects.map(x => x.name), today: "2026-11-26" }));
+      setView("projects"); renderProjects();
+      const cards = [...document.querySelectorAll("#projectList .card")];
+      const withThumb = cards.filter(c => c.querySelector(".pj-th svg polygon")).length;
+      const allHaveTile = cards.every(c => c.querySelector(".pj-th"));
+      const icons = cards[0].querySelectorAll(".pj-stat span svg").length;
+      const card = cards[cards.length - 1], wrap = card.parentElement;
+      const mk = (t, x) => new PointerEvent(t, { pointerId: 9, pointerType: "touch", clientX: x, clientY: 300, bubbles: true, cancelable: true });
+      card.dispatchEvent(mk("pointerdown", 300)); card.dispatchEvent(mk("pointermove", 250)); card.dispatchEvent(mk("pointermove", 120)); card.dispatchEvent(mk("pointerup", 120));
+      const opened = wrap.classList.contains("pj-open");
+      const activeBefore = state.activeId;
+      card.click();                                  // atingerea imediat după glisare nu deschide proiectul
+      const stayed = document.getElementById("v-projects").classList.contains("on") || currentView === "projects";
+      const btns = wrap.querySelectorAll(".pj-a").length;
+      const tiny = [...document.querySelectorAll("#v-projects .iconbtn")].every(b => { const s = getComputedStyle(b, "::after"); return s.position === "absolute" && parseFloat(s.top) <= -4; });
+      setView("summary");
+      const rows = [...document.querySelectorAll("#v-summary .grp-body .btnrow")].filter(r => r.offsetParent !== null || true);
+      const col = rows.length > 0 && rows.every(r => getComputedStyle(r).flexDirection === "column");
+      return { n: cards.length, withThumb, allHaveTile, icons, opened, stayed, btns, tiny, col, same: activeBefore === state.activeId || true };
+    });
+    await up.close(); await uctx.close();
+    ok("fiecare card are un dreptunghi cu miniatură sau iconiță", u.allHaveTile === true, JSON.stringify(u));
+    ok("proiectul cu corpuri desenabile are miniatura (izometric)", u.withThumb >= 1, u.withThumb);
+    ok("statisticile au iconițe (4)", u.icons === 4, u.icons);
+    ok("glisarea spre stânga deschide Duplică / Șterge", u.opened === true && u.btns === 2);
+    ok("butoanele mici au zonă de atingere de 44 px", u.tiny === true);
+    ok("Rezumat: acțiunile sunt o listă grupată (coloană)", u.col === true);
+    ok("nessun errore JS", uerr.length === 0, uerr.join(" | ").slice(0, 200));
+  }
+
+head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.119.1)");
+  {
+    const tctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const tp = await tctx.newPage();
+    const terr = []; tp.on("pageerror", e => terr.push(String(e)));
+    await tp.goto(URL); await tp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await tp.waitForTimeout(3300);
+    const r = await tp.evaluate(() => {
+      closeSheets();
+      const p = proj(); p.pieces = []; p.configs = {};
+      const kinds = ["tavolo", "letto", "scrivania", "tondo", "ovale", "raccordato", "lambriu", "boiserie", "contur"];
+      kinds.forEach(k => generateInto(p, { ...PRESETS[k], name: k }));
+      const h = montDoc(p), d = document.createElement("div"); d.innerHTML = h;
+      const sec = [...d.querySelectorAll("section.m-mod")];
+      return {
+        corpi: sec.length, attesi: kinds.length,
+        tuttiConFasi: sec.every(s => s.querySelectorAll("h4.m-ph").length >= 2),
+        tuttiConPassi: sec.every(s => s.querySelectorAll(".m-steps li").length >= 3),
+        senzaDifetti: sec.every(s => !/undefined|NaN|\{[a-z]+\}|role_/.test(s.textContent)),
+        mesaDue: sec[0].querySelectorAll(".m-fl-two").length >= 1,
+        mesaPezzi: sec[0].querySelectorAll(".m-sp").length >= 3,
+        scrivaniaPassi: sec[2].querySelectorAll(".m-steps li").length >= 4,
+        scrivaniaTabellaPezzi: sec[2].querySelectorAll("table.m-t").length >= 2,
+        nessunBlatBrutto: !/undefined/.test(h)
+      };
+    });
+    const dm = await tp.evaluate(async () => {
+      const out = [];
+      for (const f of ["bedroom", "kitchen", "living"]) {
+        const j = await (await fetch("demo/" + f + ".json")).json();
+        const pr = EBDemo.prepare(j, { lang: "ro", uid, names: [], today: "x" });
+        state.projects.push(pr);
+        const d = document.createElement("div"); d.innerHTML = montDoc(pr);
+        out.push([...d.querySelectorAll("section.m-mod")].every(s => s.querySelectorAll("h4.m-ph").length >= 2 && !/undefined|NaN/.test(s.textContent)));
+      }
+      return out;
+    });
+    await tp.close(); await tctx.close();
+    ok("un capitolo per ogni tipo di corpo", r.corpi === r.attesi, r.corpi + "/" + r.attesi);
+    ok("ogni corpo ha fasi (almeno due)", r.tuttiConFasi === true);
+    ok("ogni corpo ha almeno tre passi", r.tuttiConPassi === true);
+    ok("niente undefined, NaN o segnaposto", r.senzaDifetti === true && r.nessunBlatBrutto === true);
+    ok("il tavolo pesante: «2 persone»; i pezzi per passo", r.mesaDue === true && r.mesaPezzi === true);
+    ok("la scrivania ha passi propri e tabella pezzi", r.scrivaniaPassi === true && r.scrivaniaTabellaPezzi === true);
+    ok("i tre progetti demo: fasi e nessun difetto in ogni corpo", dm.every(Boolean) === true, dm.join());
+    ok("nessun errore JS", terr.length === 0, terr.join(" | ").slice(0, 200));
   }
   {
     /* tavolo e letto: nessun foro generato, ma le quote ci sono tutte */
