@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.114.1 — 27 noiembrie 2026
+
+**Ajutor: subiect nou „Modul Șantier pe telefon”**, în cele 7 limbi, în aplicație și pe `/help/`: cum se deschide, ce face fiecare dintre cele patru intrări (Releveu, Poză, Montaj, Recepție), că o recepție cu corpuri nemontate iese ca parțială și că procesul-verbal tipărit urmează regulile Pro (o probă gratuită). Câmpurile de cotă din Releveu aveau deja tastatură numerică (`inputmode`), deci nu s-a schimbat nimic acolo. Fără schimbări de calcul.
+
+---
+
 ## 5.114.0 — 27 noiembrie 2026
 
 **Modul Șantier pe telefon (D-192).** Un card „Șantier” sus în Proiecte deschide un ecran complet, cu butoane de cel puțin 56 px, făcut pentru mănuși și lumină slabă, care merge fără semnal. Patru intrări: **Releveu** (deschide tab-ul existent), **Poză** (camera se deschide direct și poza se leagă de proiect), **Montaj** (lista corpurilor proiectului, fiecare cu un buton mare „Montat”; a doua atingere anulează; progres „N din M”) și **Recepție** (cele 7 verificări din fișa de montaj, defecte cu text liber, numele clientului și semnătura cu degetul). După semnare se poate tipări procesul-verbal, cu corpurile montate, verificările, defectele și semnătura; dacă nu toate corpurile sunt montate, recepția se semnează tot și iese ca **recepție parțială**, scrisă în document. Montajul bifat și recepția sunt pe ecran, gratuite; procesul-verbal tipărit trece prin poarta documentelor, ca orice altceva (D-55). Datele stau într-un câmp nou, opțional, `p.site`, pe proiect (un proiect fără el rămâne ca până acum); se sincronizează cu proiectul și intră în backup, iar „Duplică proiectul” nu le copiază. Nu schimbă distinta, geometria sau devizul. Semnătura e locală, nu e semnare la distanță. Specificația: `ebanist-hq/06-design/MOD-SANTIER-v1.md`.
