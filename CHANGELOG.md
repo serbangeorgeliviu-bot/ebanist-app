@@ -7,7 +7,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.117.0 — 27 noiembrie 2026
 
-**Navigare: cinci file în loc de șapte (D-196).**
+**Navigare: cinci file în loc de șapte (D-197).**
 - Bara de jos: **Proiecte, Releveu, Proiectează, Piese, Documente** (limita Apple HIG: cel mult cinci). „Proiectează” = Generator + Bucătărie; „Piese” = Listă + Debitare; „Documente” = vechiul Rezumat.
 - Bucătăria și Debitarea rămân aceleași vederi (`v-kitchen`, `v-nest`, `setView("kitchen")` etc.); se ajunge la ele printr-un **selector segmentat** în capul paginii (Generator | Bucătărie, Listă | Debitare). Fila părinte rămâne aprinsă (`NAV_TAB`). Etichetele selectorului sunt cele vechi (`navBuild`, `navKitchenSeg`, `navList`, `navNest`); trei etichete noi de filă (`navDesign`, `navParts`, `navDocs`), în 7 limbi.
 - Titlul paginii Rezumat rămâne „Rezumat”; fila se numește „Documente” (conține și exporturile).
@@ -27,7 +27,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.116.0 — 26 noiembrie 2026
 
-**Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-194).**
+**Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-195).**
 - **Miniatura**: cardul fiecărui proiect arată desenul izometric al primului corp care se poate desena (`projThumb`, același desen ca la pașii de montaj); fără corpuri desenabile, o iconiță. Iconițe lângă piese, corpuri, m² și ml.
 - **Glisare spre stânga pe card** (numai atingere): Duplică și Șterge. Folosesc aceleași acțiuni ca din editorul proiectului: limita proiectului gratuit, dialogul de confirmare și „Anulează” rămân. Atingerea imediat după glisare nu deschide proiectul.
 - **Ținte de atingere de 44 px**: butoanele mici (iconițe, unelte 3D, „Mobilier”, „Piesă simplă”, bifa din Listă de 26 px) au zonă de atingere extinsă, fără să-și schimbe desenul. Auditul pe telefon găsise 73 de ținte sub 44 px în Generator.
@@ -39,7 +39,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.115.1 — 26 noiembrie 2026
 
-**Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-193).**
+**Fișa de montaj pas cu pas, pentru toate tipurile de corp (D-194).**
 - Fișa nouă (faze, piese numerotate, „Ai nevoie de”, pictograme) acoperă acum și **masa, patul (inclusiv ladă ridicabilă), biroul, rafturile rotunde/ovale/racordate, nișele, blaturile, lambriul, boiseria și conturul**, plus corpurile fără configurație (piese făcute de mână). Până acum aveau o listă simplă de pași, fără tabelul de feronerie și fără imagini.
 - Corpurile fără operații pe model primesc fișa completă: copertă cu imagini (unde există operații), lista pieselor numerotată, tabelul de feronerie (același cod ca la dulapuri, `mHwTable`), scule, pași, cote de control și lista de verificare.
 - **Biroul** are pași proprii: cadru, treceri de cablu, blat, corp cu sertare, raft de tastatură; blatul, traversele și raftul de tastatură au etichete proprii în imaginile pașilor.
@@ -52,7 +52,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.115.0 — 26 noiembrie 2026
 
-**Fișa de montaj, pas cu pas (D-193).**
+**Fișa de montaj, pas cu pas (D-194).**
 - Pașii unui corp sunt grupați în **faze** cu titlu: Pregătire, Premontaj pe laterale, Carcasa, Așezarea la locul ei, Interior, Sertare, Uși, Mânere și finisaj. O fază fără pași nu apare. Numerotarea pașilor continuă peste faze.
 - Fiecare pas cu imagine spune **ce piese** folosește, cu numerele din lista de piese (`Piese 1, 2, 5–6`), luate din modelul de operații, nu scrise în text (D-51).
 - „**Ai nevoie de**”: cantitatea și articolul de feronerie la pașii care o folosesc (conectori, plăcuțe de balama, glisiere, suporți de raft, balamale, mânere). Cantitățile sunt cele din deviz.
@@ -63,14 +63,20 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
-## 5.114.0 — 26 noiembrie 2026
+## 5.114.1 — 26 noiembrie 2026
 
-**Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului (D-192).**
+**Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului (D-193).**
 - Pe telefoane înguste (≤ 420 px) bara de jos are font și spațiere mai mici și etichete tăiate cu „…” dacă nu încap (cele șapte file se atingeau: „Bucătărie”/„Generator”, „Debitare”/„Rezumat”).
 - Pe telefon, bara de unelte 3D se estompează la margine și are loc la capăt: arată că defilează (a opta iconiță era tăiată).
 - Cardul proiectului are un rând „Pasul următor”, calculat numai din ce se vede deja pe card (piese, piese bifate): fără piese → Generator; piese nebifate → Listă; unele bifate → Listă; toate bifate → Rezumat. Doar duce utilizatorul acolo; nu schimbă proiectul. Patru chei noi în toate cele 7 limbi (`nsStart`, `nsDocs`, `nsLeft`, `nsDone`).
 - Butonul „Trimite” din Rezumat (trimite fișierul CSV) se numește „Trimite CSV”, în toate limbile.
 - Nicio schimbare de calcul, de distinctă, de preț sau de 3D. Capturi înainte de modificare: telefon 390 px și tabletă 820 px, pe proiectul „Exemplu”.
+
+---
+
+## 5.114.0 — 27 noiembrie 2026
+
+**Modul Șantier pe telefon (D-192).** Un card „Șantier” sus în Proiecte deschide un ecran complet, cu butoane de cel puțin 56 px, făcut pentru mănuși și lumină slabă, care merge fără semnal. Patru intrări: **Releveu** (deschide tab-ul existent), **Poză** (camera se deschide direct și poza se leagă de proiect), **Montaj** (lista corpurilor proiectului, fiecare cu un buton mare „Montat”; a doua atingere anulează; progres „N din M”) și **Recepție** (cele 7 verificări din fișa de montaj, defecte cu text liber, numele clientului și semnătura cu degetul). După semnare se poate tipări procesul-verbal, cu corpurile montate, verificările, defectele și semnătura; dacă nu toate corpurile sunt montate, recepția se semnează tot și iese ca **recepție parțială**, scrisă în document. Montajul bifat și recepția sunt pe ecran, gratuite; procesul-verbal tipărit trece prin poarta documentelor, ca orice altceva (D-55). Datele stau într-un câmp nou, opțional, `p.site`, pe proiect (un proiect fără el rămâne ca până acum); se sincronizează cu proiectul și intră în backup, iar „Duplică proiectul” nu le copiază. Nu schimbă distinta, geometria sau devizul. Semnătura e locală, nu e semnare la distanță. Specificația: `ebanist-hq/06-design/MOD-SANTIER-v1.md`.
 
 ---
 

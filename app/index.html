@@ -17134,7 +17134,7 @@ $("btnProjectDup").addEventListener("click",()=>{
      aggirava aprendo un progetto e premendo «Duplica». */
   if(!gateNewProject()) return;
   const c=JSON.parse(JSON.stringify(src));
-  delete c.demo; delete c.showcase;
+  delete c.demo; delete c.showcase; delete c.site;   /* montajul și recepția semnată sunt ale șantierului de origine (D-192) */
   c.id=uid(); c.name=src.name+" "+t("copySuffix"); c.date=new Date().toISOString().slice(0,10);
   c.pieces.forEach(x=>{x.id=uid();x.done=0;});
   state.projects.unshift(c); state.activeId=c.id;
@@ -21653,7 +21653,9 @@ document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==
      senza rete. Nessun importmap: i percorsi sono diretti, cosi parte anche
      sui telefoni piu vecchi. Se il modulo non parte, non succede niente:
      resta l'SVG, che e sempre presente sotto. -->
+<script src="./ebanist-site.js"></script>
 <script src="./ebanist-kitchen-ui.js"></script>
+<script src="./ebanist-site-ui.js"></script>
 <script src="./ebanist-corner-ui.js"></script>
 <script type="module" src="./viewer3d.js"></script>
 </body>

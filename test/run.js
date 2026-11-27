@@ -6759,6 +6759,65 @@ head("Scheda di montaggio — tutti i tipi di corpo, passo per passo (5.115.1)")
     await lctx.close();
   }
 
+  /* ---------- Modul Șantier (D-192) ---------- */
+  {
+    const lctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const lp = await lctx.newPage(); const lerr = []; lp.on("pageerror", e => lerr.push(String(e)));
+    lp.on("dialog", d => d.accept());
+    await lp.goto(URL); await lp.waitForFunction(() => window.MAT_LOADED === true, null, { timeout: 15000 });
+    await lp.waitForTimeout(3300);
+    await lp.evaluate(() => closeSheets());
+    const vis = () => lp.evaluate(() => { const e = document.getElementById("siteMode"); return !!e && !e.hidden; });
+    const o = {};
+    o.btn = await lp.evaluate(() => !!document.getElementById("btnSiteMode"));
+    await lp.click("#btnSiteMode"); await lp.waitForTimeout(200);
+    o.open = await vis();
+    o.tiles = await lp.evaluate(() => document.querySelectorAll("#siteMode .sm-tile").length);
+    o.tileH = await lp.evaluate(() => Math.min(...[...document.querySelectorAll("#siteMode .sm-tile")].map(b => b.getBoundingClientRect().height)));
+    o.noSite0 = await lp.evaluate(() => proj().site === undefined);
+    await lp.click('[data-sm="mount"]'); await lp.waitForTimeout(150);
+    o.units = await lp.evaluate(() => document.querySelectorAll("#siteMode [data-mount]").length);
+    o.unitH = await lp.evaluate(() => Math.min(...[...document.querySelectorAll("#siteMode .sm-unit")].map(b => b.getBoundingClientRect().height)));
+    await lp.click("#siteMode [data-mount]"); await lp.waitForTimeout(150);
+    o.mounted1 = await lp.evaluate(() => Object.keys(proj().site.mounted).length);
+    o.on = await lp.evaluate(() => document.querySelector("#siteMode [data-mount]").classList.contains("on"));
+    await lp.click("#siteMode [data-mount]"); await lp.waitForTimeout(150);
+    o.mounted0 = await lp.evaluate(() => Object.keys(proj().site.mounted).length);
+    await lp.click("#siteMode [data-mount]"); await lp.waitForTimeout(100);
+    await lp.click('[data-sm="home"]'); await lp.click('[data-sm="receipt"]'); await lp.waitForTimeout(150);
+    await lp.click('[data-check="1"]'); await lp.waitForTimeout(100);
+    o.check1 = await lp.evaluate(() => proj().site.check[1] === true);
+    await lp.fill("#smDef", "  ușă care freacă  "); await lp.click('[data-sm="defadd"]'); await lp.waitForTimeout(100);
+    o.defect = await lp.evaluate(() => proj().site.defects.map(d => d.text));
+    await lp.fill("#smName", ""); await lp.click('[data-sm="sign"]'); await lp.waitForTimeout(100);
+    o.noName = await lp.evaluate(() => !proj().site.receipt);
+    await lp.fill("#smName", "Mario Rossi"); await lp.click('[data-sm="sign"]'); await lp.waitForTimeout(100);
+    o.noSig = await lp.evaluate(() => !proj().site.receipt);
+    const bb = await lp.evaluate(() => { const r = document.getElementById("smPad").getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; });
+    await lp.mouse.move(bb.x + 30, bb.y + 60); await lp.mouse.down();
+    await lp.mouse.move(bb.x + 120, bb.y + 110, { steps: 6 }); await lp.mouse.move(bb.x + 200, bb.y + 50, { steps: 6 }); await lp.mouse.up();
+    await lp.click('[data-sm="sign"]'); await lp.waitForTimeout(200);
+    o.rec = await lp.evaluate(() => { const r = proj().site.receipt; return r ? { name: r.name, sig: r.sig.slice(0, 22), partial: r.partial, mounted: r.mounted, total: r.total } : null; });
+    o.pv = await lp.evaluate(() => { const h = EBSiteUI.pvHtml(proj()); return { name: h.includes("Mario Rossi"), defect: h.includes("ușă care freacă"), check: h.includes("☑"), img: h.includes("data:image/png") }; });
+    o.afterMount = await lp.evaluate(() => EBSite.units(proj(), isAccPiece).length);
+    await lp.click('[data-sm="unsign"]'); await lp.waitForTimeout(150);
+    o.unsigned = await lp.evaluate(() => proj().site.receipt === null && proj().site.check[1] === true && proj().site.defects.length === 1);
+    o.i18n = await lp.evaluate(() => Object.entries(EBSiteUI.S18).every(([k, v]) => ["en", "ro", "it", "fr", "de", "pl", "es"].every(l => typeof v[l] === "string" && v[l].length > 0)));
+    o.mk = await lp.evaluate(() => { const k = state.lang; let good = true; for (const l of ["it", "ro", "en", "fr", "de", "pl", "es"]) { state.lang = l; for (let i = 1; i <= 7; i++) if (t("mk" + i) === "mk" + i) good = false; } state.lang = k; return good; });
+    await lp.click('[data-sm="close"]'); await lp.waitForTimeout(100);
+    o.closed = !(await vis());
+    ok("Șantier: butonul din Proiecte deschide ecranul complet cu patru plăci mari (≥ 56 px); un proiect fără `site` rămâne fără", o.btn && o.open && o.tiles === 4 && o.tileH >= 56 && o.noSite0, JSON.stringify(o));
+    ok("Șantier: montaj pe unitate — bifa se pune, a doua atingere o anulează, rândurile sunt ≥ 56 px", o.units >= 1 && o.unitH >= 56 && o.mounted1 === 1 && o.on && o.mounted0 === 0, JSON.stringify(o));
+    ok("Șantier: verificările și defectele se salvează pe proiect", o.check1 && o.defect.length === 1 && o.defect[0] === "ușă care freacă", JSON.stringify(o));
+    ok("Șantier: recepția cere numele și semnătura; nimic nu se salvează fără ele", o.noName && o.noSig, JSON.stringify(o));
+    ok("Șantier: recepție semnată, parțială (nu toate unitățile montate), cu semnătura ca imagine PNG", !!o.rec && o.rec.name === "Mario Rossi" && o.rec.sig.startsWith("data:image/png") && o.rec.partial === true && o.rec.mounted === 1 && o.rec.total === o.afterMount, JSON.stringify(o));
+    ok("Șantier: procesul-verbal tipărit poartă numele, defectul, verificările bifate și semnătura", o.pv.name && o.pv.defect && o.pv.check && o.pv.img, JSON.stringify(o.pv));
+    ok("Șantier: anularea semnăturii e explicită și păstrează verificările și defectele", o.unsigned, JSON.stringify(o));
+    ok("Șantier: textele sunt în toate cele 7 limbi, la fel cele 7 verificări (mk1–mk7); se închide", o.i18n && o.mk && o.closed, JSON.stringify(o));
+    ok("Șantier: fără erori JS", lerr.length === 0, lerr.join(" | ").slice(0, 200));
+    await lctx.close();
+  }
+
   const bad = results.filter(r => !r.cond).length;
   console.log(`\n\x1b[1m${results.length - bad}/${results.length} test superati\x1b[0m\n`);
   await browser.close();
