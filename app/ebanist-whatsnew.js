@@ -1,9 +1,9 @@
 /* =====================================================================
-   Ebanist — Novități (D-184)
+   Ebanist — Noutăți (D-184)
    ---------------------------------------------------------------------
    Ce s-a schimbat la fiecare versiune, în cuvintele utilizatorului, în
    cele 7 limbi ale aplicației. Modul pur: nu atinge DOM-ul, nu citește
-   starea. index.html doar pune în foaia „Novități” textul de la render().
+   starea. index.html doar pune în foaia „Noutăți” textul de la render().
 
    Regula (în CLAUDE.md): o versiune care schimbă ce vede sau ce poate
    face utilizatorul adaugă aici o intrare, în toate cele 7 limbi, în
@@ -20,7 +20,7 @@
 
   var UI = {
     en: { title: "What's new", version: "Version", older: "Older versions and the full story:", blog: "Ebanist blog" },
-    ro: { title: "Novități", version: "Versiunea", older: "Versiuni mai vechi și povestea completă:", blog: "blogul Ebanist" },
+    ro: { title: "Noutăți", version: "Versiunea", older: "Versiuni mai vechi și povestea completă:", blog: "blogul Ebanist" },
     it: { title: "Novità", version: "Versione", older: "Versioni precedenti e la storia completa:", blog: "blog di Ebanist" },
     fr: { title: "Nouveautés", version: "Version", older: "Versions précédentes et l'histoire complète :", blog: "blog Ebanist" },
     de: { title: "Neuigkeiten", version: "Version", older: "Frühere Versionen und die ganze Geschichte:", blog: "Ebanist-Blog" },
@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.116.1", date: "2026-11-27", t: {
+      en: { title: "Correct Romanian wording", items: ["In Romanian, the page with what changed in each update is now called “Noutăți”, the correct word, instead of “Novități”."] },
+      ro: { title: "Cuvânt corect în română", items: ["Pagina cu ce s-a schimbat la fiecare actualizare se numește acum „Noutăți”, cuvântul corect, în loc de „Novități”."] },
+      it: { title: "Termine corretto in rumeno", items: ["In rumeno, la pagina con le modifiche di ogni aggiornamento ora si chiama «Noutăți», il termine corretto, invece di «Novități»."] },
+      fr: { title: "Terme roumain corrigé", items: ["En roumain, la page des changements de chaque mise à jour s'appelle désormais « Noutăți », le terme correct, au lieu de « Novități »."] },
+      de: { title: "Korrekter rumänischer Begriff", items: ["Auf Rumänisch heißt die Seite mit den Änderungen jedes Updates jetzt „Noutăți“, der richtige Begriff, statt „Novități“."] },
+      pl: { title: "Poprawne rumuńskie słowo", items: ["Po rumuńsku strona ze zmianami w każdej aktualizacji nazywa się teraz „Noutăți”, czyli poprawnie, zamiast „Novități”."] },
+      es: { title: "Término rumano corregido", items: ["En rumano, la página con los cambios de cada actualización se llama ahora «Noutăți», el término correcto, en lugar de «Novități»."] }
+    } },
     { v: "5.116.0", date: "2026-11-26", t: {
       en: { title: "Projects with a picture, and easier to tap", items: ["Each project card now shows a small drawing of the project and icons next to pieces, units, area and edging.", "On the phone, swipe a project card to the left to duplicate or delete it. Delete asks for confirmation and can be undone.", "Small buttons are now easy to hit (at least 44 px of touch area). In Summary, the export actions are a tidy list with arrows, like the Settings of your phone."] },
       ro: { title: "Proiecte cu poză și mai ușor de atins", items: ["Fiecare card de proiect arată acum un mic desen al proiectului și iconițe lângă piese, corpuri, suprafață și cant.", "Pe telefon, glisează cardul unui proiect spre stânga ca să-l duplici sau să-l ștergi. Ștergerea cere confirmare și se poate anula.", "Butoanele mici se nimeresc acum ușor (cel puțin 44 px de zonă de atingere). În Rezumat, acțiunile de export sunt o listă ordonată cu săgeți, ca în Setările telefonului."] },
@@ -157,7 +166,7 @@
     } },
     { v: "5.104.0", date: "2026-11-23", t: {
       en: { title: "“What's new” page", items: ["This page: what changed in each update, in plain words.", "Open it from the **?** button, at the top of Help."] },
-      ro: { title: "Pagina „Novități”", items: ["Pagina aceasta: ce s-a schimbat la fiecare actualizare, în cuvinte simple.", "O deschizi din butonul **?**, sus în Ajutor."] },
+      ro: { title: "Pagina „Noutăți”", items: ["Pagina aceasta: ce s-a schimbat la fiecare actualizare, în cuvinte simple.", "O deschizi din butonul **?**, sus în Ajutor."] },
       it: { title: "Pagina «Novità»", items: ["Questa pagina: cosa cambia a ogni aggiornamento, in parole semplici.", "Si apre dal pulsante **?**, in cima alla Guida."] },
       fr: { title: "Page « Nouveautés »", items: ["Cette page : ce qui change à chaque mise à jour, en mots simples.", "Ouvrez-la depuis le bouton **?**, en haut de l'Aide."] },
       de: { title: "Seite „Neuigkeiten“", items: ["Diese Seite: was sich bei jedem Update ändert, in einfachen Worten.", "Sie öffnet sich über die Taste **?**, oben in der Hilfe."] },

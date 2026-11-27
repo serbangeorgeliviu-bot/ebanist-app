@@ -5,6 +5,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.116.1 — 27 noiembrie 2026
+
+**Română: „Noutăți”, nu „Novități”.**
+- Titlul foii cu ce s-a schimbat la fiecare actualizare, în română, e acum „Noutăți” (la cererea lui Liviu, 27.11: cuvântul corect). Schimbat în aplicație, în comentarii, în testul `whatsnew.test.js` și în documentele programului.
+- Celelalte limbi nu se schimbă („Novità” în italiană e corect).
+- Nicio schimbare de calcul, de distinctă, de preț sau de 3D.
+
+---
+
 ## 5.116.0 — 26 noiembrie 2026
 
 **Interfață: miniatura proiectului, ținte de 44 px, listă grupată, glisare pe card (D-193).**
@@ -143,7 +152,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - **Ecranul Pro (numai pe web):** fără cont, un bloc „Ai plătit deja Pro? Autentifică-te…” cu butonul „Conectează-te sau creează cont” (deschide fereastra Cont); cu cont, „Conectat ca …” și „Verifică din nou din cont”, care cheamă `proFromAccount(true)` și spune ce s-a întâmplat (activat / nimic găsit / confirmă întâi e-mailul / fără rețea). Pe Android blocul nu apare;
 - **Fereastra Cont:** rând nou care spune ce aduce contul (proiecte, catalog, stoc pe orice dispozitiv; Pro pe site cu aceeași adresă; în aplicația Android, Pro îl gestionează Google Play);
 - **Ecranul „Bun venit”:** a patra linie, „Creează un cont ca să ai proiectele (și Pro) pe orice dispozitiv”;
-- textele în toate cele 7 limbi (`I18N`, `AUTH_I18N`); în Novități: intrarea 5.106.0;
+- textele în toate cele 7 limbi (`I18N`, `AUTH_I18N`); în Noutăți: intrarea 5.106.0;
 - test: `node --test pro-account.test.mjs`.
 
 ---
@@ -155,15 +164,15 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 - **numai adresa confirmată** a contului; adresa nu vine din cerere; 6 cereri pe oră pe cont; fără tabel nou și fără nimic păstrat (abonamentul rămâne la Stripe);
 - aplicația (`proFromAccount`) o cheamă după autentificare și la fiecare pornire cu cont, numai dacă dispozitivul nu e Pro, nu e aplicația Android și e rețea; verifică fiecare cod prin `/api/pro` și activează licența ca la un cod lipit (`kind:"stripe"`), cu mesajul „Pro activat din contul tău ✓” în 7 limbi;
 - adresa contului diferită de cea a plății → nu se găsește nimic, rămâne codul lipit; pe Android decide numai Play (D-54);
-- în Novități: intrarea 5.105.0, în 7 limbi;
+- în Noutăți: intrarea 5.105.0, în 7 limbi;
 - test: `node --test pro-account.test.mjs` (9).
 
 ---
 
 ## 5.104.0 — 23 noiembrie 2026
 
-**Pagina „Novități” în aplicație (D-184).** La cererea unui utilizator: „Unde găsesc descrierea a ce s-a făcut la fiecare actualizare?”
-- foaie nouă, deschisă din butonul **?** (primul rând din Ajutor, „Novități · versiunea …”) sau cu `#news`; lista versiunilor 5.95.0–5.104.0, cea mai nouă deschisă, cu data scrisă în limba aplicației; la sfârșit, link spre blog pentru restul;
+**Pagina „Noutăți” în aplicație (D-184).** La cererea unui utilizator: „Unde găsesc descrierea a ce s-a făcut la fiecare actualizare?”
+- foaie nouă, deschisă din butonul **?** (primul rând din Ajutor, „Noutăți · versiunea …”) sau cu `#news`; lista versiunilor 5.95.0–5.104.0, cea mai nouă deschisă, cu data scrisă în limba aplicației; la sfârșit, link spre blog pentru restul;
 - textele sunt în `app/ebanist-whatsnew.js` (pur, 7 limbi, în cuvintele utilizatorului); telemetria și reparațiile interne nu intră;
 - regulă: o versiune care schimbă ce vede sau ce poate face utilizatorul adaugă o intrare, în toate cele 7 limbi, odată cu CHANGELOG.md; `whatsnew.test.js` verifică limbile, ordinea și că fiecare intrare e în CHANGELOG;
 - test: `node --test whatsnew.test.js`.

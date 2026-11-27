@@ -1,4 +1,4 @@
-/* Novități (D-184): app/ebanist-whatsnew.js
+/* Noutăți (D-184): app/ebanist-whatsnew.js
    Rulează: node --test whatsnew.test.js */
 const test = require("node:test");
 const assert = require("node:assert");
