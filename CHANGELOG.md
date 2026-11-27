@@ -65,7 +65,7 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ## 5.114.0 — 26 noiembrie 2026
 
-**Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului.**
+**Interfață: bara de jos pe telefon, bara 3D, „Pasul următor” pe cardul proiectului (D-192).**
 - Pe telefoane înguste (≤ 420 px) bara de jos are font și spațiere mai mici și etichete tăiate cu „…” dacă nu încap (cele șapte file se atingeau: „Bucătărie”/„Generator”, „Debitare”/„Rezumat”).
 - Pe telefon, bara de unelte 3D se estompează la margine și are loc la capăt: arată că defilează (a opta iconiță era tăiată).
 - Cardul proiectului are un rând „Pasul următor”, calculat numai din ce se vede deja pe card (piese, piese bifate): fără piese → Generator; piese nebifate → Listă; unele bifate → Listă; toate bifate → Rezumat. Doar duce utilizatorul acolo; nu schimbă proiectul. Patru chei noi în toate cele 7 limbi (`nsStart`, `nsDocs`, `nsLeft`, `nsDone`).
