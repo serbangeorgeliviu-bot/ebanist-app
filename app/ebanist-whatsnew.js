@@ -29,6 +29,15 @@
   };
 
   var RELEASES = [
+    { v: "5.113.4", date: "2026-11-27", t: {
+      en: { title: "Easier to tap on touch screens", items: ["Header buttons, the close “X” on sheets and the small icon buttons now have a touch area of at least 44 px on phones and tablets, without looking bigger."] },
+      ro: { title: "Butoane mai ușor de atins pe ecran tactil", items: ["Butoanele din antet, „X”-ul foilor și butoanele mici cu iconiță au acum zonă de atingere de cel puțin 44 px pe telefon și tabletă, fără să se vadă mai mari."] },
+      it: { title: "Pulsanti più facili da toccare sul touch", items: ["I pulsanti dell'intestazione, la «X» dei fogli e i piccoli pulsanti con icona hanno ora un'area di tocco di almeno 44 px su telefono e tablet, senza apparire più grandi."] },
+      fr: { title: "Boutons plus faciles à toucher sur écran tactile", items: ["Les boutons de l'en-tête, la « X » des feuilles et les petits boutons à icône ont maintenant une zone de toucher d'au moins 44 px sur téléphone et tablette, sans paraître plus grands."] },
+      de: { title: "Tasten am Touchscreen leichter zu treffen", items: ["Tasten in der Kopfzeile, das „X“ der Blätter und die kleinen Symboltasten haben am Handy und Tablet jetzt eine Touchfläche von mindestens 44 px, ohne größer zu wirken."] },
+      pl: { title: "Łatwiej trafić w przyciski na ekranie dotykowym", items: ["Przyciski w nagłówku, „X” arkuszy i małe przyciski z ikoną mają teraz obszar dotyku co najmniej 44 px na telefonie i tablecie, bez powiększania wyglądu."] },
+      es: { title: "Botones más fáciles de tocar en pantalla táctil", items: ["Los botones de la cabecera, la «X» de las hojas y los pequeños botones con icono tienen ahora un área táctil de al menos 44 px en móvil y tableta, sin verse más grandes."] }
+    } },
     { v: "5.113.3", date: "2026-11-26", t: {
       en: { title: "The 3D view clears the toolbar on phones", items: ["In the builder on a phone, the furniture no longer sits under the row of 3D buttons: the view leaves room at the top. Documents, photos and clips are unchanged."] },
       ro: { title: "Vederea 3D lasă loc barei de butoane pe telefon", items: ["În Generator, pe telefon, mobila nu mai stă sub rândul de butoane 3D: imaginea lasă loc sus. Documentele, pozele și clipurile rămân la fel."] },

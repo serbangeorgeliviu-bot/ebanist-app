@@ -5,6 +5,12 @@ commit-uri. Versiunile mai vechi de 4.25.0 se citesc din istoricul git.
 
 ---
 
+## 5.113.4 — 27 noiembrie 2026
+
+**Butoane mai ușor de atins pe ecran tactil.** Butoanele din antet (Client, Ajutor, Cont, Setări), „X”-ul foilor, butoanele cu iconiță, „X”-ul din selectorul 3D și cele din modul Client au acum zonă de atingere de cel puțin 44 × 44 px pe telefon și tabletă, fără să se vadă mai mari. Butoanele barei 3D (34 px) rămân ca până acum, pentru că stau într-un container derulabil. Imaginile din documentele tipărite (semnătură, siglă) au `alt` gol, ca cititoarele de ecran să nu le citească. Fără schimbări de calcul.
+
+---
+
 ## 5.113.3 — 26 noiembrie 2026
 
 **Generator pe telefon: mobila nu mai stă sub bara de butoane 3D.** Pe ecrane înguste (canvas ≤ 560 px) bara de sus acoperea vârful mobilei. Vederea 3D măsoară acum cât din partea de sus o acoperă bara, coboară imaginea și o micșorează cu atât, numai în vederea vie. Pozele pentru documente, JPG-ul, clipurile și fișa piesei nu trec prin asta și rămân neschimbate. `audit3d`: 110 + 126 de configurații, 0 suprapuneri noi peste 1 mm. Fără schimbări de calcul.

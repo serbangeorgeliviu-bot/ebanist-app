@@ -1989,7 +1989,7 @@ function updateLinks() {
 
 /* Pe telefon (canvas ≤ 560 px) bara de butoane 3D stă peste vârful mobilei. Aici se măsoară cât din
    partea de sus a canvasului o acoperă; stepCamera(true) coboară și micșorează imaginea cu atât,
-   numai în vederea vie. Pozele pentru documente și clipurile nu trec prin asta (D-192). */
+   numai în vederea vie. Pozele pentru documente și clipurile nu trec prin asta (D-191). */
 function measurePad() {
   if (!R || !R.canvas) return;
   R.padTop = 0;
