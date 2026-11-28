@@ -74,7 +74,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
    return {pcs:tot.panelPcs,sqm:tot.panelArea,edge:tot.edge,rows:p.pieces.length,interi:fmts.reduce((s,x)=>s+x.pannelli,0),fmts,waste:S.waste}},[PROJ]);
  fs.writeFileSync(path.join(OUT,"facts.json"),JSON.stringify(facts,null,1)); console.log(JSON.stringify(facts));
  /* ---- guess: Riepilogo fără suma în euro ---- */
- await pg.evaluate(()=>{setView("summary");render();document.querySelectorAll("#sumKpis .kpi.hl").forEach(e=>e.style.visibility="hidden");window.scrollTo(0,0)});
+ await pg.evaluate(()=>{setView("summary");render();document.querySelectorAll("#sumKpis .kpi.hl").forEach(e=>e.style.visibility="hidden");["matTable","hwTable","costTable"].forEach(i=>{const e=document.getElementById(i);if(e)e.style.display="none"});window.scrollTo(0,0)});
  await cap("Cucina a U · 27 moduli","Riepilogo calcolato da Ebanist",true); await shot("g3");
  /* ---- hot: un fianco +3 mm (simulazione) ---- */
  const N="Base lavello 1.3";
