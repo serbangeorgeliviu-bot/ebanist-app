@@ -20,8 +20,8 @@ function itNum(n){if(n<20)return IT_UNITS[n];if(n<100){const t=Math.floor(n/10),
 /* scene: png (în shots/), sec, zoom = [de la, până la] (Ken Burns lent) */
 const CLIPS={
  hot:{out:"ebanist-hot-it.mp4",segs:[
-  {id:"h1",sec:3.2,z:[1.0,1.0]},{id:"h2",sec:3.6,z:[1.0,1.07]},{id:"h3",sec:4.2,z:[1.0,1.06]},{id:"h4",sec:3.2,z:[1.0,1.05]},{id:"h5",sec:3.6,z:[1,1]}],
-  cues:()=>[["h1",.25,"I bravi artigiani non hanno bisogno di app."],["h2",.2,"Un fianco fuori misura di tre millimetri."],["h3",.2,"Ebanist se ne accorge prima del taglio."],["h4",.2,"Corretto con un tocco."],["h5",.2,"Voi, quante volte avete tagliato un pezzo sbagliato?"]]},
+  {id:"h1",sec:4.2,video:"gemini-hook.mp4",ov:"h1t"},{id:"h2",sec:3.6,z:[1.0,1.07]},{id:"h3",sec:4.2,z:[1.0,1.06]},{id:"h4",sec:3.2,z:[1.0,1.05]},{id:"h5",sec:3.6,z:[1,1]}],
+  cues:()=>[["h1",.55,"I bravi artigiani non hanno bisogno di app."],["h2",.2,"Un fianco fuori misura di tre millimetri."],["h3",.2,"Ebanist se ne accorge prima del taglio."],["h4",.2,"Corretto con un tocco."],["h5",.2,"Voi, quante volte avete tagliato un pezzo sbagliato?"]]},
  guess:{out:"ebanist-guess-it.mp4",segs:[
   {id:"g1",sec:3.0,z:[1,1]},{id:"gtour",sec:4.0,tour:true},{id:"g3",sec:4.2,z:[1.0,1.06]},{id:"g4",sec:3.6,z:[1,1]}],
   cues:f=>[["g1",.25,"Quanti pannelli interi servono per questa cucina?"],["gtour",.15,"Ventisette moduli. Una cucina a U."],
@@ -39,7 +39,10 @@ if(MODE==="mux"){
   const enc=["-r",String(FPS),"-c:v","libx264","-crf","20","-preset","medium","-pix_fmt","yuv420p","-g",String(FPS*2)], parts=[];
   C.segs.forEach((s,i)=>{
     const pf=path.join(tmp,"p"+i+".mp4"), a=["-loglevel","error","-y"], n=s.n;
-    if(s.tour){a.push("-framerate",String(fs.readdirSync(path.join(root,"vid-boom/seq/tour")).length/s.sec),"-i",path.join(root,"vid-boom/seq/tour/f_%04d.jpg"),"-vf","fade=t=in:st=0:d=0.2");}
+    if(s.video){ /* hook generat cu AI (Gemini/Veo), 720×1280 → 1080×1920, primele s.sec secunde, textul peste imagine */
+      a.push("-i",path.join(OUT,s.video),"-loop","1","-framerate",String(FPS),"-i",path.join(SH,s.ov+".png"),"-filter_complex",
+        `[0:v]scale=1080:1920:flags=lanczos,fps=${FPS}[v];[1:v]format=rgba,fade=t=in:st=0.3:d=0.3:alpha=1[t];[v][t]overlay=0:0:shortest=1,fade=t=in:st=0:d=0.15[o]`,"-map","[o]");}
+    else if(s.tour){a.push("-framerate",String(fs.readdirSync(path.join(root,"vid-boom/seq/tour")).length/s.sec),"-i",path.join(root,"vid-boom/seq/tour/f_%04d.jpg"),"-vf","fade=t=in:st=0:d=0.2");}
     else{const z=s.z; /* zoom lent pe imaginea fixă: zoompan la 1080×1920, ieșire pe n cadre */
       a.push("-loop","1","-framerate",String(FPS),"-i",path.join(SH,s.id+".png"),"-vf",
         `scale=2160:3840,zoompan=z='${z[0]}+(${z[1]}-${z[0]})*on/${n}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=${FPS},fade=t=in:st=0:d=0.2`)}
@@ -90,7 +93,9 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
  await pg.evaluate(()=>{document.body.innerHTML="";document.body.style.cssText="margin:0;overflow:hidden";const st=document.createElement("style");st.textContent="html::before,html::after,body::before,body::after{display:none!important;content:none!important}html,body{background:#0e3b2a!important;background-image:none!important}";document.head.appendChild(st)});
  const card=async(n,big,small,sub)=>{await pg.evaluate(([h])=>{document.body.innerHTML=h},[`<div style="${FF}position:fixed;inset:0;background:linear-gradient(#0e3b2a,#082219);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;padding:34px"><img src="${logo}" style="width:96px;height:96px;border-radius:24px"><div style="font-weight:700;font-size:18px;letter-spacing:10px;opacity:.85">EBANIST</div><div style="font-weight:800;font-size:44px;line-height:1.12">${big}</div>${small?`<div style="font-weight:700;font-size:30px;color:#9be7b9;line-height:1.15">${small}</div>`:""}${sub?`<div style="font-weight:600;font-size:20px;opacity:.7;margin-top:18px">${sub}</div>`:""}</div>`]);
    await pg.waitForFunction(()=>[...document.images].every(i=>i.complete));await shot(n)};
- await card("h1","I bravi artigiani non hanno bisogno di app.","");
+ await pg.evaluate(([h])=>{document.body.innerHTML=h;const st=document.createElement("style");st.id="__tr";st.textContent="html,body{background:transparent!important}";document.head.appendChild(st)},[`<div style="${FF}position:fixed;left:0;right:0;bottom:0;height:430px;background:linear-gradient(rgba(8,34,25,0),rgba(8,34,25,.88) 55%);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:0 26px 120px;text-align:center"><div style="font-weight:800;font-size:46px;line-height:1.1;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)">I bravi artigiani non hanno bisogno di app.</div></div>`]);
+ await pg.waitForTimeout(500);await pg.screenshot({path:path.join(SH,"h1t.png"),omitBackground:true});
+ await pg.evaluate(()=>{document.getElementById("__tr").remove()});
  await card("h5","Voi, quante volte avete tagliato un pezzo sbagliato?","Scrivetelo nei commenti","ebanist.com");
  await card("g1","Quanti pannelli interi servono per questa cucina?","");
  await card("g4","Scrivi il tuo numero nei commenti","Risposta nel commento fissato","ebanist.com");
